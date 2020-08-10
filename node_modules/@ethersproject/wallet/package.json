@@ -1,0 +1,43 @@
+{
+  "author": "Richard Moore <me@ricmoo.com>",
+  "dependencies": {
+    "@ethersproject/abstract-provider": "^5.0.0",
+    "@ethersproject/abstract-signer": "^5.0.0",
+    "@ethersproject/address": "^5.0.0",
+    "@ethersproject/bignumber": "^5.0.0",
+    "@ethersproject/bytes": "^5.0.0",
+    "@ethersproject/hash": "^5.0.0",
+    "@ethersproject/hdnode": "^5.0.0",
+    "@ethersproject/json-wallets": "^5.0.0",
+    "@ethersproject/keccak256": "^5.0.0",
+    "@ethersproject/logger": "^5.0.0",
+    "@ethersproject/properties": "^5.0.0",
+    "@ethersproject/random": "^5.0.0",
+    "@ethersproject/signing-key": "^5.0.0",
+    "@ethersproject/transactions": "^5.0.0",
+    "@ethersproject/wordlists": "^5.0.0"
+  },
+  "description": "Classes for managing, encrypting and decrypting Ethereum private keys as a Signer for ethers.",
+  "ethereum": "donations.ethers.eth",
+  "keywords": [
+    "Ethereum",
+    "ethers"
+  ],
+  "license": "MIT",
+  "main": "./lib/index.js",
+  "module": "./lib.esm/index.js",
+  "name": "@ethersproject/wallet",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/ethers-io/ethers.js.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "tarballHash": "0xc4a2ead43cdf1ab37ca4bd6f93cbe586981fc2bf8b5d6dbbfb183fe198ec7ffb",
+  "types": "./lib/index.d.ts",
+  "version": "5.0.2"
+}

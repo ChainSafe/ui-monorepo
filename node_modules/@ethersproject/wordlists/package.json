@@ -1,0 +1,36 @@
+{
+  "author": "Richard Moore <me@ricmoo.com>",
+  "browser": "./lib/browser.js",
+  "browser.esm": "./lib.esm/browser.js",
+  "browser.umd": "./lib/browser.js",
+  "dependencies": {
+    "@ethersproject/bytes": "^5.0.0",
+    "@ethersproject/hash": "^5.0.0",
+    "@ethersproject/logger": "^5.0.0",
+    "@ethersproject/properties": "^5.0.0",
+    "@ethersproject/strings": "^5.0.0"
+  },
+  "description": "Word lists for BIP39 wallets.",
+  "ethereum": "donations.ethers.eth",
+  "keywords": [
+    "Ethereum",
+    "ethers"
+  ],
+  "license": "MIT",
+  "main": "./lib/index.js",
+  "module": "./lib.esm/index.js",
+  "name": "@ethersproject/wordlists",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/ethers-io/ethers.js.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "tarballHash": "0xba0495294ad30b4258755f3cbab1d29692869fb28690db41a7f079932a982b5d",
+  "types": "./lib/index.d.ts",
+  "version": "5.0.2"
+}

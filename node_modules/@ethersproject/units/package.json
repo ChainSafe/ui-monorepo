@@ -1,0 +1,33 @@
+{
+  "author": "Richard Moore <me@ricmoo.com>",
+  "dependencies": {
+    "@ethersproject/bignumber": "^5.0.0",
+    "@ethersproject/constants": "^5.0.0",
+    "@ethersproject/logger": "^5.0.0"
+  },
+  "description": "Unit conversion functions for Ethereum.",
+  "ethereum": "donations.ethers.eth",
+  "keywords": [
+    "Ethereum",
+    "ethers",
+    "units",
+    "conversion"
+  ],
+  "license": "MIT",
+  "main": "./lib/index.js",
+  "module": "./lib.esm/index.js",
+  "name": "@ethersproject/units",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/ethers-io/ethers.js.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "tarballHash": "0x22283e83b170ad14e00de1920bfe600d0d762981d4dd76532b3252160bdf7084",
+  "types": "./lib/index.d.ts",
+  "version": "5.0.2"
+}

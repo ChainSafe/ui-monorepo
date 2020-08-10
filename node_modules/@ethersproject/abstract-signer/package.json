@@ -1,0 +1,33 @@
+{
+  "author": "Richard Moore <me@ricmoo.com>",
+  "dependencies": {
+    "@ethersproject/abstract-provider": "^5.0.0",
+    "@ethersproject/bignumber": "^5.0.0",
+    "@ethersproject/bytes": "^5.0.0",
+    "@ethersproject/logger": "^5.0.0",
+    "@ethersproject/properties": "^5.0.0"
+  },
+  "description": "An Abstract Class for desribing an Ethereum Signer for ethers.",
+  "ethereum": "donations.ethers.eth",
+  "keywords": [
+    "Ethereum",
+    "ethers"
+  ],
+  "license": "MIT",
+  "main": "./lib/index.js",
+  "module": "./lib.esm/index.js",
+  "name": "@ethersproject/abstract-signer",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/ethers-io/ethers.js.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "tarballHash": "0xa70f4f59e607668a7cda943cbe2dd204eb1bbf11f118eb886e6a179130bfcdfa",
+  "types": "./lib/index.d.ts",
+  "version": "5.0.2"
+}

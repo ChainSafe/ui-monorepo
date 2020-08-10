@@ -1,0 +1,37 @@
+{
+  "author": "Richard Moore <me@ricmoo.com>",
+  "browser": "./lib/browser.js",
+  "browser.esm": "./lib.esm/browser.js",
+  "browser.umd": "./lib/browser.js",
+  "dependencies": {
+    "@ethersproject/bytes": "^5.0.0",
+    "@ethersproject/logger": "^5.0.0"
+  },
+  "description": "Random utility functions for ethers.",
+  "devDependencies": {
+    "@types/node": "^12.7.4"
+  },
+  "ethereum": "donations.ethers.eth",
+  "keywords": [
+    "Ethereum",
+    "ethers",
+    "random"
+  ],
+  "license": "MIT",
+  "main": "./lib/index.js",
+  "module": "./lib.esm/index.js",
+  "name": "@ethersproject/random",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/ethers-io/ethers.js.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "tarballHash": "0x7a5df27f86d83f4ca63f99a6055cf4d10c0d7f51af88f912924ce0c2ad473ada",
+  "types": "./lib/index.d.ts",
+  "version": "5.0.2"
+}
