@@ -13,7 +13,11 @@
     "build": "rollup -c",
     "start": "rollup -c -w"
   },
-  "dependencies": {},
+  "dependencies": {
+    "@types/styled-components": "^5.1.2",
+    "babel-plugin-styled-components": "^1.11.1",
+    "styled-components": "^5.1.1"
+  },
   "peerDependencies": {
     "react": ">= 16.8.0",
     "react-dom": ">= 16.8.0"
