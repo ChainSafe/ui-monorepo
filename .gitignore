@@ -47,3 +47,7 @@ typings/
 # generate output
 dist
 build
+
+# IDE configs
+.vscode
+.idea
