@@ -1,10 +1,41 @@
 {
-  "name": "imploy-ui",
-  "version": "0.1.0",
+  "name": "@chainsafe/imploy-ui-monorepo",
+  "version": "1.0.0",
   "description": "Imploy UI monorepo",
   "main": "index.js",
   "repository": "https://github.com/imploy/ui.git",
   "author": "Michael Yankelev <michael@chainsafe.io>",
-  "license": "",
-  "private": true
+  "license": "MIT",
+  "private": true,
+  "dependencies": {},
+  "devDependencies": {
+    "@sentry/cli": "1.55.0",
+    "chalk": "^2.0.1",
+    "husky": "^4.2.3",
+    "prettier": "1.19.1",
+    "pretty-quick": "^2.0.1",
+    "typescript": "^3.9.0",
+    "wsrun": "^3.6.5"
+  },
+  "scripts": {
+    "build:files-ui": "yarn wsrun -p @chainsafe/files-ui -c build",
+    "start:files-ui": "yarn wsrun -p @chainsafe/files-ui -c start",
+    "clean": "rm -rf ./node_modules && rm -rf ./*/node_modules",
+    "lint": "npm run prettier -- --write",
+    "prettier-format": "prettier --config .prettierrc 'packages/**/src/**/*.{ts,tsx,js,jsx,md}' --write",
+    "start:tunnel": "./ngrok http https://localhost:3000"
+  },
+  "workspaces": {
+    "packages": [
+      "packages/*"
+    ],
+    "nohoist": [
+      "**/antd"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "pretty-quick 'packages/**/src/**/*.{ts,tsx,js,jsx,md}' --staged"
+    }
+  }
 }
