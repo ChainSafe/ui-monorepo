@@ -2,8 +2,8 @@ import React from 'react'
 import styled from 'styled-components'
 
 const StyledButton = styled.button`
-  background-color: ${({ theme }) => theme.palette.primary};
-  color: ${({ theme }) => theme.palette.secondary};
+  background-color: ${({ theme }) => theme.palette.brand.background};
+  color: ${({ theme }) => theme.palette.brand.main};
   padding: 1em;
 `
 

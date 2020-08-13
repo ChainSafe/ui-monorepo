@@ -1,7 +1,12 @@
-import { lightPalette, darkPalette, IPalette, IPaletteInput } from './palette'
-// import { ThemeProvider, ThemeConsumer, ThemeContext } from './ThemeContext';
-import { ThemeProvider, ThemeConsumer, ThemeContext } from 'styled-components'
+import {
+  lightPalette,
+  darkPalette,
+  IPalette,
+  IPaletteInput
+} from './ThemeVariables/palette'
+import { ThemeProvider } from 'styled-components'
 import { ITheme, IThemeInput, createTheme } from './theme'
+import { GlobalStyles } from './globalStyles'
 
 export {
   lightPalette,
@@ -12,6 +17,5 @@ export {
   IThemeInput,
   createTheme,
   ThemeProvider,
-  ThemeContext,
-  ThemeConsumer
+  GlobalStyles
 }
