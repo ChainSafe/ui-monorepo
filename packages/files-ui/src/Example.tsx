@@ -12,10 +12,12 @@ const { Button } = Components
 const { createTheme, ThemeProvider, darkPalette, lightPalette } = Theme
 
 function Example() {
-  const customTheme = {
+  const customTheme: Theme.IThemeInput = {
     palette: {
-      primary: 'yellow',
-      secondary: 'black'
+      brand: {
+        ...lightPalette.brand,
+        background: 'yellow'
+      }
     }
   }
 
@@ -27,7 +29,7 @@ function Example() {
     palette: darkPalette
   }
 
-  const [theme, setTheme] = React.useState(createTheme())
+  const [theme, setTheme] = React.useState<Theme.ITheme>(createTheme())
 
   return (
     <ThemeProvider theme={theme}>
@@ -35,7 +37,9 @@ function Example() {
         <Button>Kit</Button>
         <button onClick={() => setTheme(lightTheme)}>light</button>
         <button onClick={() => setTheme(darkTheme)}>dark</button>
-        <button onClick={() => setTheme(customTheme)}>custom</button>
+        <button onClick={() => setTheme(createTheme(customTheme))}>
+          custom
+        </button>
       </Container>
     </ThemeProvider>
   )
