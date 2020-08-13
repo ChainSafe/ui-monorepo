@@ -1,7 +1,8 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import './index.css'
-import App from './App'
+// import App from './App'
+import Example from './Example'
 import * as serviceWorker from './serviceWorker'
 
 ReactDOM.render(
@@ -10,7 +11,7 @@ ReactDOM.render(
   // AntD team disabled & ignored issue: https://github.com/ant-design/ant-design/issues/22493
   // TODO: Enable strict mode when a fix is provided from AntD
   // <React.StrictMode>
-  <App />,
+  <Example />,
   // </React.StrictMode>,
   document.getElementById('root')
 )
