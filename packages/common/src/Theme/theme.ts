@@ -2,22 +2,27 @@ import createPalette, {
   IPalette,
   IPaletteInput
 } from './ThemeVariables/palette'
+
 import createSpacing, {
   ISpacing,
   ISpacingInput
 } from './ThemeVariables/spacing'
+
 import createAnimation, {
   IAnimation,
   IAnimationInput
 } from './ThemeVariables/animation'
+
 import createBreakpoints, {
   IBreakpoints,
   IBreakpointsInput
 } from './ThemeVariables/breakpoints'
+
 import createConstants, {
   IConstants,
   IConstantsInput
 } from './ThemeVariables/constants'
+
 import createTypography, {
   ITypography,
   ITypographyInput
