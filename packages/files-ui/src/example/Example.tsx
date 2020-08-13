@@ -8,10 +8,16 @@ const Container = styled.div`
   text-align: center;
 `
 
-const { Button } = Components
-const { createTheme, ThemeProvider, darkPalette, lightPalette } = Theme
-
 function Example() {
+  const { Button } = Components
+  const {
+    createTheme,
+    ThemeProvider,
+    darkPalette,
+    lightPalette,
+    GlobalStyles
+  } = Theme
+
   const customTheme: Theme.IThemeInput = {
     palette: {
       brand: {
@@ -22,21 +28,28 @@ function Example() {
   }
 
   const lightTheme = {
-    palette: lightPalette
+    palette: lightPalette,
+    typography: {
+      body: 'PT Sans'
+    }
   }
 
   const darkTheme = {
-    palette: darkPalette
+    palette: darkPalette,
+    typography: {
+      body: 'IBM Plex Mono'
+    }
   }
 
   const [theme, setTheme] = React.useState<Theme.ITheme>(createTheme())
 
   return (
     <ThemeProvider theme={theme}>
+      <GlobalStyles />
       <Container>
         <Button>Kit</Button>
-        <button onClick={() => setTheme(lightTheme)}>light</button>
-        <button onClick={() => setTheme(darkTheme)}>dark</button>
+        <button onClick={() => setTheme(createTheme(lightTheme))}>light</button>
+        <button onClick={() => setTheme(createTheme(darkTheme))}>dark</button>
         <button onClick={() => setTheme(createTheme(customTheme))}>
           custom
         </button>
