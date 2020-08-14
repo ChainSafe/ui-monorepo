@@ -1,6 +1,9 @@
 import React from 'react'
 import { Components, Theme } from '@chainsafe/common-ui'
-import styled from 'styled-components'
+// import styled from 'styled-components'
+import { ThemeProvider as ProjectThemeProvider } from 'styled-components'
+
+const { styled } = Theme
 
 const Container = styled.div`
   width: 100%;
@@ -45,6 +48,8 @@ function Example() {
 
   return (
     <ThemeProvider theme={theme}>
+      {/* <ProjectThemeProvider theme={theme}> */}
+
       <GlobalStyles />
       <Container>
         <Button>Kit</Button>
@@ -54,8 +59,20 @@ function Example() {
           custom
         </button>
       </Container>
+      <ExampleChild />
+      {/* </ProjectThemeProvider> */}
     </ThemeProvider>
   )
+}
+
+const ChildContainer = styled.div`
+  height: 100px;
+  width: 100px;
+  background-color: ${({ theme }) => theme.palette.brand.background};
+`
+
+function ExampleChild() {
+  return <ChildContainer>Example child</ChildContainer>
 }
 
 export default Example

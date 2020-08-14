@@ -6,5 +6,5 @@ import { Theme } from '@chainsafe/common-ui'
 
 // and extend them!
 declare module 'styled-components' {
-  export interface DefaultTheme extends Theme.ITheme {}
+  export interface DefaultTheme extends any {}
 }
