@@ -1,7 +1,7 @@
 {
-  "name": "@chainsafe/common-ui",
+  "name": "@chainsafe/common-components",
   "version": "1.0.0",
-  "description": "Library of React components",
+  "description": "Common Components",
   "author": "Michael Yankelev <michael@chainsafe.io>",
   "license": "GPL-3.0",
   "main": "dist/index.js",
