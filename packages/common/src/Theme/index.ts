@@ -4,7 +4,7 @@ import {
   IPalette,
   IPaletteInput
 } from './ThemeVariables/palette'
-import { ThemeProvider } from 'styled-components'
+import styled, { ThemeProvider } from 'styled-components'
 import { ITheme, IThemeInput, createTheme } from './theme'
 import { GlobalStyles } from './globalStyles'
 
@@ -17,5 +17,6 @@ export {
   IThemeInput,
   createTheme,
   ThemeProvider,
-  GlobalStyles
+  GlobalStyles,
+  styled
 }
