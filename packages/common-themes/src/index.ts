@@ -1,1 +1,3 @@
-export * from './Theme'
+import * as Theme from './Theme'
+
+export { Theme }

@@ -1,7 +1,8 @@
 import React from 'react'
-import { Components, Theme } from '@chainsafe/common-ui'
+import { Button } from '@chainsafe/common-components'
 // import styled from 'styled-components'
 import { ThemeProvider as ProjectThemeProvider } from 'styled-components'
+import { Theme } from '@chainsafe/common-themes'
 
 const { styled } = Theme
 
@@ -12,7 +13,6 @@ const Container = styled.div`
 `
 
 function Example() {
-  const { Button } = Components
   const {
     createTheme,
     ThemeProvider,

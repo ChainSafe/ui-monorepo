@@ -21,7 +21,7 @@
     "build:common": "yarn wsrun -p @chainsafe/common-* -c build",
     "build:files-ui": "yarn wsrun -p @chainsafe/files-ui -c build",
     "start:files-ui": "yarn wsrun -p @chainsafe/files-ui -c start",
-    "clean": "rm -rf ./node_modules && rm -rf ./*/node_modules",
+    "clean": "rm -rf ./node_modules && rm -rf ./*/node_modules && rm -rf ./*/dist",
     "lint": "npm run prettier -- --write",
     "prettier-format": "prettier --config .prettierrc 'packages/**/src/**/*.{ts,tsx,js,jsx,md}' --write",
     "start:tunnel": "./ngrok http https://localhost:3000"

@@ -1,4 +1,3 @@
-import * as Components from './Components'
-import * as Theme from './Theme'
+import * as AuthContext from './AuthContext'
 
-export { Components, Theme }
+export { AuthContext }
