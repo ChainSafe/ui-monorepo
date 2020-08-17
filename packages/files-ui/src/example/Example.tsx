@@ -1,10 +1,15 @@
 import React from 'react'
 import { Button } from '@chainsafe/common-components'
-// import styled from 'styled-components'
-import { ThemeProvider as ProjectThemeProvider } from 'styled-components'
-import { Theme } from '@chainsafe/common-themes'
-
-const { styled } = Theme
+import {
+  createTheme,
+  ThemeProvider,
+  darkPalette,
+  lightPalette,
+  GlobalStyles,
+  styled,
+  IThemeInput,
+  ITheme
+} from '@chainsafe/common-themes'
 
 const Container = styled.div`
   width: 100%;
@@ -13,15 +18,7 @@ const Container = styled.div`
 `
 
 function Example() {
-  const {
-    createTheme,
-    ThemeProvider,
-    darkPalette,
-    lightPalette,
-    GlobalStyles
-  } = Theme
-
-  const customTheme: Theme.IThemeInput = {
+  const customTheme: IThemeInput = {
     palette: {
       brand: {
         ...lightPalette.brand,
@@ -44,12 +41,10 @@ function Example() {
     }
   }
 
-  const [theme, setTheme] = React.useState<Theme.ITheme>(createTheme())
+  const [theme, setTheme] = React.useState<ITheme>(createTheme())
 
   return (
     <ThemeProvider theme={theme}>
-      {/* <ProjectThemeProvider theme={theme}> */}
-
       <GlobalStyles />
       <Container>
         <Button>Kit</Button>
@@ -60,7 +55,6 @@ function Example() {
         </button>
       </Container>
       <ExampleChild />
-      {/* </ProjectThemeProvider> */}
     </ThemeProvider>
   )
 }
