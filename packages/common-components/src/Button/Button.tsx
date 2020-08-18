@@ -1,14 +1,12 @@
-import React from 'react'
-import styled from 'styled-components'
+import React, { ReactNode } from "react"
 
-const StyledButton = styled.button`
-  background-color: ${({ theme }) => theme.palette.brand.background};
-  color: ${({ theme }) => theme.palette.brand.main};
-  padding: 1em;
-`
+type ButtonProps = {
+  children: ReactNode
+  onClick?(): void
+}
 
-const Button: React.FC = props => {
-  return <StyledButton>{props.children}</StyledButton>
+const Button: React.FC<ButtonProps> = ({ children, onClick }) => {
+  return <button onClick={onClick}>{children}</button>
 }
 
 export default Button
