@@ -1,11 +1,4 @@
-const DefaultMixins = {
-  overflowEllipsis: (height: number | string) => ({
-    whiteSpace: 'nowrap',
-    overflow: 'hidden',
-    textOverflow: 'ellipsis',
-    height: typeof height === 'number' ? `${height}px` : height
-  })
-}
+import { DefaultMixins } from '../Defaults/Mixins'
 
 const CreateMixins = (additionalMixins?: MixinConfig): MixinConfig => {
   // No transforms required yet
@@ -15,4 +8,4 @@ const CreateMixins = (additionalMixins?: MixinConfig): MixinConfig => {
   }
 }
 
-export { CreateMixins, DefaultMixins }
+export { CreateMixins }
