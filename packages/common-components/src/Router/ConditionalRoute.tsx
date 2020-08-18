@@ -1,5 +1,5 @@
-import React from 'react'
-import { Route, Redirect } from 'react-router-dom'
+import React from "react"
+import { Route, Redirect } from "react-router-dom"
 
 interface IProps {
   component: React.ReactType
@@ -12,23 +12,27 @@ interface IProps {
 const ConditionalRoute: React.FC<IProps> = ({
   component: Component,
   isAuthorized,
-  redirectPath = '/403',
-  path
+  redirectPath = "/403",
+  path,
+  exact,
+  ...rest
 }) => (
   <Route
     path={path}
-    render={props =>
-      isAuthorized ? (
-        <Component {...props} />
+    exact={exact}
+    render={props => {
+      console.log(props)
+      return isAuthorized ? (
+        <Component {...rest} />
       ) : (
         <Redirect
           to={{
             pathname: `${redirectPath}`,
-            state: { from: path }
+            state: { from: path },
           }}
         />
       )
-    }
+    }}
   />
 )
 
