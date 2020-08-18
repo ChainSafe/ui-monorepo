@@ -1,1 +1,1 @@
-export {}
+export { default as createTheme } from './Create/CreateTheme'

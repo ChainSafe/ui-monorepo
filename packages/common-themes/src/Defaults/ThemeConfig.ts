@@ -1,3 +1,5 @@
+import { IThemeConfig } from '../Create/CreateThemeConfig'
+
 const DefaultThemeConfig: IThemeConfig = {
   animation: {
     transform: 200,

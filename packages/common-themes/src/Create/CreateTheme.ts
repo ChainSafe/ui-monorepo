@@ -1,14 +1,18 @@
-import { CreateMixins } from './CreateMixins'
-import { CreateThemeConfig } from './CreateThemeConfig'
+import createThemeConfig, { IThemeConfig } from './CreateThemeConfig'
+import createMixins, { MixinConfig } from './CreateMixins'
 
-const CreateTheme = (
+interface ITheme extends IThemeConfig {
+  mixins: MixinConfig
+}
+
+const createTheme = (
   themeConfig?: IThemeConfig,
   mixins?: MixinConfig
 ): ITheme => {
   return {
-    theme: CreateThemeConfig(themeConfig),
-    mixins: CreateMixins(mixins)
+    ...createThemeConfig(themeConfig),
+    mixins: createMixins(mixins)
   }
 }
 
-export { CreateTheme }
+export default createTheme

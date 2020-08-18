@@ -1,6 +1,8 @@
 import { DefaultMixins } from '../Defaults/Mixins'
 
-const CreateMixins = (additionalMixins?: MixinConfig): MixinConfig => {
+type MixinConfig = Record<string, any>
+
+const createMixins = (additionalMixins?: MixinConfig): MixinConfig => {
   // No transforms required yet
   return {
     ...DefaultMixins,
@@ -8,4 +10,6 @@ const CreateMixins = (additionalMixins?: MixinConfig): MixinConfig => {
   }
 }
 
-export { CreateMixins }
+export default createMixins
+
+export { MixinConfig }

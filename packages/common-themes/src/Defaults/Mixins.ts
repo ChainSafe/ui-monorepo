@@ -1,4 +1,6 @@
-const DefaultMixins = {
+import { MixinConfig } from '../Create/CreateMixins'
+
+const DefaultMixins: MixinConfig = {
   overflowEllipsis: (height: number | string) => ({
     whiteSpace: 'nowrap',
     overflow: 'hidden',
