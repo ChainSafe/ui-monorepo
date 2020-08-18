@@ -4,7 +4,8 @@ import { useState } from 'react'
 import { ThemeProvider } from '@material-ui/styles'
 
 type ThemeSwitcherContext = {
-  theme: ITheme
+  themeKey: string
+  avaliableThemes: string[]
   setTheme(themeName: string): void
 }
 
@@ -26,7 +27,8 @@ const ThemeSwitcher: React.FC<ThemeSwitcherProps> = ({
   return (
     <ThemeContext.Provider
       value={{
-        theme: themes[current],
+        themeKey: current,
+        avaliableThemes: Object.keys(themes),
         setTheme: setCurrent
       }}
     >
