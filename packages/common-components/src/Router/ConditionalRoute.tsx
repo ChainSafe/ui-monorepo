@@ -20,8 +20,7 @@ const ConditionalRoute: React.FC<IProps> = ({
   <Route
     path={path}
     exact={exact}
-    render={props => {
-      console.log(props)
+    render={() => {
       return isAuthorized ? (
         <Component {...rest} />
       ) : (
