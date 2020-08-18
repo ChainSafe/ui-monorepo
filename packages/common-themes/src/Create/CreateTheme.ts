@@ -16,3 +16,5 @@ const createTheme = (
 }
 
 export default createTheme
+
+export { ITheme }
