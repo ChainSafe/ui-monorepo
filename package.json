@@ -19,6 +19,7 @@
   },
   "scripts": {
     "build:common": "yarn wsrun -p @chainsafe/common-* -c build",
+    "build:storybook": "yarn wsrun -p @chainsafe/common-components -c build:storybook",
     "build:files-ui": "yarn wsrun -p @chainsafe/files-ui -c build",
     "start:files-ui": "yarn wsrun -p @chainsafe/files-ui -c start",
     "clean": "rm -rf ./node_modules && rm -rf ./*/node_modules && rm -rf ./*/dist",
