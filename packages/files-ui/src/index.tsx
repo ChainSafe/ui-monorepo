@@ -2,7 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import './index.css'
 // import App from './App'
-import { ExampleRouter } from './example/Example'
+import { Example } from './example/Example'
 import * as serviceWorker from './serviceWorker'
 
 ReactDOM.render(
@@ -11,7 +11,7 @@ ReactDOM.render(
   // AntD team disabled & ignored issue: https://github.com/ant-design/ant-design/issues/22493
   // TODO: Enable strict mode when a fix is provided from AntD
   // <React.StrictMode>
-  <ExampleRouter />,
+  <Example />,
   // </React.StrictMode>,
   document.getElementById('root')
 )
