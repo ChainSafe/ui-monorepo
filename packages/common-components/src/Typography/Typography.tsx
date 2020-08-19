@@ -48,6 +48,20 @@ const useStyles = makeStyles((theme: ITheme) =>
   }),
 )
 
+const VariantMapping = {
+  h1: "h2",
+  h2: "h2",
+  h3: "h2",
+  h4: "h2",
+  h5: "h2",
+  h6: "h2",
+  subtitle1: "h2",
+  subtitle2: "h2",
+  body1: "p",
+  body2: "p",
+  inherit: "span",
+}
+
 interface OwnProps {
   className?: string
   children?: ReactNode | ReactNode[]
@@ -76,80 +90,93 @@ const Typography: React.SFC<OwnProps> = ({
   children,
 }: OwnProps) => {
   const classes = useStyles()
-  switch (component) {
-    case "h1":
-      return (
-        <h1
-          onClick={() => (onClick ? onClick() : null)}
-          className={clsx(classes.root, className, classes[variant])}
-        >
-          {children}
-        </h1>
-      )
-    case "h2":
-      return (
-        <h2
-          onClick={() => (onClick ? onClick() : null)}
-          className={clsx(classes.root, className, classes[variant])}
-        >
-          {children}
-        </h2>
-      )
-    case "h3":
-      return (
-        <h3
-          onClick={() => (onClick ? onClick() : null)}
-          className={clsx(classes.root, className, classes[variant])}
-        >
-          {children}
-        </h3>
-      )
-    case "h4":
-      return (
-        <h4
-          onClick={() => (onClick ? onClick() : null)}
-          className={clsx(classes.root, className, classes[variant])}
-        >
-          {children}
-        </h4>
-      )
-    case "h5":
-      return (
-        <h5
-          onClick={() => (onClick ? onClick() : null)}
-          className={clsx(classes.root, className, classes[variant])}
-        >
-          {children}
-        </h5>
-      )
-    case "h6":
-      return (
-        <h6
-          onClick={() => (onClick ? onClick() : null)}
-          className={clsx(classes.root, className, classes[variant])}
-        >
-          {children}
-        </h6>
-      )
-    case "span":
-      return (
-        <span
-          onClick={() => (onClick ? onClick() : null)}
-          className={clsx(classes.root, className, classes[variant])}
-        >
-          {children}
-        </span>
-      )
-    case "p":
-      return (
-        <p
-          onClick={() => (onClick ? onClick() : null)}
-          className={clsx(classes.root, className, classes[variant])}
-        >
-          {children}
-        </p>
-      )
-  }
+  const Component = component
+    ? component
+    : variant
+    ? VariantMapping[variant]
+    : "span"
+  return (
+    <Component
+      onClick={() => (onClick ? onClick() : null)}
+      className={clsx(classes.root, className, classes[variant])}
+    >
+      {children}
+    </Component>
+  )
+  // switch (component) {
+  //   case "h1":
+  //     return (
+  //       <h1
+  //         onClick={() => (onClick ? onClick() : null)}
+  //         className={clsx(classes.root, className, classes[variant])}
+  //       >
+  //         {children}
+  //       </h1>
+  //     )
+  //   case "h2":
+  //     return (
+  //       <h2
+  //         onClick={() => (onClick ? onClick() : null)}
+  //         className={clsx(classes.root, className, classes[variant])}
+  //       >
+  //         {children}
+  //       </h2>
+  //     )
+  //   case "h3":
+  //     return (
+  //       <h3
+  //         onClick={() => (onClick ? onClick() : null)}
+  //         className={clsx(classes.root, className, classes[variant])}
+  //       >
+  //         {children}
+  //       </h3>
+  //     )
+  //   case "h4":
+  //     return (
+  //       <h4
+  //         onClick={() => (onClick ? onClick() : null)}
+  //         className={clsx(classes.root, className, classes[variant])}
+  //       >
+  //         {children}
+  //       </h4>
+  //     )
+  //   case "h5":
+  //     return (
+  //       <h5
+  //         onClick={() => (onClick ? onClick() : null)}
+  //         className={clsx(classes.root, className, classes[variant])}
+  //       >
+  //         {children}
+  //       </h5>
+  //     )
+  //   case "h6":
+  //     return (
+  //       <h6
+  //         onClick={() => (onClick ? onClick() : null)}
+  //         className={clsx(classes.root, className, classes[variant])}
+  //       >
+  //         {children}
+  //       </h6>
+  //     )
+  //   case "span":
+  //     return (
+  //       <span
+  //         onClick={() => (onClick ? onClick() : null)}
+  //         className={clsx(classes.root, className, classes[variant])}
+  //       >
+  //         {children}
+  //       </span>
+  //     )
+  //   case "p":
+  //     return (
+  //       <p
+  //         onClick={() => (onClick ? onClick() : null)}
+  //         className={clsx(classes.root, className, classes[variant])}
+  //       >
+  //         {children}
+  //       </p>
+  //     )
+  // }
 }
 
 export default Typography
