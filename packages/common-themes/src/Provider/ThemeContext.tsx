@@ -28,7 +28,7 @@ const ThemeSwitcher: React.FC<ThemeSwitcherProps> = ({
     <ThemeContext.Provider
       value={{
         themeKey: current,
-        avaliableThemes: Object.keys(themes),
+        availableThemes: Object.keys(themes),
         setTheme: setCurrent
       }}
     >
