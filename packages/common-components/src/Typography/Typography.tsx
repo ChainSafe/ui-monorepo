@@ -62,7 +62,7 @@ const VariantMapping = {
   inherit: "span",
 }
 
-interface OwnProps {
+interface OwnProps extends React.HTMLProps<HTMLDivElement> {
   className?: string
   children?: ReactNode | ReactNode[]
   variant?:
@@ -79,15 +79,14 @@ interface OwnProps {
     | "caption"
     | "button"
   component?: "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "span" | "p"
-  onClick?: () => void
 }
 
-const Typography: React.SFC<OwnProps> = ({
+const Typography: React.FC<OwnProps> = ({
   variant = "body1",
   component = "span",
   className,
-  onClick,
   children,
+  ...rest
 }: OwnProps) => {
   const classes = useStyles()
   const Component = component
@@ -97,86 +96,12 @@ const Typography: React.SFC<OwnProps> = ({
     : "span"
   return (
     <Component
-      onClick={() => (onClick ? onClick() : null)}
       className={clsx(classes.root, className, classes[variant])}
+      {...rest}
     >
       {children}
     </Component>
   )
-  // switch (component) {
-  //   case "h1":
-  //     return (
-  //       <h1
-  //         onClick={() => (onClick ? onClick() : null)}
-  //         className={clsx(classes.root, className, classes[variant])}
-  //       >
-  //         {children}
-  //       </h1>
-  //     )
-  //   case "h2":
-  //     return (
-  //       <h2
-  //         onClick={() => (onClick ? onClick() : null)}
-  //         className={clsx(classes.root, className, classes[variant])}
-  //       >
-  //         {children}
-  //       </h2>
-  //     )
-  //   case "h3":
-  //     return (
-  //       <h3
-  //         onClick={() => (onClick ? onClick() : null)}
-  //         className={clsx(classes.root, className, classes[variant])}
-  //       >
-  //         {children}
-  //       </h3>
-  //     )
-  //   case "h4":
-  //     return (
-  //       <h4
-  //         onClick={() => (onClick ? onClick() : null)}
-  //         className={clsx(classes.root, className, classes[variant])}
-  //       >
-  //         {children}
-  //       </h4>
-  //     )
-  //   case "h5":
-  //     return (
-  //       <h5
-  //         onClick={() => (onClick ? onClick() : null)}
-  //         className={clsx(classes.root, className, classes[variant])}
-  //       >
-  //         {children}
-  //       </h5>
-  //     )
-  //   case "h6":
-  //     return (
-  //       <h6
-  //         onClick={() => (onClick ? onClick() : null)}
-  //         className={clsx(classes.root, className, classes[variant])}
-  //       >
-  //         {children}
-  //       </h6>
-  //     )
-  //   case "span":
-  //     return (
-  //       <span
-  //         onClick={() => (onClick ? onClick() : null)}
-  //         className={clsx(classes.root, className, classes[variant])}
-  //       >
-  //         {children}
-  //       </span>
-  //     )
-  //   case "p":
-  //     return (
-  //       <p
-  //         onClick={() => (onClick ? onClick() : null)}
-  //         className={clsx(classes.root, className, classes[variant])}
-  //       >
-  //         {children}
-  //       </p>
-  //     )
-  // }
 }
 
 export default Typography
