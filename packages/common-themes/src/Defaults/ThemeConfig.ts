@@ -1,27 +1,43 @@
-import { IThemeConfig } from '../Create/CreateThemeConfig'
+import { IThemeConfig } from "../Create/CreateThemeConfig"
 
 const DefaultThemeConfig: IThemeConfig = {
   animation: {
     transform: 200,
-    translate: 400
+    translate: 400,
   },
   breakpoints: {},
   constants: {},
   palette: {
     primary: {
-      main: ''
+      main: "#1890FF", // Blue-6
     },
     secondary: {
-      main: ''
+      main: "#1890FF", // Blue-6
     },
     error: {
-      main: ''
+      main: "#F5222D", // Red-6
+    },
+    warning: {
+      main: "#FAAD14", // Gold-6
     },
     success: {
-      main: ''
-    }
+      main: "#52C41A", // Green-6
+    },
   },
-  typography: {},
+  typography: {
+    h1: {},
+    h2: {},
+    h3: {},
+    h4: {},
+    h5: {},
+    h6: {},
+    subtitle1: {},
+    subtitle2: {},
+    body1: {},
+    body2: {},
+    button: {},
+    caption: {},
+  },
   misc: {},
   zIndex: {
     background: -1,
@@ -30,8 +46,8 @@ const DefaultThemeConfig: IThemeConfig = {
     layer2: 2000,
     layer3: 2500,
     layer4: 3000,
-    blocker: 10000
-  }
+    blocker: 10000,
+  },
 }
 
 export { DefaultThemeConfig }
