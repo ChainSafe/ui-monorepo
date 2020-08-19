@@ -1,27 +1,25 @@
-import React from 'react'
-import { Provider } from 'react-redux'
-import store from 'src/store/store'
-import { ThemeProvider } from 'styled-components'
-import { AppThemeProvider } from 'src/HOCs/contexts/ThemeContext'
-import Router from 'src/HOCs/routes/Router'
-import theme from 'src/assets/styles/theme.json'
-import './App.css'
-import { ConfiguredWalletProvider } from './HOCs/ConfiguredWalletProvider/ConfiguredWalletProvider'
-import { ErrorBoundary } from './HOCs/ErrorBoundary'
+import React from "react"
+import * as Sentry from "@sentry/react"
 
-function App() {
+if (
+  // process.env.NODE_ENV === "production" &&
+  process.env.REACT_APP_SENTRY_RELEASE &&
+  process.env.REACT_APP_SENTRY_DSN_URL
+) {
+  Sentry.init({
+    dsn: process.env.REACT_APP_SENTRY_DSN_URL,
+    release: process.env.REACT_APP_SENTRY_RELEASE,
+    environment: process.env.REACT_APP_SENTRY_ENV,
+  })
+}
+// Add router
+// Add all global contexts (theme, language, apis, web3)
+
+const App: React.FC<{}> = () => {
   return (
-    <Provider store={store}>
-      <ErrorBoundary>
-        <ConfiguredWalletProvider>
-          <ThemeProvider theme={theme}>
-            <AppThemeProvider>
-              <Router />
-            </AppThemeProvider>
-          </ThemeProvider>
-        </ConfiguredWalletProvider>
-      </ErrorBoundary>
-    </Provider>
+    <Sentry.ErrorBoundary showDialog fallback={"there was an error"}>
+      <div className="App"></div>
+    </Sentry.ErrorBoundary>
   )
 }
 

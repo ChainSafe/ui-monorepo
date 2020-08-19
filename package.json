@@ -32,7 +32,9 @@
       "packages/*"
     ],
     "nohoist": [
-      "**/antd"
+      "**/antd",
+      "**/webpack-dev-server",
+      "**/react-scripts"
     ]
   },
   "husky": {
