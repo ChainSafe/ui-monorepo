@@ -3,6 +3,7 @@ module.exports = {
   addons: [
     "@storybook/addon-actions",
     "@storybook/addon-links",
+    "@storybook/addon-contexts/register",
     "@storybook/preset-typescript",
   ],
   webpackFinal: async config => {
