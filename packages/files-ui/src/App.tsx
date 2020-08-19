@@ -10,19 +10,21 @@ import { ConfiguredWalletProvider } from './HOCs/ConfiguredWalletProvider/Config
 import { ErrorBoundary } from './HOCs/ErrorBoundary'
 
 function App() {
-  return (
-    <Provider store={store}>
-      <ErrorBoundary>
-        <ConfiguredWalletProvider>
-          <ThemeProvider theme={theme}>
-            <AppThemeProvider>
-              <Router />
-            </AppThemeProvider>
-          </ThemeProvider>
-        </ConfiguredWalletProvider>
-      </ErrorBoundary>
-    </Provider>
-  )
+  return <div />
+
+  // return (
+  //   <Provider store={store}>
+  //     <ErrorBoundary>
+  //       <ConfiguredWalletProvider>
+  //         <ThemeProvider theme={theme}>
+  //           <AppThemeProvider>
+  //             <Router />
+  //           </AppThemeProvider>
+  //         </ThemeProvider>
+  //       </ConfiguredWalletProvider>
+  //     </ErrorBoundary>
+  //   </Provider>
+  // )
 }
 
 export default App

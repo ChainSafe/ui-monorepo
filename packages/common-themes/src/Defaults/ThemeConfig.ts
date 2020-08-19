@@ -1,25 +1,25 @@
-import { IThemeConfig } from '../Create/CreateThemeConfig'
+import { IThemeConfig } from "../Create/CreateThemeConfig"
 
 const DefaultThemeConfig: IThemeConfig = {
   animation: {
     transform: 200,
-    translate: 400
+    translate: 400,
   },
   breakpoints: {},
   constants: {},
   palette: {
     primary: {
-      main: ''
+      main: "",
     },
     secondary: {
-      main: ''
+      main: "",
     },
     error: {
-      main: ''
+      main: "",
     },
     success: {
-      main: ''
-    }
+      main: "",
+    },
   },
   typography: {},
   misc: {},
@@ -30,8 +30,8 @@ const DefaultThemeConfig: IThemeConfig = {
     layer2: 2000,
     layer3: 2500,
     layer4: 3000,
-    blocker: 10000
-  }
+    blocker: 10000,
+  },
 }
 
 export { DefaultThemeConfig }
