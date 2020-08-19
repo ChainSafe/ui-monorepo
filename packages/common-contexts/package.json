@@ -1,7 +1,7 @@
 {
   "name": "@chainsafe/common-contexts",
   "version": "1.0.0",
-  "description": "Common Theme",
+  "description": "Common Contexts",
   "author": "Michael Yankelev <michael@chainsafe.io>",
   "license": "GPL-3.0",
   "main": "dist/index.js",
