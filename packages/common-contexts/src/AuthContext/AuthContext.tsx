@@ -17,9 +17,7 @@ type AuthContext = {
 const AuthContext = React.createContext<AuthContext | undefined>(undefined)
 
 const AuthProvider = ({ children }: AuthContextProps) => {
-  const [authApiClient, setAuthApiClient] = useState<AuthApi | undefined>(
-    undefined
-  )
+  const [, setAuthApiClient] = useState<AuthApi | undefined>(undefined)
   // Initialize Auth Context
   useEffect(() => {
     const initializeAuth = async () => {

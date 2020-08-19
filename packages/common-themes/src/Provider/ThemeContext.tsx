@@ -1,7 +1,7 @@
-import * as React from 'react'
-import { ITheme } from '../Create/CreateTheme'
-import { useState } from 'react'
-import { ThemeProvider } from '@material-ui/styles'
+import * as React from "react"
+import { ITheme } from "../Create/CreateTheme"
+import { useState } from "react"
+import { ThemeProvider } from "@material-ui/styles"
 
 type ThemeSwitcherContext = {
   themeKey: string
@@ -10,7 +10,7 @@ type ThemeSwitcherContext = {
 }
 
 const ThemeContext = React.createContext<ThemeSwitcherContext | undefined>(
-  undefined
+  undefined,
 )
 
 type ThemeSwitcherProps = {
@@ -20,7 +20,7 @@ type ThemeSwitcherProps = {
 
 const ThemeSwitcher: React.FC<ThemeSwitcherProps> = ({
   children,
-  themes
+  themes,
 }: ThemeSwitcherProps) => {
   // TODO: check min 1 theme
   const [current, setCurrent] = useState<string>(Object.keys(themes)[0])
@@ -29,7 +29,7 @@ const ThemeSwitcher: React.FC<ThemeSwitcherProps> = ({
       value={{
         themeKey: current,
         availableThemes: Object.keys(themes),
-        setTheme: setCurrent
+        setTheme: setCurrent,
       }}
     >
       <ThemeProvider theme={themes[current]}>{children}</ThemeProvider>
@@ -41,7 +41,7 @@ const useThemeSwitcher = () => {
   const context = React.useContext(ThemeContext)
   if (context == undefined) {
     throw new Error(
-      'useThemeSwitcher should be called within Theme Context provider'
+      "useThemeSwitcher should be called within Theme Context provider",
     )
   }
 
