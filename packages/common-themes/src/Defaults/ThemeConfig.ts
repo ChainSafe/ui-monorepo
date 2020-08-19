@@ -11,7 +11,7 @@ const DefaultThemeConfig: IThemeConfig = {
     primary: {
       main: ''
     },
-    seconday: {
+    secondary: {
       main: ''
     },
     error: {

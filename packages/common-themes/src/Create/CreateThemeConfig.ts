@@ -13,7 +13,7 @@ interface IPaletteColor {
 interface IPalette {
   primary: IPaletteColor
   common?: Record<string, IPaletteColor>
-  seconday?: IPaletteColor
+  secondary?: IPaletteColor
   error: IPaletteColor
   warning?: IPaletteColor
   info?: IPaletteColor

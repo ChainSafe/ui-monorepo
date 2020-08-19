@@ -5,7 +5,7 @@ import { ThemeProvider } from '@material-ui/styles'
 
 type ThemeSwitcherContext = {
   themeKey: string
-  avaliableThemes: string[]
+  availableThemes: string[]
   setTheme(themeName: string): void
 }
 
