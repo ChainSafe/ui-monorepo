@@ -1,5 +1,5 @@
-import * as React from 'react'
-import { useState, useEffect } from 'react'
+import * as React from "react"
+import { useState, useEffect } from "react"
 
 type AuthContextProps = {
   apiUrl: string
@@ -17,9 +17,7 @@ type AuthContext = {
 const AuthContext = React.createContext<AuthContext | undefined>(undefined)
 
 const AuthProvider = ({ children }: AuthContextProps) => {
-  const [authApiClient, setAuthApiClient] = useState<AuthApi | undefined>(
-    undefined
-  )
+  const [, setAuthApiClient] = useState<AuthApi | undefined>(undefined)
   // Initialize Auth Context
   useEffect(() => {
     const initializeAuth = async () => {
@@ -35,7 +33,7 @@ const AuthProvider = ({ children }: AuthContextProps) => {
 const useAuth = () => {
   const context = React.useContext(AuthContext)
   if (context === undefined) {
-    throw new Error('useAuth must be used within a AuthProvider')
+    throw new Error("useAuth must be used within a AuthProvider")
   }
   return context
 }
