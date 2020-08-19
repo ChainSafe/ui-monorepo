@@ -1,6 +1,6 @@
 // TODO: Set defaults from Figma
 
-import { DefaultThemeConfig } from '../Defaults/ThemeConfig'
+import { DefaultThemeConfig } from "../Defaults/ThemeConfig"
 
 interface IPaletteColor {
   light?: string
@@ -34,7 +34,6 @@ interface ITypography {
   body2?: Record<string, any>
   button?: Record<string, any>
   caption?: Record<string, any>
-  overline?: Record<string, any>
   [key: string]: Record<string, any> | undefined
 }
 
@@ -62,7 +61,7 @@ const createThemeConfig = (themeConfig?: IThemeConfig): IThemeConfig => {
   // No conversion or mapping needed for now
   return {
     ...DefaultThemeConfig,
-    ...themeConfig
+    ...themeConfig,
   }
 }
 
