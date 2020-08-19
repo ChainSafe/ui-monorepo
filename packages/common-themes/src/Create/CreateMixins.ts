@@ -6,7 +6,7 @@ const createMixins = (additionalMixins?: MixinConfig): MixinConfig => {
   // No transforms required yet
   return {
     ...DefaultMixins,
-    additionalMixins,
+    ...additionalMixins,
   }
 }
 
