@@ -12,22 +12,10 @@ yarn install
 yarn start
 ```
 
-## Build production (.env.production)
+## Build production (.env)
 
 ```
 yarn build
-```
-
-## Build staging (.env.stage)
-
-```
-yarn build:stage
-```
-
-## Build testing (.env.test)
-
-```
-yarn build:test
 ```
 
 ## Run test and test coverage
