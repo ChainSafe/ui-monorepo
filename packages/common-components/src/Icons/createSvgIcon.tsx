@@ -3,9 +3,9 @@
 import React from "react"
 import SvgIcon, { SvgIconProps } from "./SvgIcon"
 
-export default function createSvgIcon(path: JSX.Element): typeof SvgIcon {
+export default function createSvgIcon(icon: JSX.Element): typeof SvgIcon {
   const Component = (props: SvgIconProps) => (
-    <SvgIcon {...props}>{path}</SvgIcon>
+    <SvgIcon {...props}>{icon}</SvgIcon>
   )
 
   return Component

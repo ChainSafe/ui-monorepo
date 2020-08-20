@@ -18,7 +18,9 @@
   },
   "dependencies": {
     "@material-ui/styles": "^4.10.0",
-    "clsx": "^1.1.1"
+    "@types/react-router-dom": "^5.1.5",
+    "clsx": "^1.1.1",
+    "react-router-dom": "^5.2.0"
   },
   "peerDependencies": {
     "react": ">16.8.0",

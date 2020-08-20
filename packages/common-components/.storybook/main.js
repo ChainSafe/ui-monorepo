@@ -16,7 +16,7 @@ module.exports = {
         },
       ],
     })
-    config.module.rules.push({
+    config.module.rules.unshift({
       test: /\.svg$/,
       use: ["@svgr/webpack", "url-loader"],
     })

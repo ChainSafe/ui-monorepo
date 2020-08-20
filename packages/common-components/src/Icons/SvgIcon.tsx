@@ -52,7 +52,6 @@ export interface SvgIconProps {
   className?: string
   color?: colorProp
   fontSize?: fontSizeProp
-  fill?: string
 }
 
 const SvgIcon: React.FC<SvgIconProps> = ({
@@ -60,12 +59,11 @@ const SvgIcon: React.FC<SvgIconProps> = ({
   className,
   color = "inherit",
   fontSize = "medium",
-  fill,
   ...rest
 }: SvgIconProps) => {
   const classes = useStyles()
 
-  const Component = "svg"
+  const Component = "span"
 
   return (
     <Component
@@ -77,9 +75,6 @@ const SvgIcon: React.FC<SvgIconProps> = ({
         },
         className,
       )}
-      focusable="false"
-      fill={fill}
-      viewBox="0 0 24 24"
       {...rest}
     >
       {children}
