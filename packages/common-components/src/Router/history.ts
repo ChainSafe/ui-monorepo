@@ -2,8 +2,8 @@ import {
   useHistory,
   useParams,
   useRouteMatch,
-  useLocation
-} from 'react-router-dom'
+  useLocation,
+} from "react-router-dom"
 
 function useHistoryFunctions() {
   const history = useHistory()

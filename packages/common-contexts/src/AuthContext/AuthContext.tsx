@@ -1,5 +1,5 @@
-import * as React from 'react'
-import { useState, useEffect } from 'react'
+import * as React from "react"
+import { useState, useEffect } from "react"
 
 type AuthContextProps = {
   apiUrl: string
@@ -33,7 +33,7 @@ const AuthProvider = ({ children }: AuthContextProps) => {
 const useAuth = () => {
   const context = React.useContext(AuthContext)
   if (context === undefined) {
-    throw new Error('useAuth must be used within a AuthProvider')
+    throw new Error("useAuth must be used within a AuthProvider")
   }
   return context
 }

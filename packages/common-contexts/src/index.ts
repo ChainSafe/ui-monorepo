@@ -1,3 +1,3 @@
-import * as AuthContext from './AuthContext'
+import * as AuthContext from "./AuthContext"
 
 export { AuthContext }
