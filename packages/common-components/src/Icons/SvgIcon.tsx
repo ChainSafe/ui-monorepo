@@ -12,20 +12,22 @@ const useStyles = makeStyles((theme: ITheme) =>
       height: "1em",
       display: "inline-block",
       fontSize: "1.5em",
+      // whats the solution for these instances which are not strongly typed
+      // transition: `all ${theme.animation.transform}ms`
+      transition: "all 200ms",
     },
     colorPrimary: {
-      color: theme.palette.primary.main,
+      fill: theme.palette.primary.main,
     },
-
     // maybe we should have secondary required
     colorSecondary: {
-      color: theme.palette.secondary ? theme.palette.secondary.main : "inherit",
+      fill: theme.palette.secondary ? theme.palette.secondary.main : "inherit",
     },
     colorError: {
-      color: theme.palette.error.main,
+      fill: theme.palette.error.main,
     },
     colorSuccess: {
-      color: theme.palette.success.main,
+      fill: theme.palette.success.main,
     },
 
     sizeInherit: {
@@ -45,28 +47,28 @@ const useStyles = makeStyles((theme: ITheme) =>
   }),
 )
 
-interface OwnProps {
+export interface SvgIconProps {
   children?: ReactNode | ReactNode[]
   className?: string
-  color?: "inherit" | "primary" | "secondary" | "disabled" | "error"
-  fontSize?: "inherit" | "small" | "medium" | "large"
-  htmlColor?: string
-  viewBox?: string
+  color?: colorProp
+  fontSize?: fontSizeProp
+  fill?: string
 }
 
-const SvgIcon: React.FC<OwnProps> = ({
+const SvgIcon: React.FC<SvgIconProps> = ({
   children,
   className,
   color = "inherit",
   fontSize = "medium",
-  htmlColor,
-  viewBox = "0 0 24 24",
+  fill,
   ...rest
-}: OwnProps) => {
+}: SvgIconProps) => {
   const classes = useStyles()
 
+  const Component = "svg"
+
   return (
-    <svg
+    <Component
       className={clsx(
         classes.root,
         {
@@ -76,12 +78,12 @@ const SvgIcon: React.FC<OwnProps> = ({
         className,
       )}
       focusable="false"
-      viewBox={viewBox}
-      color={htmlColor}
+      fill={fill}
+      viewBox="0 0 24 24"
       {...rest}
     >
       {children}
-    </svg>
+    </Component>
   )
 }
 

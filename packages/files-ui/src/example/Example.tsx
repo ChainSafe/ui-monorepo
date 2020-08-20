@@ -1,74 +1,21 @@
 import React from "react"
-import {
-  Router,
-  Switch,
-  Route,
-  Link,
-  ConditionalRoute,
-  useHistory,
-} from "@chainsafe/common-components"
+import { AddCircleIcon } from "@chainsafe/common-components"
+import { createTheme } from "@chainsafe/common-themes"
+import { ThemeProvider } from "@material-ui/styles"
 
 function Example() {
-  return <Router>{<ExampleChildRoutes />}</Router>
+  return (
+    <ThemeProvider theme={createTheme()}>
+      <div>
+        <AddCircleIcon />
+        <ExampleChild />
+      </div>
+    </ThemeProvider>
+  )
 }
 
-function ExampleChildRoutes() {
-  const { redirect } = useHistory()
-
-  const Links = (
-    <>
-      <br />
-      <Link to="/home">home</Link>
-      <br />
-      <Link to="/about">about</Link>
-      <br />
-      <Link to="/dashboard">Dashboard private dashboard 403</Link>
-      <br />
-      <Link to="/account">Account private dashboard 401</Link>
-      <br />
-      <br />
-
-      <button onClick={() => redirect("/home")}>
-        check redirect on click - home
-      </button>
-    </>
-  )
-
-  return (
-    <Switch>
-      <Route
-        path="/home"
-        exact={true}
-        component={() => <div>Home {Links}</div>}
-      />
-
-      <Route
-        path="/about"
-        exact={true}
-        component={() => <div>About {Links}</div>}
-      />
-
-      <ConditionalRoute
-        path="/dashboard"
-        exact={true}
-        isAuthorized={false}
-        component={() => <div>dashboard {Links}</div>}
-      />
-
-      <ConditionalRoute
-        path="/account"
-        redirectPath="/401"
-        exact={true}
-        isAuthorized={false}
-        component={() => <div>dashboard {Links}</div>}
-      />
-
-      <Route path="*">
-        not found
-        {Links}
-      </Route>
-    </Switch>
-  )
+function ExampleChild() {
+  return <div>child</div>
 }
 
 export { Example }
