@@ -86,10 +86,10 @@ const Button: React.FC<IButtonProps> = ({
     <button
       className={clsx(
         classes.root,
-        fullsize ? "fullsize" : "",
+        fullsize && "fullsize",
         className,
         classes[variant],
-        disabled ? "disabled" : "",
+        disabled && "disabled",
         `${size}`,
       )}
       disabled={disabled}
