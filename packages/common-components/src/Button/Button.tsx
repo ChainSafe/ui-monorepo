@@ -13,8 +13,7 @@ const useStyles = makeStyles((theme: ITheme) =>
       textDecoration: "none",
       cursor: "pointer",
       ...theme.typography.button,
-      transitionDuration: theme.animation.ms(theme.animation.transform),
-      ...theme.constants.borderRadius.half,
+      transitionDuration: `${theme.animation.transform}ms`,
       border: "none",
       outline: "none",
       "&.large": {
