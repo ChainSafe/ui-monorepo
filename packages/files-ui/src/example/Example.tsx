@@ -1,13 +1,13 @@
 import React from "react"
 import { AddCircleIcon } from "@chainsafe/common-components"
-import { createTheme } from "@chainsafe/common-themes"
-import { ThemeProvider } from "@material-ui/styles"
+import { ThemeProvider, createTheme } from "@chainsafe/common-themes"
+// import { ThemeProvider } from "@material-ui/styles"
 
 function Example() {
   return (
     <ThemeProvider theme={createTheme()}>
       <div>
-        <AddCircleIcon />
+        <AddCircleIcon color="" />
         <ExampleChild />
       </div>
     </ThemeProvider>
