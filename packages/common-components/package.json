@@ -16,7 +16,10 @@
     "start": "rollup -c -w",
     "lint": "eslint 'src/**/*.{js,ts,tsx}' --quiet --fix"
   },
-  "dependencies": {},
+  "dependencies": {
+    "@material-ui/styles": "^4.10.0",
+    "clsx": "^1.1.1"
+  },
   "peerDependencies": {
     "react": ">16.8.0",
     "react-dom": ">16.8.0"

@@ -34,7 +34,6 @@ interface ITypography {
   body2?: Record<string, any>
   button?: Record<string, any>
   caption?: Record<string, any>
-  overline?: Record<string, any>
   [key: string]: Record<string, any> | undefined
 }
 
