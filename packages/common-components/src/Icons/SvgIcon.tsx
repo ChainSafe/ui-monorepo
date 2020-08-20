@@ -36,13 +36,13 @@ const useStyles = makeStyles((theme: ITheme) =>
 
     // we should use size units from theme
     sizeSmall: {
-      fontSize: "1em",
+      fontSize: "16px",
     },
     sizeMedium: {
-      fontSize: "1.5em",
+      fontSize: "24px",
     },
     sizeLarge: {
-      fontSize: "2em",
+      fontSize: "32px",
     },
   }),
 )
