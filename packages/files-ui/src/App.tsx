@@ -2,7 +2,7 @@ import React, { useState } from "react"
 import { init, ErrorBoundary, showReportDialog } from "@sentry/react"
 
 if (
-  // process.env.NODE_ENV === "production" &&
+  process.env.NODE_ENV === "production" &&
   process.env.REACT_APP_SENTRY_DSN_URL &&
   process.env.REACT_APP_SENTRY_RELEASE
 ) {
