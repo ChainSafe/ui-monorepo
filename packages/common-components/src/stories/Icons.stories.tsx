@@ -20,7 +20,7 @@ export const MainDemo = (): React.ReactNode => (
 )
 
 export const CustomSvgIcon = (): React.ReactNode => (
-  <SvgIcon color="error">
+  <SvgIcon>
     <BulbSvg />
   </SvgIcon>
 )
