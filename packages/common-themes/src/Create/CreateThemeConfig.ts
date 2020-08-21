@@ -38,6 +38,8 @@ interface ITypography {
 }
 interface IConstants {
   generalUnit: number
+  modal: Record<string, any>
+  icon: Record<string, any>
   [key: string]: number | string | Record<string, any> | undefined
 }
 // TODO: convert to Map & Sets for efficency

@@ -14,6 +14,19 @@ const DefaultThemeConfig: IThemeConfig = {
   },
   constants: {
     generalUnit: 8,
+    icon: {
+      width: 25,
+      height: 25,
+    },
+    modal: {
+      inner: {
+        height: "80vh",
+        width: "80vw",
+        minWidth: 300,
+        minHeight: 450,
+      },
+      backgroundFade: 0.4,
+    },
   },
   palette: {
     common: {
