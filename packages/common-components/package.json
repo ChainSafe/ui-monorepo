@@ -37,6 +37,7 @@
     "@storybook/addons": "^5.3.19",
     "@storybook/preset-typescript": "^3.0.0",
     "@storybook/react": "^5.3.19",
+    "@svgr/rollup": "^5.4.0",
     "@svgr/webpack": "^5.4.0",
     "@typescript-eslint/eslint-plugin": "^3.0.2",
     "@typescript-eslint/parser": "^3.0.2",
@@ -51,8 +52,8 @@
     "react-dom": "16.13.1",
     "rollup": "2.26.3",
     "rollup-plugin-peer-deps-external": "^2.2.2",
-    "rollup-plugin-svg": "^2.0.0",
     "rollup-plugin-typescript2": "^0.27.1",
+    "rollup-plugin-url": "^3.0.1",
     "ts-loader": "^7.0.5",
     "typescript": "^3.9.3"
   },
