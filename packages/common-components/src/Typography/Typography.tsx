@@ -105,3 +105,4 @@ const Typography: React.FC<OwnProps> = ({
 }
 
 export default Typography
+export { OwnProps }
