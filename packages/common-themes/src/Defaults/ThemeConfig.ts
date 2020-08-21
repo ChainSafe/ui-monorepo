@@ -5,9 +5,25 @@ const DefaultThemeConfig: IThemeConfig = {
     transform: 200,
     translate: 400,
   },
-  breakpoints: {},
-  constants: {},
+  breakpoints: {
+    xs: 0,
+    sm: 600,
+    md: 960,
+    lg: 1280,
+    xl: 1920,
+  },
+  constants: {
+    generalUnit: 8,
+  },
   palette: {
+    common: {
+      black: {
+        main: "#fff",
+      },
+      white: {
+        main: "#000",
+      },
+    },
     primary: {
       main: "#1890FF", // Blue-6
     },
