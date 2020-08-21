@@ -12,6 +12,7 @@ const useStyles = makeStyles((theme: ITheme) =>
       bottom: 0,
       left: 0,
       width: "100%",
+      height: "100%",
       opacity: 0,
       visibility: "hidden",
       maxHeight: 0,
@@ -33,7 +34,7 @@ const useStyles = makeStyles((theme: ITheme) =>
         top: 0,
         left: 0,
         zIndex: 0,
-        backgroundColor: theme.palette.common?.black.light,
+        backgroundColor: theme.palette.common?.black.main,
         opacity: theme.constants.modal.backgroundFade,
       },
       "&.active": {
@@ -45,23 +46,30 @@ const useStyles = makeStyles((theme: ITheme) =>
     },
     inner: {
       ...theme.constants.modal.inner,
-      height: "100%",
       flexGrow: 1,
       flexDirection: "column",
       display: "flex",
       backgroundColor: theme.palette.common?.white.main,
+      top: "50%",
+      left: "50%",
+      position: "absolute",
+      transform: "translate(-50%, -50%)",
     },
     closeIcon: {
       ...theme.constants.icon,
       borderRadius: "50%",
       display: "block",
       top: 0,
-      transform: "translate(-50%, -50%)",
+      backgroundColor: theme.palette.common?.white.main,
+      cursor: "pointer",
+      position: "absolute",
       "&.right": {
-        left: 0,
+        transform: "translate(50%, -50%)",
+        right: 0,
       },
       "&.left": {
-        right: 0,
+        left: 0,
+        transform: "translate(-50%, -50%)",
       },
       "&.none": {
         display: "none",
@@ -72,9 +80,9 @@ const useStyles = makeStyles((theme: ITheme) =>
 
 interface IModalProps {
   className?: string
-  active: boolean
-  canClose: boolean
-  closePosition: "left" | "right" | "none"
+  active?: boolean
+  canClose?: boolean
+  closePosition?: "left" | "right" | "none"
   children?: ReactNode | ReactNode[]
 }
 
@@ -105,13 +113,16 @@ const Modal: React.FC<IModalProps> = ({
       className={clsx(
         classes.root,
         className && `${className}`,
-        canClose && `closable`,
+        canClose ? `closable` : "",
         activeInternal ? "active" : "closed",
       )}
     >
       <section className={classes.inner}>
         {canClose && (
-          <div className={clsx(classes.closeIcon, closePosition)}>
+          <div
+            onClick={() => setActive(false)}
+            className={clsx(classes.closeIcon, `${closePosition}`)}
+          >
             {/* TODO: Close icon replace */}
             close
           </div>

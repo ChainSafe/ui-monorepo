@@ -20,10 +20,10 @@ const DefaultThemeConfig: IThemeConfig = {
     },
     modal: {
       inner: {
-        height: "80vh",
-        width: "80vw",
-        minWidth: 300,
-        minHeight: 450,
+        height: "80%",
+        width: "80%",
+        minWidth: 100,
+        minHeight: 150,
       },
       backgroundFade: 0.4,
     },
@@ -31,10 +31,10 @@ const DefaultThemeConfig: IThemeConfig = {
   palette: {
     common: {
       black: {
-        main: "#fff",
+        main: "#000",
       },
       white: {
-        main: "#000",
+        main: "#fff",
       },
     },
     primary: {
