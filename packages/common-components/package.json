@@ -18,7 +18,8 @@
   },
   "dependencies": {
     "@material-ui/styles": "^4.10.0",
-    "clsx": "^1.1.1"
+    "clsx": "^1.1.1",
+    "react-spinners": "^0.9.0"
   },
   "peerDependencies": {
     "react": ">16.8.0",
