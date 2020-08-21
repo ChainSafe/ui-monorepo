@@ -12,14 +12,11 @@ const useStyles = makeStyles((theme: ITheme) =>
       height: "1em",
       display: "inline-block",
       fontSize: "1.5em",
-      // whats the solution for these instances which are not strongly typed
-      // transition: `all ${theme.animation.transform}ms`
       transition: `all ${theme.animation.transform}ms`,
     },
     colorPrimary: {
       fill: theme.palette.primary.main,
     },
-    // maybe we should have secondary required
     colorSecondary: {
       fill: theme.palette.secondary ? theme.palette.secondary.main : "inherit",
     },
@@ -34,7 +31,6 @@ const useStyles = makeStyles((theme: ITheme) =>
       fontSize: "inherit",
     },
 
-    // we should use size units from theme
     sizeSmall: {
       fontSize: `${theme.constants.generalUnit * 2}px`,
     },
