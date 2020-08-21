@@ -9,6 +9,7 @@ import { makeStyles, createStyles } from "@material-ui/styles"
 import Dropzone from "react-dropzone"
 // import UploadedPdfIcon from "components/UploadedPdfIcon"
 import { FieldProps, getIn } from "formik"
+import { ITheme } from "@chainsafe/common-themes"
 
 const useStyles = makeStyles((theme: ITheme) =>
   createStyles({
@@ -63,26 +64,15 @@ const FormikDropzoneControl: React.SFC<OwnProps> = ({
         >
           {({ isDragActive, isDragReject }) => {
             if (isDragActive) {
-              return "This file is authorized"
+              return <p>"This file is authorized"</p>
             }
             if (isDragReject) {
-              return "This file is not authorized"
+              return <p>"This file is not authorized"</p>
             }
             if (fieldValue.length === 0) {
               return <p>Drag documents here</p>
             }
-            return fieldValue.map((file, i) => (
-              <UploadedPdfIcon
-                key={i}
-                file={file}
-                onDelete={() => {
-                  setFieldValue(
-                    name,
-                    fieldValue.filter((tag, index) => index !== i),
-                  )
-                }}
-              />
-            ))
+            return <p />
           }}
         </Dropzone>
       </div>
