@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme: ITheme) =>
       fontSize: "1.5em",
       // whats the solution for these instances which are not strongly typed
       // transition: `all ${theme.animation.transform}ms`
-      transition: "all 200ms",
+      transition: `all ${theme.animation.transform}ms`,
     },
     colorPrimary: {
       fill: theme.palette.primary.main,
@@ -36,13 +36,13 @@ const useStyles = makeStyles((theme: ITheme) =>
 
     // we should use size units from theme
     sizeSmall: {
-      fontSize: "16px",
+      fontSize: `${theme.constants.generalUnit * 2}px`,
     },
     sizeMedium: {
-      fontSize: "24px",
+      fontSize: `${theme.constants.generalUnit * 3}px`,
     },
     sizeLarge: {
-      fontSize: "32px",
+      fontSize: `${theme.constants.generalUnit * 4}px`,
     },
   }),
 )
