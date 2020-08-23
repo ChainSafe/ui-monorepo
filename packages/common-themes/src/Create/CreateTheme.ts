@@ -6,7 +6,7 @@ interface ITheme extends IThemeConfig {
 }
 
 const createTheme = (
-  themeConfig?: IThemeConfig,
+  themeConfig?: Partial<IThemeConfig>,
   mixins?: MixinConfig,
 ): ITheme => {
   return {

@@ -36,12 +36,15 @@ interface ITypography {
   caption?: Record<string, any>
   [key: string]: Record<string, any> | undefined
 }
-
+interface IConstants {
+  generalUnit: number
+  [key: string]: number | string | Record<string, any> | undefined
+}
 // TODO: convert to Map & Sets for efficency
 interface IThemeConfig {
   animation: Record<string, any>
   breakpoints: Record<string, any> | number[]
-  constants: Record<string, any>
+  constants: IConstants
   palette: IPalette
   typography: ITypography
   misc?: any
@@ -57,7 +60,9 @@ interface IThemeConfig {
   }
 }
 
-const createThemeConfig = (themeConfig?: IThemeConfig): IThemeConfig => {
+const createThemeConfig = (
+  themeConfig?: Partial<IThemeConfig>,
+): IThemeConfig => {
   // No conversion or mapping needed for now
   return {
     ...DefaultThemeConfig,
