@@ -3,7 +3,7 @@
 
 const formDataHelper = (obj: any, formData?: FormData, namespace?: string) => {
   let fd = formData || new FormData()
-  let formKey: string | undefined
+  let formKey: string
 
   for (let property in obj) {
     //if (obj.hasOwnProperty(property) && obj[property]) {
@@ -18,7 +18,7 @@ const formDataHelper = (obj: any, formData?: FormData, namespace?: string) => {
         fd.append(formKey, obj[property].toISOString())
       } else if (
         Array.isArray(obj[property]) &&
-        obj[property].every(i => i instanceof File || i instanceof Blob)
+        obj[property].every((i: any) => i instanceof File || i instanceof Blob)
       ) {
         const files = obj[property] as Array<File>
         files.forEach(file => {
