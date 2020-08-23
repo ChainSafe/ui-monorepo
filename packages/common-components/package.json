@@ -18,9 +18,8 @@
   },
   "dependencies": {
     "@material-ui/styles": "^4.10.0",
-    "@types/react-router-dom": "^5.1.5",
-    "clsx": "^1.1.1",
-    "react-router-dom": "^5.2.0"
+    "a11y-react-emoji": "^1.1.2",
+    "clsx": "^1.1.1"
   },
   "peerDependencies": {
     "react": ">16.8.0",
@@ -39,6 +38,7 @@
     "@storybook/react": "^5.3.19",
     "@svgr/rollup": "^5.4.0",
     "@svgr/webpack": "^5.4.0",
+    "@types/react-router-dom": "^5.1.5",
     "@typescript-eslint/eslint-plugin": "^3.0.2",
     "@typescript-eslint/parser": "^3.0.2",
     "babel-loader": "^8.1.0",
