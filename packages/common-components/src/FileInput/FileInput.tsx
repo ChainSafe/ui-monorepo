@@ -1,16 +1,27 @@
 import React, { useCallback, useState, useEffect } from "react"
-// import { makeStyles, createStyles } from "@material-ui/styles"
+import { makeStyles, createStyles } from "@material-ui/styles"
 import { useField } from "formik"
 import { useDropzone, DropzoneOptions, FileRejection } from "react-dropzone"
+import { ITheme } from "@chainsafe/common-themes"
 
-// const useStyles = makeStyles(() =>
-//   createStyles({
-//     hiddenInput: {
-//       display: "none",
-//     },
-//     // JSS in CSS goes here
-//   }),
-// )
+const useStyles = makeStyles((theme: ITheme) =>
+  createStyles({
+    dropzone: {
+      "&> *": {
+        width: "100%",
+        height: "auto",
+        borderWidth: 2,
+        borderColor: "rgb(102, 102, 102)",
+        borderStyle: "dashed",
+        borderRadius: 5,
+      },
+    },
+    error: {
+      color: theme.palette.error.main,
+    },
+    // JSS in CSS goes here
+  }),
+)
 
 interface IFileInputProps extends DropzoneOptions {
   className?: string
@@ -26,26 +37,10 @@ const FileInput: React.FC<IFileInputProps> = ({
   name,
   ...props
 }: IFileInputProps) => {
+  const classes = useStyles()
   const [files, setFiles] = useState<any[]>([])
   //@ts-ignore
   const [value, meta, helpers] = useField(name)
-
-  const readAttachment = async (file: File) => {
-    const reader = new FileReader()
-
-    return new Promise((resolve, reject) => {
-      reader.onload = function() {
-        const resultData = reader.result
-        return resolve(resultData)
-      }
-
-      reader.onerror = function() {
-        return reject(`Oops! Error reading file: ${file.name}`)
-      }
-
-      reader.readAsDataURL(file)
-    })
-  }
 
   const onDrop = useCallback(
     async (acceptedFiles: File[], fileRejections: FileRejection[]) => {
@@ -59,15 +54,7 @@ const FileInput: React.FC<IFileInputProps> = ({
         )
       }
 
-      const attachments = await Promise.all(
-        // `files` is a FileList object - an "array-like" object, like NodeList, so we have to convert to an array before iteration
-        acceptedFiles.map(async (file: File) =>
-          // We need to retrieve the actual file item from the FilesList
-          readAttachment(file),
-        ),
-      )
-
-      helpers.setValue(attachments)
+      helpers.setValue(acceptedFiles)
 
       if (fileRejections.length > 0) {
         helpers.setError("Some files were not accepted")
@@ -87,9 +74,21 @@ const FileInput: React.FC<IFileInputProps> = ({
   })
 
   return (
-    <div {...getRootProps()}>
+    <div {...getRootProps()} className={classes.dropzone}>
       <input {...getInputProps()} />
-      <p>Drag and Drop some files here</p>
+      {value.value?.length === 0 && (
+        <p>Click here to open file selection or drag and drop some files</p>
+      )}
+      {value.value?.length > 0 && (
+        <ul>
+          {value.value.map((file: any, i: any) => (
+            <li key={i}>
+              {file.name} - {file.size}
+            </li>
+          ))}
+        </ul>
+      )}
+      {meta.error && <p className={classes.error}>{meta.error}</p>}
     </div>
   )
 }

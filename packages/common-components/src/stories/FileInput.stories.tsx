@@ -11,7 +11,7 @@ export default {
 }
 
 export const actionsData = {
-  onFormSubmit: action("FormSubit", { allowFunction: true }),
+  onFormSubmit: action("FormSubit"),
 }
 
 export const Default = (): React.ReactNode => (
