@@ -17,6 +17,19 @@ const DefaultThemeConfig: IThemeConfig = {
   breakpoints: breakpoints,
   constants: {
     generalUnit: 8,
+    icon: {
+      width: 25,
+      height: 25,
+    },
+    modal: {
+      inner: {
+        height: "80%",
+        width: "80%",
+        minWidth: 100,
+        minHeight: 150,
+      },
+      backgroundFade: 0.4,
+    },
   },
   palette: {
     common: {

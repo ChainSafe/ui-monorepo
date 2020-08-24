@@ -1,4 +1,5 @@
 import { useThemeSwitcher, ThemeSwitcher } from "./Provider/ThemeContext"
+import { useOnClickOutside } from "./Hooks"
 
 export {
   default as createTheme,
@@ -9,4 +10,4 @@ export {
   IConstants,
   ITypography,
 } from "./Create/CreateTheme"
-export { useThemeSwitcher, ThemeSwitcher }
+export { useThemeSwitcher, ThemeSwitcher, useOnClickOutside }
