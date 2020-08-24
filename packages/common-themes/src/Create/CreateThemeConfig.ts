@@ -3,10 +3,11 @@
 import { DefaultThemeConfig } from "../Defaults/ThemeConfig"
 
 interface IPaletteColor {
-  light?: string
+  background?: string
   main: string
-  dark?: string
-  contrastText?: string
+  active?: string
+  border?: string
+  hover?: string
   [key: string]: string | undefined
 }
 
@@ -22,6 +23,7 @@ interface IPalette {
 }
 
 interface ITypography {
+  global: Record<string, any>
   h1?: Record<string, any>
   h2?: Record<string, any>
   h3?: Record<string, any>
@@ -40,10 +42,18 @@ interface IConstants {
   generalUnit: number
   [key: string]: number | string | Record<string, any> | undefined
 }
+interface IBreakpoints {
+  xs: number
+  sm: number
+  md: number
+  lg: number
+  xl: number
+  [key: string]: number
+}
 // TODO: convert to Map & Sets for efficency
 interface IThemeConfig {
   animation: Record<string, any>
-  breakpoints: Record<string, any> | number[]
+  breakpoints: IBreakpoints
   constants: IConstants
   palette: IPalette
   typography: ITypography
@@ -58,6 +68,7 @@ interface IThemeConfig {
     blocker: number
     [key: string]: number
   }
+  cssBaseline?: Record<string, any>
 }
 
 const createThemeConfig = (
@@ -72,4 +83,11 @@ const createThemeConfig = (
 
 export default createThemeConfig
 
-export { IThemeConfig, IPalette, IPaletteColor, ITypography }
+export {
+  IThemeConfig,
+  IPalette,
+  IPaletteColor,
+  ITypography,
+  IBreakpoints,
+  IConstants,
+}
