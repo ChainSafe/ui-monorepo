@@ -16,13 +16,16 @@ export const ModalLeft = (): React.ReactNode => {
       <Button onClick={() => setActive(true)} variant="primary" size="large">
         Open modal, close on left
       </Button>
-      <Modal active={active} closePosition="left">
+      <Modal active={active} setActive={setActive} closePosition="left">
         <Typography>
           Lorem ipsum dolor sit amet consectetur, adipisicing elit. Voluptas,
           ducimus vel cumque cum culpa quisquam deleniti iusto ipsum. Officiis
           magni ullam soluta iusto doloremque harum laborum quia accusantium
           incidunt necessitatibus.
         </Typography>
+        <Button onClick={() => setActive(false)} variant="primary" size="large">
+          Close modal
+        </Button>
       </Modal>
     </Fragment>
   )
@@ -35,32 +38,16 @@ export const ModalRight = (): React.ReactNode => {
       <Button onClick={() => setActive(true)} variant="primary" size="large">
         Open modal, close on right
       </Button>
-      <Modal active={active} closePosition="right">
+      <Modal active={active} setActive={setActive} closePosition="right">
         <Typography>
           Lorem ipsum dolor sit amet consectetur, adipisicing elit. Voluptas,
           ducimus vel cumque cum culpa quisquam deleniti iusto ipsum. Officiis
           magni ullam soluta iusto doloremque harum laborum quia accusantium
           incidunt necessitatibus.
         </Typography>
-      </Modal>
-    </Fragment>
-  )
-}
-
-export const ModalNoClose = (): React.ReactNode => {
-  const [active, setActive] = useState(false)
-  return (
-    <Fragment>
-      <Button onClick={() => setActive(true)} variant="primary" size="large">
-        Open modal, no close icon
-      </Button>
-      <Modal active={active} closePosition="right">
-        <Typography>
-          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Voluptas,
-          ducimus vel cumque cum culpa quisquam deleniti iusto ipsum. Officiis
-          magni ullam soluta iusto doloremque harum laborum quia accusantium
-          incidunt necessitatibus.
-        </Typography>
+        <Button onClick={() => setActive(false)} variant="primary" size="large">
+          Close modal
+        </Button>
       </Modal>
     </Fragment>
   )
@@ -73,7 +60,7 @@ export const Dialog = (): React.ReactNode => {
       <Button onClick={() => setActive(true)} variant="primary" size="large">
         Open Dialog
       </Button>
-      <Modal active={active} closePosition="none" canClose={false}>
+      <Modal active={active} closePosition="none">
         <Typography>
           Lorem ipsum dolor sit amet consectetur, adipisicing elit. Voluptas,
           ducimus vel cumque cum culpa quisquam deleniti iusto ipsum. Officiis
@@ -81,7 +68,7 @@ export const Dialog = (): React.ReactNode => {
           incidunt necessitatibus.
         </Typography>
         <Button onClick={() => setActive(false)} variant="primary" size="large">
-          Open Dialog
+          Close Dialog
         </Button>
       </Modal>
     </Fragment>

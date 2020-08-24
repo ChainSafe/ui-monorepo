@@ -1,4 +1,4 @@
-import React, { ReactNode, useRef, useState, useEffect } from "react"
+import React, { ReactNode, useRef } from "react"
 import { makeStyles, createStyles } from "@material-ui/styles"
 import { ITheme, useOnClickOutside } from "@chainsafe/common-themes"
 import clsx from "clsx"
@@ -80,8 +80,8 @@ const useStyles = makeStyles((theme: ITheme) =>
 
 interface IModalProps {
   className?: string
-  active?: boolean
-  canClose?: boolean
+  active: boolean
+  setActive?: (state: boolean) => void
   closePosition?: "left" | "right" | "none"
   children?: ReactNode | ReactNode[]
 }
@@ -89,38 +89,35 @@ interface IModalProps {
 const Modal: React.FC<IModalProps> = ({
   children,
   className,
-  canClose = true,
   closePosition = "right",
   active = false,
+  setActive,
 }: IModalProps) => {
   const classes = useStyles()
 
-  const [activeInternal, setActive] = useState<boolean>()
   const ref = useRef(null)
-  useOnClickOutside(ref, () => {
-    if (activeInternal && canClose) {
+
+  const handleClose = () => {
+    if (active && setActive) {
       setActive(false)
     }
-  })
+  }
 
-  useEffect(() => {
-    setActive(active)
-  }, [active])
+  useOnClickOutside(ref, () => handleClose())
 
   return (
     <article
-      ref={ref}
       className={clsx(
         classes.root,
         className && `${className}`,
-        canClose ? `closable` : "",
-        activeInternal ? "active" : "closed",
+        setActive ? `closable` : "",
+        active ? "active" : "closed",
       )}
     >
-      <section className={classes.inner}>
-        {canClose && (
+      <section ref={ref} className={classes.inner}>
+        {setActive && (
           <div
-            onClick={() => setActive(false)}
+            onClick={() => handleClose()}
             className={clsx(classes.closeIcon, `${closePosition}`)}
           >
             {/* TODO: Close icon replace */}
