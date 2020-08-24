@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme: ITheme) =>
         left: 0,
         zIndex: 0,
         backgroundColor: theme.palette.common?.black.main,
-        opacity: theme.constants.modal.backgroundFade,
+        opacity: theme.constants.modal?.backgroundFade,
       },
       "&.active": {
         ...theme.constants.modal,
@@ -84,6 +84,7 @@ interface IModalProps {
   setActive?: (state: boolean) => void
   closePosition?: "left" | "right" | "none"
   children?: ReactNode | ReactNode[]
+  maxWidth?: string
 }
 
 const Modal: React.FC<IModalProps> = ({
@@ -92,6 +93,7 @@ const Modal: React.FC<IModalProps> = ({
   closePosition = "right",
   active = false,
   setActive,
+  maxWidth,
 }: IModalProps) => {
   const classes = useStyles()
 
@@ -114,7 +116,13 @@ const Modal: React.FC<IModalProps> = ({
         active ? "active" : "closed",
       )}
     >
-      <section ref={ref} className={classes.inner}>
+      <section
+        ref={ref}
+        style={{
+          maxWidth: maxWidth ? maxWidth : "",
+        }}
+        className={classes.inner}
+      >
         {setActive && (
           <div
             onClick={() => handleClose()}

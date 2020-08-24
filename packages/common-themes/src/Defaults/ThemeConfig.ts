@@ -23,10 +23,11 @@ const DefaultThemeConfig: IThemeConfig = {
     },
     modal: {
       inner: {
-        height: "80%",
-        width: "80%",
-        minWidth: 100,
-        minHeight: 150,
+        height: "100%",
+        width: "100%",
+        minWidth: 30,
+        minHeight: 30,
+        maxWidth: breakpoints.md,
       },
       backgroundFade: 0.4,
     },
