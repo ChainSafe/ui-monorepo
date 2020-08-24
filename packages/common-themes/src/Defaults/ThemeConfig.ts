@@ -1,4 +1,5 @@
 import { IThemeConfig } from "../Create/CreateThemeConfig"
+import { DefaultPalette } from "./ColorPalette"
 
 const DefaultThemeConfig: IThemeConfig = {
   animation: {
@@ -18,26 +19,26 @@ const DefaultThemeConfig: IThemeConfig = {
   palette: {
     common: {
       black: {
-        main: "#fff",
+        main: DefaultPalette.gray[1],
       },
       white: {
-        main: "#000",
+        main: DefaultPalette.gray[10],
       },
     },
     primary: {
-      main: "#1890FF", // Blue-6
+      main: DefaultPalette.blue[6],
     },
     secondary: {
-      main: "#1890FF", // Blue-6
+      main: DefaultPalette.blue[6],
     },
     error: {
-      main: "#F5222D", // Red-6
+      main: DefaultPalette.red[6],
     },
     warning: {
-      main: "#FAAD14", // Gold-6
+      main: DefaultPalette.gold[6],
     },
     success: {
-      main: "#52C41A", // Green-6
+      main: DefaultPalette.green[6],
     },
   },
   typography: {
