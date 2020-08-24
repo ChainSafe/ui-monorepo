@@ -1,4 +1,10 @@
 export interface IDefaultPalette {
+  colorTags: {
+    primary: 6
+    background: 1
+    border: 3
+    hover: 5
+  }
   blue: {
     1: string
     2: string
@@ -158,6 +164,12 @@ export interface IDefaultPalette {
 }
 
 export const DefaultPalette: IDefaultPalette = {
+  colorTags: {
+    primary: 6,
+    background: 1,
+    border: 3,
+    hover: 5,
+  },
   blue: {
     1: "#e6f7ff",
     2: "#BAE7FF",

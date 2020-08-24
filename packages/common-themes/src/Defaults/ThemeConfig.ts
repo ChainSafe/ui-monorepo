@@ -1,18 +1,20 @@
-import { IThemeConfig } from "../Create/CreateThemeConfig"
+import { IThemeConfig, IBreakpoints } from "../Create/CreateThemeConfig"
 import { DefaultPalette } from "./ColorPalette"
+
+const breakpoints: IBreakpoints = {
+  xs: 0,
+  sm: 600,
+  md: 960,
+  lg: 1280,
+  xl: 1920,
+}
 
 const DefaultThemeConfig: IThemeConfig = {
   animation: {
     transform: 200,
     translate: 400,
   },
-  breakpoints: {
-    xs: 0,
-    sm: 600,
-    md: 960,
-    lg: 1280,
-    xl: 1920,
-  },
+  breakpoints: breakpoints,
   constants: {
     generalUnit: 8,
   },
@@ -26,34 +28,111 @@ const DefaultThemeConfig: IThemeConfig = {
       },
     },
     primary: {
-      main: DefaultPalette.blue[6],
+      background: DefaultPalette.blue[DefaultPalette.colorTags.background],
+      border: DefaultPalette.blue[DefaultPalette.colorTags.border],
+      main: DefaultPalette.blue[DefaultPalette.colorTags.primary],
+      hover: DefaultPalette.blue[DefaultPalette.colorTags.hover],
+      active: DefaultPalette.blue[7],
     },
     secondary: {
-      main: DefaultPalette.blue[6],
+      background: DefaultPalette.blue[DefaultPalette.colorTags.background],
+      border: DefaultPalette.blue[DefaultPalette.colorTags.border],
+      hover: DefaultPalette.blue[DefaultPalette.colorTags.hover],
+      main: DefaultPalette.blue[DefaultPalette.colorTags.primary],
     },
     error: {
-      main: DefaultPalette.red[6],
+      background: DefaultPalette.red[DefaultPalette.colorTags.background],
+      border: DefaultPalette.red[DefaultPalette.colorTags.border],
+      hover: DefaultPalette.red[DefaultPalette.colorTags.hover],
+      main: DefaultPalette.red[DefaultPalette.colorTags.primary],
     },
     warning: {
-      main: DefaultPalette.gold[6],
+      background: DefaultPalette.gold[DefaultPalette.colorTags.background],
+      border: DefaultPalette.gold[DefaultPalette.colorTags.border],
+      hover: DefaultPalette.gold[DefaultPalette.colorTags.hover],
+      main: DefaultPalette.gold[DefaultPalette.colorTags.primary],
     },
     success: {
-      main: DefaultPalette.green[6],
+      background: DefaultPalette.green[DefaultPalette.colorTags.background],
+      border: DefaultPalette.green[DefaultPalette.colorTags.border],
+      hover: DefaultPalette.green[DefaultPalette.colorTags.hover],
+      main: DefaultPalette.green[DefaultPalette.colorTags.primary],
     },
   },
   typography: {
-    h1: {},
-    h2: {},
-    h3: {},
-    h4: {},
-    h5: {},
-    h6: {},
-    subtitle1: {},
-    subtitle2: {},
-    body1: {},
-    body2: {},
-    button: {},
-    caption: {},
+    global: {
+      "font-family": `-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen','Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',sans-serif`,
+      "-webkit-font-smoothing": "antialiased",
+      "-moz-osx-font-smoothing": "grayscale",
+    },
+    h1: {
+      fontWeight: 600,
+      fontSize: 38,
+      lineHeight: 46,
+    },
+    h2: {
+      fontWeight: 600,
+      fontSize: 30,
+      lineHeight: 38,
+    },
+    h3: {
+      fontWeight: 400,
+      fontSize: 24,
+      lineHeight: 32,
+    },
+    h4: {
+      fontWeight: 400,
+      fontSize: 20,
+      lineHeight: 28,
+    },
+    h5: {
+      fontWeight: 400,
+      fontSize: 16,
+      lineHeight: 24,
+    },
+    h6: {
+      fontWeight: 400,
+      fontSize: 30,
+      lineHeight: 46,
+    },
+    subtitle1: {
+      fontWeight: 400,
+      fontSize: 24,
+      lineHeight: 32,
+    },
+    subtitle2: {
+      fontWeight: 400,
+      fontSize: 24,
+      lineHeight: 32,
+    },
+    body1: {
+      fontWeight: 400,
+      fontSize: 14,
+      lineHeight: 22,
+      [`@media (max-width: ${breakpoints.sm}px)`]: {
+        fontSize: 16,
+        lineHeight: 24,
+      },
+    },
+    body2: {
+      fontWeight: 400,
+      fontSize: 12,
+      lineHeight: 20,
+      [`@media (max-width: ${breakpoints.sm}px)`]: {
+        fontSize: 14,
+        lineHeight: 22,
+      },
+    },
+    button: {
+      fontWeight: 400,
+      fontSize: 14,
+      lineHeight: 22,
+    },
+    caption: {
+      fontWeight: 400,
+      fontSize: 12,
+      lineHeight: 20,
+    },
   },
   misc: {},
   zIndex: {
