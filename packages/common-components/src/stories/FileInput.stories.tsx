@@ -22,7 +22,7 @@ export const Default = (): React.ReactNode => (
     onSubmit={values => actionsData.onFormSubmit(values)}
   >
     <Form>
-      <FileInput name="uploadedFiles" />
+      <FileInput name="uploadedFiles" maxSize={1024 * 100} />
       <Button type="submit">Submit</Button>
     </Form>
   </Formik>

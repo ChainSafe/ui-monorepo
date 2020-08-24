@@ -3,23 +3,29 @@ import { makeStyles, createStyles } from "@material-ui/styles"
 import { useField } from "formik"
 import { useDropzone, DropzoneOptions, FileRejection } from "react-dropzone"
 import { ITheme } from "@chainsafe/common-themes"
+import Plus from "../Icons/icons/Plus"
+import Typography from "../Typography"
 
 const useStyles = makeStyles((theme: ITheme) =>
   createStyles({
     dropzone: {
-      "&> *": {
-        width: "100%",
-        height: "auto",
-        borderWidth: 2,
-        borderColor: "rgb(102, 102, 102)",
+      "&>div": {
+        color: "#595959",
+        backgroundColor: "#F5F5F5",
+        borderWidth: 1,
+        borderColor: "#D9D9D9",
         borderStyle: "dashed",
-        borderRadius: 5,
+        borderRadius: 2,
+        textAlign: "center",
+        padding: `${theme.constants.generalUnit}px`,
+        "&>span>svg": {
+          fill: "#8C8C8C",
+        },
       },
     },
     error: {
       color: theme.palette.error.main,
     },
-    // JSS in CSS goes here
   }),
 )
 
@@ -27,6 +33,7 @@ interface IFileInputProps extends DropzoneOptions {
   className?: string
   variant?: "dropzone" | "filepicker"
   name: string
+  label?: string
   showPreviews?: boolean
 }
 
@@ -35,11 +42,12 @@ const FileInput: React.FC<IFileInputProps> = ({
   variant = "dropzone",
   showPreviews = false,
   name,
+  label,
   ...props
 }: IFileInputProps) => {
   const classes = useStyles()
   const [files, setFiles] = useState<any[]>([])
-  //@ts-ignore
+  const [errors, setErrors] = useState<any[]>([])
   const [value, meta, helpers] = useField(name)
 
   const onDrop = useCallback(
@@ -57,7 +65,10 @@ const FileInput: React.FC<IFileInputProps> = ({
       helpers.setValue(acceptedFiles)
 
       if (fileRejections.length > 0) {
-        helpers.setError("Some files were not accepted")
+        const fileDropRejectionErrors = fileRejections.map(fr =>
+          fr.errors.map(fre => fre.message),
+        )
+        setErrors(errors.concat(fileDropRejectionErrors))
       }
     },
     [],
@@ -73,24 +84,39 @@ const FileInput: React.FC<IFileInputProps> = ({
     ...props,
   })
 
-  return (
-    <div {...getRootProps()} className={classes.dropzone}>
-      <input {...getInputProps()} />
-      {value.value?.length === 0 && (
-        <p>Click here to open file selection or drag and drop some files</p>
-      )}
-      {value.value?.length > 0 && (
-        <ul>
-          {value.value.map((file: any, i: any) => (
-            <li key={i}>
-              {file.name} - {file.size}
-            </li>
-          ))}
-        </ul>
-      )}
-      {meta.error && <p className={classes.error}>{meta.error}</p>}
-    </div>
-  )
+  if (variant === "dropzone") {
+    return (
+      <div {...getRootProps()} className={classes.dropzone}>
+        <input {...getInputProps()} />
+        {value.value?.length === 0 && (
+          <div>
+            <Plus fontSize="large" color="primary" />
+            <br />
+            <Typography>Upload Files and Folders</Typography>
+          </div>
+        )}
+        {value.value?.length > 0 && (
+          <ul>
+            {value.value.map((file: any, i: any) => (
+              <li key={i}>
+                {file.name} - {file.size}
+              </li>
+            ))}
+          </ul>
+        )}
+        {(meta.error || errors.length > 0) && (
+          <ul>
+            <li className={classes.error}>{meta.error}</li>
+            {errors.map((error, i) => (
+              <li key={i}>{error}</li>
+            ))}
+          </ul>
+        )}
+      </div>
+    )
+  } else {
+    return <div></div>
+  }
 }
 
 export default FileInput
