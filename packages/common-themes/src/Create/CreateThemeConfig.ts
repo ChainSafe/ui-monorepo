@@ -40,10 +40,20 @@ interface IConstants {
   generalUnit: number
   [key: string]: number | string | Record<string, any> | undefined
 }
-// TODO: convert to Map & Sets for efficency
+
+export interface IBreakpoints {
+  xs: number
+  sm: number
+  md: number
+  lg: number
+  xl: number
+  [key: string]: number
+}
+
+// TODO: convert to Map & Sets for efficiency
 interface IThemeConfig {
   animation: Record<string, any>
-  breakpoints: Record<string, any> | number[]
+  breakpoints: IBreakpoints
   constants: IConstants
   palette: IPalette
   typography: ITypography
