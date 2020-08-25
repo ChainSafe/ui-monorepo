@@ -23,8 +23,6 @@ const DefaultThemeConfig: IThemeConfig = {
     },
     modal: {
       inner: {
-        height: "100%",
-        width: "100%",
         minWidth: 30,
         minHeight: 30,
         maxWidth: breakpoints.md,
@@ -35,10 +33,10 @@ const DefaultThemeConfig: IThemeConfig = {
   palette: {
     common: {
       black: {
-        main: DefaultPalette.gray[1],
+        main: DefaultPalette.gray[10],
       },
       white: {
-        main: DefaultPalette.gray[10],
+        main: DefaultPalette.gray[1],
       },
     },
     primary: {

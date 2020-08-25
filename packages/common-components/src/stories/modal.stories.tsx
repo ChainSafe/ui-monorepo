@@ -1,70 +1,44 @@
 import React, { Fragment, useState } from "react"
 import Button from "../Button"
 import Modal from "../Modal"
+import { withKnobs, select } from "@storybook/addon-knobs"
 import Typography from "../Typography"
 
 export default {
   title: "Modal story",
   component: Button,
   excludeStories: /.*Data$/,
+  decorators: [withKnobs],
 }
 
-export const ModalLeft = (): React.ReactNode => {
+const closePositionOptions: ["left", "right", "none", undefined] = [
+  "left",
+  "right",
+  "none",
+  undefined,
+]
+const maxWidthOptions: ["xs", "sm", "md", "lg", "xl", 250, undefined] = [
+  "xs",
+  "sm",
+  "md",
+  "lg",
+  "xl",
+  250,
+  undefined,
+]
+
+export const ModalStory = (): React.ReactNode => {
   const [active, setActive] = useState(false)
   return (
     <Fragment>
       <Button onClick={() => setActive(true)} variant="primary" size="large">
-        Open modal, close on left
-      </Button>
-      <Modal active={active} setActive={setActive} closePosition="left">
-        <Typography>
-          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Voluptas,
-          ducimus vel cumque cum culpa quisquam deleniti iusto ipsum. Officiis
-          magni ullam soluta iusto doloremque harum laborum quia accusantium
-          incidunt necessitatibus.
-        </Typography>
-        <Button onClick={() => setActive(false)} variant="primary" size="large">
-          Close modal
-        </Button>
-      </Modal>
-    </Fragment>
-  )
-}
-
-export const ModalRight = (): React.ReactNode => {
-  const [active, setActive] = useState(false)
-  return (
-    <Fragment>
-      <Button onClick={() => setActive(true)} variant="primary" size="large">
-        Open modal, close on right
-      </Button>
-      <Modal active={active} setActive={setActive} closePosition="right">
-        <Typography>
-          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Voluptas,
-          ducimus vel cumque cum culpa quisquam deleniti iusto ipsum. Officiis
-          magni ullam soluta iusto doloremque harum laborum quia accusantium
-          incidunt necessitatibus.
-        </Typography>
-        <Button onClick={() => setActive(false)} variant="primary" size="large">
-          Close modal
-        </Button>
-      </Modal>
-    </Fragment>
-  )
-}
-
-export const ModalXs = (): React.ReactNode => {
-  const [active, setActive] = useState(false)
-  return (
-    <Fragment>
-      <Button onClick={() => setActive(true)} variant="primary" size="large">
-        Open modal, close on left
+        Open modal
       </Button>
       <Modal
         active={active}
-        maxWidth="xs"
         setActive={setActive}
-        closePosition="left"
+        maxWidth={select("Max width position", maxWidthOptions, "md")}
+        closePosition={select("Close position", closePositionOptions, "left")}
       >
         <Typography>
           Lorem ipsum dolor sit amet consectetur, adipisicing elit. Voluptas,
@@ -80,137 +54,7 @@ export const ModalXs = (): React.ReactNode => {
   )
 }
 
-export const ModalSm = (): React.ReactNode => {
-  const [active, setActive] = useState(false)
-  return (
-    <Fragment>
-      <Button onClick={() => setActive(true)} variant="primary" size="large">
-        Open modal, close on left
-      </Button>
-      <Modal
-        active={active}
-        maxWidth="sm"
-        setActive={setActive}
-        closePosition="left"
-      >
-        <Typography>
-          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Voluptas,
-          ducimus vel cumque cum culpa quisquam deleniti iusto ipsum. Officiis
-          magni ullam soluta iusto doloremque harum laborum quia accusantium
-          incidunt necessitatibus.
-        </Typography>
-        <Button onClick={() => setActive(false)} variant="primary" size="large">
-          Close modal
-        </Button>
-      </Modal>
-    </Fragment>
-  )
-}
-
-export const ModalMd = (): React.ReactNode => {
-  const [active, setActive] = useState(false)
-  return (
-    <Fragment>
-      <Button onClick={() => setActive(true)} variant="primary" size="large">
-        Open modal, close on left
-      </Button>
-      <Modal
-        active={active}
-        maxWidth="md"
-        setActive={setActive}
-        closePosition="left"
-      >
-        <Typography>
-          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Voluptas,
-          ducimus vel cumque cum culpa quisquam deleniti iusto ipsum. Officiis
-          magni ullam soluta iusto doloremque harum laborum quia accusantium
-          incidunt necessitatibus.
-        </Typography>
-        <Button onClick={() => setActive(false)} variant="primary" size="large">
-          Close modal
-        </Button>
-      </Modal>
-    </Fragment>
-  )
-}
-
-export const ModalLg = (): React.ReactNode => {
-  const [active, setActive] = useState(false)
-  return (
-    <Fragment>
-      <Button onClick={() => setActive(true)} variant="primary" size="large">
-        Open modal, close on left
-      </Button>
-      <Modal
-        active={active}
-        maxWidth="lg"
-        setActive={setActive}
-        closePosition="left"
-      >
-        <Typography>
-          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Voluptas,
-          ducimus vel cumque cum culpa quisquam deleniti iusto ipsum. Officiis
-          magni ullam soluta iusto doloremque harum laborum quia accusantium
-          incidunt necessitatibus.
-        </Typography>
-        <Button onClick={() => setActive(false)} variant="primary" size="large">
-          Close modal
-        </Button>
-      </Modal>
-    </Fragment>
-  )
-}
-
-export const ModalXl = (): React.ReactNode => {
-  const [active, setActive] = useState(false)
-  return (
-    <Fragment>
-      <Button onClick={() => setActive(true)} variant="primary" size="large">
-        Open modal, close on left
-      </Button>
-      <Modal
-        active={active}
-        maxWidth="xl"
-        setActive={setActive}
-        closePosition="left"
-      >
-        <Typography>
-          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Voluptas,
-          ducimus vel cumque cum culpa quisquam deleniti iusto ipsum. Officiis
-          magni ullam soluta iusto doloremque harum laborum quia accusantium
-          incidunt necessitatibus.
-        </Typography>
-        <Button onClick={() => setActive(false)} variant="primary" size="large">
-          Close modal
-        </Button>
-      </Modal>
-    </Fragment>
-  )
-}
-
-export const ModalNumber = (): React.ReactNode => {
-  const [active, setActive] = useState(false)
-  return (
-    <Fragment>
-      <Button onClick={() => setActive(true)} variant="primary" size="large">
-        Open modal, close on left
-      </Button>
-      <Modal
-        active={active}
-        maxWidth={250}
-        setActive={setActive}
-        closePosition="left"
-      >
-        <Typography>This modal has a max width of 250 set</Typography>
-        <Button onClick={() => setActive(false)} variant="primary" size="large">
-          Close modal
-        </Button>
-      </Modal>
-    </Fragment>
-  )
-}
-
-export const Dialog = (): React.ReactNode => {
+export const DialogStory = (): React.ReactNode => {
   const [active, setActive] = useState(false)
   return (
     <Fragment>

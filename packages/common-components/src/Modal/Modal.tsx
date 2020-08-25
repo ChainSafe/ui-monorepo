@@ -31,11 +31,11 @@ const useStyles = makeStyles((theme: ITheme) =>
         width: "100%",
         height: "100%",
         position: "absolute",
+        opacity: theme.constants.modal?.backgroundFade,
         top: 0,
         left: 0,
         zIndex: 0,
         backgroundColor: theme.palette.common?.black.main,
-        opacity: theme.constants.modal?.backgroundFade,
       },
       "&.active": {
         ...theme.constants.modal,
@@ -55,23 +55,23 @@ const useStyles = makeStyles((theme: ITheme) =>
       position: "absolute",
       transform: "translate(-50%, -50%)",
       "&.xs": {
-        width: "100%",
+        width: `calc(100% - ${theme.constants.generalUnit * 2}px)`,
         maxWidth: theme.breakpoints.xs,
       },
       "&.sm": {
-        width: "100%",
+        width: `calc(100% - ${theme.constants.generalUnit * 2}px)`,
         maxWidth: theme.breakpoints.sm,
       },
       "&.md": {
-        width: "100%",
+        width: `calc(100% - ${theme.constants.generalUnit * 2}px)`,
         maxWidth: theme.breakpoints.md,
       },
       "&.lg": {
-        width: "100%",
+        width: `calc(100% - ${theme.constants.generalUnit * 2}px)`,
         maxWidth: theme.breakpoints.lg,
       },
       "&.xl": {
-        width: "100%",
+        width: `calc(100% - ${theme.constants.generalUnit * 2}px)`,
         maxWidth: theme.breakpoints.xl,
       },
     },
