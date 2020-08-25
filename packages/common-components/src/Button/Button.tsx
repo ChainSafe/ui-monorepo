@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme: ITheme) =>
       alignItems: "center",
       textDecoration: "none",
       cursor: "pointer",
-      ...theme.typography.button,
+      ...theme.typography?.button,
       transitionDuration: `${theme.animation.transform}ms`,
       border: "none",
       outline: "none",

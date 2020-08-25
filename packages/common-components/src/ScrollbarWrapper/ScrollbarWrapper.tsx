@@ -1,24 +1,25 @@
 import React, { ReactNode } from "react"
 import SimpleBarReact from "simplebar-react"
-import { makeStyles, createStyles } from "@material-ui/styles"
+import { makeStyles, createStyles, useTheme } from "@material-ui/styles"
 import { ITheme } from "@chainsafe/common-themes"
 import clsx from "clsx"
 
-const useStyles = makeStyles((theme: ITheme) =>
-  createStyles({
+const useStyles = makeStyles((theme: ITheme) => {
+  console.log(theme)
+  return createStyles({
     root: {
       "& .simplebar-vertical": {
         width: 5,
         borderRadius: 6,
         opacity: 1,
-        backgroundColor: theme.palette.primary.background,
+        backgroundColor: theme.palette?.primary.background,
         padding: 0,
       },
       "& .simplebar-scrollbar": {
         width: 5,
         borderRadius: 6,
         "&:before": {
-          backgroundColor: theme.palette.primary.main,
+          backgroundColor: theme.palette?.primary.main,
           width: 5,
           left: 0,
           right: 0,
@@ -27,8 +28,8 @@ const useStyles = makeStyles((theme: ITheme) =>
         },
       },
     },
-  }),
-)
+  })
+})
 
 export interface OwnProps {
   className?: string
@@ -42,7 +43,8 @@ const ScrollbarWrapper: React.SFC<OwnProps> = ({
   children,
 }: OwnProps) => {
   const classes = useStyles()
-
+  const theme = useTheme()
+  console.log(theme)
   return (
     <SimpleBarReact
       style={maxHeight ? { maxHeight: maxHeight } : {}}

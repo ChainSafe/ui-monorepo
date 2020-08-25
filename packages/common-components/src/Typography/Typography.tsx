@@ -10,40 +10,40 @@ const useStyles = makeStyles((theme: ITheme) =>
       margin: 0,
     },
     h1: {
-      ...theme.typography.h1,
+      ...theme.typography?.h1,
     },
     h2: {
-      ...theme.typography.h2,
+      ...theme.typography?.h2,
     },
     h3: {
-      ...theme.typography.h3,
+      ...theme.typography?.h3,
     },
     h4: {
-      ...theme.typography.h4,
+      ...theme.typography?.h4,
     },
     h5: {
-      ...theme.typography.h5,
+      ...theme.typography?.h5,
     },
     h6: {
-      ...theme.typography.h6,
+      ...theme.typography?.h6,
     },
     subtitle1: {
-      ...theme.typography.subtitle1,
+      ...theme.typography?.subtitle1,
     },
     subtitle2: {
-      ...theme.typography.subtitle2,
+      ...theme.typography?.subtitle2,
     },
     body1: {
-      ...theme.typography.body1,
+      ...theme.typography?.body1,
     },
     body2: {
-      ...theme.typography.body2,
+      ...theme.typography?.body2,
     },
     caption: {
-      ...theme.typography.caption,
+      ...theme.typography?.caption,
     },
     button: {
-      ...theme.typography.button,
+      ...theme.typography?.button,
     },
   }),
 )
