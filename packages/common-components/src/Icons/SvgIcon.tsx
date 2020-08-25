@@ -43,7 +43,7 @@ const useStyles = makeStyles((theme: ITheme) =>
   }),
 )
 
-export interface SvgIconProps {
+export interface SvgIconProps extends React.HTMLProps<HTMLDivElement> {
   children?: ReactNode | ReactNode[]
   className?: string
   color?: colorProp

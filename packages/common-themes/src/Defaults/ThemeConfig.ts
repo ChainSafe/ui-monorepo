@@ -70,6 +70,7 @@ const DefaultThemeConfig: IThemeConfig = {
       hover: DefaultPalette.green[DefaultPalette.colorTags.hover],
       main: DefaultPalette.green[DefaultPalette.colorTags.primary],
     },
+    ...DefaultPalette,
   },
   typography: {
     global: {
