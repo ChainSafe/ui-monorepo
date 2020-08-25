@@ -3,7 +3,7 @@ import Button from "../Button"
 import { action } from "@storybook/addon-actions"
 
 export default {
-  title: "Button story",
+  title: "Button",
   component: Button,
   excludeStories: /.*Data$/,
 }
