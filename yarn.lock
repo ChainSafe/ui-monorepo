@@ -9644,6 +9644,11 @@ locate-path@^5.0.0:
   dependencies:
     p-locate "^4.1.0"
 
+lodash-es@^4.17.15:
+  version "4.17.15"
+  resolved "https://registry.yarnpkg.com/lodash-es/-/lodash-es-4.17.15.tgz#21bd96839354412f23d7a10340e5eac6ee455d78"
+  integrity sha512-rlrc3yU3+JNOpZ9zj5pQtxnx2THmvRykwL4Xlxoa8I9lHBlVbbyPhgyPMioxVZ4NqyxaVVtaJnzsyOidQIhyyQ==
+
 lodash._reinterpolate@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/lodash._reinterpolate/-/lodash._reinterpolate-3.0.0.tgz#0ccf2d89166af03b3663c796538b75ac6e114d9d"
@@ -13403,6 +13408,16 @@ simple-swizzle@^0.2.2:
   dependencies:
     is-arrayish "^0.3.1"
 
+simplebar-core@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/simplebar-core/-/simplebar-core-1.0.0.tgz#b0f8280f5f74375472b60b466b0ae4e39a2591ca"
+  integrity sha512-fa1k4uDUYfNNW1VUM+wbHlAFxphfl1J5Kk5pP/BoABP2h7PCm2aY3iza/j31dzAB9RrK9ue0djvW9MZ/LaF/8w==
+  dependencies:
+    "@babel/runtime" "^7.10.2"
+    can-use-dom "^0.1.0"
+    core-js "^3.6.5"
+    lodash-es "^4.17.15"
+
 simplebar-react@^1.0.0-alpha.6:
   version "1.2.3"
   resolved "https://registry.yarnpkg.com/simplebar-react/-/simplebar-react-1.2.3.tgz#bd81fa9827628470e9470d06caef6ece15e1c882"
@@ -13410,6 +13425,14 @@ simplebar-react@^1.0.0-alpha.6:
   dependencies:
     prop-types "^15.6.1"
     simplebar "^4.2.3"
+
+simplebar-react@^3.0.0-beta.2:
+  version "3.0.0-beta.2"
+  resolved "https://registry.yarnpkg.com/simplebar-react/-/simplebar-react-3.0.0-beta.2.tgz#677414ae3ae66e338a550b8229a90ca007371f98"
+  integrity sha512-t3C+oMQbH7rrVElq02PTBscKIu3I5HMmK6wGu6dy46EYiErGbJwrh7N4QMUA/L5HRbzXCpFTvYTqkXX4g5RniA==
+  dependencies:
+    prop-types "^15.6.1"
+    simplebar-core "^1.0.0"
 
 simplebar@^4.2.3:
   version "4.2.3"

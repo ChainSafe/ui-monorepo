@@ -22,5 +22,5 @@ export default {
     url(),
     svgr(),
   ],
-  external: ["react", "react-dom"],
+  external: ["react", "react-dom", "react-router-dom"],
 }

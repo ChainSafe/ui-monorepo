@@ -20,11 +20,13 @@
     "@material-ui/styles": "^4.10.0",
     "a11y-react-emoji": "^1.1.2",
     "clsx": "^1.1.1",
-    "reset-css": "^5.0.1"
+    "reset-css": "^5.0.1",
+    "simplebar-react": "^3.0.0-beta.2"
   },
   "peerDependencies": {
     "react": ">16.8.0",
-    "react-dom": ">16.8.0"
+    "react-dom": ">16.8.0",
+    "react-router-dom": "^5.2.0"
   },
   "devDependencies": {
     "@babel/core": "^7.10.1",

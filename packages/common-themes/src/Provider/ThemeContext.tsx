@@ -3,6 +3,7 @@ import { ITheme } from "../Create/CreateTheme"
 import { useState } from "react"
 import { ThemeProvider } from "@material-ui/styles"
 import "reset-css"
+import "simplebar/dist/simplebar.min.css"
 
 type ThemeSwitcherContext = {
   themeKey: string
