@@ -18,8 +18,10 @@
   },
   "dependencies": {
     "@material-ui/styles": "^4.10.0",
+    "@types/react-blockies": "^1.4.0",
     "a11y-react-emoji": "^1.1.2",
     "clsx": "^1.1.1",
+    "react-blockies": "^1.4.1",
     "reset-css": "^5.0.1"
   },
   "peerDependencies": {
@@ -50,7 +52,9 @@
     "fork-ts-checker-webpack-plugin": "^4.1.6",
     "prettier": "^2.0.5",
     "react": "16.13.1",
+    "react-blockies": "^1.4.1",
     "react-dom": "16.13.1",
+    "react-router-dom": "^5.2.0",
     "rollup": "2.26.3",
     "rollup-plugin-peer-deps-external": "^2.2.2",
     "rollup-plugin-typescript2": "^0.27.1",
