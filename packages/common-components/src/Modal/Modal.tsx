@@ -31,11 +31,11 @@ const useStyles = makeStyles((theme: ITheme) =>
         width: "100%",
         height: "100%",
         position: "absolute",
+        opacity: theme.constants.modal?.backgroundFade,
         top: 0,
         left: 0,
         zIndex: 0,
         backgroundColor: theme.palette.common?.black.main,
-        opacity: theme.constants.modal.backgroundFade,
       },
       "&.active": {
         ...theme.constants.modal,
@@ -54,6 +54,26 @@ const useStyles = makeStyles((theme: ITheme) =>
       left: "50%",
       position: "absolute",
       transform: "translate(-50%, -50%)",
+      "&.xs": {
+        width: `calc(100% - ${theme.constants.generalUnit * 2}px)`,
+        maxWidth: theme.breakpoints.xs,
+      },
+      "&.sm": {
+        width: `calc(100% - ${theme.constants.generalUnit * 2}px)`,
+        maxWidth: theme.breakpoints.sm,
+      },
+      "&.md": {
+        width: `calc(100% - ${theme.constants.generalUnit * 2}px)`,
+        maxWidth: theme.breakpoints.md,
+      },
+      "&.lg": {
+        width: `calc(100% - ${theme.constants.generalUnit * 2}px)`,
+        maxWidth: theme.breakpoints.lg,
+      },
+      "&.xl": {
+        width: `calc(100% - ${theme.constants.generalUnit * 2}px)`,
+        maxWidth: theme.breakpoints.xl,
+      },
     },
     closeIcon: {
       ...theme.constants.icon,
@@ -84,6 +104,7 @@ interface IModalProps {
   setActive?: (state: boolean) => void
   closePosition?: "left" | "right" | "none"
   children?: ReactNode | ReactNode[]
+  maxWidth?: "xs" | "sm" | "md" | "lg" | "xl" | number
 }
 
 const Modal: React.FC<IModalProps> = ({
@@ -92,6 +113,7 @@ const Modal: React.FC<IModalProps> = ({
   closePosition = "right",
   active = false,
   setActive,
+  maxWidth = "sm",
 }: IModalProps) => {
   const classes = useStyles()
 
@@ -114,7 +136,20 @@ const Modal: React.FC<IModalProps> = ({
         active ? "active" : "closed",
       )}
     >
-      <section ref={ref} className={classes.inner}>
+      <section
+        ref={ref}
+        style={
+          maxWidth && typeof maxWidth == "number"
+            ? {
+                maxWidth: maxWidth,
+              }
+            : {}
+        }
+        className={clsx(
+          classes.inner,
+          typeof maxWidth != "number" ? maxWidth : "",
+        )}
+      >
         {setActive && (
           <div
             onClick={() => handleClose()}
