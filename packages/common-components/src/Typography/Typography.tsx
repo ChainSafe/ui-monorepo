@@ -62,7 +62,7 @@ const VariantMapping = {
   inherit: "span",
 }
 
-interface OwnProps extends React.HTMLProps<HTMLDivElement> {
+export interface OwnProps extends React.HTMLProps<HTMLDivElement> {
   className?: string
   children?: ReactNode | ReactNode[]
   variant?:
