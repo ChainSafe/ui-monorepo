@@ -1,4 +1,12 @@
 import { ITheme } from "@chainsafe/common-themes"
+import {
+  AlignItems,
+  JustifyContent,
+  FlexDirection,
+  FlexWrap,
+  GridSize,
+  SpacingSize,
+} from "./types"
 
 export const alignItemsOptions: AlignItems[] = [
   "flex-start",
@@ -27,7 +35,6 @@ export const flexDirectionOptions: FlexDirection[] = [
 export const flexWrapOptions: FlexWrap[] = ["nowrap", "wrap", "wrap-reverse"]
 
 export const gridSizeOptions: GridSize[] = [
-  0,
   1,
   2,
   3,
@@ -41,6 +48,8 @@ export const gridSizeOptions: GridSize[] = [
   11,
   12,
 ]
+
+export const spacingOptions: SpacingSize[] = [1, 2, 3, 4, 5, 6]
 
 export const createFlexStyles = (): Record<string, React.CSSProperties> => ({
   ...Object.assign(
@@ -110,13 +119,32 @@ export const createGridStyles = (
       const widthPercent = `${Math.round((gridSize / 12) * 10e7) / 10e5}%`
 
       gridLevelStyles[`grid-${breakpointKey}-${gridSize}`] = {
-        flex: `0 0 ${widthPercent}`,
-        maxWidth: `${widthPercent}`,
+        flexBasis: widthPercent,
+        flexGrow: 0,
+        maxWidth: widthPercent,
       }
     })
     styles[
       `@media screen and (min-width: ${theme.breakpoints[breakpointKey]}px)`
     ] = gridLevelStyles
+  })
+
+  return styles
+}
+
+export const createSpacingStyles = (
+  theme: ITheme,
+): Record<string, React.CSSProperties> => {
+  const styles = {}
+
+  spacingOptions.forEach(spacing => {
+    const themeSpacing = theme.constants.generalUnit || 8
+
+    styles[`spacing-${spacing}`] = {
+      "& > $item": {
+        padding: `0 ${themeSpacing * spacing}px`,
+      },
+    }
   })
 
   return styles

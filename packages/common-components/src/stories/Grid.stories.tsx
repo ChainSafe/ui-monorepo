@@ -7,12 +7,12 @@ import {
   justifyContentOptions,
   flexWrapOptions,
   gridSizeOptions,
-  // gridSizeOptions
+  spacingOptions,
 } from "../Grid/Styles"
 
 function Box({ children }: { children: ReactNode }) {
   return (
-    <div style={{ width: "100%", border: "1px solid grey", padding: "8px" }}>
+    <div style={{ flex: 1, border: "1px solid grey", padding: "8px" }}>
       {children}
     </div>
   )
@@ -60,6 +60,17 @@ export const GridDisplay = (): React.ReactNode => (
       md={select("box 2", gridSizeOptions, 12)}
       lg={select("box 2", gridSizeOptions, 12)}
     >
+      <Box>Box 2</Box>
+    </Grid>
+  </Grid>
+)
+
+export const GridSpacing = (): React.ReactNode => (
+  <Grid container spacing={select("Spacing", spacingOptions, 1)}>
+    <Grid item xs={12} sm={6} md={3} lg={3}>
+      <Box>Box 1</Box>
+    </Grid>
+    <Grid item xs={12} sm={6} md={3} lg={3}>
       <Box>Box 2</Box>
     </Grid>
   </Grid>

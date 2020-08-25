@@ -1,8 +1,20 @@
 import React, { ReactNode } from "react"
 import { makeStyles, createStyles } from "@material-ui/styles"
 import clsx from "clsx"
-import { createFlexStyles, createGridStyles } from "./Styles"
+import {
+  createFlexStyles,
+  createGridStyles,
+  createSpacingStyles,
+} from "./Styles"
 import { ITheme } from "@chainsafe/common-themes"
+import {
+  AlignItems,
+  JustifyContent,
+  FlexDirection,
+  FlexWrap,
+  GridSize,
+  SpacingSize,
+} from "./types"
 
 const useStyles = makeStyles((theme: ITheme) =>
   createStyles({
@@ -11,6 +23,7 @@ const useStyles = makeStyles((theme: ITheme) =>
     },
     ...createFlexStyles(),
     ...createGridStyles(theme),
+    ...createSpacingStyles(theme),
   }),
 )
 
@@ -28,6 +41,7 @@ export interface IGridProps {
   md?: GridSize
   lg?: GridSize
   xl?: GridSize
+  spacing?: SpacingSize
 }
 
 const Grid: React.FC<IGridProps> = ({
@@ -44,6 +58,7 @@ const Grid: React.FC<IGridProps> = ({
   md,
   lg,
   xl,
+  spacing,
   ...rest
 }: IGridProps) => {
   const classes = useStyles()
@@ -68,6 +83,8 @@ const Grid: React.FC<IGridProps> = ({
           [classes[`grid-md-${String(md)}`]]: md !== undefined,
           [classes[`grid-lg-${String(lg)}`]]: lg !== undefined,
           [classes[`grid-xl-${String(xl)}`]]: xl !== undefined,
+          [classes[`spacing-${String(spacing)}`]]:
+            spacing !== undefined && isContainer,
         },
         className,
       )}
