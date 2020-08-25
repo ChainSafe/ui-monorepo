@@ -1,8 +1,7 @@
 import React from "react"
 import Button from "../Button"
 import { action } from "@storybook/addon-actions"
-import ScrollbarWrapper from "../ScrollbarWrapper/ScrollbarWrapper"
-import Typography from "../Typography"
+import { Typography, ScrollbarWrapper } from ".."
 
 export default {
   title: "Scrollbar Wrapper",

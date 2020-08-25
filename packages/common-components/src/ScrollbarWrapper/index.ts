@@ -1,1 +1,1 @@
-export { default } from "./ScrollbarWrapper"
+export { default as ScrollbarWrapper } from "./ScrollbarWrapper"

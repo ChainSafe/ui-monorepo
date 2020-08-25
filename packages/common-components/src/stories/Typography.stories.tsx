@@ -1,7 +1,7 @@
 import React from "react"
-import Typography from "../Typography"
 import { action } from "@storybook/addon-actions"
 import { withKnobs, select } from "@storybook/addon-knobs"
+import { Typography } from ".."
 
 export default {
   title: "Typography",

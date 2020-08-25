@@ -1,8 +1,7 @@
 import React, { Fragment, useState } from "react"
 import Button from "../Button"
-import Modal from "../Modal"
 import { withKnobs, select } from "@storybook/addon-knobs"
-import Typography from "../Typography"
+import { Modal, Typography } from ".."
 
 export default {
   title: "Modal",
