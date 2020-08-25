@@ -13,10 +13,10 @@ const useStyles = makeStyles((theme: ITheme) =>
   createStyles({
     root: {
       "& > div": {
-        color: theme.palette.common?.darkGray.main,
-        backgroundColor: theme.palette.common?.lightGray.main,
+        color: theme.palette["gray"][8],
+        backgroundColor: theme.palette["gray"][3],
         borderWidth: 1,
-        borderColor: theme.palette.common?.lightGray.main,
+        borderColor: theme.palette["gray"][5],
         borderStyle: "dashed",
         borderRadius: 2,
         padding: `${theme.constants.generalUnit}px`,
