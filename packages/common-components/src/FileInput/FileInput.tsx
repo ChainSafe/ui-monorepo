@@ -12,18 +12,18 @@ import Button from "../Button"
 const useStyles = makeStyles((theme: ITheme) =>
   createStyles({
     root: {
-      "&>div": {
-        color: "#595959",
-        backgroundColor: "#F5F5F5",
+      "& > div": {
+        color: theme.palette.common?.darkGray.main,
+        backgroundColor: theme.palette.common?.lightGray.main,
         borderWidth: 1,
-        borderColor: "#D9D9D9",
+        borderColor: theme.palette.common?.lightGray.main,
         borderStyle: "dashed",
         borderRadius: 2,
         padding: `${theme.constants.generalUnit}px`,
       },
     },
     filesDropped: {
-      "&>div": {
+      "& > div": {
         textAlign: "start",
       },
     },

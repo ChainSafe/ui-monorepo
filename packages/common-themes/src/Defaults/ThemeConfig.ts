@@ -38,6 +38,15 @@ const DefaultThemeConfig: IThemeConfig = {
       white: {
         main: DefaultPalette.gray[1],
       },
+      darkGray: {
+        main: DefaultPalette.gray[8],
+      },
+      lightGray: {
+        main: DefaultPalette.gray[3],
+      },
+      gray: {
+        main: DefaultPalette.gray[5],
+      },
     },
     primary: {
       background: DefaultPalette.blue[DefaultPalette.colorTags.background],
@@ -69,6 +78,9 @@ const DefaultThemeConfig: IThemeConfig = {
       border: DefaultPalette.green[DefaultPalette.colorTags.border],
       hover: DefaultPalette.green[DefaultPalette.colorTags.hover],
       main: DefaultPalette.green[DefaultPalette.colorTags.primary],
+    },
+    additional: {
+      gray8: DefaultPalette.gray[8],
     },
   },
   typography: {
