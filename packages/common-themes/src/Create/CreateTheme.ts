@@ -1,4 +1,11 @@
-import createThemeConfig, { IThemeConfig } from "./CreateThemeConfig"
+import createThemeConfig, {
+  IThemeConfig,
+  IPaletteColor,
+  IPalette,
+  IBreakpoints,
+  IConstants,
+  ITypography,
+} from "./CreateThemeConfig"
 import createMixins, { MixinConfig } from "./CreateMixins"
 
 interface ITheme extends IThemeConfig {
@@ -17,4 +24,11 @@ const createTheme = (
 
 export default createTheme
 
-export { ITheme }
+export {
+  ITheme,
+  IPaletteColor,
+  IPalette,
+  IBreakpoints,
+  IConstants,
+  ITypography,
+}

@@ -2,6 +2,7 @@ import * as React from "react"
 import { ITheme } from "../Create/CreateTheme"
 import { useState } from "react"
 import { ThemeProvider } from "@material-ui/styles"
+import "reset-css"
 
 type ThemeSwitcherContext = {
   themeKey: string
