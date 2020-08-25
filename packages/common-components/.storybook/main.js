@@ -5,6 +5,7 @@ module.exports = {
     "@storybook/addon-links",
     "@storybook/addon-contexts/register",
     "@storybook/preset-typescript",
+    "@storybook/addon-knobs",
   ],
   webpackFinal: async config => {
     config.module.rules.push({
@@ -16,6 +17,13 @@ module.exports = {
       ],
     })
     config.resolve.extensions.push(".ts", ".tsx")
+
+    // use svgr for svg files
+    config.module.rules.unshift({
+      test: /\.svg$/,
+      use: ["@svgr/webpack", "url-loader"],
+    })
+
     return config
   },
 }

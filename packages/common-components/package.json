@@ -18,7 +18,9 @@
   },
   "dependencies": {
     "@material-ui/styles": "^4.10.0",
-    "clsx": "^1.1.1"
+    "a11y-react-emoji": "^1.1.2",
+    "clsx": "^1.1.1",
+    "reset-css": "^5.0.1"
   },
   "peerDependencies": {
     "react": ">16.8.0",
@@ -30,10 +32,14 @@
     "@rollup/plugin-node-resolve": "^8.0.0",
     "@storybook/addon-actions": "^5.3.19",
     "@storybook/addon-contexts": "^5.3.19",
+    "@storybook/addon-knobs": "^6.0.15",
     "@storybook/addon-links": "^5.3.19",
     "@storybook/addons": "^5.3.19",
     "@storybook/preset-typescript": "^3.0.0",
     "@storybook/react": "^5.3.19",
+    "@svgr/rollup": "^5.4.0",
+    "@svgr/webpack": "^5.4.0",
+    "@types/react-router-dom": "^5.1.5",
     "@typescript-eslint/eslint-plugin": "^3.0.2",
     "@typescript-eslint/parser": "^3.0.2",
     "babel-loader": "^8.1.0",
@@ -48,6 +54,7 @@
     "rollup": "2.26.3",
     "rollup-plugin-peer-deps-external": "^2.2.2",
     "rollup-plugin-typescript2": "^0.27.1",
+    "rollup-plugin-url": "^3.0.1",
     "ts-loader": "^7.0.5",
     "typescript": "^3.9.3"
   },
