@@ -23,10 +23,9 @@ const DefaultThemeConfig: IThemeConfig = {
     },
     modal: {
       inner: {
-        height: "80%",
-        width: "80%",
-        minWidth: 100,
-        minHeight: 150,
+        minWidth: 30,
+        minHeight: 30,
+        maxWidth: breakpoints.md,
       },
       backgroundFade: 0.4,
     },
@@ -34,10 +33,10 @@ const DefaultThemeConfig: IThemeConfig = {
   palette: {
     common: {
       black: {
-        main: DefaultPalette.gray[1],
+        main: DefaultPalette.gray[10],
       },
       white: {
-        main: DefaultPalette.gray[10],
+        main: DefaultPalette.gray[1],
       },
     },
     primary: {
@@ -81,70 +80,70 @@ const DefaultThemeConfig: IThemeConfig = {
     h1: {
       fontWeight: 600,
       fontSize: 38,
-      lineHeight: 46,
+      lineHeight: `46px`,
     },
     h2: {
       fontWeight: 600,
       fontSize: 30,
-      lineHeight: 38,
+      lineHeight: `38px`,
     },
     h3: {
       fontWeight: 400,
       fontSize: 24,
-      lineHeight: 32,
+      lineHeight: `32px`,
     },
     h4: {
       fontWeight: 400,
       fontSize: 20,
-      lineHeight: 28,
+      lineHeight: `28px`,
     },
     h5: {
       fontWeight: 400,
       fontSize: 16,
-      lineHeight: 24,
+      lineHeight: `24px`,
     },
     h6: {
       fontWeight: 400,
       fontSize: 30,
-      lineHeight: 46,
+      lineHeight: `46px`,
     },
     subtitle1: {
       fontWeight: 400,
       fontSize: 24,
-      lineHeight: 32,
+      lineHeight: `32px`,
     },
     subtitle2: {
       fontWeight: 400,
       fontSize: 24,
-      lineHeight: 32,
+      lineHeight: `32px`,
     },
     body1: {
       fontWeight: 400,
       fontSize: 14,
-      lineHeight: 22,
+      lineHeight: `22px`,
       [`@media (max-width: ${breakpoints.sm}px)`]: {
         fontSize: 16,
-        lineHeight: 24,
+        lineHeight: `24px`,
       },
     },
     body2: {
       fontWeight: 400,
       fontSize: 12,
-      lineHeight: 20,
+      lineHeight: `20px`,
       [`@media (max-width: ${breakpoints.sm}px)`]: {
         fontSize: 14,
-        lineHeight: 22,
+        lineHeight: `22px`,
       },
     },
     button: {
       fontWeight: 400,
       fontSize: 14,
-      lineHeight: 22,
+      lineHeight: `22px`,
     },
     caption: {
       fontWeight: 400,
       fontSize: 12,
-      lineHeight: 20,
+      lineHeight: `20px`,
     },
   },
   misc: {},
