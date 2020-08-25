@@ -85,10 +85,10 @@ const FileInput: React.FC<IFileInputProps> = ({
   }, [previews])
 
   const dropZoneProps = {
-    ...props,
     noDrag: variant === "filepicker",
     noClick: variant === "filepicker",
     noKeyboard: variant === "filepicker",
+    ...props,
   }
 
   const { getRootProps, getInputProps, open } = useDropzone({
