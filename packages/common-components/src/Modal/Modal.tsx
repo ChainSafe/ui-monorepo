@@ -54,6 +54,26 @@ const useStyles = makeStyles((theme: ITheme) =>
       left: "50%",
       position: "absolute",
       transform: "translate(-50%, -50%)",
+      "&.xs": {
+        width: "100%",
+        maxWidth: theme.breakpoints.xs,
+      },
+      "&.sm": {
+        width: "100%",
+        maxWidth: theme.breakpoints.sm,
+      },
+      "&.md": {
+        width: "100%",
+        maxWidth: theme.breakpoints.md,
+      },
+      "&.lg": {
+        width: "100%",
+        maxWidth: theme.breakpoints.lg,
+      },
+      "&.xl": {
+        width: "100%",
+        maxWidth: theme.breakpoints.xl,
+      },
     },
     closeIcon: {
       ...theme.constants.icon,
@@ -84,7 +104,7 @@ interface IModalProps {
   setActive?: (state: boolean) => void
   closePosition?: "left" | "right" | "none"
   children?: ReactNode | ReactNode[]
-  maxWidth?: string
+  maxWidth?: "xs" | "sm" | "md" | "lg" | "xl" | number
 }
 
 const Modal: React.FC<IModalProps> = ({
@@ -93,7 +113,7 @@ const Modal: React.FC<IModalProps> = ({
   closePosition = "right",
   active = false,
   setActive,
-  maxWidth,
+  maxWidth = "sm",
 }: IModalProps) => {
   const classes = useStyles()
 
@@ -118,10 +138,17 @@ const Modal: React.FC<IModalProps> = ({
     >
       <section
         ref={ref}
-        style={{
-          maxWidth: maxWidth ? maxWidth : "",
-        }}
-        className={classes.inner}
+        style={
+          maxWidth && typeof maxWidth == "number"
+            ? {
+                maxWidth: maxWidth,
+              }
+            : {}
+        }
+        className={clsx(
+          classes.inner,
+          typeof maxWidth != "number" ? maxWidth : "",
+        )}
       >
         {setActive && (
           <div
