@@ -5,7 +5,7 @@ import { withKnobs, select } from "@storybook/addon-knobs"
 import Typography from "../Typography"
 
 export default {
-  title: "Modal story",
+  title: "Modal",
   component: Button,
   excludeStories: /.*Data$/,
   decorators: [withKnobs],
