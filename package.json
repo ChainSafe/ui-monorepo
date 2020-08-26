@@ -19,7 +19,8 @@
   },
   "scripts": {
     "postinstall": "yarn build:common",
-    "build:common": "yarn wsrun -t -p @chainsafe/common-* -c build",
+    "build:common": "yarn build:theme && yarn wsrun -t -p @chainsafe/common-* -c build",
+    "build:theme": "yarn wsrun -t -p @chainsafe/common-themes -c build",
     "build:storybook": "yarn wsrun -p @chainsafe/common-components -c build:storybook",
     "start:storybook": "yarn wsrun -p @chainsafe/common-components -c storybook",
     "build:files-ui": "yarn wsrun -p @chainsafe/files-ui -c build",

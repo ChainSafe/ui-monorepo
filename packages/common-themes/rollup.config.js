@@ -24,5 +24,5 @@ export default {
     commonjs(),
     nodePolyfills(),
   ],
-  external: ["react", "react-dom"],
+  external: ["react", "react-dom", "@material-ui/styles"],
 }

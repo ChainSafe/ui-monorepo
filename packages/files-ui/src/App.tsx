@@ -1,7 +1,6 @@
 import React from "react"
 import { init, ErrorBoundary, showReportDialog } from "@sentry/react"
-import { createTheme } from "@chainsafe/common-themes"
-import { ThemeProvider } from "@material-ui/styles"
+import { createTheme, ThemeProvider } from "@chainsafe/common-themes"
 import TestComponent from "./TestComponent"
 if (
   process.env.NODE_ENV === "production" &&
