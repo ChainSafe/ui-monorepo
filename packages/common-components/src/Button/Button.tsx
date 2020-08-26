@@ -8,6 +8,7 @@ const useStyles = makeStyles((theme: ITheme) =>
     // JSS in CSS goes here
     root: {
       ...theme.typography.button,
+      borderRadius: `${theme.constants.generalUnit / 4}px`,
       display: "flex",
       justifyContent: "center",
       alignItems: "center",
@@ -18,27 +19,29 @@ const useStyles = makeStyles((theme: ITheme) =>
       outline: "none",
       "& svg": {
         margin: `${theme.constants.generalUnit / 4}px ${theme.constants
-          .generalUnit / 2}px`,
+          .generalUnit / 2}px 0`,
       },
-    },
-    // Sizes
-    large: {
-      padding: `${theme.constants.generalUnit}px ${theme.constants.generalUnit *
-        2}px`,
-    },
-    medium: {
-      padding: `${theme.constants.generalUnit * 0.6}px ${theme.constants
-        .generalUnit * 2}px`,
-    },
-    small: {
-      padding: `${theme.constants.generalUnit * 0.125}px ${
-        theme.constants.generalUnit
-      }px`,
+      "&.large": {
+        padding: `${theme.constants.generalUnit}px ${theme.constants
+          .generalUnit * 2}px`,
+      },
+      "&.medium": {
+        padding: `${theme.constants.generalUnit * 0.6}px ${theme.constants
+          .generalUnit * 2}px`,
+      },
+      "&.small": {
+        padding: `${theme.constants.generalUnit * 0.125}px ${
+          theme.constants.generalUnit
+        }px`,
+      },
     },
     // Variants
     primary: {
       backgroundColor: theme.palette["blue"][6],
-      color: theme.palette.common?.white.main,
+      color: theme.palette.common.white.main,
+      "& svg": {
+        fill: theme.palette.common.white.main,
+      },
       "&:hover": {
         backgroundColor: theme.palette["blue"][5],
       },
@@ -53,39 +56,67 @@ const useStyles = makeStyles((theme: ITheme) =>
       color: theme.palette["gray"][8],
       backgroundColor: theme.palette.common?.white.main,
       border: `1px solid ${theme.palette["gray"][5]}`,
+      "& svg": {
+        fill: theme.palette["gray"][8],
+      },
       "&:hover": {
         borderColor: theme.palette["blue"][5],
         color: theme.palette["blue"][5],
+        "& svg": {
+          fill: theme.palette["blue"][5],
+        },
       },
       "&:focus": {
         borderColor: theme.palette["blue"][5],
         color: theme.palette["blue"][5],
+        "& svg": {
+          fill: theme.palette["blue"][5],
+        },
       },
       "&:active": {
         borderColor: theme.palette["blue"][7],
         color: theme.palette["blue"][7],
+        "& svg": {
+          fill: theme.palette["blue"][7],
+        },
       },
     },
     dashed: {
       color: theme.palette["gray"][8],
       backgroundColor: theme.palette.common?.white.main,
       border: `1px dashed ${theme.palette["gray"][5]}`,
+      "& svg": {
+        fill: theme.palette["gray"][8],
+      },
       "&:hover": {
         borderColor: theme.palette["blue"][5],
         color: theme.palette["blue"][5],
+        "& svg": {
+          fill: theme.palette["blue"][5],
+        },
       },
       "&:focus": {
         borderColor: theme.palette["blue"][5],
         color: theme.palette["blue"][5],
+        "& svg": {
+          fill: theme.palette["blue"][5],
+        },
       },
       "&:active": {
         borderColor: theme.palette["blue"][7],
         color: theme.palette["blue"][7],
+        "& svg": {
+          fill: theme.palette["blue"][7],
+        },
       },
     },
     danger: {
       color: theme.palette.common?.white.main,
       backgroundColor: theme.palette["red"][5],
+      border: `1px solid transparent`,
+      "& svg": {
+        fill: theme.palette.common?.white.main,
+      },
       "&:hover": {
         backgroundColor: theme.palette["red"][4],
       },
@@ -102,6 +133,41 @@ const useStyles = makeStyles((theme: ITheme) =>
     },
     icon: {
       borderRadius: "50%",
+      padding: 0,
+      position: "relative",
+      "& > *": {
+        position: "absolute",
+        top: "50%",
+        left: "50%",
+        transform: "translate(-50%, -50%)",
+      },
+      "& svg": {
+        margin: 0,
+      },
+      "&.large": {
+        height: theme.constants.generalUnit * 5,
+        width: theme.constants.generalUnit * 5,
+        "& svg": {
+          height: 20,
+          width: 20,
+        },
+      },
+      "&.medium": {
+        height: theme.constants.generalUnit * 4,
+        width: theme.constants.generalUnit * 4,
+        "& svg": {
+          height: 18,
+          width: 18,
+        },
+      },
+      "&.small": {
+        height: theme.constants.generalUnit * 3,
+        width: theme.constants.generalUnit * 3,
+        "& svg": {
+          height: 16,
+          width: 16,
+        },
+      },
     },
     disabled: {
       backgroundColor: theme.palette["gray"][3],
@@ -143,7 +209,7 @@ const Button: React.FC<IButtonProps> = ({
         fullsize && classes.fullsize,
         disabled && classes.disabled,
         iconButton && classes.icon,
-        classes[size],
+        `${size}`,
       )}
       disabled={disabled}
       {...rest}

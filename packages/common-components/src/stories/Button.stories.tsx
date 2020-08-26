@@ -1,8 +1,8 @@
 import React from "react"
 import Button from "../Button"
 import { action } from "@storybook/addon-actions"
-import { withKnobs, select } from "@storybook/addon-knobs"
-import { Bulb } from "../Icons"
+import { withKnobs, select, boolean } from "@storybook/addon-knobs"
+import { BulbIcon } from ".."
 
 export default {
   title: "Button",
@@ -28,17 +28,15 @@ const sizeOptions: ["large", "medium", "small", undefined] = [
   "small",
   undefined,
 ]
-const disabledOptions: [boolean, boolean, undefined] = [true, false, undefined]
-const fullsizeOptions: [boolean, boolean, undefined] = [true, false, undefined]
 
 export const ButtonStory = (): React.ReactNode => (
   <Button
     {...actionsData}
-    variant={select("Variant", variantOptions, undefined)}
-    size={select("Size", sizeOptions, undefined)}
+    variant={select("Variant", variantOptions, "primary")}
+    size={select("Size", sizeOptions, "large")}
     iconButton={false}
-    fullsize={select("Fullsize", fullsizeOptions, undefined)}
-    disabled={select("Disabled", disabledOptions, undefined)}
+    fullsize={boolean("Fullsize", false)}
+    disabled={boolean("Disabled", false)}
   >
     Standard button
   </Button>
@@ -47,13 +45,13 @@ export const ButtonStory = (): React.ReactNode => (
 export const IconLeftButtonStory = (): React.ReactNode => (
   <Button
     {...actionsData}
-    variant={select("Variant", variantOptions, undefined)}
-    size={select("Size", sizeOptions, undefined)}
+    variant={select("Variant", variantOptions, "primary")}
+    size={select("Size", sizeOptions, "large")}
     iconButton={false}
-    fullsize={select("Fullsize", fullsizeOptions, undefined)}
-    disabled={select("Disabled", disabledOptions, undefined)}
+    fullsize={boolean("Fullsize", false)}
+    disabled={boolean("Disabled", false)}
   >
-    <Bulb />
+    <BulbIcon />
     Standard button
   </Button>
 )
@@ -61,26 +59,26 @@ export const IconLeftButtonStory = (): React.ReactNode => (
 export const IconRightButtonStory = (): React.ReactNode => (
   <Button
     {...actionsData}
-    variant={select("Variant", variantOptions, undefined)}
-    size={select("Size", sizeOptions, undefined)}
+    variant={select("Variant", variantOptions, "primary")}
+    size={select("Size", sizeOptions, "large")}
     iconButton={false}
-    fullsize={select("Fullsize", fullsizeOptions, undefined)}
-    disabled={select("Disabled", disabledOptions, undefined)}
+    fullsize={boolean("Fullsize", false)}
+    disabled={boolean("Disabled", false)}
   >
     Standard button
-    <Bulb />
+    <BulbIcon />
   </Button>
 )
 
 export const IconButtonStory = (): React.ReactNode => (
   <Button
     {...actionsData}
-    variant={select("Variant", variantOptions, undefined)}
-    size={select("Size", sizeOptions, undefined)}
+    variant={select("Variant", variantOptions, "primary")}
+    size={select("Size", sizeOptions, "large")}
     iconButton={true}
-    fullsize={select("Fullsize", fullsizeOptions, undefined)}
-    disabled={select("Disabled", disabledOptions, undefined)}
+    fullsize={boolean("Fullsize", false)}
+    disabled={boolean("Disabled", false)}
   >
-    <Bulb />
+    <BulbIcon />
   </Button>
 )
