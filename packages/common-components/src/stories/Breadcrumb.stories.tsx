@@ -11,16 +11,17 @@ export default {
 }
 
 export const actionsData = {
-  onClick: action("onClickButton"),
+  linkClick: action("Clicked link"),
+  homeClicked: action("Clicked link"),
 }
 
 export const BreadcrumbStory = (): React.ReactNode => (
   <Breadcrumb
-    homeOnClick={() => alert("Home clicked")}
+    homeOnClick={() => actionsData.homeClicked()}
     crumbs={[
       {
         text: "Level 1 - Clickable",
-        onClick: () => actionsData.onClick(),
+        onClick: () => actionsData.linkClick(),
       },
       {
         text: "Level 2",
