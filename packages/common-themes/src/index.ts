@@ -8,6 +8,7 @@ export {
   IPalette,
   IBreakpoints,
   IConstants,
+  IAnimation,
   ITypography,
 } from "./Create/CreateTheme"
 export { useThemeSwitcher, ThemeSwitcher, useOnClickOutside }
