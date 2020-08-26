@@ -1,4 +1,5 @@
 export * from "./Breadcrumb"
+export * from "./Blockies"
 export * from "./Button"
 export * from "./Emoji"
 export * from "./Icons"

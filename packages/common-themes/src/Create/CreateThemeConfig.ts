@@ -10,20 +10,34 @@ interface IPaletteColor {
   hover?: string
   [key: string]: string | undefined
 }
-
 interface IPalette {
   primary: IPaletteColor
   common?: Record<string, IPaletteColor>
-  secondary?: IPaletteColor
+  secondary: IPaletteColor
   error: IPaletteColor
   warning?: IPaletteColor
   info?: IPaletteColor
   success: IPaletteColor
   additional?: Record<string, IPaletteColor>
+  text: {
+    primary: string
+    secondary?: string
+  }
+  background: {
+    paper: string
+    default: string
+    [key: string]: string
+  }
 }
-
+interface IFontWeights {
+  light: number
+  regular: number
+  medium: number
+  bold: number
+}
 interface ITypography {
   global: Record<string, any>
+  fontWeight: IFontWeights
   h1?: Record<string, any>
   h2?: Record<string, any>
   h3?: Record<string, any>
@@ -71,6 +85,7 @@ interface IThemeConfig {
     [key: string]: number
   }
   cssBaseline?: Record<string, any>
+  globalStyling?: Record<string, any>
 }
 
 const createThemeConfig = (
@@ -92,4 +107,5 @@ export {
   ITypography,
   IBreakpoints,
   IConstants,
+  IFontWeights,
 }

@@ -9,6 +9,7 @@ export {
   IPalette,
   IBreakpoints,
   IConstants,
+  IFontWeights,
   ITypography,
 } from "./Create/CreateTheme"
 export { useThemeSwitcher, ThemeSwitcher, useOnClickOutside, IDefaultPalette }

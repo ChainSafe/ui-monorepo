@@ -1,4 +1,8 @@
-import { IThemeConfig, IBreakpoints } from "../Create/CreateThemeConfig"
+import {
+  IThemeConfig,
+  IBreakpoints,
+  IFontWeights,
+} from "../Create/CreateThemeConfig"
 import { DefaultPalette } from "./ColorPalette"
 
 const breakpoints: IBreakpoints = {
@@ -7,6 +11,13 @@ const breakpoints: IBreakpoints = {
   md: 960,
   lg: 1280,
   xl: 1920,
+}
+
+const defaultFontWeights: IFontWeights = {
+  light: 300,
+  regular: 400,
+  medium: 500,
+  bold: 600,
 }
 
 const DefaultThemeConfig: IThemeConfig = {
@@ -38,6 +49,13 @@ const DefaultThemeConfig: IThemeConfig = {
       white: {
         main: DefaultPalette.gray[1],
       },
+    },
+    text: {
+      primary: DefaultPalette.gray[10],
+    },
+    background: {
+      default: DefaultPalette.gray[10],
+      paper: DefaultPalette.gray[9],
     },
     primary: {
       background: DefaultPalette.blue[DefaultPalette.colorTags.background],
@@ -78,48 +96,49 @@ const DefaultThemeConfig: IThemeConfig = {
       "-webkit-font-smoothing": "antialiased",
       "-moz-osx-font-smoothing": "grayscale",
     },
+    fontWeight: defaultFontWeights,
     h1: {
-      fontWeight: 600,
+      fontWeight: defaultFontWeights.bold,
       fontSize: 38,
       lineHeight: `46px`,
     },
     h2: {
-      fontWeight: 600,
+      fontWeight: defaultFontWeights.bold,
       fontSize: 30,
       lineHeight: `38px`,
     },
     h3: {
-      fontWeight: 400,
+      fontWeight: defaultFontWeights.regular,
       fontSize: 24,
       lineHeight: `32px`,
     },
     h4: {
-      fontWeight: 400,
+      fontWeight: defaultFontWeights.regular,
       fontSize: 20,
       lineHeight: `28px`,
     },
     h5: {
-      fontWeight: 400,
+      fontWeight: defaultFontWeights.regular,
       fontSize: 16,
       lineHeight: `24px`,
     },
     h6: {
-      fontWeight: 400,
+      fontWeight: defaultFontWeights.regular,
       fontSize: 30,
       lineHeight: `46px`,
     },
     subtitle1: {
-      fontWeight: 400,
+      fontWeight: defaultFontWeights.regular,
       fontSize: 24,
       lineHeight: `32px`,
     },
     subtitle2: {
-      fontWeight: 400,
+      fontWeight: defaultFontWeights.regular,
       fontSize: 24,
       lineHeight: `32px`,
     },
     body1: {
-      fontWeight: 400,
+      fontWeight: defaultFontWeights.regular,
       fontSize: 14,
       lineHeight: `22px`,
       [`@media (max-width: ${breakpoints.sm}px)`]: {
@@ -128,7 +147,7 @@ const DefaultThemeConfig: IThemeConfig = {
       },
     },
     body2: {
-      fontWeight: 400,
+      fontWeight: defaultFontWeights.regular,
       fontSize: 12,
       lineHeight: `20px`,
       [`@media (max-width: ${breakpoints.sm}px)`]: {
@@ -137,12 +156,12 @@ const DefaultThemeConfig: IThemeConfig = {
       },
     },
     button: {
-      fontWeight: 400,
+      fontWeight: defaultFontWeights.regular,
       fontSize: 14,
       lineHeight: `22px`,
     },
     caption: {
-      fontWeight: 400,
+      fontWeight: defaultFontWeights.regular,
       fontSize: 12,
       lineHeight: `20px`,
     },
