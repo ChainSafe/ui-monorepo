@@ -22,7 +22,8 @@
     "a11y-react-emoji": "^1.1.2",
     "clsx": "^1.1.1",
     "react-blockies": "^1.4.1",
-    "reset-css": "^5.0.1"
+    "reset-css": "^5.0.1",
+    "react-router-dom": "^5.2.0"
   },
   "peerDependencies": {
     "react": ">16.8.0",
