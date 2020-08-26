@@ -32,6 +32,7 @@ export interface IGridProps {
   className?: string
   container?: boolean
   item?: boolean
+  fullWidth?: boolean
   flexDirection?: FlexDirection
   alignItems?: AlignItems
   justifyContent?: JustifyContent
@@ -48,6 +49,7 @@ const Grid: React.FC<IGridProps> = ({
   className,
   container,
   item,
+  fullWidth,
   flexDirection = "column",
   alignItems,
   justifyContent,
@@ -74,6 +76,7 @@ const Grid: React.FC<IGridProps> = ({
         {
           [classes["container"]]: isContainer,
           [classes["item"]]: !isContainer,
+          [classes["fullWidth"]]: fullWidth && isContainer,
           [classes[`flex-direction-${flexDirection}`]]: !isContainer,
           [classes[`align-${alignItems}`]]: alignItems !== undefined,
           [classes[`justify-${justifyContent}`]]: justifyContent !== undefined,

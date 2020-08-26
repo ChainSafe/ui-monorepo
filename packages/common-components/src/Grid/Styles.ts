@@ -97,6 +97,9 @@ export const createGridStyles = (
     item: {
       flex: "1 1 0px",
     },
+    fullWidth: {
+      width: "100%",
+    },
   }
 
   const gridBreakpoints = Object.keys(theme.breakpoints)

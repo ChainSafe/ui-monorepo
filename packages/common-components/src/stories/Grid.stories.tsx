@@ -43,7 +43,7 @@ export const FlexOptions = (): React.ReactNode => (
 )
 
 export const GridDisplay = (): React.ReactNode => (
-  <Grid container>
+  <Grid container fullWidth>
     <Grid
       item
       xs={select("box 1", gridSizeOptions, 12)}
