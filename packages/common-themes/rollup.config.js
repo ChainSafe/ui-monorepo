@@ -9,21 +9,18 @@ import postcss from "rollup-plugin-postcss"
 export default {
   input: "src/index.ts",
   output: {
-    format: "esm", // needs to be esm format as Onboard.js contains code-splitting
+    format: "cjs",
     dir: "dist/",
     exports: "named",
     sourcemap: true,
-    strict: false,
+    strict: true,
   },
   plugins: [
+    resolve(),
+    typescript(),
     postcss(),
     peerDepsExternal(),
-    typescript(),
     json(),
-    resolve({
-      browser: true,
-      preferBuiltins: true,
-    }),
     commonjs(),
     nodePolyfills(),
   ],
