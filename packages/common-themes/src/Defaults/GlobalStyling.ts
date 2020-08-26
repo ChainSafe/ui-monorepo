@@ -1,5 +1,4 @@
 import { DefaultThemeConfig } from "./ThemeConfig"
-
 export const DefaultGlobalStyling = {
   html: {
     ...DefaultThemeConfig.typography.global,
@@ -15,7 +14,12 @@ export const DefaultGlobalStyling = {
     backgroundColor: DefaultThemeConfig.palette.background.default,
     "@media print": {
       // Save printer ink.
-      backgroundColor: DefaultThemeConfig.palette.common?.white,
+      backgroundColor: DefaultThemeConfig.palette.common?.white.main,
     },
+  },
+  a: {
+    outline: "none",
+    textDecoration: "underline",
+    color: DefaultThemeConfig.palette.common?.black.main,
   },
 }
