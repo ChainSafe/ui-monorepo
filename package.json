@@ -10,7 +10,7 @@
   "dependencies": {},
   "devDependencies": {
     "@sentry/cli": "1.55.0",
-    "chalk": "^2.0.1",
+    "chalk": "^4.1.0",
     "husky": "^4.2.3",
     "prettier": "1.19.1",
     "pretty-quick": "^2.0.1",
