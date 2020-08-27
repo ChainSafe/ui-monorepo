@@ -13,4 +13,12 @@ export {
   IFontWeights,
   ITypography,
 } from "./Create/CreateTheme"
+
+export {
+  ThemeProvider,
+  createStyles,
+  makeStyles,
+  useTheme,
+} from "@material-ui/styles"
+
 export { useThemeSwitcher, ThemeSwitcher, useOnClickOutside, IDefaultPalette }

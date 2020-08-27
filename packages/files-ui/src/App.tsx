@@ -1,6 +1,7 @@
-import React, { useState } from "react"
+import React from "react"
 import { init, ErrorBoundary, showReportDialog } from "@sentry/react"
-
+import { createTheme, ThemeProvider } from "@chainsafe/common-themes"
+import TestComponent from "./TestComponent"
 if (
   process.env.NODE_ENV === "production" &&
   process.env.REACT_APP_SENTRY_DSN_URL &&
@@ -13,6 +14,8 @@ if (
 }
 // Add router
 // Add all global contexts (theme, language, apis, web3)
+
+const theme = createTheme()
 
 const App: React.FC<{}> = () => (
   <ErrorBoundary
@@ -34,7 +37,11 @@ const App: React.FC<{}> = () => (
     )}
     onReset={() => window.location.reload()}
   >
-    <div className="App"></div>
+    <ThemeProvider theme={theme}>
+      <div className="App">
+        <TestComponent />
+      </div>
+    </ThemeProvider>
   </ErrorBoundary>
 )
 
