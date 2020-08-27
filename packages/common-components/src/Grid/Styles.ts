@@ -144,7 +144,7 @@ export const createSpacingStyles = (
     const themeSpacing = theme.constants.generalUnit || 8
 
     styles[`spacing-${spacing}`] = {
-      "& > $item": {
+      "& $item": {
         padding: `0 ${themeSpacing * spacing}px`,
       },
     }
