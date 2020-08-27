@@ -5,7 +5,7 @@ export {
   NavLink,
   Link,
 } from "react-router-dom"
-export { default } from "./ConditionalRoute"
+export { default as ConditionalRoute } from "./ConditionalRoute"
 export {
   useHistoryFunctions as useHistory,
   useParams,
