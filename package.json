@@ -27,7 +27,7 @@
     "release:files-ui": "yarn wsrun -p @chainsafe/files-ui -c release",
     "start:files-ui": "yarn wsrun -p @chainsafe/files-ui -c start",
     "clean:dependencies": "rm -rf ./node_modules && rm -rf ./*/**/node_modules",
-    "clean:dist": "rm -rf ./*/**/dist && rm -rf ./*/**/build && rm -rf ./*/**/lib && rm -rf ./*/**/storybook-static",
+    "clean:dist": "rm -rf ./*/**/dist && rm -rf ./*/**/build && rm -rf ./*/**/storybook-static",
     "clean": "yarn clean:dependencies && yarn clean:dist",
     "prettier": "prettier --config .prettierrc 'packages/**/src/**/*.{ts,tsx,js,jsx,md}' --write",
     "start:tunnel": "./ngrok http https://localhost:3000"
