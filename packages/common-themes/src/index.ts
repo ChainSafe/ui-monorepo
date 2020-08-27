@@ -9,6 +9,7 @@ export {
   IPalette,
   IBreakpoints,
   IConstants,
+  IAnimation,
   IFontWeights,
   ITypography,
 } from "./Create/CreateTheme"
