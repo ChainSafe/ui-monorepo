@@ -1,6 +1,5 @@
 import React, { ReactNode, Fragment } from "react"
-import { makeStyles, createStyles } from "@material-ui/styles"
-import { ITheme } from "@chainsafe/common-themes"
+import { ITheme, makeStyles, createStyles } from "@chainsafe/common-themes"
 
 const useStyles = makeStyles((theme: ITheme) =>
   createStyles({

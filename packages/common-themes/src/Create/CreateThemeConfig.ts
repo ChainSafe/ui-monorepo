@@ -12,7 +12,11 @@ interface IPaletteColor {
 }
 interface IPalette {
   primary: IPaletteColor
-  common?: Record<string, IPaletteColor>
+  common: {
+    black: IPaletteColor
+    white: IPaletteColor
+    [key: string]: IPaletteColor
+  }
   secondary: IPaletteColor
   error: IPaletteColor
   warning?: IPaletteColor
@@ -67,9 +71,14 @@ interface IBreakpoints {
   xl: number
   [key: string]: number
 }
+interface IAnimation {
+  transform: 200
+  translate: 400
+  [key: string]: any
+}
 // TODO: convert to Map & Sets for efficency
 interface IThemeConfig {
-  animation: Record<string, any>
+  animation: IAnimation
   breakpoints: IBreakpoints
   constants: IConstants
   palette: IPalette
@@ -108,5 +117,6 @@ export {
   ITypography,
   IBreakpoints,
   IConstants,
+  IAnimation,
   IFontWeights,
 }

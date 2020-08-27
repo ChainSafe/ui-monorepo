@@ -1,9 +1,8 @@
 import React, { Fragment } from "react"
-import { makeStyles, createStyles } from "@material-ui/styles"
-import { ITheme } from "@chainsafe/common-themes"
+import { ITheme, makeStyles, createStyles } from "@chainsafe/common-themes"
 import clsx from "clsx"
 import Typography from "../Typography"
-import { HomeIcon } from "../Icons"
+import { HomeIcon } from ".."
 
 export type Crumb = {
   text: string
