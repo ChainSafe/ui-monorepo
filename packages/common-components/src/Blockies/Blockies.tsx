@@ -1,6 +1,10 @@
 import React from "react"
-import { makeStyles, createStyles, useTheme } from "@material-ui/styles"
-import { ITheme } from "@chainsafe/common-themes"
+import {
+  ITheme,
+  makeStyles,
+  createStyles,
+  useTheme,
+} from "@chainsafe/common-themes"
 import clsx from "clsx"
 import Blockies from "react-blockies"
 
