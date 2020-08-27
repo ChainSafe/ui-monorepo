@@ -18,6 +18,7 @@ interface IPalette {
   warning?: IPaletteColor
   info?: IPaletteColor
   success: IPaletteColor
+  border: IPaletteColor
   additional?: Record<string, IPaletteColor>
   text: {
     primary: string

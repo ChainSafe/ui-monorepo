@@ -7,16 +7,18 @@ import {
   TableRow,
   TableCell,
 } from "../Table"
-// import { withKnobs, select } from "@storybook/addon-knobs"
+import { withKnobs, select } from "@storybook/addon-knobs"
 
 export default {
   title: "Table",
   component: Table,
-  // decorators: [withKnobs],
+  decorators: [withKnobs],
 }
 
+const tablePaddingOptions = [true, false]
+
 export const MainDemo = (): React.ReactNode => (
-  <Table fullWidth>
+  <Table fullWidth dense={select("dense", tablePaddingOptions, false)}>
     <TableHead>
       <TableHeadCell>Filename</TableHeadCell>
       <TableHeadCell>Modified at</TableHeadCell>

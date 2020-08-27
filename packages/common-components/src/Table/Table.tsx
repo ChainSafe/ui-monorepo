@@ -11,12 +11,17 @@ const useStyles = makeStyles((theme: ITheme) =>
       borderSpacing: 0,
       transition: `all ${theme.animation.transform}ms`,
       textAlign: "left",
+      "& $th, & $td": {
+        padding: `${theme.constants.generalUnit * 2}px`,
+      },
     },
     fullWidth: {
       width: "100%",
     },
     dense: {
-      padding: `${theme.constants.generalUnit}px`,
+      "& $th, & $td": {
+        padding: `${theme.constants.generalUnit}px`,
+      },
     },
   }),
 )
@@ -26,12 +31,14 @@ export interface ITableProps {
   children: ReactNode | ReactNode[]
   striped?: boolean
   fullWidth?: boolean
+  dense?: boolean
 }
 
 const Table: React.FC<ITableProps> = ({
   children,
   className,
   fullWidth,
+  dense,
   ...rest
 }: ITableProps) => {
   const classes = useStyles()
@@ -43,6 +50,7 @@ const Table: React.FC<ITableProps> = ({
         classes.root,
         {
           [classes["fullWidth"]]: fullWidth,
+          [classes["dense"]]: dense,
         },
         className,
       )}
