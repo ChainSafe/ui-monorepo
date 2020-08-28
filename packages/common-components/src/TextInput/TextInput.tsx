@@ -4,7 +4,7 @@
  *
  */
 
-import React from "react"
+import React, { ChangeEvent } from "react"
 import { FieldProps } from "formik"
 import { makeStyles, createStyles } from "@material-ui/styles"
 import { ITheme } from "@chainsafe/common-themes"
@@ -83,8 +83,8 @@ const TextInput: React.SFC<OwnProps> = ({
         name={field.name}
         value={field.value}
         placeholder={placeholder}
-        onChange={e => {
-          setFieldValue(field.name, e.target.value)
+        onChange={(e: ChangeEvent<HTMLInputElement>) => {
+          setFieldValue(field.name, e.target?.value)
         }}
       />
       {error && (
