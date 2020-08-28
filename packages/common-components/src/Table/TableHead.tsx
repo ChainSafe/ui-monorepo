@@ -6,7 +6,6 @@ import clsx from "clsx"
 const useStyles = makeStyles((theme: ITheme) =>
   createStyles({
     root: {
-      ...theme.typography.body1,
       display: "table-header-group",
       backgroundColor: theme.palette.secondary.background,
       borderBottom: `1px solid ${theme.palette.secondary.border}`,
