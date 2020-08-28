@@ -11,13 +11,16 @@ const useStyles = makeStyles((theme: ITheme) =>
       display: "table-row",
       verticalAlign: "middle",
       outline: 0,
-      borderBottom: `1px solid ${theme.palette.border.border}`,
+      borderBottom: `1px solid ${theme.palette}`,
       transition: `all ${theme.animation.transform}ms`,
       "&:hover": {
-        backgroundColor: theme.palette.border.border,
+        backgroundColor: theme.palette.secondary.hover,
       },
-      "&$selected, &$selected:hover": {
-        backgroundColor: theme.palette.border.main,
+    },
+    selected: {
+      backgroundColor: theme.palette.secondary.hover,
+      "&:hover": {
+        backgroundColor: theme.palette.secondary.active,
       },
     },
   }),
@@ -26,11 +29,13 @@ const useStyles = makeStyles((theme: ITheme) =>
 export interface ITableRowProps {
   className?: string
   children: ReactNode | ReactNode[]
+  selected?: boolean
 }
 
 const TableRow: React.FC<ITableRowProps> = ({
   children,
   className,
+  selected,
   ...rest
 }: ITableRowProps) => {
   const classes = useStyles()
@@ -38,7 +43,14 @@ const TableRow: React.FC<ITableRowProps> = ({
   const Component = "tr"
 
   return (
-    <Component className={clsx(classes.root, className)} {...rest}>
+    <Component
+      className={clsx(
+        classes.root,
+        { [classes.selected]: selected },
+        className,
+      )}
+      {...rest}
+    >
       {children}
     </Component>
   )

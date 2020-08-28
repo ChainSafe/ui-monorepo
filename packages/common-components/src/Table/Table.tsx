@@ -23,6 +23,14 @@ const useStyles = makeStyles((theme: ITheme) =>
         padding: `${theme.constants.generalUnit}px`,
       },
     },
+    striped: {
+      "& $tr:nth-child(even)": {
+        backgroundColor: theme.palette.secondary.background,
+        "&:hover": {
+          backgroundColor: theme.palette.secondary.hover,
+        },
+      },
+    },
   }),
 )
 
@@ -38,6 +46,7 @@ const Table: React.FC<ITableProps> = ({
   children,
   className,
   fullWidth,
+  striped,
   dense,
   ...rest
 }: ITableProps) => {
@@ -49,8 +58,9 @@ const Table: React.FC<ITableProps> = ({
       className={clsx(
         classes.root,
         {
-          [classes["fullWidth"]]: fullWidth,
-          [classes["dense"]]: dense,
+          [classes.fullWidth]: fullWidth,
+          [classes.dense]: dense,
+          [classes.striped]: striped,
         },
         className,
       )}

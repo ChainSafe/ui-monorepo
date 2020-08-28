@@ -56,7 +56,6 @@ const DefaultThemeConfig: IThemeConfig = {
     background: {
       default: DefaultPalette.gray[10],
       paper: DefaultPalette.gray[9],
-      table: DefaultPalette.gray[2],
     },
     primary: {
       background: DefaultPalette.blue[DefaultPalette.colorTags.background],
@@ -88,12 +87,6 @@ const DefaultThemeConfig: IThemeConfig = {
       border: DefaultPalette.green[DefaultPalette.colorTags.border],
       hover: DefaultPalette.green[DefaultPalette.colorTags.hover],
       main: DefaultPalette.green[DefaultPalette.colorTags.primary],
-    },
-    border: {
-      background: DefaultPalette.gray[2],
-      border: DefaultPalette.gray[4],
-      hover: DefaultPalette.gray[5],
-      main: DefaultPalette.gray[DefaultPalette.colorTags.primary],
     },
     ...DefaultPalette,
   },

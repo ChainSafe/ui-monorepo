@@ -6,8 +6,11 @@ import {
   TableBody,
   TableRow,
   TableCell,
+  AlignOption,
+  SortDirection,
 } from "../Table"
-import { withKnobs, select } from "@storybook/addon-knobs"
+import { withKnobs, select, boolean } from "@storybook/addon-knobs"
+import { action } from "@storybook/addon-actions"
 
 export default {
   title: "Table",
@@ -15,18 +18,30 @@ export default {
   decorators: [withKnobs],
 }
 
-const tablePaddingOptions = [true, false]
+const alignOptions: AlignOption[] = ["inherit", "center", "left", "right"]
+const sortDirectionOptions: SortDirection[] = ["none", "ascend", "descend"]
 
 export const MainDemo = (): React.ReactNode => (
-  <Table fullWidth dense={select("dense", tablePaddingOptions, false)}>
+  <Table
+    fullWidth={boolean("full width", true)}
+    dense={boolean("dense", true)}
+    striped={boolean("striped", true)}
+  >
     <TableHead>
       <TableHeadCell>Filename</TableHeadCell>
       <TableHeadCell>Modified at</TableHeadCell>
-      <TableHeadCell>Size</TableHeadCell>
+      <TableHeadCell
+        align={select("align", alignOptions, "center")}
+        sortButtons={boolean("sort buttons", false)}
+        onSortChange={action("onSortChange")}
+        sortDirection={select("sort direction", sortDirectionOptions, "none")}
+      >
+        Size
+      </TableHeadCell>
       <TableHeadCell>Actions</TableHeadCell>
     </TableHead>
     <TableBody>
-      <TableRow>
+      <TableRow selected={boolean("selected row 1", false)}>
         <TableCell>movies.mp4</TableCell>
         <TableCell>last minute</TableCell>
         <TableCell>1 GB</TableCell>
