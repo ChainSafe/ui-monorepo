@@ -26,6 +26,7 @@ export const MainDemo = (): React.ReactNode => (
     fullWidth={boolean("full width", true)}
     dense={boolean("dense", true)}
     striped={boolean("striped", true)}
+    hover={boolean("hover", true)}
   >
     <TableHead>
       <TableHeadCell>Filename</TableHeadCell>

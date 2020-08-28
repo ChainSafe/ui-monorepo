@@ -23,12 +23,19 @@ const useStyles = makeStyles((theme: ITheme) =>
         padding: `${theme.constants.generalUnit}px`,
       },
     },
-    striped: {
+    hover: {
+      "& $tr:hover": {
+        backgroundColor: theme.palette.secondary.hover,
+      },
       "& $tr:nth-child(even)": {
-        backgroundColor: theme.palette.secondary.background,
         "&:hover": {
           backgroundColor: theme.palette.secondary.hover,
         },
+      },
+    },
+    striped: {
+      "& $tr:nth-child(even)": {
+        backgroundColor: theme.palette.secondary.background,
       },
     },
   }),
@@ -39,6 +46,7 @@ export interface ITableProps {
   children: ReactNode | ReactNode[]
   striped?: boolean
   fullWidth?: boolean
+  hover?: boolean
   dense?: boolean
 }
 
@@ -47,6 +55,7 @@ const Table: React.FC<ITableProps> = ({
   className,
   fullWidth,
   striped,
+  hover,
   dense,
   ...rest
 }: ITableProps) => {
@@ -58,6 +67,7 @@ const Table: React.FC<ITableProps> = ({
       className={clsx(
         classes.root,
         {
+          [classes.hover]: hover,
           [classes.fullWidth]: fullWidth,
           [classes.dense]: dense,
           [classes.striped]: striped,
