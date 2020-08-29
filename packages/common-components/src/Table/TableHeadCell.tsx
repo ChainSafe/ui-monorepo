@@ -78,10 +78,8 @@ const TableHeadCell: React.FC<ITableHeadCellProps> = ({
   const props = { color }
   const classes = useStyles(props)
 
-  const Component = "th"
-
   return (
-    <Component
+    <th
       className={clsx(
         classes.root,
         sortButtons && classes.sortButtons,
@@ -117,7 +115,7 @@ const TableHeadCell: React.FC<ITableHeadCellProps> = ({
       ) : (
         children
       )}
-    </Component>
+    </th>
   )
 }
 

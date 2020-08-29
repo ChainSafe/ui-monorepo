@@ -24,12 +24,11 @@ const TableHead: React.FC<ITableHeadProps> = ({
   ...rest
 }: ITableHeadProps) => {
   const classes = useStyles()
-  const Component = "thead"
 
   return (
-    <Component className={clsx(classes.root, className)} {...rest}>
+    <thead className={clsx(classes.root, className)} {...rest}>
       {children}
-    </Component>
+    </thead>
   )
 }
 

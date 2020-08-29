@@ -42,7 +42,11 @@ export const MainDemo = (): React.ReactNode => (
       <TableHeadCell>Actions</TableHeadCell>
     </TableHead>
     <TableBody>
-      <TableRow selected={boolean("selected row 1", false)}>
+      <TableRow
+        selected={boolean("selected row 1", false)}
+        rowSelectable={boolean("selectable row 1", false)}
+        onClick={action("rowSelected")}
+      >
         <TableCell>movies.mp4</TableCell>
         <TableCell>last minute</TableCell>
         <TableCell>1 GB</TableCell>

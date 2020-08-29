@@ -20,6 +20,9 @@ const useStyles = makeStyles((theme: ITheme) =>
         backgroundColor: theme.palette.secondary.active,
       },
     },
+    rowSelectable: {
+      cursor: "pointer",
+    },
   }),
 )
 
@@ -27,29 +30,35 @@ export interface ITableRowProps {
   className?: string
   children: ReactNode | ReactNode[]
   selected?: boolean
+  rowSelectable?: boolean
+  onClick?(e: React.MouseEvent<HTMLTableRowElement, MouseEvent>): void
 }
 
 const TableRow: React.FC<ITableRowProps> = ({
   children,
   className,
   selected,
+  rowSelectable,
+  onClick,
   ...rest
 }: ITableRowProps) => {
   const classes = useStyles()
 
-  const Component = "tr"
-
   return (
-    <Component
+    <tr
       className={clsx(
         classes.root,
-        { [classes.selected]: selected },
+        {
+          [classes.selected]: selected,
+          [classes.rowSelectable]: rowSelectable,
+        },
         className,
       )}
+      onClick={rowSelectable ? onClick : undefined}
       {...rest}
     >
       {children}
-    </Component>
+    </tr>
   )
 }
 

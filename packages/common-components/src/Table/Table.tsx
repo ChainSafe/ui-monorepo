@@ -11,7 +11,7 @@ const useStyles = makeStyles((theme: ITheme) =>
       borderSpacing: 0,
       transition: `all ${theme.animation.transform}ms`,
       textAlign: "left",
-      "& $th, & $td": {
+      "& th, & td": {
         padding: `${theme.constants.generalUnit * 2}px`,
       },
     },
@@ -19,22 +19,22 @@ const useStyles = makeStyles((theme: ITheme) =>
       width: "100%",
     },
     dense: {
-      "& $th, & $td": {
+      "& th, & td": {
         padding: `${theme.constants.generalUnit}px`,
       },
     },
     hover: {
-      "& $tr:hover": {
+      "& tr:hover": {
         backgroundColor: theme.palette.secondary.hover,
       },
-      "& $tr:nth-child(even)": {
+      "& tr:nth-child(even)": {
         "&:hover": {
           backgroundColor: theme.palette.secondary.hover,
         },
       },
     },
     striped: {
-      "& $tr:nth-child(even)": {
+      "& tr:nth-child(even)": {
         backgroundColor: theme.palette.secondary.background,
       },
     },
@@ -60,10 +60,9 @@ const Table: React.FC<ITableProps> = ({
   ...rest
 }: ITableProps) => {
   const classes = useStyles()
-  const Component = "table"
 
   return (
-    <Component
+    <table
       className={clsx(
         classes.root,
         {
@@ -77,7 +76,7 @@ const Table: React.FC<ITableProps> = ({
       {...rest}
     >
       {children}
-    </Component>
+    </table>
   )
 }
 

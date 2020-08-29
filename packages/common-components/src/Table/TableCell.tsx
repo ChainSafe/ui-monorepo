@@ -35,10 +35,9 @@ const TableCell: React.FC<ITableCellProps> = ({
   align = "center",
 }: ITableCellProps) => {
   const classes = useStyles()
-  const Component = "td"
 
   return (
-    <Component
+    <td
       className={clsx(
         className,
         classes.root,
@@ -46,7 +45,7 @@ const TableCell: React.FC<ITableCellProps> = ({
       )}
     >
       {children}
-    </Component>
+    </td>
   )
 }
 

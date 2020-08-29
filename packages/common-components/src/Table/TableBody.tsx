@@ -9,9 +9,7 @@ const TableBody: React.FC<ITableBodyProps> = ({
   children,
   className,
 }: ITableBodyProps) => {
-  const Component = "tbody"
-
-  return <Component className={className}>{children}</Component>
+  return <tbody className={className}>{children}</tbody>
 }
 
 export default TableBody
