@@ -9,7 +9,7 @@
   "private": true,
   "dependencies": {},
   "devDependencies": {
-    "@sentry/cli": "1.55.0",
+    "@sentry/cli": "1.55.2",
     "chalk": "^4.1.0",
     "husky": "^4.2.3",
     "prettier": "2.1.1",
