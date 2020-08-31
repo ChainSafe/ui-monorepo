@@ -11,7 +11,7 @@
   },
   "devDependencies": {
     "craco": "^0.0.3",
-    "@testing-library/jest-dom": "^4.2.4",
+    "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^10.4.9",
     "@testing-library/user-event": "^7.1.2",
     "@types/jest": "^26.0.10",
