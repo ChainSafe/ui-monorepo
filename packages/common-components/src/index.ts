@@ -16,7 +16,9 @@ export * from "./Modal"
 export { default as Modal } from "./Modal"
 
 export * from "./Router"
-export { default as ConditionalRoute } from "./Router"
+export { ConditionalRoute } from "./Router"
+
+export * from "./Table"
 
 export * from "./Typography"
 export { default as Typography } from "./Typography"
