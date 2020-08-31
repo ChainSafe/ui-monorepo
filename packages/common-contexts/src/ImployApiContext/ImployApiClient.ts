@@ -316,6 +316,7 @@ export class ImployApiClient implements IImployApiClient {
   }
 
   protected processSignup(response: AxiosResponse): Promise<void> {
+    //@ts-ignore
     const status = response.status
     let _headers: any = {}
     if (response.headers && typeof response.headers === "object") {
@@ -326,6 +327,7 @@ export class ImployApiClient implements IImployApiClient {
       }
     }
     {
+      //@ts-ignore
       const _responseText = response.data
       return Promise.resolve<void>(<any>null)
     }
