@@ -2,8 +2,8 @@ import React from "react"
 import { action } from "@storybook/addon-actions"
 import { FileInput } from "../FileInput"
 import { Formik, Form } from "formik"
-import Button from "../Button"
 import { withKnobs, boolean, number, select } from "@storybook/addon-knobs"
+import { Button } from "../Button"
 
 export default {
   title: "FileInput",
@@ -30,7 +30,7 @@ export const Default = (): React.ReactNode => (
     initialValues={{
       uploadedFiles: [],
     }}
-    onSubmit={values => actionsData.onFormSubmit(values)}
+    onSubmit={(values) => actionsData.onFormSubmit(values)}
   >
     <Form>
       <FileInput

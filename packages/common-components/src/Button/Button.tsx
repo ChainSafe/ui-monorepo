@@ -1,6 +1,7 @@
 import React, { ReactNode } from "react"
-import { ITheme, makeStyles, createStyles } from "@chainsafe/common-themes"
 import clsx from "clsx"
+import { makeStyles, createStyles } from "@material-ui/styles"
+import { ITheme } from "@chainsafe/common-themes"
 
 const useStyles = makeStyles((theme: ITheme) =>
   createStyles({
@@ -17,16 +18,19 @@ const useStyles = makeStyles((theme: ITheme) =>
       border: "none",
       outline: "none",
       "& svg": {
-        margin: `${theme.constants.generalUnit / 4}px ${theme.constants
-          .generalUnit / 2}px 0`,
+        margin: `${theme.constants.generalUnit / 4}px ${
+          theme.constants.generalUnit / 2
+        }px 0`,
       },
       "&.large": {
-        padding: `${theme.constants.generalUnit}px ${theme.constants
-          .generalUnit * 2}px`,
+        padding: `${theme.constants.generalUnit}px ${
+          theme.constants.generalUnit * 2
+        }px`,
       },
       "&.medium": {
-        padding: `${theme.constants.generalUnit * 0.6}px ${theme.constants
-          .generalUnit * 2}px`,
+        padding: `${theme.constants.generalUnit * 0.6}px ${
+          theme.constants.generalUnit * 2
+        }px`,
       },
       "&.small": {
         padding: `${theme.constants.generalUnit * 0.125}px ${
@@ -199,6 +203,7 @@ const Button: React.FC<IButtonProps> = ({
   ...rest
 }: IButtonProps) => {
   const classes = useStyles()
+
   return (
     <button
       className={clsx(

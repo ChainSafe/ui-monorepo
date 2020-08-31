@@ -1,12 +1,13 @@
 import React, { useCallback, useState, useEffect } from "react"
 import { useField } from "formik"
 import { useDropzone, DropzoneOptions, FileRejection } from "react-dropzone"
-import { ITheme, makeStyles, createStyles } from "@chainsafe/common-themes"
 import Plus from "../Icons/icons/Plus"
-import Typography from "../Typography"
 import clsx from "clsx"
 import Paperclip from "../Icons/icons/Paperclip"
-import Button from "../Button"
+import { makeStyles, createStyles } from "@material-ui/styles"
+import { ITheme } from "@chainsafe/common-themes"
+import { Button } from "../Button"
+import { Typography } from "../Typography"
 
 const useStyles = makeStyles((theme: ITheme) =>
   createStyles({
@@ -69,8 +70,8 @@ const FileInput: React.FC<IFileInputProps> = ({
       helpers.setValue(acceptedFiles)
 
       if (fileRejections.length > 0) {
-        const fileDropRejectionErrors = fileRejections.map(fr =>
-          fr.errors.map(fre => fre.message),
+        const fileDropRejectionErrors = fileRejections.map((fr) =>
+          fr.errors.map((fre) => fre.message),
         )
         setErrors(errors.concat(fileDropRejectionErrors))
       }
@@ -80,7 +81,7 @@ const FileInput: React.FC<IFileInputProps> = ({
 
   useEffect(() => {
     // Make sure to revoke the data uris to avoid memory leaks
-    previews.forEach(preview => URL.revokeObjectURL(preview.preview))
+    previews.forEach((preview) => URL.revokeObjectURL(preview.preview))
   }, [previews])
 
   const dropZoneProps = {
