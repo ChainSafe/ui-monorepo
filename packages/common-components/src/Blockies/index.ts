@@ -1,1 +1,1 @@
-export { default as Blockies } from "./Blockies"
+export { default } from "./Blockies"

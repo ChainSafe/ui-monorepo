@@ -1,6 +1,6 @@
 import React from "react"
 import { action } from "@storybook/addon-actions"
-import FileInput from "../FileInput"
+import { FileInput } from "../FileInput"
 import { Formik, Form } from "formik"
 import Button from "../Button"
 import { withKnobs, boolean, number, select } from "@storybook/addon-knobs"

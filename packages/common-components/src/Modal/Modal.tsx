@@ -1,6 +1,10 @@
 import React, { ReactNode, useRef } from "react"
-import { makeStyles, createStyles } from "@material-ui/styles"
-import { ITheme, useOnClickOutside } from "@chainsafe/common-themes"
+import {
+  ITheme,
+  useOnClickOutside,
+  makeStyles,
+  createStyles,
+} from "@chainsafe/common-themes"
 import clsx from "clsx"
 
 const useStyles = makeStyles((theme: ITheme) =>

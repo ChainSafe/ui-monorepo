@@ -10,9 +10,9 @@ type ThemeSwitcherContext = {
   setTheme(themeName: string): void
 }
 
-const ThemeContext = React.createContext<ThemeSwitcherContext | undefined>(
-  undefined,
-)
+const ThemeSwitcherContext = React.createContext<
+  ThemeSwitcherContext | undefined
+>(undefined)
 
 type ThemeSwitcherProps = {
   children: React.ReactNode
@@ -26,7 +26,7 @@ const ThemeSwitcher: React.FC<ThemeSwitcherProps> = ({
   // TODO: check min 1 theme
   const [current, setCurrent] = useState<string>(Object.keys(themes)[0])
   return (
-    <ThemeContext.Provider
+    <ThemeSwitcherContext.Provider
       value={{
         themeKey: current,
         availableThemes: Object.keys(themes),
@@ -34,12 +34,12 @@ const ThemeSwitcher: React.FC<ThemeSwitcherProps> = ({
       }}
     >
       <ThemeProvider theme={themes[current]}>{children}</ThemeProvider>
-    </ThemeContext.Provider>
+    </ThemeSwitcherContext.Provider>
   )
 }
 
 const useThemeSwitcher = () => {
-  const context = React.useContext(ThemeContext)
+  const context = React.useContext(ThemeSwitcherContext)
   if (context == undefined) {
     throw new Error(
       "useThemeSwitcher should be called within Theme Context provider",
