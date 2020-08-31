@@ -1,37 +1,70 @@
-import React, { ReactNode } from "react"
-import { makeStyles, createStyles } from "@material-ui/styles"
+import React from "react"
+import * as Loaders from "react-spinners"
+import { PrecompiledCss } from "react-spinners/interfaces"
+import { useTheme } from "@material-ui/styles"
 import { ITheme } from "@chainsafe/common-themes"
-import clsx from "clsx"
 
-const useStyles = makeStyles((theme: ITheme) =>
-  createStyles({
-    // JSS in CSS goes here
-    root: {
-      margin: 0,
-    },
-  }),
-)
-
-const VariantMapping = {
-  h1: "h2",
-  h2: "h2",
-  h3: "h2",
-  h4: "h2",
-  h5: "h2",
-  h6: "h2",
-  subtitle1: "h2",
-  subtitle2: "h2",
-  body1: "p",
-  body2: "p",
-  inherit: "span",
+export enum LOADER {
+  BarLoader = "BarLoader",
+  BeatLoader = "BeatLoader",
+  BounceLoader = "BounceLoader",
+  CircleLoader = "CircleLoader",
+  ClimbingBoxLoader = "ClimbingBoxLoader",
+  ClipLoader = "ClipLoader",
+  ClockLoader = "ClockLoader",
+  DotLoader = "DotLoader",
+  FadeLoader = "FadeLoader",
+  GridLoader = "GridLoader",
+  HashLoader = "HashLoader",
+  MoonLoader = "MoonLoader",
+  PacmanLoader = "PacmanLoader",
+  PropagateLoader = "PropagateLoader",
+  PuffLoader = "PuffLoader",
+  PulseLoader = "PulseLoader",
+  RingLoader = "RingLoader",
+  RiseLoader = "RiseLoader",
+  RotateLoader = "RotateLoader",
+  ScaleLoader = "ScaleLoader",
+  SyncLoader = "SyncLoader",
 }
 
-interface OwnProps extends React.HTMLProps<HTMLDivElement> {
-  className?: string
+interface OwnProps {
+  loader: LOADER
+  size?: string | number
+  height?: string | number
+  width?: string | number
+  color?: string
+  loading?: boolean
+  radius?: string | number
+  margin?: string | number
+  css?: string | PrecompiledCss
 }
 
-const Spinner: React.FC<OwnProps> = ({ className, ...rest }: OwnProps) => {
-  return <></>
+const Spinner: React.FC<OwnProps> = ({
+  color,
+  height = 20,
+  loading,
+  radius,
+  margin,
+  size = 15,
+  width = 20,
+  css,
+  loader = LOADER.CircleLoader,
+}: OwnProps) => {
+  const Component = Loaders[loader]
+  const theme: ITheme = useTheme()
+  return (
+    <Component
+      color={color ? color : theme.palette.secondary?.main}
+      height={height}
+      loading={loading}
+      radius={radius}
+      margin={margin}
+      size={size}
+      width={width}
+      css={css}
+    />
+  )
 }
 
 export default Spinner

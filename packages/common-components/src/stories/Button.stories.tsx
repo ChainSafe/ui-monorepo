@@ -1,5 +1,5 @@
 import React from "react"
-import Button from "../Button"
+import { Button } from "../Button"
 import { action } from "@storybook/addon-actions"
 import { withKnobs, select } from "@storybook/addon-knobs"
 
