@@ -1,6 +1,5 @@
 import React, { ReactNode } from "react"
-import { makeStyles, createStyles } from "@material-ui/styles"
-import { ITheme } from "@chainsafe/common-themes"
+import { ITheme, makeStyles, createStyles } from "@chainsafe/common-themes"
 import clsx from "clsx"
 
 const useStyles = makeStyles((theme: ITheme) =>
@@ -62,7 +61,7 @@ const VariantMapping = {
   inherit: "span",
 }
 
-export interface OwnProps extends React.HTMLProps<HTMLDivElement> {
+interface OwnProps extends React.HTMLProps<HTMLDivElement> {
   className?: string
   children?: ReactNode | ReactNode[]
   variant?:
@@ -105,3 +104,4 @@ const Typography: React.FC<OwnProps> = ({
 }
 
 export default Typography
+export { OwnProps }
