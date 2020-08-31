@@ -1,5 +1,5 @@
 import React from "react"
-import { Button } from "../Button"
+import { default as Button } from "../Button"
 import {
   withKnobs,
   select,
@@ -7,7 +7,7 @@ import {
   color,
   boolean,
 } from "@storybook/addon-knobs"
-import { Spinner } from "../Spinner"
+import { default as Spinner } from "../Spinner"
 import { LOADER } from "../Spinner/Spinner"
 
 export default {

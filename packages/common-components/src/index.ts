@@ -13,4 +13,8 @@ export * from "./Modal"
 export * from "./Router"
 export { ConditionalRoute } from "./Router"
 
+export * from "./Table"
+
 export * from "./Typography"
+
+export * from "./Spinner"
