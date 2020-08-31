@@ -39,7 +39,7 @@
     "@storybook/addon-contexts": "^5.3.19",
     "@storybook/addon-knobs": "^6.0.15",
     "@storybook/addon-links": "^5.3.19",
-    "@storybook/addons": "^5.3.19",
+    "@storybook/addons": "^5.3.21",
     "@storybook/preset-typescript": "^3.0.0",
     "@storybook/react": "^5.3.19",
     "@svgr/rollup": "^5.4.0",
