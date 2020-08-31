@@ -6,8 +6,8 @@ import clsx from "clsx"
 import Paperclip from "../Icons/icons/Paperclip"
 import { makeStyles, createStyles } from "@material-ui/styles"
 import { ITheme } from "@chainsafe/common-themes"
-import { Button } from "../Button"
-import { Typography } from "../Typography"
+import Button from "../Button"
+import Typography from "../Typography"
 
 const useStyles = makeStyles((theme: ITheme) =>
   createStyles({

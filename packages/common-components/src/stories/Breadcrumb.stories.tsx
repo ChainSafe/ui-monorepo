@@ -1,7 +1,7 @@
 import React from "react"
 import { action } from "@storybook/addon-actions"
 import { withKnobs } from "@storybook/addon-knobs"
-import { Breadcrumb } from "../Breadcrumb"
+import Breadcrumb from "../Breadcrumb"
 
 export default {
   title: "Breadcrumb",

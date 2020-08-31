@@ -8,7 +8,6 @@ export * from "./Button"
 export { default as Button } from "./Button"
 
 export * from "./Emoji"
-export { default as Emoji } from "./Emoji"
 
 export * from "./Icons"
 export { default as Icons } from "./Icons"
@@ -20,7 +19,6 @@ export * from "./Router"
 export { ConditionalRoute } from "./Router"
 
 export * from "./Table"
-export { default as Table } from "./Table"
 
 export * from "./Typography"
 export { default as Typography } from "./Typography"
