@@ -1,22 +1,29 @@
 import React from "react"
 import Button from "../Button"
-import { action } from "@storybook/addon-actions"
 import { ScrollbarWrapper } from "../ScrollbarWrapper"
 import Typography from "../Typography"
+import { withKnobs, number, select, boolean } from "@storybook/addon-knobs"
 
 export default {
   title: "Scrollbar Wrapper",
   component: Button,
   excludeStories: /.*Data$/,
+  decorators: [withKnobs],
 }
 
-export const actionsData = {
-  onClick: action("onClickButton"),
-}
+const direction: ["ltr", "rtl"] = ["ltr", "rtl"]
 
 export const SimplebarWrapper = (): React.ReactNode => (
   <div>
-    <ScrollbarWrapper maxHeight={250}>
+    <ScrollbarWrapper
+      autoHide={boolean("Autohide", true)}
+      clickOnTrack={boolean("Click on track", true)}
+      direction={select("Direction", direction, "ltr")}
+      maxHeight={number("Max height", 250)}
+      timeout={number("Timeout", 1000)}
+      scrollbarMaxSize={number("Scrollbar max size", 25)}
+      scrollbarMinSize={number("Scrollbar min size", 0)}
+    >
       <Typography>
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium
         repudiandae veritatis rerum, odit adipisci natus exercitationem
