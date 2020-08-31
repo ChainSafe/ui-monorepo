@@ -5,7 +5,7 @@ export * from "./Blockies"
 export { default as Blockies } from "./Blockies"
 
 export * from "./Button"
-export { default as Button } from "./Button"
+export * from "./Button"
 
 export * from "./Emoji"
 

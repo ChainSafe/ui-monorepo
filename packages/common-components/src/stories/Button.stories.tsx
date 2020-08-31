@@ -2,7 +2,7 @@ import React from "react"
 import Button from "../Button"
 import { action } from "@storybook/addon-actions"
 import { withKnobs, select, boolean } from "@storybook/addon-knobs"
-import { BulbIcon } from ".."
+import { BulbIcon } from "../Icons"
 
 export default {
   title: "Button",
