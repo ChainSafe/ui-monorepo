@@ -9,11 +9,11 @@ import babel from "rollup-plugin-babel"
 export default {
   input: "./src/index.ts",
   output: {
-    format: "esm", // needs to be esm format as Onboard.js contains code-splitting
+    format: "cjs",
     dir: "dist/",
     exports: "named",
     sourcemap: true,
-    strict: false,
+    strict: true,
   },
   plugins: [
     peerDepsExternal(),
@@ -28,5 +28,5 @@ export default {
       plugins: ["emotion"],
     }),
   ],
-  external: ["react", "react-dom"],
+  external: ["react", "react-dom", "@material-ui/styles"],
 }

@@ -1,5 +1,9 @@
-import { useThemeSwitcher, ThemeSwitcher } from "./Provider/ThemeContext"
+import {
+  useThemeSwitcher,
+  ThemeSwitcher,
+} from "./Provider/ThemeSwitcherContext"
 import { useOnClickOutside } from "./Hooks"
+import { IDefaultPalette } from "./Defaults/ColorPalette"
 
 export {
   default as createTheme,
@@ -8,6 +12,16 @@ export {
   IPalette,
   IBreakpoints,
   IConstants,
+  IAnimation,
+  IFontWeights,
   ITypography,
 } from "./Create/CreateTheme"
-export { useThemeSwitcher, ThemeSwitcher, useOnClickOutside }
+
+export {
+  ThemeProvider,
+  createStyles,
+  makeStyles,
+  useTheme,
+} from "@material-ui/styles"
+
+export { useThemeSwitcher, ThemeSwitcher, useOnClickOutside, IDefaultPalette }

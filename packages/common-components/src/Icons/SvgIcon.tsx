@@ -1,7 +1,6 @@
 import React, { ReactNode } from "react"
 import clsx from "clsx"
-import { makeStyles, createStyles } from "@material-ui/styles"
-import { ITheme } from "@chainsafe/common-themes"
+import { ITheme, makeStyles, createStyles } from "@chainsafe/common-themes"
 import { capitalize } from "../utils/stringUtils"
 
 const useStyles = makeStyles((theme: ITheme) =>
@@ -43,7 +42,7 @@ const useStyles = makeStyles((theme: ITheme) =>
   }),
 )
 
-export interface SvgIconProps {
+export interface SvgIconProps extends React.HTMLProps<HTMLDivElement> {
   children?: ReactNode | ReactNode[]
   className?: string
   color?: colorProp
