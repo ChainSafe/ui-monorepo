@@ -15,9 +15,8 @@ export type BreadcrumbProps = {
   className?: string
 }
 
-const useStyles = makeStyles((theme: ITheme) => {
-  console.log(theme)
-  return createStyles({
+const useStyles = makeStyles((theme: ITheme) =>
+  createStyles({
     // JSS in CSS goes here
     root: {
       margin: 0,
@@ -59,8 +58,8 @@ const useStyles = makeStyles((theme: ITheme) => {
         cursor: "pointer",
       },
     },
-  })
-})
+  }),
+)
 
 const Breadcrumb: React.FC<BreadcrumbProps> = ({
   crumbs = [],
