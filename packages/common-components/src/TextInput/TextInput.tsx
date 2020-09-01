@@ -4,18 +4,45 @@
  *
  */
 
-import React, { ChangeEvent, ReactNode, Fragment } from "react"
-import { FieldProps } from "formik"
+import React, { ChangeEvent, Fragment } from "react"
 import { makeStyles, createStyles } from "@material-ui/styles"
 import { ITheme } from "@chainsafe/common-themes"
 import Typography from "../Typography"
 import clsx from "clsx"
+import SvgIcon from "../Icons"
+
+const iconSize = {
+  large: {
+    height: 18,
+    padding: 6,
+  },
+  medium: {
+    height: 16,
+    padding: 6,
+  },
+  small: {
+    height: 16,
+    padding: 4,
+  },
+}
 
 const useStyles = makeStyles((theme: ITheme) =>
   createStyles({
     // JSS in CSS goes here
     root: {
       ...theme.typography.body2,
+      "&.large": {
+        fontSize: 14,
+        lineHeight: 22,
+      },
+      "&.medium": {
+        fontSize: 14,
+        lineHeight: 22,
+      },
+      "&.small": {
+        fontSize: 14,
+        lineHeight: 22,
+      },
     },
     success: {},
     warning: {},
@@ -30,16 +57,47 @@ const useStyles = makeStyles((theme: ITheme) =>
     },
     inputArea: {
       ...theme.typography.body2,
-      "&:hover": {
-        // borderColor: theme.palette
-      },
-      "&:focus": {
-        // borderColor: theme.palette
-      },
-      "&.error": {
-        // borderColor: theme.palette.danger1,
-        // backgroundColor: theme.palette.functional.danger2,
+      display: "flex",
+      flexDirection: "row",
+      alignItems: "center",
+      justifyContent: "space-between",
+      position: "relative",
+      "& input": {
+        border: "none",
+        display: "block",
+        "&:hover": {
+          // borderColor: theme.palette
+        },
         "&:focus": {
+          // borderColor: theme.palette
+        },
+      },
+      "&.large": {
+        fontSize: 16,
+        lineHeight: 24,
+        padding: `${theme.constants.generalUnit}px ${
+          theme.constants.generalUnit * 1.5
+        }px`,
+      },
+      "&.medium": {
+        padding: `${theme.constants.generalUnit / 0.625}px ${
+          theme.constants.generalUnit * 1.5
+        }px`,
+      },
+      "&.small": {
+        padding: `${
+          theme.constants.generalUnit / theme.constants.generalUnit
+        }px ${theme.constants.generalUnit}px`,
+        "&.success": {
+          paddingRight: iconSize.small + theme.constants.generalUnit,
+          "&.iconRight": {
+            paddingRight: iconSize.small + theme.constants.generalUnit,
+          },
+        },
+      },
+
+      "&.error": {
+        "& input:focus": {
           backgroundColor: "unset",
         },
       },
@@ -53,6 +111,26 @@ const useStyles = makeStyles((theme: ITheme) =>
       border: `1px solid ${theme.palette["gray"][6]}`,
       color: theme.palette["gray"][10],
       transitionDuration: `${theme.animation.transform}ms`,
+    },
+    standardIcon: {
+      "& svg": {
+        fill: theme.palette["gray"][7],
+      },
+      "&.large": {
+        "& svg": {
+          height: iconSize.large.height,
+        },
+      },
+      "&.medium": {
+        "& svg": {
+          height: iconSize.medium.height,
+        },
+      },
+      "&.small": {
+        "& svg": {
+          height: iconSize.small.height,
+        },
+      },
     },
   }),
 )
@@ -71,9 +149,10 @@ export interface OwnProps {
   value?: string
   placeholder?: string
   disabled?: boolean
-  leftIcon?: ReactNode
-  rightIcon?: ReactNode
+  LeftIcon?: typeof SvgIcon
+  RightIcon?: typeof SvgIcon
   state?: INPUT_STATE
+  size?: "large" | "medium" | "small"
   captionMessage?: string
   onChange: (e: ChangeEvent<HTMLInputElement>) => void
   type?: "text" | "email" | "password" | "url" | "search"
@@ -82,11 +161,12 @@ export interface OwnProps {
 const TextInput: React.SFC<OwnProps> = ({
   className,
   label,
-  leftIcon,
-  rightIcon,
+  LeftIcon,
+  RightIcon,
   name,
   value,
   onChange,
+  size = "medium",
   type = "text",
   placeholder,
   captionMessage,
@@ -96,38 +176,46 @@ const TextInput: React.SFC<OwnProps> = ({
   const classes = useStyles()
   return (
     <label
-      className={clsx(
-        classes.label,
-        className,
-        disabled && "disabled",
-        state == INPUT_STATE.ERROR && classes.error,
-        state == INPUT_STATE.WARNING && classes.warning,
-        state == INPUT_STATE.SUCCESS && classes.success,
-      )}
+      className={clsx(classes.root, className, size, {
+        ["disabled"]: disabled,
+        [classes.error]: state == INPUT_STATE.ERROR,
+        [classes.warning]: state == INPUT_STATE.WARNING,
+        [classes.success]: state == INPUT_STATE.SUCCESS,
+      })}
     >
       {label && (
         <Typography variant="body2" component="span" className={classes.label}>
           {label}
         </Typography>
       )}
-      <div className={classes.inputArea}>
-        {leftIcon && <Fragment>{leftIcon}</Fragment>}
+      <div
+        className={clsx(classes.inputArea, size, {
+          ["iconLeft"]: LeftIcon,
+          ["iconRight"]: RightIcon,
+        })}
+      >
+        {LeftIcon && (
+          <LeftIcon className={clsx(classes.standardIcon, size, "left")} />
+        )}
         <input
-          className={clsx(
-            classes.input,
-            disabled ? "disabled" : "",
-            state == INPUT_STATE.ERROR ? "error" : "",
-          )}
+          className={clsx(classes.input, {
+            ["disabled"]: disabled,
+            ["error"]: state == INPUT_STATE.ERROR,
+            ["success"]: state == INPUT_STATE.SUCCESS,
+            ["warning"]: state == INPUT_STATE.WARNING,
+          })}
           type={type}
           name={name}
           value={value}
           placeholder={placeholder}
           onChange={onChange}
         />
-        {rightIcon && <Fragment>{rightIcon}</Fragment>}
-        {state == INPUT_STATE.WARNING && <Fragment></Fragment>}
-        {state == INPUT_STATE.ERROR && <Fragment></Fragment>}
-        {state == INPUT_STATE.SUCCESS && <Fragment></Fragment>}
+        <div className={clsx(classes.standardIcon, size, "right")}>
+          {RightIcon && <RightIcon />}
+          {state == INPUT_STATE.WARNING && <Fragment></Fragment>}
+          {state == INPUT_STATE.ERROR && <Fragment></Fragment>}
+          {state == INPUT_STATE.SUCCESS && <Fragment></Fragment>}
+        </div>
       </div>
       {captionMessage && (
         <Typography
