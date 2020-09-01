@@ -61,37 +61,32 @@ export const createFlexStyles = (): Record<string, React.CSSProperties> => ({
     }),
     {},
   ),
-  ...Object.assign(
-    {},
-    ...alignItemsOptions.map((alignItemsOption) => ({
-      [`align-${alignItemsOption}`]: {
-        "align-items": alignItemsOption,
-      },
-    })),
-  ),
-  ...Object.assign(
-    {},
-    ...justifyContentOptions.map((justifyContentOption) => ({
+  ...justifyContentOptions.reduce(
+    (accumulator: Record<string, any>, justifyContentOption) => ({
+      ...accumulator,
       [`justify-${justifyContentOption}`]: {
         "justify-content": justifyContentOption,
       },
-    })),
-  ),
-  ...Object.assign(
+    }),
     {},
-    ...flexDirectionOptions.map((flexDirectionOption) => ({
+  ),
+  ...flexDirectionOptions.reduce(
+    (accumulator: Record<string, any>, flexDirectionOption) => ({
+      ...accumulator,
       [`flex-direction-${flexDirectionOption}`]: {
         "flex-direction": flexDirectionOption,
       },
-    })),
-  ),
-  ...Object.assign(
+    }),
     {},
-    ...flexWrapOptions.map((flexWrapOption) => ({
+  ),
+  ...flexWrapOptions.reduce(
+    (accumulator: Record<string, any>, flexWrapOption) => ({
+      ...accumulator,
       [`flex-wrap-${flexWrapOption}`]: {
         "flex-wrap": flexWrapOption,
       },
-    })),
+    }),
+    {},
   ),
 })
 
