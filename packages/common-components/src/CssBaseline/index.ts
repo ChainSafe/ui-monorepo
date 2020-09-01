@@ -1,1 +1,2 @@
-export { default as CssBassline } from "./CssBaseline"
+export { default as CssBaseline } from "./CssBaseline"
+export * from "./CssBaseline"

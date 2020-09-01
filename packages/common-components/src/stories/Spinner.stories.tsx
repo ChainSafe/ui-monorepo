@@ -1,5 +1,4 @@
 import React from "react"
-import { default as Button } from "../Button"
 import {
   withKnobs,
   select,
@@ -7,12 +6,11 @@ import {
   color,
   boolean,
 } from "@storybook/addon-knobs"
-import { default as Spinner } from "../Spinner"
-import { LOADER } from "../Spinner/Spinner"
+import { LOADER, Spinner } from "../Spinner"
 
 export default {
   title: "Spinner",
-  component: Button,
+  component: Spinner,
   excludeStories: /.*Data$/,
   decorators: [withKnobs],
 }

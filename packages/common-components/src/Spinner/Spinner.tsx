@@ -28,7 +28,7 @@ export enum LOADER {
   SyncLoader = "SyncLoader",
 }
 
-interface OwnProps {
+export interface SpinnerProps {
   loader: LOADER
   size?: string | number
   height?: string | number
@@ -40,7 +40,7 @@ interface OwnProps {
   css?: string | PrecompiledCss
 }
 
-const Spinner: React.FC<OwnProps> = ({
+const Spinner: React.FC<SpinnerProps> = ({
   color,
   height = 20,
   loading,
@@ -50,7 +50,7 @@ const Spinner: React.FC<OwnProps> = ({
   width = 20,
   css,
   loader = LOADER.CircleLoader,
-}: OwnProps) => {
+}: SpinnerProps) => {
   const Component = Loaders[loader]
   const theme: ITheme = useTheme()
   return (

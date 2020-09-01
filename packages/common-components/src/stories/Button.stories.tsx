@@ -1,8 +1,8 @@
 import React from "react"
-import { default as Button } from "../Button"
 import { action } from "@storybook/addon-actions"
 import { withKnobs, select, boolean } from "@storybook/addon-knobs"
-import { BulbIcon } from ".."
+import { Button } from "../Button"
+import { BulbIcon } from "../Icons"
 
 export default {
   title: "Button",
@@ -38,7 +38,7 @@ export const ButtonStory = (): React.ReactNode => (
     fullsize={boolean("Fullsize", false)}
     disabled={boolean("Disabled", false)}
   >
-    Standard button
+    <span>Standard button</span>
   </Button>
 )
 
@@ -52,7 +52,7 @@ export const IconLeftButtonStory = (): React.ReactNode => (
     disabled={boolean("Disabled", false)}
   >
     <BulbIcon />
-    Standard button
+    <span>Standard button</span>
   </Button>
 )
 
@@ -65,7 +65,7 @@ export const IconRightButtonStory = (): React.ReactNode => (
     fullsize={boolean("Fullsize", false)}
     disabled={boolean("Disabled", false)}
   >
-    Standard button
+    <span>Standard button</span>
     <BulbIcon />
   </Button>
 )

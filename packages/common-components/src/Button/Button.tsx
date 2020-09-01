@@ -10,7 +10,7 @@ const useStyles = makeStyles((theme: ITheme) =>
       ...theme.typography.button,
       borderRadius: `${theme.constants.generalUnit / 4}px`,
       display: "flex",
-      justifyContent: "center",
+      justifyContent: "space-between",
       alignItems: "center",
       textDecoration: "none",
       cursor: "pointer",
