@@ -11,14 +11,14 @@ const useStyles = makeStyles((theme: ITheme) =>
         width: 5,
         borderRadius: 6,
         opacity: 1,
-        backgroundColor: theme.palette?.primary.background,
+        backgroundColor: theme.palette.primary.background,
         padding: 0,
       },
       "& .simplebar-scrollbar": {
         width: 5,
         borderRadius: 6,
         "&:before": {
-          backgroundColor: theme.palette?.primary.main,
+          backgroundColor: theme.palette.primary.main,
           width: 5,
           left: 0,
           right: 0,

@@ -1,8 +1,8 @@
 import React from "react"
 import Button from "../Button"
-import { ScrollbarWrapper } from "../ScrollbarWrapper"
 import Typography from "../Typography"
 import { withKnobs, number, select, boolean } from "@storybook/addon-knobs"
+import ScrollbarWrapper from "../ScrollbarWrapper"
 
 export default {
   title: "Scrollbar Wrapper",
