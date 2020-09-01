@@ -2,7 +2,7 @@ import React, { Fragment } from "react"
 import { ITheme, makeStyles, createStyles } from "@chainsafe/common-themes"
 import clsx from "clsx"
 import Typography from "../Typography"
-import { HomeIcon } from ".."
+import { HomeIcon } from "../Icons"
 
 export type Crumb = {
   text: string

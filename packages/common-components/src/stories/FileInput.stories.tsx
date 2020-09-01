@@ -13,7 +13,7 @@ export default {
 }
 
 export const actionsData = {
-  onFormSubmit: action("FormSubit"),
+  onFormSubmit: action("FormSubmit"),
 }
 
 const acceptOptions = [
@@ -30,7 +30,7 @@ export const Default = (): React.ReactNode => (
     initialValues={{
       uploadedFiles: [],
     }}
-    onSubmit={values => actionsData.onFormSubmit(values)}
+    onSubmit={(values) => actionsData.onFormSubmit(values)}
   >
     <Form>
       <FileInput

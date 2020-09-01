@@ -50,9 +50,11 @@ const useStyles = makeStyles((theme: ITheme) =>
     caption: {
       display: "block",
       marginTop: 5,
+      transitionDuration: `${theme.animation.transform}ms`,
       color: theme.palette["gray"][7],
     },
     label: {
+      transitionDuration: `${theme.animation.transform}ms`,
       display: "block",
     },
     inputArea: {
@@ -61,8 +63,10 @@ const useStyles = makeStyles((theme: ITheme) =>
       flexDirection: "row",
       alignItems: "center",
       justifyContent: "space-between",
+      transitionDuration: `${theme.animation.transform}ms`,
       position: "relative",
       "& input": {
+        transitionDuration: `${theme.animation.transform}ms`,
         border: "none",
         display: "block",
         "&:hover": {
@@ -73,29 +77,62 @@ const useStyles = makeStyles((theme: ITheme) =>
         },
       },
       "&.large": {
-        fontSize: 16,
-        lineHeight: 24,
-        padding: `${theme.constants.generalUnit}px ${
-          theme.constants.generalUnit * 1.5
-        }px`,
-      },
-      "&.medium": {
-        padding: `${theme.constants.generalUnit / 0.625}px ${
-          theme.constants.generalUnit * 1.5
-        }px`,
-      },
-      "&.small": {
-        padding: `${
-          theme.constants.generalUnit / theme.constants.generalUnit
-        }px ${theme.constants.generalUnit}px`,
+        "& input": {
+          fontSize: 16,
+          lineHeight: 24,
+          padding: `${theme.constants.generalUnit}px ${
+            theme.constants.generalUnit * 1.5
+          }px`,
+        },
+        "&.iconLeft input": {
+          paddingLeft: iconSize.large.height + iconSize.large.padding * 2,
+        },
         "&.success": {
-          paddingRight: iconSize.small + theme.constants.generalUnit,
-          "&.iconRight": {
-            paddingRight: iconSize.small + theme.constants.generalUnit,
+          "& input": {
+            paddingRight: iconSize.large.height + iconSize.large.padding * 2,
+          },
+          "&.iconRight input": {
+            paddingRight:
+              iconSize.large.height * 2 + iconSize.large.padding * 3,
           },
         },
       },
-
+      "&.medium": {
+        "& input": {
+          padding: `${theme.constants.generalUnit / 0.625}px ${
+            theme.constants.generalUnit * 1.5
+          }px`,
+        },
+        "&.iconLeft input": {
+          paddingLeft: iconSize.medium.height + iconSize.medium.padding * 2,
+        },
+        "&.success": {
+          "& input": {
+            paddingRight: iconSize.medium.height + iconSize.medium.padding * 2,
+          },
+          "&.iconRight input": {
+            paddingRight:
+              iconSize.medium.height * 2 + iconSize.medium.padding * 3,
+          },
+        },
+      },
+      "&.small input": {
+        padding: `${
+          theme.constants.generalUnit / theme.constants.generalUnit
+        }px ${theme.constants.generalUnit}px`,
+        "&.iconLeft input": {
+          paddingLeft: iconSize.small.height + iconSize.small.padding * 2,
+        },
+        "&.success": {
+          "& input": {
+            paddingRight: iconSize.small.height + iconSize.small.padding * 2,
+          },
+          "&.iconRight input": {
+            paddingRight:
+              iconSize.small.height * 2 + iconSize.small.padding * 3,
+          },
+        },
+      },
       "&.error": {
         "& input:focus": {
           backgroundColor: "unset",
@@ -113,6 +150,10 @@ const useStyles = makeStyles((theme: ITheme) =>
       transitionDuration: `${theme.animation.transform}ms`,
     },
     standardIcon: {
+      position: "absolute",
+      top: "50%",
+      transform: "translate(-50%,0)",
+      transitionDuration: `${theme.animation.transform}ms`,
       "& svg": {
         fill: theme.palette["gray"][7],
       },
@@ -183,7 +224,7 @@ const TextInput: React.SFC<OwnProps> = ({
         [classes.success]: state == INPUT_STATE.SUCCESS,
       })}
     >
-      {label && (
+      {label && label.length > 0 && (
         <Typography variant="body2" component="span" className={classes.label}>
           {label}
         </Typography>
