@@ -52,9 +52,18 @@ export const gridSizeOptions: GridSize[] = [
 export const spacingOptions: SpacingSize[] = [1, 2, 3, 4, 5, 6]
 
 export const createFlexStyles = (): Record<string, React.CSSProperties> => ({
+  ...alignItemsOptions.reduce(
+    (accumulator: Record<string, any>, alignItemsOption) => ({
+      ...accumulator,
+      [`align-${alignItemsOption}`]: {
+        "align-items": alignItemsOption,
+      },
+    }),
+    {},
+  ),
   ...Object.assign(
     {},
-    ...alignItemsOptions.map(alignItemsOption => ({
+    ...alignItemsOptions.map((alignItemsOption) => ({
       [`align-${alignItemsOption}`]: {
         "align-items": alignItemsOption,
       },
@@ -62,7 +71,7 @@ export const createFlexStyles = (): Record<string, React.CSSProperties> => ({
   ),
   ...Object.assign(
     {},
-    ...justifyContentOptions.map(justifyContentOption => ({
+    ...justifyContentOptions.map((justifyContentOption) => ({
       [`justify-${justifyContentOption}`]: {
         "justify-content": justifyContentOption,
       },
@@ -70,7 +79,7 @@ export const createFlexStyles = (): Record<string, React.CSSProperties> => ({
   ),
   ...Object.assign(
     {},
-    ...flexDirectionOptions.map(flexDirectionOption => ({
+    ...flexDirectionOptions.map((flexDirectionOption) => ({
       [`flex-direction-${flexDirectionOption}`]: {
         "flex-direction": flexDirectionOption,
       },
@@ -78,7 +87,7 @@ export const createFlexStyles = (): Record<string, React.CSSProperties> => ({
   ),
   ...Object.assign(
     {},
-    ...flexWrapOptions.map(flexWrapOption => ({
+    ...flexWrapOptions.map((flexWrapOption) => ({
       [`flex-wrap-${flexWrapOption}`]: {
         "flex-wrap": flexWrapOption,
       },
@@ -106,7 +115,7 @@ export const createGridStyles = (
   const smallestBreakpoint = gridBreakpoints.shift()
 
   // for xs
-  gridSizeOptions.forEach(gridSize => {
+  gridSizeOptions.forEach((gridSize) => {
     const widthPercent = `${Math.round((gridSize / 12) * 10e7) / 10e5}%`
 
     styles[`grid-${smallestBreakpoint}-${gridSize}`] = {
@@ -115,10 +124,10 @@ export const createGridStyles = (
     }
   })
 
-  gridBreakpoints.forEach(breakpointKey => {
+  gridBreakpoints.forEach((breakpointKey) => {
     const gridLevelStyles = {}
 
-    gridSizeOptions.forEach(gridSize => {
+    gridSizeOptions.forEach((gridSize) => {
       const widthPercent = `${Math.round((gridSize / 12) * 10e7) / 10e5}%`
 
       gridLevelStyles[`grid-${breakpointKey}-${gridSize}`] = {
@@ -140,7 +149,7 @@ export const createSpacingStyles = (
 ): Record<string, React.CSSProperties> => {
   const styles = {}
 
-  spacingOptions.forEach(spacing => {
+  spacingOptions.forEach((spacing) => {
     const themeSpacing = theme.constants.generalUnit || 8
 
     styles[`spacing-${spacing}`] = {
