@@ -24,7 +24,8 @@ export const Default = (): React.ReactNode => (
     onSubmit={(values) => actionsData.onFormSubmit(values)}
   >
     <Form>
-      <CheckboxInput name="testCheckbox" label={"Test Checkbox"} />
+      <CheckboxInput name="testCheckbox" label="Test Checkbox" />
+      <br />
       <Button type="submit">Submit</Button>
     </Form>
   </Formik>
