@@ -1,9 +1,9 @@
-import React from "react"
+import React, { useState } from "react"
 import { action } from "@storybook/addon-actions"
+import { withKnobs, boolean, text } from "@storybook/addon-knobs"
+import { CheckboxInput, FormikCheckboxInput } from "../CheckboxInput"
 import { Formik, Form } from "formik"
 import Button from "../Button"
-import { withKnobs } from "@storybook/addon-knobs"
-import CheckboxInput from "../CheckboxInput"
 
 export default {
   title: "CheckboxInput",
@@ -13,26 +13,48 @@ export default {
 }
 
 export const actionsData = {
-  onFormSubmit: action("FormSubit"),
+  onToggle: action("Toggle Checkbox"),
+  onFormSubmit: action("Submit Form"),
 }
 
-export const Default = (): React.ReactNode => (
-  <Formik
-    initialValues={{
-      checkbox1: false,
-      checkbox2: false,
-      checkbox3: true,
-    }}
-    onSubmit={(values) => actionsData.onFormSubmit(values)}
-  >
-    <Form>
-      <CheckboxInput name="checkbox1" label="Checkbox" />
-      <br />
-      <CheckboxInput name="checkbox2" label="Checkbox" disabled />
-      <br />
-      <CheckboxInput name="checkbox3" label="Checkbox" disabled />
-      <br />
-      <Button type="submit">Submit</Button>
-    </Form>
-  </Formik>
-)
+export const Default = (): React.ReactNode => {
+  const [checked, setChecked] = useState(false)
+
+  const handleChange = () => {
+    setChecked(!checked)
+    actionsData.onToggle(!checked)
+  }
+
+  return (
+    <>
+      <CheckboxInput
+        label={text("Label", "Test Label")}
+        value={checked}
+        onChange={handleChange}
+        disabled={boolean("Disabled", false)}
+      />
+    </>
+  )
+}
+
+export const FormikStory = (): React.ReactNode => {
+  return (
+    <Formik
+      initialValues={{
+        checkbox: false,
+      }}
+      onSubmit={(values: any) => actionsData.onFormSubmit(values)}
+    >
+      <Form>
+        <FormikCheckboxInput
+          name="checkbox"
+          label={text("Label", "Test Label")}
+          disabled={boolean("Disabled", false)}
+        />
+        <br />
+        <br />
+        <Button type="submit">Submit</Button>
+      </Form>
+    </Formik>
+  )
+}
