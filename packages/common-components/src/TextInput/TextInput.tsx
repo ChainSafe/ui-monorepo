@@ -4,12 +4,15 @@
  *
  */
 
-import React, { ChangeEvent, Fragment } from "react"
+import React, { ChangeEvent } from "react"
 import { makeStyles, createStyles } from "@material-ui/styles"
 import { ITheme } from "@chainsafe/common-themes"
 import Typography from "../Typography"
 import clsx from "clsx"
 import SvgIcon from "../Icons"
+import ExclaimationCircleIcon from "../Icons/icons/ExclaimationCircleIcon"
+import CloseCircleIcon from "../Icons/icons/CloseCircleIcon"
+import CheckCircleIcon from "../Icons/icons/CheckCircleIcon"
 
 const iconSize = {
   large: {
@@ -31,31 +34,97 @@ const useStyles = makeStyles((theme: ITheme) =>
     // JSS in CSS goes here
     root: {
       ...theme.typography.body2,
+      margin: 5,
+      cursor: "pointer",
       "&.large": {
         fontSize: 14,
-        lineHeight: 22,
+        lineHeight: "22px",
       },
       "&.medium": {
         fontSize: 14,
-        lineHeight: 22,
+        lineHeight: "22px",
       },
       "&.small": {
         fontSize: 14,
-        lineHeight: 22,
+        lineHeight: "22px",
+      },
+      "& .right > *:nth-child(2) svg": {
+        fill: theme.palette.primary.main,
+      },
+      "& input": {
+        transitionDuration: `${theme.animation.transform}ms`,
+        display: "block",
+        color: theme.palette["gray"][8],
+        borderRadius: 2,
+        "&:hover": {
+          borderColor: theme.palette.primary.border,
+        },
+        "&:focus": {
+          borderColor: theme.palette.primary.border,
+          // borderColor: theme.palette
+          boxShadow: "0px 0px 4px rgba(24, 144, 255, 0.5)",
+        },
+      },
+      "&.disabled": {
+        "& input": {
+          color: theme.palette["gray"][6],
+          backgroundColor: theme.palette["gray"][3],
+        },
       },
     },
-    success: {},
-    warning: {},
-    error: {},
+    error: {
+      "& .right > *:nth-child(2) svg": {
+        fill: theme.palette.error.main,
+      },
+      "& input": {
+        borderColor: theme.palette.error.border,
+        "&:hover": {
+          borderColor: theme.palette.error.border,
+          boxShadow: "0px 0px 4px rgba(245, 34, 45, 0.5)",
+        },
+        "&:focus": {
+          borderColor: theme.palette.error.border,
+          boxShadow: "0px 0px 4px rgba(245, 34, 45, 0.5)",
+        },
+      },
+    },
+    warning: {
+      "& .right > *:nth-child(2) svg": {
+        fill: theme.palette.warning.main,
+      },
+      "& input": {
+        borderColor: theme.palette.warning.border,
+        "&:hover": {
+          borderColor: theme.palette.warning.border,
+          boxShadow: "0px 0px 4px rgba(250, 173, 20, 0.5)",
+        },
+        "&:focus": {
+          borderColor: theme.palette.warning.border,
+          boxShadow: "0px 0px 4px rgba(250, 173, 20, 0.5)",
+        },
+      },
+    },
+    success: {
+      "& .right > *:nth-child(2) svg": {
+        fill: theme.palette.success.main,
+      },
+    },
     caption: {
       display: "block",
-      marginTop: 5,
+      marginTop: theme.constants.generalUnit / 4,
       transitionDuration: `${theme.animation.transform}ms`,
       color: theme.palette["gray"][7],
+      "&.error": {
+        color: theme.palette.error.main,
+      },
+      "&.warning": {
+        color: theme.palette.warning.main,
+      },
     },
     label: {
       transitionDuration: `${theme.animation.transform}ms`,
       display: "block",
+      marginBottom: theme.constants.generalUnit / 4,
     },
     inputArea: {
       ...theme.typography.body2,
@@ -65,71 +134,86 @@ const useStyles = makeStyles((theme: ITheme) =>
       justifyContent: "space-between",
       transitionDuration: `${theme.animation.transform}ms`,
       position: "relative",
-      "& input": {
-        transitionDuration: `${theme.animation.transform}ms`,
-        border: "none",
-        display: "block",
-        "&:hover": {
-          // borderColor: theme.palette
-        },
-        "&:focus": {
-          // borderColor: theme.palette
-        },
-      },
       "&.large": {
         "& input": {
           fontSize: 16,
-          lineHeight: 24,
+          lineHeight: "24px",
           padding: `${theme.constants.generalUnit}px ${
             theme.constants.generalUnit * 1.5
           }px`,
         },
         "&.iconLeft input": {
-          paddingLeft: iconSize.large.height + iconSize.large.padding * 2,
+          paddingLeft:
+            iconSize.large.height +
+            iconSize.large.padding * 2 +
+            theme.constants.generalUnit * 1.5,
         },
         "&.success": {
           "& input": {
-            paddingRight: iconSize.large.height + iconSize.large.padding * 2,
+            paddingRight:
+              iconSize.large.height +
+              iconSize.large.padding +
+              theme.constants.generalUnit * 1.5,
           },
           "&.iconRight input": {
             paddingRight:
-              iconSize.large.height * 2 + iconSize.large.padding * 3,
+              iconSize.large.height * 2 +
+              iconSize.large.padding +
+              theme.constants.generalUnit * 1.5,
           },
         },
       },
       "&.medium": {
         "& input": {
-          padding: `${theme.constants.generalUnit / 0.625}px ${
+          padding: `${theme.constants.generalUnit * 0.625}px ${
             theme.constants.generalUnit * 1.5
           }px`,
         },
         "&.iconLeft input": {
-          paddingLeft: iconSize.medium.height + iconSize.medium.padding * 2,
+          paddingLeft:
+            iconSize.medium.height +
+            iconSize.medium.padding * 2 +
+            theme.constants.generalUnit * 1.5,
         },
         "&.success": {
           "& input": {
-            paddingRight: iconSize.medium.height + iconSize.medium.padding * 2,
+            paddingRight:
+              iconSize.medium.height +
+              iconSize.medium.padding +
+              theme.constants.generalUnit * 1.5,
           },
           "&.iconRight input": {
             paddingRight:
-              iconSize.medium.height * 2 + iconSize.medium.padding * 3,
+              iconSize.medium.height * 2 +
+              iconSize.medium.padding +
+              theme.constants.generalUnit * 1.5,
           },
         },
       },
-      "&.small input": {
-        padding: `${
-          theme.constants.generalUnit / theme.constants.generalUnit
-        }px ${theme.constants.generalUnit}px`,
+      "&.small": {
+        "& input": {
+          padding: `${
+            theme.constants.generalUnit / theme.constants.generalUnit
+          }px ${theme.constants.generalUnit}px`,
+        },
         "&.iconLeft input": {
-          paddingLeft: iconSize.small.height + iconSize.small.padding * 2,
+          paddingLeft:
+            iconSize.small.height +
+            iconSize.small.padding * 2 +
+            theme.constants.generalUnit,
         },
         "&.success": {
           "& input": {
-            paddingRight: iconSize.small.height + iconSize.small.padding * 2,
+            paddingRight:
+              iconSize.small.height +
+              iconSize.small.padding * 2 +
+              theme.constants.generalUnit,
           },
           "&.iconRight input": {
             paddingRight:
-              iconSize.small.height * 2 + iconSize.small.padding * 3,
+              iconSize.small.height * 2 +
+              iconSize.small.padding * 2 +
+              theme.constants.generalUnit,
           },
         },
       },
@@ -152,22 +236,64 @@ const useStyles = makeStyles((theme: ITheme) =>
     standardIcon: {
       position: "absolute",
       top: "50%",
-      transform: "translate(-50%,0)",
+      transform: "translate(0, -50%)",
       transitionDuration: `${theme.animation.transform}ms`,
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "center",
+      alignItems: "center",
+      "& > span": {
+        width: "auto",
+        height: "auto",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+        "&:last-child": {
+          marginLeft: 5,
+        },
+      },
+      "&.left": {
+        margin: 0,
+      },
+      "&.right": {
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "flex-end",
+        alignItems: "center",
+      },
       "& svg": {
         fill: theme.palette["gray"][7],
       },
       "&.large": {
+        "&.left": {
+          left: theme.constants.generalUnit * 1.5,
+        },
+        "&.right": {
+          right: theme.constants.generalUnit * 1.5,
+        },
         "& svg": {
           height: iconSize.large.height,
         },
       },
       "&.medium": {
+        "&.left": {
+          left: iconSize.medium.padding,
+        },
+        "&.right": {
+          right: iconSize.medium.padding,
+        },
         "& svg": {
           height: iconSize.medium.height,
         },
       },
       "&.small": {
+        "&.left": {
+          left: iconSize.small.padding,
+        },
+        "&.right": {
+          right: iconSize.small.padding,
+        },
         "& svg": {
           height: iconSize.small.height,
         },
@@ -225,7 +351,15 @@ const TextInput: React.SFC<OwnProps> = ({
       })}
     >
       {label && label.length > 0 && (
-        <Typography variant="body2" component="span" className={classes.label}>
+        <Typography
+          variant="body2"
+          component="span"
+          className={clsx(classes.label, {
+            ["error"]: state == INPUT_STATE.ERROR,
+            ["success"]: state == INPUT_STATE.SUCCESS,
+            ["warning"]: state == INPUT_STATE.WARNING,
+          })}
+        >
           {label}
         </Typography>
       )}
@@ -253,16 +387,20 @@ const TextInput: React.SFC<OwnProps> = ({
         />
         <div className={clsx(classes.standardIcon, size, "right")}>
           {RightIcon && <RightIcon />}
-          {state == INPUT_STATE.WARNING && <Fragment></Fragment>}
-          {state == INPUT_STATE.ERROR && <Fragment></Fragment>}
-          {state == INPUT_STATE.SUCCESS && <Fragment></Fragment>}
+          {state == INPUT_STATE.WARNING && <ExclaimationCircleIcon />}
+          {state == INPUT_STATE.ERROR && <CloseCircleIcon />}
+          {state == INPUT_STATE.SUCCESS && <CheckCircleIcon />}
         </div>
       </div>
       {captionMessage && (
         <Typography
           variant="body2"
           component="span"
-          className={classes.caption}
+          className={clsx(classes.caption, {
+            ["error"]: state == INPUT_STATE.ERROR,
+            ["success"]: state == INPUT_STATE.SUCCESS,
+            ["warning"]: state == INPUT_STATE.WARNING,
+          })}
         >
           {captionMessage}
         </Typography>

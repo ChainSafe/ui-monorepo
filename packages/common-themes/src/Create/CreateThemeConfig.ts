@@ -19,7 +19,7 @@ interface IPalette {
   }
   secondary: IPaletteColor
   error: IPaletteColor
-  warning?: IPaletteColor
+  warning: IPaletteColor
   info?: IPaletteColor
   success: IPaletteColor
   additional?: Record<string, IPaletteColor>
