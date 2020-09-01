@@ -19,12 +19,18 @@ export const actionsData = {
 export const Default = (): React.ReactNode => (
   <Formik
     initialValues={{
-      testCheckbox: false,
+      checkbox1: false,
+      checkbox2: false,
+      checkbox3: true,
     }}
     onSubmit={(values) => actionsData.onFormSubmit(values)}
   >
     <Form>
-      <CheckboxInput name="testCheckbox" label="Test Checkbox" />
+      <CheckboxInput name="checkbox1" label="Checkbox" />
+      <br />
+      <CheckboxInput name="checkbox2" label="Checkbox" disabled />
+      <br />
+      <CheckboxInput name="checkbox3" label="Checkbox" disabled />
       <br />
       <Button type="submit">Submit</Button>
     </Form>
