@@ -26,14 +26,13 @@ export const Default = (): React.ReactNode => {
   }
 
   return (
-    <>
-      <CheckboxInput
-        label={text("Label", "Test Label")}
-        value={checked}
-        onChange={handleChange}
-        disabled={boolean("Disabled", false)}
-      />
-    </>
+    <CheckboxInput
+      label={text("Label", "Test Label")}
+      value={checked}
+      indeterminate={boolean("Indeterminate", false)}
+      onChange={handleChange}
+      disabled={boolean("Disabled", false)}
+    />
   )
 }
 

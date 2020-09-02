@@ -2,54 +2,80 @@ import React, { FormEvent } from "react"
 import { ITheme, makeStyles, createStyles } from "@chainsafe/common-themes"
 import clsx from "clsx"
 import Typography from "../Typography"
-import { CheckboxActive, CheckboxInactive } from "../Icons"
+import { CheckIcon } from "../Icons"
 
 const useStyles = makeStyles((theme: ITheme) =>
   createStyles({
     root: {
-      ...theme.typography.body2,
       cursor: "pointer",
       display: "flex",
-      alignItems: "center",
+    },
+    checkbox: {
+      position: "relative",
+      marginRight: theme.constants.generalUnit,
+      border: `1px solid ${theme.palette["gray"][5]}`,
+      borderRadius: 2,
+      height: theme.constants.generalUnit * 2,
+      width: theme.constants.generalUnit * 2,
+      transitionDuration: `${theme.animation.transform}ms`,
+      "& span > svg": {
+        fill: theme.palette.common.white.main,
+        display: "block",
+        height: theme.constants.generalUnit * 2,
+        width: theme.constants.generalUnit * 2,
+        position: "absolute",
+        top: "50%",
+        left: "50%",
+        transitionDuration: `${theme.animation.transform}ms`,
+        transform: "translate(-50%,-50%)",
+        opacity: 0,
+      },
+      "&:hover": {
+        borderColor: theme.palette.primary.main,
+      },
+      "&.checked": {
+        borderColor: theme.palette.primary.main,
+        backgroundColor: theme.palette.primary.main,
+        "& span > svg": {
+          opacity: 1,
+        },
+      },
+      "&.disabled": {
+        borderColor: theme.palette["gray"][5],
+        backgroundColor: theme.palette["gray"][3],
+        "& span > svg": {
+          fill: theme.palette["gray"][6],
+        },
+        "&:before": {
+          backgroundColor: theme.palette["gray"][6],
+        },
+      },
+      "&:before": {
+        content: "''",
+        display: "block",
+        height: theme.constants.generalUnit,
+        width: theme.constants.generalUnit,
+        position: "absolute",
+        backgroundColor: theme.palette.primary.main,
+        top: "50%",
+        left: "50%",
+        transitionDuration: `${theme.animation.transform}ms`,
+        transform: "translate(-50%,-50%)",
+        opacity: 0,
+      },
+      "&.indeterminate": {
+        "&:before": {
+          opacity: 1,
+        },
+      },
     },
     input: {
       visibility: "hidden",
       display: "none",
       opacity: 0,
     },
-    checkbox: {
-      stroke: theme.palette["gray"][5],
-      paddingRight: theme.constants.generalUnit,
-      "&:hover": {
-        stroke: theme.palette.primary.main,
-      },
-    },
-    checkboxActive: {
-      fill: theme.palette.primary.main,
-      stroke: theme.palette.primary.main,
-      paddingRight: theme.constants.generalUnit,
-      "& svg > path": {
-        fill: theme.palette.common.white.main,
-        stroke: theme.palette.common.white.main,
-      },
-    },
-    checkboxDisabled: {
-      fill: theme.palette["gray"][3],
-      stroke: theme.palette["gray"][5],
-      paddingRight: theme.constants.generalUnit,
-      "& svg": {
-        fill: theme.palette["gray"][3],
-        "& path": {
-          fill: theme.palette["gray"][6],
-          stroke: theme.palette["gray"][6],
-        },
-      },
-      "&:hover": {
-        stroke: theme.palette["gray"][5],
-      },
-    },
     label: {
-      cursor: "pointer",
+      ...theme.typography.body2,
     },
     labelDisabled: {
       color: theme.palette["gray"][6],
@@ -66,6 +92,7 @@ interface ICheckboxProps
   label?: string
   error?: string
   value: boolean
+  indeterminate?: boolean
   onChange(event: FormEvent<HTMLInputElement>): void
 }
 
@@ -74,52 +101,45 @@ const CheckboxInput: React.FC<ICheckboxProps> = ({
   label,
   onChange,
   disabled,
+  indeterminate = false,
   value,
   error,
   ...props
 }) => {
-  const classes = useStyles()
+  const classes = useStyles(props)
 
   const handleChange = (event: any) => {
     !disabled && onChange(event)
   }
 
   return (
-    <div className={clsx(classes.root, className)}>
+    <label className={clsx(classes.root, className)}>
       <input
         type="checkbox"
-        style={{ display: "none", visibility: "hidden" }}
         {...props}
         checked={value}
-        onChange={() => {}}
+        onChange={handleChange}
+        className={classes.input}
       />
-      {value ? (
-        <CheckboxActive
-          className={clsx(
-            classes.checkboxActive,
-            disabled && classes.checkboxDisabled,
-          )}
-          onClick={handleChange}
-        />
-      ) : (
-        <CheckboxInactive
-          className={clsx(
-            classes.checkbox,
-            disabled && classes.checkboxDisabled,
-          )}
-          onClick={handleChange}
-        />
-      )}
+      <div
+        className={clsx(classes.checkbox, {
+          ["checked"]: value,
+          ["disabled"]: disabled,
+          ["indeterminate"]: indeterminate,
+        })}
+      >
+        <CheckIcon />
+      </div>
       {label && (
-        <label
+        <Typography
           className={clsx(classes.label, disabled && classes.labelDisabled)}
         >
-          <Typography>{label}</Typography>
-        </label>
+          {label}
+        </Typography>
       )}
       <br />
       {error && <div className={classes.error}>{error}</div>}
-    </div>
+    </label>
   )
 }
 
