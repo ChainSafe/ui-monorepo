@@ -14,8 +14,8 @@ export type BreadcrumbProps = {
   className?: string
 }
 
-const useStyles = makeStyles((theme: ITheme) => {
-  return createStyles({
+const useStyles = makeStyles((theme: ITheme) =>
+  createStyles({
     // JSS in CSS goes here
     root: {
       margin: 0,
@@ -57,8 +57,8 @@ const useStyles = makeStyles((theme: ITheme) => {
         cursor: "pointer",
       },
     },
-  })
-})
+  }),
+)
 
 const Breadcrumb: React.FC<BreadcrumbProps> = ({
   crumbs = [],
@@ -68,7 +68,6 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({
   const classes = useStyles()
   return (
     <div className={clsx(classes.root, className)}>
-      {/* TODO: Replace with Home icon */}
       <HomeIcon
         className={clsx(classes.home, homeOnClick && "clickable")}
         onClick={() => (homeOnClick ? homeOnClick() : null)}
