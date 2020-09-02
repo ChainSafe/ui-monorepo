@@ -1,9 +1,13 @@
 import React, { ReactNode } from "react"
-import { makeStyles, createStyles } from "@material-ui/styles"
 import clsx from "clsx"
 import { capitalize } from "../utils/stringUtils"
 import { AlignOption } from "./types"
-import { ITheme, IPalette } from "@chainsafe/common-themes"
+import {
+  ITheme,
+  IPalette,
+  makeStyles,
+  createStyles,
+} from "@chainsafe/common-themes"
 import { SortDirection } from "./types"
 import { CaretUpIcon, CaretDownIcon } from "../Icons"
 
