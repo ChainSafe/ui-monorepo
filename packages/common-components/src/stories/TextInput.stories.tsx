@@ -3,7 +3,9 @@ import { withKnobs, select, boolean, text } from "@storybook/addon-knobs"
 import { BulbIcon } from "../Icons"
 import { action } from "@storybook/addon-actions"
 import { HomeIcon } from "../Icons"
-import { TextInput, inputState } from "../TextInput"
+import { TextInput, inputState, FormikTextInput } from "../TextInput"
+import { Formik, Form } from "formik"
+import { Button } from "../Button"
 
 export default {
   title: "TextInput",
@@ -30,6 +32,7 @@ const typeOptions: ["text", "email", "password", "url", "search"] = [
 
 export const actionsData = {
   onChange: action("onChange"),
+  onFormSubmit: action("Submit Form"),
 }
 
 export const NoIconStory = (): React.ReactNode => (
@@ -87,3 +90,28 @@ export const BothIconsStory = (): React.ReactNode => (
     type={select("Type", typeOptions, "text")}
   />
 )
+
+export const FormikStory = (): React.ReactNode => {
+  return (
+    <Formik
+      initialValues={{
+        text: "Initial value of form field",
+      }}
+      onSubmit={(values: any) => actionsData.onFormSubmit(values)}
+    >
+      <Form>
+        <FormikTextInput
+          name="text"
+          label={text("Label", "Testin Label")}
+          placeholder={text("Placeholder", "Placeholder text")}
+          size={select("Size", sizeOptions, "large")}
+          captionMessage={text("Caption/Error text", "Generic caption area")}
+          disabled={boolean("Disabled", false)}
+        />
+        <br />
+        <br />
+        <Button type="submit">Submit</Button>
+      </Form>
+    </Formik>
+  )
+}

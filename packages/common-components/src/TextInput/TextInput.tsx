@@ -1,9 +1,3 @@
-/**
- *
- * TextInput
- *
- */
-
 import React, { ChangeEvent } from "react"
 import { makeStyles, createStyles } from "@material-ui/styles"
 import { ITheme } from "@chainsafe/common-themes"
@@ -375,6 +369,7 @@ const TextInput: React.SFC<TextInputProps> = ({
             ["warning"]: state == "warning",
           })}
           type={type}
+          disabled={disabled}
           name={name}
           value={value}
           placeholder={placeholder}
