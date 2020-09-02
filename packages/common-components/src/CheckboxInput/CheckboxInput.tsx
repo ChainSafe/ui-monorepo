@@ -144,5 +144,4 @@ const CheckboxInput: React.FC<ICheckboxProps> = ({
 }
 
 export default CheckboxInput
-
 export { ICheckboxProps }
