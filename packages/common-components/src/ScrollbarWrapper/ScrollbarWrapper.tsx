@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme: ITheme) =>
   }),
 )
 
-export interface OwnProps {
+export interface ScrollbarProps {
   autoHide?: boolean
   className?: string
   maxHeight?: number
@@ -49,7 +49,7 @@ export interface OwnProps {
   direction?: "rtl" | "ltr"
 }
 
-const ScrollbarWrapper: React.SFC<OwnProps> = ({
+const ScrollbarWrapper: React.SFC<ScrollbarProps> = ({
   autoHide = true,
   clickOnTrack = true,
   className,
@@ -65,7 +65,7 @@ const ScrollbarWrapper: React.SFC<OwnProps> = ({
   timeout = 1000,
   maxHeight,
   children,
-}: OwnProps) => {
+}: ScrollbarProps) => {
   const classes = useStyles()
   return (
     <SimpleBarReact

@@ -1,12 +1,11 @@
 import React from "react"
-import Button from "../Button"
-import Typography from "../Typography"
 import { withKnobs, number, select, boolean } from "@storybook/addon-knobs"
-import ScrollbarWrapper from "../ScrollbarWrapper"
+import { ScrollbarWrapper } from "../ScrollbarWrapper"
+import { Typography } from "../Typography"
 
 export default {
   title: "Scrollbar Wrapper",
-  component: Button,
+  component: ScrollbarWrapper,
   excludeStories: /.*Data$/,
   decorators: [withKnobs],
 }
