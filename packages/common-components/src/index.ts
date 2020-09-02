@@ -10,6 +10,7 @@ export { default as Button } from "./Button"
 export * from "./Emoji"
 
 export * from "./Icons"
+export * from "./Grid"
 
 export * from "./Modal"
 export { default as Modal } from "./Modal"
