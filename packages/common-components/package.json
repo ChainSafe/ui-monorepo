@@ -17,13 +17,16 @@
     "lint": "eslint 'src/**/*.{js,ts,tsx}' --quiet --fix"
   },
   "dependencies": {
+    "@material-ui/styles": "^4.10.0",
     "a11y-react-emoji": "^1.1.2",
     "clsx": "^1.1.1",
     "formik": "^2.1.5",
     "react-dropzone": "^11.0.3",
     "react-blockies": "^1.4.1",
     "reset-css": "^5.0.1",
-    "react-router-dom": "^5.2.0"
+    "react-router-dom": "^5.2.0",
+    "react-spinners": "^0.9.0",
+    "rollup-plugin-babel": "^4.4.0"
   },
   "peerDependencies": {
     "react": ">16.8.0",
@@ -38,8 +41,8 @@
     "@storybook/addon-actions": "^5.3.19",
     "@storybook/addon-contexts": "^5.3.19",
     "@storybook/addon-knobs": "^6.0.15",
-    "@storybook/addon-links": "^5.3.19",
-    "@storybook/addons": "^5.3.19",
+    "@storybook/addon-links": "^5.3.21",
+    "@storybook/addons": "^5.3.21",
     "@storybook/preset-typescript": "^3.0.0",
     "@storybook/react": "^5.3.19",
     "@svgr/rollup": "^5.4.0",
@@ -55,9 +58,9 @@
     "eslint-plugin-react": "^7.20.0",
     "fork-ts-checker-webpack-plugin": "^4.1.6",
     "prettier": "^2.1.1",
-    "react": "^16.13.1",
+    "react": "16.13.1",
     "react-blockies": "^1.4.1",
-    "react-dom": "^16.13.1",
+    "react-dom": "16.13.1",
     "react-router-dom": "^5.2.0",
     "rollup": "2.26.3",
     "rollup-plugin-peer-deps-external": "^2.2.2",

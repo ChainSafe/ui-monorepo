@@ -1,6 +1,4 @@
-import SvgIcon from "./SvgIcon"
-
-export default SvgIcon
+export { default as SvgIcon } from "./SvgIcon"
 export { SvgIconProps } from "./SvgIcon"
 
 export { default as BulbIcon } from "./icons/Bulb"

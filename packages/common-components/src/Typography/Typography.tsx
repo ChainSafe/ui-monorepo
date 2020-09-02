@@ -1,6 +1,6 @@
 import React, { ReactNode } from "react"
-import { ITheme, makeStyles, createStyles } from "@chainsafe/common-themes"
 import clsx from "clsx"
+import { ITheme, makeStyles, createStyles } from "@chainsafe/common-themes"
 
 const useStyles = makeStyles((theme: ITheme) =>
   createStyles({
