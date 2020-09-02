@@ -49,6 +49,9 @@ const useStyles = makeStyles((theme: ITheme) =>
         "&:before": {
           backgroundColor: theme.palette["gray"][6],
         },
+        "&:hover": {
+          borderColor: theme.palette["gray"][5],
+        },
       },
       "&:before": {
         content: "''",
