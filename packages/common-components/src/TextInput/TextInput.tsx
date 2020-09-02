@@ -7,12 +7,12 @@
 import React, { ChangeEvent } from "react"
 import { makeStyles, createStyles } from "@material-ui/styles"
 import { ITheme } from "@chainsafe/common-themes"
-import Typography from "../Typography"
 import clsx from "clsx"
-import SvgIcon from "../Icons"
-import ExclaimationCircleIcon from "../Icons/icons/ExclaimationCircleIcon"
 import CloseCircleIcon from "../Icons/icons/CloseCircleIcon"
 import CheckCircleIcon from "../Icons/icons/CheckCircleIcon"
+import { Typography } from "../Typography"
+import ExclamationCircleIcon from "../Icons/icons/ExclamationCircleIcon"
+import { SvgIcon } from "../Icons"
 
 const iconSize = {
   large: {
@@ -302,14 +302,9 @@ const useStyles = makeStyles((theme: ITheme) =>
   }),
 )
 
-export enum INPUT_STATE {
-  NORMAL = "NORMAL",
-  WARNING = "WARNING",
-  SUCCESS = "SUCCESS",
-  ERROR = "ERROR",
-}
+export type inputState = "normal" | "warning" | "success" | "error"
 
-export interface OwnProps {
+export interface TextInputProps {
   className?: string
   label?: string
   name?: string
@@ -318,14 +313,14 @@ export interface OwnProps {
   disabled?: boolean
   LeftIcon?: typeof SvgIcon
   RightIcon?: typeof SvgIcon
-  state?: INPUT_STATE
+  state?: inputState
   size?: "large" | "medium" | "small"
   captionMessage?: string
   onChange: (e: ChangeEvent<HTMLInputElement>) => void
   type?: "text" | "email" | "password" | "url" | "search"
 }
 
-const TextInput: React.SFC<OwnProps> = ({
+const TextInput: React.SFC<TextInputProps> = ({
   className,
   label,
   LeftIcon,
@@ -337,17 +332,17 @@ const TextInput: React.SFC<OwnProps> = ({
   type = "text",
   placeholder,
   captionMessage,
-  state = INPUT_STATE.NORMAL,
+  state = "normal",
   disabled = false,
-}: OwnProps) => {
+}: TextInputProps) => {
   const classes = useStyles()
   return (
     <label
       className={clsx(classes.root, className, size, {
         ["disabled"]: disabled,
-        [classes.error]: state == INPUT_STATE.ERROR,
-        [classes.warning]: state == INPUT_STATE.WARNING,
-        [classes.success]: state == INPUT_STATE.SUCCESS,
+        [classes.error]: state == "error",
+        [classes.warning]: state == "warning",
+        [classes.success]: state == "success",
       })}
     >
       {label && label.length > 0 && (
@@ -355,9 +350,9 @@ const TextInput: React.SFC<OwnProps> = ({
           variant="body2"
           component="span"
           className={clsx(classes.label, {
-            ["error"]: state == INPUT_STATE.ERROR,
-            ["success"]: state == INPUT_STATE.SUCCESS,
-            ["warning"]: state == INPUT_STATE.WARNING,
+            ["error"]: state == "error",
+            ["success"]: state == "success",
+            ["warning"]: state == "warning",
           })}
         >
           {label}
@@ -375,9 +370,9 @@ const TextInput: React.SFC<OwnProps> = ({
         <input
           className={clsx(classes.input, {
             ["disabled"]: disabled,
-            ["error"]: state == INPUT_STATE.ERROR,
-            ["success"]: state == INPUT_STATE.SUCCESS,
-            ["warning"]: state == INPUT_STATE.WARNING,
+            ["error"]: state == "error",
+            ["success"]: state == "success",
+            ["warning"]: state == "warning",
           })}
           type={type}
           name={name}
@@ -387,9 +382,9 @@ const TextInput: React.SFC<OwnProps> = ({
         />
         <div className={clsx(classes.standardIcon, size, "right")}>
           {RightIcon && <RightIcon />}
-          {state == INPUT_STATE.WARNING && <ExclaimationCircleIcon />}
-          {state == INPUT_STATE.ERROR && <CloseCircleIcon />}
-          {state == INPUT_STATE.SUCCESS && <CheckCircleIcon />}
+          {state == "warning" && <ExclamationCircleIcon />}
+          {state == "error" && <CloseCircleIcon />}
+          {state == "success" && <CheckCircleIcon />}
         </div>
       </div>
       {captionMessage && (
@@ -397,9 +392,9 @@ const TextInput: React.SFC<OwnProps> = ({
           variant="body2"
           component="span"
           className={clsx(classes.caption, {
-            ["error"]: state == INPUT_STATE.ERROR,
-            ["success"]: state == INPUT_STATE.SUCCESS,
-            ["warning"]: state == INPUT_STATE.WARNING,
+            ["error"]: state == "error",
+            ["success"]: state == "success",
+            ["warning"]: state == "warning",
           })}
         >
           {captionMessage}

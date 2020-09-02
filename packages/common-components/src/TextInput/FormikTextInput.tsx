@@ -6,7 +6,7 @@
 
 import React, { ChangeEvent } from "react"
 import { useField } from "formik"
-import TextInput, { INPUT_STATE } from "./TextInput"
+import TextInput from "./TextInput"
 
 interface OwnProps {
   className?: string
@@ -34,7 +34,7 @@ const FormikTextInput: React.SFC<OwnProps> = ({
       value={field.value}
       placeholder={placeholder}
       captionMessage={meta.error && `${meta.error}`}
-      state={meta.error ? INPUT_STATE.ERROR : undefined}
+      state={meta.error ? "error" : undefined}
       onChange={(e: ChangeEvent<HTMLInputElement>) => {
         helpers.setValue(e.target?.value)
       }}

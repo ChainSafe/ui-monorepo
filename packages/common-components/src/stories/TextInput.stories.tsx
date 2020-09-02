@@ -1,9 +1,9 @@
 import React from "react"
 import { withKnobs, select, boolean, text } from "@storybook/addon-knobs"
 import { BulbIcon } from "../Icons"
-import { INPUT_STATE, TextInput } from "../TextInput"
 import { action } from "@storybook/addon-actions"
 import { HomeIcon } from "../Icons"
+import { TextInput, inputState } from "../TextInput"
 
 export default {
   title: "TextInput",
@@ -12,16 +12,11 @@ export default {
   decorators: [withKnobs],
 }
 
-const inputStateOptions: [
-  INPUT_STATE.NORMAL,
-  INPUT_STATE.ERROR,
-  INPUT_STATE.SUCCESS,
-  INPUT_STATE.WARNING,
-] = [
-  INPUT_STATE.NORMAL,
-  INPUT_STATE.ERROR,
-  INPUT_STATE.SUCCESS,
-  INPUT_STATE.WARNING,
+const inputStateOptions: inputState[] = [
+  "error",
+  "normal",
+  "success",
+  "warning",
 ]
 
 const sizeOptions: ["large", "medium", "small"] = ["large", "medium", "small"]
@@ -40,7 +35,7 @@ export const actionsData = {
 export const NoIconStory = (): React.ReactNode => (
   <TextInput
     onChange={() => actionsData.onChange()}
-    state={select("State", inputStateOptions, INPUT_STATE.NORMAL)}
+    state={select("State", inputStateOptions, "normal")}
     size={select("Size", sizeOptions, "large")}
     disabled={boolean("Disabled", false)}
     label={text("Label", "Testin Label")}
@@ -54,7 +49,7 @@ export const LeftIconStory = (): React.ReactNode => (
   <TextInput
     onChange={() => actionsData.onChange()}
     LeftIcon={HomeIcon}
-    state={select("State", inputStateOptions, INPUT_STATE.NORMAL)}
+    state={select("State", inputStateOptions, "normal")}
     size={select("Size", sizeOptions, "large")}
     disabled={boolean("Disabled", false)}
     label={text("Label", "Testin Label")}
@@ -68,7 +63,7 @@ export const RightIconStory = (): React.ReactNode => (
   <TextInput
     onChange={() => actionsData.onChange()}
     RightIcon={BulbIcon}
-    state={select("State", inputStateOptions, INPUT_STATE.NORMAL)}
+    state={select("State", inputStateOptions, "normal")}
     size={select("Size", sizeOptions, "large")}
     disabled={boolean("Disabled", false)}
     label={text("Label", "Testin Label")}
@@ -83,7 +78,7 @@ export const BothIconsStory = (): React.ReactNode => (
     onChange={() => actionsData.onChange()}
     LeftIcon={HomeIcon}
     RightIcon={BulbIcon}
-    state={select("State", inputStateOptions, INPUT_STATE.NORMAL)}
+    state={select("State", inputStateOptions, "normal")}
     size={select("Size", sizeOptions, "large")}
     disabled={boolean("Disabled", false)}
     label={text("Label", "Testin Label")}
