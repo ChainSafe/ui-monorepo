@@ -1,8 +1,7 @@
 import React, { Fragment } from "react"
-import { ITheme, makeStyles, createStyles } from "@chainsafe/common-themes"
 import clsx from "clsx"
-import Typography from "../Typography"
-import { HomeIcon } from ".."
+import { HomeIcon, Typography } from ".."
+import { ITheme, makeStyles, createStyles } from "@chainsafe/common-themes"
 
 export type Crumb = {
   text: string
@@ -16,7 +15,6 @@ export type BreadcrumbProps = {
 }
 
 const useStyles = makeStyles((theme: ITheme) => {
-  console.log(theme)
   return createStyles({
     // JSS in CSS goes here
     root: {
