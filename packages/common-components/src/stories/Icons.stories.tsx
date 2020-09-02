@@ -1,7 +1,7 @@
 import React from "react"
-import SvgIcon, { HomeIcon } from "../Icons"
 import { withKnobs, select } from "@storybook/addon-knobs"
 import { ReactComponent as HomeSvg } from "../Icons/svgs/home.svg"
+import { SvgIcon, HomeIcon } from "../Icons"
 
 export default {
   title: "Icon",

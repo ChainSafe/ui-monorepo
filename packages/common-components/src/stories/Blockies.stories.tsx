@@ -1,5 +1,5 @@
 import React from "react"
-import Blockies from "../Blockies"
+import { Blockies } from "../Blockies"
 
 export default {
   title: "Blockies",

@@ -1,8 +1,7 @@
 import React, { Fragment } from "react"
-import { ITheme, makeStyles, createStyles } from "@chainsafe/common-themes"
 import clsx from "clsx"
-import Typography from "../Typography"
-import { HomeIcon } from "../Icons"
+import { HomeIcon, Typography } from ".."
+import { ITheme, makeStyles, createStyles } from "@chainsafe/common-themes"
 
 export type Crumb = {
   text: string
@@ -69,7 +68,6 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({
   const classes = useStyles()
   return (
     <div className={clsx(classes.root, className)}>
-      {/* TODO: Replace with Home icon */}
       <HomeIcon
         className={clsx(classes.home, homeOnClick && "clickable")}
         onClick={() => (homeOnClick ? homeOnClick() : null)}
