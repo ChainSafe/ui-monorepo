@@ -316,7 +316,7 @@ export class ImployApiClient implements IImployApiClient {
   }
 
   protected processSignup(response: AxiosResponse): Promise<void> {
-    //@ts-ignore
+    // @ts-ignore
     const status = response.status
     let _headers: any = {}
     if (response.headers && typeof response.headers === "object") {

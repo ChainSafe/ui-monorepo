@@ -69,7 +69,6 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({
   const classes = useStyles()
   return (
     <div className={clsx(classes.root, className)}>
-      {/* TODO: Replace with Home icon */}
       <HomeIcon
         className={clsx(classes.home, homeOnClick && "clickable")}
         onClick={() => (homeOnClick ? homeOnClick() : null)}
