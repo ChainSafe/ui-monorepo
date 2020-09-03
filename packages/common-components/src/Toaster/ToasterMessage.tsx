@@ -9,14 +9,24 @@ const useStyles = makeStyles((theme: ITheme) =>
     root: {
       display: "flex",
       alignItems: "center",
-      padding: `${theme.constants.generalUnit}px`,
+      boxShadow: "0px 2px 8px rgba(0, 0, 0, 0.25)",
+      borderRadius: 4,
+      padding: `${theme.constants.generalUnit * 2}px`,
+    },
+    typeIcon: {
+      marginRight: `${theme.constants.generalUnit * 2}px`,
+    },
+    messageContainer: {
+      maxWidth: 300,
     },
     message: {
+      ...theme.typography.body1,
       color: theme.palette.text.primary,
       fontSize: 16,
       margin: 0,
     },
     description: {
+      ...theme.typography.body2,
       color: theme.palette.text.secondary,
       fontSize: 12,
       margin: 0,
@@ -25,6 +35,11 @@ const useStyles = makeStyles((theme: ITheme) =>
       backgroundColor: "transparent",
       border: "none",
       cursor: "pointer",
+    },
+    closeIcon: {
+      fontSize: `${theme.constants.generalUnit * 1.5}px`,
+      fill: theme.palette["gray"][6],
+      marginLeft: `${theme.constants.generalUnit * 2}px`,
     },
   }),
 )
@@ -52,18 +67,18 @@ const ToasterMessage: React.FC<IToasterMessageProps> = ({
   return (
     <div className={clsx(classes.root, className)}>
       {type === "success" ? (
-        <CheckCircle color="success" />
+        <CheckCircle color="success" className={classes.typeIcon} />
       ) : type === "error" ? (
-        <CloseCircle color="error" />
+        <CloseCircle color="error" className={classes.typeIcon} />
       ) : (
-        <InfoCircle color="secondary" />
+        <InfoCircle color="secondary" className={classes.typeIcon} />
       )}
-      <div>
+      <div className={classes.messageContainer}>
         <p className={classes.message}>{message}</p>
         {description && <p className={classes.description}>{description}</p>}
       </div>
       <button onClick={onClose} className={classes.closeButton}>
-        <CrossOutlined fontSize="small" />
+        <CrossOutlined className={classes.closeIcon} />
       </button>
     </div>
   )

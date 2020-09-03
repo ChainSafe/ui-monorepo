@@ -24,6 +24,7 @@ export const MainDemo: React.FC = () => {
         <ToasterMessage
           onClose={() => setOpen(false)}
           message="Update successful"
+          description="Your request was successfully completed."
           type={select("Type", toasterMessageTypes, "error")}
         />
       </Toaster>

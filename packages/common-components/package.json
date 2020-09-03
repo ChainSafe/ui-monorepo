@@ -17,18 +17,20 @@
     "lint": "eslint 'src/**/*.{js,ts,tsx}' --quiet --fix"
   },
   "dependencies": {
+    "@types/react-transition-group": "^4.4.0",
     "a11y-react-emoji": "^1.1.2",
     "clsx": "^1.1.1",
     "formik": "^2.1.5",
-    "react-dropzone": "^11.0.3",
     "react-blockies": "^1.4.1",
-    "reset-css": "^5.0.1",
-    "react-router-dom": "^5.2.0"
+    "react-dropzone": "^11.0.3",
+    "react-router-dom": "^5.2.0",
+    "react-transition-group": "^4.4.1",
+    "reset-css": "^5.0.1"
   },
   "peerDependencies": {
+    "@material-ui/styles": ">4.0.0",
     "react": ">16.8.0",
-    "react-dom": ">16.8.0",
-    "@material-ui/styles": ">4.0.0"
+    "react-dom": ">16.8.0"
   },
   "devDependencies": {
     "@babel/core": "^7.11.4",
