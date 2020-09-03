@@ -13,7 +13,7 @@ export default {
 }
 
 export const actionsData = {
-  onFormSubmit: action("FormSubit"),
+  onFormSubmit: action("FormSubmit"),
 }
 
 const acceptOptions = [

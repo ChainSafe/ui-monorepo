@@ -5,6 +5,10 @@ import {
 } from "../Create/CreateThemeConfig"
 import { DefaultPalette } from "./ColorPalette"
 
+const defaultFontFamilyStack = {
+  fontFamily: `-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen','Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',sans-serif`,
+}
+
 const breakpoints: IBreakpoints = {
   xs: 0,
   sm: 600,
@@ -54,8 +58,8 @@ const DefaultThemeConfig: IThemeConfig = {
       primary: DefaultPalette.gray[10],
     },
     background: {
-      default: DefaultPalette.gray[10],
-      paper: DefaultPalette.gray[9],
+      default: DefaultPalette.gray[1],
+      paper: DefaultPalette.gray[2],
     },
     primary: {
       background: DefaultPalette.blue[DefaultPalette.colorTags.background],
@@ -92,52 +96,59 @@ const DefaultThemeConfig: IThemeConfig = {
   },
   typography: {
     global: {
-      "font-family": `-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen','Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',sans-serif`,
-      "-webkit-font-smoothing": "antialiased",
-      "-moz-osx-font-smoothing": "grayscale",
+      ...defaultFontFamilyStack,
     },
     fontWeight: defaultFontWeights,
     h1: {
+      ...defaultFontFamilyStack,
       fontWeight: defaultFontWeights.bold,
       fontSize: 38,
       lineHeight: `46px`,
     },
     h2: {
+      ...defaultFontFamilyStack,
       fontWeight: defaultFontWeights.bold,
       fontSize: 30,
       lineHeight: `38px`,
     },
     h3: {
+      ...defaultFontFamilyStack,
       fontWeight: defaultFontWeights.regular,
       fontSize: 24,
       lineHeight: `32px`,
     },
     h4: {
+      ...defaultFontFamilyStack,
       fontWeight: defaultFontWeights.regular,
       fontSize: 20,
       lineHeight: `28px`,
     },
     h5: {
+      ...defaultFontFamilyStack,
       fontWeight: defaultFontWeights.regular,
       fontSize: 16,
       lineHeight: `24px`,
     },
     h6: {
+      ...defaultFontFamilyStack,
       fontWeight: defaultFontWeights.regular,
       fontSize: 30,
       lineHeight: `46px`,
     },
     subtitle1: {
+      ...defaultFontFamilyStack,
       fontWeight: defaultFontWeights.regular,
       fontSize: 24,
       lineHeight: `32px`,
     },
     subtitle2: {
+      ...defaultFontFamilyStack,
       fontWeight: defaultFontWeights.regular,
       fontSize: 24,
       lineHeight: `32px`,
     },
     body1: {
+      ...defaultFontFamilyStack,
       fontWeight: defaultFontWeights.regular,
       fontSize: 14,
       lineHeight: `22px`,
@@ -147,6 +158,7 @@ const DefaultThemeConfig: IThemeConfig = {
       },
     },
     body2: {
+      ...defaultFontFamilyStack,
       fontWeight: defaultFontWeights.regular,
       fontSize: 12,
       lineHeight: `20px`,
@@ -156,11 +168,13 @@ const DefaultThemeConfig: IThemeConfig = {
       },
     },
     button: {
+      ...defaultFontFamilyStack,
       fontWeight: defaultFontWeights.regular,
       fontSize: 14,
       lineHeight: `22px`,
     },
     caption: {
+      ...defaultFontFamilyStack,
       fontWeight: defaultFontWeights.regular,
       fontSize: 12,
       lineHeight: `20px`,
