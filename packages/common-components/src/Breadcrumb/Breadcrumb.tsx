@@ -1,8 +1,8 @@
 import React, { Fragment } from "react"
-import { ITheme, makeStyles, createStyles } from "@chainsafe/common-themes"
 import clsx from "clsx"
-import Typography from "../Typography"
-import { HomeIcon } from ".."
+import { ITheme, makeStyles, createStyles } from "@chainsafe/common-themes"
+import { HomeIcon } from "../Icons"
+import { Typography } from "../Typography"
 
 export type Crumb = {
   text: string
@@ -15,9 +15,8 @@ export type BreadcrumbProps = {
   className?: string
 }
 
-const useStyles = makeStyles((theme: ITheme) => {
-  console.log(theme)
-  return createStyles({
+const useStyles = makeStyles((theme: ITheme) =>
+  createStyles({
     // JSS in CSS goes here
     root: {
       margin: 0,
@@ -59,8 +58,8 @@ const useStyles = makeStyles((theme: ITheme) => {
         cursor: "pointer",
       },
     },
-  })
-})
+  }),
+)
 
 const Breadcrumb: React.FC<BreadcrumbProps> = ({
   crumbs = [],
@@ -70,7 +69,6 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({
   const classes = useStyles()
   return (
     <div className={clsx(classes.root, className)}>
-      {/* TODO: Replace with Home icon */}
       <HomeIcon
         className={clsx(classes.home, homeOnClick && "clickable")}
         onClick={() => (homeOnClick ? homeOnClick() : null)}
