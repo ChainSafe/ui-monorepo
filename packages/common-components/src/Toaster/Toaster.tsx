@@ -1,75 +1,107 @@
-import React, { ReactNode } from "react"
-// import { makeStyles, createStyles } from "@material-ui/styles"
-// import { ITheme } from "@chainsafe/common-themes"
-// import clsx from "clsx"
-import Transition from "react-transition-group/Transition"
+import React, { ReactNode, useEffect } from "react"
+import { makeStyles, createStyles } from "@material-ui/styles"
+import { ITheme } from "@chainsafe/common-themes"
+import clsx from "clsx"
 
-const duration = 300
+const useStyles = makeStyles((theme: ITheme) =>
+  createStyles({
+    toast: {
+      position: "fixed",
+      transitionDuration: "400ms",
+      transitionProperty: "opacity, top, left, right, bottom, transform",
+      opacity: 0,
+    },
+    topRight: {
+      top: `${theme.constants.generalUnit * 2}px`,
+      right: 0,
+      transform: "translate(100%,0)",
+      "&.open": {
+        right: `${theme.constants.generalUnit * 2}px`,
+        transform: "translate(0,0)",
+        opacity: 1,
+      },
+    },
+    topLeft: {
+      top: `${theme.constants.generalUnit * 2}px`,
+      left: 0,
+      transform: "translate(-100%,0)",
+      "&.open": {
+        transform: "translate(0,0)",
+        left: `${theme.constants.generalUnit * 2}px`,
+        opacity: 1,
+      },
+    },
+    bottomRight: {
+      bottom: `${theme.constants.generalUnit * 2}px`,
+      right: 0,
+      transform: "translate(100%,0)",
+      "&.open": {
+        right: `${theme.constants.generalUnit * 2}px`,
+        transform: "translate(0,0)",
+        opacity: 1,
+      },
+    },
+    bottomLeft: {
+      bottom: `${theme.constants.generalUnit * 2}px`,
+      left: 0,
+      transform: "translate(-100%,0)",
+      "&.open": {
+        left: `${theme.constants.generalUnit * 2}px`,
+        transform: "translate(0,0)",
+        opacity: 1,
+      },
+    },
+  }),
+)
 
-const defaultStyle = {
-  position: "fixed",
-  top: "0",
-  right: "-270px",
-  zIndex: "1000",
-}
-
-const transitionStyles = {
-  entered: {
-    right: "24px",
-  },
-  exiting: {
-    transform: "translateX(100%)",
-    transition: `transform ${duration}ms ease-in-out`,
-  },
-  exited: {
-    right: "-270px",
-  },
-}
-
-// const useStyles = makeStyles((theme: ITheme) =>
-//   createStyles({
-//     root: {
-//       zIndex: theme.zIndex ? theme.zIndex.layer1 : 99,
-//       position: "fixed",
-//       top: 24,
-//       right: -280,
-//     },
-//   }),
-// )
-
-export type IToasterType = "success" | "error" | "warning"
+export type ToasterPosition =
+  | "topRight"
+  | "topLeft"
+  | "bottomRight"
+  | "bottomLeft"
 
 export interface IToasterProps {
   children?: ReactNode | ReactNode[]
   open: boolean
   className?: string
+  position?: ToasterPosition
+  openDuration?: number
+  onClose?(): void
+  keepOpen?: boolean
 }
 
 const Toaster: React.FC<IToasterProps> = ({
-  // className,
+  className,
   open,
   children,
+  position = "topRight",
+  openDuration = 3000,
+  onClose,
+  keepOpen,
 }: IToasterProps) => {
-  // if (!open) return null
-  // console.log(open)
-  // const classes = useStyles()
+  const classes = useStyles()
 
-  // return <div className={clsx(classes.root, className)}>{children}</div>
+  useEffect(() => {
+    if (open && !keepOpen) {
+      const timer = setTimeout(() => {
+        onClose ? onClose() : null
+      }, openDuration)
+      return () => clearTimeout(timer)
+    }
+    return
+  }, [open])
 
   return (
-    <Transition in={open} timeout={3000} unmountOnExit>
-      {(state) => {
-        console.log(state)
-        return (
-          <div
-            style={{ ...defaultStyle, ...transitionStyles[state] }}
-            // className={clsx(classes.root, className)}
-          >
-            {children}
-          </div>
-        )
-      }}
-    </Transition>
+    <div
+      className={clsx(
+        classes.toast,
+        className,
+        classes[position],
+        open && "open",
+      )}
+    >
+      {children}
+    </div>
   )
 }
 
