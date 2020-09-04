@@ -10,7 +10,7 @@ export default {
 
 export const PaperDemo = (): React.ReactNode => (
   <Paper
-    shape={select("shape", ["rounded", "square"], "rounded")}
+    shape={select("shape", [undefined, "rounded", "square"], undefined)}
     border={boolean("border", false)}
     fullWidth={boolean("full width", false)}
     shadow={select(
