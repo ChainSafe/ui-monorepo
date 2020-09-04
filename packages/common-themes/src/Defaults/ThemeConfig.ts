@@ -190,6 +190,9 @@ const DefaultThemeConfig: IThemeConfig = {
     layer4: 3000,
     blocker: 10000,
   },
+  shadows: {
+    shadow1: 
+  }
 }
 
 export { DefaultThemeConfig }
