@@ -1,25 +1,38 @@
-import React, { ReactNode } from "react"
+import React, { ReactNode, useState } from "react"
 import { ITheme, makeStyles, createStyles } from "@chainsafe/common-themes"
 import { Typography } from "../Typography"
 import clsx from "clsx"
+import { DirectionalRightIcon } from "../Icons"
 
 const useStyles = makeStyles((theme: ITheme) =>
   createStyles({
     // JSS in CSS goes here
     root: {
       position: "relative",
-      "&.basic": {},
+      "&.basic": {
+        border: `1px solid ${theme.palette["gray"][5]}`,
+      },
       "&.borderless": {},
     },
     icon: {
       "& svg": {
         width: theme.constants.generalUnit,
         height: theme.constants.generalUnit * 1.5,
-        fill: theme.palette["grey"][9],
+        fill: theme.palette["gray"][9],
         transitionDuration: `${theme.animation.transform}ms`,
       },
     },
     heading: {
+      backgroundColor: theme.palette["gray"][2],
+      padding: `${theme.constants.generalUnit * 1.5}px ${
+        theme.constants.generalUnit * 2
+      }px`,
+      color: theme.palette["gray"][9],
+      cursor: "pointer",
+      "&.basic": {
+        backgroundColor: theme.palette["gray"][2],
+      },
+      "&.borderless": {},
       "&.active": {
         "& svg": {
           transform: "rotateZ(90deg)",
@@ -28,9 +41,23 @@ const useStyles = makeStyles((theme: ITheme) =>
     },
     content: {
       overflow: "hidden",
+      color: theme.palette["gray"][8],
       height: 0,
+      padding: `0 ${theme.constants.generalUnit * 2}px`,
       transitionDuration: `${theme.animation.transform}ms`,
+      // opacity: 0,
+      "&.basic": {
+        backgroundColor: theme.palette.common.white.main,
+        borderTop: `0px solid ${theme.palette["gray"][5]}`,
+        "&.active": {
+          borderTop: `1px solid ${theme.palette["gray"][5]}`,
+        },
+      },
       "&.active": {
+        padding: `${theme.constants.generalUnit * 2}px ${
+          theme.constants.generalUnit * 2
+        }px`,
+        opacity: 1,
         height: "auto",
       },
     },
@@ -38,32 +65,40 @@ const useStyles = makeStyles((theme: ITheme) =>
 )
 
 export interface IExpansionPanelProps {
-  heading: string
+  header: string
   children?: ReactNode | ReactNode[] | null
-  active: boolean
-  variant: "basic" | "borderless"
+  active?: boolean
+  variant?: "basic" | "borderless"
+  toggle?: (state: boolean) => void
 }
 
 const ExpansionPanel: React.FC<IExpansionPanelProps> = ({
   children,
-  heading,
+  header,
   variant = "basic",
-  active = false,
+  toggle,
+  active,
 }: IExpansionPanelProps) => {
+  console.log(active)
   const classes = useStyles()
+  const [activeInternal, setActive] = useState(false)
+  const handleToggle = () => {
+    toggle ? toggle(!activeInternal) : null, setActive(!activeInternal)
+  }
   return (
     <div className={clsx(classes.root, variant)}>
       <section
-        onClick={() => (active = !active)}
-        className={clsx(classes.heading, {
-          ["active"]: active,
+        onClick={() => handleToggle()}
+        className={clsx(classes.heading, variant, {
+          ["active"]: active != undefined ? active : activeInternal,
         })}
       >
-        <Typography>{heading}</Typography>
+        <DirectionalRightIcon className={classes.icon} />
+        <Typography>{header}</Typography>
       </section>
       <section
-        className={clsx(classes.content, {
-          ["active"]: active,
+        className={clsx(classes.content, variant, {
+          ["active"]: active != undefined ? active : activeInternal,
         })}
       >
         {children}

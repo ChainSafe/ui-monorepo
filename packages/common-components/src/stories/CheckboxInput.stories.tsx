@@ -3,7 +3,7 @@ import { action } from "@storybook/addon-actions"
 import { withKnobs, boolean, text } from "@storybook/addon-knobs"
 import { CheckboxInput, FormikCheckboxInput } from "../CheckboxInput"
 import { Formik, Form } from "formik"
-import Button from "../Button"
+import { Button } from "../Button"
 
 export default {
   title: "CheckboxInput",

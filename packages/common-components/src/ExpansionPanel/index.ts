@@ -1,2 +1,2 @@
-export { default as CssBaseline } from "./CssBaseline"
-export * from "./CssBaseline"
+export { default as ExpansionPanel } from "./ExpansionPanel"
+export * from "./ExpansionPanel"
