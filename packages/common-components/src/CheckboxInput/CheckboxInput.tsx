@@ -1,7 +1,7 @@
 import React, { FormEvent } from "react"
 import { ITheme, makeStyles, createStyles } from "@chainsafe/common-themes"
 import clsx from "clsx"
-import Typography from "../Typography"
+import { Typography } from "../Typography"
 import { CheckIcon } from "../Icons"
 
 const useStyles = makeStyles((theme: ITheme) =>
