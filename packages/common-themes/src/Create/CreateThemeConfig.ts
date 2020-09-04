@@ -37,6 +37,7 @@ interface IFontWeights {
   light: number
   regular: number
   medium: number
+  semibold: number
   bold: number
 }
 interface ITypography {
