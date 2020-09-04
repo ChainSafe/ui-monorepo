@@ -31,12 +31,12 @@ const useStyles = makeStyles((theme: ITheme) => {
   })
 })
 
-export type IPaperShape = "square" | "rounded"
+export type PaperShape = "square" | "rounded"
 
 export interface IPaperProps {
   children?: ReactNode | ReactNode[]
   className?: string
-  shape?: IPaperShape
+  shape?: PaperShape
   border?: boolean
   fullWidth?: boolean
   shadow?: string | "none"

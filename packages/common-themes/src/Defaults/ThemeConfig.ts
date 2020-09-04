@@ -4,6 +4,7 @@ import {
   IFontWeights,
 } from "../Create/CreateThemeConfig"
 import { DefaultPalette } from "./ColorPalette"
+import { fade } from "../utils/colorManipulator"
 
 const defaultFontFamilyStack = {
   fontFamily: `-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen','Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',sans-serif`,
@@ -191,8 +192,8 @@ const DefaultThemeConfig: IThemeConfig = {
     blocker: 10000,
   },
   shadows: {
-    shadow1: "0px 1px 4px rgba(0, 0, 0, 0.15)",
-    shadow2: "0px 2px 8px rgba(0, 0, 0, 0.25)",
+    shadow1: `0px 1px 4px ${fade(DefaultPalette.gray[10], 0.15)}`,
+    shadow2: `0px 2px 8px ${fade(DefaultPalette.gray[10], 0.25)}`,
   },
 }
 
