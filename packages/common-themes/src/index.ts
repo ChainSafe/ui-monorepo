@@ -25,3 +25,4 @@ export {
 } from "@material-ui/styles"
 
 export { useThemeSwitcher, ThemeSwitcher, useOnClickOutside, IDefaultPalette }
+export * from "./utils/colorManipulator"
