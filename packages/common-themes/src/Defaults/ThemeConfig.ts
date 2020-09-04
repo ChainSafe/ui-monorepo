@@ -191,8 +191,8 @@ const DefaultThemeConfig: IThemeConfig = {
     blocker: 10000,
   },
   shadows: {
-    shadow1: "",
-    shadow2: "",
+    shadow1: "0px 1px 4px rgba(0, 0, 0, 0.15)",
+    shadow2: "0px 2px 8px rgba(0, 0, 0, 0.25)",
   },
 }
 

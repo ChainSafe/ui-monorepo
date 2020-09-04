@@ -13,6 +13,11 @@ export const PaperDemo = (): React.ReactNode => (
     shape={select("shape", ["rounded", "square"], "rounded")}
     border={boolean("border", false)}
     fullWidth={boolean("full width", false)}
+    shadow={select(
+      "shadow",
+      [undefined, "none", "shadow1", "shadow2"],
+      undefined,
+    )}
   >
     Paper content
   </Paper>

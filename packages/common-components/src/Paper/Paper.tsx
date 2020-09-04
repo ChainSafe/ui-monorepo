@@ -5,9 +5,9 @@ import { ITheme } from "@chainsafe/common-themes"
 
 const useStyles = makeStyles((theme: ITheme) => {
   const shadowStyles = {}
-  theme.shadows.forEach((shadow) => {
+  Object.keys(theme.shadows).forEach((shadow) => {
     shadowStyles[`shadow-${shadow}`] = {
-      boxShadow: shadow,
+      boxShadow: theme.shadows[shadow],
     }
   })
 
@@ -16,7 +16,6 @@ const useStyles = makeStyles((theme: ITheme) => {
       backgroundColor: theme.palette.background.paper,
       color: theme.palette.text.primary,
       width: "max-content",
-      transition: `all ${theme.animation.transform}ms`,
       padding: `${theme.constants.generalUnit}px`,
     },
     fullWidth: {
@@ -40,7 +39,7 @@ export interface IPaperProps {
   shape?: IPaperShape
   border?: boolean
   fullWidth?: boolean
-  shadow?: string
+  shadow?: string | "none"
 }
 
 const Paper: React.FC<IPaperProps> = ({
@@ -49,7 +48,7 @@ const Paper: React.FC<IPaperProps> = ({
   shape = "rounded",
   border,
   fullWidth,
-  shadow,
+  shadow = "shadow1",
   ...rest
 }: IPaperProps) => {
   const classes = useStyles()
@@ -61,7 +60,7 @@ const Paper: React.FC<IPaperProps> = ({
         shape === "rounded" && classes.rounded,
         border && classes.bordered,
         fullWidth && classes.fullWidth,
-        shadow && classes[`shadow-${shadow}`],
+        shadow !== "none" && classes[`shadow-${shadow}`],
         className,
       )}
       {...rest}
