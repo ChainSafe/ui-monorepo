@@ -9,7 +9,7 @@ const useStyles = makeStyles((theme: ITheme) =>
     root: {
       display: "flex",
       alignItems: "center",
-      boxShadow: "0px 2px 8px rgba(0, 0, 0, 0.25)",
+      boxShadow: theme.shadows.shadow2,
       borderRadius: 4,
       padding: `${theme.constants.generalUnit * 2}px`,
     },
