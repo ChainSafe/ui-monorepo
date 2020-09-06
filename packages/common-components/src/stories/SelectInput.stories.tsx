@@ -26,7 +26,10 @@ export const SelectInputStory = (): React.ReactNode => (
     size={select("Size", sizeOptions, "large")}
     disabled={boolean("Disabled", false)}
     label={text("Label", "Testing Label")}
-    options={[{ label: "a" }, { label: "b" }]}
+    options={[
+      { label: "a", value: "a" },
+      { label: "b", value: "b" },
+    ]}
   />
 )
 

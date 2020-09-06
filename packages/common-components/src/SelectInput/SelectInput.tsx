@@ -9,6 +9,22 @@ import clsx from "clsx"
 import Select from "react-select"
 import { Typography } from "../Typography"
 
+// ```
+// @keyframes: {
+//   0: {
+
+//   },
+//   100%: {
+//     opacity: 1,
+//     paddingTop: initial,
+//     paddingLeft: initial,
+//     height: "auto",
+//   }
+// }
+// animationFillMode: forwards
+// animation: heightFade 400ms
+// ```
+
 const useStyles = makeStyles((theme: ITheme) =>
   createStyles({
     root: {},
@@ -66,6 +82,7 @@ const SelectInput: React.FC<ISelectInputProps> = ({
     !disabled && onChange(event)
   }
 
+  // const animatedComponents = makeAnimated()
   return (
     <label className={clsx(classes.root, className)}>
       {label && label.length > 0 && (
@@ -104,11 +121,25 @@ const SelectInput: React.FC<ISelectInputProps> = ({
             border: "none",
             borderRadius: 2,
           }),
-          menu: (provided) => ({
+          menu: (provided, state) => {
+            console.log(state.isDisabled)
+            return {
+              ...provided,
+              marginTop: 2,
+              marginBottom: 0,
+              borderRadius: 2,
+              opacity: !state.selectProps.menuIsOpen ? 0 : 1,
+              paddingTop: !state.selectProps.menuIsOpen ? 0 : "initial",
+              paddingLeft: !state.selectProps.menuIsOpen ? 0 : "initial",
+              height: !state.selectProps.menuIsOpen ? 0 : "auto",
+              transitionDuration: `${theme.animation.transform}ms`,
+            }
+          },
+          dropdownIndicator: (provided, state) => ({
             ...provided,
-            marginTop: 2,
-            marginBottom: 0,
-            borderRadius: 2,
+            transform: state.selectProps.menuIsOpen && "rotate(180deg)",
+            transitionProperty: "transform",
+            transitionDuration: `${theme.animation.transform * 2}ms`,
           }),
           menuList: (provided) => ({
             ...provided,
