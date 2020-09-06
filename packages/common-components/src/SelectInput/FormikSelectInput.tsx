@@ -1,7 +1,6 @@
 import React, { ReactNode } from "react"
 import { useField } from "formik"
 import SelectInput from "./SelectInput"
-import SelectOption from "./SelectOption"
 
 interface IFormikSelectInputProps {
   className?: string
@@ -26,10 +25,8 @@ const FormikSelectInput: React.FC<IFormikSelectInputProps> = ({
       error={meta.error}
       {...props}
       value={field.value}
-    >
-      <SelectOption label="a" />
-      <SelectOption label="b" />
-    </SelectInput>
+      options={[{ label: "a" }, { label: "b" }]}
+    />
   )
 }
 

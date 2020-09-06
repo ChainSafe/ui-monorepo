@@ -26,10 +26,8 @@ export const SelectInputStory = (): React.ReactNode => (
     size={select("Size", sizeOptions, "large")}
     disabled={boolean("Disabled", false)}
     label={text("Label", "Testing Label")}
-  >
-    <SelectOption label="a" />
-    <SelectOption label="b" />
-  </SelectInput>
+    options={[{ label: "a" }, { label: "b" }]}
+  />
 )
 
 export const FormikStory = (): React.ReactNode => {
