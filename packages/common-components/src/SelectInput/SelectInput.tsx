@@ -53,7 +53,7 @@ export interface ISelectInputProps {
 
 const SelectInput: React.FC<ISelectInputProps> = ({
   className,
-  // size = "medium",
+  size = "medium",
   disabled = false,
   onChange,
   label,
@@ -66,7 +66,8 @@ const SelectInput: React.FC<ISelectInputProps> = ({
   const handleChange = (event: any) => {
     !disabled && onChange(event)
   }
-
+  const controlHeight = size === "large" ? 40 : size === "medium" ? 32 : 24
+  console.log(controlHeight)
   // const animatedComponents = makeAnimated()
   return (
     <label className={clsx(classes.root, className)}>
@@ -85,7 +86,6 @@ const SelectInput: React.FC<ISelectInputProps> = ({
         onChange={handleChange}
         isDisabled={disabled}
         placeholder={placeholder}
-        closeMenuOnSelect={false}
         isMenuOpen={true}
         styles={{
           container: (provided, state) => ({
@@ -123,6 +123,7 @@ const SelectInput: React.FC<ISelectInputProps> = ({
           }),
           singleValue: (provided, state) => ({
             ...provided,
+            ...theme.typography.body2,
             color: !state.isDisabled
               ? theme.palette["gray"][8]
               : theme.palette["gray"][6],
@@ -135,6 +136,7 @@ const SelectInput: React.FC<ISelectInputProps> = ({
           }),
           option: (provided, state) => ({
             ...provided,
+            ...theme.typography.body2,
             backgroundColor: state.isSelected && theme.palette["gray"][3],
             color: theme.palette["gray"][8],
             fontWeight: state.isSelected && theme.typography.fontWeight.bold,
@@ -142,7 +144,20 @@ const SelectInput: React.FC<ISelectInputProps> = ({
               backgroundColor: theme.palette["blue"][1],
             },
           }),
+          valueContainer: (provided) => ({
+            ...provided,
+            ...theme.typography.body2,
+          }),
         }}
+        theme={(selectTheme) => ({
+          ...selectTheme,
+          borderRadius: 2,
+          spacing: {
+            ...selectTheme.spacing,
+            baseUnit: 8,
+            controlHeight: controlHeight,
+          },
+        })}
       />
       {captionMessage && (
         <Typography
