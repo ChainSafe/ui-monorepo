@@ -7,7 +7,7 @@ import {
   useToaster,
   ToasterProvider,
 } from "../Toaster"
-import { withKnobs, select, boolean } from "@storybook/addon-knobs"
+import { withKnobs, select, boolean, text } from "@storybook/addon-knobs"
 
 export default {
   title: "Toaster",
@@ -43,8 +43,11 @@ export const MainDemo: React.FC = () => {
       >
         <ToasterMessage
           onClose={() => setOpen(false)}
-          message="Update successful"
-          description="Your request was successfully completed."
+          message={text("message", "Update successful")}
+          description={text(
+            "description",
+            "Your request was successfully completed.",
+          )}
           type={select("Type", toasterMessageTypes, "error")}
         />
       </Toaster>
@@ -54,7 +57,7 @@ export const MainDemo: React.FC = () => {
 
 export const ToasterWrapper: React.FC = () => {
   return (
-    <ToasterProvider>
+    <ToasterProvider position="topRight" openDuration={4000}>
       <ToasterDemo />
     </ToasterProvider>
   )
@@ -71,9 +74,5 @@ const ToasterDemo: React.FC = () => {
     })
   }
 
-  return (
-    <ToasterProvider>
-      <button onClick={onShowToast}>open toaster</button>
-    </ToasterProvider>
-  )
+  return <button onClick={onShowToast}>open toaster</button>
 }

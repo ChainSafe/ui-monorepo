@@ -7,7 +7,7 @@ const useStyles = makeStyles((theme: ITheme) =>
   createStyles({
     toast: {
       position: "fixed",
-      transitionDuration: "400ms",
+      transitionDuration: `${theme.animation.transform}ms`,
       transitionProperty: "opacity, top, left, right, bottom, transform",
       opacity: 0,
     },
