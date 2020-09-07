@@ -79,11 +79,11 @@ const ExpansionPanel: React.FC<IExpansionPanelProps> = ({
   toggle,
   active,
 }: IExpansionPanelProps) => {
-  console.log(active)
   const classes = useStyles()
-  const [activeInternal, setActive] = useState(false)
+  const [activeInternal, setActive] = useState(!!active)
   const handleToggle = () => {
-    toggle ? toggle(!activeInternal) : null, setActive(!activeInternal)
+    toggle && toggle(!activeInternal)
+    setActive(!activeInternal)
   }
   return (
     <div className={clsx(classes.root, variant)}>
