@@ -9,22 +9,6 @@ import clsx from "clsx"
 import Select from "react-select"
 import { Typography } from "../Typography"
 
-// ```
-// @keyframes: {
-//   0: {
-
-//   },
-//   100%: {
-//     opacity: 1,
-//     paddingTop: initial,
-//     paddingLeft: initial,
-//     height: "auto",
-//   }
-// }
-// animationFillMode: forwards
-// animation: heightFade 400ms
-// ```
-
 const useStyles = makeStyles((theme: ITheme) =>
   createStyles({
     root: {},
@@ -48,11 +32,13 @@ const useStyles = makeStyles((theme: ITheme) =>
   }),
 )
 
-interface ISelectOption {
+export interface ISelectOption {
   value?: string | number
   label: string | number
+  disabled?: boolean
 }
-interface ISelectInputProps {
+
+export interface ISelectInputProps {
   className?: string
   size?: "large" | "medium" | "small"
   label?: string
@@ -78,7 +64,6 @@ const SelectInput: React.FC<ISelectInputProps> = ({
   const classes = useStyles()
   const theme: ITheme = useTheme()
   const handleChange = (event: any) => {
-    console.log(event)
     !disabled && onChange(event)
   }
 
@@ -101,6 +86,7 @@ const SelectInput: React.FC<ISelectInputProps> = ({
         isDisabled={disabled}
         placeholder={placeholder}
         closeMenuOnSelect={false}
+        isMenuOpen={true}
         styles={{
           container: (provided, state) => ({
             ...provided,
@@ -109,7 +95,6 @@ const SelectInput: React.FC<ISelectInputProps> = ({
             backgroundColor: !state.isDisabled
               ? theme.palette.common.white.main
               : theme.palette["gray"][3],
-            transitionDuration: `${theme.animation.transform}ms`,
             borderRadius: "2px",
             "&:hover": {
               border: `1px solid ${theme.palette.primary.main}`,
@@ -121,20 +106,12 @@ const SelectInput: React.FC<ISelectInputProps> = ({
             border: "none",
             borderRadius: 2,
           }),
-          menu: (provided, state) => {
-            console.log(state.isDisabled)
-            return {
-              ...provided,
-              marginTop: 2,
-              marginBottom: 0,
-              borderRadius: 2,
-              opacity: !state.selectProps.menuIsOpen ? 0 : 1,
-              paddingTop: !state.selectProps.menuIsOpen ? 0 : "initial",
-              paddingLeft: !state.selectProps.menuIsOpen ? 0 : "initial",
-              height: !state.selectProps.menuIsOpen ? 0 : "auto",
-              transitionDuration: `${theme.animation.transform}ms`,
-            }
-          },
+          menu: (provided) => ({
+            ...provided,
+            marginTop: 2,
+            marginBottom: 0,
+            borderRadius: 2,
+          }),
           dropdownIndicator: (provided, state) => ({
             ...provided,
             transform: state.selectProps.menuIsOpen && "rotate(180deg)",
@@ -155,6 +132,15 @@ const SelectInput: React.FC<ISelectInputProps> = ({
             color: !state.isDisabled
               ? theme.palette["gray"][8]
               : theme.palette["gray"][6],
+          }),
+          option: (provided, state) => ({
+            ...provided,
+            backgroundColor: state.isSelected && theme.palette["gray"][3],
+            color: theme.palette["gray"][8],
+            fontWeight: state.isSelected && theme.typography.fontWeight.bold,
+            "&:hover": {
+              backgroundColor: theme.palette["blue"][1],
+            },
           }),
         }}
       />

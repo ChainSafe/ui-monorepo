@@ -1,16 +1,17 @@
-import React, { ReactNode } from "react"
+import React from "react"
 import { useField } from "formik"
-import SelectInput from "./SelectInput"
+import SelectInput, { ISelectOption } from "./SelectInput"
 
 interface IFormikSelectInputProps {
   className?: string
   name: string
+  options: ISelectOption[]
   label?: string
-  children: ReactNode | ReactNode[]
 }
 
 const FormikSelectInput: React.FC<IFormikSelectInputProps> = ({
   name,
+  options,
   ...props
 }) => {
   const [field, meta, helpers] = useField(name)
@@ -23,9 +24,9 @@ const FormikSelectInput: React.FC<IFormikSelectInputProps> = ({
     <SelectInput
       onChange={handleChange}
       error={meta.error}
+      options={options}
       {...props}
       value={field.value}
-      options={[{ label: "a" }, { label: "b" }]}
     />
   )
 }

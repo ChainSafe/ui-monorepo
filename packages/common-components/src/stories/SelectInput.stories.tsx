@@ -3,8 +3,7 @@ import { withKnobs, select, boolean, text } from "@storybook/addon-knobs"
 import { action } from "@storybook/addon-actions"
 import { Formik, Form } from "formik"
 import { Button } from "../Button"
-import { FormikSelectInput, SelectInput } from "../SelectInput"
-import SelectOption from "../SelectInput/SelectOption"
+import { SelectInput, FormikSelectInput } from "../SelectInput"
 
 export default {
   title: "Select Input",
@@ -13,7 +12,11 @@ export default {
   decorators: [withKnobs],
 }
 
-const sizeOptions: ["large", "medium", "small"] = ["large", "medium", "small"]
+const sizeOptions: Array<"large" | "medium" | "small"> = [
+  "large",
+  "medium",
+  "small",
+]
 
 export const actionsData = {
   onChange: action("onChange"),
@@ -29,6 +32,7 @@ export const SelectInputStory = (): React.ReactNode => (
     options={[
       { label: "a", value: "a" },
       { label: "b", value: "b" },
+      { label: "c", value: "c" },
     ]}
   />
 )
@@ -42,10 +46,14 @@ export const FormikStory = (): React.ReactNode => {
       onSubmit={(values: any) => actionsData.onFormSubmit(values)}
     >
       <Form>
-        <FormikSelectInput name="select">
-          <SelectOption label="a" />
-          <SelectOption label="b" />
-        </FormikSelectInput>
+        <FormikSelectInput
+          name="select"
+          options={[
+            { label: "a", value: "a" },
+            { label: "b", value: "b" },
+            { label: "c", value: "c" },
+          ]}
+        />
         <br />
         <br />
         <Button type="submit">Submit</Button>
