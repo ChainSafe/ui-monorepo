@@ -24,7 +24,6 @@ const useStyles = makeStyles((theme: ITheme) =>
     // JSS in CSS goes here
     root: {
       ...theme.typography.body2,
-      margin: 5,
       cursor: "pointer",
       "&.large": {
         fontSize: 14,
@@ -51,7 +50,6 @@ const useStyles = makeStyles((theme: ITheme) =>
         },
         "&:focus": {
           borderColor: theme.palette.primary.border,
-          // borderColor: theme.palette
           boxShadow: "0px 0px 4px rgba(24, 144, 255, 0.5)",
         },
       },
@@ -61,60 +59,6 @@ const useStyles = makeStyles((theme: ITheme) =>
           backgroundColor: theme.palette["gray"][3],
         },
       },
-    },
-    error: {
-      "& .right > *:nth-child(2) svg": {
-        fill: theme.palette.error.main,
-      },
-      "& input": {
-        borderColor: theme.palette.error.border,
-        "&:hover": {
-          borderColor: theme.palette.error.border,
-          boxShadow: "0px 0px 4px rgba(245, 34, 45, 0.5)",
-        },
-        "&:focus": {
-          borderColor: theme.palette.error.border,
-          boxShadow: "0px 0px 4px rgba(245, 34, 45, 0.5)",
-        },
-      },
-    },
-    warning: {
-      "& .right > *:nth-child(2) svg": {
-        fill: theme.palette.warning.main,
-      },
-      "& input": {
-        borderColor: theme.palette.warning.border,
-        "&:hover": {
-          borderColor: theme.palette.warning.border,
-          boxShadow: "0px 0px 4px rgba(250, 173, 20, 0.5)",
-        },
-        "&:focus": {
-          borderColor: theme.palette.warning.border,
-          boxShadow: "0px 0px 4px rgba(250, 173, 20, 0.5)",
-        },
-      },
-    },
-    success: {
-      "& .right > *:nth-child(2) svg": {
-        fill: theme.palette.success.main,
-      },
-    },
-    caption: {
-      display: "block",
-      marginTop: theme.constants.generalUnit / 4,
-      transitionDuration: `${theme.animation.transform}ms`,
-      color: theme.palette["gray"][7],
-      "&.error": {
-        color: theme.palette.error.main,
-      },
-      "&.warning": {
-        color: theme.palette.warning.main,
-      },
-    },
-    label: {
-      transitionDuration: `${theme.animation.transform}ms`,
-      display: "block",
-      marginBottom: theme.constants.generalUnit / 4,
     },
     inputArea: {
       ...theme.typography.body2,
@@ -132,26 +76,6 @@ const useStyles = makeStyles((theme: ITheme) =>
             theme.constants.generalUnit * 1.5
           }px`,
         },
-        "&.iconLeft input": {
-          paddingLeft:
-            iconSize.large.height +
-            iconSize.large.padding * 2 +
-            theme.constants.generalUnit * 1.5,
-        },
-        "&.success": {
-          "& input": {
-            paddingRight:
-              iconSize.large.height +
-              iconSize.large.padding +
-              theme.constants.generalUnit * 1.5,
-          },
-          "&.iconRight input": {
-            paddingRight:
-              iconSize.large.height * 2 +
-              iconSize.large.padding +
-              theme.constants.generalUnit * 1.5,
-          },
-        },
       },
       "&.medium": {
         "& input": {
@@ -159,57 +83,12 @@ const useStyles = makeStyles((theme: ITheme) =>
             theme.constants.generalUnit * 1.5
           }px`,
         },
-        "&.iconLeft input": {
-          paddingLeft:
-            iconSize.medium.height +
-            iconSize.medium.padding * 2 +
-            theme.constants.generalUnit * 1.5,
-        },
-        "&.success": {
-          "& input": {
-            paddingRight:
-              iconSize.medium.height +
-              iconSize.medium.padding +
-              theme.constants.generalUnit * 1.5,
-          },
-          "&.iconRight input": {
-            paddingRight:
-              iconSize.medium.height * 2 +
-              iconSize.medium.padding +
-              theme.constants.generalUnit * 1.5,
-          },
-        },
       },
       "&.small": {
         "& input": {
           padding: `${
             theme.constants.generalUnit / theme.constants.generalUnit
           }px ${theme.constants.generalUnit}px`,
-        },
-        "&.iconLeft input": {
-          paddingLeft:
-            iconSize.small.height +
-            iconSize.small.padding * 2 +
-            theme.constants.generalUnit,
-        },
-        "&.success": {
-          "& input": {
-            paddingRight:
-              iconSize.small.height +
-              iconSize.small.padding * 2 +
-              theme.constants.generalUnit,
-          },
-          "&.iconRight input": {
-            paddingRight:
-              iconSize.small.height * 2 +
-              iconSize.small.padding * 2 +
-              theme.constants.generalUnit,
-          },
-        },
-      },
-      "&.error": {
-        "& input:focus": {
-          backgroundColor: "unset",
         },
       },
     },
@@ -243,9 +122,6 @@ const useStyles = makeStyles((theme: ITheme) =>
           marginLeft: 5,
         },
       },
-      "&.left": {
-        margin: 0,
-      },
       "&.right": {
         display: "flex",
         flexDirection: "row",
@@ -256,9 +132,6 @@ const useStyles = makeStyles((theme: ITheme) =>
         fill: theme.palette["gray"][7],
       },
       "&.large": {
-        "&.left": {
-          left: theme.constants.generalUnit * 1.5,
-        },
         "&.right": {
           right: theme.constants.generalUnit * 1.5,
         },
@@ -267,9 +140,6 @@ const useStyles = makeStyles((theme: ITheme) =>
         },
       },
       "&.medium": {
-        "&.left": {
-          left: iconSize.medium.padding,
-        },
         "&.right": {
           right: iconSize.medium.padding,
         },
@@ -278,9 +148,6 @@ const useStyles = makeStyles((theme: ITheme) =>
         },
       },
       "&.small": {
-        "&.left": {
-          left: iconSize.small.padding,
-        },
         "&.right": {
           right: iconSize.small.padding,
         },
