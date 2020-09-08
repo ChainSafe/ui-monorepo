@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme: ITheme) =>
 )
 
 interface ISelectOption {
-  value?: string | number
+  value: string | number
   label: string | number
 }
 
@@ -59,6 +59,7 @@ const SelectInput: React.FC<ISelectInputProps> = ({
   placeholder = "Please select",
   options,
   captionMessage,
+  value,
 }) => {
   const classes = useStyles()
   const theme: ITheme = useTheme()
@@ -83,6 +84,7 @@ const SelectInput: React.FC<ISelectInputProps> = ({
         onChange={handleChange}
         isDisabled={disabled}
         placeholder={placeholder}
+        value={value}
         styles={{
           container: (provided, state) => ({
             ...provided,
