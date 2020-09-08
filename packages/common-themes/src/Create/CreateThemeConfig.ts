@@ -76,6 +76,11 @@ interface IAnimation {
   translate: 400
   [key: string]: any
 }
+interface IShadows {
+  shadow1: string
+  shadow2: string
+  [key: string]: string
+}
 // TODO: convert to Map & Sets for efficency
 interface IThemeConfig {
   animation: IAnimation
@@ -94,6 +99,7 @@ interface IThemeConfig {
     blocker: number
     [key: string]: number
   }
+  shadows: IShadows
   cssBaseline?: Record<string, any>
   globalStyling?: Record<string, any>
 }
