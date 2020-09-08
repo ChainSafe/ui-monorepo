@@ -296,7 +296,7 @@ const useStyles = makeStyles((theme: ITheme) =>
   }),
 )
 
-export type inputState = "normal" | "warning" | "success" | "error"
+export type InputState = "normal" | "warning" | "success" | "error"
 
 export interface TextInputProps {
   className?: string
@@ -307,7 +307,7 @@ export interface TextInputProps {
   disabled?: boolean
   LeftIcon?: typeof SvgIcon
   RightIcon?: typeof SvgIcon
-  state?: inputState
+  state?: InputState
   size?: "large" | "medium" | "small"
   captionMessage?: string
   onChange: (e: ChangeEvent<HTMLInputElement>) => void
