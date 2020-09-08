@@ -11,8 +11,8 @@ const useStyles = makeStyles((theme: ITheme) =>
       transitionProperty: "opacity, top, left, right, bottom, transform",
       opacity: 0,
     },
-    topRight: {
-      top: `${theme.constants.generalUnit * 2}px`,
+    topRight: (props: any) => ({
+      top: `${theme.constants.generalUnit * 2 + 80 * props.index}px`,
       right: 0,
       transform: "translate(100%,0)",
       "&.open": {
@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme: ITheme) =>
         transform: "translate(0,0)",
         opacity: 1,
       },
-    },
+    }),
     topLeft: {
       top: `${theme.constants.generalUnit * 2}px`,
       left: 0,
@@ -68,6 +68,7 @@ export interface IToasterProps {
   openDuration?: number
   onClose?(): void
   keepOpen?: boolean
+  index?: number
 }
 
 const Toaster: React.FC<IToasterProps> = ({
@@ -76,17 +77,27 @@ const Toaster: React.FC<IToasterProps> = ({
   children,
   position = "topRight",
   openDuration = 3000,
+  index = 0,
   onClose,
   keepOpen,
 }: IToasterProps) => {
-  const classes = useStyles()
+  const classes = useStyles({ index: index })
+  const [openFlag, setOpenFlag] = React.useState(false)
 
   useEffect(() => {
     if (open && !keepOpen) {
-      const timer = setTimeout(() => {
+      console.log("hereee")
+      const openTimer = setTimeout(() => {
+        setOpenFlag(true)
+      }, 100)
+      const closeTimer = setTimeout(() => {
         onClose ? onClose() : null
       }, openDuration)
-      return () => clearTimeout(timer)
+      return () => {
+        clearTimeout(closeTimer)
+        clearTimeout(openTimer)
+        setOpenFlag(false)
+      }
     }
     return
   }, [open])
@@ -97,7 +108,7 @@ const Toaster: React.FC<IToasterProps> = ({
         classes.toast,
         className,
         classes[position],
-        open && "open",
+        openFlag && "open",
       )}
     >
       {children}

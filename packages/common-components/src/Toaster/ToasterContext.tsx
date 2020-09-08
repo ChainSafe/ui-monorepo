@@ -1,4 +1,4 @@
-import React, { ReactNode, useCallback, useState, createContext } from "react"
+import React, { ReactNode, useState, createContext, useEffect } from "react"
 import Toaster, { ToasterPosition } from "./Toaster"
 import ToasterMessage, { ToasterMessageType } from "./ToasterMessage"
 
@@ -33,20 +33,45 @@ export function ToasterProvider({
   const [open, setOpen] = useState(false)
   const [toasts, setToasts] = useState<IToasterConfig[]>([])
 
-  const showToast = useCallback(
-    function (toasterConfigInput: IToasterConfig) {
-      setToasts([
-        ...toasts,
-        {
-          position: position || "topRight",
-          openDuration: openDuration,
-          ...toasterConfigInput,
-        },
-      ])
-      setOpen(true)
-    },
-    [setToasts],
-  )
+  // const showToast = useCallback(
+  //   function (toasterConfigInput: IToasterConfig) {
+  //     setToasts([
+  //       ...toasts,
+  //       {
+  //         position: position || "topRight",
+  //         openDuration: openDuration,
+  //         ...toasterConfigInput,
+  //       },
+  //     ])
+  //     setOpen(true)
+  //   },
+  //   [setToasts],
+  // )
+
+  useEffect(() => {
+    if (toasts.length > 0) {
+      const timer = setTimeout(
+        () => setToasts((toasts) => toasts.slice(1)),
+        3000,
+      )
+      return () => clearTimeout(timer)
+    }
+    return
+  }, [toasts])
+
+  const showToast = (toasterConfigInput: IToasterConfig) => {
+    setToasts([
+      ...toasts,
+      {
+        position: position || "topRight",
+        openDuration: openDuration,
+        ...toasterConfigInput,
+      },
+    ])
+    setOpen(true)
+  }
+
+  console.log(toasts)
 
   return (
     <ToasterContext.Provider value={{ showToast: showToast }}>
@@ -55,6 +80,7 @@ export function ToasterProvider({
         <Toaster
           key={index}
           onClose={() => setOpen(false)}
+          index={index}
           open={open}
           keepOpen={toast.keepOpen}
           openDuration={toast.openDuration}
