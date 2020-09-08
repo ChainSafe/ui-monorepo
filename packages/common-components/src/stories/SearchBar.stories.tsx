@@ -17,10 +17,11 @@ export const actionsData = {
   onFormSubmit: action("Submit Form"),
 }
 
-export const NoIconStory = (): React.ReactNode => (
+export const DefaultStory = (): React.ReactNode => (
   <SearchBar
     onChange={(e) => actionsData.onChange(e.target.value)}
     size={select("Size", sizeOptions, "large")}
     disabled={boolean("Disabled", false)}
+    isLoading={boolean("Loading", false)}
   />
 )

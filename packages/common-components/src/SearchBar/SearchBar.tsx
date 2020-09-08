@@ -3,6 +3,7 @@ import { makeStyles, createStyles } from "@material-ui/styles"
 import { ITheme } from "@chainsafe/common-themes"
 import clsx from "clsx"
 import { SearchIcon } from "../Icons"
+import { Spinner, LOADER } from "../Spinner"
 
 const iconSize = {
   large: {
@@ -164,15 +165,17 @@ export interface SearchBarProps {
   value?: string
   placeholder?: string
   disabled?: boolean
+  isLoading?: boolean
   size?: "large" | "medium" | "small"
   onChange: (e: ChangeEvent<HTMLInputElement>) => void
 }
 
-const TextInput: React.SFC<SearchBarProps> = ({
+const SearchBar: React.SFC<SearchBarProps> = ({
   className,
   value,
   placeholder = "Search...",
   disabled = false,
+  isLoading = false,
   size = "medium",
   onChange,
 }: SearchBarProps) => {
@@ -186,7 +189,7 @@ const TextInput: React.SFC<SearchBarProps> = ({
       <div className={clsx(classes.inputArea, size)}>
         <input
           className={clsx(classes.input, {
-            ["disabled"]: disabled,
+            ["disabled"]: disabled || isLoading,
           })}
           disabled={disabled}
           name={name}
@@ -195,11 +198,12 @@ const TextInput: React.SFC<SearchBarProps> = ({
           onChange={onChange}
         />
         <div className={clsx(classes.standardIcon, size, "right")}>
-          <SearchIcon />
+          <Spinner loader={LOADER.PulseLoader} size={12} loading={isLoading} />
+          {!isLoading && <SearchIcon />}
         </div>
       </div>
     </label>
   )
 }
 
-export default TextInput
+export default SearchBar
