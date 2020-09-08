@@ -35,7 +35,6 @@ const useStyles = makeStyles((theme: ITheme) =>
 export interface ISelectOption {
   value?: string | number
   label: string | number
-  disabled?: boolean
 }
 
 export interface ISelectInputProps {
@@ -66,9 +65,7 @@ const SelectInput: React.FC<ISelectInputProps> = ({
   const handleChange = (event: any) => {
     !disabled && onChange(event)
   }
-  const controlHeight = size === "large" ? 40 : size === "medium" ? 32 : 24
-  console.log(controlHeight)
-  // const animatedComponents = makeAnimated()
+
   return (
     <label className={clsx(classes.root, className)}>
       {label && label.length > 0 && (
@@ -95,7 +92,6 @@ const SelectInput: React.FC<ISelectInputProps> = ({
             backgroundColor: !state.isDisabled
               ? theme.palette.common.white.main
               : theme.palette["gray"][3],
-            borderRadius: "2px",
             "&:hover": {
               border: `1px solid ${theme.palette.primary.main}`,
             },
@@ -104,22 +100,17 @@ const SelectInput: React.FC<ISelectInputProps> = ({
             ...provided,
             outline: "none",
             border: "none",
-            borderRadius: 2,
           }),
           menu: (provided) => ({
             ...provided,
             marginTop: 2,
             marginBottom: 0,
-            borderRadius: 2,
           }),
           dropdownIndicator: (provided, state) => ({
             ...provided,
             transform: state.selectProps.menuIsOpen && "rotate(180deg)",
             transitionProperty: "transform",
             transitionDuration: `${theme.animation.transform * 2}ms`,
-          }),
-          menuList: (provided) => ({
-            ...provided,
           }),
           singleValue: (provided, state) => ({
             ...provided,
@@ -147,6 +138,15 @@ const SelectInput: React.FC<ISelectInputProps> = ({
           valueContainer: (provided) => ({
             ...provided,
             ...theme.typography.body2,
+            paddingTop: 0,
+            paddingBottom: 0,
+          }),
+          indicatorsContainer: (provided) => ({
+            ...provided,
+            "& > div": {
+              paddingTop: 0,
+              paddingBottom: 0,
+            },
           }),
         }}
         theme={(selectTheme) => ({
@@ -154,8 +154,7 @@ const SelectInput: React.FC<ISelectInputProps> = ({
           borderRadius: 2,
           spacing: {
             ...selectTheme.spacing,
-            baseUnit: 8,
-            controlHeight: controlHeight,
+            controlHeight: size === "large" ? 40 : size === "medium" ? 32 : 24,
           },
         })}
       />
