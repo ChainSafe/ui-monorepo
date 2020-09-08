@@ -32,12 +32,12 @@ const useStyles = makeStyles((theme: ITheme) =>
   }),
 )
 
-export interface ISelectOption {
+interface ISelectOption {
   value?: string | number
   label: string | number
 }
 
-export interface ISelectInputProps {
+interface ISelectInputProps {
   className?: string
   size?: "large" | "medium" | "small"
   label?: string
@@ -83,7 +83,6 @@ const SelectInput: React.FC<ISelectInputProps> = ({
         onChange={handleChange}
         isDisabled={disabled}
         placeholder={placeholder}
-        isMenuOpen={true}
         styles={{
           container: (provided, state) => ({
             ...provided,
@@ -101,6 +100,7 @@ const SelectInput: React.FC<ISelectInputProps> = ({
             ...provided,
             outline: "none",
             border: "none",
+            borderRadius: 2,
           }),
           menu: (provided) => ({
             ...provided,
@@ -172,4 +172,4 @@ const SelectInput: React.FC<ISelectInputProps> = ({
 }
 
 export default SelectInput
-export { ISelectInputProps as IDropdownProps }
+export { ISelectInputProps, ISelectOption }
