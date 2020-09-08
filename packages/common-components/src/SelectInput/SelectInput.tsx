@@ -92,6 +92,7 @@ const SelectInput: React.FC<ISelectInputProps> = ({
             backgroundColor: !state.isDisabled
               ? theme.palette.common.white.main
               : theme.palette["gray"][3],
+            borderRadius: 2,
             "&:hover": {
               border: `1px solid ${theme.palette.primary.main}`,
             },
@@ -151,7 +152,6 @@ const SelectInput: React.FC<ISelectInputProps> = ({
         }}
         theme={(selectTheme) => ({
           ...selectTheme,
-          borderRadius: 2,
           spacing: {
             ...selectTheme.spacing,
             controlHeight: size === "large" ? 40 : size === "medium" ? 32 : 24,
