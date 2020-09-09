@@ -123,6 +123,17 @@ const useStyles = makeStyles((theme: ITheme) =>
           marginLeft: 5,
         },
       },
+      "& > div": {
+        width: "auto",
+        height: "auto",
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "center",
+        alignItems: "center",
+        "&:last-child": {
+          marginLeft: 5,
+        },
+      },
       "&.right": {
         display: "flex",
         flexDirection: "row",
@@ -182,7 +193,7 @@ const SearchBar: React.SFC<SearchBarProps> = ({
   onChange,
 }: SearchBarProps) => {
   const classes = useStyles()
-  const spinnerSize = size === "large" ? 15 : size === "medium" ? 8 : 6
+  const spinnerSize = size === "large" ? 12 : size === "medium" ? 8 : 6
   return (
     <label
       className={clsx(classes.root, className, size, {
