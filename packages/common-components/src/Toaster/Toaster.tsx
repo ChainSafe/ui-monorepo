@@ -44,6 +44,9 @@ const useStyles = makeStyles((theme: ITheme) =>
     container: (props: IStyleProps) => ({
       transition: `height ${theme.animation.transform - 100}ms 100ms`,
       height: props.height,
+      position: "relative",
+      backgroundColor: theme.palette.common.white.background,
+      zIndex: theme.zIndex?.layer4,
     }),
     parent: (props: IStyleProps) => ({
       borderRadius: 4,
