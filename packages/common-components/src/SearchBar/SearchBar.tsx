@@ -166,6 +166,7 @@ export interface SearchBarProps {
   placeholder?: string
   disabled?: boolean
   isLoading?: boolean
+  loaderType?: LOADER
   size?: "large" | "medium" | "small"
   onChange: (e: ChangeEvent<HTMLInputElement>) => void
 }
@@ -176,10 +177,12 @@ const SearchBar: React.SFC<SearchBarProps> = ({
   placeholder = "Search...",
   disabled = false,
   isLoading = false,
-  size = "medium",
+  loaderType = LOADER.PulseLoader,
+  size = "large",
   onChange,
 }: SearchBarProps) => {
   const classes = useStyles()
+  const spinnerSize = size === "large" ? 15 : size === "medium" ? 8 : 6
   return (
     <label
       className={clsx(classes.root, className, size, {
@@ -189,7 +192,7 @@ const SearchBar: React.SFC<SearchBarProps> = ({
       <div className={clsx(classes.inputArea, size)}>
         <input
           className={clsx(classes.input, {
-            ["disabled"]: disabled || isLoading,
+            ["disabled"]: disabled,
           })}
           disabled={disabled}
           name={name}
@@ -198,7 +201,7 @@ const SearchBar: React.SFC<SearchBarProps> = ({
           onChange={onChange}
         />
         <div className={clsx(classes.standardIcon, size, "right")}>
-          <Spinner loader={LOADER.PulseLoader} size={12} loading={isLoading} />
+          <Spinner loader={loaderType} size={spinnerSize} loading={isLoading} />
           {!isLoading && <SearchIcon />}
         </div>
       </div>
