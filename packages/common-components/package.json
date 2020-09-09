@@ -38,7 +38,7 @@
     "@material-ui/styles": "^4.10.0",
     "@rollup/plugin-commonjs": "^15.0.0",
     "@rollup/plugin-node-resolve": "^8.0.0",
-    "@storybook/addon-actions": "^5.3.19",
+    "@storybook/addon-actions": "^5.3.21",
     "@storybook/addon-contexts": "^5.3.19",
     "@storybook/addon-knobs": "^6.0.15",
     "@storybook/addon-links": "^5.3.21",
