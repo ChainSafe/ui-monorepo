@@ -18,6 +18,8 @@
   },
   "dependencies": {
     "@material-ui/styles": "^4.10.0",
+    "@types/react-toast-notifications": "^2.4.0",
+    "@types/react-transition-group": "^4.4.0",
     "a11y-react-emoji": "^1.1.2",
     "clsx": "^1.1.1",
     "formik": "^2.1.5",
@@ -25,6 +27,8 @@
     "react-dropzone": "^11.0.3",
     "react-router-dom": "^5.2.0",
     "react-spinners": "^0.9.0",
+    "react-toast-notifications": "^2.4.0",
+    "react-transition-group": "^4.4.1",
     "reset-css": "^5.0.1",
     "rollup-plugin-babel": "^4.4.0"
   },

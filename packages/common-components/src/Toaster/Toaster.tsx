@@ -1,117 +1,146 @@
-import React, { ReactNode, useEffect } from "react"
+// @flow
+/** @jsx jsx */
+
+import { useRef, useState, useEffect } from "react"
+import { jsx } from "@emotion/core"
 import { makeStyles, createStyles } from "@material-ui/styles"
-import { ITheme } from "@chainsafe/common-themes"
-import clsx from "clsx"
+import { ITheme, useTheme } from "@chainsafe/common-themes"
+import { CheckCircle, CloseCircle, InfoCircle, CrossOutlined } from "../Icons"
+import {
+  Placement,
+  ToastProps,
+  TransitionState,
+} from "react-toast-notifications"
+export { ToastProvider, useToasts } from "react-toast-notifications"
+
+function getTranslate(placement: Placement) {
+  const pos = placement.split("-")
+  const relevantPlacement = pos[1] === "center" ? pos[0] : pos[1]
+  const translateMap = {
+    right: "translate(120%, 0)",
+    left: "translate(-120%, 0)",
+    bottom: "translate(0, 120%)",
+    top: "translate(0, -120%)",
+  }
+
+  return translateMap[relevantPlacement]
+}
+const toastStates = (placement: Placement) => ({
+  entering: { transform: getTranslate(placement) },
+  entered: { transform: "translate3d(0,0,0)" },
+  exiting: { transform: "scale(0.66)", opacity: 0 },
+  exited: { transform: "scale(0.66)", opacity: 0 },
+})
+
+interface IStyleProps {
+  height: string | number
+  placement: Placement
+  transitionState: TransitionState
+  transitionDuration: number
+}
 
 const useStyles = makeStyles((theme: ITheme) =>
   createStyles({
-    toast: {
-      position: "fixed",
-      transitionDuration: `${theme.animation.transform}ms`,
-      transitionProperty: "opacity, top, left, right, bottom, transform",
-      opacity: 0,
-    },
-    topRight: (props: any) => ({
-      top: `${theme.constants.generalUnit * 2 + 80 * props.index}px`,
-      right: 0,
-      transform: "translate(100%,0)",
-      "&.open": {
-        right: `${theme.constants.generalUnit * 2}px`,
-        transform: "translate(0,0)",
-        opacity: 1,
-      },
+    container: (props: IStyleProps) => ({
+      transition: `height ${theme.animation.transform - 100}ms 100ms`,
+      height: props.height,
     }),
-    topLeft: {
-      top: `${theme.constants.generalUnit * 2}px`,
-      left: 0,
-      transform: "translate(-100%,0)",
-      "&.open": {
-        transform: "translate(0,0)",
-        left: `${theme.constants.generalUnit * 2}px`,
-        opacity: 1,
-      },
+    parent: (props: IStyleProps) => ({
+      borderRadius: 4,
+      right: -360,
+      boxShadow: theme.shadows.shadow1,
+      display: "flex",
+      alignItems: "center",
+      padding: theme.constants.generalUnit * 2,
+      marginBottom: theme.constants.generalUnit,
+      transition: `transform ${theme.animation.transform}ms cubic-bezier(0.2, 0, 0, 1), opacity ${theme.animation.transform}ms`,
+      width: 340,
+      ...toastStates(props.placement)[props.transitionState],
+    }),
+    root: {
+      display: "flex",
+      alignItems: "center",
+      boxShadow: theme.shadows.shadow2,
+      borderRadius: 4,
+      padding: `${theme.constants.generalUnit * 2}px`,
     },
-    bottomRight: {
-      bottom: `${theme.constants.generalUnit * 2}px`,
-      right: 0,
-      transform: "translate(100%,0)",
-      "&.open": {
-        right: `${theme.constants.generalUnit * 2}px`,
-        transform: "translate(0,0)",
-        opacity: 1,
-      },
+    typeIcon: {
+      marginRight: `${theme.constants.generalUnit * 2}px`,
     },
-    bottomLeft: {
-      bottom: `${theme.constants.generalUnit * 2}px`,
-      left: 0,
-      transform: "translate(-100%,0)",
-      "&.open": {
-        left: `${theme.constants.generalUnit * 2}px`,
-        transform: "translate(0,0)",
-        opacity: 1,
-      },
+    closeButton: {
+      backgroundColor: "transparent",
+      border: "none",
+      cursor: "pointer",
+    },
+    closeIcon: {
+      fontSize: `${theme.constants.generalUnit * 1.5}px`,
+      fill: theme.palette["gray"][6],
+      marginLeft: `${theme.constants.generalUnit * 2}px`,
     },
   }),
 )
 
-export type ToasterPosition =
-  | "topRight"
-  | "topLeft"
-  | "bottomRight"
-  | "bottomLeft"
-
-export interface IToasterProps {
-  children?: ReactNode | ReactNode[]
-  open: boolean
-  className?: string
-  position?: ToasterPosition
-  openDuration?: number
-  onClose?(): void
-  keepOpen?: boolean
-  index?: number
-}
-
-const Toaster: React.FC<IToasterProps> = ({
-  className,
-  open,
+const Toaster = ({
+  appearance,
   children,
-  position = "topRight",
-  openDuration = 3000,
-  index = 0,
-  onClose,
-  keepOpen,
-}: IToasterProps) => {
-  const classes = useStyles({ index: index })
-  const [openFlag, setOpenFlag] = React.useState(false)
+  onDismiss,
+  placement,
+  transitionDuration,
+  transitionState,
+}: ToastProps) => {
+  const [height, setHeight] = useState<string | number>("auto")
+  const elementRef = useRef<any>(null)
+
+  const classes = useStyles({
+    height,
+    placement,
+    transitionState,
+    transitionDuration,
+  })
+
+  const theme: ITheme = useTheme()
 
   useEffect(() => {
-    if (open && !keepOpen) {
-      console.log("hereee")
-      const openTimer = setTimeout(() => {
-        setOpenFlag(true)
-      }, 100)
-      const closeTimer = setTimeout(() => {
-        onClose ? onClose() : null
-      }, openDuration)
-      return () => {
-        clearTimeout(closeTimer)
-        clearTimeout(openTimer)
-        setOpenFlag(false)
-      }
+    if (transitionState === "entered") {
+      const el = elementRef.current
+      setHeight(el.offsetHeight + theme.constants.generalUnit)
     }
-    return
-  }, [open])
+    if (transitionState === "exiting") {
+      setHeight(0)
+    }
+  }, [transitionState])
 
   return (
-    <div
-      className={clsx(
-        classes.toast,
-        className,
-        classes[position],
-        openFlag && "open",
-      )}
-    >
-      {children}
+    <div ref={elementRef} className={classes.container}>
+      <div
+        // for some reason the class is not working properly
+        // className={classes.parent}
+        css={{
+          borderRadius: 4,
+          boxShadow: theme.shadows.shadow1,
+          display: "flex",
+          alignItems: "center",
+          padding: theme.constants.generalUnit * 2,
+          marginBottom: theme.constants.generalUnit,
+          transition: `transform ${theme.animation.transform}ms cubic-bezier(0.2, 0, 0, 1), opacity ${theme.animation.transform}ms`,
+          width: 340,
+          ...toastStates(placement)[transitionState],
+        }}
+      >
+        {appearance === "success" ? (
+          <CheckCircle color="success" className={classes.typeIcon} />
+        ) : appearance === "error" ? (
+          <CloseCircle color="error" className={classes.typeIcon} />
+        ) : (
+          <InfoCircle color="secondary" className={classes.typeIcon} />
+        )}
+        {children}
+        {onDismiss ? (
+          <button onClick={() => onDismiss()} className={classes.closeButton}>
+            <CrossOutlined className={classes.closeIcon} />
+          </button>
+        ) : null}
+      </div>
     </div>
   )
 }

@@ -1,13 +1,6 @@
-import React, { useState } from "react"
-import {
-  Toaster,
-  ToasterMessage,
-  ToasterMessageType,
-  ToasterPosition,
-  useToaster,
-  ToasterProvider,
-} from "../Toaster"
-import { withKnobs, select, boolean, text } from "@storybook/addon-knobs"
+import React from "react"
+import { Toaster, ToastProvider, useToaster } from "../Toaster"
+import { withKnobs, select, number } from "@storybook/addon-knobs"
 
 export default {
   title: "Toaster",
@@ -15,64 +8,40 @@ export default {
   decorators: [withKnobs],
 }
 
-const toasterMessageTypes: ToasterMessageType[] = [
-  "error",
-  "warning",
-  "success",
-]
-
-const toasterPositions: ToasterPosition[] = [
-  "topLeft",
-  "topRight",
-  "bottomLeft",
-  "bottomRight",
-]
-
-export const MainDemo: React.FC = () => {
-  const [open, setOpen] = useState(false)
-
-  return (
-    <>
-      <button onClick={() => setOpen(!open)}>open toaster</button>
-      <Toaster
-        onClose={() => setOpen(false)}
-        open={open}
-        keepOpen={boolean("keep open", false)}
-        openDuration={select("open duration", [3000, 5000, 6000], 1000)}
-        position={select("Position", toasterPositions, "topLeft")}
-      >
-        <ToasterMessage
-          onClose={() => setOpen(false)}
-          message={text("message", "Update successful")}
-          description={text(
-            "description",
-            "Your request was successfully completed.",
-          )}
-          type={select("Type", toasterMessageTypes, "error")}
-        />
-      </Toaster>
-    </>
-  )
-}
-
 export const ToasterWrapper: React.FC = () => {
   return (
-    <ToasterProvider position="topRight" openDuration={4000}>
+    <ToastProvider
+      autoDismiss
+      autoDismissTimeout={number("auto dismiss", 5000)}
+      components={{ Toast: Toaster }}
+      placement={select(
+        "Placement",
+        [
+          "top-right",
+          "bottom-right",
+          "top-center",
+          "bottom-center",
+          "top-left",
+          "bottom-left",
+        ],
+        "top-right",
+      )}
+    >
       <ToasterDemo />
-    </ToasterProvider>
+    </ToastProvider>
   )
 }
 
 const ToasterDemo: React.FC = () => {
-  const { showToast } = useToaster()
+  const { addToastMessage } = useToaster()
 
-  const onShowToast = () => {
-    showToast({
+  const onAddToast = () => {
+    addToastMessage({
       message: "Update successful",
-      type: "success",
-      openDuration: 6000,
+      description: "Your updates are complete",
+      autoDismiss: false,
     })
   }
 
-  return <button onClick={onShowToast}>open toaster</button>
+  return <button onClick={onAddToast}>open toaster</button>
 }
