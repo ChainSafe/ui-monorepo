@@ -1,6 +1,6 @@
 import React from "react"
-import { useToasts, ToasterContent } from "../Toaster"
-import { AppearanceTypes } from "react-toast-notifications"
+import ToasterContent from "./ToasterContent"
+import { useToasts, AppearanceTypes } from "react-toast-notifications"
 
 export interface IToasterMessage {
   message: string

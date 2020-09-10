@@ -29,6 +29,7 @@
     ],
     "linebreak-style": ["error", "unix"],
     "quotes": ["error", "double"],
+    "semi": ["error", "off"],
     "max-len": [
       "error",
       {

@@ -2,11 +2,13 @@ import React from "react"
 import { makeStyles, createStyles } from "@material-ui/styles"
 import { ITheme } from "@chainsafe/common-themes"
 
+const ContentWidth = 300
+
 const useStyles = makeStyles((theme: ITheme) =>
   createStyles({
     messageContainer: {
       flex: 1,
-      width: 300,
+      width: ContentWidth,
     },
     message: {
       ...theme.typography.body1,

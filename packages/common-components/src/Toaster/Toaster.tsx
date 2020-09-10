@@ -13,6 +13,8 @@ import {
 } from "react-toast-notifications"
 export { ToastProvider, useToasts } from "react-toast-notifications"
 
+const WidthToaster = 340
+
 function getTranslate(placement: Placement) {
   const pos = placement.split("-")
   const relevantPlacement = pos[1] === "center" ? pos[0] : pos[1]
@@ -50,14 +52,13 @@ const useStyles = makeStyles((theme: ITheme) =>
     }),
     parent: (props: IStyleProps) => ({
       borderRadius: 4,
-      right: -360,
       boxShadow: theme.shadows.shadow1,
       display: "flex",
       alignItems: "center",
       padding: theme.constants.generalUnit * 2,
       marginBottom: theme.constants.generalUnit,
       transition: `transform ${theme.animation.transform}ms cubic-bezier(0.2, 0, 0, 1), opacity ${theme.animation.transform}ms`,
-      width: 340,
+      width: WidthToaster,
       ...toastStates(props.placement)[props.transitionState],
     }),
     root: {
