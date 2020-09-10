@@ -39,7 +39,6 @@ const ToasterDemo: React.FC = () => {
     addToastMessage({
       message: "Update successful",
       description: "Your updates are complete",
-      autoDismiss: false,
     })
   }
 

@@ -1,16 +1,9 @@
-// @flow
-/** @jsx jsx */
-
-import { useRef, useState, useEffect } from "react"
-import { jsx } from "@emotion/core"
+import React, { useRef, useState, useEffect } from "react"
+import clsx from "clsx"
 import { makeStyles, createStyles } from "@material-ui/styles"
 import { ITheme, useTheme } from "@chainsafe/common-themes"
 import { CheckCircle, CloseCircle, InfoCircle, CrossOutlined } from "../Icons"
-import {
-  Placement,
-  ToastProps,
-  TransitionState,
-} from "react-toast-notifications"
+import { Placement, ToastProps } from "react-toast-notifications"
 export { ToastProvider, useToasts } from "react-toast-notifications"
 
 const WidthToaster = 340
@@ -27,18 +20,10 @@ function getTranslate(placement: Placement) {
 
   return translateMap[relevantPlacement]
 }
-const toastStates = (placement: Placement) => ({
-  entering: { transform: getTranslate(placement) },
-  entered: { transform: "translate3d(0,0,0)" },
-  exiting: { transform: "scale(0.66)", opacity: 0 },
-  exited: { transform: "scale(0.66)", opacity: 0 },
-})
 
 interface IStyleProps {
   height: string | number
   placement: Placement
-  transitionState: TransitionState
-  transitionDuration: number
 }
 
 const useStyles = makeStyles((theme: ITheme) =>
@@ -59,7 +44,10 @@ const useStyles = makeStyles((theme: ITheme) =>
       marginBottom: theme.constants.generalUnit,
       transition: `transform ${theme.animation.transform}ms cubic-bezier(0.2, 0, 0, 1), opacity ${theme.animation.transform}ms`,
       width: WidthToaster,
-      ...toastStates(props.placement)[props.transitionState],
+      "&.entering": { transform: getTranslate(props.placement) },
+      "&.entered": { transform: "translate3d(0,0,0)" },
+      "&.exiting": { transform: "scale(0.66)", opacity: 0 },
+      "&.exited": { transform: "scale(0.66)", opacity: 0 },
     }),
     root: {
       display: "flex",
@@ -89,7 +77,6 @@ const Toaster = ({
   children,
   onDismiss,
   placement,
-  transitionDuration,
   transitionState,
 }: ToastProps) => {
   const [height, setHeight] = useState<string | number>("auto")
@@ -98,8 +85,6 @@ const Toaster = ({
   const classes = useStyles({
     height,
     placement,
-    transitionState,
-    transitionDuration,
   })
 
   const theme: ITheme = useTheme()
@@ -116,21 +101,7 @@ const Toaster = ({
 
   return (
     <div ref={elementRef} className={classes.container}>
-      <div
-        // for some reason the class is not working properly
-        // className={classes.parent}
-        css={{
-          borderRadius: 4,
-          boxShadow: theme.shadows.shadow1,
-          display: "flex",
-          alignItems: "center",
-          padding: theme.constants.generalUnit * 2,
-          marginBottom: theme.constants.generalUnit,
-          transition: `transform ${theme.animation.transform}ms cubic-bezier(0.2, 0, 0, 1), opacity ${theme.animation.transform}ms`,
-          width: 340,
-          ...toastStates(placement)[transitionState],
-        }}
-      >
+      <div className={clsx(classes.parent, placement, transitionState)}>
         {appearance === "success" ? (
           <CheckCircle color="success" className={classes.typeIcon} />
         ) : appearance === "error" ? (
