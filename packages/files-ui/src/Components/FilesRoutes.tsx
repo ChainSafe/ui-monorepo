@@ -1,16 +1,26 @@
 import React from "react"
 import { Switch, ConditionalRoute } from "@chainsafe/common-components"
 import LoginPage from "./LoginPage"
+import { useAuth } from "@chainsafe/common-contexts"
+import HomePage from "./HomePage"
 
 const FilesRoutes = () => {
-  const isAuthenticated = false //TODO: Get this from the Auth context
+  const { isLoggedIn } = useAuth()
   return (
     <Switch>
       <ConditionalRoute
         exact
         path="/"
-        isAuthorized={!isAuthenticated}
+        isAuthorized={!isLoggedIn}
         component={LoginPage}
+        redirectPath="/home"
+      />
+      <ConditionalRoute
+        exact
+        path="/home"
+        isAuthorized={isLoggedIn}
+        component={HomePage}
+        redirectPath="/"
       />
     </Switch>
   )

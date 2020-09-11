@@ -1,12 +1,14 @@
 import React, { useState } from "react"
 import { Grid, Typography, Button } from "@chainsafe/common-components"
 import { useWeb3 } from "@chainsafe/web3-context"
+import { useAuth } from "@chainsafe/common-contexts"
 
 const LoginPage = () => {
-  const returningUser = false // TODO: Get this from Auth Context
+  const { isReturningUser, web3Login } = useAuth() // TODO: Get this from Auth Context
   const { wallet, onboard, checkIsReady } = useWeb3()
+  const [error, setError] = useState<string>("")
   const [activeMode, setActiveMode] = useState<"newUser" | "returningUser">(
-    returningUser ? "returningUser" : "newUser",
+    isReturningUser ? "returningUser" : "newUser",
   )
 
   const toggleActiveMode = () =>
@@ -24,8 +26,13 @@ const LoginPage = () => {
         walletReady = await onboard.walletSelect()
       }
       walletReady && (await checkIsReady())
+      // TODO Call Auth context to initiate auth flow
+      try {
+        await web3Login()
+      } catch (error) {
+        setError("There was an error connecting")
+      }
     }
-    // TODO Call Auth context to initiate auth flow
     setIsConnecting(false)
   }
   return (
@@ -47,6 +54,7 @@ const LoginPage = () => {
           </Button>
           <Button>Continue with Apple</Button>
           <Button>Continue with Google</Button>
+          {error && <Typography>{error}</Typography>}
           {activeMode === "newUser" ? (
             <>
               <Typography>Already have an account?</Typography>

@@ -13,6 +13,7 @@ type AuthContextProps = {
 type AuthContext = {
   isLoggedIn: boolean
   isReturningUser: boolean
+  web3Login(): Promise<void>
 }
 
 const AuthContext = React.createContext<AuthContext | undefined>(undefined)
@@ -20,39 +21,54 @@ const AuthContext = React.createContext<AuthContext | undefined>(undefined)
 const AuthProvider = ({ children }: AuthContextProps) => {
   const { provider, address } = useWeb3()
   const { imployApiClient } = useImployApi()
-  const [accessToken, setAccessToken] = useState<string | undefined>(undefined) // TODO Load these from local storage if available
-  const [refreshToken, setRefreshToken] = useState<string | undefined>(
-    undefined,
-  )
+  // TODO Load these from local storage if available
+  const [accessToken, setAccessToken] = useState<
+    { token: string; expires: Date } | undefined
+  >(undefined)
+  // TODO Load these from local storage if available
+  const [, setRefreshToken] = useState<
+    { token: string; expires: Date } | undefined
+  >(undefined)
 
   const web3Login = async () => {
-    if (!imployApiClient || !provider || !address) return
+    if (!imployApiClient || !provider || !address)
+      return Promise.reject("Dependencies not initialized")
 
-    const { token } = await imployApiClient.userWeb3LoginGet()
-    // TODO Fix the type definition to return a Web3Provider
-    // @ts-ignore
-    const signature = await signMessage(token, provider)
-    const {
-      access_token,
-      refresh_token,
-    } = await imployApiClient.userWeb3LoginPost({
-      signature: signature,
-      token: token,
-      public_address: address,
-    })
+    const { token } = await imployApiClient.getWeb3Token()
 
-    setAccessToken(access_token)
-    setRefreshToken(refresh_token)
+    if (token) {
+      // TODO Fix the type definition to return a Web3Provider
+      // @ts-ignore
+      const signature = await signMessage(token, provider)
+      const {
+        access_token,
+        refresh_token,
+      } = await imployApiClient.postWeb3Token({
+        signature: signature,
+        token: token,
+        public_address: address,
+      })
+
+      setAccessToken(access_token)
+      setRefreshToken(refresh_token)
+      return Promise.resolve()
+    }
   }
 
   const isLoggedIn = useMemo(() => {
     if (!accessToken) {
       return false
     } else {
-      // TODO Get the token schema for decode
-      const decodedToken = jwtDecode<any>(accessToken)
-      const isLoggedIn = Date.now() / 1000 < decodedToken.exp
-      return isLoggedIn
+      try {
+        // TODO Get the token schema for decode
+        debugger
+        const decodedToken = jwtDecode<any>(accessToken.token)
+        const isLoggedIn = Date.now() / 1000 < decodedToken.exp
+        return isLoggedIn
+      } catch (error) {
+        console.log(error)
+        return false
+      }
     }
   }, [accessToken])
 
@@ -61,6 +77,7 @@ const AuthProvider = ({ children }: AuthContextProps) => {
       value={{
         isLoggedIn: isLoggedIn,
         isReturningUser: false,
+        web3Login: web3Login,
       }}
     >
       {children}

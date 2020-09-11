@@ -13,7 +13,7 @@ export interface IImployApiClient {
    * @param body Email for login and Password in clear text
    * @return successful operation
    */
-  loginUser(body: Login): Promise<Anonymous[]>
+  loginUser(body: Login): Promise<AccessRefreshTokens>
   /**
    * Signup new user into the system
    * @param body Created user object
@@ -50,7 +50,7 @@ export interface IImployApiClient {
    * @param token Refresh the expiration date of a token
    * @return successful operation
    */
-  getRefreshToken(token: string): Promise<Anonymous[]>
+  getRefreshToken(token: string): Promise<AccessRefreshTokens>
   /**
    * put words here
    * @return Successful Operation
@@ -61,7 +61,9 @@ export interface IImployApiClient {
    * @param body (optional) words go here
    * @return Successful Operation
    */
-  postWeb3Token(body?: Web3RequestToken | undefined): Promise<Anonymous[]>
+  postWeb3Token(
+    body?: Web3RequestToken | undefined,
+  ): Promise<AccessRefreshTokens>
   /**
    * Updates user info
    * @param body Updated user object
@@ -217,7 +219,7 @@ export interface IImployApiClient {
    * @param pin_id pin object cid
    * @return Successful Operation,
    */
-  getPinsByCID(authorization: string, pin_id: string): Promise<Anonymous3>
+  getPinsByCID(authorization: string, pin_id: string): Promise<Anonymous2>
   /**
    * delete the pin object
    * @param pin_id pin object cid
@@ -253,12 +255,12 @@ export interface IImployApiClient {
     cid?: string | undefined,
     before?: string | undefined,
     after?: string | undefined,
-  ): Promise<Anonymous4[]>
+  ): Promise<Anonymous3[]>
   /**
    * retrieve asks
    * @return Successful Operation returns objects referenced here  https://github.com/textileio/powergate/blob/master/index/ask/types.go
    */
-  getAsks(api_key: string): Promise<Anonymous5>
+  getAsks(api_key: string): Promise<Anonymous4>
   /**
    * retrieve deals
    * @param direction filter by deal type
@@ -269,33 +271,33 @@ export interface IImployApiClient {
     api_key: string,
     direction: Direction,
     only?: Only | undefined,
-  ): Promise<Anonymous6>
+  ): Promise<Anonymous5>
   /**
    * retrieve faults
    * @return Successful Operation returns objects referenced here https://github.com/textileio/powergate/blob/master/index/faults/types.go
    */
-  getFaults(authorization: string): Promise<Anonymous7>
+  getFaults(authorization: string): Promise<Anonymous6>
   /**
    * retrieve miners
    * @return Successful Operation returns objects referenced here https://github.com/textileio/powergate/blob/master/index/miner/types.go
    */
-  getMiners(authorization: string): Promise<Anonymous8>
+  getMiners(authorization: string): Promise<Anonymous7>
   /**
    * retrieve peers
    * @return Successful Operation returns objects referenced here hhttps://github.com/textileio/powergate/blob/master/net/interface.go
    */
-  getPeers(authorization: string): Promise<Anonymous9>
+  getPeers(authorization: string): Promise<Anonymous8>
   /**
    * retrieve top miners by reputation
    * @param limit words go here
    * @return Successful Operation returns objects referenced here https://github.com/textileio/powergate/blob/master/index/miner/types.go
    */
-  getTopMiners(api_key: string, limit: number): Promise<Anonymous10>
+  getTopMiners(api_key: string, limit: number): Promise<Anonymous9>
   /**
    * returns file store info
    * @return Successful Operation
    */
-  getFileStoreInfo(authorization: string): Promise<Anonymous11>
+  getFileStoreInfo(authorization: string): Promise<Anonymous10>
   /**
    * retrieve file content
    * @param body file path
@@ -316,7 +318,7 @@ export interface IImployApiClient {
     path?: string | undefined,
     type?: string | undefined,
     update?: boolean | undefined,
-  ): Promise<Anonymous12>
+  ): Promise<Anonymous11>
   /**
    * rename or move file to a new location in the heiarchy
    * @param body file path
@@ -371,7 +373,7 @@ export class ImployApiClient implements IImployApiClient {
    * @param body Email for login and Password in clear text
    * @return successful operation
    */
-  loginUser(body: Login): Promise<Anonymous[]> {
+  loginUser(body: Login): Promise<AccessRefreshTokens> {
     let url_ = this.baseUrl + "/user/login"
     url_ = url_.replace(/[?&]$/, "")
 
@@ -391,7 +393,7 @@ export class ImployApiClient implements IImployApiClient {
     })
   }
 
-  protected processLoginUser(response: Response): Promise<Anonymous[]> {
+  protected processLoginUser(response: Response): Promise<AccessRefreshTokens> {
     const status = response.status
     let _headers: any = {}
     if (response.headers && response.headers.forEach) {
@@ -403,7 +405,9 @@ export class ImployApiClient implements IImployApiClient {
         result200 =
           _responseText === ""
             ? null
-            : <Anonymous[]>JSON.parse(_responseText, this.jsonParseReviver)
+            : <AccessRefreshTokens>(
+                JSON.parse(_responseText, this.jsonParseReviver)
+              )
         return result200
       })
     } else if (status === 403) {
@@ -412,7 +416,7 @@ export class ImployApiClient implements IImployApiClient {
         result403 =
           _responseText === ""
             ? null
-            : <Anonymous2[]>JSON.parse(_responseText, this.jsonParseReviver)
+            : <Anonymous[]>JSON.parse(_responseText, this.jsonParseReviver)
         return throwException(
           "Invalid username/password supplied",
           status,
@@ -427,7 +431,7 @@ export class ImployApiClient implements IImployApiClient {
         resultdefault =
           _responseText === ""
             ? null
-            : <Anonymous2[]>JSON.parse(_responseText, this.jsonParseReviver)
+            : <Anonymous[]>JSON.parse(_responseText, this.jsonParseReviver)
         return throwException(
           "server error",
           status,
@@ -485,7 +489,7 @@ export class ImployApiClient implements IImployApiClient {
         result400 =
           _responseText === ""
             ? null
-            : <Anonymous2[]>JSON.parse(_responseText, this.jsonParseReviver)
+            : <Anonymous[]>JSON.parse(_responseText, this.jsonParseReviver)
         return throwException(
           "Bad Request Binding",
           status,
@@ -500,7 +504,7 @@ export class ImployApiClient implements IImployApiClient {
         result403 =
           _responseText === ""
             ? null
-            : <Anonymous2[]>JSON.parse(_responseText, this.jsonParseReviver)
+            : <Anonymous[]>JSON.parse(_responseText, this.jsonParseReviver)
         return throwException(
           "Bad Request Password Not Matching",
           status,
@@ -515,7 +519,7 @@ export class ImployApiClient implements IImployApiClient {
         result409 =
           _responseText === ""
             ? null
-            : <Anonymous2[]>JSON.parse(_responseText, this.jsonParseReviver)
+            : <Anonymous[]>JSON.parse(_responseText, this.jsonParseReviver)
         return throwException(
           "Bad Request Email Already Exists",
           status,
@@ -530,7 +534,7 @@ export class ImployApiClient implements IImployApiClient {
         resultdefault =
           _responseText === ""
             ? null
-            : <Anonymous2[]>JSON.parse(_responseText, this.jsonParseReviver)
+            : <Anonymous[]>JSON.parse(_responseText, this.jsonParseReviver)
         return throwException(
           "server error",
           status,
@@ -596,7 +600,7 @@ export class ImployApiClient implements IImployApiClient {
         resultdefault =
           _responseText === ""
             ? null
-            : <Anonymous2[]>JSON.parse(_responseText, this.jsonParseReviver)
+            : <Anonymous[]>JSON.parse(_responseText, this.jsonParseReviver)
         return throwException(
           "server error",
           status,
@@ -667,7 +671,7 @@ export class ImployApiClient implements IImployApiClient {
         result409 =
           _responseText === ""
             ? null
-            : <Anonymous2[]>JSON.parse(_responseText, this.jsonParseReviver)
+            : <Anonymous[]>JSON.parse(_responseText, this.jsonParseReviver)
         return throwException(
           "Email Verification sent recently",
           status,
@@ -682,7 +686,7 @@ export class ImployApiClient implements IImployApiClient {
         result412 =
           _responseText === ""
             ? null
-            : <Anonymous2[]>JSON.parse(_responseText, this.jsonParseReviver)
+            : <Anonymous[]>JSON.parse(_responseText, this.jsonParseReviver)
         return throwException(
           "User with this email, phone number or username already exists",
           status,
@@ -697,7 +701,7 @@ export class ImployApiClient implements IImployApiClient {
         resultdefault =
           _responseText === ""
             ? null
-            : <Anonymous2[]>JSON.parse(_responseText, this.jsonParseReviver)
+            : <Anonymous[]>JSON.parse(_responseText, this.jsonParseReviver)
         return throwException(
           "server error",
           status,
@@ -757,7 +761,7 @@ export class ImployApiClient implements IImployApiClient {
         result403 =
           _responseText === ""
             ? null
-            : <Anonymous2[]>JSON.parse(_responseText, this.jsonParseReviver)
+            : <Anonymous[]>JSON.parse(_responseText, this.jsonParseReviver)
         return throwException(
           "Email already verified",
           status,
@@ -772,7 +776,7 @@ export class ImployApiClient implements IImployApiClient {
         result409 =
           _responseText === ""
             ? null
-            : <Anonymous2[]>JSON.parse(_responseText, this.jsonParseReviver)
+            : <Anonymous[]>JSON.parse(_responseText, this.jsonParseReviver)
         return throwException(
           "Email sent recently",
           status,
@@ -787,7 +791,7 @@ export class ImployApiClient implements IImployApiClient {
         resultdefault =
           _responseText === ""
             ? null
-            : <Anonymous2[]>JSON.parse(_responseText, this.jsonParseReviver)
+            : <Anonymous[]>JSON.parse(_responseText, this.jsonParseReviver)
         return throwException(
           "server error",
           status,
@@ -855,7 +859,7 @@ export class ImployApiClient implements IImployApiClient {
         result412 =
           _responseText === ""
             ? null
-            : <Anonymous2[]>JSON.parse(_responseText, this.jsonParseReviver)
+            : <Anonymous[]>JSON.parse(_responseText, this.jsonParseReviver)
         return throwException(
           "Confirmation or reset token expired",
           status,
@@ -870,7 +874,7 @@ export class ImployApiClient implements IImployApiClient {
         result409 =
           _responseText === ""
             ? null
-            : <Anonymous2[]>JSON.parse(_responseText, this.jsonParseReviver)
+            : <Anonymous[]>JSON.parse(_responseText, this.jsonParseReviver)
         return throwException(
           "Email already verified",
           status,
@@ -885,7 +889,7 @@ export class ImployApiClient implements IImployApiClient {
         result403 =
           _responseText === ""
             ? null
-            : <Anonymous2[]>JSON.parse(_responseText, this.jsonParseReviver)
+            : <Anonymous[]>JSON.parse(_responseText, this.jsonParseReviver)
         return throwException(
           "Confirmation or reset token is invalid",
           status,
@@ -900,7 +904,7 @@ export class ImployApiClient implements IImployApiClient {
         resultdefault =
           _responseText === ""
             ? null
-            : <Anonymous2[]>JSON.parse(_responseText, this.jsonParseReviver)
+            : <Anonymous[]>JSON.parse(_responseText, this.jsonParseReviver)
         return throwException(
           "server error",
           status,
@@ -917,7 +921,7 @@ export class ImployApiClient implements IImployApiClient {
    * @param token Refresh the expiration date of a token
    * @return successful operation
    */
-  getRefreshToken(token: string): Promise<Anonymous[]> {
+  getRefreshToken(token: string): Promise<AccessRefreshTokens> {
     let url_ = this.baseUrl + "/user/refresh/{token}"
     if (token === undefined || token === null)
       throw new Error("The parameter 'token' must be defined.")
@@ -936,7 +940,9 @@ export class ImployApiClient implements IImployApiClient {
     })
   }
 
-  protected processGetRefreshToken(response: Response): Promise<Anonymous[]> {
+  protected processGetRefreshToken(
+    response: Response,
+  ): Promise<AccessRefreshTokens> {
     const status = response.status
     let _headers: any = {}
     if (response.headers && response.headers.forEach) {
@@ -948,7 +954,9 @@ export class ImployApiClient implements IImployApiClient {
         result200 =
           _responseText === ""
             ? null
-            : <Anonymous[]>JSON.parse(_responseText, this.jsonParseReviver)
+            : <AccessRefreshTokens>(
+                JSON.parse(_responseText, this.jsonParseReviver)
+              )
         return result200
       })
     } else if (status === 403) {
@@ -957,7 +965,7 @@ export class ImployApiClient implements IImployApiClient {
         result403 =
           _responseText === ""
             ? null
-            : <Anonymous2[]>JSON.parse(_responseText, this.jsonParseReviver)
+            : <Anonymous[]>JSON.parse(_responseText, this.jsonParseReviver)
         return throwException(
           "Confirmation or reset token is invalid",
           status,
@@ -972,7 +980,7 @@ export class ImployApiClient implements IImployApiClient {
         resultdefault =
           _responseText === ""
             ? null
-            : <Anonymous2[]>JSON.parse(_responseText, this.jsonParseReviver)
+            : <Anonymous[]>JSON.parse(_responseText, this.jsonParseReviver)
         return throwException(
           "server error",
           status,
@@ -1025,7 +1033,7 @@ export class ImployApiClient implements IImployApiClient {
         resultdefault =
           _responseText === ""
             ? null
-            : <Anonymous2[]>JSON.parse(_responseText, this.jsonParseReviver)
+            : <Anonymous[]>JSON.parse(_responseText, this.jsonParseReviver)
         return throwException(
           "server error",
           status,
@@ -1042,7 +1050,9 @@ export class ImployApiClient implements IImployApiClient {
    * @param body (optional) words go here
    * @return Successful Operation
    */
-  postWeb3Token(body?: Web3RequestToken | undefined): Promise<Anonymous[]> {
+  postWeb3Token(
+    body?: Web3RequestToken | undefined,
+  ): Promise<AccessRefreshTokens> {
     let url_ = this.baseUrl + "/user/web3/login"
     url_ = url_.replace(/[?&]$/, "")
 
@@ -1062,7 +1072,9 @@ export class ImployApiClient implements IImployApiClient {
     })
   }
 
-  protected processPostWeb3Token(response: Response): Promise<Anonymous[]> {
+  protected processPostWeb3Token(
+    response: Response,
+  ): Promise<AccessRefreshTokens> {
     const status = response.status
     let _headers: any = {}
     if (response.headers && response.headers.forEach) {
@@ -1074,7 +1086,9 @@ export class ImployApiClient implements IImployApiClient {
         result200 =
           _responseText === ""
             ? null
-            : <Anonymous[]>JSON.parse(_responseText, this.jsonParseReviver)
+            : <AccessRefreshTokens>(
+                JSON.parse(_responseText, this.jsonParseReviver)
+              )
         return result200
       })
     } else if (status === 403) {
@@ -1083,7 +1097,7 @@ export class ImployApiClient implements IImployApiClient {
         result403 =
           _responseText === ""
             ? null
-            : <Anonymous2[]>JSON.parse(_responseText, this.jsonParseReviver)
+            : <Anonymous[]>JSON.parse(_responseText, this.jsonParseReviver)
         return throwException(
           "The provided signature, confirmation or reset token is invalid",
           status,
@@ -1098,7 +1112,7 @@ export class ImployApiClient implements IImployApiClient {
         resultdefault =
           _responseText === ""
             ? null
-            : <Anonymous2[]>JSON.parse(_responseText, this.jsonParseReviver)
+            : <Anonymous[]>JSON.parse(_responseText, this.jsonParseReviver)
         return throwException(
           "server error",
           status,
@@ -1163,7 +1177,7 @@ export class ImployApiClient implements IImployApiClient {
         result403 =
           _responseText === ""
             ? null
-            : <Anonymous2[]>JSON.parse(_responseText, this.jsonParseReviver)
+            : <Anonymous[]>JSON.parse(_responseText, this.jsonParseReviver)
         return throwException(
           "Password and confirm password do not match",
           status,
@@ -1178,7 +1192,7 @@ export class ImployApiClient implements IImployApiClient {
         result400 =
           _responseText === ""
             ? null
-            : <Anonymous2[]>JSON.parse(_responseText, this.jsonParseReviver)
+            : <Anonymous[]>JSON.parse(_responseText, this.jsonParseReviver)
         return throwException(
           "New password is same as old password or incorrect old password",
           status,
@@ -1193,7 +1207,7 @@ export class ImployApiClient implements IImployApiClient {
         result412 =
           _responseText === ""
             ? null
-            : <Anonymous2[]>JSON.parse(_responseText, this.jsonParseReviver)
+            : <Anonymous[]>JSON.parse(_responseText, this.jsonParseReviver)
         return throwException(
           "New password is weak",
           status,
@@ -1208,7 +1222,7 @@ export class ImployApiClient implements IImployApiClient {
         resultdefault =
           _responseText === ""
             ? null
-            : <Anonymous2[]>JSON.parse(_responseText, this.jsonParseReviver)
+            : <Anonymous[]>JSON.parse(_responseText, this.jsonParseReviver)
         return throwException(
           "server error",
           status,
@@ -1258,7 +1272,7 @@ export class ImployApiClient implements IImployApiClient {
         result404 =
           _responseText === ""
             ? null
-            : <Anonymous2[]>JSON.parse(_responseText, this.jsonParseReviver)
+            : <Anonymous[]>JSON.parse(_responseText, this.jsonParseReviver)
         return throwException(
           "No user found With this email",
           status,
@@ -1273,7 +1287,7 @@ export class ImployApiClient implements IImployApiClient {
         result409 =
           _responseText === ""
             ? null
-            : <Anonymous2[]>JSON.parse(_responseText, this.jsonParseReviver)
+            : <Anonymous[]>JSON.parse(_responseText, this.jsonParseReviver)
         return throwException(
           "Reset Email sent Recently",
           status,
@@ -1288,7 +1302,7 @@ export class ImployApiClient implements IImployApiClient {
         resultdefault =
           _responseText === ""
             ? null
-            : <Anonymous2[]>JSON.parse(_responseText, this.jsonParseReviver)
+            : <Anonymous[]>JSON.parse(_responseText, this.jsonParseReviver)
         return throwException(
           "server error",
           status,
@@ -1340,7 +1354,7 @@ export class ImployApiClient implements IImployApiClient {
         result400 =
           _responseText === ""
             ? null
-            : <Anonymous2[]>JSON.parse(_responseText, this.jsonParseReviver)
+            : <Anonymous[]>JSON.parse(_responseText, this.jsonParseReviver)
         return throwException(
           "Password and confirm password do not match",
           status,
@@ -1355,7 +1369,7 @@ export class ImployApiClient implements IImployApiClient {
         result409 =
           _responseText === ""
             ? null
-            : <Anonymous2[]>JSON.parse(_responseText, this.jsonParseReviver)
+            : <Anonymous[]>JSON.parse(_responseText, this.jsonParseReviver)
         return throwException(
           "Reset Email sent Recently",
           status,
@@ -1370,7 +1384,7 @@ export class ImployApiClient implements IImployApiClient {
         result412 =
           _responseText === ""
             ? null
-            : <Anonymous2[]>JSON.parse(_responseText, this.jsonParseReviver)
+            : <Anonymous[]>JSON.parse(_responseText, this.jsonParseReviver)
         return throwException(
           "Confirmation or reset token expired",
           status,
@@ -1385,7 +1399,7 @@ export class ImployApiClient implements IImployApiClient {
         resultdefault =
           _responseText === ""
             ? null
-            : <Anonymous2[]>JSON.parse(_responseText, this.jsonParseReviver)
+            : <Anonymous[]>JSON.parse(_responseText, this.jsonParseReviver)
         return throwException(
           "server error",
           status,
@@ -1437,7 +1451,7 @@ export class ImployApiClient implements IImployApiClient {
         result403 =
           _responseText === ""
             ? null
-            : <Anonymous2[]>JSON.parse(_responseText, this.jsonParseReviver)
+            : <Anonymous[]>JSON.parse(_responseText, this.jsonParseReviver)
         return throwException(
           "Confirmation or reset token is invalid",
           status,
@@ -1452,7 +1466,7 @@ export class ImployApiClient implements IImployApiClient {
         result412 =
           _responseText === ""
             ? null
-            : <Anonymous2[]>JSON.parse(_responseText, this.jsonParseReviver)
+            : <Anonymous[]>JSON.parse(_responseText, this.jsonParseReviver)
         return throwException(
           "Confirmation or reset token expired",
           status,
@@ -1467,7 +1481,7 @@ export class ImployApiClient implements IImployApiClient {
         resultdefault =
           _responseText === ""
             ? null
-            : <Anonymous2[]>JSON.parse(_responseText, this.jsonParseReviver)
+            : <Anonymous[]>JSON.parse(_responseText, this.jsonParseReviver)
         return throwException(
           "server error",
           status,
@@ -1538,7 +1552,7 @@ export class ImployApiClient implements IImployApiClient {
         result429 =
           _responseText === ""
             ? null
-            : <Anonymous2[]>JSON.parse(_responseText, this.jsonParseReviver)
+            : <Anonymous[]>JSON.parse(_responseText, this.jsonParseReviver)
         return throwException(
           "Maximum project creation limit for a user reached",
           status,
@@ -1553,7 +1567,7 @@ export class ImployApiClient implements IImployApiClient {
         result409 =
           _responseText === ""
             ? null
-            : <Anonymous2[]>JSON.parse(_responseText, this.jsonParseReviver)
+            : <Anonymous[]>JSON.parse(_responseText, this.jsonParseReviver)
         return throwException(
           "Project with same name already exists",
           status,
@@ -1568,7 +1582,7 @@ export class ImployApiClient implements IImployApiClient {
         resultdefault =
           _responseText === ""
             ? null
-            : <Anonymous2[]>JSON.parse(_responseText, this.jsonParseReviver)
+            : <Anonymous[]>JSON.parse(_responseText, this.jsonParseReviver)
         return throwException(
           "server error",
           status,
@@ -1632,7 +1646,7 @@ export class ImployApiClient implements IImployApiClient {
         result404 =
           _responseText === ""
             ? null
-            : <Anonymous2[]>JSON.parse(_responseText, this.jsonParseReviver)
+            : <Anonymous[]>JSON.parse(_responseText, this.jsonParseReviver)
         return throwException(
           "Requested project not found",
           status,
@@ -1647,7 +1661,7 @@ export class ImployApiClient implements IImployApiClient {
         result409 =
           _responseText === ""
             ? null
-            : <Anonymous2[]>JSON.parse(_responseText, this.jsonParseReviver)
+            : <Anonymous[]>JSON.parse(_responseText, this.jsonParseReviver)
         return throwException(
           "Invalid action. Similar kind of action or dependent action already in pending",
           status,
@@ -1662,7 +1676,7 @@ export class ImployApiClient implements IImployApiClient {
         resultdefault =
           _responseText === ""
             ? null
-            : <Anonymous2[]>JSON.parse(_responseText, this.jsonParseReviver)
+            : <Anonymous[]>JSON.parse(_responseText, this.jsonParseReviver)
         return throwException(
           "server error",
           status,
@@ -1741,7 +1755,7 @@ export class ImployApiClient implements IImployApiClient {
         result404 =
           _responseText === ""
             ? null
-            : <Anonymous2[]>JSON.parse(_responseText, this.jsonParseReviver)
+            : <Anonymous[]>JSON.parse(_responseText, this.jsonParseReviver)
         return throwException(
           "project does not exist",
           status,
@@ -1756,7 +1770,7 @@ export class ImployApiClient implements IImployApiClient {
         result403 =
           _responseText === ""
             ? null
-            : <Anonymous2[]>JSON.parse(_responseText, this.jsonParseReviver)
+            : <Anonymous[]>JSON.parse(_responseText, this.jsonParseReviver)
         return throwException(
           "project with the same name already exists",
           status,
@@ -1771,7 +1785,7 @@ export class ImployApiClient implements IImployApiClient {
         result409 =
           _responseText === ""
             ? null
-            : <Anonymous2[]>JSON.parse(_responseText, this.jsonParseReviver)
+            : <Anonymous[]>JSON.parse(_responseText, this.jsonParseReviver)
         return throwException(
           "Invalid action. Similar kind of action or dependent action already in pending",
           status,
@@ -1786,7 +1800,7 @@ export class ImployApiClient implements IImployApiClient {
         resultdefault =
           _responseText === ""
             ? null
-            : <Anonymous2[]>JSON.parse(_responseText, this.jsonParseReviver)
+            : <Anonymous[]>JSON.parse(_responseText, this.jsonParseReviver)
         return throwException(
           "server error",
           status,
@@ -1856,7 +1870,7 @@ export class ImployApiClient implements IImployApiClient {
         result404 =
           _responseText === ""
             ? null
-            : <Anonymous2[]>JSON.parse(_responseText, this.jsonParseReviver)
+            : <Anonymous[]>JSON.parse(_responseText, this.jsonParseReviver)
         return throwException(
           "requested project not found",
           status,
@@ -1871,7 +1885,7 @@ export class ImployApiClient implements IImployApiClient {
         resultdefault =
           _responseText === ""
             ? null
-            : <Anonymous2[]>JSON.parse(_responseText, this.jsonParseReviver)
+            : <Anonymous[]>JSON.parse(_responseText, this.jsonParseReviver)
         return throwException(
           "server error",
           status,
@@ -1937,7 +1951,7 @@ export class ImployApiClient implements IImployApiClient {
         resultdefault =
           _responseText === ""
             ? null
-            : <Anonymous2[]>JSON.parse(_responseText, this.jsonParseReviver)
+            : <Anonymous[]>JSON.parse(_responseText, this.jsonParseReviver)
         return throwException(
           "server error",
           status,
@@ -2011,7 +2025,7 @@ export class ImployApiClient implements IImployApiClient {
         result404 =
           _responseText === ""
             ? null
-            : <Anonymous2[]>JSON.parse(_responseText, this.jsonParseReviver)
+            : <Anonymous[]>JSON.parse(_responseText, this.jsonParseReviver)
         return throwException(
           "Requested project not found",
           status,
@@ -2026,7 +2040,7 @@ export class ImployApiClient implements IImployApiClient {
         result412 =
           _responseText === ""
             ? null
-            : <Anonymous2[]>JSON.parse(_responseText, this.jsonParseReviver)
+            : <Anonymous[]>JSON.parse(_responseText, this.jsonParseReviver)
         return throwException(
           "user's email is not verified or No payment method added before deploying nodes",
           status,
@@ -2041,7 +2055,7 @@ export class ImployApiClient implements IImployApiClient {
         result409 =
           _responseText === ""
             ? null
-            : <Anonymous2[]>JSON.parse(_responseText, this.jsonParseReviver)
+            : <Anonymous[]>JSON.parse(_responseText, this.jsonParseReviver)
         return throwException(
           "Invalid action. Similar kind of action or dependent action already in pending or Non existing params for deployment",
           status,
@@ -2056,7 +2070,7 @@ export class ImployApiClient implements IImployApiClient {
         resultdefault =
           _responseText === ""
             ? null
-            : <Anonymous2[]>JSON.parse(_responseText, this.jsonParseReviver)
+            : <Anonymous[]>JSON.parse(_responseText, this.jsonParseReviver)
         return throwException(
           "server error",
           status,
@@ -2120,7 +2134,7 @@ export class ImployApiClient implements IImployApiClient {
         result404 =
           _responseText === ""
             ? null
-            : <Anonymous2[]>JSON.parse(_responseText, this.jsonParseReviver)
+            : <Anonymous[]>JSON.parse(_responseText, this.jsonParseReviver)
         return throwException(
           "Requested deployment not found",
           status,
@@ -2135,7 +2149,7 @@ export class ImployApiClient implements IImployApiClient {
         result409 =
           _responseText === ""
             ? null
-            : <Anonymous2[]>JSON.parse(_responseText, this.jsonParseReviver)
+            : <Anonymous[]>JSON.parse(_responseText, this.jsonParseReviver)
         return throwException(
           "Invalid action. Similar kind of action or dependent action already in pending",
           status,
@@ -2150,7 +2164,7 @@ export class ImployApiClient implements IImployApiClient {
         resultdefault =
           _responseText === ""
             ? null
-            : <Anonymous2[]>JSON.parse(_responseText, this.jsonParseReviver)
+            : <Anonymous[]>JSON.parse(_responseText, this.jsonParseReviver)
         return throwException(
           "server error",
           status,
@@ -2220,7 +2234,7 @@ export class ImployApiClient implements IImployApiClient {
         result404 =
           _responseText === ""
             ? null
-            : <Anonymous2[]>JSON.parse(_responseText, this.jsonParseReviver)
+            : <Anonymous[]>JSON.parse(_responseText, this.jsonParseReviver)
         return throwException(
           "Requested deployment not exists for the user",
           status,
@@ -2235,7 +2249,7 @@ export class ImployApiClient implements IImployApiClient {
         resultdefault =
           _responseText === ""
             ? null
-            : <Anonymous2[]>JSON.parse(_responseText, this.jsonParseReviver)
+            : <Anonymous[]>JSON.parse(_responseText, this.jsonParseReviver)
         return throwException(
           "server error",
           status,
@@ -2305,7 +2319,7 @@ export class ImployApiClient implements IImployApiClient {
         resultdefault =
           _responseText === ""
             ? null
-            : <Anonymous2[]>JSON.parse(_responseText, this.jsonParseReviver)
+            : <Anonymous[]>JSON.parse(_responseText, this.jsonParseReviver)
         return throwException(
           "server error",
           status,
@@ -2370,7 +2384,7 @@ export class ImployApiClient implements IImployApiClient {
         result403 =
           _responseText === ""
             ? null
-            : <Anonymous2[]>JSON.parse(_responseText, this.jsonParseReviver)
+            : <Anonymous[]>JSON.parse(_responseText, this.jsonParseReviver)
         return throwException(
           "Invalid card",
           status,
@@ -2385,7 +2399,7 @@ export class ImployApiClient implements IImployApiClient {
         resultdefault =
           _responseText === ""
             ? null
-            : <Anonymous2[]>JSON.parse(_responseText, this.jsonParseReviver)
+            : <Anonymous[]>JSON.parse(_responseText, this.jsonParseReviver)
         return throwException(
           "server error",
           status,
@@ -2450,7 +2464,7 @@ export class ImployApiClient implements IImployApiClient {
         result400 =
           _responseText === ""
             ? null
-            : <Anonymous2[]>JSON.parse(_responseText, this.jsonParseReviver)
+            : <Anonymous[]>JSON.parse(_responseText, this.jsonParseReviver)
         return throwException(
           "Invalid card id",
           status,
@@ -2465,7 +2479,7 @@ export class ImployApiClient implements IImployApiClient {
         result404 =
           _responseText === ""
             ? null
-            : <Anonymous2[]>JSON.parse(_responseText, this.jsonParseReviver)
+            : <Anonymous[]>JSON.parse(_responseText, this.jsonParseReviver)
         return throwException(
           "Card not found with requested id",
           status,
@@ -2480,7 +2494,7 @@ export class ImployApiClient implements IImployApiClient {
         resultdefault =
           _responseText === ""
             ? null
-            : <Anonymous2[]>JSON.parse(_responseText, this.jsonParseReviver)
+            : <Anonymous[]>JSON.parse(_responseText, this.jsonParseReviver)
         return throwException(
           "server error",
           status,
@@ -2540,7 +2554,7 @@ export class ImployApiClient implements IImployApiClient {
         result404 =
           _responseText === ""
             ? null
-            : <Anonymous2[]>JSON.parse(_responseText, this.jsonParseReviver)
+            : <Anonymous[]>JSON.parse(_responseText, this.jsonParseReviver)
         return throwException(
           "Card not found with requested id",
           status,
@@ -2555,7 +2569,7 @@ export class ImployApiClient implements IImployApiClient {
         resultdefault =
           _responseText === ""
             ? null
-            : <Anonymous2[]>JSON.parse(_responseText, this.jsonParseReviver)
+            : <Anonymous[]>JSON.parse(_responseText, this.jsonParseReviver)
         return throwException(
           "server error",
           status,
@@ -2619,7 +2633,7 @@ export class ImployApiClient implements IImployApiClient {
         result404 =
           _responseText === ""
             ? null
-            : <Anonymous2[]>JSON.parse(_responseText, this.jsonParseReviver)
+            : <Anonymous[]>JSON.parse(_responseText, this.jsonParseReviver)
         return throwException(
           "Card not found with requested id",
           status,
@@ -2634,7 +2648,7 @@ export class ImployApiClient implements IImployApiClient {
         result400 =
           _responseText === ""
             ? null
-            : <Anonymous2[]>JSON.parse(_responseText, this.jsonParseReviver)
+            : <Anonymous[]>JSON.parse(_responseText, this.jsonParseReviver)
         return throwException(
           "Invalid card id",
           status,
@@ -2649,7 +2663,7 @@ export class ImployApiClient implements IImployApiClient {
         resultdefault =
           _responseText === ""
             ? null
-            : <Anonymous2[]>JSON.parse(_responseText, this.jsonParseReviver)
+            : <Anonymous[]>JSON.parse(_responseText, this.jsonParseReviver)
         return throwException(
           "server error",
           status,
@@ -2713,7 +2727,7 @@ export class ImployApiClient implements IImployApiClient {
         result404 =
           _responseText === ""
             ? null
-            : <Anonymous2[]>JSON.parse(_responseText, this.jsonParseReviver)
+            : <Anonymous[]>JSON.parse(_responseText, this.jsonParseReviver)
         return throwException(
           "Card not found with requested id",
           status,
@@ -2728,7 +2742,7 @@ export class ImployApiClient implements IImployApiClient {
         resultdefault =
           _responseText === ""
             ? null
-            : <Anonymous2[]>JSON.parse(_responseText, this.jsonParseReviver)
+            : <Anonymous[]>JSON.parse(_responseText, this.jsonParseReviver)
         return throwException(
           "server error",
           status,
@@ -2788,7 +2802,7 @@ export class ImployApiClient implements IImployApiClient {
         resultdefault =
           _responseText === ""
             ? null
-            : <Anonymous2[]>JSON.parse(_responseText, this.jsonParseReviver)
+            : <Anonymous[]>JSON.parse(_responseText, this.jsonParseReviver)
         return throwException(
           "server error",
           status,
@@ -2848,7 +2862,7 @@ export class ImployApiClient implements IImployApiClient {
         resultdefault =
           _responseText === ""
             ? null
-            : <Anonymous2[]>JSON.parse(_responseText, this.jsonParseReviver)
+            : <Anonymous[]>JSON.parse(_responseText, this.jsonParseReviver)
         return throwException(
           "server error",
           status,
@@ -2866,7 +2880,7 @@ export class ImployApiClient implements IImployApiClient {
    * @return Successful Operation returns objects referenced here https://stripe.com/docs/api/subscription/object
    */
   getSubscription(authorization: string, id: number): Promise<void> {
-    let url_ = this.baseUrl + "/billing/subscriptions{id}"
+    let url_ = this.baseUrl + "/billing/subscriptions/{id}"
     if (id === undefined || id === null)
       throw new Error("The parameter 'id' must be defined.")
     url_ = url_.replace("{id}", encodeURIComponent("" + id))
@@ -2912,7 +2926,7 @@ export class ImployApiClient implements IImployApiClient {
         result404 =
           _responseText === ""
             ? null
-            : <Anonymous2[]>JSON.parse(_responseText, this.jsonParseReviver)
+            : <Anonymous[]>JSON.parse(_responseText, this.jsonParseReviver)
         return throwException(
           "subscription not found with requested id",
           status,
@@ -2927,7 +2941,7 @@ export class ImployApiClient implements IImployApiClient {
         resultdefault =
           _responseText === ""
             ? null
-            : <Anonymous2[]>JSON.parse(_responseText, this.jsonParseReviver)
+            : <Anonymous[]>JSON.parse(_responseText, this.jsonParseReviver)
         return throwException(
           "server error",
           status,
@@ -2987,7 +3001,7 @@ export class ImployApiClient implements IImployApiClient {
         resultdefault =
           _responseText === ""
             ? null
-            : <Anonymous2[]>JSON.parse(_responseText, this.jsonParseReviver)
+            : <Anonymous[]>JSON.parse(_responseText, this.jsonParseReviver)
         return throwException(
           "server error",
           status,
@@ -3072,7 +3086,7 @@ export class ImployApiClient implements IImployApiClient {
         result503 =
           _responseText === ""
             ? null
-            : <Anonymous2[]>JSON.parse(_responseText, this.jsonParseReviver)
+            : <Anonymous[]>JSON.parse(_responseText, this.jsonParseReviver)
         return throwException(
           "Drive Service is not inilialized",
           status,
@@ -3087,7 +3101,7 @@ export class ImployApiClient implements IImployApiClient {
         result404 =
           _responseText === ""
             ? null
-            : <Anonymous2[]>JSON.parse(_responseText, this.jsonParseReviver)
+            : <Anonymous[]>JSON.parse(_responseText, this.jsonParseReviver)
         return throwException(
           "file store do not exists for the provided user identifier",
           status,
@@ -3102,7 +3116,7 @@ export class ImployApiClient implements IImployApiClient {
         resultdefault =
           _responseText === ""
             ? null
-            : <Anonymous2[]>JSON.parse(_responseText, this.jsonParseReviver)
+            : <Anonymous[]>JSON.parse(_responseText, this.jsonParseReviver)
         return throwException(
           "server error",
           status,
@@ -3119,7 +3133,7 @@ export class ImployApiClient implements IImployApiClient {
    * @param pin_id pin object cid
    * @return Successful Operation,
    */
-  getPinsByCID(authorization: string, pin_id: string): Promise<Anonymous3> {
+  getPinsByCID(authorization: string, pin_id: string): Promise<Anonymous2> {
     let url_ = this.baseUrl + "/fps/pins/{pin_id}"
     if (pin_id === undefined || pin_id === null)
       throw new Error("The parameter 'pin_id' must be defined.")
@@ -3142,7 +3156,7 @@ export class ImployApiClient implements IImployApiClient {
     })
   }
 
-  protected processGetPinsByCID(response: Response): Promise<Anonymous3> {
+  protected processGetPinsByCID(response: Response): Promise<Anonymous2> {
     const status = response.status
     let _headers: any = {}
     if (response.headers && response.headers.forEach) {
@@ -3154,7 +3168,7 @@ export class ImployApiClient implements IImployApiClient {
         result200 =
           _responseText === ""
             ? null
-            : <Anonymous3>JSON.parse(_responseText, this.jsonParseReviver)
+            : <Anonymous2>JSON.parse(_responseText, this.jsonParseReviver)
         return result200
       })
     } else if (status === 401) {
@@ -3172,7 +3186,7 @@ export class ImployApiClient implements IImployApiClient {
         result404 =
           _responseText === ""
             ? null
-            : <Anonymous2[]>JSON.parse(_responseText, this.jsonParseReviver)
+            : <Anonymous[]>JSON.parse(_responseText, this.jsonParseReviver)
         return throwException(
           "no pins with CID was found",
           status,
@@ -3187,7 +3201,7 @@ export class ImployApiClient implements IImployApiClient {
         resultdefault =
           _responseText === ""
             ? null
-            : <Anonymous2[]>JSON.parse(_responseText, this.jsonParseReviver)
+            : <Anonymous[]>JSON.parse(_responseText, this.jsonParseReviver)
         return throwException(
           "server error",
           status,
@@ -3251,7 +3265,7 @@ export class ImployApiClient implements IImployApiClient {
         result404 =
           _responseText === ""
             ? null
-            : <Anonymous2[]>JSON.parse(_responseText, this.jsonParseReviver)
+            : <Anonymous[]>JSON.parse(_responseText, this.jsonParseReviver)
         return throwException(
           "No pins with CID was found",
           status,
@@ -3266,7 +3280,7 @@ export class ImployApiClient implements IImployApiClient {
         resultdefault =
           _responseText === ""
             ? null
-            : <Anonymous2[]>JSON.parse(_responseText, this.jsonParseReviver)
+            : <Anonymous[]>JSON.parse(_responseText, this.jsonParseReviver)
         return throwException(
           "server error",
           status,
@@ -3335,7 +3349,7 @@ export class ImployApiClient implements IImployApiClient {
         result404 =
           _responseText === ""
             ? null
-            : <Anonymous2[]>JSON.parse(_responseText, this.jsonParseReviver)
+            : <Anonymous[]>JSON.parse(_responseText, this.jsonParseReviver)
         return throwException(
           "No pins with CID was found",
           status,
@@ -3350,7 +3364,7 @@ export class ImployApiClient implements IImployApiClient {
         result400 =
           _responseText === ""
             ? null
-            : <Anonymous2[]>JSON.parse(_responseText, this.jsonParseReviver)
+            : <Anonymous[]>JSON.parse(_responseText, this.jsonParseReviver)
         return throwException(
           "No pin data was provider for modification",
           status,
@@ -3365,7 +3379,7 @@ export class ImployApiClient implements IImployApiClient {
         resultdefault =
           _responseText === ""
             ? null
-            : <Anonymous2[]>JSON.parse(_responseText, this.jsonParseReviver)
+            : <Anonymous[]>JSON.parse(_responseText, this.jsonParseReviver)
         return throwException(
           "server error",
           status,
@@ -3428,7 +3442,7 @@ export class ImployApiClient implements IImployApiClient {
         result404 =
           _responseText === ""
             ? null
-            : <Anonymous2[]>JSON.parse(_responseText, this.jsonParseReviver)
+            : <Anonymous[]>JSON.parse(_responseText, this.jsonParseReviver)
         return throwException(
           "no pins with CID was found",
           status,
@@ -3443,7 +3457,7 @@ export class ImployApiClient implements IImployApiClient {
         resultdefault =
           _responseText === ""
             ? null
-            : <Anonymous2[]>JSON.parse(_responseText, this.jsonParseReviver)
+            : <Anonymous[]>JSON.parse(_responseText, this.jsonParseReviver)
         return throwException(
           "server error",
           status,
@@ -3471,7 +3485,7 @@ export class ImployApiClient implements IImployApiClient {
     cid?: string | undefined,
     before?: string | undefined,
     after?: string | undefined,
-  ): Promise<Anonymous4[]> {
+  ): Promise<Anonymous3[]> {
     let url_ = this.baseUrl + "/fps/pins?"
     if (status === null)
       throw new Error("The parameter 'status' cannot be null.")
@@ -3506,7 +3520,7 @@ export class ImployApiClient implements IImployApiClient {
     })
   }
 
-  protected processGetAllPins(response: Response): Promise<Anonymous4[]> {
+  protected processGetAllPins(response: Response): Promise<Anonymous3[]> {
     const status = response.status
     let _headers: any = {}
     if (response.headers && response.headers.forEach) {
@@ -3518,7 +3532,7 @@ export class ImployApiClient implements IImployApiClient {
         result200 =
           _responseText === ""
             ? null
-            : <Anonymous4[]>JSON.parse(_responseText, this.jsonParseReviver)
+            : <Anonymous3[]>JSON.parse(_responseText, this.jsonParseReviver)
         return result200
       })
     } else if (status === 401) {
@@ -3536,7 +3550,7 @@ export class ImployApiClient implements IImployApiClient {
         result429 =
           _responseText === ""
             ? null
-            : <Anonymous2[]>JSON.parse(_responseText, this.jsonParseReviver)
+            : <Anonymous[]>JSON.parse(_responseText, this.jsonParseReviver)
         return throwException(
           "max limit of returned pin objects is 1000 and min is 1",
           status,
@@ -3551,7 +3565,7 @@ export class ImployApiClient implements IImployApiClient {
         resultdefault =
           _responseText === ""
             ? null
-            : <Anonymous2[]>JSON.parse(_responseText, this.jsonParseReviver)
+            : <Anonymous[]>JSON.parse(_responseText, this.jsonParseReviver)
         return throwException(
           "server error",
           status,
@@ -3567,7 +3581,7 @@ export class ImployApiClient implements IImployApiClient {
    * retrieve asks
    * @return Successful Operation returns objects referenced here  https://github.com/textileio/powergate/blob/master/index/ask/types.go
    */
-  getAsks(api_key: string): Promise<Anonymous5> {
+  getAsks(api_key: string): Promise<Anonymous4> {
     let url_ = this.baseUrl + "/powergate/asks"
     url_ = url_.replace(/[?&]$/, "")
 
@@ -3585,7 +3599,7 @@ export class ImployApiClient implements IImployApiClient {
     })
   }
 
-  protected processGetAsks(response: Response): Promise<Anonymous5> {
+  protected processGetAsks(response: Response): Promise<Anonymous4> {
     const status = response.status
     let _headers: any = {}
     if (response.headers && response.headers.forEach) {
@@ -3597,7 +3611,7 @@ export class ImployApiClient implements IImployApiClient {
         result200 =
           _responseText === ""
             ? null
-            : <Anonymous5>JSON.parse(_responseText, this.jsonParseReviver)
+            : <Anonymous4>JSON.parse(_responseText, this.jsonParseReviver)
         return result200
       })
     } else if (status === 401) {
@@ -3615,7 +3629,7 @@ export class ImployApiClient implements IImployApiClient {
         resultdefault =
           _responseText === ""
             ? null
-            : <Anonymous2[]>JSON.parse(_responseText, this.jsonParseReviver)
+            : <Anonymous[]>JSON.parse(_responseText, this.jsonParseReviver)
         return throwException(
           "server error",
           status,
@@ -3637,7 +3651,7 @@ export class ImployApiClient implements IImployApiClient {
     api_key: string,
     direction: Direction,
     only?: Only | undefined,
-  ): Promise<Anonymous6> {
+  ): Promise<Anonymous5> {
     let url_ = this.baseUrl + "/powergate/deals?"
     if (direction === undefined || direction === null)
       throw new Error(
@@ -3663,7 +3677,7 @@ export class ImployApiClient implements IImployApiClient {
     })
   }
 
-  protected processGetDeals(response: Response): Promise<Anonymous6> {
+  protected processGetDeals(response: Response): Promise<Anonymous5> {
     const status = response.status
     let _headers: any = {}
     if (response.headers && response.headers.forEach) {
@@ -3675,7 +3689,7 @@ export class ImployApiClient implements IImployApiClient {
         result200 =
           _responseText === ""
             ? null
-            : <Anonymous6>JSON.parse(_responseText, this.jsonParseReviver)
+            : <Anonymous5>JSON.parse(_responseText, this.jsonParseReviver)
         return result200
       })
     } else if (status === 401) {
@@ -3693,7 +3707,7 @@ export class ImployApiClient implements IImployApiClient {
         result400 =
           _responseText === ""
             ? null
-            : <Anonymous2[]>JSON.parse(_responseText, this.jsonParseReviver)
+            : <Anonymous[]>JSON.parse(_responseText, this.jsonParseReviver)
         return throwException(
           "no direction query parameter was provided in a request",
           status,
@@ -3708,7 +3722,7 @@ export class ImployApiClient implements IImployApiClient {
         resultdefault =
           _responseText === ""
             ? null
-            : <Anonymous2[]>JSON.parse(_responseText, this.jsonParseReviver)
+            : <Anonymous[]>JSON.parse(_responseText, this.jsonParseReviver)
         return throwException(
           "server error",
           status,
@@ -3724,7 +3738,7 @@ export class ImployApiClient implements IImployApiClient {
    * retrieve faults
    * @return Successful Operation returns objects referenced here https://github.com/textileio/powergate/blob/master/index/faults/types.go
    */
-  getFaults(authorization: string): Promise<Anonymous7> {
+  getFaults(authorization: string): Promise<Anonymous6> {
     let url_ = this.baseUrl + "/powergate/faults"
     url_ = url_.replace(/[?&]$/, "")
 
@@ -3744,7 +3758,88 @@ export class ImployApiClient implements IImployApiClient {
     })
   }
 
-  protected processGetFaults(response: Response): Promise<Anonymous7> {
+  protected processGetFaults(response: Response): Promise<Anonymous6> {
+    const status = response.status
+    let _headers: any = {}
+    if (response.headers && response.headers.forEach) {
+      response.headers.forEach((v: any, k: any) => (_headers[k] = v))
+    }
+    if (status === 200) {
+      return response.text().then((_responseText) => {
+        let result200: any = null
+        result200 =
+          _responseText === ""
+            ? null
+            : <Anonymous6>JSON.parse(_responseText, this.jsonParseReviver)
+        return result200
+      })
+    } else if (status === 401) {
+      return response.text().then((_responseText) => {
+        return throwException(
+          "invalid or missing bearer token",
+          status,
+          _responseText,
+          _headers,
+        )
+      })
+    } else if (status === 400) {
+      return response.text().then((_responseText) => {
+        let result400: any = null
+        result400 =
+          _responseText === ""
+            ? null
+            : <Anonymous[]>JSON.parse(_responseText, this.jsonParseReviver)
+        return throwException(
+          "no direction query parameter was provided in a request",
+          status,
+          _responseText,
+          _headers,
+          result400,
+        )
+      })
+    } else {
+      return response.text().then((_responseText) => {
+        let resultdefault: any = null
+        resultdefault =
+          _responseText === ""
+            ? null
+            : <Anonymous[]>JSON.parse(_responseText, this.jsonParseReviver)
+        return throwException(
+          "server error",
+          status,
+          _responseText,
+          _headers,
+          resultdefault,
+        )
+      })
+    }
+  }
+
+  /**
+   * retrieve miners
+   * @return Successful Operation returns objects referenced here https://github.com/textileio/powergate/blob/master/index/miner/types.go
+   */
+  getMiners(authorization: string): Promise<Anonymous7> {
+    let url_ = this.baseUrl + "/powergate/miners"
+    url_ = url_.replace(/[?&]$/, "")
+
+    let options_ = <RequestInit>{
+      method: "GET",
+      headers: {
+        Authorization:
+          authorization !== undefined && authorization !== null
+            ? "" + authorization
+            : "",
+        Accept: "applicaiton/json",
+      },
+    }
+
+    return this.http.fetch(url_, options_).then((_response: Response) => {
+      return this.processGetMiners(_response)
+    })
+  }
+
+  protected processGetMiners(response: Response): Promise<Anonymous7> {
     const status = response.status
     let _headers: any = {}
     if (response.headers && response.headers.forEach) {
@@ -3768,28 +3863,13 @@ export class ImployApiClient implements IImployApiClient {
           _headers,
         )
       })
-    } else if (status === 400) {
-      return response.text().then((_responseText) => {
-        let result400: any = null
-        result400 =
-          _responseText === ""
-            ? null
-            : <Anonymous2[]>JSON.parse(_responseText, this.jsonParseReviver)
-        return throwException(
-          "no direction query parameter was provided in a request",
-          status,
-          _responseText,
-          _headers,
-          result400,
-        )
-      })
     } else {
       return response.text().then((_responseText) => {
         let resultdefault: any = null
         resultdefault =
           _responseText === ""
             ? null
-            : <Anonymous2[]>JSON.parse(_responseText, this.jsonParseReviver)
+            : <Anonymous[]>JSON.parse(_responseText, this.jsonParseReviver)
         return throwException(
           "server error",
           status,
@@ -3802,11 +3882,11 @@ export class ImployApiClient implements IImployApiClient {
   }
 
   /**
-   * retrieve miners
-   * @return Successful Operation returns objects referenced here https://github.com/textileio/powergate/blob/master/index/miner/types.go
+   * retrieve peers
+   * @return Successful Operation returns objects referenced here hhttps://github.com/textileio/powergate/blob/master/net/interface.go
    */
-  getMiners(authorization: string): Promise<Anonymous8> {
-    let url_ = this.baseUrl + "/powergate/miners"
+  getPeers(authorization: string): Promise<Anonymous8> {
+    let url_ = this.baseUrl + "/powergate/peers"
     url_ = url_.replace(/[?&]$/, "")
 
     let options_ = <RequestInit>{
@@ -3821,11 +3901,11 @@ export class ImployApiClient implements IImployApiClient {
     }
 
     return this.http.fetch(url_, options_).then((_response: Response) => {
-      return this.processGetMiners(_response)
+      return this.processGetPeers(_response)
     })
   }
 
-  protected processGetMiners(response: Response): Promise<Anonymous8> {
+  protected processGetPeers(response: Response): Promise<Anonymous8> {
     const status = response.status
     let _headers: any = {}
     if (response.headers && response.headers.forEach) {
@@ -3855,7 +3935,7 @@ export class ImployApiClient implements IImployApiClient {
         resultdefault =
           _responseText === ""
             ? null
-            : <Anonymous2[]>JSON.parse(_responseText, this.jsonParseReviver)
+            : <Anonymous[]>JSON.parse(_responseText, this.jsonParseReviver)
         return throwException(
           "server error",
           status,
@@ -3868,30 +3948,34 @@ export class ImployApiClient implements IImployApiClient {
   }
 
   /**
-   * retrieve peers
-   * @return Successful Operation returns objects referenced here hhttps://github.com/textileio/powergate/blob/master/net/interface.go
+   * retrieve top miners by reputation
+   * @param limit words go here
+   * @return Successful Operation returns objects referenced here https://github.com/textileio/powergate/blob/master/index/miner/types.go
    */
-  getPeers(authorization: string): Promise<Anonymous9> {
-    let url_ = this.baseUrl + "/powergate/peers"
+  getTopMiners(api_key: string, limit: number): Promise<Anonymous9> {
+    let url_ = this.baseUrl + "/powergate/reputation/topminers?"
+    if (limit === undefined || limit === null)
+      throw new Error(
+        "The parameter 'limit' must be defined and cannot be null.",
+      )
+    else url_ += "limit=" + encodeURIComponent("" + limit) + "&"
     url_ = url_.replace(/[?&]$/, "")
 
     let options_ = <RequestInit>{
       method: "GET",
       headers: {
-        Authorization:
-          authorization !== undefined && authorization !== null
-            ? "" + authorization
-            : "",
-        Accept: "applicaiton/json",
+        "api-key":
+          api_key !== undefined && api_key !== null ? "" + api_key : "",
+        Accept: "application/json",
       },
     }
 
     return this.http.fetch(url_, options_).then((_response: Response) => {
-      return this.processGetPeers(_response)
+      return this.processGetTopMiners(_response)
     })
   }
 
-  protected processGetPeers(response: Response): Promise<Anonymous9> {
+  protected processGetTopMiners(response: Response): Promise<Anonymous9> {
     const status = response.status
     let _headers: any = {}
     if (response.headers && response.headers.forEach) {
@@ -3915,83 +3999,13 @@ export class ImployApiClient implements IImployApiClient {
           _headers,
         )
       })
-    } else {
-      return response.text().then((_responseText) => {
-        let resultdefault: any = null
-        resultdefault =
-          _responseText === ""
-            ? null
-            : <Anonymous2[]>JSON.parse(_responseText, this.jsonParseReviver)
-        return throwException(
-          "server error",
-          status,
-          _responseText,
-          _headers,
-          resultdefault,
-        )
-      })
-    }
-  }
-
-  /**
-   * retrieve top miners by reputation
-   * @param limit words go here
-   * @return Successful Operation returns objects referenced here https://github.com/textileio/powergate/blob/master/index/miner/types.go
-   */
-  getTopMiners(api_key: string, limit: number): Promise<Anonymous10> {
-    let url_ = this.baseUrl + "/powergate/reputation/topminers?"
-    if (limit === undefined || limit === null)
-      throw new Error(
-        "The parameter 'limit' must be defined and cannot be null.",
-      )
-    else url_ += "limit=" + encodeURIComponent("" + limit) + "&"
-    url_ = url_.replace(/[?&]$/, "")
-
-    let options_ = <RequestInit>{
-      method: "GET",
-      headers: {
-        "api-key":
-          api_key !== undefined && api_key !== null ? "" + api_key : "",
-        Accept: "application/json",
-      },
-    }
-
-    return this.http.fetch(url_, options_).then((_response: Response) => {
-      return this.processGetTopMiners(_response)
-    })
-  }
-
-  protected processGetTopMiners(response: Response): Promise<Anonymous10> {
-    const status = response.status
-    let _headers: any = {}
-    if (response.headers && response.headers.forEach) {
-      response.headers.forEach((v: any, k: any) => (_headers[k] = v))
-    }
-    if (status === 200) {
-      return response.text().then((_responseText) => {
-        let result200: any = null
-        result200 =
-          _responseText === ""
-            ? null
-            : <Anonymous10>JSON.parse(_responseText, this.jsonParseReviver)
-        return result200
-      })
-    } else if (status === 401) {
-      return response.text().then((_responseText) => {
-        return throwException(
-          "invalid or missing bearer token",
-          status,
-          _responseText,
-          _headers,
-        )
-      })
     } else if (status === 429) {
       return response.text().then((_responseText) => {
         let result429: any = null
         result429 =
           _responseText === ""
             ? null
-            : <Anonymous2[]>JSON.parse(_responseText, this.jsonParseReviver)
+            : <Anonymous[]>JSON.parse(_responseText, this.jsonParseReviver)
         return throwException(
           "provided limit is invalid",
           status,
@@ -4006,7 +4020,7 @@ export class ImployApiClient implements IImployApiClient {
         resultdefault =
           _responseText === ""
             ? null
-            : <Anonymous2[]>JSON.parse(_responseText, this.jsonParseReviver)
+            : <Anonymous[]>JSON.parse(_responseText, this.jsonParseReviver)
         return throwException(
           "server error",
           status,
@@ -4022,7 +4036,7 @@ export class ImployApiClient implements IImployApiClient {
    * returns file store info
    * @return Successful Operation
    */
-  getFileStoreInfo(authorization: string): Promise<Anonymous11> {
+  getFileStoreInfo(authorization: string): Promise<Anonymous10> {
     let url_ = this.baseUrl + "/drive/info"
     url_ = url_.replace(/[?&]$/, "")
 
@@ -4042,7 +4056,7 @@ export class ImployApiClient implements IImployApiClient {
     })
   }
 
-  protected processGetFileStoreInfo(response: Response): Promise<Anonymous11> {
+  protected processGetFileStoreInfo(response: Response): Promise<Anonymous10> {
     const status = response.status
     let _headers: any = {}
     if (response.headers && response.headers.forEach) {
@@ -4054,7 +4068,7 @@ export class ImployApiClient implements IImployApiClient {
         result200 =
           _responseText === ""
             ? null
-            : <Anonymous11>JSON.parse(_responseText, this.jsonParseReviver)
+            : <Anonymous10>JSON.parse(_responseText, this.jsonParseReviver)
         return result200
       })
     } else if (status === 401) {
@@ -4072,7 +4086,7 @@ export class ImployApiClient implements IImployApiClient {
         result409 =
           _responseText === ""
             ? null
-            : <Anonymous2[]>JSON.parse(_responseText, this.jsonParseReviver)
+            : <Anonymous[]>JSON.parse(_responseText, this.jsonParseReviver)
         return throwException(
           "File of directory name in conflict with existing structure",
           status,
@@ -4087,7 +4101,7 @@ export class ImployApiClient implements IImployApiClient {
         result503 =
           _responseText === ""
             ? null
-            : <Anonymous2[]>JSON.parse(_responseText, this.jsonParseReviver)
+            : <Anonymous[]>JSON.parse(_responseText, this.jsonParseReviver)
         return throwException(
           "Drive Service is not inilialized",
           status,
@@ -4102,7 +4116,7 @@ export class ImployApiClient implements IImployApiClient {
         result404 =
           _responseText === ""
             ? null
-            : <Anonymous2[]>JSON.parse(_responseText, this.jsonParseReviver)
+            : <Anonymous[]>JSON.parse(_responseText, this.jsonParseReviver)
         return throwException(
           "File Store do not exists for the provided user identifier",
           status,
@@ -4117,7 +4131,7 @@ export class ImployApiClient implements IImployApiClient {
         resultdefault =
           _responseText === ""
             ? null
-            : <Anonymous2[]>JSON.parse(_responseText, this.jsonParseReviver)
+            : <Anonymous[]>JSON.parse(_responseText, this.jsonParseReviver)
         return throwException(
           "server error",
           status,
@@ -4182,7 +4196,7 @@ export class ImployApiClient implements IImployApiClient {
         result503 =
           _responseText === ""
             ? null
-            : <Anonymous2[]>JSON.parse(_responseText, this.jsonParseReviver)
+            : <Anonymous[]>JSON.parse(_responseText, this.jsonParseReviver)
         return throwException(
           "drive service is not inilialized",
           status,
@@ -4197,7 +4211,7 @@ export class ImployApiClient implements IImployApiClient {
         result400 =
           _responseText === ""
             ? null
-            : <Anonymous2[]>JSON.parse(_responseText, this.jsonParseReviver)
+            : <Anonymous[]>JSON.parse(_responseText, this.jsonParseReviver)
         return throwException(
           "File Store do not exists for the provided user identifier",
           status,
@@ -4212,7 +4226,7 @@ export class ImployApiClient implements IImployApiClient {
         result404 =
           _responseText === ""
             ? null
-            : <Anonymous2[]>JSON.parse(_responseText, this.jsonParseReviver)
+            : <Anonymous[]>JSON.parse(_responseText, this.jsonParseReviver)
         return throwException(
           "File with such CID does not exists",
           status,
@@ -4227,7 +4241,7 @@ export class ImployApiClient implements IImployApiClient {
         resultdefault =
           _responseText === ""
             ? null
-            : <Anonymous2[]>JSON.parse(_responseText, this.jsonParseReviver)
+            : <Anonymous[]>JSON.parse(_responseText, this.jsonParseReviver)
         return throwException(
           "server error",
           status,
@@ -4253,7 +4267,7 @@ export class ImployApiClient implements IImployApiClient {
     path?: string | undefined,
     type?: string | undefined,
     update?: boolean | undefined,
-  ): Promise<Anonymous12> {
+  ): Promise<Anonymous11> {
     let url_ = this.baseUrl + "/drive/upload"
     url_ = url_.replace(/[?&]$/, "")
 
@@ -4288,7 +4302,7 @@ export class ImployApiClient implements IImployApiClient {
     })
   }
 
-  protected processAddFile(response: Response): Promise<Anonymous12> {
+  protected processAddFile(response: Response): Promise<Anonymous11> {
     const status = response.status
     let _headers: any = {}
     if (response.headers && response.headers.forEach) {
@@ -4300,7 +4314,7 @@ export class ImployApiClient implements IImployApiClient {
         result200 =
           _responseText === ""
             ? null
-            : <Anonymous12>JSON.parse(_responseText, this.jsonParseReviver)
+            : <Anonymous11>JSON.parse(_responseText, this.jsonParseReviver)
         return result200
       })
     } else if (status === 401) {
@@ -4318,7 +4332,7 @@ export class ImployApiClient implements IImployApiClient {
         result503 =
           _responseText === ""
             ? null
-            : <Anonymous2[]>JSON.parse(_responseText, this.jsonParseReviver)
+            : <Anonymous[]>JSON.parse(_responseText, this.jsonParseReviver)
         return throwException(
           "drive service is not inilialized",
           status,
@@ -4333,7 +4347,7 @@ export class ImployApiClient implements IImployApiClient {
         result404 =
           _responseText === ""
             ? null
-            : <Anonymous2[]>JSON.parse(_responseText, this.jsonParseReviver)
+            : <Anonymous[]>JSON.parse(_responseText, this.jsonParseReviver)
         return throwException(
           "File Store do not exists for the provided user identifier",
           status,
@@ -4348,7 +4362,7 @@ export class ImployApiClient implements IImployApiClient {
         result409 =
           _responseText === ""
             ? null
-            : <Anonymous2[]>JSON.parse(_responseText, this.jsonParseReviver)
+            : <Anonymous[]>JSON.parse(_responseText, this.jsonParseReviver)
         return throwException(
           "file of directory name in conflict with existing structure",
           status,
@@ -4363,7 +4377,7 @@ export class ImployApiClient implements IImployApiClient {
         resultdefault =
           _responseText === ""
             ? null
-            : <Anonymous2[]>JSON.parse(_responseText, this.jsonParseReviver)
+            : <Anonymous[]>JSON.parse(_responseText, this.jsonParseReviver)
         return throwException(
           "server error",
           status,
@@ -4428,7 +4442,7 @@ export class ImployApiClient implements IImployApiClient {
         result503 =
           _responseText === ""
             ? null
-            : <Anonymous2[]>JSON.parse(_responseText, this.jsonParseReviver)
+            : <Anonymous[]>JSON.parse(_responseText, this.jsonParseReviver)
         return throwException(
           "drive service is not inilialized",
           status,
@@ -4443,7 +4457,7 @@ export class ImployApiClient implements IImployApiClient {
         result404 =
           _responseText === ""
             ? null
-            : <Anonymous2[]>JSON.parse(_responseText, this.jsonParseReviver)
+            : <Anonymous[]>JSON.parse(_responseText, this.jsonParseReviver)
         return throwException(
           "File Store or File Name do not exists for the provided user",
           status,
@@ -4458,7 +4472,7 @@ export class ImployApiClient implements IImployApiClient {
         result409 =
           _responseText === ""
             ? null
-            : <Anonymous2[]>JSON.parse(_responseText, this.jsonParseReviver)
+            : <Anonymous[]>JSON.parse(_responseText, this.jsonParseReviver)
         return throwException(
           "file of directory name in conflict with existing structure",
           status,
@@ -4473,7 +4487,7 @@ export class ImployApiClient implements IImployApiClient {
         resultdefault =
           _responseText === ""
             ? null
-            : <Anonymous2[]>JSON.parse(_responseText, this.jsonParseReviver)
+            : <Anonymous[]>JSON.parse(_responseText, this.jsonParseReviver)
         return throwException(
           "server error",
           status,
@@ -4538,7 +4552,7 @@ export class ImployApiClient implements IImployApiClient {
         result503 =
           _responseText === ""
             ? null
-            : <Anonymous2[]>JSON.parse(_responseText, this.jsonParseReviver)
+            : <Anonymous[]>JSON.parse(_responseText, this.jsonParseReviver)
         return throwException(
           "drive service is not inilialized",
           status,
@@ -4553,7 +4567,7 @@ export class ImployApiClient implements IImployApiClient {
         result400 =
           _responseText === ""
             ? null
-            : <Anonymous2[]>JSON.parse(_responseText, this.jsonParseReviver)
+            : <Anonymous[]>JSON.parse(_responseText, this.jsonParseReviver)
         return throwException(
           "File Store or File itself do not exists for the provided user identifier",
           status,
@@ -4568,7 +4582,7 @@ export class ImployApiClient implements IImployApiClient {
         resultdefault =
           _responseText === ""
             ? null
-            : <Anonymous2[]>JSON.parse(_responseText, this.jsonParseReviver)
+            : <Anonymous[]>JSON.parse(_responseText, this.jsonParseReviver)
         return throwException(
           "server error",
           status,
@@ -4633,7 +4647,7 @@ export class ImployApiClient implements IImployApiClient {
         result503 =
           _responseText === ""
             ? null
-            : <Anonymous2[]>JSON.parse(_responseText, this.jsonParseReviver)
+            : <Anonymous[]>JSON.parse(_responseText, this.jsonParseReviver)
         return throwException(
           "drive service is not inilialized",
           status,
@@ -4648,7 +4662,7 @@ export class ImployApiClient implements IImployApiClient {
         result404 =
           _responseText === ""
             ? null
-            : <Anonymous2[]>JSON.parse(_responseText, this.jsonParseReviver)
+            : <Anonymous[]>JSON.parse(_responseText, this.jsonParseReviver)
         return throwException(
           "File Store or File do not exists for the provided user identifier",
           status,
@@ -4663,7 +4677,7 @@ export class ImployApiClient implements IImployApiClient {
         resultdefault =
           _responseText === ""
             ? null
-            : <Anonymous2[]>JSON.parse(_responseText, this.jsonParseReviver)
+            : <Anonymous[]>JSON.parse(_responseText, this.jsonParseReviver)
         return throwException(
           "server error",
           status,
@@ -4728,7 +4742,7 @@ export class ImployApiClient implements IImployApiClient {
         result503 =
           _responseText === ""
             ? null
-            : <Anonymous2[]>JSON.parse(_responseText, this.jsonParseReviver)
+            : <Anonymous[]>JSON.parse(_responseText, this.jsonParseReviver)
         return throwException(
           "drive service is not inilialized",
           status,
@@ -4743,7 +4757,7 @@ export class ImployApiClient implements IImployApiClient {
         result404 =
           _responseText === ""
             ? null
-            : <Anonymous2[]>JSON.parse(_responseText, this.jsonParseReviver)
+            : <Anonymous[]>JSON.parse(_responseText, this.jsonParseReviver)
         return throwException(
           "File Store do not exists for the provided user identifier",
           status,
@@ -4758,7 +4772,7 @@ export class ImployApiClient implements IImployApiClient {
         resultdefault =
           _responseText === ""
             ? null
-            : <Anonymous2[]>JSON.parse(_responseText, this.jsonParseReviver)
+            : <Anonymous[]>JSON.parse(_responseText, this.jsonParseReviver)
         return throwException(
           "server error",
           status,
@@ -4823,7 +4837,7 @@ export class ImployApiClient implements IImployApiClient {
         result503 =
           _responseText === ""
             ? null
-            : <Anonymous2[]>JSON.parse(_responseText, this.jsonParseReviver)
+            : <Anonymous[]>JSON.parse(_responseText, this.jsonParseReviver)
         return throwException(
           "drive service is not inilialized",
           status,
@@ -4838,7 +4852,7 @@ export class ImployApiClient implements IImployApiClient {
         result404 =
           _responseText === ""
             ? null
-            : <Anonymous2[]>JSON.parse(_responseText, this.jsonParseReviver)
+            : <Anonymous[]>JSON.parse(_responseText, this.jsonParseReviver)
         return throwException(
           "File Store do not exists for the provided user identifier",
           status,
@@ -4853,7 +4867,7 @@ export class ImployApiClient implements IImployApiClient {
         result409 =
           _responseText === ""
             ? null
-            : <Anonymous2[]>JSON.parse(_responseText, this.jsonParseReviver)
+            : <Anonymous[]>JSON.parse(_responseText, this.jsonParseReviver)
         return throwException(
           "file of directory name in conflict with existing structure",
           status,
@@ -4868,7 +4882,7 @@ export class ImployApiClient implements IImployApiClient {
         resultdefault =
           _responseText === ""
             ? null
-            : <Anonymous2[]>JSON.parse(_responseText, this.jsonParseReviver)
+            : <Anonymous[]>JSON.parse(_responseText, this.jsonParseReviver)
         return throwException(
           "server error",
           status,
@@ -4900,6 +4914,13 @@ export interface Token {
   token?: string
   /** The Expiration date of the token */
   expires?: string
+}
+
+export interface AccessRefreshTokens {
+  /** Authentication Token used for API access */
+  access_token?: any
+  /** Refresh Token used for API access */
+  refresh_token?: any
 }
 
 export interface UserSignUp {
@@ -5121,20 +5142,13 @@ export type Direction = "retrieval" | "storage"
 export type Only = "final" | "pending"
 
 export interface Anonymous {
-  /** Authentication Token used for API access */
-  access_token?: any
-  /** Refresh Token used for API access */
-  refresh_token?: any
-}
-
-export interface Anonymous2 {
   /** The type or category of error */
   error_type?: string
   /** The error message */
   message?: string
 }
 
-export interface Anonymous3 {
+export interface Anonymous2 {
   /** pin object identifier */
   id?: string
   /** date and time of pin object creation */
@@ -5150,7 +5164,7 @@ export interface Anonymous3 {
 }
 
 /** array of pin objects */
-export interface Anonymous4 {
+export interface Anonymous3 {
   /** pin object identifier */
   id?: string
   /** date and time of pin object creation */
@@ -5163,7 +5177,7 @@ export interface Anonymous4 {
   pin?: Pin4
 }
 
-export interface Anonymous5 {
+export interface Anonymous4 {
   /** date last updated_at */
   lastupdated?: string
   /** storeage median price */
@@ -5172,37 +5186,37 @@ export interface Anonymous5 {
   storage?: any
 }
 
-export interface Anonymous6 {
+export interface Anonymous5 {
   /** the deal record either type storage or retrieval */
   dealrecord?: string
 }
 
-export interface Anonymous7 {
+export interface Anonymous6 {
   /** words go here */
   tipsetkey?: string
   /** words go here */
   miners?: any
 }
 
-export interface Anonymous8 {
+export interface Anonymous7 {
   /** workds go here */
   meta?: any
   /** words go here */
   onchain?: any
 }
 
-export interface Anonymous9 {
+export interface Anonymous8 {
   /** provides address info and location info about a peer */
   peerinfo?: any
 }
 
 /** miner info */
-export interface Anonymous10 {
+export interface Anonymous9 {
   /** miner's score */
   minerscore?: any
 }
 
-export interface Anonymous11 {
+export interface Anonymous10 {
   /** FFs id */
   ffs_id?: string
   /** size of the File Store in bytes */
@@ -5215,7 +5229,7 @@ export interface Anonymous11 {
   api_key?: string
 }
 
-export interface Anonymous12 {
+export interface Anonymous11 {
   /** cid in IPFS */
   cid?: string
   /** file name */
