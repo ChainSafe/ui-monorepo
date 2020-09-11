@@ -3,7 +3,7 @@ import { useState, useEffect } from "react"
 import { IImployApiClient, ImployApiClient } from "./ImployApiClient"
 
 type ImployApiContextProps = {
-  apiUrl: string
+  apiUrl?: string
   children: React.ReactNode | React.ReactNode[]
 }
 

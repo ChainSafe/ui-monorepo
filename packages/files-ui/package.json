@@ -3,21 +3,24 @@
   "version": "1.0.0",
   "private": true,
   "dependencies": {
+    "@chainsafe/web3-context": "^1.0.0",
     "@sentry/react": "^5.22.3",
+    "bnc-onboard": "^1.13.0",
+    "ethers": "^5.0.12",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-scripts": "3.4.3",
     "typescript": "~4.0.2"
   },
   "devDependencies": {
-    "craco": "^0.0.3",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^10.4.9",
     "@testing-library/user-event": "^7.1.2",
     "@types/jest": "^26.0.10",
     "@types/node": "^14.6.4",
     "@types/react": "^16.9.49",
-    "@types/react-dom": "^16.9.0"
+    "@types/react-dom": "^16.9.0",
+    "craco": "^0.0.3"
   },
   "scripts": {
     "start": "craco --max_old_space_size=4096 start",
