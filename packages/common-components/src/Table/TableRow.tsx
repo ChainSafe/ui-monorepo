@@ -11,6 +11,8 @@ const useStyles = makeStyles((theme: ITheme) =>
       outline: 0,
       borderBottom: `1px solid ${theme.palette}`,
       transition: `all ${theme.animation.transform}ms`,
+      ...theme.typography.body1,
+      lineHeight: "inherit",
       "&.selected": {
         backgroundColor: theme.palette["gray"][4],
         "&:hover": {

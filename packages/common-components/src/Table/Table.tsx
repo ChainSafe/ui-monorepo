@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme: ITheme) =>
     },
     dense: {
       "& th, & td": {
-        padding: `${theme.constants.generalUnit * 1.5}px`,
+        padding: `${theme.constants.generalUnit * 1.8}px`,
       },
     },
     hover: {
