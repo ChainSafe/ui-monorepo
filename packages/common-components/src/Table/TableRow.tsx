@@ -12,9 +12,9 @@ const useStyles = makeStyles((theme: ITheme) =>
       borderBottom: `1px solid ${theme.palette}`,
       transition: `all ${theme.animation.transform}ms`,
       "&.selected": {
-        backgroundColor: theme.palette["gray"][3],
+        backgroundColor: theme.palette["gray"][4],
         "&:hover": {
-          backgroundColor: theme.palette["gray"][3],
+          backgroundColor: theme.palette["gray"][4],
         },
       },
     },

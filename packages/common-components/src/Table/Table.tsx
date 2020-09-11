@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme: ITheme) =>
       },
       "&.selected": {
         "&:hover": {
-          backgroundColor: theme.palette["gray"][3],
+          backgroundColor: theme.palette["gray"][4],
         },
       },
     },

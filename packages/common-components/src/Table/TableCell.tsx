@@ -9,7 +9,7 @@ const useStyles = makeStyles((theme: ITheme) =>
     root: {
       backgroundColor: "inherit",
       borderBottom: `1px solid ${theme.palette["gray"][4]}`,
-      ...theme.typography.body1,
+      ...theme.typography.body2,
       lineHeight: "none",
     },
     alignLeft: {

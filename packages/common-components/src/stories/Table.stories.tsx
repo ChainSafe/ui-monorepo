@@ -19,7 +19,7 @@ export default {
 }
 
 const alignOptions: AlignOption[] = ["inherit", "center", "left", "right"]
-const sortDirectionOptions: SortDirection[] = ["none", "ascend", "descend"]
+const sortDirectionOptions: SortDirection[] = ["ascend", "descend", undefined]
 
 export const MainDemo = (): React.ReactNode => (
   <Table
@@ -35,7 +35,11 @@ export const MainDemo = (): React.ReactNode => (
         align={select("align", alignOptions, "center")}
         sortButtons={boolean("sort buttons", false)}
         onSortChange={action("onSortChange")}
-        sortDirection={select("sort direction", sortDirectionOptions, "none")}
+        sortDirection={select(
+          "sort direction",
+          sortDirectionOptions,
+          undefined,
+        )}
       >
         Size
       </TableHeadCell>
@@ -71,7 +75,7 @@ export const MainDemo = (): React.ReactNode => (
 export const FilesTableDemo = (): React.ReactNode => (
   <Table fullWidth={true} dense={true}>
     <TableHead>
-      <TableHeadCell align="left" style={{ width: "50%" }}>
+      <TableHeadCell align="left" sortButtons>
         Filename
       </TableHeadCell>
       <TableHeadCell align="left">Last modified</TableHeadCell>
