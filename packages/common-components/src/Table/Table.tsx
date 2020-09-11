@@ -19,22 +19,27 @@ const useStyles = makeStyles((theme: ITheme) =>
     },
     dense: {
       "& th, & td": {
-        padding: `${theme.constants.generalUnit}px`,
+        padding: `${theme.constants.generalUnit * 1.5}px`,
       },
     },
     hover: {
       "& tr:hover": {
-        backgroundColor: theme.palette.secondary.hover,
+        backgroundColor: theme.palette["gray"][2],
       },
       "& tr:nth-child(even)": {
         "&:hover": {
-          backgroundColor: theme.palette.secondary.hover,
+          backgroundColor: theme.palette["gray"][2],
+        },
+      },
+      "&.selected": {
+        "&:hover": {
+          backgroundColor: theme.palette["gray"][3],
         },
       },
     },
     striped: {
       "& tr:nth-child(even)": {
-        backgroundColor: theme.palette.secondary.background,
+        backgroundColor: theme.palette["gray"][2],
       },
     },
   }),

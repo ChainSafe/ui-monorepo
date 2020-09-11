@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme: ITheme) =>
     sortButtons: {
       cursor: "pointer",
       "&:hover": {
-        backgroundColor: theme.palette.secondary.background,
+        backgroundColor: theme.palette["gray"][2],
       },
     },
     sortContainer: {
@@ -64,6 +64,7 @@ export interface ITableHeadCellProps {
   sortButtons?: boolean
   sortDirection?: SortDirection
   color?: keyof IPalette
+  style?: React.CSSProperties
   onSortChange?(
     e: React.MouseEvent<HTMLTableHeaderCellElement, MouseEvent>,
   ): void

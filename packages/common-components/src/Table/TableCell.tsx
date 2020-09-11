@@ -8,7 +8,9 @@ const useStyles = makeStyles((theme: ITheme) =>
   createStyles({
     root: {
       backgroundColor: "inherit",
-      borderBottom: `1px solid ${theme.palette.secondary.border}`,
+      borderBottom: `1px solid ${theme.palette["gray"][4]}`,
+      ...theme.typography.body1,
+      lineHeight: "none",
     },
     alignLeft: {
       textAlign: "left",

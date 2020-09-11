@@ -67,3 +67,36 @@ export const MainDemo = (): React.ReactNode => (
     </TableBody>
   </Table>
 )
+
+export const FilesTableDemo = (): React.ReactNode => (
+  <Table fullWidth={true} dense={true}>
+    <TableHead>
+      <TableHeadCell align="left" style={{ width: "50%" }}>
+        Filename
+      </TableHeadCell>
+      <TableHeadCell align="left">Last modified</TableHeadCell>
+      <TableHeadCell align="left">Size</TableHeadCell>
+      <TableHeadCell />
+    </TableHead>
+    <TableBody>
+      <TableRow>
+        <TableCell align="left">movies.mp4</TableCell>
+        <TableCell align="left">last minute</TableCell>
+        <TableCell align="left">1 GB</TableCell>
+        <TableCell />
+      </TableRow>
+      <TableRow>
+        <TableCell align="left">texts.txt</TableCell>
+        <TableCell align="left">4 hours ago</TableCell>
+        <TableCell align="left">1 MB</TableCell>
+        <TableCell />
+      </TableRow>
+      <TableRow>
+        <TableCell align="left">songs.mp3</TableCell>
+        <TableCell align="left">a week back</TableCell>
+        <TableCell align="left">1.3 KB</TableCell>
+        <TableCell />
+      </TableRow>
+    </TableBody>
+  </Table>
+)

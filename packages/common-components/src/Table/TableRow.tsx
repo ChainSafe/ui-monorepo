@@ -5,17 +5,17 @@ import clsx from "clsx"
 const useStyles = makeStyles((theme: ITheme) =>
   createStyles({
     root: {
-      color: "inherit",
+      color: theme.palette["gray"][8],
       display: "table-row",
       verticalAlign: "middle",
       outline: 0,
       borderBottom: `1px solid ${theme.palette}`,
       transition: `all ${theme.animation.transform}ms`,
-    },
-    selected: {
-      backgroundColor: theme.palette.secondary.hover,
-      "&:hover": {
-        backgroundColor: theme.palette.secondary.active,
+      "&.selected": {
+        backgroundColor: theme.palette["gray"][3],
+        "&:hover": {
+          backgroundColor: theme.palette["gray"][3],
+        },
       },
     },
     rowSelectable: {
@@ -47,7 +47,7 @@ const TableRow: React.FC<ITableRowProps> = ({
       className={clsx(
         classes.root,
         {
-          [classes.selected]: selected,
+          selected: selected,
           [classes.rowSelectable]: rowSelectable,
         },
         className,
