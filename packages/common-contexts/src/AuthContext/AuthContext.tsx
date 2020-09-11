@@ -61,12 +61,10 @@ const AuthProvider = ({ children }: AuthContextProps) => {
     } else {
       try {
         // TODO Get the token schema for decode
-        debugger
         const decodedToken = jwtDecode<any>(accessToken.token)
         const isLoggedIn = Date.now() / 1000 < decodedToken.exp
         return isLoggedIn
       } catch (error) {
-        console.log(error)
         return false
       }
     }

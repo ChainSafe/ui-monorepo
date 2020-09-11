@@ -4,7 +4,7 @@ import { useWeb3 } from "@chainsafe/web3-context"
 import { useAuth } from "@chainsafe/common-contexts"
 
 const LoginPage = () => {
-  const { isReturningUser, web3Login } = useAuth() // TODO: Get this from Auth Context
+  const { isReturningUser, web3Login } = useAuth()
   const { wallet, onboard, checkIsReady } = useWeb3()
   const [error, setError] = useState<string>("")
   const [activeMode, setActiveMode] = useState<"newUser" | "returningUser">(
@@ -26,7 +26,6 @@ const LoginPage = () => {
         walletReady = await onboard.walletSelect()
       }
       walletReady && (await checkIsReady())
-      // TODO Call Auth context to initiate auth flow
       try {
         await web3Login()
       } catch (error) {
