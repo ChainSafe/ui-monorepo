@@ -21,7 +21,7 @@
   "devDependencies": {
     "@rollup/plugin-commonjs": "^15.0.0",
     "@rollup/plugin-json": "^4.1.0",
-    "@rollup/plugin-node-resolve": "^8.4.0",
+    "@rollup/plugin-node-resolve": "^9.0.0",
     "@types/react": "^16.9.49",
     "@types/react-dom": "^16.0.5",
     "babel-core": "^6.26.3",
