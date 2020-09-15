@@ -37,8 +37,6 @@ const AuthProvider = ({ children }: AuthContextProps) => {
     const { token } = await imployApiClient.getWeb3Token()
 
     if (token) {
-      // TODO Fix the type definition to return a Web3Provider
-      // @ts-ignore
       const signature = await signMessage(token, provider)
       const {
         access_token,

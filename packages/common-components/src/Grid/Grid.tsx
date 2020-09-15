@@ -1,12 +1,11 @@
 import React, { ReactNode } from "react"
-import { makeStyles, createStyles } from "@material-ui/styles"
 import clsx from "clsx"
 import {
   createFlexStyles,
   createGridStyles,
   createSpacingStyles,
 } from "./Styles"
-import { ITheme } from "@chainsafe/common-themes"
+import { ITheme, makeStyles, createStyles } from "@chainsafe/common-themes"
 import {
   AlignItems,
   JustifyContent,
