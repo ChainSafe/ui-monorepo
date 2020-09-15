@@ -1,5 +1,11 @@
 import React, { useState } from "react"
-import { Grid, Typography, Button } from "@chainsafe/common-components"
+import {
+  Grid,
+  Typography,
+  Button,
+  AppleLogoIcon,
+  GoogleLogoIcon,
+} from "@chainsafe/common-components"
 import { useWeb3 } from "@chainsafe/web3-context"
 import { useAuth } from "@chainsafe/common-contexts"
 
@@ -51,8 +57,12 @@ const LoginPage = () => {
           <Button onClick={handleSelectWalletAndConnect}>
             Continue with Web3 Wallet
           </Button>
-          <Button>Continue with Apple</Button>
-          <Button>Continue with Google</Button>
+          <Button disabled>
+            <AppleLogoIcon fontSize="small" /> Continue with Apple
+          </Button>
+          <Button disabled>
+            <GoogleLogoIcon fontSize="small" /> Continue with Google
+          </Button>
           {error && <Typography>{error}</Typography>}
           {activeMode === "newUser" ? (
             <>
