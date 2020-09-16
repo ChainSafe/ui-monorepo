@@ -16,4 +16,5 @@ export { default as HomeExclamationCircleIcon } from "./icons/ExclamationCircleI
 export { default as HomeIcon } from "./icons/Home"
 export { default as PaperclipIcon } from "./icons/Paperclip"
 export { default as PlusIcon } from "./icons/Plus"
+export { default as UserIcon } from "./icons/User"
 export { default as SearchIcon } from "./icons/SearchIcon"
