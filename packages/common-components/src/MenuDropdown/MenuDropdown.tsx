@@ -1,5 +1,8 @@
-import React from "react"
+import React, { useState } from "react"
 import { makeStyles, createStyles } from "@chainsafe/common-themes"
+import { Typography } from "../Typography"
+import clsx from "clsx"
+import { CaretDownIcon } from "../Icons"
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -8,19 +11,52 @@ const useStyles = makeStyles(() =>
   }),
 )
 
-interface IMenuDropdownProps {
-  className?: string
-  seed: string
-  size?: number
-  scale?: number
-  color?: string
-  bgColor?: string
-  spotColor?: string
+interface IMenuItem {
+  title: string
+  onClick: () => void
 }
 
-const MenuDropdown: React.FC<IMenuDropdownProps> = ({}: IMenuDropdownProps) => {
+interface IMenuDropdownProps {
+  className?: string
+  menuItems: IMenuItem[]
+  title: string
+}
+
+const MenuDropdown: React.FC<IMenuDropdownProps> = ({
+  className,
+  menuItems,
+  title,
+}: IMenuDropdownProps) => {
   const classes = useStyles()
-  return <span className={classes.root} />
+  const [open, setOpen] = useState<boolean>(false)
+  return (
+    <div
+      className={clsx(classes.root, className, {
+        ["open"]: open,
+      })}
+    >
+      <section>
+        <Typography component="p" variant="body2">
+          {title}
+        </Typography>
+        <CaretDownIcon />
+      </section>
+      <section>
+        {menuItems.map((item: IMenuItem) => (
+          <Typography
+            component="p"
+            variant="body2"
+            onClick={() => {
+              setOpen(false)
+              item.onClick()
+            }}
+          >
+            {item.title}
+          </Typography>
+        ))}
+      </section>
+    </div>
+  )
 }
 
 export default MenuDropdown
