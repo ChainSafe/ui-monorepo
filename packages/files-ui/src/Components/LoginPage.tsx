@@ -39,6 +39,8 @@ const useStyles = makeStyles((theme: ITheme) =>
     button: {
       backgroundColor: theme.palette.common.black.main,
       color: theme.palette.common.white.main,
+      width: 237,
+      marginBottom: theme.constants.generalUnit,
     },
     divider: {
       display: "flex",
@@ -102,30 +104,33 @@ const LoginPage = () => {
           </Typography>
         </Grid>
         <Grid item md={4} className={classes.buttonSection} alignItems="center">
-          <img
-            src="ChainSafe-logo.png"
-            alt="Chainsafe Logo"
-            className={classes.logo}
-          />
-          <Typography>Chainsafe Files</Typography>
+          <div>
+            <img
+              src="ChainSafe-logo.png"
+              alt="Chainsafe Logo"
+              className={classes.logo}
+            />
+            <Typography variant="subtitle2">Chainsafe Files</Typography>
+          </div>
           {activeMode === "newUser" ? (
-            <Typography>Create an account</Typography>
+            <Typography variant="h6">Create an account</Typography>
           ) : (
-            <Typography>Welcome back!</Typography>
+            <Typography variant="h6">Welcome back!</Typography>
           )}
           <Button
             onClick={handleSelectWalletAndConnect}
             className={classes.button}
+            size="large"
           >
             Continue with Web3 Wallet
           </Button>
           <div className={classes.divider}>
             <Typography>OR</Typography>
           </div>
-          <Button disabled className={classes.button}>
+          <Button disabled className={classes.button} size="large">
             <AppleLogoIcon /> <Typography>Continue with Apple</Typography>
           </Button>
-          <Button disabled className={classes.button}>
+          <Button disabled className={classes.button} size="large">
             <GoogleLogoIcon /> <Typography>Continue with Google</Typography>
           </Button>
           {error && <Typography>{error}</Typography>}
