@@ -22,8 +22,7 @@ const defaultFontWeights: IFontWeights = {
   light: 300,
   regular: 400,
   medium: 500,
-  semibold: 600,
-  bold: 700,
+  bold: 600,
 }
 
 const DefaultThemeConfig: IThemeConfig = {
@@ -103,13 +102,13 @@ const DefaultThemeConfig: IThemeConfig = {
     fontWeight: defaultFontWeights,
     h1: {
       ...defaultFontFamilyStack,
-      fontWeight: defaultFontWeights.semibold,
+      fontWeight: defaultFontWeights.bold,
       fontSize: 38,
       lineHeight: `46px`,
     },
     h2: {
       ...defaultFontFamilyStack,
-      fontWeight: defaultFontWeights.semibold,
+      fontWeight: defaultFontWeights.bold,
       fontSize: 30,
       lineHeight: `38px`,
     },

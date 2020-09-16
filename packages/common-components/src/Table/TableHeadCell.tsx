@@ -9,7 +9,7 @@ import {
   createStyles,
 } from "@chainsafe/common-themes"
 import { SortDirection } from "./types"
-import { CaretUpIcon } from "../Icons"
+import { CaretUpIcon, CaretDownIcon } from "../Icons"
 
 const useStyles = makeStyles((theme: ITheme) =>
   createStyles({
@@ -32,42 +32,27 @@ const useStyles = makeStyles((theme: ITheme) =>
     sortButtons: {
       cursor: "pointer",
       "&:hover": {
-        backgroundColor: theme.palette["gray"][2],
+        backgroundColor: theme.palette.secondary.background,
       },
     },
     sortContainer: {
       display: "flex",
       alignItems: "center",
     },
-    sortChildrenContainer: {
-      flex: "1",
-      "&.sortCenterAlign": {
-        marginLeft: `${theme.constants.generalUnit * 1.5}px`,
-      },
-    },
     caret: {
-      marginLeft: 4,
-      fontSize: "12px",
+      fontSize: "10px",
       "& svg": {
         fill: theme.palette["gray"][6],
       },
-      "&.ascend": {
-        transition: `transform ${theme.animation.transform}ms`,
-        transform: "rotate(0deg)",
-        "& svg": {
-          fill: theme.palette["gray"][9],
-        },
-      },
-      "&.descend": {
-        transition: `transform ${theme.animation.transform}ms`,
-        transform: "rotate(-180deg)",
-        "& svg": {
-          fill: theme.palette["gray"][9],
-        },
+    },
+    caretActive: {
+      "& svg": {
+        fill: theme.palette.secondary.main,
       },
     },
     caretContainer: {
       display: "inline-grid",
+      marginRight: `${theme.constants.generalUnit}px`,
     },
   }),
 )
@@ -115,17 +100,21 @@ const TableHeadCell: React.FC<ITableHeadCellProps> = ({
             classes[`align${capitalize(align)}`],
           )}
         >
-          <div
-            className={clsx(
-              classes.sortChildrenContainer,
-              align === "center" && "sortCenterAlign",
-            )}
-          >
-            {children}
-          </div>
           <div className={classes.caretContainer}>
-            <CaretUpIcon className={clsx(classes.caret, sortDirection)} />
+            <CaretUpIcon
+              className={clsx(
+                classes.caret,
+                sortDirection === "ascend" && classes.caretActive,
+              )}
+            />
+            <CaretDownIcon
+              className={clsx(
+                classes.caret,
+                sortDirection === "descend" && classes.caretActive,
+              )}
+            />
           </div>
+          {children}
         </div>
       ) : (
         children

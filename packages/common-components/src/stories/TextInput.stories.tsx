@@ -3,7 +3,7 @@ import { withKnobs, select, boolean, text } from "@storybook/addon-knobs"
 import { BulbIcon } from "../Icons"
 import { action } from "@storybook/addon-actions"
 import { HomeIcon } from "../Icons"
-import { TextInput, FormikTextInput, InputState } from "../TextInput"
+import { TextInput, inputState, FormikTextInput } from "../TextInput"
 import { Formik, Form } from "formik"
 import { Button } from "../Button"
 
@@ -14,7 +14,7 @@ export default {
   decorators: [withKnobs],
 }
 
-const inputStateOptions: InputState[] = [
+const inputStateOptions: inputState[] = [
   "error",
   "normal",
   "success",
