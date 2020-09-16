@@ -5,10 +5,16 @@ import {
   Button,
   AppleLogoIcon,
   GoogleLogoIcon,
+  ChainsafeFilesLogo,
 } from "@chainsafe/common-components"
 import { useWeb3 } from "@chainsafe/web3-context"
 import { useAuth } from "@chainsafe/common-contexts"
-import { makeStyles, ITheme, createStyles } from "@chainsafe/common-themes"
+import {
+  makeStyles,
+  ITheme,
+  createStyles,
+  useTheme,
+} from "@chainsafe/common-themes"
 
 const useStyles = makeStyles((theme: ITheme) =>
   createStyles({
@@ -33,20 +39,24 @@ const useStyles = makeStyles((theme: ITheme) =>
     buttonSection: {
       paddingTop: 26,
     },
-    logo: {
-      width: "fit-content",
-    },
     button: {
       backgroundColor: theme.palette.common.black.main,
       color: theme.palette.common.white.main,
-      width: 237,
-      marginBottom: theme.constants.generalUnit,
+      width: 240,
+      marginBottom: theme.constants.generalUnit * 2,
+    },
+    controls: {
+      display: "flex",
+      flexDirection: "column",
+      paddingTop: 230,
+      height: "50vh",
     },
     divider: {
       display: "flex",
       alignItems: "center",
       justifyContent: "space-between",
-      marginBottom: theme.constants.generalUnit,
+      marginTop: 4,
+      marginBottom: 22,
       "& span": {
         display: "block",
         margin: "0 5px",
@@ -65,6 +75,8 @@ const useStyles = makeStyles((theme: ITheme) =>
 
 const LoginPage = () => {
   const classes = useStyles()
+  const theme: ITheme = useTheme()
+
   const { isReturningUser, web3Login } = useAuth()
   const { wallet, onboard, checkIsReady } = useWeb3()
   const [error, setError] = useState<string>("")
@@ -100,58 +112,79 @@ const LoginPage = () => {
       <Grid container>
         <Grid item md={8} className={classes.imageSection}>
           <img src="abstract-image-large.png" alt="" />
-          <Typography variant="subtitle2">
+          <Typography variant="subtitle2" style={{ fontSize: 20 }}>
             Making secure cloud storage easier than ever.
           </Typography>
         </Grid>
         <Grid item md={4} className={classes.buttonSection} alignItems="center">
-          <div>
-            <img
-              src="ChainSafe-logo.png"
-              alt="Chainsafe Logo"
-              className={classes.logo}
-            />
-            <Typography variant="subtitle2">Chainsafe Files</Typography>
-          </div>
-          {activeMode === "newUser" ? (
-            <Typography variant="h6">Create an account</Typography>
-          ) : (
-            <Typography variant="h6">Welcome back!</Typography>
-          )}
-          <Button
-            onClick={handleSelectWalletAndConnect}
-            className={classes.button}
-            size="large"
-          >
-            <Typography variant="button">Continue with Web3 Wallet</Typography>
-          </Button>
-          <div className={classes.divider}>
-            <Typography>OR</Typography>
-          </div>
-          <Button disabled className={classes.button} size="large">
-            <AppleLogoIcon />{" "}
-            <Typography variant="button">Continue with Apple</Typography>
-          </Button>
-          <Button disabled className={classes.button} size="large">
-            <GoogleLogoIcon />{" "}
-            <Typography variant="button">Continue with Google</Typography>
-          </Button>
-          {error && <Typography>{error}</Typography>}
-          {activeMode === "newUser" ? (
-            <>
-              <Typography>Already have an account? </Typography>
-              <Typography onClick={toggleActiveMode}>Sign in</Typography>
-            </>
-          ) : (
-            <>
-              <Typography>Not registered yet? </Typography>
-              <Typography onClick={toggleActiveMode}>
-                Create an account
+          <ChainsafeFilesLogo />
+          <div className={classes.controls}>
+            <Typography
+              variant="h6"
+              style={{ paddingBottom: theme.constants.generalUnit * 8 }}
+            >
+              {activeMode === "newUser" ? "Create an account" : "Welcome back!"}
+            </Typography>
+            {error && (
+              <Typography color={theme.palette.error.main}>{error}</Typography>
+            )}
+            <Button
+              onClick={handleSelectWalletAndConnect}
+              className={classes.button}
+              size="large"
+            >
+              <Typography variant="button">
+                Continue with Web3 Wallet
               </Typography>
-            </>
-          )}
-          <Typography>Privacy Policy</Typography>
-          <Typography>Terms and Conditions</Typography>
+            </Button>
+            <div className={classes.divider}>
+              <Typography>or</Typography>
+            </div>
+            <Button disabled className={classes.button} size="large">
+              <AppleLogoIcon />{" "}
+              <Typography variant="button">Continue with Apple</Typography>
+            </Button>
+            <Button disabled className={classes.button} size="large">
+              <GoogleLogoIcon />{" "}
+              <Typography variant="button">Continue with Google</Typography>
+            </Button>
+            <Typography
+              style={{
+                marginTop: theme.constants.generalUnit * 6,
+                fontSize: 16,
+              }}
+            >
+              {activeMode === "newUser"
+                ? "Already have an account?"
+                : "Not registered yet?"}
+            </Typography>
+            <Typography
+              onClick={toggleActiveMode}
+              style={{ fontWeight: theme.typography.fontWeight.semibold }}
+            >
+              {activeMode === "newUser" ? "Sign in" : "Create an account"}
+            </Typography>
+
+            <Typography
+              style={{
+                marginTop: theme.constants.generalUnit * 4,
+                //@ts-ignore
+                color: theme.palette["gray"][7],
+                textDecoration: "underline",
+              }}
+            >
+              Privacy Policy
+            </Typography>
+            <Typography
+              style={{
+                //@ts-ignore
+                color: theme.palette["gray"][7],
+                textDecoration: "underline",
+              }}
+            >
+              Terms and Conditions
+            </Typography>
+          </div>
         </Grid>
       </Grid>
     </div>

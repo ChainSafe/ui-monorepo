@@ -1,6 +1,7 @@
 export * from "./Blockies"
 export * from "./Breadcrumb"
 export * from "./Button"
+export * from "./ChainsafeFilesLogo"
 export * from "./CheckboxInput"
 export * from "./CssBaseline"
 export * from "./Emoji"
