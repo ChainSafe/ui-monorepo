@@ -33,9 +33,29 @@ const useStyles = makeStyles((theme: ITheme) =>
     buttonSection: {
       paddingTop: 26,
     },
+    logo: {
+      width: "fit-content",
+    },
     button: {
       backgroundColor: theme.palette.common.black.main,
       color: theme.palette.common.white.main,
+    },
+    divider: {
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "space-between",
+      "& span": {
+        display: "block",
+        margin: "0 5px",
+      },
+      "&:before,&:after": {
+        height: 1,
+        width: 0,
+        flex: "1 1 0",
+        backgroundColor: "gray",
+        display: "block",
+        content: "''",
+      },
     },
   }),
 )
@@ -81,8 +101,12 @@ const LoginPage = () => {
             Making secure cloud storage easier than ever.
           </Typography>
         </Grid>
-        <Grid item md={4} className={classes.buttonSection}>
-          <img src="ChainSafe-logo.png" alt="Chainsafe Logo" />
+        <Grid item md={4} className={classes.buttonSection} alignItems="center">
+          <img
+            src="ChainSafe-logo.png"
+            alt="Chainsafe Logo"
+            className={classes.logo}
+          />
           <Typography>Chainsafe Files</Typography>
           {activeMode === "newUser" ? (
             <Typography>Create an account</Typography>
@@ -95,11 +119,14 @@ const LoginPage = () => {
           >
             Continue with Web3 Wallet
           </Button>
+          <div className={classes.divider}>
+            <Typography>OR</Typography>
+          </div>
           <Button disabled className={classes.button}>
-            <AppleLogoIcon fontSize="small" /> Continue with Apple
+            <AppleLogoIcon /> <Typography>Continue with Apple</Typography>
           </Button>
           <Button disabled className={classes.button}>
-            <GoogleLogoIcon fontSize="small" /> Continue with Google
+            <GoogleLogoIcon /> <Typography>Continue with Google</Typography>
           </Button>
           {error && <Typography>{error}</Typography>}
           {activeMode === "newUser" ? (

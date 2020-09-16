@@ -17,7 +17,7 @@ const FilesRoutes = () => {
       />
       <ConditionalRoute
         exact
-        path="/browse"
+        path="/home"
         isAuthorized={isLoggedIn}
         component={HomePage}
         redirectPath="/"
