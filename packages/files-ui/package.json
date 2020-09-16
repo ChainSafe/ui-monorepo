@@ -13,8 +13,8 @@
     "craco": "^0.0.3",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^10.4.9",
-    "@testing-library/user-event": "^7.1.2",
-    "@types/jest": "^26.0.10",
+    "@testing-library/user-event": "^12.1.5",
+    "@types/jest": "^26.0.13",
     "@types/node": "^14.6.4",
     "@types/react": "^16.9.49",
     "@types/react-dom": "^16.9.0"
