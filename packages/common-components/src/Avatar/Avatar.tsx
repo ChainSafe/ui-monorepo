@@ -13,10 +13,20 @@ const useStyles = makeStyles(({ palette }: ITheme) =>
       justifyContent: "center",
       overflow: "hidden",
       fontSize: 14,
-      backgroundColor: palette["grey"][6],
+      backgroundColor: palette["gray"][6],
+      color: palette.common.white.main,
+      position: "relative",
+      "& img": {
+        objectFit: "cover",
+      },
       "& svg": {
+        position: "absolute",
+        top: "50%",
+        left: "50%",
+        transform: "translate(-50%,-50%)",
         height: 18,
         width: 18,
+        fill: palette.common.white.main,
       },
       "&.large": {
         height: 40,
@@ -47,12 +57,10 @@ interface AvatarProps extends Omit<ReactDiv, "size"> {
   children?: ReactNode | ReactNode[]
   size?: "large" | "medium" | "small"
   variant?: "circle" | "square"
-  cover?: boolean
 }
 
 const Avatar: React.FC<AvatarProps> = ({
   variant = "circle",
-  cover = false,
   size = "medium",
   className,
   children,
@@ -60,10 +68,7 @@ const Avatar: React.FC<AvatarProps> = ({
 }: AvatarProps) => {
   const classes = useStyles()
   return (
-    <article
-      className={clsx(classes.root, className, classes[variant])}
-      {...rest}
-    >
+    <article className={clsx(classes.root, className, variant, size)} {...rest}>
       {children}
     </article>
   )
