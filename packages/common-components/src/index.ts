@@ -1,3 +1,4 @@
+export * from "./Avatar"
 export * from "./Blockies"
 export * from "./Breadcrumb"
 export * from "./Button"

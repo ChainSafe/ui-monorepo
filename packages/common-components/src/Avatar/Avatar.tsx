@@ -19,6 +19,10 @@ const useStyles = makeStyles(({ palette }: ITheme) =>
       "& img": {
         objectFit: "cover",
       },
+      "& canvas": {
+        width: "100% !important",
+        height: "100% !important",
+      },
       "& svg": {
         position: "absolute",
         top: "50%",
@@ -54,7 +58,7 @@ type ReactDiv = React.HTMLProps<HTMLDivElement>
 
 interface AvatarProps extends Omit<ReactDiv, "size"> {
   className?: string
-  children?: ReactNode | ReactNode[]
+  children?: ReactNode
   size?: "large" | "medium" | "small"
   variant?: "circle" | "square"
 }
