@@ -9,7 +9,8 @@ const useStyles = makeStyles((theme: ITheme) =>
       ...theme.typography.button,
       borderRadius: `${theme.constants.generalUnit / 4}px`,
       display: "flex",
-      justifyContent: "space-between",
+      justifyContent: "center",
+      textAlign: "center",
       alignItems: "center",
       textDecoration: "none",
       cursor: "pointer",
@@ -175,6 +176,11 @@ const useStyles = makeStyles((theme: ITheme) =>
       backgroundColor: theme.palette["gray"][3],
       borderColor: theme.palette["gray"][5],
       color: theme.palette["gray"][6],
+      "&:hover": {
+        backgroundColor: theme.palette["gray"][3],
+        borderColor: theme.palette["gray"][5],
+        color: theme.palette["gray"][6],
+      },
     },
   }),
 )

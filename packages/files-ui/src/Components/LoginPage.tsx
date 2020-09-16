@@ -123,16 +123,18 @@ const LoginPage = () => {
             className={classes.button}
             size="large"
           >
-            Continue with Web3 Wallet
+            <Typography variant="button">Continue with Web3 Wallet</Typography>
           </Button>
           <div className={classes.divider}>
             <Typography>OR</Typography>
           </div>
           <Button disabled className={classes.button} size="large">
-            <AppleLogoIcon /> <Typography>Continue with Apple</Typography>
+            <AppleLogoIcon />{" "}
+            <Typography variant="button">Continue with Apple</Typography>
           </Button>
           <Button disabled className={classes.button} size="large">
-            <GoogleLogoIcon /> <Typography>Continue with Google</Typography>
+            <GoogleLogoIcon />{" "}
+            <Typography variant="button">Continue with Google</Typography>
           </Button>
           {error && <Typography>{error}</Typography>}
           {activeMode === "newUser" ? (
