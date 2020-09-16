@@ -8,8 +8,33 @@ import {
 } from "@chainsafe/common-components"
 import { useWeb3 } from "@chainsafe/web3-context"
 import { useAuth } from "@chainsafe/common-contexts"
+import { makeStyles, ITheme, createStyles } from "@chainsafe/common-themes"
+
+const useStyles = makeStyles((theme: ITheme) =>
+  createStyles({
+    imageSection: {
+      backgroundColor: theme.palette.common.black.main,
+      color: theme.palette.common.white.main,
+      textAlign: "center",
+      alignContent: "center",
+      minHeight: "100vh",
+      "& > img": {
+        display: "block",
+        maxWidth: 677,
+        maxHeight: 677,
+        width: "auto",
+        height: "auto",
+        paddingTop: 125,
+        paddingLeft: 116,
+        paddingRight: 116,
+        paddingBottom: 50,
+      },
+    },
+  }),
+)
 
 const LoginPage = () => {
+  const classes = useStyles()
   const { isReturningUser, web3Login } = useAuth()
   const { wallet, onboard, checkIsReady } = useWeb3()
   const [error, setError] = useState<string>("")
@@ -43,9 +68,11 @@ const LoginPage = () => {
   return (
     <div>
       <Grid container>
-        <Grid item md={8}>
+        <Grid item md={8} className={classes.imageSection}>
           <img src="abstract-image-large.png" alt="" />
-          <Typography>Making secure cloud storage easier than ever.</Typography>
+          <Typography variant="subtitle2">
+            Making secure cloud storage easier than ever.
+          </Typography>
         </Grid>
         <Grid item md={4}>
           <Typography>Chainsafe Files</Typography>
