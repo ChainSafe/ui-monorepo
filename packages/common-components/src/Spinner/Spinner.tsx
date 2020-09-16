@@ -1,7 +1,7 @@
 import React from "react"
 import * as Loaders from "react-spinners"
 import { PrecompiledCss } from "react-spinners/interfaces"
-import { useTheme } from "@material-ui/styles"
+import { useTheme } from "@chainsafe/common-themes"
 import { ITheme } from "@chainsafe/common-themes"
 
 export enum LOADER {
