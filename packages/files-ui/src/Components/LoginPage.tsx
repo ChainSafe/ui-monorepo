@@ -48,8 +48,7 @@ const useStyles = makeStyles((theme: ITheme) =>
     controls: {
       display: "flex",
       flexDirection: "column",
-      paddingTop: 230,
-      height: "50vh",
+      paddingTop: 230, //TODO: Figure out how to center this section vertically
     },
     divider: {
       display: "flex",
