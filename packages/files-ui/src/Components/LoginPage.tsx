@@ -31,8 +31,11 @@ const useStyles = makeStyles((theme: ITheme) =>
       },
     },
     buttonSection: {
-      // paddingLeft: 144,
       paddingTop: 26,
+    },
+    button: {
+      backgroundColor: theme.palette.common.black.main,
+      color: theme.palette.common.white.main,
     },
   }),
 )
@@ -86,13 +89,16 @@ const LoginPage = () => {
           ) : (
             <Typography>Welcome back!</Typography>
           )}
-          <Button onClick={handleSelectWalletAndConnect}>
+          <Button
+            onClick={handleSelectWalletAndConnect}
+            className={classes.button}
+          >
             Continue with Web3 Wallet
           </Button>
-          <Button disabled>
+          <Button disabled className={classes.button}>
             <AppleLogoIcon fontSize="small" /> Continue with Apple
           </Button>
-          <Button disabled>
+          <Button disabled className={classes.button}>
             <GoogleLogoIcon fontSize="small" /> Continue with Google
           </Button>
           {error && <Typography>{error}</Typography>}
