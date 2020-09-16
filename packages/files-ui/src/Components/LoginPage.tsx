@@ -46,6 +46,7 @@ const useStyles = makeStyles((theme: ITheme) =>
       display: "flex",
       alignItems: "center",
       justifyContent: "space-between",
+      marginBottom: theme.constants.generalUnit,
       "& span": {
         display: "block",
         margin: "0 5px",
