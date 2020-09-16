@@ -30,6 +30,10 @@ const useStyles = makeStyles((theme: ITheme) =>
         paddingBottom: 50,
       },
     },
+    buttonSection: {
+      // paddingLeft: 144,
+      paddingTop: 26,
+    },
   }),
 )
 
@@ -74,7 +78,8 @@ const LoginPage = () => {
             Making secure cloud storage easier than ever.
           </Typography>
         </Grid>
-        <Grid item md={4}>
+        <Grid item md={4} className={classes.buttonSection}>
+          <img src="ChainSafe-logo.png" alt="Chainsafe Logo" />
           <Typography>Chainsafe Files</Typography>
           {activeMode === "newUser" ? (
             <Typography>Create an account</Typography>
@@ -93,12 +98,12 @@ const LoginPage = () => {
           {error && <Typography>{error}</Typography>}
           {activeMode === "newUser" ? (
             <>
-              <Typography>Already have an account?</Typography>
+              <Typography>Already have an account? </Typography>
               <Typography onClick={toggleActiveMode}>Sign in</Typography>
             </>
           ) : (
             <>
-              <Typography>Not registered yet?</Typography>
+              <Typography>Not registered yet? </Typography>
               <Typography onClick={toggleActiveMode}>
                 Create an account
               </Typography>
