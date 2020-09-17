@@ -19,7 +19,8 @@ type AuthContext = {
 const AuthContext = React.createContext<AuthContext | undefined>(undefined)
 
 const AuthProvider = ({ children }: AuthContextProps) => {
-  const { provider, address } = useWeb3()
+  const { provider, address, wallet, onboard, checkIsReady } = useWeb3()
+
   const { imployApiClient } = useImployApi()
   // TODO Load these from local storage if available
   const [accessToken, setAccessToken] = useState<
@@ -31,25 +32,42 @@ const AuthProvider = ({ children }: AuthContextProps) => {
   >(undefined)
 
   const web3Login = async () => {
-    if (!imployApiClient || !provider || !address)
-      return Promise.reject("Dependencies not initialized")
+    try {
+      await web3Login()
+    } catch (error) {
+      // setError("There was an error connecting")
+    }
 
-    const { token } = await imployApiClient.getWeb3Token()
+    if (!imployApiClient) return Promise.reject("Dependencies not initialized")
 
-    if (token) {
-      const signature = await signMessage(token, provider)
-      const {
-        access_token,
-        refresh_token,
-      } = await imployApiClient.postWeb3Token({
-        signature: signature,
-        token: token,
-        public_address: address,
-      })
+    if (!provider || !address) {
+      if (onboard) {
+        let walletReady = !!wallet
+        if (!walletReady) {
+          walletReady = await onboard.walletSelect()
+        }
+        walletReady && (await checkIsReady())
+      }
+    }
 
-      setAccessToken(access_token)
-      setRefreshToken(refresh_token)
-      return Promise.resolve()
+    if (provider) {
+      const { token } = await imployApiClient.getWeb3Token()
+
+      if (token) {
+        const signature = await signMessage(token, provider)
+        const {
+          access_token,
+          refresh_token,
+        } = await imployApiClient.postWeb3Token({
+          signature: signature,
+          token: token,
+          public_address: address,
+        })
+
+        setAccessToken(access_token)
+        setRefreshToken(refresh_token)
+        return Promise.resolve()
+      }
     }
   }
 

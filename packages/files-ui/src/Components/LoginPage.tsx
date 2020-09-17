@@ -76,7 +76,6 @@ const LoginPage = () => {
   const theme: ITheme = useTheme()
 
   const { isReturningUser, web3Login } = useAuth()
-  const { wallet, onboard, checkIsReady } = useWeb3()
   const [error, setError] = useState<string>("")
   const [activeMode, setActiveMode] = useState<"newUser" | "returningUser">(
     isReturningUser ? "returningUser" : "newUser",
@@ -91,17 +90,10 @@ const LoginPage = () => {
 
   const handleSelectWalletAndConnect = async () => {
     setIsConnecting(true)
-    if (onboard) {
-      let walletReady = !!wallet
-      if (!walletReady) {
-        walletReady = await onboard.walletSelect()
-      }
-      walletReady && (await checkIsReady())
-      try {
-        await web3Login()
-      } catch (error) {
-        setError("There was an error connecting")
-      }
+    try {
+      web3Login()
+    } catch (error) {
+      setError("There was an error connecting your wallet")
     }
     setIsConnecting(false)
   }
@@ -136,7 +128,7 @@ const LoginPage = () => {
               className={classes.button}
               size="large"
             >
-              <Typography variant="button">
+              <Typography variant="button" disabled={isConnecting}>
                 Continue with Web3 Wallet
               </Typography>
             </Button>
