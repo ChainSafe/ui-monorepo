@@ -1,6 +1,6 @@
 import React from "react"
 import { makeStyles, ITheme, createStyles } from "@chainsafe/common-themes"
-import { Typography } from "@chainsafe/common-components"
+import { Typography } from "../Typography"
 
 const useStyles = makeStyles((theme: ITheme) =>
   createStyles({
