@@ -14,17 +14,23 @@ const actionsData = {
 }
 
 export const MenuDropdownDemo = (): React.ReactNode => (
-  <MenuDropdown
-    title={text("title", "cat@gmail.com")}
-    menuItems={[
-      {
-        title: "Item 1",
-        onClick: actionsData.onClick,
-      },
-      {
-        title: "Item 2",
-        onClick: actionsData.onClick,
-      },
-    ]}
-  />
+  <div
+    style={{
+      width: 120,
+    }}
+  >
+    <MenuDropdown
+      title={text("title", "cat@gmail.com")}
+      menuItems={[
+        {
+          title: "Item 1",
+          onClick: actionsData.onClick,
+        },
+        {
+          title: "Item 2",
+          onClick: actionsData.onClick,
+        },
+      ]}
+    />
+  </div>
 )

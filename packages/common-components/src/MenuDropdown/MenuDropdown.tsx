@@ -1,10 +1,10 @@
 import React, { useState } from "react"
-import { makeStyles, createStyles } from "@chainsafe/common-themes"
+import { makeStyles, createStyles, ITheme } from "@chainsafe/common-themes"
 import { Typography } from "../Typography"
 import clsx from "clsx"
 import { DirectionalDownIcon } from "../Icons"
 
-const useStyles = makeStyles(() =>
+const useStyles = makeStyles((theme: ITheme) =>
   createStyles({
     // JSS in CSS goes here
     root: {
@@ -12,6 +12,24 @@ const useStyles = makeStyles(() =>
     },
     title: {
       cursor: "pointer",
+      display: "flex",
+      flexDirection: "row",
+      alignItems: "center",
+      justifyContent: "space-between",
+      padding: theme.constants.generalUnit,
+      "& p": {
+        position: "relative",
+      },
+      "& svg": {
+        height: 14,
+        width: 14,
+      },
+    },
+    icon: {
+      fontSize: "unset",
+      height: 14,
+      width: 14,
+      padding: 0,
     },
     options: {
       "&.open": {},
@@ -47,7 +65,7 @@ const MenuDropdown: React.FC<IMenuDropdownProps> = ({
         <Typography component="p" variant="body2">
           {title}
         </Typography>
-        <DirectionalDownIcon />
+        <DirectionalDownIcon className={classes.icon} />
       </section>
       <section
         className={clsx(classes.options, {
