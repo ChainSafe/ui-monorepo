@@ -6,6 +6,8 @@ import {
   AppleLogoIcon,
   GoogleLogoIcon,
   ChainsafeFilesLogo,
+  Link,
+  Divider,
 } from "@chainsafe/common-components"
 import { useWeb3 } from "@chainsafe/web3-context"
 import { useAuth } from "@chainsafe/common-contexts"
@@ -26,18 +28,18 @@ const useStyles = makeStyles((theme: ITheme) =>
       minHeight: "100vh",
       "& > img": {
         display: "block",
-        maxWidth: 677,
-        maxHeight: 677,
-        width: "auto",
-        height: "auto",
-        paddingTop: 125,
-        paddingLeft: 116,
-        paddingRight: 116,
-        paddingBottom: 50,
+        width: `calc(100% - 116 * 2)`,
+        maxWidth: 667,
+        marginBottom: 50,
+        marginTop: 125,
       },
     },
     buttonSection: {
       paddingTop: 26,
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      justifyItems: "flex-start",
     },
     button: {
       backgroundColor: theme.palette.common.black.main,
@@ -48,26 +50,23 @@ const useStyles = makeStyles((theme: ITheme) =>
     controls: {
       display: "flex",
       flexDirection: "column",
-      paddingTop: 230, //TODO: Figure out how to center this section vertically
+      height: 0,
+      justifyContent: "center",
+      flex: "1 1 0",
     },
-    divider: {
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "space-between",
-      marginTop: 4,
-      marginBottom: 22,
-      "& span": {
-        display: "block",
-        margin: "0 5px",
-      },
-      "&:before,&:after": {
-        height: 1,
-        width: 0,
-        flex: "1 1 0",
-        backgroundColor: "gray",
-        display: "block",
-        content: "''",
-      },
+    imageCaption: {
+      fontSize: 20,
+    },
+    footerText: {
+      marginTop: theme.constants.generalUnit * 6,
+      fontSize: 16,
+    },
+    headerText: {
+      paddingBottom: theme.constants.generalUnit * 8,
+    },
+    toggleMode: {
+      fontWeight: theme.typography.fontWeight.semibold,
+      marginBottom: theme.constants.generalUnit * 4,
     },
   }),
 )
@@ -111,16 +110,21 @@ const LoginPage = () => {
       <Grid container>
         <Grid item md={8} className={classes.imageSection}>
           <img src="abstract-image-large.png" alt="" />
-          <Typography variant="subtitle2" style={{ fontSize: 20 }}>
+          <Typography
+            variant="subtitle2"
+            component="h2"
+            className={classes.imageCaption}
+          >
             Making secure cloud storage easier than ever.
           </Typography>
         </Grid>
-        <Grid item md={4} className={classes.buttonSection} alignItems="center">
+        <Grid item md={4} className={classes.buttonSection}>
           <ChainsafeFilesLogo />
           <div className={classes.controls}>
             <Typography
               variant="h6"
-              style={{ paddingBottom: theme.constants.generalUnit * 8 }}
+              component="h1"
+              className={classes.headerText}
             >
               {activeMode === "newUser" ? "Create an account" : "Welcome back!"}
             </Typography>
@@ -136,9 +140,9 @@ const LoginPage = () => {
                 Continue with Web3 Wallet
               </Typography>
             </Button>
-            <div className={classes.divider}>
+            <Divider>
               <Typography>or</Typography>
-            </div>
+            </Divider>
             <Button disabled className={classes.button} size="large">
               <AppleLogoIcon />{" "}
               <Typography variant="button">Continue with Apple</Typography>
@@ -147,42 +151,19 @@ const LoginPage = () => {
               <GoogleLogoIcon />{" "}
               <Typography variant="button">Continue with Google</Typography>
             </Button>
-            <Typography
-              style={{
-                marginTop: theme.constants.generalUnit * 6,
-                fontSize: 16,
-              }}
-            >
+            <Typography className={classes.footerText}>
               {activeMode === "newUser"
                 ? "Already have an account?"
                 : "Not registered yet?"}
             </Typography>
             <Typography
               onClick={toggleActiveMode}
-              style={{ fontWeight: theme.typography.fontWeight.semibold }}
+              className={classes.toggleMode}
             >
               {activeMode === "newUser" ? "Sign in" : "Create an account"}
             </Typography>
-
-            <Typography
-              style={{
-                marginTop: theme.constants.generalUnit * 4,
-                //@ts-ignore
-                color: theme.palette["gray"][7],
-                textDecoration: "underline",
-              }}
-            >
-              Privacy Policy
-            </Typography>
-            <Typography
-              style={{
-                //@ts-ignore
-                color: theme.palette["gray"][7],
-                textDecoration: "underline",
-              }}
-            >
-              Terms and Conditions
-            </Typography>
+            <Link to="">Privacy Policy</Link>
+            <Link to="">Terms and Conditions</Link>
           </div>
         </Grid>
       </Grid>
