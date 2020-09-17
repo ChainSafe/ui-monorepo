@@ -4,12 +4,12 @@ import { MenuDropdown } from "../MenuDropdown"
 import { action } from "@storybook/addon-actions"
 
 export default {
-  title: "Menu Dropdown",
+  title: "Menu-Dropdown",
   component: MenuDropdown,
   decorators: [withKnobs],
 }
 
-export const actionsData = {
+const actionsData = {
   onClick: action("onClickButton"),
 }
 

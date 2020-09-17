@@ -2,12 +2,20 @@ import React, { useState } from "react"
 import { makeStyles, createStyles } from "@chainsafe/common-themes"
 import { Typography } from "../Typography"
 import clsx from "clsx"
-import { CaretDownIcon } from "../Icons"
+import { DirectionalDownIcon } from "../Icons"
 
 const useStyles = makeStyles(() =>
   createStyles({
     // JSS in CSS goes here
-    root: {},
+    root: {
+      "&.open": {},
+    },
+    title: {
+      cursor: "pointer",
+    },
+    options: {
+      "&.open": {},
+    },
   }),
 )
 
@@ -30,18 +38,22 @@ const MenuDropdown: React.FC<IMenuDropdownProps> = ({
   const classes = useStyles()
   const [open, setOpen] = useState<boolean>(false)
   return (
-    <div
-      className={clsx(classes.root, className, {
-        ["open"]: open,
-      })}
-    >
-      <section>
+    <div className={clsx(classes.root, className)}>
+      <section
+        className={clsx(classes.title, {
+          ["open"]: open,
+        })}
+      >
         <Typography component="p" variant="body2">
           {title}
         </Typography>
-        <CaretDownIcon />
+        <DirectionalDownIcon />
       </section>
-      <section>
+      <section
+        className={clsx(classes.options, {
+          ["open"]: open,
+        })}
+      >
         {menuItems.map((item: IMenuItem) => (
           <Typography
             component="p"
