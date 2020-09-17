@@ -13,13 +13,21 @@ type AuthContextProps = {
 type AuthContext = {
   isLoggedIn: boolean
   isReturningUser: boolean
+  selectWallet(): Promise<void>
   web3Login(): Promise<void>
 }
 
 const AuthContext = React.createContext<AuthContext | undefined>(undefined)
 
 const AuthProvider = ({ children }: AuthContextProps) => {
-  const { provider, address, wallet, onboard, checkIsReady } = useWeb3()
+  const {
+    address,
+    wallet,
+    onboard,
+    checkIsReady,
+    isReady,
+    provider,
+  } = useWeb3()
 
   const { imployApiClient } = useImployApi()
   // TODO Load these from local storage if available
@@ -31,29 +39,25 @@ const AuthProvider = ({ children }: AuthContextProps) => {
     { token: string; expires: Date } | undefined
   >(undefined)
 
-  const web3Login = async () => {
-    try {
-      await web3Login()
-    } catch (error) {
-      // setError("There was an error connecting")
-    }
-
-    if (!imployApiClient) return Promise.reject("Dependencies not initialized")
-
-    if (!provider || !address) {
-      if (onboard) {
-        let walletReady = !!wallet
-        if (!walletReady) {
-          walletReady = await onboard.walletSelect()
-        }
-        walletReady && (await checkIsReady())
+  const selectWallet = async () => {
+    if (onboard && !isReady) {
+      let walletReady = !!wallet
+      if (!walletReady) {
+        walletReady = await onboard.walletSelect()
       }
+      walletReady && (await checkIsReady())
     }
+  }
 
-    if (provider) {
+  const web3Login = async () => {
+    if (!imployApiClient) return Promise.reject("Api Client is not initialized")
+    if (!provider) return Promise.reject("No wallet is selected")
+
+    try {
       const { token } = await imployApiClient.getWeb3Token()
 
       if (token) {
+        // instantiate a provider here
         const signature = await signMessage(token, provider)
         const {
           access_token,
@@ -68,6 +72,8 @@ const AuthProvider = ({ children }: AuthContextProps) => {
         setRefreshToken(refresh_token)
         return Promise.resolve()
       }
+    } catch (error) {
+      return Promise.reject("There was an error logging in.")
     }
   }
 
@@ -91,7 +97,8 @@ const AuthProvider = ({ children }: AuthContextProps) => {
       value={{
         isLoggedIn: isLoggedIn,
         isReturningUser: false,
-        web3Login: web3Login,
+        web3Login,
+        selectWallet,
       }}
     >
       {children}

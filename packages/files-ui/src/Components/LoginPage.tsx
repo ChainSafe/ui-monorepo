@@ -9,7 +9,6 @@ import {
   Link,
   Divider,
 } from "@chainsafe/common-components"
-import { useWeb3 } from "@chainsafe/web3-context"
 import { useAuth } from "@chainsafe/common-contexts"
 import {
   makeStyles,
@@ -17,6 +16,7 @@ import {
   createStyles,
   useTheme,
 } from "@chainsafe/common-themes"
+import { useWeb3 } from "@chainsafe/web3-context"
 
 const useStyles = makeStyles((theme: ITheme) =>
   createStyles({
@@ -67,6 +67,7 @@ const useStyles = makeStyles((theme: ITheme) =>
     toggleMode: {
       fontWeight: theme.typography.fontWeight.semibold,
       marginBottom: theme.constants.generalUnit * 4,
+      cursor: "pointer",
     },
   }),
 )
@@ -75,7 +76,8 @@ const LoginPage = () => {
   const classes = useStyles()
   const theme: ITheme = useTheme()
 
-  const { isReturningUser, web3Login } = useAuth()
+  const { isReturningUser, web3Login, selectWallet } = useAuth()
+  const { provider } = useWeb3()
   const [error, setError] = useState<string>("")
   const [activeMode, setActiveMode] = useState<"newUser" | "returningUser">(
     isReturningUser ? "returningUser" : "newUser",
@@ -91,9 +93,19 @@ const LoginPage = () => {
   const handleSelectWalletAndConnect = async () => {
     setIsConnecting(true)
     try {
-      web3Login()
+      await selectWallet()
     } catch (error) {
       setError("There was an error connecting your wallet")
+    }
+    setIsConnecting(false)
+  }
+
+  const handleSignAuth = async () => {
+    setIsConnecting(true)
+    try {
+      await web3Login()
+    } catch (error) {
+      setError("There was an error authenticating")
     }
     setIsConnecting(false)
   }
@@ -123,15 +135,27 @@ const LoginPage = () => {
             {error && (
               <Typography color={theme.palette.error.main}>{error}</Typography>
             )}
-            <Button
-              onClick={handleSelectWalletAndConnect}
-              className={classes.button}
-              size="large"
-            >
-              <Typography variant="button" disabled={isConnecting}>
-                Continue with Web3 Wallet
-              </Typography>
-            </Button>
+            {!provider ? (
+              <Button
+                onClick={handleSelectWalletAndConnect}
+                className={classes.button}
+                size="large"
+              >
+                <Typography variant="button" disabled={isConnecting}>
+                  Select a Web3 Wallet
+                </Typography>
+              </Button>
+            ) : (
+              <Button
+                onClick={handleSignAuth}
+                className={classes.button}
+                size="large"
+              >
+                <Typography variant="button" disabled={isConnecting}>
+                  Continue with Web3 Wallet
+                </Typography>
+              </Button>
+            )}
             <Divider>
               <Typography>or</Typography>
             </Divider>
