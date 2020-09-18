@@ -5,7 +5,6 @@ import { Paper } from "../Paper"
 
 const useStyles = makeStyles((theme: ITheme) =>
   createStyles({
-    // JSS in CSS goes here
     root: {
       backgroundColor: theme.palette.background.default,
       transition: `all ${theme.animation.transform}ms`,
@@ -13,7 +12,7 @@ const useStyles = makeStyles((theme: ITheme) =>
     },
     hoverable: {
       "&:hover": {
-        boxShadow: theme.shadows.shadow1,
+        boxShadow: theme.shadows.shadow2,
       },
     },
   }),

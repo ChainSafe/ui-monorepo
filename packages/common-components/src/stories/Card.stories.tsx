@@ -1,5 +1,5 @@
 import React from "react"
-import { Card, CardHeader } from "../Card"
+import { Card, CardHeader, CardBody, CardFooter } from "../Card"
 import { withKnobs, boolean, select } from "@storybook/addon-knobs"
 
 export default {
@@ -20,10 +20,14 @@ export const CardDefault = (): React.ReactNode => (
     )}
   >
     <CardHeader
-      title="This is a demo card"
+      title="This is a demo card title"
       dense={boolean("header dense", false)}
     />
-    <p>Some content</p>
-    <p>Some content</p>
+    <CardBody dense={boolean("body dense", false)}>
+      This is the card body
+    </CardBody>
+    <CardFooter dense={boolean("footer dense", false)}>
+      This is the card footer
+    </CardFooter>
   </Card>
 )

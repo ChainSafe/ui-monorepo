@@ -1,14 +1,12 @@
 import React, { ReactNode } from "react"
 import clsx from "clsx"
-import { Typography } from "../Typography"
 import { ITheme, makeStyles, createStyles } from "@chainsafe/common-themes"
 
 const useStyles = makeStyles((theme: ITheme) =>
   createStyles({
     root: {
       padding: theme.constants.generalUnit * 2,
-      borderBottom: `1px solid ${theme.palette["gray"][4]}`,
-      ...theme.typography.h5,
+      ...theme.typography.body1,
     },
     dense: {
       padding: theme.constants.generalUnit,
@@ -16,27 +14,20 @@ const useStyles = makeStyles((theme: ITheme) =>
   }),
 )
 
-export interface ICardHeader {
+export interface ICardBody {
   className?: string
   children?: ReactNode | ReactNode[]
-  title: string
   dense?: boolean
 }
 
-const CardHeader: React.FC<ICardHeader> = ({
+const CardHeader: React.FC<ICardBody> = ({
   className,
   children,
-  title,
   dense = false,
-}: ICardHeader) => {
+}: ICardBody) => {
   const classes = useStyles()
   return (
     <div className={clsx(className, classes.root, dense && classes.dense)}>
-      {title && (
-        <Typography variant="h5" component="h5">
-          {title}
-        </Typography>
-      )}
       {children}
     </div>
   )
