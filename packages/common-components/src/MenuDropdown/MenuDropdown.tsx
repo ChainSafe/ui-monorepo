@@ -147,9 +147,12 @@ const MenuDropdown: React.FC<IMenuDropdownProps> = ({
   const Icon = indicator
   const classes = useStyles()
   const [open, setOpen] = useState<boolean>(false)
+
   const ref = useRef(null)
   useOnClickOutside(ref, () => {
-    setOpen(false)
+    if (open) {
+      setOpen(false)
+    }
   })
   return (
     <div className={clsx(classes.root, className)}>
