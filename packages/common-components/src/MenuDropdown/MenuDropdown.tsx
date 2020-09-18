@@ -155,7 +155,7 @@ const MenuDropdown: React.FC<IMenuDropdownProps> = ({
     }
   })
   return (
-    <div className={clsx(classes.root, className)}>
+    <div ref={ref} className={clsx(classes.root, className)}>
       <section
         onClick={() => setOpen(!open)}
         className={clsx(classes.title, {
@@ -172,7 +172,6 @@ const MenuDropdown: React.FC<IMenuDropdownProps> = ({
         />
       </section>
       <Paper
-        ref={ref}
         shadow="shadow2"
         className={clsx(classes.options, anchor, {
           ["open"]: open,
