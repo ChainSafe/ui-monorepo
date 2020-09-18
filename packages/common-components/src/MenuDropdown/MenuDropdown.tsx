@@ -69,9 +69,32 @@ const useStyles = makeStyles(
         visibility: "hidden",
         opacity: 0,
         transitionDuration: `${animation.transform}ms`,
-        top: "100%",
-        left: "50%",
-        transform: "translateX(-50%)",
+        "&.top-left": {
+          top: 0,
+          left: 0,
+        },
+        "&.top-center": {
+          top: 0,
+          left: "50%",
+          transform: "translateX(-50%)",
+        },
+        "&.top-right": {
+          top: 0,
+          right: 0,
+        },
+        "&.bottom-left": {
+          top: "100%",
+          left: 0,
+        },
+        "&.bottom-center": {
+          top: "100%",
+          left: "50%",
+          transform: "translateX(-50%)",
+        },
+        "&.bottom-right": {
+          top: "100%",
+          right: 0,
+        },
         position: "absolute",
         "&.open": {
           height: "auto",
@@ -102,6 +125,13 @@ interface IMenuDropdownProps {
   className?: string
   indicator?: typeof SvgIcon
   animation?: "rotate" | "flip" | "none"
+  anchor?:
+    | "top-left"
+    | "top-center"
+    | "top-right"
+    | "bottom-left"
+    | "bottom-center"
+    | "bottom-right"
   menuItems: IMenuItem[]
   title: string
 }
@@ -109,6 +139,7 @@ interface IMenuDropdownProps {
 const MenuDropdown: React.FC<IMenuDropdownProps> = ({
   className,
   menuItems,
+  anchor = "bottom-center",
   indicator = DirectionalDownIcon,
   animation = "flip",
   title,
@@ -140,7 +171,7 @@ const MenuDropdown: React.FC<IMenuDropdownProps> = ({
       <Paper
         ref={ref}
         shadow="shadow2"
-        className={clsx(classes.options, {
+        className={clsx(classes.options, anchor, {
           ["open"]: open,
         })}
       >

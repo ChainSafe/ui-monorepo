@@ -22,6 +22,18 @@ export const MenuDropdownDefault = (): React.ReactNode => (
     </div>
     <MenuDropdown
       title={text("title", "cat@gmail.com")}
+      anchor={select(
+        "Anchor",
+        [
+          "top-left",
+          "top-center",
+          "top-right",
+          "bottom-left",
+          "bottom-center",
+          "bottom-right",
+        ],
+        "top-center",
+      )}
       animation={select("Animation", ["flip", "rotate", "none"], "flip")}
       menuItems={[
         {
@@ -49,6 +61,18 @@ export const MenuDropdownCustomIcon = (): React.ReactNode => (
     </div>
     <MenuDropdown
       title={text("title", "cat@gmail.com")}
+      anchor={select(
+        "Anchor",
+        [
+          "top-left",
+          "top-center",
+          "top-right",
+          "bottom-left",
+          "bottom-center",
+          "bottom-right",
+        ],
+        "top-center",
+      )}
       indicator={HomeIcon}
       animation={select("Animation", ["flip", "rotate", "none"], "none")}
       menuItems={[
