@@ -39,7 +39,7 @@ export interface IPaperProps {
   shape?: PaperShape
   border?: boolean
   fullWidth?: boolean
-  shadow?: string | "none"
+  shadow?: "shadow1" | "shadow2" | string | "none"
 }
 
 const Paper: React.FC<IPaperProps> = ({

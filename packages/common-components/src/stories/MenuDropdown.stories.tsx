@@ -1,7 +1,9 @@
-import React from "react"
+import React, { Fragment } from "react"
 import { withKnobs, text } from "@storybook/addon-knobs"
 import { MenuDropdown } from "../MenuDropdown"
 import { action } from "@storybook/addon-actions"
+import { Typography } from "../Typography"
+import { HomeIcon } from "../Icons"
 
 export default {
   title: "Menu-Dropdown",
@@ -14,23 +16,22 @@ const actionsData = {
 }
 
 export const MenuDropdownDemo = (): React.ReactNode => (
-  <div
-    style={{
-      width: 120,
-    }}
-  >
-    <MenuDropdown
-      title={text("title", "cat@gmail.com")}
-      menuItems={[
-        {
-          title: "Item 1",
-          onClick: actionsData.onClick,
-        },
-        {
-          title: "Item 2",
-          onClick: actionsData.onClick,
-        },
-      ]}
-    />
-  </div>
+  <MenuDropdown
+    title={text("title", "cat@gmail.com")}
+    menuItems={[
+      {
+        contents: <Typography>Potate</Typography>,
+        onClick: actionsData.onClick,
+      },
+      {
+        contents: (
+          <Fragment>
+            <HomeIcon />
+            <Typography>Nandos</Typography>
+          </Fragment>
+        ),
+        onClick: actionsData.onClick,
+      },
+    ]}
+  />
 )
