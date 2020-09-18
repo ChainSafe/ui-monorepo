@@ -18,14 +18,14 @@ const useStyles = makeStyles((theme: ITheme) =>
       border: "1px solid",
       borderColor: theme.palette["gray"][4],
       position: "fixed",
+      opacity: 0,
+      visibility: "hidden",
+      transition: `all ${theme.animation.transform}ms ease`,
       "&.top": {
-        opacity: 0,
         top: 0,
         left: 0,
         height: `${props.size}px`,
         width: `100%`,
-        visibility: "hidden",
-        transition: `all ${theme.animation.transform}ms ease`,
         transform: "translateY(-100%)",
         "&.open": {
           opacity: 1,
@@ -34,13 +34,10 @@ const useStyles = makeStyles((theme: ITheme) =>
         },
       },
       "&.right": {
-        opacity: 0,
         right: 0,
         top: 0,
         height: "100%",
         width: `${props.size}px`,
-        visibility: "hidden",
-        transition: `all ${theme.animation.transform}ms ease`,
         transform: "translateX(100%)",
         "&.open": {
           opacity: 1,
@@ -49,13 +46,10 @@ const useStyles = makeStyles((theme: ITheme) =>
         },
       },
       "&.bottom": {
-        opacity: 0,
         bottom: 0,
         left: 0,
         height: `${props.size}px`,
         width: `100%`,
-        visibility: "hidden",
-        transition: `all ${theme.animation.transform}ms ease`,
         transform: "translateY(100%)",
         "&.open": {
           opacity: 1,
@@ -64,13 +58,10 @@ const useStyles = makeStyles((theme: ITheme) =>
         },
       },
       "&.left": {
-        opacity: 0,
         left: 0,
         top: 0,
         height: "100%",
         width: `${props.size}px`,
-        visibility: "hidden",
-        transition: `all ${theme.animation.transform}ms ease`,
         transform: "translateX(-100%)",
         "&.open": {
           opacity: 1,
