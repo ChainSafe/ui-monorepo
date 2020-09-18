@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme: ITheme) => {
 
 export type PaperShape = "square" | "rounded"
 
-export interface IPaperProps {
+export interface IPaperProps extends React.HTMLProps<HTMLDivElement> {
   children?: ReactNode | ReactNode[]
   className?: string
   shape?: PaperShape

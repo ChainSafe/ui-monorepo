@@ -1,5 +1,10 @@
-import React, { ReactNode, useState } from "react"
-import { makeStyles, createStyles, ITheme } from "@chainsafe/common-themes"
+import React, { ReactNode, useRef, useState } from "react"
+import {
+  makeStyles,
+  createStyles,
+  ITheme,
+  useOnClickOutside,
+} from "@chainsafe/common-themes"
 import { Typography } from "../Typography"
 import clsx from "clsx"
 import { DirectionalDownIcon, SvgIcon } from "../Icons"
@@ -111,6 +116,10 @@ const MenuDropdown: React.FC<IMenuDropdownProps> = ({
   const Icon = indicator
   const classes = useStyles()
   const [open, setOpen] = useState<boolean>(false)
+  const ref = useRef(null)
+  useOnClickOutside(ref, () => {
+    setOpen(false)
+  })
   return (
     <div className={clsx(classes.root, className)}>
       <section
@@ -129,6 +138,7 @@ const MenuDropdown: React.FC<IMenuDropdownProps> = ({
         />
       </section>
       <Paper
+        ref={ref}
         shadow="shadow2"
         className={clsx(classes.options, {
           ["open"]: open,
