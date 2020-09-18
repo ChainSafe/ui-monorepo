@@ -2,7 +2,7 @@ import React, { ReactNode, useState } from "react"
 import { makeStyles, createStyles, ITheme } from "@chainsafe/common-themes"
 import { Typography } from "../Typography"
 import clsx from "clsx"
-import { DirectionalDownIcon } from "../Icons"
+import { DirectionalDownIcon, SvgIcon } from "../Icons"
 import { Paper } from "../Paper"
 
 const useStyles = makeStyles(
@@ -32,15 +32,28 @@ const useStyles = makeStyles(
         width: 14,
         padding: 0,
         // Can create animation variant here
+        "&.none": {},
+        "&.flip": {
+          "& svg": {
+            transform: "rotateX(0deg)",
+          },
+          "&.open svg": {
+            transform: "rotateX(180deg)",
+          },
+        },
+        "&.rotate": {
+          "& svg": {
+            transform: "rotateZ(0deg)",
+          },
+          "&.open svg": {
+            transform: "rotateZ(180deg)",
+          },
+        },
         "& svg": {
           marginLeft: constants.generalUnit,
           height: 14,
           width: 14,
           transitionDuration: `${animation.transform}ms`,
-          transform: "rotateX(0deg)",
-        },
-        "&.open svg": {
-          transform: "rotateX(180deg)",
         },
       },
       options: {
@@ -82,6 +95,8 @@ interface IMenuItem {
 
 interface IMenuDropdownProps {
   className?: string
+  indicator?: typeof SvgIcon
+  animation?: "rotate" | "flip" | "none"
   menuItems: IMenuItem[]
   title: string
 }
@@ -89,8 +104,11 @@ interface IMenuDropdownProps {
 const MenuDropdown: React.FC<IMenuDropdownProps> = ({
   className,
   menuItems,
+  indicator = DirectionalDownIcon,
+  animation = "flip",
   title,
 }: IMenuDropdownProps) => {
+  const Icon = indicator
   const classes = useStyles()
   const [open, setOpen] = useState<boolean>(false)
   return (
@@ -104,8 +122,8 @@ const MenuDropdown: React.FC<IMenuDropdownProps> = ({
         <Typography component="p" variant="body2">
           {title}
         </Typography>
-        <DirectionalDownIcon
-          className={clsx(classes.icon, {
+        <Icon
+          className={clsx(classes.icon, animation, {
             ["open"]: open,
           })}
         />
