@@ -3,7 +3,7 @@ import { useState, useEffect } from "react"
 import { IImployApiClient, ImployApiClient } from "./ImployApiClient"
 
 type ImployApiContextProps = {
-  apiUrl: string
+  apiUrl?: string
   children: React.ReactNode | React.ReactNode[]
 }
 
@@ -19,7 +19,6 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
   const [imployApiClient, setImployApiClient] = useState<
     IImployApiClient | undefined
   >(undefined)
-  // Initialize Auth Context
   useEffect(() => {
     const initializeApiClient = async () => {
       const apiClient = new ImployApiClient(apiUrl)

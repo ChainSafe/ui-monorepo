@@ -2,6 +2,11 @@
 
 Imploy UI monorepo
 
+## Requirements
+
+- Node > 12
+- Yarn > 1
+
 ## Mono Repo Structure 🏗
 
 The repository is broken up into 4 main packages, managed using yarn workspaces. You can find these in the `packages` directory. These packages are as follows:

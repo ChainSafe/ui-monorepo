@@ -1,5 +1,5 @@
 import React, { ReactNode } from "react"
-import { makeStyles, createStyles } from "@material-ui/styles"
+import { makeStyles, createStyles } from "@chainsafe/common-themes"
 import clsx from "clsx"
 import { ITheme } from "@chainsafe/common-themes"
 
