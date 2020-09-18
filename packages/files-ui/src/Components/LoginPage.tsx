@@ -28,7 +28,8 @@ const useStyles = makeStyles((theme: ITheme) =>
       minHeight: "100vh",
       "& > img": {
         display: "block",
-        width: `calc(100% - 116 * 2)`,
+        width: `calc(100% - ${theme.constants.generalUnit} * 2)`,
+        maxWidth: 667,
         marginBottom: 50,
         marginTop: 125,
       },
