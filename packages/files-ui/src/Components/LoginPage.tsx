@@ -29,7 +29,6 @@ const useStyles = makeStyles((theme: ITheme) =>
       "& > img": {
         display: "block",
         width: `calc(100% - 116 * 2)`,
-        maxWidth: 667,
         marginBottom: 50,
         marginTop: 125,
       },
@@ -77,7 +76,7 @@ const LoginPage = () => {
   const theme: ITheme = useTheme()
 
   const { isReturningUser, web3Login, selectWallet } = useAuth()
-  const { provider } = useWeb3()
+  const { provider, wallet } = useWeb3()
   const [error, setError] = useState<string>("")
   const [activeMode, setActiveMode] = useState<"newUser" | "returningUser">(
     isReturningUser ? "returningUser" : "newUser",
@@ -152,7 +151,7 @@ const LoginPage = () => {
                 size="large"
               >
                 <Typography variant="button" disabled={isConnecting}>
-                  Continue with Web3 Wallet
+                  Continue with {wallet?.name}
                 </Typography>
               </Button>
             )}
