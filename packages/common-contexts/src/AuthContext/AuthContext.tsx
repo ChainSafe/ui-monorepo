@@ -15,6 +15,8 @@ type AuthContext = {
   isReturningUser: boolean
   selectWallet(): Promise<void>
   web3Login(): Promise<void>
+  accessToken?: string
+  refreshAccessToken(): Promise<void>
 }
 
 const AuthContext = React.createContext<AuthContext | undefined>(undefined)
@@ -35,7 +37,7 @@ const AuthProvider = ({ children }: AuthContextProps) => {
     { token: string; expires: Date } | undefined
   >(undefined)
   // TODO Load these from local storage if available
-  const [, setRefreshToken] = useState<
+  const [refreshToken, setRefreshToken] = useState<
     { token: string; expires: Date } | undefined
   >(undefined)
 
@@ -77,6 +79,19 @@ const AuthProvider = ({ children }: AuthContextProps) => {
     }
   }
 
+  const refreshAccessToken = async () => {
+    if (!imployApiClient) return Promise.reject("Api Client is not initialized")
+    if (!refreshToken) return Promise.reject("No refresh token available")
+    try {
+      const {
+        access_token,
+        refresh_token,
+      } = await imployApiClient.getRefreshToken(refreshToken?.token)
+      setAccessToken(access_token)
+      setRefreshToken(refresh_token)
+    } catch (error) {}
+  }
+
   const isLoggedIn = useMemo(() => {
     if (!accessToken) {
       return false
@@ -99,6 +114,8 @@ const AuthProvider = ({ children }: AuthContextProps) => {
         isReturningUser: false,
         web3Login,
         selectWallet,
+        accessToken: accessToken?.token,
+        refreshAccessToken,
       }}
     >
       {children}
