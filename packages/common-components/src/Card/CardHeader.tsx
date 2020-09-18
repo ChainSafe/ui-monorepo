@@ -1,5 +1,6 @@
 import React, { ReactNode } from "react"
 import clsx from "clsx"
+import { Typography } from "../Typography"
 import { ITheme, makeStyles, createStyles } from "@chainsafe/common-themes"
 
 const useStyles = makeStyles((theme: ITheme) =>
@@ -7,9 +8,8 @@ const useStyles = makeStyles((theme: ITheme) =>
     // JSS in CSS goes here
     root: {
       padding: theme.constants.generalUnit * 2,
-    },
-    title: {
-      ...theme.typography.h2,
+      border: "1px solid",
+      borderColor: theme.palette["gray"][4],
     },
   }),
 )
@@ -28,7 +28,7 @@ const CardHeader: React.FC<ICardHeader> = ({
   const classes = useStyles()
   return (
     <div className={clsx(className, classes.root)}>
-      {title && <h2 className={classes.title}></h2>}
+      {title && <Typography variant="h5">{title}</Typography>}
       {children}
     </div>
   )
