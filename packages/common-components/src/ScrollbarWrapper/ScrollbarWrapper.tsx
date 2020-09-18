@@ -1,6 +1,6 @@
 import React, { ReactNode } from "react"
 import SimpleBarReact from "simplebar-react"
-import { makeStyles, createStyles } from "@material-ui/styles"
+import { makeStyles, createStyles } from "@chainsafe/common-themes"
 import { ITheme } from "@chainsafe/common-themes"
 import clsx from "clsx"
 

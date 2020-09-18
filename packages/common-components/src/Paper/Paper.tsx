@@ -1,8 +1,7 @@
 import React, { ReactNode } from "react"
-import { makeStyles, createStyles } from "@material-ui/styles"
+import { makeStyles, createStyles } from "@chainsafe/common-themes"
 import clsx from "clsx"
 import { ITheme } from "@chainsafe/common-themes"
-
 const useStyles = makeStyles((theme: ITheme) => {
   const shadowStyles = {}
   Object.keys(theme.shadows).forEach((shadow) => {
@@ -10,7 +9,6 @@ const useStyles = makeStyles((theme: ITheme) => {
       boxShadow: theme.shadows[shadow],
     }
   })
-
   return createStyles({
     root: {
       backgroundColor: theme.palette.background.paper,
@@ -30,44 +28,45 @@ const useStyles = makeStyles((theme: ITheme) => {
     ...shadowStyles,
   })
 })
-
 export type PaperShape = "square" | "rounded"
-
-export interface IPaperProps {
+export interface IPaperProps extends React.HTMLProps<HTMLDivElement> {
   children?: ReactNode | ReactNode[]
   className?: string
   shape?: PaperShape
   border?: boolean
   fullWidth?: boolean
-  shadow?: string | "none"
+  shadow?: "shadow1" | "shadow2" | string | "none"
 }
-
-const Paper: React.FC<IPaperProps> = ({
-  children,
-  className,
-  shape = "rounded",
-  border,
-  fullWidth,
-  shadow = "shadow1",
-  ...rest
-}: IPaperProps) => {
-  const classes = useStyles()
-
-  return (
-    <div
-      className={clsx(
-        classes.root,
-        shape === "rounded" && classes.rounded,
-        border && classes.bordered,
-        fullWidth && classes.fullWidth,
-        shadow !== "none" && classes[`shadow-${shadow}`],
-        className,
-      )}
-      {...rest}
-    >
-      {children}
-    </div>
-  )
-}
-
+const Paper = React.forwardRef(
+  (
+    {
+      children,
+      className,
+      shape = "rounded",
+      border,
+      fullWidth,
+      shadow = "shadow1",
+      ...rest
+    }: IPaperProps,
+    forwardedRef: any,
+  ) => {
+    const classes = useStyles()
+    return (
+      <div
+        className={clsx(
+          classes.root,
+          shape === "rounded" && classes.rounded,
+          border && classes.bordered,
+          fullWidth && classes.fullWidth,
+          shadow !== "none" && classes[`shadow-${shadow}`],
+          className,
+        )}
+        {...rest}
+        ref={forwardedRef}
+      >
+        {children}
+      </div>
+    )
+  },
+)
 export default Paper

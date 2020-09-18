@@ -1,5 +1,4 @@
-import { createTheme } from "@chainsafe/common-themes"
-import { ThemeProvider } from "@material-ui/styles"
+import { createTheme, ThemeProvider } from "@chainsafe/common-themes"
 
 const lightTheme = createTheme()
 const darkTheme = createTheme()
