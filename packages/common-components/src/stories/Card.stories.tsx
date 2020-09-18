@@ -19,7 +19,10 @@ export const CardDefault = (): React.ReactNode => (
       "shadow1",
     )}
   >
-    <CardHeader title="This is a demo card" />
+    <CardHeader
+      title="This is a demo card"
+      dense={boolean("header dense", false)}
+    />
     <p>Some content</p>
     <p>Some content</p>
   </Card>
