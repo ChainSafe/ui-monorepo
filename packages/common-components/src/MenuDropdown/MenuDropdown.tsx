@@ -44,7 +44,7 @@ const useStyles = makeStyles(
         },
       },
       options: {
-        width: "100%",
+        minWidth: "100%",
         backgroundColor: palette.common.white.main,
         height: 0,
         overflow: "hidden",
@@ -52,6 +52,8 @@ const useStyles = makeStyles(
         opacity: 0,
         transitionDuration: `${animation.transform}ms`,
         top: "100%",
+        left: "50%",
+        transform: "translateX(-50%)",
         position: "absolute",
         "&.open": {
           height: "auto",
