@@ -3,7 +3,12 @@ import { createStyles, ITheme, makeStyles } from "@chainsafe/common-themes"
 import React, { Fragment } from "react"
 import { ReactNode } from "react"
 import clsx from "clsx"
-import { Typography } from "@chainsafe/common-components"
+import {
+  Link,
+  Typography,
+  ChainsafeFilesLogo,
+} from "@chainsafe/common-components"
+import { ROUTE_LINKS } from "../FilesRoutes"
 
 interface IAppWrapper {
   children: ReactNode | ReactNode[]
@@ -18,17 +23,16 @@ interface IAppWrapper {
 const useStyles = makeStyles(({ animation, breakpoints }: ITheme) =>
   createStyles({
     root: {
-      display: "flex",
-      flexDirection: "row",
-      alignItems: "flex-start",
-      justifyContent: "flex-start",
-      width: "100%",
       minHeight: "100vh",
     },
     nav: {
       width: 0,
+      height: "100%",
       overflow: "hidden",
       transitionDuration: `${animation.transform}ms`,
+      position: "fixed",
+      top: 0,
+      left: 0,
       "&.active": {},
     },
     header: {
@@ -55,7 +59,12 @@ const AppWrapper: React.FC<IAppWrapper> = ({ children }: IAppWrapper) => {
       >
         {isLoggedIn && (
           <Fragment>
-            <div>{/* TODO Logo */}</div>
+            <div>
+              <Link to={ROUTE_LINKS.Home}>
+                <ChainsafeFilesLogo />
+                <Typography>Files</Typography>
+              </Link>
+            </div>
             <div>
               <Typography>Folders</Typography>
               <nav>{/* TODO: itterate over routes */}</nav>

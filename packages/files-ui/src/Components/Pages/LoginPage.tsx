@@ -17,6 +17,7 @@ import {
   useTheme,
 } from "@chainsafe/common-themes"
 import { useWeb3 } from "@chainsafe/web3-context"
+import { ROUTE_LINKS } from "../FilesRoutes"
 
 const useStyles = makeStyles((theme: ITheme) =>
   createStyles({
@@ -178,8 +179,8 @@ const LoginPage = () => {
             >
               {activeMode === "newUser" ? "Sign in" : "Create an account"}
             </Typography>
-            <Link to="">Privacy Policy</Link>
-            <Link to="">Terms and Conditions</Link>
+            <Link to={ROUTE_LINKS.PrivacyPolicy}>Privacy Policy</Link>
+            <Link to={ROUTE_LINKS.Terms}>Terms and Conditions</Link>
           </div>
         </Grid>
       </Grid>
