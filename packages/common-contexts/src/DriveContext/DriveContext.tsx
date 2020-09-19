@@ -29,7 +29,7 @@ type DriveContext = {
   // Download file
   downloadFile(body: FileRequest): Promise<void>
   // Get list of files and folders for a path
-  list(path: string): Promise<any>
+  list(body: FileRequest): Promise<any>
 }
 
 const DriveContext = React.createContext<DriveContext | undefined>(undefined)
