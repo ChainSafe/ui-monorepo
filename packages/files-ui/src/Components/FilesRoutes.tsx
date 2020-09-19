@@ -1,8 +1,8 @@
 import React from "react"
 import { Switch, ConditionalRoute } from "@chainsafe/common-components"
-import LoginPage from "./LoginPage"
+import LoginPage from "./Pages/LoginPage"
 import { useAuth } from "@chainsafe/common-contexts"
-import HomePage from "./HomePage"
+import HomePage from "./Pages/HomePage"
 
 const FilesRoutes = () => {
   const { isLoggedIn } = useAuth()
