@@ -35,13 +35,11 @@ const AuthProvider = ({ children }: AuthContextProps) => {
   >(undefined)
 
   const selectWallet = async () => {
-    debugger
     if (onboard && !isReady) {
       let walletReady = !!wallet
       if (!walletReady) {
         walletReady = await onboard.walletSelect()
       }
-      debugger
       walletReady && (await checkIsReady())
     }
   }
