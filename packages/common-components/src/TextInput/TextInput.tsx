@@ -316,7 +316,7 @@ export interface TextInputProps {
   type?: "text" | "email" | "password" | "url" | "search"
 }
 
-const TextInput: React.SFC<TextInputProps> = ({
+const TextInput: React.FC<TextInputProps> = ({
   className,
   label,
   LeftIcon,

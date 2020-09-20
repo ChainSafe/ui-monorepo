@@ -19,6 +19,7 @@ export {
   default as CrossOutlinedIcon,
   CrossOutlinedSvg,
 } from "./icons/CrossOutlined.icon"
+export { default as DatabaseIcon, DatabaseSvg } from "./icons/Database.icon"
 export { default as DeleteIcon, DeleteSvg } from "./icons/Delete.icon"
 export {
   default as DirectionalDownIcon,

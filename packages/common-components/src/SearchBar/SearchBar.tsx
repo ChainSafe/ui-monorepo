@@ -182,7 +182,7 @@ export interface SearchBarProps {
   onChange: (e: ChangeEvent<HTMLInputElement>) => void
 }
 
-const SearchBar: React.SFC<SearchBarProps> = ({
+const SearchBar: React.FC<SearchBarProps> = ({
   className,
   value,
   placeholder = "Search...",
