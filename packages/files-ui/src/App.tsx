@@ -45,11 +45,11 @@ const App: React.FC<{}> = () => {
         <ImployApiProvider apiUrl="https://alpha.imploy.site/api/v1">
           <Web3Provider networkIds={[1]}>
             <AuthProvider>
-              <AppWrapper>
-                <Router>
+              <Router>
+                <AppWrapper>
                   <FilesRoutes />
-                </Router>
-              </AppWrapper>
+                </AppWrapper>
+              </Router>
             </AuthProvider>
           </Web3Provider>
         </ImployApiProvider>

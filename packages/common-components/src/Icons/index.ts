@@ -44,6 +44,7 @@ export {
 } from "./icons/InfoCircle.icon"
 export { default as PaperclipIcon, PaperclipSvg } from "./icons/Paperclip.icon"
 export { default as PlusIcon, PlusSvg } from "./icons/Plus.icon"
+export { default as PowerDownIcon, PowerDownSvg } from "./icons/PowerDown.icon"
 export { default as SearchIcon, SearchSvg } from "./icons/Search.icon"
 export { default as SettingIcon, SettingSvg } from "./icons/Setting.icon"
 export { default as StarIcon, StarSvg } from "./icons/Star.icon"
