@@ -1,12 +1,11 @@
 import React, { useCallback, useState, useEffect } from "react"
 import { useField } from "formik"
 import { useDropzone, DropzoneOptions, FileRejection } from "react-dropzone"
-import Plus from "../Icons/icons/Plus"
 import clsx from "clsx"
-import Paperclip from "../Icons/icons/Paperclip"
 import { ITheme, makeStyles, createStyles } from "@chainsafe/common-themes"
 import { Button } from "../Button"
 import { Typography } from "../Typography"
+import { PaperclipIcon, PlusIcon } from "../Icons"
 
 const useStyles = makeStyles((theme: ITheme) =>
   createStyles({
@@ -101,7 +100,7 @@ const FileInput: React.FC<IFileInputProps> = ({
       {variant === "dropzone" ? (
         value.value?.length === 0 ? (
           <div style={{ textAlign: "center" }}>
-            <Plus fontSize="large" color="primary" />
+            <PlusIcon fontSize="large" color="primary" />
             <br />
             <Typography>Upload Files and Folders</Typography>
           </div>
@@ -110,7 +109,7 @@ const FileInput: React.FC<IFileInputProps> = ({
             <ul>
               {value.value.map((file: any, i: any) => (
                 <li key={i}>
-                  <Paperclip /> {file.name} - {file.size}
+                  <PaperclipIcon /> {file.name} - {file.size}
                 </li>
               ))}
             </ul>

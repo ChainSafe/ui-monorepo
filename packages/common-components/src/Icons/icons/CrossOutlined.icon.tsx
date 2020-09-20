@@ -1,5 +1,7 @@
 import * as React from "react"
 import createSvgIcon from "../createSvgIcon"
-import { ReactComponent as CrossOutlined } from "../svgs/cross-outlined.svg"
+import { ReactComponent as CrossOutlinedSvg } from "../svgs/cross-outlined.svg"
 
-export default createSvgIcon(<CrossOutlined />)
+export { CrossOutlinedSvg }
+
+export default createSvgIcon(<CrossOutlinedSvg />)

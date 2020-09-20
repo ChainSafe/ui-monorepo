@@ -2,11 +2,13 @@ import React, { ChangeEvent } from "react"
 import { makeStyles, createStyles } from "@chainsafe/common-themes"
 import { ITheme } from "@chainsafe/common-themes"
 import clsx from "clsx"
-import CloseCircleIcon from "../Icons/icons/CloseCircleIcon"
-import CheckCircleIcon from "../Icons/icons/CheckCircleIcon"
 import { Typography } from "../Typography"
-import ExclamationCircleIcon from "../Icons/icons/ExclamationCircleIcon"
-import { SvgIcon } from "../Icons"
+import {
+  CheckCircleIcon,
+  CloseCircleIcon,
+  ExclamationCircleIcon,
+  SvgIcon,
+} from "../Icons"
 
 const iconSize = {
   large: {
