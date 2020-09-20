@@ -1,8 +1,9 @@
 import React from "react"
 import { Switch, ConditionalRoute } from "@chainsafe/common-components"
-import LoginPage from "./LoginPage"
+import LoginPage from "./Pages/LoginPage"
 import { useAuth } from "@chainsafe/common-contexts"
-import HomePage from "./HomePage"
+import SettingsPage from "./Pages/SettingsPage"
+import HomePage from "./Pages/HomePage"
 
 const FilesRoutes = () => {
   const { isLoggedIn } = useAuth()
@@ -20,6 +21,13 @@ const FilesRoutes = () => {
         path="/home"
         isAuthorized={isLoggedIn}
         component={HomePage}
+        redirectPath="/"
+      />
+      <ConditionalRoute
+        exact
+        path="/settings"
+        isAuthorized={true}
+        component={SettingsPage}
         redirectPath="/"
       />
     </Switch>

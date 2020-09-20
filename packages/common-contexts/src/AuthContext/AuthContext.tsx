@@ -10,11 +10,24 @@ type AuthContextProps = {
   children: React.ReactNode | React.ReactNode[]
 }
 
+type Profile = {
+  firstName?: string
+  lastName?: string
+  publicAddress?: string
+  email?: string
+}
+
 type AuthContext = {
   isLoggedIn: boolean
   isReturningUser: boolean
   selectWallet(): Promise<void>
   web3Login(): Promise<void>
+  profile: Profile | undefined
+  updateProfile(
+    firstName: string,
+    lastName: string,
+    email: string,
+  ): Promise<void>
 }
 
 const AuthContext = React.createContext<AuthContext | undefined>(undefined)
@@ -38,6 +51,8 @@ const AuthProvider = ({ children }: AuthContextProps) => {
   const [, setRefreshToken] = useState<
     { token: string; expires: Date } | undefined
   >(undefined)
+
+  const [profile, setProfile] = useState<Profile | undefined>(undefined)
 
   const selectWallet = async () => {
     if (onboard && !isReady) {
@@ -67,13 +82,47 @@ const AuthProvider = ({ children }: AuthContextProps) => {
           token: token,
           public_address: address,
         })
+        const profileData = await imployApiClient.getUser(access_token)
 
         setAccessToken(access_token)
         setRefreshToken(refresh_token)
+        setProfile({
+          firstName: profileData.first_name,
+          lastName: profileData.last_name,
+          email: profileData.email,
+          publicAddress: profileData.public_address,
+        })
         return Promise.resolve()
       }
     } catch (error) {
       return Promise.reject("There was an error logging in.")
+    }
+  }
+
+  const updateProfile = async (
+    firstName: string,
+    lastName: string,
+    email: string,
+  ) => {
+    if (!imployApiClient) return Promise.reject("Api Client is not initialized")
+    if (!accessToken) return Promise.reject("User not logged in")
+
+    try {
+      const profileData = await imployApiClient.updateUser(accessToken.token, {
+        first_name: firstName,
+        last_name: lastName,
+        email: email,
+      })
+
+      setProfile({
+        firstName: profileData.first_name,
+        lastName: profileData.last_name,
+        email: profileData.email,
+        publicAddress: profileData.public_address,
+      })
+      return Promise.resolve()
+    } catch (error) {
+      return Promise.reject("There was an error updating profile.")
     }
   }
 
@@ -99,6 +148,8 @@ const AuthProvider = ({ children }: AuthContextProps) => {
         isReturningUser: false,
         web3Login,
         selectWallet,
+        profile,
+        updateProfile,
       }}
     >
       {children}
