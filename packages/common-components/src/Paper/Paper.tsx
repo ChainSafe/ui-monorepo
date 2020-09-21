@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme: ITheme) => {
       borderRadius: 4,
     },
     bordered: {
-      border: `1px solid ${theme.palette["gray"][5]}`,
+      border: `1px solid ${theme.palette.additional["gray"][5]}`,
     },
     ...shadowStyles,
   })

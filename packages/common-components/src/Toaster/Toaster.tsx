@@ -67,7 +67,7 @@ const useStyles = makeStyles((theme: ITheme) =>
     },
     closeIcon: {
       fontSize: `${theme.constants.generalUnit * 1.5}px`,
-      fill: theme.palette["gray"][6],
+      fill: theme.palette.additional["gray"][6],
       marginLeft: `${theme.constants.generalUnit * 2}px`,
     },
   }),

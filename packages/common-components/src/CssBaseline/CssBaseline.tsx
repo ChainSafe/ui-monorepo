@@ -1,5 +1,6 @@
 import React, { ReactNode, Fragment } from "react"
 import { ITheme, makeStyles, createStyles } from "@chainsafe/common-themes"
+import "normalize.css"
 
 const useStyles = makeStyles((theme: ITheme) =>
   createStyles({

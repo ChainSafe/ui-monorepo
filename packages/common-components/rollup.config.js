@@ -5,6 +5,7 @@ import typescript from "rollup-plugin-typescript2"
 import svgr from "@svgr/rollup"
 import url from "rollup-plugin-url"
 import babel from "rollup-plugin-babel"
+import postcss from 'rollup-plugin-postcss'
 
 export default {
   input: "./src/index.ts",
@@ -20,6 +21,9 @@ export default {
     resolve(),
     commonjs(),
     typescript(),
+    postcss({
+      plugins: []
+    }),
     url(),
     svgr(),
     babel({

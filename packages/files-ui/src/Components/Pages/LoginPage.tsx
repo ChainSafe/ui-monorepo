@@ -35,6 +35,17 @@ const useStyles = makeStyles((theme: ITheme) =>
         marginTop: 125,
       },
     },
+    logoContainer: {
+      display: "flex",
+      alignItems: "center",
+    },
+    logoImage: {
+      width: "fit-content",
+    },
+    logoText: {
+      fontWeight: theme.typography.fontWeight.semibold,
+      paddingLeft: theme.constants.generalUnit,
+    },
     buttonSection: {
       paddingTop: 26,
       display: "flex",
@@ -124,7 +135,12 @@ const LoginPage = () => {
           </Typography>
         </Grid>
         <Grid item md={4} className={classes.buttonSection}>
-          <ChainsafeFilesLogo />
+          <div className={classes.logoContainer}>
+            <ChainsafeFilesLogo />
+            <Typography variant="subtitle2" className={classes.logoText}>
+              ChainSafe Files
+            </Typography>
+          </div>
           <div className={classes.controls}>
             <Typography
               variant="h6"

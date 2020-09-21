@@ -50,7 +50,7 @@ const useStyles = makeStyles((theme: ITheme) =>
       "& input": {
         transitionDuration: `${theme.animation.transform}ms`,
         display: "block",
-        color: theme.palette["gray"][8],
+        color: theme.palette.additional["gray"][8],
         borderRadius: 2,
         "&:hover": {
           borderColor: theme.palette.primary.border,
@@ -63,8 +63,8 @@ const useStyles = makeStyles((theme: ITheme) =>
       },
       "&.disabled": {
         "& input": {
-          color: theme.palette["gray"][6],
-          backgroundColor: theme.palette["gray"][3],
+          color: theme.palette.additional["gray"][6],
+          backgroundColor: theme.palette.additional["gray"][3],
         },
       },
     },
@@ -109,7 +109,7 @@ const useStyles = makeStyles((theme: ITheme) =>
       display: "block",
       marginTop: theme.constants.generalUnit / 4,
       transitionDuration: `${theme.animation.transform}ms`,
-      color: theme.palette["gray"][7],
+      color: theme.palette.additional["gray"][7],
       "&.error": {
         color: theme.palette.error.main,
       },
@@ -225,8 +225,8 @@ const useStyles = makeStyles((theme: ITheme) =>
         theme.constants.generalUnit * 2
       }px`,
       outline: "none",
-      border: `1px solid ${theme.palette["gray"][6]}`,
-      color: theme.palette["gray"][10],
+      border: `1px solid ${theme.palette.additional["gray"][6]}`,
+      color: theme.palette.additional["gray"][10],
       transitionDuration: `${theme.animation.transform}ms`,
     },
     standardIcon: {
@@ -259,7 +259,7 @@ const useStyles = makeStyles((theme: ITheme) =>
         alignItems: "center",
       },
       "& svg": {
-        fill: theme.palette["gray"][7],
+        fill: theme.palette.additional["gray"][7],
       },
       "&.large": {
         "&.left": {
