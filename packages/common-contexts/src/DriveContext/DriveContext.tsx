@@ -144,7 +144,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
 const useDrive = () => {
   const context = React.useContext(DriveContext)
   if (context === undefined) {
-    throw new Error("useAuth must be used within a AuthProvider")
+    throw new Error("useDrive must be used within a DriveProvider")
   }
   return context
 }
