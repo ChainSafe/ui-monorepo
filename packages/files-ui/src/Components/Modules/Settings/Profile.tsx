@@ -1,10 +1,18 @@
 import React from "react"
-import { Card, CardHeader } from "@chainsafe/common-components"
+import {
+  Card,
+  CardBody,
+  CardHeader,
+  TextInput,
+} from "@chainsafe/common-components"
 
 const Profile: React.FC = () => {
   return (
-    <Card>
+    <Card fullWidth>
       <CardHeader title="Profile" />
+      <CardBody>
+        <TextInput onChange={() => {}} size="large" label="Name" />
+      </CardBody>
     </Card>
   )
 }
