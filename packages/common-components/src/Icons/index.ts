@@ -3,12 +3,11 @@ export { SvgIconProps } from "./SvgIcon"
 
 export { default as AppleLogoIcon, AppleLogoSvg } from "./icons/AppleLogo.icon"
 export { default as BulbIcon, BulbSvg } from "./icons/Bulb.icon"
-export { default as CaretDownIcon, CaretDown } from "./icons/CaretDown.icon"
+export { default as CaretDownIcon, CaretDownSvg } from "./icons/CaretDown.icon"
 export { default as CaretUpIcon, CaretUpSvg } from "./icons/CaretUp.icon"
 export { default as CheckIcon, CheckSvg } from "./icons/Check.icon"
-export { default as CheckCircleIcon } from "./icons/CheckCircle.icon"
 export {
-  default as CheckCircle,
+  default as CheckCircleIcon,
   CheckCircleSvg,
 } from "./icons/CheckCircle.icon"
 export {

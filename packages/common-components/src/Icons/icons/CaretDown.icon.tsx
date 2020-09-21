@@ -1,7 +1,7 @@
 import * as React from "react"
 import createSvgIcon from "../createSvgIcon"
-import { ReactComponent as CaretDown } from "../svgs/caret-down.svg"
+import { ReactComponent as CaretDownSvg } from "../svgs/caret-down.svg"
 
-export { CaretDown }
+export { CaretDownSvg }
 
-export default createSvgIcon(<CaretDown />)
+export default createSvgIcon(<CaretDownSvg />)

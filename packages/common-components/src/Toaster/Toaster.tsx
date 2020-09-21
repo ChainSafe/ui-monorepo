@@ -3,8 +3,7 @@ import clsx from "clsx"
 import { makeStyles, createStyles } from "@material-ui/styles"
 import { ITheme, useTheme } from "@chainsafe/common-themes"
 import { Placement, ToastProps } from "react-toast-notifications"
-import { CheckCircleIcon, CloseCircleIcon, CrossOutlinedIcon } from "../Icons"
-import InfoCircleIcon from "../Icons/icons/InfoCircle.icon"
+import { CheckCircleIcon, CloseCircleIcon, CrossOutlinedIcon, InfoCircleIcon } from "../Icons"
 export { ToastProvider, useToasts } from "react-toast-notifications"
 
 const WidthToaster = 340
