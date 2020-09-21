@@ -15,19 +15,14 @@ type AuthContext = {
   isReturningUser: boolean
   selectWallet(): Promise<void>
   web3Login(): Promise<void>
+  accessToken?: string
+  refreshAccessToken(): Promise<void>
 }
 
 const AuthContext = React.createContext<AuthContext | undefined>(undefined)
 
 const AuthProvider = ({ children }: AuthContextProps) => {
-  const {
-    address,
-    wallet,
-    onboard,
-    checkIsReady,
-    isReady,
-    provider,
-  } = useWeb3()
+  const { wallet, onboard, checkIsReady, isReady, provider } = useWeb3()
 
   const { imployApiClient } = useImployApi()
   // TODO Load these from local storage if available
@@ -35,7 +30,7 @@ const AuthProvider = ({ children }: AuthContextProps) => {
     { token: string; expires: Date } | undefined
   >(undefined)
   // TODO Load these from local storage if available
-  const [, setRefreshToken] = useState<
+  const [refreshToken, setRefreshToken] = useState<
     { token: string; expires: Date } | undefined
   >(undefined)
 
@@ -53,19 +48,24 @@ const AuthProvider = ({ children }: AuthContextProps) => {
     if (!imployApiClient) return Promise.reject("Api Client is not initialized")
     if (!provider) return Promise.reject("No wallet is selected")
 
+    if (!isReady) {
+      const connected = await checkIsReady()
+      if (!connected) return Promise.reject("You need to allow the connection")
+    }
+
     try {
       const { token } = await imployApiClient.getWeb3Token()
 
       if (token) {
-        // instantiate a provider here
         const signature = await signMessage(token, provider)
+        const addresses = await provider.listAccounts()
         const {
           access_token,
           refresh_token,
         } = await imployApiClient.postWeb3Token({
           signature: signature,
           token: token,
-          public_address: address,
+          public_address: addresses[0],
         })
 
         setAccessToken(access_token)
@@ -74,6 +74,22 @@ const AuthProvider = ({ children }: AuthContextProps) => {
       }
     } catch (error) {
       return Promise.reject("There was an error logging in.")
+    }
+  }
+
+  const refreshAccessToken = async () => {
+    if (!imployApiClient) return Promise.reject("Api Client is not initialized")
+    if (!refreshToken) return Promise.reject("No refresh token available")
+    try {
+      const {
+        access_token,
+        refresh_token,
+      } = await imployApiClient.getRefreshToken(refreshToken?.token)
+      setAccessToken(access_token)
+      setRefreshToken(refresh_token)
+      return Promise.resolve()
+    } catch (error) {
+      return Promise.reject(error)
     }
   }
 
@@ -99,6 +115,8 @@ const AuthProvider = ({ children }: AuthContextProps) => {
         isReturningUser: false,
         web3Login,
         selectWallet,
+        accessToken: accessToken?.token,
+        refreshAccessToken,
       }}
     >
       {children}
