@@ -1,5 +1,6 @@
 import React, { ReactNode } from "react"
 import { makeStyles, ITheme, createStyles } from "@chainsafe/common-themes"
+import clsx from "clsx"
 
 const useStyles = makeStyles(({ palette }: ITheme) =>
   createStyles({
@@ -13,7 +14,7 @@ const useStyles = makeStyles(({ palette }: ITheme) =>
         display: "block",
         margin: "0 5px",
       },
-      "&:before,&:after": {
+      "&:before, &:after": {
         height: 1,
         width: 0,
         flex: "1 1 0",
@@ -25,9 +26,9 @@ const useStyles = makeStyles(({ palette }: ITheme) =>
   }),
 )
 
-const Divider: React.FC<{ children?: ReactNode }> = ({ children }) => {
+const Divider: React.FC<{ children?: ReactNode, className?: string }> = ({ children, className }) => {
   const classes = useStyles()
-  return <div className={classes.divider}>{children}</div>
+  return <div className={clsx(classes.divider, className)}>{children}</div>
 }
 
 export default Divider
