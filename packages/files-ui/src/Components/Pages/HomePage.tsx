@@ -1,7 +1,8 @@
 import React from "react"
+import FileBrowserModule from "../Modules/FileBrowserModule"
 
 const HomePage = () => {
-  return <div>You have logged in successfully</div>
+  return <FileBrowserModule />
 }
 
 export default HomePage
