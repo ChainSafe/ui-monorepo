@@ -1,40 +1,25 @@
 import React from "react"
-import { makeStyles, ITheme, createStyles } from "@chainsafe/common-themes"
-import { Typography } from "../Typography"
+import { makeStyles, createStyles } from "@chainsafe/common-themes"
+import clsx from "clsx"
 
-const useStyles = makeStyles((theme: ITheme) =>
+const useStyles = makeStyles(() =>
   createStyles({
-    logoContainer: {
-      display: "flex",
-      alignItems: "center",
-    },
     logoImage: {
       width: "fit-content",
-    },
-    logoText: {
-      fontWeight: theme.typography.fontWeight.semibold,
-      paddingLeft: theme.constants.generalUnit,
     },
   }),
 )
 
-const ChainsafeFilesLogo: React.FC<{ showText?: boolean }> = ({
-  showText = true,
+const ChainsafeFilesLogo: React.FC<{ className?: string }> = ({
+  className
 }) => {
   const classes = useStyles()
   return (
-    <div className={classes.logoContainer}>
-      <img
-        src="ChainSafe-logo.png"
-        alt="Chainsafe Logo"
-        className={classes.logoImage}
-      />
-      {showText && (
-        <Typography variant="subtitle2" className={classes.logoText}>
-          ChainSafe Files
-        </Typography>
-      )}
-    </div>
+    <img
+      src="ChainSafe-logo.png"
+      alt="Chainsafe Logo"
+      className={clsx(classes.logoImage, className)}
+    />
   )
 }
 

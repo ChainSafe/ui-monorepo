@@ -27,6 +27,7 @@ const createTheme = (
     ...createThemeConfig(themeConfig),
     globalStyling: {
       "@global": {
+        
         ...DefaultGlobalStyling,
         ...globalStyling,
       },

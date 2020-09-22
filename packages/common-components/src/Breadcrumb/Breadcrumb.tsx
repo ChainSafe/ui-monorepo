@@ -41,7 +41,7 @@ const useStyles = makeStyles((theme: ITheme) =>
     },
     seperator: {
       padding: `${theme.constants.generalUnit}px ${theme.constants.generalUnit}px`,
-      color: theme.palette["gray"][7],
+      color: theme.palette.additional["gray"][7],
       position: "relative",
       "& > *": {
         top: `calc(50% + 2px)`,

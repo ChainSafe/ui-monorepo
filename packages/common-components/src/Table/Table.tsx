@@ -24,22 +24,22 @@ const useStyles = makeStyles((theme: ITheme) =>
     },
     hover: {
       "& tr:hover": {
-        backgroundColor: theme.palette["gray"][2],
+        backgroundColor: theme.palette.additional["gray"][2],
       },
       "& tr:nth-child(even)": {
         "&:hover": {
-          backgroundColor: theme.palette["gray"][2],
+          backgroundColor: theme.palette.additional["gray"][2],
         },
       },
       "&.selected": {
         "&:hover": {
-          backgroundColor: theme.palette["gray"][4],
+          backgroundColor: theme.palette.additional["gray"][4],
         },
       },
     },
     striped: {
       "& tr:nth-child(even)": {
-        backgroundColor: theme.palette["gray"][2],
+        backgroundColor: theme.palette.additional["gray"][2],
       },
     },
   }),

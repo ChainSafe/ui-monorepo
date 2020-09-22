@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme: ITheme) =>
     sortButtons: {
       cursor: "pointer",
       "&:hover": {
-        backgroundColor: theme.palette["gray"][2],
+        backgroundColor: theme.palette.additional["gray"][2],
       },
     },
     sortContainer: {
@@ -49,20 +49,20 @@ const useStyles = makeStyles((theme: ITheme) =>
       marginLeft: 4,
       fontSize: "12px",
       "& svg": {
-        fill: theme.palette["gray"][6],
+        fill: theme.palette.additional["gray"][6],
       },
       "&.ascend": {
         transition: `transform ${theme.animation.transform}ms`,
         transform: "rotate(0deg)",
         "& svg": {
-          fill: theme.palette["gray"][9],
+          fill: theme.palette.additional["gray"][9],
         },
       },
       "&.descend": {
         transition: `transform ${theme.animation.transform}ms`,
         transform: "rotate(-180deg)",
         "& svg": {
-          fill: theme.palette["gray"][9],
+          fill: theme.palette.additional["gray"][9],
         },
       },
     },

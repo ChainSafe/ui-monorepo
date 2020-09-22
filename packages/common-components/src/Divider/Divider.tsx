@@ -17,7 +17,7 @@ const useStyles = makeStyles(({ palette }: ITheme) =>
         height: 1,
         width: 0,
         flex: "1 1 0",
-        backgroundColor: palette["gray"][5],
+        backgroundColor: palette.additional["gray"][5],
         display: "block",
         content: "''",
       },

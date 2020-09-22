@@ -13,7 +13,7 @@ const useStyles = makeStyles(({ palette }: ITheme) =>
       justifyContent: "center",
       overflow: "hidden",
       fontSize: 14,
-      backgroundColor: palette["gray"][6],
+      backgroundColor: palette.additional["gray"][6],
       color: palette.common.white.main,
       position: "relative",
       "& img": {

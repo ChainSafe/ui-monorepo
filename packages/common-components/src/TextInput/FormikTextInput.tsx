@@ -13,7 +13,7 @@ export interface FormikTextInputProps {
   captionMessage?: string
 }
 
-const FormikTextInput: React.SFC<FormikTextInputProps> = ({
+const FormikTextInput: React.FC<FormikTextInputProps> = ({
   className,
   type = "text",
   placeholder,
