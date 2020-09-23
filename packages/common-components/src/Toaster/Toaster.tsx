@@ -2,8 +2,8 @@ import React, { useRef, useState, useEffect } from "react"
 import clsx from "clsx"
 import { makeStyles, createStyles } from "@material-ui/styles"
 import { ITheme, useTheme } from "@chainsafe/common-themes"
-import { CheckCircle, CloseCircle, InfoCircle, CrossOutlined } from "../Icons"
 import { Placement, ToastProps } from "react-toast-notifications"
+import { CheckCircleIcon, CloseCircleIcon, CrossOutlinedIcon, InfoCircleIcon } from "../Icons"
 export { ToastProvider, useToasts } from "react-toast-notifications"
 
 const WidthToaster = 340
@@ -66,7 +66,7 @@ const useStyles = makeStyles((theme: ITheme) =>
     },
     closeIcon: {
       fontSize: `${theme.constants.generalUnit * 1.5}px`,
-      fill: theme.palette["gray"][6],
+      fill: theme.palette.additional["gray"][6],
       marginLeft: `${theme.constants.generalUnit * 2}px`,
     },
   }),
@@ -103,16 +103,16 @@ const Toaster = ({
     <div ref={elementRef} className={classes.container}>
       <div className={clsx(classes.parent, placement, transitionState)}>
         {appearance === "success" ? (
-          <CheckCircle color="success" className={classes.typeIcon} />
+          <CheckCircleIcon color="success" className={classes.typeIcon} />
         ) : appearance === "error" ? (
-          <CloseCircle color="error" className={classes.typeIcon} />
+          <CloseCircleIcon color="error" className={classes.typeIcon} />
         ) : (
-          <InfoCircle color="secondary" className={classes.typeIcon} />
+          <InfoCircleIcon color="secondary" className={classes.typeIcon} />
         )}
         {children}
         {onDismiss ? (
           <button onClick={() => onDismiss()} className={classes.closeButton}>
-            <CrossOutlined className={classes.closeIcon} />
+            <CrossOutlinedIcon className={classes.closeIcon} />
           </button>
         ) : null}
       </div>

@@ -177,8 +177,9 @@ const MenuDropdown: React.FC<IMenuDropdownProps> = ({
           ["open"]: open,
         })}
       >
-        {menuItems.map((item: IMenuItem) => (
+        {menuItems.map((item: IMenuItem, index: number) => (
           <div
+            key={`menu-${index}`}
             className={classes.item}
             onClick={() => {
               setOpen(false)

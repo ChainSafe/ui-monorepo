@@ -318,7 +318,7 @@ export interface IImployApiClient {
     path?: string | undefined,
     type?: string | undefined,
     update?: boolean | undefined,
-  ): Promise<Anonymous11>
+  ): Promise<AddFileResponse>
   /**
    * rename or move file to a new location in the heiarchy
    * @param body file path
@@ -4267,7 +4267,7 @@ export class ImployApiClient implements IImployApiClient {
     path?: string | undefined,
     type?: string | undefined,
     update?: boolean | undefined,
-  ): Promise<Anonymous11> {
+  ): Promise<AddFileResponse> {
     let url_ = this.baseUrl + "/drive/upload"
     url_ = url_.replace(/[?&]$/, "")
 
@@ -4302,7 +4302,7 @@ export class ImployApiClient implements IImployApiClient {
     })
   }
 
-  protected processAddFile(response: Response): Promise<Anonymous11> {
+  protected processAddFile(response: Response): Promise<AddFileResponse> {
     const status = response.status
     let _headers: any = {}
     if (response.headers && response.headers.forEach) {
@@ -4314,7 +4314,7 @@ export class ImployApiClient implements IImployApiClient {
         result200 =
           _responseText === ""
             ? null
-            : <Anonymous11>JSON.parse(_responseText, this.jsonParseReviver)
+            : <AddFileResponse>JSON.parse(_responseText, this.jsonParseReviver)
         return result200
       })
     } else if (status === 401) {
@@ -5229,7 +5229,7 @@ export interface Anonymous10 {
   api_key?: string
 }
 
-export interface Anonymous11 {
+export interface AddFileResponse {
   /** cid in IPFS */
   cid?: string
   /** file name */

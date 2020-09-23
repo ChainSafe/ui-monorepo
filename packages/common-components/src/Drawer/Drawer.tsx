@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme: ITheme) =>
     root: (props: IStyleProps) => ({
       backgroundColor: theme.palette.background.default,
       border: "1px solid",
-      borderColor: theme.palette["gray"][4],
+      borderColor: theme.palette.additional["gray"][4],
       position: "fixed",
       opacity: 0,
       visibility: "hidden",
@@ -82,7 +82,7 @@ const useStyles = makeStyles((theme: ITheme) =>
         justifyContent: "center",
         alignItems: "center",
         opacity: 0.25,
-        background: theme.palette["gray"][6],
+        background: theme.palette.additional["gray"][6],
         "&.transparent": {
           background: "transparent",
         },

@@ -10,7 +10,7 @@ const useStyles = makeStyles((theme: ITheme) =>
     root: {
       position: "relative",
       "&.basic": {
-        border: `1px solid ${theme.palette["gray"][5]}`,
+        border: `1px solid ${theme.palette.additional["gray"][5]}`,
       },
       "&.borderless": {},
     },
@@ -18,19 +18,19 @@ const useStyles = makeStyles((theme: ITheme) =>
       "& svg": {
         width: theme.constants.generalUnit,
         height: theme.constants.generalUnit * 1.5,
-        fill: theme.palette["gray"][9],
+        fill: theme.palette.additional["gray"][9],
         transitionDuration: `${theme.animation.transform}ms`,
       },
     },
     heading: {
-      backgroundColor: theme.palette["gray"][2],
+      backgroundColor: theme.palette.additional["gray"][2],
       padding: `${theme.constants.generalUnit * 1.5}px ${
         theme.constants.generalUnit * 2
       }px`,
-      color: theme.palette["gray"][9],
+      color: theme.palette.additional["gray"][9],
       cursor: "pointer",
       "&.basic": {
-        backgroundColor: theme.palette["gray"][2],
+        backgroundColor: theme.palette.additional["gray"][2],
       },
       "&.borderless": {},
       "&.active": {
@@ -41,16 +41,16 @@ const useStyles = makeStyles((theme: ITheme) =>
     },
     content: {
       overflow: "hidden",
-      color: theme.palette["gray"][8],
+      color: theme.palette.additional["gray"][8],
       height: 0,
       padding: `0 ${theme.constants.generalUnit * 2}px`,
       transitionDuration: `${theme.animation.transform}ms`,
       // opacity: 0,
       "&.basic": {
         backgroundColor: theme.palette.common.white.main,
-        borderTop: `0px solid ${theme.palette["gray"][5]}`,
+        borderTop: `0px solid ${theme.palette.additional["gray"][5]}`,
         "&.active": {
-          borderTop: `1px solid ${theme.palette["gray"][5]}`,
+          borderTop: `1px solid ${theme.palette.additional["gray"][5]}`,
         },
       },
       "&.active": {

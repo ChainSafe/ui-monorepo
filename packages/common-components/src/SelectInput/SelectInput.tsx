@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme: ITheme) =>
       display: "block",
       marginTop: theme.constants.generalUnit / 4,
       transitionDuration: `${theme.animation.transform}ms`,
-      color: theme.palette["gray"][7],
+      color: theme.palette.additional["gray"][7],
       "&.error": {
         color: theme.palette.error.main,
       },
@@ -89,10 +89,10 @@ const SelectInput: React.FC<ISelectInputProps> = ({
           container: (provided, state) => ({
             ...provided,
             outline: "none",
-            border: `1px solid ${theme.palette["gray"][5]}`,
+            border: `1px solid ${theme.palette.additional["gray"][5]}`,
             backgroundColor: !state.isDisabled
               ? theme.palette.common.white.main
-              : theme.palette["gray"][3],
+              : theme.palette.additional["gray"][3],
             borderRadius: 2,
             "&:hover": {
               border: `1px solid ${theme.palette.primary.main}`,
@@ -119,23 +119,23 @@ const SelectInput: React.FC<ISelectInputProps> = ({
             ...provided,
             ...theme.typography.body2,
             color: !state.isDisabled
-              ? theme.palette["gray"][8]
-              : theme.palette["gray"][6],
+              ? theme.palette.additional["gray"][8]
+              : theme.palette.additional["gray"][6],
           }),
           placeholder: (provided, state) => ({
             ...provided,
             color: !state.isDisabled
-              ? theme.palette["gray"][8]
-              : theme.palette["gray"][6],
+              ? theme.palette.additional["gray"][8]
+              : theme.palette.additional["gray"][6],
           }),
           option: (provided, state) => ({
             ...provided,
             ...theme.typography.body2,
-            backgroundColor: state.isSelected && theme.palette["gray"][3],
-            color: theme.palette["gray"][8],
+            backgroundColor: state.isSelected && theme.palette.additional["gray"][3],
+            color: theme.palette.additional["gray"][8],
             fontWeight: state.isSelected && theme.typography.fontWeight.bold,
             "&:hover": {
-              backgroundColor: theme.palette["blue"][1],
+              backgroundColor: theme.palette.additional["blue"][1],
             },
           }),
           valueContainer: (provided) => ({

@@ -7,12 +7,19 @@ export const DefaultGlobalStyling = {
     // Change from `box-sizing: content-box` so that `width`
     // is not affected by `padding` or `border`.
     boxSizing: "border-box",
+ 
+  },
+  '*, *:before, *:after': {
+    boxSizing: 'inherit',
+  },
+  'strong, b': {
+    fontWeight: DefaultThemeConfig.typography.fontWeight.bold,
   },
   body: {
     color: DefaultThemeConfig.palette.text.primary,
     ...DefaultThemeConfig.typography.body2,
     backgroundColor: DefaultThemeConfig.palette.background.default,
-    "@media print": {
+    "& @media print": {
       // Save printer ink.
       backgroundColor: DefaultThemeConfig.palette.common?.white.main,
     },

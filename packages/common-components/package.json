@@ -19,6 +19,7 @@
     "a11y-react-emoji": "^1.1.2",
     "clsx": "^1.1.1",
     "formik": "^2.1.5",
+    "normalize.css": "^8.0.1",
     "react-blockies": "^1.4.1",
     "react-dropzone": "^11.0.3",
     "react-router-dom": "^5.2.0",
@@ -34,9 +35,9 @@
     "react-dom": ">16.8.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.11.4",
+    "@babel/core": "^7.11.6",
     "@material-ui/styles": "^4.10.0",
-    "@rollup/plugin-commonjs": "^15.0.0",
+    "@rollup/plugin-commonjs": "^15.1.0",
     "@rollup/plugin-node-resolve": "^8.0.0",
     "@storybook/addon-actions": "^5.3.21",
     "@storybook/addon-contexts": "^5.3.19",
@@ -44,7 +45,7 @@
     "@storybook/addon-links": "^5.3.21",
     "@storybook/addons": "^5.3.21",
     "@storybook/preset-typescript": "^3.0.0",
-    "@storybook/react": "^5.3.19",
+    "@storybook/react": "^5.3.21",
     "@svgr/rollup": "^5.4.0",
     "@svgr/webpack": "^5.4.0",
     "@types/react-blockies": "^1.4.0",
@@ -64,9 +65,10 @@
     "react-router-dom": "^5.2.0",
     "rollup": "2.26.11",
     "rollup-plugin-peer-deps-external": "^2.2.2",
+    "rollup-plugin-postcss": "^3.1.8",
     "rollup-plugin-typescript2": "^0.27.1",
     "rollup-plugin-url": "^3.0.1",
-    "ts-loader": "^7.0.5",
+    "ts-loader": "^8.0.4",
     "typescript": "^4.0.2"
   },
   "files": [

@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme: ITheme) =>
 export interface ICardHeader {
   className?: string
   children?: ReactNode | ReactNode[]
-  title: string
+  title?: string
   dense?: boolean
 }
 

@@ -17,6 +17,7 @@ import {
   useTheme,
 } from "@chainsafe/common-themes"
 import { useWeb3 } from "@chainsafe/web3-context"
+import { ROUTE_LINKS } from "../FilesRoutes"
 
 const useStyles = makeStyles((theme: ITheme) =>
   createStyles({
@@ -33,6 +34,17 @@ const useStyles = makeStyles((theme: ITheme) =>
         marginBottom: 50,
         marginTop: 125,
       },
+    },
+    logoContainer: {
+      display: "flex",
+      alignItems: "center",
+    },
+    logoImage: {
+      width: "fit-content",
+    },
+    logoText: {
+      fontWeight: theme.typography.fontWeight.semibold,
+      paddingLeft: theme.constants.generalUnit,
     },
     buttonSection: {
       paddingTop: 26,
@@ -123,7 +135,12 @@ const LoginPage = () => {
           </Typography>
         </Grid>
         <Grid item md={4} className={classes.buttonSection}>
-          <ChainsafeFilesLogo />
+          <div className={classes.logoContainer}>
+            <ChainsafeFilesLogo />
+            <Typography variant="subtitle2" className={classes.logoText}>
+              ChainSafe Files
+            </Typography>
+          </div>
           <div className={classes.controls}>
             <Typography
               variant="h6"
@@ -178,8 +195,8 @@ const LoginPage = () => {
             >
               {activeMode === "newUser" ? "Sign in" : "Create an account"}
             </Typography>
-            <Link to="">Privacy Policy</Link>
-            <Link to="">Terms and Conditions</Link>
+            <Link to={ROUTE_LINKS.PrivacyPolicy}>Privacy Policy</Link>
+            <Link to={ROUTE_LINKS.Terms}>Terms and Conditions</Link>
           </div>
         </Grid>
       </Grid>

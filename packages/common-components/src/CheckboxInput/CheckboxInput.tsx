@@ -13,7 +13,7 @@ const useStyles = makeStyles((theme: ITheme) =>
     checkbox: {
       position: "relative",
       marginRight: theme.constants.generalUnit,
-      border: `1px solid ${theme.palette["gray"][5]}`,
+      border: `1px solid ${theme.palette.additional["gray"][5]}`,
       borderRadius: 2,
       height: theme.constants.generalUnit * 2,
       width: theme.constants.generalUnit * 2,
@@ -41,16 +41,16 @@ const useStyles = makeStyles((theme: ITheme) =>
         },
       },
       "&.disabled": {
-        borderColor: theme.palette["gray"][5],
-        backgroundColor: theme.palette["gray"][3],
+        borderColor: theme.palette.additional["gray"][5],
+        backgroundColor: theme.palette.additional["gray"][3],
         "& span > svg": {
-          fill: theme.palette["gray"][6],
+          fill: theme.palette.additional["gray"][6],
         },
         "&:before": {
-          backgroundColor: theme.palette["gray"][6],
+          backgroundColor: theme.palette.additional["gray"][6],
         },
         "&:hover": {
-          borderColor: theme.palette["gray"][5],
+          borderColor: theme.palette.additional["gray"][5],
         },
       },
       "&:before": {
@@ -81,7 +81,7 @@ const useStyles = makeStyles((theme: ITheme) =>
       ...theme.typography.body2,
     },
     labelDisabled: {
-      color: theme.palette["gray"][6],
+      color: theme.palette.additional["gray"][6],
     },
     error: {
       color: theme.palette.error.main,

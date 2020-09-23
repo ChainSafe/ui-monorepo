@@ -5,7 +5,7 @@ import clsx from "clsx"
 const useStyles = makeStyles((theme: ITheme) =>
   createStyles({
     root: {
-      color: theme.palette["gray"][8],
+      color: theme.palette.additional["gray"][8],
       display: "table-row",
       verticalAlign: "middle",
       outline: 0,
@@ -14,9 +14,9 @@ const useStyles = makeStyles((theme: ITheme) =>
       ...theme.typography.body1,
       lineHeight: "inherit",
       "&.selected": {
-        backgroundColor: theme.palette["gray"][4],
+        backgroundColor: theme.palette.additional["gray"][4],
         "&:hover": {
-          backgroundColor: theme.palette["gray"][4],
+          backgroundColor: theme.palette.additional["gray"][4],
         },
       },
     },

@@ -40,94 +40,94 @@ const useStyles = makeStyles((theme: ITheme) =>
     },
     // Variants
     primary: {
-      backgroundColor: theme.palette["blue"][6],
+      backgroundColor: theme.palette.additional["blue"][6],
       color: theme.palette.common.white.main,
       "& svg": {
         fill: theme.palette.common.white.main,
       },
       "&:hover": {
-        backgroundColor: theme.palette["blue"][5],
+        backgroundColor: theme.palette.additional["blue"][5],
       },
       "&:focus": {
-        backgroundColor: theme.palette["blue"][5],
+        backgroundColor: theme.palette.additional["blue"][5],
       },
       "&:active": {
-        backgroundColor: theme.palette["blue"][7],
+        backgroundColor: theme.palette.additional["blue"][7],
       },
     },
     outline: {
-      color: theme.palette["gray"][8],
+      color: theme.palette.additional["gray"][8],
       backgroundColor: theme.palette.common?.white.main,
-      border: `1px solid ${theme.palette["gray"][5]}`,
+      border: `1px solid ${theme.palette.additional["gray"][5]}`,
       "& svg": {
-        fill: theme.palette["gray"][8],
+        fill: theme.palette.additional["gray"][8],
       },
       "&:hover": {
-        borderColor: theme.palette["blue"][5],
-        color: theme.palette["blue"][5],
+        borderColor: theme.palette.additional["blue"][5],
+        color: theme.palette.additional["blue"][5],
         "& svg": {
-          fill: theme.palette["blue"][5],
+          fill: theme.palette.additional["blue"][5],
         },
       },
       "&:focus": {
-        borderColor: theme.palette["blue"][5],
-        color: theme.palette["blue"][5],
+        borderColor: theme.palette.additional["blue"][5],
+        color: theme.palette.additional["blue"][5],
         "& svg": {
-          fill: theme.palette["blue"][5],
+          fill: theme.palette.additional["blue"][5],
         },
       },
       "&:active": {
-        borderColor: theme.palette["blue"][7],
-        color: theme.palette["blue"][7],
+        borderColor: theme.palette.additional["blue"][7],
+        color: theme.palette.additional["blue"][7],
         "& svg": {
-          fill: theme.palette["blue"][7],
+          fill: theme.palette.additional["blue"][7],
         },
       },
     },
     dashed: {
-      color: theme.palette["gray"][8],
+      color: theme.palette.additional["gray"][8],
       backgroundColor: theme.palette.common?.white.main,
-      border: `1px dashed ${theme.palette["gray"][5]}`,
+      border: `1px dashed ${theme.palette.additional["gray"][5]}`,
       "& svg": {
-        fill: theme.palette["gray"][8],
+        fill: theme.palette.additional["gray"][8],
       },
       "&:hover": {
-        borderColor: theme.palette["blue"][5],
-        color: theme.palette["blue"][5],
+        borderColor: theme.palette.additional["blue"][5],
+        color: theme.palette.additional["blue"][5],
         "& svg": {
-          fill: theme.palette["blue"][5],
+          fill: theme.palette.additional["blue"][5],
         },
       },
       "&:focus": {
-        borderColor: theme.palette["blue"][5],
-        color: theme.palette["blue"][5],
+        borderColor: theme.palette.additional["blue"][5],
+        color: theme.palette.additional["blue"][5],
         "& svg": {
-          fill: theme.palette["blue"][5],
+          fill: theme.palette.additional["blue"][5],
         },
       },
       "&:active": {
-        borderColor: theme.palette["blue"][7],
-        color: theme.palette["blue"][7],
+        borderColor: theme.palette.additional["blue"][7],
+        color: theme.palette.additional["blue"][7],
         "& svg": {
-          fill: theme.palette["blue"][7],
+          fill: theme.palette.additional["blue"][7],
         },
       },
     },
     danger: {
       color: theme.palette.common?.white.main,
-      backgroundColor: theme.palette["red"][5],
+      backgroundColor: theme.palette.additional["red"][5],
       border: `1px solid transparent`,
       "& svg": {
         fill: theme.palette.common?.white.main,
       },
       "&:hover": {
-        backgroundColor: theme.palette["red"][4],
+        backgroundColor: theme.palette.additional["red"][4],
       },
       "&:focus": {
-        backgroundColor: theme.palette["red"][4],
+        backgroundColor: theme.palette.additional["red"][4],
       },
       "&:active": {
-        backgroundColor: theme.palette["red"][7],
+        backgroundColor: theme.palette.additional["red"][7],
       },
     },
     // Modifiers
@@ -173,13 +173,13 @@ const useStyles = makeStyles((theme: ITheme) =>
       },
     },
     disabled: {
-      backgroundColor: theme.palette["gray"][3],
-      borderColor: theme.palette["gray"][5],
-      color: theme.palette["gray"][6],
+      backgroundColor: theme.palette.additional["gray"][3],
+      borderColor: theme.palette.additional["gray"][5],
+      color: theme.palette.additional["gray"][6],
       "&:hover": {
-        backgroundColor: theme.palette["gray"][3],
-        borderColor: theme.palette["gray"][5],
-        color: theme.palette["gray"][6],
+        backgroundColor: theme.palette.additional["gray"][3],
+        borderColor: theme.palette.additional["gray"][5],
+        color: theme.palette.additional["gray"][6],
       },
     },
   }),

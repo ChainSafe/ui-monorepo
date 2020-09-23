@@ -15,14 +15,18 @@ interface IPalette {
   common: {
     black: IPaletteColor
     white: IPaletteColor
-    [key: string]: IPaletteColor
+    [key: string]: IPaletteColor | string
   }
   secondary: IPaletteColor
   error: IPaletteColor
   warning: IPaletteColor
   info?: IPaletteColor
   success: IPaletteColor
-  additional?: Record<string, IPaletteColor>
+  additional: {
+    [key: string]: {
+      [key: number]: string
+    }
+  }
   text: {
     primary: string
     secondary?: string

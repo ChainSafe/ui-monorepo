@@ -6,9 +6,9 @@ const useStyles = makeStyles((theme: ITheme) =>
   createStyles({
     root: {
       display: "table-header-group",
-      color: theme.palette["gray"][9],
-      backgroundColor: theme.palette["gray"][2],
-      borderBottom: `1px solid ${theme.palette["gray"][4]}`,
+      color: theme.palette.additional["gray"][9],
+      backgroundColor: theme.palette.additional["gray"][2],
+      borderBottom: `1px solid ${theme.palette.additional["gray"][4]}`,
       ...theme.typography.body1,
       lineHeight: "inherit",
     },

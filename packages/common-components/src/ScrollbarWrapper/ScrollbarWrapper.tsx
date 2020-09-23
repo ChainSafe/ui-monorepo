@@ -49,7 +49,7 @@ export interface ScrollbarProps {
   direction?: "rtl" | "ltr"
 }
 
-const ScrollbarWrapper: React.SFC<ScrollbarProps> = ({
+const ScrollbarWrapper: React.FC<ScrollbarProps> = ({
   autoHide = true,
   clickOnTrack = true,
   className,

@@ -1,4 +1,3 @@
-import { boolean } from "@storybook/addon-knobs"
 import React from "react"
 import { ChainsafeFilesLogo } from "../ChainsafeFilesLogo"
 
@@ -8,6 +7,4 @@ export default {
   excludeStories: /.*Data$/,
 }
 
-export const Default = (): React.ReactNode => (
-  <ChainsafeFilesLogo showText={boolean("Show text", true)} />
-)
+export const Default = (): React.ReactNode => <ChainsafeFilesLogo />
