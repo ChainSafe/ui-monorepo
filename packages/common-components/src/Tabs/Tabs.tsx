@@ -49,7 +49,6 @@ const Tabs: React.FC<ITabsProps> = ({
     <div>
       <ul className={clsx(className, classes.tabList)}>
         {children.map((elem, index) => {
-          console.log(elem.props)
           return (
             <li
               key={index}
