@@ -67,10 +67,9 @@ const AuthProvider = ({ children }: AuthContextProps) => {
           token: token,
           public_address: addresses[0],
         })
-
+        imployApiClient.setTokens(access_token.token, refresh_token.token)
         setAccessToken(access_token)
         setRefreshToken(refresh_token)
-        imployApiClient.setTokens(access_token.token, refresh_token.token)
         return Promise.resolve()
       }
     } catch (error) {
