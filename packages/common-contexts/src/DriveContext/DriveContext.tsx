@@ -2,8 +2,9 @@ import * as React from "react"
 import { useAuth } from "../AuthContext"
 import { useImployApi } from "../ImployApiContext"
 import {
-  AddFileResponse,
+  FileResponse,
   FileRequest,
+  FileParameter,
 } from "../ImployApiContext/ImployApiClient"
 
 type DriveContextProps = {
@@ -13,11 +14,11 @@ type DriveContextProps = {
 type DriveContext = {
   // Upload file
   uploadFile(
-    file?: string,
+    file?: FileParameter,
     path?: string,
     type?: string,
     update?: boolean,
-  ): Promise<AddFileResponse>
+  ): Promise<FileResponse>
   // Create folder
   createFolder(body: FileRequest): Promise<void>
   // Rename file
@@ -29,7 +30,7 @@ type DriveContext = {
   // Download file
   downloadFile(body: FileRequest): Promise<void>
   // Get list of files and folders for a path
-  list(body: FileRequest): Promise<any>
+  list(body: FileRequest): Promise<FileResponse[]>
 }
 
 const DriveContext = React.createContext<DriveContext | undefined>(undefined)
@@ -39,7 +40,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
   const { accessToken } = useAuth()
 
   const uploadFile = async (
-    file: string, // this doesnt seem right
+    file: FileParameter,
     path?: string,
     type?: string,
     update?: boolean,
@@ -49,7 +50,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
 
     try {
       // TODO handle the upload and refresh list of files at path.
-      return imployApiClient.addFile(accessToken, file, path, type, update)
+      return imployApiClient.addFile(file, path, type, update)
     } catch (error) {
       return Promise.reject()
     }
@@ -61,7 +62,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
 
     try {
       // TODO handle the upload and refresh list of files at path.
-      return imployApiClient.addDirectory(accessToken, body)
+      return imployApiClient.addDirectory(body)
     } catch (error) {
       return Promise.reject()
     }
@@ -72,7 +73,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
     if (!accessToken) return Promise.reject("No access token")
 
     try {
-      return imployApiClient.moveObject(accessToken, body)
+      return imployApiClient.moveObject(body)
     } catch (error) {
       return Promise.reject()
     }
@@ -83,7 +84,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
     if (!accessToken) return Promise.reject("No access token")
 
     try {
-      return imployApiClient.moveObject(accessToken, body)
+      return imployApiClient.moveObject(body)
     } catch (error) {
       return Promise.reject()
     }
@@ -94,7 +95,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
     if (!accessToken) return Promise.reject("No access token")
 
     try {
-      return imployApiClient.removeObject(accessToken, body)
+      return imployApiClient.removeObject(body)
     } catch (error) {
       return Promise.reject()
     }
@@ -106,7 +107,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
 
     try {
       // TODO Confirm the return here. Might need to update the API spec.
-      return imployApiClient.getFileContent(accessToken, body)
+      return imployApiClient.getFileContent(body)
     } catch (error) {
       return Promise.reject()
     }
@@ -118,7 +119,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
 
     try {
       // TODO Confirm the return here. Might need to update the API spec.
-      return imployApiClient.getChildList(accessToken, body)
+      return imployApiClient.getChildList(body)
     } catch (error) {
       return Promise.reject()
     }

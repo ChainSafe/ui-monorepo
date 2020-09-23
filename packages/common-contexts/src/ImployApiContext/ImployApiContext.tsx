@@ -8,7 +8,9 @@ type ImployApiContextProps = {
 }
 
 type ImployApiContext = {
-  imployApiClient?: IImployApiClient
+  imployApiClient?: IImployApiClient & {
+    setTokens(accessToken: string, refreshToken: string): void
+  }
 }
 
 const ImployApiContext = React.createContext<ImployApiContext | undefined>(
@@ -21,7 +23,7 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
   >(undefined)
   useEffect(() => {
     const initializeApiClient = async () => {
-      const apiClient = new ImployApiClient(apiUrl)
+      const apiClient = new ImployApiClient({}, apiUrl)
       setImployApiClient(apiClient)
     }
 
