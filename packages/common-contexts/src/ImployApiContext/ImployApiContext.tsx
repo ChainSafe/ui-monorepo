@@ -1,7 +1,7 @@
 import { useWeb3 } from "@chainsafe/web3-context"
 import * as React from "react"
 import { useState, useEffect } from "react"
-import { ImployApiClient, Token } from "./ImployApiClient"
+import { IImployApiClient, ImployApiClient, Token } from "./ImployApiClient"
 import jwtDecode from "jwt-decode"
 import { signMessage } from "./utils"
 import axios from "axios"
@@ -14,7 +14,7 @@ type ImployApiContextProps = {
 }
 
 type ImployApiContext = {
-  imployApiClient?: ImployApiClient
+  imployApiClient?: IImployApiClient
   isLoggedIn: boolean
   isReturningUser: boolean
   selectWallet(): Promise<void>
