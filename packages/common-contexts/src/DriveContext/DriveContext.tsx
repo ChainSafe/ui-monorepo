@@ -1,5 +1,4 @@
 import * as React from "react"
-import { useAuth } from "../AuthContext"
 import { useImployApi } from "../ImployApiContext"
 import {
   FileResponse,
@@ -37,7 +36,6 @@ const DriveContext = React.createContext<DriveContext | undefined>(undefined)
 
 const DriveProvider = ({ children }: DriveContextProps) => {
   const { imployApiClient } = useImployApi()
-  const { accessToken } = useAuth()
 
   const uploadFile = async (
     file: FileParameter,
@@ -46,7 +44,6 @@ const DriveProvider = ({ children }: DriveContextProps) => {
     update?: boolean,
   ) => {
     if (!imployApiClient) return Promise.reject("Api Client is not initialized")
-    if (!accessToken) return Promise.reject("No access token")
 
     try {
       // TODO handle the upload and refresh list of files at path.
@@ -58,7 +55,6 @@ const DriveProvider = ({ children }: DriveContextProps) => {
 
   const createFolder = async (body: FileRequest) => {
     if (!imployApiClient) return Promise.reject("Api Client is not initialized")
-    if (!accessToken) return Promise.reject("No access token")
 
     try {
       // TODO handle the upload and refresh list of files at path.
@@ -70,7 +66,6 @@ const DriveProvider = ({ children }: DriveContextProps) => {
 
   const renameFile = async (body: FileRequest) => {
     if (!imployApiClient) return Promise.reject("Api Client is not initialized")
-    if (!accessToken) return Promise.reject("No access token")
 
     try {
       return imployApiClient.moveObject(body)
@@ -81,7 +76,6 @@ const DriveProvider = ({ children }: DriveContextProps) => {
 
   const moveFile = async (body: FileRequest) => {
     if (!imployApiClient) return Promise.reject("Api Client is not initialized")
-    if (!accessToken) return Promise.reject("No access token")
 
     try {
       return imployApiClient.moveObject(body)
@@ -92,7 +86,6 @@ const DriveProvider = ({ children }: DriveContextProps) => {
 
   const deleteFile = async (body: FileRequest) => {
     if (!imployApiClient) return Promise.reject("Api Client is not initialized")
-    if (!accessToken) return Promise.reject("No access token")
 
     try {
       return imployApiClient.removeObject(body)
@@ -103,7 +96,6 @@ const DriveProvider = ({ children }: DriveContextProps) => {
 
   const downloadFile = async (body: FileRequest) => {
     if (!imployApiClient) return Promise.reject("Api Client is not initialized")
-    if (!accessToken) return Promise.reject("No access token")
 
     try {
       // TODO Confirm the return here. Might need to update the API spec.
@@ -115,7 +107,6 @@ const DriveProvider = ({ children }: DriveContextProps) => {
 
   const list = async (body: FileRequest) => {
     if (!imployApiClient) return Promise.reject("Api Client is not initialized")
-    if (!accessToken) return Promise.reject("No access token")
 
     try {
       // TODO Confirm the return here. Might need to update the API spec.

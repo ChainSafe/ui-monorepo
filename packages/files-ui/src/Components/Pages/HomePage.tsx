@@ -18,14 +18,7 @@ const HomePage = () => {
     getFolderContents()
   }, [])
 
-  const handleRefreshFolder = async () => {}
-
-  return (
-    <div>
-      You have logged in successfully{" "}
-      <Button onClick={handleRefreshFolder}>Refresh</Button>
-    </div>
-  )
+  return <div>You have logged in successfully </div>
 }
 
 export default HomePage

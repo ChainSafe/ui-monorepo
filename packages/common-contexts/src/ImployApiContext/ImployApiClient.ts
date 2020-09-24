@@ -16,13 +16,13 @@ import axios, {
 } from "axios"
 
 export class AuthorizedApiBase {
-  protected accessToken: string = ""
-  protected refreshToken: string = ""
+  protected accessToken: string
   //@ts-ignore
   private readonly config: IConfig
 
-  protected constructor(config: IConfig) {
+  protected constructor(config: IConfig, accessToken: string = "") {
     this.config = config
+    this.accessToken = accessToken
   }
 
   protected transformOptions = (
@@ -35,14 +35,12 @@ export class AuthorizedApiBase {
     return Promise.resolve(options)
   }
 
-  setTokens(accessToken: string, refreshToken: string) {
+  setToken(accessToken: string) {
     this.accessToken = accessToken
-    this.refreshToken = refreshToken
   }
 }
 
 export interface IImployApiClient {
-  setTokens(accessToken: string, refreshToken: string): void
   /**
    * Private Endpoint for Status Checks
    * @return successful operation
@@ -401,11 +399,7 @@ export class ImployApiClient
     instance?: AxiosInstance,
   ) {
     super(configuration)
-    this.instance = instance
-      ? instance
-      : axios.create({
-          transformResponse: [],
-        })
+    this.instance = instance ? instance : axios.create()
     this.baseUrl = baseUrl ? baseUrl : "https://stage.api.chainsafe.site"
   }
 
@@ -5376,16 +5370,16 @@ export interface Login {
 
 export interface Token {
   /** Authentication token used for api access */
-  token?: string
+  token: string
   /** The Expiration date of the token */
-  expires?: string
+  expires: string
 }
 
 export interface AccessRefreshTokens {
   /** Authentication Token used for API access */
-  access_token?: any
+  access_token: Token
   /** Refresh Token used for API access */
-  refresh_token?: any
+  refresh_token: Token
 }
 
 export interface UserSignUp {
@@ -5817,4 +5811,9 @@ function isAxiosError(obj: any | undefined): obj is AxiosError {
  * The config is provided to the API client at initialization time.
  * API clients inherit from #AuthorizedApiBase and provide the config.
  */
-export class IConfig {}
+export class IConfig {
+  /**
+   * Returns a valid value for the Authorization header.
+   * Used to dynamically inject the current auth header.
+   */
+}

@@ -1,7 +1,7 @@
 import React from "react"
 import { Switch, ConditionalRoute } from "@chainsafe/common-components"
 import LoginPage from "./Pages/LoginPage"
-import { useAuth } from "@chainsafe/common-contexts"
+import { useImployApi } from "@chainsafe/common-contexts"
 import HomePage from "./Pages/HomePage"
 
 export const ROUTE_LINKS = {
@@ -12,7 +12,7 @@ export const ROUTE_LINKS = {
 }
 
 const FilesRoutes = () => {
-  const { isLoggedIn } = useAuth()
+  const { isLoggedIn } = useImployApi()
   return (
     <Switch>
       <ConditionalRoute
