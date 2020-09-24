@@ -82,6 +82,8 @@ const AuthProvider = ({ children }: AuthContextProps) => {
           token: token,
           public_address: addresses[0],
         })
+
+        console.log(access_token)
         const profileData = await imployApiClient.getUser(access_token)
 
         setAccessToken(access_token)
