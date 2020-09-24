@@ -75,15 +75,15 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
                 error.response.config.headers.Authorization = `Bearer ${access_token.token}`
                 return axios(error.response.config) //TODO: Confirm with @tanmoytb whether this retries the call with the new token
               } catch (err) {
-                // removeUserAndTokenLocal()
+                localStorage.removeItem(tokenStorageKey)
                 return Promise.reject(error)
               }
             } else {
-              // removeUserAndTokenLocal()
+              localStorage.removeItem(tokenStorageKey)
               return Promise.reject(error)
             }
           }
-          // return Error object with Promise
+          localStorage.removeItem(tokenStorageKey)
           return Promise.reject(error)
         },
       )
@@ -159,7 +159,7 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
   }, [accessToken])
 
   const isLoggedIn = () => {
-    if (!accessToken || !decodedAccessToken) {
+    if (!decodedAccessToken) {
       return false
     } else {
       try {
