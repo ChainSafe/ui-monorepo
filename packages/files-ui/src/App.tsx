@@ -3,7 +3,11 @@ import { init, ErrorBoundary, showReportDialog } from "@sentry/react"
 import { createTheme, ThemeProvider } from "@chainsafe/common-themes"
 import { CssBaseline, Router } from "@chainsafe/common-components"
 import { Web3Provider } from "@chainsafe/web3-context"
-import { AuthProvider, ImployApiProvider } from "@chainsafe/common-contexts"
+import {
+  AuthProvider,
+  ImployApiProvider,
+  UserProvider,
+} from "@chainsafe/common-contexts"
 import FilesRoutes from "./Components/FilesRoutes"
 import AppWrapper from "./Components/Layouts/AppWrapper"
 if (
@@ -45,11 +49,13 @@ const App: React.FC<{}> = () => {
         <ImployApiProvider apiUrl="https://alpha.imploy.site/api/v1">
           <Web3Provider networkIds={[1]}>
             <AuthProvider>
-              <Router>
-                <AppWrapper>
-                  <FilesRoutes />
-                </AppWrapper>
-              </Router>
+              <UserProvider>
+                <Router>
+                  <AppWrapper>
+                    <FilesRoutes />
+                  </AppWrapper>
+                </Router>
+              </UserProvider>
             </AuthProvider>
           </Web3Provider>
         </ImployApiProvider>

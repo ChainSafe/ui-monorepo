@@ -33,7 +33,7 @@ const FilesRoutes = () => {
       <ConditionalRoute
         exact
         path="/settings"
-        isAuthorized={true}
+        isAuthorized={isLoggedIn}
         component={SettingsPage}
         redirectPath="/"
       />

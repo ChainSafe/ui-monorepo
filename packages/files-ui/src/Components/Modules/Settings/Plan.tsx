@@ -1,14 +1,7 @@
 import React from "react"
-import {
-  TextInput,
-  Grid,
-  Button,
-  Typography,
-  Divider,
-} from "@chainsafe/common-components"
+import { Grid, Button, Typography } from "@chainsafe/common-components"
 import { makeStyles, ITheme, createStyles } from "@chainsafe/common-themes"
 import { LockIcon } from "@chainsafe/common-components"
-import clsx from "clsx"
 
 const useStyles = makeStyles((theme: ITheme) =>
   createStyles({
@@ -18,7 +11,7 @@ const useStyles = makeStyles((theme: ITheme) =>
     },
     bodyContainer: {
       padding: `${theme.constants.generalUnit * 3}px 0px`,
-      borderBottom: `1px solid ${theme.palette.primary.border}`,
+      borderBottom: `1px solid ${theme.palette.additional["gray"][4]}`,
     },
     storageBox: {
       maxWidth: 400,
@@ -28,6 +21,7 @@ const useStyles = makeStyles((theme: ITheme) =>
     },
     essentials: {
       fontWeight: 600,
+      marginBottom: theme.constants.generalUnit * 2,
     },
     essentialContainer: {
       display: "flex",
@@ -74,6 +68,8 @@ const Plan: React.FC = () => {
               <div className={classes.essentialContainer}>
                 <div>
                   <Typography>5.2 GB of free space</Typography>
+                  <br />
+                  <Typography>TODO: Progress bar</Typography>
                 </div>
                 <Button disabled variant="outline">
                   Change plan

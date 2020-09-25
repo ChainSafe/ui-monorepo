@@ -551,7 +551,7 @@ export class ImployApiClient implements IImployApiClient {
    * @return successful operation
    */
   getUser(authorization: string): Promise<User> {
-    let url_ = this.baseUrl + "/user"
+    let url_ = this.baseUrl + "/user/"
     url_ = url_.replace(/[?&]$/, "")
 
     let options_ = <RequestInit>{

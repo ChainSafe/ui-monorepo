@@ -83,8 +83,6 @@ const AuthProvider = ({ children }: AuthContextProps) => {
           public_address: addresses[0],
         })
 
-        console.log(access_token)
-
         setAccessToken(access_token)
         setRefreshToken(refresh_token)
         return Promise.resolve()

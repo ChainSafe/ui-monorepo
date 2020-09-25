@@ -1,4 +1,5 @@
 import React, { useState, useCallback } from "react"
+import * as yup from "yup"
 import {
   TextInput,
   Grid,
@@ -17,12 +18,12 @@ import clsx from "clsx"
 const useStyles = makeStyles((theme: ITheme) =>
   createStyles({
     container: {
-      marginTop: 20,
+      marginTop: theme.constants.generalUnit * 2,
       marginBottom: 160,
     },
     bodyContainer: {
       padding: `${theme.constants.generalUnit * 3}px 0px`,
-      borderBottom: `1px solid ${theme.palette.primary.border}`,
+      borderBottom: `1px solid ${theme.palette.additional["gray"][4]}`,
     },
     boxContainer: {
       marginBottom: theme.constants.generalUnit * 4,
@@ -75,14 +76,28 @@ const useStyles = makeStyles((theme: ITheme) =>
 
 interface IProfileProps {
   publicAddress?: string
-  name?: string
+  firstName?: string
+  lastName?: string
   email?: string
   handleValueChange(e: React.ChangeEvent<HTMLInputElement>): void
+  onUpdateProfile(): void
 }
 
 const Profile: React.FC<IProfileProps> = (props) => {
-  const { name, email, publicAddress, handleValueChange } = props
+  const {
+    firstName,
+    lastName,
+    email,
+    publicAddress,
+    handleValueChange,
+    onUpdateProfile,
+  } = props
   const [copied, setCopied] = useState(false)
+  const [validations, setValidations] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+  })
   const classes = useStyles()
 
   const debouncedSwitchCopied = React.useCallback(
@@ -100,9 +115,55 @@ const Profile: React.FC<IProfileProps> = (props) => {
     }
   }
 
+  const profileWeb2Validation = yup.object().shape({
+    email: yup.string().email("Email is invalid").required("Email is required"),
+    firstName: yup.string().required("First name is required"),
+    lastName: yup.string().required("Last name is required"),
+  })
+
+  const profileWeb3Validation = yup.object().shape({
+    email: yup.string().email("Email is invalid"),
+  })
+
+  // do we want formik for validation here ?
+  const onSaveChange = () => {
+    console.log(firstName, lastName, email)
+    if (publicAddress) {
+      // web3 validation
+      profileWeb3Validation
+        .validate({ email }, { abortEarly: false })
+        .then(() => {
+          setValidations({ firstName: "", lastName: "", email: "" })
+          onUpdateProfile()
+        })
+        .catch((err) => {
+          const errObj: any = {}
+          err.inner.forEach((item: yup.ValidationError) => {
+            errObj[item.path] = item.message
+          })
+          setValidations(errObj)
+        })
+    } else {
+      // web2 validation
+      profileWeb2Validation
+        .validate({ firstName, lastName, email }, { abortEarly: false })
+        .then(() => {
+          setValidations({ firstName: "", lastName: "", email: "" })
+          onUpdateProfile()
+        })
+        .catch((err) => {
+          const errObj: any = {}
+          err.inner.forEach((item: yup.ValidationError) => {
+            errObj[item.path] = item.message
+          })
+          setValidations(errObj)
+        })
+    }
+  }
+
   return (
     <Grid container>
-      <Grid item xs={12} sm={8} md={6}>
+      <Grid item xs={12} sm={10} md={8}>
         <div className={classes.container}>
           <div id="profile" className={classes.bodyContainer}>
             <div className={classes.profileBox}>
@@ -112,6 +173,7 @@ const Profile: React.FC<IProfileProps> = (props) => {
                     <Typography variant="body1" className={classes.label}>
                       Wallet address
                     </Typography>
+                    {/* TODO: tooltip with copied! */}
                     {copied && <Typography>Copied!</Typography>}
                   </div>
                   <div className={classes.copyBox} onClick={copyAddress}>
@@ -120,20 +182,40 @@ const Profile: React.FC<IProfileProps> = (props) => {
                   </div>
                 </div>
               ) : (
-                <div className={classes.boxContainer}>
-                  <div className={classes.labelContainer}>
-                    <Typography variant="body1" className={classes.label}>
-                      Name
-                    </Typography>
+                <>
+                  <div className={classes.boxContainer}>
+                    <div className={classes.labelContainer}>
+                      <Typography variant="body1" className={classes.label}>
+                        First Name
+                      </Typography>
+                    </div>
+                    <TextInput
+                      placeholder="first name"
+                      value={firstName}
+                      state={validations.firstName ? "error" : "normal"}
+                      captionMessage={validations.firstName}
+                      onChange={handleValueChange}
+                      name="firstName"
+                      size="medium"
+                    />
                   </div>
-                  <TextInput
-                    placeholder="name"
-                    value={name}
-                    onChange={handleValueChange}
-                    name="name"
-                    size="medium"
-                  />
-                </div>
+                  <div className={classes.boxContainer}>
+                    <div className={classes.labelContainer}>
+                      <Typography variant="body1" className={classes.label}>
+                        Last Name
+                      </Typography>
+                    </div>
+                    <TextInput
+                      placeholder="last name"
+                      value={lastName}
+                      state={validations.lastName ? "error" : "normal"}
+                      captionMessage={validations.lastName}
+                      onChange={handleValueChange}
+                      name="lastName"
+                      size="medium"
+                    />
+                  </div>
+                </>
               )}
               <div className={classes.boxContainer}>
                 <div className={classes.labelContainer}>
@@ -148,11 +230,17 @@ const Profile: React.FC<IProfileProps> = (props) => {
                   type="email"
                   value={email}
                   size="medium"
+                  state={validations.email ? "error" : "normal"}
+                  captionMessage={validations.email}
                   onChange={handleValueChange}
                   name="email"
                 />
               </div>
-              <Button className={classes.button} size="large">
+              <Button
+                className={classes.button}
+                size="large"
+                onClick={onSaveChange}
+              >
                 <LockIcon className={classes.icon} />
                 {"  "}
                 <Typography variant="button">Save changes</Typography>

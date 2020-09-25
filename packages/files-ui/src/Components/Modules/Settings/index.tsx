@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import Profile from "./Profile"
 import Plan from "./Plan"
 import {
@@ -6,21 +6,28 @@ import {
   TabPane,
   Typography,
   Divider,
+  Spinner,
+  LOADER,
+  Breadcrumb,
+  Crumb,
+  useHistory,
 } from "@chainsafe/common-components"
 import { makeStyles, ITheme, createStyles } from "@chainsafe/common-themes"
+import { useUser } from "@chainsafe/common-contexts"
 
 const useStyles = makeStyles((theme: ITheme) =>
   createStyles({
-    container: {
-      paddingTop: 40,
-      // width: 1000,
-      marginLeft: 200,
+    container: {},
+    loadingContainer: {
+      display: "flex",
+      justifyContent: "center",
+      marginTop: theme.constants.generalUnit * 3,
     },
     headerContainer: {
-      marginBottom: 40,
+      marginBottom: theme.constants.generalUnit * 4,
     },
     tabsContainer: {
-      marginTop: 40,
+      marginTop: theme.constants.generalUnit * 4,
     },
   }),
 )
@@ -30,23 +37,62 @@ type TabKey = "profile" | "plan"
 const Settings: React.FC = () => {
   const [tabKey, setTabKey] = useState<TabKey>("profile")
   const classes = useStyles()
+  const { loaders, profile, getProfile, updateProfile } = useUser()
+  const [error, setError] = useState("")
+  const { redirect } = useHistory()
 
-  const [web2Inputs, setWeb2Inputs] = useState({
-    name: "",
-    email: "",
+  const [profileData, setProfileData] = useState({
+    firstName: profile?.firstName || "",
+    lastName: profile?.lastName || "",
+    email: profile?.email || "",
+    publicAddress: profile?.publicAddress || "",
   })
+
+  useEffect(() => {
+    getProfile()
+      .then()
+      .catch((err: any) => setError(err))
+  }, [])
+
+  useEffect(() => {
+    setProfileData({
+      firstName: profile?.firstName || "",
+      lastName: profile?.lastName || "",
+      email: profile?.email || "",
+      publicAddress: profile?.publicAddress || "",
+    })
+  }, [profile])
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.persist()
-    setWeb2Inputs((prevInputs) => ({
+    setProfileData((prevInputs) => ({
       ...prevInputs,
       [e.target.name]: e.target.value,
     }))
   }
 
+  const onUpdateProfile = async () => {
+    try {
+      await updateProfile(
+        profileData.firstName,
+        profileData.lastName,
+        profileData.email,
+      )
+    } catch (err) {
+      setError(err)
+    }
+  }
+
+  const crumbs: Crumb[] = [
+    {
+      text: "Settings",
+    },
+  ]
+
   return (
     <div className={classes.container}>
       <div className={classes.headerContainer}>
+        <Breadcrumb crumbs={crumbs} homeOnClick={() => redirect("/home")} />
         <Typography variant="h1">Settings</Typography>
       </div>
       <Divider />
@@ -56,12 +102,24 @@ const Settings: React.FC = () => {
           onTabSelect={(key) => setTabKey(key as TabKey)}
         >
           <TabPane title="Profile" tabKey="profile">
-            <Profile
-              name={web2Inputs.name}
-              email={web2Inputs.email}
-              // publicAddress={"0xd01a861be0d5a86d21123b9ccc8110632a4999f9"}
-              handleValueChange={handleChange}
-            />
+            {loaders.gettingProfile ? (
+              <div className={classes.loadingContainer}>
+                <Spinner loader={LOADER.CircleLoader} size="50" />
+              </div>
+            ) : profile || error ? (
+              <Profile
+                firstName={profileData.firstName}
+                lastName={profileData.lastName}
+                email={profileData.email}
+                publicAddress={profileData.publicAddress}
+                handleValueChange={handleChange}
+                onUpdateProfile={onUpdateProfile}
+              />
+            ) : error ? (
+              <Typography>{error}</Typography>
+            ) : (
+              <Typography>Profile not available</Typography>
+            )}
           </TabPane>
           <TabPane title="Plan" tabKey="plan">
             <Plan />
