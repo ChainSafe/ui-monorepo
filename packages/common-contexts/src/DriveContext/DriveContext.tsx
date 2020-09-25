@@ -1,4 +1,5 @@
 import * as React from "react"
+import { useState } from "react"
 import { useAuth } from "../AuthContext"
 import { useImployApi } from "../ImployApiContext"
 import {
@@ -30,6 +31,8 @@ type DriveContext = {
   downloadFile(body: FileRequest): Promise<void>
   // Get list of files and folders for a path
   list(body: FileRequest): Promise<any>
+  currentPath: string
+  setCurrentPath(newPath: string): void
 }
 
 const DriveContext = React.createContext<DriveContext | undefined>(undefined)
@@ -37,6 +40,8 @@ const DriveContext = React.createContext<DriveContext | undefined>(undefined)
 const DriveProvider = ({ children }: DriveContextProps) => {
   const { imployApiClient } = useImployApi()
   const { accessToken } = useAuth()
+
+  const [currentPath, setCurrentPath] = useState("/")
 
   const uploadFile = async (
     file: string, // this doesnt seem right
@@ -134,6 +139,8 @@ const DriveProvider = ({ children }: DriveContextProps) => {
         deleteFile,
         downloadFile,
         list,
+        currentPath,
+        setCurrentPath,
       }}
     >
       {children}
