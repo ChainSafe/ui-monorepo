@@ -30,6 +30,7 @@ const CreateFolder: React.FC = () => {
   }
 
   const handleCloseDialog = () => setOpen(false)
+
   return (
     <>
       <Button onClick={() => setOpen(true)} variant="primary" size="large">
