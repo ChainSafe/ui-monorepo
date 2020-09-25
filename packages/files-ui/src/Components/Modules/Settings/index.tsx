@@ -59,6 +59,7 @@ const Settings: React.FC = () => {
             <Profile
               name={web2Inputs.name}
               email={web2Inputs.email}
+              // publicAddress={"0xd01a861be0d5a86d21123b9ccc8110632a4999f9"}
               handleValueChange={handleChange}
             />
           </TabPane>

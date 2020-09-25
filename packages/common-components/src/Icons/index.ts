@@ -14,6 +14,7 @@ export {
   default as CloseCircleIcon,
   CloseCirceSvg,
 } from "./icons/CloseCircle.icon"
+export { default as CopyIcon, CopySvg } from "./icons/Copy.icon"
 export {
   default as CrossOutlinedIcon,
   CrossOutlinedSvg,
