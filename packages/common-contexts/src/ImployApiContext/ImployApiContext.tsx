@@ -31,7 +31,7 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
     ImployApiClient | undefined
   >(undefined)
 
-  const [, setAccessToken] = useState<Token | undefined>(undefined)
+  const [accessToken, setAccessToken] = useState<Token | undefined>(undefined)
   const [decodedRefreshToken, setDecodedRefreshToken] = useState<
     { exp: number } | undefined
   >(undefined)
@@ -61,7 +61,6 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
           return response
         },
         async (error) => {
-          debugger
           if (!error.config._retry && error.response.status === 401) {
             error.config._retry = true
             const refreshTokenLocal = localStorage.getItem(tokenStorageKey)
@@ -81,7 +80,6 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
                 } = await refreshTokenApiClient.getRefreshToken(
                   refreshTokenLocal,
                 )
-                imployApiClient?.setToken(access_token.token)
                 setAccessToken(access_token)
                 setRefreshToken(refresh_token)
                 error.response.config.headers.Authorization = `Bearer ${access_token.token}`
@@ -114,8 +112,6 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
         } catch (error) {}
       }
       setImployApiClient(apiClient)
-      //@ts-ignore
-      console.log(apiClient?.instance)
     }
 
     initializeApiClient()
@@ -172,6 +168,12 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
       }
     }
   }, [refreshToken])
+
+  useEffect(() => {
+    if (accessToken && imployApiClient) {
+      imployApiClient?.setToken(accessToken.token)
+    }
+  }, [accessToken])
 
   const isLoggedIn = () => {
     if (!decodedRefreshToken) {
