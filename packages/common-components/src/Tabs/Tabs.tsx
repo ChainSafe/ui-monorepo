@@ -14,12 +14,16 @@ const useStyles = makeStyles((theme: ITheme) =>
     tabBar: {
       display: "inline-block",
       marginLeft: 0,
-      padding: theme.constants.generalUnit * 1.5,
+      marginRight: `${theme.constants.generalUnit * 2}px`,
+      padding: `${theme.constants.generalUnit * 1.5}px ${
+        theme.constants.generalUnit * 0.5
+      }px`,
       borderBottom: "2px solid transparent",
       transition: `all ${theme.animation.transform}ms`,
       cursor: "pointer",
       "&.selected": {
-        color: theme.palette.primary.main,
+        // color: theme.palette.primary.main,
+        fontWeight: "bold",
         borderBottom: `2px solid ${theme.palette.primary.main}`,
       },
     },

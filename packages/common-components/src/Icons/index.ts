@@ -41,6 +41,7 @@ export {
   default as InfoCircleIcon,
   InfoCircleSvg,
 } from "./icons/InfoCircle.icon"
+export { default as LockIcon, LockSvg } from "./icons/Lock.icon"
 export { default as PaperclipIcon, PaperclipSvg } from "./icons/Paperclip.icon"
 export { default as PlusIcon, PlusSvg } from "./icons/Plus.icon"
 export { default as PowerDownIcon, PowerDownSvg } from "./icons/PowerDown.icon"

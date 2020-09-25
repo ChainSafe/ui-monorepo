@@ -84,16 +84,9 @@ const AuthProvider = ({ children }: AuthContextProps) => {
         })
 
         console.log(access_token)
-        const profileData = await imployApiClient.getUser(access_token)
 
         setAccessToken(access_token)
         setRefreshToken(refresh_token)
-        setProfile({
-          firstName: profileData.first_name,
-          lastName: profileData.last_name,
-          email: profileData.email,
-          publicAddress: profileData.public_address,
-        })
         return Promise.resolve()
       }
     } catch (error) {
