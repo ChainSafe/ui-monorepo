@@ -18,7 +18,21 @@ const HomePage = () => {
     getFolderContents()
   }, [])
 
-  return <div>You have logged in successfully </div>
+  const getFolderContents = async () => {
+    try {
+      const contents = await list({ path: "/" })
+      console.log(contents)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  return (
+    <div>
+      You have logged in successfully{" "}
+      <Button onClick={getFolderContents}>Get Files</Button>
+    </div>
+  )
 }
 
 export default HomePage

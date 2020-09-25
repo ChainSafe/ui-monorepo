@@ -31,8 +31,8 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
     ImployApiClient | undefined
   >(undefined)
 
-  const [accessToken, setAccessToken] = useState<Token | undefined>(undefined)
-  const [decodedAccessToken, setDecodedAccessToken] = useState<
+  const [, setAccessToken] = useState<Token | undefined>(undefined)
+  const [decodedRefreshToken, setDecodedRefreshToken] = useState<
     { exp: number } | undefined
   >(undefined)
   const [refreshToken, setRefreshToken] = useState<Token | undefined>(undefined)
@@ -61,29 +61,42 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
           return response
         },
         async (error) => {
+          debugger
           if (!error.config._retry && error.response.status === 401) {
             error.config._retry = true
-            if (refreshToken?.token && imployApiClient) {
+            const refreshTokenLocal = localStorage.getItem(tokenStorageKey)
+            if (refreshTokenLocal) {
+              const refreshTokenApiClient = new ImployApiClient(
+                {},
+                apiUrl,
+                axios.create({
+                  // Disable the internal Axios JSON deserialization as this is handled by the client
+                  transformResponse: [],
+                }),
+              )
               try {
                 const {
                   access_token,
                   refresh_token,
-                } = await imployApiClient.getRefreshToken(refreshToken.token)
-                imployApiClient.setToken(access_token.token)
+                } = await refreshTokenApiClient.getRefreshToken(
+                  refreshTokenLocal,
+                )
+                imployApiClient?.setToken(access_token.token)
                 setAccessToken(access_token)
                 setRefreshToken(refresh_token)
                 error.response.config.headers.Authorization = `Bearer ${access_token.token}`
-                return axios(error.response.config) //TODO: Confirm with @tanmoytb whether this retries the call with the new token
+                return axios(error.response.config)
               } catch (err) {
                 localStorage.removeItem(tokenStorageKey)
+                setRefreshToken(undefined)
                 return Promise.reject(error)
               }
             } else {
               localStorage.removeItem(tokenStorageKey)
+              setRefreshToken(undefined)
               return Promise.reject(error)
             }
           }
-          localStorage.removeItem(tokenStorageKey)
           return Promise.reject(error)
         },
       )
@@ -101,6 +114,8 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
         } catch (error) {}
       }
       setImployApiClient(apiClient)
+      //@ts-ignore
+      console.log(apiClient?.instance)
     }
 
     initializeApiClient()
@@ -148,22 +163,22 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
   }
 
   useEffect(() => {
-    if (accessToken) {
+    if (refreshToken) {
       try {
-        const decoded = jwtDecode<any>(accessToken.token)
-        setDecodedAccessToken(decoded)
+        const decoded = jwtDecode<any>(refreshToken.token)
+        setDecodedRefreshToken(decoded)
       } catch (error) {
         console.log("Error decoding access token")
       }
     }
-  }, [accessToken])
+  }, [refreshToken])
 
   const isLoggedIn = () => {
-    if (!decodedAccessToken) {
+    if (!decodedRefreshToken) {
       return false
     } else {
       try {
-        const isLoggedIn = Date.now() / 1000 < decodedAccessToken.exp
+        const isLoggedIn = Date.now() / 1000 < decodedRefreshToken.exp
         return isLoggedIn
       } catch (error) {
         return false
