@@ -41,7 +41,7 @@ const CreateFolder: React.FC = () => {
         <Button onClick={handleCloseDialog} size="medium">
           Cancel
         </Button>
-        <Button onClick={() => handleCreateFolder} size="medium">
+        <Button onClick={handleCreateFolder} size="medium">
           OK
         </Button>
       </Modal>
