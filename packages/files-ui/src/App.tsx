@@ -20,6 +20,10 @@ if (
 const theme = createTheme()
 
 const App: React.FC<{}> = () => {
+  // TODO: Use a different default here
+  const apiUrl =
+    process.env.REACT_APP_API_URL || "https://alpha.imploy.site/api/v1"
+
   return (
     <ErrorBoundary
       fallback={({ error, componentStack, eventId, resetError }) => (
