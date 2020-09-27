@@ -1,9 +1,11 @@
 import { createStyles, ITheme, makeStyles } from "@chainsafe/common-themes"
-import React, { Fragment } from "react"
+import React, { FormEvent, Fragment } from "react"
 import { Button, CheckboxInput, DeleteIcon, Divider, DownloadIcon, EditIcon, ExportIcon, FileImageIcon, FilePdfIcon, FileTextIcon, MenuDropdown, MoreIcon, PlusCircleIcon, ShareAltIcon, SortDirection, standardDateFormat, Table, TableBody, TableCell, TableHead, TableHeadCell, TableRow, TextInput, Typography, UploadIcon } from "@chainsafe/common-components"
 import { useState } from "react"
 import { useEffect } from "react"
 import { useMemo } from "react"
+import { useDrive } from "@chainsafe/common-contexts"
+import { FileRequest } from "@chainsafe/common-contexts/dist/ImployApiContext/ImployApiClient"
 
 /**
  * TODO: Establish height & padding values
@@ -87,18 +89,34 @@ interface IFile {
 
 export interface IFileBrowserProps {
   heading?: string
-  files: IFile[]
+  fileRequest: FileRequest
 }
 
 const FileBrowserModule: React.FC<IFileBrowserProps> = ({
-  files = MOCKS,
-  heading = "My Files"
+  heading = "My Files",
+  fileRequest = { path: "/" }
 }: IFileBrowserProps) => {
   const classes = useStyles()
+  const { list, deleteFile, downloadFile, renameFile, } = useDrive()
 
+  const [files, setFiles] = useState<IFile[]>(MOCKS)
   const [editing, setEditing] = useState<string | undefined>()
   const [direction, setDirection] = useState<SortDirection>("ascend")
   const [column, setColumn] = useState<"name" | "size" | "date_uploaded">("name")
+  const [selected, setSelected] = useState<string[]>([])
+
+  const getFolderContents = async () => {
+    try {
+      const contents = await list(fileRequest)
+      setFiles(contents as IFile[])
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  useEffect(() => {
+    getFolderContents()
+  }, [direction, column])
  
   const sortFoldersFirst = (a: IFile, b: IFile) => a.content_type == "application/chainsafe-files-directory" && a.content_type !== b.content_type ? -1 : 1
   const items: IFile[] = useMemo(() => {
@@ -146,7 +164,6 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
     }
   }, [files, direction, column])
 
-  const [selected, setSelected] = useState<string[]>([])
 
   const handleSelect = (cid: string) => {
     if (selected.includes(cid)) {
@@ -273,7 +290,12 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
                   >
                     {
                       editing !== file.cid ? file.name : (
-                        <TextInput value={file.name} onChange={() => console.log} />
+                        <form onSubmit={(event: FormEvent<HTMLFormElement>) => {
+                          console.log(event.currentTarget)
+                          debugger
+                        }}>
+                          <TextInput name="rename" value={file.name} onChange={() => console.log} />
+                        </form>
                       )
                     }
                   </TableCell>
@@ -330,7 +352,9 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
                               Delete
                             </span>
                           </Fragment>,
-                          onClick: () => console.log
+                          onClick: () => deleteFile({
+                            path: `${fileRequest.path}/${file.name}` 
+                          })
                         },
                         {
                           contents: <Fragment>
@@ -339,7 +363,9 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
                               Download
                             </span>
                           </Fragment>,
-                          onClick: () => console.log
+                          onClick: () => downloadFile({
+                            path: `${fileRequest.path}/${file.name}` 
+                          })
                         },
                       ]}
                       indicator={MoreIcon}
