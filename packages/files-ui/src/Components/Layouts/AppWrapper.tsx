@@ -1,4 +1,4 @@
-import { useAuth } from "@chainsafe/common-contexts"
+import { useImployApi } from "@chainsafe/common-contexts"
 import { createStyles, ITheme, makeStyles } from "@chainsafe/common-themes"
 import React, { Fragment } from "react"
 import { ReactNode } from "react"
@@ -16,7 +16,8 @@ import {
   Avatar,
   Blockies,
   MenuDropdown,
-  PowerDownSvg, CssBaseline
+  PowerDownSvg,
+  CssBaseline,
 } from "@chainsafe/common-components"
 import { ROUTE_LINKS } from "../FilesRoutes"
 import SearchModule from "../Modules/SearchModule"
@@ -31,135 +32,133 @@ interface IAppWrapper {
  * Content will have padding based on wrappers to ensure system scroll
  */
 
-const useStyles = makeStyles(({ palette, animation, breakpoints, constants }: ITheme) => {
-  const modalWidth = constants.generalUnit * 27
-  const contentPadding = constants.generalUnit * 15
-  const contentTopPadding = constants.generalUnit * 15
-  const svgWidth = constants.generalUnit * 2.5
-  const topPadding = constants.generalUnit * 3
-  const accountControlsPadding = constants.generalUnit * 7
+const useStyles = makeStyles(
+  ({ palette, animation, breakpoints, constants }: ITheme) => {
+    const modalWidth = constants.generalUnit * 27
+    const contentPadding = constants.generalUnit * 15
+    const contentTopPadding = constants.generalUnit * 15
+    const svgWidth = constants.generalUnit * 2.5
+    const topPadding = constants.generalUnit * 3
+    const accountControlsPadding = constants.generalUnit * 7
 
-  return createStyles({
-    root: {
-      minHeight: "100vh",
-    },
-    logo: {
-      textDecoration: "none",
-      display: "flex",
-      flexDirection: "row",
-      alignItems: "center",
-      "& img": {
-        height: constants.generalUnit * 5,
-        width: "auto"
+    return createStyles({
+      root: {
+        minHeight: "100vh",
       },
-      "& > *:first-child": {
-        marginRight: constants.generalUnit
-      }
-    },
-    nav: {
-      width: 0,
-      backgroundColor: palette.additional['gray'][6],
-      height: "100%",
-      overflow: "hidden",
-      transitionDuration: `${animation.translate}ms`,
-      display: "flex",
-      flexDirection: "column",
-      position: "fixed",
-      top: 0,
-      left: 0,
-      opacity: 0,
-      padding: `${topPadding}px ${constants.generalUnit * 4.5}px`,
-      "&.active": {
-        opacity: 1,
-        width: modalWidth,
+      logo: {
+        textDecoration: "none",
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "center",
+        "& img": {
+          height: constants.generalUnit * 5,
+          width: "auto",
+        },
+        "& > *:first-child": {
+          marginRight: constants.generalUnit,
+        },
       },
-    },
-    navMenu: {
-      display: "flex",
-      flexDirection: "column",
-      marginBottom: constants.generalUnit * 8.5
-    },
-    linksArea: {
-      display: "flex",
-      flexDirection: "column",
-      height: 0,
-      justifyContent: "center",
-      flex: "1 1 0",
-      "& > span": {
-        marginBottom: constants.generalUnit * 2
-      }
-    },
-    navItem: {
-      textDecoration: "none",
-      display: "flex",
-      flexDirection: "row",
-      alignItems: "center",
-      padding: `${constants.generalUnit * 1.5}px 0`,
-      "& svg": {
-        width: svgWidth,
-        marginRight: constants.generalUnit * 2
+      nav: {
+        width: 0,
+        backgroundColor: palette.additional["gray"][6],
+        height: "100%",
+        overflow: "hidden",
+        transitionDuration: `${animation.translate}ms`,
+        display: "flex",
+        flexDirection: "column",
+        position: "fixed",
+        top: 0,
+        left: 0,
+        opacity: 0,
+        padding: `${topPadding}px ${constants.generalUnit * 4.5}px`,
+        "&.active": {
+          opacity: 1,
+          width: modalWidth,
+        },
       },
-    },
-    bodyWrapper: {
-      transitionDuration: `${animation.translate}ms`,
-      padding: `0`,
-      "&.active": {
-        // This moves the content areas based on the size of the nav bar
-
-        padding: `${0}px ${contentPadding}px ${0}px ${
-          modalWidth + contentPadding
-        }px`,
+      navMenu: {
+        display: "flex",
+        flexDirection: "column",
+        marginBottom: constants.generalUnit * 8.5,
       },
-    },
-    header: {
-      position: "fixed",
-      display: "flex",
-      flexDirection: "row",
-      top: 0,
-      left: modalWidth,
-      width: `calc(100% - ${modalWidth}px)`,
-      padding: `${0}px ${contentPadding}px ${0}px ${
-        contentPadding
-      }px`,
-      transitionDuration: `${animation.translate}ms`,
-      opacity: 0,
-      visibility: "hidden",
-      "& >*:first-child": {
+      linksArea: {
+        display: "flex",
+        flexDirection: "column",
+        height: 0,
+        justifyContent: "center",
         flex: "1 1 0",
+        "& > span": {
+          marginBottom: constants.generalUnit * 2,
+        },
       },
-      "&.active": {
-        opacity: 1,
-        height: "auto",
-        visibility: "visible",
-        padding: `${topPadding}px ${contentPadding}px ${0}px ${
-          contentPadding
-        }px`,
+      navItem: {
+        textDecoration: "none",
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "center",
+        padding: `${constants.generalUnit * 1.5}px 0`,
+        "& svg": {
+          width: svgWidth,
+          marginRight: constants.generalUnit * 2,
+        },
       },
-    },
-    accountControls: {
-      marginLeft: accountControlsPadding,
-      display: "flex",
-      justifyContent: "flex-end",
-      alignItems: "center",
-      flexDirection: "row",
-      "& > *:first-child": {
-        marginRight: constants.generalUnit * 2
-      }
-    },
-    menuItem: {},
-    content: {
-      height: "100%",
-      transitionDuration: `${animation.translate}ms`,
-      padding: 0,
-      "&.active": {
-        padding: `${contentTopPadding}px 0 0`,
+      bodyWrapper: {
+        transitionDuration: `${animation.translate}ms`,
+        padding: `0`,
+        "&.active": {
+          // This moves the content areas based on the size of the nav bar
+
+          padding: `${0}px ${contentPadding}px ${0}px ${
+            modalWidth + contentPadding
+          }px`,
+        },
       },
-    },
-  })
-})
+      header: {
+        position: "fixed",
+        display: "flex",
+        flexDirection: "row",
+        top: 0,
+        left: modalWidth,
+        width: `calc(100% - ${modalWidth}px)`,
+        padding: `${0}px ${contentPadding}px ${0}px ${contentPadding}px`,
+        transitionDuration: `${animation.translate}ms`,
+        opacity: 0,
+        visibility: "hidden",
+        "& >*:first-child": {
+          flex: "1 1 0",
+        },
+        "&.active": {
+          opacity: 1,
+          height: "auto",
+          visibility: "visible",
+          padding: `${topPadding}px ${contentPadding}px ${0}px ${contentPadding}px`,
+        },
+      },
+      accountControls: {
+        marginLeft: accountControlsPadding,
+        display: "flex",
+        justifyContent: "flex-end",
+        alignItems: "center",
+        flexDirection: "row",
+        "& > *:first-child": {
+          marginRight: constants.generalUnit * 2,
+        },
+      },
+      menuItem: {},
+      content: {
+        height: "100%",
+        transitionDuration: `${animation.translate}ms`,
+        padding: 0,
+        "&.active": {
+          padding: `${contentTopPadding}px 0 0`,
+        },
+      },
+    })
+  },
+)
 
 const AppWrapper: React.FC<IAppWrapper> = ({ children }: IAppWrapper) => {
-  const { isLoggedIn } = useAuth()
+  const { isLoggedIn } = useImployApi()
   const classes = useStyles()
   return (
     <div className={classes.root}>
@@ -209,9 +208,7 @@ const AppWrapper: React.FC<IAppWrapper> = ({ children }: IAppWrapper) => {
                 </Link>
               </nav>
             </div>
-            <section>
-              TODO: GB USED SECTION
-            </section>
+            <section>TODO: GB USED SECTION</section>
           </Fragment>
         )}
       </section>
@@ -251,11 +248,13 @@ const AppWrapper: React.FC<IAppWrapper> = ({ children }: IAppWrapper) => {
             </Fragment>
           )}
         </header>
-        <section className={clsx(
-          classes.content, {
+        <section
+          className={clsx(classes.content, {
             active: isLoggedIn,
-          }
-        )}>{children}</section>
+          })}
+        >
+          {children}
+        </section>
       </article>
     </div>
   )
