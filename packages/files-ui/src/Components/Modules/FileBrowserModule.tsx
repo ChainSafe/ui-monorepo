@@ -1,6 +1,6 @@
 import { createStyles, ITheme, makeStyles } from "@chainsafe/common-themes"
 import React, { Fragment } from "react"
-import { Button, CheckboxInput, DeleteIcon, Divider, DownloadIcon, EditIcon, ExportIcon, FileImageIcon, FilePdfIcon, FileTextIcon, MenuDropdown, MoreIcon, PlusCircleIcon, ShareAltIcon, SortDirection, standardDateFormat, Table, TableBody, TableCell, TableHead, TableHeadCell, TableRow, Typography, UploadIcon } from "@chainsafe/common-components"
+import { Button, CheckboxInput, DeleteIcon, Divider, DownloadIcon, EditIcon, ExportIcon, FileImageIcon, FilePdfIcon, FileTextIcon, MenuDropdown, MoreIcon, PlusCircleIcon, ShareAltIcon, SortDirection, standardDateFormat, Table, TableBody, TableCell, TableHead, TableHeadCell, TableRow, TextInput, Typography, UploadIcon } from "@chainsafe/common-components"
 import { useState } from "react"
 import { useEffect } from "react"
 import { useMemo } from "react"
@@ -96,7 +96,7 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
 }: IFileBrowserProps) => {
   const classes = useStyles()
 
-
+  const [editing, setEditing] = useState<string | undefined>()
   const [direction, setDirection] = useState<SortDirection>("ascend")
   const [column, setColumn] = useState<"name" | "size" | "date_uploaded">("name")
  
@@ -167,10 +167,6 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
         ...items.map((file: IFile) => file.cid)
       ])
     }
-  }
-
-  const sortFilters = (items: IFile[]) => {
-    
   }
 
   const handleSortToggle = (targetColumn: "name" | "size" | "date_uploaded") => {
@@ -276,7 +272,9 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
                     align="left"
                   >
                     {
-                      file.name
+                      editing !== file.cid ? file.name : (
+                        <TextInput value={file.name} onChange={() => console.log} />
+                      )
                     }
                   </TableCell>
                   <TableCell
@@ -323,7 +321,7 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
                               Rename
                             </span>
                           </Fragment>,
-                          onClick: () => console.log
+                          onClick: () => setEditing(file.cid)
                         },
                         {
                           contents: <Fragment>
