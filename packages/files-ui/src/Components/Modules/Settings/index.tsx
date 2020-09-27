@@ -17,7 +17,10 @@ import { useUser } from "@chainsafe/common-contexts"
 
 const useStyles = makeStyles((theme: ITheme) =>
   createStyles({
-    container: {},
+    container: {
+      marginTop: theme.constants.generalUnit * 2,
+      marginBottom: 160,
+    },
     loadingContainer: {
       display: "flex",
       justifyContent: "center",
@@ -41,25 +44,18 @@ const Settings: React.FC = () => {
   const [error, setError] = useState("")
   const { redirect } = useHistory()
 
-  const [profileData, setProfileData] = useState({
-    firstName: profile?.firstName || "",
-    lastName: profile?.lastName || "",
-    email: profile?.email || "",
-    publicAddress: profile?.publicAddress || "",
-  })
+  const [profileData, setProfileData] = useState(profile)
 
   useEffect(() => {
     getProfile()
-      .then()
-      .catch((err: any) => setError(err))
   }, [])
 
   useEffect(() => {
     setProfileData({
-      firstName: profile?.firstName || "",
-      lastName: profile?.lastName || "",
-      email: profile?.email || "",
-      publicAddress: profile?.publicAddress || "",
+      firstName: profile?.firstName,
+      lastName: profile?.lastName,
+      email: profile?.email,
+      publicAddress: profile?.publicAddress,
     })
   }, [profile])
 
@@ -74,9 +70,9 @@ const Settings: React.FC = () => {
   const onUpdateProfile = async () => {
     try {
       await updateProfile(
-        profileData.firstName,
-        profileData.lastName,
-        profileData.email,
+        profileData?.firstName || "",
+        profileData?.lastName || "",
+        profileData?.email || "",
       )
     } catch (err) {
       setError(err)
@@ -104,21 +100,26 @@ const Settings: React.FC = () => {
           <TabPane title="Profile" tabKey="profile">
             {loaders.gettingProfile ? (
               <div className={classes.loadingContainer}>
-                <Spinner loader={LOADER.CircleLoader} size="50" />
+                <Spinner loader={LOADER.CircleLoader} size="50px" />
               </div>
-            ) : profile || error ? (
+            ) : profile ? (
               <Profile
-                firstName={profileData.firstName}
-                lastName={profileData.lastName}
-                email={profileData.email}
-                publicAddress={profileData.publicAddress}
+                firstName={profileData?.firstName}
+                lastName={profileData?.lastName}
+                email={profileData?.email}
+                publicAddress={profileData?.publicAddress}
                 handleValueChange={handleChange}
                 onUpdateProfile={onUpdateProfile}
+                updateLoading={loaders.updatingProfile}
               />
             ) : error ? (
-              <Typography>{error}</Typography>
+              <div className={classes.container}>
+                <Typography>{error}</Typography>
+              </div>
             ) : (
-              <Typography>Profile not available</Typography>
+              <div className={classes.container}>
+                <Typography>Profile not available</Typography>
+              </div>
             )}
           </TabPane>
           <TabPane title="Plan" tabKey="plan">

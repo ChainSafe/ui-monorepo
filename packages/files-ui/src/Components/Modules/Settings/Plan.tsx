@@ -1,7 +1,6 @@
 import React from "react"
 import { Grid, Button, Typography } from "@chainsafe/common-components"
 import { makeStyles, ITheme, createStyles } from "@chainsafe/common-themes"
-import { LockIcon } from "@chainsafe/common-components"
 
 const useStyles = makeStyles((theme: ITheme) =>
   createStyles({

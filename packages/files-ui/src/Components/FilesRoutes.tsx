@@ -1,7 +1,6 @@
 import React from "react"
 import { Switch, ConditionalRoute } from "@chainsafe/common-components"
 import LoginPage from "./Pages/LoginPage"
-import { useAuth } from "@chainsafe/common-contexts"
 import SettingsPage from "./Pages/SettingsPage"
 import { useImployApi } from "@chainsafe/common-contexts"
 import HomePage from "./Pages/HomePage"

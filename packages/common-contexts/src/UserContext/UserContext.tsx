@@ -1,6 +1,5 @@
 import * as React from "react"
 import { useImployApi } from "../ImployApiContext"
-import { useAuth } from "../AuthContext"
 import { useState } from "react"
 
 type UserContextProps = {
@@ -29,7 +28,6 @@ const UserContext = React.createContext<IUserContext | undefined>(undefined)
 
 const UserProvider = ({ children }: UserContextProps) => {
   const { imployApiClient } = useImployApi()
-  const { accessToken } = useAuth()
 
   const [profile, setProfile] = useState<Profile | undefined>(undefined)
   const [loaders, setLoaders] = useState({
@@ -39,11 +37,10 @@ const UserProvider = ({ children }: UserContextProps) => {
 
   const getProfile = async () => {
     if (!imployApiClient) return Promise.reject("Api Client is not initialized")
-    if (!accessToken) return Promise.reject("User not logged in")
 
     try {
       setLoaders((prevLoaders) => ({ ...prevLoaders, gettingProfile: true }))
-      const profileData = await imployApiClient.getUser(accessToken)
+      const profileData = await imployApiClient.getUser()
 
       setProfile({
         firstName: profileData.first_name,
@@ -65,15 +62,14 @@ const UserProvider = ({ children }: UserContextProps) => {
     email?: string,
   ) => {
     if (!imployApiClient) return Promise.reject("Api Client is not initialized")
-    if (!accessToken) return Promise.reject("User not logged in")
     if (!profile) return Promise.reject("Profile not initialized")
 
     try {
       setLoaders((prevLoaders) => ({ ...prevLoaders, updatingProfile: true }))
-      const profileData = await imployApiClient.updateUser(accessToken, {
-        first_name: firstName || profile.firstName || "",
-        last_name: lastName || profile.lastName || "",
-        email: email || profile.email || "",
+      const profileData = await imployApiClient.updateUser({
+        first_name: firstName || "",
+        last_name: lastName || "",
+        email: email || "",
       })
 
       setProfile({

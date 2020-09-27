@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react"
+import React, { useState } from "react"
 import * as yup from "yup"
 import {
   TextInput,
@@ -13,7 +13,6 @@ import {
   debounce,
 } from "@chainsafe/common-themes"
 import { LockIcon, CopyIcon } from "@chainsafe/common-components"
-import clsx from "clsx"
 
 const useStyles = makeStyles((theme: ITheme) =>
   createStyles({
@@ -81,6 +80,7 @@ interface IProfileProps {
   email?: string
   handleValueChange(e: React.ChangeEvent<HTMLInputElement>): void
   onUpdateProfile(): void
+  updateLoading: boolean
 }
 
 const Profile: React.FC<IProfileProps> = (props) => {
@@ -91,6 +91,7 @@ const Profile: React.FC<IProfileProps> = (props) => {
     publicAddress,
     handleValueChange,
     onUpdateProfile,
+    updateLoading,
   } = props
   const [copied, setCopied] = useState(false)
   const [validations, setValidations] = useState({
@@ -262,7 +263,7 @@ const Profile: React.FC<IProfileProps> = (props) => {
                 className={classes.deletionMargins}
               >
                 Deleting you account is irreversible. You will lose all your
-                data onn files.
+                data on files.
               </Typography>
               <Button
                 variant="outline"
