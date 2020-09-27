@@ -1,4 +1,4 @@
-import { useAuth } from "@chainsafe/common-contexts"
+import { useImployApi } from "@chainsafe/common-contexts"
 import { createStyles, ITheme, makeStyles } from "@chainsafe/common-themes"
 import React, { Fragment } from "react"
 import { ReactNode } from "react"
@@ -159,7 +159,7 @@ const useStyles = makeStyles(
 )
 
 const AppWrapper: React.FC<IAppWrapper> = ({ children }: IAppWrapper) => {
-  const { isLoggedIn } = useAuth()
+  const { isLoggedIn } = useImployApi()
   const classes = useStyles()
   return (
     <div className={classes.root}>

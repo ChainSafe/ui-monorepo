@@ -9,7 +9,7 @@ import {
   Link,
   Divider,
 } from "@chainsafe/common-components"
-import { useAuth } from "@chainsafe/common-contexts"
+import { useImployApi } from "@chainsafe/common-contexts"
 import {
   makeStyles,
   ITheme,
@@ -88,7 +88,7 @@ const LoginPage = () => {
   const classes = useStyles()
   const theme: ITheme = useTheme()
 
-  const { isReturningUser, web3Login, selectWallet } = useAuth()
+  const { isReturningUser, web3Login, selectWallet } = useImployApi()
   const { provider, wallet } = useWeb3()
   const [error, setError] = useState<string>("")
   const [activeMode, setActiveMode] = useState<"newUser" | "returningUser">(
