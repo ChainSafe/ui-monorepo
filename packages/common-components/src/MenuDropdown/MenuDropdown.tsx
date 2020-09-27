@@ -133,7 +133,7 @@ interface IMenuDropdownProps {
     | "bottom-center"
     | "bottom-right"
   menuItems: IMenuItem[]
-  title: string
+  title?: string
 }
 
 const MenuDropdown: React.FC<IMenuDropdownProps> = ({
@@ -162,9 +162,11 @@ const MenuDropdown: React.FC<IMenuDropdownProps> = ({
           ["open"]: open,
         })}
       >
-        <Typography component="p" variant="body2">
-          {title}
-        </Typography>
+        {
+          title && <Typography component="p" variant="body2">
+            {title}
+          </Typography>
+        }
         <Icon
           className={clsx(classes.icon, animation, {
             ["open"]: open,
