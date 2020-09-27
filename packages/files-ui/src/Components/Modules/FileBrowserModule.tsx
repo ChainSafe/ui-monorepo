@@ -105,20 +105,21 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
   const [column, setColumn] = useState<"name" | "size" | "date_uploaded">("name")
   const [selected, setSelected] = useState<string[]>([])
 
-  const getFolderContents = async () => {
-    try {
-      const contents = await list(fileRequest)
-      setFiles(contents as IFile[])
-    } catch (error) {
-      console.log(error)
-    }
-  }
-
   useEffect(() => {
+    const getFolderContents = async () => {
+      try {
+        const contents = await list(fileRequest)
+        console.log(contents)
+        // setFiles(contents as IFile[])
+        setFiles(MOCKS)
+      } catch (error) {
+        console.log(error)
+      }
+    }
     getFolderContents()
-  }, [direction, column])
+  }, [direction, column, fileRequest, list])
  
-  const sortFoldersFirst = (a: IFile, b: IFile) => a.content_type == "application/chainsafe-files-directory" && a.content_type !== b.content_type ? -1 : 1
+  const sortFoldersFirst = (a: IFile, b: IFile) => a.content_type === "application/chainsafe-files-directory" && a.content_type !== b.content_type ? -1 : 1
   const items: IFile[] = useMemo(() => {
     switch(direction) {
       default: {
@@ -177,7 +178,7 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
   }
 
   const toggleAll = () => {
-    if (selected.length == items.length) {
+    if (selected.length === items.length) {
       setSelected([])
     } else {
       setSelected([
@@ -187,11 +188,11 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
   }
 
   const handleSortToggle = (targetColumn: "name" | "size" | "date_uploaded") => {
-    if (column != targetColumn) {
+    if (column !== targetColumn) {
       setColumn(targetColumn)
       setDirection("descend")
     } else {
-      if (direction == "ascend") {
+      if (direction === "ascend") {
         setDirection("descend")
       } else {
         setDirection("ascend")
@@ -227,7 +228,7 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
       >
         <TableHead>
           <TableHeadCell>
-            <CheckboxInput value={selected.length == items.length} onChange={() => toggleAll()} />
+            <CheckboxInput value={selected.length === items.length} onChange={() => toggleAll()} />
           </TableHeadCell>
           <TableHeadCell>
             {/* 
@@ -238,7 +239,7 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
             sortButtons={true}
             align="left"
             onSortChange={() => handleSortToggle("name")}
-            sortDirection={column == "name" ? direction : undefined}
+            sortDirection={column === "name" ? direction : undefined}
           >
             Name
           </TableHeadCell>
@@ -246,7 +247,7 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
             sortButtons={true}
             align="left"
             onSortChange={() => handleSortToggle("date_uploaded")}
-            sortDirection={column == "date_uploaded" ? direction : undefined}
+            sortDirection={column === "date_uploaded" ? direction : undefined}
           >
             Date uploaded
           </TableHeadCell>
@@ -254,7 +255,7 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
             sortButtons={true}
             align="left"
             onSortChange={() => handleSortToggle("size")}
-            sortDirection={column == "size" ? direction : undefined}
+            sortDirection={column === "size" ? direction : undefined}
           >
             Size
           </TableHeadCell>
