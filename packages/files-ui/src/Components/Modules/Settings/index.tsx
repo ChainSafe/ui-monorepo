@@ -48,6 +48,7 @@ const Settings: React.FC = () => {
 
   useEffect(() => {
     getProfile()
+    // eslint-disable-next-line
   }, [])
 
   useEffect(() => {
@@ -110,7 +111,6 @@ const Settings: React.FC = () => {
                 publicAddress={profileData?.publicAddress}
                 handleValueChange={handleChange}
                 onUpdateProfile={onUpdateProfile}
-                updateLoading={loaders.updatingProfile}
               />
             ) : error ? (
               <div className={classes.container}>

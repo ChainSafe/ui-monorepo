@@ -80,7 +80,6 @@ interface IProfileProps {
   email?: string
   handleValueChange(e: React.ChangeEvent<HTMLInputElement>): void
   onUpdateProfile(): void
-  updateLoading: boolean
 }
 
 const Profile: React.FC<IProfileProps> = (props) => {
@@ -91,7 +90,6 @@ const Profile: React.FC<IProfileProps> = (props) => {
     publicAddress,
     handleValueChange,
     onUpdateProfile,
-    updateLoading,
   } = props
   const [copied, setCopied] = useState(false)
   const [validations, setValidations] = useState({
