@@ -6,6 +6,7 @@ import {
   Grid,
   Button,
   Typography,
+  Formik,
 } from "@chainsafe/common-components"
 import {
   makeStyles,
@@ -13,7 +14,7 @@ import {
   createStyles,
   debounce,
 } from "@chainsafe/common-themes"
-import { Formik, Field, Form, ErrorMessage } from "formik"
+// import { Formik, Field, Form, ErrorMessage } from "formik"
 import { LockIcon, CopyIcon } from "@chainsafe/common-components"
 
 const useStyles = makeStyles((theme: ITheme) =>
@@ -177,7 +178,8 @@ const Profile: React.FC<IProfileProps> = (props) => {
                     console.log(fields)
                     alert("SUCCESS!! :-)\n\n" + JSON.stringify(fields))
                   }}
-                  render={() => (
+                >
+                  {({}) => (
                     <div>
                       <div className={classes.boxContainer}>
                         <div className={classes.walletAddressContainer}>
@@ -200,16 +202,34 @@ const Profile: React.FC<IProfileProps> = (props) => {
                             Email
                           </Typography>
                         </div>
-                        <FormikTextInput
+                        {/* <FormikTextInput
                           placeholder="provide an email (optional)"
                           type="email"
                           size="medium"
                           name="email"
+                        /> */}
+                        <TextInput
+                          placeholder="last name"
+                          value={lastName}
+                          state={validations.lastName ? "error" : "normal"}
+                          captionMessage={validations.lastName}
+                          onChange={handleValueChange}
+                          name="lastName"
+                          size="medium"
                         />
                       </div>
+                      <Button
+                        className={classes.button}
+                        size="large"
+                        type="submit"
+                      >
+                        <LockIcon className={classes.icon} />
+                        {"  "}
+                        <Typography variant="button">Save changes</Typography>
+                      </Button>
                     </div>
                   )}
-                />
+                </Formik>
               ) : (
                 <>
                   <div className={classes.boxContainer}>
@@ -246,34 +266,6 @@ const Profile: React.FC<IProfileProps> = (props) => {
                   </div>
                 </>
               )}
-              <div className={classes.boxContainer}>
-                <div className={classes.labelContainer}>
-                  <Typography variant="body1" className={classes.label}>
-                    Email
-                  </Typography>
-                </div>
-                <TextInput
-                  placeholder={
-                    publicAddress ? "provide an email (optional)" : "email"
-                  }
-                  type="email"
-                  value={email}
-                  size="medium"
-                  state={validations.email ? "error" : "normal"}
-                  captionMessage={validations.email}
-                  onChange={handleValueChange}
-                  name="email"
-                />
-              </div>
-              <Button
-                className={classes.button}
-                size="large"
-                onClick={onSaveChange}
-              >
-                <LockIcon className={classes.icon} />
-                {"  "}
-                <Typography variant="button">Save changes</Typography>
-              </Button>
             </div>
           </div>
           <div id="deletion" className={classes.bodyContainer}>

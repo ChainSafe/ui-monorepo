@@ -6,8 +6,6 @@ import {
   TabPane,
   Typography,
   Divider,
-  Spinner,
-  LOADER,
   Breadcrumb,
   Crumb,
   useHistory,
