@@ -1,5 +1,6 @@
 import {
   Button,
+  Grid,
   Modal,
   TextInput,
   Typography,
@@ -34,17 +35,19 @@ const CreateFolder: React.FC = () => {
   return (
     <>
       <Button onClick={() => setOpen(true)} variant="primary" size="large">
-        Open Dialog
+        Create folder
       </Button>
-      <Modal active={open} closePosition="none">
-        <Typography>Folder Name</Typography>
-        <TextInput value={folderName} onChange={handleFolderNameChange} />
-        <Button onClick={handleCloseDialog} size="medium">
-          Cancel
-        </Button>
-        <Button onClick={handleCreateFolder} size="medium">
-          OK
-        </Button>
+      <Modal active={open} closePosition="none" maxWidth="sm">
+        <Grid container flexDirection="column">
+          <Typography>Folder Name</Typography>
+          <TextInput value={folderName} onChange={handleFolderNameChange} />
+          <Button onClick={handleCloseDialog} size="medium">
+            Cancel
+          </Button>
+          <Button onClick={handleCreateFolder} size="medium">
+            OK
+          </Button>
+        </Grid>
       </Modal>
     </>
   )
