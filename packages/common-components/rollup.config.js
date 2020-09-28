@@ -32,5 +32,5 @@ export default {
       plugins: ["emotion"],
     }),
   ],
-  external: ["react", "react-dom", "@material-ui/styles"],
+  external: ["react", "react-dom", "@material-ui/styles", "formik"],
 }

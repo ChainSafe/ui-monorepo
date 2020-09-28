@@ -29,7 +29,11 @@ const useStyles = makeStyles(
         justifyContent: "space-between",
         "& p": {
           position: "relative",
+          "& ~ * svg": {
+            marginLeft: constants.generalUnit,
+          }
         },
+        
       },
       icon: {
         fontSize: "unset",
@@ -55,7 +59,6 @@ const useStyles = makeStyles(
           },
         },
         "& svg": {
-          marginLeft: constants.generalUnit,
           height: 14,
           width: 14,
           transitionDuration: `${animation.transform}ms`,
@@ -69,6 +72,7 @@ const useStyles = makeStyles(
         visibility: "hidden",
         opacity: 0,
         transitionDuration: `${animation.transform}ms`,
+        zIndex: 1000,
         "&.top-left": {
           top: 0,
           left: 0,

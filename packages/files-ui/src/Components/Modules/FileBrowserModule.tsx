@@ -1,43 +1,55 @@
 import { createStyles, ITheme, makeStyles } from "@chainsafe/common-themes"
-import React, { FormEvent, Fragment } from "react"
-import { Button, CheckboxInput, DeleteIcon, Divider, DownloadIcon, EditIcon, ExportIcon, FileImageIcon, FilePdfIcon, FileTextIcon, MenuDropdown, MoreIcon, PlusCircleIcon, ShareAltIcon, SortDirection, standardDateFormat, Table, TableBody, TableCell, TableHead, TableHeadCell, TableRow, TextInput, Typography, UploadIcon } from "@chainsafe/common-components"
+import React, { Fragment } from "react"
+import { Button, CheckboxInput, DeleteIcon, Divider, DownloadIcon, EditIcon, ExportIcon, FileImageSvg, FilePdfSvg, FileTextSvg, FolderSvg, FormikTextInput, MenuDropdown, MoreIcon, PlusCircleIcon, ShareAltIcon, SortDirection, standardDateFormat, Table, TableBody, TableCell, TableHead, TableHeadCell, TableRow, Typography, UploadIcon } from "@chainsafe/common-components"
 import { useState } from "react"
 import { useEffect } from "react"
 import { useMemo } from "react"
 import { useDrive } from "@chainsafe/common-contexts"
 import { FileRequest } from "@chainsafe/common-contexts/dist/ImployApiContext/ImployApiClient"
-
-/**
- * TODO: Establish height & padding values
- * TODO: position fix + position nav wrappers
- * Content will have padding based on wrappers to ensure system scroll
- */
+import { Formik, Field } from "formik"
+import { object, string,  } from "yup"
 
 const useStyles = makeStyles(({
   constants
-}: ITheme) =>
-  createStyles({
-    root: {},
-    header: {
-      display: "flex",
-      flexDirection: "row",
-      justifyContent: "space-between",
-      alignItems: "center"
-    },
-    controls:{
-      display: "flex",
-      flexDirection: "row",
-      justifyContent: "space-between",
-      alignItems: "center",
-      "& > *": {
-        marginLeft: constants.generalUnit
+}: ITheme) =>{
+    const gridSettings = "50px 69px 3fr 150px 100px 45px !important"
+    return createStyles({
+      root: {},
+      header: {
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center"
+      },
+      controls:{
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
+        "& > *": {
+          marginLeft: constants.generalUnit
+        }
+      },
+      divider: {
+        margin: `${constants.generalUnit * 4.5}px 0`
+      },
+      tableRow: {
+        gridTemplateColumns: gridSettings,
+      },
+      fileIcon: {
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "center", 
+        "& svg": {
+          width: constants.generalUnit * 2.5
+        }
+      },
+      renameInput: {
+        
       }
-    },
-    divider: {
-      margin: `${constants.generalUnit * 4.5}px 0`
-    },
-
-  }),
+    })
+  }
 )
 
 const MOCKS = [
@@ -89,6 +101,7 @@ interface IFile {
 
 export interface IFileBrowserProps {
   heading?: string
+  // TODO: once pagination & unique content requests are present, this might change to a passed in function
   fileRequest: FileRequest
 }
 
@@ -200,6 +213,13 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
     }
   }
 
+  const RenameSchema = object().shape({
+    fileName: string()
+      .min(1, 'Please enter a file name')
+      .max(65, 'File name length exceeded')
+      .required('File name is required'),
+  })
+
   return (
     <article className={classes.root}>
       <header className={classes.header}>
@@ -227,63 +247,73 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
         hover={true}
       >
         <TableHead>
-          <TableHeadCell>
-            <CheckboxInput value={selected.length === items.length} onChange={() => toggleAll()} />
-          </TableHeadCell>
-          <TableHeadCell>
-            {/* 
-              Icon
-            */}
-          </TableHeadCell>
-          <TableHeadCell
-            sortButtons={true}
-            align="left"
-            onSortChange={() => handleSortToggle("name")}
-            sortDirection={column === "name" ? direction : undefined}
+          <TableRow 
+            type="grid"
+            className={classes.tableRow}
           >
-            Name
-          </TableHeadCell>
-          <TableHeadCell
-            sortButtons={true}
-            align="left"
-            onSortChange={() => handleSortToggle("date_uploaded")}
-            sortDirection={column === "date_uploaded" ? direction : undefined}
-          >
-            Date uploaded
-          </TableHeadCell>
-          <TableHeadCell
-            sortButtons={true}
-            align="left"
-            onSortChange={() => handleSortToggle("size")}
-            sortDirection={column === "size" ? direction : undefined}
-          >
-            Size
-          </TableHeadCell>
-          <TableHeadCell>
-            {/* Menu */}
-          </TableHeadCell>
+            <TableHeadCell>
+              <CheckboxInput value={selected.length === items.length} onChange={() => toggleAll()} />
+            </TableHeadCell>
+            <TableHeadCell>
+              {/* 
+                Icon
+              */}
+            </TableHeadCell>
+            <TableHeadCell
+              sortButtons={true}
+              align="left"
+              onSortChange={() => handleSortToggle("name")}
+              sortDirection={column === "name" ? direction : undefined}
+            >
+              Name
+            </TableHeadCell>
+            <TableHeadCell
+              sortButtons={true}
+              align="left"
+              onSortChange={() => handleSortToggle("date_uploaded")}
+              sortDirection={column === "date_uploaded" ? direction : undefined}
+            >
+              Date uploaded
+            </TableHeadCell>
+            <TableHeadCell
+              sortButtons={true}
+              align="left"
+              onSortChange={() => handleSortToggle("size")}
+              sortDirection={column === "size" ? direction : undefined}
+            >
+              Size
+            </TableHeadCell>
+            <TableHeadCell>
+              {/* Menu */}
+            </TableHeadCell>
+          </TableRow>
         </TableHead>
         <TableBody>
           {
             items.map((file: IFile) => {
               let Icon
-              if (file.content_type.includes("image")){
-                Icon = FileImageIcon
+              if (file.content_type === "application/chainsafe-files-directory") {
+                Icon = FolderSvg
+              } else if (file.content_type.includes("image")){
+                Icon = FileImageSvg
               } else if (file.content_type.includes("pdf")) {
-                Icon = FilePdfIcon
+                Icon = FilePdfSvg
               } else {
-                Icon = FileTextIcon
+                Icon = FileTextSvg
               }
               return (
                 <TableRow
+                  className={classes.tableRow}
+                  type="grid"
                   rowSelectable={true}
                   selected={selected.includes(file.cid)}
-                  onClick={() => handleSelect(file.cid)}
                 >
                   <TableCell>
                     <CheckboxInput value={selected.includes(file.cid)} onChange={() => handleSelect(file.cid)} />
                   </TableCell>
-                  <TableCell>
+                  <TableCell 
+                    className={classes.fileIcon}
+                  >
                     <Icon />  
                   </TableCell>
                   <TableCell
@@ -291,12 +321,26 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
                   >
                     {
                       editing !== file.cid ? file.name : (
-                        <form onSubmit={(event: FormEvent<HTMLFormElement>) => {
-                          console.log(event.currentTarget)
-                          debugger
-                        }}>
-                          <TextInput name="rename" value={file.name} onChange={() => console.log} />
-                        </form>
+                        <Formik 
+                          initialValues={
+                            {
+                              fileName: file.name
+                            }
+                          }
+                          validationSchema={RenameSchema}
+                          onSubmit={(values, actions) => {
+                            debugger
+                          }}
+                        >
+                          <Fragment>
+                            <Field 
+                              className={classes.renameInput}
+                              name="fileName"
+                              placeholder="Please enter a file name"
+                              component={FormikTextInput}
+                            />
+                          </Fragment>
+                        </Formik>
                       )
                     }
                   </TableCell>

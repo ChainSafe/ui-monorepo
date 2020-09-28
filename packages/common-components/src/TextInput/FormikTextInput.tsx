@@ -24,6 +24,9 @@ const FormikTextInput: React.FC<FormikTextInputProps> = ({
   captionMessage,
 }: FormikTextInputProps) => {
   const [field, meta, helpers] = useField(name)
+  console.log("field", field)
+  console.log("meta", meta)
+  console.log("helpers", helpers)
   return (
     <TextInput
       label={label ? label : field.name}
