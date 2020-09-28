@@ -60,6 +60,7 @@ const CreateFolder: React.FC = () => {
             <TextInput
               value={folderName}
               onChange={handleFolderNameChange}
+              size="large"
               placeholder="Name"
             />
           </Grid>
