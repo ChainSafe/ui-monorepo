@@ -10,9 +10,23 @@ import { createStyles, ITheme, makeStyles } from "@chainsafe/common-themes"
 import React, { ChangeEvent } from "react"
 import { useState } from "react"
 
-const useStyles = makeStyles((theme: ITheme) =>
+const useStyles = makeStyles(({ constants, palette }: ITheme) =>
   createStyles({
-    root: {},
+    root: {
+      padding: constants.generalUnit * 4,
+    },
+    input: {
+      marginBottom: constants.generalUnit * 2,
+    },
+    okButton: {
+      marginLeft: constants.generalUnit,
+      color: palette.common.white.main,
+      backgroundColor: palette.common.black.main,
+    },
+    cancelButton: {
+      color: palette.common.black.main,
+      backgroundColor: palette.common.white.main,
+    },
   }),
 )
 
@@ -38,15 +52,33 @@ const CreateFolder: React.FC = () => {
         Create folder
       </Button>
       <Modal active={open} closePosition="none" maxWidth="sm">
-        <Grid container flexDirection="column">
-          <Typography>Folder Name</Typography>
-          <TextInput value={folderName} onChange={handleFolderNameChange} />
-          <Button onClick={handleCloseDialog} size="medium">
-            Cancel
-          </Button>
-          <Button onClick={handleCreateFolder} size="medium">
-            OK
-          </Button>
+        <Grid container flexDirection="column" className={classes.root}>
+          <Grid item xs={12}>
+            <Typography>Folder Name</Typography>
+          </Grid>
+          <Grid item xs={12} className={classes.input}>
+            <TextInput
+              value={folderName}
+              onChange={handleFolderNameChange}
+              placeholder="Name"
+            />
+          </Grid>
+          <Grid item flexDirection="row" justifyContent="flex-end">
+            <Button
+              onClick={handleCloseDialog}
+              size="medium"
+              className={classes.cancelButton}
+            >
+              Cancel
+            </Button>
+            <Button
+              onClick={handleCreateFolder}
+              size="medium"
+              className={classes.okButton}
+            >
+              OK
+            </Button>
+          </Grid>
         </Grid>
       </Modal>
     </>

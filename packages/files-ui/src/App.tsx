@@ -47,7 +47,7 @@ const App: React.FC<{}> = () => {
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <Web3Provider networkIds={[1]}>
-          <ImployApiProvider apiUrl="https://alpha.imploy.site/api/v1">
+          <ImployApiProvider apiUrl={apiUrl}>
             <DriveProvider>
               <Router>
                 <AppWrapper>
