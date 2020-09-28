@@ -1,6 +1,7 @@
-import React, { useState } from "react"
+import React, { useState, useCallback } from "react"
 import * as yup from "yup"
 import {
+  FormikTextInput,
   TextInput,
   Grid,
   Button,
@@ -12,6 +13,7 @@ import {
   createStyles,
   debounce,
 } from "@chainsafe/common-themes"
+import { Formik, Field, Form, ErrorMessage } from "formik"
 import { LockIcon, CopyIcon } from "@chainsafe/common-components"
 
 const useStyles = makeStyles((theme: ITheme) =>
@@ -99,7 +101,7 @@ const Profile: React.FC<IProfileProps> = (props) => {
   })
   const classes = useStyles()
 
-  const debouncedSwitchCopied = React.useCallback(
+  const debouncedSwitchCopied = useCallback(
     debounce(() => setCopied(false), 3000),
     [],
   )
@@ -126,7 +128,6 @@ const Profile: React.FC<IProfileProps> = (props) => {
 
   // do we want formik for validation here ?
   const onSaveChange = () => {
-    console.log(firstName, lastName, email)
     if (publicAddress) {
       // web3 validation
       profileWeb3Validation
@@ -167,19 +168,48 @@ const Profile: React.FC<IProfileProps> = (props) => {
           <div id="profile" className={classes.bodyContainer}>
             <div className={classes.profileBox}>
               {publicAddress ? (
-                <div className={classes.boxContainer}>
-                  <div className={classes.walletAddressContainer}>
-                    <Typography variant="body1" className={classes.label}>
-                      Wallet address
-                    </Typography>
-                    {/* TODO: tooltip with copied! */}
-                    {copied && <Typography>Copied!</Typography>}
-                  </div>
-                  <div className={classes.copyBox} onClick={copyAddress}>
-                    <Typography variant="body1">{publicAddress}</Typography>
-                    <CopyIcon className={classes.copyIcon} />
-                  </div>
-                </div>
+                <Formik
+                  initialValues={{
+                    email: email,
+                  }}
+                  validationSchema={profileWeb3Validation}
+                  onSubmit={(fields) => {
+                    console.log(fields)
+                    alert("SUCCESS!! :-)\n\n" + JSON.stringify(fields))
+                  }}
+                  render={() => (
+                    <div>
+                      <div className={classes.boxContainer}>
+                        <div className={classes.walletAddressContainer}>
+                          <Typography variant="body1" className={classes.label}>
+                            Wallet address
+                          </Typography>
+                          {/* TODO: tooltip with copied! */}
+                          {copied && <Typography>Copied!</Typography>}
+                        </div>
+                        <div className={classes.copyBox} onClick={copyAddress}>
+                          <Typography variant="body1">
+                            {publicAddress}
+                          </Typography>
+                          <CopyIcon className={classes.copyIcon} />
+                        </div>
+                      </div>
+                      <div className={classes.boxContainer}>
+                        <div className={classes.labelContainer}>
+                          <Typography variant="body1" className={classes.label}>
+                            Email
+                          </Typography>
+                        </div>
+                        <FormikTextInput
+                          placeholder="provide an email (optional)"
+                          type="email"
+                          size="medium"
+                          name="email"
+                        />
+                      </div>
+                    </div>
+                  )}
+                />
               ) : (
                 <>
                   <div className={classes.boxContainer}>

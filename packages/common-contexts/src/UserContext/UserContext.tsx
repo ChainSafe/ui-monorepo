@@ -1,4 +1,5 @@
 import * as React from "react"
+import { useEffect } from "react"
 import { useImployApi } from "../ImployApiContext"
 import { useState } from "react"
 
@@ -15,8 +16,7 @@ export type Profile = {
 
 interface IUserContext {
   profile: Profile | undefined
-  loaders: { gettingProfile: boolean; updatingProfile: boolean }
-  getProfile(): Promise<void>
+  refreshProfile(): Promise<void>
   updateProfile(
     firstName: string,
     lastName: string,
@@ -27,19 +27,20 @@ interface IUserContext {
 const UserContext = React.createContext<IUserContext | undefined>(undefined)
 
 const UserProvider = ({ children }: UserContextProps) => {
-  const { imployApiClient } = useImployApi()
+  const { imployApiClient, isLoggedIn } = useImployApi()
 
   const [profile, setProfile] = useState<Profile | undefined>(undefined)
-  const [loaders, setLoaders] = useState({
-    gettingProfile: false,
-    updatingProfile: false,
-  })
 
-  const getProfile = async () => {
+  useEffect(() => {
+    if (isLoggedIn && imployApiClient) {
+      refreshProfile()
+    }
+  }, [isLoggedIn, imployApiClient])
+
+  const refreshProfile = async () => {
     if (!imployApiClient) return Promise.reject("Api Client is not initialized")
 
     try {
-      setLoaders((prevLoaders) => ({ ...prevLoaders, gettingProfile: true }))
       const profileData = await imployApiClient.getUser()
 
       setProfile({
@@ -48,10 +49,8 @@ const UserProvider = ({ children }: UserContextProps) => {
         email: profileData.email,
         publicAddress: profileData.public_address,
       })
-      setLoaders((prevLoaders) => ({ ...prevLoaders, gettingProfile: false }))
       return Promise.resolve()
     } catch (error) {
-      setLoaders((prevLoaders) => ({ ...prevLoaders, gettingProfile: false }))
       return Promise.reject("There was an error getting profile.")
     }
   }
@@ -65,7 +64,6 @@ const UserProvider = ({ children }: UserContextProps) => {
     if (!profile) return Promise.reject("Profile not initialized")
 
     try {
-      setLoaders((prevLoaders) => ({ ...prevLoaders, updatingProfile: true }))
       const profileData = await imployApiClient.updateUser({
         first_name: firstName || "",
         last_name: lastName || "",
@@ -78,10 +76,9 @@ const UserProvider = ({ children }: UserContextProps) => {
         email: profileData.email,
         publicAddress: profileData.public_address,
       })
-      setLoaders((prevLoaders) => ({ ...prevLoaders, updatingProfile: false }))
       return Promise.resolve()
     } catch (error) {
-      setLoaders((prevLoaders) => ({ ...prevLoaders, updatingProfile: false }))
+      console.log(error)
       return Promise.reject("There was an error updating profile.")
     }
   }
@@ -91,8 +88,7 @@ const UserProvider = ({ children }: UserContextProps) => {
       value={{
         profile,
         updateProfile,
-        getProfile,
-        loaders,
+        refreshProfile,
       }}
     >
       {children}

@@ -14,6 +14,7 @@ import {
 } from "@chainsafe/common-components"
 import { makeStyles, ITheme, createStyles } from "@chainsafe/common-themes"
 import { useUser } from "@chainsafe/common-contexts"
+import { ROUTE_LINKS } from "../../FilesRoutes"
 
 const useStyles = makeStyles((theme: ITheme) =>
   createStyles({
@@ -35,19 +36,20 @@ const useStyles = makeStyles((theme: ITheme) =>
   }),
 )
 
-type TabKey = "profile" | "plan"
+type TabKey = "profileView" | "planView"
 
 const Settings: React.FC = () => {
-  const [tabKey, setTabKey] = useState<TabKey>("profile")
+  const [tabKey, setTabKey] = useState<TabKey>("profileView")
   const classes = useStyles()
-  const { loaders, profile, getProfile, updateProfile } = useUser()
+  const { profile, refreshProfile, updateProfile } = useUser()
+  const [, setUpdateLoading] = useState(false)
   const [error, setError] = useState("")
   const { redirect } = useHistory()
 
   const [profileData, setProfileData] = useState(profile)
 
   useEffect(() => {
-    getProfile()
+    refreshProfile()
     // eslint-disable-next-line
   }, [])
 
@@ -70,12 +72,15 @@ const Settings: React.FC = () => {
 
   const onUpdateProfile = async () => {
     try {
+      setUpdateLoading(true)
       await updateProfile(
         profileData?.firstName || "",
         profileData?.lastName || "",
         profileData?.email || "",
       )
+      setUpdateLoading(false)
     } catch (err) {
+      setUpdateLoading(false)
       setError(err)
     }
   }
@@ -89,7 +94,10 @@ const Settings: React.FC = () => {
   return (
     <div className={classes.container}>
       <div className={classes.headerContainer}>
-        <Breadcrumb crumbs={crumbs} homeOnClick={() => redirect("/home")} />
+        <Breadcrumb
+          crumbs={crumbs}
+          homeOnClick={() => redirect(ROUTE_LINKS.Home)}
+        />
         <Typography variant="h1">Settings</Typography>
       </div>
       <Divider />
@@ -98,12 +106,8 @@ const Settings: React.FC = () => {
           activeKey={tabKey}
           onTabSelect={(key) => setTabKey(key as TabKey)}
         >
-          <TabPane title="Profile" tabKey="profile">
-            {loaders.gettingProfile ? (
-              <div className={classes.loadingContainer}>
-                <Spinner loader={LOADER.CircleLoader} size="50px" />
-              </div>
-            ) : profile ? (
+          <TabPane title="Profile" tabKey="profileView">
+            {profile ? (
               <Profile
                 firstName={profileData?.firstName}
                 lastName={profileData?.lastName}
@@ -116,13 +120,9 @@ const Settings: React.FC = () => {
               <div className={classes.container}>
                 <Typography>{error}</Typography>
               </div>
-            ) : (
-              <div className={classes.container}>
-                <Typography>Profile not available</Typography>
-              </div>
-            )}
+            ) : null}
           </TabPane>
-          <TabPane title="Plan" tabKey="plan">
+          <TabPane title="Plan" tabKey="planView">
             <Plan />
           </TabPane>
         </Tabs>

@@ -10,6 +10,7 @@ export const ROUTE_LINKS = {
   PrivacyPolicy: "",
   Terms: "",
   Home: "/home",
+  Settings: "/settings",
 }
 
 const FilesRoutes = () => {
@@ -32,10 +33,10 @@ const FilesRoutes = () => {
       />
       <ConditionalRoute
         exact
-        path="/settings"
+        path={ROUTE_LINKS.Settings}
         isAuthorized={isLoggedIn}
         component={SettingsPage}
-        redirectPath="/"
+        redirectPath={ROUTE_LINKS.Landing}
       />
     </Switch>
   )

@@ -203,7 +203,7 @@ const AppWrapper: React.FC<IAppWrapper> = ({ children }: IAppWrapper) => {
                   <InfoCircleSvg />
                   <Typography variant="h5">Support</Typography>
                 </Link>
-                <Link className={classes.navItem} to="/settings">
+                <Link className={classes.navItem} to={ROUTE_LINKS.Settings}>
                   <SettingSvg />
                   <Typography variant="h5">Settings</Typography>
                 </Link>
