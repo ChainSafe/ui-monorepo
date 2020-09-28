@@ -130,7 +130,9 @@ const TableHeadCell: React.FC<ITableHeadCellProps> = ({
             {children}
           </div>
           <div className={classes.caretContainer}>
-            <CaretDownSvg className={clsx(classes.caret, sortDirection)} />
+            <CaretDownSvg className={clsx(classes.caret, sortDirection, {
+              "active": sortActive
+            })} />
           </div>
         </div>
       ) : (

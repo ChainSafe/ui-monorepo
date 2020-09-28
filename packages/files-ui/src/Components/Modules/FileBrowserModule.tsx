@@ -6,7 +6,7 @@ import { useEffect } from "react"
 import { useMemo } from "react"
 import { useDrive } from "@chainsafe/common-contexts"
 import { FileRequest } from "@chainsafe/common-contexts/dist/ImployApiContext/ImployApiClient"
-import { Formik, Field } from "formik"
+import { Formik, Form } from "formik"
 import { object, string,  } from "yup"
 
 const useStyles = makeStyles(({
@@ -46,7 +46,8 @@ const useStyles = makeStyles(({
         }
       },
       renameInput: {
-        
+        margin: 0, 
+        width: "100%"
       }
     })
   }
@@ -114,7 +115,7 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
 
   const [files, setFiles] = useState<IFile[]>(MOCKS)
   const [editing, setEditing] = useState<string | undefined>()
-  const [direction, setDirection] = useState<SortDirection>("ascend")
+  const [direction, setDirection] = useState<SortDirection>("descend")
   const [column, setColumn] = useState<"name" | "size" | "date_uploaded">("name")
   const [selected, setSelected] = useState<string[]>([])
 
@@ -122,7 +123,7 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
     const getFolderContents = async () => {
       try {
         const contents = await list(fileRequest)
-        console.log(contents)
+        console.log("Fetched contents", contents)
         // setFiles(contents as IFile[])
         setFiles(MOCKS)
       } catch (error) {
@@ -264,6 +265,7 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
               align="left"
               onSortChange={() => handleSortToggle("name")}
               sortDirection={column === "name" ? direction : undefined}
+              sortActive={column === "name"}
             >
               Name
             </TableHeadCell>
@@ -272,6 +274,7 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
               align="left"
               onSortChange={() => handleSortToggle("date_uploaded")}
               sortDirection={column === "date_uploaded" ? direction : undefined}
+              sortActive={column === "date_uploaded"}
             >
               Date uploaded
             </TableHeadCell>
@@ -280,6 +283,7 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
               align="left"
               onSortChange={() => handleSortToggle("size")}
               sortDirection={column === "size" ? direction : undefined}
+              sortActive={column === "size"}
             >
               Size
             </TableHeadCell>
@@ -290,7 +294,7 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
         </TableHead>
         <TableBody>
           {
-            items.map((file: IFile) => {
+            items.map((file: IFile, index: number) => {
               let Icon
               if (file.content_type === "application/chainsafe-files-directory") {
                 Icon = FolderSvg
@@ -303,6 +307,7 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
               }
               return (
                 <TableRow
+                  key={`files-${index}`}
                   className={classes.tableRow}
                   type="grid"
                   rowSelectable={true}
@@ -327,19 +332,24 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
                               fileName: file.name
                             }
                           }
+
                           validationSchema={RenameSchema}
                           onSubmit={(values, actions) => {
-                            debugger
+                            setEditing(undefined)
+                            console.log("succeeded")
+                            // renameFile({
+                              
+                            // })
                           }}
                         >
-                          <Fragment>
-                            <Field 
+                          <Form>
+                            <FormikTextInput 
                               className={classes.renameInput}
                               name="fileName"
+                              variant="minimal"
                               placeholder="Please enter a file name"
-                              component={FormikTextInput}
                             />
-                          </Fragment>
+                          </Form>
                         </Formik>
                       )
                     }
