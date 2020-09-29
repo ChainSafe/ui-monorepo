@@ -9,6 +9,7 @@ import {
   Breadcrumb,
   Crumb,
   useHistory,
+  useToaster,
 } from "@chainsafe/common-components"
 import { makeStyles, ITheme, createStyles } from "@chainsafe/common-themes"
 import { useUser } from "@chainsafe/common-contexts"
@@ -40,9 +41,9 @@ const Settings: React.FC = () => {
   const [tabKey, setTabKey] = useState<TabKey>("profileView")
   const classes = useStyles()
   const { profile, refreshProfile, updateProfile } = useUser()
-  const [, setUpdateLoading] = useState(false)
-  const [error, setError] = useState("")
+  const [updatingProfile, setUpdateLoading] = useState(false)
   const { redirect } = useHistory()
+  const { addToastMessage } = useToaster()
 
   const [profileData, setProfileData] = useState(profile)
 
@@ -68,18 +69,24 @@ const Settings: React.FC = () => {
     }))
   }
 
-  const onUpdateProfile = async () => {
+  const onUpdateProfile = async (
+    firstName: string,
+    lastName: string,
+    email: string,
+  ) => {
     try {
       setUpdateLoading(true)
-      await updateProfile(
-        profileData?.firstName || "",
-        profileData?.lastName || "",
-        profileData?.email || "",
-      )
+      await updateProfile(firstName, lastName, email)
       setUpdateLoading(false)
-    } catch (err) {
+      addToastMessage({
+        message: "Profile updated",
+      })
+    } catch (error) {
+      addToastMessage({
+        message: error,
+        appearance: "error",
+      })
       setUpdateLoading(false)
-      setError(err)
     }
   }
 
@@ -113,11 +120,8 @@ const Settings: React.FC = () => {
                 publicAddress={profileData?.publicAddress}
                 handleValueChange={handleChange}
                 onUpdateProfile={onUpdateProfile}
+                updatingProfile={updatingProfile}
               />
-            ) : error ? (
-              <div className={classes.container}>
-                <Typography>{error}</Typography>
-              </div>
             ) : null}
           </TabPane>
           <TabPane title="Plan" tabKey="planView">

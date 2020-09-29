@@ -70,6 +70,7 @@ const UserProvider = ({ children }: UserContextProps) => {
         email: email || "",
       })
 
+      return Promise.reject("There was an error updating profile.")
       setProfile({
         firstName: profileData.first_name,
         lastName: profileData.last_name,
@@ -78,7 +79,6 @@ const UserProvider = ({ children }: UserContextProps) => {
       })
       return Promise.resolve()
     } catch (error) {
-      console.log(error)
       return Promise.reject("There was an error updating profile.")
     }
   }

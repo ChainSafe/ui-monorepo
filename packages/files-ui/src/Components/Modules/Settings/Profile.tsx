@@ -1,12 +1,11 @@
 import React, { useState, useCallback } from "react"
 import * as yup from "yup"
 import {
-  FormikTextInput,
   TextInput,
   Grid,
   Button,
   Typography,
-  Formik,
+  useFormik,
 } from "@chainsafe/common-components"
 import {
   makeStyles,
@@ -14,7 +13,6 @@ import {
   createStyles,
   debounce,
 } from "@chainsafe/common-themes"
-// import { Formik, Field, Form, ErrorMessage } from "formik"
 import { LockIcon, CopyIcon } from "@chainsafe/common-components"
 
 const useStyles = makeStyles((theme: ITheme) =>
@@ -53,7 +51,6 @@ const useStyles = makeStyles((theme: ITheme) =>
       justifyContent: "space-between",
       alignItems: "center",
       cursor: "pointer",
-      // what color is the text
       color: theme.palette.text.secondary,
     },
     deletionMargins: {
@@ -82,7 +79,8 @@ interface IProfileProps {
   lastName?: string
   email?: string
   handleValueChange(e: React.ChangeEvent<HTMLInputElement>): void
-  onUpdateProfile(): void
+  onUpdateProfile(firstName: string, lastName: string, email: string): void
+  updatingProfile: boolean
 }
 
 const Profile: React.FC<IProfileProps> = (props) => {
@@ -91,15 +89,10 @@ const Profile: React.FC<IProfileProps> = (props) => {
     lastName,
     email,
     publicAddress,
-    handleValueChange,
     onUpdateProfile,
+    updatingProfile,
   } = props
   const [copied, setCopied] = useState(false)
-  const [validations, setValidations] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-  })
   const classes = useStyles()
 
   const debouncedSwitchCopied = useCallback(
@@ -124,43 +117,26 @@ const Profile: React.FC<IProfileProps> = (props) => {
   })
 
   const profileWeb3Validation = yup.object().shape({
-    email: yup.string().email("Email is invalid"),
+    email: yup.string().email("Email is invalid").required("Email is required"),
   })
 
-  // do we want formik for validation here ?
-  const onSaveChange = () => {
-    if (publicAddress) {
-      // web3 validation
-      profileWeb3Validation
-        .validate({ email }, { abortEarly: false })
-        .then(() => {
-          setValidations({ firstName: "", lastName: "", email: "" })
-          onUpdateProfile()
-        })
-        .catch((err) => {
-          const errObj: any = {}
-          err.inner.forEach((item: yup.ValidationError) => {
-            errObj[item.path] = item.message
-          })
-          setValidations(errObj)
-        })
-    } else {
-      // web2 validation
-      profileWeb2Validation
-        .validate({ firstName, lastName, email }, { abortEarly: false })
-        .then(() => {
-          setValidations({ firstName: "", lastName: "", email: "" })
-          onUpdateProfile()
-        })
-        .catch((err) => {
-          const errObj: any = {}
-          err.inner.forEach((item: yup.ValidationError) => {
-            errObj[item.path] = item.message
-          })
-          setValidations(errObj)
-        })
-    }
-  }
+  const formikWeb3 = useFormik({
+    initialValues: { email },
+    onSubmit: (fields) =>
+      onUpdateProfile(firstName || "", lastName || "", fields.email || ""),
+    validationSchema: profileWeb3Validation,
+  })
+
+  const formikWeb2 = useFormik({
+    initialValues: { firstName, lastName, email },
+    onSubmit: (fields) =>
+      onUpdateProfile(
+        fields.firstName || "",
+        fields.lastName || "",
+        fields.email || "",
+      ),
+    validationSchema: profileWeb2Validation,
+  })
 
   return (
     <Grid container>
@@ -169,69 +145,49 @@ const Profile: React.FC<IProfileProps> = (props) => {
           <div id="profile" className={classes.bodyContainer}>
             <div className={classes.profileBox}>
               {publicAddress ? (
-                <Formik
-                  initialValues={{
-                    email: email,
-                  }}
-                  validationSchema={profileWeb3Validation}
-                  onSubmit={(fields) => {
-                    console.log(fields)
-                    alert("SUCCESS!! :-)\n\n" + JSON.stringify(fields))
-                  }}
-                >
-                  {({}) => (
-                    <div>
-                      <div className={classes.boxContainer}>
-                        <div className={classes.walletAddressContainer}>
-                          <Typography variant="body1" className={classes.label}>
-                            Wallet address
-                          </Typography>
-                          {/* TODO: tooltip with copied! */}
-                          {copied && <Typography>Copied!</Typography>}
-                        </div>
-                        <div className={classes.copyBox} onClick={copyAddress}>
-                          <Typography variant="body1">
-                            {publicAddress}
-                          </Typography>
-                          <CopyIcon className={classes.copyIcon} />
-                        </div>
-                      </div>
-                      <div className={classes.boxContainer}>
-                        <div className={classes.labelContainer}>
-                          <Typography variant="body1" className={classes.label}>
-                            Email
-                          </Typography>
-                        </div>
-                        {/* <FormikTextInput
-                          placeholder="provide an email (optional)"
-                          type="email"
-                          size="medium"
-                          name="email"
-                        /> */}
-                        <TextInput
-                          placeholder="last name"
-                          value={lastName}
-                          state={validations.lastName ? "error" : "normal"}
-                          captionMessage={validations.lastName}
-                          onChange={handleValueChange}
-                          name="lastName"
-                          size="medium"
-                        />
-                      </div>
-                      <Button
-                        className={classes.button}
-                        size="large"
-                        type="submit"
-                      >
-                        <LockIcon className={classes.icon} />
-                        {"  "}
-                        <Typography variant="button">Save changes</Typography>
-                      </Button>
+                <form onSubmit={formikWeb3.handleSubmit}>
+                  <div className={classes.boxContainer}>
+                    <div className={classes.walletAddressContainer}>
+                      <Typography variant="body1" className={classes.label}>
+                        Wallet address
+                      </Typography>
+                      {/* TODO: tooltip with copied! */}
+                      {copied && <Typography>Copied!</Typography>}
                     </div>
-                  )}
-                </Formik>
+                    <div className={classes.copyBox} onClick={copyAddress}>
+                      <Typography variant="body1">{publicAddress}</Typography>
+                      <CopyIcon className={classes.copyIcon} />
+                    </div>
+                  </div>
+                  <div className={classes.boxContainer}>
+                    <div className={classes.labelContainer}>
+                      <Typography variant="body1" className={classes.label}>
+                        Email
+                      </Typography>
+                    </div>
+                    <TextInput
+                      placeholder="email"
+                      value={formikWeb3.values.email}
+                      state={formikWeb3.errors.email ? "error" : "normal"}
+                      captionMessage={formikWeb3.errors.email}
+                      onChange={formikWeb3.handleChange}
+                      name="email"
+                      size="medium"
+                    />
+                  </div>
+                  <Button
+                    className={classes.button}
+                    size="large"
+                    type="submit"
+                    disabled={updatingProfile}
+                  >
+                    <LockIcon className={classes.icon} />
+                    {"  "}
+                    <Typography variant="button">Save changes</Typography>
+                  </Button>
+                </form>
               ) : (
-                <>
+                <form onSubmit={formikWeb2.handleSubmit}>
                   <div className={classes.boxContainer}>
                     <div className={classes.labelContainer}>
                       <Typography variant="body1" className={classes.label}>
@@ -240,10 +196,10 @@ const Profile: React.FC<IProfileProps> = (props) => {
                     </div>
                     <TextInput
                       placeholder="first name"
-                      value={firstName}
-                      state={validations.firstName ? "error" : "normal"}
-                      captionMessage={validations.firstName}
-                      onChange={handleValueChange}
+                      value={formikWeb2.values.firstName}
+                      state={formikWeb2.errors.firstName ? "error" : "normal"}
+                      captionMessage={formikWeb2.errors.firstName}
+                      onChange={formikWeb3.handleChange}
                       name="firstName"
                       size="medium"
                     />
@@ -256,15 +212,41 @@ const Profile: React.FC<IProfileProps> = (props) => {
                     </div>
                     <TextInput
                       placeholder="last name"
-                      value={lastName}
-                      state={validations.lastName ? "error" : "normal"}
-                      captionMessage={validations.lastName}
-                      onChange={handleValueChange}
+                      value={formikWeb2.values.lastName}
+                      state={formikWeb2.errors.lastName ? "error" : "normal"}
+                      captionMessage={formikWeb2.errors.lastName}
+                      onChange={formikWeb2.handleChange}
                       name="lastName"
                       size="medium"
                     />
                   </div>
-                </>
+                  <div className={classes.boxContainer}>
+                    <div className={classes.labelContainer}>
+                      <Typography variant="body1" className={classes.label}>
+                        Email
+                      </Typography>
+                    </div>
+                    <TextInput
+                      placeholder="Email"
+                      value={formikWeb2.values.email}
+                      state={formikWeb2.errors.email ? "error" : "normal"}
+                      captionMessage={formikWeb2.errors.email}
+                      onChange={formikWeb2.handleChange}
+                      name="email"
+                      size="medium"
+                    />
+                  </div>
+                  <Button
+                    className={classes.button}
+                    size="large"
+                    type="submit"
+                    disabled={updatingProfile}
+                  >
+                    <LockIcon className={classes.icon} />
+                    {"  "}
+                    <Typography variant="button">Save changes</Typography>
+                  </Button>
+                </form>
               )}
             </div>
           </div>
