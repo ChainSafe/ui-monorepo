@@ -7,7 +7,6 @@ import {
 } from "@imploy/api-client"
 import * as React from "react"
 import { useImployApi } from "../ImployApiContext"
-import { FileResponse, FileRequest } from "../ImployApiContext/ImployApiClient"
 
 type DriveContextProps = {
   children: React.ReactNode | React.ReactNode[]
@@ -17,7 +16,7 @@ type DriveContext = {
   // Upload file
   uploadFile(file: Blob): Promise<FilesUploadResponse>
   // Create folder
-  createFolder(body: FileRequest): Promise<FileContentResponse>
+  createFolder(body: FilesPathRequest): Promise<FileContentResponse>
   // Rename file
   renameFile(body: FilesMvRequest): Promise<void>
   // Move file
@@ -25,9 +24,9 @@ type DriveContext = {
   // Delete file
   deleteFile(body: FilesRmRequest): Promise<void>
   // Download file
-  downloadFile(body: FileRequest): Promise<void>
+  downloadFile(body: FilesPathRequest): Promise<void>
   // Get list of files and folders for a path
-  list(body: FilesPathRequest): Promise<FileResponse[]>
+  list(body: FilesPathRequest): Promise<FileContentResponse[]>
 }
 
 const DriveContext = React.createContext<DriveContext | undefined>(undefined)
@@ -46,7 +45,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
     }
   }
 
-  const createFolder = async (body: FileRequest) => {
+  const createFolder = async (body: FilesPathRequest) => {
     if (!imployApiClient) return Promise.reject("Api Client is not initialized")
 
     try {
@@ -87,7 +86,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
     }
   }
 
-  const downloadFile = async (body: FileRequest) => {
+  const downloadFile = async (body: FilesPathRequest) => {
     if (!imployApiClient) return Promise.reject("Api Client is not initialized")
 
     try {
