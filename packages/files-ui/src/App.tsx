@@ -1,6 +1,6 @@
 import React from "react"
 import { init, ErrorBoundary, showReportDialog } from "@sentry/react"
-import { createTheme, ThemeProvider } from "@chainsafe/common-themes"
+import { createTheme, ThemeSwitcher } from "@chainsafe/common-themes"
 import { CssBaseline, Router } from "@chainsafe/common-components"
 import { Web3Provider } from "@chainsafe/web3-context"
 import { DriveProvider, ImployApiProvider } from "@chainsafe/common-contexts"
@@ -17,10 +17,18 @@ if (
   })
 }
 
-const theme = createTheme()
+const lightTheme = createTheme()
+lightTheme.palette.primary.main = "#000"
+lightTheme.palette.primary.hover = "#FFF"
+
+lightTheme.palette.secondary.main = "#FFF"
+lightTheme.palette.secondary.hover = "#000"
+
+const darkTheme = createTheme()
+darkTheme.palette.primary.main = "#FFF"
+darkTheme.palette.secondary.main = "#000"
 
 const App: React.FC<{}> = () => {
-  // TODO: Use a different default here
   const apiUrl =
     process.env.REACT_APP_API_URL || "https://alpha.imploy.site/api/v1"
 
@@ -44,7 +52,7 @@ const App: React.FC<{}> = () => {
       )}
       onReset={() => window.location.reload()}
     >
-      <ThemeProvider theme={theme}>
+      <ThemeSwitcher themes={{ light: lightTheme, dark: darkTheme }}>
         <CssBaseline />
         <Web3Provider networkIds={[1]}>
           <ImployApiProvider apiUrl={apiUrl}>
@@ -57,7 +65,7 @@ const App: React.FC<{}> = () => {
             </DriveProvider>
           </ImployApiProvider>
         </Web3Provider>
-      </ThemeProvider>
+      </ThemeSwitcher>
     </ErrorBoundary>
   )
 }
