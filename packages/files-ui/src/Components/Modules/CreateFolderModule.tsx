@@ -34,7 +34,7 @@ const useStyles = makeStyles(({ constants, palette, typography }: ITheme) =>
   }),
 )
 
-const CreateFolder: React.FC<{ buttonClassName?: string }> = ({
+const CreateFolderModule: React.FC<{ buttonClassName?: string }> = ({
   buttonClassName,
 }) => {
   const classes = useStyles()
@@ -112,4 +112,4 @@ const CreateFolder: React.FC<{ buttonClassName?: string }> = ({
   )
 }
 
-export default CreateFolder
+export default CreateFolderModule
