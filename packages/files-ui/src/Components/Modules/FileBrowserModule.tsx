@@ -1,6 +1,6 @@
 import { createStyles, ITheme, makeStyles } from "@chainsafe/common-themes"
 import React, { Fragment } from "react"
-import { Button, CheckboxInput, DeleteIcon, Divider, DownloadIcon, EditIcon, ExportIcon, FileImageSvg, FilePdfSvg, FileTextSvg, FolderSvg, formatBytes, FormikTextInput, MenuDropdown, MoreIcon, PlusCircleIcon, ShareAltIcon, SortDirection, standardlongDateFormat, Table, TableBody, TableCell, TableHead, TableHeadCell, TableRow, Typography, UploadIcon } from "@chainsafe/common-components"
+import { CheckboxInput, DeleteIcon, Divider, DownloadIcon, EditIcon, ExportIcon, FileImageSvg, FilePdfSvg, FileTextSvg, FolderSvg, formatBytes, FormikTextInput, MenuDropdown, MoreIcon, ShareAltIcon, SortDirection, standardlongDateFormat, Table, TableBody, TableCell, TableHead, TableHeadCell, TableRow, Typography } from "@chainsafe/common-components"
 import { useState } from "react"
 import { useEffect } from "react"
 import { useMemo } from "react"
@@ -9,10 +9,11 @@ import { FileRequest } from "@chainsafe/common-contexts/dist/ImployApiContext/Im
 import { Formik, Form } from "formik"
 import { object, string,  } from "yup"
 import EmptySvg from "../../Media/Empty.svg"
+import CreateFolderModule from "./CreateFolderModule"
+import UploadFileModule from "./UploadFileModule "
 
 const useStyles = makeStyles(({
-  constants,
-  palette
+  constants
 }: ITheme) =>{
     const gridSettings = "50px 69px 3fr 190px 100px 45px !important"
     return createStyles({
@@ -28,7 +29,7 @@ const useStyles = makeStyles(({
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "center",
-        "& > *": {
+        "& > button": {
           marginLeft: constants.generalUnit
         }
       },
@@ -251,7 +252,6 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
 
   }
 
-  
   const RenameSchema = object().shape({
     fileName: string()
       .min(1, 'Please enter a file name')
@@ -270,14 +270,8 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
         <div className={classes.controls}>
           {
             controls && <Fragment>
-              <Button variant="outline">
-                <PlusCircleIcon />
-                New folder
-              </Button>
-              <Button variant="outline">
-                <UploadIcon />
-                Upload
-              </Button>
+              <CreateFolderModule />
+              <UploadFileModule />
             </Fragment>
           }
         </div>
