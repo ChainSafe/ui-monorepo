@@ -2,6 +2,7 @@ import { Button } from "@chainsafe/common-components"
 import { useDrive } from "@chainsafe/common-contexts"
 import React from "react"
 import { useEffect } from "react"
+import CreateFolder from "../Modules/CreateFolder"
 
 const HomePage = () => {
   const { list } = useDrive()
@@ -31,6 +32,7 @@ const HomePage = () => {
     <div>
       You have logged in successfully{" "}
       <Button onClick={getFolderContents}>Get Files</Button>
+      <CreateFolder />
     </div>
   )
 }

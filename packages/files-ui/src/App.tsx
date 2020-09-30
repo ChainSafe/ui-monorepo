@@ -1,6 +1,6 @@
 import React from "react"
 import { init, ErrorBoundary, showReportDialog } from "@sentry/react"
-import { createTheme, ThemeProvider } from "@chainsafe/common-themes"
+import { createTheme, ThemeSwitcher } from "@chainsafe/common-themes"
 import {
   CssBaseline,
   Router,
@@ -62,17 +62,21 @@ const App: React.FC<{}> = () => {
     >
       <ThemeSwitcher themes={{ light: lightTheme, dark: darkTheme }}>
         <CssBaseline />
-        <Web3Provider networkIds={[1]}>
-          <ImployApiProvider apiUrl={apiUrl}>
-            <DriveProvider>
-              <Router>
-                <AppWrapper>
-                  <FilesRoutes />
-                </AppWrapper>
-              </Router>
-            </DriveProvider>
-          </ImployApiProvider>
-        </Web3Provider>
+        <ToasterProvider autoDismiss>
+          <Web3Provider networkIds={[1]}>
+            <ImployApiProvider apiUrl={apiUrl}>
+              <UserProvider>
+                <DriveProvider>
+                  <Router>
+                    <AppWrapper>
+                      <FilesRoutes />
+                    </AppWrapper>
+                  </Router>
+                </DriveProvider>
+              </UserProvider>
+            </ImployApiProvider>
+          </Web3Provider>
+        </ToasterProvider>
       </ThemeSwitcher>
     </ErrorBoundary>
   )
