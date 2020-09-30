@@ -123,6 +123,7 @@ const useStyles = makeStyles(
         padding: `${0}px ${contentPadding}px ${0}px ${contentPadding}px`,
         transitionDuration: `${animation.translate}ms`,
         opacity: 0,
+        backgroundColor: palette.common.white.main,
         visibility: "hidden",
         "& >*:first-child": {
           flex: "1 1 0",
@@ -147,9 +148,11 @@ const useStyles = makeStyles(
       menuItem: {},
       content: {
         height: "100%",
+        minHeight: "100vh",
         transitionDuration: `${animation.translate}ms`,
         padding: 0,
         "&.active": {
+          height: "initial",
           padding: `${contentTopPadding}px 0 0`,
         },
       },

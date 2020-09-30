@@ -8,6 +8,7 @@ import { useDrive } from "@chainsafe/common-contexts"
 import { FileRequest } from "@chainsafe/common-contexts/dist/ImployApiContext/ImployApiClient"
 import { Formik, Form } from "formik"
 import { object, string,  } from "yup"
+import EmptySvg from "../../Media/Empty.svg"
 
 const useStyles = makeStyles(({
   constants,
@@ -33,6 +34,16 @@ const useStyles = makeStyles(({
       },
       divider: {
         margin: `${constants.generalUnit * 4.5}px 0`
+      },
+      noFiles: {
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        marginTop: "25vh",
+        "& svg": {
+          maxWidth: 180,
+          marginBottom: constants.generalUnit * 3
+        }
       },
       tableRow: {
         gridTemplateColumns: gridSettings,
@@ -128,6 +139,7 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
     renameFile,
    } = useDrive()
 
+  // TODO update to pull from list
   const [files, setFiles] = useState<IFile[]>(MOCKS)
   const [editing, setEditing] = useState<string | undefined>()
   const [direction, setDirection] = useState<SortDirection>("descend")
@@ -270,196 +282,208 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
         </div>
       </header>
       <Divider className={classes.divider} />
-      <Table
-        fullWidth={true}
-        // dense={true}
-        striped={true}
-        hover={true}
-      >
-        <TableHead>
-          <TableRow 
-            type="grid"
-            className={classes.tableRow}
+      {
+        items.length === 0 ? (
+          <section className={classes.noFiles}>
+            <EmptySvg />
+            <Typography variant="h4" component="h4">
+              No files to show
+            </Typography>
+          </section>
+        ) : (
+          <Table
+            fullWidth={true}
+            // dense={true}
+            striped={true}
+            hover={true}
           >
-            <TableHeadCell>
-              <CheckboxInput value={selected.length === items.length} onChange={() => toggleAll()} />
-            </TableHeadCell>
-            <TableHeadCell>
-              {/* 
-                Icon
-              */}
-            </TableHeadCell>
-            <TableHeadCell
-              sortButtons={true}
-              align="left"
-              onSortChange={() => handleSortToggle("name")}
-              sortDirection={column === "name" ? direction : undefined}
-              sortActive={column === "name"}
-            >
-              Name
-            </TableHeadCell>
-            <TableHeadCell
-              sortButtons={true}
-              align="left"
-              onSortChange={() => handleSortToggle("date_uploaded")}
-              sortDirection={column === "date_uploaded" ? direction : undefined}
-              sortActive={column === "date_uploaded"}
-            >
-              Date uploaded
-            </TableHeadCell>
-            <TableHeadCell
-              sortButtons={true}
-              align="left"
-              onSortChange={() => handleSortToggle("size")}
-              sortDirection={column === "size" ? direction : undefined}
-              sortActive={column === "size"}
-            >
-              Size
-            </TableHeadCell>
-            <TableHeadCell>
-              {/* Menu */}
-            </TableHeadCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {
-            items.map((file: IFile, index: number) => {
-              let Icon
-              if (file.content_type === "application/chainsafe-files-directory") {
-                Icon = FolderSvg
-              } else if (file.content_type.includes("image")){
-                Icon = FileImageSvg
-              } else if (file.content_type.includes("pdf")) {
-                Icon = FilePdfSvg
-              } else {
-                Icon = FileTextSvg
-              }
-              return (
-                <TableRow
-                  key={`files-${index}`}
-                  className={classes.tableRow}
-                  type="grid"
-                  rowSelectable={true}
-                  selected={selected.includes(file.cid)}
+            <TableHead>
+              <TableRow 
+                type="grid"
+                className={classes.tableRow}
+              >
+                <TableHeadCell>
+                  <CheckboxInput value={selected.length === items.length} onChange={() => toggleAll()} />
+                </TableHeadCell>
+                <TableHeadCell>
+                  {/* 
+                    Icon
+                  */}
+                </TableHeadCell>
+                <TableHeadCell
+                  sortButtons={true}
+                  align="left"
+                  onSortChange={() => handleSortToggle("name")}
+                  sortDirection={column === "name" ? direction : undefined}
+                  sortActive={column === "name"}
                 >
-                  <TableCell>
-                    <CheckboxInput value={selected.includes(file.cid)} onChange={() => handleSelect(file.cid)} />
-                  </TableCell>
-                  <TableCell 
-                    className={classes.fileIcon}
-                  >
-                    <Icon />  
-                  </TableCell>
-                  <TableCell
-                    align="left"
-                  >
-                    {
-                      editing !== file.cid ? file.name : (
-                        <Formik 
-                          initialValues={
-                            {
-                              fileName: file.name
-                            }
-                          }
+                  Name
+                </TableHeadCell>
+                <TableHeadCell
+                  sortButtons={true}
+                  align="left"
+                  onSortChange={() => handleSortToggle("date_uploaded")}
+                  sortDirection={column === "date_uploaded" ? direction : undefined}
+                  sortActive={column === "date_uploaded"}
+                >
+                  Date uploaded
+                </TableHeadCell>
+                <TableHeadCell
+                  sortButtons={true}
+                  align="left"
+                  onSortChange={() => handleSortToggle("size")}
+                  sortDirection={column === "size" ? direction : undefined}
+                  sortActive={column === "size"}
+                >
+                  Size
+                </TableHeadCell>
+                <TableHeadCell>
+                  {/* Menu */}
+                </TableHeadCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {
+                items.map((file: IFile, index: number) => {
+                  let Icon
+                  if (file.content_type === "application/chainsafe-files-directory") {
+                    Icon = FolderSvg
+                  } else if (file.content_type.includes("image")){
+                    Icon = FileImageSvg
+                  } else if (file.content_type.includes("pdf")) {
+                    Icon = FilePdfSvg
+                  } else {
+                    Icon = FileTextSvg
+                  }
+                  return (
+                    <TableRow
+                      key={`files-${index}`}
+                      className={classes.tableRow}
+                      type="grid"
+                      rowSelectable={true}
+                      selected={selected.includes(file.cid)}
+                    >
+                      <TableCell>
+                        <CheckboxInput value={selected.includes(file.cid)} onChange={() => handleSelect(file.cid)} />
+                      </TableCell>
+                      <TableCell 
+                        className={classes.fileIcon}
+                      >
+                        <Icon />  
+                      </TableCell>
+                      <TableCell
+                        align="left"
+                      >
+                        {
+                          editing !== file.cid ? file.name : (
+                            <Formik 
+                              initialValues={
+                                {
+                                  fileName: file.name
+                                }
+                              }
 
-                          validationSchema={RenameSchema}
-                          onSubmit={(values, actions) => {
-                            handleRename(`${fileRequest.path}/${file.name}`, `${fileRequest.path}/${values.fileName}`)
-                          }}
-                        >
-                          <Form>
-                            <FormikTextInput 
-                              className={classes.renameInput}
-                              name="fileName"
-                              variant="minimal"
-                              placeholder="Please enter a file name"
-                            />
-                          </Form>
-                        </Formik>
-                      )
-                    }
-                  </TableCell>
-                  <TableCell
-                    align="left"
-                  >
-                    {
-                      standardlongDateFormat(new Date(file.date_uploaded), true)
-                    }
-                  </TableCell>
-                  <TableCell
-                    align="left"
-                  >
-                    {
-                      formatBytes(file.size)
-                    }
-                  </TableCell>
-                  <TableCell
-                    align="right"
-                  >
-                    <MenuDropdown 
-                      animation="none"
-                      menuItems={[
+                              validationSchema={RenameSchema}
+                              onSubmit={(values, actions) => {
+                                handleRename(`${fileRequest.path}/${file.name}`, `${fileRequest.path}/${values.fileName}`)
+                              }}
+                            >
+                              <Form>
+                                <FormikTextInput 
+                                  className={classes.renameInput}
+                                  name="fileName"
+                                  variant="minimal"
+                                  placeholder="Please enter a file name"
+                                />
+                              </Form>
+                            </Formik>
+                          )
+                        }
+                      </TableCell>
+                      <TableCell
+                        align="left"
+                      >
                         {
-                          contents: <Fragment>
-                            <ExportIcon className={classes.menuIcon} />
-                            <span>
-                              Move
-                            </span>
-                          </Fragment>,
-                          onClick: () => console.log
-                        },
+                          standardlongDateFormat(new Date(file.date_uploaded), true)
+                        }
+                      </TableCell>
+                      <TableCell
+                        align="left"
+                      >
                         {
-                          contents: <Fragment>
-                            <ShareAltIcon className={classes.menuIcon} />
-                            <span>
-                              Share
-                            </span>
-                          </Fragment>,
-                          onClick: () => console.log
-                        },
-                        {
-                          contents: <Fragment>
-                            <EditIcon className={classes.menuIcon} />
-                            <span>
-                              Rename
-                            </span>
-                          </Fragment>,
-                          onClick: () => setEditing(file.cid)
-                        },
-                        {
-                          contents: <Fragment>
-                            <DeleteIcon className={classes.menuIcon} />
-                            <span>
-                              Delete
-                            </span>
-                          </Fragment>,
-                          onClick: () => deleteFile({
-                            paths: [
-                              `${fileRequest.path}/${file.name}`
-                            ]
-                          })
-                        },
-                        {
-                          contents: <Fragment>
-                            <DownloadIcon className={classes.menuIcon} />
-                            <span>
-                              Download
-                            </span>
-                          </Fragment>,
-                          onClick: () => downloadFile({
-                            path: `${fileRequest.path}/${file.name}` 
-                          })
-                        },
-                      ]}
-                      indicator={MoreIcon}
-                    />
-                  </TableCell>
-                </TableRow>
-              )
-            })
-          }
-        </TableBody>
-      </Table>
+                          formatBytes(file.size)
+                        }
+                      </TableCell>
+                      <TableCell
+                        align="right"
+                      >
+                        <MenuDropdown 
+                          animation="none"
+                          menuItems={[
+                            {
+                              contents: <Fragment>
+                                <ExportIcon className={classes.menuIcon} />
+                                <span>
+                                  Move
+                                </span>
+                              </Fragment>,
+                              onClick: () => console.log
+                            },
+                            {
+                              contents: <Fragment>
+                                <ShareAltIcon className={classes.menuIcon} />
+                                <span>
+                                  Share
+                                </span>
+                              </Fragment>,
+                              onClick: () => console.log
+                            },
+                            {
+                              contents: <Fragment>
+                                <EditIcon className={classes.menuIcon} />
+                                <span>
+                                  Rename
+                                </span>
+                              </Fragment>,
+                              onClick: () => setEditing(file.cid)
+                            },
+                            {
+                              contents: <Fragment>
+                                <DeleteIcon className={classes.menuIcon} />
+                                <span>
+                                  Delete
+                                </span>
+                              </Fragment>,
+                              onClick: () => deleteFile({
+                                paths: [
+                                  `${fileRequest.path}/${file.name}`
+                                ]
+                              })
+                            },
+                            {
+                              contents: <Fragment>
+                                <DownloadIcon className={classes.menuIcon} />
+                                <span>
+                                  Download
+                                </span>
+                              </Fragment>,
+                              onClick: () => downloadFile({
+                                path: `${fileRequest.path}/${file.name}` 
+                              })
+                            },
+                          ]}
+                          indicator={MoreIcon}
+                        />
+                      </TableCell>
+                    </TableRow>
+                  )
+                })
+              }
+            </TableBody>
+          </Table>
+        )
+      }
+      
     </article>
   )
 }
