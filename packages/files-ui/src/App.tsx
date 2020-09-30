@@ -55,7 +55,7 @@ const App: React.FC<{}> = () => {
         <ToasterProvider autoDismiss>
           <CssBaseline />
           <Web3Provider networkIds={[1]}>
-            <ImployApiProvider apiUrl="http://3.236.79.100:8000/api/v1">
+            <ImployApiProvider apiUrl={apiUrl}>
               <DriveProvider>
                 <UserProvider>
                   <Router>
