@@ -1,7 +1,7 @@
 import { useWeb3 } from "@chainsafe/web3-context"
 import * as React from "react"
 import { useState, useEffect } from "react"
-import { IImployApiClient, ImployApiClient, Token } from "./ImployApiClient"
+import { IImployApiClient, ImployApiClient, Token } from "@imploy/api-client"
 import jwtDecode from "jwt-decode"
 import { signMessage } from "./utils"
 import axios from "axios"
@@ -45,7 +45,9 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
   ) => {
     setAccessToken(accessToken)
     setRefreshToken(refreshToken)
-    localStorage.setItem(tokenStorageKey, refreshToken.token)
+    refreshToken.token &&
+      localStorage.setItem(tokenStorageKey, refreshToken.token)
+    //@ts-ignore
     apiClient.setToken(accessToken.token)
   }
 
@@ -159,7 +161,7 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
   }
 
   useEffect(() => {
-    if (refreshToken) {
+    if (refreshToken && refreshToken.token) {
       try {
         const decoded = jwtDecode<any>(refreshToken.token)
         setDecodedRefreshToken(decoded)
@@ -170,7 +172,7 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
   }, [refreshToken])
 
   useEffect(() => {
-    if (accessToken && imployApiClient) {
+    if (accessToken && accessToken.token && imployApiClient) {
       imployApiClient?.setToken(accessToken.token)
     }
   }, [accessToken])

@@ -28,6 +28,9 @@ if (
 const theme = createTheme()
 
 const App: React.FC<{}> = () => {
+  const apiUrl =
+    process.env.REACT_APP_API_URL || "http://3.236.79.100:8000/api/v1"
+
   return (
     <ErrorBoundary
       fallback={({ error, componentStack, eventId, resetError }) => (
