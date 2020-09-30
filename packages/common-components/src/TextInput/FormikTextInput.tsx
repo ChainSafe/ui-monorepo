@@ -11,6 +11,7 @@ export interface FormikTextInputProps {
   type?: "text" | "email" | "password" | "url" | "search"
   size?: "large" | "medium" | "small"
   captionMessage?: string
+  labelClassName?: string
 }
 
 const FormikTextInput: React.FC<FormikTextInputProps> = ({
@@ -20,6 +21,7 @@ const FormikTextInput: React.FC<FormikTextInputProps> = ({
   name,
   size,
   label,
+  labelClassName,
   disabled = false,
   captionMessage,
 }: FormikTextInputProps) => {
@@ -31,6 +33,7 @@ const FormikTextInput: React.FC<FormikTextInputProps> = ({
       type={type}
       size={size}
       className={className}
+      labelClassName={labelClassName}
       name={field.name}
       value={field.value}
       placeholder={placeholder}
