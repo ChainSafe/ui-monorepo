@@ -125,7 +125,6 @@ const useStyles = makeStyles(
         opacity: 0,
         backgroundColor: palette.common.white.main,
         visibility: "hidden",
-        backgroundColor: palette.background.default,
         "& >*:first-child": {
           flex: "1 1 0",
         },
