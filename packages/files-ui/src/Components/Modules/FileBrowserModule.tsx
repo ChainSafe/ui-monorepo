@@ -251,6 +251,7 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
 
   }
 
+  
   const RenameSchema = object().shape({
     fileName: string()
       .min(1, 'Please enter a file name')
