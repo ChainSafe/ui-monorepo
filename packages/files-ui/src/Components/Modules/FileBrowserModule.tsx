@@ -1,6 +1,6 @@
 import { createStyles, ITheme, makeStyles } from "@chainsafe/common-themes"
 import React, { Fragment } from "react"
-import { Button, CheckboxInput, DeleteIcon, Divider, DownloadIcon, EditIcon, ExportIcon, FileImageSvg, FilePdfSvg, FileTextSvg, FolderSvg, FormikTextInput, MenuDropdown, MoreIcon, PlusCircleIcon, ShareAltIcon, SortDirection, standardDateFormat, Table, TableBody, TableCell, TableHead, TableHeadCell, TableRow, Typography, UploadIcon } from "@chainsafe/common-components"
+import { Button, CheckboxInput, DeleteIcon, Divider, DownloadIcon, EditIcon, ExportIcon, FileImageSvg, FilePdfSvg, FileTextSvg, FolderSvg, formatBytes, FormikTextInput, MenuDropdown, MoreIcon, PlusCircleIcon, ShareAltIcon, SortDirection, standardlongDateFormat, Table, TableBody, TableCell, TableHead, TableHeadCell, TableRow, Typography, UploadIcon } from "@chainsafe/common-components"
 import { useState } from "react"
 import { useEffect } from "react"
 import { useMemo } from "react"
@@ -13,7 +13,7 @@ const useStyles = makeStyles(({
   constants,
   palette
 }: ITheme) =>{
-    const gridSettings = "50px 69px 3fr 150px 100px 45px !important"
+    const gridSettings = "50px 69px 3fr 190px 100px 45px !important"
     return createStyles({
       root: {},
       header: {
@@ -112,11 +112,13 @@ export interface IFileBrowserProps {
   heading?: string
   // TODO: once pagination & unique content requests are present, this might change to a passed in function
   fileRequest: FileRequest
+  controls?: boolean
 }
 
 const FileBrowserModule: React.FC<IFileBrowserProps> = ({
   heading = "My Files",
-  fileRequest = { path: "/" }
+  fileRequest = { path: "/" },
+  controls = true
 }: IFileBrowserProps) => {
   const classes = useStyles()
   const { 
@@ -253,14 +255,18 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
           }
         </Typography>
         <div className={classes.controls}>
-          <Button variant="outline">
-            <PlusCircleIcon />
-            New folder
-          </Button>
-          <Button variant="outline">
-            <UploadIcon />
-            Upload
-          </Button>
+          {
+            controls && <Fragment>
+              <Button variant="outline">
+                <PlusCircleIcon />
+                New folder
+              </Button>
+              <Button variant="outline">
+                <UploadIcon />
+                Upload
+              </Button>
+            </Fragment>
+          }
         </div>
       </header>
       <Divider className={classes.divider} />
@@ -377,14 +383,14 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
                     align="left"
                   >
                     {
-                      standardDateFormat(new Date(file.date_uploaded))
+                      standardlongDateFormat(new Date(file.date_uploaded), true)
                     }
                   </TableCell>
                   <TableCell
                     align="left"
                   >
                     {
-                      file.size
+                      formatBytes(file.size)
                     }
                   </TableCell>
                   <TableCell

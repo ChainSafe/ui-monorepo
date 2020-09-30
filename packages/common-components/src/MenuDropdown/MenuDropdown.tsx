@@ -118,11 +118,7 @@ const useStyles = makeStyles(
         transitionDuration: `${animation.transform}ms`,
         backgroundColor: "initial",
         "&:hover": {
-          backgroundColor: palette.additional["gray"][4],
-          color: palette.common.white.main,
-          "& svg": {
-            fill: palette.common.white.main,
-          }
+          backgroundColor: palette.additional["gray"][3],
         },
         "& > *:first-child ~ *": {
           marginLeft: constants.generalUnit / 2,

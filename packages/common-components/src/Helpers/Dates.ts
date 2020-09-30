@@ -3,7 +3,16 @@ export const standardDateFormat = (input: Date): string =>
     input.getMonth() + 1
   }`.padStart(2, '0')}/${`${input.getFullYear()}`.substr(2, 4)}`
 
-export const standardlongDateFormat = (input: Date): string => {
+export const formatAMPM = (date: Date) => {
+    var hours = date.getHours();
+    var minutes = date.getMinutes();
+    var ampm = hours >= 12 ? 'pm' : 'am';
+    hours = hours % 12;
+    hours = hours ? hours : 12; // the hour '0' should be '12'
+    return `${hours}:${minutes < 10 ? '0'+ minutes : minutes} ${ampm}`
+  }
+
+export const standardlongDateFormat = (input: Date, time?: boolean): string => {
   const months = [
     'January',
     'February',
@@ -19,6 +28,6 @@ export const standardlongDateFormat = (input: Date): string => {
     'December',
   ]
   return `${`${input.getDay()}`.padStart(2, '0')} ${`${
-    months[input.getMonth()]
-  }`} ${`${input.getFullYear()}`.substr(0, 4)}`
+    months[input.getMonth()].substr(0, 4)
+  }`} ${`${input.getFullYear()}`.substr(0, 4)}${time ? ` ${formatAMPM(input)}`: ''}`
 }
