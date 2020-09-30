@@ -6,11 +6,9 @@ const useStyles = makeStyles((theme: ITheme) =>
   createStyles({
     root: {
       color: theme.palette.additional["gray"][8],
-      display: "table-row",
-      verticalAlign: "middle",
       outline: 0,
-      borderBottom: `1px solid ${theme.palette}`,
-      transition: `all ${theme.animation.transform}ms`,
+      borderBottom: `1px solid ${theme.palette.additional["gray"][4]}`,
+      transitionDuration: `${theme.animation.transform}ms`,
       ...theme.typography.body1,
       lineHeight: "inherit",
       "&.selected": {
@@ -19,6 +17,15 @@ const useStyles = makeStyles((theme: ITheme) =>
           backgroundColor: theme.palette.additional["gray"][4],
         },
       },
+      "&.classic": {
+        display: "table-row",
+        verticalAlign: "middle",
+      },
+      "&.grid": {
+        display: "grid",
+        gridTemplateColumns: "repeat(auto-fit, minmax(40px, 1fr))",
+        alignItems: "center"
+      }
     },
     rowSelectable: {
       cursor: "pointer",
@@ -28,6 +35,7 @@ const useStyles = makeStyles((theme: ITheme) =>
 
 export interface ITableRowProps {
   className?: string
+  type?: "classic" | "grid"
   children: ReactNode | ReactNode[]
   selected?: boolean
   rowSelectable?: boolean
@@ -38,6 +46,7 @@ const TableRow: React.FC<ITableRowProps> = ({
   children,
   className,
   selected,
+  type = "classic",
   rowSelectable,
   onClick,
   ...rest
@@ -53,6 +62,7 @@ const TableRow: React.FC<ITableRowProps> = ({
           [classes.rowSelectable]: rowSelectable,
         },
         className,
+        type
       )}
       onClick={rowSelectable ? onClick : undefined}
       {...rest}
