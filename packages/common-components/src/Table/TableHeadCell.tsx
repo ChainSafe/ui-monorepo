@@ -9,7 +9,7 @@ import {
   createStyles,
 } from "@chainsafe/common-themes"
 import { SortDirection } from "./types"
-import { CaretUpIcon } from "../Icons"
+import { CaretDownSvg } from "../Icons"
 
 const useStyles = makeStyles((theme: ITheme) =>
   createStyles({
@@ -48,19 +48,23 @@ const useStyles = makeStyles((theme: ITheme) =>
     caret: {
       marginLeft: 4,
       fontSize: "12px",
+      opacity: 0.4,
+      "&.active": {
+        opacity: 1,
+      },
       "& svg": {
         fill: theme.palette.additional["gray"][6],
       },
       "&.ascend": {
         transition: `transform ${theme.animation.transform}ms`,
-        transform: "rotate(0deg)",
+        transform: "rotate(-180deg)",
         "& svg": {
           fill: theme.palette.additional["gray"][9],
         },
       },
       "&.descend": {
         transition: `transform ${theme.animation.transform}ms`,
-        transform: "rotate(-180deg)",
+        transform: "rotate(0deg)",
         "& svg": {
           fill: theme.palette.additional["gray"][9],
         },
@@ -78,6 +82,7 @@ export interface ITableHeadCellProps {
   align?: AlignOption
   sortButtons?: boolean
   sortDirection?: SortDirection
+  sortActive?: boolean
   color?: keyof IPalette
   onSortChange?(
     e: React.MouseEvent<HTMLTableHeaderCellElement, MouseEvent>,
@@ -92,13 +97,14 @@ const TableHeadCell: React.FC<ITableHeadCellProps> = ({
   color = "secondary",
   onSortChange,
   className,
+  sortActive = false,
   ...rest
 }: ITableHeadCellProps) => {
   const props = { color }
   const classes = useStyles(props)
 
   return (
-    <th
+    <td
       className={clsx(
         classes.root,
         sortButtons && classes.sortButtons,
@@ -124,13 +130,15 @@ const TableHeadCell: React.FC<ITableHeadCellProps> = ({
             {children}
           </div>
           <div className={classes.caretContainer}>
-            <CaretUpIcon className={clsx(classes.caret, sortDirection)} />
+            <CaretDownSvg className={clsx(classes.caret, sortDirection, {
+              "active": sortActive
+            })} />
           </div>
         </div>
       ) : (
         children
       )}
-    </th>
+    </td>
   )
 }
 

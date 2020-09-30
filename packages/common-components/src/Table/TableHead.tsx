@@ -6,6 +6,7 @@ const useStyles = makeStyles((theme: ITheme) =>
   createStyles({
     root: {
       display: "table-header-group",
+      minWidth: "min-content",
       color: theme.palette.additional["gray"][9],
       backgroundColor: theme.palette.additional["gray"][2],
       borderBottom: `1px solid ${theme.palette.additional["gray"][4]}`,

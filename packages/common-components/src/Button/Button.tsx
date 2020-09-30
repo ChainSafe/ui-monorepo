@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme: ITheme) =>
       border: "none",
       outline: "none",
       "& svg": {
-        margin: `${theme.constants.generalUnit / 4}px ${
+        margin: `${0}px ${
           theme.constants.generalUnit / 2
         }px 0`,
       },
@@ -173,13 +173,20 @@ const useStyles = makeStyles((theme: ITheme) =>
       },
     },
     disabled: {
-      backgroundColor: theme.palette.additional["gray"][3],
-      borderColor: theme.palette.additional["gray"][5],
-      color: theme.palette.additional["gray"][6],
+      backgroundColor: `${theme.palette.additional["gray"][3]} !important`,
+      borderColor: `${theme.palette.additional["gray"][5]} !important`,
+      color: `${theme.palette.additional["gray"][6]} !important`,
+      cursor: "initial",  
+      "& svg": {  
+        fill: `${theme.palette.additional["gray"][6]} !important`,
+      },
       "&:hover": {
         backgroundColor: theme.palette.additional["gray"][3],
         borderColor: theme.palette.additional["gray"][5],
         color: theme.palette.additional["gray"][6],
+        "& svg": {
+          fill: `${theme.palette.additional["gray"][6]} !important`,
+        },
       },
     },
   }),

@@ -29,7 +29,11 @@ const useStyles = makeStyles(
         justifyContent: "space-between",
         "& p": {
           position: "relative",
+          "& ~ * svg": {
+            marginLeft: constants.generalUnit,
+          }
         },
+        
       },
       icon: {
         fontSize: "unset",
@@ -55,7 +59,6 @@ const useStyles = makeStyles(
           },
         },
         "& svg": {
-          marginLeft: constants.generalUnit,
           height: 14,
           width: 14,
           transitionDuration: `${animation.transform}ms`,
@@ -69,6 +72,8 @@ const useStyles = makeStyles(
         visibility: "hidden",
         opacity: 0,
         transitionDuration: `${animation.transform}ms`,
+        zIndex: 1000,
+        padding: 0,
         "&.top-left": {
           top: 0,
           left: 0,
@@ -108,10 +113,20 @@ const useStyles = makeStyles(
         display: "flex",
         flexDirection: "row",
         alignItems: "center",
-        padding: `${constants.generalUnit * 1.5}px ${constants.generalUnit}px`,
+        padding: `${constants.generalUnit * 1.5}px ${constants.generalUnit * 2}px`,
+        color: palette.additional["gray"][7],
+        transitionDuration: `${animation.transform}ms`,
+        backgroundColor: "initial",
+        "&:hover": {
+          backgroundColor: palette.additional["gray"][3],
+        },
         "& > *:first-child ~ *": {
           marginLeft: constants.generalUnit / 2,
         },
+        "& svg": {
+          transitionDuration: `${animation.transform}ms`,
+          fill: palette.additional["gray"][7]
+        }
       },
     }),
 )
@@ -133,7 +148,7 @@ interface IMenuDropdownProps {
     | "bottom-center"
     | "bottom-right"
   menuItems: IMenuItem[]
-  title: string
+  title?: string
 }
 
 const MenuDropdown: React.FC<IMenuDropdownProps> = ({
@@ -162,9 +177,11 @@ const MenuDropdown: React.FC<IMenuDropdownProps> = ({
           ["open"]: open,
         })}
       >
-        <Typography component="p" variant="body2">
-          {title}
-        </Typography>
+        {
+          title && <Typography component="p" variant="body2">
+            {title}
+          </Typography>
+        }
         <Icon
           className={clsx(classes.icon, animation, {
             ["open"]: open,
