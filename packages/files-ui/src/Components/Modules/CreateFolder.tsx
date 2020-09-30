@@ -63,6 +63,7 @@ const CreateFolder: React.FC<{ buttonClassName?: string }> = ({
             helpers.setSubmitting(true)
             try {
               await createFolder({ path: currentPath + values.name })
+              helpers.resetForm()
               handleCloseDialog()
             } catch (errors) {
               if (errors[0].message.includes("Entry with such name can")) {
