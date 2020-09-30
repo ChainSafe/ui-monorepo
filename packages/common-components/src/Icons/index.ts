@@ -53,7 +53,10 @@ export { default as MoreIcon, MoreSvg } from "./icons/More.icon"
 export { default as LockIcon, LockSvg } from "./icons/Lock.icon"
 export { default as PaperclipIcon, PaperclipSvg } from "./icons/Paperclip.icon"
 export { default as PlusIcon, PlusSvg } from "./icons/Plus.icon"
-export { default as PlusCircleIcon, PlusCircleSvg } from "./icons/PlusCircle.icon"
+export {
+  default as PlusCircleIcon,
+  PlusCircleSvg,
+} from "./icons/PlusCircle.icon"
 export { default as PowerDownIcon, PowerDownSvg } from "./icons/PowerDown.icon"
 export { default as SearchIcon, SearchSvg } from "./icons/Search.icon"
 export { default as SettingIcon, SettingSvg } from "./icons/Setting.icon"

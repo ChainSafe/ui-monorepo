@@ -13,6 +13,7 @@ import {
   CrossOutlinedIcon,
   InfoCircleIcon,
 } from "../Icons"
+export { ToastProvider, useToasts } from "react-toast-notifications"
 
 const WidthToaster = 340
 

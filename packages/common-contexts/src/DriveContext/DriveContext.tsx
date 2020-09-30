@@ -6,6 +6,7 @@ import {
   FilesUploadResponse,
 } from "@imploy/api-client"
 import * as React from "react"
+import { useState } from "react"
 import { useImployApi } from "../ImployApiContext"
 
 type DriveContextProps = {
@@ -27,12 +28,16 @@ type DriveContext = {
   downloadFile(body: FilesPathRequest): Promise<void>
   // Get list of files and folders for a path
   list(body: FilesPathRequest): Promise<FileContentResponse[]>
+  currentPath: string
+  updateCurrentPath(newPath: string): void
 }
 
 const DriveContext = React.createContext<DriveContext | undefined>(undefined)
 
 const DriveProvider = ({ children }: DriveContextProps) => {
   const { imployApiClient } = useImployApi()
+  const [currentPath, setCurrentPath] = useState<string>("/")
+  const updateCurrentPath = (newPath: string) => setCurrentPath(newPath)
 
   const uploadFile = async (file: Blob) => {
     if (!imployApiClient) return Promise.reject("Api Client is not initialized")
@@ -118,6 +123,8 @@ const DriveProvider = ({ children }: DriveContextProps) => {
         deleteFile,
         downloadFile,
         list,
+        currentPath,
+        updateCurrentPath,
       }}
     >
       {children}

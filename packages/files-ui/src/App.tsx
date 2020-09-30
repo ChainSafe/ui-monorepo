@@ -1,6 +1,6 @@
 import React from "react"
 import { init, ErrorBoundary, showReportDialog } from "@sentry/react"
-import { createTheme, ThemeProvider } from "@chainsafe/common-themes"
+import { createTheme, ThemeSwitcher } from "@chainsafe/common-themes"
 import {
   CssBaseline,
   Router,
@@ -25,7 +25,16 @@ if (
   })
 }
 
-const theme = createTheme()
+const lightTheme = createTheme()
+lightTheme.palette.primary.main = "#000"
+lightTheme.palette.primary.hover = "#FFF"
+
+lightTheme.palette.secondary.main = "#FFF"
+lightTheme.palette.secondary.hover = "#000"
+
+const darkTheme = createTheme()
+darkTheme.palette.primary.main = "#FFF"
+darkTheme.palette.secondary.main = "#000"
 
 const App: React.FC<{}> = () => {
   const apiUrl =
@@ -51,24 +60,24 @@ const App: React.FC<{}> = () => {
       )}
       onReset={() => window.location.reload()}
     >
-      <ThemeProvider theme={theme}>
+      <ThemeSwitcher themes={{ light: lightTheme, dark: darkTheme }}>
+        <CssBaseline />
         <ToasterProvider autoDismiss>
-          <CssBaseline />
           <Web3Provider networkIds={[1]}>
             <ImployApiProvider apiUrl={apiUrl}>
-              <DriveProvider>
-                <UserProvider>
+              <UserProvider>
+                <DriveProvider>
                   <Router>
                     <AppWrapper>
                       <FilesRoutes />
                     </AppWrapper>
                   </Router>
-                </UserProvider>
-              </DriveProvider>
+                </DriveProvider>
+              </UserProvider>
             </ImployApiProvider>
           </Web3Provider>
         </ToasterProvider>
-      </ThemeProvider>
+      </ThemeSwitcher>
     </ErrorBoundary>
   )
 }

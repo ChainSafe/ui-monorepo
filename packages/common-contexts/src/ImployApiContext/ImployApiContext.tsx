@@ -47,8 +47,7 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
     setRefreshToken(refreshToken)
     refreshToken.token &&
       localStorage.setItem(tokenStorageKey, refreshToken.token)
-    //@ts-ignore
-    apiClient.setToken(accessToken.token)
+    accessToken.token && apiClient.setToken(accessToken.token)
   }
 
   useEffect(() => {

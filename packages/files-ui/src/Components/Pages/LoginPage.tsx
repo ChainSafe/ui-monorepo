@@ -86,8 +86,7 @@ const useStyles = makeStyles((theme: ITheme) =>
 
 const LoginPage = () => {
   const classes = useStyles()
-  const theme: ITheme = useTheme()
-
+  const theme = useTheme<ITheme>()
   const { isReturningUser, web3Login, selectWallet } = useImployApi()
   const { provider, wallet } = useWeb3()
   const [error, setError] = useState<string>("")
