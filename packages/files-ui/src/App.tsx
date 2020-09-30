@@ -1,9 +1,17 @@
 import React from "react"
 import { init, ErrorBoundary, showReportDialog } from "@sentry/react"
 import { createTheme, ThemeProvider } from "@chainsafe/common-themes"
-import { CssBaseline, Router } from "@chainsafe/common-components"
+import {
+  CssBaseline,
+  Router,
+  ToasterProvider,
+} from "@chainsafe/common-components"
 import { Web3Provider } from "@chainsafe/web3-context"
-import { DriveProvider, ImployApiProvider } from "@chainsafe/common-contexts"
+import {
+  DriveProvider,
+  ImployApiProvider,
+  UserProvider,
+} from "@chainsafe/common-contexts"
 import FilesRoutes from "./Components/FilesRoutes"
 import AppWrapper from "./Components/Layouts/AppWrapper"
 if (
@@ -28,7 +36,7 @@ const App: React.FC<{}> = () => {
       fallback={({ error, componentStack, eventId, resetError }) => (
         <div>
           <p>
-            An error occured and has been logged. If you would like to provide
+            An error occurred and has been logged. If you would like to provide
             additional info to help us debug and resolve the issue, click the
             "Provide Additional Details" button
           </p>
@@ -44,18 +52,22 @@ const App: React.FC<{}> = () => {
       onReset={() => window.location.reload()}
     >
       <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <Web3Provider networkIds={[1]}>
-          <ImployApiProvider apiUrl={apiUrl}>
-            <DriveProvider>
-              <Router>
-                <AppWrapper>
-                  <FilesRoutes />
-                </AppWrapper>
-              </Router>
-            </DriveProvider>
-          </ImployApiProvider>
-        </Web3Provider>
+        <ToasterProvider autoDismiss>
+          <CssBaseline />
+          <Web3Provider networkIds={[1]}>
+            <ImployApiProvider apiUrl={apiUrl}>
+              <DriveProvider>
+                <UserProvider>
+                  <Router>
+                    <AppWrapper>
+                      <FilesRoutes />
+                    </AppWrapper>
+                  </Router>
+                </UserProvider>
+              </DriveProvider>
+            </ImployApiProvider>
+          </Web3Provider>
+        </ToasterProvider>
       </ThemeProvider>
     </ErrorBoundary>
   )

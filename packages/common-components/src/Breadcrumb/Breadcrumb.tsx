@@ -39,10 +39,11 @@ const useStyles = makeStyles((theme: ITheme) =>
         cursor: "pointer",
       },
     },
-    seperator: {
+    separator: {
       padding: `${theme.constants.generalUnit}px ${theme.constants.generalUnit}px`,
       color: theme.palette.additional["gray"][7],
       position: "relative",
+      zIndex: theme.zIndex?.background,
       "& > *": {
         top: `calc(50% + 2px)`,
         left: "50%",
@@ -75,7 +76,7 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({
       />
       {crumbs.map((item: Crumb, index: number) => (
         <Fragment key={`crumb-${index}`}>
-          <div className={clsx(classes.seperator)}>
+          <div className={clsx(classes.separator)}>
             <span>/</span>
           </div>
           <div>

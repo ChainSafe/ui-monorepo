@@ -1,6 +1,6 @@
 import { Button } from "@chainsafe/common-components"
 import { useDrive } from "@chainsafe/common-contexts"
-import React, { useState } from "react"
+import React from "react"
 import { useEffect } from "react"
 
 const HomePage = () => {
@@ -16,7 +16,7 @@ const HomePage = () => {
     }
 
     getFolderContents()
-  }, [])
+  }, [list])
 
   const getFolderContents = async () => {
     try {
