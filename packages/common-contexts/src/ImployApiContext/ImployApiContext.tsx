@@ -15,10 +15,11 @@ type ImployApiContextProps = {
 
 type ImployApiContext = {
   imployApiClient?: IImployApiClient
-  isLoggedIn: boolean
+  isLoggedIn: boolean | undefined
   isReturningUser: boolean
   selectWallet(): Promise<void>
   web3Login(): Promise<void>
+  logout(): void
 }
 
 const ImployApiContext = React.createContext<ImployApiContext | undefined>(
@@ -37,6 +38,7 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
   >(undefined)
   const [refreshToken, setRefreshToken] = useState<Token | undefined>(undefined)
   const [isReturningUser, setIsReturningUser] = useState(false)
+  const [isLoadingUser, setIsLoadingUser] = useState(true)
 
   const setTokensAndSave = (
     accessToken: Token,
@@ -111,7 +113,10 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
           } = await apiClient.getRefreshToken(savedRefreshToken)
 
           setTokensAndSave(access_token, refresh_token, apiClient)
+          setIsLoadingUser(false)
         } catch (error) {}
+      } else {
+        setIsLoadingUser(false)
       }
       setImployApiClient(apiClient)
     }
@@ -178,6 +183,9 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
   }, [accessToken])
 
   const isLoggedIn = () => {
+    if (isLoadingUser) {
+      return undefined
+    }
     if (!decodedRefreshToken) {
       return false
     } else {
@@ -190,6 +198,12 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
     }
   }
 
+  const logout = () => {
+    setAccessToken(undefined)
+    setRefreshToken(undefined)
+    localStorage.removeItem(tokenStorageKey)
+  }
+
   return (
     <ImployApiContext.Provider
       value={{
@@ -198,6 +212,7 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
         isReturningUser: isReturningUser,
         web3Login,
         selectWallet,
+        logout,
       }}
     >
       {children}

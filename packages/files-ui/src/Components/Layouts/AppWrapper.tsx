@@ -159,7 +159,7 @@ const useStyles = makeStyles(
 )
 
 const AppWrapper: React.FC<IAppWrapper> = ({ children }: IAppWrapper) => {
-  const { isLoggedIn } = useImployApi()
+  const { isLoggedIn, logout } = useImployApi()
   const classes = useStyles()
   return (
     <div className={classes.root}>
@@ -235,7 +235,7 @@ const AppWrapper: React.FC<IAppWrapper> = ({ children }: IAppWrapper) => {
                   title="Tanmoy B."
                   menuItems={[
                     {
-                      onClick: () => console.log("Sign out please"),
+                      onClick: logout,
                       contents: (
                         <div className={classes.menuItem}>
                           <PowerDownSvg />
