@@ -8,7 +8,7 @@ export interface FormikTextInputProps {
   placeholder?: string
   disabled?: boolean
   name: string
-  variant?: "default" | "minimal"
+  inputVariant?: "default" | "minimal"
   type?: "text" | "email" | "password" | "url" | "search"
   size?: "large" | "medium" | "small"
   captionMessage?: string
@@ -17,7 +17,7 @@ export interface FormikTextInputProps {
 
 const FormikTextInput: React.FC<FormikTextInputProps> = ({
   className,
-  variant = "default",
+  inputVariant = "default",
   type = "text",
   placeholder,
   name,
@@ -31,7 +31,7 @@ const FormikTextInput: React.FC<FormikTextInputProps> = ({
   return (
     <TextInput
       label={label ? label : field.name}
-      variant={variant}
+      inputVariant={inputVariant}
       disabled={disabled}
       type={type}
       size={size}

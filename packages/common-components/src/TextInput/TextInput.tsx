@@ -372,7 +372,7 @@ export interface TextInputProps {
   LeftIcon?: typeof SvgIcon
   RightIcon?: typeof SvgIcon
   state?: InputState
-  variant?: "default" | "minimal"
+  inputVariant?: "default" | "minimal"
   size?: "large" | "medium" | "small"
   captionMessage?: string
   onChange: (e: ChangeEvent<HTMLInputElement>) => void
@@ -387,7 +387,7 @@ const TextInput: React.FC<TextInputProps> = ({
   name,
   value,
   onChange,
-  variant = "default",
+  inputVariant = "default",
   labelClassName,
   size = "medium",
   type = "text",
@@ -406,7 +406,7 @@ const TextInput: React.FC<TextInputProps> = ({
         [classes.success]: state == "success",
       })}
     >
-      {variant === "default" &&  label && label.length > 0 && (
+      {inputVariant === "default" &&  label && label.length > 0 && (
         <Typography
           variant="body2"
           component="span"
@@ -455,7 +455,7 @@ const TextInput: React.FC<TextInputProps> = ({
           component="span"
           className={clsx(
             classes.caption, 
-            variant,
+            inputVariant,
             {
               ["error"]: state == "error",
               ["success"]: state == "success",
