@@ -1,14 +1,13 @@
 import React, { ReactNode } from "react"
-import { ITheme, makeStyles, createStyles } from "@chainsafe/common-themes"
+import { makeStyles, createStyles } from "@chainsafe/common-themes"
 import clsx from "clsx"
 import { capitalize } from "../utils/stringUtils"
 import { AlignOption } from "./types"
 
-const useStyles = makeStyles((theme: ITheme) =>
+const useStyles = makeStyles(() =>
   createStyles({
     root: {
-      backgroundColor: "inherit",
-      borderBottom: `1px solid ${theme.palette.additional["gray"][4]}`,
+      backgroundColor: "transparent",
     },
     alignLeft: {
       textAlign: "left",
@@ -26,17 +25,20 @@ export interface ITableCellProps {
   className?: string
   children?: ReactNode | ReactNode[]
   align?: AlignOption
+  onClick?: () => void
 }
 
 const TableCell: React.FC<ITableCellProps> = ({
   children,
   className,
+  onClick,
   align = "center",
 }: ITableCellProps) => {
   const classes = useStyles()
 
   return (
     <td
+      onClick={() => onClick ? onClick() : null }
       className={clsx(
         className,
         classes.root,

@@ -5,7 +5,9 @@ import clsx from "clsx"
 const useStyles = makeStyles((theme: ITheme) =>
   createStyles({
     root: {
-      display: "table",
+      display: "flex",
+      flexDirection: "column",
+      minWidth: "min-content",
       borderCollapse: "collapse",
       borderSpacing: 0,
       transition: `all ${theme.animation.transform}ms`,
@@ -40,6 +42,9 @@ const useStyles = makeStyles((theme: ITheme) =>
     striped: {
       "& tr:nth-child(even)": {
         backgroundColor: theme.palette.additional["gray"][2],
+        "&.selected": {
+            backgroundColor: theme.palette.additional["gray"][4],
+        },
       },
     },
   }),
