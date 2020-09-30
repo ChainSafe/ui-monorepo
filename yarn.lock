@@ -1743,6 +1743,11 @@
   resolved "https://registry.yarnpkg.com/@icons/material/-/material-0.2.4.tgz#e90c9f71768b3736e76d7dd6783fc6c2afa88bc8"
   integrity sha512-QPcGmICAPbGLGb6F/yNf/KzKqvFx8z5qx3D1yFqVAjoFmXK35EgyW+cJ57Te3CNsmzblwtzakLGFqHPqrfb4Tw==
 
+"@imploy/api-client@^1.1.0":
+  version "1.1.0"
+  resolved "https://npm.pkg.github.com/download/@imploy/api-client/1.1.0/c213c9491b81bf534b89f2383509706515fbd5251413bfc8778d5e6f0588852f#58b7dc9f538b27025f5ef450cbc09a0ff558c3fb"
+  integrity sha512-5JBAB1xTAzxtQ+PpYNQBFXI27OWLaAVqVhiEVzOMO+VVU1h3zRWu5SKhe65ewos2d9eWWtV3nGSoTtLZvIFXow==
+
 "@jest/console@^24.7.1", "@jest/console@^24.9.0":
   version "24.9.0"
   resolved "https://registry.yarnpkg.com/@jest/console/-/console-24.9.0.tgz#79b1bc06fb74a8cfb01cbdedf945584b1b9707f0"
@@ -14364,6 +14369,11 @@ prettier-linter-helpers@^1.0.0:
   integrity sha512-GbK2cP9nraSSUF9N2XwUwqfzlAFlMNYYl+ShE/V+H8a9uNl/oUqB1w2EL54Jh0OlyRSd8RfWYJ3coVS4TROP2w==
   dependencies:
     fast-diff "^1.1.2"
+
+prettier@2.1.1:
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/prettier/-/prettier-2.1.1.tgz#d9485dd5e499daa6cb547023b87a6cf51bee37d6"
+  integrity sha512-9bY+5ZWCfqj3ghYBLxApy2zf6m+NJo5GzmLTpr9FsApsfjriNnS2dahWReHMi7qNPhhHl9SYHJs2cHZLgexNIw==
 
 prettier@2.1.2, prettier@^2.1.2:
   version "2.1.2"
