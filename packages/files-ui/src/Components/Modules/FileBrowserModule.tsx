@@ -123,7 +123,7 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
     list, 
     deleteFile, 
     downloadFile, 
-    // renameFile,
+    renameFile,
    } = useDrive()
 
   const [files, setFiles] = useState<IFile[]>(MOCKS)
@@ -225,6 +225,16 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
         setDirection("ascend")
       }
     }
+  }
+
+  const handleRename = async (path: string, new_path: string) => {
+    // TODO set loading
+    await renameFile({
+      path: path,
+      new_path: new_path
+    })
+    setEditing(undefined)
+
   }
 
   const RenameSchema = object().shape({
@@ -348,11 +358,7 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
 
                           validationSchema={RenameSchema}
                           onSubmit={(values, actions) => {
-                            setEditing(undefined)
-                            console.log("succeeded")
-                            // renameFile({
-                              
-                            // })
+                            handleRename(`${fileRequest.path}/${file.name}`, `${fileRequest.path}/${values.fileName}`)
                           }}
                         >
                           <Form>
@@ -385,6 +391,7 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
                     align="right"
                   >
                     <MenuDropdown 
+                      animation="none"
                       menuItems={[
                         {
                           contents: <Fragment>
@@ -421,7 +428,9 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
                             </span>
                           </Fragment>,
                           onClick: () => deleteFile({
-                            path: `${fileRequest.path}/${file.name}` 
+                            paths: [
+                              `${fileRequest.path}/${file.name}`
+                            ]
                           })
                         },
                         {
