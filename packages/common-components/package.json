@@ -58,6 +58,7 @@
     "eslint-plugin-react": "^7.21.2",
     "formik": "^2.1.5",
     "fork-ts-checker-webpack-plugin": "^5.1.0",
+    "formik": "^2.1.5",
     "prettier": "^2.1.2",
     "react": "16.13.1",
     "react-blockies": "^1.4.1",

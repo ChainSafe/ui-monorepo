@@ -223,7 +223,8 @@ const useStyles = makeStyles(({
         "& input": {
           padding: `${constants.generalUnit * 0.625}px ${
             constants.generalUnit * 1.5
-          }px`,
+          fontSize: 16,
+          lineHeight: "20px",
         },
         "&.iconLeft input": {
           paddingLeft:
@@ -363,6 +364,7 @@ export type InputState = "normal" | "warning" | "success" | "error"
 export interface TextInputProps {
   className?: string
   label?: string
+  labelClassName?: string
   name?: string
   value?: string
   placeholder?: string
@@ -386,6 +388,7 @@ const TextInput: React.FC<TextInputProps> = ({
   value,
   onChange,
   variant = "default",
+  labelClassName,
   size = "medium",
   type = "text",
   placeholder,
@@ -407,7 +410,7 @@ const TextInput: React.FC<TextInputProps> = ({
         <Typography
           variant="body2"
           component="span"
-          className={clsx(classes.label, {
+          className={clsx(classes.label, labelClassName, {
             ["error"]: state == "error",
             ["success"]: state == "success",
             ["warning"]: state == "warning",

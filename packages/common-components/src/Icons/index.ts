@@ -14,6 +14,7 @@ export {
   default as CloseCircleIcon,
   CloseCirceSvg,
 } from "./icons/CloseCircle.icon"
+export { default as CopyIcon, CopySvg } from "./icons/Copy.icon"
 export {
   default as CrossOutlinedIcon,
   CrossOutlinedSvg,
@@ -49,6 +50,7 @@ export {
   InfoCircleSvg,
 } from "./icons/InfoCircle.icon"
 export { default as MoreIcon, MoreSvg } from "./icons/More.icon"
+export { default as LockIcon, LockSvg } from "./icons/Lock.icon"
 export { default as PaperclipIcon, PaperclipSvg } from "./icons/Paperclip.icon"
 export { default as PlusIcon, PlusSvg } from "./icons/Plus.icon"
 export { default as PlusCircleIcon, PlusCircleSvg } from "./icons/PlusCircle.icon"

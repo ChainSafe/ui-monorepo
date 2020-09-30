@@ -2,7 +2,7 @@ import React, { ReactNode } from "react"
 import { makeStyles, ITheme, createStyles } from "@chainsafe/common-themes"
 import clsx from "clsx"
 
-const useStyles = makeStyles(({ palette }: ITheme) =>
+const useStyles = makeStyles(({ palette, zIndex }: ITheme) =>
   createStyles({
     divider: {
       display: "flex",
@@ -10,6 +10,7 @@ const useStyles = makeStyles(({ palette }: ITheme) =>
       justifyContent: "space-between",
       marginTop: 4,
       marginBottom: 22,
+      zIndex: zIndex?.background,
       "& span": {
         display: "block",
         margin: "0 5px",
