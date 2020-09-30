@@ -41,7 +41,6 @@ const useStyles = makeStyles((theme: ITheme) =>
       transition: `height ${theme.animation.transform - 100}ms 100ms`,
       height: props.height,
       position: "relative",
-      backgroundColor: theme.palette.common.white.background,
       zIndex: theme.zIndex?.layer4,
     }),
     parent: (props: IStyleProps) => ({
@@ -50,6 +49,7 @@ const useStyles = makeStyles((theme: ITheme) =>
       display: "flex",
       alignItems: "center",
       padding: theme.constants.generalUnit * 2,
+      backgroundColor: theme.palette.common.white.main,
       marginBottom: theme.constants.generalUnit,
       transition: `transform ${theme.animation.transform}ms cubic-bezier(0.2, 0, 0, 1), opacity ${theme.animation.transform}ms`,
       width: WidthToaster,

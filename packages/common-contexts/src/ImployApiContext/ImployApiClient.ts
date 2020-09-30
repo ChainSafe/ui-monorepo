@@ -761,7 +761,7 @@ export class ImployApiClient
    * @return successful operation
    */
   getUser(cancelToken?: CancelToken | undefined): Promise<User> {
-    let url_ = this.baseUrl + "/user"
+    let url_ = this.baseUrl + "/user/"
     url_ = url_.replace(/[?&]$/, "")
 
     let options_ = <AxiosRequestConfig>{
@@ -837,7 +837,7 @@ export class ImployApiClient
     body: UserPatch,
     cancelToken?: CancelToken | undefined,
   ): Promise<User> {
-    let url_ = this.baseUrl + "/user"
+    let url_ = this.baseUrl + "/user/"
     url_ = url_.replace(/[?&]$/, "")
 
     const content_ = JSON.stringify(body)

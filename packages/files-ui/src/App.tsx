@@ -1,9 +1,17 @@
 import React from "react"
 import { init, ErrorBoundary, showReportDialog } from "@sentry/react"
-import { createTheme, ThemeSwitcher } from "@chainsafe/common-themes"
-import { CssBaseline, Router } from "@chainsafe/common-components"
+import { createTheme, ThemeProvider } from "@chainsafe/common-themes"
+import {
+  CssBaseline,
+  Router,
+  ToasterProvider,
+} from "@chainsafe/common-components"
 import { Web3Provider } from "@chainsafe/web3-context"
-import { DriveProvider, ImployApiProvider } from "@chainsafe/common-contexts"
+import {
+  DriveProvider,
+  ImployApiProvider,
+  UserProvider,
+} from "@chainsafe/common-contexts"
 import FilesRoutes from "./Components/FilesRoutes"
 import AppWrapper from "./Components/Layouts/AppWrapper"
 if (
@@ -30,14 +38,14 @@ darkTheme.palette.secondary.main = "#000"
 
 const App: React.FC<{}> = () => {
   const apiUrl =
-    process.env.REACT_APP_API_URL || "https://alpha.imploy.site/api/v1"
+    process.env.REACT_APP_API_URL || "http://3.236.79.100:8000/api/v1"
 
   return (
     <ErrorBoundary
       fallback={({ error, componentStack, eventId, resetError }) => (
         <div>
           <p>
-            An error occured and has been logged. If you would like to provide
+            An error occurred and has been logged. If you would like to provide
             additional info to help us debug and resolve the issue, click the
             "Provide Additional Details" button
           </p>

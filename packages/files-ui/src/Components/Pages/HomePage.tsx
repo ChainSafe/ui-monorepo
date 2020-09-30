@@ -1,11 +1,36 @@
+import { Button } from "@chainsafe/common-components"
+import { useDrive } from "@chainsafe/common-contexts"
 import React from "react"
-import CreateFolder from "../Modules/CreateFolder"
+import { useEffect } from "react"
 
 const HomePage = () => {
+  const { list } = useDrive()
+  useEffect(() => {
+    const getFolderContents = async () => {
+      try {
+        const contents = await list({ path: "/" })
+        console.log(contents)
+      } catch (error) {
+        console.log(error)
+      }
+    }
+
+    getFolderContents()
+  }, [list])
+
+  const getFolderContents = async () => {
+    try {
+      const contents = await list({ path: "/" })
+      console.log(contents)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   return (
     <div>
-      You have logged in successfully
-      <CreateFolder />
+      You have logged in successfully{" "}
+      <Button onClick={getFolderContents}>Get Files</Button>
     </div>
   )
 }

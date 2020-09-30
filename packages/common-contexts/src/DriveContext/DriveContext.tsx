@@ -1,10 +1,13 @@
-import React, { useState } from "react"
-import { useImployApi } from "../ImployApiContext"
 import {
-  FileResponse,
-  FileRequest,
-  FileParameter,
-} from "../ImployApiContext/ImployApiClient"
+  FileContentResponse,
+  FilesMvRequest,
+  FilesPathRequest,
+  FilesRmRequest,
+  FilesUploadResponse,
+} from "@imploy/api-client"
+import * as React from "react"
+import { useState } from "react"
+import { useImployApi } from "../ImployApiContext"
 
 type DriveContextProps = {
   children: React.ReactNode | React.ReactNode[]
@@ -12,93 +15,83 @@ type DriveContextProps = {
 
 type DriveContext = {
   // Upload file
-  uploadFile(
-    file?: FileParameter,
-    path?: string,
-    type?: string,
-    update?: boolean,
-  ): Promise<FileResponse>
+  uploadFile(file: Blob): Promise<FilesUploadResponse>
   // Create folder
-  createFolder(body: FileRequest): Promise<void>
+  createFolder(body: FilesPathRequest): Promise<FileContentResponse>
   // Rename file
-  renameFile(body: FileRequest): Promise<void>
+  renameFile(body: FilesMvRequest): Promise<void>
   // Move file
-  moveFile(body: FileRequest): Promise<void>
+  moveFile(body: FilesMvRequest): Promise<void>
   // Delete file
-  deleteFile(body: FileRequest): Promise<void>
+  deleteFile(body: FilesRmRequest): Promise<void>
   // Download file
-  downloadFile(body: FileRequest): Promise<void>
+  downloadFile(body: FilesPathRequest): Promise<void>
   // Get list of files and folders for a path
-  list(body: FileRequest): Promise<any>
+  list(body: FilesPathRequest): Promise<FileContentResponse[]>
   currentPath: string
-  setCurrentPath(newPath: string): void
+  updateCurrentPath(newPath: string): void
 }
 
 const DriveContext = React.createContext<DriveContext | undefined>(undefined)
 
 const DriveProvider = ({ children }: DriveContextProps) => {
   const { imployApiClient } = useImployApi()
+  const [currentPath, setCurrentPath] = useState<string>("/")
+  const updateCurrentPath = (newPath: string) => setCurrentPath(newPath)
 
-  const [currentPath, setCurrentPath] = useState("/")
-
-  const uploadFile = async (
-    file: FileParameter,
-    path?: string,
-    type?: string,
-    update?: boolean,
-  ) => {
+  const uploadFile = async (file: Blob) => {
     if (!imployApiClient) return Promise.reject("Api Client is not initialized")
 
     try {
       // TODO handle the upload and refresh list of files at path.
-      return imployApiClient.addFile(file, path, type, update)
+      return imployApiClient.addCSFFiles(file)
     } catch (error) {
       return Promise.reject()
     }
   }
 
-  const createFolder = async (body: FileRequest) => {
+  const createFolder = async (body: FilesPathRequest) => {
     if (!imployApiClient) return Promise.reject("Api Client is not initialized")
 
     try {
       // TODO handle the upload and refresh list of files at path.
-      return imployApiClient.addDirectory(body)
+      return imployApiClient.addCSFDirectory(body)
     } catch (error) {
       return Promise.reject()
     }
   }
 
-  const renameFile = async (body: FileRequest) => {
+  const renameFile = async (body: FilesMvRequest) => {
     if (!imployApiClient) return Promise.reject("Api Client is not initialized")
 
     try {
-      return imployApiClient.moveObject(body)
+      return imployApiClient.moveCSFObject(body)
     } catch (error) {
       return Promise.reject()
     }
   }
 
-  const moveFile = async (body: FileRequest) => {
+  const moveFile = async (body: FilesMvRequest) => {
     if (!imployApiClient) return Promise.reject("Api Client is not initialized")
 
     try {
-      return imployApiClient.moveObject(body)
+      return imployApiClient.moveCSFObject(body)
     } catch (error) {
       return Promise.reject()
     }
   }
 
-  const deleteFile = async (body: FileRequest) => {
+  const deleteFile = async (body: FilesRmRequest) => {
     if (!imployApiClient) return Promise.reject("Api Client is not initialized")
 
     try {
-      return imployApiClient.removeObject(body)
+      return imployApiClient.removeCSFObjects(body)
     } catch (error) {
       return Promise.reject()
     }
   }
 
-  const downloadFile = async (body: FileRequest) => {
+  const downloadFile = async (body: FilesPathRequest) => {
     if (!imployApiClient) return Promise.reject("Api Client is not initialized")
 
     try {
@@ -109,12 +102,12 @@ const DriveProvider = ({ children }: DriveContextProps) => {
     }
   }
 
-  const list = async (body: FileRequest) => {
+  const list = async (body: FilesPathRequest) => {
     if (!imployApiClient) return Promise.reject("Api Client is not initialized")
 
     try {
       // TODO Confirm the return here. Might need to update the API spec.
-      return imployApiClient.getChildList(body)
+      return imployApiClient.getCSFChildList(body)
     } catch (error) {
       return Promise.reject()
     }
@@ -131,7 +124,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
         downloadFile,
         list,
         currentPath,
-        setCurrentPath,
+        updateCurrentPath,
       }}
     >
       {children}

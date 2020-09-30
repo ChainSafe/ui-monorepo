@@ -30,7 +30,6 @@ const useStyles = makeStyles((theme: ITheme) =>
     // JSS in CSS goes here
     root: {
       ...theme.typography.body2,
-      margin: 5,
       cursor: "pointer",
       "&.large": {
         fontSize: 14,
@@ -161,6 +160,8 @@ const useStyles = makeStyles((theme: ITheme) =>
       },
       "&.medium": {
         "& input": {
+          fontSize: 16,
+          lineHeight: "20px",
           padding: `${theme.constants.generalUnit * 0.625}px ${
             theme.constants.generalUnit * 1.5
           }px`,
@@ -303,6 +304,7 @@ export type InputState = "normal" | "warning" | "success" | "error"
 export interface TextInputProps {
   className?: string
   label?: string
+  labelClassName?: string
   name?: string
   value?: string
   placeholder?: string
@@ -324,6 +326,7 @@ const TextInput: React.FC<TextInputProps> = ({
   name,
   value,
   onChange,
+  labelClassName,
   size = "medium",
   type = "text",
   placeholder,
@@ -345,7 +348,7 @@ const TextInput: React.FC<TextInputProps> = ({
         <Typography
           variant="body2"
           component="span"
-          className={clsx(classes.label, {
+          className={clsx(classes.label, labelClassName, {
             ["error"]: state == "error",
             ["success"]: state == "success",
             ["warning"]: state == "warning",

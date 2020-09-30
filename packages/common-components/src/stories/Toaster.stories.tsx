@@ -1,6 +1,6 @@
 import React from "react"
-import { Toaster, ToastProvider, useToaster } from "../Toaster"
-import { withKnobs, select, number } from "@storybook/addon-knobs"
+import { Toaster, ToasterProvider, useToaster } from "../Toaster"
+import { withKnobs, number } from "@storybook/addon-knobs"
 
 export default {
   title: "Toaster",
@@ -10,25 +10,12 @@ export default {
 
 export const ToasterWrapper: React.FC = () => {
   return (
-    <ToastProvider
+    <ToasterProvider
       autoDismiss
       autoDismissTimeout={number("auto dismiss", 5000)}
-      components={{ Toast: Toaster }}
-      placement={select(
-        "Placement",
-        [
-          "top-right",
-          "bottom-right",
-          "top-center",
-          "bottom-center",
-          "top-left",
-          "bottom-left",
-        ],
-        "top-right",
-      )}
     >
       <ToasterDemo />
-    </ToastProvider>
+    </ToasterProvider>
   )
 }
 
