@@ -222,7 +222,7 @@ const useStyles = makeStyles(({
       "&.medium": {
         "& input": {
           padding: `${constants.generalUnit * 0.625}px ${
-            constants.generalUnit * 1.5
+            constants.generalUnit * 1.5}`,
           fontSize: 16,
           lineHeight: "20px",
         },
