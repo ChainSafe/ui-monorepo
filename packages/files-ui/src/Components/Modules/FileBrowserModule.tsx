@@ -392,7 +392,7 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
                                 <FormikTextInput 
                                   className={classes.renameInput}
                                   name="fileName"
-                                  variant="minimal"
+                                  inputVariant="minimal"
                                   placeholder="Please enter a file name"
                                 />
                               </Form>
