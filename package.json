@@ -16,10 +16,10 @@
     "@sentry/cli": "1.55.2",
     "chalk": "^4.1.0",
     "husky": "^4.2.3",
-    "prettier": "2.1.1",
+    "prettier": "2.1.2",
     "pretty-quick": "^3.0.2",
     "typescript": "^4.0.2",
-    "wsrun": "^5.2.1"
+    "wsrun": "^5.2.2"
   },
   "scripts": {
     "postinstall": "yarn build:common",
