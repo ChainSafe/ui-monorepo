@@ -73,6 +73,7 @@ const useStyles = makeStyles(
         opacity: 0,
         transitionDuration: `${animation.transform}ms`,
         zIndex: 1000,
+        padding: 0,
         "&.top-left": {
           top: 0,
           left: 0,
@@ -112,10 +113,24 @@ const useStyles = makeStyles(
         display: "flex",
         flexDirection: "row",
         alignItems: "center",
-        padding: `${constants.generalUnit * 1.5}px ${constants.generalUnit}px`,
+        padding: `${constants.generalUnit * 1.5}px ${constants.generalUnit * 2}px`,
+        color: palette.additional["gray"][7],
+        transitionDuration: `${animation.transform}ms`,
+        backgroundColor: "initial",
+        "&:hover": {
+          backgroundColor: palette.additional["gray"][4],
+          color: palette.common.white.main,
+          "& svg": {
+            fill: palette.common.white.main,
+          }
+        },
         "& > *:first-child ~ *": {
           marginLeft: constants.generalUnit / 2,
         },
+        "& svg": {
+          transitionDuration: `${animation.transform}ms`,
+          fill: palette.additional["gray"][7]
+        }
       },
     }),
 )

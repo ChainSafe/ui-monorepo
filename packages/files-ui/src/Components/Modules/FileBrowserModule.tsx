@@ -10,7 +10,8 @@ import { Formik, Form } from "formik"
 import { object, string,  } from "yup"
 
 const useStyles = makeStyles(({
-  constants
+  constants,
+  palette
 }: ITheme) =>{
     const gridSettings = "50px 69px 3fr 150px 100px 45px !important"
     return createStyles({
@@ -48,6 +49,13 @@ const useStyles = makeStyles(({
       renameInput: {
         margin: 0, 
         width: "100%"
+      },
+      menuIcon: {
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        width: 20,
+        marginRight: constants.generalUnit * 1.5,
       }
     })
   }
@@ -111,7 +119,12 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
   fileRequest = { path: "/" }
 }: IFileBrowserProps) => {
   const classes = useStyles()
-  const { list, deleteFile, downloadFile, renameFile, } = useDrive()
+  const { 
+    list, 
+    deleteFile, 
+    downloadFile, 
+    // renameFile,
+   } = useDrive()
 
   const [files, setFiles] = useState<IFile[]>(MOCKS)
   const [editing, setEditing] = useState<string | undefined>()
@@ -375,7 +388,7 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
                       menuItems={[
                         {
                           contents: <Fragment>
-                            <ExportIcon />
+                            <ExportIcon className={classes.menuIcon} />
                             <span>
                               Move
                             </span>
@@ -384,7 +397,7 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
                         },
                         {
                           contents: <Fragment>
-                            <ShareAltIcon />
+                            <ShareAltIcon className={classes.menuIcon} />
                             <span>
                               Share
                             </span>
@@ -393,7 +406,7 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
                         },
                         {
                           contents: <Fragment>
-                            <EditIcon />
+                            <EditIcon className={classes.menuIcon} />
                             <span>
                               Rename
                             </span>
@@ -402,7 +415,7 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
                         },
                         {
                           contents: <Fragment>
-                            <DeleteIcon />
+                            <DeleteIcon className={classes.menuIcon} />
                             <span>
                               Delete
                             </span>
@@ -413,7 +426,7 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
                         },
                         {
                           contents: <Fragment>
-                            <DownloadIcon/>
+                            <DownloadIcon className={classes.menuIcon} />
                             <span>
                               Download
                             </span>
