@@ -1,4 +1,4 @@
-import { useImployApi } from "@chainsafe/common-contexts"
+import { useImployApi, useUser } from "@chainsafe/common-contexts"
 import { createStyles, ITheme, makeStyles } from "@chainsafe/common-themes"
 import React, { Fragment } from "react"
 import { ReactNode } from "react"
@@ -13,8 +13,6 @@ import {
   DeleteSvg,
   InfoCircleSvg,
   SettingSvg,
-  Avatar,
-  Blockies,
   MenuDropdown,
   PowerDownSvg,
   CssBaseline,
@@ -162,7 +160,21 @@ const useStyles = makeStyles(
 
 const AppWrapper: React.FC<IAppWrapper> = ({ children }: IAppWrapper) => {
   const { isLoggedIn, logout } = useImployApi()
+  const { profile } = useUser()
   const classes = useStyles()
+
+  const getProfileTitle = () => {
+    if (profile?.publicAddress) {
+      const { publicAddress } = profile
+      return `${publicAddress.substr(0, 6)}...${publicAddress.substr(
+        publicAddress.length - 6,
+        publicAddress.length,
+      )}`
+    } else {
+      return profile?.firstName || profile?.lastName || ""
+    }
+  }
+
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -229,12 +241,8 @@ const AppWrapper: React.FC<IAppWrapper> = ({ children }: IAppWrapper) => {
             <Fragment>
               <SearchModule />
               <section className={classes.accountControls}>
-                <Avatar size="medium" variant="circle">
-                  {/* TODO: Wire up to User profile */}
-                  <Blockies seed="A wombat enters combat with another wombat, are they both combat wombats by combatting a wombat or is the assailant a combat wombat for combatting a wombat?" />
-                </Avatar>
                 <MenuDropdown
-                  title="Tanmoy B."
+                  title={getProfileTitle()}
                   menuItems={[
                     {
                       onClick: logout,

@@ -48,11 +48,6 @@ const Settings: React.FC = () => {
   const [profileData, setProfileData] = useState(profile)
 
   useEffect(() => {
-    refreshProfile()
-    // eslint-disable-next-line
-  }, [])
-
-  useEffect(() => {
     setProfileData({
       firstName: profile?.firstName,
       lastName: profile?.lastName,

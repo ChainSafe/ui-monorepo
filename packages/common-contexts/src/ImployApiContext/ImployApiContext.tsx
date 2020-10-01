@@ -113,7 +113,9 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
 
           setTokensAndSave(access_token, refresh_token, apiClient)
           setIsLoadingUser(false)
-        } catch (error) {}
+        } catch (error) {
+          console.log("here")
+        }
       } else {
         setIsLoadingUser(false)
       }
@@ -200,6 +202,7 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
   const logout = () => {
     setAccessToken(undefined)
     setRefreshToken(undefined)
+    setDecodedRefreshToken(undefined)
     localStorage.removeItem(tokenStorageKey)
   }
 
