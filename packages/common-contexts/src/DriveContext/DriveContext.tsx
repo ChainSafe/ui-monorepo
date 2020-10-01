@@ -47,7 +47,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
       // TODO handle the upload and refresh list of files at path.
       return imployApiClient.addCSFFiles(file, path)
     } catch (error) {
-      return Promise.reject()
+      return Promise.reject(error)
     }
   }
 
