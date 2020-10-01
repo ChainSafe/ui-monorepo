@@ -425,7 +425,7 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
                           ),
                           onClick: () =>
                             downloadFile({
-                              path: `${currentPath}/${file.name}`,
+                              path: `${currentPath}${file.name}`,
                             }),
                         },
                       ]}
