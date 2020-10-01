@@ -353,8 +353,8 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
                         validationSchema={RenameSchema}
                         onSubmit={(values, actions) => {
                           handleRename(
-                            `${currentPath}/${file.name}`,
-                            `${currentPath}/${values.fileName}`,
+                            `${currentPath}${file.name}`,
+                            `${currentPath}${values.fileName}`,
                           )
                         }}
                       >

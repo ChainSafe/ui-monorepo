@@ -142,7 +142,6 @@ const DriveProvider = ({ children }: DriveContextProps) => {
     if (!imployApiClient) return Promise.reject("Api Client is not initialized")
 
     try {
-      // TODO Confirm the return here. Might need to update the API spec.
       return imployApiClient.getCSFChildList(body)
     } catch (error) {
       return Promise.reject()
