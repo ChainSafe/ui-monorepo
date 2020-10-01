@@ -1,13 +1,15 @@
 import {
   FileContentResponse,
+  FileParameter,
   FilesMvRequest,
   FilesPathRequest,
   FilesRmRequest,
   FilesUploadResponse,
 } from "@imploy/api-client"
-import * as React from "react"
+import React, { useCallback, useEffect } from "react"
 import { useState } from "react"
 import { useImployApi } from "../ImployApiContext"
+import dayjs from "dayjs"
 
 type DriveContextProps = {
   children: React.ReactNode | React.ReactNode[]
@@ -15,7 +17,7 @@ type DriveContextProps = {
 
 type DriveContext = {
   // Upload file
-  uploadFile(file: Blob): Promise<FilesUploadResponse>
+  uploadFile(file: FileParameter): Promise<FilesUploadResponse>
   // Create folder
   createFolder(body: FilesPathRequest): Promise<FileContentResponse>
   // Rename file
@@ -30,6 +32,11 @@ type DriveContext = {
   list(body: FilesPathRequest): Promise<FileContentResponse[]>
   currentPath: string
   updateCurrentPath(newPath: string): void
+  pathContents: IFile[]
+}
+
+interface IFile extends FileContentResponse {
+  date_uploaded: number // This can be removed when date is added to the schema
 }
 
 const DriveContext = React.createContext<DriveContext | undefined>(undefined)
@@ -37,14 +44,36 @@ const DriveContext = React.createContext<DriveContext | undefined>(undefined)
 const DriveProvider = ({ children }: DriveContextProps) => {
   const { imployApiClient } = useImployApi()
   const [currentPath, setCurrentPath] = useState<string>("/")
-  const updateCurrentPath = (newPath: string) => setCurrentPath(newPath)
+  const [pathContents, setPathContents] = useState<IFile[]>([])
 
-  const uploadFile = async (file: Blob) => {
+  const refreshContents = useCallback(async () => {
+    try {
+      const newContents = await imployApiClient?.getCSFChildList({
+        path: currentPath,
+      })
+      if (newContents) {
+        // Remove this when the API returns dates
+        setPathContents(
+          newContents?.map((fcr) => ({
+            ...fcr,
+            date_uploaded: dayjs().subtract(2, "hour").unix() * 1000,
+          })),
+        )
+      }
+    } catch (error) {}
+  }, [imployApiClient])
+
+  useEffect(() => {
+    refreshContents()
+  }, [imployApiClient, refreshContents])
+
+  const uploadFile = async (file: FileParameter) => {
     if (!imployApiClient) return Promise.reject("Api Client is not initialized")
 
     try {
-      // TODO handle the upload and refresh list of files at path.
-      return imployApiClient.addCSFFiles(file)
+      const result = await imployApiClient.addCSFFiles(file, currentPath)
+      await refreshContents()
+      return result
     } catch (error) {
       return Promise.reject()
     }
@@ -54,8 +83,9 @@ const DriveProvider = ({ children }: DriveContextProps) => {
     if (!imployApiClient) return Promise.reject("Api Client is not initialized")
 
     try {
-      // TODO handle the upload and refresh list of files at path.
-      return imployApiClient.addCSFDirectory(body)
+      const result = await imployApiClient.addCSFDirectory(body)
+      await refreshContents()
+      return result
     } catch (error) {
       return Promise.reject()
     }
@@ -65,7 +95,9 @@ const DriveProvider = ({ children }: DriveContextProps) => {
     if (!imployApiClient) return Promise.reject("Api Client is not initialized")
 
     try {
-      return imployApiClient.moveCSFObject(body)
+      await imployApiClient.moveCSFObject(body)
+      await refreshContents()
+      return Promise.resolve()
     } catch (error) {
       return Promise.reject()
     }
@@ -75,7 +107,9 @@ const DriveProvider = ({ children }: DriveContextProps) => {
     if (!imployApiClient) return Promise.reject("Api Client is not initialized")
 
     try {
-      return imployApiClient.moveCSFObject(body)
+      await imployApiClient.moveCSFObject(body)
+      await refreshContents()
+      return Promise.resolve()
     } catch (error) {
       return Promise.reject()
     }
@@ -85,7 +119,9 @@ const DriveProvider = ({ children }: DriveContextProps) => {
     if (!imployApiClient) return Promise.reject("Api Client is not initialized")
 
     try {
-      return imployApiClient.removeCSFObjects(body)
+      await imployApiClient.removeCSFObjects(body)
+      await refreshContents()
+      return Promise.resolve()
     } catch (error) {
       return Promise.reject()
     }
@@ -124,7 +160,8 @@ const DriveProvider = ({ children }: DriveContextProps) => {
         downloadFile,
         list,
         currentPath,
-        updateCurrentPath,
+        updateCurrentPath: setCurrentPath,
+        pathContents,
       }}
     >
       {children}
@@ -140,4 +177,4 @@ const useDrive = () => {
   return context
 }
 
-export { DriveProvider, useDrive }
+export { DriveProvider, useDrive, IFile }
