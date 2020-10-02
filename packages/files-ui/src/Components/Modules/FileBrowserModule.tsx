@@ -332,11 +332,6 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
                   type="grid"
                   rowSelectable={true}
                   selected={selected.includes(file.cid)}
-                  onClick={() => {
-                    file.content_type ===
-                      "application/chainsafe-files-directory" &&
-                      updateCurrentPath(`${currentPath}${file.name}`)
-                  }}
                 >
                   <TableCell>
                     <CheckboxInput
@@ -344,10 +339,24 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
                       onChange={() => handleSelect(file.cid)}
                     />
                   </TableCell>
-                  <TableCell className={classes.fileIcon}>
+                  <TableCell
+                    className={classes.fileIcon}
+                    onClick={() => {
+                      file.content_type ===
+                        "application/chainsafe-files-directory" &&
+                        updateCurrentPath(`${currentPath}${file.name}`)
+                    }}
+                  >
                     <Icon />
                   </TableCell>
-                  <TableCell align="left">
+                  <TableCell
+                    align="left"
+                    onClick={() => {
+                      file.content_type ===
+                        "application/chainsafe-files-directory" &&
+                        updateCurrentPath(`${currentPath}${file.name}`)
+                    }}
+                  >
                     {editing !== file.cid ? (
                       file.name
                     ) : (
@@ -418,7 +427,7 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
                           ),
                           onClick: () =>
                             deleteFile({
-                              paths: [`${currentPath}/${file.name}`],
+                              paths: [`${currentPath}${file.name}`],
                             }),
                         },
                         {
