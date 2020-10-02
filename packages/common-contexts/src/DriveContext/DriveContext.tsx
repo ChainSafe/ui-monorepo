@@ -27,7 +27,7 @@ type DriveContext = {
   // Delete file
   deleteFile(body: FilesRmRequest): Promise<void>
   // Download file
-  downloadFile(body: FilesPathRequest): Promise<void>
+  downloadFile(fileName: string): Promise<void>
   // Get list of files and folders for a path
   list(body: FilesPathRequest): Promise<FileContentResponse[]>
   currentPath: string
@@ -61,11 +61,11 @@ const DriveProvider = ({ children }: DriveContextProps) => {
         )
       }
     } catch (error) {}
-  }, [imployApiClient])
+  }, [imployApiClient, currentPath])
 
   useEffect(() => {
     refreshContents()
-  }, [imployApiClient, refreshContents])
+  }, [imployApiClient, refreshContents, currentPath])
 
   const uploadFile = async (file: FileParameter) => {
     if (!imployApiClient) return Promise.reject("Api Client is not initialized")
@@ -127,12 +127,22 @@ const DriveProvider = ({ children }: DriveContextProps) => {
     }
   }
 
-  const downloadFile = async (body: FilesPathRequest) => {
+  const downloadFile = async (fileName: string) => {
     if (!imployApiClient) return Promise.reject("Api Client is not initialized")
 
     try {
-      // TODO Confirm the return here. Might need to update the API spec.
-      return imployApiClient.getFileContent(body)
+      //TODO: Fix the response of this method
+      const result = await imployApiClient.getFileContent({
+        path: currentPath + fileName,
+      })
+
+      //@ts-ignore
+      const blob = new Blob([result])
+      const link = document.createElement("a")
+      link.href = window.URL.createObjectURL(blob)
+      link.download = fileName
+      link.click()
+      return Promise.resolve()
     } catch (error) {
       return Promise.reject()
     }
@@ -159,7 +169,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
         downloadFile,
         list,
         currentPath,
-        updateCurrentPath: setCurrentPath,
+        updateCurrentPath: (newPath: string) => setCurrentPath(`${newPath}/`),
         pathContents,
       }}
     >

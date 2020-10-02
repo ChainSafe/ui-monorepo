@@ -332,6 +332,11 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
                   type="grid"
                   rowSelectable={true}
                   selected={selected.includes(file.cid)}
+                  onClick={() => {
+                    file.content_type ===
+                      "application/chainsafe-files-directory" &&
+                      updateCurrentPath(`${currentPath}${file.name}`)
+                  }}
                 >
                   <TableCell>
                     <CheckboxInput
@@ -423,10 +428,7 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
                               <span>Download</span>
                             </Fragment>
                           ),
-                          onClick: () =>
-                            downloadFile({
-                              path: `${currentPath}${file.name}`,
-                            }),
+                          onClick: () => downloadFile(file.name),
                         },
                       ]}
                       indicator={MoreIcon}
