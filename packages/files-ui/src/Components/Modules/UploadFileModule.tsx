@@ -10,6 +10,7 @@ import React from "react"
 import { useState } from "react"
 import { Formik, Form } from "formik"
 import clsx from "clsx"
+import { array, object } from "yup"
 
 const useStyles = makeStyles(({ constants, palette }: ITheme) =>
   createStyles({
@@ -50,6 +51,15 @@ const UploadFileModule: React.FC<{ buttonClassName?: string }> = ({
 
   const handleCloseDialog = () => setOpen(false)
 
+
+  const UploadSchema = object().shape({
+    files: array()
+      .min(1, 'Please select a file')
+      .max(1, 'File limit exceeded')
+      .required('Please select a file to upload'),
+  })
+
+
   return (
     <>
       <Button
@@ -66,6 +76,7 @@ const UploadFileModule: React.FC<{ buttonClassName?: string }> = ({
           initialValues={{
             files: [],
           }}
+          validationSchema={UploadSchema}
           onSubmit={async (values, helpers) => {
             helpers.setSubmitting(true)
             try {
