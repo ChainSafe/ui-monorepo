@@ -30,7 +30,8 @@ const ConditionalRoute: React.FC<IProps> = ({
             state: { from: path },
           }}
         />
-      ) : null
+      ) : // this may be converted into loading
+      null
     }}
   />
 )
