@@ -123,9 +123,7 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
 
           setTokensAndSave(access_token, refresh_token, apiClient)
           setIsLoadingUser(false)
-        } catch (error) {
-          console.log("here")
-        }
+        } catch (error) {}
       } else {
         setIsLoadingUser(false)
       }
