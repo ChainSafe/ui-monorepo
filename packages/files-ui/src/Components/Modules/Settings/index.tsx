@@ -40,7 +40,7 @@ type TabKey = "profileView" | "planView"
 const Settings: React.FC = () => {
   const [tabKey, setTabKey] = useState<TabKey>("profileView")
   const classes = useStyles()
-  const { profile, refreshProfile, updateProfile } = useUser()
+  const { profile, updateProfile } = useUser()
   const [updatingProfile, setUpdateLoading] = useState(false)
   const { redirect } = useHistory()
   const { addToastMessage } = useToaster()
