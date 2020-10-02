@@ -10,7 +10,7 @@ import { Formik, Form } from "formik"
 import { object, string,  } from "yup"
 import EmptySvg from "../../Media/Empty.svg"
 import CreateFolderModule from "./CreateFolderModule"
-import UploadFileModule from "./UploadFileModule "
+import UploadFileModule from "./UploadFileModule"
 
 const useStyles = makeStyles(({
   constants

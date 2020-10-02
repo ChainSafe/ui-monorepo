@@ -69,7 +69,6 @@ const UploadFileModule: React.FC<{ buttonClassName?: string }> = ({
           onSubmit={async (values, helpers) => {
             helpers.setSubmitting(true)
             try {
-              console.log(values.files)
               await uploadFile(values.files[0], currentPath)
               helpers.resetForm()
               handleCloseDialog()
