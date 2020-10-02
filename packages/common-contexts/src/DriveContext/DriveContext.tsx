@@ -1,6 +1,5 @@
 import {
   FileContentResponse,
-  FileParameter,
   FilesMvRequest,
   FilesPathRequest,
   FilesRmRequest,
@@ -17,7 +16,7 @@ type DriveContextProps = {
 
 type DriveContext = {
   // Upload file
-  uploadFile(file: FileParameter): Promise<FilesUploadResponse>
+  uploadFile(file: File, path: string): Promise<FilesUploadResponse>
   // Create folder
   createFolder(body: FilesPathRequest): Promise<FileContentResponse>
   // Rename file
@@ -67,15 +66,20 @@ const DriveProvider = ({ children }: DriveContextProps) => {
     refreshContents()
   }, [imployApiClient, refreshContents, currentPath])
 
-  const uploadFile = async (file: FileParameter) => {
+  const uploadFile = async (file: File, path: string) => {
     if (!imployApiClient) return Promise.reject("Api Client is not initialized")
 
     try {
-      const result = await imployApiClient.addCSFFiles(file, currentPath)
+      const fileParam = {
+        data: file,
+        fileName: file.name,
+      }
+
+      const result = await imployApiClient.addCSFFiles(fileParam, path)
       await refreshContents()
       return result
     } catch (error) {
-      return Promise.reject()
+      return Promise.reject(error)
     }
   }
 
@@ -169,7 +173,10 @@ const DriveProvider = ({ children }: DriveContextProps) => {
         downloadFile,
         list,
         currentPath,
-        updateCurrentPath: (newPath: string) => setCurrentPath(`${newPath}/`),
+        updateCurrentPath: (newPath: string) =>
+          newPath.endsWith("/")
+            ? setCurrentPath(`${newPath}`)
+            : setCurrentPath(`${newPath}/`),
         pathContents,
       }}
     >

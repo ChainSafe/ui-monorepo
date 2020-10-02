@@ -7,17 +7,32 @@ import { Button } from "../Button"
 import { Typography } from "../Typography"
 import { PaperclipIcon, PlusIcon } from "../Icons"
 
-const useStyles = makeStyles((theme: ITheme) =>
+const useStyles = makeStyles(({ constants, palette }: ITheme) =>
   createStyles({
+    pending: {
+      cursor: "pointer",
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "center",
+      alignItems: "center",
+      color: palette.additional["gray"][8],
+      padding: `${constants.generalUnit * 4}px 0 !important`,
+      "& svg": {
+        fill: palette.additional["gray"][8],
+      },
+      "& > *:first-child": {
+        marginBottom: constants.generalUnit,
+      },
+    },
     root: {
       "& > div": {
-        color: theme.palette.additional["gray"][8],
-        backgroundColor: theme.palette.additional["gray"][3],
+        color: palette.additional["gray"][8],
+        backgroundColor: palette.additional["gray"][3],
         borderWidth: 1,
-        borderColor: theme.palette.additional["gray"][5],
+        borderColor: palette.additional["gray"][5],
         borderStyle: "dashed",
         borderRadius: 2,
-        padding: `${theme.constants.generalUnit}px`,
+        padding: constants.generalUnit,
       },
     },
     filesDropped: {
@@ -26,7 +41,19 @@ const useStyles = makeStyles((theme: ITheme) =>
       },
     },
     error: {
-      color: theme.palette.error.main,
+      color: palette.error.main,
+    },
+    item: {
+      display: "flex",
+      flexDirection: "row",
+      alignItems: "center",
+      justifyContent: "flex-start",
+      "& svg": {
+        height: "100%",
+      },
+      "& > *:first-child": {
+        marginRight: constants.generalUnit,
+      },
     },
   }),
 )
@@ -99,16 +126,15 @@ const FileInput: React.FC<IFileInputProps> = ({
       <input {...getInputProps()} />
       {variant === "dropzone" ? (
         value.value?.length === 0 ? (
-          <div style={{ textAlign: "center" }}>
+          <div className={classes.pending}>
             <PlusIcon fontSize="large" color="primary" />
-            <br />
             <Typography>Upload Files and Folders</Typography>
           </div>
         ) : (
           <div className={clsx(classes.root, className)}>
             <ul>
               {value.value.map((file: any, i: any) => (
-                <li key={i}>
+                <li className={classes.item} key={i}>
                   <PaperclipIcon /> {file.name} - {file.size}
                 </li>
               ))}

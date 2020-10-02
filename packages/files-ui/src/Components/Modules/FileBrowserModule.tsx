@@ -1,7 +1,6 @@
 import { createStyles, ITheme, makeStyles } from "@chainsafe/common-themes"
 import React, { Fragment } from "react"
 import {
-  Button,
   CheckboxInput,
   DeleteIcon,
   Divider,
@@ -26,7 +25,6 @@ import {
   TableHeadCell,
   TableRow,
   Typography,
-  UploadIcon,
 } from "@chainsafe/common-components"
 import { useState } from "react"
 import { useMemo } from "react"
@@ -35,6 +33,7 @@ import { Formik, Form } from "formik"
 import { object, string } from "yup"
 import EmptySvg from "../../Media/Empty.svg"
 import CreateFolderModule from "./CreateFolderModule"
+import UploadFileModule from "./UploadFileModule"
 
 const useStyles = makeStyles(({ constants, palette }: ITheme) => {
   const gridSettings = "50px 69px 3fr 190px 100px 45px !important"
@@ -106,7 +105,6 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
 }: IFileBrowserProps) => {
   const classes = useStyles()
   const {
-    list,
     deleteFile,
     downloadFile,
     renameFile,
@@ -114,8 +112,6 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
     updateCurrentPath,
     pathContents,
   } = useDrive()
-
-  // TODO update to pull from list
   const [editing, setEditing] = useState<string | undefined>()
   const [direction, setDirection] = useState<SortDirection>("descend")
   const [column, setColumn] = useState<"name" | "size" | "date_uploaded">(
@@ -243,10 +239,7 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
           {controls && (
             <Fragment>
               <CreateFolderModule />
-              <Button variant="outline">
-                <UploadIcon />
-                Upload
-              </Button>
+              <UploadFileModule />
             </Fragment>
           )}
         </div>
@@ -312,6 +305,27 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
             </TableRow>
           </TableHead>
           <TableBody>
+            {currentPath !== "/" && (
+              <TableRow
+                className={classes.tableRow}
+                type="grid"
+                rowSelectable={false}
+              >
+                <TableCell></TableCell>
+                <TableCell
+                  className={classes.fileIcon}
+                  onClick={() => {
+                    updateCurrentPath("")
+                  }}
+                ></TableCell>
+                <TableCell align="left" onClick={() => updateCurrentPath("")}>
+                  ..
+                </TableCell>
+                <TableCell align="left"></TableCell>
+                <TableCell align="left"></TableCell>
+                <TableCell align="right"></TableCell>
+              </TableRow>
+            )}
             {items.map((file: IFile, index: number) => {
               let Icon
               if (
