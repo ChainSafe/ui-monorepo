@@ -143,7 +143,12 @@ const useStyles = makeStyles(
           marginRight: constants.generalUnit * 2,
         },
       },
-      menuItem: {},
+      menuItem: {
+        width: 100,
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+      },
       content: {
         height: "100%",
         minHeight: "100vh",
@@ -160,7 +165,7 @@ const useStyles = makeStyles(
 
 const AppWrapper: React.FC<IAppWrapper> = ({ children }: IAppWrapper) => {
   const { isLoggedIn, logout } = useImployApi()
-  const { profile } = useUser()
+  const { profile, removeUser } = useUser()
   const classes = useStyles()
 
   const getProfileTitle = () => {
@@ -245,7 +250,10 @@ const AppWrapper: React.FC<IAppWrapper> = ({ children }: IAppWrapper) => {
                   title={getProfileTitle()}
                   menuItems={[
                     {
-                      onClick: logout,
+                      onClick: () => {
+                        logout()
+                        removeUser()
+                      },
                       contents: (
                         <div className={classes.menuItem}>
                           <PowerDownSvg />

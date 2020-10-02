@@ -22,14 +22,23 @@ interface IUserContext {
     lastName: string,
     email: string,
   ): Promise<void>
+  removeUser(): void
 }
+
+const userStorageKey = "csf.user"
 
 const UserContext = React.createContext<IUserContext | undefined>(undefined)
 
 const UserProvider = ({ children }: UserContextProps) => {
   const { imployApiClient, isLoggedIn } = useImployApi()
 
-  const [profile, setProfile] = useState<Profile | undefined>(undefined)
+  let savedProfileData: Profile | undefined = undefined
+  const profileLocal = localStorage.getItem(userStorageKey)
+  if (profileLocal) {
+    savedProfileData = JSON.parse(profileLocal)
+  }
+
+  const [profile, setProfile] = useState<Profile | undefined>(savedProfileData)
 
   useEffect(() => {
     if (isLoggedIn && imployApiClient) {
@@ -41,14 +50,16 @@ const UserProvider = ({ children }: UserContextProps) => {
     if (!imployApiClient) return Promise.reject("Api Client is not initialized")
 
     try {
-      const profileData = await imployApiClient.getUser()
+      const profileApiData = await imployApiClient.getUser()
 
-      setProfile({
-        firstName: profileData.first_name,
-        lastName: profileData.last_name,
-        email: profileData.email,
-        publicAddress: profileData.public_address,
-      })
+      const profileState = {
+        firstName: profileApiData.first_name,
+        lastName: profileApiData.last_name,
+        email: profileApiData.email,
+        publicAddress: profileApiData.public_address,
+      }
+      setProfile(profileState)
+      localStorage.setItem(userStorageKey, JSON.stringify(profileState))
       return Promise.resolve()
     } catch (error) {
       return Promise.reject("There was an error getting profile.")
@@ -82,12 +93,18 @@ const UserProvider = ({ children }: UserContextProps) => {
     }
   }
 
+  const removeUser = () => {
+    setProfile(undefined)
+    localStorage.removeItem(userStorageKey)
+  }
+
   return (
     <UserContext.Provider
       value={{
         profile,
         updateProfile,
         refreshProfile,
+        removeUser,
       }}
     >
       {children}

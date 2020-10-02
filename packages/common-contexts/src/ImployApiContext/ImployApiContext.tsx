@@ -203,6 +203,7 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
     setAccessToken(undefined)
     setRefreshToken(undefined)
     setDecodedRefreshToken(undefined)
+    onboard?.walletReset()
     localStorage.removeItem(tokenStorageKey)
   }
 
