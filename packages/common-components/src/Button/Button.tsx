@@ -18,6 +18,7 @@ const useStyles = makeStyles((theme: ITheme) =>
       border: "none",
       outline: "none",
       "& svg": {
+        transitionDuration: `${theme.animation.transform}ms`,
         margin: `${0}px ${
           theme.constants.generalUnit / 2
         }px 0`,

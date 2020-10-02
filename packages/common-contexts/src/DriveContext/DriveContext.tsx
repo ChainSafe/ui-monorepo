@@ -15,7 +15,7 @@ type DriveContextProps = {
 
 type DriveContext = {
   // Upload file
-  uploadFile(file: Blob): Promise<FilesUploadResponse>
+  uploadFile(file: File, path: string): Promise<FilesUploadResponse>
   // Create folder
   createFolder(body: FilesPathRequest): Promise<FileContentResponse>
   // Rename file
@@ -39,14 +39,17 @@ const DriveProvider = ({ children }: DriveContextProps) => {
   const [currentPath, setCurrentPath] = useState<string>("/")
   const updateCurrentPath = (newPath: string) => setCurrentPath(newPath)
 
-  const uploadFile = async (file: Blob) => {
+  const uploadFile = async (file: File, path: string) => {
     if (!imployApiClient) return Promise.reject("Api Client is not initialized")
 
     try {
-      // TODO handle the upload and refresh list of files at path.
-      return imployApiClient.addCSFFiles(file)
+      const fileParam = {
+        data: file,
+        fileName: file.name,
+      }
+      return imployApiClient.addCSFFiles(fileParam, path)
     } catch (error) {
-      return Promise.reject()
+      return Promise.reject(error)
     }
   }
 

@@ -12,7 +12,7 @@ import { useState } from "react"
 import { Formik, Form } from "formik"
 import clsx from "clsx"
 
-const useStyles = makeStyles(({ constants, palette, typography }: ITheme) =>
+const useStyles = makeStyles(({ constants, palette }: ITheme) =>
   createStyles({
     root: {
       padding: constants.generalUnit * 4,
