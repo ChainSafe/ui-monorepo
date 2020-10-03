@@ -26,24 +26,21 @@ interface IUserContext {
   getProfileTitle(): string
 }
 
-const userStorageKey = "csf.user"
-
 const UserContext = React.createContext<IUserContext | undefined>(undefined)
 
 const UserProvider = ({ children }: UserContextProps) => {
   const { imployApiClient, isLoggedIn } = useImployApi()
 
-  let savedProfileData: Profile | undefined = undefined
-  const profileLocal = localStorage.getItem(userStorageKey)
-  if (profileLocal) {
-    savedProfileData = JSON.parse(profileLocal)
-  }
-
-  const [profile, setProfile] = useState<Profile | undefined>(savedProfileData)
+  const [profile, setProfile] = useState<Profile | undefined>(undefined)
 
   useEffect(() => {
     if (isLoggedIn && imployApiClient) {
-      refreshProfile()
+      const retrieveProfile = async () => {
+        try {
+          await refreshProfile()
+        } catch (err) {}
+      }
+      retrieveProfile()
     }
   }, [isLoggedIn, imployApiClient])
 
@@ -60,7 +57,6 @@ const UserProvider = ({ children }: UserContextProps) => {
         publicAddress: profileApiData.public_address,
       }
       setProfile(profileState)
-      localStorage.setItem(userStorageKey, JSON.stringify(profileState))
       return Promise.resolve()
     } catch (error) {
       return Promise.reject("There was an error getting profile.")
@@ -96,7 +92,6 @@ const UserProvider = ({ children }: UserContextProps) => {
 
   const removeUser = () => {
     setProfile(undefined)
-    localStorage.removeItem(userStorageKey)
   }
 
   const getProfileTitle = () => {
