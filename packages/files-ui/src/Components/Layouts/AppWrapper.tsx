@@ -165,20 +165,8 @@ const useStyles = makeStyles(
 
 const AppWrapper: React.FC<IAppWrapper> = ({ children }: IAppWrapper) => {
   const { isLoggedIn, logout } = useImployApi()
-  const { profile, removeUser } = useUser()
+  const { getProfileTitle, removeUser } = useUser()
   const classes = useStyles()
-
-  const getProfileTitle = () => {
-    if (profile?.publicAddress) {
-      const { publicAddress } = profile
-      return `${publicAddress.substr(0, 6)}...${publicAddress.substr(
-        publicAddress.length - 6,
-        publicAddress.length,
-      )}`
-    } else {
-      return profile?.firstName || profile?.lastName || ""
-    }
-  }
 
   return (
     <div className={classes.root}>

@@ -23,6 +23,7 @@ interface IUserContext {
     email: string,
   ): Promise<void>
   removeUser(): void
+  getProfileTitle(): string
 }
 
 const userStorageKey = "csf.user"
@@ -98,6 +99,18 @@ const UserProvider = ({ children }: UserContextProps) => {
     localStorage.removeItem(userStorageKey)
   }
 
+  const getProfileTitle = () => {
+    if (profile?.publicAddress) {
+      const { publicAddress } = profile
+      return `${publicAddress.substr(0, 6)}...${publicAddress.substr(
+        publicAddress.length - 6,
+        publicAddress.length,
+      )}`
+    } else {
+      return profile?.firstName || profile?.lastName || ""
+    }
+  }
+
   return (
     <UserContext.Provider
       value={{
@@ -105,6 +118,7 @@ const UserProvider = ({ children }: UserContextProps) => {
         updateProfile,
         refreshProfile,
         removeUser,
+        getProfileTitle,
       }}
     >
       {children}
