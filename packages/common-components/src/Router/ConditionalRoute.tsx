@@ -2,8 +2,8 @@ import React from "react"
 import { Route, Redirect } from "react-router-dom"
 
 interface IProps {
-  component: React.ReactType
-  isAuthorized: boolean
+  component: React.ElementType
+  isAuthorized: boolean | undefined
   path: string
   redirectPath?: string
   exact?: boolean
@@ -21,16 +21,17 @@ const ConditionalRoute: React.FC<IProps> = ({
     path={path}
     exact={exact}
     render={() => {
-      return isAuthorized ? (
+      return isAuthorized === true ? (
         <Component {...rest} />
-      ) : (
+      ) : isAuthorized === false ? (
         <Redirect
           to={{
             pathname: `${redirectPath}`,
             state: { from: path },
           }}
         />
-      )
+      ) : // this may be converted into loading
+      null
     }}
   />
 )

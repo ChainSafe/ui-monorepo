@@ -1,4 +1,4 @@
-import { useImployApi } from "@chainsafe/common-contexts"
+import { useImployApi, useUser } from "@chainsafe/common-contexts"
 import { createStyles, ITheme, makeStyles } from "@chainsafe/common-themes"
 import React, { Fragment } from "react"
 import { ReactNode } from "react"
@@ -13,8 +13,6 @@ import {
   DeleteSvg,
   InfoCircleSvg,
   SettingSvg,
-  Avatar,
-  Blockies,
   MenuDropdown,
   PowerDownSvg,
   CssBaseline,
@@ -145,7 +143,12 @@ const useStyles = makeStyles(
           marginRight: constants.generalUnit * 2,
         },
       },
-      menuItem: {},
+      menuItem: {
+        width: 100,
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+      },
       content: {
         height: "100%",
         minHeight: "100vh",
@@ -161,8 +164,10 @@ const useStyles = makeStyles(
 )
 
 const AppWrapper: React.FC<IAppWrapper> = ({ children }: IAppWrapper) => {
-  const { isLoggedIn } = useImployApi()
+  const { isLoggedIn, logout } = useImployApi()
+  const { getProfileTitle, removeUser } = useUser()
   const classes = useStyles()
+
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -229,15 +234,14 @@ const AppWrapper: React.FC<IAppWrapper> = ({ children }: IAppWrapper) => {
             <Fragment>
               <SearchModule />
               <section className={classes.accountControls}>
-                <Avatar size="medium" variant="circle">
-                  {/* TODO: Wire up to User profile */}
-                  <Blockies seed="A wombat enters combat with another wombat, are they both combat wombats by combatting a wombat or is the assailant a combat wombat for combatting a wombat?" />
-                </Avatar>
                 <MenuDropdown
-                  title="Tanmoy B."
+                  title={getProfileTitle()}
                   menuItems={[
                     {
-                      onClick: () => console.log("Sign out please"),
+                      onClick: () => {
+                        logout()
+                        removeUser()
+                      },
                       contents: (
                         <div className={classes.menuItem}>
                           <PowerDownSvg />

@@ -21,14 +21,12 @@ const useStyles = makeStyles(({ constants, palette }: ITheme) =>
         flexDirection: "row",
         justifyContent: "flex-end",
         alignItems: "center",
-      }
+      },
     },
     input: {
       marginBottom: constants.generalUnit * 2,
     },
-    cta: {
-
-    },
+    cta: {},
     okButton: {
       marginLeft: constants.generalUnit,
       color: palette.common.white.main,
@@ -51,14 +49,12 @@ const UploadFileModule: React.FC<{ buttonClassName?: string }> = ({
 
   const handleCloseDialog = () => setOpen(false)
 
-
   const UploadSchema = object().shape({
     files: array()
-      .min(1, 'Please select a file')
-      .max(1, 'File limit exceeded')
-      .required('Please select a file to upload'),
+      .min(1, "Please select a file")
+      .max(1, "File limit exceeded")
+      .required("Please select a file to upload"),
   })
-
 
   return (
     <>
@@ -94,7 +90,12 @@ const UploadFileModule: React.FC<{ buttonClassName?: string }> = ({
           }}
         >
           <Form className={classes.root}>
-            <FileInput multiple={false} className={classes.input} label="Upload Files and Folders" name="files" />
+            <FileInput
+              multiple={false}
+              className={classes.input}
+              label="Upload Files and Folders"
+              name="files"
+            />
             <footer>
               <Button
                 onClick={handleCloseDialog}
@@ -105,11 +106,7 @@ const UploadFileModule: React.FC<{ buttonClassName?: string }> = ({
               >
                 Cancel
               </Button>
-              <Button
-                size="medium"
-                type="submit"
-                className={classes.okButton}
-              >
+              <Button size="medium" type="submit" className={classes.okButton}>
                 Upload
               </Button>
             </footer>

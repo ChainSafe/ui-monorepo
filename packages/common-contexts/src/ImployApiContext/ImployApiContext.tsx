@@ -7,6 +7,7 @@ import { signMessage } from "./utils"
 import axios from "axios"
 
 const tokenStorageKey = "csf.refreshToken"
+const isReturningUserStorageKey = "csf.isReturningUser"
 
 type ImployApiContextProps = {
   apiUrl?: string
@@ -15,10 +16,12 @@ type ImployApiContextProps = {
 
 type ImployApiContext = {
   imployApiClient?: IImployApiClient
-  isLoggedIn: boolean
+  isLoggedIn: boolean | undefined
   isReturningUser: boolean
   selectWallet(): Promise<void>
+  resetAndSelectWallet(): Promise<void>
   web3Login(): Promise<void>
+  logout(): void
 }
 
 const ImployApiContext = React.createContext<ImployApiContext | undefined>(
@@ -36,7 +39,13 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
     { exp: number } | undefined
   >(undefined)
   const [refreshToken, setRefreshToken] = useState<Token | undefined>(undefined)
-  const [isReturningUser, setIsReturningUser] = useState(false)
+
+  const isReturningUserLocal = localStorage.getItem(isReturningUserStorageKey)
+  const [isReturningUser, setIsReturningUser] = useState(
+    isReturningUserLocal ? true : false,
+  )
+
+  const [isLoadingUser, setIsLoadingUser] = useState(true)
 
   const setTokensAndSave = (
     accessToken: Token,
@@ -47,7 +56,11 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
     setRefreshToken(refreshToken)
     refreshToken.token &&
       localStorage.setItem(tokenStorageKey, refreshToken.token)
+
     accessToken.token && apiClient.setToken(accessToken.token)
+    // set returning user
+    localStorage.setItem(isReturningUserStorageKey, "returning")
+    setIsReturningUser(true)
   }
 
   useEffect(() => {
@@ -102,7 +115,6 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
       const apiClient = new ImployApiClient({}, apiUrl, axiosInstance)
       const savedRefreshToken = localStorage.getItem(tokenStorageKey)
       if (savedRefreshToken) {
-        setIsReturningUser(true)
         try {
           const {
             access_token,
@@ -110,7 +122,10 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
           } = await apiClient.getRefreshToken(savedRefreshToken)
 
           setTokensAndSave(access_token, refresh_token, apiClient)
+          setIsLoadingUser(false)
         } catch (error) {}
+      } else {
+        setIsLoadingUser(false)
       }
       setImployApiClient(apiClient)
     }
@@ -124,6 +139,13 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
       if (!walletReady) {
         walletReady = await onboard.walletSelect()
       }
+      walletReady && (await checkIsReady())
+    }
+  }
+
+  const resetAndSelectWallet = async () => {
+    if (onboard) {
+      let walletReady = await onboard.walletSelect()
       walletReady && (await checkIsReady())
     }
   }
@@ -177,6 +199,9 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
   }, [accessToken])
 
   const isLoggedIn = () => {
+    if (isLoadingUser) {
+      return undefined
+    }
     if (!decodedRefreshToken) {
       return false
     } else {
@@ -189,6 +214,13 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
     }
   }
 
+  const logout = () => {
+    setAccessToken(undefined)
+    setRefreshToken(undefined)
+    setDecodedRefreshToken(undefined)
+    localStorage.removeItem(tokenStorageKey)
+  }
+
   return (
     <ImployApiContext.Provider
       value={{
@@ -197,6 +229,8 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
         isReturningUser: isReturningUser,
         web3Login,
         selectWallet,
+        resetAndSelectWallet,
+        logout,
       }}
     >
       {children}

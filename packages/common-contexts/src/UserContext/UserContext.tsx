@@ -22,6 +22,8 @@ interface IUserContext {
     lastName: string,
     email: string,
   ): Promise<void>
+  removeUser(): void
+  getProfileTitle(): string
 }
 
 const UserContext = React.createContext<IUserContext | undefined>(undefined)
@@ -33,7 +35,12 @@ const UserProvider = ({ children }: UserContextProps) => {
 
   useEffect(() => {
     if (isLoggedIn && imployApiClient) {
-      refreshProfile()
+      const retrieveProfile = async () => {
+        try {
+          await refreshProfile()
+        } catch (err) {}
+      }
+      retrieveProfile()
     }
   }, [isLoggedIn, imployApiClient])
 
@@ -41,14 +48,15 @@ const UserProvider = ({ children }: UserContextProps) => {
     if (!imployApiClient) return Promise.reject("Api Client is not initialized")
 
     try {
-      const profileData = await imployApiClient.getUser()
+      const profileApiData = await imployApiClient.getUser()
 
-      setProfile({
-        firstName: profileData.first_name,
-        lastName: profileData.last_name,
-        email: profileData.email,
-        publicAddress: profileData.public_address,
-      })
+      const profileState = {
+        firstName: profileApiData.first_name,
+        lastName: profileApiData.last_name,
+        email: profileApiData.email,
+        publicAddress: profileApiData.public_address,
+      }
+      setProfile(profileState)
       return Promise.resolve()
     } catch (error) {
       return Promise.reject("There was an error getting profile.")
@@ -82,12 +90,30 @@ const UserProvider = ({ children }: UserContextProps) => {
     }
   }
 
+  const removeUser = () => {
+    setProfile(undefined)
+  }
+
+  const getProfileTitle = () => {
+    if (profile?.publicAddress) {
+      const { publicAddress } = profile
+      return `${publicAddress.substr(0, 6)}...${publicAddress.substr(
+        publicAddress.length - 6,
+        publicAddress.length,
+      )}`
+    } else {
+      return profile?.firstName || profile?.lastName || ""
+    }
+  }
+
   return (
     <UserContext.Provider
       value={{
         profile,
         updateProfile,
         refreshProfile,
+        removeUser,
+        getProfileTitle,
       }}
     >
       {children}

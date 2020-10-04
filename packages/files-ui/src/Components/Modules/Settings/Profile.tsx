@@ -36,6 +36,9 @@ const useStyles = makeStyles((theme: ITheme) =>
       justifyContent: "space-between",
       marginBottom: theme.constants.generalUnit,
     },
+    input: {
+      width: "100%",
+    },
     label: {
       marginBottom: theme.constants.generalUnit * 1,
       fontSize: 20,
@@ -161,6 +164,7 @@ const Profile: React.FC<IProfileProps> = (props) => {
                           placeholder="first name"
                           name="firstName"
                           size="medium"
+                          className={classes.input}
                           labelClassName={classes.label}
                           label="First name"
                         />
@@ -170,6 +174,7 @@ const Profile: React.FC<IProfileProps> = (props) => {
                           placeholder="last name"
                           name="lastName"
                           size="medium"
+                          className={classes.input}
                           labelClassName={classes.label}
                           label="Last name"
                         />
@@ -181,6 +186,7 @@ const Profile: React.FC<IProfileProps> = (props) => {
                       placeholder="email"
                       name="email"
                       size="medium"
+                      className={classes.input}
                       labelClassName={classes.label}
                       label="Email"
                     />

@@ -87,7 +87,12 @@ const useStyles = makeStyles((theme: ITheme) =>
 const LoginPage = () => {
   const classes = useStyles()
   const theme = useTheme<ITheme>()
-  const { isReturningUser, web3Login, selectWallet } = useImployApi()
+  const {
+    isReturningUser,
+    web3Login,
+    selectWallet,
+    resetAndSelectWallet,
+  } = useImployApi()
   const { provider, wallet } = useWeb3()
   const [error, setError] = useState<string>("")
   const [activeMode, setActiveMode] = useState<"newUser" | "returningUser">(
@@ -111,6 +116,16 @@ const LoginPage = () => {
     setIsConnecting(false)
   }
 
+  const handleResetAndSelectWalletAndConnect = async () => {
+    setIsConnecting(true)
+    try {
+      await resetAndSelectWallet()
+    } catch (error) {
+      setError("There was an error connecting your wallet")
+    }
+    setIsConnecting(false)
+  }
+
   const handleSignAuth = async () => {
     setIsConnecting(true)
     try {
@@ -120,6 +135,7 @@ const LoginPage = () => {
     }
     setIsConnecting(false)
   }
+
   return (
     <div>
       <Grid container>
@@ -162,15 +178,26 @@ const LoginPage = () => {
                 </Typography>
               </Button>
             ) : (
-              <Button
-                onClick={handleSignAuth}
-                className={classes.button}
-                size="large"
-              >
-                <Typography variant="button" disabled={isConnecting}>
-                  Continue with {wallet?.name}
-                </Typography>
-              </Button>
+              <>
+                <Button
+                  onClick={handleSignAuth}
+                  className={classes.button}
+                  size="large"
+                >
+                  <Typography variant="button" disabled={isConnecting}>
+                    Continue with {wallet?.name}
+                  </Typography>
+                </Button>
+                <Button
+                  onClick={handleResetAndSelectWalletAndConnect}
+                  className={classes.button}
+                  size="large"
+                >
+                  <Typography variant="button" disabled={isConnecting}>
+                    Select a different wallet
+                  </Typography>
+                </Button>
+              </>
             )}
             <Divider>
               <Typography>or</Typography>
