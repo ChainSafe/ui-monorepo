@@ -25,16 +25,11 @@ Complex Modules such as Billing, Login modules, basically shared wide scope/opin
 
 #### 4\) **`packages/common-themes`**
 
-- Theme definitions for the projects (light, dark, etc)
+- Theme context and other utilities for generating and using the theming capabilities
 
 #### 5\) **`packages/files-ui`**
 
 The UI for Chainsafe Files
-
-## Requirements
-
-- Node ~10
-- Yarn >1
 
 ## Development
 

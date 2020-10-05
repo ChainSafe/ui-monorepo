@@ -4,9 +4,11 @@
   "private": true,
   "dependencies": {
     "@chainsafe/web3-context": "1.0.1",
+    "@imploy/api-client": "1.2.3",
     "@sentry/react": "^5.22.3",
     "@types/yup": "^0.29.7",
     "bnc-onboard": "^1.13.0",
+    "dayjs": "^1.9.1",
     "ethers": "^5.0.12",
     "formik": "^2.1.5",
     "react": "^16.13.1",

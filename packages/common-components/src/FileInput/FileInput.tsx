@@ -7,10 +7,7 @@ import { Button } from "../Button"
 import { Typography } from "../Typography"
 import { PaperclipIcon, PlusIcon } from "../Icons"
 
-const useStyles = makeStyles(({
-  constants,
-  palette
-}: ITheme) =>
+const useStyles = makeStyles(({ constants, palette }: ITheme) =>
   createStyles({
     pending: {
       cursor: "pointer",
@@ -24,8 +21,8 @@ const useStyles = makeStyles(({
         fill: palette.additional["gray"][8],
       },
       "& > *:first-child": {
-        marginBottom: constants.generalUnit
-      }
+        marginBottom: constants.generalUnit,
+      },
     },
     root: {
       "& > div": {
@@ -35,7 +32,7 @@ const useStyles = makeStyles(({
         borderColor: palette.additional["gray"][5],
         borderStyle: "dashed",
         borderRadius: 2,
-        padding: constants.generalUnit
+        padding: constants.generalUnit,
       },
     },
     filesDropped: {
@@ -52,12 +49,12 @@ const useStyles = makeStyles(({
       alignItems: "center",
       justifyContent: "flex-start",
       "& svg": {
-        height: "100%"
+        height: "100%",
       },
       "& > *:first-child": {
-        marginRight: constants.generalUnit
-      }
-    }
+        marginRight: constants.generalUnit,
+      },
+    },
   }),
 )
 

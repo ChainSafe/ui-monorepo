@@ -19,9 +19,7 @@ const useStyles = makeStyles((theme: ITheme) =>
       outline: "none",
       "& svg": {
         transitionDuration: `${theme.animation.transform}ms`,
-        margin: `${0}px ${
-          theme.constants.generalUnit / 2
-        }px 0`,
+        margin: `${0}px ${theme.constants.generalUnit / 2}px 0`,
       },
       "&.large": {
         padding: `${theme.constants.generalUnit}px ${
@@ -177,8 +175,8 @@ const useStyles = makeStyles((theme: ITheme) =>
       backgroundColor: `${theme.palette.additional["gray"][3]} !important`,
       borderColor: `${theme.palette.additional["gray"][5]} !important`,
       color: `${theme.palette.additional["gray"][6]} !important`,
-      cursor: "initial",  
-      "& svg": {  
+      cursor: "initial",
+      "& svg": {
         fill: `${theme.palette.additional["gray"][6]} !important`,
       },
       "&:hover": {
