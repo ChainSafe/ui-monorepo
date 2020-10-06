@@ -5,7 +5,7 @@
   "dependencies": {
     "@chainsafe/web3-context": "1.0.1",
     "@imploy/api-client": "1.2.3",
-    "@sentry/react": "^5.22.3",
+    "@sentry/react": "^5.25.0",
     "@types/yup": "^0.29.7",
     "bnc-onboard": "^1.13.0",
     "dayjs": "^1.9.1",
