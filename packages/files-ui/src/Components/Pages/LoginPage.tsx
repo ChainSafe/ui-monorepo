@@ -3,6 +3,7 @@ import {
   Grid,
   Typography,
   Button,
+  GithubLogoIcon,
   AppleLogoIcon,
   GoogleLogoIcon,
   ChainsafeFilesLogo,
@@ -136,6 +137,10 @@ const LoginPage = () => {
     setIsConnecting(false)
   }
 
+  const onLoginWithGithub = () => {}
+
+  const onLoginWithGoogle = () => {}
+
   return (
     <div>
       <Grid container>
@@ -202,11 +207,19 @@ const LoginPage = () => {
             <Divider>
               <Typography>or</Typography>
             </Divider>
-            <Button disabled className={classes.button} size="large">
-              <AppleLogoIcon />{" "}
-              <Typography variant="button">Continue with Apple</Typography>
+            <Button
+              className={classes.button}
+              size="large"
+              onClick={onLoginWithGithub}
+            >
+              <GithubLogoIcon />{" "}
+              <Typography variant="button">Continue with Github</Typography>
             </Button>
-            <Button disabled className={classes.button} size="large">
+            <Button
+              className={classes.button}
+              size="large"
+              onClick={onLoginWithGoogle}
+            >
               <GoogleLogoIcon />{" "}
               <Typography variant="button">Continue with Google</Typography>
             </Button>

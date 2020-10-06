@@ -41,6 +41,10 @@ export { default as FilePdfIcon, FilePdfSvg } from "./icons/FilePdf.icon"
 export { default as FileTextIcon, FileTextSvg } from "./icons/FileText.icon"
 export { default as FolderIcon, FolderSvg } from "./icons/Folder.icon"
 export {
+  default as GithubLogoIcon,
+  GithubLogoSvg,
+} from "./icons/GithubLogo.icon"
+export {
   default as GoogleLogoIcon,
   GoogleLogoSvg,
 } from "./icons/GoogleLogo.icon"

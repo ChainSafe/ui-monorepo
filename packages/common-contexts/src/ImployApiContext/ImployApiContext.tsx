@@ -1,7 +1,12 @@
 import { useWeb3 } from "@chainsafe/web3-context"
 import * as React from "react"
 import { useState, useEffect } from "react"
-import { IImployApiClient, ImployApiClient, Token } from "@imploy/api-client"
+import {
+  IImployApiClient,
+  ImployApiClient,
+  Token,
+  Provider,
+} from "@imploy/api-client"
 import jwtDecode from "jwt-decode"
 import { signMessage } from "./utils"
 import axios from "axios"
@@ -21,6 +26,7 @@ type ImployApiContext = {
   selectWallet(): Promise<void>
   resetAndSelectWallet(): Promise<void>
   web3Login(): Promise<void>
+  loginWithProvider(provider: Provider): Promise<string>
   logout(): void
 }
 
@@ -214,6 +220,17 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
     }
   }
 
+  const loginWithProvider = async (provider: Provider) => {
+    if (!imployApiClient) return Promise.reject("Api Client is not initialized")
+
+    try {
+      const { url } = await imployApiClient.getOauth2Provider(provider)
+      return Promise.resolve(url)
+    } catch {
+      return Promise.reject("There was an error logging in")
+    }
+  }
+
   const logout = () => {
     setAccessToken(undefined)
     setRefreshToken(undefined)
@@ -230,6 +247,7 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
         web3Login,
         selectWallet,
         resetAndSelectWallet,
+        loginWithProvider,
         logout,
       }}
     >
