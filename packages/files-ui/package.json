@@ -5,12 +5,12 @@
   "dependencies": {
     "@chainsafe/web3-context": "1.0.1",
     "@imploy/api-client": "1.2.3",
-    "@sentry/react": "^5.22.3",
+    "@sentry/react": "^5.25.0",
     "@types/yup": "^0.29.7",
     "bnc-onboard": "^1.13.0",
     "dayjs": "^1.9.1",
     "ethers": "^5.0.12",
-    "formik": "^2.1.5",
+    "formik": "^2.1.7",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-scripts": "3.4.3",
@@ -19,7 +19,7 @@
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^5.11.4",
-    "@testing-library/react": "^10.4.9",
+    "@testing-library/react": "^11.0.4",
     "@testing-library/user-event": "^12.1.6",
     "@types/jest": "^26.0.14",
     "@types/node": "^14.6.4",
