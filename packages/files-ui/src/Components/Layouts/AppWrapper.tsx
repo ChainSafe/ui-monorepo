@@ -58,7 +58,7 @@ const useStyles = makeStyles(
       },
       nav: {
         width: 0,
-        backgroundColor: palette.additional["gray"][6],
+        backgroundColor: palette.additional["gray"][3],
         height: "100%",
         overflow: "hidden",
         transitionDuration: `${animation.translate}ms`,
@@ -146,8 +146,13 @@ const useStyles = makeStyles(
       menuItem: {
         width: 100,
         display: "flex",
-        flexDirection: "column",
+        flexDirection: "row",
         alignItems: "center",
+        "& svg": {
+          width: constants.generalUnit * 2,
+          height: constants.generalUnit * 2,
+          marginRight: constants.generalUnit
+        }
       },
       content: {
         height: "100%",
@@ -216,7 +221,9 @@ const AppWrapper: React.FC<IAppWrapper> = ({ children }: IAppWrapper) => {
                 </Link>
               </nav>
             </div>
-            <section>TODO: GB USED SECTION</section>
+            <section>
+              {/* TODO: GB USED SECTION */}
+            </section>
           </Fragment>
         )}
       </section>
@@ -236,6 +243,7 @@ const AppWrapper: React.FC<IAppWrapper> = ({ children }: IAppWrapper) => {
               <section className={classes.accountControls}>
                 <MenuDropdown
                   title={getProfileTitle()}
+                  anchor="bottom-right"
                   menuItems={[
                     {
                       onClick: () => {
