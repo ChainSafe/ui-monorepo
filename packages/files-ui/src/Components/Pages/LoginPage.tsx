@@ -18,6 +18,8 @@ import {
 } from "@chainsafe/common-themes"
 import { useWeb3 } from "@chainsafe/web3-context"
 import { ROUTE_LINKS } from "../FilesRoutes"
+import LargeLightBulbSvg from "../../Media/LargeLightBulb.svg"
+import SmallBranchSvg from "../../Media/SmallBranch.svg"
 
 const useStyles = makeStyles(({
   palette,
@@ -50,15 +52,24 @@ const useStyles = makeStyles(({
     logoContainer: {
       display: "flex",
       alignItems: "center",
+      [breakpoints.down("sm")]: {
+        "& > svg": {
+
+        }
+      }
     },
     logoImage: {
-      width: "fit-content",
+      [breakpoints.down("sm")]: {
+        width: constants.generalUnit * 4.5,
+        height: constants.generalUnit * 4.5,
+      }
     },
     logoText: {
       fontWeight: typography.fontWeight.semibold,
       paddingLeft: constants.generalUnit,
       [breakpoints.down("sm")]: {
         color: palette.common.white.main,
+        fontSize: 16,
       }
     },
     buttonSection: {
@@ -67,6 +78,7 @@ const useStyles = makeStyles(({
       flexDirection: "column",
       alignItems: "center",
       justifyItems: "flex-start",
+      zIndex: 1
     },
     button: {
       width: 240,
@@ -116,6 +128,24 @@ const useStyles = makeStyles(({
         color: palette.common.white.main,
         textAlign: "center"
       }
+    },
+    largeBulb: {
+      position: "fixed",
+      width:"auto",
+      height:"auto",
+      top: "-5vw",
+      right: 0,
+      maxWidth:"50vw",
+      zIndex: 0
+    },
+    smallBranch: {
+      position: "fixed",
+      bottom: 0,
+      left: "-2vw",
+      maxWidth: "35vw",
+      width: "auto",
+      height: "auto",
+      zIndex: 0
     },
   }),
 )
@@ -178,7 +208,7 @@ const LoginPage = () => {
     <div className={classes.root}>
       <Grid flexDirection={desktop ? "row" : "column"} container>
         {
-          desktop && (
+          desktop ? (
             <Grid item md={8} className={classes.imageSection}>
               <img src="abstract-image-large.png" alt="" />
               <Typography
@@ -189,11 +219,16 @@ const LoginPage = () => {
                 Making secure cloud storage easier than ever.
               </Typography>
             </Grid>
+          ) : (
+            <>
+              <LargeLightBulbSvg className={classes.largeBulb} />
+              <SmallBranchSvg className={classes.smallBranch} />
+            </>
           )
         }
         <Grid item md={4} sm={12} className={classes.buttonSection}>
           <div className={classes.logoContainer}>
-            <ChainsafeFilesLogo />
+            <ChainsafeFilesLogo className={classes.logoImage} />
             <Typography variant="subtitle2" className={classes.logoText}>
               ChainSafe Files
             </Typography>
