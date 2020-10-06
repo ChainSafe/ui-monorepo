@@ -2,7 +2,6 @@ import {
   useThemeSwitcher,
   ThemeSwitcher,
 } from "./Provider/ThemeSwitcherContext"
-import { useOnClickOutside } from "./Hooks"
 import { IDefaultPalette } from "./Defaults/ColorPalette"
 
 export {
@@ -24,5 +23,6 @@ export {
   useTheme,
 } from "@material-ui/styles"
 
-export { useThemeSwitcher, ThemeSwitcher, useOnClickOutside, IDefaultPalette }
+export { useThemeSwitcher, ThemeSwitcher, IDefaultPalette }
+export * from "./Hooks"
 export * from "./utils"
