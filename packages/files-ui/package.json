@@ -10,7 +10,7 @@
     "bnc-onboard": "^1.13.0",
     "dayjs": "^1.9.1",
     "ethers": "^5.0.12",
-    "formik": "^2.1.5",
+    "formik": "^2.1.7",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-scripts": "3.4.3",
