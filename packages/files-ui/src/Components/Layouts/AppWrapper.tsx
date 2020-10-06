@@ -196,7 +196,7 @@ const useStyles = makeStyles(
           },
         },
         [breakpoints.down("sm")]: {
-
+          minHeight: "100vh",
         }
       },
     })
