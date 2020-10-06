@@ -1,6 +1,7 @@
 // TODO: Set defaults from Figma
 
 import { DefaultThemeConfig } from "../Defaults/ThemeConfig"
+import { IBreakpoints } from "./CreateBreakpoints"
 
 interface IPaletteColor {
   background?: string
@@ -66,14 +67,6 @@ interface IConstants {
   modal: Record<string, any>
   icon: Record<string, any>
   [key: string]: number | string | Record<string, any> | undefined
-}
-interface IBreakpoints {
-  xs: number
-  sm: number
-  md: number
-  lg: number
-  xl: number
-  [key: string]: number
 }
 interface IAnimation {
   transform: 200
