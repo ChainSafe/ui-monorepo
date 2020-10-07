@@ -78,7 +78,7 @@ const useStyles = makeStyles(({
       flexDirection: "column",
       alignItems: "center",
       justifyItems: "flex-start",
-      zIndex: 1
+      zIndex: 0
     },
     button: {
       width: 240,
