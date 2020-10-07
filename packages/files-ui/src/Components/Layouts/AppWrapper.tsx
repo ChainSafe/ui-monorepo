@@ -303,6 +303,7 @@ const AppWrapper: React.FC<IAppWrapper> = ({ children }: IAppWrapper) => {
                   <section className={classes.accountControls}>
                     <MenuDropdown
                       title={getProfileTitle()}
+                      anchor="bottom-right"
                       menuItems={[
                         {
                           onClick: () => signOut(),
