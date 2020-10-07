@@ -4,11 +4,11 @@ import {
   Typography,
   Button,
   GithubLogoIcon,
-  AppleLogoIcon,
   GoogleLogoIcon,
   ChainsafeFilesLogo,
   Link,
   Divider,
+  useHistory,
 } from "@chainsafe/common-components"
 import { useImployApi } from "@chainsafe/common-contexts"
 import {
@@ -93,7 +93,9 @@ const LoginPage = () => {
     web3Login,
     selectWallet,
     resetAndSelectWallet,
+    loginWithProvider,
   } = useImployApi()
+  const { redirect } = useHistory()
   const { provider, wallet } = useWeb3()
   const [error, setError] = useState<string>("")
   const [activeMode, setActiveMode] = useState<"newUser" | "returningUser">(
@@ -137,9 +139,12 @@ const LoginPage = () => {
     setIsConnecting(false)
   }
 
-  const onLoginWithGithub = () => {}
+  const onLoginWithGoogle = async () => {
+    const url = await loginWithProvider("google")
+    window.location.href = `${url}&redirect_uri=http://localhost:3000/callback`
+  }
 
-  const onLoginWithGoogle = () => {}
+  const onLoginWithGithub = () => {}
 
   return (
     <div>
