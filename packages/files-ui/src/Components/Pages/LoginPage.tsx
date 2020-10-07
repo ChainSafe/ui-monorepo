@@ -221,8 +221,8 @@ const LoginPage = () => {
             >
               {activeMode === "newUser" ? "Sign in" : "Create an account"}
             </Typography>
-            <Link to={ROUTE_LINKS.PrivacyPolicy}>Privacy Policy</Link>
-            <Link to={ROUTE_LINKS.Terms}>Terms and Conditions</Link>
+            {/* <Link to={ROUTE_LINKS.PrivacyPolicy}>Privacy Policy</Link>
+            <Link to={ROUTE_LINKS.Terms}>Terms and Conditions</Link> */}
           </div>
         </Grid>
       </Grid>
