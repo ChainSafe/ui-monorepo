@@ -5,12 +5,9 @@ dotenv.config()
 async function createReleaseAndUpload() {
   const release = process.env.REACT_APP_SENTRY_RELEASE
   const environment = process.env.REACT_APP_SENTRY_ENV
-  const auth = process.env.SENTRY_AUTH_TOKEN
-  console.log("Using auth token", auth)
 
   if (!release || !environment) {
-    console.warn("REACT_APP_SENTRY_RELEASE or SENTRY_ENV is not set")
-
+    console.warn("REACT_APP_SENTRY_RELEASE or REACT_APP_SENTRY_ENV is not set")
     return
   }
 
