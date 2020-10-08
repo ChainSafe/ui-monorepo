@@ -1,6 +1,6 @@
 import { useImployApi, useUser } from "@chainsafe/common-contexts"
-import { createStyles, ITheme, makeStyles } from "@chainsafe/common-themes"
-import React, { Fragment } from "react"
+import { createStyles, ITheme, makeStyles, useMediaQuery, useTheme } from "@chainsafe/common-themes"
+import React, { Fragment, useCallback } from "react"
 import { ReactNode } from "react"
 import clsx from "clsx"
 import {
@@ -82,12 +82,27 @@ const useStyles = makeStyles(
       linksArea: {
         display: "flex",
         flexDirection: "column",
-        height: 0,
-        justifyContent: "center",
         flex: "1 1 0",
+        justifyContent: "center",
         "& > span": {
           marginBottom: constants.generalUnit * 2,
         },
+        [breakpoints.up("sm")]: {
+          height: 0,
+        },
+        [breakpoints.down("sm")]: {
+          transitionDuration: `${animation.translate}ms`,
+          position: "fixed",
+          top: 0,
+          left: 0,
+          overflow: "hidden",
+          height: "100%",
+          width: 0,
+          
+          "&.active": {
+
+          }
+        }
       },
       navItem: {
         textDecoration: "none",
@@ -102,43 +117,58 @@ const useStyles = makeStyles(
       },
       bodyWrapper: {
         transitionDuration: `${animation.translate}ms`,
-        padding: `0`,
-        "&.active": {
-          // This moves the content areas based on the size of the nav bar
-
-          padding: `${0}px ${contentPadding}px ${0}px ${
-            modalWidth + contentPadding
-          }px`,
+        [breakpoints.up("sm")]: {
+          padding: `0`,
+          "&.active": {
+            // This moves the content areas based on the size of the nav bar
+  
+            padding: `${0}px ${contentPadding}px ${0}px ${
+              modalWidth + contentPadding
+            }px`,
+          },
         },
+        [breakpoints.down("sm")]: {
+        }
       },
       header: {
         position: "fixed",
         display: "flex",
         flexDirection: "row",
         top: 0,
-        left: modalWidth,
         width: `calc(100% - ${modalWidth}px)`,
         padding: `${0}px ${contentPadding}px ${0}px ${contentPadding}px`,
         transitionDuration: `${animation.translate}ms`,
-        opacity: 0,
-        backgroundColor: palette.common.white.main,
         visibility: "hidden",
+        [breakpoints.up("sm")]: {
+          left: modalWidth,
+          backgroundColor: palette.common.white.main,
+          opacity: 0,
+          "&.active": {
+            opacity: 1,
+            height: "auto",
+            visibility: "visible",
+            padding: `${topPadding}px ${contentPadding}px ${0}px ${contentPadding}px`,
+          },
+        },
+        [breakpoints.down("sm")]: {
+          left: 0,
+          backgroundColor: palette.common.white.main,
+          "&.active": {
+          },
+        },
         "& >*:first-child": {
           flex: "1 1 0",
         },
-        "&.active": {
-          opacity: 1,
-          height: "auto",
-          visibility: "visible",
-          padding: `${topPadding}px ${contentPadding}px ${0}px ${contentPadding}px`,
-        },
+        
       },
       accountControls: {
-        marginLeft: accountControlsPadding,
         display: "flex",
         justifyContent: "flex-end",
         alignItems: "center",
         flexDirection: "row",
+        [breakpoints.up("sm")]: {
+          marginLeft: accountControlsPadding,
+        },
         "& > *:first-child": {
           marginRight: constants.generalUnit * 2,
         },
@@ -155,14 +185,19 @@ const useStyles = makeStyles(
         },
       },
       content: {
-        height: "100%",
-        minHeight: "100vh",
-        transitionDuration: `${animation.translate}ms`,
-        padding: 0,
-        "&.active": {
-          height: "initial",
-          padding: `${contentTopPadding}px 0 0`,
+        [breakpoints.up("sm")]:{
+          height: "100%",
+          minHeight: "100vh",
+          transitionDuration: `${animation.translate}ms`,
+          padding: 0,
+          "&.active": {
+            height: "initial",
+            padding: `${contentTopPadding}px 0 0`,
+          },
         },
+        [breakpoints.down("sm")]: {
+          minHeight: "100vh",
+        }
       },
     })
   },
@@ -172,6 +207,13 @@ const AppWrapper: React.FC<IAppWrapper> = ({ children }: IAppWrapper) => {
   const { isLoggedIn, logout } = useImployApi()
   const { getProfileTitle, removeUser } = useUser()
   const classes = useStyles()
+  const { breakpoints }: ITheme = useTheme()
+  const desktop = useMediaQuery(breakpoints.up("sm"))
+
+  const signOut = useCallback(() => {
+    logout()
+    removeUser()
+  }, [logout, removeUser])
 
   return (
     <div className={classes.root}>
@@ -209,19 +251,37 @@ const AppWrapper: React.FC<IAppWrapper> = ({ children }: IAppWrapper) => {
                   <Typography variant="h5">Trash</Typography>
                 </Link> */}
               </nav>
-              <Typography>Resources</Typography>
+              <Typography>
+                {
+                  desktop ? "Resources" : "Account"
+                }
+              </Typography>
               <nav className={classes.navMenu}>
-                {/* <Link className={classes.navItem} to="">
-                  <InfoCircleSvg />
-                  <Typography variant="h5">Support</Typography>
-                </Link> */}
+                {/* {
+                  desktop && (
+                    <Link className={classes.navItem} to="">
+                      <InfoCircleSvg />
+                      <Typography variant="h5">Support</Typography>
+                    </Link>
+                  )
+                } */}
                 <Link className={classes.navItem} to={ROUTE_LINKS.Settings}>
                   <SettingSvg />
                   <Typography variant="h5">Settings</Typography>
                 </Link>
               </nav>
             </div>
-            <section>{/* TODO: GB USED SECTION */}</section>
+            <section>
+              {/* TODO: GB USED SECTION */}
+              {
+                !desktop && (
+                  <div className={classes.navItem} onClick={() => signOut()}>
+                    <PowerDownSvg />
+                    <Typography>Sign Out</Typography>
+                  </div>
+                )
+              }
+            </section>
           </Fragment>
         )}
       </section>
@@ -238,26 +298,27 @@ const AppWrapper: React.FC<IAppWrapper> = ({ children }: IAppWrapper) => {
           {isLoggedIn && (
             <Fragment>
               <SearchModule />
-              <section className={classes.accountControls}>
-                <MenuDropdown
-                  title={getProfileTitle()}
-                  anchor="bottom-right"
-                  menuItems={[
-                    {
-                      onClick: () => {
-                        logout()
-                        removeUser()
-                      },
-                      contents: (
-                        <div className={classes.menuItem}>
-                          <PowerDownSvg />
-                          <Typography>Sign Out</Typography>
-                        </div>
-                      ),
-                    },
-                  ]}
-                />
-              </section>
+              {
+                desktop && (
+                  <section className={classes.accountControls}>
+                    <MenuDropdown
+                      title={getProfileTitle()}
+                      anchor="bottom-right"
+                      menuItems={[
+                        {
+                          onClick: () => signOut(),
+                          contents: (
+                            <div className={classes.menuItem}>
+                              <PowerDownSvg />
+                              <Typography>Sign Out</Typography>
+                            </div>
+                          ),
+                        },
+                      ]}
+                    />
+                  </section>
+                )
+              }
             </Fragment>
           )}
         </header>

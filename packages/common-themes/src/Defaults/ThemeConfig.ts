@@ -1,21 +1,13 @@
 import {
   IThemeConfig,
-  IBreakpoints,
   IFontWeights,
 } from "../Create/CreateThemeConfig"
 import { DefaultPalette } from "./ColorPalette"
 import { fade } from "../utils/colorManipulator"
+import { createBreakpoints } from "../Create/CreateBreakpoints"
 
 const defaultFontFamilyStack = {
   fontFamily: `-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen','Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',sans-serif`,
-}
-
-const breakpoints: IBreakpoints = {
-  xs: 0,
-  sm: 600,
-  md: 960,
-  lg: 1280,
-  xl: 1920,
 }
 
 const defaultFontWeights: IFontWeights = {
@@ -26,12 +18,14 @@ const defaultFontWeights: IFontWeights = {
   bold: 700,
 }
 
+const defaultBreakpoints = createBreakpoints({})
+
 const DefaultThemeConfig: IThemeConfig = {
   animation: {
     transform: 200,
     translate: 400,
   },
-  breakpoints: breakpoints,
+  breakpoints: defaultBreakpoints,
   constants: {
     generalUnit: 8,
     icon: {
@@ -42,7 +36,7 @@ const DefaultThemeConfig: IThemeConfig = {
       inner: {
         minWidth: 30,
         minHeight: 30,
-        maxWidth: breakpoints.md,
+        maxWidth: defaultBreakpoints.keys["md"],
       },
       backgroundFade: 0.4,
     },
@@ -154,7 +148,7 @@ const DefaultThemeConfig: IThemeConfig = {
       fontWeight: defaultFontWeights.regular,
       fontSize: 14,
       lineHeight: `22px`,
-      [`@media (max-width: ${breakpoints.sm}px)`]: {
+      [defaultBreakpoints.down("sm")]: {
         fontSize: 16,
         lineHeight: `24px`,
       },
@@ -164,7 +158,7 @@ const DefaultThemeConfig: IThemeConfig = {
       fontWeight: defaultFontWeights.regular,
       fontSize: 12,
       lineHeight: `20px`,
-      [`@media (max-width: ${breakpoints.sm}px)`]: {
+      [defaultBreakpoints.down("sm")]: {
         fontSize: 14,
         lineHeight: `22px`,
       },
