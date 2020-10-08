@@ -15,78 +15,139 @@ import {
   ITheme,
   createStyles,
   useTheme,
+  useMediaQuery,
 } from "@imploy/common-themes"
 import { useWeb3 } from "@chainsafe/web3-context"
 import { ROUTE_LINKS } from "../FilesRoutes"
+import LargeLightBulbSvg from "../../Media/LargeLightBulb.svg"
+import SmallBranchSvg from "../../Media/SmallBranch.svg"
 
-const useStyles = makeStyles((theme: ITheme) =>
-  createStyles({
-    imageSection: {
-      backgroundColor: theme.palette.common.black.main,
-      color: theme.palette.common.white.main,
-      textAlign: "center",
-      alignContent: "center",
-      minHeight: "100vh",
-      "& > img": {
-        display: "block",
-        width: `calc(100% - ${theme.constants.generalUnit} * 2)`,
-        maxWidth: 667,
-        marginBottom: 50,
-        marginTop: 125,
+const useStyles = makeStyles(
+  ({ palette, constants, typography, breakpoints }: ITheme) =>
+    createStyles({
+      root: {
+        [breakpoints.down("sm")]: {
+          backgroundColor: palette.common.black.main,
+          minHeight: "100vh",
+          display: "flex",
+        },
       },
-    },
-    logoContainer: {
-      display: "flex",
-      alignItems: "center",
-    },
-    logoImage: {
-      width: "fit-content",
-    },
-    logoText: {
-      fontWeight: theme.typography.fontWeight.semibold,
-      paddingLeft: theme.constants.generalUnit,
-    },
-    buttonSection: {
-      paddingTop: 26,
-      display: "flex",
-      flexDirection: "column",
-      alignItems: "center",
-      justifyItems: "flex-start",
-    },
-    button: {
-      backgroundColor: theme.palette.common.black.main,
-      color: theme.palette.common.white.main,
-      width: 240,
-      marginBottom: theme.constants.generalUnit * 2,
-    },
-    controls: {
-      display: "flex",
-      flexDirection: "column",
-      height: 0,
-      justifyContent: "center",
-      flex: "1 1 0",
-    },
-    imageCaption: {
-      fontSize: 20,
-    },
-    footerText: {
-      marginTop: theme.constants.generalUnit * 6,
-      fontSize: 16,
-    },
-    headerText: {
-      paddingBottom: theme.constants.generalUnit * 8,
-    },
-    toggleMode: {
-      fontWeight: theme.typography.fontWeight.semibold,
-      marginBottom: theme.constants.generalUnit * 4,
-      cursor: "pointer",
-    },
-  }),
+      imageSection: {
+        backgroundColor: palette.common.black.main,
+        color: palette.common.white.main,
+        textAlign: "center",
+        alignContent: "center",
+        minHeight: "100vh",
+        "& > img": {
+          display: "block",
+          width: `calc(100% - ${constants.generalUnit} * 2)`,
+          maxWidth: 667,
+          marginBottom: 50,
+          marginTop: 125,
+        },
+      },
+      logoContainer: {
+        display: "flex",
+        alignItems: "center",
+        [breakpoints.down("sm")]: {
+          "& > svg": {},
+        },
+      },
+      logoImage: {
+        [breakpoints.down("sm")]: {
+          width: constants.generalUnit * 4.5,
+          height: constants.generalUnit * 4.5,
+        },
+      },
+      logoText: {
+        fontWeight: typography.fontWeight.semibold,
+        paddingLeft: constants.generalUnit,
+        [breakpoints.down("sm")]: {
+          color: palette.common.white.main,
+          fontSize: 16,
+        },
+      },
+      buttonSection: {
+        paddingTop: 26,
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyItems: "flex-start",
+        zIndex: 0,
+      },
+      button: {
+        width: 240,
+        marginBottom: constants.generalUnit * 2,
+        [breakpoints.up("sm")]: {
+          backgroundColor: palette.common.black.main,
+          color: palette.common.white.main,
+        },
+        [breakpoints.down("sm")]: {
+          backgroundColor: palette.common.black.main,
+          color: palette.common.white.main,
+        },
+      },
+      controls: {
+        display: "flex",
+        flexDirection: "column",
+        height: 0,
+        justifyContent: "center",
+        flex: "1 1 0",
+      },
+      error: {
+        color: palette.error.main,
+      },
+      imageCaption: {
+        fontSize: 20,
+      },
+      headerText: {
+        paddingBottom: constants.generalUnit * 8,
+        [breakpoints.down("sm")]: {
+          color: palette.common.white.main,
+          textAlign: "center",
+        },
+      },
+      footerText: {
+        marginTop: constants.generalUnit * 6,
+        fontSize: 16,
+        [breakpoints.down("sm")]: {
+          color: palette.common.white.main,
+          textAlign: "center",
+        },
+      },
+      toggleMode: {
+        fontWeight: typography.fontWeight.semibold,
+        marginBottom: constants.generalUnit * 4,
+        cursor: "pointer",
+        [breakpoints.down("sm")]: {
+          color: palette.common.white.main,
+          textAlign: "center",
+        },
+      },
+      largeBulb: {
+        position: "fixed",
+        width: "auto",
+        height: "auto",
+        top: "-5vw",
+        right: 0,
+        maxWidth: "50vw",
+        zIndex: 0,
+      },
+      smallBranch: {
+        position: "fixed",
+        bottom: 0,
+        left: "-2vw",
+        maxWidth: "35vw",
+        width: "auto",
+        height: "auto",
+        zIndex: 0,
+      },
+    }),
 )
 
 const LoginPage = () => {
   const classes = useStyles()
-  const theme = useTheme<ITheme>()
+  const { breakpoints }: ITheme = useTheme()
   const {
     isReturningUser,
     web3Login,
@@ -136,22 +197,39 @@ const LoginPage = () => {
     setIsConnecting(false)
   }
 
+  const desktop = useMediaQuery(breakpoints.up("sm"))
+
   return (
-    <div>
-      <Grid container>
-        <Grid item md={8} className={classes.imageSection}>
-          <img src="abstract-image-large.png" alt="" />
-          <Typography
-            variant="subtitle2"
-            component="h2"
-            className={classes.imageCaption}
-          >
-            Making secure cloud storage easier than ever.
-          </Typography>
-        </Grid>
-        <Grid item md={4} className={classes.buttonSection}>
+    <div className={classes.root}>
+      <Grid flexDirection={desktop ? "row" : "column"} container>
+        {desktop ? (
+          <Grid item md={8} lg={8} xl={8} className={classes.imageSection}>
+            <img src="abstract-image-large.png" alt="" />
+            <Typography
+              variant="subtitle2"
+              component="h2"
+              className={classes.imageCaption}
+            >
+              Making secure cloud storage easier than ever.
+            </Typography>
+          </Grid>
+        ) : (
+          <>
+            <LargeLightBulbSvg className={classes.largeBulb} />
+            <SmallBranchSvg className={classes.smallBranch} />
+          </>
+        )}
+        <Grid
+          item
+          md={4}
+          lg={4}
+          xl={4}
+          xs={12}
+          sm={12}
+          className={classes.buttonSection}
+        >
           <div className={classes.logoContainer}>
-            <ChainsafeFilesLogo />
+            <ChainsafeFilesLogo className={classes.logoImage} />
             <Typography variant="subtitle2" className={classes.logoText}>
               ChainSafe Files
             </Typography>
@@ -165,50 +243,59 @@ const LoginPage = () => {
               {activeMode === "newUser" ? "Create an account" : "Welcome back!"}
             </Typography>
             {error && (
-              <Typography color={theme.palette.error.main}>{error}</Typography>
+              <Typography className={classes.error}>{error}</Typography>
             )}
             {!provider ? (
               <Button
                 onClick={handleSelectWalletAndConnect}
                 className={classes.button}
+                variant={desktop ? "primary" : "outline"}
                 size="large"
+                disabled={isConnecting}
               >
-                <Typography variant="button" disabled={isConnecting}>
-                  Select a Web3 Wallet
-                </Typography>
+                Select a Web3 Wallet
               </Button>
             ) : (
               <>
                 <Button
                   onClick={handleSignAuth}
                   className={classes.button}
+                  variant={desktop ? "primary" : "outline"}
                   size="large"
+                  disabled={isConnecting}
                 >
-                  <Typography variant="button" disabled={isConnecting}>
-                    Continue with {wallet?.name}
-                  </Typography>
+                  Continue with {wallet?.name}
                 </Button>
                 <Button
                   onClick={handleResetAndSelectWalletAndConnect}
                   className={classes.button}
                   size="large"
+                  disabled={isConnecting}
                 >
-                  <Typography variant="button" disabled={isConnecting}>
-                    Select a different wallet
-                  </Typography>
+                  Select a different wallet
                 </Button>
               </>
             )}
-            <Divider>
-              <Typography>or</Typography>
-            </Divider>
-            <Button disabled className={classes.button} size="large">
-              <AppleLogoIcon />{" "}
-              <Typography variant="button">Continue with Apple</Typography>
+            {desktop && (
+              <Divider>
+                <Typography>or</Typography>
+              </Divider>
+            )}
+            <Button
+              disabled
+              className={classes.button}
+              variant={desktop ? "primary" : "outline"}
+              size="large"
+            >
+              <AppleLogoIcon /> Continue with Apple
             </Button>
-            <Button disabled className={classes.button} size="large">
-              <GoogleLogoIcon />{" "}
-              <Typography variant="button">Continue with Google</Typography>
+            <Button
+              disabled
+              className={classes.button}
+              variant={desktop ? "primary" : "outline"}
+              size="large"
+            >
+              <GoogleLogoIcon /> Continue with Google
             </Button>
             <Typography className={classes.footerText}>
               {activeMode === "newUser"
@@ -221,8 +308,14 @@ const LoginPage = () => {
             >
               {activeMode === "newUser" ? "Sign in" : "Create an account"}
             </Typography>
-            {/* <Link to={ROUTE_LINKS.PrivacyPolicy}>Privacy Policy</Link>
-            <Link to={ROUTE_LINKS.Terms}>Terms and Conditions</Link> */}
+            {/* {
+              desktop && (
+                <>
+                  <Link to={ROUTE_LINKS.PrivacyPolicy}>Privacy Policy</Link>
+                  <Link to={ROUTE_LINKS.Terms}>Terms and Conditions</Link>
+                </>
+              )
+            } */}
           </div>
         </Grid>
       </Grid>

@@ -60,23 +60,23 @@ const useStyles = makeStyles((theme: ITheme) =>
       transform: "translate(-50%, -50%)",
       "&.xs": {
         width: `calc(100% - ${theme.constants.generalUnit * 2}px)`,
-        maxWidth: theme.breakpoints.xs,
+        maxWidth: theme.breakpoints.width("xs"),
       },
       "&.sm": {
         width: `calc(100% - ${theme.constants.generalUnit * 2}px)`,
-        maxWidth: theme.breakpoints.sm,
+        maxWidth: theme.breakpoints.width("sm"),
       },
       "&.md": {
         width: `calc(100% - ${theme.constants.generalUnit * 2}px)`,
-        maxWidth: theme.breakpoints.md,
+        maxWidth: theme.breakpoints.width("md"),
       },
       "&.lg": {
         width: `calc(100% - ${theme.constants.generalUnit * 2}px)`,
-        maxWidth: theme.breakpoints.lg,
+        maxWidth: theme.breakpoints.width("lg"),
       },
       "&.xl": {
         width: `calc(100% - ${theme.constants.generalUnit * 2}px)`,
-        maxWidth: theme.breakpoints.xl,
+        maxWidth: theme.breakpoints.width("lg"),
       },
     },
     closeIcon: {
