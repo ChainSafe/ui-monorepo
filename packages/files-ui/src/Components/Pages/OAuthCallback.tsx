@@ -67,7 +67,14 @@ const OAuthCallback: React.FC = () => {
         default:
       }
     }
-  }, [imployApiClient])
+  }, [
+    imployApiClient,
+    loginOnFacebook,
+    loginOnGoogle,
+    loginOnGithub,
+    provider,
+    queryParams,
+  ])
 
   return <div />
 }

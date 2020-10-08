@@ -8,7 +8,6 @@ import {
   ChainsafeFilesLogo,
   Link,
   Divider,
-  useHistory,
 } from "@chainsafe/common-components"
 import { useImployApi, Provider } from "@chainsafe/common-contexts"
 import {
@@ -19,7 +18,6 @@ import {
 } from "@chainsafe/common-themes"
 import { useWeb3 } from "@chainsafe/web3-context"
 import { ROUTE_LINKS } from "../FilesRoutes"
-import process from "process"
 
 const useStyles = makeStyles((theme: ITheme) =>
   createStyles({
@@ -96,7 +94,6 @@ const LoginPage = () => {
     resetAndSelectWallet,
     getProviderUrl,
   } = useImployApi()
-  const { redirect } = useHistory()
   const { provider, wallet } = useWeb3()
   const [error, setError] = useState<string>("")
   const [activeMode, setActiveMode] = useState<"newUser" | "returningUser">(
