@@ -151,8 +151,8 @@ const useStyles = makeStyles(
         "& svg": {
           width: constants.generalUnit * 2,
           height: constants.generalUnit * 2,
-          marginRight: constants.generalUnit
-        }
+          marginRight: constants.generalUnit,
+        },
       },
       content: {
         height: "100%",
@@ -196,7 +196,7 @@ const AppWrapper: React.FC<IAppWrapper> = ({ children }: IAppWrapper) => {
                   <DatabaseSvg />
                   <Typography variant="h5">All</Typography>
                 </Link>
-                <Link className={classes.navItem} to="">
+                {/* <Link className={classes.navItem} to="">
                   <StarSvg />
                   <Typography variant="h5">Starred</Typography>
                 </Link>
@@ -207,23 +207,21 @@ const AppWrapper: React.FC<IAppWrapper> = ({ children }: IAppWrapper) => {
                 <Link className={classes.navItem} to="">
                   <DeleteSvg />
                   <Typography variant="h5">Trash</Typography>
-                </Link>
+                </Link> */}
               </nav>
               <Typography>Resources</Typography>
               <nav className={classes.navMenu}>
-                <Link className={classes.navItem} to="">
+                {/* <Link className={classes.navItem} to="">
                   <InfoCircleSvg />
                   <Typography variant="h5">Support</Typography>
-                </Link>
+                </Link> */}
                 <Link className={classes.navItem} to={ROUTE_LINKS.Settings}>
                   <SettingSvg />
                   <Typography variant="h5">Settings</Typography>
                 </Link>
               </nav>
             </div>
-            <section>
-              {/* TODO: GB USED SECTION */}
-            </section>
+            <section>{/* TODO: GB USED SECTION */}</section>
           </Fragment>
         )}
       </section>
