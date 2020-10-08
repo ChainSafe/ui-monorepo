@@ -10,6 +10,7 @@ import createThemeConfig, {
 } from "./CreateThemeConfig"
 import createMixins, { MixinConfig } from "./CreateMixins"
 import { DefaultGlobalStyling } from "../Defaults/GlobalStyling"
+import { DeepPartial } from "ts-essentials/dist/types"
 
 interface ITheme extends IThemeConfig {
   mixins: MixinConfig
@@ -18,27 +19,29 @@ interface ITheme extends IThemeConfig {
   }
 }
 
-const createTheme = (
-  themeConfig?: Partial<IThemeConfig>,
-  mixins?: MixinConfig,
-  globalStyling?: Record<string, any>,
-): ITheme => {
+interface ICreateThemeProps {
+  themeConfig?: DeepPartial<IThemeConfig>
+  mixins?: DeepPartial<MixinConfig>
+  globalStyling?: Record<string, any>
+}
+
+const createTheme = (themeProps?: ICreateThemeProps): ITheme => {
   return {
-    ...createThemeConfig(themeConfig),
+    ...createThemeConfig(themeProps?.themeConfig),
     globalStyling: {
       "@global": {
-        
         ...DefaultGlobalStyling,
-        ...globalStyling,
+        ...themeProps?.globalStyling,
       },
     },
-    mixins: createMixins(mixins),
+    mixins: createMixins(themeProps?.mixins),
   }
 }
 
 export default createTheme
 
 export {
+  ICreateThemeProps,
   ITheme,
   IPaletteColor,
   IPalette,

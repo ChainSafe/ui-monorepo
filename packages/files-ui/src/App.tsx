@@ -21,16 +21,33 @@ if (
   })
 }
 
-const lightTheme = createTheme()
-lightTheme.palette.primary.main = "#000"
-lightTheme.palette.primary.hover = "#FFF"
+const lightTheme = createTheme({
+  themeConfig: {
+    palette: {
+      primary: {
+        main: "#000",
+        hover: "#FFF",
+      },
+      secondary: {
+        main: "#FFF",
+        hover: "#000",
+      },
+    },
+  },
+})
 
-lightTheme.palette.secondary.main = "#FFF"
-lightTheme.palette.secondary.hover = "#000"
-
-const darkTheme = createTheme()
-darkTheme.palette.primary.main = "#FFF"
-darkTheme.palette.secondary.main = "#000"
+const darkTheme = createTheme({
+  themeConfig: {
+    palette: {
+      primary: {
+        main: "#FFF",
+      },
+      secondary: {
+        main: "#000",
+      },
+    },
+  },
+})
 
 const App: React.FC<{}> = () => {
   const apiUrl =

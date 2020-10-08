@@ -1,3 +1,4 @@
+import { DeepPartial } from "ts-essentials/dist/types"
 // TODO: Set defaults from Figma
 
 import { DefaultThemeConfig } from "../Defaults/ThemeConfig"
@@ -102,12 +103,12 @@ interface IThemeConfig {
 }
 
 const createThemeConfig = (
-  themeConfig?: Partial<IThemeConfig>,
+  themeConfig?: DeepPartial<IThemeConfig>,
 ): IThemeConfig => {
   // No conversion or mapping needed for now
   return {
     ...DefaultThemeConfig,
-    ...themeConfig,
+    ...(themeConfig as IThemeConfig),
   }
 }
 
