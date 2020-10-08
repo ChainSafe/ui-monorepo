@@ -80,7 +80,7 @@ const useStyles = makeStyles(({
       justifyItems: "flex-start",
       zIndex: 0
     },
-    button: {
+    button: { 
       width: 240,
       marginBottom: constants.generalUnit * 2,
       [breakpoints.up("sm")]: {
@@ -209,7 +209,7 @@ const LoginPage = () => {
       <Grid flexDirection={desktop ? "row" : "column"} container>
         {
           desktop ? (
-            <Grid item md={8} className={classes.imageSection}>
+            <Grid item md={8} lg={8} xl={8} className={classes.imageSection}>
               <img src="abstract-image-large.png" alt="" />
               <Typography
                 variant="subtitle2"
@@ -226,7 +226,7 @@ const LoginPage = () => {
             </>
           )
         }
-        <Grid item md={4} sm={12} className={classes.buttonSection}>
+        <Grid item md={4} lg={4} xl={4} xs={12} sm={12} className={classes.buttonSection}>
           <div className={classes.logoContainer}>
             <ChainsafeFilesLogo className={classes.logoImage} />
             <Typography variant="subtitle2" className={classes.logoText}>
