@@ -5,7 +5,7 @@ import {
   useTheme,
   makeStyles,
   createStyles,
-} from "@chainsafe/common-themes"
+} from "@imploy/common-themes"
 import { Placement, ToastProps } from "react-toast-notifications"
 import {
   CheckCircleIcon,

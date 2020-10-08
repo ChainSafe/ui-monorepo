@@ -1,7 +1,7 @@
 import React, { ReactNode } from "react"
 import SimpleBarReact from "simplebar-react"
-import { makeStyles, createStyles } from "@chainsafe/common-themes"
-import { ITheme } from "@chainsafe/common-themes"
+import { makeStyles, createStyles } from "@imploy/common-themes"
+import { ITheme } from "@imploy/common-themes"
 import clsx from "clsx"
 
 const useStyles = makeStyles((theme: ITheme) =>

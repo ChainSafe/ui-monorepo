@@ -1,11 +1,6 @@
-import {
-  Button,
-  FileInput,
-  Modal,
-  UploadIcon,
-} from "@chainsafe/common-components"
-import { useDrive } from "@chainsafe/common-contexts"
-import { createStyles, ITheme, makeStyles } from "@chainsafe/common-themes"
+import { Button, FileInput, Modal, UploadIcon } from "@imploy/common-components"
+import { useDrive } from "@imploy/common-contexts"
+import { createStyles, ITheme, makeStyles } from "@imploy/common-themes"
 import React from "react"
 import { useState } from "react"
 import { Formik, Form } from "formik"

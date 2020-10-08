@@ -10,9 +10,9 @@ import {
   Crumb,
   useHistory,
   useToaster,
-} from "@chainsafe/common-components"
-import { makeStyles, ITheme, createStyles } from "@chainsafe/common-themes"
-import { useUser } from "@chainsafe/common-contexts"
+} from "@imploy/common-components"
+import { makeStyles, ITheme, createStyles } from "@imploy/common-themes"
+import { useUser } from "@imploy/common-contexts"
 import { ROUTE_LINKS } from "../../FilesRoutes"
 
 const useStyles = makeStyles((theme: ITheme) =>

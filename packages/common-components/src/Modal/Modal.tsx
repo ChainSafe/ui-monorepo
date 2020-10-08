@@ -4,7 +4,7 @@ import {
   useOnClickOutside,
   makeStyles,
   createStyles,
-} from "@chainsafe/common-themes"
+} from "@imploy/common-themes"
 import clsx from "clsx"
 
 const useStyles = makeStyles((theme: ITheme) =>
