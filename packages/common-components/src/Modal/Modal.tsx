@@ -4,7 +4,7 @@ import {
   useOnClickOutside,
   makeStyles,
   createStyles,
-} from "@chainsafe/common-themes"
+} from "@imploy/common-themes"
 import clsx from "clsx"
 
 const useStyles = makeStyles((theme: ITheme) =>
@@ -76,7 +76,7 @@ const useStyles = makeStyles((theme: ITheme) =>
       },
       "&.xl": {
         width: `calc(100% - ${theme.constants.generalUnit * 2}px)`,
-        maxWidth: theme.breakpoints.width("lg")
+        maxWidth: theme.breakpoints.width("lg"),
       },
     },
     closeIcon: {

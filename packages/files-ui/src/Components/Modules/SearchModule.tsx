@@ -1,6 +1,6 @@
-import { createStyles, ITheme, makeStyles } from "@chainsafe/common-themes"
+import { createStyles, ITheme, makeStyles } from "@imploy/common-themes"
 import React, { ChangeEvent } from "react"
-import { SearchBar } from "@chainsafe/common-components"
+import { SearchBar } from "@imploy/common-components"
 import { useState } from "react"
 
 /**

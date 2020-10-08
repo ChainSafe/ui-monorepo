@@ -3,14 +3,14 @@
  *
  * @internal
  */
-export type Overwrite<T, U> = Omit<T, keyof U> & U;
+export type Overwrite<T, U> = Omit<T, keyof U> & U
 
 type GenerateStringUnion<T> = Extract<
   {
-    [Key in keyof T]: true extends T[Key] ? Key : never;
+    [Key in keyof T]: true extends T[Key] ? Key : never
   }[keyof T],
   string
->;
+>
 
 /**
  * Generate a set of string literal types with the given default record `T` and
@@ -21,45 +21,54 @@ type GenerateStringUnion<T> = Extract<
  *
  * @internal
  */
-export type OverridableStringUnion<T, U = {}> = GenerateStringUnion<Overwrite<T, U>>;
+export type OverridableStringUnion<T, U = {}> = GenerateStringUnion<
+  Overwrite<T, U>
+>
 
-
-export type BreakpointDefaults = Record<'xs' | 'sm' | 'md' | 'lg' | 'xl'| string, true>;
+export type BreakpointDefaults = Record<
+  "xs" | "sm" | "md" | "lg" | "xl" | string,
+  true
+>
 export interface BreakpointOverrides {}
 
-export type Breakpoint = OverridableStringUnion<BreakpointDefaults, BreakpointOverrides>;
-export type BreakpointValues = { [key in Breakpoint]: number };
-export const keys: Breakpoint[] = [];
+export type Breakpoint = OverridableStringUnion<
+  BreakpointDefaults,
+  BreakpointOverrides
+>
+export type BreakpointValues = { [key in Breakpoint]: number }
+export const keys: Breakpoint[] = []
 
 export interface IBreakpoints {
-  keys: Breakpoint[];
-  values: BreakpointValues;
-  up: (key: Breakpoint | number) => string;
-  down: (key: Breakpoint | number) => string;
-  between: (start: Breakpoint | number, end: Breakpoint | number) => string;
-  only: (key: Breakpoint) => string;
-  width: (key: Breakpoint) => number;
+  keys: Breakpoint[]
+  values: BreakpointValues
+  up: (key: Breakpoint | number) => string
+  down: (key: Breakpoint | number) => string
+  between: (start: Breakpoint | number, end: Breakpoint | number) => string
+  only: (key: Breakpoint) => string
+  width: (key: Breakpoint) => number
 }
 
 export interface Breakpoints {
-  keys: Breakpoint[];
-  values: BreakpointValues;
-  up: (key: Breakpoint | number) => string;
-  down: (key: Breakpoint | number) => string;
-  between: (start: Breakpoint | number, end: Breakpoint | number) => string;
-  only: (key: Breakpoint) => string;
-  width: (key: Breakpoint) => number;
+  keys: Breakpoint[]
+  values: BreakpointValues
+  up: (key: Breakpoint | number) => string
+  down: (key: Breakpoint | number) => string
+  between: (start: Breakpoint | number, end: Breakpoint | number) => string
+  only: (key: Breakpoint) => string
+  width: (key: Breakpoint) => number
 }
 
 export type BreakpointsOptions = Partial<
   {
-    unit: string;
-    step: number;
+    unit: string
+    step: number
   } & Breakpoints
->;
+>
 
 // Keep in mind that @media is inclusive by the CSS specification.
-export const createBreakpoints = (breakpoints: BreakpointsOptions): IBreakpoints => {
+export const createBreakpoints = (
+  breakpoints: BreakpointsOptions,
+): IBreakpoints => {
   const {
     // The breakpoint **start** at this value.
     // For instance with the first breakpoint xs: [xs, sm).
@@ -70,50 +79,51 @@ export const createBreakpoints = (breakpoints: BreakpointsOptions): IBreakpoints
       lg: 1280,
       xl: 1920,
     },
-    unit = 'px',
+    unit = "px",
     step = 5,
     ...other
-  } = breakpoints;
+  } = breakpoints
 
-  const keys = Object.keys(values) as Breakpoint[];
+  const keys = Object.keys(values) as Breakpoint[]
 
   function up(key: Breakpoint | number) {
-    const value = typeof values[key] === 'number' ? values[key] : key;
-    return `@media (min-width:${value}${unit})`;
+    const value = typeof values[key] === "number" ? values[key] : key
+    return `@media (min-width:${value}${unit})`
   }
 
   function down(key: Breakpoint | number) {
-    const value = typeof values[key] === 'number' ? values[key] : key as number;
-    return `@media (max-width:${value - step / 100}${unit})`;
+    const value =
+      typeof values[key] === "number" ? values[key] : (key as number)
+    return `@media (max-width:${value - step / 100}${unit})`
   }
 
   function between(start: Breakpoint | number, end: Breakpoint | number) {
-    const endIndex = keys.indexOf(end as string);
+    const endIndex = keys.indexOf(end as string)
 
     return (
       `@media (min-width:${
-        typeof values[start] === 'number' ? values[start] : start
+        typeof values[start] === "number" ? values[start] : start
       }${unit}) and ` +
       `(max-width:${
-        (endIndex !== -1 && typeof values[keys[endIndex]] === 'number'
+        (endIndex !== -1 && typeof values[keys[endIndex]] === "number"
           ? values[keys[endIndex]]
-          : end as number) -
+          : (end as number)) -
         step / 100
       }${unit})`
-    );
+    )
   }
 
   function only(key: Breakpoint) {
     if (keys.indexOf(key) + 1 < keys.length) {
-      return between(key, keys[keys.indexOf(key) + 1] as number | Breakpoint);
+      return between(key, keys[keys.indexOf(key) + 1] as number | Breakpoint)
       // return between(key, keys[keys.indexOf(key) + 1]);
     }
 
-    return up(key);
+    return up(key)
   }
 
   function width(key: Breakpoint) {
-    return values[key];
+    return values[key]
   }
 
   return {
@@ -125,5 +135,5 @@ export const createBreakpoints = (breakpoints: BreakpointsOptions): IBreakpoints
     only,
     width,
     ...other,
-  };
+  }
 }

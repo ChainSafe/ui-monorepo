@@ -1,5 +1,5 @@
 import React, { ReactNode } from "react"
-import { ITheme, makeStyles, createStyles } from "@chainsafe/common-themes"
+import { ITheme, makeStyles, createStyles } from "@imploy/common-themes"
 import clsx from "clsx"
 
 const useStyles = makeStyles((theme: ITheme) =>
@@ -24,8 +24,8 @@ const useStyles = makeStyles((theme: ITheme) =>
       "&.grid": {
         display: "grid",
         gridTemplateColumns: "repeat(auto-fit, minmax(40px, 1fr))",
-        alignItems: "center"
-      }
+        alignItems: "center",
+      },
     },
     rowSelectable: {
       cursor: "pointer",
@@ -62,7 +62,7 @@ const TableRow: React.FC<ITableRowProps> = ({
           [classes.rowSelectable]: rowSelectable,
         },
         className,
-        type
+        type,
       )}
       onClick={rowSelectable ? onClick : undefined}
       {...rest}

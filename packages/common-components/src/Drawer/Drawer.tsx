@@ -5,7 +5,7 @@ import {
   makeStyles,
   createStyles,
   useOnClickOutside,
-} from "@chainsafe/common-themes"
+} from "@imploy/common-themes"
 
 interface IStyleProps {
   size: number

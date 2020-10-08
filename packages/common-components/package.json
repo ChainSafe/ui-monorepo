@@ -1,5 +1,5 @@
 {
-  "name": "@chainsafe/common-components",
+  "name": "@imploy/common-components",
   "version": "1.0.0",
   "description": "Common Components",
   "author": "Michael Yankelev <michael@chainsafe.io>",
@@ -10,7 +10,8 @@
     "build:storybook": "build-storybook",
     "build": "rollup -c",
     "start": "rollup -c -w",
-    "lint": "eslint 'src/**/*.{js,ts,tsx}' --quiet --fix"
+    "lint": "eslint 'src/**/*.{js,ts,tsx}' --quiet --fix",
+    "publish": "yarn build && npm publish"
   },
   "dependencies": {
     "@material-ui/styles": "^4.10.0",
@@ -58,7 +59,6 @@
     "eslint-plugin-react": "^7.21.3",
     "formik": "^2.1.7",
     "fork-ts-checker-webpack-plugin": "^5.1.0",
-    "formik": "^2.1.5",
     "prettier": "^2.1.2",
     "react": "16.13.1",
     "react-blockies": "^1.4.1",

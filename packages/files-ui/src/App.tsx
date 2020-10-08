@@ -1,17 +1,13 @@
 import React from "react"
 import { init, ErrorBoundary, showReportDialog } from "@sentry/react"
-import { createTheme, ThemeSwitcher } from "@chainsafe/common-themes"
-import {
-  CssBaseline,
-  Router,
-  ToasterProvider,
-} from "@chainsafe/common-components"
+import { createTheme, ThemeSwitcher } from "@imploy/common-themes"
+import { CssBaseline, Router, ToasterProvider } from "@imploy/common-components"
 import { Web3Provider } from "@chainsafe/web3-context"
 import {
   DriveProvider,
   ImployApiProvider,
   UserProvider,
-} from "@chainsafe/common-contexts"
+} from "@imploy/common-contexts"
 import FilesRoutes from "./Components/FilesRoutes"
 import AppWrapper from "./Components/Layouts/AppWrapper"
 if (

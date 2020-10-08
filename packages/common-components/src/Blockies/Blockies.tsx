@@ -4,7 +4,7 @@ import {
   makeStyles,
   createStyles,
   useTheme,
-} from "@chainsafe/common-themes"
+} from "@imploy/common-themes"
 import clsx from "clsx"
 import Blockies from "react-blockies"
 

@@ -1,5 +1,5 @@
 import React, { ReactNode } from "react"
-import { makeStyles, createStyles } from "@chainsafe/common-themes"
+import { makeStyles, createStyles } from "@imploy/common-themes"
 import clsx from "clsx"
 import { capitalize } from "../utils/stringUtils"
 import { AlignOption } from "./types"
@@ -38,7 +38,7 @@ const TableCell: React.FC<ITableCellProps> = ({
 
   return (
     <td
-      onClick={() => onClick ? onClick() : null }
+      onClick={() => (onClick ? onClick() : null)}
       className={clsx(
         className,
         classes.root,

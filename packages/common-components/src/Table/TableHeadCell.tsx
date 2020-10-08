@@ -7,7 +7,7 @@ import {
   IPalette,
   makeStyles,
   createStyles,
-} from "@chainsafe/common-themes"
+} from "@imploy/common-themes"
 import { SortDirection } from "./types"
 import { CaretDownSvg } from "../Icons"
 
@@ -130,9 +130,11 @@ const TableHeadCell: React.FC<ITableHeadCellProps> = ({
             {children}
           </div>
           <div className={classes.caretContainer}>
-            <CaretDownSvg className={clsx(classes.caret, sortDirection, {
-              "active": sortActive
-            })} />
+            <CaretDownSvg
+              className={clsx(classes.caret, sortDirection, {
+                active: sortActive,
+              })}
+            />
           </div>
         </div>
       ) : (
