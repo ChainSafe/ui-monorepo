@@ -1,6 +1,6 @@
 import React from "react"
-import { Grid, Button, Typography } from "@chainsafe/common-components"
-import { makeStyles, ITheme, createStyles } from "@chainsafe/common-themes"
+import { Grid, Button, Typography } from "@imploy/common-components"
+import { makeStyles, ITheme, createStyles } from "@imploy/common-themes"
 
 const useStyles = makeStyles((theme: ITheme) =>
   createStyles({

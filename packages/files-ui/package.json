@@ -1,5 +1,5 @@
 {
-  "name": "@chainsafe/files-ui",
+  "name": "files-ui",
   "version": "1.0.0",
   "private": true,
   "dependencies": {

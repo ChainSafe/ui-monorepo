@@ -1,7 +1,7 @@
 import React, { ReactNode } from "react"
 import clsx from "clsx"
 import { capitalize } from "../utils/stringUtils"
-import { ITheme, makeStyles, createStyles } from "@chainsafe/common-themes"
+import { ITheme, makeStyles, createStyles } from "@imploy/common-themes"
 
 const useStyles = makeStyles((theme: ITheme) =>
   createStyles({

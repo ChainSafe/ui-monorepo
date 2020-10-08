@@ -1,4 +1,4 @@
-import { ITheme } from "@chainsafe/common-themes"
+import { ITheme } from "@imploy/common-themes"
 import {
   AlignItems,
   JustifyContent,

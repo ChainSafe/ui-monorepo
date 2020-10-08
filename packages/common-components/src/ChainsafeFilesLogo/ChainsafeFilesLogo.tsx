@@ -1,5 +1,5 @@
 import React from "react"
-import { makeStyles, createStyles } from "@chainsafe/common-themes"
+import { makeStyles, createStyles } from "@imploy/common-themes"
 import clsx from "clsx"
 
 const useStyles = makeStyles(() =>
@@ -11,7 +11,7 @@ const useStyles = makeStyles(() =>
 )
 
 const ChainsafeFilesLogo: React.FC<{ className?: string }> = ({
-  className
+  className,
 }) => {
   const classes = useStyles()
   return (

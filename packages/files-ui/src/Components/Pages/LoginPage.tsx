@@ -4,19 +4,19 @@ import {
   Typography,
   Button,
   GoogleLogoIcon,
+  FacebookLogoIcon,
+  GithubLogoIcon,
   ChainsafeFilesLogo,
   Divider,
-  GithubLogoIcon,
-  FacebookLogoIcon,
-} from "@chainsafe/common-components"
-import { useImployApi, Provider } from "@chainsafe/common-contexts"
+} from "@imploy/common-components"
+import { useImployApi, Provider } from "@imploy/common-contexts"
 import {
   makeStyles,
   ITheme,
   createStyles,
   useTheme,
   useMediaQuery,
-} from "@chainsafe/common-themes"
+} from "@imploy/common-themes"
 import { useWeb3 } from "@chainsafe/web3-context"
 import LargeLightBulbSvg from "../../Media/LargeLightBulb.svg"
 import SmallBranchSvg from "../../Media/SmallBranch.svg"

@@ -1,5 +1,5 @@
 import React, { ReactNode } from "react"
-import { ITheme, makeStyles, createStyles } from "@chainsafe/common-themes"
+import { ITheme, makeStyles, createStyles } from "@imploy/common-themes"
 import clsx from "clsx"
 
 const useStyles = makeStyles((theme: ITheme) =>
@@ -43,7 +43,7 @@ const useStyles = makeStyles((theme: ITheme) =>
       "& tr:nth-child(even)": {
         backgroundColor: theme.palette.additional["gray"][2],
         "&.selected": {
-            backgroundColor: theme.palette.additional["gray"][4],
+          backgroundColor: theme.palette.additional["gray"][4],
         },
       },
     },
