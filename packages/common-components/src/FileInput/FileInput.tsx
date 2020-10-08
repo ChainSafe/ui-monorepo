@@ -9,6 +9,17 @@ import { PaperclipIcon, PlusIcon } from "../Icons"
 
 const useStyles = makeStyles(({ constants, palette }: ITheme) =>
   createStyles({
+    root: {
+      "& > div": {
+        color: palette.additional["gray"][8],
+        backgroundColor: palette.additional["gray"][3],
+        borderWidth: 1,
+        borderColor: palette.additional["gray"][5],
+        borderStyle: "dashed",
+        borderRadius: 2,
+        padding: constants.generalUnit,
+      },
+    },
     pending: {
       cursor: "pointer",
       display: "flex",
@@ -22,17 +33,6 @@ const useStyles = makeStyles(({ constants, palette }: ITheme) =>
       },
       "& > *:first-child": {
         marginBottom: constants.generalUnit,
-      },
-    },
-    root: {
-      "& > div": {
-        color: palette.additional["gray"][8],
-        backgroundColor: palette.additional["gray"][3],
-        borderWidth: 1,
-        borderColor: palette.additional["gray"][5],
-        borderStyle: "dashed",
-        borderRadius: 2,
-        padding: constants.generalUnit,
       },
     },
     filesDropped: {
