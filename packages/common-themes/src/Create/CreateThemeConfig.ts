@@ -2,6 +2,7 @@ import { DeepPartial } from "ts-essentials/dist/types"
 // TODO: Set defaults from Figma
 
 import { DefaultThemeConfig } from "../Defaults/ThemeConfig"
+import { mergeDeep } from "../utils/deepMerge"
 import { IBreakpoints } from "./CreateBreakpoints"
 
 interface IPaletteColor {
@@ -107,8 +108,10 @@ const createThemeConfig = (
 ): IThemeConfig => {
   // No conversion or mapping needed for now
   return {
-    ...DefaultThemeConfig,
-    ...(themeConfig as IThemeConfig),
+    ...(mergeDeep(
+      DefaultThemeConfig,
+      themeConfig as IThemeConfig,
+    ) as IThemeConfig),
   }
 }
 
