@@ -2,6 +2,11 @@ import { CSSProperties } from "react"
 
 export interface IButtonOverride {
   root?: CSSProperties
+  size?: {
+    large?: CSSProperties
+    medium?: CSSProperties
+    small?: CSSProperties
+  }
   icon?: {
     root?: CSSProperties
     large?: CSSProperties
@@ -38,8 +43,6 @@ export interface IButtonOverride {
     disabled?: {
       root?: CSSProperties
       hover?: CSSProperties
-      focus?: CSSProperties
-      active?: CSSProperties
     }
   }
 }

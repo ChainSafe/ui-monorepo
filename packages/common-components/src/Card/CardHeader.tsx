@@ -3,17 +3,20 @@ import clsx from "clsx"
 import { Typography } from "../Typography"
 import { ITheme, makeStyles, createStyles } from "@imploy/common-themes"
 
-const useStyles = makeStyles((theme: ITheme) =>
-  createStyles({
-    root: {
-      padding: theme.constants.generalUnit * 2,
-      borderBottom: `1px solid ${theme.palette["gray"][4]}`,
-      ...theme.typography.h5,
-    },
-    dense: {
-      padding: theme.constants.generalUnit,
-    },
-  }),
+const useStyles = makeStyles(
+  ({ constants, palette, typography, overrides }: ITheme) =>
+    createStyles({
+      root: {
+        padding: constants.generalUnit * 2,
+        borderBottom: `1px solid ${palette["gray"][4]}`,
+        ...typography.h5,
+        ...overrides?.Card.header?.root,
+      },
+      dense: {
+        padding: constants.generalUnit,
+        ...overrides?.Card.header?.dense,
+      },
+    }),
 )
 
 export interface ICardHeader {

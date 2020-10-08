@@ -3,19 +3,22 @@ import clsx from "clsx"
 import { ITheme, makeStyles, createStyles } from "@imploy/common-themes"
 import { Paper } from "../Paper"
 
-const useStyles = makeStyles((theme: ITheme) =>
-  createStyles({
-    root: {
-      backgroundColor: theme.palette.background.default,
-      transition: `all ${theme.animation.transform}ms`,
-      padding: 0,
-    },
-    hoverable: {
-      "&:hover": {
-        boxShadow: theme.shadows.shadow2,
+const useStyles = makeStyles(
+  ({ palette, shadows, animation, overrides }: ITheme) =>
+    createStyles({
+      root: {
+        backgroundColor: palette.background.default,
+        transition: `all ${animation.transform}ms`,
+        padding: 0,
+        ...overrides?.Card.root,
       },
-    },
-  }),
+      hoverable: {
+        "&:hover": {
+          boxShadow: shadows.shadow2,
+        },
+        ...overrides?.Card.hoverable,
+      },
+    }),
 )
 
 export interface ICardProps {

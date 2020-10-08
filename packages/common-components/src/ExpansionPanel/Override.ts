@@ -2,6 +2,8 @@ import { CSSProperties } from "react"
 
 export interface IExpansionPanelOverride {
   root?: CSSProperties
+  basic?: CSSProperties
+  borderless?: CSSProperties
   icon?: CSSProperties
 
   heading?: {

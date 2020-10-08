@@ -2,14 +2,16 @@ import React, { ReactNode } from "react"
 import clsx from "clsx"
 import { ITheme, makeStyles, createStyles } from "@imploy/common-themes"
 
-const useStyles = makeStyles((theme: ITheme) =>
+const useStyles = makeStyles(({ constants, typography, overrides }: ITheme) =>
   createStyles({
     root: {
-      padding: theme.constants.generalUnit * 2,
-      ...theme.typography.body1,
+      padding: constants.generalUnit * 2,
+      ...typography.body1,
+      ...overrides?.Card.body?.root,
     },
     dense: {
-      padding: theme.constants.generalUnit,
+      padding: constants.generalUnit,
+      ...overrides?.Card.body?.dense,
     },
   }),
 )

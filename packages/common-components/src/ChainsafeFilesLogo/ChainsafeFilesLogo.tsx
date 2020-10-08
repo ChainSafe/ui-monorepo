@@ -1,11 +1,12 @@
 import React from "react"
-import { makeStyles, createStyles } from "@imploy/common-themes"
+import { makeStyles, createStyles, ITheme } from "@imploy/common-themes"
 import clsx from "clsx"
 
-const useStyles = makeStyles(() =>
+const useStyles = makeStyles(({ overrides }: ITheme) =>
   createStyles({
     root: {
       width: "fit-content",
+      ...overrides?.ChainsafeLogo.root,
     },
   }),
 )

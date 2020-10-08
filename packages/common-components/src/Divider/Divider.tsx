@@ -2,9 +2,9 @@ import React, { ReactNode } from "react"
 import { makeStyles, ITheme, createStyles } from "@imploy/common-themes"
 import clsx from "clsx"
 
-const useStyles = makeStyles(({ palette, zIndex }: ITheme) =>
+const useStyles = makeStyles(({ palette, zIndex, overrides }: ITheme) =>
   createStyles({
-    divider: {
+    root: {
       display: "flex",
       alignItems: "center",
       justifyContent: "space-between",
@@ -23,6 +23,7 @@ const useStyles = makeStyles(({ palette, zIndex }: ITheme) =>
         display: "block",
         content: "''",
       },
+      ...overrides?.Divider.root,
     },
   }),
 )
@@ -32,7 +33,7 @@ const Divider: React.FC<{ children?: ReactNode; className?: string }> = ({
   className,
 }) => {
   const classes = useStyles()
-  return <div className={clsx(classes.divider, className)}>{children}</div>
+  return <div className={clsx(classes.root, className)}>{children}</div>
 }
 
 export default Divider
