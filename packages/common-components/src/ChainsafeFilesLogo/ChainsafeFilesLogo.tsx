@@ -4,7 +4,7 @@ import clsx from "clsx"
 
 const useStyles = makeStyles(() =>
   createStyles({
-    logoImage: {
+    root: {
       width: "fit-content",
     },
   }),
@@ -18,7 +18,7 @@ const ChainsafeFilesLogo: React.FC<{ className?: string }> = ({
     <img
       src="ChainSafe-logo.png"
       alt="Chainsafe Logo"
-      className={clsx(classes.logoImage, className)}
+      className={clsx(classes.root, className)}
     />
   )
 }

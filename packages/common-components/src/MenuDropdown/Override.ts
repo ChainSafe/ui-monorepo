@@ -1,6 +1,6 @@
 import { CSSProperties } from "react"
 
-export interface IIconOverride {
+export interface IMenuDropdownOverride {
   root?: CSSProperties
   title?: CSSProperties
   icon?: {

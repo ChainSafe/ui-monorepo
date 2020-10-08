@@ -37,13 +37,13 @@ interface IStyleProps {
 
 const useStyles = makeStyles((theme: ITheme) =>
   createStyles({
-    container: (props: IStyleProps) => ({
+    root: (props: IStyleProps) => ({
       transition: `height ${theme.animation.transform - 100}ms 100ms`,
       height: props.height,
       position: "relative",
       zIndex: theme.zIndex?.layer4,
     }),
-    parent: (props: IStyleProps) => ({
+    inner: (props: IStyleProps) => ({
       borderRadius: 4,
       boxShadow: theme.shadows.shadow1,
       display: "flex",
@@ -58,13 +58,13 @@ const useStyles = makeStyles((theme: ITheme) =>
       "&.exiting": { transform: "scale(0.66)", opacity: 0 },
       "&.exited": { transform: "scale(0.66)", opacity: 0 },
     }),
-    root: {
-      display: "flex",
-      alignItems: "center",
-      boxShadow: theme.shadows.shadow2,
-      borderRadius: 4,
-      padding: `${theme.constants.generalUnit * 2}px`,
-    },
+    // root: {
+    //   display: "flex",
+    //   alignItems: "center",
+    //   boxShadow: theme.shadows.shadow2,
+    //   borderRadius: 4,
+    //   padding: `${theme.constants.generalUnit * 2}px`,
+    // },
     typeIcon: {
       marginRight: `${theme.constants.generalUnit * 2}px`,
     },
@@ -109,8 +109,8 @@ const Toaster = ({
   }, [transitionState])
 
   return (
-    <div ref={elementRef} className={classes.container}>
-      <div className={clsx(classes.parent, placement, transitionState)}>
+    <div ref={elementRef} className={classes.root}>
+      <div className={clsx(classes.inner, placement, transitionState)}>
         {appearance === "success" ? (
           <CheckCircleIcon color="success" className={classes.typeIcon} />
         ) : appearance === "error" ? (

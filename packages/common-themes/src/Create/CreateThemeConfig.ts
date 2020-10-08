@@ -1,10 +1,9 @@
 import { DeepPartial } from "ts-essentials/dist/types"
-// TODO: Set defaults from Figma
+import { IComponentOverrides } from "@imploy/common-components"
 
 import { DefaultThemeConfig } from "../Defaults/ThemeConfig"
 import { mergeDeep } from "../utils/deepMerge"
 import { IBreakpoints } from "./CreateBreakpoints"
-import { IComponentOverrides } from "./Overrides"
 
 interface IPaletteColor {
   background?: string
