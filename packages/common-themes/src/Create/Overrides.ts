@@ -1,5 +1,6 @@
-import { IAvatarOverride } from "@imploy/common-components"
+import { IAvatarOverride, IBlockiesOverride } from "@imploy/common-components"
 
 export interface IComponentOverrides {
   Avatar: IAvatarOverride
+  Blockies: IBlockiesOverride
 }
