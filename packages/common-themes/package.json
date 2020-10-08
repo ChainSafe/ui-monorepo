@@ -11,7 +11,9 @@
   },
   "scripts": {
     "build": "rollup -c",
-    "start": "rollup -c -w"
+    "start": "rollup -c -w",
+    "lint": "eslint 'src/**/*.{js,ts,tsx}' --quiet --fix",
+    "publish": "yarn build && npm publish"
   },
   "dependencies": {},
   "peerDependencies": {
