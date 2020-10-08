@@ -67,16 +67,10 @@ const OAuthCallback: React.FC = () => {
         default:
       }
     }
-  }, [
-    imployApiClient,
-    loginOnFacebook,
-    loginOnGoogle,
-    loginOnGithub,
-    provider,
-    queryParams,
-  ])
+    // eslint-disable-next-line
+  }, [imployApiClient])
 
-  return <div />
+  return null
 }
 
 export default OAuthCallback

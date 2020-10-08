@@ -18,7 +18,6 @@ import {
   useMediaQuery,
 } from "@chainsafe/common-themes"
 import { useWeb3 } from "@chainsafe/web3-context"
-import { ROUTE_LINKS } from "../FilesRoutes"
 import LargeLightBulbSvg from "../../Media/LargeLightBulb.svg"
 import SmallBranchSvg from "../../Media/SmallBranch.svg"
 
@@ -199,26 +198,10 @@ const LoginPage = () => {
   }
 
   const onLoginWithProvider = async (provider: Provider) => {
-    const url = await getProviderUrl(provider)
-    const oauthBaseUrl = url
-    const oauth2RedirectUrl = `${url}&redirect_uri=${window.location.origin}/oauth2/callback/${provider}`
-
-    switch (provider) {
-      case "github":
-        // code block
-        window.location.href = oauthBaseUrl
-        break
-      case "google":
-        // code block
-        window.location.href = oauth2RedirectUrl
-        break
-      case "facebook":
-        // code block
-        window.location.href = oauth2RedirectUrl
-        break
-      default:
-    }
+    const oauthUrl = await getProviderUrl(provider)
+    window.location.href = oauthUrl
   }
+
   const desktop = useMediaQuery(breakpoints.up("sm"))
 
   return (
