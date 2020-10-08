@@ -4,6 +4,7 @@ import LoginPage from "./Pages/LoginPage"
 import SettingsPage from "./Pages/SettingsPage"
 import { useImployApi } from "@chainsafe/common-contexts"
 import HomePage from "./Pages/HomePage"
+import OAuthCallbackPage from "./Pages/OAuthCallback"
 
 export const ROUTE_LINKS = {
   Landing: "/",
@@ -11,6 +12,7 @@ export const ROUTE_LINKS = {
   Terms: "",
   Home: "/home",
   Settings: "/settings",
+  OAuthCallback: "/oauth2/callback/:provider",
 }
 
 const FilesRoutes = () => {
@@ -36,6 +38,13 @@ const FilesRoutes = () => {
         path={ROUTE_LINKS.Settings}
         isAuthorized={isLoggedIn}
         component={SettingsPage}
+        redirectPath={ROUTE_LINKS.Landing}
+      />
+      <ConditionalRoute
+        exact
+        path={ROUTE_LINKS.OAuthCallback}
+        isAuthorized={!isLoggedIn}
+        component={OAuthCallbackPage}
         redirectPath={ROUTE_LINKS.Landing}
       />
     </Switch>

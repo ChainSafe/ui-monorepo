@@ -6,10 +6,12 @@ import {
   ImployApiClient,
   Token,
   Provider,
-} from "@imploy/api-client"
+} from "./ImployApiClient"
 import jwtDecode from "jwt-decode"
 import { signMessage } from "./utils"
 import axios from "axios"
+
+export { Provider }
 
 const tokenStorageKey = "csf.refreshToken"
 const isReturningUserStorageKey = "csf.isReturningUser"
@@ -26,7 +28,17 @@ type ImployApiContext = {
   selectWallet(): Promise<void>
   resetAndSelectWallet(): Promise<void>
   web3Login(): Promise<void>
-  loginWithProvider(provider: Provider): Promise<string>
+  getProviderUrl(provider: Provider): Promise<string>
+  loginWithGithub(code: string, state: string): Promise<void>
+  loginWithGoogle(
+    code: string,
+    state: string,
+    scope: string | undefined,
+    authUser: string | undefined,
+    hd: string | undefined,
+    prompt: string | undefined,
+  ): Promise<void>
+  loginWithFacebook(code: string, state: string): Promise<void>
   logout(): void
 }
 
@@ -220,13 +232,74 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
     }
   }
 
-  const loginWithProvider = async (provider: Provider) => {
+  const getProviderUrl = async (provider: Provider) => {
     if (!imployApiClient) return Promise.reject("Api Client is not initialized")
 
     try {
       const { url } = await imployApiClient.getOauth2Provider(provider)
       return Promise.resolve(url)
     } catch {
+      return Promise.reject("There was an error logging in")
+    }
+  }
+
+  const loginWithGithub = async (code: string, state: string) => {
+    if (!imployApiClient) return Promise.reject("Api Client is not initialized")
+
+    try {
+      const {
+        access_token,
+        refresh_token,
+      } = await imployApiClient.postOauth2CodeGithub(code, state)
+      setTokensAndSave(access_token, refresh_token, imployApiClient)
+      return Promise.resolve()
+    } catch {
+      return Promise.reject("There was an error logging in")
+    }
+  }
+
+  const loginWithGoogle = async (
+    code: string,
+    state: string,
+    scope: string | undefined,
+    authUser: string | undefined,
+    hd: string | undefined,
+    prompt: string | undefined,
+  ) => {
+    if (!imployApiClient) return Promise.reject("Api Client is not initialized")
+
+    try {
+      const {
+        access_token,
+        refresh_token,
+      } = await imployApiClient.postOauth2CodeGoogle(
+        code,
+        state,
+        scope,
+        authUser,
+        hd,
+        prompt,
+      )
+
+      setTokensAndSave(access_token, refresh_token, imployApiClient)
+      return Promise.resolve()
+    } catch (err) {
+      return Promise.reject("There was an error logging in")
+    }
+  }
+
+  const loginWithFacebook = async (code: string, state: string) => {
+    if (!imployApiClient) return Promise.reject("Api Client is not initialized")
+
+    try {
+      const {
+        access_token,
+        refresh_token,
+      } = await imployApiClient.postOauth2CodeFacebook(code, state)
+
+      setTokensAndSave(access_token, refresh_token, imployApiClient)
+      return Promise.resolve()
+    } catch (err) {
       return Promise.reject("There was an error logging in")
     }
   }
@@ -245,9 +318,12 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
         isLoggedIn: isLoggedIn(),
         isReturningUser: isReturningUser,
         web3Login,
+        loginWithGithub,
+        loginWithGoogle,
+        loginWithFacebook,
         selectWallet,
         resetAndSelectWallet,
-        loginWithProvider,
+        getProviderUrl,
         logout,
       }}
     >

@@ -17,11 +17,8 @@ import axios, {
 
 export class AuthorizedApiBase {
   protected accessToken: string
-  //@ts-ignore
-  private readonly config: IConfig
 
-  protected constructor(config: IConfig, accessToken: string = "") {
-    this.config = config
+  protected constructor(_config: IConfig, accessToken: string = "") {
     this.accessToken = accessToken
   }
 
@@ -47,17 +44,6 @@ export interface IImployApiClient {
    */
   healthCheck(): Promise<void>
   /**
-   * Imploy Private Server Port Access Only - ViewOne Deployment
-   * @param body Blockchain JSON-RPC Call
-   * @return succesful operation
-   */
-  viewOneDeployment(
-    chain: string,
-    network: string,
-    api: string,
-    body: RPCRequest,
-  ): Promise<Anonymous[]>
-  /**
    * Login user into the system
    * @param body Email for login and Password in clear text
    * @return successful operation
@@ -69,6 +55,44 @@ export interface IImployApiClient {
    * @return successful operation
    */
   signup(body: UserSignUp): Promise<User>
+  /**
+   * Redirects to the oauth2 providers permission address
+   * @param provider The oauth2 provider name
+   * @return successful operation
+   */
+  getOauth2Provider(provider: Provider): Promise<Oauth2RedirectResponse>
+  /**
+   * Generated token after validating oauth2 code
+   * @return successful operation
+   */
+  postOauth2CodeGithub(
+    code: string,
+    state: string,
+  ): Promise<AccessRefreshTokens>
+  /**
+   * Generated token after validating oauth2 code
+   * @param scope (optional)
+   * @param authUser (optional)
+   * @param hd (optional)
+   * @param prompt (optional)
+   * @return successful operation
+   */
+  postOauth2CodeGoogle(
+    code: string,
+    state: string,
+    scope?: string | undefined,
+    authUser?: string | undefined,
+    hd?: string | undefined,
+    prompt?: string | undefined,
+  ): Promise<AccessRefreshTokens>
+  /**
+   * Generated token after validating oauth2 code
+   * @return successful operation
+   */
+  postOauth2CodeFacebook(
+    code: string,
+    state: string,
+  ): Promise<AccessRefreshTokens>
   /**
    * Get User Data based on Bearer Token
    * @return successful operation
@@ -111,95 +135,17 @@ export interface IImployApiClient {
     body?: Web3RequestToken | undefined,
   ): Promise<AccessRefreshTokens>
   /**
-   * Updates user info
-   * @param body Updated user object
-   * @return Successful Operation
-   */
-  updatePassword(body: NewPassword): Promise<void>
-  /**
-   * Updates user info
-   * @param email Email Address of the
-   * @return Successful Operation
-   */
-  getResetPassword(email: string): Promise<void>
-  /**
-   * Complete the Password reset process
-   * @param body Updated user object
-   * @return Successful Operation
-   */
-  postPasswordReset(body: ResetPassword): Promise<void>
-  /**
-   * Complete a Password the Password reset process
-   * @param body words go here
-   * @return Successful Operation
-   */
-  postPasswordResetVerify(body: VerifyPasswordReset): Promise<void>
-  /**
-   * Creates a new project
-   * @param body information about a project
-   * @return Successful Operation
-   */
-  addproject(body: ProjectRequest): Promise<Project>
-  /**
-   * this operation soft deletes a project and no longer be visible to the user
-   * @param id identification number of the project
-   * @return Successful Operation
-   */
-  deleteproject(id: number): Promise<void>
-  /**
-   * put words here
-   * @param id identification number of the project
-   * @param body information about a project sent in a request
-   * @return Successful Operation
-   */
-  updateproject(id: number, body: ProjectRequest): Promise<Project>
-  /**
-   * retrieves information about a specific project
-   * @param id identification number of the project
-   * @return Successful Operation
-   */
-  getProject(id: number): Promise<Project>
-  /**
-   * this operation retrieves all projects for a given user
-   * @return an array of project objects
-   */
-  getallproject(): Promise<Project[]>
-  /**
-   * Deploy a blockchain environment
-   * @param body information about a project
-   * @return an array of project objects
-   */
-  addDeployment(body: NewDeploymentRequest): Promise<Deployment>
-  /**
-   * this operation deprovisions a deployed blockchain environment in AWS
-   * @param id identification number of the deployment
-   * @return Successful Operation
-   */
-  deletedeployment(id: number): Promise<void>
-  /**
-   * this operation retuns the status of an active deployment
-   * @param id identification number of the deployment
-   * @return Successful Operation.  Valid values areCreationPending = 1, CREATING = 2, CREATED = 3, CreationFailed = 4, UpdatePending = 5, UPDATING= 6, UPDATED=7, UpdateFailed = 8, DeletionPending = 9, DELETING = 10, DELETED = 11, DeleteFailed = 12, Unhealthy = 13
-   */
-  getdeploymentstatus(id: number): Promise<number>
-  /**
-   * this operation returns an array of actve deployments
-   * @param id identification number of the deployment
-   * @return an array of deployment objects
-   */
-  getdeployments(id: number): Promise<Deployment[]>
-  /**
    * This operation interacts with the 3rd party stripe api
    * @param body the credit card token id
-   * @return Successful Operation returns objects referenced here https://stripe.com/docs/api/cards/object
+   * @return Successful Operation
    */
-  addCard(body: AddCardRequest): Promise<void>
+  addCard(body: AddCardRequest): Promise<FileResponse>
   /**
    * This operation interacts with the 3rd Party Stripe API
    * @param body the credit card id
    * @return Successful Operation
    */
-  updateDefaultCard(body: CardID): Promise<void>
+  updateDefaultCard(body: CardID): Promise<FileResponse>
   /**
    * This operation interacts with the 3rd Party Stripe API
    * @return Successful Operation returns objects referenced from here https://stripe.com/docs/api/cards/object
@@ -208,9 +154,9 @@ export interface IImployApiClient {
   /**
    * This operation interacts with the 3rd Party Stripe API
    * @param id identification number of the card
-   * @return Successful Operation returns objects referenced here https://stripe.com/docs/api/cards/object
+   * @return Successful Operation
    */
-  deleteCard(id: number): Promise<void>
+  deleteCard(id: number): Promise<FileResponse>
   /**
    * put words here
    * @param id identification number of the card
@@ -219,64 +165,94 @@ export interface IImployApiClient {
   getCard(id: number): Promise<void>
   /**
    * This operation interacts with the 3rd Party Stripe API
-   * @return Successful Operation returns objects referenced here https://stripe.com/docs/api/cards/object
+   * @return Successful Operation
    */
-  getAllCards(): Promise<void>
+  getAllCards(): Promise<CardInfo[]>
   /**
    * This operations interacts with the 3rd Party Stripe API.
-   * @return Successful Operation returns objects referenced here https://stripe.com/docs/api/invoices/object
+   * @return Successful Operation
    */
-  getAllInvoices(): Promise<void>
+  getAllInvoices(): Promise<InvoiceInfo[]>
   /**
    * This operation interacts with the 3rd Party Stripe API
    * @param id identification number of the subscription
-   * @return Successful Operation returns objects referenced here https://stripe.com/docs/api/subscription/object
+   * @return Successful Operation
    */
-  getSubscription(id: number): Promise<void>
+  getSubscription(id: number): Promise<FileResponse>
   /**
    * This operation interacts with the 3rd Party Stripe API
-   * @return Successful Operation returns objects referenced here https://stripe.com/docs/api/subscription/object
-   */
-  getAllSubscriptions(): Promise<void>
-  /**
-   * upload a bunch of files to the pin service
-   * @param file (optional)
-   * @param path (optional)
-   * @param replication (optional)
-   * @param deal_duration (optional)
    * @return Successful Operation
    */
-  uploadPins(
-    file?: any | undefined,
+  getAllSubscriptions(): Promise<SubscriptionInfo[]>
+  /**
+   * uploads a one or more files
+   * @param files (optional)
+   * @param path (optional)
+   * @param deal_duration (optional)
+   * @param replication (optional)
+   * @return Successful Operation
+   */
+  addFPSFiles(
+    files?: FileParameter[] | undefined,
     path?: string | undefined,
+    deal_duration?: number | undefined,
     replication?: number | undefined,
-    deal_duration?: boolean | undefined,
-  ): Promise<void>
+  ): Promise<FilesUploadResponse>
+  /**
+   * rename or move file to a new location in the heiarchy
+   * @param body file path
+   * @return Successful Operation
+   */
+  moveFPSObject(body: FilesMvRequest): Promise<void>
+  /**
+   * retrieve all information available on a file
+   * @param body file path
+   * @return Successful Operation
+   */
+  getFPSFileInfo(body: FilesPathRequest): Promise<FPSFilesFullinfoResponse>
+  /**
+   * removes a files or empty directories
+   * @param body array of object paths
+   * @return Successful Operation
+   */
+  removeFPSObjects(body: FilesRmRequest): Promise<void>
+  /**
+   * retrieve child list for provided directory path
+   * @param body file path
+   * @return Successful Operation
+   */
+  getFPSChildList(body: FilesPathRequest): Promise<FileContentResponse[]>
+  /**
+   * creates new directory
+   * @param body directory path
+   * @return Successful Operation
+   */
+  addFPSDirectory(body: FilesPathRequest): Promise<FileContentResponse>
   /**
    * get pin object info
-   * @param pin_id pin object cid
+   * @param pin_id pin object identifier
    * @return Successful Operation,
    */
-  getPinsByCID(pin_id: string): Promise<Anonymous2>
+  getPinsByID(pin_id: string): Promise<PinObject>
   /**
    * delete the pin object
-   * @param pin_id pin object cid
+   * @param pin_id pin object identifier
    * @return Successful Operation
    */
-  deletePins(pin_id: string): Promise<void>
+  deletePinByID(pin_id: string): Promise<void>
   /**
    * modify a pin object
    * @param pin_id pin object cid
    * @param body information to update pin
    * @return Successful Operation
    */
-  updatePin(pin_id: string, body: Body): Promise<void>
+  updatePin(pin_id: string, body: ModifyPinRequest): Promise<PinObject>
   /**
-   * add pin objects
+   * add pin pins
    * @param body words go here
    * @return Successful Operation
    */
-  addPin(body: Body2): Promise<void>
+  addPin(body: AddPinsRequest): Promise<ListPinObjectResponse>
   /**
    * list of pin objects
    * @param status (optional) filter pins by status
@@ -293,95 +269,91 @@ export interface IImployApiClient {
     cid?: string | undefined,
     before?: string | undefined,
     after?: string | undefined,
-  ): Promise<Anonymous3[]>
+  ): Promise<ListPinObjectResponse>
   /**
    * retrieve asks
-   * @return Successful Operation returns objects referenced here  https://github.com/textileio/powergate/blob/master/index/ask/types.go
+   * @return Successful Operation
    */
-  getAsks(): Promise<Anonymous4>
+  getAsks(): Promise<AskIndex>
   /**
    * retrieve deals
    * @param direction filter by deal type
    * @param only (optional) filter by deal status
-   * @return Successful Operation returns a deal record object referenced here https://github.com/textileio/powergate/blob/master/deals/types.go
+   * @return Successful Operation
    */
-  getDeals(direction: Direction, only?: Only | undefined): Promise<Anonymous5>
+  getDeals(direction: Direction, only?: Only | undefined): Promise<DealRecord>
   /**
    * retrieve faults
-   * @return Successful Operation returns objects referenced here https://github.com/textileio/powergate/blob/master/index/faults/types.go
+   * @return Successful Operation
    */
-  getFaults(): Promise<Anonymous6>
+  getFaults(): Promise<FaultsIndexSnapshot>
   /**
    * retrieve miners
-   * @return Successful Operation returns objects referenced here https://github.com/textileio/powergate/blob/master/index/miner/types.go
+   * @return Successful Operation
    */
-  getMiners(): Promise<Anonymous7>
+  getMiners(): Promise<FileResponse>
   /**
    * retrieve peers
-   * @return Successful Operation returns objects referenced here hhttps://github.com/textileio/powergate/blob/master/net/interface.go
+   * @return Successful Operation
    */
-  getPeers(): Promise<Anonymous8>
+  getPeers(): Promise<FileResponse>
   /**
    * retrieve top miners by reputation
    * @param limit words go here
-   * @return Successful Operation returns objects referenced here https://github.com/textileio/powergate/blob/master/index/miner/types.go
-   */
-  getTopMiners(api_key: string, limit: number): Promise<Anonymous9>
-  /**
-   * returns file store info
    * @return Successful Operation
    */
-  getFileStoreInfo(): Promise<Anonymous10>
+  getTopMiners(limit: number): Promise<Anonymous2[]>
   /**
-   * retrieve file content
+   * returns common Files/FPS store info like consumed sizes per Files and FPS service, deafult FIL wallet etc.
+   * @return Successful Operation
+   */
+  getFilesStoreInfo(): Promise<FilesStoreInfoResponse>
+  /**
+   * retrieve content of file sotred in ChainSafe Files Service
    * @param body file path
    * @return Successful Operation
    */
-  getFileContent(body: FileRequest): Promise<void>
+  getFileContent(body: FilesPathRequest): Promise<void>
   /**
-   * uploads a file
+   * uploads a one or more files
    * @param file (optional)
    * @param path (optional)
-   * @param type (optional)
-   * @param update (optional)
    * @return Successful Operation
    */
-  addFile(
+  addCSFFiles(
     file?: FileParameter | undefined,
     path?: string | undefined,
-    type?: string | undefined,
-    update?: boolean | undefined,
-  ): Promise<FileResponse>
+  ): Promise<FilesUploadResponse>
   /**
    * rename or move file to a new location in the heiarchy
    * @param body file path
    * @return Successful Operation
    */
-  moveObject(body: FileRequest): Promise<void>
+  moveCSFObject(body: FilesMvRequest): Promise<void>
   /**
    * retrieve all information available on a file
    * @param body file path
    * @return Successful Operation
    */
-  getFileInfo(body: FileRequest): Promise<void>
+  getCSFFileInfo(body: FilesPathRequest): Promise<CSFFilesFullinfoResponse>
   /**
-   * removes a file or empty directory
-   * @param body file path
+   * removes a files or empty directories
+   * @param body array of object paths
    * @return Successful Operation
    */
-  removeObject(body: FileRequest): Promise<void>
+  removeCSFObjects(body: FilesRmRequest): Promise<void>
   /**
    * retrieve child list for provided directory path
    * @param body file path
    * @return Successful Operation
    */
-  getChildList(body: FileRequest): Promise<FileResponse[]>
+  getCSFChildList(body: FilesPathRequest): Promise<FileContentResponse[]>
   /**
    * creates new directory
-   * @param body file path
+   * @param body directory path
    * @return Successful Operation
    */
-  addDirectory(body: FileRequest): Promise<void>
+  addCSFDirectory(body: FilesPathRequest): Promise<FileContentResponse>
 }
 
 export class ImployApiClient
@@ -449,116 +421,6 @@ export class ImployApiClient
     } else {
       const _responseText = response.data
       return throwException("server error", status, _responseText, _headers)
-    }
-  }
-
-  /**
-   * Imploy Private Server Port Access Only - ViewOne Deployment
-   * @param body Blockchain JSON-RPC Call
-   * @return succesful operation
-   */
-  viewOneDeployment(
-    chain: string,
-    network: string,
-    api: string,
-    body: RPCRequest,
-    cancelToken?: CancelToken | undefined,
-  ): Promise<Anonymous[]> {
-    let url_ = this.baseUrl + "/{chain}/{network}/{api}"
-    if (chain === undefined || chain === null)
-      throw new Error("The parameter 'chain' must be defined.")
-    url_ = url_.replace("{chain}", encodeURIComponent("" + chain))
-    if (network === undefined || network === null)
-      throw new Error("The parameter 'network' must be defined.")
-    url_ = url_.replace("{network}", encodeURIComponent("" + network))
-    if (api === undefined || api === null)
-      throw new Error("The parameter 'api' must be defined.")
-    url_ = url_.replace("{api}", encodeURIComponent("" + api))
-    url_ = url_.replace(/[?&]$/, "")
-
-    const content_ = JSON.stringify(body)
-
-    let options_ = <AxiosRequestConfig>{
-      data: content_,
-      method: "GET",
-      url: url_,
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-      cancelToken,
-    }
-
-    return this.transformOptions(options_)
-      .then((transformedOptions_) => {
-        return this.instance.request(transformedOptions_)
-      })
-      .catch((_error: any) => {
-        if (isAxiosError(_error) && _error.response) {
-          return _error.response
-        } else {
-          throw _error
-        }
-      })
-      .then((_response: AxiosResponse) => {
-        return this.processViewOneDeployment(_response)
-      })
-  }
-
-  protected processViewOneDeployment(
-    response: AxiosResponse,
-  ): Promise<Anonymous[]> {
-    const status = response.status
-    let _headers: any = {}
-    if (response.headers && typeof response.headers === "object") {
-      for (let k in response.headers) {
-        if (response.headers.hasOwnProperty(k)) {
-          _headers[k] = response.headers[k]
-        }
-      }
-    }
-    if (status === 200) {
-      const _responseText = response.data
-      let result200: any = null
-      let resultData200 = _responseText
-      result200 = JSON.parse(resultData200)
-      return result200
-    } else if (status === 401) {
-      const _responseText = response.data
-      let result401: any = null
-      let resultData401 = _responseText
-      result401 = JSON.parse(resultData401)
-      return throwException(
-        "unauthorized access",
-        status,
-        _responseText,
-        _headers,
-        result401,
-      )
-    } else if (status === 404) {
-      const _responseText = response.data
-      let result404: any = null
-      let resultData404 = _responseText
-      result404 = JSON.parse(resultData404)
-      return throwException(
-        "not found",
-        status,
-        _responseText,
-        _headers,
-        result404,
-      )
-    } else {
-      const _responseText = response.data
-      let resultdefault: any = null
-      let resultDatadefault = _responseText
-      resultdefault = JSON.parse(resultDatadefault)
-      return throwException(
-        "server error",
-        status,
-        _responseText,
-        _headers,
-        resultdefault,
-      )
     }
   }
 
@@ -757,11 +619,429 @@ export class ImployApiClient
   }
 
   /**
+   * Redirects to the oauth2 providers permission address
+   * @param provider The oauth2 provider name
+   * @return successful operation
+   */
+  getOauth2Provider(
+    provider: Provider,
+    cancelToken?: CancelToken | undefined,
+  ): Promise<Oauth2RedirectResponse> {
+    let url_ = this.baseUrl + "/user/auth/{provider}"
+    if (provider === undefined || provider === null)
+      throw new Error("The parameter 'provider' must be defined.")
+    url_ = url_.replace("{provider}", encodeURIComponent("" + provider))
+    url_ = url_.replace(/[?&]$/, "")
+
+    let options_ = <AxiosRequestConfig>{
+      method: "GET",
+      url: url_,
+      headers: {
+        Accept: "application/json",
+      },
+      cancelToken,
+    }
+
+    return this.transformOptions(options_)
+      .then((transformedOptions_) => {
+        return this.instance.request(transformedOptions_)
+      })
+      .catch((_error: any) => {
+        if (isAxiosError(_error) && _error.response) {
+          return _error.response
+        } else {
+          throw _error
+        }
+      })
+      .then((_response: AxiosResponse) => {
+        return this.processGetOauth2Provider(_response)
+      })
+  }
+
+  protected processGetOauth2Provider(
+    response: AxiosResponse,
+  ): Promise<Oauth2RedirectResponse> {
+    const status = response.status
+    let _headers: any = {}
+    if (response.headers && typeof response.headers === "object") {
+      for (let k in response.headers) {
+        if (response.headers.hasOwnProperty(k)) {
+          _headers[k] = response.headers[k]
+        }
+      }
+    }
+    if (status === 200) {
+      const _responseText = response.data
+      let result200: any = null
+      let resultData200 = _responseText
+      result200 = JSON.parse(resultData200)
+      return result200
+    } else if (status === 400) {
+      const _responseText = response.data
+      let result400: any = null
+      let resultData400 = _responseText
+      result400 = JSON.parse(resultData400)
+      return throwException(
+        "Invalid provider supplied",
+        status,
+        _responseText,
+        _headers,
+        result400,
+      )
+    } else {
+      const _responseText = response.data
+      let resultdefault: any = null
+      let resultDatadefault = _responseText
+      resultdefault = JSON.parse(resultDatadefault)
+      return throwException(
+        "server error",
+        status,
+        _responseText,
+        _headers,
+        resultdefault,
+      )
+    }
+  }
+
+  /**
+   * Generated token after validating oauth2 code
+   * @return successful operation
+   */
+  postOauth2CodeGithub(
+    code: string,
+    state: string,
+    cancelToken?: CancelToken | undefined,
+  ): Promise<AccessRefreshTokens> {
+    let url_ = this.baseUrl + "/user/auth/github/callback?"
+    if (code === undefined || code === null)
+      throw new Error(
+        "The parameter 'code' must be defined and cannot be null.",
+      )
+    else url_ += "code=" + encodeURIComponent("" + code) + "&"
+    if (state === undefined || state === null)
+      throw new Error(
+        "The parameter 'state' must be defined and cannot be null.",
+      )
+    else url_ += "state=" + encodeURIComponent("" + state) + "&"
+    url_ = url_.replace(/[?&]$/, "")
+
+    let options_ = <AxiosRequestConfig>{
+      method: "POST",
+      url: url_,
+      headers: {
+        Accept: "application/json",
+      },
+      cancelToken,
+    }
+
+    return this.transformOptions(options_)
+      .then((transformedOptions_) => {
+        return this.instance.request(transformedOptions_)
+      })
+      .catch((_error: any) => {
+        if (isAxiosError(_error) && _error.response) {
+          return _error.response
+        } else {
+          throw _error
+        }
+      })
+      .then((_response: AxiosResponse) => {
+        return this.processPostOauth2CodeGithub(_response)
+      })
+  }
+
+  protected processPostOauth2CodeGithub(
+    response: AxiosResponse,
+  ): Promise<AccessRefreshTokens> {
+    const status = response.status
+    let _headers: any = {}
+    if (response.headers && typeof response.headers === "object") {
+      for (let k in response.headers) {
+        if (response.headers.hasOwnProperty(k)) {
+          _headers[k] = response.headers[k]
+        }
+      }
+    }
+    if (status === 200) {
+      const _responseText = response.data
+      let result200: any = null
+      let resultData200 = _responseText
+      result200 = JSON.parse(resultData200)
+      return result200
+    } else if (status === 400) {
+      const _responseText = response.data
+      let result400: any = null
+      let resultData400 = _responseText
+      result400 = JSON.parse(resultData400)
+      return throwException(
+        "Invalid provider supplied",
+        status,
+        _responseText,
+        _headers,
+        result400,
+      )
+    } else if (status === 403) {
+      const _responseText = response.data
+      let result403: any = null
+      let resultData403 = _responseText
+      result403 = JSON.parse(resultData403)
+      return throwException(
+        "Invalid oauth2 code supplied",
+        status,
+        _responseText,
+        _headers,
+        result403,
+      )
+    } else {
+      const _responseText = response.data
+      let resultdefault: any = null
+      let resultDatadefault = _responseText
+      resultdefault = JSON.parse(resultDatadefault)
+      return throwException(
+        "server error",
+        status,
+        _responseText,
+        _headers,
+        resultdefault,
+      )
+    }
+  }
+
+  /**
+   * Generated token after validating oauth2 code
+   * @param scope (optional)
+   * @param authUser (optional)
+   * @param hd (optional)
+   * @param prompt (optional)
+   * @return successful operation
+   */
+  postOauth2CodeGoogle(
+    code: string,
+    state: string,
+    scope?: string | undefined,
+    authUser?: string | undefined,
+    hd?: string | undefined,
+    prompt?: string | undefined,
+    cancelToken?: CancelToken | undefined,
+  ): Promise<AccessRefreshTokens> {
+    let url_ = this.baseUrl + "/user/auth/google/callback?"
+    if (code === undefined || code === null)
+      throw new Error(
+        "The parameter 'code' must be defined and cannot be null.",
+      )
+    else url_ += "code=" + encodeURIComponent("" + code) + "&"
+    if (state === undefined || state === null)
+      throw new Error(
+        "The parameter 'state' must be defined and cannot be null.",
+      )
+    else url_ += "state=" + encodeURIComponent("" + state) + "&"
+    if (scope === null) throw new Error("The parameter 'scope' cannot be null.")
+    else if (scope !== undefined)
+      url_ += "scope=" + encodeURIComponent("" + scope) + "&"
+    if (authUser === null)
+      throw new Error("The parameter 'authUser' cannot be null.")
+    else if (authUser !== undefined)
+      url_ += "authUser=" + encodeURIComponent("" + authUser) + "&"
+    if (hd === null) throw new Error("The parameter 'hd' cannot be null.")
+    else if (hd !== undefined) url_ += "hd=" + encodeURIComponent("" + hd) + "&"
+    if (prompt === null)
+      throw new Error("The parameter 'prompt' cannot be null.")
+    else if (prompt !== undefined)
+      url_ += "prompt=" + encodeURIComponent("" + prompt) + "&"
+    url_ = url_.replace(/[?&]$/, "")
+
+    let options_ = <AxiosRequestConfig>{
+      method: "POST",
+      url: url_,
+      headers: {
+        Accept: "application/json",
+      },
+      cancelToken,
+    }
+
+    return this.transformOptions(options_)
+      .then((transformedOptions_) => {
+        return this.instance.request(transformedOptions_)
+      })
+      .catch((_error: any) => {
+        if (isAxiosError(_error) && _error.response) {
+          return _error.response
+        } else {
+          throw _error
+        }
+      })
+      .then((_response: AxiosResponse) => {
+        return this.processPostOauth2CodeGoogle(_response)
+      })
+  }
+
+  protected processPostOauth2CodeGoogle(
+    response: AxiosResponse,
+  ): Promise<AccessRefreshTokens> {
+    const status = response.status
+    let _headers: any = {}
+    if (response.headers && typeof response.headers === "object") {
+      for (let k in response.headers) {
+        if (response.headers.hasOwnProperty(k)) {
+          _headers[k] = response.headers[k]
+        }
+      }
+    }
+    if (status === 200) {
+      const _responseText = response.data
+      let result200: any = null
+      let resultData200 = _responseText
+      result200 = JSON.parse(resultData200)
+      return result200
+    } else if (status === 400) {
+      const _responseText = response.data
+      let result400: any = null
+      let resultData400 = _responseText
+      result400 = JSON.parse(resultData400)
+      return throwException(
+        "Invalid provider supplied",
+        status,
+        _responseText,
+        _headers,
+        result400,
+      )
+    } else if (status === 403) {
+      const _responseText = response.data
+      let result403: any = null
+      let resultData403 = _responseText
+      result403 = JSON.parse(resultData403)
+      return throwException(
+        "Invalid oauth2 code supplied",
+        status,
+        _responseText,
+        _headers,
+        result403,
+      )
+    } else {
+      const _responseText = response.data
+      let resultdefault: any = null
+      let resultDatadefault = _responseText
+      resultdefault = JSON.parse(resultDatadefault)
+      return throwException(
+        "server error",
+        status,
+        _responseText,
+        _headers,
+        resultdefault,
+      )
+    }
+  }
+
+  /**
+   * Generated token after validating oauth2 code
+   * @return successful operation
+   */
+  postOauth2CodeFacebook(
+    code: string,
+    state: string,
+    cancelToken?: CancelToken | undefined,
+  ): Promise<AccessRefreshTokens> {
+    let url_ = this.baseUrl + "/user/auth/facebook/callback?"
+    if (code === undefined || code === null)
+      throw new Error(
+        "The parameter 'code' must be defined and cannot be null.",
+      )
+    else url_ += "code=" + encodeURIComponent("" + code) + "&"
+    if (state === undefined || state === null)
+      throw new Error(
+        "The parameter 'state' must be defined and cannot be null.",
+      )
+    else url_ += "state=" + encodeURIComponent("" + state) + "&"
+    url_ = url_.replace(/[?&]$/, "")
+
+    let options_ = <AxiosRequestConfig>{
+      method: "POST",
+      url: url_,
+      headers: {
+        Accept: "application/json",
+      },
+      cancelToken,
+    }
+
+    return this.transformOptions(options_)
+      .then((transformedOptions_) => {
+        return this.instance.request(transformedOptions_)
+      })
+      .catch((_error: any) => {
+        if (isAxiosError(_error) && _error.response) {
+          return _error.response
+        } else {
+          throw _error
+        }
+      })
+      .then((_response: AxiosResponse) => {
+        return this.processPostOauth2CodeFacebook(_response)
+      })
+  }
+
+  protected processPostOauth2CodeFacebook(
+    response: AxiosResponse,
+  ): Promise<AccessRefreshTokens> {
+    const status = response.status
+    let _headers: any = {}
+    if (response.headers && typeof response.headers === "object") {
+      for (let k in response.headers) {
+        if (response.headers.hasOwnProperty(k)) {
+          _headers[k] = response.headers[k]
+        }
+      }
+    }
+    if (status === 200) {
+      const _responseText = response.data
+      let result200: any = null
+      let resultData200 = _responseText
+      result200 = JSON.parse(resultData200)
+      return result200
+    } else if (status === 400) {
+      const _responseText = response.data
+      let result400: any = null
+      let resultData400 = _responseText
+      result400 = JSON.parse(resultData400)
+      return throwException(
+        "Invalid provider supplied",
+        status,
+        _responseText,
+        _headers,
+        result400,
+      )
+    } else if (status === 403) {
+      const _responseText = response.data
+      let result403: any = null
+      let resultData403 = _responseText
+      result403 = JSON.parse(resultData403)
+      return throwException(
+        "Invalid oauth2 code supplied",
+        status,
+        _responseText,
+        _headers,
+        result403,
+      )
+    } else {
+      const _responseText = response.data
+      let resultdefault: any = null
+      let resultDatadefault = _responseText
+      resultdefault = JSON.parse(resultDatadefault)
+      return throwException(
+        "server error",
+        status,
+        _responseText,
+        _headers,
+        resultdefault,
+      )
+    }
+  }
+
+  /**
    * Get User Data based on Bearer Token
    * @return successful operation
    */
   getUser(cancelToken?: CancelToken | undefined): Promise<User> {
-    let url_ = this.baseUrl + "/user/"
+    let url_ = this.baseUrl + "/user/profile"
     url_ = url_.replace(/[?&]$/, "")
 
     let options_ = <AxiosRequestConfig>{
@@ -837,7 +1117,7 @@ export class ImployApiClient
     body: UserPatch,
     cancelToken?: CancelToken | undefined,
   ): Promise<User> {
-    let url_ = this.baseUrl + "/user/"
+    let url_ = this.baseUrl + "/user/profile"
     url_ = url_.replace(/[?&]$/, "")
 
     const content_ = JSON.stringify(body)
@@ -1369,1282 +1649,14 @@ export class ImployApiClient
   }
 
   /**
-   * Updates user info
-   * @param body Updated user object
-   * @return Successful Operation
-   */
-  updatePassword(
-    body: NewPassword,
-    cancelToken?: CancelToken | undefined,
-  ): Promise<void> {
-    let url_ = this.baseUrl + "/user/password/change"
-    url_ = url_.replace(/[?&]$/, "")
-
-    const content_ = JSON.stringify(body)
-
-    let options_ = <AxiosRequestConfig>{
-      data: content_,
-      method: "PATCH",
-      url: url_,
-      headers: {
-        "Content-Type": "application/json",
-      },
-      cancelToken,
-    }
-
-    return this.transformOptions(options_)
-      .then((transformedOptions_) => {
-        return this.instance.request(transformedOptions_)
-      })
-      .catch((_error: any) => {
-        if (isAxiosError(_error) && _error.response) {
-          return _error.response
-        } else {
-          throw _error
-        }
-      })
-      .then((_response: AxiosResponse) => {
-        return this.processUpdatePassword(_response)
-      })
-  }
-
-  protected processUpdatePassword(response: AxiosResponse): Promise<void> {
-    const status = response.status
-    let _headers: any = {}
-    if (response.headers && typeof response.headers === "object") {
-      for (let k in response.headers) {
-        if (response.headers.hasOwnProperty(k)) {
-          _headers[k] = response.headers[k]
-        }
-      }
-    }
-    if (status === 200) {
-      return Promise.resolve<void>(<any>null)
-    } else if (status === 401) {
-      const _responseText = response.data
-      return throwException(
-        "Invalid authentication token",
-        status,
-        _responseText,
-        _headers,
-      )
-    } else if (status === 403) {
-      const _responseText = response.data
-      let result403: any = null
-      let resultData403 = _responseText
-      result403 = JSON.parse(resultData403)
-      return throwException(
-        "Password and confirm password do not match",
-        status,
-        _responseText,
-        _headers,
-        result403,
-      )
-    } else if (status === 400) {
-      const _responseText = response.data
-      let result400: any = null
-      let resultData400 = _responseText
-      result400 = JSON.parse(resultData400)
-      return throwException(
-        "New password is same as old password or incorrect old password",
-        status,
-        _responseText,
-        _headers,
-        result400,
-      )
-    } else if (status === 412) {
-      const _responseText = response.data
-      let result412: any = null
-      let resultData412 = _responseText
-      result412 = JSON.parse(resultData412)
-      return throwException(
-        "New password is weak",
-        status,
-        _responseText,
-        _headers,
-        result412,
-      )
-    } else {
-      const _responseText = response.data
-      let resultdefault: any = null
-      let resultDatadefault = _responseText
-      resultdefault = JSON.parse(resultDatadefault)
-      return throwException(
-        "server error",
-        status,
-        _responseText,
-        _headers,
-        resultdefault,
-      )
-    }
-  }
-
-  /**
-   * Updates user info
-   * @param email Email Address of the
-   * @return Successful Operation
-   */
-  getResetPassword(
-    email: string,
-    cancelToken?: CancelToken | undefined,
-  ): Promise<void> {
-    let url_ = this.baseUrl + "/user/password/reset/{email}"
-    if (email === undefined || email === null)
-      throw new Error("The parameter 'email' must be defined.")
-    url_ = url_.replace("{email}", encodeURIComponent("" + email))
-    url_ = url_.replace(/[?&]$/, "")
-
-    let options_ = <AxiosRequestConfig>{
-      method: "GET",
-      url: url_,
-      headers: {},
-      cancelToken,
-    }
-
-    return this.transformOptions(options_)
-      .then((transformedOptions_) => {
-        return this.instance.request(transformedOptions_)
-      })
-      .catch((_error: any) => {
-        if (isAxiosError(_error) && _error.response) {
-          return _error.response
-        } else {
-          throw _error
-        }
-      })
-      .then((_response: AxiosResponse) => {
-        return this.processGetResetPassword(_response)
-      })
-  }
-
-  protected processGetResetPassword(response: AxiosResponse): Promise<void> {
-    const status = response.status
-    let _headers: any = {}
-    if (response.headers && typeof response.headers === "object") {
-      for (let k in response.headers) {
-        if (response.headers.hasOwnProperty(k)) {
-          _headers[k] = response.headers[k]
-        }
-      }
-    }
-    if (status === 200) {
-      return Promise.resolve<void>(<any>null)
-    } else if (status === 404) {
-      const _responseText = response.data
-      let result404: any = null
-      let resultData404 = _responseText
-      result404 = JSON.parse(resultData404)
-      return throwException(
-        "No user found With this email",
-        status,
-        _responseText,
-        _headers,
-        result404,
-      )
-    } else if (status === 409) {
-      const _responseText = response.data
-      let result409: any = null
-      let resultData409 = _responseText
-      result409 = JSON.parse(resultData409)
-      return throwException(
-        "Reset Email sent Recently",
-        status,
-        _responseText,
-        _headers,
-        result409,
-      )
-    } else {
-      const _responseText = response.data
-      let resultdefault: any = null
-      let resultDatadefault = _responseText
-      resultdefault = JSON.parse(resultDatadefault)
-      return throwException(
-        "server error",
-        status,
-        _responseText,
-        _headers,
-        resultdefault,
-      )
-    }
-  }
-
-  /**
-   * Complete the Password reset process
-   * @param body Updated user object
-   * @return Successful Operation
-   */
-  postPasswordReset(
-    body: ResetPassword,
-    cancelToken?: CancelToken | undefined,
-  ): Promise<void> {
-    let url_ = this.baseUrl + "/user/password/reset"
-    url_ = url_.replace(/[?&]$/, "")
-
-    const content_ = JSON.stringify(body)
-
-    let options_ = <AxiosRequestConfig>{
-      data: content_,
-      method: "POST",
-      url: url_,
-      headers: {
-        "Content-Type": "application/json",
-      },
-      cancelToken,
-    }
-
-    return this.transformOptions(options_)
-      .then((transformedOptions_) => {
-        return this.instance.request(transformedOptions_)
-      })
-      .catch((_error: any) => {
-        if (isAxiosError(_error) && _error.response) {
-          return _error.response
-        } else {
-          throw _error
-        }
-      })
-      .then((_response: AxiosResponse) => {
-        return this.processPostPasswordReset(_response)
-      })
-  }
-
-  protected processPostPasswordReset(response: AxiosResponse): Promise<void> {
-    const status = response.status
-    let _headers: any = {}
-    if (response.headers && typeof response.headers === "object") {
-      for (let k in response.headers) {
-        if (response.headers.hasOwnProperty(k)) {
-          _headers[k] = response.headers[k]
-        }
-      }
-    }
-    if (status === 200) {
-      return Promise.resolve<void>(<any>null)
-    } else if (status === 400) {
-      const _responseText = response.data
-      let result400: any = null
-      let resultData400 = _responseText
-      result400 = JSON.parse(resultData400)
-      return throwException(
-        "Password and confirm password do not match",
-        status,
-        _responseText,
-        _headers,
-        result400,
-      )
-    } else if (status === 409) {
-      const _responseText = response.data
-      let result409: any = null
-      let resultData409 = _responseText
-      result409 = JSON.parse(resultData409)
-      return throwException(
-        "Reset Email sent Recently",
-        status,
-        _responseText,
-        _headers,
-        result409,
-      )
-    } else if (status === 412) {
-      const _responseText = response.data
-      let result412: any = null
-      let resultData412 = _responseText
-      result412 = JSON.parse(resultData412)
-      return throwException(
-        "Confirmation or reset token expired",
-        status,
-        _responseText,
-        _headers,
-        result412,
-      )
-    } else {
-      const _responseText = response.data
-      let resultdefault: any = null
-      let resultDatadefault = _responseText
-      resultdefault = JSON.parse(resultDatadefault)
-      return throwException(
-        "server error",
-        status,
-        _responseText,
-        _headers,
-        resultdefault,
-      )
-    }
-  }
-
-  /**
-   * Complete a Password the Password reset process
-   * @param body words go here
-   * @return Successful Operation
-   */
-  postPasswordResetVerify(
-    body: VerifyPasswordReset,
-    cancelToken?: CancelToken | undefined,
-  ): Promise<void> {
-    let url_ = this.baseUrl + "/user/password/reset/verify"
-    url_ = url_.replace(/[?&]$/, "")
-
-    const content_ = JSON.stringify(body)
-
-    let options_ = <AxiosRequestConfig>{
-      data: content_,
-      method: "POST",
-      url: url_,
-      headers: {
-        "Content-Type": "application/json",
-      },
-      cancelToken,
-    }
-
-    return this.transformOptions(options_)
-      .then((transformedOptions_) => {
-        return this.instance.request(transformedOptions_)
-      })
-      .catch((_error: any) => {
-        if (isAxiosError(_error) && _error.response) {
-          return _error.response
-        } else {
-          throw _error
-        }
-      })
-      .then((_response: AxiosResponse) => {
-        return this.processPostPasswordResetVerify(_response)
-      })
-  }
-
-  protected processPostPasswordResetVerify(
-    response: AxiosResponse,
-  ): Promise<void> {
-    const status = response.status
-    let _headers: any = {}
-    if (response.headers && typeof response.headers === "object") {
-      for (let k in response.headers) {
-        if (response.headers.hasOwnProperty(k)) {
-          _headers[k] = response.headers[k]
-        }
-      }
-    }
-    if (status === 200) {
-      return Promise.resolve<void>(<any>null)
-    } else if (status === 403) {
-      const _responseText = response.data
-      let result403: any = null
-      let resultData403 = _responseText
-      result403 = JSON.parse(resultData403)
-      return throwException(
-        "Confirmation or reset token is invalid",
-        status,
-        _responseText,
-        _headers,
-        result403,
-      )
-    } else if (status === 412) {
-      const _responseText = response.data
-      let result412: any = null
-      let resultData412 = _responseText
-      result412 = JSON.parse(resultData412)
-      return throwException(
-        "Confirmation or reset token expired",
-        status,
-        _responseText,
-        _headers,
-        result412,
-      )
-    } else {
-      const _responseText = response.data
-      let resultdefault: any = null
-      let resultDatadefault = _responseText
-      resultdefault = JSON.parse(resultDatadefault)
-      return throwException(
-        "server error",
-        status,
-        _responseText,
-        _headers,
-        resultdefault,
-      )
-    }
-  }
-
-  /**
-   * Creates a new project
-   * @param body information about a project
-   * @return Successful Operation
-   */
-  addproject(
-    body: ProjectRequest,
-    cancelToken?: CancelToken | undefined,
-  ): Promise<Project> {
-    let url_ = this.baseUrl + "/project/create"
-    url_ = url_.replace(/[?&]$/, "")
-
-    const content_ = JSON.stringify(body)
-
-    let options_ = <AxiosRequestConfig>{
-      data: content_,
-      method: "POST",
-      url: url_,
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-      cancelToken,
-    }
-
-    return this.transformOptions(options_)
-      .then((transformedOptions_) => {
-        return this.instance.request(transformedOptions_)
-      })
-      .catch((_error: any) => {
-        if (isAxiosError(_error) && _error.response) {
-          return _error.response
-        } else {
-          throw _error
-        }
-      })
-      .then((_response: AxiosResponse) => {
-        return this.processAddproject(_response)
-      })
-  }
-
-  protected processAddproject(response: AxiosResponse): Promise<Project> {
-    const status = response.status
-    let _headers: any = {}
-    if (response.headers && typeof response.headers === "object") {
-      for (let k in response.headers) {
-        if (response.headers.hasOwnProperty(k)) {
-          _headers[k] = response.headers[k]
-        }
-      }
-    }
-    if (status === 200) {
-      const _responseText = response.data
-      let result200: any = null
-      let resultData200 = _responseText
-      result200 = JSON.parse(resultData200)
-      return result200
-    } else if (status === 401) {
-      const _responseText = response.data
-      return throwException(
-        "Invalid authentication token",
-        status,
-        _responseText,
-        _headers,
-      )
-    } else if (status === 429) {
-      const _responseText = response.data
-      let result429: any = null
-      let resultData429 = _responseText
-      result429 = JSON.parse(resultData429)
-      return throwException(
-        "Maximum project creation limit for a user reached",
-        status,
-        _responseText,
-        _headers,
-        result429,
-      )
-    } else if (status === 409) {
-      const _responseText = response.data
-      let result409: any = null
-      let resultData409 = _responseText
-      result409 = JSON.parse(resultData409)
-      return throwException(
-        "Project with same name already exists",
-        status,
-        _responseText,
-        _headers,
-        result409,
-      )
-    } else {
-      const _responseText = response.data
-      let resultdefault: any = null
-      let resultDatadefault = _responseText
-      resultdefault = JSON.parse(resultDatadefault)
-      return throwException(
-        "server error",
-        status,
-        _responseText,
-        _headers,
-        resultdefault,
-      )
-    }
-  }
-
-  /**
-   * this operation soft deletes a project and no longer be visible to the user
-   * @param id identification number of the project
-   * @return Successful Operation
-   */
-  deleteproject(
-    id: number,
-    cancelToken?: CancelToken | undefined,
-  ): Promise<void> {
-    let url_ = this.baseUrl + "/project/{id}"
-    if (id === undefined || id === null)
-      throw new Error("The parameter 'id' must be defined.")
-    url_ = url_.replace("{id}", encodeURIComponent("" + id))
-    url_ = url_.replace(/[?&]$/, "")
-
-    let options_ = <AxiosRequestConfig>{
-      method: "DELETE",
-      url: url_,
-      headers: {},
-      cancelToken,
-    }
-
-    return this.transformOptions(options_)
-      .then((transformedOptions_) => {
-        return this.instance.request(transformedOptions_)
-      })
-      .catch((_error: any) => {
-        if (isAxiosError(_error) && _error.response) {
-          return _error.response
-        } else {
-          throw _error
-        }
-      })
-      .then((_response: AxiosResponse) => {
-        return this.processDeleteproject(_response)
-      })
-  }
-
-  protected processDeleteproject(response: AxiosResponse): Promise<void> {
-    const status = response.status
-    let _headers: any = {}
-    if (response.headers && typeof response.headers === "object") {
-      for (let k in response.headers) {
-        if (response.headers.hasOwnProperty(k)) {
-          _headers[k] = response.headers[k]
-        }
-      }
-    }
-    if (status === 200) {
-      return Promise.resolve<void>(<any>null)
-    } else if (status === 401) {
-      const _responseText = response.data
-      return throwException(
-        "Invalid authentication token",
-        status,
-        _responseText,
-        _headers,
-      )
-    } else if (status === 404) {
-      const _responseText = response.data
-      let result404: any = null
-      let resultData404 = _responseText
-      result404 = JSON.parse(resultData404)
-      return throwException(
-        "Requested project not found",
-        status,
-        _responseText,
-        _headers,
-        result404,
-      )
-    } else if (status === 409) {
-      const _responseText = response.data
-      let result409: any = null
-      let resultData409 = _responseText
-      result409 = JSON.parse(resultData409)
-      return throwException(
-        "Invalid action. Similar kind of action or dependent action already in pending",
-        status,
-        _responseText,
-        _headers,
-        result409,
-      )
-    } else {
-      const _responseText = response.data
-      let resultdefault: any = null
-      let resultDatadefault = _responseText
-      resultdefault = JSON.parse(resultDatadefault)
-      return throwException(
-        "server error",
-        status,
-        _responseText,
-        _headers,
-        resultdefault,
-      )
-    }
-  }
-
-  /**
-   * put words here
-   * @param id identification number of the project
-   * @param body information about a project sent in a request
-   * @return Successful Operation
-   */
-  updateproject(
-    id: number,
-    body: ProjectRequest,
-    cancelToken?: CancelToken | undefined,
-  ): Promise<Project> {
-    let url_ = this.baseUrl + "/project/{id}"
-    if (id === undefined || id === null)
-      throw new Error("The parameter 'id' must be defined.")
-    url_ = url_.replace("{id}", encodeURIComponent("" + id))
-    url_ = url_.replace(/[?&]$/, "")
-
-    const content_ = JSON.stringify(body)
-
-    let options_ = <AxiosRequestConfig>{
-      data: content_,
-      method: "PATCH",
-      url: url_,
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-      cancelToken,
-    }
-
-    return this.transformOptions(options_)
-      .then((transformedOptions_) => {
-        return this.instance.request(transformedOptions_)
-      })
-      .catch((_error: any) => {
-        if (isAxiosError(_error) && _error.response) {
-          return _error.response
-        } else {
-          throw _error
-        }
-      })
-      .then((_response: AxiosResponse) => {
-        return this.processUpdateproject(_response)
-      })
-  }
-
-  protected processUpdateproject(response: AxiosResponse): Promise<Project> {
-    const status = response.status
-    let _headers: any = {}
-    if (response.headers && typeof response.headers === "object") {
-      for (let k in response.headers) {
-        if (response.headers.hasOwnProperty(k)) {
-          _headers[k] = response.headers[k]
-        }
-      }
-    }
-    if (status === 200) {
-      const _responseText = response.data
-      let result200: any = null
-      let resultData200 = _responseText
-      result200 = JSON.parse(resultData200)
-      return result200
-    } else if (status === 401) {
-      const _responseText = response.data
-      return throwException(
-        "Invalid authentication token",
-        status,
-        _responseText,
-        _headers,
-      )
-    } else if (status === 404) {
-      const _responseText = response.data
-      let result404: any = null
-      let resultData404 = _responseText
-      result404 = JSON.parse(resultData404)
-      return throwException(
-        "project does not exist",
-        status,
-        _responseText,
-        _headers,
-        result404,
-      )
-    } else if (status === 403) {
-      const _responseText = response.data
-      let result403: any = null
-      let resultData403 = _responseText
-      result403 = JSON.parse(resultData403)
-      return throwException(
-        "project with the same name already exists",
-        status,
-        _responseText,
-        _headers,
-        result403,
-      )
-    } else if (status === 409) {
-      const _responseText = response.data
-      let result409: any = null
-      let resultData409 = _responseText
-      result409 = JSON.parse(resultData409)
-      return throwException(
-        "Invalid action. Similar kind of action or dependent action already in pending",
-        status,
-        _responseText,
-        _headers,
-        result409,
-      )
-    } else {
-      const _responseText = response.data
-      let resultdefault: any = null
-      let resultDatadefault = _responseText
-      resultdefault = JSON.parse(resultDatadefault)
-      return throwException(
-        "server error",
-        status,
-        _responseText,
-        _headers,
-        resultdefault,
-      )
-    }
-  }
-
-  /**
-   * retrieves information about a specific project
-   * @param id identification number of the project
-   * @return Successful Operation
-   */
-  getProject(
-    id: number,
-    cancelToken?: CancelToken | undefined,
-  ): Promise<Project> {
-    let url_ = this.baseUrl + "/project/{id}"
-    if (id === undefined || id === null)
-      throw new Error("The parameter 'id' must be defined.")
-    url_ = url_.replace("{id}", encodeURIComponent("" + id))
-    url_ = url_.replace(/[?&]$/, "")
-
-    let options_ = <AxiosRequestConfig>{
-      method: "GET",
-      url: url_,
-      headers: {
-        Accept: "application/json",
-      },
-      cancelToken,
-    }
-
-    return this.transformOptions(options_)
-      .then((transformedOptions_) => {
-        return this.instance.request(transformedOptions_)
-      })
-      .catch((_error: any) => {
-        if (isAxiosError(_error) && _error.response) {
-          return _error.response
-        } else {
-          throw _error
-        }
-      })
-      .then((_response: AxiosResponse) => {
-        return this.processGetProject(_response)
-      })
-  }
-
-  protected processGetProject(response: AxiosResponse): Promise<Project> {
-    const status = response.status
-    let _headers: any = {}
-    if (response.headers && typeof response.headers === "object") {
-      for (let k in response.headers) {
-        if (response.headers.hasOwnProperty(k)) {
-          _headers[k] = response.headers[k]
-        }
-      }
-    }
-    if (status === 200) {
-      const _responseText = response.data
-      let result200: any = null
-      let resultData200 = _responseText
-      result200 = JSON.parse(resultData200)
-      return result200
-    } else if (status === 401) {
-      const _responseText = response.data
-      return throwException(
-        "Invalid authentication token",
-        status,
-        _responseText,
-        _headers,
-      )
-    } else if (status === 404) {
-      const _responseText = response.data
-      let result404: any = null
-      let resultData404 = _responseText
-      result404 = JSON.parse(resultData404)
-      return throwException(
-        "requested project not found",
-        status,
-        _responseText,
-        _headers,
-        result404,
-      )
-    } else {
-      const _responseText = response.data
-      let resultdefault: any = null
-      let resultDatadefault = _responseText
-      resultdefault = JSON.parse(resultDatadefault)
-      return throwException(
-        "server error",
-        status,
-        _responseText,
-        _headers,
-        resultdefault,
-      )
-    }
-  }
-
-  /**
-   * this operation retrieves all projects for a given user
-   * @return an array of project objects
-   */
-  getallproject(cancelToken?: CancelToken | undefined): Promise<Project[]> {
-    let url_ = this.baseUrl + "/projects"
-    url_ = url_.replace(/[?&]$/, "")
-
-    let options_ = <AxiosRequestConfig>{
-      method: "GET",
-      url: url_,
-      headers: {
-        Accept: "application/json",
-      },
-      cancelToken,
-    }
-
-    return this.transformOptions(options_)
-      .then((transformedOptions_) => {
-        return this.instance.request(transformedOptions_)
-      })
-      .catch((_error: any) => {
-        if (isAxiosError(_error) && _error.response) {
-          return _error.response
-        } else {
-          throw _error
-        }
-      })
-      .then((_response: AxiosResponse) => {
-        return this.processGetallproject(_response)
-      })
-  }
-
-  protected processGetallproject(response: AxiosResponse): Promise<Project[]> {
-    const status = response.status
-    let _headers: any = {}
-    if (response.headers && typeof response.headers === "object") {
-      for (let k in response.headers) {
-        if (response.headers.hasOwnProperty(k)) {
-          _headers[k] = response.headers[k]
-        }
-      }
-    }
-    if (status === 200) {
-      const _responseText = response.data
-      let result200: any = null
-      let resultData200 = _responseText
-      result200 = JSON.parse(resultData200)
-      return result200
-    } else if (status === 401) {
-      const _responseText = response.data
-      return throwException(
-        "Invalid authentication token",
-        status,
-        _responseText,
-        _headers,
-      )
-    } else {
-      const _responseText = response.data
-      let resultdefault: any = null
-      let resultDatadefault = _responseText
-      resultdefault = JSON.parse(resultDatadefault)
-      return throwException(
-        "server error",
-        status,
-        _responseText,
-        _headers,
-        resultdefault,
-      )
-    }
-  }
-
-  /**
-   * Deploy a blockchain environment
-   * @param body information about a project
-   * @return an array of project objects
-   */
-  addDeployment(
-    body: NewDeploymentRequest,
-    cancelToken?: CancelToken | undefined,
-  ): Promise<Deployment> {
-    let url_ = this.baseUrl + "/deployment/create"
-    url_ = url_.replace(/[?&]$/, "")
-
-    const content_ = JSON.stringify(body)
-
-    let options_ = <AxiosRequestConfig>{
-      data: content_,
-      method: "POST",
-      url: url_,
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-      cancelToken,
-    }
-
-    return this.transformOptions(options_)
-      .then((transformedOptions_) => {
-        return this.instance.request(transformedOptions_)
-      })
-      .catch((_error: any) => {
-        if (isAxiosError(_error) && _error.response) {
-          return _error.response
-        } else {
-          throw _error
-        }
-      })
-      .then((_response: AxiosResponse) => {
-        return this.processAddDeployment(_response)
-      })
-  }
-
-  protected processAddDeployment(response: AxiosResponse): Promise<Deployment> {
-    const status = response.status
-    let _headers: any = {}
-    if (response.headers && typeof response.headers === "object") {
-      for (let k in response.headers) {
-        if (response.headers.hasOwnProperty(k)) {
-          _headers[k] = response.headers[k]
-        }
-      }
-    }
-    if (status === 200) {
-      const _responseText = response.data
-      let result200: any = null
-      let resultData200 = _responseText
-      result200 = JSON.parse(resultData200)
-      return result200
-    } else if (status === 401) {
-      const _responseText = response.data
-      return throwException(
-        "Invalid authentication token",
-        status,
-        _responseText,
-        _headers,
-      )
-    } else if (status === 404) {
-      const _responseText = response.data
-      let result404: any = null
-      let resultData404 = _responseText
-      result404 = JSON.parse(resultData404)
-      return throwException(
-        "Requested project not found",
-        status,
-        _responseText,
-        _headers,
-        result404,
-      )
-    } else if (status === 412) {
-      const _responseText = response.data
-      let result412: any = null
-      let resultData412 = _responseText
-      result412 = JSON.parse(resultData412)
-      return throwException(
-        "user's email is not verified or No payment method added before deploying nodes",
-        status,
-        _responseText,
-        _headers,
-        result412,
-      )
-    } else if (status === 409) {
-      const _responseText = response.data
-      let result409: any = null
-      let resultData409 = _responseText
-      result409 = JSON.parse(resultData409)
-      return throwException(
-        "Invalid action. Similar kind of action or dependent action already in pending or Non existing params for deployment",
-        status,
-        _responseText,
-        _headers,
-        result409,
-      )
-    } else {
-      const _responseText = response.data
-      let resultdefault: any = null
-      let resultDatadefault = _responseText
-      resultdefault = JSON.parse(resultDatadefault)
-      return throwException(
-        "server error",
-        status,
-        _responseText,
-        _headers,
-        resultdefault,
-      )
-    }
-  }
-
-  /**
-   * this operation deprovisions a deployed blockchain environment in AWS
-   * @param id identification number of the deployment
-   * @return Successful Operation
-   */
-  deletedeployment(
-    id: number,
-    cancelToken?: CancelToken | undefined,
-  ): Promise<void> {
-    let url_ = this.baseUrl + "/deployment/{id}"
-    if (id === undefined || id === null)
-      throw new Error("The parameter 'id' must be defined.")
-    url_ = url_.replace("{id}", encodeURIComponent("" + id))
-    url_ = url_.replace(/[?&]$/, "")
-
-    let options_ = <AxiosRequestConfig>{
-      method: "DELETE",
-      url: url_,
-      headers: {},
-      cancelToken,
-    }
-
-    return this.transformOptions(options_)
-      .then((transformedOptions_) => {
-        return this.instance.request(transformedOptions_)
-      })
-      .catch((_error: any) => {
-        if (isAxiosError(_error) && _error.response) {
-          return _error.response
-        } else {
-          throw _error
-        }
-      })
-      .then((_response: AxiosResponse) => {
-        return this.processDeletedeployment(_response)
-      })
-  }
-
-  protected processDeletedeployment(response: AxiosResponse): Promise<void> {
-    const status = response.status
-    let _headers: any = {}
-    if (response.headers && typeof response.headers === "object") {
-      for (let k in response.headers) {
-        if (response.headers.hasOwnProperty(k)) {
-          _headers[k] = response.headers[k]
-        }
-      }
-    }
-    if (status === 200) {
-      return Promise.resolve<void>(<any>null)
-    } else if (status === 401) {
-      const _responseText = response.data
-      return throwException(
-        "Invalid authentication token",
-        status,
-        _responseText,
-        _headers,
-      )
-    } else if (status === 404) {
-      const _responseText = response.data
-      let result404: any = null
-      let resultData404 = _responseText
-      result404 = JSON.parse(resultData404)
-      return throwException(
-        "Requested deployment not found",
-        status,
-        _responseText,
-        _headers,
-        result404,
-      )
-    } else if (status === 409) {
-      const _responseText = response.data
-      let result409: any = null
-      let resultData409 = _responseText
-      result409 = JSON.parse(resultData409)
-      return throwException(
-        "Invalid action. Similar kind of action or dependent action already in pending",
-        status,
-        _responseText,
-        _headers,
-        result409,
-      )
-    } else {
-      const _responseText = response.data
-      let resultdefault: any = null
-      let resultDatadefault = _responseText
-      resultdefault = JSON.parse(resultDatadefault)
-      return throwException(
-        "server error",
-        status,
-        _responseText,
-        _headers,
-        resultdefault,
-      )
-    }
-  }
-
-  /**
-   * this operation retuns the status of an active deployment
-   * @param id identification number of the deployment
-   * @return Successful Operation.  Valid values areCreationPending = 1, CREATING = 2, CREATED = 3, CreationFailed = 4, UpdatePending = 5, UPDATING= 6, UPDATED=7, UpdateFailed = 8, DeletionPending = 9, DELETING = 10, DELETED = 11, DeleteFailed = 12, Unhealthy = 13
-   */
-  getdeploymentstatus(
-    id: number,
-    cancelToken?: CancelToken | undefined,
-  ): Promise<number> {
-    let url_ = this.baseUrl + "/deployment/{id}/status"
-    if (id === undefined || id === null)
-      throw new Error("The parameter 'id' must be defined.")
-    url_ = url_.replace("{id}", encodeURIComponent("" + id))
-    url_ = url_.replace(/[?&]$/, "")
-
-    let options_ = <AxiosRequestConfig>{
-      method: "GET",
-      url: url_,
-      headers: {
-        Accept: "text/plain",
-      },
-      cancelToken,
-    }
-
-    return this.transformOptions(options_)
-      .then((transformedOptions_) => {
-        return this.instance.request(transformedOptions_)
-      })
-      .catch((_error: any) => {
-        if (isAxiosError(_error) && _error.response) {
-          return _error.response
-        } else {
-          throw _error
-        }
-      })
-      .then((_response: AxiosResponse) => {
-        return this.processGetdeploymentstatus(_response)
-      })
-  }
-
-  protected processGetdeploymentstatus(
-    response: AxiosResponse,
-  ): Promise<number> {
-    const status = response.status
-    let _headers: any = {}
-    if (response.headers && typeof response.headers === "object") {
-      for (let k in response.headers) {
-        if (response.headers.hasOwnProperty(k)) {
-          _headers[k] = response.headers[k]
-        }
-      }
-    }
-    if (status === 200) {
-      const _responseText = response.data
-      let result200: any = null
-      let resultData200 = _responseText
-      result200 = JSON.parse(resultData200)
-      return result200
-    } else if (status === 401) {
-      const _responseText = response.data
-      return throwException(
-        "Invalid authentication token",
-        status,
-        _responseText,
-        _headers,
-      )
-    } else if (status === 404) {
-      const _responseText = response.data
-      let result404: any = null
-      let resultData404 = _responseText
-      result404 = JSON.parse(resultData404)
-      return throwException(
-        "Requested deployment not exists for the user",
-        status,
-        _responseText,
-        _headers,
-        result404,
-      )
-    } else {
-      const _responseText = response.data
-      let resultdefault: any = null
-      let resultDatadefault = _responseText
-      resultdefault = JSON.parse(resultDatadefault)
-      return throwException(
-        "server error",
-        status,
-        _responseText,
-        _headers,
-        resultdefault,
-      )
-    }
-  }
-
-  /**
-   * this operation returns an array of actve deployments
-   * @param id identification number of the deployment
-   * @return an array of deployment objects
-   */
-  getdeployments(
-    id: number,
-    cancelToken?: CancelToken | undefined,
-  ): Promise<Deployment[]> {
-    let url_ = this.baseUrl + "/project/{id}/deployments"
-    if (id === undefined || id === null)
-      throw new Error("The parameter 'id' must be defined.")
-    url_ = url_.replace("{id}", encodeURIComponent("" + id))
-    url_ = url_.replace(/[?&]$/, "")
-
-    let options_ = <AxiosRequestConfig>{
-      method: "GET",
-      url: url_,
-      headers: {
-        Accept: "application/json",
-      },
-      cancelToken,
-    }
-
-    return this.transformOptions(options_)
-      .then((transformedOptions_) => {
-        return this.instance.request(transformedOptions_)
-      })
-      .catch((_error: any) => {
-        if (isAxiosError(_error) && _error.response) {
-          return _error.response
-        } else {
-          throw _error
-        }
-      })
-      .then((_response: AxiosResponse) => {
-        return this.processGetdeployments(_response)
-      })
-  }
-
-  protected processGetdeployments(
-    response: AxiosResponse,
-  ): Promise<Deployment[]> {
-    const status = response.status
-    let _headers: any = {}
-    if (response.headers && typeof response.headers === "object") {
-      for (let k in response.headers) {
-        if (response.headers.hasOwnProperty(k)) {
-          _headers[k] = response.headers[k]
-        }
-      }
-    }
-    if (status === 200) {
-      const _responseText = response.data
-      let result200: any = null
-      let resultData200 = _responseText
-      result200 = JSON.parse(resultData200)
-      return result200
-    } else if (status === 401) {
-      const _responseText = response.data
-      return throwException(
-        "Invalid authentication token",
-        status,
-        _responseText,
-        _headers,
-      )
-    } else {
-      const _responseText = response.data
-      let resultdefault: any = null
-      let resultDatadefault = _responseText
-      resultdefault = JSON.parse(resultDatadefault)
-      return throwException(
-        "server error",
-        status,
-        _responseText,
-        _headers,
-        resultdefault,
-      )
-    }
-  }
-
-  /**
    * This operation interacts with the 3rd party stripe api
    * @param body the credit card token id
-   * @return Successful Operation returns objects referenced here https://stripe.com/docs/api/cards/object
+   * @return Successful Operation
    */
   addCard(
     body: AddCardRequest,
     cancelToken?: CancelToken | undefined,
-  ): Promise<void> {
+  ): Promise<FileResponse> {
     let url_ = this.baseUrl + "/billing/card/add"
     url_ = url_.replace(/[?&]$/, "")
 
@@ -2652,10 +1664,12 @@ export class ImployApiClient
 
     let options_ = <AxiosRequestConfig>{
       data: content_,
+      responseType: "blob",
       method: "POST",
       url: url_,
       headers: {
         "Content-Type": "application/json",
+        Accept: "applicaiton/json",
       },
       cancelToken,
     }
@@ -2676,7 +1690,7 @@ export class ImployApiClient
       })
   }
 
-  protected processAddCard(response: AxiosResponse): Promise<void> {
+  protected processAddCard(response: AxiosResponse): Promise<FileResponse> {
     const status = response.status
     let _headers: any = {}
     if (response.headers && typeof response.headers === "object") {
@@ -2686,8 +1700,21 @@ export class ImployApiClient
         }
       }
     }
-    if (status === 200) {
-      return Promise.resolve<void>(<any>null)
+    if (status === 200 || status === 206) {
+      const contentDisposition = response.headers
+        ? response.headers["content-disposition"]
+        : undefined
+      const fileNameMatch = contentDisposition
+        ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition)
+        : undefined
+      const fileName =
+        fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined
+      return Promise.resolve({
+        fileName: fileName,
+        status: status,
+        data: response.data as Blob,
+        headers: _headers,
+      })
     } else if (status === 401) {
       const _responseText = response.data
       return throwException(
@@ -2731,7 +1758,7 @@ export class ImployApiClient
   updateDefaultCard(
     body: CardID,
     cancelToken?: CancelToken | undefined,
-  ): Promise<void> {
+  ): Promise<FileResponse> {
     let url_ = this.baseUrl + "/billing/card/default"
     url_ = url_.replace(/[?&]$/, "")
 
@@ -2739,10 +1766,12 @@ export class ImployApiClient
 
     let options_ = <AxiosRequestConfig>{
       data: content_,
+      responseType: "blob",
       method: "PATCH",
       url: url_,
       headers: {
         "Content-Type": "application/json",
+        Accept: "applicaiton/json",
       },
       cancelToken,
     }
@@ -2763,7 +1792,9 @@ export class ImployApiClient
       })
   }
 
-  protected processUpdateDefaultCard(response: AxiosResponse): Promise<void> {
+  protected processUpdateDefaultCard(
+    response: AxiosResponse,
+  ): Promise<FileResponse> {
     const status = response.status
     let _headers: any = {}
     if (response.headers && typeof response.headers === "object") {
@@ -2773,8 +1804,21 @@ export class ImployApiClient
         }
       }
     }
-    if (status === 200) {
-      return Promise.resolve<void>(<any>null)
+    if (status === 200 || status === 206) {
+      const contentDisposition = response.headers
+        ? response.headers["content-disposition"]
+        : undefined
+      const fileNameMatch = contentDisposition
+        ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition)
+        : undefined
+      const fileName =
+        fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined
+      return Promise.resolve({
+        fileName: fileName,
+        status: status,
+        data: response.data as Blob,
+        headers: _headers,
+      })
     } else if (status === 401) {
       const _responseText = response.data
       return throwException(
@@ -2903,9 +1947,12 @@ export class ImployApiClient
   /**
    * This operation interacts with the 3rd Party Stripe API
    * @param id identification number of the card
-   * @return Successful Operation returns objects referenced here https://stripe.com/docs/api/cards/object
+   * @return Successful Operation
    */
-  deleteCard(id: number, cancelToken?: CancelToken | undefined): Promise<void> {
+  deleteCard(
+    id: number,
+    cancelToken?: CancelToken | undefined,
+  ): Promise<FileResponse> {
     let url_ = this.baseUrl + "/billing/card/{id}"
     if (id === undefined || id === null)
       throw new Error("The parameter 'id' must be defined.")
@@ -2913,9 +1960,12 @@ export class ImployApiClient
     url_ = url_.replace(/[?&]$/, "")
 
     let options_ = <AxiosRequestConfig>{
+      responseType: "blob",
       method: "DELETE",
       url: url_,
-      headers: {},
+      headers: {
+        Accept: "applicaiton/json",
+      },
       cancelToken,
     }
 
@@ -2935,7 +1985,7 @@ export class ImployApiClient
       })
   }
 
-  protected processDeleteCard(response: AxiosResponse): Promise<void> {
+  protected processDeleteCard(response: AxiosResponse): Promise<FileResponse> {
     const status = response.status
     let _headers: any = {}
     if (response.headers && typeof response.headers === "object") {
@@ -2945,8 +1995,21 @@ export class ImployApiClient
         }
       }
     }
-    if (status === 200) {
-      return Promise.resolve<void>(<any>null)
+    if (status === 200 || status === 206) {
+      const contentDisposition = response.headers
+        ? response.headers["content-disposition"]
+        : undefined
+      const fileNameMatch = contentDisposition
+        ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition)
+        : undefined
+      const fileName =
+        fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined
+      return Promise.resolve({
+        fileName: fileName,
+        status: status,
+        data: response.data as Blob,
+        headers: _headers,
+      })
     } else if (status === 401) {
       const _responseText = response.data
       return throwException(
@@ -3078,16 +2141,18 @@ export class ImployApiClient
 
   /**
    * This operation interacts with the 3rd Party Stripe API
-   * @return Successful Operation returns objects referenced here https://stripe.com/docs/api/cards/object
+   * @return Successful Operation
    */
-  getAllCards(cancelToken?: CancelToken | undefined): Promise<void> {
+  getAllCards(cancelToken?: CancelToken | undefined): Promise<CardInfo[]> {
     let url_ = this.baseUrl + "/billing/cards"
     url_ = url_.replace(/[?&]$/, "")
 
     let options_ = <AxiosRequestConfig>{
       method: "GET",
       url: url_,
-      headers: {},
+      headers: {
+        Accept: "applicaiton/json",
+      },
       cancelToken,
     }
 
@@ -3107,7 +2172,7 @@ export class ImployApiClient
       })
   }
 
-  protected processGetAllCards(response: AxiosResponse): Promise<void> {
+  protected processGetAllCards(response: AxiosResponse): Promise<CardInfo[]> {
     const status = response.status
     let _headers: any = {}
     if (response.headers && typeof response.headers === "object") {
@@ -3118,7 +2183,11 @@ export class ImployApiClient
       }
     }
     if (status === 200) {
-      return Promise.resolve<void>(<any>null)
+      const _responseText = response.data
+      let result200: any = null
+      let resultData200 = _responseText
+      result200 = JSON.parse(resultData200)
+      return result200
     } else if (status === 401) {
       const _responseText = response.data
       return throwException(
@@ -3144,16 +2213,20 @@ export class ImployApiClient
 
   /**
    * This operations interacts with the 3rd Party Stripe API.
-   * @return Successful Operation returns objects referenced here https://stripe.com/docs/api/invoices/object
+   * @return Successful Operation
    */
-  getAllInvoices(cancelToken?: CancelToken | undefined): Promise<void> {
+  getAllInvoices(
+    cancelToken?: CancelToken | undefined,
+  ): Promise<InvoiceInfo[]> {
     let url_ = this.baseUrl + "/billing/invoices"
     url_ = url_.replace(/[?&]$/, "")
 
     let options_ = <AxiosRequestConfig>{
       method: "GET",
       url: url_,
-      headers: {},
+      headers: {
+        Accept: "applicaiton/json",
+      },
       cancelToken,
     }
 
@@ -3173,7 +2246,9 @@ export class ImployApiClient
       })
   }
 
-  protected processGetAllInvoices(response: AxiosResponse): Promise<void> {
+  protected processGetAllInvoices(
+    response: AxiosResponse,
+  ): Promise<InvoiceInfo[]> {
     const status = response.status
     let _headers: any = {}
     if (response.headers && typeof response.headers === "object") {
@@ -3184,7 +2259,11 @@ export class ImployApiClient
       }
     }
     if (status === 200) {
-      return Promise.resolve<void>(<any>null)
+      const _responseText = response.data
+      let result200: any = null
+      let resultData200 = _responseText
+      result200 = JSON.parse(resultData200)
+      return result200
     } else if (status === 401) {
       const _responseText = response.data
       return throwException(
@@ -3211,22 +2290,25 @@ export class ImployApiClient
   /**
    * This operation interacts with the 3rd Party Stripe API
    * @param id identification number of the subscription
-   * @return Successful Operation returns objects referenced here https://stripe.com/docs/api/subscription/object
+   * @return Successful Operation
    */
   getSubscription(
     id: number,
     cancelToken?: CancelToken | undefined,
-  ): Promise<void> {
-    let url_ = this.baseUrl + "/billing/subscriptions{id}"
+  ): Promise<FileResponse> {
+    let url_ = this.baseUrl + "/billing/subscription/{id}"
     if (id === undefined || id === null)
       throw new Error("The parameter 'id' must be defined.")
     url_ = url_.replace("{id}", encodeURIComponent("" + id))
     url_ = url_.replace(/[?&]$/, "")
 
     let options_ = <AxiosRequestConfig>{
+      responseType: "blob",
       method: "GET",
       url: url_,
-      headers: {},
+      headers: {
+        Accept: "applicaiton/json",
+      },
       cancelToken,
     }
 
@@ -3246,7 +2328,9 @@ export class ImployApiClient
       })
   }
 
-  protected processGetSubscription(response: AxiosResponse): Promise<void> {
+  protected processGetSubscription(
+    response: AxiosResponse,
+  ): Promise<FileResponse> {
     const status = response.status
     let _headers: any = {}
     if (response.headers && typeof response.headers === "object") {
@@ -3256,8 +2340,21 @@ export class ImployApiClient
         }
       }
     }
-    if (status === 200) {
-      return Promise.resolve<void>(<any>null)
+    if (status === 200 || status === 206) {
+      const contentDisposition = response.headers
+        ? response.headers["content-disposition"]
+        : undefined
+      const fileNameMatch = contentDisposition
+        ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition)
+        : undefined
+      const fileName =
+        fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined
+      return Promise.resolve({
+        fileName: fileName,
+        status: status,
+        data: response.data as Blob,
+        headers: _headers,
+      })
     } else if (status === 401) {
       const _responseText = response.data
       return throwException(
@@ -3295,16 +2392,20 @@ export class ImployApiClient
 
   /**
    * This operation interacts with the 3rd Party Stripe API
-   * @return Successful Operation returns objects referenced here https://stripe.com/docs/api/subscription/object
+   * @return Successful Operation
    */
-  getAllSubscriptions(cancelToken?: CancelToken | undefined): Promise<void> {
+  getAllSubscriptions(
+    cancelToken?: CancelToken | undefined,
+  ): Promise<SubscriptionInfo[]> {
     let url_ = this.baseUrl + "/billing/subscriptions"
     url_ = url_.replace(/[?&]$/, "")
 
     let options_ = <AxiosRequestConfig>{
       method: "GET",
       url: url_,
-      headers: {},
+      headers: {
+        Accept: "applicaiton/json",
+      },
       cancelToken,
     }
 
@@ -3324,7 +2425,9 @@ export class ImployApiClient
       })
   }
 
-  protected processGetAllSubscriptions(response: AxiosResponse): Promise<void> {
+  protected processGetAllSubscriptions(
+    response: AxiosResponse,
+  ): Promise<SubscriptionInfo[]> {
     const status = response.status
     let _headers: any = {}
     if (response.headers && typeof response.headers === "object") {
@@ -3335,7 +2438,11 @@ export class ImployApiClient
       }
     }
     if (status === 200) {
-      return Promise.resolve<void>(<any>null)
+      const _responseText = response.data
+      let result200: any = null
+      let resultData200 = _responseText
+      result200 = JSON.parse(resultData200)
+      return result200
     } else if (status === 401) {
       const _responseText = response.data
       return throwException(
@@ -3360,42 +2467,51 @@ export class ImployApiClient
   }
 
   /**
-   * upload a bunch of files to the pin service
-   * @param file (optional)
+   * uploads a one or more files
+   * @param files (optional)
    * @param path (optional)
-   * @param replication (optional)
    * @param deal_duration (optional)
+   * @param replication (optional)
    * @return Successful Operation
    */
-  uploadPins(
-    file?: any | undefined,
+  addFPSFiles(
+    files?: FileParameter[] | undefined,
     path?: string | undefined,
+    deal_duration?: number | undefined,
     replication?: number | undefined,
-    deal_duration?: boolean | undefined,
     cancelToken?: CancelToken | undefined,
-  ): Promise<void> {
+  ): Promise<FilesUploadResponse> {
     let url_ = this.baseUrl + "/fps/upload"
     url_ = url_.replace(/[?&]$/, "")
 
     const content_ = new FormData()
-    if (file === null || file === undefined)
-      throw new Error("The parameter 'file' cannot be null.")
-    else content_.append("file", file.toString())
+    if (files === null || files === undefined)
+      throw new Error("The parameter 'files' cannot be null.")
+    else
+      files.forEach((item_) =>
+        content_.append(
+          "files",
+          item_.data,
+          item_.fileName ? item_.fileName : "files",
+        ),
+      )
     if (path === null || path === undefined)
       throw new Error("The parameter 'path' cannot be null.")
     else content_.append("path", path.toString())
-    if (replication === null || replication === undefined)
-      throw new Error("The parameter 'replication' cannot be null.")
-    else content_.append("replication", replication.toString())
     if (deal_duration === null || deal_duration === undefined)
       throw new Error("The parameter 'deal_duration' cannot be null.")
     else content_.append("deal_duration", deal_duration.toString())
+    if (replication === null || replication === undefined)
+      throw new Error("The parameter 'replication' cannot be null.")
+    else content_.append("replication", replication.toString())
 
     let options_ = <AxiosRequestConfig>{
       data: content_,
       method: "POST",
       url: url_,
-      headers: {},
+      headers: {
+        Accept: "application/json",
+      },
       cancelToken,
     }
 
@@ -3411,11 +2527,128 @@ export class ImployApiClient
         }
       })
       .then((_response: AxiosResponse) => {
-        return this.processUploadPins(_response)
+        return this.processAddFPSFiles(_response)
       })
   }
 
-  protected processUploadPins(response: AxiosResponse): Promise<void> {
+  protected processAddFPSFiles(
+    response: AxiosResponse,
+  ): Promise<FilesUploadResponse> {
+    const status = response.status
+    let _headers: any = {}
+    if (response.headers && typeof response.headers === "object") {
+      for (let k in response.headers) {
+        if (response.headers.hasOwnProperty(k)) {
+          _headers[k] = response.headers[k]
+        }
+      }
+    }
+    if (status === 200) {
+      const _responseText = response.data
+      let result200: any = null
+      let resultData200 = _responseText
+      result200 = JSON.parse(resultData200)
+      return result200
+    } else if (status === 401) {
+      const _responseText = response.data
+      return throwException(
+        "Invalid or missing Authentication token",
+        status,
+        _responseText,
+        _headers,
+      )
+    } else if (status === 503) {
+      const _responseText = response.data
+      let result503: any = null
+      let resultData503 = _responseText
+      result503 = JSON.parse(resultData503)
+      return throwException(
+        "drive service is not inilialized",
+        status,
+        _responseText,
+        _headers,
+        result503,
+      )
+    } else if (status === 404) {
+      const _responseText = response.data
+      let result404: any = null
+      let resultData404 = _responseText
+      result404 = JSON.parse(resultData404)
+      return throwException(
+        "File Store do not exists for the provided user identifier",
+        status,
+        _responseText,
+        _headers,
+        result404,
+      )
+    } else if (status === 409) {
+      const _responseText = response.data
+      let result409: any = null
+      let resultData409 = _responseText
+      result409 = JSON.parse(resultData409)
+      return throwException(
+        "file of directory name in conflict with existing structure",
+        status,
+        _responseText,
+        _headers,
+        result409,
+      )
+    } else {
+      const _responseText = response.data
+      let resultdefault: any = null
+      let resultDatadefault = _responseText
+      resultdefault = JSON.parse(resultDatadefault)
+      return throwException(
+        "server error",
+        status,
+        _responseText,
+        _headers,
+        resultdefault,
+      )
+    }
+  }
+
+  /**
+   * rename or move file to a new location in the heiarchy
+   * @param body file path
+   * @return Successful Operation
+   */
+  moveFPSObject(
+    body: FilesMvRequest,
+    cancelToken?: CancelToken | undefined,
+  ): Promise<void> {
+    let url_ = this.baseUrl + "/fps/mv"
+    url_ = url_.replace(/[?&]$/, "")
+
+    const content_ = JSON.stringify(body)
+
+    let options_ = <AxiosRequestConfig>{
+      data: content_,
+      method: "POST",
+      url: url_,
+      headers: {
+        "Content-Type": "application/json",
+      },
+      cancelToken,
+    }
+
+    return this.transformOptions(options_)
+      .then((transformedOptions_) => {
+        return this.instance.request(transformedOptions_)
+      })
+      .catch((_error: any) => {
+        if (isAxiosError(_error) && _error.response) {
+          return _error.response
+        } else {
+          throw _error
+        }
+      })
+      .then((_response: AxiosResponse) => {
+        return this.processMoveFPSObject(_response)
+      })
+  }
+
+  protected processMoveFPSObject(response: AxiosResponse): Promise<void> {
     const status = response.status
     let _headers: any = {}
     if (response.headers && typeof response.headers === "object") {
@@ -3430,7 +2663,7 @@ export class ImployApiClient
     } else if (status === 401) {
       const _responseText = response.data
       return throwException(
-        "Invalid or missing Authorization token",
+        "Invalid or missing Authentication token",
         status,
         _responseText,
         _headers,
@@ -3441,7 +2674,7 @@ export class ImployApiClient
       let resultData503 = _responseText
       result503 = JSON.parse(resultData503)
       return throwException(
-        "Drive Service is not inilialized",
+        "drive service is not inilialized",
         status,
         _responseText,
         _headers,
@@ -3453,7 +2686,224 @@ export class ImployApiClient
       let resultData404 = _responseText
       result404 = JSON.parse(resultData404)
       return throwException(
-        "file store do not exists for the provided user identifier",
+        "File Store or File Name do not exists for the provided user",
+        status,
+        _responseText,
+        _headers,
+        result404,
+      )
+    } else if (status === 409) {
+      const _responseText = response.data
+      let result409: any = null
+      let resultData409 = _responseText
+      result409 = JSON.parse(resultData409)
+      return throwException(
+        "file of directory name in conflict with existing structure",
+        status,
+        _responseText,
+        _headers,
+        result409,
+      )
+    } else {
+      const _responseText = response.data
+      let resultdefault: any = null
+      let resultDatadefault = _responseText
+      resultdefault = JSON.parse(resultDatadefault)
+      return throwException(
+        "server error",
+        status,
+        _responseText,
+        _headers,
+        resultdefault,
+      )
+    }
+  }
+
+  /**
+   * retrieve all information available on a file
+   * @param body file path
+   * @return Successful Operation
+   */
+  getFPSFileInfo(
+    body: FilesPathRequest,
+    cancelToken?: CancelToken | undefined,
+  ): Promise<FPSFilesFullinfoResponse> {
+    let url_ = this.baseUrl + "/fps/file"
+    url_ = url_.replace(/[?&]$/, "")
+
+    const content_ = JSON.stringify(body)
+
+    let options_ = <AxiosRequestConfig>{
+      data: content_,
+      method: "POST",
+      url: url_,
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "applicaiton/json",
+      },
+      cancelToken,
+    }
+
+    return this.transformOptions(options_)
+      .then((transformedOptions_) => {
+        return this.instance.request(transformedOptions_)
+      })
+      .catch((_error: any) => {
+        if (isAxiosError(_error) && _error.response) {
+          return _error.response
+        } else {
+          throw _error
+        }
+      })
+      .then((_response: AxiosResponse) => {
+        return this.processGetFPSFileInfo(_response)
+      })
+  }
+
+  protected processGetFPSFileInfo(
+    response: AxiosResponse,
+  ): Promise<FPSFilesFullinfoResponse> {
+    const status = response.status
+    let _headers: any = {}
+    if (response.headers && typeof response.headers === "object") {
+      for (let k in response.headers) {
+        if (response.headers.hasOwnProperty(k)) {
+          _headers[k] = response.headers[k]
+        }
+      }
+    }
+    if (status === 200) {
+      const _responseText = response.data
+      let result200: any = null
+      let resultData200 = _responseText
+      result200 = JSON.parse(resultData200)
+      return result200
+    } else if (status === 401) {
+      const _responseText = response.data
+      return throwException(
+        "Invalid authentication token",
+        status,
+        _responseText,
+        _headers,
+      )
+    } else if (status === 503) {
+      const _responseText = response.data
+      let result503: any = null
+      let resultData503 = _responseText
+      result503 = JSON.parse(resultData503)
+      return throwException(
+        "drive service is not inilialized",
+        status,
+        _responseText,
+        _headers,
+        result503,
+      )
+    } else if (status === 400) {
+      const _responseText = response.data
+      let result400: any = null
+      let resultData400 = _responseText
+      result400 = JSON.parse(resultData400)
+      return throwException(
+        "File Store or File itself do not exists for the provided user identifier",
+        status,
+        _responseText,
+        _headers,
+        result400,
+      )
+    } else {
+      const _responseText = response.data
+      let resultdefault: any = null
+      let resultDatadefault = _responseText
+      resultdefault = JSON.parse(resultDatadefault)
+      return throwException(
+        "server error",
+        status,
+        _responseText,
+        _headers,
+        resultdefault,
+      )
+    }
+  }
+
+  /**
+   * removes a files or empty directories
+   * @param body array of object paths
+   * @return Successful Operation
+   */
+  removeFPSObjects(
+    body: FilesRmRequest,
+    cancelToken?: CancelToken | undefined,
+  ): Promise<void> {
+    let url_ = this.baseUrl + "/fps/rm"
+    url_ = url_.replace(/[?&]$/, "")
+
+    const content_ = JSON.stringify(body)
+
+    let options_ = <AxiosRequestConfig>{
+      data: content_,
+      method: "POST",
+      url: url_,
+      headers: {
+        "Content-Type": "application/json",
+      },
+      cancelToken,
+    }
+
+    return this.transformOptions(options_)
+      .then((transformedOptions_) => {
+        return this.instance.request(transformedOptions_)
+      })
+      .catch((_error: any) => {
+        if (isAxiosError(_error) && _error.response) {
+          return _error.response
+        } else {
+          throw _error
+        }
+      })
+      .then((_response: AxiosResponse) => {
+        return this.processRemoveFPSObjects(_response)
+      })
+  }
+
+  protected processRemoveFPSObjects(response: AxiosResponse): Promise<void> {
+    const status = response.status
+    let _headers: any = {}
+    if (response.headers && typeof response.headers === "object") {
+      for (let k in response.headers) {
+        if (response.headers.hasOwnProperty(k)) {
+          _headers[k] = response.headers[k]
+        }
+      }
+    }
+    if (status === 200) {
+      return Promise.resolve<void>(<any>null)
+    } else if (status === 401) {
+      const _responseText = response.data
+      return throwException(
+        "Invalid authentication token",
+        status,
+        _responseText,
+        _headers,
+      )
+    } else if (status === 503) {
+      const _responseText = response.data
+      let result503: any = null
+      let resultData503 = _responseText
+      result503 = JSON.parse(resultData503)
+      return throwException(
+        "Drive service is not inilialized",
+        status,
+        _responseText,
+        _headers,
+        result503,
+      )
+    } else if (status === 404) {
+      const _responseText = response.data
+      let result404: any = null
+      let resultData404 = _responseText
+      result404 = JSON.parse(resultData404)
+      return throwException(
+        "File Store or File do not exists for the provided user identifier",
         status,
         _responseText,
         _headers,
@@ -3475,14 +2925,238 @@ export class ImployApiClient
   }
 
   /**
+   * retrieve child list for provided directory path
+   * @param body file path
+   * @return Successful Operation
+   */
+  getFPSChildList(
+    body: FilesPathRequest,
+    cancelToken?: CancelToken | undefined,
+  ): Promise<FileContentResponse[]> {
+    let url_ = this.baseUrl + "/fps/ls"
+    url_ = url_.replace(/[?&]$/, "")
+
+    const content_ = JSON.stringify(body)
+
+    let options_ = <AxiosRequestConfig>{
+      data: content_,
+      method: "POST",
+      url: url_,
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "applicaiton/json",
+      },
+      cancelToken,
+    }
+
+    return this.transformOptions(options_)
+      .then((transformedOptions_) => {
+        return this.instance.request(transformedOptions_)
+      })
+      .catch((_error: any) => {
+        if (isAxiosError(_error) && _error.response) {
+          return _error.response
+        } else {
+          throw _error
+        }
+      })
+      .then((_response: AxiosResponse) => {
+        return this.processGetFPSChildList(_response)
+      })
+  }
+
+  protected processGetFPSChildList(
+    response: AxiosResponse,
+  ): Promise<FileContentResponse[]> {
+    const status = response.status
+    let _headers: any = {}
+    if (response.headers && typeof response.headers === "object") {
+      for (let k in response.headers) {
+        if (response.headers.hasOwnProperty(k)) {
+          _headers[k] = response.headers[k]
+        }
+      }
+    }
+    if (status === 200) {
+      const _responseText = response.data
+      let result200: any = null
+      let resultData200 = _responseText
+      result200 = JSON.parse(resultData200)
+      return result200
+    } else if (status === 401) {
+      const _responseText = response.data
+      return throwException(
+        "Invalid authentication token",
+        status,
+        _responseText,
+        _headers,
+      )
+    } else if (status === 503) {
+      const _responseText = response.data
+      let result503: any = null
+      let resultData503 = _responseText
+      result503 = JSON.parse(resultData503)
+      return throwException(
+        "drive service is not inilialized",
+        status,
+        _responseText,
+        _headers,
+        result503,
+      )
+    } else if (status === 404) {
+      const _responseText = response.data
+      let result404: any = null
+      let resultData404 = _responseText
+      result404 = JSON.parse(resultData404)
+      return throwException(
+        "File Store do not exists for the provided user identifier",
+        status,
+        _responseText,
+        _headers,
+        result404,
+      )
+    } else {
+      const _responseText = response.data
+      let resultdefault: any = null
+      let resultDatadefault = _responseText
+      resultdefault = JSON.parse(resultDatadefault)
+      return throwException(
+        "server error",
+        status,
+        _responseText,
+        _headers,
+        resultdefault,
+      )
+    }
+  }
+
+  /**
+   * creates new directory
+   * @param body directory path
+   * @return Successful Operation
+   */
+  addFPSDirectory(
+    body: FilesPathRequest,
+    cancelToken?: CancelToken | undefined,
+  ): Promise<FileContentResponse> {
+    let url_ = this.baseUrl + "/fps/mkdir"
+    url_ = url_.replace(/[?&]$/, "")
+
+    const content_ = JSON.stringify(body)
+
+    let options_ = <AxiosRequestConfig>{
+      data: content_,
+      method: "POST",
+      url: url_,
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "applicaiton/json",
+      },
+      cancelToken,
+    }
+
+    return this.transformOptions(options_)
+      .then((transformedOptions_) => {
+        return this.instance.request(transformedOptions_)
+      })
+      .catch((_error: any) => {
+        if (isAxiosError(_error) && _error.response) {
+          return _error.response
+        } else {
+          throw _error
+        }
+      })
+      .then((_response: AxiosResponse) => {
+        return this.processAddFPSDirectory(_response)
+      })
+  }
+
+  protected processAddFPSDirectory(
+    response: AxiosResponse,
+  ): Promise<FileContentResponse> {
+    const status = response.status
+    let _headers: any = {}
+    if (response.headers && typeof response.headers === "object") {
+      for (let k in response.headers) {
+        if (response.headers.hasOwnProperty(k)) {
+          _headers[k] = response.headers[k]
+        }
+      }
+    }
+    if (status === 200) {
+      const _responseText = response.data
+      let result200: any = null
+      let resultData200 = _responseText
+      result200 = JSON.parse(resultData200)
+      return result200
+    } else if (status === 401) {
+      const _responseText = response.data
+      return throwException(
+        "Invalid authentication token",
+        status,
+        _responseText,
+        _headers,
+      )
+    } else if (status === 503) {
+      const _responseText = response.data
+      let result503: any = null
+      let resultData503 = _responseText
+      result503 = JSON.parse(resultData503)
+      return throwException(
+        "drive service is not inilialized",
+        status,
+        _responseText,
+        _headers,
+        result503,
+      )
+    } else if (status === 404) {
+      const _responseText = response.data
+      let result404: any = null
+      let resultData404 = _responseText
+      result404 = JSON.parse(resultData404)
+      return throwException(
+        "File Store do not exists for the provided user identifier",
+        status,
+        _responseText,
+        _headers,
+        result404,
+      )
+    } else if (status === 409) {
+      const _responseText = response.data
+      let result409: any = null
+      let resultData409 = _responseText
+      result409 = JSON.parse(resultData409)
+      return throwException(
+        "file of directory name in conflict with existing structure",
+        status,
+        _responseText,
+        _headers,
+        result409,
+      )
+    } else {
+      const _responseText = response.data
+      let resultdefault: any = null
+      let resultDatadefault = _responseText
+      resultdefault = JSON.parse(resultDatadefault)
+      return throwException(
+        "server error",
+        status,
+        _responseText,
+        _headers,
+        resultdefault,
+      )
+    }
+  }
+
+  /**
    * get pin object info
-   * @param pin_id pin object cid
+   * @param pin_id pin object identifier
    * @return Successful Operation,
    */
-  getPinsByCID(
+  getPinsByID(
     pin_id: string,
     cancelToken?: CancelToken | undefined,
-  ): Promise<Anonymous2> {
+  ): Promise<PinObject> {
     let url_ = this.baseUrl + "/fps/pins/{pin_id}"
     if (pin_id === undefined || pin_id === null)
       throw new Error("The parameter 'pin_id' must be defined.")
@@ -3510,11 +3184,11 @@ export class ImployApiClient
         }
       })
       .then((_response: AxiosResponse) => {
-        return this.processGetPinsByCID(_response)
+        return this.processGetPinsByID(_response)
       })
   }
 
-  protected processGetPinsByCID(response: AxiosResponse): Promise<Anonymous2> {
+  protected processGetPinsByID(response: AxiosResponse): Promise<PinObject> {
     const status = response.status
     let _headers: any = {}
     if (response.headers && typeof response.headers === "object") {
@@ -3567,10 +3241,10 @@ export class ImployApiClient
 
   /**
    * delete the pin object
-   * @param pin_id pin object cid
+   * @param pin_id pin object identifier
    * @return Successful Operation
    */
-  deletePins(
+  deletePinByID(
     pin_id: string,
     cancelToken?: CancelToken | undefined,
   ): Promise<void> {
@@ -3599,11 +3273,11 @@ export class ImployApiClient
         }
       })
       .then((_response: AxiosResponse) => {
-        return this.processDeletePins(_response)
+        return this.processDeletePinByID(_response)
       })
   }
 
-  protected processDeletePins(response: AxiosResponse): Promise<void> {
+  protected processDeletePinByID(response: AxiosResponse): Promise<void> {
     const status = response.status
     let _headers: any = {}
     if (response.headers && typeof response.headers === "object") {
@@ -3658,9 +3332,9 @@ export class ImployApiClient
    */
   updatePin(
     pin_id: string,
-    body: Body,
+    body: ModifyPinRequest,
     cancelToken?: CancelToken | undefined,
-  ): Promise<void> {
+  ): Promise<PinObject> {
     let url_ = this.baseUrl + "/fps/pins/{pin_id}"
     if (pin_id === undefined || pin_id === null)
       throw new Error("The parameter 'pin_id' must be defined.")
@@ -3675,6 +3349,7 @@ export class ImployApiClient
       url: url_,
       headers: {
         "Content-Type": "application/json",
+        Accept: "application/json",
       },
       cancelToken,
     }
@@ -3695,7 +3370,7 @@ export class ImployApiClient
       })
   }
 
-  protected processUpdatePin(response: AxiosResponse): Promise<void> {
+  protected processUpdatePin(response: AxiosResponse): Promise<PinObject> {
     const status = response.status
     let _headers: any = {}
     if (response.headers && typeof response.headers === "object") {
@@ -3706,7 +3381,11 @@ export class ImployApiClient
       }
     }
     if (status === 200) {
-      return Promise.resolve<void>(<any>null)
+      const _responseText = response.data
+      let result200: any = null
+      let resultData200 = _responseText
+      result200 = JSON.parse(resultData200)
+      return result200
     } else if (status === 401) {
       const _responseText = response.data
       return throwException(
@@ -3755,11 +3434,14 @@ export class ImployApiClient
   }
 
   /**
-   * add pin objects
+   * add pin pins
    * @param body words go here
    * @return Successful Operation
    */
-  addPin(body: Body2, cancelToken?: CancelToken | undefined): Promise<void> {
+  addPin(
+    body: AddPinsRequest,
+    cancelToken?: CancelToken | undefined,
+  ): Promise<ListPinObjectResponse> {
     let url_ = this.baseUrl + "/fps/pins"
     url_ = url_.replace(/[?&]$/, "")
 
@@ -3771,6 +3453,7 @@ export class ImployApiClient
       url: url_,
       headers: {
         "Content-Type": "application/json",
+        Accept: "application/json",
       },
       cancelToken,
     }
@@ -3791,7 +3474,9 @@ export class ImployApiClient
       })
   }
 
-  protected processAddPin(response: AxiosResponse): Promise<void> {
+  protected processAddPin(
+    response: AxiosResponse,
+  ): Promise<ListPinObjectResponse> {
     const status = response.status
     let _headers: any = {}
     if (response.headers && typeof response.headers === "object") {
@@ -3802,7 +3487,11 @@ export class ImployApiClient
       }
     }
     if (status === 200) {
-      return Promise.resolve<void>(<any>null)
+      const _responseText = response.data
+      let result200: any = null
+      let resultData200 = _responseText
+      result200 = JSON.parse(resultData200)
+      return result200
     } else if (status === 401) {
       const _responseText = response.data
       return throwException(
@@ -3855,7 +3544,7 @@ export class ImployApiClient
     before?: string | undefined,
     after?: string | undefined,
     cancelToken?: CancelToken | undefined,
-  ): Promise<Anonymous3[]> {
+  ): Promise<ListPinObjectResponse> {
     let url_ = this.baseUrl + "/fps/pins?"
     if (status === null)
       throw new Error("The parameter 'status' cannot be null.")
@@ -3903,7 +3592,9 @@ export class ImployApiClient
       })
   }
 
-  protected processGetAllPins(response: AxiosResponse): Promise<Anonymous3[]> {
+  protected processGetAllPins(
+    response: AxiosResponse,
+  ): Promise<ListPinObjectResponse> {
     const status = response.status
     let _headers: any = {}
     if (response.headers && typeof response.headers === "object") {
@@ -3956,9 +3647,9 @@ export class ImployApiClient
 
   /**
    * retrieve asks
-   * @return Successful Operation returns objects referenced here  https://github.com/textileio/powergate/blob/master/index/ask/types.go
+   * @return Successful Operation
    */
-  getAsks(cancelToken?: CancelToken | undefined): Promise<Anonymous4> {
+  getAsks(cancelToken?: CancelToken | undefined): Promise<AskIndex> {
     let url_ = this.baseUrl + "/powergate/asks"
     url_ = url_.replace(/[?&]$/, "")
 
@@ -3987,7 +3678,7 @@ export class ImployApiClient
       })
   }
 
-  protected processGetAsks(response: AxiosResponse): Promise<Anonymous4> {
+  protected processGetAsks(response: AxiosResponse): Promise<AskIndex> {
     const status = response.status
     let _headers: any = {}
     if (response.headers && typeof response.headers === "object") {
@@ -4030,13 +3721,13 @@ export class ImployApiClient
    * retrieve deals
    * @param direction filter by deal type
    * @param only (optional) filter by deal status
-   * @return Successful Operation returns a deal record object referenced here https://github.com/textileio/powergate/blob/master/deals/types.go
+   * @return Successful Operation
    */
   getDeals(
     direction: Direction,
     only?: Only | undefined,
     cancelToken?: CancelToken | undefined,
-  ): Promise<Anonymous5> {
+  ): Promise<DealRecord> {
     let url_ = this.baseUrl + "/powergate/deals?"
     if (direction === undefined || direction === null)
       throw new Error(
@@ -4073,7 +3764,7 @@ export class ImployApiClient
       })
   }
 
-  protected processGetDeals(response: AxiosResponse): Promise<Anonymous5> {
+  protected processGetDeals(response: AxiosResponse): Promise<DealRecord> {
     const status = response.status
     let _headers: any = {}
     if (response.headers && typeof response.headers === "object") {
@@ -4126,9 +3817,11 @@ export class ImployApiClient
 
   /**
    * retrieve faults
-   * @return Successful Operation returns objects referenced here https://github.com/textileio/powergate/blob/master/index/faults/types.go
+   * @return Successful Operation
    */
-  getFaults(cancelToken?: CancelToken | undefined): Promise<Anonymous6> {
+  getFaults(
+    cancelToken?: CancelToken | undefined,
+  ): Promise<FaultsIndexSnapshot> {
     let url_ = this.baseUrl + "/powergate/faults"
     url_ = url_.replace(/[?&]$/, "")
 
@@ -4157,7 +3850,9 @@ export class ImployApiClient
       })
   }
 
-  protected processGetFaults(response: AxiosResponse): Promise<Anonymous6> {
+  protected processGetFaults(
+    response: AxiosResponse,
+  ): Promise<FaultsIndexSnapshot> {
     const status = response.status
     let _headers: any = {}
     if (response.headers && typeof response.headers === "object") {
@@ -4210,13 +3905,14 @@ export class ImployApiClient
 
   /**
    * retrieve miners
-   * @return Successful Operation returns objects referenced here https://github.com/textileio/powergate/blob/master/index/miner/types.go
+   * @return Successful Operation
    */
-  getMiners(cancelToken?: CancelToken | undefined): Promise<Anonymous7> {
+  getMiners(cancelToken?: CancelToken | undefined): Promise<FileResponse> {
     let url_ = this.baseUrl + "/powergate/miners"
     url_ = url_.replace(/[?&]$/, "")
 
     let options_ = <AxiosRequestConfig>{
+      responseType: "blob",
       method: "GET",
       url: url_,
       headers: {
@@ -4241,7 +3937,7 @@ export class ImployApiClient
       })
   }
 
-  protected processGetMiners(response: AxiosResponse): Promise<Anonymous7> {
+  protected processGetMiners(response: AxiosResponse): Promise<FileResponse> {
     const status = response.status
     let _headers: any = {}
     if (response.headers && typeof response.headers === "object") {
@@ -4251,12 +3947,21 @@ export class ImployApiClient
         }
       }
     }
-    if (status === 200) {
-      const _responseText = response.data
-      let result200: any = null
-      let resultData200 = _responseText
-      result200 = JSON.parse(resultData200)
-      return result200
+    if (status === 200 || status === 206) {
+      const contentDisposition = response.headers
+        ? response.headers["content-disposition"]
+        : undefined
+      const fileNameMatch = contentDisposition
+        ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition)
+        : undefined
+      const fileName =
+        fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined
+      return Promise.resolve({
+        fileName: fileName,
+        status: status,
+        data: response.data as Blob,
+        headers: _headers,
+      })
     } else if (status === 401) {
       const _responseText = response.data
       return throwException(
@@ -4282,13 +3987,14 @@ export class ImployApiClient
 
   /**
    * retrieve peers
-   * @return Successful Operation returns objects referenced here hhttps://github.com/textileio/powergate/blob/master/net/interface.go
+   * @return Successful Operation
    */
-  getPeers(cancelToken?: CancelToken | undefined): Promise<Anonymous8> {
+  getPeers(cancelToken?: CancelToken | undefined): Promise<FileResponse> {
     let url_ = this.baseUrl + "/powergate/peers"
     url_ = url_.replace(/[?&]$/, "")
 
     let options_ = <AxiosRequestConfig>{
+      responseType: "blob",
       method: "GET",
       url: url_,
       headers: {
@@ -4313,7 +4019,7 @@ export class ImployApiClient
       })
   }
 
-  protected processGetPeers(response: AxiosResponse): Promise<Anonymous8> {
+  protected processGetPeers(response: AxiosResponse): Promise<FileResponse> {
     const status = response.status
     let _headers: any = {}
     if (response.headers && typeof response.headers === "object") {
@@ -4323,12 +4029,21 @@ export class ImployApiClient
         }
       }
     }
-    if (status === 200) {
-      const _responseText = response.data
-      let result200: any = null
-      let resultData200 = _responseText
-      result200 = JSON.parse(resultData200)
-      return result200
+    if (status === 200 || status === 206) {
+      const contentDisposition = response.headers
+        ? response.headers["content-disposition"]
+        : undefined
+      const fileNameMatch = contentDisposition
+        ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition)
+        : undefined
+      const fileName =
+        fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined
+      return Promise.resolve({
+        fileName: fileName,
+        status: status,
+        data: response.data as Blob,
+        headers: _headers,
+      })
     } else if (status === 401) {
       const _responseText = response.data
       return throwException(
@@ -4355,13 +4070,12 @@ export class ImployApiClient
   /**
    * retrieve top miners by reputation
    * @param limit words go here
-   * @return Successful Operation returns objects referenced here https://github.com/textileio/powergate/blob/master/index/miner/types.go
+   * @return Successful Operation
    */
   getTopMiners(
-    api_key: string,
     limit: number,
     cancelToken?: CancelToken | undefined,
-  ): Promise<Anonymous9> {
+  ): Promise<Anonymous2[]> {
     let url_ = this.baseUrl + "/powergate/reputation/topminers?"
     if (limit === undefined || limit === null)
       throw new Error(
@@ -4374,8 +4088,6 @@ export class ImployApiClient
       method: "GET",
       url: url_,
       headers: {
-        "api-key":
-          api_key !== undefined && api_key !== null ? "" + api_key : "",
         Accept: "application/json",
       },
       cancelToken,
@@ -4397,7 +4109,9 @@ export class ImployApiClient
       })
   }
 
-  protected processGetTopMiners(response: AxiosResponse): Promise<Anonymous9> {
+  protected processGetTopMiners(
+    response: AxiosResponse,
+  ): Promise<Anonymous2[]> {
     const status = response.status
     let _headers: any = {}
     if (response.headers && typeof response.headers === "object") {
@@ -4449,13 +4163,13 @@ export class ImployApiClient
   }
 
   /**
-   * returns file store info
+   * returns common Files/FPS store info like consumed sizes per Files and FPS service, deafult FIL wallet etc.
    * @return Successful Operation
    */
-  getFileStoreInfo(
+  getFilesStoreInfo(
     cancelToken?: CancelToken | undefined,
-  ): Promise<Anonymous10> {
-    let url_ = this.baseUrl + "/drive/info"
+  ): Promise<FilesStoreInfoResponse> {
+    let url_ = this.baseUrl + "/files/info"
     url_ = url_.replace(/[?&]$/, "")
 
     let options_ = <AxiosRequestConfig>{
@@ -4479,13 +4193,13 @@ export class ImployApiClient
         }
       })
       .then((_response: AxiosResponse) => {
-        return this.processGetFileStoreInfo(_response)
+        return this.processGetFilesStoreInfo(_response)
       })
   }
 
-  protected processGetFileStoreInfo(
+  protected processGetFilesStoreInfo(
     response: AxiosResponse,
-  ): Promise<Anonymous10> {
+  ): Promise<FilesStoreInfoResponse> {
     const status = response.status
     let _headers: any = {}
     if (response.headers && typeof response.headers === "object") {
@@ -4561,15 +4275,15 @@ export class ImployApiClient
   }
 
   /**
-   * retrieve file content
+   * retrieve content of file sotred in ChainSafe Files Service
    * @param body file path
    * @return Successful Operation
    */
   getFileContent(
-    body: FileRequest,
+    body: FilesPathRequest,
     cancelToken?: CancelToken | undefined,
   ): Promise<void> {
-    let url_ = this.baseUrl + "/drive/download"
+    let url_ = this.baseUrl + "/files/download"
     url_ = url_.replace(/[?&]$/, "")
 
     const content_ = JSON.stringify(body)
@@ -4672,21 +4386,17 @@ export class ImployApiClient
   }
 
   /**
-   * uploads a file
+   * uploads a one or more files
    * @param file (optional)
    * @param path (optional)
-   * @param type (optional)
-   * @param update (optional)
    * @return Successful Operation
    */
-  addFile(
+  addCSFFiles(
     file?: FileParameter | undefined,
     path?: string | undefined,
-    type?: string | undefined,
-    update?: boolean | undefined,
     cancelToken?: CancelToken | undefined,
-  ): Promise<FileResponse> {
-    let url_ = this.baseUrl + "/drive/upload"
+  ): Promise<FilesUploadResponse> {
+    let url_ = this.baseUrl + "/files/upload"
     url_ = url_.replace(/[?&]$/, "")
 
     const content_ = new FormData()
@@ -4697,12 +4407,6 @@ export class ImployApiClient
     if (path === null || path === undefined)
       throw new Error("The parameter 'path' cannot be null.")
     else content_.append("path", path.toString())
-    if (type === null || type === undefined)
-      throw new Error("The parameter 'type' cannot be null.")
-    else content_.append("type", type.toString())
-    if (update === null || update === undefined)
-      throw new Error("The parameter 'update' cannot be null.")
-    else content_.append("update", update.toString())
 
     let options_ = <AxiosRequestConfig>{
       data: content_,
@@ -4726,11 +4430,13 @@ export class ImployApiClient
         }
       })
       .then((_response: AxiosResponse) => {
-        return this.processAddFile(_response)
+        return this.processAddCSFFiles(_response)
       })
   }
 
-  protected processAddFile(response: AxiosResponse): Promise<FileResponse> {
+  protected processAddCSFFiles(
+    response: AxiosResponse,
+  ): Promise<FilesUploadResponse> {
     const status = response.status
     let _headers: any = {}
     if (response.headers && typeof response.headers === "object") {
@@ -4810,11 +4516,11 @@ export class ImployApiClient
    * @param body file path
    * @return Successful Operation
    */
-  moveObject(
-    body: FileRequest,
+  moveCSFObject(
+    body: FilesMvRequest,
     cancelToken?: CancelToken | undefined,
   ): Promise<void> {
-    let url_ = this.baseUrl + "/drive/files/mv"
+    let url_ = this.baseUrl + "/files/mv"
     url_ = url_.replace(/[?&]$/, "")
 
     const content_ = JSON.stringify(body)
@@ -4841,11 +4547,11 @@ export class ImployApiClient
         }
       })
       .then((_response: AxiosResponse) => {
-        return this.processMoveObject(_response)
+        return this.processMoveCSFObject(_response)
       })
   }
 
-  protected processMoveObject(response: AxiosResponse): Promise<void> {
+  protected processMoveCSFObject(response: AxiosResponse): Promise<void> {
     const status = response.status
     let _headers: any = {}
     if (response.headers && typeof response.headers === "object") {
@@ -4921,21 +4627,22 @@ export class ImployApiClient
    * @param body file path
    * @return Successful Operation
    */
-  getFileInfo(
-    body: FileRequest,
+  getCSFFileInfo(
+    body: FilesPathRequest,
     cancelToken?: CancelToken | undefined,
-  ): Promise<void> {
-    let url_ = this.baseUrl + "/drive/files/file"
+  ): Promise<CSFFilesFullinfoResponse> {
+    let url_ = this.baseUrl + "/files/file"
     url_ = url_.replace(/[?&]$/, "")
 
     const content_ = JSON.stringify(body)
 
     let options_ = <AxiosRequestConfig>{
       data: content_,
-      method: "GET",
+      method: "POST",
       url: url_,
       headers: {
         "Content-Type": "application/json",
+        Accept: "applicaiton/json",
       },
       cancelToken,
     }
@@ -4952,11 +4659,13 @@ export class ImployApiClient
         }
       })
       .then((_response: AxiosResponse) => {
-        return this.processGetFileInfo(_response)
+        return this.processGetCSFFileInfo(_response)
       })
   }
 
-  protected processGetFileInfo(response: AxiosResponse): Promise<void> {
+  protected processGetCSFFileInfo(
+    response: AxiosResponse,
+  ): Promise<CSFFilesFullinfoResponse> {
     const status = response.status
     let _headers: any = {}
     if (response.headers && typeof response.headers === "object") {
@@ -4967,7 +4676,11 @@ export class ImployApiClient
       }
     }
     if (status === 200) {
-      return Promise.resolve<void>(<any>null)
+      const _responseText = response.data
+      let result200: any = null
+      let resultData200 = _responseText
+      result200 = JSON.parse(resultData200)
+      return result200
     } else if (status === 401) {
       const _responseText = response.data
       return throwException(
@@ -5016,22 +4729,22 @@ export class ImployApiClient
   }
 
   /**
-   * removes a file or empty directory
-   * @param body file path
+   * removes a files or empty directories
+   * @param body array of object paths
    * @return Successful Operation
    */
-  removeObject(
-    body: FileRequest,
+  removeCSFObjects(
+    body: FilesRmRequest,
     cancelToken?: CancelToken | undefined,
   ): Promise<void> {
-    let url_ = this.baseUrl + "/drive/files/rm"
+    let url_ = this.baseUrl + "/files/rm"
     url_ = url_.replace(/[?&]$/, "")
 
     const content_ = JSON.stringify(body)
 
     let options_ = <AxiosRequestConfig>{
       data: content_,
-      method: "GET",
+      method: "POST",
       url: url_,
       headers: {
         "Content-Type": "application/json",
@@ -5051,11 +4764,11 @@ export class ImployApiClient
         }
       })
       .then((_response: AxiosResponse) => {
-        return this.processRemoveObject(_response)
+        return this.processRemoveCSFObjects(_response)
       })
   }
 
-  protected processRemoveObject(response: AxiosResponse): Promise<void> {
+  protected processRemoveCSFObjects(response: AxiosResponse): Promise<void> {
     const status = response.status
     let _headers: any = {}
     if (response.headers && typeof response.headers === "object") {
@@ -5081,7 +4794,7 @@ export class ImployApiClient
       let resultData503 = _responseText
       result503 = JSON.parse(resultData503)
       return throwException(
-        "drive service is not inilialized",
+        "Drive service is not inilialized",
         status,
         _responseText,
         _headers,
@@ -5119,11 +4832,11 @@ export class ImployApiClient
    * @param body file path
    * @return Successful Operation
    */
-  getChildList(
-    body: FileRequest,
+  getCSFChildList(
+    body: FilesPathRequest,
     cancelToken?: CancelToken | undefined,
-  ): Promise<FileResponse[]> {
-    let url_ = this.baseUrl + "/drive/files/ls"
+  ): Promise<FileContentResponse[]> {
+    let url_ = this.baseUrl + "/files/ls"
     url_ = url_.replace(/[?&]$/, "")
 
     const content_ = JSON.stringify(body)
@@ -5151,13 +4864,13 @@ export class ImployApiClient
         }
       })
       .then((_response: AxiosResponse) => {
-        return this.processGetChildList(_response)
+        return this.processGetCSFChildList(_response)
       })
   }
 
-  protected processGetChildList(
+  protected processGetCSFChildList(
     response: AxiosResponse,
-  ): Promise<FileResponse[]> {
+  ): Promise<FileContentResponse[]> {
     const status = response.status
     let _headers: any = {}
     if (response.headers && typeof response.headers === "object") {
@@ -5222,14 +4935,14 @@ export class ImployApiClient
 
   /**
    * creates new directory
-   * @param body file path
+   * @param body directory path
    * @return Successful Operation
    */
-  addDirectory(
-    body: FileRequest,
+  addCSFDirectory(
+    body: FilesPathRequest,
     cancelToken?: CancelToken | undefined,
-  ): Promise<void> {
-    let url_ = this.baseUrl + "/drive/files/mkdir"
+  ): Promise<FileContentResponse> {
+    let url_ = this.baseUrl + "/files/mkdir"
     url_ = url_.replace(/[?&]$/, "")
 
     const content_ = JSON.stringify(body)
@@ -5240,6 +4953,7 @@ export class ImployApiClient
       url: url_,
       headers: {
         "Content-Type": "application/json",
+        Accept: "applicaiton/json",
       },
       cancelToken,
     }
@@ -5256,11 +4970,13 @@ export class ImployApiClient
         }
       })
       .then((_response: AxiosResponse) => {
-        return this.processAddDirectory(_response)
+        return this.processAddCSFDirectory(_response)
       })
   }
 
-  protected processAddDirectory(response: AxiosResponse): Promise<void> {
+  protected processAddCSFDirectory(
+    response: AxiosResponse,
+  ): Promise<FileContentResponse> {
     const status = response.status
     let _headers: any = {}
     if (response.headers && typeof response.headers === "object") {
@@ -5271,7 +4987,11 @@ export class ImployApiClient
       }
     }
     if (status === 200) {
-      return Promise.resolve<void>(<any>null)
+      const _responseText = response.data
+      let result200: any = null
+      let resultData200 = _responseText
+      result200 = JSON.parse(resultData200)
+      return result200
     } else if (status === 401) {
       const _responseText = response.data
       return throwException(
@@ -5332,34 +5052,162 @@ export class ImployApiClient
   }
 }
 
-export interface RPCRequest {
-  /** version number */
-  jsonrpc: string
-  /** eth-rpc method */
-  method: string
-  /** params depends on rpc-method. Each rpc method has a different params */
-  param?: any
-  /** id of the rpc-call */
-  id: number
+export interface FilesStoreInfoResponse {
+  /** User Powergate FFS instance identifier */
+  ffs_instance?: string
+  /** size of the user's ChainSafe File Store in bytes */
+  csf_size?: number
+  /** size of the user's File Pinning Service in bytes */
+  fps_size?: number
+  /** user FIL wallet deatils */
+  wallets?: Wallets
+  /** api key used for access */
+  api_key?: string
 }
 
-export interface FileRequest {
+export interface CSFFilesFullinfoResponse {
+  content?: FileContentResponse
+  persistent?: CSFPesistentResponse
+  /** list of messages containig warnings and errors about File Coin deals that filed */
+  messages?: string[]
+}
+
+export interface FPSFilesFullinfoResponse {
+  content?: FileContentResponse
+  persistent?: FPSPesistentResponse
+  /** list of messages containig warnings and errors about File Coin deals that filed */
+  messages?: string[]
+}
+
+/** information about storage options for the Files object in question */
+export interface CSFPesistentResponse {
+  /** time what file was uploaded */
+  uploaded?: number
+  /** time what file land on storage layer after all deals */
+  saved_time?: number
+  /** size of encrypted file in bytes, differ from content size because of it */
+  stored_size?: number
+  /** cid of the sored file in ipfs, usaully the same as cid in content section */
+  stored_cid?: string
+}
+
+/** information about storage options for the Files object in question */
+export interface FPSPesistentResponse {
+  /** time what file was uploaded */
+  uploaded?: number
+  /** time what file land on storage layer after all deals */
+  saved_time?: number
+  /** size of stored file in bytes */
+  stored_size?: number
+  /** cid of the sored file in ipfs, usaully the same as cid in content section */
+  stored_cid?: string
+  /** File Coin storage details */
+  filecoin?: Filecoin
+}
+
+/** service specific Files object info */
+export interface FileContentResponse {
+  /** File or Flder object name */
+  name: string
+  /** File or Folder content identifier */
+  cid: string
+  /** mime type that described files object */
+  type: string
+  /** size of the file */
+  size: number
+  /** content type */
+  content_type: string
+}
+
+export interface FilesPathRequest {
   /** path to the file object */
   path: string
-  /** used to change the destination of a request */
-  source?: string
 }
 
-export interface FileResponse {
-  /** cid in IPFS */
-  cid?: string
-  /** file name */
-  name?: string
-  /** size in bytes */
-  size?: number
-  /** content type */
-  content_type?: string
+export interface FilesMvRequest {
+  /** path to the file object */
+  path: string
+  /** desired new path file object needs to be moved */
+  new_path: string
 }
+
+export interface FilesRmRequest {
+  /** list of paths to the file objects that needs to be deleted */
+  paths: any[]
+}
+
+export interface FilesUploadResponse {
+  /** path where all uploaded files are placed */
+  path: string
+}
+
+export interface ModifyPinRequest {
+  pins?: Pin
+  deal?: Deal
+}
+
+export interface AddPinsRequest {
+  /** list of pins that needs to be added */
+  pins?: Pin[]
+  deal?: Deal
+}
+
+export interface ListPinObjectResponse {
+  /** number of returned items */
+  count?: number
+  /** list of pin objects created as a resuls of pinning cids */
+  results?: PinObject[]
+}
+
+export interface PinObject {
+  /** pin object identifier */
+  id?: string
+  /** date and time of pin object creation */
+  created?: Date
+  /** current status of pinned object */
+  status?: PinObjectStatus
+  /** list of providers in which returned cid can be found */
+  delegates?: string[]
+  pin?: Pin
+  deal?: Deal
+}
+
+/** the pin */
+export interface Pin {
+  /** file identification number */
+  cid?: string
+  /** list of providers hints provided by user on the time of pinning */
+  origins?: string[]
+}
+
+/** desired File Coin deal properties */
+export interface Deal {
+  /** deal duration in seonds */
+  deal_duration?: number
+  /** number of desired file instances */
+  replication?: number
+}
+
+export interface AskIndex {
+  /** date last updated_at */
+  lastupdated?: string
+  /** storeage median price */
+  storagemedianprice?: number
+  /** information about the storage ask */
+  storage?: any
+}
+
+/** record for current deal */
+export interface DealRecord {}
+
+/** index snapshot with map of miners and faults */
+export interface FaultsIndexSnapshot {}
+
+/** index snapshot miners info */
+export interface MinerIndexSnapshot {}
+
+/** info about peers including network and location data */
+export interface PeerInfo {}
 
 export interface Login {
   /** Email Address of the user */
@@ -5370,16 +5218,16 @@ export interface Login {
 
 export interface Token {
   /** Authentication token used for api access */
-  token: string
+  token?: string
   /** The Expiration date of the token */
-  expires: string
+  expires?: string
 }
 
 export interface AccessRefreshTokens {
   /** Authentication Token used for API access */
-  access_token: Token
+  access_token?: any
   /** Refresh Token used for API access */
-  refresh_token: Token
+  refresh_token?: any
 }
 
 export interface UserSignUp {
@@ -5462,6 +5310,11 @@ export interface VerifyEmailToken {
   token: string
 }
 
+export interface Oauth2RedirectResponse {
+  /** The redirected to url of the Oauth2 provider */
+  url: string
+}
+
 export interface Web3Login {
   /** Token from the */
   token?: string
@@ -5477,98 +5330,14 @@ export interface Web3RequestToken {
   signature: string
 }
 
-export interface NewPassword {
-  /** Current password of the user */
-  old_password: string
-  /** The password that will be set as current password */
-  new_password: string
-  /** Same as new_password */
-  confirm_password?: string
-}
+/** info about user's card, returns objects referenced here https://stripe.com/docs/api/cards/object */
+export interface CardInfo {}
 
-export interface ResetPassword {
-  /** the id that was sent in the email */
-  id: number
-  /** token sent in email */
-  token: string
-  /** New Password to be set for the User */
-  password: string
-  /** Same as password */
-  password_confirm: string
-}
+/** info about user's subscription, returns objects referenced here https://stripe.com/docs/api/subscription/object */
+export interface SubscriptionInfo {}
 
-export interface VerifyPasswordReset {
-  /** id that was sent to email */
-  id: number
-  /** token sent in email */
-  token: string
-}
-
-export interface ProjectRequest {
-  /** Name of the Project and must be unique for a User */
-  name: string
-  /** Description of the project */
-  description?: string
-}
-
-export interface Project {
-  /** unique id of the project */
-  id?: number
-  /** creation time fo the Project */
-  created_at?: string
-  /** last time when project information was changed */
-  updated_at?: string
-  /** deleted_at is set when user deletes the project */
-  deleted_at?: string
-  /** name of the project */
-  name?: string
-  /** description of the project */
-  description?: string
-  /** status of the project. */
-  status?: number
-  /** user id for this project */
-  user_id?: number
-  /** redundant field */
-  billing?: boolean
-  /** api Key for this project */
-  api_key?: string
-  /** API Secret for this project */
-  api_secret?: string
-}
-
-export interface NewDeploymentRequest {
-  /** Project id for this deployment */
-  project_id: number
-  /** Currently eth (Ethereum) and etc (Ethereum classic) are supported */
-  chain: string
-  /** Type of blockchain network */
-  network: NewDeploymentRequestNetwork
-}
-
-export interface Deployment {
-  /** Unique id of the deployment */
-  id?: number
-  /** Creation time fo the deployment */
-  created_at?: string
-  /** Last time when deployment information was changed */
-  updated_at?: string
-  /** Deleted_at is set when user deletes the deployment */
-  deleted_at?: string
-  /** Name generated for this deployment */
-  name?: string
-  /** Type of the deployment */
-  type?: string
-  /** The specific software project eth (Ethereum) and etc (Ethereum classic) are supported */
-  chain?: DeploymentChain
-  /** For eth chain, mainnet, goerli, rinkeby, ropsten network are supported. And for etc chain, mainnet, kotti, mordor are supported. */
-  network?: DeploymentNetwork
-  /** Status of the deployment. CreationPending = 1, CREATING = 2, CREATED = 3, CreationFailed = 4, UpdatePending = 5, UPDATING= 6, UPDATED=7, UpdateFailed = 8, DeletionPending = 9, DELETING = 10, DELETED = 11, DeleteFailed = 12 */
-  status?: number
-  /** Project id for this deployment */
-  project_id?: number
-  /** User id for this deployment */
-  user_id?: number
-}
+/** invoice deatils, returns objects referenced here https://stripe.com/docs/api/invoices/object */
+export interface InvoiceInfo {}
 
 export interface AddCardRequest {
   /** card token returned from stripe */
@@ -5580,19 +5349,7 @@ export interface CardID {
   id: number
 }
 
-export interface Body {
-  /** words go here */
-  pin?: Pin
-  /** words go here */
-  deal?: Deal
-}
-
-export interface Body2 {
-  /** arrary of objects to be pinned */
-  pin?: Pin2[]
-  /** info about the deal */
-  deal?: Deal2
-}
+export type Provider = "github" | "google" | "facebook" | "twitter"
 
 export type Status = "queued" | "failed" | "pinning" | "pinned"
 
@@ -5608,157 +5365,61 @@ export interface Anonymous {
 }
 
 export interface Anonymous2 {
-  /** pin object identifier */
-  id?: string
-  /** date and time of pin object creation */
-  create?: Date
-  /** current status of pinned object */
-  status?: Status2
-  /** list of providers in which returned cid can be found */
-  delegates?: string[]
-  /** pin itself */
-  pin?: Pin3
-  /** words go here */
-  deal?: Deal3
+  /** miner address */
+  addr?: string
+  /** miner current score */
+  score?: number
 }
 
-/** array of pin objects */
-export interface Anonymous3 {
-  /** pin object identifier */
-  id?: string
-  /** date and time of pin object creation */
-  create?: Date
-  /** current status of pinned object */
-  status?: Status3
-  /** list of providers in which returned cid can be found */
-  delegates?: string[]
-  /** pin itself */
-  pin?: Pin4
+export interface Wallets {
+  /** name of the wallet, deafult one called "Initial Address" */
+  name?: string
+  /** wallet address */
+  address?: string
+  /** type of the wallet from FIL wallets perspective, default one is `bls` */
+  type?: string
+  /** current wallet balance */
+  balance?: number
+  /** any implortant information about that wallet, like warnings or erros, supplied by File Coin node */
+  messgae?: string
 }
 
-export interface Anonymous4 {
-  /** date last updated_at */
-  lastupdated?: string
-  /** storeage median price */
-  storagemedianprice?: number
-  /** information about the storage ask */
-  storage?: any
-}
-
-export interface Anonymous5 {
-  /** the deal record either type storage or retrieval */
-  dealrecord?: string
-}
-
-export interface Anonymous6 {
-  /** words go here */
-  tipsetkey?: string
-  /** words go here */
-  miners?: any
-}
-
-export interface Anonymous7 {
-  /** workds go here */
-  meta?: any
-  /** words go here */
-  onchain?: any
-}
-
-export interface Anonymous8 {
-  /** provides address info and location info about a peer */
-  peerinfo?: any
-}
-
-/** miner info */
-export interface Anonymous9 {
-  /** miner's score */
-  minerscore?: any
-}
-
-export interface Anonymous10 {
-  /** FFs id */
-  ffs_id?: string
-  /** size of the File Store in bytes */
+export interface Filecoin {
+  /** cid of the sotred onject in File Coin network */
+  cid?: string
+  /** size of sored data in File Coin network, usually quanted by minimum stored size */
   size?: number
-  /** size of the encrypted File Store in bytes */
-  encrypted_size?: number
-  /** wallet addresses */
-  wallets?: string[]
-  /** api key used for access */
-  api_key?: string
+  /** info about File Coin proposals */
+  proposals?: Proposals[]
 }
 
-export type NewDeploymentRequestNetwork =
-  | "mainnet"
-  | "goerli"
-  | "rinkeby"
-  | "kotti"
-  | "mordor"
+export type PinObjectStatus = "queued" | "pinning" | "pinned" | "failed"
 
-export type DeploymentChain = "eth" | "etc"
-
-export type DeploymentNetwork =
-  | "mainnet"
-  | "goerlio"
-  | "rinkeby"
-  | "ropsten"
-  | "kotti"
-  | "mordor"
-
-export interface Pin {
-  /** file cid */
+export interface Proposals {
+  /** cid of the proposal data */
   cid?: string
-}
-
-export interface Deal {
-  /** words go here */
-  deal_duration?: number
-  /** words go here */
-  replication?: number
-}
-
-export interface Pin2 {
-  /** file identification number */
-  cid?: string
-  /** list of hint-providers for the pin */
-  providers?: string[]
-}
-
-export interface Deal2 {
-  /** length of the deal */
-  deal_duration?: number
-  /** words go here */
-  replication?: number
-}
-
-export type Status2 = "queued" | "pinning" | "pinned" | "failed"
-
-export interface Pin3 {
-  /** file identification number */
-  cid?: string
-  /** list of providers hints provided by user on the time of pinning */
-  origins?: string[]
-}
-
-export interface Deal3 {
-  /** words go here */
-  deal_duration?: number
-  /** words go here */
-  replication?: number
-}
-
-export type Status3 = "queued" | "pinning" | "pinned" | "failed"
-
-export interface Pin4 {
-  /** file identification number */
-  cid?: string
-  /** list of providers hints provided by user on the time of pinning */
-  origins?: string[]
+  /** deal duration in seonds */
+  duration?: number
+  /** activation epoch number */
+  activation_epoch?: number
+  /** start epoch number */
+  start_epoch?: number
+  /** responsible miner */
+  miner?: string
+  /** epoch price */
+  epoch_price?: number
 }
 
 export interface FileParameter {
   data: any
   fileName: string
+}
+
+export interface FileResponse {
+  data: Blob
+  status: number
+  fileName?: string
+  headers?: { [name: string]: any }
 }
 
 export class ImployApiException extends Error {

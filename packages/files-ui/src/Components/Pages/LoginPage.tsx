@@ -10,7 +10,7 @@ import {
   Divider,
   useHistory,
 } from "@chainsafe/common-components"
-import { useImployApi } from "@chainsafe/common-contexts"
+import { useImployApi, Provider } from "@chainsafe/common-contexts"
 import {
   makeStyles,
   ITheme,
@@ -19,6 +19,7 @@ import {
 } from "@chainsafe/common-themes"
 import { useWeb3 } from "@chainsafe/web3-context"
 import { ROUTE_LINKS } from "../FilesRoutes"
+import process from "process"
 
 const useStyles = makeStyles((theme: ITheme) =>
   createStyles({
@@ -93,7 +94,7 @@ const LoginPage = () => {
     web3Login,
     selectWallet,
     resetAndSelectWallet,
-    loginWithProvider,
+    getProviderUrl,
   } = useImployApi()
   const { redirect } = useHistory()
   const { provider, wallet } = useWeb3()
@@ -139,12 +140,27 @@ const LoginPage = () => {
     setIsConnecting(false)
   }
 
-  const onLoginWithGoogle = async () => {
-    const url = await loginWithProvider("google")
-    window.location.href = `${url}&redirect_uri=http://localhost:3000/callback`
-  }
+  const onLoginWithProvider = async (provider: Provider) => {
+    const url = await getProviderUrl(provider)
+    const oauthBaseUrl = url
+    const oauth2RedirectUrl = `${url}&redirect_uri=${window.location.origin}/oauth2/callback/${provider}`
 
-  const onLoginWithGithub = () => {}
+    switch (provider) {
+      case "github":
+        // code block
+        window.location.href = oauthBaseUrl
+        break
+      case "google":
+        // code block
+        window.location.href = oauth2RedirectUrl
+        break
+      case "facebook":
+        // code block
+        window.location.href = oauth2RedirectUrl
+        break
+      default:
+    }
+  }
 
   return (
     <div>
@@ -215,7 +231,7 @@ const LoginPage = () => {
             <Button
               className={classes.button}
               size="large"
-              onClick={onLoginWithGithub}
+              onClick={() => onLoginWithProvider("github")}
             >
               <GithubLogoIcon />{" "}
               <Typography variant="button">Continue with Github</Typography>
@@ -223,10 +239,18 @@ const LoginPage = () => {
             <Button
               className={classes.button}
               size="large"
-              onClick={onLoginWithGoogle}
+              onClick={() => onLoginWithProvider("google")}
             >
               <GoogleLogoIcon />{" "}
               <Typography variant="button">Continue with Google</Typography>
+            </Button>
+            <Button
+              className={classes.button}
+              size="large"
+              onClick={() => onLoginWithProvider("facebook")}
+            >
+              <GoogleLogoIcon />{" "}
+              <Typography variant="button">Continue with Facebook</Typography>
             </Button>
             <Typography className={classes.footerText}>
               {activeMode === "newUser"

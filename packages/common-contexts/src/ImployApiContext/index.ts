@@ -1,1 +1,1 @@
-export { ImployApiProvider, useImployApi } from "./ImployApiContext"
+export { ImployApiProvider, useImployApi, Provider } from "./ImployApiContext"
