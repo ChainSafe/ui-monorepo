@@ -65,11 +65,11 @@ const Plan: React.FC = () => {
                 Essentials - Free
               </Typography>
               <div className={classes.essentialContainer}>
-                <div>
+                {/* <div>
                   <Typography>5.2 GB of free space</Typography>
                   <br />
                   <Typography>TODO: Progress bar</Typography>
-                </div>
+                </div> */}
                 <Button disabled variant="outline">
                   Change plan
                 </Button>

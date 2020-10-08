@@ -37,7 +37,7 @@ export {
 } from "./icons/ExclamationCircle.icon"
 export { default as ExportIcon, ExportSvg } from "./icons/Export.icon"
 export {
-  default as FacebookLogo,
+  default as FacebookLogoIcon,
   FacebookLogoSvg,
 } from "./icons/FacebookLogo.icon"
 export { default as FileImageIcon, FileImageSvg } from "./icons/FileImage.icon"
