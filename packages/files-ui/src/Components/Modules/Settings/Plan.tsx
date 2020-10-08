@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme: ITheme) =>
   }),
 )
 
-const Plan: React.FC = () => {
+const PlanView: React.FC = () => {
   const classes = useStyles()
 
   return (
@@ -82,4 +82,4 @@ const Plan: React.FC = () => {
   )
 }
 
-export default Plan
+export default PlanView
