@@ -94,7 +94,6 @@ const ProfileView: React.FC<IProfileProps> = (props) => {
     [],
   )
 
-  console.log(profile)
   const copyAddress = async () => {
     if (profile.publicAddress) {
       try {

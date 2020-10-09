@@ -11,7 +11,7 @@ import jwtDecode from "jwt-decode"
 import { signMessage } from "./utils"
 import axios from "axios"
 
-export { Provider }
+export { Provider as OAuthProvider }
 
 const tokenStorageKey = "csf.refreshToken"
 const isReturningUserStorageKey = "csf.isReturningUser"
@@ -22,7 +22,7 @@ type ImployApiContextProps = {
 }
 
 type ImployApiContext = {
-  imployApiClient?: IImployApiClient
+  imployApiClient: IImployApiClient
   isLoggedIn: boolean | undefined
   isReturningUser: boolean
   selectWallet(): Promise<void>
@@ -48,29 +48,33 @@ const ImployApiContext = React.createContext<ImployApiContext | undefined>(
 
 const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
   const { wallet, onboard, checkIsReady, isReady, provider } = useWeb3()
-  const axiosInstance = axios.create({
+
+  // initializing api
+  const initialAxiosInstance = axios.create({
     // Disable the internal Axios JSON deserialization as this is handled by the client
     transformResponse: [],
   })
-  const apiClient = new ImployApiClient({}, apiUrl, axiosInstance)
-  const [imployApiClient, setImployApiClient] = useState<ImployApiClient>(
-    apiClient,
-  )
+  const initialApiClient = new ImployApiClient({}, apiUrl, initialAxiosInstance)
 
+  const [imployApiClient, setImployApiClient] = useState<ImployApiClient>(
+    initialApiClient,
+  )
+  const [isLoadingUser, setIsLoadingUser] = useState(true)
+
+  // access tokens
   const [accessToken, setAccessToken] = useState<Token | undefined>(undefined)
   const [decodedRefreshToken, setDecodedRefreshToken] = useState<
     { exp: number } | undefined
   >(undefined)
   const [refreshToken, setRefreshToken] = useState<Token | undefined>(undefined)
 
+  // returning user
   const isReturningUserLocal = localStorage.getItem(isReturningUserStorageKey)
   const [isReturningUser, setIsReturningUser] = useState(
     isReturningUserLocal ? true : false,
   )
 
-  const [isLoadingUser, setIsLoadingUser] = useState(true)
-
-  const setTokensAndSave = (
+  const setTokensClientAndSave = (
     accessToken: Token,
     refreshToken: Token,
     apiClient: ImployApiClient,
@@ -81,6 +85,11 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
       localStorage.setItem(tokenStorageKey, refreshToken.token)
 
     accessToken.token && apiClient.setToken(accessToken.token)
+
+    // IS THIS NEEDED ?
+    // OR DOES setToken sets token in apiClient in state
+    setImployApiClient(apiClient)
+
     // set returning user
     localStorage.setItem(isReturningUserStorageKey, "returning")
     setIsReturningUser(true)
@@ -88,6 +97,11 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
 
   useEffect(() => {
     const initializeApiClient = async () => {
+      const axiosInstance = axios.create({
+        // Disable the internal Axios JSON deserialization as this is handled by the client
+        transformResponse: [],
+      })
+
       axiosInstance.interceptors.response.use(
         (response) => {
           return response
@@ -97,23 +111,23 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
             error.config._retry = true
             const refreshTokenLocal = localStorage.getItem(tokenStorageKey)
             if (refreshTokenLocal) {
-              const refreshTokenApiClient = new ImployApiClient(
+              const refreshedTokenApiClient = new ImployApiClient(
                 {},
                 apiUrl,
-                axios.create({
-                  // Disable the internal Axios JSON deserialization as this is handled by the client
-                  transformResponse: [],
-                }),
+                axiosInstance,
               )
               try {
                 const {
                   access_token,
                   refresh_token,
-                } = await refreshTokenApiClient.getRefreshToken(
+                } = await refreshedTokenApiClient.getRefreshToken(
                   refreshTokenLocal,
                 )
-                setAccessToken(access_token)
-                setRefreshToken(refresh_token)
+                setTokensClientAndSave(
+                  access_token,
+                  refresh_token,
+                  refreshedTokenApiClient,
+                )
                 error.response.config.headers.Authorization = `Bearer ${access_token.token}`
                 return axios(error.response.config)
               } catch (err) {
@@ -131,6 +145,7 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
         },
       )
       const savedRefreshToken = localStorage.getItem(tokenStorageKey)
+      const apiClient = new ImployApiClient({}, apiUrl, axiosInstance)
       if (savedRefreshToken) {
         try {
           const {
@@ -138,13 +153,13 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
             refresh_token,
           } = await apiClient.getRefreshToken(savedRefreshToken)
 
-          setTokensAndSave(access_token, refresh_token, apiClient)
+          setTokensClientAndSave(access_token, refresh_token, apiClient)
           setIsLoadingUser(false)
         } catch (error) {}
       } else {
+        setImployApiClient(apiClient)
         setIsLoadingUser(false)
       }
-      setImployApiClient(apiClient)
     }
 
     initializeApiClient()
@@ -168,7 +183,6 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
   }
 
   const web3Login = async () => {
-    if (!imployApiClient) return Promise.reject("Api Client is not initialized")
     if (!provider) return Promise.reject("No wallet is selected")
 
     if (!isReady) {
@@ -190,7 +204,7 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
           token: token,
           public_address: addresses[0],
         })
-        setTokensAndSave(access_token, refresh_token, imployApiClient)
+        setTokensClientAndSave(access_token, refresh_token, imployApiClient)
         return Promise.resolve()
       }
     } catch (error) {
@@ -232,8 +246,6 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
   }
 
   const getProviderUrl = async (provider: Provider) => {
-    if (!imployApiClient) return Promise.reject("Api Client is not initialized")
-
     try {
       const { url } = await imployApiClient.getOauth2Provider(provider)
       return Promise.resolve(url)
@@ -243,14 +255,12 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
   }
 
   const loginWithGithub = async (code: string, state: string) => {
-    if (!imployApiClient) return Promise.reject("Api Client is not initialized")
-
     try {
       const {
         access_token,
         refresh_token,
       } = await imployApiClient.postOauth2CodeGithub(code, state)
-      setTokensAndSave(access_token, refresh_token, imployApiClient)
+      setTokensClientAndSave(access_token, refresh_token, imployApiClient)
       return Promise.resolve()
     } catch {
       return Promise.reject("There was an error logging in")
@@ -265,8 +275,6 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
     hd: string | undefined,
     prompt: string | undefined,
   ) => {
-    if (!imployApiClient) return Promise.reject("Api Client is not initialized")
-
     try {
       const {
         access_token,
@@ -280,7 +288,7 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
         prompt,
       )
 
-      setTokensAndSave(access_token, refresh_token, imployApiClient)
+      setTokensClientAndSave(access_token, refresh_token, imployApiClient)
       return Promise.resolve()
     } catch (err) {
       return Promise.reject("There was an error logging in")
@@ -288,15 +296,13 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
   }
 
   const loginWithFacebook = async (code: string, state: string) => {
-    if (!imployApiClient) return Promise.reject("Api Client is not initialized")
-
     try {
       const {
         access_token,
         refresh_token,
       } = await imployApiClient.postOauth2CodeFacebook(code, state)
 
-      setTokensAndSave(access_token, refresh_token, imployApiClient)
+      setTokensClientAndSave(access_token, refresh_token, imployApiClient)
       return Promise.resolve()
     } catch (err) {
       return Promise.reject("There was an error logging in")

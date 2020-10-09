@@ -45,8 +45,6 @@ const UserProvider = ({ children }: UserContextProps) => {
   }, [isLoggedIn, imployApiClient])
 
   const refreshProfile = async () => {
-    if (!imployApiClient) return Promise.reject("Api Client is not initialized")
-
     try {
       const profileApiData = await imployApiClient.getUser()
 
@@ -68,7 +66,6 @@ const UserProvider = ({ children }: UserContextProps) => {
     lastName?: string,
     email?: string,
   ) => {
-    if (!imployApiClient) return Promise.reject("Api Client is not initialized")
     if (!profile) return Promise.reject("Profile not initialized")
 
     try {

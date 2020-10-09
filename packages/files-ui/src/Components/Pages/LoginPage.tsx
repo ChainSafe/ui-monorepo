@@ -9,7 +9,7 @@ import {
   ChainsafeFilesLogo,
   Divider,
 } from "@imploy/common-components"
-import { useImployApi, Provider } from "@imploy/common-contexts"
+import { useImployApi, OAuthProvider } from "@imploy/common-contexts"
 import {
   makeStyles,
   ITheme,
@@ -197,7 +197,7 @@ const LoginPage = () => {
     setIsConnecting(false)
   }
 
-  const onLoginWithProvider = async (provider: Provider) => {
+  const onLoginWithProvider = async (provider: OAuthProvider) => {
     const oauthUrl = await getProviderUrl(provider)
     window.location.href = oauthUrl
   }
