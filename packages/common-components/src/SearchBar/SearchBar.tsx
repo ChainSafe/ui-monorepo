@@ -20,155 +20,168 @@ const iconSize = {
   },
 }
 
-const useStyles = makeStyles((theme: ITheme) =>
-  createStyles({
-    // JSS in CSS goes here
-    root: {
-      ...theme.typography.body2,
-      cursor: "pointer",
-      "&.large": {
-        fontSize: 14,
-        lineHeight: "22px",
-      },
-      "&.medium": {
-        fontSize: 14,
-        lineHeight: "22px",
-      },
-      "&.small": {
-        fontSize: 14,
-        lineHeight: "22px",
-      },
-      "& .right > *:nth-child(2) svg": {
-        fill: theme.palette.primary.main,
-      },
-      "& input": {
-        transitionDuration: `${theme.animation.transform}ms`,
-        display: "block",
-        color: theme.palette.additional["gray"][8],
-        borderRadius: 2,
-        "&:hover": {
-          borderColor: theme.palette.primary.border,
+const useStyles = makeStyles(
+  ({ constants, palette, animation, overrides, typography }: ITheme) =>
+    createStyles({
+      // JSS in CSS goes here
+      root: {
+        ...typography.body2,
+        cursor: "pointer",
+        "&.large": {
+          fontSize: 14,
+          lineHeight: "22px",
+          ...overrides?.SearchBar.size?.large,
         },
-        "&:focus": {
-          borderColor: theme.palette.primary.border,
-          boxShadow: "0px 0px 4px rgba(24, 144, 255, 0.5)",
+        "&.medium": {
+          fontSize: 14,
+          lineHeight: "22px",
+          ...overrides?.SearchBar.size?.medium,
         },
-      },
-      "&.disabled": {
+        "&.small": {
+          fontSize: 14,
+          lineHeight: "22px",
+          ...overrides?.SearchBar.size?.small,
+        },
+        "& .right > *:nth-child(2) svg": {
+          fill: palette.primary.main,
+        },
         "& input": {
-          color: theme.palette.additional["gray"][6],
-          backgroundColor: theme.palette.additional["gray"][3],
+          transitionDuration: `${animation.transform}ms`,
+          display: "block",
+          color: palette.additional["gray"][8],
+          borderRadius: 2,
+          "&:hover": {
+            borderColor: palette.primary.border,
+            ...overrides?.SearchBar.input?.hover,
+          },
+          "&:focus": {
+            borderColor: palette.primary.border,
+            boxShadow: "0px 0px 4px rgba(24, 144, 255, 0.5)",
+            ...overrides?.SearchBar.input?.focus,
+          },
+          ...overrides?.SearchBar.input?.root,
+        },
+        "&.disabled": {
+          "& input": {
+            color: palette.additional["gray"][6],
+            backgroundColor: palette.additional["gray"][3],
+            ...overrides?.SearchBar.input?.disabled,
+          },
+        },
+        ...overrides?.SearchBar.root,
+      },
+      inputArea: {
+        ...typography.body2,
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "space-between",
+        transitionDuration: `${animation.transform}ms`,
+        position: "relative",
+        "&.large": {
+          "& input": {
+            fontSize: 16,
+            lineHeight: "24px",
+            padding: `${constants.generalUnit}px ${
+              constants.generalUnit * 1.5
+            }px`,
+          },
+          ...overrides?.SearchBar.inputArea?.large,
+        },
+        "&.medium": {
+          "& input": {
+            padding: `${constants.generalUnit * 0.625}px ${
+              constants.generalUnit * 1.5
+            }px`,
+          },
+          ...overrides?.SearchBar.inputArea?.medium,
+        },
+        "&.small": {
+          "& input": {
+            padding: `${constants.generalUnit / constants.generalUnit}px ${
+              constants.generalUnit
+            }px`,
+          },
         },
       },
-    },
-    inputArea: {
-      ...theme.typography.body2,
-      display: "flex",
-      flexDirection: "row",
-      alignItems: "center",
-      justifyContent: "space-between",
-      transitionDuration: `${theme.animation.transform}ms`,
-      position: "relative",
-      "&.large": {
-        "& input": {
-          fontSize: 16,
-          lineHeight: "24px",
-          padding: `${theme.constants.generalUnit}px ${
-            theme.constants.generalUnit * 1.5
-          }px`,
-        },
+      input: {
+        width: "100%",
+        padding: `${constants.generalUnit}px ${constants.generalUnit * 2}px`,
+        outline: "none",
+        border: `1px solid ${palette.additional["gray"][6]}`,
+        color: palette.additional["gray"][10],
+        transitionDuration: `${animation.transform}ms`,
       },
-      "&.medium": {
-        "& input": {
-          padding: `${theme.constants.generalUnit * 0.625}px ${
-            theme.constants.generalUnit * 1.5
-          }px`,
-        },
-      },
-      "&.small": {
-        "& input": {
-          padding: `${
-            theme.constants.generalUnit / theme.constants.generalUnit
-          }px ${theme.constants.generalUnit}px`,
-        },
-      },
-    },
-    input: {
-      width: "100%",
-      padding: `${theme.constants.generalUnit}px ${
-        theme.constants.generalUnit * 2
-      }px`,
-      outline: "none",
-      border: `1px solid ${theme.palette.additional["gray"][6]}`,
-      color: theme.palette.additional["gray"][10],
-      transitionDuration: `${theme.animation.transform}ms`,
-    },
-    standardIcon: {
-      position: "absolute",
-      top: "50%",
-      transform: "translate(0, -50%)",
-      transitionDuration: `${theme.animation.transform}ms`,
-      display: "flex",
-      flexDirection: "column",
-      justifyContent: "center",
-      alignItems: "center",
-      "& > span": {
-        width: "auto",
-        height: "auto",
+      standardIcon: {
+        position: "absolute",
+        top: "50%",
+        transform: "translate(0, -50%)",
+        transitionDuration: `${animation.transform}ms`,
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
-        "&:last-child": {
-          marginLeft: 5,
+        "& > span": {
+          width: "auto",
+          height: "auto",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+          "&:last-child": {
+            marginLeft: 5,
+          },
         },
-      },
-      "& > div": {
-        width: "auto",
-        height: "auto",
-        display: "flex",
-        flexDirection: "row",
-        justifyContent: "center",
-        alignItems: "center",
-        "&:last-child": {
-          marginLeft: 5,
+        "& > div": {
+          width: "auto",
+          height: "auto",
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "center",
+          alignItems: "center",
+          "&:last-child": {
+            marginLeft: 5,
+          },
         },
-      },
-      "&.right": {
-        display: "flex",
-        flexDirection: "row",
-        justifyContent: "flex-end",
-        alignItems: "center",
-      },
-      "& svg": {
-        fill: theme.palette.additional["gray"][7],
-      },
-      "&.large": {
         "&.right": {
-          right: theme.constants.generalUnit * 1.5,
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "flex-end",
+          alignItems: "center",
         },
         "& svg": {
-          height: iconSize.large.height,
+          fill: palette.additional["gray"][7],
         },
+        "&.large": {
+          "&.right": {
+            right: constants.generalUnit * 1.5,
+          },
+          "& svg": {
+            height: iconSize.large.height,
+          },
+          ...overrides?.SearchBar.standardIcon?.size?.small,
+        },
+        "&.medium": {
+          "&.right": {
+            right: iconSize.medium.padding,
+          },
+          "& svg": {
+            height: iconSize.medium.height,
+          },
+          ...overrides?.SearchBar.standardIcon?.size?.medium,
+        },
+        "&.small": {
+          "&.right": {
+            right: iconSize.small.padding,
+          },
+          "& svg": {
+            height: iconSize.small.height,
+          },
+          ...overrides?.SearchBar.standardIcon?.size?.small,
+        },
+        ...overrides?.SearchBar.standardIcon?.root,
       },
-      "&.medium": {
-        "&.right": {
-          right: iconSize.medium.padding,
-        },
-        "& svg": {
-          height: iconSize.medium.height,
-        },
-      },
-      "&.small": {
-        "&.right": {
-          right: iconSize.small.padding,
-        },
-        "& svg": {
-          height: iconSize.small.height,
-        },
-      },
-    },
-  }),
+    }),
 )
 
 export interface SearchBarProps {

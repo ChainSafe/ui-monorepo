@@ -2,52 +2,57 @@ import React, { ReactNode } from "react"
 import { ITheme, makeStyles, createStyles } from "@imploy/common-themes"
 import clsx from "clsx"
 
-const useStyles = makeStyles((theme: ITheme) =>
-  createStyles({
-    root: {
-      display: "flex",
-      flexDirection: "column",
-      minWidth: "min-content",
-      borderCollapse: "collapse",
-      borderSpacing: 0,
-      transition: `all ${theme.animation.transform}ms`,
-      textAlign: "left",
-      "& th, & td": {
-        padding: `${theme.constants.generalUnit * 2}px`,
-      },
-    },
-    fullWidth: {
-      width: "100%",
-    },
-    dense: {
-      "& th, & td": {
-        padding: `${theme.constants.generalUnit * 1.8}px`,
-      },
-    },
-    hover: {
-      "& tr:hover": {
-        backgroundColor: theme.palette.additional["gray"][2],
-      },
-      "& tr:nth-child(even)": {
-        "&:hover": {
-          backgroundColor: theme.palette.additional["gray"][2],
+const useStyles = makeStyles(
+  ({ animation, constants, palette, overrides }: ITheme) =>
+    createStyles({
+      root: {
+        display: "flex",
+        flexDirection: "column",
+        minWidth: "min-content",
+        borderCollapse: "collapse",
+        borderSpacing: 0,
+        transition: `all ${animation.transform}ms`,
+        textAlign: "left",
+        "& th, & td": {
+          padding: `${constants.generalUnit * 2}px`,
         },
+        ...overrides?.Table.table?.root,
       },
-      "&.selected": {
-        "&:hover": {
-          backgroundColor: theme.palette.additional["gray"][4],
+      fullWidth: {
+        width: "100%",
+      },
+      dense: {
+        "& th, & td": {
+          padding: `${constants.generalUnit * 1.8}px`,
         },
+        ...overrides?.Table.table?.dense,
       },
-    },
-    striped: {
-      "& tr:nth-child(even)": {
-        backgroundColor: theme.palette.additional["gray"][2],
+      hover: {
+        "& tr:hover": {
+          backgroundColor: palette.additional["gray"][2],
+        },
+        "& tr:nth-child(even)": {
+          "&:hover": {
+            backgroundColor: palette.additional["gray"][2],
+          },
+        },
         "&.selected": {
-          backgroundColor: theme.palette.additional["gray"][4],
+          "&:hover": {
+            backgroundColor: palette.additional["gray"][4],
+          },
         },
+        ...overrides?.Table.table?.hover,
       },
-    },
-  }),
+      striped: {
+        "& tr:nth-child(even)": {
+          backgroundColor: palette.additional["gray"][2],
+          "&.selected": {
+            backgroundColor: palette.additional["gray"][4],
+          },
+        },
+        ...overrides?.Table.table?.striped,
+      },
+    }),
 )
 
 export interface ITableProps {

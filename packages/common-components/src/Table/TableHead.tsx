@@ -2,16 +2,17 @@ import React, { ReactNode } from "react"
 import { ITheme, makeStyles, createStyles } from "@imploy/common-themes"
 import clsx from "clsx"
 
-const useStyles = makeStyles((theme: ITheme) =>
+const useStyles = makeStyles(({ palette, typography, overrides }: ITheme) =>
   createStyles({
     root: {
       display: "table-header-group",
       minWidth: "min-content",
-      color: theme.palette.additional["gray"][9],
-      backgroundColor: theme.palette.additional["gray"][2],
-      borderBottom: `1px solid ${theme.palette.additional["gray"][4]}`,
-      ...theme.typography.body1,
+      color: palette.additional["gray"][9],
+      backgroundColor: palette.additional["gray"][2],
+      borderBottom: `1px solid ${palette.additional["gray"][4]}`,
+      ...typography.body1,
       lineHeight: "inherit",
+      ...overrides?.Table.tableHead,
     },
   }),
 )

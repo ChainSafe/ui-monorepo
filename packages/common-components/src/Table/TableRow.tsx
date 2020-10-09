@@ -2,35 +2,40 @@ import React, { ReactNode } from "react"
 import { ITheme, makeStyles, createStyles } from "@imploy/common-themes"
 import clsx from "clsx"
 
-const useStyles = makeStyles((theme: ITheme) =>
-  createStyles({
-    root: {
-      color: theme.palette.additional["gray"][8],
-      outline: 0,
-      borderBottom: `1px solid ${theme.palette.additional["gray"][4]}`,
-      transitionDuration: `${theme.animation.transform}ms`,
-      ...theme.typography.body1,
-      lineHeight: "inherit",
-      "&.selected": {
-        backgroundColor: theme.palette.additional["gray"][4],
-        "&:hover": {
-          backgroundColor: theme.palette.additional["gray"][4],
+const useStyles = makeStyles(
+  ({ animation, palette, typography, overrides }: ITheme) =>
+    createStyles({
+      root: {
+        color: palette.additional["gray"][8],
+        outline: 0,
+        borderBottom: `1px solid ${palette.additional["gray"][4]}`,
+        transitionDuration: `${animation.transform}ms`,
+        ...typography.body1,
+        lineHeight: "inherit",
+        "&.selected": {
+          backgroundColor: palette.additional["gray"][4],
+          "&:hover": {
+            backgroundColor: palette.additional["gray"][4],
+          },
+          ...overrides?.Table.row?.selected,
         },
+        "&.classic": {
+          display: "table-row",
+          verticalAlign: "middle",
+          ...overrides?.Table.row?.classic,
+        },
+        "&.grid": {
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fit, minmax(40px, 1fr))",
+          alignItems: "center",
+          ...overrides?.Table.row?.grid,
+        },
+        ...overrides?.Table.row?.root,
       },
-      "&.classic": {
-        display: "table-row",
-        verticalAlign: "middle",
+      rowSelectable: {
+        cursor: "pointer",
       },
-      "&.grid": {
-        display: "grid",
-        gridTemplateColumns: "repeat(auto-fit, minmax(40px, 1fr))",
-        alignItems: "center",
-      },
-    },
-    rowSelectable: {
-      cursor: "pointer",
-    },
-  }),
+    }),
 )
 
 export interface ITableRowProps {

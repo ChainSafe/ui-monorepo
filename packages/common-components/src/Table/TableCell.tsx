@@ -1,22 +1,26 @@
 import React, { ReactNode } from "react"
-import { makeStyles, createStyles } from "@imploy/common-themes"
+import { makeStyles, createStyles, ITheme } from "@imploy/common-themes"
 import clsx from "clsx"
 import { capitalize } from "../utils/stringUtils"
 import { AlignOption } from "./types"
 
-const useStyles = makeStyles(() =>
+const useStyles = makeStyles(({ overrides }: ITheme) =>
   createStyles({
     root: {
       backgroundColor: "transparent",
+      ...overrides?.Table.cell?.root,
     },
     alignLeft: {
       textAlign: "left",
+      ...overrides?.Table.cell?.left,
     },
     alignCenter: {
       textAlign: "center",
+      ...overrides?.Table.cell?.center,
     },
     alignRight: {
       textAlign: "right",
+      ...overrides?.Table.cell?.right,
     },
   }),
 )
