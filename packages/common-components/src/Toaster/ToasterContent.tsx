@@ -8,21 +8,21 @@ const useStyles = makeStyles(({ typography, palette, overrides }: ITheme) =>
     messageContainer: {
       flex: 1,
       width: ContentWidth,
-      ...overrides?.Toaster.messageContainer,
+      ...overrides?.Toaster?.messageContainer,
     },
     message: {
       ...typography.body1,
       color: palette.text.primary,
       fontSize: 16,
       margin: 0,
-      ...overrides?.Toaster.message,
+      ...overrides?.Toaster?.message,
     },
     description: {
       ...typography.body2,
       color: palette.text.secondary,
       fontSize: 12,
       margin: 0,
-      ...overrides?.Toaster.description,
+      ...overrides?.Toaster?.description,
     },
   }),
 )

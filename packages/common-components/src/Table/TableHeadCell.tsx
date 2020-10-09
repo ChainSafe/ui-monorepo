@@ -17,42 +17,42 @@ const useStyles = makeStyles(
       root: {
         fontWeight: "bold",
         verticalAlign: "middle",
-        ...overrides?.Table.headCell?.root,
+        ...overrides?.Table?.headCell?.root,
       },
       alignLeft: {
         textAlign: "left",
         justifyContent: "flex-start",
-        ...overrides?.Table.headCell?.left,
+        ...overrides?.Table?.headCell?.left,
       },
       alignCenter: {
         textAlign: "center",
         justifyContent: "center",
-        ...overrides?.Table.headCell?.center,
+        ...overrides?.Table?.headCell?.center,
       },
       alignRight: {
         textAlign: "right",
         justifyContent: "flex-end",
-        ...overrides?.Table.headCell?.right,
+        ...overrides?.Table?.headCell?.right,
       },
       sortButtons: {
         cursor: "pointer",
         "&:hover": {
           backgroundColor: palette.additional["gray"][2],
-          ...overrides?.Table.headCell?.sortButton?.hover,
+          ...overrides?.Table?.headCell?.sortButton?.hover,
         },
-        ...overrides?.Table.headCell?.sortButton?.root,
+        ...overrides?.Table?.headCell?.sortButton?.root,
       },
       sortContainer: {
         display: "flex",
         alignItems: "center",
-        ...overrides?.Table.headCell?.sortContainer,
+        ...overrides?.Table?.headCell?.sortContainer,
       },
       sortChildrenContainer: {
         flex: "1",
         "&.sortCenterAlign": {
           marginLeft: `${constants.generalUnit * 1.5}px`,
         },
-        ...overrides?.Table.headCell?.sortContainerChildren,
+        ...overrides?.Table?.headCell?.sortContainerChildren,
       },
       caret: {
         marginLeft: 4,
@@ -78,11 +78,11 @@ const useStyles = makeStyles(
             fill: palette.additional["gray"][9],
           },
         },
-        ...overrides?.Table.headCell?.caretContainerChildren,
+        ...overrides?.Table?.headCell?.caretContainerChildren,
       },
       caretContainer: {
         display: "inline-grid",
-        ...overrides?.Table.headCell?.caretContainer,
+        ...overrides?.Table?.headCell?.caretContainer,
       },
     }),
 )

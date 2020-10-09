@@ -8,19 +8,19 @@ const useStyles = makeStyles(({ overrides }: ITheme) =>
   createStyles({
     root: {
       backgroundColor: "transparent",
-      ...overrides?.Table.cell?.root,
+      ...overrides?.Table?.cell?.root,
     },
     alignLeft: {
       textAlign: "left",
-      ...overrides?.Table.cell?.left,
+      ...overrides?.Table?.cell?.left,
     },
     alignCenter: {
       textAlign: "center",
-      ...overrides?.Table.cell?.center,
+      ...overrides?.Table?.cell?.center,
     },
     alignRight: {
       textAlign: "right",
-      ...overrides?.Table.cell?.right,
+      ...overrides?.Table?.cell?.right,
     },
   }),
 )

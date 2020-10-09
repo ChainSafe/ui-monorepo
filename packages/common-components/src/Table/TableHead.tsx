@@ -12,7 +12,7 @@ const useStyles = makeStyles(({ palette, typography, overrides }: ITheme) =>
       borderBottom: `1px solid ${palette.additional["gray"][4]}`,
       ...typography.body1,
       lineHeight: "inherit",
-      ...overrides?.Table.tableHead,
+      ...overrides?.Table?.tableHead,
     },
   }),
 )

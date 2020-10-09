@@ -12,12 +12,12 @@ const useStyles = makeStyles(
         position: "relative",
         "&.basic": {
           border: `1px solid ${palette.additional["gray"][5]}`,
-          ...overrides?.ExpansionPanel.basic,
+          ...overrides?.ExpansionPanel?.basic,
         },
         "&.borderless": {
-          ...overrides?.ExpansionPanel.borderless,
+          ...overrides?.ExpansionPanel?.borderless,
         },
-        ...overrides?.ExpansionPanel.root,
+        ...overrides?.ExpansionPanel?.root,
       },
       icon: {
         "& svg": {
@@ -26,7 +26,7 @@ const useStyles = makeStyles(
           fill: palette.additional["gray"][9],
           transitionDuration: `${animation.transform}ms`,
         },
-        ...overrides?.ExpansionPanel.icon,
+        ...overrides?.ExpansionPanel?.icon,
       },
       heading: {
         backgroundColor: palette.additional["gray"][2],
@@ -37,24 +37,24 @@ const useStyles = makeStyles(
         cursor: "pointer",
         "&.basic": {
           backgroundColor: palette.additional["gray"][2],
-          ...overrides?.ExpansionPanel.heading?.basic?.root,
+          ...overrides?.ExpansionPanel?.heading?.basic?.root,
           "&.active": {
-            ...overrides?.ExpansionPanel.heading?.basic?.active,
+            ...overrides?.ExpansionPanel?.heading?.basic?.active,
           },
         },
         "&.borderless": {
-          ...overrides?.ExpansionPanel.heading?.borderless?.root,
+          ...overrides?.ExpansionPanel?.heading?.borderless?.root,
           "&.active": {
-            ...overrides?.ExpansionPanel.heading?.borderless?.active,
+            ...overrides?.ExpansionPanel?.heading?.borderless?.active,
           },
         },
         "&.active": {
           "& svg": {
             transform: "rotateZ(90deg)",
           },
-          ...overrides?.ExpansionPanel.heading?.active,
+          ...overrides?.ExpansionPanel?.heading?.active,
         },
-        ...overrides?.ExpansionPanel.heading?.root,
+        ...overrides?.ExpansionPanel?.heading?.root,
       },
       content: {
         overflow: "hidden",
@@ -68,9 +68,9 @@ const useStyles = makeStyles(
           borderTop: `0px solid ${palette.additional["gray"][5]}`,
           "&.active": {
             borderTop: `1px solid ${palette.additional["gray"][5]}`,
-            ...overrides?.ExpansionPanel.content?.basic?.active,
+            ...overrides?.ExpansionPanel?.content?.basic?.active,
           },
-          ...overrides?.ExpansionPanel.content?.basic?.root,
+          ...overrides?.ExpansionPanel?.content?.basic?.root,
         },
         "&.active": {
           padding: `${constants.generalUnit * 2}px ${
@@ -78,9 +78,9 @@ const useStyles = makeStyles(
           }px`,
           opacity: 1,
           height: "auto",
-          ...overrides?.ExpansionPanel.content?.active,
+          ...overrides?.ExpansionPanel?.content?.active,
         },
-        ...overrides?.ExpansionPanel.content?.root,
+        ...overrides?.ExpansionPanel?.content?.root,
       },
     }),
 )

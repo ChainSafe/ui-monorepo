@@ -29,7 +29,7 @@ const useStyles = makeStyles(
           alignItems: "center",
           justifyContent: "center",
         },
-        ...overrides?.Breadcrumb.root,
+        ...overrides?.Breadcrumb?.root,
       },
       home: {
         height: 16,
@@ -40,7 +40,7 @@ const useStyles = makeStyles(
         "&.clickable": {
           cursor: "pointer",
         },
-        ...overrides?.Breadcrumb.home,
+        ...overrides?.Breadcrumb?.home,
       },
       separator: {
         padding: `${constants.generalUnit}px ${constants.generalUnit}px`,
@@ -55,14 +55,14 @@ const useStyles = makeStyles(
           transform: "translate(-50%, -50%)",
           height: 16,
         },
-        ...overrides?.Breadcrumb.separator,
+        ...overrides?.Breadcrumb?.separator,
       },
       crumb: {
         display: "inline-block",
         "&.clickable": {
           cursor: "pointer",
         },
-        ...overrides?.Breadcrumb.crumb,
+        ...overrides?.Breadcrumb?.crumb,
       },
     }),
 )

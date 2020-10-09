@@ -16,7 +16,7 @@ const useStyles = makeStyles(
         "& th, & td": {
           padding: `${constants.generalUnit * 2}px`,
         },
-        ...overrides?.Table.table?.root,
+        ...overrides?.Table?.table?.root,
       },
       fullWidth: {
         width: "100%",
@@ -25,7 +25,7 @@ const useStyles = makeStyles(
         "& th, & td": {
           padding: `${constants.generalUnit * 1.8}px`,
         },
-        ...overrides?.Table.table?.dense,
+        ...overrides?.Table?.table?.dense,
       },
       hover: {
         "& tr:hover": {
@@ -41,7 +41,7 @@ const useStyles = makeStyles(
             backgroundColor: palette.additional["gray"][4],
           },
         },
-        ...overrides?.Table.table?.hover,
+        ...overrides?.Table?.table?.hover,
       },
       striped: {
         "& tr:nth-child(even)": {
@@ -50,7 +50,7 @@ const useStyles = makeStyles(
             backgroundColor: palette.additional["gray"][4],
           },
         },
-        ...overrides?.Table.table?.striped,
+        ...overrides?.Table?.table?.striped,
       },
     }),
 )

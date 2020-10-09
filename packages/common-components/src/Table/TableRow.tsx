@@ -17,20 +17,20 @@ const useStyles = makeStyles(
           "&:hover": {
             backgroundColor: palette.additional["gray"][4],
           },
-          ...overrides?.Table.row?.selected,
+          ...overrides?.Table?.row?.selected,
         },
         "&.classic": {
           display: "table-row",
           verticalAlign: "middle",
-          ...overrides?.Table.row?.classic,
+          ...overrides?.Table?.row?.classic,
         },
         "&.grid": {
           display: "grid",
           gridTemplateColumns: "repeat(auto-fit, minmax(40px, 1fr))",
           alignItems: "center",
-          ...overrides?.Table.row?.grid,
+          ...overrides?.Table?.row?.grid,
         },
-        ...overrides?.Table.row?.root,
+        ...overrides?.Table?.row?.root,
       },
       rowSelectable: {
         cursor: "pointer",

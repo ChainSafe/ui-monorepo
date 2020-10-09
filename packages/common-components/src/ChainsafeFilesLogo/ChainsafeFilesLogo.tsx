@@ -6,7 +6,7 @@ const useStyles = makeStyles(({ overrides }: ITheme) =>
   createStyles({
     root: {
       width: "fit-content",
-      ...overrides?.ChainsafeLogo.root,
+      ...overrides?.ChainsafeLogo?.root,
     },
   }),
 )

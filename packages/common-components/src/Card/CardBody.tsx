@@ -7,11 +7,11 @@ const useStyles = makeStyles(({ constants, typography, overrides }: ITheme) =>
     root: {
       padding: constants.generalUnit * 2,
       ...typography.body1,
-      ...overrides?.Card.body?.root,
+      ...overrides?.Card?.body?.root,
     },
     dense: {
       padding: constants.generalUnit,
-      ...overrides?.Card.body?.dense,
+      ...overrides?.Card?.body?.dense,
     },
   }),
 )

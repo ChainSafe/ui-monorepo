@@ -18,7 +18,7 @@ const useStyles = makeStyles(
         display: "inline-block",
         position: "relative",
         "&.open": {},
-        ...overrides?.MenuDropdown.root,
+        ...overrides?.MenuDropdown?.root,
       },
       title: {
         ...typography.body1,
@@ -34,7 +34,7 @@ const useStyles = makeStyles(
             marginLeft: constants.generalUnit,
           },
         },
-        ...overrides?.MenuDropdown.title,
+        ...overrides?.MenuDropdown?.title,
       },
       icon: {
         fontSize: "unset",
@@ -50,7 +50,7 @@ const useStyles = makeStyles(
           "&.open svg": {
             transform: "rotateX(180deg)",
           },
-          ...overrides?.MenuDropdown.icon?.flip,
+          ...overrides?.MenuDropdown?.icon?.flip,
         },
         "&.rotate": {
           "& svg": {
@@ -59,14 +59,14 @@ const useStyles = makeStyles(
           "&.open svg": {
             transform: "rotateZ(180deg)",
           },
-          ...overrides?.MenuDropdown.icon?.rotate,
+          ...overrides?.MenuDropdown?.icon?.rotate,
         },
         "& svg": {
           height: 14,
           width: 14,
           transitionDuration: `${animation.transform}ms`,
         },
-        ...overrides?.MenuDropdown.icon?.root,
+        ...overrides?.MenuDropdown?.icon?.root,
       },
       options: {
         minWidth: "100%",
@@ -81,43 +81,43 @@ const useStyles = makeStyles(
         "&.top-left": {
           top: 0,
           left: 0,
-          ...overrides?.MenuDropdown.options?.position?.topLeft,
+          ...overrides?.MenuDropdown?.options?.position?.topLeft,
         },
         "&.top-center": {
           top: 0,
           left: "50%",
           transform: "translateX(-50%)",
-          ...overrides?.MenuDropdown.options?.position?.topCenter,
+          ...overrides?.MenuDropdown?.options?.position?.topCenter,
         },
         "&.top-right": {
           top: 0,
           right: 0,
-          ...overrides?.MenuDropdown.options?.position?.topRight,
+          ...overrides?.MenuDropdown?.options?.position?.topRight,
         },
         "&.bottom-left": {
           top: "100%",
           left: 0,
-          ...overrides?.MenuDropdown.options?.position?.bottomLeft,
+          ...overrides?.MenuDropdown?.options?.position?.bottomLeft,
         },
         "&.bottom-center": {
           top: "100%",
           left: "50%",
           transform: "translateX(-50%)",
-          ...overrides?.MenuDropdown.options?.position?.bottomCenter,
+          ...overrides?.MenuDropdown?.options?.position?.bottomCenter,
         },
         "&.bottom-right": {
           top: "100%",
           right: 0,
-          ...overrides?.MenuDropdown.options?.position?.bottomRight,
+          ...overrides?.MenuDropdown?.options?.position?.bottomRight,
         },
         position: "absolute",
         "&.open": {
           height: "auto",
           opacity: 1,
           visibility: "visible",
-          ...overrides?.MenuDropdown.options?.open,
+          ...overrides?.MenuDropdown?.options?.open,
         },
-        ...overrides?.MenuDropdown.options?.root,
+        ...overrides?.MenuDropdown?.options?.root,
       },
       item: {
         cursor: "pointer",
@@ -133,7 +133,7 @@ const useStyles = makeStyles(
         backgroundColor: "initial",
         "&:hover": {
           backgroundColor: palette.additional["gray"][3],
-          ...overrides?.MenuDropdown.item?.hover,
+          ...overrides?.MenuDropdown?.item?.hover,
         },
         "& > *:first-child ~ *": {
           marginLeft: constants.generalUnit / 2,
@@ -142,7 +142,7 @@ const useStyles = makeStyles(
           transitionDuration: `${animation.transform}ms`,
           fill: palette.additional["gray"][7],
         },
-        ...overrides?.MenuDropdown.item?.root,
+        ...overrides?.MenuDropdown?.item?.root,
       },
     }),
 )

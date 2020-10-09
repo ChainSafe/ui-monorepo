@@ -47,9 +47,9 @@ const useStyles = makeStyles(
           maxHeight: "100%",
           visibility: "visible",
           opacity: 1,
-          ...overrides?.Modal.active,
+          ...overrides?.Modal?.active,
         },
-        ...overrides?.Modal.root,
+        ...overrides?.Modal?.root,
       },
       inner: {
         ...constants.modal.inner,
@@ -64,29 +64,29 @@ const useStyles = makeStyles(
         "&.xs": {
           width: `calc(100% - ${constants.generalUnit * 2}px)`,
           maxWidth: breakpoints.width("xs"),
-          ...overrides?.Modal.inner?.size?.xs,
+          ...overrides?.Modal?.inner?.size?.xs,
         },
         "&.sm": {
           width: `calc(100% - ${constants.generalUnit * 2}px)`,
           maxWidth: breakpoints.width("sm"),
-          ...overrides?.Modal.inner?.size?.sm,
+          ...overrides?.Modal?.inner?.size?.sm,
         },
         "&.md": {
           width: `calc(100% - ${constants.generalUnit * 2}px)`,
           maxWidth: breakpoints.width("md"),
-          ...overrides?.Modal.inner?.size?.md,
+          ...overrides?.Modal?.inner?.size?.md,
         },
         "&.lg": {
           width: `calc(100% - ${constants.generalUnit * 2}px)`,
           maxWidth: breakpoints.width("lg"),
-          ...overrides?.Modal.inner?.size?.lg,
+          ...overrides?.Modal?.inner?.size?.lg,
         },
         "&.xl": {
           width: `calc(100% - ${constants.generalUnit * 2}px)`,
           maxWidth: breakpoints.width("lg"),
-          ...overrides?.Modal.inner?.size?.xl,
+          ...overrides?.Modal?.inner?.size?.xl,
         },
-        ...overrides?.Modal.inner?.root,
+        ...overrides?.Modal?.inner?.root,
       },
       closeIcon: {
         ...constants.icon,
@@ -99,17 +99,17 @@ const useStyles = makeStyles(
         "&.right": {
           transform: "translate(50%, -50%)",
           right: 0,
-          ...overrides?.Modal.closeIcon?.right,
+          ...overrides?.Modal?.closeIcon?.right,
         },
         "&.left": {
           left: 0,
           transform: "translate(-50%, -50%)",
-          ...overrides?.Modal.closeIcon?.left,
+          ...overrides?.Modal?.closeIcon?.left,
         },
         "&.none": {
           display: "none",
         },
-        ...overrides?.Modal.closeIcon?.root,
+        ...overrides?.Modal?.closeIcon?.root,
       },
     }),
 )

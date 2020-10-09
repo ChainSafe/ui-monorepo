@@ -11,7 +11,7 @@ const useStyles = makeStyles(
         padding: 0,
         marginBottom: 0,
         ...typography.body1,
-        ...overrides?.Tabs.tabList,
+        ...overrides?.Tabs?.tabList,
       },
       tabBar: {
         display: "inline-block",
@@ -27,9 +27,9 @@ const useStyles = makeStyles(
           // color: palette.primary.main,
           fontWeight: "bold",
           borderBottom: `2px solid ${palette.primary.main}`,
-          ...overrides?.Tabs.tabBar?.selected,
+          ...overrides?.Tabs?.tabBar?.selected,
         },
-        ...overrides?.Tabs.tabBar?.root,
+        ...overrides?.Tabs?.tabBar?.root,
       },
     }),
 )

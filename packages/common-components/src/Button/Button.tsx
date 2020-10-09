@@ -24,21 +24,21 @@ const useStyles = makeStyles(
         },
         "&.large": {
           padding: `${constants.generalUnit}px ${constants.generalUnit * 2}px`,
-          ...overrides?.Button.size?.large,
+          ...overrides?.Button?.size?.large,
         },
         "&.medium": {
           padding: `${constants.generalUnit * 0.6}px ${
             constants.generalUnit * 2
           }px`,
-          ...overrides?.Button.size?.medium,
+          ...overrides?.Button?.size?.medium,
         },
         "&.small": {
           padding: `${constants.generalUnit * 0.125}px ${
             constants.generalUnit
           }px`,
-          ...overrides?.Button.size?.small,
+          ...overrides?.Button?.size?.small,
         },
-        ...overrides?.Button.root,
+        ...overrides?.Button?.root,
       },
       // Variants
       primary: {
@@ -49,17 +49,17 @@ const useStyles = makeStyles(
         },
         "&:hover": {
           backgroundColor: palette.additional["blue"][5],
-          ...overrides?.Button.variants?.primary?.hover,
+          ...overrides?.Button?.variants?.primary?.hover,
         },
         "&:focus": {
           backgroundColor: palette.additional["blue"][5],
-          ...overrides?.Button.variants?.primary?.focus,
+          ...overrides?.Button?.variants?.primary?.focus,
         },
         "&:active": {
           backgroundColor: palette.additional["blue"][7],
-          ...overrides?.Button.variants?.primary?.active,
+          ...overrides?.Button?.variants?.primary?.active,
         },
-        ...overrides?.Button.variants?.primary?.root,
+        ...overrides?.Button?.variants?.primary?.root,
       },
       outline: {
         color: palette.additional["gray"][8],
@@ -74,7 +74,7 @@ const useStyles = makeStyles(
           "& svg": {
             fill: palette.additional["blue"][5],
           },
-          ...overrides?.Button.variants?.outline?.hover,
+          ...overrides?.Button?.variants?.outline?.hover,
         },
         "&:focus": {
           borderColor: palette.additional["blue"][5],
@@ -82,7 +82,7 @@ const useStyles = makeStyles(
           "& svg": {
             fill: palette.additional["blue"][5],
           },
-          ...overrides?.Button.variants?.outline?.focus,
+          ...overrides?.Button?.variants?.outline?.focus,
         },
         "&:active": {
           borderColor: palette.additional["blue"][7],
@@ -90,9 +90,9 @@ const useStyles = makeStyles(
           "& svg": {
             fill: palette.additional["blue"][7],
           },
-          ...overrides?.Button.variants?.outline?.active,
+          ...overrides?.Button?.variants?.outline?.active,
         },
-        ...overrides?.Button.variants?.outline?.root,
+        ...overrides?.Button?.variants?.outline?.root,
       },
       dashed: {
         color: palette.additional["gray"][8],
@@ -107,7 +107,7 @@ const useStyles = makeStyles(
           "& svg": {
             fill: palette.additional["blue"][5],
           },
-          ...overrides?.Button.variants?.dashed?.hover,
+          ...overrides?.Button?.variants?.dashed?.hover,
         },
         "&:focus": {
           borderColor: palette.additional["blue"][5],
@@ -115,7 +115,7 @@ const useStyles = makeStyles(
           "& svg": {
             fill: palette.additional["blue"][5],
           },
-          ...overrides?.Button.variants?.dashed?.focus,
+          ...overrides?.Button?.variants?.dashed?.focus,
         },
         "&:active": {
           borderColor: palette.additional["blue"][7],
@@ -123,9 +123,9 @@ const useStyles = makeStyles(
           "& svg": {
             fill: palette.additional["blue"][7],
           },
-          ...overrides?.Button.variants?.dashed?.active,
+          ...overrides?.Button?.variants?.dashed?.active,
         },
-        ...overrides?.Button.variants?.dashed?.root,
+        ...overrides?.Button?.variants?.dashed?.root,
       },
       danger: {
         color: palette.common?.white.main,
@@ -136,17 +136,17 @@ const useStyles = makeStyles(
         },
         "&:hover": {
           backgroundColor: palette.additional["red"][4],
-          ...overrides?.Button.state?.danger?.hover,
+          ...overrides?.Button?.state?.danger?.hover,
         },
         "&:focus": {
           backgroundColor: palette.additional["red"][4],
-          ...overrides?.Button.state?.danger?.focus,
+          ...overrides?.Button?.state?.danger?.focus,
         },
         "&:active": {
           backgroundColor: palette.additional["red"][7],
-          ...overrides?.Button.state?.danger?.active,
+          ...overrides?.Button?.state?.danger?.active,
         },
-        ...overrides?.Button.state?.danger?.root,
+        ...overrides?.Button?.state?.danger?.root,
       },
       // Modifiers
       fullsize: {
@@ -172,7 +172,7 @@ const useStyles = makeStyles(
             height: 20,
             width: 20,
           },
-          ...overrides?.Button.icon?.large,
+          ...overrides?.Button?.icon?.large,
         },
         "&.medium": {
           height: constants.generalUnit * 4,
@@ -181,7 +181,7 @@ const useStyles = makeStyles(
             height: 18,
             width: 18,
           },
-          ...overrides?.Button.icon?.medium,
+          ...overrides?.Button?.icon?.medium,
         },
         "&.small": {
           height: constants.generalUnit * 3,
@@ -190,9 +190,9 @@ const useStyles = makeStyles(
             height: 16,
             width: 16,
           },
-          ...overrides?.Button.icon?.small,
+          ...overrides?.Button?.icon?.small,
         },
-        ...overrides?.Button.icon?.root,
+        ...overrides?.Button?.icon?.root,
       },
       disabled: {
         backgroundColor: `${palette.additional["gray"][3]} !important`,
@@ -209,9 +209,9 @@ const useStyles = makeStyles(
           "& svg": {
             fill: `${palette.additional["gray"][6]} !important`,
           },
-          ...overrides?.Button.state?.disabled?.hover,
+          ...overrides?.Button?.state?.disabled?.hover,
         },
-        ...overrides?.Button.state?.disabled?.root,
+        ...overrides?.Button?.state?.disabled?.root,
       },
     }),
 )

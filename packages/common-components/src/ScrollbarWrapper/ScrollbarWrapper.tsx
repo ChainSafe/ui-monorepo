@@ -26,7 +26,7 @@ const useStyles = makeStyles(({ palette, overrides }: ITheme) =>
           bottom: 0,
         },
       },
-      ...overrides?.ScrollbarWrapper.root,
+      ...overrides?.ScrollbarWrapper?.root,
     },
   }),
 )

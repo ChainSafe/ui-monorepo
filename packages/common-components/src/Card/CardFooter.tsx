@@ -9,11 +9,11 @@ const useStyles = makeStyles(
         padding: constants.generalUnit * 2,
         borderTop: `1px solid ${palette["gray"][4]}`,
         ...typography.body1,
-        ...overrides?.Card.footer?.root,
+        ...overrides?.Card?.footer?.root,
       },
       dense: {
         padding: constants.generalUnit,
-        ...overrides?.Card.footer?.dense,
+        ...overrides?.Card?.footer?.dense,
       },
     }),
 )

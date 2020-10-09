@@ -16,18 +16,18 @@ const useStyles = makeStyles(
         color: palette.text.primary,
         width: "max-content",
         padding: `${constants.generalUnit}px`,
-        ...overrides?.Paper.root,
+        ...overrides?.Paper?.root,
       },
       fullWidth: {
         width: "inherit",
       },
       rounded: {
         borderRadius: 4,
-        ...overrides?.Paper.rounded,
+        ...overrides?.Paper?.rounded,
       },
       bordered: {
         border: `1px solid ${palette.additional["gray"][5]}`,
-        ...overrides?.Paper.bordered,
+        ...overrides?.Paper?.bordered,
       },
       ...shadowStyles,
     })

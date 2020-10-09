@@ -10,7 +10,7 @@ const useStyles = makeStyles(
       root: {
         cursor: "pointer",
         display: "flex",
-        ...overrides?.CheckboxInput.root,
+        ...overrides?.CheckboxInput?.root,
       },
       checkbox: {
         position: "relative",
@@ -34,7 +34,7 @@ const useStyles = makeStyles(
         },
         "&:hover": {
           borderColor: palette.primary.main,
-          ...overrides?.CheckboxInput.checkbox?.hover,
+          ...overrides?.CheckboxInput?.checkbox?.hover,
         },
         "&.checked": {
           borderColor: palette.primary.main,
@@ -42,7 +42,7 @@ const useStyles = makeStyles(
           "& span > svg": {
             opacity: 1,
           },
-          ...overrides?.CheckboxInput.checkbox?.checked,
+          ...overrides?.CheckboxInput?.checkbox?.checked,
         },
         "&.disabled": {
           borderColor: palette.additional["gray"][5],
@@ -56,7 +56,7 @@ const useStyles = makeStyles(
           "&:hover": {
             borderColor: palette.additional["gray"][5],
           },
-          ...overrides?.CheckboxInput.checkbox?.disabled,
+          ...overrides?.CheckboxInput?.checkbox?.disabled,
         },
         "&:before": {
           content: "''",
@@ -76,25 +76,25 @@ const useStyles = makeStyles(
             opacity: 1,
           },
         },
-        ...overrides?.CheckboxInput.checkbox?.root,
+        ...overrides?.CheckboxInput?.checkbox?.root,
       },
       input: {
         visibility: "hidden",
         display: "none",
         opacity: 0,
-        ...overrides?.CheckboxInput.input,
+        ...overrides?.CheckboxInput?.input,
       },
       label: {
         ...typography.body2,
-        ...overrides?.CheckboxInput.label,
+        ...overrides?.CheckboxInput?.label,
       },
       labelDisabled: {
         color: palette.additional["gray"][6],
-        ...overrides?.CheckboxInput.labelDisabled,
+        ...overrides?.CheckboxInput?.labelDisabled,
       },
       error: {
         color: palette.error.main,
-        ...overrides?.CheckboxInput.error,
+        ...overrides?.CheckboxInput?.error,
       },
     }),
 )

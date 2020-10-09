@@ -43,7 +43,7 @@ const useStyles = makeStyles(
         height: props.height,
         position: "relative",
         zIndex: zIndex?.layer4,
-        ...overrides?.Toaster.root,
+        ...overrides?.Toaster?.root,
       }),
       inner: (props: IStyleProps) => ({
         borderRadius: 4,
@@ -59,7 +59,7 @@ const useStyles = makeStyles(
         "&.entered": { transform: "translate3d(0,0,0)" },
         "&.exiting": { transform: "scale(0.66)", opacity: 0 },
         "&.exited": { transform: "scale(0.66)", opacity: 0 },
-        ...overrides?.Toaster.inner,
+        ...overrides?.Toaster?.inner,
       }),
       // root: {
       //   display: "flex",
@@ -70,19 +70,19 @@ const useStyles = makeStyles(
       // },
       typeIcon: {
         marginRight: `${constants.generalUnit * 2}px`,
-        ...overrides?.Toaster.typeIcon,
+        ...overrides?.Toaster?.typeIcon,
       },
       closeButton: {
         backgroundColor: "transparent",
         border: "none",
         cursor: "pointer",
-        ...overrides?.Toaster.closeButton,
+        ...overrides?.Toaster?.closeButton,
       },
       closeIcon: {
         fontSize: `${constants.generalUnit * 1.5}px`,
         fill: palette.additional["gray"][6],
         marginLeft: `${constants.generalUnit * 2}px`,
-        ...overrides?.Toaster.closeIcon,
+        ...overrides?.Toaster?.closeIcon,
       },
     }),
 )

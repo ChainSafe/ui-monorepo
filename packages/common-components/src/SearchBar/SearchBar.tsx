@@ -30,17 +30,17 @@ const useStyles = makeStyles(
         "&.large": {
           fontSize: 14,
           lineHeight: "22px",
-          ...overrides?.SearchBar.size?.large,
+          ...overrides?.SearchBar?.size?.large,
         },
         "&.medium": {
           fontSize: 14,
           lineHeight: "22px",
-          ...overrides?.SearchBar.size?.medium,
+          ...overrides?.SearchBar?.size?.medium,
         },
         "&.small": {
           fontSize: 14,
           lineHeight: "22px",
-          ...overrides?.SearchBar.size?.small,
+          ...overrides?.SearchBar?.size?.small,
         },
         "& .right > *:nth-child(2) svg": {
           fill: palette.primary.main,
@@ -52,23 +52,23 @@ const useStyles = makeStyles(
           borderRadius: 2,
           "&:hover": {
             borderColor: palette.primary.border,
-            ...overrides?.SearchBar.input?.hover,
+            ...overrides?.SearchBar?.input?.hover,
           },
           "&:focus": {
             borderColor: palette.primary.border,
             boxShadow: "0px 0px 4px rgba(24, 144, 255, 0.5)",
-            ...overrides?.SearchBar.input?.focus,
+            ...overrides?.SearchBar?.input?.focus,
           },
-          ...overrides?.SearchBar.input?.root,
+          ...overrides?.SearchBar?.input?.root,
         },
         "&.disabled": {
           "& input": {
             color: palette.additional["gray"][6],
             backgroundColor: palette.additional["gray"][3],
-            ...overrides?.SearchBar.input?.disabled,
+            ...overrides?.SearchBar?.input?.disabled,
           },
         },
-        ...overrides?.SearchBar.root,
+        ...overrides?.SearchBar?.root,
       },
       inputArea: {
         ...typography.body2,
@@ -86,7 +86,7 @@ const useStyles = makeStyles(
               constants.generalUnit * 1.5
             }px`,
           },
-          ...overrides?.SearchBar.inputArea?.large,
+          ...overrides?.SearchBar?.inputArea?.large,
         },
         "&.medium": {
           "& input": {
@@ -94,7 +94,7 @@ const useStyles = makeStyles(
               constants.generalUnit * 1.5
             }px`,
           },
-          ...overrides?.SearchBar.inputArea?.medium,
+          ...overrides?.SearchBar?.inputArea?.medium,
         },
         "&.small": {
           "& input": {
@@ -159,7 +159,7 @@ const useStyles = makeStyles(
           "& svg": {
             height: iconSize.large.height,
           },
-          ...overrides?.SearchBar.standardIcon?.size?.small,
+          ...overrides?.SearchBar?.standardIcon?.size?.small,
         },
         "&.medium": {
           "&.right": {
@@ -168,7 +168,7 @@ const useStyles = makeStyles(
           "& svg": {
             height: iconSize.medium.height,
           },
-          ...overrides?.SearchBar.standardIcon?.size?.medium,
+          ...overrides?.SearchBar?.standardIcon?.size?.medium,
         },
         "&.small": {
           "&.right": {
@@ -177,9 +177,9 @@ const useStyles = makeStyles(
           "& svg": {
             height: iconSize.small.height,
           },
-          ...overrides?.SearchBar.standardIcon?.size?.small,
+          ...overrides?.SearchBar?.standardIcon?.size?.small,
         },
-        ...overrides?.SearchBar.standardIcon?.root,
+        ...overrides?.SearchBar?.standardIcon?.root,
       },
     }),
 )

@@ -13,7 +13,7 @@ const useStyles = makeStyles(
         display: "inline-block",
         fontSize: "1.5em",
         transition: `all ${animation.transform}ms`,
-        ...overrides?.Icons.root,
+        ...overrides?.Icons?.root,
       },
       colorPrimary: {
         fill: palette.primary.main,
@@ -34,15 +34,15 @@ const useStyles = makeStyles(
 
       sizeSmall: {
         fontSize: `${constants.generalUnit * 2}px`,
-        ...overrides?.Icons.size?.small,
+        ...overrides?.Icons?.size?.small,
       },
       sizeMedium: {
         fontSize: `${constants.generalUnit * 3}px`,
-        ...overrides?.Icons.size?.medium,
+        ...overrides?.Icons?.size?.medium,
       },
       sizeLarge: {
         fontSize: `${constants.generalUnit * 4}px`,
-        ...overrides?.Icons.size?.large,
+        ...overrides?.Icons?.size?.large,
       },
     }),
 )

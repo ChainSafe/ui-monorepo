@@ -98,15 +98,15 @@ export const createGridStyles = ({
     container: {
       display: "flex",
       width: "100%",
-      ...overrides?.Grid.container,
+      ...overrides?.Grid?.container,
     },
     item: {
       flex: "1 1 0px",
-      ...overrides?.Grid.item,
+      ...overrides?.Grid?.item,
     },
     fullWidth: {
       width: "100%",
-      ...overrides?.Grid.fullWidth,
+      ...overrides?.Grid?.fullWidth,
     },
   }
 

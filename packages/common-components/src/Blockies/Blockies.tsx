@@ -12,7 +12,7 @@ const useStyles = makeStyles(({ overrides }: ITheme) =>
   createStyles({
     // JSS in CSS goes here
     root: {
-      ...overrides?.Blockies.root,
+      ...overrides?.Blockies?.root,
     },
   }),
 )

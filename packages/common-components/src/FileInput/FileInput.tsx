@@ -19,7 +19,7 @@ const useStyles = makeStyles(({ constants, palette, overrides }: ITheme) =>
         borderRadius: 2,
         padding: constants.generalUnit,
       },
-      ...overrides?.FileInput.root,
+      ...overrides?.FileInput?.root,
     },
     pending: {
       cursor: "pointer",
@@ -35,17 +35,17 @@ const useStyles = makeStyles(({ constants, palette, overrides }: ITheme) =>
       "& > *:first-child": {
         marginBottom: constants.generalUnit,
       },
-      ...overrides?.FileInput.pending,
+      ...overrides?.FileInput?.pending,
     },
     filesDropped: {
       "& > div": {
         textAlign: "start",
       },
-      ...overrides?.FileInput.filesDropped,
+      ...overrides?.FileInput?.filesDropped,
     },
     error: {
       color: palette.error.main,
-      ...overrides?.FileInput.error,
+      ...overrides?.FileInput?.error,
     },
     item: {
       display: "flex",
@@ -58,7 +58,7 @@ const useStyles = makeStyles(({ constants, palette, overrides }: ITheme) =>
       "& > *:first-child": {
         marginRight: constants.generalUnit,
       },
-      ...overrides?.FileInput.item,
+      ...overrides?.FileInput?.item,
     },
   }),
 )

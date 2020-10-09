@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme: ITheme) =>
   createStyles({
     root: {
       display: "flex",
-      ...theme.overrides?.Grid.root,
+      ...theme.overrides?.Grid?.root,
     },
     ...createFlexStyles(),
     ...createGridStyles(theme),

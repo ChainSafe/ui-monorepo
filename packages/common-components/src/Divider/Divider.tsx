@@ -23,7 +23,7 @@ const useStyles = makeStyles(({ palette, zIndex, overrides }: ITheme) =>
         display: "block",
         content: "''",
       },
-      ...overrides?.Divider.root,
+      ...overrides?.Divider?.root,
     },
   }),
 )
