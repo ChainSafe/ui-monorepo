@@ -1,8 +1,8 @@
 import React from "react"
-import { Switch, ConditionalRoute } from "@chainsafe/common-components"
+import { Switch, ConditionalRoute } from "@imploy/common-components"
 import LoginPage from "./Pages/LoginPage"
 import SettingsPage from "./Pages/SettingsPage"
-import { useImployApi } from "@chainsafe/common-contexts"
+import { useImployApi } from "@imploy/common-contexts"
 import HomePage from "./Pages/HomePage"
 
 export const ROUTE_LINKS = {

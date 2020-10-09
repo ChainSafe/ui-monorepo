@@ -1,5 +1,11 @@
-import { useImployApi, useUser } from "@chainsafe/common-contexts"
-import { createStyles, ITheme, makeStyles, useMediaQuery, useTheme } from "@chainsafe/common-themes"
+import { useImployApi, useUser } from "@imploy/common-contexts"
+import {
+  createStyles,
+  ITheme,
+  makeStyles,
+  useMediaQuery,
+  useTheme,
+} from "@imploy/common-themes"
 import React, { Fragment, useCallback } from "react"
 import { ReactNode } from "react"
 import clsx from "clsx"
@@ -16,7 +22,7 @@ import {
   MenuDropdown,
   PowerDownSvg,
   CssBaseline,
-} from "@chainsafe/common-components"
+} from "@imploy/common-components"
 import { ROUTE_LINKS } from "../FilesRoutes"
 import SearchModule from "../Modules/SearchModule"
 
@@ -98,11 +104,9 @@ const useStyles = makeStyles(
           overflow: "hidden",
           height: "100%",
           width: 0,
-          
-          "&.active": {
 
-          }
-        }
+          "&.active": {},
+        },
       },
       navItem: {
         textDecoration: "none",
@@ -121,14 +125,13 @@ const useStyles = makeStyles(
           padding: `0`,
           "&.active": {
             // This moves the content areas based on the size of the nav bar
-  
+
             padding: `${0}px ${contentPadding}px ${0}px ${
               modalWidth + contentPadding
             }px`,
           },
         },
-        [breakpoints.down("sm")]: {
-        }
+        [breakpoints.down("sm")]: {},
       },
       header: {
         position: "fixed",
@@ -153,13 +156,11 @@ const useStyles = makeStyles(
         [breakpoints.down("sm")]: {
           left: 0,
           backgroundColor: palette.common.white.main,
-          "&.active": {
-          },
+          "&.active": {},
         },
         "& >*:first-child": {
           flex: "1 1 0",
         },
-        
       },
       accountControls: {
         display: "flex",
@@ -185,7 +186,7 @@ const useStyles = makeStyles(
         },
       },
       content: {
-        [breakpoints.up("sm")]:{
+        [breakpoints.up("sm")]: {
           height: "100%",
           minHeight: "100vh",
           transitionDuration: `${animation.translate}ms`,
@@ -197,7 +198,7 @@ const useStyles = makeStyles(
         },
         [breakpoints.down("sm")]: {
           minHeight: "100vh",
-        }
+        },
       },
     })
   },
@@ -251,11 +252,7 @@ const AppWrapper: React.FC<IAppWrapper> = ({ children }: IAppWrapper) => {
                   <Typography variant="h5">Trash</Typography>
                 </Link> */}
               </nav>
-              <Typography>
-                {
-                  desktop ? "Resources" : "Account"
-                }
-              </Typography>
+              <Typography>{desktop ? "Resources" : "Account"}</Typography>
               <nav className={classes.navMenu}>
                 {/* {
                   desktop && (
@@ -273,14 +270,12 @@ const AppWrapper: React.FC<IAppWrapper> = ({ children }: IAppWrapper) => {
             </div>
             <section>
               {/* TODO: GB USED SECTION */}
-              {
-                !desktop && (
-                  <div className={classes.navItem} onClick={() => signOut()}>
-                    <PowerDownSvg />
-                    <Typography>Sign Out</Typography>
-                  </div>
-                )
-              }
+              {!desktop && (
+                <div className={classes.navItem} onClick={() => signOut()}>
+                  <PowerDownSvg />
+                  <Typography>Sign Out</Typography>
+                </div>
+              )}
             </section>
           </Fragment>
         )}
@@ -298,27 +293,25 @@ const AppWrapper: React.FC<IAppWrapper> = ({ children }: IAppWrapper) => {
           {isLoggedIn && (
             <Fragment>
               <SearchModule />
-              {
-                desktop && (
-                  <section className={classes.accountControls}>
-                    <MenuDropdown
-                      title={getProfileTitle()}
-                      anchor="bottom-right"
-                      menuItems={[
-                        {
-                          onClick: () => signOut(),
-                          contents: (
-                            <div className={classes.menuItem}>
-                              <PowerDownSvg />
-                              <Typography>Sign Out</Typography>
-                            </div>
-                          ),
-                        },
-                      ]}
-                    />
-                  </section>
-                )
-              }
+              {desktop && (
+                <section className={classes.accountControls}>
+                  <MenuDropdown
+                    title={getProfileTitle()}
+                    anchor="bottom-right"
+                    menuItems={[
+                      {
+                        onClick: () => signOut(),
+                        contents: (
+                          <div className={classes.menuItem}>
+                            <PowerDownSvg />
+                            <Typography>Sign Out</Typography>
+                          </div>
+                        ),
+                      },
+                    ]}
+                  />
+                </section>
+              )}
             </Fragment>
           )}
         </header>

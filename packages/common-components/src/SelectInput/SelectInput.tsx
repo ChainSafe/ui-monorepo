@@ -4,7 +4,7 @@ import {
   createStyles,
   ITheme,
   useTheme,
-} from "@chainsafe/common-themes"
+} from "@imploy/common-themes"
 import clsx from "clsx"
 import Select from "react-select"
 import { Typography } from "../Typography"
@@ -131,7 +131,8 @@ const SelectInput: React.FC<ISelectInputProps> = ({
           option: (provided, state) => ({
             ...provided,
             ...theme.typography.body2,
-            backgroundColor: state.isSelected && theme.palette.additional["gray"][3],
+            backgroundColor:
+              state.isSelected && theme.palette.additional["gray"][3],
             color: theme.palette.additional["gray"][8],
             fontWeight: state.isSelected && theme.typography.fontWeight.bold,
             "&:hover": {

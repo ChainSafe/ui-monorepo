@@ -1,5 +1,5 @@
 import React, { ReactNode } from "react"
-import { makeStyles, ITheme, createStyles } from "@chainsafe/common-themes"
+import { makeStyles, ITheme, createStyles } from "@imploy/common-themes"
 import clsx from "clsx"
 
 const useStyles = makeStyles(({ palette, zIndex }: ITheme) =>
@@ -27,7 +27,10 @@ const useStyles = makeStyles(({ palette, zIndex }: ITheme) =>
   }),
 )
 
-const Divider: React.FC<{ children?: ReactNode, className?: string }> = ({ children, className }) => {
+const Divider: React.FC<{ children?: ReactNode; className?: string }> = ({
+  children,
+  className,
+}) => {
   const classes = useStyles()
   return <div className={clsx(classes.divider, className)}>{children}</div>
 }

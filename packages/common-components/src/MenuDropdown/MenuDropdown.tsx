@@ -4,7 +4,7 @@ import {
   createStyles,
   ITheme,
   useOnClickOutside,
-} from "@chainsafe/common-themes"
+} from "@imploy/common-themes"
 import { Typography } from "../Typography"
 import clsx from "clsx"
 import { DirectionalDownIcon, SvgIcon } from "../Icons"
@@ -31,9 +31,8 @@ const useStyles = makeStyles(
           position: "relative",
           "& ~ * svg": {
             marginLeft: constants.generalUnit,
-          }
+          },
         },
-        
       },
       icon: {
         fontSize: "unset",
@@ -113,7 +112,9 @@ const useStyles = makeStyles(
         display: "flex",
         flexDirection: "row",
         alignItems: "center",
-        padding: `${constants.generalUnit * 1.5}px ${constants.generalUnit * 2}px`,
+        padding: `${constants.generalUnit * 1.5}px ${
+          constants.generalUnit * 2
+        }px`,
         color: palette.additional["gray"][7],
         transitionDuration: `${animation.transform}ms`,
         backgroundColor: "initial",
@@ -125,8 +126,8 @@ const useStyles = makeStyles(
         },
         "& svg": {
           transitionDuration: `${animation.transform}ms`,
-          fill: palette.additional["gray"][7]
-        }
+          fill: palette.additional["gray"][7],
+        },
       },
     }),
 )
@@ -177,11 +178,11 @@ const MenuDropdown: React.FC<IMenuDropdownProps> = ({
           ["open"]: open,
         })}
       >
-        {
-          title && <Typography component="p" variant="body2">
+        {title && (
+          <Typography component="p" variant="body2">
             {title}
           </Typography>
-        }
+        )}
         <Icon
           className={clsx(classes.icon, animation, {
             ["open"]: open,

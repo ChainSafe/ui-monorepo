@@ -1,7 +1,4 @@
-import {
-  IThemeConfig,
-  IFontWeights,
-} from "../Create/CreateThemeConfig"
+import { IThemeConfig, IFontWeights } from "../Create/CreateThemeConfig"
 import { DefaultPalette } from "./ColorPalette"
 import { fade } from "../utils/colorManipulator"
 import { createBreakpoints } from "../Create/CreateBreakpoints"
@@ -58,32 +55,37 @@ const DefaultThemeConfig: IThemeConfig = {
       paper: DefaultPalette.additional.gray[2],
     },
     primary: {
-      background: DefaultPalette.additional.blue[DefaultPalette.colorTags.background],
+      background:
+        DefaultPalette.additional.blue[DefaultPalette.colorTags.background],
       border: DefaultPalette.additional.blue[DefaultPalette.colorTags.border],
       main: DefaultPalette.additional.blue[DefaultPalette.colorTags.primary],
       hover: DefaultPalette.additional.blue[DefaultPalette.colorTags.hover],
       active: DefaultPalette.additional.blue[7],
     },
     secondary: {
-      background: DefaultPalette.additional.blue[DefaultPalette.colorTags.background],
+      background:
+        DefaultPalette.additional.blue[DefaultPalette.colorTags.background],
       border: DefaultPalette.additional.blue[DefaultPalette.colorTags.border],
       hover: DefaultPalette.additional.blue[DefaultPalette.colorTags.hover],
       main: DefaultPalette.additional.blue[DefaultPalette.colorTags.primary],
     },
     error: {
-      background: DefaultPalette.additional.red[DefaultPalette.colorTags.background],
+      background:
+        DefaultPalette.additional.red[DefaultPalette.colorTags.background],
       border: DefaultPalette.additional.red[DefaultPalette.colorTags.border],
       hover: DefaultPalette.additional.red[DefaultPalette.colorTags.hover],
       main: DefaultPalette.additional.red[DefaultPalette.colorTags.primary],
     },
     warning: {
-      background: DefaultPalette.additional.gold[DefaultPalette.colorTags.background],
+      background:
+        DefaultPalette.additional.gold[DefaultPalette.colorTags.background],
       border: DefaultPalette.additional.gold[DefaultPalette.colorTags.border],
       hover: DefaultPalette.additional.gold[DefaultPalette.colorTags.hover],
       main: DefaultPalette.additional.gold[DefaultPalette.colorTags.primary],
     },
     success: {
-      background: DefaultPalette.additional.green[DefaultPalette.colorTags.background],
+      background:
+        DefaultPalette.additional.green[DefaultPalette.colorTags.background],
       border: DefaultPalette.additional.green[DefaultPalette.colorTags.border],
       hover: DefaultPalette.additional.green[DefaultPalette.colorTags.hover],
       main: DefaultPalette.additional.green[DefaultPalette.colorTags.primary],
