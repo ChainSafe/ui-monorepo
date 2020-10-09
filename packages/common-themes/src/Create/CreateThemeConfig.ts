@@ -1,7 +1,7 @@
 import { DeepPartial } from "ts-essentials/dist/types"
-import { IComponentOverrides } from "@imploy/common-components"
 
 import { DefaultThemeConfig } from "../Defaults/ThemeConfig"
+import { IComponentOverrides } from "../Overrides"
 import { mergeDeep } from "../utils/deepMerge"
 import { IBreakpoints } from "./CreateBreakpoints"
 

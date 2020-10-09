@@ -1,6 +1,5 @@
 export { default as SvgIcon } from "./SvgIcon"
 export { SvgIconProps } from "./SvgIcon"
-export * from "./Override"
 
 export { default as AppleLogoIcon, AppleLogoSvg } from "./icons/AppleLogo.icon"
 export { default as BulbIcon, BulbSvg } from "./icons/Bulb.icon"
