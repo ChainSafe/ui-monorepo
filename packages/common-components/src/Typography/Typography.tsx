@@ -2,47 +2,60 @@ import React, { ReactNode } from "react"
 import clsx from "clsx"
 import { ITheme, makeStyles, createStyles } from "@imploy/common-themes"
 
-const useStyles = makeStyles((theme: ITheme) =>
+const useStyles = makeStyles(({ typography, overrides }: ITheme) =>
   createStyles({
     // JSS in CSS goes here
     root: {
       margin: 0,
+      ...overrides?.Typography.root,
     },
     h1: {
-      ...theme.typography?.h1,
+      ...typography?.h1,
+      ...overrides?.Typography.h1,
     },
     h2: {
-      ...theme.typography?.h2,
+      ...typography?.h2,
+      ...overrides?.Typography.h2,
     },
     h3: {
-      ...theme.typography?.h3,
+      ...typography?.h3,
+      ...overrides?.Typography.h3,
     },
     h4: {
-      ...theme.typography?.h4,
+      ...typography?.h4,
+      ...overrides?.Typography.h4,
     },
     h5: {
-      ...theme.typography?.h5,
+      ...typography?.h5,
+      ...overrides?.Typography.h5,
     },
     h6: {
-      ...theme.typography?.h6,
+      ...typography?.h6,
+      ...overrides?.Typography.h6,
     },
     subtitle1: {
-      ...theme.typography?.subtitle1,
+      ...typography?.subtitle1,
+      ...overrides?.Typography.subtitle1,
     },
     subtitle2: {
-      ...theme.typography?.subtitle2,
+      ...typography?.subtitle2,
+      ...overrides?.Typography.subtitle2,
     },
     body1: {
-      ...theme.typography?.body1,
+      ...typography?.body1,
+      ...overrides?.Typography.body1,
     },
     body2: {
-      ...theme.typography?.body2,
+      ...typography?.body2,
+      ...overrides?.Typography.body2,
     },
     caption: {
-      ...theme.typography?.caption,
+      ...typography?.caption,
+      ...overrides?.Typography.caption,
     },
     button: {
-      ...theme.typography?.button,
+      ...typography?.button,
+      ...overrides?.Typography.button,
     },
   }),
 )
