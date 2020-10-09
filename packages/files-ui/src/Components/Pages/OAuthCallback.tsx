@@ -8,67 +8,42 @@ function useQueryParams() {
 
 const OAuthCallback: React.FC = () => {
   const queryParams = useQueryParams()
-  const {
-    loginWithGithub,
-    loginWithGoogle,
-    loginWithFacebook,
-    imployApiClient,
-  } = useImployApi()
+  const { loginWithGithub, loginWithGoogle, loginWithFacebook } = useImployApi()
   const { provider } = useParams<{ provider: string }>()
 
-  const loginOnGithub = async (code: string, state: string) => {
-    try {
-      await loginWithGithub(code, state)
-    } catch (err) {}
-  }
-
-  const loginOnGoogle = async (
-    code: string,
-    state: string,
-    scope: string | undefined,
-    authUser: string | undefined,
-    hd: string | undefined,
-    prompt: string | undefined,
-  ) => {
-    try {
-      await loginWithGoogle(code, state, scope, authUser, hd, prompt)
-    } catch (err) {}
-  }
-
-  const loginOnFacebook = async (code: string, state: string) => {
-    try {
-      await loginWithFacebook(code, state)
-    } catch (err) {}
-  }
-
   useEffect(() => {
-    const code = queryParams.get("code")
-    const state = queryParams.get("state")
-    if (code && state) {
-      switch (provider) {
-        case "github": {
-          loginOnGithub(code, state)
-          break
-        }
-        case "google": {
-          const scope = queryParams.get("scope") || undefined
-          const authUser = queryParams.get("authUser") || undefined
-          const hd = queryParams.get("hd") || undefined
-          const prompt = queryParams.get("prompt") || undefined
-          if (code && state) {
-            loginOnGoogle(code, state, scope, authUser, hd, prompt)
+    const loginWithProvider = async () => {
+      try {
+        const code = queryParams.get("code")
+        const state = queryParams.get("state")
+        if (code && state) {
+          switch (provider) {
+            case "github": {
+              await loginWithGithub(code, state)
+              break
+            }
+            case "google": {
+              const scope = queryParams.get("scope") || undefined
+              const authUser = queryParams.get("authUser") || undefined
+              const hd = queryParams.get("hd") || undefined
+              const prompt = queryParams.get("prompt") || undefined
+
+              await loginWithGoogle(code, state, scope, authUser, hd, prompt)
+              break
+            }
+            case "facebook": {
+              await loginWithFacebook(code, state)
+              break
+            }
+            default:
           }
-          break
         }
-        case "facebook": {
-          loginOnFacebook(code, state)
-          break
-        }
-        default:
-      }
+      } catch {}
     }
+
+    loginWithProvider()
     // eslint-disable-next-line
-  }, [imployApiClient])
+  }, [provider, queryParams])
 
   return null
 }

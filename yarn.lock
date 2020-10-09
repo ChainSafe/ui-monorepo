@@ -1748,6 +1748,11 @@
   resolved "https://npm.pkg.github.com/download/@imploy/api-client/1.2.3/5300f459c05bff3d005229969b487a81fe9864749d2cf8f1b20e8eaa042d7b90#e220ead5a39be9413a6bc4cb1e37f9bb8dca5a6e"
   integrity sha512-c5MSFfXOwBBd/iAlM397DZDUuDSUtNaz5eCjM8mjBsfLwYx6DycnPB8cPjkLaM9Ox1DGbk9j+RJAPiTgjxH8Sw==
 
+"@imploy/api-client@1.2.5":
+  version "1.2.5"
+  resolved "https://npm.pkg.github.com/download/@imploy/api-client/1.2.5/0c7f6743715b1f3f30ff44ac8574c52640550864415d1a3cf155ad4237778ba1#a17adb9fa768a40bf629e635a4ec99b8797dd743"
+  integrity sha512-zQC3N3OlUpnSMxbWX4Ef/o2YL9Xo5p402vhpHwuvwit1C/NKmp7URlwGX+chMa/AjHe2n2wTTr2fcZwL+LfHSQ==
+
 "@jest/console@^24.7.1", "@jest/console@^24.9.0":
   version "24.9.0"
   resolved "https://registry.yarnpkg.com/@jest/console/-/console-24.9.0.tgz#79b1bc06fb74a8cfb01cbdedf945584b1b9707f0"

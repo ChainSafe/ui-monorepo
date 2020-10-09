@@ -6,7 +6,7 @@ import {
   ImployApiClient,
   Token,
   Provider,
-} from "./ImployApiClient"
+} from "@imploy/api-client"
 import jwtDecode from "jwt-decode"
 import { signMessage } from "./utils"
 import axios from "axios"
@@ -48,9 +48,14 @@ const ImployApiContext = React.createContext<ImployApiContext | undefined>(
 
 const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
   const { wallet, onboard, checkIsReady, isReady, provider } = useWeb3()
-  const [imployApiClient, setImployApiClient] = useState<
-    ImployApiClient | undefined
-  >(undefined)
+  const axiosInstance = axios.create({
+    // Disable the internal Axios JSON deserialization as this is handled by the client
+    transformResponse: [],
+  })
+  const apiClient = new ImployApiClient({}, apiUrl, axiosInstance)
+  const [imployApiClient, setImployApiClient] = useState<ImployApiClient>(
+    apiClient,
+  )
 
   const [accessToken, setAccessToken] = useState<Token | undefined>(undefined)
   const [decodedRefreshToken, setDecodedRefreshToken] = useState<
@@ -83,11 +88,6 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
 
   useEffect(() => {
     const initializeApiClient = async () => {
-      const axiosInstance = axios.create({
-        // Disable the internal Axios JSON deserialization as this is handled by the client
-        transformResponse: [],
-      })
-
       axiosInstance.interceptors.response.use(
         (response) => {
           return response
@@ -130,7 +130,6 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
           return Promise.reject(error)
         },
       )
-      const apiClient = new ImployApiClient({}, apiUrl, axiosInstance)
       const savedRefreshToken = localStorage.getItem(tokenStorageKey)
       if (savedRefreshToken) {
         try {
