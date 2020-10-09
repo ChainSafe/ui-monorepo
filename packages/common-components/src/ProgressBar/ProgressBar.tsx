@@ -72,7 +72,7 @@ export interface IProgressBarProps {
   size?: ProgressBarSize
   variant?: ProgressBarVariant
 }
-const Paper: React.FC<IProgressBarProps> = ({
+const ProgressBar: React.FC<IProgressBarProps> = ({
   className,
   state = "progress",
   progress,
@@ -92,4 +92,4 @@ const Paper: React.FC<IProgressBarProps> = ({
   )
 }
 
-export default Paper
+export default ProgressBar
