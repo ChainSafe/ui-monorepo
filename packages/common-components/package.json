@@ -13,6 +13,10 @@
     "lint": "eslint 'src/**/*.{js,ts,tsx}' --quiet --fix",
     "publish": "yarn build && npm publish"
   },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
+  },
+  "repository": "https://github.com/imploy/ui.git",
   "dependencies": {
     "@material-ui/styles": "^4.10.0",
     "@types/react-select": "^3.0.20",
@@ -50,7 +54,7 @@
     "@svgr/webpack": "^5.4.0",
     "@types/react-blockies": "^1.4.0",
     "@types/react-router-dom": "^5.1.6",
-    "@typescript-eslint/eslint-plugin": "^3.10.1",
+    "@typescript-eslint/eslint-plugin": "^4.4.0",
     "@typescript-eslint/parser": "^4.4.0",
     "babel-loader": "^8.1.0",
     "eslint": "^7.9.0",
@@ -58,7 +62,7 @@
     "eslint-plugin-prettier": "^3.1.3",
     "eslint-plugin-react": "^7.21.3",
     "formik": "^2.1.7",
-    "fork-ts-checker-webpack-plugin": "^5.1.0",
+    "fork-ts-checker-webpack-plugin": "^5.2.0",
     "prettier": "^2.1.2",
     "react": "16.13.1",
     "react-blockies": "^1.4.1",
@@ -70,7 +74,7 @@
     "rollup-plugin-typescript2": "^0.27.3",
     "rollup-plugin-url": "^3.0.1",
     "ts-loader": "^8.0.4",
-    "typescript": "^4.0.2"
+    "typescript": "^4.0.3"
   },
   "files": [
     "dist"
