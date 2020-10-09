@@ -35,57 +35,51 @@ interface IStyleProps {
   placement: Placement
 }
 
-const useStyles = makeStyles(
-  ({ animation, zIndex, constants, palette, shadows, overrides }: ITheme) =>
-    createStyles({
-      root: (props: IStyleProps) => ({
-        transition: `height ${animation.transform - 100}ms 100ms`,
-        height: props.height,
-        position: "relative",
-        zIndex: zIndex?.layer4,
-        ...overrides?.Toaster.root,
+const useStyles = (props: IStyleProps) =>
+  makeStyles(
+    ({ animation, zIndex, constants, palette, shadows, overrides }: ITheme) =>
+      createStyles({
+        root: {
+          transition: `height ${animation.transform - 100}ms 100ms`,
+          height: props.height,
+          position: "relative",
+          zIndex: zIndex?.layer4,
+          ...overrides?.Toaster.root,
+        },
+        inner: {
+          borderRadius: 4,
+          boxShadow: shadows.shadow1,
+          display: "flex",
+          alignItems: "center",
+          padding: constants.generalUnit * 2,
+          backgroundColor: palette.common.white.main,
+          marginBottom: constants.generalUnit,
+          transition: `transform ${animation.transform}ms cubic-bezier(0.2, 0, 0, 1), opacity ${animation.transform}ms`,
+          width: WidthToaster,
+          "&.entering": { transform: getTranslate(props.placement) },
+          "&.entered": { transform: "translate3d(0,0,0)" },
+          "&.exiting": { transform: "scale(0.66)", opacity: 0 },
+          "&.exited": { transform: "scale(0.66)", opacity: 0 },
+          ...overrides?.Toaster.inner,
+        },
+        typeIcon: {
+          marginRight: `${constants.generalUnit * 2}px`,
+          ...overrides?.Toaster.typeIcon,
+        },
+        closeButton: {
+          backgroundColor: "transparent",
+          border: "none",
+          cursor: "pointer",
+          ...overrides?.Toaster.closeButton,
+        },
+        closeIcon: {
+          fontSize: `${constants.generalUnit * 1.5}px`,
+          fill: palette.additional["gray"][6],
+          marginLeft: `${constants.generalUnit * 2}px`,
+          ...overrides?.Toaster.closeIcon,
+        },
       }),
-      inner: (props: IStyleProps) => ({
-        borderRadius: 4,
-        boxShadow: shadows.shadow1,
-        display: "flex",
-        alignItems: "center",
-        padding: constants.generalUnit * 2,
-        backgroundColor: palette.common.white.main,
-        marginBottom: constants.generalUnit,
-        transition: `transform ${animation.transform}ms cubic-bezier(0.2, 0, 0, 1), opacity ${animation.transform}ms`,
-        width: WidthToaster,
-        "&.entering": { transform: getTranslate(props.placement) },
-        "&.entered": { transform: "translate3d(0,0,0)" },
-        "&.exiting": { transform: "scale(0.66)", opacity: 0 },
-        "&.exited": { transform: "scale(0.66)", opacity: 0 },
-        ...overrides?.Toaster.inner,
-      }),
-      // root: {
-      //   display: "flex",
-      //   alignItems: "center",
-      //   boxShadow: shadows.shadow2,
-      //   borderRadius: 4,
-      //   padding: `${constants.generalUnit * 2}px`,
-      // },
-      typeIcon: {
-        marginRight: `${constants.generalUnit * 2}px`,
-        ...overrides?.Toaster.typeIcon,
-      },
-      closeButton: {
-        backgroundColor: "transparent",
-        border: "none",
-        cursor: "pointer",
-        ...overrides?.Toaster.closeButton,
-      },
-      closeIcon: {
-        fontSize: `${constants.generalUnit * 1.5}px`,
-        fill: palette.additional["gray"][6],
-        marginLeft: `${constants.generalUnit * 2}px`,
-        ...overrides?.Toaster.closeIcon,
-      },
-    }),
-)
+  )
 
 const Toaster = ({
   appearance,
@@ -100,7 +94,7 @@ const Toaster = ({
   const classes = useStyles({
     height,
     placement,
-  })
+  })()
 
   const { constants }: ITheme = useTheme()
 

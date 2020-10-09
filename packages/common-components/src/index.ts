@@ -23,6 +23,5 @@ export * from "./Table"
 export * from "./Tabs"
 export * from "./Toaster"
 export * from "./TextInput"
+export * from "./Theme"
 export * from "./Typography"
-
-export * from "./Overrides"

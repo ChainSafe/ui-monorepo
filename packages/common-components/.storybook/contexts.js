@@ -1,4 +1,5 @@
-import { createTheme, ThemeProvider } from "@imploy/common-themes"
+import { ThemeProvider } from "@imploy/common-themes"
+import { createTheme } from "../src"
 
 const lightTheme = createTheme()
 const darkTheme = createTheme()

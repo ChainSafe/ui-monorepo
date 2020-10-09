@@ -1,5 +1,4 @@
 import { DeepPartial } from "ts-essentials/dist/types"
-import { IComponentOverrides } from "@imploy/common-components"
 
 import { DefaultThemeConfig } from "../Defaults/ThemeConfig"
 import { mergeDeep } from "../utils/deepMerge"
@@ -108,7 +107,7 @@ interface IThemeConfig {
   shadows: IShadows
   cssBaseline?: Record<string, any>
   globalStyling?: Record<string, any>
-  overrides?: IComponentOverrides
+  overrides?: any
 }
 
 const createThemeConfig = (

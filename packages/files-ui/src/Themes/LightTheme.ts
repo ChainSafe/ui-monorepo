@@ -1,4 +1,4 @@
-import { createTheme } from "@imploy/common-themes"
+import { createTheme } from "@imploy/common-components"
 
 export const lightTheme = createTheme({
   themeConfig: {
