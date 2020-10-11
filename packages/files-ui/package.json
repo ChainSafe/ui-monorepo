@@ -9,7 +9,7 @@
     "@types/yup": "^0.29.8",
     "bnc-onboard": "^1.13.0",
     "dayjs": "^1.9.1",
-    "ethers": "^5.0.12",
+    "ethers": "^5.0.17",
     "formik": "^2.1.7",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
