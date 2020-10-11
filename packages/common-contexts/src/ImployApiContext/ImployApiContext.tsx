@@ -74,22 +74,16 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
     isReturningUserLocal ? true : false,
   )
 
-  const setTokensClientAndSave = (
-    accessToken: Token,
-    refreshToken: Token,
-    apiClient: ImployApiClient,
-  ) => {
+  const setTokensAndSave = (accessToken: Token, refreshToken: Token) => {
     setAccessToken(accessToken)
     setRefreshToken(refreshToken)
     refreshToken.token &&
       localStorage.setItem(tokenStorageKey, refreshToken.token)
 
-    accessToken.token && apiClient.setToken(accessToken.token)
+    accessToken.token && imployApiClient.setToken(accessToken.token)
+  }
 
-    // IS THIS NEEDED ?
-    // OR DOES setToken sets token in apiClient in state
-    setImployApiClient(apiClient)
-
+  const setReturningUser = () => {
     // set returning user
     localStorage.setItem(isReturningUserStorageKey, "returning")
     setIsReturningUser(true)
@@ -111,7 +105,7 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
             error.config._retry = true
             const refreshTokenLocal = localStorage.getItem(tokenStorageKey)
             if (refreshTokenLocal) {
-              const refreshedTokenApiClient = new ImployApiClient(
+              const refreshTokenApiClient = new ImployApiClient(
                 {},
                 apiUrl,
                 axiosInstance,
@@ -120,14 +114,12 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
                 const {
                   access_token,
                   refresh_token,
-                } = await refreshedTokenApiClient.getRefreshToken(
+                } = await refreshTokenApiClient.getRefreshToken(
                   refreshTokenLocal,
                 )
-                setTokensClientAndSave(
-                  access_token,
-                  refresh_token,
-                  refreshedTokenApiClient,
-                )
+
+                console.log(access_token, refresh_token)
+                setTokensAndSave(access_token, refresh_token)
                 error.response.config.headers.Authorization = `Bearer ${access_token.token}`
                 return axios(error.response.config)
               } catch (err) {
@@ -146,6 +138,7 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
       )
       const savedRefreshToken = localStorage.getItem(tokenStorageKey)
       const apiClient = new ImployApiClient({}, apiUrl, axiosInstance)
+      setImployApiClient(apiClient)
       if (savedRefreshToken) {
         try {
           const {
@@ -153,13 +146,12 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
             refresh_token,
           } = await apiClient.getRefreshToken(savedRefreshToken)
 
-          setTokensClientAndSave(access_token, refresh_token, apiClient)
-          setIsLoadingUser(false)
+          console.log(access_token, refresh_token)
+
+          setTokensAndSave(access_token, refresh_token)
         } catch (error) {}
-      } else {
-        setImployApiClient(apiClient)
-        setIsLoadingUser(false)
       }
+      setIsLoadingUser(false)
     }
 
     initializeApiClient()
@@ -204,7 +196,8 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
           token: token,
           public_address: addresses[0],
         })
-        setTokensClientAndSave(access_token, refresh_token, imployApiClient)
+        setTokensAndSave(access_token, refresh_token)
+        setReturningUser()
         return Promise.resolve()
       }
     } catch (error) {
@@ -260,7 +253,8 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
         access_token,
         refresh_token,
       } = await imployApiClient.postOauth2CodeGithub(code, state)
-      setTokensClientAndSave(access_token, refresh_token, imployApiClient)
+      setTokensAndSave(access_token, refresh_token)
+      setReturningUser()
       return Promise.resolve()
     } catch {
       return Promise.reject("There was an error logging in")
@@ -288,7 +282,8 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
         prompt,
       )
 
-      setTokensClientAndSave(access_token, refresh_token, imployApiClient)
+      setTokensAndSave(access_token, refresh_token)
+      setReturningUser()
       return Promise.resolve()
     } catch (err) {
       return Promise.reject("There was an error logging in")
@@ -302,7 +297,8 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
         refresh_token,
       } = await imployApiClient.postOauth2CodeFacebook(code, state)
 
-      setTokensClientAndSave(access_token, refresh_token, imployApiClient)
+      setTokensAndSave(access_token, refresh_token)
+      setReturningUser()
       return Promise.resolve()
     } catch (err) {
       return Promise.reject("There was an error logging in")
