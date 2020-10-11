@@ -1,11 +1,12 @@
 import React from "react"
-import { makeStyles, createStyles } from "@imploy/common-themes"
+import { makeStyles, createStyles, ITheme } from "@imploy/common-themes"
 import clsx from "clsx"
 
-const useStyles = makeStyles(() =>
+const useStyles = makeStyles(({ overrides }: ITheme) =>
   createStyles({
-    logoImage: {
+    root: {
       width: "fit-content",
+      ...overrides?.ChainsafeLogo?.root,
     },
   }),
 )
@@ -18,7 +19,7 @@ const ChainsafeFilesLogo: React.FC<{ className?: string }> = ({
     <img
       src="ChainSafe-logo.png"
       alt="Chainsafe Logo"
-      className={clsx(classes.logoImage, className)}
+      className={clsx(classes.root, className)}
     />
   )
 }

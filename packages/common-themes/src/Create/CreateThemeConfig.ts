@@ -1,6 +1,8 @@
-// TODO: Set defaults from Figma
+import { DeepPartial } from "ts-essentials/dist/types"
 
 import { DefaultThemeConfig } from "../Defaults/ThemeConfig"
+import { IComponentOverrides } from "../Overrides"
+import { mergeDeep } from "../utils/deepMerge"
 import { IBreakpoints } from "./CreateBreakpoints"
 
 interface IPaletteColor {
@@ -11,6 +13,7 @@ interface IPaletteColor {
   hover?: string
   [key: string]: string | undefined
 }
+
 interface IPalette {
   primary: IPaletteColor
   common: {
@@ -38,6 +41,7 @@ interface IPalette {
     [key: string]: string
   }
 }
+
 interface IFontWeights {
   light: number
   regular: number
@@ -45,6 +49,7 @@ interface IFontWeights {
   semibold: number
   bold: number
 }
+
 interface ITypography {
   global: Record<string, any>
   fontWeight: IFontWeights
@@ -62,22 +67,26 @@ interface ITypography {
   caption?: Record<string, any>
   [key: string]: Record<string, any> | undefined
 }
+
 interface IConstants {
   generalUnit: number
   modal: Record<string, any>
   icon: Record<string, any>
   [key: string]: number | string | Record<string, any> | undefined
 }
+
 interface IAnimation {
   transform: 200
   translate: 400
   [key: string]: any
 }
+
 interface IShadows {
   shadow1: string
   shadow2: string
   [key: string]: string
 }
+
 // TODO: convert to Map & Sets for efficency
 interface IThemeConfig {
   animation: IAnimation
@@ -99,15 +108,18 @@ interface IThemeConfig {
   shadows: IShadows
   cssBaseline?: Record<string, any>
   globalStyling?: Record<string, any>
+  overrides?: IComponentOverrides
 }
 
 const createThemeConfig = (
-  themeConfig?: Partial<IThemeConfig>,
+  themeConfig?: DeepPartial<IThemeConfig>,
 ): IThemeConfig => {
   // No conversion or mapping needed for now
   return {
-    ...DefaultThemeConfig,
-    ...themeConfig,
+    ...(mergeDeep(
+      DefaultThemeConfig,
+      themeConfig as IThemeConfig,
+    ) as IThemeConfig),
   }
 }
 

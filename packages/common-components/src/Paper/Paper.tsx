@@ -2,32 +2,37 @@ import React, { ReactNode } from "react"
 import { makeStyles, createStyles } from "@imploy/common-themes"
 import clsx from "clsx"
 import { ITheme } from "@imploy/common-themes"
-const useStyles = makeStyles((theme: ITheme) => {
-  const shadowStyles = {}
-  Object.keys(theme.shadows).forEach((shadow) => {
-    shadowStyles[`shadow-${shadow}`] = {
-      boxShadow: theme.shadows[shadow],
-    }
-  })
-  return createStyles({
-    root: {
-      backgroundColor: theme.palette.background.paper,
-      color: theme.palette.text.primary,
-      width: "max-content",
-      padding: `${theme.constants.generalUnit}px`,
-    },
-    fullWidth: {
-      width: "inherit",
-    },
-    rounded: {
-      borderRadius: 4,
-    },
-    bordered: {
-      border: `1px solid ${theme.palette.additional["gray"][5]}`,
-    },
-    ...shadowStyles,
-  })
-})
+const useStyles = makeStyles(
+  ({ shadows, constants, palette, overrides }: ITheme) => {
+    const shadowStyles = {}
+    Object.keys(shadows).forEach((shadow) => {
+      shadowStyles[`shadow-${shadow}`] = {
+        boxShadow: shadows[shadow],
+      }
+    })
+    return createStyles({
+      root: {
+        backgroundColor: palette.background.paper,
+        color: palette.text.primary,
+        width: "max-content",
+        padding: `${constants.generalUnit}px`,
+        ...overrides?.Paper?.root,
+      },
+      fullWidth: {
+        width: "inherit",
+      },
+      rounded: {
+        borderRadius: 4,
+        ...overrides?.Paper?.rounded,
+      },
+      bordered: {
+        border: `1px solid ${palette.additional["gray"][5]}`,
+        ...overrides?.Paper?.bordered,
+      },
+      ...shadowStyles,
+    })
+  },
+)
 export type PaperShape = "square" | "rounded"
 export interface IPaperProps extends React.HTMLProps<HTMLDivElement> {
   children?: ReactNode | ReactNode[]

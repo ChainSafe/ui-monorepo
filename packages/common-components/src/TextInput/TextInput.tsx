@@ -26,7 +26,7 @@ const iconSize = {
 }
 
 const useStyles = makeStyles(
-  ({ typography, constants, palette, animation, zIndex }: ITheme) =>
+  ({ typography, constants, palette, animation, zIndex, overrides }: ITheme) =>
     createStyles({
       // JSS in CSS goes here
       root: {
@@ -38,14 +38,17 @@ const useStyles = makeStyles(
         "&.large": {
           fontSize: 14,
           lineHeight: "22px",
+          ...overrides?.TextInput?.size?.large,
         },
         "&.medium": {
           fontSize: 14,
           lineHeight: "22px",
+          ...overrides?.TextInput?.size?.medium,
         },
         "&.small": {
           fontSize: 14,
           lineHeight: "22px",
+          ...overrides?.TextInput?.size?.small,
         },
         "& .right > *:nth-child(2) svg": {
           fill: palette.primary.main,
@@ -57,19 +60,25 @@ const useStyles = makeStyles(
           borderRadius: 2,
           "&:hover": {
             borderColor: palette.primary.border,
+            ...overrides?.TextInput?.input?.hover,
           },
           "&:focus": {
             borderColor: palette.primary.border,
             // borderColor: palette
             boxShadow: "0px 0px 4px rgba(24, 144, 255, 0.5)",
+            ...overrides?.TextInput?.input?.focus,
           },
+          ...overrides?.TextInput?.input?.root,
         },
         "&.disabled": {
           "& input": {
             color: palette.additional["gray"][6],
             backgroundColor: palette.additional["gray"][3],
+            ...overrides?.TextInput?.input?.disabled,
           },
+          ...overrides?.TextInput?.disabled,
         },
+        ...overrides?.TextInput?.root,
       },
       error: {
         "& .right > *:nth-child(2) svg": {
@@ -151,6 +160,7 @@ const useStyles = makeStyles(
             // backgroundColor: palette.warning.main,
           },
         },
+        ...overrides?.TextInput?.caption,
       },
       warningIcon: {
         fill: palette.warning.main,
@@ -174,6 +184,7 @@ const useStyles = makeStyles(
         transitionDuration: `${animation.transform}ms`,
         display: "block",
         marginBottom: constants.generalUnit / 4,
+        ...overrides?.TextInput?.label,
       },
       inputArea: {
         ...typography.body2,
@@ -211,6 +222,7 @@ const useStyles = makeStyles(
                 constants.generalUnit * 1.5,
             },
           },
+          ...overrides?.TextInput?.inputArea?.size?.large,
         },
         "&.medium": {
           "& input": {
@@ -240,6 +252,7 @@ const useStyles = makeStyles(
                 constants.generalUnit * 1.5,
             },
           },
+          ...overrides?.TextInput?.inputArea?.size?.medium,
         },
         "&.small": {
           "& input": {
@@ -267,12 +280,14 @@ const useStyles = makeStyles(
                 constants.generalUnit,
             },
           },
+          ...overrides?.TextInput?.inputArea?.size?.small,
         },
         "&.error": {
           "& input:focus": {
             backgroundColor: "unset",
           },
         },
+        ...overrides?.TextInput?.inputArea?.root,
       },
       input: {
         width: "100%",
@@ -317,36 +332,46 @@ const useStyles = makeStyles(
         "&.large": {
           "&.left": {
             left: constants.generalUnit * 1.5,
+            ...overrides?.TextInput?.icon?.size?.large?.left,
           },
           "&.right": {
             right: constants.generalUnit * 1.5,
+            ...overrides?.TextInput?.icon?.size?.large?.right,
           },
           "& svg": {
             height: iconSize.large.height,
           },
+          ...overrides?.TextInput?.icon?.size?.large?.root,
         },
         "&.medium": {
           "&.left": {
             left: iconSize.medium.padding,
+            ...overrides?.TextInput?.icon?.size?.medium?.left,
           },
           "&.right": {
             right: iconSize.medium.padding,
+            ...overrides?.TextInput?.icon?.size?.medium?.right,
           },
           "& svg": {
             height: iconSize.medium.height,
           },
+          ...overrides?.TextInput?.icon?.size?.medium?.root,
         },
         "&.small": {
           "&.left": {
             left: iconSize.small.padding,
+            ...overrides?.TextInput?.icon?.size?.small?.left,
           },
           "&.right": {
             right: iconSize.small.padding,
+            ...overrides?.TextInput?.icon?.size?.small?.right,
           },
           "& svg": {
             height: iconSize.small.height,
           },
+          ...overrides?.TextInput?.icon?.size?.small?.root,
         },
+        ...overrides?.TextInput?.icon?.root,
       },
     }),
 )

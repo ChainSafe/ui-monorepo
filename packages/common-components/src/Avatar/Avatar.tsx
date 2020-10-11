@@ -2,7 +2,7 @@ import React, { ReactNode } from "react"
 import clsx from "clsx"
 import { ITheme, makeStyles, createStyles } from "@imploy/common-themes"
 
-const useStyles = makeStyles(({ palette }: ITheme) =>
+const useStyles = makeStyles(({ palette, overrides }: ITheme) =>
   createStyles({
     // JSS in CSS goes here
     root: {
@@ -32,23 +32,29 @@ const useStyles = makeStyles(({ palette }: ITheme) =>
         width: 18,
         fill: palette.common.white.main,
       },
+      ...overrides?.Avatar?.root,
       "&.large": {
         height: 40,
         width: 40,
+        ...overrides?.Avatar?.sizes?.large,
       },
       "&.medium": {
         height: 32,
         width: 32,
+        ...overrides?.Avatar?.sizes?.medium,
       },
       "&.small": {
         height: 24,
         width: 24,
+        ...overrides?.Avatar?.sizes?.small,
       },
       "&.square": {
         borderRadius: 2,
+        ...overrides?.Avatar?.variants?.square,
       },
       "&.circle": {
         borderRadius: "50%",
+        ...overrides?.Avatar?.variants?.circle,
       },
     },
   }),

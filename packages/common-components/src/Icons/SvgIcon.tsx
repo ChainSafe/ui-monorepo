@@ -3,43 +3,48 @@ import clsx from "clsx"
 import { capitalize } from "../utils/stringUtils"
 import { ITheme, makeStyles, createStyles } from "@imploy/common-themes"
 
-const useStyles = makeStyles((theme: ITheme) =>
-  createStyles({
-    root: {
-      userSelect: "none",
-      width: "1em",
-      height: "1em",
-      display: "inline-block",
-      fontSize: "1.5em",
-      transition: `all ${theme.animation.transform}ms`,
-    },
-    colorPrimary: {
-      fill: theme.palette.primary.main,
-    },
-    colorSecondary: {
-      fill: theme.palette.secondary ? theme.palette.secondary.main : "inherit",
-    },
-    colorError: {
-      fill: theme.palette.error.main,
-    },
-    colorSuccess: {
-      fill: theme.palette.success.main,
-    },
+const useStyles = makeStyles(
+  ({ animation, palette, constants, overrides }: ITheme) =>
+    createStyles({
+      root: {
+        userSelect: "none",
+        width: "1em",
+        height: "1em",
+        display: "inline-block",
+        fontSize: "1.5em",
+        transition: `all ${animation.transform}ms`,
+        ...overrides?.Icons?.root,
+      },
+      colorPrimary: {
+        fill: palette.primary.main,
+      },
+      colorSecondary: {
+        fill: palette.secondary ? palette.secondary.main : "inherit",
+      },
+      colorError: {
+        fill: palette.error.main,
+      },
+      colorSuccess: {
+        fill: palette.success.main,
+      },
 
-    sizeInherit: {
-      fontSize: "inherit",
-    },
+      sizeInherit: {
+        fontSize: "inherit",
+      },
 
-    sizeSmall: {
-      fontSize: `${theme.constants.generalUnit * 2}px`,
-    },
-    sizeMedium: {
-      fontSize: `${theme.constants.generalUnit * 3}px`,
-    },
-    sizeLarge: {
-      fontSize: `${theme.constants.generalUnit * 4}px`,
-    },
-  }),
+      sizeSmall: {
+        fontSize: `${constants.generalUnit * 2}px`,
+        ...overrides?.Icons?.size?.small,
+      },
+      sizeMedium: {
+        fontSize: `${constants.generalUnit * 3}px`,
+        ...overrides?.Icons?.size?.medium,
+      },
+      sizeLarge: {
+        fontSize: `${constants.generalUnit * 4}px`,
+        ...overrides?.Icons?.size?.large,
+      },
+    }),
 )
 
 export interface SvgIconProps extends React.HTMLProps<HTMLDivElement> {

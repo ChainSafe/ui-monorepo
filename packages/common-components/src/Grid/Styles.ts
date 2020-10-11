@@ -90,23 +90,27 @@ export const createFlexStyles = (): Record<string, React.CSSProperties> => ({
   ),
 })
 
-export const createGridStyles = (
-  theme: ITheme,
-): Record<string, React.CSSProperties> => {
+export const createGridStyles = ({
+  breakpoints,
+  overrides,
+}: ITheme): Record<string, React.CSSProperties> => {
   const styles = {
     container: {
       display: "flex",
       width: "100%",
+      ...overrides?.Grid?.container,
     },
     item: {
       flex: "1 1 0px",
+      ...overrides?.Grid?.item,
     },
     fullWidth: {
       width: "100%",
+      ...overrides?.Grid?.fullWidth,
     },
   }
 
-  const gridBreakpoints = Object.keys(theme.breakpoints)
+  const gridBreakpoints = Object.keys(breakpoints.keys)
   const smallestBreakpoint = gridBreakpoints.shift()
 
   // for xs
@@ -132,20 +136,20 @@ export const createGridStyles = (
       }
     })
     styles[
-      `@media screen and (min-width: ${theme.breakpoints[breakpointKey]}px)`
+      `@media screen and (min-width: ${breakpoints.width(breakpointKey)}px)`
     ] = gridLevelStyles
   })
 
   return styles
 }
 
-export const createSpacingStyles = (
-  theme: ITheme,
-): Record<string, React.CSSProperties> => {
+export const createSpacingStyles = ({
+  constants,
+}: ITheme): Record<string, React.CSSProperties> => {
   const styles = {}
 
   spacingOptions.forEach((spacing) => {
-    const themeSpacing = theme.constants.generalUnit || 8
+    const themeSpacing = constants.generalUnit || 8
 
     styles[`spacing-${spacing}`] = {
       "& $item": {

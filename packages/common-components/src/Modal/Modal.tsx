@@ -7,99 +7,111 @@ import {
 } from "@imploy/common-themes"
 import clsx from "clsx"
 
-const useStyles = makeStyles((theme: ITheme) =>
-  createStyles({
-    // JSS in CSS goes here
-    root: {
-      position: "fixed",
-      zIndex: 1,
-      bottom: 0,
-      left: 0,
-      width: "100%",
-      height: "100%",
-      opacity: 0,
-      visibility: "hidden",
-      maxHeight: 0,
-      display: "flex",
-      flexDirection: "column",
-      borderBottomLeftRadius: 0,
-      borderBottomRightRadius: 0,
-      "&.closable": {
-        "&:before": {
-          cursor: "pointer",
-        },
-      },
-      "&:before": {
-        content: "''",
-        display: "block",
+const useStyles = makeStyles(
+  ({ constants, palette, breakpoints, overrides }: ITheme) =>
+    createStyles({
+      // JSS in CSS goes here
+      root: {
+        position: "fixed",
+        zIndex: 1,
+        bottom: 0,
+        left: 0,
         width: "100%",
         height: "100%",
+        opacity: 0,
+        visibility: "hidden",
+        maxHeight: 0,
+        display: "flex",
+        flexDirection: "column",
+        borderBottomLeftRadius: 0,
+        borderBottomRightRadius: 0,
+        "&.closable": {
+          "&:before": {
+            cursor: "pointer",
+          },
+        },
+        "&:before": {
+          content: "''",
+          display: "block",
+          width: "100%",
+          height: "100%",
+          position: "absolute",
+          opacity: constants.modal?.backgroundFade,
+          top: 0,
+          left: 0,
+          zIndex: 0,
+          backgroundColor: palette.common?.black.main,
+        },
+        "&.active": {
+          ...constants.modal,
+          maxHeight: "100%",
+          visibility: "visible",
+          opacity: 1,
+          ...overrides?.Modal?.active,
+        },
+        ...overrides?.Modal?.root,
+      },
+      inner: {
+        ...constants.modal.inner,
+        flexGrow: 1,
+        flexDirection: "column",
+        display: "flex",
+        backgroundColor: palette.common?.white.main,
+        top: "50%",
+        left: "50%",
         position: "absolute",
-        opacity: theme.constants.modal?.backgroundFade,
-        top: 0,
-        left: 0,
-        zIndex: 0,
-        backgroundColor: theme.palette.common?.black.main,
-      },
-      "&.active": {
-        ...theme.constants.modal,
-        maxHeight: "100%",
-        visibility: "visible",
-        opacity: 1,
-      },
-    },
-    inner: {
-      ...theme.constants.modal.inner,
-      flexGrow: 1,
-      flexDirection: "column",
-      display: "flex",
-      backgroundColor: theme.palette.common?.white.main,
-      top: "50%",
-      left: "50%",
-      position: "absolute",
-      transform: "translate(-50%, -50%)",
-      "&.xs": {
-        width: `calc(100% - ${theme.constants.generalUnit * 2}px)`,
-        maxWidth: theme.breakpoints.width("xs"),
-      },
-      "&.sm": {
-        width: `calc(100% - ${theme.constants.generalUnit * 2}px)`,
-        maxWidth: theme.breakpoints.width("sm"),
-      },
-      "&.md": {
-        width: `calc(100% - ${theme.constants.generalUnit * 2}px)`,
-        maxWidth: theme.breakpoints.width("md"),
-      },
-      "&.lg": {
-        width: `calc(100% - ${theme.constants.generalUnit * 2}px)`,
-        maxWidth: theme.breakpoints.width("lg"),
-      },
-      "&.xl": {
-        width: `calc(100% - ${theme.constants.generalUnit * 2}px)`,
-        maxWidth: theme.breakpoints.width("lg"),
-      },
-    },
-    closeIcon: {
-      ...theme.constants.icon,
-      borderRadius: "50%",
-      display: "block",
-      top: 0,
-      backgroundColor: theme.palette.common?.white.main,
-      cursor: "pointer",
-      position: "absolute",
-      "&.right": {
-        transform: "translate(50%, -50%)",
-        right: 0,
-      },
-      "&.left": {
-        left: 0,
         transform: "translate(-50%, -50%)",
+        "&.xs": {
+          width: `calc(100% - ${constants.generalUnit * 2}px)`,
+          maxWidth: breakpoints.width("xs"),
+          ...overrides?.Modal?.inner?.size?.xs,
+        },
+        "&.sm": {
+          width: `calc(100% - ${constants.generalUnit * 2}px)`,
+          maxWidth: breakpoints.width("sm"),
+          ...overrides?.Modal?.inner?.size?.sm,
+        },
+        "&.md": {
+          width: `calc(100% - ${constants.generalUnit * 2}px)`,
+          maxWidth: breakpoints.width("md"),
+          ...overrides?.Modal?.inner?.size?.md,
+        },
+        "&.lg": {
+          width: `calc(100% - ${constants.generalUnit * 2}px)`,
+          maxWidth: breakpoints.width("lg"),
+          ...overrides?.Modal?.inner?.size?.lg,
+        },
+        "&.xl": {
+          width: `calc(100% - ${constants.generalUnit * 2}px)`,
+          maxWidth: breakpoints.width("lg"),
+          ...overrides?.Modal?.inner?.size?.xl,
+        },
+        ...overrides?.Modal?.inner?.root,
       },
-      "&.none": {
-        display: "none",
+      closeIcon: {
+        ...constants.icon,
+        borderRadius: "50%",
+        display: "block",
+        top: 0,
+        backgroundColor: palette.common?.white.main,
+        cursor: "pointer",
+        position: "absolute",
+        "&.right": {
+          transform: "translate(50%, -50%)",
+          right: 0,
+          ...overrides?.Modal?.closeIcon?.right,
+        },
+        "&.left": {
+          left: 0,
+          transform: "translate(-50%, -50%)",
+          ...overrides?.Modal?.closeIcon?.left,
+        },
+        "&.none": {
+          display: "none",
+        },
+        ...overrides?.Modal?.closeIcon?.root,
       },
-    },
-  }),
+    }),
 )
 
 interface IModalProps {

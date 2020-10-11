@@ -6,7 +6,6 @@ import {
   AppleLogoIcon,
   GoogleLogoIcon,
   ChainsafeFilesLogo,
-  Link,
   Divider,
 } from "@imploy/common-components"
 import { useImployApi } from "@imploy/common-contexts"
@@ -18,7 +17,6 @@ import {
   useMediaQuery,
 } from "@imploy/common-themes"
 import { useWeb3 } from "@chainsafe/web3-context"
-import { ROUTE_LINKS } from "../FilesRoutes"
 import LargeLightBulbSvg from "../../Media/LargeLightBulb.svg"
 import SmallBranchSvg from "../../Media/SmallBranch.svg"
 

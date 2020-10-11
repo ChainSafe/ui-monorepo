@@ -11,16 +11,16 @@ interface IStyleProps {
   size: number
 }
 
-const useStyles = makeStyles((theme: ITheme) =>
+const useStyles = makeStyles(({ animation, palette, overrides }: ITheme) =>
   createStyles({
     root: (props: IStyleProps) => ({
-      backgroundColor: theme.palette.background.default,
+      backgroundColor: palette.background.default,
       border: "1px solid",
-      borderColor: theme.palette.additional["gray"][4],
+      borderColor: palette.additional["gray"][4],
       position: "fixed",
       opacity: 0,
       visibility: "hidden",
-      transition: `all ${theme.animation.transform}ms ease`,
+      transition: `all ${animation.transform}ms ease`,
       "&.top": {
         top: 0,
         left: 0,
@@ -31,7 +31,9 @@ const useStyles = makeStyles((theme: ITheme) =>
           opacity: 1,
           visibility: "visible",
           transform: "translateY(0)",
+          ...overrides?.Drawer?.position?.top?.open,
         },
+        ...overrides?.Drawer?.position?.top?.root,
       },
       "&.right": {
         right: 0,
@@ -43,7 +45,9 @@ const useStyles = makeStyles((theme: ITheme) =>
           opacity: 1,
           visibility: "visible",
           transform: "translateX(0)",
+          ...overrides?.Drawer?.position?.right?.open,
         },
+        ...overrides?.Drawer?.position?.right?.root,
       },
       "&.bottom": {
         bottom: 0,
@@ -55,7 +59,9 @@ const useStyles = makeStyles((theme: ITheme) =>
           opacity: 1,
           visibility: "visible",
           transform: "translateY(0)",
+          ...overrides?.Drawer?.position?.bottom?.open,
         },
+        ...overrides?.Drawer?.position?.bottom?.root,
       },
       "&.left": {
         left: 0,
@@ -67,11 +73,14 @@ const useStyles = makeStyles((theme: ITheme) =>
           opacity: 1,
           visibility: "visible",
           transform: "translateX(0)",
+          ...overrides?.Drawer?.position?.left?.open,
         },
+        ...overrides?.Drawer?.position?.left?.root,
       },
+      ...overrides?.Drawer?.root,
     }),
     backdrop: {
-      transition: `all ${theme.animation.transform}ms`,
+      transition: `all ${animation.transform}ms`,
       "&.open": {
         position: "fixed",
         top: 0,
@@ -82,11 +91,14 @@ const useStyles = makeStyles((theme: ITheme) =>
         justifyContent: "center",
         alignItems: "center",
         opacity: 0.25,
-        background: theme.palette.additional["gray"][6],
+        background: palette.additional["gray"][6],
         "&.transparent": {
           background: "transparent",
+          ...overrides?.Drawer?.backdrop?.transparent,
         },
+        ...overrides?.Drawer?.backdrop?.open,
       },
+      ...overrides?.Drawer?.backdrop?.root,
     },
   }),
 )
