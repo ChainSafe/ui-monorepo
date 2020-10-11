@@ -118,7 +118,6 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
                   refreshTokenLocal,
                 )
 
-                console.log(access_token, refresh_token)
                 setTokensAndSave(access_token, refresh_token)
                 error.response.config.headers.Authorization = `Bearer ${access_token.token}`
                 return axios(error.response.config)
@@ -145,8 +144,6 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
             access_token,
             refresh_token,
           } = await apiClient.getRefreshToken(savedRefreshToken)
-
-          console.log(access_token, refresh_token)
 
           setTokensAndSave(access_token, refresh_token)
         } catch (error) {}
