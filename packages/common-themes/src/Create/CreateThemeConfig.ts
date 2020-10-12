@@ -87,7 +87,6 @@ interface IShadows {
   [key: string]: string
 }
 
-// TODO: convert to Map & Sets for efficency
 interface IThemeConfig {
   animation: IAnimation
   breakpoints: IBreakpoints
