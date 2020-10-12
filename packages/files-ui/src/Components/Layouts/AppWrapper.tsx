@@ -26,12 +26,6 @@ interface IAppWrapper {
   children: ReactNode | ReactNode[]
 }
 
-/**
- * TODO: Establish height & padding values
- * TODO: position fix + position nav wrappers
- * Content will have padding based on wrappers to ensure system scroll
- */
-
 const useStyles = makeStyles(
   ({ palette, animation, breakpoints, constants }: ITheme) => {
     const modalWidth = constants.generalUnit * 27
