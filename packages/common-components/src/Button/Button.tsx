@@ -2,193 +2,218 @@ import React, { ReactNode } from "react"
 import clsx from "clsx"
 import { ITheme, makeStyles, createStyles } from "@imploy/common-themes"
 
-const useStyles = makeStyles((theme: ITheme) =>
-  createStyles({
-    // JSS in CSS goes here
-    root: {
-      ...theme.typography.button,
-      borderRadius: `${theme.constants.generalUnit / 4}px`,
-      display: "flex",
-      justifyContent: "center",
-      textAlign: "center",
-      alignItems: "center",
-      textDecoration: "none",
-      cursor: "pointer",
-      transitionDuration: `${theme.animation.transform}ms`,
-      border: "none",
-      outline: "none",
-      "& svg": {
-        transitionDuration: `${theme.animation.transform}ms`,
-        margin: `${0}px ${theme.constants.generalUnit / 2}px 0`,
-      },
-      "&.large": {
-        padding: `${theme.constants.generalUnit}px ${
-          theme.constants.generalUnit * 2
-        }px`,
-      },
-      "&.medium": {
-        padding: `${theme.constants.generalUnit * 0.6}px ${
-          theme.constants.generalUnit * 2
-        }px`,
-      },
-      "&.small": {
-        padding: `${theme.constants.generalUnit * 0.125}px ${
-          theme.constants.generalUnit
-        }px`,
-      },
-    },
-    // Variants
-    primary: {
-      backgroundColor: theme.palette.additional["blue"][6],
-      color: theme.palette.common.white.main,
-      "& svg": {
-        fill: theme.palette.common.white.main,
-      },
-      "&:hover": {
-        backgroundColor: theme.palette.additional["blue"][5],
-      },
-      "&:focus": {
-        backgroundColor: theme.palette.additional["blue"][5],
-      },
-      "&:active": {
-        backgroundColor: theme.palette.additional["blue"][7],
-      },
-    },
-    outline: {
-      color: theme.palette.additional["gray"][8],
-      backgroundColor: theme.palette.common?.white.main,
-      border: `1px solid ${theme.palette.additional["gray"][5]}`,
-      "& svg": {
-        fill: theme.palette.additional["gray"][8],
-      },
-      "&:hover": {
-        borderColor: theme.palette.additional["blue"][5],
-        color: theme.palette.additional["blue"][5],
+const useStyles = makeStyles(
+  ({ constants, typography, animation, palette, overrides }: ITheme) =>
+    createStyles({
+      // JSS in CSS goes here
+      root: {
+        ...typography.button,
+        borderRadius: `${constants.generalUnit / 4}px`,
+        display: "flex",
+        justifyContent: "center",
+        textAlign: "center",
+        alignItems: "center",
+        textDecoration: "none",
+        cursor: "pointer",
+        transitionDuration: `${animation.transform}ms`,
+        border: "none",
+        outline: "none",
         "& svg": {
-          fill: theme.palette.additional["blue"][5],
+          transitionDuration: `${animation.transform}ms`,
+          margin: `${0}px ${constants.generalUnit / 2}px 0`,
         },
+        "&.large": {
+          padding: `${constants.generalUnit}px ${constants.generalUnit * 2}px`,
+          ...overrides?.Button?.size?.large,
+        },
+        "&.medium": {
+          padding: `${constants.generalUnit * 0.6}px ${
+            constants.generalUnit * 2
+          }px`,
+          ...overrides?.Button?.size?.medium,
+        },
+        "&.small": {
+          padding: `${constants.generalUnit * 0.125}px ${
+            constants.generalUnit
+          }px`,
+          ...overrides?.Button?.size?.small,
+        },
+        ...overrides?.Button?.root,
       },
-      "&:focus": {
-        borderColor: theme.palette.additional["blue"][5],
-        color: theme.palette.additional["blue"][5],
+      // Variants
+      primary: {
+        backgroundColor: palette.additional["blue"][6],
+        color: palette.common.white.main,
         "& svg": {
-          fill: theme.palette.additional["blue"][5],
+          fill: palette.common.white.main,
         },
+        "&:hover": {
+          backgroundColor: palette.additional["blue"][5],
+          ...overrides?.Button?.variants?.primary?.hover,
+        },
+        "&:focus": {
+          backgroundColor: palette.additional["blue"][5],
+          ...overrides?.Button?.variants?.primary?.focus,
+        },
+        "&:active": {
+          backgroundColor: palette.additional["blue"][7],
+          ...overrides?.Button?.variants?.primary?.active,
+        },
+        ...overrides?.Button?.variants?.primary?.root,
       },
-      "&:active": {
-        borderColor: theme.palette.additional["blue"][7],
-        color: theme.palette.additional["blue"][7],
+      outline: {
+        color: palette.additional["gray"][8],
+        backgroundColor: palette.common?.white.main,
+        border: `1px solid ${palette.additional["gray"][5]}`,
         "& svg": {
-          fill: theme.palette.additional["blue"][7],
+          fill: palette.additional["gray"][8],
         },
+        "&:hover": {
+          borderColor: palette.additional["blue"][5],
+          color: palette.additional["blue"][5],
+          "& svg": {
+            fill: palette.additional["blue"][5],
+          },
+          ...overrides?.Button?.variants?.outline?.hover,
+        },
+        "&:focus": {
+          borderColor: palette.additional["blue"][5],
+          color: palette.additional["blue"][5],
+          "& svg": {
+            fill: palette.additional["blue"][5],
+          },
+          ...overrides?.Button?.variants?.outline?.focus,
+        },
+        "&:active": {
+          borderColor: palette.additional["blue"][7],
+          color: palette.additional["blue"][7],
+          "& svg": {
+            fill: palette.additional["blue"][7],
+          },
+          ...overrides?.Button?.variants?.outline?.active,
+        },
+        ...overrides?.Button?.variants?.outline?.root,
       },
-    },
-    dashed: {
-      color: theme.palette.additional["gray"][8],
-      backgroundColor: theme.palette.common?.white.main,
-      border: `1px dashed ${theme.palette.additional["gray"][5]}`,
-      "& svg": {
-        fill: theme.palette.additional["gray"][8],
-      },
-      "&:hover": {
-        borderColor: theme.palette.additional["blue"][5],
-        color: theme.palette.additional["blue"][5],
+      dashed: {
+        color: palette.additional["gray"][8],
+        backgroundColor: palette.common?.white.main,
+        border: `1px dashed ${palette.additional["gray"][5]}`,
         "& svg": {
-          fill: theme.palette.additional["blue"][5],
+          fill: palette.additional["gray"][8],
         },
+        "&:hover": {
+          borderColor: palette.additional["blue"][5],
+          color: palette.additional["blue"][5],
+          "& svg": {
+            fill: palette.additional["blue"][5],
+          },
+          ...overrides?.Button?.variants?.dashed?.hover,
+        },
+        "&:focus": {
+          borderColor: palette.additional["blue"][5],
+          color: palette.additional["blue"][5],
+          "& svg": {
+            fill: palette.additional["blue"][5],
+          },
+          ...overrides?.Button?.variants?.dashed?.focus,
+        },
+        "&:active": {
+          borderColor: palette.additional["blue"][7],
+          color: palette.additional["blue"][7],
+          "& svg": {
+            fill: palette.additional["blue"][7],
+          },
+          ...overrides?.Button?.variants?.dashed?.active,
+        },
+        ...overrides?.Button?.variants?.dashed?.root,
       },
-      "&:focus": {
-        borderColor: theme.palette.additional["blue"][5],
-        color: theme.palette.additional["blue"][5],
+      danger: {
+        color: palette.common?.white.main,
+        backgroundColor: palette.additional["red"][5],
+        border: `1px solid transparent`,
         "& svg": {
-          fill: theme.palette.additional["blue"][5],
+          fill: palette.common?.white.main,
         },
+        "&:hover": {
+          backgroundColor: palette.additional["red"][4],
+          ...overrides?.Button?.state?.danger?.hover,
+        },
+        "&:focus": {
+          backgroundColor: palette.additional["red"][4],
+          ...overrides?.Button?.state?.danger?.focus,
+        },
+        "&:active": {
+          backgroundColor: palette.additional["red"][7],
+          ...overrides?.Button?.state?.danger?.active,
+        },
+        ...overrides?.Button?.state?.danger?.root,
       },
-      "&:active": {
-        borderColor: theme.palette.additional["blue"][7],
-        color: theme.palette.additional["blue"][7],
+      // Modifiers
+      fullsize: {
+        width: "100%",
+      },
+      icon: {
+        borderRadius: "50%",
+        padding: 0,
+        position: "relative",
+        "& > *": {
+          position: "absolute",
+          top: "50%",
+          left: "50%",
+          transform: "translate(-50%, -50%)",
+        },
         "& svg": {
-          fill: theme.palette.additional["blue"][7],
+          margin: 0,
         },
+        "&.large": {
+          height: constants.generalUnit * 5,
+          width: constants.generalUnit * 5,
+          "& svg": {
+            height: 20,
+            width: 20,
+          },
+          ...overrides?.Button?.icon?.large,
+        },
+        "&.medium": {
+          height: constants.generalUnit * 4,
+          width: constants.generalUnit * 4,
+          "& svg": {
+            height: 18,
+            width: 18,
+          },
+          ...overrides?.Button?.icon?.medium,
+        },
+        "&.small": {
+          height: constants.generalUnit * 3,
+          width: constants.generalUnit * 3,
+          "& svg": {
+            height: 16,
+            width: 16,
+          },
+          ...overrides?.Button?.icon?.small,
+        },
+        ...overrides?.Button?.icon?.root,
       },
-    },
-    danger: {
-      color: theme.palette.common?.white.main,
-      backgroundColor: theme.palette.additional["red"][5],
-      border: `1px solid transparent`,
-      "& svg": {
-        fill: theme.palette.common?.white.main,
-      },
-      "&:hover": {
-        backgroundColor: theme.palette.additional["red"][4],
-      },
-      "&:focus": {
-        backgroundColor: theme.palette.additional["red"][4],
-      },
-      "&:active": {
-        backgroundColor: theme.palette.additional["red"][7],
-      },
-    },
-    // Modifiers
-    fullsize: {
-      width: "100%",
-    },
-    icon: {
-      borderRadius: "50%",
-      padding: 0,
-      position: "relative",
-      "& > *": {
-        position: "absolute",
-        top: "50%",
-        left: "50%",
-        transform: "translate(-50%, -50%)",
-      },
-      "& svg": {
-        margin: 0,
-      },
-      "&.large": {
-        height: theme.constants.generalUnit * 5,
-        width: theme.constants.generalUnit * 5,
+      disabled: {
+        backgroundColor: `${palette.additional["gray"][3]} !important`,
+        borderColor: `${palette.additional["gray"][5]} !important`,
+        color: `${palette.additional["gray"][6]} !important`,
+        cursor: "initial",
         "& svg": {
-          height: 20,
-          width: 20,
+          fill: `${palette.additional["gray"][6]} !important`,
         },
-      },
-      "&.medium": {
-        height: theme.constants.generalUnit * 4,
-        width: theme.constants.generalUnit * 4,
-        "& svg": {
-          height: 18,
-          width: 18,
+        "&:hover": {
+          backgroundColor: palette.additional["gray"][3],
+          borderColor: palette.additional["gray"][5],
+          color: palette.additional["gray"][6],
+          "& svg": {
+            fill: `${palette.additional["gray"][6]} !important`,
+          },
+          ...overrides?.Button?.state?.disabled?.hover,
         },
+        ...overrides?.Button?.state?.disabled?.root,
       },
-      "&.small": {
-        height: theme.constants.generalUnit * 3,
-        width: theme.constants.generalUnit * 3,
-        "& svg": {
-          height: 16,
-          width: 16,
-        },
-      },
-    },
-    disabled: {
-      backgroundColor: `${theme.palette.additional["gray"][3]} !important`,
-      borderColor: `${theme.palette.additional["gray"][5]} !important`,
-      color: `${theme.palette.additional["gray"][6]} !important`,
-      cursor: "initial",
-      "& svg": {
-        fill: `${theme.palette.additional["gray"][6]} !important`,
-      },
-      "&:hover": {
-        backgroundColor: theme.palette.additional["gray"][3],
-        borderColor: theme.palette.additional["gray"][5],
-        color: theme.palette.additional["gray"][6],
-        "& svg": {
-          fill: `${theme.palette.additional["gray"][6]} !important`,
-        },
-      },
-    },
-  }),
+    }),
 )
 
 type ReactButton = React.HTMLProps<HTMLButtonElement>

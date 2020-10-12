@@ -4,21 +4,21 @@ import { makeStyles, createStyles } from "@imploy/common-themes"
 import { ITheme } from "@imploy/common-themes"
 import clsx from "clsx"
 
-const useStyles = makeStyles((theme: ITheme) =>
+const useStyles = makeStyles(({ palette, overrides }: ITheme) =>
   createStyles({
     root: {
       "& .simplebar-vertical": {
         width: 5,
         borderRadius: 6,
         opacity: 1,
-        backgroundColor: theme.palette.primary.background,
+        backgroundColor: palette.primary.background,
         padding: 0,
       },
       "& .simplebar-scrollbar": {
         width: 5,
         borderRadius: 6,
         "&:before": {
-          backgroundColor: theme.palette.primary.main,
+          backgroundColor: palette.primary.main,
           width: 5,
           left: 0,
           right: 0,
@@ -26,6 +26,7 @@ const useStyles = makeStyles((theme: ITheme) =>
           bottom: 0,
         },
       },
+      ...overrides?.ScrollbarWrapper?.root,
     },
   }),
 )

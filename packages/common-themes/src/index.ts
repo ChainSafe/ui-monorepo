@@ -6,6 +6,7 @@ import { IDefaultPalette } from "./Defaults/ColorPalette"
 
 export {
   default as createTheme,
+  ICreateThemeProps,
   ITheme,
   IPaletteColor,
   IPalette,

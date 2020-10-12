@@ -2,17 +2,20 @@ import React, { ReactNode } from "react"
 import clsx from "clsx"
 import { ITheme, makeStyles, createStyles } from "@imploy/common-themes"
 
-const useStyles = makeStyles((theme: ITheme) =>
-  createStyles({
-    root: {
-      padding: theme.constants.generalUnit * 2,
-      borderTop: `1px solid ${theme.palette["gray"][4]}`,
-      ...theme.typography.body1,
-    },
-    dense: {
-      padding: theme.constants.generalUnit,
-    },
-  }),
+const useStyles = makeStyles(
+  ({ constants, palette, typography, overrides }: ITheme) =>
+    createStyles({
+      root: {
+        padding: constants.generalUnit * 2,
+        borderTop: `1px solid ${palette["gray"][4]}`,
+        ...typography.body1,
+        ...overrides?.Card?.footer?.root,
+      },
+      dense: {
+        padding: constants.generalUnit,
+        ...overrides?.Card?.footer?.dense,
+      },
+    }),
 )
 
 export interface ICardHeader {
