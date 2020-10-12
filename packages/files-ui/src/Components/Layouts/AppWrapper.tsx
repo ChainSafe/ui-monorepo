@@ -95,6 +95,8 @@ const useStyles = makeStyles(
           top: mobileHeaderHeight,
           backgroundColor: palette.additional["gray"][9],
           zIndex: zIndex?.layer1,
+          padding: `0 ${constants.generalUnit * 4}px`,
+          maxWidth: "100vw",
           "&:before": {
             content: "''",
             display: "block",
@@ -105,10 +107,11 @@ const useStyles = makeStyles(
             left: 0,
             height: `calc(100% - ${mobileHeaderHeight}px)`,
             width: "100%",
-            zIndex: zIndex?.layer0,
+            transitionDuration: `${animation.translate}ms`,
+            zIndex: zIndex?.background,
           },
           "&.active": {
-            width: modalWidth,
+            width: mobileNavWidth,
           },
         },
       },
@@ -116,12 +119,14 @@ const useStyles = makeStyles(
         display: "flex",
         flexDirection: "column",
         marginBottom: constants.generalUnit * 8.5,
+        transitionDuration: `${animation.translate}ms`,
       },
       linksArea: {
         display: "flex",
         flexDirection: "column",
         flex: "1 1 0",
         justifyContent: "center",
+        transitionDuration: `${animation.translate}ms`,
         "& > span": {
           marginBottom: constants.generalUnit * 2,
         },
@@ -130,13 +135,7 @@ const useStyles = makeStyles(
         },
         [breakpoints.down("sm")]: {
           transitionDuration: `${animation.translate}ms`,
-          position: "fixed",
-          top: 0,
-          left: 0,
-          overflow: "hidden",
-          height: "100%",
-          width: 0,
-
+          color: palette.additional["gray"][3],
           "&.active": {},
         },
       },
@@ -149,6 +148,13 @@ const useStyles = makeStyles(
         "& svg": {
           width: svgWidth,
           marginRight: constants.generalUnit * 2,
+          [breakpoints.down("sm")]: {
+            fill: palette.additional["gray"][3],
+          },
+        },
+        [breakpoints.down("sm")]: {
+          color: palette.additional["gray"][3],
+          minWidth: mobileNavWidth,
         },
       },
       bodyWrapper: {

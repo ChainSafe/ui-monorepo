@@ -35,7 +35,7 @@ const useStyles = makeStyles(
             },
             "&:last-child": {
               top: `calc(50% + ${constants.generalUnit}px)`,
-              width: "80%",
+              width: "60%",
             },
           },
           "&:hover": {
@@ -68,7 +68,7 @@ const useStyles = makeStyles(
             [breakpoints.up("sm")]: {
               "& span": {
                 "&:last-child": {
-                  width: "80%",
+                  width: "60%",
                 },
               },
             },
