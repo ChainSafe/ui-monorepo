@@ -94,17 +94,18 @@ const useStyles = makeStyles(
   },
 )
 
-interface IHamburgerMenu extends React.HTMLProps<HTMLDivElement> {
+export interface IHamburgerMenu extends React.HTMLProps<HTMLDivElement> {
   variant: "default" | "active"
   // | "loading"
 }
 
 const HamburgerMenu: React.FC<IHamburgerMenu> = ({
   variant = "default",
+  onClick,
 }: IHamburgerMenu) => {
   const classes = useStyles()
   return (
-    <section className={clsx(classes.root, variant)}>
+    <section onClick={onClick} className={clsx(classes.root, variant)}>
       <div className={classes.inner}>
         <span></span>
         <span></span>
