@@ -48,21 +48,11 @@ export interface IBreakpoints {
   width: (key: Breakpoint) => number
 }
 
-export interface Breakpoints {
-  keys: Breakpoint[]
-  values: BreakpointValues
-  up: (key: Breakpoint | number) => string
-  down: (key: Breakpoint | number) => string
-  between: (start: Breakpoint | number, end: Breakpoint | number) => string
-  only: (key: Breakpoint) => string
-  width: (key: Breakpoint) => number
-}
-
 export type BreakpointsOptions = Partial<
   {
     unit: string
     step: number
-  } & Breakpoints
+  } & IBreakpoints
 >
 
 // Keep in mind that @media is inclusive by the CSS specification.

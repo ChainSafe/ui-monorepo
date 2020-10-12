@@ -11,69 +11,80 @@ import {
 import { SortDirection } from "./types"
 import { CaretDownSvg } from "../Icons"
 
-const useStyles = makeStyles((theme: ITheme) =>
-  createStyles({
-    root: {
-      fontWeight: "bold",
-      verticalAlign: "middle",
-    },
-    alignLeft: {
-      textAlign: "left",
-      justifyContent: "flex-start",
-    },
-    alignCenter: {
-      textAlign: "center",
-      justifyContent: "center",
-    },
-    alignRight: {
-      textAlign: "right",
-      justifyContent: "flex-end",
-    },
-    sortButtons: {
-      cursor: "pointer",
-      "&:hover": {
-        backgroundColor: theme.palette.additional["gray"][2],
+const useStyles = makeStyles(
+  ({ animation, palette, constants, overrides }: ITheme) =>
+    createStyles({
+      root: {
+        fontWeight: "bold",
+        verticalAlign: "middle",
+        ...overrides?.Table?.headCell?.root,
       },
-    },
-    sortContainer: {
-      display: "flex",
-      alignItems: "center",
-    },
-    sortChildrenContainer: {
-      flex: "1",
-      "&.sortCenterAlign": {
-        marginLeft: `${theme.constants.generalUnit * 1.5}px`,
+      alignLeft: {
+        textAlign: "left",
+        justifyContent: "flex-start",
+        ...overrides?.Table?.headCell?.left,
       },
-    },
-    caret: {
-      marginLeft: 4,
-      fontSize: "12px",
-      opacity: 0.4,
-      "&.active": {
-        opacity: 1,
+      alignCenter: {
+        textAlign: "center",
+        justifyContent: "center",
+        ...overrides?.Table?.headCell?.center,
       },
-      "& svg": {
-        fill: theme.palette.additional["gray"][6],
+      alignRight: {
+        textAlign: "right",
+        justifyContent: "flex-end",
+        ...overrides?.Table?.headCell?.right,
       },
-      "&.ascend": {
-        transition: `transform ${theme.animation.transform}ms`,
-        transform: "rotate(-180deg)",
-        "& svg": {
-          fill: theme.palette.additional["gray"][9],
+      sortButtons: {
+        cursor: "pointer",
+        "&:hover": {
+          backgroundColor: palette.additional["gray"][2],
+          ...overrides?.Table?.headCell?.sortButton?.hover,
         },
+        ...overrides?.Table?.headCell?.sortButton?.root,
       },
-      "&.descend": {
-        transition: `transform ${theme.animation.transform}ms`,
-        transform: "rotate(0deg)",
-        "& svg": {
-          fill: theme.palette.additional["gray"][9],
+      sortContainer: {
+        display: "flex",
+        alignItems: "center",
+        ...overrides?.Table?.headCell?.sortContainer,
+      },
+      sortChildrenContainer: {
+        flex: "1",
+        "&.sortCenterAlign": {
+          marginLeft: `${constants.generalUnit * 1.5}px`,
         },
+        ...overrides?.Table?.headCell?.sortContainerChildren,
       },
-    },
-    caretContainer: {
-      display: "inline-grid",
-    },
-  }),
+      caret: {
+        marginLeft: 4,
+        fontSize: "12px",
+        opacity: 0.4,
+        "&.active": {
+          opacity: 1,
+        },
+        "& svg": {
+          fill: palette.additional["gray"][6],
+        },
+        "&.ascend": {
+          transition: `transform ${animation.transform}ms`,
+          transform: "rotate(-180deg)",
+          "& svg": {
+            fill: palette.additional["gray"][9],
+          },
+        },
+        "&.descend": {
+          transition: `transform ${animation.transform}ms`,
+          transform: "rotate(0deg)",
+          "& svg": {
+            fill: palette.additional["gray"][9],
+          },
+        },
+        ...overrides?.Table?.headCell?.caretContainerChildren,
+      },
+      caretContainer: {
+        display: "inline-grid",
+        ...overrides?.Table?.headCell?.caretContainer,
+      },
+    }),
 )
 
 export interface ITableHeadCellProps {

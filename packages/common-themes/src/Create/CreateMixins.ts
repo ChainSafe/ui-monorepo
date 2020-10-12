@@ -1,12 +1,12 @@
 import { DefaultMixins } from "../Defaults/Mixins"
+import { mergeDeep } from "../utils/deepMerge"
 
 type MixinConfig = Record<string, any>
 
 const createMixins = (additionalMixins?: MixinConfig): MixinConfig => {
   // No transforms required yet
   return {
-    ...DefaultMixins,
-    ...additionalMixins,
+    ...mergeDeep(DefaultMixins, additionalMixins as MixinConfig),
   }
 }
 
