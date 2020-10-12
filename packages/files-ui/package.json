@@ -8,6 +8,7 @@
     "@sentry/react": "^5.25.0",
     "@types/yup": "^0.29.8",
     "bnc-onboard": "^1.14.0",
+    "clsx": "^1.1.1",
     "dayjs": "^1.9.1",
     "ethers": "^5.0.17",
     "formik": "^2.2.0",
