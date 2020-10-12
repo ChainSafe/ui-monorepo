@@ -15,51 +15,56 @@ export type BreadcrumbProps = {
   className?: string
 }
 
-const useStyles = makeStyles((theme: ITheme) =>
-  createStyles({
-    // JSS in CSS goes here
-    root: {
-      margin: 0,
-      display: "flex",
-      alignItems: "center",
-      "& > *": {
-        height: 22,
+const useStyles = makeStyles(
+  ({ constants, palette, zIndex, overrides }: ITheme) =>
+    createStyles({
+      // JSS in CSS goes here
+      root: {
+        margin: 0,
         display: "flex",
         alignItems: "center",
-        justifyContent: "center",
+        "& > *": {
+          height: 22,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        },
+        ...overrides?.Breadcrumb?.root,
       },
-    },
-    home: {
-      height: 16,
-      "& > svg": {
-        display: "block",
-        height: "100%",
-      },
-      "&.clickable": {
-        cursor: "pointer",
-      },
-    },
-    separator: {
-      padding: `${theme.constants.generalUnit}px ${theme.constants.generalUnit}px`,
-      color: theme.palette.additional["gray"][7],
-      position: "relative",
-      zIndex: theme.zIndex?.background,
-      "& > *": {
-        top: `calc(50% + 2px)`,
-        left: "50%",
-        display: "block",
-        position: "absolute",
-        transform: "translate(-50%, -50%)",
+      home: {
         height: 16,
+        "& > svg": {
+          display: "block",
+          height: "100%",
+        },
+        "&.clickable": {
+          cursor: "pointer",
+        },
+        ...overrides?.Breadcrumb?.home,
       },
-    },
-    crumb: {
-      display: "inline-block",
-      "&.clickable": {
-        cursor: "pointer",
+      separator: {
+        padding: `${constants.generalUnit}px ${constants.generalUnit}px`,
+        color: palette.additional["gray"][7],
+        position: "relative",
+        zIndex: zIndex?.background,
+        "& > *": {
+          top: `calc(50% + 2px)`,
+          left: "50%",
+          display: "block",
+          position: "absolute",
+          transform: "translate(-50%, -50%)",
+          height: 16,
+        },
+        ...overrides?.Breadcrumb?.separator,
       },
-    },
-  }),
+      crumb: {
+        display: "inline-block",
+        "&.clickable": {
+          cursor: "pointer",
+        },
+        ...overrides?.Breadcrumb?.crumb,
+      },
+    }),
 )
 
 const Breadcrumb: React.FC<BreadcrumbProps> = ({

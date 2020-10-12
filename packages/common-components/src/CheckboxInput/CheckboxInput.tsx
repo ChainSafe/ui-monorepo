@@ -4,89 +4,99 @@ import clsx from "clsx"
 import { Typography } from "../Typography"
 import { CheckIcon } from "../Icons"
 
-const useStyles = makeStyles((theme: ITheme) =>
-  createStyles({
-    root: {
-      cursor: "pointer",
-      display: "flex",
-    },
-    checkbox: {
-      position: "relative",
-      marginRight: theme.constants.generalUnit,
-      border: `1px solid ${theme.palette.additional["gray"][5]}`,
-      borderRadius: 2,
-      height: theme.constants.generalUnit * 2,
-      width: theme.constants.generalUnit * 2,
-      transitionDuration: `${theme.animation.transform}ms`,
-      "& span > svg": {
-        fill: theme.palette.common.white.main,
-        display: "block",
-        height: theme.constants.generalUnit * 2,
-        width: theme.constants.generalUnit * 2,
-        position: "absolute",
-        top: "50%",
-        left: "50%",
-        transitionDuration: `${theme.animation.transform}ms`,
-        transform: "translate(-50%,-50%)",
-        opacity: 0,
+const useStyles = makeStyles(
+  ({ constants, palette, animation, typography, overrides }: ITheme) =>
+    createStyles({
+      root: {
+        cursor: "pointer",
+        display: "flex",
+        ...overrides?.CheckboxInput?.root,
       },
-      "&:hover": {
-        borderColor: theme.palette.primary.main,
-      },
-      "&.checked": {
-        borderColor: theme.palette.primary.main,
-        backgroundColor: theme.palette.primary.main,
+      checkbox: {
+        position: "relative",
+        marginRight: constants.generalUnit,
+        border: `1px solid ${palette.additional["gray"][5]}`,
+        borderRadius: 2,
+        height: constants.generalUnit * 2,
+        width: constants.generalUnit * 2,
+        transitionDuration: `${animation.transform}ms`,
         "& span > svg": {
-          opacity: 1,
-        },
-      },
-      "&.disabled": {
-        borderColor: theme.palette.additional["gray"][5],
-        backgroundColor: theme.palette.additional["gray"][3],
-        "& span > svg": {
-          fill: theme.palette.additional["gray"][6],
-        },
-        "&:before": {
-          backgroundColor: theme.palette.additional["gray"][6],
+          fill: palette.common.white.main,
+          display: "block",
+          height: constants.generalUnit * 2,
+          width: constants.generalUnit * 2,
+          position: "absolute",
+          top: "50%",
+          left: "50%",
+          transitionDuration: `${animation.transform}ms`,
+          transform: "translate(-50%,-50%)",
+          opacity: 0,
         },
         "&:hover": {
-          borderColor: theme.palette.additional["gray"][5],
+          borderColor: palette.primary.main,
+          ...overrides?.CheckboxInput?.checkbox?.hover,
         },
-      },
-      "&:before": {
-        content: "''",
-        display: "block",
-        height: theme.constants.generalUnit,
-        width: theme.constants.generalUnit,
-        position: "absolute",
-        backgroundColor: theme.palette.primary.main,
-        top: "50%",
-        left: "50%",
-        transitionDuration: `${theme.animation.transform}ms`,
-        transform: "translate(-50%,-50%)",
-        opacity: 0,
-      },
-      "&.indeterminate": {
+        "&.checked": {
+          borderColor: palette.primary.main,
+          backgroundColor: palette.primary.main,
+          "& span > svg": {
+            opacity: 1,
+          },
+          ...overrides?.CheckboxInput?.checkbox?.checked,
+        },
+        "&.disabled": {
+          borderColor: palette.additional["gray"][5],
+          backgroundColor: palette.additional["gray"][3],
+          "& span > svg": {
+            fill: palette.additional["gray"][6],
+          },
+          "&:before": {
+            backgroundColor: palette.additional["gray"][6],
+          },
+          "&:hover": {
+            borderColor: palette.additional["gray"][5],
+          },
+          ...overrides?.CheckboxInput?.checkbox?.disabled,
+        },
         "&:before": {
-          opacity: 1,
+          content: "''",
+          display: "block",
+          height: constants.generalUnit,
+          width: constants.generalUnit,
+          position: "absolute",
+          backgroundColor: palette.primary.main,
+          top: "50%",
+          left: "50%",
+          transitionDuration: `${animation.transform}ms`,
+          transform: "translate(-50%,-50%)",
+          opacity: 0,
         },
+        "&.indeterminate": {
+          "&:before": {
+            opacity: 1,
+          },
+        },
+        ...overrides?.CheckboxInput?.checkbox?.root,
       },
-    },
-    input: {
-      visibility: "hidden",
-      display: "none",
-      opacity: 0,
-    },
-    label: {
-      ...theme.typography.body2,
-    },
-    labelDisabled: {
-      color: theme.palette.additional["gray"][6],
-    },
-    error: {
-      color: theme.palette.error.main,
-    },
-  }),
+      input: {
+        visibility: "hidden",
+        display: "none",
+        opacity: 0,
+        ...overrides?.CheckboxInput?.input,
+      },
+      label: {
+        ...typography.body2,
+        ...overrides?.CheckboxInput?.label,
+      },
+      labelDisabled: {
+        color: palette.additional["gray"][6],
+        ...overrides?.CheckboxInput?.labelDisabled,
+      },
+      error: {
+        color: palette.error.main,
+        ...overrides?.CheckboxInput?.error,
+      },
+    }),
 )
 
 interface ICheckboxProps

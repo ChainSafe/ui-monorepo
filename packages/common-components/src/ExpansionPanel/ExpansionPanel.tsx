@@ -4,64 +4,85 @@ import { Typography } from "../Typography"
 import clsx from "clsx"
 import { DirectionalRightIcon } from "../Icons"
 
-const useStyles = makeStyles((theme: ITheme) =>
-  createStyles({
-    // JSS in CSS goes here
-    root: {
-      position: "relative",
-      "&.basic": {
-        border: `1px solid ${theme.palette.additional["gray"][5]}`,
+const useStyles = makeStyles(
+  ({ animation, constants, palette, overrides }: ITheme) =>
+    createStyles({
+      // JSS in CSS goes here
+      root: {
+        position: "relative",
+        "&.basic": {
+          border: `1px solid ${palette.additional["gray"][5]}`,
+          ...overrides?.ExpansionPanel?.basic,
+        },
+        "&.borderless": {
+          ...overrides?.ExpansionPanel?.borderless,
+        },
+        ...overrides?.ExpansionPanel?.root,
       },
-      "&.borderless": {},
-    },
-    icon: {
-      "& svg": {
-        width: theme.constants.generalUnit,
-        height: theme.constants.generalUnit * 1.5,
-        fill: theme.palette.additional["gray"][9],
-        transitionDuration: `${theme.animation.transform}ms`,
-      },
-    },
-    heading: {
-      backgroundColor: theme.palette.additional["gray"][2],
-      padding: `${theme.constants.generalUnit * 1.5}px ${
-        theme.constants.generalUnit * 2
-      }px`,
-      color: theme.palette.additional["gray"][9],
-      cursor: "pointer",
-      "&.basic": {
-        backgroundColor: theme.palette.additional["gray"][2],
-      },
-      "&.borderless": {},
-      "&.active": {
+      icon: {
         "& svg": {
-          transform: "rotateZ(90deg)",
+          width: constants.generalUnit,
+          height: constants.generalUnit * 1.5,
+          fill: palette.additional["gray"][9],
+          transitionDuration: `${animation.transform}ms`,
         },
+        ...overrides?.ExpansionPanel?.icon,
       },
-    },
-    content: {
-      overflow: "hidden",
-      color: theme.palette.additional["gray"][8],
-      height: 0,
-      padding: `0 ${theme.constants.generalUnit * 2}px`,
-      transitionDuration: `${theme.animation.transform}ms`,
-      // opacity: 0,
-      "&.basic": {
-        backgroundColor: theme.palette.common.white.main,
-        borderTop: `0px solid ${theme.palette.additional["gray"][5]}`,
-        "&.active": {
-          borderTop: `1px solid ${theme.palette.additional["gray"][5]}`,
-        },
-      },
-      "&.active": {
-        padding: `${theme.constants.generalUnit * 2}px ${
-          theme.constants.generalUnit * 2
+      heading: {
+        backgroundColor: palette.additional["gray"][2],
+        padding: `${constants.generalUnit * 1.5}px ${
+          constants.generalUnit * 2
         }px`,
-        opacity: 1,
-        height: "auto",
+        color: palette.additional["gray"][9],
+        cursor: "pointer",
+        "&.basic": {
+          backgroundColor: palette.additional["gray"][2],
+          ...overrides?.ExpansionPanel?.heading?.basic?.root,
+          "&.active": {
+            ...overrides?.ExpansionPanel?.heading?.basic?.active,
+          },
+        },
+        "&.borderless": {
+          ...overrides?.ExpansionPanel?.heading?.borderless?.root,
+          "&.active": {
+            ...overrides?.ExpansionPanel?.heading?.borderless?.active,
+          },
+        },
+        "&.active": {
+          "& svg": {
+            transform: "rotateZ(90deg)",
+          },
+          ...overrides?.ExpansionPanel?.heading?.active,
+        },
+        ...overrides?.ExpansionPanel?.heading?.root,
       },
-    },
-  }),
+      content: {
+        overflow: "hidden",
+        color: palette.additional["gray"][8],
+        height: 0,
+        padding: `0 ${constants.generalUnit * 2}px`,
+        transitionDuration: `${animation.transform}ms`,
+        // opacity: 0,
+        "&.basic": {
+          backgroundColor: palette.common.white.main,
+          borderTop: `0px solid ${palette.additional["gray"][5]}`,
+          "&.active": {
+            borderTop: `1px solid ${palette.additional["gray"][5]}`,
+            ...overrides?.ExpansionPanel?.content?.basic?.active,
+          },
+          ...overrides?.ExpansionPanel?.content?.basic?.root,
+        },
+        "&.active": {
+          padding: `${constants.generalUnit * 2}px ${
+            constants.generalUnit * 2
+          }px`,
+          opacity: 1,
+          height: "auto",
+          ...overrides?.ExpansionPanel?.content?.active,
+        },
+        ...overrides?.ExpansionPanel?.content?.root,
+      },
+    }),
 )
 
 export interface IExpansionPanelProps {

@@ -1,6 +1,6 @@
 import React from "react"
 import { init, ErrorBoundary, showReportDialog } from "@sentry/react"
-import { createTheme, ThemeSwitcher } from "@imploy/common-themes"
+import { ThemeSwitcher } from "@imploy/common-themes"
 import { CssBaseline, Router, ToasterProvider } from "@imploy/common-components"
 import { Web3Provider } from "@chainsafe/web3-context"
 import {
@@ -10,6 +10,8 @@ import {
 } from "@imploy/common-contexts"
 import FilesRoutes from "./Components/FilesRoutes"
 import AppWrapper from "./Components/Layouts/AppWrapper"
+import { lightTheme } from "./Themes/LightTheme"
+import { darkTheme } from "./Themes/DarkTheme"
 if (
   process.env.NODE_ENV === "production" &&
   process.env.REACT_APP_SENTRY_DSN_URL &&
@@ -20,17 +22,6 @@ if (
     release: process.env.REACT_APP_SENTRY_RELEASE,
   })
 }
-
-const lightTheme = createTheme()
-lightTheme.palette.primary.main = "#000"
-lightTheme.palette.primary.hover = "#FFF"
-
-lightTheme.palette.secondary.main = "#FFF"
-lightTheme.palette.secondary.hover = "#000"
-
-const darkTheme = createTheme()
-darkTheme.palette.primary.main = "#FFF"
-darkTheme.palette.secondary.main = "#000"
 
 const App: React.FC<{}> = () => {
   const apiUrl =
