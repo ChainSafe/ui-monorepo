@@ -1,5 +1,3 @@
-import { CSSProperties } from "react"
-
 export interface IChainsafeLogoOverride {
-  root?: CSSProperties
+  root?: Record<string, any>
 }

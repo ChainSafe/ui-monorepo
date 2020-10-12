@@ -1,18 +1,16 @@
-import { CSSProperties } from "react"
-
 export interface ICardOverride {
-  root?: CSSProperties
-  hoverable?: CSSProperties
+  root?: Record<string, any>
+  hoverable?: Record<string, any>
   header?: {
-    root?: CSSProperties
-    dense?: CSSProperties
+    root?: Record<string, any>
+    dense?: Record<string, any>
   }
   body?: {
-    root?: CSSProperties
-    dense?: CSSProperties
+    root?: Record<string, any>
+    dense?: Record<string, any>
   }
   footer?: {
-    root?: CSSProperties
-    dense?: CSSProperties
+    root?: Record<string, any>
+    dense?: Record<string, any>
   }
 }

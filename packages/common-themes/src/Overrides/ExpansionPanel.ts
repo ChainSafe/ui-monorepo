@@ -1,30 +1,28 @@
-import { CSSProperties } from "react"
-
 export interface IExpansionPanelOverride {
-  root?: CSSProperties
-  basic?: CSSProperties
-  borderless?: CSSProperties
-  icon?: CSSProperties
+  root?: Record<string, any>
+  basic?: Record<string, any>
+  borderless?: Record<string, any>
+  icon?: Record<string, any>
 
   heading?: {
-    root?: CSSProperties
-    active?: CSSProperties
+    root?: Record<string, any>
+    active?: Record<string, any>
     borderless?: {
-      root?: CSSProperties
-      active?: CSSProperties
+      root?: Record<string, any>
+      active?: Record<string, any>
     }
     basic?: {
-      root?: CSSProperties
-      active?: CSSProperties
+      root?: Record<string, any>
+      active?: Record<string, any>
     }
   }
 
   content?: {
-    root?: CSSProperties
-    active?: CSSProperties
+    root?: Record<string, any>
+    active?: Record<string, any>
     basic?: {
-      root?: CSSProperties
-      active?: CSSProperties
+      root?: Record<string, any>
+      active?: Record<string, any>
     }
   }
 }

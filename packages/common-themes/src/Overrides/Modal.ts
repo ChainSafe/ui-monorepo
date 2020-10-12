@@ -1,23 +1,21 @@
-import { CSSProperties } from "react"
-
 export interface IModalOverride {
-  root?: CSSProperties
-  active?: CSSProperties
+  root?: Record<string, any>
+  active?: Record<string, any>
 
   inner?: {
-    root?: CSSProperties
+    root?: Record<string, any>
     size?: {
-      xs?: CSSProperties
-      sm?: CSSProperties
-      md?: CSSProperties
-      lg?: CSSProperties
-      xl?: CSSProperties
+      xs?: Record<string, any>
+      sm?: Record<string, any>
+      md?: Record<string, any>
+      lg?: Record<string, any>
+      xl?: Record<string, any>
     }
   }
 
   closeIcon?: {
-    root?: CSSProperties
-    left?: CSSProperties
-    right?: CSSProperties
+    root?: Record<string, any>
+    left?: Record<string, any>
+    right?: Record<string, any>
   }
 }

@@ -1,28 +1,26 @@
-import { CSSProperties } from "react"
-
 export interface IDrawerOverride {
-  root?: CSSProperties
+  root?: Record<string, any>
   backdrop?: {
-    root?: CSSProperties
-    open?: CSSProperties
-    transparent?: CSSProperties
+    root?: Record<string, any>
+    open?: Record<string, any>
+    transparent?: Record<string, any>
   }
   position?: {
     top?: {
-      root?: CSSProperties
-      open?: CSSProperties
+      root?: Record<string, any>
+      open?: Record<string, any>
     }
     bottom?: {
-      root?: CSSProperties
-      open?: CSSProperties
+      root?: Record<string, any>
+      open?: Record<string, any>
     }
     right?: {
-      root?: CSSProperties
-      open?: CSSProperties
+      root?: Record<string, any>
+      open?: Record<string, any>
     }
     left?: {
-      root?: CSSProperties
-      open?: CSSProperties
+      root?: Record<string, any>
+      open?: Record<string, any>
     }
   }
 }

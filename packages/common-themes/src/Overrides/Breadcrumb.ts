@@ -1,8 +1,6 @@
-import { CSSProperties } from "react"
-
 export interface IBreadcrumbOverride {
-  root?: CSSProperties
-  home?: CSSProperties
-  separator?: CSSProperties
-  crumb?: CSSProperties
+  root?: Record<string, any>
+  home?: Record<string, any>
+  separator?: Record<string, any>
+  crumb?: Record<string, any>
 }
