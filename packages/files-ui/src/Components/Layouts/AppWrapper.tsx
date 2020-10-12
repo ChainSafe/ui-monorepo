@@ -28,7 +28,7 @@ interface IAppWrapper {
 }
 
 const useStyles = makeStyles(
-  ({ palette, animation, breakpoints, constants }: ITheme) => {
+  ({ palette, animation, breakpoints, constants, zIndex }: ITheme) => {
     const modalWidth = constants.generalUnit * 27
     const contentPadding = constants.generalUnit * 15
     const contentTopPadding = constants.generalUnit * 15
@@ -37,6 +37,7 @@ const useStyles = makeStyles(
     const accountControlsPadding = constants.generalUnit * 7
 
     const mobileHeaderHeight = constants.generalUnit * 6.3
+    const mobileNavWidth = constants.generalUnit * 30
 
     return createStyles({
       root: {
@@ -92,6 +93,23 @@ const useStyles = makeStyles(
         [breakpoints.down("sm")]: {
           height: `calc(100% - ${mobileHeaderHeight}px)`,
           top: mobileHeaderHeight,
+          backgroundColor: palette.additional["gray"][9],
+          zIndex: zIndex?.layer1,
+          "&:before": {
+            content: "''",
+            display: "block",
+            backgroundColor: palette.additional["gray"][9],
+            opacity: 0.5,
+            position: "fixed",
+            top: mobileHeaderHeight,
+            left: 0,
+            height: `calc(100% - ${mobileHeaderHeight}px)`,
+            width: "100%",
+            zIndex: zIndex?.layer0,
+          },
+          "&.active": {
+            width: modalWidth,
+          },
         },
       },
       navMenu: {
