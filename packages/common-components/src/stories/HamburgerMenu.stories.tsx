@@ -9,7 +9,7 @@ export default {
   decorators: [withKnobs],
 }
 
-export const actionsData = {
+const actionsData = {
   onClick: action("onClickButton"),
 }
 

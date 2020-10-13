@@ -94,7 +94,7 @@ const useStyles = makeStyles(
   },
 )
 
-interface IHamburgerMenu extends React.HTMLProps<HTMLDivElement> {
+export interface IHamburgerMenu extends React.HTMLProps<HTMLDivElement> {
   variant: "default" | "active"
   // | "loading"
 }
