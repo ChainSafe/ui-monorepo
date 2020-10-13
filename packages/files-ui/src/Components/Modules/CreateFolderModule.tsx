@@ -2,7 +2,6 @@ import {
   Button,
   FormikTextInput,
   Grid,
-  Modal,
   PlusCircleIcon,
 } from "@imploy/common-components"
 import { useDrive } from "@imploy/common-contexts"
@@ -11,6 +10,7 @@ import React from "react"
 import { useState } from "react"
 import { Formik, Form } from "formik"
 import clsx from "clsx"
+import CustomModal from "../Elements/CustomModal"
 
 const useStyles = makeStyles(({ constants, palette }: ITheme) =>
   createStyles({
@@ -54,7 +54,7 @@ const CreateFolderModule: React.FC<{ buttonClassName?: string }> = ({
         <PlusCircleIcon />
         Create folder
       </Button>
-      <Modal active={open} closePosition="none" maxWidth="sm">
+      <CustomModal active={open} closePosition="none" maxWidth="sm">
         <Formik
           initialValues={{
             name: "",
@@ -107,7 +107,7 @@ const CreateFolderModule: React.FC<{ buttonClassName?: string }> = ({
             </Grid>
           </Form>
         </Formik>
-      </Modal>
+      </CustomModal>
     </>
   )
 }

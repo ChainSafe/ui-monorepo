@@ -8,7 +8,7 @@ import {
 import clsx from "clsx"
 
 const useStyles = makeStyles(
-  ({ constants, palette, breakpoints, overrides }: ITheme) =>
+  ({ animation, constants, breakpoints, palette, overrides }: ITheme) =>
     createStyles({
       // JSS in CSS goes here
       root: {
@@ -25,6 +25,7 @@ const useStyles = makeStyles(
         flexDirection: "column",
         borderBottomLeftRadius: 0,
         borderBottomRightRadius: 0,
+        transitionDuration: `${animation.transform}ms`,
         "&.closable": {
           "&:before": {
             cursor: "pointer",
@@ -41,9 +42,9 @@ const useStyles = makeStyles(
           left: 0,
           zIndex: 0,
           backgroundColor: palette.common?.black.main,
+          transitionDuration: `${animation.transform}ms`,
         },
         "&.active": {
-          ...constants.modal,
           maxHeight: "100%",
           visibility: "visible",
           opacity: 1,
@@ -114,10 +115,16 @@ const useStyles = makeStyles(
     }),
 )
 
+interface IModalClasses {
+  inner?: string
+  close?: string
+}
+
 interface IModalProps {
   className?: string
   active: boolean
   setActive?: (state: boolean) => void
+  injectedClass?: IModalClasses
   closePosition?: "left" | "right" | "none"
   children?: ReactNode | ReactNode[]
   maxWidth?: "xs" | "sm" | "md" | "lg" | "xl" | number
@@ -127,6 +134,7 @@ const Modal: React.FC<IModalProps> = ({
   children,
   className,
   closePosition = "right",
+  injectedClass,
   active = false,
   setActive,
   maxWidth = "sm",
@@ -163,13 +171,18 @@ const Modal: React.FC<IModalProps> = ({
         }
         className={clsx(
           classes.inner,
+          injectedClass?.inner,
           typeof maxWidth != "number" ? maxWidth : "",
         )}
       >
         {setActive && (
           <div
             onClick={() => handleClose()}
-            className={clsx(classes.closeIcon, `${closePosition}`)}
+            className={clsx(
+              classes.closeIcon,
+              injectedClass?.close,
+              `${closePosition}`,
+            )}
           >
             {/* TODO: Close icon replace */}
             close
