@@ -1,6 +1,7 @@
 import { createStyles, ITheme, makeStyles } from "@imploy/common-themes"
 import React, { Fragment } from "react"
 import {
+  Button,
   CheckboxInput,
   DeleteIcon,
   Divider,
@@ -25,6 +26,7 @@ import {
   TableHeadCell,
   TableRow,
   Typography,
+  useToaster,
 } from "@imploy/common-components"
 import { useState } from "react"
 import { useMemo } from "react"
@@ -104,6 +106,7 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
   controls = true,
 }: IFileBrowserProps) => {
   const classes = useStyles()
+  const { addToastMessage } = useToaster()
   const {
     deleteFile,
     downloadFile,
@@ -240,6 +243,15 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
             <Fragment>
               <CreateFolderModule />
               <UploadFileModule />
+              <Button
+                onClick={() =>
+                  addToastMessage({
+                    message: "test",
+                  })
+                }
+              >
+                test toast
+              </Button>
             </Fragment>
           )}
         </div>

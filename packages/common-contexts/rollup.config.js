@@ -25,5 +25,11 @@ export default {
     commonjs(),
     nodePolyfills(),
   ],
-  external: ["react", "react-dom", "bnc-onboard", "@imploy/api-client"],
+  external: [
+    "react",
+    "react-dom",
+    "bnc-onboard",
+    "@imploy/api-client",
+    "react-toast-notifications",
+  ],
 }

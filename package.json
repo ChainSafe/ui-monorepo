@@ -23,7 +23,9 @@
   },
   "scripts": {
     "postinstall": "yarn build:common",
-    "build:common": "yarn build:theme && yarn wsrun -t -p @imploy/common-* -c build",
+    "build:common": "yarn build:theme && yarn build:components && yarn build:contexts",
+    "build:contexts": "yarn wsrun -t -p @imploy/common-contexts -c build",
+    "build:components": "yarn wsrun -t -p @imploy/common-components -c build",
     "build:theme": "yarn wsrun -t -p @imploy/common-themes -c build",
     "build:storybook": "yarn wsrun -p @imploy/common-components -c build:storybook",
     "start:storybook": "yarn wsrun -p @imploy/common-components -c storybook",
@@ -42,7 +44,8 @@
     ],
     "nohoist": [
       "**/webpack-dev-server",
-      "**/react-scripts"
+      "**/react-scripts",
+      "**/react-toast-notifications"
     ]
   },
   "husky": {
