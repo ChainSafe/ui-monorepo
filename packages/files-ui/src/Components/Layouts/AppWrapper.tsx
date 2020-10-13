@@ -205,12 +205,6 @@ const useStyles = makeStyles(
       spaceUsedMargin: {
         marginBottom: constants.generalUnit,
       },
-      spaceUsedText: {
-        marginBottom: constants.generalUnit * 2,
-      },
-      spaceUsedProgressBar: {
-        marginBottom: constants.generalUnit,
-      },
     })
   },
 )
@@ -290,7 +284,7 @@ const AppWrapper: React.FC<IAppWrapper> = ({ children }: IAppWrapper) => {
                   FREE_LIMIT,
                 )} used`}</Typography>
                 <ProgressBar
-                  className={classes.spaceUsedProgressBar}
+                  className={classes.spaceUsedMargin}
                   progress={(spaceUsed / FREE_LIMIT) * 100}
                   size="small"
                 />
