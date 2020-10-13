@@ -1,4 +1,4 @@
-import { useImployApi, useUser } from "@imploy/common-contexts"
+import { useDrive, useImployApi, useUser } from "@imploy/common-contexts"
 import {
   createStyles,
   ITheme,
@@ -18,6 +18,9 @@ import {
   MenuDropdown,
   PowerDownSvg,
   CssBaseline,
+  ProgressBar,
+  formatBytes,
+  Button,
 } from "@imploy/common-components"
 import { ROUTE_LINKS } from "../FilesRoutes"
 import SearchModule from "../Modules/SearchModule"
@@ -25,6 +28,9 @@ import SearchModule from "../Modules/SearchModule"
 interface IAppWrapper {
   children: ReactNode | ReactNode[]
 }
+
+// free limit set to 50GB
+const FREE_LIMIT = 50 * 1024 * 1024 * 1024
 
 /**
  * TODO: Establish height & padding values
@@ -196,6 +202,15 @@ const useStyles = makeStyles(
           minHeight: "100vh",
         },
       },
+      spaceUsedMargin: {
+        marginBottom: constants.generalUnit,
+      },
+      spaceUsedText: {
+        marginBottom: constants.generalUnit * 2,
+      },
+      spaceUsedProgressBar: {
+        marginBottom: constants.generalUnit,
+      },
     })
   },
 )
@@ -205,6 +220,7 @@ const AppWrapper: React.FC<IAppWrapper> = ({ children }: IAppWrapper) => {
   const { getProfileTitle, removeUser } = useUser()
   const classes = useStyles()
   const { breakpoints }: ITheme = useTheme()
+  const { spaceUsed } = useDrive()
   const desktop = useMediaQuery(breakpoints.up("sm"))
 
   const signOut = useCallback(() => {
@@ -265,6 +281,23 @@ const AppWrapper: React.FC<IAppWrapper> = ({ children }: IAppWrapper) => {
               </nav>
             </div>
             <section>
+              <div>
+                <Typography
+                  variant="body2"
+                  className={classes.spaceUsedMargin}
+                  component="p"
+                >{`${formatBytes(spaceUsed)} of ${formatBytes(
+                  FREE_LIMIT,
+                )} used`}</Typography>
+                <ProgressBar
+                  className={classes.spaceUsedProgressBar}
+                  progress={(spaceUsed / FREE_LIMIT) * 100}
+                  size="small"
+                />
+                <Button disabled variant="outline" size="small">
+                  UPGRADE
+                </Button>
+              </div>
               {/* TODO: GB USED SECTION */}
               {!desktop && (
                 <div className={classes.navItem} onClick={() => signOut()}>
