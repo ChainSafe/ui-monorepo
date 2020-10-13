@@ -1,42 +1,40 @@
-import { CSSProperties } from "react"
-
 export interface ITableOverride {
   table?: {
-    root?: CSSProperties
-    dense?: CSSProperties
-    hover?: CSSProperties
-    striped?: CSSProperties
+    root?: Record<string, any>
+    dense?: Record<string, any>
+    hover?: Record<string, any>
+    striped?: Record<string, any>
   }
 
-  tableHead?: CSSProperties
+  tableHead?: Record<string, any>
   headCell?: {
-    root?: CSSProperties
-    left?: CSSProperties
-    center?: CSSProperties
-    right?: CSSProperties
+    root?: Record<string, any>
+    left?: Record<string, any>
+    center?: Record<string, any>
+    right?: Record<string, any>
 
-    sortContainer?: CSSProperties
-    sortContainerChildren?: CSSProperties
+    sortContainer?: Record<string, any>
+    sortContainerChildren?: Record<string, any>
 
-    caretContainer?: CSSProperties
-    caretContainerChildren?: CSSProperties
+    caretContainer?: Record<string, any>
+    caretContainerChildren?: Record<string, any>
     sortButton?: {
-      root?: CSSProperties
-      hover?: CSSProperties
+      root?: Record<string, any>
+      hover?: Record<string, any>
     }
   }
 
   row?: {
-    root?: CSSProperties
-    selected?: CSSProperties
-    classic?: CSSProperties
-    grid?: CSSProperties
+    root?: Record<string, any>
+    selected?: Record<string, any>
+    classic?: Record<string, any>
+    grid?: Record<string, any>
   }
 
   cell?: {
-    root?: CSSProperties
-    left?: CSSProperties
-    center?: CSSProperties
-    right?: CSSProperties
+    root?: Record<string, any>
+    left?: Record<string, any>
+    center?: Record<string, any>
+    right?: Record<string, any>
   }
 }

@@ -1,14 +1,12 @@
-import { CSSProperties } from "react"
-
 export interface IAvatarOverride {
-  root?: CSSProperties
+  root?: Record<string, any>
   sizes?: {
-    large?: CSSProperties
-    medium?: CSSProperties
-    small?: CSSProperties
+    large?: Record<string, any>
+    medium?: Record<string, any>
+    small?: Record<string, any>
   }
   variants?: {
-    square?: CSSProperties
-    circle?: CSSProperties
+    square?: Record<string, any>
+    circle?: Record<string, any>
   }
 }

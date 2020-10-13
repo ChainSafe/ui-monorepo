@@ -1,27 +1,25 @@
-import { CSSProperties } from "react"
-
 export interface IMenuDropdownOverride {
-  root?: CSSProperties
-  title?: CSSProperties
+  root?: Record<string, any>
+  title?: Record<string, any>
   icon?: {
-    root?: CSSProperties
-    flip?: CSSProperties
-    rotate?: CSSProperties
+    root?: Record<string, any>
+    flip?: Record<string, any>
+    rotate?: Record<string, any>
   }
   options?: {
-    root?: CSSProperties
-    open?: CSSProperties
+    root?: Record<string, any>
+    open?: Record<string, any>
     position?: {
-      topLeft?: CSSProperties
-      topCenter?: CSSProperties
-      topRight?: CSSProperties
-      bottomLeft?: CSSProperties
-      bottomCenter?: CSSProperties
-      bottomRight?: CSSProperties
+      topLeft?: Record<string, any>
+      topCenter?: Record<string, any>
+      topRight?: Record<string, any>
+      bottomLeft?: Record<string, any>
+      bottomCenter?: Record<string, any>
+      bottomRight?: Record<string, any>
     }
   }
   item?: {
-    root?: CSSProperties
-    hover?: CSSProperties
+    root?: Record<string, any>
+    hover?: Record<string, any>
   }
 }

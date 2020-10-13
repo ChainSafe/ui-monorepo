@@ -1,17 +1,15 @@
-import { CSSProperties } from "react"
-
 export interface ITypographyOverride {
-  root?: CSSProperties
-  h1?: CSSProperties
-  h2?: CSSProperties
-  h3?: CSSProperties
-  h4?: CSSProperties
-  h5?: CSSProperties
-  h6?: CSSProperties
-  subtitle1?: CSSProperties
-  subtitle2?: CSSProperties
-  body1?: CSSProperties
-  body2?: CSSProperties
-  caption?: CSSProperties
-  button?: CSSProperties
+  root?: Record<string, any>
+  h1?: Record<string, any>
+  h2?: Record<string, any>
+  h3?: Record<string, any>
+  h4?: Record<string, any>
+  h5?: Record<string, any>
+  h6?: Record<string, any>
+  subtitle1?: Record<string, any>
+  subtitle2?: Record<string, any>
+  body1?: Record<string, any>
+  body2?: Record<string, any>
+  caption?: Record<string, any>
+  button?: Record<string, any>
 }
