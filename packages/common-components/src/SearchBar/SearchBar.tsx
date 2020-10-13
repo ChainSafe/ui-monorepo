@@ -26,6 +26,7 @@ const useStyles = makeStyles(
       // JSS in CSS goes here
       root: {
         ...typography.body2,
+        display: "block",
         cursor: "pointer",
         "&.large": {
           fontSize: 14,
@@ -72,6 +73,7 @@ const useStyles = makeStyles(
       },
       inputArea: {
         ...typography.body2,
+        height: "100%",
         display: "flex",
         flexDirection: "row",
         alignItems: "center",
@@ -106,6 +108,7 @@ const useStyles = makeStyles(
       },
       input: {
         width: "100%",
+        height: "100%",
         padding: `${constants.generalUnit}px ${constants.generalUnit * 2}px`,
         outline: "none",
         border: `1px solid ${palette.additional["gray"][6]}`,
