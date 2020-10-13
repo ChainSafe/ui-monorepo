@@ -26,6 +26,7 @@ const useStyles = makeStyles(
         borderBottomLeftRadius: 0,
         borderBottomRightRadius: 0,
         transitionDuration: `${animation.transform}ms`,
+        transitionProperty: "opacity",
         "&.closable": {
           "&:before": {
             cursor: "pointer",
