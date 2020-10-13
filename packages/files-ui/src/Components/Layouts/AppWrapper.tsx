@@ -1,4 +1,4 @@
-import { useDrive, useImployApi, useUser } from "@imploy/common-contexts"
+import { useImployApi } from "@imploy/common-contexts"
 import {
   createStyles,
   ITheme,
@@ -6,31 +6,18 @@ import {
   useMediaQuery,
   useTheme,
 } from "@imploy/common-themes"
-import React, { Fragment, useCallback } from "react"
+import React, { useState } from "react"
 import { ReactNode } from "react"
 import clsx from "clsx"
-import {
-  Link,
-  Typography,
-  ChainsafeFilesLogo,
-  DatabaseSvg,
-  SettingSvg,
-  MenuDropdown,
-  PowerDownSvg,
-  CssBaseline,
-  ProgressBar,
-  formatBytes,
-  Button,
-} from "@imploy/common-components"
 import { ROUTE_LINKS } from "../FilesRoutes"
 import SearchModule from "../Modules/SearchModule"
+import { CssBaseline } from "@imploy/common-components"
+import AppHeader from "./AppHeader"
+import AppNav from "./AppNav"
 
 interface IAppWrapper {
   children: ReactNode | ReactNode[]
 }
-
-// free limit set to 50GB
-const FREE_LIMIT = 50 * 1024 * 1024 * 1024
 
 /**
  * TODO: Establish height & padding values
@@ -39,87 +26,16 @@ const FREE_LIMIT = 50 * 1024 * 1024 * 1024
  */
 
 const useStyles = makeStyles(
-  ({ palette, animation, breakpoints, constants }: ITheme) => {
+  ({ animation, breakpoints, constants }: ITheme) => {
     const modalWidth = constants.generalUnit * 27
     const contentPadding = constants.generalUnit * 15
     const contentTopPadding = constants.generalUnit * 15
-    const svgWidth = constants.generalUnit * 2.5
-    const topPadding = constants.generalUnit * 3
-    const accountControlsPadding = constants.generalUnit * 7
+
+    const mobileHeaderHeight = constants.generalUnit * 6.3
 
     return createStyles({
       root: {
         minHeight: "100vh",
-      },
-      logo: {
-        textDecoration: "none",
-        display: "flex",
-        flexDirection: "row",
-        alignItems: "center",
-        "& img": {
-          height: constants.generalUnit * 5,
-          width: "auto",
-        },
-        "& > *:first-child": {
-          marginRight: constants.generalUnit,
-        },
-      },
-      nav: {
-        width: 0,
-        backgroundColor: palette.additional["gray"][3],
-        height: "100%",
-        overflow: "hidden",
-        transitionDuration: `${animation.translate}ms`,
-        display: "flex",
-        flexDirection: "column",
-        position: "fixed",
-        top: 0,
-        left: 0,
-        opacity: 0,
-        padding: `${topPadding}px ${constants.generalUnit * 4.5}px`,
-        "&.active": {
-          opacity: 1,
-          width: modalWidth,
-        },
-      },
-      navMenu: {
-        display: "flex",
-        flexDirection: "column",
-        marginBottom: constants.generalUnit * 8.5,
-      },
-      linksArea: {
-        display: "flex",
-        flexDirection: "column",
-        flex: "1 1 0",
-        justifyContent: "center",
-        "& > span": {
-          marginBottom: constants.generalUnit * 2,
-        },
-        [breakpoints.up("sm")]: {
-          height: 0,
-        },
-        [breakpoints.down("sm")]: {
-          transitionDuration: `${animation.translate}ms`,
-          position: "fixed",
-          top: 0,
-          left: 0,
-          overflow: "hidden",
-          height: "100%",
-          width: 0,
-
-          "&.active": {},
-        },
-      },
-      navItem: {
-        textDecoration: "none",
-        display: "flex",
-        flexDirection: "row",
-        alignItems: "center",
-        padding: `${constants.generalUnit * 1.5}px 0`,
-        "& svg": {
-          width: svgWidth,
-          marginRight: constants.generalUnit * 2,
-        },
       },
       bodyWrapper: {
         transitionDuration: `${animation.translate}ms`,
@@ -135,58 +51,6 @@ const useStyles = makeStyles(
         },
         [breakpoints.down("sm")]: {},
       },
-      header: {
-        position: "fixed",
-        display: "flex",
-        flexDirection: "row",
-        top: 0,
-        width: `calc(100% - ${modalWidth}px)`,
-        padding: `${0}px ${contentPadding}px ${0}px ${contentPadding}px`,
-        transitionDuration: `${animation.translate}ms`,
-        visibility: "hidden",
-        [breakpoints.up("sm")]: {
-          left: modalWidth,
-          backgroundColor: palette.common.white.main,
-          opacity: 0,
-          "&.active": {
-            opacity: 1,
-            height: "auto",
-            visibility: "visible",
-            padding: `${topPadding}px ${contentPadding}px ${0}px ${contentPadding}px`,
-          },
-        },
-        [breakpoints.down("sm")]: {
-          left: 0,
-          backgroundColor: palette.common.white.main,
-          "&.active": {},
-        },
-        "& >*:first-child": {
-          flex: "1 1 0",
-        },
-      },
-      accountControls: {
-        display: "flex",
-        justifyContent: "flex-end",
-        alignItems: "center",
-        flexDirection: "row",
-        [breakpoints.up("sm")]: {
-          marginLeft: accountControlsPadding,
-        },
-        "& > *:first-child": {
-          marginRight: constants.generalUnit * 2,
-        },
-      },
-      menuItem: {
-        width: 100,
-        display: "flex",
-        flexDirection: "row",
-        alignItems: "center",
-        "& svg": {
-          width: constants.generalUnit * 2,
-          height: constants.generalUnit * 2,
-          marginRight: constants.generalUnit,
-        },
-      },
       content: {
         [breakpoints.up("sm")]: {
           height: "100%",
@@ -200,144 +64,36 @@ const useStyles = makeStyles(
         },
         [breakpoints.down("sm")]: {
           minHeight: "100vh",
+          "&.active": {
+            height: "initial",
+            padding: `${mobileHeaderHeight}px 0 0`,
+          },
         },
-      },
-      spaceUsedMargin: {
-        marginBottom: constants.generalUnit,
       },
     })
   },
 )
 
 const AppWrapper: React.FC<IAppWrapper> = ({ children }: IAppWrapper) => {
-  const { isLoggedIn, logout } = useImployApi()
-  const { getProfileTitle, removeUser } = useUser()
   const classes = useStyles()
   const { breakpoints }: ITheme = useTheme()
-  const { spaceUsed } = useDrive()
+
   const desktop = useMediaQuery(breakpoints.up("sm"))
 
-  const signOut = useCallback(() => {
-    logout()
-    removeUser()
-  }, [logout, removeUser])
+  const [navOpen, setNavOpen] = useState<boolean>(desktop)
+
+  const { isLoggedIn } = useImployApi()
 
   return (
     <div className={classes.root}>
       <CssBaseline />
-      <section
-        className={clsx(classes.nav, {
-          active: isLoggedIn,
-        })}
-      >
-        {isLoggedIn && (
-          <Fragment>
-            <div>
-              <Link className={classes.logo} to={ROUTE_LINKS.Home}>
-                <ChainsafeFilesLogo />
-                <Typography variant="h5">Files</Typography>
-              </Link>
-            </div>
-            <div className={classes.linksArea}>
-              <Typography>Folders</Typography>
-              <nav className={classes.navMenu}>
-                <Link className={classes.navItem} to="">
-                  <DatabaseSvg />
-                  <Typography variant="h5">All</Typography>
-                </Link>
-                {/* <Link className={classes.navItem} to="">
-                  <StarSvg />
-                  <Typography variant="h5">Starred</Typography>
-                </Link>
-                <Link className={classes.navItem} to="">
-                  <CloseCirceSvg />
-                  <Typography variant="h5">Recents</Typography>
-                </Link>
-                <Link className={classes.navItem} to="">
-                  <DeleteSvg />
-                  <Typography variant="h5">Trash</Typography>
-                </Link> */}
-              </nav>
-              <Typography>{desktop ? "Resources" : "Account"}</Typography>
-              <nav className={classes.navMenu}>
-                {/* {
-                  desktop && (
-                    <Link className={classes.navItem} to="">
-                      <InfoCircleSvg />
-                      <Typography variant="h5">Support</Typography>
-                    </Link>
-                  )
-                } */}
-                <Link className={classes.navItem} to={ROUTE_LINKS.Settings}>
-                  <SettingSvg />
-                  <Typography variant="h5">Settings</Typography>
-                </Link>
-              </nav>
-            </div>
-            <section>
-              <div>
-                <Typography
-                  variant="body2"
-                  className={classes.spaceUsedMargin}
-                  component="p"
-                >{`${formatBytes(spaceUsed)} of ${formatBytes(
-                  FREE_LIMIT,
-                )} used`}</Typography>
-                <ProgressBar
-                  className={classes.spaceUsedMargin}
-                  progress={(spaceUsed / FREE_LIMIT) * 100}
-                  size="small"
-                />
-                <Button disabled variant="outline" size="small">
-                  UPGRADE
-                </Button>
-              </div>
-              {/* TODO: GB USED SECTION */}
-              {!desktop && (
-                <div className={classes.navItem} onClick={() => signOut()}>
-                  <PowerDownSvg />
-                  <Typography>Sign Out</Typography>
-                </div>
-              )}
-            </section>
-          </Fragment>
-        )}
-      </section>
+      <AppNav setNavOpen={setNavOpen} navOpen={navOpen} />
       <article
         className={clsx(classes.bodyWrapper, {
           active: isLoggedIn,
         })}
       >
-        <header
-          className={clsx(classes.header, {
-            active: isLoggedIn,
-          })}
-        >
-          {isLoggedIn && (
-            <Fragment>
-              <SearchModule />
-              {desktop && (
-                <section className={classes.accountControls}>
-                  <MenuDropdown
-                    title={getProfileTitle()}
-                    anchor="bottom-right"
-                    menuItems={[
-                      {
-                        onClick: () => signOut(),
-                        contents: (
-                          <div className={classes.menuItem}>
-                            <PowerDownSvg />
-                            <Typography>Sign Out</Typography>
-                          </div>
-                        ),
-                      },
-                    ]}
-                  />
-                </section>
-              )}
-            </Fragment>
-          )}
-        </header>
+        <AppHeader navOpen={navOpen} setNavOpen={setNavOpen} />
         <section
           className={clsx(classes.content, {
             active: isLoggedIn,
