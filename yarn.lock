@@ -1191,10 +1191,10 @@
     lodash "^4.17.19"
     to-fast-properties "^2.0.0"
 
-"@chainsafe/web3-context@1.0.1":
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/@chainsafe/web3-context/-/web3-context-1.0.1.tgz#affc8300a39576bd41cf6b74f8fb3033686e7758"
-  integrity sha512-zhGYqwEetlLiw1a+NPko7RHjQYt1AQOuZUYC63XXvvYtQH2j1WoIxHz56XvxGNdznDerbuef7IMGV4IfUYYzSA==
+"@chainsafe/web3-context@1.0.4":
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/@chainsafe/web3-context/-/web3-context-1.0.4.tgz#231417753d36061e313e349e70c812e2fae3f5b4"
+  integrity sha512-73qbVqk+XEDEHZoosG/loo84CwD9hUW2yTXT3l6DH+vluAZvYw5R/g2qwg7p5QDaXNVXt9rmjoQb7r5hUZ7Q1A==
 
 "@chaitanyapotti/random-id@^1.0.3":
   version "1.0.3"
