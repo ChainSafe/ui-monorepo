@@ -14,7 +14,7 @@
     "start": "rollup -c -w"
   },
   "dependencies": {
-    "@imploy/api-client": "1.2.3",
+    "@imploy/api-client": "1.2.5",
     "axios": "^0.20.0"
   },
   "peerDependencies": {

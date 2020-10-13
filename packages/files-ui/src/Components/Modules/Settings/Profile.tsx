@@ -14,6 +14,7 @@ import {
 } from "@imploy/common-themes"
 import { LockIcon, CopyIcon } from "@imploy/common-components"
 import { Formik, Form } from "formik"
+import { Profile } from "@imploy/common-contexts"
 
 const useStyles = makeStyles((theme: ITheme) =>
   createStyles({
@@ -77,24 +78,14 @@ const useStyles = makeStyles((theme: ITheme) =>
 )
 
 interface IProfileProps {
-  publicAddress?: string
-  firstName?: string
-  lastName?: string
-  email?: string
+  profile: Profile
   handleValueChange(e: React.ChangeEvent<HTMLInputElement>): void
   onUpdateProfile(firstName: string, lastName: string, email: string): void
   updatingProfile: boolean
 }
 
-const Profile: React.FC<IProfileProps> = (props) => {
-  const {
-    firstName,
-    lastName,
-    email,
-    publicAddress,
-    onUpdateProfile,
-    updatingProfile,
-  } = props
+const ProfileView: React.FC<IProfileProps> = (props) => {
+  const { profile, onUpdateProfile, updatingProfile } = props
   const [copied, setCopied] = useState(false)
   const classes = useStyles()
 
@@ -104,9 +95,9 @@ const Profile: React.FC<IProfileProps> = (props) => {
   )
 
   const copyAddress = async () => {
-    if (publicAddress) {
+    if (profile.publicAddress) {
       try {
-        await navigator.clipboard.writeText(publicAddress)
+        await navigator.clipboard.writeText(profile.publicAddress)
         setCopied(true)
         debouncedSwitchCopied()
       } catch (err) {}
@@ -130,7 +121,11 @@ const Profile: React.FC<IProfileProps> = (props) => {
           <div id="profile" className={classes.bodyContainer}>
             <div className={classes.profileBox}>
               <Formik
-                initialValues={{ firstName, lastName, email }}
+                initialValues={{
+                  firstName: profile.firstName,
+                  lastName: profile.lastName,
+                  email: profile.email,
+                }}
                 onSubmit={(values) => {
                   onUpdateProfile(
                     values.firstName || "",
@@ -139,11 +134,13 @@ const Profile: React.FC<IProfileProps> = (props) => {
                   )
                 }}
                 validationSchema={
-                  publicAddress ? profileWeb3Validation : profileWeb2Validation
+                  profile.publicAddress
+                    ? profileWeb3Validation
+                    : profileWeb2Validation
                 }
               >
                 <Form>
-                  {publicAddress ? (
+                  {profile.publicAddress ? (
                     <div className={classes.boxContainer}>
                       <div className={classes.walletAddressContainer}>
                         <Typography variant="body1" className={classes.label}>
@@ -153,7 +150,9 @@ const Profile: React.FC<IProfileProps> = (props) => {
                         {copied && <Typography>Copied!</Typography>}
                       </div>
                       <div className={classes.copyBox} onClick={copyAddress}>
-                        <Typography variant="body1">{publicAddress}</Typography>
+                        <Typography variant="body1">
+                          {profile.publicAddress}
+                        </Typography>
                         <CopyIcon className={classes.copyIcon} />
                       </div>
                     </div>
@@ -238,4 +237,4 @@ const Profile: React.FC<IProfileProps> = (props) => {
   )
 }
 
-export default Profile
+export default ProfileView

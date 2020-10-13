@@ -48,12 +48,14 @@ const Settings: React.FC = () => {
   const [profileData, setProfileData] = useState(profile)
 
   useEffect(() => {
-    setProfileData({
-      firstName: profile?.firstName,
-      lastName: profile?.lastName,
-      email: profile?.email,
-      publicAddress: profile?.publicAddress,
-    })
+    if (profile) {
+      setProfileData({
+        firstName: profile?.firstName,
+        lastName: profile?.lastName,
+        email: profile?.email,
+        publicAddress: profile?.publicAddress,
+      })
+    }
   }, [profile])
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -107,12 +109,9 @@ const Settings: React.FC = () => {
           onTabSelect={(key) => setTabKey(key as TabKey)}
         >
           <TabPane title="Profile" tabKey="profileView">
-            {profile ? (
+            {profileData ? (
               <Profile
-                firstName={profileData?.firstName}
-                lastName={profileData?.lastName}
-                email={profileData?.email}
-                publicAddress={profileData?.publicAddress}
+                profile={profileData}
                 handleValueChange={handleChange}
                 onUpdateProfile={onUpdateProfile}
                 updatingProfile={updatingProfile}

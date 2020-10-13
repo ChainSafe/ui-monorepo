@@ -3,12 +3,13 @@ import {
   Grid,
   Typography,
   Button,
-  AppleLogoIcon,
   GoogleLogoIcon,
+  FacebookLogoIcon,
+  GithubLogoIcon,
   ChainsafeFilesLogo,
   Divider,
 } from "@imploy/common-components"
-import { useImployApi } from "@imploy/common-contexts"
+import { useImployApi, OAuthProvider } from "@imploy/common-contexts"
 import {
   makeStyles,
   ITheme,
@@ -151,6 +152,7 @@ const LoginPage = () => {
     web3Login,
     selectWallet,
     resetAndSelectWallet,
+    getProviderUrl,
   } = useImployApi()
   const { provider, wallet } = useWeb3()
   const [error, setError] = useState<string>("")
@@ -193,6 +195,11 @@ const LoginPage = () => {
       setError("There was an error authenticating")
     }
     setIsConnecting(false)
+  }
+
+  const onLoginWithProvider = async (provider: OAuthProvider) => {
+    const oauthUrl = await getProviderUrl(provider)
+    window.location.href = oauthUrl
   }
 
   const desktop = useMediaQuery(breakpoints.up("sm"))
@@ -268,6 +275,7 @@ const LoginPage = () => {
                   onClick={handleResetAndSelectWalletAndConnect}
                   className={classes.button}
                   size="large"
+                  variant={desktop ? "primary" : "outline"}
                   disabled={isConnecting}
                 >
                   Select a different wallet
@@ -280,20 +288,28 @@ const LoginPage = () => {
               </Divider>
             )}
             <Button
-              disabled
               className={classes.button}
               variant={desktop ? "primary" : "outline"}
               size="large"
+              onClick={() => onLoginWithProvider("github")}
             >
-              <AppleLogoIcon /> Continue with Apple
+              <GithubLogoIcon /> Continue with Github
             </Button>
             <Button
-              disabled
               className={classes.button}
               variant={desktop ? "primary" : "outline"}
               size="large"
+              onClick={() => onLoginWithProvider("google")}
             >
               <GoogleLogoIcon /> Continue with Google
+            </Button>
+            <Button
+              className={classes.button}
+              size="large"
+              variant={desktop ? "primary" : "outline"}
+              onClick={() => onLoginWithProvider("facebook")}
+            >
+              <FacebookLogoIcon /> Continue with Facebook
             </Button>
             <Typography className={classes.footerText}>
               {activeMode === "newUser"
