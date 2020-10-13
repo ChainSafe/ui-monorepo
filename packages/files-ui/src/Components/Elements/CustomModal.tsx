@@ -3,7 +3,7 @@ import { createStyles, ITheme, makeStyles } from "@imploy/common-themes"
 import React, { ReactNode } from "react"
 import clsx from "clsx"
 
-const useStyles = makeStyles(({ breakpoints, palette }: ITheme) =>
+const useStyles = makeStyles(({ constants, breakpoints, palette }: ITheme) =>
   createStyles({
     root: {
       [breakpoints.down("sm")]: {
@@ -18,6 +18,10 @@ const useStyles = makeStyles(({ breakpoints, palette }: ITheme) =>
         left: 0,
         width: "100% !important",
         transform: "unset",
+        borderRadiusLeftTop: `${constants.generalUnit * 1.5}px`,
+        borderRadiusRightTop: `${constants.generalUnit * 1.5}px`,
+        borderRadiusLeftBottom: 0,
+        borderRadiusRightBottom: 0,
       },
     },
     close: {
