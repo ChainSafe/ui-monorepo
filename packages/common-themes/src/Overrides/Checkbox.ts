@@ -1,15 +1,13 @@
-import { CSSProperties } from "react"
-
 export interface ICheckboxOverride {
-  root?: CSSProperties
+  root?: Record<string, any>
   checkbox?: {
-    root?: CSSProperties
-    hover?: CSSProperties
-    checked?: CSSProperties
-    disabled?: CSSProperties
+    root?: Record<string, any>
+    hover?: Record<string, any>
+    checked?: Record<string, any>
+    disabled?: Record<string, any>
   }
-  input?: CSSProperties
-  label?: CSSProperties
-  labelDisabled?: CSSProperties
-  error?: CSSProperties
+  input?: Record<string, any>
+  label?: Record<string, any>
+  labelDisabled?: Record<string, any>
+  error?: Record<string, any>
 }

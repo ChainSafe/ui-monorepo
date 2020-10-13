@@ -1,48 +1,46 @@
-import { CSSProperties } from "react"
-
 export interface IButtonOverride {
-  root?: CSSProperties
+  root?: Record<string, any>
   size?: {
-    large?: CSSProperties
-    medium?: CSSProperties
-    small?: CSSProperties
+    large?: Record<string, any>
+    medium?: Record<string, any>
+    small?: Record<string, any>
   }
   icon?: {
-    root?: CSSProperties
-    large?: CSSProperties
-    medium?: CSSProperties
-    small?: CSSProperties
+    root?: Record<string, any>
+    large?: Record<string, any>
+    medium?: Record<string, any>
+    small?: Record<string, any>
   }
   variants?: {
     primary?: {
-      root?: CSSProperties
-      hover?: CSSProperties
-      focus?: CSSProperties
-      active?: CSSProperties
+      root?: Record<string, any>
+      hover?: Record<string, any>
+      focus?: Record<string, any>
+      active?: Record<string, any>
     }
     outline?: {
-      root?: CSSProperties
-      hover?: CSSProperties
-      focus?: CSSProperties
-      active?: CSSProperties
+      root?: Record<string, any>
+      hover?: Record<string, any>
+      focus?: Record<string, any>
+      active?: Record<string, any>
     }
     dashed?: {
-      root?: CSSProperties
-      hover?: CSSProperties
-      focus?: CSSProperties
-      active?: CSSProperties
+      root?: Record<string, any>
+      hover?: Record<string, any>
+      focus?: Record<string, any>
+      active?: Record<string, any>
     }
   }
   state?: {
     danger?: {
-      root?: CSSProperties
-      hover?: CSSProperties
-      focus?: CSSProperties
-      active?: CSSProperties
+      root?: Record<string, any>
+      hover?: Record<string, any>
+      focus?: Record<string, any>
+      active?: Record<string, any>
     }
     disabled?: {
-      root?: CSSProperties
-      hover?: CSSProperties
+      root?: Record<string, any>
+      hover?: Record<string, any>
     }
   }
 }

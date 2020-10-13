@@ -1,10 +1,8 @@
-import { CSSProperties } from "react"
-
 export interface IIconOverride {
-  root?: CSSProperties
+  root?: Record<string, any>
   size?: {
-    small?: CSSProperties
-    medium?: CSSProperties
-    large?: CSSProperties
+    small?: Record<string, any>
+    medium?: Record<string, any>
+    large?: Record<string, any>
   }
 }

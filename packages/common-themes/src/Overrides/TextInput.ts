@@ -1,49 +1,47 @@
-import { CSSProperties } from "react"
-
 export interface ITextInputOverride {
-  root?: CSSProperties
-  disabled?: CSSProperties
+  root?: Record<string, any>
+  disabled?: Record<string, any>
   size?: {
-    large?: CSSProperties
-    medium?: CSSProperties
-    small?: CSSProperties
+    large?: Record<string, any>
+    medium?: Record<string, any>
+    small?: Record<string, any>
   }
 
   inputArea?: {
-    root?: CSSProperties
+    root?: Record<string, any>
     size?: {
-      large?: CSSProperties
-      medium?: CSSProperties
-      small?: CSSProperties
+      large?: Record<string, any>
+      medium?: Record<string, any>
+      small?: Record<string, any>
     }
   }
 
   input?: {
-    root?: CSSProperties
-    focus?: CSSProperties
-    hover?: CSSProperties
-    disabled?: CSSProperties
+    root?: Record<string, any>
+    focus?: Record<string, any>
+    hover?: Record<string, any>
+    disabled?: Record<string, any>
   }
 
-  caption?: CSSProperties
-  label?: CSSProperties
+  caption?: Record<string, any>
+  label?: Record<string, any>
   icon?: {
-    root?: CSSProperties
+    root?: Record<string, any>
     size?: {
       large?: {
-        root?: CSSProperties
-        left?: CSSProperties
-        right?: CSSProperties
+        root?: Record<string, any>
+        left?: Record<string, any>
+        right?: Record<string, any>
       }
       medium?: {
-        root?: CSSProperties
-        left?: CSSProperties
-        right?: CSSProperties
+        root?: Record<string, any>
+        left?: Record<string, any>
+        right?: Record<string, any>
       }
       small?: {
-        root?: CSSProperties
-        left?: CSSProperties
-        right?: CSSProperties
+        root?: Record<string, any>
+        left?: Record<string, any>
+        right?: Record<string, any>
       }
     }
   }

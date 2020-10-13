@@ -1,7 +1,5 @@
-import { CSSProperties } from "react"
-
 export interface IPaperOverride {
-  root?: CSSProperties
-  rounded?: CSSProperties
-  bordered?: CSSProperties
+  root?: Record<string, any>
+  rounded?: Record<string, any>
+  bordered?: Record<string, any>
 }

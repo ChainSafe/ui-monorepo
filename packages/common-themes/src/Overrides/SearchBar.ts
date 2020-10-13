@@ -1,38 +1,36 @@
-import { CSSProperties } from "react"
-
 export interface ISearchBarOverride {
-  root?: CSSProperties
+  root?: Record<string, any>
   standardIcon?: {
-    root: CSSProperties
+    root: Record<string, any>
     size?: {
-      large?: CSSProperties
-      medium?: CSSProperties
-      small?: CSSProperties
+      large?: Record<string, any>
+      medium?: Record<string, any>
+      small?: Record<string, any>
     }
   }
   size?: {
-    large?: CSSProperties
-    medium?: CSSProperties
-    small?: CSSProperties
+    large?: Record<string, any>
+    medium?: Record<string, any>
+    small?: Record<string, any>
   }
   input?: {
-    root?: CSSProperties
-    hover?: CSSProperties
-    focus?: CSSProperties
-    disabled?: CSSProperties
+    root?: Record<string, any>
+    hover?: Record<string, any>
+    focus?: Record<string, any>
+    disabled?: Record<string, any>
   }
   inputArea?: {
     large?: {
-      root?: CSSProperties
-      input?: CSSProperties
+      root?: Record<string, any>
+      input?: Record<string, any>
     }
     medium?: {
-      root?: CSSProperties
-      input?: CSSProperties
+      root?: Record<string, any>
+      input?: Record<string, any>
     }
     small?: {
-      root?: CSSProperties
-      input?: CSSProperties
+      root?: Record<string, any>
+      input?: Record<string, any>
     }
   }
 }
