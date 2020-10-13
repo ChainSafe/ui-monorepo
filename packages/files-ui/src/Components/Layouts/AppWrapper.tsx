@@ -9,8 +9,6 @@ import {
 import React, { useState } from "react"
 import { ReactNode } from "react"
 import clsx from "clsx"
-import { ROUTE_LINKS } from "../FilesRoutes"
-import SearchModule from "../Modules/SearchModule"
 import { CssBaseline } from "@imploy/common-components"
 import AppHeader from "./AppHeader"
 import AppNav from "./AppNav"
@@ -18,12 +16,6 @@ import AppNav from "./AppNav"
 interface IAppWrapper {
   children: ReactNode | ReactNode[]
 }
-
-/**
- * TODO: Establish height & padding values
- * TODO: position fix + position nav wrappers
- * Content will have padding based on wrappers to ensure system scroll
- */
 
 const useStyles = makeStyles(
   ({ animation, breakpoints, constants }: ITheme) => {
@@ -77,7 +69,6 @@ const useStyles = makeStyles(
 const AppWrapper: React.FC<IAppWrapper> = ({ children }: IAppWrapper) => {
   const classes = useStyles()
   const { breakpoints }: ITheme = useTheme()
-
   const desktop = useMediaQuery(breakpoints.up("sm"))
 
   const [navOpen, setNavOpen] = useState<boolean>(desktop)
