@@ -30,8 +30,8 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: ITheme) => {
     modalInner: {
       [breakpoints.down("sm")]: {
         bottom: mobileButtonHeight + constants.generalUnit,
-        borderRadiusLeftBottom: `${constants.generalUnit * 1.5}px`,
-        borderRadiusRightBottom: `${constants.generalUnit * 1.5}px`,
+        borderTopLeftRadius: `${constants.generalUnit * 1.5}px`,
+        borderTopRightRadius: `${constants.generalUnit * 1.5}px`,
       },
     },
     createFolderButton: {},

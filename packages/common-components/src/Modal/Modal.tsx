@@ -62,7 +62,7 @@ const useStyles = makeStyles(
         top: "50%",
         left: "50%",
         position: "absolute",
-        borderRadius: constants.generalUnit / 2,
+        borderRadius: `${constants.generalUnit / 2}`,
         transform: "translate(-50%, -50%)",
         "&.xs": {
           width: `calc(100% - ${constants.generalUnit * 2}px)`,
