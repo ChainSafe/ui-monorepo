@@ -32,6 +32,8 @@ type DriveContext = {
   currentPath: string
   updateCurrentPath(newPath: string): void
   pathContents: IFile[]
+  // space used by user in bytes
+  spaceUsed: number
 }
 
 interface IFile extends FileContentResponse {
@@ -41,15 +43,17 @@ interface IFile extends FileContentResponse {
 const DriveContext = React.createContext<DriveContext | undefined>(undefined)
 
 const DriveProvider = ({ children }: DriveContextProps) => {
-  const { imployApiClient } = useImployApi()
+  const { imployApiClient, isLoggedIn } = useImployApi()
   const [currentPath, setCurrentPath] = useState<string>("/")
   const [pathContents, setPathContents] = useState<IFile[]>([])
+  const [spaceUsed, setSpaceUsed] = useState(0)
 
   const refreshContents = useCallback(async () => {
     try {
       const newContents = await imployApiClient?.getCSFChildList({
         path: currentPath,
       })
+
       if (newContents) {
         // Remove this when the API returns dates
         setPathContents(
@@ -63,8 +67,22 @@ const DriveProvider = ({ children }: DriveContextProps) => {
   }, [imployApiClient, currentPath])
 
   useEffect(() => {
-    refreshContents()
-  }, [imployApiClient, refreshContents, currentPath])
+    if (isLoggedIn) {
+      refreshContents()
+    }
+  }, [imployApiClient, refreshContents, currentPath, isLoggedIn])
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      const getSpaceUsage = async () => {
+        try {
+          const { csf_size } = await imployApiClient.getCSFFilesStoreInfo()
+          setSpaceUsed(csf_size)
+        } catch (error) {}
+      }
+      getSpaceUsage()
+    }
+  }, [imployApiClient, pathContents, isLoggedIn])
 
   const uploadFile = async (file: File, path: string) => {
     try {
@@ -164,6 +182,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
             ? setCurrentPath(`${newPath}`)
             : setCurrentPath(`${newPath}/`),
         pathContents,
+        spaceUsed,
       }}
     >
       {children}

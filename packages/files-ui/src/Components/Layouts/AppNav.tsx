@@ -1,4 +1,4 @@
-import { useImployApi, useUser } from "@imploy/common-contexts"
+import { useImployApi, useUser, useDrive } from "@imploy/common-contexts"
 import {
   createStyles,
   ITheme,
@@ -15,8 +15,14 @@ import {
   DatabaseSvg,
   SettingSvg,
   PowerDownSvg,
+  ProgressBar,
+  Button,
+  formatBytes,
 } from "@imploy/common-components"
 import { ROUTE_LINKS } from "../FilesRoutes"
+
+// free limit set to 50GB
+const FREE_LIMIT = 50 * 1024 * 1024 * 1024
 
 const useStyles = makeStyles(
   ({ palette, animation, breakpoints, constants, zIndex }: ITheme) => {
@@ -171,6 +177,9 @@ const useStyles = makeStyles(
           marginRight: constants.generalUnit,
         },
       },
+      spaceUsedMargin: {
+        marginBottom: constants.generalUnit,
+      },
     })
   },
 )
@@ -184,6 +193,7 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
   const classes = useStyles()
   const { breakpoints }: ITheme = useTheme()
   const desktop = useMediaQuery(breakpoints.up("sm"))
+  const { spaceUsed } = useDrive()
 
   const { isLoggedIn, logout } = useImployApi()
   const { removeUser } = useUser()
@@ -236,7 +246,25 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
             </nav>
           </div>
           <section>
-            {/* TODO: GB USED SECTION */}
+            {desktop && (
+              <div>
+                <Typography
+                  variant="body2"
+                  className={classes.spaceUsedMargin}
+                  component="p"
+                >{`${formatBytes(spaceUsed)} of ${formatBytes(
+                  FREE_LIMIT,
+                )} used`}</Typography>
+                <ProgressBar
+                  className={classes.spaceUsedMargin}
+                  progress={(spaceUsed / FREE_LIMIT) * 100}
+                  size="small"
+                />
+                <Button disabled variant="outline" size="small">
+                  UPGRADE
+                </Button>
+              </div>
+            )}
             {!desktop && (
               <div
                 className={classes.navItem}
