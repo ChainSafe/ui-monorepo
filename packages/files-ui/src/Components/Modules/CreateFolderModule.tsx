@@ -3,6 +3,7 @@ import {
   FormikTextInput,
   Grid,
   PlusCircleIcon,
+  Typography,
 } from "@imploy/common-components"
 import { useDrive } from "@imploy/common-contexts"
 import {
@@ -18,46 +19,53 @@ import clsx from "clsx"
 import CustomModal from "../Elements/CustomModal"
 import CustomButton from "../Elements/CustomButton"
 
-const useStyles = makeStyles(({ breakpoints, constants, palette }: ITheme) => {
-  const mobileButtonHeight = 44
-  return createStyles({
-    root: {
-      padding: constants.generalUnit * 4,
-    },
-    modalRoot: {
-      [breakpoints.down("sm")]: {},
-    },
-    modalInner: {
-      [breakpoints.down("sm")]: {
-        bottom: mobileButtonHeight + constants.generalUnit,
-        borderTopLeftRadius: `${constants.generalUnit * 1.5}px`,
-        borderTopRightRadius: `${constants.generalUnit * 1.5}px`,
+const useStyles = makeStyles(
+  ({ breakpoints, constants, palette, typography }: ITheme) => {
+    const mobileButtonHeight = 44
+    return createStyles({
+      root: {
+        padding: constants.generalUnit * 4,
       },
-    },
-    createFolderButton: {},
-    input: {
-      marginBottom: constants.generalUnit * 2,
-    },
-    okButton: {
-      marginLeft: constants.generalUnit,
-      color: palette.common.white.main,
-      backgroundColor: palette.common.black.main,
-    },
-    cancelButton: {
-      [breakpoints.down("sm")]: {
-        position: "fixed",
-        bottom: 0,
-        left: 0,
-        width: "100%",
-        height: mobileButtonHeight,
+      modalRoot: {
+        [breakpoints.down("sm")]: {},
       },
-    },
-    label: {
-      fontSize: 14,
-      lineHeight: "22px",
-    },
-  })
-})
+      modalInner: {
+        [breakpoints.down("sm")]: {
+          bottom: mobileButtonHeight + constants.generalUnit,
+          borderTopLeftRadius: `${constants.generalUnit * 1.5}px`,
+          borderTopRightRadius: `${constants.generalUnit * 1.5}px`,
+        },
+      },
+      createFolderButton: {},
+      input: {
+        marginBottom: constants.generalUnit * 2,
+      },
+      okButton: {
+        marginLeft: constants.generalUnit,
+        color: palette.common.white.main,
+        backgroundColor: palette.common.black.main,
+      },
+      cancelButton: {
+        [breakpoints.down("sm")]: {
+          position: "fixed",
+          bottom: 0,
+          left: 0,
+          width: "100%",
+          height: mobileButtonHeight,
+        },
+      },
+      label: {
+        fontSize: 14,
+        lineHeight: "22px",
+      },
+      heading: {
+        fontWeight: typography.fontWeight.semibold,
+        textAlign: "center",
+        marginBottom: constants.generalUnit * 4,
+      },
+    })
+  },
+)
 
 const CreateFolderModule: React.FC<{ buttonClassName?: string }> = ({
   buttonClassName,
@@ -111,6 +119,17 @@ const CreateFolderModule: React.FC<{ buttonClassName?: string }> = ({
         >
           <Form>
             <Grid container flexDirection="column" className={classes.root}>
+              {!desktop && (
+                <Grid item xs={12} sm={12}>
+                  <Typography
+                    className={classes.heading}
+                    variant="h5"
+                    component="h5"
+                  >
+                    Create Folder
+                  </Typography>
+                </Grid>
+              )}
               <Grid item xs={12} sm={12} className={classes.input}>
                 <FormikTextInput
                   name="name"
@@ -135,7 +154,7 @@ const CreateFolderModule: React.FC<{ buttonClassName?: string }> = ({
                   type="submit"
                   className={classes.okButton}
                 >
-                  OK
+                  {desktop ? "OK" : "Create"}
                 </Button>
               </Grid>
             </Grid>
