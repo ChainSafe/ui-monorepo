@@ -1,16 +1,14 @@
-import { CSSProperties } from "react"
-
 export interface ISelectInputOverride {
-  root?: CSSProperties
-  label?: CSSProperties
-  caption?: CSSProperties
-  container?: CSSProperties
-  control?: CSSProperties
-  menu?: CSSProperties
-  dropdownIndicator?: CSSProperties
-  singleValue?: CSSProperties
-  placeholder?: CSSProperties
-  option?: CSSProperties
-  valueContainer?: CSSProperties
-  indicatorsContainer?: CSSProperties
+  root?: Record<string, any>
+  label?: Record<string, any>
+  caption?: Record<string, any>
+  container?: Record<string, any>
+  control?: Record<string, any>
+  menu?: Record<string, any>
+  dropdownIndicator?: Record<string, any>
+  singleValue?: Record<string, any>
+  placeholder?: Record<string, any>
+  option?: Record<string, any>
+  valueContainer?: Record<string, any>
+  indicatorsContainer?: Record<string, any>
 }

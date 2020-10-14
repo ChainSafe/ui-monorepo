@@ -8,7 +8,7 @@ export {
 export { default as ConditionalRoute } from "./ConditionalRoute"
 export {
   useHistoryFunctions as useHistory,
-  useParams,
   useRouteMatch,
+  useParams,
   useLocation,
 } from "./history"

@@ -1,8 +1,6 @@
-import { CSSProperties } from "react"
-
 export interface IGridOverride {
-  root?: CSSProperties
-  container?: CSSProperties
-  item?: CSSProperties
-  fullWidth?: CSSProperties
+  root?: Record<string, any>
+  container?: Record<string, any>
+  item?: Record<string, any>
+  fullWidth?: Record<string, any>
 }

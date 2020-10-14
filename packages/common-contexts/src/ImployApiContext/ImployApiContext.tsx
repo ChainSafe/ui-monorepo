@@ -1,10 +1,17 @@
 import { useWeb3 } from "@chainsafe/web3-context"
 import * as React from "react"
 import { useState, useEffect } from "react"
-import { IImployApiClient, ImployApiClient, Token } from "@imploy/api-client"
+import {
+  IImployApiClient,
+  ImployApiClient,
+  Token,
+  Provider,
+} from "@imploy/api-client"
 import jwtDecode from "jwt-decode"
 import { signMessage } from "./utils"
 import axios from "axios"
+
+export { Provider as OAuthProvider }
 
 const tokenStorageKey = "csf.refreshToken"
 const isReturningUserStorageKey = "csf.isReturningUser"
@@ -15,12 +22,23 @@ type ImployApiContextProps = {
 }
 
 type ImployApiContext = {
-  imployApiClient?: IImployApiClient
+  imployApiClient: IImployApiClient
   isLoggedIn: boolean | undefined
   isReturningUser: boolean
   selectWallet(): Promise<void>
   resetAndSelectWallet(): Promise<void>
   web3Login(): Promise<void>
+  getProviderUrl(provider: Provider): Promise<string>
+  loginWithGithub(code: string, state: string): Promise<void>
+  loginWithGoogle(
+    code: string,
+    state: string,
+    scope: string | undefined,
+    authUser: string | undefined,
+    hd: string | undefined,
+    prompt: string | undefined,
+  ): Promise<void>
+  loginWithFacebook(code: string, state: string): Promise<void>
   logout(): void
 }
 
@@ -30,34 +48,42 @@ const ImployApiContext = React.createContext<ImployApiContext | undefined>(
 
 const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
   const { wallet, onboard, checkIsReady, isReady, provider } = useWeb3()
-  const [imployApiClient, setImployApiClient] = useState<
-    ImployApiClient | undefined
-  >(undefined)
 
+  // initializing api
+  const initialAxiosInstance = axios.create({
+    // Disable the internal Axios JSON deserialization as this is handled by the client
+    transformResponse: [],
+  })
+  const initialApiClient = new ImployApiClient({}, apiUrl, initialAxiosInstance)
+
+  const [imployApiClient, setImployApiClient] = useState<ImployApiClient>(
+    initialApiClient,
+  )
+  const [isLoadingUser, setIsLoadingUser] = useState(true)
+
+  // access tokens
   const [accessToken, setAccessToken] = useState<Token | undefined>(undefined)
   const [decodedRefreshToken, setDecodedRefreshToken] = useState<
     { exp: number } | undefined
   >(undefined)
   const [refreshToken, setRefreshToken] = useState<Token | undefined>(undefined)
 
+  // returning user
   const isReturningUserLocal = localStorage.getItem(isReturningUserStorageKey)
   const [isReturningUser, setIsReturningUser] = useState(
     isReturningUserLocal ? true : false,
   )
 
-  const [isLoadingUser, setIsLoadingUser] = useState(true)
-
-  const setTokensAndSave = (
-    accessToken: Token,
-    refreshToken: Token,
-    apiClient: ImployApiClient,
-  ) => {
+  const setTokensAndSave = (accessToken: Token, refreshToken: Token) => {
     setAccessToken(accessToken)
     setRefreshToken(refreshToken)
     refreshToken.token &&
       localStorage.setItem(tokenStorageKey, refreshToken.token)
 
-    accessToken.token && apiClient.setToken(accessToken.token)
+    accessToken.token && imployApiClient.setToken(accessToken.token)
+  }
+
+  const setReturningUser = () => {
     // set returning user
     localStorage.setItem(isReturningUserStorageKey, "returning")
     setIsReturningUser(true)
@@ -82,10 +108,7 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
               const refreshTokenApiClient = new ImployApiClient(
                 {},
                 apiUrl,
-                axios.create({
-                  // Disable the internal Axios JSON deserialization as this is handled by the client
-                  transformResponse: [],
-                }),
+                axiosInstance,
               )
               try {
                 const {
@@ -94,8 +117,8 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
                 } = await refreshTokenApiClient.getRefreshToken(
                   refreshTokenLocal,
                 )
-                setAccessToken(access_token)
-                setRefreshToken(refresh_token)
+
+                setTokensAndSave(access_token, refresh_token)
                 error.response.config.headers.Authorization = `Bearer ${access_token.token}`
                 return axios(error.response.config)
               } catch (err) {
@@ -112,8 +135,9 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
           return Promise.reject(error)
         },
       )
-      const apiClient = new ImployApiClient({}, apiUrl, axiosInstance)
       const savedRefreshToken = localStorage.getItem(tokenStorageKey)
+      const apiClient = new ImployApiClient({}, apiUrl, axiosInstance)
+      setImployApiClient(apiClient)
       if (savedRefreshToken) {
         try {
           const {
@@ -121,13 +145,10 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
             refresh_token,
           } = await apiClient.getRefreshToken(savedRefreshToken)
 
-          setTokensAndSave(access_token, refresh_token, apiClient)
-          setIsLoadingUser(false)
+          setTokensAndSave(access_token, refresh_token)
         } catch (error) {}
-      } else {
-        setIsLoadingUser(false)
       }
-      setImployApiClient(apiClient)
+      setIsLoadingUser(false)
     }
 
     initializeApiClient()
@@ -151,7 +172,6 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
   }
 
   const web3Login = async () => {
-    if (!imployApiClient) return Promise.reject("Api Client is not initialized")
     if (!provider) return Promise.reject("No wallet is selected")
 
     if (!isReady) {
@@ -173,7 +193,8 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
           token: token,
           public_address: addresses[0],
         })
-        setTokensAndSave(access_token, refresh_token, imployApiClient)
+        setTokensAndSave(access_token, refresh_token)
+        setReturningUser()
         return Promise.resolve()
       }
     } catch (error) {
@@ -214,6 +235,73 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
     }
   }
 
+  const getProviderUrl = async (provider: Provider) => {
+    try {
+      const { url } = await imployApiClient.getOauth2Provider(provider)
+      return Promise.resolve(url)
+    } catch {
+      return Promise.reject("There was an error logging in")
+    }
+  }
+
+  const loginWithGithub = async (code: string, state: string) => {
+    try {
+      const {
+        access_token,
+        refresh_token,
+      } = await imployApiClient.postOauth2CodeGithub(code, state)
+      setTokensAndSave(access_token, refresh_token)
+      setReturningUser()
+      return Promise.resolve()
+    } catch {
+      return Promise.reject("There was an error logging in")
+    }
+  }
+
+  const loginWithGoogle = async (
+    code: string,
+    state: string,
+    scope: string | undefined,
+    authUser: string | undefined,
+    hd: string | undefined,
+    prompt: string | undefined,
+  ) => {
+    try {
+      const {
+        access_token,
+        refresh_token,
+      } = await imployApiClient.postOauth2CodeGoogle(
+        code,
+        state,
+        scope,
+        authUser,
+        hd,
+        prompt,
+      )
+
+      setTokensAndSave(access_token, refresh_token)
+      setReturningUser()
+      return Promise.resolve()
+    } catch (err) {
+      return Promise.reject("There was an error logging in")
+    }
+  }
+
+  const loginWithFacebook = async (code: string, state: string) => {
+    try {
+      const {
+        access_token,
+        refresh_token,
+      } = await imployApiClient.postOauth2CodeFacebook(code, state)
+
+      setTokensAndSave(access_token, refresh_token)
+      setReturningUser()
+      return Promise.resolve()
+    } catch (err) {
+      return Promise.reject("There was an error logging in")
+    }
+  }
+
   const logout = () => {
     setAccessToken(undefined)
     setRefreshToken(undefined)
@@ -228,8 +316,12 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
         isLoggedIn: isLoggedIn(),
         isReturningUser: isReturningUser,
         web3Login,
+        loginWithGithub,
+        loginWithGoogle,
+        loginWithFacebook,
         selectWallet,
         resetAndSelectWallet,
+        getProviderUrl,
         logout,
       }}
     >

@@ -71,11 +71,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
   }, [imployApiClient, refreshContents, currentPath])
 
   const uploadFile = async (file: File, path: string) => {
-    if (!imployApiClient) return Promise.reject("Api Client is not initialized")
-    debugger
-
     try {
-      debugger
       addToastMessage({
         message: "Uploading file",
         appearance: "info",
@@ -102,8 +98,6 @@ const DriveProvider = ({ children }: DriveContextProps) => {
   }
 
   const createFolder = async (body: FilesPathRequest) => {
-    if (!imployApiClient) return Promise.reject("Api Client is not initialized")
-
     try {
       const result = await imployApiClient.addCSFDirectory(body)
       await refreshContents()
@@ -122,8 +116,6 @@ const DriveProvider = ({ children }: DriveContextProps) => {
   }
 
   const renameFile = async (body: FilesMvRequest) => {
-    if (!imployApiClient) return Promise.reject("Api Client is not initialized")
-
     try {
       await imployApiClient.moveCSFObject(body)
       await refreshContents()
@@ -142,8 +134,6 @@ const DriveProvider = ({ children }: DriveContextProps) => {
   }
 
   const moveFile = async (body: FilesMvRequest) => {
-    if (!imployApiClient) return Promise.reject("Api Client is not initialized")
-
     try {
       await imployApiClient.moveCSFObject(body)
       await refreshContents()
@@ -162,8 +152,6 @@ const DriveProvider = ({ children }: DriveContextProps) => {
   }
 
   const deleteFile = async (body: FilesRmRequest) => {
-    if (!imployApiClient) return Promise.reject("Api Client is not initialized")
-
     try {
       await imployApiClient.removeCSFObjects(body)
       await refreshContents()
@@ -182,7 +170,6 @@ const DriveProvider = ({ children }: DriveContextProps) => {
   }
 
   const downloadFile = async (fileName: string) => {
-    if (!imployApiClient) return Promise.reject("Api Client is not initialized")
     // addToastMessage({
     //   message: "Preparing your download",
     //   appearance: "info",
@@ -214,8 +201,6 @@ const DriveProvider = ({ children }: DriveContextProps) => {
   }
 
   const list = async (body: FilesPathRequest) => {
-    if (!imployApiClient) return Promise.reject("Api Client is not initialized")
-
     try {
       return imployApiClient.getCSFChildList(body)
     } catch (error) {

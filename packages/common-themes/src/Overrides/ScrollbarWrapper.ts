@@ -1,5 +1,3 @@
-import { CSSProperties } from "react"
-
 export interface IScrollbarWrapperOverride {
-  root?: CSSProperties
+  root?: Record<string, any>
 }

@@ -14,11 +14,11 @@
     "start": "rollup -c -w"
   },
   "dependencies": {
-    "@imploy/api-client": "1.2.3",
+    "@imploy/api-client": "1.2.5",
     "axios": "^0.20.0"
   },
   "peerDependencies": {
-    "@chainsafe/web3-context": "1.0.1",
+    "@chainsafe/web3-context": "1.0.4",
     "axios": "^0.20.0",
     "ethers": "5.0.17",
     "jwt-decode": "^3.0.0",
@@ -27,7 +27,7 @@
     "react-toast-notifications": ">2.4.0"
   },
   "devDependencies": {
-    "@chainsafe/web3-context": "1.0.1",
+    "@chainsafe/web3-context": "1.0.4",
     "@rollup/plugin-commonjs": "^15.1.0",
     "@rollup/plugin-json": "^4.1.0",
     "@rollup/plugin-node-resolve": "^8.4.0",

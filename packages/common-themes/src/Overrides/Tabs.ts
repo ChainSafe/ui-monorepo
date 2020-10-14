@@ -1,9 +1,7 @@
-import { CSSProperties } from "react"
-
 export interface ITabsOverride {
-  tabList?: CSSProperties
+  tabList?: Record<string, any>
   tabBar?: {
-    root?: CSSProperties
-    selected?: CSSProperties
+    root?: Record<string, any>
+    selected?: Record<string, any>
   }
 }
