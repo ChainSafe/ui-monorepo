@@ -34,7 +34,7 @@ const UserProvider = ({ children }: UserContextProps) => {
   const [profile, setProfile] = useState<Profile | undefined>(undefined)
 
   useEffect(() => {
-    if (isLoggedIn && imployApiClient) {
+    if (isLoggedIn) {
       const retrieveProfile = async () => {
         try {
           await refreshProfile()
@@ -42,7 +42,7 @@ const UserProvider = ({ children }: UserContextProps) => {
       }
       retrieveProfile()
     }
-  }, [isLoggedIn, imployApiClient])
+  }, [isLoggedIn])
 
   const refreshProfile = async () => {
     try {

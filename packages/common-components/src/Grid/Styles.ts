@@ -110,7 +110,7 @@ export const createGridStyles = ({
     },
   }
 
-  const gridBreakpoints = Object.keys(breakpoints.keys)
+  const gridBreakpoints = breakpoints.keys
   const smallestBreakpoint = gridBreakpoints.shift()
 
   // for xs
