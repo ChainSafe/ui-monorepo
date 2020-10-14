@@ -43,7 +43,7 @@ interface IFile extends FileContentResponse {
 const DriveContext = React.createContext<DriveContext | undefined>(undefined)
 
 const DriveProvider = ({ children }: DriveContextProps) => {
-  const { imployApiClient } = useImployApi()
+  const { imployApiClient, isLoggedIn } = useImployApi()
   const [currentPath, setCurrentPath] = useState<string>("/")
   const [pathContents, setPathContents] = useState<IFile[]>([])
   const [spaceUsed, setSpaceUsed] = useState(0)
@@ -67,18 +67,22 @@ const DriveProvider = ({ children }: DriveContextProps) => {
   }, [imployApiClient, currentPath])
 
   useEffect(() => {
-    refreshContents()
-  }, [imployApiClient, refreshContents, currentPath])
+    if (isLoggedIn) {
+      refreshContents()
+    }
+  }, [imployApiClient, refreshContents, currentPath, isLoggedIn])
 
   useEffect(() => {
-    const getSpaceUsage = async () => {
-      try {
-        const { csf_size } = await imployApiClient.getCSFFilesStoreInfo()
-        setSpaceUsed(csf_size)
-      } catch (error) {}
+    if (isLoggedIn) {
+      const getSpaceUsage = async () => {
+        try {
+          const { csf_size } = await imployApiClient.getCSFFilesStoreInfo()
+          setSpaceUsed(csf_size)
+        } catch (error) {}
+      }
+      getSpaceUsage()
     }
-    getSpaceUsage()
-  }, [imployApiClient, pathContents])
+  }, [imployApiClient, pathContents, isLoggedIn])
 
   const uploadFile = async (file: File, path: string) => {
     try {
