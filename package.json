@@ -44,8 +44,7 @@
     ],
     "nohoist": [
       "**/webpack-dev-server",
-      "**/react-scripts",
-      "**/react-toast-notifications"
+      "**/react-scripts"
     ]
   },
   "husky": {
