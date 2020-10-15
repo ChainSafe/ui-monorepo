@@ -368,6 +368,7 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
                     onClick={() => {
                       file.content_type ===
                         "application/chainsafe-files-directory" &&
+                        !editing &&
                         updateCurrentPath(`${currentPath}${file.name}`)
                     }}
                   >
