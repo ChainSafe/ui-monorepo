@@ -23,8 +23,7 @@
     "ethers": "5.0.17",
     "jwt-decode": "^3.0.0",
     "react": ">= 16.8.0",
-    "react-dom": ">= 16.8.0",
-    "react-toast-notifications": ">2.4.0"
+    "react-dom": ">= 16.8.0"
   },
   "devDependencies": {
     "@chainsafe/web3-context": "1.0.4",
@@ -34,7 +33,6 @@
     "@types/jwt-decode": "^2.2.1",
     "@types/react": "^16.9.52",
     "@types/react-dom": "^16.0.5",
-    "@types/react-toast-notifications": "^2.4.0",
     "@types/styled-components": "^5.1.4",
     "axios": "^0.20.0",
     "babel-core": "^6.26.3",
