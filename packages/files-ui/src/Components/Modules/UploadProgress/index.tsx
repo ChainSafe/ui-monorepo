@@ -1,6 +1,7 @@
 import React, { useState } from "react"
 import { createStyles, ITheme, makeStyles } from "@imploy/common-themes"
-import { ProgressBar, Typography } from "@imploy/common-components"
+import { ProgressBar } from "@imploy/common-components"
+import UploadBox from "./UploadBox"
 
 const uploadsInProgressData = [
   {
@@ -57,8 +58,6 @@ const useStyles = makeStyles(
         right: 0,
         bottom: 0,
         borderRadius: 4,
-        border: `1px solid ${palette.additional["gray"][6]}`,
-        backgroundColor: palette.additional["gray"][3],
         padding: constants.generalUnit,
         width: WIDTH,
         zIndex: zIndex?.layer1,
@@ -68,6 +67,9 @@ const useStyles = makeStyles(
         },
       },
       boxContainer: {
+        backgroundColor: palette.additional["gray"][3],
+        margin: `${constants.generalUnit}px 0`,
+        border: `1px solid ${palette.additional["gray"][6]}`,
         padding: constants.generalUnit,
       },
     })
@@ -80,28 +82,39 @@ const UploadProgress: React.FC = () => {
     uploadsInProgressData,
   )
 
+  const remove = (index: number) => {
+    uploadsInProgress.splice(index, 1)
+    setUploadsInProgress([...uploadsInProgress])
+  }
+
+  const add = () => {
+    setUploadsInProgress([
+      ...uploadsInProgress,
+      {
+        complete: false,
+        error: false,
+        fileName: "file",
+        noOfFiles: 1,
+        progress: 20,
+      },
+    ])
+  }
+
   return (
     <div className={classes.wrapper}>
       <div className={classes.root}>
-        <div>
-          <button></button>
-        </div>
-        {uploadsInProgress.map((uploadInProgress) => (
-          <div className={classes.boxContainer}>
-            {uploadInProgress.complete ? (
-              <div>{uploadInProgress.fileName}</div>
-            ) : uploadInProgress.error ? (
-              <div>error</div>
-            ) : (
-              <div>
-                <ProgressBar
-                  progress={uploadInProgress.progress}
-                  size="small"
-                />
-              </div>
-            )}
-          </div>
+        {uploadsInProgress.map((uploadInProgress, index) => (
+          <UploadBox
+            fileName={uploadInProgress.fileName}
+            progress={uploadInProgress.progress}
+            error={uploadInProgress.error}
+            complete={uploadInProgress.complete}
+            noOfFiles={uploadInProgress.noOfFiles}
+            index={index}
+            remove={() => remove(index)}
+          />
         ))}
+        <button onClick={add}>click</button>
       </div>
     </div>
   )
