@@ -7,9 +7,8 @@ import {
 } from "@imploy/api-client"
 import React, { useCallback, useEffect } from "react"
 import { useState } from "react"
-import { useImployApi } from "../ImployApiContext"
+import { useImployApi } from "@imploy/common-contexts"
 import dayjs from "dayjs"
-//@ts-ignore
 import { useToaster } from "@imploy/common-components"
 
 type DriveContextProps = {
@@ -83,16 +82,16 @@ const DriveProvider = ({ children }: DriveContextProps) => {
 
       const result = await imployApiClient.addCSFFiles(fileParam, path)
       await refreshContents()
-      // addToastMessage({
-      //   message: "File upload successful",
-      //   appearance: "success",
-      // })
+      addToastMessage({
+        message: "File upload successful",
+        appearance: "success",
+      })
       return result
     } catch (error) {
-      // addToastMessage({
-      //   message: "There was an error uploading this file",
-      //   appearance: "error",
-      // })
+      addToastMessage({
+        message: "There was an error uploading this file",
+        appearance: "error",
+      })
       return Promise.reject(error)
     }
   }
@@ -101,16 +100,16 @@ const DriveProvider = ({ children }: DriveContextProps) => {
     try {
       const result = await imployApiClient.addCSFDirectory(body)
       await refreshContents()
-      // addToastMessage({
-      //   message: "Folder created successfully",
-      //   appearance: "success",
-      // })
+      addToastMessage({
+        message: "Folder created successfully",
+        appearance: "success",
+      })
       return result
     } catch (error) {
-      // addToastMessage({
-      //   message: "There was an error creating this folder",
-      //   appearance: "error",
-      // })
+      addToastMessage({
+        message: "There was an error creating this folder",
+        appearance: "error",
+      })
       return Promise.reject()
     }
   }
@@ -119,16 +118,16 @@ const DriveProvider = ({ children }: DriveContextProps) => {
     try {
       await imployApiClient.moveCSFObject(body)
       await refreshContents()
-      // addToastMessage({
-      //   message: "File renamed successfully",
-      //   appearance: "success",
-      // })
+      addToastMessage({
+        message: "File renamed successfully",
+        appearance: "success",
+      })
       return Promise.resolve()
     } catch (error) {
-      // addToastMessage({
-      //   message: "There was an error renaming this file",
-      //   appearance: "error",
-      // })
+      addToastMessage({
+        message: "There was an error renaming this file",
+        appearance: "error",
+      })
       return Promise.reject()
     }
   }
@@ -137,16 +136,16 @@ const DriveProvider = ({ children }: DriveContextProps) => {
     try {
       await imployApiClient.moveCSFObject(body)
       await refreshContents()
-      // addToastMessage({
-      //   message: "File moved successfully",
-      //   appearance: "success",
-      // })
+      addToastMessage({
+        message: "File moved successfully",
+        appearance: "success",
+      })
       return Promise.resolve()
     } catch (error) {
-      // addToastMessage({
-      //   message: "There was an error moving this file",
-      //   appearance: "error",
-      // })
+      addToastMessage({
+        message: "There was an error moving this file",
+        appearance: "error",
+      })
       return Promise.reject()
     }
   }
@@ -155,25 +154,25 @@ const DriveProvider = ({ children }: DriveContextProps) => {
     try {
       await imployApiClient.removeCSFObjects(body)
       await refreshContents()
-      // addToastMessage({
-      //   message: "File deleted successfully",
-      //   appearance: "success",
-      // })
+      addToastMessage({
+        message: "File deleted successfully",
+        appearance: "success",
+      })
       return Promise.resolve()
     } catch (error) {
-      // addToastMessage({
-      //   message: "There was an error deleting this file",
-      //   appearance: "error",
-      // })
+      addToastMessage({
+        message: "There was an error deleting this file",
+        appearance: "error",
+      })
       return Promise.reject()
     }
   }
 
   const downloadFile = async (fileName: string) => {
-    // addToastMessage({
-    //   message: "Preparing your download",
-    //   appearance: "info",
-    // })
+    addToastMessage({
+      message: "Preparing your download",
+      appearance: "info",
+    })
     try {
       //TODO: Fix the response of this method
       const result = await imployApiClient.getFileContent({
@@ -186,16 +185,16 @@ const DriveProvider = ({ children }: DriveContextProps) => {
       link.href = window.URL.createObjectURL(blob)
       link.download = fileName
       link.click()
-      // addToastMessage({
-      //   message: "Download is ready",
-      //   appearance: "info",
-      // })
+      addToastMessage({
+        message: "Download is ready",
+        appearance: "info",
+      })
       return Promise.resolve()
     } catch (error) {
-      // addToastMessage({
-      //   message: "There was an error downloading this file",
-      //   appearance: "error",
-      // })
+      addToastMessage({
+        message: "There was an error downloading this file",
+        appearance: "error",
+      })
       return Promise.reject()
     }
   }
@@ -239,4 +238,5 @@ const useDrive = () => {
   return context
 }
 
-export { DriveProvider, useDrive, IFile }
+export { DriveProvider, useDrive }
+export type { IFile }
