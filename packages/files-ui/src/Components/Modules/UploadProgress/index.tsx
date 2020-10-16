@@ -1,6 +1,6 @@
 import React from "react"
 import { createStyles, ITheme, makeStyles } from "@imploy/common-themes"
-import { useDrive } from "@imploy/common-contexts"
+import { useDrive } from "../../../Contexts/DriveContext"
 import UploadBox from "./UploadBox"
 
 const useStyles = makeStyles(({ constants, zIndex, breakpoints }: ITheme) => {

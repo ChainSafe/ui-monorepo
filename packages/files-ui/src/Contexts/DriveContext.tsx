@@ -7,9 +7,10 @@ import {
 } from "@imploy/api-client"
 import React, { useCallback, useEffect } from "react"
 import { useState } from "react"
-import { useImployApi } from "../ImployApiContext"
+import { useImployApi } from "@imploy/common-contexts"
 import dayjs from "dayjs"
 import { v4 as uuidv4 } from "uuid"
+import { useToaster } from "@imploy/common-components"
 
 type DriveContextProps = {
   children: React.ReactNode | React.ReactNode[]
@@ -57,6 +58,8 @@ const DriveContext = React.createContext<DriveContext | undefined>(undefined)
 
 const DriveProvider = ({ children }: DriveContextProps) => {
   const { imployApiClient, isLoggedIn } = useImployApi()
+  const { addToastMessage } = useToaster()
+
   const [currentPath, setCurrentPath] = useState<string>("/")
   const [pathContents, setPathContents] = useState<IFile[]>([])
   const [uploadsInProgress, setUploadsInProgress] = useState<UploadProgress[]>(
@@ -176,7 +179,6 @@ const DriveProvider = ({ children }: DriveContextProps) => {
       return result
     } catch (error) {
       // set uploadProgress as Error
-      // setting complete
       const uploadProgressIndex = uploadsInProgress.findIndex(
         (uploadProgress) => uploadProgress.id === id,
       )
@@ -192,8 +194,16 @@ const DriveProvider = ({ children }: DriveContextProps) => {
     try {
       const result = await imployApiClient.addCSFDirectory(body)
       await refreshContents()
+      addToastMessage({
+        message: "Folder created successfully",
+        appearance: "success",
+      })
       return result
     } catch (error) {
+      addToastMessage({
+        message: "There was an error creating this folder",
+        appearance: "error",
+      })
       return Promise.reject()
     }
   }
@@ -202,8 +212,16 @@ const DriveProvider = ({ children }: DriveContextProps) => {
     try {
       await imployApiClient.moveCSFObject(body)
       await refreshContents()
+      addToastMessage({
+        message: "File renamed successfully",
+        appearance: "success",
+      })
       return Promise.resolve()
     } catch (error) {
+      addToastMessage({
+        message: "There was an error renaming this file",
+        appearance: "error",
+      })
       return Promise.reject()
     }
   }
@@ -212,8 +230,16 @@ const DriveProvider = ({ children }: DriveContextProps) => {
     try {
       await imployApiClient.moveCSFObject(body)
       await refreshContents()
+      addToastMessage({
+        message: "File moved successfully",
+        appearance: "success",
+      })
       return Promise.resolve()
     } catch (error) {
+      addToastMessage({
+        message: "There was an error moving this file",
+        appearance: "error",
+      })
       return Promise.reject()
     }
   }
@@ -222,13 +248,25 @@ const DriveProvider = ({ children }: DriveContextProps) => {
     try {
       await imployApiClient.removeCSFObjects(body)
       await refreshContents()
+      addToastMessage({
+        message: "File deleted successfully",
+        appearance: "success",
+      })
       return Promise.resolve()
     } catch (error) {
+      addToastMessage({
+        message: "There was an error deleting this file",
+        appearance: "error",
+      })
       return Promise.reject()
     }
   }
 
   const downloadFile = async (fileName: string) => {
+    addToastMessage({
+      message: "Preparing your download",
+      appearance: "info",
+    })
     try {
       //TODO: Fix the response of this method
       const result = await imployApiClient.getFileContent({
@@ -241,8 +279,16 @@ const DriveProvider = ({ children }: DriveContextProps) => {
       link.href = window.URL.createObjectURL(blob)
       link.download = fileName
       link.click()
+      addToastMessage({
+        message: "Download is ready",
+        appearance: "info",
+      })
       return Promise.resolve()
     } catch (error) {
+      addToastMessage({
+        message: "There was an error downloading this file",
+        appearance: "error",
+      })
       return Promise.reject()
     }
   }
@@ -289,4 +335,5 @@ const useDrive = () => {
   return context
 }
 
-export { DriveProvider, useDrive, IFile }
+export { DriveProvider, useDrive }
+export type { IFile }
