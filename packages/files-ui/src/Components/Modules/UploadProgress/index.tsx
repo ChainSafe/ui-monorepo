@@ -6,13 +6,6 @@ import UploadBox from "./UploadBox"
 const useStyles = makeStyles(({ constants, zIndex, breakpoints }: ITheme) => {
   const WIDTH = 400
   return createStyles({
-    wrapper: {
-      position: "fixed",
-      top: 0,
-      left: 0,
-      width: "100%",
-      height: "100%",
-    },
     root: {
       margin: constants.generalUnit * 3,
       position: "absolute",
@@ -32,38 +25,19 @@ const useStyles = makeStyles(({ constants, zIndex, breakpoints }: ITheme) => {
 
 const UploadProgressView: React.FC = () => {
   const classes = useStyles()
-  const { uploadsInProgress } = useDrive()
-  const [rUploads, setRUploads] = React.useState(uploadsInProgress)
-
-  const add = () => {
-    setRUploads([
-      ...rUploads,
-      {
-        id: "1",
-        complete: false,
-        error: false,
-        progress: 20,
-        fileName: "file",
-        noOfFiles: 1,
-      },
-    ])
-  }
+  const { uploadsInProgress, removeUploadProgress } = useDrive()
 
   return (
     <>
-      <div>
-        <button onClick={add}>add</button>
-      </div>
-      {/* <div className={classes.wrapper}> */}
       <div className={classes.root}>
-        {rUploads.map((uploadInProgress, index) => (
+        {uploadsInProgress.map((uploadInProgress) => (
           <UploadBox
             key={uploadInProgress.id}
             uploadInProgress={uploadInProgress}
+            removeUploadProgress={removeUploadProgress}
           />
         ))}
       </div>
-      {/* </div> */}
     </>
   )
 }

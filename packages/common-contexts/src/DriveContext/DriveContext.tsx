@@ -42,7 +42,11 @@ type DriveContext = {
   currentPath: string
   updateCurrentPath(newPath: string): void
   pathContents: IFile[]
+  // uploads in progress
   uploadsInProgress: UploadProgress[]
+  removeUploadProgress(id: string): void
+  // space used by user in bytes
+  spaceUsed: number
 }
 
 interface IFile extends FileContentResponse {
@@ -52,18 +56,20 @@ interface IFile extends FileContentResponse {
 const DriveContext = React.createContext<DriveContext | undefined>(undefined)
 
 const DriveProvider = ({ children }: DriveContextProps) => {
-  const { imployApiClient } = useImployApi()
+  const { imployApiClient, isLoggedIn } = useImployApi()
   const [currentPath, setCurrentPath] = useState<string>("/")
   const [pathContents, setPathContents] = useState<IFile[]>([])
   const [uploadsInProgress, setUploadsInProgress] = useState<UploadProgress[]>(
     [],
   )
+  const [spaceUsed, setSpaceUsed] = useState(0)
 
   const refreshContents = useCallback(async () => {
     try {
       const newContents = await imployApiClient?.getCSFChildList({
         path: currentPath,
       })
+
       if (newContents) {
         // Remove this when the API returns dates
         setPathContents(
@@ -77,8 +83,52 @@ const DriveProvider = ({ children }: DriveContextProps) => {
   }, [imployApiClient, currentPath])
 
   useEffect(() => {
-    refreshContents()
-  }, [imployApiClient, refreshContents, currentPath])
+    if (isLoggedIn) {
+      refreshContents()
+    }
+  }, [imployApiClient, refreshContents, currentPath, isLoggedIn])
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      const getSpaceUsage = async () => {
+        try {
+          const { csf_size } = await imployApiClient.getCSFFilesStoreInfo()
+          setSpaceUsed(csf_size)
+        } catch (error) {}
+      }
+      getSpaceUsage()
+    }
+  }, [imployApiClient, pathContents, isLoggedIn])
+
+  const removeUploadProgress = (id: string) => {
+    // setting complete
+    const uploadProgressIndex = uploadsInProgress.findIndex(
+      (uploadProgress) => uploadProgress.id === id,
+    )
+    if (uploadProgressIndex > -1) {
+      uploadsInProgress.splice(uploadProgressIndex, 1)
+      setUploadsInProgress([...uploadsInProgress])
+    }
+  }
+
+  // const onUploadProgress = (
+  //   id: string,
+  //   progress: number,
+  //   uploadsInProgress: UploadProgress[],
+  // ) => {
+  //   console.log(uploadsInProgress)
+  //   const uploadProgressIndex = uploadsInProgress.findIndex(
+  //     (uploadProgress) => uploadProgress.id === id,
+  //   )
+  //   console.log(progress)
+  //   console.log(id, uploadProgressIndex)
+
+  //   if (uploadProgressIndex > -1) {
+  //     console.log(uploadProgressIndex)
+  //     uploadsInProgress[uploadProgressIndex].progress = progress
+  //     setUploadsInProgress([...uploadsInProgress])
+  //   }
+  // }
 
   const uploadFile = async (file: File, path: string) => {
     const id = uuidv4()
@@ -97,39 +147,34 @@ const DriveProvider = ({ children }: DriveContextProps) => {
         progress: 0,
       }
 
-      // setting uploads progress
-      const onUploadProgress = (id: string, progress: number) => {
-        const uploadProgressIndex = uploadsInProgress.findIndex(
-          (uploadProgress) => uploadProgress.id === id,
-        )
-        if (uploadProgressIndex > -1) {
-          uploadsInProgress[uploadProgressIndex].progress = progress
-          setUploadsInProgress([...uploadsInProgress])
-        }
-      }
-
       // adding new upload progress
+      const newUploadsInProgress = [...uploadsInProgress, uploadProgress]
       setUploadsInProgress([...uploadsInProgress, uploadProgress])
 
       // API call
       const result = await imployApiClient.addCSFFiles(
         fileParam,
         path,
-        undefined,
-        (progressEvent: { loaded: number }) => {
-          onUploadProgress(id, progressEvent.loaded)
-        },
+        // undefined,
+        // (progressEvent: { loaded: number; total: number }) => {
+        //   onUploadProgress(
+        //     id,
+        //     Math.ceil((progressEvent.loaded / progressEvent.total) * 100),
+        //     newUploadsInProgress,
+        //   )
+        // },
       )
+      console.log("here")
       await refreshContents()
 
       // setting complete
-      const uploadProgressIndex = uploadsInProgress.findIndex(
+      const uploadProgressIndex = newUploadsInProgress.findIndex(
         (uploadProgress) => uploadProgress.id === id,
       )
       if (uploadProgressIndex > -1) {
-        uploadsInProgress[uploadProgressIndex].progress = 100
-        uploadsInProgress[uploadProgressIndex].complete = true
-        setUploadsInProgress([...uploadsInProgress])
+        newUploadsInProgress[uploadProgressIndex].progress = 100
+        newUploadsInProgress[uploadProgressIndex].complete = true
+        setUploadsInProgress([...newUploadsInProgress])
       }
 
       return result
@@ -231,6 +276,8 @@ const DriveProvider = ({ children }: DriveContextProps) => {
             : setCurrentPath(`${newPath}/`),
         pathContents,
         uploadsInProgress,
+        removeUploadProgress,
+        spaceUsed,
       }}
     >
       {children}
