@@ -50,7 +50,7 @@ const useStyles = makeStyles(({ constants, palette }: ITheme) => {
       flexDirection: "row",
       justifyContent: "space-between",
       alignItems: "center",
-      "& > *": {
+      "& > button": {
         marginLeft: constants.generalUnit,
       },
     },
