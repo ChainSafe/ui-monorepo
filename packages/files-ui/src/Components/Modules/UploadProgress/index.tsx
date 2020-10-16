@@ -25,7 +25,7 @@ const useStyles = makeStyles(({ constants, zIndex, breakpoints }: ITheme) => {
 
 const UploadProgressView: React.FC = () => {
   const classes = useStyles()
-  const { uploadsInProgress, removeUploadProgress } = useDrive()
+  const { uploadsInProgress } = useDrive()
 
   return (
     <>
@@ -34,7 +34,6 @@ const UploadProgressView: React.FC = () => {
           <UploadBox
             key={uploadInProgress.id}
             uploadInProgress={uploadInProgress}
-            removeUploadProgress={removeUploadProgress}
           />
         ))}
       </div>

@@ -1,5 +1,11 @@
 import React from "react"
-import { createStyles, ITheme, makeStyles } from "@imploy/common-themes"
+import {
+  createStyles,
+  ITheme,
+  makeStyles,
+  useMediaQuery,
+  useTheme,
+} from "@imploy/common-themes"
 import { UploadProgress } from "../../../Contexts/DriveContext"
 import {
   ProgressBar,
@@ -7,6 +13,7 @@ import {
   CheckCircleIcon,
   CloseCircleIcon,
 } from "@imploy/common-components"
+import clsx from "clsx"
 
 const useStyles = makeStyles(
   ({ constants, palette, animation, breakpoints }: ITheme) => {
@@ -17,18 +24,34 @@ const useStyles = makeStyles(
         border: `1px solid ${palette.additional["gray"][6]}`,
         padding: constants.generalUnit * 2,
         borderRadius: 4,
-        animation: `$slideRight ${animation.translate}ms`,
+      },
+      appearBox: {
+        animation: `$slideLeft ${animation.translate}ms`,
         [breakpoints.down("sm")]: {
-          animation: `$slideBottom ${animation.translate}ms`,
+          animation: `$slideUp ${animation.translate}ms`,
         },
       },
-      "@keyframes slideRight": {
+      removeBox: {
+        animation: `$slideRight ${animation.translate}ms`,
+        [breakpoints.down("sm")]: {
+          animation: `$slideDown ${animation.translate}ms`,
+        },
+      },
+      "@keyframes slideLeft": {
         from: { transform: "translate(100%)" },
         to: { transform: "translate(0)" },
       },
-      "@keyframes slideBottom": {
+      "@keyframes slideUp": {
         from: { transform: "translate(0, 100%)" },
         to: { transform: "translate(0, 0)" },
+      },
+      "@keyframes slideRight": {
+        from: { opacity: 1 },
+        to: { opacity: 0 },
+      },
+      "@keyframes slideDown": {
+        from: { opacity: 1 },
+        to: { opacity: 0 },
       },
       contentContainer: {
         display: "flex",
@@ -46,16 +69,20 @@ const useStyles = makeStyles(
 
 interface IUploadBox {
   uploadInProgress: UploadProgress
-  removeUploadProgress(id: string): void
 }
 
 const UploadBox: React.FC<IUploadBox> = (props) => {
-  const { uploadInProgress, removeUploadProgress } = props
+  const { uploadInProgress } = props
   const { complete, error, noOfFiles, progress, id } = uploadInProgress
   const classes = useStyles()
 
+  const { breakpoints }: ITheme = useTheme()
+  const desktop = useMediaQuery(breakpoints.up("sm"))
+
+  console.log(complete, error)
+
   return (
-    <div className={classes.boxContainer}>
+    <div className={clsx(classes.appearBox, classes.boxContainer)}>
       {complete ? (
         <div className={classes.contentContainer}>
           <CheckCircleIcon className={classes.marginRight} />
@@ -65,24 +92,24 @@ const UploadBox: React.FC<IUploadBox> = (props) => {
         </div>
       ) : error ? (
         <div className={classes.contentContainer}>
-          <div onClick={() => removeUploadProgress(id)}>
-            <CloseCircleIcon className={classes.marginRight} />
-          </div>
+          <CloseCircleIcon className={classes.marginRight} />
           <Typography variant="body1" component="p">
             Something went wrong and we couldn't upload your file.
           </Typography>
         </div>
       ) : (
-        <div>
-          <Typography
-            variant="body2"
-            component="p"
-            className={classes.marginBottom}
-          >{`Uploading ${noOfFiles} ${
-            noOfFiles === 1 ? "file" : "files"
-          }...`}</Typography>
-          <ProgressBar progress={progress} size="small" />
-        </div>
+        desktop && (
+          <div>
+            <Typography
+              variant="body2"
+              component="p"
+              className={classes.marginBottom}
+            >{`Uploading ${noOfFiles} ${
+              noOfFiles === 1 ? "file" : "files"
+            }...`}</Typography>
+            <ProgressBar progress={progress} size="small" />
+          </div>
+        )
       )}
     </div>
   )
