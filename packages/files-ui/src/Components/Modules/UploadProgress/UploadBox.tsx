@@ -79,8 +79,6 @@ const UploadBox: React.FC<IUploadBox> = (props) => {
   const { breakpoints }: ITheme = useTheme()
   const desktop = useMediaQuery(breakpoints.up("sm"))
 
-  console.log(complete, error)
-
   return (
     <div className={clsx(classes.appearBox, classes.boxContainer)}>
       {complete ? (

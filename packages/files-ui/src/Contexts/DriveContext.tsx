@@ -112,7 +112,6 @@ const DriveProvider = ({ children }: DriveContextProps) => {
     state: "progress" | "complete" | "error" | "delete",
     progress?: number,
   ) => {
-    console.log("inside", uploadsInProgress)
     const uploadProgressIndex = uploadsInProgress.findIndex(
       (uploadProgress) => uploadProgress.id === id,
     )
@@ -157,23 +156,25 @@ const DriveProvider = ({ children }: DriveContextProps) => {
           fileName: file.name,
         }
         // API call
+
         const result = await imployApiClient.addCSFFiles(
           fileParam,
           path,
           undefined,
-          (progressEvent: { loaded: number; total: number }) => {
-            setUploadProgress(
-              id,
-              // [...uploadsInProgress, uploadProgress],
-              "progress",
-              Math.ceil((progressEvent.loaded / progressEvent.total) * 100),
-            )
-          },
+          // (progressEvent: { loaded: number; total: number }) => {
+          //   setUploadProgress(
+          //     id,
+          //     // [...uploadsInProgress, uploadProgress],
+          //     "progress",
+          //     Math.ceil((progressEvent.loaded / progressEvent.total) * 100),
+          //   )
+          // },
         )
         await refreshContents()
 
+        console.log("inside", uploadsInProgress)
         // setting complete
-        // setUploadProgress(id, newUploadsInProgress, "complete")
+        setUploadProgress(id, "complete")
         // setInterval(() => {
         //   // removing completely
         //   setUploadProgress(id, newUploadsInProgress, "delete")
@@ -182,12 +183,12 @@ const DriveProvider = ({ children }: DriveContextProps) => {
         return result
       } catch (error) {
         // setting error
-        // setUploadProgress(id, newUploadsInProgress, "error")
+        console.log("inside", uploadsInProgress)
+        setUploadProgress(id, "error")
         // setInterval(() => {
         //   // removing completely
         //   setUploadProgress(id, newUploadsInProgress, "delete")
         // }, REMOVE_UPLOAD_PROGRESS_DELAY)
-        return Promise.reject(error)
       }
     }
     startUploadFile()
