@@ -1748,10 +1748,10 @@
   resolved "https://npm.pkg.github.com/download/@imploy/api-client/1.2.3/5300f459c05bff3d005229969b487a81fe9864749d2cf8f1b20e8eaa042d7b90#e220ead5a39be9413a6bc4cb1e37f9bb8dca5a6e"
   integrity sha512-c5MSFfXOwBBd/iAlM397DZDUuDSUtNaz5eCjM8mjBsfLwYx6DycnPB8cPjkLaM9Ox1DGbk9j+RJAPiTgjxH8Sw==
 
-"@imploy/api-client@1.2.5":
-  version "1.2.5"
-  resolved "https://npm.pkg.github.com/download/@imploy/api-client/1.2.5/0c7f6743715b1f3f30ff44ac8574c52640550864415d1a3cf155ad4237778ba1#a17adb9fa768a40bf629e635a4ec99b8797dd743"
-  integrity sha512-zQC3N3OlUpnSMxbWX4Ef/o2YL9Xo5p402vhpHwuvwit1C/NKmp7URlwGX+chMa/AjHe2n2wTTr2fcZwL+LfHSQ==
+"@imploy/api-client@1.2.6":
+  version "1.2.6"
+  resolved "https://npm.pkg.github.com/download/@imploy/api-client/1.2.6/47d65383ce38c6239fc8d2bd38eeb84a060ed683dbc1cea9bea97a0dae97b4cb#8638f5b0962745263038646df8000baa079af029"
+  integrity sha512-AO4YFOcbsb6rIxZmtRb9gOxJZ6pHV9UIpqJjx2DKyX4PMoFPgTThRR4Y0TKNGcc57ue44kRry9SKfjuHXyBUAQ==
 
 "@jest/console@^24.7.1", "@jest/console@^24.9.0":
   version "24.9.0"
@@ -3465,6 +3465,11 @@
   integrity sha512-KswB5C7Kwduwjj04Ykz+AjvPcfgv/37Za24O2EDzYNbwyzOo8+ydtvzUfZ5UMguiVu29Gx44l1A6VsPPcmYu9w==
   dependencies:
     source-map "^0.6.1"
+
+"@types/uuid@^8.3.0":
+  version "8.3.0"
+  resolved "https://registry.yarnpkg.com/@types/uuid/-/uuid-8.3.0.tgz#215c231dff736d5ba92410e6d602050cce7e273f"
+  integrity sha512-eQ9qFW/fhfGJF8WKHGEHZEyVWfZxrT+6CLIJGBcZPfxUh/+BnEj+UCGYMlr9qZuX/2AltsvwrGqp0LhEW8D0zQ==
 
 "@types/webpack-env@^1.15.0", "@types/webpack-env@^1.15.2":
   version "1.15.2"
@@ -17864,6 +17869,11 @@ uuid@^3.3.2, uuid@^3.4.0:
   version "3.4.0"
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-3.4.0.tgz#b23e4358afa8a202fe7a100af1f5f883f02007ee"
   integrity sha512-HjSDRw6gZE5JMggctHBcjVak08+KEVhSIiDzFnT9S9aegmp85S/bReBVTb4QTFaRNptJ9kuYaNhnbNEOkbKb/A==
+
+uuid@^8.3.1:
+  version "8.3.1"
+  resolved "https://registry.yarnpkg.com/uuid/-/uuid-8.3.1.tgz#2ba2e6ca000da60fce5a196954ab241131e05a31"
+  integrity sha512-FOmRr+FmWEIG8uhZv6C2bTgEVXsHk08kE7mPlrBbEe+c3r9pjceVPgupIfNIhc4yx55H69OXANrUaSuu9eInKg==
 
 uuidv4@6.0.6:
   version "6.0.6"
