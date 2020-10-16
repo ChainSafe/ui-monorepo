@@ -1,11 +1,13 @@
 import { Button, FileInput, Modal, UploadIcon } from "@imploy/common-components"
-import { useDrive } from "@imploy/common-contexts"
+import { useDrive } from "../../Contexts/DriveContext"
+import { Button, FileInput, UploadIcon } from "@imploy/common-components"
 import { createStyles, ITheme, makeStyles } from "@imploy/common-themes"
 import React from "react"
 import { useState } from "react"
 import { Formik, Form } from "formik"
 import clsx from "clsx"
 import { array, object } from "yup"
+import CustomModal from "../Elements/CustomModal"
 
 const useStyles = makeStyles(({ constants, palette }: ITheme) =>
   createStyles({
@@ -62,7 +64,7 @@ const UploadFileModule: React.FC<{ buttonClassName?: string }> = ({
         <UploadIcon />
         Upload
       </Button>
-      <Modal active={open} closePosition="none" maxWidth="sm">
+      <CustomModal active={open} closePosition="none" maxWidth="sm">
         <Formik
           initialValues={{
             files: [],
@@ -107,7 +109,7 @@ const UploadFileModule: React.FC<{ buttonClassName?: string }> = ({
             </footer>
           </Form>
         </Formik>
-      </Modal>
+      </CustomModal>
     </>
   )
 }

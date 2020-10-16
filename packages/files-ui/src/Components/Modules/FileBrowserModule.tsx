@@ -28,7 +28,7 @@ import {
 } from "@imploy/common-components"
 import { useState } from "react"
 import { useMemo } from "react"
-import { useDrive, IFile } from "@imploy/common-contexts"
+import { useDrive, IFile } from "../../Contexts/DriveContext"
 import { Formik, Form } from "formik"
 import { object, string } from "yup"
 import EmptySvg from "../../Media/Empty.svg"
@@ -50,7 +50,7 @@ const useStyles = makeStyles(({ constants, palette }: ITheme) => {
       flexDirection: "row",
       justifyContent: "space-between",
       alignItems: "center",
-      "& > *": {
+      "& > button": {
         marginLeft: constants.generalUnit,
       },
     },
@@ -368,6 +368,7 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
                     onClick={() => {
                       file.content_type ===
                         "application/chainsafe-files-directory" &&
+                        !editing &&
                         updateCurrentPath(`${currentPath}${file.name}`)
                     }}
                   >
