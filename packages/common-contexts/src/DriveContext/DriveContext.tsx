@@ -9,9 +9,19 @@ import React, { useCallback, useEffect } from "react"
 import { useState } from "react"
 import { useImployApi } from "../ImployApiContext"
 import dayjs from "dayjs"
+import { v4 as uuidv4 } from "uuid"
 
 type DriveContextProps = {
   children: React.ReactNode | React.ReactNode[]
+}
+
+export type UploadProgress = {
+  id: string
+  fileName: string
+  progress: number
+  error: boolean
+  complete: boolean
+  noOfFiles: number
 }
 
 type DriveContext = {
@@ -32,6 +42,7 @@ type DriveContext = {
   currentPath: string
   updateCurrentPath(newPath: string): void
   pathContents: IFile[]
+  uploadsInProgress: UploadProgress[]
 }
 
 interface IFile extends FileContentResponse {
@@ -44,6 +55,9 @@ const DriveProvider = ({ children }: DriveContextProps) => {
   const { imployApiClient } = useImployApi()
   const [currentPath, setCurrentPath] = useState<string>("/")
   const [pathContents, setPathContents] = useState<IFile[]>([])
+  const [uploadsInProgress, setUploadsInProgress] = useState<UploadProgress[]>(
+    [],
+  )
 
   const refreshContents = useCallback(async () => {
     try {
@@ -67,16 +81,68 @@ const DriveProvider = ({ children }: DriveContextProps) => {
   }, [imployApiClient, refreshContents, currentPath])
 
   const uploadFile = async (file: File, path: string) => {
+    const id = uuidv4()
     try {
       const fileParam = {
         data: file,
         fileName: file.name,
       }
 
-      const result = await imployApiClient.addCSFFiles(fileParam, path)
+      const uploadProgress: UploadProgress = {
+        id,
+        fileName: file.name,
+        complete: false,
+        error: false,
+        noOfFiles: 1,
+        progress: 0,
+      }
+
+      // setting uploads progress
+      const onUploadProgress = (id: string, progress: number) => {
+        const uploadProgressIndex = uploadsInProgress.findIndex(
+          (uploadProgress) => uploadProgress.id === id,
+        )
+        if (uploadProgressIndex > -1) {
+          uploadsInProgress[uploadProgressIndex].progress = progress
+          setUploadsInProgress([...uploadsInProgress])
+        }
+      }
+
+      // adding new upload progress
+      setUploadsInProgress([...uploadsInProgress, uploadProgress])
+
+      // API call
+      const result = await imployApiClient.addCSFFiles(
+        fileParam,
+        path,
+        undefined,
+        (progressEvent: { loaded: number }) => {
+          onUploadProgress(id, progressEvent.loaded)
+        },
+      )
       await refreshContents()
+
+      // setting complete
+      const uploadProgressIndex = uploadsInProgress.findIndex(
+        (uploadProgress) => uploadProgress.id === id,
+      )
+      if (uploadProgressIndex > -1) {
+        uploadsInProgress[uploadProgressIndex].progress = 100
+        uploadsInProgress[uploadProgressIndex].complete = true
+        setUploadsInProgress([...uploadsInProgress])
+      }
+
       return result
     } catch (error) {
+      // set uploadProgress as Error
+      // setting complete
+      const uploadProgressIndex = uploadsInProgress.findIndex(
+        (uploadProgress) => uploadProgress.id === id,
+      )
+      if (uploadProgressIndex > -1) {
+        uploadsInProgress[uploadProgressIndex].error = true
+        setUploadsInProgress([...uploadsInProgress])
+      }
       return Promise.reject(error)
     }
   }
@@ -164,6 +230,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
             ? setCurrentPath(`${newPath}`)
             : setCurrentPath(`${newPath}/`),
         pathContents,
+        uploadsInProgress,
       }}
     >
       {children}

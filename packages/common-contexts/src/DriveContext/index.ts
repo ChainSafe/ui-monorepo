@@ -1,1 +1,1 @@
-export { DriveProvider, useDrive, IFile } from "./DriveContext"
+export { DriveProvider, useDrive, IFile, UploadProgress } from "./DriveContext"
