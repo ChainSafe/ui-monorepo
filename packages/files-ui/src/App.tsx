@@ -3,11 +3,8 @@ import { init, ErrorBoundary, showReportDialog } from "@sentry/react"
 import { ThemeSwitcher } from "@imploy/common-themes"
 import { CssBaseline, Router, ToasterProvider } from "@imploy/common-components"
 import { Web3Provider } from "@chainsafe/web3-context"
-import {
-  DriveProvider,
-  ImployApiProvider,
-  UserProvider,
-} from "@imploy/common-contexts"
+import { ImployApiProvider, UserProvider } from "@imploy/common-contexts"
+import { DriveProvider } from "./Contexts/DriveContext"
 import FilesRoutes from "./Components/FilesRoutes"
 import AppWrapper from "./Components/Layouts/AppWrapper"
 import { lightTheme } from "./Themes/LightTheme"

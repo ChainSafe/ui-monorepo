@@ -32,5 +32,11 @@ export default {
       plugins: ["emotion"],
     }),
   ],
-  external: ["react", "react-dom", "@material-ui/styles", "formik"],
+  external: [
+    "react",
+    "react-dom",
+    "@material-ui/styles",
+    "formik",
+    "react-toast-notifications",
+  ],
 }
