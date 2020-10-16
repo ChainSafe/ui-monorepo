@@ -72,9 +72,9 @@ const UploadFileModule: React.FC<{ buttonClassName?: string }> = ({
           onSubmit={async (values, helpers) => {
             helpers.setSubmitting(true)
             try {
+              handleCloseDialog()
               await uploadFile(values.files[0], currentPath)
               helpers.resetForm()
-              handleCloseDialog()
             } catch (errors) {
               if (errors[0].message.includes("conflict with existing")) {
                 helpers.setFieldError("files", "File/Folder exists")

@@ -111,24 +111,21 @@ const DriveProvider = ({ children }: DriveContextProps) => {
     }
   }
 
-  // const onUploadProgress = (
-  //   id: string,
-  //   progress: number,
-  //   uploadsInProgress: UploadProgress[],
-  // ) => {
-  //   console.log(uploadsInProgress)
-  //   const uploadProgressIndex = uploadsInProgress.findIndex(
-  //     (uploadProgress) => uploadProgress.id === id,
-  //   )
-  //   console.log(progress)
-  //   console.log(id, uploadProgressIndex)
+  const onUploadProgress = (
+    id: string,
+    progress: number,
+    uploadsInProgress: UploadProgress[],
+  ) => {
+    const uploadProgressIndex = uploadsInProgress.findIndex(
+      (uploadProgress) => uploadProgress.id === id,
+    )
 
-  //   if (uploadProgressIndex > -1) {
-  //     console.log(uploadProgressIndex)
-  //     uploadsInProgress[uploadProgressIndex].progress = progress
-  //     setUploadsInProgress([...uploadsInProgress])
-  //   }
-  // }
+    if (uploadProgressIndex > -1) {
+      console.log(uploadProgressIndex)
+      uploadsInProgress[uploadProgressIndex].progress = progress
+      setUploadsInProgress([...uploadsInProgress])
+    }
+  }
 
   const uploadFile = async (file: File, path: string) => {
     const id = uuidv4()
@@ -155,16 +152,15 @@ const DriveProvider = ({ children }: DriveContextProps) => {
       const result = await imployApiClient.addCSFFiles(
         fileParam,
         path,
-        // undefined,
-        // (progressEvent: { loaded: number; total: number }) => {
-        //   onUploadProgress(
-        //     id,
-        //     Math.ceil((progressEvent.loaded / progressEvent.total) * 100),
-        //     newUploadsInProgress,
-        //   )
-        // },
+        undefined,
+        (progressEvent: { loaded: number; total: number }) => {
+          onUploadProgress(
+            id,
+            Math.ceil((progressEvent.loaded / progressEvent.total) * 100),
+            newUploadsInProgress,
+          )
+        },
       )
-      console.log("here")
       await refreshContents()
 
       // setting complete
