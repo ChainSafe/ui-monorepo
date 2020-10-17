@@ -25,7 +25,7 @@ export const actionsData = {
 
 export const SelectInputStory = (): React.ReactNode => (
   <SelectInput
-    onChange={() => actionsData.onChange()}
+    onChange={(value: any) => actionsData.onChange(value)}
     size={select("Size", sizeOptions, "large")}
     disabled={boolean("Disabled", false)}
     label={text("Label", "Testing Label")}
