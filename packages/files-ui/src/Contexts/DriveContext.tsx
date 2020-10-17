@@ -16,24 +16,17 @@ type DriveContextProps = {
 }
 
 type DriveContext = {
-  // Upload file
   uploadFile(file: File, path: string): Promise<FilesUploadResponse>
-  // Create folder
   createFolder(body: FilesPathRequest): Promise<FileContentResponse>
-  // Rename file
   renameFile(body: FilesMvRequest): Promise<void>
-  // Move file
   moveFile(body: FilesMvRequest): Promise<void>
-  // Delete file
   deleteFile(body: FilesRmRequest): Promise<void>
-  // Download file
   downloadFile(fileName: string): Promise<void>
-  // Get list of files and folders for a path
+  getFileContent(fileName: string): Promise<Blob>
   list(body: FilesPathRequest): Promise<FileContentResponse[]>
   currentPath: string
   updateCurrentPath(newPath: string): void
   pathContents: IFile[]
-  // space used by user in bytes
   spaceUsed: number
 }
 
@@ -186,21 +179,28 @@ const DriveProvider = ({ children }: DriveContextProps) => {
     }
   }
 
+  const getFileContent = async (fileName: string) => {
+    try {
+      //TODO: Fix the response of this method
+      const result = await imployApiClient.getFileContent({
+        path: currentPath + fileName,
+      })
+      //@ts-ignore
+      return new Blob([result])
+    } catch (error) {
+      return Promise.reject()
+    }
+  }
+
   const downloadFile = async (fileName: string) => {
     addToastMessage({
       message: "Preparing your download",
       appearance: "info",
     })
     try {
-      //TODO: Fix the response of this method
-      const result = await imployApiClient.getFileContent({
-        path: currentPath + fileName,
-      })
-
-      //@ts-ignore
-      const blob = new Blob([result])
+      const result = await getFileContent(fileName)
       const link = document.createElement("a")
-      link.href = window.URL.createObjectURL(blob)
+      link.href = window.URL.createObjectURL(result)
       link.download = fileName
       link.click()
       addToastMessage({
@@ -234,6 +234,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
         moveFile,
         deleteFile,
         downloadFile,
+        getFileContent: getFileContent,
         list,
         currentPath,
         updateCurrentPath: (newPath: string) =>
