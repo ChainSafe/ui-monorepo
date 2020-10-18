@@ -14,7 +14,7 @@ const FormikSelectInput: React.FC<IFormikSelectInputProps> = ({
   options,
   ...props
 }) => {
-  const [, meta, helpers] = useField(name)
+  const [field, meta, helpers] = useField(name)
   const handleChange = (value: any) => {
     helpers.setValue(value)
   }
