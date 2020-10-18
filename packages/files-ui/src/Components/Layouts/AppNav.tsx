@@ -21,9 +21,7 @@ import {
   formatBytes,
 } from "@imploy/common-components"
 import { ROUTE_LINKS } from "../FilesRoutes"
-
-// free limit set to 50GB
-const FREE_LIMIT = 50 * 1024 * 1024 * 1024
+import { FREE_PLAN_LIMIT } from "../../Utils/Constants"
 
 const useStyles = makeStyles(
   ({ palette, animation, breakpoints, constants, zIndex }: ITheme) => {
@@ -254,11 +252,11 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
                   className={classes.spaceUsedMargin}
                   component="p"
                 >{`${formatBytes(spaceUsed)} of ${formatBytes(
-                  FREE_LIMIT,
+                  FREE_PLAN_LIMIT,
                 )} used`}</Typography>
                 <ProgressBar
                   className={classes.spaceUsedMargin}
-                  progress={(spaceUsed / FREE_LIMIT) * 100}
+                  progress={(spaceUsed / FREE_PLAN_LIMIT) * 100}
                   size="small"
                 />
                 <Button disabled variant="outline" size="small">

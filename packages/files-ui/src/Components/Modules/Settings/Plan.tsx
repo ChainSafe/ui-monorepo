@@ -1,6 +1,15 @@
 import React from "react"
-import { Grid, Button, Typography } from "@imploy/common-components"
+import {
+  Grid,
+  Button,
+  Typography,
+  ProgressBar,
+  formatBytes,
+} from "@imploy/common-components"
 import { makeStyles, ITheme, createStyles } from "@imploy/common-themes"
+import clsx from "clsx"
+import { FREE_PLAN_LIMIT } from "../../../Utils/Constants"
+import { useDrive } from "../../../Contexts/DriveContext"
 
 const useStyles = makeStyles((theme: ITheme) =>
   createStyles({
@@ -26,12 +35,37 @@ const useStyles = makeStyles((theme: ITheme) =>
       display: "flex",
       alignItems: "center",
       justifyContent: "space-between",
+      [theme.breakpoints.down("sm")]: {
+        flexFlow: "column",
+        alignItems: "flex-start",
+        width: 300,
+      },
+    },
+    subtitle: {
+      color: theme.palette.additional["gray"][8],
+      [theme.breakpoints.down("sm")]: {
+        fontSize: 16,
+        lineHeight: "22px",
+      },
+    },
+    spaceUsedBox: {
+      [theme.breakpoints.down("sm")]: {
+        marginBottom: theme.constants.generalUnit,
+        width: "inherit",
+      },
+    },
+    spaceUsedMargin: {
+      marginBottom: theme.constants.generalUnit,
+    },
+    changePlanButton: {
+      width: "inherit",
     },
   }),
 )
 
 const PlanView: React.FC = () => {
   const classes = useStyles()
+  const { spaceUsed } = useDrive()
 
   return (
     <Grid container>
@@ -49,7 +83,7 @@ const PlanView: React.FC = () => {
               <Typography
                 variant="body1"
                 component="p"
-                className={classes.margins}
+                className={clsx(classes.margins, classes.subtitle)}
               >
                 Lorem ipsum aenean et rutrum magna. Morbi nec placerat erat.
                 Nunc elementum sed libero sit amet convallis. Quisque non arcu
@@ -65,12 +99,25 @@ const PlanView: React.FC = () => {
                 Essentials - Free
               </Typography>
               <div className={classes.essentialContainer}>
-                {/* <div>
-                  <Typography>5.2 GB of free space</Typography>
-                  <br />
-                  <Typography>TODO: Progress bar</Typography>
-                </div> */}
-                <Button disabled variant="outline">
+                <div className={classes.spaceUsedBox}>
+                  <Typography
+                    variant="body2"
+                    className={classes.spaceUsedMargin}
+                    component="p"
+                  >{`${formatBytes(spaceUsed)} of ${formatBytes(
+                    FREE_PLAN_LIMIT,
+                  )} used`}</Typography>
+                  <ProgressBar
+                    className={classes.spaceUsedMargin}
+                    progress={(spaceUsed / FREE_PLAN_LIMIT) * 100}
+                    size="small"
+                  />
+                </div>
+                <Button
+                  disabled
+                  variant="outline"
+                  className={classes.changePlanButton}
+                >
                   Change plan
                 </Button>
               </div>

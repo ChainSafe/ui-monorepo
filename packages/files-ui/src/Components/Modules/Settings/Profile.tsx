@@ -11,6 +11,8 @@ import {
   ITheme,
   createStyles,
   debounce,
+  useMediaQuery,
+  useTheme,
 } from "@imploy/common-themes"
 import { LockIcon, CopyIcon } from "@imploy/common-components"
 import { Formik, Form } from "formik"
@@ -21,10 +23,16 @@ const useStyles = makeStyles((theme: ITheme) =>
     container: {
       marginTop: theme.constants.generalUnit * 2,
       marginBottom: 160,
+      [theme.breakpoints.down("sm")]: {
+        paddingRight: theme.constants.generalUnit,
+      },
     },
     bodyContainer: {
       padding: `${theme.constants.generalUnit * 3}px 0px`,
       borderBottom: `1px solid ${theme.palette.additional["gray"][4]}`,
+      [theme.breakpoints.down("sm")]: {
+        borderBottom: "none",
+      },
     },
     boxContainer: {
       marginBottom: theme.constants.generalUnit * 4,
@@ -39,13 +47,15 @@ const useStyles = makeStyles((theme: ITheme) =>
     },
     input: {
       width: "100%",
+      margin: 0,
+      marginBottom: theme.constants.generalUnit,
     },
     label: {
       marginBottom: theme.constants.generalUnit * 1,
       fontSize: 20,
     },
     profileBox: {
-      maxWidth: 400,
+      maxWidth: 420,
     },
     deletionBox: {
       maxWidth: 300,
@@ -73,6 +83,21 @@ const useStyles = makeStyles((theme: ITheme) =>
     },
     copyIcon: {
       fontSize: "14px",
+      [theme.breakpoints.down("sm")]: {
+        fontSize: "18px",
+        fill: theme.palette.additional["gray"][8],
+      },
+    },
+    publicAddress: {
+      color: theme.palette.additional["gray"][8],
+      overflowWrap: "break-word",
+      wordBreak: "break-all",
+      paddingRight: theme.constants.generalUnit * 2,
+      width: "90%",
+      ...theme.typography.body1,
+      [theme.breakpoints.down("sm")]: {
+        ...theme.typography.body2,
+      },
     },
   }),
 )
@@ -146,11 +171,14 @@ const ProfileView: React.FC<IProfileProps> = (props) => {
                         <Typography variant="body1" className={classes.label}>
                           Wallet address
                         </Typography>
-                        {/* TODO: tooltip with copied! */}
                         {copied && <Typography>Copied!</Typography>}
                       </div>
                       <div className={classes.copyBox} onClick={copyAddress}>
-                        <Typography variant="body1">
+                        <Typography
+                          variant="body1"
+                          component="p"
+                          className={classes.publicAddress}
+                        >
                           {profile.publicAddress}
                         </Typography>
                         <CopyIcon className={classes.copyIcon} />

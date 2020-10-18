@@ -7,14 +7,14 @@ export enum CONTENT_TYPES {
 }
 
 export interface DriveFile {
-   /** cid in IPFS */
-   cid?: string
-   /** file name */
-   name?: string
-   /** size in bytes */
-   size?: number
-   /** content type */
-   content_type?: string
+  /** cid in IPFS */
+  cid?: string
+  /** file name */
+  name?: string
+  /** size in bytes */
+  size?: number
+  /** content type */
+  content_type?: string
 }
 
 export const getContentType = (contentType: string) => {
@@ -28,3 +28,5 @@ export const getContentType = (contentType: string) => {
     return CONTENT_TYPES.File
   }
 }
+
+export const FREE_PLAN_LIMIT = 50 * 1024 * 1024 * 1024

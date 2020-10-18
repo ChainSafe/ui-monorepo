@@ -17,6 +17,21 @@ import { ROUTE_LINKS } from "../../FilesRoutes"
 
 const useStyles = makeStyles((theme: ITheme) =>
   createStyles({
+    title: {
+      // could these be injected into theme @RyRy79261
+      [theme.breakpoints.down("sm")]: {
+        fontSize: 20,
+        lineHeight: "28px",
+        margin: `${theme.constants.generalUnit}px 0`,
+      },
+    },
+    divider: {
+      [theme.breakpoints.down("sm")]: {
+        fontSize: 20,
+        lineHeight: "28px",
+        margin: `${theme.constants.generalUnit}px 0`,
+      },
+    },
     container: {
       marginTop: theme.constants.generalUnit * 2,
       marginBottom: 160,
@@ -28,9 +43,17 @@ const useStyles = makeStyles((theme: ITheme) =>
     },
     headerContainer: {
       marginBottom: theme.constants.generalUnit * 4,
+      [theme.breakpoints.down("sm")]: {
+        padding: `0 ${theme.constants.generalUnit * 2}px`,
+        margin: `${theme.constants.generalUnit * 2}px 0`,
+      },
     },
     tabsContainer: {
       marginTop: theme.constants.generalUnit * 4,
+      [theme.breakpoints.down("sm")]: {
+        marginTop: theme.constants.generalUnit * 2,
+        padding: `0 ${theme.constants.generalUnit * 2}px`,
+      },
     },
   }),
 )
@@ -100,7 +123,9 @@ const Settings: React.FC = () => {
           crumbs={crumbs}
           homeOnClick={() => redirect(ROUTE_LINKS.Home)}
         />
-        <Typography variant="h1">Settings</Typography>
+        <Typography variant="h1" component="p" className={classes.title}>
+          Settings
+        </Typography>
       </div>
       <Divider />
       <div className={classes.tabsContainer}>
