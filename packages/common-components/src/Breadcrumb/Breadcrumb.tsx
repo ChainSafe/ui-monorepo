@@ -45,23 +45,23 @@ const useStyles = makeStyles(
       separator: {
         padding: `${constants.generalUnit}px ${constants.generalUnit}px`,
         color: palette.additional["gray"][7],
-        position: "relative",
         zIndex: zIndex?.background,
         "& > *": {
-          top: `calc(50% + 2px)`,
-          left: "50%",
           display: "block",
           position: "absolute",
-          transform: "translate(-50%, -50%)",
-          height: 16,
         },
         ...overrides?.Breadcrumb?.separator,
       },
       crumb: {
+        fontSize: 14,
         display: "inline-block",
         "&.clickable": {
           cursor: "pointer",
         },
+        maxWidth: 100,
+        whiteSpace: "nowrap",
+        overflow: "hidden",
+        textOverflow: "ellipsis",
         ...overrides?.Breadcrumb?.crumb,
       },
     }),
