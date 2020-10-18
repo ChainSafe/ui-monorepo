@@ -1,9 +1,11 @@
-import React from "react"
+import React, { Fragment } from "react"
 import { withKnobs, select, boolean, text } from "@storybook/addon-knobs"
 import { action } from "@storybook/addon-actions"
 import { Formik, Form } from "formik"
 import { Button } from "../Button"
 import { SelectInput, FormikSelectInput } from "../SelectInput"
+import { BulbIcon } from "../Icons"
+import { Typography } from "../Typography"
 
 export default {
   title: "Select Input",
@@ -30,6 +32,14 @@ export const SelectInputStory = (): React.ReactNode => (
     disabled={boolean("Disabled", false)}
     label={text("Label", "Testing Label")}
     options={[
+      {
+        label: (
+          <Fragment>
+            <BulbIcon /> <Typography>Custom markup</Typography>
+          </Fragment>
+        ),
+        value: "4",
+      },
       { label: "a", value: "a" },
       { label: "b", value: "b" },
       { label: "c", value: "c" },
@@ -49,7 +59,14 @@ export const FormikStory = (): React.ReactNode => {
         <FormikSelectInput
           name="select"
           options={[
-            { label: "a", value: "a" },
+            {
+              label: (
+                <Fragment>
+                  <BulbIcon /> <Typography>Custom markup</Typography>
+                </Fragment>
+              ),
+              value: "4",
+            },
             { label: "b", value: "b" },
             { label: "c", value: "c" },
           ]}
