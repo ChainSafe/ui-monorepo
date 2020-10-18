@@ -1,4 +1,4 @@
-import React, { FormEvent } from "react"
+import React, { FormEvent, ReactNode } from "react"
 import {
   makeStyles,
   createStyles,
@@ -39,7 +39,7 @@ const useStyles = makeStyles(
 
 interface ISelectOption {
   value: string | number
-  label: string | number
+  label: string | ReactNode | number
 }
 
 interface ISelectInputProps {
