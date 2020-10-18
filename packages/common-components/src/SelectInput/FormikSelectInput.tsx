@@ -21,6 +21,7 @@ const FormikSelectInput: React.FC<IFormikSelectInputProps> = ({
 
   return (
     <SelectInput
+      {...field}
       onChange={handleChange}
       error={meta.error}
       options={options}
