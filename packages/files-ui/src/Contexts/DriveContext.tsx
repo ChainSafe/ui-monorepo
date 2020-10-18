@@ -104,11 +104,9 @@ const DriveProvider = ({ children }: DriveContextProps) => {
     }
   }, [imployApiClient, pathContents, isLoggedIn])
 
-  console.log("open", uploadsInProgress)
-
   const setUploadProgress = (
     id: string,
-    // uploadsInProgress: UploadProgress[],
+    uploadsInProgress: UploadProgress[],
     state: "progress" | "complete" | "error" | "delete",
     progress?: number,
   ) => {
@@ -138,6 +136,8 @@ const DriveProvider = ({ children }: DriveContextProps) => {
     }
   }
 
+  console.log("open", uploadsInProgress)
+
   const uploadFile = async (file: File, path: string) => {
     const startUploadFile = async () => {
       const id = uuidv4()
@@ -149,6 +149,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
         noOfFiles: 1,
         progress: 0,
       }
+      const newProgresses = [...uploadsInProgress, uploadProgress]
       setUploadsInProgress([...uploadsInProgress, uploadProgress])
       try {
         const fileParam = {
@@ -161,20 +162,20 @@ const DriveProvider = ({ children }: DriveContextProps) => {
           fileParam,
           path,
           undefined,
-          // (progressEvent: { loaded: number; total: number }) => {
-          //   setUploadProgress(
-          //     id,
-          //     // [...uploadsInProgress, uploadProgress],
-          //     "progress",
-          //     Math.ceil((progressEvent.loaded / progressEvent.total) * 100),
-          //   )
-          // },
+          (progressEvent: { loaded: number; total: number }) => {
+            setUploadProgress(
+              id,
+              newProgresses,
+              "progress",
+              Math.ceil((progressEvent.loaded / progressEvent.total) * 100),
+            )
+          },
         )
         await refreshContents()
 
         console.log("inside", uploadsInProgress)
         // setting complete
-        setUploadProgress(id, "complete")
+        setUploadProgress(id, newProgresses, "complete")
         // setInterval(() => {
         //   // removing completely
         //   setUploadProgress(id, newUploadsInProgress, "delete")
@@ -184,7 +185,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
       } catch (error) {
         // setting error
         console.log("inside", uploadsInProgress)
-        setUploadProgress(id, "error")
+        setUploadProgress(id, newProgresses, "error")
         // setInterval(() => {
         //   // removing completely
         //   setUploadProgress(id, newUploadsInProgress, "delete")
