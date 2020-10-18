@@ -19,7 +19,6 @@ const FormikSelectInput: React.FC<IFormikSelectInputProps> = ({
     helpers.setValue(value)
   }
 
-  console.log(field.value)
   return (
     <SelectInput
       onChange={handleChange}
