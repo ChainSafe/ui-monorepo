@@ -71,6 +71,7 @@ const SelectInput: React.FC<ISelectInputProps> = ({
   const handleChange = (value: any) => {
     !disabled && onChange(value.value)
   }
+  const selectValue = options.find((o) => o.value === value)
 
   return (
     <label className={clsx(classes.root, className)}>
@@ -89,7 +90,7 @@ const SelectInput: React.FC<ISelectInputProps> = ({
         onChange={handleChange}
         isDisabled={disabled}
         placeholder={placeholder}
-        value={value}
+        value={selectValue}
         styles={{
           container: (provided, state) => ({
             ...provided,

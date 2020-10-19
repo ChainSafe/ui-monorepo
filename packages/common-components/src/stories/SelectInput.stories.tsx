@@ -1,4 +1,4 @@
-import React, { Fragment } from "react"
+import React, { Fragment, useState } from "react"
 import { withKnobs, select, boolean, text } from "@storybook/addon-knobs"
 import { action } from "@storybook/addon-actions"
 import { Formik, Form } from "formik"
@@ -25,33 +25,41 @@ export const actionsData = {
   onFormSubmit: action("Submit Form"),
 }
 
-export const SelectInputStory = (): React.ReactNode => (
-  <SelectInput
-    onChange={(value: any) => actionsData.onChange(value)}
-    size={select("Size", sizeOptions, "large")}
-    disabled={boolean("Disabled", false)}
-    label={text("Label", "Testing Label")}
-    options={[
-      {
-        label: (
-          <Fragment>
-            <BulbIcon /> <Typography>Custom markup</Typography>
-          </Fragment>
-        ),
-        value: "4",
-      },
-      { label: "a", value: "a" },
-      { label: "b", value: "b" },
-      { label: "c", value: "c" },
-    ]}
-  />
-)
+export const SelectInputStory = (): React.ReactNode => {
+  const [value, setValue] = useState("a")
+
+  return (
+    <SelectInput
+      onChange={(value: any) => {
+        actionsData.onChange(value)
+        setValue(value)
+      }}
+      size={select("Size", sizeOptions, "large")}
+      disabled={boolean("Disabled", false)}
+      label={text("Label", "Testing Label")}
+      value={value}
+      options={[
+        {
+          label: (
+            <Fragment>
+              <BulbIcon /> <Typography>Custom markup</Typography>
+            </Fragment>
+          ),
+          value: "4",
+        },
+        { label: "a", value: "a" },
+        { label: "b", value: "b" },
+        { label: "c", value: "c" },
+      ]}
+    />
+  )
+}
 
 export const FormikStory = (): React.ReactNode => {
   return (
     <Formik
       initialValues={{
-        select: undefined,
+        select: "4",
       }}
       onSubmit={(values: any) => actionsData.onFormSubmit(values)}
     >
