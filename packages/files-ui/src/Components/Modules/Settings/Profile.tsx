@@ -78,6 +78,7 @@ const useStyles = makeStyles((theme: ITheme) =>
     },
     icon: {
       fontSize: "20px",
+      margin: "-2px 2px 0 2px",
     },
     copyIcon: {
       fontSize: "14px",
