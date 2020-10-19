@@ -393,7 +393,7 @@ export interface TextInputProps {
   size?: "large" | "medium" | "small"
   captionMessage?: string
   onChange: (e: ChangeEvent<HTMLInputElement>) => void
-  type?: "text" | "email" | "password" | "url" | "search"
+  type?: "text" | "email" | "password" | "url" | "search" | "number"
 }
 
 const TextInput: React.FC<TextInputProps> = ({
@@ -412,6 +412,7 @@ const TextInput: React.FC<TextInputProps> = ({
   captionMessage,
   state = "normal",
   disabled = false,
+  ...rest
 }: TextInputProps) => {
   const classes = useStyles()
   return (
@@ -458,6 +459,7 @@ const TextInput: React.FC<TextInputProps> = ({
           value={value}
           placeholder={placeholder}
           onChange={onChange}
+          {...rest}
         />
         <div className={clsx(classes.standardIcon, size, "right")}>
           {RightIcon && <RightIcon />}
