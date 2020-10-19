@@ -1,5 +1,5 @@
 import React, { Fragment } from "react"
-import { withKnobs, text, select } from "@storybook/addon-knobs"
+import { withKnobs, text, select, boolean } from "@storybook/addon-knobs"
 import { MenuDropdown } from "../MenuDropdown"
 import { action } from "@storybook/addon-actions"
 import { Typography } from "../Typography"
@@ -74,6 +74,7 @@ export const MenuDropdownCustomIcon = (): React.ReactNode => (
         "top-center",
       )}
       indicator={HomeIcon}
+      autoclose={boolean("Autoclose", true)}
       animation={select("Animation", ["flip", "rotate", "none"], "none")}
       menuItems={[
         {

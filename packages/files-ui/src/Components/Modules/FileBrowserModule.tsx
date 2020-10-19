@@ -21,6 +21,7 @@ import {
   FormikTextInput,
   MenuDropdown,
   MoreIcon,
+  PlusIcon,
   ShareAltIcon,
   SortDirection,
   standardlongDateFormat,
@@ -45,12 +46,20 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: ITheme) => {
   const desktopGridSettings = "50px 69px 3fr 190px 100px 45px !important"
   const mobileGridSettings = "69px 3fr 45px !important"
   return createStyles({
-    root: {},
+    root: {
+      [breakpoints.down("sm")]: {
+        paddingLeft: constants.generalUnit * 2,
+        paddingRight: constants.generalUnit * 2,
+      },
+    },
     header: {
       display: "flex",
       flexDirection: "row",
       justifyContent: "space-between",
       alignItems: "center",
+      [breakpoints.down("sm")]: {
+        marginTop: constants.generalUnit * 3,
+      },
     },
     controls: {
       display: "flex",
@@ -62,7 +71,15 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: ITheme) => {
       },
     },
     divider: {
-      margin: `${constants.generalUnit * 4.5}px 0`,
+      "&:before, &:after": {
+        backgroundColor: palette.additional["gray"][4],
+      },
+      [breakpoints.up("sm")]: {
+        margin: `${constants.generalUnit * 4.5}px 0`,
+      },
+      [breakpoints.down("sm")]: {
+        margin: `${constants.generalUnit * 4.5}px 0 0`,
+      },
     },
     noFiles: {
       display: "flex",
@@ -102,6 +119,18 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: ITheme) => {
       width: 20,
       marginRight: constants.generalUnit * 1.5,
     },
+    dropdownIcon: {
+      "& svg": {
+        height: 20,
+        width: 20,
+      },
+    },
+    dropdownOptions: {
+      "& > *": {
+        padding: 0,
+      },
+    },
+    mobileButton: {},
   })
 })
 
@@ -251,11 +280,49 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
           {heading}
         </Typography>
         <div className={classes.controls}>
-          {controls && (
+          {controls && desktop ? (
             <Fragment>
               <CreateFolderModule />
               <UploadFileModule />
             </Fragment>
+          ) : (
+            controls &&
+            !desktop && (
+              <MenuDropdown
+                classNames={{
+                  icon: classes.dropdownIcon,
+                  options: classes.dropdownOptions,
+                }}
+                autoclose={false}
+                anchor="bottom-right"
+                animation="none"
+                indicator={PlusIcon}
+                menuItems={[
+                  {
+                    contents: (
+                      <CreateFolderModule
+                        variant="primary"
+                        fullsize
+                        classNames={{
+                          button: classes.mobileButton,
+                        }}
+                      />
+                    ),
+                  },
+                  {
+                    contents: (
+                      <UploadFileModule
+                        variant="primary"
+                        fullsize
+                        classNames={{
+                          button: classes.mobileButton,
+                        }}
+                      />
+                    ),
+                  },
+                ]}
+              />
+            )
           )}
         </div>
       </header>
