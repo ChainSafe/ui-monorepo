@@ -43,13 +43,12 @@ const useStyles = makeStyles(
         ...overrides?.Breadcrumb?.home,
       },
       separator: {
-        padding: `${constants.generalUnit}px ${constants.generalUnit}px`,
-        color: palette.additional["gray"][7],
+        width: 1,
+        margin: "1px 10px 0px 10px",
+        height: constants.generalUnit * 2,
+        transform: "skew(-15deg)",
+        backgroundColor: palette.additional["gray"][7],
         zIndex: zIndex?.background,
-        "& > *": {
-          display: "block",
-          position: "absolute",
-        },
         ...overrides?.Breadcrumb?.separator,
       },
       crumb: {
@@ -81,9 +80,7 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({
       />
       {crumbs.map((item: Crumb, index: number) => (
         <Fragment key={`crumb-${index}`}>
-          <div className={clsx(classes.separator)}>
-            <span>/</span>
-          </div>
+          <div className={clsx(classes.separator)} />
           <div>
             <Typography
               onClick={() => (item.onClick ? item.onClick() : null)}
