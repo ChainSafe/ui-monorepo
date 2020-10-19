@@ -22,6 +22,7 @@ import {
   EditIcon,
   MoreIcon,
   ShareAltIcon,
+  CloseCircleIcon,
 } from "@imploy/common-components"
 
 const SUPPORTED_FILE_TYPES: Record<string, ReactNode> = {
@@ -88,20 +89,35 @@ const useStyles = makeStyles(({ constants, palette }: ITheme) =>
       height: "100%",
       alignItems: "center",
     },
-    prevNextControls: {
+    prevNext: {
       alignItems: "center",
-      fill: palette.additional["gray"][5],
-      "& > span": {
-        backgroundColor: palette.additional["gray"][10],
-      },
+    },
+    prevNextButton: {
+      backgroundColor: palette.common.black.main,
+      padding: `${constants.generalUnit * 2}px !important`,
+      borderRadius: constants.generalUnit * 4,
+    },
+    previewContent: {
+      color: palette.additional["gray"][6],
+      fill: palette.additional["gray"][6],
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+    },
+    downloadButton: {
+      backgroundColor: "rgba(0,0,0, 0.88)",
+      color: palette.additional["gray"][3],
+      borderColor: palette.additional["gray"][3],
+      borderWidth: 1,
+      borderStyle: "solid",
     },
   }),
 )
 
 const FilePreviewModal: React.FC<{
   file?: IFile
-  nextFile(): void
-  previousFile(): void
+  nextFile?(): void
+  previousFile?(): void
   closePreview(): void
 }> = ({ file, nextFile, previousFile, closePreview }) => {
   const classes = useStyles()
@@ -211,15 +227,12 @@ const FilePreviewModal: React.FC<{
         className={classes.previewContainer}
       >
         {desktop && (
-          <Grid
-            item
-            sm={1}
-            md={1}
-            lg={1}
-            xl={1}
-            className={classes.prevNextControls}
-          >
-            <ArrowLeftIcon />
+          <Grid item sm={1} md={1} lg={1} xl={1} className={classes.prevNext}>
+            {previousFile && (
+              <Button onClick={previousFile} className={classes.prevNextButton}>
+                <ArrowLeftIcon />
+              </Button>
+            )}
           </Grid>
         )}
         <Grid item xs={12} sm={10} md={10} lg={10} xl={10} alignItems="center">
@@ -228,7 +241,16 @@ const FilePreviewModal: React.FC<{
           {!isLoading &&
             !error &&
             !compatibleFilesMatcher.match(file?.content_type) && (
-              <div>This file is not supported. Would you like to download</div>
+              <div className={classes.previewContent}>
+                <CloseCircleIcon />
+                <Typography variant="h1">File format not supported.</Typography>
+                <Button
+                  className={classes.downloadButton}
+                  onClick={() => downloadFile(file.name)}
+                >
+                  Download
+                </Button>
+              </div>
             )}
           {!isLoading &&
             !error &&
@@ -237,15 +259,12 @@ const FilePreviewModal: React.FC<{
             PreviewComponent}
         </Grid>
         {desktop && (
-          <Grid
-            item
-            sm={1}
-            md={1}
-            lg={1}
-            xl={1}
-            className={classes.prevNextControls}
-          >
-            <ArrowRightIcon />
+          <Grid item sm={1} md={1} lg={1} xl={1} className={classes.prevNext}>
+            {nextFile && (
+              <Button onClick={nextFile} className={classes.prevNextButton}>
+                <ArrowRightIcon />
+              </Button>
+            )}
           </Grid>
         )}
       </Grid>

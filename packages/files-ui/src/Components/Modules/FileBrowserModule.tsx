@@ -500,8 +500,10 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
         <FilePreviewModal
           file={files[previewFileIndex]}
           closePreview={clearPreview}
-          nextFile={setNextPreview}
-          previousFile={setPreviousPreview}
+          nextFile={
+            previewFileIndex < files.length - 1 ? setNextPreview : undefined
+          }
+          previousFile={previewFileIndex > 0 ? setPreviousPreview : undefined}
         />
       )}
     </article>
