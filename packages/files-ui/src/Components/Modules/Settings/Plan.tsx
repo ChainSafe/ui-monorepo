@@ -20,6 +20,9 @@ const useStyles = makeStyles((theme: ITheme) =>
     bodyContainer: {
       padding: `${theme.constants.generalUnit * 3}px 0px`,
       borderBottom: `1px solid ${theme.palette.additional["gray"][4]}`,
+      [theme.breakpoints.down("sm")]: {
+        borderBottom: "none",
+      },
     },
     storageBox: {
       maxWidth: 400,

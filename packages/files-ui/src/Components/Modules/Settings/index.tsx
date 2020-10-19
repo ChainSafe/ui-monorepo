@@ -18,7 +18,6 @@ import { ROUTE_LINKS } from "../../FilesRoutes"
 const useStyles = makeStyles((theme: ITheme) =>
   createStyles({
     title: {
-      // could these be injected into theme @RyRy79261
       [theme.breakpoints.down("sm")]: {
         fontSize: 20,
         lineHeight: "28px",
@@ -34,7 +33,6 @@ const useStyles = makeStyles((theme: ITheme) =>
     },
     container: {
       marginTop: theme.constants.generalUnit * 2,
-      marginBottom: 160,
     },
     loadingContainer: {
       display: "flex",
@@ -45,7 +43,8 @@ const useStyles = makeStyles((theme: ITheme) =>
       marginBottom: theme.constants.generalUnit * 4,
       [theme.breakpoints.down("sm")]: {
         padding: `0 ${theme.constants.generalUnit * 2}px`,
-        margin: `${theme.constants.generalUnit * 2}px 0`,
+        marginTop: theme.constants.generalUnit * 4,
+        marginBottom: theme.constants.generalUnit * 2,
       },
     },
     tabsContainer: {
