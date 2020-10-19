@@ -44,8 +44,8 @@ const useStyles = makeStyles(
       },
       separator: {
         width: 1,
-        margin: "1px 10px 0px 10px",
-        height: constants.generalUnit * 2,
+        margin: `0 ${constants.generalUnit}px`,
+        height: 14,
         transform: "skew(-15deg)",
         backgroundColor: palette.additional["gray"][7],
         zIndex: zIndex?.background,
