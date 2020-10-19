@@ -26,7 +26,7 @@ export const actionsData = {
 }
 
 export const SelectInputStory = (): React.ReactNode => {
-  const [value, setValue] = useState("a")
+  const [value, setValue] = useState(["a", "b"])
 
   return (
     <SelectInput
@@ -35,6 +35,7 @@ export const SelectInputStory = (): React.ReactNode => {
         setValue(value)
       }}
       size={select("Size", sizeOptions, "large")}
+      isMulti={true}
       disabled={boolean("Disabled", false)}
       label={text("Label", "Testing Label")}
       value={value}
