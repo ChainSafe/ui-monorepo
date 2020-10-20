@@ -12,7 +12,16 @@ export const lightTheme = createTheme({
         hover: "#000",
       },
     },
+    constants: {
+      mobileButtonHeight: 44,
+    },
     overrides: {
+      Typography: {
+        h5: {
+          fontWeight: 600,
+          color: "#000000",
+        },
+      },
       Button: {
         variants: {
           primary: {
