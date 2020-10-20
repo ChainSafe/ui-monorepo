@@ -9,7 +9,7 @@ export interface FormikTextInputProps {
   disabled?: boolean
   name: string
   inputVariant?: "default" | "minimal"
-  type?: "text" | "email" | "password" | "url" | "search"
+  type?: "text" | "email" | "password" | "url" | "search" | "number"
   size?: "large" | "medium" | "small"
   captionMessage?: string
   labelClassName?: string
