@@ -1,4 +1,9 @@
-import { Button, FileInput, UploadIcon } from "@imploy/common-components"
+import {
+  Button,
+  FileInput,
+  IButtonProps,
+  UploadIcon,
+} from "@imploy/common-components"
 import { useDrive } from "../../Contexts/DriveContext"
 import { createStyles, ITheme, makeStyles } from "@imploy/common-themes"
 import React from "react"
@@ -36,9 +41,16 @@ const useStyles = makeStyles(({ constants, palette }: ITheme) =>
   }),
 )
 
-const UploadFileModule: React.FC<{ buttonClassName?: string }> = ({
-  buttonClassName,
-}) => {
+interface IUploadFileModuleProps extends IButtonProps {
+  classNames?: {
+    button?: string
+  }
+}
+
+const UploadFileModule: React.FC<IUploadFileModuleProps> = ({
+  classNames,
+  ...rest
+}: IUploadFileModuleProps) => {
   const classes = useStyles()
   const { uploadFile, currentPath } = useDrive()
   const [open, setOpen] = useState(false)
@@ -58,7 +70,8 @@ const UploadFileModule: React.FC<{ buttonClassName?: string }> = ({
         onClick={() => setOpen(true)}
         variant="outline"
         size="large"
-        className={clsx(classes.cta, buttonClassName)}
+        className={clsx(classes.cta, classNames?.button)}
+        {...rest}
       >
         <UploadIcon />
         Upload
