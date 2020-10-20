@@ -1,4 +1,4 @@
-import React, { FormEvent, ReactNode } from "react"
+import React, { ReactNode } from "react"
 import {
   makeStyles,
   createStyles,
@@ -50,9 +50,10 @@ interface ISelectInputProps {
   captionMessage?: string
   placeholder?: string
   options: ISelectOption[]
-  onChange(event: FormEvent<HTMLInputElement>): void
+  onChange(value: any): void
   disabled?: boolean
   value?: any
+  isMulti?: boolean
 }
 
 const SelectInput: React.FC<ISelectInputProps> = ({
@@ -65,12 +66,20 @@ const SelectInput: React.FC<ISelectInputProps> = ({
   options,
   captionMessage,
   value,
+  isMulti,
 }) => {
   const classes = useStyles()
   const { palette, animation, typography, overrides }: ITheme = useTheme()
   const handleChange = (value: any) => {
-    !disabled && onChange(value.value)
+    if (!disabled) {
+      Array.isArray(value)
+        ? onChange(value.map((v) => v.value))
+        : onChange(value.value)
+    }
   }
+  const selectValue = Array.isArray(value)
+    ? value.map((v) => options.find((o) => o.value === v))
+    : options.find((o) => o.value === value)
 
   return (
     <label className={clsx(classes.root, className)}>
@@ -89,7 +98,8 @@ const SelectInput: React.FC<ISelectInputProps> = ({
         onChange={handleChange}
         isDisabled={disabled}
         placeholder={placeholder}
-        value={value}
+        value={selectValue}
+        isMulti={isMulti}
         styles={{
           container: (provided, state) => ({
             ...provided,

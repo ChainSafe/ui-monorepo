@@ -5,7 +5,7 @@ import {
   useMediaQuery,
   useTheme,
 } from "@imploy/common-themes"
-import React, { Fragment } from "react"
+import React, { Fragment, useEffect } from "react"
 import {
   Button,
   CheckboxInput,
@@ -33,6 +33,8 @@ import {
   TableHeadCell,
   TableRow,
   Typography,
+  Breadcrumb,
+  Crumb,
 } from "@imploy/common-components"
 import { useState } from "react"
 import { useMemo } from "react"
@@ -43,6 +45,8 @@ import EmptySvg from "../../Media/Empty.svg"
 import CreateFolderModule from "./CreateFolderModule"
 import UploadFileModule from "./UploadFileModule"
 import CustomModal from "../Elements/CustomModal"
+import FilePreviewModal from "./FilePreviewModal"
+import { getArrayOfPaths, getPathFromArray } from "../../Utils/pathUtils"
 
 const useStyles = makeStyles(({ breakpoints, constants, palette }: ITheme) => {
   const desktopGridSettings = "50px 69px 3fr 190px 100px 45px !important"
@@ -71,6 +75,10 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: ITheme) => {
       "& > button": {
         marginLeft: constants.generalUnit,
       },
+    },
+    breadCrumbContainer: {
+      margin: `${constants.generalUnit * 2}px 0`,
+      height: 22,
     },
     divider: {
       "&:before, &:after": {
@@ -206,11 +214,16 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
   )
   const [selected, setSelected] = useState<string[]>([])
 
+  const [previewFileIndex, setPreviewFileIndex] = useState<number | undefined>(
+    undefined,
+  )
+
   const sortFoldersFirst = (a: IFile, b: IFile) =>
     a.content_type === "application/chainsafe-files-directory" &&
     a.content_type !== b.content_type
       ? -1
       : 1
+
   const items: IFile[] = useMemo(() => {
     if (!pathContents) return []
 
@@ -269,6 +282,32 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
     }
   }, [pathContents, direction, column])
 
+  const files = useMemo(() => {
+    return items.filter(
+      (i) => i.content_type !== "application/chainsafe-files-directory",
+    )
+  }, [items])
+
+  const setNextPreview = () => {
+    if (
+      files &&
+      previewFileIndex !== undefined &&
+      previewFileIndex < files.length - 1
+    ) {
+      setPreviewFileIndex(previewFileIndex + 1)
+    }
+  }
+
+  const setPreviousPreview = () => {
+    if (files && previewFileIndex !== undefined && previewFileIndex > 0) {
+      setPreviewFileIndex(previewFileIndex - 1)
+    }
+  }
+
+  const clearPreview = () => {
+    setPreviewFileIndex(undefined)
+  }
+
   const handleSelect = (cid: string) => {
     if (selected.includes(cid)) {
       setSelected(selected.filter((selectedCid: string) => selectedCid !== cid))
@@ -316,11 +355,25 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
       .required("File name is required"),
   })
 
+  const arrayOfPaths = getArrayOfPaths(currentPath)
+  const crumbs: Crumb[] = arrayOfPaths.map((path, index) => ({
+    text: path,
+    onClick: () =>
+      updateCurrentPath(getPathFromArray(arrayOfPaths.slice(0, index + 1))),
+  }))
   const { breakpoints }: ITheme = useTheme()
   const desktop = useMediaQuery(breakpoints.up("sm"))
 
   return (
     <article className={classes.root}>
+      <div className={classes.breadCrumbContainer}>
+        {crumbs.length > 0 && (
+          <Breadcrumb
+            crumbs={crumbs}
+            homeOnClick={() => updateCurrentPath("/")}
+          />
+        )}
+      </div>
       <header className={classes.header}>
         <Typography variant="h1" component="h1">
           {heading}
@@ -478,9 +531,9 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
                     align="left"
                     onClick={() => {
                       file.content_type ===
-                        "application/chainsafe-files-directory" &&
-                        !editing &&
-                        updateCurrentPath(`${currentPath}${file.name}`)
+                        "application/chainsafe-files-directory" && !editing
+                        ? updateCurrentPath(`${currentPath}${file.name}`)
+                        : setPreviewFileIndex(files?.indexOf(file))
                     }}
                   >
                     {editing === file.cid && desktop ? (
@@ -641,6 +694,16 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
             })}
           </TableBody>
         </Table>
+      )}
+      {files && previewFileIndex !== undefined && (
+        <FilePreviewModal
+          file={files[previewFileIndex]}
+          closePreview={clearPreview}
+          nextFile={
+            previewFileIndex < files.length - 1 ? setNextPreview : undefined
+          }
+          previousFile={previewFileIndex > 0 ? setPreviousPreview : undefined}
+        />
       )}
     </article>
   )
