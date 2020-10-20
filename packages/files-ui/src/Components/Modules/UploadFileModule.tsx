@@ -4,17 +4,14 @@ import {
   IButtonProps,
   UploadIcon,
 } from "@imploy/common-components"
-import { useDrive, UploadProgress } from "../../../Contexts/DriveContext"
-import { useImployApi } from "@imploy/common-contexts"
+import { useDrive } from "../../Contexts/DriveContext"
 import { createStyles, ITheme, makeStyles } from "@imploy/common-themes"
 import React from "react"
 import { useState } from "react"
 import { Formik, Form } from "formik"
 import clsx from "clsx"
 import { array, object } from "yup"
-import CustomModal from "../../Elements/CustomModal"
-import UploadProgressModals from "./UploadProgressModals"
-import { v4 as uuid } from "uuid"
+import CustomModal from "../Elements/CustomModal"
 
 const useStyles = makeStyles(({ constants, palette }: ITheme) =>
   createStyles({
@@ -55,14 +52,7 @@ const UploadFileModule: React.FC<IUploadFileModuleProps> = ({
   ...rest
 }: IUploadFileModuleProps) => {
   const classes = useStyles()
-  const { imployApiClient } = useImployApi()
-  const {
-    currentPath,
-    uploadsInProgress,
-    setUploadProgressCompleteEvent,
-    setUploadProgressProgressEvent,
-    setUploadsInProgress,
-  } = useDrive()
+  const { uploadFile, currentPath } = useDrive()
   const [open, setOpen] = useState(false)
 
   const handleCloseDialog = () => setOpen(false)
@@ -101,37 +91,8 @@ const UploadFileModule: React.FC<IUploadFileModuleProps> = ({
             try {
               handleCloseDialog()
               helpers.resetForm()
-              // ********************************
-              const id = uuid()
-              const file = values.files[0]
-              const newUploadInProgress: UploadProgress = {
-                id,
-                complete: false,
-                error: false,
-                noOfFiles: 1,
-                path: currentPath,
-                progress: 0,
-                fileName: file.name,
-              }
-              setUploadsInProgress([...uploadsInProgress, newUploadInProgress])
-              await imployApiClient?.addCSFFiles(
-                file,
-                currentPath,
-                undefined,
-                (progressEvent) => {
-                  setUploadProgressProgressEvent(
-                    id,
-                    Math.ceil(
-                      (progressEvent.loaded / progressEvent.total) * 100,
-                    ),
-                  )
-                },
-              )
-              setUploadProgressCompleteEvent(id)
-
-              // ********************************
+              uploadFile(values.files[0], currentPath)
             } catch (errors) {
-              console.log(errors)
               if (errors[0].message.includes("conflict with existing")) {
                 helpers.setFieldError("files", "File/Folder exists")
               } else {
@@ -165,7 +126,6 @@ const UploadFileModule: React.FC<IUploadFileModuleProps> = ({
           </Form>
         </Formik>
       </CustomModal>
-      <UploadProgressModals />
     </>
   )
 }

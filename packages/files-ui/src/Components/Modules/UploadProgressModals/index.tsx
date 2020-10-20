@@ -6,7 +6,7 @@ import {
   useMediaQuery,
   useTheme,
 } from "@imploy/common-themes"
-import { useDrive } from "../../../../Contexts/DriveContext"
+import { useDrive } from "../../../Contexts/DriveContext"
 import UploadBox from "./UploadBox"
 
 const useStyles = makeStyles(({ constants, zIndex, breakpoints }: ITheme) => {
@@ -14,7 +14,7 @@ const useStyles = makeStyles(({ constants, zIndex, breakpoints }: ITheme) => {
   return createStyles({
     root: {
       margin: constants.generalUnit * 3,
-      position: "absolute",
+      position: "fixed",
       right: 0,
       bottom: 0,
       borderRadius: 4,
@@ -29,7 +29,7 @@ const useStyles = makeStyles(({ constants, zIndex, breakpoints }: ITheme) => {
   })
 })
 
-const UploadProgressView: React.FC = () => {
+const UploadProgressModals: React.FC = () => {
   const classes = useStyles()
   const { uploadsInProgress } = useDrive()
   const { breakpoints }: ITheme = useTheme()
@@ -54,4 +54,4 @@ const UploadProgressView: React.FC = () => {
   )
 }
 
-export default UploadProgressView
+export default UploadProgressModals

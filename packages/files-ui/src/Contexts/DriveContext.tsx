@@ -27,7 +27,7 @@ export type UploadProgress = {
 
 type DriveContext = {
   // Upload file
-  // uploadFile(file: File, path: string): void
+  uploadFile(file: File, path: string): void
   // Create folder
   createFolder(body: FilesPathRequest): Promise<FileContentResponse>
   // Rename file
@@ -45,9 +45,6 @@ type DriveContext = {
   pathContents: IFile[]
   // uploads in progress
   uploadsInProgress: UploadProgress[]
-  setUploadsInProgress(uploadsInProgress: UploadProgress[]): void
-  setUploadProgressProgressEvent(id: string, progress: number): void
-  setUploadProgressCompleteEvent(id: string): void
   // space used by user in bytes
   spaceUsed: number
 }
@@ -64,42 +61,41 @@ const DriveProvider = ({ children }: DriveContextProps) => {
   const { imployApiClient, isLoggedIn } = useImployApi()
   const { addToastMessage } = useToaster()
 
-  // const currentPathReducer = async (
-  //   currentPath: string,
-  //   action:
-  //     | { type: "add"; payload: string }
-  //     | { type: "refreshOnSamePath"; payload: string },
-  // ): Promise<string> => {
-  //   switch (action.type) {
-  //     case "add": {
-  //       return action.payload
-  //     }
-  //     case "refreshOnSamePath": {
-  //       // check user has not navigated to other folder
-  //       if (action.payload === currentPath) {
-  //         imployApiClient
-  //           ?.getCSFChildList({ path: currentPath })
-  //           .then((newContents) => {
-  //             setPathContents(
-  //               // Remove this when the API returns dates
-  //               newContents?.map((fcr) => ({
-  //                 ...fcr,
-  //                 date_uploaded: dayjs().subtract(2, "hour").unix() * 1000,
-  //               })),
-  //             )
-  //           })
-  //           .catch()
-  //       }
-  //     }
-  //     default:
-  //       return currentPath
-  //   }
-  // }
-  // const [currentPath, dispatchCurrentPath] = useReducer(currentPathReducer, "/")
+  const currentPathReducer = (
+    currentPath: string,
+    action:
+      | { type: "add"; payload: string }
+      | { type: "refreshOnSamePath"; payload: string },
+  ): string => {
+    switch (action.type) {
+      case "add": {
+        return action.payload
+      }
+      case "refreshOnSamePath": {
+        // check user has not navigated to other folder
+        if (action.payload === currentPath) {
+          imployApiClient
+            ?.getCSFChildList({ path: currentPath })
+            .then((newContents) => {
+              setPathContents(
+                // Remove this when the API returns dates
+                newContents?.map((fcr) => ({
+                  ...fcr,
+                  date_uploaded: dayjs().subtract(2, "hour").unix() * 1000,
+                })),
+              )
+            })
+            .catch()
+        }
+      }
+      default:
+        return currentPath
+    }
+  }
+  const [currentPath, dispatchCurrentPath] = useReducer(currentPathReducer, "/")
 
   const [pathContents, setPathContents] = useState<IFile[]>([])
   const [spaceUsed, setSpaceUsed] = useState(0)
-  const [currentPath, setCurrentPath] = useState("/")
 
   const refreshContents = useCallback(async () => {
     try {
@@ -119,8 +115,8 @@ const DriveProvider = ({ children }: DriveContextProps) => {
     } catch (error) {}
   }, [imployApiClient, currentPath])
 
-  // const setCurrentPath = (newPath: string) =>
-  //   dispatchCurrentPath({ type: "add", payload: newPath })
+  const setCurrentPath = (newPath: string) =>
+    dispatchCurrentPath({ type: "add", payload: newPath })
 
   useEffect(() => {
     if (isLoggedIn) {
@@ -140,155 +136,128 @@ const DriveProvider = ({ children }: DriveContextProps) => {
     }
   }, [imployApiClient, pathContents, isLoggedIn])
 
-  // function uploadsInProgressReducer(
-  //   uploadsInProgress: UploadProgress[],
-  //   action:
-  //     | { type: "add"; payload: UploadProgress }
-  //     | { type: "progress"; payload: { id: string; progress: number } }
-  //     | { type: "complete"; payload: { id: string } }
-  //     | { type: "error"; payload: { id: string } }
-  //     | { type: "remove"; payload: { id: string } },
-  // ): UploadProgress[] {
-  //   const getProgressIndex = () =>
-  //     uploadsInProgress.findIndex(
-  //       (progress) => progress.id === action.payload.id,
-  //     )
-  //   switch (action.type) {
-  //     case "add": {
-  //       return [...uploadsInProgress, action.payload]
-  //     }
-  //     case "progress":
-  //       const progressIndex = getProgressIndex()
-  //       if (progressIndex > -1) {
-  //         uploadsInProgress[progressIndex].progress = action.payload.progress
-  //         return [...uploadsInProgress]
-  //       } else {
-  //         return uploadsInProgress
-  //       }
-  //     case "complete": {
-  //       const progressIndex = getProgressIndex()
-  //       if (progressIndex > -1) {
-  //         uploadsInProgress[progressIndex].complete = true
-  //         return [...uploadsInProgress]
-  //       } else {
-  //         return uploadsInProgress
-  //       }
-  //     }
-  //     case "error": {
-  //       const progressIndex = getProgressIndex()
-  //       if (progressIndex > -1) {
-  //         uploadsInProgress[progressIndex].error = true
-  //         return [...uploadsInProgress]
-  //       } else {
-  //         return uploadsInProgress
-  //       }
-  //     }
-  //     case "remove": {
-  //       const progressIndex = getProgressIndex()
-  //       if (progressIndex > -1) {
-  //         uploadsInProgress.splice(progressIndex, 1)
-  //         return [...uploadsInProgress]
-  //       } else {
-  //         return uploadsInProgress
-  //       }
-  //     }
-  //     default:
-  //       return uploadsInProgress
-  //   }
-  // }
+  function uploadsInProgressReducer(
+    uploadsInProgress: UploadProgress[],
+    action:
+      | { type: "add"; payload: UploadProgress }
+      | { type: "progress"; payload: { id: string; progress: number } }
+      | { type: "complete"; payload: { id: string } }
+      | { type: "error"; payload: { id: string } }
+      | { type: "remove"; payload: { id: string } },
+  ): UploadProgress[] {
+    const getProgressIndex = () =>
+      uploadsInProgress.findIndex(
+        (progress) => progress.id === action.payload.id,
+      )
+    switch (action.type) {
+      case "add": {
+        return [...uploadsInProgress, action.payload]
+      }
+      case "progress": {
+        const progressIndex = getProgressIndex()
+        if (progressIndex > -1) {
+          uploadsInProgress[progressIndex].progress = action.payload.progress
+          return [...uploadsInProgress]
+        } else {
+          return uploadsInProgress
+        }
+      }
+      case "complete": {
+        const progressIndex = getProgressIndex()
+        if (progressIndex > -1) {
+          uploadsInProgress[progressIndex].complete = true
+          return [...uploadsInProgress]
+        } else {
+          return uploadsInProgress
+        }
+      }
+      case "error": {
+        const progressIndex = getProgressIndex()
+        if (progressIndex > -1) {
+          uploadsInProgress[progressIndex].error = true
+          return [...uploadsInProgress]
+        } else {
+          return uploadsInProgress
+        }
+      }
+      case "remove": {
+        const progressIndex = getProgressIndex()
+        if (progressIndex > -1) {
+          uploadsInProgress.splice(progressIndex, 1)
+          return [...uploadsInProgress]
+        } else {
+          return uploadsInProgress
+        }
+      }
+      default:
+        return uploadsInProgress
+    }
+  }
 
-  // const [uploadsInProgress, dispatchUploadsInProgress] = useReducer(
-  //   uploadsInProgressReducer,
-  //   [],
-  // )
-
-  const [uploadsInProgress, setUploadsInProgress] = useState<UploadProgress[]>(
+  const [uploadsInProgress, dispatchUploadsInProgress] = useReducer(
+    uploadsInProgressReducer,
     [],
   )
 
-  const setUploadProgressProgressEvent = (id: string, progress: number) => {
-    const getProgressIndex = () =>
-      uploadsInProgress.findIndex((progress) => progress.id === id)
+  const uploadFile = async (file: File, path: string) => {
+    const startUploadFile = async () => {
+      const id = uuidv4()
+      const uploadProgress: UploadProgress = {
+        id,
+        fileName: file.name,
+        complete: false,
+        error: false,
+        noOfFiles: 1,
+        progress: 0,
+        path,
+      }
+      dispatchUploadsInProgress({ type: "add", payload: uploadProgress })
+      try {
+        const fileParam = {
+          data: file,
+          fileName: file.name,
+        }
+        // API call
 
-    const progressIndex = getProgressIndex()
-    if (progressIndex > -1) {
-      uploadsInProgress[progressIndex].progress = progress
-      setUploadsInProgress([...uploadsInProgress])
+        const result = await imployApiClient.addCSFFiles(
+          fileParam,
+          path,
+          undefined,
+          (progressEvent: { loaded: number; total: number }) => {
+            dispatchUploadsInProgress({
+              type: "progress",
+              payload: {
+                id,
+                progress: Math.ceil(
+                  (progressEvent.loaded / progressEvent.total) * 100,
+                ),
+              },
+            })
+          },
+        )
+
+        // refresh contents
+        // using reducer because user may navigate to other paths
+        // need to check currentPath and upload path is same
+        dispatchCurrentPath({ type: "refreshOnSamePath", payload: path })
+
+        // setting complete
+        dispatchUploadsInProgress({ type: "complete", payload: { id } })
+        setTimeout(() => {
+          dispatchUploadsInProgress({ type: "remove", payload: { id } })
+        }, REMOVE_UPLOAD_PROGRESS_DELAY)
+
+        return result
+      } catch (error) {
+        // setting error
+        dispatchUploadsInProgress({ type: "error", payload: { id } })
+        setTimeout(() => {
+          dispatchUploadsInProgress({ type: "remove", payload: { id } })
+        }, REMOVE_UPLOAD_PROGRESS_DELAY)
+      }
     }
+    startUploadFile()
   }
-
-  const setUploadProgressCompleteEvent = (id: string) => {
-    const getProgressIndex = () =>
-      uploadsInProgress.findIndex((progress) => progress.id === id)
-
-    const progressIndex = getProgressIndex()
-    if (progressIndex > -1) {
-      uploadsInProgress[progressIndex].complete = true
-      setUploadsInProgress([...uploadsInProgress])
-    }
-  }
-
-  // const uploadFile = async (file: File, path: string) => {
-  //   const startUploadFile = async () => {
-  //     const id = uuidv4()
-  //     const uploadProgress: UploadProgress = {
-  //       id,
-  //       fileName: file.name,
-  //       complete: false,
-  //       error: false,
-  //       noOfFiles: 1,
-  //       progress: 0,
-  //       path,
-  //     }
-  //     dispatchUploadsInProgress({ type: "add", payload: uploadProgress })
-  //     try {
-  //       const fileParam = {
-  //         data: file,
-  //         fileName: file.name,
-  //       }
-  //       // API call
-
-  //       const result = await imployApiClient.addCSFFiles(
-  //         fileParam,
-  //         path,
-  //         undefined,
-  //         (progressEvent: { loaded: number; total: number }) => {
-  //           dispatchUploadsInProgress({
-  //             type: "progress",
-  //             payload: {
-  //               id,
-  //               progress: Math.ceil(
-  //                 (progressEvent.loaded / progressEvent.total) * 100,
-  //               ),
-  //             },
-  //           })
-  //         },
-  //       )
-
-  //       // refresh contents
-  //       // using reducer because user may navigate to other paths
-  //       // need to check currentPath and upload path is same
-  //       dispatchCurrentPath({ type: "refreshOnSamePath", payload: path })
-
-  //       // setting complete
-  //       dispatchUploadsInProgress({ type: "complete", payload: { id } })
-  //       setTimeout(() => {
-  //         dispatchUploadsInProgress({ type: "remove", payload: { id } })
-  //       }, REMOVE_UPLOAD_PROGRESS_DELAY)
-
-  //       return result
-  //     } catch (error) {
-  //       // setting error
-  //       dispatchUploadsInProgress({ type: "error", payload: { id } })
-  //       setTimeout(() => {
-  //         dispatchUploadsInProgress({ type: "remove", payload: { id } })
-  //       }, REMOVE_UPLOAD_PROGRESS_DELAY)
-  //     }
-  //   }
-  //   startUploadFile()
-  // }
-
-  // const uploadFileApi
 
   const createFolder = async (body: FilesPathRequest) => {
     try {
@@ -404,7 +373,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
   return (
     <DriveContext.Provider
       value={{
-        // uploadFile,
+        uploadFile,
         createFolder,
         renameFile,
         moveFile,
@@ -418,9 +387,6 @@ const DriveProvider = ({ children }: DriveContextProps) => {
             : setCurrentPath(`${newPath}/`),
         pathContents,
         uploadsInProgress,
-        setUploadsInProgress,
-        setUploadProgressProgressEvent,
-        setUploadProgressCompleteEvent,
         spaceUsed,
       }}
     >
