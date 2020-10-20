@@ -2,6 +2,7 @@ import {
   Button,
   FormikTextInput,
   Grid,
+  IButtonProps,
   PlusCircleIcon,
   Typography,
 } from "@imploy/common-components"
@@ -68,9 +69,16 @@ const useStyles = makeStyles(
   },
 )
 
-const CreateFolderModule: React.FC<{ buttonClassName?: string }> = ({
-  buttonClassName,
-}) => {
+interface ICreateFolderModuleProps extends IButtonProps {
+  classNames?: {
+    button?: string
+  }
+}
+
+const CreateFolderModule: React.FC<ICreateFolderModuleProps> = ({
+  classNames,
+  ...rest
+}: ICreateFolderModuleProps) => {
   const classes = useStyles()
   const { createFolder, currentPath } = useDrive()
   const [open, setOpen] = useState(false)
@@ -84,7 +92,8 @@ const CreateFolderModule: React.FC<{ buttonClassName?: string }> = ({
         onClick={() => setOpen(true)}
         variant="outline"
         size="large"
-        className={clsx(classes.createFolderButton, buttonClassName)}
+        className={clsx(classes.createFolderButton, classNames?.button)}
+        {...rest}
       >
         <PlusCircleIcon />
         Create folder

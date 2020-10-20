@@ -42,21 +42,27 @@ const useStyles = makeStyles(
       },
       // Variants
       primary: {
-        backgroundColor: palette.additional["blue"][6],
+        backgroundColor: palette.primary.main,
         color: palette.common.white.main,
         "& svg": {
           fill: palette.common.white.main,
         },
         "&:hover": {
-          backgroundColor: palette.additional["blue"][5],
+          backgroundColor: palette.primary.hover
+            ? palette.primary.hover
+            : palette.primary.main,
           ...overrides?.Button?.variants?.primary?.hover,
         },
         "&:focus": {
-          backgroundColor: palette.additional["blue"][5],
+          backgroundColor: palette.primary.hover
+            ? palette.primary.hover
+            : palette.primary.main,
           ...overrides?.Button?.variants?.primary?.focus,
         },
         "&:active": {
-          backgroundColor: palette.additional["blue"][7],
+          backgroundColor: palette.primary.hover
+            ? palette.primary.hover
+            : palette.primary.main,
           ...overrides?.Button?.variants?.primary?.active,
         },
         ...overrides?.Button?.variants?.primary?.root,
