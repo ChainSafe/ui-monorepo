@@ -1,4 +1,4 @@
-import React, { FormEvent } from "react"
+import React, { FormEvent, ReactNode } from "react"
 import {
   makeStyles,
   createStyles,
@@ -39,7 +39,7 @@ const useStyles = makeStyles(
 
 interface ISelectOption {
   value: string | number
-  label: string | number
+  label: string | ReactNode | number
 }
 
 interface ISelectInputProps {
@@ -68,8 +68,8 @@ const SelectInput: React.FC<ISelectInputProps> = ({
 }) => {
   const classes = useStyles()
   const { palette, animation, typography, overrides }: ITheme = useTheme()
-  const handleChange = (event: any) => {
-    !disabled && onChange(event)
+  const handleChange = (value: any) => {
+    !disabled && onChange(value.value)
   }
 
   return (

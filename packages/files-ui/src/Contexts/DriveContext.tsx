@@ -3,9 +3,8 @@ import {
   FilesMvRequest,
   FilesPathRequest,
   FilesRmRequest,
-  FilesUploadResponse,
 } from "@imploy/api-client"
-import React, { useCallback, useEffect } from "react"
+import React, { useCallback, useEffect, useReducer } from "react"
 import { useState } from "react"
 import { useImployApi } from "@imploy/common-contexts"
 import dayjs from "dayjs"
@@ -23,11 +22,12 @@ export type UploadProgress = {
   error: boolean
   complete: boolean
   noOfFiles: number
+  path: string
 }
 
 type DriveContext = {
   // Upload file
-  uploadFile(file: File, path: string): void
+  // uploadFile(file: File, path: string): void
   // Create folder
   createFolder(body: FilesPathRequest): Promise<FileContentResponse>
   // Rename file
@@ -45,6 +45,9 @@ type DriveContext = {
   pathContents: IFile[]
   // uploads in progress
   uploadsInProgress: UploadProgress[]
+  setUploadsInProgress(uploadsInProgress: UploadProgress[]): void
+  setUploadProgressProgressEvent(id: string, progress: number): void
+  setUploadProgressCompleteEvent(id: string): void
   // space used by user in bytes
   spaceUsed: number
 }
@@ -53,7 +56,7 @@ interface IFile extends FileContentResponse {
   date_uploaded: number // This can be removed when date is added to the schema
 }
 
-const REMOVE_UPLOAD_PROGRESS_DELAY = 2000
+const REMOVE_UPLOAD_PROGRESS_DELAY = 5000
 
 const DriveContext = React.createContext<DriveContext | undefined>(undefined)
 
@@ -61,12 +64,42 @@ const DriveProvider = ({ children }: DriveContextProps) => {
   const { imployApiClient, isLoggedIn } = useImployApi()
   const { addToastMessage } = useToaster()
 
-  const [currentPath, setCurrentPath] = useState<string>("/")
+  // const currentPathReducer = async (
+  //   currentPath: string,
+  //   action:
+  //     | { type: "add"; payload: string }
+  //     | { type: "refreshOnSamePath"; payload: string },
+  // ): Promise<string> => {
+  //   switch (action.type) {
+  //     case "add": {
+  //       return action.payload
+  //     }
+  //     case "refreshOnSamePath": {
+  //       // check user has not navigated to other folder
+  //       if (action.payload === currentPath) {
+  //         imployApiClient
+  //           ?.getCSFChildList({ path: currentPath })
+  //           .then((newContents) => {
+  //             setPathContents(
+  //               // Remove this when the API returns dates
+  //               newContents?.map((fcr) => ({
+  //                 ...fcr,
+  //                 date_uploaded: dayjs().subtract(2, "hour").unix() * 1000,
+  //               })),
+  //             )
+  //           })
+  //           .catch()
+  //       }
+  //     }
+  //     default:
+  //       return currentPath
+  //   }
+  // }
+  // const [currentPath, dispatchCurrentPath] = useReducer(currentPathReducer, "/")
+
   const [pathContents, setPathContents] = useState<IFile[]>([])
-  const [uploadsInProgress, setUploadsInProgress] = useState<UploadProgress[]>(
-    [],
-  )
   const [spaceUsed, setSpaceUsed] = useState(0)
+  const [currentPath, setCurrentPath] = useState("/")
 
   const refreshContents = useCallback(async () => {
     try {
@@ -86,6 +119,9 @@ const DriveProvider = ({ children }: DriveContextProps) => {
     } catch (error) {}
   }, [imployApiClient, currentPath])
 
+  // const setCurrentPath = (newPath: string) =>
+  //   dispatchCurrentPath({ type: "add", payload: newPath })
+
   useEffect(() => {
     if (isLoggedIn) {
       refreshContents()
@@ -104,96 +140,155 @@ const DriveProvider = ({ children }: DriveContextProps) => {
     }
   }, [imployApiClient, pathContents, isLoggedIn])
 
-  const setUploadProgress = (
-    id: string,
-    uploadsInProgress: UploadProgress[],
-    state: "progress" | "complete" | "error" | "delete",
-    progress?: number,
-  ) => {
-    const uploadProgressIndex = uploadsInProgress.findIndex(
-      (uploadProgress) => uploadProgress.id === id,
-    )
-    if (uploadProgressIndex > -1) {
-      switch (state) {
-        case "progress": {
-          uploadsInProgress[uploadProgressIndex].progress = progress || 0
-          break
-        }
-        case "complete": {
-          uploadsInProgress[uploadProgressIndex].complete = true
-          break
-        }
-        case "error": {
-          uploadsInProgress[uploadProgressIndex].error = true
-          break
-        }
-        case "delete": {
-          uploadsInProgress.splice(uploadProgressIndex, 1)
-          break
-        }
-      }
+  // function uploadsInProgressReducer(
+  //   uploadsInProgress: UploadProgress[],
+  //   action:
+  //     | { type: "add"; payload: UploadProgress }
+  //     | { type: "progress"; payload: { id: string; progress: number } }
+  //     | { type: "complete"; payload: { id: string } }
+  //     | { type: "error"; payload: { id: string } }
+  //     | { type: "remove"; payload: { id: string } },
+  // ): UploadProgress[] {
+  //   const getProgressIndex = () =>
+  //     uploadsInProgress.findIndex(
+  //       (progress) => progress.id === action.payload.id,
+  //     )
+  //   switch (action.type) {
+  //     case "add": {
+  //       return [...uploadsInProgress, action.payload]
+  //     }
+  //     case "progress":
+  //       const progressIndex = getProgressIndex()
+  //       if (progressIndex > -1) {
+  //         uploadsInProgress[progressIndex].progress = action.payload.progress
+  //         return [...uploadsInProgress]
+  //       } else {
+  //         return uploadsInProgress
+  //       }
+  //     case "complete": {
+  //       const progressIndex = getProgressIndex()
+  //       if (progressIndex > -1) {
+  //         uploadsInProgress[progressIndex].complete = true
+  //         return [...uploadsInProgress]
+  //       } else {
+  //         return uploadsInProgress
+  //       }
+  //     }
+  //     case "error": {
+  //       const progressIndex = getProgressIndex()
+  //       if (progressIndex > -1) {
+  //         uploadsInProgress[progressIndex].error = true
+  //         return [...uploadsInProgress]
+  //       } else {
+  //         return uploadsInProgress
+  //       }
+  //     }
+  //     case "remove": {
+  //       const progressIndex = getProgressIndex()
+  //       if (progressIndex > -1) {
+  //         uploadsInProgress.splice(progressIndex, 1)
+  //         return [...uploadsInProgress]
+  //       } else {
+  //         return uploadsInProgress
+  //       }
+  //     }
+  //     default:
+  //       return uploadsInProgress
+  //   }
+  // }
+
+  // const [uploadsInProgress, dispatchUploadsInProgress] = useReducer(
+  //   uploadsInProgressReducer,
+  //   [],
+  // )
+
+  const [uploadsInProgress, setUploadsInProgress] = useState<UploadProgress[]>(
+    [],
+  )
+
+  const setUploadProgressProgressEvent = (id: string, progress: number) => {
+    const getProgressIndex = () =>
+      uploadsInProgress.findIndex((progress) => progress.id === id)
+
+    const progressIndex = getProgressIndex()
+    if (progressIndex > -1) {
+      uploadsInProgress[progressIndex].progress = progress
       setUploadsInProgress([...uploadsInProgress])
     }
   }
 
-  console.log("open", uploadsInProgress)
+  const setUploadProgressCompleteEvent = (id: string) => {
+    const getProgressIndex = () =>
+      uploadsInProgress.findIndex((progress) => progress.id === id)
 
-  const uploadFile = async (file: File, path: string) => {
-    const startUploadFile = async () => {
-      const id = uuidv4()
-      const uploadProgress: UploadProgress = {
-        id,
-        fileName: file.name,
-        complete: false,
-        error: false,
-        noOfFiles: 1,
-        progress: 0,
-      }
-      const newProgresses = [...uploadsInProgress, uploadProgress]
-      setUploadsInProgress([...uploadsInProgress, uploadProgress])
-      try {
-        const fileParam = {
-          data: file,
-          fileName: file.name,
-        }
-        // API call
-
-        const result = await imployApiClient.addCSFFiles(
-          fileParam,
-          path,
-          undefined,
-          (progressEvent: { loaded: number; total: number }) => {
-            setUploadProgress(
-              id,
-              newProgresses,
-              "progress",
-              Math.ceil((progressEvent.loaded / progressEvent.total) * 100),
-            )
-          },
-        )
-        await refreshContents()
-
-        console.log("inside", uploadsInProgress)
-        // setting complete
-        setUploadProgress(id, newProgresses, "complete")
-        // setInterval(() => {
-        //   // removing completely
-        //   setUploadProgress(id, newUploadsInProgress, "delete")
-        // }, REMOVE_UPLOAD_PROGRESS_DELAY)
-
-        return result
-      } catch (error) {
-        // setting error
-        console.log("inside", uploadsInProgress)
-        setUploadProgress(id, newProgresses, "error")
-        // setInterval(() => {
-        //   // removing completely
-        //   setUploadProgress(id, newUploadsInProgress, "delete")
-        // }, REMOVE_UPLOAD_PROGRESS_DELAY)
-      }
+    const progressIndex = getProgressIndex()
+    if (progressIndex > -1) {
+      uploadsInProgress[progressIndex].complete = true
+      setUploadsInProgress([...uploadsInProgress])
     }
-    startUploadFile()
   }
+
+  // const uploadFile = async (file: File, path: string) => {
+  //   const startUploadFile = async () => {
+  //     const id = uuidv4()
+  //     const uploadProgress: UploadProgress = {
+  //       id,
+  //       fileName: file.name,
+  //       complete: false,
+  //       error: false,
+  //       noOfFiles: 1,
+  //       progress: 0,
+  //       path,
+  //     }
+  //     dispatchUploadsInProgress({ type: "add", payload: uploadProgress })
+  //     try {
+  //       const fileParam = {
+  //         data: file,
+  //         fileName: file.name,
+  //       }
+  //       // API call
+
+  //       const result = await imployApiClient.addCSFFiles(
+  //         fileParam,
+  //         path,
+  //         undefined,
+  //         (progressEvent: { loaded: number; total: number }) => {
+  //           dispatchUploadsInProgress({
+  //             type: "progress",
+  //             payload: {
+  //               id,
+  //               progress: Math.ceil(
+  //                 (progressEvent.loaded / progressEvent.total) * 100,
+  //               ),
+  //             },
+  //           })
+  //         },
+  //       )
+
+  //       // refresh contents
+  //       // using reducer because user may navigate to other paths
+  //       // need to check currentPath and upload path is same
+  //       dispatchCurrentPath({ type: "refreshOnSamePath", payload: path })
+
+  //       // setting complete
+  //       dispatchUploadsInProgress({ type: "complete", payload: { id } })
+  //       setTimeout(() => {
+  //         dispatchUploadsInProgress({ type: "remove", payload: { id } })
+  //       }, REMOVE_UPLOAD_PROGRESS_DELAY)
+
+  //       return result
+  //     } catch (error) {
+  //       // setting error
+  //       dispatchUploadsInProgress({ type: "error", payload: { id } })
+  //       setTimeout(() => {
+  //         dispatchUploadsInProgress({ type: "remove", payload: { id } })
+  //       }, REMOVE_UPLOAD_PROGRESS_DELAY)
+  //     }
+  //   }
+  //   startUploadFile()
+  // }
+
+  // const uploadFileApi
 
   const createFolder = async (body: FilesPathRequest) => {
     try {
@@ -309,7 +404,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
   return (
     <DriveContext.Provider
       value={{
-        uploadFile,
+        // uploadFile,
         createFolder,
         renameFile,
         moveFile,
@@ -323,6 +418,9 @@ const DriveProvider = ({ children }: DriveContextProps) => {
             : setCurrentPath(`${newPath}/`),
         pathContents,
         uploadsInProgress,
+        setUploadsInProgress,
+        setUploadProgressProgressEvent,
+        setUploadProgressCompleteEvent,
         spaceUsed,
       }}
     >

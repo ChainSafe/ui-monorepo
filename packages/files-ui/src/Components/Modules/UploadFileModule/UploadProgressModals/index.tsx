@@ -1,6 +1,12 @@
 import React from "react"
-import { createStyles, ITheme, makeStyles } from "@imploy/common-themes"
-import { useDrive } from "../../../Contexts/DriveContext"
+import {
+  createStyles,
+  ITheme,
+  makeStyles,
+  useMediaQuery,
+  useTheme,
+} from "@imploy/common-themes"
+import { useDrive } from "../../../../Contexts/DriveContext"
 import UploadBox from "./UploadBox"
 
 const useStyles = makeStyles(({ constants, zIndex, breakpoints }: ITheme) => {
@@ -16,8 +22,8 @@ const useStyles = makeStyles(({ constants, zIndex, breakpoints }: ITheme) => {
       width: WIDTH,
       zIndex: zIndex?.layer1,
       [breakpoints.down("sm")]: {
-        margin: constants.generalUnit * 2,
-        width: `calc(100% - ${constants.generalUnit * 4}px)`,
+        margin: constants.generalUnit,
+        width: `calc(100% - ${constants.generalUnit * 2}px)`,
       },
     },
   })
@@ -26,16 +32,23 @@ const useStyles = makeStyles(({ constants, zIndex, breakpoints }: ITheme) => {
 const UploadProgressView: React.FC = () => {
   const classes = useStyles()
   const { uploadsInProgress } = useDrive()
+  const { breakpoints }: ITheme = useTheme()
+  const desktop = useMediaQuery(breakpoints.up("sm"))
 
   return (
     <>
       <div className={classes.root}>
-        {uploadsInProgress.map((uploadInProgress) => (
-          <UploadBox
-            key={uploadInProgress.id}
-            uploadInProgress={uploadInProgress}
-          />
-        ))}
+        {uploadsInProgress.map(
+          (uploadInProgress) =>
+            (desktop ||
+              uploadInProgress.complete ||
+              uploadInProgress.error) && (
+              <UploadBox
+                key={uploadInProgress.id}
+                uploadInProgress={uploadInProgress}
+              />
+            ),
+        )}
       </div>
     </>
   )

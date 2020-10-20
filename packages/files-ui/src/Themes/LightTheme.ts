@@ -4,7 +4,7 @@ export const lightTheme = createTheme({
   themeConfig: {
     palette: {
       primary: {
-        main: "#000",
+        main: "#262626",
         hover: "#FFF",
       },
       secondary: {
@@ -13,9 +13,28 @@ export const lightTheme = createTheme({
       },
     },
     overrides: {
-      Avatar: {
-        root: {
-          backgroundColor: "red",
+      Button: {
+        variants: {
+          primary: {
+            active: {
+              color: "#262626",
+              "& svg": {
+                fill: "#262626",
+              },
+            },
+            hover: {
+              color: "#262626",
+              "& svg": {
+                fill: "#262626",
+              },
+            },
+            focus: {
+              color: "#262626",
+              "& svg": {
+                fill: "#262626",
+              },
+            },
+          },
         },
       },
     },

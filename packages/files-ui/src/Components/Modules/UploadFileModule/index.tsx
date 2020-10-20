@@ -1,12 +1,20 @@
-import { useDrive } from "../../Contexts/DriveContext"
-import { Button, FileInput, UploadIcon } from "@imploy/common-components"
+import {
+  Button,
+  FileInput,
+  IButtonProps,
+  UploadIcon,
+} from "@imploy/common-components"
+import { useDrive, UploadProgress } from "../../../Contexts/DriveContext"
+import { useImployApi } from "@imploy/common-contexts"
 import { createStyles, ITheme, makeStyles } from "@imploy/common-themes"
 import React from "react"
 import { useState } from "react"
 import { Formik, Form } from "formik"
 import clsx from "clsx"
 import { array, object } from "yup"
-import CustomModal from "../Elements/CustomModal"
+import CustomModal from "../../Elements/CustomModal"
+import UploadProgressModals from "./UploadProgressModals"
+import { v4 as uuid } from "uuid"
 
 const useStyles = makeStyles(({ constants, palette }: ITheme) =>
   createStyles({
@@ -36,11 +44,25 @@ const useStyles = makeStyles(({ constants, palette }: ITheme) =>
   }),
 )
 
-const UploadFileModule: React.FC<{ buttonClassName?: string }> = ({
-  buttonClassName,
-}) => {
+interface IUploadFileModuleProps extends IButtonProps {
+  classNames?: {
+    button?: string
+  }
+}
+
+const UploadFileModule: React.FC<IUploadFileModuleProps> = ({
+  classNames,
+  ...rest
+}: IUploadFileModuleProps) => {
   const classes = useStyles()
-  const { uploadFile, currentPath } = useDrive()
+  const { imployApiClient } = useImployApi()
+  const {
+    currentPath,
+    uploadsInProgress,
+    setUploadProgressCompleteEvent,
+    setUploadProgressProgressEvent,
+    setUploadsInProgress,
+  } = useDrive()
   const [open, setOpen] = useState(false)
 
   const handleCloseDialog = () => setOpen(false)
@@ -62,7 +84,8 @@ const UploadFileModule: React.FC<{ buttonClassName?: string }> = ({
         onClick={() => setOpen(true)}
         variant="outline"
         size="large"
-        className={clsx(classes.cta, buttonClassName)}
+        className={clsx(classes.cta, classNames?.button)}
+        {...rest}
       >
         <UploadIcon />
         Upload
@@ -78,8 +101,37 @@ const UploadFileModule: React.FC<{ buttonClassName?: string }> = ({
             try {
               handleCloseDialog()
               helpers.resetForm()
-              uploadFile(values.files[0], currentPath)
+              // ********************************
+              const id = uuid()
+              const file = values.files[0]
+              const newUploadInProgress: UploadProgress = {
+                id,
+                complete: false,
+                error: false,
+                noOfFiles: 1,
+                path: currentPath,
+                progress: 0,
+                fileName: file.name,
+              }
+              setUploadsInProgress([...uploadsInProgress, newUploadInProgress])
+              await imployApiClient?.addCSFFiles(
+                file,
+                currentPath,
+                undefined,
+                (progressEvent) => {
+                  setUploadProgressProgressEvent(
+                    id,
+                    Math.ceil(
+                      (progressEvent.loaded / progressEvent.total) * 100,
+                    ),
+                  )
+                },
+              )
+              setUploadProgressCompleteEvent(id)
+
+              // ********************************
             } catch (errors) {
+              console.log(errors)
               if (errors[0].message.includes("conflict with existing")) {
                 helpers.setFieldError("files", "File/Folder exists")
               } else {
@@ -113,6 +165,7 @@ const UploadFileModule: React.FC<{ buttonClassName?: string }> = ({
           </Form>
         </Formik>
       </CustomModal>
+      <UploadProgressModals />
     </>
   )
 }

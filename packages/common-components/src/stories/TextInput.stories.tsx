@@ -22,12 +22,13 @@ const inputStateOptions: InputState[] = [
 ]
 
 const sizeOptions: ["large", "medium", "small"] = ["large", "medium", "small"]
-const typeOptions: ["text", "email", "password", "url", "search"] = [
+const typeOptions: ["text", "email", "password", "url", "search", "number"] = [
   "text",
   "email",
   "password",
   "url",
   "search",
+  "number",
 ]
 
 export const actionsData = {
