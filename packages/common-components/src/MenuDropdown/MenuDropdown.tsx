@@ -138,7 +138,7 @@ const useStyles = makeStyles(
         "& > *:first-child ~ *": {
           marginLeft: constants.generalUnit / 2,
         },
-        "& svg": {
+        "& > svg": {
           transitionDuration: `${animation.transform}ms`,
           fill: palette.additional["gray"][7],
         },
@@ -149,11 +149,12 @@ const useStyles = makeStyles(
 
 interface IMenuItem {
   contents: ReactNode | ReactNode[]
-  onClick: () => void
+  onClick?: () => void
 }
 
 interface IMenuDropdownProps {
   className?: string
+  autoclose?: boolean
   indicator?: typeof SvgIcon
   animation?: "rotate" | "flip" | "none"
   anchor?:
@@ -165,15 +166,21 @@ interface IMenuDropdownProps {
     | "bottom-right"
   menuItems: IMenuItem[]
   title?: string
+  classNames?: {
+    icon?: string
+    options?: string
+  }
 }
 
 const MenuDropdown: React.FC<IMenuDropdownProps> = ({
   className,
   menuItems,
+  autoclose = true,
   anchor = "bottom-center",
   indicator = DirectionalDownIcon,
   animation = "flip",
   title,
+  classNames,
 }: IMenuDropdownProps) => {
   const Icon = indicator
   const classes = useStyles()
@@ -199,14 +206,14 @@ const MenuDropdown: React.FC<IMenuDropdownProps> = ({
           </Typography>
         )}
         <Icon
-          className={clsx(classes.icon, animation, {
+          className={clsx(classes.icon, animation, classNames?.icon, {
             ["open"]: open,
           })}
         />
       </section>
       <Paper
         shadow="shadow2"
-        className={clsx(classes.options, anchor, {
+        className={clsx(classes.options, classNames?.options, anchor, {
           ["open"]: open,
         })}
       >
@@ -215,8 +222,8 @@ const MenuDropdown: React.FC<IMenuDropdownProps> = ({
             key={`menu-${index}`}
             className={classes.item}
             onClick={() => {
-              setOpen(false)
-              item.onClick()
+              autoclose && setOpen(false)
+              item.onClick && item.onClick()
             }}
           >
             {item.contents}

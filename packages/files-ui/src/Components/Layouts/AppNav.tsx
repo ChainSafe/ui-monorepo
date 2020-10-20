@@ -61,6 +61,7 @@ const useStyles = makeStyles(
           zIndex: zIndex?.layer1,
           padding: `0 ${constants.generalUnit * 4}px`,
           maxWidth: "100vw",
+          visibility: "hidden",
           // "&:before": {
           //   content: "''",
           //   display: "block",
@@ -75,6 +76,7 @@ const useStyles = makeStyles(
           //   zIndex: zIndex?.background,
           // },
           "&.active": {
+            visibility: "visible",
             width: mobileNavWidth,
           },
         },
