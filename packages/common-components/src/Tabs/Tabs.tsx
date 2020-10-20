@@ -24,9 +24,8 @@ const useStyles = makeStyles(
         transition: `all ${animation.transform}ms`,
         cursor: "pointer",
         "&.selected": {
-          // color: palette.primary.main,
           fontWeight: "bold",
-          borderBottom: `2px solid ${palette.primary.main}`,
+          borderBottom: `2px solid ${palette.additional["blue"][6]}`,
           ...overrides?.Tabs?.tabBar?.selected,
         },
         ...overrides?.Tabs?.tabBar?.root,
