@@ -32,6 +32,8 @@ import {
   TableHeadCell,
   TableRow,
   Typography,
+  Breadcrumb,
+  Crumb,
 } from "@imploy/common-components"
 import { useState } from "react"
 import { useMemo } from "react"
@@ -41,6 +43,7 @@ import { object, string } from "yup"
 import EmptySvg from "../../Media/Empty.svg"
 import CreateFolderModule from "./CreateFolderModule"
 import UploadFileModule from "./UploadFileModule"
+import { getArrayOfPaths, getPathFromArray } from "../../Utils/pathUtils"
 
 const useStyles = makeStyles(({ breakpoints, constants, palette }: ITheme) => {
   const desktopGridSettings = "50px 69px 3fr 190px 100px 45px !important"
@@ -69,6 +72,10 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: ITheme) => {
       "& > button": {
         marginLeft: constants.generalUnit,
       },
+    },
+    breadCrumbContainer: {
+      margin: `${constants.generalUnit * 2}px 0`,
+      height: 22,
     },
     divider: {
       "&:before, &:after": {
@@ -270,11 +277,25 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
       .required("File name is required"),
   })
 
+  const arrayOfPaths = getArrayOfPaths(currentPath)
+  const crumbs: Crumb[] = arrayOfPaths.map((path, index) => ({
+    text: path,
+    onClick: () =>
+      updateCurrentPath(getPathFromArray(arrayOfPaths.slice(0, index + 1))),
+  }))
   const { breakpoints }: ITheme = useTheme()
   const desktop = useMediaQuery(breakpoints.up("sm"))
 
   return (
     <article className={classes.root}>
+      <div className={classes.breadCrumbContainer}>
+        {crumbs.length > 0 && (
+          <Breadcrumb
+            crumbs={crumbs}
+            homeOnClick={() => updateCurrentPath("/")}
+          />
+        )}
+      </div>
       <header className={classes.header}>
         <Typography variant="h1" component="h1">
           {heading}
