@@ -73,6 +73,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
       }
       case "refreshOnSamePath": {
         // check user has not navigated to other folder
+        // using then catch as awaits won't working in reducer
         if (action.payload === currentPath) {
           imployApiClient
             ?.getCSFChildList({ path: currentPath })

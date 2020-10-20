@@ -64,10 +64,6 @@ const UploadFileModule: React.FC<IUploadFileModuleProps> = ({
       .required("Please select a file to upload"),
   })
 
-  // const onUploadFile = async () => {
-  //   await uploadFile()
-  // }
-
   return (
     <>
       <Button

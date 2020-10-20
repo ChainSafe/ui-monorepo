@@ -125,9 +125,6 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: ITheme) => {
       flexDirection: "row",
       alignItems: "center",
       justifyContent: "center",
-      // "& svg": {
-      //   width: constants.generalUnit * 2.5,
-      // },
     },
     renameInput: {
       margin: 0,
@@ -319,7 +316,7 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
           {controls && desktop ? (
             <Fragment>
               <CreateFolderModule />
-              {desktop && <UploadFileModule />}
+              <UploadFileModule />
             </Fragment>
           ) : (
             controls &&
