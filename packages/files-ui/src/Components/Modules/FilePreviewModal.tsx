@@ -25,6 +25,7 @@ import {
   CloseCircleIcon,
 } from "@imploy/common-components"
 import ImagePreview from "./PreviewRenderers/ImagePreview"
+import { useSwipeable } from "react-swipeable"
 
 export interface IPreviewRendererProps {
   contents: Blob
@@ -136,7 +137,10 @@ const FilePreviewModal: React.FC<{
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | undefined>(undefined)
   const [fileContent, setFileContent] = useState<Blob | undefined>(undefined)
-
+  const handlers = useSwipeable({
+    onSwipedLeft: () => previousFile && previousFile(),
+    onSwipedRight: () => nextFile && nextFile(),
+  })
   useEffect(() => {
     const getContents = async () => {
       if (!file) return
@@ -244,29 +248,35 @@ const FilePreviewModal: React.FC<{
           </Grid>
         )}
         <Grid item xs={12} sm={10} md={10} lg={10} xl={10} alignItems="center">
-          {isLoading && <div>Loading</div>}
-          {error && <div>{error}</div>}
-          {!isLoading &&
-            !error &&
-            !compatibleFilesMatcher.match(file?.content_type) && (
-              <div className={classes.previewContent}>
-                <CloseCircleIcon fontSize={desktop ? "extraLarge" : "medium"} />
-                <br />
-                <Typography variant="h1">File format not supported.</Typography>
-                <br />
-                <Button
-                  className={classes.downloadButton}
-                  onClick={() => downloadFile(file.name)}
-                >
-                  Download
-                </Button>
-              </div>
-            )}
-          {!isLoading &&
-            !error &&
-            compatibleFilesMatcher.match(file?.content_type) &&
-            fileContent &&
-            PreviewComponent && <PreviewComponent contents={fileContent} />}
+          <div {...handlers}>
+            {isLoading && <div>Loading</div>}
+            {error && <div>{error}</div>}
+            {!isLoading &&
+              !error &&
+              !compatibleFilesMatcher.match(file?.content_type) && (
+                <div className={classes.previewContent}>
+                  <CloseCircleIcon
+                    fontSize={desktop ? "extraLarge" : "medium"}
+                  />
+                  <br />
+                  <Typography variant="h1">
+                    File format not supported.
+                  </Typography>
+                  <br />
+                  <Button
+                    className={classes.downloadButton}
+                    onClick={() => downloadFile(file.name)}
+                  >
+                    Download
+                  </Button>
+                </div>
+              )}
+            {!isLoading &&
+              !error &&
+              compatibleFilesMatcher.match(file?.content_type) &&
+              fileContent &&
+              PreviewComponent && <PreviewComponent contents={fileContent} />}
+          </div>
         </Grid>
         {desktop && (
           <Grid item sm={1} md={1} lg={1} xl={1} className={classes.prevNext}>

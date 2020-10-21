@@ -1776,11 +1776,6 @@
   resolved "https://registry.yarnpkg.com/@icons/material/-/material-0.2.4.tgz#e90c9f71768b3736e76d7dd6783fc6c2afa88bc8"
   integrity sha512-QPcGmICAPbGLGb6F/yNf/KzKqvFx8z5qx3D1yFqVAjoFmXK35EgyW+cJ57Te3CNsmzblwtzakLGFqHPqrfb4Tw==
 
-"@imploy/api-client@1.2.3":
-  version "1.2.3"
-  resolved "https://npm.pkg.github.com/download/@imploy/api-client/1.2.3/5300f459c05bff3d005229969b487a81fe9864749d2cf8f1b20e8eaa042d7b90#e220ead5a39be9413a6bc4cb1e37f9bb8dca5a6e"
-  integrity sha512-c5MSFfXOwBBd/iAlM397DZDUuDSUtNaz5eCjM8mjBsfLwYx6DycnPB8cPjkLaM9Ox1DGbk9j+RJAPiTgjxH8Sw==
-
 "@imploy/api-client@1.2.7":
   version "1.2.7"
   resolved "https://npm.pkg.github.com/download/@imploy/api-client/1.2.7/349bddb4d41513583f67743309e26314e20c1e7414152f3224b6640afe6ee299#26821b45d41f4b6029d9adaf36f62564ecf78f15"
@@ -15275,6 +15270,13 @@ react-spinners@^0.9.0:
   dependencies:
     "@emotion/core" "^10.0.15"
 
+react-swipeable@^5.5.1:
+  version "5.5.1"
+  resolved "https://registry.yarnpkg.com/react-swipeable/-/react-swipeable-5.5.1.tgz#48ae6182deaf62f21d4b87469b60281dbd7c4a76"
+  integrity sha512-EQObuU3Qg3JdX3WxOn5reZvOSCpU4fwpUAs+NlXSN3y+qtsO2r8VGkVnOQzmByt3BSYj9EWYdUOUfi7vaMdZZw==
+  dependencies:
+    prop-types "^15.6.2"
+
 react-syntax-highlighter@^11.0.2:
   version "11.0.2"
   resolved "https://registry.yarnpkg.com/react-syntax-highlighter/-/react-syntax-highlighter-11.0.2.tgz#4e3f376e752b20d2f54e4c55652fd663149e4029"
@@ -15331,6 +15333,11 @@ react-transition-group@^4.3.0:
     dom-helpers "^5.0.1"
     loose-envify "^1.4.0"
     prop-types "^15.6.2"
+
+react-zoom-pan-pinch@^1.6.1:
+  version "1.6.1"
+  resolved "https://registry.yarnpkg.com/react-zoom-pan-pinch/-/react-zoom-pan-pinch-1.6.1.tgz#da16267c258ab37e8ebcdc7c252794a9633e91ec"
+  integrity sha512-J2eM0gZ04XiUWvmKZrOhSAB2zjyoK7kw2POIeN1X0yTTlmp6HPGV0zYfjnlkhgt8nQwpvXAbsF/oAnkuiwk1kA==
 
 react@16.14.0, react@^16.14.0, react@^16.8.3:
   version "16.14.0"
