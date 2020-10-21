@@ -181,12 +181,10 @@ const DriveProvider = ({ children }: DriveContextProps) => {
 
   const getFileContent = async (fileName: string) => {
     try {
-      //TODO: Fix the response of this method
       const result = await imployApiClient.getFileContent({
         path: currentPath + fileName,
       })
-      //@ts-ignore
-      return new Blob([result])
+      return result.data
     } catch (error) {
       return Promise.reject()
     }
@@ -198,6 +196,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
       appearance: "info",
     })
     try {
+      debugger
       const result = await getFileContent(fileName)
       const link = document.createElement("a")
       link.href = window.URL.createObjectURL(result)
