@@ -69,9 +69,9 @@ const ImagePreview: React.FC<IPreviewRendererProps> = ({ contents }) => {
                 <Button onClick={resetTransform}>
                   <FullscreenIcon />
                 </Button>
-                <Button disabled>
+                {/* <Button>
                   <PrinterIcon />
-                </Button>
+                </Button> */}
               </div>
             )}
             <TransformComponent>
