@@ -34,6 +34,7 @@ const useStyles = makeStyles((theme: ITheme) =>
       strokeDashoffset: `${
         ((100 - props.progress) / 100) * props.circumference
       }px`,
+      transition: `${theme.animation.transform}ms`,
     }),
     progress: {
       stroke: theme.palette.additional["blue"][6],
