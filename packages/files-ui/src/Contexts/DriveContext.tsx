@@ -84,6 +84,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
             })
             .catch()
         }
+        return currentPath
       }
       default:
         return currentPath

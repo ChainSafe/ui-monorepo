@@ -36,21 +36,17 @@ const UploadProgressModals: React.FC = () => {
   const desktop = useMediaQuery(breakpoints.up("sm"))
 
   return (
-    <>
-      <div className={classes.root}>
-        {uploadsInProgress.map(
-          (uploadInProgress) =>
-            (desktop ||
-              uploadInProgress.complete ||
-              uploadInProgress.error) && (
-              <UploadBox
-                key={uploadInProgress.id}
-                uploadInProgress={uploadInProgress}
-              />
-            ),
-        )}
-      </div>
-    </>
+    <div className={classes.root}>
+      {uploadsInProgress.map(
+        (uploadInProgress) =>
+          (desktop || uploadInProgress.complete || uploadInProgress.error) && (
+            <UploadBox
+              key={uploadInProgress.id}
+              uploadInProgress={uploadInProgress}
+            />
+          ),
+      )}
+    </div>
   )
 }
 
