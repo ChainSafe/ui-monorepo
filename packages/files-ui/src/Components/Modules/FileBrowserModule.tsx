@@ -531,9 +531,9 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
                     align="left"
                     onClick={() => {
                       file.content_type ===
-                        "application/chainsafe-files-directory" && !editing
+                      "application/chainsafe-files-directory"
                         ? updateCurrentPath(`${currentPath}${file.name}`)
-                        : setPreviewFileIndex(files?.indexOf(file))
+                        : !editing && setPreviewFileIndex(files?.indexOf(file))
                     }}
                   >
                     {editing === file.cid && desktop ? (
