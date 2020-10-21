@@ -5,7 +5,7 @@ import {
   useMediaQuery,
   useTheme,
 } from "@imploy/common-themes"
-import React, { Fragment, useEffect } from "react"
+import React, { Fragment } from "react"
 import {
   CheckboxInput,
   DeleteIcon,
@@ -34,6 +34,7 @@ import {
   Typography,
   Breadcrumb,
   Crumb,
+  CircularProgressBar,
 } from "@imploy/common-components"
 import { useState } from "react"
 import { useMemo } from "react"
@@ -45,6 +46,7 @@ import CreateFolderModule from "./CreateFolderModule"
 import UploadFileModule from "./UploadFileModule"
 import FilePreviewModal from "./FilePreviewModal"
 import { getArrayOfPaths, getPathFromArray } from "../../Utils/pathUtils"
+import UploadProgressModals from "./UploadProgressModals"
 
 const useStyles = makeStyles(({ breakpoints, constants, palette }: ITheme) => {
   const desktopGridSettings = "50px 69px 3fr 190px 100px 45px !important"
@@ -62,7 +64,7 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: ITheme) => {
       justifyContent: "space-between",
       alignItems: "center",
       [breakpoints.down("sm")]: {
-        marginTop: constants.generalUnit * 3,
+        marginTop: constants.generalUnit,
       },
     },
     controls: {
@@ -77,6 +79,10 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: ITheme) => {
     breadCrumbContainer: {
       margin: `${constants.generalUnit * 2}px 0`,
       height: 22,
+      [breakpoints.down("sm")]: {
+        marginTop: constants.generalUnit * 3,
+        marginBottom: 0,
+      },
     },
     divider: {
       "&:before, &:after": {
@@ -115,6 +121,12 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: ITheme) => {
       "& svg": {
         width: constants.generalUnit * 2.5,
       },
+    },
+    progressIcon: {
+      display: "flex",
+      flexDirection: "row",
+      alignItems: "center",
+      justifyContent: "center",
     },
     renameInput: {
       margin: 0,
@@ -160,6 +172,7 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
     currentPath,
     updateCurrentPath,
     pathContents,
+    uploadsInProgress,
   } = useDrive()
   const [editing, setEditing] = useState<string | undefined>()
   const [direction, setDirection] = useState<SortDirection>("descend")
@@ -442,6 +455,35 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
             </TableHead>
           )}
           <TableBody>
+            {!desktop &&
+              uploadsInProgress
+                .filter(
+                  (uploadInProgress) =>
+                    uploadInProgress.path === currentPath &&
+                    !uploadInProgress.complete &&
+                    !uploadInProgress.error,
+                )
+                .map((uploadInProgress) => (
+                  <TableRow
+                    key={uploadInProgress.id}
+                    className={classes.tableRow}
+                    type="grid"
+                  >
+                    <TableCell className={classes.progressIcon}>
+                      <CircularProgressBar
+                        progress={uploadInProgress.progress}
+                        size="small"
+                        width={15}
+                      />
+                    </TableCell>
+                    <TableCell align="left">
+                      {uploadInProgress.noOfFiles > 1
+                        ? `Uploading ${uploadInProgress.noOfFiles} files`
+                        : uploadInProgress.fileName}
+                    </TableCell>
+                    <TableCell />
+                  </TableRow>
+                ))}
             {items.map((file: IFile, index: number) => {
               let Icon
               if (
@@ -602,6 +644,7 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
           previousFile={previewFileIndex > 0 ? setPreviousPreview : undefined}
         />
       )}
+      <UploadProgressModals />
     </article>
   )
 }
