@@ -3,20 +3,33 @@ import {
   FilesMvRequest,
   FilesPathRequest,
   FilesRmRequest,
-  FilesUploadResponse,
 } from "@imploy/api-client"
-import React, { useCallback, useEffect } from "react"
+import React, { useCallback, useEffect, useReducer } from "react"
 import { useState } from "react"
 import { useImployApi } from "@imploy/common-contexts"
 import dayjs from "dayjs"
+import { v4 as uuidv4 } from "uuid"
 import { useToaster } from "@imploy/common-components"
+import { uploadsInProgressReducer } from "./DriveReducer"
 
 type DriveContextProps = {
   children: React.ReactNode | React.ReactNode[]
 }
 
+export type UploadProgress = {
+  id: string
+  fileName: string
+  progress: number
+  error: boolean
+  complete: boolean
+  noOfFiles: number
+  path: string
+}
+
 type DriveContext = {
-  uploadFile(file: File, path: string): Promise<FilesUploadResponse>
+  // Upload file
+  uploadFile(file: File, path: string): void
+  // Create folder
   createFolder(body: FilesPathRequest): Promise<FileContentResponse>
   renameFile(body: FilesMvRequest): Promise<void>
   moveFile(body: FilesMvRequest): Promise<void>
@@ -27,6 +40,9 @@ type DriveContext = {
   currentPath: string
   updateCurrentPath(newPath: string): void
   pathContents: IFile[]
+  // uploads in progress
+  uploadsInProgress: UploadProgress[]
+  // space used by user in bytes
   spaceUsed: number
 }
 
@@ -34,37 +50,68 @@ interface IFile extends FileContentResponse {
   date_uploaded: number // This can be removed when date is added to the schema
 }
 
+const REMOVE_UPLOAD_PROGRESS_DELAY = 5000
+
 const DriveContext = React.createContext<DriveContext | undefined>(undefined)
 
 const DriveProvider = ({ children }: DriveContextProps) => {
   const { imployApiClient, isLoggedIn } = useImployApi()
   const { addToastMessage } = useToaster()
 
-  const [currentPath, setCurrentPath] = useState<string>("/")
+  const refreshContents = useCallback(
+    async (path: string) => {
+      try {
+        const newContents = await imployApiClient?.getCSFChildList({
+          path,
+        })
+
+        if (newContents) {
+          // Remove this when the API returns dates
+          setPathContents(
+            newContents?.map((fcr) => ({
+              ...fcr,
+              date_uploaded: dayjs().subtract(2, "hour").unix() * 1000,
+            })),
+          )
+        }
+      } catch (error) {}
+    },
+    [imployApiClient],
+  )
+
+  const currentPathReducer = (
+    currentPath: string,
+    action:
+      | { type: "add"; payload: string }
+      | { type: "refreshOnSamePath"; payload: string },
+  ): string => {
+    switch (action.type) {
+      case "add": {
+        return action.payload
+      }
+      case "refreshOnSamePath": {
+        // check user has not navigated to other folder
+        // using then catch as awaits won't working in reducer
+        if (action.payload === currentPath) {
+          refreshContents(currentPath)
+        }
+        return currentPath
+      }
+      default:
+        return currentPath
+    }
+  }
+  const [currentPath, dispatchCurrentPath] = useReducer(currentPathReducer, "/")
+
   const [pathContents, setPathContents] = useState<IFile[]>([])
   const [spaceUsed, setSpaceUsed] = useState(0)
 
-  const refreshContents = useCallback(async () => {
-    try {
-      const newContents = await imployApiClient?.getCSFChildList({
-        path: currentPath,
-      })
-
-      if (newContents) {
-        // Remove this when the API returns dates
-        setPathContents(
-          newContents?.map((fcr) => ({
-            ...fcr,
-            date_uploaded: dayjs().subtract(2, "hour").unix() * 1000,
-          })),
-        )
-      }
-    } catch (error) {}
-  }, [imployApiClient, currentPath])
+  const setCurrentPath = (newPath: string) =>
+    dispatchCurrentPath({ type: "add", payload: newPath })
 
   useEffect(() => {
     if (isLoggedIn) {
-      refreshContents()
+      refreshContents(currentPath)
     }
   }, [imployApiClient, refreshContents, currentPath, isLoggedIn])
 
@@ -80,37 +127,75 @@ const DriveProvider = ({ children }: DriveContextProps) => {
     }
   }, [imployApiClient, pathContents, isLoggedIn])
 
-  const uploadFile = async (file: File, path: string) => {
-    try {
-      addToastMessage({
-        message: "Uploading file",
-        appearance: "info",
-      })
-      const fileParam = {
-        data: file,
-        fileName: file.name,
-      }
+  const [uploadsInProgress, dispatchUploadsInProgress] = useReducer(
+    uploadsInProgressReducer,
+    [],
+  )
 
-      const result = await imployApiClient.addCSFFiles(fileParam, path)
-      await refreshContents()
-      addToastMessage({
-        message: "File upload successful",
-        appearance: "success",
-      })
-      return result
-    } catch (error) {
-      addToastMessage({
-        message: "There was an error uploading this file",
-        appearance: "error",
-      })
-      return Promise.reject(error)
+  const uploadFile = async (file: File, path: string) => {
+    const startUploadFile = async () => {
+      const id = uuidv4()
+      const uploadProgress: UploadProgress = {
+        id,
+        fileName: file.name,
+        complete: false,
+        error: false,
+        noOfFiles: 1,
+        progress: 0,
+        path,
+      }
+      dispatchUploadsInProgress({ type: "add", payload: uploadProgress })
+      try {
+        const fileParam = {
+          data: file,
+          fileName: file.name,
+        }
+        // API call
+
+        const result = await imployApiClient.addCSFFiles(
+          fileParam,
+          path,
+          undefined,
+          (progressEvent: { loaded: number; total: number }) => {
+            dispatchUploadsInProgress({
+              type: "progress",
+              payload: {
+                id,
+                progress: Math.ceil(
+                  (progressEvent.loaded / progressEvent.total) * 100,
+                ),
+              },
+            })
+          },
+        )
+
+        // refresh contents
+        // using reducer because user may navigate to other paths
+        // need to check currentPath and upload path is same
+        dispatchCurrentPath({ type: "refreshOnSamePath", payload: path })
+
+        // setting complete
+        dispatchUploadsInProgress({ type: "complete", payload: { id } })
+        setTimeout(() => {
+          dispatchUploadsInProgress({ type: "remove", payload: { id } })
+        }, REMOVE_UPLOAD_PROGRESS_DELAY)
+
+        return result
+      } catch (error) {
+        // setting error
+        dispatchUploadsInProgress({ type: "error", payload: { id } })
+        setTimeout(() => {
+          dispatchUploadsInProgress({ type: "remove", payload: { id } })
+        }, REMOVE_UPLOAD_PROGRESS_DELAY)
+      }
     }
+    startUploadFile()
   }
 
   const createFolder = async (body: FilesPathRequest) => {
     try {
       const result = await imployApiClient.addCSFDirectory(body)
-      await refreshContents()
+      await refreshContents(currentPath)
       addToastMessage({
         message: "Folder created successfully",
         appearance: "success",
@@ -128,7 +213,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
   const renameFile = async (body: FilesMvRequest) => {
     try {
       await imployApiClient.moveCSFObject(body)
-      await refreshContents()
+      await refreshContents(currentPath)
       addToastMessage({
         message: "File renamed successfully",
         appearance: "success",
@@ -146,7 +231,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
   const moveFile = async (body: FilesMvRequest) => {
     try {
       await imployApiClient.moveCSFObject(body)
-      await refreshContents()
+      await refreshContents(currentPath)
       addToastMessage({
         message: "File moved successfully",
         appearance: "success",
@@ -164,7 +249,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
   const deleteFile = async (body: FilesRmRequest) => {
     try {
       await imployApiClient.removeCSFObjects(body)
-      await refreshContents()
+      await refreshContents(currentPath)
       addToastMessage({
         message: "File deleted successfully",
         appearance: "success",
@@ -242,6 +327,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
             ? setCurrentPath(`${newPath}`)
             : setCurrentPath(`${newPath}/`),
         pathContents,
+        uploadsInProgress,
         spaceUsed,
       }}
     >
