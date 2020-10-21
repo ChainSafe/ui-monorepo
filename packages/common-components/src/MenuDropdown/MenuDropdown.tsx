@@ -41,29 +41,38 @@ const useStyles = makeStyles(
         height: 14,
         width: 14,
         padding: 0,
+        position: "relative",
         // Can create animation variant here
-        "&.none": {},
+        "&.none": {
+          "& svg": {
+            transform: "translateY(-50%)",
+          },
+        },
         "&.flip": {
           "& svg": {
-            transform: "rotateX(0deg)",
+            top: "50%",
+            transform: "translateY(-50%) rotateX(0deg)",
           },
           "&.open svg": {
-            transform: "rotateX(180deg)",
+            transform: "translateY(-50%) rotateX(180deg)",
           },
           ...overrides?.MenuDropdown?.icon?.flip,
         },
         "&.rotate": {
           "& svg": {
-            transform: "rotateZ(0deg)",
+            transform: "translateY(-50%) rotateZ(0deg)",
           },
           "&.open svg": {
-            transform: "rotateZ(180deg)",
+            transform: "translateY(-50%) rotateZ(180deg)",
           },
           ...overrides?.MenuDropdown?.icon?.rotate,
         },
         "& svg": {
           height: 14,
           width: 14,
+          top: "50%",
+          left: 0,
+          position: "absolute",
           transitionDuration: `${animation.transform}ms`,
         },
         ...overrides?.MenuDropdown?.icon?.root,
