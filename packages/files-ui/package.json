@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "@chainsafe/web3-context": "1.0.4",
-    "@sentry/react": "^5.26.0",
+    "@sentry/react": "^5.27.0",
     "@types/yup": "^0.29.8",
     "bnc-onboard": "^1.14.0",
     "clsx": "^1.1.1",
@@ -26,7 +26,7 @@
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.8",
     "@types/jest": "^26.0.14",
-    "@types/node": "^14.11.10",
+    "@types/node": "^14.14.0",
     "@types/react": "^16.9.53",
     "@types/react-dom": "^16.9.0",
     "@types/react-toast-notifications": "^2.4.0",

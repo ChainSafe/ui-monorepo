@@ -7,6 +7,7 @@ import {
 } from "@imploy/common-themes"
 import React, { Fragment } from "react"
 import {
+  Button,
   CheckboxInput,
   DeleteIcon,
   Divider,
@@ -44,6 +45,7 @@ import { object, string } from "yup"
 import EmptySvg from "../../Media/Empty.svg"
 import CreateFolderModule from "./CreateFolderModule"
 import UploadFileModule from "./UploadFileModule"
+import CustomModal from "../Elements/CustomModal"
 import FilePreviewModal from "./FilePreviewModal"
 import { getArrayOfPaths, getPathFromArray } from "../../Utils/pathUtils"
 import UploadProgressModals from "./UploadProgressModals"
@@ -129,8 +131,13 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: ITheme) => {
       justifyContent: "center",
     },
     renameInput: {
-      margin: 0,
       width: "100%",
+      [breakpoints.up("sm")]: {
+        margin: 0,
+      },
+      [breakpoints.down("sm")]: {
+        margin: `${constants.generalUnit * 4.2}px 0`,
+      },
     },
     menuIcon: {
       display: "flex",
@@ -151,6 +158,45 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: ITheme) => {
       },
     },
     mobileButton: {},
+    renameModal: {
+      padding: constants.generalUnit * 4,
+    },
+    okButton: {
+      marginLeft: constants.generalUnit,
+      color: palette.common.white.main,
+      backgroundColor: palette.common.black.main,
+    },
+    cancelButton: {
+      [breakpoints.down("sm")]: {
+        position: "fixed",
+        bottom: 0,
+        left: 0,
+        width: "100%",
+        height: constants?.mobileButtonHeight,
+      },
+    },
+    modalRoot: {
+      [breakpoints.down("sm")]: {},
+    },
+    modalInner: {
+      [breakpoints.down("sm")]: {
+        bottom:
+          (constants?.mobileButtonHeight as number) + constants.generalUnit,
+        borderTopLeftRadius: `${constants.generalUnit * 1.5}px`,
+        borderTopRightRadius: `${constants.generalUnit * 1.5}px`,
+        borderBottomLeftRadius: `${constants.generalUnit * 1.5}px`,
+        borderBottomRightRadius: `${constants.generalUnit * 1.5}px`,
+      },
+    },
+    renameHeader: {
+      textAlign: "center",
+    },
+    renameFooter: {
+      display: "flex",
+      flexDirection: "row",
+      alignItems: "center",
+      justifyContent: "flex-end",
+    },
   })
 })
 
@@ -527,9 +573,9 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
                     align="left"
                     onClick={() => {
                       file.content_type ===
-                        "application/chainsafe-files-directory" && !editing
+                      "application/chainsafe-files-directory"
                         ? updateCurrentPath(`${currentPath}${file.name}`)
-                        : setPreviewFileIndex(files?.indexOf(file))
+                        : !editing && setPreviewFileIndex(files?.indexOf(file))
                     }}
                   >
                     {editing === file.cid && desktop ? (
@@ -554,6 +600,63 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
                           />
                         </Form>
                       </Formik>
+                    ) : editing === file.cid && !desktop ? (
+                      <CustomModal
+                        className={classes.modalRoot}
+                        injectedClass={{
+                          inner: classes.modalInner,
+                        }}
+                        closePosition="none"
+                        active={editing === file.cid}
+                        setActive={() => setEditing("")}
+                      >
+                        <Formik
+                          initialValues={{
+                            fileName: file.name,
+                          }}
+                          validationSchema={RenameSchema}
+                          onSubmit={(values, actions) => {
+                            handleRename(
+                              `${currentPath}${file.name}`,
+                              `${currentPath}${values.fileName}`,
+                            )
+                          }}
+                        >
+                          <Form className={classes.renameModal}>
+                            <Typography
+                              className={classes.renameHeader}
+                              component="p"
+                              variant="h5"
+                            >
+                              Rename File/Folder
+                            </Typography>
+                            <FormikTextInput
+                              label="Name"
+                              className={classes.renameInput}
+                              name="fileName"
+                              placeholder="Please enter a file name"
+                            />
+                            <footer className={classes.renameFooter}>
+                              <Button
+                                onClick={() => setEditing("")}
+                                size="medium"
+                                className={classes.cancelButton}
+                                variant="outline"
+                                type="button"
+                              >
+                                Cancel
+                              </Button>
+                              <Button
+                                size="medium"
+                                type="submit"
+                                className={classes.okButton}
+                              >
+                                Update
+                              </Button>
+                            </footer>
+                          </Form>
+                        </Formik>
+                      </CustomModal>
                     ) : (
                       file.name
                     )}

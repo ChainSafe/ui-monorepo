@@ -1,4 +1,4 @@
-import { DeepPartial } from "ts-essentials/dist/types"
+import { DeepPartial } from "ts-essentials"
 
 import { DefaultThemeConfig } from "../Defaults/ThemeConfig"
 import { IComponentOverrides } from "../Overrides"

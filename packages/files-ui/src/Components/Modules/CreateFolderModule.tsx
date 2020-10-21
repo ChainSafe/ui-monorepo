@@ -23,7 +23,6 @@ import CustomButton from "../Elements/CustomButton"
 
 const useStyles = makeStyles(
   ({ breakpoints, constants, palette, typography }: ITheme) => {
-    const mobileButtonHeight = 44
     return createStyles({
       root: {
         padding: constants.generalUnit * 4,
@@ -33,7 +32,8 @@ const useStyles = makeStyles(
       },
       modalInner: {
         [breakpoints.down("sm")]: {
-          bottom: mobileButtonHeight + constants.generalUnit,
+          bottom:
+            (constants?.mobileButtonHeight as number) + constants.generalUnit,
           borderTopLeftRadius: `${constants.generalUnit * 1.5}px`,
           borderTopRightRadius: `${constants.generalUnit * 1.5}px`,
         },
@@ -53,7 +53,7 @@ const useStyles = makeStyles(
           bottom: 0,
           left: 0,
           width: "100%",
-          height: mobileButtonHeight,
+          height: constants?.mobileButtonHeight,
         },
       },
       label: {
