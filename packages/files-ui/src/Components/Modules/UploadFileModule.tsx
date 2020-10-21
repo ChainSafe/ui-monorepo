@@ -86,8 +86,8 @@ const UploadFileModule: React.FC<IUploadFileModuleProps> = ({
             helpers.setSubmitting(true)
             try {
               handleCloseDialog()
-              helpers.resetForm()
               uploadFile(values.files[0], currentPath)
+              helpers.resetForm()
             } catch (errors) {
               if (errors[0].message.includes("conflict with existing")) {
                 helpers.setFieldError("files", "File/Folder exists")
