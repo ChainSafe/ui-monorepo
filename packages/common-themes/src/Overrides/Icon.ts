@@ -4,5 +4,6 @@ export interface IIconOverride {
     small?: Record<string, any>
     medium?: Record<string, any>
     large?: Record<string, any>
+    extraLarge?: Record<string, any>
   }
 }

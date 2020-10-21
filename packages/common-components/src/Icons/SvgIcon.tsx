@@ -44,6 +44,10 @@ const useStyles = makeStyles(
         fontSize: `${constants.generalUnit * 4}px`,
         ...overrides?.Icons?.size?.large,
       },
+      sizeExtraLarge: {
+        fontSize: `${constants.generalUnit * 6}px`,
+        ...overrides?.Icons?.size?.extraLarge,
+      },
     }),
 )
 

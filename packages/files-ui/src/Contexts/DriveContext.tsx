@@ -11,6 +11,7 @@ import dayjs from "dayjs"
 import { v4 as uuidv4 } from "uuid"
 import { useToaster } from "@imploy/common-components"
 import { uploadsInProgressReducer } from "./DriveReducer"
+import { guessContentType } from "../Utils/contentTypeGuesser"
 
 type DriveContextProps = {
   children: React.ReactNode | React.ReactNode[]
@@ -71,6 +72,10 @@ const DriveProvider = ({ children }: DriveContextProps) => {
             newContents?.map((fcr) => ({
               ...fcr,
               date_uploaded: dayjs().subtract(2, "hour").unix() * 1000,
+              content_type:
+                fcr.content_type !== "application/octet-stream"
+                  ? fcr.content_type
+                  : guessContentType(fcr.name),
             })),
           )
         }

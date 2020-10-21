@@ -24,13 +24,18 @@ import {
   ShareAltIcon,
   CloseCircleIcon,
 } from "@imploy/common-components"
+import ImagePreview from "./PreviewRenderers/ImagePreview"
 
-const SUPPORTED_FILE_TYPES: Record<string, ReactNode> = {
-  "application/pdf": <div>PDF Preview coming soon</div>,
-  "image/*": <div>Image Previews coming soon</div>,
-  "audio/*": <div>Audio Previews coming soon</div>,
-  "video/*": <div>Video Previews coming soon</div>,
-  "text/*": <div>Text Previews coming soon</div>,
+export interface IPreviewRendererProps {
+  contents: Blob
+}
+
+const SUPPORTED_FILE_TYPES: Record<string, React.FC<IPreviewRendererProps>> = {
+  // "application/pdf": <div>PDF Preview coming soon</div>,
+  "image/*": ImagePreview,
+  // "audio/*": <div>Audio Previews coming soon</div>,
+  // "video/*": <div>Video Previews coming soon</div>,
+  // "text/*": <div>Text Previews coming soon</div>,
 }
 
 const compatibleFilesMatcher = new MimeMatcher(
@@ -56,7 +61,8 @@ const useStyles = makeStyles(({ constants, palette }: ITheme) =>
       alignItems: "center",
       left: 0,
       top: 0,
-      width: 643,
+      width: "100%",
+      maxWidth: 643,
       height: 65,
       backgroundColor: palette.additional["gray"][9],
       color: palette.additional["gray"][3],
@@ -88,6 +94,7 @@ const useStyles = makeStyles(({ constants, palette }: ITheme) =>
     previewContainer: {
       height: "100%",
       alignItems: "center",
+      textAlign: "center",
     },
     prevNext: {
       alignItems: "center",
@@ -151,10 +158,7 @@ const FilePreviewModal: React.FC<{
   }, [file])
 
   const PreviewComponent =
-    file &&
-    file.content_type &&
-    fileContent &&
-    SUPPORTED_FILE_TYPES[file.content_type]
+    file && file.content_type && fileContent && SUPPORTED_FILE_TYPES["image/*"]
 
   return !file ? null : (
     <div className={classes.root}>
@@ -163,7 +167,11 @@ const FilePreviewModal: React.FC<{
           onClick={closePreview}
           className={classes.closePreviewButton}
         />
-        <Typography variant="h4" component="h1" className={classes.fileName}>
+        <Typography
+          variant={desktop ? "h4" : "h5"}
+          component="h1"
+          className={classes.fileName}
+        >
           {file.name}
         </Typography>
         <MenuDropdown
@@ -242,8 +250,10 @@ const FilePreviewModal: React.FC<{
             !error &&
             !compatibleFilesMatcher.match(file?.content_type) && (
               <div className={classes.previewContent}>
-                <CloseCircleIcon />
+                <CloseCircleIcon fontSize={desktop ? "extraLarge" : "medium"} />
+                <br />
                 <Typography variant="h1">File format not supported.</Typography>
+                <br />
                 <Button
                   className={classes.downloadButton}
                   onClick={() => downloadFile(file.name)}
@@ -256,7 +266,7 @@ const FilePreviewModal: React.FC<{
             !error &&
             compatibleFilesMatcher.match(file?.content_type) &&
             fileContent &&
-            PreviewComponent}
+            PreviewComponent && <PreviewComponent contents={fileContent} />}
         </Grid>
         {desktop && (
           <Grid item sm={1} md={1} lg={1} xl={1} className={classes.prevNext}>
