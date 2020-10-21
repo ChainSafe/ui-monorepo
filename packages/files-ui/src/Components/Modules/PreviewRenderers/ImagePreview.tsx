@@ -1,14 +1,41 @@
 import React from "react"
 import { IPreviewRendererProps } from "../FilePreviewModal"
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch"
-import { makeStyles, ITheme, createStyles } from "@imploy/common-themes"
-import classes from "*.module.css"
+import {
+  makeStyles,
+  ITheme,
+  createStyles,
+  useMediaQuery,
+  useTheme,
+} from "@imploy/common-themes"
+import {
+  Button,
+  ZoomInIcon,
+  ZoomOutIcon,
+  FullscreenIcon,
+  PrinterIcon,
+} from "@imploy/common-components"
 
-const useStyles = makeStyles(({ constants, palette }: ITheme) =>
+const useStyles = makeStyles(({ constants, palette, zIndex }: ITheme) =>
   createStyles({
     root: {
       width: "100%",
       height: "100%",
+    },
+    controlsContainer: {
+      position: "absolute",
+      zIndex: zIndex?.layer1,
+
+      display: "flex",
+      flexDirection: "row",
+      top: 0,
+      right: 0,
+      height: constants.generalUnit * 8,
+      backgroundColor: palette.additional["gray"][9],
+      color: palette.additional["gray"][3],
+      borderWidth: 1,
+      borderStyle: "solid",
+      borderColor: palette.additional["gray"][8],
     },
   }),
 )
@@ -16,6 +43,10 @@ const useStyles = makeStyles(({ constants, palette }: ITheme) =>
 const ImagePreview: React.FC<IPreviewRendererProps> = ({ contents }) => {
   const imageUrl = URL.createObjectURL(contents)
   const classes = useStyles()
+  const { breakpoints }: ITheme = useTheme()
+
+  const desktop = useMediaQuery(breakpoints.up("sm"))
+
   return (
     <TransformWrapper
       options={{
@@ -25,10 +56,28 @@ const ImagePreview: React.FC<IPreviewRendererProps> = ({ contents }) => {
     >
       {
         //@ts-ignore
-        ({ zoomIn, zoomOut, resetTransform, ...rest }) => (
-          <TransformComponent>
-            <img src={imageUrl} alt="" className={classes.root} />
-          </TransformComponent>
+        ({ zoomIn, zoomOut, resetTransform }) => (
+          <>
+            {desktop && (
+              <div className={classes.controlsContainer}>
+                <Button onClick={zoomIn}>
+                  <ZoomInIcon />
+                </Button>
+                <Button onClick={zoomOut}>
+                  <ZoomOutIcon />
+                </Button>
+                <Button onClick={resetTransform}>
+                  <FullscreenIcon />
+                </Button>
+                <Button disabled>
+                  <PrinterIcon />
+                </Button>
+              </div>
+            )}
+            <TransformComponent>
+              <img src={imageUrl} alt="" className={classes.root} />
+            </TransformComponent>
+          </>
         )
       }
     </TransformWrapper>

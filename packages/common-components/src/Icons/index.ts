@@ -51,6 +51,10 @@ export { default as FilePdfIcon, FilePdfSvg } from "./icons/FilePdf.icon"
 export { default as FileTextIcon, FileTextSvg } from "./icons/FileText.icon"
 export { default as FolderIcon, FolderSvg } from "./icons/Folder.icon"
 export {
+  default as FullscreenIcon,
+  FullscreenSvg,
+} from "./icons/Fullscreen.icon"
+export {
   default as GithubLogoIcon,
   GithubLogoSvg,
 } from "./icons/GithubLogo.icon"
@@ -66,6 +70,7 @@ export {
 export { default as MoreIcon, MoreSvg } from "./icons/More.icon"
 export { default as LockIcon, LockSvg } from "./icons/Lock.icon"
 export { default as PaperclipIcon, PaperclipSvg } from "./icons/Paperclip.icon"
+export { default as PrinterIcon, PrinterSvg } from "./icons/Printer.icon"
 export { default as PlusIcon, PlusSvg } from "./icons/Plus.icon"
 export {
   default as PlusCircleIcon,
@@ -78,3 +83,5 @@ export { default as ShareAltIcon, ShareAltSvg } from "./icons/ShareAlt.icon"
 export { default as StarIcon, StarSvg } from "./icons/Star.icon"
 export { default as UploadIcon, UploadSvg } from "./icons/Upload.icon"
 export { default as UserIcon, UserSvg } from "./icons/User.icon"
+export { default as ZoomInIcon, ZoomInSvg } from "./icons/ZoomIn.icon"
+export { default as ZoomOutIcon, ZoomOutSvg } from "./icons/ZoomOut.icon"

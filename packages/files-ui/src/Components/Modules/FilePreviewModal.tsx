@@ -43,7 +43,7 @@ const compatibleFilesMatcher = new MimeMatcher(
   ...Object.keys(SUPPORTED_FILE_TYPES),
 )
 
-const useStyles = makeStyles(({ constants, palette }: ITheme) =>
+const useStyles = makeStyles(({ constants, palette, zIndex }: ITheme) =>
   createStyles({
     root: {
       height: "100%",
@@ -57,6 +57,7 @@ const useStyles = makeStyles(({ constants, palette }: ITheme) =>
     },
     previewModalControls: {
       position: "absolute",
+      zIndex: zIndex?.layer1,
       display: "flex",
       flexDirection: "row",
       alignItems: "center",
@@ -64,7 +65,7 @@ const useStyles = makeStyles(({ constants, palette }: ITheme) =>
       top: 0,
       width: "100%",
       maxWidth: 643,
-      height: 65,
+      height: constants.generalUnit * 8,
       backgroundColor: palette.additional["gray"][9],
       color: palette.additional["gray"][3],
       borderWidth: 1,
@@ -119,6 +120,12 @@ const useStyles = makeStyles(({ constants, palette }: ITheme) =>
       borderWidth: 1,
       borderStyle: "solid",
     },
+    swipeContainer: {
+      width: "100%",
+      height: "100%",
+      display: "flex",
+      justifyContent: "center",
+    },
   }),
 )
 
@@ -138,8 +145,9 @@ const FilePreviewModal: React.FC<{
   const [error, setError] = useState<string | undefined>(undefined)
   const [fileContent, setFileContent] = useState<Blob | undefined>(undefined)
   const handlers = useSwipeable({
-    onSwipedLeft: () => previousFile && previousFile(),
-    onSwipedRight: () => nextFile && nextFile(),
+    onSwipedLeft: () => previousFile && !isLoading && previousFile(),
+    onSwipedRight: () => nextFile && !isLoading && nextFile(),
+    delta: 20,
   })
   useEffect(() => {
     const getContents = async () => {
@@ -248,7 +256,7 @@ const FilePreviewModal: React.FC<{
           </Grid>
         )}
         <Grid item xs={12} sm={10} md={10} lg={10} xl={10} alignItems="center">
-          <div {...handlers}>
+          <div {...handlers} className={classes.swipeContainer}>
             {isLoading && <div>Loading</div>}
             {error && <div>{error}</div>}
             {!isLoading &&
