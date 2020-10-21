@@ -10,7 +10,7 @@ import createThemeConfig, {
 } from "./CreateThemeConfig"
 import createMixins, { MixinConfig } from "./CreateMixins"
 import { DefaultGlobalStyling } from "../Defaults/GlobalStyling"
-import { DeepPartial } from "ts-essentials/dist/types"
+import { DeepPartial } from "ts-essentials"
 
 interface ITheme extends IThemeConfig {
   mixins: MixinConfig
