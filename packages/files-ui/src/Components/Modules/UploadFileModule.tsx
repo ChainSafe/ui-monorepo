@@ -52,7 +52,7 @@ const UploadFileModule: React.FC<IUploadFileModuleProps> = ({
   ...rest
 }: IUploadFileModuleProps) => {
   const classes = useStyles()
-  const { uploadFile, currentPath } = useDrive()
+  const { uploadFiles, currentPath } = useDrive()
   const [open, setOpen] = useState(false)
 
   const handleCloseDialog = () => setOpen(false)
@@ -60,7 +60,6 @@ const UploadFileModule: React.FC<IUploadFileModuleProps> = ({
   const UploadSchema = object().shape({
     files: array()
       .min(1, "Please select a file")
-      .max(1, "File limit exceeded")
       .required("Please select a file to upload"),
   })
 
@@ -86,7 +85,8 @@ const UploadFileModule: React.FC<IUploadFileModuleProps> = ({
             helpers.setSubmitting(true)
             try {
               handleCloseDialog()
-              uploadFile(values.files[0], currentPath)
+              debugger
+              uploadFiles(values.files, currentPath)
               helpers.resetForm()
             } catch (errors) {
               if (errors[0].message.includes("conflict with existing")) {
@@ -100,7 +100,7 @@ const UploadFileModule: React.FC<IUploadFileModuleProps> = ({
         >
           <Form className={classes.root}>
             <FileInput
-              multiple={false}
+              multiple={true}
               className={classes.input}
               label="Upload Files and Folders"
               name="files"
