@@ -228,7 +228,7 @@ const useStyles = makeStyles(
           "& input": {
             padding: `${constants.generalUnit * 0.625}px ${
               constants.generalUnit * 1.5
-            }`,
+            }px`,
             fontSize: 16,
             lineHeight: "20px",
           },

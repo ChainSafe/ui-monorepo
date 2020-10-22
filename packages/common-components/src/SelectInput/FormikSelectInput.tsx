@@ -1,8 +1,8 @@
 import React from "react"
 import { useField } from "formik"
-import SelectInput, { ISelectOption } from "./SelectInput"
+import SelectInput, { ISelectInputProps, ISelectOption } from "./SelectInput"
 
-interface IFormikSelectInputProps {
+interface IFormikSelectInputProps extends Omit<ISelectInputProps, "onChange"> {
   className?: string
   name: string
   options: ISelectOption[]

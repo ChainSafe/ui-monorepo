@@ -77,6 +77,10 @@ export {
   PlusCircleSvg,
 } from "./icons/PlusCircle.icon"
 export { default as PowerDownIcon, PowerDownSvg } from "./icons/PowerDown.icon"
+export {
+  default as QuestionCircleIcon,
+  QuestionCircleSvg,
+} from "./icons/QuestionCircle.icon"
 export { default as SearchIcon, SearchSvg } from "./icons/Search.icon"
 export { default as SettingIcon, SettingSvg } from "./icons/Setting.icon"
 export { default as ShareAltIcon, ShareAltSvg } from "./icons/ShareAlt.icon"
