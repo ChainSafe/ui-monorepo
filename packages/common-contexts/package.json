@@ -14,7 +14,7 @@
     "start": "rollup -c -w"
   },
   "dependencies": {
-    "@imploy/api-client": "1.2.6",
+    "@imploy/api-client": "1.2.7",
     "axios": "^0.20.0",
     "uuid": "^8.3.1"
   },

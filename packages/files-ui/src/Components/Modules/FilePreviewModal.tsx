@@ -24,94 +24,110 @@ import {
   ShareAltIcon,
   CloseCircleIcon,
 } from "@imploy/common-components"
+import ImagePreview from "./PreviewRenderers/ImagePreview"
+import { useSwipeable } from "react-swipeable"
 
-const SUPPORTED_FILE_TYPES: Record<string, ReactNode> = {
-  "application/pdf": <div>PDF Preview coming soon</div>,
-  "image/*": <div>Image Previews coming soon</div>,
-  "audio/*": <div>Audio Previews coming soon</div>,
-  "video/*": <div>Video Previews coming soon</div>,
-  "text/*": <div>Text Previews coming soon</div>,
+export interface IPreviewRendererProps {
+  contents: Blob
+}
+
+const SUPPORTED_FILE_TYPES: Record<string, React.FC<IPreviewRendererProps>> = {
+  // "application/pdf": <div>PDF Preview coming soon</div>,
+  "image/*": ImagePreview,
+  // "audio/*": <div>Audio Previews coming soon</div>,
+  // "video/*": <div>Video Previews coming soon</div>,
+  // "text/*": <div>Text Previews coming soon</div>,
 }
 
 const compatibleFilesMatcher = new MimeMatcher(
   ...Object.keys(SUPPORTED_FILE_TYPES),
 )
 
-const useStyles = makeStyles(({ constants, palette }: ITheme) =>
-  createStyles({
-    root: {
-      height: "100%",
-      width: "100%",
-      position: "fixed",
-      zIndex: 1,
-      left: 0,
-      top: 0,
-      backgroundColor: "rgba(0,0,0, 0.88)",
-      overflowX: "hidden",
-    },
-    previewModalControls: {
-      position: "absolute",
-      display: "flex",
-      flexDirection: "row",
-      alignItems: "center",
-      left: 0,
-      top: 0,
-      width: 643,
-      height: 65,
-      backgroundColor: palette.additional["gray"][9],
-      color: palette.additional["gray"][3],
-      borderWidth: 1,
-      borderStyle: "solid",
-      borderColor: palette.additional["gray"][8],
-    },
-    closePreviewButton: {
-      marginRight: constants.generalUnit * 2,
-      marginLeft: constants.generalUnit * 2,
-      fill: palette.additional["gray"][2],
-    },
-    fileOperationsMenu: {
-      fill: palette.additional["gray"][2],
-    },
-    fileName: {
-      width: "100%",
-      whiteSpace: "nowrap",
-      overflow: "hidden",
-      textOverflow: "ellipsis",
-    },
-    menuIcon: {
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
-      width: 20,
-      marginRight: constants.generalUnit * 1.5,
-    },
-    previewContainer: {
-      height: "100%",
-      alignItems: "center",
-    },
-    prevNext: {
-      alignItems: "center",
-    },
-    prevNextButton: {
-      backgroundColor: palette.common.black.main,
-      padding: `${constants.generalUnit * 2}px !important`,
-      borderRadius: constants.generalUnit * 4,
-    },
-    previewContent: {
-      color: palette.additional["gray"][6],
-      fill: palette.additional["gray"][6],
-      display: "flex",
-      flexDirection: "column",
-      alignItems: "center",
-    },
-    downloadButton: {
-      backgroundColor: "rgba(0,0,0, 0.88)",
-      color: palette.additional["gray"][3],
-      borderColor: palette.additional["gray"][3],
-      borderWidth: 1,
-      borderStyle: "solid",
-    },
-  }),
+const useStyles = makeStyles(
+  ({ constants, palette, zIndex, breakpoints }: ITheme) =>
+    createStyles({
+      root: {
+        height: "100%",
+        width: "100%",
+        position: "fixed",
+        zIndex: 1,
+        left: 0,
+        top: 0,
+        backgroundColor: "rgba(0,0,0, 0.88)",
+        overflowX: "hidden",
+      },
+      previewModalControls: {
+        position: "absolute",
+        zIndex: zIndex?.layer1,
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "center",
+        left: 0,
+        top: 0,
+        width: "100%",
+        maxWidth: breakpoints.values["sm"],
+        height: constants.generalUnit * 8,
+        backgroundColor: palette.additional["gray"][9],
+        color: palette.additional["gray"][3],
+        borderWidth: 1,
+        borderStyle: "solid",
+        borderColor: palette.additional["gray"][8],
+      },
+      closePreviewButton: {
+        marginRight: constants.generalUnit * 2,
+        marginLeft: constants.generalUnit * 2,
+        fill: palette.additional["gray"][2],
+      },
+      fileOperationsMenu: {
+        fill: palette.additional["gray"][2],
+      },
+      fileName: {
+        width: "100%",
+        whiteSpace: "nowrap",
+        overflow: "hidden",
+        textOverflow: "ellipsis",
+      },
+      menuIcon: {
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        width: 20,
+        marginRight: constants.generalUnit * 1.5,
+      },
+      previewContainer: {
+        height: "100%",
+        alignItems: "center",
+        textAlign: "center",
+      },
+      prevNext: {
+        alignItems: "center",
+      },
+      prevNextButton: {
+        backgroundColor: palette.common.black.main,
+        padding: `${constants.generalUnit * 2}px !important`,
+        borderRadius: constants.generalUnit * 4,
+      },
+      previewContent: {
+        color: palette.additional["gray"][6],
+        fill: palette.additional["gray"][6],
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+      },
+      downloadButton: {
+        backgroundColor: "rgba(0,0,0, 0.88)",
+        color: palette.additional["gray"][3],
+        borderColor: palette.additional["gray"][3],
+        borderWidth: 1,
+        borderStyle: "solid",
+      },
+      swipeContainer: {
+        width: "100%",
+        height: "100%",
+        display: "flex",
+        justifyContent: "center",
+      },
+    }),
 )
 
 const FilePreviewModal: React.FC<{
@@ -129,7 +145,11 @@ const FilePreviewModal: React.FC<{
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | undefined>(undefined)
   const [fileContent, setFileContent] = useState<Blob | undefined>(undefined)
-
+  const handlers = useSwipeable({
+    onSwipedLeft: () => previousFile && !isLoading && previousFile(),
+    onSwipedRight: () => nextFile && !isLoading && nextFile(),
+    delta: 20,
+  })
   useEffect(() => {
     const getContents = async () => {
       if (!file) return
@@ -151,10 +171,7 @@ const FilePreviewModal: React.FC<{
   }, [file])
 
   const PreviewComponent =
-    file &&
-    file.content_type &&
-    fileContent &&
-    SUPPORTED_FILE_TYPES[file.content_type]
+    file && file.content_type && fileContent && SUPPORTED_FILE_TYPES["image/*"]
 
   return !file ? null : (
     <div className={classes.root}>
@@ -163,7 +180,11 @@ const FilePreviewModal: React.FC<{
           onClick={closePreview}
           className={classes.closePreviewButton}
         />
-        <Typography variant="h4" component="h1" className={classes.fileName}>
+        <Typography
+          variant={desktop ? "h4" : "h5"}
+          component="h1"
+          className={classes.fileName}
+        >
           {file.name}
         </Typography>
         <MenuDropdown
@@ -236,27 +257,35 @@ const FilePreviewModal: React.FC<{
           </Grid>
         )}
         <Grid item xs={12} sm={10} md={10} lg={10} xl={10} alignItems="center">
-          {isLoading && <div>Loading</div>}
-          {error && <div>{error}</div>}
-          {!isLoading &&
-            !error &&
-            !compatibleFilesMatcher.match(file?.content_type) && (
-              <div className={classes.previewContent}>
-                <CloseCircleIcon />
-                <Typography variant="h1">File format not supported.</Typography>
-                <Button
-                  className={classes.downloadButton}
-                  onClick={() => downloadFile(file.name)}
-                >
-                  Download
-                </Button>
-              </div>
-            )}
-          {!isLoading &&
-            !error &&
-            compatibleFilesMatcher.match(file?.content_type) &&
-            fileContent &&
-            PreviewComponent}
+          <div {...handlers} className={classes.swipeContainer}>
+            {isLoading && <div>Loading</div>}
+            {error && <div>{error}</div>}
+            {!isLoading &&
+              !error &&
+              !compatibleFilesMatcher.match(file?.content_type) && (
+                <div className={classes.previewContent}>
+                  <CloseCircleIcon
+                    fontSize={desktop ? "extraLarge" : "medium"}
+                  />
+                  <br />
+                  <Typography variant="h1">
+                    File format not supported.
+                  </Typography>
+                  <br />
+                  <Button
+                    className={classes.downloadButton}
+                    onClick={() => downloadFile(file.name)}
+                  >
+                    Download
+                  </Button>
+                </div>
+              )}
+            {!isLoading &&
+              !error &&
+              compatibleFilesMatcher.match(file?.content_type) &&
+              fileContent &&
+              PreviewComponent && <PreviewComponent contents={fileContent} />}
+          </div>
         </Grid>
         {desktop && (
           <Grid item sm={1} md={1} lg={1} xl={1} className={classes.prevNext}>
