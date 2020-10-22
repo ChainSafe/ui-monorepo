@@ -28,9 +28,7 @@ export type UploadProgress = {
 }
 
 type DriveContext = {
-  // Upload file
-  uploadFile(file: File, path: string): void
-  // Create folder
+  uploadFiles(files: File[], path: string): void
   createFolder(body: FilesPathRequest): Promise<FileContentResponse>
   renameFile(body: FilesMvRequest): Promise<void>
   moveFile(body: FilesMvRequest): Promise<void>
@@ -41,9 +39,7 @@ type DriveContext = {
   currentPath: string
   updateCurrentPath(newPath: string): void
   pathContents: IFile[]
-  // uploads in progress
   uploadsInProgress: UploadProgress[]
-  // space used by user in bytes
   spaceUsed: number
 }
 
@@ -137,29 +133,30 @@ const DriveProvider = ({ children }: DriveContextProps) => {
     [],
   )
 
-  const uploadFile = async (file: File, path: string) => {
+  const uploadFiles = async (files: File[], path: string) => {
     const startUploadFile = async () => {
       const id = uuidv4()
       const uploadProgress: UploadProgress = {
         id,
-        fileName: file.name,
+        fileName: files[0].name, // TODO: Do we need this?
         complete: false,
         error: false,
-        noOfFiles: 1,
+        noOfFiles: files.length,
         progress: 0,
         path,
       }
       dispatchUploadsInProgress({ type: "add", payload: uploadProgress })
       try {
-        const fileParam = {
-          data: file,
-          fileName: file.name,
-        }
+        const filesParam = files.map((f) => ({
+          data: f,
+          fileName: f.name,
+        }))
         // API call
 
         const result = await imployApiClient.addCSFFiles(
-          fileParam,
+          filesParam,
           path,
+          undefined,
           undefined,
           (progressEvent: { loaded: number; total: number }) => {
             dispatchUploadsInProgress({
@@ -317,7 +314,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
   return (
     <DriveContext.Provider
       value={{
-        uploadFile,
+        uploadFiles,
         createFolder,
         renameFile,
         moveFile,
