@@ -2,7 +2,7 @@ import React from "react"
 import { useField } from "formik"
 import SelectInput, { ISelectInputProps, ISelectOption } from "./SelectInput"
 
-interface IFormikSelectInputProps extends ISelectInputProps {
+interface IFormikSelectInputProps extends Omit<ISelectInputProps, "onChange"> {
   className?: string
   name: string
   options: ISelectOption[]
@@ -22,10 +22,10 @@ const FormikSelectInput: React.FC<IFormikSelectInputProps> = ({
   return (
     <SelectInput
       {...field}
+      onChange={handleChange}
       error={meta.error}
       options={options}
       {...props}
-      onChange={handleChange}
     />
   )
 }
