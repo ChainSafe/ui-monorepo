@@ -25,7 +25,6 @@ const useStyles = makeStyles(({ constants, palette, zIndex }: ITheme) =>
     controlsContainer: {
       position: "absolute",
       zIndex: zIndex?.layer1,
-
       display: "flex",
       flexDirection: "row",
       top: 0,

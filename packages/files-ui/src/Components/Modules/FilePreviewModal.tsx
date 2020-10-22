@@ -43,90 +43,91 @@ const compatibleFilesMatcher = new MimeMatcher(
   ...Object.keys(SUPPORTED_FILE_TYPES),
 )
 
-const useStyles = makeStyles(({ constants, palette, zIndex }: ITheme) =>
-  createStyles({
-    root: {
-      height: "100%",
-      width: "100%",
-      position: "fixed",
-      zIndex: 1,
-      left: 0,
-      top: 0,
-      backgroundColor: "rgba(0,0,0, 0.88)",
-      overflowX: "hidden",
-    },
-    previewModalControls: {
-      position: "absolute",
-      zIndex: zIndex?.layer1,
-      display: "flex",
-      flexDirection: "row",
-      alignItems: "center",
-      left: 0,
-      top: 0,
-      width: "100%",
-      maxWidth: 643,
-      height: constants.generalUnit * 8,
-      backgroundColor: palette.additional["gray"][9],
-      color: palette.additional["gray"][3],
-      borderWidth: 1,
-      borderStyle: "solid",
-      borderColor: palette.additional["gray"][8],
-    },
-    closePreviewButton: {
-      marginRight: constants.generalUnit * 2,
-      marginLeft: constants.generalUnit * 2,
-      fill: palette.additional["gray"][2],
-    },
-    fileOperationsMenu: {
-      fill: palette.additional["gray"][2],
-    },
-    fileName: {
-      width: "100%",
-      whiteSpace: "nowrap",
-      overflow: "hidden",
-      textOverflow: "ellipsis",
-    },
-    menuIcon: {
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
-      width: 20,
-      marginRight: constants.generalUnit * 1.5,
-    },
-    previewContainer: {
-      height: "100%",
-      alignItems: "center",
-      textAlign: "center",
-    },
-    prevNext: {
-      alignItems: "center",
-    },
-    prevNextButton: {
-      backgroundColor: palette.common.black.main,
-      padding: `${constants.generalUnit * 2}px !important`,
-      borderRadius: constants.generalUnit * 4,
-    },
-    previewContent: {
-      color: palette.additional["gray"][6],
-      fill: palette.additional["gray"][6],
-      display: "flex",
-      flexDirection: "column",
-      alignItems: "center",
-    },
-    downloadButton: {
-      backgroundColor: "rgba(0,0,0, 0.88)",
-      color: palette.additional["gray"][3],
-      borderColor: palette.additional["gray"][3],
-      borderWidth: 1,
-      borderStyle: "solid",
-    },
-    swipeContainer: {
-      width: "100%",
-      height: "100%",
-      display: "flex",
-      justifyContent: "center",
-    },
-  }),
+const useStyles = makeStyles(
+  ({ constants, palette, zIndex, breakpoints }: ITheme) =>
+    createStyles({
+      root: {
+        height: "100%",
+        width: "100%",
+        position: "fixed",
+        zIndex: 1,
+        left: 0,
+        top: 0,
+        backgroundColor: "rgba(0,0,0, 0.88)",
+        overflowX: "hidden",
+      },
+      previewModalControls: {
+        position: "absolute",
+        zIndex: zIndex?.layer1,
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "center",
+        left: 0,
+        top: 0,
+        width: "100%",
+        maxWidth: breakpoints.values["sm"],
+        height: constants.generalUnit * 8,
+        backgroundColor: palette.additional["gray"][9],
+        color: palette.additional["gray"][3],
+        borderWidth: 1,
+        borderStyle: "solid",
+        borderColor: palette.additional["gray"][8],
+      },
+      closePreviewButton: {
+        marginRight: constants.generalUnit * 2,
+        marginLeft: constants.generalUnit * 2,
+        fill: palette.additional["gray"][2],
+      },
+      fileOperationsMenu: {
+        fill: palette.additional["gray"][2],
+      },
+      fileName: {
+        width: "100%",
+        whiteSpace: "nowrap",
+        overflow: "hidden",
+        textOverflow: "ellipsis",
+      },
+      menuIcon: {
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        width: 20,
+        marginRight: constants.generalUnit * 1.5,
+      },
+      previewContainer: {
+        height: "100%",
+        alignItems: "center",
+        textAlign: "center",
+      },
+      prevNext: {
+        alignItems: "center",
+      },
+      prevNextButton: {
+        backgroundColor: palette.common.black.main,
+        padding: `${constants.generalUnit * 2}px !important`,
+        borderRadius: constants.generalUnit * 4,
+      },
+      previewContent: {
+        color: palette.additional["gray"][6],
+        fill: palette.additional["gray"][6],
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+      },
+      downloadButton: {
+        backgroundColor: "rgba(0,0,0, 0.88)",
+        color: palette.additional["gray"][3],
+        borderColor: palette.additional["gray"][3],
+        borderWidth: 1,
+        borderStyle: "solid",
+      },
+      swipeContainer: {
+        width: "100%",
+        height: "100%",
+        display: "flex",
+        justifyContent: "center",
+      },
+    }),
 )
 
 const FilePreviewModal: React.FC<{
