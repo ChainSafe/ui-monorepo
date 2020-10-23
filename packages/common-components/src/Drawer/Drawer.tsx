@@ -113,6 +113,9 @@ export interface IDrawerProps {
   size?: number
   backdrop?: boolean
   onClose?(): void
+  classNames?: {
+    backdrop?: string
+  }
 }
 
 const SIZE = 360
@@ -125,6 +128,7 @@ const Drawer: React.FC<IDrawerProps> = ({
   size = SIZE,
   backdrop = true,
   onClose,
+  classNames,
 }: IDrawerProps) => {
   const classes = useStyles({ size })
 
@@ -139,6 +143,7 @@ const Drawer: React.FC<IDrawerProps> = ({
       <div
         className={clsx(
           classes.backdrop,
+          classNames?.backdrop,
           open && "open",
           !backdrop && "transparent",
         )}
