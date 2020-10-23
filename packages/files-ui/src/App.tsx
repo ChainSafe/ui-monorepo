@@ -26,10 +26,6 @@ if (
   })
 }
 
-if (process.env.NODE_ENV === "production" && process.env.REACT_APP_HOTJAR_ID) {
-  initHotjar(Number(process.env.REACT_APP_HOTJAR_ID))
-}
-
 const App: React.FC<{}> = () => {
   const { initHotjar } = useHotjar()
   const hotjarId = process.env.REACT_APP_HOTJAR_ID
