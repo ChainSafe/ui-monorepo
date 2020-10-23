@@ -1,5 +1,9 @@
 import React from "react"
-import { init, ErrorBoundary, showReportDialog } from "@sentry/react"
+import {
+  init as initSentry,
+  ErrorBoundary,
+  showReportDialog,
+} from "@sentry/react"
 import { ThemeSwitcher } from "@imploy/common-themes"
 import { CssBaseline, Router, ToasterProvider } from "@imploy/common-components"
 import { Web3Provider } from "@chainsafe/web3-context"
@@ -9,15 +13,20 @@ import FilesRoutes from "./Components/FilesRoutes"
 import AppWrapper from "./Components/Layouts/AppWrapper"
 import { lightTheme } from "./Themes/LightTheme"
 import { darkTheme } from "./Themes/DarkTheme"
+import { initHotjar } from "./Utils/hotjar"
 if (
   process.env.NODE_ENV === "production" &&
   process.env.REACT_APP_SENTRY_DSN_URL &&
   process.env.REACT_APP_SENTRY_RELEASE
 ) {
-  init({
+  initSentry({
     dsn: process.env.REACT_APP_SENTRY_DSN_URL,
     release: process.env.REACT_APP_SENTRY_RELEASE,
   })
+}
+
+if (process.env.NODE_ENV === "production" && process.env.REACT_APP_HOTJAR_ID) {
+  initHotjar(Number(process.env.REACT_APP_HOTJAR_ID))
 }
 
 const App: React.FC<{}> = () => {
