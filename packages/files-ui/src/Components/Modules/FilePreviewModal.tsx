@@ -77,6 +77,7 @@ const useStyles = makeStyles(
         marginRight: constants.generalUnit * 2,
         marginLeft: constants.generalUnit * 2,
         fill: palette.additional["gray"][2],
+        cursor: "pointer",
       },
       fileOperationsMenu: {
         fill: palette.additional["gray"][2],

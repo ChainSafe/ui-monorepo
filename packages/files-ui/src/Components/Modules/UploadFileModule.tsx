@@ -85,7 +85,6 @@ const UploadFileModule: React.FC<IUploadFileModuleProps> = ({
             helpers.setSubmitting(true)
             try {
               handleCloseDialog()
-              debugger
               uploadFiles(values.files, currentPath)
               helpers.resetForm()
             } catch (errors) {
