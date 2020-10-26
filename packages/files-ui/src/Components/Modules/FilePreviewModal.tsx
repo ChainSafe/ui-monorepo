@@ -26,13 +26,14 @@ import {
 } from "@imploy/common-components"
 import ImagePreview from "./PreviewRenderers/ImagePreview"
 import { useSwipeable } from "react-swipeable"
+import PdfPreview from "./PreviewRenderers/PDFPreview"
 
 export interface IPreviewRendererProps {
   contents: Blob
 }
 
 const SUPPORTED_FILE_TYPES: Record<string, React.FC<IPreviewRendererProps>> = {
-  // "application/pdf": <div>PDF Preview coming soon</div>,
+  "application/pdf": PdfPreview,
   "image/*": ImagePreview,
   // "audio/*": <div>Audio Previews coming soon</div>,
   // "video/*": <div>Video Previews coming soon</div>,
@@ -170,8 +171,20 @@ const FilePreviewModal: React.FC<{
     }
   }, [file])
 
+  const validRendererMimeType =
+    file &&
+    Object.keys(SUPPORTED_FILE_TYPES).find((type) => {
+      const matcher = new MimeMatcher(type)
+
+      return matcher.match(file.content_type)
+    })
+
   const PreviewComponent =
-    file && file.content_type && fileContent && SUPPORTED_FILE_TYPES["image/*"]
+    file &&
+    file.content_type &&
+    fileContent &&
+    validRendererMimeType &&
+    SUPPORTED_FILE_TYPES[validRendererMimeType]
 
   return !file ? null : (
     <div className={classes.root}>

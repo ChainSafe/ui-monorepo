@@ -204,6 +204,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
       })
       return result
     } catch (error) {
+      debugger
       addToastMessage({
         message: "There was an error creating this folder",
         appearance: "error",
