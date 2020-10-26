@@ -24,7 +24,7 @@
     "clsx": "^1.1.1",
     "normalize.css": "^8.0.1",
     "react-blockies": "^1.4.1",
-    "react-dropzone": "^11.2.0",
+    "react-dropzone": "^11.2.1",
     "react-router-dom": "^5.2.0",
     "react-select": "^3.1.0",
     "react-spinners": "^0.9.0",
