@@ -204,7 +204,6 @@ const DriveProvider = ({ children }: DriveContextProps) => {
       })
       return result
     } catch (error) {
-      debugger
       addToastMessage({
         message: "There was an error creating this folder",
         appearance: "error",
@@ -284,7 +283,6 @@ const DriveProvider = ({ children }: DriveContextProps) => {
       appearance: "info",
     })
     try {
-      debugger
       const result = await getFileContent(fileName)
       const link = document.createElement("a")
       link.href = window.URL.createObjectURL(result)
