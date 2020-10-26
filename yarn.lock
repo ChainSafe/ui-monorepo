@@ -15319,6 +15319,11 @@ react-transition-group@^4.3.0:
     loose-envify "^1.4.0"
     prop-types "^15.6.2"
 
+react-use-hotjar@^1.0.8:
+  version "1.0.8"
+  resolved "https://registry.yarnpkg.com/react-use-hotjar/-/react-use-hotjar-1.0.8.tgz#00df9f6b1e6e4f0f75a44600a4dacefb65c5280e"
+  integrity sha512-paWu8a6n3gYzD6dMS26KtKxwmzegFJh3nrIhcICWfAtxrjlAYH8hTflr5JJN868ubwXnewiQ7lvJBb13EAooeQ==
+
 react-zoom-pan-pinch@^1.6.1:
   version "1.6.1"
   resolved "https://registry.yarnpkg.com/react-zoom-pan-pinch/-/react-zoom-pan-pinch-1.6.1.tgz#da16267c258ab37e8ebcdc7c252794a9633e91ec"

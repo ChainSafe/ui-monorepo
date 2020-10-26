@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect } from "react"
 import {
   init as initSentry,
   ErrorBoundary,
@@ -13,7 +13,8 @@ import FilesRoutes from "./Components/FilesRoutes"
 import AppWrapper from "./Components/Layouts/AppWrapper"
 import { lightTheme } from "./Themes/LightTheme"
 import { darkTheme } from "./Themes/DarkTheme"
-import { initHotjar } from "./Utils/hotjar"
+import { useHotjar } from "react-use-hotjar"
+
 if (
   process.env.NODE_ENV === "production" &&
   process.env.REACT_APP_SENTRY_DSN_URL &&
@@ -25,13 +26,18 @@ if (
   })
 }
 
-if (process.env.NODE_ENV === "production" && process.env.REACT_APP_HOTJAR_ID) {
-  initHotjar(Number(process.env.REACT_APP_HOTJAR_ID))
-}
-
 const App: React.FC<{}> = () => {
+  const { initHotjar } = useHotjar()
+  const hotjarId = process.env.REACT_APP_HOTJAR_ID
+
   const apiUrl =
     process.env.REACT_APP_API_URL || "http://3.236.79.100:8000/api/v1"
+
+  useEffect(() => {
+    if (hotjarId && process.env.NODE_ENV === "production") {
+      initHotjar(hotjarId, "6", () => console.log("Hotjar initialized"))
+    }
+  }, [])
 
   return (
     <ErrorBoundary
