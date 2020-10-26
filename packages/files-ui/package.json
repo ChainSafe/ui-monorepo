@@ -12,7 +12,7 @@
     "ethers": "^5.0.19",
     "formik": "^2.2.0",
     "mime-matcher": "^1.0.5",
-    "react": "^16.14.0",
+    "react": "^17.0.1",
     "react-dom": "^16.14.0",
     "react-use-hotjar": "1.0.8",
     "react-scripts": "3.4.4",
