@@ -205,42 +205,42 @@ const FilePreviewModal: React.FC<{
           anchor="top-right"
           className={classes.fileOperationsMenu}
           menuItems={[
-            {
-              contents: (
-                <Fragment>
-                  <ExportIcon className={classes.menuIcon} />
-                  <span>Move</span>
-                </Fragment>
-              ),
-              onClick: () => console.log,
-            },
-            {
-              contents: (
-                <Fragment>
-                  <ShareAltIcon className={classes.menuIcon} />
-                  <span>Share</span>
-                </Fragment>
-              ),
-              onClick: () => console.log,
-            },
-            {
-              contents: (
-                <Fragment>
-                  <EditIcon className={classes.menuIcon} />
-                  <span>Rename</span>
-                </Fragment>
-              ),
-              onClick: () => console.log,
-            },
-            {
-              contents: (
-                <Fragment>
-                  <DeleteIcon className={classes.menuIcon} />
-                  <span>Delete</span>
-                </Fragment>
-              ),
-              onClick: () => console.log,
-            },
+            // {
+            //   contents: (
+            //     <Fragment>
+            //       <ExportIcon className={classes.menuIcon} />
+            //       <span>Move</span>
+            //     </Fragment>
+            //   ),
+            //   onClick: () => console.log,
+            // },
+            // {
+            //   contents: (
+            //     <Fragment>
+            //       <ShareAltIcon className={classes.menuIcon} />
+            //       <span>Share</span>
+            //     </Fragment>
+            //   ),
+            //   onClick: () => console.log,
+            // },
+            // {
+            //   contents: (
+            //     <Fragment>
+            //       <EditIcon className={classes.menuIcon} />
+            //       <span>Rename</span>
+            //     </Fragment>
+            //   ),
+            //   onClick: () => console.log,
+            // },
+            // {
+            //   contents: (
+            //     <Fragment>
+            //       <DeleteIcon className={classes.menuIcon} />
+            //       <span>Delete</span>
+            //     </Fragment>
+            //   ),
+            //   onClick: () => console.log,
+            // },
             {
               contents: (
                 <Fragment>
