@@ -65,13 +65,13 @@ interface IAutoSubmit {
 }
 
 const AutoSubmit: React.FC<IAutoSubmit> = ({ active }: IAutoSubmit) => {
-  const { submitForm, touched, isValid, dirty } = useFormikContext()
+  const { values, submitForm, touched, isValid, dirty } = useFormikContext()
 
   useEffect(() => {
-    if (touched && isValid && dirty && active) {
+    if (touched && isValid && dirty && active && values) {
       submitForm()
     }
-  }, [submitForm, touched, isValid, dirty, active])
+  }, [submitForm, touched, isValid, dirty, active, values])
   return <></>
 }
 
