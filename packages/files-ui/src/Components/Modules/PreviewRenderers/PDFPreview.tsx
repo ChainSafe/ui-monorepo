@@ -9,28 +9,24 @@ import {
 } from "@imploy/common-themes"
 import { Document, Page } from "react-pdf"
 
-// import {
-//   Button,
-//   ZoomInIcon,
-//   ZoomOutIcon,
-//   FullscreenIcon,
-//   PrinterIcon,
-// } from "@imploy/common-components"
+import {
+  Button,
+  ZoomInIcon,
+  ZoomOutIcon,
+  FullscreenIcon,
+  PrinterIcon,
+  Typography,
+} from "@imploy/common-components"
 
 const useStyles = makeStyles(({ constants, palette, zIndex }: ITheme) =>
   createStyles({
-    root: {
-      width: "100%",
-      height: "100%",
-    },
     controlsContainer: {
       position: "absolute",
       zIndex: zIndex?.layer1,
       display: "flex",
       flexDirection: "row",
-      top: 0,
-      right: 0,
-      height: constants.generalUnit * 8,
+      alignItems: "center",
+      bottom: 0,
       backgroundColor: palette.additional["gray"][9],
       color: palette.additional["gray"][3],
       borderWidth: 1,
@@ -52,18 +48,43 @@ const PdfPreview: React.FC<IPreviewRendererProps> = ({ contents }) => {
     }
   }, [contents])
 
-  const { breakpoints }: ITheme = useTheme()
-  const [numPages, setNumPages] = useState(null)
+  const [numPages, setNumPages] = useState<number | undefined>(undefined)
+  // const [scale, setScale] = useState(1)
   const [pageNumber, setPageNumber] = useState(1)
 
   function onDocumentLoadSuccess({ numPages }: any) {
     setNumPages(numPages)
   }
+  const { breakpoints }: ITheme = useTheme()
+
+  const desktop = useMediaQuery(breakpoints.up("sm"))
+
+  const nextPage = () => {
+    numPages && pageNumber < numPages && setPageNumber(pageNumber + 1)
+  }
+
+  const prevPage = () => {
+    numPages && pageNumber > 1 && setPageNumber(pageNumber - 1)
+  }
 
   return (
-    <Document file={pdfUrl} onLoadSuccess={onDocumentLoadSuccess}>
-      <Page pageNumber={pageNumber} />
-    </Document>
+    <>
+      <Document file={pdfUrl} onLoadSuccess={onDocumentLoadSuccess}>
+        <Page pageNumber={pageNumber} />
+      </Document>
+      {desktop && (
+        <div className={classes.controlsContainer}>
+          <Button onClick={prevPage}>Previous</Button>
+          <Typography>
+            {pageNumber} of {numPages}
+          </Typography>
+          <Button onClick={nextPage}>Next</Button>
+          {/* <Button>
+                  <PrinterIcon />
+                </Button> */}
+        </div>
+      )}
+    </>
   )
 }
 
