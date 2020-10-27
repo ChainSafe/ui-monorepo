@@ -49,6 +49,7 @@ import CustomModal from "../Elements/CustomModal"
 import FilePreviewModal from "./FilePreviewModal"
 import { getArrayOfPaths, getPathFromArray } from "../../Utils/pathUtils"
 import UploadProgressModals from "./UploadProgressModals"
+import DragDropModule from "./DragDropModule"
 
 const useStyles = makeStyles(({ breakpoints, constants, palette }: ITheme) => {
   const desktopGridSettings = "50px 69px 3fr 190px 100px 45px !important"
@@ -377,8 +378,21 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
   const { breakpoints }: ITheme = useTheme()
   const desktop = useMediaQuery(breakpoints.up("sm"))
 
+  const [generalDropActive, setGeneralDropActive] = useState<boolean>(false)
+
   return (
-    <article className={classes.root}>
+    <article
+      onDragEnter={() => {
+        if (!generalDropActive) {
+          setGeneralDropActive(true)
+        }
+      }}
+      className={classes.root}
+    >
+      <DragDropModule
+        active={generalDropActive}
+        close={() => setGeneralDropActive(false)}
+      />
       <div className={classes.breadCrumbContainer}>
         {crumbs.length > 0 && (
           <Breadcrumb

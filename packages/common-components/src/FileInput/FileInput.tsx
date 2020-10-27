@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useEffect } from "react"
+import React, { useCallback, useState, useEffect, ReactNode } from "react"
 import { useField } from "formik"
 import { useDropzone, DropzoneOptions, FileRejection } from "react-dropzone"
 import clsx from "clsx"
@@ -69,6 +69,12 @@ interface IFileInputProps extends DropzoneOptions {
   name: string
   label?: string
   showPreviews?: boolean
+  pending?: ReactNode | ReactNode[]
+  classNames?: {
+    pending?: string
+    filelist?: string
+    error?: string
+  }
 }
 
 const FileInput: React.FC<IFileInputProps> = ({
@@ -77,6 +83,8 @@ const FileInput: React.FC<IFileInputProps> = ({
   showPreviews = false,
   name,
   label,
+  pending,
+  classNames,
   ...props
 }: IFileInputProps) => {
   const classes = useStyles()
@@ -131,12 +139,18 @@ const FileInput: React.FC<IFileInputProps> = ({
       <input {...getInputProps()} />
       {variant === "dropzone" ? (
         value.value?.length === 0 ? (
-          <div className={classes.pending}>
-            <PlusIcon fontSize="large" color="primary" />
-            <Typography>Upload Files and Folders</Typography>
+          <div className={clsx(classes.pending, classNames?.pending)}>
+            {pending ? (
+              pending
+            ) : (
+              <>
+                <PlusIcon fontSize="large" color="primary" />
+                <Typography>Upload Files and Folders</Typography>
+              </>
+            )}
           </div>
         ) : (
-          <div className={clsx(classes.root, className)}>
+          <div className={clsx(classes.root, classNames?.filelist)}>
             <ul>
               {value.value.map((file: any, i: any) => (
                 <li className={classes.item} key={i}>
@@ -157,7 +171,7 @@ const FileInput: React.FC<IFileInputProps> = ({
         </>
       )}
       {(meta.error || errors.length > 0) && (
-        <ul>
+        <ul className={classNames?.error}>
           <li className={classes.error}>{meta.error}</li>
           {errors.map((error, i) => (
             <li key={i} className={classes.error}>
