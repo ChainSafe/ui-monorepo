@@ -285,13 +285,14 @@ const DriveProvider = ({ children }: DriveContextProps) => {
     try {
       const result = await getFileContent(fileName)
       const link = document.createElement("a")
-      link.href = window.URL.createObjectURL(result)
+      link.href = URL.createObjectURL(result)
       link.download = fileName
       link.click()
       addToastMessage({
         message: "Download is ready",
         appearance: "info",
       })
+      URL.revokeObjectURL(link.href)
       return Promise.resolve()
     } catch (error) {
       addToastMessage({
