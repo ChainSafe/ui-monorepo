@@ -283,7 +283,6 @@ const DriveProvider = ({ children }: DriveContextProps) => {
       appearance: "info",
     })
     try {
-      debugger
       const result = await getFileContent(fileName)
       const link = document.createElement("a")
       link.href = window.URL.createObjectURL(result)

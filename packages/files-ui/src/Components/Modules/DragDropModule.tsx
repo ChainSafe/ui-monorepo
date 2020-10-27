@@ -1,7 +1,7 @@
 import { FileInput, Typography } from "@imploy/common-components"
 import { useDrive } from "../../Contexts/DriveContext"
 import { createStyles, ITheme, makeStyles } from "@imploy/common-themes"
-import React, { useEffect } from "react"
+import React, { useEffect, useState } from "react"
 import { Formik, Form, useFormikContext } from "formik"
 import { array, object } from "yup"
 import clsx from "clsx"
@@ -67,11 +67,16 @@ interface IAutoSubmit {
 const AutoSubmit: React.FC<IAutoSubmit> = ({ active }: IAutoSubmit) => {
   const { values, submitForm, touched, isValid, dirty } = useFormikContext()
 
+  const [mutex, setMutex] = useState(false)
   useEffect(() => {
-    if (touched && isValid && dirty && active && values) {
-      submitForm()
+    if (!active && mutex) {
+      setMutex(false)
     }
-  }, [submitForm, touched, isValid, dirty, active, values])
+    if (!mutex && touched && isValid && dirty && active && values) {
+      submitForm()
+      setMutex(true)
+    }
+  }, [mutex, setMutex, submitForm, touched, isValid, dirty, active, values])
   return <></>
 }
 

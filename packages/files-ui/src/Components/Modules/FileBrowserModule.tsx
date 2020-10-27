@@ -387,6 +387,11 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
           setGeneralDropActive(true)
         }
       }}
+      onDragLeave={() => {
+        if (generalDropActive) {
+          setGeneralDropActive(false)
+        }
+      }}
       className={classes.root}
     >
       <DragDropModule
