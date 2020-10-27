@@ -5,7 +5,7 @@ import {
   useMediaQuery,
   useTheme,
 } from "@imploy/common-themes"
-import React, { Fragment } from "react"
+import React, { Fragment, useCallback } from "react"
 import {
   Button,
   CheckboxInput,
@@ -378,25 +378,24 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
   const { breakpoints }: ITheme = useTheme()
   const desktop = useMediaQuery(breakpoints.up("sm"))
 
-  const [generalDropActive, setGeneralDropActive] = useState<boolean>(false)
+  const [generalDropActive, setGeneralDropActive] = useState<number>(-1)
+
+  const displayUpload = useCallback(() => {
+    if (generalDropActive > 0) {
+      clearTimeout(generalDropActive)
+    }
+    const timer = setTimeout(() => {
+      setGeneralDropActive(-1)
+    }, 1000)
+    setGeneralDropActive(timer)
+    return () => clearTimeout(timer)
+  }, [generalDropActive])
 
   return (
-    <article
-      onDragEnter={() => {
-        if (!generalDropActive) {
-          setGeneralDropActive(true)
-        }
-      }}
-      onDragLeave={() => {
-        if (generalDropActive) {
-          setGeneralDropActive(false)
-        }
-      }}
-      className={classes.root}
-    >
+    <article onDragEnter={displayUpload} className={classes.root}>
       <DragDropModule
-        active={generalDropActive}
-        close={() => setGeneralDropActive(false)}
+        active={generalDropActive > -1}
+        close={() => setGeneralDropActive(-1)}
       />
       <div className={classes.breadCrumbContainer}>
         {crumbs.length > 0 && (
