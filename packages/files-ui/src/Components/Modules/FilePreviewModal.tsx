@@ -78,6 +78,7 @@ const useStyles = makeStyles(
         marginRight: constants.generalUnit * 2,
         marginLeft: constants.generalUnit * 2,
         fill: palette.additional["gray"][2],
+        cursor: "pointer",
       },
       fileOperationsMenu: {
         fill: palette.additional["gray"][2],
@@ -94,6 +95,7 @@ const useStyles = makeStyles(
         alignItems: "center",
         width: 20,
         marginRight: constants.generalUnit * 1.5,
+        fill: palette.additional["gray"][7],
       },
       previewContainer: {
         height: "100%",
