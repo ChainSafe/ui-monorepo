@@ -37,7 +37,7 @@ const App: React.FC<{}> = () => {
     if (hotjarId && process.env.NODE_ENV === "production") {
       initHotjar(hotjarId, "6", () => console.log("Hotjar initialized"))
     }
-  }, [])
+  }, [hotjarId, initHotjar])
 
   return (
     <ErrorBoundary

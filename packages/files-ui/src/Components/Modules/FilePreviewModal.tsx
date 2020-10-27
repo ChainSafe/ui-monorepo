@@ -1,4 +1,4 @@
-import React, { Fragment, ReactNode, useEffect } from "react"
+import React, { Fragment, useEffect } from "react"
 import { useState } from "react"
 import {
   createStyles,
@@ -170,7 +170,7 @@ const FilePreviewModal: React.FC<{
     if (file && compatibleFilesMatcher.match(file?.content_type)) {
       getContents()
     }
-  }, [file])
+  }, [file, getFileContent])
 
   const PreviewComponent =
     file && file.content_type && fileContent && SUPPORTED_FILE_TYPES["image/*"]
