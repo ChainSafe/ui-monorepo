@@ -94,6 +94,7 @@ const useStyles = makeStyles(
         alignItems: "center",
         width: 20,
         marginRight: constants.generalUnit * 1.5,
+        fill: palette.additional["gray"][7],
       },
       previewContainer: {
         height: "100%",
