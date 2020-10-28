@@ -5,7 +5,7 @@ import {
   useMediaQuery,
   useTheme,
 } from "@imploy/common-themes"
-import React, { Fragment } from "react"
+import React, { Fragment, useCallback } from "react"
 import {
   Button,
   CheckboxInput,
@@ -49,6 +49,7 @@ import CustomModal from "../Elements/CustomModal"
 import FilePreviewModal from "./FilePreviewModal"
 import { getArrayOfPaths, getPathFromArray } from "../../Utils/pathUtils"
 import UploadProgressModals from "./UploadProgressModals"
+import DragDropModule from "./DragDropModule"
 
 const useStyles = makeStyles(({ breakpoints, constants, palette }: ITheme) => {
   const desktopGridSettings = "50px 69px 3fr 190px 100px 45px !important"
@@ -377,8 +378,25 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
   const { breakpoints }: ITheme = useTheme()
   const desktop = useMediaQuery(breakpoints.up("sm"))
 
+  const [generalDropActive, setGeneralDropActive] = useState<number>(-1)
+
+  const displayUpload = useCallback(() => {
+    if (generalDropActive > 0) {
+      clearTimeout(generalDropActive)
+    }
+    const timer = setTimeout(() => {
+      setGeneralDropActive(-1)
+    }, 1000)
+    setGeneralDropActive(timer)
+    return () => clearTimeout(timer)
+  }, [generalDropActive])
+
   return (
-    <article className={classes.root}>
+    <article onDragEnter={displayUpload} className={classes.root}>
+      <DragDropModule
+        active={generalDropActive > -1}
+        close={() => setGeneralDropActive(-1)}
+      />
       <div className={classes.breadCrumbContainer}>
         {crumbs.length > 0 && (
           <Breadcrumb
