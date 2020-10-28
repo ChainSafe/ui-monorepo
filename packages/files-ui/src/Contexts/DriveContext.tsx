@@ -34,7 +34,10 @@ type DriveContext = {
   moveFile(body: FilesMvRequest): Promise<void>
   deleteFile(body: FilesRmRequest): Promise<void>
   downloadFile(fileName: string): Promise<void>
-  getFileContent(fileName: string): Promise<Blob>
+  getFileContent(
+    fileName: string,
+    onDownloadProgress?: (progressEvent: ProgressEvent<EventTarget>) => void,
+  ): Promise<Blob>
   list(body: FilesPathRequest): Promise<FileContentResponse[]>
   currentPath: string
   updateCurrentPath(newPath: string): void
@@ -266,11 +269,18 @@ const DriveProvider = ({ children }: DriveContextProps) => {
     }
   }
 
-  const getFileContent = async (fileName: string) => {
+  const getFileContent = async (
+    fileName: string,
+    onDownloadProgress?: (progressEvent: ProgressEvent<EventTarget>) => void,
+  ) => {
     try {
-      const result = await imployApiClient.getFileContent({
-        path: currentPath + fileName,
-      })
+      const result = await imployApiClient.getFileContent(
+        {
+          path: currentPath + fileName,
+        },
+        undefined,
+        onDownloadProgress,
+      )
       return result.data
     } catch (error) {
       return Promise.reject()
@@ -285,13 +295,14 @@ const DriveProvider = ({ children }: DriveContextProps) => {
     try {
       const result = await getFileContent(fileName)
       const link = document.createElement("a")
-      link.href = window.URL.createObjectURL(result)
+      link.href = URL.createObjectURL(result)
       link.download = fileName
       link.click()
       addToastMessage({
         message: "Download is ready",
         appearance: "info",
       })
+      URL.revokeObjectURL(link.href)
       return Promise.resolve()
     } catch (error) {
       addToastMessage({

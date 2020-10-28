@@ -16,23 +16,25 @@ import {
   ArrowRightIcon,
   Typography,
   MenuDropdown,
-  ExportIcon,
-  DeleteIcon,
   DownloadIcon,
-  EditIcon,
   MoreIcon,
-  ShareAltIcon,
   CloseCircleIcon,
+  ProgressBar,
+  // ExportIcon,
+  // DeleteIcon,
+  // EditIcon,
+  // ShareAltIcon,
 } from "@imploy/common-components"
 import ImagePreview from "./PreviewRenderers/ImagePreview"
 import { useSwipeable } from "react-swipeable"
+import PdfPreview from "./PreviewRenderers/PDFPreview"
 
 export interface IPreviewRendererProps {
   contents: Blob
 }
 
 const SUPPORTED_FILE_TYPES: Record<string, React.FC<IPreviewRendererProps>> = {
-  // "application/pdf": <div>PDF Preview coming soon</div>,
+  "application/pdf": PdfPreview,
   "image/*": ImagePreview,
   // "audio/*": <div>Audio Previews coming soon</div>,
   // "video/*": <div>Video Previews coming soon</div>,
@@ -129,6 +131,10 @@ const useStyles = makeStyles(
         display: "flex",
         justifyContent: "center",
       },
+      loadingBar: {
+        width: 150,
+        marginTop: constants.generalUnit,
+      },
     }),
 )
 
@@ -145,6 +151,7 @@ const FilePreviewModal: React.FC<{
   const desktop = useMediaQuery(breakpoints.up("sm"))
 
   const [isLoading, setIsLoading] = useState(false)
+  const [loadingProgress, setLoadingProgress] = useState(0)
   const [error, setError] = useState<string | undefined>(undefined)
   const [fileContent, setFileContent] = useState<Blob | undefined>(undefined)
   const handlers = useSwipeable({
@@ -159,7 +166,9 @@ const FilePreviewModal: React.FC<{
       setIsLoading(true)
       setError(undefined)
       try {
-        const content = await getFileContent(file.name)
+        const content = await getFileContent(file.name, (evt) => {
+          setLoadingProgress((evt.loaded / file.size) * 100)
+        })
         setFileContent(content)
       } catch (error) {
         setError("There was an error getting the preview.")
@@ -172,8 +181,20 @@ const FilePreviewModal: React.FC<{
     }
   }, [file, getFileContent])
 
+  const validRendererMimeType =
+    file &&
+    Object.keys(SUPPORTED_FILE_TYPES).find((type) => {
+      const matcher = new MimeMatcher(type)
+
+      return matcher.match(file.content_type)
+    })
+
   const PreviewComponent =
-    file && file.content_type && fileContent && SUPPORTED_FILE_TYPES["image/*"]
+    file &&
+    file.content_type &&
+    fileContent &&
+    validRendererMimeType &&
+    SUPPORTED_FILE_TYPES[validRendererMimeType]
 
   return !file ? null : (
     <div className={classes.root}>
@@ -194,42 +215,42 @@ const FilePreviewModal: React.FC<{
           anchor="top-right"
           className={classes.fileOperationsMenu}
           menuItems={[
-            {
-              contents: (
-                <Fragment>
-                  <ExportIcon className={classes.menuIcon} />
-                  <span>Move</span>
-                </Fragment>
-              ),
-              onClick: () => console.log,
-            },
-            {
-              contents: (
-                <Fragment>
-                  <ShareAltIcon className={classes.menuIcon} />
-                  <span>Share</span>
-                </Fragment>
-              ),
-              onClick: () => console.log,
-            },
-            {
-              contents: (
-                <Fragment>
-                  <EditIcon className={classes.menuIcon} />
-                  <span>Rename</span>
-                </Fragment>
-              ),
-              onClick: () => console.log,
-            },
-            {
-              contents: (
-                <Fragment>
-                  <DeleteIcon className={classes.menuIcon} />
-                  <span>Delete</span>
-                </Fragment>
-              ),
-              onClick: () => console.log,
-            },
+            // {
+            //   contents: (
+            //     <Fragment>
+            //       <ExportIcon className={classes.menuIcon} />
+            //       <span>Move</span>
+            //     </Fragment>
+            //   ),
+            //   onClick: () => console.log,
+            // },
+            // {
+            //   contents: (
+            //     <Fragment>
+            //       <ShareAltIcon className={classes.menuIcon} />
+            //       <span>Share</span>
+            //     </Fragment>
+            //   ),
+            //   onClick: () => console.log,
+            // },
+            // {
+            //   contents: (
+            //     <Fragment>
+            //       <EditIcon className={classes.menuIcon} />
+            //       <span>Rename</span>
+            //     </Fragment>
+            //   ),
+            //   onClick: () => console.log,
+            // },
+            // {
+            //   contents: (
+            //     <Fragment>
+            //       <DeleteIcon className={classes.menuIcon} />
+            //       <span>Delete</span>
+            //     </Fragment>
+            //   ),
+            //   onClick: () => console.log,
+            // },
             {
               contents: (
                 <Fragment>
@@ -260,7 +281,15 @@ const FilePreviewModal: React.FC<{
         )}
         <Grid item xs={12} sm={10} md={10} lg={10} xl={10} alignItems="center">
           <div {...handlers} className={classes.swipeContainer}>
-            {isLoading && <div>Loading</div>}
+            {isLoading && (
+              <div className={classes.previewContent}>
+                <Typography variant="h1">Loading preview</Typography>
+                <ProgressBar
+                  progress={loadingProgress}
+                  className={classes.loadingBar}
+                />
+              </div>
+            )}
             {error && <div>{error}</div>}
             {!isLoading &&
               !error &&

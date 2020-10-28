@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect, useState } from "react"
 import { IPreviewRendererProps } from "../FilePreviewModal"
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch"
 import {
@@ -13,6 +13,7 @@ import {
   ZoomInIcon,
   ZoomOutIcon,
   FullscreenIcon,
+  // PrinterIcon,
 } from "@imploy/common-components"
 
 const useStyles = makeStyles(({ constants, palette, zIndex }: ITheme) =>
@@ -39,7 +40,15 @@ const useStyles = makeStyles(({ constants, palette, zIndex }: ITheme) =>
 )
 
 const ImagePreview: React.FC<IPreviewRendererProps> = ({ contents }) => {
-  const imageUrl = URL.createObjectURL(contents)
+  const [imageUrl, setImageUrl] = useState<string | undefined>()
+
+  useEffect(() => {
+    setImageUrl(URL.createObjectURL(contents))
+
+    return () => {
+      imageUrl && URL.revokeObjectURL(imageUrl)
+    }
+  }, [contents])
   const classes = useStyles()
   const { breakpoints }: ITheme = useTheme()
 

@@ -13,7 +13,7 @@ import {
   Divider,
   DownloadIcon,
   EditIcon,
-  ExportIcon,
+  // ExportIcon,
   FileImageSvg,
   FilePdfSvg,
   FileTextSvg,
@@ -23,7 +23,7 @@ import {
   MenuDropdown,
   MoreIcon,
   PlusIcon,
-  ShareAltIcon,
+  // ShareAltIcon,
   SortDirection,
   standardlongDateFormat,
   Table,
@@ -697,24 +697,24 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
                       animation="none"
                       anchor={desktop ? "bottom-center" : "bottom-right"}
                       menuItems={[
-                        {
-                          contents: (
-                            <Fragment>
-                              <ExportIcon className={classes.menuIcon} />
-                              <span>Move</span>
-                            </Fragment>
-                          ),
-                          onClick: () => console.log,
-                        },
-                        {
-                          contents: (
-                            <Fragment>
-                              <ShareAltIcon className={classes.menuIcon} />
-                              <span>Share</span>
-                            </Fragment>
-                          ),
-                          onClick: () => console.log,
-                        },
+                        // {
+                        //   contents: (
+                        //     <Fragment>
+                        //       <ExportIcon className={classes.menuIcon} />
+                        //       <span>Move</span>
+                        //     </Fragment>
+                        //   ),
+                        //   onClick: () => console.log,
+                        // },
+                        // {
+                        //   contents: (
+                        //     <Fragment>
+                        //       <ShareAltIcon className={classes.menuIcon} />
+                        //       <span>Share</span>
+                        //     </Fragment>
+                        //   ),
+                        //   onClick: () => console.log,
+                        // },
                         {
                           contents: (
                             <Fragment>

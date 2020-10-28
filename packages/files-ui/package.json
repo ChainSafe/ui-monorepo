@@ -14,10 +14,11 @@
     "mime-matcher": "^1.0.5",
     "react": "^16.14.0",
     "react-dom": "^16.14.0",
-    "react-use-hotjar": "1.0.8",
+    "react-pdf": "^5.0.0",
     "react-scripts": "3.4.4",
     "react-swipeable": "^5.5.1",
     "react-toast-notifications": "^2.4.0",
+    "react-use-hotjar": "1.0.8",
     "react-zoom-pan-pinch": "^1.6.1",
     "typescript": "~4.0.3",
     "yup": "^0.29.3"
@@ -30,6 +31,7 @@
     "@types/node": "^14.14.3",
     "@types/react": "^16.9.53",
     "@types/react-dom": "^16.9.0",
+    "@types/react-pdf": "^4.0.6",
     "@types/react-toast-notifications": "^2.4.0",
     "@types/yup": "^0.29.8",
     "craco": "^0.0.3"
