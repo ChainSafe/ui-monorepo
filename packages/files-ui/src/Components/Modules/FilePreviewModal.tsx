@@ -133,6 +133,7 @@ const useStyles = makeStyles(
       },
       loadingBar: {
         width: 150,
+        marginTop: constants.generalUnit,
       },
     }),
 )
@@ -283,7 +284,6 @@ const FilePreviewModal: React.FC<{
             {isLoading && (
               <div className={classes.previewContent}>
                 <Typography variant="h1">Loading preview</Typography>
-                <br />
                 <ProgressBar
                   progress={loadingProgress}
                   className={classes.loadingBar}
