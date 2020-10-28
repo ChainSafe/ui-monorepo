@@ -178,6 +178,9 @@ interface IMenuDropdownProps {
   classNames?: {
     icon?: string
     options?: string
+    item?: string
+    title?: string
+    titleText?: string
   }
 }
 
@@ -205,12 +208,16 @@ const MenuDropdown: React.FC<IMenuDropdownProps> = ({
     <div ref={ref} className={clsx(classes.root, className)}>
       <section
         onClick={() => setOpen(!open)}
-        className={clsx(classes.title, {
+        className={clsx(classes.title, classNames?.title, {
           ["open"]: open,
         })}
       >
         {title && (
-          <Typography component="p" variant="body2">
+          <Typography
+            component="p"
+            variant="body2"
+            className={classNames?.titleText}
+          >
             {title}
           </Typography>
         )}
@@ -229,7 +236,7 @@ const MenuDropdown: React.FC<IMenuDropdownProps> = ({
         {menuItems.map((item: IMenuItem, index: number) => (
           <div
             key={`menu-${index}`}
-            className={classes.item}
+            className={clsx(classes.item, classNames?.item)}
             onClick={() => {
               autoclose && setOpen(false)
               item.onClick && item.onClick()
