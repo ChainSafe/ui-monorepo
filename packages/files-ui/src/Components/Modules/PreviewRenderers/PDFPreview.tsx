@@ -9,14 +9,7 @@ import {
 } from "@imploy/common-themes"
 import { Document, Page } from "react-pdf"
 
-import {
-  Button,
-  ZoomInIcon,
-  ZoomOutIcon,
-  FullscreenIcon,
-  PrinterIcon,
-  Typography,
-} from "@imploy/common-components"
+import { Button, Typography } from "@imploy/common-components"
 
 const useStyles = makeStyles(({ constants, palette, zIndex }: ITheme) =>
   createStyles({
@@ -32,6 +25,13 @@ const useStyles = makeStyles(({ constants, palette, zIndex }: ITheme) =>
       borderWidth: 1,
       borderStyle: "solid",
       borderColor: palette.additional["gray"][8],
+    },
+    pageButton: {
+      width: 80,
+    },
+    paginationInfo: {
+      paddingLeft: constants.generalUnit * 2,
+      paddingRight: constants.generalUnit * 2,
     },
   }),
 )
@@ -49,7 +49,6 @@ const PdfPreview: React.FC<IPreviewRendererProps> = ({ contents }) => {
   }, [contents])
 
   const [numPages, setNumPages] = useState<number | undefined>(undefined)
-  // const [scale, setScale] = useState(1)
   const [pageNumber, setPageNumber] = useState(1)
 
   function onDocumentLoadSuccess({ numPages }: any) {
@@ -72,18 +71,17 @@ const PdfPreview: React.FC<IPreviewRendererProps> = ({ contents }) => {
       <Document file={pdfUrl} onLoadSuccess={onDocumentLoadSuccess}>
         <Page pageNumber={pageNumber} />
       </Document>
-      {desktop && (
-        <div className={classes.controlsContainer}>
-          <Button onClick={prevPage}>Previous</Button>
-          <Typography>
-            {pageNumber} of {numPages}
-          </Typography>
-          <Button onClick={nextPage}>Next</Button>
-          {/* <Button>
-                  <PrinterIcon />
-                </Button> */}
-        </div>
-      )}
+      <div className={classes.controlsContainer}>
+        <Button onClick={prevPage} className={classes.pageButton}>
+          Previous
+        </Button>
+        <Typography className={classes.paginationInfo}>
+          {pageNumber} of {numPages}
+        </Typography>
+        <Button onClick={nextPage} className={classes.pageButton}>
+          Next
+        </Button>
+      </div>
     </>
   )
 }

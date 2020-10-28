@@ -13,7 +13,7 @@ import {
   ZoomInIcon,
   ZoomOutIcon,
   FullscreenIcon,
-  PrinterIcon,
+  // PrinterIcon,
 } from "@imploy/common-components"
 
 const useStyles = makeStyles(({ constants, palette, zIndex }: ITheme) =>

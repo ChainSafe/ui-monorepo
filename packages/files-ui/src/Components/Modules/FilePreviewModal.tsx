@@ -1,4 +1,4 @@
-import React, { Fragment, ReactNode, useEffect } from "react"
+import React, { Fragment, useEffect } from "react"
 import { useState } from "react"
 import {
   createStyles,
@@ -16,13 +16,14 @@ import {
   ArrowRightIcon,
   Typography,
   MenuDropdown,
-  ExportIcon,
-  DeleteIcon,
   DownloadIcon,
-  EditIcon,
   MoreIcon,
-  ShareAltIcon,
   CloseCircleIcon,
+  ProgressBar,
+  // ExportIcon,
+  // DeleteIcon,
+  // EditIcon,
+  // ShareAltIcon,
 } from "@imploy/common-components"
 import ImagePreview from "./PreviewRenderers/ImagePreview"
 import { useSwipeable } from "react-swipeable"
@@ -130,6 +131,9 @@ const useStyles = makeStyles(
         display: "flex",
         justifyContent: "center",
       },
+      loadingBar: {
+        width: 150,
+      },
     }),
 )
 
@@ -146,6 +150,7 @@ const FilePreviewModal: React.FC<{
   const desktop = useMediaQuery(breakpoints.up("sm"))
 
   const [isLoading, setIsLoading] = useState(false)
+  const [loadingProgress, setLoadingProgress] = useState(0)
   const [error, setError] = useState<string | undefined>(undefined)
   const [fileContent, setFileContent] = useState<Blob | undefined>(undefined)
   const handlers = useSwipeable({
@@ -160,7 +165,9 @@ const FilePreviewModal: React.FC<{
       setIsLoading(true)
       setError(undefined)
       try {
-        const content = await getFileContent(file.name)
+        const content = await getFileContent(file.name, (evt) => {
+          setLoadingProgress((evt.loaded / file.size) * 100)
+        })
         setFileContent(content)
       } catch (error) {
         setError("There was an error getting the preview.")
@@ -171,7 +178,7 @@ const FilePreviewModal: React.FC<{
     if (file && compatibleFilesMatcher.match(file?.content_type)) {
       getContents()
     }
-  }, [file])
+  }, [file, getFileContent])
 
   const validRendererMimeType =
     file &&
@@ -273,7 +280,16 @@ const FilePreviewModal: React.FC<{
         )}
         <Grid item xs={12} sm={10} md={10} lg={10} xl={10} alignItems="center">
           <div {...handlers} className={classes.swipeContainer}>
-            {isLoading && <div>Loading</div>}
+            {isLoading && (
+              <div className={classes.previewContent}>
+                <Typography variant="h1">Loading preview</Typography>
+                <br />
+                <ProgressBar
+                  progress={loadingProgress}
+                  className={classes.loadingBar}
+                />
+              </div>
+            )}
             {error && <div>{error}</div>}
             {!isLoading &&
               !error &&
