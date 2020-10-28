@@ -1,12 +1,6 @@
 import React, { useEffect, useState } from "react"
 import { IPreviewRendererProps } from "../FilePreviewModal"
-import {
-  makeStyles,
-  ITheme,
-  createStyles,
-  useMediaQuery,
-  useTheme,
-} from "@imploy/common-themes"
+import { makeStyles, ITheme, createStyles } from "@imploy/common-themes"
 import { Document, Page } from "react-pdf"
 
 import { Button, Typography } from "@imploy/common-components"
@@ -54,9 +48,6 @@ const PdfPreview: React.FC<IPreviewRendererProps> = ({ contents }) => {
   function onDocumentLoadSuccess({ numPages }: any) {
     setNumPages(numPages)
   }
-  const { breakpoints }: ITheme = useTheme()
-
-  const desktop = useMediaQuery(breakpoints.up("sm"))
 
   const nextPage = () => {
     numPages && pageNumber < numPages && setPageNumber(pageNumber + 1)

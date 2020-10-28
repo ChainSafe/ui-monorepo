@@ -62,7 +62,32 @@ const App: React.FC<{}> = () => {
       <ThemeSwitcher themes={{ light: lightTheme, dark: darkTheme }}>
         <CssBaseline />
         <ToasterProvider autoDismiss>
-          <Web3Provider networkIds={[1]}>
+          <Web3Provider
+            networkIds={[1]}
+            onboardConfig={{
+              walletSelect: {
+                wallets: [
+                  { walletName: "coinbase" },
+                  {
+                    walletName: "trust",
+                    preferred: true,
+                    rpcUrl:
+                      "https://mainnet.infura.io/v3/a7e16429d2254d488d396710084e2cd3",
+                  },
+                  { walletName: "metamask" },
+                  { walletName: "dapper" },
+                  { walletName: "opera" },
+                  { walletName: "operaTouch" },
+                  { walletName: "torus" },
+                  { walletName: "status" },
+                  {
+                    walletName: "walletConnect",
+                    infuraKey: "a7e16429d2254d488d396710084e2cd3",
+                  },
+                ],
+              },
+            }}
+          >
             <ImployApiProvider apiUrl={apiUrl}>
               <UserProvider>
                 <DriveProvider>
