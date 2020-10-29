@@ -23,7 +23,7 @@ const AudioPreview: React.FC<IPreviewRendererProps> = ({ contents }) => {
     }
   }, [contents])
 
-  return <audio controls src={audioUrl}></audio>
+  return <audio controls src={audioUrl} autoPlay></audio>
 }
 
 export default AudioPreview

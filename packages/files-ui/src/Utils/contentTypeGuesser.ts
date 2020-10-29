@@ -10,10 +10,9 @@ const guessContentType = (fileName: string) => {
     case "bmp":
       return `image/${ext}`
     case "mp3":
-    case "flac":
+    case "m4a":
       return `audio/${ext}`
-    case "avi":
-    case "mkv":
+    case "mp4":
       return `video/${ext}`
     case "txt":
       return "text/plain"

@@ -23,7 +23,7 @@ const VideoPreview: React.FC<IPreviewRendererProps> = ({ contents }) => {
     }
   }, [contents])
 
-  return <video src={videoUrl} controls></video>
+  return <video src={videoUrl} controls autoPlay></video>
 }
 
 export default VideoPreview
