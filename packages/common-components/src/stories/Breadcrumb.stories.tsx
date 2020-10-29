@@ -19,7 +19,7 @@ export const BreadcrumbStory = (): React.ReactNode => (
   <>
     <Breadcrumb
       homeOnClick={() => actionsData.homeClicked()}
-      responsive={boolean("responsive", true)}
+      showDropDown={boolean("show dropdown", true)}
       crumbs={[
         {
           text: "Level 1 - Clickable",
@@ -39,7 +39,7 @@ export const BreadcrumbStory = (): React.ReactNode => (
     <br />
     <Breadcrumb
       homeOnClick={() => actionsData.homeClicked()}
-      responsive={boolean("responsive", true)}
+      showDropDown={boolean("show dropdown", true)}
       crumbs={[
         {
           text: "Level 1",

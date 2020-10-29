@@ -20,7 +20,7 @@ export type BreadcrumbProps = {
   crumbs?: Crumb[]
   homeOnClick?: () => void
   className?: string
-  responsive?: boolean
+  showDropDown?: boolean
 }
 
 const useStyles = makeStyles(
@@ -99,7 +99,7 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({
   crumbs = [],
   homeOnClick,
   className,
-  responsive,
+  showDropDown,
 }: BreadcrumbProps) => {
   const classes = useStyles()
   const { breakpoints }: ITheme = useTheme()
@@ -149,7 +149,7 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({
   }
 
   const generateCrumbs = () => {
-    if (crumbs.length < 3 || !responsive || desktop) {
+    if (crumbs.length < 3 || !showDropDown || desktop) {
       return generateFullCrumbs(crumbs)
     } else {
       const dropdownCrumbs = crumbs.slice(0, length - 1)
