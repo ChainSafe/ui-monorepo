@@ -38,13 +38,12 @@ const useStyles = makeStyles(
     }),
 )
 
-export interface ITableRowProps {
+export interface ITableRowProps extends React.HTMLProps<HTMLTableRowElement> {
   className?: string
   type?: "classic" | "grid"
   children: ReactNode | ReactNode[]
   selected?: boolean
   rowSelectable?: boolean
-  onClick?(e: React.MouseEvent<HTMLTableRowElement, MouseEvent>): void
 }
 
 const TableRow: React.FC<ITableRowProps> = ({
