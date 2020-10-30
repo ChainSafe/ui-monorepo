@@ -1,12 +1,6 @@
 import React, { Fragment } from "react"
 import clsx from "clsx"
-import {
-  ITheme,
-  makeStyles,
-  createStyles,
-  useMediaQuery,
-  useTheme,
-} from "@imploy/common-themes"
+import { ITheme, makeStyles, createStyles } from "@imploy/common-themes"
 import { HomeIcon } from "../Icons"
 import { Typography } from "../Typography"
 import { MenuDropdown } from "../MenuDropdown"
@@ -76,6 +70,7 @@ const useStyles = makeStyles(
         color: palette.additional["gray"][9],
       },
       menuTitleText: {
+        fontSize: 14,
         maxWidth: 100,
         whiteSpace: "nowrap",
         overflow: "hidden",
@@ -102,8 +97,6 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({
   showDropDown,
 }: BreadcrumbProps) => {
   const classes = useStyles()
-  const { breakpoints }: ITheme = useTheme()
-  const desktop = useMediaQuery(breakpoints.up("sm"))
 
   const generateFullCrumbs = (crumbs: Crumb[]) => {
     return crumbs.map((item: Crumb, index: number) => (
@@ -113,7 +106,7 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({
           <Typography
             onClick={() => (item.onClick ? item.onClick() : null)}
             className={clsx(classes.crumb, item.onClick && "clickable")}
-            variant="body2"
+            variant="body1"
           >
             {item.text}
           </Typography>
@@ -137,7 +130,7 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({
         menuItems={crumbs.map((crumb) => ({
           contents: (
             <Typography
-              variant="body2"
+              variant="body1"
               onClick={() => (crumb.onClick ? crumb.onClick() : null)}
             >
               {crumb.text}
@@ -149,7 +142,7 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({
   }
 
   const generateCrumbs = () => {
-    if (crumbs.length < 3 || !showDropDown || desktop) {
+    if (crumbs.length < 3 || !showDropDown) {
       return generateFullCrumbs(crumbs)
     } else {
       const dropdownCrumbs = crumbs.slice(0, length - 1)
@@ -163,7 +156,7 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({
             <Typography
               onClick={() => (lastCrumb.onClick ? lastCrumb.onClick() : null)}
               className={clsx(classes.crumb, lastCrumb.onClick && "clickable")}
-              variant="body2"
+              variant="body1"
             >
               {lastCrumb.text}
             </Typography>
