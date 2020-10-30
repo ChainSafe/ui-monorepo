@@ -12,6 +12,7 @@ import { v4 as uuidv4 } from "uuid"
 import { useToaster } from "@imploy/common-components"
 import { uploadsInProgressReducer } from "./DriveReducer"
 import { guessContentType } from "../Utils/contentTypeGuesser"
+import { CancelToken } from "axios"
 
 type DriveContextProps = {
   children: React.ReactNode | React.ReactNode[]
@@ -36,6 +37,7 @@ type DriveContext = {
   downloadFile(fileName: string): Promise<void>
   getFileContent(
     fileName: string,
+    cancelToken?: CancelToken,
     onDownloadProgress?: (progressEvent: ProgressEvent<EventTarget>) => void,
   ): Promise<Blob>
   list(body: FilesPathRequest): Promise<FileContentResponse[]>
@@ -271,6 +273,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
 
   const getFileContent = async (
     fileName: string,
+    cancelToken?: CancelToken,
     onDownloadProgress?: (progressEvent: ProgressEvent<EventTarget>) => void,
   ) => {
     try {
@@ -278,7 +281,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
         {
           path: currentPath + fileName,
         },
-        undefined,
+        cancelToken,
         onDownloadProgress,
       )
       return result.data
@@ -293,6 +296,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
       appearance: "info",
     })
     try {
+      // TODO: Create a progress bar toast to show file download progress
       const result = await getFileContent(fileName)
       const link = document.createElement("a")
       link.href = URL.createObjectURL(result)

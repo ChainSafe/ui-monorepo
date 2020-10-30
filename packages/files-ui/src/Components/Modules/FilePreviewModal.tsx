@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect } from "react"
+import React, { Fragment, useEffect, useRef } from "react"
 import { useState } from "react"
 import {
   createStyles,
@@ -9,6 +9,7 @@ import {
 } from "@imploy/common-themes"
 import { IFile, useDrive } from "../../Contexts/DriveContext"
 import MimeMatcher from "mime-matcher"
+import axios, { CancelToken, CancelTokenSource } from "axios"
 import {
   Button,
   Grid,
@@ -161,25 +162,47 @@ const FilePreviewModal: React.FC<{
     onSwipedRight: () => nextFile && !isLoading && nextFile(),
     delta: 20,
   })
+
+  const source = useRef<CancelTokenSource | null>(null)
+
+  function getSource() {
+    if (source.current === null) {
+      source.current = axios.CancelToken.source()
+    }
+    return source.current
+  }
+
   useEffect(() => {
     const getContents = async () => {
       if (!file) return
-
+      if (isLoading && source.current) {
+        source.current.cancel("Cancelling previous request")
+        source.current = null
+      }
+      const token = getSource().token
       setIsLoading(true)
       setError(undefined)
       try {
-        const content = await getFileContent(file.name, (evt) => {
+        const content = await getFileContent(file.name, token, (evt) => {
           setLoadingProgress((evt.loaded / file.size) * 100)
         })
         setFileContent(content)
+        source.current = null
+        setLoadingProgress(0)
       } catch (error) {
-        setError("There was an error getting the preview.")
+        if (error) {
+          setError("There was an error getting the preview.")
+        }
       }
       setIsLoading(false)
     }
 
     if (file && compatibleFilesMatcher.match(file?.content_type)) {
       getContents()
+    }
+
+    return () => {
+      source.current && source.current.cancel("Cancelled by user")
     }
   }, [file, getFileContent])
 
