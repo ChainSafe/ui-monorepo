@@ -5,7 +5,7 @@
   "dependencies": {
     "@chainsafe/web3-context": "1.0.4",
     "@sentry/react": "^5.27.1",
-    "@types/yup": "^0.29.8",
+    "@types/yup": "^0.29.9",
     "bnc-onboard": "^1.14.0",
     "clsx": "^1.1.1",
     "dayjs": "^1.9.4",
@@ -33,7 +33,7 @@
     "@types/react-dom": "^16.9.0",
     "@types/react-pdf": "^4.0.6",
     "@types/react-toast-notifications": "^2.4.0",
-    "@types/yup": "^0.29.8",
+    "@types/yup": "^0.29.9",
     "craco": "^0.0.3"
   },
   "scripts": {
