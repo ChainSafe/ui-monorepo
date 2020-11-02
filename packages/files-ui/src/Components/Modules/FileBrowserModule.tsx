@@ -65,7 +65,7 @@ const useStyles = makeStyles(
         [breakpoints.up("sm")]: {
           border: `1px solid transparent`,
           padding: `0 ${constants.generalUnit}px`,
-          borderRadius: "50%",
+          borderRadius: constants.generalUnit / 4,
           minHeight: `calc(100vh - ${constants.contentTopPadding as number}px)`,
           "&.dragging": {
             borderColor: palette.additional["geekblue"][4],
