@@ -402,6 +402,7 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
           <Breadcrumb
             crumbs={crumbs}
             homeOnClick={() => updateCurrentPath("/")}
+            showDropDown={!desktop}
           />
         )}
       </div>
