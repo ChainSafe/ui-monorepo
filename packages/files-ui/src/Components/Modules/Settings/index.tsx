@@ -14,6 +14,7 @@ import {
 import { makeStyles, ITheme, createStyles } from "@imploy/common-themes"
 import { useUser } from "@imploy/common-contexts"
 import { ROUTE_LINKS } from "../../FilesRoutes"
+import { CardInputs } from "@imploy/common-modules"
 
 const useStyles = makeStyles((theme: ITheme) =>
   createStyles({
@@ -146,6 +147,7 @@ const Settings: React.FC = () => {
             <Plan />
           </TabPane>
         </Tabs>
+        <CardInputs />
       </div>
     </div>
   )
