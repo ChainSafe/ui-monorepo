@@ -19,12 +19,6 @@ interface IAppWrapper {
 
 const useStyles = makeStyles(
   ({ animation, breakpoints, constants }: ITheme) => {
-    const modalWidth = constants.generalUnit * 27
-    const contentPadding = constants.generalUnit * 15
-    const contentTopPadding = constants.generalUnit * 15
-
-    const mobileHeaderHeight = constants.generalUnit * 6.3
-
     return createStyles({
       root: {
         minHeight: "100vh",
@@ -36,8 +30,9 @@ const useStyles = makeStyles(
           "&.active": {
             // This moves the content areas based on the size of the nav bar
 
-            padding: `${0}px ${contentPadding}px ${0}px ${
-              modalWidth + contentPadding
+            padding: `${0}px ${constants.contentPadding}px ${0}px ${
+              (constants.navWidth as number) +
+              (constants.contentPadding as number)
             }px`,
           },
         },
@@ -51,14 +46,14 @@ const useStyles = makeStyles(
           padding: 0,
           "&.active": {
             height: "initial",
-            padding: `${contentTopPadding}px 0 0`,
+            padding: `${constants.contentTopPadding}px 0 0`,
           },
         },
         [breakpoints.down("sm")]: {
           minHeight: "100vh",
           "&.active": {
             height: "initial",
-            padding: `${mobileHeaderHeight}px 0 0`,
+            padding: `${constants.mobileHeaderHeight}px 0 0`,
           },
         },
       },

@@ -62,9 +62,19 @@ const useStyles = makeStyles(
           paddingLeft: constants.generalUnit * 2,
           paddingRight: constants.generalUnit * 2,
         },
-        "&.dragging .folder.hovered": {
-          borderColor: palette.additional["geekblue"][4],
+        [breakpoints.up("sm")]: {
+          border: `1px solid transparent`,
+          padding: `0 ${constants.generalUnit}px`,
+          borderRadius: "50%",
+          minHeight: `calc(100vh - ${constants.contentTopPadding as number}px)`,
+          "&.dragging": {
+            borderColor: palette.additional["geekblue"][4],
+            "& .folder.hovered": {
+              borderColor: palette.additional["geekblue"][4],
+            },
+          },
         },
+        transitionDuration: `${animation.transform}ms`,
       },
       header: {
         display: "flex",
@@ -210,7 +220,7 @@ const useStyles = makeStyles(
         position: "fixed",
         zIndex: zIndex?.layer4,
         bottom: 0,
-        left: "50%",
+
         transform: "translateX(-50%)",
         backgroundColor: palette.common.black.main,
         color: palette.additional["gray"][2],
@@ -220,6 +230,9 @@ const useStyles = makeStyles(
         textAlign: "center",
         width: 260,
         padding: `${constants.generalUnit}px 0`,
+        [breakpoints.up("sm")]: {
+          left: `calc(50% + ${(constants.navWidth as number) / 2}px)`,
+        },
         "&.active": {
           opacity: 1,
           visibility: "visible",
@@ -424,7 +437,7 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
     const timer = setTimeout(() => {
       setDropActive(-1)
       setUploadTarget(currentPath)
-    }, 2000)
+    }, 500)
     setDropActive(timer)
     return () => {
       clearTimeout(timer)
