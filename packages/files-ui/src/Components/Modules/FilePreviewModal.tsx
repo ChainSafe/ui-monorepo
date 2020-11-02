@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useRef } from "react"
+import React, { Fragment, useCallback, useEffect, useRef } from "react"
 import { useState } from "react"
 import {
   createStyles,
@@ -31,6 +31,7 @@ import { useSwipeable } from "react-swipeable"
 import PdfPreview from "./PreviewRenderers/PDFPreview"
 import VideoPreview from "./PreviewRenderers/VideoPreview"
 import AudioPreview from "./PreviewRenderers/AudioPreview"
+import { useHotkeys } from "react-hotkeys-hook"
 
 export interface IPreviewRendererProps {
   contents: Blob
@@ -220,6 +221,24 @@ const FilePreviewModal: React.FC<{
     fileContent &&
     validRendererMimeType &&
     SUPPORTED_FILE_TYPES[validRendererMimeType]
+
+  useHotkeys("Esc,Escape", () => {
+    if (file) {
+      closePreview()
+    }
+  })
+
+  useHotkeys("Left,ArrowLeft", () => {
+    if (file && previousFile) {
+      previousFile()
+    }
+  })
+
+  useHotkeys("Right,ArrowRight", () => {
+    if (file && nextFile) {
+      nextFile()
+    }
+  })
 
   return !file ? null : (
     <div className={classes.root}>

@@ -15,6 +15,7 @@
     "react": "^16.14.0",
     "react-dom": "^16.14.0",
     "react-h5-audio-player": "^3.4.1",
+    "react-hotkeys-hook": "^2.4.0",
     "react-pdf": "^5.0.0",
     "react-scripts": "3.4.4",
     "react-swipeable": "^5.5.1",
