@@ -29,7 +29,7 @@
   },
   "devDependencies": {
     "@material-ui/styles": "^4.10.0",
-    "@rollup/plugin-commonjs": "^15.1.0",
+    "@rollup/plugin-commonjs": "^16.0.0",
     "@rollup/plugin-json": "^4.1.0",
     "@rollup/plugin-node-resolve": "^10.0.0",
     "@types/react": "^16.9.55",
