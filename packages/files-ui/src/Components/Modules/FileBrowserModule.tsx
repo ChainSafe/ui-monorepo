@@ -437,7 +437,7 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
     const timer = setTimeout(() => {
       setDropActive(-1)
       setUploadTarget(currentPath)
-    }, 500)
+    }, 2000)
     setDropActive(timer)
     return () => {
       clearTimeout(timer)
