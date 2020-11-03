@@ -19,7 +19,7 @@
   "repository": "https://github.com/imploy/ui.git",
   "dependencies": {
     "@material-ui/styles": "^4.10.0",
-    "@types/react-select": "^3.0.22",
+    "@types/react-select": "^3.0.23",
     "a11y-react-emoji": "^1.1.2",
     "clsx": "^1.1.1",
     "normalize.css": "^8.0.1",
