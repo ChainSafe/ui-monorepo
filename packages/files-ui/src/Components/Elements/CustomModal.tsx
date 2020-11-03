@@ -6,12 +6,12 @@ import clsx from "clsx"
 const useStyles = makeStyles(({ constants, breakpoints, palette }: ITheme) =>
   createStyles({
     root: {
-      [breakpoints.down("sm")]: {
+      [breakpoints.down("md")]: {
         "&:before": {},
       },
     },
     inner: {
-      [breakpoints.down("sm")]: {
+      [breakpoints.down("md")]: {
         backgroundColor: palette.additional["gray"][3],
         top: "unset",
         bottom: 0,
@@ -25,7 +25,7 @@ const useStyles = makeStyles(({ constants, breakpoints, palette }: ITheme) =>
       },
     },
     close: {
-      [breakpoints.down("sm")]: {},
+      [breakpoints.down("md")]: {},
     },
   }),
 )

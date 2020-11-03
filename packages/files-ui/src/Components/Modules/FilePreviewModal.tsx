@@ -71,7 +71,7 @@ const useStyles = makeStyles(
         left: 0,
         top: 0,
         width: "100%",
-        maxWidth: breakpoints.values["sm"],
+        maxWidth: breakpoints.values["md"],
         height: constants.generalUnit * 8,
         backgroundColor: palette.additional["gray"][9],
         color: palette.additional["gray"][3],
@@ -152,7 +152,7 @@ const FilePreviewModal: React.FC<{
   const { getFileContent, downloadFile } = useDrive()
 
   const { breakpoints }: ITheme = useTheme()
-  const desktop = useMediaQuery(breakpoints.up("sm"))
+  const desktop = useMediaQuery(breakpoints.up("md"))
 
   const [isLoading, setIsLoading] = useState(false)
   const [loadingProgress, setLoadingProgress] = useState(0)

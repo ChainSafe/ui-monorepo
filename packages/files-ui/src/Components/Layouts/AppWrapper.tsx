@@ -31,7 +31,7 @@ const useStyles = makeStyles(
       },
       bodyWrapper: {
         transitionDuration: `${animation.translate}ms`,
-        [breakpoints.up("sm")]: {
+        [breakpoints.up("md")]: {
           padding: `0`,
           "&.active": {
             // This moves the content areas based on the size of the nav bar
@@ -41,10 +41,10 @@ const useStyles = makeStyles(
             }px`,
           },
         },
-        [breakpoints.down("sm")]: {},
+        [breakpoints.down("md")]: {},
       },
       content: {
-        [breakpoints.up("sm")]: {
+        [breakpoints.up("md")]: {
           height: "100%",
           minHeight: "100vh",
           transitionDuration: `${animation.translate}ms`,
@@ -54,7 +54,7 @@ const useStyles = makeStyles(
             padding: `${contentTopPadding}px 0 0`,
           },
         },
-        [breakpoints.down("sm")]: {
+        [breakpoints.down("md")]: {
           minHeight: "100vh",
           "&.active": {
             height: "initial",
@@ -69,7 +69,7 @@ const useStyles = makeStyles(
 const AppWrapper: React.FC<IAppWrapper> = ({ children }: IAppWrapper) => {
   const classes = useStyles()
   const { breakpoints }: ITheme = useTheme()
-  const desktop = useMediaQuery(breakpoints.up("sm"))
+  const desktop = useMediaQuery(breakpoints.up("md"))
 
   const [navOpen, setNavOpen] = useState<boolean>(desktop)
 

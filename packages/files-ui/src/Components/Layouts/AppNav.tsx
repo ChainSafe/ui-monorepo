@@ -45,7 +45,7 @@ const useStyles = makeStyles(
         "&.active": {
           opacity: 1,
         },
-        [breakpoints.up("sm")]: {
+        [breakpoints.up("md")]: {
           padding: `${topPadding}px ${constants.generalUnit * 4.5}px`,
           backgroundColor: palette.additional["gray"][3],
           top: 0,
@@ -54,7 +54,7 @@ const useStyles = makeStyles(
             width: modalWidth,
           },
         },
-        [breakpoints.down("sm")]: {
+        [breakpoints.down("md")]: {
           height: `calc(100% - ${mobileHeaderHeight}px)`,
           top: mobileHeaderHeight,
           backgroundColor: palette.additional["gray"][9],
@@ -104,7 +104,7 @@ const useStyles = makeStyles(
         flexDirection: "row",
         alignItems: "center",
 
-        [breakpoints.up("sm")]: {
+        [breakpoints.up("md")]: {
           "& img": {
             height: constants.generalUnit * 5,
             width: "auto",
@@ -113,7 +113,7 @@ const useStyles = makeStyles(
             marginRight: constants.generalUnit,
           },
         },
-        [breakpoints.down("sm")]: {
+        [breakpoints.down("md")]: {
           position: "absolute",
           left: "50%",
           top: "50%",
@@ -139,10 +139,10 @@ const useStyles = makeStyles(
         "& > span": {
           marginBottom: constants.generalUnit * 2,
         },
-        [breakpoints.up("sm")]: {
+        [breakpoints.up("md")]: {
           height: 0,
         },
-        [breakpoints.down("sm")]: {
+        [breakpoints.down("md")]: {
           transitionDuration: `${animation.translate}ms`,
           color: palette.additional["gray"][3],
           "&.active": {},
@@ -158,11 +158,11 @@ const useStyles = makeStyles(
         "& svg": {
           width: svgWidth,
           marginRight: constants.generalUnit * 2,
-          [breakpoints.down("sm")]: {
+          [breakpoints.down("md")]: {
             fill: palette.additional["gray"][3],
           },
         },
-        [breakpoints.down("sm")]: {
+        [breakpoints.down("md")]: {
           color: palette.additional["gray"][3],
           minWidth: mobileNavWidth,
         },
@@ -193,7 +193,7 @@ interface IAppNav {
 const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
   const classes = useStyles()
   const { breakpoints }: ITheme = useTheme()
-  const desktop = useMediaQuery(breakpoints.up("sm"))
+  const desktop = useMediaQuery(breakpoints.up("md"))
   const { spaceUsed } = useDrive()
 
   const { isLoggedIn, logout } = useImployApi()
