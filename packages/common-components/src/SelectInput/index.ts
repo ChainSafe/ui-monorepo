@@ -1,2 +1,9 @@
-export { default as FormikSelectInput } from "./FormikSelectInput"
-export { default as SelectInput } from "./SelectInput"
+export {
+  default as FormikSelectInput,
+  IFormikSelectInputProps,
+} from "./FormikSelectInput"
+export {
+  default as SelectInput,
+  ISelectInputProps,
+  ISelectOption,
+} from "./SelectInput"
