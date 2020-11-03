@@ -35,7 +35,8 @@ export const SelectInputStory = (): React.ReactNode => {
         setValue(value)
       }}
       size={select("Size", sizeOptions, "large")}
-      isMulti={true}
+      isMulti={boolean("Multi", false)}
+      isClearable={boolean("Clearable", false)}
       disabled={boolean("Disabled", false)}
       label={text("Label", "Testing Label")}
       value={value}
@@ -43,7 +44,8 @@ export const SelectInputStory = (): React.ReactNode => {
         {
           label: (
             <Fragment>
-              <BulbIcon /> <Typography>Custom markup</Typography>
+              <BulbIcon fontSize="small" />{" "}
+              <Typography>Custom markup</Typography>
             </Fragment>
           ),
           value: "4",
@@ -71,7 +73,8 @@ export const FormikStory = (): React.ReactNode => {
             {
               label: (
                 <Fragment>
-                  <BulbIcon /> <Typography>Custom markup</Typography>
+                  <BulbIcon fontSize="small" />{" "}
+                  <Typography>Custom markup</Typography>
                 </Fragment>
               ),
               value: "4",
@@ -79,6 +82,8 @@ export const FormikStory = (): React.ReactNode => {
             { label: "b", value: "b" },
             { label: "c", value: "c" },
           ]}
+          isMulti={boolean("Multi", false)}
+          isClearable={boolean("Clearable", false)}
         />
         <br />
         <br />
