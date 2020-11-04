@@ -35,6 +35,7 @@ export const SelectInputStory = (): React.ReactNode => {
         setValue(value)
       }}
       size={select("Size", sizeOptions, "large")}
+      isClearable={boolean("is clearable", true)}
       isMulti={true}
       disabled={boolean("Disabled", false)}
       label={text("Label", "Testing Label")}

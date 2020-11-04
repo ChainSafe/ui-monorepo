@@ -1,3 +1,5 @@
+import * as CardSvgs from "../CardSvgs"
+
 export const DEFAULT_CVC_LENGTH = 3
 export const DEFAULT_ZIP_LENGTH = 5
 export const DEFAULT_CARD_FORMAT = /(\d{1,4})/g
@@ -27,6 +29,7 @@ export interface ICardType {
     name: CodeName
     length: number
   }
+  icon?: React.ReactNode
 }
 
 export const CARD_TYPES: ICardType[] = [
@@ -41,6 +44,7 @@ export const CARD_TYPES: ICardType[] = [
       name: "CVV",
       length: 3,
     },
+    icon: CardSvgs.Visa,
   },
   {
     displayName: "Mastercard",
@@ -53,6 +57,7 @@ export const CARD_TYPES: ICardType[] = [
       name: "CVC",
       length: 3,
     },
+    icon: CardSvgs.Mastercard,
   },
   {
     displayName: "American Express",
@@ -65,6 +70,7 @@ export const CARD_TYPES: ICardType[] = [
       name: "CID",
       length: 4,
     },
+    icon: CardSvgs.Amex,
   },
   {
     displayName: "Diners Club",
@@ -77,6 +83,7 @@ export const CARD_TYPES: ICardType[] = [
       name: "CVV",
       length: 3,
     },
+    icon: CardSvgs.Dinersclub,
   },
   {
     displayName: "Discover",
@@ -89,6 +96,7 @@ export const CARD_TYPES: ICardType[] = [
       name: "CID",
       length: 3,
     },
+    icon: CardSvgs.Discover,
   },
   {
     displayName: "JCB",
@@ -101,6 +109,7 @@ export const CARD_TYPES: ICardType[] = [
       name: "CVV",
       length: 3,
     },
+    icon: CardSvgs.Jcb,
   },
   {
     displayName: "UnionPay",
@@ -113,6 +122,7 @@ export const CARD_TYPES: ICardType[] = [
       name: "CVN",
       length: 3,
     },
+    icon: CardSvgs.Unionpay,
   },
   {
     displayName: "Maestro",
@@ -149,11 +159,16 @@ export const CARD_TYPES: ICardType[] = [
       name: "CVC",
       length: 3,
     },
+    icon: CardSvgs.Hipercard,
   },
 ]
 
-export const getCardTypeByValue = (value: string) =>
-  CARD_TYPES.filter((cardType) => cardType.startPattern.test(value))[0]
+export const getCardTypeByValue = (value: string) => {
+  const cardTypes = CARD_TYPES.filter((cardType) =>
+    cardType.startPattern.test(value),
+  )
+  return cardTypes[0] ? cardTypes[0] : undefined
+}
 
 export const getCardTypeByType = (type: CardType) =>
   CARD_TYPES.filter((cardType) => cardType.type === type)[0]

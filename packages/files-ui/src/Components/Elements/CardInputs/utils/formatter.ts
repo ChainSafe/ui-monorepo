@@ -23,12 +23,12 @@ export const formatCardNumber = (cardNumber: string) => {
   return cardNumber
 }
 
-export const formatExpiry = (event: any) => {
-  const eventData = event.nativeEvent && event.nativeEvent.data
-  const prevExpiry = event.target.value.split(" / ").join("/")
+export const formatExpiry = (cardExpiry: string) => {
+  // const eventData = event.nativeEvent && event.nativeEvent.data
+  const prevExpiry = cardExpiry
 
   if (!prevExpiry) return null
-  let expiry = prevExpiry
+  let expiry: any = prevExpiry
   if (/^[2-9]$/.test(expiry)) {
     expiry = `0${expiry}`
   }
@@ -44,7 +44,7 @@ export const formatExpiry = (event: any) => {
 
   expiry = expiry.match(/(\d{1,2})/g) || []
   if (expiry.length === 1) {
-    if (!eventData && prevExpiry.includes("/")) {
+    if (prevExpiry.includes("/")) {
       return expiry[0]
     }
     if (/\d{2}/.test(expiry)) {

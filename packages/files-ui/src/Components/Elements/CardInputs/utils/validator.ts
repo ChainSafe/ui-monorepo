@@ -41,10 +41,7 @@ export const validateLuhn = (cardNumber: string) => {
     0
   )
 }
-export const getCardNumberError = (
-  cardNumber: string,
-  cardNumberValidator: any,
-): string | undefined => {
+export const getCardNumberError = (cardNumber: string): string | undefined => {
   if (!cardNumber) {
     return EMPTY_CARD_NUMBER
   }
@@ -58,12 +55,6 @@ export const getCardNumberError = (
     if (doesCardNumberMatchLength) {
       const isLuhnValid = validateLuhn(rawCardNumber)
       if (isLuhnValid) {
-        if (cardNumberValidator) {
-          return cardNumberValidator({
-            cardNumber: rawCardNumber,
-            cardType,
-          })
-        }
         return
       }
     }
@@ -71,10 +62,7 @@ export const getCardNumberError = (
   return INVALID_CARD_NUMBER
 }
 
-export const getExpiryDateError = (
-  expiryDate: string,
-  expiryValidator: any,
-): string | undefined => {
+export const getExpiryDateError = (expiryDate: string): string | undefined => {
   if (!expiryDate) {
     return EMPTY_EXPIRY_DATE
   }
@@ -94,19 +82,12 @@ export const getExpiryDateError = (
     ) {
       return DATE_OUT_OF_RANGE
     }
-    if (expiryValidator) {
-      return expiryValidator({ expiryDate: { month, year } })
-    }
     return
   }
   return INVALID_EXPIRY_DATE
 }
 
-export const getCVCError = (
-  cvc: string,
-  cvcValidator: any,
-  cardType: ICardType,
-) => {
+export const getCVCError = (cvc: string, cardType: ICardType | undefined) => {
   if (!cvc) {
     return EMPTY_CVC
   }
@@ -115,9 +96,6 @@ export const getCVCError = (
   }
   if (cardType && cvc.length !== cardType.code.length) {
     return INVALID_CVC
-  }
-  if (cvcValidator) {
-    return cvcValidator({ cvc, cardType })
   }
   return
 }
