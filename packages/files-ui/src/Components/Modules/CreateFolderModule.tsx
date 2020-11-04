@@ -28,10 +28,10 @@ const useStyles = makeStyles(
         padding: constants.generalUnit * 4,
       },
       modalRoot: {
-        [breakpoints.down("sm")]: {},
+        [breakpoints.down("md")]: {},
       },
       modalInner: {
-        [breakpoints.down("sm")]: {
+        [breakpoints.down("md")]: {
           bottom:
             (constants?.mobileButtonHeight as number) + constants.generalUnit,
           borderTopLeftRadius: `${constants.generalUnit * 1.5}px`,
@@ -48,7 +48,7 @@ const useStyles = makeStyles(
         backgroundColor: palette.common.black.main,
       },
       cancelButton: {
-        [breakpoints.down("sm")]: {
+        [breakpoints.down("md")]: {
           position: "fixed",
           bottom: 0,
           left: 0,
@@ -84,7 +84,7 @@ const CreateFolderModule: React.FC<ICreateFolderModuleProps> = ({
   const [open, setOpen] = useState(false)
 
   const handleCloseDialog = () => setOpen(false)
-  const desktop = useMediaQuery("sm")
+  const desktop = useMediaQuery("md")
 
   return (
     <>
@@ -105,7 +105,7 @@ const CreateFolderModule: React.FC<ICreateFolderModuleProps> = ({
         }}
         active={open}
         closePosition="none"
-        maxWidth="sm"
+        maxWidth="md"
       >
         <Formik
           initialValues={{

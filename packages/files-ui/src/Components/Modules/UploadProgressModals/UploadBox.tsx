@@ -18,13 +18,13 @@ const useStyles = makeStyles(
         border: `1px solid ${palette.additional["gray"][6]}`,
         padding: constants.generalUnit * 2,
         borderRadius: 4,
-        [breakpoints.down("sm")]: {
+        [breakpoints.down("md")]: {
           margin: 0,
         },
       },
       appearBox: {
         animation: `$slideLeft ${animation.translate}ms`,
-        [breakpoints.down("sm")]: {
+        [breakpoints.down("md")]: {
           animation: `$slideUp ${animation.translate}ms`,
         },
       },

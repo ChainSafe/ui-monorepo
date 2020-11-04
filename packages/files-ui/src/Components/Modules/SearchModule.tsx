@@ -18,7 +18,7 @@ import clsx from "clsx"
 const useStyles = makeStyles(({ breakpoints }: ITheme) =>
   createStyles({
     root: {
-      [breakpoints.down("sm")]: {
+      [breakpoints.down("md")]: {
         cursor: "pointer",
         "& input": {
           opacity: 0,
@@ -29,7 +29,7 @@ const useStyles = makeStyles(({ breakpoints }: ITheme) =>
         },
       },
       "&.active": {
-        [breakpoints.down("sm")]: {
+        [breakpoints.down("md")]: {
           "& input": {
             opacity: 1,
             width: "100%",
@@ -38,7 +38,7 @@ const useStyles = makeStyles(({ breakpoints }: ITheme) =>
       },
     },
     searchBar: {
-      [breakpoints.down("sm")]: {
+      [breakpoints.down("md")]: {
         height: "100%",
       },
     },

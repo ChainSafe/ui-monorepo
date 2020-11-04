@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme: ITheme) =>
     bodyContainer: {
       padding: `${theme.constants.generalUnit * 3}px 0px`,
       borderBottom: `1px solid ${theme.palette.additional["gray"][4]}`,
-      [theme.breakpoints.down("sm")]: {
+      [theme.breakpoints.down("md")]: {
         borderBottom: "none",
       },
     },
@@ -38,7 +38,7 @@ const useStyles = makeStyles((theme: ITheme) =>
       display: "flex",
       alignItems: "center",
       justifyContent: "space-between",
-      [theme.breakpoints.down("sm")]: {
+      [theme.breakpoints.down("md")]: {
         flexFlow: "column",
         alignItems: "flex-start",
         width: 300,
@@ -46,13 +46,13 @@ const useStyles = makeStyles((theme: ITheme) =>
     },
     subtitle: {
       color: theme.palette.additional["gray"][8],
-      [theme.breakpoints.down("sm")]: {
+      [theme.breakpoints.down("md")]: {
         fontSize: 16,
         lineHeight: "22px",
       },
     },
     spaceUsedBox: {
-      [theme.breakpoints.down("sm")]: {
+      [theme.breakpoints.down("md")]: {
         marginBottom: theme.constants.generalUnit,
         width: "inherit",
       },

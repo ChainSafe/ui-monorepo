@@ -21,14 +21,14 @@ const useStyles = makeStyles((theme: ITheme) =>
     container: {
       marginTop: theme.constants.generalUnit * 2,
       marginBottom: 160,
-      [theme.breakpoints.down("sm")]: {
+      [theme.breakpoints.down("md")]: {
         paddingRight: theme.constants.generalUnit,
       },
     },
     bodyContainer: {
       padding: `${theme.constants.generalUnit * 3}px 0px`,
       borderBottom: `1px solid ${theme.palette.additional["gray"][4]}`,
-      [theme.breakpoints.down("sm")]: {
+      [theme.breakpoints.down("md")]: {
         borderBottom: "none",
       },
     },
@@ -82,7 +82,7 @@ const useStyles = makeStyles((theme: ITheme) =>
     },
     copyIcon: {
       fontSize: "14px",
-      [theme.breakpoints.down("sm")]: {
+      [theme.breakpoints.down("md")]: {
         fontSize: "18px",
         fill: theme.palette.additional["gray"][8],
       },
@@ -94,7 +94,7 @@ const useStyles = makeStyles((theme: ITheme) =>
       paddingRight: theme.constants.generalUnit * 2,
       width: "90%",
       ...theme.typography.body1,
-      [theme.breakpoints.down("sm")]: {
+      [theme.breakpoints.down("md")]: {
         ...theme.typography.body2,
       },
     },
