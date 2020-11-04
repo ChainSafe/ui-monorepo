@@ -54,6 +54,7 @@ interface ISelectInputProps {
   disabled?: boolean
   value?: any
   isMulti?: boolean
+  isClearable?: boolean
 }
 
 const SelectInput: React.FC<ISelectInputProps> = ({
@@ -67,6 +68,7 @@ const SelectInput: React.FC<ISelectInputProps> = ({
   captionMessage,
   value,
   isMulti,
+  isClearable = false,
 }) => {
   const classes = useStyles()
   const { palette, animation, typography, overrides }: ITheme = useTheme()
@@ -94,7 +96,7 @@ const SelectInput: React.FC<ISelectInputProps> = ({
       )}
       <Select
         options={options}
-        isClearable
+        isClearable={isClearable}
         onChange={handleChange}
         isDisabled={disabled}
         placeholder={placeholder}

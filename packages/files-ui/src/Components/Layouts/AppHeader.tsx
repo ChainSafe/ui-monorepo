@@ -21,13 +21,6 @@ import SearchModule from "../Modules/SearchModule"
 
 const useStyles = makeStyles(
   ({ palette, animation, breakpoints, constants, zIndex }: ITheme) => {
-    const modalWidth = constants.generalUnit * 27
-    const contentPadding = constants.generalUnit * 15
-    const topPadding = constants.generalUnit * 3
-    const accountControlsPadding = constants.generalUnit * 7
-
-    const mobileHeaderHeight = constants.generalUnit * 6.3
-
     return createStyles({
       root: {
         position: "fixed",
@@ -37,9 +30,11 @@ const useStyles = makeStyles(
         transitionDuration: `${animation.translate}ms`,
         visibility: "hidden",
         [breakpoints.up("md")]: {
-          width: `calc(100% - ${modalWidth}px)`,
-          padding: `${0}px ${contentPadding}px ${0}px ${contentPadding}px`,
-          left: modalWidth,
+          width: `calc(100% - ${constants.navWidth}px)`,
+          padding: `${0}px ${constants.contentPadding}px ${0}px ${
+            constants.contentPadding
+          }px`,
+          left: constants.navWidth,
           backgroundColor: palette.common.white.main,
           opacity: 0,
           "& > *:first-child": {
@@ -49,7 +44,9 @@ const useStyles = makeStyles(
             opacity: 1,
             height: "auto",
             visibility: "visible",
-            padding: `${topPadding}px ${contentPadding}px ${0}px ${contentPadding}px`,
+            padding: `${constants.headerTopPadding}px ${
+              constants.contentPadding
+            }px ${0}px ${constants.contentPadding}px`,
           },
         },
         [breakpoints.down("md")]: {
@@ -62,7 +59,7 @@ const useStyles = makeStyles(
           "&.active": {
             opacity: 1,
             visibility: "visible",
-            height: mobileHeaderHeight,
+            height: constants.mobileHeaderHeight,
           },
         },
       },
@@ -98,7 +95,7 @@ const useStyles = makeStyles(
         alignItems: "center",
         flexDirection: "row",
         [breakpoints.up("md")]: {
-          marginLeft: accountControlsPadding,
+          marginLeft: constants.accountControlsPadding,
         },
         "& > *:first-child": {
           marginRight: constants.generalUnit * 2,
@@ -120,7 +117,7 @@ const useStyles = makeStyles(
           position: "fixed",
           top: 0,
           right: 0,
-          height: mobileHeaderHeight,
+          height: constants.mobileHeaderHeight,
         },
       },
     })

@@ -25,13 +25,6 @@ import { FREE_PLAN_LIMIT } from "../../Utils/Constants"
 
 const useStyles = makeStyles(
   ({ palette, animation, breakpoints, constants, zIndex }: ITheme) => {
-    const modalWidth = constants.generalUnit * 27
-    const svgWidth = constants.generalUnit * 2.5
-    const topPadding = constants.generalUnit * 3
-
-    const mobileHeaderHeight = constants.generalUnit * 6.3
-    const mobileNavWidth = constants.generalUnit * 30
-
     return createStyles({
       root: {
         width: 0,
@@ -46,17 +39,17 @@ const useStyles = makeStyles(
           opacity: 1,
         },
         [breakpoints.up("md")]: {
-          padding: `${topPadding}px ${constants.generalUnit * 4.5}px`,
+          padding: `${constants.topPadding}px ${constants.generalUnit * 4.5}px`,
           backgroundColor: palette.additional["gray"][3],
           top: 0,
           height: "100%",
           "&.active": {
-            width: modalWidth,
+            width: constants.navWidth,
           },
         },
         [breakpoints.down("md")]: {
-          height: `calc(100% - ${mobileHeaderHeight}px)`,
-          top: mobileHeaderHeight,
+          height: `calc(100% - ${constants.mobileHeaderHeight}px)`,
+          top: constants.mobileHeaderHeight,
           backgroundColor: palette.additional["gray"][9],
           zIndex: zIndex?.layer1,
           padding: `0 ${constants.generalUnit * 4}px`,
@@ -77,7 +70,7 @@ const useStyles = makeStyles(
           // },
           "&.active": {
             visibility: "visible",
-            width: mobileNavWidth,
+            width: constants.mobileNavWidth,
           },
         },
       },
@@ -85,9 +78,9 @@ const useStyles = makeStyles(
         display: "block",
         backgroundColor: palette.additional["gray"][9],
         position: "fixed",
-        top: mobileHeaderHeight,
+        top: constants.mobileHeaderHeight as number,
         left: 0,
-        height: `calc(100% - ${mobileHeaderHeight}px)`,
+        height: `calc(100% - ${constants.mobileHeaderHeight}px)`,
         width: "100%",
         transitionDuration: `${animation.translate}ms`,
         zIndex: zIndex?.background,
@@ -156,7 +149,7 @@ const useStyles = makeStyles(
         cursor: "pointer",
         padding: `${constants.generalUnit * 1.5}px 0`,
         "& svg": {
-          width: svgWidth,
+          width: constants.svgWidth,
           marginRight: constants.generalUnit * 2,
           [breakpoints.down("md")]: {
             fill: palette.additional["gray"][3],
@@ -164,7 +157,7 @@ const useStyles = makeStyles(
         },
         [breakpoints.down("md")]: {
           color: palette.additional["gray"][3],
-          minWidth: mobileNavWidth,
+          minWidth: constants.mobileNavWidth,
         },
       },
       menuItem: {
