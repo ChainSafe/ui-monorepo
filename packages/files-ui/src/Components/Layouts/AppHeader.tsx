@@ -29,7 +29,7 @@ const useStyles = makeStyles(
         top: 0,
         transitionDuration: `${animation.translate}ms`,
         visibility: "hidden",
-        [breakpoints.up("sm")]: {
+        [breakpoints.up("md")]: {
           width: `calc(100% - ${constants.navWidth}px)`,
           padding: `${0}px ${constants.contentPadding}px ${0}px ${
             constants.contentPadding
@@ -49,7 +49,7 @@ const useStyles = makeStyles(
             }px ${0}px ${constants.contentPadding}px`,
           },
         },
-        [breakpoints.down("sm")]: {
+        [breakpoints.down("md")]: {
           left: 0,
           width: "100%",
           justifyContent: "space-between",
@@ -69,7 +69,7 @@ const useStyles = makeStyles(
         flexDirection: "row",
         alignItems: "center",
 
-        [breakpoints.up("sm")]: {
+        [breakpoints.up("md")]: {
           "& img": {
             height: constants.generalUnit * 5,
             width: "auto",
@@ -78,7 +78,7 @@ const useStyles = makeStyles(
             marginRight: constants.generalUnit,
           },
         },
-        [breakpoints.down("sm")]: {
+        [breakpoints.down("md")]: {
           position: "absolute",
           left: "50%",
           top: "50%",
@@ -94,7 +94,7 @@ const useStyles = makeStyles(
         justifyContent: "flex-end",
         alignItems: "center",
         flexDirection: "row",
-        [breakpoints.up("sm")]: {
+        [breakpoints.up("md")]: {
           marginLeft: constants.accountControlsPadding,
         },
         "& > *:first-child": {
@@ -113,7 +113,7 @@ const useStyles = makeStyles(
         },
       },
       searchModule: {
-        [breakpoints.down("sm")]: {
+        [breakpoints.down("md")]: {
           position: "fixed",
           top: 0,
           right: 0,
@@ -135,7 +135,7 @@ const AppHeader: React.FC<IAppHeader> = ({
 }: IAppHeader) => {
   const classes = useStyles()
   const { breakpoints }: ITheme = useTheme()
-  const desktop = useMediaQuery(breakpoints.up("sm"))
+  const desktop = useMediaQuery(breakpoints.up("md"))
 
   const { isLoggedIn, logout } = useImployApi()
   const { getProfileTitle, removeUser } = useUser()

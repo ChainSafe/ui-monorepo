@@ -18,14 +18,14 @@ import { ROUTE_LINKS } from "../../FilesRoutes"
 const useStyles = makeStyles((theme: ITheme) =>
   createStyles({
     title: {
-      [theme.breakpoints.down("sm")]: {
+      [theme.breakpoints.down("md")]: {
         fontSize: 20,
         lineHeight: "28px",
         margin: `${theme.constants.generalUnit}px 0`,
       },
     },
     divider: {
-      [theme.breakpoints.down("sm")]: {
+      [theme.breakpoints.down("md")]: {
         fontSize: 20,
         lineHeight: "28px",
         margin: `${theme.constants.generalUnit}px 0`,
@@ -41,7 +41,7 @@ const useStyles = makeStyles((theme: ITheme) =>
     },
     headerContainer: {
       marginBottom: theme.constants.generalUnit * 4,
-      [theme.breakpoints.down("sm")]: {
+      [theme.breakpoints.down("md")]: {
         padding: `0 ${theme.constants.generalUnit * 2}px`,
         marginTop: theme.constants.generalUnit * 4,
         marginBottom: theme.constants.generalUnit * 2,
@@ -49,7 +49,7 @@ const useStyles = makeStyles((theme: ITheme) =>
     },
     tabsContainer: {
       marginTop: theme.constants.generalUnit * 4,
-      [theme.breakpoints.down("sm")]: {
+      [theme.breakpoints.down("md")]: {
         marginTop: theme.constants.generalUnit * 2,
         padding: `0 ${theme.constants.generalUnit * 2}px`,
       },

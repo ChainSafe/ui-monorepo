@@ -58,11 +58,11 @@ const useStyles = makeStyles(
     const mobileGridSettings = "69px 3fr 45px !important"
     return createStyles({
       root: {
-        [breakpoints.down("sm")]: {
+        [breakpoints.down("md")]: {
           paddingLeft: constants.generalUnit * 2,
           paddingRight: constants.generalUnit * 2,
         },
-        [breakpoints.up("sm")]: {
+        [breakpoints.up("md")]: {
           border: `1px solid transparent`,
           padding: `0 ${constants.generalUnit}px`,
           borderRadius: constants.generalUnit / 4,
@@ -81,7 +81,7 @@ const useStyles = makeStyles(
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "center",
-        [breakpoints.down("sm")]: {
+        [breakpoints.down("md")]: {
           marginTop: constants.generalUnit,
         },
       },
@@ -97,7 +97,7 @@ const useStyles = makeStyles(
       breadCrumbContainer: {
         margin: `${constants.generalUnit * 2}px 0`,
         height: 22,
-        [breakpoints.down("sm")]: {
+        [breakpoints.down("md")]: {
           marginTop: constants.generalUnit * 3,
           marginBottom: 0,
         },
@@ -106,10 +106,10 @@ const useStyles = makeStyles(
         "&:before, &:after": {
           backgroundColor: palette.additional["gray"][4],
         },
-        [breakpoints.up("sm")]: {
+        [breakpoints.up("md")]: {
           margin: `${constants.generalUnit * 4.5}px 0`,
         },
-        [breakpoints.down("sm")]: {
+        [breakpoints.down("md")]: {
           margin: `${constants.generalUnit * 4.5}px 0 0`,
         },
       },
@@ -126,10 +126,10 @@ const useStyles = makeStyles(
       tableRow: {
         border: `2px solid transparent`,
         transitionDuration: `${animation.transform}ms`,
-        [breakpoints.up("sm")]: {
+        [breakpoints.up("md")]: {
           gridTemplateColumns: desktopGridSettings,
         },
-        [breakpoints.down("sm")]: {
+        [breakpoints.down("md")]: {
           gridTemplateColumns: mobileGridSettings,
         },
       },
@@ -150,10 +150,10 @@ const useStyles = makeStyles(
       },
       renameInput: {
         width: "100%",
-        [breakpoints.up("sm")]: {
+        [breakpoints.up("md")]: {
           margin: 0,
         },
-        [breakpoints.down("sm")]: {
+        [breakpoints.down("md")]: {
           margin: `${constants.generalUnit * 4.2}px 0`,
         },
       },
@@ -185,7 +185,7 @@ const useStyles = makeStyles(
         backgroundColor: palette.common.black.main,
       },
       cancelButton: {
-        [breakpoints.down("sm")]: {
+        [breakpoints.down("md")]: {
           position: "fixed",
           bottom: 0,
           left: 0,
@@ -194,10 +194,10 @@ const useStyles = makeStyles(
         },
       },
       modalRoot: {
-        [breakpoints.down("sm")]: {},
+        [breakpoints.down("md")]: {},
       },
       modalInner: {
-        [breakpoints.down("sm")]: {
+        [breakpoints.down("md")]: {
           bottom:
             (constants?.mobileButtonHeight as number) + constants.generalUnit,
           borderTopLeftRadius: `${constants.generalUnit * 1.5}px`,
@@ -230,7 +230,7 @@ const useStyles = makeStyles(
         textAlign: "center",
         width: 260,
         padding: `${constants.generalUnit}px 0`,
-        [breakpoints.up("sm")]: {
+        [breakpoints.up("md")]: {
           left: `calc(50% + ${(constants.navWidth as number) / 2}px)`,
         },
         "&.active": {
@@ -425,7 +425,7 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
 
   // Media queries
   const { breakpoints }: ITheme = useTheme()
-  const desktop = useMediaQuery(breakpoints.up("sm"))
+  const desktop = useMediaQuery(breakpoints.up("md"))
 
   // Upload logic
   const [dropActive, setDropActive] = useState<number>(-1)
