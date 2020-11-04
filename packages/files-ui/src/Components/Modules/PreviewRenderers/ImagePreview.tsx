@@ -52,7 +52,7 @@ const ImagePreview: React.FC<IPreviewRendererProps> = ({ contents }) => {
   const classes = useStyles()
   const { breakpoints }: ITheme = useTheme()
 
-  const desktop = useMediaQuery(breakpoints.up("sm"))
+  const desktop = useMediaQuery(breakpoints.up("md"))
 
   return (
     <TransformWrapper

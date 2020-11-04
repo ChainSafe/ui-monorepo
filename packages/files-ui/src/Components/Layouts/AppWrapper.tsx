@@ -19,46 +19,41 @@ interface IAppWrapper {
 
 const useStyles = makeStyles(
   ({ animation, breakpoints, constants }: ITheme) => {
-    const modalWidth = constants.generalUnit * 27
-    const contentPadding = constants.generalUnit * 15
-    const contentTopPadding = constants.generalUnit * 15
-
-    const mobileHeaderHeight = constants.generalUnit * 6.3
-
     return createStyles({
       root: {
         minHeight: "100vh",
       },
       bodyWrapper: {
         transitionDuration: `${animation.translate}ms`,
-        [breakpoints.up("sm")]: {
+        [breakpoints.up("md")]: {
           padding: `0`,
           "&.active": {
             // This moves the content areas based on the size of the nav bar
 
-            padding: `${0}px ${contentPadding}px ${0}px ${
-              modalWidth + contentPadding
+            padding: `${0}px ${constants.contentPadding}px ${0}px ${
+              (constants.navWidth as number) +
+              (constants.contentPadding as number)
             }px`,
           },
         },
-        [breakpoints.down("sm")]: {},
+        [breakpoints.down("md")]: {},
       },
       content: {
-        [breakpoints.up("sm")]: {
+        [breakpoints.up("md")]: {
           height: "100%",
           minHeight: "100vh",
           transitionDuration: `${animation.translate}ms`,
           padding: 0,
           "&.active": {
             height: "initial",
-            padding: `${contentTopPadding}px 0 0`,
+            padding: `${constants.contentTopPadding}px 0 0`,
           },
         },
-        [breakpoints.down("sm")]: {
+        [breakpoints.down("md")]: {
           minHeight: "100vh",
           "&.active": {
             height: "initial",
-            padding: `${mobileHeaderHeight}px 0 0`,
+            padding: `${constants.mobileHeaderHeight}px 0 0`,
           },
         },
       },
@@ -69,7 +64,7 @@ const useStyles = makeStyles(
 const AppWrapper: React.FC<IAppWrapper> = ({ children }: IAppWrapper) => {
   const classes = useStyles()
   const { breakpoints }: ITheme = useTheme()
-  const desktop = useMediaQuery(breakpoints.up("sm"))
+  const desktop = useMediaQuery(breakpoints.up("md"))
 
   const [navOpen, setNavOpen] = useState<boolean>(desktop)
 

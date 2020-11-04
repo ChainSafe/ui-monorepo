@@ -5,7 +5,7 @@ import {
   useMediaQuery,
   useTheme,
 } from "@imploy/common-themes"
-import React, { Fragment, useCallback } from "react"
+import React, { Fragment, useCallback, useEffect } from "react"
 import {
   Button,
   CheckboxInput,
@@ -49,157 +49,198 @@ import CustomModal from "../Elements/CustomModal"
 import FilePreviewModal from "./FilePreviewModal"
 import { getArrayOfPaths, getPathFromArray } from "../../Utils/pathUtils"
 import UploadProgressModals from "./UploadProgressModals"
-import DragDropModule from "./DragDropModule"
+import { useDropzone, FileRejection } from "react-dropzone"
+import clsx from "clsx"
 
-const useStyles = makeStyles(({ breakpoints, constants, palette }: ITheme) => {
-  const desktopGridSettings = "50px 69px 3fr 190px 100px 45px !important"
-  const mobileGridSettings = "69px 3fr 45px !important"
-  return createStyles({
-    root: {
-      [breakpoints.down("sm")]: {
-        paddingLeft: constants.generalUnit * 2,
-        paddingRight: constants.generalUnit * 2,
+const useStyles = makeStyles(
+  ({ animation, breakpoints, constants, palette, zIndex }: ITheme) => {
+    const desktopGridSettings = "50px 69px 3fr 190px 100px 45px !important"
+    const mobileGridSettings = "69px 3fr 45px !important"
+    return createStyles({
+      root: {
+        [breakpoints.down("md")]: {
+          paddingLeft: constants.generalUnit * 2,
+          paddingRight: constants.generalUnit * 2,
+        },
+        [breakpoints.up("md")]: {
+          border: `1px solid transparent`,
+          padding: `0 ${constants.generalUnit}px`,
+          borderRadius: constants.generalUnit / 4,
+          minHeight: `calc(100vh - ${constants.contentTopPadding as number}px)`,
+          "&.dragging": {
+            borderColor: palette.additional["geekblue"][4],
+            "& .folder.hovered": {
+              borderColor: palette.additional["geekblue"][4],
+            },
+          },
+        },
+        transitionDuration: `${animation.transform}ms`,
       },
-    },
-    header: {
-      display: "flex",
-      flexDirection: "row",
-      justifyContent: "space-between",
-      alignItems: "center",
-      [breakpoints.down("sm")]: {
-        marginTop: constants.generalUnit,
+      header: {
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
+        [breakpoints.down("md")]: {
+          marginTop: constants.generalUnit,
+        },
       },
-    },
-    controls: {
-      display: "flex",
-      flexDirection: "row",
-      justifyContent: "space-between",
-      alignItems: "center",
-      "& > button": {
-        marginLeft: constants.generalUnit,
+      controls: {
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
+        "& > button": {
+          marginLeft: constants.generalUnit,
+        },
       },
-    },
-    breadCrumbContainer: {
-      margin: `${constants.generalUnit * 2}px 0`,
-      height: 22,
-      [breakpoints.down("sm")]: {
-        marginTop: constants.generalUnit * 3,
-        marginBottom: 0,
+      breadCrumbContainer: {
+        margin: `${constants.generalUnit * 2}px 0`,
+        height: 22,
+        [breakpoints.down("md")]: {
+          marginTop: constants.generalUnit * 3,
+          marginBottom: 0,
+        },
       },
-    },
-    divider: {
-      "&:before, &:after": {
-        backgroundColor: palette.additional["gray"][4],
+      divider: {
+        "&:before, &:after": {
+          backgroundColor: palette.additional["gray"][4],
+        },
+        [breakpoints.up("md")]: {
+          margin: `${constants.generalUnit * 4.5}px 0`,
+        },
+        [breakpoints.down("md")]: {
+          margin: `${constants.generalUnit * 4.5}px 0 0`,
+        },
       },
-      [breakpoints.up("sm")]: {
-        margin: `${constants.generalUnit * 4.5}px 0`,
+      noFiles: {
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        marginTop: "25vh",
+        "& svg": {
+          maxWidth: 180,
+          marginBottom: constants.generalUnit * 3,
+        },
       },
-      [breakpoints.down("sm")]: {
-        margin: `${constants.generalUnit * 4.5}px 0 0`,
+      tableRow: {
+        border: `2px solid transparent`,
+        transitionDuration: `${animation.transform}ms`,
+        [breakpoints.up("md")]: {
+          gridTemplateColumns: desktopGridSettings,
+        },
+        [breakpoints.down("md")]: {
+          gridTemplateColumns: mobileGridSettings,
+        },
       },
-    },
-    noFiles: {
-      display: "flex",
-      flexDirection: "column",
-      alignItems: "center",
-      marginTop: "25vh",
-      "& svg": {
-        maxWidth: 180,
-        marginBottom: constants.generalUnit * 3,
+      fileIcon: {
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "center",
+        "& svg": {
+          width: constants.generalUnit * 2.5,
+        },
       },
-    },
-    tableRow: {
-      [breakpoints.up("sm")]: {
-        gridTemplateColumns: desktopGridSettings,
+      progressIcon: {
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "center",
       },
-      [breakpoints.down("sm")]: {
-        gridTemplateColumns: mobileGridSettings,
-      },
-    },
-    fileIcon: {
-      display: "flex",
-      flexDirection: "row",
-      alignItems: "center",
-      justifyContent: "center",
-      "& svg": {
-        width: constants.generalUnit * 2.5,
-      },
-    },
-    progressIcon: {
-      display: "flex",
-      flexDirection: "row",
-      alignItems: "center",
-      justifyContent: "center",
-    },
-    renameInput: {
-      width: "100%",
-      [breakpoints.up("sm")]: {
-        margin: 0,
-      },
-      [breakpoints.down("sm")]: {
-        margin: `${constants.generalUnit * 4.2}px 0`,
-      },
-    },
-    menuIcon: {
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
-      width: 20,
-      marginRight: constants.generalUnit * 1.5,
-    },
-    dropdownIcon: {
-      "& svg": {
-        height: 20,
-        width: 20,
-      },
-    },
-    dropdownOptions: {
-      "& > *": {
-        padding: 0,
-      },
-    },
-    mobileButton: {},
-    renameModal: {
-      padding: constants.generalUnit * 4,
-    },
-    okButton: {
-      marginLeft: constants.generalUnit,
-      color: palette.common.white.main,
-      backgroundColor: palette.common.black.main,
-    },
-    cancelButton: {
-      [breakpoints.down("sm")]: {
-        position: "fixed",
-        bottom: 0,
-        left: 0,
+      renameInput: {
         width: "100%",
-        height: constants?.mobileButtonHeight,
+        [breakpoints.up("md")]: {
+          margin: 0,
+        },
+        [breakpoints.down("md")]: {
+          margin: `${constants.generalUnit * 4.2}px 0`,
+        },
       },
-    },
-    modalRoot: {
-      [breakpoints.down("sm")]: {},
-    },
-    modalInner: {
-      [breakpoints.down("sm")]: {
-        bottom:
-          (constants?.mobileButtonHeight as number) + constants.generalUnit,
-        borderTopLeftRadius: `${constants.generalUnit * 1.5}px`,
-        borderTopRightRadius: `${constants.generalUnit * 1.5}px`,
-        borderBottomLeftRadius: `${constants.generalUnit * 1.5}px`,
-        borderBottomRightRadius: `${constants.generalUnit * 1.5}px`,
+      menuIcon: {
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        width: 20,
+        marginRight: constants.generalUnit * 1.5,
       },
-    },
-    renameHeader: {
-      textAlign: "center",
-    },
-    renameFooter: {
-      display: "flex",
-      flexDirection: "row",
-      alignItems: "center",
-      justifyContent: "flex-end",
-    },
-  })
-})
+      dropdownIcon: {
+        "& svg": {
+          height: 20,
+          width: 20,
+        },
+      },
+      dropdownOptions: {
+        "& > *": {
+          padding: 0,
+        },
+      },
+      mobileButton: {},
+      renameModal: {
+        padding: constants.generalUnit * 4,
+      },
+      okButton: {
+        marginLeft: constants.generalUnit,
+        color: palette.common.white.main,
+        backgroundColor: palette.common.black.main,
+      },
+      cancelButton: {
+        [breakpoints.down("md")]: {
+          position: "fixed",
+          bottom: 0,
+          left: 0,
+          width: "100%",
+          height: constants?.mobileButtonHeight,
+        },
+      },
+      modalRoot: {
+        [breakpoints.down("md")]: {},
+      },
+      modalInner: {
+        [breakpoints.down("md")]: {
+          bottom:
+            (constants?.mobileButtonHeight as number) + constants.generalUnit,
+          borderTopLeftRadius: `${constants.generalUnit * 1.5}px`,
+          borderTopRightRadius: `${constants.generalUnit * 1.5}px`,
+          borderBottomLeftRadius: `${constants.generalUnit * 1.5}px`,
+          borderBottomRightRadius: `${constants.generalUnit * 1.5}px`,
+        },
+      },
+      renameHeader: {
+        textAlign: "center",
+      },
+      renameFooter: {
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "flex-end",
+      },
+      dropNotification: {
+        display: "block",
+        position: "fixed",
+        zIndex: zIndex?.layer4,
+        bottom: 0,
+
+        transform: "translateX(-50%)",
+        backgroundColor: palette.common.black.main,
+        color: palette.additional["gray"][2],
+        opacity: 0,
+        visibility: "hidden",
+        transitionDuration: `${animation.transform}ms`,
+        textAlign: "center",
+        width: 260,
+        padding: `${constants.generalUnit}px 0`,
+        [breakpoints.up("md")]: {
+          left: `calc(50% + ${(constants.navWidth as number) / 2}px)`,
+        },
+        "&.active": {
+          opacity: 1,
+          visibility: "visible",
+        },
+      },
+    })
+  },
+)
 
 export interface IFileBrowserProps {
   heading?: string
@@ -220,6 +261,7 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
     updateCurrentPath,
     pathContents,
     uploadsInProgress,
+    uploadFiles,
   } = useDrive()
   const [editing, setEditing] = useState<string | undefined>()
   const [direction, setDirection] = useState<SortDirection>("descend")
@@ -232,6 +274,7 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
     undefined,
   )
 
+  // Sorting
   const sortFoldersFirst = (a: IFile, b: IFile) =>
     a.content_type === "application/chainsafe-files-directory" &&
     a.content_type !== b.content_type
@@ -296,12 +339,28 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
     }
   }, [pathContents, direction, column])
 
+  const handleSortToggle = (
+    targetColumn: "name" | "size" | "date_uploaded",
+  ) => {
+    if (column !== targetColumn) {
+      setColumn(targetColumn)
+      setDirection("descend")
+    } else {
+      if (direction === "ascend") {
+        setDirection("descend")
+      } else {
+        setDirection("ascend")
+      }
+    }
+  }
+
   const files = useMemo(() => {
     return items.filter(
       (i) => i.content_type !== "application/chainsafe-files-directory",
     )
   }, [items])
 
+  // Previews
   const setNextPreview = () => {
     if (
       files &&
@@ -322,6 +381,7 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
     setPreviewFileIndex(undefined)
   }
 
+  // Selection logic
   const handleSelect = (cid: string) => {
     if (selected.includes(cid)) {
       setSelected(selected.filter((selectedCid: string) => selectedCid !== cid))
@@ -338,21 +398,7 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
     }
   }
 
-  const handleSortToggle = (
-    targetColumn: "name" | "size" | "date_uploaded",
-  ) => {
-    if (column !== targetColumn) {
-      setColumn(targetColumn)
-      setDirection("descend")
-    } else {
-      if (direction === "ascend") {
-        setDirection("descend")
-      } else {
-        setDirection("ascend")
-      }
-    }
-  }
-
+  // Rename
   const handleRename = async (path: string, new_path: string) => {
     // TODO set loading
     await renameFile({
@@ -369,39 +415,82 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
       .required("File name is required"),
   })
 
+  // Breadcrumbs/paths
   const arrayOfPaths = getArrayOfPaths(currentPath)
   const crumbs: Crumb[] = arrayOfPaths.map((path, index) => ({
     text: path,
     onClick: () =>
       updateCurrentPath(getPathFromArray(arrayOfPaths.slice(0, index + 1))),
   }))
-  const { breakpoints }: ITheme = useTheme()
-  const desktop = useMediaQuery(breakpoints.up("sm"))
 
-  const [generalDropActive, setGeneralDropActive] = useState<number>(-1)
+  // Media queries
+  const { breakpoints }: ITheme = useTheme()
+  const desktop = useMediaQuery(breakpoints.up("md"))
+
+  // Upload logic
+  const [dropActive, setDropActive] = useState<number>(-1)
 
   const displayUpload = useCallback(() => {
-    if (generalDropActive > 0) {
-      clearTimeout(generalDropActive)
+    if (dropActive > 0) {
+      clearTimeout(dropActive)
     }
     const timer = setTimeout(() => {
-      setGeneralDropActive(-1)
-    }, 1000)
-    setGeneralDropActive(timer)
-    return () => clearTimeout(timer)
-  }, [generalDropActive])
+      setDropActive(-1)
+      setUploadTarget(currentPath)
+    }, 2000)
+    setDropActive(timer)
+    return () => {
+      clearTimeout(timer)
+      setUploadTarget(currentPath)
+    }
+  }, [dropActive])
+
+  const [uploadTarget, setUploadTarget] = useState<string>(currentPath)
+
+  useEffect(() => {
+    setUploadTarget(currentPath)
+  }, [currentPath])
+
+  const onDrop = useCallback(
+    async (acceptedFiles: File[], fileRejections: FileRejection[]) => {
+      uploadFiles(acceptedFiles, uploadTarget)
+      setDropActive(-1)
+    },
+    [uploadTarget],
+  )
+
+  const { getRootProps, getInputProps } = useDropzone({
+    onDrop,
+    noDrag: false,
+    noClick: true,
+    noKeyboard: false,
+    multiple: true,
+  })
 
   return (
-    <article onDragEnter={displayUpload} className={classes.root}>
-      <DragDropModule
-        active={generalDropActive > -1}
-        close={() => setGeneralDropActive(-1)}
-      />
+    <article
+      {...getRootProps()}
+      onDragEnter={displayUpload}
+      className={clsx(classes.root, {
+        dragging: dropActive > -1,
+      })}
+    >
+      <input {...getInputProps()} />
+      <div
+        className={clsx(classes.dropNotification, {
+          active: dropActive > -1,
+        })}
+      >
+        <Typography variant="h4" component="p">
+          Drop to upload files
+        </Typography>
+      </div>
       <div className={classes.breadCrumbContainer}>
         {crumbs.length > 0 && (
           <Breadcrumb
             crumbs={crumbs}
             homeOnClick={() => updateCurrentPath("/")}
+            showDropDown={!desktop}
           />
         )}
       </div>
@@ -473,7 +562,15 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
         >
           {desktop && (
             <TableHead>
-              <TableRow type="grid" className={classes.tableRow}>
+              <TableRow
+                onDragEnter={() => {
+                  if (uploadTarget !== currentPath) {
+                    setUploadTarget(currentPath)
+                  }
+                }}
+                type="grid"
+                className={classes.tableRow}
+              >
                 <TableHeadCell>
                   <CheckboxInput
                     value={selected.length === items.length}
@@ -564,9 +661,29 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
               return (
                 <TableRow
                   key={`files-${index}`}
-                  className={classes.tableRow}
+                  className={clsx(classes.tableRow, {
+                    folder:
+                      file.content_type ===
+                      "application/chainsafe-files-directory",
+                    hovered: uploadTarget === `${currentPath}${file.name}`,
+                  })}
                   type="grid"
                   rowSelectable={true}
+                  onDragEnter={() => {
+                    if (
+                      file.content_type ===
+                        "application/chainsafe-files-directory" &&
+                      dropActive > -1
+                    ) {
+                      if (uploadTarget !== `${currentPath}${file.name}`) {
+                        setUploadTarget(`${currentPath}${file.name}`)
+                      }
+                    } else {
+                      if (uploadTarget !== currentPath) {
+                        setUploadTarget(currentPath)
+                      }
+                    }
+                  }}
                   selected={selected.includes(file.cid)}
                 >
                   {desktop && (

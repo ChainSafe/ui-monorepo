@@ -21,7 +21,7 @@ const useStyles = makeStyles(({ constants, zIndex, breakpoints }: ITheme) => {
       padding: constants.generalUnit,
       width: WIDTH,
       zIndex: zIndex?.layer1,
-      [breakpoints.down("sm")]: {
+      [breakpoints.down("md")]: {
         margin: constants.generalUnit,
         width: `calc(100% - ${constants.generalUnit * 2}px)`,
       },
@@ -33,7 +33,7 @@ const UploadProgressModals: React.FC = () => {
   const classes = useStyles()
   const { uploadsInProgress } = useDrive()
   const { breakpoints }: ITheme = useTheme()
-  const desktop = useMediaQuery(breakpoints.up("sm"))
+  const desktop = useMediaQuery(breakpoints.up("md"))
 
   return (
     <div className={classes.root}>

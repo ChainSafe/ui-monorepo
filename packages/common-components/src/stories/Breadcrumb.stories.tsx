@@ -1,6 +1,6 @@
 import React from "react"
 import { action } from "@storybook/addon-actions"
-import { withKnobs } from "@storybook/addon-knobs"
+import { boolean, withKnobs, text } from "@storybook/addon-knobs"
 import { Breadcrumb } from "../Breadcrumb"
 
 export default {
@@ -16,16 +16,25 @@ export const actionsData = {
 }
 
 export const BreadcrumbStory = (): React.ReactNode => (
-  <Breadcrumb
-    homeOnClick={() => actionsData.homeClicked()}
-    crumbs={[
-      {
-        text: "Level 1 - Clickable",
-        onClick: () => actionsData.linkClick(),
-      },
-      {
-        text: "Level 2",
-      },
-    ]}
-  />
+  <>
+    <Breadcrumb
+      homeOnClick={() => actionsData.homeClicked()}
+      showDropDown={boolean("show dropdown", true)}
+      crumbs={[
+        {
+          text: text("breadcrumb 2", "Level 1 Clickable"),
+          onClick: () => actionsData.linkClick(),
+        },
+        {
+          text: "Level 2",
+        },
+        {
+          text: "Level 3",
+        },
+        {
+          text: "Level 4",
+        },
+      ]}
+    />
+  </>
 )

@@ -68,7 +68,7 @@ const SelectInput: React.FC<ISelectInputProps> = ({
   captionMessage,
   value,
   isMulti,
-  isClearable = true,
+  isClearable = false,
 }) => {
   const classes = useStyles()
   const { palette, animation, typography, overrides }: ITheme = useTheme()

@@ -25,13 +25,6 @@ import { FREE_PLAN_LIMIT } from "../../Utils/Constants"
 
 const useStyles = makeStyles(
   ({ palette, animation, breakpoints, constants, zIndex }: ITheme) => {
-    const modalWidth = constants.generalUnit * 27
-    const svgWidth = constants.generalUnit * 2.5
-    const topPadding = constants.generalUnit * 3
-
-    const mobileHeaderHeight = constants.generalUnit * 6.3
-    const mobileNavWidth = constants.generalUnit * 30
-
     return createStyles({
       root: {
         width: 0,
@@ -45,18 +38,18 @@ const useStyles = makeStyles(
         "&.active": {
           opacity: 1,
         },
-        [breakpoints.up("sm")]: {
-          padding: `${topPadding}px ${constants.generalUnit * 4.5}px`,
+        [breakpoints.up("md")]: {
+          padding: `${constants.topPadding}px ${constants.generalUnit * 4.5}px`,
           backgroundColor: palette.additional["gray"][3],
           top: 0,
           height: "100%",
           "&.active": {
-            width: modalWidth,
+            width: constants.navWidth,
           },
         },
-        [breakpoints.down("sm")]: {
-          height: `calc(100% - ${mobileHeaderHeight}px)`,
-          top: mobileHeaderHeight,
+        [breakpoints.down("md")]: {
+          height: `calc(100% - ${constants.mobileHeaderHeight}px)`,
+          top: constants.mobileHeaderHeight,
           backgroundColor: palette.additional["gray"][9],
           zIndex: zIndex?.layer1,
           padding: `0 ${constants.generalUnit * 4}px`,
@@ -77,7 +70,7 @@ const useStyles = makeStyles(
           // },
           "&.active": {
             visibility: "visible",
-            width: mobileNavWidth,
+            width: constants.mobileNavWidth,
           },
         },
       },
@@ -85,9 +78,9 @@ const useStyles = makeStyles(
         display: "block",
         backgroundColor: palette.additional["gray"][9],
         position: "fixed",
-        top: mobileHeaderHeight,
+        top: constants.mobileHeaderHeight as number,
         left: 0,
-        height: `calc(100% - ${mobileHeaderHeight}px)`,
+        height: `calc(100% - ${constants.mobileHeaderHeight}px)`,
         width: "100%",
         transitionDuration: `${animation.translate}ms`,
         zIndex: zIndex?.background,
@@ -104,7 +97,7 @@ const useStyles = makeStyles(
         flexDirection: "row",
         alignItems: "center",
 
-        [breakpoints.up("sm")]: {
+        [breakpoints.up("md")]: {
           "& img": {
             height: constants.generalUnit * 5,
             width: "auto",
@@ -113,7 +106,7 @@ const useStyles = makeStyles(
             marginRight: constants.generalUnit,
           },
         },
-        [breakpoints.down("sm")]: {
+        [breakpoints.down("md")]: {
           position: "absolute",
           left: "50%",
           top: "50%",
@@ -139,10 +132,10 @@ const useStyles = makeStyles(
         "& > span": {
           marginBottom: constants.generalUnit * 2,
         },
-        [breakpoints.up("sm")]: {
+        [breakpoints.up("md")]: {
           height: 0,
         },
-        [breakpoints.down("sm")]: {
+        [breakpoints.down("md")]: {
           transitionDuration: `${animation.translate}ms`,
           color: palette.additional["gray"][3],
           "&.active": {},
@@ -156,15 +149,15 @@ const useStyles = makeStyles(
         cursor: "pointer",
         padding: `${constants.generalUnit * 1.5}px 0`,
         "& svg": {
-          width: svgWidth,
+          width: constants.svgWidth,
           marginRight: constants.generalUnit * 2,
-          [breakpoints.down("sm")]: {
+          [breakpoints.down("md")]: {
             fill: palette.additional["gray"][3],
           },
         },
-        [breakpoints.down("sm")]: {
+        [breakpoints.down("md")]: {
           color: palette.additional["gray"][3],
-          minWidth: mobileNavWidth,
+          minWidth: constants.mobileNavWidth,
         },
       },
       menuItem: {
@@ -193,7 +186,7 @@ interface IAppNav {
 const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
   const classes = useStyles()
   const { breakpoints }: ITheme = useTheme()
-  const desktop = useMediaQuery(breakpoints.up("sm"))
+  const desktop = useMediaQuery(breakpoints.up("md"))
   const { spaceUsed } = useDrive()
 
   const { isLoggedIn, logout } = useImployApi()

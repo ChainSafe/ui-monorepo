@@ -3,6 +3,7 @@ import clsx from "clsx"
 import { ITheme, makeStyles, createStyles } from "@imploy/common-themes"
 import { HomeIcon } from "../Icons"
 import { Typography } from "../Typography"
+import { MenuDropdown } from "../MenuDropdown"
 
 export type Crumb = {
   text: string
@@ -13,6 +14,7 @@ export type BreadcrumbProps = {
   crumbs?: Crumb[]
   homeOnClick?: () => void
   className?: string
+  showDropDown?: boolean
 }
 
 const useStyles = makeStyles(
@@ -63,6 +65,28 @@ const useStyles = makeStyles(
         textOverflow: "ellipsis",
         ...overrides?.Breadcrumb?.crumb,
       },
+      menuItem: {
+        padding: `${constants.generalUnit}px ${constants.generalUnit * 1.5}px`,
+        color: palette.additional["gray"][9],
+      },
+      menuTitleText: {
+        fontSize: 14,
+        maxWidth: 100,
+        whiteSpace: "nowrap",
+        overflow: "hidden",
+        textOverflow: "ellipsis",
+      },
+      menuTitle: {
+        padding: `0px ${constants.generalUnit}px 0px 0px`,
+      },
+      menuIcon: {
+        width: 12,
+        height: 12,
+        "& svg": {
+          height: 12,
+          width: 12,
+        },
+      },
     }),
 )
 
@@ -70,28 +94,85 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({
   crumbs = [],
   homeOnClick,
   className,
+  showDropDown,
 }: BreadcrumbProps) => {
   const classes = useStyles()
+
+  const generateFullCrumbs = (crumbs: Crumb[]) => {
+    return crumbs.map((item: Crumb, index: number) => (
+      <Fragment key={`crumb-${index}`}>
+        <div className={clsx(classes.separator)} />
+        <div>
+          <Typography
+            onClick={() => (item.onClick ? item.onClick() : null)}
+            className={clsx(classes.crumb, item.onClick && "clickable")}
+            variant="body1"
+          >
+            {item.text}
+          </Typography>
+        </div>
+      </Fragment>
+    ))
+  }
+
+  const generateDropdownCrumb = (crumbs: Crumb[]) => {
+    return (
+      <MenuDropdown
+        title={crumbs[0].text}
+        anchor="bottom-center"
+        animation="rotate"
+        classNames={{
+          item: classes.menuItem,
+          title: classes.menuTitle,
+          icon: classes.menuIcon,
+          titleText: classes.menuTitleText,
+        }}
+        menuItems={crumbs.map((crumb) => ({
+          contents: (
+            <Typography
+              variant="body1"
+              onClick={() => (crumb.onClick ? crumb.onClick() : null)}
+            >
+              {crumb.text}
+            </Typography>
+          ),
+        }))}
+      />
+    )
+  }
+
+  const generateCrumbs = () => {
+    if (crumbs.length < 3 || !showDropDown) {
+      return generateFullCrumbs(crumbs)
+    } else {
+      const dropdownCrumbs = crumbs.slice(0, length - 1)
+      const lastCrumb = crumbs[crumbs.length - 1]
+      return (
+        <>
+          <div className={clsx(classes.separator)} />
+          {generateDropdownCrumb(dropdownCrumbs)}
+          <div className={clsx(classes.separator)} />
+          <div>
+            <Typography
+              onClick={() => (lastCrumb.onClick ? lastCrumb.onClick() : null)}
+              className={clsx(classes.crumb, lastCrumb.onClick && "clickable")}
+              variant="body1"
+            >
+              {lastCrumb.text}
+            </Typography>
+          </div>
+        </>
+      )
+    }
+  }
+
   return (
     <div className={clsx(classes.root, className)}>
       <HomeIcon
         className={clsx(classes.home, homeOnClick && "clickable")}
         onClick={() => (homeOnClick ? homeOnClick() : null)}
       />
-      {crumbs.map((item: Crumb, index: number) => (
-        <Fragment key={`crumb-${index}`}>
-          <div className={clsx(classes.separator)} />
-          <div>
-            <Typography
-              onClick={() => (item.onClick ? item.onClick() : null)}
-              className={clsx(classes.crumb, item.onClick && "clickable")}
-              variant="body2"
-            >
-              {item.text}
-            </Typography>
-          </div>
-        </Fragment>
-      ))}
+      {generateCrumbs()}
     </div>
   )
 }

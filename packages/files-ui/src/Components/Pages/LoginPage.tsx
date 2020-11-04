@@ -25,7 +25,7 @@ const useStyles = makeStyles(
   ({ palette, constants, typography, breakpoints }: ITheme) =>
     createStyles({
       root: {
-        [breakpoints.down("sm")]: {
+        [breakpoints.down("md")]: {
           backgroundColor: palette.common.black.main,
           minHeight: "100vh",
           display: "flex",
@@ -48,12 +48,12 @@ const useStyles = makeStyles(
       logoContainer: {
         display: "flex",
         alignItems: "center",
-        [breakpoints.down("sm")]: {
+        [breakpoints.down("md")]: {
           "& > svg": {},
         },
       },
       logoImage: {
-        [breakpoints.down("sm")]: {
+        [breakpoints.down("md")]: {
           width: constants.generalUnit * 4.5,
           height: constants.generalUnit * 4.5,
         },
@@ -61,7 +61,7 @@ const useStyles = makeStyles(
       logoText: {
         fontWeight: typography.fontWeight.semibold,
         paddingLeft: constants.generalUnit,
-        [breakpoints.down("sm")]: {
+        [breakpoints.down("md")]: {
           color: palette.common.white.main,
           fontSize: 16,
         },
@@ -77,11 +77,11 @@ const useStyles = makeStyles(
       button: {
         width: 240,
         marginBottom: constants.generalUnit * 2,
-        [breakpoints.up("sm")]: {
+        [breakpoints.up("md")]: {
           backgroundColor: palette.common.black.main,
           color: palette.common.white.main,
         },
-        [breakpoints.down("sm")]: {
+        [breakpoints.down("md")]: {
           backgroundColor: palette.common.black.main,
           color: palette.common.white.main,
         },
@@ -101,7 +101,7 @@ const useStyles = makeStyles(
       },
       headerText: {
         paddingBottom: constants.generalUnit * 8,
-        [breakpoints.down("sm")]: {
+        [breakpoints.down("md")]: {
           color: palette.common.white.main,
           textAlign: "center",
         },
@@ -109,7 +109,7 @@ const useStyles = makeStyles(
       footerText: {
         marginTop: constants.generalUnit * 6,
         fontSize: 16,
-        [breakpoints.down("sm")]: {
+        [breakpoints.down("md")]: {
           color: palette.common.white.main,
           textAlign: "center",
         },
@@ -118,7 +118,7 @@ const useStyles = makeStyles(
         fontWeight: typography.fontWeight.semibold,
         marginBottom: constants.generalUnit * 4,
         cursor: "pointer",
-        [breakpoints.down("sm")]: {
+        [breakpoints.down("md")]: {
           color: palette.common.white.main,
           textAlign: "center",
         },
@@ -202,7 +202,7 @@ const LoginPage = () => {
     window.location.href = oauthUrl
   }
 
-  const desktop = useMediaQuery(breakpoints.up("sm"))
+  const desktop = useMediaQuery(breakpoints.up("md"))
 
   return (
     <div className={classes.root}>

@@ -21,13 +21,6 @@ import SearchModule from "../Modules/SearchModule"
 
 const useStyles = makeStyles(
   ({ palette, animation, breakpoints, constants, zIndex }: ITheme) => {
-    const modalWidth = constants.generalUnit * 27
-    const contentPadding = constants.generalUnit * 15
-    const topPadding = constants.generalUnit * 3
-    const accountControlsPadding = constants.generalUnit * 7
-
-    const mobileHeaderHeight = constants.generalUnit * 6.3
-
     return createStyles({
       root: {
         position: "fixed",
@@ -36,10 +29,12 @@ const useStyles = makeStyles(
         top: 0,
         transitionDuration: `${animation.translate}ms`,
         visibility: "hidden",
-        [breakpoints.up("sm")]: {
-          width: `calc(100% - ${modalWidth}px)`,
-          padding: `${0}px ${contentPadding}px ${0}px ${contentPadding}px`,
-          left: modalWidth,
+        [breakpoints.up("md")]: {
+          width: `calc(100% - ${constants.navWidth}px)`,
+          padding: `${0}px ${constants.contentPadding}px ${0}px ${
+            constants.contentPadding
+          }px`,
+          left: constants.navWidth,
           backgroundColor: palette.common.white.main,
           opacity: 0,
           "& > *:first-child": {
@@ -49,10 +44,12 @@ const useStyles = makeStyles(
             opacity: 1,
             height: "auto",
             visibility: "visible",
-            padding: `${topPadding}px ${contentPadding}px ${0}px ${contentPadding}px`,
+            padding: `${constants.headerTopPadding}px ${
+              constants.contentPadding
+            }px ${0}px ${constants.contentPadding}px`,
           },
         },
-        [breakpoints.down("sm")]: {
+        [breakpoints.down("md")]: {
           left: 0,
           width: "100%",
           justifyContent: "space-between",
@@ -62,7 +59,7 @@ const useStyles = makeStyles(
           "&.active": {
             opacity: 1,
             visibility: "visible",
-            height: mobileHeaderHeight,
+            height: constants.mobileHeaderHeight,
           },
         },
       },
@@ -72,7 +69,7 @@ const useStyles = makeStyles(
         flexDirection: "row",
         alignItems: "center",
 
-        [breakpoints.up("sm")]: {
+        [breakpoints.up("md")]: {
           "& img": {
             height: constants.generalUnit * 5,
             width: "auto",
@@ -81,7 +78,7 @@ const useStyles = makeStyles(
             marginRight: constants.generalUnit,
           },
         },
-        [breakpoints.down("sm")]: {
+        [breakpoints.down("md")]: {
           position: "absolute",
           left: "50%",
           top: "50%",
@@ -97,8 +94,8 @@ const useStyles = makeStyles(
         justifyContent: "flex-end",
         alignItems: "center",
         flexDirection: "row",
-        [breakpoints.up("sm")]: {
-          marginLeft: accountControlsPadding,
+        [breakpoints.up("md")]: {
+          marginLeft: constants.accountControlsPadding,
         },
         "& > *:first-child": {
           marginRight: constants.generalUnit * 2,
@@ -116,11 +113,11 @@ const useStyles = makeStyles(
         },
       },
       searchModule: {
-        [breakpoints.down("sm")]: {
+        [breakpoints.down("md")]: {
           position: "fixed",
           top: 0,
           right: 0,
-          height: mobileHeaderHeight,
+          height: constants.mobileHeaderHeight,
         },
       },
     })
@@ -138,7 +135,7 @@ const AppHeader: React.FC<IAppHeader> = ({
 }: IAppHeader) => {
   const classes = useStyles()
   const { breakpoints }: ITheme = useTheme()
-  const desktop = useMediaQuery(breakpoints.up("sm"))
+  const desktop = useMediaQuery(breakpoints.up("md"))
 
   const { isLoggedIn, logout } = useImployApi()
   const { getProfileTitle, removeUser } = useUser()

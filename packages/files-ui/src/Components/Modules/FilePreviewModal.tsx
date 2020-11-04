@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect } from "react"
+import React, { Fragment, useCallback, useEffect, useRef } from "react"
 import { useState } from "react"
 import {
   createStyles,
@@ -9,6 +9,7 @@ import {
 } from "@imploy/common-themes"
 import { IFile, useDrive } from "../../Contexts/DriveContext"
 import MimeMatcher from "mime-matcher"
+import axios, { CancelToken, CancelTokenSource } from "axios"
 import {
   Button,
   Grid,
@@ -28,6 +29,9 @@ import {
 import ImagePreview from "./PreviewRenderers/ImagePreview"
 import { useSwipeable } from "react-swipeable"
 import PdfPreview from "./PreviewRenderers/PDFPreview"
+import VideoPreview from "./PreviewRenderers/VideoPreview"
+import AudioPreview from "./PreviewRenderers/AudioPreview"
+import { useHotkeys } from "react-hotkeys-hook"
 
 export interface IPreviewRendererProps {
   contents: Blob
@@ -36,8 +40,8 @@ export interface IPreviewRendererProps {
 const SUPPORTED_FILE_TYPES: Record<string, React.FC<IPreviewRendererProps>> = {
   "application/pdf": PdfPreview,
   "image/*": ImagePreview,
-  // "audio/*": <div>Audio Previews coming soon</div>,
-  // "video/*": <div>Video Previews coming soon</div>,
+  "audio/*": AudioPreview,
+  "video/*": VideoPreview,
   // "text/*": <div>Text Previews coming soon</div>,
 }
 
@@ -67,7 +71,7 @@ const useStyles = makeStyles(
         left: 0,
         top: 0,
         width: "100%",
-        maxWidth: breakpoints.values["sm"],
+        maxWidth: breakpoints.values["md"],
         height: constants.generalUnit * 8,
         backgroundColor: palette.additional["gray"][9],
         color: palette.additional["gray"][3],
@@ -148,7 +152,7 @@ const FilePreviewModal: React.FC<{
   const { getFileContent, downloadFile } = useDrive()
 
   const { breakpoints }: ITheme = useTheme()
-  const desktop = useMediaQuery(breakpoints.up("sm"))
+  const desktop = useMediaQuery(breakpoints.up("md"))
 
   const [isLoading, setIsLoading] = useState(false)
   const [loadingProgress, setLoadingProgress] = useState(0)
@@ -159,25 +163,47 @@ const FilePreviewModal: React.FC<{
     onSwipedRight: () => nextFile && !isLoading && nextFile(),
     delta: 20,
   })
+
+  const source = useRef<CancelTokenSource | null>(null)
+
+  function getSource() {
+    if (source.current === null) {
+      source.current = axios.CancelToken.source()
+    }
+    return source.current
+  }
+
   useEffect(() => {
     const getContents = async () => {
       if (!file) return
-
+      if (isLoading && source.current) {
+        source.current.cancel("Cancelling previous request")
+        source.current = null
+      }
+      const token = getSource().token
       setIsLoading(true)
       setError(undefined)
       try {
-        const content = await getFileContent(file.name, (evt) => {
+        const content = await getFileContent(file.name, token, (evt) => {
           setLoadingProgress((evt.loaded / file.size) * 100)
         })
         setFileContent(content)
+        source.current = null
+        setLoadingProgress(0)
       } catch (error) {
-        setError("There was an error getting the preview.")
+        if (error) {
+          setError("There was an error getting the preview.")
+        }
       }
       setIsLoading(false)
     }
 
     if (file && compatibleFilesMatcher.match(file?.content_type)) {
       getContents()
+    }
+
+    return () => {
+      source.current && source.current.cancel("Cancelled by user")
     }
   }, [file, getFileContent])
 
@@ -195,6 +221,24 @@ const FilePreviewModal: React.FC<{
     fileContent &&
     validRendererMimeType &&
     SUPPORTED_FILE_TYPES[validRendererMimeType]
+
+  useHotkeys("Esc,Escape", () => {
+    if (file) {
+      closePreview()
+    }
+  })
+
+  useHotkeys("Left,ArrowLeft", () => {
+    if (file && previousFile) {
+      previousFile()
+    }
+  })
+
+  useHotkeys("Right,ArrowRight", () => {
+    if (file && nextFile) {
+      nextFile()
+    }
+  })
 
   return !file ? null : (
     <div className={classes.root}>
