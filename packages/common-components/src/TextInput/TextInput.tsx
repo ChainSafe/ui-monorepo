@@ -1,7 +1,9 @@
+/// <reference path='./react-input-number.d.ts' />
 import React, { ChangeEvent } from "react"
 import { makeStyles, createStyles } from "@imploy/common-themes"
 import { ITheme } from "@imploy/common-themes"
 import clsx from "clsx"
+import InputNumber from "react-input-number"
 import { Typography } from "../Typography"
 import {
   CheckCircleIcon,
@@ -415,6 +417,7 @@ const TextInput: React.FC<TextInputProps> = ({
   ...rest
 }: TextInputProps) => {
   const classes = useStyles()
+
   return (
     <label
       className={clsx(classes.root, className, size, {
@@ -446,21 +449,43 @@ const TextInput: React.FC<TextInputProps> = ({
         {LeftIcon && (
           <LeftIcon className={clsx(classes.standardIcon, size, "left")} />
         )}
-        <input
-          className={clsx(classes.input, {
-            ["disabled"]: disabled,
-            ["error"]: state == "error",
-            ["success"]: state == "success",
-            ["warning"]: state == "warning",
-          })}
-          type={type}
-          disabled={disabled}
-          name={name}
-          value={value}
-          placeholder={placeholder}
-          onChange={onChange}
-          {...rest}
-        />
+
+        {type === "number" ? (
+          <>
+            <InputNumber
+              // className={clsx(classes.input, {
+              //   ["disabled"]: disabled,
+              //   ["error"]: state == "error",
+              //   ["success"]: state == "success",
+              //   ["warning"]: state == "warning",
+              // })}
+              // disabled={disabled}
+              // name={name}
+              // value={value}
+              // placeholder={placeholder}
+              // onChange={onChange}
+              type="number"
+              // {...rest}
+            />
+            <span>asdasdasdasdasd</span>
+          </>
+        ) : (
+          <input
+            className={clsx(classes.input, {
+              ["disabled"]: disabled,
+              ["error"]: state == "error",
+              ["success"]: state == "success",
+              ["warning"]: state == "warning",
+            })}
+            type={type}
+            disabled={disabled}
+            name={name}
+            value={value}
+            placeholder={placeholder}
+            onChange={onChange}
+            {...rest}
+          />
+        )}
         <div className={clsx(classes.standardIcon, size, "right")}>
           {RightIcon && <RightIcon />}
           {state == "warning" && (

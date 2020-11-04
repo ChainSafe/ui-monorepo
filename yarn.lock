@@ -15132,6 +15132,15 @@ react-input-autosize@^2.2.2:
   dependencies:
     prop-types "^15.5.8"
 
+react-input-number@^5.0.19:
+  version "5.0.19"
+  resolved "https://registry.yarnpkg.com/react-input-number/-/react-input-number-5.0.19.tgz#3ce3e9522190c908a0f616364ca735914648c83c"
+  integrity sha512-Aa9RmOoOgzCn6b/RYyrKRkBtIWGum6v9sA73rJFtl9N0O3kjWrAdj9lk09n9QoOaxvyEHc3GQZwLcUrBEIH2Cw==
+  dependencies:
+    "@babel/runtime" "^7.5.5"
+    "@emotion/core" "^10.0.14"
+    lodash "^4.17.15"
+
 react-inspector@^4.0.0:
   version "4.0.1"
   resolved "https://registry.yarnpkg.com/react-inspector/-/react-inspector-4.0.1.tgz#0f888f78ff7daccbc7be5d452b20c96dc6d5fbb8"
