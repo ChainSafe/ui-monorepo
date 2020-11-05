@@ -10,7 +10,6 @@ import {
 } from "@imploy/common-components"
 
 export const DEFAULT_CVC_LENGTH = 3
-export const DEFAULT_ZIP_LENGTH = 5
 export const DEFAULT_CARD_FORMAT = /(\d{1,4})/g
 
 export type CardType =

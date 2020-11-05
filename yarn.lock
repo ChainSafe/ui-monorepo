@@ -15151,11 +15151,6 @@ react-lifecycles-compat@^3.0.4:
   resolved "https://registry.yarnpkg.com/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz#4f1a273afdfc8f3488a8c516bfda78f872352362"
   integrity sha512-fBASbA6LnOU9dOU2eW7aQ8xmYBSXUIWr+UmF9b1efZBazGNO+rcXT/icdKnYm2pTwcRylVUYwW7H1PHfLekVzA==
 
-react-payment-inputs@^1.1.7:
-  version "1.1.7"
-  resolved "https://registry.yarnpkg.com/react-payment-inputs/-/react-payment-inputs-1.1.7.tgz#d9a2471913525ef83533d97385aba8f5f0500e9b"
-  integrity sha512-yBCqDBJxS1AbsljS2duGxoaTFVbkVVqcW5IUxCxSe2H8x0H+UoLiooeK4Cm0rEI64BSvfu8a/mQNjyCmymvbag==
-
 react-pdf@^5.0.0:
   version "5.0.0"
   resolved "https://registry.yarnpkg.com/react-pdf/-/react-pdf-5.0.0.tgz#baddeecd5c5ef92ae57aed1ee141203ad14d4b5d"

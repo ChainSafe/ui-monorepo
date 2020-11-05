@@ -29,6 +29,9 @@ import {
 } from "../../../Elements/CardInputs/utils"
 import { getCardTokenFromStripeApi } from "./stripeApi"
 
+const ACTUAL_PRICE = 108.5
+const FINAL_PRICE = 88.5
+
 const useStyles = makeStyles((theme: ITheme) =>
   createStyles({
     container: {
@@ -337,11 +340,11 @@ const PurchasePlan: React.FC = () => {
                             variant="body1"
                             className={classes.actualPrice}
                           >
-                            <del>USD $107.67</del>
+                            <del>USD ${ACTUAL_PRICE}</del>
                           </Typography>
                           <div className={classes.priceContainer}>
                             <Typography variant="h3" className={classes.price}>
-                              USD $83.45
+                              USD ${FINAL_PRICE}
                             </Typography>
                             <Typography className={classes.priceSubtitle}>
                               per year

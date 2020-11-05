@@ -6,7 +6,6 @@ const MONTH_REGEX = /(0[1-9]|1[0-2])/
 export const EMPTY_CARD_NUMBER = "Enter a card number"
 export const EMPTY_EXPIRY_DATE = "Enter an expiry date"
 export const EMPTY_CVC = "Enter a CVC"
-export const EMPTY_ZIP = "Enter a ZIP code"
 
 export const INVALID_CARD_NUMBER = "Card number is invalid"
 export const INVALID_EXPIRY_DATE = "Expiry date is invalid"
