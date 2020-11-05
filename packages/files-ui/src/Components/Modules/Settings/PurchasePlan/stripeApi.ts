@@ -1,4 +1,4 @@
-import axios, { AxiosResponse } from "axios"
+import axios from "axios"
 
 const STRIPE_API = "https://api.stripe.com/v1/tokens"
 const STRIPE_PK = process.env.REACT_APP_STRIPE_PK

@@ -1,5 +1,4 @@
 import React from "react"
-import CardInputs from "../../../Elements/CardInputs"
 import {
   makeStyles,
   ITheme,
@@ -22,11 +21,12 @@ import { Form, Formik } from "formik"
 import { useBilling, useUser } from "@imploy/common-contexts"
 import * as yup from "yup"
 import countryList from "./countryList"
+import CardInputs from "../../../Elements/CardInputs"
 import {
   getCardNumberError,
   getExpiryDateError,
   getCVCError,
-} from "../../../Elements/CardInputs/utils/validator"
+} from "../../../Elements/CardInputs/utils"
 import { getCardTokenFromStripeApi } from "./stripeApi"
 
 const useStyles = makeStyles((theme: ITheme) =>
