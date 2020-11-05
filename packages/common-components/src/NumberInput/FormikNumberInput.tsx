@@ -1,24 +1,44 @@
-import React from "react"
+import React, { ReactElement } from "react"
 import { useField } from "formik"
-import TextInput from "./TextInput"
+import NumberInput from "./NumberInput"
 
-export interface FormikTextInputProps {
+export interface FormikNumberInputProps {
   className?: string
   label?: string
   placeholder?: string
   disabled?: boolean
   name: string
   inputVariant?: "default" | "minimal"
-  type?: "text" | "email" | "password" | "url" | "search"
   size?: "large" | "medium" | "small"
   captionMessage?: string
   labelClassName?: string
+
+  prefixCls?: string
+  min?: number
+  max?: number
+  step?: number | string
+  precision?: number
+  focusOnUpDown?: boolean
+  required?: boolean
+  autoFocus?: boolean
+  readOnly?: boolean
+  id?: string
+  defaultValue?: number
+  onBlur?: (value: number | string | undefined) => void
+  onPressEnter?: (event: React.KeyboardEvent<HTMLInputElement>) => void
+  onFocus?: (value: number | string | undefined) => void
+  upHandler?: ReactElement
+  downHandler?: ReactElement
+  formatter?: (value: number | string | undefined) => string
+  parser?: (displayValue: string | undefined) => number
+  pattern?: string
+  decimalSeparator?: string
+  inputMode?: string
 }
 
-const FormikTextInput: React.FC<FormikTextInputProps> = ({
+const FormikNumberInput: React.FC<FormikNumberInputProps> = ({
   className,
   inputVariant = "default",
-  type = "text",
   placeholder,
   name,
   size,
@@ -26,14 +46,13 @@ const FormikTextInput: React.FC<FormikTextInputProps> = ({
   labelClassName,
   disabled = false,
   captionMessage,
-}: FormikTextInputProps) => {
+}: FormikNumberInputProps) => {
   const [field, meta, helpers] = useField(name)
   return (
-    <TextInput
+    <NumberInput
       label={label ? label : field.name}
       inputVariant={inputVariant}
       disabled={disabled}
-      type={type}
       size={size}
       className={className}
       labelClassName={labelClassName}
@@ -49,4 +68,4 @@ const FormikTextInput: React.FC<FormikTextInputProps> = ({
   )
 }
 
-export default FormikTextInput
+export default FormikNumberInput
