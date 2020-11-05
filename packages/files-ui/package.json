@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "@chainsafe/web3-context": "1.1.0",
-    "@sentry/react": "^5.27.2",
+    "@sentry/react": "^5.27.3",
     "@types/yup": "^0.29.9",
     "bnc-onboard": "^1.14.0",
     "clsx": "^1.1.1",
