@@ -1,6 +1,4 @@
-import React from 'react';
-
-export default (
+<svg viewBox="0 0 24 16">
   <g fill="none" fillRule="evenodd">
     <rect fill="#252525" height="16" rx="2" width="24" />
     <circle cx="9" cy="8" fill="#eb001b" r="5" />
@@ -10,4 +8,4 @@ export default (
       fill="#ff5f00"
     />
   </g>
-);
+</svg>

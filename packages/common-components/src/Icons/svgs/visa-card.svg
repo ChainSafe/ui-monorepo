@@ -1,6 +1,4 @@
-import React from 'react';
-
-export default (
+<svg viewBox="0 0 24 16">
   <g stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
     <g id="New-Icons" transform="translate(-80.000000, -280.000000)" fillRule="nonzero">
       <g id="Card-Brands" transform="translate(40.000000, 200.000000)">
@@ -27,4 +25,4 @@ export default (
       </g>
     </g>
   </g>
-);
+</svg>

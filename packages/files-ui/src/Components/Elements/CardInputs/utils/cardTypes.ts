@@ -1,4 +1,13 @@
-import * as CardSvgs from "../CardSvgs"
+import {
+  AmexCardIcon,
+  VisaCardIcon,
+  MastercardCardIcon,
+  DinersclubCardIcon,
+  DiscoverCardIcon,
+  JcbCardIcon,
+  UnionpayCardIcon,
+  SvgIconProps,
+} from "@imploy/common-components"
 
 export const DEFAULT_CVC_LENGTH = 3
 export const DEFAULT_ZIP_LENGTH = 5
@@ -12,9 +21,6 @@ export type CardType =
   | "discover"
   | "jcb"
   | "unionpay"
-  | "maestro"
-  | "elo"
-  | "hipercard"
 
 export type CodeName = "CVV" | "CVC" | "CID" | "CVN" | "CVE"
 
@@ -29,7 +35,7 @@ export interface ICardType {
     name: CodeName
     length: number
   }
-  icon?: React.ReactNode
+  icon?: React.FC<SvgIconProps>
 }
 
 export const CARD_TYPES: ICardType[] = [
@@ -44,7 +50,7 @@ export const CARD_TYPES: ICardType[] = [
       name: "CVV",
       length: 3,
     },
-    icon: CardSvgs.Visa,
+    icon: VisaCardIcon,
   },
   {
     displayName: "Mastercard",
@@ -57,7 +63,7 @@ export const CARD_TYPES: ICardType[] = [
       name: "CVC",
       length: 3,
     },
-    icon: CardSvgs.Mastercard,
+    icon: MastercardCardIcon,
   },
   {
     displayName: "American Express",
@@ -70,7 +76,7 @@ export const CARD_TYPES: ICardType[] = [
       name: "CID",
       length: 4,
     },
-    icon: CardSvgs.Amex,
+    icon: AmexCardIcon,
   },
   {
     displayName: "Diners Club",
@@ -83,7 +89,7 @@ export const CARD_TYPES: ICardType[] = [
       name: "CVV",
       length: 3,
     },
-    icon: CardSvgs.Dinersclub,
+    icon: DinersclubCardIcon,
   },
   {
     displayName: "Discover",
@@ -96,7 +102,7 @@ export const CARD_TYPES: ICardType[] = [
       name: "CID",
       length: 3,
     },
-    icon: CardSvgs.Discover,
+    icon: DiscoverCardIcon,
   },
   {
     displayName: "JCB",
@@ -109,7 +115,7 @@ export const CARD_TYPES: ICardType[] = [
       name: "CVV",
       length: 3,
     },
-    icon: CardSvgs.Jcb,
+    icon: JcbCardIcon,
   },
   {
     displayName: "UnionPay",
@@ -122,44 +128,7 @@ export const CARD_TYPES: ICardType[] = [
       name: "CVN",
       length: 3,
     },
-    icon: CardSvgs.Unionpay,
-  },
-  {
-    displayName: "Maestro",
-    type: "maestro",
-    format: DEFAULT_CARD_FORMAT,
-    startPattern: /^(5018|5020|5038|6304|6703|6708|6759|676[1-3])/,
-    gaps: [4, 8, 12],
-    lengths: [12, 13, 14, 15, 16, 17, 18, 19],
-    code: {
-      name: "CVC",
-      length: 3,
-    },
-  },
-  {
-    displayName: "Elo",
-    type: "elo",
-    format: DEFAULT_CARD_FORMAT,
-    startPattern: /^(4011(78|79)|43(1274|8935)|45(1416|7393|763(1|2))|50(4175|6699|67[0-7][0-9]|9000)|627780|63(6297|6368)|650(03([^4])|04([0-9])|05(0|1)|4(0[5-9]|3[0-9]|8[5-9]|9[0-9])|5([0-2][0-9]|3[0-8])|9([2-6][0-9]|7[0-8])|541|700|720|901)|651652|655000|655021)/,
-    gaps: [4, 8, 12],
-    lengths: [16],
-    code: {
-      name: "CVE",
-      length: 3,
-    },
-  },
-  {
-    displayName: "Hipercard",
-    type: "hipercard",
-    format: DEFAULT_CARD_FORMAT,
-    startPattern: /^(384100|384140|384160|606282|637095|637568|60(?!11))/,
-    gaps: [4, 8, 12],
-    lengths: [16],
-    code: {
-      name: "CVC",
-      length: 3,
-    },
-    icon: CardSvgs.Hipercard,
+    icon: UnionpayCardIcon,
   },
 ]
 

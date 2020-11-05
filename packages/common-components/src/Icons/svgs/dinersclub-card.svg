@@ -1,6 +1,4 @@
-import React from "react"
-
-export default (
+<svg viewBox="0 0 24 16">
   <g id="319" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
     <g
       id="New-Icons"
@@ -33,4 +31,4 @@ export default (
       </g>
     </g>
   </g>
-)
+</svg>

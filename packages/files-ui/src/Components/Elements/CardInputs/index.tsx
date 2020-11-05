@@ -1,14 +1,6 @@
 import React from "react"
-import {
-  formatCardNumber,
-  formatExpiry,
-  getCardTypeByValue,
-  getCardNumberError,
-  getExpiryDateError,
-  getCVCError,
-} from "./utils"
-import { TextInput, AppleLogoIcon, Typography } from "@imploy/common-components"
-
+import { formatCardNumber, formatExpiry, getCardTypeByValue } from "./utils"
+import { TextInput, Typography } from "@imploy/common-components"
 import { makeStyles, ITheme, createStyles } from "@imploy/common-themes"
 
 const useStyles = makeStyles((theme: ITheme) =>
@@ -43,55 +35,53 @@ const useStyles = makeStyles((theme: ITheme) =>
   }),
 )
 
-const CardInputs = () => {
+interface ICardInputsProps {
+  cardNumber: string
+  cardExpiry: string
+  cardCvc: string
+  handleChangeCardNumber(value: string): void
+  handleChangeCardExpiry(value: string): void
+  handleChangeCardCvc(value: string): void
+  error?: string
+}
+
+const CardInputs = (props: ICardInputsProps) => {
   const classes = useStyles()
 
-  const [cardNumber, setCardNumber] = React.useState("")
-  const [cardExpiry, setCardExpiry] = React.useState("")
-  const [cvv, setCardCvv] = React.useState("")
-  const [error, setError] = React.useState<string | undefined>(undefined)
+  const {
+    cardNumber,
+    cardExpiry,
+    cardCvc,
+    handleChangeCardNumber,
+    handleChangeCardExpiry,
+    handleChangeCardCvc,
+    error,
+  } = props
   const cardType = getCardTypeByValue(cardNumber)
-
-  const onSubmit = () => {
-    const error =
-      getCardNumberError(cardNumber) ||
-      getExpiryDateError(cardExpiry) ||
-      getCVCError(cvv, getCardTypeByValue(cardNumber))
-
-    setError(error)
-    if (error) {
-      return
-    }
-
-    // call parent
-  }
 
   return (
     <div className={classes.container}>
       <TextInput
         value={cardNumber}
-        onChange={(e) => setCardNumber(formatCardNumber(e.target.value))}
+        onChange={(e) =>
+          handleChangeCardNumber(formatCardNumber(e.target.value))
+        }
         className={classes.cardNumber}
         size="large"
         placeholder="1234 1234 1234 1234"
-        RightIcon={AppleLogoIcon}
+        RightIcon={cardType && cardType.type ? cardType.icon : undefined}
         label="Card information"
       />
-      {cardType && cardType.type && (
-        <svg width={24} height={16}>
-          {cardType.icon}
-        </svg>
-      )}
       <TextInput
         value={cardExpiry}
-        onChange={(e) => setCardExpiry(formatExpiry(e.target.value))}
+        onChange={(e) => handleChangeCardExpiry(formatExpiry(e.target.value))}
         className={classes.cardExpiry}
         size="large"
         placeholder="MM/YY"
       />
       <TextInput
-        value={cvv}
-        onChange={(e) => setCardCvv(e.target.value)}
+        value={cardCvc}
+        onChange={(e) => handleChangeCardCvc(e.target.value)}
         className={classes.cardCvc}
         size="large"
         placeholder="CVC"

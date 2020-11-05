@@ -55,6 +55,7 @@ interface ISelectInputProps {
   value?: any
   isMulti?: boolean
   isClearable?: boolean
+  name?: string
 }
 
 const SelectInput: React.FC<ISelectInputProps> = ({
@@ -68,6 +69,7 @@ const SelectInput: React.FC<ISelectInputProps> = ({
   captionMessage,
   value,
   isMulti,
+  name,
   isClearable = false,
 }) => {
   const classes = useStyles()
@@ -102,6 +104,7 @@ const SelectInput: React.FC<ISelectInputProps> = ({
         placeholder={placeholder}
         value={selectValue}
         isMulti={isMulti}
+        name={name}
         styles={{
           container: (provided, state) => ({
             ...provided,

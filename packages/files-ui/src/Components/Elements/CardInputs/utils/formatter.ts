@@ -24,7 +24,6 @@ export const formatCardNumber = (cardNumber: string) => {
 }
 
 export const formatExpiry = (cardExpiry: string) => {
-  // const eventData = event.nativeEvent && event.nativeEvent.data
   const prevExpiry = cardExpiry
 
   if (!prevExpiry) return null
