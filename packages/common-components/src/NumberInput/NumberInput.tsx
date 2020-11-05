@@ -2,6 +2,7 @@ import React from "react"
 import { makeStyles, createStyles } from "@imploy/common-themes"
 import { ITheme } from "@imploy/common-themes"
 import clsx from "clsx"
+import InputNumber from "rc-input-number"
 import { Typography } from "../Typography"
 import {
   CheckCircleIcon,
@@ -9,6 +10,7 @@ import {
   ExclamationCircleIcon,
   SvgIcon,
 } from "../Icons"
+import { InputState } from "../TextInput/TextInput"
 
 const iconSize = {
   large: {
@@ -290,12 +292,14 @@ const useStyles = makeStyles(
         ...overrides?.TextInput?.inputArea?.root,
       },
       input: {
-        width: "100%",
-        padding: `${constants.generalUnit}px ${constants.generalUnit * 2}px`,
-        outline: "none",
-        border: `1px solid ${palette.additional["gray"][6]}`,
-        color: palette.additional["gray"][10],
-        transitionDuration: `${animation.transform}ms`,
+        "& input": {
+          width: "100%",
+          padding: `${constants.generalUnit}px ${constants.generalUnit * 2}px`,
+          outline: "none",
+          border: `1px solid ${palette.additional["gray"][6]}`,
+          color: palette.additional["gray"][10],
+          transitionDuration: `${animation.transform}ms`,
+        },
       },
       standardIcon: {
         position: "absolute",
@@ -376,9 +380,7 @@ const useStyles = makeStyles(
     }),
 )
 
-export type InputState = "normal" | "warning" | "success" | "error"
-
-export interface ITextInputProps {
+export interface INumberInputProps {
   className?: string
   label?: string
   labelClassName?: string
@@ -393,10 +395,9 @@ export interface ITextInputProps {
   size?: "large" | "medium" | "small"
   captionMessage?: string
   onChange: (value: string | number | undefined) => void
-  type?: "text" | "email" | "password" | "url" | "search"
 }
 
-const TextInput: React.FC<ITextInputProps> = ({
+const TextInput: React.FC<INumberInputProps> = ({
   className,
   label,
   LeftIcon,
@@ -407,13 +408,12 @@ const TextInput: React.FC<ITextInputProps> = ({
   inputVariant = "default",
   labelClassName,
   size = "medium",
-  type = "text",
   placeholder,
   captionMessage,
   state = "normal",
   disabled = false,
   ...rest
-}: ITextInputProps) => {
+}: INumberInputProps) => {
   const classes = useStyles()
 
   return (
@@ -447,19 +447,19 @@ const TextInput: React.FC<ITextInputProps> = ({
         {LeftIcon && (
           <LeftIcon className={clsx(classes.standardIcon, size, "left")} />
         )}
-        <input
+
+        <InputNumber
           className={clsx(classes.input, {
             ["disabled"]: disabled,
             ["error"]: state == "error",
             ["success"]: state == "success",
             ["warning"]: state == "warning",
           })}
-          type={type}
           disabled={disabled}
           name={name}
-          value={value}
+          value={(value as unknown) as number}
           placeholder={placeholder}
-          onChange={(e) => onChange(e.target.value)}
+          onChange={onChange}
           {...rest}
         />
         <div className={clsx(classes.standardIcon, size, "right")}>

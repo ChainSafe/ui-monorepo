@@ -3,13 +3,14 @@ import { withKnobs, select, boolean, text } from "@storybook/addon-knobs"
 import { BulbIcon } from "../Icons"
 import { action } from "@storybook/addon-actions"
 import { HomeIcon } from "../Icons"
-import { TextInput, FormikTextInput, InputState } from "../TextInput"
-import { Formik, Form } from "formik"
 import { Button } from "../Button"
+import { FormikNumberInput, NumberInput } from "../NumberInput"
+import { InputState } from "../TextInput"
+import { Form, Formik } from "formik"
 
 export default {
-  title: "TextInput",
-  component: TextInput,
+  title: "NumberInput",
+  component: NumberInput,
   excludeStories: /.*Data$/,
   decorators: [withKnobs],
 }
@@ -22,13 +23,6 @@ const inputStateOptions: InputState[] = [
 ]
 
 const sizeOptions: ["large", "medium", "small"] = ["large", "medium", "small"]
-const typeOptions: ["text", "email", "password", "url", "search"] = [
-  "text",
-  "email",
-  "password",
-  "url",
-  "search",
-]
 
 export const actionsData = {
   onChange: action("onChange"),
@@ -36,7 +30,7 @@ export const actionsData = {
 }
 
 export const NoIconStory = (): React.ReactNode => (
-  <TextInput
+  <NumberInput
     onChange={() => actionsData.onChange()}
     state={select("State", inputStateOptions, "normal")}
     size={select("Size", sizeOptions, "large")}
@@ -44,12 +38,11 @@ export const NoIconStory = (): React.ReactNode => (
     label={text("Label", "Testin Label")}
     placeholder={text("Placeholder", "Placeholder text")}
     captionMessage={text("Caption/Error text", "Generic caption area")}
-    type={select("Type", typeOptions, "text")}
   />
 )
 
 export const LeftIconStory = (): React.ReactNode => (
-  <TextInput
+  <NumberInput
     onChange={() => actionsData.onChange()}
     LeftIcon={HomeIcon}
     state={select("State", inputStateOptions, "normal")}
@@ -58,12 +51,11 @@ export const LeftIconStory = (): React.ReactNode => (
     label={text("Label", "Testin Label")}
     placeholder={text("Placeholder", "Placeholder text")}
     captionMessage={text("Caption/Error text", "Generic caption area")}
-    type={select("Type", typeOptions, "text")}
   />
 )
 
 export const RightIconStory = (): React.ReactNode => (
-  <TextInput
+  <NumberInput
     onChange={() => actionsData.onChange()}
     RightIcon={BulbIcon}
     state={select("State", inputStateOptions, "normal")}
@@ -72,12 +64,11 @@ export const RightIconStory = (): React.ReactNode => (
     label={text("Label", "Testin Label")}
     placeholder={text("Placeholder", "Placeholder text")}
     captionMessage={text("Caption/Error text", "Generic caption area")}
-    type={select("Type", typeOptions, "text")}
   />
 )
 
 export const BothIconsStory = (): React.ReactNode => (
-  <TextInput
+  <NumberInput
     onChange={() => actionsData.onChange()}
     LeftIcon={HomeIcon}
     RightIcon={BulbIcon}
@@ -87,7 +78,6 @@ export const BothIconsStory = (): React.ReactNode => (
     label={text("Label", "Testin Label")}
     placeholder={text("Placeholder", "Placeholder text")}
     captionMessage={text("Caption/Error text", "Generic caption area")}
-    type={select("Type", typeOptions, "text")}
   />
 )
 
@@ -100,7 +90,7 @@ export const FormikStory = (): React.ReactNode => {
       onSubmit={(values: any) => actionsData.onFormSubmit(values)}
     >
       <Form>
-        <FormikTextInput
+        <FormikNumberInput
           name="text"
           label={text("Label", "Testin Label")}
           placeholder={text("Placeholder", "Placeholder text")}
