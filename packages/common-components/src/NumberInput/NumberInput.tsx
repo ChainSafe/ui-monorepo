@@ -1,4 +1,4 @@
-import React from "react"
+import React, { ReactElement } from "react"
 import { makeStyles, createStyles } from "@imploy/common-themes"
 import { ITheme } from "@imploy/common-themes"
 import clsx from "clsx"
@@ -395,6 +395,28 @@ export interface INumberInputProps {
   size?: "large" | "medium" | "small"
   captionMessage?: string
   onChange: (value: string | number | undefined) => void
+
+  prefixCls?: string
+  min?: number
+  max?: number
+  step?: number | string
+  precision?: number
+  focusOnUpDown?: boolean
+  required?: boolean
+  autoFocus?: boolean
+  readOnly?: boolean
+  id?: string
+  defaultValue?: number
+  onBlur?: (value: number | string | undefined) => void
+  onPressEnter?: (event: React.KeyboardEvent<HTMLInputElement>) => void
+  onFocus?: (value: number | string | undefined) => void
+  upHandler?: ReactElement
+  downHandler?: ReactElement
+  formatter?: (value: number | string | undefined) => string
+  parser?: (displayValue: string | undefined) => number
+  pattern?: string
+  decimalSeparator?: string
+  inputMode?: string
 }
 
 const TextInput: React.FC<INumberInputProps> = ({
@@ -412,6 +434,11 @@ const TextInput: React.FC<INumberInputProps> = ({
   captionMessage,
   state = "normal",
   disabled = false,
+  prefixCls = "rc-input-number",
+  focusOnUpDown = true,
+  required = false,
+  autoFocus = false,
+  readOnly = false,
   ...rest
 }: INumberInputProps) => {
   const classes = useStyles()
@@ -460,6 +487,11 @@ const TextInput: React.FC<INumberInputProps> = ({
           value={(value as unknown) as number}
           placeholder={placeholder}
           onChange={onChange}
+          prefixCls={prefixCls}
+          focusOnUpDown={focusOnUpDown}
+          required={required}
+          autoFocus={autoFocus}
+          readOnly={readOnly}
           {...rest}
         />
         <div className={clsx(classes.standardIcon, size, "right")}>
