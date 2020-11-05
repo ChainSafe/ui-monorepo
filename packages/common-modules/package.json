@@ -13,9 +13,7 @@
     "build": "rollup -c",
     "start": "rollup -c -w"
   },
-  "dependencies": {
-    "react-payment-inputs": "^1.1.7"
-  },
+  "dependencies": {},
   "peerDependencies": {
     "react": ">= 16.8.0",
     "react-dom": ">= 16.8.0"
