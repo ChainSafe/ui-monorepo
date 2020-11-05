@@ -8,7 +8,7 @@
     "@types/yup": "^0.29.9",
     "bnc-onboard": "^1.14.0",
     "clsx": "^1.1.1",
-    "dayjs": "^1.9.4",
+    "dayjs": "^1.9.5",
     "ethers": "^5.0.19",
     "formik": "^2.2.1",
     "mime-matcher": "^1.0.5",
