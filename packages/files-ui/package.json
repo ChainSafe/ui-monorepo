@@ -26,6 +26,10 @@
     "yup": "^0.29.3"
   },
   "devDependencies": {
+    "@lingui/babel-preset-react": "^2.9.2",
+    "@lingui/core": "^3.0.0",
+    "@lingui/macro": "^3.0.0",
+    "@lingui/react": "^3.0.0",
     "@testing-library/jest-dom": "^5.11.5",
     "@testing-library/react": "^11.1.1",
     "@testing-library/user-event": "^12.2.0",
@@ -44,7 +48,10 @@
     "sentry": "(export REACT_APP_SENTRY_RELEASE=$(sentry-cli releases propose-version); node scripts/sentry.js)",
     "release": "(export REACT_APP_SENTRY_RELEASE=$(sentry-cli releases propose-version); yarn build && node scripts/sentry.js)",
     "test": "react-scripts test",
-    "analyze": "source-map-explorer 'build/static/js/*.js'"
+    "analyze": "source-map-explorer 'build/static/js/*.js'",
+    "extract": "lingui extract",
+    "compile": "lingui compile",
+    "lingui-version": "lingui --version"
   },
   "eslintConfig": {
     "extends": "react-app"
