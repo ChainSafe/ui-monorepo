@@ -4,6 +4,7 @@ export {
   Switch,
   NavLink,
   Link,
+  Redirect,
 } from "react-router-dom"
 export { default as ConditionalRoute } from "./ConditionalRoute"
 export {
