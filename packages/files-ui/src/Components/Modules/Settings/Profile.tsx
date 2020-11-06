@@ -15,6 +15,7 @@ import {
 import { LockIcon, CopyIcon } from "@imploy/common-components"
 import { Formik, Form } from "formik"
 import { Profile } from "@imploy/common-contexts"
+import { Trans } from "@lingui/macro"
 
 const useStyles = makeStyles((theme: ITheme) =>
   createStyles({
@@ -168,9 +169,13 @@ const ProfileView: React.FC<IProfileProps> = (props) => {
                     <div className={classes.boxContainer}>
                       <div className={classes.walletAddressContainer}>
                         <Typography variant="body1" className={classes.label}>
-                          Wallet address
+                          <Trans>Wallet address</Trans>
                         </Typography>
-                        {copied && <Typography>Copied!</Typography>}
+                        {copied && (
+                          <Typography>
+                            <Trans>Copied!</Trans>
+                          </Typography>
+                        )}
                       </div>
                       <div className={classes.copyBox} onClick={copyAddress}>
                         <Typography
@@ -226,7 +231,9 @@ const ProfileView: React.FC<IProfileProps> = (props) => {
                   >
                     <LockIcon className={classes.icon} />
                     {"  "}
-                    <Typography variant="button">Save changes</Typography>
+                    <Typography variant="button">
+                      <Trans>Save changes</Trans>
+                    </Typography>
                   </Button>
                 </Form>
               </Formik>
@@ -239,22 +246,24 @@ const ProfileView: React.FC<IProfileProps> = (props) => {
                 component="h4"
                 className={classes.deletionMargins}
               >
-                Deletion
+                <Trans>Deletion</Trans>
               </Typography>
               <Typography
                 variant="body1"
                 component="p"
                 className={classes.deletionMargins}
               >
-                Deleting you account is irreversible. You will lose all your
-                data on files.
+                <Trans>
+                  Deleting you account is irreversible. You will lose all your
+                  data on files.
+                </Trans>
               </Typography>
               <Button
                 variant="outline"
                 disabled
                 className={classes.deletionMargins}
               >
-                Delete Account
+                <Trans>Delete Account</Trans>
               </Button>
             </div>
           </div>

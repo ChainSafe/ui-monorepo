@@ -10,6 +10,7 @@ import { makeStyles, ITheme, createStyles } from "@imploy/common-themes"
 import clsx from "clsx"
 import { FREE_PLAN_LIMIT } from "../../../Utils/Constants"
 import { useDrive } from "../../../Contexts/DriveContext"
+import { Trans } from "@lingui/macro"
 
 const useStyles = makeStyles((theme: ITheme) =>
   createStyles({
@@ -81,16 +82,18 @@ const PlanView: React.FC = () => {
                 component="h4"
                 className={classes.margins}
               >
-                Storage Plan
+                <Trans>Storage Plan</Trans>
               </Typography>
               <Typography
                 variant="body1"
                 component="p"
                 className={clsx(classes.margins, classes.subtitle)}
               >
-                Lorem ipsum aenean et rutrum magna. Morbi nec placerat erat.
-                Nunc elementum sed libero sit amet convallis. Quisque non arcu
-                vitae ex fringilla molestie.
+                <Trans id="storage-plan-desc">
+                  Lorem ipsum aenean et rutrum magna. Morbi nec placerat erat.
+                  Nunc elementum sed libero sit amet convallis. Quisque non arcu
+                  vitae ex fringilla molestie.
+                </Trans>
               </Typography>
             </div>
             <div>
@@ -99,7 +102,7 @@ const PlanView: React.FC = () => {
                 component="h5"
                 className={classes.essentials}
               >
-                Essentials - Free
+                <Trans>Essentials - Free</Trans>
               </Typography>
               <div className={classes.essentialContainer}>
                 <div className={classes.spaceUsedBox}>
@@ -121,7 +124,7 @@ const PlanView: React.FC = () => {
                   variant="outline"
                   className={classes.changePlanButton}
                 >
-                  Change plan
+                  <Trans>Change plan</Trans>
                 </Button>
               </div>
             </div>

@@ -4,6 +4,7 @@ import { makeStyles, ITheme, createStyles } from "@imploy/common-themes"
 import { Document, Page } from "react-pdf"
 
 import { Button, Typography } from "@imploy/common-components"
+import { Trans } from "@lingui/macro"
 
 const useStyles = makeStyles(({ constants, palette, zIndex }: ITheme) =>
   createStyles({
@@ -64,13 +65,13 @@ const PdfPreview: React.FC<IPreviewRendererProps> = ({ contents }) => {
       </Document>
       <div className={classes.controlsContainer}>
         <Button onClick={prevPage} className={classes.pageButton}>
-          Previous
+          <Trans>Previous</Trans>
         </Button>
         <Typography className={classes.paginationInfo}>
           {pageNumber} of {numPages}
         </Typography>
         <Button onClick={nextPage} className={classes.pageButton}>
-          Next
+          <Trans>Next</Trans>
         </Button>
       </div>
     </>

@@ -22,6 +22,7 @@ import {
 } from "@imploy/common-components"
 import { ROUTE_LINKS } from "../FilesRoutes"
 import { FREE_PLAN_LIMIT } from "../../Utils/Constants"
+import { Trans } from "@lingui/macro"
 
 const useStyles = makeStyles(
   ({ palette, animation, breakpoints, constants, zIndex }: ITheme) => {
@@ -215,16 +216,22 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
             <div>
               <Link className={classes.logo} to={ROUTE_LINKS.Home}>
                 <ChainsafeFilesLogo />
-                <Typography variant="h5">Files</Typography>
+                <Typography variant="h5">
+                  <Trans>Files</Trans>
+                </Typography>
               </Link>
             </div>
           )}
           <div className={classes.linksArea}>
-            <Typography>Folders</Typography>
+            <Typography>
+              <Trans>Folders</Trans>
+            </Typography>
             <nav className={classes.navMenu}>
               <Link onClick={handleOnClick} className={classes.navItem} to="">
                 <DatabaseSvg />
-                <Typography variant="h5">All</Typography>
+                <Typography variant="h5">
+                  <Trans>All</Trans>
+                </Typography>
               </Link>
             </nav>
             <Typography>{desktop ? "Resources" : "Account"}</Typography>
@@ -235,7 +242,9 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
                 to={ROUTE_LINKS.Settings}
               >
                 <SettingSvg />
-                <Typography variant="h5">Settings</Typography>
+                <Typography variant="h5">
+                  <Trans>Settings</Trans>
+                </Typography>
               </Link>
             </nav>
           </div>
@@ -255,7 +264,7 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
                   size="small"
                 />
                 <Button disabled variant="outline" size="small">
-                  UPGRADE
+                  <Trans>UPGRADE</Trans>
                 </Button>
               </div>
             )}
@@ -268,7 +277,9 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
                 }}
               >
                 <PowerDownSvg />
-                <Typography>Sign Out</Typography>
+                <Typography>
+                  <Trans>Sign Out</Trans>
+                </Typography>
               </div>
             )}
           </section>

@@ -20,6 +20,7 @@ import {
 import { useWeb3 } from "@chainsafe/web3-context"
 import LargeLightBulbSvg from "../../Media/LargeLightBulb.svg"
 import SmallBranchSvg from "../../Media/SmallBranch.svg"
+import { Trans } from "@lingui/macro"
 
 const useStyles = makeStyles(
   ({ palette, constants, typography, breakpoints }: ITheme) =>
@@ -215,7 +216,7 @@ const LoginPage = () => {
               component="h2"
               className={classes.imageCaption}
             >
-              Making secure cloud storage easier than ever.
+              <Trans>Making secure cloud storage easier than ever.</Trans>
             </Typography>
           </Grid>
         ) : (
@@ -236,7 +237,7 @@ const LoginPage = () => {
           <div className={classes.logoContainer}>
             <ChainsafeFilesLogo className={classes.logoImage} />
             <Typography variant="subtitle2" className={classes.logoText}>
-              ChainSafe Files
+              <Trans>ChainSafe Files</Trans>
             </Typography>
           </div>
           <div className={classes.controls}>
@@ -258,7 +259,7 @@ const LoginPage = () => {
                 size="large"
                 disabled={isConnecting}
               >
-                Select a Web3 Wallet
+                <Trans>Select a Web3 Wallet</Trans>
               </Button>
             ) : (
               <>
@@ -269,7 +270,7 @@ const LoginPage = () => {
                   size="large"
                   disabled={isConnecting}
                 >
-                  Continue with {wallet?.name}
+                  <Trans>Continue with</Trans> {wallet?.name}
                 </Button>
                 <Button
                   onClick={handleResetAndSelectWalletAndConnect}
@@ -278,13 +279,15 @@ const LoginPage = () => {
                   variant={desktop ? "primary" : "outline"}
                   disabled={isConnecting}
                 >
-                  Select a different wallet
+                  <Trans>Select a different wallet</Trans>
                 </Button>
               </>
             )}
             {desktop && (
               <Divider>
-                <Typography>or</Typography>
+                <Typography>
+                  <Trans>or</Trans>
+                </Typography>
               </Divider>
             )}
             <Button
@@ -293,7 +296,8 @@ const LoginPage = () => {
               size="large"
               onClick={() => onLoginWithProvider("github")}
             >
-              <GithubLogoIcon /> Continue with Github
+              <GithubLogoIcon />
+              <Trans>Continue with Github</Trans>
             </Button>
             <Button
               className={classes.button}
@@ -301,7 +305,8 @@ const LoginPage = () => {
               size="large"
               onClick={() => onLoginWithProvider("google")}
             >
-              <GoogleLogoIcon /> Continue with Google
+              <GoogleLogoIcon />
+              <Trans>Continue with Google</Trans>
             </Button>
             <Button
               className={classes.button}
@@ -309,7 +314,8 @@ const LoginPage = () => {
               variant={desktop ? "primary" : "outline"}
               onClick={() => onLoginWithProvider("facebook")}
             >
-              <FacebookLogoIcon /> Continue with Facebook
+              <FacebookLogoIcon />
+              <Trans>Continue with Facebook</Trans>
             </Button>
             <Typography className={classes.footerText}>
               {activeMode === "newUser"
@@ -320,7 +326,11 @@ const LoginPage = () => {
               onClick={toggleActiveMode}
               className={classes.toggleMode}
             >
-              {activeMode === "newUser" ? "Sign in" : "Create an account"}
+              {activeMode === "newUser" ? (
+                <Trans>Sign in</Trans>
+              ) : (
+                <Trans>Create an account</Trans>
+              )}
             </Typography>
             {/* {
               desktop && (

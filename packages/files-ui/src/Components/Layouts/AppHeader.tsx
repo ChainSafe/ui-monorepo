@@ -18,6 +18,7 @@ import {
 } from "@imploy/common-components"
 import { ROUTE_LINKS } from "../FilesRoutes"
 import SearchModule from "../Modules/SearchModule"
+import { Trans } from "@lingui/macro"
 
 const useStyles = makeStyles(
   ({ palette, animation, breakpoints, constants, zIndex }: ITheme) => {
@@ -165,7 +166,9 @@ const AppHeader: React.FC<IAppHeader> = ({
                       contents: (
                         <div className={classes.menuItem}>
                           <PowerDownSvg />
-                          <Typography>Sign Out</Typography>
+                          <Typography>
+                            <Trans>Sign Out</Trans>
+                          </Typography>
                         </div>
                       ),
                     },
