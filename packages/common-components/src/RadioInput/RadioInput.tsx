@@ -4,7 +4,7 @@ import clsx from "clsx"
 import { Typography } from "../Typography"
 
 const useStyles = makeStyles(
-  ({ constants, palette, animation, typography }: ITheme) =>
+  ({ constants, palette, animation, typography, overrides }: ITheme) =>
     createStyles({
       radioContainer: {
         display: "flex",
@@ -14,10 +14,12 @@ const useStyles = makeStyles(
         paddingLeft: constants.generalUnit * 3,
         paddingRight: constants.generalUnit * 3,
         margin: `${constants.generalUnit}px 0`,
+        ...overrides?.RadioInput?.radioContainer,
       },
       radioInput: {
         display: "none",
         visibility: "hidden",
+        ...overrides?.RadioInput?.radioInput,
       },
       radio: {
         border: `1px solid ${palette.additional["gray"][6]}`,
@@ -28,6 +30,7 @@ const useStyles = makeStyles(
         top: 0,
         borderRadius: "50%",
         transition: `all ${animation.transform}ms ease`,
+        ...overrides?.RadioInput?.radio.root,
         "&:before": {
           content: "''",
           display: "block",
@@ -42,6 +45,7 @@ const useStyles = makeStyles(
         },
         "&.checked": {
           border: `1px solid ${palette.additional["blue"][6]}`,
+          ...overrides?.RadioInput?.radio.checked,
           "&:before": {
             content: "''",
             display: "block",
@@ -56,15 +60,17 @@ const useStyles = makeStyles(
             borderRadius: "50%",
           },
         },
+        "&.disabled": {
+          ...overrides?.RadioInput?.radio.disabled,
+        },
       },
       label: {
         ...typography.body2,
+        ...overrides?.CheckboxInput?.label,
       },
       labelDisabled: {
         color: palette.additional["gray"][6],
-      },
-      error: {
-        color: palette.error.main,
+        ...overrides?.CheckboxInput?.labelDisabled,
       },
     }),
 )
