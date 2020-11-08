@@ -1,6 +1,6 @@
-import React from "react"
-import { withKnobs } from "@storybook/addon-knobs"
-import { RadioInput, RadioGroup, RadioButton } from "../RadioInput"
+import React, { useState } from "react"
+import { boolean, withKnobs } from "@storybook/addon-knobs"
+import { RadioInput } from "../RadioInput"
 
 export default {
   title: "RadioInput",
@@ -10,25 +10,28 @@ export default {
 }
 
 export const Default = (): React.ReactNode => {
+  const [value, setValue] = useState("apple")
   return (
     <>
-      <RadioInput name="apple" label="apple" value="apple" />
-      <RadioInput name="orange" label="orange" value="orange" />
-      <RadioInput name="grape" label="grape" value="grape" />
+      <RadioInput
+        label="Apple"
+        value="apple"
+        onChange={(e) => setValue(e.target.value)}
+        checked={value === "apple"}
+      />
+      <RadioInput
+        label="Orange"
+        value="orange"
+        onChange={(e) => setValue(e.target.value)}
+        checked={value === "orange"}
+      />
+      <RadioInput
+        label="Grape"
+        value="grape"
+        onChange={(e) => setValue(e.target.value)}
+        disabled={boolean("disabled", false)}
+        checked={value === "grape"}
+      />
     </>
   )
-}
-
-export const GroupRadio = (): React.ReactNode => {
-  return (
-    <RadioGroup name="row" value="front">
-      <RadioButton label="Front" value="front" />
-      <RadioButton label="Middle" value="middle" />
-      <RadioButton label="Back" value="back" />
-    </RadioGroup>
-  )
-}
-
-export const SingleRadio = (): React.ReactNode => {
-  return <RadioButton label="Front" value="front" />
 }
