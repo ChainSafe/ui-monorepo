@@ -1,96 +1,100 @@
-import React, { createContext, useState, useContext } from "react"
-import { makeStyles, createStyles } from "@imploy/common-themes"
+import React, { useState, useContext } from "react"
+import { makeStyles, createStyles, ITheme } from "@imploy/common-themes"
+import clsx from "clsx"
+import { Typography } from "../Typography"
 
-const useStyles = makeStyles(() =>
-  createStyles({
-    radio: {
-      ":checked": {
-        position: "absolute",
-        left: "-9999px",
-        paddingLeft: "28px",
+const useStyles = makeStyles(
+  ({ constants, palette, animation, typography }: ITheme) =>
+    createStyles({
+      radioContainer: {
+        display: "flex",
+        alignItems: "center",
+        position: "relative",
         cursor: "pointer",
-        lineHeight: "20px",
-        display: "inline-block",
-        color: "#666",
-        ":after": {
-          content: "",
-          width: "12px",
-          height: "12px",
-          background: "#F87DA9",
-          position: "absolute",
-          top: "4px",
-          left: "4px",
-          borderRadius: "100%",
-          transition: "all 0.2s ease",
-        },
+        paddingLeft: constants.generalUnit * 3,
+        paddingRight: constants.generalUnit * 3,
+        margin: `${constants.generalUnit}px 0`,
       },
-      ":not(:checked)": {
-        position: "absolute",
-        left: "-9999px",
+      radioInput: {
+        display: "none",
+        visibility: "hidden",
       },
-    },
-    label: {
-      position: "relative",
-      paddingLeft: "28px",
-      cursor: "pointer",
-      lineHeight: "20px",
-      display: "inline-block",
-      color: "#666",
-      ":before": {
-        content: "",
+      radio: {
+        // display: "inline-block",
+        border: `1px solid ${palette.additional["gray"][3]}`,
+        backgroundColor: palette.additional["gray"][3],
         position: "absolute",
+        width: constants.generalUnit * 2,
+        height: constants.generalUnit * 2,
         left: 0,
         top: 0,
-        width: "18px",
-        height: "18px",
-        border: "1px solid #ddd",
-        borderRadius: "100%",
-        background: "#fff",
+        borderRadius: "50%",
+        transition: `all ${animation.transform}ms ease`,
+        "&.checked": {
+          border: `4px solid ${palette.additional["gray"][3]}`,
+          backgroundColor: palette.additional["blue"][6],
+        },
       },
-      ":after": {
-        content: "",
-        width: "12px",
-        height: "12px",
-        background: "#F87DA9",
-        position: "absolute",
-        top: "4px",
-        left: "4px",
-        borderRadius: "100%",
-        transition: "all 0.2s ease",
+      label: {
+        ...typography.body2,
       },
-      ":not(:checked) + label:after": {
-        opacity: 0,
-        transform: "scale(0)",
+      labelDisabled: {
+        color: palette.additional["gray"][6],
       },
-    },
-  }),
+      error: {
+        color: palette.error.main,
+      },
+    }),
 )
 
-const useRadioButtons = (name: string) => {
-  const [value, setState] = useState<any | undefined>(undefined)
-
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setState(event.target.value)
-  }
-
-  const inputProps = {
-    onChange: handleChange,
-    name,
-    type: "radio",
-  }
-
-  return [value, inputProps]
+type RadioContextProps = {
+  name: string
+  value: string
+  children: React.ReactNode | React.ReactNode[]
 }
 
-const RadioGroupContext = createContext<string | undefined>(undefined)
+interface IRadioContext {
+  name: string
+  value: string
+  onChange(e: React.ChangeEvent<HTMLInputElement>): void
+}
 
-const RadioGroup: React.FC<any> = ({ children, name }: any) => {
-  const [, inputProps] = useRadioButtons(name)
+const RadioContext = React.createContext<IRadioContext | undefined>(undefined)
 
+const RadioProvider = ({ children, name, value }: RadioContextProps) => {
+  const [currentValue, setCurrentValue] = useState(value)
   return (
-    <RadioGroupContext.Provider value={inputProps}>
+    <RadioContext.Provider
+      value={{
+        name: name,
+        value: currentValue,
+        onChange: (e: React.ChangeEvent<HTMLInputElement>) =>
+          setCurrentValue(e.target.value),
+      }}
+    >
       {children}
-    </RadioGroupContext.Provider>
+    </RadioContext.Provider>
+  )
+}
+
+export interface IRadioGroupProps {
+  className?: string
+  name: string
+  value: string
+}
+
+const RadioGroup: React.FC<IRadioGroupProps> = ({
+  children,
+  className,
+  name,
+  value,
+}) => {
+  return (
+    <div className={className}>
+      <RadioProvider name={name} value={value}>
+        {children}
+      </RadioProvider>
+    </div>
   )
 }
 
@@ -98,15 +102,40 @@ export interface IRadioButtonProps {
   className?: string
   value: string
   label: string
+  name?: string
+  checked?: boolean
+  disabled?: boolean
 }
 
-const RadioButton: React.FC<IRadioButtonProps> = (props) => {
-  const context = useContext(RadioGroupContext)
+const RadioButton: React.FC<IRadioButtonProps> = ({
+  className,
+  value,
+  label,
+  checked,
+  disabled,
+}) => {
+  const context = useContext(RadioContext)
   const classes = useStyles()
   return (
-    <label className={classes.label}>
-      <input {...props} {...context} className={classes.radio} />
-      {props.label}
+    <label className={clsx(classes.radioContainer, className)}>
+      <input
+        type="radio"
+        {...context}
+        value={value}
+        className={classes.radioInput}
+      />
+      <div
+        className={clsx(classes.radio, {
+          ["checked"]: context ? context.value === value : checked,
+        })}
+      />
+      {label && (
+        <Typography
+          className={clsx(classes.label, disabled && classes.labelDisabled)}
+        >
+          {label}
+        </Typography>
+      )}
     </label>
   )
 }

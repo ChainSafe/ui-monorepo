@@ -19,12 +19,16 @@ export const Default = (): React.ReactNode => {
   )
 }
 
-export const Group = (): React.ReactNode => {
+export const GroupRadio = (): React.ReactNode => {
   return (
-    <RadioGroup name="row">
+    <RadioGroup name="row" value="front">
       <RadioButton label="Front" value="front" />
       <RadioButton label="Middle" value="middle" />
       <RadioButton label="Back" value="back" />
     </RadioGroup>
   )
+}
+
+export const SingleRadio = (): React.ReactNode => {
+  return <RadioButton label="Front" value="front" />
 }

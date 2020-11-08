@@ -9,10 +9,10 @@ export interface IRadioInputProps {
 
 const RadioInput: React.FC<IRadioInputProps> = ({ value, name, label }) => {
   return (
-    <>
+    <label>
       <input type="radio" id={name} name={name} value={value} />
       <label htmlFor={name}>{label}</label>
-    </>
+    </label>
   )
 }
 
