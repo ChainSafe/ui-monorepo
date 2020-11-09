@@ -6,14 +6,12 @@ interface IFormikCheckboxProps extends React.HTMLProps<HTMLInputElement> {
   className?: string
   name: string
   label?: string
-  checked?: boolean
   id: string
 }
 
 const FormikCheckboxInput: React.FC<IFormikCheckboxProps> = ({
   name,
   onChange,
-  checked,
   id,
   ...props
 }) => {
