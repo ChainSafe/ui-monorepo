@@ -58,8 +58,8 @@ const useStyles = makeStyles((theme: ITheme) =>
       margin: `${theme.constants.generalUnit}px 0`,
     },
     zipCodeInput: {
-      margin: 0,
       width: "100%",
+      margin: `${theme.constants.generalUnit * 2}px 0px`,
     },
     purchaseContainer: {
       border: `1px solid ${theme.palette.additional["gray"][6]}`,
@@ -325,6 +325,8 @@ const PurchasePlan: React.FC = () => {
                         className={classes.zipCodeInput}
                         size="large"
                         captionMessage={errors.country || errors.zipCode}
+                        label="Postal/Zip Code"
+                        placeholder="Postal/Zip Code"
                         state={
                           errors.country || errors.zipCode ? "error" : "normal"
                         }

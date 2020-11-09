@@ -3,17 +3,23 @@ import { ICardType } from "./cardTypes"
 
 const MONTH_REGEX = /(0[1-9]|1[0-2])/
 
-export const EMPTY_CARD_NUMBER = "Enter a card number"
-export const EMPTY_EXPIRY_DATE = "Enter an expiry date"
-export const EMPTY_CVC = "Enter a CVC"
+export enum CardNumberErrors {
+  EMPTY_CARD_NUMBER = "Enter a card number",
+  INVALID_CARD_NUMBER = "Card number is invalid",
+}
 
-export const INVALID_CARD_NUMBER = "Card number is invalid"
-export const INVALID_EXPIRY_DATE = "Expiry date is invalid"
-export const INVALID_CVC = "CVC is invalid"
+export enum CardExpiryErrors {
+  EMPTY_EXPIRY_DATE = "Enter an expiry date",
+  MONTH_OUT_OF_RANGE = "Expiry month must be between 01 and 12",
+  INVALID_EXPIRY_DATE = "Expiry date is invalid",
+  YEAR_OUT_OF_RANGE = "Expiry year cannot be in the past",
+  DATE_OUT_OF_RANGE = "Expiry date cannot be in the past",
+}
 
-export const MONTH_OUT_OF_RANGE = "Expiry month must be between 01 and 12"
-export const YEAR_OUT_OF_RANGE = "Expiry year cannot be in the past"
-export const DATE_OUT_OF_RANGE = "Expiry date cannot be in the past"
+export enum CardCvcErrors {
+  EMPTY_CVC = "Enter a CVC",
+  INVALID_CVC = "CVC is invalid",
+}
 
 export const hasCardNumberReachedMaxLength = (currentValue: string) => {
   const cardType = cardTypes.getCardTypeByValue(currentValue)
@@ -42,7 +48,7 @@ export const validateLuhn = (cardNumber: string) => {
 }
 export const getCardNumberError = (cardNumber: string): string | undefined => {
   if (!cardNumber) {
-    return EMPTY_CARD_NUMBER
+    return CardNumberErrors.EMPTY_CARD_NUMBER
   }
 
   const rawCardNumber = cardNumber.replace(/\s/g, "")
@@ -58,43 +64,43 @@ export const getCardNumberError = (cardNumber: string): string | undefined => {
       }
     }
   }
-  return INVALID_CARD_NUMBER
+  return CardNumberErrors.INVALID_CARD_NUMBER
 }
 
 export const getExpiryDateError = (expiryDate: string): string | undefined => {
   if (!expiryDate) {
-    return EMPTY_EXPIRY_DATE
+    return CardExpiryErrors.EMPTY_EXPIRY_DATE
   }
   const rawExpiryDate = expiryDate.replace(" / ", "").replace("/", "")
   if (rawExpiryDate.length === 4) {
     const month = rawExpiryDate.slice(0, 2)
     const year = `20${rawExpiryDate.slice(2, 4)}`
     if (!MONTH_REGEX.test(month)) {
-      return MONTH_OUT_OF_RANGE
+      return CardExpiryErrors.MONTH_OUT_OF_RANGE
     }
     if (parseInt(year) < new Date().getFullYear()) {
-      return YEAR_OUT_OF_RANGE
+      return CardExpiryErrors.YEAR_OUT_OF_RANGE
     }
     if (
       parseInt(year) === new Date().getFullYear() &&
       parseInt(month) < new Date().getMonth() + 1
     ) {
-      return DATE_OUT_OF_RANGE
+      return CardExpiryErrors.DATE_OUT_OF_RANGE
     }
     return
   }
-  return INVALID_EXPIRY_DATE
+  return CardExpiryErrors.INVALID_EXPIRY_DATE
 }
 
 export const getCVCError = (cvc: string, cardType: ICardType | undefined) => {
   if (!cvc) {
-    return EMPTY_CVC
+    return CardCvcErrors.EMPTY_CVC
   }
   if (cvc.length < 3) {
-    return INVALID_CVC
+    return CardCvcErrors.INVALID_CVC
   }
   if (cardType && cvc.length !== cardType.code.length) {
-    return INVALID_CVC
+    return CardCvcErrors.INVALID_CVC
   }
   return
 }
