@@ -13,6 +13,7 @@ const FormikCheckboxInput: React.FC<IFormikCheckboxProps> = ({
   name,
   onChange,
   id,
+  label,
   ...props
 }) => {
   const [field, meta, helpers] = useField<string>(name)
@@ -29,6 +30,7 @@ const FormikCheckboxInput: React.FC<IFormikCheckboxProps> = ({
       {...props}
       value={id}
       checked={field.value === id}
+      label={label}
     />
   )
 }

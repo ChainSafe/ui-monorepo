@@ -130,9 +130,7 @@ const RadioInput: React.FC<IRadioInputProps> = ({
           })}
         />
         {label && (
-          <Typography component="p" className={clsx(classes.label)}>
-            {label}
-          </Typography>
+          <Typography className={clsx(classes.label)}>{label}</Typography>
         )}
       </label>
       {error && <div className={classes.error}>{error}</div>}
