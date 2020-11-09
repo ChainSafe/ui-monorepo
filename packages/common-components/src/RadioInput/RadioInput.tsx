@@ -30,7 +30,7 @@ const useStyles = makeStyles(
         top: 0,
         borderRadius: "50%",
         transition: `all ${animation.transform}ms ease`,
-        ...overrides?.RadioInput?.radio.root,
+        ...overrides?.RadioInput?.radio?.root,
         "&:before": {
           content: "''",
           display: "block",
@@ -45,7 +45,7 @@ const useStyles = makeStyles(
         },
         "&.checked": {
           border: `1px solid ${palette.additional["blue"][6]}`,
-          ...overrides?.RadioInput?.radio.checked,
+          ...overrides?.RadioInput?.radio?.checked,
           "&:before": {
             content: "''",
             display: "block",
@@ -61,21 +61,21 @@ const useStyles = makeStyles(
           },
         },
         "&.disabled": {
-          ...overrides?.RadioInput?.radio.disabled,
+          ...overrides?.RadioInput?.radio?.disabled,
         },
       },
       label: {
         ...typography.body2,
-        ...overrides?.CheckboxInput?.label,
+        ...overrides?.RadioInput?.label,
       },
       labelDisabled: {
         color: palette.additional["gray"][6],
-        ...overrides?.CheckboxInput?.labelDisabled,
+        ...overrides?.RadioInput?.labelDisabled,
       },
     }),
 )
 
-export interface IRadioButtonProps extends React.HTMLProps<HTMLInputElement> {
+export interface IRadioInputProps extends React.HTMLProps<HTMLInputElement> {
   className?: string
   value: string
   label: string
@@ -85,7 +85,7 @@ export interface IRadioButtonProps extends React.HTMLProps<HTMLInputElement> {
   onChange?(e: React.ChangeEvent<HTMLInputElement>): void
 }
 
-const RadioInput: React.FC<IRadioButtonProps> = ({
+const RadioInput: React.FC<IRadioInputProps> = ({
   className,
   value,
   label,
