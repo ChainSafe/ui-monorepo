@@ -8,4 +8,5 @@ export interface IRadioInputOverride {
   }
   label?: Record<string, any>
   labelDisabled?: Record<string, any>
+  error?: Record<string, any>
 }

@@ -69,8 +69,13 @@ const useStyles = makeStyles(
         ...overrides?.RadioInput?.label,
       },
       labelDisabled: {
+        cursor: "not-allowed",
         color: palette.additional["gray"][6],
         ...overrides?.RadioInput?.labelDisabled,
+      },
+      error: {
+        color: palette.error.main,
+        ...overrides?.RadioInput?.error,
       },
     }),
 )
@@ -78,48 +83,60 @@ const useStyles = makeStyles(
 export interface IRadioInputProps extends React.HTMLProps<HTMLInputElement> {
   className?: string
   value: string
-  label: string
+  label?: string
   name?: string
   checked?: boolean
   disabled?: boolean
+  error?: string
   onChange?(e: React.ChangeEvent<HTMLInputElement>): void
 }
 
 const RadioInput: React.FC<IRadioInputProps> = ({
   className,
   value,
+  name,
   label,
   checked,
   disabled,
   onChange,
+  error,
   ...props
 }) => {
   const classes = useStyles()
 
   return (
-    <label className={clsx(classes.radioContainer, className)}>
-      <input
-        type="radio"
-        value={value}
-        checked={checked}
-        disabled={disabled}
-        onChange={onChange}
-        className={classes.radioInput}
-        {...props}
-      />
-      <div
-        className={clsx(classes.radio, {
-          ["checked"]: checked,
-        })}
-      />
-      {label && (
-        <Typography
-          className={clsx(classes.label, disabled && classes.labelDisabled)}
-        >
-          {label}
-        </Typography>
-      )}
-    </label>
+    <>
+      <label
+        className={clsx(
+          classes.radioContainer,
+          disabled && classes.labelDisabled,
+          className,
+        )}
+      >
+        <input
+          type="radio"
+          value={value}
+          disabled={disabled}
+          onChange={onChange}
+          name={name}
+          checked={checked}
+          className={classes.radioInput}
+          {...props}
+        />
+        <div
+          className={clsx(classes.radio, {
+            ["checked"]: checked,
+            ["disabled"]: disabled,
+          })}
+        />
+        {label && (
+          <Typography component="p" className={clsx(classes.label)}>
+            {label}
+          </Typography>
+        )}
+      </label>
+      {error && <div className={classes.error}>{error}</div>}
+    </>
   )
 }
 
