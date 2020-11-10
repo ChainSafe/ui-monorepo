@@ -7,7 +7,11 @@ import {
 import { ThemeSwitcher } from "@imploy/common-themes"
 import { CssBaseline, Router, ToasterProvider } from "@imploy/common-components"
 import { Web3Provider } from "@chainsafe/web3-context"
-import { ImployApiProvider, UserProvider } from "@imploy/common-contexts"
+import {
+  ImployApiProvider,
+  UserProvider,
+  BillingProvider,
+} from "@imploy/common-contexts"
 import { DriveProvider } from "./Contexts/DriveContext"
 import FilesRoutes from "./Components/FilesRoutes"
 import AppWrapper from "./Components/Layouts/AppWrapper"
@@ -91,11 +95,13 @@ const App: React.FC<{}> = () => {
             <ImployApiProvider apiUrl={apiUrl}>
               <UserProvider>
                 <DriveProvider>
-                  <Router>
-                    <AppWrapper>
-                      <FilesRoutes />
-                    </AppWrapper>
-                  </Router>
+                  <BillingProvider>
+                    <Router>
+                      <AppWrapper>
+                        <FilesRoutes />
+                      </AppWrapper>
+                    </Router>
+                  </BillingProvider>
                 </DriveProvider>
               </UserProvider>
             </ImployApiProvider>
