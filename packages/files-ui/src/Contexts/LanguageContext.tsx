@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react"
 import { i18n } from "@lingui/core"
-import { messages as catalogEn } from "./locales/en/messages"
+import { messages as catalogEn } from "../locales/en/messages"
 import { I18nProvider } from "@lingui/react"
 
 export type LanguageContext = {
