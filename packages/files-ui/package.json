@@ -19,7 +19,7 @@
     "babel-preset-react": "^6.24.1",
     "bnc-onboard": "^1.14.0",
     "clsx": "^1.1.1",
-    "dayjs": "^1.9.5",
+    "dayjs": "^1.9.6",
     "ethers": "^5.0.19",
     "formik": "^2.2.3",
     "mime-matcher": "^1.0.5",
