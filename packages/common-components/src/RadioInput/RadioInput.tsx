@@ -105,36 +105,34 @@ const RadioInput: React.FC<IRadioInputProps> = ({
   const classes = useStyles()
 
   return (
-    <>
-      <label
-        className={clsx(
-          classes.radioContainer,
-          disabled && classes.labelDisabled,
-          className,
-        )}
-      >
-        <input
-          type="radio"
-          value={value}
-          disabled={disabled}
-          onChange={onChange}
-          name={name}
-          checked={checked}
-          className={classes.radioInput}
-          {...props}
-        />
-        <div
-          className={clsx(classes.radio, {
-            ["checked"]: checked,
-            ["disabled"]: disabled,
-          })}
-        />
-        {label && (
-          <Typography className={clsx(classes.label)}>{label}</Typography>
-        )}
-      </label>
+    <label
+      className={clsx(
+        classes.radioContainer,
+        disabled && classes.labelDisabled,
+        className,
+      )}
+    >
+      <input
+        type="radio"
+        value={value}
+        disabled={disabled}
+        onChange={onChange}
+        name={name}
+        checked={checked}
+        className={classes.radioInput}
+        {...props}
+      />
+      <div
+        className={clsx(classes.radio, {
+          ["checked"]: checked,
+          ["disabled"]: disabled,
+        })}
+      />
+      {label && (
+        <Typography className={clsx(classes.label)}>{label}</Typography>
+      )}
       {error && <div className={classes.error}>{error}</div>}
-    </>
+    </label>
   )
 }
 

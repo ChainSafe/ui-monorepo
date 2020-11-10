@@ -2,14 +2,14 @@ import React from "react"
 import { useField } from "formik"
 import RadioInput from "./RadioInput"
 
-interface IFormikCheckboxProps extends React.HTMLProps<HTMLInputElement> {
+interface IFormikRadioInputProps extends React.HTMLProps<HTMLInputElement> {
   className?: string
   name: string
   label?: string
   id: string
 }
 
-const FormikCheckboxInput: React.FC<IFormikCheckboxProps> = ({
+const FormikRadioInput: React.FC<IFormikRadioInputProps> = ({
   name,
   onChange,
   id,
@@ -35,6 +35,4 @@ const FormikCheckboxInput: React.FC<IFormikCheckboxProps> = ({
   )
 }
 
-export default FormikCheckboxInput
-
-export { IFormikCheckboxProps }
+export default FormikRadioInput
