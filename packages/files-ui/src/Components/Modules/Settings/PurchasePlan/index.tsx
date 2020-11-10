@@ -27,10 +27,10 @@ import {
   getExpiryDateError,
   getCVCError,
 } from "../../../Elements/CardInputs/utils"
-import { getCardTokenFromStripeApi } from "./stripeApi"
 
 const ACTUAL_PRICE = 108.5
 const FINAL_PRICE = 88.5
+const STRIPE_PK = process.env.REACT_APP_STRIPE_PK
 
 const useStyles = makeStyles((theme: ITheme) =>
   createStyles({
@@ -162,7 +162,7 @@ const useStyles = makeStyles((theme: ITheme) =>
 const PurchasePlan: React.FC = () => {
   const classes = useStyles()
   const { profile } = useUser()
-  const { addCard } = useBilling()
+  const { addCard, getCardTokenFromStripe } = useBilling()
   const { breakpoints }: ITheme = useTheme()
   const desktop = useMediaQuery(breakpoints.up("md"))
 
@@ -206,12 +206,17 @@ const PurchasePlan: React.FC = () => {
           zipCode: "",
         }}
         onSubmit={async (values) => {
-          console.log(values)
-          const stripeResp = await getCardTokenFromStripeApi({
-            cardNumber: values.cardNumber,
-            cardExpiry: values.cardExpiry,
-            cardCvc: values.cardCvc,
-          })
+          if (!STRIPE_PK) {
+            throw new Error("Stripe pk missing from environment")
+          }
+          const stripeResp = await getCardTokenFromStripe(
+            {
+              cardNumber: values.cardNumber,
+              cardExpiry: values.cardExpiry,
+              cardCvc: values.cardCvc,
+            },
+            STRIPE_PK,
+          )
           // add card api for now
           await addCard(stripeResp.data.id)
         }}
