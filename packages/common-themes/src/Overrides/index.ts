@@ -14,6 +14,7 @@ import { IIconOverride } from "./Icon"
 import { IMenuDropdownOverride } from "./MenuDropdown"
 import { IModalOverride } from "./Modal"
 import { IPaperOverride } from "./Paper"
+import { IRadioInputOverride } from "./RadioInput"
 import { IScrollbarWrapperOverride } from "./ScrollbarWrapper"
 import { ISearchBarOverride } from "./SearchBar"
 import { ISelectInputOverride } from "./SelectInput"
@@ -40,6 +41,7 @@ export interface IComponentOverrides {
   MenuDropdown?: IMenuDropdownOverride
   Modal?: IModalOverride
   Paper?: IPaperOverride
+  RadioInput?: IRadioInputOverride
   ScrollbarWrapper?: IScrollbarWrapperOverride
   SearchBar?: ISearchBarOverride
   SelectInput?: ISelectInputOverride
