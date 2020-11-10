@@ -1,14 +1,211 @@
 msgid ""
 msgstr ""
-"POT-Creation-Date: 2020-11-06 13:53+0200\n"
+"POT-Creation-Date: 2020-11-10 15:02+0200\n"
 "Mime-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: @lingui/cli\n"
 "Language: en\n"
-"Project-Id-Version: \n"
-"Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: \n"
-"Last-Translator: \n"
-"Language-Team: \n"
-"Plural-Forms: \n"
+
+#: src/Components/Layouts/AppNav.tsx:197
+msgid "All"
+msgstr "All"
+
+#: src/Components/Modules/CreateFolderModule.tsx:121
+#: src/Components/Modules/FileBrowserModule.tsx:547
+#: src/Components/Modules/UploadFileModule.tsx:96
+msgid "Cancel"
+msgstr "Cancel"
+
+#: src/Components/Pages/LoginPage.tsx:198
+msgid "ChainSafe Files"
+msgstr "ChainSafe Files"
+
+#: src/Components/Modules/Settings/Plan.tsx:89
+msgid "Change plan"
+msgstr "Change plan"
+
+#: src/Components/Pages/LoginPage.tsx:210
+msgid "Continue with"
+msgstr "Continue with"
+
+#: src/Components/Pages/LoginPage.tsx:231
+msgid "Continue with Facebook"
+msgstr "Continue with Facebook"
+
+#: src/Components/Pages/LoginPage.tsx:223
+msgid "Continue with Github"
+msgstr "Continue with Github"
+
+#: src/Components/Pages/LoginPage.tsx:227
+msgid "Continue with Google"
+msgstr "Continue with Google"
+
+#: src/Components/Modules/Settings/Profile.tsx:131
+msgid "Copied!"
+msgstr "Copied!"
+
+#: src/Components/Modules/CreateFolderModule.tsx:124
+msgid "Create"
+msgstr "Create"
+
+#: src/Components/Modules/CreateFolderModule.tsx:113
+msgid "Create Folder"
+msgstr "Create Folder"
+
+#: src/Components/Pages/LoginPage.tsx:239
+msgid "Create an account"
+msgstr "Create an account"
+
+#: src/Components/Modules/CreateFolderModule.tsx:85
+msgid "Create folder"
+msgstr "Create folder"
+
+#: src/Components/Modules/FileBrowserModule.tsx:451
+msgid "Date uploaded"
+msgstr "Date uploaded"
+
+#: src/Components/Modules/FileBrowserModule.tsx:598
+msgid "Delete"
+msgstr "Delete"
+
+#: src/Components/Modules/Settings/Profile.tsx:175
+msgid "Delete Account"
+msgstr "Delete Account"
+
+#: src/Components/Modules/Settings/Profile.tsx:169
+msgid "Deleting you account is irreversible. You will lose all your data on files."
+msgstr "Deleting you account is irreversible. You will lose all your data on files."
+
+#: src/Components/Modules/Settings/Profile.tsx:166
+msgid "Deletion"
+msgstr "Deletion"
+
+#: src/Components/Modules/FileBrowserModule.tsx:609
+#: src/Components/Modules/FilePreviewModal.tsx:246
+#: src/Components/Modules/FilePreviewModal.tsx:278
+msgid "Download"
+msgstr "Download"
+
+#: src/Components/Modules/FileBrowserModule.tsx:394
+msgid "Drop to upload files"
+msgstr "Drop to upload files"
+
+#: src/Components/Modules/Settings/Plan.tsx:81
+msgid "Essentials - Free"
+msgstr "Essentials - Free"
+
+#: src/Components/Modules/FilePreviewModal.tsx:274
+msgid "File format not supported."
+msgstr "File format not supported."
+
+#: src/Components/Layouts/AppNav.tsx:185
+msgid "Files"
+msgstr "Files"
+
+#: src/Components/Layouts/AppNav.tsx:191
+msgid "Folders"
+msgstr "Folders"
+
+#: src/Components/Modules/FilePreviewModal.tsx:263
+msgid "Loading preview"
+msgstr "Loading preview"
+
+#: src/Components/Pages/LoginPage.tsx:188
+msgid "Making secure cloud storage easier than ever."
+msgstr "Making secure cloud storage easier than ever."
+
+#: src/Components/Modules/FileBrowserModule.tsx:448
+msgid "Name"
+msgstr "Name"
+
+#: src/Components/Modules/PreviewRenderers/PDFPreview.tsx:60
+msgid "Next"
+msgstr "Next"
+
+#: src/Components/Modules/FileBrowserModule.tsx:430
+msgid "No files to show"
+msgstr "No files to show"
+
+#: src/Components/Modules/CreateFolderModule.tsx:124
+msgid "OK"
+msgstr "OK"
+
+#: src/Components/Modules/PreviewRenderers/PDFPreview.tsx:54
+msgid "Previous"
+msgstr "Previous"
+
+#: src/Components/Modules/FileBrowserModule.tsx:589
+msgid "Rename"
+msgstr "Rename"
+
+#: src/Components/Modules/FileBrowserModule.tsx:542
+msgid "Rename File/Folder"
+msgstr "Rename File/Folder"
+
+#: src/Components/Modules/Settings/Profile.tsx:156
+msgid "Save changes"
+msgstr "Save changes"
+
+#: src/Components/Pages/LoginPage.tsx:207
+msgid "Select a Web3 Wallet"
+msgstr "Select a Web3 Wallet"
+
+#: src/Components/Pages/LoginPage.tsx:213
+msgid "Select a different wallet"
+msgstr "Select a different wallet"
+
+#: src/Components/Layouts/AppNav.tsx:206
+#: src/Components/Modules/Settings/index.tsx:105
+msgid "Settings"
+msgstr "Settings"
+
+#: src/Components/Layouts/AppHeader.tsx:128
+#: src/Components/Layouts/AppNav.tsx:225
+msgid "Sign Out"
+msgstr "Sign Out"
+
+#: src/Components/Pages/LoginPage.tsx:239
+msgid "Sign in"
+msgstr "Sign in"
+
+#: src/Components/Modules/FileBrowserModule.tsx:454
+msgid "Size"
+msgstr "Size"
+
+#: src/Components/Modules/UploadProgressModals/UploadBox.tsx:58
+msgid "Something went wrong and we couldn't upload your file."
+msgstr "Something went wrong and we couldn't upload your file."
+
+#: src/Components/Modules/Settings/Plan.tsx:69
+msgid "Storage Plan"
+msgstr "Storage Plan"
+
+#: src/Components/Layouts/AppNav.tsx:216
+msgid "UPGRADE"
+msgstr "UPGRADE"
+
+#: src/Components/Modules/FileBrowserModule.tsx:550
+msgid "Update"
+msgstr "Update"
+
+#: src/Components/Modules/UploadFileModule.tsx:70
+#: src/Components/Modules/UploadFileModule.tsx:99
+msgid "Upload"
+msgstr "Upload"
+
+#: src/Components/Modules/UploadProgressModals/UploadBox.tsx:53
+msgid "Upload complete"
+msgstr "Upload complete"
+
+#: src/Components/Modules/Settings/Profile.tsx:128
+msgid "Wallet address"
+msgstr "Wallet address"
+
+#: src/Components/Pages/LoginPage.tsx:218
+msgid "or"
+msgstr "or"
+
+#: src/Components/Modules/Settings/Plan.tsx:72
+msgid "storage-plan-desc"
+msgstr "Lorem ipsum aenean et rutrum magna. Morbi nec placerat erat. Nunc elementum sed libero sit amet convallis. Quisque non arcu vitae ex fringilla molestie."

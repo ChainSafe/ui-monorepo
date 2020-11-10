@@ -2,10 +2,14 @@ const TerserPlugin = require("terser-webpack-plugin")
 
 module.exports = {
   babel: {
+    presets: [],
     plugins: ["macros"],
+    loaderOptions: (babelLoaderOptions, { env, paths }) => {
+      return babelLoaderOptions
+    },
   },
   webpack: {
-    configure: webpackConfig => ({
+    configure: (webpackConfig) => ({
       ...webpackConfig,
       optimization: {
         ...webpackConfig.optimization,
