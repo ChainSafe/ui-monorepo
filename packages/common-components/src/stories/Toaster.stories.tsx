@@ -1,6 +1,11 @@
 import React from "react"
-import { Toaster, ToasterProvider, useToaster } from "../Toaster"
-import { withKnobs, number } from "@storybook/addon-knobs"
+import {
+  Toaster,
+  ToasterProvider,
+  useToaster,
+  AppearanceTypes,
+} from "../Toaster"
+import { withKnobs, number, select } from "@storybook/addon-knobs"
 
 export default {
   title: "Toaster",
@@ -22,12 +27,25 @@ export const ToasterWrapper: React.FC = () => {
 const ToasterDemo: React.FC = () => {
   const { addToastMessage } = useToaster()
 
-  const onAddToast = () => {
+  const onAddToast = (appearance: AppearanceTypes) => {
     addToastMessage({
+      appearance,
       message: "Update successful",
       description: "Your updates are complete",
     })
   }
 
-  return <button onClick={onAddToast}>open toaster</button>
+  return (
+    <>
+      <button
+        onClick={() =>
+          onAddToast(
+            select("appearance", ["success", "error", "warning"], "success"),
+          )
+        }
+      >
+        open toaster
+      </button>
+    </>
+  )
 }
