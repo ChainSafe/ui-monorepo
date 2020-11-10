@@ -5,12 +5,14 @@ import {
   Typography,
   ProgressBar,
   formatBytes,
+  Link,
 } from "@imploy/common-components"
 import { makeStyles, ITheme, createStyles } from "@imploy/common-themes"
 import clsx from "clsx"
 import { FREE_PLAN_LIMIT } from "../../../Utils/Constants"
 import { useDrive } from "../../../Contexts/DriveContext"
 import { Trans } from "@lingui/macro"
+import { ROUTE_LINKS } from "../../FilesRoutes"
 
 const useStyles = makeStyles((theme: ITheme) =>
   createStyles({
@@ -63,6 +65,9 @@ const useStyles = makeStyles((theme: ITheme) =>
     },
     changePlanButton: {
       width: "inherit",
+    },
+    link: {
+      textDecoration: "none",
     },
   }),
 )
@@ -119,13 +124,14 @@ const PlanView: React.FC = () => {
                     size="small"
                   />
                 </div>
-                <Button
-                  disabled
-                  variant="outline"
-                  className={classes.changePlanButton}
-                >
-                  <Trans>Change plan</Trans>
-                </Button>
+                <Link className={classes.link} to={ROUTE_LINKS.PurchasePlan}>
+                  <Button
+                    variant="outline"
+                    className={classes.changePlanButton}
+                  >
+                    Change Plan
+                  </Button>
+                </Link>
               </div>
             </div>
           </div>

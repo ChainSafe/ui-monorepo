@@ -5,6 +5,7 @@ import SettingsPage from "./Pages/SettingsPage"
 import { useImployApi } from "@imploy/common-contexts"
 import HomePage from "./Pages/HomePage"
 import OAuthCallbackPage from "./Pages/OAuthCallback"
+import PurchasePlanPage from "./Pages/PurchasePlanPage"
 
 export const ROUTE_LINKS = {
   Landing: "/",
@@ -13,6 +14,7 @@ export const ROUTE_LINKS = {
   Home: "/home",
   Settings: "/settings",
   OAuthCallback: "/oauth2/callback/:provider",
+  PurchasePlan: "/settings/purchase",
 }
 
 const FilesRoutes = () => {
@@ -45,6 +47,13 @@ const FilesRoutes = () => {
         path={ROUTE_LINKS.OAuthCallback}
         isAuthorized={!isLoggedIn}
         component={OAuthCallbackPage}
+        redirectPath={ROUTE_LINKS.Landing}
+      />
+      <ConditionalRoute
+        exact
+        path={ROUTE_LINKS.PurchasePlan}
+        isAuthorized={isLoggedIn}
+        component={PurchasePlanPage}
         redirectPath={ROUTE_LINKS.Landing}
       />
     </Switch>
