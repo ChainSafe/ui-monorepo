@@ -32,6 +32,7 @@ import PdfPreview from "./PreviewRenderers/PDFPreview"
 import VideoPreview from "./PreviewRenderers/VideoPreview"
 import AudioPreview from "./PreviewRenderers/AudioPreview"
 import { useHotkeys } from "react-hotkeys-hook"
+import { Trans } from "@lingui/macro"
 
 export interface IPreviewRendererProps {
   contents: Blob
@@ -299,7 +300,9 @@ const FilePreviewModal: React.FC<{
               contents: (
                 <Fragment>
                   <DownloadIcon className={classes.menuIcon} />
-                  <span>Download</span>
+                  <span>
+                    <Trans>Download</Trans>
+                  </span>
                 </Fragment>
               ),
               onClick: () => downloadFile(file.name),
@@ -327,7 +330,9 @@ const FilePreviewModal: React.FC<{
           <div {...handlers} className={classes.swipeContainer}>
             {isLoading && (
               <div className={classes.previewContent}>
-                <Typography variant="h1">Loading preview</Typography>
+                <Typography variant="h1">
+                  <Trans>Loading preview</Trans>
+                </Typography>
                 <ProgressBar
                   progress={loadingProgress}
                   className={classes.loadingBar}
@@ -344,14 +349,14 @@ const FilePreviewModal: React.FC<{
                   />
                   <br />
                   <Typography variant="h1">
-                    File format not supported.
+                    <Trans>File format not supported.</Trans>
                   </Typography>
                   <br />
                   <Button
                     className={classes.downloadButton}
                     onClick={() => downloadFile(file.name)}
                   >
-                    Download
+                    <Trans>Download</Trans>
                   </Button>
                 </div>
               )}

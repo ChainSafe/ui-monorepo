@@ -12,6 +12,7 @@ import { Formik, Form } from "formik"
 import clsx from "clsx"
 import { array, object } from "yup"
 import CustomModal from "../Elements/CustomModal"
+import { Trans } from "@lingui/macro"
 
 const useStyles = makeStyles(({ constants, palette }: ITheme) =>
   createStyles({
@@ -73,7 +74,7 @@ const UploadFileModule: React.FC<IUploadFileModuleProps> = ({
         {...rest}
       >
         <UploadIcon />
-        Upload
+        <Trans>Upload</Trans>
       </Button>
       <CustomModal active={open} closePosition="none" maxWidth="sm">
         <Formik
@@ -112,10 +113,10 @@ const UploadFileModule: React.FC<IUploadFileModuleProps> = ({
                 variant="outline"
                 type="button"
               >
-                Cancel
+                <Trans>Cancel</Trans>
               </Button>
               <Button size="medium" type="submit" className={classes.okButton}>
-                Upload
+                <Trans>Upload</Trans>
               </Button>
             </footer>
           </Form>

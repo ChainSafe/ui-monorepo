@@ -51,6 +51,7 @@ import { getArrayOfPaths, getPathFromArray } from "../../Utils/pathUtils"
 import UploadProgressModals from "./UploadProgressModals"
 import { useDropzone, FileRejection } from "react-dropzone"
 import clsx from "clsx"
+import { Trans } from "@lingui/macro"
 
 const useStyles = makeStyles(
   ({ animation, breakpoints, constants, palette, zIndex }: ITheme) => {
@@ -482,7 +483,7 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
         })}
       >
         <Typography variant="h4" component="p">
-          Drop to upload files
+          <Trans>Drop to upload files</Trans>
         </Typography>
       </div>
       <div className={classes.breadCrumbContainer}>
@@ -550,7 +551,7 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
         <section className={classes.noFiles}>
           <EmptySvg />
           <Typography variant="h4" component="h4">
-            No files to show
+            <Trans>No files to show</Trans>
           </Typography>
         </section>
       ) : (
@@ -589,7 +590,7 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
                   sortDirection={column === "name" ? direction : undefined}
                   sortActive={column === "name"}
                 >
-                  Name
+                  <Trans>Name</Trans>
                 </TableHeadCell>
                 <TableHeadCell
                   sortButtons={true}
@@ -600,7 +601,7 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
                   }
                   sortActive={column === "date_uploaded"}
                 >
-                  Date uploaded
+                  <Trans>Date uploaded</Trans>
                 </TableHeadCell>
                 <TableHeadCell
                   sortButtons={true}
@@ -609,7 +610,7 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
                   sortDirection={column === "size" ? direction : undefined}
                   sortActive={column === "size"}
                 >
-                  Size
+                  <Trans>Size</Trans>
                 </TableHeadCell>
                 <TableHeadCell>{/* Menu */}</TableHeadCell>
               </TableRow>
@@ -763,7 +764,7 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
                               component="p"
                               variant="h5"
                             >
-                              Rename File/Folder
+                              <Trans>Rename File/Folder</Trans>
                             </Typography>
                             <FormikTextInput
                               label="Name"
@@ -779,14 +780,14 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
                                 variant="outline"
                                 type="button"
                               >
-                                Cancel
+                                <Trans>Cancel</Trans>
                               </Button>
                               <Button
                                 size="medium"
                                 type="submit"
                                 className={classes.okButton}
                               >
-                                Update
+                                <Trans>Update</Trans>
                               </Button>
                             </footer>
                           </Form>
@@ -836,7 +837,9 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
                           contents: (
                             <Fragment>
                               <EditIcon className={classes.menuIcon} />
-                              <span>Rename</span>
+                              <span>
+                                <Trans>Rename</Trans>
+                              </span>
                             </Fragment>
                           ),
                           onClick: () => setEditing(file.cid),
@@ -845,7 +848,9 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
                           contents: (
                             <Fragment>
                               <DeleteIcon className={classes.menuIcon} />
-                              <span>Delete</span>
+                              <span>
+                                <Trans>Delete</Trans>
+                              </span>
                             </Fragment>
                           ),
                           onClick: () =>
@@ -857,7 +862,9 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
                           contents: (
                             <Fragment>
                               <DownloadIcon className={classes.menuIcon} />
-                              <span>Download</span>
+                              <span>
+                                <Trans>Download</Trans>
+                              </span>
                             </Fragment>
                           ),
                           onClick: () => downloadFile(file.name),

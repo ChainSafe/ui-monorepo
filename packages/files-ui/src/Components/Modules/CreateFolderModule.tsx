@@ -20,6 +20,7 @@ import { Formik, Form } from "formik"
 import clsx from "clsx"
 import CustomModal from "../Elements/CustomModal"
 import CustomButton from "../Elements/CustomButton"
+import { Trans } from "@lingui/macro"
 
 const useStyles = makeStyles(
   ({ breakpoints, constants, palette, typography }: ITheme) => {
@@ -96,7 +97,7 @@ const CreateFolderModule: React.FC<ICreateFolderModuleProps> = ({
         {...rest}
       >
         <PlusCircleIcon />
-        Create folder
+        <Trans>Create folder</Trans>
       </Button>
       <CustomModal
         className={classes.modalRoot}
@@ -136,7 +137,7 @@ const CreateFolderModule: React.FC<ICreateFolderModuleProps> = ({
                     variant="h5"
                     component="h5"
                   >
-                    Create Folder
+                    <Trans>Create Folder</Trans>
                   </Typography>
                 </Grid>
               )}
@@ -157,14 +158,14 @@ const CreateFolderModule: React.FC<ICreateFolderModuleProps> = ({
                   variant={desktop ? "outline" : "gray"}
                   type="button"
                 >
-                  Cancel
+                  <Trans>Cancel</Trans>
                 </CustomButton>
                 <Button
                   size={desktop ? "medium" : "large"}
                   type="submit"
                   className={classes.okButton}
                 >
-                  {desktop ? "OK" : "Create"}
+                  {desktop ? <Trans>OK</Trans> : <Trans>Create</Trans>}
                 </Button>
               </Grid>
             </Grid>

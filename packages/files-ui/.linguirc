@@ -1,0 +1,11 @@
+{
+   "catalogs": [{
+      "path": "<rootDir>/src/locales/{locale}/messages",
+      "include": ["<rootDir>/src/**"],
+      "exclude": ["**/node_modules/**", "<rootDir>/src/locales/**"]
+   }],
+   "compileNamespace": "cjs",
+   "format": "po",
+   "locales": ["en"],
+   "sourceLocale": "en"
+} 
