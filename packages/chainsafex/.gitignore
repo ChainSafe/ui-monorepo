@@ -23,7 +23,4 @@ yarn-debug.log*
 yarn-error.log*
 
 .env
-
-src/locales/*/messages.js
-src/locales/_build 
-
+src/locales
