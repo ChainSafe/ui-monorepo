@@ -36,7 +36,7 @@ interface IStyleProps {
 }
 
 const useStyles = makeStyles(
-  ({ animation, zIndex, constants, palette, shadows, overrides }: ITheme) =>
+  ({ animation, zIndex, constants, palette, overrides }: ITheme) =>
     createStyles({
       root: (props: IStyleProps) => ({
         transition: `height ${animation.transform - 100}ms 100ms`,
@@ -47,11 +47,11 @@ const useStyles = makeStyles(
       }),
       inner: (props: IStyleProps) => ({
         borderRadius: 4,
-        boxShadow: shadows.shadow1,
+        border: `1px solid ${palette.additional["gray"][6]}`,
         display: "flex",
         alignItems: "center",
         padding: constants.generalUnit * 2,
-        backgroundColor: palette.common.white.main,
+        backgroundColor: palette.additional["gray"][3],
         marginBottom: constants.generalUnit,
         transition: `transform ${animation.transform}ms cubic-bezier(0.2, 0, 0, 1), opacity ${animation.transform}ms`,
         width: WidthToaster,
@@ -61,13 +61,6 @@ const useStyles = makeStyles(
         "&.exited": { transform: "scale(0.66)", opacity: 0 },
         ...overrides?.Toaster?.inner,
       }),
-      // root: {
-      //   display: "flex",
-      //   alignItems: "center",
-      //   boxShadow: shadows.shadow2,
-      //   borderRadius: 4,
-      //   padding: `${constants.generalUnit * 2}px`,
-      // },
       typeIcon: {
         marginRight: `${constants.generalUnit * 2}px`,
         ...overrides?.Toaster?.typeIcon,
@@ -118,11 +111,11 @@ const Toaster = ({
     <div ref={elementRef} className={classes.root}>
       <div className={clsx(classes.inner, placement, transitionState)}>
         {appearance === "success" ? (
-          <CheckCircleIcon color="success" className={classes.typeIcon} />
+          <CheckCircleIcon className={classes.typeIcon} />
         ) : appearance === "error" ? (
-          <CloseCircleIcon color="error" className={classes.typeIcon} />
+          <CloseCircleIcon className={classes.typeIcon} />
         ) : (
-          <InfoCircleIcon color="secondary" className={classes.typeIcon} />
+          <InfoCircleIcon className={classes.typeIcon} />
         )}
         {children}
         {onDismiss ? (
