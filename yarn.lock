@@ -2120,10 +2120,10 @@
     cosmiconfig "^7.0.0"
     jest-validate "^26.5.2"
 
-"@lingui/core@3.0.3", "@lingui/core@^3.0.0":
-  version "3.0.3"
-  resolved "https://registry.yarnpkg.com/@lingui/core/-/core-3.0.3.tgz#d3791f6e54943d2481d127b6bed015d515e16bb1"
-  integrity sha512-lfDkhgChJ+6f+qlGFFJmHAF28ZZTc/dgxVcT4zpLx4Gqf0MsIsx701MBGLXI1X/Gn2PMkDnhZVP0XkpDma6fxQ==
+"@lingui/core@3.1.0", "@lingui/core@^3.0.0":
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/@lingui/core/-/core-3.1.0.tgz#c8e185cee881ccc935ab9c2d363d620c006901f7"
+  integrity sha512-dKUcX2Swm8bjed6qIRYQ9xUv6Yq3kxzfKm+jtdLQCO3hlfq/w6Zt16EsAgeJZ92081ZhlJLNGy/dELEczajUBw==
   dependencies:
     "@babel/runtime" "^7.11.2"
     make-plural "^6.2.2"
@@ -2138,13 +2138,13 @@
     "@lingui/conf" "3.0.0-12"
     ramda "^0.27.0"
 
-"@lingui/react@^3.0.0":
-  version "3.0.3"
-  resolved "https://registry.yarnpkg.com/@lingui/react/-/react-3.0.3.tgz#4e8ac823a9b97f86d62951c0242070dc31658189"
-  integrity sha512-ws+g1ZG7QAmA/pUb3wrRtFbu665VbnGps3y7olQ7F+LqyeqiVpOBukRxiThBwc51apM5v9/zVbyrtjJtWsdRYg==
+"@lingui/react@^3.1.0":
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/@lingui/react/-/react-3.1.0.tgz#ff650b03c3a29cb2576941032b916a63d3b2b2c2"
+  integrity sha512-a3eYTcV8V5fhF0k/BxAT2DQNHlY2UPRvZqeA3OkQvkREptExVeNzo3gfS0bdyOGvJIpILFFBIVtxUhvHSU+dmQ==
   dependencies:
     "@babel/runtime" "^7.11.2"
-    "@lingui/core" "3.0.3"
+    "@lingui/core" "3.1.0"
 
 "@material-ui/styles@^4.10.0":
   version "4.10.0"
