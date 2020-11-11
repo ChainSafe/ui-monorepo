@@ -45,7 +45,7 @@ type DriveContext = {
   updateCurrentPath(newPath: string): void
   pathContents: IFile[]
   uploadsInProgress: UploadProgress[]
-  spaceUsed: number
+  spaceUsed: number | null
 }
 
 interface IFile extends FileContentResponse {
@@ -110,7 +110,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
   const [currentPath, dispatchCurrentPath] = useReducer(currentPathReducer, "/")
 
   const [pathContents, setPathContents] = useState<IFile[]>([])
-  const [spaceUsed, setSpaceUsed] = useState(0)
+  const [spaceUsed, setSpaceUsed] = useState<number | null>(0)
 
   const setCurrentPath = (newPath: string) =>
     dispatchCurrentPath({ type: "add", payload: newPath })
