@@ -1,6 +1,10 @@
 import React from "react"
 import ToasterContent from "./ToasterContent"
-import { useToasts, AppearanceTypes } from "react-toast-notifications"
+import {
+  useToasts,
+  AppearanceTypes,
+  Placement,
+} from "react-toast-notifications"
 
 export interface IToasterMessage {
   message: string
@@ -31,3 +35,5 @@ export const useToaster = () => {
     addToastMessage,
   }
 }
+
+export { AppearanceTypes, Placement }

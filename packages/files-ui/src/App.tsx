@@ -18,6 +18,7 @@ import AppWrapper from "./Components/Layouts/AppWrapper"
 import { lightTheme } from "./Themes/LightTheme"
 import { darkTheme } from "./Themes/DarkTheme"
 import { useHotjar } from "react-use-hotjar"
+import { LanguageProvider } from "./Contexts/LanguageContext"
 
 if (
   process.env.NODE_ENV === "production" &&
@@ -63,51 +64,53 @@ const App: React.FC<{}> = () => {
       )}
       onReset={() => window.location.reload()}
     >
-      <ThemeSwitcher themes={{ light: lightTheme, dark: darkTheme }}>
-        <CssBaseline />
-        <ToasterProvider autoDismiss>
-          <Web3Provider
-            networkIds={[1]}
-            onboardConfig={{
-              walletSelect: {
-                wallets: [
-                  { walletName: "coinbase" },
-                  {
-                    walletName: "trust",
-                    preferred: true,
-                    rpcUrl:
-                      "https://mainnet.infura.io/v3/a7e16429d2254d488d396710084e2cd3",
-                  },
-                  { walletName: "metamask" },
-                  { walletName: "dapper" },
-                  { walletName: "opera" },
-                  { walletName: "operaTouch" },
-                  { walletName: "torus" },
-                  { walletName: "status" },
-                  {
-                    walletName: "walletConnect",
-                    infuraKey: "a7e16429d2254d488d396710084e2cd3",
-                  },
-                ],
-              },
-            }}
-          >
-            <ImployApiProvider apiUrl={apiUrl}>
-              <UserProvider>
-                <DriveProvider>
-                  <BillingProvider>
-                    <Router>
-                      <AppWrapper>
-                        <FilesRoutes />
-                      </AppWrapper>
-                    </Router>
-                  </BillingProvider>
-                </DriveProvider>
-              </UserProvider>
-            </ImployApiProvider>
-          </Web3Provider>
-        </ToasterProvider>
-      </ThemeSwitcher>
+      <LanguageProvider availableLanguages={[{ id: "en", label: "English" }]}>
+        <ThemeSwitcher themes={{ light: lightTheme, dark: darkTheme }}>
+          <CssBaseline />
+          <ToasterProvider autoDismiss>
+            <Web3Provider
+              networkIds={[1]}
+              onboardConfig={{
+                walletSelect: {
+                  wallets: [
+                    { walletName: "coinbase" },
+                    {
+                      walletName: "trust",
+                      preferred: true,
+                      rpcUrl:
+                        "https://mainnet.infura.io/v3/a7e16429d2254d488d396710084e2cd3",
+                    },
+                    { walletName: "metamask" },
+                    { walletName: "dapper" },
+                    { walletName: "opera" },
+                    { walletName: "operaTouch" },
+                    { walletName: "torus" },
+                    { walletName: "status" },
+                    {
+                      walletName: "walletConnect",
+                      infuraKey: "a7e16429d2254d488d396710084e2cd3",
+                    },
+                  ],
+                },
+              }}
+            >
+              <ImployApiProvider apiUrl={apiUrl}>
+                <UserProvider>
+                  <DriveProvider>
+                    <BillingProvider>
+                      <Router>
+                        <AppWrapper>
+                          <FilesRoutes />
+                        </AppWrapper>
+                      </Router>
+                    </BillingProvider>
+                  </DriveProvider>
+                </UserProvider>
+              </ImployApiProvider>
+            </Web3Provider>
+          </ToasterProvider>
+        </ThemeSwitcher>
+      </LanguageProvider>
     </ErrorBoundary>
   )
 }

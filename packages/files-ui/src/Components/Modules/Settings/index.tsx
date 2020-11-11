@@ -14,6 +14,7 @@ import {
 import { makeStyles, ITheme, createStyles } from "@imploy/common-themes"
 import { useUser } from "@imploy/common-contexts"
 import { ROUTE_LINKS } from "../../FilesRoutes"
+import { Trans } from "@lingui/macro"
 
 const useStyles = makeStyles((theme: ITheme) =>
   createStyles({
@@ -123,7 +124,7 @@ const Settings: React.FC = () => {
           homeOnClick={() => redirect(ROUTE_LINKS.Home)}
         />
         <Typography variant="h1" component="p" className={classes.title}>
-          Settings
+          <Trans>Settings</Trans>
         </Typography>
       </div>
       <Divider />

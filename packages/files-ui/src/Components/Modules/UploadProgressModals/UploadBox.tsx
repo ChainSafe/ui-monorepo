@@ -8,6 +8,7 @@ import {
   CloseCircleIcon,
 } from "@imploy/common-components"
 import clsx from "clsx"
+import { Trans } from "@lingui/macro"
 
 const useStyles = makeStyles(
   ({ constants, palette, animation, breakpoints }: ITheme) => {
@@ -66,14 +67,16 @@ const UploadBox: React.FC<IUploadBox> = (props) => {
           <div className={classes.contentContainer}>
             <CheckCircleIcon className={classes.marginRight} />
             <Typography variant="body1" component="p">
-              Upload complete
+              <Trans>Upload complete</Trans>
             </Typography>
           </div>
         ) : error ? (
           <div className={classes.contentContainer}>
             <CloseCircleIcon className={classes.marginRight} />
             <Typography variant="body1" component="p">
-              Something went wrong and we couldn't upload your file.
+              <Trans>
+                Something went wrong and we couldn't upload your file.
+              </Trans>
             </Typography>
           </div>
         ) : (

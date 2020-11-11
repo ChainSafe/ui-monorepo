@@ -63,8 +63,8 @@ const CardInputs = (props: ICardInputsProps) => {
     <div className={classes.container}>
       <TextInput
         value={cardNumber}
-        onChange={(value) =>
-          handleChangeCardNumber(formatCardNumber(value as string))
+        onChange={(val) =>
+          val && handleChangeCardNumber(formatCardNumber(val.toString()))
         }
         className={classes.cardNumber}
         size="large"
@@ -74,8 +74,8 @@ const CardInputs = (props: ICardInputsProps) => {
       />
       <TextInput
         value={cardExpiry}
-        onChange={(value) =>
-          handleChangeCardExpiry(formatExpiry(value as string))
+        onChange={(val) =>
+          val && handleChangeCardExpiry(formatExpiry(val.toString()))
         }
         className={classes.cardExpiry}
         size="large"
@@ -83,7 +83,7 @@ const CardInputs = (props: ICardInputsProps) => {
       />
       <TextInput
         value={cardCvc}
-        onChange={(value) => handleChangeCardCvc(value as string)}
+        onChange={(val) => val && handleChangeCardCvc(val.toString())}
         className={classes.cardCvc}
         size="large"
         placeholder="CVC"
