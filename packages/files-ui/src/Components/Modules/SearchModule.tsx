@@ -2,79 +2,216 @@ import {
   createStyles,
   ITheme,
   makeStyles,
+  useMediaQuery,
   useOnClickOutside,
+  useTheme,
 } from "@imploy/common-themes"
 import React, { ChangeEvent, useRef } from "react"
-import { SearchBar } from "@imploy/common-components"
+import {
+  SearchBar,
+  ArrowLeftIcon,
+  Button,
+  Typography,
+} from "@imploy/common-components"
 import { useState } from "react"
 import clsx from "clsx"
 
-/**
- * TODO: Establish height & padding values
- * TODO: position fix + position nav wrappers
- * Content will have padding based on wrappers to ensure system scroll
- */
+const searchResults = {
+  files: [
+    {
+      name: "file1",
+    },
+    {
+      name: "file2",
+    },
+  ],
+  folders: [
+    {
+      name: "folder1",
+    },
+    {
+      name: "folder2",
+    },
+  ],
+}
 
-const useStyles = makeStyles(({ breakpoints }: ITheme) =>
-  createStyles({
-    root: {
-      [breakpoints.down("md")]: {
-        cursor: "pointer",
-        "& input": {
-          opacity: 0,
-          width: 50,
-        },
-        "& svg": {
-          height: `${24}px !important`,
-        },
-      },
-      "&.active": {
+const useStyles = makeStyles(
+  ({
+    breakpoints,
+    palette,
+    constants,
+    animation,
+    zIndex,
+    shadows,
+    typography,
+  }: ITheme) =>
+    createStyles({
+      root: {
+        position: "relative",
         [breakpoints.down("md")]: {
+          display: "flex",
           "& input": {
-            opacity: 1,
-            width: "100%",
+            opacity: 0,
+          },
+          "& svg": {
+            height: `${24}px !important`,
+          },
+        },
+        "&.active": {
+          [breakpoints.down("md")]: {
+            "& input": {
+              opacity: 1,
+              width: "100%",
+            },
           },
         },
       },
-    },
-    searchBar: {
-      [breakpoints.down("md")]: {
-        height: "100%",
+      searchBar: {
+        [breakpoints.down("md")]: {
+          height: "100%",
+          width: "100%",
+        },
       },
-    },
-  }),
+      backButton: {
+        backgroundColor: "transparent",
+        zIndex: zIndex?.layer1,
+      },
+      backArrow: {
+        "& svg": {
+          fill: palette.additional["gray"][9],
+        },
+      },
+      resultsContainer: {
+        width: "100%",
+        opacity: 0,
+        position: "absolute",
+        overflow: "hidden",
+        transition: `all ${animation.transform}ms ease`,
+        zIndex: zIndex?.layer3,
+        [breakpoints.down("md")]: {
+          height: `calc(100vh - ${constants.mobileHeaderHeight}px)`,
+          top: constants.mobileHeaderHeight as number,
+        },
+        [breakpoints.up("md")]: {
+          marginTop: constants.generalUnit,
+          boxShadow: shadows.shadow1,
+        },
+        "&.active": {
+          opacity: 1,
+        },
+      },
+      resultsBox: {
+        backgroundColor: palette.common.white.main,
+        padding: constants.generalUnit * 2,
+      },
+      resultBackDrop: {
+        height: "100%",
+        backgroundColor: palette.additional["gray"][9],
+        opacity: 0.7,
+      },
+      resultHead: {
+        padding: `${constants.generalUnit * 0.5}px 0`,
+      },
+      resultRow: {
+        padding: `${constants.generalUnit * 0.5}px 0`,
+        cursor: "pointer",
+      },
+    }),
 )
 
 interface ISearchModule {
   className?: string
+  searchActive: boolean
+  setSearchActive(searchActive: boolean): void
 }
 
 const SearchModule: React.FC<ISearchModule> = ({
   className,
+  searchActive,
+  setSearchActive,
 }: ISearchModule) => {
   const classes = useStyles()
-  const [, setSeachString] = useState<string>("")
-  const [searchActive, setSearchActive] = useState(false)
+  const [, setSearchString] = useState<string>("")
   const ref = useRef(null)
+
+  const { breakpoints }: ITheme = useTheme()
+  const desktop = useMediaQuery(breakpoints.up("md"))
+
   useOnClickOutside(ref, () => {
     if (searchActive) {
       setSearchActive(false)
     }
   })
+
   return (
     <section
-      onClick={() => setSearchActive(true)}
+      onClick={() => {
+        if (!searchActive) setSearchActive(true)
+      }}
       ref={ref}
       className={clsx(classes.root, className, {
         active: searchActive,
       })}
     >
+      {!desktop && searchActive && (
+        <Button
+          className={classes.backButton}
+          onClick={() => {
+            setSearchActive(false)
+            console.log("here")
+          }}
+        >
+          <ArrowLeftIcon className={classes.backArrow} />
+        </Button>
+      )}
       <SearchBar
         className={classes.searchBar}
         onChange={(e: ChangeEvent<HTMLInputElement>) =>
-          setSeachString(e.target.value)
+          setSearchString(e.target.value)
         }
       />
+      <div className={clsx(classes.resultsContainer, searchActive && "active")}>
+        <div className={classes.resultsBox}>
+          {searchResults.files && searchResults.files.length ? (
+            <div>
+              <div className={classes.resultHead}>
+                <Typography variant="body1" component="p">
+                  <strong>Files</strong>
+                </Typography>
+              </div>
+              {searchResults.files.map((file) => (
+                <div className={classes.resultRow}>
+                  <Typography component="p" variant="body1">
+                    {file.name}
+                  </Typography>
+                </div>
+              ))}
+            </div>
+          ) : null}
+          {searchResults.folders && searchResults.folders.length ? (
+            <div>
+              <div className={classes.resultHead}>
+                <Typography variant="body1" component="p">
+                  <strong>Folders</strong>
+                </Typography>
+              </div>
+              {searchResults.folders.map((folder) => (
+                <div className={classes.resultRow}>
+                  <Typography component="p" variant="body1">
+                    {folder.name}
+                  </Typography>
+                </div>
+              ))}
+            </div>
+          ) : null}
+        </div>
+        {!desktop ? (
+          <div
+            className={classes.resultBackDrop}
+            onClick={() => setSearchActive(false)}
+          />
+        ) : null}
+      </div>
     </section>
   )
 }

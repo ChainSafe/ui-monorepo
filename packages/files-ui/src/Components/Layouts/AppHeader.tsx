@@ -6,7 +6,7 @@ import {
   useMediaQuery,
   useTheme,
 } from "@imploy/common-themes"
-import React, { Fragment, useCallback } from "react"
+import React, { Fragment, useCallback, useState } from "react"
 import clsx from "clsx"
 import {
   Link,
@@ -64,6 +64,9 @@ const useStyles = makeStyles(
           },
         },
       },
+      hamburgerMenu: {
+        position: "absolute",
+      },
       logo: {
         textDecoration: "none",
         display: "flex",
@@ -115,10 +118,12 @@ const useStyles = makeStyles(
       },
       searchModule: {
         [breakpoints.down("md")]: {
-          position: "fixed",
-          top: 0,
-          right: 0,
           height: constants.mobileHeaderHeight,
+          position: "absolute",
+          right: 2,
+          width: "100%",
+          zIndex: zIndex?.background,
+          "&.active": {},
         },
       },
     })
@@ -146,6 +151,8 @@ const AppHeader: React.FC<IAppHeader> = ({
     removeUser()
   }, [logout, removeUser])
 
+  const [searchActive, setSearchActive] = useState(false)
+
   return (
     <header
       className={clsx(classes.root, {
@@ -156,6 +163,13 @@ const AppHeader: React.FC<IAppHeader> = ({
         <Fragment>
           {desktop ? (
             <Fragment>
+              <section>
+                <SearchModule
+                  className={classes.searchModule}
+                  searchActive={searchActive}
+                  setSearchActive={setSearchActive}
+                />
+              </section>
               <section className={classes.accountControls}>
                 <MenuDropdown
                   title={getProfileTitle()}
@@ -178,14 +192,23 @@ const AppHeader: React.FC<IAppHeader> = ({
             </Fragment>
           ) : (
             <Fragment>
-              <HamburgerMenu
-                onClick={() => setNavOpen(!navOpen)}
-                variant={navOpen ? "active" : "default"}
+              {!searchActive && (
+                <>
+                  <HamburgerMenu
+                    onClick={() => setNavOpen(!navOpen)}
+                    variant={navOpen ? "active" : "default"}
+                    className={classes.hamburgerMenu}
+                  />
+                  <Link className={classes.logo} to={ROUTE_LINKS.Home}>
+                    <ChainsafeFilesLogo />
+                  </Link>
+                </>
+              )}
+              <SearchModule
+                className={clsx(classes.searchModule, searchActive && "active")}
+                searchActive={searchActive}
+                setSearchActive={setSearchActive}
               />
-              <Link className={classes.logo} to={ROUTE_LINKS.Home}>
-                <ChainsafeFilesLogo />
-              </Link>
-              <SearchModule className={classes.searchModule} />
             </Fragment>
           )}
         </Fragment>
