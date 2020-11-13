@@ -8,7 +8,7 @@
     "@lingui/babel-preset-react": "^2.9.2",
     "@lingui/core": "^3.0.0",
     "@lingui/macro": "3.0.0-12",
-    "@lingui/react": "^3.1.0",
+    "@lingui/react": "^3.2.1",
     "@lingui/cli": "^3.0.0",
     "@chainsafe/web3-context": "1.1.0",
     "@sentry/react": "^5.27.3",
