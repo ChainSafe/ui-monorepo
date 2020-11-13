@@ -271,36 +271,15 @@ const FPSProvider = ({ children }: FPSContextProps) => {
     }
   }
 
-  const getFileContent = async (
-    fileName: string,
-    cancelToken?: CancelToken,
-    onDownloadProgress?: (progressEvent: ProgressEvent<EventTarget>) => void,
-  ) => {
-    try {
-      // TODO: Find FPS equivelent
-      const result = await imployApiClient.getFileContent(
-        {
-          path: currentPath + fileName,
-        },
-        cancelToken,
-        onDownloadProgress,
-      )
-      return result.data
-    } catch (error) {
-      return Promise.reject()
-    }
-  }
-
-  const downloadFile = async (fileName: string) => {
+  const downloadFile = async (fileName: string, cid: string) => {
     addToastMessage({
       message: "Preparing your download",
       appearance: "info",
     })
     try {
       // TODO: Create a progress bar toast to show file download progress
-      const result = await getFileContent(fileName)
       const link = document.createElement("a")
-      link.href = URL.createObjectURL(result)
+      link.href = `${process.env.DOWNLOAD_ENDPOINT}${cid}`
       link.download = fileName
       link.click()
       addToastMessage({
@@ -335,7 +314,6 @@ const FPSProvider = ({ children }: FPSContextProps) => {
         moveFile,
         deleteFile,
         downloadFile,
-        getFileContent: getFileContent,
         list,
         currentPath,
         updateCurrentPath: (newPath: string) =>
