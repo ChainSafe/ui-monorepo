@@ -16,7 +16,7 @@ import {
   TextInput,
   Typography,
 } from "@imploy/common-components"
-import { ROUTE_LINKS } from "../../../FilesRoutes"
+import { ROUTE_LINKS } from "../../../Routes"
 import { Form, Formik } from "formik"
 import { useBilling, useUser } from "@imploy/common-contexts"
 import * as yup from "yup"

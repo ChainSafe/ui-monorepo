@@ -13,7 +13,7 @@ import {
 } from "@imploy/common-components"
 import { makeStyles, ITheme, createStyles } from "@imploy/common-themes"
 import { useUser } from "@imploy/common-contexts"
-import { ROUTE_LINKS } from "../../FilesRoutes"
+import { ROUTE_LINKS } from "../../Routes"
 import { Trans } from "@lingui/macro"
 
 const useStyles = makeStyles((theme: ITheme) =>

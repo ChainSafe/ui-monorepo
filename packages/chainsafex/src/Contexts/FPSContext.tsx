@@ -325,13 +325,13 @@ const FPSProvider = ({ children }: FPSContextProps) => {
   )
 }
 
-const useDrive = () => {
+const useFPS = () => {
   const context = React.useContext(FPSContext)
   if (context === undefined) {
-    throw new Error("useDrive must be used within a DriveProvider")
+    throw new Error("useFPS must be used within a FPSProvider")
   }
   return context
 }
 
-export { FPSProvider, useDrive }
+export { FPSProvider, useFPS }
 export type { IFile }

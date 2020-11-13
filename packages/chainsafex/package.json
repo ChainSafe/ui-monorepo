@@ -28,7 +28,10 @@
     "sentry": "(export REACT_APP_SENTRY_RELEASE=$(sentry-cli releases propose-version); node scripts/sentry.js)",
     "release": "(export REACT_APP_SENTRY_RELEASE=$(sentry-cli releases propose-version); yarn build && node scripts/sentry.js)",
     "test": "react-scripts test",
-    "analyze": "source-map-explorer 'build/static/js/*.js'"
+    "analyze": "source-map-explorer 'build/static/js/*.js'",
+    "extract": "lingui extract",
+    "compile": "lingui compile",
+    "lingui-version": "lingui --version"
   },
   "eslintConfig": {
     "extends": "react-app"

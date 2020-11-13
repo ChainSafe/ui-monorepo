@@ -4,7 +4,7 @@ import {
   IButtonProps,
   UploadIcon,
 } from "@imploy/common-components"
-import { useDrive } from "../../Contexts/DriveContext"
+import { useFPS } from "../../Contexts/FPSContext"
 import { createStyles, ITheme, makeStyles } from "@imploy/common-themes"
 import React from "react"
 import { useState } from "react"
@@ -53,7 +53,7 @@ const UploadFileModule: React.FC<IUploadFileModuleProps> = ({
   ...rest
 }: IUploadFileModuleProps) => {
   const classes = useStyles()
-  const { uploadFiles, currentPath } = useDrive()
+  const { uploadFiles, currentPath } = useFPS()
   const [open, setOpen] = useState(false)
 
   const handleCloseDialog = () => setOpen(false)

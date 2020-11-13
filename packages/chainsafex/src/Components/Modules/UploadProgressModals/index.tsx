@@ -6,7 +6,7 @@ import {
   useMediaQuery,
   useTheme,
 } from "@imploy/common-themes"
-import { useDrive } from "../../../Contexts/DriveContext"
+import { useFPS } from "../../../Contexts/FPSContext"
 import UploadBox from "./UploadBox"
 
 const useStyles = makeStyles(({ constants, zIndex, breakpoints }: ITheme) => {
@@ -31,7 +31,7 @@ const useStyles = makeStyles(({ constants, zIndex, breakpoints }: ITheme) => {
 
 const UploadProgressModals: React.FC = () => {
   const classes = useStyles()
-  const { uploadsInProgress } = useDrive()
+  const { uploadsInProgress } = useFPS()
   const { breakpoints }: ITheme = useTheme()
   const desktop = useMediaQuery(breakpoints.up("md"))
 

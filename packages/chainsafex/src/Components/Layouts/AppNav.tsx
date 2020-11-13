@@ -1,5 +1,5 @@
 import { useImployApi, useUser } from "@imploy/common-contexts"
-import { useDrive } from "../../Contexts/DriveContext"
+import { useFPS } from "../../Contexts/FPSContext"
 import {
   createStyles,
   ITheme,
@@ -20,7 +20,7 @@ import {
   Button,
   formatBytes,
 } from "@imploy/common-components"
-import { ROUTE_LINKS } from "../FilesRoutes"
+import { ROUTE_LINKS } from "../Routes"
 import { FREE_PLAN_LIMIT } from "../../Utils/Constants"
 import { Trans } from "@lingui/macro"
 
@@ -188,7 +188,7 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
   const classes = useStyles()
   const { breakpoints }: ITheme = useTheme()
   const desktop = useMediaQuery(breakpoints.up("md"))
-  const { spaceUsed } = useDrive()
+  const { spaceUsed } = useFPS()
 
   const { isLoggedIn, logout } = useImployApi()
   const { removeUser } = useUser()

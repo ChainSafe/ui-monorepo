@@ -6,7 +6,7 @@ import {
   PlusCircleIcon,
   Typography,
 } from "@imploy/common-components"
-import { useDrive } from "../../Contexts/DriveContext"
+import { useFPS } from "../../Contexts/FPSContext"
 
 import {
   createStyles,
@@ -81,7 +81,7 @@ const CreateFolderModule: React.FC<ICreateFolderModuleProps> = ({
   ...rest
 }: ICreateFolderModuleProps) => {
   const classes = useStyles()
-  const { createFolder, currentPath } = useDrive()
+  const { createFolder, currentPath } = useFPS()
   const [open, setOpen] = useState(false)
 
   const handleCloseDialog = () => setOpen(false)

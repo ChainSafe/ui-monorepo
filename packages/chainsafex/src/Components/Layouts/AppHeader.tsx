@@ -16,7 +16,7 @@ import {
   MenuDropdown,
   PowerDownSvg,
 } from "@imploy/common-components"
-import { ROUTE_LINKS } from "../FilesRoutes"
+import { ROUTE_LINKS } from "../Routes"
 import SearchModule from "../Modules/SearchModule"
 import { Trans } from "@lingui/macro"
 

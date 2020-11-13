@@ -39,14 +39,13 @@ import {
 } from "@imploy/common-components"
 import { useState } from "react"
 import { useMemo } from "react"
-import { useDrive, IFile } from "../../Contexts/DriveContext"
+import { useFPS, IFile } from "../../Contexts/FPSContext"
 import { Formik, Form } from "formik"
 import { object, string } from "yup"
 import EmptySvg from "../../Media/Empty.svg"
 import CreateFolderModule from "./CreateFolderModule"
 import UploadFileModule from "./UploadFileModule"
 import CustomModal from "../Elements/CustomModal"
-import FilePreviewModal from "./FilePreviewModal"
 import { getArrayOfPaths, getPathFromArray } from "../../Utils/pathUtils"
 import UploadProgressModals from "./UploadProgressModals"
 import { useDropzone, FileRejection } from "react-dropzone"
@@ -263,17 +262,13 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
     pathContents,
     uploadsInProgress,
     uploadFiles,
-  } = useDrive()
+  } = useFPS()
   const [editing, setEditing] = useState<string | undefined>()
   const [direction, setDirection] = useState<SortDirection>("descend")
   const [column, setColumn] = useState<"name" | "size" | "date_uploaded">(
     "name",
   )
   const [selected, setSelected] = useState<string[]>([])
-
-  const [previewFileIndex, setPreviewFileIndex] = useState<number | undefined>(
-    undefined,
-  )
 
   // Sorting
   const sortFoldersFirst = (a: IFile, b: IFile) =>
@@ -353,33 +348,6 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
         setDirection("ascend")
       }
     }
-  }
-
-  const files = useMemo(() => {
-    return items.filter(
-      (i) => i.content_type !== "application/chainsafe-files-directory",
-    )
-  }, [items])
-
-  // Previews
-  const setNextPreview = () => {
-    if (
-      files &&
-      previewFileIndex !== undefined &&
-      previewFileIndex < files.length - 1
-    ) {
-      setPreviewFileIndex(previewFileIndex + 1)
-    }
-  }
-
-  const setPreviousPreview = () => {
-    if (files && previewFileIndex !== undefined && previewFileIndex > 0) {
-      setPreviewFileIndex(previewFileIndex - 1)
-    }
-  }
-
-  const clearPreview = () => {
-    setPreviewFileIndex(undefined)
   }
 
   // Selection logic
@@ -709,9 +677,8 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
                     align="left"
                     onClick={() => {
                       file.content_type ===
-                      "application/chainsafe-files-directory"
-                        ? updateCurrentPath(`${currentPath}${file.name}`)
-                        : !editing && setPreviewFileIndex(files?.indexOf(file))
+                        "application/chainsafe-files-directory" &&
+                        updateCurrentPath(`${currentPath}${file.name}`)
                     }}
                   >
                     {editing === file.cid && desktop ? (
@@ -867,7 +834,7 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
                               </span>
                             </Fragment>
                           ),
-                          onClick: () => downloadFile(file.name),
+                          onClick: () => downloadFile(file.name, file.cid),
                         },
                       ]}
                       indicator={MoreIcon}
@@ -879,16 +846,7 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
           </TableBody>
         </Table>
       )}
-      {files && previewFileIndex !== undefined && (
-        <FilePreviewModal
-          file={files[previewFileIndex]}
-          closePreview={clearPreview}
-          nextFile={
-            previewFileIndex < files.length - 1 ? setNextPreview : undefined
-          }
-          previousFile={previewFileIndex > 0 ? setPreviousPreview : undefined}
-        />
-      )}
+
       <UploadProgressModals />
     </article>
   )

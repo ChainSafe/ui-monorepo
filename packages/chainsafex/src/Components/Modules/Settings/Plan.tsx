@@ -10,9 +10,9 @@ import {
 import { makeStyles, ITheme, createStyles } from "@imploy/common-themes"
 import clsx from "clsx"
 import { FREE_PLAN_LIMIT } from "../../../Utils/Constants"
-import { useDrive } from "../../../Contexts/DriveContext"
+import { useFPS } from "../../../Contexts/FPSContext"
 import { Trans } from "@lingui/macro"
-import { ROUTE_LINKS } from "../../FilesRoutes"
+import { ROUTE_LINKS } from "../../Routes"
 
 const useStyles = makeStyles((theme: ITheme) =>
   createStyles({
@@ -74,7 +74,7 @@ const useStyles = makeStyles((theme: ITheme) =>
 
 const PlanView: React.FC = () => {
   const classes = useStyles()
-  const { spaceUsed } = useDrive()
+  const { spaceUsed } = useFPS()
 
   return (
     <Grid container>

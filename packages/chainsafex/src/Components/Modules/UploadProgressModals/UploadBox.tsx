@@ -1,6 +1,6 @@
 import React from "react"
 import { createStyles, ITheme, makeStyles } from "@imploy/common-themes"
-import { UploadProgress } from "../../../Contexts/DriveContext"
+import { UploadProgress } from "../../../Contexts/FPSContext"
 import {
   ProgressBar,
   Typography,
