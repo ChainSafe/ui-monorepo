@@ -86,10 +86,10 @@ const useStyles = makeStyles(
         opacity: 0,
         position: "absolute",
         overflow: "hidden",
-        transition: `all ${animation.transform}ms ease`,
+        height: 0,
+        transition: `opacity ${animation.transform}ms ease`,
         zIndex: zIndex?.layer3,
         [breakpoints.down("md")]: {
-          height: `calc(100vh - ${constants.mobileHeaderHeight}px)`,
           top: constants.mobileHeaderHeight as number,
         },
         [breakpoints.up("md")]: {
@@ -98,6 +98,10 @@ const useStyles = makeStyles(
         },
         "&.active": {
           opacity: 1,
+          height: "auto",
+          [breakpoints.down("md")]: {
+            height: `calc(100vh - ${constants.mobileHeaderHeight}px)`,
+          },
         },
       },
       resultsBox: {
