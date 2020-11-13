@@ -286,7 +286,7 @@ const FPSProvider = ({ children }: FPSContextProps) => {
         message: "Download is ready",
         appearance: "info",
       })
-      URL.revokeObjectURL(link.href)
+      // URL.revokeObjectURL(link.href)
       return Promise.resolve()
     } catch (error) {
       addToastMessage({
