@@ -1,8 +1,8 @@
-import { Typography } from "@imploy/common-components"
 import React from "react"
+import FileBrowserModule from "../Modules/FileBrowserModule"
 
 const HomePage = () => {
-  return <Typography>Home Page</Typography>
+  return <FileBrowserModule />
 }
 
 export default HomePage
