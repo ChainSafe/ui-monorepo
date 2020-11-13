@@ -129,13 +129,7 @@ const ProfileView: React.FC<IProfileProps> = (props) => {
     }
   }
 
-  const profileWeb2Validation = yup.object().shape({
-    email: yup.string().email("Email is invalid").required("Email is required"),
-    firstName: yup.string().required("First name is required"),
-    lastName: yup.string().required("Last name is required"),
-  })
-
-  const profileWeb3Validation = yup.object().shape({
+  const profileValidation = yup.object().shape({
     email: yup.string().email("Email is invalid").required("Email is required"),
     firstName: yup.string(),
     lastName: yup.string(),
@@ -160,11 +154,7 @@ const ProfileView: React.FC<IProfileProps> = (props) => {
                     values.email || "",
                   )
                 }}
-                validationSchema={
-                  profile.publicAddress
-                    ? profileWeb3Validation
-                    : profileWeb2Validation
-                }
+                validationSchema={profileValidation}
                 validateOnChange={false}
               >
                 <Form>
