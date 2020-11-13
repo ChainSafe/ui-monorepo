@@ -130,7 +130,7 @@ const ProfileView: React.FC<IProfileProps> = (props) => {
   }
 
   const profileWeb2Validation = yup.object().shape({
-    email: yup.string().email("Email is invalid").required("Email is Required"),
+    email: yup.string().email("Email is invalid").required("Email is required"),
     firstName: yup.string().required("First name is required"),
     lastName: yup.string().required("Last name is required"),
   })
