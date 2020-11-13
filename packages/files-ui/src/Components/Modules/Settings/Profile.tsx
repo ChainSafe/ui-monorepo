@@ -16,7 +16,6 @@ import { LockIcon, CopyIcon } from "@imploy/common-components"
 import { Formik, Form } from "formik"
 import { Profile } from "@imploy/common-contexts"
 import { Trans } from "@lingui/macro"
-import { profile } from "console"
 
 const useStyles = makeStyles((theme: ITheme) =>
   createStyles({
