@@ -36,6 +36,7 @@ import {
   Breadcrumb,
   Crumb,
   CircularProgressBar,
+  ShareAltIcon,
 } from "@imploy/common-components"
 import { useState } from "react"
 import { useMemo } from "react"
@@ -824,15 +825,15 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
                         //   ),
                         //   onClick: () => console.log,
                         // },
-                        // {
-                        //   contents: (
-                        //     <Fragment>
-                        //       <ShareAltIcon className={classes.menuIcon} />
-                        //       <span>Share</span>
-                        //     </Fragment>
-                        //   ),
-                        //   onClick: () => console.log,
-                        // },
+                        {
+                          contents: (
+                            <Fragment>
+                              <ShareAltIcon className={classes.menuIcon} />
+                              <span>Share</span>
+                            </Fragment>
+                          ),
+                          onClick: () => console.log,
+                        },
                         {
                           contents: (
                             <Fragment>
