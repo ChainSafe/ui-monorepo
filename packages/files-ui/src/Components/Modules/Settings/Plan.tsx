@@ -115,12 +115,12 @@ const PlanView: React.FC = () => {
                     variant="body2"
                     className={classes.spaceUsedMargin}
                     component="p"
-                  >{`${formatBytes(spaceUsed || 0)} of ${formatBytes(
+                  >{`${formatBytes(spaceUsed)} of ${formatBytes(
                     FREE_PLAN_LIMIT,
                   )} used`}</Typography>
                   <ProgressBar
                     className={classes.spaceUsedMargin}
-                    progress={((spaceUsed || 0) / FREE_PLAN_LIMIT) * 100}
+                    progress={(spaceUsed / FREE_PLAN_LIMIT) * 100}
                     size="small"
                   />
                 </div>
