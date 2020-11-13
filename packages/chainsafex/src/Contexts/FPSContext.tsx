@@ -34,12 +34,7 @@ type FPSContext = {
   renameFile(body: FilesMvRequest): Promise<void>
   moveFile(body: FilesMvRequest): Promise<void>
   deleteFile(body: FilesRmRequest): Promise<void>
-  downloadFile(fileName: string): Promise<void>
-  getFileContent(
-    fileName: string,
-    cancelToken?: CancelToken,
-    onDownloadProgress?: (progressEvent: ProgressEvent<EventTarget>) => void,
-  ): Promise<Blob>
+  downloadFile(fileName: string, cid: string): Promise<void>
   list(body: FilesPathRequest): Promise<FileContentResponse[]>
   currentPath: string
   updateCurrentPath(newPath: string): void
