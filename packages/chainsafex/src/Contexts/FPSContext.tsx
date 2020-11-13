@@ -10,11 +10,11 @@ import { useImployApi } from "@imploy/common-contexts"
 import dayjs from "dayjs"
 import { v4 as uuidv4 } from "uuid"
 import { useToaster } from "@imploy/common-components"
-import { uploadsInProgressReducer } from "./DriveReducer"
+import { uploadsInProgressReducer } from "./FPSReducer"
 import { guessContentType } from "../Utils/contentTypeGuesser"
 import { CancelToken } from "axios"
 
-type DriveContextProps = {
+type FPSContextProps = {
   children: React.ReactNode | React.ReactNode[]
 }
 
@@ -28,7 +28,7 @@ export type UploadProgress = {
   path: string
 }
 
-type DriveContext = {
+type FPSContext = {
   uploadFiles(files: File[], path: string): void
   createFolder(body: FilesPathRequest): Promise<FileContentResponse>
   renameFile(body: FilesMvRequest): Promise<void>
@@ -54,16 +54,15 @@ interface IFile extends FileContentResponse {
 
 const REMOVE_UPLOAD_PROGRESS_DELAY = 5000
 
-const DriveContext = React.createContext<DriveContext | undefined>(undefined)
+const FPSContext = React.createContext<FPSContext | undefined>(undefined)
 
-const DriveProvider = ({ children }: DriveContextProps) => {
+const FPSProvider = ({ children }: FPSContextProps) => {
   const { imployApiClient, isLoggedIn } = useImployApi()
   const { addToastMessage } = useToaster()
-
   const refreshContents = useCallback(
     async (path: string) => {
       try {
-        const newContents = await imployApiClient?.getCSFChildList({
+        const newContents = await imployApiClient?.getFPSChildList({
           path,
         })
 
@@ -125,7 +124,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
     if (isLoggedIn) {
       const getSpaceUsage = async () => {
         try {
-          const { csf_size } = await imployApiClient.getCSFFilesStoreInfo()
+          const { csf_size } = await imployApiClient.getFPSFilesStoreInfo()
           setSpaceUsed(csf_size)
         } catch (error) {}
       }
@@ -158,11 +157,12 @@ const DriveProvider = ({ children }: DriveContextProps) => {
         }))
         // API call
 
-        const result = await imployApiClient.addCSFFiles(
+        const result = await imployApiClient.addFPSFiles(
           filesParam,
           path,
           undefined,
           undefined,
+          undefined, // TODO: Confirm cancel token not used/provided
           (progressEvent: { loaded: number; total: number }) => {
             dispatchUploadsInProgress({
               type: "progress",
@@ -201,7 +201,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
 
   const createFolder = async (body: FilesPathRequest) => {
     try {
-      const result = await imployApiClient.addCSFDirectory(body)
+      const result = await imployApiClient.addFPSDirectory(body)
       await refreshContents(currentPath)
       addToastMessage({
         message: "Folder created successfully",
@@ -219,7 +219,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
 
   const renameFile = async (body: FilesMvRequest) => {
     try {
-      await imployApiClient.moveCSFObject(body)
+      await imployApiClient.moveFPSObject(body)
       await refreshContents(currentPath)
       addToastMessage({
         message: "File renamed successfully",
@@ -237,7 +237,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
 
   const moveFile = async (body: FilesMvRequest) => {
     try {
-      await imployApiClient.moveCSFObject(body)
+      await imployApiClient.moveFPSObject(body)
       await refreshContents(currentPath)
       addToastMessage({
         message: "File moved successfully",
@@ -255,7 +255,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
 
   const deleteFile = async (body: FilesRmRequest) => {
     try {
-      await imployApiClient.removeCSFObjects(body)
+      await imployApiClient.removeFPSObjects(body)
       await refreshContents(currentPath)
       addToastMessage({
         message: "File deleted successfully",
@@ -277,6 +277,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
     onDownloadProgress?: (progressEvent: ProgressEvent<EventTarget>) => void,
   ) => {
     try {
+      // TODO: Find FPS equivelent
       const result = await imployApiClient.getFileContent(
         {
           path: currentPath + fileName,
@@ -319,14 +320,14 @@ const DriveProvider = ({ children }: DriveContextProps) => {
 
   const list = async (body: FilesPathRequest) => {
     try {
-      return imployApiClient.getCSFChildList(body)
+      return imployApiClient.getFPSChildList(body)
     } catch (error) {
       return Promise.reject()
     }
   }
 
   return (
-    <DriveContext.Provider
+    <FPSContext.Provider
       value={{
         uploadFiles,
         createFolder,
@@ -347,17 +348,17 @@ const DriveProvider = ({ children }: DriveContextProps) => {
       }}
     >
       {children}
-    </DriveContext.Provider>
+    </FPSContext.Provider>
   )
 }
 
 const useDrive = () => {
-  const context = React.useContext(DriveContext)
+  const context = React.useContext(FPSContext)
   if (context === undefined) {
     throw new Error("useDrive must be used within a DriveProvider")
   }
   return context
 }
 
-export { DriveProvider, useDrive }
+export { FPSProvider, useDrive }
 export type { IFile }

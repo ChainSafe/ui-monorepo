@@ -1,4 +1,4 @@
-import { UploadProgress } from "./DriveContext"
+import { UploadProgress } from "./FPSContext"
 
 export function uploadsInProgressReducer(
   uploadsInProgress: UploadProgress[],

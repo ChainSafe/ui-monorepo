@@ -5,12 +5,20 @@ import {
   showReportDialog,
 } from "@sentry/react"
 import { ThemeSwitcher } from "@imploy/common-themes"
-import { CssBaseline, Router } from "@imploy/common-components"
+import { CssBaseline, Router, ToasterProvider } from "@imploy/common-components"
+import { Web3Provider } from "@chainsafe/web3-context"
+import {
+  ImployApiProvider,
+  UserProvider,
+  BillingProvider,
+} from "@imploy/common-contexts"
+import { FPSProvider } from "./Contexts/FPSContext"
+import Routes from "./Components/Routes"
 import AppWrapper from "./Components/Layouts/AppWrapper"
 import { lightTheme } from "./Themes/LightTheme"
 import { darkTheme } from "./Themes/DarkTheme"
 import { useHotjar } from "react-use-hotjar"
-import Routes from "./Components/Routes"
+import { LanguageProvider } from "./Contexts/LanguageContext"
 
 if (
   process.env.NODE_ENV === "production" &&
@@ -56,14 +64,53 @@ const App: React.FC<{}> = () => {
       )}
       onReset={() => window.location.reload()}
     >
-      <ThemeSwitcher themes={{ light: lightTheme, dark: darkTheme }}>
-        <CssBaseline />
-        <Router>
-          <AppWrapper>
-            <Routes />
-          </AppWrapper>
-        </Router>
-      </ThemeSwitcher>
+      <LanguageProvider availableLanguages={[{ id: "en", label: "English" }]}>
+        <ThemeSwitcher themes={{ light: lightTheme, dark: darkTheme }}>
+          <CssBaseline />
+          <ToasterProvider autoDismiss>
+            <Web3Provider
+              networkIds={[1]}
+              onboardConfig={{
+                walletSelect: {
+                  wallets: [
+                    { walletName: "coinbase" },
+                    {
+                      walletName: "trust",
+                      preferred: true,
+                      rpcUrl:
+                        "https://mainnet.infura.io/v3/a7e16429d2254d488d396710084e2cd3",
+                    },
+                    { walletName: "metamask" },
+                    { walletName: "dapper" },
+                    { walletName: "opera" },
+                    { walletName: "operaTouch" },
+                    { walletName: "torus" },
+                    { walletName: "status" },
+                    {
+                      walletName: "walletConnect",
+                      infuraKey: "a7e16429d2254d488d396710084e2cd3",
+                    },
+                  ],
+                },
+              }}
+            >
+              <ImployApiProvider apiUrl={apiUrl}>
+                <UserProvider>
+                  <FPSProvider>
+                    <BillingProvider>
+                      <Router>
+                        <AppWrapper>
+                          <Routes />
+                        </AppWrapper>
+                      </Router>
+                    </BillingProvider>
+                  </FPSProvider>
+                </UserProvider>
+              </ImployApiProvider>
+            </Web3Provider>
+          </ToasterProvider>
+        </ThemeSwitcher>
+      </LanguageProvider>
     </ErrorBoundary>
   )
 }
