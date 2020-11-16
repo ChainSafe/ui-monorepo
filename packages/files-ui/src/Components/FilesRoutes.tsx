@@ -5,7 +5,7 @@ import SettingsPage from "./Pages/SettingsPage"
 import { useImployApi } from "@imploy/common-contexts"
 import HomePage from "./Pages/HomePage"
 import OAuthCallbackPage from "./Pages/OAuthCallback"
-import PurchasePlanPage from "./Pages/PurchasePlanPage"
+import PlanSelectionPage from "./Pages/plans/PlanSelectionPage"
 
 export const ROUTE_LINKS = {
   Landing: "/",
@@ -53,7 +53,7 @@ const FilesRoutes = () => {
         exact
         path={ROUTE_LINKS.PurchasePlan}
         isAuthorized={isLoggedIn}
-        component={PurchasePlanPage}
+        component={PlanSelectionPage}
         redirectPath={ROUTE_LINKS.Landing}
       />
     </Switch>

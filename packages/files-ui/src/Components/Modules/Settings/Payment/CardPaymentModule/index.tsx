@@ -16,17 +16,17 @@ import {
   TextInput,
   Typography,
 } from "@imploy/common-components"
-import { ROUTE_LINKS } from "../../../FilesRoutes"
+import { ROUTE_LINKS } from "../../../../FilesRoutes"
 import { Form, Formik } from "formik"
 import { useBilling, useUser } from "@imploy/common-contexts"
 import * as yup from "yup"
-import countryList from "./countryList"
-import CardInputs from "../../../Elements/CardInputs"
+import CardInputs from "../../../../Elements/CardInputs"
 import {
   getCardNumberError,
   getExpiryDateError,
   getCVCError,
-} from "../../../Elements/CardInputs/utils"
+} from "../../../../Elements/CardInputs/utils"
+import countryList from "../../../../../Utils/countryList"
 
 const ACTUAL_PRICE = 108.5
 const FINAL_PRICE = 88.5
@@ -159,7 +159,7 @@ const useStyles = makeStyles((theme: ITheme) =>
   }),
 )
 
-const PurchasePlan: React.FC = () => {
+const CardPaymentModule: React.FC = () => {
   const classes = useStyles()
   const { profile } = useUser()
   const { addCard, getCardTokenFromStripe } = useBilling()
@@ -383,4 +383,4 @@ const PurchasePlan: React.FC = () => {
   )
 }
 
-export default PurchasePlan
+export default CardPaymentModule
