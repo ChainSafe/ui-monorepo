@@ -60,7 +60,6 @@ const FPSProvider = ({ children }: FPSContextProps) => {
         const newContents = await imployApiClient?.getFPSChildList({
           path,
         })
-
         if (newContents) {
           // Remove this when the API returns dates
           setPathContents(
@@ -151,12 +150,11 @@ const FPSProvider = ({ children }: FPSContextProps) => {
           fileName: f.name,
         }))
         // API call
-
         const result = await imployApiClient.addFPSFiles(
           filesParam,
           path,
-          undefined,
-          undefined,
+          10000,
+          1,
           undefined, // TODO: Confirm cancel token not used/provided
           (progressEvent: { loaded: number; total: number }) => {
             dispatchUploadsInProgress({
@@ -185,6 +183,7 @@ const FPSProvider = ({ children }: FPSContextProps) => {
         return result
       } catch (error) {
         // setting error
+        console.error(error)
         dispatchUploadsInProgress({ type: "error", payload: { id } })
         setTimeout(() => {
           dispatchUploadsInProgress({ type: "remove", payload: { id } })
