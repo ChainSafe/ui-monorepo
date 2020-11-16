@@ -53,6 +53,7 @@ import UploadProgressModals from "./UploadProgressModals"
 import { useDropzone, FileRejection } from "react-dropzone"
 import clsx from "clsx"
 import { Trans } from "@lingui/macro"
+import ShareDialog from "./ShareDialog"
 
 const useStyles = makeStyles(
   ({ animation, breakpoints, constants, palette, zIndex }: ITheme) => {
@@ -273,6 +274,10 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
   const [selected, setSelected] = useState<string[]>([])
 
   const [previewFileIndex, setPreviewFileIndex] = useState<number | undefined>(
+    undefined,
+  )
+
+  const [shareFileIndex, setShareFileIndex] = useState<number | undefined>(
     undefined,
   )
 
@@ -832,7 +837,8 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
                               <span>Share</span>
                             </Fragment>
                           ),
-                          onClick: () => console.log,
+                          onClick: () =>
+                            setShareFileIndex(files?.indexOf(file)),
                         },
                         {
                           contents: (
@@ -890,6 +896,13 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
           previousFile={previewFileIndex > 0 ? setPreviousPreview : undefined}
         />
       )}
+
+      <ShareDialog
+        file={shareFileIndex !== undefined ? files[shareFileIndex] : undefined}
+        closeDialog={() => setShareFileIndex(undefined)}
+        showDialog={shareFileIndex !== undefined}
+      />
+
       <UploadProgressModals />
     </article>
   )

@@ -35,7 +35,7 @@ const UploadProgressModals: React.FC = () => {
   const { breakpoints }: ITheme = useTheme()
   const desktop = useMediaQuery(breakpoints.up("md"))
 
-  return (
+  return uploadsInProgress && uploadsInProgress.length ? (
     <div className={classes.root}>
       {uploadsInProgress.map(
         (uploadInProgress) =>
@@ -47,7 +47,7 @@ const UploadProgressModals: React.FC = () => {
           ),
       )}
     </div>
-  )
+  ) : null
 }
 
 export default UploadProgressModals
