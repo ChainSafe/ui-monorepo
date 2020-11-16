@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react"
-import Profile from "./Profile"
-import Plan from "./Plan"
+import ProfileView from "./tabs/Profile"
+import PlanView from "./tabs/PlanView"
 import {
   Tabs,
   TabPane,
@@ -60,7 +60,7 @@ const useStyles = makeStyles((theme: ITheme) =>
 
 type TabKey = "profileView" | "planView"
 
-const Settings: React.FC = () => {
+const SettingsModule: React.FC = () => {
   const [tabKey, setTabKey] = useState<TabKey>("profileView")
   const classes = useStyles()
   const { profile, updateProfile } = useUser()
@@ -135,7 +135,7 @@ const Settings: React.FC = () => {
         >
           <TabPane title="Profile" tabKey="profileView">
             {profileData ? (
-              <Profile
+              <ProfileView
                 profile={profileData}
                 handleValueChange={handleChange}
                 onUpdateProfile={onUpdateProfile}
@@ -144,7 +144,7 @@ const Settings: React.FC = () => {
             ) : null}
           </TabPane>
           <TabPane title="Plan" tabKey="planView">
-            <Plan />
+            <PlanView />
           </TabPane>
         </Tabs>
       </div>
@@ -152,4 +152,4 @@ const Settings: React.FC = () => {
   )
 }
 
-export default Settings
+export default SettingsModule

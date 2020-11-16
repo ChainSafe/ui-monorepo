@@ -102,14 +102,14 @@ const useStyles = makeStyles((theme: ITheme) =>
   }),
 )
 
-interface IProfileProps {
+interface IProfileViewProps {
   profile: Profile
   handleValueChange(e: React.ChangeEvent<HTMLInputElement>): void
   onUpdateProfile(firstName: string, lastName: string, email: string): void
   updatingProfile: boolean
 }
 
-const ProfileView: React.FC<IProfileProps> = (props) => {
+const ProfileView: React.FC<IProfileViewProps> = (props) => {
   const { profile, onUpdateProfile, updatingProfile } = props
   const [copied, setCopied] = useState(false)
   const classes = useStyles()

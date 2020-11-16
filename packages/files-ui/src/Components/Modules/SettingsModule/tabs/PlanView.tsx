@@ -76,6 +76,8 @@ const PlanView: React.FC = () => {
   const classes = useStyles()
   const { spaceUsed } = useDrive()
 
+  // TODO: Wire in active plan
+
   return (
     <Grid container>
       <Grid item xs={12} sm={8} md={6}>

@@ -1,8 +1,8 @@
 import React from "react"
-import Settings from "../Modules/Settings"
+import SettingsModule from "../Modules/SettingsModule"
 
 const SettingsPage = () => {
-  return <Settings />
+  return <SettingsModule />
 }
 
 export default SettingsPage
