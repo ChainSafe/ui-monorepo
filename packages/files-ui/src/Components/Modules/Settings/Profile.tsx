@@ -129,14 +129,10 @@ const ProfileView: React.FC<IProfileProps> = (props) => {
     }
   }
 
-  const profileWeb2Validation = yup.object().shape({
+  const profileValidation = yup.object().shape({
     email: yup.string().email("Email is invalid").required("Email is required"),
-    firstName: yup.string().required("First name is required"),
-    lastName: yup.string().required("Last name is required"),
-  })
-
-  const profileWeb3Validation = yup.object().shape({
-    email: yup.string().email("Email is invalid").required("Email is required"),
+    firstName: yup.string(),
+    lastName: yup.string(),
   })
 
   return (
@@ -158,11 +154,8 @@ const ProfileView: React.FC<IProfileProps> = (props) => {
                     values.email || "",
                   )
                 }}
-                validationSchema={
-                  profile.publicAddress
-                    ? profileWeb3Validation
-                    : profileWeb2Validation
-                }
+                validationSchema={profileValidation}
+                validateOnChange={false}
               >
                 <Form>
                   {profile.publicAddress ? (
@@ -188,33 +181,30 @@ const ProfileView: React.FC<IProfileProps> = (props) => {
                         <CopyIcon className={classes.copyIcon} />
                       </div>
                     </div>
-                  ) : (
-                    <>
-                      <div className={classes.boxContainer}>
-                        <FormikTextInput
-                          placeholder="first name"
-                          name="firstName"
-                          size="medium"
-                          className={classes.input}
-                          labelClassName={classes.label}
-                          label="First name"
-                        />
-                      </div>
-                      <div className={classes.boxContainer}>
-                        <FormikTextInput
-                          placeholder="last name"
-                          name="lastName"
-                          size="medium"
-                          className={classes.input}
-                          labelClassName={classes.label}
-                          label="Last name"
-                        />
-                      </div>
-                    </>
-                  )}
+                  ) : null}
                   <div className={classes.boxContainer}>
                     <FormikTextInput
-                      placeholder="email"
+                      placeholder="First name"
+                      name="firstName"
+                      size="medium"
+                      className={classes.input}
+                      labelClassName={classes.label}
+                      label="First name"
+                    />
+                  </div>
+                  <div className={classes.boxContainer}>
+                    <FormikTextInput
+                      placeholder="Last name"
+                      name="lastName"
+                      size="medium"
+                      className={classes.input}
+                      labelClassName={classes.label}
+                      label="Last name"
+                    />
+                  </div>
+                  <div className={classes.boxContainer}>
+                    <FormikTextInput
+                      placeholder="Email"
                       name="email"
                       size="medium"
                       className={classes.input}

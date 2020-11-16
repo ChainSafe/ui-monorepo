@@ -99,7 +99,7 @@ const UserProvider = ({ children }: UserContextProps) => {
         publicAddress.length,
       )}`
     } else {
-      return profile?.firstName || profile?.lastName || ""
+      return profile?.firstName || profile?.email || ""
     }
   }
 
