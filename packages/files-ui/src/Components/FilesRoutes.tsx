@@ -14,7 +14,9 @@ export const ROUTE_LINKS = {
   Home: "/home",
   Settings: "/settings",
   OAuthCallback: "/oauth2/callback/:provider",
-  PurchasePlan: "/settings/purchase",
+  ChoosePlan: "/settings/choose-plan/",
+  CardPayment: "/settings/choose-plan/card-payment",
+  CryptoPayment: "/settings/choose-plan/crypto-payment",
 }
 
 const FilesRoutes = () => {
@@ -51,7 +53,7 @@ const FilesRoutes = () => {
       />
       <ConditionalRoute
         exact
-        path={ROUTE_LINKS.PurchasePlan}
+        path={ROUTE_LINKS.ChoosePlan}
         isAuthorized={isLoggedIn}
         component={PlanSelectionPage}
         redirectPath={ROUTE_LINKS.Landing}
