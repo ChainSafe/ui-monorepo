@@ -7,7 +7,7 @@
     "@craco/craco": "^5.7.0",
     "@lingui/babel-preset-react": "^2.9.2",
     "@lingui/core": "^3.0.0",
-    "@lingui/macro": "3.0.0-12",
+    "@lingui/macro": "3.2.1",
     "@lingui/react": "^3.0.0",
     "@material-ui/styles": "^4.10.0",
     "@testing-library/jest-dom": "^4.2.4",
