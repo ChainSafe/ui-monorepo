@@ -9,10 +9,10 @@ import {
 } from "@imploy/common-components"
 import { makeStyles, ITheme, createStyles } from "@imploy/common-themes"
 import clsx from "clsx"
-import { FREE_PLAN_LIMIT } from "../../../Utils/Constants"
-import { useDrive } from "../../../Contexts/DriveContext"
+import { FREE_PLAN_LIMIT } from "../../../../Utils/Constants"
+import { useDrive } from "../../../../Contexts/DriveContext"
 import { Trans } from "@lingui/macro"
-import { ROUTE_LINKS } from "../../FilesRoutes"
+import { ROUTE_LINKS } from "../../../FilesRoutes"
 
 const useStyles = makeStyles((theme: ITheme) =>
   createStyles({

@@ -26,10 +26,11 @@ const useStyles = makeStyles(
         position: "absolute",
         width: constants.generalUnit * 2,
         height: constants.generalUnit * 2,
+        top: "50%",
         left: 0,
-        top: 0,
         borderRadius: "50%",
         transition: `all ${animation.transform}ms ease`,
+        transform: "translateY(-50%)",
         ...overrides?.RadioInput?.radio?.root,
         "&:before": {
           content: "''",
