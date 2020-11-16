@@ -237,7 +237,7 @@ const LoginPage = () => {
           <div className={classes.logoContainer}>
             <ChainsafeFilesLogo className={classes.logoImage} />
             <Typography variant="subtitle2" className={classes.logoText}>
-              <Trans>ChainSafe Files</Trans>
+              <Trans>ChainSafe Cloud</Trans>
             </Typography>
           </div>
           <div className={classes.controls}>
