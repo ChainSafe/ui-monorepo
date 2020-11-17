@@ -51,7 +51,7 @@
     "@storybook/preset-typescript": "^3.0.0",
     "@storybook/react": "^5.3.21",
     "@svgr/rollup": "^5.5.0",
-    "@svgr/webpack": "^5.4.0",
+    "@svgr/webpack": "^5.5.0",
     "@types/react-blockies": "^1.4.0",
     "@types/react-router-dom": "^5.1.6",
     "@types/react-toast-notifications": "^2.4.0",
