@@ -853,10 +853,7 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
                               </span>
                             </Fragment>
                           ),
-                          onClick: () =>
-                            deleteFile({
-                              paths: [`${currentPath}${file.name}`],
-                            }),
+                          onClick: () => deleteFile(file.cid),
                         },
                         {
                           contents: (
