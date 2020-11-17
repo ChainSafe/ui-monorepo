@@ -7,6 +7,7 @@ import HomePage from "./Pages/HomePage"
 import OAuthCallbackPage from "./Pages/OAuthCallback"
 import PlanSelectionPage from "./Pages/plans/PlanSelectionPage"
 import { TabKey } from "./Modules/SettingsModule"
+import { PLAN_OPTION } from "../Utils/SubscriptionOptions"
 
 export const ROUTE_LINKS = {
   Landing: "/",
@@ -16,8 +17,12 @@ export const ROUTE_LINKS = {
   Settings: (tab?: TabKey | string) =>
     `/settings/${tab ? tab : TabKey.Profile}`,
   ChoosePlan: "/settings/choose-plan/",
-  CardPayment: "/settings/choose-plan/card-payment",
-  CryptoPayment: "/settings/choose-plan/crypto-payment",
+  PlanSelected: (planOption: PLAN_OPTION) =>
+    `/settings/choose-plan/${planOption}`,
+  CardPayment: (planOption: PLAN_OPTION) =>
+    `/settings/choose-plan/${planOption}/card-payment`,
+  CryptoPayment: (planOption: PLAN_OPTION) =>
+    `/settings/choose-plan/${planOption}/crypto-payment`,
 
   OAuthCallback: "/oauth2/callback/:provider",
 }
