@@ -14,7 +14,7 @@
     "@sentry/react": "^5.27.4",
     "@types/yup": "^0.29.9",
     "babel-plugin-macros": "^2.8.0",
-    "babel-loader": "^8.1.0",
+    "babel-loader": "^8.2.1",
     "babel-preset-env": "^1.7.0",
     "babel-preset-react": "^6.24.1",
     "bnc-onboard": "^1.15.0",
