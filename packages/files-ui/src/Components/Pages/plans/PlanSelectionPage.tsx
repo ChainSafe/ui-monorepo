@@ -8,40 +8,46 @@ import { createStyles, ITheme, makeStyles } from "@imploy/common-themes"
 import React, { useState } from "react"
 import { ROUTE_LINKS } from "../../FilesRoutes"
 
-const useStyles = makeStyles(
-  ({ palette, constants, typography, breakpoints }: ITheme) =>
-    createStyles({
-      root: {},
-      controls: {
-        display: "flex",
-        flexDirection: "row",
-        justifyContent: "space-between",
-        alignItems: "center",
+const useStyles = makeStyles(({ constants }: ITheme) =>
+  createStyles({
+    root: {
+      "& h1": {
+        marginBottom: constants.generalUnit,
       },
-      back: {
-        display: "flex",
-        flexDirection: "row",
-        justifyContent: "flex-start",
-        alignItems: "center",
-        "& svg": {
-          display: "block",
-          height: 10,
-          width: 10,
-          marginRight: constants.generalUnit,
-        },
+    },
+    controls: {
+      display: "flex",
+      flexDirection: "row",
+      justifyContent: "space-between",
+      alignItems: "center",
+    },
+    back: {
+      display: "flex",
+      flexDirection: "row",
+      justifyContent: "flex-start",
+      alignItems: "center",
+      "& svg": {
+        display: "block",
+        height: 10,
+        width: 10,
+        marginRight: constants.generalUnit,
       },
-      durationOptions: {
-        display: "flex",
-        flexDirection: "row",
-        justifyContent: "flex-end",
-        alignItems: "center",
-      },
-      radio: {
-        display: "flex",
-        flexDirection: "row",
-        alignItems: "center",
-      },
-    }),
+    },
+    durationOptions: {
+      display: "flex",
+      flexDirection: "row",
+      justifyContent: "flex-end",
+      alignItems: "center",
+    },
+    radio: {
+      display: "flex",
+      flexDirection: "row",
+      alignItems: "center",
+    },
+    options: {
+      marginTop: constants.generalUnit * 7,
+    },
+  }),
 )
 const PlanSelectionPage = () => {
   const classes = useStyles()
@@ -80,6 +86,11 @@ const PlanSelectionPage = () => {
             }}
           />
         </div>
+      </section>
+      <section className={classes.options}>
+        <Typography variant="h4" component="h4">
+          We've got plans that suit all sizes of storage needs:
+        </Typography>
       </section>
     </article>
   )

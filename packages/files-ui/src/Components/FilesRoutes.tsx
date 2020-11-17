@@ -42,16 +42,16 @@ const FilesRoutes = () => {
       />
       <ConditionalRoute
         exact
-        path={ROUTE_LINKS.Settings(":tab")}
+        path={ROUTE_LINKS.ChoosePlan}
         isAuthorized={isLoggedIn}
-        component={SettingsPage}
+        component={PlanSelectionPage}
         redirectPath={ROUTE_LINKS.Landing}
       />
       <ConditionalRoute
         exact
-        path={ROUTE_LINKS.ChoosePlan}
+        path={ROUTE_LINKS.Settings(":tab")}
         isAuthorized={isLoggedIn}
-        component={PlanSelectionPage}
+        component={SettingsPage}
         redirectPath={ROUTE_LINKS.Landing}
       />
 
