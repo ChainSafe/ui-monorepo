@@ -22,7 +22,7 @@
     "@chainsafe/web3-context": "1.1.0",
     "axios": "^0.21.0",
     "ethers": "5.0.19",
-    "jwt-decode": "^3.0.0",
+    "jwt-decode": "^3.1.2",
     "react": ">= 16.8.0",
     "react-dom": ">= 16.8.0"
   },
@@ -41,7 +41,7 @@
     "babel-plugin-styled-components": "^1.11.1",
     "babel-runtime": "^6.26.0",
     "ethers": "5.0.19",
-    "jwt-decode": "^3.0.0",
+    "jwt-decode": "^3.1.2",
     "prettier": "2.1.1",
     "react": "^16.14.0",
     "react-dom": "^16.14.0",
