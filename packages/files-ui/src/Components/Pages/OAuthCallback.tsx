@@ -1,5 +1,5 @@
 import React, { useEffect } from "react"
-import { useLocation, useParams } from "@imploy/common-components"
+import { useLocation, useParams } from "@chainsafe/common-components"
 import { useImployApi } from "@imploy/common-contexts"
 
 function useQueryParams() {

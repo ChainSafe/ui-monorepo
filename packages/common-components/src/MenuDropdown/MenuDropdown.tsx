@@ -4,7 +4,7 @@ import {
   createStyles,
   ITheme,
   useOnClickOutside,
-} from "@imploy/common-themes"
+} from "@chainsafe/common-theme"
 import { Typography } from "../Typography"
 import clsx from "clsx"
 import { DirectionalDownIcon, SvgIcon } from "../Icons"

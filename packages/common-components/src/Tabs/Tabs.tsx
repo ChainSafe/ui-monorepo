@@ -1,7 +1,7 @@
 import React from "react"
 import clsx from "clsx"
-import { makeStyles, createStyles } from "@imploy/common-themes"
-import { ITheme } from "@imploy/common-themes"
+import { makeStyles, createStyles } from "@chainsafe/common-theme"
+import { ITheme } from "@chainsafe/common-theme"
 import { ITabPaneProps } from "./TabPane"
 
 const useStyles = makeStyles(

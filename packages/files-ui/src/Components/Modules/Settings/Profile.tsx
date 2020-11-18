@@ -5,14 +5,14 @@ import {
   Grid,
   Button,
   Typography,
-} from "@imploy/common-components"
+} from "@chainsafe/common-components"
 import {
   makeStyles,
   ITheme,
   createStyles,
   debounce,
-} from "@imploy/common-themes"
-import { LockIcon, CopyIcon } from "@imploy/common-components"
+} from "@chainsafe/common-theme"
+import { LockIcon, CopyIcon } from "@chainsafe/common-components"
 import { Formik, Form } from "formik"
 import { Profile } from "@imploy/common-contexts"
 import { Trans } from "@lingui/macro"

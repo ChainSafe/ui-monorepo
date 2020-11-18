@@ -4,8 +4,12 @@ import {
   ErrorBoundary,
   showReportDialog,
 } from "@sentry/react"
-import { ThemeSwitcher } from "@imploy/common-themes"
-import { CssBaseline, Router, ToasterProvider } from "@imploy/common-components"
+import { ThemeSwitcher } from "@chainsafe/common-theme"
+import {
+  CssBaseline,
+  Router,
+  ToasterProvider,
+} from "@chainsafe/common-components"
 import { Web3Provider } from "@chainsafe/web3-context"
 import {
   ImployApiProvider,

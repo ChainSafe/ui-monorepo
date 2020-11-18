@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react"
-import { Grid } from "@imploy/common-components"
+import { Grid } from "@chainsafe/common-components"
 import Section from "../Modules/Section"
 import Title from "../Modules/Title"
-import { createStyles, ITheme, makeStyles } from "@imploy/common-themes"
+import { createStyles, ITheme, makeStyles } from "@chainsafe/common-theme"
 import { t, Trans } from "@lingui/macro"
 
 const useStyles = makeStyles(({ zIndex, breakpoints }: ITheme) => {

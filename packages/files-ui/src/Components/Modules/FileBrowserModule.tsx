@@ -4,7 +4,7 @@ import {
   makeStyles,
   useMediaQuery,
   useTheme,
-} from "@imploy/common-themes"
+} from "@chainsafe/common-theme"
 import React, { Fragment, useCallback, useEffect } from "react"
 import {
   Button,
@@ -36,7 +36,7 @@ import {
   Breadcrumb,
   Crumb,
   CircularProgressBar,
-} from "@imploy/common-components"
+} from "@chainsafe/common-components"
 import { useState } from "react"
 import { useMemo } from "react"
 import { useDrive, IFile } from "../../Contexts/DriveContext"
