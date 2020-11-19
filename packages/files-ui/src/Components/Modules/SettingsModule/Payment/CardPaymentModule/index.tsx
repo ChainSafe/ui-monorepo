@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 import {
   makeStyles,
   ITheme,
@@ -9,28 +9,26 @@ import {
 import {
   ArrowLeftIcon,
   Button,
+  Divider,
   FormikTextInput,
   Grid,
   Link,
   SelectInput,
   TextInput,
   Typography,
+  useParams,
 } from "@imploy/common-components"
 import { ROUTE_LINKS } from "../../../../FilesRoutes"
-import { Form, Formik } from "formik"
 import { useBilling, useUser } from "@imploy/common-contexts"
 import * as yup from "yup"
+import { Form, Formik } from "formik"
+import countryList from "../../../../../Utils/countryList"
 import CardInputs from "../../../../Elements/CardInputs"
 import {
   getCardNumberError,
-  getExpiryDateError,
   getCVCError,
+  getExpiryDateError,
 } from "../../../../Elements/CardInputs/utils"
-import countryList from "../../../../../Utils/countryList"
-
-const ACTUAL_PRICE = 108.5
-const FINAL_PRICE = 88.5
-const STRIPE_PK = process.env.REACT_APP_STRIPE_PK
 
 const useStyles = makeStyles((theme: ITheme) =>
   createStyles({
@@ -159,6 +157,10 @@ const useStyles = makeStyles((theme: ITheme) =>
   }),
 )
 
+const ACTUAL_PRICE = 108.5
+const FINAL_PRICE = 88.5
+const STRIPE_PK = process.env.REACT_APP_STRIPE_PK
+
 const CardPaymentModule: React.FC = () => {
   const classes = useStyles()
   const { profile } = useUser()
@@ -176,20 +178,24 @@ const CardPaymentModule: React.FC = () => {
     zipCode: yup.string(),
   })
 
+  const { plan } = useParams<{
+    plan: string
+  }>()
+
   return (
     <div className={classes.container}>
       <div className={classes.headingContainer}>
         {!desktop && (
-          <Link to={ROUTE_LINKS.Settings()}>
+          <Link to={ROUTE_LINKS.ChoosePlan}>
             <ArrowLeftIcon className={classes.backIcon} />
             <Typography>Back to plan settings</Typography>
           </Link>
         )}
         <Typography className={classes.heading} variant="h1" component="p">
-          {desktop ? "Purchase a Plus subscription" : "Checkout"}
+          {desktop ? `Purchase a ${plan} subscription` : "Checkout"}
         </Typography>
         {desktop && (
-          <Link to={ROUTE_LINKS.Settings()}>
+          <Link to={ROUTE_LINKS.ChoosePlan}>
             <ArrowLeftIcon className={classes.backIcon} />
             <Typography>Back to plan settings</Typography>
           </Link>

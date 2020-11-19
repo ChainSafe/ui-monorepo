@@ -2,6 +2,7 @@ export enum PLAN_OPTION {
   Plus = "plus",
   Agile = "agile",
   Enterprise = "enterprise",
+  _routeParam = ":plan",
 }
 
 export interface ISubscriptionOption {

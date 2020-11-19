@@ -104,7 +104,7 @@ const useStyles = makeStyles(({ constants, palette, breakpoints }: ITheme) =>
       },
     },
     planPrice: {
-      marginBottom: constants.generalUnit * 8,
+      minHeight: constants.generalUnit * 9.5,
     },
     planFooter: {},
     divider: {

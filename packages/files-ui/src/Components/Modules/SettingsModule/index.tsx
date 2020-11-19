@@ -66,6 +66,7 @@ const useStyles = makeStyles(({ breakpoints, constants }: ITheme) =>
 export enum TabKey {
   Profile = "profile",
   Plan = "plan",
+  _routeParam = ":tab",
 }
 
 const SettingsModule: React.FC = () => {
@@ -144,7 +145,9 @@ const SettingsModule: React.FC = () => {
       <div className={classes.tabsContainer}>
         <Tabs
           activeKey={tab}
-          onTabSelect={(key) => history.push(ROUTE_LINKS.Settings(key))}
+          onTabSelect={(key) =>
+            history.push(ROUTE_LINKS.Settings(key as TabKey))
+          }
         >
           <TabPane title="Profile" tabKey={TabKey.Profile}>
             {profileData ? (
