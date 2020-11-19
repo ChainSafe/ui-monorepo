@@ -1,7 +1,7 @@
 import React from "react"
 import { formatCardNumber, formatExpiry, getCardTypeByValue } from "./utils"
-import { TextInput, Typography } from "@imploy/common-components"
-import { makeStyles, ITheme, createStyles } from "@imploy/common-themes"
+import { TextInput, Typography } from "@chainsafe/common-components"
+import { makeStyles, ITheme, createStyles } from "@chainsafe/common-theme"
 
 const useStyles = makeStyles((theme: ITheme) =>
   createStyles({

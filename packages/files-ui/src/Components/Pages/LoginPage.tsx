@@ -8,7 +8,7 @@ import {
   GithubLogoIcon,
   ChainsafeFilesLogo,
   Divider,
-} from "@imploy/common-components"
+} from "@chainsafe/common-components"
 import { useImployApi, OAuthProvider } from "@imploy/common-contexts"
 import {
   makeStyles,
@@ -16,7 +16,7 @@ import {
   createStyles,
   useTheme,
   useMediaQuery,
-} from "@imploy/common-themes"
+} from "@chainsafe/common-theme"
 import { useWeb3 } from "@chainsafe/web3-context"
 import LargeLightBulbSvg from "../../Media/LargeLightBulb.svg"
 import SmallBranchSvg from "../../Media/SmallBranch.svg"

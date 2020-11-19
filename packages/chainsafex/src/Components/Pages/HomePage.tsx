@@ -1,4 +1,4 @@
-import { Typography } from "@imploy/common-components"
+import { Typography } from "@chainsafe/common-components"
 import React from "react"
 
 const HomePage = () => {

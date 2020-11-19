@@ -1,9 +1,9 @@
 import React from "react"
-import { Grid } from "@imploy/common-components"
+import { Grid } from "@chainsafe/common-components"
 import Section from "../Modules/Section"
 import Title from "../Modules/Title"
 import Paragraph from "../Modules/Paragraph"
-import { createStyles, ITheme, makeStyles } from "@imploy/common-themes"
+import { createStyles, ITheme, makeStyles } from "@chainsafe/common-theme"
 
 const useStyles = makeStyles(({ palette, breakpoints, constants }: ITheme) => {
   return createStyles({

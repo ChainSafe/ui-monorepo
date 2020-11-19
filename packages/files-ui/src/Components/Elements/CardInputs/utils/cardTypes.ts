@@ -7,7 +7,7 @@ import {
   JcbCardIcon,
   UnionpayCardIcon,
   SvgIconProps,
-} from "@imploy/common-components"
+} from "@chainsafe/common-components"
 
 export const DEFAULT_CVC_LENGTH = 3
 export const DEFAULT_CARD_FORMAT = /(\d{1,4})/g

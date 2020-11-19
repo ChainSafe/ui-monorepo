@@ -4,7 +4,7 @@ import {
   createStyles,
   ITheme,
   useTheme,
-} from "@imploy/common-themes"
+} from "@chainsafe/common-theme"
 import clsx from "clsx"
 import Select from "react-select"
 import { Typography } from "../Typography"
