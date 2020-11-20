@@ -7,25 +7,12 @@ import {
 } from "@imploy/common-themes"
 import React, { Fragment, useCallback, useEffect } from "react"
 import {
-  Button,
   CheckboxInput,
-  DeleteIcon,
   Divider,
-  DownloadIcon,
-  EditIcon,
-  // ExportIcon,
-  FileImageSvg,
-  FilePdfSvg,
-  FileTextSvg,
-  FolderSvg,
-  formatBytes,
-  FormikTextInput,
   MenuDropdown,
-  MoreIcon,
   PlusIcon,
   // ShareAltIcon,
   SortDirection,
-  standardlongDateFormat,
   Table,
   TableBody,
   TableCell,
@@ -39,19 +26,18 @@ import {
 } from "@imploy/common-components"
 import { useState } from "react"
 import { useMemo } from "react"
-import { useDrive, IFile } from "../../Contexts/DriveContext"
-import { Formik, Form } from "formik"
+import { useDrive, IFile } from "../../../Contexts/DriveContext"
 import { object, string } from "yup"
-import EmptySvg from "../../Media/Empty.svg"
-import CreateFolderModule from "./CreateFolderModule"
-import UploadFileModule from "./UploadFileModule"
-import CustomModal from "../Elements/CustomModal"
-import FilePreviewModal from "./FilePreviewModal"
-import { getArrayOfPaths, getPathFromArray } from "../../Utils/pathUtils"
-import UploadProgressModals from "./UploadProgressModals"
-import { useDropzone, FileRejection } from "react-dropzone"
+import EmptySvg from "../../../Media/Empty.svg"
+import CreateFolderModule from "../CreateFolderModule"
+import UploadFileModule from "../UploadFileModule"
+import FilePreviewModal from "../FilePreviewModal"
+import { getArrayOfPaths, getPathFromArray } from "../../../Utils/pathUtils"
+import UploadProgressModals from "../UploadProgressModals"
+import { useDropzone } from "react-dropzone"
 import clsx from "clsx"
 import { Trans } from "@lingui/macro"
+import FileOrFolderView from "./FileOrFolderView"
 
 const useStyles = makeStyles(
   ({ animation, breakpoints, constants, palette, zIndex }: ITheme) => {
@@ -149,22 +135,6 @@ const useStyles = makeStyles(
         alignItems: "center",
         justifyContent: "center",
       },
-      renameInput: {
-        width: "100%",
-        [breakpoints.up("md")]: {
-          margin: 0,
-        },
-        [breakpoints.down("md")]: {
-          margin: `${constants.generalUnit * 4.2}px 0`,
-        },
-      },
-      menuIcon: {
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        width: 20,
-        marginRight: constants.generalUnit * 1.5,
-      },
       dropdownIcon: {
         "& svg": {
           height: 20,
@@ -177,45 +147,6 @@ const useStyles = makeStyles(
         },
       },
       mobileButton: {},
-      renameModal: {
-        padding: constants.generalUnit * 4,
-      },
-      okButton: {
-        marginLeft: constants.generalUnit,
-        color: palette.common.white.main,
-        backgroundColor: palette.common.black.main,
-      },
-      cancelButton: {
-        [breakpoints.down("md")]: {
-          position: "fixed",
-          bottom: 0,
-          left: 0,
-          width: "100%",
-          height: constants?.mobileButtonHeight,
-        },
-      },
-      modalRoot: {
-        [breakpoints.down("md")]: {},
-      },
-      modalInner: {
-        [breakpoints.down("md")]: {
-          bottom:
-            (constants?.mobileButtonHeight as number) + constants.generalUnit,
-          borderTopLeftRadius: `${constants.generalUnit * 1.5}px`,
-          borderTopRightRadius: `${constants.generalUnit * 1.5}px`,
-          borderBottomLeftRadius: `${constants.generalUnit * 1.5}px`,
-          borderBottomRightRadius: `${constants.generalUnit * 1.5}px`,
-        },
-      },
-      renameHeader: {
-        textAlign: "center",
-      },
-      renameFooter: {
-        display: "flex",
-        flexDirection: "row",
-        alignItems: "center",
-        justifyContent: "flex-end",
-      },
       dropNotification: {
         display: "block",
         position: "fixed",
@@ -453,7 +384,7 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
   }, [currentPath])
 
   const onDrop = useCallback(
-    async (acceptedFiles: File[], fileRejections: FileRejection[]) => {
+    async (acceptedFiles: File[]) => {
       uploadFiles(acceptedFiles, uploadTarget)
       setDropActive(-1)
     },
@@ -646,233 +577,28 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
                     <TableCell />
                   </TableRow>
                 ))}
-            {items.map((file: IFile, index: number) => {
-              let Icon
-              if (
-                file.content_type === "application/chainsafe-files-directory"
-              ) {
-                Icon = FolderSvg
-              } else if (file.content_type.includes("image")) {
-                Icon = FileImageSvg
-              } else if (file.content_type.includes("pdf")) {
-                Icon = FilePdfSvg
-              } else {
-                Icon = FileTextSvg
-              }
-              return (
-                <TableRow
-                  key={`files-${index}`}
-                  className={clsx(classes.tableRow, {
-                    folder:
-                      file.content_type ===
-                      "application/chainsafe-files-directory",
-                    hovered: uploadTarget === `${currentPath}${file.name}`,
-                  })}
-                  type="grid"
-                  rowSelectable={true}
-                  onDragEnter={() => {
-                    if (
-                      file.content_type ===
-                        "application/chainsafe-files-directory" &&
-                      dropActive > -1
-                    ) {
-                      if (uploadTarget !== `${currentPath}${file.name}`) {
-                        setUploadTarget(`${currentPath}${file.name}`)
-                      }
-                    } else {
-                      if (uploadTarget !== currentPath) {
-                        setUploadTarget(currentPath)
-                      }
-                    }
-                  }}
-                  selected={selected.includes(file.cid)}
-                >
-                  {desktop && (
-                    <TableCell>
-                      <CheckboxInput
-                        value={selected.includes(file.cid)}
-                        onChange={() => handleSelect(file.cid)}
-                      />
-                    </TableCell>
-                  )}
-                  <TableCell
-                    className={classes.fileIcon}
-                    onClick={() => {
-                      file.content_type ===
-                        "application/chainsafe-files-directory" &&
-                        updateCurrentPath(`${currentPath}${file.name}`)
-                    }}
-                  >
-                    <Icon />
-                  </TableCell>
-                  <TableCell
-                    align="left"
-                    onClick={() => {
-                      file.content_type ===
-                      "application/chainsafe-files-directory"
-                        ? updateCurrentPath(`${currentPath}${file.name}`)
-                        : !editing && setPreviewFileIndex(files?.indexOf(file))
-                    }}
-                  >
-                    {editing === file.cid && desktop ? (
-                      <Formik
-                        initialValues={{
-                          fileName: file.name,
-                        }}
-                        validationSchema={RenameSchema}
-                        onSubmit={(values, actions) => {
-                          handleRename(
-                            `${currentPath}${file.name}`,
-                            `${currentPath}${values.fileName}`,
-                          )
-                        }}
-                      >
-                        <Form>
-                          <FormikTextInput
-                            className={classes.renameInput}
-                            name="fileName"
-                            inputVariant="minimal"
-                            placeholder="Please enter a file name"
-                          />
-                        </Form>
-                      </Formik>
-                    ) : editing === file.cid && !desktop ? (
-                      <CustomModal
-                        className={classes.modalRoot}
-                        injectedClass={{
-                          inner: classes.modalInner,
-                        }}
-                        closePosition="none"
-                        active={editing === file.cid}
-                        setActive={() => setEditing("")}
-                      >
-                        <Formik
-                          initialValues={{
-                            fileName: file.name,
-                          }}
-                          validationSchema={RenameSchema}
-                          onSubmit={(values, actions) => {
-                            handleRename(
-                              `${currentPath}${file.name}`,
-                              `${currentPath}${values.fileName}`,
-                            )
-                          }}
-                        >
-                          <Form className={classes.renameModal}>
-                            <Typography
-                              className={classes.renameHeader}
-                              component="p"
-                              variant="h5"
-                            >
-                              <Trans>Rename File/Folder</Trans>
-                            </Typography>
-                            <FormikTextInput
-                              label="Name"
-                              className={classes.renameInput}
-                              name="fileName"
-                              placeholder="Please enter a file name"
-                            />
-                            <footer className={classes.renameFooter}>
-                              <Button
-                                onClick={() => setEditing("")}
-                                size="medium"
-                                className={classes.cancelButton}
-                                variant="outline"
-                                type="button"
-                              >
-                                <Trans>Cancel</Trans>
-                              </Button>
-                              <Button
-                                size="medium"
-                                type="submit"
-                                className={classes.okButton}
-                              >
-                                <Trans>Update</Trans>
-                              </Button>
-                            </footer>
-                          </Form>
-                        </Formik>
-                      </CustomModal>
-                    ) : (
-                      file.name
-                    )}
-                  </TableCell>
-                  {desktop && (
-                    <Fragment>
-                      <TableCell align="left">
-                        {standardlongDateFormat(
-                          new Date(file.date_uploaded),
-                          true,
-                        )}
-                      </TableCell>
-                      <TableCell align="left">
-                        {formatBytes(file.size)}
-                      </TableCell>
-                    </Fragment>
-                  )}
-                  <TableCell align="right">
-                    <MenuDropdown
-                      animation="none"
-                      anchor={desktop ? "bottom-center" : "bottom-right"}
-                      menuItems={[
-                        // {
-                        //   contents: (
-                        //     <Fragment>
-                        //       <ExportIcon className={classes.menuIcon} />
-                        //       <span>Move</span>
-                        //     </Fragment>
-                        //   ),
-                        //   onClick: () => console.log,
-                        // },
-                        // {
-                        //   contents: (
-                        //     <Fragment>
-                        //       <ShareAltIcon className={classes.menuIcon} />
-                        //       <span>Share</span>
-                        //     </Fragment>
-                        //   ),
-                        //   onClick: () => console.log,
-                        // },
-                        {
-                          contents: (
-                            <Fragment>
-                              <EditIcon className={classes.menuIcon} />
-                              <span>
-                                <Trans>Rename</Trans>
-                              </span>
-                            </Fragment>
-                          ),
-                          onClick: () => setEditing(file.cid),
-                        },
-                        {
-                          contents: (
-                            <Fragment>
-                              <DeleteIcon className={classes.menuIcon} />
-                              <span>
-                                <Trans>Delete</Trans>
-                              </span>
-                            </Fragment>
-                          ),
-                          onClick: () => deleteFile(file.cid),
-                        },
-                        {
-                          contents: (
-                            <Fragment>
-                              <DownloadIcon className={classes.menuIcon} />
-                              <span>
-                                <Trans>Download</Trans>
-                              </span>
-                            </Fragment>
-                          ),
-                          onClick: () => downloadFile(file.name),
-                        },
-                      ]}
-                      indicator={MoreIcon}
-                    />
-                  </TableCell>
-                </TableRow>
-              )
-            })}
+            {items.map((file: IFile, index: number) => (
+              <FileOrFolderView
+                index={index}
+                file={file}
+                files={files}
+                uploadTarget={uploadTarget}
+                currentPath={currentPath}
+                dropActive={dropActive}
+                setUploadTarget={setUploadTarget}
+                updateCurrentPath={updateCurrentPath}
+                selected={selected}
+                handleSelect={handleSelect}
+                editing={editing}
+                setEditing={setEditing}
+                RenameSchema={RenameSchema}
+                handleRename={handleRename}
+                deleteFile={deleteFile}
+                downloadFile={downloadFile}
+                setPreviewFileIndex={setPreviewFileIndex}
+                desktop={desktop}
+              />
+            ))}
           </TableBody>
         </Table>
       )}
