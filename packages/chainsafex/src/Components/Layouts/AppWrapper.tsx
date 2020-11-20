@@ -1,4 +1,4 @@
-import { createStyles, ITheme, makeStyles } from "@imploy/common-themes"
+import { createStyles, ITheme, makeStyles } from "@chainsafe/common-theme"
 import React from "react"
 import { ReactNode } from "react"
 

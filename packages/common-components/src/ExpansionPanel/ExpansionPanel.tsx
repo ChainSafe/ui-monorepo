@@ -1,5 +1,5 @@
 import React, { ReactNode, useState } from "react"
-import { ITheme, makeStyles, createStyles } from "@imploy/common-themes"
+import { ITheme, makeStyles, createStyles } from "@chainsafe/common-theme"
 import { Typography } from "../Typography"
 import clsx from "clsx"
 import { DirectionalRightIcon } from "../Icons"

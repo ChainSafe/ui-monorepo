@@ -1,5 +1,5 @@
 import React from "react"
-import { makeStyles, createStyles, ITheme } from "@imploy/common-themes"
+import { makeStyles, createStyles, ITheme } from "@chainsafe/common-theme"
 import clsx from "clsx"
 import { Typography } from "../Typography"
 

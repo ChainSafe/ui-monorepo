@@ -1,6 +1,6 @@
 import React from "react"
-import { createStyles, ITheme, makeStyles } from "@imploy/common-themes"
-import { Grid, Typography } from "@imploy/common-components"
+import { createStyles, ITheme, makeStyles } from "@chainsafe/common-theme"
+import { Grid, Typography } from "@chainsafe/common-components"
 import { Trans } from "@lingui/macro"
 
 const useStyles = makeStyles(({ palette, constants, breakpoints }: ITheme) => {

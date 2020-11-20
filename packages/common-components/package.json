@@ -1,5 +1,5 @@
 {
-  "name": "@imploy/common-components",
+  "name": "@chainsafe/common-components",
   "version": "1.0.24",
   "description": "Common Components",
   "author": "Michael Yankelev <michael@chainsafe.io>",
@@ -10,13 +10,8 @@
     "build:storybook": "build-storybook",
     "build": "rollup -c",
     "start": "rollup -c -w",
-    "lint": "eslint 'src/**/*.{js,ts,tsx}' --quiet --fix",
-    "publish": "yarn build && npm publish"
+    "lint": "eslint 'src/**/*.{js,ts,tsx}' --quiet --fix"
   },
-  "publishConfig": {
-    "registry": "https://npm.pkg.github.com/"
-  },
-  "repository": "https://github.com/imploy/ui.git",
   "dependencies": {
     "@material-ui/styles": "^4.10.0",
     "@types/react-select": "^3.0.26",
@@ -37,7 +32,8 @@
     "formik": "^2.2.5",
     "react": ">16.8.0",
     "react-dom": ">16.8.0",
-    "react-toast-notifications": ">2.4.0"
+    "react-toast-notifications": ">2.4.0",
+    "@chainsafe/common-theme": ">1.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.3",

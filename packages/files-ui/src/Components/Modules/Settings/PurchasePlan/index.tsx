@@ -5,7 +5,7 @@ import {
   createStyles,
   useTheme,
   useMediaQuery,
-} from "@imploy/common-themes"
+} from "@chainsafe/common-theme"
 import {
   ArrowLeftIcon,
   Button,
@@ -15,7 +15,7 @@ import {
   SelectInput,
   TextInput,
   Typography,
-} from "@imploy/common-components"
+} from "@chainsafe/common-components"
 import { ROUTE_LINKS } from "../../../FilesRoutes"
 import { Form, Formik } from "formik"
 import { useBilling, useUser } from "@imploy/common-contexts"

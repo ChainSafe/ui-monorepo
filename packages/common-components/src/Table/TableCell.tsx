@@ -1,5 +1,5 @@
 import React, { ReactNode } from "react"
-import { makeStyles, createStyles, ITheme } from "@imploy/common-themes"
+import { makeStyles, createStyles, ITheme } from "@chainsafe/common-theme"
 import clsx from "clsx"
 import { capitalize } from "../utils/stringUtils"
 import { AlignOption } from "./types"

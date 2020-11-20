@@ -1,6 +1,6 @@
 import React, { ReactNode } from "react"
-import { createStyles, ITheme, makeStyles } from "@imploy/common-themes"
-import { Typography } from "@imploy/common-components"
+import { createStyles, ITheme, makeStyles } from "@chainsafe/common-theme"
+import { Typography } from "@chainsafe/common-components"
 
 type TitleProps = {
   children?: ReactNode
