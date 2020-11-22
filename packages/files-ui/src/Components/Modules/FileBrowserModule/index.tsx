@@ -38,6 +38,9 @@ import { useDropzone } from "react-dropzone"
 import clsx from "clsx"
 import { Trans } from "@lingui/macro"
 import FileOrFolderView from "./FileOrFolderView"
+import { DndProvider, useDrag } from "react-dnd"
+import { HTML5Backend } from "react-dnd-html5-backend"
+import { DragTypes } from "./DragConstants"
 
 const useStyles = makeStyles(
   ({ animation, breakpoints, constants, palette, zIndex }: ITheme) => {
@@ -61,7 +64,7 @@ const useStyles = makeStyles(
             },
           },
         },
-        transitionDuration: `${animation.transform}ms`,
+        // transitionDuration: `${animation.transform}ms`,
       },
       header: {
         display: "flex",
@@ -189,6 +192,7 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
     deleteFile,
     downloadFile,
     renameFile,
+    moveFile,
     currentPath,
     updateCurrentPath,
     pathContents,
@@ -208,10 +212,7 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
 
   // Sorting
   const sortFoldersFirst = (a: IFile, b: IFile) =>
-    a.content_type === "application/chainsafe-files-directory" &&
-    a.content_type !== b.content_type
-      ? -1
-      : 1
+    a.isFolder && a.content_type !== b.content_type ? -1 : 1
 
   const items: IFile[] = useMemo(() => {
     if (!pathContents) return []
@@ -287,9 +288,7 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
   }
 
   const files = useMemo(() => {
-    return items.filter(
-      (i) => i.content_type !== "application/chainsafe-files-directory",
-    )
+    return items.filter((i) => !i.isFolder)
   }, [items])
 
   // Previews
@@ -340,6 +339,15 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
     setEditing(undefined)
   }
 
+  // Rename
+  const handleMove = async (path: string, new_path: string) => {
+    // TODO set loading
+    await moveFile({
+      path: path,
+      new_path: new_path,
+    })
+  }
+
   const RenameSchema = object().shape({
     fileName: string()
       .min(1, "Please enter a file name")
@@ -361,6 +369,7 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
 
   // Upload logic
   const [dropActive, setDropActive] = useState<number>(-1)
+  const [isDraggingFile, setIsDraggingFile] = useState(false)
 
   const displayUpload = useCallback(() => {
     if (dropActive > 0) {
@@ -399,221 +408,228 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
     multiple: true,
   })
 
+  console.log(isDraggingFile)
+
   return (
-    <article
-      {...getRootProps()}
-      onDragEnter={displayUpload}
-      className={clsx(classes.root, {
-        dragging: dropActive > -1,
-      })}
-    >
-      <input {...getInputProps()} />
-      <div
-        className={clsx(classes.dropNotification, {
-          active: dropActive > -1,
+    <DndProvider backend={HTML5Backend}>
+      <article
+        {...getRootProps()}
+        onDragEnter={!isDraggingFile ? displayUpload : () => undefined}
+        className={clsx(classes.root, {
+          dragging: !isDraggingFile && dropActive > -1,
         })}
       >
-        <Typography variant="h4" component="p">
-          <Trans>Drop to upload files</Trans>
-        </Typography>
-      </div>
-      <div className={classes.breadCrumbContainer}>
-        {crumbs.length > 0 && (
-          <Breadcrumb
-            crumbs={crumbs}
-            homeOnClick={() => updateCurrentPath("/")}
-            showDropDown={!desktop}
-          />
-        )}
-      </div>
-      <header className={classes.header}>
-        <Typography variant="h1" component="h1">
-          {heading}
-        </Typography>
-        <div className={classes.controls}>
-          {controls && desktop ? (
-            <Fragment>
-              <CreateFolderModule />
-              <UploadFileModule />
-            </Fragment>
-          ) : (
-            controls &&
-            !desktop && (
-              <MenuDropdown
-                classNames={{
-                  icon: classes.dropdownIcon,
-                  options: classes.dropdownOptions,
-                }}
-                autoclose={false}
-                anchor="bottom-right"
-                animation="none"
-                indicator={PlusIcon}
-                menuItems={[
-                  {
-                    contents: (
-                      <CreateFolderModule
-                        variant="primary"
-                        fullsize
-                        classNames={{
-                          button: classes.mobileButton,
-                        }}
-                      />
-                    ),
-                  },
-                  {
-                    contents: (
-                      <UploadFileModule
-                        variant="primary"
-                        fullsize
-                        classNames={{
-                          button: classes.mobileButton,
-                        }}
-                      />
-                    ),
-                  },
-                ]}
-              />
-            )
+        <input {...getInputProps()} />
+        <div
+          className={clsx(classes.dropNotification, {
+            active: !isDraggingFile && dropActive > -1,
+          })}
+        >
+          <Typography variant="h4" component="p">
+            <Trans>Drop to upload files</Trans>
+          </Typography>
+        </div>
+        <div className={classes.breadCrumbContainer}>
+          {crumbs.length > 0 && (
+            <Breadcrumb
+              crumbs={crumbs}
+              homeOnClick={() => updateCurrentPath("/")}
+              showDropDown={!desktop}
+            />
           )}
         </div>
-      </header>
-      <Divider className={classes.divider} />
-      {items.length === 0 ? (
-        <section className={classes.noFiles}>
-          <EmptySvg />
-          <Typography variant="h4" component="h4">
-            <Trans>No files to show</Trans>
+        <header className={classes.header}>
+          <Typography variant="h1" component="h1">
+            {heading}
           </Typography>
-        </section>
-      ) : (
-        <Table
-          fullWidth={true}
-          // dense={true}
-          striped={true}
-          hover={true}
-        >
-          {desktop && (
-            <TableHead>
-              <TableRow
-                onDragEnter={() => {
-                  if (uploadTarget !== currentPath) {
-                    setUploadTarget(currentPath)
-                  }
-                }}
-                type="grid"
-                className={classes.tableRow}
-              >
-                <TableHeadCell>
-                  <CheckboxInput
-                    value={selected.length === items.length}
-                    onChange={() => toggleAll()}
-                  />
-                </TableHeadCell>
-                <TableHeadCell>
-                  {/* 
+          <div className={classes.controls}>
+            {controls && desktop ? (
+              <Fragment>
+                <CreateFolderModule />
+                <UploadFileModule />
+              </Fragment>
+            ) : (
+              controls &&
+              !desktop && (
+                <MenuDropdown
+                  classNames={{
+                    icon: classes.dropdownIcon,
+                    options: classes.dropdownOptions,
+                  }}
+                  autoclose={false}
+                  anchor="bottom-right"
+                  animation="none"
+                  indicator={PlusIcon}
+                  menuItems={[
+                    {
+                      contents: (
+                        <CreateFolderModule
+                          variant="primary"
+                          fullsize
+                          classNames={{
+                            button: classes.mobileButton,
+                          }}
+                        />
+                      ),
+                    },
+                    {
+                      contents: (
+                        <UploadFileModule
+                          variant="primary"
+                          fullsize
+                          classNames={{
+                            button: classes.mobileButton,
+                          }}
+                        />
+                      ),
+                    },
+                  ]}
+                />
+              )
+            )}
+          </div>
+        </header>
+        <Divider className={classes.divider} />
+        {items.length === 0 ? (
+          <section className={classes.noFiles}>
+            <EmptySvg />
+            <Typography variant="h4" component="h4">
+              <Trans>No files to show</Trans>
+            </Typography>
+          </section>
+        ) : (
+          <Table
+            fullWidth={true}
+            // dense={true}
+            striped={true}
+            hover={true}
+          >
+            {desktop && (
+              <TableHead>
+                <TableRow
+                  onDragEnter={() => {
+                    if (uploadTarget !== currentPath) {
+                      setUploadTarget(currentPath)
+                    }
+                  }}
+                  type="grid"
+                  className={classes.tableRow}
+                >
+                  <TableHeadCell>
+                    <CheckboxInput
+                      value={selected.length === items.length}
+                      onChange={() => toggleAll()}
+                    />
+                  </TableHeadCell>
+                  <TableHeadCell>
+                    {/* 
                         Icon
                       */}
-                </TableHeadCell>
-                <TableHeadCell
-                  sortButtons={true}
-                  align="left"
-                  onSortChange={() => handleSortToggle("name")}
-                  sortDirection={column === "name" ? direction : undefined}
-                  sortActive={column === "name"}
-                >
-                  <Trans>Name</Trans>
-                </TableHeadCell>
-                <TableHeadCell
-                  sortButtons={true}
-                  align="left"
-                  onSortChange={() => handleSortToggle("date_uploaded")}
-                  sortDirection={
-                    column === "date_uploaded" ? direction : undefined
-                  }
-                  sortActive={column === "date_uploaded"}
-                >
-                  <Trans>Date uploaded</Trans>
-                </TableHeadCell>
-                <TableHeadCell
-                  sortButtons={true}
-                  align="left"
-                  onSortChange={() => handleSortToggle("size")}
-                  sortDirection={column === "size" ? direction : undefined}
-                  sortActive={column === "size"}
-                >
-                  <Trans>Size</Trans>
-                </TableHeadCell>
-                <TableHeadCell>{/* Menu */}</TableHeadCell>
-              </TableRow>
-            </TableHead>
-          )}
-          <TableBody>
-            {!desktop &&
-              uploadsInProgress
-                .filter(
-                  (uploadInProgress) =>
-                    uploadInProgress.path === currentPath &&
-                    !uploadInProgress.complete &&
-                    !uploadInProgress.error,
-                )
-                .map((uploadInProgress) => (
-                  <TableRow
-                    key={uploadInProgress.id}
-                    className={classes.tableRow}
-                    type="grid"
+                  </TableHeadCell>
+                  <TableHeadCell
+                    sortButtons={true}
+                    align="left"
+                    onSortChange={() => handleSortToggle("name")}
+                    sortDirection={column === "name" ? direction : undefined}
+                    sortActive={column === "name"}
                   >
-                    <TableCell className={classes.progressIcon}>
-                      <CircularProgressBar
-                        progress={uploadInProgress.progress}
-                        size="small"
-                        width={15}
-                      />
-                    </TableCell>
-                    <TableCell align="left">
-                      {uploadInProgress.noOfFiles > 1
-                        ? `Uploading ${uploadInProgress.noOfFiles} files`
-                        : uploadInProgress.fileName}
-                    </TableCell>
-                    <TableCell />
-                  </TableRow>
-                ))}
-            {items.map((file: IFile, index: number) => (
-              <FileOrFolderView
-                index={index}
-                file={file}
-                files={files}
-                uploadTarget={uploadTarget}
-                currentPath={currentPath}
-                dropActive={dropActive}
-                setUploadTarget={setUploadTarget}
-                updateCurrentPath={updateCurrentPath}
-                selected={selected}
-                handleSelect={handleSelect}
-                editing={editing}
-                setEditing={setEditing}
-                RenameSchema={RenameSchema}
-                handleRename={handleRename}
-                deleteFile={deleteFile}
-                downloadFile={downloadFile}
-                setPreviewFileIndex={setPreviewFileIndex}
-                desktop={desktop}
-              />
-            ))}
-          </TableBody>
-        </Table>
-      )}
-      {files && previewFileIndex !== undefined && (
-        <FilePreviewModal
-          file={files[previewFileIndex]}
-          closePreview={clearPreview}
-          nextFile={
-            previewFileIndex < files.length - 1 ? setNextPreview : undefined
-          }
-          previousFile={previewFileIndex > 0 ? setPreviousPreview : undefined}
-        />
-      )}
-      <UploadProgressModals />
-    </article>
+                    <Trans>Name</Trans>
+                  </TableHeadCell>
+                  <TableHeadCell
+                    sortButtons={true}
+                    align="left"
+                    onSortChange={() => handleSortToggle("date_uploaded")}
+                    sortDirection={
+                      column === "date_uploaded" ? direction : undefined
+                    }
+                    sortActive={column === "date_uploaded"}
+                  >
+                    <Trans>Date uploaded</Trans>
+                  </TableHeadCell>
+                  <TableHeadCell
+                    sortButtons={true}
+                    align="left"
+                    onSortChange={() => handleSortToggle("size")}
+                    sortDirection={column === "size" ? direction : undefined}
+                    sortActive={column === "size"}
+                  >
+                    <Trans>Size</Trans>
+                  </TableHeadCell>
+                  <TableHeadCell>{/* Menu */}</TableHeadCell>
+                </TableRow>
+              </TableHead>
+            )}
+            <TableBody>
+              {!desktop &&
+                uploadsInProgress
+                  .filter(
+                    (uploadInProgress) =>
+                      uploadInProgress.path === currentPath &&
+                      !uploadInProgress.complete &&
+                      !uploadInProgress.error,
+                  )
+                  .map((uploadInProgress) => (
+                    <TableRow
+                      key={uploadInProgress.id}
+                      className={classes.tableRow}
+                      type="grid"
+                    >
+                      <TableCell className={classes.progressIcon}>
+                        <CircularProgressBar
+                          progress={uploadInProgress.progress}
+                          size="small"
+                          width={15}
+                        />
+                      </TableCell>
+                      <TableCell align="left">
+                        {uploadInProgress.noOfFiles > 1
+                          ? `Uploading ${uploadInProgress.noOfFiles} files`
+                          : uploadInProgress.fileName}
+                      </TableCell>
+                      <TableCell />
+                    </TableRow>
+                  ))}
+              {items.map((file: IFile, index: number) => (
+                <FileOrFolderView
+                  key={index}
+                  index={index}
+                  file={file}
+                  files={files}
+                  uploadTarget={uploadTarget}
+                  currentPath={currentPath}
+                  dropActive={dropActive}
+                  setIsDraggingFile={setIsDraggingFile}
+                  setUploadTarget={setUploadTarget}
+                  updateCurrentPath={updateCurrentPath}
+                  selected={selected}
+                  handleSelect={handleSelect}
+                  editing={editing}
+                  setEditing={setEditing}
+                  RenameSchema={RenameSchema}
+                  handleRename={handleRename}
+                  handleMove={handleMove}
+                  deleteFile={deleteFile}
+                  downloadFile={downloadFile}
+                  setPreviewFileIndex={setPreviewFileIndex}
+                  desktop={desktop}
+                />
+              ))}
+            </TableBody>
+          </Table>
+        )}
+        {files && previewFileIndex !== undefined && (
+          <FilePreviewModal
+            file={files[previewFileIndex]}
+            closePreview={clearPreview}
+            nextFile={
+              previewFileIndex < files.length - 1 ? setNextPreview : undefined
+            }
+            previousFile={previewFileIndex > 0 ? setPreviousPreview : undefined}
+          />
+        )}
+        <UploadProgressModals />
+      </article>
+    </DndProvider>
   )
 }
 

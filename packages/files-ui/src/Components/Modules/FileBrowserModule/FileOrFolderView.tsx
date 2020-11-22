@@ -16,97 +16,99 @@ import {
   FilePdfSvg,
   FileTextSvg,
   FolderSvg,
-} from "@imploy/common-components"
-import { makeStyles, ITheme, createStyles } from "@imploy/common-themes"
+} from "@chainsafe/common-components"
+import { makeStyles, ITheme, createStyles } from "@chainsafe/common-theme"
 import clsx from "clsx"
 import { Formik, Form } from "formik"
 import React, { Fragment } from "react"
 import { IFile } from "../../../Contexts/DriveContext"
 import CustomModal from "../../Elements/CustomModal"
 import { Trans } from "@lingui/macro"
+import { useDrag, useDrop } from "react-dnd"
+import { DragTypes } from "./DragConstants"
 
-const useStyles = makeStyles(
-  ({ animation, breakpoints, constants, palette, zIndex }: ITheme) => {
-    const desktopGridSettings = "50px 69px 3fr 190px 100px 45px !important"
-    const mobileGridSettings = "69px 3fr 45px !important"
-    return createStyles({
-      tableRow: {
-        border: `2px solid transparent`,
-        transitionDuration: `${animation.transform}ms`,
-        [breakpoints.up("md")]: {
-          gridTemplateColumns: desktopGridSettings,
-        },
-        [breakpoints.down("md")]: {
-          gridTemplateColumns: mobileGridSettings,
-        },
+const useStyles = makeStyles(({ breakpoints, constants, palette }: ITheme) => {
+  const desktopGridSettings = "50px 69px 3fr 190px 100px 45px !important"
+  const mobileGridSettings = "69px 3fr 45px !important"
+  return createStyles({
+    tableRow: {
+      border: `2px solid transparent`,
+      [breakpoints.up("md")]: {
+        gridTemplateColumns: desktopGridSettings,
       },
-      fileIcon: {
-        display: "flex",
-        flexDirection: "row",
-        alignItems: "center",
-        justifyContent: "center",
-        "& svg": {
-          width: constants.generalUnit * 2.5,
-        },
+      [breakpoints.down("md")]: {
+        gridTemplateColumns: mobileGridSettings,
       },
-      renameInput: {
+      "&.droppable": {
+        border: `2px solid ${palette.additional["geekblue"][6]}`,
+      },
+    },
+    fileIcon: {
+      display: "flex",
+      flexDirection: "row",
+      alignItems: "center",
+      justifyContent: "center",
+      "& svg": {
+        width: constants.generalUnit * 2.5,
+      },
+    },
+    renameInput: {
+      width: "100%",
+      [breakpoints.up("md")]: {
+        margin: 0,
+      },
+      [breakpoints.down("md")]: {
+        margin: `${constants.generalUnit * 4.2}px 0`,
+      },
+    },
+    modalRoot: {
+      [breakpoints.down("md")]: {},
+    },
+    modalInner: {
+      [breakpoints.down("md")]: {
+        bottom:
+          (constants?.mobileButtonHeight as number) + constants.generalUnit,
+        borderTopLeftRadius: `${constants.generalUnit * 1.5}px`,
+        borderTopRightRadius: `${constants.generalUnit * 1.5}px`,
+        borderBottomLeftRadius: `${constants.generalUnit * 1.5}px`,
+        borderBottomRightRadius: `${constants.generalUnit * 1.5}px`,
+      },
+    },
+    renameHeader: {
+      textAlign: "center",
+    },
+    renameFooter: {
+      display: "flex",
+      flexDirection: "row",
+      alignItems: "center",
+      justifyContent: "flex-end",
+    },
+    renameModal: {
+      padding: constants.generalUnit * 4,
+    },
+    okButton: {
+      marginLeft: constants.generalUnit,
+      color: palette.common.white.main,
+      backgroundColor: palette.common.black.main,
+    },
+    cancelButton: {
+      [breakpoints.down("md")]: {
+        position: "fixed",
+        bottom: 0,
+        left: 0,
         width: "100%",
-        [breakpoints.up("md")]: {
-          margin: 0,
-        },
-        [breakpoints.down("md")]: {
-          margin: `${constants.generalUnit * 4.2}px 0`,
-        },
+        height: constants?.mobileButtonHeight,
       },
-      modalRoot: {
-        [breakpoints.down("md")]: {},
-      },
-      modalInner: {
-        [breakpoints.down("md")]: {
-          bottom:
-            (constants?.mobileButtonHeight as number) + constants.generalUnit,
-          borderTopLeftRadius: `${constants.generalUnit * 1.5}px`,
-          borderTopRightRadius: `${constants.generalUnit * 1.5}px`,
-          borderBottomLeftRadius: `${constants.generalUnit * 1.5}px`,
-          borderBottomRightRadius: `${constants.generalUnit * 1.5}px`,
-        },
-      },
-      renameHeader: {
-        textAlign: "center",
-      },
-      renameFooter: {
-        display: "flex",
-        flexDirection: "row",
-        alignItems: "center",
-        justifyContent: "flex-end",
-      },
-      renameModal: {
-        padding: constants.generalUnit * 4,
-      },
-      okButton: {
-        marginLeft: constants.generalUnit,
-        color: palette.common.white.main,
-        backgroundColor: palette.common.black.main,
-      },
-      cancelButton: {
-        [breakpoints.down("md")]: {
-          position: "fixed",
-          bottom: 0,
-          left: 0,
-          width: "100%",
-          height: constants?.mobileButtonHeight,
-        },
-      },
-      menuIcon: {
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        width: 20,
-        marginRight: constants.generalUnit * 1.5,
-      },
-    })
-  },
-)
+    },
+    menuIcon: {
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      width: 20,
+      marginRight: constants.generalUnit * 1.5,
+    },
+  })
+})
 
 interface IFileOrFolderProps {
   index: number
@@ -115,16 +117,18 @@ interface IFileOrFolderProps {
   uploadTarget: string
   currentPath: string
   dropActive: number
+  setIsDraggingFile(isDragging: boolean): void
   setUploadTarget(path: string): void
   updateCurrentPath(path: string): void
   selected: string[]
   handleSelect(selected: string): void
   editing: string | undefined
   setEditing(editing: string | undefined): void
-  handleRename(path: string, newPath: string): void
   RenameSchema: any
-  deleteFile(cid: string): void
-  downloadFile(name: string): void
+  handleRename(path: string, newPath: string): Promise<void>
+  handleMove(path: string, newPath: string): Promise<void>
+  deleteFile(cid: string): Promise<void>
+  downloadFile(name: string): Promise<void>
   setPreviewFileIndex(fileIndex: number | undefined): void
   desktop: boolean
 }
@@ -136,6 +140,7 @@ const FileOrFolderView: React.FC<IFileOrFolderProps> = ({
   uploadTarget,
   currentPath,
   dropActive,
+  setIsDraggingFile,
   setUploadTarget,
   updateCurrentPath,
   selected,
@@ -144,6 +149,7 @@ const FileOrFolderView: React.FC<IFileOrFolderProps> = ({
   setEditing,
   RenameSchema,
   handleRename,
+  handleMove,
   deleteFile,
   downloadFile,
   setPreviewFileIndex,
@@ -162,10 +168,43 @@ const FileOrFolderView: React.FC<IFileOrFolderProps> = ({
 
   const classes = useStyles()
 
+  const [, drag] = useDrag({
+    item: { type: DragTypes.UPLOADED_FILE, payload: file },
+    begin: () => {
+      setIsDraggingFile(true)
+    },
+    end: () => {
+      setIsDraggingFile(false)
+    },
+  })
+
+  const [{ isOver }, drop] = useDrop({
+    accept: DragTypes.UPLOADED_FILE,
+    canDrop: () => file.isFolder,
+    drop: async (item: {
+      type: typeof DragTypes.UPLOADED_FILE
+      payload: IFile
+    }) => {
+      await handleMove(
+        `${currentPath}${item.payload.name}`,
+        `${currentPath}${file.name}/${item.payload.name}`,
+      )
+    },
+    collect: (monitor) => ({
+      isOver: monitor.isOver(),
+    }),
+  })
+
+  function attachRef(el: any) {
+    drag(el)
+    drop(el)
+  }
+
   return (
     <TableRow
       key={`files-${index}`}
       className={clsx(classes.tableRow, {
+        droppable: file.isFolder && isOver,
         folder: file.isFolder,
         hovered: uploadTarget === `${currentPath}${file.name}`,
       })}
@@ -174,6 +213,7 @@ const FileOrFolderView: React.FC<IFileOrFolderProps> = ({
       onDragEnter={() => {
         if (file.isFolder && dropActive > -1) {
           if (uploadTarget !== `${currentPath}${file.name}`) {
+            console.log("target", file.name)
             setUploadTarget(`${currentPath}${file.name}`)
           }
         } else {
@@ -182,6 +222,7 @@ const FileOrFolderView: React.FC<IFileOrFolderProps> = ({
           }
         }
       }}
+      ref={attachRef}
       selected={selected.includes(file.cid)}
     >
       {desktop && (

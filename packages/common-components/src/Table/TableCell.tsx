@@ -31,27 +31,34 @@ export interface ITableCellProps {
   align?: AlignOption
   onClick?: () => void
 }
+const TableCell = React.forwardRef(
+  (
+    {
+      children,
+      className,
+      onClick,
+      align = "center",
+      ...rest
+    }: ITableCellProps,
+    forwardedRef: any,
+  ) => {
+    const classes = useStyles()
 
-const TableCell: React.FC<ITableCellProps> = ({
-  children,
-  className,
-  onClick,
-  align = "center",
-}: ITableCellProps) => {
-  const classes = useStyles()
-
-  return (
-    <td
-      onClick={() => (onClick ? onClick() : null)}
-      className={clsx(
-        className,
-        classes.root,
-        classes[`align${capitalize(align)}`],
-      )}
-    >
-      {children}
-    </td>
-  )
-}
+    return (
+      <td
+        onClick={() => (onClick ? onClick() : null)}
+        className={clsx(
+          className,
+          classes.root,
+          classes[`align${capitalize(align)}`],
+        )}
+        ref={forwardedRef}
+        {...rest}
+      >
+        {children}
+      </td>
+    )
+  },
+)
 
 export default TableCell
