@@ -259,6 +259,7 @@ const FileOrFolderView: React.FC<IFileOrFolderProps> = ({
                 `${currentPath}${file.name}`,
                 `${currentPath}${values.fileName}`,
               )
+              setEditing(undefined)
             }}
           >
             <Form>
@@ -291,6 +292,7 @@ const FileOrFolderView: React.FC<IFileOrFolderProps> = ({
                   `${currentPath}${file.name}`,
                   `${currentPath}${values.fileName}`,
                 )
+                setEditing(undefined)
               }}
             >
               <Form className={classes.renameModal}>
