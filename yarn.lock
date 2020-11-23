@@ -1665,6 +1665,11 @@
   resolved "https://registry.yarnpkg.com/@chainsafe/web3-context/-/web3-context-1.1.0.tgz#a62fba79b7a9eed3c59382c032e53800012a7a17"
   integrity sha512-EAxB4WvdOK7LQDb1pvvhuLAq5tMIxuZ0siAHeW9FHfGfheNbepHMiiop2YKwTo5pu4R5Fdx7TaDBjJIPUd0aBw==
 
+"@chainsafe/web3-context@1.1.1":
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/@chainsafe/web3-context/-/web3-context-1.1.1.tgz#f7860c80c4aa928b4346ee8cd4467d113e96ec59"
+  integrity sha512-AtgOsVkalSOh6uAg4SfyTg6eJOb/MwFxpf7NSUb0Wst0Yk02fz3L2mpZZQdFhJSTS4DWT13XEam5uXfXF5HfrQ==
+
 "@chaitanyapotti/random-id@^1.0.3":
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/@chaitanyapotti/random-id/-/random-id-1.0.3.tgz#f52f647cfe9f79fc7723ea2b01b0ad3889204002"

@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import {
   makeStyles,
   ITheme,
@@ -17,6 +17,8 @@ import {
 } from "@imploy/common-components"
 import { ROUTE_LINKS } from "../../../../FilesRoutes"
 import { Trans } from "@lingui/macro"
+import { useImployApi } from "@imploy/common-contexts"
+import { useWeb3 } from "@chainsafe/web3-context"
 
 const useStyles = makeStyles((theme: ITheme) =>
   createStyles({
@@ -64,6 +66,9 @@ const CryptoPaymentModule: React.FC = () => {
   const { breakpoints }: ITheme = useTheme()
   const desktop = useMediaQuery(breakpoints.up("md"))
 
+  const { selectWallet, resetAndSelectWallet } = useImployApi()
+  const { provider, wallet } = useWeb3()
+
   const { plan } = useParams<{
     plan: string
   }>()
@@ -71,6 +76,13 @@ const CryptoPaymentModule: React.FC = () => {
   const [billingPeriod, setBillingPeriod] = useState<BILLING_PERIOD>(
     BILLING_PERIOD.Yearly,
   )
+
+  useEffect(() => {
+    console.log("selectWallet", selectWallet)
+    console.log("resetAndSelectWallet", resetAndSelectWallet)
+    console.log("wallet", wallet)
+    console.log("provider", provider)
+  }, [wallet, provider, resetAndSelectWallet, selectWallet])
 
   return (
     <article className={classes.root}>
@@ -223,7 +235,16 @@ const CryptoPaymentModule: React.FC = () => {
               <Button variant="primary">Use Code</Button>
             </div>
           </div>
-          <Button variant="primary">Yes, connect crypto wallet</Button>
+          {!wallet ? (
+            <Button onClick={() => selectWallet()} variant="primary">
+              Yes, connect crypto wallet
+            </Button>
+          ) : (
+            <Button onClick={() => selectWallet()} variant="primary">
+              Pay with Dai
+            </Button>
+          )}
+
           <Button variant="outline">No, go back</Button>
         </div>
       </section>
