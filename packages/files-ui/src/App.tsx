@@ -19,6 +19,7 @@ import { lightTheme } from "./Themes/LightTheme"
 import { darkTheme } from "./Themes/DarkTheme"
 import { useHotjar } from "react-use-hotjar"
 import { LanguageProvider } from "./Contexts/LanguageContext"
+import { ITokenConfig, TokensToWatch } from "./Utils/Tokens"
 
 if (
   process.env.NODE_ENV === "production" &&
@@ -70,6 +71,13 @@ const App: React.FC<{}> = () => {
           <ToasterProvider autoDismiss>
             <Web3Provider
               networkIds={[1]}
+              tokensToWatch={{
+                1: [
+                  ...TokensToWatch.filter(
+                    (item: ITokenConfig) => item.network === 1,
+                  ),
+                ],
+              }}
               onboardConfig={{
                 walletSelect: {
                   wallets: [

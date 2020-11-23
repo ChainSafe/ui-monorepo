@@ -17,13 +17,12 @@ export const ROUTE_LINKS = {
   Terms: "",
   Home: "/home",
   Settings: (tab?: TabKey) => `/settings/${tab ? tab : TabKey.Profile}`,
-  ChoosePlan: "/settings/choose-plan/",
-  PlanSelected: (planOption: PLAN_OPTION) =>
-    `/settings/choose-plan/${planOption}`,
+  ChoosePlan: "/choose-plan/",
+  PlanSelected: (planOption: PLAN_OPTION) => `/choose-plan/${planOption}`,
   CardPayment: (planOption: PLAN_OPTION) =>
-    `/settings/choose-plan/${planOption}/card-payment`,
+    `/choose-plan/${planOption}/card-payment`,
   CryptoPayment: (planOption: PLAN_OPTION) =>
-    `/settings/choose-plan/${planOption}/crypto-payment`,
+    `/choose-plan/${planOption}/crypto-payment`,
 
   OAuthCallback: "/oauth2/callback/:provider",
 }

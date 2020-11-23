@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { useCallback, useEffect, useState } from "react"
 import {
   makeStyles,
   ITheme,
@@ -19,6 +19,8 @@ import { ROUTE_LINKS } from "../../../../FilesRoutes"
 import { Trans } from "@lingui/macro"
 import { useImployApi } from "@imploy/common-contexts"
 import { useWeb3 } from "@chainsafe/web3-context"
+import { TokenInfo } from "@chainsafe/web3-context/dist/context/tokensReducer"
+import { parseUnits } from "ethers/lib/utils"
 
 const useStyles = makeStyles((theme: ITheme) =>
   createStyles({
@@ -61,13 +63,16 @@ enum BILLING_PERIOD {
   Monthly = "monthly",
 }
 
+const RECIPIENT_ADDRESS = "0xE04e767a39E5B6D9a1BC79ba720707b91502443B"
+const COST = 1
+
 const CryptoPaymentModule: React.FC = () => {
   const classes = useStyles()
   const { breakpoints }: ITheme = useTheme()
   const desktop = useMediaQuery(breakpoints.up("md"))
 
-  const { selectWallet, resetAndSelectWallet } = useImployApi()
-  const { provider, wallet } = useWeb3()
+  const { selectWallet } = useImployApi()
+  const { wallet, tokens } = useWeb3()
 
   const { plan } = useParams<{
     plan: string
@@ -77,12 +82,28 @@ const CryptoPaymentModule: React.FC = () => {
     BILLING_PERIOD.Yearly,
   )
 
+  const [connected, setConnected] = useState(false)
+  const [targetToken, setTargetToken] = useState<TokenInfo | undefined>()
   useEffect(() => {
-    console.log("selectWallet", selectWallet)
-    console.log("resetAndSelectWallet", resetAndSelectWallet)
-    console.log("wallet", wallet)
-    console.log("provider", provider)
-  }, [wallet, provider, resetAndSelectWallet, selectWallet])
+    if (wallet && Object.keys(tokens).length > 0) {
+      setConnected(true)
+      const newTarget = Object.keys(tokens).find(
+        (key) => tokens[key].symbol === "DAI",
+      )
+      if (newTarget) {
+        setTargetToken(tokens[newTarget])
+      }
+    } else if (connected) {
+      setConnected(false)
+      setTargetToken(undefined)
+    }
+  }, [wallet, tokens, connected])
+
+  const transferTokens = useCallback(() => {
+    if (targetToken && targetToken.transfer) {
+      targetToken.transfer(RECIPIENT_ADDRESS, parseUnits(`${COST}`, 18))
+    }
+  }, [targetToken])
 
   return (
     <article className={classes.root}>
@@ -146,11 +167,11 @@ const CryptoPaymentModule: React.FC = () => {
             <Trans>
               If you need help plan changes, check out this <a href="#">page</a>
               , or contact{" "}
-              <a href="mailto:support@chainsafefiles.io">
-                support@chainsafefiles.io
-              </a>
-              .
             </Trans>
+            <a href="mailto:support@chainsafefiles.io">
+              support@chainsafefiles.io
+            </a>
+            .
           </Typography>
         </div>
         <div className={classes.quote}>
@@ -175,19 +196,25 @@ const CryptoPaymentModule: React.FC = () => {
                 )
               }
             >
-              <Trans>
-                Change to{" "}
-                {billingPeriod == BILLING_PERIOD.Yearly
-                  ? BILLING_PERIOD.Monthly
-                  : BILLING_PERIOD.Yearly}
-              </Trans>
+              {billingPeriod === BILLING_PERIOD.Yearly ? (
+                <>
+                  <Trans>Change to </Trans>
+                  {BILLING_PERIOD.Monthly}
+                </>
+              ) : (
+                <>
+                  <Trans>Change to </Trans>
+                  {BILLING_PERIOD.Yearly}
+                </>
+              )}
             </Typography>
           </div>
           <Typography variant="h5" component="p">
-            <Trans>
-              Billed{" "}
-              {billingPeriod == BILLING_PERIOD.Yearly ? "Yearly" : "Monthly"}
-            </Trans>
+            {billingPeriod === BILLING_PERIOD.Yearly ? (
+              <Trans>Billed Yearly</Trans>
+            ) : (
+              <Trans>Billed Monthly</Trans>
+            )}
           </Typography>
           <div className={classes.prices}>
             <Typography
@@ -208,11 +235,11 @@ const CryptoPaymentModule: React.FC = () => {
                 variant="h5"
                 component="span"
               >
-                <Trans>
-                  {billingPeriod == BILLING_PERIOD.Yearly
-                    ? "per year"
-                    : "per month"}
-                </Trans>
+                {billingPeriod === BILLING_PERIOD.Yearly ? (
+                  <Trans>per year</Trans>
+                ) : (
+                  <Trans>per month</Trans>
+                )}
               </Typography>
             </Typography>
           </div>
@@ -220,7 +247,7 @@ const CryptoPaymentModule: React.FC = () => {
             <Trans>Billing account</Trans>
           </Typography>
           <Typography variant="h5" component="p">
-            <Trans>tanmoy@chainsafe.io</Trans>
+            tanmoy@chainsafe.io
           </Typography>
           <div className={classes.promoCode}>
             <Typography variant="h5" component="p">
@@ -232,20 +259,25 @@ const CryptoPaymentModule: React.FC = () => {
                   console.log(value)
                 }
               />
-              <Button variant="primary">Use Code</Button>
+              <Button variant="primary">
+                <Trans>Use Code</Trans>
+              </Button>
             </div>
           </div>
-          {!wallet ? (
+          {!connected ? (
             <Button onClick={() => selectWallet()} variant="primary">
-              Yes, connect crypto wallet
+              <Trans>Yes, connect crypto wallet</Trans>
+            </Button>
+          ) : targetToken && targetToken?.balance >= COST ? (
+            <Button onClick={() => transferTokens()} variant="primary">
+              <Trans>Pay with Dai</Trans>
             </Button>
           ) : (
-            <Button onClick={() => selectWallet()} variant="primary">
-              Pay with Dai
-            </Button>
+            <Typography>Balance insufficent</Typography>
           )}
-
-          <Button variant="outline">No, go back</Button>
+          <Button variant="outline">
+            <Trans>No, go back</Trans>
+          </Button>
         </div>
       </section>
     </article>
