@@ -21,40 +21,152 @@ import { useImployApi } from "@imploy/common-contexts"
 import { useWeb3 } from "@chainsafe/web3-context"
 import { TokenInfo } from "@chainsafe/web3-context/dist/context/tokensReducer"
 import { parseUnits } from "ethers/lib/utils"
+import ZigZagSvg from "../../../../../Media/ZigZag.svg"
 
-const useStyles = makeStyles((theme: ITheme) =>
+const useStyles = makeStyles(({ constants, breakpoints, palette }: ITheme) =>
   createStyles({
     root: {
       padding: 0,
-      marginBottom: theme.constants.generalUnit * 6,
-      [theme.breakpoints.down("md")]: {
-        marginTop: theme.constants.generalUnit * 2,
-        padding: `0 ${theme.constants.generalUnit}px`,
+      marginBottom: constants.generalUnit * 6,
+      [breakpoints.down("md")]: {
+        marginTop: constants.generalUnit * 2,
+        padding: `0 ${constants.generalUnit}px`,
       },
     },
     header: {
-      marginBottom: theme.constants.generalUnit * 6,
-      [theme.breakpoints.down("md")]: {
-        marginBottom: theme.constants.generalUnit * 2,
+      marginBottom: constants.generalUnit * 6,
+      [breakpoints.down("md")]: {
+        marginBottom: constants.generalUnit * 2,
       },
     },
     heading: {
-      marginBottom: theme.constants.generalUnit * 4,
-      [theme.breakpoints.down("md")]: {
-        marginBottom: theme.constants.generalUnit * 2,
+      marginBottom: constants.generalUnit * 4,
+      [breakpoints.down("md")]: {
+        marginBottom: constants.generalUnit * 2,
       },
     },
     backIcon: {
       fontSize: "10px",
-      marginRight: theme.constants.generalUnit,
+      marginRight: constants.generalUnit,
     },
-    orderSummary: {},
-    orderMeta: {},
-    quote: {},
-    prices: {},
-    previousPrice: {},
-    currentPrice: {},
-    promoCode: {},
+    orderSummary: {
+      [breakpoints.up("md")]: {
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "space-between",
+      },
+      "& > *": {
+        [breakpoints.up("md")]: {
+          width: "50%",
+        },
+      },
+    },
+    orderMeta: {
+      padding: `0 ${constants.generalUnit * 6.75}px`,
+      "& h1": {
+        marginBottom: constants.generalUnit * 2,
+      },
+      "& h2": {
+        marginBottom: constants.generalUnit,
+      },
+    },
+    metaDivider: {
+      margin: `${constants.generalUnit * 3}px 0`,
+    },
+    metaTopHeader: {
+      marginTop: constants.generalUnit * 2.125,
+      marginBottom: constants.generalUnit,
+    },
+    metaDetails: {
+      fontWeight: 400,
+    },
+    quote: {
+      padding: constants.generalUnit * 6.75,
+      borderTop: `1px solid ${palette.additional["gray"][8]}`,
+      borderLeft: `1px solid ${palette.additional["gray"][8]}`,
+      borderRight: `1px solid ${palette.additional["gray"][8]}`,
+      position: "relative",
+    },
+    quoteBorder: {
+      position: "absolute",
+      bottom: 0,
+      left: 0,
+      width: "100%",
+    },
+    quoteHeading: {
+      marginBottom: constants.generalUnit,
+    },
+    quoteSubscription: {
+      marginBottom: constants.generalUnit * 4.125,
+    },
+    quoteBillingDetails: {
+      marginTop: constants.generalUnit * 4.125,
+      marginBottom: constants.generalUnit * 1.5,
+      display: "flex",
+      flexDirection: "row",
+      justifyContent: "space-between",
+      alignItems: "center",
+      "& > *": {
+        "&:first-child": {
+          fontWeight: 600,
+        },
+        "&:last-child": {
+          color: palette.additional["gray"][8],
+          textDecoration: "underline",
+          cursor: "pointer",
+        },
+      },
+    },
+    quoteOrderPeriod: {
+      fontWeight: 400,
+    },
+    prices: {
+      position: "relative",
+      marginTop: constants.generalUnit * 0.5,
+      paddingTop: constants.generalUnit * 3.375,
+      paddingBottom: constants.generalUnit * 3.875,
+    },
+    previousPrice: {
+      position: "absolute",
+      top: 0,
+      left: 0,
+      color: palette.additional["gray"][7],
+      textDecoration: "line-through",
+    },
+    currentPrice: {
+      display: "flex",
+      flexDirection: "row",
+      justifyContent: "flex-start",
+      alignItems: "center",
+      "& > *:first-child": {
+        color: palette.additional["gray"][8],
+      },
+      "& span": {
+        marginLeft: constants.generalUnit * 1.5,
+      },
+    },
+    quoteBillingAccount: {
+      marginBottom: constants.generalUnit,
+    },
+    quoteEmail: {
+      fontWeight: 400,
+      marginBottom: constants.generalUnit * 3.5,
+    },
+    promoCode: {
+      marginBottom: constants.generalUnit * 3.125,
+      "& > section": {
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "space-between",
+      },
+    },
+    promoInput: {
+      marginLeft: 0,
+    },
+    button: {
+      marginTop: constants.generalUnit * 1.5,
+    },
   }),
 )
 
@@ -137,37 +249,53 @@ const CryptoPaymentModule: React.FC = () => {
           <Typography variant="h2" component="h2">
             <Trans>Is this correct?</Trans>
           </Typography>
-          <Divider />
+          <Divider className={classes.metaDivider} />
           <Typography variant="h2" component="h2">
             <Trans>By the way,</Trans>
           </Typography>
-          <Typography variant="h5" component="p">
+          <Typography
+            className={classes.metaTopHeader}
+            variant="h5"
+            component="p"
+          >
             <Trans>It’s between you and Files</Trans>
           </Typography>
-          <Typography variant="h5" component="p">
+          <Typography
+            className={classes.metaDetails}
+            variant="h5"
+            component="p"
+          >
             <Trans>
               All plans use the same end-to-end encryption algorithms.
             </Trans>
           </Typography>
-          <Typography variant="h5" component="p">
+          <Typography
+            className={classes.metaTopHeader}
+            variant="h5"
+            component="p"
+          >
             <Trans>Only if you need it</Trans>
           </Typography>
-          <Typography>
+          <Typography className={classes.metaDetails} variant="h5">
             <Trans>
-              You can add <a href="#">other apps</a> to your Files plan for a
+              You can <a href="#">add other apps</a> to your Files plan for a
               seamless, private digital workspace. So you only pay for the
               features you want.
             </Trans>
           </Typography>
-          <Divider />
-          <Typography variant="h5" component="p">
+          <Divider className={classes.metaDivider} />
+          <Typography
+            className={classes.metaTopHeader}
+            variant="h5"
+            component="p"
+          >
             <Trans>Support</Trans>
           </Typography>
-          <Typography>
+          <Typography className={classes.metaDetails} variant="h5">
             <Trans>
               If you need help plan changes, check out this <a href="#">page</a>
-              , or contact{" "}
-            </Trans>
+              , or contact
+            </Trans>{" "}
             <a href="mailto:support@chainsafefiles.io">
               support@chainsafefiles.io
             </a>
@@ -175,13 +303,22 @@ const CryptoPaymentModule: React.FC = () => {
           </Typography>
         </div>
         <div className={classes.quote}>
-          <Typography variant="h4" component="p">
+          {/* <ZigZagSvg className={classes.quoteBorder} /> */}
+          <Typography
+            className={classes.quoteHeading}
+            variant="h4"
+            component="p"
+          >
             <Trans>Subscription Type</Trans>
           </Typography>
-          <Typography variant="h5" component="p">
+          <Typography
+            className={classes.quoteSubscription}
+            variant="h5"
+            component="p"
+          >
             <Trans>Files Plus Subscription - Individual</Trans>
           </Typography>
-          <div>
+          <div className={classes.quoteBillingDetails}>
             <Typography variant="h5" component="p">
               <Trans>Billing Details</Trans>
             </Typography>
@@ -190,7 +327,7 @@ const CryptoPaymentModule: React.FC = () => {
               component="p"
               onClick={() =>
                 setBillingPeriod(
-                  BILLING_PERIOD.Yearly
+                  billingPeriod === BILLING_PERIOD.Yearly
                     ? BILLING_PERIOD.Monthly
                     : BILLING_PERIOD.Yearly,
                 )
@@ -198,18 +335,22 @@ const CryptoPaymentModule: React.FC = () => {
             >
               {billingPeriod === BILLING_PERIOD.Yearly ? (
                 <>
-                  <Trans>Change to </Trans>
-                  {BILLING_PERIOD.Monthly}
+                  <Trans>Change to</Trans>
+                  {` ${BILLING_PERIOD.Monthly}`}
                 </>
               ) : (
                 <>
-                  <Trans>Change to </Trans>
-                  {BILLING_PERIOD.Yearly}
+                  <Trans>Change to</Trans>
+                  {` ${BILLING_PERIOD.Yearly}`}
                 </>
               )}
             </Typography>
           </div>
-          <Typography variant="h5" component="p">
+          <Typography
+            className={classes.quoteOrderPeriod}
+            variant="h5"
+            component="p"
+          >
             {billingPeriod === BILLING_PERIOD.Yearly ? (
               <Trans>Billed Yearly</Trans>
             ) : (
@@ -226,15 +367,11 @@ const CryptoPaymentModule: React.FC = () => {
             </Typography>
             <Typography
               className={classes.currentPrice}
-              variant="h5"
+              variant="h2"
               component="p"
             >
               <Trans>USD $83.88</Trans>
-              <Typography
-                className={classes.previousPrice}
-                variant="h5"
-                component="span"
-              >
+              <Typography variant="h5" component="span">
                 {billingPeriod === BILLING_PERIOD.Yearly ? (
                   <Trans>per year</Trans>
                 ) : (
@@ -243,18 +380,23 @@ const CryptoPaymentModule: React.FC = () => {
               </Typography>
             </Typography>
           </div>
-          <Typography variant="h5" component="p">
+          <Typography
+            className={classes.quoteBillingAccount}
+            variant="h4"
+            component="p"
+          >
             <Trans>Billing account</Trans>
           </Typography>
-          <Typography variant="h5" component="p">
+          <Typography className={classes.quoteEmail} variant="h5" component="p">
             tanmoy@chainsafe.io
           </Typography>
           <div className={classes.promoCode}>
             <Typography variant="h5" component="p">
               <Trans>Promo Code</Trans>
             </Typography>
-            <div>
+            <section>
               <TextInput
+                className={classes.promoInput}
                 onChange={(value: string | number | undefined) =>
                   console.log(value)
                 }
@@ -262,20 +404,20 @@ const CryptoPaymentModule: React.FC = () => {
               <Button variant="primary">
                 <Trans>Use Code</Trans>
               </Button>
-            </div>
+            </section>
           </div>
           {!connected ? (
-            <Button onClick={() => selectWallet()} variant="primary">
+            <Button fullsize onClick={() => selectWallet()} variant="primary">
               <Trans>Yes, connect crypto wallet</Trans>
             </Button>
           ) : targetToken && targetToken?.balance >= COST ? (
-            <Button onClick={() => transferTokens()} variant="primary">
+            <Button fullsize onClick={() => transferTokens()} variant="primary">
               <Trans>Pay with Dai</Trans>
             </Button>
           ) : (
             <Typography>Balance insufficent</Typography>
           )}
-          <Button variant="outline">
+          <Button className={classes.button} fullsize variant="outline">
             <Trans>No, go back</Trans>
           </Button>
         </div>
