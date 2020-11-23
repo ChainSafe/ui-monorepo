@@ -89,9 +89,11 @@ const useStyles = makeStyles(({ constants, breakpoints, palette }: ITheme) =>
     },
     quoteBorder: {
       position: "absolute",
-      bottom: 0,
-      left: 0,
-      width: "100%",
+      bottom: -1,
+      left: "50%",
+      width: "calc(100% + 4px)",
+      transform: "translateX(-50%)",
+      stroke: palette.additional["gray"][8],
     },
     quoteHeading: {
       marginBottom: constants.generalUnit,
@@ -303,7 +305,7 @@ const CryptoPaymentModule: React.FC = () => {
           </Typography>
         </div>
         <div className={classes.quote}>
-          {/* <ZigZagSvg className={classes.quoteBorder} /> */}
+          <ZigZagSvg className={classes.quoteBorder} />
           <Typography
             className={classes.quoteHeading}
             variant="h4"
