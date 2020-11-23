@@ -267,6 +267,7 @@ const FileOrFolderView: React.FC<IFileOrFolderProps> = ({
                 name="fileName"
                 inputVariant="minimal"
                 placeholder="Please enter a file name"
+                autoFocus={editing === file.cid}
               />
             </Form>
           </Formik>
@@ -305,6 +306,7 @@ const FileOrFolderView: React.FC<IFileOrFolderProps> = ({
                   className={classes.renameInput}
                   name="fileName"
                   placeholder="Please enter a file name"
+                  autoFocus={editing === file.cid}
                 />
                 <footer className={classes.renameFooter}>
                   <Button
