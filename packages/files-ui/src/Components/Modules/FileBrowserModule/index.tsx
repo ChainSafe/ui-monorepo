@@ -408,8 +408,6 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
     multiple: true,
   })
 
-  console.log(isDraggingFile)
-
   return (
     <DndProvider backend={HTML5Backend}>
       <article

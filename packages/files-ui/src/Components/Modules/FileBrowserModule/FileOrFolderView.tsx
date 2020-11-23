@@ -213,7 +213,6 @@ const FileOrFolderView: React.FC<IFileOrFolderProps> = ({
       onDragEnter={() => {
         if (file.isFolder && dropActive > -1) {
           if (uploadTarget !== `${currentPath}${file.name}`) {
-            console.log("target", file.name)
             setUploadTarget(`${currentPath}${file.name}`)
           }
         } else {
