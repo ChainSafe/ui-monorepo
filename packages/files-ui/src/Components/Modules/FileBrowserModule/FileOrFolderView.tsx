@@ -243,9 +243,9 @@ const FileOrFolderView: React.FC<IFileOrFolderProps> = ({
       <TableCell
         align="left"
         onClick={() => {
-          file.isFolder
+          !editing && file.isFolder
             ? updateCurrentPath(`${currentPath}${file.name}`)
-            : !editing && setPreviewFileIndex(files?.indexOf(file))
+            : setPreviewFileIndex(files?.indexOf(file))
         }}
       >
         {editing === file.cid && desktop ? (
