@@ -9,7 +9,7 @@
     "@lingui/babel-preset-react": "^2.9.2",
     "@lingui/cli": "^3.2.1",
     "@lingui/core": "^3.0.0",
-    "@lingui/macro": "3.2.1",
+    "@lingui/macro": "3.2.3",
     "@lingui/react": "^3.2.1",
     "@sentry/react": "^5.27.6",
     "@types/yup": "^0.29.9",
