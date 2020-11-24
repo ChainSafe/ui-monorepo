@@ -243,9 +243,11 @@ const FileOrFolderView: React.FC<IFileOrFolderProps> = ({
       <TableCell
         align="left"
         onClick={() => {
-          file.isFolder
-            ? updateCurrentPath(`${currentPath}${file.name}`)
-            : !editing && setPreviewFileIndex(files?.indexOf(file))
+          if (!editing) {
+            file.isFolder
+              ? updateCurrentPath(`${currentPath}${file.name}`)
+              : setPreviewFileIndex(files?.indexOf(file))
+          }
         }}
       >
         {editing === file.cid && desktop ? (
@@ -259,6 +261,7 @@ const FileOrFolderView: React.FC<IFileOrFolderProps> = ({
                 `${currentPath}${file.name}`,
                 `${currentPath}${values.fileName}`,
               )
+              setEditing(undefined)
             }}
           >
             <Form>
@@ -267,6 +270,7 @@ const FileOrFolderView: React.FC<IFileOrFolderProps> = ({
                 name="fileName"
                 inputVariant="minimal"
                 placeholder="Please enter a file name"
+                autoFocus={editing === file.cid}
               />
             </Form>
           </Formik>
@@ -290,6 +294,7 @@ const FileOrFolderView: React.FC<IFileOrFolderProps> = ({
                   `${currentPath}${file.name}`,
                   `${currentPath}${values.fileName}`,
                 )
+                setEditing(undefined)
               }}
             >
               <Form className={classes.renameModal}>
@@ -305,6 +310,7 @@ const FileOrFolderView: React.FC<IFileOrFolderProps> = ({
                   className={classes.renameInput}
                   name="fileName"
                   placeholder="Please enter a file name"
+                  autoFocus={editing === file.cid}
                 />
                 <footer className={classes.renameFooter}>
                   <Button

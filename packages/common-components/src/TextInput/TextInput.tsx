@@ -394,6 +394,7 @@ export interface ITextInputProps {
   captionMessage?: string
   onChange: (value: string | number | undefined) => void
   type?: "text" | "email" | "password" | "url" | "search"
+  autoFocus?: boolean
 }
 
 const TextInput: React.FC<ITextInputProps> = ({
@@ -412,6 +413,7 @@ const TextInput: React.FC<ITextInputProps> = ({
   captionMessage,
   state = "normal",
   disabled = false,
+  autoFocus = false,
   ...rest
 }: ITextInputProps) => {
   const classes = useStyles()
@@ -460,6 +462,7 @@ const TextInput: React.FC<ITextInputProps> = ({
           value={value}
           placeholder={placeholder}
           onChange={(e) => onChange(e.target.value)}
+          autoFocus={autoFocus}
           {...rest}
         />
         <div className={clsx(classes.standardIcon, size, "right")}>
