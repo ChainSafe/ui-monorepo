@@ -10,8 +10,8 @@ import {
   Crumb,
   useHistory,
   useToaster,
-} from "@imploy/common-components"
-import { makeStyles, ITheme, createStyles } from "@imploy/common-themes"
+} from "@chainsafe/common-components"
+import { makeStyles, ITheme, createStyles } from "@chainsafe/common-theme"
 import { useUser } from "@imploy/common-contexts"
 import { ROUTE_LINKS } from "../../FilesRoutes"
 import { Trans } from "@lingui/macro"

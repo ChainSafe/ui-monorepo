@@ -6,7 +6,7 @@ import {
   makeStyles,
   useMediaQuery,
   useTheme,
-} from "@imploy/common-themes"
+} from "@chainsafe/common-theme"
 import React, { Fragment, useCallback } from "react"
 import clsx from "clsx"
 import {
@@ -19,7 +19,7 @@ import {
   ProgressBar,
   Button,
   formatBytes,
-} from "@imploy/common-components"
+} from "@chainsafe/common-components"
 import { ROUTE_LINKS } from "../FilesRoutes"
 import { FREE_PLAN_LIMIT } from "../../Utils/Constants"
 import { Trans } from "@lingui/macro"

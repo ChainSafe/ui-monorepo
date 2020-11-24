@@ -1,6 +1,6 @@
 import React, { Fragment } from "react"
 import clsx from "clsx"
-import { ITheme, makeStyles, createStyles } from "@imploy/common-themes"
+import { ITheme, makeStyles, createStyles } from "@chainsafe/common-theme"
 import { HomeIcon } from "../Icons"
 import { Typography } from "../Typography"
 import { MenuDropdown } from "../MenuDropdown"

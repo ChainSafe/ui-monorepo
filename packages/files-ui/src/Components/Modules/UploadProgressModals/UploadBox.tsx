@@ -1,12 +1,12 @@
 import React from "react"
-import { createStyles, ITheme, makeStyles } from "@imploy/common-themes"
+import { createStyles, ITheme, makeStyles } from "@chainsafe/common-theme"
 import { UploadProgress } from "../../../Contexts/DriveContext"
 import {
   ProgressBar,
   Typography,
   CheckCircleIcon,
   CloseCircleIcon,
-} from "@imploy/common-components"
+} from "@chainsafe/common-components"
 import clsx from "clsx"
 import { Trans } from "@lingui/macro"
 
