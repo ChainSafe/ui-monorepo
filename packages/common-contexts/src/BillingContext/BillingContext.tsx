@@ -1,6 +1,7 @@
 import * as React from "react"
 import { useImployApi } from "../ImployApiContext"
 import axios, { AxiosResponse } from "axios"
+import { PricingInfo } from "@imploy/api-client"
 
 type BillingContextProps = {
   children: React.ReactNode | React.ReactNode[]
@@ -8,6 +9,7 @@ type BillingContextProps = {
 
 interface IBillingContext {
   addCard(cardToken: string): Promise<void>
+  getAllPlans(): Promise<PricingInfo>
   getCardTokenFromStripe(
     card: ICard,
     stripePk: string,
@@ -32,6 +34,12 @@ interface IStripeResponse {
 
 const BillingProvider = ({ children }: BillingContextProps) => {
   const { imployApiClient } = useImployApi()
+
+  const getAllPlans = async () => {
+    return await imployApiClient.getAllPlans({
+      product_id: "chainsafe-files",
+    })
+  }
 
   const addCard = async (cardToken: string) => {
     try {
@@ -63,6 +71,7 @@ const BillingProvider = ({ children }: BillingContextProps) => {
     <BillingContext.Provider
       value={{
         addCard,
+        getAllPlans,
         getCardTokenFromStripe,
       }}
     >

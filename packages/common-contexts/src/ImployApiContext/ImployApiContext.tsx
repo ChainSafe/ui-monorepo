@@ -117,10 +117,13 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
                 } = await refreshTokenApiClient.getRefreshToken(
                   refreshTokenLocal,
                 )
-
-                setTokensAndSave(access_token, refresh_token)
-                error.response.config.headers.Authorization = `Bearer ${access_token.token}`
-                return axios(error.response.config)
+                if (access_token && refresh_token) {
+                  setTokensAndSave(access_token, refresh_token)
+                  error.response.config.headers.Authorization = `Bearer ${access_token.token}`
+                  return axios(error.response.config)
+                } else {
+                  throw "Tokens missing"
+                }
               } catch (err) {
                 localStorage.removeItem(tokenStorageKey)
                 setRefreshToken(undefined)
@@ -144,8 +147,11 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
             access_token,
             refresh_token,
           } = await apiClient.getRefreshToken(savedRefreshToken)
-
-          setTokensAndSave(access_token, refresh_token)
+          if (access_token && refresh_token) {
+            setTokensAndSave(access_token, refresh_token)
+          } else {
+            throw "Tokens not found"
+          }
         } catch (error) {}
       }
       setIsLoadingUser(false)
@@ -193,9 +199,13 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
           token: token,
           public_address: addresses[0],
         })
-        setTokensAndSave(access_token, refresh_token)
-        setReturningUser()
-        return Promise.resolve()
+        if (access_token && refresh_token) {
+          setTokensAndSave(access_token, refresh_token)
+          setReturningUser()
+          return Promise.resolve()
+        } else {
+          throw "Tokens not found"
+        }
       }
     } catch (error) {
       return Promise.reject("There was an error logging in.")
@@ -250,9 +260,13 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
         access_token,
         refresh_token,
       } = await imployApiClient.postOauth2CodeGithub(code, state)
-      setTokensAndSave(access_token, refresh_token)
-      setReturningUser()
-      return Promise.resolve()
+      if (access_token && refresh_token) {
+        setTokensAndSave(access_token, refresh_token)
+        setReturningUser()
+        return Promise.resolve()
+      } else {
+        throw "Tokens not found"
+      }
     } catch {
       return Promise.reject("There was an error logging in")
     }
@@ -279,9 +293,13 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
         prompt,
       )
 
-      setTokensAndSave(access_token, refresh_token)
-      setReturningUser()
-      return Promise.resolve()
+      if (access_token && refresh_token) {
+        setTokensAndSave(access_token, refresh_token)
+        setReturningUser()
+        return Promise.resolve()
+      } else {
+        throw "Tokens not found"
+      }
     } catch (err) {
       return Promise.reject("There was an error logging in")
     }
@@ -294,9 +312,13 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
         refresh_token,
       } = await imployApiClient.postOauth2CodeFacebook(code, state)
 
-      setTokensAndSave(access_token, refresh_token)
-      setReturningUser()
-      return Promise.resolve()
+      if (access_token && refresh_token) {
+        setTokensAndSave(access_token, refresh_token)
+        setReturningUser()
+        return Promise.resolve()
+      } else {
+        throw "Tokens not found"
+      }
     } catch (err) {
       return Promise.reject("There was an error logging in")
     }

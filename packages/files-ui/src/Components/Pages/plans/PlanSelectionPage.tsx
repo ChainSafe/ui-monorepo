@@ -5,8 +5,8 @@ import {
   Link,
   RadioInput,
   Typography,
-} from "@imploy/common-components"
-import { createStyles, ITheme, makeStyles } from "@imploy/common-themes"
+} from "@chainsafe/common-components"
+import { createStyles, ITheme, makeStyles } from "@chainsafe/common-theme"
 import clsx from "clsx"
 import React, { useState } from "react"
 import {

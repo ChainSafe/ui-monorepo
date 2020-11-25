@@ -5,7 +5,7 @@ import {
   createStyles,
   useTheme,
   useMediaQuery,
-} from "@imploy/common-themes"
+} from "@chainsafe/common-theme"
 import {
   ArrowLeftIcon,
   Button,
@@ -14,10 +14,10 @@ import {
   TextInput,
   Typography,
   useParams,
-} from "@imploy/common-components"
+} from "@chainsafe/common-components"
 import { ROUTE_LINKS } from "../../../../FilesRoutes"
 import { Trans } from "@lingui/macro"
-import { useImployApi } from "@imploy/common-contexts"
+import { useBilling, useImployApi } from "@imploy/common-contexts"
 import { useWeb3 } from "@chainsafe/web3-context"
 import { TokenInfo } from "@chainsafe/web3-context/dist/context/tokensReducer"
 import { parseUnits } from "ethers/lib/utils"
@@ -186,6 +186,9 @@ const CryptoPaymentModule: React.FC = () => {
   const desktop = useMediaQuery(breakpoints.up("md"))
 
   const { selectWallet } = useImployApi()
+
+  const { getAllPlans } = useBilling()
+
   const { wallet, tokens } = useWeb3()
 
   const { plan } = useParams<{
@@ -198,6 +201,14 @@ const CryptoPaymentModule: React.FC = () => {
 
   const [connected, setConnected] = useState(false)
   const [targetToken, setTargetToken] = useState<TokenInfo | undefined>()
+
+  useEffect(() => {
+    const fetch = async () => {
+      console.log(await getAllPlans())
+    }
+    fetch()
+  }, [])
+
   useEffect(() => {
     if (wallet && Object.keys(tokens).length > 0) {
       setConnected(true)
