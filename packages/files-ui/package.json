@@ -10,7 +10,7 @@
     "@lingui/cli": "^3.2.1",
     "@lingui/core": "^3.0.0",
     "@lingui/macro": "3.2.3",
-    "@lingui/react": "^3.2.1",
+    "@lingui/react": "^3.2.3",
     "@sentry/react": "^5.27.6",
     "@types/yup": "^0.29.9",
     "babel-loader": "^8.1.0",
@@ -40,7 +40,7 @@
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^5.11.6",
-    "@testing-library/react": "^11.2.1",
+    "@testing-library/react": "^11.2.2",
     "@testing-library/user-event": "^12.2.2",
     "@types/jest": "^26.0.15",
     "@types/node": "^14.14.8",
