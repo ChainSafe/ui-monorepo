@@ -2538,10 +2538,10 @@
     cosmiconfig "^7.0.0"
     jest-validate "^26.5.2"
 
-"@lingui/core@3.2.1", "@lingui/core@^3.0.0":
-  version "3.2.1"
-  resolved "https://registry.yarnpkg.com/@lingui/core/-/core-3.2.1.tgz#8d8f87253cfba4a29f3cf5151e3c55b1efa3fab3"
-  integrity sha512-lrRO9faZXbB5I3c/otGiqUKX0OgEEQvIiaqjfV4J7nut5Y4p3HKSu0CEDpGIZUvjD3rw/oKAKXkNTSBpqZOAcg==
+"@lingui/core@^3.0.0", "@lingui/core@^3.2.3":
+  version "3.2.3"
+  resolved "https://registry.yarnpkg.com/@lingui/core/-/core-3.2.3.tgz#2eeba173d3a3a1cbe9f9de4ed57380d2dc45ecff"
+  integrity sha512-TiWk6LGjZ9sNVi7itiJDWUIB1Uyr8WKR/8M6RhQVTRnL+Yh3mElsVPjIRPH1he4ClkwaH6G5eDOfWiB67Csgbw==
   dependencies:
     "@babel/runtime" "^7.11.2"
     make-plural "^6.2.2"
@@ -2556,13 +2556,13 @@
     "@lingui/conf" "^3.2.3"
     ramda "^0.27.1"
 
-"@lingui/react@^3.0.0", "@lingui/react@^3.2.1":
-  version "3.2.1"
-  resolved "https://registry.yarnpkg.com/@lingui/react/-/react-3.2.1.tgz#c72dfc89c0a9fc91aca8e6617240a0207a75b03c"
-  integrity sha512-OQ9ejwZ/9IcptRpharH7LvVHKJXLHbG1kBLIQlVzPHuJUtNNPjarXfEyEHse4OPD2l1dNMgXn7w22s9fPx052g==
+"@lingui/react@^3.2.3":
+  version "3.2.3"
+  resolved "https://registry.yarnpkg.com/@lingui/react/-/react-3.2.3.tgz#8cf78a217d4a2314ab38c68521a6dd544f87b258"
+  integrity sha512-oPqy7LhJddBDvgDvfKikZh8sFP4uG1/NaDhIkHXVCwf+ONxuAwsDPvW47e/K5hQ60UX2LqGbbB7LuAFK5Klr1Q==
   dependencies:
     "@babel/runtime" "^7.11.2"
-    "@lingui/core" "3.2.1"
+    "@lingui/core" "^3.2.3"
 
 "@material-ui/styles@^4.10.0":
   version "4.10.0"

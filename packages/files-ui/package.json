@@ -10,7 +10,7 @@
     "@lingui/cli": "^3.2.1",
     "@lingui/core": "^3.0.0",
     "@lingui/macro": "3.2.3",
-    "@lingui/react": "^3.2.1",
+    "@lingui/react": "^3.2.3",
     "@sentry/react": "^5.27.6",
     "@types/yup": "^0.29.9",
     "babel-loader": "^8.1.0",
