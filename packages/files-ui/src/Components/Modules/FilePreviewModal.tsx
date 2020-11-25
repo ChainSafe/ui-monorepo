@@ -94,6 +94,7 @@ const useStyles = makeStyles(
         whiteSpace: "nowrap",
         overflow: "hidden",
         textOverflow: "ellipsis",
+        color: palette.additional["gray"][1],
       },
       menuIcon: {
         display: "flex",
@@ -326,7 +327,7 @@ const FilePreviewModal: React.FC<{
             )}
           </Grid>
         )}
-        <Grid item xs={12} sm={10} md={10} lg={10} xl={10} alignItems="center">
+        <Grid item xs={12} sm={12} md={10} lg={10} xl={10} alignItems="center">
           <div {...handlers} className={classes.swipeContainer}>
             {isLoading && (
               <div className={classes.previewContent}>
@@ -368,7 +369,7 @@ const FilePreviewModal: React.FC<{
           </div>
         </Grid>
         {desktop && (
-          <Grid item sm={1} md={1} lg={1} xl={1} className={classes.prevNext}>
+          <Grid item md={1} lg={1} xl={1} className={classes.prevNext}>
             {nextFile && (
               <Button onClick={nextFile} className={classes.prevNextButton}>
                 <ArrowRightIcon />
