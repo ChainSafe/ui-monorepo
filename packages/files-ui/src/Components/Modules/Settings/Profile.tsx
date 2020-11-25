@@ -210,7 +210,7 @@ const ProfileView: React.FC<IProfileProps> = (props) => {
                       className={classes.input}
                       labelClassName={classes.label}
                       label="Email"
-                      disabled={!!profile.publicAddress}
+                      disabled={!profile.publicAddress}
                     />
                   </div>
 
