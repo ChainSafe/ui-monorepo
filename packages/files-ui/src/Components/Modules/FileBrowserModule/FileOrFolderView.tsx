@@ -126,7 +126,11 @@ interface IFileOrFolderProps {
   handleMove(path: string, newPath: string): Promise<void>
   deleteFile(cid: string): Promise<void>
   downloadFile(name: string): Promise<void>
-  uploadFiles(files: File[], path: string): void
+  handleUploadOnDrop(
+    files: File[],
+    fileItems: DataTransferItemList,
+    path: string,
+  ): void
   setPreviewFileIndex(fileIndex: number | undefined): void
   desktop: boolean
 }
@@ -146,7 +150,7 @@ const FileOrFolderView: React.FC<IFileOrFolderProps> = ({
   handleMove,
   deleteFile,
   downloadFile,
-  uploadFiles,
+  handleUploadOnDrop,
   setPreviewFileIndex,
   desktop,
 }) => {
@@ -187,7 +191,7 @@ const FileOrFolderView: React.FC<IFileOrFolderProps> = ({
   const [{ isOverUpload }, dropUploadRef] = useDrop({
     accept: [NativeTypes.FILE],
     drop: (item: any) => {
-      uploadFiles(item.files, `${currentPath}${file.name}`)
+      handleUploadOnDrop(item.files, item.items, `${currentPath}${file.name}`)
     },
     collect: (monitor) => ({
       isOverUpload: monitor.isOver(),
@@ -195,9 +199,12 @@ const FileOrFolderView: React.FC<IFileOrFolderProps> = ({
   })
 
   function attachRef(el: any) {
-    dragMoveRef(el)
-    dropMoveRef(el)
-    if (file.isFolder) dropUploadRef(el)
+    if (file.isFolder) {
+      dropMoveRef(el)
+      dropUploadRef(el)
+    } else {
+      dragMoveRef(el)
+    }
   }
 
   return (

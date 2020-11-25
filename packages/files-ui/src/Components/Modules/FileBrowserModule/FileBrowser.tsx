@@ -23,6 +23,7 @@ import {
   Breadcrumb,
   Crumb,
   CircularProgressBar,
+  useToaster,
 } from "@chainsafe/common-components"
 import { useState } from "react"
 import { useMemo } from "react"
@@ -361,12 +362,34 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
   // Media queries
   const { breakpoints }: ITheme = useTheme()
   const desktop = useMediaQuery(breakpoints.up("md"))
+  const { addToastMessage } = useToaster()
+
+  const handleUploadOnDrop = (
+    files: File[],
+    fileItems: DataTransferItemList,
+    path: string,
+  ) => {
+    let hasFolder = false
+    for (let i = 0; i < files.length; i++) {
+      if (fileItems[i].webkitGetAsEntry().isDirectory) {
+        hasFolder = true
+      }
+    }
+    if (hasFolder) {
+      addToastMessage({
+        message: "Folder uploads are not supported currently",
+        appearance: "error",
+      })
+    } else {
+      uploadFiles(files, path)
+    }
+  }
 
   const [{ isOverUploadable, isOverBrowser }, dropBrowserRef] = useDrop({
     accept: [NativeTypes.FILE],
     drop: (item: any, monitor) => {
       if (monitor.isOver({ shallow: true })) {
-        uploadFiles(item.files, currentPath)
+        handleUploadOnDrop(item.files, item.items, currentPath)
       }
     },
     collect: (monitor) => ({
@@ -552,7 +575,7 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
                 handleMove={handleMove}
                 deleteFile={deleteFile}
                 downloadFile={downloadFile}
-                uploadFiles={uploadFiles}
+                handleUploadOnDrop={handleUploadOnDrop}
                 setPreviewFileIndex={setPreviewFileIndex}
                 desktop={desktop}
               />
