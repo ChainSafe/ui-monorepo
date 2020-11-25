@@ -193,9 +193,9 @@ const LoginPage = () => {
     try {
       await web3Login()
     } catch (error) {
+      setIsConnecting(false)
       setError("There was an error authenticating")
     }
-    setIsConnecting(false)
   }
 
   const onLoginWithProvider = async (provider: OAuthProvider) => {

@@ -17,7 +17,7 @@
     "babel-loader": "^8.1.0",
     "babel-preset-env": "^1.7.0",
     "babel-preset-react": "^6.24.1",
-    "bnc-onboard": "^1.14.0",
+    "bnc-onboard": "^1.15.0",
     "clsx": "^1.1.1",
     "dayjs": "^1.9.6",
     "ethers": "^5.0.19",
