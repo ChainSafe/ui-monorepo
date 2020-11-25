@@ -1,6 +1,6 @@
 import React, { ChangeEvent } from "react"
-import { makeStyles, createStyles } from "@imploy/common-themes"
-import { ITheme } from "@imploy/common-themes"
+import { makeStyles, createStyles } from "@chainsafe/common-theme"
+import { ITheme } from "@chainsafe/common-theme"
 import clsx from "clsx"
 import { SearchIcon } from "../Icons"
 import { Spinner, LOADER } from "../Spinner"

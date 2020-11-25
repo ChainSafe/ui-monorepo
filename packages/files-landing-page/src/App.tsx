@@ -1,7 +1,7 @@
 import React from "react"
-import { ThemeProvider, createTheme } from "@imploy/common-themes"
+import { ThemeProvider, createTheme } from "@chainsafe/common-theme"
 import { LanguageProvider } from "./LanguageContext"
-import { CssBaseline, Router } from "@imploy/common-components"
+import { CssBaseline, Router } from "@chainsafe/common-components"
 import Routes from "./Components/Routes"
 
 const theme = createTheme({

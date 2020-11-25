@@ -6,7 +6,7 @@ import {
   makeStyles,
   useMediaQuery,
   useTheme,
-} from "@imploy/common-themes"
+} from "@chainsafe/common-theme"
 import { IFile, useDrive } from "../../Contexts/DriveContext"
 import MimeMatcher from "mime-matcher"
 import axios, { CancelToken, CancelTokenSource } from "axios"
@@ -25,7 +25,7 @@ import {
   // DeleteIcon,
   // EditIcon,
   // ShareAltIcon,
-} from "@imploy/common-components"
+} from "@chainsafe/common-components"
 import ImagePreview from "./PreviewRenderers/ImagePreview"
 import { useSwipeable } from "react-swipeable"
 import PdfPreview from "./PreviewRenderers/PDFPreview"

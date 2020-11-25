@@ -9,7 +9,7 @@ import { useState } from "react"
 import { useImployApi } from "@imploy/common-contexts"
 import dayjs from "dayjs"
 import { v4 as uuidv4 } from "uuid"
-import { useToaster } from "@imploy/common-components"
+import { useToaster } from "@chainsafe/common-components"
 import { uploadsInProgressReducer } from "./DriveReducer"
 import { guessContentType } from "../Utils/contentTypeGuesser"
 import { CancelToken } from "axios"
@@ -33,7 +33,7 @@ type DriveContext = {
   createFolder(body: FilesPathRequest): Promise<FileContentResponse>
   renameFile(body: FilesMvRequest): Promise<void>
   moveFile(body: FilesMvRequest): Promise<void>
-  deleteFile(body: FilesRmRequest): Promise<void>
+  deleteFile(cid: string): Promise<void>
   downloadFile(fileName: string): Promise<void>
   getFileContent(
     fileName: string,
@@ -43,13 +43,14 @@ type DriveContext = {
   list(body: FilesPathRequest): Promise<FileContentResponse[]>
   currentPath: string
   updateCurrentPath(newPath: string): void
-  pathContents: IFile[]
+  pathContents: IItem[]
   uploadsInProgress: UploadProgress[]
   spaceUsed: number
 }
 
-interface IFile extends FileContentResponse {
-  date_uploaded: number // This can be removed when date is added to the schema
+interface IItem extends FileContentResponse {
+  date_uploaded: number
+  isFolder: boolean // This can be removed when date is added to the schema
 }
 
 const REMOVE_UPLOAD_PROGRESS_DELAY = 5000
@@ -77,6 +78,8 @@ const DriveProvider = ({ children }: DriveContextProps) => {
                 fcr.content_type !== "application/octet-stream"
                   ? fcr.content_type
                   : guessContentType(fcr.name),
+              isFolder:
+                fcr.content_type === "application/chainsafe-files-directory",
             })),
           )
         }
@@ -109,7 +112,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
   }
   const [currentPath, dispatchCurrentPath] = useReducer(currentPathReducer, "/")
 
-  const [pathContents, setPathContents] = useState<IFile[]>([])
+  const [pathContents, setPathContents] = useState<IItem[]>([])
   const [spaceUsed, setSpaceUsed] = useState(0)
 
   const setCurrentPath = (newPath: string) =>
@@ -253,18 +256,26 @@ const DriveProvider = ({ children }: DriveContextProps) => {
     }
   }
 
-  const deleteFile = async (body: FilesRmRequest) => {
+  const deleteFile = async (cid: string) => {
+    const itemToDelete = pathContents.find((i) => i.cid === cid)
+    if (!itemToDelete) return
     try {
-      await imployApiClient.removeCSFObjects(body)
+      await imployApiClient.removeCSFObjects({
+        paths: [`${currentPath}${itemToDelete.name}`],
+      })
       await refreshContents(currentPath)
       addToastMessage({
-        message: "File deleted successfully",
+        message: `${
+          itemToDelete.isFolder ? "Folder" : "File"
+        } deleted successfully`,
         appearance: "success",
       })
       return Promise.resolve()
     } catch (error) {
       addToastMessage({
-        message: "There was an error deleting this file",
+        message: `There was an error deleting this ${
+          itemToDelete.isFolder ? "Folder" : "File"
+        }`,
         appearance: "error",
       })
       return Promise.reject()
@@ -360,4 +371,4 @@ const useDrive = () => {
 }
 
 export { DriveProvider, useDrive }
-export type { IFile }
+export type { IItem as IFile }

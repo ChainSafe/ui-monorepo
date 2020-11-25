@@ -1,5 +1,5 @@
 import React from "react"
-import { Switch, Route } from "@imploy/common-components"
+import { Switch, Route } from "@chainsafe/common-components"
 import HomePage from "./Pages/HomePage"
 
 export const ROUTE_LINKS = {

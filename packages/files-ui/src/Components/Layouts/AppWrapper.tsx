@@ -5,11 +5,11 @@ import {
   makeStyles,
   useMediaQuery,
   useTheme,
-} from "@imploy/common-themes"
+} from "@chainsafe/common-theme"
 import React, { useState } from "react"
 import { ReactNode } from "react"
 import clsx from "clsx"
-import { CssBaseline } from "@imploy/common-components"
+import { CssBaseline } from "@chainsafe/common-components"
 import AppHeader from "./AppHeader"
 import AppNav from "./AppNav"
 

@@ -1,5 +1,5 @@
 import React, { ReactNode } from "react"
-import { ITheme, makeStyles, createStyles } from "@imploy/common-themes"
+import { ITheme, makeStyles, createStyles } from "@chainsafe/common-theme"
 import clsx from "clsx"
 
 const useStyles = makeStyles(
@@ -46,34 +46,39 @@ export interface ITableRowProps extends React.HTMLProps<HTMLTableRowElement> {
   rowSelectable?: boolean
 }
 
-const TableRow: React.FC<ITableRowProps> = ({
-  children,
-  className,
-  selected,
-  type = "classic",
-  rowSelectable,
-  onClick,
-  ...rest
-}: ITableRowProps) => {
-  const classes = useStyles()
-
-  return (
-    <tr
-      className={clsx(
-        classes.root,
-        {
-          selected: selected,
-          [classes.rowSelectable]: rowSelectable,
-        },
-        className,
-        type,
-      )}
-      onClick={rowSelectable ? onClick : undefined}
-      {...rest}
-    >
-      {children}
-    </tr>
-  )
-}
+const TableRow = React.forwardRef(
+  (
+    {
+      children,
+      className,
+      selected,
+      type = "classic",
+      rowSelectable,
+      onClick,
+      ...rest
+    }: ITableRowProps,
+    forwardedRef: any,
+  ) => {
+    const classes = useStyles()
+    return (
+      <tr
+        className={clsx(
+          classes.root,
+          {
+            selected: selected,
+            [classes.rowSelectable]: rowSelectable,
+          },
+          className,
+          type,
+        )}
+        onClick={rowSelectable ? onClick : undefined}
+        ref={forwardedRef}
+        {...rest}
+      >
+        {children}
+      </tr>
+    )
+  },
+)
 
 export default TableRow

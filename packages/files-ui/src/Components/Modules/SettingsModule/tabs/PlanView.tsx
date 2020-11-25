@@ -6,8 +6,8 @@ import {
   ProgressBar,
   formatBytes,
   Link,
-} from "@imploy/common-components"
-import { makeStyles, ITheme, createStyles } from "@imploy/common-themes"
+} from "@chainsafe/common-components"
+import { makeStyles, ITheme, createStyles } from "@chainsafe/common-theme"
 import clsx from "clsx"
 import { FREE_PLAN_LIMIT } from "../../../../Utils/Constants"
 import { useDrive } from "../../../../Contexts/DriveContext"

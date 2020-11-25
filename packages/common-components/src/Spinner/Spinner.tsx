@@ -1,8 +1,8 @@
 import React from "react"
 import * as Loaders from "react-spinners"
 import { PrecompiledCss } from "react-spinners/interfaces"
-import { useTheme } from "@imploy/common-themes"
-import { ITheme } from "@imploy/common-themes"
+import { useTheme } from "@chainsafe/common-theme"
+import { ITheme } from "@chainsafe/common-theme"
 
 export enum LOADER {
   BarLoader = "BarLoader",

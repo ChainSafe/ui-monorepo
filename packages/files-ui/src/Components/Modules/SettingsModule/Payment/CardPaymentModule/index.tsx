@@ -5,7 +5,7 @@ import {
   createStyles,
   useTheme,
   useMediaQuery,
-} from "@imploy/common-themes"
+} from "@chainsafe/common-theme"
 import {
   ArrowLeftIcon,
   Button,
@@ -17,7 +17,7 @@ import {
   TextInput,
   Typography,
   useParams,
-} from "@imploy/common-components"
+} from "@chainsafe/common-components"
 import { ROUTE_LINKS } from "../../../../FilesRoutes"
 import { useBilling, useUser } from "@imploy/common-contexts"
 import * as yup from "yup"
