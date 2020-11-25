@@ -37,13 +37,14 @@ const useStyles = makeStyles(
         color: palette.common.white.main,
         textAlign: "center",
         alignContent: "center",
+        justifyContent: "center",
         minHeight: "100vh",
         "& > img": {
           display: "block",
-          width: `calc(100% - ${constants.generalUnit} * 2)`,
-          maxWidth: 667,
+          maxWidth: "1000px",
+          width: `calc(100% - ${constants.generalUnit * 2}px)`,
           marginBottom: 50,
-          marginTop: 125,
+          marginTop: 50,
         },
       },
       logoContainer: {
