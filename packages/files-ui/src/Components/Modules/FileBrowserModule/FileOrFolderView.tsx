@@ -333,12 +333,15 @@ const FileOrFolderView: React.FC<IFileOrFolderProps> = ({
         )}
       </TableCell>
       {desktop && (
-        <Fragment>
-          <TableCell align="left">
+        <>
+          {/* <TableCell align="left">
             {standardlongDateFormat(new Date(file.date_uploaded), true)}
+          </TableCell> */}
+
+          <TableCell align="left">
+            {!file.isFolder && formatBytes(file.size)}
           </TableCell>
-          <TableCell align="left">{formatBytes(file.size)}</TableCell>
-        </Fragment>
+        </>
       )}
       <TableCell align="right">
         <MenuDropdown
