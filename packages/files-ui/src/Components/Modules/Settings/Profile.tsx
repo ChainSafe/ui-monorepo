@@ -16,6 +16,7 @@ import { LockIcon, CopyIcon } from "@chainsafe/common-components"
 import { Formik, Form } from "formik"
 import { Profile } from "@imploy/common-contexts"
 import { Trans } from "@lingui/macro"
+import { shortenAddress } from "../../../Utils/Helpers"
 
 const useStyles = makeStyles((theme: ITheme) =>
   createStyles({
@@ -176,7 +177,7 @@ const ProfileView: React.FC<IProfileProps> = (props) => {
                           component="p"
                           className={classes.publicAddress}
                         >
-                          {profile.publicAddress}
+                          {shortenAddress(profile.publicAddress, 16)}
                         </Typography>
                         <CopyIcon className={classes.copyIcon} />
                       </div>
@@ -210,7 +211,7 @@ const ProfileView: React.FC<IProfileProps> = (props) => {
                       className={classes.input}
                       labelClassName={classes.label}
                       label="Email"
-                      disabled={!!profile.publicAddress}
+                      disabled={!profile.publicAddress}
                     />
                   </div>
 

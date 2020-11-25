@@ -16,43 +16,44 @@ import { useUser } from "@imploy/common-contexts"
 import { ROUTE_LINKS } from "../../FilesRoutes"
 import { Trans } from "@lingui/macro"
 
-const useStyles = makeStyles((theme: ITheme) =>
+const useStyles = makeStyles(({ constants, breakpoints }: ITheme) =>
   createStyles({
     title: {
-      [theme.breakpoints.down("md")]: {
+      marginTop: constants.generalUnit,
+      [breakpoints.down("md")]: {
         fontSize: 20,
         lineHeight: "28px",
-        margin: `${theme.constants.generalUnit}px 0`,
+        margin: `${constants.generalUnit}px 0`,
       },
     },
     divider: {
-      [theme.breakpoints.down("md")]: {
+      [breakpoints.down("md")]: {
         fontSize: 20,
         lineHeight: "28px",
-        margin: `${theme.constants.generalUnit}px 0`,
+        margin: `${constants.generalUnit}px 0`,
       },
     },
     container: {
-      marginTop: theme.constants.generalUnit * 2,
+      marginTop: constants.generalUnit * 2,
     },
     loadingContainer: {
       display: "flex",
       justifyContent: "center",
-      marginTop: theme.constants.generalUnit * 3,
+      marginTop: constants.generalUnit * 3,
     },
     headerContainer: {
-      marginBottom: theme.constants.generalUnit * 4,
-      [theme.breakpoints.down("md")]: {
-        padding: `0 ${theme.constants.generalUnit * 2}px`,
-        marginTop: theme.constants.generalUnit * 4,
-        marginBottom: theme.constants.generalUnit * 2,
+      marginBottom: constants.generalUnit * 4,
+      [breakpoints.down("md")]: {
+        padding: `0 ${constants.generalUnit * 2}px`,
+        marginTop: constants.generalUnit * 4,
+        marginBottom: constants.generalUnit * 2,
       },
     },
     tabsContainer: {
-      marginTop: theme.constants.generalUnit * 4,
-      [theme.breakpoints.down("md")]: {
-        marginTop: theme.constants.generalUnit * 2,
-        padding: `0 ${theme.constants.generalUnit * 2}px`,
+      marginTop: constants.generalUnit * 4,
+      [breakpoints.down("md")]: {
+        marginTop: constants.generalUnit * 2,
+        padding: `0 ${constants.generalUnit * 2}px`,
       },
     },
   }),
