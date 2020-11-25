@@ -130,7 +130,7 @@ const ProfileView: React.FC<IProfileProps> = (props) => {
   }
 
   const profileValidation = yup.object().shape({
-    email: yup.string().email("Email is invalid").required("Email is required"),
+    email: yup.string().email("Email is invalid"),
     firstName: yup.string(),
     lastName: yup.string(),
   })
@@ -210,6 +210,7 @@ const ProfileView: React.FC<IProfileProps> = (props) => {
                       className={classes.input}
                       labelClassName={classes.label}
                       label="Email"
+                      disabled={!!profile.publicAddress}
                     />
                   </div>
 
@@ -244,7 +245,7 @@ const ProfileView: React.FC<IProfileProps> = (props) => {
                 className={classes.deletionMargins}
               >
                 <Trans>
-                  Deleting you account is irreversible. You will lose all your
+                  Deleting your account is irreversible. You will lose all your
                   data on files.
                 </Trans>
               </Typography>
