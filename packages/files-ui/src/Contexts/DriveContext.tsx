@@ -128,8 +128,8 @@ const DriveProvider = ({ children }: DriveContextProps) => {
     if (isLoggedIn) {
       const getSpaceUsage = async () => {
         try {
-          const { csf_size } = await imployApiClient.getCSFFilesStoreInfo()
-          setSpaceUsed(csf_size)
+          const { size } = await imployApiClient.getCSFFilesStoreInfo()
+          setSpaceUsed(size)
         } catch (error) {}
       }
       getSpaceUsage()
