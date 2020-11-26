@@ -244,7 +244,7 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
               </Link>
             </nav>
             <Typography className={classes.navHead}>
-              <Trans>{desktop ? "Resources" : "Account"}</Trans>
+              {desktop ? <Trans>Resources</Trans> : <Trans>Account</Trans>}
             </Typography>
             <nav className={classes.navMenu}>
               <Link
