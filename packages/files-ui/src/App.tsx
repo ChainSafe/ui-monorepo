@@ -73,7 +73,6 @@ const App: React.FC<{}> = () => {
           <CssBaseline />
           <ToasterProvider autoDismiss>
             <Web3Provider
-              networkIds={[1]}
               onboardConfig={{
                 walletSelect: {
                   wallets: [
@@ -97,6 +96,7 @@ const App: React.FC<{}> = () => {
                   ],
                 },
               }}
+              checkNetwork={false}
             >
               <ImployApiProvider apiUrl={apiUrl}>
                 <UserProvider>
