@@ -23,6 +23,7 @@ const useStyles = makeStyles(
     return createStyles({
       root: {
         padding: constants.generalUnit * 4,
+        flexDirection: "column",
       },
       modalRoot: {
         zIndex: zIndex?.blocker,
