@@ -1660,10 +1660,10 @@
     lodash "^4.17.19"
     to-fast-properties "^2.0.0"
 
-"@chainsafe/web3-context@1.1.3":
-  version "1.1.3"
-  resolved "https://registry.yarnpkg.com/@chainsafe/web3-context/-/web3-context-1.1.3.tgz#5312ba80e146b51e115ee507cb00e9c0349b56d0"
-  integrity sha512-K1CxngcuxjZ6DLqMG+aGvbPux3aPczZ6ylucXHVL6HMl2skbFoXbakuema64ZvhRpevEbagZg1pSHFxkFNnn8g==
+"@chainsafe/web3-context@1.1.4":
+  version "1.1.4"
+  resolved "https://registry.yarnpkg.com/@chainsafe/web3-context/-/web3-context-1.1.4.tgz#ce0f140af8ccf93af1a189fbdbd6f018b9bf5fb7"
+  integrity sha512-UADJ98UGneLQzWFKRKb3nHgWnEPEyFTkVqieWQ88fwtTX2SUV2zGVQGlzmui/0L8TnvxQc40vDHXAZ/4fqoGcQ==
 
 "@chaitanyapotti/random-id@^1.0.3":
   version "1.0.3"
@@ -5537,7 +5537,7 @@ babel-jest@^24.9.0:
     chalk "^2.4.2"
     slash "^2.0.0"
 
-babel-loader@8.1.0, babel-loader@^8.1.0:
+babel-loader@8.1.0:
   version "8.1.0"
   resolved "https://registry.yarnpkg.com/babel-loader/-/babel-loader-8.1.0.tgz#c611d5112bd5209abe8b9fa84c3e4da25275f1c3"
   integrity sha512-7q7nC1tYOrqvUrN3LQK4GwSk/TQorZSOlO9C+RZDZpODgyN4ZlCqE5q9cDsyWOliN+aU9B4JX01xK9eJXowJLw==
