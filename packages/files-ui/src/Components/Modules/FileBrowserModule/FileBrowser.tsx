@@ -356,7 +356,7 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
     })
   }
 
-  const validFilenameRegex = new RegExp("/")
+  const invalidFilenameRegex = new RegExp("/")
   const RenameSchema = object().shape({
     fileName: string()
       .min(1, "Please enter a file name")
@@ -364,7 +364,7 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
       .test(
         "Invalid name",
         "File name cannot contain '/' character",
-        (val) => !validFilenameRegex.test(val || ""),
+        (val) => !invalidFilenameRegex.test(val || ""),
       )
       .required("File name is required"),
   })
