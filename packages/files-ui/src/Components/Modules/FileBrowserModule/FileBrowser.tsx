@@ -487,6 +487,7 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
                 <TableHeadCell>
                   <CheckboxInput
                     value={selected.length === items.length}
+                    disabled
                     onChange={() => toggleAll()}
                   />
                 </TableHeadCell>
@@ -504,7 +505,7 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
                 >
                   <Trans>Name</Trans>
                 </TableHeadCell>
-                <TableHeadCell
+                {/* <TableHeadCell
                   sortButtons={true}
                   align="left"
                   onSortChange={() => handleSortToggle("date_uploaded")}
@@ -514,7 +515,7 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
                   sortActive={column === "date_uploaded"}
                 >
                   <Trans>Date uploaded</Trans>
-                </TableHeadCell>
+                </TableHeadCell> */}
                 <TableHeadCell
                   sortButtons={true}
                   align="left"
