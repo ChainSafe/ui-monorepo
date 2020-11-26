@@ -37,7 +37,6 @@ const useStyles = makeStyles(
         color: palette.common.white.main,
         textAlign: "center",
         alignContent: "center",
-        justifyContent: "center",
         minHeight: "100vh",
         "& > img": {
           display: "block",
