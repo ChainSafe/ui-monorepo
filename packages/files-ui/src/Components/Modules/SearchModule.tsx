@@ -32,7 +32,7 @@ const useStyles = makeStyles(({ breakpoints }: ITheme) =>
         [breakpoints.down("md")]: {
           "& input": {
             opacity: 1,
-            width: "100%",
+            width: `calc(100vw - 45px)`,
           },
         },
       },
