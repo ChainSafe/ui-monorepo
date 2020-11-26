@@ -157,8 +157,13 @@ const useStyles = makeStyles(
           },
         },
         [breakpoints.down("md")]: {
-          color: palette.additional["gray"][3],
+          color: `${palette.additional["gray"][3]} !important`,
           minWidth: constants.mobileNavWidth,
+        },
+      },
+      navItemText: {
+        [breakpoints.down("md")]: {
+          color: palette.additional["gray"][3],
         },
       },
       menuItem: {
@@ -229,7 +234,7 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
             <nav className={classes.navMenu}>
               <Link onClick={handleOnClick} className={classes.navItem} to="">
                 <DatabaseSvg />
-                <Typography variant="h5">
+                <Typography variant="h5" className={classes.navItemText}>
                   <Trans>All</Trans>
                 </Typography>
               </Link>
@@ -242,7 +247,7 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
                 to={ROUTE_LINKS.Settings}
               >
                 <SettingSvg />
-                <Typography variant="h5">
+                <Typography variant="h5" className={classes.navItemText}>
                   <Trans>Settings</Trans>
                 </Typography>
               </Link>
