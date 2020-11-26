@@ -35,7 +35,9 @@ const useStyles = makeStyles(
 
 export interface ITabsProps {
   className?: string
-  children: React.ReactElement<ITabPaneProps>[]
+  children:
+    | React.ReactElement<ITabPaneProps>
+    | React.ReactElement<ITabPaneProps>[]
   activeKey: string
   onTabSelect(key: string): void
 }
@@ -48,27 +50,39 @@ const Tabs: React.FC<ITabsProps> = ({
 }: ITabsProps) => {
   const classes = useStyles()
 
-  const selectedChild = children.find(
-    (child) => activeKey === child.props.tabKey,
-  )
+  const selectedChild = Array.isArray(children)
+    ? children.find((child) => activeKey === child.props.tabKey)
+    : children
 
   return (
     <div>
       <ul className={clsx(className, classes.tabList)}>
-        {children.map((elem, index) => {
-          return (
-            <li
-              key={index}
-              className={clsx(
-                classes.tabBar,
-                elem.props.tabKey === activeKey && "selected",
-              )}
-              onClick={() => onTabSelect(elem.props.tabKey)}
-            >
-              {elem.props.title}
-            </li>
-          )
-        })}
+        {Array.isArray(children) ? (
+          children.map((elem, index) => {
+            return (
+              <li
+                key={index}
+                className={clsx(
+                  classes.tabBar,
+                  elem.props.tabKey === activeKey && "selected",
+                )}
+                onClick={() => onTabSelect(elem.props.tabKey)}
+              >
+                {elem.props.title}
+              </li>
+            )
+          })
+        ) : (
+          <li
+            className={clsx(
+              classes.tabBar,
+              children.props.tabKey === activeKey && "selected",
+            )}
+            onClick={() => onTabSelect(children.props.tabKey)}
+          >
+            {children.props.title}
+          </li>
+        )}
       </ul>
       {selectedChild}
     </div>

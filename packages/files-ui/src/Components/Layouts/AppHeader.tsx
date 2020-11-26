@@ -48,7 +48,7 @@ const useStyles = makeStyles(
             padding: `${constants.headerTopPadding}px ${
               constants.contentPadding
             }px ${0}px ${constants.contentPadding}px`,
-            zIndex: zIndex?.blocker,
+            zIndex: zIndex?.layer1,
           },
         },
         [breakpoints.down("md")]: {
@@ -62,6 +62,7 @@ const useStyles = makeStyles(
             opacity: 1,
             visibility: "visible",
             height: constants.mobileHeaderHeight,
+            zIndex: zIndex?.layer1,
           },
         },
       },
@@ -108,10 +109,12 @@ const useStyles = makeStyles(
         display: "flex",
         flexDirection: "row",
         alignItems: "center",
+        color: palette.additional["gray"][8],
         "& svg": {
           width: constants.generalUnit * 2,
           height: constants.generalUnit * 2,
           marginRight: constants.generalUnit,
+          fill: palette.additional["gray"][7],
         },
       },
       searchModule: {

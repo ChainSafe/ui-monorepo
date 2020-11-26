@@ -7,7 +7,7 @@ import { array, object } from "yup"
 import CustomModal from "../Elements/CustomModal"
 import { Trans } from "@lingui/macro"
 
-const useStyles = makeStyles(({ constants, palette }: ITheme) =>
+const useStyles = makeStyles(({ constants, palette, breakpoints }: ITheme) =>
   createStyles({
     root: {
       padding: constants.generalUnit * 4,
@@ -16,6 +16,11 @@ const useStyles = makeStyles(({ constants, palette }: ITheme) =>
         flexDirection: "row",
         justifyContent: "flex-end",
         alignItems: "center",
+      },
+    },
+    modalInner: {
+      [breakpoints.down("md")]: {
+        maxWidth: `${breakpoints.width("md")}px !important`,
       },
     },
     input: {
@@ -54,7 +59,14 @@ const UploadFileModule: React.FC<IUploadFileModuleProps> = ({
   })
 
   return (
-    <CustomModal active={modalOpen} closePosition="none" maxWidth="sm">
+    <CustomModal
+      active={modalOpen}
+      closePosition="none"
+      maxWidth="sm"
+      injectedClass={{
+        inner: classes.modalInner,
+      }}
+    >
       <Formik
         initialValues={{
           files: [],
