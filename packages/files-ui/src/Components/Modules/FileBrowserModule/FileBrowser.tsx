@@ -148,7 +148,16 @@ const useStyles = makeStyles(
           padding: 0,
         },
       },
-      mobileButton: {},
+      mobileButton: {
+        padding: `${constants.generalUnit * 2}px !important`,
+        borderRadius: 0,
+        justifyContent: "flex-start",
+        "& > *:last-child": {
+          display: "block",
+          width: `calc(100% - 24px)`,
+          textAlign: "center",
+        },
+      },
       dropNotification: {
         display: "block",
         position: "fixed",
@@ -438,20 +447,21 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
                 onClick={() => setCreateFolderModalOpen(true)}
                 variant="outline"
                 size="large"
-                fullsize
               >
                 <PlusCircleIcon />
-                <Trans>Create folder</Trans>
+                <span>
+                  <Trans>New folder</Trans>
+                </span>
               </Button>
               <Button
                 onClick={() => setUploadModalOpen(true)}
                 variant="outline"
                 size="large"
-                fullsize
-                className={classes.mobileButton}
               >
                 <UploadIcon />
-                <Trans>Upload</Trans>
+                <span>
+                  <Trans>Upload</Trans>
+                </span>
               </Button>
             </Fragment>
           ) : (
@@ -477,7 +487,9 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
                         fullsize
                       >
                         <PlusCircleIcon />
-                        <Trans>Create folder</Trans>
+                        <span>
+                          <Trans>Create folder</Trans>
+                        </span>
                       </Button>
                     ),
                   },
@@ -490,7 +502,9 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
                         className={classes.mobileButton}
                       >
                         <UploadIcon />
-                        <Trans>Upload</Trans>
+                        <span>
+                          <Trans>Upload</Trans>
+                        </span>
                       </Button>
                     ),
                   },
