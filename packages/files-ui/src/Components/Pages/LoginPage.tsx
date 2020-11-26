@@ -28,7 +28,7 @@ const useStyles = makeStyles(
       root: {
         [breakpoints.down("md")]: {
           backgroundColor: palette.common.black.main,
-          minHeight: "100vh",
+          height: "100vh",
           display: "flex",
         },
       },
@@ -36,13 +36,14 @@ const useStyles = makeStyles(
         backgroundColor: palette.common.black.main,
         color: palette.common.white.main,
         textAlign: "center",
-        alignContent: "center",
+        alignItems: "center",
         justifyContent: "center",
-        minHeight: "100vh",
+        height: "100vh",
+        display: "flex",
+        flexFlow: "column",
         "& > img": {
-          display: "block",
-          maxWidth: "1000px",
-          width: `calc(100% - ${constants.generalUnit * 2}px)`,
+          height: `calc(100% - 180px)`,
+          maxHeight: "1000px",
           marginBottom: 50,
           marginTop: 50,
         },
