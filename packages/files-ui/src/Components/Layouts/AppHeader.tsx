@@ -48,7 +48,7 @@ const useStyles = makeStyles(
             padding: `${constants.headerTopPadding}px ${
               constants.contentPadding
             }px ${0}px ${constants.contentPadding}px`,
-            zIndex: zIndex?.blocker,
+            zIndex: zIndex?.layer1,
           },
         },
         [breakpoints.down("md")]: {
@@ -62,6 +62,7 @@ const useStyles = makeStyles(
             opacity: 1,
             visibility: "visible",
             height: constants.mobileHeaderHeight,
+            zIndex: zIndex?.layer1,
           },
         },
       },
