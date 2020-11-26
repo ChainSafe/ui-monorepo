@@ -24,6 +24,9 @@ import {
   Crumb,
   CircularProgressBar,
   useToaster,
+  Button,
+  PlusCircleIcon,
+  UploadIcon,
 } from "@chainsafe/common-components"
 import { useState } from "react"
 import { useMemo } from "react"
@@ -399,6 +402,10 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
     }),
   })
 
+  // Modals
+  const [createFolderModalOpen, setCreateFolderModalOpen] = useState(false)
+  const [uploadModalOpen, setUploadModalOpen] = useState(false)
+
   return (
     <article
       className={clsx(classes.root, { droppable: isOverUploadable })}
@@ -427,8 +434,25 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
         <div className={classes.controls}>
           {controls && desktop ? (
             <Fragment>
-              <CreateFolderModule />
-              <UploadFileModule />
+              <Button
+                onClick={() => setCreateFolderModalOpen(true)}
+                variant="outline"
+                size="large"
+                fullsize
+              >
+                <PlusCircleIcon />
+                <Trans>Create folder</Trans>
+              </Button>
+              <Button
+                onClick={() => setUploadModalOpen(true)}
+                variant="outline"
+                size="large"
+                fullsize
+                className={classes.mobileButton}
+              >
+                <UploadIcon />
+                <Trans>Upload</Trans>
+              </Button>
             </Fragment>
           ) : (
             controls &&
@@ -438,31 +462,36 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
                   icon: classes.dropdownIcon,
                   options: classes.dropdownOptions,
                 }}
-                autoclose={false}
+                autoclose={true}
                 anchor="bottom-right"
                 animation="none"
                 indicator={PlusIcon}
                 menuItems={[
                   {
                     contents: (
-                      <CreateFolderModule
+                      <Button
+                        onClick={() => setCreateFolderModalOpen(true)}
                         variant="primary"
+                        size="large"
+                        className={classes.mobileButton}
                         fullsize
-                        classNames={{
-                          button: classes.mobileButton,
-                        }}
-                      />
+                      >
+                        <PlusCircleIcon />
+                        <Trans>Create folder</Trans>
+                      </Button>
                     ),
                   },
                   {
                     contents: (
-                      <UploadFileModule
+                      <Button
+                        onClick={() => setUploadModalOpen(true)}
                         variant="primary"
                         fullsize
-                        classNames={{
-                          button: classes.mobileButton,
-                        }}
-                      />
+                        className={classes.mobileButton}
+                      >
+                        <UploadIcon />
+                        <Trans>Upload</Trans>
+                      </Button>
                     ),
                   },
                 ]}
@@ -594,6 +623,14 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
         />
       )}
       <UploadProgressModals />
+      <CreateFolderModule
+        modalOpen={createFolderModalOpen}
+        close={() => setCreateFolderModalOpen(false)}
+      />
+      <UploadFileModule
+        modalOpen={uploadModalOpen}
+        close={() => setUploadModalOpen(false)}
+      />
     </article>
   )
 }
