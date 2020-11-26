@@ -515,7 +515,8 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
         </div>
       </header>
       <Divider className={classes.divider} />
-      {items.length === 0 ? (
+      {(desktop && items.length === 0) ||
+      (!desktop && items.length === 0 && uploadsInProgress.length === 0) ? (
         <section className={classes.noFiles}>
           <EmptySvg />
           <Typography variant="h4" component="h4">
