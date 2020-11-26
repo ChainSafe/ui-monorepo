@@ -13,7 +13,7 @@
     "@lingui/react": "^3.2.3",
     "@sentry/react": "^5.27.6",
     "@types/yup": "^0.29.9",
-    "babel-loader": "^8.2.2",
+    "babel-loader": "8.1.0",
     "babel-plugin-macros": "^2.8.0",
     "babel-preset-env": "^1.7.0",
     "babel-preset-react": "^6.24.1",
