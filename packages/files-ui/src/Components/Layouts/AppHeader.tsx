@@ -48,6 +48,7 @@ const useStyles = makeStyles(
             padding: `${constants.headerTopPadding}px ${
               constants.contentPadding
             }px ${0}px ${constants.contentPadding}px`,
+            zIndex: zIndex?.blocker,
           },
         },
         [breakpoints.down("md")]: {
