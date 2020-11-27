@@ -14,7 +14,7 @@
     "@sentry/react": "^5.27.6",
     "@types/yup": "^0.29.9",
     "babel-loader": "8.1.0",
-    "babel-plugin-macros": "^2.8.0",
+    "babel-plugin-macros": "^3.0.0",
     "babel-preset-env": "^1.7.0",
     "babel-preset-react": "^6.24.1",
     "bnc-onboard": "^1.16.0",
@@ -49,7 +49,7 @@
     "@types/react-pdf": "^5.0.0",
     "@types/react-toast-notifications": "^2.4.0",
     "@types/yup": "^0.29.9",
-    "babel-plugin-macros": "^2.8.0",
+    "babel-plugin-macros": "^3.0.0",
     "craco": "^0.0.3"
   },
   "scripts": {
