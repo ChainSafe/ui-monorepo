@@ -8,12 +8,12 @@ import {
 import clsx from "clsx"
 
 const useStyles = makeStyles(
-  ({ animation, constants, breakpoints, palette, overrides }: ITheme) =>
+  ({ animation, constants, breakpoints, palette, overrides, zIndex }: ITheme) =>
     createStyles({
       // JSS in CSS goes here
       root: {
         position: "fixed",
-        zIndex: 1,
+        zIndex: zIndex?.layer3,
         bottom: 0,
         left: 0,
         width: "100%",

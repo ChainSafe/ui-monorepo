@@ -57,7 +57,7 @@ const useStyles = makeStyles(
         height: "100%",
         width: "100%",
         position: "fixed",
-        zIndex: 1,
+        zIndex: zIndex?.layer2,
         left: 0,
         top: 0,
         backgroundColor: "rgba(0,0,0, 0.88)",
@@ -65,7 +65,7 @@ const useStyles = makeStyles(
       },
       previewModalControls: {
         position: "absolute",
-        zIndex: zIndex?.layer1,
+        zIndex: zIndex?.layer3,
         display: "flex",
         flexDirection: "row",
         alignItems: "center",

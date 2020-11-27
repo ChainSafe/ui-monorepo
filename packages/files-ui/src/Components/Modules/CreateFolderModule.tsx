@@ -35,6 +35,7 @@ const useStyles = makeStyles(
             (constants?.mobileButtonHeight as number) + constants.generalUnit,
           borderTopLeftRadius: `${constants.generalUnit * 1.5}px`,
           borderTopRightRadius: `${constants.generalUnit * 1.5}px`,
+          maxWidth: `${breakpoints.width("md")}px !important`,
         },
       },
       input: {
@@ -89,7 +90,7 @@ const CreateFolderModule: React.FC<ICreateFolderModuleProps> = ({
       }}
       active={modalOpen}
       closePosition="none"
-      maxWidth="md"
+      maxWidth="sm"
     >
       <Formik
         initialValues={{
