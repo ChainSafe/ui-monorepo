@@ -193,6 +193,7 @@ export interface SearchBarProps {
   placeholder?: string
   disabled?: boolean
   isLoading?: boolean
+  name?: string
   loaderType?: LOADER
   size?: "large" | "medium" | "small"
   onChange: (e: ChangeEvent<HTMLInputElement>) => void
@@ -206,6 +207,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
   isLoading = false,
   loaderType = LOADER.PulseLoader,
   size = "large",
+  name,
   onChange,
 }: SearchBarProps) => {
   const classes = useStyles()
