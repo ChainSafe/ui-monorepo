@@ -1,4 +1,4 @@
-import React, { Fragment, useCallback, useEffect, useRef } from "react"
+import React, { Fragment, useEffect, useRef } from "react"
 import { useState } from "react"
 import {
   createStyles,
@@ -9,7 +9,7 @@ import {
 } from "@chainsafe/common-theme"
 import { IFile, useDrive } from "../../Contexts/DriveContext"
 import MimeMatcher from "mime-matcher"
-import axios, { CancelToken, CancelTokenSource } from "axios"
+import axios, { CancelTokenSource } from "axios"
 import {
   Button,
   Grid,
@@ -17,7 +17,7 @@ import {
   ArrowRightIcon,
   Typography,
   MenuDropdown,
-  DownloadIcon,
+  DownloadSvg,
   MoreIcon,
   CloseCircleIcon,
   ProgressBar,
@@ -300,7 +300,7 @@ const FilePreviewModal: React.FC<{
             {
               contents: (
                 <Fragment>
-                  <DownloadIcon className={classes.menuIcon} />
+                  <DownloadSvg className={classes.menuIcon} />
                   <span>
                     <Trans>Download</Trans>
                   </span>
