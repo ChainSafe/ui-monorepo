@@ -64,6 +64,10 @@ export { default as FilePdfIcon, FilePdfSvg } from "./icons/FilePdf.icon"
 export { default as FileTextIcon, FileTextSvg } from "./icons/FileText.icon"
 export { default as FolderIcon, FolderSvg } from "./icons/Folder.icon"
 export {
+  default as FolderFilledIcon,
+  FolderFilledSvg,
+} from "./icons/FolderFilled.icon"
+export {
   default as FullscreenIcon,
   FullscreenSvg,
 } from "./icons/Fullscreen.icon"

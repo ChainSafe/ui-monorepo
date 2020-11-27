@@ -109,10 +109,12 @@ const useStyles = makeStyles(
         display: "flex",
         flexDirection: "row",
         alignItems: "center",
+        color: palette.additional["gray"][8],
         "& svg": {
           width: constants.generalUnit * 2,
           height: constants.generalUnit * 2,
           marginRight: constants.generalUnit,
+          fill: palette.additional["gray"][7],
         },
       },
       searchModule: {
