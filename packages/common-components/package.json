@@ -53,7 +53,7 @@
     "@types/react-toast-notifications": "^2.4.0",
     "@typescript-eslint/eslint-plugin": "^4.8.2",
     "@typescript-eslint/parser": "^4.8.2",
-    "babel-loader": "^8.1.0",
+    "babel-loader": "^8.2.2",
     "eslint": "^7.14.0",
     "eslint-config-prettier": "^6.15.0",
     "eslint-plugin-prettier": "^3.1.3",
