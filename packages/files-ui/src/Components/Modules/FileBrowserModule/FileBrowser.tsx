@@ -25,8 +25,8 @@ import {
   CircularProgressBar,
   useToaster,
   Button,
-  PlusCircleSvg,
-  UploadSvg,
+  PlusCircleIcon,
+  UploadIcon,
 } from "@chainsafe/common-components"
 import { useState } from "react"
 import { useMemo } from "react"
@@ -448,7 +448,7 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
                 variant="outline"
                 size="large"
               >
-                <PlusCircleSvg />
+                <PlusCircleIcon />
                 <span>
                   <Trans>New folder</Trans>
                 </span>
@@ -458,7 +458,7 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
                 variant="outline"
                 size="large"
               >
-                <UploadSvg />
+                <UploadIcon />
                 <span>
                   <Trans>Upload</Trans>
                 </span>
@@ -486,7 +486,7 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
                         className={classes.mobileButton}
                         fullsize
                       >
-                        <PlusCircleSvg />
+                        <PlusCircleIcon />
                         <span>
                           <Trans>Create folder</Trans>
                         </span>
@@ -501,7 +501,7 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
                         fullsize
                         className={classes.mobileButton}
                       >
-                        <UploadSvg />
+                        <UploadIcon />
                         <span>
                           <Trans>Upload</Trans>
                         </span>
