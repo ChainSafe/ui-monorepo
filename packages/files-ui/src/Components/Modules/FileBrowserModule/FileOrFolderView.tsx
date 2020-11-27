@@ -5,17 +5,16 @@ import {
   FormikTextInput,
   Typography,
   Button,
-  standardlongDateFormat,
   formatBytes,
   MenuDropdown,
-  EditIcon,
-  DeleteIcon,
-  DownloadIcon,
   MoreIcon,
   FileImageSvg,
   FilePdfSvg,
   FileTextSvg,
   FolderFilledSvg,
+  DownloadSvg,
+  DeleteSvg,
+  EditSvg,
 } from "@chainsafe/common-components"
 import { makeStyles, ITheme, createStyles } from "@chainsafe/common-theme"
 import clsx from "clsx"
@@ -375,7 +374,7 @@ const FileOrFolderView: React.FC<IFileOrFolderProps> = ({
             {
               contents: (
                 <Fragment>
-                  <EditIcon className={classes.menuIcon} />
+                  <EditSvg className={classes.menuIcon} />
                   <span>
                     <Trans>Rename</Trans>
                   </span>
@@ -386,7 +385,7 @@ const FileOrFolderView: React.FC<IFileOrFolderProps> = ({
             {
               contents: (
                 <Fragment>
-                  <DeleteIcon className={classes.menuIcon} />
+                  <DeleteSvg className={classes.menuIcon} />
                   <span>
                     <Trans>Delete</Trans>
                   </span>
@@ -397,7 +396,7 @@ const FileOrFolderView: React.FC<IFileOrFolderProps> = ({
             {
               contents: (
                 <Fragment>
-                  <DownloadIcon className={classes.menuIcon} />
+                  <DownloadSvg className={classes.menuIcon} />
                   <span>
                     <Trans>Download</Trans>
                   </span>
