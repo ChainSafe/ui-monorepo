@@ -15,7 +15,7 @@ import {
   FileImageSvg,
   FilePdfSvg,
   FileTextSvg,
-  FolderSvg,
+  FolderFilledSvg,
 } from "@chainsafe/common-components"
 import { makeStyles, ITheme, createStyles } from "@chainsafe/common-theme"
 import clsx from "clsx"
@@ -51,6 +51,12 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: ITheme) => {
       justifyContent: "center",
       "& svg": {
         width: constants.generalUnit * 2.5,
+        fill: palette.additional["gray"][8],
+      },
+    },
+    folderIcon: {
+      "& svg": {
+        fill: palette.additional["gray"][9],
       },
     },
     renameInput: {
@@ -156,7 +162,7 @@ const FileOrFolderView: React.FC<IFileOrFolderProps> = ({
 }) => {
   let Icon
   if (file.isFolder) {
-    Icon = FolderSvg
+    Icon = FolderFilledSvg
   } else if (file.content_type.includes("image")) {
     Icon = FileImageSvg
   } else if (file.content_type.includes("pdf")) {
@@ -228,7 +234,7 @@ const FileOrFolderView: React.FC<IFileOrFolderProps> = ({
         </TableCell>
       )}
       <TableCell
-        className={classes.fileIcon}
+        className={clsx(classes.fileIcon, file.isFolder && classes.folderIcon)}
         onClick={() => {
           file.isFolder && updateCurrentPath(`${currentPath}${file.name}`)
         }}
