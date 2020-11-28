@@ -57,7 +57,13 @@ interface IUploadBox {
 
 const UploadBox: React.FC<IUploadBox> = (props) => {
   const { uploadInProgress } = props
-  const { complete, error, noOfFiles, progress } = uploadInProgress
+  const {
+    complete,
+    error,
+    noOfFiles,
+    progress,
+    errorMessage,
+  } = uploadInProgress
   const classes = useStyles()
 
   return (
@@ -75,7 +81,8 @@ const UploadBox: React.FC<IUploadBox> = (props) => {
             <CloseCircleIcon className={classes.marginRight} />
             <Typography variant="body1" component="p">
               <Trans>
-                Something went wrong and we couldn't upload your file.
+                {errorMessage ||
+                  "Something went wrong and we couldn't upload your file."}
               </Trans>
             </Typography>
           </div>
