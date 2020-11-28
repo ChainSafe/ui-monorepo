@@ -356,10 +356,16 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
     })
   }
 
+  const invalidFilenameRegex = new RegExp("/")
   const RenameSchema = object().shape({
     fileName: string()
       .min(1, "Please enter a file name")
       .max(65, "File name length exceeded")
+      .test(
+        "Invalid name",
+        "File name cannot contain '/' character",
+        (val) => !invalidFilenameRegex.test(val || ""),
+      )
       .required("File name is required"),
   })
 
@@ -515,7 +521,8 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
         </div>
       </header>
       <Divider className={classes.divider} />
-      {items.length === 0 ? (
+      {(desktop && items.length === 0) ||
+      (!desktop && items.length === 0 && uploadsInProgress.length === 0) ? (
         <section className={classes.noFiles}>
           <EmptySvg />
           <Typography variant="h4" component="h4">

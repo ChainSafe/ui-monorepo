@@ -142,6 +142,9 @@ const useStyles = makeStyles(
           "&.active": {},
         },
       },
+      navHead: {
+        fontWeight: 600,
+      },
       navItem: {
         textDecoration: "none",
         display: "flex",
@@ -152,6 +155,7 @@ const useStyles = makeStyles(
         "& svg": {
           width: constants.svgWidth,
           marginRight: constants.generalUnit * 2,
+          fill: palette.additional["gray"][8],
           [breakpoints.down("md")]: {
             fill: palette.additional["gray"][3],
           },
@@ -228,7 +232,7 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
             </div>
           )}
           <div className={classes.linksArea}>
-            <Typography>
+            <Typography className={classes.navHead}>
               <Trans>Folders</Trans>
             </Typography>
             <nav className={classes.navMenu}>
@@ -239,7 +243,9 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
                 </Typography>
               </Link>
             </nav>
-            <Typography>{desktop ? "Resources" : "Account"}</Typography>
+            <Typography className={classes.navHead}>
+              {desktop ? <Trans>Resources</Trans> : <Trans>Account</Trans>}
+            </Typography>
             <nav className={classes.navMenu}>
               <Link
                 onClick={handleOnClick}
