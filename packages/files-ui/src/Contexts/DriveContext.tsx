@@ -2,7 +2,6 @@ import {
   FileContentResponse,
   FilesMvRequest,
   FilesPathRequest,
-  FilesRmRequest,
 } from "@imploy/api-client"
 import React, { useCallback, useEffect, useReducer } from "react"
 import { useState } from "react"
@@ -13,6 +12,7 @@ import { useToaster } from "@chainsafe/common-components"
 import { uploadsInProgressReducer } from "./DriveReducer"
 import { guessContentType } from "../Utils/contentTypeGuesser"
 import { CancelToken } from "axios"
+import { t } from "@lingui/macro"
 
 type DriveContextProps = {
   children: React.ReactNode | React.ReactNode[]
@@ -23,6 +23,7 @@ export type UploadProgress = {
   fileName: string
   progress: number
   error: boolean
+  errorMessage?: string
   complete: boolean
   noOfFiles: number
   path: string
@@ -193,7 +194,16 @@ const DriveProvider = ({ children }: DriveContextProps) => {
         return result
       } catch (error) {
         // setting error
-        dispatchUploadsInProgress({ type: "error", payload: { id } })
+        let errorMessage = t`Something went wrong. We couldn't upload your file`
+
+        // we will need a method to parse server errors
+        if (Array.isArray(error) && error[0].message.includes("conflict")) {
+          errorMessage = t`A file with the same name already exists`
+        }
+        dispatchUploadsInProgress({
+          type: "error",
+          payload: { id, errorMessage },
+        })
         setTimeout(() => {
           dispatchUploadsInProgress({ type: "remove", payload: { id } })
         }, REMOVE_UPLOAD_PROGRESS_DELAY)
@@ -207,13 +217,13 @@ const DriveProvider = ({ children }: DriveContextProps) => {
       const result = await imployApiClient.addCSFDirectory(body)
       await refreshContents(currentPath)
       addToastMessage({
-        message: "Folder created successfully",
+        message: t`Folder created successfully`,
         appearance: "success",
       })
       return result
     } catch (error) {
       addToastMessage({
-        message: "There was an error creating this folder",
+        message: t`There was an error creating this folder`,
         appearance: "error",
       })
       return Promise.reject()
@@ -225,13 +235,13 @@ const DriveProvider = ({ children }: DriveContextProps) => {
       await imployApiClient.moveCSFObject(body)
       await refreshContents(currentPath)
       addToastMessage({
-        message: "File renamed successfully",
+        message: t`File renamed successfully`,
         appearance: "success",
       })
       return Promise.resolve()
     } catch (error) {
       addToastMessage({
-        message: "There was an error renaming this file",
+        message: t`There was an error renaming this file`,
         appearance: "error",
       })
       return Promise.reject()
@@ -243,13 +253,13 @@ const DriveProvider = ({ children }: DriveContextProps) => {
       await imployApiClient.moveCSFObject(body)
       await refreshContents(currentPath)
       addToastMessage({
-        message: "File moved successfully",
+        message: t`File moved successfully`,
         appearance: "success",
       })
       return Promise.resolve()
     } catch (error) {
       addToastMessage({
-        message: "There was an error moving this file",
+        message: t`There was an error moving this file`,
         appearance: "error",
       })
       return Promise.reject()
@@ -264,18 +274,20 @@ const DriveProvider = ({ children }: DriveContextProps) => {
         paths: [`${currentPath}${itemToDelete.name}`],
       })
       await refreshContents(currentPath)
+      const message = `${
+        itemToDelete.isFolder ? t`Folder` : t`File`
+      } ${t`deleted successfully`}`
       addToastMessage({
-        message: `${
-          itemToDelete.isFolder ? "Folder" : "File"
-        } deleted successfully`,
+        message: message,
         appearance: "success",
       })
       return Promise.resolve()
     } catch (error) {
+      const message = `${t`There was an error deleting this`} ${
+        itemToDelete.isFolder ? t`folder` : t`file`
+      }`
       addToastMessage({
-        message: `There was an error deleting this ${
-          itemToDelete.isFolder ? "Folder" : "File"
-        }`,
+        message: message,
         appearance: "error",
       })
       return Promise.reject()
@@ -303,7 +315,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
 
   const downloadFile = async (fileName: string) => {
     addToastMessage({
-      message: "Preparing your download",
+      message: t`Preparing your download`,
       appearance: "info",
     })
     try {
@@ -314,14 +326,14 @@ const DriveProvider = ({ children }: DriveContextProps) => {
       link.download = fileName
       link.click()
       addToastMessage({
-        message: "Download is ready",
+        message: t`Download is ready`,
         appearance: "info",
       })
       URL.revokeObjectURL(link.href)
       return Promise.resolve()
     } catch (error) {
       addToastMessage({
-        message: "There was an error downloading this file",
+        message: t`There was an error downloading this file`,
         appearance: "error",
       })
       return Promise.reject()
