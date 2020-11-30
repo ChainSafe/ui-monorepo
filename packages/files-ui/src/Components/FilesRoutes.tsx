@@ -7,7 +7,6 @@ import HomePage from "./Pages/HomePage"
 import OAuthCallbackPage from "./Pages/OAuthCallback"
 import PlanSelectionPage from "./Pages/plans/PlanSelectionPage"
 import { TabKey } from "./Modules/SettingsModule"
-import { PLAN_OPTION } from "../Utils/SubscriptionOptions"
 import CardPaymentPage from "./Pages/plans/CardPaymentPage"
 import CryptoPaymentPage from "./Pages/plans/CryptoPaymentPage"
 
@@ -18,11 +17,12 @@ export const ROUTE_LINKS = {
   Home: "/home",
   Settings: (tab?: TabKey) => `/settings/${tab ? tab : TabKey.Profile}`,
   ChoosePlan: "/choose-plan/",
-  PlanSelected: (planOption: PLAN_OPTION) => `/choose-plan/${planOption}`,
-  CardPayment: (planOption: PLAN_OPTION) =>
-    `/choose-plan/${planOption}/card-payment`,
-  CryptoPayment: (planOption: PLAN_OPTION) =>
-    `/choose-plan/${planOption}/crypto-payment`,
+  PlanSelected: (planOption?: string) =>
+    `/choose-plan/${planOption ? planOption : ":plan"}`,
+  CardPayment: (planOption?: string) =>
+    `/choose-plan/${planOption ? planOption : ":plan"}/card-payment`,
+  CryptoPayment: (planOption?: string) =>
+    `/choose-plan/${planOption ? planOption : ":plan"}/crypto-payment`,
 
   OAuthCallback: "/oauth2/callback/:provider",
 }
@@ -54,14 +54,14 @@ const FilesRoutes = () => {
       />
       <ConditionalRoute
         exact
-        path={ROUTE_LINKS.CardPayment(PLAN_OPTION._routeParam)}
+        path={ROUTE_LINKS.CardPayment()}
         isAuthorized={isLoggedIn}
         component={CardPaymentPage}
         redirectPath={ROUTE_LINKS.Landing}
       />
       <ConditionalRoute
         exact
-        path={ROUTE_LINKS.CryptoPayment(PLAN_OPTION._routeParam)}
+        path={ROUTE_LINKS.CryptoPayment()}
         isAuthorized={isLoggedIn}
         component={CryptoPaymentPage}
         redirectPath={ROUTE_LINKS.Landing}

@@ -1,46 +1,49 @@
-export enum PLAN_OPTION {
-  Plus = "plus",
-  Agile = "agile",
-  Enterprise = "enterprise",
-  _routeParam = ":plan",
+export enum PLAN_COLOR_SCHEME {
+  Gray = "gray",
+  Blue = "blue",
+  Black = "black",
 }
 
 export interface ISubscriptionOption {
-  name: PLAN_OPTION
+  yearlyPlanId: string
+  colorScheme: PLAN_COLOR_SCHEME
+  productName: string
+  title: string
   audience: string
-  details: {
-    blurb: string
-    features: string[]
-  }
+  blurb: string
+  features: string[]
   price: number
 }
 
 export const SubscriptionOptions: ISubscriptionOption[] = [
   {
-    name: PLAN_OPTION.Plus,
+    productName: "plus",
+    colorScheme: PLAN_COLOR_SCHEME.Gray,
+    title: "Plus",
+    yearlyPlanId: "123123",
     audience: "Individuals",
-    details: {
-      blurb: "All features from Essentials, plus:",
-      features: ["80GB Storage", "Document Sign Discount", "Document Editor"],
-    },
+    blurb: "All features from Essentials, plus:",
+    features: ["80GB Storage", "Document Sign Discount", "Document Editor"],
     price: 8,
   },
   {
-    name: PLAN_OPTION.Agile,
+    productName: "agile",
+    colorScheme: PLAN_COLOR_SCHEME.Blue,
+    title: "Agile",
+    yearlyPlanId: "12322123",
     audience: "Teams",
-    details: {
-      blurb: "Each user has a Plus account, plus:",
-      features: ["50GB Shared Drive", "Free Document Editor for all users"],
-    },
+    blurb: "Each user has a Plus account, plus:",
+    features: ["50GB Shared Drive", "Free Document Editor for all users"],
     price: 10,
   },
   {
-    name: PLAN_OPTION.Enterprise,
+    productName: "enterprise",
+    colorScheme: PLAN_COLOR_SCHEME.Gray,
+    title: "Enterprise",
+    yearlyPlanId: "1212312323123",
     audience: "Teams",
-    details: {
-      blurb: "Each user has a Plus account, plus:",
-      features: ["500GB Shared Drive", "Free Document Editor for all users"],
-    },
+    blurb: "Each user has a Plus account, plus:",
+    features: ["500GB Shared Drive", "Free Document Editor for all users"],
     price: 30,
   },
 ]
