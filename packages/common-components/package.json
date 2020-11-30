@@ -36,7 +36,7 @@
     "@chainsafe/common-theme": ">1.0.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.12.7",
+    "@babel/core": "^7.12.9",
     "@rollup/plugin-commonjs": "^16.0.0",
     "@rollup/plugin-node-resolve": "^10.0.0",
     "@storybook/addon-actions": "^5.3.21",
