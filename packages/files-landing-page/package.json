@@ -9,7 +9,7 @@
     "@lingui/core": "^3.0.0",
     "@lingui/macro": "3.2.3",
     "@lingui/react": "^3.2.3",
-    "@material-ui/styles": "^4.10.0",
+    "@material-ui/styles": "^4.11.1",
     "@testing-library/jest-dom": "^5.11.6",
     "@testing-library/react": "^11.2.2",
     "@testing-library/user-event": "^7.1.2",
