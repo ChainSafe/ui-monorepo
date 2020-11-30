@@ -17,7 +17,7 @@
     "babel-plugin-macros": "^2.8.0",
     "babel-preset-env": "^1.7.0",
     "babel-preset-react": "^6.24.1",
-    "bnc-onboard": "^1.16.0",
+    "bnc-onboard": "^1.16.1",
     "clsx": "^1.1.1",
     "dayjs": "^1.9.6",
     "ethers": "^5.0.23",
@@ -41,7 +41,7 @@
   "devDependencies": {
     "@testing-library/jest-dom": "^5.11.6",
     "@testing-library/react": "^11.2.2",
-    "@testing-library/user-event": "^12.2.2",
+    "@testing-library/user-event": "^12.3.0",
     "@types/jest": "^26.0.15",
     "@types/node": "^14.14.10",
     "@types/react": "^17.0.0",
