@@ -2,7 +2,6 @@ import {
   FileContentResponse,
   FilesMvRequest,
   FilesPathRequest,
-  FilesRmRequest,
 } from "@imploy/api-client"
 import React, { useCallback, useEffect, useReducer } from "react"
 import { useState } from "react"
@@ -13,6 +12,7 @@ import { useToaster } from "@chainsafe/common-components"
 import { uploadsInProgressReducer } from "./DriveReducer"
 import { guessContentType } from "../Utils/contentTypeGuesser"
 import { CancelToken } from "axios"
+import { t } from "@lingui/macro"
 
 type DriveContextProps = {
   children: React.ReactNode | React.ReactNode[]
@@ -23,6 +23,7 @@ export type UploadProgress = {
   fileName: string
   progress: number
   error: boolean
+  errorMessage?: string
   complete: boolean
   noOfFiles: number
   path: string
@@ -193,7 +194,16 @@ const DriveProvider = ({ children }: DriveContextProps) => {
         return result
       } catch (error) {
         // setting error
-        dispatchUploadsInProgress({ type: "error", payload: { id } })
+        let errorMessage = t`Something went wrong. We couldn't upload your file`
+
+        // we will need a method to parse server errors
+        if (Array.isArray(error) && error[0].message.includes("conflict")) {
+          errorMessage = t`A file with the same name already exists`
+        }
+        dispatchUploadsInProgress({
+          type: "error",
+          payload: { id, errorMessage },
+        })
         setTimeout(() => {
           dispatchUploadsInProgress({ type: "remove", payload: { id } })
         }, REMOVE_UPLOAD_PROGRESS_DELAY)

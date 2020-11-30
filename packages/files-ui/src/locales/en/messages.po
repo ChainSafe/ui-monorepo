@@ -13,6 +13,10 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
+#: src/Contexts/DriveContext.tsx:122
+msgid "A file with the same name already exists"
+msgstr "A file with the same name already exists"
+
 #: src/Components/Layouts/AppNav.tsx:212
 msgid "Account"
 msgstr "Account"
@@ -67,7 +71,7 @@ msgstr "Create Folder"
 msgid "Create an account"
 msgstr "Create an account"
 
-#: src/Components/Modules/FileBrowserModule/FileBrowser.tsx:380
+#: src/Components/Modules/FileBrowserModule/FileBrowser.tsx:382
 msgid "Create folder"
 msgstr "Create folder"
 
@@ -101,7 +105,7 @@ msgstr "Deletion"
 msgid "Download"
 msgstr "Download"
 
-#: src/Components/Modules/FileBrowserModule/FileBrowser.tsx:347
+#: src/Components/Modules/FileBrowserModule/FileBrowser.tsx:349
 msgid "Drop to upload files"
 msgstr "Drop to upload files"
 
@@ -129,11 +133,11 @@ msgstr "Loading preview"
 msgid "Making secure cloud storage easier than ever."
 msgstr "Making secure cloud storage easier than ever."
 
-#: src/Components/Modules/FileBrowserModule/FileBrowser.tsx:412
+#: src/Components/Modules/FileBrowserModule/FileBrowser.tsx:414
 msgid "Name"
 msgstr "Name"
 
-#: src/Components/Modules/FileBrowserModule/FileBrowser.tsx:362
+#: src/Components/Modules/FileBrowserModule/FileBrowser.tsx:364
 msgid "New folder"
 msgstr "New folder"
 
@@ -141,7 +145,7 @@ msgstr "New folder"
 msgid "Next"
 msgstr "Next"
 
-#: src/Components/Modules/FileBrowserModule/FileBrowser.tsx:400
+#: src/Components/Modules/FileBrowserModule/FileBrowser.tsx:402
 msgid "No files to show"
 msgstr "No files to show"
 
@@ -191,13 +195,17 @@ msgstr "Sign Out"
 msgid "Sign in"
 msgstr "Sign in"
 
-#: src/Components/Modules/FileBrowserModule/FileBrowser.tsx:416
+#: src/Components/Modules/FileBrowserModule/FileBrowser.tsx:418
 msgid "Size"
 msgstr "Size"
 
 #: src/Components/Modules/UploadProgressModals/UploadBox.tsx:58
-msgid "Something went wrong and we couldn't upload your file."
-msgstr "Something went wrong and we couldn't upload your file."
+#~ msgid "Something went wrong and we couldn't upload your file."
+#~ msgstr "Something went wrong and we couldn't upload your file."
+
+#: src/Contexts/DriveContext.tsx:119
+msgid "Something went wrong. We couldn't upload your file"
+msgstr "Something went wrong. We couldn't upload your file"
 
 #: src/Components/Modules/Settings/Plan.tsx:73
 msgid "Storage Plan"
@@ -211,8 +219,8 @@ msgstr "UPGRADE"
 msgid "Update"
 msgstr "Update"
 
-#: src/Components/Modules/FileBrowserModule/FileBrowser.tsx:368
-#: src/Components/Modules/FileBrowserModule/FileBrowser.tsx:388
+#: src/Components/Modules/FileBrowserModule/FileBrowser.tsx:370
+#: src/Components/Modules/FileBrowserModule/FileBrowser.tsx:390
 #: src/Components/Modules/UploadFileModule.tsx:85
 msgid "Upload"
 msgstr "Upload"
