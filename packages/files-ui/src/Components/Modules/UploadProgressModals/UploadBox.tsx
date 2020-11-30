@@ -80,10 +80,7 @@ const UploadBox: React.FC<IUploadBox> = (props) => {
           <div className={classes.contentContainer}>
             <CloseCircleIcon className={classes.marginRight} />
             <Typography variant="body1" component="p">
-              <Trans>
-                {errorMessage ||
-                  t`Something went wrong and we couldn't upload your file.`}
-              </Trans>
+              {errorMessage}
             </Typography>
           </div>
         ) : (
