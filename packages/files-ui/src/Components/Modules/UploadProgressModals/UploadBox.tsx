@@ -8,7 +8,7 @@ import {
   CloseCircleIcon,
 } from "@chainsafe/common-components"
 import clsx from "clsx"
-import { Trans } from "@lingui/macro"
+import { t, Trans } from "@lingui/macro"
 
 const useStyles = makeStyles(
   ({ constants, palette, animation, breakpoints }: ITheme) => {
@@ -82,7 +82,7 @@ const UploadBox: React.FC<IUploadBox> = (props) => {
             <Typography variant="body1" component="p">
               <Trans>
                 {errorMessage ||
-                  "Something went wrong and we couldn't upload your file."}
+                  t`Something went wrong and we couldn't upload your file.`}
               </Trans>
             </Typography>
           </div>
