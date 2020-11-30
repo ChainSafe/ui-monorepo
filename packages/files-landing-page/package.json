@@ -55,6 +55,6 @@
     ]
   },
   "devDependencies": {
-    "@lingui/cli": "^3.0.0"
+    "@lingui/cli": "^3.2.3"
   }
 }
