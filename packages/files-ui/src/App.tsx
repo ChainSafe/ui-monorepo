@@ -24,6 +24,7 @@ import { darkTheme } from "./Themes/DarkTheme"
 import { useHotjar } from "react-use-hotjar"
 import { LanguageProvider } from "./Contexts/LanguageContext"
 import { ITokenConfig, TokensToWatch } from "./Utils/Tokens"
+import { testLocalStorage } from "./Utils/Helpers"
 
 if (
   process.env.NODE_ENV === "production" &&
@@ -74,7 +75,6 @@ const App: React.FC<{}> = () => {
           <CssBaseline />
           <ToasterProvider autoDismiss>
             <Web3Provider
-              networkIds={[1]}
               tokensToWatch={{
                 1: [
                   ...TokensToWatch.filter(
@@ -105,6 +105,8 @@ const App: React.FC<{}> = () => {
                   ],
                 },
               }}
+              checkNetwork={false}
+              cacheWalletSelection={testLocalStorage()}
             >
               <ImployApiProvider apiUrl={apiUrl}>
                 <UserProvider>

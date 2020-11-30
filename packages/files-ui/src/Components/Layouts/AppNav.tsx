@@ -142,6 +142,9 @@ const useStyles = makeStyles(
           "&.active": {},
         },
       },
+      navHead: {
+        fontWeight: 600,
+      },
       navItem: {
         textDecoration: "none",
         display: "flex",
@@ -152,13 +155,19 @@ const useStyles = makeStyles(
         "& svg": {
           width: constants.svgWidth,
           marginRight: constants.generalUnit * 2,
+          fill: palette.additional["gray"][8],
           [breakpoints.down("md")]: {
             fill: palette.additional["gray"][3],
           },
         },
         [breakpoints.down("md")]: {
-          color: palette.additional["gray"][3],
+          color: `${palette.additional["gray"][3]} !important`,
           minWidth: constants.mobileNavWidth,
+        },
+      },
+      navItemText: {
+        [breakpoints.down("md")]: {
+          color: palette.additional["gray"][3],
         },
       },
       menuItem: {
@@ -223,18 +232,20 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
             </div>
           )}
           <div className={classes.linksArea}>
-            <Typography>
+            <Typography className={classes.navHead}>
               <Trans>Folders</Trans>
             </Typography>
             <nav className={classes.navMenu}>
               <Link onClick={handleOnClick} className={classes.navItem} to="">
                 <DatabaseSvg />
-                <Typography variant="h5">
+                <Typography variant="h5" className={classes.navItemText}>
                   <Trans>All</Trans>
                 </Typography>
               </Link>
             </nav>
-            <Typography>{desktop ? "Resources" : "Account"}</Typography>
+            <Typography className={classes.navHead}>
+              {desktop ? <Trans>Resources</Trans> : <Trans>Account</Trans>}
+            </Typography>
             <nav className={classes.navMenu}>
               <Link
                 onClick={handleOnClick}
@@ -242,7 +253,7 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
                 to={ROUTE_LINKS.Settings()}
               >
                 <SettingSvg />
-                <Typography variant="h5">
+                <Typography variant="h5" className={classes.navItemText}>
                   <Trans>Settings</Trans>
                 </Typography>
               </Link>

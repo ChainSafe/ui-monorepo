@@ -13,6 +13,16 @@ import axios from "axios"
 
 export { Provider as OAuthProvider }
 
+const testLocalStorage = () => {
+  try {
+    localStorage.setItem("test", "test")
+    localStorage.removeItem("test")
+    return true
+  } catch (e) {
+    return false
+  }
+}
+
 const tokenStorageKey = "csf.refreshToken"
 const isReturningUserStorageKey = "csf.isReturningUser"
 
@@ -48,7 +58,7 @@ const ImployApiContext = React.createContext<ImployApiContext | undefined>(
 
 const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
   const { wallet, onboard, checkIsReady, isReady, provider } = useWeb3()
-
+  const canUseLocalStorage = testLocalStorage()
   // initializing api
   const initialAxiosInstance = axios.create({
     // Disable the internal Axios JSON deserialization as this is handled by the client
@@ -69,7 +79,8 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
   const [refreshToken, setRefreshToken] = useState<Token | undefined>(undefined)
 
   // returning user
-  const isReturningUserLocal = localStorage.getItem(isReturningUserStorageKey)
+  const isReturningUserLocal =
+    canUseLocalStorage && localStorage.getItem(isReturningUserStorageKey)
   const [isReturningUser, setIsReturningUser] = useState(
     isReturningUserLocal ? true : false,
   )
@@ -78,6 +89,7 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
     setAccessToken(accessToken)
     setRefreshToken(refreshToken)
     refreshToken.token &&
+      canUseLocalStorage &&
       localStorage.setItem(tokenStorageKey, refreshToken.token)
 
     accessToken.token && imployApiClient.setToken(accessToken.token)
@@ -85,7 +97,8 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
 
   const setReturningUser = () => {
     // set returning user
-    localStorage.setItem(isReturningUserStorageKey, "returning")
+    canUseLocalStorage &&
+      localStorage.setItem(isReturningUserStorageKey, "returning")
     setIsReturningUser(true)
   }
 
@@ -103,7 +116,8 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
         async (error) => {
           if (!error.config._retry && error.response.status === 401) {
             error.config._retry = true
-            const refreshTokenLocal = localStorage.getItem(tokenStorageKey)
+            const refreshTokenLocal =
+              canUseLocalStorage && localStorage.getItem(tokenStorageKey)
             if (refreshTokenLocal) {
               const refreshTokenApiClient = new ImployApiClient(
                 {},
@@ -125,12 +139,12 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
                   throw "Tokens missing"
                 }
               } catch (err) {
-                localStorage.removeItem(tokenStorageKey)
+                canUseLocalStorage && localStorage.removeItem(tokenStorageKey)
                 setRefreshToken(undefined)
                 return Promise.reject(error)
               }
             } else {
-              localStorage.removeItem(tokenStorageKey)
+              canUseLocalStorage && localStorage.removeItem(tokenStorageKey)
               setRefreshToken(undefined)
               return Promise.reject(error)
             }
@@ -138,7 +152,8 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
           return Promise.reject(error)
         },
       )
-      const savedRefreshToken = localStorage.getItem(tokenStorageKey)
+      const savedRefreshToken =
+        canUseLocalStorage && localStorage.getItem(tokenStorageKey)
       const apiClient = new ImployApiClient({}, apiUrl, axiosInstance)
       setImployApiClient(apiClient)
       if (savedRefreshToken) {
@@ -328,7 +343,7 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
     setAccessToken(undefined)
     setRefreshToken(undefined)
     setDecodedRefreshToken(undefined)
-    localStorage.removeItem(tokenStorageKey)
+    canUseLocalStorage && localStorage.removeItem(tokenStorageKey)
   }
 
   return (

@@ -5,17 +5,16 @@ import {
   FormikTextInput,
   Typography,
   Button,
-  standardlongDateFormat,
   formatBytes,
   MenuDropdown,
-  EditIcon,
-  DeleteIcon,
-  DownloadIcon,
   MoreIcon,
   FileImageSvg,
   FilePdfSvg,
   FileTextSvg,
-  FolderSvg,
+  FolderFilledSvg,
+  DownloadSvg,
+  DeleteSvg,
+  EditSvg,
 } from "@chainsafe/common-components"
 import { makeStyles, ITheme, createStyles } from "@chainsafe/common-theme"
 import clsx from "clsx"
@@ -26,6 +25,7 @@ import CustomModal from "../../Elements/CustomModal"
 import { Trans } from "@lingui/macro"
 import { useDrag, useDrop } from "react-dnd"
 import { DragTypes } from "./DragConstants"
+import { NativeTypes } from "react-dnd-html5-backend"
 
 const useStyles = makeStyles(({ breakpoints, constants, palette }: ITheme) => {
   const desktopGridSettings = "50px 69px 3fr 190px 100px 45px !important"
@@ -50,6 +50,12 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: ITheme) => {
       justifyContent: "center",
       "& svg": {
         width: constants.generalUnit * 2.5,
+        fill: palette.additional["gray"][8],
+      },
+    },
+    folderIcon: {
+      "& svg": {
+        fill: palette.additional["gray"][9],
       },
     },
     renameInput: {
@@ -114,11 +120,7 @@ interface IFileOrFolderProps {
   index: number
   file: IFile
   files: IFile[]
-  uploadTarget: string
   currentPath: string
-  dropActive: number
-  setIsDraggingFile(isDragging: boolean): void
-  setUploadTarget(path: string): void
   updateCurrentPath(path: string): void
   selected: string[]
   handleSelect(selected: string): void
@@ -129,6 +131,11 @@ interface IFileOrFolderProps {
   handleMove(path: string, newPath: string): Promise<void>
   deleteFile(cid: string): Promise<void>
   downloadFile(name: string): Promise<void>
+  handleUploadOnDrop(
+    files: File[],
+    fileItems: DataTransferItemList,
+    path: string,
+  ): void
   setPreviewFileIndex(fileIndex: number | undefined): void
   desktop: boolean
 }
@@ -137,11 +144,7 @@ const FileOrFolderView: React.FC<IFileOrFolderProps> = ({
   index,
   file,
   files,
-  uploadTarget,
   currentPath,
-  dropActive,
-  setIsDraggingFile,
-  setUploadTarget,
   updateCurrentPath,
   selected,
   handleSelect,
@@ -152,12 +155,13 @@ const FileOrFolderView: React.FC<IFileOrFolderProps> = ({
   handleMove,
   deleteFile,
   downloadFile,
+  handleUploadOnDrop,
   setPreviewFileIndex,
   desktop,
 }) => {
   let Icon
   if (file.isFolder) {
-    Icon = FolderSvg
+    Icon = FolderFilledSvg
   } else if (file.content_type.includes("image")) {
     Icon = FileImageSvg
   } else if (file.content_type.includes("pdf")) {
@@ -168,21 +172,15 @@ const FileOrFolderView: React.FC<IFileOrFolderProps> = ({
 
   const classes = useStyles()
 
-  const [, drag] = useDrag({
-    item: { type: DragTypes.UPLOADED_FILE, payload: file },
-    begin: () => {
-      setIsDraggingFile(true)
-    },
-    end: () => {
-      setIsDraggingFile(false)
-    },
+  const [, dragMoveRef] = useDrag({
+    item: { type: DragTypes.MOVABLE_FILE, payload: file },
   })
 
-  const [{ isOver }, drop] = useDrop({
-    accept: DragTypes.UPLOADED_FILE,
+  const [{ isOverMove }, dropMoveRef] = useDrop({
+    accept: DragTypes.MOVABLE_FILE,
     canDrop: () => file.isFolder,
     drop: async (item: {
-      type: typeof DragTypes.UPLOADED_FILE
+      type: typeof DragTypes.MOVABLE_FILE
       payload: IFile
     }) => {
       await handleMove(
@@ -191,36 +189,38 @@ const FileOrFolderView: React.FC<IFileOrFolderProps> = ({
       )
     },
     collect: (monitor) => ({
-      isOver: monitor.isOver(),
+      isOverMove: monitor.isOver(),
+    }),
+  })
+
+  const [{ isOverUpload }, dropUploadRef] = useDrop({
+    accept: [NativeTypes.FILE],
+    drop: (item: any) => {
+      handleUploadOnDrop(item.files, item.items, `${currentPath}${file.name}`)
+    },
+    collect: (monitor) => ({
+      isOverUpload: monitor.isOver(),
     }),
   })
 
   function attachRef(el: any) {
-    drag(el)
-    drop(el)
+    if (file.isFolder) {
+      dropMoveRef(el)
+      dropUploadRef(el)
+    } else {
+      dragMoveRef(el)
+    }
   }
 
   return (
     <TableRow
       key={`files-${index}`}
       className={clsx(classes.tableRow, {
-        droppable: file.isFolder && isOver,
+        droppable: file.isFolder && (isOverMove || isOverUpload),
         folder: file.isFolder,
-        hovered: uploadTarget === `${currentPath}${file.name}`,
       })}
       type="grid"
       rowSelectable={true}
-      onDragEnter={() => {
-        if (file.isFolder && dropActive > -1) {
-          if (uploadTarget !== `${currentPath}${file.name}`) {
-            setUploadTarget(`${currentPath}${file.name}`)
-          }
-        } else {
-          if (uploadTarget !== currentPath) {
-            setUploadTarget(currentPath)
-          }
-        }
-      }}
       ref={attachRef}
       selected={selected.includes(file.cid)}
     >
@@ -233,7 +233,7 @@ const FileOrFolderView: React.FC<IFileOrFolderProps> = ({
         </TableCell>
       )}
       <TableCell
-        className={classes.fileIcon}
+        className={clsx(classes.fileIcon, file.isFolder && classes.folderIcon)}
         onClick={() => {
           file.isFolder && updateCurrentPath(`${currentPath}${file.name}`)
         }}
@@ -338,12 +338,15 @@ const FileOrFolderView: React.FC<IFileOrFolderProps> = ({
         )}
       </TableCell>
       {desktop && (
-        <Fragment>
-          <TableCell align="left">
+        <>
+          {/* <TableCell align="left">
             {standardlongDateFormat(new Date(file.date_uploaded), true)}
+          </TableCell> */}
+
+          <TableCell align="left">
+            {!file.isFolder && formatBytes(file.size)}
           </TableCell>
-          <TableCell align="left">{formatBytes(file.size)}</TableCell>
-        </Fragment>
+        </>
       )}
       <TableCell align="right">
         <MenuDropdown
@@ -371,7 +374,7 @@ const FileOrFolderView: React.FC<IFileOrFolderProps> = ({
             {
               contents: (
                 <Fragment>
-                  <EditIcon className={classes.menuIcon} />
+                  <EditSvg className={classes.menuIcon} />
                   <span>
                     <Trans>Rename</Trans>
                   </span>
@@ -382,7 +385,7 @@ const FileOrFolderView: React.FC<IFileOrFolderProps> = ({
             {
               contents: (
                 <Fragment>
-                  <DeleteIcon className={classes.menuIcon} />
+                  <DeleteSvg className={classes.menuIcon} />
                   <span>
                     <Trans>Delete</Trans>
                   </span>
@@ -393,7 +396,7 @@ const FileOrFolderView: React.FC<IFileOrFolderProps> = ({
             {
               contents: (
                 <Fragment>
-                  <DownloadIcon className={classes.menuIcon} />
+                  <DownloadSvg className={classes.menuIcon} />
                   <span>
                     <Trans>Download</Trans>
                   </span>

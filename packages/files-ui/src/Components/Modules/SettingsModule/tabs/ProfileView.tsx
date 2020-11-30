@@ -16,6 +16,7 @@ import { LockIcon, CopyIcon } from "@chainsafe/common-components"
 import { Formik, Form } from "formik"
 import { Profile } from "@imploy/common-contexts"
 import { Trans } from "@lingui/macro"
+import { shortenAddress } from "../../../Utils/Helpers"
 
 const useStyles = makeStyles((theme: ITheme) =>
   createStyles({
@@ -130,7 +131,7 @@ const ProfileView: React.FC<IProfileViewProps> = (props) => {
   }
 
   const profileValidation = yup.object().shape({
-    email: yup.string().email("Email is invalid").required("Email is required"),
+    email: yup.string().email("Email is invalid"),
     firstName: yup.string(),
     lastName: yup.string(),
   })
@@ -176,7 +177,7 @@ const ProfileView: React.FC<IProfileViewProps> = (props) => {
                           component="p"
                           className={classes.publicAddress}
                         >
-                          {profile.publicAddress}
+                          {shortenAddress(profile.publicAddress, 16)}
                         </Typography>
                         <CopyIcon className={classes.copyIcon} />
                       </div>
@@ -210,6 +211,7 @@ const ProfileView: React.FC<IProfileViewProps> = (props) => {
                       className={classes.input}
                       labelClassName={classes.label}
                       label="Email"
+                      disabled={!profile.publicAddress}
                     />
                   </div>
 
@@ -244,7 +246,7 @@ const ProfileView: React.FC<IProfileViewProps> = (props) => {
                 className={classes.deletionMargins}
               >
                 <Trans>
-                  Deleting you account is irreversible. You will lose all your
+                  Deleting your account is irreversible. You will lose all your
                   data on files.
                 </Trans>
               </Typography>

@@ -159,9 +159,9 @@ const SettingsModule: React.FC = () => {
               />
             ) : null}
           </TabPane>
-          <TabPane title="Plan" tabKey={TabKey.Plan}>
-            <PlanView />
-          </TabPane>
+          {/* <TabPane title="Plan" tabKey="planView">
+            {/* <Plan />
+          </TabPane> */}
         </Tabs>
       </div>
     </div>
