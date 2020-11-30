@@ -1,3 +1,5 @@
+import { PricingInfo } from "@imploy/api-client"
+
 export enum PLAN_COLOR_SCHEME {
   Gray = "gray",
   Blue = "blue",
@@ -14,6 +16,10 @@ export interface ISubscriptionOption {
   features: string[]
   price: number
 }
+
+// export const PricingInfoToISubscriptionOption = (input: PricingInfo): ISubscriptionOption => ({
+//   audience: input
+// })
 
 export const SubscriptionOptions: ISubscriptionOption[] = [
   {
