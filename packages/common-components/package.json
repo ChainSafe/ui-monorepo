@@ -1,6 +1,6 @@
 {
   "name": "@chainsafe/common-components",
-  "version": "1.0.25",
+  "version": "1.0.26",
   "description": "Common Components",
   "author": "Michael Yankelev <michael@chainsafe.io>",
   "license": "GPL-3.0",
@@ -28,12 +28,12 @@
     "rollup-plugin-babel": "^4.4.0"
   },
   "peerDependencies": {
+    "@chainsafe/common-theme": ">1.0.0",
     "@material-ui/styles": ">4.0.0",
     "formik": "^2.2.5",
     "react": ">16.8.0",
     "react-dom": ">16.8.0",
-    "react-toast-notifications": ">2.4.0",
-    "@chainsafe/common-theme": ">1.0.0"
+    "react-toast-notifications": ">2.4.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.7",
