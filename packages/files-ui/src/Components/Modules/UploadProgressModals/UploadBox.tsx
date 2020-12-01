@@ -8,7 +8,7 @@ import {
   CloseCircleIcon,
 } from "@chainsafe/common-components"
 import clsx from "clsx"
-import { t, Trans } from "@lingui/macro"
+import { Trans } from "@lingui/macro"
 
 const useStyles = makeStyles(
   ({ constants, palette, animation, breakpoints }: ITheme) => {
