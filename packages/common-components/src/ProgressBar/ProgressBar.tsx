@@ -45,22 +45,83 @@ const useStyles = makeStyles((theme: ITheme) =>
         borderRadius: theme.constants.generalUnit * 3,
       },
     },
-    subline: {
-      "&.inc": {
-        animation: "increase 2s infinite",
+    line: {
+      position: "absolute",
+      opacity: 0.4,
+      width: "150%",
+      background: theme.palette.additional["blue"][6],
+      "&.primary": {
+        background: theme.palette.primary.main,
       },
-      "&.dec": {
-        animation: "decrease 2s 0.5s infinite",
+      "&.secondary": {
+        background: theme.palette.secondary.main,
+      },
+      "&.small": {
+        height: theme.constants.generalUnit,
+        borderRadius: theme.constants.generalUnit,
+      },
+      "&.medium": {
+        height: theme.constants.generalUnit * 2,
+        borderRadius: theme.constants.generalUnit * 2,
+      },
+      "&.large": {
+        height: theme.constants.generalUnit * 3,
+        borderRadius: theme.constants.generalUnit * 3,
       },
     },
-    progressBar: (props: IStyleProps) => ({
+    slider: {
+      position: "absolute",
+      overflowX: "hidden",
+      width: "100%",
+      "&.small": {
+        height: theme.constants.generalUnit,
+        borderRadius: theme.constants.generalUnit,
+      },
+      "&.medium": {
+        height: theme.constants.generalUnit * 2,
+        borderRadius: theme.constants.generalUnit * 2,
+      },
+      "&.large": {
+        height: theme.constants.generalUnit * 3,
+        borderRadius: theme.constants.generalUnit * 3,
+      },
+    },
+    subline: {
+      position: "absolute",
+      background: theme.palette.additional["blue"][6],
+      "&.primary": {
+        background: theme.palette.primary.main,
+      },
+      "&.secondary": {
+        background: theme.palette.secondary.main,
+      },
+      "&.small": {
+        height: theme.constants.generalUnit,
+        borderRadius: theme.constants.generalUnit,
+      },
+      "&.medium": {
+        height: theme.constants.generalUnit * 2,
+        borderRadius: theme.constants.generalUnit * 2,
+      },
+      "&.large": {
+        height: theme.constants.generalUnit * 3,
+        borderRadius: theme.constants.generalUnit * 3,
+      },
+      "&.inc": {
+        animation: "$increase 2s infinite",
+      },
+      "&.dec": {
+        animation: "$decrease 2s 0.5s infinite",
+      },
+    },
+    progressBar: ({ width }: IStyleProps) => ({
       borderRadius: theme.constants.generalUnit,
       display: "flex",
       alignItems: "center",
       justifyContent: "center",
       height: "100%",
       transition: `${theme.animation.translate}ms`,
-      width: `${props.width}%`,
+      width: `${width}%`,
       "&.small": {
         borderRadius: theme.constants.generalUnit,
       },
@@ -103,27 +164,27 @@ export interface IProgressBarProps {
 const ProgressBar: React.FC<IProgressBarProps> = ({
   className,
   state = "progress",
-  progress,
+  progress = -1,
   size = "medium",
   variant,
   ...rest
 }) => {
-  const progressValue = progress
-    ? progress < 0
-      ? 0
-      : progress > 100
-      ? 100
-      : progress
-    : -1
+  const progressValue = progress < -1 ? -1 : progress > 100 ? 100 : progress
   const classes = useStyles({ width: progressValue })
 
   return (
     <div className={clsx(className, classes.root, size)} {...rest}>
-      <div
-        className={clsx(classes.progressBar, size, classes[state], variant, {
-          indeterminate: progressValue == -1,
-        })}
-      />
+      {progressValue == -1 ? (
+        <div className={clsx(classes.slider, size)}>
+          <div className={clsx(variant, size, classes.line)}></div>
+          <div className={clsx(variant, size, classes.subline, "inc")}></div>
+          <div className={clsx(variant, size, classes.subline, "dec")}></div>
+        </div>
+      ) : (
+        <div
+          className={clsx(classes.progressBar, size, classes[state], variant)}
+        />
+      )}
     </div>
   )
 }
