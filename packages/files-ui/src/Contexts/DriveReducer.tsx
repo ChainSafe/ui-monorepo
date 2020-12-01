@@ -6,7 +6,7 @@ export function uploadsInProgressReducer(
     | { type: "add"; payload: UploadProgress }
     | { type: "progress"; payload: { id: string; progress: number } }
     | { type: "complete"; payload: { id: string } }
-    | { type: "error"; payload: { id: string } }
+    | { type: "error"; payload: { id: string; errorMessage?: string } }
     | { type: "remove"; payload: { id: string } },
 ): UploadProgress[] {
   const getProgressIndex = () =>
@@ -37,6 +37,8 @@ export function uploadsInProgressReducer(
       const progressIndex = getProgressIndex()
       if (progressIndex > -1) {
         uploadsInProgress[progressIndex].error = true
+        uploadsInProgress[progressIndex].errorMessage =
+          action.payload.errorMessage
         return [...uploadsInProgress]
       } else {
         return uploadsInProgress

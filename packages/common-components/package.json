@@ -13,7 +13,7 @@
     "lint": "eslint 'src/**/*.{js,ts,tsx}' --quiet --fix"
   },
   "dependencies": {
-    "@material-ui/styles": "^4.10.0",
+    "@material-ui/styles": "^4.11.1",
     "@types/react-select": "^3.0.26",
     "a11y-react-emoji": "^1.1.2",
     "clsx": "^1.1.1",
@@ -36,12 +36,12 @@
     "@chainsafe/common-theme": ">1.0.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.12.7",
+    "@babel/core": "^7.12.9",
     "@rollup/plugin-commonjs": "^16.0.0",
     "@rollup/plugin-node-resolve": "^10.0.0",
     "@storybook/addon-actions": "^5.3.21",
     "@storybook/addon-contexts": "^5.3.19",
-    "@storybook/addon-knobs": "^6.1.6",
+    "@storybook/addon-knobs": "^6.1.9",
     "@storybook/addon-links": "^5.3.21",
     "@storybook/addons": "^5.3.21",
     "@storybook/preset-typescript": "^3.0.0",
@@ -52,7 +52,7 @@
     "@types/react-router-dom": "^5.1.6",
     "@types/react-toast-notifications": "^2.4.0",
     "@typescript-eslint/eslint-plugin": "^4.8.2",
-    "@typescript-eslint/parser": "^4.8.2",
+    "@typescript-eslint/parser": "^4.9.0",
     "babel-loader": "8.1.0",
     "eslint": "^7.14.0",
     "eslint-config-prettier": "^6.15.0",
@@ -60,7 +60,7 @@
     "eslint-plugin-react": "^7.21.5",
     "fork-ts-checker-webpack-plugin": "^6.0.4",
     "formik": "^2.2.5",
-    "prettier": "^2.2.0",
+    "prettier": "^2.2.1",
     "react": "16.14.0",
     "react-blockies": "^1.4.1",
     "react-dom": "16.14.0",
