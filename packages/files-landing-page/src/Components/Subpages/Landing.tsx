@@ -57,6 +57,9 @@ const useStyles = makeStyles(({ constants, palette, zIndex, breakpoints }: IThem
       position: "relative",
       padding: "1.5rem 0",
       background: "transparent",
+      "& > a": {
+        textDecoration: "none",
+      },
       '&:hover': {
         transition: "ease-in 0.2s"
       },
@@ -99,7 +102,7 @@ const Landing: React.FC = () => {
         <Grid item xs={12} className={classes.title}>
           <Title><Trans>Privacy-first cloud storage just got </Trans> <span>{words}</span>. </Title>
           <div className={classes.buttonWrapper}>
-            <Button variant="outline" size="large" className={classes.button} target="__blank" rel="noopenernoreferrer" href="https://app.files.chainsafe.io">Sign up</Button>
+            <Button variant="outline" size="large" className={classes.button}><a target="__blank" rel="noopenernoreferrer" href="https://app.files.chainsafe.io">Sign up</a></Button>
           </div>
         </Grid>
         <img className={classes.img} src="/assets/box.png" alt="Metal box dimly lit with ChainSafe Logo embossed on it"></img>
