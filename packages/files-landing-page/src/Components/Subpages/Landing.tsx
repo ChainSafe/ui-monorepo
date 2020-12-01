@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Grid } from "@chainsafe/common-components";
+import { Grid, Button } from "@chainsafe/common-components";
 import Section from "../Modules/Section";
 import Title from "../Modules/Title";
 import { createStyles, ITheme, makeStyles } from "@chainsafe/common-theme";
@@ -46,18 +46,22 @@ const useStyles = makeStyles(({ constants, palette, zIndex, breakpoints }: IThem
         width: "70%",
       },
       [breakpoints.down('sm')]: {
-        top: 120,
+        top: 75,
       }
     },
     button: {
       zIndex: zIndex?.layer3,
       fontSize: "25px",
-      color: palette.additional["gray"][6],
+      marginTop: constants.generalUnit * 4,
+      color: palette.additional["gray"][3],
       position: "relative",
       padding: "1.5rem 0",
+      background: "transparent",
       '&:hover': {
-        color: palette.additional["gray"][8],
         transition: "ease-in 0.2s"
+      },
+      [breakpoints.up('xl')]: {
+        marginTop: "5rem"
       },
       [breakpoints.down('1400')]: {
         position: "absolute",
@@ -68,6 +72,7 @@ const useStyles = makeStyles(({ constants, palette, zIndex, breakpoints }: IThem
       },
       [breakpoints.down('sm')]: {
         padding: "1rem 0",
+        marginTop: constants.generalUnit,
       },
     },
     buttonWrapper: {
@@ -94,7 +99,7 @@ const Landing: React.FC = () => {
         <Grid item xs={12} className={classes.title}>
           <Title><Trans>Privacy-first cloud storage just got </Trans> <span>{words}</span>. </Title>
           <div className={classes.buttonWrapper}>
-            <a className={classes.button} target="__blank" rel="noopenernoreferrer" href="https://app.files.chainsafe.io">Sign up</a>
+            <Button variant="outline" size="large" className={classes.button} target="__blank" rel="noopenernoreferrer" href="https://app.files.chainsafe.io">Sign up</Button>
           </div>
         </Grid>
         <img className={classes.img} src="/assets/box.png" alt="Metal box dimly lit with ChainSafe Logo embossed on it"></img>

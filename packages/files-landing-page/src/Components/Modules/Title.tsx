@@ -15,8 +15,8 @@ const useStyles = makeStyles(({ constants, palette, breakpoints }: ITheme) => {
       margin: `${constants.generalUnit * 6} 0 ${constants.generalUnit * 2} 0`,
       color: palette.common.white.main,
       [breakpoints.down("md")]: {
-        fontSize: "40px",
-        lineHeight: "48px",
+        fontSize: "30px",
+        lineHeight: "38px",
       },
       [breakpoints.down("xs")]: {
         fontSize: "20px",
