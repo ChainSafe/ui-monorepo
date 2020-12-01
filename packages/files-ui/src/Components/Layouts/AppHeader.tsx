@@ -5,7 +5,7 @@ import {
   makeStyles,
   useMediaQuery,
   useTheme,
-} from "@imploy/common-themes"
+} from "@chainsafe/common-theme"
 import React, { Fragment, useCallback } from "react"
 import clsx from "clsx"
 import {
@@ -15,7 +15,7 @@ import {
   HamburgerMenu,
   MenuDropdown,
   PowerDownSvg,
-} from "@imploy/common-components"
+} from "@chainsafe/common-components"
 import { ROUTE_LINKS } from "../FilesRoutes"
 import SearchModule from "../Modules/SearchModule"
 import { Trans } from "@lingui/macro"
@@ -48,6 +48,7 @@ const useStyles = makeStyles(
             padding: `${constants.headerTopPadding}px ${
               constants.contentPadding
             }px ${0}px ${constants.contentPadding}px`,
+            zIndex: zIndex?.layer1,
           },
         },
         [breakpoints.down("md")]: {
@@ -61,6 +62,7 @@ const useStyles = makeStyles(
             opacity: 1,
             visibility: "visible",
             height: constants.mobileHeaderHeight,
+            zIndex: zIndex?.layer1,
           },
         },
       },
@@ -107,10 +109,12 @@ const useStyles = makeStyles(
         display: "flex",
         flexDirection: "row",
         alignItems: "center",
+        color: palette.additional["gray"][8],
         "& svg": {
           width: constants.generalUnit * 2,
           height: constants.generalUnit * 2,
           marginRight: constants.generalUnit,
+          fill: palette.additional["gray"][7],
         },
       },
       searchModule: {

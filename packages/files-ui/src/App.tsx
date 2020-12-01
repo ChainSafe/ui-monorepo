@@ -4,8 +4,12 @@ import {
   ErrorBoundary,
   showReportDialog,
 } from "@sentry/react"
-import { ThemeSwitcher } from "@imploy/common-themes"
-import { CssBaseline, Router, ToasterProvider } from "@imploy/common-components"
+import { ThemeSwitcher } from "@chainsafe/common-theme"
+import {
+  CssBaseline,
+  Router,
+  ToasterProvider,
+} from "@chainsafe/common-components"
 import { Web3Provider } from "@chainsafe/web3-context"
 import {
   ImployApiProvider,
@@ -19,6 +23,7 @@ import { lightTheme } from "./Themes/LightTheme"
 import { darkTheme } from "./Themes/DarkTheme"
 import { useHotjar } from "react-use-hotjar"
 import { LanguageProvider } from "./Contexts/LanguageContext"
+import { testLocalStorage } from "./Utils/Helpers"
 
 if (
   process.env.NODE_ENV === "production" &&
@@ -69,7 +74,6 @@ const App: React.FC<{}> = () => {
           <CssBaseline />
           <ToasterProvider autoDismiss>
             <Web3Provider
-              networkIds={[1]}
               onboardConfig={{
                 walletSelect: {
                   wallets: [
@@ -93,6 +97,8 @@ const App: React.FC<{}> = () => {
                   ],
                 },
               }}
+              checkNetwork={false}
+              cacheWalletSelection={testLocalStorage()}
             >
               <ImployApiProvider apiUrl={apiUrl}>
                 <UserProvider>

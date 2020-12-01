@@ -1,7 +1,7 @@
 import React from "react"
-import { makeStyles, createStyles } from "@imploy/common-themes"
+import { makeStyles, createStyles } from "@chainsafe/common-theme"
 import clsx from "clsx"
-import { ITheme } from "@imploy/common-themes"
+import { ITheme } from "@chainsafe/common-theme"
 
 interface IStyleProps {
   width: number

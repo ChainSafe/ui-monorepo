@@ -7,7 +7,7 @@ import {
   IPalette,
   makeStyles,
   createStyles,
-} from "@imploy/common-themes"
+} from "@chainsafe/common-theme"
 import { SortDirection } from "./types"
 import { CaretDownSvg } from "../Icons"
 

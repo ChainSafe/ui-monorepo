@@ -1,5 +1,5 @@
 import React from "react"
-import { Switch, ConditionalRoute } from "@imploy/common-components"
+import { Switch, ConditionalRoute } from "@chainsafe/common-components"
 import HomePage from "./Pages/HomePage"
 
 export const ROUTE_LINKS = {

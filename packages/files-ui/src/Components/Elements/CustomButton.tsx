@@ -1,5 +1,5 @@
-import { Button, IButtonProps } from "@imploy/common-components"
-import { createStyles, ITheme, makeStyles } from "@imploy/common-themes"
+import { Button, IButtonProps } from "@chainsafe/common-components"
+import { createStyles, ITheme, makeStyles } from "@chainsafe/common-theme"
 import React, { ReactNode } from "react"
 import clsx from "clsx"
 

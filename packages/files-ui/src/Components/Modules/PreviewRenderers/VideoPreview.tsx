@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react"
 import { IPreviewRendererProps } from "../FilePreviewModal"
-import { makeStyles, ITheme, createStyles } from "@imploy/common-themes"
-import {} from "@imploy/common-components"
+import { makeStyles, ITheme, createStyles } from "@chainsafe/common-theme"
+import {} from "@chainsafe/common-components"
 
 const useStyles = makeStyles(({ constants, palette, zIndex }: ITheme) =>
   createStyles({

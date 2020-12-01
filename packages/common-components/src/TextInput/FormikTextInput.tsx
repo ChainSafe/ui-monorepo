@@ -13,6 +13,7 @@ export interface FormikTextInputProps {
   size?: "large" | "medium" | "small"
   captionMessage?: string
   labelClassName?: string
+  autoFocus?: boolean
 }
 
 const FormikTextInput: React.FC<FormikTextInputProps> = ({
@@ -25,6 +26,7 @@ const FormikTextInput: React.FC<FormikTextInputProps> = ({
   label,
   labelClassName,
   disabled = false,
+  autoFocus,
   captionMessage,
 }: FormikTextInputProps) => {
   const [field, meta, helpers] = useField(name)
@@ -45,6 +47,7 @@ const FormikTextInput: React.FC<FormikTextInputProps> = ({
       }
       state={meta.error ? "error" : undefined}
       onChange={helpers.setValue}
+      autoFocus={autoFocus}
     />
   )
 }

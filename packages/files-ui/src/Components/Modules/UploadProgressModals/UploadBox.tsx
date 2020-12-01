@@ -1,14 +1,14 @@
 import React from "react"
-import { createStyles, ITheme, makeStyles } from "@imploy/common-themes"
+import { createStyles, ITheme, makeStyles } from "@chainsafe/common-theme"
 import { UploadProgress } from "../../../Contexts/DriveContext"
 import {
   ProgressBar,
   Typography,
   CheckCircleIcon,
   CloseCircleIcon,
-} from "@imploy/common-components"
+} from "@chainsafe/common-components"
 import clsx from "clsx"
-import { Trans } from "@lingui/macro"
+import { t, Trans } from "@lingui/macro"
 
 const useStyles = makeStyles(
   ({ constants, palette, animation, breakpoints }: ITheme) => {
@@ -57,7 +57,13 @@ interface IUploadBox {
 
 const UploadBox: React.FC<IUploadBox> = (props) => {
   const { uploadInProgress } = props
-  const { complete, error, noOfFiles, progress } = uploadInProgress
+  const {
+    complete,
+    error,
+    noOfFiles,
+    progress,
+    errorMessage,
+  } = uploadInProgress
   const classes = useStyles()
 
   return (
@@ -74,9 +80,7 @@ const UploadBox: React.FC<IUploadBox> = (props) => {
           <div className={classes.contentContainer}>
             <CloseCircleIcon className={classes.marginRight} />
             <Typography variant="body1" component="p">
-              <Trans>
-                Something went wrong and we couldn't upload your file.
-              </Trans>
+              {errorMessage}
             </Typography>
           </div>
         ) : (

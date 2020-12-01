@@ -4,23 +4,23 @@ import {
   useOnClickOutside,
   makeStyles,
   createStyles,
-} from "@imploy/common-themes"
+} from "@chainsafe/common-theme"
 import clsx from "clsx"
 
 const useStyles = makeStyles(
-  ({ animation, constants, breakpoints, palette, overrides }: ITheme) =>
+  ({ animation, constants, breakpoints, palette, overrides, zIndex }: ITheme) =>
     createStyles({
       // JSS in CSS goes here
       root: {
         position: "fixed",
-        zIndex: 1,
+        zIndex: zIndex?.layer3,
         bottom: 0,
         left: 0,
         width: "100%",
         height: "100%",
+        maxHeight: "100%",
         opacity: 0,
         visibility: "hidden",
-        maxHeight: 0,
         display: "flex",
         flexDirection: "column",
         borderBottomLeftRadius: 0,
@@ -45,10 +45,18 @@ const useStyles = makeStyles(
           backgroundColor: palette.common?.black.main,
           transitionDuration: `${animation.transform}ms`,
         },
+        "& > *": {
+          opacity: 0,
+          visibility: "hidden",
+          transitionDuration: `${animation.transform}ms`,
+        },
         "&.active": {
-          maxHeight: "100%",
           visibility: "visible",
           opacity: 1,
+          "& > *": {
+            opacity: 1,
+            visibility: "visible",
+          },
           ...overrides?.Modal?.active,
         },
         ...overrides?.Modal?.root,

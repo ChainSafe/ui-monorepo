@@ -8,7 +8,7 @@ import {
   GithubLogoIcon,
   ChainsafeFilesLogo,
   Divider,
-} from "@imploy/common-components"
+} from "@chainsafe/common-components"
 import { useImployApi, OAuthProvider } from "@imploy/common-contexts"
 import {
   makeStyles,
@@ -16,7 +16,7 @@ import {
   createStyles,
   useTheme,
   useMediaQuery,
-} from "@imploy/common-themes"
+} from "@chainsafe/common-theme"
 import { useWeb3 } from "@chainsafe/web3-context"
 import LargeLightBulbSvg from "../../Media/LargeLightBulb.svg"
 import SmallBranchSvg from "../../Media/SmallBranch.svg"
@@ -28,7 +28,7 @@ const useStyles = makeStyles(
       root: {
         [breakpoints.down("md")]: {
           backgroundColor: palette.common.black.main,
-          minHeight: "100vh",
+          height: "100vh",
           display: "flex",
         },
       },
@@ -36,14 +36,16 @@ const useStyles = makeStyles(
         backgroundColor: palette.common.black.main,
         color: palette.common.white.main,
         textAlign: "center",
-        alignContent: "center",
-        minHeight: "100vh",
+        alignItems: "center",
+        justifyContent: "center",
+        height: "100vh",
+        display: "flex",
+        flexFlow: "column",
         "& > img": {
-          display: "block",
-          width: `calc(100% - ${constants.generalUnit} * 2)`,
-          maxWidth: 667,
+          height: `calc(100% - 180px)`,
+          maxHeight: "1000px",
           marginBottom: 50,
-          marginTop: 125,
+          marginTop: 50,
         },
       },
       logoContainer: {
