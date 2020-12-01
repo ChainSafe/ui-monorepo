@@ -9,6 +9,26 @@ interface IStyleProps {
 
 const useStyles = makeStyles((theme: ITheme) =>
   createStyles({
+    "@keyframes increase": {
+      from: {
+        left: "-5%",
+        width: "5%",
+      },
+      to: {
+        left: "130%",
+        width: "100%",
+      },
+    },
+    "@keyframes decrease": {
+      from: {
+        left: "-80%",
+        width: "80%",
+      },
+      to: {
+        left: "110%",
+        width: "10%",
+      },
+    },
     root: {
       backgroundColor: theme.palette.additional["gray"][4],
       position: "relative",
@@ -23,6 +43,14 @@ const useStyles = makeStyles((theme: ITheme) =>
       "&.large": {
         height: theme.constants.generalUnit * 3,
         borderRadius: theme.constants.generalUnit * 3,
+      },
+    },
+    subline: {
+      "&.inc": {
+        animation: "increase 2s infinite",
+      },
+      "&.dec": {
+        animation: "decrease 2s 0.5s infinite",
       },
     },
     progressBar: (props: IStyleProps) => ({
@@ -68,7 +96,7 @@ export type ProgressBarVariant = "primary" | "secondary"
 export interface IProgressBarProps {
   className?: string
   state?: ProgressBarState
-  progress: number
+  progress?: number
   size?: ProgressBarSize
   variant?: ProgressBarVariant
 }
@@ -80,13 +108,21 @@ const ProgressBar: React.FC<IProgressBarProps> = ({
   variant,
   ...rest
 }) => {
-  const progressValue = progress < 0 ? 0 : progress > 100 ? 100 : progress
+  const progressValue = progress
+    ? progress < 0
+      ? 0
+      : progress > 100
+      ? 100
+      : progress
+    : -1
   const classes = useStyles({ width: progressValue })
 
   return (
     <div className={clsx(className, classes.root, size)} {...rest}>
       <div
-        className={clsx(classes.progressBar, size, classes[state], variant)}
+        className={clsx(classes.progressBar, size, classes[state], variant, {
+          indeterminate: progressValue == -1,
+        })}
       />
     </div>
   )
