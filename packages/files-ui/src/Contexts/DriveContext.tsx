@@ -336,10 +336,9 @@ const DriveProvider = ({ children }: DriveContextProps) => {
     if (!itemToDownload) return
     const toastId = uuidv4()
     try {
-      // TODO: Create a progress bar toast to show file download progress
       const downloadProgress: DownloadProgress = {
         id: toastId,
-        fileName: itemToDownload.name, // TODO: Do we need this?
+        fileName: itemToDownload.name,
         complete: false,
         error: false,
         progress: 0,
