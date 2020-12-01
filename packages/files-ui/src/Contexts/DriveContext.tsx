@@ -47,7 +47,7 @@ type DriveContext = {
   renameFile(body: FilesMvRequest): Promise<void>
   moveFile(body: FilesMvRequest): Promise<void>
   deleteFile(cid: string): Promise<void>
-  downloadFile(fileName: string): Promise<void>
+  downloadFile(cid: string): Promise<void>
   getFileContent(
     fileName: string,
     cancelToken?: CancelToken,
@@ -396,7 +396,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
         moveFile,
         deleteFile,
         downloadFile,
-        getFileContent: getFileContent,
+        getFileContent,
         list,
         currentPath,
         updateCurrentPath: (newPath: string) =>

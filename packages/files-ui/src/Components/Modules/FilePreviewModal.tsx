@@ -306,7 +306,7 @@ const FilePreviewModal: React.FC<{
                   </span>
                 </Fragment>
               ),
-              onClick: () => downloadFile(file.name),
+              onClick: () => downloadFile(file.cid),
             },
           ]}
           indicator={MoreIcon}
@@ -355,7 +355,7 @@ const FilePreviewModal: React.FC<{
                   <br />
                   <Button
                     className={classes.downloadButton}
-                    onClick={() => downloadFile(file.name)}
+                    onClick={() => downloadFile(file.cid)}
                   >
                     <Trans>Download</Trans>
                   </Button>
