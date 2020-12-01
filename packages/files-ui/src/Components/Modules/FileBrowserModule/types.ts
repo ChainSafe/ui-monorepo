@@ -1,6 +1,6 @@
 export type FileOperation = "rename" | "delete" | "download" | "share" | "move"
 
-export interface IFileBrowserModuleProps {
+export interface IFileBrowserProps {
   heading?: string
   // TODO: once pagination & unique content requests are present, this might change to a passed in function
   controls?: boolean

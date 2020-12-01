@@ -43,7 +43,7 @@ import { Trans } from "@lingui/macro"
 import FileOrFolderView from "./FileOrFolderView"
 import { NativeTypes } from "react-dnd-html5-backend"
 import { useDrop } from "react-dnd"
-import { IFileBrowserModuleProps } from "./types"
+import { IFileBrowserProps } from "./types"
 
 const useStyles = makeStyles(
   ({ animation, breakpoints, constants, palette, zIndex }: ITheme) => {
@@ -186,14 +186,12 @@ const useStyles = makeStyles(
   },
 )
 
-export interface IFileBrowserProps {}
-
-const FileBrowserModule: React.FC<IFileBrowserModuleProps> = ({
+const FileBrowserModule: React.FC<IFileBrowserProps> = ({
   heading = "My Files",
   controls = true,
   fileOperations,
   folderOperations,
-}: IFileBrowserModuleProps) => {
+}: IFileBrowserProps) => {
   const classes = useStyles()
   const {
     deleteFile,
