@@ -136,7 +136,7 @@ interface IFileOrFolderProps {
   handleRename(path: string, newPath: string): Promise<void>
   handleMove(path: string, newPath: string): Promise<void>
   deleteFile(cid: string): Promise<void>
-  downloadFile(name: string): Promise<void>
+  downloadFile(cid: string): Promise<void>
   handleUploadOnDrop(
     files: File[],
     fileItems: DataTransferItemList,
@@ -212,7 +212,7 @@ const FileOrFolderView: React.FC<IFileOrFolderProps> = ({
           </span>
         </Fragment>
       ),
-      onClick: () => downloadFile(file.name),
+      onClick: () => downloadFile(file.cid),
     },
     share: {
       contents: (

@@ -44,6 +44,7 @@ import FileOrFolderView from "./FileOrFolderView"
 import { NativeTypes } from "react-dnd-html5-backend"
 import { useDrop } from "react-dnd"
 import { IFileBrowserProps } from "./types"
+import DownloadProgressModals from "../DownloadProgressModals"
 
 const useStyles = makeStyles(
   ({ animation, breakpoints, constants, palette, zIndex }: ITheme) => {
@@ -644,6 +645,7 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
         />
       )}
       <UploadProgressModals />
+      <DownloadProgressModals />
       <CreateFolderModule
         modalOpen={createFolderModalOpen}
         close={() => setCreateFolderModalOpen(false)}
