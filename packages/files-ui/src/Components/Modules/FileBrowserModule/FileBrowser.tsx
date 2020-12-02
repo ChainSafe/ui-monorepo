@@ -432,13 +432,13 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
         </Typography>
       </div>
       <div className={classes.breadCrumbContainer}>
-        {crumbs.length > 0 && (
-          <Breadcrumb
-            crumbs={crumbs}
-            homeOnClick={() => updateCurrentPath("/")}
-            showDropDown={!desktop}
-          />
-        )}
+        {/* {crumbs.length > 0 && ( */}
+        <Breadcrumb
+          crumbs={crumbs}
+          homeOnClick={() => updateCurrentPath("/")}
+          showDropDown={!desktop}
+        />
+        {/* )} */}
       </div>
       <header className={classes.header}>
         <Typography variant="h1" component="h1">

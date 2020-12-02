@@ -35,6 +35,7 @@ const useStyles = makeStyles(
       },
       home: {
         height: 16,
+        margin: "3px 0",
         "& > svg": {
           display: "block",
           height: "100%",
