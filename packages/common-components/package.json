@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "@material-ui/styles": "^4.11.1",
-    "@types/react-select": "^3.0.26",
+    "@types/react-select": "^3.0.27",
     "a11y-react-emoji": "^1.1.2",
     "clsx": "^1.1.1",
     "normalize.css": "^8.0.1",
