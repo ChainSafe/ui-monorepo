@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "@babel/core": "^7.12.9",
-    "@craco/craco": "^5.7.0",
+    "@craco/craco": "^5.9.0",
     "@lingui/babel-preset-react": "^2.9.2",
     "@lingui/core": "^3.0.0",
     "@lingui/macro": "3.2.3",
