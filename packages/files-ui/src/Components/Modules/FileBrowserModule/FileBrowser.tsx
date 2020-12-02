@@ -43,6 +43,7 @@ import { Trans } from "@lingui/macro"
 import FileOrFolderView from "./FileOrFolderView"
 import { NativeTypes } from "react-dnd-html5-backend"
 import { useDrop } from "react-dnd"
+import { IFileBrowserProps } from "./types"
 
 const useStyles = makeStyles(
   ({ animation, breakpoints, constants, palette, zIndex }: ITheme) => {
@@ -185,15 +186,11 @@ const useStyles = makeStyles(
   },
 )
 
-export interface IFileBrowserProps {
-  heading?: string
-  // TODO: once pagination & unique content requests are present, this might change to a passed in function
-  controls?: boolean
-}
-
 const FileBrowserModule: React.FC<IFileBrowserProps> = ({
   heading = "My Files",
   controls = true,
+  fileOperations,
+  folderOperations,
 }: IFileBrowserProps) => {
   const classes = useStyles()
   const {
@@ -615,6 +612,8 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
                 index={index}
                 file={file}
                 files={files}
+                fileOperations={fileOperations}
+                folderOperations={folderOperations}
                 currentPath={currentPath}
                 updateCurrentPath={updateCurrentPath}
                 selected={selected}

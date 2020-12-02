@@ -252,4 +252,4 @@ const MenuDropdown: React.FC<IMenuDropdownProps> = ({
 
 export default MenuDropdown
 
-export { IMenuDropdownProps }
+export { IMenuItem, IMenuDropdownProps }
