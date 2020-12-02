@@ -374,8 +374,6 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
       updateCurrentPath(getPathFromArray(arrayOfPaths.slice(0, index + 1))),
   }))
 
-  console.log(crumbs)
-
   // Media queries
   const { breakpoints }: ITheme = useTheme()
   const desktop = useMediaQuery(breakpoints.up("md"))
