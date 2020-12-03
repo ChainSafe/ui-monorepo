@@ -370,7 +370,10 @@ const DriveProvider = ({ children }: DriveContextProps) => {
       })
       URL.revokeObjectURL(link.href)
       setTimeout(() => {
-        dispatchUploadsInProgress({ type: "remove", payload: { id: toastId } })
+        dispatchDownloadsInProgress({
+          type: "remove",
+          payload: { id: toastId },
+        })
       }, REMOVE_UPLOAD_PROGRESS_DELAY)
       return Promise.resolve()
     } catch (error) {
