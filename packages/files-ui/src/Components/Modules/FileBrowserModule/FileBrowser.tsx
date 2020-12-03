@@ -44,10 +44,12 @@ import FileOrFolderView from "./FileOrFolderView"
 import { NativeTypes } from "react-dnd-html5-backend"
 import { useDrop } from "react-dnd"
 import { IFileBrowserProps } from "./types"
+import DownloadProgressModals from "../DownloadProgressModals"
 
 const useStyles = makeStyles(
   ({ animation, breakpoints, constants, palette, zIndex }: ITheme) => {
-    const desktopGridSettings = "50px 69px 3fr 190px 100px 45px !important"
+    // const desktopGridSettings = "50px 69px 3fr 190px 100px 45px !important"
+    const desktopGridSettings = "50px 3fr 190px 60px !important"
     const mobileGridSettings = "69px 3fr 45px !important"
     return createStyles({
       root: {
@@ -431,13 +433,13 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
         </Typography>
       </div>
       <div className={classes.breadCrumbContainer}>
-        {crumbs.length > 0 && (
-          <Breadcrumb
-            crumbs={crumbs}
-            homeOnClick={() => updateCurrentPath("/")}
-            showDropDown={!desktop}
-          />
-        )}
+        {/* {crumbs.length > 0 && ( */}
+        <Breadcrumb
+          crumbs={crumbs}
+          homeOnClick={() => updateCurrentPath("/")}
+          showDropDown={!desktop}
+        />
+        {/* )} */}
       </div>
       <header className={classes.header}>
         <Typography variant="h1" component="h1">
@@ -531,13 +533,13 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
           {desktop && (
             <TableHead>
               <TableRow type="grid" className={classes.tableRow}>
-                <TableHeadCell>
+                {/* <TableHeadCell>
                   <CheckboxInput
                     value={selected.length === items.length}
                     disabled
                     onChange={() => toggleAll()}
                   />
-                </TableHeadCell>
+                </TableHeadCell> */}
                 <TableHeadCell>
                   {/* 
                         Icon
@@ -644,6 +646,7 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
         />
       )}
       <UploadProgressModals />
+      <DownloadProgressModals />
       <CreateFolderModule
         modalOpen={createFolderModalOpen}
         close={() => setCreateFolderModalOpen(false)}

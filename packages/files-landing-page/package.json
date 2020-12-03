@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "@babel/core": "^7.12.9",
-    "@craco/craco": "^5.7.0",
+    "@craco/craco": "^5.9.0",
     "@lingui/babel-preset-react": "^2.9.2",
     "@lingui/core": "^3.0.0",
     "@lingui/macro": "3.2.3",
@@ -13,7 +13,7 @@
     "@testing-library/jest-dom": "^5.11.6",
     "@testing-library/react": "^11.2.2",
     "@testing-library/user-event": "^12.3.0",
-    "@types/jest": "^24.0.0",
+    "@types/jest": "^26.0.16",
     "@types/node": "^14.14.10",
     "@types/react": "^17.0.0",
     "@types/react-dom": "^16.9.10",

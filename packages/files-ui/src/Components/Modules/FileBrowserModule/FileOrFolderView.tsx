@@ -32,7 +32,8 @@ import { NativeTypes } from "react-dnd-html5-backend"
 import { FileOperation } from "./types"
 
 const useStyles = makeStyles(({ breakpoints, constants, palette }: ITheme) => {
-  const desktopGridSettings = "50px 69px 3fr 190px 100px 45px !important"
+  // const desktopGridSettings = "50px 69px 3fr 190px 100px 45px !important"
+  const desktopGridSettings = "50px 3fr 190px 60px !important"
   const mobileGridSettings = "69px 3fr 45px !important"
   return createStyles({
     tableRow: {
@@ -136,7 +137,7 @@ interface IFileOrFolderProps {
   handleRename(path: string, newPath: string): Promise<void>
   handleMove(path: string, newPath: string): Promise<void>
   deleteFile(cid: string): Promise<void>
-  downloadFile(name: string): Promise<void>
+  downloadFile(cid: string): Promise<void>
   handleUploadOnDrop(
     files: File[],
     fileItems: DataTransferItemList,
@@ -212,7 +213,7 @@ const FileOrFolderView: React.FC<IFileOrFolderProps> = ({
           </span>
         </Fragment>
       ),
-      onClick: () => downloadFile(file.name),
+      onClick: () => downloadFile(file.cid),
     },
     share: {
       contents: (
@@ -290,14 +291,14 @@ const FileOrFolderView: React.FC<IFileOrFolderProps> = ({
       ref={attachRef}
       selected={selected.includes(file.cid)}
     >
-      {desktop && (
+      {/* {desktop && (
         <TableCell>
           <CheckboxInput
             value={selected.includes(file.cid)}
             onChange={() => handleSelect(file.cid)}
           />
         </TableCell>
-      )}
+      )} */}
       <TableCell
         className={clsx(classes.fileIcon, file.isFolder && classes.folderIcon)}
         onClick={() => {

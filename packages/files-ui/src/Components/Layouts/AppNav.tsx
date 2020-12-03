@@ -274,9 +274,9 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
                   progress={(spaceUsed / FREE_PLAN_LIMIT) * 100}
                   size="small"
                 />
-                <Button disabled variant="outline" size="small">
+                {/* <Button disabled variant="outline" size="small">
                   <Trans>UPGRADE</Trans>
-                </Button>
+                </Button> */}
               </div>
             )}
             {!desktop && (
