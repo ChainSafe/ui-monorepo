@@ -213,6 +213,10 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
     }
   }, [desktop, navOpen, setNavOpen])
 
+  const collectFeedback = () => {
+    window.open("https://forms.gle/FefqZRD3fDVYyarC8", "_blank")
+  }
+
   return (
     <section
       className={clsx(classes.root, {
@@ -239,7 +243,7 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
               <Link onClick={handleOnClick} className={classes.navItem} to="">
                 <DatabaseSvg />
                 <Typography variant="h5" className={classes.navItemText}>
-                  <Trans>All</Trans>
+                  <Trans>Home</Trans>
                 </Typography>
               </Link>
             </nav>
@@ -277,6 +281,13 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
                 {/* <Button disabled variant="outline" size="small">
                   <Trans>UPGRADE</Trans>
                 </Button> */}
+                <Button
+                  variant="outline"
+                  size="small"
+                  onClick={() => collectFeedback()}
+                >
+                  <Trans>Send Feedback</Trans>
+                </Button>
               </div>
             )}
             {!desktop && (
