@@ -13,7 +13,7 @@
   },
   "dependencies": {},
   "devDependencies": {
-    "@sentry/cli": "1.59.0",
+    "@sentry/cli": "1.60.1",
     "chalk": "^4.1.0",
     "husky": "^4.3.0",
     "prettier": "2.2.1",
