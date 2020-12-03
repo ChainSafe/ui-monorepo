@@ -6,9 +6,12 @@ import {
 } from "@sentry/react"
 import { ThemeSwitcher } from "@chainsafe/common-theme"
 import {
+  Button,
   CssBaseline,
+  Modal,
   Router,
   ToasterProvider,
+  Typography,
 } from "@chainsafe/common-components"
 import { Web3Provider } from "@chainsafe/web3-context"
 import {
@@ -27,15 +30,13 @@ import { testLocalStorage } from "./Utils/Helpers"
 
 if (
   process.env.NODE_ENV === "production" &&
-  process.env.REACT_APP_SENTRY_DSN_URL &&
-  process.env.REACT_APP_SENTRY_RELEASE
+  process.env.REACT_APP_SENTRY_DSN_URL
 ) {
   initSentry({
     dsn: process.env.REACT_APP_SENTRY_DSN_URL,
     release: process.env.REACT_APP_SENTRY_RELEASE,
   })
 }
-
 const App: React.FC<{}> = () => {
   const { initHotjar } = useHotjar()
   const hotjarId = process.env.REACT_APP_HOTJAR_ID
@@ -50,27 +51,29 @@ const App: React.FC<{}> = () => {
   }, [hotjarId, initHotjar])
 
   return (
-    <ErrorBoundary
-      fallback={({ error, componentStack, eventId, resetError }) => (
-        <div>
-          <p>
-            An error occurred and has been logged. If you would like to provide
-            additional info to help us debug and resolve the issue, click the
-            "Provide Additional Details" button
-          </p>
-          <p>{error?.message.toString()}</p>
-          <p>{componentStack}</p>
-          <p>{eventId}</p>
-          <button onClick={() => showReportDialog({ eventId: eventId || "" })}>
-            Provide Additional Details
-          </button>
-          <button onClick={resetError}>Reset error</button>
-        </div>
-      )}
-      onReset={() => window.location.reload()}
-    >
-      <LanguageProvider availableLanguages={[{ id: "en", label: "English" }]}>
-        <ThemeSwitcher themes={{ light: lightTheme, dark: darkTheme }}>
+    <ThemeSwitcher themes={{ light: lightTheme, dark: darkTheme }}>
+      <ErrorBoundary
+        fallback={({ error, componentStack, eventId, resetError }) => (
+          <Modal active closePosition="none" setActive={resetError}>
+            <Typography>
+              An error occured and has been logged. If you would like to provide
+              additional info to help us debug and resolve the issue, click the
+              "Provide Additional Details" button
+            </Typography>
+            <Typography>{error?.message.toString()}</Typography>
+            <Typography>{componentStack}</Typography>
+            <Typography>{eventId}</Typography>
+            <Button
+              onClick={() => showReportDialog({ eventId: eventId || "" })}
+            >
+              Provide Additional Details
+            </Button>
+            <Button onClick={resetError}>Reset error</Button>
+          </Modal>
+        )}
+        onReset={() => window.location.reload()}
+      >
+        <LanguageProvider availableLanguages={[{ id: "en", label: "English" }]}>
           <CssBaseline />
           <ToasterProvider autoDismiss>
             <Web3Provider
@@ -115,9 +118,9 @@ const App: React.FC<{}> = () => {
               </ImployApiProvider>
             </Web3Provider>
           </ToasterProvider>
-        </ThemeSwitcher>
-      </LanguageProvider>
-    </ErrorBoundary>
+        </LanguageProvider>
+      </ErrorBoundary>
+    </ThemeSwitcher>
   )
 }
 
