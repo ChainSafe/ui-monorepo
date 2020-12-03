@@ -9,7 +9,10 @@ import { useImployApi } from "@imploy/common-contexts"
 import dayjs from "dayjs"
 import { v4 as uuidv4 } from "uuid"
 import { useToaster } from "@chainsafe/common-components"
-import { uploadsInProgressReducer } from "./DriveReducer"
+import {
+  downloadsInProgressReducer,
+  uploadsInProgressReducer,
+} from "./DriveReducer"
 import { guessContentType } from "../Utils/contentTypeGuesser"
 import { CancelToken } from "axios"
 import { t } from "@lingui/macro"
@@ -29,13 +32,22 @@ export type UploadProgress = {
   path: string
 }
 
+export type DownloadProgress = {
+  id: string
+  fileName: string
+  progress: number
+  error: boolean
+  errorMessage?: string
+  complete: boolean
+}
+
 type DriveContext = {
   uploadFiles(files: File[], path: string): void
   createFolder(body: FilesPathRequest): Promise<FileContentResponse>
   renameFile(body: FilesMvRequest): Promise<void>
   moveFile(body: FilesMvRequest): Promise<void>
   deleteFile(cid: string): Promise<void>
-  downloadFile(fileName: string): Promise<void>
+  downloadFile(cid: string): Promise<void>
   getFileContent(
     fileName: string,
     cancelToken?: CancelToken,
@@ -46,6 +58,7 @@ type DriveContext = {
   updateCurrentPath(newPath: string): void
   pathContents: IItem[]
   uploadsInProgress: UploadProgress[]
+  downloadsInProgress: DownloadProgress[]
   spaceUsed: number
 }
 
@@ -139,6 +152,11 @@ const DriveProvider = ({ children }: DriveContextProps) => {
 
   const [uploadsInProgress, dispatchUploadsInProgress] = useReducer(
     uploadsInProgressReducer,
+    [],
+  )
+
+  const [downloadsInProgress, dispatchDownloadsInProgress] = useReducer(
+    downloadsInProgressReducer,
     [],
   )
 
@@ -313,29 +331,53 @@ const DriveProvider = ({ children }: DriveContextProps) => {
     }
   }
 
-  const downloadFile = async (fileName: string) => {
-    addToastMessage({
-      message: t`Preparing your download`,
-      appearance: "info",
-    })
+  const downloadFile = async (cid: string) => {
+    const itemToDownload = pathContents.find((i) => i.cid === cid)
+    if (!itemToDownload) return
+    const toastId = uuidv4()
     try {
-      // TODO: Create a progress bar toast to show file download progress
-      const result = await getFileContent(fileName)
+      const downloadProgress: DownloadProgress = {
+        id: toastId,
+        fileName: itemToDownload.name,
+        complete: false,
+        error: false,
+        progress: 0,
+      }
+      dispatchDownloadsInProgress({ type: "add", payload: downloadProgress })
+      const result = await getFileContent(
+        itemToDownload?.name || "",
+        undefined,
+        (progressEvent) => {
+          dispatchDownloadsInProgress({
+            type: "progress",
+            payload: {
+              id: toastId,
+              progress: Math.ceil(
+                (progressEvent.loaded / itemToDownload.size) * 100,
+              ),
+            },
+          })
+        },
+      )
+      if (!result) return
       const link = document.createElement("a")
       link.href = URL.createObjectURL(result)
-      link.download = fileName
+      link.download = itemToDownload?.name || "file"
       link.click()
-      addToastMessage({
-        message: t`Download is ready`,
-        appearance: "info",
+      dispatchDownloadsInProgress({
+        type: "complete",
+        payload: { id: toastId },
       })
       URL.revokeObjectURL(link.href)
+      setTimeout(() => {
+        dispatchDownloadsInProgress({
+          type: "remove",
+          payload: { id: toastId },
+        })
+      }, REMOVE_UPLOAD_PROGRESS_DELAY)
       return Promise.resolve()
     } catch (error) {
-      addToastMessage({
-        message: t`There was an error downloading this file`,
-        appearance: "error",
-      })
+      dispatchDownloadsInProgress({ type: "error", payload: { id: toastId } })
       return Promise.reject()
     }
   }
@@ -357,7 +399,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
         moveFile,
         deleteFile,
         downloadFile,
-        getFileContent: getFileContent,
+        getFileContent,
         list,
         currentPath,
         updateCurrentPath: (newPath: string) =>
@@ -367,6 +409,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
         pathContents,
         uploadsInProgress,
         spaceUsed,
+        downloadsInProgress,
       }}
     >
       {children}
