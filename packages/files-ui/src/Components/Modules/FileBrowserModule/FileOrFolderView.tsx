@@ -15,6 +15,9 @@ import {
   DownloadSvg,
   DeleteSvg,
   EditSvg,
+  IMenuItem,
+  ExportIcon,
+  ShareAltIcon,
 } from "@chainsafe/common-components"
 import { makeStyles, ITheme, createStyles } from "@chainsafe/common-theme"
 import clsx from "clsx"
@@ -26,9 +29,11 @@ import { Trans } from "@lingui/macro"
 import { useDrag, useDrop } from "react-dnd"
 import { DragTypes } from "./DragConstants"
 import { NativeTypes } from "react-dnd-html5-backend"
+import { FileOperation } from "./types"
 
 const useStyles = makeStyles(({ breakpoints, constants, palette }: ITheme) => {
-  const desktopGridSettings = "50px 69px 3fr 190px 100px 45px !important"
+  // const desktopGridSettings = "50px 69px 3fr 190px 100px 45px !important"
+  const desktopGridSettings = "50px 3fr 190px 60px !important"
   const mobileGridSettings = "69px 3fr 45px !important"
   return createStyles({
     tableRow: {
@@ -121,6 +126,8 @@ interface IFileOrFolderProps {
   file: IFile
   files: IFile[]
   currentPath: string
+  fileOperations: FileOperation[]
+  folderOperations: FileOperation[]
   updateCurrentPath(path: string): void
   selected: string[]
   handleSelect(selected: string): void
@@ -130,7 +137,7 @@ interface IFileOrFolderProps {
   handleRename(path: string, newPath: string): Promise<void>
   handleMove(path: string, newPath: string): Promise<void>
   deleteFile(cid: string): Promise<void>
-  downloadFile(name: string): Promise<void>
+  downloadFile(cid: string): Promise<void>
   handleUploadOnDrop(
     files: File[],
     fileItems: DataTransferItemList,
@@ -144,6 +151,8 @@ const FileOrFolderView: React.FC<IFileOrFolderProps> = ({
   index,
   file,
   files,
+  fileOperations,
+  folderOperations,
   currentPath,
   updateCurrentPath,
   selected,
@@ -171,6 +180,64 @@ const FileOrFolderView: React.FC<IFileOrFolderProps> = ({
   }
 
   const classes = useStyles()
+
+  const menuOptions: Record<FileOperation, IMenuItem> = {
+    rename: {
+      contents: (
+        <Fragment>
+          <EditSvg className={classes.menuIcon} />
+          <span>
+            <Trans>Rename</Trans>
+          </span>
+        </Fragment>
+      ),
+      onClick: () => setEditing(file.cid),
+    },
+    delete: {
+      contents: (
+        <Fragment>
+          <DeleteSvg className={classes.menuIcon} />
+          <span>
+            <Trans>Delete</Trans>
+          </span>
+        </Fragment>
+      ),
+      onClick: () => deleteFile(file.cid),
+    },
+    download: {
+      contents: (
+        <Fragment>
+          <DownloadSvg className={classes.menuIcon} />
+          <span>
+            <Trans>Download</Trans>
+          </span>
+        </Fragment>
+      ),
+      onClick: () => downloadFile(file.cid),
+    },
+    share: {
+      contents: (
+        <Fragment>
+          <ExportIcon className={classes.menuIcon} />
+          <span>Move</span>
+        </Fragment>
+      ),
+      onClick: () => console.log,
+    },
+    move: {
+      contents: (
+        <Fragment>
+          <ShareAltIcon className={classes.menuIcon} />
+          <span>Share</span>
+        </Fragment>
+      ),
+      onClick: () => console.log,
+    },
+  }
+
+  const menuItems: IMenuItem[] = file.isFolder
+    ? folderOperations.map((folderOperation) => menuOptions[folderOperation])
+    : fileOperations.map((fileOperation) => menuOptions[fileOperation])
 
   const [, dragMoveRef] = useDrag({
     item: { type: DragTypes.MOVABLE_FILE, payload: file },
@@ -224,14 +291,14 @@ const FileOrFolderView: React.FC<IFileOrFolderProps> = ({
       ref={attachRef}
       selected={selected.includes(file.cid)}
     >
-      {desktop && (
+      {/* {desktop && (
         <TableCell>
           <CheckboxInput
             value={selected.includes(file.cid)}
             onChange={() => handleSelect(file.cid)}
           />
         </TableCell>
-      )}
+      )} */}
       <TableCell
         className={clsx(classes.fileIcon, file.isFolder && classes.folderIcon)}
         onClick={() => {
@@ -269,7 +336,9 @@ const FileOrFolderView: React.FC<IFileOrFolderProps> = ({
                 className={classes.renameInput}
                 name="fileName"
                 inputVariant="minimal"
-                placeholder="Please enter a file name"
+                placeholder={`Please enter a ${
+                  file.isFolder ? "folder" : "file"
+                } name`}
                 autoFocus={editing === file.cid}
               />
             </Form>
@@ -309,7 +378,9 @@ const FileOrFolderView: React.FC<IFileOrFolderProps> = ({
                   label="Name"
                   className={classes.renameInput}
                   name="fileName"
-                  placeholder="Please enter a file name"
+                  placeholder={`Please enter a ${
+                    file.isFolder ? "folder" : "file"
+                  } name`}
                   autoFocus={editing === file.cid}
                 />
                 <footer className={classes.renameFooter}>
@@ -352,59 +423,7 @@ const FileOrFolderView: React.FC<IFileOrFolderProps> = ({
         <MenuDropdown
           animation="none"
           anchor={desktop ? "bottom-center" : "bottom-right"}
-          menuItems={[
-            // {
-            //   contents: (
-            //     <Fragment>
-            //       <ExportIcon className={classes.menuIcon} />
-            //       <span>Move</span>
-            //     </Fragment>
-            //   ),
-            //   onClick: () => console.log,
-            // },
-            // {
-            //   contents: (
-            //     <Fragment>
-            //       <ShareAltIcon className={classes.menuIcon} />
-            //       <span>Share</span>
-            //     </Fragment>
-            //   ),
-            //   onClick: () => console.log,
-            // },
-            {
-              contents: (
-                <Fragment>
-                  <EditSvg className={classes.menuIcon} />
-                  <span>
-                    <Trans>Rename</Trans>
-                  </span>
-                </Fragment>
-              ),
-              onClick: () => setEditing(file.cid),
-            },
-            {
-              contents: (
-                <Fragment>
-                  <DeleteSvg className={classes.menuIcon} />
-                  <span>
-                    <Trans>Delete</Trans>
-                  </span>
-                </Fragment>
-              ),
-              onClick: () => deleteFile(file.cid),
-            },
-            {
-              contents: (
-                <Fragment>
-                  <DownloadSvg className={classes.menuIcon} />
-                  <span>
-                    <Trans>Download</Trans>
-                  </span>
-                </Fragment>
-              ),
-              onClick: () => downloadFile(file.name),
-            },
-          ]}
+          menuItems={menuItems}
           indicator={MoreIcon}
         />
       </TableCell>

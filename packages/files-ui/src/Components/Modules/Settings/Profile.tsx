@@ -231,7 +231,7 @@ const ProfileView: React.FC<IProfileProps> = (props) => {
               </Formik>
             </div>
           </div>
-          <div id="deletion" className={classes.bodyContainer}>
+          {/* <div id="deletion" className={classes.bodyContainer}>
             <div className={classes.deletionBox}>
               <Typography
                 variant="h4"
@@ -258,7 +258,7 @@ const ProfileView: React.FC<IProfileProps> = (props) => {
                 <Trans>Delete Account</Trans>
               </Button>
             </div>
-          </div>
+          </div> */}
         </div>
       </Grid>
     </Grid>
