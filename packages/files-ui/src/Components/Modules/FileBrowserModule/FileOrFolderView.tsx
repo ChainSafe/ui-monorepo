@@ -44,6 +44,7 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: ITheme) => {
       [breakpoints.down("md")]: {
         gridTemplateColumns: mobileGridSettings,
       },
+      transform: "translate3d(0, 0, 0)",
       "&.droppable": {
         border: `2px solid ${palette.additional["geekblue"][6]}`,
       },
