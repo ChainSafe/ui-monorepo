@@ -32,7 +32,6 @@ const useStyles = makeStyles(({ palette, constants, breakpoints }: ITheme) => {
       flexGrow: 0,
       flexBasis: "300px",
       color: palette.additional["gray"][3],
-      height: "140px",
       margin: "0 0 1rem 0",
       "&:hover": {
         color: palette.additional["gray"][8],
@@ -59,7 +58,12 @@ const useStyles = makeStyles(({ palette, constants, breakpoints }: ITheme) => {
       },
     },
     header: {
-      paddingBottom: constants.generalUnit,
+      paddingBottom: constants.generalUnit * 3,
+      flex: 0,
+    },
+    item: {
+      flex: 0,
+      paddingBottom: constants.generalUnit * 2,
     },
     hr: {
       padding: constants.generalUnit,
@@ -114,13 +118,31 @@ const Footer: React.FC = () => {
                 <Trans>Product</Trans>
               </Typography>
             </Grid>
-            <Grid item>
+            <Grid item className={classes.item}>
               <a
                 href="https://app.files.chainsafe.io/"
                 rel="noopener noreferrer"
                 target="_blank"
               >
                 <Typography variant="h4">Launch App</Typography>
+              </a>
+            </Grid>
+            <Grid item className={classes.item}>
+              <a
+                href="/terms-of-service"
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                <Typography variant="h4">Terms of Service</Typography>
+              </a>
+            </Grid>
+            <Grid item className={classes.item}>
+              <a
+                href="/privacy-policy"
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                <Typography variant="h4">Privacy Policy</Typography>
               </a>
             </Grid>
           </Grid>
@@ -130,7 +152,7 @@ const Footer: React.FC = () => {
                 <Trans>Company</Trans>
               </Typography>
             </Grid>
-            <Grid item>
+            <Grid item className={classes.item}>
               <a
                 href="https:/chainsafe.io/"
                 rel="noopener noreferrer"
@@ -146,7 +168,7 @@ const Footer: React.FC = () => {
                 <Trans>Community</Trans>
               </Typography>
             </Grid>
-            <Grid item>
+            <Grid item className={classes.item}>
               <a
                 href="https://twitter.com/ChainSafeth"
                 target="__blank"
@@ -154,6 +176,17 @@ const Footer: React.FC = () => {
               >
                 <Typography variant="h4">
                   <Trans>Twitter</Trans>
+                </Typography>
+              </a>
+            </Grid>
+            <Grid item className={classes.item}>
+              <a
+                href="https://github.com/ChainSafe"
+                target="__blank"
+                rel="noopener noreferrer"
+              >
+                <Typography variant="h4">
+                  <Trans>Github</Trans>
                 </Typography>
               </a>
             </Grid>
