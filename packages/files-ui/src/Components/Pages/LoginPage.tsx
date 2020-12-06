@@ -21,6 +21,7 @@ import { useWeb3 } from "@chainsafe/web3-context"
 import LargeLightBulbSvg from "../../Media/LargeLightBulb.svg"
 import SmallBranchSvg from "../../Media/SmallBranch.svg"
 import { Trans } from "@lingui/macro"
+import { ROUTE_LINKS } from "../FilesRoutes"
 
 const useStyles = makeStyles(
   ({ palette, constants, typography, breakpoints }: ITheme) =>
@@ -109,8 +110,11 @@ const useStyles = makeStyles(
           textAlign: "center",
         },
       },
+      termsText: {
+        marginTop: constants.generalUnit * 2,
+      },
       footerText: {
-        marginTop: constants.generalUnit * 6,
+        marginTop: constants.generalUnit * 4,
         fontSize: 16,
         [breakpoints.down("md")]: {
           color: palette.common.white.main,
@@ -319,6 +323,30 @@ const LoginPage = () => {
               <FacebookLogoIcon />
               <Trans>Continue with Facebook</Trans>
             </Button>
+            {activeMode === "newUser" && (
+              <Typography
+                component="p"
+                variant="body2"
+                className={classes.termsText}
+              >
+                By signing up you agree to the <br />
+                <a
+                  href={ROUTE_LINKS.Terms}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Terms of Service
+                </a>{" "}
+                and{" "}
+                <a
+                  href={ROUTE_LINKS.PrivacyPolicy}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Privacy Policy
+                </a>
+              </Typography>
+            )}
             <Typography className={classes.footerText}>
               {activeMode === "newUser"
                 ? "Already have an account?"
@@ -334,14 +362,6 @@ const LoginPage = () => {
                 <Trans>Create an account</Trans>
               )}
             </Typography>
-            {/* {
-              desktop && (
-                <>
-                  <Link to={ROUTE_LINKS.PrivacyPolicy}>Privacy Policy</Link>
-                  <Link to={ROUTE_LINKS.Terms}>Terms and Conditions</Link>
-                </>
-              )
-            } */}
           </div>
         </Grid>
       </Grid>
