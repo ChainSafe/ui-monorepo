@@ -336,7 +336,7 @@ const LoginPage = () => {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  Terms of service
+                  Terms of Service
                 </a>{" "}
                 and{" "}
                 <a
