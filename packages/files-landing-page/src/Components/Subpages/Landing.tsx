@@ -54,7 +54,7 @@ const useStyles = makeStyles(
         marginTop: constants.generalUnit * 4,
         color: palette.additional["gray"][3],
         position: "relative",
-        padding: "1.5rem 0",
+        padding: "1.2rem 2rem !important",
         background: "transparent",
         "& > a": {
           textDecoration: "none",

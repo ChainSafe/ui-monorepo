@@ -9,8 +9,8 @@ import PurchasePlanPage from "./Pages/PurchasePlanPage"
 
 export const ROUTE_LINKS = {
   Landing: "/",
-  PrivacyPolicy: "",
-  Terms: "",
+  PrivacyPolicy: "https://files.chainsafe.io/privacy-policy",
+  Terms: "https://files.chainsafe.io/terms-of-service",
   Home: "/home",
   Settings: "/settings",
   OAuthCallback: "/oauth2/callback/:provider",
