@@ -129,20 +129,20 @@ const Footer: React.FC = () => {
             </Grid>
             <Grid item className={classes.item}>
               <a
-                href="https://app.files.chainsafe.io/terms-of-service"
+                href="https://files.chainsafe.io/terms-of-service"
                 rel="noopener noreferrer"
                 target="_blank"
               >
-                <Typography variant="h4">Terms of service</Typography>
+                <Typography variant="h4">Terms of Service</Typography>
               </a>
             </Grid>
             <Grid item className={classes.item}>
               <a
-                href="https://app.files.chainsafe.io/privacy-policy"
+                href="https://files.chainsafe.io/privacy-policy"
                 rel="noopener noreferrer"
                 target="_blank"
               >
-                <Typography variant="h4">Privacy policy</Typography>
+                <Typography variant="h4">Privacy Policy</Typography>
               </a>
             </Grid>
           </Grid>
@@ -176,6 +176,17 @@ const Footer: React.FC = () => {
               >
                 <Typography variant="h4">
                   <Trans>Twitter</Trans>
+                </Typography>
+              </a>
+            </Grid>
+            <Grid item className={classes.item}>
+              <a
+                href="https://github.com/ChainSafe"
+                target="__blank"
+                rel="noopener noreferrer"
+              >
+                <Typography variant="h4">
+                  <Trans>Github</Trans>
                 </Typography>
               </a>
             </Grid>
