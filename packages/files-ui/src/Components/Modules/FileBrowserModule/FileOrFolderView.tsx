@@ -48,12 +48,6 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: ITheme) => {
         border: `2px solid ${palette.additional["geekblue"][6]}`,
       },
     },
-    tableCell: {
-      transform: "translate3d(0, 0, 0)",
-    },
-    menuContainer: {
-      height: "100px",
-    },
     fileIcon: {
       display: "flex",
       flexDirection: "row",
@@ -245,7 +239,7 @@ const FileOrFolderView: React.FC<IFileOrFolderProps> = ({
     ? folderOperations.map((folderOperation) => menuOptions[folderOperation])
     : fileOperations.map((fileOperation) => menuOptions[fileOperation])
 
-  const [, dragMoveRef] = useDrag({
+  const [, dragMoveRef, preview] = useDrag({
     item: { type: DragTypes.MOVABLE_FILE, payload: file },
   })
 
@@ -306,11 +300,7 @@ const FileOrFolderView: React.FC<IFileOrFolderProps> = ({
         </TableCell>
       )} */}
       <TableCell
-        className={clsx(
-          classes.fileIcon,
-          file.isFolder && classes.folderIcon,
-          classes.tableCell,
-        )}
+        className={clsx(classes.fileIcon, file.isFolder && classes.folderIcon)}
         onClick={() => {
           file.isFolder && updateCurrentPath(`${currentPath}${file.name}`)
         }}
@@ -318,8 +308,8 @@ const FileOrFolderView: React.FC<IFileOrFolderProps> = ({
         <Icon />
       </TableCell>
       <TableCell
+        ref={preview}
         align="left"
-        className={classes.tableCell}
         onClick={() => {
           if (!editing) {
             file.isFolder
@@ -425,12 +415,12 @@ const FileOrFolderView: React.FC<IFileOrFolderProps> = ({
             {standardlongDateFormat(new Date(file.date_uploaded), true)}
           </TableCell> */}
 
-          <TableCell align="left" className={classes.tableCell}>
+          <TableCell align="left">
             {!file.isFolder && formatBytes(file.size)}
           </TableCell>
         </>
       )}
-      <TableCell align="right" className={classes.menuContainer}>
+      <TableCell align="right">
         <MenuDropdown
           animation="none"
           anchor={desktop ? "bottom-center" : "bottom-right"}
