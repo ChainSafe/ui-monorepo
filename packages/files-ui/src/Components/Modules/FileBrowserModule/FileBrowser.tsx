@@ -7,7 +7,7 @@ import {
 } from "@chainsafe/common-theme"
 import React, { Fragment } from "react"
 import {
-  CheckboxInput,
+  // CheckboxInput,
   Divider,
   MenuDropdown,
   PlusIcon,
