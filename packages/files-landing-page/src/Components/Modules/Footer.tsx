@@ -58,10 +58,12 @@ const useStyles = makeStyles(({ palette, constants, breakpoints }: ITheme) => {
       },
     },
     header: {
+      display: "block",
       paddingBottom: constants.generalUnit * 3,
       flex: 0,
     },
     item: {
+      display: "block",
       flex: 0,
       paddingBottom: constants.generalUnit * 2,
     },
