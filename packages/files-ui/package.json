@@ -11,7 +11,7 @@
     "@lingui/core": "^3.0.0",
     "@lingui/macro": "3.2.3",
     "@lingui/react": "^3.2.3",
-    "@sentry/react": "^5.27.6",
+    "@sentry/react": "^5.28.0",
     "@types/yup": "^0.29.9",
     "babel-loader": "8.1.0",
     "babel-plugin-macros": "^2.8.0",
