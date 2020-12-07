@@ -1,16 +1,15 @@
 import React, { useEffect, useState } from "react"
 import { IPreviewRendererProps } from "../FilePreviewModal"
-import { makeStyles, ITheme, createStyles } from "@chainsafe/common-theme"
-import {} from "@chainsafe/common-components"
+// import { makeStyles, ITheme, createStyles } from "@chainsafe/common-theme"
 
-const useStyles = makeStyles(({ constants, palette, zIndex }: ITheme) =>
-  createStyles({
-    root: {
-      width: "100%",
-      height: "100%",
-    },
-  }),
-)
+// const useStyles = makeStyles(({ constants, palette, zIndex }: ITheme) =>
+//   createStyles({
+//     root: {
+//       width: "100%",
+//       height: "100%",
+//     },
+//   }),
+// )
 
 const VideoPreview: React.FC<IPreviewRendererProps> = ({ contents }) => {
   const [videoUrl, setVideoUrl] = useState<string | undefined>()
@@ -21,6 +20,7 @@ const VideoPreview: React.FC<IPreviewRendererProps> = ({ contents }) => {
     return () => {
       videoUrl && URL.revokeObjectURL(videoUrl)
     }
+    // eslint-disable-next-line
   }, [contents])
 
   return <video src={videoUrl} controls autoPlay></video>

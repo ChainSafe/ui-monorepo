@@ -1,7 +1,7 @@
 import {
   TableRow,
   TableCell,
-  CheckboxInput,
+  // CheckboxInput,
   FormikTextInput,
   Typography,
   Button,

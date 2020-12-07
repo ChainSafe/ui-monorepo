@@ -48,6 +48,7 @@ const ImagePreview: React.FC<IPreviewRendererProps> = ({ contents }) => {
     return () => {
       imageUrl && URL.revokeObjectURL(imageUrl)
     }
+    // eslint-disable-next-line
   }, [contents])
   const classes = useStyles()
   const { breakpoints }: ITheme = useTheme()
