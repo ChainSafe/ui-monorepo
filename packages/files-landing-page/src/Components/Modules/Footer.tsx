@@ -1,6 +1,6 @@
 import React from "react"
 import { createStyles, ITheme, makeStyles } from "@chainsafe/common-theme"
-import { Grid, Typography } from "@chainsafe/common-components"
+import { Grid, Typography, Link } from "@chainsafe/common-components"
 import { Trans } from "@lingui/macro"
 
 const useStyles = makeStyles(({ palette, constants, breakpoints }: ITheme) => {
@@ -130,14 +130,14 @@ const Footer: React.FC = () => {
               </a>
             </Grid>
             <Grid item className={classes.item}>
-              <a href="/terms-of-service">
+              <Link to="/terms-of-service">
                 <Typography variant="h4">Terms of Service</Typography>
-              </a>
+              </Link>
             </Grid>
             <Grid item className={classes.item}>
-              <a href="/privacy-policy">
+              <Link to="/privacy-policy">
                 <Typography variant="h4">Privacy Policy</Typography>
-              </a>
+              </Link>
             </Grid>
           </Grid>
           <Grid item className={classes.linkWrapper}>
