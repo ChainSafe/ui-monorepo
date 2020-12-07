@@ -1,6 +1,6 @@
 import React from "react"
 import { createStyles, ITheme, makeStyles } from "@chainsafe/common-theme"
-import { Grid, Typography } from "@chainsafe/common-components"
+import { Grid, Typography, Link } from "@chainsafe/common-components"
 import { Trans } from "@lingui/macro"
 
 const useStyles = makeStyles(({ palette, constants, breakpoints }: ITheme) => {
@@ -130,22 +130,14 @@ const Footer: React.FC = () => {
               </a>
             </Grid>
             <Grid item className={classes.item}>
-              <a
-                href="/terms-of-service"
-                rel="noopener noreferrer"
-                target="_blank"
-              >
+              <Link to="/terms-of-service">
                 <Typography variant="h4">Terms of Service</Typography>
-              </a>
+              </Link>
             </Grid>
             <Grid item className={classes.item}>
-              <a
-                href="/privacy-policy"
-                rel="noopener noreferrer"
-                target="_blank"
-              >
+              <Link to="/privacy-policy">
                 <Typography variant="h4">Privacy Policy</Typography>
-              </a>
+              </Link>
             </Grid>
           </Grid>
           <Grid item className={classes.linkWrapper}>
@@ -156,7 +148,7 @@ const Footer: React.FC = () => {
             </Grid>
             <Grid item className={classes.item}>
               <a
-                href="https:/chainsafe.io/"
+                href="https://chainsafe.io/"
                 rel="noopener noreferrer"
                 target="_blank"
               >
@@ -204,11 +196,7 @@ const Footer: React.FC = () => {
           spacing={2}
           className={classes.smalltextContainer}
         >
-          {/* <Grid item>
-          <Typography variant="h5"><a href="/" className={classes.smalltext}>Privacy Policy</a></Typography>
-        </Grid> */}
           <Grid item>
-            {/* <Typography variant="h5"><a href="/" className={classes.smalltext}>Terms of Use</a></Typography> */}
             <Typography variant="h5" className={classes.copyright}>
               &copy; {currentYear} ChainSafe Systems, All Rights Reserved.
             </Typography>
