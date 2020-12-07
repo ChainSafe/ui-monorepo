@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react"
 import Profile from "./Profile"
-import Plan from "./Plan"
+// import Plan from "./Plan"
 import {
   Tabs,
   TabPane,
