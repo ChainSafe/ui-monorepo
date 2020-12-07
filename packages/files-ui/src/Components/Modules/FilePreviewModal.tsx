@@ -207,6 +207,7 @@ const FilePreviewModal: React.FC<{
     return () => {
       source.current && source.current.cancel("Cancelled by user")
     }
+    // eslint-disable-next-line
   }, [file, getFileContent])
 
   const validRendererMimeType =

@@ -41,6 +41,7 @@ const PdfPreview: React.FC<IPreviewRendererProps> = ({ contents }) => {
     return () => {
       pdfUrl && URL.revokeObjectURL(pdfUrl)
     }
+    // eslint-disable-next-line
   }, [contents])
 
   const [numPages, setNumPages] = useState<number | undefined>(undefined)
