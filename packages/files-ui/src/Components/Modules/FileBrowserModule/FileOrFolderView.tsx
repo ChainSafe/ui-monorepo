@@ -1,7 +1,7 @@
 import {
   TableRow,
   TableCell,
-  CheckboxInput,
+  // CheckboxInput,
   FormikTextInput,
   Typography,
   Button,
@@ -239,7 +239,7 @@ const FileOrFolderView: React.FC<IFileOrFolderProps> = ({
     ? folderOperations.map((folderOperation) => menuOptions[folderOperation])
     : fileOperations.map((fileOperation) => menuOptions[fileOperation])
 
-  const [, dragMoveRef] = useDrag({
+  const [, dragMoveRef, preview] = useDrag({
     item: { type: DragTypes.MOVABLE_FILE, payload: file },
   })
 
@@ -308,6 +308,7 @@ const FileOrFolderView: React.FC<IFileOrFolderProps> = ({
         <Icon />
       </TableCell>
       <TableCell
+        ref={preview}
         align="left"
         onClick={() => {
           if (!editing) {

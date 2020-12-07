@@ -89,7 +89,7 @@ const UploadBox: React.FC<IUploadBox> = (props) => {
               variant="body2"
               component="p"
               className={classes.marginBottom}
-            >{`Uploading ${noOfFiles} ${
+            >{`Uploading and encrypting ${noOfFiles} ${
               noOfFiles === 1 ? "file" : "files"
             }...`}</Typography>
             <ProgressBar progress={progress} size="small" />
