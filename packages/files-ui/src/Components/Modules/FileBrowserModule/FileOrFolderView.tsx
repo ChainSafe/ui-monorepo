@@ -44,10 +44,15 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: ITheme) => {
       [breakpoints.down("md")]: {
         gridTemplateColumns: mobileGridSettings,
       },
-      transform: "translate3d(0, 0, 0)",
       "&.droppable": {
         border: `2px solid ${palette.additional["geekblue"][6]}`,
       },
+    },
+    tableCell: {
+      transform: "translate3d(0, 0, 0)",
+    },
+    menuContainer: {
+      height: "100px",
     },
     fileIcon: {
       display: "flex",
@@ -301,7 +306,11 @@ const FileOrFolderView: React.FC<IFileOrFolderProps> = ({
         </TableCell>
       )} */}
       <TableCell
-        className={clsx(classes.fileIcon, file.isFolder && classes.folderIcon)}
+        className={clsx(
+          classes.fileIcon,
+          file.isFolder && classes.folderIcon,
+          classes.tableCell,
+        )}
         onClick={() => {
           file.isFolder && updateCurrentPath(`${currentPath}${file.name}`)
         }}
@@ -310,6 +319,7 @@ const FileOrFolderView: React.FC<IFileOrFolderProps> = ({
       </TableCell>
       <TableCell
         align="left"
+        className={classes.tableCell}
         onClick={() => {
           if (!editing) {
             file.isFolder
@@ -415,12 +425,12 @@ const FileOrFolderView: React.FC<IFileOrFolderProps> = ({
             {standardlongDateFormat(new Date(file.date_uploaded), true)}
           </TableCell> */}
 
-          <TableCell align="left">
+          <TableCell align="left" className={classes.tableCell}>
             {!file.isFolder && formatBytes(file.size)}
           </TableCell>
         </>
       )}
-      <TableCell align="right">
+      <TableCell align="right" className={classes.menuContainer}>
         <MenuDropdown
           animation="none"
           anchor={desktop ? "bottom-center" : "bottom-right"}
