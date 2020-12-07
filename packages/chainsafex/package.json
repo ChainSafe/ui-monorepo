@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "dependencies": {
-    "@sentry/react": "^5.27.6",
+    "@sentry/react": "^5.28.0",
     "clsx": "^1.1.1",
     "ethers": "^5.0.23",
     "react": "^16.14.0",
@@ -14,7 +14,7 @@
   "devDependencies": {
     "@testing-library/jest-dom": "^5.11.6",
     "@testing-library/react": "^11.2.2",
-    "@testing-library/user-event": "^12.3.0",
+    "@testing-library/user-event": "^12.5.0",
     "@types/jest": "^26.0.16",
     "@types/node": "^14.14.10",
     "@types/react": "^17.0.0",
