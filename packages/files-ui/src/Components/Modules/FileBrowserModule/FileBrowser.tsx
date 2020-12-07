@@ -328,13 +328,13 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
     }
   }
 
-  const toggleAll = () => {
-    if (selected.length === items.length) {
-      setSelected([])
-    } else {
-      setSelected([...items.map((file: IFile) => file.cid)])
-    }
-  }
+  // const toggleAll = () => {
+  //   if (selected.length === items.length) {
+  //     setSelected([])
+  //   } else {
+  //     setSelected([...items.map((file: IFile) => file.cid)])
+  //   }
+  // }
 
   // Rename
   const handleRename = async (path: string, new_path: string) => {
