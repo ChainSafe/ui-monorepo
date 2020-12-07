@@ -13,7 +13,7 @@
     "lint": "eslint 'src/**/*.{js,ts,tsx}' --quiet --fix"
   },
   "dependencies": {
-    "@material-ui/styles": "^4.11.1",
+    "@material-ui/styles": "^4.11.2",
     "@types/react-select": "^3.0.27",
     "a11y-react-emoji": "^1.1.2",
     "clsx": "^1.1.1",
