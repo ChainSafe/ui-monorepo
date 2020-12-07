@@ -12,9 +12,8 @@ const useStyles = makeStyles(
         maxWidth: breakpoints.width("md"),
         margin: "0 auto",
         color: palette.additional["gray"][9],
-        padding: `${constants.generalUnit * 16}px ${
-          constants.generalUnit * 4
-        }px ${constants.generalUnit * 20}px`,
+        padding: `${constants.generalUnit * 16}px ${constants.generalUnit * 4
+          }px ${constants.generalUnit * 20}px`,
       },
       heading: {
         ...typography.h2,
@@ -36,9 +35,8 @@ const useStyles = makeStyles(
         fontFamily: "'Lato', sans-serif",
       },
       padLarge: {
-        padding: `${constants.generalUnit * 3}px 0 ${
-          constants.generalUnit * 1
-        }px 0`,
+        padding: `${constants.generalUnit * 3}px 0 ${constants.generalUnit * 1
+          }px 0`,
       },
       padSmall: {
         padding: `${constants.generalUnit * 1}px 0`,
@@ -347,7 +345,7 @@ const TermsOfServicePage: React.FC = () => {
             of visits to certain pages, page interaction information (such as
             scrolling, clicks, and mouse-overs), methods used to browse away
             from the page, or any phone number used to call our customer service
-            number.
+            number. We collect cookies on this promotional website for anonymized system monitoring and non-personal analytics.
           </Trans>
         </Typography>
 

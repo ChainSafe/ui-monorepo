@@ -156,7 +156,7 @@ const Footer: React.FC = () => {
             </Grid>
             <Grid item className={classes.item}>
               <a
-                href="https:/chainsafe.io/"
+                href="https://chainsafe.io/"
                 rel="noopener noreferrer"
                 target="_blank"
               >
