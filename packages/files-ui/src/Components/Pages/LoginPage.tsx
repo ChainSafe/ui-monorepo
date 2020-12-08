@@ -100,6 +100,9 @@ const useStyles = makeStyles(
       },
       error: {
         color: palette.error.main,
+        flexWrap: "wrap",
+        paddingBottom: constants.generalUnit * 2,
+        maxWidth: 240,
       },
       imageCaption: {
         fontSize: 20,
@@ -211,6 +214,7 @@ const LoginPage = () => {
   }
 
   const desktop = useMediaQuery(breakpoints.up("md"))
+  const maintenanceMode = Boolean(process.env.REACT_APP_MAINTENANCE_MODE)
 
   return (
     <div className={classes.root}>
@@ -258,13 +262,19 @@ const LoginPage = () => {
             {error && (
               <Typography className={classes.error}>{error}</Typography>
             )}
+            {maintenanceMode && (
+              <Typography className={classes.error}>
+                We're undergoing maintenace, thank you for being patient
+              </Typography>
+            )}
+
             {!provider ? (
               <Button
                 onClick={handleSelectWalletAndConnect}
                 className={classes.button}
                 variant={desktop ? "primary" : "outline"}
                 size="large"
-                disabled={isConnecting}
+                disabled={maintenanceMode || isConnecting}
               >
                 <Trans>Select a Web3 Wallet</Trans>
               </Button>
@@ -275,7 +285,7 @@ const LoginPage = () => {
                   className={classes.button}
                   variant={desktop ? "primary" : "outline"}
                   size="large"
-                  disabled={isConnecting}
+                  disabled={maintenanceMode || isConnecting}
                 >
                   <Trans>Continue with</Trans> {wallet?.name}
                 </Button>
@@ -302,6 +312,7 @@ const LoginPage = () => {
               variant={desktop ? "primary" : "outline"}
               size="large"
               onClick={() => onLoginWithProvider("github")}
+              disabled={maintenanceMode}
             >
               <GithubLogoIcon />
               <Trans>Continue with Github</Trans>
@@ -311,6 +322,7 @@ const LoginPage = () => {
               variant={desktop ? "primary" : "outline"}
               size="large"
               onClick={() => onLoginWithProvider("google")}
+              disabled={maintenanceMode}
             >
               <GoogleLogoIcon />
               <Trans>Continue with Google</Trans>
@@ -320,6 +332,7 @@ const LoginPage = () => {
               size="large"
               variant={desktop ? "primary" : "outline"}
               onClick={() => onLoginWithProvider("facebook")}
+              disabled={maintenanceMode}
             >
               <FacebookLogoIcon />
               <Trans>Continue with Facebook</Trans>
