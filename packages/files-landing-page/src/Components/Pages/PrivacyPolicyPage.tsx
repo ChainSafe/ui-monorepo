@@ -231,7 +231,7 @@ const TermsOfServicePage: React.FC = () => {
         >
           <Trans>
             Our policy is to collect as little user information as possible. We
-            have no access to your uploaded content because it is all encrypted
+            have limited access to your uploaded content because it is all encrypted
             end-to-end. We may collect user information that is necessary for us
             to provide you the service. The type of information we collect about
             you will depend. We may collect:
