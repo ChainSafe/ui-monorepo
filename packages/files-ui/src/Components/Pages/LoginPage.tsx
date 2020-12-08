@@ -23,6 +23,9 @@ import LargeLightBulbSvg from "../../Media/LargeLightBulb.svg"
 import SmallBranchSvg from "../../Media/SmallBranch.svg"
 import { Trans } from "@lingui/macro"
 import { ROUTE_LINKS } from "../FilesRoutes"
+import LandingImage from "../../Media/auth.jpg"
+import MasterKeyModule from "../Modules/MasterKeySequence/MasterKeyModule"
+import EnterMasterKeySlide from "../Modules/MasterKeySequence/SequenceSlides/EnterMasterKey.slide"
 
 const useStyles = makeStyles(
   ({ palette, constants, typography, breakpoints }: ITheme) =>
@@ -180,6 +183,7 @@ const LoginPage = () => {
   const handleSelectWalletAndConnect = async () => {
     setIsConnecting(true)
     try {
+      // TODO: Trigger request for Master Key
       await selectWallet()
     } catch (error) {
       setError("There was an error connecting your wallet")
@@ -190,6 +194,7 @@ const LoginPage = () => {
   const handleResetAndSelectWalletAndConnect = async () => {
     setIsConnecting(true)
     try {
+      // TODO: Trigger request for Master Key
       await resetAndSelectWallet()
     } catch (error) {
       setError("There was an error connecting your wallet")
@@ -200,6 +205,7 @@ const LoginPage = () => {
   const handleSignAuth = async () => {
     setIsConnecting(true)
     try {
+      // TODO: Trigger request for Master Key
       await web3Login()
     } catch (error) {
       setError("There was an error authenticating")
@@ -210,24 +216,22 @@ const LoginPage = () => {
   const onLoginWithProvider = async (provider: OAuthProvider) => {
     const oauthUrl = await getProviderUrl(provider)
     window.location.href = oauthUrl
+    // TODO: Trigger request for Master Key
   }
 
   const desktop = useMediaQuery(breakpoints.up("md"))
   const maintenanceMode = Boolean(process.env.REACT_APP_MAINTENANCE_MODE)
+
+  const [masterKeyState, setMasterKeyState] = useState<
+    "inactive" | "set" | "enter"
+  >("inactive")
 
   return (
     <div className={classes.root}>
       <Grid flexDirection={desktop ? "row" : "column"} container>
         {desktop ? (
           <Grid item md={8} lg={8} xl={8} className={classes.imageSection}>
-            <img src="abstract-image-large.png" alt="" />
-            <Typography
-              variant="subtitle2"
-              component="h2"
-              className={classes.imageCaption}
-            >
-              <Trans>Making secure cloud storage easier than ever.</Trans>
-            </Typography>
+            <img src={LandingImage} alt="" />
           </Grid>
         ) : (
           <>
@@ -251,130 +255,140 @@ const LoginPage = () => {
             </Typography>
           </div>
           <div className={classes.controls}>
-            <Typography
-              variant="h6"
-              component="h1"
-              className={classes.headerText}
-            >
-              {activeMode === "newUser" ? "Create an account" : "Welcome back!"}
-            </Typography>
-            {error && (
-              <Typography className={classes.error}>{error}</Typography>
-            )}
-            {maintenanceMode && (
-              <Typography className={classes.error}>
-                We're undergoing maintenace, thank you for being patient
-              </Typography>
-            )}
-
-            {!provider ? (
-              <Button
-                onClick={handleSelectWalletAndConnect}
-                className={classes.button}
-                variant={desktop ? "primary" : "outline"}
-                size="large"
-                disabled={maintenanceMode || isConnecting}
-              >
-                <Trans>Select a Web3 Wallet</Trans>
-              </Button>
-            ) : (
+            {masterKeyState == "inactive" ? (
               <>
-                <Button
-                  onClick={handleSignAuth}
-                  className={classes.button}
-                  variant={desktop ? "primary" : "outline"}
-                  size="large"
-                  disabled={maintenanceMode || isConnecting}
+                <Typography
+                  variant="h6"
+                  component="h1"
+                  className={classes.headerText}
                 >
-                  <Trans>Continue with</Trans> {wallet?.name}
-                </Button>
-                <Button
-                  onClick={handleResetAndSelectWalletAndConnect}
-                  className={classes.button}
-                  size="large"
-                  variant={desktop ? "primary" : "outline"}
-                  disabled={isConnecting}
-                >
-                  <Trans>Select a different wallet</Trans>
-                </Button>
-              </>
-            )}
-            {desktop && (
-              <Divider>
-                <Typography>
-                  <Trans>or</Trans>
+                  {activeMode === "newUser"
+                    ? "Create an account"
+                    : "Welcome back!"}
                 </Typography>
-              </Divider>
-            )}
-            <Button
-              className={classes.button}
-              variant={desktop ? "primary" : "outline"}
-              size="large"
-              onClick={() => onLoginWithProvider("github")}
-              disabled={maintenanceMode}
-            >
-              <GithubLogoIcon />
-              <Trans>Continue with Github</Trans>
-            </Button>
-            <Button
-              className={classes.button}
-              variant={desktop ? "primary" : "outline"}
-              size="large"
-              onClick={() => onLoginWithProvider("google")}
-              disabled={maintenanceMode}
-            >
-              <GoogleLogoIcon />
-              <Trans>Continue with Google</Trans>
-            </Button>
-            <Button
-              className={classes.button}
-              size="large"
-              variant={desktop ? "primary" : "outline"}
-              onClick={() => onLoginWithProvider("facebook")}
-              disabled={maintenanceMode}
-            >
-              <FacebookLogoIcon />
-              <Trans>Continue with Facebook</Trans>
-            </Button>
-            {activeMode === "newUser" && (
-              <Typography
-                component="p"
-                variant="body2"
-                className={classes.termsText}
-              >
-                By signing up you agree to the <br />
-                <a
-                  href={ROUTE_LINKS.Terms}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                {error && (
+                  <Typography className={classes.error}>{error}</Typography>
+                )}
+                {maintenanceMode && (
+                  <Typography className={classes.error}>
+                    We're undergoing maintenace, thank you for being patient
+                  </Typography>
+                )}
+
+                {!provider ? (
+                  <Button
+                    onClick={handleSelectWalletAndConnect}
+                    className={classes.button}
+                    variant={desktop ? "primary" : "outline"}
+                    size="large"
+                    disabled={maintenanceMode || isConnecting}
+                  >
+                    <Trans>Select a Web3 Wallet</Trans>
+                  </Button>
+                ) : (
+                  <>
+                    <Button
+                      onClick={handleSignAuth}
+                      className={classes.button}
+                      variant={desktop ? "primary" : "outline"}
+                      size="large"
+                      disabled={maintenanceMode || isConnecting}
+                    >
+                      <Trans>Continue with</Trans> {wallet?.name}
+                    </Button>
+                    <Button
+                      onClick={handleResetAndSelectWalletAndConnect}
+                      className={classes.button}
+                      size="large"
+                      variant={desktop ? "primary" : "outline"}
+                      disabled={isConnecting}
+                    >
+                      <Trans>Select a different wallet</Trans>
+                    </Button>
+                  </>
+                )}
+                {desktop && (
+                  <Divider>
+                    <Typography>
+                      <Trans>or</Trans>
+                    </Typography>
+                  </Divider>
+                )}
+                <Button
+                  className={classes.button}
+                  variant={desktop ? "primary" : "outline"}
+                  size="large"
+                  onClick={() => onLoginWithProvider("github")}
+                  disabled={maintenanceMode}
                 >
-                  Terms of Service
-                </a>{" "}
-                and{" "}
-                <a
-                  href={ROUTE_LINKS.PrivacyPolicy}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  <GithubLogoIcon />
+                  <Trans>Continue with Github</Trans>
+                </Button>
+                <Button
+                  className={classes.button}
+                  variant={desktop ? "primary" : "outline"}
+                  size="large"
+                  onClick={() => onLoginWithProvider("google")}
+                  disabled={maintenanceMode}
                 >
-                  Privacy Policy
-                </a>
-              </Typography>
+                  <GoogleLogoIcon />
+                  <Trans>Continue with Google</Trans>
+                </Button>
+                <Button
+                  className={classes.button}
+                  size="large"
+                  variant={desktop ? "primary" : "outline"}
+                  onClick={() => onLoginWithProvider("facebook")}
+                  disabled={maintenanceMode}
+                >
+                  <FacebookLogoIcon />
+                  <Trans>Continue with Facebook</Trans>
+                </Button>
+                {activeMode === "newUser" && (
+                  <Typography
+                    component="p"
+                    variant="body2"
+                    className={classes.termsText}
+                  >
+                    By signing up you agree to the <br />
+                    <a
+                      href={ROUTE_LINKS.Terms}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      Terms of Service
+                    </a>{" "}
+                    and{" "}
+                    <a
+                      href={ROUTE_LINKS.PrivacyPolicy}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      Privacy Policy
+                    </a>
+                  </Typography>
+                )}
+                <Typography className={classes.footerText}>
+                  {activeMode === "newUser"
+                    ? "Already have an account?"
+                    : "Not registered yet?"}
+                </Typography>
+                <Typography
+                  onClick={toggleActiveMode}
+                  className={classes.toggleMode}
+                >
+                  {activeMode === "newUser" ? (
+                    <Trans>Sign in</Trans>
+                  ) : (
+                    <Trans>Create an account</Trans>
+                  )}
+                </Typography>
+              </>
+            ) : masterKeyState === "set" ? (
+              <MasterKeyModule onComplete={() => setMasterKeyState("enter")} />
+            ) : (
+              <EnterMasterKeySlide />
             )}
-            <Typography className={classes.footerText}>
-              {activeMode === "newUser"
-                ? "Already have an account?"
-                : "Not registered yet?"}
-            </Typography>
-            <Typography
-              onClick={toggleActiveMode}
-              className={classes.toggleMode}
-            >
-              {activeMode === "newUser" ? (
-                <Trans>Sign in</Trans>
-              ) : (
-                <Trans>Create an account</Trans>
-              )}
-            </Typography>
           </div>
         </Grid>
       </Grid>

@@ -1,11 +1,12 @@
-import React from "react"
+import React, { ReactNode } from "react"
 import { useField } from "formik"
 import CheckboxInput from "./CheckboxInput"
 
-interface IFormikCheckboxProps extends React.HTMLProps<HTMLInputElement> {
+interface IFormikCheckboxProps
+  extends Omit<React.HTMLProps<HTMLInputElement>, "label"> {
   className?: string
   name: string
-  label?: string
+  label?: string | ReactNode
 }
 
 const FormikCheckboxInput: React.FC<IFormikCheckboxProps> = ({
