@@ -100,7 +100,6 @@ const useStyles = makeStyles(
       },
       error: {
         color: palette.error.main,
-        flexWrap: "wrap",
         paddingBottom: constants.generalUnit * 2,
         maxWidth: 240,
       },
