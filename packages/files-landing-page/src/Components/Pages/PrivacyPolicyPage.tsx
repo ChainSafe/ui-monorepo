@@ -94,7 +94,7 @@ const TermsOfServicePage: React.FC = () => {
           component="p"
           className={clsx(classes.caption, classes.padSmall)}
         >
-          <Trans>Last Modified: November 13, 2020</Trans>
+          <Trans>Last Modified: December 8, 2020</Trans>
         </Typography>
 
         {/* welcome */}
