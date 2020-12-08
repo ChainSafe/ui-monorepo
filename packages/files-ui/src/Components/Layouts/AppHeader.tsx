@@ -17,7 +17,7 @@ import {
   PowerDownSvg,
 } from "@chainsafe/common-components"
 import { ROUTE_LINKS } from "../FilesRoutes"
-import SearchModule from "../Modules/SearchModule"
+// import SearchModule from "../Modules/SearchModule"
 import { Trans } from "@lingui/macro"
 
 const useStyles = makeStyles(
@@ -189,7 +189,7 @@ const AppHeader: React.FC<IAppHeader> = ({
               <Link className={classes.logo} to={ROUTE_LINKS.Home}>
                 <ChainsafeFilesLogo />
               </Link>
-              <SearchModule className={classes.searchModule} />
+              {/* <SearchModule className={classes.searchModule} /> */}
             </Fragment>
           )}
         </Fragment>
