@@ -5,7 +5,7 @@
   "dependencies": {
     "@sentry/react": "^5.28.0",
     "clsx": "^1.1.1",
-    "ethers": "^5.0.23",
+    "ethers": "^5.0.24",
     "react": "^16.14.0",
     "react-dom": "^16.14.0",
     "react-scripts": "3.4.4",
