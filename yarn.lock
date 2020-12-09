@@ -2501,10 +2501,10 @@
     cosmiconfig "^7.0.0"
     jest-validate "^26.5.2"
 
-"@lingui/core@^3.0.0", "@lingui/core@^3.2.3":
-  version "3.2.3"
-  resolved "https://registry.yarnpkg.com/@lingui/core/-/core-3.2.3.tgz#2eeba173d3a3a1cbe9f9de4ed57380d2dc45ecff"
-  integrity sha512-TiWk6LGjZ9sNVi7itiJDWUIB1Uyr8WKR/8M6RhQVTRnL+Yh3mElsVPjIRPH1he4ClkwaH6G5eDOfWiB67Csgbw==
+"@lingui/core@^3.2.3", "@lingui/core@^3.3.0":
+  version "3.3.0"
+  resolved "https://registry.yarnpkg.com/@lingui/core/-/core-3.3.0.tgz#2d8f87a4a00123410c66c234f7ba6a22afddb494"
+  integrity sha512-qPCHA2b/XT7ptTgpmnfQzQgAKPKHIcIGDfp4rppa0h+c1gmvI+uQKU8DEKmU0GplcykEfL7VZ8asdIXe0WrH6Q==
   dependencies:
     "@babel/runtime" "^7.11.2"
     make-plural "^6.2.2"
