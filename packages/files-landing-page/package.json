@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@babel/core": "^7.12.9",
+    "@babel/core": "^7.12.10",
     "@craco/craco": "^5.9.0",
     "@lingui/babel-preset-react": "^2.9.2",
     "@lingui/core": "^3.0.0",
