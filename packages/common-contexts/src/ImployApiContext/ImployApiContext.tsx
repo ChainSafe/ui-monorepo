@@ -39,7 +39,7 @@ type ImployApiContext = {
   isReturningUser: boolean
   selectWallet(): Promise<void>
   resetAndSelectWallet(): Promise<void>
-  setMasterPassword(masterPassword: string): Promise<boolean>
+  secureAccount(masterPassword: string): Promise<boolean>
   web3Login(): Promise<void>
   getProviderUrl(provider: Provider): Promise<string>
   loginWithGithub(code: string, state: string): Promise<void>
@@ -265,7 +265,7 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
     }
   }
 
-  const setMasterPassword = async (masterPassword: string) => {
+  const secureAccount = async (masterPassword: string) => {
     try {
       if (decodedRefreshToken && refreshToken) {
         const mpsArray = new TextEncoder().encode(decodedRefreshToken.uuid)
@@ -383,7 +383,7 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
         isLoggedIn: isLoggedIn(),
         secured,
         isReturningUser: isReturningUser,
-        setMasterPassword,
+        secureAccount,
         web3Login,
         loginWithGithub,
         loginWithGoogle,
