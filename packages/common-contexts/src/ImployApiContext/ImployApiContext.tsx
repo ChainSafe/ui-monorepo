@@ -265,26 +265,6 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
     }
   }
 
-  const secureAccount = async (masterPassword: string) => {
-    try {
-      if (decodedRefreshToken && refreshToken) {
-        const mpsArray = new TextEncoder().encode(decodedRefreshToken.uuid)
-        const encryptedMps = await encryptFile(mpsArray, masterPassword)
-
-        const { access_token, refresh_token } = await imployApiClient.secure({
-          mps: encryptedMps.toString(),
-          refresh: refreshToken.token,
-        })
-        setTokensAndSave(access_token, refresh_token)
-        return true
-      } else {
-        return false
-      }
-    } catch (error) {
-      return false
-    }
-  }
-
   const getProviderUrl = async (provider: Provider) => {
     try {
       const { url } = await imployApiClient.getOauth2Provider(provider)
@@ -357,6 +337,26 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
     setRefreshToken(undefined)
     setDecodedRefreshToken(undefined)
     canUseLocalStorage && localStorage.removeItem(tokenStorageKey)
+  }
+
+  const secureAccount = async (masterPassword: string) => {
+    try {
+      if (decodedRefreshToken && refreshToken) {
+        const mpsArray = new TextEncoder().encode(decodedRefreshToken.uuid)
+        const encryptedMps = await encryptFile(mpsArray, masterPassword)
+
+        const { access_token, refresh_token } = await imployApiClient.secure({
+          mps: encryptedMps.toString(),
+          refresh: refreshToken.token,
+        })
+        setTokensAndSave(access_token, refresh_token)
+        return true
+      } else {
+        return false
+      }
+    } catch (error) {
+      return false
+    }
   }
 
   const validateMasterPassword = async (
