@@ -166,7 +166,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
 
   const uploadFiles = async (files: File[], path: string) => {
     const startUploadFile = async () => {
-      // if (!masterKey) return // TODO: Add better error handling here.
+      if (!masterKey) return // TODO: Add better error handling here.
 
       const id = uuidv4()
       const uploadProgress: UploadProgress = {
@@ -183,7 +183,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
         const filesParam = await Promise.all(
           files.map(async (f) => {
             const fileData = await readFileAsync(f)
-            const encryptedData = await encryptFile(fileData, "TEST PASSWORD")
+            const encryptedData = await encryptFile(fileData, masterKey)
             return {
               data: new Blob([encryptedData], { type: f.type }),
               fileName: f.name,
@@ -329,6 +329,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
     cancelToken?: CancelToken,
     onDownloadProgress?: (progressEvent: ProgressEvent<EventTarget>) => void,
   ) => {
+    if (!masterKey) return // TODO: Add better error handling here.
     const file = pathContents.find((i) => i.cid === cid)
     if (!file) return
     try {
@@ -343,7 +344,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
       if (file.version === 0) {
         return result.data
       } else {
-        const decrypted = await decryptFile(result.data, "TEST PASSWORD")
+        const decrypted = await decryptFile(result.data, masterKey)
         return (
           decrypted &&
           new Blob([decrypted], {
