@@ -10,7 +10,7 @@ import {
 import jwtDecode from "jwt-decode"
 import { signMessage } from "./utils"
 import axios from "axios"
-import { encryptFile, stringToArrayBuffer } from "../helpers"
+import { encryptFile } from "../helpers"
 
 export { Provider as OAuthProvider }
 
@@ -65,7 +65,7 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
   const canUseLocalStorage = testLocalStorage()
   // initializing api
   const initialAxiosInstance = axios.create({
-    // Disable the internal Axios JSON deserialization as this is handled by the client
+    // Disable the internal Axios JSON de serialization as this is handled by the client
     transformResponse: [],
   })
   const initialApiClient = new ImployApiClient({}, apiUrl, initialAxiosInstance)
@@ -110,7 +110,7 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
   useEffect(() => {
     const initializeApiClient = async () => {
       const axiosInstance = axios.create({
-        // Disable the internal Axios JSON deserialization as this is handled by the client
+        // Disable the internal Axios JSON de serialization as this is handled by the client
         transformResponse: [],
       })
 
@@ -268,10 +268,9 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
   const setMasterPassword = async (masterPassword: string) => {
     try {
       if (decodedRefreshToken && refreshToken) {
-        const encryptedMps = await encryptFile(
-          stringToArrayBuffer(decodedRefreshToken.uuid),
-          masterPassword,
-        )
+        const mpsArray = new TextEncoder().encode(decodedRefreshToken.uuid)
+        const encryptedMps = await encryptFile(mpsArray, masterPassword)
+
         const { access_token, refresh_token } = await imployApiClient.secure({
           mps: encryptedMps.toString(),
           refresh: refreshToken.token,
