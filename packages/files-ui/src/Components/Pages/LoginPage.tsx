@@ -26,7 +26,6 @@ import { ROUTE_LINKS } from "../FilesRoutes"
 import LandingImage from "../../Media/auth.jpg"
 import MasterKeyModule from "../Modules/MasterKeySequence/MasterKeyModule"
 import EnterMasterKeySlide from "../Modules/MasterKeySequence/SequenceSlides/EnterMasterKey.slide"
-import { useDrive } from "../../Contexts/DriveContext"
 
 const useStyles = makeStyles(
   ({ palette, constants, typography, breakpoints }: ITheme) =>
@@ -170,7 +169,6 @@ const LoginPage = () => {
     secured,
     isLoggedIn,
   } = useImployApi()
-  const { isMasterPasswordSet } = useDrive()
   const { provider, wallet } = useWeb3()
   const [error, setError] = useState<string>("")
   const [activeMode, setActiveMode] = useState<"newUser" | "returningUser">(

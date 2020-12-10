@@ -10,7 +10,7 @@ import {
 import jwtDecode from "jwt-decode"
 import { signMessage } from "./utils"
 import axios from "axios"
-import { encryptFile } from "../helpers"
+import { decryptFile, encryptFile } from "../helpers"
 
 export { Provider as OAuthProvider }
 
@@ -228,6 +228,7 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
         const decoded = jwtDecode<{ mps?: string; exp: number; uuid: string }>(
           refreshToken.token,
         )
+        console.log(decoded?.mps)
         setDecodedRefreshToken(decoded)
       } catch (error) {
         console.log("Error decoding access token")
@@ -342,11 +343,13 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
   const secureAccount = async (masterPassword: string) => {
     try {
       if (decodedRefreshToken && refreshToken) {
-        const mpsArray = new TextEncoder().encode(decodedRefreshToken.uuid)
-        const encryptedMps = await encryptFile(mpsArray, masterPassword)
-
+        const uuidArray = new TextEncoder().encode(decodedRefreshToken.uuid)
+        const encryptedUuid = await encryptFile(uuidArray, masterPassword)
+        const encryptedUuidString = Buffer.from(encryptedUuid).toString(
+          "base64",
+        )
         await imployApiClient.secure({
-          mps: encryptedMps.toString(),
+          mps: encryptedUuidString,
         })
 
         const {
@@ -369,16 +372,13 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
   const validateMasterPassword = async (
     candidatePassword: string,
   ): Promise<boolean> => {
+    if (!decodedRefreshToken || !decodedRefreshToken.mps) return false
     try {
-      const candidatePasswordArray = new TextEncoder().encode(candidatePassword)
-      const encrypted = await encryptFile(
-        candidatePasswordArray,
-        candidatePassword,
-      )
-      const decoded = new TextDecoder().decode(encrypted)
-      return decodedRefreshToken?.mps === decoded
+      const toDecryptArray = Buffer.from(decodedRefreshToken.mps, "base64")
+      const decrypted = await decryptFile(toDecryptArray, candidatePassword)
+      const decryptedUuid = new TextDecoder().decode(decrypted)
+      return decodedRefreshToken.uuid === decryptedUuid
     } catch (error) {
-      console.log(error)
       return false
     }
   }

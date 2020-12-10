@@ -45,7 +45,6 @@ const EnterMasterKeySlide: React.FC<IEnterMasterKeySlide> = ({
       .string()
       .test("Key valid", "Master key invalid", async (value) => {
         try {
-          console.log(await validateMasterPassword(`${value}`))
           return await validateMasterPassword(`${value}`)
         } catch (error) {
           return false

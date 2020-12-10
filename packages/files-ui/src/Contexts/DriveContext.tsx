@@ -352,7 +352,10 @@ const DriveProvider = ({ children }: DriveContextProps) => {
       if (file.version === 0) {
         return result.data
       } else {
-        const decrypted = await decryptFile(result.data, masterPassword)
+        const decrypted = await decryptFile(
+          await result.data.arrayBuffer(),
+          masterPassword,
+        )
         return (
           decrypted &&
           new Blob([decrypted], {
@@ -427,6 +430,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
 
   const secureDrive = async (password: string) => {
     if (secured) return
+
     //TODO: Check password meets complexity requirements
     const result = await secureAccount(password)
     if (result) {

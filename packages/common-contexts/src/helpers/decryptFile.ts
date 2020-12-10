@@ -1,10 +1,9 @@
 export const decryptFile = async (
-  encryptedArrayBuffer: Blob,
+  encryptedArrayBuffer: ArrayBuffer | Uint8Array,
   password: string,
 ) => {
   try {
-    const cipherBytes = new Uint8Array(await encryptedArrayBuffer.arrayBuffer())
-    console.log(cipherBytes.length)
+    const cipherBytes = new Uint8Array(encryptedArrayBuffer)
     const pbkdf2Iterations = 10000
     const passwordBytes = new TextEncoder().encode(password)
     const pbkdf2Salt = cipherBytes.slice(8, 16)
