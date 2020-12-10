@@ -20,15 +20,26 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: ITheme) =>
       "& p": {
         fontWeight: 400,
         marginBottom: constants.generalUnit * 2,
+        [breakpoints.down("md")]: {
+          color: palette.common.white.main,
+        },
       },
       "& h2": {
         textAlign: "center",
         marginBottom: constants.generalUnit * 4.125,
+        [breakpoints.down("md")]: {
+          color: palette.common.white.main,
+        },
       },
     },
     input: {
       margin: 0,
       marginBottom: constants.generalUnit * 1.5,
+      "& span": {
+        [breakpoints.down("md")]: {
+          color: palette.common.white.main,
+        },
+      },
     },
     highlight: {
       fontWeight: 700,
@@ -36,7 +47,12 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: ITheme) =>
     },
     checkbox: {
       marginBottom: constants.generalUnit,
-      color: palette.additional["gray"][8],
+      [breakpoints.up("md")]: {
+        color: palette.additional["gray"][8],
+      },
+      [breakpoints.down("md")]: {
+        color: palette.common.white.main,
+      },
     },
     button: {
       marginTop: constants.generalUnit * 3,
