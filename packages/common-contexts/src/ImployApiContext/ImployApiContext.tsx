@@ -10,6 +10,7 @@ import {
 import jwtDecode from "jwt-decode"
 import { signMessage } from "./utils"
 import axios from "axios"
+import { encryptFile } from "../helpers"
 
 export { Provider as OAuthProvider }
 
@@ -52,6 +53,7 @@ type ImployApiContext = {
   ): Promise<void>
   loginWithFacebook(code: string, state: string): Promise<void>
   logout(): void
+  validateMasterPassword(candidatePassword: string): Promise<boolean>
 }
 
 const ImployApiContext = React.createContext<ImployApiContext | undefined>(
@@ -76,10 +78,9 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
   // access tokens
   const [accessToken, setAccessToken] = useState<Token | undefined>(undefined)
   const [secured, setSecured] = useState<boolean | undefined>(undefined)
-
   const [refreshToken, setRefreshToken] = useState<Token | undefined>(undefined)
   const [decodedRefreshToken, setDecodedRefreshToken] = useState<
-    { exp: number; uuid: string } | undefined
+    { exp: number; mps?: string; uuid: string } | undefined
   >(undefined)
 
   // returning user
@@ -224,7 +225,9 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
   useEffect(() => {
     if (refreshToken && refreshToken.token) {
       try {
-        const decoded = jwtDecode<any>(refreshToken.token)
+        const decoded = jwtDecode<{ mps?: string; exp: number; uuid: string }>(
+          refreshToken.token,
+        )
         setDecodedRefreshToken(decoded)
       } catch (error) {
         console.log("Error decoding access token")
@@ -353,6 +356,23 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
     canUseLocalStorage && localStorage.removeItem(tokenStorageKey)
   }
 
+  const validateMasterPassword = async (
+    candidatePassword: string,
+  ): Promise<boolean> => {
+    try {
+      const candidatePasswordArray = new TextEncoder().encode(candidatePassword)
+      const encrypted = await encryptFile(
+        candidatePasswordArray,
+        candidatePassword,
+      )
+      const decoded = new TextDecoder().decode(encrypted)
+      return decodedRefreshToken?.mps === decoded
+    } catch (error) {
+      console.log(error)
+      return false
+    }
+  }
+
   return (
     <ImployApiContext.Provider
       value={{
@@ -369,6 +389,7 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
         resetAndSelectWallet,
         getProviderUrl,
         logout,
+        validateMasterPassword,
       }}
     >
       {children}

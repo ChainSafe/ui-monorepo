@@ -5,7 +5,7 @@ import {
 } from "@imploy/api-client"
 import React, { useCallback, useEffect, useReducer } from "react"
 import { useState } from "react"
-import { useImployApi } from "@imploy/common-contexts"
+import { decryptFile, encryptFile, useImployApi } from "@imploy/common-contexts"
 import dayjs from "dayjs"
 import { v4 as uuidv4 } from "uuid"
 import { useToaster } from "@chainsafe/common-components"
@@ -16,7 +16,7 @@ import {
 import { guessContentType } from "../Utils/contentTypeGuesser"
 import { CancelToken } from "axios"
 import { t } from "@lingui/macro"
-import { decryptFile, encryptFile, readFileAsync } from "../Utils/Helpers"
+import { readFileAsync } from "../Utils/Helpers"
 
 type DriveContextProps = {
   children: React.ReactNode | React.ReactNode[]
