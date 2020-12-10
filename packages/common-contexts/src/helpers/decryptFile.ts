@@ -47,8 +47,6 @@ export const decryptFile = async (
     )
     return plaintextBytesArrayBuffer
   } catch (error) {
-    console.error("Error decrypting file")
-    console.error(error)
     return
   }
 }

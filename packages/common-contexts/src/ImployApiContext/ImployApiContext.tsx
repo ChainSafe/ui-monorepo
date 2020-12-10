@@ -228,7 +228,6 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
         const decoded = jwtDecode<{ mps?: string; exp: number; uuid: string }>(
           refreshToken.token,
         )
-        console.log(decoded?.mps)
         setDecodedRefreshToken(decoded)
       } catch (error) {
         console.log("Error decoding access token")
@@ -376,6 +375,7 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
     try {
       const toDecryptArray = Buffer.from(decodedRefreshToken.mps, "base64")
       const decrypted = await decryptFile(toDecryptArray, candidatePassword)
+
       const decryptedUuid = new TextDecoder().decode(decrypted)
       return decodedRefreshToken.uuid === decryptedUuid
     } catch (error) {

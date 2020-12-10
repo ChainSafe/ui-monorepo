@@ -203,7 +203,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
         const result = await imployApiClient.addCSFFiles(
           filesParam,
           path,
-          undefined,
+          "",
           undefined,
           (progressEvent: { loaded: number; total: number }) => {
             dispatchUploadsInProgress({
