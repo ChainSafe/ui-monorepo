@@ -2430,14 +2430,14 @@
   resolved "https://registry.yarnpkg.com/@ledgerhq/logs/-/logs-5.23.0.tgz#7a86b1e6479c8aa8e8b9affe00eb8e369efdbc3b"
   integrity sha512-88M8RkVHl44k6MAhfrYhx25opnJV24/2XpuTUVklID11f9rBdE+6RZ9OMs39dyX2sDv7TuzIPi5nTRoCqZMDYw==
 
-"@lingui/babel-plugin-extract-messages@^3.2.3":
-  version "3.2.3"
-  resolved "https://registry.yarnpkg.com/@lingui/babel-plugin-extract-messages/-/babel-plugin-extract-messages-3.2.3.tgz#59f861bb02edb7eb4d29d1d283a3351f98b4e4f4"
-  integrity sha512-F1N6cwjxSxKClUT4yfRnRtJ6lkUckrDx73RSbVL7OgrefQzZS9/RjnufULPV0kU9p1XDKfaBI1YHR4zQvdR+5A==
+"@lingui/babel-plugin-extract-messages@^3.3.0":
+  version "3.3.0"
+  resolved "https://registry.yarnpkg.com/@lingui/babel-plugin-extract-messages/-/babel-plugin-extract-messages-3.3.0.tgz#456af8a44c1612e24eb31788fa563a41f211f005"
+  integrity sha512-IKysHLSAO4W8p2dvv09Tq2/812dtvRPkEkOZZ12wJAcR69UNllQLPcIRUaLIeYgliKZ9QEqxxqCxXun0ygPXlg==
   dependencies:
     "@babel/generator" "^7.11.6"
     "@babel/runtime" "^7.11.2"
-    "@lingui/conf" "^3.2.3"
+    "@lingui/conf" "^3.3.0"
     mkdirp "^1.0.4"
 
 "@lingui/babel-plugin-transform-js@2.9.2":
@@ -2458,18 +2458,18 @@
     "@lingui/babel-plugin-transform-js" "2.9.2"
     "@lingui/babel-plugin-transform-react" "2.9.2"
 
-"@lingui/cli@^3.2.3":
-  version "3.2.3"
-  resolved "https://registry.yarnpkg.com/@lingui/cli/-/cli-3.2.3.tgz#40b83512edb468fe3b61da00c3f8885d9946c104"
-  integrity sha512-fsbiKrO8CO5dWy3hDQ6a8w0/m82Elv3UZ+T/LPyLT0spSxEVsZbJgySmomy2u/tYEkOEhXipkvoGR8mueaF8rA==
+"@lingui/cli@^3.3.0":
+  version "3.3.0"
+  resolved "https://registry.yarnpkg.com/@lingui/cli/-/cli-3.3.0.tgz#2e4eb715253fe4e2d632b43c8a194145cd5c6487"
+  integrity sha512-OE9rOlcMH6WKGPSxfscKCV7Mr/EhlyFMimvI2cMx/R7rEbKwhazqDHrLpzwxDJMbEnS08ZGYNAF2PPkj2xjjAQ==
   dependencies:
     "@babel/generator" "^7.11.6"
     "@babel/parser" "^7.11.5"
     "@babel/plugin-syntax-jsx" "^7.10.4"
     "@babel/runtime" "^7.11.2"
     "@babel/types" "^7.11.5"
-    "@lingui/babel-plugin-extract-messages" "^3.2.3"
-    "@lingui/conf" "^3.2.3"
+    "@lingui/babel-plugin-extract-messages" "^3.3.0"
+    "@lingui/conf" "^3.3.0"
     babel-plugin-macros "^2.8.0"
     bcp-47 "^1.0.7"
     chalk "^4.1.0"
@@ -2484,17 +2484,19 @@
     messageformat-parser "^4.1.3"
     micromatch "4.0.2"
     mkdirp "^1.0.4"
+    node-gettext "^3.0.0"
     normalize-path "^3.0.0"
     ora "^5.1.0"
     papaparse "^5.3.0"
-    pofile "^1.0.11"
+    plurals-cldr "^1.0.4"
+    pofile "^1.1.0"
     pseudolocale "^1.1.0"
     ramda "^0.27.1"
 
-"@lingui/conf@^3.2.3":
-  version "3.2.3"
-  resolved "https://registry.yarnpkg.com/@lingui/conf/-/conf-3.2.3.tgz#ab3ac70eef8f2f219ce85d8b8516ecc128af477a"
-  integrity sha512-9Zfq/Z0vH9BucaXVbeIIoWDb7RsnqBizdHn9+PUzQx5AiudzBeKrW8gF0IGxFwugFoS5ho8qVLovYoDS2JSDYA==
+"@lingui/conf@^3.2.3", "@lingui/conf@^3.3.0":
+  version "3.3.0"
+  resolved "https://registry.yarnpkg.com/@lingui/conf/-/conf-3.3.0.tgz#49ace828abbe931917fcc589eab49271ea98aee3"
+  integrity sha512-gUUY8TputDkwdiUZpS68jsC/IW13gVJ2zDvjk2L/IuaeEZ8Yw7jPVy5PfJDrfNpeJFHFGns3HlXnsjFKrBhXog==
   dependencies:
     "@babel/runtime" "^7.11.2"
     chalk "^4.1.0"
@@ -13019,6 +13021,11 @@ lodash.flatmap@^4.5.0:
   resolved "https://registry.yarnpkg.com/lodash.flatmap/-/lodash.flatmap-4.5.0.tgz#ef8cbf408f6e48268663345305c6acc0b778702e"
   integrity sha1-74y/QI9uSCaGYzRTBcaswLd4cC4=
 
+lodash.get@^4.4.2:
+  version "4.4.2"
+  resolved "https://registry.yarnpkg.com/lodash.get/-/lodash.get-4.4.2.tgz#2d177f652fa31e939b4438d5341499dfa3825e99"
+  integrity sha1-LRd/ZS+jHpObRDjVNBSZ36OCXpk=
+
 lodash.memoize@^4.1.2:
   version "4.1.2"
   resolved "https://registry.yarnpkg.com/lodash.memoize/-/lodash.memoize-4.1.2.tgz#bcc6c49a42a2840ed997f323eada5ecd182e0bfe"
@@ -13738,6 +13745,13 @@ node-forge@0.9.0:
   version "0.9.0"
   resolved "https://registry.yarnpkg.com/node-forge/-/node-forge-0.9.0.tgz#d624050edbb44874adca12bb9a52ec63cb782579"
   integrity sha512-7ASaDa3pD+lJ3WvXFsxekJQelBKRpne+GOVbLbtHYdd7pFspyeuJHnWfLplGf3SwKGbfs/aYl5V/JCIaHVUKKQ==
+
+node-gettext@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/node-gettext/-/node-gettext-3.0.0.tgz#6b3a253309aa1e53164646c6c644fcddd0d45c58"
+  integrity sha512-/VRYibXmVoN6tnSAY2JWhNRhWYJ8Cd844jrZU/DwLVoI4vBI6ceYbd8i42sYZ9uOgDH3S7vslIKOWV/ZrT2YBA==
+  dependencies:
+    lodash.get "^4.4.2"
 
 node-gyp-build@^4.2.0:
   version "4.2.3"
@@ -14639,6 +14653,11 @@ please-upgrade-node@^3.2.0:
   dependencies:
     semver-compare "^1.0.0"
 
+plurals-cldr@^1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/plurals-cldr/-/plurals-cldr-1.0.4.tgz#534e4784f80679d3b0b39b0fb6cc46645fcf5de8"
+  integrity sha512-4nLXqtel7fsCgzi8dvRZvUjfL8SXpP982sKg7b2TgpnR8rDnes06iuQ83trQ/+XdtyMIQkBBbKzX6x97eLfsJQ==
+
 pn@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/pn/-/pn-1.1.0.tgz#e2f4cef0e219f463c179ab37463e4e1ecdccbafb"
@@ -14670,7 +14689,7 @@ pocket-js-core@0.0.3:
   dependencies:
     axios "^0.18.0"
 
-pofile@^1.0.11:
+pofile@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/pofile/-/pofile-1.1.0.tgz#9ce84bbef5043ceb4f19bdc3520d85778fad4f94"
   integrity sha512-6XYcNkXWGiJ2CVXogTP7uJ6ZXQCldYLZc16wgRp8tqRaBTTyIfF+TUT3EQJPXTLAT7OTPpTAoaFdoXKfaTRU1w==
