@@ -332,10 +332,6 @@ const DriveProvider = ({ children }: DriveContextProps) => {
     const file = pathContents.find((i) => i.cid === cid)
     if (!file) return
     try {
-      const fileInfo = await imployApiClient.getCSFFileInfo({
-        path: currentPath + file.name,
-      })
-
       const result = await imployApiClient.getFileContent(
         {
           path: currentPath + file.name,
@@ -343,18 +339,18 @@ const DriveProvider = ({ children }: DriveContextProps) => {
         cancelToken,
         onDownloadProgress,
       )
-      //@ts-ignore
-      //if (fileInfo?.version) {
-      const decrypted = await decryptFile(result.data, "TEST PASSWORD")
-      return (
-        decrypted &&
-        new Blob([decrypted], {
-          type: file.content_type,
-        })
-      )
-      // } else {
-      //   return result.data
-      // }
+
+      if (file.version === 0) {
+        return result.data
+      } else {
+        const decrypted = await decryptFile(result.data, "TEST PASSWORD")
+        return (
+          decrypted &&
+          new Blob([decrypted], {
+            type: file.content_type,
+          })
+        )
+      }
     } catch (error) {
       console.log(error)
       return Promise.reject()
