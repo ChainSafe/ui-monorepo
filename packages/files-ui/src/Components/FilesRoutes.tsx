@@ -6,6 +6,7 @@ import { useImployApi } from "@imploy/common-contexts"
 import HomePage from "./Pages/HomePage"
 import OAuthCallbackPage from "./Pages/OAuthCallback"
 import PurchasePlanPage from "./Pages/PurchasePlanPage"
+import { useDrive } from "../Contexts/DriveContext"
 
 export const ROUTE_LINKS = {
   Landing: "/",
@@ -18,27 +19,28 @@ export const ROUTE_LINKS = {
 }
 
 const FilesRoutes = () => {
-  const { isLoggedIn } = useImployApi()
+  const { isLoggedIn, secured } = useImployApi()
+  const { masterPassword } = useDrive()
   return (
     <Switch>
       <ConditionalRoute
         exact
         path={ROUTE_LINKS.Landing}
-        isAuthorized={!isLoggedIn}
+        isAuthorized={!isLoggedIn || !secured || !masterPassword}
         component={LoginPage}
         redirectPath={ROUTE_LINKS.Home}
       />
       <ConditionalRoute
         exact
         path={ROUTE_LINKS.Home}
-        isAuthorized={isLoggedIn}
+        isAuthorized={isLoggedIn && secured && !!masterPassword}
         component={HomePage}
         redirectPath={ROUTE_LINKS.Landing}
       />
       <ConditionalRoute
         exact
         path={ROUTE_LINKS.Settings}
-        isAuthorized={isLoggedIn}
+        isAuthorized={isLoggedIn && secured && !!masterPassword}
         component={SettingsPage}
         redirectPath={ROUTE_LINKS.Landing}
       />
@@ -52,7 +54,7 @@ const FilesRoutes = () => {
       <ConditionalRoute
         exact
         path={ROUTE_LINKS.PurchasePlan}
-        isAuthorized={isLoggedIn}
+        isAuthorized={isLoggedIn && secured && !!masterPassword}
         component={PurchasePlanPage}
         redirectPath={ROUTE_LINKS.Landing}
       />

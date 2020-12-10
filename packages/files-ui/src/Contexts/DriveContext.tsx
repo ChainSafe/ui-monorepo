@@ -61,8 +61,8 @@ type DriveContext = {
   uploadsInProgress: UploadProgress[]
   downloadsInProgress: DownloadProgress[]
   spaceUsed: number
-  masterKey?: string
-  setMasterKey(newKey: string): void
+  masterPassword?: string
+  setMasterPassword(newPassword: string): void
 }
 
 interface IItem extends FileContentResponse {
@@ -131,7 +131,9 @@ const DriveProvider = ({ children }: DriveContextProps) => {
 
   const [pathContents, setPathContents] = useState<IItem[]>([])
   const [spaceUsed, setSpaceUsed] = useState(0)
-  const [masterKey, setMasterKey] = useState<string | undefined>(undefined)
+  const [masterPassword, setMasterPassword] = useState<string | undefined>(
+    undefined,
+  )
 
   const setCurrentPath = (newPath: string) =>
     dispatchCurrentPath({ type: "add", payload: newPath })
@@ -166,7 +168,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
 
   const uploadFiles = async (files: File[], path: string) => {
     const startUploadFile = async () => {
-      if (!masterKey) return // TODO: Add better error handling here.
+      if (!masterPassword) return // TODO: Add better error handling here.
 
       const id = uuidv4()
       const uploadProgress: UploadProgress = {
@@ -183,7 +185,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
         const filesParam = await Promise.all(
           files.map(async (f) => {
             const fileData = await readFileAsync(f)
-            const encryptedData = await encryptFile(fileData, masterKey)
+            const encryptedData = await encryptFile(fileData, masterPassword)
             return {
               data: new Blob([encryptedData], { type: f.type }),
               fileName: f.name,
@@ -329,7 +331,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
     cancelToken?: CancelToken,
     onDownloadProgress?: (progressEvent: ProgressEvent<EventTarget>) => void,
   ) => {
-    if (!masterKey) return // TODO: Add better error handling here.
+    if (!masterPassword) return // TODO: Add better error handling here.
     const file = pathContents.find((i) => i.cid === cid)
     if (!file) return
     try {
@@ -344,7 +346,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
       if (file.version === 0) {
         return result.data
       } else {
-        const decrypted = await decryptFile(result.data, masterKey)
+        const decrypted = await decryptFile(result.data, masterPassword)
         return (
           decrypted &&
           new Blob([decrypted], {
@@ -437,8 +439,8 @@ const DriveProvider = ({ children }: DriveContextProps) => {
         uploadsInProgress,
         spaceUsed,
         downloadsInProgress,
-        masterKey,
-        setMasterKey,
+        masterPassword,
+        setMasterPassword,
       }}
     >
       {children}
