@@ -76,7 +76,13 @@ const REMOVE_UPLOAD_PROGRESS_DELAY = 5000
 const DriveContext = React.createContext<DriveContext | undefined>(undefined)
 
 const DriveProvider = ({ children }: DriveContextProps) => {
-  const { imployApiClient, isLoggedIn, secured, secureAccount } = useImployApi()
+  const {
+    imployApiClient,
+    isLoggedIn,
+    secured,
+    secureAccount,
+    validateMasterPassword,
+  } = useImployApi()
   const { addToastMessage } = useToaster()
 
   const refreshContents = useCallback(
@@ -430,10 +436,12 @@ const DriveProvider = ({ children }: DriveContextProps) => {
   }
 
   const setPassword = async (password: string) => {
-    if (!masterPassword) {
+    if (!masterPassword && (await validateMasterPassword(password))) {
       setMasterPassword(password)
     } else {
-      console.log("Master Password is already set.")
+      console.log(
+        "The password is already set, or an incorrect password was entered.",
+      )
     }
   }
 
