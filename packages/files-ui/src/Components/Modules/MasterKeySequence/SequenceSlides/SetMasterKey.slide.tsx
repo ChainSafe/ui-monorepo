@@ -66,7 +66,7 @@ const SetMasterKeySlide: React.FC<ISetMasterKeySlide> = ({
           <Typography>
             Please record your master password somewhere safe. <br /> Forgetting
             this password means{" "}
-            <span>you are permanantly locked out of your account.</span>
+            <span>you are permanently locked out of your account.</span>
           </Typography>
           <FormikCheckboxInput
             name="privacyPolicy"

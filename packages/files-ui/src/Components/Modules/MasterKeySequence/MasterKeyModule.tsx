@@ -9,7 +9,7 @@ import { SearchBar, Typography } from "@chainsafe/common-components"
 import { useState } from "react"
 import clsx from "clsx"
 import ExplainSlide from "./SequenceSlides/Explain.slide"
-import SetMasterKeySlide from "./SequenceSlides/SetMasterKey.slide.tsx"
+import SetMasterKeySlide from "./SequenceSlides/SetMasterKey.slide"
 import EnterMasterKeySlide from "./SequenceSlides/EnterMasterKey.slide"
 import { useHistoryFunctions } from "@chainsafe/common-components/dist/Router/history"
 

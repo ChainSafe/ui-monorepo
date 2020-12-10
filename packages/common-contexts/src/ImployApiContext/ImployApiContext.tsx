@@ -34,6 +34,7 @@ type ImployApiContextProps = {
 type ImployApiContext = {
   imployApiClient: IImployApiClient
   isLoggedIn: boolean | undefined
+  secured: boolean | undefined
   isReturningUser: boolean
   selectWallet(): Promise<void>
   resetAndSelectWallet(): Promise<void>
@@ -73,10 +74,12 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
 
   // access tokens
   const [accessToken, setAccessToken] = useState<Token | undefined>(undefined)
+  const [secured, setSecured] = useState<boolean | undefined>(undefined)
+
+  const [refreshToken, setRefreshToken] = useState<Token | undefined>(undefined)
   const [decodedRefreshToken, setDecodedRefreshToken] = useState<
     { exp: number } | undefined
   >(undefined)
-  const [refreshToken, setRefreshToken] = useState<Token | undefined>(undefined)
 
   // returning user
   const isReturningUserLocal =
@@ -231,6 +234,14 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
   useEffect(() => {
     if (accessToken && accessToken.token && imployApiClient) {
       imployApiClient?.setToken(accessToken.token)
+      const decodedAccessToken = jwtDecode<{ perm: { secured?: string } }>(
+        accessToken.token,
+      )
+      if (decodedAccessToken.perm.secured === "true") {
+        setSecured(true)
+      } else {
+        setSecured(false)
+      }
     }
   }, [accessToken])
 
@@ -329,6 +340,7 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
       value={{
         imployApiClient: imployApiClient,
         isLoggedIn: isLoggedIn(),
+        secured,
         isReturningUser: isReturningUser,
         web3Login,
         loginWithGithub,
