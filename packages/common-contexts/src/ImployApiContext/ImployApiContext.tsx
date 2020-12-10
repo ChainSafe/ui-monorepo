@@ -10,7 +10,7 @@ import {
 import jwtDecode from "jwt-decode"
 import { signMessage } from "./utils"
 import axios from "axios"
-import { encryptFile } from "../helpers"
+import { encryptFile, stringToArrayBuffer } from "../helpers"
 
 export { Provider as OAuthProvider }
 
@@ -39,7 +39,7 @@ type ImployApiContext = {
   isReturningUser: boolean
   selectWallet(): Promise<void>
   resetAndSelectWallet(): Promise<void>
-  setMasterPassword(): Promise<boolean>
+  setMasterPassword(masterPassword: string): Promise<boolean>
   web3Login(): Promise<void>
   getProviderUrl(provider: Provider): Promise<string>
   loginWithGithub(code: string, state: string): Promise<void>
@@ -265,11 +265,15 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
     }
   }
 
-  const setMasterPassword = async () => {
+  const setMasterPassword = async (masterPassword: string) => {
     try {
       if (decodedRefreshToken && refreshToken) {
+        const encryptedMps = await encryptFile(
+          stringToArrayBuffer(decodedRefreshToken.uuid),
+          masterPassword,
+        )
         const { access_token, refresh_token } = await imployApiClient.secure({
-          mps: decodedRefreshToken.uuid,
+          mps: encryptedMps.toString(),
           refresh: refreshToken.token,
         })
         setTokensAndSave(access_token, refresh_token)

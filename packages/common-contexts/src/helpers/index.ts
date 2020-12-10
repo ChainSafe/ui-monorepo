@@ -1,2 +1,3 @@
 export { encryptFile } from "./encryptFile"
-export { decryptFile } from "./decryptfile"
+export { decryptFile } from "./decryptFile"
+export { stringToArrayBuffer } from "./stringToArrayBuffer"
