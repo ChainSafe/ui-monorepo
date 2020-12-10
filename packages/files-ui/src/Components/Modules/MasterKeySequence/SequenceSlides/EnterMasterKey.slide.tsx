@@ -11,19 +11,26 @@ import * as yup from "yup"
 import { useDrive } from "../../../../Contexts/DriveContext"
 import { useImployApi } from "@imploy/common-contexts"
 
-const useStyles = makeStyles(({ constants, breakpoints }: ITheme) =>
+const useStyles = makeStyles(({ constants, breakpoints, palette }: ITheme) =>
   createStyles({
     root: {
       maxWidth: 320,
       "& h2": {
         textAlign: "center",
         marginBottom: constants.generalUnit * 4.125,
+        [breakpoints.down("md")]: {
+          color: palette.common.white.main,
+        },
       },
-      [breakpoints.down("md")]: {},
     },
     input: {
       margin: 0,
       marginBottom: constants.generalUnit * 1.5,
+      "& span": {
+        [breakpoints.down("md")]: {
+          color: palette.common.white.main,
+        },
+      },
     },
     button: {
       marginTop: constants.generalUnit * 3,

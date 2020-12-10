@@ -3,7 +3,7 @@ import React from "react"
 import { Button, Typography } from "@chainsafe/common-components"
 import clsx from "clsx"
 
-const useStyles = makeStyles(({ breakpoints, constants }: ITheme) =>
+const useStyles = makeStyles(({ breakpoints, constants, palette }: ITheme) =>
   createStyles({
     root: {
       maxWidth: 320,
@@ -11,9 +11,15 @@ const useStyles = makeStyles(({ breakpoints, constants }: ITheme) =>
       "& p": {
         fontWeight: 400,
         marginBottom: constants.generalUnit * 2,
+        [breakpoints.down("md")]: {
+          color: palette.common.white.main,
+        },
       },
       "& h2": {
         marginBottom: constants.generalUnit * 4.125,
+        [breakpoints.down("md")]: {
+          color: palette.common.white.main,
+        },
       },
     },
     cta: {
