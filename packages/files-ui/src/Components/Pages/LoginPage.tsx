@@ -26,6 +26,7 @@ import { ROUTE_LINKS } from "../FilesRoutes"
 import LandingImage from "../../Media/auth.jpg"
 import MasterKeyModule from "../Modules/MasterKeySequence/MasterKeyModule"
 import EnterMasterKeySlide from "../Modules/MasterKeySequence/SequenceSlides/EnterMasterKey.slide"
+import { useDrive } from "../../Contexts/DriveContext"
 
 const useStyles = makeStyles(
   ({ palette, constants, typography, breakpoints }: ITheme) =>
@@ -166,7 +167,10 @@ const LoginPage = () => {
     selectWallet,
     resetAndSelectWallet,
     getProviderUrl,
+    secured,
+    isLoggedIn,
   } = useImployApi()
+  const { isMasterPasswordSet } = useDrive()
   const { provider, wallet } = useWeb3()
   const [error, setError] = useState<string>("")
   const [activeMode, setActiveMode] = useState<"newUser" | "returningUser">(
@@ -222,10 +226,6 @@ const LoginPage = () => {
   const desktop = useMediaQuery(breakpoints.up("md"))
   const maintenanceMode = Boolean(process.env.REACT_APP_MAINTENANCE_MODE)
 
-  const [masterKeyState, setMasterKeyState] = useState<
-    "inactive" | "set" | "enter"
-  >("inactive")
-
   return (
     <div className={classes.root}>
       <Grid flexDirection={desktop ? "row" : "column"} container>
@@ -255,7 +255,7 @@ const LoginPage = () => {
             </Typography>
           </div>
           <div className={classes.controls}>
-            {masterKeyState == "inactive" ? (
+            {!isLoggedIn ? (
               <>
                 <Typography
                   variant="h6"
@@ -384,8 +384,8 @@ const LoginPage = () => {
                   )}
                 </Typography>
               </>
-            ) : masterKeyState === "set" ? (
-              <MasterKeyModule onComplete={() => setMasterKeyState("enter")} />
+            ) : !secured ? (
+              <MasterKeyModule />
             ) : (
               <EnterMasterKeySlide />
             )}

@@ -24,12 +24,10 @@ const useStyles = makeStyles(({ breakpoints }: ITheme) =>
 
 interface IMasterKeyModule {
   className?: string
-  onComplete: () => void
 }
 
 const MasterKeyModule: React.FC<IMasterKeyModule> = ({
   className,
-  onComplete,
 }: IMasterKeyModule) => {
   const classes = useStyles()
   const [slide, setSlide] = useState<"explain" | "set">("explain")
@@ -39,10 +37,7 @@ const MasterKeyModule: React.FC<IMasterKeyModule> = ({
       {slide === "explain" ? (
         <ExplainSlide className={classes.slide} cta={() => setSlide("set")} />
       ) : (
-        <SetMasterKeySlide
-          className={classes.slide}
-          postSubmit={() => onComplete()}
-        />
+        <SetMasterKeySlide className={classes.slide} />
       )}
     </section>
   )

@@ -61,8 +61,9 @@ type DriveContext = {
   uploadsInProgress: UploadProgress[]
   downloadsInProgress: DownloadProgress[]
   spaceUsed: number
-  masterPassword?: string
-  setMasterPassword(newPassword: string): void
+  isMasterPasswordSet: boolean
+  setMasterPassword(password: string): void
+  secureDrive(password: string): void
 }
 
 interface IItem extends FileContentResponse {
@@ -75,7 +76,7 @@ const REMOVE_UPLOAD_PROGRESS_DELAY = 5000
 const DriveContext = React.createContext<DriveContext | undefined>(undefined)
 
 const DriveProvider = ({ children }: DriveContextProps) => {
-  const { imployApiClient, isLoggedIn } = useImployApi()
+  const { imployApiClient, isLoggedIn, secured, secureAccount } = useImployApi()
   const { addToastMessage } = useToaster()
 
   const refreshContents = useCallback(
@@ -419,6 +420,23 @@ const DriveProvider = ({ children }: DriveContextProps) => {
     }
   }
 
+  const secureDrive = async (password: string) => {
+    if (secured) return
+    //TODO: Check password meets complexity requirements
+    const result = await secureAccount(password)
+    if (result) {
+      setMasterPassword(password)
+    }
+  }
+
+  const setPassword = async (password: string) => {
+    if (!masterPassword) {
+      setMasterPassword(password)
+    } else {
+      console.log("Master Password is already set.")
+    }
+  }
+
   return (
     <DriveContext.Provider
       value={{
@@ -439,8 +457,9 @@ const DriveProvider = ({ children }: DriveContextProps) => {
         uploadsInProgress,
         spaceUsed,
         downloadsInProgress,
-        masterPassword,
-        setMasterPassword,
+        isMasterPasswordSet: !!masterPassword,
+        setMasterPassword: setPassword,
+        secureDrive,
       }}
     >
       {children}
