@@ -442,6 +442,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
       console.log(
         "The password is already set, or an incorrect password was entered.",
       )
+      return false
     }
   }
 
