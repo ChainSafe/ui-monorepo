@@ -38,6 +38,7 @@ type ImployApiContext = {
   isReturningUser: boolean
   selectWallet(): Promise<void>
   resetAndSelectWallet(): Promise<void>
+  setMasterPassword(): Promise<boolean>
   web3Login(): Promise<void>
   getProviderUrl(provider: Provider): Promise<string>
   loginWithGithub(code: string, state: string): Promise<void>
@@ -78,7 +79,7 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
 
   const [refreshToken, setRefreshToken] = useState<Token | undefined>(undefined)
   const [decodedRefreshToken, setDecodedRefreshToken] = useState<
-    { exp: number } | undefined
+    { exp: number; uuid: string } | undefined
   >(undefined)
 
   // returning user
@@ -261,6 +262,23 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
     }
   }
 
+  const setMasterPassword = async () => {
+    try {
+      if (decodedRefreshToken && refreshToken) {
+        await imployApiClient.secure({
+          mps: decodedRefreshToken.uuid,
+          refresh: refreshToken.token,
+        })
+
+        return true
+      } else {
+        return false
+      }
+    } catch (error) {
+      return false
+    }
+  }
+
   const getProviderUrl = async (provider: Provider) => {
     try {
       const { url } = await imployApiClient.getOauth2Provider(provider)
@@ -342,6 +360,7 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
         isLoggedIn: isLoggedIn(),
         secured,
         isReturningUser: isReturningUser,
+        setMasterPassword,
         web3Login,
         loginWithGithub,
         loginWithGoogle,
