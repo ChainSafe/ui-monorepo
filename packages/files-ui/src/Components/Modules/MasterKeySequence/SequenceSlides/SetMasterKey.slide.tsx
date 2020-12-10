@@ -23,12 +23,10 @@ const useStyles = makeStyles(({ breakpoints }: ITheme) =>
 
 interface ISetMasterKeySlide {
   className?: string
-  postSubmit: () => void
 }
 
 const SetMasterKeySlide: React.FC<ISetMasterKeySlide> = ({
   className,
-  postSubmit,
 }: ISetMasterKeySlide) => {
   const classes = useStyles()
 
@@ -57,7 +55,6 @@ const SetMasterKeySlide: React.FC<ISetMasterKeySlide> = ({
           helpers.setSubmitting(true)
 
           helpers.setSubmitting(false)
-          postSubmit()
         }}
       >
         <Form className={classes.root}>

@@ -20,27 +20,27 @@ export const ROUTE_LINKS = {
 
 const FilesRoutes = () => {
   const { isLoggedIn, secured } = useImployApi()
-  const { masterPassword } = useDrive()
+  const { isMasterPasswordSet } = useDrive()
   return (
     <Switch>
       <ConditionalRoute
         exact
         path={ROUTE_LINKS.Landing}
-        isAuthorized={!isLoggedIn || !secured || !masterPassword}
+        isAuthorized={!isLoggedIn || !secured || !isMasterPasswordSet}
         component={LoginPage}
         redirectPath={ROUTE_LINKS.Home}
       />
       <ConditionalRoute
         exact
         path={ROUTE_LINKS.Home}
-        isAuthorized={isLoggedIn && secured && !!masterPassword}
+        isAuthorized={isLoggedIn && secured && !!isMasterPasswordSet}
         component={HomePage}
         redirectPath={ROUTE_LINKS.Landing}
       />
       <ConditionalRoute
         exact
         path={ROUTE_LINKS.Settings}
-        isAuthorized={isLoggedIn && secured && !!masterPassword}
+        isAuthorized={isLoggedIn && secured && !!isMasterPasswordSet}
         component={SettingsPage}
         redirectPath={ROUTE_LINKS.Landing}
       />
@@ -54,7 +54,7 @@ const FilesRoutes = () => {
       <ConditionalRoute
         exact
         path={ROUTE_LINKS.PurchasePlan}
-        isAuthorized={isLoggedIn && secured && !!masterPassword}
+        isAuthorized={isLoggedIn && secured && !!isMasterPasswordSet}
         component={PurchasePlanPage}
         redirectPath={ROUTE_LINKS.Landing}
       />
