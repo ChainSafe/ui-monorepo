@@ -186,7 +186,7 @@ const FilePreviewModal: React.FC<{
       setIsLoading(true)
       setError(undefined)
       try {
-        const content = await getFileContent(file.name, token, (evt) => {
+        const content = await getFileContent(file.cid, token, (evt) => {
           setLoadingProgress((evt.loaded / file.size) * 100)
         })
         setFileContent(content)

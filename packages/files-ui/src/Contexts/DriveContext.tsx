@@ -16,6 +16,7 @@ import {
 import { guessContentType } from "../Utils/contentTypeGuesser"
 import { CancelToken } from "axios"
 import { t } from "@lingui/macro"
+import { decryptFile, encryptFile, readFileAsync } from "../Utils/Helpers"
 
 type DriveContextProps = {
   children: React.ReactNode | React.ReactNode[]
@@ -49,10 +50,10 @@ type DriveContext = {
   deleteFile(cid: string): Promise<void>
   downloadFile(cid: string): Promise<void>
   getFileContent(
-    fileName: string,
+    cid: string,
     cancelToken?: CancelToken,
     onDownloadProgress?: (progressEvent: ProgressEvent<EventTarget>) => void,
-  ): Promise<Blob>
+  ): Promise<Blob | undefined>
   list(body: FilesPathRequest): Promise<FileContentResponse[]>
   currentPath: string
   updateCurrentPath(newPath: string): void
@@ -60,6 +61,8 @@ type DriveContext = {
   uploadsInProgress: UploadProgress[]
   downloadsInProgress: DownloadProgress[]
   spaceUsed: number
+  masterKey?: string
+  setMasterKey(newKey: string): void
 }
 
 interface IItem extends FileContentResponse {
@@ -128,6 +131,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
 
   const [pathContents, setPathContents] = useState<IItem[]>([])
   const [spaceUsed, setSpaceUsed] = useState(0)
+  const [masterKey, setMasterKey] = useState<string | undefined>(undefined)
 
   const setCurrentPath = (newPath: string) =>
     dispatchCurrentPath({ type: "add", payload: newPath })
@@ -162,6 +166,8 @@ const DriveProvider = ({ children }: DriveContextProps) => {
 
   const uploadFiles = async (files: File[], path: string) => {
     const startUploadFile = async () => {
+      // if (!masterKey) return // TODO: Add better error handling here.
+
       const id = uuidv4()
       const uploadProgress: UploadProgress = {
         id,
@@ -174,12 +180,18 @@ const DriveProvider = ({ children }: DriveContextProps) => {
       }
       dispatchUploadsInProgress({ type: "add", payload: uploadProgress })
       try {
-        const filesParam = files.map((f) => ({
-          data: f,
-          fileName: f.name,
-        }))
+        const filesParam = await Promise.all(
+          files.map(async (f) => {
+            const fileData = await readFileAsync(f)
+            const encryptedData = await encryptFile(fileData, "TEST PASSWORD")
+            return {
+              data: new Blob([encryptedData], { type: f.type }),
+              fileName: f.name,
+            }
+          }),
+        )
         // API call
-
+        debugger
         const result = await imployApiClient.addCSFFiles(
           filesParam,
           path,
@@ -313,20 +325,38 @@ const DriveProvider = ({ children }: DriveContextProps) => {
   }
 
   const getFileContent = async (
-    fileName: string,
+    cid: string,
     cancelToken?: CancelToken,
     onDownloadProgress?: (progressEvent: ProgressEvent<EventTarget>) => void,
   ) => {
+    const file = pathContents.find((i) => i.cid === cid)
+    if (!file) return
     try {
+      const fileInfo = await imployApiClient.getCSFFileInfo({
+        path: currentPath + file.name,
+      })
+
       const result = await imployApiClient.getFileContent(
         {
-          path: currentPath + fileName,
+          path: currentPath + file.name,
         },
         cancelToken,
         onDownloadProgress,
       )
-      return result.data
+      //@ts-ignore
+      //if (fileInfo?.version) {
+      const decrypted = await decryptFile(result.data, "TEST PASSWORD")
+      return (
+        decrypted &&
+        new Blob([decrypted], {
+          type: file.content_type,
+        })
+      )
+      // } else {
+      //   return result.data
+      // }
     } catch (error) {
+      console.log(error)
       return Promise.reject()
     }
   }
@@ -345,7 +375,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
       }
       dispatchDownloadsInProgress({ type: "add", payload: downloadProgress })
       const result = await getFileContent(
-        itemToDownload?.name || "",
+        itemToDownload.cid,
         undefined,
         (progressEvent) => {
           dispatchDownloadsInProgress({
@@ -410,6 +440,8 @@ const DriveProvider = ({ children }: DriveContextProps) => {
         uploadsInProgress,
         spaceUsed,
         downloadsInProgress,
+        masterKey,
+        setMasterKey,
       }}
     >
       {children}
