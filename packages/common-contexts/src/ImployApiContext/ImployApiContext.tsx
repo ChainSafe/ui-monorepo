@@ -265,11 +265,11 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
   const setMasterPassword = async () => {
     try {
       if (decodedRefreshToken && refreshToken) {
-        await imployApiClient.secure({
+        const { access_token, refresh_token } = await imployApiClient.secure({
           mps: decodedRefreshToken.uuid,
           refresh: refreshToken.token,
         })
-
+        setTokensAndSave(access_token, refresh_token)
         return true
       } else {
         return false
