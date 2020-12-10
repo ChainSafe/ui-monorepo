@@ -133,9 +133,9 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
                 const {
                   access_token,
                   refresh_token,
-                } = await refreshTokenApiClient.getRefreshToken(
-                  refreshTokenLocal,
-                )
+                } = await refreshTokenApiClient.getRefreshToken({
+                  refresh: refreshTokenLocal,
+                })
 
                 setTokensAndSave(access_token, refresh_token)
                 error.response.config.headers.Authorization = `Bearer ${access_token.token}`
@@ -163,7 +163,7 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
           const {
             access_token,
             refresh_token,
-          } = await apiClient.getRefreshToken(savedRefreshToken)
+          } = await apiClient.getRefreshToken({ refresh: savedRefreshToken })
 
           setTokensAndSave(access_token, refresh_token)
         } catch (error) {}
@@ -345,10 +345,17 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
         const mpsArray = new TextEncoder().encode(decodedRefreshToken.uuid)
         const encryptedMps = await encryptFile(mpsArray, masterPassword)
 
-        const { access_token, refresh_token } = await imployApiClient.secure({
+        await imployApiClient.secure({
           mps: encryptedMps.toString(),
+        })
+
+        const {
+          access_token,
+          refresh_token,
+        } = await imployApiClient.getRefreshToken({
           refresh: refreshToken.token,
         })
+
         setTokensAndSave(access_token, refresh_token)
         return true
       } else {

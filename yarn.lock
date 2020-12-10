@@ -2218,10 +2218,10 @@
   resolved "https://registry.yarnpkg.com/@icons/material/-/material-0.2.4.tgz#e90c9f71768b3736e76d7dd6783fc6c2afa88bc8"
   integrity sha512-QPcGmICAPbGLGb6F/yNf/KzKqvFx8z5qx3D1yFqVAjoFmXK35EgyW+cJ57Te3CNsmzblwtzakLGFqHPqrfb4Tw==
 
-"@imploy/api-client@1.2.18":
-  version "1.2.18"
-  resolved "https://npm.pkg.github.com/download/@imploy/api-client/1.2.18/bd33991af50a3c0a9482bd3d60ade1fe1191657989f94544b6c7c594243da4a3#94f362811956e13c008517fbdad0b8d5a20a777b"
-  integrity sha512-Rl4xKQcMHIC5HuIR3kQbVCpWAMOHaM5XKUWxMZscHBgKv5t9oCqta2rnP5M1joSkBk4R1h8Cf/cLsjk5cK/D/g==
+"@imploy/api-client@1.3.2":
+  version "1.3.2"
+  resolved "https://npm.pkg.github.com/download/@imploy/api-client/1.3.2/68ecff5b3d63f4610830610ae32b95576df720e08eacca13a8c1a10a47d285b8#5fec1e5785725e5edb073ceb24d4e3ab7f1ed535"
+  integrity sha512-xRLigU/Q1Q3+GW6QO9Tp85Oe2oPQlZevhdS+uf+aKEaP94c1+6vufD2EoHYa2u5T2tqmrdAh6il+wJJgA5BIUw==
 
 "@jest/console@^24.7.1", "@jest/console@^24.9.0":
   version "24.9.0"
