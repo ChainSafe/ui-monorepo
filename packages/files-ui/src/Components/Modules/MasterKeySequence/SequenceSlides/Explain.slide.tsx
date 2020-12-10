@@ -1,13 +1,23 @@
 import { createStyles, ITheme, makeStyles } from "@chainsafe/common-theme"
 import React from "react"
 import { Button, Typography } from "@chainsafe/common-components"
-import { useState } from "react"
 import clsx from "clsx"
 
-const useStyles = makeStyles(({ breakpoints }: ITheme) =>
+const useStyles = makeStyles(({ breakpoints, constants }: ITheme) =>
   createStyles({
     root: {
+      maxWidth: 320,
       [breakpoints.down("md")]: {},
+      "& p": {
+        fontWeight: 400,
+        marginBottom: constants.generalUnit * 2,
+      },
+      "& h2": {
+        marginBottom: constants.generalUnit * 4.125,
+      },
+    },
+    cta: {
+      marginTop: constants.generalUnit * 4.125,
     },
   }),
 )
@@ -25,12 +35,14 @@ const ExplainSlide: React.FC<IExplainSlide> = ({
 
   return (
     <section className={clsx(classes.root, className)}>
-      <Typography>A few things you should know....</Typography>
-      <Typography>
+      <Typography variant="h2" component="h2">
+        A few things you should know....
+      </Typography>
+      <Typography variant="h5" component="p">
         Using ChainSafe Files requires that you set a master key. This is what
         disables your content from being read by us or any other third-party.
       </Typography>
-      <Typography>
+      <Typography variant="h5" component="p">
         Here’s the thing about your master key.{" "}
         <strong>
           Forgetting this password means that you will be permanently locked out
@@ -39,11 +51,13 @@ const ExplainSlide: React.FC<IExplainSlide> = ({
         We aren’t storing any keys, and as a result we will not be able to
         recover your account.
       </Typography>
-      <Typography>
+      <Typography variant="h5" component="p">
         Please do not share your master key with anyone. Record it somewhere
         safe.
       </Typography>
-      <Button onClick={() => cta()}>OK, I’m ready to set my key</Button>
+      <Button className={classes.cta} fullsize onClick={() => cta()}>
+        OK, I’m ready to set my key
+      </Button>
     </section>
   )
 }

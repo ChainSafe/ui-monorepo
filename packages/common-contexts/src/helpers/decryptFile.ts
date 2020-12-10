@@ -40,7 +40,6 @@ export const decryptFile = async (
       false,
       ["decrypt"],
     )
-    debugger
 
     const plaintextBytesArrayBuffer = await window.crypto.subtle.decrypt(
       { name: "AES-CBC", iv: ivBytes },

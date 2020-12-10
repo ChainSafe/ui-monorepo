@@ -1,17 +1,9 @@
-import {
-  createStyles,
-  ITheme,
-  makeStyles,
-  useOnClickOutside,
-} from "@chainsafe/common-theme"
-import React, { ChangeEvent, useRef } from "react"
-import { SearchBar, Typography } from "@chainsafe/common-components"
+import { createStyles, ITheme, makeStyles } from "@chainsafe/common-theme"
+import React from "react"
 import { useState } from "react"
 import clsx from "clsx"
 import ExplainSlide from "./SequenceSlides/Explain.slide"
 import SetMasterKeySlide from "./SequenceSlides/SetMasterKey.slide"
-import EnterMasterKeySlide from "./SequenceSlides/EnterMasterKey.slide"
-import { useHistoryFunctions } from "@chainsafe/common-components/dist/Router/history"
 
 const useStyles = makeStyles(({ breakpoints }: ITheme) =>
   createStyles({

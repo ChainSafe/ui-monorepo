@@ -71,14 +71,13 @@ const AppWrapper: React.FC<IAppWrapper> = ({ children }: IAppWrapper) => {
 
   const { isLoggedIn, secured } = useImployApi()
   const { isMasterPasswordSet } = useDrive()
-  debugger
   return (
     <div className={classes.root}>
       <CssBaseline />
       <AppNav setNavOpen={setNavOpen} navOpen={navOpen} />
       <article
         className={clsx(classes.bodyWrapper, {
-          active: isLoggedIn,
+          active: isLoggedIn && secured && !!isMasterPasswordSet,
         })}
       >
         <AppHeader navOpen={navOpen} setNavOpen={setNavOpen} />

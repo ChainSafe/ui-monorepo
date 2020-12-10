@@ -4,19 +4,42 @@ import {
   Button,
   FormikCheckboxInput,
   FormikTextInput,
-  Link,
-  TextInput,
   Typography,
 } from "@chainsafe/common-components"
 import clsx from "clsx"
 import { Form, Formik } from "formik"
 import * as yup from "yup"
 import { ROUTE_LINKS } from "../../../FilesRoutes"
+import { useDrive } from "../../../../Contexts/DriveContext"
 
-const useStyles = makeStyles(({ breakpoints }: ITheme) =>
+const useStyles = makeStyles(({ breakpoints, constants, palette }: ITheme) =>
   createStyles({
     root: {
+      maxWidth: 320,
       [breakpoints.down("md")]: {},
+      "& p": {
+        fontWeight: 400,
+        marginBottom: constants.generalUnit * 2,
+      },
+      "& h2": {
+        textAlign: "center",
+        marginBottom: constants.generalUnit * 4.125,
+      },
+    },
+    input: {
+      margin: 0,
+      marginBottom: constants.generalUnit * 1.5,
+    },
+    highlight: {
+      fontWeight: 700,
+      textDecoration: "underline",
+    },
+    checkbox: {
+      marginBottom: constants.generalUnit,
+      color: palette.additional["gray"][8],
+    },
+    button: {
+      marginTop: constants.generalUnit * 3,
     },
   }),
 )
@@ -29,6 +52,7 @@ const SetMasterKeySlide: React.FC<ISetMasterKeySlide> = ({
   className,
 }: ISetMasterKeySlide) => {
   const classes = useStyles()
+  const { secureDrive } = useDrive()
 
   const masterKeyValidation = yup.object().shape({
     masterKey: yup.string().required("Please provide a master key"),
@@ -41,8 +65,10 @@ const SetMasterKeySlide: React.FC<ISetMasterKeySlide> = ({
   })
 
   return (
-    <section className={clsx(className)}>
-      <Typography>A few things you should know....</Typography>
+    <section className={clsx(classes.root, className)}>
+      <Typography variant="h2" component="h2">
+        Set a Master Key
+      </Typography>
       <Formik
         initialValues={{
           masterKey: "",
@@ -53,46 +79,67 @@ const SetMasterKeySlide: React.FC<ISetMasterKeySlide> = ({
         validationSchema={masterKeyValidation}
         onSubmit={async (values, helpers) => {
           helpers.setSubmitting(true)
-
+          secureDrive(values.masterKey)
           helpers.setSubmitting(false)
         }}
       >
-        <Form className={classes.root}>
-          <FormikTextInput name="masterKey" label="Master Key" />
-          <FormikTextInput name="confirmMasterKey" label="Master Key" />
-          <Typography>
+        <Form>
+          <FormikTextInput
+            type="password"
+            className={classes.input}
+            name="masterKey"
+            label="Master Key"
+          />
+          <FormikTextInput
+            type="password"
+            className={classes.input}
+            name="confirmMasterKey"
+            label="Confirm Master Key"
+          />
+          <Typography variant="h5" component="p">
             Please record your master password somewhere safe. <br /> Forgetting
             this password means{" "}
-            <span>you are permanently locked out of your account.</span>
+            <span className={classes.highlight}>
+              you are permanently locked out of your account.
+            </span>
           </Typography>
           <FormikCheckboxInput
+            className={classes.checkbox}
             name="privacyPolicy"
             label={
               <>
                 I have read the{" "}
-                <Link to={ROUTE_LINKS.PrivacyPolicy}>Privacy Policy</Link>
+                <a
+                  rel="noopener noreferrer"
+                  href={ROUTE_LINKS.PrivacyPolicy}
+                  target="_blank"
+                >
+                  Privacy Policy
+                </a>
               </>
             }
           />
           <FormikCheckboxInput
+            className={classes.checkbox}
             name="terms"
             label={
               <>
                 I have read the{" "}
-                <Link to={ROUTE_LINKS.Terms}>Terms of Service</Link>
+                <a
+                  rel="noopener noreferrer"
+                  href={ROUTE_LINKS.Terms}
+                  target="_blank"
+                >
+                  Terms of Service
+                </a>
               </>
             }
           />
-          <Button type="submit">Set Master Key</Button>
+          <Button className={classes.button} fullsize type="submit">
+            Set Master Key
+          </Button>
         </Form>
       </Formik>
-      <footer>
-        <Typography>Already set up?</Typography>
-        <Typography>
-          {/* TODO: Route to Sign in */}
-          Sign in
-        </Typography>
-      </footer>
     </section>
   )
 }
