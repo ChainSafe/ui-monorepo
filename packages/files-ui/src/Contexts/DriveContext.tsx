@@ -163,6 +163,12 @@ const DriveProvider = ({ children }: DriveContextProps) => {
     }
   }, [imployApiClient, pathContents, isLoggedIn])
 
+  useEffect(() => {
+    if (!isLoggedIn) {
+      setMasterPassword(undefined)
+    }
+  }, [isLoggedIn])
+
   const [uploadsInProgress, dispatchUploadsInProgress] = useReducer(
     uploadsInProgressReducer,
     [],
