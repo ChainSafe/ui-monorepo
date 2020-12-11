@@ -343,7 +343,6 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
     try {
       if (decodedRefreshToken && refreshToken) {
         const uuidArray = new TextEncoder().encode(decodedRefreshToken.uuid)
-        debugger
         const encryptedUuid = await encryptFile(uuidArray, masterPassword)
         const encryptedUuidString = Buffer.from(encryptedUuid).toString(
           "base64",
@@ -376,9 +375,12 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
     try {
       const toDecryptArray = Buffer.from(decodedRefreshToken.mps, "base64")
       const decrypted = await decryptFile(toDecryptArray, candidatePassword)
-
-      const decryptedUuid = new TextDecoder().decode(decrypted?.buffer)
-      return decodedRefreshToken.uuid === decryptedUuid
+      if (decrypted) {
+        const decryptedUuid = new TextDecoder().decode(decrypted)
+        return decodedRefreshToken.uuid === decryptedUuid
+      } else {
+        return false
+      }
     } catch (error) {
       return false
     }
