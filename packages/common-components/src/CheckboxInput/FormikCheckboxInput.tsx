@@ -23,7 +23,7 @@ const FormikCheckboxInput: React.FC<IFormikCheckboxProps> = ({
   return (
     <CheckboxInput
       onChange={handleChange}
-      error={meta.error}
+      error={meta.touched ? meta.error : undefined}
       {...props}
       value={field.value}
     />
