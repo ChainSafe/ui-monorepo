@@ -45,11 +45,12 @@ const ExplainSlide: React.FC<IExplainSlide> = ({
         A few things you should know....
       </Typography>
       <Typography variant="h5" component="p">
-        Using ChainSafe Files requires that you set a master key. This is what
-        disables your content from being read by us or any other third-party.
+        Using ChainSafe Files requires that you set a encryption password. This
+        is what disables your content from being read by us or any other
+        third-party.
       </Typography>
       <Typography variant="h5" component="p">
-        Here’s the thing about your master key.{" "}
+        Here’s the thing about your encryption password.{" "}
         <strong>
           Forgetting this password means that you will be permanently locked out
           of your account.
@@ -58,11 +59,11 @@ const ExplainSlide: React.FC<IExplainSlide> = ({
         recover your account.
       </Typography>
       <Typography variant="h5" component="p">
-        Please do not share your master key with anyone. Record it somewhere
-        safe.
+        Please do not share your encryption password with anyone. Record it
+        somewhere safe.
       </Typography>
       <Button className={classes.cta} fullsize onClick={() => cta()}>
-        OK, I’m ready to set my key
+        OK, I’m ready to set my encryption password
       </Button>
     </section>
   )

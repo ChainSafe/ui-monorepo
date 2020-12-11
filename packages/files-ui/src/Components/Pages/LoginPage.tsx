@@ -185,7 +185,6 @@ const LoginPage = () => {
   const handleSelectWalletAndConnect = async () => {
     setIsConnecting(true)
     try {
-      // TODO: Trigger request for Master Key
       await selectWallet()
     } catch (error) {
       setError("There was an error connecting your wallet")
@@ -196,7 +195,6 @@ const LoginPage = () => {
   const handleResetAndSelectWalletAndConnect = async () => {
     setIsConnecting(true)
     try {
-      // TODO: Trigger request for Master Key
       await resetAndSelectWallet()
     } catch (error) {
       setError("There was an error connecting your wallet")
@@ -207,7 +205,6 @@ const LoginPage = () => {
   const handleSignAuth = async () => {
     setIsConnecting(true)
     try {
-      // TODO: Trigger request for Master Key
       await web3Login()
     } catch (error) {
       setError("There was an error authenticating")
@@ -218,7 +215,6 @@ const LoginPage = () => {
   const onLoginWithProvider = async (provider: OAuthProvider) => {
     const oauthUrl = await getProviderUrl(provider)
     window.location.href = oauthUrl
-    // TODO: Trigger request for Master Key
   }
 
   const desktop = useMediaQuery(breakpoints.up("md"))

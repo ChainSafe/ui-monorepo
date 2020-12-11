@@ -77,30 +77,39 @@ const SetMasterKeySlide: React.FC<ISetMasterKeySlide> = ({
   const masterKeyValidation = yup.object().shape({
     masterKey: yup
       .string()
-      .test("Complexity", "Password too simple", async (val) => {
-        if (val === undefined) {
-          return false
-        }
+      .test(
+        "Complexity",
+        "Encryption password needs to be more complex",
+        async (val) => {
+          if (val === undefined) {
+            return false
+          }
 
-        const complexity = zxcvbn(`${val}`)
-        if (complexity.score >= 3) {
-          return true
-        }
-        return false
-      })
-      .required("Please provide a master key"),
+          const complexity = zxcvbn(`${val}`)
+          if (complexity.score >= 3) {
+            return true
+          }
+          return false
+        },
+      )
+      .required("Please provide an encryption password"),
     confirmMasterKey: yup
       .string()
-      .oneOf([yup.ref("masterKey"), undefined], "Master key must match")
-      .required("Master key confirm is required'"),
-    privacyPolicy: yup.boolean().required("Please accept the privacy policy."),
-    terms: yup.boolean().required("Please accept the terms & conditions."),
+      .oneOf(
+        [yup.ref("masterKey"), undefined],
+        "Encryption password must match",
+      )
+      .required("Encryption password confirmation is required'"),
+    privacyPolicy: yup
+      .boolean()
+      .oneOf([true], "Please accept the privacy policy"),
+    terms: yup.boolean().oneOf([true], "Please accept the terms & conditions."),
   })
 
   return (
     <section className={clsx(classes.root, className)}>
       <Typography variant="h2" component="h2">
-        Set a Master Key
+        Set an Encryption Password
       </Typography>
       <Formik
         initialValues={{
@@ -121,17 +130,17 @@ const SetMasterKeySlide: React.FC<ISetMasterKeySlide> = ({
             type="password"
             className={classes.input}
             name="masterKey"
-            label="Master Key"
+            label="Encryption Password:"
           />
           <FormikTextInput
             type="password"
             className={classes.input}
             name="confirmMasterKey"
-            label="Confirm Master Key"
+            label="Confirm Encryption Password:"
           />
           <Typography variant="h5" component="p">
-            Please record your master password somewhere safe. <br /> Forgetting
-            this password means{" "}
+            Please record your encryption password somewhere safe. <br />
+            Forgetting this password means{" "}
             <span className={classes.highlight}>
               you are permanently locked out of your account.
             </span>
@@ -169,7 +178,7 @@ const SetMasterKeySlide: React.FC<ISetMasterKeySlide> = ({
             }
           />
           <Button className={classes.button} fullsize type="submit">
-            Set Master Key
+            Set Encryption Password
           </Button>
         </Form>
       </Formik>

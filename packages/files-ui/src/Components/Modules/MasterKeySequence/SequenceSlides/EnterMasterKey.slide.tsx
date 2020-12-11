@@ -69,14 +69,14 @@ const EnterMasterKeySlide: React.FC<IEnterMasterKeySlide> = ({
   const masterKeyValidation = yup.object().shape({
     masterKey: yup
       .string()
-      .test("Key valid", "Master key invalid", async (value) => {
+      .test("Key valid", "Encryption password is invalid", async (value) => {
         try {
           return await validateMasterPassword(`${value}`)
         } catch (error) {
           return false
         }
       })
-      .required("Please provide a master key"),
+      .required("Please provide an encryption password"),
   })
   const { setMasterPassword } = useDrive()
 
@@ -96,13 +96,13 @@ const EnterMasterKeySlide: React.FC<IEnterMasterKeySlide> = ({
       >
         <Form className={classes.root}>
           <Typography variant="h2" component="h2">
-            Master key
+            Encryption Password
           </Typography>
           <FormikTextInput
             className={classes.input}
             type="password"
             name="masterKey"
-            label="Master Key"
+            label="Enter encryption password:"
           />
           <Button className={classes.button} fullsize type="submit">
             Continue
