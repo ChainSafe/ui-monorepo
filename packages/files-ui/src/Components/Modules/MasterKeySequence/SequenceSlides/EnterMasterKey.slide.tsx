@@ -9,33 +9,45 @@ import clsx from "clsx"
 import { Form, Formik } from "formik"
 import * as yup from "yup"
 import { useDrive } from "../../../../Contexts/DriveContext"
-import { useImployApi } from "@imploy/common-contexts"
+import { useImployApi, useUser } from "@imploy/common-contexts"
 
-const useStyles = makeStyles(({ constants, breakpoints, palette }: ITheme) =>
-  createStyles({
-    root: {
-      maxWidth: 320,
-      "& h2": {
-        textAlign: "center",
-        marginBottom: constants.generalUnit * 4.125,
-        [breakpoints.down("md")]: {
-          color: palette.common.white.main,
+const useStyles = makeStyles(
+  ({ constants, breakpoints, palette, typography }: ITheme) =>
+    createStyles({
+      root: {
+        maxWidth: 320,
+        "& h2": {
+          textAlign: "center",
+          marginBottom: constants.generalUnit * 4.125,
+          [breakpoints.down("md")]: {
+            color: palette.common.white.main,
+          },
         },
       },
-    },
-    input: {
-      margin: 0,
-      marginBottom: constants.generalUnit * 1.5,
-      "& span": {
-        [breakpoints.down("md")]: {
-          color: palette.common.white.main,
+      input: {
+        margin: 0,
+        marginBottom: constants.generalUnit * 1.5,
+        "& span": {
+          [breakpoints.down("md")]: {
+            color: palette.common.white.main,
+          },
         },
       },
-    },
-    button: {
-      marginTop: constants.generalUnit * 3,
-    },
-  }),
+      button: {
+        marginTop: constants.generalUnit * 3,
+      },
+      userContainer: {
+        marginTop: constants.generalUnit * 4,
+      },
+      logoutButton: {
+        padding: 0,
+        textDecoration: "underline",
+        border: "none",
+        cursor: "pointer",
+        backgroundColor: "transparent",
+        ...typography.body1,
+      },
+    }),
 )
 
 interface IEnterMasterKeySlide {
@@ -46,7 +58,8 @@ const EnterMasterKeySlide: React.FC<IEnterMasterKeySlide> = ({
   className,
 }: IEnterMasterKeySlide) => {
   const classes = useStyles()
-  const { validateMasterPassword } = useImployApi()
+  const { validateMasterPassword, logout } = useImployApi()
+  const { getProfileTitle } = useUser()
   const masterKeyValidation = yup.object().shape({
     masterKey: yup
       .string()
@@ -90,6 +103,17 @@ const EnterMasterKeySlide: React.FC<IEnterMasterKeySlide> = ({
           </Button>
         </Form>
       </Formik>
+      <div className={classes.userContainer}>
+        <Typography>Signed in as:</Typography>
+        <br />
+        <Typography>
+          <b>{getProfileTitle()}</b>
+        </Typography>
+        <br />
+        <button className={classes.logoutButton} onClick={logout}>
+          Log out
+        </button>
+      </div>
     </section>
   )
 }
