@@ -25,12 +25,12 @@ export const encryptFile = async (
     const salt = window.crypto.getRandomValues(new Uint8Array(24))
     const derivedKey = await generateKey(password, salt, iterations)
     const cipher = tweetnacl.secretbox(plainTextBytes, salt, derivedKey)
-    const resultbytes = new Uint8Array(cipher.length + 32)
-    resultbytes.set(new TextEncoder().encode("CSFFiles"))
-    resultbytes.set(salt, 8)
-    resultbytes.set(cipher, 32)
+    const resultBytes = new Uint8Array(cipher.length + 32)
+    resultBytes.set(new TextEncoder().encode("CSFFiles"))
+    resultBytes.set(salt, 8)
+    resultBytes.set(cipher, 32)
 
-    return resultbytes
+    return resultBytes
   } catch (error) {
     console.error("Error encrypting file")
     console.error(error)
