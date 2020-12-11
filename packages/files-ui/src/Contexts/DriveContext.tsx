@@ -211,6 +211,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
           path,
           "",
           undefined,
+          undefined,
           (progressEvent: { loaded: number; total: number }) => {
             dispatchUploadsInProgress({
               type: "progress",
