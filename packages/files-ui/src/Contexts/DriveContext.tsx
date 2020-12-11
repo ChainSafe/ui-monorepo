@@ -363,12 +363,11 @@ const DriveProvider = ({ children }: DriveContextProps) => {
           await result.data.arrayBuffer(),
           masterPassword,
         )
-        return (
-          decrypted &&
-          new Blob([decrypted], {
+        if (decrypted) {
+          return new Blob([decrypted], {
             type: file.content_type,
           })
-        )
+        }
       }
     } catch (error) {
       console.log(error)
@@ -438,7 +437,6 @@ const DriveProvider = ({ children }: DriveContextProps) => {
   const secureDrive = async (password: string) => {
     if (secured) return
 
-    //TODO: Check password meets complexity requirements
     const result = await secureAccount(password)
     if (result) {
       setMasterPassword(password)
