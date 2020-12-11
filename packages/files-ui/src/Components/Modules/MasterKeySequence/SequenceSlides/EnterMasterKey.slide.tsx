@@ -38,6 +38,9 @@ const useStyles = makeStyles(
       },
       userContainer: {
         marginTop: constants.generalUnit * 4,
+        [breakpoints.down("md")]: {
+          color: palette.common.white.main,
+        },
       },
       logoutButton: {
         padding: 0,
@@ -46,6 +49,9 @@ const useStyles = makeStyles(
         cursor: "pointer",
         backgroundColor: "transparent",
         ...typography.body1,
+        [breakpoints.down("md")]: {
+          color: palette.common.white.main,
+        },
       },
     }),
 )
