@@ -11,6 +11,7 @@ import { Form, Formik } from "formik"
 import * as yup from "yup"
 import { ROUTE_LINKS } from "../../../FilesRoutes"
 import { useDrive } from "../../../../Contexts/DriveContext"
+import zxcvbn from "zxcvbn"
 
 const useStyles = makeStyles(({ breakpoints, constants, palette }: ITheme) =>
   createStyles({
@@ -71,7 +72,20 @@ const SetMasterKeySlide: React.FC<ISetMasterKeySlide> = ({
   const { secureDrive } = useDrive()
 
   const masterKeyValidation = yup.object().shape({
-    masterKey: yup.string().required("Please provide a master key"),
+    masterKey: yup
+      .string()
+      .test("Complexity", "Password too simple", async (val) => {
+        if (val === undefined) {
+          return false
+        }
+
+        const complexity = zxcvbn(`${val}`)
+        if (complexity.score >= 3) {
+          return true
+        }
+        return false
+      })
+      .required("Please provide a master key"),
     confirmMasterKey: yup
       .string()
       .oneOf([yup.ref("masterKey"), undefined], "Master key must match")
