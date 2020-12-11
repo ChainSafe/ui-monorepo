@@ -12,6 +12,7 @@ import clsx from "clsx"
 import { CssBaseline } from "@chainsafe/common-components"
 import AppHeader from "./AppHeader"
 import AppNav from "./AppNav"
+import { useDrive } from "../../Contexts/DriveContext"
 
 interface IAppWrapper {
   children: ReactNode | ReactNode[]
@@ -68,21 +69,21 @@ const AppWrapper: React.FC<IAppWrapper> = ({ children }: IAppWrapper) => {
 
   const [navOpen, setNavOpen] = useState<boolean>(desktop)
 
-  const { isLoggedIn } = useImployApi()
-
+  const { isLoggedIn, secured } = useImployApi()
+  const { isMasterPasswordSet } = useDrive()
   return (
     <div className={classes.root}>
       <CssBaseline />
       <AppNav setNavOpen={setNavOpen} navOpen={navOpen} />
       <article
         className={clsx(classes.bodyWrapper, {
-          active: isLoggedIn,
+          active: isLoggedIn && secured && !!isMasterPasswordSet,
         })}
       >
         <AppHeader navOpen={navOpen} setNavOpen={setNavOpen} />
         <section
           className={clsx(classes.content, {
-            active: isLoggedIn,
+            active: isLoggedIn && secured && isMasterPasswordSet,
           })}
         >
           {children}
