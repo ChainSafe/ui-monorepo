@@ -53,6 +53,9 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: ITheme) =>
       },
       [breakpoints.down("md")]: {
         color: palette.common.white.main,
+        "& a": {
+          color: `${palette.common.white.main} !important`,
+        },
       },
     },
     button: {
