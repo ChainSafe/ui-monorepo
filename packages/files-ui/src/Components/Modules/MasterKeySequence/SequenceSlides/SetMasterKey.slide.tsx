@@ -62,6 +62,12 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: ITheme) =>
     button: {
       marginTop: constants.generalUnit * 3,
     },
+    inputLabel: {
+      fontSize: "16px",
+      lineHeight: "24px",
+      color: palette.additional["gray"][8],
+      marginBottom: constants.generalUnit,
+    },
   }),
 )
 
@@ -132,12 +138,14 @@ const SetMasterKeySlide: React.FC<ISetMasterKeySlide> = ({
             className={classes.input}
             name="masterKey"
             label="Encryption Password:"
+            labelClassName={classes.inputLabel}
           />
           <FormikTextInput
             type="password"
             className={classes.input}
             name="confirmMasterKey"
             label="Confirm Encryption Password:"
+            labelClassName={classes.inputLabel}
           />
           <Typography variant="h5" component="p">
             Please record your encryption password somewhere safe. <br />

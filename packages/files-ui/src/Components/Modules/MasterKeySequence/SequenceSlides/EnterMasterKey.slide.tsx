@@ -34,6 +34,12 @@ const useStyles = makeStyles(
           },
         },
       },
+      inputLabel: {
+        fontSize: "16px",
+        lineHeight: "24px",
+        color: palette.additional["gray"][8],
+        marginBottom: constants.generalUnit,
+      },
       button: {
         marginTop: constants.generalUnit * 3,
       },
@@ -104,6 +110,7 @@ const EnterMasterKeySlide: React.FC<IEnterMasterKeySlide> = ({
             type="password"
             name="masterKey"
             label="Enter encryption password:"
+            labelClassName={classes.inputLabel}
           />
           <Button className={classes.button} fullsize type="submit">
             Continue
