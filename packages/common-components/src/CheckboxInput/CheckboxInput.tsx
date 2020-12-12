@@ -1,4 +1,4 @@
-import React, { FormEvent } from "react"
+import React, { FormEvent, ReactNode } from "react"
 import { ITheme, makeStyles, createStyles } from "@chainsafe/common-theme"
 import clsx from "clsx"
 import { Typography } from "../Typography"
@@ -100,9 +100,9 @@ const useStyles = makeStyles(
 )
 
 interface ICheckboxProps
-  extends Omit<React.HTMLProps<HTMLInputElement>, "value"> {
+  extends Omit<React.HTMLProps<HTMLInputElement>, "value" | "label"> {
   className?: string
-  label?: string
+  label?: string | ReactNode
   error?: string
   value: boolean
   indeterminate?: boolean

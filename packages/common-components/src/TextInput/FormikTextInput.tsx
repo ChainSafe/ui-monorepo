@@ -43,7 +43,9 @@ const FormikTextInput: React.FC<FormikTextInputProps> = ({
       value={field.value}
       placeholder={placeholder}
       captionMessage={
-        meta.error ? `${meta.error}` : captionMessage && captionMessage
+        meta.touched && meta.error
+          ? `${meta.error}`
+          : captionMessage && captionMessage
       }
       state={meta.error ? "error" : undefined}
       onChange={helpers.setValue}
