@@ -45,7 +45,7 @@ const ExplainSlide: React.FC<IExplainSlide> = ({
         A few things you should know....
       </Typography>
       <Typography variant="h5" component="p">
-        Using ChainSafe Files requires that you set a encryption password. This
+        Using ChainSafe Files requires that you set an encryption password. This
         is what disables your content from being read by us or any other
         third-party.
       </Typography>
@@ -55,7 +55,7 @@ const ExplainSlide: React.FC<IExplainSlide> = ({
           Forgetting this password means that you will be permanently locked out
           of your account.
         </strong>{" "}
-        We aren’t storing any keys, and as a result we will not be able to
+        We aren’t storing any keys, and as a result, we will not be able to
         recover your account.
       </Typography>
       <Typography variant="h5" component="p">
