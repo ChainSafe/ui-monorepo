@@ -25,6 +25,7 @@ const useStyles = makeStyles(
         },
       },
       input: {
+        width: "100%",
         margin: 0,
         marginBottom: constants.generalUnit * 1.5,
         "& span": {

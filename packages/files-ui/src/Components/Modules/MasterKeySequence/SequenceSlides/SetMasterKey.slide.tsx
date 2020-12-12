@@ -35,6 +35,7 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: ITheme) =>
     },
     input: {
       margin: 0,
+      width: "100%",
       marginBottom: constants.generalUnit * 1.5,
       "& span": {
         [breakpoints.down("md")]: {
