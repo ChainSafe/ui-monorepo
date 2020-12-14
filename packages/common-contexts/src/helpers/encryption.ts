@@ -1,34 +1,54 @@
-import pbkdf2 from "pbkdf2"
-import tweetnacl from "tweetnacl"
+const getPasswordKey = async (passwordBytes: Uint8Array) =>
+  window.crypto.subtle.importKey("raw", passwordBytes, "PBKDF2", false, [
+    "deriveKey",
+  ])
 
-const iterations = 10000
-
-const generateKey = (
-  password: string,
+const deriveKey = async (
+  passwordKey: CryptoKey,
   salt: Uint8Array,
-  iterations: number,
-) => {
-  return new Promise<Buffer>((resolve, reject) => {
-    pbkdf2.pbkdf2(password, salt, iterations, 32, "sha256", (err, key) => {
-      if (err) reject(err)
-      resolve(key)
-    })
-  })
-}
+  keyUsage: KeyUsage[],
+) =>
+  window.crypto.subtle.deriveKey(
+    {
+      name: "PBKDF2",
+      salt: salt,
+      iterations: 250000,
+      hash: "SHA-256",
+    },
+    passwordKey,
+    { name: "AES-GCM", length: 256 },
+    false,
+    keyUsage,
+  )
 
 export const encryptFile = async (
   fileArrayBuffer: ArrayBuffer,
   password: string,
 ) => {
   try {
+    debugger
     const plainTextBytes = new Uint8Array(fileArrayBuffer)
-    const salt = window.crypto.getRandomValues(new Uint8Array(24))
-    const derivedKey = await generateKey(password, salt, iterations)
-    const cipher = tweetnacl.secretbox(plainTextBytes, salt, derivedKey)
-    const resultBytes = new Uint8Array(cipher.length + 32)
-    resultBytes.set(new TextEncoder().encode("CSFFiles"))
-    resultBytes.set(salt, 8)
-    resultBytes.set(cipher, 32)
+    const passwordBytes = new TextEncoder().encode(password)
+
+    const salt = window.crypto.getRandomValues(new Uint8Array(16))
+    const iv = window.crypto.getRandomValues(new Uint8Array(12))
+
+    const passwordKey = await getPasswordKey(passwordBytes)
+
+    const aesKey = await deriveKey(passwordKey, salt, ["encrypt"])
+    const cipherBytes = await window.crypto.subtle.encrypt(
+      { name: "AES-GCM", iv: iv },
+      aesKey,
+      plainTextBytes,
+    )
+
+    const cipherBytesArray = new Uint8Array(cipherBytes)
+    const resultBytes = new Uint8Array(
+      cipherBytesArray.byteLength + salt.byteLength + iv.byteLength,
+    )
+    resultBytes.set(salt, 0)
+    resultBytes.set(iv, salt.byteLength)
+    resultBytes.set(cipherBytesArray, salt.byteLength + iv.byteLength)
 
     return resultBytes
   } catch (error) {
@@ -44,14 +64,24 @@ export const decryptFile = async (
 ) => {
   try {
     const cipherBytes = new Uint8Array(cipher)
-    const salt = cipherBytes.slice(8, 32)
-    const derivedKey = await generateKey(password, salt, iterations)
-    const decrypted = await tweetnacl.secretbox.open(
-      cipherBytes.slice(32),
-      salt,
-      derivedKey,
+    const passwordBytes = new TextEncoder().encode(password)
+
+    const salt = cipherBytes.slice(0, 16)
+    const iv = cipherBytes.slice(16, 16 + 12)
+    const data = cipherBytes.slice(16 + 12)
+    const passwordKey = await getPasswordKey(passwordBytes)
+    const aesKey = await deriveKey(passwordKey, salt, ["decrypt"])
+
+    const decryptedContent = await window.crypto.subtle.decrypt(
+      {
+        name: "AES-GCM",
+        iv: iv,
+      },
+      aesKey,
+      data,
     )
-    return decrypted
+
+    return decryptedContent
   } catch (error) {
     return
   }
