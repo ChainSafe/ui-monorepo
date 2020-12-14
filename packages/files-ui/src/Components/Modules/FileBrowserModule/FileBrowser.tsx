@@ -363,7 +363,8 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
       .test(
         "Invalid name",
         "File name cannot contain '/' character",
-        (val) => !invalidFilenameRegex.test(val || ""),
+        (val: string | null | undefined) =>
+          !invalidFilenameRegex.test(val || ""),
       )
       .required("File name is required"),
   })

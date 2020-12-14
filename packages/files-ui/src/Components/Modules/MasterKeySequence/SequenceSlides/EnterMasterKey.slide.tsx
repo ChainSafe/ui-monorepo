@@ -76,13 +76,17 @@ const EnterMasterKeySlide: React.FC<IEnterMasterKeySlide> = ({
   const masterKeyValidation = yup.object().shape({
     masterKey: yup
       .string()
-      .test("Key valid", "Encryption password is invalid", async (value) => {
-        try {
-          return await validateMasterPassword(`${value}`)
-        } catch (error) {
-          return false
-        }
-      })
+      .test(
+        "Key valid",
+        "Encryption password is invalid",
+        async (value: string | null | undefined | object) => {
+          try {
+            return await validateMasterPassword(`${value}`)
+          } catch (error) {
+            return false
+          }
+        },
+      )
       .required("Please provide an encryption password"),
   })
   const { setMasterPassword } = useDrive()
