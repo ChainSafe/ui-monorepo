@@ -4,7 +4,7 @@ import { fade } from "../utils/colorManipulator"
 import { createBreakpoints } from "../Create/CreateBreakpoints"
 
 export const defaultFontFamilyStack = {
-  fontFamily: "'Archivo', sans-serif",
+  fontFamily: `'Archivo', sans-serif`,
 }
 
 const defaultFontStyles = {}
