@@ -1,4 +1,5 @@
-import { DefaultThemeConfig } from "./ThemeConfig"
+import { DefaultThemeConfig, defaultFontFamilyStack } from "./ThemeConfig"
+
 export const DefaultGlobalStyling = {
   html: {
     ...DefaultThemeConfig.typography.global,
@@ -7,17 +8,17 @@ export const DefaultGlobalStyling = {
     // Change from `box-sizing: content-box` so that `width`
     // is not affected by `padding` or `border`.
     boxSizing: "border-box",
- 
   },
-  '*, *:before, *:after': {
-    boxSizing: 'inherit',
+  "*, *:before, *:after": {
+    boxSizing: "inherit",
   },
-  'strong, b': {
+  "strong, b": {
     fontWeight: DefaultThemeConfig.typography.fontWeight.bold,
   },
   body: {
     color: DefaultThemeConfig.palette.text.primary,
     ...DefaultThemeConfig.typography.body2,
+    ...defaultFontFamilyStack,
     backgroundColor: DefaultThemeConfig.palette.background.default,
     "& @media print": {
       // Save printer ink.
