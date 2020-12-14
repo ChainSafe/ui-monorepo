@@ -35,6 +35,7 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: ITheme) =>
     },
     input: {
       margin: 0,
+      width: "100%",
       marginBottom: constants.generalUnit * 1.5,
       "& span": {
         [breakpoints.down("md")]: {
@@ -61,6 +62,12 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: ITheme) =>
     button: {
       marginTop: constants.generalUnit * 3,
     },
+    inputLabel: {
+      fontSize: "16px",
+      lineHeight: "24px",
+      color: palette.additional["gray"][8],
+      marginBottom: constants.generalUnit,
+    },
   }),
 )
 
@@ -80,7 +87,7 @@ const SetMasterKeySlide: React.FC<ISetMasterKeySlide> = ({
       .test(
         "Complexity",
         "Encryption password needs to be more complex",
-        async (val) => {
+        async (val: string | null | undefined | object) => {
           if (val === undefined) {
             return false
           }
@@ -131,12 +138,14 @@ const SetMasterKeySlide: React.FC<ISetMasterKeySlide> = ({
             className={classes.input}
             name="masterKey"
             label="Encryption Password:"
+            labelClassName={classes.inputLabel}
           />
           <FormikTextInput
             type="password"
             className={classes.input}
             name="confirmMasterKey"
             label="Confirm Encryption Password:"
+            labelClassName={classes.inputLabel}
           />
           <Typography variant="h5" component="p">
             Please record your encryption password somewhere safe. <br />

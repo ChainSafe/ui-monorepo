@@ -25,6 +25,7 @@ const useStyles = makeStyles(
         },
       },
       input: {
+        width: "100%",
         margin: 0,
         marginBottom: constants.generalUnit * 1.5,
         "& span": {
@@ -32,6 +33,12 @@ const useStyles = makeStyles(
             color: palette.common.white.main,
           },
         },
+      },
+      inputLabel: {
+        fontSize: "16px",
+        lineHeight: "24px",
+        color: palette.additional["gray"][8],
+        marginBottom: constants.generalUnit,
       },
       button: {
         marginTop: constants.generalUnit * 3,
@@ -69,13 +76,17 @@ const EnterMasterKeySlide: React.FC<IEnterMasterKeySlide> = ({
   const masterKeyValidation = yup.object().shape({
     masterKey: yup
       .string()
-      .test("Key valid", "Encryption password is invalid", async (value) => {
-        try {
-          return await validateMasterPassword(`${value}`)
-        } catch (error) {
-          return false
-        }
-      })
+      .test(
+        "Key valid",
+        "Encryption password is invalid",
+        async (value: string | null | undefined | object) => {
+          try {
+            return await validateMasterPassword(`${value}`)
+          } catch (error) {
+            return false
+          }
+        },
+      )
       .required("Please provide an encryption password"),
   })
   const { setMasterPassword } = useDrive()
@@ -103,6 +114,7 @@ const EnterMasterKeySlide: React.FC<IEnterMasterKeySlide> = ({
             type="password"
             name="masterKey"
             label="Enter encryption password:"
+            labelClassName={classes.inputLabel}
           />
           <Button className={classes.button} fullsize type="submit">
             Continue

@@ -184,6 +184,9 @@ const useStyles = makeStyles(
       spaceUsedMargin: {
         marginBottom: constants.generalUnit,
       },
+      betaCaption: {
+        marginBottom: constants.generalUnit * 0.5,
+      },
     })
   },
 )
@@ -234,6 +237,10 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
                 <ChainsafeFilesLogo />
                 <Typography variant="h5">
                   <Trans>Files</Trans>
+                </Typography>
+                &nbsp;
+                <Typography variant="caption" className={classes.betaCaption}>
+                  <Trans>beta</Trans>
                 </Typography>
               </Link>
             </div>

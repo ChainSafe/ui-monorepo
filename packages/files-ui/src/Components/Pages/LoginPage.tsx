@@ -47,10 +47,9 @@ const useStyles = makeStyles(
         display: "flex",
         flexFlow: "column",
         "& > img": {
-          height: `calc(100% - 180px)`,
-          maxHeight: "1000px",
-          marginBottom: 50,
-          marginTop: 50,
+          width: `calc(100% - 100px)`,
+          maxWidth: "1200px",
+          margin: 50,
         },
       },
       logoContainer: {
@@ -154,6 +153,12 @@ const useStyles = makeStyles(
         height: "auto",
         zIndex: 0,
       },
+      betaCaption: {
+        marginBottom: constants.generalUnit * 0.5,
+        [breakpoints.down("md")]: {
+          color: palette.common.white.main,
+        },
+      },
     }),
 )
 
@@ -247,6 +252,10 @@ const LoginPage = () => {
             <Typography variant="subtitle2" className={classes.logoText}>
               <Trans>ChainSafe Files</Trans>
             </Typography>
+            &nbsp;
+            <Typography variant="caption" className={classes.betaCaption}>
+              <Trans>beta</Trans>
+            </Typography>
           </div>
           <div className={classes.controls}>
             {!isLoggedIn ? (
@@ -265,7 +274,7 @@ const LoginPage = () => {
                 )}
                 {maintenanceMode && (
                   <Typography className={classes.error}>
-                    We're undergoing maintenace, thank you for being patient
+                    We're undergoing maintenance, thank you for being patient
                   </Typography>
                 )}
 

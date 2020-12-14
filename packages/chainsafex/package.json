@@ -9,7 +9,7 @@
     "react": "^16.14.0",
     "react-dom": "^16.14.0",
     "react-scripts": "3.4.4",
-    "yup": "^0.31.1"
+    "yup": "^0.32.8"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^5.11.6",
