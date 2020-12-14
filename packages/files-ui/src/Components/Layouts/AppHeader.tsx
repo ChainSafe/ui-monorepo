@@ -190,6 +190,8 @@ const AppHeader: React.FC<IAppHeader> = ({
               />
               <Link className={classes.logo} to={ROUTE_LINKS.Home}>
                 <ChainsafeFilesLogo />
+                &nbsp;
+                <Typography variant="caption">beta</Typography>
               </Link>
               {/* <SearchModule className={classes.searchModule} /> */}
             </Fragment>
