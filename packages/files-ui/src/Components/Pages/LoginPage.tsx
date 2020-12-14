@@ -387,7 +387,7 @@ const LoginPage = () => {
                   )}
                 </Typography>
               </>
-            ) : secured ? (
+            ) : !secured ? (
               <MasterKeyModule />
             ) : (
               <EnterMasterKeySlide />

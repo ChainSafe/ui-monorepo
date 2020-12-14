@@ -87,7 +87,7 @@ const SetMasterKeySlide: React.FC<ISetMasterKeySlide> = ({
       .test(
         "Complexity",
         "Encryption password needs to be more complex",
-        async (val) => {
+        async (val: string | null | undefined | object) => {
           if (val === undefined) {
             return false
           }
