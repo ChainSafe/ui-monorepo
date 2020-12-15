@@ -30,7 +30,6 @@ const useStyles = makeStyles(
         [breakpoints.down("md")]: {},
       },
       modalInner: {
-        padding: constants.generalUnit * 4,
         [breakpoints.down("md")]: {
           bottom:
             (constants?.mobileButtonHeight as number) + constants.generalUnit,
@@ -114,7 +113,7 @@ const CreateFolderModule: React.FC<ICreateFolderModuleProps> = ({
         }}
       >
         <Form>
-          <div>
+          <div className={classes.root}>
             {!desktop && (
               <Grid item xs={12} sm={12}>
                 <Typography
