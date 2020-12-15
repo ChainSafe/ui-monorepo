@@ -32,6 +32,9 @@ const useStyles = makeStyles(({ constants, breakpoints, palette }: ITheme) => {
       },
     },
     titleContainer: {
+      "& > span": {
+        fontFamily: "'Archivo', sans-serif",
+      },
       [breakpoints.down("sm")]: {
         marginBottom: constants.generalUnit * 1,
       },
@@ -49,6 +52,9 @@ const useStyles = makeStyles(({ constants, breakpoints, palette }: ITheme) => {
       },
     },
     textContainer: {
+      "& > span": {
+        fontFamily: "'Archivo', sans-serif",
+      },
       [breakpoints.down("lg")]: {
         marginTop: constants.generalUnit * 8,
       },

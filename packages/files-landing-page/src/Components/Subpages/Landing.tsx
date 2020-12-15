@@ -58,6 +58,7 @@ const useStyles = makeStyles(
         background: "transparent",
         "& > a": {
           textDecoration: "none",
+          fontFamily: "'Archivo', sans-serif",
         },
         "&:hover": {
           transition: "ease-in 0.2s",

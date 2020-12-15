@@ -72,7 +72,7 @@ const TermsOfServicePage: React.FC = () => {
           component="h1"
           className={clsx(classes.heading, classes.padLarge)}
         >
-          <Trans>FILES Terms of Service</Trans>
+          <Trans>Terms of Service</Trans>
         </Typography>
 
         <Typography
@@ -283,11 +283,12 @@ const TermsOfServicePage: React.FC = () => {
         >
           <Trans>
             You agree that ChainSafe is not responsible for any deletion or
-            failure to store media or other information. ChinaSafe Files can be
-            used for free until xGB of storage is reached. At this point,
+            failure to store media or other information. ChainSafe Files can be
+            used for free until 20GB of storage is reached. At this point,
             storage beyond the free amount must be paid for via a monthly or
-            yearly subscription. There are three payment tiers depending on the
-            needs of the user.
+            yearly subscription.
+            {/* There are three payment tiers depending on the
+            needs of the user. */}
           </Trans>
         </Typography>
 

@@ -10,6 +10,7 @@ const useStyles = makeStyles(({ constants, palette, breakpoints }: ITheme) => {
   return createStyles({
     title: {
       fontSize: "64px",
+      fontFamily: "'Archivo', sans-serif",
       fontWeight: "bold",
       lineHeight: "72px",
       margin: `${constants.generalUnit * 6} 0 ${constants.generalUnit * 2} 0`,
@@ -21,6 +22,9 @@ const useStyles = makeStyles(({ constants, palette, breakpoints }: ITheme) => {
       [breakpoints.down("xs")]: {
         fontSize: "20px",
         lineHeight: "28px",
+      },
+      "& > span": {
+        fontFamily: "'Archivo', sans-serif",
       },
     },
   })
