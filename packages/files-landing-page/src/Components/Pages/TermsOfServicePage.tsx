@@ -284,8 +284,10 @@ const TermsOfServicePage: React.FC = () => {
             failure to store media or other information. ChainSafe Files can be
             used for free until 20GB of storage is reached. At this point,
             storage beyond the free amount must be paid for via a monthly or
-            yearly subscription. There are three payment tiers depending on the
-            needs of the user.
+            yearly subscription. 
+            
+            {/* There are three payment tiers depending on the
+            needs of the user. */}
           </Trans>
         </Typography>
 
