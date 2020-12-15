@@ -93,6 +93,7 @@ const UploadFileModule: React.FC<IUploadFileModuleProps> = ({
             multiple={true}
             className={classes.input}
             label="Upload Files and Folders"
+            maxSize={2 * 1024 ** 3}
             name="files"
           />
           <footer>
@@ -101,7 +102,7 @@ const UploadFileModule: React.FC<IUploadFileModuleProps> = ({
               size="medium"
               className={classes.cancelButton}
               variant="outline"
-              type="button"
+              type="reset"
             >
               <Trans>Cancel</Trans>
             </Button>

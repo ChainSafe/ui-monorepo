@@ -184,6 +184,9 @@ const useStyles = makeStyles(
       spaceUsedMargin: {
         marginBottom: constants.generalUnit,
       },
+      betaCaption: {
+        marginBottom: constants.generalUnit * 0.5,
+      },
     })
   },
 )
@@ -199,7 +202,8 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
   const desktop = useMediaQuery(breakpoints.up("md"))
   const { spaceUsed } = useDrive()
 
-  const { isLoggedIn, logout } = useImployApi()
+  const { isLoggedIn, logout, secured } = useImployApi()
+  const { isMasterPasswordSet } = useDrive()
   const { removeUser } = useUser()
 
   const signOut = useCallback(() => {
@@ -220,10 +224,12 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
   return (
     <section
       className={clsx(classes.root, {
-        active: desktop ? isLoggedIn : navOpen,
+        active: desktop
+          ? isLoggedIn && secured && !!isMasterPasswordSet
+          : navOpen,
       })}
     >
-      {isLoggedIn && (
+      {isLoggedIn && secured && !!isMasterPasswordSet && (
         <Fragment>
           {desktop && (
             <div>
@@ -231,6 +237,10 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
                 <ChainsafeFilesLogo />
                 <Typography variant="h5">
                   <Trans>Files</Trans>
+                </Typography>
+                &nbsp;
+                <Typography variant="caption" className={classes.betaCaption}>
+                  <Trans>beta</Trans>
                 </Typography>
               </Link>
             </div>

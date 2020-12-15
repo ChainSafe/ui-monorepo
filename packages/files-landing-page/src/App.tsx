@@ -13,11 +13,6 @@ const theme = createTheme({
       color: "#fafafa",
     },
   },
-  themeConfig: {
-    breakpoints: {
-      xxl: "3500px",
-    },
-  },
 })
 
 const App: React.FC<{}> = () => {

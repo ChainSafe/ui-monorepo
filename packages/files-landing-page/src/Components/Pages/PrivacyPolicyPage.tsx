@@ -96,7 +96,7 @@ const TermsOfServicePage: React.FC = () => {
           component="p"
           className={clsx(classes.caption, classes.padSmall)}
         >
-          <Trans>Last Modified: November 13, 2020</Trans>
+          <Trans>Last Modified: December 8, 2020</Trans>
         </Typography>
 
         {/* welcome */}
@@ -233,10 +233,10 @@ const TermsOfServicePage: React.FC = () => {
         >
           <Trans>
             Our policy is to collect as little user information as possible. We
-            have no access to your uploaded content because it is all encrypted
-            end-to-end. We may collect user information that is necessary for us
-            to provide you the service. The type of information we collect about
-            you will depend. We may collect:
+            have limited access to your uploaded content because it is all
+            encrypted end-to-end. We may collect user information that is
+            necessary for us to provide you the service. The type of information
+            we collect about you will depend. We may collect:
           </Trans>
         </Typography>
         <Typography
@@ -347,7 +347,8 @@ const TermsOfServicePage: React.FC = () => {
             of visits to certain pages, page interaction information (such as
             scrolling, clicks, and mouse-overs), methods used to browse away
             from the page, or any phone number used to call our customer service
-            number.
+            number. We collect cookies on this promotional website for
+            anonymized system monitoring and non-personal analytics.
           </Trans>
         </Typography>
 

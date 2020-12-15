@@ -2,6 +2,7 @@ import React from "react"
 import { createStyles, ITheme, makeStyles } from "@chainsafe/common-theme"
 import { Grid, Typography, Link } from "@chainsafe/common-components"
 import { Trans } from "@lingui/macro"
+import { ROUTE_LINKS } from "../Routes"
 
 const useStyles = makeStyles(({ palette, constants, breakpoints }: ITheme) => {
   return createStyles({
@@ -130,12 +131,12 @@ const Footer: React.FC = () => {
               </a>
             </Grid>
             <Grid item className={classes.item}>
-              <Link to="/terms-of-service">
+              <Link to={ROUTE_LINKS.TermsOfService}>
                 <Typography variant="h4">Terms of Service</Typography>
               </Link>
             </Grid>
             <Grid item className={classes.item}>
-              <Link to="/privacy-policy">
+              <Link to={ROUTE_LINKS.PrivacyPolicy}>
                 <Typography variant="h4">Privacy Policy</Typography>
               </Link>
             </Grid>
