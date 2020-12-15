@@ -93,6 +93,7 @@ const UploadFileModule: React.FC<IUploadFileModuleProps> = ({
             multiple={true}
             className={classes.input}
             label="Upload Files and Folders"
+            maxSize={2 * 1024 ** 3}
             name="files"
           />
           <footer>

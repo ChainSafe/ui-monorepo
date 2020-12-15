@@ -85,7 +85,7 @@ const FileInput: React.FC<IFileInputProps> = ({
   name,
   label,
   pending,
-  maxFileSize = 1024 * 2000,
+  maxFileSize,
   classNames,
   ...props
 }: IFileInputProps) => {
@@ -96,7 +96,9 @@ const FileInput: React.FC<IFileInputProps> = ({
 
   const onDrop = useCallback(
     async (acceptedFiles: File[], fileRejections: FileRejection[]) => {
-      const filtered = acceptedFiles.filter((file) => file.size <= maxFileSize)
+      const filtered = acceptedFiles.filter((file) =>
+        maxFileSize ? file.size <= maxFileSize : true,
+      )
       setErrors([])
       if (showPreviews) {
         setPreviews(
