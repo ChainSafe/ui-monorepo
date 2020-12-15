@@ -34,9 +34,13 @@ const useStyles = makeStyles(
       navlink: {
         color: palette.common.white.main,
         textDecoration: "none",
+        fontFamily: "'Archivo', sans-serif",
         "&:hover": {
           color: palette.additional["gray"][7],
           transition: "ease-in 0.2s",
+        },
+        "& > span": {
+          fontFamily: "'Archivo', sans-serif",
         },
       },
       brandName: {
@@ -46,6 +50,11 @@ const useStyles = makeStyles(
       },
       separator: {
         color: palette.common.white.main,
+      },
+      textWrapper: {
+        "& > span": {
+          fontFamily: "'Archivo', sans-serif",
+        },
       },
     })
   },
@@ -57,7 +66,7 @@ const NavBar: React.FC = () => {
     <nav className={classes.container}>
       <Grid container xs={12}>
         <Grid item justifyContent="center" alignItems="flex-start">
-          <Grid container alignItems="center">
+          <Grid container alignItems="center" className={classes.textWrapper}>
             <img
               className={classes.logo}
               src="/ChainSafe_Logo.png"
@@ -71,7 +80,7 @@ const NavBar: React.FC = () => {
           </Grid>
         </Grid>
         <Grid item justifyContent="center" alignItems="flex-end">
-          <Typography variant="h4">
+          <Typography variant="h4" className={classes.textWrapper}>
             <a
               target="_blank"
               rel="noopener noreferrer"

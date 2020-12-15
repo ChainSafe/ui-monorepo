@@ -62,11 +62,17 @@ const useStyles = makeStyles(({ palette, constants, breakpoints }: ITheme) => {
       display: "block",
       paddingBottom: constants.generalUnit * 3,
       flex: 0,
+      "& > span": {
+        fontFamily: "'Archivo', sans-serif",
+      },
     },
     item: {
       display: "block",
       flex: 0,
       paddingBottom: constants.generalUnit * 2,
+      "& > span": {
+        fontFamily: "'Archivo', sans-serif",
+      },
     },
     hr: {
       padding: constants.generalUnit,
@@ -90,6 +96,7 @@ const useStyles = makeStyles(({ palette, constants, breakpoints }: ITheme) => {
     },
     copyright: {
       position: "absolute",
+      fontFamily: "'Archivo', sans-serif",
       left: "2%",
       color: palette.additional["gray"][8],
       [breakpoints.down("md")]: {
@@ -104,6 +111,9 @@ const useStyles = makeStyles(({ palette, constants, breakpoints }: ITheme) => {
         fontSize: "1rem",
         color: palette.additional["gray"][7],
       },
+    },
+    footerText: {
+      fontFamily: "'Archivo', sans-serif",
     },
   })
 })
@@ -127,17 +137,23 @@ const Footer: React.FC = () => {
                 rel="noopener noreferrer"
                 target="_blank"
               >
-                <Typography variant="h4">Launch App</Typography>
+                <Typography variant="h4" className={classes.footerText}>
+                  Launch App
+                </Typography>
               </a>
             </Grid>
             <Grid item className={classes.item}>
               <Link to={ROUTE_LINKS.TermsOfService}>
-                <Typography variant="h4">Terms of Service</Typography>
+                <Typography variant="h4" className={classes.footerText}>
+                  Terms of Service
+                </Typography>
               </Link>
             </Grid>
             <Grid item className={classes.item}>
               <Link to={ROUTE_LINKS.PrivacyPolicy}>
-                <Typography variant="h4">Privacy Policy</Typography>
+                <Typography variant="h4" className={classes.footerText}>
+                  Privacy Policy
+                </Typography>
               </Link>
             </Grid>
           </Grid>
@@ -153,7 +169,9 @@ const Footer: React.FC = () => {
                 rel="noopener noreferrer"
                 target="_blank"
               >
-                <Typography variant="h4">Visit Site</Typography>
+                <Typography variant="h4" className={classes.footerText}>
+                  Visit Site
+                </Typography>
               </a>
             </Grid>
           </Grid>
@@ -169,7 +187,7 @@ const Footer: React.FC = () => {
                 target="__blank"
                 rel="noopener noreferrer"
               >
-                <Typography variant="h4">
+                <Typography variant="h4" className={classes.footerText}>
                   <Trans>Twitter</Trans>
                 </Typography>
               </a>
@@ -180,7 +198,7 @@ const Footer: React.FC = () => {
                 target="__blank"
                 rel="noopener noreferrer"
               >
-                <Typography variant="h4">
+                <Typography variant="h4" className={classes.footerText}>
                   <Trans>Github</Trans>
                 </Typography>
               </a>
