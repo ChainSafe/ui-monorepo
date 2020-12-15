@@ -26,7 +26,6 @@ export const encryptFile = async (
   password: string,
 ) => {
   try {
-    debugger
     const plainTextBytes = new Uint8Array(fileArrayBuffer)
     const passwordBytes = new TextEncoder().encode(password)
 
