@@ -62,11 +62,17 @@ const useStyles = makeStyles(({ palette, constants, breakpoints }: ITheme) => {
       display: "block",
       paddingBottom: constants.generalUnit * 3,
       flex: 0,
+      "& > span": {
+        fontFamily: "'Archivo', sans-serif",
+      },
     },
     item: {
       display: "block",
       flex: 0,
       paddingBottom: constants.generalUnit * 2,
+      "& > span": {
+        fontFamily: "'Archivo', sans-serif",
+      },
     },
     hr: {
       padding: constants.generalUnit,
