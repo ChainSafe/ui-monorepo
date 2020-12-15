@@ -113,7 +113,7 @@ const CreateFolderModule: React.FC<ICreateFolderModuleProps> = ({
         }}
       >
         <Form>
-          <Grid container flexDirection="column" className={classes.root}>
+          <div className={classes.root}>
             {!desktop && (
               <Grid item xs={12} sm={12}>
                 <Typography
@@ -152,7 +152,7 @@ const CreateFolderModule: React.FC<ICreateFolderModuleProps> = ({
                 {desktop ? <Trans>OK</Trans> : <Trans>Create</Trans>}
               </Button>
             </Grid>
-          </Grid>
+          </div>
         </Form>
       </Formik>
     </CustomModal>
