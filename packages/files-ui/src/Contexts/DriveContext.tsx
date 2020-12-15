@@ -211,7 +211,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
         if (filesParam.length !== files.length) {
           addToastMessage({
             message:
-              "We can't encrypt a file  2GB. Some of the items will not be uploaded",
+              "We can't encrypt files larger than 2GB. Some items will not be uploaded",
             appearance: "error",
           })
         }
