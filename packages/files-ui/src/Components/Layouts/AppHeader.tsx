@@ -19,6 +19,7 @@ import {
 import { ROUTE_LINKS } from "../FilesRoutes"
 // import SearchModule from "../Modules/SearchModule"
 import { Trans } from "@lingui/macro"
+import { useDrive } from "../../Contexts/DriveContext"
 
 const useStyles = makeStyles(
   ({ palette, animation, breakpoints, constants, zIndex }: ITheme) => {
@@ -142,7 +143,8 @@ const AppHeader: React.FC<IAppHeader> = ({
   const { breakpoints }: ITheme = useTheme()
   const desktop = useMediaQuery(breakpoints.up("md"))
 
-  const { isLoggedIn, logout } = useImployApi()
+  const { isLoggedIn, logout, secured } = useImployApi()
+  const { isMasterPasswordSet } = useDrive()
   const { getProfileTitle, removeUser } = useUser()
 
   const signOut = useCallback(() => {
@@ -153,10 +155,10 @@ const AppHeader: React.FC<IAppHeader> = ({
   return (
     <header
       className={clsx(classes.root, {
-        active: isLoggedIn,
+        active: isLoggedIn && secured && !!isMasterPasswordSet,
       })}
     >
-      {isLoggedIn && (
+      {isLoggedIn && secured && !!isMasterPasswordSet && (
         <Fragment>
           {desktop ? (
             <Fragment>
@@ -188,6 +190,8 @@ const AppHeader: React.FC<IAppHeader> = ({
               />
               <Link className={classes.logo} to={ROUTE_LINKS.Home}>
                 <ChainsafeFilesLogo />
+                &nbsp;
+                <Typography variant="caption">beta</Typography>
               </Link>
               {/* <SearchModule className={classes.searchModule} /> */}
             </Fragment>

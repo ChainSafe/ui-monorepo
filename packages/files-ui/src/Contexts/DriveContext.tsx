@@ -5,7 +5,7 @@ import {
 } from "@imploy/api-client"
 import React, { useCallback, useEffect, useReducer } from "react"
 import { useState } from "react"
-import { useImployApi } from "@imploy/common-contexts"
+import { decryptFile, encryptFile, useImployApi } from "@imploy/common-contexts"
 import dayjs from "dayjs"
 import { v4 as uuidv4 } from "uuid"
 import { useToaster } from "@chainsafe/common-components"
@@ -16,6 +16,7 @@ import {
 import { guessContentType } from "../Utils/contentTypeGuesser"
 import { CancelToken } from "axios"
 import { t } from "@lingui/macro"
+import { readFileAsync } from "../Utils/Helpers"
 
 type DriveContextProps = {
   children: React.ReactNode | React.ReactNode[]
@@ -49,10 +50,10 @@ type DriveContext = {
   deleteFile(cid: string): Promise<void>
   downloadFile(cid: string): Promise<void>
   getFileContent(
-    fileName: string,
+    cid: string,
     cancelToken?: CancelToken,
     onDownloadProgress?: (progressEvent: ProgressEvent<EventTarget>) => void,
-  ): Promise<Blob>
+  ): Promise<Blob | undefined>
   list(body: FilesPathRequest): Promise<FileContentResponse[]>
   currentPath: string
   updateCurrentPath(newPath: string): void
@@ -60,6 +61,9 @@ type DriveContext = {
   uploadsInProgress: UploadProgress[]
   downloadsInProgress: DownloadProgress[]
   spaceUsed: number
+  isMasterPasswordSet: boolean
+  setMasterPassword(password: string): void
+  secureDrive(password: string): void
 }
 
 interface IItem extends FileContentResponse {
@@ -68,11 +72,18 @@ interface IItem extends FileContentResponse {
 }
 
 const REMOVE_UPLOAD_PROGRESS_DELAY = 5000
+const MAX_FILE_SIZE = 2 * 1024 ** 3
 
 const DriveContext = React.createContext<DriveContext | undefined>(undefined)
 
 const DriveProvider = ({ children }: DriveContextProps) => {
-  const { imployApiClient, isLoggedIn } = useImployApi()
+  const {
+    imployApiClient,
+    isLoggedIn,
+    secured,
+    secureAccount,
+    validateMasterPassword,
+  } = useImployApi()
   const { addToastMessage } = useToaster()
 
   const refreshContents = useCallback(
@@ -128,6 +139,9 @@ const DriveProvider = ({ children }: DriveContextProps) => {
 
   const [pathContents, setPathContents] = useState<IItem[]>([])
   const [spaceUsed, setSpaceUsed] = useState(0)
+  const [masterPassword, setMasterPassword] = useState<string | undefined>(
+    undefined,
+  )
 
   const setCurrentPath = (newPath: string) =>
     dispatchCurrentPath({ type: "add", payload: newPath })
@@ -150,6 +164,12 @@ const DriveProvider = ({ children }: DriveContextProps) => {
     }
   }, [imployApiClient, pathContents, isLoggedIn])
 
+  useEffect(() => {
+    if (!isLoggedIn) {
+      setMasterPassword(undefined)
+    }
+  }, [isLoggedIn])
+
   const [uploadsInProgress, dispatchUploadsInProgress] = useReducer(
     uploadsInProgressReducer,
     [],
@@ -162,6 +182,8 @@ const DriveProvider = ({ children }: DriveContextProps) => {
 
   const uploadFiles = async (files: File[], path: string) => {
     const startUploadFile = async () => {
+      if (!masterPassword) return // TODO: Add better error handling here.
+
       const id = uuidv4()
       const uploadProgress: UploadProgress = {
         id,
@@ -174,15 +196,30 @@ const DriveProvider = ({ children }: DriveContextProps) => {
       }
       dispatchUploadsInProgress({ type: "add", payload: uploadProgress })
       try {
-        const filesParam = files.map((f) => ({
-          data: f,
-          fileName: f.name,
-        }))
+        const filesParam = await Promise.all(
+          files
+            .filter((f) => f.size <= MAX_FILE_SIZE)
+            .map(async (f) => {
+              const fileData = await readFileAsync(f)
+              const encryptedData = await encryptFile(fileData, masterPassword)
+              return {
+                data: new Blob([encryptedData], { type: f.type }),
+                fileName: f.name,
+              }
+            }),
+        )
+        if (filesParam.length !== files.length) {
+          addToastMessage({
+            message:
+              "We can't encrypt files larger than 2GB. Some items will not be uploaded",
+            appearance: "error",
+          })
+        }
         // API call
-
         const result = await imployApiClient.addCSFFiles(
           filesParam,
           path,
+          "",
           undefined,
           undefined,
           (progressEvent: { loaded: number; total: number }) => {
@@ -211,6 +248,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
 
         return result
       } catch (error) {
+        debugger
         // setting error
         let errorMessage = t`Something went wrong. We couldn't upload your file`
 
@@ -313,20 +351,37 @@ const DriveProvider = ({ children }: DriveContextProps) => {
   }
 
   const getFileContent = async (
-    fileName: string,
+    cid: string,
     cancelToken?: CancelToken,
     onDownloadProgress?: (progressEvent: ProgressEvent<EventTarget>) => void,
   ) => {
+    if (!masterPassword) return // TODO: Add better error handling here.
+    const file = pathContents.find((i) => i.cid === cid)
+    if (!file) return
     try {
       const result = await imployApiClient.getFileContent(
         {
-          path: currentPath + fileName,
+          path: currentPath + file.name,
         },
         cancelToken,
         onDownloadProgress,
       )
-      return result.data
+
+      if (file.version === 0) {
+        return result.data
+      } else {
+        const decrypted = await decryptFile(
+          await result.data.arrayBuffer(),
+          masterPassword,
+        )
+        if (decrypted) {
+          return new Blob([decrypted], {
+            type: file.content_type,
+          })
+        }
+      }
     } catch (error) {
+      console.log(error)
       return Promise.reject()
     }
   }
@@ -345,7 +400,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
       }
       dispatchDownloadsInProgress({ type: "add", payload: downloadProgress })
       const result = await getFileContent(
-        itemToDownload?.name || "",
+        itemToDownload.cid,
         undefined,
         (progressEvent) => {
           dispatchDownloadsInProgress({
@@ -390,6 +445,26 @@ const DriveProvider = ({ children }: DriveContextProps) => {
     }
   }
 
+  const secureDrive = async (password: string) => {
+    if (secured) return
+
+    const result = await secureAccount(password)
+    if (result) {
+      setMasterPassword(password)
+    }
+  }
+
+  const setPassword = async (password: string) => {
+    if (!masterPassword && (await validateMasterPassword(password))) {
+      setMasterPassword(password)
+    } else {
+      console.log(
+        "The password is already set, or an incorrect password was entered.",
+      )
+      return false
+    }
+  }
+
   return (
     <DriveContext.Provider
       value={{
@@ -410,6 +485,9 @@ const DriveProvider = ({ children }: DriveContextProps) => {
         uploadsInProgress,
         spaceUsed,
         downloadsInProgress,
+        isMasterPasswordSet: !!masterPassword,
+        setMasterPassword: setPassword,
+        secureDrive,
       }}
     >
       {children}

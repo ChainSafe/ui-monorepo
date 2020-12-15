@@ -17,3 +17,17 @@ export const testLocalStorage = () => {
     return false
   }
 }
+
+export const readFileAsync = (file: Blob): Promise<ArrayBuffer> => {
+  return new Promise((resolve, reject) => {
+    let reader = new FileReader()
+
+    reader.onload = () => {
+      reader.result && resolve(reader.result as ArrayBuffer)
+    }
+
+    reader.onerror = reject
+
+    reader.readAsArrayBuffer(file)
+  })
+}

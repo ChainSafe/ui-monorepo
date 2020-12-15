@@ -70,6 +70,7 @@ interface IFileInputProps extends DropzoneOptions {
   label?: string
   showPreviews?: boolean
   pending?: ReactNode | ReactNode[]
+  maxFileSize?: number
   classNames?: {
     pending?: string
     filelist?: string
@@ -84,6 +85,7 @@ const FileInput: React.FC<IFileInputProps> = ({
   name,
   label,
   pending,
+  maxFileSize,
   classNames,
   ...props
 }: IFileInputProps) => {
@@ -94,10 +96,13 @@ const FileInput: React.FC<IFileInputProps> = ({
 
   const onDrop = useCallback(
     async (acceptedFiles: File[], fileRejections: FileRejection[]) => {
+      const filtered = acceptedFiles.filter((file) =>
+        maxFileSize ? file.size <= maxFileSize : true,
+      )
       setErrors([])
       if (showPreviews) {
         setPreviews(
-          acceptedFiles.map((file: any) =>
+          filtered.map((file: any) =>
             Object.assign(file, {
               preview: URL.createObjectURL(file),
             }),
@@ -105,7 +110,7 @@ const FileInput: React.FC<IFileInputProps> = ({
         )
       }
 
-      helpers.setValue(acceptedFiles)
+      helpers.setValue(filtered)
 
       if (fileRejections.length > 0) {
         const fileDropRejectionErrors = fileRejections.map((fr) =>
