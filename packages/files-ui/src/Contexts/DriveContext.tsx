@@ -72,6 +72,7 @@ interface IItem extends FileContentResponse {
 }
 
 const REMOVE_UPLOAD_PROGRESS_DELAY = 5000
+const MAX_FILE_SIZE = 2 * 1024 ** 3
 
 const DriveContext = React.createContext<DriveContext | undefined>(undefined)
 
@@ -196,15 +197,24 @@ const DriveProvider = ({ children }: DriveContextProps) => {
       dispatchUploadsInProgress({ type: "add", payload: uploadProgress })
       try {
         const filesParam = await Promise.all(
-          files.map(async (f) => {
-            const fileData = await readFileAsync(f)
-            const encryptedData = await encryptFile(fileData, masterPassword)
-            return {
-              data: new Blob([encryptedData], { type: f.type }),
-              fileName: f.name,
-            }
-          }),
+          files
+            .filter((f) => f.size <= MAX_FILE_SIZE)
+            .map(async (f) => {
+              const fileData = await readFileAsync(f)
+              const encryptedData = await encryptFile(fileData, masterPassword)
+              return {
+                data: new Blob([encryptedData], { type: f.type }),
+                fileName: f.name,
+              }
+            }),
         )
+        if (filesParam.length !== files.length) {
+          addToastMessage({
+            message:
+              "We can't encrypt files larger than 2GB. Some items will not be uploaded",
+            appearance: "error",
+          })
+        }
         // API call
         const result = await imployApiClient.addCSFFiles(
           filesParam,
@@ -238,6 +248,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
 
         return result
       } catch (error) {
+        debugger
         // setting error
         let errorMessage = t`Something went wrong. We couldn't upload your file`
 
