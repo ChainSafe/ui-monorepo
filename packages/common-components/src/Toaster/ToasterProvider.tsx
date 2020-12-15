@@ -1,5 +1,6 @@
 import React, { ReactNode } from "react"
 import Toaster from "./Toaster"
+import ToastContainer from "./ToastContainer"
 import { Placement, ToastProvider } from "react-toast-notifications"
 
 export interface IToasterProviderProps {
@@ -19,7 +20,7 @@ export const ToasterProvider: React.FC<IToasterProviderProps> = ({
     <ToastProvider
       autoDismiss={autoDismiss}
       autoDismissTimeout={autoDismissTimeout || 5000}
-      components={{ Toast: Toaster }}
+      components={{ Toast: Toaster, ToastContainer: ToastContainer }}
       placement={placement}
     >
       {children}
