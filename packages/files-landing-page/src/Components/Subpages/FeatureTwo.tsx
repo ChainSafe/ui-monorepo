@@ -44,14 +44,12 @@ const useStyles = makeStyles(
           alignItems: "flex-start",
         },
         [breakpoints.up("xl")]: {
-          margin: `${constants.generalUnit * 10}px 0 0 ${
-            constants.generalUnit * 37
-          }px `,
+          margin: `${constants.generalUnit * 10}px 0 0 ${constants.generalUnit * 37
+            }px `,
         },
         [breakpoints.up("3800")]: {
-          margin: `${constants.generalUnit * 10}px 0 0 ${
-            constants.generalUnit * 60
-          }px `,
+          margin: `${constants.generalUnit * 10}px 0 0 ${constants.generalUnit * 60
+            }px `,
         },
       },
       title: {
@@ -61,6 +59,9 @@ const useStyles = makeStyles(
         marginTop: constants.generalUnit * 2,
         zIndex: zIndex?.layer2,
         color: palette.additional["gray"][6],
+        "& > span": {
+          fontFamily: "'Archivo', sans-serif",
+        },
       },
     })
   },
