@@ -101,7 +101,7 @@ const UploadFileModule: React.FC<IUploadFileModuleProps> = ({
               size="medium"
               className={classes.cancelButton}
               variant="outline"
-              type="button"
+              type="reset"
             >
               <Trans>Cancel</Trans>
             </Button>
