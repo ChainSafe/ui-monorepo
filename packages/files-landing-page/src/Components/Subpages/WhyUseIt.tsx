@@ -44,6 +44,9 @@ const useStyles = makeStyles(
         },
       },
       paragraphColumn: {
+        "& > span": {
+          fontFamily: "'Archivo', sans-serif",
+        },
         [breakpoints.down("lg")]: {
           margin: "2rem",
           textAlign: "center",
