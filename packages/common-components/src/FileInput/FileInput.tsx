@@ -188,9 +188,9 @@ const FileInput: React.FC<IFileInputProps> = ({
                     </Button>
                   </li>
                 ))}
-                <li>
+                <li className={classes.item}>
                   <PlusIcon fontSize="small" color="primary" />
-                  <Typography>Click to upload more files</Typography>
+                  <span>Click to upload more files</span>
                 </li>
               </ul>
             </ScrollbarWrapper>
