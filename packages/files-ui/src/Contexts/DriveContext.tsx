@@ -267,7 +267,6 @@ const DriveProvider = ({ children }: DriveContextProps) => {
 
         return result
       } catch (error) {
-        debugger
         // setting error
         let errorMessage = t`Something went wrong. We couldn't upload your file`
 
