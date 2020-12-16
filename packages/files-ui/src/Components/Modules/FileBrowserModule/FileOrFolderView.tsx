@@ -1,7 +1,6 @@
 import {
   TableRow,
   TableCell,
-  // CheckboxInput,
   FormikTextInput,
   Typography,
   Button,
@@ -18,6 +17,7 @@ import {
   IMenuItem,
   ExportIcon,
   ShareAltIcon,
+  CheckSvg,
 } from "@chainsafe/common-components"
 import { makeStyles, ITheme, createStyles } from "@chainsafe/common-theme"
 import clsx from "clsx"
@@ -117,6 +117,14 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: ITheme) => {
       alignItems: "center",
       width: 20,
       marginRight: constants.generalUnit * 1.5,
+    },
+    desktopRename: {
+      display: "flex",
+      flexDirection: "row",
+      "& svg": {
+        width: 20,
+        height: 20,
+      },
     },
   })
 })
@@ -332,16 +340,24 @@ const FileOrFolderView: React.FC<IFileOrFolderProps> = ({
               setEditing(undefined)
             }}
           >
-            <Form>
+            <Form className={classes.desktopRename}>
               <FormikTextInput
                 className={classes.renameInput}
                 name="fileName"
                 inputVariant="minimal"
+                onKeyDown={(event) => {
+                  if (event.key === "Escape") {
+                    setEditing(undefined)
+                  }
+                }}
                 placeholder={`Please enter a ${
                   file.isFolder ? "folder" : "file"
                 } name`}
                 autoFocus={editing === file.cid}
               />
+              <Button variant="dashed" size="small" type="submit">
+                <CheckSvg />
+              </Button>
             </Form>
           </Formik>
         ) : editing === file.cid && !desktop ? (
