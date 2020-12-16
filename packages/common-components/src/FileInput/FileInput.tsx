@@ -5,7 +5,7 @@ import clsx from "clsx"
 import { ITheme, makeStyles, createStyles } from "@chainsafe/common-theme"
 import { Button } from "../Button"
 import { Typography } from "../Typography"
-import { PaperclipIcon, PlusIcon } from "../Icons"
+import { PaperclipIcon, PlusIcon, CrossOutlinedIcon } from "../Icons"
 import { ScrollbarWrapper } from "../ScrollbarWrapper"
 
 const useStyles = makeStyles(({ constants, palette, overrides }: ITheme) =>
@@ -60,6 +60,9 @@ const useStyles = makeStyles(({ constants, palette, overrides }: ITheme) =>
         marginRight: constants.generalUnit,
       },
       ...overrides?.FileInput?.item,
+    },
+    itemText: {
+      flex: "1 1 0",
     },
     scrollbar: {
       maxHeight: "80vh",
@@ -143,6 +146,15 @@ const FileInput: React.FC<IFileInputProps> = ({
     ...dropZoneProps,
   })
 
+  const removeItem = (i: number) => {
+    const currentValues = value.value as any[]
+    const removed = [
+      ...currentValues.splice(0, i - 1),
+      ...currentValues.splice(i + 1, currentValues.length - 1),
+    ]
+    helpers.setValue(removed)
+  }
+
   return (
     <div {...getRootProps()} className={clsx(classes.root, className)}>
       <input {...getInputProps()} />
@@ -154,7 +166,7 @@ const FileInput: React.FC<IFileInputProps> = ({
             ) : (
               <>
                 <PlusIcon fontSize="large" color="primary" />
-                <Typography>Upload Files and Folders</Typography>
+                <Typography>Upload Files</Typography>
               </>
             )}
           </div>
@@ -164,7 +176,15 @@ const FileInput: React.FC<IFileInputProps> = ({
               <ul>
                 {value.value.map((file: any, i: any) => (
                   <li className={classes.item} key={i}>
-                    <PaperclipIcon /> {file.name} - {file.size}
+                    <PaperclipIcon />
+                    <span className={classes.itemText}>{file.name}</span>
+                    <Button
+                      onClick={() => removeItem(i)}
+                      iconButton
+                      size="small"
+                    >
+                      <CrossOutlinedIcon fontSize="small" />
+                    </Button>
                   </li>
                 ))}
               </ul>
