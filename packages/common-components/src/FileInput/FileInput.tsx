@@ -146,7 +146,6 @@ const FileInput: React.FC<IFileInputProps> = ({
   })
 
   const removeItem = (i: number) => {
-    debugger
     const items = value.value as any[]
     items.splice(i, 1)
     helpers.setValue(items)
