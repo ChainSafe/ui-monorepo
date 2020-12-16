@@ -61,6 +61,9 @@ const useStyles = makeStyles(
         marginTop: constants.generalUnit * 2,
         zIndex: zIndex?.layer2,
         color: palette.additional["gray"][6],
+        "& > span": {
+          fontFamily: "'Archivo', sans-serif",
+        },
       },
     })
   },
