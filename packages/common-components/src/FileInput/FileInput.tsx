@@ -116,8 +116,7 @@ const FileInput: React.FC<IFileInputProps> = ({
           ),
         )
       }
-
-      helpers.setValue(filtered)
+      helpers.setValue([...value.value, ...filtered])
 
       if (fileRejections.length > 0) {
         const fileDropRejectionErrors = fileRejections.map((fr) =>
@@ -126,7 +125,7 @@ const FileInput: React.FC<IFileInputProps> = ({
         setErrors(errors.concat(fileDropRejectionErrors))
       }
     },
-    [],
+    [value],
   )
 
   useEffect(() => {
