@@ -21,7 +21,7 @@
     "bnc-onboard": "^1.16.1",
     "clsx": "^1.1.1",
     "dayjs": "^1.9.7",
-    "ethers": "^5.0.23",
+    "ethers": "^5.0.24",
     "formik": "^2.2.5",
     "mime-matcher": "^1.0.5",
     "react": "^16.14.0",
