@@ -34,6 +34,9 @@ const useStyles = makeStyles(({ palette, breakpoints, constants }: ITheme) => {
       [breakpoints.down("sm")]: {
         marginTop: constants.generalUnit * 2,
       },
+      "& > span": {
+        fontFamily: "'Archivo', sans-serif",
+      },
     },
     anchor: {
       color: palette.common.white.main,
