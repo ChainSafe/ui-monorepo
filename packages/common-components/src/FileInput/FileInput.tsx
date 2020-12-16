@@ -147,12 +147,10 @@ const FileInput: React.FC<IFileInputProps> = ({
   })
 
   const removeItem = (i: number) => {
-    const currentValues = value.value as any[]
-    const removed = [
-      ...currentValues.splice(0, i - 1),
-      ...currentValues.splice(i + 1, currentValues.length - 1),
-    ]
-    helpers.setValue(removed)
+    debugger
+    const items = value.value as any[]
+    items.splice(i, 1)
+    helpers.setValue(items)
   }
 
   return (
@@ -179,7 +177,11 @@ const FileInput: React.FC<IFileInputProps> = ({
                     <PaperclipIcon />
                     <span className={classes.itemText}>{file.name}</span>
                     <Button
-                      onClick={() => removeItem(i)}
+                      type="button"
+                      onClick={(e) => {
+                        e.stopPropagation()
+                        removeItem(i)
+                      }}
                       iconButton
                       size="small"
                     >
@@ -187,6 +189,10 @@ const FileInput: React.FC<IFileInputProps> = ({
                     </Button>
                   </li>
                 ))}
+                <li>
+                  <PlusIcon fontSize="small" color="primary" />
+                  <Typography>Click to upload more files</Typography>
+                </li>
               </ul>
             </ScrollbarWrapper>
           </div>
