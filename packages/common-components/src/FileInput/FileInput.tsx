@@ -6,6 +6,7 @@ import { ITheme, makeStyles, createStyles } from "@chainsafe/common-theme"
 import { Button } from "../Button"
 import { Typography } from "../Typography"
 import { PaperclipIcon, PlusIcon } from "../Icons"
+import { ScrollbarWrapper } from "../ScrollbarWrapper"
 
 const useStyles = makeStyles(({ constants, palette, overrides }: ITheme) =>
   createStyles({
@@ -59,6 +60,9 @@ const useStyles = makeStyles(({ constants, palette, overrides }: ITheme) =>
         marginRight: constants.generalUnit,
       },
       ...overrides?.FileInput?.item,
+    },
+    scrollbar: {
+      maxHeight: "80vh",
     },
   }),
 )
@@ -156,13 +160,15 @@ const FileInput: React.FC<IFileInputProps> = ({
           </div>
         ) : (
           <div className={clsx(classes.root, classNames?.filelist)}>
-            <ul>
-              {value.value.map((file: any, i: any) => (
-                <li className={classes.item} key={i}>
-                  <PaperclipIcon /> {file.name} - {file.size}
-                </li>
-              ))}
-            </ul>
+            <ScrollbarWrapper className={classes.scrollbar}>
+              <ul>
+                {value.value.map((file: any, i: any) => (
+                  <li className={classes.item} key={i}>
+                    <PaperclipIcon /> {file.name} - {file.size}
+                  </li>
+                ))}
+              </ul>
+            </ScrollbarWrapper>
           </div>
         )
       ) : (
