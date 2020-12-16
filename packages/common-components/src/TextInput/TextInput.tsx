@@ -378,7 +378,11 @@ const useStyles = makeStyles(
 
 export type InputState = "normal" | "warning" | "success" | "error"
 
-export interface ITextInputProps {
+export interface ITextInputProps
+  extends Omit<
+    React.HTMLProps<HTMLInputElement>,
+    "onChange" | "label" | "size" | "value"
+  > {
   className?: string
   label?: string
   labelClassName?: string
