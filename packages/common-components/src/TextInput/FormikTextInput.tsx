@@ -1,19 +1,10 @@
 import React from "react"
 import { useField } from "formik"
-import TextInput from "./TextInput"
+import TextInput, { ITextInputProps } from "./TextInput"
 
-export interface FormikTextInputProps {
-  className?: string
-  label?: string
-  placeholder?: string
-  disabled?: boolean
+export interface FormikTextInputProps
+  extends Omit<ITextInputProps, "onChange" | "state" | "value"> {
   name: string
-  inputVariant?: "default" | "minimal"
-  type?: "text" | "email" | "password" | "url" | "search"
-  size?: "large" | "medium" | "small"
-  captionMessage?: string
-  labelClassName?: string
-  autoFocus?: boolean
 }
 
 const FormikTextInput: React.FC<FormikTextInputProps> = ({
@@ -28,6 +19,7 @@ const FormikTextInput: React.FC<FormikTextInputProps> = ({
   disabled = false,
   autoFocus,
   captionMessage,
+  ...rest
 }: FormikTextInputProps) => {
   const [field, meta, helpers] = useField(name)
   return (
@@ -50,6 +42,7 @@ const FormikTextInput: React.FC<FormikTextInputProps> = ({
       state={meta.error ? "error" : undefined}
       onChange={helpers.setValue}
       autoFocus={autoFocus}
+      {...rest}
     />
   )
 }

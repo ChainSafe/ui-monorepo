@@ -17,6 +17,7 @@ import { guessContentType } from "../Utils/contentTypeGuesser"
 import { CancelToken } from "axios"
 import { t } from "@lingui/macro"
 import { readFileAsync } from "../Utils/Helpers"
+import { useBeforeunload } from "react-beforeunload"
 
 type DriveContextProps = {
   children: React.ReactNode | React.ReactNode[]
@@ -180,6 +181,24 @@ const DriveProvider = ({ children }: DriveContextProps) => {
     [],
   )
 
+  const [closeIntercept, setCloseIntercept] = useState<string | undefined>()
+
+  useEffect(() => {
+    if (downloadsInProgress.length > 0) {
+      setCloseIntercept("Download in progress, are you sure?")
+    } else if (uploadsInProgress.length > 0) {
+      setCloseIntercept("Upload in progress, are you sure?")
+    } else if (closeIntercept !== undefined) {
+      setCloseIntercept(undefined)
+    }
+  }, [closeIntercept, downloadsInProgress, uploadsInProgress])
+
+  useBeforeunload(() => {
+    if (closeIntercept !== undefined) {
+      return closeIntercept
+    }
+  })
+
   const uploadFiles = async (files: File[], path: string) => {
     const startUploadFile = async () => {
       if (!masterPassword) return // TODO: Add better error handling here.
@@ -248,7 +267,6 @@ const DriveProvider = ({ children }: DriveContextProps) => {
 
         return result
       } catch (error) {
-        debugger
         // setting error
         let errorMessage = t`Something went wrong. We couldn't upload your file`
 
