@@ -83,11 +83,10 @@ const App: React.FC<{}> = () => {
                     { walletName: "coinbase" },
                     {
                       walletName: "trust",
-                      preferred: true,
                       rpcUrl:
                         "https://mainnet.infura.io/v3/a7e16429d2254d488d396710084e2cd3",
                     },
-                    { walletName: "metamask" },
+                    { walletName: "metamask", preferred: true },
                     { walletName: "dapper" },
                     { walletName: "opera" },
                     { walletName: "operaTouch" },
@@ -96,6 +95,7 @@ const App: React.FC<{}> = () => {
                     {
                       walletName: "walletConnect",
                       infuraKey: "a7e16429d2254d488d396710084e2cd3",
+                      preferred: true,
                     },
                   ],
                 },
