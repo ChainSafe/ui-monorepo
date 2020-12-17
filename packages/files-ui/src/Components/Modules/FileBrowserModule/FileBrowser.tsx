@@ -46,7 +46,6 @@ import { NativeTypes } from "react-dnd-html5-backend"
 import { useDrop } from "react-dnd"
 import { IFileBrowserProps } from "./types"
 import DownloadProgressModals from "../DownloadProgressModals"
-import { debug } from "console"
 
 const useStyles = makeStyles(
   ({ animation, breakpoints, constants, palette, zIndex }: ITheme) => {
