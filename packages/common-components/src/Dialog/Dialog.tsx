@@ -5,7 +5,7 @@ import { IModalProps, Modal } from "../Modal"
 import { Typography } from "../Typography"
 import { Button, IButtonProps } from "../Button"
 
-const useStyles = makeStyles(({ constants }: ITheme) =>
+const useStyles = makeStyles(({ breakpoints, constants }: ITheme) =>
   createStyles({
     // JSS in CSS goes here
     root: {},
@@ -14,6 +14,9 @@ const useStyles = makeStyles(({ constants }: ITheme) =>
       borderRadius: 2,
       transform: "translate(-50%, 0)",
       top: constants.generalUnit * 2,
+      [breakpoints.down("sm")]: {
+        maxWidth: `calc(100% - ${constants.generalUnit * 3}px) !important`,
+      },
     },
     message: {},
     buttons: {
