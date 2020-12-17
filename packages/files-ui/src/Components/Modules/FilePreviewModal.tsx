@@ -32,7 +32,7 @@ import PdfPreview from "./PreviewRenderers/PDFPreview"
 import VideoPreview from "./PreviewRenderers/VideoPreview"
 import AudioPreview from "./PreviewRenderers/AudioPreview"
 import { useHotkeys } from "react-hotkeys-hook"
-import { Trans } from "@lingui/macro"
+import { t, Trans } from "@lingui/macro"
 
 export interface IPreviewRendererProps {
   contents: Blob
@@ -195,13 +195,13 @@ const FilePreviewModal: React.FC<{
         if (content) {
           setFileContent(content)
         } else {
-          setError("Decryption failed")
+          setError(t`Decryption failed`)
         }
         source.current = null
         setLoadingProgress(0)
       } catch (error) {
         if (error) {
-          setError("There was an error getting the preview.")
+          setError(t`There was an error getting the preview.`)
         }
       }
       setIsLoading(false)
@@ -352,7 +352,7 @@ const FilePreviewModal: React.FC<{
               <div className={classes.previewContent}>
                 <CloseCircleIcon fontSize={desktop ? "extraLarge" : "medium"} />
                 <Typography component="h2" variant="h1">
-                  <Trans>{error}</Trans>
+                  {error}
                 </Typography>
               </div>
             )}
