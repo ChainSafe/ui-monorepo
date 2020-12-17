@@ -123,6 +123,9 @@ const useStyles = makeStyles(
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
+        "& h2": {
+          margin: `${constants.generalUnit}px 0`,
+        },
       },
       downloadButton: {
         backgroundColor: "rgba(0,0,0, 0.88)",
@@ -189,7 +192,11 @@ const FilePreviewModal: React.FC<{
         const content = await getFileContent(file.cid, token, (evt) => {
           setLoadingProgress((evt.loaded / file.size) * 100)
         })
-        setFileContent(content)
+        if (content) {
+          setFileContent(content)
+        } else {
+          setError("Decryption failed")
+        }
         source.current = null
         setLoadingProgress(0)
       } catch (error) {
@@ -341,7 +348,14 @@ const FilePreviewModal: React.FC<{
                 />
               </div>
             )}
-            {error && <div>{error}</div>}
+            {error && (
+              <div className={classes.previewContent}>
+                <CloseCircleIcon fontSize={desktop ? "extraLarge" : "medium"} />
+                <Typography component="h2" variant="h1">
+                  <Trans>{error}</Trans>
+                </Typography>
+              </div>
+            )}
             {!isLoading &&
               !error &&
               !compatibleFilesMatcher.match(file?.content_type) && (
