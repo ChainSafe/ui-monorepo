@@ -54,7 +54,7 @@ const Dialog: React.FC<IDialogProps> = ({
   injectedClass,
   rejectButtonProps,
   acceptButtonProps,
-  maxWidth = 10,
+  maxWidth = 450,
   ...rest
 }: IDialogProps) => {
   const classes = useStyles()
