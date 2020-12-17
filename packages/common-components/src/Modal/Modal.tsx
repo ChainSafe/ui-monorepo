@@ -175,6 +175,7 @@ const Modal: React.FC<IModalProps> = ({
         style={
           maxWidth && typeof maxWidth == "number"
             ? {
+                width: "100%",
                 maxWidth: maxWidth,
               }
             : {}
