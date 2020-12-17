@@ -83,7 +83,12 @@ const UserProvider = ({ children }: UserContextProps) => {
       })
       return Promise.resolve()
     } catch (error) {
-      return Promise.reject("There was an error updating profile.")
+      console.log(error)
+      return Promise.reject(
+        error && error.length
+          ? error[0].message
+          : "There was an error updating profile.",
+      )
     }
   }
 
