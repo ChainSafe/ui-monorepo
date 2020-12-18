@@ -126,6 +126,11 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: ITheme) => {
         height: 20,
       },
     },
+    filename: {
+      whiteSpace: "nowrap",
+      overflow: "hidden",
+      textOverflow: "ellipsis",
+    },
   })
 })
 
@@ -422,7 +427,7 @@ const FileOrFolderView: React.FC<IFileOrFolderProps> = ({
             </Formik>
           </CustomModal>
         ) : (
-          file.name
+          <Typography className={classes.filename}>{file.name}</Typography>
         )}
       </TableCell>
       {desktop && (
