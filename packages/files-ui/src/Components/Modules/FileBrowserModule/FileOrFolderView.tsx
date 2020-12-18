@@ -169,7 +169,6 @@ const FileOrFolderView: React.FC<IFileOrFolderProps> = ({
   currentPath,
   updateCurrentPath,
   selected,
-  handleSelect,
   editing,
   setEditing,
   RenameSchema,
@@ -323,6 +322,7 @@ const FileOrFolderView: React.FC<IFileOrFolderProps> = ({
       <TableCell
         ref={preview}
         align="left"
+        className={classes.filename}
         onClick={() => {
           if (!editing) {
             file.isFolder
@@ -427,7 +427,7 @@ const FileOrFolderView: React.FC<IFileOrFolderProps> = ({
             </Formik>
           </CustomModal>
         ) : (
-          <Typography className={classes.filename}>{file.name}</Typography>
+          <Typography>{file.name}</Typography>
         )}
       </TableCell>
       {desktop && (

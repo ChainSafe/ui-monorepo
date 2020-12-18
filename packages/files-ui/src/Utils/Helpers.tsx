@@ -1,4 +1,4 @@
-export const shortenAddress = (address: string, remaining: number = 6) => {
+export const centerEllipsis = (address: string, remaining: number = 6) => {
   if (address.length <= remaining * 2) {
     return address
   }
