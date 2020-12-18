@@ -424,7 +424,7 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
   return (
     <article
       className={clsx(classes.root, { droppable: isOverUploadable })}
-      ref={dropBrowserRef}
+      ref={!uploadModalOpen ? dropBrowserRef : null}
     >
       <div
         className={clsx(classes.dropNotification, { active: isOverBrowser })}
