@@ -16,7 +16,7 @@ import { LockIcon, CopyIcon } from "@chainsafe/common-components"
 import { Formik, Form } from "formik"
 import { Profile } from "@imploy/common-contexts"
 import { Trans } from "@lingui/macro"
-import { shortenAddress } from "../../../Utils/Helpers"
+import { centerEllipsis } from "../../../Utils/Helpers"
 
 const useStyles = makeStyles((theme: ITheme) =>
   createStyles({
@@ -131,7 +131,7 @@ const ProfileView: React.FC<IProfileProps> = (props) => {
   }
 
   const profileValidation = yup.object().shape({
-    email: yup.string().email("Email is invalid"),
+    email: yup.string().email("Email is invalid").required("Email is required"),
     firstName: yup.string(),
     lastName: yup.string(),
   })
@@ -177,7 +177,7 @@ const ProfileView: React.FC<IProfileProps> = (props) => {
                           component="p"
                           className={classes.publicAddress}
                         >
-                          {shortenAddress(profile.publicAddress, 16)}
+                          {centerEllipsis(profile.publicAddress, 16)}
                         </Typography>
                         <CopyIcon className={classes.copyIcon} />
                       </div>

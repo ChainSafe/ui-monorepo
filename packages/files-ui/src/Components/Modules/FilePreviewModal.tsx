@@ -32,7 +32,7 @@ import PdfPreview from "./PreviewRenderers/PDFPreview"
 import VideoPreview from "./PreviewRenderers/VideoPreview"
 import AudioPreview from "./PreviewRenderers/AudioPreview"
 import { useHotkeys } from "react-hotkeys-hook"
-import { Trans } from "@lingui/macro"
+import { t, Trans } from "@lingui/macro"
 
 export interface IPreviewRendererProps {
   contents: Blob
@@ -123,6 +123,9 @@ const useStyles = makeStyles(
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
+        "& h2": {
+          margin: `${constants.generalUnit}px 0`,
+        },
       },
       downloadButton: {
         backgroundColor: "rgba(0,0,0, 0.88)",
@@ -189,12 +192,16 @@ const FilePreviewModal: React.FC<{
         const content = await getFileContent(file.cid, token, (evt) => {
           setLoadingProgress((evt.loaded / file.size) * 100)
         })
-        setFileContent(content)
+        if (content) {
+          setFileContent(content)
+        } else {
+          setError(t`Decryption failed`)
+        }
         source.current = null
         setLoadingProgress(0)
       } catch (error) {
         if (error) {
-          setError("There was an error getting the preview.")
+          setError(t`There was an error getting the preview.`)
         }
       }
       setIsLoading(false)
@@ -341,7 +348,14 @@ const FilePreviewModal: React.FC<{
                 />
               </div>
             )}
-            {error && <div>{error}</div>}
+            {error && (
+              <div className={classes.previewContent}>
+                <CloseCircleIcon fontSize={desktop ? "extraLarge" : "medium"} />
+                <Typography component="h2" variant="h1">
+                  {error}
+                </Typography>
+              </div>
+            )}
             {!isLoading &&
               !error &&
               !compatibleFilesMatcher.match(file?.content_type) && (

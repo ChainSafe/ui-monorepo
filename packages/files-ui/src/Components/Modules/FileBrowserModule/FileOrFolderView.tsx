@@ -126,6 +126,11 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: ITheme) => {
         height: 20,
       },
     },
+    filename: {
+      whiteSpace: "nowrap",
+      overflow: "hidden",
+      textOverflow: "ellipsis",
+    },
   })
 })
 
@@ -164,7 +169,6 @@ const FileOrFolderView: React.FC<IFileOrFolderProps> = ({
   currentPath,
   updateCurrentPath,
   selected,
-  handleSelect,
   editing,
   setEditing,
   RenameSchema,
@@ -318,6 +322,7 @@ const FileOrFolderView: React.FC<IFileOrFolderProps> = ({
       <TableCell
         ref={preview}
         align="left"
+        className={classes.filename}
         onClick={() => {
           if (!editing) {
             file.isFolder
@@ -422,7 +427,7 @@ const FileOrFolderView: React.FC<IFileOrFolderProps> = ({
             </Formik>
           </CustomModal>
         ) : (
-          file.name
+          <Typography>{file.name}</Typography>
         )}
       </TableCell>
       {desktop && (
