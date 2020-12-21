@@ -40,7 +40,7 @@ import FilePreviewModal from "../FilePreviewModal"
 import { getArrayOfPaths, getPathFromArray } from "../../../Utils/pathUtils"
 import UploadProgressModals from "../UploadProgressModals"
 import clsx from "clsx"
-import { Trans } from "@lingui/macro"
+import { t, Trans } from "@lingui/macro"
 import FileOrFolderView from "./FileOrFolderView"
 import { NativeTypes } from "react-dnd-html5-backend"
 import { useDrop } from "react-dnd"
@@ -657,7 +657,7 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
         active={deleteDialogOpen !== undefined}
         reject={() => setDeleteDialog(undefined)}
         accept={() => deleteDialogOpen && deleteDialogOpen()}
-        requestMessage="Are you sure you wish to delete?"
+        requestMessage={t`Are you sure you wish to delete?`}
       />
       <UploadProgressModals />
       <DownloadProgressModals />
