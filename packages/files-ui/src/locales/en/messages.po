@@ -6,6 +6,12 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: @lingui/cli\n"
 "Language: en\n"
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Plural-Forms: \n"
 
 #: src/Contexts/DriveContext.tsx:163
 msgid "A file with the same name already exists"
@@ -14,6 +20,10 @@ msgstr "A file with the same name already exists"
 #: src/Components/Layouts/AppNav.tsx:225
 msgid "Account"
 msgstr "Account"
+
+#: src/Components/Modules/FileBrowserModule/FileBrowser.tsx:451
+msgid "Are you sure you wish to delete?"
+msgstr "Are you sure you wish to delete?"
 
 #: src/Components/Modules/CreateFolderModule.tsx:103
 #: src/Components/Modules/FileBrowserModule/FileOrFolderView.tsx:259
