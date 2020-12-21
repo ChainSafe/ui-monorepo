@@ -27,6 +27,7 @@ import {
   Button,
   PlusCircleIcon,
   UploadIcon,
+  Dialog,
 } from "@chainsafe/common-components"
 import { useState } from "react"
 import { useMemo } from "react"
@@ -39,7 +40,7 @@ import FilePreviewModal from "../FilePreviewModal"
 import { getArrayOfPaths, getPathFromArray } from "../../../Utils/pathUtils"
 import UploadProgressModals from "../UploadProgressModals"
 import clsx from "clsx"
-import { Trans } from "@lingui/macro"
+import { t, Trans } from "@lingui/macro"
 import FileOrFolderView from "./FileOrFolderView"
 import { NativeTypes } from "react-dnd-html5-backend"
 import { useDrop } from "react-dnd"
@@ -420,6 +421,7 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
   // Modals
   const [createFolderModalOpen, setCreateFolderModalOpen] = useState(false)
   const [uploadModalOpen, setUploadModalOpen] = useState(false)
+  const [deleteDialogOpen, setDeleteDialog] = useState<() => void | undefined>()
 
   return (
     <article
@@ -626,7 +628,12 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
                 RenameSchema={RenameSchema}
                 handleRename={handleRename}
                 handleMove={handleMove}
-                deleteFile={deleteFile}
+                deleteFile={(cid: string) =>
+                  setDeleteDialog(() => () => {
+                    deleteFile(cid)
+                    setDeleteDialog(undefined)
+                  })
+                }
                 downloadFile={downloadFile}
                 handleUploadOnDrop={handleUploadOnDrop}
                 setPreviewFileIndex={setPreviewFileIndex}
@@ -646,6 +653,12 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
           previousFile={previewFileIndex > 0 ? setPreviousPreview : undefined}
         />
       )}
+      <Dialog
+        active={deleteDialogOpen !== undefined}
+        reject={() => setDeleteDialog(undefined)}
+        accept={() => deleteDialogOpen && deleteDialogOpen()}
+        requestMessage={t`Are you sure you wish to delete?`}
+      />
       <UploadProgressModals />
       <DownloadProgressModals />
       <CreateFolderModule
