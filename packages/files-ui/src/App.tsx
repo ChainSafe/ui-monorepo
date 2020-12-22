@@ -35,6 +35,7 @@ if (
   initSentry({
     dsn: process.env.REACT_APP_SENTRY_DSN_URL,
     release: process.env.REACT_APP_SENTRY_RELEASE,
+    environment: process.env.REACT_APP_SENTRY_ENV,
   })
 }
 const App: React.FC<{}> = () => {
