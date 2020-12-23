@@ -149,7 +149,7 @@ interface IFileOrFolderProps {
   RenameSchema: any
   handleRename(path: string, newPath: string): Promise<void>
   handleMove(path: string, newPath: string): Promise<void>
-  deleteFile(cid: string): Promise<void>
+  deleteFile(cid: string): void
   downloadFile(cid: string): Promise<void>
   handleUploadOnDrop(
     files: File[],

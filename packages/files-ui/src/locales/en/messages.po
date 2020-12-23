@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"POT-Creation-Date: 2020-11-10 15:02+0200\n"
+"POT-Creation-Date: 2020-12-21 17:54+0200\n"
 "Mime-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -21,9 +21,9 @@ msgstr "A file with the same name already exists"
 msgid "Account"
 msgstr "Account"
 
-#: src/Components/Layouts/AppNav.tsx:207
-#~ msgid "All"
-#~ msgstr "All"
+#: src/Components/Modules/FileBrowserModule/FileBrowser.tsx:451
+msgid "Are you sure you wish to delete?"
+msgstr "Are you sure you wish to delete?"
 
 #: src/Components/Modules/CreateFolderModule.tsx:103
 #: src/Components/Modules/FileBrowserModule/FileOrFolderView.tsx:259
@@ -34,10 +34,6 @@ msgstr "Cancel"
 #: src/Components/Pages/LoginPage.tsx:214
 msgid "ChainSafe Files"
 msgstr "ChainSafe Files"
-
-#: src/Components/Modules/Settings/Plan.tsx:89
-#~ msgid "Change plan"
-#~ msgstr "Change plan"
 
 #: src/Components/Pages/LoginPage.tsx:237
 msgid "Continue with"
@@ -71,13 +67,9 @@ msgstr "Create Folder"
 msgid "Create an account"
 msgstr "Create an account"
 
-#: src/Components/Modules/FileBrowserModule/FileBrowser.tsx:387
+#: src/Components/Modules/FileBrowserModule/FileBrowser.tsx:388
 msgid "Create folder"
 msgstr "Create folder"
-
-#: src/Components/Modules/FileBrowserModule.tsx:451
-#~ msgid "Date uploaded"
-#~ msgstr "Date uploaded"
 
 #: src/Components/Modules/FilePreviewModal.tsx:169
 msgid "Decryption failed"
@@ -86,22 +78,6 @@ msgstr "Decryption failed"
 #: src/Components/Modules/FileBrowserModule/FileOrFolderView.tsx:146
 msgid "Delete"
 msgstr "Delete"
-
-#: src/Components/Modules/Settings/Profile.tsx:170
-#~ msgid "Delete Account"
-#~ msgstr "Delete Account"
-
-#: src/Components/Modules/Settings/Profile.tsx:169
-#~ msgid "Deleting you account is irreversible. You will lose all your data on files."
-#~ msgstr "Deleting you account is irreversible. You will lose all your data on files."
-
-#: src/Components/Modules/Settings/Profile.tsx:164
-#~ msgid "Deleting your account is irreversible. You will lose all your data on files."
-#~ msgstr "Deleting your account is irreversible. You will lose all your data on files."
-
-#: src/Components/Modules/Settings/Profile.tsx:161
-#~ msgid "Deletion"
-#~ msgstr "Deletion"
 
 #: src/Components/Modules/FileBrowserModule/FileOrFolderView.tsx:155
 #: src/Components/Modules/FilePreviewModal.tsx:261
@@ -113,11 +89,7 @@ msgstr "Download"
 msgid "Download complete"
 msgstr "Download complete"
 
-#: src/Contexts/DriveContext.tsx:238
-#~ msgid "Download is ready"
-#~ msgstr "Download is ready"
-
-#: src/Components/Modules/FileBrowserModule/FileBrowser.tsx:352
+#: src/Components/Modules/FileBrowserModule/FileBrowser.tsx:353
 msgid "Drop to upload files"
 msgstr "Drop to upload files"
 
@@ -165,15 +137,11 @@ msgstr "Home"
 msgid "Loading preview"
 msgstr "Loading preview"
 
-#: src/Components/Pages/LoginPage.tsx:191
-#~ msgid "Making secure cloud storage easier than ever."
-#~ msgstr "Making secure cloud storage easier than ever."
-
-#: src/Components/Modules/FileBrowserModule/FileBrowser.tsx:417
+#: src/Components/Modules/FileBrowserModule/FileBrowser.tsx:418
 msgid "Name"
 msgstr "Name"
 
-#: src/Components/Modules/FileBrowserModule/FileBrowser.tsx:369
+#: src/Components/Modules/FileBrowserModule/FileBrowser.tsx:370
 msgid "New folder"
 msgstr "New folder"
 
@@ -181,17 +149,13 @@ msgstr "New folder"
 msgid "Next"
 msgstr "Next"
 
-#: src/Components/Modules/FileBrowserModule/FileBrowser.tsx:407
+#: src/Components/Modules/FileBrowserModule/FileBrowser.tsx:408
 msgid "No files to show"
 msgstr "No files to show"
 
 #: src/Components/Modules/CreateFolderModule.tsx:106
 msgid "OK"
 msgstr "OK"
-
-#: src/Contexts/DriveContext.tsx:227
-#~ msgid "Preparing your download"
-#~ msgstr "Preparing your download"
 
 #: src/Components/Modules/PreviewRenderers/PDFPreview.tsx:58
 msgid "Previous"
@@ -239,13 +203,9 @@ msgstr "Sign Out"
 msgid "Sign in"
 msgstr "Sign in"
 
-#: src/Components/Modules/FileBrowserModule/FileBrowser.tsx:421
+#: src/Components/Modules/FileBrowserModule/FileBrowser.tsx:422
 msgid "Size"
 msgstr "Size"
-
-#: src/Components/Modules/UploadProgressModals/UploadBox.tsx:58
-#~ msgid "Something went wrong and we couldn't upload your file."
-#~ msgstr "Something went wrong and we couldn't upload your file."
 
 #: src/Contexts/DriveContext.tsx:160
 msgid "Something went wrong. We couldn't upload your file"
@@ -263,10 +223,6 @@ msgstr "There was an error creating this folder"
 msgid "There was an error deleting this"
 msgstr "There was an error deleting this"
 
-#: src/Contexts/DriveContext.tsx:246
-#~ msgid "There was an error downloading this file"
-#~ msgstr "There was an error downloading this file"
-
 #: src/Components/Modules/FilePreviewModal.tsx:176
 msgid "There was an error getting the preview."
 msgstr "There was an error getting the preview."
@@ -279,16 +235,12 @@ msgstr "There was an error moving this file"
 msgid "There was an error renaming this file"
 msgstr "There was an error renaming this file"
 
-#: src/Components/Layouts/AppNav.tsx:228
-#~ msgid "UPGRADE"
-#~ msgstr "UPGRADE"
-
 #: src/Components/Modules/FileBrowserModule/FileOrFolderView.tsx:262
 msgid "Update"
 msgstr "Update"
 
-#: src/Components/Modules/FileBrowserModule/FileBrowser.tsx:375
-#: src/Components/Modules/FileBrowserModule/FileBrowser.tsx:395
+#: src/Components/Modules/FileBrowserModule/FileBrowser.tsx:376
+#: src/Components/Modules/FileBrowserModule/FileBrowser.tsx:396
 #: src/Components/Modules/UploadFileModule.tsx:85
 msgid "Upload"
 msgstr "Upload"

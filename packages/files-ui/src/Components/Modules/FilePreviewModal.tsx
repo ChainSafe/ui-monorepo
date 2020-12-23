@@ -250,6 +250,19 @@ const FilePreviewModal: React.FC<{
     }
   })
 
+  const handleDownload = () => {
+    if (!file) return
+    if (fileContent) {
+      const link = document.createElement("a")
+      link.href = URL.createObjectURL(fileContent)
+      link.download = file.name
+      link.click()
+      URL.revokeObjectURL(link.href)
+    } else {
+      downloadFile(file.cid)
+    }
+  }
+
   return !file ? null : (
     <div className={classes.root}>
       <div className={classes.previewModalControls}>
@@ -314,7 +327,7 @@ const FilePreviewModal: React.FC<{
                   </span>
                 </Fragment>
               ),
-              onClick: () => downloadFile(file.cid),
+              onClick: handleDownload,
             },
           ]}
           indicator={MoreIcon}
