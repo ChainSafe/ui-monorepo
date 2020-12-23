@@ -52,7 +52,7 @@ const StrengthIndicator: React.FC<IStrengthIndicator> = ({
 }: IStrengthIndicator) => {
   const classes = useStyles()
 
-  const [field, meta, helpers] = useField(fieldName)
+  const [field] = useField(fieldName)
   const [score, setScore] = useState<number>(0)
   const [message, setMessage] = useState<string | undefined>()
 
