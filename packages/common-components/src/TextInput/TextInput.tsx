@@ -1,4 +1,4 @@
-import React from "react"
+import React, { ReactNode } from "react"
 import { makeStyles, createStyles } from "@chainsafe/common-theme"
 import { ITheme } from "@chainsafe/common-theme"
 import clsx from "clsx"
@@ -395,7 +395,7 @@ export interface ITextInputProps
   state?: InputState
   inputVariant?: "default" | "minimal"
   size?: "large" | "medium" | "small"
-  captionMessage?: string
+  captionMessage?: string | ReactNode
   onChange: (value: string | number | undefined) => void
   type?: "text" | "email" | "password" | "url" | "search"
   autoFocus?: boolean
