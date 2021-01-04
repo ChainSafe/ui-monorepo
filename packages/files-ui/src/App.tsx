@@ -4,8 +4,15 @@ import {
   ErrorBoundary,
   showReportDialog,
 } from "@sentry/react"
-import { ThemeSwitcher } from "@imploy/common-themes"
-import { CssBaseline, Router, ToasterProvider } from "@imploy/common-components"
+import { ThemeSwitcher } from "@chainsafe/common-theme"
+import {
+  Button,
+  CssBaseline,
+  Modal,
+  Router,
+  ToasterProvider,
+  Typography,
+} from "@chainsafe/common-components"
 import { Web3Provider } from "@chainsafe/web3-context"
 import {
   ImployApiProvider,
@@ -19,18 +26,18 @@ import { lightTheme } from "./Themes/LightTheme"
 import { darkTheme } from "./Themes/DarkTheme"
 import { useHotjar } from "react-use-hotjar"
 import { LanguageProvider } from "./Contexts/LanguageContext"
+import { testLocalStorage } from "./Utils/Helpers"
 
 if (
   process.env.NODE_ENV === "production" &&
-  process.env.REACT_APP_SENTRY_DSN_URL &&
-  process.env.REACT_APP_SENTRY_RELEASE
+  process.env.REACT_APP_SENTRY_DSN_URL
 ) {
   initSentry({
     dsn: process.env.REACT_APP_SENTRY_DSN_URL,
     release: process.env.REACT_APP_SENTRY_RELEASE,
+    environment: process.env.REACT_APP_SENTRY_ENV,
   })
 }
-
 const App: React.FC<{}> = () => {
   const { initHotjar } = useHotjar()
   const hotjarId = process.env.REACT_APP_HOTJAR_ID
@@ -45,42 +52,42 @@ const App: React.FC<{}> = () => {
   }, [hotjarId, initHotjar])
 
   return (
-    <ErrorBoundary
-      fallback={({ error, componentStack, eventId, resetError }) => (
-        <div>
-          <p>
-            An error occurred and has been logged. If you would like to provide
-            additional info to help us debug and resolve the issue, click the
-            "Provide Additional Details" button
-          </p>
-          <p>{error?.message.toString()}</p>
-          <p>{componentStack}</p>
-          <p>{eventId}</p>
-          <button onClick={() => showReportDialog({ eventId: eventId || "" })}>
-            Provide Additional Details
-          </button>
-          <button onClick={resetError}>Reset error</button>
-        </div>
-      )}
-      onReset={() => window.location.reload()}
-    >
-      <LanguageProvider availableLanguages={[{ id: "en", label: "English" }]}>
-        <ThemeSwitcher themes={{ light: lightTheme, dark: darkTheme }}>
+    <ThemeSwitcher themes={{ light: lightTheme, dark: darkTheme }}>
+      <ErrorBoundary
+        fallback={({ error, componentStack, eventId, resetError }) => (
+          <Modal active closePosition="none" setActive={resetError}>
+            <Typography>
+              An error occured and has been logged. If you would like to provide
+              additional info to help us debug and resolve the issue, click the
+              "Provide Additional Details" button
+            </Typography>
+            <Typography>{error?.message.toString()}</Typography>
+            <Typography>{componentStack}</Typography>
+            <Typography>{eventId}</Typography>
+            <Button
+              onClick={() => showReportDialog({ eventId: eventId || "" })}
+            >
+              Provide Additional Details
+            </Button>
+            <Button onClick={resetError}>Reset error</Button>
+          </Modal>
+        )}
+        onReset={() => window.location.reload()}
+      >
+        <LanguageProvider availableLanguages={[{ id: "en", label: "English" }]}>
           <CssBaseline />
           <ToasterProvider autoDismiss>
             <Web3Provider
-              networkIds={[1]}
               onboardConfig={{
                 walletSelect: {
                   wallets: [
                     { walletName: "coinbase" },
                     {
                       walletName: "trust",
-                      preferred: true,
                       rpcUrl:
                         "https://mainnet.infura.io/v3/a7e16429d2254d488d396710084e2cd3",
                     },
-                    { walletName: "metamask" },
+                    { walletName: "metamask", preferred: true },
                     { walletName: "dapper" },
                     { walletName: "opera" },
                     { walletName: "operaTouch" },
@@ -89,10 +96,13 @@ const App: React.FC<{}> = () => {
                     {
                       walletName: "walletConnect",
                       infuraKey: "a7e16429d2254d488d396710084e2cd3",
+                      preferred: true,
                     },
                   ],
                 },
               }}
+              checkNetwork={false}
+              cacheWalletSelection={testLocalStorage()}
             >
               <ImployApiProvider apiUrl={apiUrl}>
                 <UserProvider>
@@ -109,9 +119,9 @@ const App: React.FC<{}> = () => {
               </ImployApiProvider>
             </Web3Provider>
           </ToasterProvider>
-        </ThemeSwitcher>
-      </LanguageProvider>
-    </ErrorBoundary>
+        </LanguageProvider>
+      </ErrorBoundary>
+    </ThemeSwitcher>
   )
 }
 

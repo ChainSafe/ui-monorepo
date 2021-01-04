@@ -38,5 +38,6 @@ export default {
     "@material-ui/styles",
     "formik",
     "react-toast-notifications",
+    "@chainsafe/common-theme",
   ],
 }

@@ -1,4 +1,4 @@
-import { ITheme } from "@imploy/common-themes"
+import { ITheme } from "@chainsafe/common-theme"
 import {
   AlignItems,
   JustifyContent,
@@ -111,17 +111,6 @@ export const createGridStyles = ({
   }
 
   const gridBreakpoints = breakpoints.keys
-  const smallestBreakpoint = gridBreakpoints.shift()
-
-  // for xs
-  gridSizeOptions.forEach((gridSize) => {
-    const widthPercent = `${Math.round((gridSize / 12) * 10e7) / 10e5}%`
-
-    styles[`grid-${smallestBreakpoint}-${gridSize}`] = {
-      flex: `0 0 ${widthPercent}`,
-      maxWidth: `${widthPercent}`,
-    }
-  })
 
   gridBreakpoints.forEach((breakpointKey) => {
     const gridLevelStyles = {}

@@ -5,7 +5,7 @@ import {
   createStyles,
   useTheme,
   useMediaQuery,
-} from "@imploy/common-themes"
+} from "@chainsafe/common-theme"
 import {
   ArrowLeftIcon,
   Button,
@@ -15,7 +15,7 @@ import {
   SelectInput,
   TextInput,
   Typography,
-} from "@imploy/common-components"
+} from "@chainsafe/common-components"
 import { ROUTE_LINKS } from "../../../FilesRoutes"
 import { Form, Formik } from "formik"
 import { useBilling, useUser } from "@imploy/common-contexts"
@@ -170,7 +170,7 @@ const PurchasePlan: React.FC = () => {
     name: yup.string().required("Name is required"),
     email: yup.string().email("Email is invalid").required("Email is required"),
     country: yup.string().when(["zipCode"], {
-      is: (zipCode) => !zipCode,
+      is: (zipCode: string | undefined | null) => !zipCode,
       then: yup.string().required("Country or zip code is required"),
     }),
     zipCode: yup.string(),

@@ -5,14 +5,14 @@ import {
   useMediaQuery,
   useOnClickOutside,
   useTheme,
-} from "@imploy/common-themes"
+} from "@chainsafe/common-theme"
 import React, { ChangeEvent, useRef } from "react"
 import {
-  SearchBar,
   ArrowLeftIcon,
   Button,
+  SearchBar,
   Typography,
-} from "@imploy/common-components"
+} from "@chainsafe/common-components"
 import { useState } from "react"
 import clsx from "clsx"
 
@@ -101,6 +101,10 @@ const useStyles = makeStyles(
           height: "auto",
           [breakpoints.down("md")]: {
             height: `calc(100vh - ${constants.mobileHeaderHeight}px)`,
+            "& input": {
+              opacity: 1,
+              width: `calc(100vw - 45px)`,
+            },
           },
         },
       },

@@ -4,8 +4,8 @@ import {
   ErrorBoundary,
   showReportDialog,
 } from "@sentry/react"
-import { ThemeSwitcher } from "@imploy/common-themes"
-import { CssBaseline, Router } from "@imploy/common-components"
+import { ThemeSwitcher } from "@chainsafe/common-theme"
+import { CssBaseline, Router } from "@chainsafe/common-components"
 import AppWrapper from "./Components/Layouts/AppWrapper"
 import { lightTheme } from "./Themes/LightTheme"
 import { darkTheme } from "./Themes/DarkTheme"

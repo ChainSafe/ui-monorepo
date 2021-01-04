@@ -5,7 +5,7 @@ import {
   createGridStyles,
   createSpacingStyles,
 } from "./Styles"
-import { ITheme, makeStyles, createStyles } from "@imploy/common-themes"
+import { ITheme, makeStyles, createStyles } from "@chainsafe/common-theme"
 import {
   AlignItems,
   JustifyContent,

@@ -1,4 +1,4 @@
-import React, { Fragment, useCallback, useEffect, useRef } from "react"
+import React, { Fragment, useEffect, useRef } from "react"
 import { useState } from "react"
 import {
   createStyles,
@@ -6,10 +6,10 @@ import {
   makeStyles,
   useMediaQuery,
   useTheme,
-} from "@imploy/common-themes"
+} from "@chainsafe/common-theme"
 import { IFile, useDrive } from "../../Contexts/DriveContext"
 import MimeMatcher from "mime-matcher"
-import axios, { CancelToken, CancelTokenSource } from "axios"
+import axios, { CancelTokenSource } from "axios"
 import {
   Button,
   Grid,
@@ -17,7 +17,7 @@ import {
   ArrowRightIcon,
   Typography,
   MenuDropdown,
-  DownloadIcon,
+  DownloadSvg,
   MoreIcon,
   CloseCircleIcon,
   ProgressBar,
@@ -25,14 +25,14 @@ import {
   // DeleteIcon,
   // EditIcon,
   // ShareAltIcon,
-} from "@imploy/common-components"
+} from "@chainsafe/common-components"
 import ImagePreview from "./PreviewRenderers/ImagePreview"
 import { useSwipeable } from "react-swipeable"
 import PdfPreview from "./PreviewRenderers/PDFPreview"
 import VideoPreview from "./PreviewRenderers/VideoPreview"
 import AudioPreview from "./PreviewRenderers/AudioPreview"
 import { useHotkeys } from "react-hotkeys-hook"
-import { Trans } from "@lingui/macro"
+import { t, Trans } from "@lingui/macro"
 
 export interface IPreviewRendererProps {
   contents: Blob
@@ -57,7 +57,7 @@ const useStyles = makeStyles(
         height: "100%",
         width: "100%",
         position: "fixed",
-        zIndex: 1,
+        zIndex: zIndex?.layer2,
         left: 0,
         top: 0,
         backgroundColor: "rgba(0,0,0, 0.88)",
@@ -65,7 +65,7 @@ const useStyles = makeStyles(
       },
       previewModalControls: {
         position: "absolute",
-        zIndex: zIndex?.layer1,
+        zIndex: zIndex?.layer3,
         display: "flex",
         flexDirection: "row",
         alignItems: "center",
@@ -94,6 +94,7 @@ const useStyles = makeStyles(
         whiteSpace: "nowrap",
         overflow: "hidden",
         textOverflow: "ellipsis",
+        color: palette.additional["gray"][1],
       },
       menuIcon: {
         display: "flex",
@@ -122,6 +123,9 @@ const useStyles = makeStyles(
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
+        "& h2": {
+          margin: `${constants.generalUnit}px 0`,
+        },
       },
       downloadButton: {
         backgroundColor: "rgba(0,0,0, 0.88)",
@@ -185,15 +189,19 @@ const FilePreviewModal: React.FC<{
       setIsLoading(true)
       setError(undefined)
       try {
-        const content = await getFileContent(file.name, token, (evt) => {
+        const content = await getFileContent(file.cid, token, (evt) => {
           setLoadingProgress((evt.loaded / file.size) * 100)
         })
-        setFileContent(content)
+        if (content) {
+          setFileContent(content)
+        } else {
+          setError(t`Decryption failed`)
+        }
         source.current = null
         setLoadingProgress(0)
       } catch (error) {
         if (error) {
-          setError("There was an error getting the preview.")
+          setError(t`There was an error getting the preview.`)
         }
       }
       setIsLoading(false)
@@ -206,6 +214,7 @@ const FilePreviewModal: React.FC<{
     return () => {
       source.current && source.current.cancel("Cancelled by user")
     }
+    // eslint-disable-next-line
   }, [file, getFileContent])
 
   const validRendererMimeType =
@@ -240,6 +249,19 @@ const FilePreviewModal: React.FC<{
       nextFile()
     }
   })
+
+  const handleDownload = () => {
+    if (!file) return
+    if (fileContent) {
+      const link = document.createElement("a")
+      link.href = URL.createObjectURL(fileContent)
+      link.download = file.name
+      link.click()
+      URL.revokeObjectURL(link.href)
+    } else {
+      downloadFile(file.cid)
+    }
+  }
 
   return !file ? null : (
     <div className={classes.root}>
@@ -299,13 +321,13 @@ const FilePreviewModal: React.FC<{
             {
               contents: (
                 <Fragment>
-                  <DownloadIcon className={classes.menuIcon} />
+                  <DownloadSvg className={classes.menuIcon} />
                   <span>
                     <Trans>Download</Trans>
                   </span>
                 </Fragment>
               ),
-              onClick: () => downloadFile(file.name),
+              onClick: handleDownload,
             },
           ]}
           indicator={MoreIcon}
@@ -326,7 +348,7 @@ const FilePreviewModal: React.FC<{
             )}
           </Grid>
         )}
-        <Grid item xs={12} sm={10} md={10} lg={10} xl={10} alignItems="center">
+        <Grid item xs={12} sm={12} md={10} lg={10} xl={10} alignItems="center">
           <div {...handlers} className={classes.swipeContainer}>
             {isLoading && (
               <div className={classes.previewContent}>
@@ -339,7 +361,14 @@ const FilePreviewModal: React.FC<{
                 />
               </div>
             )}
-            {error && <div>{error}</div>}
+            {error && (
+              <div className={classes.previewContent}>
+                <CloseCircleIcon fontSize={desktop ? "extraLarge" : "medium"} />
+                <Typography component="h2" variant="h1">
+                  {error}
+                </Typography>
+              </div>
+            )}
             {!isLoading &&
               !error &&
               !compatibleFilesMatcher.match(file?.content_type) && (
@@ -354,7 +383,7 @@ const FilePreviewModal: React.FC<{
                   <br />
                   <Button
                     className={classes.downloadButton}
-                    onClick={() => downloadFile(file.name)}
+                    onClick={() => downloadFile(file.cid)}
                   >
                     <Trans>Download</Trans>
                   </Button>
@@ -368,7 +397,7 @@ const FilePreviewModal: React.FC<{
           </div>
         </Grid>
         {desktop && (
-          <Grid item sm={1} md={1} lg={1} xl={1} className={classes.prevNext}>
+          <Grid item md={1} lg={1} xl={1} className={classes.prevNext}>
             {nextFile && (
               <Button onClick={nextFile} className={classes.prevNextButton}>
                 <ArrowRightIcon />

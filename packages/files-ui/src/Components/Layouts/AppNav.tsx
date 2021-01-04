@@ -6,7 +6,7 @@ import {
   makeStyles,
   useMediaQuery,
   useTheme,
-} from "@imploy/common-themes"
+} from "@chainsafe/common-theme"
 import React, { Fragment, useCallback } from "react"
 import clsx from "clsx"
 import {
@@ -19,7 +19,7 @@ import {
   ProgressBar,
   Button,
   formatBytes,
-} from "@imploy/common-components"
+} from "@chainsafe/common-components"
 import { ROUTE_LINKS } from "../FilesRoutes"
 import { FREE_PLAN_LIMIT } from "../../Utils/Constants"
 import { Trans } from "@lingui/macro"
@@ -142,6 +142,9 @@ const useStyles = makeStyles(
           "&.active": {},
         },
       },
+      navHead: {
+        fontWeight: 600,
+      },
       navItem: {
         textDecoration: "none",
         display: "flex",
@@ -152,13 +155,19 @@ const useStyles = makeStyles(
         "& svg": {
           width: constants.svgWidth,
           marginRight: constants.generalUnit * 2,
+          fill: palette.additional["gray"][8],
           [breakpoints.down("md")]: {
             fill: palette.additional["gray"][3],
           },
         },
         [breakpoints.down("md")]: {
-          color: palette.additional["gray"][3],
+          color: `${palette.additional["gray"][3]} !important`,
           minWidth: constants.mobileNavWidth,
+        },
+      },
+      navItemText: {
+        [breakpoints.down("md")]: {
+          color: palette.additional["gray"][3],
         },
       },
       menuItem: {
@@ -175,6 +184,9 @@ const useStyles = makeStyles(
       spaceUsedMargin: {
         marginBottom: constants.generalUnit,
       },
+      betaCaption: {
+        marginBottom: constants.generalUnit * 0.5,
+      },
     })
   },
 )
@@ -190,7 +202,8 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
   const desktop = useMediaQuery(breakpoints.up("md"))
   const { spaceUsed } = useDrive()
 
-  const { isLoggedIn, logout } = useImployApi()
+  const { isLoggedIn, logout, secured } = useImployApi()
+  const { isMasterPasswordSet } = useDrive()
   const { removeUser } = useUser()
 
   const signOut = useCallback(() => {
@@ -204,13 +217,19 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
     }
   }, [desktop, navOpen, setNavOpen])
 
+  const collectFeedback = () => {
+    window.open("https://forms.gle/FefqZRD3fDVYyarC8", "_blank")
+  }
+
   return (
     <section
       className={clsx(classes.root, {
-        active: desktop ? isLoggedIn : navOpen,
+        active: desktop
+          ? isLoggedIn && secured && !!isMasterPasswordSet
+          : navOpen,
       })}
     >
-      {isLoggedIn && (
+      {isLoggedIn && secured && !!isMasterPasswordSet && (
         <Fragment>
           {desktop && (
             <div>
@@ -219,22 +238,28 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
                 <Typography variant="h5">
                   <Trans>Files</Trans>
                 </Typography>
+                &nbsp;
+                <Typography variant="caption" className={classes.betaCaption}>
+                  <Trans>beta</Trans>
+                </Typography>
               </Link>
             </div>
           )}
           <div className={classes.linksArea}>
-            <Typography>
+            <Typography className={classes.navHead}>
               <Trans>Folders</Trans>
             </Typography>
             <nav className={classes.navMenu}>
               <Link onClick={handleOnClick} className={classes.navItem} to="">
                 <DatabaseSvg />
-                <Typography variant="h5">
-                  <Trans>All</Trans>
+                <Typography variant="h5" className={classes.navItemText}>
+                  <Trans>Home</Trans>
                 </Typography>
               </Link>
             </nav>
-            <Typography>{desktop ? "Resources" : "Account"}</Typography>
+            <Typography className={classes.navHead}>
+              {desktop ? <Trans>Resources</Trans> : <Trans>Account</Trans>}
+            </Typography>
             <nav className={classes.navMenu}>
               <Link
                 onClick={handleOnClick}
@@ -242,7 +267,7 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
                 to={ROUTE_LINKS.Settings}
               >
                 <SettingSvg />
-                <Typography variant="h5">
+                <Typography variant="h5" className={classes.navItemText}>
                   <Trans>Settings</Trans>
                 </Typography>
               </Link>
@@ -263,8 +288,15 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
                   progress={(spaceUsed / FREE_PLAN_LIMIT) * 100}
                   size="small"
                 />
-                <Button disabled variant="outline" size="small">
+                {/* <Button disabled variant="outline" size="small">
                   <Trans>UPGRADE</Trans>
+                </Button> */}
+                <Button
+                  variant="outline"
+                  size="small"
+                  onClick={() => collectFeedback()}
+                >
+                  <Trans>Send Feedback</Trans>
                 </Button>
               </div>
             )}

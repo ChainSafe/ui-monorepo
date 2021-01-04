@@ -1,20 +1,13 @@
-import {
-  Button,
-  FileInput,
-  IButtonProps,
-  UploadIcon,
-} from "@imploy/common-components"
+import { Button, FileInput } from "@chainsafe/common-components"
 import { useDrive } from "../../Contexts/DriveContext"
-import { createStyles, ITheme, makeStyles } from "@imploy/common-themes"
+import { createStyles, ITheme, makeStyles } from "@chainsafe/common-theme"
 import React from "react"
-import { useState } from "react"
 import { Formik, Form } from "formik"
-import clsx from "clsx"
 import { array, object } from "yup"
 import CustomModal from "../Elements/CustomModal"
 import { Trans } from "@lingui/macro"
 
-const useStyles = makeStyles(({ constants, palette }: ITheme) =>
+const useStyles = makeStyles(({ constants, palette, breakpoints }: ITheme) =>
   createStyles({
     root: {
       padding: constants.generalUnit * 4,
@@ -23,6 +16,11 @@ const useStyles = makeStyles(({ constants, palette }: ITheme) =>
         flexDirection: "row",
         justifyContent: "flex-end",
         alignItems: "center",
+      },
+    },
+    modalInner: {
+      [breakpoints.down("md")]: {
+        maxWidth: `${breakpoints.width("md")}px !important`,
       },
     },
     input: {
@@ -42,21 +40,17 @@ const useStyles = makeStyles(({ constants, palette }: ITheme) =>
   }),
 )
 
-interface IUploadFileModuleProps extends IButtonProps {
-  classNames?: {
-    button?: string
-  }
+interface IUploadFileModuleProps {
+  modalOpen: boolean
+  close: () => void
 }
 
 const UploadFileModule: React.FC<IUploadFileModuleProps> = ({
-  classNames,
-  ...rest
+  modalOpen,
+  close,
 }: IUploadFileModuleProps) => {
   const classes = useStyles()
   const { uploadFiles, currentPath } = useDrive()
-  const [open, setOpen] = useState(false)
-
-  const handleCloseDialog = () => setOpen(false)
 
   const UploadSchema = object().shape({
     files: array()
@@ -65,64 +59,60 @@ const UploadFileModule: React.FC<IUploadFileModuleProps> = ({
   })
 
   return (
-    <>
-      <Button
-        onClick={() => setOpen(true)}
-        variant="outline"
-        size="large"
-        className={clsx(classes.cta, classNames?.button)}
-        {...rest}
-      >
-        <UploadIcon />
-        <Trans>Upload</Trans>
-      </Button>
-      <CustomModal active={open} closePosition="none" maxWidth="sm">
-        <Formik
-          initialValues={{
-            files: [],
-          }}
-          validationSchema={UploadSchema}
-          onSubmit={async (values, helpers) => {
-            helpers.setSubmitting(true)
-            try {
-              uploadFiles(values.files, currentPath)
-              helpers.resetForm()
-              handleCloseDialog()
-            } catch (errors) {
-              if (errors[0].message.includes("conflict with existing")) {
-                helpers.setFieldError("files", "File/Folder exists")
-              } else {
-                helpers.setFieldError("files", errors[0].message)
-              }
+    <CustomModal
+      active={modalOpen}
+      closePosition="none"
+      maxWidth="sm"
+      injectedClass={{
+        inner: classes.modalInner,
+      }}
+    >
+      <Formik
+        initialValues={{
+          files: [],
+        }}
+        validationSchema={UploadSchema}
+        onSubmit={async (values, helpers) => {
+          helpers.setSubmitting(true)
+          try {
+            uploadFiles(values.files, currentPath)
+            helpers.resetForm()
+            close()
+          } catch (errors) {
+            if (errors[0].message.includes("conflict with existing")) {
+              helpers.setFieldError("files", "File/Folder exists")
+            } else {
+              helpers.setFieldError("files", errors[0].message)
             }
-            helpers.setSubmitting(false)
-          }}
-        >
-          <Form className={classes.root}>
-            <FileInput
-              multiple={true}
-              className={classes.input}
-              label="Upload Files and Folders"
-              name="files"
-            />
-            <footer>
-              <Button
-                onClick={handleCloseDialog}
-                size="medium"
-                className={classes.cancelButton}
-                variant="outline"
-                type="button"
-              >
-                <Trans>Cancel</Trans>
-              </Button>
-              <Button size="medium" type="submit" className={classes.okButton}>
-                <Trans>Upload</Trans>
-              </Button>
-            </footer>
-          </Form>
-        </Formik>
-      </CustomModal>
-    </>
+          }
+          helpers.setSubmitting(false)
+        }}
+      >
+        <Form className={classes.root}>
+          <FileInput
+            multiple={true}
+            className={classes.input}
+            label="Upload Files and Folders"
+            maxSize={2 * 1024 ** 3}
+            name="files"
+          />
+          <footer>
+            <Button
+              onClick={() => close()}
+              size="medium"
+              className={classes.cancelButton}
+              variant="outline"
+              type="reset"
+            >
+              <Trans>Cancel</Trans>
+            </Button>
+            <Button size="medium" type="submit" className={classes.okButton}>
+              <Trans>Upload</Trans>
+            </Button>
+          </footer>
+        </Form>
+      </Formik>
+    </CustomModal>
   )
 }
 

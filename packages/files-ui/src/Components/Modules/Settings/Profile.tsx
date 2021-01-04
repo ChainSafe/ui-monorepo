@@ -5,17 +5,18 @@ import {
   Grid,
   Button,
   Typography,
-} from "@imploy/common-components"
+} from "@chainsafe/common-components"
 import {
   makeStyles,
   ITheme,
   createStyles,
   debounce,
-} from "@imploy/common-themes"
-import { LockIcon, CopyIcon } from "@imploy/common-components"
+} from "@chainsafe/common-theme"
+import { LockIcon, CopyIcon } from "@chainsafe/common-components"
 import { Formik, Form } from "formik"
 import { Profile } from "@imploy/common-contexts"
 import { Trans } from "@lingui/macro"
+import { centerEllipsis } from "../../../Utils/Helpers"
 
 const useStyles = makeStyles((theme: ITheme) =>
   createStyles({
@@ -129,14 +130,10 @@ const ProfileView: React.FC<IProfileProps> = (props) => {
     }
   }
 
-  const profileWeb2Validation = yup.object().shape({
+  const profileValidation = yup.object().shape({
     email: yup.string().email("Email is invalid").required("Email is required"),
-    firstName: yup.string().required("First name is required"),
-    lastName: yup.string().required("Last name is required"),
-  })
-
-  const profileWeb3Validation = yup.object().shape({
-    email: yup.string().email("Email is invalid").required("Email is required"),
+    firstName: yup.string(),
+    lastName: yup.string(),
   })
 
   return (
@@ -158,11 +155,8 @@ const ProfileView: React.FC<IProfileProps> = (props) => {
                     values.email || "",
                   )
                 }}
-                validationSchema={
-                  profile.publicAddress
-                    ? profileWeb3Validation
-                    : profileWeb2Validation
-                }
+                validationSchema={profileValidation}
+                validateOnChange={false}
               >
                 <Form>
                   {profile.publicAddress ? (
@@ -183,43 +177,41 @@ const ProfileView: React.FC<IProfileProps> = (props) => {
                           component="p"
                           className={classes.publicAddress}
                         >
-                          {profile.publicAddress}
+                          {centerEllipsis(profile.publicAddress, 16)}
                         </Typography>
                         <CopyIcon className={classes.copyIcon} />
                       </div>
                     </div>
-                  ) : (
-                    <>
-                      <div className={classes.boxContainer}>
-                        <FormikTextInput
-                          placeholder="first name"
-                          name="firstName"
-                          size="medium"
-                          className={classes.input}
-                          labelClassName={classes.label}
-                          label="First name"
-                        />
-                      </div>
-                      <div className={classes.boxContainer}>
-                        <FormikTextInput
-                          placeholder="last name"
-                          name="lastName"
-                          size="medium"
-                          className={classes.input}
-                          labelClassName={classes.label}
-                          label="Last name"
-                        />
-                      </div>
-                    </>
-                  )}
+                  ) : null}
                   <div className={classes.boxContainer}>
                     <FormikTextInput
-                      placeholder="email"
+                      placeholder="First name"
+                      name="firstName"
+                      size="medium"
+                      className={classes.input}
+                      labelClassName={classes.label}
+                      label="First name"
+                    />
+                  </div>
+                  <div className={classes.boxContainer}>
+                    <FormikTextInput
+                      placeholder="Last name"
+                      name="lastName"
+                      size="medium"
+                      className={classes.input}
+                      labelClassName={classes.label}
+                      label="Last name"
+                    />
+                  </div>
+                  <div className={classes.boxContainer}>
+                    <FormikTextInput
+                      placeholder="Email"
                       name="email"
                       size="medium"
                       className={classes.input}
                       labelClassName={classes.label}
                       label="Email"
+                      disabled={!profile.publicAddress}
                     />
                   </div>
 
@@ -239,7 +231,7 @@ const ProfileView: React.FC<IProfileProps> = (props) => {
               </Formik>
             </div>
           </div>
-          <div id="deletion" className={classes.bodyContainer}>
+          {/* <div id="deletion" className={classes.bodyContainer}>
             <div className={classes.deletionBox}>
               <Typography
                 variant="h4"
@@ -254,7 +246,7 @@ const ProfileView: React.FC<IProfileProps> = (props) => {
                 className={classes.deletionMargins}
               >
                 <Trans>
-                  Deleting you account is irreversible. You will lose all your
+                  Deleting your account is irreversible. You will lose all your
                   data on files.
                 </Trans>
               </Typography>
@@ -266,7 +258,7 @@ const ProfileView: React.FC<IProfileProps> = (props) => {
                 <Trans>Delete Account</Trans>
               </Button>
             </div>
-          </div>
+          </div> */}
         </div>
       </Grid>
     </Grid>

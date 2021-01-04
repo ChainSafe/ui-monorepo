@@ -3,9 +3,11 @@ import { DefaultPalette } from "./ColorPalette"
 import { fade } from "../utils/colorManipulator"
 import { createBreakpoints } from "../Create/CreateBreakpoints"
 
-const defaultFontFamilyStack = {
-  fontFamily: `-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen','Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',sans-serif`,
+export const defaultFontFamilyStack = {
+  fontFamily: `'Archivo', sans-serif`,
 }
+
+const defaultFontStyles = {}
 
 const defaultFontWeights: IFontWeights = {
   light: 300,
@@ -94,59 +96,59 @@ const DefaultThemeConfig: IThemeConfig = {
   },
   typography: {
     global: {
-      ...defaultFontFamilyStack,
+      ...defaultFontStyles,
     },
     fontWeight: defaultFontWeights,
     h1: {
-      ...defaultFontFamilyStack,
+      ...defaultFontStyles,
       fontWeight: defaultFontWeights.semibold,
       fontSize: 38,
       lineHeight: `46px`,
     },
     h2: {
-      ...defaultFontFamilyStack,
+      ...defaultFontStyles,
       fontWeight: defaultFontWeights.semibold,
       fontSize: 30,
       lineHeight: `38px`,
     },
     h3: {
-      ...defaultFontFamilyStack,
+      ...defaultFontStyles,
       fontWeight: defaultFontWeights.regular,
       fontSize: 24,
       lineHeight: `32px`,
     },
     h4: {
-      ...defaultFontFamilyStack,
+      ...defaultFontStyles,
       fontWeight: defaultFontWeights.regular,
       fontSize: 20,
       lineHeight: `28px`,
     },
     h5: {
-      ...defaultFontFamilyStack,
+      ...defaultFontStyles,
       fontWeight: defaultFontWeights.regular,
       fontSize: 16,
       lineHeight: `24px`,
     },
     h6: {
-      ...defaultFontFamilyStack,
+      ...defaultFontStyles,
       fontWeight: defaultFontWeights.regular,
       fontSize: 30,
       lineHeight: `46px`,
     },
     subtitle1: {
-      ...defaultFontFamilyStack,
+      ...defaultFontStyles,
       fontWeight: defaultFontWeights.regular,
       fontSize: 24,
       lineHeight: `32px`,
     },
     subtitle2: {
-      ...defaultFontFamilyStack,
+      ...defaultFontStyles,
       fontWeight: defaultFontWeights.regular,
       fontSize: 24,
       lineHeight: `32px`,
     },
     body1: {
-      ...defaultFontFamilyStack,
+      ...defaultFontStyles,
       fontWeight: defaultFontWeights.regular,
       fontSize: 14,
       lineHeight: `22px`,
@@ -156,7 +158,7 @@ const DefaultThemeConfig: IThemeConfig = {
       },
     },
     body2: {
-      ...defaultFontFamilyStack,
+      ...defaultFontStyles,
       fontWeight: defaultFontWeights.regular,
       fontSize: 12,
       lineHeight: `20px`,
@@ -166,13 +168,13 @@ const DefaultThemeConfig: IThemeConfig = {
       },
     },
     button: {
-      ...defaultFontFamilyStack,
+      ...defaultFontStyles,
       fontWeight: defaultFontWeights.regular,
       fontSize: 14,
       lineHeight: `22px`,
     },
     caption: {
-      ...defaultFontFamilyStack,
+      ...defaultFontStyles,
       fontWeight: defaultFontWeights.regular,
       fontSize: 12,
       lineHeight: `20px`,

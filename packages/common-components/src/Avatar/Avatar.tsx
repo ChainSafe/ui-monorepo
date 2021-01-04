@@ -1,6 +1,6 @@
 import React, { ReactNode } from "react"
 import clsx from "clsx"
-import { ITheme, makeStyles, createStyles } from "@imploy/common-themes"
+import { ITheme, makeStyles, createStyles } from "@chainsafe/common-theme"
 
 const useStyles = makeStyles(({ palette, overrides }: ITheme) =>
   createStyles({

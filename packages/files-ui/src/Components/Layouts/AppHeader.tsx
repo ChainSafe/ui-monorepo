@@ -1,3 +1,4 @@
+import React, { Fragment, useCallback, useState } from "react"
 import { useImployApi, useUser } from "@imploy/common-contexts"
 import {
   createStyles,
@@ -5,8 +6,7 @@ import {
   makeStyles,
   useMediaQuery,
   useTheme,
-} from "@imploy/common-themes"
-import React, { Fragment, useCallback, useState } from "react"
+} from "@chainsafe/common-theme"
 import clsx from "clsx"
 import {
   Link,
@@ -15,10 +15,11 @@ import {
   HamburgerMenu,
   MenuDropdown,
   PowerDownSvg,
-} from "@imploy/common-components"
+} from "@chainsafe/common-components"
 import { ROUTE_LINKS } from "../FilesRoutes"
 import SearchModule from "../Modules/SearchModule"
 import { Trans } from "@lingui/macro"
+import { useDrive } from "../../Contexts/DriveContext"
 
 const useStyles = makeStyles(
   ({ palette, animation, breakpoints, constants, zIndex }: ITheme) => {
@@ -48,6 +49,7 @@ const useStyles = makeStyles(
             padding: `${constants.headerTopPadding}px ${
               constants.contentPadding
             }px ${0}px ${constants.contentPadding}px`,
+            zIndex: zIndex?.layer1,
           },
         },
         [breakpoints.down("md")]: {
@@ -61,6 +63,7 @@ const useStyles = makeStyles(
             opacity: 1,
             visibility: "visible",
             height: constants.mobileHeaderHeight,
+            zIndex: zIndex?.layer1,
           },
         },
       },
@@ -110,10 +113,12 @@ const useStyles = makeStyles(
         display: "flex",
         flexDirection: "row",
         alignItems: "center",
+        color: palette.additional["gray"][8],
         "& svg": {
           width: constants.generalUnit * 2,
           height: constants.generalUnit * 2,
           marginRight: constants.generalUnit,
+          fill: palette.additional["gray"][7],
         },
       },
       searchModule: {
@@ -143,7 +148,8 @@ const AppHeader: React.FC<IAppHeader> = ({
   const { breakpoints }: ITheme = useTheme()
   const desktop = useMediaQuery(breakpoints.up("md"))
 
-  const { isLoggedIn, logout } = useImployApi()
+  const { isLoggedIn, logout, secured } = useImployApi()
+  const { isMasterPasswordSet } = useDrive()
   const { getProfileTitle, removeUser } = useUser()
 
   const signOut = useCallback(() => {
@@ -156,10 +162,10 @@ const AppHeader: React.FC<IAppHeader> = ({
   return (
     <header
       className={clsx(classes.root, {
-        active: isLoggedIn,
+        active: isLoggedIn && secured && !!isMasterPasswordSet,
       })}
     >
-      {isLoggedIn && (
+      {isLoggedIn && secured && !!isMasterPasswordSet && (
         <Fragment>
           {desktop ? (
             <Fragment>
@@ -209,6 +215,12 @@ const AppHeader: React.FC<IAppHeader> = ({
                 searchActive={searchActive}
                 setSearchActive={setSearchActive}
               />
+              <Link className={classes.logo} to={ROUTE_LINKS.Home}>
+                <ChainsafeFilesLogo />
+                &nbsp;
+                <Typography variant="caption">beta</Typography>
+              </Link>
+              {/* <SearchModule className={classes.searchModule} /> */}
             </Fragment>
           )}
         </Fragment>

@@ -1,16 +1,6 @@
 import React, { useEffect, useState } from "react"
 import { IPreviewRendererProps } from "../FilePreviewModal"
-import { makeStyles, ITheme, createStyles } from "@imploy/common-themes"
-import {} from "@imploy/common-components"
-
-const useStyles = makeStyles(({ constants, palette, zIndex }: ITheme) =>
-  createStyles({
-    root: {
-      width: "100%",
-      height: "100%",
-    },
-  }),
-)
+// import { makeStyles, ITheme, createStyles } from "@chainsafe/common-theme"
 
 const AudioPreview: React.FC<IPreviewRendererProps> = ({ contents }) => {
   const [audioUrl, setAudioUrl] = useState<string | undefined>()
@@ -21,6 +11,7 @@ const AudioPreview: React.FC<IPreviewRendererProps> = ({ contents }) => {
     return () => {
       audioUrl && URL.revokeObjectURL(audioUrl)
     }
+    // eslint-disable-next-line
   }, [contents])
 
   return <audio controls src={audioUrl} autoPlay></audio>

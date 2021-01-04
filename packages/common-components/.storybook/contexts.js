@@ -1,4 +1,4 @@
-import { createTheme, ThemeProvider } from "@imploy/common-themes"
+import { createTheme, ThemeProvider } from "@chainsafe/common-theme"
 
 const lightTheme = createTheme()
 const darkTheme = createTheme()

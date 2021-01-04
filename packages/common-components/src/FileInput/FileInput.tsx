@@ -2,10 +2,11 @@ import React, { useCallback, useState, useEffect, ReactNode } from "react"
 import { useField } from "formik"
 import { useDropzone, DropzoneOptions, FileRejection } from "react-dropzone"
 import clsx from "clsx"
-import { ITheme, makeStyles, createStyles } from "@imploy/common-themes"
+import { ITheme, makeStyles, createStyles } from "@chainsafe/common-theme"
 import { Button } from "../Button"
 import { Typography } from "../Typography"
-import { PaperclipIcon, PlusIcon } from "../Icons"
+import { PaperclipIcon, PlusIcon, CrossOutlinedIcon } from "../Icons"
+import { ScrollbarWrapper } from "../ScrollbarWrapper"
 
 const useStyles = makeStyles(({ constants, palette, overrides }: ITheme) =>
   createStyles({
@@ -60,6 +61,12 @@ const useStyles = makeStyles(({ constants, palette, overrides }: ITheme) =>
       },
       ...overrides?.FileInput?.item,
     },
+    itemText: {
+      flex: "1 1 0",
+    },
+    scrollbar: {
+      maxHeight: "80vh",
+    },
   }),
 )
 
@@ -70,6 +77,7 @@ interface IFileInputProps extends DropzoneOptions {
   label?: string
   showPreviews?: boolean
   pending?: ReactNode | ReactNode[]
+  maxFileSize?: number
   classNames?: {
     pending?: string
     filelist?: string
@@ -84,6 +92,7 @@ const FileInput: React.FC<IFileInputProps> = ({
   name,
   label,
   pending,
+  maxFileSize,
   classNames,
   ...props
 }: IFileInputProps) => {
@@ -94,18 +103,20 @@ const FileInput: React.FC<IFileInputProps> = ({
 
   const onDrop = useCallback(
     async (acceptedFiles: File[], fileRejections: FileRejection[]) => {
+      const filtered = acceptedFiles.filter((file) =>
+        maxFileSize ? file.size <= maxFileSize : true,
+      )
       setErrors([])
       if (showPreviews) {
         setPreviews(
-          acceptedFiles.map((file: any) =>
+          filtered.map((file: any) =>
             Object.assign(file, {
               preview: URL.createObjectURL(file),
             }),
           ),
         )
       }
-
-      helpers.setValue(acceptedFiles)
+      helpers.setValue([...value.value, ...filtered])
 
       if (fileRejections.length > 0) {
         const fileDropRejectionErrors = fileRejections.map((fr) =>
@@ -114,7 +125,7 @@ const FileInput: React.FC<IFileInputProps> = ({
         setErrors(errors.concat(fileDropRejectionErrors))
       }
     },
-    [],
+    [value],
   )
 
   useEffect(() => {
@@ -134,6 +145,12 @@ const FileInput: React.FC<IFileInputProps> = ({
     ...dropZoneProps,
   })
 
+  const removeItem = (i: number) => {
+    const items = value.value as any[]
+    items.splice(i, 1)
+    helpers.setValue(items)
+  }
+
   return (
     <div {...getRootProps()} className={clsx(classes.root, className)}>
       <input {...getInputProps()} />
@@ -145,19 +162,37 @@ const FileInput: React.FC<IFileInputProps> = ({
             ) : (
               <>
                 <PlusIcon fontSize="large" color="primary" />
-                <Typography>Upload Files and Folders</Typography>
+                <Typography>Upload Files</Typography>
               </>
             )}
           </div>
         ) : (
           <div className={clsx(classes.root, classNames?.filelist)}>
-            <ul>
-              {value.value.map((file: any, i: any) => (
-                <li className={classes.item} key={i}>
-                  <PaperclipIcon /> {file.name} - {file.size}
+            <ScrollbarWrapper className={classes.scrollbar}>
+              <ul>
+                {value.value.map((file: any, i: any) => (
+                  <li className={classes.item} key={i}>
+                    <PaperclipIcon />
+                    <span className={classes.itemText}>{file.name}</span>
+                    <Button
+                      type="button"
+                      onClick={(e) => {
+                        e.stopPropagation()
+                        removeItem(i)
+                      }}
+                      iconButton
+                      size="small"
+                    >
+                      <CrossOutlinedIcon fontSize="small" />
+                    </Button>
+                  </li>
+                ))}
+                <li className={classes.item}>
+                  <PlusIcon fontSize="small" color="primary" />
+                  <span>Click to upload more files</span>
                 </li>
-              ))}
-            </ul>
+              </ul>
+            </ScrollbarWrapper>
           </div>
         )
       ) : (
