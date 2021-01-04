@@ -1,6 +1,6 @@
 import React from "react"
-import { makeStyles, createStyles } from "@imploy/common-themes"
-import { ITheme } from "@imploy/common-themes"
+import { makeStyles, createStyles } from "@chainsafe/common-theme"
+import { ITheme } from "@chainsafe/common-theme"
 import clsx from "clsx"
 import { Typography } from "../Typography"
 import {
@@ -378,7 +378,11 @@ const useStyles = makeStyles(
 
 export type InputState = "normal" | "warning" | "success" | "error"
 
-export interface ITextInputProps {
+export interface ITextInputProps
+  extends Omit<
+    React.HTMLProps<HTMLInputElement>,
+    "onChange" | "label" | "size" | "value"
+  > {
   className?: string
   label?: string
   labelClassName?: string
@@ -394,6 +398,7 @@ export interface ITextInputProps {
   captionMessage?: string
   onChange: (value: string | number | undefined) => void
   type?: "text" | "email" | "password" | "url" | "search"
+  autoFocus?: boolean
 }
 
 const TextInput: React.FC<ITextInputProps> = ({
@@ -412,6 +417,7 @@ const TextInput: React.FC<ITextInputProps> = ({
   captionMessage,
   state = "normal",
   disabled = false,
+  autoFocus = false,
   ...rest
 }: ITextInputProps) => {
   const classes = useStyles()
@@ -460,6 +466,7 @@ const TextInput: React.FC<ITextInputProps> = ({
           value={value}
           placeholder={placeholder}
           onChange={(e) => onChange(e.target.value)}
+          autoFocus={autoFocus}
           {...rest}
         />
         <div className={clsx(classes.standardIcon, size, "right")}>

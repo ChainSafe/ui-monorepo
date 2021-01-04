@@ -30,6 +30,7 @@ export const ProgressBarDemo = (): React.ReactNode => {
         )}
         progress={progress}
       />
+      <button onClick={() => setProgress(-1)}>Indeterminant</button>
       <button onClick={() => setProgress(progress + 10)}>add 10</button>
       <button onClick={() => setProgress(progress - 10)}>reduce 10</button>
     </>

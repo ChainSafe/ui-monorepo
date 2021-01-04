@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react"
 import { IPreviewRendererProps } from "../FilePreviewModal"
-import { makeStyles, ITheme, createStyles } from "@imploy/common-themes"
+import { makeStyles, ITheme, createStyles } from "@chainsafe/common-theme"
 import { Document, Page } from "react-pdf"
 
-import { Button, Typography } from "@imploy/common-components"
+import { Button, Typography } from "@chainsafe/common-components"
 import { Trans } from "@lingui/macro"
 
 const useStyles = makeStyles(({ constants, palette, zIndex }: ITheme) =>
@@ -41,6 +41,7 @@ const PdfPreview: React.FC<IPreviewRendererProps> = ({ contents }) => {
     return () => {
       pdfUrl && URL.revokeObjectURL(pdfUrl)
     }
+    // eslint-disable-next-line
   }, [contents])
 
   const [numPages, setNumPages] = useState<number | undefined>(undefined)

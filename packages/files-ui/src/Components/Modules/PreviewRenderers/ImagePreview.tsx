@@ -7,14 +7,14 @@ import {
   createStyles,
   useMediaQuery,
   useTheme,
-} from "@imploy/common-themes"
+} from "@chainsafe/common-theme"
 import {
   Button,
   ZoomInIcon,
   ZoomOutIcon,
   FullscreenIcon,
   // PrinterIcon,
-} from "@imploy/common-components"
+} from "@chainsafe/common-components"
 
 const useStyles = makeStyles(({ constants, palette, zIndex }: ITheme) =>
   createStyles({
@@ -48,6 +48,7 @@ const ImagePreview: React.FC<IPreviewRendererProps> = ({ contents }) => {
     return () => {
       imageUrl && URL.revokeObjectURL(imageUrl)
     }
+    // eslint-disable-next-line
   }, [contents])
   const classes = useStyles()
   const { breakpoints }: ITheme = useTheme()

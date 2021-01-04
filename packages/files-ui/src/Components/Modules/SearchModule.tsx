@@ -3,9 +3,9 @@ import {
   ITheme,
   makeStyles,
   useOnClickOutside,
-} from "@imploy/common-themes"
+} from "@chainsafe/common-theme"
 import React, { ChangeEvent, useRef } from "react"
-import { SearchBar } from "@imploy/common-components"
+import { SearchBar } from "@chainsafe/common-components"
 import { useState } from "react"
 import clsx from "clsx"
 
@@ -32,7 +32,7 @@ const useStyles = makeStyles(({ breakpoints }: ITheme) =>
         [breakpoints.down("md")]: {
           "& input": {
             opacity: 1,
-            width: "100%",
+            width: `calc(100vw - 45px)`,
           },
         },
       },

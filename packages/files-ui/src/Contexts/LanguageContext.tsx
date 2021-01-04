@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react"
 import { i18n } from "@lingui/core"
 import { messages as catalogEn } from "../locales/en/messages"
 import { I18nProvider } from "@lingui/react"
+import * as plurals from "make-plural/plurals"
 
 export type LanguageContext = {
   availableLanguages: Language[]
@@ -80,6 +81,7 @@ const LanguageProvider = ({
     )
     const defaultLanguage = matchingLanguages[0] || "en"
     //@ts-ignore
+    i18n.loadLocaleData(defaultLanguage, { plurals: plurals[defaultLanguage] })
     i18n.load(defaultLanguage, catalogEn)
     i18n.activate(defaultLanguage)
     setSelectedLanguage(defaultLanguage)

@@ -1,7 +1,7 @@
 import React, { ReactNode } from "react"
 import clsx from "clsx"
 import { Typography } from "../Typography"
-import { ITheme, makeStyles, createStyles } from "@imploy/common-themes"
+import { ITheme, makeStyles, createStyles } from "@chainsafe/common-theme"
 
 const useStyles = makeStyles(
   ({ constants, palette, typography, overrides }: ITheme) =>

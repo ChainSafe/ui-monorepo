@@ -1,6 +1,6 @@
 import React, { ReactElement } from "react"
-import { makeStyles, createStyles } from "@imploy/common-themes"
-import { ITheme } from "@imploy/common-themes"
+import { makeStyles, createStyles } from "@chainsafe/common-theme"
+import { ITheme } from "@chainsafe/common-theme"
 import clsx from "clsx"
 import InputNumber from "rc-input-number"
 import { Typography } from "../Typography"

@@ -5,7 +5,7 @@ import {
   makeStyles,
   useMediaQuery,
   useTheme,
-} from "@imploy/common-themes"
+} from "@chainsafe/common-theme"
 import { useDrive } from "../../../Contexts/DriveContext"
 import UploadBox from "./UploadBox"
 

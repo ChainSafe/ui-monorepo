@@ -1,5 +1,5 @@
 import React from "react"
-import { ITheme, makeStyles, createStyles } from "@imploy/common-themes"
+import { ITheme, makeStyles, createStyles } from "@chainsafe/common-theme"
 
 const ContentWidth = 300
 
