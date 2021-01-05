@@ -12,6 +12,7 @@ import * as yup from "yup"
 import { ROUTE_LINKS } from "../../../FilesRoutes"
 import { useDrive } from "../../../../Contexts/DriveContext"
 import zxcvbn from "zxcvbn"
+import StrengthIndicator from "./StrengthIndicator"
 
 const useStyles = makeStyles(({ breakpoints, constants, palette }: ITheme) =>
   createStyles({
@@ -93,7 +94,7 @@ const SetMasterKeySlide: React.FC<ISetMasterKeySlide> = ({
           }
 
           const complexity = zxcvbn(`${val}`)
-          if (complexity.score >= 3) {
+          if (complexity.score >= 2) {
             return true
           }
           return false
@@ -139,6 +140,7 @@ const SetMasterKeySlide: React.FC<ISetMasterKeySlide> = ({
             name="masterKey"
             label="Encryption Password:"
             labelClassName={classes.inputLabel}
+            captionMessage={<StrengthIndicator fieldName="masterKey" />}
           />
           <FormikTextInput
             type="password"
