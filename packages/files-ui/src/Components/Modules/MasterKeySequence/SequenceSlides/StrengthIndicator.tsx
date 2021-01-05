@@ -60,7 +60,7 @@ const StrengthIndicator: React.FC<IStrengthIndicator> = ({
     if (field.value) {
       const temp = zxcvbn(field.value)
       setScore(temp.score)
-      if (temp.feedback.warning && temp.feedback.warning != "") {
+      if (temp.feedback.warning && temp.feedback.warning !== "") {
         setMessage(temp.feedback.warning)
       } else if (temp.feedback.suggestions.length > 0) {
         setMessage(temp.feedback.suggestions.join(" "))
