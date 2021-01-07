@@ -200,7 +200,7 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
   const classes = useStyles()
   const { breakpoints }: ITheme = useTheme()
   const desktop = useMediaQuery(breakpoints.up("md"))
-  const { spaceUsed } = useDrive()
+  const { spaceUsed, updateCurrentPath } = useDrive()
 
   const { isLoggedIn, logout, secured } = useImployApi()
   const { isMasterPasswordSet } = useDrive()
@@ -250,7 +250,14 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
               <Trans>Folders</Trans>
             </Typography>
             <nav className={classes.navMenu}>
-              <Link onClick={handleOnClick} className={classes.navItem} to="">
+              <Link
+                onClick={() => {
+                  updateCurrentPath("/")
+                  handleOnClick()
+                }}
+                className={classes.navItem}
+                to={ROUTE_LINKS.Home}
+              >
                 <DatabaseSvg />
                 <Typography variant="h5" className={classes.navItemText}>
                   <Trans>Home</Trans>
