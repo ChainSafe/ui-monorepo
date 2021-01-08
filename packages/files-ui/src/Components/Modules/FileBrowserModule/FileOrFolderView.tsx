@@ -297,9 +297,9 @@ const FileOrFolderView: React.FC<IFileOrFolderProps> = ({
   }
 
   const onFolderOrFileClicks = useDoubleClick(undefined, () => {
-    // file.isFolder
-    //   ? updateCurrentPath(`${currentPath}${file.name}`)
-    //   : setPreviewFileIndex(files?.indexOf(file))
+    file.isFolder
+      ? updateCurrentPath(`${currentPath}${file.name}`)
+      : setPreviewFileIndex(files?.indexOf(file))
   })
 
   return (
