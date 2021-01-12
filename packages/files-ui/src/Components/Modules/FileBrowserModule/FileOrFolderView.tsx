@@ -1,3 +1,4 @@
+import React, { Fragment } from "react"
 import {
   TableRow,
   TableCell,
@@ -19,10 +20,14 @@ import {
   ShareAltIcon,
   CheckSvg,
 } from "@chainsafe/common-components"
-import { makeStyles, ITheme, createStyles } from "@chainsafe/common-theme"
+import {
+  makeStyles,
+  ITheme,
+  createStyles,
+  useDoubleClick,
+} from "@chainsafe/common-theme"
 import clsx from "clsx"
 import { Formik, Form } from "formik"
-import React, { Fragment } from "react"
 import { IFile } from "../../../Contexts/DriveContext"
 import CustomModal from "../../Elements/CustomModal"
 import { Trans } from "@lingui/macro"
@@ -291,6 +296,12 @@ const FileOrFolderView: React.FC<IFileOrFolderProps> = ({
     }
   }
 
+  const onFolderOrFileClicks = useDoubleClick(undefined, () => {
+    file.isFolder
+      ? updateCurrentPath(`${currentPath}${file.name}`)
+      : setPreviewFileIndex(files?.indexOf(file))
+  })
+
   return (
     <TableRow
       key={`files-${index}`}
@@ -313,9 +324,7 @@ const FileOrFolderView: React.FC<IFileOrFolderProps> = ({
       )} */}
       <TableCell
         className={clsx(classes.fileIcon, file.isFolder && classes.folderIcon)}
-        onClick={() => {
-          file.isFolder && updateCurrentPath(`${currentPath}${file.name}`)
-        }}
+        onClick={onFolderOrFileClicks}
       >
         <Icon />
       </TableCell>
@@ -325,9 +334,7 @@ const FileOrFolderView: React.FC<IFileOrFolderProps> = ({
         className={classes.filename}
         onClick={() => {
           if (!editing) {
-            file.isFolder
-              ? updateCurrentPath(`${currentPath}${file.name}`)
-              : setPreviewFileIndex(files?.indexOf(file))
+            onFolderOrFileClicks()
           }
         }}
       >
