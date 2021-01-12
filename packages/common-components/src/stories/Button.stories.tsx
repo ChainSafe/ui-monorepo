@@ -37,6 +37,7 @@ export const ButtonStory = (): React.ReactNode => (
     iconButton={false}
     fullsize={boolean("Fullsize", false)}
     disabled={boolean("Disabled", false)}
+    loading={boolean("Loading", false)}
   >
     <span>Standard button</span>
   </Button>

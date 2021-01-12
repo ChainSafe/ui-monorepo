@@ -232,6 +232,7 @@ interface IButtonProps extends Omit<ReactButton, "size"> {
   iconButton?: boolean
   size?: "large" | "medium" | "small"
   type?: "button" | "submit" | "reset"
+  loading?: boolean
 }
 
 const Button: React.FC<IButtonProps> = ({
@@ -242,6 +243,7 @@ const Button: React.FC<IButtonProps> = ({
   variant = "primary",
   disabled = false,
   size = "medium",
+  loading,
   ...rest
 }: IButtonProps) => {
   const classes = useStyles()
@@ -260,6 +262,7 @@ const Button: React.FC<IButtonProps> = ({
       disabled={disabled}
       {...rest}
     >
+      {loading && "l"}
       {children}
     </button>
   )
