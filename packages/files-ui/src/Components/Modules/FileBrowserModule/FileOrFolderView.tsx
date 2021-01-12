@@ -444,7 +444,7 @@ const FileOrFolderView: React.FC<IFileOrFolderProps> = ({
           </TableCell> */}
 
           <TableCell align="left">
-            {!file.isFolder && formatBytes(file.size)}
+            {!file.isFolder && formatBytes(file.size, 10)}
           </TableCell>
         </>
       )}
