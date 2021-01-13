@@ -65,6 +65,7 @@ type DriveContext = {
   isMasterPasswordSet: boolean
   setMasterPassword(password: string): void
   secureDrive(password: string): void
+  creatingFolder: boolean
 }
 
 interface IItem extends FileContentResponse {
@@ -286,20 +287,25 @@ const DriveProvider = ({ children }: DriveContextProps) => {
     startUploadFile()
   }
 
+  const [creatingFolder, setCreatingFolder] = useState(false)
+
   const createFolder = async (body: FilesPathRequest) => {
     try {
+      setCreatingFolder(true)
       const result = await imployApiClient.addCSFDirectory(body)
       await refreshContents(currentPath)
       addToastMessage({
         message: t`Folder created successfully`,
         appearance: "success",
       })
+      setCreatingFolder(false)
       return result
     } catch (error) {
       addToastMessage({
         message: t`There was an error creating this folder`,
         appearance: "error",
       })
+      setCreatingFolder(false)
       return Promise.reject()
     }
   }
@@ -506,6 +512,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
         isMasterPasswordSet: !!masterPassword,
         setMasterPassword: setPassword,
         secureDrive,
+        creatingFolder,
       }}
     >
       {children}

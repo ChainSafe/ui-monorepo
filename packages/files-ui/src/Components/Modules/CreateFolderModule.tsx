@@ -78,7 +78,7 @@ const CreateFolderModule: React.FC<ICreateFolderModuleProps> = ({
   close,
 }: ICreateFolderModuleProps) => {
   const classes = useStyles()
-  const { createFolder, currentPath } = useDrive()
+  const { createFolder, currentPath, creatingFolder } = useDrive()
 
   const desktop = useMediaQuery("md")
 
@@ -148,6 +148,7 @@ const CreateFolderModule: React.FC<ICreateFolderModuleProps> = ({
                 size={desktop ? "medium" : "large"}
                 type="submit"
                 className={classes.okButton}
+                loading={creatingFolder}
               >
                 {desktop ? <Trans>OK</Trans> : <Trans>Create</Trans>}
               </Button>

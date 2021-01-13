@@ -64,8 +64,7 @@ type TabKey = "profileView" | "planView"
 const Settings: React.FC = () => {
   const [tabKey, setTabKey] = useState<TabKey>("profileView")
   const classes = useStyles()
-  const { profile, updateProfile } = useUser()
-  const [updatingProfile, setUpdateLoading] = useState(false)
+  const { profile, updateProfile, updatingProfile } = useUser()
   const { redirect } = useHistory()
   const { addToastMessage } = useToaster()
 
@@ -96,9 +95,7 @@ const Settings: React.FC = () => {
     email: string,
   ) => {
     try {
-      setUpdateLoading(true)
       await updateProfile(firstName, lastName, email)
-      setUpdateLoading(false)
       addToastMessage({
         message: "Profile updated",
       })
@@ -107,7 +104,6 @@ const Settings: React.FC = () => {
         message: error,
         appearance: "error",
       })
-      setUpdateLoading(false)
     }
   }
 

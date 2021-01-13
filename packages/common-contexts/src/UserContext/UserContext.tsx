@@ -24,6 +24,7 @@ interface IUserContext {
   ): Promise<void>
   removeUser(): void
   getProfileTitle(): string
+  updatingProfile: boolean
 }
 
 const UserContext = React.createContext<IUserContext | undefined>(undefined)
@@ -32,6 +33,7 @@ const UserProvider = ({ children }: UserContextProps) => {
   const { imployApiClient, isLoggedIn } = useImployApi()
 
   const [profile, setProfile] = useState<Profile | undefined>(undefined)
+  const [updatingProfile, setUpdatingProfile] = useState(false)
 
   useEffect(() => {
     if (isLoggedIn) {
@@ -67,6 +69,7 @@ const UserProvider = ({ children }: UserContextProps) => {
     email?: string,
   ) => {
     if (!profile) return Promise.reject("Profile not initialized")
+    setUpdatingProfile(true)
 
     try {
       const profileData = await imployApiClient.updateUser({
@@ -81,8 +84,10 @@ const UserProvider = ({ children }: UserContextProps) => {
         email: profileData.email,
         publicAddress: profileData.public_address,
       })
+      setUpdatingProfile(false)
       return Promise.resolve()
     } catch (error) {
+      setUpdatingProfile(false)
       return Promise.reject(
         error && error.length
           ? error[0].message
@@ -115,6 +120,7 @@ const UserProvider = ({ children }: UserContextProps) => {
         refreshProfile,
         removeUser,
         getProfileTitle,
+        updatingProfile,
       }}
     >
       {children}

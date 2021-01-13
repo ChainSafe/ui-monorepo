@@ -1,6 +1,7 @@
 import React, { ReactNode } from "react"
 import clsx from "clsx"
 import { ITheme, makeStyles, createStyles } from "@chainsafe/common-theme"
+import { Loading } from "../Spinner"
 
 const useStyles = makeStyles(
   ({ constants, typography, animation, palette, overrides }: ITheme) =>
@@ -233,6 +234,7 @@ interface IButtonProps extends Omit<ReactButton, "size"> {
   size?: "large" | "medium" | "small"
   type?: "button" | "submit" | "reset"
   loading?: boolean
+  loadingText?: string
 }
 
 const Button: React.FC<IButtonProps> = ({
@@ -244,6 +246,7 @@ const Button: React.FC<IButtonProps> = ({
   disabled = false,
   size = "medium",
   loading,
+  loadingText,
   ...rest
 }: IButtonProps) => {
   const classes = useStyles()
@@ -259,11 +262,15 @@ const Button: React.FC<IButtonProps> = ({
         iconButton && classes.icon,
         `${size}`,
       )}
-      disabled={disabled}
+      disabled={disabled || loading}
       {...rest}
     >
-      {loading && "l"}
-      {children}
+      {loading && (
+        <>
+          <Loading type="inherit" size={16} />
+        </>
+      )}
+      {loading && loadingText ? loadingText : children}
     </button>
   )
 }

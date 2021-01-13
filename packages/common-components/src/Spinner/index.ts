@@ -1,5 +1,4 @@
 export { default as Spinner } from "./Spinner"
 export { default as Loading } from "./Loading"
-export { default as Loading2 } from "./Loading2"
 export * from "./Spinner"
 export * from "./Loading"
