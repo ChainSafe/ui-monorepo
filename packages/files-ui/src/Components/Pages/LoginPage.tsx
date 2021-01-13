@@ -189,9 +189,11 @@ const LoginPage = () => {
       : setActiveMode("newUser")
 
   const [isConnecting, setIsConnecting] = useState(false)
+  const [showSignatureMessage, setShowSignatureMessage] = useState(false)
 
   const handleSelectWalletAndConnect = async () => {
     setIsConnecting(true)
+    setError("")
     try {
       await selectWallet()
     } catch (error) {
@@ -201,6 +203,7 @@ const LoginPage = () => {
   }
 
   const handleResetAndSelectWalletAndConnect = async () => {
+    setError("")
     setIsConnecting(true)
     try {
       await resetAndSelectWallet()
@@ -211,13 +214,16 @@ const LoginPage = () => {
   }
 
   const handleSignAuth = async () => {
+    setError("")
     setIsConnecting(true)
+    setShowSignatureMessage(true)
     try {
       await web3Login()
     } catch (error) {
       setError("There was an error authenticating")
     }
     setIsConnecting(false)
+    setShowSignatureMessage(false)
   }
 
   const onLoginWithProvider = async (provider: OAuthProvider) => {
@@ -336,6 +342,11 @@ const LoginPage = () => {
                         <Trans>Select a different wallet</Trans>
                       </span>
                     </Button>
+                    {showSignatureMessage && (
+                      <Typography>
+                        Please confirm in your wallet to continue
+                      </Typography>
+                    )}
                   </>
                 )}
                 {desktop && (
