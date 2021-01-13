@@ -219,7 +219,6 @@ const ProfileView: React.FC<IProfileProps> = (props) => {
                     className={classes.button}
                     size="large"
                     type="submit"
-                    // disabled={updatingProfile}
                     loading={updatingProfile}
                     loadingText="Saving"
                   >
