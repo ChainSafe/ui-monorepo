@@ -12,7 +12,7 @@ import {
   makeStyles,
   useMediaQuery,
 } from "@chainsafe/common-theme"
-import React from "react"
+import React, { useState } from "react"
 import { Formik, Form } from "formik"
 import CustomModal from "../Elements/CustomModal"
 import CustomButton from "../Elements/CustomButton"
@@ -78,7 +78,8 @@ const CreateFolderModule: React.FC<ICreateFolderModuleProps> = ({
   close,
 }: ICreateFolderModuleProps) => {
   const classes = useStyles()
-  const { createFolder, currentPath, creatingFolder } = useDrive()
+  const { createFolder, currentPath } = useDrive()
+  const [creatingFolder, setCreatingFolder] = useState(false)
 
   const desktop = useMediaQuery("md")
 
@@ -99,10 +100,13 @@ const CreateFolderModule: React.FC<ICreateFolderModuleProps> = ({
         onSubmit={async (values, helpers) => {
           helpers.setSubmitting(true)
           try {
+            setCreatingFolder(true)
             await createFolder({ path: currentPath + values.name })
+            setCreatingFolder(false)
             helpers.resetForm()
             close()
           } catch (errors) {
+            setCreatingFolder(false)
             if (errors[0].message.includes("Entry with such name can")) {
               helpers.setFieldError("name", "Folder name is already in use")
             } else {
