@@ -401,102 +401,107 @@ export interface ITextInputProps
   autoFocus?: boolean
 }
 
-const TextInput: React.FC<ITextInputProps> = ({
-  className,
-  label,
-  LeftIcon,
-  RightIcon,
-  name,
-  value,
-  onChange,
-  inputVariant = "default",
-  labelClassName,
-  size = "medium",
-  type = "text",
-  placeholder,
-  captionMessage,
-  state = "normal",
-  disabled = false,
-  autoFocus = false,
-  ...rest
-}: ITextInputProps) => {
-  const classes = useStyles()
-
-  return (
-    <label
-      className={clsx(classes.root, className, size, {
-        ["disabled"]: disabled,
-        [classes.error]: state == "error",
-        [classes.warning]: state == "warning",
-        [classes.success]: state == "success",
-      })}
-    >
-      {inputVariant === "default" && label && label.length > 0 && (
-        <Typography
-          variant="body2"
-          component="span"
-          className={clsx(classes.label, labelClassName, {
-            ["error"]: state == "error",
-            ["success"]: state == "success",
-            ["warning"]: state == "warning",
-          })}
-        >
-          {label}
-        </Typography>
-      )}
-      <div
-        className={clsx(classes.inputArea, size, {
-          ["iconLeft"]: LeftIcon,
-          ["iconRight"]: RightIcon,
+const TextInput = React.forwardRef(
+  (
+    {
+      className,
+      label,
+      LeftIcon,
+      RightIcon,
+      name,
+      value,
+      onChange,
+      inputVariant = "default",
+      labelClassName,
+      size = "medium",
+      type = "text",
+      placeholder,
+      captionMessage,
+      state = "normal",
+      disabled = false,
+      autoFocus = false,
+      ...rest
+    }: ITextInputProps,
+    forwardedRef: any,
+  ) => {
+    const classes = useStyles()
+    return (
+      <label
+        className={clsx(classes.root, className, size, {
+          ["disabled"]: disabled,
+          [classes.error]: state == "error",
+          [classes.warning]: state == "warning",
+          [classes.success]: state == "success",
         })}
       >
-        {LeftIcon && (
-          <LeftIcon className={clsx(classes.standardIcon, size, "left")} />
+        {inputVariant === "default" && label && label.length > 0 && (
+          <Typography
+            variant="body2"
+            component="span"
+            className={clsx(classes.label, labelClassName, {
+              ["error"]: state == "error",
+              ["success"]: state == "success",
+              ["warning"]: state == "warning",
+            })}
+          >
+            {label}
+          </Typography>
         )}
-        <input
-          className={clsx(classes.input, {
-            ["disabled"]: disabled,
-            ["error"]: state == "error",
-            ["success"]: state == "success",
-            ["warning"]: state == "warning",
-          })}
-          type={type}
-          disabled={disabled}
-          name={name}
-          value={value}
-          placeholder={placeholder}
-          onChange={(e) => onChange(e.target.value)}
-          autoFocus={autoFocus}
-          {...rest}
-        />
-        <div className={clsx(classes.standardIcon, size, "right")}>
-          {RightIcon && <RightIcon />}
-          {state == "warning" && (
-            <ExclamationCircleIcon className={classes.warningIcon} />
-          )}
-          {state == "error" && (
-            <CloseCircleIcon className={classes.errorIcon} />
-          )}
-          {state == "success" && (
-            <CheckCircleIcon className={classes.successIcon} />
-          )}
-        </div>
-      </div>
-      {captionMessage && (
-        <Typography
-          variant="body2"
-          component="span"
-          className={clsx(classes.caption, inputVariant, {
-            ["error"]: state == "error",
-            ["success"]: state == "success",
-            ["warning"]: state == "warning",
+        <div
+          className={clsx(classes.inputArea, size, {
+            ["iconLeft"]: LeftIcon,
+            ["iconRight"]: RightIcon,
           })}
         >
-          {captionMessage}
-        </Typography>
-      )}
-    </label>
-  )
-}
+          {LeftIcon && (
+            <LeftIcon className={clsx(classes.standardIcon, size, "left")} />
+          )}
+          <input
+            className={clsx(classes.input, {
+              ["disabled"]: disabled,
+              ["error"]: state == "error",
+              ["success"]: state == "success",
+              ["warning"]: state == "warning",
+            })}
+            type={type}
+            disabled={disabled}
+            name={name}
+            value={value}
+            placeholder={placeholder}
+            onChange={(e) => onChange(e.target.value)}
+            autoFocus={autoFocus}
+            ref={forwardedRef}
+            {...rest}
+          />
+          <div className={clsx(classes.standardIcon, size, "right")}>
+            {RightIcon && <RightIcon />}
+            {state == "warning" && (
+              <ExclamationCircleIcon className={classes.warningIcon} />
+            )}
+            {state == "error" && (
+              <CloseCircleIcon className={classes.errorIcon} />
+            )}
+            {state == "success" && (
+              <CheckCircleIcon className={classes.successIcon} />
+            )}
+          </div>
+        </div>
+        {captionMessage && (
+          <Typography
+            variant="body2"
+            component="span"
+            className={clsx(classes.caption, inputVariant, {
+              ["error"]: state == "error",
+              ["success"]: state == "success",
+              ["warning"]: state == "warning",
+            })}
+          >
+            {captionMessage}
+          </Typography>
+        )}
+      </label>
+    )
+  },
+)
 
 export default TextInput
