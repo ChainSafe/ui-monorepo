@@ -37,17 +37,12 @@ const DownloadProgressModals: React.FC = () => {
 
   return (
     <div className={classes.root}>
-      {downloadsInProgress.map(
-        (downloadInProgress) =>
-          (desktop ||
-            downloadInProgress.complete ||
-            downloadInProgress.error) && (
-            <DownloadBox
-              key={downloadInProgress.id}
-              downloadInProgress={downloadInProgress}
-            />
-          ),
-      )}
+      {downloadsInProgress.map((downloadInProgress) => (
+        <DownloadBox
+          key={downloadInProgress.id}
+          downloadInProgress={downloadInProgress}
+        />
+      ))}
     </div>
   )
 }
