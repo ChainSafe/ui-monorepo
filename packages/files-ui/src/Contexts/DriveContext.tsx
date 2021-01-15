@@ -117,16 +117,16 @@ const DriveProvider = ({ children }: DriveContextProps) => {
   const currentPathReducer = (
     currentPath: string,
     action:
-      | { type: "add"; payload: string }
+      | { type: "update"; payload: string }
       | { type: "refreshOnSamePath"; payload: string },
   ): string => {
     switch (action.type) {
-      case "add": {
+      case "update": {
         return action.payload
       }
       case "refreshOnSamePath": {
         // check user has not navigated to other folder
-        // using then catch as awaits won't working in reducer
+        // using then catch as awaits won't work in reducer
         if (action.payload === currentPath) {
           refreshContents(currentPath)
         }
@@ -144,14 +144,16 @@ const DriveProvider = ({ children }: DriveContextProps) => {
     undefined,
   )
 
-  const setCurrentPath = (newPath: string) =>
-    dispatchCurrentPath({ type: "add", payload: newPath })
+  const setCurrentPath = (newPath: string) => {
+    dispatchCurrentPath({ type: "update", payload: newPath })
+    refreshContents(newPath)
+  }
 
   useEffect(() => {
     if (isLoggedIn) {
-      refreshContents(currentPath)
+      refreshContents("/")
     }
-  }, [imployApiClient, refreshContents, currentPath, isLoggedIn])
+  }, [imployApiClient, refreshContents, isLoggedIn])
 
   useEffect(() => {
     if (isLoggedIn) {

@@ -28,6 +28,7 @@ import {
   PlusCircleIcon,
   UploadIcon,
   Dialog,
+  Loading,
 } from "@chainsafe/common-components"
 import { useState } from "react"
 import { useMemo } from "react"
@@ -185,6 +186,10 @@ const useStyles = makeStyles(
           visibility: "visible",
         },
       },
+      loadingContainer: {
+        paddingTop: constants.generalUnit * 6,
+        textAlign: "center",
+      },
     })
   },
 )
@@ -217,6 +222,11 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
   const [previewFileIndex, setPreviewFileIndex] = useState<number | undefined>(
     undefined,
   )
+
+  const [loadingCurrentFiles, setLoadingCurrentFiles] = useState(false)
+  const updateCurrentPathWithLoading = () => {
+    setLoadingCurrentFiles(true)
+  }
 
   // Sorting
   const sortFoldersFirst = (a: IFile, b: IFile) =>
@@ -523,6 +533,12 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
         </div>
       </header>
       <Divider className={classes.divider} />
+      {/* <div className={classes.loadingContainer}>
+        <Loading size={24} type="light" />
+        <Typography variant="body2" component="p">
+          <Trans>One sec, getting files ready...</Trans>
+        </Typography>
+      </div> */}
       {(desktop && items.length === 0) ||
       (!desktop && items.length === 0 && uploadsInProgress.length === 0) ? (
         <section className={classes.noFiles}>
