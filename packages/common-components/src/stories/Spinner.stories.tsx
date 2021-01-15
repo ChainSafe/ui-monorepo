@@ -7,6 +7,7 @@ import {
   boolean,
 } from "@storybook/addon-knobs"
 import { LOADER, Spinner } from "../Spinner"
+import { Loading } from "../Spinner"
 
 export default {
   title: "Spinner",
@@ -52,4 +53,11 @@ export const SpinnerStory = (): React.ReactNode => (
   >
     Spinner
   </Spinner>
+)
+
+export const LoadingStory = (): React.ReactNode => (
+  <Loading
+    type={select("Type", ["primary", "dark", "light"], "primary")}
+    size={number("size", 64)}
+  />
 )
