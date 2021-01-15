@@ -65,11 +65,11 @@ const Settings: React.FC = () => {
   const [tabKey, setTabKey] = useState<TabKey>("profileView")
   const classes = useStyles()
   const { profile, updateProfile } = useUser()
-  const [updatingProfile, setUpdateLoading] = useState(false)
   const { redirect } = useHistory()
   const { addToastMessage } = useToaster()
 
   const [profileData, setProfileData] = useState(profile)
+  const [updatingProfile, setUpdatingProfile] = useState(false)
 
   useEffect(() => {
     if (profile) {
@@ -96,18 +96,18 @@ const Settings: React.FC = () => {
     email: string,
   ) => {
     try {
-      setUpdateLoading(true)
+      setUpdatingProfile(true)
       await updateProfile(firstName, lastName, email)
-      setUpdateLoading(false)
       addToastMessage({
         message: "Profile updated",
       })
+      setUpdatingProfile(false)
     } catch (error) {
       addToastMessage({
         message: error,
         appearance: "error",
       })
-      setUpdateLoading(false)
+      setUpdatingProfile(false)
     }
   }
 
