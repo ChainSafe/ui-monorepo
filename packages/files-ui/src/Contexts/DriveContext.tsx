@@ -65,6 +65,7 @@ type DriveContext = {
   isMasterPasswordSet: boolean
   setMasterPassword(password: string): void
   secureDrive(password: string): void
+  loadingCurrentPath: boolean
 }
 
 interface IItem extends FileContentResponse {
@@ -87,12 +88,16 @@ const DriveProvider = ({ children }: DriveContextProps) => {
   } = useImployApi()
   const { addToastMessage } = useToaster()
 
+  const [loadingCurrentPath, setLoadingCurrentPath] = useState(false)
+
   const refreshContents = useCallback(
-    async (path: string) => {
+    async (path: string, showLoading?: boolean) => {
       try {
+        showLoading && setLoadingCurrentPath(true)
         const newContents = await imployApiClient?.getCSFChildList({
           path,
         })
+        showLoading && setLoadingCurrentPath(false)
 
         if (newContents) {
           // Remove this when the API returns dates
@@ -109,7 +114,9 @@ const DriveProvider = ({ children }: DriveContextProps) => {
             })),
           )
         }
-      } catch (error) {}
+      } catch (error) {
+        showLoading && setLoadingCurrentPath(false)
+      }
     },
     [imployApiClient],
   )
@@ -146,7 +153,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
 
   const setCurrentPath = (newPath: string) => {
     dispatchCurrentPath({ type: "update", payload: newPath })
-    refreshContents(newPath)
+    refreshContents(newPath, true)
   }
 
   useEffect(() => {
@@ -508,6 +515,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
         isMasterPasswordSet: !!masterPassword,
         setMasterPassword: setPassword,
         secureDrive,
+        loadingCurrentPath,
       }}
     >
       {children}

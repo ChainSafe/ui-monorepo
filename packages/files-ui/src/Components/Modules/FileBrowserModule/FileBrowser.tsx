@@ -211,6 +211,7 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
     pathContents,
     uploadsInProgress,
     uploadFiles,
+    loadingCurrentPath,
   } = useDrive()
   const [editing, setEditing] = useState<string | undefined>()
   const [direction, setDirection] = useState<SortDirection>("descend")
@@ -222,11 +223,6 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
   const [previewFileIndex, setPreviewFileIndex] = useState<number | undefined>(
     undefined,
   )
-
-  const [loadingCurrentFiles, setLoadingCurrentFiles] = useState(false)
-  const updateCurrentPathWithLoading = () => {
-    setLoadingCurrentFiles(true)
-  }
 
   // Sorting
   const sortFoldersFirst = (a: IFile, b: IFile) =>
@@ -533,14 +529,15 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
         </div>
       </header>
       <Divider className={classes.divider} />
-      {/* <div className={classes.loadingContainer}>
-        <Loading size={24} type="light" />
-        <Typography variant="body2" component="p">
-          <Trans>One sec, getting files ready...</Trans>
-        </Typography>
-      </div> */}
-      {(desktop && items.length === 0) ||
-      (!desktop && items.length === 0 && uploadsInProgress.length === 0) ? (
+      {loadingCurrentPath ? (
+        <div className={classes.loadingContainer}>
+          <Loading size={24} type="light" />
+          <Typography variant="body2" component="p">
+            <Trans>One sec, getting files ready...</Trans>
+          </Typography>
+        </div>
+      ) : (desktop && items.length === 0) ||
+        (!desktop && items.length === 0 && uploadsInProgress.length === 0) ? (
         <section className={classes.noFiles}>
           <EmptySvg />
           <Typography variant="h4" component="h4">

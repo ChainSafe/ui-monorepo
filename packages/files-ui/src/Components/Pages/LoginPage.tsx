@@ -8,9 +8,6 @@ import {
   GithubLogoIcon,
   ChainsafeFilesLogo,
   Divider,
-  Spinner,
-  LOADER,
-  // Link,
 } from "@chainsafe/common-components"
 import { useImployApi, OAuthProvider } from "@imploy/common-contexts"
 import {
@@ -293,20 +290,12 @@ const LoginPage = () => {
                     className={classes.button}
                     variant={desktop ? "primary" : "outline"}
                     size="large"
-                    disabled={maintenanceMode || isConnecting}
+                    disabled={maintenanceMode}
+                    loading={isConnecting}
                   >
                     <span>
                       <Trans>Select a Web3 Wallet</Trans>
                     </span>
-                    {isConnecting && (
-                      <>
-                        &nbsp;
-                        <Spinner
-                          color={palette.additional["geekblue"][7]}
-                          loader={LOADER.ClipLoader}
-                        />
-                      </>
-                    )}
                   </Button>
                 ) : (
                   <>
@@ -315,21 +304,13 @@ const LoginPage = () => {
                       className={classes.button}
                       variant={desktop ? "primary" : "outline"}
                       size="large"
-                      disabled={maintenanceMode || isConnecting}
+                      disabled={maintenanceMode}
+                      loading={isConnecting}
                     >
                       <span>
                         <Trans>Continue with</Trans>
                       </span>{" "}
                       <span>&nbsp;{wallet?.name}</span>
-                      {isConnecting && (
-                        <>
-                          &nbsp;
-                          <Spinner
-                            color={palette.additional["geekblue"][7]}
-                            loader={LOADER.ClipLoader}
-                          />
-                        </>
-                      )}
                     </Button>
                     <Button
                       onClick={handleResetAndSelectWalletAndConnect}
