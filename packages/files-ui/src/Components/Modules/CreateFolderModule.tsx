@@ -5,14 +5,14 @@ import {
   Typography,
 } from "@chainsafe/common-components"
 import { useDrive } from "../../Contexts/DriveContext"
-
+import * as yup from "yup"
 import {
   createStyles,
   ITheme,
   makeStyles,
   useMediaQuery,
 } from "@chainsafe/common-theme"
-import React, { useState } from "react"
+import React, { useRef, useEffect, useState } from "react"
 import { Formik, Form } from "formik"
 import CustomModal from "../Elements/CustomModal"
 import CustomButton from "../Elements/CustomButton"
@@ -82,6 +82,17 @@ const CreateFolderModule: React.FC<ICreateFolderModuleProps> = ({
   const [creatingFolder, setCreatingFolder] = useState(false)
 
   const desktop = useMediaQuery("md")
+  const inputRef = useRef<any>()
+
+  useEffect(() => {
+    if (modalOpen) {
+      setTimeout(() => inputRef.current.focus(), 100)
+    }
+  }, [modalOpen])
+
+  const folderNameValidator = yup.object().shape({
+    name: yup.string().required("Folder name is required"),
+  })
 
   return (
     <CustomModal
@@ -97,6 +108,8 @@ const CreateFolderModule: React.FC<ICreateFolderModuleProps> = ({
         initialValues={{
           name: "",
         }}
+        validationSchema={folderNameValidator}
+        validateOnChange={false}
         onSubmit={async (values, helpers) => {
           helpers.setSubmitting(true)
           try {
@@ -136,6 +149,7 @@ const CreateFolderModule: React.FC<ICreateFolderModuleProps> = ({
                 placeholder="Name"
                 labelClassName={classes.label}
                 label="Folder Name"
+                ref={inputRef}
               />
             </Grid>
             <Grid item flexDirection="row" justifyContent="flex-end">
