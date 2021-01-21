@@ -7,47 +7,52 @@ export interface FormikTextInputProps
   name: string
 }
 
-const FormikTextInput: React.FC<FormikTextInputProps> = ({
-  className,
-  inputVariant = "default",
-  type = "text",
-  placeholder,
-  name,
-  size,
-  label,
-  labelClassName,
-  disabled = false,
-  autoFocus,
-  captionMessage,
-  ...rest
-}: FormikTextInputProps) => {
-  const [field, meta, helpers] = useField(name)
-  return (
-    <TextInput
-      label={label ? label : field.name}
-      inputVariant={inputVariant}
-      disabled={disabled}
-      type={type}
-      size={size}
-      className={className}
-      labelClassName={labelClassName}
-      name={field.name}
-      value={field.value}
-      placeholder={placeholder}
-      captionMessage={
-        captionMessage || (meta.touched && meta.error) ? (
+const FormikTextInput = React.forwardRef(
+  (
+    {
+      className,
+      inputVariant = "default",
+      type = "text",
+      placeholder,
+      name,
+      size,
+      label,
+      labelClassName,
+      disabled = false,
+      autoFocus,
+      captionMessage,
+      ref,
+      ...rest
+    }: FormikTextInputProps,
+    forwardedRef: any,
+  ) => {
+    const [field, meta, helpers] = useField(name)
+    return (
+      <TextInput
+        label={label ? label : field.name}
+        inputVariant={inputVariant}
+        disabled={disabled}
+        type={type}
+        size={size}
+        className={className}
+        labelClassName={labelClassName}
+        name={field.name}
+        value={field.value}
+        placeholder={placeholder}
+        captionMessage={
           <>
-            {captionMessage != undefined && captionMessage}
-            {meta.touched && meta.error ? `${meta.error}` : null}
+            {captionMessage && captionMessage}
+            {meta.touched && meta.error && `${meta.error}`}
           </>
-        ) : undefined
-      }
-      state={meta.error ? "error" : undefined}
-      onChange={helpers.setValue}
-      autoFocus={autoFocus}
-      {...rest}
-    />
-  )
-}
+        }
+        state={meta.error ? "error" : undefined}
+        onChange={helpers.setValue}
+        autoFocus={autoFocus}
+        ref={forwardedRef}
+        {...rest}
+      />
+    )
+  },
+)
 
 export default FormikTextInput
