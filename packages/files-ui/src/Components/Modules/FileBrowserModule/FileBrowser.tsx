@@ -55,6 +55,7 @@ const useStyles = makeStyles(
     const mobileGridSettings = "69px 3fr 45px !important"
     return createStyles({
       root: {
+        position: "relative",
         [breakpoints.down("md")]: {
           paddingLeft: constants.generalUnit * 2,
           paddingRight: constants.generalUnit * 2,
@@ -187,8 +188,26 @@ const useStyles = makeStyles(
         },
       },
       loadingContainer: {
+        position: "absolute",
+        width: "100%",
         paddingTop: constants.generalUnit * 6,
-        textAlign: "center",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        opacity: 0,
+        visibility: "hidden",
+        transition: `opacity ${animation.transform * 3}ms`,
+        "& svg": {
+          marginBottom: constants.generalUnit * 2,
+        },
+      },
+      showLoadingContainer: {
+        visibility: "visible",
+        opacity: 1,
+      },
+      fadeOutLoading: {
+        opacity: 0.2,
+        transition: `opacity ${animation.transform * 3}ms`,
       },
     })
   },
@@ -529,23 +548,37 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
         </div>
       </header>
       <Divider className={classes.divider} />
-      {loadingCurrentPath ? (
-        <div className={classes.loadingContainer}>
-          <Loading size={24} type="light" />
-          <Typography variant="body2" component="p">
-            <Trans>One sec, getting files ready...</Trans>
-          </Typography>
-        </div>
-      ) : (desktop && items.length === 0) ||
-        (!desktop && items.length === 0 && uploadsInProgress.length === 0) ? (
-        <section className={classes.noFiles}>
+      <div
+        className={clsx(
+          classes.loadingContainer,
+          loadingCurrentPath && classes.showLoadingContainer,
+        )}
+      >
+        <Loading size={24} type="light" />
+        <Typography variant="body2" component="p">
+          <Trans>One sec, getting files ready...</Trans>
+        </Typography>
+      </div>
+      {(desktop && items.length === 0) ||
+      (!desktop && items.length === 0 && uploadsInProgress.length === 0) ? (
+        <section
+          className={clsx(
+            classes.noFiles,
+            loadingCurrentPath && classes.fadeOutLoading,
+          )}
+        >
           <EmptySvg />
           <Typography variant="h4" component="h4">
             <Trans>No files to show</Trans>
           </Typography>
         </section>
       ) : (
-        <Table fullWidth={true} striped={true} hover={true}>
+        <Table
+          fullWidth={true}
+          striped={true}
+          hover={true}
+          className={clsx(loadingCurrentPath && classes.fadeOutLoading)}
+        >
           {desktop && (
             <TableHead>
               <TableRow type="grid" className={classes.tableRow}>
