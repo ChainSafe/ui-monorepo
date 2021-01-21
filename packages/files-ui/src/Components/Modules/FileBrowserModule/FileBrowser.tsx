@@ -46,6 +46,7 @@ import { NativeTypes } from "react-dnd-html5-backend"
 import { useDrop } from "react-dnd"
 import { IFileBrowserProps } from "./types"
 import DownloadProgressModals from "../DownloadProgressModals"
+import MoveFileModal from "./MoveFileModal"
 
 const useStyles = makeStyles(
   ({ animation, breakpoints, constants, palette, zIndex }: ITheme) => {
@@ -421,6 +422,9 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
   // Modals
   const [createFolderModalOpen, setCreateFolderModalOpen] = useState(false)
   const [uploadModalOpen, setUploadModalOpen] = useState(false)
+  const [moveFileData, setMoveFileData] = useState<
+    { modal: boolean; file: IFile } | undefined
+  >(undefined)
   const [deleteDialogOpen, setDeleteDialog] = useState<() => void | undefined>()
 
   return (
@@ -637,6 +641,7 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
                 downloadFile={downloadFile}
                 handleUploadOnDrop={handleUploadOnDrop}
                 setPreviewFileIndex={setPreviewFileIndex}
+                setMoveFileData={setMoveFileData}
                 desktop={desktop}
               />
             ))}
@@ -668,6 +673,12 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
       <UploadFileModule
         modalOpen={uploadModalOpen}
         close={() => setUploadModalOpen(false)}
+      />
+      <MoveFileModal
+        currentPath={currentPath}
+        file={moveFileData?.file}
+        modalOpen={moveFileData ? moveFileData.modal : false}
+        close={() => setMoveFileData(undefined)}
       />
     </article>
   )

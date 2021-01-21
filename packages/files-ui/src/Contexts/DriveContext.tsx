@@ -65,6 +65,7 @@ type DriveContext = {
   isMasterPasswordSet: boolean
   setMasterPassword(password: string): void
   secureDrive(password: string): void
+  getFolderTree(path: string): Promise<void>
 }
 
 interface IItem extends FileContentResponse {
@@ -304,6 +305,19 @@ const DriveProvider = ({ children }: DriveContextProps) => {
     }
   }
 
+  const getFolderTree = async (path: string) => {
+    try {
+      await imployApiClient.getCSFFilesStoreInfo()
+      return
+    } catch (error) {
+      addToastMessage({
+        message: t`There was an error getting folder info`,
+        appearance: "error",
+      })
+      return Promise.reject()
+    }
+  }
+
   const renameFile = async (body: FilesMvRequest) => {
     try {
       await imployApiClient.moveCSFObject(body)
@@ -506,6 +520,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
         isMasterPasswordSet: !!masterPassword,
         setMasterPassword: setPassword,
         secureDrive,
+        getFolderTree,
       }}
     >
       {children}
