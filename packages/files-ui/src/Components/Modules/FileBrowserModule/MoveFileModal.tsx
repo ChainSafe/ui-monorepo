@@ -4,11 +4,15 @@ import {
   makeStyles,
   useMediaQuery,
 } from "@chainsafe/common-theme"
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useCallback } from "react"
 import CustomModal from "../../Elements/CustomModal"
 import CustomButton from "../../Elements/CustomButton"
 import { Trans } from "@lingui/macro"
-import { IFile, useDrive } from "../../../Contexts/DriveContext"
+import {
+  IFile,
+  useDrive,
+  DirectoryContentResponse,
+} from "../../../Contexts/DriveContext"
 import {
   Button,
   FolderIcon,
@@ -17,6 +21,7 @@ import {
   TreeView,
   Typography,
 } from "@chainsafe/common-components"
+import { getPathWithFile } from "../../../Utils/pathUtils"
 
 const useStyles = makeStyles(
   ({ breakpoints, constants, palette, typography, zIndex }: ITheme) => {
@@ -141,18 +146,36 @@ const CreateFolderModule: React.FC<IMoveFileModuleProps> = ({
   const [movePath, setMovePath] = useState<undefined | string>(undefined)
   const [folderTree, setFolderTree] = useState<ITreeNodeData[]>(treeArrData)
 
-  const mapFolderTree = (folderTree: any) => {
-    // map code should be here
-    return folderTree
-  }
+  const mapFolderTree = useCallback(
+    (folderTreeEntries: DirectoryContentResponse[]): ITreeNodeData[] => {
+      return folderTreeEntries.map((entry) => ({
+        id: entry.path,
+        title: entry.name,
+        expandable: true,
+        tree: entry.entries ? mapFolderTree(entry.entries) : [],
+      }))
+    },
+    [],
+  )
 
   useEffect(() => {
     const getFolderTreeData = async () => {
-      const newFolderTree = await getFolderTree("/")
-      setFolderTree(mapFolderTree(newFolderTree))
+      const newFolderTree = await getFolderTree()
+      if (newFolderTree.entries) {
+        const folderTreeNodes = [
+          {
+            id: "/",
+            title: "Home",
+            isExpanded: true,
+            expandable: true,
+            tree: mapFolderTree(newFolderTree.entries),
+          },
+        ]
+        setFolderTree(folderTreeNodes)
+      }
     }
     getFolderTreeData()
-  }, [])
+  }, [getFolderTree, mapFolderTree])
 
   const onMoveFile = async () => {
     if (file && movePath) {
@@ -160,9 +183,10 @@ const CreateFolderModule: React.FC<IMoveFileModuleProps> = ({
         setMovingFile(true)
         await moveFile({
           path: `${currentPath}${file.name}`,
-          new_path: `${movePath}${file.name}`,
+          new_path: getPathWithFile(movePath, file.name),
         })
         setMovingFile(false)
+        close()
       } catch {
         setMovingFile(false)
       }
@@ -217,6 +241,7 @@ const CreateFolderModule: React.FC<IMoveFileModuleProps> = ({
           className={classes.okButton}
           loading={movingFile}
           disabled={!movePath}
+          onClick={onMoveFile}
         >
           <Trans>Move</Trans>
         </Button>

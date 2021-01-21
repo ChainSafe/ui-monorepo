@@ -1,4 +1,4 @@
-import React, { useState, ReactNode } from "react"
+import React, { useState, ReactNode, useEffect } from "react"
 import { ITheme, makeStyles, createStyles } from "@chainsafe/common-theme"
 import clsx from "clsx"
 
@@ -32,6 +32,7 @@ export interface ITreeNodeData {
   id: string
   icon?: ReactNode
   expandable?: boolean
+  isExpanded?: boolean
   onClick?: any
   tree?: ITreeNodeData[]
   commonIcon?: ReactNode
@@ -49,12 +50,16 @@ const TreeNode: React.FC<ITreeNodeData> = ({
   tree,
   selectedId,
   onSelectNode,
+  isExpanded: isExpandedProp,
 }) => {
   const classes = useStyles()
-  const [isExpanded, setIsExpanded] = useState(false)
+  const [isExpanded, setIsExpanded] = useState(isExpandedProp)
+
+  useEffect(() => {
+    setIsExpanded(isExpandedProp)
+  }, [isExpandedProp])
 
   const toggle = () => {
-    console.log("here", onSelectNode, selectedId)
     setIsExpanded(!isExpanded)
   }
 

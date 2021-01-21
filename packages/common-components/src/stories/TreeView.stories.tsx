@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 import { withKnobs } from "@storybook/addon-knobs"
-import { TreeView, ITreeNodeData } from "../TreeView"
+import { TreeView, ITreeNodeData } from "../TreeMenu"
 import { FolderIcon } from "../Icons"
 
 export default {
@@ -60,7 +60,6 @@ const treeArrData: ITreeNodeData[] = [
 
 export const TreeViewStory = (): React.ReactNode => {
   const [selectedId, setSelectedId] = useState<undefined | string>(undefined)
-  console.log(selectedId)
   return (
     <TreeView
       treeData={treeArrData}

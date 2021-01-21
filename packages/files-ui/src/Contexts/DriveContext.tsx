@@ -1,4 +1,5 @@
 import {
+  DirectoryContentResponse,
   FileContentResponse,
   FilesMvRequest,
   FilesPathRequest,
@@ -65,7 +66,7 @@ type DriveContext = {
   isMasterPasswordSet: boolean
   setMasterPassword(password: string): void
   secureDrive(password: string): void
-  getFolderTree(path: string): Promise<void>
+  getFolderTree(): Promise<DirectoryContentResponse>
 }
 
 interface IItem extends FileContentResponse {
@@ -305,10 +306,10 @@ const DriveProvider = ({ children }: DriveContextProps) => {
     }
   }
 
-  const getFolderTree = async (path: string) => {
+  const getFolderTree = async () => {
     try {
-      await imployApiClient.getCSFFilesStoreInfo()
-      return
+      const result = await imployApiClient.getCSFTree()
+      return result
     } catch (error) {
       addToastMessage({
         message: t`There was an error getting folder info`,
@@ -399,19 +400,19 @@ const DriveProvider = ({ children }: DriveContextProps) => {
         onDownloadProgress,
       )
 
-      if (file.version === 0) {
-        return result.data
-      } else {
-        const decrypted = await decryptFile(
-          await result.data.arrayBuffer(),
-          masterPassword,
-        )
-        if (decrypted) {
-          return new Blob([decrypted], {
-            type: file.content_type,
-          })
-        }
+      // if (file.version === 0) {
+      //   return result.data
+      // } else {
+      const decrypted = await decryptFile(
+        await result.data.arrayBuffer(),
+        masterPassword,
+      )
+      if (decrypted) {
+        return new Blob([decrypted], {
+          type: file.content_type,
+        })
       }
+      // }
     } catch (error) {
       console.log(error)
       return Promise.reject()
@@ -537,4 +538,4 @@ const useDrive = () => {
 }
 
 export { DriveProvider, useDrive }
-export type { IItem as IFile }
+export type { IItem as IFile, DirectoryContentResponse }
