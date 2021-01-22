@@ -7,11 +7,9 @@ import {
 } from "@chainsafe/common-theme"
 import React, { Fragment } from "react"
 import {
-  // CheckboxInput,
   Divider,
   MenuDropdown,
   PlusIcon,
-  // ShareAltIcon,
   SortDirection,
   Table,
   TableBody,
@@ -21,9 +19,7 @@ import {
   TableRow,
   Typography,
   Breadcrumb,
-  Crumb,
   CircularProgressBar,
-  useToaster,
   Button,
   PlusCircleIcon,
   UploadIcon,
@@ -32,14 +28,13 @@ import {
 import { useState } from "react"
 import { useMemo } from "react"
 import { object, string } from "yup"
-import EmptySvg from "../../../Media/Empty.svg"
+import EmptySvg from "../../../../Media/Empty.svg"
 import clsx from "clsx"
 import { t, Trans } from "@lingui/macro"
 import { NativeTypes } from "react-dnd-html5-backend"
 import { useDrop } from "react-dnd"
 import { IFilesTableBrowserProps } from "../types"
 import { IFile, useDrive } from "../../../../Contexts/DriveContext"
-import { getArrayOfPaths, getPathFromArray } from "../../../../Utils/pathUtils"
 import FileOrFolderView from "../FileOrFolderView"
 import FilePreviewModal from "../../FilePreviewModal"
 import UploadProgressModals from "../../UploadProgressModals"
