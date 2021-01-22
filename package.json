@@ -42,7 +42,8 @@
     "clean:dist": "rm -rf ./*/**/dist && rm -rf ./*/**/build && rm -rf ./*/**/storybook-static",
     "clean": "yarn clean:dependencies && yarn clean:dist",
     "prettier": "prettier --config .prettierrc 'packages/**/src/**/*.{ts,tsx,js,jsx,md}' --write",
-    "start:tunnel": "./ngrok http https://localhost:3000"
+    "start:tunnel": "./ngrok http https://localhost:3000",
+    "build:tkey-playground": "yarn wsrun -p tkey-playground -c build"
   },
   "workspaces": {
     "packages": [
