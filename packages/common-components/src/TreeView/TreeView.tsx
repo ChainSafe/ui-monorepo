@@ -1,14 +1,14 @@
 import React, { ReactNode } from "react"
-import TreeNode, { ITreeNodeData } from "./TreeNode"
+import TreeNode, { ITreeNodeProps } from "./TreeNode"
 
-export interface ITreeViewData {
-  treeData: ITreeNodeData[]
+export interface ITreeViewProps {
+  treeData: ITreeNodeProps[]
   commonIcon?: ReactNode
   selectedId?: string
   onSelectNode?: any
 }
 
-const TreeView: React.FC<ITreeViewData> = ({
+const TreeView: React.FC<ITreeViewProps> = ({
   treeData,
   commonIcon,
   selectedId,

@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 import { withKnobs } from "@storybook/addon-knobs"
-import { TreeView, ITreeNodeData } from "../TreeMenu"
+import { TreeView, ITreeNodeProps } from "../TreeView"
 import { FolderIcon } from "../Icons"
 
 export default {
@@ -10,7 +10,7 @@ export default {
   decorators: [withKnobs],
 }
 
-const treeArrData: ITreeNodeData[] = [
+const treeArrData: ITreeNodeProps[] = [
   {
     title: "Bob",
     expandable: true,

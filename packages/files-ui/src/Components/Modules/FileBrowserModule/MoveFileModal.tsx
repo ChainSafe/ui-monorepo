@@ -17,7 +17,7 @@ import {
   Button,
   FolderIcon,
   Grid,
-  ITreeNodeData,
+  ITreeNodeProps,
   TreeView,
   Typography,
 } from "@chainsafe/common-components"
@@ -86,54 +86,6 @@ interface IMoveFileModuleProps {
   close: () => void
 }
 
-const treeArrData: ITreeNodeData[] = [
-  {
-    title: "Bob",
-    expandable: true,
-    id: "1",
-    tree: [
-      {
-        title: "Mary",
-        id: "2",
-        expandable: true,
-        tree: [{ title: "Suzy", id: "3" }],
-      },
-      {
-        title: "Phil",
-        id: "4",
-        expandable: true,
-        tree: [
-          { title: "Jon", id: "5" },
-          { title: "Paul", id: "6" },
-        ],
-      },
-    ],
-  },
-  {
-    title: "Bob",
-    expandable: true,
-    id: "7",
-    icon: <FolderIcon />,
-    tree: [
-      {
-        title: "Mary",
-        id: "8",
-        expandable: true,
-        tree: [{ title: "Suzy", id: "9", icon: <FolderIcon /> }],
-      },
-      {
-        title: "Phil",
-        id: "6",
-        expandable: true,
-        tree: [
-          { title: "Jon", id: "10" },
-          { title: "Paul", id: "11" },
-        ],
-      },
-    ],
-  },
-]
-
 const CreateFolderModule: React.FC<IMoveFileModuleProps> = ({
   currentPath,
   file,
@@ -144,10 +96,10 @@ const CreateFolderModule: React.FC<IMoveFileModuleProps> = ({
   const { moveFile, getFolderTree } = useDrive()
   const [movingFile, setMovingFile] = useState(false)
   const [movePath, setMovePath] = useState<undefined | string>(undefined)
-  const [folderTree, setFolderTree] = useState<ITreeNodeData[]>(treeArrData)
+  const [folderTree, setFolderTree] = useState<ITreeNodeProps[]>([])
 
   const mapFolderTree = useCallback(
-    (folderTreeEntries: DirectoryContentResponse[]): ITreeNodeData[] => {
+    (folderTreeEntries: DirectoryContentResponse[]): ITreeNodeProps[] => {
       return folderTreeEntries.map((entry) => ({
         id: entry.path,
         title: entry.name,
