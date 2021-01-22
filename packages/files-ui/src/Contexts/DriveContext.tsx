@@ -400,19 +400,19 @@ const DriveProvider = ({ children }: DriveContextProps) => {
         onDownloadProgress,
       )
 
-      // if (file.version === 0) {
-      //   return result.data
-      // } else {
-      const decrypted = await decryptFile(
-        await result.data.arrayBuffer(),
-        masterPassword,
-      )
-      if (decrypted) {
-        return new Blob([decrypted], {
-          type: file.content_type,
-        })
+      if (file.version === 0) {
+        return result.data
+      } else {
+        const decrypted = await decryptFile(
+          await result.data.arrayBuffer(),
+          masterPassword,
+        )
+        if (decrypted) {
+          return new Blob([decrypted], {
+            type: file.content_type,
+          })
+        }
       }
-      // }
     } catch (error) {
       console.log(error)
       return Promise.reject()
