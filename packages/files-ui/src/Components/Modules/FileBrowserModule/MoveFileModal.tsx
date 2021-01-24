@@ -18,6 +18,7 @@ import {
   FolderIcon,
   Grid,
   ITreeNodeProps,
+  ScrollbarWrapper,
   TreeView,
   Typography,
 } from "@chainsafe/common-components"
@@ -66,9 +67,7 @@ const useStyles = makeStyles(
         borderBottom: `1px solid ${palette.additional["gray"][5]}`,
       },
       treeScrollView: {
-        padding: `0 ${constants.generalUnit * 4}px`,
-        maxHeight: "200px",
-        overflow: "scroll",
+        paddingLeft: constants.generalUnit * 4,
       },
       paddedContainer: {
         padding: `${constants.generalUnit * 2}px ${
@@ -110,8 +109,8 @@ const CreateFolderModule: React.FC<IMoveFileModuleProps> = ({
     [],
   )
 
-  useEffect(() => {
-    const getFolderTreeData = async () => {
+  const getFolderTreeData = useCallback(async () => {
+    try {
       const newFolderTree = await getFolderTree()
       if (newFolderTree.entries) {
         const folderTreeNodes = [
@@ -125,9 +124,21 @@ const CreateFolderModule: React.FC<IMoveFileModuleProps> = ({
         ]
         setFolderTree(folderTreeNodes)
       }
+    } catch {
+      //
     }
+    // eslint-disable-next-line
+  }, [])
+
+  useEffect(() => {
     getFolderTreeData()
-  }, [getFolderTree, mapFolderTree])
+  }, [getFolderTreeData])
+
+  useEffect(() => {
+    if (modalOpen) {
+      getFolderTreeData()
+    }
+  }, [modalOpen, getFolderTreeData])
 
   const onMoveFile = async () => {
     if (file && movePath) {
@@ -163,14 +174,16 @@ const CreateFolderModule: React.FC<IMoveFileModuleProps> = ({
         </Typography>
       </Grid>
       <Grid item xs={12} sm={12} className={classes.treeContainer}>
-        <div className={classes.treeScrollView}>
-          <TreeView
-            treeData={folderTree}
-            commonIcon={<FolderIcon />}
-            selectedId={movePath}
-            onSelectNode={(path: string) => setMovePath(path)}
-          />
-        </div>
+        <ScrollbarWrapper autoHide={true} maxHeight={200}>
+          <div className={classes.treeScrollView}>
+            <TreeView
+              treeData={folderTree}
+              commonIcon={<FolderIcon />}
+              selectedId={movePath}
+              onSelectNode={(path: string) => setMovePath(path)}
+            />
+          </div>
+        </ScrollbarWrapper>
       </Grid>
       <Grid
         item
