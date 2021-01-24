@@ -164,7 +164,7 @@ const useStyles = makeStyles(
 
 const LoginPage = () => {
   const classes = useStyles()
-  const { breakpoints, palette }: ITheme = useTheme()
+  const { breakpoints }: ITheme = useTheme()
   const {
     isReturningUser,
     web3Login,
