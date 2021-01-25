@@ -1,10 +1,11 @@
 import React from "react"
 import { Crumb, useToaster } from "@chainsafe/common-components"
 import { useState } from "react"
-import { useDrive } from "../../../Contexts/DriveContext"
+import { IFile, useDrive } from "../../../Contexts/DriveContext"
 import { getArrayOfPaths, getPathFromArray } from "../../../Utils/pathUtils"
-import { IFilesBrowserModuleProps } from "./types"
+import { IFileConfigured, IFilesBrowserModuleProps } from "./types"
 import FilesTableView from "./views/FilesTable.view"
+import { CONTENT_TYPES } from "../../../Utils/Constants"
 
 const FileBrowserModule: React.FC<IFilesBrowserModuleProps> = ({
   heading = "My Files",
@@ -72,6 +73,43 @@ const FileBrowserModule: React.FC<IFilesBrowserModuleProps> = ({
     }
   }
 
+  const parsedContents: IFileConfigured[] = pathContents.map(
+    (item: IFile): IFileConfigured => {
+      switch (item.content_type) {
+        case CONTENT_TYPES.Directory:
+          return {
+            ...item,
+            operations: ["delete", "download", "move", "rename"],
+          }
+        case CONTENT_TYPES.File:
+          return {
+            ...item,
+            operations: ["delete", "download", "move", "rename", "share"],
+          }
+        case CONTENT_TYPES.Image:
+          return {
+            ...item,
+            operations: ["delete", "download", "move", "rename", "share"],
+          }
+        case CONTENT_TYPES.Pdf:
+          return {
+            ...item,
+            operations: ["delete", "download", "move", "rename", "share"],
+          }
+        case CONTENT_TYPES.Text:
+          return {
+            ...item,
+            operations: ["delete", "download", "move", "rename", "share"],
+          }
+        default:
+          return {
+            ...item,
+            operations: ["delete", "download", "move", "rename", "share"],
+          }
+      }
+    },
+  )
+
   return (
     <FilesTableView
       crumbs={crumbs}
@@ -83,7 +121,7 @@ const FileBrowserModule: React.FC<IFilesBrowserModuleProps> = ({
       handleMove={handleMove}
       handleRename={handleRename}
       handleUploadOnDrop={handleUploadOnDrop}
-      sourceFiles={pathContents}
+      sourceFiles={parsedContents}
       updateCurrentPath={updateCurrentPath}
       heading={heading}
       controls={controls}

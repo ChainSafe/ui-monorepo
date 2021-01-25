@@ -11,6 +11,10 @@ export interface IFilesBrowserModuleProps {
   folderOperations: FileOperation[]
 }
 
+export interface IFileConfigured extends IFile {
+  operations: FileOperation[]
+}
+
 export interface IFilesTableBrowserProps extends IFilesBrowserModuleProps {
   handleRename: (path: string, new_path: string) => Promise<void>
   handleMove: (path: string, new_path: string) => Promise<void>
@@ -24,7 +28,7 @@ export interface IFilesTableBrowserProps extends IFilesBrowserModuleProps {
   ) => void
   updateCurrentPath: (newPath: string) => void
 
-  sourceFiles: IFile[]
+  sourceFiles: IFileConfigured[]
   currentPath: string
   crumbs: Crumb[]
 }
