@@ -24,6 +24,7 @@ import {
   PlusCircleIcon,
   UploadIcon,
   Dialog,
+  Loading,
 } from "@chainsafe/common-components"
 import { useState } from "react"
 import { useMemo } from "react"
@@ -180,6 +181,28 @@ const useStyles = makeStyles(
           visibility: "visible",
         },
       },
+      loadingContainer: {
+        position: "absolute",
+        width: "100%",
+        paddingTop: constants.generalUnit * 6,
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        opacity: 0,
+        visibility: "hidden",
+        transition: `opacity ${animation.transform * 3}ms`,
+        "& svg": {
+          marginBottom: constants.generalUnit * 2,
+        },
+      },
+      showLoadingContainer: {
+        visibility: "visible",
+        opacity: 1,
+      },
+      fadeOutLoading: {
+        opacity: 0.2,
+        transition: `opacity ${animation.transform * 3}ms`,
+      },
     })
   },
 )
@@ -197,9 +220,10 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
   handleMove,
   downloadFile,
   deleteFile,
+  currentPath,
 }: IFilesTableBrowserProps) => {
   const classes = useStyles()
-  const { currentPath, uploadsInProgress } = useDrive()
+  const { uploadsInProgress, loadingCurrentPath } = useDrive()
   const [editing, setEditing] = useState<string | undefined>()
   const [direction, setDirection] = useState<SortDirection>("descend")
   const [column, setColumn] = useState<"name" | "size" | "date_uploaded">(
@@ -365,6 +389,9 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
   // Modals
   const [createFolderModalOpen, setCreateFolderModalOpen] = useState(false)
   const [uploadModalOpen, setUploadModalOpen] = useState(false)
+  const [moveFileData, setMoveFileData] = useState<
+    { modal: boolean; file: IFile } | undefined
+  >(undefined)
   const [deleteDialogOpen, setDeleteDialog] = useState<() => void | undefined>()
 
   return (
@@ -467,16 +494,37 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
         </div>
       </header>
       <Divider className={classes.divider} />
+      <div
+        className={clsx(
+          classes.loadingContainer,
+          loadingCurrentPath && classes.showLoadingContainer,
+        )}
+      >
+        <Loading size={24} type="light" />
+        <Typography variant="body2" component="p">
+          <Trans>One sec, getting files ready...</Trans>
+        </Typography>
+      </div>
       {(desktop && items.length === 0) ||
       (!desktop && items.length === 0 && uploadsInProgress.length === 0) ? (
-        <section className={classes.noFiles}>
+        <section
+          className={clsx(
+            classes.noFiles,
+            loadingCurrentPath && classes.fadeOutLoading,
+          )}
+        >
           <EmptySvg />
           <Typography variant="h4" component="h4">
             <Trans>No files to show</Trans>
           </Typography>
         </section>
       ) : (
-        <Table fullWidth={true} striped={true} hover={true}>
+        <Table
+          fullWidth={true}
+          striped={true}
+          hover={true}
+          className={clsx(loadingCurrentPath && classes.fadeOutLoading)}
+        >
           {desktop && (
             <TableHead>
               <TableRow type="grid" className={classes.tableRow}>
@@ -570,7 +618,10 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
                 editing={editing}
                 setEditing={setEditing}
                 RenameSchema={RenameSchema}
-                handleRename={handleRename}
+                handleRename={async (path: string, newPath: string) => {
+                  await handleRename(path, newPath)
+                  setEditing(undefined)
+                }}
                 handleMove={handleMove}
                 deleteFile={(cid: string) =>
                   setDeleteDialog(() => () => {
@@ -581,6 +632,7 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
                 downloadFile={downloadFile}
                 handleUploadOnDrop={handleUploadOnDrop}
                 setPreviewFileIndex={setPreviewFileIndex}
+                setMoveFileData={setMoveFileData}
                 desktop={desktop}
               />
             ))}
@@ -612,6 +664,12 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
       <UploadFileModule
         modalOpen={uploadModalOpen}
         close={() => setUploadModalOpen(false)}
+      />
+      <MoveFileModal
+        currentPath={currentPath}
+        file={moveFileData?.file}
+        modalOpen={moveFileData ? moveFileData.modal : false}
+        close={() => setMoveFileData(undefined)}
       />
     </article>
   )
