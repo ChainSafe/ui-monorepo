@@ -34,7 +34,7 @@ import clsx from "clsx"
 import { t, Trans } from "@lingui/macro"
 import { NativeTypes } from "react-dnd-html5-backend"
 import { useDrop } from "react-dnd"
-import { IFilesTableBrowserProps } from "../types"
+import { IFileConfigured, IFilesTableBrowserProps } from "../types"
 import { IFile, useDrive } from "../../../../Contexts/DriveContext"
 import FileOrFolderView from "../FileOrFolderView"
 import FilePreviewModal from "../../FilePreviewModal"
@@ -42,6 +42,7 @@ import UploadProgressModals from "../../UploadProgressModals"
 import DownloadProgressModals from "../../DownloadProgressModals"
 import CreateFolderModule from "../../CreateFolderModule"
 import UploadFileModule from "../../UploadFileModule"
+import MoveFileModule from "../MoveFileModal"
 
 const useStyles = makeStyles(
   ({ animation, breakpoints, constants, palette, zIndex }: ITheme) => {
@@ -239,7 +240,7 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
   const sortFoldersFirst = (a: IFile, b: IFile) =>
     a.isFolder && a.content_type !== b.content_type ? -1 : 1
 
-  const items: IFile[] = useMemo(() => {
+  const items: IFileConfigured[] = useMemo(() => {
     if (!sourceFiles) return []
 
     switch (direction) {
@@ -247,7 +248,9 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
         // case "descend": {
         // case "name": {
         return sourceFiles
-          .sort((a: IFile, b: IFile) => (a.name > b.name ? -1 : 1))
+          .sort((a: IFileConfigured, b: IFileConfigured) =>
+            a.name > b.name ? -1 : 1,
+          )
           .sort(sortFoldersFirst)
       }
       case "descend": {
@@ -255,7 +258,9 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
           default: {
             // case "name": {
             return sourceFiles
-              .sort((a: IFile, b: IFile) => (a.name > b.name ? -1 : 1))
+              .sort((a: IFileConfigured, b: IFileConfigured) =>
+                a.name > b.name ? -1 : 1,
+              )
               .sort(sortFoldersFirst)
           }
           case "size": {
@@ -265,7 +270,7 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
           }
           case "date_uploaded": {
             return sourceFiles
-              .sort((a: IFile, b: IFile) =>
+              .sort((a: IFileConfigured, b: IFileConfigured) =>
                 a.date_uploaded > b.date_uploaded ? -1 : 1,
               )
               .sort(sortFoldersFirst)
@@ -277,17 +282,21 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
           default: {
             // case "name": {
             return sourceFiles
-              .sort((a: IFile, b: IFile) => (a.name < b.name ? -1 : 1))
+              .sort((a: IFileConfigured, b: IFileConfigured) =>
+                a.name < b.name ? -1 : 1,
+              )
               .sort(sortFoldersFirst)
           }
           case "size": {
             return sourceFiles
-              .sort((a: IFile, b: IFile) => (a.size < b.size ? -1 : 1))
+              .sort((a: IFileConfigured, b: IFileConfigured) =>
+                a.size < b.size ? -1 : 1,
+              )
               .sort(sortFoldersFirst)
           }
           case "date_uploaded": {
             return sourceFiles
-              .sort((a: IFile, b: IFile) =>
+              .sort((a: IFileConfigured, b: IFileConfigured) =>
                 a.date_uploaded < b.date_uploaded ? -1 : 1,
               )
               .sort(sortFoldersFirst)
@@ -665,9 +674,9 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
         modalOpen={uploadModalOpen}
         close={() => setUploadModalOpen(false)}
       />
-      <MoveFileModal
+      <MoveFileModule
         currentPath={currentPath}
-        file={moveFileData?.file}
+        file={moveFileData?.file as IFile}
         modalOpen={moveFileData ? moveFileData.modal : false}
         close={() => setMoveFileData(undefined)}
       />

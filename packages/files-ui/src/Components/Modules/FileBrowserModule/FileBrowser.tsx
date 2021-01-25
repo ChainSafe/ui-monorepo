@@ -1,6 +1,5 @@
 import React from "react"
 import { Crumb, useToaster } from "@chainsafe/common-components"
-import { useState } from "react"
 import { IFile, useDrive } from "../../../Contexts/DriveContext"
 import { getArrayOfPaths, getPathFromArray } from "../../../Utils/pathUtils"
 import { IFileConfigured, IFilesBrowserModuleProps } from "./types"

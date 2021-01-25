@@ -85,7 +85,7 @@ interface IMoveFileModuleProps {
   close: () => void
 }
 
-const CreateFolderModule: React.FC<IMoveFileModuleProps> = ({
+const MoveFileModule: React.FC<IMoveFileModuleProps> = ({
   currentPath,
   file,
   modalOpen,
@@ -215,4 +215,4 @@ const CreateFolderModule: React.FC<IMoveFileModuleProps> = ({
   )
 }
 
-export default CreateFolderModule
+export default MoveFileModule
