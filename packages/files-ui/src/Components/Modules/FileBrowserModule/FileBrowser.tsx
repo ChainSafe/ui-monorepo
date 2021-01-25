@@ -22,7 +22,6 @@ const FileBrowserModule: React.FC<IFilesBrowserModuleProps> = ({
     pathContents,
     uploadFiles,
   } = useDrive()
-  const [, setEditing] = useState<string | undefined>()
 
   // Rename
   const handleRename = async (path: string, new_path: string) => {
@@ -31,7 +30,6 @@ const FileBrowserModule: React.FC<IFilesBrowserModuleProps> = ({
       path: path,
       new_path: new_path,
     })
-    setEditing(undefined)
   }
 
   // Rename
@@ -73,8 +71,6 @@ const FileBrowserModule: React.FC<IFilesBrowserModuleProps> = ({
       uploadFiles(files, path)
     }
   }
-
-  // Modals
 
   return (
     <FilesTableView

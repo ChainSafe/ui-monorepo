@@ -24,10 +24,15 @@ const Loading: React.FC<ILoadingProps> = ({
                 ? theme.palette.primary.main
                 : type === "dark"
                 ? theme.palette.common.black.main
-                : theme.palette.common.white.main
+                : theme.palette.additional["gray"][5]
             }
           />
-          <stop offset="100%" stop-color="transparent" />
+          <stop
+            offset="100%"
+            stop-color={
+              type === "light" ? theme.palette.common.white.main : "transparent"
+            }
+          />
         </linearGradient>
       </defs>
       <circle
