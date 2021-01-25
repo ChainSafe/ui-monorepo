@@ -48,6 +48,7 @@ import { useDrop } from "react-dnd"
 import { IFileBrowserProps } from "./types"
 import DownloadProgressModals from "../DownloadProgressModals"
 import MoveFileModal from "./MoveFileModal"
+import FileInfoModal from "./FileInfoModal"
 
 const useStyles = makeStyles(
   ({ animation, breakpoints, constants, palette, zIndex }: ITheme) => {
@@ -449,6 +450,9 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
   const [uploadModalOpen, setUploadModalOpen] = useState(false)
   const [moveFileData, setMoveFileData] = useState<
     { modal: boolean; file: IFile } | undefined
+  >(undefined)
+  const [fullFileData, setFillFileData] = useState<
+    { modal: boolean; filePath: string } | undefined
   >(undefined)
   const [deleteDialogOpen, setDeleteDialog] = useState<() => void | undefined>()
 

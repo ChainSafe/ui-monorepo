@@ -85,76 +85,23 @@ interface IMoveFileModuleProps {
   close: () => void
 }
 
-const MoveFileModal: React.FC<IMoveFileModuleProps> = ({
+const FileInfoModal: React.FC<IMoveFileModuleProps> = ({
   currentPath,
   file,
   modalOpen,
   close,
 }: IMoveFileModuleProps) => {
   const classes = useStyles()
-  const { moveFile, getFolderTree } = useDrive()
-  const [movingFile, setMovingFile] = useState(false)
-  const [movePath, setMovePath] = useState<undefined | string>(undefined)
-  const [folderTree, setFolderTree] = useState<ITreeNodeProps[]>([])
-
-  const mapFolderTree = useCallback(
-    (folderTreeEntries: DirectoryContentResponse[]): ITreeNodeProps[] => {
-      return folderTreeEntries.map((entry) => ({
-        id: entry.path,
-        title: entry.name,
-        expandable: true,
-        tree: entry.entries ? mapFolderTree(entry.entries) : [],
-      }))
-    },
-    [],
-  )
-
-  const getFolderTreeData = useCallback(async () => {
-    try {
-      const newFolderTree = await getFolderTree()
-      if (newFolderTree.entries) {
-        const folderTreeNodes = [
-          {
-            id: "/",
-            title: "Home",
-            isExpanded: true,
-            expandable: true,
-            tree: mapFolderTree(newFolderTree.entries),
-          },
-        ]
-        setFolderTree(folderTreeNodes)
-      }
-    } catch {
-      //
-    }
-    // eslint-disable-next-line
-  }, [])
-
-  useEffect(() => {
-    getFolderTreeData()
-  }, [getFolderTreeData])
+  const {} = useDrive()
+  const [loadingFileInfo, setLoadingInfo] = useState(false)
 
   useEffect(() => {
     if (modalOpen) {
-      getFolderTreeData()
+      setLoadingInfo(true)
+      //
+      setLoadingInfo(false)
     }
-  }, [modalOpen, getFolderTreeData])
-
-  const onMoveFile = async () => {
-    if (file && movePath) {
-      try {
-        setMovingFile(true)
-        await moveFile({
-          path: `${currentPath}${file.name}`,
-          new_path: getPathWithFile(movePath, file.name),
-        })
-        setMovingFile(false)
-        close()
-      } catch {
-        setMovingFile(false)
-      }
-    }
-  }
+  }, [modalOpen])
 
   const desktop = useMediaQuery("md")
 
@@ -170,20 +117,11 @@ const MoveFileModal: React.FC<IMoveFileModuleProps> = ({
     >
       <Grid item xs={12} sm={12} className={classes.paddedContainer}>
         <Typography className={classes.heading} variant="h5" component="h5">
-          <Trans>Move to...</Trans>
+          <Trans>File</Trans>
         </Typography>
       </Grid>
       <Grid item xs={12} sm={12} className={classes.treeContainer}>
-        <ScrollbarWrapper autoHide={true} maxHeight={200}>
-          <div className={classes.treeScrollView}>
-            <TreeView
-              treeData={folderTree}
-              commonIcon={<FolderIcon />}
-              selectedId={movePath}
-              onSelectNode={(path: string) => setMovePath(path)}
-            />
-          </div>
-        </ScrollbarWrapper>
+        File info
       </Grid>
       <Grid
         item
@@ -198,21 +136,11 @@ const MoveFileModal: React.FC<IMoveFileModuleProps> = ({
           variant={desktop ? "outline" : "gray"}
           type="button"
         >
-          <Trans>Cancel</Trans>
+          <Trans>Ok</Trans>
         </CustomButton>
-        <Button
-          size={desktop ? "medium" : "large"}
-          type="submit"
-          className={classes.okButton}
-          loading={movingFile}
-          disabled={!movePath}
-          onClick={onMoveFile}
-        >
-          <Trans>Move</Trans>
-        </Button>
       </Grid>
     </CustomModal>
   )
 }
 
-export default MoveFileModal
+export default FileInfoModal
