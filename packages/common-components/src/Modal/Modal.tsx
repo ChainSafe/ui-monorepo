@@ -161,7 +161,7 @@ const Modal: React.FC<IModalProps> = ({
 
   useOnClickOutside(ref, () => handleClose())
 
-  return (
+  return active ? (
     <article
       className={clsx(
         classes.root,
@@ -202,7 +202,7 @@ const Modal: React.FC<IModalProps> = ({
         {children}
       </section>
     </article>
-  )
+  ) : null
 }
 
 export default Modal

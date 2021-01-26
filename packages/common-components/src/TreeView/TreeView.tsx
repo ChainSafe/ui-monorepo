@@ -16,12 +16,13 @@ const TreeView: React.FC<ITreeViewProps> = ({
 }) => {
   return treeData.length ? (
     <ul>
-      {treeData.map((subTree) => (
+      {treeData.map((subTree, i) => (
         <TreeNode
           {...subTree}
           commonIcon={commonIcon}
           selectedId={selectedId}
           onSelectNode={onSelectNode}
+          key={i}
         />
       ))}
     </ul>
