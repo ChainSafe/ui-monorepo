@@ -34,7 +34,7 @@ import { Trans } from "@lingui/macro"
 import { useDrag, useDrop } from "react-dnd"
 import { DragTypes } from "./DragConstants"
 import { NativeTypes } from "react-dnd-html5-backend"
-import { FileOperation } from "./types"
+import { FileOperation, IFileConfigured } from "./types"
 
 const useStyles = makeStyles(({ breakpoints, constants, palette }: ITheme) => {
   // const desktopGridSettings = "50px 69px 3fr 190px 100px 45px !important"
@@ -144,11 +144,9 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: ITheme) => {
 
 interface IFileOrFolderProps {
   index: number
-  file: IFile
-  files: IFile[]
+  file: IFileConfigured
+  files: IFileConfigured[]
   currentPath: string
-  fileOperations: FileOperation[]
-  folderOperations: FileOperation[]
   updateCurrentPath(path: string): void
   selected: string[]
   handleSelect(selected: string): void
@@ -173,8 +171,6 @@ const FileOrFolderView: React.FC<IFileOrFolderProps> = ({
   index,
   file,
   files,
-  fileOperations,
-  folderOperations,
   currentPath,
   updateCurrentPath,
   selected,
@@ -257,9 +253,9 @@ const FileOrFolderView: React.FC<IFileOrFolderProps> = ({
     },
   }
 
-  const menuItems: IMenuItem[] = file.isFolder
-    ? folderOperations.map((folderOperation) => menuOptions[folderOperation])
-    : fileOperations.map((fileOperation) => menuOptions[fileOperation])
+  const menuItems: IMenuItem[] = file.operations.map(
+    (itemOperation) => menuOptions[itemOperation],
+  )
 
   const [, dragMoveRef, preview] = useDrag({
     item: { type: DragTypes.MOVABLE_FILE, payload: file },

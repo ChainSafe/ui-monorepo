@@ -82,7 +82,7 @@ const CreateFolderModule: React.FC<ICreateFolderModuleProps> = ({
   const [creatingFolder, setCreatingFolder] = useState(false)
 
   const desktop = useMediaQuery("md")
-  const inputRef = useRef<any>()
+  const inputRef = useRef<any>(null)
 
   useEffect(() => {
     if (modalOpen) {

@@ -612,14 +612,12 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
                     <TableCell />
                   </TableRow>
                 ))}
-            {items.map((file: IFile, index: number) => (
+            {items.map((file: IFileConfigured, index: number) => (
               <FileOrFolderView
                 key={index}
                 index={index}
                 file={file}
                 files={files}
-                fileOperations={fileOperations}
-                folderOperations={folderOperations}
                 currentPath={currentPath}
                 updateCurrentPath={updateCurrentPath}
                 selected={selected}
