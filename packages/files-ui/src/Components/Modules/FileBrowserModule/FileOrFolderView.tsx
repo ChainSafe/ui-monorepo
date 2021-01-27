@@ -19,6 +19,7 @@ import {
   ExportIcon,
   ShareAltIcon,
   CheckSvg,
+  ExclamationCircleInverseIcon,
 } from "@chainsafe/common-components"
 import {
   makeStyles,
@@ -167,6 +168,7 @@ interface IFileOrFolderProps {
   setPreviewFileIndex(fileIndex: number | undefined): void
   desktop: boolean
   setMoveFileData(moveFileData: { modal: boolean; file: IFile }): void
+  setFileInfoPath(filePath: string): void
 }
 
 const FileOrFolderView: React.FC<IFileOrFolderProps> = ({
@@ -188,6 +190,7 @@ const FileOrFolderView: React.FC<IFileOrFolderProps> = ({
   handleUploadOnDrop,
   setPreviewFileIndex,
   setMoveFileData,
+  setFileInfoPath,
   desktop,
 }) => {
   let Icon
@@ -254,6 +257,15 @@ const FileOrFolderView: React.FC<IFileOrFolderProps> = ({
         </Fragment>
       ),
       onClick: () => console.log,
+    },
+    info: {
+      contents: (
+        <Fragment>
+          <ExclamationCircleInverseIcon className={classes.menuIcon} />
+          <span>Info</span>
+        </Fragment>
+      ),
+      onClick: () => setFileInfoPath(`${currentPath}${file.name}`),
     },
   }
 

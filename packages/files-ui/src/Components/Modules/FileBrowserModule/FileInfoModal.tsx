@@ -8,21 +8,8 @@ import React, { useState, useEffect, useCallback } from "react"
 import CustomModal from "../../Elements/CustomModal"
 import CustomButton from "../../Elements/CustomButton"
 import { Trans } from "@lingui/macro"
-import {
-  IFile,
-  useDrive,
-  DirectoryContentResponse,
-} from "../../../Contexts/DriveContext"
-import {
-  Button,
-  FolderIcon,
-  Grid,
-  ITreeNodeProps,
-  ScrollbarWrapper,
-  TreeView,
-  Typography,
-} from "@chainsafe/common-components"
-import { getPathWithFile } from "../../../Utils/pathUtils"
+import { useDrive, FileFullInfo } from "../../../Contexts/DriveContext"
+import { Grid, Typography } from "@chainsafe/common-components"
 
 const useStyles = makeStyles(
   ({ breakpoints, constants, palette, typography, zIndex }: ITheme) => {
@@ -61,13 +48,12 @@ const useStyles = makeStyles(
           textAlign: "center",
         },
       },
-      treeContainer: {
-        padding: `${constants.generalUnit * 4}px 0`,
+      infoContainer: {
         borderTop: `1px solid ${palette.additional["gray"][5]}`,
         borderBottom: `1px solid ${palette.additional["gray"][5]}`,
-      },
-      treeScrollView: {
-        paddingLeft: constants.generalUnit * 4,
+        padding: `${constants.generalUnit * 2}px ${
+          constants.generalUnit * 3
+        }px`,
       },
       paddedContainer: {
         padding: `${constants.generalUnit * 2}px ${
@@ -78,30 +64,37 @@ const useStyles = makeStyles(
   },
 )
 
-interface IMoveFileModuleProps {
-  currentPath: string
-  file?: IFile
-  modalOpen: boolean
+interface IFileInfoModuleProps {
+  fileInfoPath: string | undefined
   close: () => void
 }
 
-const FileInfoModal: React.FC<IMoveFileModuleProps> = ({
-  currentPath,
-  file,
-  modalOpen,
+const FileInfoModal: React.FC<IFileInfoModuleProps> = ({
+  fileInfoPath,
   close,
-}: IMoveFileModuleProps) => {
+}: IFileInfoModuleProps) => {
   const classes = useStyles()
-  const {} = useDrive()
+  const { getFileInfo } = useDrive()
   const [loadingFileInfo, setLoadingInfo] = useState(false)
+  const [fullFileInfo, setFullFullInfo] = useState<FileFullInfo | undefined>(
+    undefined,
+  )
 
   useEffect(() => {
-    if (modalOpen) {
-      setLoadingInfo(true)
-      //
-      setLoadingInfo(false)
+    const getFullFileInfo = async () => {
+      if (fileInfoPath) {
+        try {
+          setLoadingInfo(true)
+          const fullFileResponse = await getFileInfo(fileInfoPath)
+          setFullFullInfo(fullFileResponse)
+          setLoadingInfo(false)
+        } catch {
+          setLoadingInfo(false)
+        }
+      }
     }
-  }, [modalOpen])
+    getFullFileInfo()
+  }, [fileInfoPath])
 
   const desktop = useMediaQuery("md")
 
@@ -111,17 +104,19 @@ const FileInfoModal: React.FC<IMoveFileModuleProps> = ({
       injectedClass={{
         inner: classes.modalInner,
       }}
-      active={modalOpen}
+      active={fileInfoPath ? true : false}
       closePosition="none"
       maxWidth="sm"
     >
       <Grid item xs={12} sm={12} className={classes.paddedContainer}>
         <Typography className={classes.heading} variant="h5" component="h5">
-          <Trans>File</Trans>
+          <Trans>File Info</Trans>
         </Typography>
       </Grid>
-      <Grid item xs={12} sm={12} className={classes.treeContainer}>
-        File info
+      <Grid item xs={12} sm={12} className={classes.infoContainer}>
+        {fullFileInfo && !loadingFileInfo ? (
+          <div>{fullFileInfo.content?.name}</div>
+        ) : null}
       </Grid>
       <Grid
         item
@@ -136,7 +131,7 @@ const FileInfoModal: React.FC<IMoveFileModuleProps> = ({
           variant={desktop ? "outline" : "gray"}
           type="button"
         >
-          <Trans>Ok</Trans>
+          <Trans>Close</Trans>
         </CustomButton>
       </Grid>
     </CustomModal>

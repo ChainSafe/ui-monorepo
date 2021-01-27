@@ -451,9 +451,9 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
   const [moveFileData, setMoveFileData] = useState<
     { modal: boolean; file: IFile } | undefined
   >(undefined)
-  const [fullFileData, setFillFileData] = useState<
-    { modal: boolean; filePath: string } | undefined
-  >(undefined)
+  const [fileInfoPath, setFileInfoPath] = useState<string | undefined>(
+    undefined,
+  )
   const [deleteDialogOpen, setDeleteDialog] = useState<() => void | undefined>()
 
   return (
@@ -692,6 +692,7 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
                 handleUploadOnDrop={handleUploadOnDrop}
                 setPreviewFileIndex={setPreviewFileIndex}
                 setMoveFileData={setMoveFileData}
+                setFileInfoPath={setFileInfoPath}
                 desktop={desktop}
               />
             ))}
@@ -729,6 +730,10 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
         file={moveFileData?.file}
         modalOpen={moveFileData ? moveFileData.modal : false}
         close={() => setMoveFileData(undefined)}
+      />
+      <FileInfoModal
+        fileInfoPath={fileInfoPath}
+        close={() => setFileInfoPath(undefined)}
       />
     </article>
   )

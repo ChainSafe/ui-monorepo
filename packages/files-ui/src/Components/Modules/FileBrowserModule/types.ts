@@ -1,4 +1,10 @@
-export type FileOperation = "rename" | "delete" | "download" | "share" | "move"
+export type FileOperation =
+  | "rename"
+  | "delete"
+  | "download"
+  | "share"
+  | "move"
+  | "info"
 
 export interface IFileBrowserProps {
   heading?: string
