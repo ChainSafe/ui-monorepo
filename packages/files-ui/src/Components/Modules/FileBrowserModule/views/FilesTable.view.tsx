@@ -51,6 +51,7 @@ const useStyles = makeStyles(
     const mobileGridSettings = "69px 3fr 45px !important"
     return createStyles({
       root: {
+        position: "relative",
         [breakpoints.down("md")]: {
           paddingLeft: constants.generalUnit * 2,
           paddingRight: constants.generalUnit * 2,
