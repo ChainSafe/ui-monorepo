@@ -86,7 +86,7 @@ const CreateFolderModule: React.FC<ICreateFolderModuleProps> = ({
 
   useEffect(() => {
     if (modalOpen) {
-      setTimeout(() => inputRef.current.focus(), 100)
+      setTimeout(() => inputRef.current?.focus(), 100)
     }
   }, [modalOpen])
 
