@@ -21,7 +21,6 @@ const FormikTextInput = React.forwardRef(
       disabled = false,
       autoFocus,
       captionMessage,
-      ref,
       ...rest
     }: FormikTextInputProps,
     forwardedRef: any,

@@ -80,12 +80,13 @@ const TreeNode: React.FC<ITreeNodeProps> = ({
       </span>
       {expandable && tree && isExpanded ? (
         <ul className={classes.subTree}>
-          {tree.map((subTree) => (
+          {tree.map((subTree, i) => (
             <TreeNode
               {...subTree}
               commonIcon={commonIcon}
               selectedId={selectedId}
               onSelectNode={onSelectNode}
+              key={i}
             />
           ))}
         </ul>
