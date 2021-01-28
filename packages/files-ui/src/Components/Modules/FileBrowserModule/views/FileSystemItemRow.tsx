@@ -28,13 +28,13 @@ import {
 } from "@chainsafe/common-theme"
 import clsx from "clsx"
 import { Formik, Form } from "formik"
-import { FileSystemItem } from "../../../Contexts/DriveContext"
-import CustomModal from "../../Elements/CustomModal"
+import { FileSystemItem } from "../../../../Contexts/DriveContext"
+import CustomModal from "../../../Elements/CustomModal"
 import { Trans } from "@lingui/macro"
 import { useDrag, useDrop } from "react-dnd"
-import { DragTypes } from "./DragConstants"
+import { DragTypes } from "../DragConstants"
 import { NativeTypes } from "react-dnd-html5-backend"
-import { FileOperation, IFileConfigured } from "./types"
+import { FileOperation, IFileConfigured } from "../types"
 
 const useStyles = makeStyles(({ breakpoints, constants, palette }: ITheme) => {
   // const desktopGridSettings = "50px 69px 3fr 190px 100px 45px !important"
@@ -167,7 +167,7 @@ interface IFileOrFolderProps {
   setMoveFileData(moveFileData: { modal: boolean; file: FileSystemItem }): void
 }
 
-const FileOrFolderView: React.FC<IFileOrFolderProps> = ({
+const FileSystemItemRow: React.FC<IFileOrFolderProps> = ({
   index,
   file,
   files,
@@ -461,4 +461,4 @@ const FileOrFolderView: React.FC<IFileOrFolderProps> = ({
   )
 }
 
-export default FileOrFolderView
+export default FileSystemItemRow

@@ -36,7 +36,7 @@ import { NativeTypes } from "react-dnd-html5-backend"
 import { useDrop } from "react-dnd"
 import { IFileConfigured, IFilesTableBrowserProps } from "../types"
 import { FileSystemItem, useDrive } from "../../../../Contexts/DriveContext"
-import FileOrFolderView from "../FileOrFolderView"
+import FileSystemItemRow from "./FileSystemItemRow"
 import FilePreviewModal from "../../FilePreviewModal"
 import UploadProgressModals from "../../UploadProgressModals"
 import DownloadProgressModals from "../../DownloadProgressModals"
@@ -616,7 +616,7 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
                   </TableRow>
                 ))}
             {items.map((file: IFileConfigured, index: number) => (
-              <FileOrFolderView
+              <FileSystemItemRow
                 key={index}
                 index={index}
                 file={file}
