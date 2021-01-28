@@ -1,5 +1,6 @@
 import {
   createStyles,
+  debounce,
   ITheme,
   makeStyles,
   useMediaQuery,
@@ -9,7 +10,14 @@ import CustomModal from "../../Elements/CustomModal"
 import CustomButton from "../../Elements/CustomButton"
 import { Trans } from "@lingui/macro"
 import { useDrive, FileFullInfo } from "../../../Contexts/DriveContext"
-import { Grid, Typography } from "@chainsafe/common-components"
+import {
+  Button,
+  formatBytes,
+  Grid,
+  Loading,
+  Typography,
+} from "@chainsafe/common-components"
+import clsx from "clsx"
 
 const useStyles = makeStyles(
   ({ breakpoints, constants, palette, typography, zIndex }: ITheme) => {
@@ -27,18 +35,30 @@ const useStyles = makeStyles(
           maxWidth: `${breakpoints.width("md")}px !important`,
         },
       },
-      okButton: {
-        marginLeft: constants.generalUnit,
+      copyButton: {
         color: palette.common.white.main,
         backgroundColor: palette.common.black.main,
+        flex: 1,
+        [breakpoints.down("md")]: {
+          margin: `${constants.generalUnit * 2}px`,
+        },
       },
-      cancelButton: {
+      closeButton: {
+        flex: 1,
         [breakpoints.down("md")]: {
           position: "fixed",
           bottom: 0,
           left: 0,
           width: "100%",
           height: constants?.mobileButtonHeight,
+        },
+      },
+      title: {
+        fontWeight: typography.fontWeight.semibold,
+        textAlign: "left",
+        fontSize: 14,
+        [breakpoints.down("md")]: {
+          textAlign: "center",
         },
       },
       heading: {
@@ -48,17 +68,41 @@ const useStyles = makeStyles(
           textAlign: "center",
         },
       },
+      infoHeading: {
+        fontWeight: typography.fontWeight.semibold,
+        textAlign: "left",
+      },
       infoContainer: {
         borderTop: `1px solid ${palette.additional["gray"][5]}`,
-        borderBottom: `1px solid ${palette.additional["gray"][5]}`,
+        // borderBottom: `1px solid ${palette.additional["gray"][5]}`,
         padding: `${constants.generalUnit * 2}px ${
           constants.generalUnit * 3
         }px`,
+      },
+      infoBox: {
+        paddingLeft: constants.generalUnit,
+      },
+      subInfoBox: {
+        padding: `${constants.generalUnit * 1}px 0`,
+      },
+      subSubtitle: {
+        color: palette.additional["gray"][8],
+      },
+      technicalContainer: {
+        paddingTop: constants.generalUnit,
+        paddingBottom: constants.generalUnit,
       },
       paddedContainer: {
         padding: `${constants.generalUnit * 2}px ${
           constants.generalUnit * 3
         }px`,
+      },
+      copiedContainer: {
+        color: palette.additional["gray"][9],
+        paddingLeft: constants.generalUnit,
+      },
+      loadingContainer: {
+        margin: constants.generalUnit * 2,
       },
     })
   },
@@ -96,7 +140,22 @@ const FileInfoModal: React.FC<IFileInfoModuleProps> = ({
     getFullFileInfo()
   }, [fileInfoPath])
 
-  const desktop = useMediaQuery("md")
+  const [copied, setCopied] = useState(false)
+
+  const debouncedSwitchCopied = useCallback(
+    debounce(() => setCopied(false), 3000),
+    [],
+  )
+
+  const onCopyCID = async () => {
+    if (fullFileInfo?.content?.cid) {
+      try {
+        await navigator.clipboard.writeText(fullFileInfo?.content?.cid)
+        setCopied(true)
+        debouncedSwitchCopied()
+      } catch (err) {}
+    }
+  }
 
   return (
     <CustomModal
@@ -109,31 +168,143 @@ const FileInfoModal: React.FC<IFileInfoModuleProps> = ({
       maxWidth="sm"
     >
       <Grid item xs={12} sm={12} className={classes.paddedContainer}>
-        <Typography className={classes.heading} variant="h5" component="h5">
+        <Typography className={classes.title} variant="h5" component="h5">
           <Trans>File Info</Trans>
         </Typography>
       </Grid>
-      <Grid item xs={12} sm={12} className={classes.infoContainer}>
-        {fullFileInfo && !loadingFileInfo ? (
-          <div>{fullFileInfo.content?.name}</div>
-        ) : null}
-      </Grid>
-      <Grid
-        item
-        flexDirection="row"
-        justifyContent="flex-end"
-        className={classes.paddedContainer}
-      >
-        <CustomButton
-          onClick={() => close()}
-          size="medium"
-          className={classes.cancelButton}
-          variant={desktop ? "outline" : "gray"}
-          type="button"
-        >
-          <Trans>Close</Trans>
-        </CustomButton>
-      </Grid>
+      {fullFileInfo && !loadingFileInfo ? (
+        <>
+          <Grid item xs={12} sm={12} className={classes.infoContainer}>
+            <div className={classes.infoBox}>
+              <div>
+                <Typography
+                  className={classes.infoHeading}
+                  variant="h5"
+                  component="h5"
+                >
+                  <Trans>General</Trans>
+                </Typography>
+                {fullFileInfo.persistent?.uploaded && (
+                  <div className={classes.subInfoBox}>
+                    <Typography variant="body1" component="p">
+                      <Trans>Date uploaded</Trans>
+                    </Typography>
+                    <Typography
+                      className={classes.subSubtitle}
+                      variant="body2"
+                      component="p"
+                    >
+                      <Trans>{fullFileInfo.persistent?.uploaded}</Trans>
+                    </Typography>
+                  </div>
+                )}
+                {fullFileInfo.content?.size !== undefined && (
+                  <div className={classes.subInfoBox}>
+                    <Typography variant="body1" component="p">
+                      <Trans>File size</Trans>
+                    </Typography>
+                    <Typography
+                      className={classes.subSubtitle}
+                      variant="body2"
+                      component="p"
+                    >
+                      <Trans>{formatBytes(fullFileInfo.content?.size)}</Trans>
+                    </Typography>
+                  </div>
+                )}
+              </div>
+              <div className={classes.technicalContainer}>
+                <Typography
+                  className={classes.infoHeading}
+                  variant="h5"
+                  component="h5"
+                >
+                  <Trans>Technical</Trans>
+                </Typography>
+                {fullFileInfo.persistent?.stored_cid !== undefined && (
+                  <div className={classes.subInfoBox}>
+                    <Typography variant="body1" component="p">
+                      <Trans>Stored by miner</Trans>
+                    </Typography>
+                    <Typography
+                      className={classes.subSubtitle}
+                      variant="body2"
+                      component="p"
+                    >
+                      <Trans>{fullFileInfo.persistent?.stored_cid}</Trans>
+                    </Typography>
+                  </div>
+                )}
+                {fullFileInfo.persistent?.stored_cid !== undefined && (
+                  <div className={classes.subInfoBox}>
+                    <Typography variant="body1" component="p">
+                      <Trans>Number of copies (Replication Factor)</Trans>
+                    </Typography>
+                    <Typography
+                      className={classes.subSubtitle}
+                      variant="body2"
+                      component="p"
+                    >
+                      <Trans>{fullFileInfo.persistent?.stored_cid}</Trans>
+                    </Typography>
+                  </div>
+                )}
+                <div className={classes.subInfoBox}>
+                  <Grid item flexDirection="row">
+                    <Typography variant="body1" component="p">
+                      <Trans>CID (Content Identifier)</Trans>
+                    </Typography>
+                    {copied ? (
+                      <Typography
+                        variant="body2"
+                        component="p"
+                        className={clsx(
+                          classes.subSubtitle,
+                          classes.copiedContainer,
+                        )}
+                      >
+                        <Trans>copied !</Trans>
+                      </Typography>
+                    ) : null}
+                  </Grid>
+                  <Typography
+                    className={classes.subSubtitle}
+                    variant="body2"
+                    component="p"
+                  >
+                    <Trans>{fullFileInfo.content?.cid}</Trans>
+                  </Typography>
+                </div>
+              </div>
+            </div>
+          </Grid>
+          <Grid item flexDirection="row" justifyContent="flex-end">
+            <Button
+              type="submit"
+              size="large"
+              className={classes.copyButton}
+              onClick={onCopyCID}
+            >
+              <Trans>Copy CID</Trans>
+            </Button>
+            <CustomButton
+              onClick={() => close()}
+              size="large"
+              className={classes.closeButton}
+              variant="dashed"
+              type="button"
+            >
+              <Trans>Close</Trans>
+            </CustomButton>
+          </Grid>
+        </>
+      ) : (
+        <Grid item flexDirection="row" justifyContent="center">
+          <div className={classes.loadingContainer}>
+            <Loading size={32} type="inherit" />
+          </div>
+        </Grid>
+      )}
     </CustomModal>
   )
 }
