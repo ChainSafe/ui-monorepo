@@ -28,7 +28,7 @@ import {
 } from "@chainsafe/common-theme"
 import clsx from "clsx"
 import { Formik, Form } from "formik"
-import { IFile } from "../../../Contexts/DriveContext"
+import { FileSystemItem } from "../../../Contexts/DriveContext"
 import CustomModal from "../../Elements/CustomModal"
 import { Trans } from "@lingui/macro"
 import { useDrag, useDrop } from "react-dnd"
@@ -164,7 +164,7 @@ interface IFileOrFolderProps {
   ): void
   setPreviewFileIndex(fileIndex: number | undefined): void
   desktop: boolean
-  setMoveFileData(moveFileData: { modal: boolean; file: IFile }): void
+  setMoveFileData(moveFileData: { modal: boolean; file: FileSystemItem }): void
 }
 
 const FileOrFolderView: React.FC<IFileOrFolderProps> = ({
@@ -266,7 +266,7 @@ const FileOrFolderView: React.FC<IFileOrFolderProps> = ({
     canDrop: () => file.isFolder,
     drop: async (item: {
       type: typeof DragTypes.MOVABLE_FILE
-      payload: IFile
+      payload: FileSystemItem
     }) => {
       await handleMove(
         `${currentPath}${item.payload.name}`,

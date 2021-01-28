@@ -1,5 +1,5 @@
 import { Crumb } from "@chainsafe/common-components"
-import { IFile } from "../../../Contexts/DriveContext"
+import { FileSystemItem } from "../../../Contexts/DriveContext"
 
 export type FileOperation = "rename" | "delete" | "download" | "share" | "move"
 
@@ -11,7 +11,7 @@ export interface IFilesBrowserModuleProps {
   folderOperations: FileOperation[]
 }
 
-export interface IFileConfigured extends IFile {
+export interface IFileConfigured extends FileSystemItem {
   operations: FileOperation[]
 }
 

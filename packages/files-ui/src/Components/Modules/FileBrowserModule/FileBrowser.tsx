@@ -1,6 +1,6 @@
 import React from "react"
 import { Crumb, useToaster } from "@chainsafe/common-components"
-import { IFile, useDrive } from "../../../Contexts/DriveContext"
+import { FileSystemItem, useDrive } from "../../../Contexts/DriveContext"
 import { getArrayOfPaths, getPathFromArray } from "../../../Utils/pathUtils"
 import { IFileConfigured, IFilesBrowserModuleProps } from "./types"
 import FilesTableView from "./views/FilesTable.view"
@@ -73,7 +73,7 @@ const FileBrowserModule: React.FC<IFilesBrowserModuleProps> = ({
   }
 
   const parsedContents: IFileConfigured[] = pathContents.map(
-    (item: IFile): IFileConfigured => {
+    (item: FileSystemItem): IFileConfigured => {
       switch (item.content_type) {
         case CONTENT_TYPES.Directory:
           return {

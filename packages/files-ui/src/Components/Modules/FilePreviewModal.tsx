@@ -7,7 +7,7 @@ import {
   useMediaQuery,
   useTheme,
 } from "@chainsafe/common-theme"
-import { IFile, useDrive } from "../../Contexts/DriveContext"
+import { FileSystemItem, useDrive } from "../../Contexts/DriveContext"
 import MimeMatcher from "mime-matcher"
 import axios, { CancelTokenSource } from "axios"
 import {
@@ -148,7 +148,7 @@ const useStyles = makeStyles(
 )
 
 const FilePreviewModal: React.FC<{
-  file?: IFile
+  file?: FileSystemItem
   nextFile?(): void
   previousFile?(): void
   closePreview(): void
