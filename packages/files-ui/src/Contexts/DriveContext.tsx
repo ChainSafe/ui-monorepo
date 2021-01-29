@@ -1,13 +1,12 @@
 import {
-  DirectoryContentResponse,
   FileContentResponse,
   FilesMvRequest,
   FilesPathRequest,
+  DirectoryContentResponse,
 } from "@imploy/api-client"
 import React, { useCallback, useEffect, useReducer } from "react"
 import { useState } from "react"
 import { decryptFile, encryptFile, useImployApi } from "@imploy/common-contexts"
-import dayjs from "dayjs"
 import { v4 as uuidv4 } from "uuid"
 import { useToaster } from "@chainsafe/common-components"
 import {
@@ -59,7 +58,7 @@ type DriveContext = {
   list(body: FilesPathRequest): Promise<FileContentResponse[]>
   currentPath: string
   updateCurrentPath(newPath: string): void
-  pathContents: IItem[]
+  pathContents: FileSystemItem[]
   uploadsInProgress: UploadProgress[]
   downloadsInProgress: DownloadProgress[]
   spaceUsed: number
@@ -70,10 +69,12 @@ type DriveContext = {
   loadingCurrentPath: boolean
 }
 
-interface IItem extends FileContentResponse {
-  date_uploaded: number
-  isFolder: boolean // This can be removed when date is added to the schema
+// This represents a File or Folder on the
+interface IFileSystemItem extends FileContentResponse {
+  isFolder: boolean
 }
+
+type FileSystemItem = IFileSystemItem
 
 const REMOVE_UPLOAD_PROGRESS_DELAY = 5000
 const MAX_FILE_SIZE = 2 * 1024 ** 3
@@ -106,7 +107,6 @@ const DriveProvider = ({ children }: DriveContextProps) => {
           setPathContents(
             newContents?.map((fcr) => ({
               ...fcr,
-              date_uploaded: dayjs().subtract(2, "hour").unix() * 1000,
               content_type:
                 fcr.content_type !== "application/octet-stream"
                   ? fcr.content_type
@@ -147,7 +147,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
   }
   const [currentPath, dispatchCurrentPath] = useReducer(currentPathReducer, "/")
 
-  const [pathContents, setPathContents] = useState<IItem[]>([])
+  const [pathContents, setPathContents] = useState<FileSystemItem[]>([])
   const [spaceUsed, setSpaceUsed] = useState(0)
   const [masterPassword, setMasterPassword] = useState<string | undefined>(
     undefined,
@@ -548,4 +548,4 @@ const useDrive = () => {
 }
 
 export { DriveProvider, useDrive }
-export type { IItem as IFile, DirectoryContentResponse }
+export type { FileSystemItem, DirectoryContentResponse }

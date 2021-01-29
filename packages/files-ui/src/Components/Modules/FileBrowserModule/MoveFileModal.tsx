@@ -9,9 +9,9 @@ import CustomModal from "../../Elements/CustomModal"
 import CustomButton from "../../Elements/CustomButton"
 import { Trans } from "@lingui/macro"
 import {
-  IFile,
   useDrive,
   DirectoryContentResponse,
+  FileSystemItem,
 } from "../../../Contexts/DriveContext"
 import {
   Button,
@@ -80,12 +80,12 @@ const useStyles = makeStyles(
 
 interface IMoveFileModuleProps {
   currentPath: string
-  file?: IFile
+  file?: FileSystemItem
   modalOpen: boolean
   close: () => void
 }
 
-const CreateFolderModule: React.FC<IMoveFileModuleProps> = ({
+const MoveFileModule: React.FC<IMoveFileModuleProps> = ({
   currentPath,
   file,
   modalOpen,
@@ -215,4 +215,4 @@ const CreateFolderModule: React.FC<IMoveFileModuleProps> = ({
   )
 }
 
-export default CreateFolderModule
+export default MoveFileModule
