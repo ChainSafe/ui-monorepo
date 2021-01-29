@@ -3,7 +3,6 @@ import {
   debounce,
   ITheme,
   makeStyles,
-  useMediaQuery,
 } from "@chainsafe/common-theme"
 import React, { useState, useEffect, useCallback } from "react"
 import CustomModal from "../../Elements/CustomModal"
@@ -138,6 +137,7 @@ const FileInfoModal: React.FC<IFileInfoModuleProps> = ({
       }
     }
     getFullFileInfo()
+    // eslint-disable-next-line
   }, [fileInfoPath])
 
   const [copied, setCopied] = useState(false)
