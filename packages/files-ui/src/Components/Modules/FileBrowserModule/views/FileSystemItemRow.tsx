@@ -143,7 +143,7 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: ITheme) => {
   })
 })
 
-interface IFileOrFolderProps {
+interface IFileSystemItemRowProps {
   index: number
   file: IFileConfigured
   files: IFileConfigured[]
@@ -166,9 +166,10 @@ interface IFileOrFolderProps {
   setPreviewFileIndex(fileIndex: number | undefined): void
   desktop: boolean
   setMoveFileData(moveFileData: { modal: boolean; file: FileSystemItem }): void
+  setFileInfoPath(path: string): void
 }
 
-const FileSystemItemRow: React.FC<IFileOrFolderProps> = ({
+const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
   index,
   file,
   files,
