@@ -7,7 +7,7 @@ export function useScrollToTop(onMount: boolean = false) {
   }, [])
   if (onMount) {
     useEffect(() => {
-      scrollToTop
+      scrollToTop()
     }, [])
   }
   return scrollToTop
