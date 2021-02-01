@@ -194,7 +194,7 @@ const FileInfoModal: React.FC<IFileInfoModuleProps> = ({
                       variant="body2"
                       component="p"
                     >
-                      <Trans>{fullFileInfo.persistent?.uploaded}</Trans>
+                      {fullFileInfo.persistent?.uploaded}
                     </Typography>
                   </div>
                 ) : null}
@@ -208,7 +208,7 @@ const FileInfoModal: React.FC<IFileInfoModuleProps> = ({
                       variant="body2"
                       component="p"
                     >
-                      <Trans>{formatBytes(fullFileInfo.content?.size)}</Trans>
+                      {formatBytes(fullFileInfo.content?.size)}
                     </Typography>
                   </div>
                 ) : null}
@@ -231,7 +231,7 @@ const FileInfoModal: React.FC<IFileInfoModuleProps> = ({
                       variant="body2"
                       component="p"
                     >
-                      <Trans>{fullFileInfo.persistent?.stored_cid}</Trans>
+                      {fullFileInfo.persistent?.stored_cid}
                     </Typography>
                   </div>
                 ) : null}
@@ -245,7 +245,7 @@ const FileInfoModal: React.FC<IFileInfoModuleProps> = ({
                       variant="body2"
                       component="p"
                     >
-                      <Trans>{fullFileInfo.persistent?.stored_cid}</Trans>
+                      {fullFileInfo.persistent?.stored_cid}
                     </Typography>
                   </div>
                 ) : null}
@@ -272,7 +272,7 @@ const FileInfoModal: React.FC<IFileInfoModuleProps> = ({
                     variant="body2"
                     component="p"
                   >
-                    <Trans>{fullFileInfo.content?.cid}</Trans>
+                    {fullFileInfo.content?.cid}
                   </Typography>
                 </div>
               </div>
