@@ -129,17 +129,15 @@ const ThresholdKeyProvider = ({ children }: ThresholdKeyProviderProps) => {
       }
     }
 
+    let poller: number
     if (keyDetails && keyDetails.requiredShares <= 0) {
       console.log("Key is reconstructed. Starting Share Transfer poller")
-      let poller: NodeJS.Timeout
       handler()
       poller = setInterval(handler, 5000)
-
-      return () => {
-        clearInterval(poller)
-      }
     }
-    return () => {}
+    return () => {
+      poller && clearInterval(poller)
+    }
     // eslint-disable-next-line
   }, [keyDetails])
 
@@ -227,8 +225,7 @@ const ThresholdKeyProvider = ({ children }: ThresholdKeyProviderProps) => {
     const securityQuestionModule = TKeySdk.modules[
       SECURITY_QUESTIONS_MODULE_NAME
     ] as SecurityQuestionsModule
-    await securityQuestionModule.initialize()
-    const newShare = await securityQuestionModule.generateNewShareWithSecurityQuestions(
+    await securityQuestionModule.generateNewShareWithSecurityQuestions(
       password,
       "What is your password?",
     )

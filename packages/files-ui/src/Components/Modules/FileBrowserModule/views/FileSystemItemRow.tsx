@@ -28,13 +28,13 @@ import {
 } from "@chainsafe/common-theme"
 import clsx from "clsx"
 import { Formik, Form } from "formik"
-import { IFile } from "../../../Contexts/DriveContext"
-import CustomModal from "../../Elements/CustomModal"
+import { FileSystemItem } from "../../../../Contexts/DriveContext"
+import CustomModal from "../../../Elements/CustomModal"
 import { Trans } from "@lingui/macro"
 import { useDrag, useDrop } from "react-dnd"
-import { DragTypes } from "./DragConstants"
+import { DragTypes } from "../DragConstants"
 import { NativeTypes } from "react-dnd-html5-backend"
-import { FileOperation } from "./types"
+import { FileOperation, IFileConfigured } from "../types"
 
 const useStyles = makeStyles(({ breakpoints, constants, palette }: ITheme) => {
   // const desktopGridSettings = "50px 69px 3fr 190px 100px 45px !important"
@@ -122,6 +122,9 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: ITheme) => {
       alignItems: "center",
       width: 20,
       marginRight: constants.generalUnit * 1.5,
+      "& svg": {
+        fill: palette.additional["gray"][7],
+      },
     },
     desktopRename: {
       display: "flex",
@@ -141,11 +144,9 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: ITheme) => {
 
 interface IFileOrFolderProps {
   index: number
-  file: IFile
-  files: IFile[]
+  file: IFileConfigured
+  files: IFileConfigured[]
   currentPath: string
-  fileOperations: FileOperation[]
-  folderOperations: FileOperation[]
   updateCurrentPath(path: string): void
   selected: string[]
   handleSelect(selected: string): void
@@ -163,14 +164,13 @@ interface IFileOrFolderProps {
   ): void
   setPreviewFileIndex(fileIndex: number | undefined): void
   desktop: boolean
+  setMoveFileData(moveFileData: { modal: boolean; file: FileSystemItem }): void
 }
 
-const FileOrFolderView: React.FC<IFileOrFolderProps> = ({
+const FileSystemItemRow: React.FC<IFileOrFolderProps> = ({
   index,
   file,
   files,
-  fileOperations,
-  folderOperations,
   currentPath,
   updateCurrentPath,
   selected,
@@ -183,6 +183,7 @@ const FileOrFolderView: React.FC<IFileOrFolderProps> = ({
   downloadFile,
   handleUploadOnDrop,
   setPreviewFileIndex,
+  setMoveFileData,
   desktop,
 }) => {
   let Icon
@@ -232,16 +233,16 @@ const FileOrFolderView: React.FC<IFileOrFolderProps> = ({
       ),
       onClick: () => downloadFile(file.cid),
     },
-    share: {
+    move: {
       contents: (
         <Fragment>
           <ExportIcon className={classes.menuIcon} />
           <span>Move</span>
         </Fragment>
       ),
-      onClick: () => console.log,
+      onClick: () => setMoveFileData({ modal: true, file: file }),
     },
-    move: {
+    share: {
       contents: (
         <Fragment>
           <ShareAltIcon className={classes.menuIcon} />
@@ -252,9 +253,9 @@ const FileOrFolderView: React.FC<IFileOrFolderProps> = ({
     },
   }
 
-  const menuItems: IMenuItem[] = file.isFolder
-    ? folderOperations.map((folderOperation) => menuOptions[folderOperation])
-    : fileOperations.map((fileOperation) => menuOptions[fileOperation])
+  const menuItems: IMenuItem[] = file.operations.map(
+    (itemOperation) => menuOptions[itemOperation],
+  )
 
   const [, dragMoveRef, preview] = useDrag({
     item: { type: DragTypes.MOVABLE_FILE, payload: file },
@@ -265,7 +266,7 @@ const FileOrFolderView: React.FC<IFileOrFolderProps> = ({
     canDrop: () => file.isFolder,
     drop: async (item: {
       type: typeof DragTypes.MOVABLE_FILE
-      payload: IFile
+      payload: FileSystemItem
     }) => {
       await handleMove(
         `${currentPath}${item.payload.name}`,
@@ -460,4 +461,4 @@ const FileOrFolderView: React.FC<IFileOrFolderProps> = ({
   )
 }
 
-export default FileOrFolderView
+export default FileSystemItemRow
