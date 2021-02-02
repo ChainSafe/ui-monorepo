@@ -14,40 +14,49 @@ msgstr ""
 "Plural-Forms: \n"
 
 #: src/Contexts/DriveContext.tsx:163
-msgid "A file with the same name already exists"
-msgstr "A file with the same name already exists"
+#~ msgid "A file with the same name already exists"
+#~ msgstr "A file with the same name already exists"
 
-#: src/Components/Layouts/AppNav.tsx:225
+#: src/Components/Layouts/AppNav.tsx:228
 msgid "Account"
 msgstr "Account"
 
-#: src/Components/Modules/FileBrowserModule/FileBrowser.tsx:451
+#: src/Components/Modules/FileBrowserModule/views/FilesTable.view.tsx:448
 msgid "Are you sure you wish to delete?"
 msgstr "Are you sure you wish to delete?"
 
-#: src/Components/Modules/CreateFolderModule.tsx:103
-#: src/Components/Modules/FileBrowserModule/FileOrFolderView.tsx:259
+#: src/Components/Modules/FileBrowserModule/FileInfoModal.tsx:191
+msgid "CID (Content Identifier)"
+msgstr "CID (Content Identifier)"
+
+#: src/Components/Modules/CreateFolderModule.tsx:117
+#: src/Components/Modules/FileBrowserModule/MoveFileModal.tsx:144
+#: src/Components/Modules/FileBrowserModule/views/FileSystemItemRow.tsx:273
 #: src/Components/Modules/UploadFileModule.tsx:82
 msgid "Cancel"
 msgstr "Cancel"
 
-#: src/Components/Pages/LoginPage.tsx:214
+#: src/Components/Pages/LoginPage.tsx:220
 msgid "ChainSafe Files"
 msgstr "ChainSafe Files"
 
-#: src/Components/Pages/LoginPage.tsx:237
+#: src/Components/Modules/FileBrowserModule/FileInfoModal.tsx:209
+msgid "Close"
+msgstr "Close"
+
+#: src/Components/Pages/LoginPage.tsx:246
 msgid "Continue with"
 msgstr "Continue with"
 
-#: src/Components/Pages/LoginPage.tsx:258
+#: src/Components/Pages/LoginPage.tsx:274
 msgid "Continue with Facebook"
 msgstr "Continue with Facebook"
 
-#: src/Components/Pages/LoginPage.tsx:250
+#: src/Components/Pages/LoginPage.tsx:266
 msgid "Continue with Github"
 msgstr "Continue with Github"
 
-#: src/Components/Pages/LoginPage.tsx:254
+#: src/Components/Pages/LoginPage.tsx:270
 msgid "Continue with Google"
 msgstr "Continue with Google"
 
@@ -55,41 +64,49 @@ msgstr "Continue with Google"
 msgid "Copied!"
 msgstr "Copied!"
 
-#: src/Components/Modules/CreateFolderModule.tsx:106
+#: src/Components/Modules/FileBrowserModule/FileInfoModal.tsx:206
+msgid "Copy CID"
+msgstr "Copy CID"
+
+#: src/Components/Modules/CreateFolderModule.tsx:120
 msgid "Create"
 msgstr "Create"
 
-#: src/Components/Modules/CreateFolderModule.tsx:95
+#: src/Components/Modules/CreateFolderModule.tsx:109
 msgid "Create Folder"
 msgstr "Create Folder"
 
-#: src/Components/Pages/LoginPage.tsx:276
+#: src/Components/Pages/LoginPage.tsx:292
 msgid "Create an account"
 msgstr "Create an account"
 
-#: src/Components/Modules/FileBrowserModule/FileBrowser.tsx:388
+#: src/Components/Modules/FileBrowserModule/views/FilesTable.view.tsx:376
 msgid "Create folder"
 msgstr "Create folder"
+
+#: src/Components/Modules/FileBrowserModule/FileInfoModal.tsx:153
+msgid "Date uploaded"
+msgstr "Date uploaded"
 
 #: src/Components/Modules/FilePreviewModal.tsx:169
 msgid "Decryption failed"
 msgstr "Decryption failed"
 
-#: src/Components/Modules/FileBrowserModule/FileOrFolderView.tsx:146
+#: src/Components/Modules/FileBrowserModule/views/FileSystemItemRow.tsx:154
 msgid "Delete"
 msgstr "Delete"
 
-#: src/Components/Modules/FileBrowserModule/FileOrFolderView.tsx:155
-#: src/Components/Modules/FilePreviewModal.tsx:261
-#: src/Components/Modules/FilePreviewModal.tsx:298
+#: src/Components/Modules/FileBrowserModule/views/FileSystemItemRow.tsx:163
+#: src/Components/Modules/FilePreviewModal.tsx:275
+#: src/Components/Modules/FilePreviewModal.tsx:312
 msgid "Download"
 msgstr "Download"
 
-#: src/Components/Modules/DownloadProgressModals/DownloadBox.tsx:52
+#: src/Components/Modules/DownloadProgressModals/DownloadBox.tsx:49
 msgid "Download complete"
 msgstr "Download complete"
 
-#: src/Components/Modules/FileBrowserModule/FileBrowser.tsx:353
+#: src/Components/Modules/FileBrowserModule/views/FilesTable.view.tsx:341
 msgid "Drop to upload files"
 msgstr "Drop to upload files"
 
@@ -98,50 +115,70 @@ msgid "Essentials - Free"
 msgstr "Essentials - Free"
 
 #: src/Contexts/DriveContext.tsx:239
-msgid "File"
-msgstr "File"
+#~ msgid "File"
+#~ msgstr "File"
 
-#: src/Components/Modules/FilePreviewModal.tsx:294
+#: src/Components/Modules/FileBrowserModule/FileInfoModal.tsx:141
+msgid "File Info"
+msgstr "File Info"
+
+#: src/Components/Modules/FilePreviewModal.tsx:308
 msgid "File format not supported."
 msgstr "File format not supported."
 
 #: src/Contexts/DriveContext.tsx:217
-msgid "File moved successfully"
-msgstr "File moved successfully"
+#~ msgid "File moved successfully"
+#~ msgstr "File moved successfully"
 
 #: src/Contexts/DriveContext.tsx:199
-msgid "File renamed successfully"
-msgstr "File renamed successfully"
+#~ msgid "File renamed successfully"
+#~ msgstr "File renamed successfully"
+
+#: src/Components/Modules/FileBrowserModule/FileInfoModal.tsx:161
+msgid "File size"
+msgstr "File size"
 
 #: src/Components/Layouts/AppNav.tsx:204
 msgid "Files"
 msgstr "Files"
 
 #: src/Contexts/DriveContext.tsx:239
-msgid "Folder"
-msgstr "Folder"
+#~ msgid "Folder"
+#~ msgstr "Folder"
 
 #: src/Contexts/DriveContext.tsx:181
-msgid "Folder created successfully"
-msgstr "Folder created successfully"
+#~ msgid "Folder created successfully"
+#~ msgstr "Folder created successfully"
 
 #: src/Components/Layouts/AppNav.tsx:214
 msgid "Folders"
 msgstr "Folders"
 
-#: src/Components/Layouts/AppNav.tsx:220
+#: src/Components/Modules/FileBrowserModule/FileInfoModal.tsx:149
+msgid "General"
+msgstr "General"
+
+#: src/Components/Layouts/AppNav.tsx:223
 msgid "Home"
 msgstr "Home"
 
-#: src/Components/Modules/FilePreviewModal.tsx:278
+#: src/Components/Modules/FilePreviewModal.tsx:292
 msgid "Loading preview"
 msgstr "Loading preview"
 
-#: src/Components/Modules/FileBrowserModule/FileBrowser.tsx:418
+#: src/Components/Modules/FileBrowserModule/MoveFileModal.tsx:147
+msgid "Move"
+msgstr "Move"
+
+#: src/Components/Modules/FileBrowserModule/MoveFileModal.tsx:132
+msgid "Move to..."
+msgstr "Move to..."
+
+#: src/Components/Modules/FileBrowserModule/views/FilesTable.view.tsx:412
 msgid "Name"
 msgstr "Name"
 
-#: src/Components/Modules/FileBrowserModule/FileBrowser.tsx:370
+#: src/Components/Modules/FileBrowserModule/views/FilesTable.view.tsx:358
 msgid "New folder"
 msgstr "New folder"
 
@@ -149,27 +186,35 @@ msgstr "New folder"
 msgid "Next"
 msgstr "Next"
 
-#: src/Components/Modules/FileBrowserModule/FileBrowser.tsx:408
+#: src/Components/Modules/FileBrowserModule/views/FilesTable.view.tsx:402
 msgid "No files to show"
 msgstr "No files to show"
 
-#: src/Components/Modules/CreateFolderModule.tsx:106
+#: src/Components/Modules/FileBrowserModule/FileInfoModal.tsx:182
+msgid "Number of copies (Replication Factor)"
+msgstr "Number of copies (Replication Factor)"
+
+#: src/Components/Modules/CreateFolderModule.tsx:120
 msgid "OK"
 msgstr "OK"
+
+#: src/Components/Modules/FileBrowserModule/views/FilesTable.view.tsx:395
+msgid "One sec, getting files ready..."
+msgstr "One sec, getting files ready..."
 
 #: src/Components/Modules/PreviewRenderers/PDFPreview.tsx:58
 msgid "Previous"
 msgstr "Previous"
 
-#: src/Components/Modules/FileBrowserModule/FileOrFolderView.tsx:137
+#: src/Components/Modules/FileBrowserModule/views/FileSystemItemRow.tsx:145
 msgid "Rename"
 msgstr "Rename"
 
-#: src/Components/Modules/FileBrowserModule/FileOrFolderView.tsx:254
+#: src/Components/Modules/FileBrowserModule/views/FileSystemItemRow.tsx:268
 msgid "Rename File/Folder"
 msgstr "Rename File/Folder"
 
-#: src/Components/Layouts/AppNav.tsx:225
+#: src/Components/Layouts/AppNav.tsx:228
 msgid "Resources"
 msgstr "Resources"
 
@@ -177,70 +222,78 @@ msgstr "Resources"
 msgid "Save changes"
 msgstr "Save changes"
 
-#: src/Components/Pages/LoginPage.tsx:234
+#: src/Components/Pages/LoginPage.tsx:241
 msgid "Select a Web3 Wallet"
 msgstr "Select a Web3 Wallet"
 
-#: src/Components/Pages/LoginPage.tsx:240
+#: src/Components/Pages/LoginPage.tsx:252
 msgid "Select a different wallet"
 msgstr "Select a different wallet"
 
-#: src/Components/Layouts/AppNav.tsx:242
+#: src/Components/Layouts/AppNav.tsx:245
 msgid "Send Feedback"
 msgstr "Send Feedback"
 
-#: src/Components/Layouts/AppNav.tsx:231
+#: src/Components/Layouts/AppNav.tsx:234
 #: src/Components/Modules/Settings/index.tsx:107
 msgid "Settings"
 msgstr "Settings"
 
 #: src/Components/Layouts/AppHeader.tsx:135
-#: src/Components/Layouts/AppNav.tsx:251
+#: src/Components/Layouts/AppNav.tsx:254
 msgid "Sign Out"
 msgstr "Sign Out"
 
-#: src/Components/Pages/LoginPage.tsx:276
+#: src/Components/Pages/LoginPage.tsx:292
 msgid "Sign in"
 msgstr "Sign in"
 
-#: src/Components/Modules/FileBrowserModule/FileBrowser.tsx:422
+#: src/Components/Modules/FileBrowserModule/views/FilesTable.view.tsx:416
 msgid "Size"
 msgstr "Size"
 
 #: src/Contexts/DriveContext.tsx:160
-msgid "Something went wrong. We couldn't upload your file"
-msgstr "Something went wrong. We couldn't upload your file"
+#~ msgid "Something went wrong. We couldn't upload your file"
+#~ msgstr "Something went wrong. We couldn't upload your file"
 
 #: src/Components/Modules/Settings/Plan.tsx:73
 msgid "Storage Plan"
 msgstr "Storage Plan"
 
+#: src/Components/Modules/FileBrowserModule/FileInfoModal.tsx:174
+msgid "Stored by miner"
+msgstr "Stored by miner"
+
+#: src/Components/Modules/FileBrowserModule/FileInfoModal.tsx:170
+msgid "Technical"
+msgstr "Technical"
+
 #: src/Contexts/DriveContext.tsx:188
-msgid "There was an error creating this folder"
-msgstr "There was an error creating this folder"
+#~ msgid "There was an error creating this folder"
+#~ msgstr "There was an error creating this folder"
 
 #: src/Contexts/DriveContext.tsx:247
-msgid "There was an error deleting this"
-msgstr "There was an error deleting this"
+#~ msgid "There was an error deleting this"
+#~ msgstr "There was an error deleting this"
 
 #: src/Components/Modules/FilePreviewModal.tsx:176
 msgid "There was an error getting the preview."
 msgstr "There was an error getting the preview."
 
 #: src/Contexts/DriveContext.tsx:224
-msgid "There was an error moving this file"
-msgstr "There was an error moving this file"
+#~ msgid "There was an error moving this file"
+#~ msgstr "There was an error moving this file"
 
 #: src/Contexts/DriveContext.tsx:206
-msgid "There was an error renaming this file"
-msgstr "There was an error renaming this file"
+#~ msgid "There was an error renaming this file"
+#~ msgstr "There was an error renaming this file"
 
-#: src/Components/Modules/FileBrowserModule/FileOrFolderView.tsx:262
+#: src/Components/Modules/FileBrowserModule/views/FileSystemItemRow.tsx:276
 msgid "Update"
 msgstr "Update"
 
-#: src/Components/Modules/FileBrowserModule/FileBrowser.tsx:376
-#: src/Components/Modules/FileBrowserModule/FileBrowser.tsx:396
+#: src/Components/Modules/FileBrowserModule/views/FilesTable.view.tsx:364
+#: src/Components/Modules/FileBrowserModule/views/FilesTable.view.tsx:384
 #: src/Components/Modules/UploadFileModule.tsx:85
 msgid "Upload"
 msgstr "Upload"
@@ -254,23 +307,27 @@ msgid "Wallet address"
 msgstr "Wallet address"
 
 #: src/Components/Layouts/AppNav.tsx:208
-#: src/Components/Pages/LoginPage.tsx:218
+#: src/Components/Pages/LoginPage.tsx:224
 msgid "beta"
 msgstr "beta"
 
+#: src/Components/Modules/FileBrowserModule/FileInfoModal.tsx:194
+msgid "copied !"
+msgstr "copied !"
+
 #: src/Contexts/DriveContext.tsx:239
-msgid "deleted successfully"
-msgstr "deleted successfully"
+#~ msgid "deleted successfully"
+#~ msgstr "deleted successfully"
 
 #: src/Contexts/DriveContext.tsx:247
-msgid "file"
-msgstr "file"
+#~ msgid "file"
+#~ msgstr "file"
 
 #: src/Contexts/DriveContext.tsx:247
-msgid "folder"
-msgstr "folder"
+#~ msgid "folder"
+#~ msgstr "folder"
 
-#: src/Components/Pages/LoginPage.tsx:245
+#: src/Components/Pages/LoginPage.tsx:261
 msgid "or"
 msgstr "or"
 
