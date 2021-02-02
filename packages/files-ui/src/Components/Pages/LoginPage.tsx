@@ -219,8 +219,13 @@ const LoginPage = () => {
     } catch (error) {
       let errorMessage = "There was an error authenticating"
       if (Array.isArray(error) && error[0]) {
-        if (error[0].type === "signature") {
-          errorMessage = "Failed to get signature"
+        if (
+          error[0].type === "signature" &&
+          error[0].message === "Invalid signature"
+        ) {
+          errorMessage = `Failed to validate signature.
+            If you are using a contract wallet (Argent) please make 
+            sure you have activated your wallet.`
         }
       }
       if (error?.message === "Just nope") {
