@@ -13,14 +13,14 @@ import bowser from "bowser"
 
 export type TThresholdKeyContext = {
   userInfo?: TorusLoginResponse
+  keyDetails?: KeyDetails
+  isNewDevice: boolean
+  pendingShareTransferRequests: ShareTransferRequest[]
   login(loginType: LOGIN_TYPE): Promise<void>
   addPasswordShare(password: string): Promise<void>
   inputPasswordShare(password: string): Promise<void>
-  keyDetails?: KeyDetails
-  isNewDevice: boolean
   addNewDeviceShareAndSave(): Promise<void>
   approveShareTransferRequest(encPubKeyX: string): Promise<void>
-  pendingShareTransferRequests: ShareTransferRequest[]
 }
 
 type ThresholdKeyProviderProps = {
@@ -72,7 +72,6 @@ const ThresholdKeyProvider = ({
           network: network,
           enableLogging: enableLogging,
           apiKey: apiKey,
-
         },
         enableLogging: enableLogging,
       })
@@ -81,6 +80,7 @@ const ThresholdKeyProvider = ({
       await tkey.serviceProvider.init({ skipSw: false })
     }
     init()
+    // eslint-disable-next-line
   }, [])
 
   // Reconstruct Key effect

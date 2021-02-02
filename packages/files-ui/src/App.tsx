@@ -18,7 +18,6 @@ import {
   ImployApiProvider,
   UserProvider,
   BillingProvider,
-  ThresholdKeyProvider,
 } from "@imploy/common-contexts"
 import { DriveProvider } from "./Contexts/DriveContext"
 import FilesRoutes from "./Components/FilesRoutes"
@@ -28,6 +27,7 @@ import { darkTheme } from "./Themes/DarkTheme"
 import { useHotjar } from "react-use-hotjar"
 import { LanguageProvider } from "./Contexts/LanguageContext"
 import { testLocalStorage } from "./Utils/Helpers"
+import { ThresholdKeyProvider } from "./Contexts/ThresholdKeyContext"
 
 if (
   process.env.NODE_ENV === "production" &&

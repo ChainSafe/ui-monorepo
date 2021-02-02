@@ -9,7 +9,7 @@ import {
   ChainsafeFilesLogo,
   Divider,
 } from "@chainsafe/common-components"
-import { useImployApi, OAuthProvider } from "@imploy/common-contexts"
+import { useImployApi } from "@imploy/common-contexts"
 import {
   makeStyles,
   ITheme,
@@ -25,6 +25,7 @@ import { ROUTE_LINKS } from "../FilesRoutes"
 import LandingImage from "../../Media/auth.jpg"
 import MasterKeyModule from "../Modules/MasterKeySequence/MasterKeyModule"
 import EnterMasterKeySlide from "../Modules/MasterKeySequence/SequenceSlides/EnterMasterKey.slide"
+import { useThresholdKey } from "../../Contexts/ThresholdKeyContext"
 
 const useStyles = makeStyles(
   ({ palette, constants, typography, breakpoints }: ITheme) =>
@@ -170,11 +171,11 @@ const LoginPage = () => {
     web3Login,
     selectWallet,
     resetAndSelectWallet,
-    getProviderUrl,
     secured,
     isLoggedIn,
   } = useImployApi()
   const { provider, wallet } = useWeb3()
+  const { login } = useThresholdKey()
   const [error, setError] = useState<string>("")
   const [activeMode, setActiveMode] = useState<"newUser" | "returningUser">(
     isReturningUser ? "returningUser" : "newUser",
@@ -223,10 +224,10 @@ const LoginPage = () => {
     setShowSignatureMessage(false)
   }
 
-  const onLoginWithProvider = async (provider: OAuthProvider) => {
-    const oauthUrl = await getProviderUrl(provider)
-    window.location.href = oauthUrl
-  }
+  // const onLoginWithProvider = async (provider: OAuthProvider) => {
+  //   const oauthUrl = await getProviderUrl(provider)
+  //   window.location.href = oauthUrl
+  // }
 
   const desktop = useMediaQuery(breakpoints.up("md"))
   const maintenanceMode = Boolean(process.env.REACT_APP_MAINTENANCE_MODE)
@@ -341,7 +342,7 @@ const LoginPage = () => {
                   className={classes.button}
                   variant={desktop ? "primary" : "outline"}
                   size="large"
-                  onClick={() => onLoginWithProvider("github")}
+                  onClick={() => login("github")}
                   disabled={maintenanceMode || isConnecting}
                 >
                   <GithubLogoIcon />
@@ -351,7 +352,7 @@ const LoginPage = () => {
                   className={classes.button}
                   variant={desktop ? "primary" : "outline"}
                   size="large"
-                  onClick={() => onLoginWithProvider("google")}
+                  onClick={() => login("google")}
                   disabled={maintenanceMode || isConnecting}
                 >
                   <GoogleLogoIcon />
@@ -361,7 +362,7 @@ const LoginPage = () => {
                   className={classes.button}
                   size="large"
                   variant={desktop ? "primary" : "outline"}
-                  onClick={() => onLoginWithProvider("facebook")}
+                  onClick={() => login("facebook")}
                   disabled={maintenanceMode || isConnecting}
                 >
                   <FacebookLogoIcon />
