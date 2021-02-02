@@ -83,27 +83,62 @@ const FileBrowserModule: React.FC<IFilesBrowserModuleProps> = ({
         case CONTENT_TYPES.File:
           return {
             ...item,
-            operations: ["delete", "download", "move", "rename", "share"],
+            operations: [
+              "delete",
+              "info",
+              "download",
+              "move",
+              "rename",
+              "share",
+            ],
           }
         case CONTENT_TYPES.Image:
           return {
             ...item,
-            operations: ["delete", "download", "move", "rename", "share"],
+            operations: [
+              "delete",
+              "info",
+              "download",
+              "move",
+              "rename",
+              "share",
+            ],
           }
         case CONTENT_TYPES.Pdf:
           return {
             ...item,
-            operations: ["delete", "download", "move", "rename", "share"],
+            operations: [
+              "delete",
+              "info",
+              "download",
+              "move",
+              "rename",
+              "share",
+            ],
           }
         case CONTENT_TYPES.Text:
           return {
             ...item,
-            operations: ["delete", "download", "move", "rename", "share"],
+            operations: [
+              "delete",
+              "info",
+              "download",
+              "move",
+              "rename",
+              "share",
+            ],
           }
         default:
           return {
             ...item,
-            operations: ["delete", "download", "move", "rename", "share"],
+            operations: [
+              "delete",
+              "info",
+              "download",
+              "move",
+              "rename",
+              "share",
+            ],
           }
       }
     },

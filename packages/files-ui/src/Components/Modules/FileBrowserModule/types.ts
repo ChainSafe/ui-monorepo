@@ -1,7 +1,13 @@
 import { Crumb } from "@chainsafe/common-components"
 import { FileSystemItem } from "../../../Contexts/DriveContext"
 
-export type FileOperation = "rename" | "delete" | "download" | "share" | "move"
+export type FileOperation =
+  | "rename"
+  | "delete"
+  | "download"
+  | "share"
+  | "move"
+  | "info"
 
 export interface IFilesBrowserModuleProps {
   heading?: string

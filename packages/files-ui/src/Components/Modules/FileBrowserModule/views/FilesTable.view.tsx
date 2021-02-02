@@ -43,6 +43,7 @@ import DownloadProgressModals from "../../DownloadProgressModals"
 import CreateFolderModule from "../../CreateFolderModule"
 import UploadFileModule from "../../UploadFileModule"
 import MoveFileModule from "../MoveFileModal"
+import FileInfoModal from "../FileInfoModal"
 
 const useStyles = makeStyles(
   ({ animation, breakpoints, constants, palette, zIndex }: ITheme) => {
@@ -405,6 +406,9 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
     { modal: boolean; file: FileSystemItem } | undefined
   >(undefined)
   const [deleteDialogOpen, setDeleteDialog] = useState<() => void | undefined>()
+  const [fileInfoPath, setFileInfoPath] = useState<string | undefined>(
+    undefined,
+  )
 
   return (
     <article
@@ -643,6 +647,7 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
                 handleUploadOnDrop={handleUploadOnDrop}
                 setPreviewFileIndex={setPreviewFileIndex}
                 setMoveFileData={setMoveFileData}
+                setFileInfoPath={setFileInfoPath}
                 desktop={desktop}
               />
             ))}
@@ -680,6 +685,10 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
         file={moveFileData?.file}
         modalOpen={moveFileData ? moveFileData.modal : false}
         close={() => setMoveFileData(undefined)}
+      />
+      <FileInfoModal
+        fileInfoPath={fileInfoPath}
+        close={() => setFileInfoPath(undefined)}
       />
     </article>
   )
