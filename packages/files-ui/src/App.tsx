@@ -18,6 +18,7 @@ import {
   ImployApiProvider,
   UserProvider,
   BillingProvider,
+  ThresholdKeyProvider,
 } from "@imploy/common-contexts"
 import { DriveProvider } from "./Contexts/DriveContext"
 import FilesRoutes from "./Components/FilesRoutes"
@@ -105,17 +106,19 @@ const App: React.FC<{}> = () => {
               cacheWalletSelection={testLocalStorage()}
             >
               <ImployApiProvider apiUrl={apiUrl}>
-                <UserProvider>
-                  <DriveProvider>
-                    <BillingProvider>
-                      <Router>
-                        <AppWrapper>
-                          <FilesRoutes />
-                        </AppWrapper>
-                      </Router>
-                    </BillingProvider>
-                  </DriveProvider>
-                </UserProvider>
+                <ThresholdKeyProvider enableLogging network="testnet">
+                  <UserProvider>
+                    <DriveProvider>
+                      <BillingProvider>
+                        <Router>
+                          <AppWrapper>
+                            <FilesRoutes />
+                          </AppWrapper>
+                        </Router>
+                      </BillingProvider>
+                    </DriveProvider>
+                  </UserProvider>
+                </ThresholdKeyProvider>
               </ImployApiProvider>
             </Web3Provider>
           </ToasterProvider>

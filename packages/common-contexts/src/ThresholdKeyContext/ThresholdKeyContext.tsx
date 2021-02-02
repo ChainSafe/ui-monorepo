@@ -25,6 +25,9 @@ export type TThresholdKeyContext = {
 
 type ThresholdKeyProviderProps = {
   children: React.ReactNode | React.ReactNode[]
+  network?: "testnet" | "mainnet"
+  enableLogging?: boolean
+  apiKey?: string
 }
 
 type ShareTransferRequest = {
@@ -40,7 +43,12 @@ const ThresholdKeyContext = React.createContext<
   TThresholdKeyContext | undefined
 >(undefined)
 
-const ThresholdKeyProvider = ({ children }: ThresholdKeyProviderProps) => {
+const ThresholdKeyProvider = ({
+  children,
+  network = "mainnet",
+  enableLogging = false,
+  apiKey,
+}: ThresholdKeyProviderProps) => {
   const [userInfo, setUserInfo] = useState<TorusLoginResponse | undefined>()
   const [TKeySdk, setTKeySdk] = useState<ThresholdKey | undefined>()
   const [keyDetails, setKeyDetails] = useState<KeyDetails | undefined>()
@@ -61,10 +69,12 @@ const ThresholdKeyProvider = ({ children }: ThresholdKeyProviderProps) => {
         },
         directParams: {
           baseUrl: `${window.location.origin}/serviceworker`,
-          network: "testnet", // or mainnet
-          enableLogging: true,
+          network: network,
+          enableLogging: enableLogging,
+          apiKey: apiKey,
+
         },
-        enableLogging: true,
+        enableLogging: enableLogging,
       })
       setTKeySdk(tkey)
       // @ts-ignore
