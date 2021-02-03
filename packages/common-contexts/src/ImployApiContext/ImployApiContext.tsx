@@ -218,7 +218,7 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
         return Promise.resolve()
       }
     } catch (error) {
-      return Promise.reject("There was an error logging in.")
+      return Promise.reject(error)
     }
   }
 
