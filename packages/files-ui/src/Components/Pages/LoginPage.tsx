@@ -217,7 +217,17 @@ const LoginPage = () => {
     try {
       await web3Login()
     } catch (error) {
-      setError("There was an error authenticating")
+      let errorMessage = "There was an error authenticating"
+      if (Array.isArray(error) && error[0]) {
+        if (error[0].type === "signature") {
+          errorMessage = "Failed to get signature"
+        }
+      }
+      if (error?.message === "Just nope") {
+        // WalletConnect be sassy
+        errorMessage = "Failed to get signature"
+      }
+      setError(errorMessage)
     }
     setIsConnecting(false)
     setShowSignatureMessage(false)
