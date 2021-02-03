@@ -19,6 +19,7 @@ import { CancelToken } from "axios"
 import { t } from "@lingui/macro"
 import { readFileAsync } from "../Utils/Helpers"
 import { useBeforeunload } from "react-beforeunload"
+import { getPathWithFile } from "../Utils/pathUtils"
 
 type DriveContextProps = {
   children: React.ReactNode | React.ReactNode[]
@@ -50,6 +51,7 @@ type DriveContext = {
   renameFile(body: FilesMvRequest): Promise<void>
   moveFile(body: FilesMvRequest): Promise<void>
   deleteFile(cid: string): Promise<void>
+  moveFileToTrash(cid: string): Promise<void>
   downloadFile(cid: string): Promise<void>
   getFileContent(
     cid: string,
@@ -407,6 +409,38 @@ const DriveProvider = ({ children }: DriveContextProps) => {
     }
   }
 
+  const moveFileToTrash = async (cid: string) => {
+    const itemToDelete = pathContents.find((i) => i.cid === cid)
+    if (!itemToDelete) return
+    try {
+      await imployApiClient.moveCSFObject({
+        path: getPathWithFile(currentPath, itemToDelete.name),
+        new_path: getPathWithFile("/", itemToDelete.name),
+        destination: {
+          type: "trash",
+        },
+      })
+      await refreshContents(currentPath)
+      const message = `${
+        itemToDelete.isFolder ? t`Folder` : t`File`
+      } ${t`deleted successfully`}`
+      addToastMessage({
+        message: message,
+        appearance: "success",
+      })
+      return Promise.resolve()
+    } catch (error) {
+      const message = `${t`There was an error deleting this`} ${
+        itemToDelete.isFolder ? t`folder` : t`file`
+      }`
+      addToastMessage({
+        message: message,
+        appearance: "error",
+      })
+      return Promise.reject()
+    }
+  }
+
   const getFileContent = async (
     cid: string,
     cancelToken?: CancelToken,
@@ -530,6 +564,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
         renameFile,
         moveFile,
         deleteFile,
+        moveFileToTrash,
         downloadFile,
         getFileContent,
         list,

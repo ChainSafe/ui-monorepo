@@ -5,15 +5,15 @@ import { getArrayOfPaths, getPathFromArray } from "../../../Utils/pathUtils"
 import { IFileConfigured, IFilesBrowserModuleProps } from "./types"
 import FilesTableView from "./views/FilesTable.view"
 import { CONTENT_TYPES } from "../../../Utils/Constants"
+import { DndProvider } from "react-dnd"
+import { HTML5Backend } from "react-dnd-html5-backend"
 
 const FileBrowserModule: React.FC<IFilesBrowserModuleProps> = ({
   heading = "My Files",
   controls = true,
-  fileOperations,
-  folderOperations,
 }: IFilesBrowserModuleProps) => {
   const {
-    deleteFile,
+    moveFileToTrash,
     downloadFile,
     renameFile,
     moveFile,
@@ -21,6 +21,8 @@ const FileBrowserModule: React.FC<IFilesBrowserModuleProps> = ({
     updateCurrentPath,
     pathContents,
     uploadFiles,
+    uploadsInProgress,
+    loadingCurrentPath,
   } = useDrive()
 
   // Rename
@@ -145,21 +147,24 @@ const FileBrowserModule: React.FC<IFilesBrowserModuleProps> = ({
   )
 
   return (
-    <FilesTableView
-      crumbs={crumbs}
-      currentPath={currentPath}
-      deleteFile={deleteFile}
-      downloadFile={downloadFile}
-      fileOperations={fileOperations}
-      folderOperations={folderOperations}
-      handleMove={handleMove}
-      handleRename={handleRename}
-      handleUploadOnDrop={handleUploadOnDrop}
-      sourceFiles={parsedContents}
-      updateCurrentPath={updateCurrentPath}
-      heading={heading}
-      controls={controls}
-    />
+    <DndProvider backend={HTML5Backend}>
+      <FilesTableView
+        crumbs={crumbs}
+        currentPath={currentPath}
+        deleteFile={moveFileToTrash}
+        downloadFile={downloadFile}
+        handleMove={handleMove}
+        handleRename={handleRename}
+        handleUploadOnDrop={handleUploadOnDrop}
+        uploadsInProgress={uploadsInProgress}
+        loadingCurrentPath={loadingCurrentPath}
+        showUploadsInTable={true}
+        sourceFiles={parsedContents}
+        updateCurrentPath={updateCurrentPath}
+        heading={heading}
+        controls={controls}
+      />
+    </DndProvider>
   )
 }
 

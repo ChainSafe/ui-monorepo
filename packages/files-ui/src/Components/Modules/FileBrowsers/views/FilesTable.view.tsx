@@ -35,7 +35,7 @@ import { t, Trans } from "@lingui/macro"
 import { NativeTypes } from "react-dnd-html5-backend"
 import { useDrop } from "react-dnd"
 import { IFileConfigured, IFilesTableBrowserProps } from "../types"
-import { FileSystemItem, useDrive } from "../../../../Contexts/DriveContext"
+import { FileSystemItem } from "../../../../Contexts/DriveContext"
 import FileSystemItemRow from "./FileSystemItemRow"
 import FilePreviewModal from "../../FilePreviewModal"
 import UploadProgressModals from "../../UploadProgressModals"
@@ -213,8 +213,6 @@ const useStyles = makeStyles(
 const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
   heading = "My Files",
   controls = true,
-  fileOperations,
-  folderOperations,
   sourceFiles,
   handleUploadOnDrop,
   updateCurrentPath,
@@ -224,9 +222,11 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
   downloadFile,
   deleteFile,
   currentPath,
+  loadingCurrentPath,
+  uploadsInProgress,
+  showUploadsInTable,
 }: IFilesTableBrowserProps) => {
   const classes = useStyles()
-  const { uploadsInProgress, loadingCurrentPath } = useDrive()
   const [editing, setEditing] = useState<string | undefined>()
   const [direction, setDirection] = useState<SortDirection>("descend")
   const [column, setColumn] = useState<"name" | "size" | "date_uploaded">(
@@ -591,6 +591,7 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
           )}
           <TableBody>
             {!desktop &&
+              showUploadsInTable &&
               uploadsInProgress
                 .filter(
                   (uploadInProgress) =>

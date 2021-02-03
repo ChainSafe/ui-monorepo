@@ -1,5 +1,5 @@
 import { Crumb } from "@chainsafe/common-components"
-import { FileSystemItem } from "../../../Contexts/DriveContext"
+import { FileSystemItem, UploadProgress } from "../../../Contexts/DriveContext"
 
 export type FileOperation =
   | "rename"
@@ -13,8 +13,6 @@ export interface IFilesBrowserModuleProps {
   heading?: string
   // TODO: once pagination & unique content requests are present, this might change to a passed in function
   controls?: boolean
-  fileOperations: FileOperation[]
-  folderOperations: FileOperation[]
 }
 
 export interface IFileConfigured extends FileSystemItem {
@@ -33,6 +31,9 @@ export interface IFilesTableBrowserProps extends IFilesBrowserModuleProps {
     path: string,
   ) => void
   updateCurrentPath: (newPath: string) => void
+  loadingCurrentPath: boolean
+  uploadsInProgress: UploadProgress[]
+  showUploadsInTable: boolean
 
   sourceFiles: IFileConfigured[]
   currentPath: string
