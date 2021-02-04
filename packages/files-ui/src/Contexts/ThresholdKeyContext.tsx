@@ -67,7 +67,7 @@ const ThresholdKeyProvider = ({
       const tkey = new ThresholdKey({
         modules: {
           [SECURITY_QUESTIONS_MODULE_NAME]: new SecurityQuestionsModule(),
-          [WEB_STORAGE_MODULE_NAME]: new WebStorageModule(),
+          [WEB_STORAGE_MODULE_NAME]: new WebStorageModule(true),
           [SHARE_TRANSFER_MODULE_NAME]: new ShareTransferModule(),
         },
         directParams: {
@@ -158,6 +158,7 @@ const ThresholdKeyProvider = ({
     // eslint-disable-next-line
   }, [keyDetails])
 
+  // Initiate request for share transfer if not enough shares
   useEffect(() => {
     const handler = async () => {
       if (!TKeySdk) return
