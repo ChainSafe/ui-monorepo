@@ -1,12 +1,11 @@
-import React from "react"
+import React, { useEffect } from "react"
 import { Crumb, useToaster } from "@chainsafe/common-components"
 import { FileSystemItem, useDrive } from "../../../Contexts/DriveContext"
 import { getArrayOfPaths, getPathFromArray } from "../../../Utils/pathUtils"
 import { IFileConfigured, IFilesBrowserModuleProps } from "./types"
 import FilesTableView from "./views/FilesTable.view"
 import { CONTENT_TYPES } from "../../../Utils/Constants"
-import { DndProvider } from "react-dnd"
-import { HTML5Backend } from "react-dnd-html5-backend"
+import DragAndDrop from "../../../Contexts/DnDContext"
 
 const FileBrowserModule: React.FC<IFilesBrowserModuleProps> = ({
   heading = "My Files",
@@ -23,7 +22,13 @@ const FileBrowserModule: React.FC<IFilesBrowserModuleProps> = ({
     uploadFiles,
     uploadsInProgress,
     loadingCurrentPath,
+    storeEntry,
   } = useDrive()
+
+  useEffect(() => {
+    updateCurrentPath("/", "csf", storeEntry !== "csf")
+    // eslint-disable-next-line
+  }, [])
 
   // Rename
   const handleRename = async (path: string, new_path: string) => {
@@ -48,7 +53,11 @@ const FileBrowserModule: React.FC<IFilesBrowserModuleProps> = ({
   const crumbs: Crumb[] = arrayOfPaths.map((path, index) => ({
     text: path,
     onClick: () =>
-      updateCurrentPath(getPathFromArray(arrayOfPaths.slice(0, index + 1))),
+      updateCurrentPath(
+        getPathFromArray(arrayOfPaths.slice(0, index + 1)),
+        undefined,
+        true,
+      ),
   }))
 
   const { addToastMessage } = useToaster()
@@ -147,7 +156,7 @@ const FileBrowserModule: React.FC<IFilesBrowserModuleProps> = ({
   )
 
   return (
-    <DndProvider backend={HTML5Backend}>
+    <DragAndDrop>
       <FilesTableView
         crumbs={crumbs}
         currentPath={currentPath}
@@ -163,8 +172,9 @@ const FileBrowserModule: React.FC<IFilesBrowserModuleProps> = ({
         updateCurrentPath={updateCurrentPath}
         heading={heading}
         controls={controls}
+        allowDropUpload={true}
       />
-    </DndProvider>
+    </DragAndDrop>
   )
 }
 

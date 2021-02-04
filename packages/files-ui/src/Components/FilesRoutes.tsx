@@ -4,6 +4,7 @@ import LoginPage from "./Pages/LoginPage"
 import SettingsPage from "./Pages/SettingsPage"
 import { useImployApi } from "@imploy/common-contexts"
 import HomePage from "./Pages/HomePage"
+import BinPage from "./Pages/BinPage"
 import OAuthCallbackPage from "./Pages/OAuthCallback"
 import PurchasePlanPage from "./Pages/PurchasePlanPage"
 import { useDrive } from "../Contexts/DriveContext"
@@ -13,6 +14,7 @@ export const ROUTE_LINKS = {
   PrivacyPolicy: "https://files.chainsafe.io/privacy-policy",
   Terms: "https://files.chainsafe.io/terms-of-service",
   Home: "/home",
+  Bin: "/bin",
   Settings: "/settings",
   OAuthCallback: "/oauth2/callback/:provider",
   PurchasePlan: "/settings/purchase",
@@ -35,6 +37,13 @@ const FilesRoutes = () => {
         path={ROUTE_LINKS.Home}
         isAuthorized={isLoggedIn && secured && !!isMasterPasswordSet}
         component={HomePage}
+        redirectPath={ROUTE_LINKS.Landing}
+      />
+      <ConditionalRoute
+        exact
+        path={ROUTE_LINKS.Bin}
+        isAuthorized={isLoggedIn && secured && !!isMasterPasswordSet}
+        component={BinPage}
         redirectPath={ROUTE_LINKS.Landing}
       />
       <ConditionalRoute

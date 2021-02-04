@@ -221,10 +221,12 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
   handleMove,
   downloadFile,
   deleteFile,
+  recoverFile,
   currentPath,
   loadingCurrentPath,
   uploadsInProgress,
   showUploadsInTable,
+  allowDropUpload,
 }: IFilesTableBrowserProps) => {
   const classes = useStyles()
   const [editing, setEditing] = useState<string | undefined>()
@@ -389,7 +391,8 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
     accept: [NativeTypes.FILE],
     drop: (item: any, monitor) => {
       if (monitor.isOver({ shallow: true })) {
-        handleUploadOnDrop(item.files, item.items, currentPath)
+        handleUploadOnDrop &&
+          handleUploadOnDrop(item.files, item.items, currentPath)
       }
     },
     collect: (monitor) => ({
@@ -412,8 +415,10 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
 
   return (
     <article
-      className={clsx(classes.root, { droppable: isOverUploadable })}
-      ref={!uploadModalOpen ? dropBrowserRef : null}
+      className={clsx(classes.root, {
+        droppable: isOverUploadable && allowDropUpload,
+      })}
+      ref={!uploadModalOpen && allowDropUpload ? dropBrowserRef : null}
     >
       <div
         className={clsx(classes.dropNotification, { active: isOverBrowser })}
@@ -423,13 +428,13 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
         </Typography>
       </div>
       <div className={classes.breadCrumbContainer}>
-        {/* {crumbs.length > 0 && ( */}
-        <Breadcrumb
-          crumbs={crumbs}
-          homeOnClick={() => updateCurrentPath("/")}
-          showDropDown={!desktop}
-        />
-        {/* )} */}
+        {crumbs ? (
+          <Breadcrumb
+            crumbs={crumbs}
+            homeOnClick={() => updateCurrentPath("/", undefined, true)}
+            showDropDown={!desktop}
+          />
+        ) : null}
       </div>
       <header className={classes.header}>
         <Typography variant="h1" component="h1">
@@ -634,16 +639,17 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
                 setEditing={setEditing}
                 RenameSchema={RenameSchema}
                 handleRename={async (path: string, newPath: string) => {
-                  await handleRename(path, newPath)
+                  handleRename && (await handleRename(path, newPath))
                   setEditing(undefined)
                 }}
                 handleMove={handleMove}
                 deleteFile={(cid: string) =>
                   setDeleteDialog(() => () => {
-                    deleteFile(cid)
+                    deleteFile && deleteFile(cid)
                     setDeleteDialog(undefined)
                   })
                 }
+                recoverFile={recoverFile}
                 downloadFile={downloadFile}
                 handleUploadOnDrop={handleUploadOnDrop}
                 setPreviewFileIndex={setPreviewFileIndex}
