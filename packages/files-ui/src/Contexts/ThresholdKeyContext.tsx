@@ -159,9 +159,8 @@ const ThresholdKeyProvider = ({
           //@ts-ignore
           const googleResult = await TKeySdk.serviceProvider.triggerLogin({
             typeOfLogin: "google",
-            verifier: "chainsafe-files-google-test",
-            clientId:
-              "960887133778-lsgmkovc5394hc2npvgsv132sbe77lun.apps.googleusercontent.com",
+            verifier: process.env.REACT_APP_GOOGLE_VERIFIER_NAME,
+            clientId: process.env.REACT_APP_GOOGLE_CLIENT_ID,
           })
           setUserInfo(googleResult)
           break
@@ -169,10 +168,20 @@ const ThresholdKeyProvider = ({
           //@ts-ignore
           const fbResult = await TKeySdk.serviceProvider.triggerLogin({
             typeOfLogin: "facebook",
-            verifier: "chainsafe-files-facebook-test",
-            clientId: "814279472764399",
+            verifier: process.env.REACT_APP_FACEBOOK_VERIFIER_NAME,
+            clientId: process.env.REACT_APP_FACEBOOK_CLIENT_ID,
           })
           setUserInfo(fbResult)
+          break
+        case "github":
+          //@ts-ignore
+          const ghResult = await TKeySdk.serviceProvider.triggerLogin({
+            typeOfLogin: "github",
+            verifier: process.env.REACT_APP_GITHUB_VERIFIER_NAME,
+            clientId: process.env.REACT_APP_AUTH0_CLIENT_ID,
+            domain: process.env.REACT_APP_AUTH0_DOMAIN,
+          })
+          setUserInfo(ghResult)
           break
         default:
           break
