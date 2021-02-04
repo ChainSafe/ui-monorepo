@@ -8,6 +8,7 @@ export type FileOperation =
   | "share"
   | "move"
   | "info"
+  | "preview"
 
 export interface IFilesBrowserModuleProps {
   heading?: string
