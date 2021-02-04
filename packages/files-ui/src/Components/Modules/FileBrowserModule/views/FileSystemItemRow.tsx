@@ -19,6 +19,8 @@ import {
   ExportIcon,
   ShareAltIcon,
   CheckSvg,
+  ExclamationCircleInverseIcon,
+  ZoomInIcon,
 } from "@chainsafe/common-components"
 import {
   makeStyles,
@@ -142,7 +144,7 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: ITheme) => {
   })
 })
 
-interface IFileOrFolderProps {
+interface IFileSystemItemRowProps {
   index: number
   file: IFileConfigured
   files: IFileConfigured[]
@@ -165,9 +167,10 @@ interface IFileOrFolderProps {
   setPreviewFileIndex(fileIndex: number | undefined): void
   desktop: boolean
   setMoveFileData(moveFileData: { modal: boolean; file: FileSystemItem }): void
+  setFileInfoPath(path: string): void
 }
 
-const FileSystemItemRow: React.FC<IFileOrFolderProps> = ({
+const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
   index,
   file,
   files,
@@ -184,6 +187,7 @@ const FileSystemItemRow: React.FC<IFileOrFolderProps> = ({
   handleUploadOnDrop,
   setPreviewFileIndex,
   setMoveFileData,
+  setFileInfoPath,
   desktop,
 }) => {
   let Icon
@@ -251,6 +255,24 @@ const FileSystemItemRow: React.FC<IFileOrFolderProps> = ({
       ),
       onClick: () => console.log,
     },
+    info: {
+      contents: (
+        <Fragment>
+          <ExclamationCircleInverseIcon className={classes.menuIcon} />
+          <span>Info</span>
+        </Fragment>
+      ),
+      onClick: () => setFileInfoPath(`${currentPath}${file.name}`),
+    },
+    preview: {
+      contents: (
+        <Fragment>
+          <ZoomInIcon className={classes.menuIcon} />
+          <span>Preview</span>
+        </Fragment>
+      ),
+      onClick: () => setPreviewFileIndex(files?.indexOf(file)),
+    },
   }
 
   const menuItems: IMenuItem[] = file.operations.map(
@@ -297,11 +319,20 @@ const FileSystemItemRow: React.FC<IFileOrFolderProps> = ({
     }
   }
 
-  const onFolderOrFileClicks = useDoubleClick(undefined, () => {
+  // Hook cant be called conditionally
+  const doubleClick = useDoubleClick(undefined, () => {
     file.isFolder
       ? updateCurrentPath(`${currentPath}${file.name}`)
       : setPreviewFileIndex(files?.indexOf(file))
   })
+
+  const onFolderOrFileClicks = desktop
+    ? doubleClick
+    : () => {
+        file.isFolder
+          ? updateCurrentPath(`${currentPath}${file.name}`)
+          : setPreviewFileIndex(files?.indexOf(file))
+      }
 
   return (
     <TableRow

@@ -1,4 +1,5 @@
 import {
+  CSFFilesFullinfoResponse,
   FileContentResponse,
   FilesMvRequest,
   FilesPathRequest,
@@ -66,6 +67,7 @@ type DriveContext = {
   setMasterPassword(password: string): void
   secureDrive(password: string): void
   getFolderTree(): Promise<DirectoryContentResponse>
+  getFileInfo(path: string): Promise<CSFFilesFullinfoResponse>
   loadingCurrentPath: boolean
 }
 
@@ -328,6 +330,19 @@ const DriveProvider = ({ children }: DriveContextProps) => {
     }
   }
 
+  const getFileInfo = async (path: string) => {
+    try {
+      const result = await imployApiClient.getCSFFileInfo({ path })
+      return result
+    } catch (error) {
+      addToastMessage({
+        message: t`There was an error getting file info`,
+        appearance: "error",
+      })
+      return Promise.reject()
+    }
+  }
+
   const renameFile = async (body: FilesMvRequest) => {
     try {
       await imployApiClient.moveCSFObject(body)
@@ -532,6 +547,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
         secureDrive,
         getFolderTree,
         loadingCurrentPath,
+        getFileInfo,
       }}
     >
       {children}
@@ -548,4 +564,8 @@ const useDrive = () => {
 }
 
 export { DriveProvider, useDrive }
-export type { FileSystemItem, DirectoryContentResponse }
+export type {
+  FileSystemItem,
+  DirectoryContentResponse,
+  CSFFilesFullinfoResponse as FileFullInfo,
+}
