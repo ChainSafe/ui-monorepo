@@ -90,6 +90,7 @@ const FileBrowserModule: React.FC<IFilesBrowserModuleProps> = ({
               "move",
               "rename",
               "share",
+              "preview",
             ],
           }
         case CONTENT_TYPES.Image:
@@ -102,6 +103,7 @@ const FileBrowserModule: React.FC<IFilesBrowserModuleProps> = ({
               "move",
               "rename",
               "share",
+              "preview",
             ],
           }
         case CONTENT_TYPES.Pdf:
@@ -114,6 +116,7 @@ const FileBrowserModule: React.FC<IFilesBrowserModuleProps> = ({
               "move",
               "rename",
               "share",
+              "preview",
             ],
           }
         case CONTENT_TYPES.Text:
@@ -126,6 +129,7 @@ const FileBrowserModule: React.FC<IFilesBrowserModuleProps> = ({
               "move",
               "rename",
               "share",
+              "preview",
             ],
           }
         default:
@@ -138,6 +142,7 @@ const FileBrowserModule: React.FC<IFilesBrowserModuleProps> = ({
               "move",
               "rename",
               "share",
+              "preview",
             ],
           }
       }
