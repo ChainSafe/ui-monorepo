@@ -8,6 +8,7 @@ import {
   GithubLogoIcon,
   ChainsafeFilesLogo,
   Divider,
+  CheckboxInput,
 } from "@chainsafe/common-components"
 import { useImployApi } from "@imploy/common-contexts"
 import {
@@ -26,6 +27,7 @@ import LandingImage from "../../Media/auth.jpg"
 import MasterKeyModule from "../Modules/MasterKeySequence/MasterKeyModule"
 import EnterMasterKeySlide from "../Modules/MasterKeySequence/SequenceSlides/EnterMasterKey.slide"
 import { useThresholdKey } from "../../Contexts/ThresholdKeyContext"
+import { LOGIN_TYPE } from "@toruslabs/torus-direct-web-sdk"
 
 const useStyles = makeStyles(
   ({ palette, constants, typography, breakpoints }: ITheme) =>
@@ -175,8 +177,16 @@ const LoginPage = () => {
     isLoggedIn,
   } = useImployApi()
   const { provider, wallet } = useWeb3()
-  const { login } = useThresholdKey()
+  const {
+    login,
+    isNewDevice,
+    keyDetails,
+    dismissNewKey,
+    isNewKey,
+    addNewDeviceShareAndSave,
+  } = useThresholdKey()
   const [error, setError] = useState<string>("")
+  const [saveToFileStorage, setSaveToFileStorage] = useState(false)
   const [activeMode, setActiveMode] = useState<"newUser" | "returningUser">(
     isReturningUser ? "returningUser" : "newUser",
   )
@@ -224,6 +234,16 @@ const LoginPage = () => {
     setShowSignatureMessage(false)
   }
 
+  const handleOAuthLogin = async (loginType: LOGIN_TYPE) => {
+    setIsConnecting(true)
+    try {
+      await login(loginType)
+    } catch (error) {
+      console.log(error)
+    }
+    setIsConnecting(false)
+  }
+
   // const onLoginWithProvider = async (provider: OAuthProvider) => {
   //   const oauthUrl = await getProviderUrl(provider)
   //   window.location.href = oauthUrl
@@ -265,7 +285,7 @@ const LoginPage = () => {
             </Typography>
           </div>
           <div className={classes.controls}>
-            {!isLoggedIn ? (
+            {!keyDetails && (
               <>
                 <Typography
                   variant="h6"
@@ -342,7 +362,7 @@ const LoginPage = () => {
                   className={classes.button}
                   variant={desktop ? "primary" : "outline"}
                   size="large"
-                  onClick={() => login("github")}
+                  onClick={() => handleOAuthLogin("github")}
                   disabled={maintenanceMode || isConnecting}
                 >
                   <GithubLogoIcon />
@@ -352,7 +372,7 @@ const LoginPage = () => {
                   className={classes.button}
                   variant={desktop ? "primary" : "outline"}
                   size="large"
-                  onClick={() => login("google")}
+                  onClick={() => handleOAuthLogin("google")}
                   disabled={maintenanceMode || isConnecting}
                 >
                   <GoogleLogoIcon />
@@ -362,7 +382,7 @@ const LoginPage = () => {
                   className={classes.button}
                   size="large"
                   variant={desktop ? "primary" : "outline"}
-                  onClick={() => login("facebook")}
+                  onClick={() => handleOAuthLogin("facebook")}
                   disabled={maintenanceMode || isConnecting}
                 >
                   <FacebookLogoIcon />
@@ -408,10 +428,55 @@ const LoginPage = () => {
                   )}
                 </Typography>
               </>
-            ) : !secured ? (
-              <MasterKeyModule />
-            ) : (
-              <EnterMasterKeySlide />
+            )}
+            {isNewKey && (
+              <>
+                <Typography variant="h5">This is a new account</Typography>
+                <Typography>Lorem ipsum setup info</Typography>
+                <Button onClick={dismissNewKey}>Lets go</Button>
+              </>
+            )}
+            {keyDetails && keyDetails.totalShares === keyDetails.threshold && (
+              <>
+                <Typography variant="h5">Min number of shares</Typography>
+                <Typography>
+                  Add more shares to ensure you dont get locked out of your
+                  account
+                </Typography>
+              </>
+            )}
+            {keyDetails && keyDetails.requiredShares <= 0 && isNewDevice && (
+              <>
+                <Typography>Would you like to save this device?</Typography>
+                <CheckboxInput
+                  value={saveToFileStorage}
+                  onChange={() => setSaveToFileStorage(!saveToFileStorage)}
+                  label="Save to file storage"
+                />
+                <Button
+                  onClick={() => addNewDeviceShareAndSave(saveToFileStorage)}
+                >
+                  Save device
+                </Button>
+              </>
+            )}
+            {keyDetails && keyDetails.requiredShares > 0 && isNewDevice && (
+              <>
+                <Typography>
+                  Please enter password, recovery code, or approve login request
+                  on an existing device
+                </Typography>
+                <Typography>Your existing shares:</Typography>
+                <ul>
+                  {Object.keys(keyDetails.shareDescriptions).map(
+                    (shareIndex) => (
+                      <li key={shareIndex}>
+                        {keyDetails.shareDescriptions[shareIndex]}
+                      </li>
+                    )
+                  )}
+                </ul>
+              </>
             )}
           </div>
         </Grid>
