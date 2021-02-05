@@ -50,4 +50,5 @@ export interface IFilesTableBrowserProps extends IFilesBrowserModuleProps {
   sourceFiles: IFileConfigured[]
   currentPath: string
   crumbs: Crumb[] | undefined
+  desktop: boolean
 }

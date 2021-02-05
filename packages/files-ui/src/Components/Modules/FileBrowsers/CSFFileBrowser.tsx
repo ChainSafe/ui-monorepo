@@ -23,6 +23,7 @@ const CSFFileBrowser: React.FC<IFilesBrowserModuleProps> = ({
     uploadsInProgress,
     loadingCurrentPath,
     storeEntry,
+    desktop,
   } = useDrive()
 
   useEffect(() => {
@@ -178,6 +179,7 @@ const CSFFileBrowser: React.FC<IFilesBrowserModuleProps> = ({
         heading={heading}
         controls={controls}
         allowDropUpload={true}
+        desktop={desktop}
       />
     </DragAndDrop>
   )

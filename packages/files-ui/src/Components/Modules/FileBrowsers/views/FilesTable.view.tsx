@@ -227,6 +227,7 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
   uploadsInProgress,
   showUploadsInTable,
   allowDropUpload,
+  desktop,
 }: IFilesTableBrowserProps) => {
   const classes = useStyles()
   const [editing, setEditing] = useState<string | undefined>()
@@ -382,10 +383,6 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
       )
       .required("File name is required"),
   })
-
-  // Media queries
-  const { breakpoints }: ITheme = useTheme()
-  const desktop = useMediaQuery(breakpoints.up("md"))
 
   const [{ isOverUploadable, isOverBrowser }, dropBrowserRef] = useDrop({
     accept: [NativeTypes.FILE],
