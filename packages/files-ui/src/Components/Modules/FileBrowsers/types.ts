@@ -13,6 +13,7 @@ export type FileOperation =
   | "move"
   | "info"
   | "recover"
+  | "preview"
 
 export interface IFilesBrowserModuleProps {
   heading?: string

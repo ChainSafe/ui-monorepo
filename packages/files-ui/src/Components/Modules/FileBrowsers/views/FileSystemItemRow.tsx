@@ -21,6 +21,7 @@ import {
   CheckSvg,
   ExclamationCircleInverseIcon,
   RecoverSvg,
+  ZoomInIcon,
 } from "@chainsafe/common-components"
 import {
   makeStyles,
@@ -282,6 +283,15 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
       ),
       onClick: () => recoverFile && recoverFile(file.cid),
     },
+    preview: {
+      contents: (
+        <Fragment>
+          <ZoomInIcon className={classes.menuIcon} />
+          <span>Preview</span>
+        </Fragment>
+      ),
+      onClick: () => setPreviewFileIndex(files?.indexOf(file)),
+    },
   }
 
   const menuItems: IMenuItem[] = file.operations.map(
@@ -330,11 +340,20 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
     }
   }
 
-  const onFolderOrFileClicks = useDoubleClick(undefined, () => {
+  // Hook cant be called conditionally
+  const doubleClick = useDoubleClick(undefined, () => {
     file.isFolder
       ? updateCurrentPath(`${currentPath}${file.name}`, undefined, true)
       : setPreviewFileIndex(files?.indexOf(file))
   })
+
+  const onFolderOrFileClicks = desktop
+    ? doubleClick
+    : () => {
+        file.isFolder
+          ? updateCurrentPath(`${currentPath}${file.name}`)
+          : setPreviewFileIndex(files?.indexOf(file))
+      }
 
   return (
     <TableRow
