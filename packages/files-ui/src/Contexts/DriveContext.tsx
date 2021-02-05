@@ -410,6 +410,9 @@ const DriveProvider = ({ children }: DriveContextProps) => {
     try {
       await imployApiClient.removeCSFObjects({
         paths: [`${currentPath}${itemToDelete.name}`],
+        source: {
+          type: storeEntry,
+        },
       })
       await refreshContents(currentPath)
       const message = `${
