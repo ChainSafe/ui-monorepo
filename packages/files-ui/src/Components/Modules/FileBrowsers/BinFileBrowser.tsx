@@ -6,7 +6,7 @@ import { CONTENT_TYPES } from "../../../Utils/Constants"
 import DragAndDrop from "../../../Contexts/DnDContext"
 
 const BinFileBrowser: React.FC<IFilesBrowserModuleProps> = ({
-  heading = "Trash",
+  heading = "Bin",
   controls = true,
 }: IFilesBrowserModuleProps) => {
   const {

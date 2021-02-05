@@ -7,7 +7,7 @@ import FilesTableView from "./views/FilesTable.view"
 import { CONTENT_TYPES } from "../../../Utils/Constants"
 import DragAndDrop from "../../../Contexts/DnDContext"
 
-const FileBrowserModule: React.FC<IFilesBrowserModuleProps> = ({
+const CSFFileBrowser: React.FC<IFilesBrowserModuleProps> = ({
   heading = "My Files",
   controls = true,
 }: IFilesBrowserModuleProps) => {
@@ -178,4 +178,4 @@ const FileBrowserModule: React.FC<IFilesBrowserModuleProps> = ({
   )
 }
 
-export default FileBrowserModule
+export default CSFFileBrowser
