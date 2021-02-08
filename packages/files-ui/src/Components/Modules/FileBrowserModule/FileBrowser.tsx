@@ -2,15 +2,17 @@ import React from "react"
 import { Crumb, useToaster } from "@chainsafe/common-components"
 import { FileSystemItem, useDrive } from "../../../Contexts/DriveContext"
 import { getArrayOfPaths, getPathFromArray } from "../../../Utils/pathUtils"
-import { IFileConfigured, IFilesBrowserModuleProps } from "./types"
+import {
+  IBulkOperations,
+  IFileConfigured,
+  IFilesBrowserModuleProps,
+} from "./types"
 import FilesTableView from "./views/FilesTable.view"
 import { CONTENT_TYPES } from "../../../Utils/Constants"
 
 const FileBrowserModule: React.FC<IFilesBrowserModuleProps> = ({
   heading = "My Files",
   controls = true,
-  fileOperations,
-  folderOperations,
 }: IFilesBrowserModuleProps) => {
   const {
     deleteFile,
@@ -149,14 +151,22 @@ const FileBrowserModule: React.FC<IFilesBrowserModuleProps> = ({
     },
   )
 
+  const bulkOperations: IBulkOperations = {
+    [CONTENT_TYPES.Directory]: ["move"],
+    [CONTENT_TYPES.File]: ["delete", "move"],
+    [CONTENT_TYPES.Image]: ["delete", "move"],
+    [CONTENT_TYPES.Pdf]: ["delete", "move"],
+    [CONTENT_TYPES.Text]: ["delete", "move"],
+    [CONTENT_TYPES.MP4]: ["delete", "move"],
+  }
+
   return (
     <FilesTableView
+      bulkOperations={bulkOperations}
       crumbs={crumbs}
       currentPath={currentPath}
       deleteFile={deleteFile}
       downloadFile={downloadFile}
-      fileOperations={fileOperations}
-      folderOperations={folderOperations}
       handleMove={handleMove}
       handleRename={handleRename}
       handleUploadOnDrop={handleUploadOnDrop}

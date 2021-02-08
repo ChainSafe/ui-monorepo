@@ -1,5 +1,6 @@
 import { Crumb } from "@chainsafe/common-components"
 import { FileSystemItem } from "../../../Contexts/DriveContext"
+import { CONTENT_TYPES } from "../../../Utils/Constants"
 
 export type FileOperation =
   | "rename"
@@ -22,7 +23,11 @@ export interface IFileConfigured extends FileSystemItem {
   operations: FileOperation[]
 }
 
-export interface IFilesTableBrowserProps extends IFilesBrowserModuleProps {
+export interface IFilesTableBrowserProps
+  extends Omit<
+    IFilesBrowserModuleProps,
+    "fileOperations" | "folderOperations"
+  > {
   handleRename: (path: string, new_path: string) => Promise<void>
   handleMove: (path: string, new_path: string) => Promise<void>
   downloadFile: (cid: string) => Promise<void>
@@ -38,4 +43,9 @@ export interface IFilesTableBrowserProps extends IFilesBrowserModuleProps {
   sourceFiles: IFileConfigured[]
   currentPath: string
   crumbs: Crumb[]
+  bulkOperations?: IBulkOperations
+}
+
+export interface IBulkOperations {
+  [index: string]: FileOperation[]
 }
