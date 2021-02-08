@@ -4,6 +4,7 @@ import {
   FilesMvRequest,
   FilesPathRequest,
   DirectoryContentResponse,
+  StoreEntryType,
 } from "@imploy/api-client"
 import React, { useCallback, useEffect, useReducer } from "react"
 import { useState } from "react"
@@ -19,6 +20,8 @@ import { CancelToken } from "axios"
 import { t } from "@lingui/macro"
 import { readFileAsync } from "../Utils/Helpers"
 import { useBeforeunload } from "react-beforeunload"
+import { getPathWithFile } from "../Utils/pathUtils"
+import { ITheme, useTheme, useMediaQuery } from "@chainsafe/common-theme"
 
 type DriveContextProps = {
   children: React.ReactNode | React.ReactNode[]
@@ -49,7 +52,9 @@ type DriveContext = {
   createFolder(body: FilesPathRequest): Promise<FileContentResponse>
   renameFile(body: FilesMvRequest): Promise<void>
   moveFile(body: FilesMvRequest): Promise<void>
+  recoverFile(cid: string): Promise<void>
   deleteFile(cid: string): Promise<void>
+  moveFileToTrash(cid: string): Promise<void>
   downloadFile(cid: string): Promise<void>
   getFileContent(
     cid: string,
@@ -58,7 +63,11 @@ type DriveContext = {
   ): Promise<Blob | undefined>
   list(body: FilesPathRequest): Promise<FileContentResponse[]>
   currentPath: string
-  updateCurrentPath(newPath: string): void
+  updateCurrentPath(
+    newPath: string,
+    storeEntry?: StoreEntryType,
+    showLoading?: boolean,
+  ): void
   pathContents: FileSystemItem[]
   uploadsInProgress: UploadProgress[]
   downloadsInProgress: DownloadProgress[]
@@ -68,7 +77,9 @@ type DriveContext = {
   secureDrive(password: string): void
   getFolderTree(): Promise<DirectoryContentResponse>
   getFileInfo(path: string): Promise<CSFFilesFullinfoResponse>
+  storeEntry: StoreEntryType
   loadingCurrentPath: boolean
+  desktop: boolean
 }
 
 // This represents a File or Folder on the
@@ -95,12 +106,27 @@ const DriveProvider = ({ children }: DriveContextProps) => {
 
   const [loadingCurrentPath, setLoadingCurrentPath] = useState(false)
 
+  const [storeEntry, setStoreEntry] = useState<StoreEntryType>("csf")
+
+  const [pathContents, setPathContents] = useState<FileSystemItem[]>([])
+  const [spaceUsed, setSpaceUsed] = useState(0)
+  const [masterPassword, setMasterPassword] = useState<string | undefined>(
+    undefined,
+  )
+
   const refreshContents = useCallback(
-    async (path: string, showLoading?: boolean) => {
+    async (
+      path: string,
+      storeEntryParam?: StoreEntryType,
+      showLoading?: boolean,
+    ) => {
       try {
         showLoading && setLoadingCurrentPath(true)
         const newContents = await imployApiClient?.getCSFChildList({
           path,
+          source: {
+            type: storeEntryParam || storeEntry,
+          },
         })
         showLoading && setLoadingCurrentPath(false)
 
@@ -122,7 +148,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
         showLoading && setLoadingCurrentPath(false)
       }
     },
-    [imployApiClient],
+    [imployApiClient, storeEntry],
   )
 
   const currentPathReducer = (
@@ -139,7 +165,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
         // check user has not navigated to other folder
         // using then catch as awaits won't work in reducer
         if (action.payload === currentPath) {
-          refreshContents(currentPath)
+          refreshContents(currentPath, storeEntry, false)
         }
         return currentPath
       }
@@ -149,15 +175,16 @@ const DriveProvider = ({ children }: DriveContextProps) => {
   }
   const [currentPath, dispatchCurrentPath] = useReducer(currentPathReducer, "/")
 
-  const [pathContents, setPathContents] = useState<FileSystemItem[]>([])
-  const [spaceUsed, setSpaceUsed] = useState(0)
-  const [masterPassword, setMasterPassword] = useState<string | undefined>(
-    undefined,
-  )
-
-  const setCurrentPath = (newPath: string) => {
+  const setCurrentPath = (
+    newPath: string,
+    newStoryEntry?: StoreEntryType,
+    showLoading?: boolean,
+  ) => {
     dispatchCurrentPath({ type: "update", payload: newPath })
-    refreshContents(newPath, true)
+    if (newStoryEntry) {
+      setStoreEntry(newStoryEntry)
+    }
+    refreshContents(newPath, newStoryEntry || storeEntry, showLoading)
   }
 
   useEffect(() => {
@@ -385,6 +412,9 @@ const DriveProvider = ({ children }: DriveContextProps) => {
     try {
       await imployApiClient.removeCSFObjects({
         paths: [`${currentPath}${itemToDelete.name}`],
+        source: {
+          type: storeEntry,
+        },
       })
       await refreshContents(currentPath)
       const message = `${
@@ -397,6 +427,75 @@ const DriveProvider = ({ children }: DriveContextProps) => {
       return Promise.resolve()
     } catch (error) {
       const message = `${t`There was an error deleting this`} ${
+        itemToDelete.isFolder ? t`folder` : t`file`
+      }`
+      addToastMessage({
+        message: message,
+        appearance: "error",
+      })
+      return Promise.reject()
+    }
+  }
+
+  const moveFileToTrash = async (cid: string) => {
+    const itemToDelete = pathContents.find((i) => i.cid === cid)
+    if (!itemToDelete) return
+    try {
+      await imployApiClient.moveCSFObject({
+        path: getPathWithFile(currentPath, itemToDelete.name),
+        new_path: getPathWithFile("/", itemToDelete.name),
+        destination: {
+          type: "trash",
+        },
+      })
+      await refreshContents(currentPath)
+      const message = `${
+        itemToDelete.isFolder ? t`Folder` : t`File`
+      } ${t`deleted successfully`}`
+      addToastMessage({
+        message: message,
+        appearance: "success",
+      })
+      return Promise.resolve()
+    } catch (error) {
+      const message = `${t`There was an error deleting this`} ${
+        itemToDelete.isFolder ? t`folder` : t`file`
+      }`
+      addToastMessage({
+        message: message,
+        appearance: "error",
+      })
+      return Promise.reject()
+    }
+  }
+
+  const recoverFile = async (cid: string) => {
+    const itemToDelete = pathContents.find((i) => i.cid === cid)
+    if (!itemToDelete) return
+    try {
+      await imployApiClient.moveCSFObject({
+        path: getPathWithFile("/", itemToDelete.name),
+        new_path: getPathWithFile("/", itemToDelete.name),
+        source: {
+          type: "trash",
+        },
+        destination: {
+          type: "csf",
+        },
+      })
+      await refreshContents(currentPath)
+
+      const message = `${
+        itemToDelete.isFolder ? t`Folder` : t`File`
+      } ${t`recovered successfully`}`
+
+      addToastMessage({
+        message: message,
+        appearance: "success",
+      })
+      return Promise.resolve()
+    } catch (error) {
+      const message = `${t`There was an error recovering this`} ${
         itemToDelete.isFolder ? t`folder` : t`file`
       }`
       addToastMessage({
@@ -522,6 +621,11 @@ const DriveProvider = ({ children }: DriveContextProps) => {
     }
   }
 
+  // Media queries
+  // for testing
+  const { breakpoints }: ITheme = useTheme()
+  const desktop = useMediaQuery(breakpoints.up("md"))
+
   return (
     <DriveContext.Provider
       value={{
@@ -530,14 +634,20 @@ const DriveProvider = ({ children }: DriveContextProps) => {
         renameFile,
         moveFile,
         deleteFile,
+        moveFileToTrash,
         downloadFile,
         getFileContent,
+        recoverFile,
         list,
         currentPath,
-        updateCurrentPath: (newPath: string) =>
+        updateCurrentPath: (
+          newPath: string,
+          storeEntry?: StoreEntryType,
+          showLoading?: boolean,
+        ) =>
           newPath.endsWith("/")
-            ? setCurrentPath(`${newPath}`)
-            : setCurrentPath(`${newPath}/`),
+            ? setCurrentPath(`${newPath}`, storeEntry, showLoading)
+            : setCurrentPath(`${newPath}/`, storeEntry, showLoading),
         pathContents,
         uploadsInProgress,
         spaceUsed,
@@ -548,6 +658,8 @@ const DriveProvider = ({ children }: DriveContextProps) => {
         getFolderTree,
         loadingCurrentPath,
         getFileInfo,
+        storeEntry,
+        desktop,
       }}
     >
       {children}
@@ -568,4 +680,5 @@ export type {
   FileSystemItem,
   DirectoryContentResponse,
   CSFFilesFullinfoResponse as FileFullInfo,
+  StoreEntryType,
 }

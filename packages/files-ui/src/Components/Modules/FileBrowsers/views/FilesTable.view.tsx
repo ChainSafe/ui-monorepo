@@ -35,7 +35,7 @@ import { t, Trans } from "@lingui/macro"
 import { NativeTypes } from "react-dnd-html5-backend"
 import { useDrop } from "react-dnd"
 import { IFileConfigured, IFilesTableBrowserProps } from "../types"
-import { FileSystemItem, useDrive } from "../../../../Contexts/DriveContext"
+import { FileSystemItem } from "../../../../Contexts/DriveContext"
 import FileSystemItemRow from "./FileSystemItemRow"
 import FilePreviewModal from "../../FilePreviewModal"
 import UploadProgressModals from "../../UploadProgressModals"
@@ -213,8 +213,6 @@ const useStyles = makeStyles(
 const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
   heading = "My Files",
   controls = true,
-  fileOperations,
-  folderOperations,
   sourceFiles,
   handleUploadOnDrop,
   updateCurrentPath,
@@ -223,10 +221,15 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
   handleMove,
   downloadFile,
   deleteFile,
+  recoverFile,
   currentPath,
+  loadingCurrentPath,
+  uploadsInProgress,
+  showUploadsInTable,
+  allowDropUpload,
+  desktop,
 }: IFilesTableBrowserProps) => {
   const classes = useStyles()
-  const { uploadsInProgress, loadingCurrentPath } = useDrive()
   const [editing, setEditing] = useState<string | undefined>()
   const [direction, setDirection] = useState<SortDirection>("descend")
   const [column, setColumn] = useState<"name" | "size" | "date_uploaded">(
@@ -381,15 +384,12 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
       .required("File name is required"),
   })
 
-  // Media queries
-  const { breakpoints }: ITheme = useTheme()
-  const desktop = useMediaQuery(breakpoints.up("md"))
-
   const [{ isOverUploadable, isOverBrowser }, dropBrowserRef] = useDrop({
     accept: [NativeTypes.FILE],
     drop: (item: any, monitor) => {
       if (monitor.isOver({ shallow: true })) {
-        handleUploadOnDrop(item.files, item.items, currentPath)
+        handleUploadOnDrop &&
+          handleUploadOnDrop(item.files, item.items, currentPath)
       }
     },
     collect: (monitor) => ({
@@ -412,8 +412,10 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
 
   return (
     <article
-      className={clsx(classes.root, { droppable: isOverUploadable })}
-      ref={!uploadModalOpen ? dropBrowserRef : null}
+      className={clsx(classes.root, {
+        droppable: isOverUploadable && allowDropUpload,
+      })}
+      ref={!uploadModalOpen && allowDropUpload ? dropBrowserRef : null}
     >
       <div
         className={clsx(classes.dropNotification, { active: isOverBrowser })}
@@ -423,13 +425,13 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
         </Typography>
       </div>
       <div className={classes.breadCrumbContainer}>
-        {/* {crumbs.length > 0 && ( */}
-        <Breadcrumb
-          crumbs={crumbs}
-          homeOnClick={() => updateCurrentPath("/")}
-          showDropDown={!desktop}
-        />
-        {/* )} */}
+        {crumbs ? (
+          <Breadcrumb
+            crumbs={crumbs}
+            homeOnClick={() => updateCurrentPath("/", undefined, true)}
+            showDropDown={!desktop}
+          />
+        ) : null}
       </div>
       <header className={classes.header}>
         <Typography variant="h1" component="h1">
@@ -591,6 +593,7 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
           )}
           <TableBody>
             {!desktop &&
+              showUploadsInTable &&
               uploadsInProgress
                 .filter(
                   (uploadInProgress) =>
@@ -633,16 +636,17 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
                 setEditing={setEditing}
                 RenameSchema={RenameSchema}
                 handleRename={async (path: string, newPath: string) => {
-                  await handleRename(path, newPath)
+                  handleRename && (await handleRename(path, newPath))
                   setEditing(undefined)
                 }}
                 handleMove={handleMove}
                 deleteFile={(cid: string) =>
                   setDeleteDialog(() => () => {
-                    deleteFile(cid)
+                    deleteFile && deleteFile(cid)
                     setDeleteDialog(undefined)
                   })
                 }
+                recoverFile={recoverFile}
                 downloadFile={downloadFile}
                 handleUploadOnDrop={handleUploadOnDrop}
                 setPreviewFileIndex={setPreviewFileIndex}
