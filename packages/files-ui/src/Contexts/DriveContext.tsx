@@ -1,12 +1,14 @@
 import {
+  CSFFilesFullinfoResponse,
   FileContentResponse,
   FilesMvRequest,
   FilesPathRequest,
+  DirectoryContentResponse,
+  StoreEntryType,
 } from "@imploy/api-client"
 import React, { useCallback, useEffect, useReducer } from "react"
 import { useState } from "react"
 import { decryptFile, encryptFile, useImployApi } from "@imploy/common-contexts"
-import dayjs from "dayjs"
 import { v4 as uuidv4 } from "uuid"
 import { useToaster } from "@chainsafe/common-components"
 import {
@@ -18,6 +20,8 @@ import { CancelToken } from "axios"
 import { t } from "@lingui/macro"
 import { readFileAsync } from "../Utils/Helpers"
 import { useBeforeunload } from "react-beforeunload"
+import { getPathWithFile } from "../Utils/pathUtils"
+import { ITheme, useTheme, useMediaQuery } from "@chainsafe/common-theme"
 
 type DriveContextProps = {
   children: React.ReactNode | React.ReactNode[]
@@ -48,7 +52,9 @@ type DriveContext = {
   createFolder(body: FilesPathRequest): Promise<FileContentResponse>
   renameFile(body: FilesMvRequest): Promise<void>
   moveFile(body: FilesMvRequest): Promise<void>
+  recoverFile(cid: string): Promise<void>
   deleteFile(cid: string): Promise<void>
+  moveFileToTrash(cid: string): Promise<void>
   downloadFile(cid: string): Promise<void>
   getFileContent(
     cid: string,
@@ -57,20 +63,31 @@ type DriveContext = {
   ): Promise<Blob | undefined>
   list(body: FilesPathRequest): Promise<FileContentResponse[]>
   currentPath: string
-  updateCurrentPath(newPath: string): void
-  pathContents: IItem[]
+  updateCurrentPath(
+    newPath: string,
+    storeEntry?: StoreEntryType,
+    showLoading?: boolean,
+  ): void
+  pathContents: FileSystemItem[]
   uploadsInProgress: UploadProgress[]
   downloadsInProgress: DownloadProgress[]
   spaceUsed: number
   isMasterPasswordSet: boolean
   setMasterPassword(password: string): void
   secureDrive(password: string): void
+  getFolderTree(): Promise<DirectoryContentResponse>
+  getFileInfo(path: string): Promise<CSFFilesFullinfoResponse>
+  storeEntry: StoreEntryType
+  loadingCurrentPath: boolean
+  desktop: boolean
 }
 
-interface IItem extends FileContentResponse {
-  date_uploaded: number
-  isFolder: boolean // This can be removed when date is added to the schema
+// This represents a File or Folder on the
+interface IFileSystemItem extends FileContentResponse {
+  isFolder: boolean
 }
+
+type FileSystemItem = IFileSystemItem
 
 const REMOVE_UPLOAD_PROGRESS_DELAY = 5000
 const MAX_FILE_SIZE = 2 * 1024 ** 3
@@ -87,19 +104,37 @@ const DriveProvider = ({ children }: DriveContextProps) => {
   } = useImployApi()
   const { addToastMessage } = useToaster()
 
+  const [loadingCurrentPath, setLoadingCurrentPath] = useState(false)
+
+  const [storeEntry, setStoreEntry] = useState<StoreEntryType>("csf")
+
+  const [pathContents, setPathContents] = useState<FileSystemItem[]>([])
+  const [spaceUsed, setSpaceUsed] = useState(0)
+  const [masterPassword, setMasterPassword] = useState<string | undefined>(
+    undefined,
+  )
+
   const refreshContents = useCallback(
-    async (path: string) => {
+    async (
+      path: string,
+      storeEntryParam?: StoreEntryType,
+      showLoading?: boolean,
+    ) => {
       try {
+        showLoading && setLoadingCurrentPath(true)
         const newContents = await imployApiClient?.getCSFChildList({
           path,
+          source: {
+            type: storeEntryParam || storeEntry,
+          },
         })
+        showLoading && setLoadingCurrentPath(false)
 
         if (newContents) {
           // Remove this when the API returns dates
           setPathContents(
             newContents?.map((fcr) => ({
               ...fcr,
-              date_uploaded: dayjs().subtract(2, "hour").unix() * 1000,
               content_type:
                 fcr.content_type !== "application/octet-stream"
                   ? fcr.content_type
@@ -109,26 +144,28 @@ const DriveProvider = ({ children }: DriveContextProps) => {
             })),
           )
         }
-      } catch (error) {}
+      } catch (error) {
+        showLoading && setLoadingCurrentPath(false)
+      }
     },
-    [imployApiClient],
+    [imployApiClient, storeEntry],
   )
 
   const currentPathReducer = (
     currentPath: string,
     action:
-      | { type: "add"; payload: string }
+      | { type: "update"; payload: string }
       | { type: "refreshOnSamePath"; payload: string },
   ): string => {
     switch (action.type) {
-      case "add": {
+      case "update": {
         return action.payload
       }
       case "refreshOnSamePath": {
         // check user has not navigated to other folder
-        // using then catch as awaits won't working in reducer
+        // using then catch as awaits won't work in reducer
         if (action.payload === currentPath) {
-          refreshContents(currentPath)
+          refreshContents(currentPath, storeEntry, false)
         }
         return currentPath
       }
@@ -138,20 +175,23 @@ const DriveProvider = ({ children }: DriveContextProps) => {
   }
   const [currentPath, dispatchCurrentPath] = useReducer(currentPathReducer, "/")
 
-  const [pathContents, setPathContents] = useState<IItem[]>([])
-  const [spaceUsed, setSpaceUsed] = useState(0)
-  const [masterPassword, setMasterPassword] = useState<string | undefined>(
-    undefined,
-  )
-
-  const setCurrentPath = (newPath: string) =>
-    dispatchCurrentPath({ type: "add", payload: newPath })
+  const setCurrentPath = (
+    newPath: string,
+    newStoryEntry?: StoreEntryType,
+    showLoading?: boolean,
+  ) => {
+    dispatchCurrentPath({ type: "update", payload: newPath })
+    if (newStoryEntry) {
+      setStoreEntry(newStoryEntry)
+    }
+    refreshContents(newPath, newStoryEntry || storeEntry, showLoading)
+  }
 
   useEffect(() => {
     if (isLoggedIn) {
-      refreshContents(currentPath)
+      refreshContents("/")
     }
-  }, [imployApiClient, refreshContents, currentPath, isLoggedIn])
+  }, [imployApiClient, refreshContents, isLoggedIn])
 
   useEffect(() => {
     if (isLoggedIn) {
@@ -304,6 +344,32 @@ const DriveProvider = ({ children }: DriveContextProps) => {
     }
   }
 
+  const getFolderTree = async () => {
+    try {
+      const result = await imployApiClient.getCSFTree()
+      return result
+    } catch (error) {
+      addToastMessage({
+        message: t`There was an error getting folder info`,
+        appearance: "error",
+      })
+      return Promise.reject()
+    }
+  }
+
+  const getFileInfo = async (path: string) => {
+    try {
+      const result = await imployApiClient.getCSFFileInfo({ path })
+      return result
+    } catch (error) {
+      addToastMessage({
+        message: t`There was an error getting file info`,
+        appearance: "error",
+      })
+      return Promise.reject()
+    }
+  }
+
   const renameFile = async (body: FilesMvRequest) => {
     try {
       await imployApiClient.moveCSFObject(body)
@@ -346,6 +412,9 @@ const DriveProvider = ({ children }: DriveContextProps) => {
     try {
       await imployApiClient.removeCSFObjects({
         paths: [`${currentPath}${itemToDelete.name}`],
+        source: {
+          type: storeEntry,
+        },
       })
       await refreshContents(currentPath)
       const message = `${
@@ -358,6 +427,75 @@ const DriveProvider = ({ children }: DriveContextProps) => {
       return Promise.resolve()
     } catch (error) {
       const message = `${t`There was an error deleting this`} ${
+        itemToDelete.isFolder ? t`folder` : t`file`
+      }`
+      addToastMessage({
+        message: message,
+        appearance: "error",
+      })
+      return Promise.reject()
+    }
+  }
+
+  const moveFileToTrash = async (cid: string) => {
+    const itemToDelete = pathContents.find((i) => i.cid === cid)
+    if (!itemToDelete) return
+    try {
+      await imployApiClient.moveCSFObject({
+        path: getPathWithFile(currentPath, itemToDelete.name),
+        new_path: getPathWithFile("/", itemToDelete.name),
+        destination: {
+          type: "trash",
+        },
+      })
+      await refreshContents(currentPath)
+      const message = `${
+        itemToDelete.isFolder ? t`Folder` : t`File`
+      } ${t`deleted successfully`}`
+      addToastMessage({
+        message: message,
+        appearance: "success",
+      })
+      return Promise.resolve()
+    } catch (error) {
+      const message = `${t`There was an error deleting this`} ${
+        itemToDelete.isFolder ? t`folder` : t`file`
+      }`
+      addToastMessage({
+        message: message,
+        appearance: "error",
+      })
+      return Promise.reject()
+    }
+  }
+
+  const recoverFile = async (cid: string) => {
+    const itemToDelete = pathContents.find((i) => i.cid === cid)
+    if (!itemToDelete) return
+    try {
+      await imployApiClient.moveCSFObject({
+        path: getPathWithFile("/", itemToDelete.name),
+        new_path: getPathWithFile("/", itemToDelete.name),
+        source: {
+          type: "trash",
+        },
+        destination: {
+          type: "csf",
+        },
+      })
+      await refreshContents(currentPath)
+
+      const message = `${
+        itemToDelete.isFolder ? t`Folder` : t`File`
+      } ${t`recovered successfully`}`
+
+      addToastMessage({
+        message: message,
+        appearance: "success",
+      })
+      return Promise.resolve()
+    } catch (error) {
+      const message = `${t`There was an error recovering this`} ${
         itemToDelete.isFolder ? t`folder` : t`file`
       }`
       addToastMessage({
@@ -483,6 +621,11 @@ const DriveProvider = ({ children }: DriveContextProps) => {
     }
   }
 
+  // Media queries
+  // for testing
+  const { breakpoints }: ITheme = useTheme()
+  const desktop = useMediaQuery(breakpoints.up("md"))
+
   return (
     <DriveContext.Provider
       value={{
@@ -491,14 +634,20 @@ const DriveProvider = ({ children }: DriveContextProps) => {
         renameFile,
         moveFile,
         deleteFile,
+        moveFileToTrash,
         downloadFile,
         getFileContent,
+        recoverFile,
         list,
         currentPath,
-        updateCurrentPath: (newPath: string) =>
+        updateCurrentPath: (
+          newPath: string,
+          storeEntry?: StoreEntryType,
+          showLoading?: boolean,
+        ) =>
           newPath.endsWith("/")
-            ? setCurrentPath(`${newPath}`)
-            : setCurrentPath(`${newPath}/`),
+            ? setCurrentPath(`${newPath}`, storeEntry, showLoading)
+            : setCurrentPath(`${newPath}/`, storeEntry, showLoading),
         pathContents,
         uploadsInProgress,
         spaceUsed,
@@ -506,6 +655,11 @@ const DriveProvider = ({ children }: DriveContextProps) => {
         isMasterPasswordSet: !!masterPassword,
         setMasterPassword: setPassword,
         secureDrive,
+        getFolderTree,
+        loadingCurrentPath,
+        getFileInfo,
+        storeEntry,
+        desktop,
       }}
     >
       {children}
@@ -522,4 +676,9 @@ const useDrive = () => {
 }
 
 export { DriveProvider, useDrive }
-export type { IItem as IFile }
+export type {
+  FileSystemItem,
+  DirectoryContentResponse,
+  CSFFilesFullinfoResponse as FileFullInfo,
+  StoreEntryType,
+}

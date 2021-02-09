@@ -7,11 +7,9 @@ import {
 } from "@chainsafe/common-theme"
 import React, { Fragment } from "react"
 import {
-  // CheckboxInput,
   Divider,
   MenuDropdown,
   PlusIcon,
-  // ShareAltIcon,
   SortDirection,
   Table,
   TableBody,
@@ -21,31 +19,31 @@ import {
   TableRow,
   Typography,
   Breadcrumb,
-  Crumb,
   CircularProgressBar,
-  useToaster,
   Button,
   PlusCircleIcon,
   UploadIcon,
   Dialog,
+  Loading,
 } from "@chainsafe/common-components"
 import { useState } from "react"
 import { useMemo } from "react"
-import { useDrive, IFile } from "../../../Contexts/DriveContext"
 import { object, string } from "yup"
-import EmptySvg from "../../../Media/Empty.svg"
-import CreateFolderModule from "../CreateFolderModule"
-import UploadFileModule from "../UploadFileModule"
-import FilePreviewModal from "../FilePreviewModal"
-import { getArrayOfPaths, getPathFromArray } from "../../../Utils/pathUtils"
-import UploadProgressModals from "../UploadProgressModals"
+import EmptySvg from "../../../../Media/Empty.svg"
 import clsx from "clsx"
 import { t, Trans } from "@lingui/macro"
-import FileOrFolderView from "./FileOrFolderView"
 import { NativeTypes } from "react-dnd-html5-backend"
 import { useDrop } from "react-dnd"
-import { IFileBrowserProps } from "./types"
-import DownloadProgressModals from "../DownloadProgressModals"
+import { IFileConfigured, IFilesTableBrowserProps } from "../types"
+import { FileSystemItem } from "../../../../Contexts/DriveContext"
+import FileSystemItemRow from "./FileSystemItemRow"
+import FilePreviewModal from "../../FilePreviewModal"
+import UploadProgressModals from "../../UploadProgressModals"
+import DownloadProgressModals from "../../DownloadProgressModals"
+import CreateFolderModule from "../../CreateFolderModule"
+import UploadFileModule from "../../UploadFileModule"
+import MoveFileModule from "../MoveFileModal"
+import FileInfoModal from "../FileInfoModal"
 
 const useStyles = makeStyles(
   ({ animation, breakpoints, constants, palette, zIndex }: ITheme) => {
@@ -54,6 +52,7 @@ const useStyles = makeStyles(
     const mobileGridSettings = "69px 3fr 45px !important"
     return createStyles({
       root: {
+        position: "relative",
         [breakpoints.down("md")]: {
           paddingLeft: constants.generalUnit * 2,
           paddingRight: constants.generalUnit * 2,
@@ -185,28 +184,52 @@ const useStyles = makeStyles(
           visibility: "visible",
         },
       },
+      loadingContainer: {
+        position: "absolute",
+        width: "100%",
+        paddingTop: constants.generalUnit * 6,
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        opacity: 0,
+        visibility: "hidden",
+        transition: `opacity ${animation.transform * 3}ms`,
+        "& svg": {
+          marginBottom: constants.generalUnit * 2,
+        },
+      },
+      showLoadingContainer: {
+        visibility: "visible",
+        opacity: 1,
+      },
+      fadeOutLoading: {
+        opacity: 0.2,
+        transition: `opacity ${animation.transform * 3}ms`,
+      },
     })
   },
 )
 
-const FileBrowserModule: React.FC<IFileBrowserProps> = ({
+const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
   heading = "My Files",
   controls = true,
-  fileOperations,
-  folderOperations,
-}: IFileBrowserProps) => {
+  sourceFiles,
+  handleUploadOnDrop,
+  updateCurrentPath,
+  crumbs,
+  handleRename,
+  handleMove,
+  downloadFile,
+  deleteFile,
+  recoverFile,
+  currentPath,
+  loadingCurrentPath,
+  uploadsInProgress,
+  showUploadsInTable,
+  allowDropUpload,
+  desktop,
+}: IFilesTableBrowserProps) => {
   const classes = useStyles()
-  const {
-    deleteFile,
-    downloadFile,
-    renameFile,
-    moveFile,
-    currentPath,
-    updateCurrentPath,
-    pathContents,
-    uploadsInProgress,
-    uploadFiles,
-  } = useDrive()
   const [editing, setEditing] = useState<string | undefined>()
   const [direction, setDirection] = useState<SortDirection>("descend")
   const [column, setColumn] = useState<"name" | "size" | "date_uploaded">(
@@ -219,66 +242,76 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
   )
 
   // Sorting
-  const sortFoldersFirst = (a: IFile, b: IFile) =>
+  const sortFoldersFirst = (a: FileSystemItem, b: FileSystemItem) =>
     a.isFolder && a.content_type !== b.content_type ? -1 : 1
 
-  const items: IFile[] = useMemo(() => {
-    if (!pathContents) return []
+  const items: IFileConfigured[] = useMemo(() => {
+    if (!sourceFiles) return []
 
     switch (direction) {
       default: {
         // case "descend": {
         // case "name": {
-        return pathContents
-          .sort((a: IFile, b: IFile) => (a.name > b.name ? -1 : 1))
+        return sourceFiles
+          .sort((a: IFileConfigured, b: IFileConfigured) =>
+            a.name > b.name ? -1 : 1,
+          )
           .sort(sortFoldersFirst)
       }
       case "descend": {
         switch (column) {
           default: {
             // case "name": {
-            return pathContents
-              .sort((a: IFile, b: IFile) => (a.name > b.name ? -1 : 1))
-              .sort(sortFoldersFirst)
-          }
-          case "size": {
-            return pathContents
-              .sort((a: IFile, b: IFile) => (a.size > b.size ? -1 : 1))
-              .sort(sortFoldersFirst)
-          }
-          case "date_uploaded": {
-            return pathContents
-              .sort((a: IFile, b: IFile) =>
-                a.date_uploaded > b.date_uploaded ? -1 : 1,
+            return sourceFiles
+              .sort((a: IFileConfigured, b: IFileConfigured) =>
+                a.name > b.name ? -1 : 1,
               )
               .sort(sortFoldersFirst)
           }
+          case "size": {
+            return sourceFiles
+              .sort((a: FileSystemItem, b: FileSystemItem) =>
+                a.size > b.size ? -1 : 1,
+              )
+              .sort(sortFoldersFirst)
+          }
+          // case "date_uploaded": {
+          //   return sourceFiles
+          //     .sort((a: IFileConfigured, b: IFileConfigured) =>
+          //       a.date_uploaded > b.date_uploaded ? -1 : 1,
+          //     )
+          //     .sort(sortFoldersFirst)
+          // }
         }
       }
       case "ascend": {
         switch (column) {
           default: {
             // case "name": {
-            return pathContents
-              .sort((a: IFile, b: IFile) => (a.name < b.name ? -1 : 1))
-              .sort(sortFoldersFirst)
-          }
-          case "size": {
-            return pathContents
-              .sort((a: IFile, b: IFile) => (a.size < b.size ? -1 : 1))
-              .sort(sortFoldersFirst)
-          }
-          case "date_uploaded": {
-            return pathContents
-              .sort((a: IFile, b: IFile) =>
-                a.date_uploaded < b.date_uploaded ? -1 : 1,
+            return sourceFiles
+              .sort((a: IFileConfigured, b: IFileConfigured) =>
+                a.name < b.name ? -1 : 1,
               )
               .sort(sortFoldersFirst)
           }
+          case "size": {
+            return sourceFiles
+              .sort((a: IFileConfigured, b: IFileConfigured) =>
+                a.size < b.size ? -1 : 1,
+              )
+              .sort(sortFoldersFirst)
+          }
+          // case "date_uploaded": {
+          //   return sourceFiles
+          //     .sort((a: IFileConfigured, b: IFileConfigured) =>
+          //       a.date_uploaded < b.date_uploaded ? -1 : 1,
+          //     )
+          //     .sort(sortFoldersFirst)
+          // }
         }
       }
     }
-  }, [pathContents, direction, column])
+  }, [sourceFiles, direction, column])
 
   const handleSortToggle = (
     targetColumn: "name" | "size" | "date_uploaded",
@@ -337,25 +370,6 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
   //   }
   // }
 
-  // Rename
-  const handleRename = async (path: string, new_path: string) => {
-    // TODO set loading
-    await renameFile({
-      path: path,
-      new_path: new_path,
-    })
-    setEditing(undefined)
-  }
-
-  // Rename
-  const handleMove = async (path: string, new_path: string) => {
-    // TODO set loading
-    await moveFile({
-      path: path,
-      new_path: new_path,
-    })
-  }
-
   const invalidFilenameRegex = new RegExp("/")
   const RenameSchema = object().shape({
     fileName: string()
@@ -370,45 +384,12 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
       .required("File name is required"),
   })
 
-  // Breadcrumbs/paths
-  const arrayOfPaths = getArrayOfPaths(currentPath)
-  const crumbs: Crumb[] = arrayOfPaths.map((path, index) => ({
-    text: path,
-    onClick: () =>
-      updateCurrentPath(getPathFromArray(arrayOfPaths.slice(0, index + 1))),
-  }))
-
-  // Media queries
-  const { breakpoints }: ITheme = useTheme()
-  const desktop = useMediaQuery(breakpoints.up("md"))
-  const { addToastMessage } = useToaster()
-
-  const handleUploadOnDrop = (
-    files: File[],
-    fileItems: DataTransferItemList,
-    path: string,
-  ) => {
-    let hasFolder = false
-    for (let i = 0; i < files.length; i++) {
-      if (fileItems[i].webkitGetAsEntry().isDirectory) {
-        hasFolder = true
-      }
-    }
-    if (hasFolder) {
-      addToastMessage({
-        message: "Folder uploads are not supported currently",
-        appearance: "error",
-      })
-    } else {
-      uploadFiles(files, path)
-    }
-  }
-
   const [{ isOverUploadable, isOverBrowser }, dropBrowserRef] = useDrop({
     accept: [NativeTypes.FILE],
     drop: (item: any, monitor) => {
       if (monitor.isOver({ shallow: true })) {
-        handleUploadOnDrop(item.files, item.items, currentPath)
+        handleUploadOnDrop &&
+          handleUploadOnDrop(item.files, item.items, currentPath)
       }
     },
     collect: (monitor) => ({
@@ -421,12 +402,20 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
   // Modals
   const [createFolderModalOpen, setCreateFolderModalOpen] = useState(false)
   const [uploadModalOpen, setUploadModalOpen] = useState(false)
+  const [moveFileData, setMoveFileData] = useState<
+    { modal: boolean; file: FileSystemItem } | undefined
+  >(undefined)
   const [deleteDialogOpen, setDeleteDialog] = useState<() => void | undefined>()
+  const [fileInfoPath, setFileInfoPath] = useState<string | undefined>(
+    undefined,
+  )
 
   return (
     <article
-      className={clsx(classes.root, { droppable: isOverUploadable })}
-      ref={!uploadModalOpen ? dropBrowserRef : null}
+      className={clsx(classes.root, {
+        droppable: isOverUploadable && allowDropUpload,
+      })}
+      ref={!uploadModalOpen && allowDropUpload ? dropBrowserRef : null}
     >
       <div
         className={clsx(classes.dropNotification, { active: isOverBrowser })}
@@ -436,13 +425,13 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
         </Typography>
       </div>
       <div className={classes.breadCrumbContainer}>
-        {/* {crumbs.length > 0 && ( */}
-        <Breadcrumb
-          crumbs={crumbs}
-          homeOnClick={() => updateCurrentPath("/")}
-          showDropDown={!desktop}
-        />
-        {/* )} */}
+        {crumbs ? (
+          <Breadcrumb
+            crumbs={crumbs}
+            homeOnClick={() => updateCurrentPath("/", undefined, true)}
+            showDropDown={!desktop}
+          />
+        ) : null}
       </div>
       <header className={classes.header}>
         <Typography variant="h1" component="h1">
@@ -523,16 +512,37 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
         </div>
       </header>
       <Divider className={classes.divider} />
+      <div
+        className={clsx(
+          classes.loadingContainer,
+          loadingCurrentPath && classes.showLoadingContainer,
+        )}
+      >
+        <Loading size={24} type="light" />
+        <Typography variant="body2" component="p">
+          <Trans>One sec, getting files ready...</Trans>
+        </Typography>
+      </div>
       {(desktop && items.length === 0) ||
       (!desktop && items.length === 0 && uploadsInProgress.length === 0) ? (
-        <section className={classes.noFiles}>
+        <section
+          className={clsx(
+            classes.noFiles,
+            loadingCurrentPath && classes.fadeOutLoading,
+          )}
+        >
           <EmptySvg />
           <Typography variant="h4" component="h4">
             <Trans>No files to show</Trans>
           </Typography>
         </section>
       ) : (
-        <Table fullWidth={true} striped={true} hover={true}>
+        <Table
+          fullWidth={true}
+          striped={true}
+          hover={true}
+          className={clsx(loadingCurrentPath && classes.fadeOutLoading)}
+        >
           {desktop && (
             <TableHead>
               <TableRow type="grid" className={classes.tableRow}>
@@ -583,6 +593,7 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
           )}
           <TableBody>
             {!desktop &&
+              showUploadsInTable &&
               uploadsInProgress
                 .filter(
                   (uploadInProgress) =>
@@ -611,14 +622,12 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
                     <TableCell />
                   </TableRow>
                 ))}
-            {items.map((file: IFile, index: number) => (
-              <FileOrFolderView
+            {items.map((file: IFileConfigured, index: number) => (
+              <FileSystemItemRow
                 key={index}
                 index={index}
                 file={file}
                 files={files}
-                fileOperations={fileOperations}
-                folderOperations={folderOperations}
                 currentPath={currentPath}
                 updateCurrentPath={updateCurrentPath}
                 selected={selected}
@@ -626,17 +635,23 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
                 editing={editing}
                 setEditing={setEditing}
                 RenameSchema={RenameSchema}
-                handleRename={handleRename}
+                handleRename={async (path: string, newPath: string) => {
+                  handleRename && (await handleRename(path, newPath))
+                  setEditing(undefined)
+                }}
                 handleMove={handleMove}
                 deleteFile={(cid: string) =>
                   setDeleteDialog(() => () => {
-                    deleteFile(cid)
+                    deleteFile && deleteFile(cid)
                     setDeleteDialog(undefined)
                   })
                 }
+                recoverFile={recoverFile}
                 downloadFile={downloadFile}
                 handleUploadOnDrop={handleUploadOnDrop}
                 setPreviewFileIndex={setPreviewFileIndex}
+                setMoveFileData={setMoveFileData}
+                setFileInfoPath={setFileInfoPath}
                 desktop={desktop}
               />
             ))}
@@ -669,8 +684,18 @@ const FileBrowserModule: React.FC<IFileBrowserProps> = ({
         modalOpen={uploadModalOpen}
         close={() => setUploadModalOpen(false)}
       />
+      <MoveFileModule
+        currentPath={currentPath}
+        file={moveFileData?.file}
+        modalOpen={moveFileData ? moveFileData.modal : false}
+        close={() => setMoveFileData(undefined)}
+      />
+      <FileInfoModal
+        fileInfoPath={fileInfoPath}
+        close={() => setFileInfoPath(undefined)}
+      />
     </article>
   )
 }
 
-export default FileBrowserModule
+export default FilesTableView

@@ -8,7 +8,6 @@ import {
   GithubLogoIcon,
   ChainsafeFilesLogo,
   Divider,
-  // Link,
 } from "@chainsafe/common-components"
 import { useImployApi, OAuthProvider } from "@imploy/common-contexts"
 import {
@@ -187,9 +186,11 @@ const LoginPage = () => {
       : setActiveMode("newUser")
 
   const [isConnecting, setIsConnecting] = useState(false)
+  const [showSignatureMessage, setShowSignatureMessage] = useState(false)
 
   const handleSelectWalletAndConnect = async () => {
     setIsConnecting(true)
+    setError("")
     try {
       await selectWallet()
     } catch (error) {
@@ -199,6 +200,7 @@ const LoginPage = () => {
   }
 
   const handleResetAndSelectWalletAndConnect = async () => {
+    setError("")
     setIsConnecting(true)
     try {
       await resetAndSelectWallet()
@@ -209,13 +211,31 @@ const LoginPage = () => {
   }
 
   const handleSignAuth = async () => {
+    setError("")
     setIsConnecting(true)
+    setShowSignatureMessage(true)
     try {
       await web3Login()
     } catch (error) {
-      setError("There was an error authenticating")
+      let errorMessage = "There was an error authenticating"
+      if (Array.isArray(error) && error[0]) {
+        if (
+          error[0].type === "signature" &&
+          error[0].message === "Invalid signature"
+        ) {
+          errorMessage = `Failed to validate signature.
+            If you are using a contract wallet (Argent) please make 
+            sure you have activated your wallet.`
+        }
+      }
+      if (error?.message === "Just nope") {
+        // WalletConnect be sassy
+        errorMessage = "Failed to get signature"
+      }
+      setError(errorMessage)
     }
     setIsConnecting(false)
+    setShowSignatureMessage(false)
   }
 
   const onLoginWithProvider = async (provider: OAuthProvider) => {
@@ -285,9 +305,12 @@ const LoginPage = () => {
                     className={classes.button}
                     variant={desktop ? "primary" : "outline"}
                     size="large"
-                    disabled={maintenanceMode || isConnecting}
+                    disabled={maintenanceMode}
+                    loading={isConnecting}
                   >
-                    <Trans>Select a Web3 Wallet</Trans>
+                    <span>
+                      <Trans>Select a Web3 Wallet</Trans>
+                    </span>
                   </Button>
                 ) : (
                   <>
@@ -296,9 +319,13 @@ const LoginPage = () => {
                       className={classes.button}
                       variant={desktop ? "primary" : "outline"}
                       size="large"
-                      disabled={maintenanceMode || isConnecting}
+                      disabled={maintenanceMode}
+                      loading={isConnecting}
                     >
-                      <Trans>Continue with</Trans> {wallet?.name}
+                      <span>
+                        <Trans>Continue with</Trans>
+                      </span>{" "}
+                      <span>&nbsp;{wallet?.name}</span>
                     </Button>
                     <Button
                       onClick={handleResetAndSelectWalletAndConnect}
@@ -307,8 +334,15 @@ const LoginPage = () => {
                       variant={desktop ? "primary" : "outline"}
                       disabled={isConnecting}
                     >
-                      <Trans>Select a different wallet</Trans>
+                      <span>
+                        <Trans>Select a different wallet</Trans>
+                      </span>
                     </Button>
+                    {showSignatureMessage && (
+                      <Typography>
+                        Please confirm in your wallet to continue
+                      </Typography>
+                    )}
                   </>
                 )}
                 {desktop && (
@@ -323,7 +357,7 @@ const LoginPage = () => {
                   variant={desktop ? "primary" : "outline"}
                   size="large"
                   onClick={() => onLoginWithProvider("github")}
-                  disabled={maintenanceMode}
+                  disabled={maintenanceMode || isConnecting}
                 >
                   <GithubLogoIcon />
                   <Trans>Continue with Github</Trans>
@@ -333,7 +367,7 @@ const LoginPage = () => {
                   variant={desktop ? "primary" : "outline"}
                   size="large"
                   onClick={() => onLoginWithProvider("google")}
-                  disabled={maintenanceMode}
+                  disabled={maintenanceMode || isConnecting}
                 >
                   <GoogleLogoIcon />
                   <Trans>Continue with Google</Trans>
@@ -343,7 +377,7 @@ const LoginPage = () => {
                   size="large"
                   variant={desktop ? "primary" : "outline"}
                   onClick={() => onLoginWithProvider("facebook")}
-                  disabled={maintenanceMode}
+                  disabled={maintenanceMode || isConnecting}
                 >
                   <FacebookLogoIcon />
                   <Trans>Continue with Facebook</Trans>

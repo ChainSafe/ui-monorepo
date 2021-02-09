@@ -19,6 +19,7 @@ import {
   ProgressBar,
   Button,
   formatBytes,
+  DeleteSvg,
 } from "@chainsafe/common-components"
 import { ROUTE_LINKS } from "../FilesRoutes"
 import { FREE_PLAN_LIMIT } from "../../Utils/Constants"
@@ -250,10 +251,28 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
               <Trans>Folders</Trans>
             </Typography>
             <nav className={classes.navMenu}>
-              <Link onClick={handleOnClick} className={classes.navItem} to="">
+              <Link
+                onClick={() => {
+                  handleOnClick()
+                }}
+                className={classes.navItem}
+                to={ROUTE_LINKS.Home}
+              >
                 <DatabaseSvg />
                 <Typography variant="h5" className={classes.navItemText}>
                   <Trans>Home</Trans>
+                </Typography>
+              </Link>
+              <Link
+                onClick={() => {
+                  handleOnClick()
+                }}
+                className={classes.navItem}
+                to={ROUTE_LINKS.Bin}
+              >
+                <DeleteSvg />
+                <Typography variant="h5" className={classes.navItemText}>
+                  <Trans>Bin</Trans>
                 </Typography>
               </Link>
             </nav>

@@ -1,13 +1,8 @@
 import React from "react"
-import FileBrowserModule from "../Modules/FileBrowserModule"
+import CSFFileBrowser from "../Modules/FileBrowsers/CSFFileBrowser"
 
 const HomePage = () => {
-  return (
-    <FileBrowserModule
-      fileOperations={["rename", "download", "delete"]}
-      folderOperations={["rename", "delete"]}
-    />
-  )
+  return <CSFFileBrowser />
 }
 
 export default HomePage
