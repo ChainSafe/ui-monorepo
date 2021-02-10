@@ -28,3 +28,8 @@ export function getPathFromArray(arrayOfPaths: string[]): string {
     return "/" + arrayOfPaths.join("/")
   }
 }
+
+// get path and file
+export function getPathWithFile(path: string, fileName: string) {
+  return path === "/" ? `/${fileName}` : `${path}/${fileName}`
+}

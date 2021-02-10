@@ -1,4 +1,5 @@
 import {
+  DirectoryContentResponse,
   FileContentResponse,
   FilesMvRequest,
   FilesPathRequest,
@@ -65,6 +66,8 @@ type DriveContext = {
   isMasterPasswordSet: boolean
   setMasterPassword(password: string): void
   secureDrive(password: string): void
+  getFolderTree(): Promise<DirectoryContentResponse>
+  loadingCurrentPath: boolean
 }
 
 interface IItem extends FileContentResponse {
@@ -87,12 +90,16 @@ const DriveProvider = ({ children }: DriveContextProps) => {
   } = useImployApi()
   const { addToastMessage } = useToaster()
 
+  const [loadingCurrentPath, setLoadingCurrentPath] = useState(false)
+
   const refreshContents = useCallback(
-    async (path: string) => {
+    async (path: string, showLoading?: boolean) => {
       try {
+        showLoading && setLoadingCurrentPath(true)
         const newContents = await imployApiClient?.getCSFChildList({
           path,
         })
+        showLoading && setLoadingCurrentPath(false)
 
         if (newContents) {
           // Remove this when the API returns dates
@@ -109,7 +116,9 @@ const DriveProvider = ({ children }: DriveContextProps) => {
             })),
           )
         }
-      } catch (error) {}
+      } catch (error) {
+        showLoading && setLoadingCurrentPath(false)
+      }
     },
     [imployApiClient],
   )
@@ -117,16 +126,16 @@ const DriveProvider = ({ children }: DriveContextProps) => {
   const currentPathReducer = (
     currentPath: string,
     action:
-      | { type: "add"; payload: string }
+      | { type: "update"; payload: string }
       | { type: "refreshOnSamePath"; payload: string },
   ): string => {
     switch (action.type) {
-      case "add": {
+      case "update": {
         return action.payload
       }
       case "refreshOnSamePath": {
         // check user has not navigated to other folder
-        // using then catch as awaits won't working in reducer
+        // using then catch as awaits won't work in reducer
         if (action.payload === currentPath) {
           refreshContents(currentPath)
         }
@@ -144,14 +153,16 @@ const DriveProvider = ({ children }: DriveContextProps) => {
     undefined,
   )
 
-  const setCurrentPath = (newPath: string) =>
-    dispatchCurrentPath({ type: "add", payload: newPath })
+  const setCurrentPath = (newPath: string) => {
+    dispatchCurrentPath({ type: "update", payload: newPath })
+    refreshContents(newPath, true)
+  }
 
   useEffect(() => {
     if (isLoggedIn) {
-      refreshContents(currentPath)
+      refreshContents("/")
     }
-  }, [imployApiClient, refreshContents, currentPath, isLoggedIn])
+  }, [imployApiClient, refreshContents, isLoggedIn])
 
   useEffect(() => {
     if (isLoggedIn) {
@@ -298,6 +309,19 @@ const DriveProvider = ({ children }: DriveContextProps) => {
     } catch (error) {
       addToastMessage({
         message: t`There was an error creating this folder`,
+        appearance: "error",
+      })
+      return Promise.reject()
+    }
+  }
+
+  const getFolderTree = async () => {
+    try {
+      const result = await imployApiClient.getCSFTree()
+      return result
+    } catch (error) {
+      addToastMessage({
+        message: t`There was an error getting folder info`,
         appearance: "error",
       })
       return Promise.reject()
@@ -506,6 +530,8 @@ const DriveProvider = ({ children }: DriveContextProps) => {
         isMasterPasswordSet: !!masterPassword,
         setMasterPassword: setPassword,
         secureDrive,
+        getFolderTree,
+        loadingCurrentPath,
       }}
     >
       {children}
@@ -522,4 +548,4 @@ const useDrive = () => {
 }
 
 export { DriveProvider, useDrive }
-export type { IItem as IFile }
+export type { IItem as IFile, DirectoryContentResponse }

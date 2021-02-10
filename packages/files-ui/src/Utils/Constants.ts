@@ -18,7 +18,7 @@ export const getContentType = (contentType: string) => {
   }
 }
 
-export const FREE_PLAN_LIMIT = 20 * 1024 * 1024 * 1024
+export const FREE_PLAN_LIMIT = 20000000000
 export interface DriveFile {
   /** cid in IPFS */
   cid?: string

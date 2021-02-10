@@ -4,7 +4,7 @@ import FileBrowserModule from "../Modules/FileBrowserModule"
 const HomePage = () => {
   return (
     <FileBrowserModule
-      fileOperations={["rename", "download", "delete"]}
+      fileOperations={["rename", "download", "move", "delete"]}
       folderOperations={["rename", "delete"]}
     />
   )

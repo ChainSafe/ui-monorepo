@@ -1,11 +1,5 @@
 import React from "react"
-import {
-  createStyles,
-  ITheme,
-  makeStyles,
-  useMediaQuery,
-  useTheme,
-} from "@chainsafe/common-theme"
+import { createStyles, ITheme, makeStyles } from "@chainsafe/common-theme"
 import { useDrive } from "../../../Contexts/DriveContext"
 import DownloadBox from "./DownloadBox"
 
@@ -32,22 +26,15 @@ const useStyles = makeStyles(({ constants, zIndex, breakpoints }: ITheme) => {
 const DownloadProgressModals: React.FC = () => {
   const classes = useStyles()
   const { downloadsInProgress } = useDrive()
-  const { breakpoints }: ITheme = useTheme()
-  const desktop = useMediaQuery(breakpoints.up("md"))
 
   return (
     <div className={classes.root}>
-      {downloadsInProgress.map(
-        (downloadInProgress) =>
-          (desktop ||
-            downloadInProgress.complete ||
-            downloadInProgress.error) && (
-            <DownloadBox
-              key={downloadInProgress.id}
-              downloadInProgress={downloadInProgress}
-            />
-          ),
-      )}
+      {downloadsInProgress.map((downloadInProgress) => (
+        <DownloadBox
+          key={downloadInProgress.id}
+          downloadInProgress={downloadInProgress}
+        />
+      ))}
     </div>
   )
 }

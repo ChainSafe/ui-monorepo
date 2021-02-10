@@ -1,6 +1,6 @@
 {
   "name": "@chainsafe/common-components",
-  "version": "1.0.26",
+  "version": "1.0.27",
   "description": "Common Components",
   "author": "Michael Yankelev <michael@chainsafe.io>",
   "license": "GPL-3.0",
@@ -14,6 +14,7 @@
   },
   "dependencies": {
     "@material-ui/styles": "^4.11.2",
+    "@types/react-scroll": "^1.8.2",
     "@types/react-select": "^3.0.27",
     "a11y-react-emoji": "^1.1.2",
     "clsx": "^1.1.1",
@@ -22,6 +23,7 @@
     "react-blockies": "^1.4.1",
     "react-dropzone": "^11.2.4",
     "react-router-dom": "^5.2.0",
+    "react-scroll": "^1.8.1",
     "react-select": "^3.1.1",
     "react-spinners": "^0.9.0",
     "reset-css": "^5.0.1",

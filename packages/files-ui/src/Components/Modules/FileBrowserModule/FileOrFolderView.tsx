@@ -122,6 +122,9 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: ITheme) => {
       alignItems: "center",
       width: 20,
       marginRight: constants.generalUnit * 1.5,
+      "& svg": {
+        fill: palette.additional["gray"][7],
+      },
     },
     desktopRename: {
       display: "flex",
@@ -163,6 +166,7 @@ interface IFileOrFolderProps {
   ): void
   setPreviewFileIndex(fileIndex: number | undefined): void
   desktop: boolean
+  setMoveFileData(moveFileData: { modal: boolean; file: IFile }): void
 }
 
 const FileOrFolderView: React.FC<IFileOrFolderProps> = ({
@@ -183,6 +187,7 @@ const FileOrFolderView: React.FC<IFileOrFolderProps> = ({
   downloadFile,
   handleUploadOnDrop,
   setPreviewFileIndex,
+  setMoveFileData,
   desktop,
 }) => {
   let Icon
@@ -232,16 +237,16 @@ const FileOrFolderView: React.FC<IFileOrFolderProps> = ({
       ),
       onClick: () => downloadFile(file.cid),
     },
-    share: {
+    move: {
       contents: (
         <Fragment>
           <ExportIcon className={classes.menuIcon} />
           <span>Move</span>
         </Fragment>
       ),
-      onClick: () => console.log,
+      onClick: () => setMoveFileData({ modal: true, file: file }),
     },
-    move: {
+    share: {
       contents: (
         <Fragment>
           <ShareAltIcon className={classes.menuIcon} />

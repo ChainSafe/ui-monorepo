@@ -16,27 +16,31 @@ import {
   // PrinterIcon,
 } from "@chainsafe/common-components"
 
-const useStyles = makeStyles(({ constants, palette, zIndex }: ITheme) =>
-  createStyles({
-    root: {
-      width: "100%",
-      height: "100%",
-    },
-    controlsContainer: {
-      position: "absolute",
-      zIndex: zIndex?.layer1,
-      display: "flex",
-      flexDirection: "row",
-      top: 0,
-      right: 0,
-      height: constants.generalUnit * 8,
-      backgroundColor: palette.additional["gray"][9],
-      color: palette.additional["gray"][3],
-      borderWidth: 1,
-      borderStyle: "solid",
-      borderColor: palette.additional["gray"][8],
-    },
-  }),
+const useStyles = makeStyles(
+  ({ constants, palette, zIndex, breakpoints }: ITheme) =>
+    createStyles({
+      root: {
+        maxHeight: "100vh",
+        maxWidth: "100vw",
+        [breakpoints.up("md")]: {
+          maxWidth: "80vw",
+        },
+      },
+      controlsContainer: {
+        position: "absolute",
+        zIndex: zIndex?.layer1,
+        display: "flex",
+        flexDirection: "row",
+        top: 0,
+        right: 0,
+        height: constants.generalUnit * 8,
+        backgroundColor: palette.additional["gray"][9],
+        color: palette.additional["gray"][3],
+        borderWidth: 1,
+        borderStyle: "solid",
+        borderColor: palette.additional["gray"][8],
+      },
+    }),
 )
 
 const ImagePreview: React.FC<IPreviewRendererProps> = ({ contents }) => {
@@ -56,39 +60,42 @@ const ImagePreview: React.FC<IPreviewRendererProps> = ({ contents }) => {
   const desktop = useMediaQuery(breakpoints.up("md"))
 
   return (
-    <TransformWrapper
-      options={{
-        limitToBounds: true,
-        limitToWrapper: true,
-      }}
-    >
-      {
-        //@ts-ignore
-        ({ zoomIn, zoomOut, resetTransform }) => (
-          <>
-            {desktop && (
-              <div className={classes.controlsContainer}>
-                <Button onClick={zoomIn}>
-                  <ZoomInIcon />
-                </Button>
-                <Button onClick={zoomOut}>
-                  <ZoomOutIcon />
-                </Button>
-                <Button onClick={resetTransform}>
-                  <FullscreenIcon />
-                </Button>
-                {/* <Button>
+    <div className={classes.root}>
+      <TransformWrapper
+        options={{
+          limitToBounds: true,
+          limitToWrapper: true,
+          minScale: 0.2,
+        }}
+      >
+        {
+          //@ts-ignore
+          ({ zoomIn, zoomOut, resetTransform }) => (
+            <>
+              {desktop && (
+                <div className={classes.controlsContainer}>
+                  <Button onClick={zoomIn}>
+                    <ZoomInIcon />
+                  </Button>
+                  <Button onClick={zoomOut}>
+                    <ZoomOutIcon />
+                  </Button>
+                  <Button onClick={resetTransform}>
+                    <FullscreenIcon />
+                  </Button>
+                  {/* <Button>
                   <PrinterIcon />
                 </Button> */}
-              </div>
-            )}
-            <TransformComponent>
-              <img src={imageUrl} alt="" className={classes.root} />
-            </TransformComponent>
-          </>
-        )
-      }
-    </TransformWrapper>
+                </div>
+              )}
+              <TransformComponent>
+                <img src={imageUrl} alt="" className={classes.root} />
+              </TransformComponent>
+            </>
+          )
+        }
+      </TransformWrapper>
+    </div>
   )
 }
 
