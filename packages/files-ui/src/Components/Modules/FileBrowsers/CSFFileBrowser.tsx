@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect } from "react"
 import { Crumb, useToaster } from "@chainsafe/common-components"
 import { FileSystemItem, useDrive } from "../../../Contexts/DriveContext"
 import { getArrayOfPaths, getPathFromArray } from "../../../Utils/pathUtils"
@@ -9,13 +9,14 @@ import {
 } from "./types"
 import FilesTableView from "./views/FilesTable.view"
 import { CONTENT_TYPES } from "../../../Utils/Constants"
+import DragAndDrop from "../../../Contexts/DnDContext"
 
-const FileBrowserModule: React.FC<IFilesBrowserModuleProps> = ({
+const CSFFileBrowser: React.FC<IFilesBrowserModuleProps> = ({
   heading = "My Files",
   controls = true,
 }: IFilesBrowserModuleProps) => {
   const {
-    deleteFile,
+    moveFileToTrash,
     downloadFile,
     renameFile,
     moveFile,
@@ -23,7 +24,16 @@ const FileBrowserModule: React.FC<IFilesBrowserModuleProps> = ({
     updateCurrentPath,
     pathContents,
     uploadFiles,
+    uploadsInProgress,
+    loadingCurrentPath,
+    storeEntry,
+    desktop,
   } = useDrive()
+
+  useEffect(() => {
+    updateCurrentPath("/", "csf", storeEntry !== "csf")
+    // eslint-disable-next-line
+  }, [])
 
   // Rename
   const handleRename = async (path: string, new_path: string) => {
@@ -48,7 +58,11 @@ const FileBrowserModule: React.FC<IFilesBrowserModuleProps> = ({
   const crumbs: Crumb[] = arrayOfPaths.map((path, index) => ({
     text: path,
     onClick: () =>
-      updateCurrentPath(getPathFromArray(arrayOfPaths.slice(0, index + 1))),
+      updateCurrentPath(
+        getPathFromArray(arrayOfPaths.slice(0, index + 1)),
+        undefined,
+        true,
+      ),
   }))
 
   const { addToastMessage } = useToaster()
@@ -161,21 +175,28 @@ const FileBrowserModule: React.FC<IFilesBrowserModuleProps> = ({
   }
 
   return (
-    <FilesTableView
-      bulkOperations={bulkOperations}
-      crumbs={crumbs}
-      currentPath={currentPath}
-      deleteFile={deleteFile}
-      downloadFile={downloadFile}
-      handleMove={handleMove}
-      handleRename={handleRename}
-      handleUploadOnDrop={handleUploadOnDrop}
-      sourceFiles={parsedContents}
-      updateCurrentPath={updateCurrentPath}
-      heading={heading}
-      controls={controls}
-    />
+    <DragAndDrop>
+      <FilesTableView
+        bulkOperations={bulkOperations}
+        crumbs={crumbs}
+        currentPath={currentPath}
+        deleteFile={moveFileToTrash}
+        downloadFile={downloadFile}
+        handleMove={handleMove}
+        handleRename={handleRename}
+        handleUploadOnDrop={handleUploadOnDrop}
+        uploadsInProgress={uploadsInProgress}
+        loadingCurrentPath={loadingCurrentPath}
+        showUploadsInTable={true}
+        sourceFiles={parsedContents}
+        updateCurrentPath={updateCurrentPath}
+        heading={heading}
+        controls={controls}
+        allowDropUpload={true}
+        desktop={desktop}
+      />
+    </DragAndDrop>
   )
 }
 
-export default FileBrowserModule
+export default CSFFileBrowser

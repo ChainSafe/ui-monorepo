@@ -19,6 +19,7 @@ import {
   ProgressBar,
   Button,
   formatBytes,
+  DeleteSvg,
 } from "@chainsafe/common-components"
 import { ROUTE_LINKS } from "../FilesRoutes"
 import { FREE_PLAN_LIMIT } from "../../Utils/Constants"
@@ -200,7 +201,7 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
   const classes = useStyles()
   const { breakpoints }: ITheme = useTheme()
   const desktop = useMediaQuery(breakpoints.up("md"))
-  const { spaceUsed, updateCurrentPath } = useDrive()
+  const { spaceUsed } = useDrive()
 
   const { isLoggedIn, logout, secured } = useImployApi()
   const { isMasterPasswordSet } = useDrive()
@@ -252,7 +253,6 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
             <nav className={classes.navMenu}>
               <Link
                 onClick={() => {
-                  updateCurrentPath("/")
                   handleOnClick()
                 }}
                 className={classes.navItem}
@@ -261,6 +261,18 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
                 <DatabaseSvg />
                 <Typography variant="h5" className={classes.navItemText}>
                   <Trans>Home</Trans>
+                </Typography>
+              </Link>
+              <Link
+                onClick={() => {
+                  handleOnClick()
+                }}
+                className={classes.navItem}
+                to={ROUTE_LINKS.Bin}
+              >
+                <DeleteSvg />
+                <Typography variant="h5" className={classes.navItemText}>
+                  <Trans>Bin</Trans>
                 </Typography>
               </Link>
             </nav>

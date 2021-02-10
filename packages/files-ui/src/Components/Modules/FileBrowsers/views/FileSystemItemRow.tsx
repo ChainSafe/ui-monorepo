@@ -20,6 +20,7 @@ import {
   ShareAltIcon,
   CheckSvg,
   ExclamationCircleInverseIcon,
+  RecoverSvg,
   ZoomInIcon,
   CheckboxInput,
 } from "@chainsafe/common-components"
@@ -31,7 +32,10 @@ import {
 } from "@chainsafe/common-theme"
 import clsx from "clsx"
 import { Formik, Form } from "formik"
-import { FileSystemItem } from "../../../../Contexts/DriveContext"
+import {
+  FileSystemItem,
+  StoreEntryType,
+} from "../../../../Contexts/DriveContext"
 import CustomModal from "../../../Elements/CustomModal"
 import { Trans } from "@lingui/macro"
 import { useDrag, useDrop } from "react-dnd"
@@ -150,17 +154,22 @@ interface IFileSystemItemRowProps {
   file: IFileConfigured
   files: IFileConfigured[]
   currentPath: string
-  updateCurrentPath(path: string): void
+  updateCurrentPath(
+    path: string,
+    newSoreEntry?: StoreEntryType,
+    showLoading?: boolean,
+  ): void
   selected: string[]
   handleSelect(selected: string): void
   editing: string | undefined
   setEditing(editing: string | undefined): void
   RenameSchema: any
-  handleRename(path: string, newPath: string): Promise<void>
-  handleMove(path: string, newPath: string): Promise<void>
-  deleteFile(cid: string): void
-  downloadFile(cid: string): Promise<void>
-  handleUploadOnDrop(
+  handleRename?(path: string, newPath: string): Promise<void>
+  handleMove?(path: string, newPath: string): Promise<void>
+  deleteFile?(cid: string): void
+  recoverFile?(cid: string): void
+  downloadFile?(cid: string): Promise<void>
+  handleUploadOnDrop?(
     files: File[],
     fileItems: DataTransferItemList,
     path: string,
@@ -184,6 +193,7 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
   handleRename,
   handleMove,
   deleteFile,
+  recoverFile,
   downloadFile,
   handleUploadOnDrop,
   setPreviewFileIndex,
@@ -226,7 +236,7 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
           </span>
         </Fragment>
       ),
-      onClick: () => deleteFile(file.cid),
+      onClick: () => deleteFile && deleteFile(file.cid),
     },
     download: {
       contents: (
@@ -237,7 +247,7 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
           </span>
         </Fragment>
       ),
-      onClick: () => downloadFile(file.cid),
+      onClick: () => downloadFile && downloadFile(file.cid),
     },
     move: {
       contents: (
@@ -266,6 +276,15 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
       ),
       onClick: () => setFileInfoPath(`${currentPath}${file.name}`),
     },
+    recover: {
+      contents: (
+        <Fragment>
+          <RecoverSvg className={classes.menuIcon} />
+          <span>Recover</span>
+        </Fragment>
+      ),
+      onClick: () => recoverFile && recoverFile(file.cid),
+    },
     preview: {
       contents: (
         <Fragment>
@@ -292,10 +311,11 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
       type: typeof DragTypes.MOVABLE_FILE
       payload: FileSystemItem
     }) => {
-      await handleMove(
-        `${currentPath}${item.payload.name}`,
-        `${currentPath}${file.name}/${item.payload.name}`,
-      )
+      handleMove &&
+        (await handleMove(
+          `${currentPath}${item.payload.name}`,
+          `${currentPath}${file.name}/${item.payload.name}`,
+        ))
     },
     collect: (monitor) => ({
       isOverMove: monitor.isOver(),
@@ -305,7 +325,8 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
   const [{ isOverUpload }, dropUploadRef] = useDrop({
     accept: [NativeTypes.FILE],
     drop: (item: any) => {
-      handleUploadOnDrop(item.files, item.items, `${currentPath}${file.name}`)
+      handleUploadOnDrop &&
+        handleUploadOnDrop(item.files, item.items, `${currentPath}${file.name}`)
     },
     collect: (monitor) => ({
       isOverUpload: monitor.isOver(),
@@ -384,10 +405,11 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
             }}
             validationSchema={RenameSchema}
             onSubmit={(values, actions) => {
-              handleRename(
-                `${currentPath}${file.name}`,
-                `${currentPath}${values.fileName}`,
-              )
+              handleRename &&
+                handleRename(
+                  `${currentPath}${file.name}`,
+                  `${currentPath}${values.fileName}`,
+                )
               setEditing(undefined)
             }}
           >
@@ -427,10 +449,11 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
               }}
               validationSchema={RenameSchema}
               onSubmit={(values, actions) => {
-                handleRename(
-                  `${currentPath}${file.name}`,
-                  `${currentPath}${values.fileName}`,
-                )
+                handleRename &&
+                  handleRename(
+                    `${currentPath}${file.name}`,
+                    `${currentPath}${values.fileName}`,
+                  )
                 setEditing(undefined)
               }}
             >
