@@ -1,14 +1,10 @@
 import React, { useState, useEffect } from "react"
 import { Trans } from "@lingui/macro"
 import { useThresholdKey } from "../../../Contexts/ThresholdKeyContext"
-import {
-  Button,
-  CheckboxInput,
-  Typography,
-} from "@chainsafe/common-components"
+import { Button, CheckboxInput, Typography } from "@chainsafe/common-components"
 
 const SaveNewDevice: React.FC = () => {
-  const { addNewDeviceShareAndSave, disableIsNewDevice } = useThresholdKey()
+  const { addNewDeviceShareAndSave, resetIsNewDevice } = useThresholdKey()
   const [useFileStorage, setUseFileStorage] = useState<boolean>(false)
 
   return (
@@ -18,11 +14,12 @@ const SaveNewDevice: React.FC = () => {
         value={useFileStorage}
         //@ts-ignore
         onChange={(e) => setUseFileStorage(e.target.value)}
+        label="Save to file storage"
       />
       <Button onClick={() => addNewDeviceShareAndSave(useFileStorage)}>
         Yes
       </Button>
-      <Button onClick={disableIsNewDevice}>No</Button>
+      <Button onClick={resetIsNewDevice}>No</Button>
     </>
   )
 }

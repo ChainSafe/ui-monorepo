@@ -184,9 +184,8 @@ const LoginPage = () => {
     login,
     isNewDevice,
     keyDetails,
-    addNewDeviceShareAndSave,
-    skipMinThreshold,
     isNewKey,
+    shouldInitializeAccount,
   } = useThresholdKey()
   const [error, setError] = useState<string>("")
   const [saveToFileStorage, setSaveToFileStorage] = useState(false)
@@ -269,11 +268,6 @@ const LoginPage = () => {
 
   const desktop = useMediaQuery(breakpoints.up("md"))
   const maintenanceMode = Boolean(process.env.REACT_APP_MAINTENANCE_MODE)
-
-  const shouldInitializeAccount =
-    (isNewKey ||
-      (!!keyDetails && keyDetails.totalShares === keyDetails.threshold)) &&
-    !skipMinThreshold
 
   const shouldSaveNewDevice =
     !!keyDetails && keyDetails.requiredShares <= 0 && isNewDevice

@@ -14,7 +14,7 @@ const InitializeAccount: React.FC = () => {
     addPasswordShare,
     isNewKey,
     addMnemonicShare,
-    enableSkipMinThreshold,
+    resetShouldInitialize,
   } = useThresholdKey()
   const [password, setPassword] = useState<string | undefined>("")
   const [dismissNewKey, setDismissNewKey] = useState(false)
@@ -74,7 +74,11 @@ const InitializeAccount: React.FC = () => {
               {mnemonic && <span>{mnemonic}</span>}
             </div>
           )}
-          <Button onClick={enableSkipMinThreshold}>Skip for now</Button>
+          <Button onClick={resetShouldInitialize}>
+            {keyDetails?.totalShares === keyDetails?.threshold
+              ? "Skip for now"
+              : "Finish"}
+          </Button>
         </>
       )}
     </div>

@@ -18,8 +18,10 @@ export type TThresholdKeyContext = {
   userInfo?: TorusLoginResponse
   keyDetails?: KeyDetails
   isNewDevice: boolean
-  disableIsNewDevice(): void
+  resetIsNewDevice(): void
   isNewKey: boolean
+  shouldInitializeAccount: boolean
+  resetShouldInitialize(): void
   pendingShareTransferRequests: ShareTransferRequest[]
   login(loginType: LOGIN_TYPE): Promise<void>
   addPasswordShare(password: string): Promise<void>
@@ -29,8 +31,6 @@ export type TThresholdKeyContext = {
   approveShareTransferRequest(encPubKeyX: string): Promise<void>
   clearShareTransferRequests(): Promise<void>
   addMnemonicShare(): Promise<string>
-  skipMinThreshold: boolean
-  enableSkipMinThreshold(): void
 }
 
 type ThresholdKeyProviderProps = {
@@ -64,6 +64,10 @@ const ThresholdKeyProvider = ({
   const [keyDetails, setKeyDetails] = useState<KeyDetails | undefined>()
   const [isNewDevice, setIsNewDevice] = useState<boolean>(false)
   const [isNewKey, setIsNewKey] = useState<boolean>(false)
+  const [
+    shouldInitializeAccount,
+    setShouldInitializeAccount,
+  ] = useState<boolean>(false)
   const [skipMinThreshold, setSkipMinThreshold] = useState<boolean>(false)
   const [
     pendingShareTransferRequests,
@@ -235,6 +239,7 @@ const ThresholdKeyProvider = ({
     } catch (error) {
       console.log("Error logging in")
       console.log(error)
+      return
     }
     const metadata = await TKeySdk.storageLayer.getMetadata<IMetadata>({
       privKey: TKeySdk.serviceProvider.postboxKey,
@@ -245,6 +250,7 @@ const ThresholdKeyProvider = ({
     if (isNewKey) {
       console.log("New key")
       setIsNewKey(true)
+      setShouldInitializeAccount(true)
       await TKeySdk.initialize()
       const resultKey = await TKeySdk.getKeyDetails()
       console.log(resultKey)
@@ -269,6 +275,9 @@ const ThresholdKeyProvider = ({
         setIsNewDevice(true)
       }
       const resultKey = await TKeySdk.getKeyDetails()
+      if (resultKey.threshold === resultKey.totalShares) {
+        setShouldInitializeAccount(true)
+      }
       console.log(resultKey)
       setKeyDetails(resultKey)
     }
@@ -392,10 +401,10 @@ const ThresholdKeyProvider = ({
         approveShareTransferRequest,
         isNewKey,
         addMnemonicShare,
-        skipMinThreshold,
-        enableSkipMinThreshold: () => setSkipMinThreshold(true),
         clearShareTransferRequests,
-        disableIsNewDevice: () => setIsNewDevice(false),
+        resetIsNewDevice: () => setIsNewDevice(false),
+        shouldInitializeAccount,
+        resetShouldInitialize: () => setShouldInitializeAccount(false),
       }}
     >
       {children}
