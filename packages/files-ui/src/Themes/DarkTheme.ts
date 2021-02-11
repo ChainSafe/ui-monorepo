@@ -2,6 +2,12 @@ import { createTheme } from "@chainsafe/common-theme"
 import { UI_CONSTANTS } from "./Constants"
 
 export const darkTheme = createTheme({
+  globalStyling: {
+    body: {
+      backgroundColor: "#525252",
+      color: "# DBDBDB",
+    },
+  },
   themeConfig: {
     palette: {
       primary: {
@@ -20,7 +26,7 @@ export const darkTheme = createTheme({
       Typography: {
         h5: {
           fontWeight: 600,
-          color: "#000000",
+          color: "#DBDBDB",
         },
       },
       Button: {

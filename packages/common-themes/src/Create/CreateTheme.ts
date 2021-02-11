@@ -11,6 +11,7 @@ import createThemeConfig, {
 import createMixins, { MixinConfig } from "./CreateMixins"
 import { DefaultGlobalStyling } from "../Defaults/GlobalStyling"
 import { DeepPartial } from "ts-essentials"
+import { mergeDeep } from "../utils"
 
 interface ITheme extends IThemeConfig {
   mixins: MixinConfig
@@ -30,8 +31,9 @@ const createTheme = (themeProps?: ICreateThemeProps): ITheme => {
     ...createThemeConfig(themeProps?.themeConfig),
     globalStyling: {
       "@global": {
-        ...DefaultGlobalStyling,
-        ...themeProps?.globalStyling,
+        ...(themeProps?.globalStyling
+          ? mergeDeep(DefaultGlobalStyling, themeProps.globalStyling)
+          : DefaultGlobalStyling),
       },
     },
     mixins: createMixins(themeProps?.mixins),

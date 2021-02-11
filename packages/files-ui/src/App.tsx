@@ -22,7 +22,6 @@ import {
 import { DriveProvider } from "./Contexts/DriveContext"
 import FilesRoutes from "./Components/FilesRoutes"
 import AppWrapper from "./Components/Layouts/AppWrapper"
-import { lightTheme } from "./Themes/LightTheme"
 import { darkTheme } from "./Themes/DarkTheme"
 import { useHotjar } from "react-use-hotjar"
 import { LanguageProvider } from "./Contexts/LanguageContext"
@@ -52,7 +51,7 @@ const App: React.FC<{}> = () => {
   }, [hotjarId, initHotjar])
 
   return (
-    <ThemeSwitcher themes={{ light: lightTheme, dark: darkTheme }}>
+    <ThemeSwitcher themes={{ dark: darkTheme }}>
       <ErrorBoundary
         fallback={({ error, componentStack, eventId, resetError }) => (
           <Modal active closePosition="none" setActive={resetError}>
