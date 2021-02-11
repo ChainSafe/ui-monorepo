@@ -89,6 +89,7 @@ const App: React.FC<{}> = () => {
                         "https://mainnet.infura.io/v3/a7e16429d2254d488d396710084e2cd3",
                     },
                     { walletName: "metamask", preferred: true },
+                    { walletName: "authereum" },
                     { walletName: "dapper" },
                     { walletName: "opera" },
                     { walletName: "operaTouch" },
