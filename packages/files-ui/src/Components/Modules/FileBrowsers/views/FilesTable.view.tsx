@@ -1,8 +1,4 @@
-import {
-  createStyles,
-  ITheme,
-  makeStyles,
-} from "@chainsafe/common-theme"
+import { createStyles, ITheme, makeStyles } from "@chainsafe/common-theme"
 import React, { Fragment, useEffect } from "react"
 import {
   Divider,
@@ -418,7 +414,7 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
   const [createFolderModalOpen, setCreateFolderModalOpen] = useState(false)
   const [uploadModalOpen, setUploadModalOpen] = useState(false)
   const [moveFileData, setMoveFileData] = useState<
-    { modal: boolean; file: FileSystemItem } | undefined
+    { modal: boolean; fileData: FileSystemItem | FileSystemItem[] } | undefined
   >(undefined)
   const [deleteDialogOpen, setDeleteDialog] = useState<() => void | undefined>()
   const [fileInfoPath, setFileInfoPath] = useState<string | undefined>(
@@ -561,7 +557,17 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
       {bulkOperations && selected.length > 0 && validBulkOps.length > 0 && (
         <section className={classes.bulkOperations}>
           {validBulkOps.indexOf("move") >= 0 && (
-            <Button variant="outline">Move selected</Button>
+            <Button
+              onClick={() =>
+                setMoveFileData({
+                  modal: true,
+                  fileData: files.filter((file) => selected.includes(file.cid)),
+                })
+              }
+              variant="outline"
+            >
+              Move selected
+            </Button>
           )}
           {validBulkOps.indexOf("delete") >= 0 && (
             <Button variant="outline">Delete selected</Button>
@@ -742,9 +748,12 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
       />
       <MoveFileModule
         currentPath={currentPath}
-        file={moveFileData?.file}
+        fileData={moveFileData?.fileData}
         modalOpen={moveFileData ? moveFileData.modal : false}
-        close={() => setMoveFileData(undefined)}
+        close={() => {
+          setMoveFileData(undefined)
+          setSelected([])
+        }}
       />
       <FileInfoModal
         fileInfoPath={fileInfoPath}

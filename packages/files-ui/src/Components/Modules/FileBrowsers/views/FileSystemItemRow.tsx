@@ -176,7 +176,10 @@ interface IFileSystemItemRowProps {
   ): void
   setPreviewFileIndex(fileIndex: number | undefined): void
   desktop: boolean
-  setMoveFileData(moveFileData: { modal: boolean; file: FileSystemItem }): void
+  setMoveFileData(moveFileData: {
+    modal: boolean
+    fileData: FileSystemItem | FileSystemItem[]
+  }): void
   setFileInfoPath(path: string): void
 }
 
@@ -256,7 +259,7 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
           <span>Move</span>
         </Fragment>
       ),
-      onClick: () => setMoveFileData({ modal: true, file: file }),
+      onClick: () => setMoveFileData({ modal: true, fileData: file }),
     },
     share: {
       contents: (

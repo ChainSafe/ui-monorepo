@@ -17,9 +17,11 @@ const CSFFileBrowser: React.FC<IFilesBrowserModuleProps> = ({
 }: IFilesBrowserModuleProps) => {
   const {
     moveFileToTrash,
+    bulkMoveFileToTrash,
     downloadFile,
     renameFile,
     moveFile,
+    bulkMoveFile,
     currentPath,
     updateCurrentPath,
     pathContents,
@@ -45,6 +47,16 @@ const CSFFileBrowser: React.FC<IFilesBrowserModuleProps> = ({
   }
 
   // Rename
+  const handleBulkMove = async (paths: string[], new_path: string) => {
+    // TODO set loading
+    await bulkMoveFile([
+      ...paths.map((path: string) => ({
+        new_path: new_path,
+        path: path,
+      })),
+    ])
+  }
+
   const handleMove = async (path: string, new_path: string) => {
     // TODO set loading
     await moveFile({
@@ -181,8 +193,10 @@ const CSFFileBrowser: React.FC<IFilesBrowserModuleProps> = ({
         crumbs={crumbs}
         currentPath={currentPath}
         deleteFile={moveFileToTrash}
+        bulkMoveFileToTrash={bulkMoveFileToTrash}
         downloadFile={downloadFile}
         handleMove={handleMove}
+        handleBulkMove={handleBulkMove}
         handleRename={handleRename}
         handleUploadOnDrop={handleUploadOnDrop}
         uploadsInProgress={uploadsInProgress}

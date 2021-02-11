@@ -52,8 +52,10 @@ type DriveContext = {
   createFolder(body: FilesPathRequest): Promise<FileContentResponse>
   renameFile(body: FilesMvRequest): Promise<void>
   moveFile(body: FilesMvRequest): Promise<void>
+  bulkMoveFile(cid: FilesMvRequest[]): Promise<void>
   recoverFile(cid: string): Promise<void>
   deleteFile(cid: string): Promise<void>
+  bulkMoveFileToTrash(cid: string[]): Promise<void>
   moveFileToTrash(cid: string): Promise<void>
   downloadFile(cid: string): Promise<void>
   getFileContent(
@@ -406,6 +408,12 @@ const DriveProvider = ({ children }: DriveContextProps) => {
     }
   }
 
+  const bulkMoveFile = async (filesToMove: FilesMvRequest[]) => {
+    for (let i = 0; i < filesToMove.length; i++) {
+      await moveFile(filesToMove[i])
+    }
+  }
+
   const deleteFile = async (cid: string) => {
     const itemToDelete = pathContents.find((i) => i.cid === cid)
     if (!itemToDelete) return
@@ -469,13 +477,19 @@ const DriveProvider = ({ children }: DriveContextProps) => {
     }
   }
 
+  const bulkMoveFileToTrash = async (cidsToTrash: string[]) => {
+    for (let i = 0; i < cidsToTrash.length; i++) {
+      await moveFileToTrash(cidsToTrash[i])
+    }
+  }
+
   const recoverFile = async (cid: string) => {
-    const itemToDelete = pathContents.find((i) => i.cid === cid)
-    if (!itemToDelete) return
+    const itemToRestore = pathContents.find((i) => i.cid === cid)
+    if (!itemToRestore) return
     try {
       await imployApiClient.moveCSFObject({
-        path: getPathWithFile("/", itemToDelete.name),
-        new_path: getPathWithFile("/", itemToDelete.name),
+        path: getPathWithFile("/", itemToRestore.name),
+        new_path: getPathWithFile("/", itemToRestore.name),
         source: {
           type: "trash",
         },
@@ -486,7 +500,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
       await refreshContents(currentPath)
 
       const message = `${
-        itemToDelete.isFolder ? t`Folder` : t`File`
+        itemToRestore.isFolder ? t`Folder` : t`File`
       } ${t`recovered successfully`}`
 
       addToastMessage({
@@ -496,7 +510,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
       return Promise.resolve()
     } catch (error) {
       const message = `${t`There was an error recovering this`} ${
-        itemToDelete.isFolder ? t`folder` : t`file`
+        itemToRestore.isFolder ? t`folder` : t`file`
       }`
       addToastMessage({
         message: message,
@@ -633,8 +647,10 @@ const DriveProvider = ({ children }: DriveContextProps) => {
         createFolder,
         renameFile,
         moveFile,
+        bulkMoveFile,
         deleteFile,
         moveFileToTrash,
+        bulkMoveFileToTrash,
         downloadFile,
         getFileContent,
         recoverFile,
