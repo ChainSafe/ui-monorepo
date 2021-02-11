@@ -9,20 +9,28 @@ import { IMetadata, KeyDetails } from "@tkey/common-types"
 import ShareTransferModule, {
   SHARE_TRANSFER_MODULE_NAME,
 } from "@tkey/share-transfer"
+import ShareSerializationModule, {
+  SHARE_SERIALIZATION_MODULE_NAME,
+} from "@tkey/share-serialization"
 import bowser from "bowser"
 
 export type TThresholdKeyContext = {
   userInfo?: TorusLoginResponse
   keyDetails?: KeyDetails
   isNewDevice: boolean
+  disableIsNewDevice(): void
   isNewKey: boolean
-  dismissNewKey(): void
   pendingShareTransferRequests: ShareTransferRequest[]
   login(loginType: LOGIN_TYPE): Promise<void>
   addPasswordShare(password: string): Promise<void>
   inputPasswordShare(password: string): Promise<void>
+  inputMnemonicShare(mnemonic: string): Promise<void>
   addNewDeviceShareAndSave(useFileStorage: boolean): Promise<void>
   approveShareTransferRequest(encPubKeyX: string): Promise<void>
+  clearShareTransferRequests(): Promise<void>
+  addMnemonicShare(): Promise<string>
+  skipMinThreshold: boolean
+  enableSkipMinThreshold(): void
 }
 
 type ThresholdKeyProviderProps = {
@@ -56,6 +64,7 @@ const ThresholdKeyProvider = ({
   const [keyDetails, setKeyDetails] = useState<KeyDetails | undefined>()
   const [isNewDevice, setIsNewDevice] = useState<boolean>(false)
   const [isNewKey, setIsNewKey] = useState<boolean>(false)
+  const [skipMinThreshold, setSkipMinThreshold] = useState<boolean>(false)
   const [
     pendingShareTransferRequests,
     setPendingShareTransferRequests,
@@ -214,7 +223,9 @@ const ThresholdKeyProvider = ({
             typeOfLogin: "github",
             verifier: process.env.REACT_APP_GITHUB_VERIFIER_NAME,
             clientId: process.env.REACT_APP_AUTH0_CLIENT_ID,
-            domain: process.env.REACT_APP_AUTH0_DOMAIN,
+            jwtParams: {
+              domain: process.env.REACT_APP_AUTH0_DOMAIN,
+            },
           })
           setUserInfo(ghResult)
           break
@@ -225,10 +236,8 @@ const ThresholdKeyProvider = ({
       console.log("Error logging in")
       console.log(error)
     }
-    const postboxKey = TKeySdk.serviceProvider.postboxKey.toString("hex")
     const metadata = await TKeySdk.storageLayer.getMetadata<IMetadata>({
-      // @ts-ignore
-      privKey: postboxKey,
+      privKey: TKeySdk.serviceProvider.postboxKey,
     })
     console.log(metadata)
     //@ts-ignore
@@ -236,8 +245,7 @@ const ThresholdKeyProvider = ({
     if (isNewKey) {
       console.log("New key")
       setIsNewKey(true)
-      //@ts-ignore
-      await TKeySdk.initialize({ input: metadata })
+      await TKeySdk.initialize()
       const resultKey = await TKeySdk.getKeyDetails()
       console.log(resultKey)
       setKeyDetails(resultKey)
@@ -245,7 +253,8 @@ const ThresholdKeyProvider = ({
       console.log(privKey)
     } else {
       console.log("Existing key")
-      await TKeySdk.initialize()
+      //@ts-ignore
+      await TKeySdk.initialize({ input: metadata })
       try {
         console.log("Trying to load device share")
         const storageModule = TKeySdk.modules[
@@ -278,6 +287,24 @@ const ThresholdKeyProvider = ({
     setKeyDetails(keyDetails)
   }
 
+  const addMnemonicShare = async () => {
+    if (!TKeySdk) return Promise.reject("No TKey SDK")
+    const shareCreated = await TKeySdk.generateNewShare()
+    const requiredShareStore =
+      shareCreated.newShareStores[shareCreated.newShareIndex.toString("hex")]
+    // remember to include in initializtion modules
+    const shareSerializationModule = (await TKeySdk.modules[
+      SHARE_SERIALIZATION_MODULE_NAME
+    ]) as ShareSerializationModule
+    const result = (await shareSerializationModule.serialize(
+      requiredShareStore.share.share,
+      "mnemonic",
+    )) as string
+    const keyDetails = await TKeySdk.getKeyDetails()
+    setKeyDetails(keyDetails)
+    return result
+  }
+
   const inputPasswordShare = async (password: string) => {
     if (!TKeySdk) return
     const securityQuestionModule = TKeySdk.modules[
@@ -292,6 +319,21 @@ const ThresholdKeyProvider = ({
     setKeyDetails(keyDetails)
   }
 
+  const inputMnemonicShare = async (mnemonic: string) => {
+    if (!TKeySdk) return
+    const shareSerializationModule = TKeySdk.modules[
+      SHARE_SERIALIZATION_MODULE_NAME
+    ] as ShareSerializationModule
+    try {
+      const share = await shareSerializationModule.deserializeMnemonic(mnemonic)
+      await TKeySdk.inputShare(share)
+      const keyDetails = await TKeySdk.getKeyDetails()
+      setKeyDetails(keyDetails)
+    } catch (error) {
+      console.log("Invalid mnemonic entered")
+    }
+  }
+
   const addNewDeviceShareAndSave = async () => {
     if (!TKeySdk) return
     const storageModule = TKeySdk.modules[
@@ -304,10 +346,9 @@ const ThresholdKeyProvider = ({
         newDeviceShare.newShareIndex.toString("hex")
       ]
 
+    storageModule.storeDeviceShare(newDeviceShareStore)
     storageModule.canUseFileStorage &&
       storageModule.storeDeviceShareOnFileStorage(newDeviceShare.newShareIndex)
-
-    storageModule.storeDeviceShare(newDeviceShareStore)
     console.log("New device share added")
     setIsNewDevice(false)
     const newKeyDetails = await TKeySdk.getKeyDetails()
@@ -326,6 +367,16 @@ const ThresholdKeyProvider = ({
     setKeyDetails(newKeyDetails)
   }
 
+  const clearShareTransferRequests = async () => {
+    if (!TKeySdk) return
+
+    const shareTransferModule = TKeySdk.modules[
+      SHARE_TRANSFER_MODULE_NAME
+    ] as ShareTransferModule
+    await shareTransferModule.resetShareTransferStore()
+    await TKeySdk.syncShareMetadata()
+  }
+
   return (
     <ThresholdKeyContext.Provider
       value={{
@@ -333,13 +384,18 @@ const ThresholdKeyProvider = ({
         login,
         addPasswordShare,
         inputPasswordShare,
+        inputMnemonicShare,
         keyDetails,
         addNewDeviceShareAndSave,
         isNewDevice,
         pendingShareTransferRequests,
         approveShareTransferRequest,
         isNewKey,
-        dismissNewKey: () => setIsNewKey(false),
+        addMnemonicShare,
+        skipMinThreshold,
+        enableSkipMinThreshold: () => setSkipMinThreshold(true),
+        clearShareTransferRequests,
+        disableIsNewDevice: () => setIsNewDevice(false),
       }}
     >
       {children}

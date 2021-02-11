@@ -28,6 +28,9 @@ import MasterKeyModule from "../Modules/MasterKeySequence/MasterKeyModule"
 import EnterMasterKeySlide from "../Modules/MasterKeySequence/SequenceSlides/EnterMasterKey.slide"
 import { useThresholdKey } from "../../Contexts/ThresholdKeyContext"
 import { LOGIN_TYPE } from "@toruslabs/torus-direct-web-sdk"
+import InitializeAccount from "../Modules/LoginModule/InitializeAccount"
+import SaveNewDevice from "../Modules/LoginModule/SaveNewDevice"
+import MissingShares from "../Modules/LoginModule/MissingShares"
 
 const useStyles = makeStyles(
   ({ palette, constants, typography, breakpoints }: ITheme) =>
@@ -181,9 +184,9 @@ const LoginPage = () => {
     login,
     isNewDevice,
     keyDetails,
-    dismissNewKey,
-    isNewKey,
     addNewDeviceShareAndSave,
+    skipMinThreshold,
+    isNewKey,
   } = useThresholdKey()
   const [error, setError] = useState<string>("")
   const [saveToFileStorage, setSaveToFileStorage] = useState(false)
@@ -251,6 +254,16 @@ const LoginPage = () => {
 
   const desktop = useMediaQuery(breakpoints.up("md"))
   const maintenanceMode = Boolean(process.env.REACT_APP_MAINTENANCE_MODE)
+
+  const shouldInitializeAccount =
+    (isNewKey ||
+      (!!keyDetails && keyDetails.totalShares === keyDetails.threshold)) &&
+    !skipMinThreshold
+
+  const shouldSaveNewDevice =
+    !!keyDetails && keyDetails.requiredShares <= 0 && isNewDevice
+
+  const areSharesMissing = !!keyDetails && keyDetails.requiredShares > 0
 
   return (
     <div className={classes.root}>
@@ -429,55 +442,9 @@ const LoginPage = () => {
                 </Typography>
               </>
             )}
-            {isNewKey && (
-              <>
-                <Typography variant="h5">This is a new account</Typography>
-                <Typography>Lorem ipsum setup info</Typography>
-                <Button onClick={dismissNewKey}>Lets go</Button>
-              </>
-            )}
-            {keyDetails && keyDetails.totalShares === keyDetails.threshold && (
-              <>
-                <Typography variant="h5">Min number of shares</Typography>
-                <Typography>
-                  Add more shares to ensure you dont get locked out of your
-                  account
-                </Typography>
-              </>
-            )}
-            {keyDetails && keyDetails.requiredShares <= 0 && isNewDevice && (
-              <>
-                <Typography>Would you like to save this device?</Typography>
-                <CheckboxInput
-                  value={saveToFileStorage}
-                  onChange={() => setSaveToFileStorage(!saveToFileStorage)}
-                  label="Save to file storage"
-                />
-                <Button
-                  onClick={() => addNewDeviceShareAndSave(saveToFileStorage)}
-                >
-                  Save device
-                </Button>
-              </>
-            )}
-            {keyDetails && keyDetails.requiredShares > 0 && isNewDevice && (
-              <>
-                <Typography>
-                  Please enter password, recovery code, or approve login request
-                  on an existing device
-                </Typography>
-                <Typography>Your existing shares:</Typography>
-                <ul>
-                  {Object.keys(keyDetails.shareDescriptions).map(
-                    (shareIndex) => (
-                      <li key={shareIndex}>
-                        {keyDetails.shareDescriptions[shareIndex]}
-                      </li>
-                    )
-                  )}
-                </ul>
-              </>
-            )}
+            {areSharesMissing && <MissingShares />}
+            {shouldInitializeAccount && <InitializeAccount />}
+            {shouldSaveNewDevice && <SaveNewDevice />}
           </div>
         </Grid>
       </Grid>
