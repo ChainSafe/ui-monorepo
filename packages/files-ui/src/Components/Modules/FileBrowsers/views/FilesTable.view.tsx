@@ -1,5 +1,5 @@
 import { createStyles, ITheme, makeStyles } from "@chainsafe/common-theme"
-import React, { Fragment, useEffect } from "react"
+import React, { Fragment, useCallback, useEffect } from "react"
 import {
   Divider,
   MenuDropdown,
@@ -43,6 +43,7 @@ import CreateFolderModule from "../../CreateFolderModule"
 import UploadFileModule from "../../UploadFileModule"
 import MoveFileModule from "../MoveFileModal"
 import FileInfoModal from "../FileInfoModal"
+import { CONTENT_TYPES } from "../../../../Utils/Constants"
 
 const useStyles = makeStyles(
   ({ animation, breakpoints, constants, palette, zIndex }: ITheme) => {
@@ -229,6 +230,7 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
   crumbs,
   handleRename,
   handleMove,
+  bulkMoveFileToTrash,
   downloadFile,
   deleteFile,
   recoverFile,
@@ -446,11 +448,28 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
               (existingOp: FileOperation) => validList.indexOf(existingOp) >= 0,
             )
           }
+        } else {
+          let validList = filteredList.filter(
+            (op: FileOperation) =>
+              bulkOperations[CONTENT_TYPES.File].indexOf(op) >= 0,
+          )
+          if (validList.length > 0) {
+            filteredList = filteredList.filter(
+              (existingOp: FileOperation) => validList.indexOf(existingOp) >= 0,
+            )
+          }
         }
       }
       setValidBulkOps(filteredList)
     }
   }, [selected, items, bulkOperations])
+
+  const handleBulkMoveToTrash = useCallback(async () => {
+    if (bulkMoveFileToTrash) {
+      await bulkMoveFileToTrash(selected)
+      setSelected([])
+    }
+  }, [selected, bulkMoveFileToTrash, setSelected])
 
   return (
     <article
@@ -570,7 +589,9 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
             </Button>
           )}
           {validBulkOps.indexOf("delete") >= 0 && (
-            <Button variant="outline">Delete selected</Button>
+            <Button onClick={handleBulkMoveToTrash} variant="outline">
+              Delete selected
+            </Button>
           )}
         </section>
       )}
