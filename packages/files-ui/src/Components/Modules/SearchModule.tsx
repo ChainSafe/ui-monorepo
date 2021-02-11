@@ -12,9 +12,11 @@ import {
   Button,
   SearchBar,
   Typography,
+  useHistory,
 } from "@chainsafe/common-components"
 import { useState } from "react"
 import clsx from "clsx"
+import { ROUTE_LINKS } from "../FilesRoutes"
 
 const searchResults = {
   files: [
@@ -36,15 +38,7 @@ const searchResults = {
 }
 
 const useStyles = makeStyles(
-  ({
-    breakpoints,
-    palette,
-    constants,
-    animation,
-    zIndex,
-    shadows,
-    typography,
-  }: ITheme) =>
+  ({ breakpoints, palette, constants, animation, zIndex, shadows }: ITheme) =>
     createStyles({
       root: {
         position: "relative",
@@ -139,17 +133,23 @@ const SearchModule: React.FC<ISearchModule> = ({
   setSearchActive,
 }: ISearchModule) => {
   const classes = useStyles()
-  const [, setSearchString] = useState<string>("")
+  const [searchString, setSearchString] = useState<string>("")
   const ref = useRef(null)
 
   const { breakpoints }: ITheme = useTheme()
   const desktop = useMediaQuery(breakpoints.up("md"))
+  const { redirect } = useHistory()
 
   useOnClickOutside(ref, () => {
     if (searchActive) {
       setSearchActive(false)
     }
   })
+
+  const onSearchSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    redirect(ROUTE_LINKS.Search(searchString))
+  }
 
   return (
     <section
@@ -166,18 +166,19 @@ const SearchModule: React.FC<ISearchModule> = ({
           className={classes.backButton}
           onClick={() => {
             setSearchActive(false)
-            console.log("here")
           }}
         >
           <ArrowLeftIcon className={classes.backArrow} />
         </Button>
       )}
-      <SearchBar
-        className={classes.searchBar}
-        onChange={(e: ChangeEvent<HTMLInputElement>) =>
-          setSearchString(e.target.value)
-        }
-      />
+      <form className={classes.searchBar} onSubmit={onSearchSubmit}>
+        <SearchBar
+          className={classes.searchBar}
+          onChange={(e: ChangeEvent<HTMLInputElement>) =>
+            setSearchString(e.target.value)
+          }
+        />
+      </form>
       <div className={clsx(classes.resultsContainer, searchActive && "active")}>
         <div className={classes.resultsBox}>
           {searchResults.files && searchResults.files.length ? (
