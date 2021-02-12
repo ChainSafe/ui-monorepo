@@ -5,7 +5,7 @@ export const darkTheme = createTheme({
   globalStyling: {
     body: {
       backgroundColor: "#525252",
-      color: "# DBDBDB",
+      color: "#DBDBDB",
     },
   },
   themeConfig: {
