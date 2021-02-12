@@ -33,59 +33,79 @@ interface IStyleProps {
 const useStyles = makeStyles(
   ({ palette, animation, breakpoints, constants, zIndex }: ITheme) => {
     return createStyles({
-      root: ({ themeKey }: IStyleProps) => ({
-        width: 0,
-        overflow: "hidden",
-        transitionDuration: `${animation.translate}ms`,
-        display: "flex",
-        flexDirection: "column",
-        position: "fixed",
-        left: 0,
-        opacity: 0,
-        "&.active": {
-          opacity: 1,
-        },
-        [breakpoints.up("md")]: {
-          padding: `${constants.topPadding}px ${constants.generalUnit * 4.5}px`,
-          top: 0,
-          height: "100%",
-          backgroundColor:
-            themeKey === "light"
-              ? palette.additional["gray"][3]
-              : themeKey === "dark"
-              ? palette.additional["gray"][1]
-              : palette.additional["gray"][3],
+      root: ({ themeKey }: IStyleProps) => {
+        console.log(themeKey)
+        console.log(
+          themeKey === "light"
+            ? palette.additional["gray"][3]
+            : themeKey === "dark"
+            ? palette.additional["gray"][1]
+            : palette.additional["gray"][3],
+        )
+        console.log("light", palette.additional["gray"][3])
+        console.log("dark", palette.additional["gray"][1])
+        console.log("dark", palette.additional["gray"])
+        return {
+          width: 0,
+          overflow: "hidden",
+          transitionDuration: `${animation.translate}ms`,
+          display: "flex",
+          flexDirection: "column",
+          position: "fixed",
+          left: 0,
+          opacity: 0,
           "&.active": {
-            width: `${constants.navWidth}px`,
+            opacity: 1,
           },
-        },
-        [breakpoints.down("md")]: {
-          height: `calc(100% - ${constants.mobileHeaderHeight}px)`,
-          top: `${constants.mobileHeaderHeight}px`,
-          backgroundColor: palette.additional["gray"][9],
-          zIndex: zIndex?.layer1,
-          padding: `0 ${constants.generalUnit * 4}px`,
-          maxWidth: "100vw",
-          visibility: "hidden",
-          // "&:before": {
-          //   content: "''",
-          //   display: "block",
-          //   backgroundColor: palette.additional["gray"][9],
-          //   opacity: 0.5,
-          //   position: "fixed",
-          //   top: mobileHeaderHeight,
-          //   left: 0,
-          //   height: `calc(100% - ${mobileHeaderHeight}px)`,
-          //   width: "100%",
-          //   transitionDuration: `${animation.translate}ms`,
-          //   zIndex: zIndex?.background,
-          // },
-          "&.active": {
-            visibility: "visible",
-            width: `${constants.mobileNavWidth}px`,
+          [breakpoints.up("md")]: {
+            padding: `${constants.topPadding}px ${
+              constants.generalUnit * 4.5
+            }px`,
+            top: 0,
+            height: "100%",
+            backgroundColor:
+              themeKey === "light"
+                ? palette.additional["gray"][3]
+                : themeKey === "dark"
+                ? palette.additional["gray"][1]
+                : palette.additional["gray"][3],
+            "&.active": {
+              width: `${constants.navWidth}px`,
+            },
           },
-        },
-      }),
+          [breakpoints.down("md")]: {
+            height: `calc(100% - ${constants.mobileHeaderHeight}px)`,
+            top: `${constants.mobileHeaderHeight}px`,
+            backgroundColor:
+              themeKey === "light"
+                ? palette.additional["gray"][3]
+                : themeKey === "dark"
+                ? palette.additional["gray"][1]
+                : palette.additional["gray"][3],
+            zIndex: zIndex?.layer1,
+            padding: `0 ${constants.generalUnit * 4}px`,
+            maxWidth: "100vw",
+            visibility: "hidden",
+            // "&:before": {
+            //   content: "''",
+            //   display: "block",
+            //   backgroundColor: palette.additional["gray"][9],
+            //   opacity: 0.5,
+            //   position: "fixed",
+            //   top: mobileHeaderHeight,
+            //   left: 0,
+            //   height: `calc(100% - ${mobileHeaderHeight}px)`,
+            //   width: "100%",
+            //   transitionDuration: `${animation.translate}ms`,
+            //   zIndex: zIndex?.background,
+            // },
+            "&.active": {
+              visibility: "visible",
+              width: `${constants.mobileNavWidth}px`,
+            },
+          },
+        }
+      },
       blocker: {
         display: "block",
         backgroundColor: palette.additional["gray"][9],
@@ -209,7 +229,6 @@ interface IAppNav {
 
 const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
   const { themeKey } = useThemeSwitcher()
-  console.log(themeKey)
   const classes = useStyles({
     themeKey,
   })
