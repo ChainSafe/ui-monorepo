@@ -2,7 +2,7 @@ export enum CONTENT_TYPES {
   Directory = "application/chainsafe-files-directory",
   Image = "image/*",
   Text = "text/plain",
-  File = "",
+  File = "*/*",
   Pdf = "application/pdf",
   MP4 = "video/mp4",
 }

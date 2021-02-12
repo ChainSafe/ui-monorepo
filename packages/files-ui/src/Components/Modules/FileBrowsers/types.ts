@@ -61,5 +61,4 @@ export interface IFilesTableBrowserProps
   currentPath: string
   crumbs: Crumb[] | undefined
   desktop: boolean
-  bulkOperations?: IBulkOperations
 }

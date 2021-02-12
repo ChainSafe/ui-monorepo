@@ -31,6 +31,7 @@ import { NativeTypes } from "react-dnd-html5-backend"
 import { useDrop } from "react-dnd"
 import {
   FileOperation,
+  IBulkOperations,
   IFileConfigured,
   IFilesTableBrowserProps,
 } from "../types"
@@ -235,7 +236,6 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
   deleteFile,
   recoverFile,
   currentPath,
-  bulkOperations,
   loadingCurrentPath,
   uploadsInProgress,
   showUploadsInTable,
@@ -424,22 +424,28 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
   )
 
   // Bulk operations
+
   const [validBulkOps, setValidBulkOps] = useState<FileOperation[]>([])
   useEffect(() => {
-    if (bulkOperations) {
-      let filteredList: FileOperation[] = [
-        "delete",
-        "download",
-        "info",
-        "move",
-        "preview",
-        "rename",
-        "share",
-      ]
-      for (let i = 0; i < selected.length; i++) {
-        const contentType = items.find((item) => item.cid === selected[i])
-          ?.content_type
-        if (contentType) {
+    const bulkOperations: IBulkOperations = {
+      [CONTENT_TYPES.Directory]: ["move"],
+      [CONTENT_TYPES.File]: ["delete", "move"],
+    }
+    let filteredList: FileOperation[] = [
+      "delete",
+      "download",
+      "info",
+      "move",
+      "preview",
+      "rename",
+      "share",
+    ]
+    for (let i = 0; i < selected.length; i++) {
+      const contentType = items.find((item) => item.cid === selected[i])
+        ?.content_type
+
+      if (contentType) {
+        if (contentType === CONTENT_TYPES.Directory) {
           let validList = filteredList.filter(
             (op: FileOperation) => bulkOperations[contentType].indexOf(op) >= 0,
           )
@@ -459,10 +465,20 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
             )
           }
         }
+      } else {
+        let validList = filteredList.filter(
+          (op: FileOperation) =>
+            bulkOperations[CONTENT_TYPES.File].indexOf(op) >= 0,
+        )
+        if (validList.length > 0) {
+          filteredList = filteredList.filter(
+            (existingOp: FileOperation) => validList.indexOf(existingOp) >= 0,
+          )
+        }
       }
-      setValidBulkOps(filteredList)
     }
-  }, [selected, items, bulkOperations])
+    setValidBulkOps(filteredList)
+  }, [selected, items])
 
   const handleBulkMoveToTrash = useCallback(async () => {
     if (bulkMoveFileToTrash) {
@@ -573,7 +589,7 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
         </div>
       </header>
       <Divider className={classes.divider} />
-      {bulkOperations && selected.length > 0 && validBulkOps.length > 0 && (
+      {selected.length > 0 && validBulkOps.length > 0 && (
         <section className={classes.bulkOperations}>
           {validBulkOps.indexOf("move") >= 0 && (
             <Button
