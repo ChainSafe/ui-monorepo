@@ -13,6 +13,7 @@ import { CssBaseline } from "@chainsafe/common-components"
 import AppHeader from "./AppHeader"
 import AppNav from "./AppNav"
 import { useDrive } from "../../Contexts/DriveContext"
+import { useThresholdKey } from "../../Contexts/ThresholdKeyContext"
 
 interface IAppWrapper {
   children: ReactNode | ReactNode[]
@@ -70,20 +71,30 @@ const AppWrapper: React.FC<IAppWrapper> = ({ children }: IAppWrapper) => {
   const [navOpen, setNavOpen] = useState<boolean>(desktop)
 
   const { isLoggedIn, secured } = useImployApi()
-  const { isMasterPasswordSet } = useDrive()
+  const { publicKey, isNewDevice, shouldInitializeAccount } = useThresholdKey()
   return (
     <div className={classes.root}>
       <CssBaseline />
       <AppNav setNavOpen={setNavOpen} navOpen={navOpen} />
       <article
         className={clsx(classes.bodyWrapper, {
-          active: isLoggedIn && secured && !!isMasterPasswordSet,
+          active:
+            isLoggedIn &&
+            secured &&
+            !!publicKey &&
+            !isNewDevice &&
+            !shouldInitializeAccount,
         })}
       >
         <AppHeader navOpen={navOpen} setNavOpen={setNavOpen} />
         <section
           className={clsx(classes.content, {
-            active: isLoggedIn && secured && isMasterPasswordSet,
+            active:
+              isLoggedIn &&
+              secured &&
+              !!publicKey &&
+              !isNewDevice &&
+              !shouldInitializeAccount,
           })}
         >
           {children}

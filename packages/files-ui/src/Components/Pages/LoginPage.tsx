@@ -184,11 +184,9 @@ const LoginPage = () => {
     login,
     isNewDevice,
     keyDetails,
-    isNewKey,
     shouldInitializeAccount,
   } = useThresholdKey()
   const [error, setError] = useState<string>("")
-  const [saveToFileStorage, setSaveToFileStorage] = useState(false)
   const [activeMode, setActiveMode] = useState<"newUser" | "returningUser">(
     isReturningUser ? "returningUser" : "newUser",
   )

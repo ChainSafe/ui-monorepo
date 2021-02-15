@@ -1,12 +1,7 @@
 import React, { useState, useEffect } from "react"
 import { Trans } from "@lingui/macro"
 import { useThresholdKey } from "../../../Contexts/ThresholdKeyContext"
-import {
-  Button,
-  CheckboxInput,
-  TextInput,
-  Typography,
-} from "@chainsafe/common-components"
+import { Button, TextInput, Typography } from "@chainsafe/common-components"
 
 const InitializeAccount: React.FC = () => {
   const {

@@ -8,7 +8,7 @@ import {
 } from "@imploy/api-client"
 import React, { useCallback, useEffect, useReducer } from "react"
 import { useState } from "react"
-import { decryptFile, encryptFile, useImployApi } from "@imploy/common-contexts"
+import { encryptFileWithKey, useImployApi } from "@imploy/common-contexts"
 import { v4 as uuidv4 } from "uuid"
 import { useToaster } from "@chainsafe/common-components"
 import {
@@ -22,6 +22,7 @@ import { readFileAsync } from "../Utils/Helpers"
 import { useBeforeunload } from "react-beforeunload"
 import { getPathWithFile } from "../Utils/pathUtils"
 import { ITheme, useTheme, useMediaQuery } from "@chainsafe/common-theme"
+import { useThresholdKey } from "./ThresholdKeyContext"
 
 type DriveContextProps = {
   children: React.ReactNode | React.ReactNode[]
@@ -101,7 +102,15 @@ const DriveProvider = ({ children }: DriveContextProps) => {
     secured,
     secureAccount,
     validateMasterPassword,
+    secureThresholdKeyAccount,
+    encrypedEncryptionKey,
   } = useImployApi()
+
+  const {
+    publicKey,
+    encryptForPublicKey,
+    decryptMessageWithThresholdKey,
+  } = useThresholdKey()
   const { addToastMessage } = useToaster()
 
   const [loadingCurrentPath, setLoadingCurrentPath] = useState(false)
@@ -111,6 +120,10 @@ const DriveProvider = ({ children }: DriveContextProps) => {
   const [pathContents, setPathContents] = useState<FileSystemItem[]>([])
   const [spaceUsed, setSpaceUsed] = useState(0)
   const [masterPassword, setMasterPassword] = useState<string | undefined>(
+    undefined,
+  )
+
+  const [encryptionKey, setEncryptionKey] = useState<Uint8Array | undefined>(
     undefined,
   )
 
@@ -187,29 +200,63 @@ const DriveProvider = ({ children }: DriveContextProps) => {
     refreshContents(newPath, newStoryEntry || storeEntry, showLoading)
   }
 
+  // Ensure path contents are refreshed
   useEffect(() => {
     if (isLoggedIn) {
       refreshContents("/")
     }
   }, [imployApiClient, refreshContents, isLoggedIn])
 
+  // Space used counter
   useEffect(() => {
+    const getSpaceUsage = async () => {
+      try {
+        const { csf_size } = await imployApiClient.getCSFFilesStoreInfo()
+        setSpaceUsed(csf_size)
+      } catch (error) {}
+    }
     if (isLoggedIn) {
-      const getSpaceUsage = async () => {
-        try {
-          const { csf_size } = await imployApiClient.getCSFFilesStoreInfo()
-          setSpaceUsed(csf_size)
-        } catch (error) {}
-      }
       getSpaceUsage()
     }
   }, [imployApiClient, pathContents, isLoggedIn])
 
+  // Reset password on log out
   useEffect(() => {
     if (!isLoggedIn) {
       setMasterPassword(undefined)
     }
   }, [isLoggedIn])
+
+  // Drive encryption handler
+  useEffect(() => {
+    const secureAccount = async () => {
+      if (!publicKey) return
+      const key = window.crypto.getRandomValues(new Uint8Array(32))
+      setEncryptionKey(key)
+      const serializedKey = Buffer.from(key).toString("base64")
+      const encryptedKey = await encryptForPublicKey(publicKey, serializedKey)
+      secureThresholdKeyAccount(encryptedKey)
+    }
+
+    const decryptKey = async (encryptedKey: string) => {
+      const decryptedKey = await decryptMessageWithThresholdKey(encryptedKey)
+      if (decryptedKey) {
+        const key = Buffer.from(decryptedKey, "base64")
+        setEncryptionKey(key)
+      }
+    }
+
+    if (isLoggedIn && publicKey) {
+      console.log("Checking whether account is secured ", secured)
+      if (secured && encrypedEncryptionKey) {
+        console.log("decrypting key")
+        decryptKey(encrypedEncryptionKey)
+      } else {
+        console.log("generating key and securing account")
+        secureAccount()
+      }
+    }
+  }, [secured, isLoggedIn, encrypedEncryptionKey, publicKey])
 
   const [uploadsInProgress, dispatchUploadsInProgress] = useReducer(
     uploadsInProgressReducer,
@@ -241,7 +288,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
 
   const uploadFiles = async (files: File[], path: string) => {
     const startUploadFile = async () => {
-      if (!masterPassword) return // TODO: Add better error handling here.
+      if (!encryptionKey) return // TODO: Add better error handling here.
 
       const id = uuidv4()
       const uploadProgress: UploadProgress = {
@@ -260,7 +307,10 @@ const DriveProvider = ({ children }: DriveContextProps) => {
             .filter((f) => f.size <= MAX_FILE_SIZE)
             .map(async (f) => {
               const fileData = await readFileAsync(f)
-              const encryptedData = await encryptFile(fileData, masterPassword)
+              const encryptedData = await encryptFileWithKey(
+                fileData,
+                encryptionKey,
+              )
               return {
                 data: new Blob([encryptedData], { type: f.type }),
                 fileName: f.name,
@@ -511,7 +561,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
     cancelToken?: CancelToken,
     onDownloadProgress?: (progressEvent: ProgressEvent<EventTarget>) => void,
   ) => {
-    if (!masterPassword) return // TODO: Add better error handling here.
+    if (!encryptionKey) return // TODO: Add better error handling here.
     const file = pathContents.find((i) => i.cid === cid)
     if (!file) return
     try {
@@ -526,9 +576,9 @@ const DriveProvider = ({ children }: DriveContextProps) => {
       if (file.version === 0) {
         return result.data
       } else {
-        const decrypted = await decryptFile(
+        const decrypted = await encryptFileWithKey(
           await result.data.arrayBuffer(),
-          masterPassword,
+          encryptionKey,
         )
         if (decrypted) {
           return new Blob([decrypted], {

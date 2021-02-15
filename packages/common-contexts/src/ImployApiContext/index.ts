@@ -3,3 +3,5 @@ export {
   useImployApi,
   OAuthProvider,
 } from "./ImployApiContext"
+
+export { signMessage } from "./utils"

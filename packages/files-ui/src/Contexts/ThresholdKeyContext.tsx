@@ -13,17 +13,21 @@ import ShareSerializationModule, {
   SHARE_SERIALIZATION_MODULE_NAME,
 } from "@tkey/share-serialization"
 import bowser from "bowser"
+import { useImployApi } from "@imploy/common-contexts"
+import { Wallet } from "ethers"
+import EthCrypto from "eth-crypto"
 
 export type TThresholdKeyContext = {
   userInfo?: TorusLoginResponse
   keyDetails?: KeyDetails
+  publicKey?: string
   isNewDevice: boolean
-  resetIsNewDevice(): void
   isNewKey: boolean
   shouldInitializeAccount: boolean
-  resetShouldInitialize(): void
   pendingShareTransferRequests: ShareTransferRequest[]
   login(loginType: LOGIN_TYPE): Promise<void>
+  resetIsNewDevice(): void
+  resetShouldInitialize(): void
   addPasswordShare(password: string): Promise<void>
   inputPasswordShare(password: string): Promise<void>
   inputMnemonicShare(mnemonic: string): Promise<void>
@@ -31,6 +35,8 @@ export type TThresholdKeyContext = {
   approveShareTransferRequest(encPubKeyX: string): Promise<void>
   clearShareTransferRequests(): Promise<void>
   addMnemonicShare(): Promise<string>
+  encryptForPublicKey(publicKey: string, message: string): Promise<string>
+  decryptMessageWithThresholdKey(message: string): Promise<string | undefined>
 }
 
 type ThresholdKeyProviderProps = {
@@ -59,20 +65,23 @@ const ThresholdKeyProvider = ({
   enableLogging = false,
   apiKey,
 }: ThresholdKeyProviderProps) => {
+  const { imployApiClient, thresholdKeyLogin } = useImployApi()
   const [userInfo, setUserInfo] = useState<TorusLoginResponse | undefined>()
   const [TKeySdk, setTKeySdk] = useState<ThresholdKey | undefined>()
   const [keyDetails, setKeyDetails] = useState<KeyDetails | undefined>()
   const [isNewDevice, setIsNewDevice] = useState<boolean>(false)
   const [isNewKey, setIsNewKey] = useState<boolean>(false)
+  const [publicKey, setPublicKey] = useState<string | undefined>()
   const [
     shouldInitializeAccount,
     setShouldInitializeAccount,
   ] = useState<boolean>(false)
-  const [skipMinThreshold, setSkipMinThreshold] = useState<boolean>(false)
   const [
     pendingShareTransferRequests,
     setPendingShareTransferRequests,
   ] = useState<ShareTransferRequest[]>([])
+
+  const [privateKey, setPrivateKey] = useState<string | undefined>()
 
   // Initialize Threshold Key and DirectAuth
   useEffect(() => {
@@ -106,22 +115,21 @@ const ThresholdKeyProvider = ({
       if (!TKeySdk) return
       try {
         const { privKey } = await TKeySdk.reconstructKey(false)
-        console.log(privKey.toString("hex"))
-        const shareTransferModule = TKeySdk?.modules[
-          SHARE_TRANSFER_MODULE_NAME
-        ] as ShareTransferModule
-        await shareTransferModule.cancelRequestStatusCheck()
-        return
+        setPrivateKey(privKey.toString("hex"))
       } catch (error) {
         if (error.message.includes("nonce")) {
           await TKeySdk.updateMetadata()
           const { privKey } = await TKeySdk.reconstructKey(false)
-          console.log(privKey.toString("hex"))
-          return
+          setPrivateKey(privKey.toString("hex"))
         } else {
           console.log(error)
+          return
         }
       }
+      const shareTransferModule = TKeySdk?.modules[
+        SHARE_TRANSFER_MODULE_NAME
+      ] as ShareTransferModule
+      await shareTransferModule.cancelRequestStatusCheck()
     }
 
     if (keyDetails?.requiredShares === 0) {
@@ -129,11 +137,28 @@ const ThresholdKeyProvider = ({
     }
   }, [keyDetails, TKeySdk])
 
+  // Ensure API client is logged in
+  useEffect(() => {
+    const loginWithThresholdKey = async () => {
+      const { token } = await imployApiClient.getWeb3Token()
+      if (token && privateKey) {
+        const pubKey = await EthCrypto.publicKeyByPrivateKey(privateKey)
+        setPublicKey(pubKey)
+        const wallet = new Wallet(privateKey)
+        const signature = await wallet.signMessage(token)
+        await thresholdKeyLogin(signature, token, wallet.address)
+      }
+    }
+
+    if (privateKey) {
+      loginWithThresholdKey()
+    }
+  }, [privateKey])
+
   // Share Transfer poller
   useEffect(() => {
     const handler = async () => {
       if (TKeySdk) {
-        console.log("Checking for new Transfer requests")
         const shareTransferModule = TKeySdk.modules[
           SHARE_TRANSFER_MODULE_NAME
         ] as ShareTransferModule
@@ -161,7 +186,6 @@ const ThresholdKeyProvider = ({
 
     let poller: number
     if (keyDetails && keyDetails.requiredShares <= 0) {
-      console.log("Key is reconstructed. Starting Share Transfer poller")
       handler()
       poller = setInterval(handler, 5000)
     }
@@ -386,6 +410,21 @@ const ThresholdKeyProvider = ({
     await TKeySdk.syncShareMetadata()
   }
 
+  const encryptForPublicKey = async (publicKey: string, message: string) => {
+    const messageCipher = await EthCrypto.encryptWithPublicKey(
+      publicKey,
+      message,
+    )
+    return EthCrypto.cipher.stringify(messageCipher)
+  }
+
+  const decryptMessageWithThresholdKey = async (message: string) => {
+    if (!privateKey) return
+    debugger
+    const messageCipher = EthCrypto.cipher.parse(message)
+    return EthCrypto.decryptWithPrivateKey(privateKey, messageCipher)
+  }
+
   return (
     <ThresholdKeyContext.Provider
       value={{
@@ -405,6 +444,9 @@ const ThresholdKeyProvider = ({
         resetIsNewDevice: () => setIsNewDevice(false),
         shouldInitializeAccount,
         resetShouldInitialize: () => setShouldInitializeAccount(false),
+        publicKey,
+        decryptMessageWithThresholdKey,
+        encryptForPublicKey,
       }}
     >
       {children}

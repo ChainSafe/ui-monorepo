@@ -8,6 +8,7 @@ import BinPage from "./Pages/BinPage"
 import OAuthCallbackPage from "./Pages/OAuthCallback"
 import PurchasePlanPage from "./Pages/PurchasePlanPage"
 import { useDrive } from "../Contexts/DriveContext"
+import { useThresholdKey } from "../Contexts/ThresholdKeyContext"
 
 export const ROUTE_LINKS = {
   Landing: "/",
@@ -22,34 +23,58 @@ export const ROUTE_LINKS = {
 
 const FilesRoutes = () => {
   const { isLoggedIn, secured } = useImployApi()
-  const { isMasterPasswordSet } = useDrive()
+  const { isNewDevice, publicKey, shouldInitializeAccount } = useThresholdKey()
   return (
     <Switch>
       <ConditionalRoute
         exact
         path={ROUTE_LINKS.Landing}
-        isAuthorized={!isLoggedIn || !secured || !isMasterPasswordSet}
+        isAuthorized={
+          !isLoggedIn ||
+          !secured ||
+          !publicKey ||
+          isNewDevice ||
+          shouldInitializeAccount
+        }
         component={LoginPage}
         redirectPath={ROUTE_LINKS.Home}
       />
       <ConditionalRoute
         exact
         path={ROUTE_LINKS.Home}
-        isAuthorized={isLoggedIn && secured && !!isMasterPasswordSet}
+        isAuthorized={
+          isLoggedIn &&
+          secured &&
+          !!publicKey &&
+          !isNewDevice &&
+          !shouldInitializeAccount
+        }
         component={HomePage}
         redirectPath={ROUTE_LINKS.Landing}
       />
       <ConditionalRoute
         exact
         path={ROUTE_LINKS.Bin}
-        isAuthorized={isLoggedIn && secured && !!isMasterPasswordSet}
+        isAuthorized={
+          isLoggedIn &&
+          secured &&
+          !!publicKey &&
+          !isNewDevice &&
+          !shouldInitializeAccount
+        }
         component={BinPage}
         redirectPath={ROUTE_LINKS.Landing}
       />
       <ConditionalRoute
         exact
         path={ROUTE_LINKS.Settings}
-        isAuthorized={isLoggedIn && secured && !!isMasterPasswordSet}
+        isAuthorized={
+          isLoggedIn &&
+          secured &&
+          !!publicKey &&
+          !isNewDevice &&
+          !shouldInitializeAccount
+        }
         component={SettingsPage}
         redirectPath={ROUTE_LINKS.Landing}
       />
@@ -63,7 +88,13 @@ const FilesRoutes = () => {
       <ConditionalRoute
         exact
         path={ROUTE_LINKS.PurchasePlan}
-        isAuthorized={isLoggedIn && secured && !!isMasterPasswordSet}
+        isAuthorized={
+          isLoggedIn &&
+          secured &&
+          !!publicKey &&
+          !isNewDevice &&
+          !shouldInitializeAccount
+        }
         component={PurchasePlanPage}
         redirectPath={ROUTE_LINKS.Landing}
       />

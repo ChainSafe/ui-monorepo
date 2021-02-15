@@ -24,6 +24,7 @@ import {
 import { ROUTE_LINKS } from "../FilesRoutes"
 import { FREE_PLAN_LIMIT } from "../../Utils/Constants"
 import { Trans } from "@lingui/macro"
+import { useThresholdKey } from "../../Contexts/ThresholdKeyContext"
 
 const useStyles = makeStyles(
   ({ palette, animation, breakpoints, constants, zIndex }: ITheme) => {
@@ -204,7 +205,7 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
   const { spaceUsed } = useDrive()
 
   const { isLoggedIn, logout, secured } = useImployApi()
-  const { isMasterPasswordSet } = useDrive()
+  const { publicKey, isNewDevice, shouldInitializeAccount } = useThresholdKey()
   const { removeUser } = useUser()
 
   const signOut = useCallback(() => {
@@ -226,124 +227,132 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
     <section
       className={clsx(classes.root, {
         active: desktop
-          ? isLoggedIn && secured && !!isMasterPasswordSet
+          ? isLoggedIn &&
+            secured &&
+            !!publicKey &&
+            !isNewDevice &&
+            !shouldInitializeAccount
           : navOpen,
       })}
     >
-      {isLoggedIn && secured && !!isMasterPasswordSet && (
-        <Fragment>
-          {desktop && (
-            <div>
-              <Link className={classes.logo} to={ROUTE_LINKS.Home}>
-                <ChainsafeFilesLogo />
-                <Typography variant="h5">
-                  <Trans>Files</Trans>
-                </Typography>
-                &nbsp;
-                <Typography variant="caption" className={classes.betaCaption}>
-                  <Trans>beta</Trans>
-                </Typography>
-              </Link>
-            </div>
-          )}
-          <div className={classes.linksArea}>
-            <Typography className={classes.navHead}>
-              <Trans>Folders</Trans>
-            </Typography>
-            <nav className={classes.navMenu}>
-              <Link
-                onClick={() => {
-                  handleOnClick()
-                }}
-                className={classes.navItem}
-                to={ROUTE_LINKS.Home}
-              >
-                <DatabaseSvg />
-                <Typography variant="h5" className={classes.navItemText}>
-                  <Trans>Home</Trans>
-                </Typography>
-              </Link>
-              <Link
-                onClick={() => {
-                  handleOnClick()
-                }}
-                className={classes.navItem}
-                to={ROUTE_LINKS.Bin}
-              >
-                <DeleteSvg />
-                <Typography variant="h5" className={classes.navItemText}>
-                  <Trans>Bin</Trans>
-                </Typography>
-              </Link>
-            </nav>
-            <Typography className={classes.navHead}>
-              {desktop ? <Trans>Resources</Trans> : <Trans>Account</Trans>}
-            </Typography>
-            <nav className={classes.navMenu}>
-              <Link
-                onClick={handleOnClick}
-                className={classes.navItem}
-                to={ROUTE_LINKS.Settings}
-              >
-                <SettingSvg />
-                <Typography variant="h5" className={classes.navItemText}>
-                  <Trans>Settings</Trans>
-                </Typography>
-              </Link>
-            </nav>
-          </div>
-          <section>
+      {isLoggedIn &&
+        secured &&
+        !!publicKey &&
+        !isNewDevice &&
+        !shouldInitializeAccount && (
+          <Fragment>
             {desktop && (
               <div>
-                <Typography
-                  variant="body2"
-                  className={classes.spaceUsedMargin}
-                  component="p"
-                >{`${formatBytes(spaceUsed)} of ${formatBytes(
-                  FREE_PLAN_LIMIT,
-                )} used`}</Typography>
-                <ProgressBar
-                  className={classes.spaceUsedMargin}
-                  progress={(spaceUsed / FREE_PLAN_LIMIT) * 100}
-                  size="small"
-                />
-                {/* <Button disabled variant="outline" size="small">
+                <Link className={classes.logo} to={ROUTE_LINKS.Home}>
+                  <ChainsafeFilesLogo />
+                  <Typography variant="h5">
+                    <Trans>Files</Trans>
+                  </Typography>
+                  &nbsp;
+                  <Typography variant="caption" className={classes.betaCaption}>
+                    <Trans>beta</Trans>
+                  </Typography>
+                </Link>
+              </div>
+            )}
+            <div className={classes.linksArea}>
+              <Typography className={classes.navHead}>
+                <Trans>Folders</Trans>
+              </Typography>
+              <nav className={classes.navMenu}>
+                <Link
+                  onClick={() => {
+                    handleOnClick()
+                  }}
+                  className={classes.navItem}
+                  to={ROUTE_LINKS.Home}
+                >
+                  <DatabaseSvg />
+                  <Typography variant="h5" className={classes.navItemText}>
+                    <Trans>Home</Trans>
+                  </Typography>
+                </Link>
+                <Link
+                  onClick={() => {
+                    handleOnClick()
+                  }}
+                  className={classes.navItem}
+                  to={ROUTE_LINKS.Bin}
+                >
+                  <DeleteSvg />
+                  <Typography variant="h5" className={classes.navItemText}>
+                    <Trans>Bin</Trans>
+                  </Typography>
+                </Link>
+              </nav>
+              <Typography className={classes.navHead}>
+                {desktop ? <Trans>Resources</Trans> : <Trans>Account</Trans>}
+              </Typography>
+              <nav className={classes.navMenu}>
+                <Link
+                  onClick={handleOnClick}
+                  className={classes.navItem}
+                  to={ROUTE_LINKS.Settings}
+                >
+                  <SettingSvg />
+                  <Typography variant="h5" className={classes.navItemText}>
+                    <Trans>Settings</Trans>
+                  </Typography>
+                </Link>
+              </nav>
+            </div>
+            <section>
+              {desktop && (
+                <div>
+                  <Typography
+                    variant="body2"
+                    className={classes.spaceUsedMargin}
+                    component="p"
+                  >{`${formatBytes(spaceUsed)} of ${formatBytes(
+                    FREE_PLAN_LIMIT,
+                  )} used`}</Typography>
+                  <ProgressBar
+                    className={classes.spaceUsedMargin}
+                    progress={(spaceUsed / FREE_PLAN_LIMIT) * 100}
+                    size="small"
+                  />
+                  {/* <Button disabled variant="outline" size="small">
                   <Trans>UPGRADE</Trans>
                 </Button> */}
-                <Button
-                  variant="outline"
-                  size="small"
-                  onClick={() => collectFeedback()}
+                  <Button
+                    variant="outline"
+                    size="small"
+                    onClick={() => collectFeedback()}
+                  >
+                    <Trans>Send Feedback</Trans>
+                  </Button>
+                </div>
+              )}
+              {!desktop && (
+                <div
+                  className={classes.navItem}
+                  onClick={() => {
+                    handleOnClick()
+                    signOut()
+                  }}
                 >
-                  <Trans>Send Feedback</Trans>
-                </Button>
-              </div>
-            )}
+                  <PowerDownSvg />
+                  <Typography>
+                    <Trans>Sign Out</Trans>
+                  </Typography>
+                </div>
+              )}
+            </section>
             {!desktop && (
               <div
-                className={classes.navItem}
-                onClick={() => {
-                  handleOnClick()
-                  signOut()
-                }}
-              >
-                <PowerDownSvg />
-                <Typography>
-                  <Trans>Sign Out</Trans>
-                </Typography>
-              </div>
+                onClick={() => setNavOpen(false)}
+                className={clsx(classes.blocker, {
+                  active: navOpen,
+                })}
+              ></div>
             )}
-          </section>
-          {!desktop && (
-            <div
-              onClick={() => setNavOpen(false)}
-              className={clsx(classes.blocker, {
-                active: navOpen,
-              })}
-            ></div>
-          )}
-        </Fragment>
-      )}
+          </Fragment>
+        )}
     </section>
   )
 }

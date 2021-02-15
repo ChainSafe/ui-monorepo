@@ -40,7 +40,13 @@ type ImployApiContext = {
   selectWallet(): Promise<void>
   resetAndSelectWallet(): Promise<void>
   secureAccount(masterPassword: string): Promise<boolean>
+  secureThresholdKeyAccount(encryptedKey: string): Promise<boolean>
   web3Login(): Promise<void>
+  thresholdKeyLogin(
+    signature: string,
+    token: string,
+    publicAddress: string,
+  ): Promise<void>
   getProviderUrl(provider: Provider): Promise<string>
   loginWithGithub(code: string, state: string): Promise<void>
   loginWithGoogle(
@@ -54,6 +60,7 @@ type ImployApiContext = {
   loginWithFacebook(code: string, state: string): Promise<void>
   logout(): void
   validateMasterPassword(candidatePassword: string): Promise<boolean>
+  encrypedEncryptionKey?: string
 }
 
 const ImployApiContext = React.createContext<ImployApiContext | undefined>(
@@ -203,7 +210,7 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
       const { token } = await imployApiClient.getWeb3Token()
 
       if (token) {
-        const signature = await signMessage(token, provider)
+        const signature = await signMessage(token, provider.getSigner())
         const addresses = await provider.listAccounts()
         const {
           access_token,
@@ -222,12 +229,35 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
     }
   }
 
+  const thresholdKeyLogin = async (
+    signature: string,
+    token: string,
+    publicAddress: string,
+  ) => {
+    try {
+      const {
+        access_token,
+        refresh_token,
+      } = await imployApiClient.postWeb3Token({
+        signature: signature,
+        token: token,
+        public_address: publicAddress,
+      })
+      setTokensAndSave(access_token, refresh_token)
+      setReturningUser()
+      return Promise.resolve()
+    } catch (error) {
+      return Promise.reject(error)
+    }
+  }
+
   useEffect(() => {
     if (refreshToken && refreshToken.token) {
       try {
         const decoded = jwtDecode<{ mps?: string; exp: number; uuid: string }>(
           refreshToken.token,
         )
+        console.log(decoded)
         setDecodedRefreshToken(decoded)
       } catch (error) {
         console.log("Error decoding access token")
@@ -241,6 +271,7 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
       const decodedAccessToken = jwtDecode<{ perm: { secured?: string } }>(
         accessToken.token,
       )
+      console.log(decodedAccessToken)
       if (decodedAccessToken.perm.secured === "true") {
         setSecured(true)
       } else {
@@ -368,6 +399,30 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
     }
   }
 
+  const secureThresholdKeyAccount = async (encryptedKey: string) => {
+    try {
+      if (decodedRefreshToken && refreshToken) {
+        await imployApiClient.secure({
+          mps: encryptedKey,
+        })
+
+        const {
+          access_token,
+          refresh_token,
+        } = await imployApiClient.getRefreshToken({
+          refresh: refreshToken.token,
+        })
+
+        setTokensAndSave(access_token, refresh_token)
+        return true
+      } else {
+        return false
+      }
+    } catch (error) {
+      return false
+    }
+  }
+
   const validateMasterPassword = async (
     candidatePassword: string,
   ): Promise<boolean> => {
@@ -403,6 +458,9 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
         getProviderUrl,
         logout,
         validateMasterPassword,
+        thresholdKeyLogin,
+        secureThresholdKeyAccount,
+        encrypedEncryptionKey: decodedRefreshToken?.mps,
       }}
     >
       {children}
