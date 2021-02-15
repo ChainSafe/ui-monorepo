@@ -22,6 +22,7 @@ import {
   ExclamationCircleInverseIcon,
   RecoverSvg,
   ZoomInIcon,
+  CheckboxInput,
 } from "@chainsafe/common-components"
 import {
   makeStyles,
@@ -44,7 +45,7 @@ import { FileOperation, IFileConfigured } from "../types"
 
 const useStyles = makeStyles(({ breakpoints, constants, palette }: ITheme) => {
   // const desktopGridSettings = "50px 69px 3fr 190px 100px 45px !important"
-  const desktopGridSettings = "50px 3fr 190px 60px !important"
+  const desktopGridSettings = "50px 69px 3fr 190px 60px !important"
   const mobileGridSettings = "69px 3fr 45px !important"
   return createStyles({
     tableRow: {
@@ -175,7 +176,10 @@ interface IFileSystemItemRowProps {
   ): void
   setPreviewFileIndex(fileIndex: number | undefined): void
   desktop: boolean
-  setMoveFileData(moveFileData: { modal: boolean; file: FileSystemItem }): void
+  setMoveFileData(moveFileData: {
+    modal: boolean
+    fileData: FileSystemItem | FileSystemItem[]
+  }): void
   setFileInfoPath(path: string): void
 }
 
@@ -199,6 +203,7 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
   setMoveFileData,
   setFileInfoPath,
   desktop,
+  handleSelect,
 }) => {
   let Icon
   if (file.isFolder) {
@@ -254,7 +259,7 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
           <span>Move</span>
         </Fragment>
       ),
-      onClick: () => setMoveFileData({ modal: true, file: file }),
+      onClick: () => setMoveFileData({ modal: true, fileData: file }),
     },
     share: {
       contents: (
@@ -341,11 +346,16 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
   }
 
   // Hook cant be called conditionally
-  const doubleClick = useDoubleClick(undefined, () => {
-    file.isFolder
-      ? updateCurrentPath(`${currentPath}${file.name}`, undefined, true)
-      : setPreviewFileIndex(files?.indexOf(file))
-  })
+  const doubleClick = useDoubleClick(
+    () => {
+      handleSelect(file.cid)
+    },
+    () => {
+      file.isFolder
+        ? updateCurrentPath(`${currentPath}${file.name}`)
+        : setPreviewFileIndex(files?.indexOf(file))
+    },
+  )
 
   const onFolderOrFileClicks = desktop
     ? doubleClick
@@ -367,14 +377,14 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
       ref={attachRef}
       selected={selected.includes(file.cid)}
     >
-      {/* {desktop && (
+      {desktop && (
         <TableCell>
           <CheckboxInput
             value={selected.includes(file.cid)}
             onChange={() => handleSelect(file.cid)}
           />
         </TableCell>
-      )} */}
+      )}
       <TableCell
         className={clsx(classes.fileIcon, file.isFolder && classes.folderIcon)}
         onClick={onFolderOrFileClicks}
