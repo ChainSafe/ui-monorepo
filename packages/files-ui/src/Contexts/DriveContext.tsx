@@ -8,7 +8,7 @@ import {
 } from "@imploy/api-client"
 import React, { useCallback, useEffect, useReducer } from "react"
 import { useState } from "react"
-import { encryptFileWithKey, useImployApi } from "@imploy/common-contexts"
+import { decryptFile, encryptFile, useImployApi } from "@imploy/common-contexts"
 import { v4 as uuidv4 } from "uuid"
 import { useToaster } from "@chainsafe/common-components"
 import {
@@ -73,8 +73,6 @@ type DriveContext = {
   uploadsInProgress: UploadProgress[]
   downloadsInProgress: DownloadProgress[]
   spaceUsed: number
-  isMasterPasswordSet: boolean
-  setMasterPassword(password: string): void
   secureDrive(password: string): void
   getFolderTree(): Promise<DirectoryContentResponse>
   getFileInfo(path: string): Promise<CSFFilesFullinfoResponse>
@@ -123,7 +121,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
     undefined,
   )
 
-  const [encryptionKey, setEncryptionKey] = useState<Uint8Array | undefined>(
+  const [encryptionKey, setEncryptionKey] = useState<string | undefined>(
     undefined,
   )
 
@@ -231,26 +229,34 @@ const DriveProvider = ({ children }: DriveContextProps) => {
   useEffect(() => {
     const secureAccount = async () => {
       if (!publicKey) return
-      const key = window.crypto.getRandomValues(new Uint8Array(32))
+      const key = Buffer.from(
+        window.crypto.getRandomValues(new Uint8Array(32)),
+      ).toString("base64")
+      console.log("New key", key)
       setEncryptionKey(key)
-      const serializedKey = Buffer.from(key).toString("base64")
-      const encryptedKey = await encryptForPublicKey(publicKey, serializedKey)
+      // const serializedKey = Buffer.from(key).toString("base64")
+      // console.log("Encryption key ", serializedKey)
+      const encryptedKey = await encryptForPublicKey(publicKey, key)
+      console.log("Encrypted encryption key", encryptedKey)
       secureThresholdKeyAccount(encryptedKey)
     }
 
     const decryptKey = async (encryptedKey: string) => {
+      console.log("Decrypting retrieved key")
       const decryptedKey = await decryptMessageWithThresholdKey(encryptedKey)
       if (decryptedKey) {
-        const key = Buffer.from(decryptedKey, "base64")
-        setEncryptionKey(key)
+        console.log("Decrypted key: ", decryptedKey)
+        setEncryptionKey(decryptedKey)
       }
     }
 
     if (isLoggedIn && publicKey) {
       console.log("Checking whether account is secured ", secured)
-      if (secured && encrypedEncryptionKey) {
+      if (secured) {
         console.log("decrypting key")
-        decryptKey(encrypedEncryptionKey)
+        if (!!encrypedEncryptionKey) {
+          decryptKey(encrypedEncryptionKey)
+        }
       } else {
         console.log("generating key and securing account")
         secureAccount()
@@ -307,10 +313,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
             .filter((f) => f.size <= MAX_FILE_SIZE)
             .map(async (f) => {
               const fileData = await readFileAsync(f)
-              const encryptedData = await encryptFileWithKey(
-                fileData,
-                encryptionKey,
-              )
+              const encryptedData = await encryptFile(fileData, encryptionKey)
               return {
                 data: new Blob([encryptedData], { type: f.type }),
                 fileName: f.name,
@@ -576,7 +579,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
       if (file.version === 0) {
         return result.data
       } else {
-        const decrypted = await encryptFileWithKey(
+        const decrypted = await decryptFile(
           await result.data.arrayBuffer(),
           encryptionKey,
         )
@@ -702,8 +705,6 @@ const DriveProvider = ({ children }: DriveContextProps) => {
         uploadsInProgress,
         spaceUsed,
         downloadsInProgress,
-        isMasterPasswordSet: !!masterPassword,
-        setMasterPassword: setPassword,
         secureDrive,
         getFolderTree,
         loadingCurrentPath,

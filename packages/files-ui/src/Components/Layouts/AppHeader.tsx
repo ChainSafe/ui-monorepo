@@ -20,6 +20,7 @@ import { ROUTE_LINKS } from "../FilesRoutes"
 // import SearchModule from "../Modules/SearchModule"
 import { Trans } from "@lingui/macro"
 import { useDrive } from "../../Contexts/DriveContext"
+import { useThresholdKey } from "../../Contexts/ThresholdKeyContext"
 
 const useStyles = makeStyles(
   ({ palette, animation, breakpoints, constants, zIndex }: ITheme) => {
@@ -144,7 +145,7 @@ const AppHeader: React.FC<IAppHeader> = ({
   const desktop = useMediaQuery(breakpoints.up("md"))
 
   const { isLoggedIn, logout, secured } = useImployApi()
-  const { isMasterPasswordSet } = useDrive()
+  const { publicKey, isNewDevice, shouldInitializeAccount } = useThresholdKey()
   const { getProfileTitle, removeUser } = useUser()
 
   const signOut = useCallback(() => {
@@ -155,49 +156,58 @@ const AppHeader: React.FC<IAppHeader> = ({
   return (
     <header
       className={clsx(classes.root, {
-        active: isLoggedIn && secured && !!isMasterPasswordSet,
+        active:
+          isLoggedIn &&
+          secured &&
+          !!publicKey &&
+          !isNewDevice &&
+          !shouldInitializeAccount,
       })}
     >
-      {isLoggedIn && secured && !!isMasterPasswordSet && (
-        <Fragment>
-          {desktop ? (
-            <Fragment>
-              <section className={classes.accountControls}>
-                <MenuDropdown
-                  title={getProfileTitle()}
-                  anchor="bottom-right"
-                  menuItems={[
-                    {
-                      onClick: () => signOut(),
-                      contents: (
-                        <div className={classes.menuItem}>
-                          <PowerDownSvg />
-                          <Typography>
-                            <Trans>Sign Out</Trans>
-                          </Typography>
-                        </div>
-                      ),
-                    },
-                  ]}
+      {isLoggedIn &&
+        secured &&
+        !!publicKey &&
+        !isNewDevice &&
+        !shouldInitializeAccount && (
+          <Fragment>
+            {desktop ? (
+              <Fragment>
+                <section className={classes.accountControls}>
+                  <MenuDropdown
+                    title={getProfileTitle()}
+                    anchor="bottom-right"
+                    menuItems={[
+                      {
+                        onClick: () => signOut(),
+                        contents: (
+                          <div className={classes.menuItem}>
+                            <PowerDownSvg />
+                            <Typography>
+                              <Trans>Sign Out</Trans>
+                            </Typography>
+                          </div>
+                        ),
+                      },
+                    ]}
+                  />
+                </section>
+              </Fragment>
+            ) : (
+              <Fragment>
+                <HamburgerMenu
+                  onClick={() => setNavOpen(!navOpen)}
+                  variant={navOpen ? "active" : "default"}
                 />
-              </section>
-            </Fragment>
-          ) : (
-            <Fragment>
-              <HamburgerMenu
-                onClick={() => setNavOpen(!navOpen)}
-                variant={navOpen ? "active" : "default"}
-              />
-              <Link className={classes.logo} to={ROUTE_LINKS.Home}>
-                <ChainsafeFilesLogo />
-                &nbsp;
-                <Typography variant="caption">beta</Typography>
-              </Link>
-              {/* <SearchModule className={classes.searchModule} /> */}
-            </Fragment>
-          )}
-        </Fragment>
-      )}
+                <Link className={classes.logo} to={ROUTE_LINKS.Home}>
+                  <ChainsafeFilesLogo />
+                  &nbsp;
+                  <Typography variant="caption">beta</Typography>
+                </Link>
+                {/* <SearchModule className={classes.searchModule} /> */}
+              </Fragment>
+            )}
+          </Fragment>
+        )}
     </header>
   )
 }

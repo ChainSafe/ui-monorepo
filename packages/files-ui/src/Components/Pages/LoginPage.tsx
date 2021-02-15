@@ -8,7 +8,6 @@ import {
   GithubLogoIcon,
   ChainsafeFilesLogo,
   Divider,
-  CheckboxInput,
 } from "@chainsafe/common-components"
 import { useImployApi } from "@imploy/common-contexts"
 import {
@@ -24,8 +23,6 @@ import SmallBranchSvg from "../../Media/SmallBranch.svg"
 import { Trans } from "@lingui/macro"
 import { ROUTE_LINKS } from "../FilesRoutes"
 import LandingImage from "../../Media/auth.jpg"
-import MasterKeyModule from "../Modules/MasterKeySequence/MasterKeyModule"
-import EnterMasterKeySlide from "../Modules/MasterKeySequence/SequenceSlides/EnterMasterKey.slide"
 import { useThresholdKey } from "../../Contexts/ThresholdKeyContext"
 import { LOGIN_TYPE } from "@toruslabs/torus-direct-web-sdk"
 import InitializeAccount from "../Modules/LoginModule/InitializeAccount"
