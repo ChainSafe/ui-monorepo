@@ -34,6 +34,7 @@ export interface IFilesTableBrowserProps
     IFilesBrowserModuleProps,
     "fileOperations" | "folderOperations"
   > {
+  bulkOperations?: IBulkOperations
   handleRename?: (path: string, new_path: string) => Promise<void>
   handleMove?: (path: string, new_path: string) => Promise<void>
   downloadFile?: (cid: string) => Promise<void>

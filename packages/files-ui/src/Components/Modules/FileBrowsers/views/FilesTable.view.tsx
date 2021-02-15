@@ -31,7 +31,6 @@ import { NativeTypes } from "react-dnd-html5-backend"
 import { useDrop } from "react-dnd"
 import {
   FileOperation,
-  IBulkOperations,
   IFileConfigured,
   IFilesTableBrowserProps,
 } from "../types"
@@ -227,6 +226,7 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
   controls = true,
   sourceFiles,
   handleUploadOnDrop,
+  bulkOperations,
   updateCurrentPath,
   crumbs,
   handleRename,
@@ -427,32 +427,43 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
 
   const [validBulkOps, setValidBulkOps] = useState<FileOperation[]>([])
   useEffect(() => {
-    const bulkOperations: IBulkOperations = {
-      [CONTENT_TYPES.Directory]: ["move"],
-      [CONTENT_TYPES.File]: ["delete", "move"],
-    }
-    let filteredList: FileOperation[] = [
-      "delete",
-      "download",
-      "info",
-      "move",
-      "preview",
-      "rename",
-      "share",
-    ]
-    for (let i = 0; i < selected.length; i++) {
-      const contentType = items.find((item) => item.cid === selected[i])
-        ?.content_type
+    if (bulkOperations) {
+      let filteredList: FileOperation[] = [
+        "delete",
+        "download",
+        "info",
+        "move",
+        "preview",
+        "rename",
+        "share",
+      ]
+      for (let i = 0; i < selected.length; i++) {
+        const contentType = items.find((item) => item.cid === selected[i])
+          ?.content_type
 
-      if (contentType) {
-        if (contentType === CONTENT_TYPES.Directory) {
-          let validList = filteredList.filter(
-            (op: FileOperation) => bulkOperations[contentType].indexOf(op) >= 0,
-          )
-          if (validList.length > 0) {
-            filteredList = filteredList.filter(
-              (existingOp: FileOperation) => validList.indexOf(existingOp) >= 0,
+        if (contentType) {
+          if (contentType === CONTENT_TYPES.Directory) {
+            let validList = filteredList.filter(
+              (op: FileOperation) =>
+                bulkOperations[contentType].indexOf(op) >= 0,
             )
+            if (validList.length > 0) {
+              filteredList = filteredList.filter(
+                (existingOp: FileOperation) =>
+                  validList.indexOf(existingOp) >= 0,
+              )
+            }
+          } else {
+            let validList = filteredList.filter(
+              (op: FileOperation) =>
+                bulkOperations[CONTENT_TYPES.File].indexOf(op) >= 0,
+            )
+            if (validList.length > 0) {
+              filteredList = filteredList.filter(
+                (existingOp: FileOperation) =>
+                  validList.indexOf(existingOp) >= 0,
+              )
+            }
           }
         } else {
           let validList = filteredList.filter(
@@ -465,20 +476,10 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
             )
           }
         }
-      } else {
-        let validList = filteredList.filter(
-          (op: FileOperation) =>
-            bulkOperations[CONTENT_TYPES.File].indexOf(op) >= 0,
-        )
-        if (validList.length > 0) {
-          filteredList = filteredList.filter(
-            (existingOp: FileOperation) => validList.indexOf(existingOp) >= 0,
-          )
-        }
       }
+      setValidBulkOps(filteredList)
     }
-    setValidBulkOps(filteredList)
-  }, [selected, items])
+  }, [selected, items, bulkOperations])
 
   const handleBulkMoveToTrash = useCallback(async () => {
     if (bulkMoveFileToTrash) {

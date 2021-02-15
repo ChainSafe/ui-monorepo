@@ -2,7 +2,11 @@ import React, { useEffect } from "react"
 import { Crumb, useToaster } from "@chainsafe/common-components"
 import { FileSystemItem, useDrive } from "../../../Contexts/DriveContext"
 import { getArrayOfPaths, getPathFromArray } from "../../../Utils/pathUtils"
-import { IFileConfigured, IFilesBrowserModuleProps } from "./types"
+import {
+  IBulkOperations,
+  IFileConfigured,
+  IFilesBrowserModuleProps,
+} from "./types"
 import FilesTableView from "./views/FilesTable.view"
 import { CONTENT_TYPES } from "../../../Utils/Constants"
 import DragAndDrop from "../../../Contexts/DnDContext"
@@ -160,9 +164,15 @@ const CSFFileBrowser: React.FC<IFilesBrowserModuleProps> = ({
     },
   )
 
+  const bulkOperations: IBulkOperations = {
+    [CONTENT_TYPES.Directory]: ["move"],
+    [CONTENT_TYPES.File]: ["delete", "move"],
+  }
+
   return (
     <DragAndDrop>
       <FilesTableView
+        bulkOperations={bulkOperations}
         crumbs={crumbs}
         currentPath={currentPath}
         deleteFile={moveFileToTrash}
