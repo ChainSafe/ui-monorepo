@@ -5,6 +5,7 @@ import {
   makeStyles,
   useMediaQuery,
   useTheme,
+  useThemeSwitcher,
 } from "@chainsafe/common-theme"
 import React, { Fragment, useCallback } from "react"
 import clsx from "clsx"
@@ -21,10 +22,14 @@ import { ROUTE_LINKS } from "../FilesRoutes"
 import { Trans } from "@lingui/macro"
 import { useDrive } from "../../Contexts/DriveContext"
 
+interface IStyleProps {
+  themeKey: string
+}
+
 const useStyles = makeStyles(
   ({ palette, animation, breakpoints, constants, zIndex }: ITheme) => {
     return createStyles({
-      root: {
+      root: ({ themeKey }: IStyleProps) => ({
         position: "fixed",
         display: "flex",
         flexDirection: "row",
@@ -36,9 +41,16 @@ const useStyles = makeStyles(
           padding: `${0}px ${constants.contentPadding}px ${0}px ${
             constants.contentPadding
           }px`,
-          left: constants.navWidth,
-          backgroundColor: palette.common.white.main,
+          left: constants.navWidth as number,
           opacity: 0,
+
+          backgroundColor:
+            themeKey === "light"
+              ? palette.common.white.main
+              : themeKey === "dark"
+              ? palette.additional["gray"][1]
+              : palette.common.white.main,
+
           "& > *:first-child": {
             flex: "1 1 0",
           },
@@ -62,11 +74,11 @@ const useStyles = makeStyles(
           "&.active": {
             opacity: 1,
             visibility: "visible",
-            height: constants.mobileHeaderHeight,
-            zIndex: zIndex?.layer1,
+            height: constants.mobileHeaderHeight as number,
+            zIndex: zIndex?.layer1 as number,
           },
         },
-      },
+      }),
       logo: {
         textDecoration: "none",
         display: "flex",
@@ -139,7 +151,9 @@ const AppHeader: React.FC<IAppHeader> = ({
   navOpen,
   setNavOpen,
 }: IAppHeader) => {
-  const classes = useStyles()
+  const { themeKey } = useThemeSwitcher()
+
+  const classes = useStyles({ themeKey })
   const { breakpoints }: ITheme = useTheme()
   const desktop = useMediaQuery(breakpoints.up("md"))
 

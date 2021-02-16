@@ -4,7 +4,7 @@ import { UI_CONSTANTS } from "./Constants"
 export const darkTheme = createTheme({
   globalStyling: {
     body: {
-      backgroundColor: "#525252",
+      backgroundColor: "#141414",
       color: "#DBDBDB",
     },
   },

@@ -34,17 +34,6 @@ const useStyles = makeStyles(
   ({ palette, animation, breakpoints, constants, zIndex }: ITheme) => {
     return createStyles({
       root: ({ themeKey }: IStyleProps) => {
-        console.log(themeKey)
-        console.log(
-          themeKey === "light"
-            ? palette.additional["gray"][3]
-            : themeKey === "dark"
-            ? palette.additional["gray"][1]
-            : palette.additional["gray"][3],
-        )
-        console.log("light", palette.additional["gray"][3])
-        console.log("dark", palette.additional["gray"][1])
-        console.log("dark", palette.additional["gray"])
         return {
           width: 0,
           overflow: "hidden",
