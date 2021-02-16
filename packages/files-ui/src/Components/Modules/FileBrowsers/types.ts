@@ -25,11 +25,21 @@ export interface IFileConfigured extends FileSystemItem {
   operations: FileOperation[]
 }
 
-export interface IFilesTableBrowserProps extends IFilesBrowserModuleProps {
+export interface IBulkOperations {
+  [index: string]: FileOperation[]
+}
+
+export interface IFilesTableBrowserProps
+  extends Omit<
+    IFilesBrowserModuleProps,
+    "fileOperations" | "folderOperations"
+  > {
+  bulkOperations?: IBulkOperations
   handleRename?: (path: string, new_path: string) => Promise<void>
   handleMove?: (path: string, new_path: string) => Promise<void>
   downloadFile?: (cid: string) => Promise<void>
   deleteFile?: (cid: string) => Promise<void>
+  bulkMoveFileToTrash?: (cids: string[]) => Promise<void>
   recoverFile?: (cid: string) => Promise<void>
   allowDropUpload?: boolean
 
@@ -38,6 +48,7 @@ export interface IFilesTableBrowserProps extends IFilesBrowserModuleProps {
     fileItems: DataTransferItemList,
     path: string,
   ) => void
+
   updateCurrentPath: (
     newPath: string,
     newStoreEntry?: StoreEntryType,
