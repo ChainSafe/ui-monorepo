@@ -1,77 +1,79 @@
-import React from "react"
-import { FileSystemItem, useDrive } from "../../../Contexts/DriveContext"
+import React, { useEffect, useState } from "react"
+import { SearchEntry, useDrive } from "../../../Contexts/DriveContext"
 import { IFileConfigured, IFilesBrowserModuleProps } from "./types"
 import FilesTableView from "./views/FilesTable.view"
 import { CONTENT_TYPES } from "../../../Utils/Constants"
 import DragAndDrop from "../../../Contexts/DnDContext"
-import { useLocation } from "@chainsafe/common-components"
+import { useLocation, useHistory } from "@chainsafe/common-components"
+import { getParentPathFromFilePath } from "../../../Utils/pathUtils"
+import { ROUTE_LINKS } from "../../FilesRoutes"
 
-const BinFileBrowser: React.FC<IFilesBrowserModuleProps> = ({
-  heading = "Bin",
-  controls = true,
+const SearchFileBrowser: React.FC<IFilesBrowserModuleProps> = ({
+  heading = "Search results",
+  controls = false,
 }: IFilesBrowserModuleProps) => {
-  const {
-    deleteFile,
-    currentPath,
-    updateCurrentPath,
-    pathContents,
-    loadingCurrentPath,
-    desktop,
-  } = useDrive()
+  const { updateCurrentPath, desktop, getSearchResults } = useDrive()
+  const { redirect } = useHistory()
+
+  const [loadingSearchResults, setLoadingSearchResults] = useState(true)
+  const [searchResults, setSearchResults] = useState<SearchEntry[]>([])
 
   function useQuery() {
     return new URLSearchParams(useLocation().search)
   }
 
-  console.log(useQuery().get("search"))
+  const searchString = useQuery().get("search")
 
-  const parsedContents: IFileConfigured[] = pathContents.map(
-    (item: FileSystemItem): IFileConfigured => {
-      switch (item.content_type) {
-        case CONTENT_TYPES.Directory:
-          return {
-            ...item,
-            operations: ["recover", "delete"],
-          }
-        case CONTENT_TYPES.File:
-          return {
-            ...item,
-            operations: ["recover", "delete"],
-          }
-        case CONTENT_TYPES.Image:
-          return {
-            ...item,
-            operations: ["recover", "delete"],
-          }
-        case CONTENT_TYPES.Pdf:
-          return {
-            ...item,
-            operations: ["recover", "delete"],
-          }
-        case CONTENT_TYPES.Text:
-          return {
-            ...item,
-            operations: ["recover", "delete"],
-          }
-        default:
-          return {
-            ...item,
-            operations: ["recover", "delete"],
-          }
+  useEffect(() => {
+    const onSearch = async () => {
+      if (searchString) {
+        try {
+          setLoadingSearchResults(true)
+          const results = await getSearchResults(searchString)
+          setSearchResults(results)
+          setLoadingSearchResults(false)
+        } catch {
+          //
+          setLoadingSearchResults(false)
+        }
       }
-    },
-  )
+    }
+    onSearch()
+    // eslint-disable-next-line
+  }, [searchString])
+
+  const viewFolder = (cid: string) => {
+    const searchEntry = searchResults.find(
+      (result) => result.content.cid === cid,
+    )
+    if (searchEntry) {
+      redirect(ROUTE_LINKS.Home)
+      if (searchEntry.content.content_type === CONTENT_TYPES.Directory) {
+        updateCurrentPath(searchEntry.path, "csf", true)
+      } else {
+        updateCurrentPath(
+          getParentPathFromFilePath(searchEntry.path),
+          "csf",
+          true,
+        )
+      }
+    }
+  }
+
+  const pathContents: IFileConfigured[] = searchResults.map((searchResult) => ({
+    ...searchResult.content,
+    isFolder: searchResult.content.content_type === CONTENT_TYPES.Directory,
+    operations: ["view_folder"],
+  }))
 
   return (
     <DragAndDrop>
       <FilesTableView
         crumbs={undefined}
-        currentPath={currentPath}
-        deleteFile={deleteFile}
-        uploadsInProgress={[]}
-        loadingCurrentPath={loadingCurrentPath}
-        showUploadsInTable={true}
-        sourceFiles={parsedContents}
+        loadingCurrentPath={loadingSearchResults}
+        showUploadsInTable={false}
+        viewFolder={viewFolder}
+        sourceFiles={pathContents}
         updateCurrentPath={updateCurrentPath}
         heading={heading}
         controls={controls}
@@ -81,4 +83,4 @@ const BinFileBrowser: React.FC<IFilesBrowserModuleProps> = ({
   )
 }
 
-export default BinFileBrowser
+export default SearchFileBrowser

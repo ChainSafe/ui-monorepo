@@ -79,7 +79,7 @@ const useStyles = makeStyles(
 )
 
 interface IMoveFileModuleProps {
-  currentPath: string
+  currentPath?: string
   fileData?: FileSystemItem | FileSystemItem[]
   modalOpen: boolean
   close: () => void

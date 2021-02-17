@@ -1,5 +1,6 @@
 import {
   createStyles,
+  debounce,
   ITheme,
   makeStyles,
   useMediaQuery,
@@ -17,25 +18,9 @@ import {
 import { useState } from "react"
 import clsx from "clsx"
 import { ROUTE_LINKS } from "../FilesRoutes"
-
-const searchResults = {
-  files: [
-    {
-      name: "file1",
-    },
-    {
-      name: "file2",
-    },
-  ],
-  folders: [
-    {
-      name: "folder1",
-    },
-    {
-      name: "folder2",
-    },
-  ],
-}
+import { useDrive, SearchEntry } from "../../Contexts/DriveContext"
+import { CONTENT_TYPES } from "../../Utils/Constants"
+import { getParentPathFromFilePath } from "../../Utils/pathUtils"
 
 const useStyles = makeStyles(
   ({ breakpoints, palette, constants, animation, zIndex, shadows }: ITheme) =>
@@ -104,7 +89,7 @@ const useStyles = makeStyles(
       },
       resultsBox: {
         backgroundColor: palette.common.white.main,
-        padding: constants.generalUnit * 2,
+        padding: constants.generalUnit * 1,
       },
       resultBackDrop: {
         height: "100%",
@@ -112,11 +97,37 @@ const useStyles = makeStyles(
         opacity: 0.7,
       },
       resultHead: {
-        padding: `${constants.generalUnit * 0.5}px 0`,
+        padding: `${constants.generalUnit * 0.5}px ${
+          constants.generalUnit * 1
+        }px`,
+        color: palette.additional["gray"][8],
+      },
+      resultHeadFolder: {
+        marginTop: constants.generalUnit * 0.5,
+        padding: `${constants.generalUnit * 0.5}px  ${
+          constants.generalUnit * 1
+        }px`,
+        color: palette.additional["gray"][8],
+      },
+      boldFont: {
+        fontWeight: 700,
       },
       resultRow: {
-        padding: `${constants.generalUnit * 0.5}px 0`,
+        padding: `${constants.generalUnit * 0.75}px  ${
+          constants.generalUnit * 1
+        }px`,
         cursor: "pointer",
+        color: palette.additional["gray"][8],
+        "&:hover": {
+          backgroundColor: palette.additional["gray"][4],
+        },
+      },
+      noResultsFound: {
+        margin: `${constants.generalUnit}px 0`,
+        color: palette.additional["gray"][7],
+        [breakpoints.down("md")]: {
+          textAlign: "center",
+        },
       },
     }),
 )
@@ -134,11 +145,37 @@ const SearchModule: React.FC<ISearchModule> = ({
 }: ISearchModule) => {
   const classes = useStyles()
   const [searchString, setSearchString] = useState<string>("")
+  const [searchStringCallback, setSearchStringCallback] = useState<string>("")
+  const [searchResults, setSearchResults] = useState<SearchEntry[]>([])
   const ref = useRef(null)
+  const {
+    getSearchResults,
+    currentSearchBucket,
+    updateCurrentPath,
+  } = useDrive()
 
   const { breakpoints }: ITheme = useTheme()
   const desktop = useMediaQuery(breakpoints.up("md"))
   const { redirect } = useHistory()
+
+  const onSearch = async (searchString: string) => {
+    try {
+      const results = await getSearchResults(searchString)
+      setSearchResults(results)
+      setSearchStringCallback(searchString)
+    } catch (err) {
+      //
+    }
+  }
+
+  const debouncedSearch = React.useCallback(debounce(onSearch, 400), [
+    currentSearchBucket?.bucketId,
+  ])
+
+  const onSearchChange = (searchString: string) => {
+    setSearchString(searchString)
+    debouncedSearch(searchString)
+  }
 
   useOnClickOutside(ref, () => {
     if (searchActive) {
@@ -148,7 +185,30 @@ const SearchModule: React.FC<ISearchModule> = ({
 
   const onSearchSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+    setSearchActive(false)
     redirect(ROUTE_LINKS.Search(searchString))
+  }
+
+  const searchResultsFiles = searchResults.filter(
+    (searchResult) =>
+      searchResult.content.content_type !== CONTENT_TYPES.Directory,
+  )
+
+  const searchResultsFolders = searchResults.filter(
+    (searchResult) =>
+      searchResult.content.content_type === CONTENT_TYPES.Directory,
+  )
+
+  const onSearchEntryClickFolder = (searchEntry: SearchEntry) => {
+    redirect(ROUTE_LINKS.Home)
+    setSearchActive(false)
+    updateCurrentPath(searchEntry.path, "csf", true)
+  }
+
+  const onSearchEntryClickFile = (searchEntry: SearchEntry) => {
+    redirect(ROUTE_LINKS.Home)
+    setSearchActive(false)
+    updateCurrentPath(getParentPathFromFilePath(searchEntry.path), "csf", true)
   }
 
   return (
@@ -175,52 +235,75 @@ const SearchModule: React.FC<ISearchModule> = ({
         <SearchBar
           className={classes.searchBar}
           onChange={(e: ChangeEvent<HTMLInputElement>) =>
-            setSearchString(e.target.value)
+            onSearchChange(e.target.value)
           }
         />
       </form>
-      <div className={clsx(classes.resultsContainer, searchActive && "active")}>
-        <div className={classes.resultsBox}>
-          {searchResults.files && searchResults.files.length ? (
-            <div>
-              <div className={classes.resultHead}>
-                <Typography variant="body1" component="p">
-                  <strong>Files</strong>
-                </Typography>
-              </div>
-              {searchResults.files.map((file) => (
-                <div className={classes.resultRow}>
-                  <Typography component="p" variant="body1">
-                    {file.name}
+      {searchString && searchStringCallback ? (
+        <div
+          className={clsx(classes.resultsContainer, searchActive && "active")}
+        >
+          <div className={classes.resultsBox}>
+            {searchStringCallback && !searchResults.length ? (
+              <Typography className={classes.noResultsFound}>
+                {`No search results for "${searchStringCallback}"`}
+              </Typography>
+            ) : null}
+            {searchResultsFiles.length ? (
+              <div>
+                <div className={classes.resultHead}>
+                  <Typography
+                    variant="body1"
+                    component="p"
+                    className={classes.boldFont}
+                  >
+                    Files
                   </Typography>
                 </div>
-              ))}
-            </div>
-          ) : null}
-          {searchResults.folders && searchResults.folders.length ? (
-            <div>
-              <div className={classes.resultHead}>
-                <Typography variant="body1" component="p">
-                  <strong>Folders</strong>
-                </Typography>
+                {searchResultsFiles.map((searchResult) => (
+                  <div
+                    className={classes.resultRow}
+                    onClick={() => onSearchEntryClickFile(searchResult)}
+                  >
+                    <Typography component="p" variant="body1">
+                      {searchResult.content.name}
+                    </Typography>
+                  </div>
+                ))}
               </div>
-              {searchResults.folders.map((folder) => (
-                <div className={classes.resultRow}>
-                  <Typography component="p" variant="body1">
-                    {folder.name}
+            ) : null}
+            {searchResultsFolders.length ? (
+              <div>
+                <div className={classes.resultHeadFolder}>
+                  <Typography
+                    variant="body1"
+                    component="p"
+                    className={classes.boldFont}
+                  >
+                    Folders
                   </Typography>
                 </div>
-              ))}
-            </div>
+                {searchResultsFolders.map((searchResult) => (
+                  <div
+                    className={classes.resultRow}
+                    onClick={() => onSearchEntryClickFolder(searchResult)}
+                  >
+                    <Typography component="p" variant="body1">
+                      {searchResult.content.name}
+                    </Typography>
+                  </div>
+                ))}
+              </div>
+            ) : null}
+          </div>
+          {!desktop ? (
+            <div
+              className={classes.resultBackDrop}
+              onClick={() => setSearchActive(false)}
+            />
           ) : null}
         </div>
-        {!desktop ? (
-          <div
-            className={classes.resultBackDrop}
-            onClick={() => setSearchActive(false)}
-          />
-        ) : null}
-      </div>
+      ) : null}
     </section>
   )
 }

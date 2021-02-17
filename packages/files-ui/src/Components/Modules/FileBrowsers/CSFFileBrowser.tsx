@@ -27,12 +27,12 @@ const CSFFileBrowser: React.FC<IFilesBrowserModuleProps> = ({
     uploadFiles,
     uploadsInProgress,
     loadingCurrentPath,
-    storeEntry,
+    bucketType,
     desktop,
   } = useDrive()
 
   useEffect(() => {
-    updateCurrentPath("/", "csf", storeEntry !== "csf")
+    updateCurrentPath("/", "csf", bucketType !== "csf")
     // eslint-disable-next-line
   }, [])
 

@@ -32,10 +32,7 @@ import {
 } from "@chainsafe/common-theme"
 import clsx from "clsx"
 import { Formik, Form } from "formik"
-import {
-  FileSystemItem,
-  StoreEntryType,
-} from "../../../../Contexts/DriveContext"
+import { FileSystemItem, BucketType } from "../../../../Contexts/DriveContext"
 import CustomModal from "../../../Elements/CustomModal"
 import { Trans } from "@lingui/macro"
 import { useDrag, useDrop } from "react-dnd"
@@ -153,10 +150,10 @@ interface IFileSystemItemRowProps {
   index: number
   file: IFileConfigured
   files: IFileConfigured[]
-  currentPath: string
+  currentPath?: string
   updateCurrentPath(
     path: string,
-    newSoreEntry?: StoreEntryType,
+    newBucketType?: BucketType,
     showLoading?: boolean,
   ): void
   selected: string[]
@@ -168,6 +165,7 @@ interface IFileSystemItemRowProps {
   handleMove?(path: string, newPath: string): Promise<void>
   deleteFile?(cid: string): void
   recoverFile?(cid: string): void
+  viewFolder?(cid: string): void
   downloadFile?(cid: string): Promise<void>
   handleUploadOnDrop?(
     files: File[],
@@ -198,6 +196,7 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
   deleteFile,
   recoverFile,
   downloadFile,
+  viewFolder,
   handleUploadOnDrop,
   setPreviewFileIndex,
   setMoveFileData,
@@ -296,6 +295,15 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
         </Fragment>
       ),
       onClick: () => setPreviewFileIndex(files?.indexOf(file)),
+    },
+    view_folder: {
+      contents: (
+        <Fragment>
+          <ZoomInIcon className={classes.menuIcon} />
+          <span>View folder</span>
+        </Fragment>
+      ),
+      onClick: () => viewFolder && viewFolder(file.cid),
     },
   }
 
