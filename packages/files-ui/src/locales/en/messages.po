@@ -21,7 +21,7 @@ msgstr ""
 msgid "Account"
 msgstr "Account"
 
-#: src/Components/Modules/FileBrowsers/views/FilesTable.view.tsx:445
+#: src/Components/Modules/FileBrowsers/views/FilesTable.view.tsx:515
 msgid "Are you sure you wish to delete?"
 msgstr "Are you sure you wish to delete?"
 
@@ -34,8 +34,8 @@ msgid "CID (Content Identifier)"
 msgstr "CID (Content Identifier)"
 
 #: src/Components/Modules/CreateFolderModule.tsx:117
-#: src/Components/Modules/FileBrowsers/MoveFileModal.tsx:144
-#: src/Components/Modules/FileBrowsers/views/FileSystemItemRow.tsx:300
+#: src/Components/Modules/FileBrowsers/MoveFileModal.tsx:152
+#: src/Components/Modules/FileBrowsers/views/FileSystemItemRow.tsx:311
 #: src/Components/Modules/UploadFileModule.tsx:82
 msgid "Cancel"
 msgstr "Cancel"
@@ -84,7 +84,7 @@ msgstr "Create Folder"
 msgid "Create an account"
 msgstr "Create an account"
 
-#: src/Components/Modules/FileBrowsers/views/FilesTable.view.tsx:372
+#: src/Components/Modules/FileBrowsers/views/FilesTable.view.tsx:432
 msgid "Create folder"
 msgstr "Create folder"
 
@@ -110,7 +110,7 @@ msgstr "Download"
 msgid "Download complete"
 msgstr "Download complete"
 
-#: src/Components/Modules/FileBrowsers/views/FilesTable.view.tsx:339
+#: src/Components/Modules/FileBrowsers/views/FilesTable.view.tsx:399
 msgid "Drop to upload files"
 msgstr "Drop to upload files"
 
@@ -170,19 +170,19 @@ msgstr "Home"
 msgid "Loading preview"
 msgstr "Loading preview"
 
-#: src/Components/Modules/FileBrowsers/MoveFileModal.tsx:147
+#: src/Components/Modules/FileBrowsers/MoveFileModal.tsx:155
 msgid "Move"
 msgstr "Move"
 
-#: src/Components/Modules/FileBrowsers/MoveFileModal.tsx:132
+#: src/Components/Modules/FileBrowsers/MoveFileModal.tsx:140
 msgid "Move to..."
 msgstr "Move to..."
 
-#: src/Components/Modules/FileBrowsers/views/FilesTable.view.tsx:408
+#: src/Components/Modules/FileBrowsers/views/FilesTable.view.tsx:481
 msgid "Name"
 msgstr "Name"
 
-#: src/Components/Modules/FileBrowsers/views/FilesTable.view.tsx:354
+#: src/Components/Modules/FileBrowsers/views/FilesTable.view.tsx:414
 msgid "New folder"
 msgstr "New folder"
 
@@ -190,7 +190,7 @@ msgstr "New folder"
 msgid "Next"
 msgstr "Next"
 
-#: src/Components/Modules/FileBrowsers/views/FilesTable.view.tsx:398
+#: src/Components/Modules/FileBrowsers/views/FilesTable.view.tsx:469
 msgid "No files to show"
 msgstr "No files to show"
 
@@ -202,7 +202,7 @@ msgstr "Number of copies (Replication Factor)"
 msgid "OK"
 msgstr "OK"
 
-#: src/Components/Modules/FileBrowsers/views/FilesTable.view.tsx:391
+#: src/Components/Modules/FileBrowsers/views/FilesTable.view.tsx:462
 msgid "One sec, getting files ready..."
 msgstr "One sec, getting files ready..."
 
@@ -214,7 +214,7 @@ msgstr "Previous"
 msgid "Rename"
 msgstr "Rename"
 
-#: src/Components/Modules/FileBrowsers/views/FileSystemItemRow.tsx:295
+#: src/Components/Modules/FileBrowsers/views/FileSystemItemRow.tsx:306
 msgid "Rename File/Folder"
 msgstr "Rename File/Folder"
 
@@ -252,7 +252,7 @@ msgstr "Sign Out"
 msgid "Sign in"
 msgstr "Sign in"
 
-#: src/Components/Modules/FileBrowsers/views/FilesTable.view.tsx:412
+#: src/Components/Modules/FileBrowsers/views/FilesTable.view.tsx:485
 msgid "Size"
 msgstr "Size"
 
@@ -292,12 +292,12 @@ msgstr "There was an error getting the preview."
 #~ msgid "There was an error renaming this file"
 #~ msgstr "There was an error renaming this file"
 
-#: src/Components/Modules/FileBrowsers/views/FileSystemItemRow.tsx:303
+#: src/Components/Modules/FileBrowsers/views/FileSystemItemRow.tsx:314
 msgid "Update"
 msgstr "Update"
 
-#: src/Components/Modules/FileBrowsers/views/FilesTable.view.tsx:360
-#: src/Components/Modules/FileBrowsers/views/FilesTable.view.tsx:380
+#: src/Components/Modules/FileBrowsers/views/FilesTable.view.tsx:420
+#: src/Components/Modules/FileBrowsers/views/FilesTable.view.tsx:440
 #: src/Components/Modules/UploadFileModule.tsx:85
 msgid "Upload"
 msgstr "Upload"
