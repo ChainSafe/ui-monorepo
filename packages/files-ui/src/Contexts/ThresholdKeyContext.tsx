@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react"
-import { LOGIN_TYPE, TorusLoginResponse } from "@toruslabs/torus-direct-web-sdk"
-import ThresholdKey from "@tkey/default" // or "@tkey/default"
+import DirectAuthSdk, {
+  LOGIN_TYPE,
+  TorusLoginResponse,
+} from "@toruslabs/torus-direct-web-sdk"
+import ThresholdKey from "@tkey/default"
 import WebStorageModule, { WEB_STORAGE_MODULE_NAME } from "@tkey/web-storage"
 import SecurityQuestionsModule, {
   SECURITY_QUESTIONS_MODULE_NAME,
@@ -86,27 +89,52 @@ const ThresholdKeyProvider = ({
   // Initialize Threshold Key and DirectAuth
   useEffect(() => {
     const init = async () => {
-      const tkey = new ThresholdKey({
-        modules: {
-          [SECURITY_QUESTIONS_MODULE_NAME]: new SecurityQuestionsModule(),
-          [WEB_STORAGE_MODULE_NAME]: new WebStorageModule(true),
-          [SHARE_TRANSFER_MODULE_NAME]: new ShareTransferModule(),
-        },
-        directParams: {
-          baseUrl: `${window.location.origin}/serviceworker`,
-          network: network,
+      const storedTkey = sessionStorage.getItem("tkey")
+
+      const tkey =
+        //!!storedTkey
+        // ? await ThresholdKey.fromJSON(JSON.parse(storedTkey), {
+        //     modules: {
+        //       [SECURITY_QUESTIONS_MODULE_NAME]: new SecurityQuestionsModule(),
+        //       [WEB_STORAGE_MODULE_NAME]: new WebStorageModule(true),
+        //       [SHARE_TRANSFER_MODULE_NAME]: new ShareTransferModule(),
+        //     },
+        //     directParams: {
+        //       baseUrl: `${window.location.origin}/serviceworker`,
+        //       network: network,
+        //       enableLogging: enableLogging,
+        //       apiKey: apiKey,
+        //     },
+        //     enableLogging: enableLogging,
+        //   })
+        // :
+        new ThresholdKey({
+          modules: {
+            [SECURITY_QUESTIONS_MODULE_NAME]: new SecurityQuestionsModule(),
+            [WEB_STORAGE_MODULE_NAME]: new WebStorageModule(true),
+            [SHARE_TRANSFER_MODULE_NAME]: new ShareTransferModule(),
+          },
+          directParams: {
+            baseUrl: `${window.location.origin}/serviceworker`,
+            network: network,
+            enableLogging: enableLogging,
+            apiKey: apiKey,
+          },
           enableLogging: enableLogging,
-          apiKey: apiKey,
-        },
-        enableLogging: enableLogging,
-      })
+        })
       setTKeySdk(tkey)
-      // @ts-ignore
-      await tkey.serviceProvider.init({ skipSw: false })
+      const serviceProvider = (tkey.serviceProvider as unknown) as DirectAuthSdk
+      await serviceProvider.init({ skipSw: false })
     }
     init()
     // eslint-disable-next-line
   }, [])
+
+  useEffect(() => {
+    if (TKeySdk && keyDetails && keyDetails?.requiredShares <= 0) {
+      sessionStorage.setItem("tkey", JSON.stringify(TKeySdk.toJSON()))
+    }
+  }, [TKeySdk, keyDetails])
 
   // Reconstruct Key effect
   useEffect(() => {
@@ -420,7 +448,6 @@ const ThresholdKeyProvider = ({
 
   const decryptMessageWithThresholdKey = async (message: string) => {
     if (!privateKey) return
-    debugger
     const messageCipher = EthCrypto.cipher.parse(message)
     return EthCrypto.decryptWithPrivateKey(privateKey, messageCipher)
   }

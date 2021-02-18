@@ -6,7 +6,7 @@ const importKeyFromBytes = async (keyBytes: Uint8Array) =>
 const deriveKey = async (
   sourceKey: CryptoKey,
   keyUsage: KeyUsage[],
-  keyDerivationParams: Pbkdf2Params | HkdfParams,
+  keyDerivationParams: Pbkdf2Params,
 ) =>
   window.crypto.subtle.deriveKey(
     keyDerivationParams,
