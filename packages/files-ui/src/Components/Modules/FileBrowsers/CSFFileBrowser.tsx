@@ -35,7 +35,6 @@ const CSFFileBrowser: React.FC<IFilesBrowserModuleProps> = ({
   const queryPath = useQuery().get("path")
 
   useEffect(() => {
-    console.log("called")
     updateCurrentPath(
       queryPath || "/",
       "csf",
@@ -43,8 +42,6 @@ const CSFFileBrowser: React.FC<IFilesBrowserModuleProps> = ({
     )
     // eslint-disable-next-line
   }, [queryPath])
-
-  console.log(queryPath)
 
   // Rename
   const handleRename = async (path: string, new_path: string) => {

@@ -192,8 +192,6 @@ const DriveProvider = ({ children }: DriveContextProps) => {
   }
   const [currentPath, dispatchCurrentPath] = useReducer(currentPathReducer, "/")
 
-  console.log(currentPath)
-
   const setCurrentPath = (
     newPath: string,
     newBucketType?: BucketType,
