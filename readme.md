@@ -35,12 +35,12 @@ The UI for Chainsafe Files
 
 You will need a Github Personal Access token with `read:package` permissions. This can be obtained [here](https://github.com/settings/tokens)
 
-- Run `nano ~/.bash_profile`
-- Add the following line to the file `export GITHUB_PACKAGES_AUTH_TOKEN="YOUR_TOKEN_HERE"`
-- Press `CTRL+X` to exit
-- Restart your machine
+You then need to add it as environment variable, depending on your OS and shell:
+
+- Edit `~/.bash_profile`, or for zsh `~/.zshenv` and add the following line `export GITHUB_PACKAGES_AUTH_TOKEN="YOUR_TOKEN_HERE"`
+- Restart your shell and make sure the new variable is loaded, `echo $GITHUB_PACKAGES_AUTH_TOKEN` should print it.
 - Run `yarn` at the root to install all project dependencies
 - Run `yarn start:storybook` to start the component storybook  
   OR
-- Create a `packages/files-ui/.env` based on `packages/files-ui/.env.sample`
+- Create a `packages/files-ui/.env` based on `packages/files-ui/.env.example`
 - Run `yarn start:files-ui` to start the development server.
