@@ -205,7 +205,7 @@ const AppHeader: React.FC<IAppHeader> = ({
                     variant={navOpen ? "active" : "default"}
                     className={classes.hamburgerMenu}
                   />
-                  <Link className={classes.logo} to={ROUTE_LINKS.Home}>
+                  <Link className={classes.logo} to={ROUTE_LINKS.Home()}>
                     <ChainsafeFilesLogo />
                     &nbsp;
                     <Typography variant="caption">beta</Typography>

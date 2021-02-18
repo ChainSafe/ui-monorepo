@@ -148,11 +148,7 @@ const SearchModule: React.FC<ISearchModule> = ({
   const [searchStringCallback, setSearchStringCallback] = useState<string>("")
   const [searchResults, setSearchResults] = useState<SearchEntry[]>([])
   const ref = useRef(null)
-  const {
-    getSearchResults,
-    currentSearchBucket,
-    updateCurrentPath,
-  } = useDrive()
+  const { getSearchResults, currentSearchBucket } = useDrive()
 
   const { breakpoints }: ITheme = useTheme()
   const desktop = useMediaQuery(breakpoints.up("md"))
@@ -200,15 +196,15 @@ const SearchModule: React.FC<ISearchModule> = ({
   )
 
   const onSearchEntryClickFolder = (searchEntry: SearchEntry) => {
-    redirect(ROUTE_LINKS.Home)
+    redirect(ROUTE_LINKS.Home(searchEntry.path))
+    setSearchString("")
     setSearchActive(false)
-    updateCurrentPath(searchEntry.path, "csf", true)
   }
 
   const onSearchEntryClickFile = (searchEntry: SearchEntry) => {
-    redirect(ROUTE_LINKS.Home)
+    redirect(ROUTE_LINKS.Home(getParentPathFromFilePath(searchEntry.path)))
+    setSearchString("")
     setSearchActive(false)
-    updateCurrentPath(getParentPathFromFilePath(searchEntry.path), "csf", true)
   }
 
   return (

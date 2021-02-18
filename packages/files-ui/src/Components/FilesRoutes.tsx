@@ -14,7 +14,7 @@ export const ROUTE_LINKS = {
   Landing: "/",
   PrivacyPolicy: "https://files.chainsafe.io/privacy-policy",
   Terms: "https://files.chainsafe.io/terms-of-service",
-  Home: "/home",
+  Home: (path?: string) => `/home${path ? `?path=${path}` : ""}`,
   Search: (search?: string) => `/search${search ? `?search=${search}` : ""}`,
   Bin: "/bin",
   Settings: "/settings",
@@ -32,11 +32,11 @@ const FilesRoutes = () => {
         path={ROUTE_LINKS.Landing}
         isAuthorized={!isLoggedIn || !secured || !isMasterPasswordSet}
         component={LoginPage}
-        redirectPath={ROUTE_LINKS.Home}
+        redirectPath={ROUTE_LINKS.Home()}
       />
       <ConditionalRoute
         exact
-        path={ROUTE_LINKS.Home}
+        path={ROUTE_LINKS.Home()}
         isAuthorized={isLoggedIn && secured && !!isMasterPasswordSet}
         component={HomePage}
         redirectPath={ROUTE_LINKS.Landing}

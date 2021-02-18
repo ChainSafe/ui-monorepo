@@ -711,10 +711,11 @@ const DriveProvider = ({ children }: DriveContextProps) => {
           newPath: string,
           bucketType?: BucketType,
           showLoading?: boolean,
-        ) =>
+        ) => {
           newPath.endsWith("/")
             ? setCurrentPath(`${newPath}`, bucketType, showLoading)
-            : setCurrentPath(`${newPath}/`, bucketType, showLoading),
+            : setCurrentPath(`${newPath}/`, bucketType, showLoading)
+        },
         pathContents,
         uploadsInProgress,
         spaceUsed,
