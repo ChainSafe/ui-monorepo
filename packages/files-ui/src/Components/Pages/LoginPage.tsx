@@ -223,7 +223,7 @@ const LoginPage = () => {
     setIsConnecting(true)
     setShowSignatureMessage(true)
     try {
-      await web3Login()
+      await login("web3")
     } catch (error) {
       let errorMessage = "There was an error authenticating"
       if (Array.isArray(error) && error[0]) {

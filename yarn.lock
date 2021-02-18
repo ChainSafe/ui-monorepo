@@ -2899,10 +2899,10 @@
   resolved "https://registry.yarnpkg.com/@icons/material/-/material-0.2.4.tgz#e90c9f71768b3736e76d7dd6783fc6c2afa88bc8"
   integrity sha512-QPcGmICAPbGLGb6F/yNf/KzKqvFx8z5qx3D1yFqVAjoFmXK35EgyW+cJ57Te3CNsmzblwtzakLGFqHPqrfb4Tw==
 
-"@imploy/api-client@1.3.4":
-  version "1.3.4"
-  resolved "https://npm.pkg.github.com/download/@imploy/api-client/1.3.4/6cd514978c77e5ab87b2bd983e3cd8cc2ed848339a5b6759dbcac961783c8bac#fe435ddb50b46906e23ed0e45e11b8e9d3dcda46"
-  integrity sha512-KafqS6e+RmmyAX8KBj92+cXpSEWld90lxKahbFxuuuwDfBpuSE4zBqiSHwEaMXB8sZoI1HUxqK4H1Gbi4j1O6A==
+"@imploy/api-client@1.7.1":
+  version "1.7.1"
+  resolved "https://npm.pkg.github.com/download/@imploy/api-client/1.7.1/13a5fa1ae8e12b897a333c3a2ceb5fbd0304cd37577b759c68cfb3a2a0f7291e#0e91eec3c9631a9b11762c4ff2e18fb986df6800"
+  integrity sha512-wQFelhHQyEl19vrWGUIYqDILmsJCjeQTKm/BAGF0qIbMgsGlhDGdarZHWgIwj14R1CWC5SuZYdtCUmnoI/GKRw==
 
 "@istanbuljs/load-nyc-config@^1.0.0":
   version "1.1.0"

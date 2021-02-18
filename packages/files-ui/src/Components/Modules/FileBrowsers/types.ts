@@ -1,7 +1,7 @@
 import { Crumb } from "@chainsafe/common-components"
 import {
   FileSystemItem,
-  StoreEntryType,
+  BucketType,
   UploadProgress,
 } from "../../../Contexts/DriveContext"
 
@@ -40,7 +40,7 @@ export interface IFilesTableBrowserProps extends IFilesBrowserModuleProps {
   ) => void
   updateCurrentPath: (
     newPath: string,
-    newStoreEntry?: StoreEntryType,
+    newStoreEntry?: BucketType,
     showLoading?: boolean,
   ) => void
   loadingCurrentPath: boolean

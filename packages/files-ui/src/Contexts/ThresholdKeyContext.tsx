@@ -16,9 +16,10 @@ import ShareSerializationModule, {
   SHARE_SERIALIZATION_MODULE_NAME,
 } from "@tkey/share-serialization"
 import bowser from "bowser"
-import { useImployApi } from "@imploy/common-contexts"
+import { signMessage, useImployApi } from "@imploy/common-contexts"
 import { Wallet } from "ethers"
 import EthCrypto from "eth-crypto"
+import { useWeb3 } from "@chainsafe/web3-context"
 
 export type TThresholdKeyContext = {
   userInfo?: TorusLoginResponse
@@ -28,7 +29,7 @@ export type TThresholdKeyContext = {
   isNewKey: boolean
   shouldInitializeAccount: boolean
   pendingShareTransferRequests: ShareTransferRequest[]
-  login(loginType: LOGIN_TYPE): Promise<void>
+  login(loginType: LOGIN_TYPE | "web3"): Promise<void>
   resetIsNewDevice(): void
   resetShouldInitialize(): void
   addPasswordShare(password: string): Promise<void>
@@ -69,6 +70,7 @@ const ThresholdKeyProvider = ({
   apiKey,
 }: ThresholdKeyProviderProps) => {
   const { imployApiClient, thresholdKeyLogin } = useImployApi()
+  const { provider, isReady, checkIsReady, address } = useWeb3()
   const [userInfo, setUserInfo] = useState<TorusLoginResponse | undefined>()
   const [TKeySdk, setTKeySdk] = useState<ThresholdKey | undefined>()
   const [keyDetails, setKeyDetails] = useState<KeyDetails | undefined>()
@@ -251,39 +253,68 @@ const ThresholdKeyProvider = ({
     }
   }, [keyDetails])
 
-  const login = async (loginType: LOGIN_TYPE) => {
+  const login = async (loginType: LOGIN_TYPE | "web3") => {
     if (!TKeySdk) return
     try {
+      const serviceProvider = (TKeySdk.serviceProvider as unknown) as DirectAuthSdk
       switch (loginType) {
         case "google":
-          //@ts-ignore
-          const googleResult = await TKeySdk.serviceProvider.triggerLogin({
+          const googleResult = await serviceProvider.triggerLogin({
             typeOfLogin: "google",
-            verifier: process.env.REACT_APP_GOOGLE_VERIFIER_NAME,
-            clientId: process.env.REACT_APP_GOOGLE_CLIENT_ID,
+            verifier: process.env.REACT_APP_GOOGLE_VERIFIER_NAME || "",
+            clientId: process.env.REACT_APP_GOOGLE_CLIENT_ID || "",
           })
           setUserInfo(googleResult)
           break
         case "facebook":
-          //@ts-ignore
-          const fbResult = await TKeySdk.serviceProvider.triggerLogin({
+          const fbResult = await serviceProvider.triggerLogin({
             typeOfLogin: "facebook",
-            verifier: process.env.REACT_APP_FACEBOOK_VERIFIER_NAME,
-            clientId: process.env.REACT_APP_FACEBOOK_CLIENT_ID,
+            verifier: process.env.REACT_APP_FACEBOOK_VERIFIER_NAME || "",
+            clientId: process.env.REACT_APP_FACEBOOK_CLIENT_ID || "",
           })
           setUserInfo(fbResult)
           break
         case "github":
-          //@ts-ignore
-          const ghResult = await TKeySdk.serviceProvider.triggerLogin({
+          const ghResult = await serviceProvider.triggerLogin({
             typeOfLogin: "github",
-            verifier: process.env.REACT_APP_GITHUB_VERIFIER_NAME,
-            clientId: process.env.REACT_APP_AUTH0_CLIENT_ID,
+            verifier: process.env.REACT_APP_GITHUB_VERIFIER_NAME || "",
+            clientId: process.env.REACT_APP_AUTH0_CLIENT_ID || "",
             jwtParams: {
-              domain: process.env.REACT_APP_AUTH0_DOMAIN,
+              domain: process.env.REACT_APP_AUTH0_DOMAIN || "",
             },
           })
           setUserInfo(ghResult)
+          break
+        case "web3":
+          if (!provider) break
+
+          if (!isReady || !address) {
+            const connected = await checkIsReady()
+            if (!connected || !address) break
+          }
+
+          try {
+            const { token } = await imployApiClient.getIdentityWeb3Token(
+              address,
+            )
+
+            if (token) {
+              const signature = await signMessage(token, provider.getSigner())
+              const {
+                access_token,
+                refresh_token,
+              } = await imployApiClient.postIdentityWeb3Token({
+                signature: signature,
+                token: token,
+                public_address: address,
+              })
+
+              console.log(access_token)
+              console.log(refresh_token)
+            }
+          } catch (error) {
+            console.log(error)
+          }
           break
         default:
           break
@@ -353,7 +384,6 @@ const ThresholdKeyProvider = ({
     const shareCreated = await TKeySdk.generateNewShare()
     const requiredShareStore =
       shareCreated.newShareStores[shareCreated.newShareIndex.toString("hex")]
-    // remember to include in initializtion modules
     const shareSerializationModule = (await TKeySdk.modules[
       SHARE_SERIALIZATION_MODULE_NAME
     ]) as ShareSerializationModule

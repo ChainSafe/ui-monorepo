@@ -4,7 +4,7 @@ import {
   FilesMvRequest,
   FilesPathRequest,
   DirectoryContentResponse,
-  StoreEntryType,
+  BucketType,
 } from "@imploy/api-client"
 import React, { useCallback, useEffect, useReducer } from "react"
 import { useState } from "react"
@@ -66,7 +66,7 @@ type DriveContext = {
   currentPath: string
   updateCurrentPath(
     newPath: string,
-    storeEntry?: StoreEntryType,
+    storeEntry?: BucketType,
     showLoading?: boolean,
   ): void
   pathContents: FileSystemItem[]
@@ -76,7 +76,7 @@ type DriveContext = {
   secureDrive(password: string): void
   getFolderTree(): Promise<DirectoryContentResponse>
   getFileInfo(path: string): Promise<CSFFilesFullinfoResponse>
-  storeEntry: StoreEntryType
+  storeEntry: BucketType
   loadingCurrentPath: boolean
   desktop: boolean
 }
@@ -113,7 +113,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
 
   const [loadingCurrentPath, setLoadingCurrentPath] = useState(false)
 
-  const [storeEntry, setStoreEntry] = useState<StoreEntryType>("csf")
+  const [storeEntry, setStoreEntry] = useState<BucketType>("csf")
 
   const [pathContents, setPathContents] = useState<FileSystemItem[]>([])
   const [spaceUsed, setSpaceUsed] = useState(0)
@@ -128,7 +128,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
   const refreshContents = useCallback(
     async (
       path: string,
-      storeEntryParam?: StoreEntryType,
+      storeEntryParam?: BucketType,
       showLoading?: boolean,
     ) => {
       try {
@@ -188,7 +188,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
 
   const setCurrentPath = (
     newPath: string,
-    newStoryEntry?: StoreEntryType,
+    newStoryEntry?: BucketType,
     showLoading?: boolean,
   ) => {
     dispatchCurrentPath({ type: "update", payload: newPath })
@@ -695,7 +695,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
         currentPath,
         updateCurrentPath: (
           newPath: string,
-          storeEntry?: StoreEntryType,
+          storeEntry?: BucketType,
           showLoading?: boolean,
         ) =>
           newPath.endsWith("/")
@@ -731,5 +731,5 @@ export type {
   FileSystemItem,
   DirectoryContentResponse,
   CSFFilesFullinfoResponse as FileFullInfo,
-  StoreEntryType,
+  BucketType,
 }

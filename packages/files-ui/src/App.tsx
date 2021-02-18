@@ -80,6 +80,7 @@ const App: React.FC<{}> = () => {
           <ToasterProvider autoDismiss>
             <Web3Provider
               onboardConfig={{
+                dappId: process.env.REACT_APP_BLOCKNATIVE_ID,
                 walletSelect: {
                   wallets: [
                     { walletName: "coinbase" },
@@ -90,7 +91,6 @@ const App: React.FC<{}> = () => {
                     },
                     { walletName: "metamask", preferred: true },
                     { walletName: "authereum" },
-                    { walletName: "dapper" },
                     { walletName: "opera" },
                     { walletName: "operaTouch" },
                     { walletName: "torus" },

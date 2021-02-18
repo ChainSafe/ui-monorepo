@@ -31,10 +31,7 @@ import {
 } from "@chainsafe/common-theme"
 import clsx from "clsx"
 import { Formik, Form } from "formik"
-import {
-  FileSystemItem,
-  StoreEntryType,
-} from "../../../../Contexts/DriveContext"
+import { FileSystemItem, BucketType } from "../../../../Contexts/DriveContext"
 import CustomModal from "../../../Elements/CustomModal"
 import { Trans } from "@lingui/macro"
 import { useDrag, useDrop } from "react-dnd"
@@ -155,7 +152,7 @@ interface IFileSystemItemRowProps {
   currentPath: string
   updateCurrentPath(
     path: string,
-    newSoreEntry?: StoreEntryType,
+    newSoreEntry?: BucketType,
     showLoading?: boolean,
   ): void
   selected: string[]
