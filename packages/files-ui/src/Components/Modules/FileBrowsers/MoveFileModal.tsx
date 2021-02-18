@@ -3,6 +3,7 @@ import {
   ITheme,
   makeStyles,
   useMediaQuery,
+  useThemeSwitcher,
 } from "@chainsafe/common-theme"
 import React, { useState, useEffect, useCallback } from "react"
 import CustomModal from "../../Elements/CustomModal"
@@ -24,6 +25,10 @@ import {
 } from "@chainsafe/common-components"
 import { getPathWithFile } from "../../../Utils/pathUtils"
 
+interface IStyleProps {
+  themeKey: string
+}
+
 const useStyles = makeStyles(
   ({ breakpoints, constants, palette, typography, zIndex }: ITheme) => {
     return createStyles({
@@ -31,7 +36,19 @@ const useStyles = makeStyles(
         zIndex: zIndex?.blocker,
         [breakpoints.down("md")]: {},
       },
-      modalInner: {
+      modalInner: ({ themeKey }: IStyleProps) => ({
+        backgroundColor:
+          themeKey === "light"
+            ? palette.additional.gray[10]
+            : themeKey === "dark"
+            ? palette.additional.gray[1]
+            : palette.additional.gray[10],
+        color:
+          themeKey === "light"
+            ? palette.additional.gray[1]
+            : themeKey === "dark"
+            ? palette.additional.gray[9]
+            : palette.additional.gray[1],
         [breakpoints.down("md")]: {
           bottom:
             (constants?.mobileButtonHeight as number) + constants.generalUnit,
@@ -39,7 +56,7 @@ const useStyles = makeStyles(
           borderTopRightRadius: `${constants.generalUnit * 1.5}px`,
           maxWidth: `${breakpoints.width("md")}px !important`,
         },
-      },
+      }),
       okButton: {
         marginLeft: constants.generalUnit,
         color: palette.common.white.main,
@@ -91,7 +108,9 @@ const MoveFileModule: React.FC<IMoveFileModuleProps> = ({
   modalOpen,
   close,
 }: IMoveFileModuleProps) => {
-  const classes = useStyles()
+  const { themeKey } = useThemeSwitcher()
+
+  const classes = useStyles({ themeKey })
   const { moveFile, getFolderTree } = useDrive()
   const [movingFile, setMovingFile] = useState(false)
   const [movePath, setMovePath] = useState<undefined | string>(undefined)

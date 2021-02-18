@@ -117,19 +117,25 @@ const useStyles = makeStyles(
           marginRight: constants.generalUnit * 2,
         },
       },
-      menuItem: {
+      menuItem: ({ themeKey }: IStyleProps) => ({
         width: 100,
         display: "flex",
         flexDirection: "row",
         alignItems: "center",
-        color: palette.additional["gray"][8],
+        color:
+          themeKey === "dark"
+            ? palette.additional["gray"][10]
+            : palette.additional["gray"][8],
         "& svg": {
           width: constants.generalUnit * 2,
           height: constants.generalUnit * 2,
           marginRight: constants.generalUnit,
-          fill: palette.additional["gray"][7],
+          fill:
+            themeKey === "dark"
+              ? palette.additional["gray"][10]
+              : palette.additional["gray"][7],
         },
-      },
+      }),
       searchModule: {
         [breakpoints.down("md")]: {
           position: "fixed",
@@ -138,6 +144,15 @@ const useStyles = makeStyles(
           height: constants.mobileHeaderHeight,
         },
       },
+      options: ({ themeKey }: IStyleProps) => ({
+        backgroundColor:
+          themeKey === "dark" ? palette.additional.gray[1] : "initial",
+      }),
+      icon: ({ themeKey }: IStyleProps) => ({
+        "& svg": {
+          fill: themeKey === "dark" ? palette.additional.gray[10] : "initial",
+        },
+      }),
     })
   },
 )
@@ -180,6 +195,10 @@ const AppHeader: React.FC<IAppHeader> = ({
                 <MenuDropdown
                   title={getProfileTitle()}
                   anchor="bottom-right"
+                  classNames={{
+                    icon: classes.icon,
+                    options: classes.options,
+                  }}
                   menuItems={[
                     {
                       onClick: () => signOut(),

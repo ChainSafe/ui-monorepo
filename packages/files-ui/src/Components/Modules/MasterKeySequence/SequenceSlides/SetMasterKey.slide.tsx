@@ -1,4 +1,9 @@
-import { createStyles, ITheme, makeStyles } from "@chainsafe/common-theme"
+import {
+  createStyles,
+  ITheme,
+  makeStyles,
+  useThemeSwitcher,
+} from "@chainsafe/common-theme"
 import React from "react"
 import {
   Button,
@@ -13,6 +18,10 @@ import { ROUTE_LINKS } from "../../../FilesRoutes"
 import { useDrive } from "../../../../Contexts/DriveContext"
 import zxcvbn from "zxcvbn"
 import StrengthIndicator from "./StrengthIndicator"
+
+interface IStyleProps {
+  themeKey: string
+}
 
 const useStyles = makeStyles(({ breakpoints, constants, palette }: ITheme) =>
   createStyles({
@@ -69,6 +78,14 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: ITheme) =>
       color: palette.additional["gray"][8],
       marginBottom: constants.generalUnit,
     },
+    link: ({ themeKey }: IStyleProps) => ({
+      color:
+        themeKey === "light"
+          ? palette.additional["gray"][1]
+          : themeKey === "dark"
+          ? palette.additional["gray"][10]
+          : palette.additional["gray"][1],
+    }),
   }),
 )
 
@@ -79,7 +96,9 @@ interface ISetMasterKeySlide {
 const SetMasterKeySlide: React.FC<ISetMasterKeySlide> = ({
   className,
 }: ISetMasterKeySlide) => {
-  const classes = useStyles()
+  const { themeKey } = useThemeSwitcher()
+
+  const classes = useStyles({ themeKey })
   const { secureDrive } = useDrive()
 
   const masterKeyValidation = yup.object().shape({
@@ -163,6 +182,7 @@ const SetMasterKeySlide: React.FC<ISetMasterKeySlide> = ({
               <>
                 I have read the{" "}
                 <a
+                  className={classes.link}
                   rel="noopener noreferrer"
                   href={ROUTE_LINKS.PrivacyPolicy}
                   target="_blank"
@@ -179,6 +199,7 @@ const SetMasterKeySlide: React.FC<ISetMasterKeySlide> = ({
               <>
                 I have read the{" "}
                 <a
+                  className={classes.link}
                   rel="noopener noreferrer"
                   href={ROUTE_LINKS.Terms}
                   target="_blank"

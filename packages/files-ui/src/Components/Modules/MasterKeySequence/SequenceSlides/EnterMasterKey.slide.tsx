@@ -1,4 +1,9 @@
-import { createStyles, ITheme, makeStyles } from "@chainsafe/common-theme"
+import {
+  createStyles,
+  ITheme,
+  makeStyles,
+  useThemeSwitcher,
+} from "@chainsafe/common-theme"
 import React from "react"
 import {
   Button,
@@ -10,6 +15,10 @@ import { Form, Formik } from "formik"
 import * as yup from "yup"
 import { useDrive } from "../../../../Contexts/DriveContext"
 import { useImployApi, useUser } from "@imploy/common-contexts"
+
+interface IStyleProps {
+  themeKey: string
+}
 
 const useStyles = makeStyles(
   ({ constants, breakpoints, palette, typography }: ITheme) =>
@@ -49,17 +58,21 @@ const useStyles = makeStyles(
           color: palette.common.white.main,
         },
       },
-      logoutButton: {
+      logoutButton: ({ themeKey }: IStyleProps) => ({
         padding: 0,
         textDecoration: "underline",
         border: "none",
         cursor: "pointer",
         backgroundColor: "transparent",
         ...typography.body1,
+        color: themeKey === "dark" ? palette.additional.gray[9] : "initial",
         [breakpoints.down("md")]: {
-          color: palette.common.white.main,
+          color:
+            themeKey === "dark"
+              ? palette.additional.gray[9]
+              : palette.common.white.main,
         },
-      },
+      }),
     }),
 )
 
@@ -70,7 +83,9 @@ interface IEnterMasterKeySlide {
 const EnterMasterKeySlide: React.FC<IEnterMasterKeySlide> = ({
   className,
 }: IEnterMasterKeySlide) => {
-  const classes = useStyles()
+  const { themeKey } = useThemeSwitcher()
+
+  const classes = useStyles({ themeKey })
   const { validateMasterPassword, logout } = useImployApi()
   const { getProfileTitle } = useUser()
   const masterKeyValidation = yup.object().shape({

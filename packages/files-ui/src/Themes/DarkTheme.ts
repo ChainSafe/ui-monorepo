@@ -181,7 +181,17 @@ export const darkTheme = createTheme({
       ...UI_CONSTANTS,
     },
     overrides: {
+      Breadcrumb: {
+        home: {
+          fill: "#DBDBDB",
+        },
+      },
       Typography: {
+        root: {
+          "& a": {
+            color: "#DBDBDB",
+          },
+        },
         h5: {
           fontWeight: 600,
           color: "#DBDBDB",
@@ -206,6 +216,16 @@ export const darkTheme = createTheme({
               color: "#262626",
               "& svg": {
                 fill: "#262626",
+              },
+            },
+          },
+          outline: {
+            root: {
+              backgroundColor: "#141414",
+              borderColor: "#303030",
+              color: "#DBDBDB",
+              "& svg": {
+                fill: "#DBDBDB",
               },
             },
           },

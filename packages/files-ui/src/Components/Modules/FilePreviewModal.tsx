@@ -6,6 +6,7 @@ import {
   makeStyles,
   useMediaQuery,
   useTheme,
+  useThemeSwitcher,
 } from "@chainsafe/common-theme"
 import { FileSystemItem, useDrive } from "../../Contexts/DriveContext"
 import MimeMatcher from "mime-matcher"
@@ -33,6 +34,10 @@ import VideoPreview from "./PreviewRenderers/VideoPreview"
 import AudioPreview from "./PreviewRenderers/AudioPreview"
 import { useHotkeys } from "react-hotkeys-hook"
 import { t, Trans } from "@lingui/macro"
+
+interface IStyleProps {
+  themeKey: string
+}
 
 export interface IPreviewRendererProps {
   contents: Blob
@@ -63,7 +68,7 @@ const useStyles = makeStyles(
         backgroundColor: "rgba(0,0,0, 0.88)",
         overflowX: "hidden",
       },
-      previewModalControls: {
+      previewModalControls: ({ themeKey }: IStyleProps) => ({
         position: "absolute",
         zIndex: zIndex?.layer3,
         display: "flex",
@@ -74,36 +79,54 @@ const useStyles = makeStyles(
         width: "100%",
         maxWidth: breakpoints.values["md"],
         height: constants.generalUnit * 8,
-        backgroundColor: palette.additional["gray"][9],
-        color: palette.additional["gray"][3],
+        backgroundColor:
+          themeKey === "dark"
+            ? palette.additional["gray"][1]
+            : palette.additional["gray"][9],
+        color:
+          themeKey === "dark"
+            ? palette.additional["gray"][9]
+            : palette.additional["gray"][3],
         borderWidth: 1,
         borderStyle: "solid",
         borderColor: palette.additional["gray"][8],
-      },
-      closePreviewButton: {
+      }),
+      closePreviewButton: ({ themeKey }: IStyleProps) => ({
         marginRight: constants.generalUnit * 2,
         marginLeft: constants.generalUnit * 2,
-        fill: palette.additional["gray"][2],
+        fill:
+          themeKey === "dark"
+            ? palette.additional["gray"][9]
+            : palette.additional["gray"][2],
         cursor: "pointer",
-      },
-      fileOperationsMenu: {
-        fill: palette.additional["gray"][2],
-      },
-      fileName: {
+      }),
+      fileOperationsMenu: ({ themeKey }: IStyleProps) => ({
+        fill:
+          themeKey === "dark"
+            ? palette.additional["gray"][9]
+            : palette.additional["gray"][2],
+      }),
+      fileName: ({ themeKey }: IStyleProps) => ({
         width: "100%",
         whiteSpace: "nowrap",
         overflow: "hidden",
         textOverflow: "ellipsis",
-        color: palette.additional["gray"][1],
-      },
-      menuIcon: {
+        color:
+          themeKey === "dark"
+            ? palette.additional["gray"][9]
+            : palette.additional["gray"][1],
+      }),
+      menuIcon: ({ themeKey }: IStyleProps) => ({
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
         width: 20,
         marginRight: constants.generalUnit * 1.5,
-        fill: palette.additional["gray"][7],
-      },
+        fill:
+          themeKey === "dark"
+            ? palette.additional["gray"][9]
+            : palette.additional["gray"][7],
+      }),
       previewContainer: {
         height: "100%",
         alignItems: "center",
@@ -127,13 +150,13 @@ const useStyles = makeStyles(
           margin: `${constants.generalUnit}px 0`,
         },
       },
-      downloadButton: {
+      downloadButton: ({ themeKey }: IStyleProps) => ({
         backgroundColor: "rgba(0,0,0, 0.88)",
         color: palette.additional["gray"][3],
         borderColor: palette.additional["gray"][3],
         borderWidth: 1,
         borderStyle: "solid",
-      },
+      }),
       swipeContainer: {
         width: "100%",
         height: "100%",
@@ -144,6 +167,10 @@ const useStyles = makeStyles(
         width: 150,
         marginTop: constants.generalUnit,
       },
+      options: ({ themeKey }: IStyleProps) => ({
+        backgroundColor:
+          themeKey === "dark" ? palette.additional.gray[1] : "initial",
+      }),
     }),
 )
 
@@ -153,7 +180,9 @@ const FilePreviewModal: React.FC<{
   previousFile?(): void
   closePreview(): void
 }> = ({ file, nextFile, previousFile, closePreview }) => {
-  const classes = useStyles()
+  const { themeKey } = useThemeSwitcher()
+
+  const classes = useStyles({ themeKey })
   const { getFileContent, downloadFile } = useDrive()
 
   const { breakpoints }: ITheme = useTheme()
@@ -281,6 +310,9 @@ const FilePreviewModal: React.FC<{
           animation="none"
           anchor="top-right"
           className={classes.fileOperationsMenu}
+          classNames={{
+            options: classes.options,
+          }}
           menuItems={[
             // {
             //   contents: (
