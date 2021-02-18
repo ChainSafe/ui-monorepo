@@ -360,7 +360,7 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
     },
     () => {
       file.isFolder
-        ? updateCurrentPath(`${currentPath}${file.name}`)
+        ? updateCurrentPath(`${currentPath}${file.name}`, undefined, true)
         : setPreviewFileIndex(files?.indexOf(file))
     },
   )
@@ -369,7 +369,7 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
     ? doubleClick
     : () => {
         file.isFolder
-          ? updateCurrentPath(`${currentPath}${file.name}`)
+          ? updateCurrentPath(`${currentPath}${file.name}`, undefined, true)
           : setPreviewFileIndex(files?.indexOf(file))
       }
 
