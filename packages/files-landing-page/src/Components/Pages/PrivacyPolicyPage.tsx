@@ -932,24 +932,7 @@ const TermsOfServicePage: React.FC = () => {
             on this page, with a notice that the privacy policy has been updated
             on the Website home page. If we make material changes to how we
             treat our users' personal information, we will notify you through a
-            notice on the Website home page.It is our policy to post any changes
-            we make to our privacy policy on this page, with a notice that the
-            privacy policy has been updated on the Website home page. If we make
-            material changes to how we treat our users' personal information, we
-            will notify you through a notice on the Website home page.
-          </Trans>
-        </Typography>
-        <Typography
-          component="p"
-          variant="body1"
-          className={clsx(classes.text, classes.padSmall)}
-        >
-          <Trans>
-            We include the date the privacy policy was last revised at the top
-            of the page. You are responsible for ensuring we have an up-to-date,
-            active, and deliverable email address for you, and for periodically
-            visiting our Website and this privacy policy to check for any
-            changes.
+            notice on the Website home page.
           </Trans>
         </Typography>
 
