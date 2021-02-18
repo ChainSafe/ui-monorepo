@@ -198,12 +198,14 @@ const SearchModule: React.FC<ISearchModule> = ({
   const onSearchEntryClickFolder = (searchEntry: SearchEntry) => {
     redirect(ROUTE_LINKS.Home(searchEntry.path))
     setSearchString("")
+    setSearchStringCallback("")
     setSearchActive(false)
   }
 
   const onSearchEntryClickFile = (searchEntry: SearchEntry) => {
     redirect(ROUTE_LINKS.Home(getParentPathFromFilePath(searchEntry.path)))
     setSearchString("")
+    setSearchStringCallback("")
     setSearchActive(false)
   }
 
