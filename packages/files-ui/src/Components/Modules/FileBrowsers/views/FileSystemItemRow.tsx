@@ -42,6 +42,10 @@ import { DragTypes } from "../DragConstants"
 import { NativeTypes } from "react-dnd-html5-backend"
 import { FileOperation, IFileConfigured } from "../types"
 
+interface IStyleProps {
+  themeKey: string
+}
+
 const useStyles = makeStyles(({ breakpoints, constants, palette }: ITheme) => {
   // const desktopGridSettings = "50px 69px 3fr 190px 100px 45px !important"
   const desktopGridSettings = "50px 3fr 190px 60px !important"
@@ -144,6 +148,12 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: ITheme) => {
       whiteSpace: "nowrap",
       overflow: "hidden",
       textOverflow: "ellipsis",
+    },
+    dropdownIcon: {
+      "& svg": {},
+    },
+    dropdownOptions: {
+      "& > *": {},
     },
   })
 })
@@ -508,6 +518,10 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
           animation="none"
           anchor={desktop ? "bottom-center" : "bottom-right"}
           menuItems={menuItems}
+          classNames={{
+            icon: classes.dropdownIcon,
+            options: classes.dropdownOptions,
+          }}
           indicator={MoreIcon}
         />
       </TableCell>

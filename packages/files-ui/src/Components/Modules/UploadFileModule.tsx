@@ -1,11 +1,20 @@
 import { Button, FileInput } from "@chainsafe/common-components"
 import { useDrive } from "../../Contexts/DriveContext"
-import { createStyles, ITheme, makeStyles } from "@chainsafe/common-theme"
+import {
+  createStyles,
+  ITheme,
+  makeStyles,
+  useThemeSwitcher,
+} from "@chainsafe/common-theme"
 import React from "react"
 import { Formik, Form } from "formik"
 import { array, object } from "yup"
 import CustomModal from "../Elements/CustomModal"
 import { Trans } from "@lingui/macro"
+
+interface IStyleProps {
+  themeKey: string
+}
 
 const useStyles = makeStyles(({ constants, palette, breakpoints }: ITheme) =>
   createStyles({
@@ -18,11 +27,23 @@ const useStyles = makeStyles(({ constants, palette, breakpoints }: ITheme) =>
         alignItems: "center",
       },
     },
-    modalInner: {
+    modalInner: ({ themeKey }: IStyleProps) => ({
+      backgroundColor:
+        themeKey === "light"
+          ? palette.additional.gray[10]
+          : themeKey === "dark"
+          ? palette.additional.gray[1]
+          : palette.additional.gray[10],
+      color:
+        themeKey === "light"
+          ? palette.additional.gray[1]
+          : themeKey === "dark"
+          ? palette.additional.gray[9]
+          : palette.additional.gray[1],
       [breakpoints.down("md")]: {
         maxWidth: `${breakpoints.width("md")}px !important`,
       },
-    },
+    }),
     input: {
       marginBottom: constants.generalUnit * 2,
     },
@@ -49,7 +70,10 @@ const UploadFileModule: React.FC<IUploadFileModuleProps> = ({
   modalOpen,
   close,
 }: IUploadFileModuleProps) => {
-  const classes = useStyles()
+  const { themeKey } = useThemeSwitcher()
+
+  const classes = useStyles({ themeKey })
+
   const { uploadFiles, currentPath } = useDrive()
 
   const UploadSchema = object().shape({
