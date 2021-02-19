@@ -23,6 +23,7 @@ import {
   RecoverSvg,
   ZoomInIcon,
   CheckboxInput,
+  EyeSvg,
 } from "@chainsafe/common-components"
 import {
   makeStyles,
@@ -299,7 +300,7 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
     view_folder: {
       contents: (
         <Fragment>
-          <ZoomInIcon className={classes.menuIcon} />
+          <EyeSvg className={classes.menuIcon} />
           <span>View folder</span>
         </Fragment>
       ),

@@ -258,8 +258,9 @@ const SearchModule: React.FC<ISearchModule> = ({
                     Files
                   </Typography>
                 </div>
-                {searchResultsFiles.map((searchResult) => (
+                {searchResultsFiles.map((searchResult, i) => (
                   <div
+                    key={i}
                     className={classes.resultRow}
                     onClick={() => onSearchEntryClickFile(searchResult)}
                   >
@@ -281,8 +282,9 @@ const SearchModule: React.FC<ISearchModule> = ({
                     Folders
                   </Typography>
                 </div>
-                {searchResultsFolders.map((searchResult) => (
+                {searchResultsFolders.map((searchResult, i) => (
                   <div
+                    key={i}
                     className={classes.resultRow}
                     onClick={() => onSearchEntryClickFolder(searchResult)}
                   >
