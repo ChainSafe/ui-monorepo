@@ -194,7 +194,7 @@ interface IAppNav {
 
 const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
   const classes = useStyles()
-  const desktop = useThemeConfig()
+  const { desktop } = useThemeConfig()
   const { spaceUsed } = useDrive()
 
   const { isLoggedIn, logout, secured } = useImployApi()
