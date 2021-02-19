@@ -100,7 +100,7 @@ interface IFileInputProps extends DropzoneOptions {
     filelist?: string
     error?: string
   }
-  onFileNumberChange: (filesNumber: number) => void
+  onFileNumberChange?: (filesNumber: number) => void
 }
 
 const FileInput: React.FC<IFileInputProps> = ({
@@ -121,7 +121,7 @@ const FileInput: React.FC<IFileInputProps> = ({
   const [{ value }, meta, helpers] = useField(name)
 
   useEffect(() => {
-    onFileNumberChange(value.length)
+    onFileNumberChange && onFileNumberChange(value.length)
   }, [value.length])
 
   const onDrop = useCallback(
