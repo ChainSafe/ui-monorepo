@@ -1,11 +1,5 @@
 import React from "react"
-import {
-  makeStyles,
-  ITheme,
-  createStyles,
-  useTheme,
-  useMediaQuery,
-} from "@chainsafe/common-theme"
+import { makeStyles, ITheme, createStyles } from "@chainsafe/common-theme"
 import {
   ArrowLeftIcon,
   Button,
@@ -27,6 +21,7 @@ import {
   getExpiryDateError,
   getCVCError,
 } from "../../../Elements/CardInputs/utils"
+import { useThemeConfig } from "../../../../Contexts/ThemeConfigContext"
 
 const ACTUAL_PRICE = 108.5
 const FINAL_PRICE = 88.5
@@ -163,8 +158,7 @@ const PurchasePlan: React.FC = () => {
   const classes = useStyles()
   const { profile } = useUser()
   const { addCard, getCardTokenFromStripe } = useBilling()
-  const { breakpoints }: ITheme = useTheme()
-  const desktop = useMediaQuery(breakpoints.up("md"))
+  const { desktop } = useThemeConfig()
 
   const validationSchema = yup.object().shape({
     name: yup.string().required("Name is required"),

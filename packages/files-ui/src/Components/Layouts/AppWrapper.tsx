@@ -1,11 +1,5 @@
 import { useImployApi } from "@imploy/common-contexts"
-import {
-  createStyles,
-  ITheme,
-  makeStyles,
-  useMediaQuery,
-  useTheme,
-} from "@chainsafe/common-theme"
+import { createStyles, ITheme, makeStyles } from "@chainsafe/common-theme"
 import React, { useState } from "react"
 import { ReactNode } from "react"
 import clsx from "clsx"
@@ -13,6 +7,7 @@ import { CssBaseline } from "@chainsafe/common-components"
 import AppHeader from "./AppHeader"
 import AppNav from "./AppNav"
 import { useDrive } from "../../Contexts/DriveContext"
+import { useThemeConfig } from "../../Contexts/ThemeConfigContext"
 
 interface IAppWrapper {
   children: ReactNode | ReactNode[]
@@ -64,8 +59,7 @@ const useStyles = makeStyles(
 
 const AppWrapper: React.FC<IAppWrapper> = ({ children }: IAppWrapper) => {
   const classes = useStyles()
-  const { breakpoints }: ITheme = useTheme()
-  const desktop = useMediaQuery(breakpoints.up("md"))
+  const { desktop } = useThemeConfig()
 
   const [navOpen, setNavOpen] = useState<boolean>(desktop)
 

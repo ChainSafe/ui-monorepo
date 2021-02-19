@@ -1,12 +1,6 @@
 import React, { Fragment, useEffect, useRef } from "react"
 import { useState } from "react"
-import {
-  createStyles,
-  ITheme,
-  makeStyles,
-  useMediaQuery,
-  useTheme,
-} from "@chainsafe/common-theme"
+import { createStyles, ITheme, makeStyles } from "@chainsafe/common-theme"
 import { FileSystemItem, useDrive } from "../../Contexts/DriveContext"
 import MimeMatcher from "mime-matcher"
 import axios, { CancelTokenSource } from "axios"
@@ -33,6 +27,7 @@ import VideoPreview from "./PreviewRenderers/VideoPreview"
 import AudioPreview from "./PreviewRenderers/AudioPreview"
 import { useHotkeys } from "react-hotkeys-hook"
 import { t, Trans } from "@lingui/macro"
+import { useThemeConfig } from "../../Contexts/ThemeConfigContext"
 
 export interface IPreviewRendererProps {
   contents: Blob
@@ -156,8 +151,7 @@ const FilePreviewModal: React.FC<{
   const classes = useStyles()
   const { getFileContent, downloadFile } = useDrive()
 
-  const { breakpoints }: ITheme = useTheme()
-  const desktop = useMediaQuery(breakpoints.up("md"))
+  const { desktop } = useThemeConfig()
 
   const [isLoading, setIsLoading] = useState(false)
   const [loadingProgress, setLoadingProgress] = useState(0)

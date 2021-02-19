@@ -1,13 +1,7 @@
 import React, { useEffect, useState } from "react"
 import { IPreviewRendererProps } from "../FilePreviewModal"
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch"
-import {
-  makeStyles,
-  ITheme,
-  createStyles,
-  useMediaQuery,
-  useTheme,
-} from "@chainsafe/common-theme"
+import { makeStyles, ITheme, createStyles } from "@chainsafe/common-theme"
 import {
   Button,
   ZoomInIcon,
@@ -15,6 +9,7 @@ import {
   FullscreenIcon,
   // PrinterIcon,
 } from "@chainsafe/common-components"
+import { useThemeConfig } from "../../../Contexts/ThemeConfigContext"
 
 const useStyles = makeStyles(
   ({ constants, palette, zIndex, breakpoints }: ITheme) =>
@@ -55,9 +50,7 @@ const ImagePreview: React.FC<IPreviewRendererProps> = ({ contents }) => {
     // eslint-disable-next-line
   }, [contents])
   const classes = useStyles()
-  const { breakpoints }: ITheme = useTheme()
-
-  const desktop = useMediaQuery(breakpoints.up("md"))
+  const { desktop } = useThemeConfig()
 
   return (
     <div className={classes.root}>
