@@ -22,6 +22,7 @@ export {
   CloseCirceSvg,
 } from "./icons/CloseCircle.icon"
 export { default as CopyIcon, CopySvg } from "./icons/Copy.icon"
+export { default as CrossIcon, CrossSvg } from "./icons/Cross.icon"
 export {
   default as CrossOutlinedIcon,
   CrossOutlinedSvg,
@@ -91,7 +92,6 @@ export {
 } from "./icons/MastercardCard.icon"
 export { default as MoreIcon, MoreSvg } from "./icons/More.icon"
 export { default as LockIcon, LockSvg } from "./icons/Lock.icon"
-export { default as PaperclipIcon, PaperclipSvg } from "./icons/Paperclip.icon"
 export {
   default as PlaceholderCardIcon,
   PlaceholderCardSvg,
