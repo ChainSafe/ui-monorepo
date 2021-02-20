@@ -657,7 +657,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
       return results
     } catch (err) {
       addToastMessage({
-        message: "There was an error getting search results",
+        message: t`There was an error getting search results`,
         appearance: "error",
       })
       return Promise.reject(err)

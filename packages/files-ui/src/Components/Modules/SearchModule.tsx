@@ -21,6 +21,7 @@ import { ROUTE_LINKS } from "../FilesRoutes"
 import { useDrive, SearchEntry } from "../../Contexts/DriveContext"
 import { CONTENT_TYPES } from "../../Utils/Constants"
 import { getParentPathFromFilePath } from "../../Utils/pathUtils"
+import { Trans } from "@lingui/macro"
 
 const useStyles = makeStyles(
   ({ breakpoints, palette, constants, animation, zIndex, shadows }: ITheme) =>
@@ -244,7 +245,8 @@ const SearchModule: React.FC<ISearchModule> = ({
           <div className={classes.resultsBox}>
             {searchStringCallback && !searchResults.length ? (
               <Typography className={classes.noResultsFound}>
-                {`No search results for "${searchStringCallback}"`}
+                <Trans>No search results for </Trans>
+                {searchStringCallback}
               </Typography>
             ) : null}
             {searchResultsFiles.length ? (
@@ -255,7 +257,7 @@ const SearchModule: React.FC<ISearchModule> = ({
                     component="p"
                     className={classes.boldFont}
                   >
-                    Files
+                    <Trans>Files</Trans>
                   </Typography>
                 </div>
                 {searchResultsFiles.map((searchResult, i) => (
@@ -279,7 +281,7 @@ const SearchModule: React.FC<ISearchModule> = ({
                     component="p"
                     className={classes.boldFont}
                   >
-                    Folders
+                    <Trans>Folders</Trans>
                   </Typography>
                 </div>
                 {searchResultsFolders.map((searchResult, i) => (

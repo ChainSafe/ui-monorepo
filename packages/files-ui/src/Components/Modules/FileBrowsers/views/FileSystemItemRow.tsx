@@ -256,7 +256,9 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
       contents: (
         <Fragment>
           <ExportIcon className={classes.menuIcon} />
-          <span>Move</span>
+          <span>
+            <Trans>Move</Trans>
+          </span>
         </Fragment>
       ),
       onClick: () => setMoveFileData({ modal: true, fileData: file }),
@@ -265,7 +267,9 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
       contents: (
         <Fragment>
           <ShareAltIcon className={classes.menuIcon} />
-          <span>Share</span>
+          <span>
+            <Trans>Share</Trans>
+          </span>
         </Fragment>
       ),
       onClick: () => console.log,
@@ -274,7 +278,9 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
       contents: (
         <Fragment>
           <ExclamationCircleInverseIcon className={classes.menuIcon} />
-          <span>Info</span>
+          <span>
+            <Trans>Info</Trans>
+          </span>
         </Fragment>
       ),
       onClick: () => setFileInfoPath(`${currentPath}${file.name}`),
@@ -283,7 +289,9 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
       contents: (
         <Fragment>
           <RecoverSvg className={classes.menuIcon} />
-          <span>Recover</span>
+          <span>
+            <Trans>Recover</Trans>
+          </span>
         </Fragment>
       ),
       onClick: () => recoverFile && recoverFile(file.cid),
@@ -292,7 +300,9 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
       contents: (
         <Fragment>
           <ZoomInIcon className={classes.menuIcon} />
-          <span>Preview</span>
+          <span>
+            <Trans>Preview</Trans>
+          </span>
         </Fragment>
       ),
       onClick: () => setPreviewFileIndex(files?.indexOf(file)),
@@ -301,7 +311,9 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
       contents: (
         <Fragment>
           <EyeSvg className={classes.menuIcon} />
-          <span>View folder</span>
+          <span>
+            <Trans>View folder</Trans>
+          </span>
         </Fragment>
       ),
       onClick: () => viewFolder && viewFolder(file.cid),

@@ -30,7 +30,6 @@ const SearchFileBrowser: React.FC<IFilesBrowserModuleProps> = ({
           setSearchResults(results)
           setLoadingSearchResults(false)
         } catch {
-          //
           setLoadingSearchResults(false)
         }
       }
