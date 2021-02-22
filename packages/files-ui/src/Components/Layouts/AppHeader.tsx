@@ -1,6 +1,6 @@
+import React, { Fragment, useCallback, useState } from "react"
 import { useImployApi, useUser } from "@imploy/common-contexts"
 import { createStyles, ITheme, makeStyles } from "@chainsafe/common-theme"
-import React, { Fragment, useCallback } from "react"
 import clsx from "clsx"
 import {
   Link,
@@ -11,7 +11,7 @@ import {
   PowerDownSvg,
 } from "@chainsafe/common-components"
 import { ROUTE_LINKS } from "../FilesRoutes"
-// import SearchModule from "../Modules/SearchModule"
+import SearchModule from "../Modules/SearchModule"
 import { Trans } from "@lingui/macro"
 import { useDrive } from "../../Contexts/DriveContext"
 import { useThemeConfig } from "../../Contexts/ThemeConfigContext"
@@ -61,6 +61,9 @@ const useStyles = makeStyles(
             zIndex: zIndex?.layer1,
           },
         },
+      },
+      hamburgerMenu: {
+        position: "absolute",
       },
       logo: {
         textDecoration: "none",
@@ -115,10 +118,12 @@ const useStyles = makeStyles(
       },
       searchModule: {
         [breakpoints.down("md")]: {
-          position: "fixed",
-          top: 0,
-          right: 0,
           height: constants.mobileHeaderHeight,
+          position: "absolute",
+          right: 2,
+          width: "100%",
+          zIndex: zIndex?.background,
+          "&.active": {},
         },
       },
     })
@@ -146,6 +151,8 @@ const AppHeader: React.FC<IAppHeader> = ({
     removeUser()
   }, [logout, removeUser])
 
+  const [searchActive, setSearchActive] = useState(false)
+
   return (
     <header
       className={clsx(classes.root, {
@@ -156,6 +163,13 @@ const AppHeader: React.FC<IAppHeader> = ({
         <Fragment>
           {desktop ? (
             <Fragment>
+              <section>
+                <SearchModule
+                  className={classes.searchModule}
+                  searchActive={searchActive}
+                  setSearchActive={setSearchActive}
+                />
+              </section>
               <section className={classes.accountControls}>
                 <MenuDropdown
                   title={getProfileTitle()}
@@ -178,16 +192,25 @@ const AppHeader: React.FC<IAppHeader> = ({
             </Fragment>
           ) : (
             <Fragment>
-              <HamburgerMenu
-                onClick={() => setNavOpen(!navOpen)}
-                variant={navOpen ? "active" : "default"}
+              {!searchActive && (
+                <>
+                  <HamburgerMenu
+                    onClick={() => setNavOpen(!navOpen)}
+                    variant={navOpen ? "active" : "default"}
+                    className={classes.hamburgerMenu}
+                  />
+                  <Link className={classes.logo} to={ROUTE_LINKS.Home()}>
+                    <ChainsafeFilesLogo />
+                    &nbsp;
+                    <Typography variant="caption">beta</Typography>
+                  </Link>
+                </>
+              )}
+              <SearchModule
+                className={clsx(classes.searchModule, searchActive && "active")}
+                searchActive={searchActive}
+                setSearchActive={setSearchActive}
               />
-              <Link className={classes.logo} to={ROUTE_LINKS.Home}>
-                <ChainsafeFilesLogo />
-                &nbsp;
-                <Typography variant="caption">beta</Typography>
-              </Link>
-              {/* <SearchModule className={classes.searchModule} /> */}
             </Fragment>
           )}
         </Fragment>

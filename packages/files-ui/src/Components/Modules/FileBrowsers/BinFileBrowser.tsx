@@ -11,16 +11,15 @@ const BinFileBrowser: React.FC<IFilesBrowserModuleProps> = ({
 }: IFilesBrowserModuleProps) => {
   const {
     deleteFile,
-    currentPath,
     updateCurrentPath,
     pathContents,
     loadingCurrentPath,
-    storeEntry,
+    bucketType,
     recoverFile,
   } = useDrive()
 
   useEffect(() => {
-    updateCurrentPath("/", "trash", storeEntry !== "trash")
+    updateCurrentPath("/", "trash", bucketType !== "trash")
     // eslint-disable-next-line
   }, [])
 
@@ -74,12 +73,10 @@ const BinFileBrowser: React.FC<IFilesBrowserModuleProps> = ({
     <DragAndDrop>
       <FilesTableView
         crumbs={undefined}
-        currentPath={currentPath}
         recoverFile={handleRecover}
         deleteFile={deleteFile}
-        uploadsInProgress={[]}
         loadingCurrentPath={loadingCurrentPath}
-        showUploadsInTable={true}
+        showUploadsInTable={false}
         sourceFiles={parsedContents}
         updateCurrentPath={updateCurrentPath}
         heading={heading}
