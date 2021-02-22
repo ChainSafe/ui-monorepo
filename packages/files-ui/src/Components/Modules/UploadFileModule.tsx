@@ -5,7 +5,7 @@ import React, { useCallback, useState } from "react"
 import { Formik, Form } from "formik"
 import { array, object } from "yup"
 import CustomModal from "../Elements/CustomModal"
-import { Trans } from "@lingui/macro"
+import { Trans, t } from "@lingui/macro"
 
 const useStyles = makeStyles(({ constants, palette, breakpoints }: ITheme) =>
   createStyles({
@@ -32,6 +32,8 @@ const useStyles = makeStyles(({ constants, palette, breakpoints }: ITheme) =>
       marginLeft: constants.generalUnit,
       color: palette.common.white.main,
       backgroundColor: palette.common.black.main,
+      paddingLeft: constants.generalUnit * 4,
+      paddingRight: constants.generalUnit * 4,
     },
     cancelButton: {},
     label: {
@@ -98,7 +100,8 @@ const UploadFileModule: React.FC<IUploadFileModuleProps> = ({
           <FileInput
             multiple={true}
             className={classes.input}
-            label="Upload Files and Folders"
+            label={t`Click or drag to upload files`}
+            moreFilesLabel={t`Add more files`}
             maxSize={2 * 1024 ** 3}
             name="files"
             onFileNumberChange={onFileNumberChange}

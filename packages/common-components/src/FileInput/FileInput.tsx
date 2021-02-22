@@ -79,7 +79,7 @@ const useStyles = makeStyles(({ constants, palette, overrides }: ITheme) =>
       paddingRight: `${constants.generalUnit}px !important`,
       paddingBottom: 0,
       cursor: "pointer",
-      backgroundColor: palette.additional["gray"][1],
+      backgroundColor: palette.additional["gray"][2],
     },
     addFilesText: {
       marginLeft: constants.generalUnit,
@@ -91,7 +91,7 @@ interface IFileInputProps extends DropzoneOptions {
   className?: string
   variant?: "dropzone" | "filepicker"
   name: string
-  label?: string
+  label: string
   showPreviews?: boolean
   pending?: ReactNode | ReactNode[]
   maxFileSize?: number
@@ -100,7 +100,8 @@ interface IFileInputProps extends DropzoneOptions {
     filelist?: string
     error?: string
   }
-  onFileNumberChange?: (filesNumber: number) => void
+  onFileNumberChange: (filesNumber: number) => void
+  moreFilesLabel: string
 }
 
 const FileInput: React.FC<IFileInputProps> = ({
@@ -113,6 +114,7 @@ const FileInput: React.FC<IFileInputProps> = ({
   maxFileSize,
   classNames,
   onFileNumberChange,
+  moreFilesLabel,
   ...props
 }: IFileInputProps) => {
   const classes = useStyles()
@@ -185,7 +187,7 @@ const FileInput: React.FC<IFileInputProps> = ({
             ) : (
               <>
                 <PlusIcon fontSize="large" color="primary" />
-                <Typography>Click or drag to upload files</Typography>
+                <Typography>{label}</Typography>
               </>
             )}
           </div>
@@ -226,7 +228,7 @@ const FileInput: React.FC<IFileInputProps> = ({
       {value?.length !== 0 && (
         <div className={classes.addFiles} onClick={open}>
           <PlusIcon fontSize="small" color="primary" />
-          <span className={classes.addFilesText}>Add more files</span>
+          <span className={classes.addFilesText}>{moreFilesLabel}</span>
         </div>
       )}
       {(meta.error || errors.length > 0) && (
