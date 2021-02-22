@@ -29,6 +29,10 @@ const useStyles = makeStyles(({ constants, palette, overrides }: ITheme) =>
           cursor: "pointer",
           backgroundColor: palette.additional["gray"][2],
         },
+        "&.scrollbar": {
+          maxHeight: "80vh",
+          marginTop: 0,
+        },
       },
       marginBottom: "0 !important",
       outline: "none",
@@ -75,9 +79,6 @@ const useStyles = makeStyles(({ constants, palette, overrides }: ITheme) =>
     },
     itemText: {
       flex: "1 1 0",
-    },
-    scrollbar: {
-      maxHeight: "80vh",
     },
     crossIcon: {
       backgroundColor: palette.primary.hover,
@@ -194,7 +195,7 @@ const FileInput: React.FC<IFileInputProps> = ({
           </div>
         ) : (
           <div className={clsx(classes.root, classNames?.filelist)}>
-            <ScrollbarWrapper className={classes.scrollbar}>
+            <ScrollbarWrapper className={clsx("scrollbar")}>
               <ul>
                 {value.map((file: any, i: any) => (
                   <li className={classes.item} key={i}>

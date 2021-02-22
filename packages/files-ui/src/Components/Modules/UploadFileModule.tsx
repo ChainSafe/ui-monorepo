@@ -123,7 +123,7 @@ const UploadFileModule: React.FC<IUploadFileModuleProps> = ({
               className={clsx(classes.okButton, "wide")}
               disabled={isDoneDisabled}
             >
-              <Trans>Done</Trans>
+              <Trans>Start Upload</Trans>
             </Button>
           </footer>
         </Form>
