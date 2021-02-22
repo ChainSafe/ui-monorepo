@@ -4,7 +4,6 @@ import { IFileConfigured, IFilesBrowserModuleProps } from "./types"
 import FilesTableView from "./views/FilesTable.view"
 import { CONTENT_TYPES } from "../../../Utils/Constants"
 import DragAndDrop from "../../../Contexts/DnDContext"
-import { useThemeConfig } from "../../../Contexts/ThemeConfigContext"
 import { useHistory } from "@chainsafe/common-components"
 import { getParentPathFromFilePath } from "../../../Utils/pathUtils"
 import { ROUTE_LINKS } from "../../FilesRoutes"
@@ -15,7 +14,6 @@ const SearchFileBrowser: React.FC<IFilesBrowserModuleProps> = ({
   controls = false,
 }: IFilesBrowserModuleProps) => {
   const { updateCurrentPath, getSearchResults } = useDrive()
-  const { desktop } = useThemeConfig()
   const { redirect } = useHistory()
 
   const [loadingSearchResults, setLoadingSearchResults] = useState(true)

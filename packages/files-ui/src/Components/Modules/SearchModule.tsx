@@ -3,9 +3,7 @@ import {
   debounce,
   ITheme,
   makeStyles,
-  useMediaQuery,
   useOnClickOutside,
-  useTheme,
 } from "@chainsafe/common-theme"
 import React, { ChangeEvent, useRef } from "react"
 import {
