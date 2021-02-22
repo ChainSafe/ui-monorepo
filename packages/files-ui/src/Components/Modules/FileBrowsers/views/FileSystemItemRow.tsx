@@ -22,6 +22,8 @@ import {
   ExclamationCircleInverseIcon,
   RecoverSvg,
   ZoomInIcon,
+  CheckboxInput,
+  EyeSvg,
 } from "@chainsafe/common-components"
 import {
   makeStyles,
@@ -31,10 +33,7 @@ import {
 } from "@chainsafe/common-theme"
 import clsx from "clsx"
 import { Formik, Form } from "formik"
-import {
-  FileSystemItem,
-  StoreEntryType,
-} from "../../../../Contexts/DriveContext"
+import { FileSystemItem, BucketType } from "../../../../Contexts/DriveContext"
 import CustomModal from "../../../Elements/CustomModal"
 import { Trans } from "@lingui/macro"
 import { useDrag, useDrop } from "react-dnd"
@@ -48,7 +47,7 @@ interface IStyleProps {
 
 const useStyles = makeStyles(({ breakpoints, constants, palette }: ITheme) => {
   // const desktopGridSettings = "50px 69px 3fr 190px 100px 45px !important"
-  const desktopGridSettings = "50px 3fr 190px 60px !important"
+  const desktopGridSettings = "50px 69px 3fr 190px 60px !important"
   const mobileGridSettings = "69px 3fr 45px !important"
   return createStyles({
     tableRow: {
@@ -162,10 +161,10 @@ interface IFileSystemItemRowProps {
   index: number
   file: IFileConfigured
   files: IFileConfigured[]
-  currentPath: string
+  currentPath?: string
   updateCurrentPath(
     path: string,
-    newSoreEntry?: StoreEntryType,
+    newBucketType?: BucketType,
     showLoading?: boolean,
   ): void
   selected: string[]
@@ -177,6 +176,7 @@ interface IFileSystemItemRowProps {
   handleMove?(path: string, newPath: string): Promise<void>
   deleteFile?(cid: string): void
   recoverFile?(cid: string): void
+  viewFolder?(cid: string): void
   downloadFile?(cid: string): Promise<void>
   handleUploadOnDrop?(
     files: File[],
@@ -185,7 +185,10 @@ interface IFileSystemItemRowProps {
   ): void
   setPreviewFileIndex(fileIndex: number | undefined): void
   desktop: boolean
-  setMoveFileData(moveFileData: { modal: boolean; file: FileSystemItem }): void
+  setMoveFileData(moveFileData: {
+    modal: boolean
+    fileData: FileSystemItem | FileSystemItem[]
+  }): void
   setFileInfoPath(path: string): void
 }
 
@@ -204,11 +207,13 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
   deleteFile,
   recoverFile,
   downloadFile,
+  viewFolder,
   handleUploadOnDrop,
   setPreviewFileIndex,
   setMoveFileData,
   setFileInfoPath,
   desktop,
+  handleSelect,
 }) => {
   let Icon
   if (file.isFolder) {
@@ -261,16 +266,20 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
       contents: (
         <Fragment>
           <ExportIcon className={classes.menuIcon} />
-          <span>Move</span>
+          <span>
+            <Trans>Move</Trans>
+          </span>
         </Fragment>
       ),
-      onClick: () => setMoveFileData({ modal: true, file: file }),
+      onClick: () => setMoveFileData({ modal: true, fileData: file }),
     },
     share: {
       contents: (
         <Fragment>
           <ShareAltIcon className={classes.menuIcon} />
-          <span>Share</span>
+          <span>
+            <Trans>Share</Trans>
+          </span>
         </Fragment>
       ),
       onClick: () => console.log,
@@ -279,7 +288,9 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
       contents: (
         <Fragment>
           <ExclamationCircleInverseIcon className={classes.menuIcon} />
-          <span>Info</span>
+          <span>
+            <Trans>Info</Trans>
+          </span>
         </Fragment>
       ),
       onClick: () => setFileInfoPath(`${currentPath}${file.name}`),
@@ -288,7 +299,9 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
       contents: (
         <Fragment>
           <RecoverSvg className={classes.menuIcon} />
-          <span>Recover</span>
+          <span>
+            <Trans>Recover</Trans>
+          </span>
         </Fragment>
       ),
       onClick: () => recoverFile && recoverFile(file.cid),
@@ -297,10 +310,23 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
       contents: (
         <Fragment>
           <ZoomInIcon className={classes.menuIcon} />
-          <span>Preview</span>
+          <span>
+            <Trans>Preview</Trans>
+          </span>
         </Fragment>
       ),
       onClick: () => setPreviewFileIndex(files?.indexOf(file)),
+    },
+    view_folder: {
+      contents: (
+        <Fragment>
+          <EyeSvg className={classes.menuIcon} />
+          <span>
+            <Trans>View folder</Trans>
+          </span>
+        </Fragment>
+      ),
+      onClick: () => viewFolder && viewFolder(file.cid),
     },
   }
 
@@ -351,17 +377,22 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
   }
 
   // Hook cant be called conditionally
-  const doubleClick = useDoubleClick(undefined, () => {
-    file.isFolder
-      ? updateCurrentPath(`${currentPath}${file.name}`, undefined, true)
-      : setPreviewFileIndex(files?.indexOf(file))
-  })
+  const doubleClick = useDoubleClick(
+    () => {
+      handleSelect(file.cid)
+    },
+    () => {
+      file.isFolder
+        ? updateCurrentPath(`${currentPath}${file.name}`, undefined, true)
+        : setPreviewFileIndex(files?.indexOf(file))
+    },
+  )
 
   const onFolderOrFileClicks = desktop
     ? doubleClick
     : () => {
         file.isFolder
-          ? updateCurrentPath(`${currentPath}${file.name}`)
+          ? updateCurrentPath(`${currentPath}${file.name}`, undefined, true)
           : setPreviewFileIndex(files?.indexOf(file))
       }
 
@@ -377,14 +408,14 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
       ref={attachRef}
       selected={selected.includes(file.cid)}
     >
-      {/* {desktop && (
+      {desktop && (
         <TableCell>
           <CheckboxInput
             value={selected.includes(file.cid)}
             onChange={() => handleSelect(file.cid)}
           />
         </TableCell>
-      )} */}
+      )}
       <TableCell
         className={clsx(classes.fileIcon, file.isFolder && classes.folderIcon)}
         onClick={onFolderOrFileClicks}

@@ -96,22 +96,22 @@ const useStyles = makeStyles(
 )
 
 interface IMoveFileModuleProps {
-  currentPath: string
-  file?: FileSystemItem
+  currentPath?: string
+  fileData?: FileSystemItem | FileSystemItem[]
   modalOpen: boolean
   close: () => void
 }
 
 const MoveFileModule: React.FC<IMoveFileModuleProps> = ({
   currentPath,
-  file,
+  fileData,
   modalOpen,
   close,
 }: IMoveFileModuleProps) => {
   const { themeKey } = useThemeSwitcher()
-
   const classes = useStyles({ themeKey })
-  const { moveFile, getFolderTree } = useDrive()
+
+  const { moveFile, getFolderTree, bulkMoveFile } = useDrive()
   const [movingFile, setMovingFile] = useState(false)
   const [movePath, setMovePath] = useState<undefined | string>(undefined)
   const [folderTree, setFolderTree] = useState<ITreeNodeProps[]>([])
@@ -160,13 +160,23 @@ const MoveFileModule: React.FC<IMoveFileModuleProps> = ({
   }, [modalOpen, getFolderTreeData])
 
   const onMoveFile = async () => {
-    if (file && movePath) {
+    if (fileData && movePath) {
       try {
         setMovingFile(true)
-        await moveFile({
-          path: `${currentPath}${file.name}`,
-          new_path: getPathWithFile(movePath, file.name),
-        })
+        if (Array.isArray(fileData)) {
+          await bulkMoveFile(
+            fileData.map((file) => ({
+              path: `${currentPath}${file.name}`,
+              new_path: getPathWithFile(movePath, file.name),
+            })),
+          )
+        } else {
+          await moveFile({
+            path: `${currentPath}${fileData.name}`,
+            new_path: getPathWithFile(movePath, fileData.name),
+          })
+        }
+
         setMovingFile(false)
         close()
       } catch {
