@@ -180,40 +180,51 @@ const FileInput: React.FC<IFileInputProps> = ({
   return (
     <div {...getRootProps()} className={clsx(classes.root, className)}>
       <input {...getInputProps()} />
-      {value?.length === 0 ? (
-        <div className={clsx(classes.pending, classNames?.pending)}>
-          {pending ? (
-            pending
-          ) : (
-            <>
-              <PlusIcon fontSize="large" color="primary" />
-              <Typography>{label}</Typography>
-            </>
-          )}
-        </div>
+      {variant === "dropzone" ? (
+        value?.length === 0 ? (
+          <div className={clsx(classes.pending, classNames?.pending)}>
+            {pending ? (
+              pending
+            ) : (
+              <>
+                <PlusIcon fontSize="large" color="primary" />
+                <Typography>{label}</Typography>
+              </>
+            )}
+          </div>
+        ) : (
+          <div className={clsx(classes.root, classNames?.filelist)}>
+            <ScrollbarWrapper className={classes.scrollbar}>
+              <ul>
+                {value.map((file: any, i: any) => (
+                  <li className={classes.item} key={i}>
+                    <span className={classes.itemText}>{file.name}</span>
+                    <Button
+                      className={classes.crossIcon}
+                      type="button"
+                      onClick={(e) => {
+                        e.stopPropagation()
+                        removeItem(i)
+                      }}
+                      size="small"
+                    >
+                      <CrossIcon fontSize="small" />
+                    </Button>
+                  </li>
+                ))}
+              </ul>
+            </ScrollbarWrapper>
+          </div>
+        )
       ) : (
-        <div className={clsx(classes.root, classNames?.filelist)}>
-          <ScrollbarWrapper className={classes.scrollbar}>
-            <ul>
-              {value.map((file: any, i: any) => (
-                <li className={classes.item} key={i}>
-                  <span className={classes.itemText}>{file.name}</span>
-                  <Button
-                    className={classes.crossIcon}
-                    type="button"
-                    onClick={(e) => {
-                      e.stopPropagation()
-                      removeItem(i)
-                    }}
-                    size="small"
-                  >
-                    <CrossIcon fontSize="small" />
-                  </Button>
-                </li>
-              ))}
-            </ul>
-          </ScrollbarWrapper>
-        </div>
+        <>
+          {value.value?.length === 0
+            ? "No files selected"
+            : `${value.value?.length} file(s) selected`}
+          <Button onClick={open} size="small">
+            Select
+          </Button>
+        </>
       )}
       {value?.length > 0 && (
         <div className={clsx("addFiles")} onClick={open}>
