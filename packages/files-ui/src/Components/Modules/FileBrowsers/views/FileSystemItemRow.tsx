@@ -30,6 +30,7 @@ import {
   ITheme,
   createStyles,
   useDoubleClick,
+  useThemeSwitcher,
 } from "@chainsafe/common-theme"
 import clsx from "clsx"
 import { Formik, Form } from "formik"
@@ -148,9 +149,11 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: ITheme) => {
       overflow: "hidden",
       textOverflow: "ellipsis",
     },
-    dropdownIcon: {
-      "& svg": {},
-    },
+    dropdownIcon: ({ themeKey }: IStyleProps) => ({
+      "& svg": {
+        fill: themeKey === "dark" ? palette.additional.gray[9] : "initial",
+      },
+    }),
     dropdownOptions: {
       "& > *": {},
     },
@@ -226,7 +229,10 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
     Icon = FileTextSvg
   }
 
-  const classes = useStyles()
+  const { themeKey } = useThemeSwitcher()
+  const classes = useStyles({
+    themeKey,
+  })
 
   const menuOptions: Record<FileOperation, IMenuItem> = {
     rename: {
