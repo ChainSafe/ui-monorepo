@@ -162,29 +162,50 @@ const useStyles = makeStyles(
           "&.active": {},
         },
       },
-      navHead: {
+      navHead: ({ themeKey }: IStyleProps) => ({
         fontWeight: 600,
-      },
-      navItem: {
+        color: themeKey === "dark" ? palette.additional.gray[8] : "initial",
+      }),
+      navItem: ({ themeKey }: IStyleProps) => ({
         textDecoration: "none",
         display: "flex",
         flexDirection: "row",
         alignItems: "center",
         cursor: "pointer",
         padding: `${constants.generalUnit * 1.5}px 0`,
+        transitionDuration: `${animation.transform}ms`,
+        "& span": {
+          transitionDuration: `${animation.transform}ms`,
+          color:
+            themeKey === "dark" ? palette.additional["gray"][7] : "initial",
+        },
+        "&:hover": {
+          "& span": {
+            color:
+              themeKey === "dark" ? palette.additional["gray"][9] : "initial",
+          },
+          "& svg": {
+            fill:
+              themeKey === "dark" ? palette.additional["gray"][9] : "initial",
+          },
+        },
         "& svg": {
-          width: constants.svgWidth,
+          transitionDuration: `${animation.transform}ms`,
+          width: constants.svgWidth as number,
           marginRight: constants.generalUnit * 2,
-          fill: palette.additional["gray"][8],
+          fill:
+            themeKey === "dark"
+              ? palette.additional["gray"][7]
+              : palette.additional["gray"][8],
           [breakpoints.down("md")]: {
             fill: palette.additional["gray"][3],
           },
         },
         [breakpoints.down("md")]: {
           color: `${palette.additional["gray"][3]} !important`,
-          minWidth: constants.mobileNavWidth,
+          minWidth: constants.mobileNavWidth as number,
         },
-      },
+      }),
       navItemText: {
         [breakpoints.down("md")]: {
           color: palette.additional["gray"][3],

@@ -1,4 +1,9 @@
-import { createStyles, ITheme, makeStyles } from "@chainsafe/common-theme"
+import {
+  createStyles,
+  ITheme,
+  makeStyles,
+  useThemeSwitcher,
+} from "@chainsafe/common-theme"
 import React, { Fragment, useCallback, useEffect } from "react"
 import {
   Divider,
@@ -44,6 +49,10 @@ import UploadFileModule from "../../UploadFileModule"
 import MoveFileModule from "../MoveFileModal"
 import FileInfoModal from "../FileInfoModal"
 import { CONTENT_TYPES } from "../../../../Utils/Constants"
+
+interface IStyleProps {
+  themeKey: string
+}
 
 const useStyles = makeStyles(
   ({ animation, breakpoints, constants, palette, zIndex }: ITheme) => {
@@ -105,16 +114,34 @@ const useStyles = makeStyles(
           margin: `${constants.generalUnit * 3}px 0 0`,
         },
       },
-      noFiles: {
+      noFiles: ({ themeKey }: IStyleProps) => ({
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
         marginTop: "25vh",
+        color: themeKey === "dark" ? palette.additional.gray[7] : "initial",
         "& svg": {
           maxWidth: 180,
           marginBottom: constants.generalUnit * 3,
+          "& path": {
+            "&:first-child": {
+              fill:
+                themeKey === "dark" ? palette.additional.gray[2] : "initial",
+            },
+            "&:nth-child(2)": {
+              stroke:
+                themeKey === "dark" ? palette.additional.gray[2] : "initial",
+              fill: themeKey === "dark" ? "transparent" : "initial",
+            },
+            "&:last-child": {
+              fill:
+                themeKey === "dark" ? palette.additional.gray[4] : "initial",
+              stroke:
+                themeKey === "dark" ? palette.additional.gray[2] : "initial",
+            },
+          },
         },
-      },
+      }),
       tableRow: {
         border: `2px solid transparent`,
         transitionDuration: `${animation.transform}ms`,
@@ -243,7 +270,11 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
   allowDropUpload,
   desktop,
 }: IFilesTableBrowserProps) => {
-  const classes = useStyles()
+  const { themeKey } = useThemeSwitcher()
+  const classes = useStyles({
+    themeKey,
+  })
+
   const [editing, setEditing] = useState<string | undefined>()
   const [direction, setDirection] = useState<SortDirection>("descend")
   const [column, setColumn] = useState<"name" | "size" | "date_uploaded">(

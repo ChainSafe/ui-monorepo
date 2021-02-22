@@ -6,6 +6,7 @@ import {
   useMediaQuery,
   useOnClickOutside,
   useTheme,
+  useThemeSwitcher,
 } from "@chainsafe/common-theme"
 import React, { ChangeEvent, useRef } from "react"
 import {
@@ -22,6 +23,10 @@ import { useDrive, SearchEntry } from "../../Contexts/DriveContext"
 import { CONTENT_TYPES } from "../../Utils/Constants"
 import { getParentPathFromFilePath } from "../../Utils/pathUtils"
 import { Trans } from "@lingui/macro"
+
+interface IStyleProps {
+  themeKey: string
+}
 
 const useStyles = makeStyles(
   ({ breakpoints, palette, constants, animation, zIndex, shadows }: ITheme) =>
@@ -46,12 +51,12 @@ const useStyles = makeStyles(
           },
         },
       },
-      searchBar: {
+      searchBar: ({ themeKey }: IStyleProps) => ({
         [breakpoints.down("md")]: {
           height: "100%",
           width: "100%",
         },
-      },
+      }),
       backButton: {
         backgroundColor: "transparent",
         zIndex: zIndex?.layer1,
@@ -88,48 +93,66 @@ const useStyles = makeStyles(
           },
         },
       },
-      resultsBox: {
-        backgroundColor: palette.common.white.main,
+      resultsBox: ({ themeKey }: IStyleProps) => ({
+        backgroundColor:
+          themeKey === "dark"
+            ? palette.additional["gray"][2]
+            : palette.common.white.main,
         padding: constants.generalUnit * 1,
-      },
-      resultBackDrop: {
+      }),
+      resultBackDrop: ({ themeKey }: IStyleProps) => ({
         height: "100%",
-        backgroundColor: palette.additional["gray"][9],
+        backgroundColor:
+          themeKey === "dark"
+            ? palette.additional["gray"][2]
+            : palette.additional["gray"][9],
         opacity: 0.7,
-      },
-      resultHead: {
+      }),
+      resultHead: ({ themeKey }: IStyleProps) => ({
         padding: `${constants.generalUnit * 0.5}px ${
           constants.generalUnit * 1
         }px`,
-        color: palette.additional["gray"][8],
-      },
-      resultHeadFolder: {
+        color:
+          themeKey === "dark"
+            ? palette.additional["gray"][9]
+            : palette.additional["gray"][8],
+      }),
+      resultHeadFolder: ({ themeKey }: IStyleProps) => ({
         marginTop: constants.generalUnit * 0.5,
         padding: `${constants.generalUnit * 0.5}px  ${
           constants.generalUnit * 1
         }px`,
-        color: palette.additional["gray"][8],
-      },
+        color:
+          themeKey === "dark"
+            ? palette.additional["gray"][9]
+            : palette.additional["gray"][8],
+      }),
       boldFont: {
         fontWeight: 700,
       },
-      resultRow: {
+      resultRow: ({ themeKey }: IStyleProps) => ({
         padding: `${constants.generalUnit * 0.75}px  ${
           constants.generalUnit * 1
         }px`,
         cursor: "pointer",
-        color: palette.additional["gray"][8],
+        color:
+          themeKey === "dark"
+            ? palette.additional["gray"][9]
+            : palette.additional["gray"][8],
         "&:hover": {
           backgroundColor: palette.additional["gray"][4],
         },
-      },
-      noResultsFound: {
+      }),
+      noResultsFound: ({ themeKey }: IStyleProps) => ({
         margin: `${constants.generalUnit}px 0`,
-        color: palette.additional["gray"][7],
+        color:
+          themeKey === "dark"
+            ? palette.additional["gray"][9]
+            : palette.additional["gray"][7],
         [breakpoints.down("md")]: {
           textAlign: "center",
         },
-      },
+      }),
     }),
 )
 
@@ -144,7 +167,11 @@ const SearchModule: React.FC<ISearchModule> = ({
   searchActive,
   setSearchActive,
 }: ISearchModule) => {
-  const classes = useStyles()
+  const { themeKey } = useThemeSwitcher()
+  const classes = useStyles({
+    themeKey,
+  })
+
   const [searchString, setSearchString] = useState<string>("")
   const [searchStringCallback, setSearchStringCallback] = useState<string>("")
   const [searchResults, setSearchResults] = useState<SearchEntry[]>([])

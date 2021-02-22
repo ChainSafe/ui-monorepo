@@ -11,12 +11,17 @@ import {
   ITheme,
   createStyles,
   debounce,
+  useThemeSwitcher,
 } from "@chainsafe/common-theme"
 import { LockIcon, CopyIcon } from "@chainsafe/common-components"
 import { Formik, Form } from "formik"
 import { Profile } from "@imploy/common-contexts"
 import { Trans } from "@lingui/macro"
 import { centerEllipsis } from "../../../Utils/Helpers"
+
+interface IStyleProps {
+  themeKey: string
+}
 
 const useStyles = makeStyles((theme: ITheme) =>
   createStyles({
@@ -82,13 +87,15 @@ const useStyles = makeStyles((theme: ITheme) =>
       fontSize: "20px",
       margin: "-2px 2px 0 2px",
     },
-    copyIcon: {
+    copyIcon: ({ themeKey }: IStyleProps) => ({
       fontSize: "14px",
+      fill:
+        themeKey === "dark" ? theme.palette.additional["gray"][9] : "initial",
       [theme.breakpoints.down("md")]: {
         fontSize: "18px",
-        fill: theme.palette.additional["gray"][8],
+        fill: theme.palette.additional["gray"][9],
       },
-    },
+    }),
     publicAddress: {
       color: theme.palette.additional["gray"][8],
       overflowWrap: "break-word",
@@ -111,9 +118,11 @@ interface IProfileProps {
 }
 
 const ProfileView: React.FC<IProfileProps> = (props) => {
+  const { themeKey } = useThemeSwitcher()
+  const classes = useStyles({ themeKey })
+
   const { profile, onUpdateProfile, updatingProfile } = props
   const [copied, setCopied] = useState(false)
-  const classes = useStyles()
 
   const debouncedSwitchCopied = useCallback(
     debounce(() => setCopied(false), 3000),
@@ -220,6 +229,7 @@ const ProfileView: React.FC<IProfileProps> = (props) => {
                     size="large"
                     type="submit"
                     loading={updatingProfile}
+                    variant={themeKey === "dark" ? "outline" : "primary"}
                     loadingText="Saving"
                   >
                     <LockIcon className={classes.icon} />

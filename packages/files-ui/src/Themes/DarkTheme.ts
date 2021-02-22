@@ -181,6 +181,26 @@ export const darkTheme = createTheme({
       ...UI_CONSTANTS,
     },
     overrides: {
+      SearchBar: {
+        input: {
+          root: {
+            backgroundColor: "#141414",
+            color: "#DBDBDB",
+          },
+        },
+      },
+      TextInput: {
+        label: {
+          color: "#DBDBDB",
+        },
+        input: {
+          root: {
+            backgroundColor: "#141414",
+            borderColor: "#303030",
+            color: "#DBDBDB",
+          },
+        },
+      },
       Breadcrumb: {
         home: {
           fill: "#DBDBDB",
@@ -221,7 +241,7 @@ export const darkTheme = createTheme({
           },
           outline: {
             root: {
-              backgroundColor: "#141414",
+              backgroundColor: "#262626 !important",
               borderColor: "#303030",
               color: "#DBDBDB",
               "& svg": {
