@@ -16,8 +16,22 @@ const useStyles = makeStyles(({ constants, palette, overrides }: ITheme) =>
         padding: constants.generalUnit,
         margin: constants.generalUnit * 4,
         marginBottom: 0,
+        "&.addFiles": {
+          display: "flex",
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "flex-start",
+          margin: 0,
+          paddingTop: constants.generalUnit,
+          paddingLeft: constants.generalUnit * 10,
+          paddingRight: constants.generalUnit,
+          paddingBottom: constants.generalUnit,
+          cursor: "pointer",
+          backgroundColor: palette.additional["gray"][2],
+        },
       },
       marginBottom: "0 !important",
+      outline: "none",
       ...overrides?.FileInput?.root,
     },
     pending: {
@@ -67,19 +81,6 @@ const useStyles = makeStyles(({ constants, palette, overrides }: ITheme) =>
     },
     crossIcon: {
       backgroundColor: palette.primary.hover,
-    },
-    addFiles: {
-      display: "flex",
-      flexDirection: "row",
-      alignItems: "center",
-      justifyContent: "flex-start",
-      margin: "0 !important",
-      paddingTop: `${constants.generalUnit}px !important`,
-      paddingLeft: `${constants.generalUnit * 10}px !important`,
-      paddingRight: `${constants.generalUnit}px !important`,
-      paddingBottom: 0,
-      cursor: "pointer",
-      backgroundColor: palette.additional["gray"][2],
     },
     addFilesText: {
       marginLeft: constants.generalUnit,
@@ -179,54 +180,43 @@ const FileInput: React.FC<IFileInputProps> = ({
   return (
     <div {...getRootProps()} className={clsx(classes.root, className)}>
       <input {...getInputProps()} />
-      {variant === "dropzone" ? (
-        value?.length === 0 ? (
-          <div className={clsx(classes.pending, classNames?.pending)}>
-            {pending ? (
-              pending
-            ) : (
-              <>
-                <PlusIcon fontSize="large" color="primary" />
-                <Typography>{label}</Typography>
-              </>
-            )}
-          </div>
-        ) : (
-          <div className={clsx(classes.root, classNames?.filelist)}>
-            <ScrollbarWrapper className={classes.scrollbar}>
-              <ul>
-                {value.map((file: any, i: any) => (
-                  <li className={classes.item} key={i}>
-                    <span className={classes.itemText}>{file.name}</span>
-                    <Button
-                      className={classes.crossIcon}
-                      type="button"
-                      onClick={(e) => {
-                        e.stopPropagation()
-                        removeItem(i)
-                      }}
-                      size="small"
-                    >
-                      <CrossIcon fontSize="small" />
-                    </Button>
-                  </li>
-                ))}
-              </ul>
-            </ScrollbarWrapper>
-          </div>
-        )
+      {value?.length === 0 ? (
+        <div className={clsx(classes.pending, classNames?.pending)}>
+          {pending ? (
+            pending
+          ) : (
+            <>
+              <PlusIcon fontSize="large" color="primary" />
+              <Typography>{label}</Typography>
+            </>
+          )}
+        </div>
       ) : (
-        <>
-          {value?.length === 0
-            ? "No files selected"
-            : `${value?.length} file(s) selected`}
-          <Button onClick={open} size="small">
-            Select
-          </Button>
-        </>
+        <div className={clsx(classes.root, classNames?.filelist)}>
+          <ScrollbarWrapper className={classes.scrollbar}>
+            <ul>
+              {value.map((file: any, i: any) => (
+                <li className={classes.item} key={i}>
+                  <span className={classes.itemText}>{file.name}</span>
+                  <Button
+                    className={classes.crossIcon}
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      removeItem(i)
+                    }}
+                    size="small"
+                  >
+                    <CrossIcon fontSize="small" />
+                  </Button>
+                </li>
+              ))}
+            </ul>
+          </ScrollbarWrapper>
+        </div>
       )}
-      {value?.length !== 0 && (
-        <div className={classes.addFiles} onClick={open}>
+      {value?.length > 0 && (
+        <div className={clsx("addFiles")} onClick={open}>
           <PlusIcon fontSize="small" color="primary" />
           <span className={classes.addFilesText}>{moreFilesLabel}</span>
         </div>

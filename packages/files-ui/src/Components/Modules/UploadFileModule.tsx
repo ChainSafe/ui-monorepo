@@ -6,6 +6,7 @@ import { Formik, Form } from "formik"
 import { array, object } from "yup"
 import CustomModal from "../Elements/CustomModal"
 import { Trans, t } from "@lingui/macro"
+import clsx from "clsx"
 
 const useStyles = makeStyles(({ constants, palette, breakpoints }: ITheme) =>
   createStyles({
@@ -32,8 +33,10 @@ const useStyles = makeStyles(({ constants, palette, breakpoints }: ITheme) =>
       marginLeft: constants.generalUnit,
       color: palette.common.white.main,
       backgroundColor: palette.common.black.main,
-      paddingLeft: constants.generalUnit * 4,
-      paddingRight: constants.generalUnit * 4,
+      "&.wide": {
+        paddingLeft: constants.generalUnit * 4,
+        paddingRight: constants.generalUnit * 4,
+      },
     },
     cancelButton: {},
     label: {
@@ -57,9 +60,7 @@ const UploadFileModule: React.FC<IUploadFileModuleProps> = ({
   const { uploadFiles, currentPath } = useDrive()
 
   const UploadSchema = object().shape({
-    files: array()
-      .min(1, "Please select a file")
-      .required("Please select a file to upload"),
+    files: array().required("Please select a file to upload"),
   })
 
   const onFileNumberChange = useCallback((filesNumber: number) => {
@@ -119,7 +120,7 @@ const UploadFileModule: React.FC<IUploadFileModuleProps> = ({
             <Button
               size="medium"
               type="submit"
-              className={classes.okButton}
+              className={clsx(classes.okButton, "wide")}
               disabled={isDoneDisabled}
             >
               <Trans>Done</Trans>
