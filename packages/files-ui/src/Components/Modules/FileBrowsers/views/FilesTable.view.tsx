@@ -235,6 +235,7 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
   downloadFile,
   deleteFile,
   recoverFile,
+  viewFolder,
   currentPath,
   loadingCurrentPath,
   uploadsInProgress,
@@ -402,6 +403,7 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
     drop: (item: any, monitor) => {
       if (monitor.isOver({ shallow: true })) {
         handleUploadOnDrop &&
+          currentPath &&
           handleUploadOnDrop(item.files, item.items, currentPath)
       }
     },
@@ -624,7 +626,7 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
         </Typography>
       </div>
       {(desktop && items.length === 0) ||
-      (!desktop && items.length === 0 && uploadsInProgress.length === 0) ? (
+      (!desktop && items.length === 0 && uploadsInProgress?.length === 0) ? (
         <section
           className={clsx(
             classes.noFiles,
@@ -695,7 +697,7 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
             {!desktop &&
               showUploadsInTable &&
               uploadsInProgress
-                .filter(
+                ?.filter(
                   (uploadInProgress) =>
                     uploadInProgress.path === currentPath &&
                     !uploadInProgress.complete &&
@@ -748,6 +750,7 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
                 }
                 recoverFile={recoverFile}
                 downloadFile={downloadFile}
+                viewFolder={viewFolder}
                 handleUploadOnDrop={handleUploadOnDrop}
                 setPreviewFileIndex={setPreviewFileIndex}
                 setMoveFileData={setMoveFileData}

@@ -55,6 +55,7 @@ export {
   ExclamationCircleInverseSvg,
 } from "./icons/ExclamationCircleInverse.icon"
 export { default as ExportIcon, ExportSvg } from "./icons/Export.icon"
+export { default as EyeIcon, EyeSvg } from "./icons/Eye.icon"
 export {
   default as FacebookLogoIcon,
   FacebookLogoSvg,

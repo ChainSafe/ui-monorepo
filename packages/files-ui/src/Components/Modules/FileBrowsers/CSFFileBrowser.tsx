@@ -10,6 +10,7 @@ import {
 import FilesTableView from "./views/FilesTable.view"
 import { CONTENT_TYPES } from "../../../Utils/Constants"
 import DragAndDrop from "../../../Contexts/DnDContext"
+import { useQuery } from "../../../Utils/Helpers"
 
 const CSFFileBrowser: React.FC<IFilesBrowserModuleProps> = ({
   heading = "My Files",
@@ -27,14 +28,20 @@ const CSFFileBrowser: React.FC<IFilesBrowserModuleProps> = ({
     uploadFiles,
     uploadsInProgress,
     loadingCurrentPath,
-    storeEntry,
+    bucketType,
     desktop,
   } = useDrive()
 
+  const queryPath = useQuery().get("path")
+
   useEffect(() => {
-    updateCurrentPath("/", "csf", storeEntry !== "csf")
+    updateCurrentPath(
+      queryPath || "/",
+      "csf",
+      bucketType !== "csf" || queryPath !== null,
+    )
     // eslint-disable-next-line
-  }, [])
+  }, [queryPath])
 
   // Rename
   const handleRename = async (path: string, new_path: string) => {

@@ -1,3 +1,5 @@
+import { useLocation } from "@chainsafe/common-components"
+
 export const centerEllipsis = (address: string, remaining: number = 6) => {
   if (address.length <= remaining * 2) {
     return address
@@ -30,4 +32,8 @@ export const readFileAsync = (file: Blob): Promise<ArrayBuffer> => {
 
     reader.readAsArrayBuffer(file)
   })
+}
+
+export function useQuery() {
+  return new URLSearchParams(useLocation().search)
 }

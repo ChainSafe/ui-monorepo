@@ -122,7 +122,7 @@ const Settings: React.FC = () => {
       <div className={classes.headerContainer}>
         <Breadcrumb
           crumbs={crumbs}
-          homeOnClick={() => redirect(ROUTE_LINKS.Home)}
+          homeOnClick={() => redirect(ROUTE_LINKS.Home())}
         />
         <Typography variant="h1" component="p" className={classes.title}>
           <Trans>Settings</Trans>
