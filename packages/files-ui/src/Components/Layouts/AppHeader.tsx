@@ -17,6 +17,7 @@ import {
   MenuDropdown,
   PowerDownSvg,
   SunSvg,
+  MoonSvg,
 } from "@chainsafe/common-components"
 import { ROUTE_LINKS } from "../FilesRoutes"
 import SearchModule from "../Modules/SearchModule"
@@ -234,7 +235,7 @@ const AppHeader: React.FC<IAppHeader> = ({
                         setTheme(themeKey === "dark" ? "light" : "dark"),
                       contents: (
                         <div className={classes.menuItem}>
-                          <SunSvg />
+                          {themeKey === "dark" ? <SunSvg /> : <MoonSvg />}
                           <Typography>
                             <Trans>
                               {themeKey === "dark" ? "Light mode" : "Dark mode"}

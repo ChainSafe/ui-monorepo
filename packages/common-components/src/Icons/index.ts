@@ -90,6 +90,7 @@ export {
   default as MastercardCardIcon,
   MastercardCardSvg,
 } from "./icons/MastercardCard.icon"
+export { default as MoonIcon, MoonSvg } from "./icons/Moon.icon"
 export { default as MoreIcon, MoreSvg } from "./icons/More.icon"
 export { default as LockIcon, LockSvg } from "./icons/Lock.icon"
 export { default as PaperclipIcon, PaperclipSvg } from "./icons/Paperclip.icon"
