@@ -15,13 +15,13 @@ const useStyles = makeStyles(({ constants, palette, overrides }: ITheme) =>
         color: palette.additional["gray"][8],
         padding: constants.generalUnit,
         margin: constants.generalUnit * 4,
-        marginBottom: 0,
         "&.addFiles": {
           display: "flex",
           flexDirection: "row",
           alignItems: "center",
           justifyContent: "flex-start",
           margin: 0,
+          marginTop: constants.generalUnit * 4,
           paddingTop: constants.generalUnit,
           paddingLeft: constants.generalUnit * 10,
           paddingRight: constants.generalUnit,
@@ -32,6 +32,7 @@ const useStyles = makeStyles(({ constants, palette, overrides }: ITheme) =>
         "&.scrollbar": {
           maxHeight: "80vh",
           marginTop: 0,
+          marginBottom: 0,
         },
       },
       marginBottom: "0 !important",
