@@ -1,7 +1,7 @@
 // https://github.com/silkyland/object-to-formdata/blob/master/index.js
 // This code adds a handler for arrays of files to be added under the same key
 
-const formDataHelper = ( obj: any, formData?: FormData, namespace?: string) => {
+const formDataHelper = (obj: any, formData?: FormData, namespace?: string) => {
   const fd = formData || new FormData()
   let formKey: string
 
