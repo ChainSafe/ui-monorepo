@@ -262,7 +262,7 @@ const LoginPage = () => {
   // }
 
   const desktop = useMediaQuery(breakpoints.up("md"))
-  const maintenanceMode = Boolean(process.env.REACT_APP_MAINTENANCE_MODE)
+  const maintenanceMode = process.env.REACT_APP_MAINTENANCE_MODE === 'true'
 
   const shouldSaveNewDevice =
     !!keyDetails && keyDetails.requiredShares <= 0 && isNewDevice

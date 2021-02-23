@@ -68,6 +68,8 @@ const ImployApiContext = React.createContext<ImployApiContext | undefined>(
 )
 
 const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
+  const maintenanceMode = process.env.REACT_APP_MAINTENANCE_MODE === 'true'
+
   const { wallet, onboard, checkIsReady, isReady, provider } = useWeb3()
   const canUseLocalStorage = testLocalStorage()
   // initializing api
@@ -162,7 +164,7 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
         },
       )
       const savedRefreshToken =
-        canUseLocalStorage && localStorage.getItem(tokenStorageKey)
+        !maintenanceMode && canUseLocalStorage && localStorage.getItem(tokenStorageKey)
       const apiClient = new ImployApiClient({}, apiUrl, axiosInstance)
       setImployApiClient(apiClient)
       if (savedRefreshToken) {
