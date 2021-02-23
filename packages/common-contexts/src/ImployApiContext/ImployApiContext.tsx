@@ -5,7 +5,7 @@ import {
   IImployApiClient,
   ImployApiClient,
   Token,
-  Provider,
+  Provider
 } from "@imploy/api-client"
 import jwtDecode from "jwt-decode"
 import { signMessage } from "./utils"
@@ -28,21 +28,21 @@ const tokenStorageKey = "csf.refreshToken"
 const isReturningUserStorageKey = "csf.isReturningUser"
 
 type ImployApiContextProps = {
-  apiUrl?: string
-  children: React.ReactNode | React.ReactNode[]
+  apiUrl?: string;
+  children: React.ReactNode | React.ReactNode[];
 }
 
 type ImployApiContext = {
-  imployApiClient: IImployApiClient
-  isLoggedIn: boolean | undefined
-  secured: boolean | undefined
-  isReturningUser: boolean
-  selectWallet(): Promise<void>
-  resetAndSelectWallet(): Promise<void>
-  secureAccount(masterPassword: string): Promise<boolean>
-  web3Login(): Promise<void>
-  getProviderUrl(provider: Provider): Promise<string>
-  loginWithGithub(code: string, state: string): Promise<void>
+  imployApiClient: IImployApiClient;
+  isLoggedIn: boolean | undefined;
+  secured: boolean | undefined;
+  isReturningUser: boolean;
+  selectWallet(): Promise<void>;
+  resetAndSelectWallet(): Promise<void>;
+  secureAccount(masterPassword: string): Promise<boolean>;
+  web3Login(): Promise<void>;
+  getProviderUrl(provider: Provider): Promise<string>;
+  loginWithGithub(code: string, state: string): Promise<void>;
   loginWithGoogle(
     code: string,
     state: string,
@@ -50,14 +50,14 @@ type ImployApiContext = {
     authUser: string | undefined,
     hd: string | undefined,
     prompt: string | undefined,
-  ): Promise<void>
-  loginWithFacebook(code: string, state: string): Promise<void>
-  logout(): void
-  validateMasterPassword(candidatePassword: string): Promise<boolean>
+  ): Promise<void>;
+  loginWithFacebook(code: string, state: string): Promise<void>;
+  logout(): void;
+  validateMasterPassword(candidatePassword: string): Promise<boolean>;
 }
 
 const ImployApiContext = React.createContext<ImployApiContext | undefined>(
-  undefined,
+  undefined
 )
 
 const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
@@ -66,12 +66,12 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
   // initializing api
   const initialAxiosInstance = axios.create({
     // Disable the internal Axios JSON de serialization as this is handled by the client
-    transformResponse: [],
+    transformResponse: []
   })
   const initialApiClient = new ImployApiClient({}, apiUrl, initialAxiosInstance)
 
   const [imployApiClient, setImployApiClient] = useState<ImployApiClient>(
-    initialApiClient,
+    initialApiClient
   )
   const [isLoadingUser, setIsLoadingUser] = useState(true)
 
@@ -87,7 +87,7 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
   const isReturningUserLocal =
     canUseLocalStorage && localStorage.getItem(isReturningUserStorageKey)
   const [isReturningUser, setIsReturningUser] = useState(
-    isReturningUserLocal ? true : false,
+    isReturningUserLocal ? true : false
   )
 
   const setTokensAndSave = (accessToken: Token, refreshToken: Token) => {
@@ -111,7 +111,7 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
     const initializeApiClient = async () => {
       const axiosInstance = axios.create({
         // Disable the internal Axios JSON de serialization as this is handled by the client
-        transformResponse: [],
+        transformResponse: []
       })
 
       axiosInstance.interceptors.response.use(
@@ -127,14 +127,14 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
               const refreshTokenApiClient = new ImployApiClient(
                 {},
                 apiUrl,
-                axiosInstance,
+                axiosInstance
               )
               try {
                 const {
                   access_token,
-                  refresh_token,
+                  refresh_token
                 } = await refreshTokenApiClient.getRefreshToken({
-                  refresh: refreshTokenLocal,
+                  refresh: refreshTokenLocal
                 })
 
                 setTokensAndSave(access_token, refresh_token)
@@ -152,7 +152,7 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
             }
           }
           return Promise.reject(error)
-        },
+        }
       )
       const savedRefreshToken =
         canUseLocalStorage && localStorage.getItem(tokenStorageKey)
@@ -162,7 +162,7 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
         try {
           const {
             access_token,
-            refresh_token,
+            refresh_token
           } = await apiClient.getRefreshToken({ refresh: savedRefreshToken })
 
           setTokensAndSave(access_token, refresh_token)
@@ -186,7 +186,7 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
 
   const resetAndSelectWallet = async () => {
     if (onboard) {
-      let walletReady = await onboard.walletSelect()
+      const walletReady = await onboard.walletSelect()
       walletReady && (await checkIsReady())
     }
   }
@@ -207,11 +207,11 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
         const addresses = await provider.listAccounts()
         const {
           access_token,
-          refresh_token,
+          refresh_token
         } = await imployApiClient.postWeb3Token({
           signature: signature,
           token: token,
-          public_address: addresses[0],
+          public_address: addresses[0]
         })
         setTokensAndSave(access_token, refresh_token)
         setReturningUser()
@@ -226,7 +226,7 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
     if (refreshToken && refreshToken.token) {
       try {
         const decoded = jwtDecode<{ mps?: string; exp: number; uuid: string }>(
-          refreshToken.token,
+          refreshToken.token
         )
         setDecodedRefreshToken(decoded)
       } catch (error) {
@@ -239,7 +239,7 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
     if (accessToken && accessToken.token && imployApiClient) {
       imployApiClient?.setToken(accessToken.token)
       const decodedAccessToken = jwtDecode<{ perm: { secured?: string } }>(
-        accessToken.token,
+        accessToken.token
       )
       if (decodedAccessToken.perm.secured === "true") {
         setSecured(true)
@@ -278,7 +278,7 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
     try {
       const {
         access_token,
-        refresh_token,
+        refresh_token
       } = await imployApiClient.postOauth2CodeGithub(code, state)
       setTokensAndSave(access_token, refresh_token)
       setReturningUser()
@@ -294,19 +294,19 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
     scope: string | undefined,
     authUser: string | undefined,
     hd: string | undefined,
-    prompt: string | undefined,
+    prompt: string | undefined
   ) => {
     try {
       const {
         access_token,
-        refresh_token,
+        refresh_token
       } = await imployApiClient.postOauth2CodeGoogle(
         code,
         state,
         scope,
         authUser,
         hd,
-        prompt,
+        prompt
       )
 
       setTokensAndSave(access_token, refresh_token)
@@ -321,7 +321,7 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
     try {
       const {
         access_token,
-        refresh_token,
+        refresh_token
       } = await imployApiClient.postOauth2CodeFacebook(code, state)
 
       setTokensAndSave(access_token, refresh_token)
@@ -345,17 +345,17 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
         const uuidArray = new TextEncoder().encode(decodedRefreshToken.uuid)
         const encryptedUuid = await encryptFile(uuidArray, masterPassword)
         const encryptedUuidString = Buffer.from(encryptedUuid).toString(
-          "base64",
+          "base64"
         )
         await imployApiClient.secure({
-          mps: encryptedUuidString,
+          mps: encryptedUuidString
         })
 
         const {
           access_token,
-          refresh_token,
+          refresh_token
         } = await imployApiClient.getRefreshToken({
-          refresh: refreshToken.token,
+          refresh: refreshToken.token
         })
 
         setTokensAndSave(access_token, refresh_token)
@@ -369,7 +369,7 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
   }
 
   const validateMasterPassword = async (
-    candidatePassword: string,
+    candidatePassword: string
   ): Promise<boolean> => {
     if (!decodedRefreshToken || !decodedRefreshToken.mps) return false
     try {
@@ -402,7 +402,7 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
         resetAndSelectWallet,
         getProviderUrl,
         logout,
-        validateMasterPassword,
+        validateMasterPassword
       }}
     >
       {children}

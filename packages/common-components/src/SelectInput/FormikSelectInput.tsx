@@ -4,10 +4,10 @@ import SelectInput, { ISelectInputProps, ISelectOption } from "./SelectInput"
 
 export interface IFormikSelectInputProps
   extends Omit<ISelectInputProps, "onChange"> {
-  className?: string
-  name: string
-  options: ISelectOption[]
-  label?: string
+  className?: string;
+  name: string;
+  options: ISelectOption[];
+  label?: string;
 }
 
 const FormikSelectInput: React.FC<IFormikSelectInputProps> = ({

@@ -5,16 +5,16 @@ import "normalize.css"
 const useStyles = makeStyles((theme: ITheme) =>
   createStyles({
     // JSS in CSS goes here
-    ...theme.globalStyling,
-  }),
+    ...theme.globalStyling
+  })
 )
 
 interface IBaselineProps {
-  children?: ReactNode | ReactNode[] | null
+  children?: ReactNode | ReactNode[] | null;
 }
 
 const CssBaseline: React.FC<IBaselineProps> = ({
-  children = null,
+  children = null
 }: IBaselineProps) => {
   useStyles()
   return <Fragment>{children}</Fragment>

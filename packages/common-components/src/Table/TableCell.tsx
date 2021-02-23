@@ -8,28 +8,28 @@ const useStyles = makeStyles(({ overrides }: ITheme) =>
   createStyles({
     root: {
       backgroundColor: "transparent",
-      ...overrides?.Table?.cell?.root,
+      ...overrides?.Table?.cell?.root
     },
     alignLeft: {
       textAlign: "left",
-      ...overrides?.Table?.cell?.left,
+      ...overrides?.Table?.cell?.left
     },
     alignCenter: {
       textAlign: "center",
-      ...overrides?.Table?.cell?.center,
+      ...overrides?.Table?.cell?.center
     },
     alignRight: {
       textAlign: "right",
-      ...overrides?.Table?.cell?.right,
-    },
-  }),
+      ...overrides?.Table?.cell?.right
+    }
+  })
 )
 
 export interface ITableCellProps {
-  className?: string
-  children?: ReactNode | ReactNode[]
-  align?: AlignOption
-  onClick?: () => void
+  className?: string;
+  children?: ReactNode | ReactNode[];
+  align?: AlignOption;
+  onClick?: () => void;
 }
 const TableCell = React.forwardRef(
   (
@@ -40,7 +40,7 @@ const TableCell = React.forwardRef(
       align = "center",
       ...rest
     }: ITableCellProps,
-    forwardedRef: any,
+    forwardedRef: any
   ) => {
     const classes = useStyles()
 
@@ -50,7 +50,7 @@ const TableCell = React.forwardRef(
         className={clsx(
           className,
           classes.root,
-          classes[`align${capitalize(align)}`],
+          classes[`align${capitalize(align)}`]
         )}
         ref={forwardedRef}
         {...rest}
@@ -58,7 +58,7 @@ const TableCell = React.forwardRef(
         {children}
       </td>
     )
-  },
+  }
 )
 
 export default TableCell

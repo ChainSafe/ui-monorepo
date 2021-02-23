@@ -18,9 +18,9 @@ const useStyles = makeStyles(({ constants, palette, overrides }: ITheme) =>
         borderColor: palette.additional["gray"][5],
         borderStyle: "dashed",
         borderRadius: 2,
-        padding: constants.generalUnit,
+        padding: constants.generalUnit
       },
-      ...overrides?.FileInput?.root,
+      ...overrides?.FileInput?.root
     },
     pending: {
       cursor: "pointer",
@@ -31,22 +31,22 @@ const useStyles = makeStyles(({ constants, palette, overrides }: ITheme) =>
       color: palette.additional["gray"][8],
       padding: `${constants.generalUnit * 4}px 0 !important`,
       "& svg": {
-        fill: palette.additional["gray"][8],
+        fill: palette.additional["gray"][8]
       },
       "& > *:first-child": {
-        marginBottom: constants.generalUnit,
+        marginBottom: constants.generalUnit
       },
-      ...overrides?.FileInput?.pending,
+      ...overrides?.FileInput?.pending
     },
     filesDropped: {
       "& > div": {
-        textAlign: "start",
+        textAlign: "start"
       },
-      ...overrides?.FileInput?.filesDropped,
+      ...overrides?.FileInput?.filesDropped
     },
     error: {
       color: palette.error.main,
-      ...overrides?.FileInput?.error,
+      ...overrides?.FileInput?.error
     },
     item: {
       display: "flex",
@@ -54,35 +54,35 @@ const useStyles = makeStyles(({ constants, palette, overrides }: ITheme) =>
       alignItems: "center",
       justifyContent: "flex-start",
       "& svg": {
-        height: "100%",
+        height: "100%"
       },
       "& > *:first-child": {
-        marginRight: constants.generalUnit,
+        marginRight: constants.generalUnit
       },
-      ...overrides?.FileInput?.item,
+      ...overrides?.FileInput?.item
     },
     itemText: {
-      flex: "1 1 0",
+      flex: "1 1 0"
     },
     scrollbar: {
-      maxHeight: "80vh",
-    },
-  }),
+      maxHeight: "80vh"
+    }
+  })
 )
 
 interface IFileInputProps extends DropzoneOptions {
-  className?: string
-  variant?: "dropzone" | "filepicker"
-  name: string
-  label?: string
-  showPreviews?: boolean
-  pending?: ReactNode | ReactNode[]
-  maxFileSize?: number
+  className?: string;
+  variant?: "dropzone" | "filepicker";
+  name: string;
+  label?: string;
+  showPreviews?: boolean;
+  pending?: ReactNode | ReactNode[];
+  maxFileSize?: number;
   classNames?: {
-    pending?: string
-    filelist?: string
-    error?: string
-  }
+    pending?: string;
+    filelist?: string;
+    error?: string;
+  };
 }
 
 const FileInput: React.FC<IFileInputProps> = ({
@@ -104,28 +104,28 @@ const FileInput: React.FC<IFileInputProps> = ({
   const onDrop = useCallback(
     async (acceptedFiles: File[], fileRejections: FileRejection[]) => {
       const filtered = acceptedFiles.filter((file) =>
-        maxFileSize ? file.size <= maxFileSize : true,
+        maxFileSize ? file.size <= maxFileSize : true
       )
       setErrors([])
       if (showPreviews) {
         setPreviews(
           filtered.map((file: any) =>
             Object.assign(file, {
-              preview: URL.createObjectURL(file),
-            }),
-          ),
+              preview: URL.createObjectURL(file)
+            })
+          )
         )
       }
       helpers.setValue([...value.value, ...filtered])
 
       if (fileRejections.length > 0) {
         const fileDropRejectionErrors = fileRejections.map((fr) =>
-          fr.errors.map((fre) => fre.message),
+          fr.errors.map((fre) => fre.message)
         )
         setErrors(errors.concat(fileDropRejectionErrors))
       }
     },
-    [value],
+    [value]
   )
 
   useEffect(() => {
@@ -137,12 +137,12 @@ const FileInput: React.FC<IFileInputProps> = ({
     noDrag: variant === "filepicker",
     noClick: variant === "filepicker",
     noKeyboard: variant === "filepicker",
-    ...props,
+    ...props
   }
 
   const { getRootProps, getInputProps, open } = useDropzone({
     onDrop,
-    ...dropZoneProps,
+    ...dropZoneProps
   })
 
   const removeItem = (i: number) => {

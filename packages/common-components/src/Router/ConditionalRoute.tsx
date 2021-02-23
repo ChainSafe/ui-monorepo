@@ -2,11 +2,11 @@ import React from "react"
 import { Route, Redirect } from "react-router-dom"
 
 interface IProps {
-  component: React.ElementType
-  isAuthorized: boolean | undefined
-  path: string
-  redirectPath?: string
-  exact?: boolean
+  component: React.ElementType;
+  isAuthorized: boolean | undefined;
+  path: string;
+  redirectPath?: string;
+  exact?: boolean;
 }
 
 const ConditionalRoute: React.FC<IProps> = ({
@@ -27,11 +27,11 @@ const ConditionalRoute: React.FC<IProps> = ({
         <Redirect
           to={{
             pathname: `${redirectPath}`,
-            state: { from: path },
+            state: { from: path }
           }}
         />
       ) : // this may be converted into loading
-      null
+        null
     }}
   />
 )

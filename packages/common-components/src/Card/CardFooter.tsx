@@ -9,25 +9,25 @@ const useStyles = makeStyles(
         padding: constants.generalUnit * 2,
         borderTop: `1px solid ${palette["gray"][4]}`,
         ...typography.body1,
-        ...overrides?.Card?.footer?.root,
+        ...overrides?.Card?.footer?.root
       },
       dense: {
         padding: constants.generalUnit,
-        ...overrides?.Card?.footer?.dense,
-      },
-    }),
+        ...overrides?.Card?.footer?.dense
+      }
+    })
 )
 
 export interface ICardHeader {
-  className?: string
-  children?: ReactNode | ReactNode[]
-  dense?: boolean
+  className?: string;
+  children?: ReactNode | ReactNode[];
+  dense?: boolean;
 }
 
 const CardHeader: React.FC<ICardHeader> = ({
   className,
   children,
-  dense = false,
+  dense = false
 }: ICardHeader) => {
   const classes = useStyles()
   return (

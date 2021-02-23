@@ -29,15 +29,15 @@ export enum LOADER {
 }
 
 export interface SpinnerProps {
-  loader: LOADER
-  size?: string | number
-  height?: string | number
-  width?: string | number
-  color?: string
-  loading?: boolean
-  radius?: string | number
-  margin?: string | number
-  css?: string | PrecompiledCss
+  loader: LOADER;
+  size?: string | number;
+  height?: string | number;
+  width?: string | number;
+  color?: string;
+  loading?: boolean;
+  radius?: string | number;
+  margin?: string | number;
+  css?: string | PrecompiledCss;
 }
 
 const Spinner: React.FC<SpinnerProps> = ({
@@ -49,7 +49,7 @@ const Spinner: React.FC<SpinnerProps> = ({
   size = 15,
   width = 20,
   css,
-  loader = LOADER.CircleLoader,
+  loader = LOADER.CircleLoader
 }: SpinnerProps) => {
   const Component = Loaders[loader]
   const theme: ITheme = useTheme()

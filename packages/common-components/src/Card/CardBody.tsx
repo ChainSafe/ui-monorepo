@@ -7,25 +7,25 @@ const useStyles = makeStyles(({ constants, typography, overrides }: ITheme) =>
     root: {
       padding: constants.generalUnit * 2,
       ...typography.body1,
-      ...overrides?.Card?.body?.root,
+      ...overrides?.Card?.body?.root
     },
     dense: {
       padding: constants.generalUnit,
-      ...overrides?.Card?.body?.dense,
-    },
-  }),
+      ...overrides?.Card?.body?.dense
+    }
+  })
 )
 
 export interface ICardBody {
-  className?: string
-  children?: ReactNode | ReactNode[]
-  dense?: boolean
+  className?: string;
+  children?: ReactNode | ReactNode[];
+  dense?: boolean;
 }
 
 const CardHeader: React.FC<ICardBody> = ({
   className,
   children,
-  dense = false,
+  dense = false
 }: ICardBody) => {
   const classes = useStyles()
   return (

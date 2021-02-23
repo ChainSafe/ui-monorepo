@@ -6,7 +6,7 @@ import { SvgIcon, HomeIcon } from "../Icons"
 export default {
   title: "Icon",
   component: SvgIcon,
-  decorators: [withKnobs],
+  decorators: [withKnobs]
 }
 
 const colorOptions: colorProp[] = ["primary", "secondary", "error", "success"]

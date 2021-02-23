@@ -1,3 +1,3 @@
 export interface IDividerOverride {
-  root?: Record<string, any>
+  root?: Record<string, any>;
 }

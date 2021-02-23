@@ -1,3 +1,3 @@
 export interface IBlockiesOverride {
-  root?: Record<string, any>
+  root?: Record<string, any>;
 }

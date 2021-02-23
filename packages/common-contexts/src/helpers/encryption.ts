@@ -1,29 +1,29 @@
 const getPasswordKey = async (passwordBytes: Uint8Array) =>
   window.crypto.subtle.importKey("raw", passwordBytes, "PBKDF2", false, [
-    "deriveKey",
+    "deriveKey"
   ])
 
 const deriveKey = async (
   passwordKey: CryptoKey,
   salt: Uint8Array,
-  keyUsage: KeyUsage[],
+  keyUsage: KeyUsage[]
 ) =>
   window.crypto.subtle.deriveKey(
     {
       name: "PBKDF2",
       salt: salt,
       iterations: 250000,
-      hash: "SHA-256",
+      hash: "SHA-256"
     },
     passwordKey,
     { name: "AES-GCM", length: 256 },
     false,
-    keyUsage,
+    keyUsage
   )
 
 export const encryptFile = async (
   fileArrayBuffer: ArrayBuffer,
-  password: string,
+  password: string
 ) => {
   try {
     const plainTextBytes = new Uint8Array(fileArrayBuffer)
@@ -38,12 +38,12 @@ export const encryptFile = async (
     const cipherBytes = await window.crypto.subtle.encrypt(
       { name: "AES-GCM", iv: iv },
       aesKey,
-      plainTextBytes,
+      plainTextBytes
     )
 
     const cipherBytesArray = new Uint8Array(cipherBytes)
     const resultBytes = new Uint8Array(
-      cipherBytesArray.byteLength + salt.byteLength + iv.byteLength,
+      cipherBytesArray.byteLength + salt.byteLength + iv.byteLength
     )
     resultBytes.set(salt, 0)
     resultBytes.set(iv, salt.byteLength)
@@ -59,7 +59,7 @@ export const encryptFile = async (
 
 export const decryptFile = async (
   cipher: ArrayBuffer | Uint8Array,
-  password: string,
+  password: string
 ) => {
   try {
     const cipherBytes = new Uint8Array(cipher)
@@ -74,10 +74,10 @@ export const decryptFile = async (
     const decryptedContent = await window.crypto.subtle.decrypt(
       {
         name: "AES-GCM",
-        iv: iv,
+        iv: iv
       },
       aesKey,
-      data,
+      data
     )
 
     return decryptedContent

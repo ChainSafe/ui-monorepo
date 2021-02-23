@@ -3,15 +3,15 @@ import ToasterContent from "./ToasterContent"
 import {
   useToasts,
   AppearanceTypes,
-  Placement,
+  Placement
 } from "react-toast-notifications"
 
 export interface IToasterMessage {
-  message: string
-  description?: string
-  appearance?: AppearanceTypes
-  autoDismiss?: boolean
-  onDismiss?(id: string): void
+  message: string;
+  description?: string;
+  appearance?: AppearanceTypes;
+  autoDismiss?: boolean;
+  onDismiss?(id: string): void;
 }
 
 export const useToaster = () => {
@@ -26,13 +26,13 @@ export const useToaster = () => {
       {
         appearance: config.appearance || "success",
         autoDismiss: config.autoDismiss,
-        onDismiss: config.onDismiss,
-      },
+        onDismiss: config.onDismiss
+      }
     )
   }
 
   return {
-    addToastMessage,
+    addToastMessage
   }
 }
 

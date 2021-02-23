@@ -4,7 +4,7 @@ import { Blockies } from "../Blockies"
 export default {
   title: "Blockies",
   component: Blockies,
-  excludeStories: /.*Data$/,
+  excludeStories: /.*Data$/
 }
 
 export const BlockiesDefault = (): React.ReactNode => (

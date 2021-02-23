@@ -17,11 +17,11 @@ const useStyles = makeStyles(({ palette, overrides }: ITheme) =>
       color: palette.common.white.main,
       position: "relative",
       "& img": {
-        objectFit: "cover",
+        objectFit: "cover"
       },
       "& canvas": {
         width: "100% !important",
-        height: "100% !important",
+        height: "100% !important"
       },
       "& svg": {
         position: "absolute",
@@ -30,43 +30,43 @@ const useStyles = makeStyles(({ palette, overrides }: ITheme) =>
         transform: "translate(-50%,-50%)",
         height: 18,
         width: 18,
-        fill: palette.common.white.main,
+        fill: palette.common.white.main
       },
       ...overrides?.Avatar?.root,
       "&.large": {
         height: 40,
         width: 40,
-        ...overrides?.Avatar?.sizes?.large,
+        ...overrides?.Avatar?.sizes?.large
       },
       "&.medium": {
         height: 32,
         width: 32,
-        ...overrides?.Avatar?.sizes?.medium,
+        ...overrides?.Avatar?.sizes?.medium
       },
       "&.small": {
         height: 24,
         width: 24,
-        ...overrides?.Avatar?.sizes?.small,
+        ...overrides?.Avatar?.sizes?.small
       },
       "&.square": {
         borderRadius: 2,
-        ...overrides?.Avatar?.variants?.square,
+        ...overrides?.Avatar?.variants?.square
       },
       "&.circle": {
         borderRadius: "50%",
-        ...overrides?.Avatar?.variants?.circle,
-      },
-    },
-  }),
+        ...overrides?.Avatar?.variants?.circle
+      }
+    }
+  })
 )
 
 type ReactDiv = React.HTMLProps<HTMLDivElement>
 
 interface AvatarProps extends Omit<ReactDiv, "size"> {
-  className?: string
-  children?: ReactNode
-  size?: "large" | "medium" | "small"
-  variant?: "circle" | "square"
+  className?: string;
+  children?: ReactNode;
+  size?: "large" | "medium" | "small";
+  variant?: "circle" | "square";
 }
 
 const Avatar: React.FC<AvatarProps> = ({

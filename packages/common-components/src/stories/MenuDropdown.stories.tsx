@@ -8,11 +8,11 @@ import { HomeIcon } from "../Icons"
 export default {
   title: "Menu-Dropdown",
   component: MenuDropdown,
-  decorators: [withKnobs],
+  decorators: [withKnobs]
 }
 
 const actionsData = {
-  onClick: action("onClickButton"),
+  onClick: action("onClickButton")
 }
 
 export const MenuDropdownDefault = (): React.ReactNode => (
@@ -30,15 +30,15 @@ export const MenuDropdownDefault = (): React.ReactNode => (
           "top-right",
           "bottom-left",
           "bottom-center",
-          "bottom-right",
+          "bottom-right"
         ],
-        "top-center",
+        "top-center"
       )}
       animation={select("Animation", ["flip", "rotate", "none"], "flip")}
       menuItems={[
         {
           contents: <Typography>Potate</Typography>,
-          onClick: actionsData.onClick,
+          onClick: actionsData.onClick
         },
         {
           contents: (
@@ -47,8 +47,8 @@ export const MenuDropdownDefault = (): React.ReactNode => (
               <Typography>Nandos</Typography>
             </Fragment>
           ),
-          onClick: actionsData.onClick,
-        },
+          onClick: actionsData.onClick
+        }
       ]}
     />
   </div>
@@ -69,9 +69,9 @@ export const MenuDropdownCustomIcon = (): React.ReactNode => (
           "top-right",
           "bottom-left",
           "bottom-center",
-          "bottom-right",
+          "bottom-right"
         ],
-        "top-center",
+        "top-center"
       )}
       indicator={HomeIcon}
       autoclose={boolean("Autoclose", true)}
@@ -79,7 +79,7 @@ export const MenuDropdownCustomIcon = (): React.ReactNode => (
       menuItems={[
         {
           contents: <Typography>Potate</Typography>,
-          onClick: actionsData.onClick,
+          onClick: actionsData.onClick
         },
         {
           contents: (
@@ -88,8 +88,8 @@ export const MenuDropdownCustomIcon = (): React.ReactNode => (
               <Typography>Nandos</Typography>
             </Fragment>
           ),
-          onClick: actionsData.onClick,
-        },
+          onClick: actionsData.onClick
+        }
       ]}
     />
   </div>

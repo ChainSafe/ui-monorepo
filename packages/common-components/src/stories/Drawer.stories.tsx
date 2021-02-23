@@ -5,7 +5,7 @@ import { withKnobs, select, number, boolean } from "@storybook/addon-knobs"
 export default {
   title: "Drawer",
   component: Drawer,
-  decorators: [withKnobs],
+  decorators: [withKnobs]
 }
 
 export const DrawerDemo = (): React.ReactNode => {
@@ -18,7 +18,7 @@ export const DrawerDemo = (): React.ReactNode => {
           height: "100%",
           display: "flex",
           justifyContent: "center",
-          alignItems: "center",
+          alignItems: "center"
         }}
       >
         <button onClick={() => setOpen(!open)}>drawer</button>
@@ -27,7 +27,7 @@ export const DrawerDemo = (): React.ReactNode => {
         position={select(
           "position",
           ["left", "top", "right", "bottom"],
-          "right",
+          "right"
         )}
         open={open}
         size={number("size", 250)}

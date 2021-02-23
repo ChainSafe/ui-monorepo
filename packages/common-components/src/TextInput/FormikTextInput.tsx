@@ -4,7 +4,7 @@ import TextInput, { ITextInputProps } from "./TextInput"
 
 export interface FormikTextInputProps
   extends Omit<ITextInputProps, "onChange" | "state" | "value"> {
-  name: string
+  name: string;
 }
 
 const FormikTextInput = React.forwardRef(
@@ -23,7 +23,7 @@ const FormikTextInput = React.forwardRef(
       captionMessage,
       ...rest
     }: FormikTextInputProps,
-    forwardedRef: any,
+    forwardedRef: any
   ) => {
     const [field, meta, helpers] = useField(name)
     return (
@@ -51,7 +51,7 @@ const FormikTextInput = React.forwardRef(
         {...rest}
       />
     )
-  },
+  }
 )
 
 export default FormikTextInput

@@ -3,37 +3,37 @@ import { useField } from "formik"
 import NumberInput from "./NumberInput"
 
 export interface FormikNumberInputProps {
-  className?: string
-  label?: string
-  placeholder?: string
-  disabled?: boolean
-  name: string
-  inputVariant?: "default" | "minimal"
-  size?: "large" | "medium" | "small"
-  captionMessage?: string
-  labelClassName?: string
+  className?: string;
+  label?: string;
+  placeholder?: string;
+  disabled?: boolean;
+  name: string;
+  inputVariant?: "default" | "minimal";
+  size?: "large" | "medium" | "small";
+  captionMessage?: string;
+  labelClassName?: string;
 
-  prefixCls?: string
-  min?: number
-  max?: number
-  step?: number | string
-  precision?: number
-  focusOnUpDown?: boolean
-  required?: boolean
-  autoFocus?: boolean
-  readOnly?: boolean
-  id?: string
-  defaultValue?: number
-  onBlur?: (value: number | string | undefined) => void
-  onPressEnter?: (event: React.KeyboardEvent<HTMLInputElement>) => void
-  onFocus?: (value: number | string | undefined) => void
-  upHandler?: ReactElement
-  downHandler?: ReactElement
-  formatter?: (value: number | string | undefined) => string
-  parser?: (displayValue: string | undefined) => number
-  pattern?: string
-  decimalSeparator?: string
-  inputMode?: string
+  prefixCls?: string;
+  min?: number;
+  max?: number;
+  step?: number | string;
+  precision?: number;
+  focusOnUpDown?: boolean;
+  required?: boolean;
+  autoFocus?: boolean;
+  readOnly?: boolean;
+  id?: string;
+  defaultValue?: number;
+  onBlur?: (value: number | string | undefined) => void;
+  onPressEnter?: (event: React.KeyboardEvent<HTMLInputElement>) => void;
+  onFocus?: (value: number | string | undefined) => void;
+  upHandler?: ReactElement;
+  downHandler?: ReactElement;
+  formatter?: (value: number | string | undefined) => string;
+  parser?: (displayValue: string | undefined) => number;
+  pattern?: string;
+  decimalSeparator?: string;
+  inputMode?: string;
 }
 
 const FormikNumberInput: React.FC<FormikNumberInputProps> = ({

@@ -3,30 +3,30 @@ import { ITheme, makeStyles, createStyles } from "@chainsafe/common-theme"
 import clsx from "clsx"
 
 interface IStyleProps {
-  progress: number
-  circumference: number
+  progress: number;
+  circumference: number;
 }
 
 const useStyles = makeStyles((theme: ITheme) =>
   createStyles({
     backdrop: {
-      stroke: theme.palette.additional["gray"][4],
+      stroke: theme.palette.additional["gray"][4]
     },
     root: {
       backgroundColor: theme.palette.additional["gray"][4],
       position: "relative",
       "&.small": {
         height: theme.constants.generalUnit,
-        borderRadius: theme.constants.generalUnit,
+        borderRadius: theme.constants.generalUnit
       },
       "&.medium": {
         height: theme.constants.generalUnit * 2,
-        borderRadius: theme.constants.generalUnit * 2,
+        borderRadius: theme.constants.generalUnit * 2
       },
       "&.large": {
         height: theme.constants.generalUnit * 3,
-        borderRadius: theme.constants.generalUnit * 3,
-      },
+        borderRadius: theme.constants.generalUnit * 3
+      }
     },
     progressBar: (props: IStyleProps) => ({
       strokeLinecap: "round",
@@ -34,24 +34,24 @@ const useStyles = makeStyles((theme: ITheme) =>
       strokeDashoffset: `${
         ((100 - props.progress) / 100) * props.circumference
       }px`,
-      transition: `${theme.animation.transform}ms`,
+      transition: `${theme.animation.transform}ms`
     }),
     progress: {
       stroke: theme.palette.additional["blue"][6],
       "&.primary": {
-        stroke: theme.palette.primary.main,
+        stroke: theme.palette.primary.main
       },
       "&.secondary": {
-        stroke: theme.palette.secondary.main,
-      },
+        stroke: theme.palette.secondary.main
+      }
     },
     success: {
-      stroke: theme.palette.success.main,
+      stroke: theme.palette.success.main
     },
     error: {
-      stroke: theme.palette.error.main,
-    },
-  }),
+      stroke: theme.palette.error.main
+    }
+  })
 )
 
 export type ProgressBarState = "success" | "error" | "progress"
@@ -59,13 +59,13 @@ export type ProgressBarSize = "small" | "medium" | "large"
 export type ProgressBarVariant = "primary" | "secondary"
 
 export interface ICircularProgressBarProps {
-  className?: string
-  progress: number
-  size?: ProgressBarSize
-  variant?: ProgressBarVariant
-  state?: ProgressBarState
-  showBackdrop?: boolean
-  width: number
+  className?: string;
+  progress: number;
+  size?: ProgressBarSize;
+  variant?: ProgressBarVariant;
+  state?: ProgressBarState;
+  showBackdrop?: boolean;
+  width: number;
 }
 
 const CircularProgressBar: React.FC<ICircularProgressBarProps> = ({
@@ -75,7 +75,7 @@ const CircularProgressBar: React.FC<ICircularProgressBarProps> = ({
   variant,
   showBackdrop = true,
   width,
-  className,
+  className
 }) => {
   const strokeWidth = size === "small" ? 2 : size === "medium" ? 3 : 4
   const radius = width
@@ -93,7 +93,7 @@ const CircularProgressBar: React.FC<ICircularProgressBarProps> = ({
 
   const classes = useStyles({
     progress: progressValue,
-    circumference,
+    circumference
   })
 
   return (

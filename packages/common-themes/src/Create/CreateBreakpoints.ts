@@ -39,25 +39,25 @@ export type BreakpointValues = { [key in Breakpoint]: number }
 export const keys: Breakpoint[] = []
 
 export interface IBreakpoints {
-  keys: Breakpoint[]
-  values: BreakpointValues
-  up: (key: Breakpoint | number) => string
-  down: (key: Breakpoint | number) => string
-  between: (start: Breakpoint | number, end: Breakpoint | number) => string
-  only: (key: Breakpoint) => string
-  width: (key: Breakpoint) => number
+  keys: Breakpoint[];
+  values: BreakpointValues;
+  up: (key: Breakpoint | number) => string;
+  down: (key: Breakpoint | number) => string;
+  between: (start: Breakpoint | number, end: Breakpoint | number) => string;
+  only: (key: Breakpoint) => string;
+  width: (key: Breakpoint) => number;
 }
 
 export type BreakpointsOptions = Partial<
   {
-    unit: string
-    step: number
+    unit: string;
+    step: number;
   } & IBreakpoints
 >
 
 // Keep in mind that @media is inclusive by the CSS specification.
 export const createBreakpoints = (
-  breakpoints: BreakpointsOptions,
+  breakpoints: BreakpointsOptions
 ): IBreakpoints => {
   const {
     // The breakpoint **start** at this value.
@@ -67,7 +67,7 @@ export const createBreakpoints = (
       sm: 600,
       md: 960,
       lg: 1280,
-      xl: 1920,
+      xl: 1920
     },
     unit = "px",
     step = 5,
@@ -124,6 +124,6 @@ export const createBreakpoints = (
     between,
     only,
     width,
-    ...other,
+    ...other
   }
 }

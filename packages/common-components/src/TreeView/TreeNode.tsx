@@ -12,32 +12,32 @@ const useStyles = makeStyles(({ constants, palette }: ITheme) =>
       fontSize: constants.generalUnit * 2,
       padding: `${constants.generalUnit * 0.5}px`,
       "& svg": {
-        fill: palette.additional["gray"][8],
-      },
+        fill: palette.additional["gray"][8]
+      }
     },
     selected: {
-      backgroundColor: palette.additional["gray"][4],
+      backgroundColor: palette.additional["gray"][4]
     },
     icon: {
-      marginRight: constants.generalUnit,
+      marginRight: constants.generalUnit
     },
     subTree: {
-      marginLeft: constants.generalUnit * 4,
-    },
-  }),
+      marginLeft: constants.generalUnit * 4
+    }
+  })
 )
 
 export interface ITreeNodeProps {
-  title: string
-  id: string
-  icon?: ReactNode
-  expandable?: boolean
-  isExpanded?: boolean
-  onClick?: any
-  tree?: ITreeNodeProps[]
-  commonIcon?: ReactNode
-  selectedId?: string
-  onSelectNode?: any
+  title: string;
+  id: string;
+  icon?: ReactNode;
+  expandable?: boolean;
+  isExpanded?: boolean;
+  onClick?: any;
+  tree?: ITreeNodeProps[];
+  commonIcon?: ReactNode;
+  selectedId?: string;
+  onSelectNode?: any;
 }
 
 const TreeNode: React.FC<ITreeNodeProps> = ({
@@ -50,7 +50,7 @@ const TreeNode: React.FC<ITreeNodeProps> = ({
   tree,
   selectedId,
   onSelectNode,
-  isExpanded: isExpandedProp,
+  isExpanded: isExpandedProp
 }) => {
   const classes = useStyles()
   const [isExpanded, setIsExpanded] = useState(isExpandedProp)

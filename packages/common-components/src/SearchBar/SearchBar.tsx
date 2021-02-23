@@ -8,16 +8,16 @@ import { Spinner, LOADER } from "../Spinner"
 const iconSize = {
   large: {
     height: 18,
-    padding: 6,
+    padding: 6
   },
   medium: {
     height: 16,
-    padding: 6,
+    padding: 6
   },
   small: {
     height: 16,
-    padding: 4,
-  },
+    padding: 4
+  }
 }
 
 const useStyles = makeStyles(
@@ -31,20 +31,20 @@ const useStyles = makeStyles(
         "&.large": {
           fontSize: 14,
           lineHeight: "22px",
-          ...overrides?.SearchBar?.size?.large,
+          ...overrides?.SearchBar?.size?.large
         },
         "&.medium": {
           fontSize: 14,
           lineHeight: "22px",
-          ...overrides?.SearchBar?.size?.medium,
+          ...overrides?.SearchBar?.size?.medium
         },
         "&.small": {
           fontSize: 14,
           lineHeight: "22px",
-          ...overrides?.SearchBar?.size?.small,
+          ...overrides?.SearchBar?.size?.small
         },
         "& .right > *:nth-child(2) svg": {
-          fill: palette.primary.main,
+          fill: palette.primary.main
         },
         "& input": {
           transitionDuration: `${animation.transform}ms`,
@@ -53,23 +53,23 @@ const useStyles = makeStyles(
           borderRadius: 2,
           "&:hover": {
             borderColor: palette.primary.border,
-            ...overrides?.SearchBar?.input?.hover,
+            ...overrides?.SearchBar?.input?.hover
           },
           "&:focus": {
             borderColor: palette.primary.border,
             boxShadow: "0px 0px 4px rgba(24, 144, 255, 0.5)",
-            ...overrides?.SearchBar?.input?.focus,
+            ...overrides?.SearchBar?.input?.focus
           },
-          ...overrides?.SearchBar?.input?.root,
+          ...overrides?.SearchBar?.input?.root
         },
         "&.disabled": {
           "& input": {
             color: palette.additional["gray"][6],
             backgroundColor: palette.additional["gray"][3],
-            ...overrides?.SearchBar?.input?.disabled,
-          },
+            ...overrides?.SearchBar?.input?.disabled
+          }
         },
-        ...overrides?.SearchBar?.root,
+        ...overrides?.SearchBar?.root
       },
       inputArea: {
         ...typography.body2,
@@ -86,25 +86,25 @@ const useStyles = makeStyles(
             lineHeight: "24px",
             padding: `${constants.generalUnit}px ${
               constants.generalUnit * 1.5
-            }px`,
+            }px`
           },
-          ...overrides?.SearchBar?.inputArea?.large,
+          ...overrides?.SearchBar?.inputArea?.large
         },
         "&.medium": {
           "& input": {
             padding: `${constants.generalUnit * 0.625}px ${
               constants.generalUnit * 1.5
-            }px`,
+            }px`
           },
-          ...overrides?.SearchBar?.inputArea?.medium,
+          ...overrides?.SearchBar?.inputArea?.medium
         },
         "&.small": {
           "& input": {
             padding: `${constants.generalUnit / constants.generalUnit}px ${
               constants.generalUnit
-            }px`,
-          },
-        },
+            }px`
+          }
+        }
       },
       input: {
         width: "100%",
@@ -113,7 +113,7 @@ const useStyles = makeStyles(
         outline: "none",
         border: `1px solid ${palette.additional["gray"][6]}`,
         color: palette.additional["gray"][10],
-        transitionDuration: `${animation.transform}ms`,
+        transitionDuration: `${animation.transform}ms`
       },
       standardIcon: {
         position: "absolute",
@@ -132,8 +132,8 @@ const useStyles = makeStyles(
           justifyContent: "center",
           alignItems: "center",
           "&:last-child": {
-            marginLeft: 5,
-          },
+            marginLeft: 5
+          }
         },
         "& > div": {
           width: "auto",
@@ -143,60 +143,60 @@ const useStyles = makeStyles(
           justifyContent: "center",
           alignItems: "center",
           "&:last-child": {
-            marginLeft: 5,
-          },
+            marginLeft: 5
+          }
         },
         "&.right": {
           display: "flex",
           flexDirection: "row",
           justifyContent: "flex-end",
-          alignItems: "center",
+          alignItems: "center"
         },
         "& svg": {
-          fill: palette.additional["gray"][7],
+          fill: palette.additional["gray"][7]
         },
         "&.large": {
           "&.right": {
-            right: constants.generalUnit * 1.5,
+            right: constants.generalUnit * 1.5
           },
           "& svg": {
-            height: iconSize.large.height,
+            height: iconSize.large.height
           },
-          ...overrides?.SearchBar?.standardIcon?.size?.small,
+          ...overrides?.SearchBar?.standardIcon?.size?.small
         },
         "&.medium": {
           "&.right": {
-            right: iconSize.medium.padding,
+            right: iconSize.medium.padding
           },
           "& svg": {
-            height: iconSize.medium.height,
+            height: iconSize.medium.height
           },
-          ...overrides?.SearchBar?.standardIcon?.size?.medium,
+          ...overrides?.SearchBar?.standardIcon?.size?.medium
         },
         "&.small": {
           "&.right": {
-            right: iconSize.small.padding,
+            right: iconSize.small.padding
           },
           "& svg": {
-            height: iconSize.small.height,
+            height: iconSize.small.height
           },
-          ...overrides?.SearchBar?.standardIcon?.size?.small,
+          ...overrides?.SearchBar?.standardIcon?.size?.small
         },
-        ...overrides?.SearchBar?.standardIcon?.root,
-      },
-    }),
+        ...overrides?.SearchBar?.standardIcon?.root
+      }
+    })
 )
 
 export interface SearchBarProps {
-  className?: string
-  value?: string
-  placeholder?: string
-  disabled?: boolean
-  isLoading?: boolean
-  name?: string
-  loaderType?: LOADER
-  size?: "large" | "medium" | "small"
-  onChange: (e: ChangeEvent<HTMLInputElement>) => void
+  className?: string;
+  value?: string;
+  placeholder?: string;
+  disabled?: boolean;
+  isLoading?: boolean;
+  name?: string;
+  loaderType?: LOADER;
+  size?: "large" | "medium" | "small";
+  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 
 const SearchBar: React.FC<SearchBarProps> = ({
@@ -208,20 +208,20 @@ const SearchBar: React.FC<SearchBarProps> = ({
   loaderType = LOADER.PulseLoader,
   size = "large",
   name,
-  onChange,
+  onChange
 }: SearchBarProps) => {
   const classes = useStyles()
   const spinnerSize = size === "large" ? 12 : size === "medium" ? 8 : 6
   return (
     <label
       className={clsx(classes.root, className, size, {
-        ["disabled"]: disabled,
+        ["disabled"]: disabled
       })}
     >
       <div className={clsx(classes.inputArea, size)}>
         <input
           className={clsx(classes.input, {
-            ["disabled"]: disabled,
+            ["disabled"]: disabled
           })}
           disabled={disabled}
           name={name}

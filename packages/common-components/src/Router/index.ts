@@ -4,12 +4,12 @@ export {
   Switch,
   NavLink,
   Link,
-  Redirect,
+  Redirect
 } from "react-router-dom"
 export { default as ConditionalRoute } from "./ConditionalRoute"
 export {
   useHistoryFunctions as useHistory,
   useRouteMatch,
   useParams,
-  useLocation,
+  useLocation
 } from "./history"

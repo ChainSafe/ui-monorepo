@@ -30,26 +30,13 @@
         "code": 120
       }
     ],
-    "no-console": 2,
     "react/prop-types": 0,
     "comma-dangle": ["error", "never"],
-    "@typescript-eslint/no-unused-vars": [
-      2,
-      {
-        "vars": "all",
-        "varsIgnorePattern": "^jsx$",
-        "argsIgnorePattern": "[Ii]gnored$"
-      }
-    ],
+    "no-console": ["error", { "allow": ["warn", "error"] }],
     "@typescript-eslint/no-use-before-define": "off",
     "@typescript-eslint/explicit-function-return-type": "off",
     "@typescript-eslint/no-explicit-any": "off",
     "@typescript-eslint/camelcase": "off",
-    "@typescript-eslint/interface-name-prefix": [
-      "error",
-      {
-        "prefixWithI": "always"
-      }
-    ]
+    "@typescript-eslint/interface-name-prefix": "off"
   }
 }

@@ -3,7 +3,7 @@ import { Tabs, TabPane } from "../Tabs"
 
 export default {
   title: "Tabs",
-  component: Tabs,
+  component: Tabs
 }
 
 export const TabsDemo = (): React.ReactNode => {

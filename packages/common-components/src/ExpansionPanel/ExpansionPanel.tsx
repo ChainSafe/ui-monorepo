@@ -12,21 +12,21 @@ const useStyles = makeStyles(
         position: "relative",
         "&.basic": {
           border: `1px solid ${palette.additional["gray"][5]}`,
-          ...overrides?.ExpansionPanel?.basic,
+          ...overrides?.ExpansionPanel?.basic
         },
         "&.borderless": {
-          ...overrides?.ExpansionPanel?.borderless,
+          ...overrides?.ExpansionPanel?.borderless
         },
-        ...overrides?.ExpansionPanel?.root,
+        ...overrides?.ExpansionPanel?.root
       },
       icon: {
         "& svg": {
           width: constants.generalUnit,
           height: constants.generalUnit * 1.5,
           fill: palette.additional["gray"][9],
-          transitionDuration: `${animation.transform}ms`,
+          transitionDuration: `${animation.transform}ms`
         },
-        ...overrides?.ExpansionPanel?.icon,
+        ...overrides?.ExpansionPanel?.icon
       },
       heading: {
         backgroundColor: palette.additional["gray"][2],
@@ -39,22 +39,22 @@ const useStyles = makeStyles(
           backgroundColor: palette.additional["gray"][2],
           ...overrides?.ExpansionPanel?.heading?.basic?.root,
           "&.active": {
-            ...overrides?.ExpansionPanel?.heading?.basic?.active,
-          },
+            ...overrides?.ExpansionPanel?.heading?.basic?.active
+          }
         },
         "&.borderless": {
           ...overrides?.ExpansionPanel?.heading?.borderless?.root,
           "&.active": {
-            ...overrides?.ExpansionPanel?.heading?.borderless?.active,
-          },
+            ...overrides?.ExpansionPanel?.heading?.borderless?.active
+          }
         },
         "&.active": {
           "& svg": {
-            transform: "rotateZ(90deg)",
+            transform: "rotateZ(90deg)"
           },
-          ...overrides?.ExpansionPanel?.heading?.active,
+          ...overrides?.ExpansionPanel?.heading?.active
         },
-        ...overrides?.ExpansionPanel?.heading?.root,
+        ...overrides?.ExpansionPanel?.heading?.root
       },
       content: {
         overflow: "hidden",
@@ -68,9 +68,9 @@ const useStyles = makeStyles(
           borderTop: `0px solid ${palette.additional["gray"][5]}`,
           "&.active": {
             borderTop: `1px solid ${palette.additional["gray"][5]}`,
-            ...overrides?.ExpansionPanel?.content?.basic?.active,
+            ...overrides?.ExpansionPanel?.content?.basic?.active
           },
-          ...overrides?.ExpansionPanel?.content?.basic?.root,
+          ...overrides?.ExpansionPanel?.content?.basic?.root
         },
         "&.active": {
           padding: `${constants.generalUnit * 2}px ${
@@ -78,19 +78,19 @@ const useStyles = makeStyles(
           }px`,
           opacity: 1,
           height: "auto",
-          ...overrides?.ExpansionPanel?.content?.active,
+          ...overrides?.ExpansionPanel?.content?.active
         },
-        ...overrides?.ExpansionPanel?.content?.root,
-      },
-    }),
+        ...overrides?.ExpansionPanel?.content?.root
+      }
+    })
 )
 
 export interface IExpansionPanelProps {
-  header: string
-  children?: ReactNode | ReactNode[] | null
-  active?: boolean
-  variant?: "basic" | "borderless"
-  toggle?: (state: boolean) => void
+  header: string;
+  children?: ReactNode | ReactNode[] | null;
+  active?: boolean;
+  variant?: "basic" | "borderless";
+  toggle?: (state: boolean) => void;
 }
 
 const ExpansionPanel: React.FC<IExpansionPanelProps> = ({
@@ -98,7 +98,7 @@ const ExpansionPanel: React.FC<IExpansionPanelProps> = ({
   header,
   variant = "basic",
   toggle,
-  active,
+  active
 }: IExpansionPanelProps) => {
   const classes = useStyles()
   const [activeInternal, setActive] = useState(!!active)
@@ -111,7 +111,7 @@ const ExpansionPanel: React.FC<IExpansionPanelProps> = ({
       <section
         onClick={() => handleToggle()}
         className={clsx(classes.heading, variant, {
-          ["active"]: active != undefined ? active : activeInternal,
+          ["active"]: active != undefined ? active : activeInternal
         })}
       >
         <DirectionalRightIcon className={classes.icon} />
@@ -119,7 +119,7 @@ const ExpansionPanel: React.FC<IExpansionPanelProps> = ({
       </section>
       <section
         className={clsx(classes.content, variant, {
-          ["active"]: active != undefined ? active : activeInternal,
+          ["active"]: active != undefined ? active : activeInternal
         })}
       >
         {children}

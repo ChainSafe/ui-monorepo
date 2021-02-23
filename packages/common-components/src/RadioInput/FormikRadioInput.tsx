@@ -3,10 +3,10 @@ import { useField } from "formik"
 import RadioInput from "./RadioInput"
 
 interface IFormikRadioInputProps extends React.HTMLProps<HTMLInputElement> {
-  className?: string
-  name: string
-  label?: string
-  id: string
+  className?: string;
+  name: string;
+  label?: string;
+  id: string;
 }
 
 const FormikRadioInput: React.FC<IFormikRadioInputProps> = ({

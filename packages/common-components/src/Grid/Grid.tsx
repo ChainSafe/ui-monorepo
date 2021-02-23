@@ -3,7 +3,7 @@ import clsx from "clsx"
 import {
   createFlexStyles,
   createGridStyles,
-  createSpacingStyles,
+  createSpacingStyles
 } from "./Styles"
 import { ITheme, makeStyles, createStyles } from "@chainsafe/common-theme"
 import {
@@ -12,37 +12,37 @@ import {
   FlexDirection,
   FlexWrap,
   GridSize,
-  SpacingSize,
+  SpacingSize
 } from "./types"
 
 const useStyles = makeStyles((theme: ITheme) =>
   createStyles({
     root: {
       display: "flex",
-      ...theme.overrides?.Grid?.root,
+      ...theme.overrides?.Grid?.root
     },
     ...createFlexStyles(),
     ...createGridStyles(theme),
-    ...createSpacingStyles(theme),
-  }),
+    ...createSpacingStyles(theme)
+  })
 )
 
 export interface IGridProps {
-  children?: ReactNode | ReactNode[]
-  className?: string
-  container?: boolean
-  item?: boolean
-  fullWidth?: boolean
-  flexDirection?: FlexDirection
-  alignItems?: AlignItems
-  justifyContent?: JustifyContent
-  flexWrap?: FlexWrap
-  xs?: GridSize
-  sm?: GridSize
-  md?: GridSize
-  lg?: GridSize
-  xl?: GridSize
-  spacing?: SpacingSize
+  children?: ReactNode | ReactNode[];
+  className?: string;
+  container?: boolean;
+  item?: boolean;
+  fullWidth?: boolean;
+  flexDirection?: FlexDirection;
+  alignItems?: AlignItems;
+  justifyContent?: JustifyContent;
+  flexWrap?: FlexWrap;
+  xs?: GridSize;
+  sm?: GridSize;
+  md?: GridSize;
+  lg?: GridSize;
+  xl?: GridSize;
+  spacing?: SpacingSize;
 }
 
 const Grid: React.FC<IGridProps> = ({
@@ -87,9 +87,9 @@ const Grid: React.FC<IGridProps> = ({
           [classes[`grid-lg-${String(lg)}`]]: lg !== undefined,
           [classes[`grid-xl-${String(xl)}`]]: xl !== undefined,
           [classes[`spacing-${String(spacing)}`]]:
-            spacing !== undefined && isContainer,
+            spacing !== undefined && isContainer
         },
-        className,
+        className
       )}
       {...rest}
     >

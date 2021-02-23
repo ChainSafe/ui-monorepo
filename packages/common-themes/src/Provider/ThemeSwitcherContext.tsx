@@ -1,7 +1,7 @@
 import * as React from "react"
-import { ITheme, } from "../Create/CreateTheme"
-import { useState, } from "react"
-import { ThemeProvider, } from "@material-ui/styles"
+import { ITheme } from "../Create/CreateTheme"
+import { useState } from "react"
+import { ThemeProvider } from "@material-ui/styles"
 import "reset-css"
 import "simplebar/dist/simplebar.min.css"
 
@@ -22,16 +22,16 @@ type ThemeSwitcherProps = {
 
 const ThemeSwitcher: React.FC<ThemeSwitcherProps> = ({
   children,
-  themes,
+  themes
 }: ThemeSwitcherProps) => {
   // TODO: check min 1 theme
-  const [current, setCurrent,] = useState<string>(Object.keys(themes)[0])
+  const [current, setCurrent] = useState<string>(Object.keys(themes)[0])
   return (
     <ThemeSwitcherContext.Provider
       value={{
         themeKey: current,
         availableThemes: Object.keys(themes),
-        setTheme: setCurrent,
+        setTheme: setCurrent
       }}
     >
       <ThemeProvider theme={themes[current]}>{children}</ThemeProvider>
@@ -50,4 +50,4 @@ const useThemeSwitcher = () => {
   return context
 }
 
-export { ThemeSwitcher, useThemeSwitcher, }
+export { ThemeSwitcher, useThemeSwitcher }

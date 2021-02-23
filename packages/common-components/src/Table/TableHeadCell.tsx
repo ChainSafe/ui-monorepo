@@ -6,7 +6,7 @@ import {
   ITheme,
   IPalette,
   makeStyles,
-  createStyles,
+  createStyles
 } from "@chainsafe/common-theme"
 import { SortDirection } from "./types"
 import { CaretDownSvg } from "../Icons"
@@ -17,87 +17,87 @@ const useStyles = makeStyles(
       root: {
         fontWeight: "bold",
         verticalAlign: "middle",
-        ...overrides?.Table?.headCell?.root,
+        ...overrides?.Table?.headCell?.root
       },
       alignLeft: {
         textAlign: "left",
         justifyContent: "flex-start",
-        ...overrides?.Table?.headCell?.left,
+        ...overrides?.Table?.headCell?.left
       },
       alignCenter: {
         textAlign: "center",
         justifyContent: "center",
-        ...overrides?.Table?.headCell?.center,
+        ...overrides?.Table?.headCell?.center
       },
       alignRight: {
         textAlign: "right",
         justifyContent: "flex-end",
-        ...overrides?.Table?.headCell?.right,
+        ...overrides?.Table?.headCell?.right
       },
       sortButtons: {
         cursor: "pointer",
         "&:hover": {
           backgroundColor: palette.additional["gray"][2],
-          ...overrides?.Table?.headCell?.sortButton?.hover,
+          ...overrides?.Table?.headCell?.sortButton?.hover
         },
-        ...overrides?.Table?.headCell?.sortButton?.root,
+        ...overrides?.Table?.headCell?.sortButton?.root
       },
       sortContainer: {
         display: "flex",
         alignItems: "center",
-        ...overrides?.Table?.headCell?.sortContainer,
+        ...overrides?.Table?.headCell?.sortContainer
       },
       sortChildrenContainer: {
         flex: "1",
         "&.sortCenterAlign": {
-          marginLeft: `${constants.generalUnit * 1.5}px`,
+          marginLeft: `${constants.generalUnit * 1.5}px`
         },
-        ...overrides?.Table?.headCell?.sortContainerChildren,
+        ...overrides?.Table?.headCell?.sortContainerChildren
       },
       caret: {
         marginLeft: 4,
         fontSize: "12px",
         opacity: 0.4,
         "&.active": {
-          opacity: 1,
+          opacity: 1
         },
         "& svg": {
-          fill: palette.additional["gray"][6],
+          fill: palette.additional["gray"][6]
         },
         "&.ascend": {
           transition: `transform ${animation.transform}ms`,
           transform: "rotate(-180deg)",
           "& svg": {
-            fill: palette.additional["gray"][9],
-          },
+            fill: palette.additional["gray"][9]
+          }
         },
         "&.descend": {
           transition: `transform ${animation.transform}ms`,
           transform: "rotate(0deg)",
           "& svg": {
-            fill: palette.additional["gray"][9],
-          },
+            fill: palette.additional["gray"][9]
+          }
         },
-        ...overrides?.Table?.headCell?.caretContainerChildren,
+        ...overrides?.Table?.headCell?.caretContainerChildren
       },
       caretContainer: {
         display: "inline-grid",
-        ...overrides?.Table?.headCell?.caretContainer,
-      },
-    }),
+        ...overrides?.Table?.headCell?.caretContainer
+      }
+    })
 )
 
 export interface ITableHeadCellProps {
-  className?: string
-  children?: ReactNode | ReactNode[]
-  align?: AlignOption
-  sortButtons?: boolean
-  sortDirection?: SortDirection
-  sortActive?: boolean
-  color?: keyof IPalette
+  className?: string;
+  children?: ReactNode | ReactNode[];
+  align?: AlignOption;
+  sortButtons?: boolean;
+  sortDirection?: SortDirection;
+  sortActive?: boolean;
+  color?: keyof IPalette;
   onSortChange?(
     e: React.MouseEvent<HTMLTableHeaderCellElement, MouseEvent>,
-  ): void
+  ): void;
 }
 
 const TableHeadCell: React.FC<ITableHeadCellProps> = ({
@@ -120,7 +120,7 @@ const TableHeadCell: React.FC<ITableHeadCellProps> = ({
         classes.root,
         sortButtons && classes.sortButtons,
         classes[`align${capitalize(align)}`],
-        className,
+        className
       )}
       onClick={onSortChange}
       {...rest}
@@ -129,13 +129,13 @@ const TableHeadCell: React.FC<ITableHeadCellProps> = ({
         <div
           className={clsx(
             classes.sortContainer,
-            classes[`align${capitalize(align)}`],
+            classes[`align${capitalize(align)}`]
           )}
         >
           <div
             className={clsx(
               classes.sortChildrenContainer,
-              align === "center" && "sortCenterAlign",
+              align === "center" && "sortCenterAlign"
             )}
           >
             {children}
@@ -143,7 +143,7 @@ const TableHeadCell: React.FC<ITableHeadCellProps> = ({
           <div className={classes.caretContainer}>
             <CaretDownSvg
               className={clsx(classes.caret, sortDirection, {
-                active: sortActive,
+                active: sortActive
               })}
             />
           </div>

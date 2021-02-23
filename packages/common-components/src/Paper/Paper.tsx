@@ -7,7 +7,7 @@ const useStyles = makeStyles(
     const shadowStyles = {}
     Object.keys(shadows).forEach((shadow) => {
       shadowStyles[`shadow-${shadow}`] = {
-        boxShadow: shadows[shadow],
+        boxShadow: shadows[shadow]
       }
     })
     return createStyles({
@@ -16,31 +16,31 @@ const useStyles = makeStyles(
         color: palette.text.primary,
         width: "max-content",
         padding: `${constants.generalUnit}px`,
-        ...overrides?.Paper?.root,
+        ...overrides?.Paper?.root
       },
       fullWidth: {
-        width: "inherit",
+        width: "inherit"
       },
       rounded: {
         borderRadius: 4,
-        ...overrides?.Paper?.rounded,
+        ...overrides?.Paper?.rounded
       },
       bordered: {
         border: `1px solid ${palette.additional["gray"][5]}`,
-        ...overrides?.Paper?.bordered,
+        ...overrides?.Paper?.bordered
       },
-      ...shadowStyles,
+      ...shadowStyles
     })
-  },
+  }
 )
 export type PaperShape = "square" | "rounded"
 export interface IPaperProps extends React.HTMLProps<HTMLDivElement> {
-  children?: ReactNode | ReactNode[]
-  className?: string
-  shape?: PaperShape
-  border?: boolean
-  fullWidth?: boolean
-  shadow?: "shadow1" | "shadow2" | string | "none"
+  children?: ReactNode | ReactNode[];
+  className?: string;
+  shape?: PaperShape;
+  border?: boolean;
+  fullWidth?: boolean;
+  shadow?: "shadow1" | "shadow2" | string | "none";
 }
 const Paper = React.forwardRef(
   (
@@ -53,7 +53,7 @@ const Paper = React.forwardRef(
       shadow = "shadow1",
       ...rest
     }: IPaperProps,
-    forwardedRef: any,
+    forwardedRef: any
   ) => {
     const classes = useStyles()
     return (
@@ -64,7 +64,7 @@ const Paper = React.forwardRef(
           border && classes.bordered,
           fullWidth && classes.fullWidth,
           shadow !== "none" && classes[`shadow-${shadow}`],
-          className,
+          className
         )}
         {...rest}
         ref={forwardedRef}
@@ -72,6 +72,6 @@ const Paper = React.forwardRef(
         {children}
       </div>
     )
-  },
+  }
 )
 export default Paper

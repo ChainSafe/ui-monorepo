@@ -5,7 +5,7 @@ import { withKnobs, boolean, select } from "@storybook/addon-knobs"
 export default {
   title: "Card",
   component: Card,
-  decorators: [withKnobs],
+  decorators: [withKnobs]
 }
 
 export const CardDefault = (): React.ReactNode => (
@@ -16,7 +16,7 @@ export const CardDefault = (): React.ReactNode => (
     shadow={select(
       "shadow",
       ["shadow1", "shadow2", "none", undefined],
-      "shadow1",
+      "shadow1"
     )}
   >
     <CardHeader

@@ -1,9 +1,9 @@
 export {
   default as FormikSelectInput,
-  IFormikSelectInputProps,
+  IFormikSelectInputProps
 } from "./FormikSelectInput"
 export {
   default as SelectInput,
   ISelectInputProps,
-  ISelectOption,
+  ISelectOption
 } from "./SelectInput"
