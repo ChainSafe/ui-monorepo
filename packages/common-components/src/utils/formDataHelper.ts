@@ -6,8 +6,7 @@ const formDataHelper = (obj: any, formData?: FormData, namespace?: string) => {
   let formKey: string
 
   for (const property in obj) {
-    //if (obj.hasOwnProperty(property) && obj[property]) {
-    if (obj.hasOwnProperty(property)) {
+    if (obj[property]) {
       if (namespace) {
         formKey = namespace + "[" + property + "]"
       } else {
