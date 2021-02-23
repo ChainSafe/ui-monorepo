@@ -71,18 +71,18 @@ const useStyles = makeStyles(({ constants, palette, overrides }: ITheme) =>
 )
 
 interface IFileInputProps extends DropzoneOptions {
-  className?: string;
-  variant?: "dropzone" | "filepicker";
-  name: string;
-  label?: string;
-  showPreviews?: boolean;
-  pending?: ReactNode | ReactNode[];
-  maxFileSize?: number;
+  className?: string
+  variant?: "dropzone" | "filepicker"
+  name: string
+  label?: string
+  showPreviews?: boolean
+  pending?: ReactNode | ReactNode[]
+  maxFileSize?: number
   classNames?: {
-    pending?: string;
-    filelist?: string;
-    error?: string;
-  };
+    pending?: string
+    filelist?: string
+    error?: string
+  }
 }
 
 const FileInput: React.FC<IFileInputProps> = ({

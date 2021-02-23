@@ -1,52 +1,52 @@
 export interface IDefaultPalette {
   colorTags: {
-    primary: 6;
-    background: 1;
-    border: 3;
-    hover: 5;
-    [key: number]: number;
-  };
+    primary: 6
+    background: 1
+    border: 3
+    hover: 5
+    [key: number]: number
+  }
   additional: {
     blue: {
-      [key: number]: string;
-    };
+      [key: number]: string
+    }
     gray: {
-      [key: number]: string;
-    };
+      [key: number]: string
+    }
     red: {
-      [key: number]: string;
-    };
+      [key: number]: string
+    }
     volcano: {
-      [key: number]: string;
-    };
+      [key: number]: string
+    }
     orange: {
-      [key: number]: string;
-    };
+      [key: number]: string
+    }
     gold: {
-      [key: number]: string;
-    };
+      [key: number]: string
+    }
     yellow: {
-      [key: number]: string;
-    };
+      [key: number]: string
+    }
     lime: {
-      [key: number]: string;
-    };
+      [key: number]: string
+    }
     green: {
-      [key: number]: string;
-    };
+      [key: number]: string
+    }
     cyan: {
-      [key: number]: string;
-    };
+      [key: number]: string
+    }
     geekblue: {
-      [key: number]: string;
-    };
+      [key: number]: string
+    }
     purple: {
-      [key: number]: string;
-    };
+      [key: number]: string
+    }
     magenta: {
-      [key: number]: string;
-    };
-  };
+      [key: number]: string
+    }
+  }
 }
 
 export const DefaultPalette: IDefaultPalette = {

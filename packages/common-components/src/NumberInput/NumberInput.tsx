@@ -381,42 +381,42 @@ const useStyles = makeStyles(
 )
 
 export interface INumberInputProps {
-  className?: string;
-  label?: string;
-  labelClassName?: string;
-  name?: string;
-  value?: string;
-  placeholder?: string;
-  disabled?: boolean;
-  LeftIcon?: typeof SvgIcon;
-  RightIcon?: typeof SvgIcon;
-  state?: InputState;
-  inputVariant?: "default" | "minimal";
-  size?: "large" | "medium" | "small";
-  captionMessage?: string;
-  onChange: (value: string | number | undefined) => void;
+  className?: string
+  label?: string
+  labelClassName?: string
+  name?: string
+  value?: string
+  placeholder?: string
+  disabled?: boolean
+  LeftIcon?: typeof SvgIcon
+  RightIcon?: typeof SvgIcon
+  state?: InputState
+  inputVariant?: "default" | "minimal"
+  size?: "large" | "medium" | "small"
+  captionMessage?: string
+  onChange: (value: string | number | undefined) => void
 
-  prefixCls?: string;
-  min?: number;
-  max?: number;
-  step?: number | string;
-  precision?: number;
-  focusOnUpDown?: boolean;
-  required?: boolean;
-  autoFocus?: boolean;
-  readOnly?: boolean;
-  id?: string;
-  defaultValue?: number;
-  onBlur?: (value: number | string | undefined) => void;
-  onPressEnter?: (event: React.KeyboardEvent<HTMLInputElement>) => void;
-  onFocus?: (value: number | string | undefined) => void;
-  upHandler?: ReactElement;
-  downHandler?: ReactElement;
-  formatter?: (value: number | string | undefined) => string;
-  parser?: (displayValue: string | undefined) => number;
-  pattern?: string;
-  decimalSeparator?: string;
-  inputMode?: string;
+  prefixCls?: string
+  min?: number
+  max?: number
+  step?: number | string
+  precision?: number
+  focusOnUpDown?: boolean
+  required?: boolean
+  autoFocus?: boolean
+  readOnly?: boolean
+  id?: string
+  defaultValue?: number
+  onBlur?: (value: number | string | undefined) => void
+  onPressEnter?: (event: React.KeyboardEvent<HTMLInputElement>) => void
+  onFocus?: (value: number | string | undefined) => void
+  upHandler?: ReactElement
+  downHandler?: ReactElement
+  formatter?: (value: number | string | undefined) => string
+  parser?: (displayValue: string | undefined) => number
+  pattern?: string
+  decimalSeparator?: string
+  inputMode?: string
 }
 
 const TextInput: React.FC<INumberInputProps> = ({

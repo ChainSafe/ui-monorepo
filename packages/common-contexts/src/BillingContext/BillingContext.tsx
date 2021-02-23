@@ -3,15 +3,15 @@ import { useImployApi } from "../ImployApiContext"
 import axios, { AxiosResponse } from "axios"
 
 type BillingContextProps = {
-  children: React.ReactNode | React.ReactNode[];
+  children: React.ReactNode | React.ReactNode[]
 }
 
 interface IBillingContext {
-  addCard(cardToken: string): Promise<void>;
+  addCard(cardToken: string): Promise<void>
   getCardTokenFromStripe(
     card: ICard,
     stripePk: string,
-  ): Promise<AxiosResponse<IStripeResponse>>;
+  ): Promise<AxiosResponse<IStripeResponse>>
 }
 
 const BillingContext = React.createContext<IBillingContext | undefined>(
@@ -21,13 +21,13 @@ const BillingContext = React.createContext<IBillingContext | undefined>(
 const STRIPE_API = "https://api.stripe.com/v1/tokens"
 
 interface ICard {
-  cardNumber: string;
-  cardExpiry: string;
-  cardCvc: string;
+  cardNumber: string
+  cardExpiry: string
+  cardCvc: string
 }
 
 interface IStripeResponse {
-  id: string;
+  id: string
 }
 
 const BillingProvider = ({ children }: BillingContextProps) => {

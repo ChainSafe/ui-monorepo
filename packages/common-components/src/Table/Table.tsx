@@ -56,12 +56,12 @@ const useStyles = makeStyles(
 )
 
 export interface ITableProps {
-  className?: string;
-  children: ReactNode | ReactNode[];
-  striped?: boolean;
-  fullWidth?: boolean;
-  hover?: boolean;
-  dense?: boolean;
+  className?: string
+  children: ReactNode | ReactNode[]
+  striped?: boolean
+  fullWidth?: boolean
+  hover?: boolean
+  dense?: boolean
 }
 
 const Table: React.FC<ITableProps> = ({

@@ -10,7 +10,7 @@ const useStyles = makeStyles((theme: ITheme) =>
 )
 
 interface IBaselineProps {
-  children?: ReactNode | ReactNode[] | null;
+  children?: ReactNode | ReactNode[] | null
 }
 
 const CssBaseline: React.FC<IBaselineProps> = ({

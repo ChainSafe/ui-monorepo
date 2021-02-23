@@ -383,22 +383,22 @@ export interface ITextInputProps
     React.HTMLProps<HTMLInputElement>,
     "onChange" | "label" | "size" | "value"
   > {
-  className?: string;
-  label?: string;
-  labelClassName?: string;
-  name?: string;
-  value?: string;
-  placeholder?: string;
-  disabled?: boolean;
-  LeftIcon?: typeof SvgIcon;
-  RightIcon?: typeof SvgIcon;
-  state?: InputState;
-  inputVariant?: "default" | "minimal";
-  size?: "large" | "medium" | "small";
-  captionMessage?: string | ReactNode;
-  onChange: (value: string | number | undefined) => void;
-  type?: "text" | "email" | "password" | "url" | "search";
-  autoFocus?: boolean;
+  className?: string
+  label?: string
+  labelClassName?: string
+  name?: string
+  value?: string
+  placeholder?: string
+  disabled?: boolean
+  LeftIcon?: typeof SvgIcon
+  RightIcon?: typeof SvgIcon
+  state?: InputState
+  inputVariant?: "default" | "minimal"
+  size?: "large" | "medium" | "small"
+  captionMessage?: string | ReactNode
+  onChange: (value: string | number | undefined) => void
+  type?: "text" | "email" | "password" | "url" | "search"
+  autoFocus?: boolean
 }
 
 const TextInput = React.forwardRef(

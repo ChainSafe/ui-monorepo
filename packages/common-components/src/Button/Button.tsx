@@ -226,15 +226,15 @@ const useStyles = makeStyles(
 type ReactButton = React.HTMLProps<HTMLButtonElement>
 
 interface IButtonProps extends Omit<ReactButton, "size"> {
-  className?: string;
-  children?: ReactNode | ReactNode[];
-  fullsize?: boolean;
-  variant?: "primary" | "outline" | "dashed" | "danger";
-  iconButton?: boolean;
-  size?: "large" | "medium" | "small";
-  type?: "button" | "submit" | "reset";
-  loading?: boolean;
-  loadingText?: string;
+  className?: string
+  children?: ReactNode | ReactNode[]
+  fullsize?: boolean
+  variant?: "primary" | "outline" | "dashed" | "danger"
+  iconButton?: boolean
+  size?: "large" | "medium" | "small"
+  type?: "button" | "submit" | "reset"
+  loading?: boolean
+  loadingText?: string
 }
 
 const Button: React.FC<IButtonProps> = ({

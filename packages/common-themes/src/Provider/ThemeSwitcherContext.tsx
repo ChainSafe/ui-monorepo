@@ -6,9 +6,9 @@ import "reset-css"
 import "simplebar/dist/simplebar.min.css"
 
 type ThemeSwitcherContext = {
-  themeKey: string;
-  availableThemes: string[];
-  setTheme(themeName: string): void;
+  themeKey: string
+  availableThemes: string[]
+  setTheme(themeName: string): void
 };
 
 const ThemeSwitcherContext = React.createContext<
@@ -16,8 +16,8 @@ const ThemeSwitcherContext = React.createContext<
 >(undefined)
 
 type ThemeSwitcherProps = {
-  children: React.ReactNode;
-  themes: Record<string, ITheme>;
+  children: React.ReactNode
+  themes: Record<string, ITheme>
 };
 
 const ThemeSwitcher: React.FC<ThemeSwitcherProps> = ({

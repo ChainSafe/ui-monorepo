@@ -6,15 +6,15 @@ import { Typography } from "../Typography"
 import { MenuDropdown } from "../MenuDropdown"
 
 export type Crumb = {
-  text: string;
-  onClick?: () => void;
+  text: string
+  onClick?: () => void
 }
 
 export type BreadcrumbProps = {
-  crumbs?: Crumb[];
-  homeOnClick?: () => void;
-  className?: string;
-  showDropDown?: boolean;
+  crumbs?: Crumb[]
+  homeOnClick?: () => void
+  className?: string
+  showDropDown?: boolean
 }
 
 const useStyles = makeStyles(

@@ -18,13 +18,13 @@ const useStyles = makeStyles(({ overrides }: ITheme) =>
 )
 
 interface IBlockiesProps {
-  className?: string;
-  seed: string;
-  size?: number;
-  scale?: number;
-  color?: string;
-  bgColor?: string;
-  spotColor?: string;
+  className?: string
+  seed: string
+  size?: number
+  scale?: number
+  color?: string
+  bgColor?: string
+  spotColor?: string
 }
 
 const BlockiesComponent: React.FC<IBlockiesProps> = ({

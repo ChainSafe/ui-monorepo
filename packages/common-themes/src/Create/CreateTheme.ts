@@ -13,16 +13,16 @@ import { DefaultGlobalStyling } from "../Defaults/GlobalStyling"
 import { DeepPartial } from "ts-essentials"
 
 interface ITheme extends IThemeConfig {
-  mixins: MixinConfig;
+  mixins: MixinConfig
   globalStyling: {
-    "@global": Record<string, any>;
-  };
+    "@global": Record<string, any>
+  }
 }
 
 interface ICreateThemeProps {
-  themeConfig?: DeepPartial<IThemeConfig>;
-  mixins?: DeepPartial<MixinConfig>;
-  globalStyling?: Record<string, any>;
+  themeConfig?: DeepPartial<IThemeConfig>
+  mixins?: DeepPartial<MixinConfig>
+  globalStyling?: Record<string, any>
 }
 
 const createTheme = (themeProps?: ICreateThemeProps): ITheme => {

@@ -4,26 +4,26 @@ import { useImployApi } from "../ImployApiContext"
 import { useState } from "react"
 
 type UserContextProps = {
-  children: React.ReactNode | React.ReactNode[];
+  children: React.ReactNode | React.ReactNode[]
 }
 
 export type Profile = {
-  firstName?: string;
-  lastName?: string;
-  publicAddress?: string;
-  email?: string;
+  firstName?: string
+  lastName?: string
+  publicAddress?: string
+  email?: string
 }
 
 interface IUserContext {
-  profile: Profile | undefined;
-  refreshProfile(): Promise<void>;
+  profile: Profile | undefined
+  refreshProfile(): Promise<void>
   updateProfile(
     firstName: string,
     lastName: string,
     email: string,
-  ): Promise<void>;
-  removeUser(): void;
-  getProfileTitle(): string;
+  ): Promise<void>
+  removeUser(): void
+  getProfileTitle(): string
 }
 
 const UserContext = React.createContext<IUserContext | undefined>(undefined)

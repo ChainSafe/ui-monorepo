@@ -4,9 +4,9 @@ import * as React from "react"
 import { getThemeProps, useTheme } from "@material-ui/styles"
 
 export interface Options {
-  defaultMatches?: boolean;
-  noSsr?: boolean;
-  ssrMatchMedia?: (query: string) => { matches: boolean };
+  defaultMatches?: boolean
+  noSsr?: boolean
+  ssrMatchMedia?: (query: string) => { matches: boolean }
 }
 
 export const useMediaQuery = <Theme = unknown>(

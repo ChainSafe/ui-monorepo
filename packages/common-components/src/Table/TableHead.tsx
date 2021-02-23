@@ -18,8 +18,8 @@ const useStyles = makeStyles(({ palette, typography, overrides }: ITheme) =>
 )
 
 export interface ITableHeadProps {
-  className?: string;
-  children: ReactNode | ReactNode[];
+  className?: string
+  children: ReactNode | ReactNode[]
 }
 
 const TableHead: React.FC<ITableHeadProps> = ({

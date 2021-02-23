@@ -32,19 +32,19 @@ const useStyles = makeStyles(({ breakpoints, constants }: ITheme) =>
 )
 
 interface IDialogClasses {
-  inner?: string;
+  inner?: string
 }
 
 interface IDialogProps
   extends Omit<IModalProps, "setActive" | "closePosition" | "children"> {
-  accept: () => void;
-  reject: () => void;
-  injectedClass?: IDialogClasses;
-  requestMessage?: string | ReactNode;
-  acceptText?: string;
-  rejectText?: string;
-  rejectButtonProps?: IButtonProps;
-  acceptButtonProps?: IButtonProps;
+  accept: () => void
+  reject: () => void
+  injectedClass?: IDialogClasses
+  requestMessage?: string | ReactNode
+  acceptText?: string
+  rejectText?: string
+  rejectButtonProps?: IButtonProps
+  acceptButtonProps?: IButtonProps
 }
 
 const Dialog: React.FC<IDialogProps> = ({

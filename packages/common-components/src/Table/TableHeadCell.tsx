@@ -88,16 +88,16 @@ const useStyles = makeStyles(
 )
 
 export interface ITableHeadCellProps {
-  className?: string;
-  children?: ReactNode | ReactNode[];
-  align?: AlignOption;
-  sortButtons?: boolean;
-  sortDirection?: SortDirection;
-  sortActive?: boolean;
-  color?: keyof IPalette;
+  className?: string
+  children?: ReactNode | ReactNode[]
+  align?: AlignOption
+  sortButtons?: boolean
+  sortDirection?: SortDirection
+  sortActive?: boolean
+  color?: keyof IPalette
   onSortChange?(
     e: React.MouseEvent<HTMLTableHeaderCellElement, MouseEvent>,
-  ): void;
+  ): void
 }
 
 const TableHeadCell: React.FC<ITableHeadCellProps> = ({

@@ -28,16 +28,16 @@ const useStyles = makeStyles(({ constants, palette }: ITheme) =>
 )
 
 export interface ITreeNodeProps {
-  title: string;
-  id: string;
-  icon?: ReactNode;
-  expandable?: boolean;
-  isExpanded?: boolean;
-  onClick?: any;
-  tree?: ITreeNodeProps[];
-  commonIcon?: ReactNode;
-  selectedId?: string;
-  onSelectNode?: any;
+  title: string
+  id: string
+  icon?: ReactNode
+  expandable?: boolean
+  isExpanded?: boolean
+  onClick?: any
+  tree?: ITreeNodeProps[]
+  commonIcon?: ReactNode
+  selectedId?: string
+  onSelectNode?: any
 }
 
 const TreeNode: React.FC<ITreeNodeProps> = ({

@@ -25,29 +25,29 @@ import { IToasterOverride } from "./Toaster"
 import { ITypographyOverride } from "./Typography"
 
 export interface IComponentOverrides {
-  Avatar?: IAvatarOverride;
-  Blockies?: IBlockiesOverride;
-  Breadcrumb?: IBreadcrumbOverride;
-  Button?: IButtonOverride;
-  Card?: ICardOverride;
-  ChainsafeLogo?: IChainsafeLogoOverride;
-  CheckboxInput?: ICheckboxOverride;
-  Divider?: IDividerOverride;
-  Drawer?: IDrawerOverride;
-  ExpansionPanel?: IExpansionPanelOverride;
-  FileInput?: IFileInputOverride;
-  Grid?: IGridOverride;
-  Icons?: IIconOverride;
-  MenuDropdown?: IMenuDropdownOverride;
-  Modal?: IModalOverride;
-  Paper?: IPaperOverride;
-  RadioInput?: IRadioInputOverride;
-  ScrollbarWrapper?: IScrollbarWrapperOverride;
-  SearchBar?: ISearchBarOverride;
-  SelectInput?: ISelectInputOverride;
-  Table?: ITableOverride;
-  Tabs?: ITabsOverride;
-  TextInput?: ITextInputOverride;
-  Toaster?: IToasterOverride;
-  Typography?: ITypographyOverride;
+  Avatar?: IAvatarOverride
+  Blockies?: IBlockiesOverride
+  Breadcrumb?: IBreadcrumbOverride
+  Button?: IButtonOverride
+  Card?: ICardOverride
+  ChainsafeLogo?: IChainsafeLogoOverride
+  CheckboxInput?: ICheckboxOverride
+  Divider?: IDividerOverride
+  Drawer?: IDrawerOverride
+  ExpansionPanel?: IExpansionPanelOverride
+  FileInput?: IFileInputOverride
+  Grid?: IGridOverride
+  Icons?: IIconOverride
+  MenuDropdown?: IMenuDropdownOverride
+  Modal?: IModalOverride
+  Paper?: IPaperOverride
+  RadioInput?: IRadioInputOverride
+  ScrollbarWrapper?: IScrollbarWrapperOverride
+  SearchBar?: ISearchBarOverride
+  SelectInput?: ISelectInputOverride
+  Table?: ITableOverride
+  Tabs?: ITabsOverride
+  TextInput?: ITextInputOverride
+  Toaster?: IToasterOverride
+  Typography?: ITypographyOverride
 }

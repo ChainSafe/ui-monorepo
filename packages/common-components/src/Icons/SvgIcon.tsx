@@ -52,10 +52,10 @@ const useStyles = makeStyles(
 )
 
 export interface SvgIconProps extends React.HTMLProps<HTMLDivElement> {
-  children?: ReactNode | ReactNode[];
-  className?: string;
-  color?: colorProp;
-  fontSize?: fontSizeProp;
+  children?: ReactNode | ReactNode[]
+  className?: string
+  color?: colorProp
+  fontSize?: fontSizeProp
 }
 
 const SvgIcon: React.FC<SvgIconProps> = ({

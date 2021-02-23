@@ -5,8 +5,8 @@ import { ITheme } from "@chainsafe/common-theme"
 import { makeStyles, createStyles } from "@material-ui/styles"
 
 interface IStyleProps {
-  placement: Placement;
-  hasToasts: boolean;
+  placement: Placement
+  hasToasts: boolean
 }
 
 const useStyles = makeStyles(({ zIndex, constants }: ITheme) =>
@@ -33,9 +33,9 @@ const placements = {
 }
 
 export type ToastContainerProps = {
-  children?: ReactNode;
-  hasToasts: boolean;
-  placement: Placement;
+  children?: ReactNode
+  hasToasts: boolean
+  placement: Placement
 }
 
 const ToastContainer: React.FC<ToastContainerProps> = ({

@@ -17,9 +17,9 @@ const useStyles = makeStyles(({ constants, typography, overrides }: ITheme) =>
 )
 
 export interface ICardBody {
-  className?: string;
-  children?: ReactNode | ReactNode[];
-  dense?: boolean;
+  className?: string
+  children?: ReactNode | ReactNode[]
+  dense?: boolean
 }
 
 const CardHeader: React.FC<ICardBody> = ({

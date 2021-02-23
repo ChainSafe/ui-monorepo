@@ -4,10 +4,10 @@ import ToastContainer from "./ToastContainer"
 import { Placement, ToastProvider } from "react-toast-notifications"
 
 export interface IToasterProviderProps {
-  autoDismiss?: boolean;
-  autoDismissTimeout?: number;
-  children: ReactNode | ReactNode[];
-  placement?: Placement;
+  autoDismiss?: boolean
+  autoDismissTimeout?: number
+  children: ReactNode | ReactNode[]
+  placement?: Placement
 }
 
 export const ToasterProvider: React.FC<IToasterProviderProps> = ({

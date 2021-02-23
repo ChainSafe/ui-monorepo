@@ -35,12 +35,12 @@ const useStyles = makeStyles(
 )
 export type PaperShape = "square" | "rounded"
 export interface IPaperProps extends React.HTMLProps<HTMLDivElement> {
-  children?: ReactNode | ReactNode[];
-  className?: string;
-  shape?: PaperShape;
-  border?: boolean;
-  fullWidth?: boolean;
-  shadow?: "shadow1" | "shadow2" | string | "none";
+  children?: ReactNode | ReactNode[]
+  className?: string
+  shape?: PaperShape
+  border?: boolean
+  fullWidth?: boolean
+  shadow?: "shadow1" | "shadow2" | string | "none"
 }
 const Paper = React.forwardRef(
   (

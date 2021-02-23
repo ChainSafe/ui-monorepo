@@ -22,12 +22,12 @@ const useStyles = makeStyles(
 )
 
 export interface ICardProps {
-  className?: string;
-  children?: ReactNode | ReactNode[];
-  hoverable?: boolean;
-  border?: boolean;
-  shadow?: "shadow1" | "shadow2" | string | "none";
-  fullWidth?: boolean;
+  className?: string
+  children?: ReactNode | ReactNode[]
+  hoverable?: boolean
+  border?: boolean
+  shadow?: "shadow1" | "shadow2" | string | "none"
+  fullWidth?: boolean
 }
 
 const Card: React.FC<ICardProps> = ({

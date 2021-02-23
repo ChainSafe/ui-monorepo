@@ -38,24 +38,24 @@ const useStyles = makeStyles(
 )
 
 interface ISelectOption {
-  value: string | number;
-  label: string | ReactNode | number;
+  value: string | number
+  label: string | ReactNode | number
 }
 
 interface ISelectInputProps {
-  className?: string;
-  size?: "large" | "medium" | "small";
-  label?: string;
-  error?: string;
-  captionMessage?: string;
-  placeholder?: string;
-  options: ISelectOption[];
-  onChange(value: any): void;
-  disabled?: boolean;
-  value?: any;
-  isMulti?: boolean;
-  isClearable?: boolean;
-  name?: string;
+  className?: string
+  size?: "large" | "medium" | "small"
+  label?: string
+  error?: string
+  captionMessage?: string
+  placeholder?: string
+  options: ISelectOption[]
+  onChange(value: any): void
+  disabled?: boolean
+  value?: any
+  isMulti?: boolean
+  isClearable?: boolean
+  name?: string
 }
 
 const SelectInput: React.FC<ISelectInputProps> = ({

@@ -28,10 +28,10 @@ const useStyles = makeStyles(({ typography, palette, overrides }: ITheme) =>
 )
 
 export interface IToasterContentProps {
-  message: string;
-  description?: string;
-  className?: string;
-  onClose?: () => void;
+  message: string
+  description?: string
+  className?: string
+  onClose?: () => void
 }
 
 const ToasterContent: React.FC<IToasterContentProps> = ({

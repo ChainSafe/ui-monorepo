@@ -28,21 +28,21 @@ const useStyles = makeStyles((theme: ITheme) =>
 )
 
 export interface IGridProps {
-  children?: ReactNode | ReactNode[];
-  className?: string;
-  container?: boolean;
-  item?: boolean;
-  fullWidth?: boolean;
-  flexDirection?: FlexDirection;
-  alignItems?: AlignItems;
-  justifyContent?: JustifyContent;
-  flexWrap?: FlexWrap;
-  xs?: GridSize;
-  sm?: GridSize;
-  md?: GridSize;
-  lg?: GridSize;
-  xl?: GridSize;
-  spacing?: SpacingSize;
+  children?: ReactNode | ReactNode[]
+  className?: string
+  container?: boolean
+  item?: boolean
+  fullWidth?: boolean
+  flexDirection?: FlexDirection
+  alignItems?: AlignItems
+  justifyContent?: JustifyContent
+  flexWrap?: FlexWrap
+  xs?: GridSize
+  sm?: GridSize
+  md?: GridSize
+  lg?: GridSize
+  xl?: GridSize
+  spacing?: SpacingSize
 }
 
 const Grid: React.FC<IGridProps> = ({

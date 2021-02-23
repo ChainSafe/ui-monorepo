@@ -32,22 +32,22 @@ const useStyles = makeStyles(({ palette, overrides }: ITheme) =>
 )
 
 export interface ScrollbarProps {
-  autoHide?: boolean;
-  className?: string;
-  maxHeight?: number;
-  children: ReactNode;
-  forceVisible?: boolean;
-  scrollbarMinSize?: number;
-  scrollbarMaxSize?: number;
-  clickOnTrack?: boolean;
-  timeout?: number;
+  autoHide?: boolean
+  className?: string
+  maxHeight?: number
+  children: ReactNode
+  forceVisible?: boolean
+  scrollbarMinSize?: number
+  scrollbarMaxSize?: number
+  clickOnTrack?: boolean
+  timeout?: number
   classNames?: {
-    content?: string;
-    scrollContent?: string;
-    scrollbar?: string;
-    track?: string;
-  };
-  direction?: "rtl" | "ltr";
+    content?: string
+    scrollContent?: string
+    scrollbar?: string
+    track?: string
+  }
+  direction?: "rtl" | "ltr"
 }
 
 const ScrollbarWrapper: React.FC<ScrollbarProps> = ({

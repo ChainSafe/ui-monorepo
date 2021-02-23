@@ -31,8 +31,8 @@ function getTranslate(placement: Placement) {
 }
 
 interface IStyleProps {
-  height: string | number;
-  placement: Placement;
+  height: string | number
+  placement: Placement
 }
 
 const useStyles = makeStyles(

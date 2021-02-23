@@ -26,10 +26,10 @@ const useStyles = makeStyles(({ overrides }: ITheme) =>
 )
 
 export interface ITableCellProps {
-  className?: string;
-  children?: ReactNode | ReactNode[];
-  align?: AlignOption;
-  onClick?: () => void;
+  className?: string
+  children?: ReactNode | ReactNode[]
+  align?: AlignOption
+  onClick?: () => void
 }
 const TableCell = React.forwardRef(
   (

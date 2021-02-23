@@ -39,11 +39,11 @@ const useStyles = makeStyles(
 )
 
 export interface ITableRowProps extends React.HTMLProps<HTMLTableRowElement> {
-  className?: string;
-  type?: "classic" | "grid";
-  children: ReactNode | ReactNode[];
-  selected?: boolean;
-  rowSelectable?: boolean;
+  className?: string
+  type?: "classic" | "grid"
+  children: ReactNode | ReactNode[]
+  selected?: boolean
+  rowSelectable?: boolean
 }
 
 const TableRow = React.forwardRef(

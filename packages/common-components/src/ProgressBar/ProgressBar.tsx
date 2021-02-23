@@ -4,7 +4,7 @@ import clsx from "clsx"
 import { ITheme } from "@chainsafe/common-theme"
 
 interface IStyleProps {
-  width: number;
+  width: number
 }
 
 const useStyles = makeStyles((theme: ITheme) =>
@@ -155,11 +155,11 @@ export type ProgressBarSize = "small" | "medium" | "large"
 export type ProgressBarVariant = "primary" | "secondary"
 
 export interface IProgressBarProps {
-  className?: string;
-  state?: ProgressBarState;
-  progress?: number;
-  size?: ProgressBarSize;
-  variant?: ProgressBarVariant;
+  className?: string
+  state?: ProgressBarState
+  progress?: number
+  size?: ProgressBarSize
+  variant?: ProgressBarVariant
 }
 const ProgressBar: React.FC<IProgressBarProps> = ({
   className,

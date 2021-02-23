@@ -2,9 +2,9 @@ import React from "react"
 import { ITheme, useTheme } from "@chainsafe/common-theme"
 
 export interface ILoadingProps {
-  type?: "inherit" | "primary" | "dark" | "light";
-  size?: number;
-  className?: string;
+  type?: "inherit" | "primary" | "dark" | "light"
+  size?: number
+  className?: string
 }
 
 const Loading: React.FC<ILoadingProps> = ({

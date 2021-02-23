@@ -81,14 +81,14 @@ const useStyles = makeStyles(
 )
 
 export interface IRadioInputProps extends React.HTMLProps<HTMLInputElement> {
-  className?: string;
-  value: string;
-  label?: string;
-  name?: string;
-  checked?: boolean;
-  disabled?: boolean;
-  error?: string;
-  onChange?(e: React.ChangeEvent<HTMLInputElement>): void;
+  className?: string
+  value: string
+  label?: string
+  name?: string
+  checked?: boolean
+  disabled?: boolean
+  error?: string
+  onChange?(e: React.ChangeEvent<HTMLInputElement>): void
 }
 
 const RadioInput: React.FC<IRadioInputProps> = ({

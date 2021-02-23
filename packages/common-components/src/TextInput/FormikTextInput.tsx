@@ -4,7 +4,7 @@ import TextInput, { ITextInputProps } from "./TextInput"
 
 export interface FormikTextInputProps
   extends Omit<ITextInputProps, "onChange" | "state" | "value"> {
-  name: string;
+  name: string
 }
 
 const FormikTextInput = React.forwardRef(

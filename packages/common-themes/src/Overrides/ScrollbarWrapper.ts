@@ -1,3 +1,3 @@
 export interface IScrollbarWrapperOverride {
-  root?: Record<string, any>;
+  root?: Record<string, any>
 }

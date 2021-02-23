@@ -20,10 +20,10 @@ const useStyles = makeStyles(
 )
 
 export interface ICardHeader {
-  className?: string;
-  children?: ReactNode | ReactNode[];
-  title?: string;
-  dense?: boolean;
+  className?: string
+  children?: ReactNode | ReactNode[]
+  title?: string
+  dense?: boolean
 }
 
 const CardHeader: React.FC<ICardHeader> = ({

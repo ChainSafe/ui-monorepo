@@ -8,7 +8,7 @@ import {
 } from "@chainsafe/common-theme"
 
 interface IStyleProps {
-  size: number;
+  size: number
 }
 
 const useStyles = makeStyles(({ animation, palette, overrides }: ITheme) =>
@@ -106,16 +106,16 @@ const useStyles = makeStyles(({ animation, palette, overrides }: ITheme) =>
 export type Position = "top" | "bottom" | "right" | "left"
 
 export interface IDrawerProps {
-  children: React.ReactNode | React.ReactNode[];
-  className?: string;
-  open: boolean;
-  position?: Position;
-  size?: number;
-  backdrop?: boolean;
-  onClose?(): void;
+  children: React.ReactNode | React.ReactNode[]
+  className?: string
+  open: boolean
+  position?: Position
+  size?: number
+  backdrop?: boolean
+  onClose?(): void
   classNames?: {
-    backdrop?: string;
-  };
+    backdrop?: string
+  }
 }
 
 const SIZE = 360

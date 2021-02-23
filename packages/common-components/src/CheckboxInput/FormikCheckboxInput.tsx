@@ -4,9 +4,9 @@ import CheckboxInput from "./CheckboxInput"
 
 interface IFormikCheckboxProps
   extends Omit<React.HTMLProps<HTMLInputElement>, "label"> {
-  className?: string;
-  name: string;
-  label?: string | ReactNode;
+  className?: string
+  name: string
+  label?: string | ReactNode
 }
 
 const FormikCheckboxInput: React.FC<IFormikCheckboxProps> = ({

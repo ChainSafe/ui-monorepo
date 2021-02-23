@@ -75,8 +75,8 @@ const VariantMapping = {
 }
 
 interface OwnProps extends React.HTMLProps<HTMLDivElement> {
-  className?: string;
-  children?: ReactNode | ReactNode[];
+  className?: string
+  children?: ReactNode | ReactNode[]
   variant?:
     | "h1"
     | "h2"
@@ -89,8 +89,8 @@ interface OwnProps extends React.HTMLProps<HTMLDivElement> {
     | "body1"
     | "body2"
     | "caption"
-    | "button";
-  component?: "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "span" | "p";
+    | "button"
+  component?: "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "span" | "p"
 }
 
 const Typography: React.FC<OwnProps> = ({

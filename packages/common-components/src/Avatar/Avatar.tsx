@@ -63,10 +63,10 @@ const useStyles = makeStyles(({ palette, overrides }: ITheme) =>
 type ReactDiv = React.HTMLProps<HTMLDivElement>
 
 interface AvatarProps extends Omit<ReactDiv, "size"> {
-  className?: string;
-  children?: ReactNode;
-  size?: "large" | "medium" | "small";
-  variant?: "circle" | "square";
+  className?: string
+  children?: ReactNode
+  size?: "large" | "medium" | "small"
+  variant?: "circle" | "square"
 }
 
 const Avatar: React.FC<AvatarProps> = ({

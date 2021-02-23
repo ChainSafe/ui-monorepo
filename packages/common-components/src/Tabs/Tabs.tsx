@@ -34,12 +34,12 @@ const useStyles = makeStyles(
 )
 
 export interface ITabsProps {
-  className?: string;
+  className?: string
   children:
     | React.ReactElement<ITabPaneProps>
-    | React.ReactElement<ITabPaneProps>[];
-  activeKey: string;
-  onTabSelect(key: string): void;
+    | React.ReactElement<ITabPaneProps>[]
+  activeKey: string
+  onTabSelect(key: string): void
 }
 
 const Tabs: React.FC<ITabsProps> = ({

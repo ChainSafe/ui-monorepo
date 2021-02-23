@@ -28,21 +28,21 @@ const tokenStorageKey = "csf.refreshToken"
 const isReturningUserStorageKey = "csf.isReturningUser"
 
 type ImployApiContextProps = {
-  apiUrl?: string;
-  children: React.ReactNode | React.ReactNode[];
+  apiUrl?: string
+  children: React.ReactNode | React.ReactNode[]
 }
 
 type ImployApiContext = {
-  imployApiClient: IImployApiClient;
-  isLoggedIn: boolean | undefined;
-  secured: boolean | undefined;
-  isReturningUser: boolean;
-  selectWallet(): Promise<void>;
-  resetAndSelectWallet(): Promise<void>;
-  secureAccount(masterPassword: string): Promise<boolean>;
-  web3Login(): Promise<void>;
-  getProviderUrl(provider: Provider): Promise<string>;
-  loginWithGithub(code: string, state: string): Promise<void>;
+  imployApiClient: IImployApiClient
+  isLoggedIn: boolean | undefined
+  secured: boolean | undefined
+  isReturningUser: boolean
+  selectWallet(): Promise<void>
+  resetAndSelectWallet(): Promise<void>
+  secureAccount(masterPassword: string): Promise<boolean>
+  web3Login(): Promise<void>
+  getProviderUrl(provider: Provider): Promise<string>
+  loginWithGithub(code: string, state: string): Promise<void>
   loginWithGoogle(
     code: string,
     state: string,
@@ -50,10 +50,10 @@ type ImployApiContext = {
     authUser: string | undefined,
     hd: string | undefined,
     prompt: string | undefined,
-  ): Promise<void>;
-  loginWithFacebook(code: string, state: string): Promise<void>;
-  logout(): void;
-  validateMasterPassword(candidatePassword: string): Promise<boolean>;
+  ): Promise<void>
+  loginWithFacebook(code: string, state: string): Promise<void>
+  logout(): void
+  validateMasterPassword(candidatePassword: string): Promise<boolean>
 }
 
 const ImployApiContext = React.createContext<ImployApiContext | undefined>(

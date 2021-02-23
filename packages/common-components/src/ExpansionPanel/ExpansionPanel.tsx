@@ -86,11 +86,11 @@ const useStyles = makeStyles(
 )
 
 export interface IExpansionPanelProps {
-  header: string;
-  children?: ReactNode | ReactNode[] | null;
-  active?: boolean;
-  variant?: "basic" | "borderless";
-  toggle?: (state: boolean) => void;
+  header: string
+  children?: ReactNode | ReactNode[] | null
+  active?: boolean
+  variant?: "basic" | "borderless"
+  toggle?: (state: boolean) => void
 }
 
 const ExpansionPanel: React.FC<IExpansionPanelProps> = ({

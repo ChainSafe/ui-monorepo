@@ -101,12 +101,12 @@ const useStyles = makeStyles(
 
 interface ICheckboxProps
   extends Omit<React.HTMLProps<HTMLInputElement>, "value" | "label"> {
-  className?: string;
-  label?: string | ReactNode;
-  error?: string;
-  value: boolean;
-  indeterminate?: boolean;
-  onChange(event: FormEvent<HTMLInputElement>): void;
+  className?: string
+  label?: string | ReactNode
+  error?: string
+  value: boolean
+  indeterminate?: boolean
+  onChange(event: FormEvent<HTMLInputElement>): void
 }
 
 const CheckboxInput: React.FC<ICheckboxProps> = ({

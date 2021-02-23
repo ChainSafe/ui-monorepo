@@ -157,31 +157,31 @@ const useStyles = makeStyles(
 )
 
 interface IMenuItem {
-  contents: ReactNode | ReactNode[];
-  onClick?: () => void;
+  contents: ReactNode | ReactNode[]
+  onClick?: () => void
 }
 
 interface IMenuDropdownProps {
-  className?: string;
-  autoclose?: boolean;
-  indicator?: typeof SvgIcon;
-  animation?: "rotate" | "flip" | "none";
+  className?: string
+  autoclose?: boolean
+  indicator?: typeof SvgIcon
+  animation?: "rotate" | "flip" | "none"
   anchor?:
     | "top-left"
     | "top-center"
     | "top-right"
     | "bottom-left"
     | "bottom-center"
-    | "bottom-right";
-  menuItems: IMenuItem[];
-  title?: string;
+    | "bottom-right"
+  menuItems: IMenuItem[]
+  title?: string
   classNames?: {
-    icon?: string;
-    options?: string;
-    item?: string;
-    title?: string;
-    titleText?: string;
-  };
+    icon?: string
+    options?: string
+    item?: string
+    title?: string
+    titleText?: string
+  }
 }
 
 const MenuDropdown: React.FC<IMenuDropdownProps> = ({

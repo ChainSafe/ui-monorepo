@@ -188,15 +188,15 @@ const useStyles = makeStyles(
 )
 
 export interface SearchBarProps {
-  className?: string;
-  value?: string;
-  placeholder?: string;
-  disabled?: boolean;
-  isLoading?: boolean;
-  name?: string;
-  loaderType?: LOADER;
-  size?: "large" | "medium" | "small";
-  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  className?: string
+  value?: string
+  placeholder?: string
+  disabled?: boolean
+  isLoading?: boolean
+  name?: string
+  loaderType?: LOADER
+  size?: "large" | "medium" | "small"
+  onChange: (e: ChangeEvent<HTMLInputElement>) => void
 }
 
 const SearchBar: React.FC<SearchBarProps> = ({

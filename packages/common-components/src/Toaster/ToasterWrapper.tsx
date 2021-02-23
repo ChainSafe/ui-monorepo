@@ -7,11 +7,11 @@ import {
 } from "react-toast-notifications"
 
 export interface IToasterMessage {
-  message: string;
-  description?: string;
-  appearance?: AppearanceTypes;
-  autoDismiss?: boolean;
-  onDismiss?(id: string): void;
+  message: string
+  description?: string
+  appearance?: AppearanceTypes
+  autoDismiss?: boolean
+  onDismiss?(id: string): void
 }
 
 export const useToaster = () => {

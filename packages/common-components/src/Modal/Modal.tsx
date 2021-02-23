@@ -126,18 +126,18 @@ const useStyles = makeStyles(
 )
 
 interface IModalClasses {
-  inner?: string;
-  close?: string;
+  inner?: string
+  close?: string
 }
 
 interface IModalProps {
-  className?: string;
-  active: boolean;
-  setActive?: (state: boolean) => void;
-  injectedClass?: IModalClasses;
-  closePosition?: "left" | "right" | "none";
-  children?: ReactNode | ReactNode[];
-  maxWidth?: "xs" | "sm" | "md" | "lg" | "xl" | number;
+  className?: string
+  active: boolean
+  setActive?: (state: boolean) => void
+  injectedClass?: IModalClasses
+  closePosition?: "left" | "right" | "none"
+  children?: ReactNode | ReactNode[]
+  maxWidth?: "xs" | "sm" | "md" | "lg" | "xl" | number
 }
 
 const Modal: React.FC<IModalProps> = ({

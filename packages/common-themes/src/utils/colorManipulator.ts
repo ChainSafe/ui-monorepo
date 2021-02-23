@@ -6,8 +6,8 @@ function clamp(value: number, min = 0, max = 1): number {
 export type ColorFormat = "rgb" | "rgba" | "hsl" | "hsla";
 export type ColorValues = number[];
 export interface IColorObject {
-  type: ColorFormat;
-  values: ColorValues;
+  type: ColorFormat
+  values: ColorValues
 }
 
 function intToHex(int: number): string {

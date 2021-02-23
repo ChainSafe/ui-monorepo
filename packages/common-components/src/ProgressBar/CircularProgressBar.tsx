@@ -3,8 +3,8 @@ import { ITheme, makeStyles, createStyles } from "@chainsafe/common-theme"
 import clsx from "clsx"
 
 interface IStyleProps {
-  progress: number;
-  circumference: number;
+  progress: number
+  circumference: number
 }
 
 const useStyles = makeStyles((theme: ITheme) =>
@@ -59,13 +59,13 @@ export type ProgressBarSize = "small" | "medium" | "large"
 export type ProgressBarVariant = "primary" | "secondary"
 
 export interface ICircularProgressBarProps {
-  className?: string;
-  progress: number;
-  size?: ProgressBarSize;
-  variant?: ProgressBarVariant;
-  state?: ProgressBarState;
-  showBackdrop?: boolean;
-  width: number;
+  className?: string
+  progress: number
+  size?: ProgressBarSize
+  variant?: ProgressBarVariant
+  state?: ProgressBarState
+  showBackdrop?: boolean
+  width: number
 }
 
 const CircularProgressBar: React.FC<ICircularProgressBarProps> = ({
