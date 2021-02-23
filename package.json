@@ -51,15 +51,5 @@
       "**/webpack-dev-server",
       "**/react-scripts"
     ]
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
-  "lint-staged": {
-    "packages/**/*.{js,jsx,ts,tsx}": [
-      "yarn lint --fix"
-    ]
   }
 }
