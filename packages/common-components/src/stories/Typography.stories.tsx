@@ -7,14 +7,27 @@ export default {
   title: "Typography",
   component: Typography,
   excludeStories: /.*Data$/,
-  decorators: [withKnobs],
+  decorators: [withKnobs]
 }
 
 export const actionsData = {
-  onClick: action("onClickTypography"),
+  onClick: action("onClickTypography")
 }
 
-const variantOptions: [
+type VariantOption = "h1" 
+  |"h2" 
+  |"h3" 
+  |"h4" 
+  |"h5" 
+  |"h6" 
+  |"subtitle1" 
+  |"subtitle2" 
+  |"body1" 
+  |"body2" 
+  |"caption" 
+  |"button"
+
+const variantOptions: VariantOption[] = [
   "h1",
   "h2",
   "h3",
@@ -26,23 +39,11 @@ const variantOptions: [
   "body1",
   "body2",
   "caption",
-  "button",
-] = [
-  "h1",
-  "h2",
-  "h3",
-  "h4",
-  "h5",
-  "h6",
-  "subtitle1",
-  "subtitle2",
-  "body1",
-  "body2",
-  "caption",
-  "button",
+  "button"
 ]
 
-const componentOptions: ["h1", "h2", "h3", "h4", "h5", "h6", "span", "p"] = [
+type ComponentOption = "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "span" | "p"
+const componentOptions: ComponentOption[] = [
   "h1",
   "h2",
   "h3",
@@ -50,7 +51,7 @@ const componentOptions: ["h1", "h2", "h3", "h4", "h5", "h6", "span", "p"] = [
   "h5",
   "h6",
   "span",
-  "p",
+  "p"
 ]
 
 export const TypographyStory = (): React.ReactNode => (

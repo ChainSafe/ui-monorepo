@@ -12,21 +12,22 @@ export default {
   title: "NumberInput",
   component: NumberInput,
   excludeStories: /.*Data$/,
-  decorators: [withKnobs],
+  decorators: [withKnobs]
 }
 
 const inputStateOptions: InputState[] = [
   "error",
   "normal",
   "success",
-  "warning",
+  "warning"
 ]
 
-const sizeOptions: ["large", "medium", "small"] = ["large", "medium", "small"]
+type SizeOption = "large" | "medium" | "small"
+const sizeOptions: SizeOption[] = ["large", "medium", "small"]
 
 export const actionsData = {
   onChange: action("onChange"),
-  onFormSubmit: action("Submit Form"),
+  onFormSubmit: action("Submit Form")
 }
 
 export const NoIconStory = (): React.ReactNode => (
@@ -85,7 +86,7 @@ export const FormikStory = (): React.ReactNode => {
   return (
     <Formik
       initialValues={{
-        text: "Initial value of form field",
+        text: "Initial value of form field"
       }}
       onSubmit={(values: any) => actionsData.onFormSubmit(values)}
     >
