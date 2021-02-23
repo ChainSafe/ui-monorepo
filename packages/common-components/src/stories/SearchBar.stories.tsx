@@ -2,6 +2,7 @@ import React from "react"
 import { withKnobs, select, boolean } from "@storybook/addon-knobs"
 import { action } from "@storybook/addon-actions"
 import { SearchBar } from "../SearchBar"
+import { SizeOption } from "./types"
 
 export default {
   title: "Search Bar",
@@ -10,7 +11,6 @@ export default {
   decorators: [withKnobs]
 }
 
-type SizeOption = "large" | "medium" | "small"
 const sizeOptions: SizeOption[] = ["large", "medium", "small"]
 
 export const actionsData = {

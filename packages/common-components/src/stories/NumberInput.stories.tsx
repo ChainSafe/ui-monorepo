@@ -7,6 +7,7 @@ import { Button } from "../Button"
 import { FormikNumberInput, NumberInput } from "../NumberInput"
 import { InputState } from "../TextInput"
 import { Form, Formik } from "formik"
+import { SizeOption } from "./types"
 
 export default {
   title: "NumberInput",
@@ -22,7 +23,6 @@ const inputStateOptions: InputState[] = [
   "warning"
 ]
 
-type SizeOption = "large" | "medium" | "small"
 const sizeOptions: SizeOption[] = ["large", "medium", "small"]
 
 export const actionsData = {

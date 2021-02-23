@@ -36,6 +36,8 @@
     "react/prop-types": 0,
     "comma-dangle": ["error", "never"],
     "no-console": ["error", { "allow": ["warn", "error"] }],
+    "object-curly-spacing": ["error", "always"],
+    "space-in-parens": ["error", "never"],
     "@typescript-eslint/no-use-before-define": "off",
     "@typescript-eslint/explicit-function-return-type": "off",
     "@typescript-eslint/no-explicit-any": "off",
@@ -51,5 +53,12 @@
             "requireLast": false
         }
     }]
-  }
+  },
+  "ignorePatterns": [
+    ".github/**",
+    ".vscode/**",
+    ".yarn/**",
+    "**/dist/*",
+    "**/node_modules/*"
+  ]
 }

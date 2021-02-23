@@ -1,10 +1,5 @@
 import React, { ReactNode, useRef } from "react"
-import {
-  ITheme,
-  useOnClickOutside,
-  makeStyles,
-  createStyles
-} from "@chainsafe/common-theme"
+import { ITheme, useOnClickOutside, makeStyles, createStyles } from "@chainsafe/common-theme"
 import clsx from "clsx"
 
 const useStyles = makeStyles(

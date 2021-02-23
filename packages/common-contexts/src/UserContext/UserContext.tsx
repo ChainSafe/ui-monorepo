@@ -1,5 +1,5 @@
 import * as React from "react"
-import { useEffect } from "react"
+import { useCallback, useEffect } from "react"
 import { useImployApi } from "../ImployApiContext"
 import { useState } from "react"
 
@@ -33,20 +33,7 @@ const UserProvider = ({ children }: UserContextProps) => {
 
   const [profile, setProfile] = useState<Profile | undefined>(undefined)
 
-  useEffect(() => {
-    if (isLoggedIn) {
-      const retrieveProfile = async () => {
-        try {
-          await refreshProfile()
-        } catch (err) {
-          //do nothing
-        }
-      }
-      retrieveProfile()
-    }
-  }, [isLoggedIn])
-
-  const refreshProfile = async () => {
+  const refreshProfile = useCallback(async () => {
     try {
       const profileApiData = await imployApiClient.getUser()
 
@@ -61,7 +48,20 @@ const UserProvider = ({ children }: UserContextProps) => {
     } catch (error) {
       return Promise.reject("There was an error getting profile.")
     }
-  }
+  }, [imployApiClient])
+  
+  useEffect(() => {
+    if (isLoggedIn) {
+      const retrieveProfile = async () => {
+        try {
+          await refreshProfile()
+        } catch (err) {
+          //do nothing
+        }
+      }
+      retrieveProfile()
+    }
+  }, [isLoggedIn, refreshProfile])
 
   const updateProfile = async (
     firstName?: string,

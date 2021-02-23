@@ -174,7 +174,7 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
     }
 
     initializeApiClient()
-  }, [])
+  })
 
   const selectWallet = async () => {
     if (onboard && !isReady) {
@@ -249,7 +249,7 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
         setSecured(false)
       }
     }
-  }, [accessToken])
+  }, [accessToken, imployApiClient])
 
   const isLoggedIn = () => {
     if (isLoadingUser) {

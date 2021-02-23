@@ -19,7 +19,7 @@ export function useDoubleClick(
     if (click === 2) actionDoubleClick && actionDoubleClick()
 
     return () => clearTimeout(timer)
-  }, [click])
+  }, [actionDoubleClick, actionSingleClick, click, delay])
 
   return () => setClick((prev) => prev + 1)
 }

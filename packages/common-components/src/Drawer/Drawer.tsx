@@ -134,9 +134,7 @@ const Drawer: React.FC<IDrawerProps> = ({
 
   const drawerRef = React.useRef(null)
 
-  if (onClose) {
-    useOnClickOutside(drawerRef, onClose)
-  }
+  useOnClickOutside(drawerRef, onClose)
 
   return (
     <div>

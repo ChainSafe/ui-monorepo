@@ -105,7 +105,7 @@ const Toaster = ({
     if (transitionState === "exiting") {
       setHeight(0)
     }
-  }, [transitionState])
+  }, [constants.generalUnit, transitionState])
 
   return (
     <div ref={elementRef} className={classes.root}>

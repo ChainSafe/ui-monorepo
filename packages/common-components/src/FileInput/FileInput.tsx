@@ -125,7 +125,7 @@ const FileInput: React.FC<IFileInputProps> = ({
         setErrors(errors.concat(fileDropRejectionErrors))
       }
     },
-    [value]
+    [errors, helpers, maxFileSize, showPreviews, value.value]
   )
 
   useEffect(() => {
@@ -162,7 +162,7 @@ const FileInput: React.FC<IFileInputProps> = ({
             ) : (
               <>
                 <PlusIcon fontSize="large" color="primary" />
-                <Typography>Upload Files</Typography>
+                <Typography>{label}</Typography>
               </>
             )}
           </div>
