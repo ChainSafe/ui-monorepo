@@ -55,6 +55,7 @@ export const useMediaQuery = <Theme = unknown>(
 
   const [match, setMatch] = React.useState(() => {
     if (noSsr && supportMatchMedia) {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
       // @ts-ignore
       return matchMedia(query).matches
     }
@@ -73,6 +74,7 @@ export const useMediaQuery = <Theme = unknown>(
     if (!supportMatchMedia) {
       return undefined
     }
+    // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
     // @ts-ignore
     const queryList = matchMedia(query)
     const updateMatch = () => {

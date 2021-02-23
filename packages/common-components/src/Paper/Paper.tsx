@@ -74,4 +74,7 @@ const Paper = React.forwardRef(
     )
   }
 )
+
+Paper.displayName = "Paper"
+
 export default Paper

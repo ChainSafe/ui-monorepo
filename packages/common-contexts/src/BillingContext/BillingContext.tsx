@@ -49,6 +49,7 @@ const BillingProvider = ({ children }: BillingContextProps) => {
     const cardExpiryMonth = data.cardExpiry.split("/")[0]?.trim()
     const cardExpiryYear = data.cardExpiry.split("/")[1]?.trim()
 
+    // eslint-disable-next-line max-len
     const dataString = `card[number]=${data.cardNumber}&card[exp_month]=${cardExpiryMonth}&card[exp_year]=${cardExpiryYear}&card[cvc]=${data.cardCvc}`
 
     return axios.post<IStripeResponse>(STRIPE_API, dataString, {

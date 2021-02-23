@@ -166,7 +166,9 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
           } = await apiClient.getRefreshToken({ refresh: savedRefreshToken })
 
           setTokensAndSave(access_token, refresh_token)
-        } catch (error) {}
+        } catch (error) {
+          //do nothing
+        }
       }
       setIsLoadingUser(false)
     }
@@ -230,7 +232,7 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
         )
         setDecodedRefreshToken(decoded)
       } catch (error) {
-        console.log("Error decoding access token")
+        console.error("Error decoding access token")
       }
     }
   }, [refreshToken])

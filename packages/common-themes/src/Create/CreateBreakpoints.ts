@@ -29,7 +29,7 @@ export type BreakpointDefaults = Record<
   "xs" | "sm" | "md" | "lg" | "xl" | string,
   true
 >
-export interface BreakpointOverrides {}
+export interface BreakpointOverrides {[key: string]: unknown}
 
 export type Breakpoint = OverridableStringUnion<
   BreakpointDefaults,
