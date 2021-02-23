@@ -58,7 +58,7 @@
     }
   },
   "lint-staged": {
-    "./packages/*.{js,jsx,ts,tsx}": [
+    "./packages/**.{js,jsx,ts,tsx}": [
       "yarn lint --fix"
     ]
   }
