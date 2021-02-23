@@ -4,7 +4,8 @@ import {
   FilesMvRequest,
   FilesPathRequest,
   DirectoryContentResponse,
-  StoreEntryType,
+  BucketType,
+  SearchEntry,
 } from "@imploy/api-client"
 import React, { useCallback, useEffect, useReducer } from "react"
 import { useState } from "react"
@@ -67,7 +68,7 @@ type DriveContext = {
   currentPath: string
   updateCurrentPath(
     newPath: string,
-    storeEntry?: StoreEntryType,
+    bucketType?: BucketType,
     showLoading?: boolean,
   ): void
   pathContents: FileSystemItem[]
@@ -79,7 +80,14 @@ type DriveContext = {
   secureDrive(password: string): void
   getFolderTree(): Promise<DirectoryContentResponse>
   getFileInfo(path: string): Promise<CSFFilesFullinfoResponse>
-  storeEntry: StoreEntryType
+  getSearchResults(searchString: string): Promise<SearchEntry[]>
+  currentSearchBucket:
+    | {
+        bucketType: BucketType
+        bucketId: string
+      }
+    | undefined
+  bucketType: BucketType
   loadingCurrentPath: boolean
   desktop: boolean
 }
@@ -108,18 +116,25 @@ const DriveProvider = ({ children }: DriveContextProps) => {
 
   const [loadingCurrentPath, setLoadingCurrentPath] = useState(false)
 
-  const [storeEntry, setStoreEntry] = useState<StoreEntryType>("csf")
+  const [bucketType, setBucketType] = useState<BucketType>("csf")
 
   const [pathContents, setPathContents] = useState<FileSystemItem[]>([])
   const [spaceUsed, setSpaceUsed] = useState(0)
   const [masterPassword, setMasterPassword] = useState<string | undefined>(
     undefined,
   )
+  const [currentSearchBucket, setCurrentSearchBucket] = useState<
+    | {
+        bucketId: string
+        bucketType: BucketType
+      }
+    | undefined
+  >(undefined)
 
   const refreshContents = useCallback(
     async (
       path: string,
-      storeEntryParam?: StoreEntryType,
+      bucketTypeParam?: BucketType,
       showLoading?: boolean,
     ) => {
       try {
@@ -127,7 +142,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
         const newContents = await imployApiClient?.getCSFChildList({
           path,
           source: {
-            type: storeEntryParam || storeEntry,
+            type: bucketTypeParam || bucketType,
           },
         })
         showLoading && setLoadingCurrentPath(false)
@@ -150,7 +165,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
         showLoading && setLoadingCurrentPath(false)
       }
     },
-    [imployApiClient, storeEntry],
+    [imployApiClient, bucketType],
   )
 
   const currentPathReducer = (
@@ -167,7 +182,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
         // check user has not navigated to other folder
         // using then catch as awaits won't work in reducer
         if (action.payload === currentPath) {
-          refreshContents(currentPath, storeEntry, false)
+          refreshContents(currentPath, bucketType, false)
         }
         return currentPath
       }
@@ -179,14 +194,14 @@ const DriveProvider = ({ children }: DriveContextProps) => {
 
   const setCurrentPath = (
     newPath: string,
-    newStoryEntry?: StoreEntryType,
+    newBucketType?: BucketType,
     showLoading?: boolean,
   ) => {
     dispatchCurrentPath({ type: "update", payload: newPath })
-    if (newStoryEntry) {
-      setStoreEntry(newStoryEntry)
+    if (newBucketType) {
+      setBucketType(newBucketType)
     }
-    refreshContents(newPath, newStoryEntry || storeEntry, showLoading)
+    refreshContents(newPath, newBucketType || bucketType, showLoading)
   }
 
   useEffect(() => {
@@ -421,7 +436,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
       await imployApiClient.removeCSFObjects({
         paths: [`${currentPath}${itemToDelete.name}`],
         source: {
-          type: storeEntry,
+          type: bucketType,
         },
       })
       await refreshContents(currentPath)
@@ -615,6 +630,40 @@ const DriveProvider = ({ children }: DriveContextProps) => {
     }
   }
 
+  const getSearchResults = async (searchString: string) => {
+    try {
+      if (!searchString) return []
+      let bucketId
+      if (
+        currentSearchBucket &&
+        currentSearchBucket.bucketType === bucketType
+      ) {
+        // we have the bucket id
+        bucketId = currentSearchBucket.bucketId
+      } else {
+        // fetch bucket id
+        const results = await imployApiClient.listBuckets(bucketType)
+        const bucket1 = results[0]
+        setCurrentSearchBucket({
+          bucketType,
+          bucketId: bucket1.id,
+        })
+        bucketId = bucket1.id
+      }
+      const results = await imployApiClient.searchFiles({
+        bucket_id: bucketId || "",
+        query: searchString,
+      })
+      return results
+    } catch (err) {
+      addToastMessage({
+        message: t`There was an error getting search results`,
+        appearance: "error",
+      })
+      return Promise.reject(err)
+    }
+  }
+
   const secureDrive = async (password: string) => {
     if (secured) return
 
@@ -658,12 +707,13 @@ const DriveProvider = ({ children }: DriveContextProps) => {
         currentPath,
         updateCurrentPath: (
           newPath: string,
-          storeEntry?: StoreEntryType,
+          bucketType?: BucketType,
           showLoading?: boolean,
-        ) =>
+        ) => {
           newPath.endsWith("/")
-            ? setCurrentPath(`${newPath}`, storeEntry, showLoading)
-            : setCurrentPath(`${newPath}/`, storeEntry, showLoading),
+            ? setCurrentPath(`${newPath}`, bucketType, showLoading)
+            : setCurrentPath(`${newPath}/`, bucketType, showLoading)
+        },
         pathContents,
         uploadsInProgress,
         spaceUsed,
@@ -672,9 +722,11 @@ const DriveProvider = ({ children }: DriveContextProps) => {
         setMasterPassword: setPassword,
         secureDrive,
         getFolderTree,
+        getSearchResults,
+        currentSearchBucket,
         loadingCurrentPath,
         getFileInfo,
-        storeEntry,
+        bucketType,
         desktop,
       }}
     >
@@ -696,5 +748,6 @@ export type {
   FileSystemItem,
   DirectoryContentResponse,
   CSFFilesFullinfoResponse as FileFullInfo,
-  StoreEntryType,
+  BucketType,
+  SearchEntry,
 }

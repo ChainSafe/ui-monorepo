@@ -234,7 +234,7 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
         <Fragment>
           {desktop && (
             <div>
-              <Link className={classes.logo} to={ROUTE_LINKS.Home}>
+              <Link className={classes.logo} to={ROUTE_LINKS.Home()}>
                 <ChainsafeFilesLogo />
                 <Typography variant="h5">
                   <Trans>Files</Trans>
@@ -256,7 +256,7 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
                   handleOnClick()
                 }}
                 className={classes.navItem}
-                to={ROUTE_LINKS.Home}
+                to={ROUTE_LINKS.Home()}
               >
                 <DatabaseSvg />
                 <Typography variant="h5" className={classes.navItemText}>

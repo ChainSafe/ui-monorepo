@@ -1,7 +1,7 @@
 import { Crumb } from "@chainsafe/common-components"
 import {
   FileSystemItem,
-  StoreEntryType,
+  BucketType,
   UploadProgress,
 } from "../../../Contexts/DriveContext"
 
@@ -14,6 +14,7 @@ export type FileOperation =
   | "info"
   | "recover"
   | "preview"
+  | "view_folder"
 
 export interface IFilesBrowserModuleProps {
   heading?: string
@@ -41,6 +42,7 @@ export interface IFilesTableBrowserProps
   deleteFile?: (cid: string) => Promise<void>
   bulkMoveFileToTrash?: (cids: string[]) => Promise<void>
   recoverFile?: (cid: string) => Promise<void>
+  viewFolder?: (cid: string) => void
   allowDropUpload?: boolean
 
   handleUploadOnDrop?: (
@@ -51,15 +53,15 @@ export interface IFilesTableBrowserProps
 
   updateCurrentPath: (
     newPath: string,
-    newStoreEntry?: StoreEntryType,
+    newBucketType?: BucketType,
     showLoading?: boolean,
   ) => void
   loadingCurrentPath: boolean
-  uploadsInProgress: UploadProgress[]
+  uploadsInProgress?: UploadProgress[]
   showUploadsInTable: boolean
 
   sourceFiles: IFileConfigured[]
-  currentPath: string
+  currentPath?: string
   crumbs: Crumb[] | undefined
   desktop: boolean
 }
