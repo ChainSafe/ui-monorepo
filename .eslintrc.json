@@ -20,16 +20,10 @@
     }
   },
   "rules": {
-    "indent": [
-      "error",
-      2,
-      {
-        "SwitchCase": 1
-      }
-    ],
+    "indent": ["error", 2],
     "linebreak-style": ["error", "unix"],
     "quotes": ["error", "double"],
-    "semi": ["error", "off"],
+    "semi": ["error", "never"],
     "max-len": [
       "error",
       {
@@ -38,6 +32,16 @@
     ],
     "no-console": 2,
     "react/prop-types": 0,
+    "comma-dangle": [
+      "error",
+      {
+        "arrays": "always",
+        "objects": "always",
+        "imports": "always",
+        "exports": "always",
+        "functions": "never"
+      }
+    ],
     "@typescript-eslint/no-unused-vars": [
       2,
       {
