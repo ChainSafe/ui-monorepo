@@ -122,6 +122,8 @@ const ThresholdKeyProvider = ({
           if (tkey.modules[SHARE_TRANSFER_MODULE_NAME])
             (tkey.modules[SHARE_TRANSFER_MODULE_NAME] as ShareTransferModule).setRequestStatusCheckInterval(5000);
         }
+        const keyDetails = tkey.getKeyDetails()
+        setKeyDetails(keyDetails)
       } else {
         tkey = new ThresholdKey({
           modules: {
@@ -142,8 +144,6 @@ const ThresholdKeyProvider = ({
         await serviceProvider.init({ skipSw: false })
       }
       setTKeySdk(tkey)
-      const keyDetails = tkey.getKeyDetails()
-      setKeyDetails(keyDetails)
     }
     init()
     // eslint-disable-next-line
@@ -320,7 +320,6 @@ const ThresholdKeyProvider = ({
               const signature = await signMessage(token, provider.getSigner())
               const {
                 access_token,
-                refresh_token,
               } = await imployApiClient.postIdentityWeb3Token({
                 signature: signature,
                 token: token,
@@ -328,10 +327,12 @@ const ThresholdKeyProvider = ({
               })
 
               console.log(access_token)
-              console.log(refresh_token)
 
-
-              serviceProvider.getTorusKey(process.env.REACT_APP_FILES_VERIFIER_NAME || "", 'pubkey', { verifier_id: 'pubkey' }, access_token.token)
+              serviceProvider.getTorusKey(
+                process.env.REACT_APP_FILES_VERIFIER_NAME || "",
+                'pubkey',
+                { verifier_id: 'pubkey' },
+                access_token.token)
             }
           } catch (error) {
             console.log(error)
