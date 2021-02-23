@@ -3,6 +3,7 @@ import {
   debounce,
   ITheme,
   makeStyles,
+  useThemeSwitcher,
 } from "@chainsafe/common-theme"
 import React, { useState, useEffect, useCallback } from "react"
 import CustomModal from "../../Elements/CustomModal"
@@ -18,6 +19,10 @@ import {
 } from "@chainsafe/common-components"
 import clsx from "clsx"
 
+interface IStyleProps {
+  themeKey: string
+}
+
 const useStyles = makeStyles(
   ({ breakpoints, constants, palette, typography, zIndex }: ITheme) => {
     return createStyles({
@@ -25,7 +30,10 @@ const useStyles = makeStyles(
         zIndex: zIndex?.blocker,
         [breakpoints.down("md")]: {},
       },
-      modalInner: {
+      modalInner: ({ themeKey }: IStyleProps) => ({
+        backgroundColor:
+          themeKey === "dark" ? palette.additional.gray[1] : "initial",
+        color: themeKey === "dark" ? palette.additional.gray[9] : "initial",
         [breakpoints.down("md")]: {
           bottom:
             (constants?.mobileButtonHeight as number) + constants.generalUnit,
@@ -33,15 +41,21 @@ const useStyles = makeStyles(
           borderTopRightRadius: `${constants.generalUnit * 1.5}px`,
           maxWidth: `${breakpoints.width("md")}px !important`,
         },
-      },
-      copyButton: {
-        color: palette.common.white.main,
-        backgroundColor: palette.common.black.main,
+      }),
+      copyButton: ({ themeKey }: IStyleProps) => ({
+        color:
+          themeKey === "dark"
+            ? palette.additional.gray[8]
+            : palette.common.white.main,
+        backgroundColor:
+          themeKey === "dark"
+            ? palette.additional.gray[1]
+            : palette.common.black.main,
         flex: 1,
         [breakpoints.down("md")]: {
           margin: `${constants.generalUnit * 2}px`,
         },
-      },
+      }),
       closeButton: {
         flex: 1,
         [breakpoints.down("md")]: {
@@ -71,13 +85,17 @@ const useStyles = makeStyles(
         fontWeight: typography.fontWeight.semibold,
         textAlign: "left",
       },
-      infoContainer: {
-        borderTop: `1px solid ${palette.additional["gray"][5]}`,
+      infoContainer: ({ themeKey }: IStyleProps) => ({
+        borderTop: `1px solid ${
+          themeKey === "dark"
+            ? palette.additional["gray"][4]
+            : palette.additional["gray"][5]
+        }`,
         // borderBottom: `1px solid ${palette.additional["gray"][5]}`,
         padding: `${constants.generalUnit * 2}px ${
           constants.generalUnit * 3
         }px`,
-      },
+      }),
       infoBox: {
         paddingLeft: constants.generalUnit,
       },
@@ -116,7 +134,11 @@ const FileInfoModal: React.FC<IFileInfoModuleProps> = ({
   fileInfoPath,
   close,
 }: IFileInfoModuleProps) => {
-  const classes = useStyles()
+  const { themeKey } = useThemeSwitcher()
+  const classes = useStyles({
+    themeKey,
+  })
+
   const { getFileInfo } = useDrive()
   const [loadingFileInfo, setLoadingInfo] = useState(false)
   const [fullFileInfo, setFullFullInfo] = useState<FileFullInfo | undefined>(
@@ -291,7 +313,7 @@ const FileInfoModal: React.FC<IFileInfoModuleProps> = ({
               onClick={() => close()}
               size="large"
               className={classes.closeButton}
-              variant="dashed"
+              variant={themeKey === "dark" ? "outline" : "dashed"}
               type="button"
             >
               <Trans>Close</Trans>

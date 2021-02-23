@@ -85,8 +85,8 @@ const useStyles = makeStyles(
             : palette.additional["gray"][9],
         color:
           themeKey === "dark"
-            ? palette.additional["gray"][9]
-            : palette.additional["gray"][3],
+            ? palette.additional["gray"][10]
+            : palette.additional["gray"][8],
         borderWidth: 1,
         borderStyle: "solid",
         borderColor: palette.additional["gray"][8],
@@ -115,17 +115,6 @@ const useStyles = makeStyles(
           themeKey === "dark"
             ? palette.additional["gray"][9]
             : palette.additional["gray"][1],
-      }),
-      menuIcon: ({ themeKey }: IStyleProps) => ({
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        width: 20,
-        marginRight: constants.generalUnit * 1.5,
-        fill:
-          themeKey === "dark"
-            ? palette.additional["gray"][9]
-            : palette.additional["gray"][7],
       }),
       previewContainer: {
         height: "100%",
@@ -169,7 +158,29 @@ const useStyles = makeStyles(
       },
       options: ({ themeKey }: IStyleProps) => ({
         backgroundColor:
-          themeKey === "dark" ? palette.additional.gray[1] : "initial",
+          themeKey === "dark" ? palette.additional.gray[2] : "initial",
+        color: themeKey === "dark" ? palette.additional.gray[9] : "initial",
+        border:
+          themeKey === "dark"
+            ? `1px solid ${palette.additional.gray[5]}`
+            : "initial",
+      }),
+      menuIcon: ({ themeKey }: IStyleProps) => ({
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        width: 20,
+        marginRight: constants.generalUnit * 1.5,
+        fill:
+          themeKey === "dark"
+            ? palette.additional["gray"][9]
+            : palette.additional["gray"][7],
+      }),
+      item: ({ themeKey }: IStyleProps) => ({
+        color:
+          themeKey === "dark"
+            ? palette.additional["gray"][10]
+            : palette.additional["gray"][8],
       }),
     }),
 )
@@ -312,6 +323,7 @@ const FilePreviewModal: React.FC<{
           className={classes.fileOperationsMenu}
           classNames={{
             options: classes.options,
+            item: classes.item,
           }}
           menuItems={[
             // {

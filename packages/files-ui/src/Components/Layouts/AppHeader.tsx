@@ -16,6 +16,7 @@ import {
   HamburgerMenu,
   MenuDropdown,
   PowerDownSvg,
+  SunSvg,
 } from "@chainsafe/common-components"
 import { ROUTE_LINKS } from "../FilesRoutes"
 import SearchModule from "../Modules/SearchModule"
@@ -120,6 +121,25 @@ const useStyles = makeStyles(
           marginRight: constants.generalUnit * 2,
         },
       },
+      searchModule: {
+        [breakpoints.down("md")]: {
+          height: constants.mobileHeaderHeight,
+          position: "absolute",
+          right: 2,
+          width: "100%",
+          zIndex: zIndex?.background,
+          "&.active": {},
+        },
+      },
+      options: ({ themeKey }: IStyleProps) => ({
+        backgroundColor:
+          themeKey === "dark" ? palette.additional.gray[2] : "initial",
+        color: themeKey === "dark" ? palette.additional.gray[9] : "initial",
+        border:
+          themeKey === "dark"
+            ? `1px solid ${palette.additional.gray[5]}`
+            : "initial",
+      }),
       menuItem: ({ themeKey }: IStyleProps) => ({
         width: 100,
         display: "flex",
@@ -133,29 +153,13 @@ const useStyles = makeStyles(
           width: constants.generalUnit * 2,
           height: constants.generalUnit * 2,
           marginRight: constants.generalUnit,
-          fill:
-            themeKey === "dark"
-              ? palette.additional["gray"][10]
-              : palette.additional["gray"][7],
+          fill: palette.additional["gray"][7],
+          stroke: palette.additional["gray"][7],
         },
-      }),
-      searchModule: {
-        [breakpoints.down("md")]: {
-          height: constants.mobileHeaderHeight,
-          position: "absolute",
-          right: 2,
-          width: "100%",
-          zIndex: zIndex?.background,
-          "&.active": {},
-        },
-      },
-      options: ({ themeKey }: IStyleProps) => ({
-        backgroundColor:
-          themeKey === "dark" ? palette.additional.gray[1] : "initial",
       }),
       icon: ({ themeKey }: IStyleProps) => ({
         "& svg": {
-          fill: themeKey === "dark" ? palette.additional.gray[10] : "initial",
+          fill: themeKey === "dark" ? palette.additional.gray[7] : "initial",
         },
       }),
     })
@@ -171,7 +175,7 @@ const AppHeader: React.FC<IAppHeader> = ({
   navOpen,
   setNavOpen,
 }: IAppHeader) => {
-  const { themeKey } = useThemeSwitcher()
+  const { themeKey, setTheme } = useThemeSwitcher()
 
   const classes = useStyles({ themeKey })
   const { breakpoints }: ITheme = useTheme()
@@ -221,6 +225,20 @@ const AppHeader: React.FC<IAppHeader> = ({
                           <PowerDownSvg />
                           <Typography>
                             <Trans>Sign Out</Trans>
+                          </Typography>
+                        </div>
+                      ),
+                    },
+                    {
+                      onClick: () =>
+                        setTheme(themeKey === "dark" ? "light" : "dark"),
+                      contents: (
+                        <div className={classes.menuItem}>
+                          <SunSvg />
+                          <Typography>
+                            <Trans>
+                              {themeKey === "dark" ? "Light mode" : "Dark mode"}
+                            </Trans>
                           </Typography>
                         </div>
                       ),

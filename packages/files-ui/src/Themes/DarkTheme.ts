@@ -217,6 +217,25 @@ export const darkTheme = createTheme({
           color: "#DBDBDB",
         },
       },
+      Toaster: {
+        closeIcon: {
+          fill: "#DBDBDB",
+        },
+        message: {
+          color: "#DBDBDB",
+        },
+        typeIcon: {
+          root: {
+            fill: "#DBDBDB",
+          },
+          success: {
+            fill: "#8FD460",
+          },
+          error: {
+            fill: "#F37370",
+          },
+        },
+      },
       Button: {
         variants: {
           primary: {

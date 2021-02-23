@@ -16,14 +16,14 @@ import {
   DeleteSvg,
   EditSvg,
   IMenuItem,
-  ExportIcon,
-  ShareAltIcon,
   CheckSvg,
-  ExclamationCircleInverseIcon,
   RecoverSvg,
-  ZoomInIcon,
   CheckboxInput,
   EyeSvg,
+  ExportSvg,
+  ShareAltSvg,
+  ExclamationCircleInverseSvg,
+  ZoomInSvg,
 } from "@chainsafe/common-components"
 import {
   makeStyles,
@@ -63,19 +63,22 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: ITheme) => {
         border: `2px solid ${palette.additional["geekblue"][6]}`,
       },
     },
-    fileIcon: {
+    fileIcon: ({ themeKey }: IStyleProps) => ({
       display: "flex",
       flexDirection: "row",
       alignItems: "center",
       justifyContent: "center",
       "& svg": {
         width: constants.generalUnit * 2.5,
-        fill: palette.additional["gray"][8],
+        fill:
+          themeKey === "dark"
+            ? palette.additional.gray[9]
+            : palette.additional.gray[8],
       },
-    },
+    }),
     folderIcon: {
       "& svg": {
-        fill: palette.additional["gray"][9],
+        fill: palette.additional.gray[9],
       },
     },
     renameInput: {
@@ -126,16 +129,19 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: ITheme) => {
         height: constants?.mobileButtonHeight,
       },
     },
-    menuIcon: {
+    menuIcon: ({ themeKey }: IStyleProps) => ({
       display: "flex",
       justifyContent: "center",
       alignItems: "center",
       width: 20,
       marginRight: constants.generalUnit * 1.5,
       "& svg": {
-        fill: palette.additional["gray"][7],
+        fill:
+          themeKey === "dark"
+            ? palette.additional.gray[9]
+            : palette.additional.gray[7],
       },
-    },
+    }),
     desktopRename: {
       display: "flex",
       flexDirection: "row",
@@ -154,9 +160,20 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: ITheme) => {
         fill: themeKey === "dark" ? palette.additional.gray[9] : "initial",
       },
     }),
-    dropdownOptions: {
-      "& > *": {},
-    },
+    dropdownOptions: ({ themeKey }: IStyleProps) => ({
+      backgroundColor:
+        themeKey === "dark" ? palette.additional.gray[2] : "initial",
+      color: themeKey === "dark" ? palette.additional.gray[9] : "initial",
+      border:
+        themeKey === "dark"
+          ? `1px solid ${palette.additional.gray[5]}`
+          : "initial",
+    }),
+    dropdownItem: ({ themeKey }: IStyleProps) => ({
+      backgroundColor:
+        themeKey === "dark" ? palette.additional.gray[1] : "initial",
+      color: themeKey === "dark" ? palette.additional.gray[9] : "initial",
+    }),
   })
 })
 
@@ -271,7 +288,7 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
     move: {
       contents: (
         <Fragment>
-          <ExportIcon className={classes.menuIcon} />
+          <ExportSvg className={classes.menuIcon} />
           <span>
             <Trans>Move</Trans>
           </span>
@@ -282,7 +299,7 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
     share: {
       contents: (
         <Fragment>
-          <ShareAltIcon className={classes.menuIcon} />
+          <ShareAltSvg className={classes.menuIcon} />
           <span>
             <Trans>Share</Trans>
           </span>
@@ -293,7 +310,7 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
     info: {
       contents: (
         <Fragment>
-          <ExclamationCircleInverseIcon className={classes.menuIcon} />
+          <ExclamationCircleInverseSvg className={classes.menuIcon} />
           <span>
             <Trans>Info</Trans>
           </span>
@@ -315,7 +332,7 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
     preview: {
       contents: (
         <Fragment>
-          <ZoomInIcon className={classes.menuIcon} />
+          <ZoomInSvg className={classes.menuIcon} />
           <span>
             <Trans>Preview</Trans>
           </span>
@@ -468,7 +485,11 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
                 } name`}
                 autoFocus={editing === file.cid}
               />
-              <Button variant="dashed" size="small" type="submit">
+              <Button
+                variant={themeKey === "dark" ? "outline" : "dashed"}
+                size="small"
+                type="submit"
+              >
                 <CheckSvg />
               </Button>
             </Form>
@@ -558,6 +579,7 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
           classNames={{
             icon: classes.dropdownIcon,
             options: classes.dropdownOptions,
+            item: classes.dropdownItem,
           }}
           indicator={MoreIcon}
         />

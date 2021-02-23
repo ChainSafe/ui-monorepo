@@ -1,5 +1,10 @@
 import React from "react"
-import { createStyles, ITheme, makeStyles } from "@chainsafe/common-theme"
+import {
+  createStyles,
+  ITheme,
+  makeStyles,
+  useThemeSwitcher,
+} from "@chainsafe/common-theme"
 import { UploadProgress } from "../../../Contexts/DriveContext"
 import {
   ProgressBar,
@@ -9,6 +14,10 @@ import {
 } from "@chainsafe/common-components"
 import clsx from "clsx"
 import { Trans } from "@lingui/macro"
+
+interface IStyleProps {
+  themeKey: string
+}
 
 const useStyles = makeStyles(
   ({ constants, palette, animation, breakpoints }: ITheme) => {
@@ -37,10 +46,13 @@ const useStyles = makeStyles(
         from: { transform: "translate(0, 100%)" },
         to: { transform: "translate(0, 0)" },
       },
-      contentContainer: {
+      contentContainer: ({ themeKey }: IStyleProps) => ({
         display: "flex",
         alignItems: "center",
-      },
+        "& svg": {
+          fill: themeKey === "dark" ? palette.additional.gray[9] : "initial",
+        },
+      }),
       marginBottom: {
         marginBottom: constants.generalUnit,
       },
@@ -64,7 +76,10 @@ const UploadBox: React.FC<IUploadBox> = (props) => {
     progress,
     errorMessage,
   } = uploadInProgress
-  const classes = useStyles()
+  const { themeKey } = useThemeSwitcher()
+  const classes = useStyles({
+    themeKey,
+  })
 
   return (
     <>
