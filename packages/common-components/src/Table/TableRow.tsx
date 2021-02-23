@@ -81,4 +81,6 @@ const TableRow = React.forwardRef(
   }
 )
 
+TableRow.displayName = "TableRow"
+
 export default TableRow

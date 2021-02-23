@@ -54,4 +54,6 @@ const FormikTextInput = React.forwardRef(
   }
 )
 
+FormikTextInput.displayName = "FormikTextInput"
+
 export default FormikTextInput
