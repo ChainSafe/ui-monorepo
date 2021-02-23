@@ -102,7 +102,7 @@ export interface IHamburgerMenu extends React.HTMLProps<HTMLDivElement> {
 const HamburgerMenu: React.FC<IHamburgerMenu> = ({
   variant = "default",
   onClick,
-  className,
+  className
 }: IHamburgerMenu) => {
   const classes = useStyles()
   return (
