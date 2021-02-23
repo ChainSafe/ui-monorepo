@@ -41,7 +41,7 @@
     "clean:dist": "rm -rf ./*/**/dist && rm -rf ./*/**/build && rm -rf ./*/**/storybook-static",
     "clean": "yarn clean:dependencies && yarn clean:dist",
     "start:tunnel": "./ngrok http https://localhost:3000",
-    "lint": "eslint 'packages/**/src/**/*.{js,ts,tsx}'"
+    "lint": "eslint 'packages/**/src/**/*.{js,jsx,ts,tsx}'"
   },
   "workspaces": {
     "packages": [
@@ -54,7 +54,12 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "yarn lint --fix"
+      "pre-commit": "lint-staged"
     }
+  },
+  "lint-staged": {
+    "./packages/*.{js,jsx,ts,tsx}": [
+      "yarn lint --fix"
+    ]
   }
 }
