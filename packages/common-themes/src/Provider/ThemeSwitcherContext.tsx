@@ -1,9 +1,9 @@
-import * as React from "react";
-import { ITheme } from "../Create/CreateTheme";
-import { useState } from "react";
-import { ThemeProvider } from "@material-ui/styles";
-import "reset-css";
-import "simplebar/dist/simplebar.min.css";
+import * as React from "react"
+import { ITheme, } from "../Create/CreateTheme"
+import { useState, } from "react"
+import { ThemeProvider, } from "@material-ui/styles"
+import "reset-css"
+import "simplebar/dist/simplebar.min.css"
 
 type ThemeSwitcherContext = {
   themeKey: string;
@@ -13,7 +13,7 @@ type ThemeSwitcherContext = {
 
 const ThemeSwitcherContext = React.createContext<
   ThemeSwitcherContext | undefined
->(undefined);
+>(undefined)
 
 type ThemeSwitcherProps = {
   children: React.ReactNode;
@@ -25,7 +25,7 @@ const ThemeSwitcher: React.FC<ThemeSwitcherProps> = ({
   themes,
 }: ThemeSwitcherProps) => {
   // TODO: check min 1 theme
-  const [current, setCurrent] = useState<string>(Object.keys(themes)[0]);
+  const [current, setCurrent,] = useState<string>(Object.keys(themes)[0])
   return (
     <ThemeSwitcherContext.Provider
       value={{
@@ -36,18 +36,18 @@ const ThemeSwitcher: React.FC<ThemeSwitcherProps> = ({
     >
       <ThemeProvider theme={themes[current]}>{children}</ThemeProvider>
     </ThemeSwitcherContext.Provider>
-  );
-};
+  )
+}
 
 const useThemeSwitcher = () => {
-  const context = React.useContext(ThemeSwitcherContext);
+  const context = React.useContext(ThemeSwitcherContext)
   if (context == undefined) {
     throw new Error(
       "useThemeSwitcher should be called within Theme Context provider"
-    );
+    )
   }
 
-  return context;
-};
+  return context
+}
 
-export { ThemeSwitcher, useThemeSwitcher };
+export { ThemeSwitcher, useThemeSwitcher, }
