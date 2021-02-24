@@ -101,7 +101,7 @@ const DefaultThemeConfig: IThemeConfig = {
     fontWeight: defaultFontWeights,
     h1: {
       ...defaultFontStyles,
-      fontWeight: defaultFontWeights.semibold,
+      fontWeight: defaultFontWeights.light,
       fontSize: 38,
       lineHeight: `46px`,
     },
