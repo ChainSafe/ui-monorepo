@@ -59,8 +59,8 @@ const useStyles = makeStyles(
       root: {
         position: "relative",
         [breakpoints.down("md")]: {
-          paddingLeft: constants.generalUnit * 2,
-          paddingRight: constants.generalUnit * 2,
+          marginLeft: constants.generalUnit * 2,
+          marginRight: constants.generalUnit * 2,
         },
         [breakpoints.up("md")]: {
           border: `1px solid transparent`,

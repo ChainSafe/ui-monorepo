@@ -1,10 +1,11 @@
 import * as React from "react"
 import { ITheme } from "../Create/CreateTheme"
 import { useState } from "react"
-import { ThemeProvider, useTheme } from "@material-ui/styles"
+import { ThemeProvider } from "@material-ui/styles"
 import "reset-css"
 import "simplebar/dist/simplebar.min.css"
 import { useMediaQuery } from ".."
+import { createBreakpoints } from "../Create/CreateBreakpoints"
 
 type ThemeSwitcherContext = {
   desktop: boolean
@@ -26,7 +27,7 @@ const ThemeSwitcher: React.FC<ThemeSwitcherProps> = ({
   children,
   themes,
 }: ThemeSwitcherProps) => {
-  const { breakpoints }: ITheme = useTheme()
+  const breakpoints = createBreakpoints({})
   const desktop = useMediaQuery(breakpoints.up("md"))
 
   // TODO: check min 1 theme
