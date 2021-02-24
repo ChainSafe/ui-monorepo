@@ -27,7 +27,6 @@ import { darkTheme } from "./Themes/DarkTheme"
 import { useHotjar } from "react-use-hotjar"
 import { LanguageProvider } from "./Contexts/LanguageContext"
 import { testLocalStorage } from "./Utils/Helpers"
-import { ThemeConfigProvider } from "./Contexts/ThemeConfigContext"
 
 if (
   process.env.NODE_ENV === "production" &&
@@ -107,19 +106,17 @@ const App: React.FC<{}> = () => {
               cacheWalletSelection={testLocalStorage()}
             >
               <ImployApiProvider apiUrl={apiUrl}>
-                <ThemeConfigProvider>
-                  <UserProvider>
-                    <DriveProvider>
-                      <BillingProvider>
-                        <Router>
-                          <AppWrapper>
-                            <FilesRoutes />
-                          </AppWrapper>
-                        </Router>
-                      </BillingProvider>
-                    </DriveProvider>
-                  </UserProvider>
-                </ThemeConfigProvider>
+                <UserProvider>
+                  <DriveProvider>
+                    <BillingProvider>
+                      <Router>
+                        <AppWrapper>
+                          <FilesRoutes />
+                        </AppWrapper>
+                      </Router>
+                    </BillingProvider>
+                  </DriveProvider>
+                </UserProvider>
               </ImployApiProvider>
             </Web3Provider>
           </ToasterProvider>

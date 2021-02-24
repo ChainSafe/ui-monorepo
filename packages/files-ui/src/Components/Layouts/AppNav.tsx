@@ -1,6 +1,11 @@
 import { useImployApi, useUser } from "@imploy/common-contexts"
 import { useDrive } from "../../Contexts/DriveContext"
-import { createStyles, ITheme, makeStyles } from "@chainsafe/common-theme"
+import {
+  createStyles,
+  ITheme,
+  makeStyles,
+  useThemeSwitcher,
+} from "@chainsafe/common-theme"
 import React, { Fragment, useCallback } from "react"
 import clsx from "clsx"
 import {
@@ -18,7 +23,6 @@ import {
 import { ROUTE_LINKS } from "../FilesRoutes"
 import { FREE_PLAN_LIMIT } from "../../Utils/Constants"
 import { Trans } from "@lingui/macro"
-import { useThemeConfig } from "../../Contexts/ThemeConfigContext"
 
 const useStyles = makeStyles(
   ({ palette, animation, breakpoints, constants, zIndex }: ITheme) => {
@@ -194,7 +198,7 @@ interface IAppNav {
 
 const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
   const classes = useStyles()
-  const { desktop } = useThemeConfig()
+  const { desktop } = useThemeSwitcher()
   const { spaceUsed } = useDrive()
 
   const { isLoggedIn, logout, secured } = useImployApi()

@@ -1,5 +1,10 @@
 import { useImployApi } from "@imploy/common-contexts"
-import { createStyles, ITheme, makeStyles } from "@chainsafe/common-theme"
+import {
+  createStyles,
+  ITheme,
+  makeStyles,
+  useThemeSwitcher,
+} from "@chainsafe/common-theme"
 import React, { useState } from "react"
 import { ReactNode } from "react"
 import clsx from "clsx"
@@ -7,7 +12,6 @@ import { CssBaseline } from "@chainsafe/common-components"
 import AppHeader from "./AppHeader"
 import AppNav from "./AppNav"
 import { useDrive } from "../../Contexts/DriveContext"
-import { useThemeConfig } from "../../Contexts/ThemeConfigContext"
 
 interface IAppWrapper {
   children: ReactNode | ReactNode[]
@@ -59,7 +63,7 @@ const useStyles = makeStyles(
 
 const AppWrapper: React.FC<IAppWrapper> = ({ children }: IAppWrapper) => {
   const classes = useStyles()
-  const { desktop } = useThemeConfig()
+  const { desktop } = useThemeSwitcher()
 
   const [navOpen, setNavOpen] = useState<boolean>(desktop)
 

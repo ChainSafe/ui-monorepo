@@ -4,6 +4,7 @@ import {
   ITheme,
   makeStyles,
   useOnClickOutside,
+  useThemeSwitcher,
 } from "@chainsafe/common-theme"
 import React, { ChangeEvent, useRef } from "react"
 import {
@@ -17,7 +18,6 @@ import { useState } from "react"
 import clsx from "clsx"
 import { ROUTE_LINKS } from "../FilesRoutes"
 import { useDrive, SearchEntry } from "../../Contexts/DriveContext"
-import { useThemeConfig } from "../../Contexts/ThemeConfigContext"
 import { CONTENT_TYPES } from "../../Utils/Constants"
 import { getParentPathFromFilePath } from "../../Utils/pathUtils"
 import { Trans } from "@lingui/macro"
@@ -150,7 +150,7 @@ const SearchModule: React.FC<ISearchModule> = ({
   const ref = useRef(null)
   const { getSearchResults, currentSearchBucket } = useDrive()
 
-  const { desktop } = useThemeConfig()
+  const { desktop } = useThemeSwitcher()
   const { redirect } = useHistory()
 
   const onSearch = async (searchString: string) => {

@@ -10,7 +10,12 @@ import {
   Divider,
 } from "@chainsafe/common-components"
 import { useImployApi, OAuthProvider } from "@imploy/common-contexts"
-import { makeStyles, ITheme, createStyles } from "@chainsafe/common-theme"
+import {
+  makeStyles,
+  ITheme,
+  createStyles,
+  useThemeSwitcher,
+} from "@chainsafe/common-theme"
 import { useWeb3 } from "@chainsafe/web3-context"
 import LargeLightBulbSvg from "../../Media/LargeLightBulb.svg"
 import SmallBranchSvg from "../../Media/SmallBranch.svg"
@@ -19,7 +24,6 @@ import { ROUTE_LINKS } from "../FilesRoutes"
 import LandingImage from "../../Media/auth.jpg"
 import MasterKeyModule from "../Modules/MasterKeySequence/MasterKeyModule"
 import EnterMasterKeySlide from "../Modules/MasterKeySequence/SequenceSlides/EnterMasterKey.slide"
-import { useThemeConfig } from "../../Contexts/ThemeConfigContext"
 
 const useStyles = makeStyles(
   ({ palette, constants, typography, breakpoints }: ITheme) =>
@@ -159,7 +163,7 @@ const useStyles = makeStyles(
 
 const LoginPage = () => {
   const classes = useStyles()
-  const { desktop } = useThemeConfig()
+  const { desktop } = useThemeSwitcher()
   const {
     isReturningUser,
     web3Login,

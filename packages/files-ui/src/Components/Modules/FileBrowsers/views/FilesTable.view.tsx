@@ -1,4 +1,9 @@
-import { createStyles, ITheme, makeStyles } from "@chainsafe/common-theme"
+import {
+  createStyles,
+  ITheme,
+  makeStyles,
+  useThemeSwitcher,
+} from "@chainsafe/common-theme"
 import React, { Fragment, useCallback, useEffect } from "react"
 import {
   Divider,
@@ -44,7 +49,6 @@ import UploadFileModule from "../../UploadFileModule"
 import MoveFileModule from "../MoveFileModal"
 import FileInfoModal from "../FileInfoModal"
 import { CONTENT_TYPES } from "../../../../Utils/Constants"
-import { useThemeConfig } from "../../../../Contexts/ThemeConfigContext"
 
 const useStyles = makeStyles(
   ({ animation, breakpoints, constants, palette, zIndex }: ITheme) => {
@@ -244,7 +248,7 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
   allowDropUpload,
 }: IFilesTableBrowserProps) => {
   const classes = useStyles()
-  const { desktop } = useThemeConfig()
+  const { desktop } = useThemeSwitcher()
   const [editing, setEditing] = useState<string | undefined>()
   const [direction, setDirection] = useState<SortDirection>("descend")
   const [column, setColumn] = useState<"name" | "size" | "date_uploaded">(

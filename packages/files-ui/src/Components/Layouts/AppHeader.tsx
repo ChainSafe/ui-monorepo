@@ -1,6 +1,11 @@
 import React, { Fragment, useCallback, useState } from "react"
 import { useImployApi, useUser } from "@imploy/common-contexts"
-import { createStyles, ITheme, makeStyles } from "@chainsafe/common-theme"
+import {
+  createStyles,
+  ITheme,
+  makeStyles,
+  useThemeSwitcher,
+} from "@chainsafe/common-theme"
 import clsx from "clsx"
 import {
   Link,
@@ -14,7 +19,6 @@ import { ROUTE_LINKS } from "../FilesRoutes"
 import SearchModule from "../Modules/SearchModule"
 import { Trans } from "@lingui/macro"
 import { useDrive } from "../../Contexts/DriveContext"
-import { useThemeConfig } from "../../Contexts/ThemeConfigContext"
 
 const useStyles = makeStyles(
   ({ palette, animation, breakpoints, constants, zIndex }: ITheme) => {
@@ -140,7 +144,7 @@ const AppHeader: React.FC<IAppHeader> = ({
   setNavOpen,
 }: IAppHeader) => {
   const classes = useStyles()
-  const { desktop } = useThemeConfig()
+  const { desktop } = useThemeSwitcher()
 
   const { isLoggedIn, logout, secured } = useImployApi()
   const { isMasterPasswordSet } = useDrive()

@@ -1,8 +1,12 @@
 import React from "react"
-import { createStyles, ITheme, makeStyles } from "@chainsafe/common-theme"
+import {
+  createStyles,
+  ITheme,
+  makeStyles,
+  useThemeSwitcher,
+} from "@chainsafe/common-theme"
 import { useDrive } from "../../../Contexts/DriveContext"
 import UploadBox from "./UploadBox"
-import { useThemeConfig } from "../../../Contexts/ThemeConfigContext"
 
 const useStyles = makeStyles(({ constants, zIndex, breakpoints }: ITheme) => {
   const WIDTH = 400
@@ -27,7 +31,7 @@ const useStyles = makeStyles(({ constants, zIndex, breakpoints }: ITheme) => {
 const UploadProgressModals: React.FC = () => {
   const classes = useStyles()
   const { uploadsInProgress } = useDrive()
-  const { desktop } = useThemeConfig()
+  const { desktop } = useThemeSwitcher()
 
   return (
     <div className={classes.root}>
