@@ -108,8 +108,8 @@ const ThresholdKeyProvider = ({
           [SHARE_SERIALIZATION_MODULE_NAME]: new ShareSerializationModule(),
         };
         const tKeyJson = tkeySerialized ? JSON.parse(tkeySerialized) : {}
-        const serviceProvider = new ServiceProviderBase({ enableLogging: enableLogging, postboxKey: postboxKey });
-        const storageLayer = new TorusStorageLayer({ serviceProvider, enableLogging: enableLogging, hostUrl: 'https://metadata.tor.us' });
+        const serviceProvider = new ServiceProviderBase({ enableLogging, postboxKey });
+        const storageLayer = new TorusStorageLayer({ serviceProvider, enableLogging, hostUrl: 'https://metadata.tor.us' });
         tkey = await ThresholdKey.fromJSON(tKeyJson, {
           modules,
           serviceProvider,
@@ -117,7 +117,8 @@ const ThresholdKeyProvider = ({
         });
         if (tKeyJson.modules) {
           if (tKeyJson.modules[WEB_STORAGE_MODULE_NAME])
-            (tkey.modules[WEB_STORAGE_MODULE_NAME] as WebStorageModule).canUseFileStorage = tKeyJson.modules[WEB_STORAGE_MODULE_NAME].canUseFileStorage;
+            (tkey.modules[WEB_STORAGE_MODULE_NAME] as WebStorageModule).canUseFileStorage =
+              tKeyJson.modules[WEB_STORAGE_MODULE_NAME].canUseFileStorage;
 
           if (tkey.modules[SHARE_TRANSFER_MODULE_NAME])
             (tkey.modules[SHARE_TRANSFER_MODULE_NAME] as ShareTransferModule).setRequestStatusCheckInterval(5000);
@@ -180,7 +181,7 @@ const ThresholdKeyProvider = ({
       await shareTransferModule.cancelRequestStatusCheck()
     }
 
-    if (keyDetails?.requiredShares === 0) {
+    if (keyDetails && keyDetails.requiredShares <= 0) {
       reconstructKey()
     }
   }, [keyDetails, TKeySdk])
