@@ -169,11 +169,8 @@ const LoginPage = () => {
   const { desktop } = useThemeSwitcher()
   const {
     isReturningUser,
-    web3Login,
     selectWallet,
     resetAndSelectWallet,
-    secured,
-    isLoggedIn,
   } = useImployApi()
   const { provider, wallet } = useWeb3()
   const {

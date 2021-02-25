@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react"
 import DirectAuthSdk, {
   LOGIN_TYPE,
-  TorusKey,
   TorusLoginResponse,
 } from "@toruslabs/torus-direct-web-sdk"
 import ThresholdKey from "@tkey/default"
@@ -23,7 +22,6 @@ import { signMessage, useImployApi } from "@imploy/common-contexts"
 import { Wallet } from "ethers"
 import EthCrypto from "eth-crypto"
 import { useWeb3 } from "@chainsafe/web3-context"
-import dayjs, {Dayjs} from "dayjs"
 
 const TORUS_POSTBOX_KEY = "csf.postboxKey"
 const TKEY_STORE_KEY = "csf.tkeyStore"
@@ -215,7 +213,7 @@ const ThresholdKeyProvider = ({
     if (privateKey) {
       loginWithThresholdKey()
     }
-  }, [privateKey])
+  }, [imployApiClient, privateKey, thresholdKeyLogin])
 
   // Share Transfer poller
   useEffect(() => {
@@ -283,7 +281,7 @@ const ThresholdKeyProvider = ({
     if (keyDetails && keyDetails.requiredShares > 0) {
       handler()
     }
-  }, [keyDetails])
+  }, [TKeySdk, keyDetails])
 
   const login = async (loginType: LOGIN_TYPE | "web3") => {
     if (!TKeySdk) return

@@ -6,7 +6,6 @@ import clsx from "clsx"
 import { CssBaseline } from "@chainsafe/common-components"
 import AppHeader from "./AppHeader"
 import AppNav from "./AppNav"
-import { useDrive } from "../../Contexts/DriveContext"
 import { useThresholdKey } from "../../Contexts/ThresholdKeyContext"
 
 interface IAppWrapper {

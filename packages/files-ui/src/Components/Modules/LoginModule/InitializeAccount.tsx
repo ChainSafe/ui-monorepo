@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from "react"
-import { Trans } from "@lingui/macro"
+import React, { useState } from "react"
 import { useThresholdKey } from "../../../Contexts/ThresholdKeyContext"
 import { Button, TextInput, Typography } from "@chainsafe/common-components"
 

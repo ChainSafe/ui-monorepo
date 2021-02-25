@@ -18,7 +18,6 @@ import {
 import { ROUTE_LINKS } from "../FilesRoutes"
 import SearchModule from "../Modules/SearchModule"
 import { Trans } from "@lingui/macro"
-import { useDrive } from "../../Contexts/DriveContext"
 import { useThresholdKey } from "../../Contexts/ThresholdKeyContext"
 
 const useStyles = makeStyles(

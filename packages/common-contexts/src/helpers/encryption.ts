@@ -1,12 +1,12 @@
 const importKeyFromBytes = async (keyBytes: Uint8Array) =>
   window.crypto.subtle.importKey("raw", keyBytes, "PBKDF2", false, [
-    "deriveKey",
+    "deriveKey"
   ])
 
 const deriveKey = async (
   sourceKey: CryptoKey,
   keyUsage: KeyUsage[],
-  keyDerivationParams: Pbkdf2Params,
+  keyDerivationParams: Pbkdf2Params
 ) =>
   window.crypto.subtle.deriveKey(
     keyDerivationParams,
@@ -33,7 +33,7 @@ export const encryptFile = async (
       name: "PBKDF2",
       salt: salt,
       iterations: 250000,
-      hash: "SHA-256",
+      hash: "SHA-256"
     })
     const cipherBytes = await window.crypto.subtle.encrypt(
       { name: "AES-GCM", iv: iv },
@@ -73,7 +73,7 @@ export const decryptFile = async (
       name: "PBKDF2",
       salt: salt,
       iterations: 250000,
-      hash: "SHA-256",
+      hash: "SHA-256"
     })
 
     const decryptedContent = await window.crypto.subtle.decrypt(
@@ -87,8 +87,8 @@ export const decryptFile = async (
 
     return decryptedContent
   } catch (error) {
-    console.log(error)
     console.error("Error decrypting file")
+    console.error(error)
     return
   }
 }

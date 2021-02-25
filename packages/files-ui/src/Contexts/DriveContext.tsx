@@ -107,7 +107,6 @@ const DriveProvider = ({ children }: DriveContextProps) => {
     isLoggedIn,
     secured,
     secureAccount,
-    validateMasterPassword,
     secureThresholdKeyAccount,
     encrypedEncryptionKey,
   } = useImployApi()
@@ -125,7 +124,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
 
   const [pathContents, setPathContents] = useState<FileSystemItem[]>([])
   const [spaceUsed, setSpaceUsed] = useState(0)
-  const [masterPassword, setMasterPassword] = useState<string | undefined>(
+  const [, setMasterPassword] = useState<string | undefined>(
     undefined,
   )
   const [currentSearchBucket, setCurrentSearchBucket] = useState<
@@ -277,7 +276,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
         secureAccount()
       }
     }
-  }, [secured, isLoggedIn, encrypedEncryptionKey, publicKey])
+  }, [secured, isLoggedIn, encrypedEncryptionKey, publicKey, encryptForPublicKey, secureThresholdKeyAccount, decryptMessageWithThresholdKey])
 
   const [uploadsInProgress, dispatchUploadsInProgress] = useReducer(
     uploadsInProgressReducer,
@@ -724,16 +723,16 @@ const DriveProvider = ({ children }: DriveContextProps) => {
     }
   }
 
-  const setPassword = async (password: string) => {
-    if (!masterPassword && (await validateMasterPassword(password))) {
-      setMasterPassword(password)
-    } else {
-      console.log(
-        "The password is already set, or an incorrect password was entered.",
-      )
-      return false
-    }
-  }
+  // const setPassword = async (password: string) => {
+  //   if (!masterPassword && (await validateMasterPassword(password))) {
+  //     setMasterPassword(password)
+  //   } else {
+  //     console.log(
+  //       "The password is already set, or an incorrect password was entered.",
+  //     )
+  //     return false
+  //   }
+  // }
 
   return (
     <DriveContext.Provider

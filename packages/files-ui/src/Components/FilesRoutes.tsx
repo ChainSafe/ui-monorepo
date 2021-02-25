@@ -8,7 +8,6 @@ import SearchPage from "./Pages/SearchPage"
 import BinPage from "./Pages/BinPage"
 import OAuthCallbackPage from "./Pages/OAuthCallback"
 import PurchasePlanPage from "./Pages/PurchasePlanPage"
-import { useDrive } from "../Contexts/DriveContext"
 import { useThresholdKey } from "../Contexts/ThresholdKeyContext"
 
 export const ROUTE_LINKS = {
