@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react"
 import DirectAuthSdk, {
   LOGIN_TYPE,
+  TorusKey,
   TorusLoginResponse,
 } from "@toruslabs/torus-direct-web-sdk"
 import ThresholdKey from "@tkey/default"
@@ -15,16 +16,16 @@ import ShareTransferModule, {
 import ShareSerializationModule, {
   SHARE_SERIALIZATION_MODULE_NAME,
 } from "@tkey/share-serialization"
-import { ServiceProviderBase } from '@tkey/service-provider-base'
-import { TorusStorageLayer } from '@tkey/storage-layer-torus'
+import { ServiceProviderBase } from "@tkey/service-provider-base"
+import { TorusStorageLayer } from "@tkey/storage-layer-torus"
 import bowser from "bowser"
 import { signMessage, useImployApi } from "@imploy/common-contexts"
 import { Wallet } from "ethers"
 import EthCrypto from "eth-crypto"
 import { useWeb3 } from "@chainsafe/web3-context"
 
-const TORUS_POSTBOX_KEY = 'csf.postboxKey'
-const TKEY_STORE_KEY = 'csf.tkeyStore'
+const TORUS_POSTBOX_KEY = "csf.postboxKey"
+const TKEY_STORE_KEY = "csf.tkeyStore"
 
 export type TThresholdKeyContext = {
   userInfo?: TorusLoginResponse
@@ -99,29 +100,40 @@ const ThresholdKeyProvider = ({
     const init = async () => {
       const tkeySerialized = sessionStorage.getItem(TKEY_STORE_KEY)
       const postboxKey = sessionStorage.getItem(TORUS_POSTBOX_KEY)
-      let tkey: ThresholdKey;
+      let tkey: ThresholdKey
       if (postboxKey && tkeySerialized) {
         const modules = {
           [SECURITY_QUESTIONS_MODULE_NAME]: new SecurityQuestionsModule(),
           [WEB_STORAGE_MODULE_NAME]: new WebStorageModule(),
           [SHARE_TRANSFER_MODULE_NAME]: new ShareTransferModule(),
           [SHARE_SERIALIZATION_MODULE_NAME]: new ShareSerializationModule(),
-        };
+        }
         const tKeyJson = tkeySerialized ? JSON.parse(tkeySerialized) : {}
-        const serviceProvider = new ServiceProviderBase({ enableLogging, postboxKey });
-        const storageLayer = new TorusStorageLayer({ serviceProvider, enableLogging, hostUrl: 'https://metadata.tor.us' });
+        const serviceProvider = new ServiceProviderBase({
+          enableLogging,
+          postboxKey,
+        })
+        const storageLayer = new TorusStorageLayer({
+          serviceProvider,
+          enableLogging,
+          hostUrl: "https://metadata.tor.us",
+        })
         tkey = await ThresholdKey.fromJSON(tKeyJson, {
           modules,
           serviceProvider,
           storageLayer,
-        });
+        })
         if (tKeyJson.modules) {
           if (tKeyJson.modules[WEB_STORAGE_MODULE_NAME])
-            (tkey.modules[WEB_STORAGE_MODULE_NAME] as WebStorageModule).canUseFileStorage =
-              tKeyJson.modules[WEB_STORAGE_MODULE_NAME].canUseFileStorage;
+            (tkey.modules[
+              WEB_STORAGE_MODULE_NAME
+            ] as WebStorageModule).canUseFileStorage =
+              tKeyJson.modules[WEB_STORAGE_MODULE_NAME].canUseFileStorage
 
           if (tkey.modules[SHARE_TRANSFER_MODULE_NAME])
-            (tkey.modules[SHARE_TRANSFER_MODULE_NAME] as ShareTransferModule).setRequestStatusCheckInterval(5000);
+            (tkey.modules[
+              SHARE_TRANSFER_MODULE_NAME
+            ] as ShareTransferModule).setRequestStatusCheckInterval(5000)
         }
         const keyDetails = tkey.getKeyDetails()
         setKeyDetails(keyDetails)
@@ -327,13 +339,15 @@ const ThresholdKeyProvider = ({
                 public_address: address,
               })
 
-              console.log(access_token)
-
-              serviceProvider.getTorusKey(
+              //@ts-ignore
+              const torusKey = (await serviceProvider.directWeb.getTorusKey(
                 process.env.REACT_APP_FILES_VERIFIER_NAME || "",
-                'pubkey',
-                { verifier_id: 'pubkey' },
-                access_token.token)
+                "pubkey",
+                { verifier_id: "pubkey" },
+                access_token.token,
+              )) as TorusKey
+              console.log(torusKey)
+              // TODO: Continue any login from here
             }
           } catch (error) {
             console.log(error)
@@ -347,7 +361,10 @@ const ThresholdKeyProvider = ({
       console.log(error)
       return
     }
-    sessionStorage.setItem(TORUS_POSTBOX_KEY, TKeySdk.serviceProvider.postboxKey.toString('hex'))
+    sessionStorage.setItem(
+      TORUS_POSTBOX_KEY,
+      TKeySdk.serviceProvider.postboxKey.toString("hex"),
+    )
     const metadata = await TKeySdk.storageLayer.getMetadata<IMetadata>({
       privKey: TKeySdk.serviceProvider.postboxKey,
     })
@@ -436,11 +453,9 @@ const ThresholdKeyProvider = ({
 
   const inputMnemonicShare = async (mnemonic: string) => {
     if (!TKeySdk) return
-    const shareSerializationModule = TKeySdk.modules[
-      SHARE_SERIALIZATION_MODULE_NAME
-    ] as ShareSerializationModule
+
     try {
-      const share = await shareSerializationModule.deserializeMnemonic(mnemonic)
+      const share = await ShareSerializationModule.deserializeMnemonic(mnemonic)
       await TKeySdk.inputShare(share)
       const keyDetails = await TKeySdk.getKeyDetails()
       setKeyDetails(keyDetails)
@@ -458,7 +473,7 @@ const ThresholdKeyProvider = ({
     const newDeviceShare = await TKeySdk.generateNewShare()
     const newDeviceShareStore =
       newDeviceShare.newShareStores[
-      newDeviceShare.newShareIndex.toString("hex")
+        newDeviceShare.newShareIndex.toString("hex")
       ]
 
     storageModule.storeDeviceShare(newDeviceShareStore)

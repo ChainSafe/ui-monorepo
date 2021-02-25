@@ -15,10 +15,6 @@
   },
   "dependencies": {
     "@imploy/api-client": "1.7.1",
-    "@tkey/default": "^3.9.0",
-    "@tkey/security-questions": "^3.9.0",
-    "@tkey/web-storage": "^3.9.0",
-    "@toruslabs/torus-direct-web-sdk": "^3.5.7",
     "axios": "^0.21.1",
     "uuid": "^8.3.1"
   },
