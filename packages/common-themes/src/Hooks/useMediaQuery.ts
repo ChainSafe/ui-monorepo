@@ -11,13 +11,13 @@ export interface Options {
 
 export const useMediaQuery = <Theme = unknown>(
   queryInput: string | ((theme: Theme) => string),
-  options: Options = {},
+  options: Options = {}
 ) => {
   const theme = useTheme()
   const props = getThemeProps({
     theme,
     name: "MuiUseMediaQuery",
-    props: {},
+    props: {}
   })
 
   if (process.env.NODE_ENV !== "production") {
@@ -26,8 +26,8 @@ export const useMediaQuery = <Theme = unknown>(
         [
           "Material-UI: The `query` argument provided is invalid.",
           "You are providing a function without a theme in the context.",
-          "One of the parent elements needs to use a ThemeProvider.",
-        ].join("\n"),
+          "One of the parent elements needs to use a ThemeProvider."
+        ].join("\n")
       )
     }
   }
@@ -47,14 +47,15 @@ export const useMediaQuery = <Theme = unknown>(
     defaultMatches = false,
     matchMedia = supportMatchMedia ? window.matchMedia : null,
     noSsr = false,
-    ssrMatchMedia = null,
+    ssrMatchMedia = null
   } = {
     ...props,
-    ...options,
+    ...options
   }
 
   const [match, setMatch] = React.useState(() => {
     if (noSsr && supportMatchMedia) {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
       // @ts-ignore
       return matchMedia(query).matches
     }
@@ -73,6 +74,7 @@ export const useMediaQuery = <Theme = unknown>(
     if (!supportMatchMedia) {
       return undefined
     }
+    // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
     // @ts-ignore
     const queryList = matchMedia(query)
     const updateMatch = () => {

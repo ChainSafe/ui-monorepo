@@ -49,7 +49,7 @@ const Spinner: React.FC<SpinnerProps> = ({
   size = 15,
   width = 20,
   css,
-  loader = LOADER.CircleLoader,
+  loader = LOADER.CircleLoader
 }: SpinnerProps) => {
   const Component = Loaders[loader]
   const theme: ITheme = useTheme()

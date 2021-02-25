@@ -7,7 +7,7 @@ import {
   justifyContentOptions,
   flexWrapOptions,
   gridSizeOptions,
-  spacingOptions,
+  spacingOptions
 } from "../Grid/Styles"
 
 function Box({ children }: { children: ReactNode }) {
@@ -21,7 +21,7 @@ function Box({ children }: { children: ReactNode }) {
 export default {
   title: "Grid",
   component: Grid,
-  decorators: [withKnobs],
+  decorators: [withKnobs]
 }
 
 export const FlexOptions = (): React.ReactNode => (
@@ -32,7 +32,7 @@ export const FlexOptions = (): React.ReactNode => (
     justifyContent={select(
       "Justify content",
       justifyContentOptions,
-      "flex-start",
+      "flex-start"
     )}
     flexWrap={select("Flex wrap", flexWrapOptions, "wrap")}
   >

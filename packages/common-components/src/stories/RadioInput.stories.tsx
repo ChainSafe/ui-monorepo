@@ -9,7 +9,7 @@ export default {
   title: "RadioInput",
   component: RadioInput,
   excludeStories: /.*Data$/,
-  decorators: [withKnobs],
+  decorators: [withKnobs]
 }
 
 export const Default = (): React.ReactNode => {
@@ -40,14 +40,14 @@ export const Default = (): React.ReactNode => {
 }
 
 export const actionsData = {
-  onFormSubmit: action("Submit Form"),
+  onFormSubmit: action("Submit Form")
 }
 
 export const FormikStory = (): React.ReactNode => {
   return (
     <Formik
       initialValues={{
-        fruits: "apple",
+        fruits: "apple"
       }}
       onSubmit={(values: any) => actionsData.onFormSubmit(values)}
     >

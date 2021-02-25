@@ -6,13 +6,13 @@ const useStyles = makeStyles(({ overrides }: ITheme) =>
   createStyles({
     root: {
       width: "fit-content",
-      ...overrides?.ChainsafeLogo?.root,
-    },
-  }),
+      ...overrides?.ChainsafeLogo?.root
+    }
+  })
 )
 
 const ChainsafeFilesLogo: React.FC<{ className?: string }> = ({
-  className,
+  className
 }) => {
   const classes = useStyles()
   return (

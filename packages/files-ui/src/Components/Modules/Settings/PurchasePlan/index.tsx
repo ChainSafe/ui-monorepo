@@ -3,8 +3,7 @@ import {
   makeStyles,
   ITheme,
   createStyles,
-  useTheme,
-  useMediaQuery,
+  useThemeSwitcher,
 } from "@chainsafe/common-theme"
 import {
   ArrowLeftIcon,
@@ -163,8 +162,7 @@ const PurchasePlan: React.FC = () => {
   const classes = useStyles()
   const { profile } = useUser()
   const { addCard, getCardTokenFromStripe } = useBilling()
-  const { breakpoints }: ITheme = useTheme()
-  const desktop = useMediaQuery(breakpoints.up("md"))
+  const { desktop } = useThemeSwitcher()
 
   const validationSchema = yup.object().shape({
     name: yup.string().required("Name is required"),

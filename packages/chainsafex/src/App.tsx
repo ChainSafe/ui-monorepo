@@ -27,8 +27,8 @@ const App: React.FC<{}> = () => {
   const { initHotjar } = useHotjar()
   const hotjarId = process.env.REACT_APP_HOTJAR_ID
 
-  const apiUrl =
-    process.env.REACT_APP_API_URL || "http://3.236.79.100:8000/api/v1"
+  // const apiUrl =
+  //   process.env.REACT_APP_API_URL || "http://3.236.79.100:8000/api/v1"
 
   useEffect(() => {
     if (hotjarId && process.env.NODE_ENV === "production") {

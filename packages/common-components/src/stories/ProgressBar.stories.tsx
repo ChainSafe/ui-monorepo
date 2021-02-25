@@ -5,7 +5,7 @@ import { ProgressBar, CircularProgressBar } from "../ProgressBar"
 export default {
   title: "ProgressBar",
   component: ProgressBar,
-  decorators: [withKnobs],
+  decorators: [withKnobs]
 }
 
 export const ProgressBarDemo = (): React.ReactNode => {
@@ -16,17 +16,17 @@ export const ProgressBarDemo = (): React.ReactNode => {
         state={select(
           "state",
           [undefined, "progress", "success", "error"],
-          undefined,
+          undefined
         )}
         variant={select(
           "variant",
           [undefined, "primary", "secondary"],
-          undefined,
+          undefined
         )}
         size={select(
           "size",
           [undefined, "small", "medium", "large"],
-          undefined,
+          undefined
         )}
         progress={progress}
       />
@@ -45,17 +45,17 @@ export const CircularProgressBarDemo = (): React.ReactNode => {
         state={select(
           "state",
           [undefined, "progress", "success", "error"],
-          undefined,
+          undefined
         )}
         variant={select(
           "variant",
           [undefined, "primary", "secondary"],
-          undefined,
+          undefined
         )}
         size={select(
           "size",
           [undefined, "small", "medium", "large"],
-          undefined,
+          undefined
         )}
         showBackdrop={boolean("backdrop", true)}
         width={number("width", 20)}

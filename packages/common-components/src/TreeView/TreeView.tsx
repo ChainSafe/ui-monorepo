@@ -12,7 +12,7 @@ const TreeView: React.FC<ITreeViewProps> = ({
   treeData,
   commonIcon,
   selectedId,
-  onSelectNode,
+  onSelectNode
 }) => {
   return treeData.length ? (
     <ul>

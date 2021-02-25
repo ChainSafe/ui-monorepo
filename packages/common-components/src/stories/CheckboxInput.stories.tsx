@@ -9,12 +9,12 @@ export default {
   title: "CheckboxInput",
   component: CheckboxInput,
   excludeStories: /.*Data$/,
-  decorators: [withKnobs],
+  decorators: [withKnobs]
 }
 
 export const actionsData = {
   onToggle: action("Toggle Checkbox"),
-  onFormSubmit: action("Submit Form"),
+  onFormSubmit: action("Submit Form")
 }
 
 export const Default = (): React.ReactNode => {
@@ -40,7 +40,7 @@ export const FormikStory = (): React.ReactNode => {
   return (
     <Formik
       initialValues={{
-        checkbox: false,
+        checkbox: false
       }}
       onSubmit={(values: any) => actionsData.onFormSubmit(values)}
     >

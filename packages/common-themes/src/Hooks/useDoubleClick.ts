@@ -1,10 +1,6 @@
 import { useEffect, useState } from "react"
 
-export function useDoubleClick(
-  actionSingleClick: any,
-  actionDoubleClick: any,
-  delay = 250,
-) {
+export function useDoubleClick(actionSingleClick: any, actionDoubleClick: any, delay = 250) {
   const [click, setClick] = useState(0)
 
   useEffect(() => {
@@ -19,7 +15,7 @@ export function useDoubleClick(
     if (click === 2) actionDoubleClick && actionDoubleClick()
 
     return () => clearTimeout(timer)
-  }, [click])
+  }, [actionDoubleClick, actionSingleClick, click, delay])
 
   return () => setClick((prev) => prev + 1)
 }

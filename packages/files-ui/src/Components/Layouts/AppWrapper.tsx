@@ -1,11 +1,5 @@
 import { useImployApi } from "@imploy/common-contexts"
-import {
-  createStyles,
-  ITheme,
-  makeStyles,
-  useMediaQuery,
-  useTheme,
-} from "@chainsafe/common-theme"
+import { createStyles, ITheme, makeStyles } from "@chainsafe/common-theme"
 import React, { useState } from "react"
 import { ReactNode } from "react"
 import clsx from "clsx"
@@ -65,10 +59,8 @@ const useStyles = makeStyles(
 
 const AppWrapper: React.FC<IAppWrapper> = ({ children }: IAppWrapper) => {
   const classes = useStyles()
-  const { breakpoints }: ITheme = useTheme()
-  const desktop = useMediaQuery(breakpoints.up("md"))
 
-  const [navOpen, setNavOpen] = useState<boolean>(desktop)
+  const [navOpen, setNavOpen] = useState<boolean>(false)
 
   const { isLoggedIn, secured } = useImployApi()
   const { publicKey, isNewDevice, shouldInitializeAccount } = useThresholdKey()

@@ -8,7 +8,7 @@ import { Blockies } from "../Blockies"
 export default {
   title: "Avatar",
   component: Avatar,
-  decorators: [withKnobs],
+  decorators: [withKnobs]
 }
 
 export const BlockiesDemo = (): React.ReactNode => (

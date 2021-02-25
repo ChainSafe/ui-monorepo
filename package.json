@@ -15,14 +15,13 @@
   "devDependencies": {
     "@sentry/cli": "1.60.1",
     "chalk": "^4.1.0",
-    "husky": "^4.3.5",
-    "prettier": "2.2.1",
-    "pretty-quick": "^3.1.0",
+    "eslint-plugin-react-hooks": "^4.2.0",
+    "husky": "^5.1.1",
     "typescript": "^4.0.5",
     "wsrun": "^5.2.4"
   },
   "scripts": {
-    "postinstall": "yarn build:common",
+    "postinstall": "husky install && yarn build:common",
     "build:common": "yarn build:theme && yarn build:components && yarn build:contexts",
     "build:contexts": "yarn wsrun -t -p @imploy/common-contexts -c build",
     "build:components": "yarn wsrun -t -p @chainsafe/common-components -c build",
@@ -41,9 +40,8 @@
     "clean:dependencies": "rm -rf ./node_modules && rm -rf ./*/**/node_modules",
     "clean:dist": "rm -rf ./*/**/dist && rm -rf ./*/**/build && rm -rf ./*/**/storybook-static",
     "clean": "yarn clean:dependencies && yarn clean:dist",
-    "prettier": "prettier --config .prettierrc 'packages/**/src/**/*.{ts,tsx,js,jsx,md}' --write",
     "start:tunnel": "./ngrok http https://localhost:3000",
-    "build:tkey-playground": "yarn wsrun -p tkey-playground -c build"
+    "lint": "eslint 'packages/**/src/**/*.{js,jsx,ts,tsx}'"
   },
   "workspaces": {
     "packages": [
@@ -53,10 +51,5 @@
       "**/webpack-dev-server",
       "**/react-scripts"
     ]
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "pretty-quick 'packages/**/src/**/*.{ts,tsx,js,jsx,md}' --staged"
-    }
   }
 }

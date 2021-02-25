@@ -8,23 +8,26 @@ export default {
   title: "Modal",
   component: Button,
   excludeStories: /.*Data$/,
-  decorators: [withKnobs],
+  decorators: [withKnobs]
 }
 
-const closePositionOptions: ["left", "right", "none", undefined] = [
+type ClosePositionOption = "left" | "right" | "none" | undefined
+const closePositionOptions: ClosePositionOption[] = [
   "left",
   "right",
   "none",
-  undefined,
+  undefined
 ]
-const maxWidthOptions: ["xs", "sm", "md", "lg", "xl", 250, undefined] = [
+
+type MaxWidthOption = "xs" | "sm" | "md" | "lg" | "xl" | 250 | undefined
+const maxWidthOptions: MaxWidthOption[] = [
   "xs",
   "sm",
   "md",
   "lg",
   "xl",
   250,
-  undefined,
+  undefined
 ]
 
 export const ModalStory = (): React.ReactNode => {

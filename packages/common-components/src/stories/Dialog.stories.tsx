@@ -7,17 +7,18 @@ export default {
   title: "Dialog",
   component: Button,
   excludeStories: /.*Data$/,
-  decorators: [withKnobs],
+  decorators: [withKnobs]
 }
 
-const maxWidthOptions: ["xs", "sm", "md", "lg", "xl", 400, undefined] = [
+type MaxWidthOption = "xs" | "sm" | "md" | "lg" | "xl" | 400 | undefined
+const maxWidthOptions: MaxWidthOption[] = [
   "xs",
   "sm",
   "md",
   "lg",
   "xl",
   400,
-  undefined,
+  undefined
 ]
 
 export const DialogStory = (): React.ReactNode => {

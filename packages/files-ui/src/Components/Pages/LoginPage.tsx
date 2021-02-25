@@ -14,8 +14,7 @@ import {
   makeStyles,
   ITheme,
   createStyles,
-  useTheme,
-  useMediaQuery,
+  useThemeSwitcher,
 } from "@chainsafe/common-theme"
 import { useWeb3 } from "@chainsafe/web3-context"
 import LargeLightBulbSvg from "../../Media/LargeLightBulb.svg"
@@ -167,7 +166,7 @@ const useStyles = makeStyles(
 
 const LoginPage = () => {
   const classes = useStyles()
-  const { breakpoints }: ITheme = useTheme()
+  const { desktop } = useThemeSwitcher()
   const {
     isReturningUser,
     web3Login,
@@ -261,7 +260,6 @@ const LoginPage = () => {
   //   window.location.href = oauthUrl
   // }
 
-  const desktop = useMediaQuery(breakpoints.up("md"))
   const maintenanceMode = process.env.REACT_APP_MAINTENANCE_MODE === 'true'
 
   const shouldSaveNewDevice =

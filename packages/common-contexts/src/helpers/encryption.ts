@@ -13,12 +13,12 @@ const deriveKey = async (
     sourceKey,
     { name: "AES-GCM", length: 256 },
     false,
-    keyUsage,
+    keyUsage
   )
 
 export const encryptFile = async (
   fileArrayBuffer: ArrayBuffer,
-  password: string,
+  password: string
 ) => {
   try {
     const plainTextBytes = new Uint8Array(fileArrayBuffer)
@@ -38,12 +38,12 @@ export const encryptFile = async (
     const cipherBytes = await window.crypto.subtle.encrypt(
       { name: "AES-GCM", iv: iv },
       aesKey,
-      plainTextBytes,
+      plainTextBytes
     )
 
     const cipherBytesArray = new Uint8Array(cipherBytes)
     const resultBytes = new Uint8Array(
-      cipherBytesArray.byteLength + salt.byteLength + iv.byteLength,
+      cipherBytesArray.byteLength + salt.byteLength + iv.byteLength
     )
     resultBytes.set(salt, 0)
     resultBytes.set(iv, salt.byteLength)
@@ -59,7 +59,7 @@ export const encryptFile = async (
 
 export const decryptFile = async (
   cipher: ArrayBuffer | Uint8Array,
-  password: string,
+  password: string
 ) => {
   try {
     const cipherBytes = new Uint8Array(cipher)
@@ -79,10 +79,10 @@ export const decryptFile = async (
     const decryptedContent = await window.crypto.subtle.decrypt(
       {
         name: "AES-GCM",
-        iv: iv,
+        iv: iv
       },
       aesKey,
-      data,
+      data
     )
 
     return decryptedContent

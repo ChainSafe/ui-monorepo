@@ -5,7 +5,7 @@ import { Paper } from "../Paper"
 export default {
   title: "Paper",
   component: Paper,
-  decorators: [withKnobs],
+  decorators: [withKnobs]
 }
 
 export const PaperDemo = (): React.ReactNode => (
@@ -16,7 +16,7 @@ export const PaperDemo = (): React.ReactNode => (
     shadow={select(
       "shadow",
       [undefined, "none", "shadow1", "shadow2"],
-      undefined,
+      undefined
     )}
   >
     Paper content
