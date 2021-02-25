@@ -105,7 +105,6 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
   }
 
   useEffect(() => {
-    console.log("useEffect")
     const initializeApiClient = async () => {
 
       axiosInstance.interceptors.response.use(
