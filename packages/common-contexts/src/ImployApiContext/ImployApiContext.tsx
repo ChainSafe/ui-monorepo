@@ -1,12 +1,7 @@
 import { useWeb3 } from "@chainsafe/web3-context"
 import * as React from "react"
-import { useState, useEffect } from "react"
-import {
-  IImployApiClient,
-  ImployApiClient,
-  Token,
-  Provider
-} from "@imploy/api-client"
+import { useState, useEffect, useMemo, useCallback } from "react"
+import { IImployApiClient, ImployApiClient, Token, Provider } from "@imploy/api-client"
 import jwtDecode from "jwt-decode"
 import { signMessage } from "./utils"
 import axios from "axios"
@@ -56,23 +51,23 @@ type ImployApiContext = {
   validateMasterPassword(candidatePassword: string): Promise<boolean>
 }
 
-const ImployApiContext = React.createContext<ImployApiContext | undefined>(
-  undefined
-)
+const ImployApiContext = React.createContext<ImployApiContext | undefined>(undefined)
 
 const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
   const { wallet, onboard, checkIsReady, isReady, provider } = useWeb3()
-  const canUseLocalStorage = testLocalStorage()
+  const canUseLocalStorage = useMemo(() => testLocalStorage(), [])
   // initializing api
-  const initialAxiosInstance = axios.create({
+  const initialAxiosInstance = useMemo(() => axios.create({
     // Disable the internal Axios JSON de serialization as this is handled by the client
     transformResponse: []
-  })
-  const initialApiClient = new ImployApiClient({}, apiUrl, initialAxiosInstance)
+  }),[])
 
-  const [imployApiClient, setImployApiClient] = useState<ImployApiClient>(
-    initialApiClient
+  const initialApiClient = useMemo(() => {
+    return new ImployApiClient({}, apiUrl, initialAxiosInstance)
+  },[apiUrl, initialAxiosInstance]
   )
+
+  const [imployApiClient, setImployApiClient] = useState<ImployApiClient>(initialApiClient)
   const [isLoadingUser, setIsLoadingUser] = useState(true)
 
   // access tokens
@@ -89,30 +84,29 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
   const [isReturningUser, setIsReturningUser] = useState(
     isReturningUserLocal ? true : false
   )
+  const axiosInstance = useMemo(() => 
+    axios.create({
+      // Disable the internal Axios JSON de serialization as this is handled by the client
+      transformResponse: []
+    })
+  ,[])
 
-  const setTokensAndSave = (accessToken: Token, refreshToken: Token) => {
+  const setTokensAndSave = useCallback((accessToken: Token, refreshToken: Token) => {
     setAccessToken(accessToken)
     setRefreshToken(refreshToken)
-    refreshToken.token &&
-      canUseLocalStorage &&
-      localStorage.setItem(tokenStorageKey, refreshToken.token)
-
+    refreshToken.token && canUseLocalStorage && localStorage.setItem(tokenStorageKey, refreshToken.token)
     accessToken.token && imployApiClient.setToken(accessToken.token)
-  }
+  }, [canUseLocalStorage, imployApiClient])
 
   const setReturningUser = () => {
     // set returning user
-    canUseLocalStorage &&
-      localStorage.setItem(isReturningUserStorageKey, "returning")
+    canUseLocalStorage && localStorage.setItem(isReturningUserStorageKey, "returning")
     setIsReturningUser(true)
   }
 
   useEffect(() => {
+    console.log("useEffect")
     const initializeApiClient = async () => {
-      const axiosInstance = axios.create({
-        // Disable the internal Axios JSON de serialization as this is handled by the client
-        transformResponse: []
-      })
 
       axiosInstance.interceptors.response.use(
         (response) => {
@@ -121,21 +115,12 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
         async (error) => {
           if (!error.config._retry && error.response.status === 401) {
             error.config._retry = true
-            const refreshTokenLocal =
-              canUseLocalStorage && localStorage.getItem(tokenStorageKey)
+            const refreshTokenLocal = canUseLocalStorage && localStorage.getItem(tokenStorageKey)
+
             if (refreshTokenLocal) {
-              const refreshTokenApiClient = new ImployApiClient(
-                {},
-                apiUrl,
-                axiosInstance
-              )
+              const refreshTokenApiClient = new ImployApiClient({}, apiUrl, axiosInstance)
               try {
-                const {
-                  access_token,
-                  refresh_token
-                } = await refreshTokenApiClient.getRefreshToken({
-                  refresh: refreshTokenLocal
-                })
+                const { access_token, refresh_token } = await refreshTokenApiClient.getRefreshToken({ refresh: refreshTokenLocal })
 
                 setTokensAndSave(access_token, refresh_token)
                 error.response.config.headers.Authorization = `Bearer ${access_token.token}`
@@ -154,27 +139,28 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
           return Promise.reject(error)
         }
       )
-      const savedRefreshToken =
-        canUseLocalStorage && localStorage.getItem(tokenStorageKey)
-      const apiClient = new ImployApiClient({}, apiUrl, axiosInstance)
-      setImployApiClient(apiClient)
-      if (savedRefreshToken) {
-        try {
-          const {
-            access_token,
-            refresh_token
-          } = await apiClient.getRefreshToken({ refresh: savedRefreshToken })
-
-          setTokensAndSave(access_token, refresh_token)
-        } catch (error) {
-          //do nothing
-        }
-      }
-      setIsLoadingUser(false)
     }
 
     initializeApiClient()
-  })
+  }, [apiUrl, axiosInstance, canUseLocalStorage, setTokensAndSave])
+
+  useEffect(() => {
+    const savedRefreshToken = canUseLocalStorage && localStorage.getItem(tokenStorageKey)
+    const apiClient = new ImployApiClient({}, apiUrl, axiosInstance)
+
+    setImployApiClient(apiClient)
+
+    if (savedRefreshToken) {
+      apiClient.getRefreshToken({ refresh: savedRefreshToken })
+        .then(({ access_token, refresh_token }) => setTokensAndSave(access_token, refresh_token))
+        .catch(console.error)
+    }
+    
+    setIsLoadingUser(false)
+
+  // TODO figure out why having setTokensAndSave triggers an infinite loop.
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [apiUrl, axiosInstance, canUseLocalStorage])
 
   const selectWallet = async () => {
     if (onboard && !isReady) {
@@ -391,7 +377,7 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
   return (
     <ImployApiContext.Provider
       value={{
-        imployApiClient: imployApiClient,
+        imployApiClient,
         isLoggedIn: isLoggedIn(),
         secured,
         isReturningUser: isReturningUser,

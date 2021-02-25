@@ -56,7 +56,7 @@ const UserProvider = ({ children }: UserContextProps) => {
         try {
           await refreshProfile()
         } catch (err) {
-          //do nothing
+          console.error(err)
         }
       }
       retrieveProfile()
