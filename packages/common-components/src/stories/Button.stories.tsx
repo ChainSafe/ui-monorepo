@@ -8,25 +8,28 @@ export default {
   title: "Button",
   component: Button,
   excludeStories: /.*Data$/,
-  decorators: [withKnobs],
+  decorators: [withKnobs]
 }
 
 export const actionsData = {
-  onClick: action("onClickButton"),
+  onClick: action("onClickButton")
 }
 
-const variantOptions: ["primary", "outline", "dashed", "danger", undefined] = [
+type VariantOption = "primary" | "outline" | "dashed" | "danger" | undefined;
+const variantOptions: VariantOption[] = [
   "primary",
   "outline",
   "dashed",
   "danger",
-  undefined,
+  undefined
 ]
-const sizeOptions: ["large", "medium", "small", undefined] = [
+
+type SizeOptions = "large" | "medium" | "small" | undefined
+const sizeOptions: SizeOptions[] = [
   "large",
   "medium",
   "small",
-  undefined,
+  undefined
 ]
 
 export const ButtonStory = (): React.ReactNode => (

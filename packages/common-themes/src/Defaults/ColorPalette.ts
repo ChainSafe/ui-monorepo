@@ -54,7 +54,7 @@ export const DefaultPalette: IDefaultPalette = {
     primary: 6,
     background: 1,
     border: 3,
-    hover: 5,
+    hover: 5
   },
   additional: {
     blue: {
@@ -67,7 +67,7 @@ export const DefaultPalette: IDefaultPalette = {
       7: "#096DD9",
       8: "#0050B3",
       9: "#003A8C",
-      10: "#002766",
+      10: "#002766"
     },
     gray: {
       1: "#FFFFFF",
@@ -79,7 +79,7 @@ export const DefaultPalette: IDefaultPalette = {
       7: "#8C8C8C",
       8: "#595959",
       9: "#262626",
-      10: "#000000",
+      10: "#000000"
     },
     red: {
       1: "#FFF1F0",
@@ -91,7 +91,7 @@ export const DefaultPalette: IDefaultPalette = {
       7: "#CF1322",
       8: "#A8071A",
       9: "#820014",
-      10: "#5C0011",
+      10: "#5C0011"
     },
     volcano: {
       1: "#FFF2E8",
@@ -103,7 +103,7 @@ export const DefaultPalette: IDefaultPalette = {
       7: "#D4380D",
       8: "#AD2102",
       9: "#871400",
-      10: "#610B00",
+      10: "#610B00"
     },
     orange: {
       1: "#FFF7E6",
@@ -115,7 +115,7 @@ export const DefaultPalette: IDefaultPalette = {
       7: "#D46B08",
       8: "#AD4E00",
       9: "#873800",
-      10: "#612500",
+      10: "#612500"
     },
     gold: {
       1: "#FFFBE6",
@@ -127,7 +127,7 @@ export const DefaultPalette: IDefaultPalette = {
       7: "#D48806",
       8: "#AD6800",
       9: "#874D00",
-      10: "#613400",
+      10: "#613400"
     },
     yellow: {
       1: "#FEFFE6",
@@ -139,7 +139,7 @@ export const DefaultPalette: IDefaultPalette = {
       7: "#D4B106",
       8: "#AD8B00",
       9: "#876800",
-      10: "#614700",
+      10: "#614700"
     },
     lime: {
       1: "#FCFFE6",
@@ -151,7 +151,7 @@ export const DefaultPalette: IDefaultPalette = {
       7: "#7CB305",
       8: "#5B8C00",
       9: "#3F6600",
-      10: "#254000",
+      10: "#254000"
     },
     green: {
       1: "#F6FFED",
@@ -163,7 +163,7 @@ export const DefaultPalette: IDefaultPalette = {
       7: "#389E0D",
       8: "#237804",
       9: "#135200",
-      10: "#092B00",
+      10: "#092B00"
     },
     cyan: {
       1: "#E6FFFB",
@@ -175,7 +175,7 @@ export const DefaultPalette: IDefaultPalette = {
       7: "#08979C",
       8: "#006D75",
       9: "#00474F",
-      10: "#002329",
+      10: "#002329"
     },
     geekblue: {
       1: "#F0F5FF",
@@ -187,7 +187,7 @@ export const DefaultPalette: IDefaultPalette = {
       7: "#1D39C4",
       8: "#10239E",
       9: "#061178",
-      10: "#030852",
+      10: "#030852"
     },
     purple: {
       1: "#F9F0FF",
@@ -199,7 +199,7 @@ export const DefaultPalette: IDefaultPalette = {
       7: "#531DAB",
       8: "#391085",
       9: "#22075E",
-      10: "#120338",
+      10: "#120338"
     },
     magenta: {
       1: "#FFF0F6",
@@ -211,7 +211,7 @@ export const DefaultPalette: IDefaultPalette = {
       7: "#C41D7F",
       8: "#9E1068",
       9: "#780650",
-      10: "#520339",
-    },
+      10: "#520339"
+    }
   }
 }

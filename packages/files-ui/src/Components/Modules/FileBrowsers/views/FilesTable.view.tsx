@@ -63,8 +63,8 @@ const useStyles = makeStyles(
       root: {
         position: "relative",
         [breakpoints.down("md")]: {
-          paddingLeft: constants.generalUnit * 2,
-          paddingRight: constants.generalUnit * 2,
+          marginLeft: constants.generalUnit * 2,
+          marginRight: constants.generalUnit * 2,
         },
         [breakpoints.up("md")]: {
           border: `1px solid transparent`,
@@ -264,9 +264,8 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
   uploadsInProgress,
   showUploadsInTable,
   allowDropUpload,
-  desktop,
 }: IFilesTableBrowserProps) => {
-  const { themeKey } = useThemeSwitcher()
+  const { themeKey, desktop } = useThemeSwitcher()
   const classes = useStyles({
     themeKey,
   })
@@ -782,7 +781,6 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
                 setPreviewFileIndex={setPreviewFileIndex}
                 setMoveFileData={setMoveFileData}
                 setFileInfoPath={setFileInfoPath}
-                desktop={desktop}
               />
             ))}
           </TableBody>

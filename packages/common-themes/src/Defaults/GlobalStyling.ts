@@ -7,13 +7,13 @@ export const DefaultGlobalStyling = {
     MozOsxFontSmoothing: "grayscale", // Antialiasing.
     // Change from `box-sizing: content-box` so that `width`
     // is not affected by `padding` or `border`.
-    boxSizing: "border-box",
+    boxSizing: "border-box"
   },
   "*, *:before, *:after": {
-    boxSizing: "inherit",
+    boxSizing: "inherit"
   },
   "strong, b": {
-    fontWeight: DefaultThemeConfig.typography.fontWeight.bold,
+    fontWeight: DefaultThemeConfig.typography.fontWeight.bold
   },
   body: {
     color: DefaultThemeConfig.palette.text.primary,
@@ -22,12 +22,12 @@ export const DefaultGlobalStyling = {
     backgroundColor: DefaultThemeConfig.palette.background.default,
     "& @media print": {
       // Save printer ink.
-      backgroundColor: DefaultThemeConfig.palette.common?.white.main,
-    },
+      backgroundColor: DefaultThemeConfig.palette.common?.white.main
+    }
   },
   a: {
     outline: "none",
     textDecoration: "underline",
-    color: DefaultThemeConfig.palette.common?.black.main,
-  },
+    color: DefaultThemeConfig.palette.common?.black.main
+  }
 }

@@ -204,7 +204,6 @@ interface IFileSystemItemRowProps {
     path: string,
   ): void
   setPreviewFileIndex(fileIndex: number | undefined): void
-  desktop: boolean
   setMoveFileData(moveFileData: {
     modal: boolean
     fileData: FileSystemItem | FileSystemItem[]
@@ -232,7 +231,6 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
   setPreviewFileIndex,
   setMoveFileData,
   setFileInfoPath,
-  desktop,
   handleSelect,
 }) => {
   let Icon
@@ -246,7 +244,7 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
     Icon = FileTextSvg
   }
 
-  const { themeKey } = useThemeSwitcher()
+  const { themeKey, desktop } = useThemeSwitcher()
   const classes = useStyles({
     themeKey,
   })

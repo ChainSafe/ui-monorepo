@@ -1,4 +1,4 @@
-import { createStyles, ITheme, makeStyles } from "@chainsafe/common-theme"
+import { createStyles, makeStyles } from "@chainsafe/common-theme"
 import React from "react"
 import { ReactNode } from "react"
 
@@ -6,9 +6,9 @@ interface IAppWrapper {
   children: ReactNode | ReactNode[]
 }
 
-const useStyles = makeStyles(({}: ITheme) => {
+const useStyles = makeStyles(() => {
   return createStyles({
-    root: {},
+  root: {},
   })
 })
 

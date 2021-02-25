@@ -8,7 +8,7 @@ export default {
   title: "ExpansionPanel",
   component: ExpansionPanel,
   excludeStories: /.*Data$/,
-  decorators: [withKnobs],
+  decorators: [withKnobs]
 }
 
 export const StandardStory = (): React.ReactNode => {

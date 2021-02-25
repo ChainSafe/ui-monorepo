@@ -3,7 +3,7 @@ import {
   makeStyles,
   createStyles,
   ITheme,
-  useTheme,
+  useTheme
 } from "@chainsafe/common-theme"
 import clsx from "clsx"
 import Select from "react-select"
@@ -13,13 +13,13 @@ const useStyles = makeStyles(
   ({ animation, constants, palette, overrides }: ITheme) =>
     createStyles({
       root: {
-        ...overrides?.SelectInput?.root,
+        ...overrides?.SelectInput?.root
       },
       label: {
         transitionDuration: `${animation.transform}ms`,
         display: "block",
         marginBottom: constants.generalUnit / 4,
-        ...overrides?.SelectInput?.label,
+        ...overrides?.SelectInput?.label
       },
       caption: {
         display: "block",
@@ -27,14 +27,14 @@ const useStyles = makeStyles(
         transitionDuration: `${animation.transform}ms`,
         color: palette.additional["gray"][7],
         "&.error": {
-          color: palette.error.main,
+          color: palette.error.main
         },
         "&.warning": {
-          color: palette.warning.main,
+          color: palette.warning.main
         },
-        ...overrides?.SelectInput?.caption,
-      },
-    }),
+        ...overrides?.SelectInput?.caption
+      }
+    })
 )
 
 interface ISelectOption {
@@ -70,7 +70,7 @@ const SelectInput: React.FC<ISelectInputProps> = ({
   value,
   isMulti,
   name,
-  isClearable = false,
+  isClearable = false
 }) => {
   const classes = useStyles()
   const { palette, animation, typography, overrides }: ITheme = useTheme()
@@ -115,29 +115,29 @@ const SelectInput: React.FC<ISelectInputProps> = ({
               : palette.additional["gray"][3],
             borderRadius: 2,
             "&:hover": {
-              border: `1px solid ${palette.primary.main}`,
+              border: `1px solid ${palette.primary.main}`
             },
-            ...overrides?.SelectInput?.container,
+            ...overrides?.SelectInput?.container
           }),
           control: (provided) => ({
             ...provided,
             outline: "none",
             border: "none",
             borderRadius: 2,
-            ...overrides?.SelectInput?.control,
+            ...overrides?.SelectInput?.control
           }),
           menu: (provided) => ({
             ...provided,
             marginTop: 2,
             marginBottom: 0,
-            ...overrides?.SelectInput?.menu,
+            ...overrides?.SelectInput?.menu
           }),
           dropdownIndicator: (provided, state) => ({
             ...provided,
             transform: state.selectProps.menuIsOpen && "rotate(180deg)",
             transitionProperty: "transform",
             transitionDuration: `${animation.transform * 2}ms`,
-            ...overrides?.SelectInput?.dropdownIndicator,
+            ...overrides?.SelectInput?.dropdownIndicator
           }),
           singleValue: (provided, state) => ({
             ...provided,
@@ -145,14 +145,14 @@ const SelectInput: React.FC<ISelectInputProps> = ({
             color: !state.isDisabled
               ? palette.additional["gray"][8]
               : palette.additional["gray"][6],
-            ...overrides?.SelectInput?.singleValue,
+            ...overrides?.SelectInput?.singleValue
           }),
           placeholder: (provided, state) => ({
             ...provided,
             color: !state.isDisabled
               ? palette.additional["gray"][8]
               : palette.additional["gray"][6],
-            ...overrides?.SelectInput?.placeholder,
+            ...overrides?.SelectInput?.placeholder
           }),
           option: (provided, state) => ({
             ...provided,
@@ -161,32 +161,32 @@ const SelectInput: React.FC<ISelectInputProps> = ({
             color: palette.additional["gray"][8],
             fontWeight: state.isSelected && typography.fontWeight.bold,
             "&:hover": {
-              backgroundColor: palette.additional["blue"][1],
+              backgroundColor: palette.additional["blue"][1]
             },
-            ...overrides?.SelectInput?.option,
+            ...overrides?.SelectInput?.option
           }),
           valueContainer: (provided) => ({
             ...provided,
             ...typography.body2,
             paddingTop: 0,
             paddingBottom: 0,
-            ...overrides?.SelectInput?.valueContainer,
+            ...overrides?.SelectInput?.valueContainer
           }),
           indicatorsContainer: (provided) => ({
             ...provided,
             "& > div": {
               paddingTop: 0,
-              paddingBottom: 0,
+              paddingBottom: 0
             },
-            ...overrides?.SelectInput?.indicatorsContainer,
-          }),
+            ...overrides?.SelectInput?.indicatorsContainer
+          })
         }}
         theme={(selectTheme) => ({
           ...selectTheme,
           spacing: {
             ...selectTheme.spacing,
-            controlHeight: size === "large" ? 40 : size === "medium" ? 32 : 24,
-          },
+            controlHeight: size === "large" ? 40 : size === "medium" ? 32 : 24
+          }
         })}
       />
       {captionMessage && (

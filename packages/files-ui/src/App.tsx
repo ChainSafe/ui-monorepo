@@ -60,9 +60,9 @@ const App: React.FC<{}> = () => {
         fallback={({ error, componentStack, eventId, resetError }) => (
           <Modal active closePosition="none" setActive={resetError}>
             <Typography>
-              An error occured and has been logged. If you would like to provide
-              additional info to help us debug and resolve the issue, click the
-              "Provide Additional Details" button
+              An error occurred and has been logged. If you would like to
+              provide additional info to help us debug and resolve the issue,
+              click the "Provide Additional Details" button
             </Typography>
             <Typography>{error?.message.toString()}</Typography>
             <Typography>{componentStack}</Typography>

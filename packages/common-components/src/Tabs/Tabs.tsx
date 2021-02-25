@@ -11,7 +11,7 @@ const useStyles = makeStyles(
         padding: 0,
         marginBottom: 0,
         ...typography.body1,
-        ...overrides?.Tabs?.tabList,
+        ...overrides?.Tabs?.tabList
       },
       tabBar: {
         display: "inline-block",
@@ -26,11 +26,11 @@ const useStyles = makeStyles(
         "&.selected": {
           fontWeight: "bold",
           borderBottom: `2px solid ${palette.additional["blue"][6]}`,
-          ...overrides?.Tabs?.tabBar?.selected,
+          ...overrides?.Tabs?.tabBar?.selected
         },
-        ...overrides?.Tabs?.tabBar?.root,
-      },
-    }),
+        ...overrides?.Tabs?.tabBar?.root
+      }
+    })
 )
 
 export interface ITabsProps {
@@ -46,7 +46,7 @@ const Tabs: React.FC<ITabsProps> = ({
   className,
   children,
   activeKey,
-  onTabSelect,
+  onTabSelect
 }: ITabsProps) => {
   const classes = useStyles()
 
@@ -64,7 +64,7 @@ const Tabs: React.FC<ITabsProps> = ({
                 key={index}
                 className={clsx(
                   classes.tabBar,
-                  elem.props.tabKey === activeKey && "selected",
+                  elem.props.tabKey === activeKey && "selected"
                 )}
                 onClick={() => onTabSelect(elem.props.tabKey)}
               >
@@ -76,7 +76,7 @@ const Tabs: React.FC<ITabsProps> = ({
           <li
             className={clsx(
               classes.tabBar,
-              children.props.tabKey === activeKey && "selected",
+              children.props.tabKey === activeKey && "selected"
             )}
             onClick={() => onTabSelect(children.props.tabKey)}
           >

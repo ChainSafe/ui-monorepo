@@ -15,27 +15,27 @@ const useStyles = makeStyles(
         "&.selected": {
           backgroundColor: palette.additional["gray"][4],
           "&:hover": {
-            backgroundColor: palette.additional["gray"][4],
+            backgroundColor: palette.additional["gray"][4]
           },
-          ...overrides?.Table?.row?.selected,
+          ...overrides?.Table?.row?.selected
         },
         "&.classic": {
           display: "table-row",
           verticalAlign: "middle",
-          ...overrides?.Table?.row?.classic,
+          ...overrides?.Table?.row?.classic
         },
         "&.grid": {
           display: "grid",
           gridTemplateColumns: "repeat(auto-fit, minmax(40px, 1fr))",
           alignItems: "center",
-          ...overrides?.Table?.row?.grid,
+          ...overrides?.Table?.row?.grid
         },
-        ...overrides?.Table?.row?.root,
+        ...overrides?.Table?.row?.root
       },
       rowSelectable: {
-        cursor: "pointer",
-      },
-    }),
+        cursor: "pointer"
+      }
+    })
 )
 
 export interface ITableRowProps extends React.HTMLProps<HTMLTableRowElement> {
@@ -57,7 +57,7 @@ const TableRow = React.forwardRef(
       onClick,
       ...rest
     }: ITableRowProps,
-    forwardedRef: any,
+    forwardedRef: any
   ) => {
     const classes = useStyles()
     return (
@@ -66,10 +66,10 @@ const TableRow = React.forwardRef(
           classes.root,
           {
             selected: selected,
-            [classes.rowSelectable]: rowSelectable,
+            [classes.rowSelectable]: rowSelectable
           },
           className,
-          type,
+          type
         )}
         onClick={rowSelectable ? onClick : undefined}
         ref={forwardedRef}
@@ -78,7 +78,9 @@ const TableRow = React.forwardRef(
         {children}
       </tr>
     )
-  },
+  }
 )
+
+TableRow.displayName = "TableRow"
 
 export default TableRow

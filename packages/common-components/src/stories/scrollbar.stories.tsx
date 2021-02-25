@@ -7,10 +7,10 @@ export default {
   title: "Scrollbar Wrapper",
   component: ScrollbarWrapper,
   excludeStories: /.*Data$/,
-  decorators: [withKnobs],
+  decorators: [withKnobs]
 }
-
-const direction: ["ltr", "rtl"] = ["ltr", "rtl"]
+type Direction = "ltr" | "rtl"
+const direction: Direction[] = ["ltr", "rtl"]
 
 export const SimplebarWrapper = (): React.ReactNode => (
   <div>

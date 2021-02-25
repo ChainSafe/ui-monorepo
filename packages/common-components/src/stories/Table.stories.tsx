@@ -7,7 +7,7 @@ import {
   TableRow,
   TableCell,
   AlignOption,
-  SortDirection,
+  SortDirection
 } from "../Table"
 import { withKnobs, select, boolean } from "@storybook/addon-knobs"
 import { action } from "@storybook/addon-actions"
@@ -15,7 +15,7 @@ import { action } from "@storybook/addon-actions"
 export default {
   title: "Table",
   component: Table,
-  decorators: [withKnobs],
+  decorators: [withKnobs]
 }
 
 const alignOptions: AlignOption[] = ["inherit", "center", "left", "right"]
@@ -38,7 +38,7 @@ export const MainDemo = (): React.ReactNode => (
         sortDirection={select(
           "sort direction",
           sortDirectionOptions,
-          undefined,
+          undefined
         )}
       >
         Size

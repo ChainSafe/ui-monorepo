@@ -7,7 +7,7 @@ export default {
   title: "Tree view",
   component: TreeView,
   excludeStories: /.*Data$/,
-  decorators: [withKnobs],
+  decorators: [withKnobs]
 }
 
 const treeArrData: ITreeNodeProps[] = [
@@ -20,7 +20,7 @@ const treeArrData: ITreeNodeProps[] = [
         title: "Mary",
         id: "2",
         expandable: true,
-        tree: [{ title: "Suzy", id: "3" }],
+        tree: [{ title: "Suzy", id: "3" }]
       },
       {
         title: "Phil",
@@ -28,10 +28,10 @@ const treeArrData: ITreeNodeProps[] = [
         expandable: true,
         tree: [
           { title: "Jon", id: "5" },
-          { title: "Paul", id: "6" },
-        ],
-      },
-    ],
+          { title: "Paul", id: "6" }
+        ]
+      }
+    ]
   },
   {
     title: "Bob",
@@ -43,7 +43,7 @@ const treeArrData: ITreeNodeProps[] = [
         title: "Mary",
         id: "8",
         expandable: true,
-        tree: [{ title: "Suzy", id: "9", icon: <FolderIcon /> }],
+        tree: [{ title: "Suzy", id: "9", icon: <FolderIcon /> }]
       },
       {
         title: "Phil",
@@ -51,11 +51,11 @@ const treeArrData: ITreeNodeProps[] = [
         expandable: true,
         tree: [
           { title: "Jon", id: "10" },
-          { title: "Paul", id: "11" },
-        ],
-      },
-    ],
-  },
+          { title: "Paul", id: "11" }
+        ]
+      }
+    ]
+  }
 ]
 
 export const TreeViewStory = (): React.ReactNode => {

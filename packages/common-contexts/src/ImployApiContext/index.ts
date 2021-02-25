@@ -1,5 +1,5 @@
 export {
   ImployApiProvider,
   useImployApi,
-  OAuthProvider,
+  OAuthProvider
 } from "./ImployApiContext"

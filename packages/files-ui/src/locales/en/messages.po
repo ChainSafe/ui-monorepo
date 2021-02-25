@@ -21,6 +21,10 @@ msgstr ""
 msgid "Account"
 msgstr "Account"
 
+#: src/Components/Modules/UploadFileModule.tsx:87
+msgid "Add more files"
+msgstr "Add more files"
+
 #: src/Components/Modules/FileBrowsers/views/FilesTable.view.tsx:515
 msgid "Are you sure you wish to delete?"
 msgstr "Are you sure you wish to delete?"
@@ -35,14 +39,18 @@ msgstr "CID (Content Identifier)"
 
 #: src/Components/Modules/CreateFolderModule.tsx:117
 #: src/Components/Modules/FileBrowsers/MoveFileModal.tsx:152
-#: src/Components/Modules/FileBrowsers/views/FileSystemItemRow.tsx:311
-#: src/Components/Modules/UploadFileModule.tsx:82
+#: src/Components/Modules/FileBrowsers/views/FileSystemItemRow.tsx:323
+#: src/Components/Modules/UploadFileModule.tsx:90
 msgid "Cancel"
 msgstr "Cancel"
 
 #: src/Components/Pages/LoginPage.tsx:234
 msgid "ChainSafe Files"
 msgstr "ChainSafe Files"
+
+#: src/Components/Modules/UploadFileModule.tsx:87
+msgid "Click or drag to upload files"
+msgstr "Click or drag to upload files"
 
 #: src/Components/Modules/FileBrowsers/FileInfoModal.tsx:209
 msgid "Close"
@@ -143,6 +151,7 @@ msgid "File size"
 msgstr "File size"
 
 #: src/Components/Layouts/AppNav.tsx:204
+#: src/Components/Modules/SearchModule.tsx:198
 msgid "Files"
 msgstr "Files"
 
@@ -155,6 +164,7 @@ msgstr "Files"
 #~ msgstr "Folder created successfully"
 
 #: src/Components/Layouts/AppNav.tsx:214
+#: src/Components/Modules/SearchModule.tsx:210
 msgid "Folders"
 msgstr "Folders"
 
@@ -166,11 +176,16 @@ msgstr "General"
 msgid "Home"
 msgstr "Home"
 
+#: src/Components/Modules/FileBrowsers/views/FileSystemItemRow.tsx:190
+msgid "Info"
+msgstr "Info"
+
 #: src/Components/Modules/FilePreviewModal.tsx:292
 msgid "Loading preview"
 msgstr "Loading preview"
 
 #: src/Components/Modules/FileBrowsers/MoveFileModal.tsx:155
+#: src/Components/Modules/FileBrowsers/views/FileSystemItemRow.tsx:172
 msgid "Move"
 msgstr "Move"
 
@@ -194,6 +209,10 @@ msgstr "Next"
 msgid "No files to show"
 msgstr "No files to show"
 
+#: src/Components/Modules/SearchModule.tsx:192
+msgid "No search results for"
+msgstr "No search results for"
+
 #: src/Components/Modules/FileBrowsers/FileInfoModal.tsx:182
 msgid "Number of copies (Replication Factor)"
 msgstr "Number of copies (Replication Factor)"
@@ -206,15 +225,23 @@ msgstr "OK"
 msgid "One sec, getting files ready..."
 msgstr "One sec, getting files ready..."
 
+#: src/Components/Modules/FileBrowsers/views/FileSystemItemRow.tsx:208
+msgid "Preview"
+msgstr "Preview"
+
 #: src/Components/Modules/PreviewRenderers/PDFPreview.tsx:58
 msgid "Previous"
 msgstr "Previous"
+
+#: src/Components/Modules/FileBrowsers/views/FileSystemItemRow.tsx:199
+msgid "Recover"
+msgstr "Recover"
 
 #: src/Components/Modules/FileBrowsers/views/FileSystemItemRow.tsx:145
 msgid "Rename"
 msgstr "Rename"
 
-#: src/Components/Modules/FileBrowsers/views/FileSystemItemRow.tsx:306
+#: src/Components/Modules/FileBrowsers/views/FileSystemItemRow.tsx:318
 msgid "Rename File/Folder"
 msgstr "Rename File/Folder"
 
@@ -243,6 +270,10 @@ msgstr "Send Feedback"
 msgid "Settings"
 msgstr "Settings"
 
+#: src/Components/Modules/FileBrowsers/views/FileSystemItemRow.tsx:181
+msgid "Share"
+msgstr "Share"
+
 #: src/Components/Layouts/AppHeader.tsx:144
 #: src/Components/Layouts/AppNav.tsx:261
 msgid "Sign Out"
@@ -259,6 +290,10 @@ msgstr "Size"
 #: src/Contexts/DriveContext.tsx:160
 #~ msgid "Something went wrong. We couldn't upload your file"
 #~ msgstr "Something went wrong. We couldn't upload your file"
+
+#: src/Components/Modules/UploadFileModule.tsx:93
+msgid "Start Upload"
+msgstr "Start Upload"
 
 #: src/Components/Modules/Settings/Plan.tsx:73
 msgid "Storage Plan"
@@ -292,19 +327,22 @@ msgstr "There was an error getting the preview."
 #~ msgid "There was an error renaming this file"
 #~ msgstr "There was an error renaming this file"
 
-#: src/Components/Modules/FileBrowsers/views/FileSystemItemRow.tsx:314
+#: src/Components/Modules/FileBrowsers/views/FileSystemItemRow.tsx:326
 msgid "Update"
 msgstr "Update"
 
 #: src/Components/Modules/FileBrowsers/views/FilesTable.view.tsx:420
 #: src/Components/Modules/FileBrowsers/views/FilesTable.view.tsx:440
-#: src/Components/Modules/UploadFileModule.tsx:85
 msgid "Upload"
 msgstr "Upload"
 
 #: src/Components/Modules/UploadProgressModals/UploadBox.tsx:53
 msgid "Upload complete"
 msgstr "Upload complete"
+
+#: src/Components/Modules/FileBrowsers/views/FileSystemItemRow.tsx:217
+msgid "View folder"
+msgstr "View folder"
 
 #: src/Components/Modules/Settings/Profile.tsx:124
 msgid "Wallet address"

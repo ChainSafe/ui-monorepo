@@ -27,11 +27,11 @@ const ConditionalRoute: React.FC<IProps> = ({
         <Redirect
           to={{
             pathname: `${redirectPath}`,
-            state: { from: path },
+            state: { from: path }
           }}
         />
       ) : // this may be converted into loading
-      null
+        null
     }}
   />
 )

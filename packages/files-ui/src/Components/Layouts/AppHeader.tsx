@@ -4,8 +4,6 @@ import {
   createStyles,
   ITheme,
   makeStyles,
-  useMediaQuery,
-  useTheme,
   useThemeSwitcher,
 } from "@chainsafe/common-theme"
 import clsx from "clsx"
@@ -176,11 +174,9 @@ const AppHeader: React.FC<IAppHeader> = ({
   navOpen,
   setNavOpen,
 }: IAppHeader) => {
-  const { themeKey, setTheme } = useThemeSwitcher()
+  const { themeKey, setTheme, desktop } = useThemeSwitcher()
 
   const classes = useStyles({ themeKey })
-  const { breakpoints }: ITheme = useTheme()
-  const desktop = useMediaQuery(breakpoints.up("md"))
 
   const { isLoggedIn, logout, secured } = useImployApi()
   const { isMasterPasswordSet } = useDrive()

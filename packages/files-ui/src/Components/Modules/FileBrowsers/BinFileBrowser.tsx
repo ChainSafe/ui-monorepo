@@ -16,7 +16,6 @@ const BinFileBrowser: React.FC<IFilesBrowserModuleProps> = ({
     loadingCurrentPath,
     bucketType,
     recoverFile,
-    desktop,
   } = useDrive()
 
   useEffect(() => {
@@ -82,7 +81,6 @@ const BinFileBrowser: React.FC<IFilesBrowserModuleProps> = ({
         updateCurrentPath={updateCurrentPath}
         heading={heading}
         controls={controls}
-        desktop={desktop}
       />
     </DragAndDrop>
   )

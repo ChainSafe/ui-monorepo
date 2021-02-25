@@ -23,7 +23,7 @@ const FormikTextInput = React.forwardRef(
       captionMessage,
       ...rest
     }: FormikTextInputProps,
-    forwardedRef: any,
+    forwardedRef: any
   ) => {
     const [field, meta, helpers] = useField(name)
     return (
@@ -51,7 +51,9 @@ const FormikTextInput = React.forwardRef(
         {...rest}
       />
     )
-  },
+  }
 )
+
+FormikTextInput.displayName = "FormikTextInput"
 
 export default FormikTextInput

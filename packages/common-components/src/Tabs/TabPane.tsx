@@ -9,7 +9,7 @@ export interface ITabPaneProps {
 
 const TabPane: React.FC<ITabPaneProps> = ({
   children,
-  className,
+  className
 }: ITabPaneProps) => {
   return <div className={className}>{children}</div>
 }

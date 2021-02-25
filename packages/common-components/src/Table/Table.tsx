@@ -14,45 +14,45 @@ const useStyles = makeStyles(
         transition: `all ${animation.transform}ms`,
         textAlign: "left",
         "& th, & td": {
-          padding: `${constants.generalUnit * 2}px`,
+          padding: `${constants.generalUnit * 2}px`
         },
-        ...overrides?.Table?.table?.root,
+        ...overrides?.Table?.table?.root
       },
       fullWidth: {
-        width: "100%",
+        width: "100%"
       },
       dense: {
         "& th, & td": {
-          padding: `${constants.generalUnit * 1.8}px`,
+          padding: `${constants.generalUnit * 1.8}px`
         },
-        ...overrides?.Table?.table?.dense,
+        ...overrides?.Table?.table?.dense
       },
       hover: {
         "& tr:hover": {
-          backgroundColor: palette.additional["gray"][2],
+          backgroundColor: palette.additional["gray"][2]
         },
         "& tr:nth-child(even)": {
           "&:hover": {
-            backgroundColor: palette.additional["gray"][2],
-          },
+            backgroundColor: palette.additional["gray"][2]
+          }
         },
         "&.selected": {
           "&:hover": {
-            backgroundColor: palette.additional["gray"][4],
-          },
+            backgroundColor: palette.additional["gray"][4]
+          }
         },
-        ...overrides?.Table?.table?.hover,
+        ...overrides?.Table?.table?.hover
       },
       striped: {
         "& tr:nth-child(even)": {
           backgroundColor: palette.additional["gray"][2],
           "&.selected": {
-            backgroundColor: palette.additional["gray"][4],
-          },
+            backgroundColor: palette.additional["gray"][4]
+          }
         },
-        ...overrides?.Table?.table?.striped,
-      },
-    }),
+        ...overrides?.Table?.table?.striped
+      }
+    })
 )
 
 export interface ITableProps {
@@ -83,9 +83,9 @@ const Table: React.FC<ITableProps> = ({
           [classes.hover]: hover,
           [classes.fullWidth]: fullWidth,
           [classes.dense]: dense,
-          [classes.striped]: striped,
+          [classes.striped]: striped
         },
-        className,
+        className
       )}
       {...rest}
     >

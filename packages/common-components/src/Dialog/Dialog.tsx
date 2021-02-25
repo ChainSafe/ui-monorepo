@@ -15,8 +15,8 @@ const useStyles = makeStyles(({ breakpoints, constants }: ITheme) =>
       transform: "translate(-50%, 0)",
       top: constants.generalUnit * 2,
       [breakpoints.down("sm")]: {
-        maxWidth: `calc(100% - ${constants.generalUnit * 3}px) !important`,
-      },
+        maxWidth: `calc(100% - ${constants.generalUnit * 3}px) !important`
+      }
     },
     message: {},
     buttons: {
@@ -25,10 +25,10 @@ const useStyles = makeStyles(({ breakpoints, constants }: ITheme) =>
       justifyContent: "space-between",
       marginTop: constants.generalUnit * 3,
       "& > *": {
-        width: `calc(50% - ${constants.generalUnit * 2}px)`,
-      },
-    },
-  }),
+        width: `calc(50% - ${constants.generalUnit * 2}px)`
+      }
+    }
+  })
 )
 
 interface IDialogClasses {
@@ -67,7 +67,7 @@ const Dialog: React.FC<IDialogProps> = ({
       closePosition="none"
       className={clsx(className, classes.root)}
       injectedClass={{
-        inner: clsx(injectedClass?.inner, classes.inner),
+        inner: clsx(injectedClass?.inner, classes.inner)
       }}
       maxWidth={maxWidth}
       {...rest}

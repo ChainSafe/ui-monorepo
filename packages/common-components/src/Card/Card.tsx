@@ -10,15 +10,15 @@ const useStyles = makeStyles(
         backgroundColor: palette.background.default,
         transition: `all ${animation.transform}ms`,
         padding: 0,
-        ...overrides?.Card?.root,
+        ...overrides?.Card?.root
       },
       hoverable: {
         "&:hover": {
-          boxShadow: shadows.shadow2,
+          boxShadow: shadows.shadow2
         },
-        ...overrides?.Card?.hoverable,
-      },
-    }),
+        ...overrides?.Card?.hoverable
+      }
+    })
 )
 
 export interface ICardProps {
@@ -36,7 +36,7 @@ const Card: React.FC<ICardProps> = ({
   hoverable = false,
   border = true,
   shadow = "none",
-  fullWidth,
+  fullWidth
 }: ICardProps) => {
   const classes = useStyles()
 
