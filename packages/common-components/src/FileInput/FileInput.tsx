@@ -5,7 +5,7 @@ import clsx from "clsx"
 import { ITheme, makeStyles, createStyles } from "@chainsafe/common-theme"
 import { Button } from "../Button"
 import { Typography } from "../Typography"
-import { PaperclipIcon, PlusIcon, CrossOutlinedIcon } from "../Icons"
+import { PlusIcon, CrossIcon } from "../Icons"
 import { ScrollbarWrapper } from "../ScrollbarWrapper"
 
 const useStyles = makeStyles(({ constants, palette, overrides }: ITheme) =>
@@ -13,13 +13,30 @@ const useStyles = makeStyles(({ constants, palette, overrides }: ITheme) =>
     root: {
       "& > div": {
         color: palette.additional["gray"][8],
-        backgroundColor: palette.additional["gray"][3],
-        borderWidth: 1,
-        borderColor: palette.additional["gray"][5],
-        borderStyle: "dashed",
-        borderRadius: 2,
         padding: constants.generalUnit,
+        margin: constants.generalUnit * 4,
+        "&.addFiles": {
+          display: "flex",
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "flex-start",
+          margin: 0,
+          marginTop: constants.generalUnit * 4,
+          paddingTop: constants.generalUnit,
+          paddingLeft: constants.generalUnit * 10,
+          paddingRight: constants.generalUnit,
+          paddingBottom: constants.generalUnit,
+          cursor: "pointer",
+          backgroundColor: palette.additional["gray"][2],
+        },
+        "&.scrollbar": {
+          maxHeight: "80vh",
+          marginTop: 0,
+          marginBottom: 0,
+        },
       },
+      marginBottom: "0 !important",
+      outline: "none",
       ...overrides?.FileInput?.root,
     },
     pending: {
@@ -64,8 +81,11 @@ const useStyles = makeStyles(({ constants, palette, overrides }: ITheme) =>
     itemText: {
       flex: "1 1 0",
     },
-    scrollbar: {
-      maxHeight: "80vh",
+    crossIcon: {
+      backgroundColor: palette.primary.hover,
+    },
+    addFilesText: {
+      marginLeft: constants.generalUnit,
     },
   }),
 )
@@ -74,7 +94,7 @@ interface IFileInputProps extends DropzoneOptions {
   className?: string
   variant?: "dropzone" | "filepicker"
   name: string
-  label?: string
+  label: string
   showPreviews?: boolean
   pending?: ReactNode | ReactNode[]
   maxFileSize?: number
@@ -83,6 +103,8 @@ interface IFileInputProps extends DropzoneOptions {
     filelist?: string
     error?: string
   }
+  onFileNumberChange: (filesNumber: number) => void
+  moreFilesLabel: string
 }
 
 const FileInput: React.FC<IFileInputProps> = ({
@@ -94,12 +116,18 @@ const FileInput: React.FC<IFileInputProps> = ({
   pending,
   maxFileSize,
   classNames,
+  onFileNumberChange,
+  moreFilesLabel,
   ...props
 }: IFileInputProps) => {
   const classes = useStyles()
   const [previews, setPreviews] = useState<any[]>([])
   const [errors, setErrors] = useState<any[]>([])
-  const [value, meta, helpers] = useField(name)
+  const [{ value }, meta, helpers] = useField(name)
+
+  useEffect(() => {
+    onFileNumberChange && onFileNumberChange(value.length)
+  }, [value.length])
 
   const onDrop = useCallback(
     async (acceptedFiles: File[], fileRejections: FileRejection[]) => {
@@ -116,7 +144,7 @@ const FileInput: React.FC<IFileInputProps> = ({
           ),
         )
       }
-      helpers.setValue([...value.value, ...filtered])
+      helpers.setValue([...value, ...filtered])
 
       if (fileRejections.length > 0) {
         const fileDropRejectionErrors = fileRejections.map((fr) =>
@@ -146,7 +174,7 @@ const FileInput: React.FC<IFileInputProps> = ({
   })
 
   const removeItem = (i: number) => {
-    const items = value.value as any[]
+    const items = value as any[]
     items.splice(i, 1)
     helpers.setValue(items)
   }
@@ -155,42 +183,37 @@ const FileInput: React.FC<IFileInputProps> = ({
     <div {...getRootProps()} className={clsx(classes.root, className)}>
       <input {...getInputProps()} />
       {variant === "dropzone" ? (
-        value.value?.length === 0 ? (
+        value?.length === 0 ? (
           <div className={clsx(classes.pending, classNames?.pending)}>
             {pending ? (
               pending
             ) : (
               <>
                 <PlusIcon fontSize="large" color="primary" />
-                <Typography>Upload Files</Typography>
+                <Typography>{label}</Typography>
               </>
             )}
           </div>
         ) : (
           <div className={clsx(classes.root, classNames?.filelist)}>
-            <ScrollbarWrapper className={classes.scrollbar}>
+            <ScrollbarWrapper className={clsx("scrollbar")}>
               <ul>
-                {value.value.map((file: any, i: any) => (
+                {value.map((file: any, i: any) => (
                   <li className={classes.item} key={i}>
-                    <PaperclipIcon />
                     <span className={classes.itemText}>{file.name}</span>
                     <Button
+                      className={classes.crossIcon}
                       type="button"
                       onClick={(e) => {
                         e.stopPropagation()
                         removeItem(i)
                       }}
-                      iconButton
                       size="small"
                     >
-                      <CrossOutlinedIcon fontSize="small" />
+                      <CrossIcon fontSize="small" />
                     </Button>
                   </li>
                 ))}
-                <li className={classes.item}>
-                  <PlusIcon fontSize="small" color="primary" />
-                  <span>Click to upload more files</span>
-                </li>
               </ul>
             </ScrollbarWrapper>
           </div>
@@ -204,6 +227,12 @@ const FileInput: React.FC<IFileInputProps> = ({
             Select
           </Button>
         </>
+      )}
+      {value?.length > 0 && (
+        <div className={clsx("addFiles")} onClick={open}>
+          <PlusIcon fontSize="small" color="primary" />
+          <span className={classes.addFilesText}>{moreFilesLabel}</span>
+        </div>
       )}
       {(meta.error || errors.length > 0) && (
         <ul className={classNames?.error}>

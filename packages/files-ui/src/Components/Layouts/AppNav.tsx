@@ -240,7 +240,68 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
         !!publicKey &&
         !isNewDevice &&
         !shouldInitializeAccount && (
-          <Fragment>
+        <Fragment>
+          {desktop && (
+            <div>
+              <Link className={classes.logo} to={ROUTE_LINKS.Home()}>
+                <ChainsafeFilesLogo />
+                <Typography variant="h5">
+                  <Trans>Files</Trans>
+                </Typography>
+                &nbsp;
+                <Typography variant="caption" className={classes.betaCaption}>
+                  <Trans>beta</Trans>
+                </Typography>
+              </Link>
+            </div>
+          )}
+          <div className={classes.linksArea}>
+            <Typography className={classes.navHead}>
+              <Trans>Folders</Trans>
+            </Typography>
+            <nav className={classes.navMenu}>
+              <Link
+                onClick={() => {
+                  handleOnClick()
+                }}
+                className={classes.navItem}
+                to={ROUTE_LINKS.Home()}
+              >
+                <DatabaseSvg />
+                <Typography variant="h5" className={classes.navItemText}>
+                  <Trans>Home</Trans>
+                </Typography>
+              </Link>
+              <Link
+                onClick={() => {
+                  handleOnClick()
+                }}
+                className={classes.navItem}
+                to={ROUTE_LINKS.Bin}
+              >
+                <DeleteSvg />
+                <Typography variant="h5" className={classes.navItemText}>
+                  <Trans>Bin</Trans>
+                </Typography>
+              </Link>
+            </nav>
+            <Typography className={classes.navHead}>
+              {desktop ? <Trans>Resources</Trans> : <Trans>Account</Trans>}
+            </Typography>
+            <nav className={classes.navMenu}>
+              <Link
+                onClick={handleOnClick}
+                className={classes.navItem}
+                to={ROUTE_LINKS.Settings}
+              >
+                <SettingSvg />
+                <Typography variant="h5" className={classes.navItemText}>
+                  <Trans>Settings</Trans>
+                </Typography>
+              </Link>
+            </nav>
+          </div>
+          <section>
             {desktop && (
               <div>
                 <Link className={classes.logo} to={ROUTE_LINKS.Home}>

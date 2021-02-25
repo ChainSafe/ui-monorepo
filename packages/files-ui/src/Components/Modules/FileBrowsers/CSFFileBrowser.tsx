@@ -2,10 +2,15 @@ import React, { useEffect } from "react"
 import { Crumb, useToaster } from "@chainsafe/common-components"
 import { FileSystemItem, useDrive } from "../../../Contexts/DriveContext"
 import { getArrayOfPaths, getPathFromArray } from "../../../Utils/pathUtils"
-import { IFileConfigured, IFilesBrowserModuleProps } from "./types"
+import {
+  IBulkOperations,
+  IFileConfigured,
+  IFilesBrowserModuleProps,
+} from "./types"
 import FilesTableView from "./views/FilesTable.view"
 import { CONTENT_TYPES } from "../../../Utils/Constants"
 import DragAndDrop from "../../../Contexts/DnDContext"
+import { useQuery } from "../../../Utils/Helpers"
 
 const CSFFileBrowser: React.FC<IFilesBrowserModuleProps> = ({
   heading = "My Files",
@@ -13,6 +18,7 @@ const CSFFileBrowser: React.FC<IFilesBrowserModuleProps> = ({
 }: IFilesBrowserModuleProps) => {
   const {
     moveFileToTrash,
+    bulkMoveFileToTrash,
     downloadFile,
     renameFile,
     moveFile,
@@ -22,14 +28,20 @@ const CSFFileBrowser: React.FC<IFilesBrowserModuleProps> = ({
     uploadFiles,
     uploadsInProgress,
     loadingCurrentPath,
-    storeEntry,
+    bucketType,
     desktop,
   } = useDrive()
 
+  const queryPath = useQuery().get("path")
+
   useEffect(() => {
-    updateCurrentPath("/", "csf", storeEntry !== "csf")
+    updateCurrentPath(
+      queryPath || "/",
+      "csf",
+      bucketType !== "csf" || queryPath !== null,
+    )
     // eslint-disable-next-line
-  }, [])
+  }, [queryPath])
 
   // Rename
   const handleRename = async (path: string, new_path: string) => {
@@ -39,8 +51,6 @@ const CSFFileBrowser: React.FC<IFilesBrowserModuleProps> = ({
       new_path: new_path,
     })
   }
-
-  // Rename
   const handleMove = async (path: string, new_path: string) => {
     // TODO set loading
     await moveFile({
@@ -161,12 +171,19 @@ const CSFFileBrowser: React.FC<IFilesBrowserModuleProps> = ({
     },
   )
 
+  const bulkOperations: IBulkOperations = {
+    [CONTENT_TYPES.Directory]: ["move"],
+    [CONTENT_TYPES.File]: ["delete", "move"],
+  }
+
   return (
     <DragAndDrop>
       <FilesTableView
+        bulkOperations={bulkOperations}
         crumbs={crumbs}
         currentPath={currentPath}
         deleteFile={moveFileToTrash}
+        bulkMoveFileToTrash={bulkMoveFileToTrash}
         downloadFile={downloadFile}
         handleMove={handleMove}
         handleRename={handleRename}

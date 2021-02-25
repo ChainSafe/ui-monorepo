@@ -80,7 +80,7 @@ const App: React.FC<{}> = () => {
           <ToasterProvider autoDismiss>
             <Web3Provider
               onboardConfig={{
-                dappId: process.env.REACT_APP_BLOCKNATIVE_ID,
+                dappId: process.env.REACT_APP_BLOCKNATIVE_ID || "",
                 walletSelect: {
                   wallets: [
                     { walletName: "coinbase" },

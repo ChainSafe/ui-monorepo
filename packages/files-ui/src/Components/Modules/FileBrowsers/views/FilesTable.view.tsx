@@ -1,11 +1,5 @@
-import {
-  createStyles,
-  ITheme,
-  makeStyles,
-  useMediaQuery,
-  useTheme,
-} from "@chainsafe/common-theme"
-import React, { Fragment } from "react"
+import { createStyles, ITheme, makeStyles } from "@chainsafe/common-theme"
+import React, { Fragment, useCallback, useEffect } from "react"
 import {
   Divider,
   MenuDropdown,
@@ -25,6 +19,7 @@ import {
   UploadIcon,
   Dialog,
   Loading,
+  CheckboxInput,
 } from "@chainsafe/common-components"
 import { useState } from "react"
 import { useMemo } from "react"
@@ -34,7 +29,11 @@ import clsx from "clsx"
 import { t, Trans } from "@lingui/macro"
 import { NativeTypes } from "react-dnd-html5-backend"
 import { useDrop } from "react-dnd"
-import { IFileConfigured, IFilesTableBrowserProps } from "../types"
+import {
+  FileOperation,
+  IFileConfigured,
+  IFilesTableBrowserProps,
+} from "../types"
 import { FileSystemItem } from "../../../../Contexts/DriveContext"
 import FileSystemItemRow from "./FileSystemItemRow"
 import FilePreviewModal from "../../FilePreviewModal"
@@ -44,11 +43,12 @@ import CreateFolderModule from "../../CreateFolderModule"
 import UploadFileModule from "../../UploadFileModule"
 import MoveFileModule from "../MoveFileModal"
 import FileInfoModal from "../FileInfoModal"
+import { CONTENT_TYPES } from "../../../../Utils/Constants"
 
 const useStyles = makeStyles(
   ({ animation, breakpoints, constants, palette, zIndex }: ITheme) => {
     // const desktopGridSettings = "50px 69px 3fr 190px 100px 45px !important"
-    const desktopGridSettings = "50px 3fr 190px 60px !important"
+    const desktopGridSettings = "50px 69px 3fr 190px 60px !important"
     const mobileGridSettings = "69px 3fr 45px !important"
     return createStyles({
       root: {
@@ -99,10 +99,10 @@ const useStyles = makeStyles(
           backgroundColor: palette.additional["gray"][4],
         },
         [breakpoints.up("md")]: {
-          margin: `${constants.generalUnit * 4.5}px 0`,
+          margin: `${constants.generalUnit * 3}px 0`,
         },
         [breakpoints.down("md")]: {
-          margin: `${constants.generalUnit * 4.5}px 0 0`,
+          margin: `${constants.generalUnit * 3}px 0 0`,
         },
       },
       noFiles: {
@@ -206,6 +206,17 @@ const useStyles = makeStyles(
         opacity: 0.2,
         transition: `opacity ${animation.transform * 3}ms`,
       },
+      tableHead: {
+        marginTop: constants.generalUnit * 3,
+      },
+      bulkOperations: {
+        display: "flex",
+        flexDirection: "row",
+        marginTop: constants.generalUnit * 3,
+        "& > *": {
+          marginRight: constants.generalUnit,
+        },
+      },
     })
   },
 )
@@ -215,13 +226,16 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
   controls = true,
   sourceFiles,
   handleUploadOnDrop,
+  bulkOperations,
   updateCurrentPath,
   crumbs,
   handleRename,
   handleMove,
+  bulkMoveFileToTrash,
   downloadFile,
   deleteFile,
   recoverFile,
+  viewFolder,
   currentPath,
   loadingCurrentPath,
   uploadsInProgress,
@@ -362,13 +376,13 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
     }
   }
 
-  // const toggleAll = () => {
-  //   if (selected.length === items.length) {
-  //     setSelected([])
-  //   } else {
-  //     setSelected([...items.map((file: IFile) => file.cid)])
-  //   }
-  // }
+  const toggleAll = () => {
+    if (selected.length === items.length) {
+      setSelected([])
+    } else {
+      setSelected([...items.map((file: IFileConfigured) => file.cid)])
+    }
+  }
 
   const invalidFilenameRegex = new RegExp("/")
   const RenameSchema = object().shape({
@@ -389,6 +403,7 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
     drop: (item: any, monitor) => {
       if (monitor.isOver({ shallow: true })) {
         handleUploadOnDrop &&
+          currentPath &&
           handleUploadOnDrop(item.files, item.items, currentPath)
       }
     },
@@ -403,12 +418,77 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
   const [createFolderModalOpen, setCreateFolderModalOpen] = useState(false)
   const [uploadModalOpen, setUploadModalOpen] = useState(false)
   const [moveFileData, setMoveFileData] = useState<
-    { modal: boolean; file: FileSystemItem } | undefined
+    { modal: boolean; fileData: FileSystemItem | FileSystemItem[] } | undefined
   >(undefined)
   const [deleteDialogOpen, setDeleteDialog] = useState<() => void | undefined>()
   const [fileInfoPath, setFileInfoPath] = useState<string | undefined>(
     undefined,
   )
+
+  // Bulk operations
+
+  const [validBulkOps, setValidBulkOps] = useState<FileOperation[]>([])
+  useEffect(() => {
+    if (bulkOperations) {
+      let filteredList: FileOperation[] = [
+        "delete",
+        "download",
+        "info",
+        "move",
+        "preview",
+        "rename",
+        "share",
+      ]
+      for (let i = 0; i < selected.length; i++) {
+        const contentType = items.find((item) => item.cid === selected[i])
+          ?.content_type
+
+        if (contentType) {
+          if (contentType === CONTENT_TYPES.Directory) {
+            let validList = filteredList.filter(
+              (op: FileOperation) =>
+                bulkOperations[contentType].indexOf(op) >= 0,
+            )
+            if (validList.length > 0) {
+              filteredList = filteredList.filter(
+                (existingOp: FileOperation) =>
+                  validList.indexOf(existingOp) >= 0,
+              )
+            }
+          } else {
+            let validList = filteredList.filter(
+              (op: FileOperation) =>
+                bulkOperations[CONTENT_TYPES.File].indexOf(op) >= 0,
+            )
+            if (validList.length > 0) {
+              filteredList = filteredList.filter(
+                (existingOp: FileOperation) =>
+                  validList.indexOf(existingOp) >= 0,
+              )
+            }
+          }
+        } else {
+          let validList = filteredList.filter(
+            (op: FileOperation) =>
+              bulkOperations[CONTENT_TYPES.File].indexOf(op) >= 0,
+          )
+          if (validList.length > 0) {
+            filteredList = filteredList.filter(
+              (existingOp: FileOperation) => validList.indexOf(existingOp) >= 0,
+            )
+          }
+        }
+      }
+      setValidBulkOps(filteredList)
+    }
+  }, [selected, items, bulkOperations])
+
+  const handleBulkMoveToTrash = useCallback(async () => {
+    if (bulkMoveFileToTrash) {
+      await bulkMoveFileToTrash(selected)
+      setSelected([])
+    }
+  }, [selected, bulkMoveFileToTrash, setSelected])
 
   return (
     <article
@@ -512,6 +592,28 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
         </div>
       </header>
       <Divider className={classes.divider} />
+      {selected.length > 0 && validBulkOps.length > 0 && (
+        <section className={classes.bulkOperations}>
+          {validBulkOps.indexOf("move") >= 0 && (
+            <Button
+              onClick={() =>
+                setMoveFileData({
+                  modal: true,
+                  fileData: files.filter((file) => selected.includes(file.cid)),
+                })
+              }
+              variant="outline"
+            >
+              Move selected
+            </Button>
+          )}
+          {validBulkOps.indexOf("delete") >= 0 && (
+            <Button onClick={handleBulkMoveToTrash} variant="outline">
+              Delete selected
+            </Button>
+          )}
+        </section>
+      )}
       <div
         className={clsx(
           classes.loadingContainer,
@@ -524,7 +626,7 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
         </Typography>
       </div>
       {(desktop && items.length === 0) ||
-      (!desktop && items.length === 0 && uploadsInProgress.length === 0) ? (
+      (!desktop && items.length === 0 && uploadsInProgress?.length === 0) ? (
         <section
           className={clsx(
             classes.noFiles,
@@ -544,15 +646,15 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
           className={clsx(loadingCurrentPath && classes.fadeOutLoading)}
         >
           {desktop && (
-            <TableHead>
+            <TableHead className={classes.tableHead}>
               <TableRow type="grid" className={classes.tableRow}>
-                {/* <TableHeadCell>
+                <TableHeadCell>
                   <CheckboxInput
                     value={selected.length === items.length}
                     disabled
                     onChange={() => toggleAll()}
                   />
-                </TableHeadCell> */}
+                </TableHeadCell>
                 <TableHeadCell>
                   {/* 
                         Icon
@@ -595,7 +697,7 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
             {!desktop &&
               showUploadsInTable &&
               uploadsInProgress
-                .filter(
+                ?.filter(
                   (uploadInProgress) =>
                     uploadInProgress.path === currentPath &&
                     !uploadInProgress.complete &&
@@ -648,6 +750,7 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
                 }
                 recoverFile={recoverFile}
                 downloadFile={downloadFile}
+                viewFolder={viewFolder}
                 handleUploadOnDrop={handleUploadOnDrop}
                 setPreviewFileIndex={setPreviewFileIndex}
                 setMoveFileData={setMoveFileData}
@@ -686,9 +789,12 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
       />
       <MoveFileModule
         currentPath={currentPath}
-        file={moveFileData?.file}
+        fileData={moveFileData?.fileData}
         modalOpen={moveFileData ? moveFileData.modal : false}
-        close={() => setMoveFileData(undefined)}
+        close={() => {
+          setMoveFileData(undefined)
+          setSelected([])
+        }}
       />
       <FileInfoModal
         fileInfoPath={fileInfoPath}
