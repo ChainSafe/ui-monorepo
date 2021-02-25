@@ -1,10 +1,5 @@
 import { useImployApi } from "@imploy/common-contexts"
-import {
-  createStyles,
-  ITheme,
-  makeStyles,
-  useThemeSwitcher,
-} from "@chainsafe/common-theme"
+import { createStyles, ITheme, makeStyles } from "@chainsafe/common-theme"
 import React, { useState } from "react"
 import { ReactNode } from "react"
 import clsx from "clsx"
@@ -63,9 +58,8 @@ const useStyles = makeStyles(
 
 const AppWrapper: React.FC<IAppWrapper> = ({ children }: IAppWrapper) => {
   const classes = useStyles()
-  const { desktop } = useThemeSwitcher()
 
-  const [navOpen, setNavOpen] = useState<boolean>(desktop)
+  const [navOpen, setNavOpen] = useState<boolean>(false)
 
   const { isLoggedIn, secured } = useImployApi()
   const { isMasterPasswordSet } = useDrive()
