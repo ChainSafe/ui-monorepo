@@ -43,7 +43,7 @@ const FilesRoutes = () => {
       />
       <ConditionalRoute
         exact
-        path={ROUTE_LINKS.Home}
+        path={ROUTE_LINKS.Home()}
         isAuthorized={
           isLoggedIn &&
           secured &&

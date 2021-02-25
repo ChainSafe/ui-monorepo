@@ -23,6 +23,7 @@ import { signMessage, useImployApi } from "@imploy/common-contexts"
 import { Wallet } from "ethers"
 import EthCrypto from "eth-crypto"
 import { useWeb3 } from "@chainsafe/web3-context"
+import dayjs, {Dayjs} from "dayjs"
 
 const TORUS_POSTBOX_KEY = "csf.postboxKey"
 const TKEY_STORE_KEY = "csf.tkeyStore"
@@ -339,13 +340,16 @@ const ThresholdKeyProvider = ({
                 public_address: address,
               })
 
+              console.log(access_token)
               //@ts-ignore
-              const torusKey = (await serviceProvider.directWeb.getTorusKey(
+              const directAuthSdk = serviceProvider.directWeb as DirectAuthSdk
+
+              const torusKey = await directAuthSdk.getTorusKey(
                 process.env.REACT_APP_FILES_VERIFIER_NAME || "",
                 "pubkey",
                 { verifier_id: "pubkey" },
                 access_token.token,
-              )) as TorusKey
+              )
               console.log(torusKey)
               // TODO: Continue any login from here
             }
