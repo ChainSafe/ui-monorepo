@@ -3,9 +3,8 @@ import {
   debounce,
   ITheme,
   makeStyles,
-  useMediaQuery,
   useOnClickOutside,
-  useTheme,
+  useThemeSwitcher,
 } from "@chainsafe/common-theme"
 import React, { ChangeEvent, useRef } from "react"
 import {
@@ -151,8 +150,7 @@ const SearchModule: React.FC<ISearchModule> = ({
   const ref = useRef(null)
   const { getSearchResults, currentSearchBucket } = useDrive()
 
-  const { breakpoints }: ITheme = useTheme()
-  const desktop = useMediaQuery(breakpoints.up("md"))
+  const { desktop } = useThemeSwitcher()
   const { redirect } = useHistory()
 
   const onSearch = async (searchString: string) => {

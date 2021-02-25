@@ -13,7 +13,7 @@ const SearchFileBrowser: React.FC<IFilesBrowserModuleProps> = ({
   heading = "Search results",
   controls = false,
 }: IFilesBrowserModuleProps) => {
-  const { updateCurrentPath, desktop, getSearchResults } = useDrive()
+  const { updateCurrentPath, getSearchResults } = useDrive()
   const { redirect } = useHistory()
 
   const [loadingSearchResults, setLoadingSearchResults] = useState(true)
@@ -68,7 +68,6 @@ const SearchFileBrowser: React.FC<IFilesBrowserModuleProps> = ({
         updateCurrentPath={updateCurrentPath}
         heading={heading}
         controls={controls}
-        desktop={desktop}
       />
     </DragAndDrop>
   )

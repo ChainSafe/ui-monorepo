@@ -30,6 +30,7 @@ import {
   ITheme,
   createStyles,
   useDoubleClick,
+  useThemeSwitcher,
 } from "@chainsafe/common-theme"
 import clsx from "clsx"
 import { Formik, Form } from "formik"
@@ -174,7 +175,6 @@ interface IFileSystemItemRowProps {
     path: string,
   ): void
   setPreviewFileIndex(fileIndex: number | undefined): void
-  desktop: boolean
   setMoveFileData(moveFileData: {
     modal: boolean
     fileData: FileSystemItem | FileSystemItem[]
@@ -202,7 +202,6 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
   setPreviewFileIndex,
   setMoveFileData,
   setFileInfoPath,
-  desktop,
   handleSelect,
 }) => {
   let Icon
@@ -217,6 +216,7 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
   }
 
   const classes = useStyles()
+  const { desktop } = useThemeSwitcher()
 
   const menuOptions: Record<FileOperation, IMenuItem> = {
     rename: {

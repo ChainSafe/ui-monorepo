@@ -4,8 +4,7 @@ import {
   createStyles,
   ITheme,
   makeStyles,
-  useMediaQuery,
-  useTheme,
+  useThemeSwitcher,
 } from "@chainsafe/common-theme"
 import React, { Fragment, useCallback } from "react"
 import clsx from "clsx"
@@ -199,8 +198,7 @@ interface IAppNav {
 
 const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
   const classes = useStyles()
-  const { breakpoints }: ITheme = useTheme()
-  const desktop = useMediaQuery(breakpoints.up("md"))
+  const { desktop } = useThemeSwitcher()
   const { spaceUsed } = useDrive()
 
   const { isLoggedIn, logout, secured } = useImployApi()

@@ -1,4 +1,9 @@
-import { createStyles, ITheme, makeStyles } from "@chainsafe/common-theme"
+import {
+  createStyles,
+  ITheme,
+  makeStyles,
+  useThemeSwitcher,
+} from "@chainsafe/common-theme"
 import React, { Fragment, useCallback, useEffect } from "react"
 import {
   Divider,
@@ -54,8 +59,8 @@ const useStyles = makeStyles(
       root: {
         position: "relative",
         [breakpoints.down("md")]: {
-          paddingLeft: constants.generalUnit * 2,
-          paddingRight: constants.generalUnit * 2,
+          marginLeft: constants.generalUnit * 2,
+          marginRight: constants.generalUnit * 2,
         },
         [breakpoints.up("md")]: {
           border: `1px solid transparent`,
@@ -241,9 +246,9 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
   uploadsInProgress,
   showUploadsInTable,
   allowDropUpload,
-  desktop,
 }: IFilesTableBrowserProps) => {
   const classes = useStyles()
+  const { desktop } = useThemeSwitcher()
   const [editing, setEditing] = useState<string | undefined>()
   const [direction, setDirection] = useState<SortDirection>("descend")
   const [column, setColumn] = useState<"name" | "size" | "date_uploaded">(
@@ -755,7 +760,6 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
                 setPreviewFileIndex={setPreviewFileIndex}
                 setMoveFileData={setMoveFileData}
                 setFileInfoPath={setFileInfoPath}
-                desktop={desktop}
               />
             ))}
           </TableBody>
