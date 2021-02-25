@@ -760,7 +760,6 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
                 setPreviewFileIndex={setPreviewFileIndex}
                 setMoveFileData={setMoveFileData}
                 setFileInfoPath={setFileInfoPath}
-                desktop={desktop}
               />
             ))}
           </TableBody>
