@@ -3,8 +3,7 @@ import {
   createStyles,
   ITheme,
   makeStyles,
-  useMediaQuery,
-  useTheme,
+  useThemeSwitcher,
 } from "@chainsafe/common-theme"
 import { useDrive } from "../../../Contexts/DriveContext"
 import UploadBox from "./UploadBox"
@@ -32,8 +31,7 @@ const useStyles = makeStyles(({ constants, zIndex, breakpoints }: ITheme) => {
 const UploadProgressModals: React.FC = () => {
   const classes = useStyles()
   const { uploadsInProgress } = useDrive()
-  const { breakpoints }: ITheme = useTheme()
-  const desktop = useMediaQuery(breakpoints.up("md"))
+  const { desktop } = useThemeSwitcher()
 
   return (
     <div className={classes.root}>

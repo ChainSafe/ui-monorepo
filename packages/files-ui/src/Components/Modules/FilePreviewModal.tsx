@@ -4,8 +4,7 @@ import {
   createStyles,
   ITheme,
   makeStyles,
-  useMediaQuery,
-  useTheme,
+  useThemeSwitcher,
 } from "@chainsafe/common-theme"
 import { FileSystemItem, useDrive } from "../../Contexts/DriveContext"
 import MimeMatcher from "mime-matcher"
@@ -156,8 +155,7 @@ const FilePreviewModal: React.FC<{
   const classes = useStyles()
   const { getFileContent, downloadFile } = useDrive()
 
-  const { breakpoints }: ITheme = useTheme()
-  const desktop = useMediaQuery(breakpoints.up("md"))
+  const { desktop } = useThemeSwitcher()
 
   const [isLoading, setIsLoading] = useState(false)
   const [loadingProgress, setLoadingProgress] = useState(0)

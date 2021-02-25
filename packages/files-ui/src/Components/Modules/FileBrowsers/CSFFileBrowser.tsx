@@ -29,7 +29,6 @@ const CSFFileBrowser: React.FC<IFilesBrowserModuleProps> = ({
     uploadsInProgress,
     loadingCurrentPath,
     bucketType,
-    desktop,
   } = useDrive()
 
   const queryPath = useQuery().get("path")
@@ -196,7 +195,6 @@ const CSFFileBrowser: React.FC<IFilesBrowserModuleProps> = ({
         heading={heading}
         controls={controls}
         allowDropUpload={true}
-        desktop={desktop}
       />
     </DragAndDrop>
   )
