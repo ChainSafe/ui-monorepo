@@ -77,14 +77,16 @@ const useStyles = makeStyles(
         width: "100%",
         maxWidth: breakpoints.values["md"],
         height: constants.generalUnit * 8,
-        backgroundColor:
-          themeKey === "dark"
-            ? palette.additional["gray"][1]
-            : palette.additional["gray"][9],
-        color:
-          themeKey === "dark"
-            ? palette.additional["gray"][10]
-            : palette.additional["gray"][8],
+        // backgroundColor:
+        //   themeKey === "dark"
+        //     ? palette.additional["gray"][1]
+        //     : palette.additional["gray"][9],
+        backgroundColor: "TODO: FILL",
+        // color:
+        //   themeKey === "dark"
+        //     ? palette.additional["gray"][10]
+        //     : palette.additional["gray"][8],
+        color: "TODO: FILL",
         borderWidth: 1,
         borderStyle: "solid",
         borderColor: palette.additional["gray"][8],
@@ -92,27 +94,30 @@ const useStyles = makeStyles(
       closePreviewButton: ({ themeKey }: IStyleProps) => ({
         marginRight: constants.generalUnit * 2,
         marginLeft: constants.generalUnit * 2,
-        fill:
-          themeKey === "dark"
-            ? palette.additional["gray"][9]
-            : palette.additional["gray"][2],
+        // fill:
+        //   themeKey === "dark"
+        //     ? palette.additional["gray"][9]
+        //     : palette.additional["gray"][2],
+        fill: "TODO: FILL",
         cursor: "pointer",
       }),
       fileOperationsMenu: ({ themeKey }: IStyleProps) => ({
-        fill:
-          themeKey === "dark"
-            ? palette.additional["gray"][9]
-            : palette.additional["gray"][2],
+        // fill:
+        //   themeKey === "dark"
+        //     ? palette.additional["gray"][9]
+        //     : palette.additional["gray"][2]
+        fill: "TODO: FILL",
       }),
       fileName: ({ themeKey }: IStyleProps) => ({
         width: "100%",
         whiteSpace: "nowrap",
         overflow: "hidden",
         textOverflow: "ellipsis",
-        color:
-          themeKey === "dark"
-            ? palette.additional["gray"][9]
-            : palette.additional["gray"][1],
+        // color:
+        //   themeKey === "dark"
+        //     ? palette.additional["gray"][9]
+        //     : palette.additional["gray"][1],
+        color: "TODO: FILL",
       }),
       previewContainer: {
         height: "100%",
@@ -155,13 +160,16 @@ const useStyles = makeStyles(
         marginTop: constants.generalUnit,
       },
       options: ({ themeKey }: IStyleProps) => ({
-        backgroundColor:
-          themeKey === "dark" ? palette.additional.gray[2] : "initial",
-        color: themeKey === "dark" ? palette.additional.gray[9] : "initial",
-        border:
-          themeKey === "dark"
-            ? `1px solid ${palette.additional.gray[5]}`
-            : "initial",
+        // backgroundColor:
+        //   themeKey === "dark" ? palette.additional.gray[2] : "initial",
+        backgroundColor: "TODO: FILL",
+        // color: themeKey === "dark" ? palette.additional.gray[9] : "initial",
+        color: "TODO: FILL",
+        // border:
+        //   themeKey === "dark"
+        //     ? `1px solid ${palette.additional.gray[5]}`
+        //     : "initial",
+        border: "TODO: FILL",
       }),
       menuIcon: ({ themeKey }: IStyleProps) => ({
         display: "flex",
@@ -169,16 +177,18 @@ const useStyles = makeStyles(
         alignItems: "center",
         width: 20,
         marginRight: constants.generalUnit * 1.5,
-        fill:
-          themeKey === "dark"
-            ? palette.additional["gray"][9]
-            : palette.additional["gray"][7],
+        // fill:
+        //   themeKey === "dark"
+        //     ? palette.additional["gray"][9]
+        //     : palette.additional["gray"][7],
+        fill: "TODO: FILL",
       }),
       item: ({ themeKey }: IStyleProps) => ({
-        color:
-          themeKey === "dark"
-            ? palette.additional["gray"][10]
-            : palette.additional["gray"][8],
+        // color:
+        //   themeKey === "dark"
+        //     ? palette.additional["gray"][10]
+        //     : palette.additional["gray"][8],
+        color: "TODO: FILL",
       }),
     }),
 )

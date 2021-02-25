@@ -65,12 +65,13 @@ const useStyles = makeStyles(
         cursor: "pointer",
         backgroundColor: "transparent",
         ...typography.body1,
-        color: themeKey === "dark" ? palette.additional.gray[9] : "initial",
+        color: "TODO: FILL",
+          // themeKey === "dark" ? palette.additional.gray[9] : "initial",
         [breakpoints.down("md")]: {
-          color:
-            themeKey === "dark"
-              ? palette.additional.gray[9]
-              : palette.common.white.main,
+          color:"TODO: FILL",
+            // themeKey === "dark"
+            //   ? palette.additional.gray[9]
+            //   : palette.common.white.main,
         },
       }),
     }),

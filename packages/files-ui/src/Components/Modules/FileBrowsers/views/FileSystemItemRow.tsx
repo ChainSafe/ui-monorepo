@@ -70,10 +70,10 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: ITheme) => {
       justifyContent: "center",
       "& svg": {
         width: constants.generalUnit * 2.5,
-        fill:
-          themeKey === "dark"
-            ? palette.additional.gray[9]
-            : palette.additional.gray[8],
+        fill:"TODO: FILL",
+          // themeKey === "dark"
+          //   ? palette.additional.gray[9]
+          //   : palette.additional.gray[8],
       },
     }),
     folderIcon: {
@@ -136,10 +136,10 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: ITheme) => {
       width: 20,
       marginRight: constants.generalUnit * 1.5,
       "& svg": {
-        fill:
-          themeKey === "dark"
-            ? palette.additional.gray[9]
-            : palette.additional.gray[7],
+        fill:"TODO: FILL",
+          // themeKey === "dark"
+          //   ? palette.additional.gray[9]
+          //   : palette.additional.gray[7],
       },
     }),
     desktopRename: {
@@ -157,22 +157,25 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: ITheme) => {
     },
     dropdownIcon: ({ themeKey }: IStyleProps) => ({
       "& svg": {
-        fill: themeKey === "dark" ? palette.additional.gray[9] : "initial",
+        fill: "TODO: FILL",
+          // themeKey === "dark" ? palette.additional.gray[9] : "initial",
       },
     }),
     dropdownOptions: ({ themeKey }: IStyleProps) => ({
-      backgroundColor:
-        themeKey === "dark" ? palette.additional.gray[2] : "initial",
-      color: themeKey === "dark" ? palette.additional.gray[9] : "initial",
-      border:
-        themeKey === "dark"
-          ? `1px solid ${palette.additional.gray[5]}`
-          : "initial",
+      backgroundColor:"TODO: FILL",
+        // themeKey === "dark" ? palette.additional.gray[2] : "initial",
+      color: "TODO: FILL",
+        // themeKey === "dark" ? palette.additional.gray[9] : "initial",
+      border:"TODO: FILL",
+        // themeKey === "dark"
+        //   ? `1px solid ${palette.additional.gray[5]}`
+        //   : "initial",
     }),
     dropdownItem: ({ themeKey }: IStyleProps) => ({
-      backgroundColor:
-        themeKey === "dark" ? palette.additional.gray[1] : "initial",
-      color: themeKey === "dark" ? palette.additional.gray[9] : "initial",
+      backgroundColor:"TODO: FILL",
+        // themeKey === "dark" ? palette.additional.gray[1] : "initial",
+      color: "TODO: FILL",
+        // themeKey === "dark" ? palette.additional.gray[9] : "initial",
     }),
   })
 })

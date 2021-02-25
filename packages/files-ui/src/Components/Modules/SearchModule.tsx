@@ -92,38 +92,38 @@ const useStyles = makeStyles(
         },
       },
       resultsBox: ({ themeKey }: IStyleProps) => ({
-        backgroundColor:
-          themeKey === "dark"
-            ? palette.additional["gray"][2]
-            : palette.common.white.main,
+        backgroundColor:"TODO: FILL",
+          // themeKey === "dark"
+          //   ? palette.additional["gray"][2]
+          //   : palette.common.white.main,
         padding: constants.generalUnit * 1,
       }),
       resultBackDrop: ({ themeKey }: IStyleProps) => ({
         height: "100%",
-        backgroundColor:
-          themeKey === "dark"
-            ? palette.additional["gray"][2]
-            : palette.additional["gray"][9],
+        backgroundColor:"TODO: FILL",
+          // themeKey === "dark"
+          //   ? palette.additional["gray"][2]
+          //   : palette.additional["gray"][9],
         opacity: 0.7,
       }),
       resultHead: ({ themeKey }: IStyleProps) => ({
         padding: `${constants.generalUnit * 0.5}px ${
           constants.generalUnit * 1
         }px`,
-        color:
-          themeKey === "dark"
-            ? palette.additional["gray"][9]
-            : palette.additional["gray"][8],
+        color:"TODO: FILL",
+          // themeKey === "dark"
+          //   ? palette.additional["gray"][9]
+          //   : palette.additional["gray"][8],
       }),
       resultHeadFolder: ({ themeKey }: IStyleProps) => ({
         marginTop: constants.generalUnit * 0.5,
         padding: `${constants.generalUnit * 0.5}px  ${
           constants.generalUnit * 1
         }px`,
-        color:
-          themeKey === "dark"
-            ? palette.additional["gray"][9]
-            : palette.additional["gray"][8],
+        color:"TODO: FILL",
+          // themeKey === "dark"
+            // ? palette.additional["gray"][9]
+            // : palette.additional["gray"][8],
       }),
       boldFont: {
         fontWeight: 700,
@@ -133,20 +133,20 @@ const useStyles = makeStyles(
           constants.generalUnit * 1
         }px`,
         cursor: "pointer",
-        color:
-          themeKey === "dark"
-            ? palette.additional["gray"][9]
-            : palette.additional["gray"][8],
+        color:"TODO: FILL",
+          // themeKey === "dark"
+          //   ? palette.additional["gray"][9]
+          //   : palette.additional["gray"][8],
         "&:hover": {
           backgroundColor: palette.additional["gray"][4],
         },
       }),
       noResultsFound: ({ themeKey }: IStyleProps) => ({
         margin: `${constants.generalUnit}px 0`,
-        color:
-          themeKey === "dark"
-            ? palette.additional["gray"][9]
-            : palette.additional["gray"][7],
+        color:"TODO: FILL",
+          // themeKey === "dark"
+          //   ? palette.additional["gray"][9]
+          //   : palette.additional["gray"][7],
         [breakpoints.down("md")]: {
           textAlign: "center",
         },

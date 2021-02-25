@@ -31,9 +31,10 @@ const useStyles = makeStyles(
         [breakpoints.down("md")]: {},
       },
       modalInner: ({ themeKey }: IStyleProps) => ({
-        backgroundColor:
-          themeKey === "dark" ? palette.additional.gray[1] : "initial",
-        color: themeKey === "dark" ? palette.additional.gray[9] : "initial",
+        backgroundColor:"TODO: FILL",
+          // themeKey === "dark" ? palette.additional.gray[1] : "initial",
+        color: "TODO: FILL",
+          // themeKey === "dark" ? palette.additional.gray[9] : "initial",
         [breakpoints.down("md")]: {
           bottom:
             (constants?.mobileButtonHeight as number) + constants.generalUnit,
@@ -43,14 +44,14 @@ const useStyles = makeStyles(
         },
       }),
       copyButton: ({ themeKey }: IStyleProps) => ({
-        color:
-          themeKey === "dark"
-            ? palette.additional.gray[8]
-            : palette.common.white.main,
-        backgroundColor:
-          themeKey === "dark"
-            ? palette.additional.gray[1]
-            : palette.common.black.main,
+        color:"TODO: FILL",
+          // themeKey === "dark"
+          //   ? palette.additional.gray[8]
+          //   : palette.common.white.main,
+        backgroundColor:"TODO: FILL",
+          // themeKey === "dark"
+          //   ? palette.additional.gray[1]
+          //   : palette.common.black.main,
         flex: 1,
         [breakpoints.down("md")]: {
           margin: `${constants.generalUnit * 2}px`,
@@ -86,11 +87,12 @@ const useStyles = makeStyles(
         textAlign: "left",
       },
       infoContainer: ({ themeKey }: IStyleProps) => ({
-        borderTop: `1px solid ${
-          themeKey === "dark"
-            ? palette.additional["gray"][4]
-            : palette.additional["gray"][5]
-        }`,
+        borderTop: "TODO: FILL",
+        // `1px solid ${
+          // themeKey === "dark"
+          //   ? palette.additional["gray"][4]
+          //   : palette.additional["gray"][5]
+        // }`,
         // borderBottom: `1px solid ${palette.additional["gray"][5]}`,
         padding: `${constants.generalUnit * 2}px ${
           constants.generalUnit * 3

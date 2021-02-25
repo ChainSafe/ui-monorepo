@@ -44,12 +44,13 @@ const useStyles = makeStyles(
           left: constants.navWidth as number,
           opacity: 0,
 
-          backgroundColor:
-            themeKey === "light"
-              ? palette.common.white.main
-              : themeKey === "dark"
-              ? palette.additional["gray"][1]
-              : palette.common.white.main,
+          backgroundColor: "TODO: FILL",
+          // backgroundColor:
+          //   themeKey === "light"
+          //     ? palette.common.white.main
+          //     : themeKey === "dark"
+          //     ? palette.additional["gray"][1]
+          //     : palette.common.white.main,
 
           "& > *:first-child": {
             flex: "1 1 0",
@@ -132,22 +133,27 @@ const useStyles = makeStyles(
       },
       options: ({ themeKey }: IStyleProps) => ({
         backgroundColor:
-          themeKey === "dark" ? palette.additional.gray[2] : "initial",
-        color: themeKey === "dark" ? palette.additional.gray[9] : "initial",
-        border:
-          themeKey === "dark"
-            ? `1px solid ${palette.additional.gray[5]}`
-            : "initial",
+        "TODO: FILL",
+        color: "TODO: FILL",
+
+        // backgroundColor:
+        //   themeKey === "dark" ? palette.additional.gray[2] : "initial",
+        // color: themeKey === "dark" ? palette.additional.gray[9] : "initial",
+        border:"TODO: FILL",
+        //   themeKey === "dark"
+        //     ? `1px solid ${palette.additional.gray[5]}`
+        //     : "initial",
       }),
       menuItem: ({ themeKey }: IStyleProps) => ({
         width: 100,
         display: "flex",
         flexDirection: "row",
         alignItems: "center",
-        color:
-          themeKey === "dark"
-            ? palette.additional["gray"][10]
-            : palette.additional["gray"][8],
+        color: "TODO: FILL",
+        // color:
+        // themeKey === "dark"
+        //   ? palette.additional["gray"][10]
+        //   : palette.additional["gray"][8],
         "& svg": {
           width: constants.generalUnit * 2,
           height: constants.generalUnit * 2,
@@ -158,7 +164,8 @@ const useStyles = makeStyles(
       }),
       icon: ({ themeKey }: IStyleProps) => ({
         "& svg": {
-          fill: themeKey === "dark" ? palette.additional.gray[7] : "initial",
+          fill: "TODO: FILL",
+          // fill: themeKey === "dark" ? palette.additional.gray[7] : "initial",
         },
       }),
     })

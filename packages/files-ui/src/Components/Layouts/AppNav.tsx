@@ -50,12 +50,13 @@ const useStyles = makeStyles(
             }px`,
             top: 0,
             height: "100%",
-            backgroundColor:
-              themeKey === "light"
-                ? palette.additional["gray"][3]
-                : themeKey === "dark"
-                ? palette.additional["gray"][1]
-                : palette.additional["gray"][3],
+            // backgroundColor:
+            //   themeKey === "light"
+            //     ? palette.additional["gray"][3]
+            //     : themeKey === "dark"
+            //     ? palette.additional["gray"][1]
+            //     : palette.additional["gray"][3],
+            backgroundColor: "TODO: FILL",
             "&.active": {
               width: `${constants.navWidth}px`,
             },
@@ -174,27 +175,31 @@ const useStyles = makeStyles(
         transitionDuration: `${animation.transform}ms`,
         "& span": {
           transitionDuration: `${animation.transform}ms`,
-          color:
-            themeKey === "dark" ? palette.additional["gray"][7] : "initial",
+          // color:
+          //   themeKey === "dark" ? palette.additional["gray"][7] : "initial",
+          color: "TODO: FILL",
         },
         "&:hover": {
           "& span": {
-            color:
-              themeKey === "dark" ? palette.additional["gray"][9] : "initial",
+            // color:
+            //   themeKey === "dark" ? palette.additional["gray"][9] : "initial",
+            color: "TODO: FILL",
           },
           "& svg": {
-            fill:
-              themeKey === "dark" ? palette.additional["gray"][9] : "initial",
+            // fill:
+            //   themeKey === "dark" ? palette.additional["gray"][9] : "initial",
+            fill: "TODO: FILL",
           },
         },
         "& svg": {
           transitionDuration: `${animation.transform}ms`,
           width: constants.svgWidth as number,
           marginRight: constants.generalUnit * 2,
-          fill:
-            themeKey === "dark"
-              ? palette.additional["gray"][7]
-              : palette.additional["gray"][8],
+          // fill:
+          //   themeKey === "dark"
+          //     ? palette.additional["gray"][7]
+          //     : palette.additional["gray"][8],
+          fill: "TODO: FILL",
           [breakpoints.down("md")]: {
             fill: palette.additional["gray"][3],
           },

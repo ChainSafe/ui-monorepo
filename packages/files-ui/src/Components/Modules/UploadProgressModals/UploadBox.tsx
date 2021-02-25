@@ -50,7 +50,8 @@ const useStyles = makeStyles(
         display: "flex",
         alignItems: "center",
         "& svg": {
-          fill: themeKey === "dark" ? palette.additional.gray[9] : "initial",
+          fill: "TODO: FILL",
+            // themeKey === "dark" ? palette.additional.gray[9] : "initial",
         },
       }),
       marginBottom: {

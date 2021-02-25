@@ -37,18 +37,18 @@ const useStyles = makeStyles(
         [breakpoints.down("md")]: {},
       },
       modalInner: ({ themeKey }: IStyleProps) => ({
-        backgroundColor:
-          themeKey === "light"
-            ? palette.additional.gray[10]
-            : themeKey === "dark"
-            ? palette.additional.gray[1]
-            : palette.additional.gray[10],
-        color:
-          themeKey === "light"
-            ? palette.additional.gray[1]
-            : themeKey === "dark"
-            ? palette.additional.gray[9]
-            : palette.additional.gray[1],
+        backgroundColor:"TODO: FILL",
+          // themeKey === "light"
+          //   ? palette.additional.gray[10]
+          //   : themeKey === "dark"
+          //   ? palette.additional.gray[1]
+          //   : palette.additional.gray[10],
+        color:"TODO: FILL",
+          // themeKey === "light"
+          //   ? palette.additional.gray[1]
+          //   : themeKey === "dark"
+          //   ? palette.additional.gray[9]
+          //   : palette.additional.gray[1],
         [breakpoints.down("md")]: {
           bottom:
             (constants?.mobileButtonHeight as number) + constants.generalUnit,

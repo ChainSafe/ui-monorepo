@@ -119,21 +119,27 @@ const useStyles = makeStyles(
         flexDirection: "column",
         alignItems: "center",
         marginTop: "25vh",
-        color: themeKey === "dark" ? palette.additional.gray[7] : "",
+        color: "TODO: FILL",
+          // themeKey === "dark" ? palette.additional.gray[7] : "",
         "& svg": {
           maxWidth: 180,
           marginBottom: constants.generalUnit * 3,
           "& path": {
             "&:first-child": {
-              fill: themeKey === "dark" ? palette.additional.gray[2] : "",
+              fill:"TODO: FILL", 
+                // themeKey === "dark" ? palette.additional.gray[2] : "",
             },
             "&:nth-child(2)": {
-              stroke: themeKey === "dark" ? palette.additional.gray[2] : "",
-              fill: themeKey === "dark" ? "transparent" : "",
+              stroke: "TODO: FILL",
+                // themeKey === "dark" ? palette.additional.gray[2] : "",
+              fill: "TODO: FILL", 
+                // themeKey === "dark" ? "transparent" : "",
             },
             "&:last-child": {
-              fill: themeKey === "dark" ? palette.additional.gray[4] : "",
-              stroke: themeKey === "dark" ? palette.additional.gray[2] : "",
+              fill:"TODO: FILL", 
+                // themeKey === "dark" ? palette.additional.gray[4] : "",
+              stroke: "TODO: FILL",
+                // themeKey === "dark" ? palette.additional.gray[2] : "",
             },
           },
         },

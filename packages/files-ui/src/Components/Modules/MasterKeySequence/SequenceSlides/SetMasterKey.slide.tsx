@@ -79,12 +79,12 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: ITheme) =>
       marginBottom: constants.generalUnit,
     },
     link: ({ themeKey }: IStyleProps) => ({
-      color:
-        themeKey === "light"
-          ? palette.additional["gray"][1]
-          : themeKey === "dark"
-          ? palette.additional["gray"][10]
-          : palette.additional["gray"][1],
+      color:"TODO: FILL",
+        // themeKey === "light"
+        //   ? palette.additional["gray"][1]
+        //   : themeKey === "dark"
+        //   ? palette.additional["gray"][10]
+        //   : palette.additional["gray"][1],
     }),
   }),
 )

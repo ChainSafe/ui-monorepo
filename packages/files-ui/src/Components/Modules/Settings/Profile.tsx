@@ -89,8 +89,8 @@ const useStyles = makeStyles((theme: ITheme) =>
     },
     copyIcon: ({ themeKey }: IStyleProps) => ({
       fontSize: "14px",
-      fill:
-        themeKey === "dark" ? theme.palette.additional["gray"][9] : "initial",
+      fill:"TODO: FILL",
+        // themeKey === "dark" ? theme.palette.additional["gray"][9] : "initial",
       [theme.breakpoints.down("md")]: {
         fontSize: "18px",
         fill: theme.palette.additional["gray"][9],
