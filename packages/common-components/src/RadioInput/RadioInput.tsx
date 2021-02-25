@@ -14,12 +14,12 @@ const useStyles = makeStyles(
         paddingLeft: constants.generalUnit * 3,
         paddingRight: constants.generalUnit * 3,
         margin: `${constants.generalUnit}px 0`,
-        ...overrides?.RadioInput?.radioContainer,
+        ...overrides?.RadioInput?.radioContainer
       },
       radioInput: {
         display: "none",
         visibility: "hidden",
-        ...overrides?.RadioInput?.radioInput,
+        ...overrides?.RadioInput?.radioInput
       },
       radio: {
         border: `1px solid ${palette.additional["gray"][6]}`,
@@ -41,7 +41,7 @@ const useStyles = makeStyles(
           left: "50%",
           transitionDuration: `${animation.transform}ms`,
           transform: "translate(-50%,-50%) scale(0)",
-          borderRadius: "50%",
+          borderRadius: "50%"
         },
         "&.checked": {
           border: `1px solid ${palette.additional["blue"][6]}`,
@@ -57,27 +57,27 @@ const useStyles = makeStyles(
             left: "50%",
             transitionDuration: `${animation.transform}ms`,
             transform: "translate(-50%,-50%)",
-            borderRadius: "50%",
-          },
+            borderRadius: "50%"
+          }
         },
         "&.disabled": {
-          ...overrides?.RadioInput?.radio?.disabled,
-        },
+          ...overrides?.RadioInput?.radio?.disabled
+        }
       },
       label: {
         ...typography.body2,
-        ...overrides?.RadioInput?.label,
+        ...overrides?.RadioInput?.label
       },
       labelDisabled: {
         cursor: "not-allowed",
         color: palette.additional["gray"][6],
-        ...overrides?.RadioInput?.labelDisabled,
+        ...overrides?.RadioInput?.labelDisabled
       },
       error: {
         color: palette.error.main,
-        ...overrides?.RadioInput?.error,
-      },
-    }),
+        ...overrides?.RadioInput?.error
+      }
+    })
 )
 
 export interface IRadioInputProps extends React.HTMLProps<HTMLInputElement> {
@@ -109,7 +109,7 @@ const RadioInput: React.FC<IRadioInputProps> = ({
       className={clsx(
         classes.radioContainer,
         disabled && classes.labelDisabled,
-        className,
+        className
       )}
     >
       <input
@@ -125,7 +125,7 @@ const RadioInput: React.FC<IRadioInputProps> = ({
       <div
         className={clsx(classes.radio, {
           ["checked"]: checked,
-          ["disabled"]: disabled,
+          ["disabled"]: disabled
         })}
       />
       {label && (

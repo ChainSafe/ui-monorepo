@@ -2,12 +2,11 @@
 // This code adds a handler for arrays of files to be added under the same key
 
 const formDataHelper = (obj: any, formData?: FormData, namespace?: string) => {
-  let fd = formData || new FormData()
+  const fd = formData || new FormData()
   let formKey: string
 
-  for (let property in obj) {
-    //if (obj.hasOwnProperty(property) && obj[property]) {
-    if (obj.hasOwnProperty(property)) {
+  for (const property in obj) {
+    if (obj[property]) {
       if (namespace) {
         formKey = namespace + "[" + property + "]"
       } else {

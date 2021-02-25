@@ -7,7 +7,7 @@ export interface ITableBodyProps {
 
 const TableBody: React.FC<ITableBodyProps> = ({
   children,
-  className,
+  className
 }: ITableBodyProps) => {
   return <tbody className={className}>{children}</tbody>
 }

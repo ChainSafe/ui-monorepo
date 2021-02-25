@@ -111,14 +111,14 @@ interface IThemeConfig {
 }
 
 const createThemeConfig = (
-  themeConfig?: DeepPartial<IThemeConfig>,
+  themeConfig?: DeepPartial<IThemeConfig>
 ): IThemeConfig => {
   // No conversion or mapping needed for now
   return {
     ...(mergeDeep(
       DefaultThemeConfig,
-      themeConfig as IThemeConfig,
-    ) as IThemeConfig),
+      themeConfig as IThemeConfig
+    ) as IThemeConfig)
   }
 }
 
@@ -132,5 +132,5 @@ export {
   IBreakpoints,
   IConstants,
   IAnimation,
-  IFontWeights,
+  IFontWeights
 }

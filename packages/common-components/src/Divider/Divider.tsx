@@ -13,7 +13,7 @@ const useStyles = makeStyles(({ palette, zIndex, overrides }: ITheme) =>
       zIndex: zIndex?.background,
       "& span": {
         display: "block",
-        margin: "0 5px",
+        margin: "0 5px"
       },
       "&:before, &:after": {
         height: 1,
@@ -21,16 +21,16 @@ const useStyles = makeStyles(({ palette, zIndex, overrides }: ITheme) =>
         flex: "1 1 0",
         backgroundColor: palette.additional["gray"][5],
         display: "block",
-        content: "''",
+        content: "''"
       },
-      ...overrides?.Divider?.root,
-    },
-  }),
+      ...overrides?.Divider?.root
+    }
+  })
 )
 
 const Divider: React.FC<{ children?: ReactNode; className?: string }> = ({
   children,
-  className,
+  className
 }) => {
   const classes = useStyles()
   return <div className={clsx(classes.root, className)}>{children}</div>

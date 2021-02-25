@@ -10,7 +10,7 @@ export interface ILoadingProps {
 const Loading: React.FC<ILoadingProps> = ({
   type = "primary",
   size = 64,
-  className,
+  className
 }) => {
   const theme: ITheme = useTheme()
   return (
@@ -23,8 +23,8 @@ const Loading: React.FC<ILoadingProps> = ({
               type === "primary"
                 ? theme.palette.primary.main
                 : type === "dark"
-                ? theme.palette.common.black.main
-                : theme.palette.additional["gray"][5]
+                  ? theme.palette.common.black.main
+                  : theme.palette.additional["gray"][5]
             }
           />
           <stop

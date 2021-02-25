@@ -10,13 +10,13 @@ const useStyles = makeStyles(
         padding: constants.generalUnit * 2,
         borderBottom: `1px solid ${palette["gray"][4]}`,
         ...typography.h5,
-        ...overrides?.Card?.header?.root,
+        ...overrides?.Card?.header?.root
       },
       dense: {
         padding: constants.generalUnit,
-        ...overrides?.Card?.header?.dense,
-      },
-    }),
+        ...overrides?.Card?.header?.dense
+      }
+    })
 )
 
 export interface ICardHeader {
@@ -30,7 +30,7 @@ const CardHeader: React.FC<ICardHeader> = ({
   className,
   children,
   title,
-  dense = false,
+  dense = false
 }: ICardHeader) => {
   const classes = useStyles()
   return (

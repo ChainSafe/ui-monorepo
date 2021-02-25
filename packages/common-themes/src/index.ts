@@ -1,6 +1,6 @@
 import {
   useThemeSwitcher,
-  ThemeSwitcher,
+  ThemeSwitcher
 } from "./Provider/ThemeSwitcherContext"
 import { IDefaultPalette } from "./Defaults/ColorPalette"
 
@@ -14,14 +14,14 @@ export {
   IConstants,
   IAnimation,
   IFontWeights,
-  ITypography,
+  ITypography
 } from "./Create/CreateTheme"
 
 export {
   ThemeProvider,
   createStyles,
   makeStyles,
-  useTheme,
+  useTheme
 } from "@material-ui/styles"
 
 export { useThemeSwitcher, ThemeSwitcher, IDefaultPalette }

@@ -6,33 +6,36 @@ import { HomeIcon } from "../Icons"
 import { TextInput, FormikTextInput, InputState } from "../TextInput"
 import { Formik, Form } from "formik"
 import { Button } from "../Button"
+import { SizeOption } from "./types"
 
 export default {
   title: "TextInput",
   component: TextInput,
   excludeStories: /.*Data$/,
-  decorators: [withKnobs],
+  decorators: [withKnobs]
 }
 
 const inputStateOptions: InputState[] = [
   "error",
   "normal",
   "success",
-  "warning",
+  "warning"
 ]
 
-const sizeOptions: ["large", "medium", "small"] = ["large", "medium", "small"]
-const typeOptions: ["text", "email", "password", "url", "search"] = [
+const sizeOptions: SizeOption[] = ["large", "medium", "small"]
+
+type TypeOption = "text" | "email" | "password" | "url" | "search"
+const typeOptions: TypeOption[] = [
   "text",
   "email",
   "password",
   "url",
-  "search",
+  "search"
 ]
 
 export const actionsData = {
   onChange: action("onChange"),
-  onFormSubmit: action("Submit Form"),
+  onFormSubmit: action("Submit Form")
 }
 
 export const NoIconStory = (): React.ReactNode => (
@@ -95,7 +98,7 @@ export const FormikStory = (): React.ReactNode => {
   return (
     <Formik
       initialValues={{
-        text: "Initial value of form field",
+        text: "Initial value of form field"
       }}
       onSubmit={(values: any) => actionsData.onFormSubmit(values)}
     >

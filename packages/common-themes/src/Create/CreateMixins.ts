@@ -6,7 +6,7 @@ type MixinConfig = Record<string, any>
 const createMixins = (additionalMixins?: MixinConfig): MixinConfig => {
   // No transforms required yet
   return {
-    ...mergeDeep(DefaultMixins, additionalMixins as MixinConfig),
+    ...mergeDeep(DefaultMixins, additionalMixins as MixinConfig)
   }
 }
 

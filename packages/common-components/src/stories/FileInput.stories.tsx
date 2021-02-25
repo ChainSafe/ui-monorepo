@@ -9,11 +9,11 @@ export default {
   title: "FileInput",
   component: FileInput,
   excludeStories: /.*Data$/,
-  decorators: [withKnobs],
+  decorators: [withKnobs]
 }
 
 export const actionsData = {
-  onFormSubmit: action("FormSubmit"),
+  onFormSubmit: action("FormSubmit")
 }
 
 const acceptOptions = [
@@ -22,7 +22,7 @@ const acceptOptions = [
   "audio/*",
   "application/*",
   ".pdf",
-  ".jpg",
+  ".jpg"
 ]
 
 export const Default = (): React.ReactNode => {
@@ -31,7 +31,7 @@ export const Default = (): React.ReactNode => {
   return (
     <Formik
       initialValues={{
-        uploadedFiles: [],
+        uploadedFiles: []
       }}
       onSubmit={(values) => actionsData.onFormSubmit(values)}
     >

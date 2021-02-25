@@ -6,11 +6,11 @@ import { action } from "@storybook/addon-actions"
 export default {
   title: "HamburgerMenu",
   component: HamburgerMenu,
-  decorators: [withKnobs],
+  decorators: [withKnobs]
 }
 
 const actionsData = {
-  onClick: action("onClickButton"),
+  onClick: action("onClickButton")
 }
 
 export const HamburgerMenuDemo = (): React.ReactNode => {

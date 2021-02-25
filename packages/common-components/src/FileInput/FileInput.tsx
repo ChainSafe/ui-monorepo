@@ -27,17 +27,17 @@ const useStyles = makeStyles(({ constants, palette, overrides }: ITheme) =>
           paddingRight: constants.generalUnit,
           paddingBottom: constants.generalUnit,
           cursor: "pointer",
-          backgroundColor: palette.additional["gray"][2],
+          backgroundColor: palette.additional["gray"][2]
         },
         "&.scrollbar": {
           maxHeight: "80vh",
           marginTop: 0,
-          marginBottom: 0,
-        },
+          marginBottom: 0
+        }
       },
       marginBottom: "0 !important",
       outline: "none",
-      ...overrides?.FileInput?.root,
+      ...overrides?.FileInput?.root
     },
     pending: {
       cursor: "pointer",
@@ -48,22 +48,22 @@ const useStyles = makeStyles(({ constants, palette, overrides }: ITheme) =>
       color: palette.additional["gray"][8],
       padding: `${constants.generalUnit * 4}px 0 !important`,
       "& svg": {
-        fill: palette.additional["gray"][8],
+        fill: palette.additional["gray"][8]
       },
       "& > *:first-child": {
-        marginBottom: constants.generalUnit,
+        marginBottom: constants.generalUnit
       },
-      ...overrides?.FileInput?.pending,
+      ...overrides?.FileInput?.pending
     },
     filesDropped: {
       "& > div": {
-        textAlign: "start",
+        textAlign: "start"
       },
-      ...overrides?.FileInput?.filesDropped,
+      ...overrides?.FileInput?.filesDropped
     },
     error: {
       color: palette.error.main,
-      ...overrides?.FileInput?.error,
+      ...overrides?.FileInput?.error
     },
     item: {
       display: "flex",
@@ -71,23 +71,23 @@ const useStyles = makeStyles(({ constants, palette, overrides }: ITheme) =>
       alignItems: "center",
       justifyContent: "flex-start",
       "& svg": {
-        height: "100%",
+        height: "100%"
       },
       "& > *:first-child": {
-        marginRight: constants.generalUnit,
+        marginRight: constants.generalUnit
       },
-      ...overrides?.FileInput?.item,
+      ...overrides?.FileInput?.item
     },
     itemText: {
-      flex: "1 1 0",
+      flex: "1 1 0"
     },
     crossIcon: {
-      backgroundColor: palette.primary.hover,
+      backgroundColor: palette.primary.hover
     },
     addFilesText: {
-      marginLeft: constants.generalUnit,
-    },
-  }),
+      marginLeft: constants.generalUnit
+    }
+  })
 )
 
 interface IFileInputProps extends DropzoneOptions {
@@ -127,33 +127,33 @@ const FileInput: React.FC<IFileInputProps> = ({
 
   useEffect(() => {
     onFileNumberChange && onFileNumberChange(value.length)
-  }, [value.length])
+  }, [onFileNumberChange, value.length])
 
   const onDrop = useCallback(
     async (acceptedFiles: File[], fileRejections: FileRejection[]) => {
       const filtered = acceptedFiles.filter((file) =>
-        maxFileSize ? file.size <= maxFileSize : true,
+        maxFileSize ? file.size <= maxFileSize : true
       )
       setErrors([])
       if (showPreviews) {
         setPreviews(
           filtered.map((file: any) =>
             Object.assign(file, {
-              preview: URL.createObjectURL(file),
-            }),
-          ),
+              preview: URL.createObjectURL(file)
+            })
+          )
         )
       }
       helpers.setValue([...value, ...filtered])
 
       if (fileRejections.length > 0) {
         const fileDropRejectionErrors = fileRejections.map((fr) =>
-          fr.errors.map((fre) => fre.message),
+          fr.errors.map((fre) => fre.message)
         )
         setErrors(errors.concat(fileDropRejectionErrors))
       }
     },
-    [value],
+    [errors, helpers, maxFileSize, showPreviews, value]
   )
 
   useEffect(() => {
@@ -165,12 +165,12 @@ const FileInput: React.FC<IFileInputProps> = ({
     noDrag: variant === "filepicker",
     noClick: variant === "filepicker",
     noKeyboard: variant === "filepicker",
-    ...props,
+    ...props
   }
 
   const { getRootProps, getInputProps, open } = useDropzone({
     onDrop,
-    ...dropZoneProps,
+    ...dropZoneProps
   })
 
   const removeItem = (i: number) => {

@@ -3,14 +3,14 @@ import {
   Toaster,
   ToasterProvider,
   useToaster,
-  AppearanceTypes,
+  AppearanceTypes
 } from "../Toaster"
 import { withKnobs, number, select } from "@storybook/addon-knobs"
 
 export default {
   title: "Toaster",
   component: Toaster,
-  decorators: [withKnobs],
+  decorators: [withKnobs]
 }
 
 export const ToasterWrapper: React.FC = () => {
@@ -31,7 +31,7 @@ const ToasterDemo: React.FC = () => {
     addToastMessage({
       appearance,
       message: "Update successful",
-      description: "Your updates are complete",
+      description: "Your updates are complete"
     })
   }
 
@@ -40,7 +40,7 @@ const ToasterDemo: React.FC = () => {
       <button
         onClick={() =>
           onAddToast(
-            select("appearance", ["success", "error", "warning"], "success"),
+            select("appearance", ["success", "error", "warning"], "success")
           )
         }
       >

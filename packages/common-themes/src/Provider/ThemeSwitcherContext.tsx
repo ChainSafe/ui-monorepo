@@ -12,7 +12,7 @@ type ThemeSwitcherContext = {
   themeKey: string
   availableThemes: string[]
   setTheme(themeName: string): void
-}
+};
 
 const ThemeSwitcherContext = React.createContext<
   ThemeSwitcherContext | undefined
@@ -21,11 +21,11 @@ const ThemeSwitcherContext = React.createContext<
 type ThemeSwitcherProps = {
   children: React.ReactNode
   themes: Record<string, ITheme>
-}
+};
 
 const ThemeSwitcher: React.FC<ThemeSwitcherProps> = ({
   children,
-  themes,
+  themes
 }: ThemeSwitcherProps) => {
   const breakpoints = createBreakpoints({})
   const desktop = useMediaQuery(breakpoints.up("md"))
@@ -38,7 +38,7 @@ const ThemeSwitcher: React.FC<ThemeSwitcherProps> = ({
         desktop: desktop,
         themeKey: current,
         availableThemes: Object.keys(themes),
-        setTheme: setCurrent,
+        setTheme: setCurrent
       }}
     >
       <ThemeProvider theme={themes[current]}>{children}</ThemeProvider>
@@ -50,7 +50,7 @@ const useThemeSwitcher = () => {
   const context = React.useContext(ThemeSwitcherContext)
   if (context == undefined) {
     throw new Error(
-      "useThemeSwitcher should be called within Theme Context provider",
+      "useThemeSwitcher should be called within Theme Context provider"
     )
   }
 

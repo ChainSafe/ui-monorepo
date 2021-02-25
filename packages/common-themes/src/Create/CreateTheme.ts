@@ -6,7 +6,7 @@ import createThemeConfig, {
   IBreakpoints,
   IFontWeights,
   IConstants,
-  ITypography,
+  ITypography
 } from "./CreateThemeConfig"
 import createMixins, { MixinConfig } from "./CreateMixins"
 import { DefaultGlobalStyling } from "../Defaults/GlobalStyling"
@@ -31,10 +31,10 @@ const createTheme = (themeProps?: ICreateThemeProps): ITheme => {
     globalStyling: {
       "@global": {
         ...DefaultGlobalStyling,
-        ...themeProps?.globalStyling,
-      },
+        ...themeProps?.globalStyling
+      }
     },
-    mixins: createMixins(themeProps?.mixins),
+    mixins: createMixins(themeProps?.mixins)
   }
 }
 
@@ -49,5 +49,5 @@ export {
   IBreakpoints,
   IConstants,
   IFontWeights,
-  ITypography,
+  ITypography
 }
