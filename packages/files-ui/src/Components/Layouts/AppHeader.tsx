@@ -218,9 +218,7 @@ const AppHeader: React.FC<IAppHeader> = ({
                         <div className={classes.menuItem}>
                           {themeKey === "dark" ? <SunSvg /> : <MoonSvg />}
                           <Typography>
-                            <Trans>
-                              {themeKey === "dark" ? "Light mode" : "Dark mode"}
-                            </Trans>
+                            {themeKey === "dark" ? <Trans>Light mode</Trans> : <Trans>Dark mode</Trans>}
                           </Typography>
                         </div>
                       ),

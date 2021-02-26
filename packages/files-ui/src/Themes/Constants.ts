@@ -23,6 +23,10 @@ export interface UI_COLORS extends Partial<IConstants> {
     menuItemTextColor: string
     iconColor: string
   }
+  modalDefault: {
+    fadebackground: string
+    background: string
+  }
   nav: {
     backgroundColor: string
     mobileBackgroundColor: string

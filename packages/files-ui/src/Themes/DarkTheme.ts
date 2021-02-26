@@ -162,6 +162,11 @@ export const darkTheme = createTheme({
         main: "var(--gray10)",
         hover: "#000",
       },
+      common: {
+        black: {
+          main: "var(--gray1)"
+        }
+      },  
       additional: {
         blue: {
           1: "var(--blue1)",
@@ -324,6 +329,10 @@ export const darkTheme = createTheme({
     constants: {
       ...UI_CONSTANTS,
       ...({
+        modalDefault: {
+          fadebackground: "var(--gray2)",
+          background: "var(--gray2)",
+        },
         header: {
           rootBackground: "var(--gray1)" ,
           optionsBackground: "var(--gray2)",
@@ -342,7 +351,7 @@ export const darkTheme = createTheme({
           itemIconColorHover: "var(--gray9)",
         },
         createFolder: {
-          backgroundColor: "var(--gray1)",
+          backgroundColor: "var(--gray2)",
           color: "var(--gray9)"
         },
         previewModal: {
@@ -366,18 +375,18 @@ export const darkTheme = createTheme({
           noResults: "var(--gray9)"
         },
         uploadModal: {
-          background: "var(--gray1)",
+          background: "var(--gray2)",
           color: "var(--gray9)"
         },
         fileInfoModal: {
-          background: "var(--gray1)",
+          background: "var(--gray2)",
           color: "var(--gray9)",
           copyButtonBackground: "var(--gray1)",
           copyButtonColor: "var(--gray8)",
           infoContainerBorderTop: "var(--gray4)"
         },
         moveFileModal: {
-          background: "var(--gray1)",
+          background: "var(--gray2)",
           color: "var(--gray9)"
         },
         filesTable: {
@@ -464,6 +473,10 @@ export const darkTheme = createTheme({
       Button: {
         variants: {
           primary: {
+            root: {
+              backgroundColor: "var(--gray4)",
+              color: "var(--gray3)"
+            },  
             active: {
               color: "var(--gray3)",
               "& svg": {

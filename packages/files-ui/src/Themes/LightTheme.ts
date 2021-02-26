@@ -16,9 +16,13 @@ export const lightTheme = createTheme({
     constants: {
       ...UI_CONSTANTS,
       ...({
+        modalDefault: {
+          fadebackground: "var(--gray10)",
+          background: "var(--gray10)",
+        },
         header: {
           rootBackground: "var(--gray1)",
-          optionsBackground: "initial",
+          optionsBackground: "var(--gray1)",
           optionsTextColor: "initial",
           optionsBorder: "initial",
           menuItemTextColor: "var(--gray8)",

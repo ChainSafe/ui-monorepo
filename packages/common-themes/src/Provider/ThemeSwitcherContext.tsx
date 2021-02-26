@@ -56,6 +56,13 @@ const ThemeSwitcher: React.FC<ThemeSwitcherProps> = ({
     if (canUseLocalStorage && current != "") {
       localStorage.setItem(storageKey, current)
     }
+    
+    // Update CSS vars 
+    if (current != "" && themes[current].globalStyling["@global"][":root"]) {
+      Object.keys(themes[current].globalStyling["@global"][":root"]).map(
+        key => document.documentElement.style.setProperty(key, themes[current].globalStyling["@global"][":root"][key])
+      )
+    }
   }, [current])
 
   return (

@@ -83,14 +83,6 @@ const useStyles = makeStyles(
       button: {
         width: 240,
         marginBottom: constants.generalUnit * 2,
-        [breakpoints.up("md")]: {
-          backgroundColor: palette.common.black.main,
-          color: palette.common.white.main,
-        },
-        [breakpoints.down("md")]: {
-          backgroundColor: palette.common.black.main,
-          color: palette.common.white.main,
-        },
       },
       controls: {
         display: "flex",

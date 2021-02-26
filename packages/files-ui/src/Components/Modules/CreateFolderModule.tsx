@@ -63,6 +63,7 @@ const useStyles = makeStyles(
         lineHeight: "22px",
       },
       heading: {
+        color: (constants as UI_COLORS).createFolder.color,
         fontWeight: typography.fontWeight.semibold,
         textAlign: "center",
         marginBottom: constants.generalUnit * 4,
