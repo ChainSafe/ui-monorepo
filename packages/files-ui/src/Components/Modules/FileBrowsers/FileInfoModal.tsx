@@ -18,10 +18,7 @@ import {
   Typography,
 } from "@chainsafe/common-components"
 import clsx from "clsx"
-
-interface IStyleProps {
-  themeKey: string
-}
+import { UI_COLORS } from "../../../Themes/Constants"
 
 const useStyles = makeStyles(
   ({ breakpoints, constants, palette, typography, zIndex }: ITheme) => {
@@ -30,11 +27,9 @@ const useStyles = makeStyles(
         zIndex: zIndex?.blocker,
         [breakpoints.down("md")]: {},
       },
-      modalInner: ({ themeKey }: IStyleProps) => ({
-        backgroundColor:"TODO: FILL",
-          // themeKey === "dark" ? palette.additional.gray[1] : "initial",
-        color: "TODO: FILL",
-          // themeKey === "dark" ? palette.additional.gray[9] : "initial",
+      modalInner: {
+        backgroundColor: (constants as UI_COLORS).fileInfoModal.background,
+        color: (constants as UI_COLORS).fileInfoModal.color,
         [breakpoints.down("md")]: {
           bottom:
             (constants?.mobileButtonHeight as number) + constants.generalUnit,
@@ -42,21 +37,15 @@ const useStyles = makeStyles(
           borderTopRightRadius: `${constants.generalUnit * 1.5}px`,
           maxWidth: `${breakpoints.width("md")}px !important`,
         },
-      }),
-      copyButton: ({ themeKey }: IStyleProps) => ({
-        color:"TODO: FILL",
-          // themeKey === "dark"
-          //   ? palette.additional.gray[8]
-          //   : palette.common.white.main,
-        backgroundColor:"TODO: FILL",
-          // themeKey === "dark"
-          //   ? palette.additional.gray[1]
-          //   : palette.common.black.main,
+      },
+      copyButton: {
+        backgroundColor: (constants as UI_COLORS).fileInfoModal.copyButtonBackground,
+        color: (constants as UI_COLORS).fileInfoModal.color,
         flex: 1,
         [breakpoints.down("md")]: {
           margin: `${constants.generalUnit * 2}px`,
         },
-      }),
+      },
       closeButton: {
         flex: 1,
         [breakpoints.down("md")]: {
@@ -86,18 +75,12 @@ const useStyles = makeStyles(
         fontWeight: typography.fontWeight.semibold,
         textAlign: "left",
       },
-      infoContainer: ({ themeKey }: IStyleProps) => ({
-        borderTop: "TODO: FILL",
-        // `1px solid ${
-          // themeKey === "dark"
-          //   ? palette.additional["gray"][4]
-          //   : palette.additional["gray"][5]
-        // }`,
-        // borderBottom: `1px solid ${palette.additional["gray"][5]}`,
+      infoContainer: {
+        borderTop: (constants as UI_COLORS).fileInfoModal.infoContainerBorderTop,
         padding: `${constants.generalUnit * 2}px ${
           constants.generalUnit * 3
         }px`,
-      }),
+      },
       infoBox: {
         paddingLeft: constants.generalUnit,
       },
@@ -137,9 +120,7 @@ const FileInfoModal: React.FC<IFileInfoModuleProps> = ({
   close,
 }: IFileInfoModuleProps) => {
   const { themeKey } = useThemeSwitcher()
-  const classes = useStyles({
-    themeKey,
-  })
+  const classes = useStyles()
 
   const { getFileInfo } = useDrive()
   const [loadingFileInfo, setLoadingInfo] = useState(false)

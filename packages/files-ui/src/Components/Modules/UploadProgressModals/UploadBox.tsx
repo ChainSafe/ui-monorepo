@@ -3,7 +3,6 @@ import {
   createStyles,
   ITheme,
   makeStyles,
-  useThemeSwitcher,
 } from "@chainsafe/common-theme"
 import { UploadProgress } from "../../../Contexts/DriveContext"
 import {
@@ -14,10 +13,7 @@ import {
 } from "@chainsafe/common-components"
 import clsx from "clsx"
 import { Trans } from "@lingui/macro"
-
-interface IStyleProps {
-  themeKey: string
-}
+import { UI_COLORS } from "../../../Themes/Constants"
 
 const useStyles = makeStyles(
   ({ constants, palette, animation, breakpoints }: ITheme) => {
@@ -46,14 +42,13 @@ const useStyles = makeStyles(
         from: { transform: "translate(0, 100%)" },
         to: { transform: "translate(0, 0)" },
       },
-      contentContainer: ({ themeKey }: IStyleProps) => ({
+      contentContainer: {
         display: "flex",
         alignItems: "center",
         "& svg": {
-          fill: "TODO: FILL",
-            // themeKey === "dark" ? palette.additional.gray[9] : "initial",
+          fill: (constants as UI_COLORS).uploadAlert.icon,
         },
-      }),
+      },
       marginBottom: {
         marginBottom: constants.generalUnit,
       },
@@ -77,10 +72,7 @@ const UploadBox: React.FC<IUploadBox> = (props) => {
     progress,
     errorMessage,
   } = uploadInProgress
-  const { themeKey } = useThemeSwitcher()
-  const classes = useStyles({
-    themeKey,
-  })
+  const classes = useStyles()
 
   return (
     <>

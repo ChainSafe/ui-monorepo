@@ -4,7 +4,6 @@ import {
   createStyles,
   ITheme,
   makeStyles,
-  useThemeSwitcher,
 } from "@chainsafe/common-theme"
 import React, { useCallback, useState } from "react"
 import { Formik, Form } from "formik"
@@ -12,10 +11,7 @@ import { array, object } from "yup"
 import CustomModal from "../Elements/CustomModal"
 import { Trans, t } from "@lingui/macro"
 import clsx from "clsx"
-
-interface IStyleProps {
-  themeKey: string
-}
+import { UI_COLORS } from "../../Themes/Constants"
 
 const useStyles = makeStyles(({ constants, palette, breakpoints }: ITheme) =>
   createStyles({
@@ -29,23 +25,13 @@ const useStyles = makeStyles(({ constants, palette, breakpoints }: ITheme) =>
         padding: constants.generalUnit * 2,
       },
     },
-    modalInner: ({ themeKey }: IStyleProps) => ({
-      backgroundColor:"TODO: FILL",
-        // themeKey === "light"
-        //   ? palette.additional.gray[10]
-        //   : themeKey === "dark"
-        //   ? palette.additional.gray[1]
-        //   : palette.additional.gray[10],
-      color:"TODO: FILL",
-        // themeKey === "light"
-        //   ? palette.additional.gray[1]
-        //   : themeKey === "dark"
-        //   ? palette.additional.gray[9]
-        //   : palette.additional.gray[1],
+    modalInner: {
+      backgroundColor: (constants as UI_COLORS).uploadModal.background,
+      color: (constants as UI_COLORS).uploadModal.color,
       [breakpoints.down("md")]: {
         maxWidth: `${breakpoints.width("md")}px !important`,
       },
-    }),
+    },
     input: {
       marginBottom: constants.generalUnit * 2,
     },
@@ -76,9 +62,7 @@ const UploadFileModule: React.FC<IUploadFileModuleProps> = ({
   modalOpen,
   close,
 }: IUploadFileModuleProps) => {
-  const { themeKey } = useThemeSwitcher()
-
-  const classes = useStyles({ themeKey })
+  const classes = useStyles()
 
   const [isDoneDisabled, setIsDoneDisabled] = useState(true)
   const { uploadFiles, currentPath } = useDrive()

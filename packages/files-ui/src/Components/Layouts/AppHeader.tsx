@@ -21,15 +21,12 @@ import { ROUTE_LINKS } from "../FilesRoutes"
 import SearchModule from "../Modules/SearchModule"
 import { Trans } from "@lingui/macro"
 import { useDrive } from "../../Contexts/DriveContext"
-
-interface IStyleProps {
-  themeKey: string
-}
+import { UI_COLORS } from "../../Themes/Constants"
 
 const useStyles = makeStyles(
   ({ palette, animation, breakpoints, constants, zIndex }: ITheme) => {
     return createStyles({
-      root: ({ themeKey }: IStyleProps) => ({
+      root: {
         position: "fixed",
         display: "flex",
         flexDirection: "row",
@@ -44,13 +41,7 @@ const useStyles = makeStyles(
           left: constants.navWidth as number,
           opacity: 0,
 
-          backgroundColor: "TODO: FILL",
-          // backgroundColor:
-          //   themeKey === "light"
-          //     ? palette.common.white.main
-          //     : themeKey === "dark"
-          //     ? palette.additional["gray"][1]
-          //     : palette.common.white.main,
+          backgroundColor: (constants as UI_COLORS).header.rootBackground,
 
           "& > *:first-child": {
             flex: "1 1 0",
@@ -79,7 +70,7 @@ const useStyles = makeStyles(
             zIndex: zIndex?.layer1 as number,
           },
         },
-      }),
+      },
       hamburgerMenu: {
         position: "absolute",
       },
@@ -131,29 +122,17 @@ const useStyles = makeStyles(
           "&.active": {},
         },
       },
-      options: ({ themeKey }: IStyleProps) => ({
-        backgroundColor:
-        "TODO: FILL",
-        color: "TODO: FILL",
-
-        // backgroundColor:
-        //   themeKey === "dark" ? palette.additional.gray[2] : "initial",
-        // color: themeKey === "dark" ? palette.additional.gray[9] : "initial",
-        border:"TODO: FILL",
-        //   themeKey === "dark"
-        //     ? `1px solid ${palette.additional.gray[5]}`
-        //     : "initial",
-      }),
-      menuItem: ({ themeKey }: IStyleProps) => ({
+      options: {
+        backgroundColor: (constants as UI_COLORS).header.optionsBackground,
+        color: (constants as UI_COLORS).header.optionsTextColor,
+        border: (constants as UI_COLORS).header.optionsTextColor,
+      },
+      menuItem: {
         width: 100,
         display: "flex",
         flexDirection: "row",
         alignItems: "center",
-        color: "TODO: FILL",
-        // color:
-        // themeKey === "dark"
-        //   ? palette.additional["gray"][10]
-        //   : palette.additional["gray"][8],
+        color: (constants as UI_COLORS).header.menuItemTextColor,
         "& svg": {
           width: constants.generalUnit * 2,
           height: constants.generalUnit * 2,
@@ -161,13 +140,12 @@ const useStyles = makeStyles(
           fill: palette.additional["gray"][7],
           stroke: palette.additional["gray"][7],
         },
-      }),
-      icon: ({ themeKey }: IStyleProps) => ({
+      },
+      icon: {
         "& svg": {
-          fill: "TODO: FILL",
-          // fill: themeKey === "dark" ? palette.additional.gray[7] : "initial",
+          fill: (constants as UI_COLORS).header.iconColor,
         },
-      }),
+      },
     })
   },
 )
@@ -183,7 +161,7 @@ const AppHeader: React.FC<IAppHeader> = ({
 }: IAppHeader) => {
   const { themeKey, setTheme, desktop } = useThemeSwitcher()
 
-  const classes = useStyles({ themeKey })
+  const classes = useStyles()
 
   const { isLoggedIn, logout, secured } = useImployApi()
   const { isMasterPasswordSet } = useDrive()

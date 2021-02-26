@@ -2,7 +2,6 @@ import {
   createStyles,
   ITheme,
   makeStyles,
-  useThemeSwitcher,
 } from "@chainsafe/common-theme"
 import React from "react"
 import {
@@ -18,10 +17,7 @@ import { ROUTE_LINKS } from "../../../FilesRoutes"
 import { useDrive } from "../../../../Contexts/DriveContext"
 import zxcvbn from "zxcvbn"
 import StrengthIndicator from "./StrengthIndicator"
-
-interface IStyleProps {
-  themeKey: string
-}
+import { UI_COLORS } from "../../../../Themes/Constants"
 
 const useStyles = makeStyles(({ breakpoints, constants, palette }: ITheme) =>
   createStyles({
@@ -78,14 +74,9 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: ITheme) =>
       color: palette.additional["gray"][8],
       marginBottom: constants.generalUnit,
     },
-    link: ({ themeKey }: IStyleProps) => ({
-      color:"TODO: FILL",
-        // themeKey === "light"
-        //   ? palette.additional["gray"][1]
-        //   : themeKey === "dark"
-        //   ? palette.additional["gray"][10]
-        //   : palette.additional["gray"][1],
-    }),
+    link: {
+      color: (constants as UI_COLORS).masterkey.link,
+    },
   }),
 )
 
@@ -96,9 +87,7 @@ interface ISetMasterKeySlide {
 const SetMasterKeySlide: React.FC<ISetMasterKeySlide> = ({
   className,
 }: ISetMasterKeySlide) => {
-  const { themeKey } = useThemeSwitcher()
-
-  const classes = useStyles({ themeKey })
+  const classes = useStyles()
   const { secureDrive } = useDrive()
 
   const masterKeyValidation = yup.object().shape({

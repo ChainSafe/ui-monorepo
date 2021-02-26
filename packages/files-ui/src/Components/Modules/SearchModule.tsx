@@ -21,10 +21,7 @@ import { useDrive, SearchEntry } from "../../Contexts/DriveContext"
 import { CONTENT_TYPES } from "../../Utils/Constants"
 import { getParentPathFromFilePath } from "../../Utils/pathUtils"
 import { Trans } from "@lingui/macro"
-
-interface IStyleProps {
-  themeKey: string
-}
+import { UI_COLORS } from "../../Themes/Constants"
 
 const useStyles = makeStyles(
   ({ breakpoints, palette, constants, animation, zIndex, shadows }: ITheme) =>
@@ -49,12 +46,12 @@ const useStyles = makeStyles(
           },
         },
       },
-      searchBar: ({ themeKey }: IStyleProps) => ({
+      searchBar: {
         [breakpoints.down("md")]: {
           height: "100%",
           width: "100%",
         },
-      }),
+      },
       backButton: {
         backgroundColor: "transparent",
         zIndex: zIndex?.layer1,
@@ -91,66 +88,48 @@ const useStyles = makeStyles(
           },
         },
       },
-      resultsBox: ({ themeKey }: IStyleProps) => ({
-        backgroundColor:"TODO: FILL",
-          // themeKey === "dark"
-          //   ? palette.additional["gray"][2]
-          //   : palette.common.white.main,
+      resultsBox: {
+        backgroundColor:(constants as UI_COLORS).searchModule.resultsBackground,
         padding: constants.generalUnit * 1,
-      }),
-      resultBackDrop: ({ themeKey }: IStyleProps) => ({
+      },
+      resultBackDrop: {
         height: "100%",
-        backgroundColor:"TODO: FILL",
-          // themeKey === "dark"
-          //   ? palette.additional["gray"][2]
-          //   : palette.additional["gray"][9],
+        backgroundColor: (constants as UI_COLORS).searchModule.resultsBackdrop,
         opacity: 0.7,
-      }),
-      resultHead: ({ themeKey }: IStyleProps) => ({
+      },
+      resultHead: {
         padding: `${constants.generalUnit * 0.5}px ${
           constants.generalUnit * 1
         }px`,
-        color:"TODO: FILL",
-          // themeKey === "dark"
-          //   ? palette.additional["gray"][9]
-          //   : palette.additional["gray"][8],
-      }),
-      resultHeadFolder: ({ themeKey }: IStyleProps) => ({
+        color:(constants as UI_COLORS).searchModule.resultsHeading,
+      },
+      resultHeadFolder: {
         marginTop: constants.generalUnit * 0.5,
         padding: `${constants.generalUnit * 0.5}px  ${
           constants.generalUnit * 1
         }px`,
-        color:"TODO: FILL",
-          // themeKey === "dark"
-            // ? palette.additional["gray"][9]
-            // : palette.additional["gray"][8],
-      }),
+        color: (constants as UI_COLORS).searchModule.resultsFolder,
+      },
       boldFont: {
         fontWeight: 700,
       },
-      resultRow: ({ themeKey }: IStyleProps) => ({
+      resultRow: {
         padding: `${constants.generalUnit * 0.75}px  ${
           constants.generalUnit * 1
         }px`,
         cursor: "pointer",
-        color:"TODO: FILL",
-          // themeKey === "dark"
-          //   ? palette.additional["gray"][9]
-          //   : palette.additional["gray"][8],
+        color:(constants as UI_COLORS).searchModule.resultsRow,
         "&:hover": {
           backgroundColor: palette.additional["gray"][4],
         },
-      }),
-      noResultsFound: ({ themeKey }: IStyleProps) => ({
+      },
+      noResultsFound: {
         margin: `${constants.generalUnit}px 0`,
-        color:"TODO: FILL",
-          // themeKey === "dark"
-          //   ? palette.additional["gray"][9]
-          //   : palette.additional["gray"][7],
+        color: (constants as UI_COLORS).searchModule.noResults,
         [breakpoints.down("md")]: {
           textAlign: "center",
         },
-      }),
+      },
     }),
 )
 

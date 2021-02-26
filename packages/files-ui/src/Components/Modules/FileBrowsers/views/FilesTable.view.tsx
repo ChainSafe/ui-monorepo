@@ -49,6 +49,7 @@ import UploadFileModule from "../../UploadFileModule"
 import MoveFileModule from "../MoveFileModal"
 import FileInfoModal from "../FileInfoModal"
 import { CONTENT_TYPES } from "../../../../Utils/Constants"
+import { UI_COLORS } from "../../../../Themes/Constants"
 
 interface IStyleProps {
   themeKey: string
@@ -119,27 +120,22 @@ const useStyles = makeStyles(
         flexDirection: "column",
         alignItems: "center",
         marginTop: "25vh",
-        color: "TODO: FILL",
+        color: (constants as UI_COLORS).filesTable.color,
           // themeKey === "dark" ? palette.additional.gray[7] : "",
         "& svg": {
           maxWidth: 180,
           marginBottom: constants.generalUnit * 3,
           "& path": {
             "&:first-child": {
-              fill:"TODO: FILL", 
-                // themeKey === "dark" ? palette.additional.gray[2] : "",
+              fill: themeKey === "dark" ? palette.additional.gray[2] : "",
             },
             "&:nth-child(2)": {
-              stroke: "TODO: FILL",
-                // themeKey === "dark" ? palette.additional.gray[2] : "",
-              fill: "TODO: FILL", 
-                // themeKey === "dark" ? "transparent" : "",
+              stroke: themeKey === "dark" ? palette.additional.gray[2] : "",
+              fill: themeKey === "dark" ? "transparent" : "",
             },
             "&:last-child": {
-              fill:"TODO: FILL", 
-                // themeKey === "dark" ? palette.additional.gray[4] : "",
-              stroke: "TODO: FILL",
-                // themeKey === "dark" ? palette.additional.gray[2] : "",
+              fill: themeKey === "dark" ? palette.additional.gray[4] : "",
+              stroke: themeKey === "dark" ? palette.additional.gray[2] : "",
             },
           },
         },

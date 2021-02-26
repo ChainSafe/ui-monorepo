@@ -32,10 +32,7 @@ import VideoPreview from "./PreviewRenderers/VideoPreview"
 import AudioPreview from "./PreviewRenderers/AudioPreview"
 import { useHotkeys } from "react-hotkeys-hook"
 import { t, Trans } from "@lingui/macro"
-
-interface IStyleProps {
-  themeKey: string
-}
+import { UI_COLORS } from "../../Themes/Constants"
 
 export interface IPreviewRendererProps {
   contents: Blob
@@ -66,7 +63,7 @@ const useStyles = makeStyles(
         backgroundColor: "rgba(0,0,0, 0.88)",
         overflowX: "hidden",
       },
-      previewModalControls: ({ themeKey }: IStyleProps) => ({
+      previewModalControls: {
         position: "absolute",
         zIndex: zIndex?.layer3,
         display: "flex",
@@ -77,48 +74,28 @@ const useStyles = makeStyles(
         width: "100%",
         maxWidth: breakpoints.values["md"],
         height: constants.generalUnit * 8,
-        // backgroundColor:
-        //   themeKey === "dark"
-        //     ? palette.additional["gray"][1]
-        //     : palette.additional["gray"][9],
-        backgroundColor: "TODO: FILL",
-        // color:
-        //   themeKey === "dark"
-        //     ? palette.additional["gray"][10]
-        //     : palette.additional["gray"][8],
-        color: "TODO: FILL",
+        backgroundColor: (constants as UI_COLORS).previewModal.controlsBackground,
+        color: (constants as UI_COLORS).previewModal.controlsColor,
         borderWidth: 1,
         borderStyle: "solid",
         borderColor: palette.additional["gray"][8],
-      }),
-      closePreviewButton: ({ themeKey }: IStyleProps) => ({
+      },
+      closePreviewButton: {
         marginRight: constants.generalUnit * 2,
         marginLeft: constants.generalUnit * 2,
-        // fill:
-        //   themeKey === "dark"
-        //     ? palette.additional["gray"][9]
-        //     : palette.additional["gray"][2],
-        fill: "TODO: FILL",
+        fill: (constants as UI_COLORS).previewModal.closeButtonColor,
         cursor: "pointer",
-      }),
-      fileOperationsMenu: ({ themeKey }: IStyleProps) => ({
-        // fill:
-        //   themeKey === "dark"
-        //     ? palette.additional["gray"][9]
-        //     : palette.additional["gray"][2]
-        fill: "TODO: FILL",
-      }),
-      fileName: ({ themeKey }: IStyleProps) => ({
+      },
+      fileOperationsMenu: {
+        fill: (constants as UI_COLORS).previewModal.fileOpsColor,
+      },
+      fileName: {
         width: "100%",
         whiteSpace: "nowrap",
         overflow: "hidden",
         textOverflow: "ellipsis",
-        // color:
-        //   themeKey === "dark"
-        //     ? palette.additional["gray"][9]
-        //     : palette.additional["gray"][1],
-        color: "TODO: FILL",
-      }),
+        color: (constants as UI_COLORS).previewModal.fileNameColor,
+      },
       previewContainer: {
         height: "100%",
         alignItems: "center",
@@ -133,6 +110,7 @@ const useStyles = makeStyles(
         borderRadius: constants.generalUnit * 4,
       },
       previewContent: {
+        // "TODO: FILL"
         color: palette.additional["gray"][6],
         fill: palette.additional["gray"][6],
         display: "flex",
@@ -142,13 +120,14 @@ const useStyles = makeStyles(
           margin: `${constants.generalUnit}px 0`,
         },
       },
-      downloadButton: ({ themeKey }: IStyleProps) => ({
+      downloadButton: {
+        // "TODO: FILL"
         backgroundColor: "rgba(0,0,0, 0.88)",
         color: palette.additional["gray"][3],
         borderColor: palette.additional["gray"][3],
         borderWidth: 1,
         borderStyle: "solid",
-      }),
+      },
       swipeContainer: {
         width: "100%",
         height: "100%",
@@ -159,37 +138,22 @@ const useStyles = makeStyles(
         width: 150,
         marginTop: constants.generalUnit,
       },
-      options: ({ themeKey }: IStyleProps) => ({
-        // backgroundColor:
-        //   themeKey === "dark" ? palette.additional.gray[2] : "initial",
-        backgroundColor: "TODO: FILL",
-        // color: themeKey === "dark" ? palette.additional.gray[9] : "initial",
-        color: "TODO: FILL",
-        // border:
-        //   themeKey === "dark"
-        //     ? `1px solid ${palette.additional.gray[5]}`
-        //     : "initial",
-        border: "TODO: FILL",
-      }),
-      menuIcon: ({ themeKey }: IStyleProps) => ({
+      options: {
+        backgroundColor: (constants as UI_COLORS).previewModal.optionsBackground,
+        color: (constants as UI_COLORS).previewModal.optionsTextColor,
+        border: (constants as UI_COLORS).previewModal.optionsBorder
+      },
+      menuIcon: {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
         width: 20,
         marginRight: constants.generalUnit * 1.5,
-        // fill:
-        //   themeKey === "dark"
-        //     ? palette.additional["gray"][9]
-        //     : palette.additional["gray"][7],
-        fill: "TODO: FILL",
-      }),
-      item: ({ themeKey }: IStyleProps) => ({
-        // color:
-        //   themeKey === "dark"
-        //     ? palette.additional["gray"][10]
-        //     : palette.additional["gray"][8],
-        color: "TODO: FILL",
-      }),
+        fill: (constants as UI_COLORS).previewModal.menuItemIconColor
+      },
+      item: {
+        color: (constants as UI_COLORS).previewModal.menuItemTextColor
+      },
     }),
 )
 
@@ -199,9 +163,7 @@ const FilePreviewModal: React.FC<{
   previousFile?(): void
   closePreview(): void
 }> = ({ file, nextFile, previousFile, closePreview }) => {
-  const { themeKey } = useThemeSwitcher()
-
-  const classes = useStyles({ themeKey })
+  const classes = useStyles()
   const { getFileContent, downloadFile } = useDrive()
 
   const { desktop } = useThemeSwitcher()

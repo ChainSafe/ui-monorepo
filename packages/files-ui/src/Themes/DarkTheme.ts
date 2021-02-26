@@ -1,5 +1,5 @@
 import { createTheme } from "@chainsafe/common-theme"
-import { UI_CONSTANTS } from "./Constants"
+import { UI_COLORS, UI_CONSTANTS } from "./Constants"
 
 export const darkTheme = createTheme({
   globalStyling: {
@@ -323,6 +323,87 @@ export const darkTheme = createTheme({
     },
     constants: {
       ...UI_CONSTANTS,
+      ...({
+        header: {
+          rootBackground: "var(--gray1)" ,
+          optionsBackground: "var(--gray2)",
+          optionsTextColor: "var(--gray5)",
+          optionsBorder: "var(--gray5)",
+          menuItemTextColor: "var(--gray10)",
+          iconColor: "var(--gray7)"
+        },
+        nav: {
+          backgroundColor: "var(--gray1)",
+          mobileBackgroundColor: "var(--gray1)",
+          headingColor: "var(--gray8)",
+          itemColor: "var(--gray7)",
+          itemColorHover: "var(--gray9)",
+          itemIconColor: "var(--gray7)",
+          itemIconColorHover: "var(--gray9)",
+        },
+        createFolder: {
+          backgroundColor: "var(--gray1)",
+          color: "var(--gray9)"
+        },
+        previewModal: {
+          controlsBackground: "var(--gray1)",
+          controlsColor: "var(--gray10)",
+          closeButtonColor: "var(--gray9)",
+          fileOpsColor: "var(--gray9)",
+          fileNameColor: "var(--gray9)",
+          optionsBackground: "var(--gray2)",
+          optionsTextColor: "var(--gray9)",
+          optionsBorder: "var(--gray5)",
+          menuItemIconColor: "var(--gray9)",
+          menuItemTextColor: "var(--gray10)",
+        },
+        searchModule: {
+          resultsBackground: "var(--gray2)",
+          resultsBackdrop: "var(--gray2)",
+          resultsHeading: "var(--gray9)",
+          resultsFolder: "var(--gray9)",
+          resultsRow: "var(--gray9)",
+          noResults: "var(--gray9)"
+        },
+        uploadModal: {
+          background: "var(--gray1)",
+          color: "var(--gray9)"
+        },
+        fileInfoModal: {
+          background: "var(--gray1)",
+          color: "var(--gray9)",
+          copyButtonBackground: "var(--gray1)",
+          copyButtonColor: "var(--gray8)",
+          infoContainerBorderTop: "var(--gray4)"
+        },
+        moveFileModal: {
+          background: "var(--gray1)",
+          color: "var(--gray9)"
+        },
+        filesTable: {
+          color: "var(--gray7)"
+        },
+        fileSystemItemRow: {
+          icon: "var(--gray9)",
+          menuIcon: "var(--gray9)",
+          dropdownIcon: "var(--gray9)",
+          optionsBackground: "var(--gray2)",
+          optionsColor: "var(--gray9)",
+          optionsBorder: "var(--gray5)",
+          itemBackground: "var(--gray1)",
+          itemColor: "var(--gray9)"
+        },
+        masterkey: {
+          color: "var(--gray9)",
+          link: "var(--gray10)"
+        },
+        profile: {
+          icon: "var(--gray9)"
+        },
+        uploadAlert: {
+          icon: "var(--gray9)"
+        }
+      } as UI_COLORS)
     },
     overrides: {
       SearchBar: {

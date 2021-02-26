@@ -3,7 +3,6 @@ import {
   ITheme,
   makeStyles,
   useMediaQuery,
-  useThemeSwitcher,
 } from "@chainsafe/common-theme"
 import React, { useState, useEffect, useCallback } from "react"
 import CustomModal from "../../Elements/CustomModal"
@@ -24,10 +23,7 @@ import {
   Typography,
 } from "@chainsafe/common-components"
 import { getPathWithFile } from "../../../Utils/pathUtils"
-
-interface IStyleProps {
-  themeKey: string
-}
+import { UI_COLORS } from "../../../Themes/Constants"
 
 const useStyles = makeStyles(
   ({ breakpoints, constants, palette, typography, zIndex }: ITheme) => {
@@ -36,19 +32,9 @@ const useStyles = makeStyles(
         zIndex: zIndex?.blocker,
         [breakpoints.down("md")]: {},
       },
-      modalInner: ({ themeKey }: IStyleProps) => ({
-        backgroundColor:"TODO: FILL",
-          // themeKey === "light"
-          //   ? palette.additional.gray[10]
-          //   : themeKey === "dark"
-          //   ? palette.additional.gray[1]
-          //   : palette.additional.gray[10],
-        color:"TODO: FILL",
-          // themeKey === "light"
-          //   ? palette.additional.gray[1]
-          //   : themeKey === "dark"
-          //   ? palette.additional.gray[9]
-          //   : palette.additional.gray[1],
+      modalInner: {
+        backgroundColor: (constants as UI_COLORS).moveFileModal.background,
+        color: (constants as UI_COLORS).moveFileModal.color,
         [breakpoints.down("md")]: {
           bottom:
             (constants?.mobileButtonHeight as number) + constants.generalUnit,
@@ -56,7 +42,7 @@ const useStyles = makeStyles(
           borderTopRightRadius: `${constants.generalUnit * 1.5}px`,
           maxWidth: `${breakpoints.width("md")}px !important`,
         },
-      }),
+      },
       okButton: {
         marginLeft: constants.generalUnit,
         color: palette.common.white.main,
@@ -108,8 +94,7 @@ const MoveFileModule: React.FC<IMoveFileModuleProps> = ({
   modalOpen,
   close,
 }: IMoveFileModuleProps) => {
-  const { themeKey } = useThemeSwitcher()
-  const classes = useStyles({ themeKey })
+  const classes = useStyles()
 
   const { moveFile, getFolderTree, bulkMoveFile } = useDrive()
   const [movingFile, setMovingFile] = useState(false)

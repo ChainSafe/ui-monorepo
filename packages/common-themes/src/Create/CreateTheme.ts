@@ -30,6 +30,7 @@ const createTheme = (themeProps?: ICreateThemeProps): ITheme => {
   return {
     ...createThemeConfig(themeProps?.themeConfig),
     globalStyling: {
+      
       "@global": {
         ...(themeProps?.globalStyling
           ? mergeDeep(DefaultGlobalStyling, themeProps.globalStyling)

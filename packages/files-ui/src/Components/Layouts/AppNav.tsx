@@ -23,76 +23,60 @@ import {
 import { ROUTE_LINKS } from "../FilesRoutes"
 import { FREE_PLAN_LIMIT } from "../../Utils/Constants"
 import { Trans } from "@lingui/macro"
-
-interface IStyleProps {
-  themeKey: string
-}
+import { UI_COLORS } from "../../Themes/Constants"
 
 const useStyles = makeStyles(
   ({ palette, animation, breakpoints, constants, zIndex }: ITheme) => {
     return createStyles({
-      root: ({ themeKey }: IStyleProps) => {
-        return {
-          width: 0,
-          overflow: "hidden",
-          transitionDuration: `${animation.translate}ms`,
-          display: "flex",
-          flexDirection: "column",
-          position: "fixed",
-          left: 0,
-          opacity: 0,
+      root: {
+        width: 0,
+        overflow: "hidden",
+        transitionDuration: `${animation.translate}ms`,
+        display: "flex",
+        flexDirection: "column",
+        position: "fixed",
+        left: 0,
+        opacity: 0,
+        "&.active": {
+          opacity: 1,
+        },
+        [breakpoints.up("md")]: {
+          padding: `${constants.topPadding}px ${
+            constants.generalUnit * 4.5
+          }px`,
+          top: 0,
+          height: "100%",
+          backgroundColor: (constants as UI_COLORS).nav.backgroundColor,
           "&.active": {
-            opacity: 1,
+            width: `${constants.navWidth}px`,
           },
-          [breakpoints.up("md")]: {
-            padding: `${constants.topPadding}px ${
-              constants.generalUnit * 4.5
-            }px`,
-            top: 0,
-            height: "100%",
-            // backgroundColor:
-            //   themeKey === "light"
-            //     ? palette.additional["gray"][3]
-            //     : themeKey === "dark"
-            //     ? palette.additional["gray"][1]
-            //     : palette.additional["gray"][3],
-            backgroundColor: "TODO: FILL",
-            "&.active": {
-              width: `${constants.navWidth}px`,
-            },
+        },
+        [breakpoints.down("md")]: {
+          height: `calc(100% - ${constants.mobileHeaderHeight}px)`,
+          top: `${constants.mobileHeaderHeight}px`,
+          backgroundColor: (constants as UI_COLORS).nav.mobileBackgroundColor,
+          zIndex: zIndex?.layer1,
+          padding: `0 ${constants.generalUnit * 4}px`,
+          maxWidth: "100vw",
+          visibility: "hidden",
+          // "&:before": {
+          //   content: "''",
+          //   display: "block",
+          //   backgroundColor: palette.additional["gray"][9],
+          //   opacity: 0.5,
+          //   position: "fixed",
+          //   top: mobileHeaderHeight,
+          //   left: 0,
+          //   height: `calc(100% - ${mobileHeaderHeight}px)`,
+          //   width: "100%",
+          //   transitionDuration: `${animation.translate}ms`,
+          //   zIndex: zIndex?.background,
+          // },
+          "&.active": {
+            visibility: "visible",
+            width: `${constants.mobileNavWidth}px`,
           },
-          [breakpoints.down("md")]: {
-            height: `calc(100% - ${constants.mobileHeaderHeight}px)`,
-            top: `${constants.mobileHeaderHeight}px`,
-            backgroundColor:
-              themeKey === "light"
-                ? palette.additional["gray"][3]
-                : themeKey === "dark"
-                ? palette.additional["gray"][1]
-                : palette.additional["gray"][3],
-            zIndex: zIndex?.layer1,
-            padding: `0 ${constants.generalUnit * 4}px`,
-            maxWidth: "100vw",
-            visibility: "hidden",
-            // "&:before": {
-            //   content: "''",
-            //   display: "block",
-            //   backgroundColor: palette.additional["gray"][9],
-            //   opacity: 0.5,
-            //   position: "fixed",
-            //   top: mobileHeaderHeight,
-            //   left: 0,
-            //   height: `calc(100% - ${mobileHeaderHeight}px)`,
-            //   width: "100%",
-            //   transitionDuration: `${animation.translate}ms`,
-            //   zIndex: zIndex?.background,
-            // },
-            "&.active": {
-              visibility: "visible",
-              width: `${constants.mobileNavWidth}px`,
-            },
-          },
-        }
+        },
       },
       blocker: {
         display: "block",
@@ -161,11 +145,11 @@ const useStyles = makeStyles(
           "&.active": {},
         },
       },
-      navHead: ({ themeKey }: IStyleProps) => ({
+      navHead: {
         fontWeight: 600,
-        color: themeKey === "dark" ? palette.additional.gray[8] : "initial",
-      }),
-      navItem: ({ themeKey }: IStyleProps) => ({
+        color: (constants as UI_COLORS).nav.headingColor,
+      },
+      navItem: {
         textDecoration: "none",
         display: "flex",
         flexDirection: "row",
@@ -175,31 +159,21 @@ const useStyles = makeStyles(
         transitionDuration: `${animation.transform}ms`,
         "& span": {
           transitionDuration: `${animation.transform}ms`,
-          // color:
-          //   themeKey === "dark" ? palette.additional["gray"][7] : "initial",
-          color: "TODO: FILL",
+          color: (constants as UI_COLORS).nav.itemColor,
         },
         "&:hover": {
           "& span": {
-            // color:
-            //   themeKey === "dark" ? palette.additional["gray"][9] : "initial",
-            color: "TODO: FILL",
+            color: (constants as UI_COLORS).nav.itemColorHover,
           },
           "& svg": {
-            // fill:
-            //   themeKey === "dark" ? palette.additional["gray"][9] : "initial",
-            fill: "TODO: FILL",
+            fill: (constants as UI_COLORS).nav.itemIconColorHover,
           },
         },
         "& svg": {
           transitionDuration: `${animation.transform}ms`,
           width: constants.svgWidth as number,
           marginRight: constants.generalUnit * 2,
-          // fill:
-          //   themeKey === "dark"
-          //     ? palette.additional["gray"][7]
-          //     : palette.additional["gray"][8],
-          fill: "TODO: FILL",
+          fill: (constants as UI_COLORS).nav.itemIconColor,
           [breakpoints.down("md")]: {
             fill: palette.additional["gray"][3],
           },
@@ -208,7 +182,7 @@ const useStyles = makeStyles(
           color: `${palette.additional["gray"][3]} !important`,
           minWidth: constants.mobileNavWidth as number,
         },
-      }),
+      },
       navItemText: {
         [breakpoints.down("md")]: {
           color: palette.additional["gray"][3],
@@ -241,11 +215,8 @@ interface IAppNav {
 }
 
 const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
-  const { themeKey } = useThemeSwitcher()
-  const classes = useStyles({
-    themeKey,
-    desktop
-  })
+  const { desktop } = useThemeSwitcher()
+  const classes = useStyles()
 
   const { spaceUsed } = useDrive()
 

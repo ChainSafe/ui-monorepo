@@ -41,10 +41,7 @@ import { useDrag, useDrop } from "react-dnd"
 import { DragTypes } from "../DragConstants"
 import { NativeTypes } from "react-dnd-html5-backend"
 import { FileOperation, IFileConfigured } from "../types"
-
-interface IStyleProps {
-  themeKey: string
-}
+import { UI_COLORS } from "../../../../Themes/Constants"
 
 const useStyles = makeStyles(({ breakpoints, constants, palette }: ITheme) => {
   // const desktopGridSettings = "50px 69px 3fr 190px 100px 45px !important"
@@ -63,21 +60,19 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: ITheme) => {
         border: `2px solid ${palette.additional["geekblue"][6]}`,
       },
     },
-    fileIcon: ({ themeKey }: IStyleProps) => ({
+    fileIcon: {
       display: "flex",
       flexDirection: "row",
       alignItems: "center",
       justifyContent: "center",
       "& svg": {
         width: constants.generalUnit * 2.5,
-        fill:"TODO: FILL",
-          // themeKey === "dark"
-          //   ? palette.additional.gray[9]
-          //   : palette.additional.gray[8],
+        fill: (constants as UI_COLORS).fileSystemItemRow.icon
       },
-    }),
+    },
     folderIcon: {
       "& svg": {
+        // TODO: FILL
         fill: palette.additional.gray[9],
       },
     },
@@ -129,19 +124,16 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: ITheme) => {
         height: constants?.mobileButtonHeight,
       },
     },
-    menuIcon: ({ themeKey }: IStyleProps) => ({
+    menuIcon: {
       display: "flex",
       justifyContent: "center",
       alignItems: "center",
       width: 20,
       marginRight: constants.generalUnit * 1.5,
       "& svg": {
-        fill:"TODO: FILL",
-          // themeKey === "dark"
-          //   ? palette.additional.gray[9]
-          //   : palette.additional.gray[7],
+        fill: (constants as UI_COLORS).fileSystemItemRow.menuIcon
       },
-    }),
+    },
     desktopRename: {
       display: "flex",
       flexDirection: "row",
@@ -155,28 +147,20 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: ITheme) => {
       overflow: "hidden",
       textOverflow: "ellipsis",
     },
-    dropdownIcon: ({ themeKey }: IStyleProps) => ({
+    dropdownIcon: {
       "& svg": {
-        fill: "TODO: FILL",
-          // themeKey === "dark" ? palette.additional.gray[9] : "initial",
+        fill: (constants as UI_COLORS).fileSystemItemRow.dropdownIcon,
       },
-    }),
-    dropdownOptions: ({ themeKey }: IStyleProps) => ({
-      backgroundColor:"TODO: FILL",
-        // themeKey === "dark" ? palette.additional.gray[2] : "initial",
-      color: "TODO: FILL",
-        // themeKey === "dark" ? palette.additional.gray[9] : "initial",
-      border:"TODO: FILL",
-        // themeKey === "dark"
-        //   ? `1px solid ${palette.additional.gray[5]}`
-        //   : "initial",
-    }),
-    dropdownItem: ({ themeKey }: IStyleProps) => ({
-      backgroundColor:"TODO: FILL",
-        // themeKey === "dark" ? palette.additional.gray[1] : "initial",
-      color: "TODO: FILL",
-        // themeKey === "dark" ? palette.additional.gray[9] : "initial",
-    }),
+    },
+    dropdownOptions: {
+      backgroundColor: (constants as UI_COLORS).fileSystemItemRow.optionsBackground,
+      color: (constants as UI_COLORS).fileSystemItemRow.optionsColor,
+      border: (constants as UI_COLORS).fileSystemItemRow.optionsBorder,
+    },
+    dropdownItem: {
+      backgroundColor: (constants as UI_COLORS).fileSystemItemRow.itemBackground,
+      color: (constants as UI_COLORS).fileSystemItemRow.itemColor,
+    },
   })
 })
 
@@ -247,10 +231,8 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
     Icon = FileTextSvg
   }
 
-  const { themeKey, desktop } = useThemeSwitcher()
-  const classes = useStyles({
-    themeKey,
-  })
+  const { desktop, themeKey } = useThemeSwitcher()
+  const classes = useStyles()
 
   const menuOptions: Record<FileOperation, IMenuItem> = {
     rename: {

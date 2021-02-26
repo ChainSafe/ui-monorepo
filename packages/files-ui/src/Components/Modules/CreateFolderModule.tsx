@@ -11,17 +11,13 @@ import {
   ITheme,
   makeStyles,
   useMediaQuery,
-  useThemeSwitcher,
 } from "@chainsafe/common-theme"
 import React, { useRef, useEffect, useState } from "react"
 import { Formik, Form } from "formik"
 import CustomModal from "../Elements/CustomModal"
 import CustomButton from "../Elements/CustomButton"
 import { Trans } from "@lingui/macro"
-
-interface IStyleProps {
-  themeKey: string
-}
+import { UI_COLORS } from "../../Themes/Constants"
 
 const useStyles = makeStyles(
   ({ breakpoints, constants, palette, typography, zIndex }: ITheme) => {
@@ -34,21 +30,9 @@ const useStyles = makeStyles(
         zIndex: zIndex?.blocker,
         [breakpoints.down("md")]: {},
       },
-      modalInner: ({ themeKey }: IStyleProps) => ({
-        // backgroundColor:
-        //   themeKey === "light"
-        //     ? palette.additional.gray[10]
-        //     : themeKey === "dark"
-        //     ? palette.additional.gray[1]
-        //     : palette.additional.gray[10],
-        backgroundColor: "TODO: FILL",
-        // color:
-        //   themeKey === "light"
-        //     ? palette.additional.gray[1]
-        //     : themeKey === "dark"
-        //     ? palette.additional.gray[9]
-        //     : palette.additional.gray[1],
-        color: "TODO: FILL",
+      modalInner: {
+        backgroundColor: (constants as UI_COLORS).createFolder.backgroundColor,
+        color: (constants as UI_COLORS).createFolder.color,
         [breakpoints.down("md")]: {
           bottom:
             (constants?.mobileButtonHeight as number) + constants.generalUnit,
@@ -56,7 +40,7 @@ const useStyles = makeStyles(
           borderTopRightRadius: `${constants.generalUnit * 1.5}px`,
           maxWidth: `${breakpoints.width("md")}px !important`,
         },
-      }),
+      },
       input: {
         marginBottom: constants.generalUnit * 2,
       },
@@ -96,9 +80,7 @@ const CreateFolderModule: React.FC<ICreateFolderModuleProps> = ({
   modalOpen,
   close,
 }: ICreateFolderModuleProps) => {
-  const { themeKey } = useThemeSwitcher()
-
-  const classes = useStyles({ themeKey })
+  const classes = useStyles()
   const { createFolder, currentPath } = useDrive()
   const [creatingFolder, setCreatingFolder] = useState(false)
 
