@@ -208,7 +208,6 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
   const { removeUser } = useUser()
 
   const signOut = useCallback(() => {
-    debugger
     logout()
     removeUser()
   }, [logout, removeUser])
