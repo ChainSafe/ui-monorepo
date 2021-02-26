@@ -93,12 +93,6 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
   const [isReturningUser, setIsReturningUser] = useState(
     isReturningUserLocal ? true : false
   )
-  const axiosInstance = useMemo(() => 
-    axios.create({
-      // Disable the internal Axios JSON de serialization as this is handled by the client
-      transformResponse: []
-    })
-  ,[])
 
   const setTokensAndSave = useCallback((accessToken: Token, refreshToken: Token) => {
     setAccessToken(accessToken)
@@ -115,6 +109,10 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
 
   useEffect(() => {
     const initializeApiClient = async () => {
+      const axiosInstance = axios.create({
+        // Disable the internal Axios JSON de serialization as this is handled by the client
+        transformResponse: []
+      })
 
       axiosInstance.interceptors.response.use(
         (response) => {
@@ -123,12 +121,21 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
         async (error) => {
           if (!error.config._retry && error.response.status === 401) {
             error.config._retry = true
-            const refreshTokenLocal = canUseLocalStorage && localStorage.getItem(tokenStorageKey)
-
+            const refreshTokenLocal =
+              canUseLocalStorage && localStorage.getItem(tokenStorageKey)
             if (refreshTokenLocal) {
-              const refreshTokenApiClient = new ImployApiClient({}, apiUrl, axiosInstance)
+              const refreshTokenApiClient = new ImployApiClient(
+                {},
+                apiUrl,
+                axiosInstance
+              )
               try {
-                const { access_token, refresh_token } = await refreshTokenApiClient.getRefreshToken({ refresh: refreshTokenLocal })
+                const {
+                  access_token,
+                  refresh_token
+                } = await refreshTokenApiClient.getRefreshToken({
+                  refresh: refreshTokenLocal
+                })
 
                 setTokensAndSave(access_token, refresh_token)
                 error.response.config.headers.Authorization = `Bearer ${access_token.token}`
@@ -147,11 +154,12 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
           return Promise.reject(error)
         }
       )
-      const savedRefreshToken =
-        !maintenanceMode && canUseLocalStorage && localStorage.getItem(tokenStorageKey)
+
       const apiClient = new ImployApiClient({}, apiUrl, axiosInstance)
+      const savedRefreshToken =
+        canUseLocalStorage && localStorage.getItem(tokenStorageKey)
       setImployApiClient(apiClient)
-      if (savedRefreshToken) {
+      if (!maintenanceMode && savedRefreshToken) {
         try {
           const {
             access_token,
@@ -160,6 +168,7 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
 
           setTokensAndSave(access_token, refresh_token)
         } catch (error) {
+          console.error("There was an error refreshing the saved token")
           console.error(error)
         }
       }
@@ -167,25 +176,8 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
     }
 
     initializeApiClient()
-  }, [apiUrl, axiosInstance, canUseLocalStorage, setTokensAndSave, maintenanceMode])
-
-  useEffect(() => {
-    const savedRefreshToken = canUseLocalStorage && localStorage.getItem(tokenStorageKey)
-    const apiClient = new ImployApiClient({}, apiUrl, axiosInstance)
-
-    setImployApiClient(apiClient)
-
-    if (savedRefreshToken) {
-      apiClient.getRefreshToken({ refresh: savedRefreshToken })
-        .then(({ access_token, refresh_token }) => setTokensAndSave(access_token, refresh_token))
-        .catch(console.error)
-    }
-    
-    setIsLoadingUser(false)
-
-  // TODO figure out why having setTokensAndSave triggers an infinite loop.
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [apiUrl, axiosInstance, canUseLocalStorage])
+  }, [])
 
   const selectWallet = async () => {
     if (onboard && !isReady) {

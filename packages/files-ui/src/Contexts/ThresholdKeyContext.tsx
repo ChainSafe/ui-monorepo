@@ -47,6 +47,7 @@ export type TThresholdKeyContext = {
   addMnemonicShare(): Promise<string>
   encryptForPublicKey(publicKey: string, message: string): Promise<string>
   decryptMessageWithThresholdKey(message: string): Promise<string | undefined>
+  logout(): Promise<void>
 }
 
 type ThresholdKeyProviderProps = {
@@ -75,7 +76,7 @@ const ThresholdKeyProvider = ({
   enableLogging = false,
   apiKey,
 }: ThresholdKeyProviderProps) => {
-  const { imployApiClient, thresholdKeyLogin } = useImployApi()
+  const { imployApiClient, thresholdKeyLogin, logout } = useImployApi()
   const { provider, isReady, checkIsReady, address } = useWeb3()
   const [userInfo, setUserInfo] = useState<TorusLoginResponse | undefined>()
   const [TKeySdk, setTKeySdk] = useState<ThresholdKey | undefined>()
@@ -192,10 +193,10 @@ const ThresholdKeyProvider = ({
       await shareTransferModule.cancelRequestStatusCheck()
     }
 
-    if (keyDetails && keyDetails.requiredShares <= 0) {
+    if (keyDetails && keyDetails.requiredShares <= 0 && !privateKey) {
       reconstructKey()
     }
-  }, [keyDetails, TKeySdk])
+  }, [keyDetails, TKeySdk, privateKey])
 
   // Ensure API client is logged in
   useEffect(() => {
@@ -211,6 +212,7 @@ const ThresholdKeyProvider = ({
     }
 
     if (privateKey) {
+      console.log('logging in using tkey')
       loginWithThresholdKey()
     }
   }, [imployApiClient, privateKey, thresholdKeyLogin])
@@ -533,6 +535,34 @@ const ThresholdKeyProvider = ({
     return EthCrypto.decryptWithPrivateKey(privateKey, messageCipher)
   }
 
+  const thresholdKeyLogout = async () => {
+    sessionStorage.clear()
+    setPrivateKey(undefined)
+    setKeyDetails(undefined)
+    setPublicKey(undefined)
+    setUserInfo(undefined)
+
+    const tkey = new ThresholdKey({
+      modules: {
+        [SECURITY_QUESTIONS_MODULE_NAME]: new SecurityQuestionsModule(),
+        [WEB_STORAGE_MODULE_NAME]: new WebStorageModule(true),
+        [SHARE_TRANSFER_MODULE_NAME]: new ShareTransferModule(),
+      },
+      directParams: {
+        baseUrl: `${window.location.origin}/serviceworker`,
+        network: network,
+        enableLogging: enableLogging,
+        apiKey: apiKey,
+      },
+      enableLogging: enableLogging,
+    })
+
+    const serviceProvider = (tkey.serviceProvider as unknown) as DirectAuthSdk
+    await serviceProvider.init({ skipSw: false })
+    setTKeySdk(tkey)
+    logout()
+  }
+
   return (
     <ThresholdKeyContext.Provider
       value={{
@@ -556,6 +586,7 @@ const ThresholdKeyProvider = ({
         publicKey,
         decryptMessageWithThresholdKey,
         encryptForPublicKey,
+        logout: thresholdKeyLogout
       }}
     >
       {children}

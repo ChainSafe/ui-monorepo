@@ -202,12 +202,13 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
   const { desktop } = useThemeSwitcher()
   const { spaceUsed } = useDrive()
 
-  const { isLoggedIn, logout, secured } = useImployApi()
-  const { publicKey, isNewDevice, shouldInitializeAccount } = useThresholdKey()
+  const { isLoggedIn, secured } = useImployApi()
+  const { publicKey, isNewDevice, shouldInitializeAccount, logout } = useThresholdKey()
 
   const { removeUser } = useUser()
 
   const signOut = useCallback(() => {
+    debugger
     logout()
     removeUser()
   }, [logout, removeUser])

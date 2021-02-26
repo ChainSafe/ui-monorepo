@@ -146,8 +146,8 @@ const AppHeader: React.FC<IAppHeader> = ({
   const classes = useStyles()
   const { desktop } = useThemeSwitcher()
 
-  const { isLoggedIn, logout, secured } = useImployApi()
-  const { publicKey, isNewDevice, shouldInitializeAccount } = useThresholdKey()
+  const { isLoggedIn, secured } = useImployApi()
+  const { publicKey, isNewDevice, shouldInitializeAccount, logout } = useThresholdKey()
   const { getProfileTitle, removeUser } = useUser()
 
   const signOut = useCallback(() => {

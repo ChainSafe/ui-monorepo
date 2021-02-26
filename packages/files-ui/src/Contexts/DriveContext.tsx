@@ -264,7 +264,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
       }
     }
 
-    if (isLoggedIn && publicKey) {
+    if (isLoggedIn && publicKey && !encryptionKey) {
       console.log("Checking whether account is secured ", secured)
       if (secured) {
         console.log("decrypting key")
@@ -276,7 +276,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
         secureAccount()
       }
     }
-  }, [secured, isLoggedIn, encrypedEncryptionKey, publicKey, encryptForPublicKey, secureThresholdKeyAccount, decryptMessageWithThresholdKey])
+  }, [secured, isLoggedIn, encrypedEncryptionKey, publicKey, encryptForPublicKey, secureThresholdKeyAccount, decryptMessageWithThresholdKey, encryptionKey])
 
   const [uploadsInProgress, dispatchUploadsInProgress] = useReducer(
     uploadsInProgressReducer,
