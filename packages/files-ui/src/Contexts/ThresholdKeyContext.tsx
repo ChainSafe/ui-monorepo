@@ -215,7 +215,8 @@ const ThresholdKeyProvider = ({
       console.log('logging in using tkey')
       loginWithThresholdKey()
     }
-  }, [imployApiClient, privateKey, thresholdKeyLogin])
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [privateKey])
 
   // Share Transfer poller
   useEffect(() => {
