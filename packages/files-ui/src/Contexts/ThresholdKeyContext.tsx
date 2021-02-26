@@ -191,6 +191,7 @@ const ThresholdKeyProvider = ({
         SHARE_TRANSFER_MODULE_NAME
       ] as ShareTransferModule
       await shareTransferModule.cancelRequestStatusCheck()
+      await shareTransferModule.deleteShareTransferStore(shareTransferModule.currentEncKey.toString('hex'))
     }
 
     if (keyDetails && keyDetails.requiredShares <= 0 && !privateKey) {
@@ -215,7 +216,7 @@ const ThresholdKeyProvider = ({
       console.log('logging in using tkey')
       loginWithThresholdKey()
     }
-      // eslint-disable-next-line react-hooks/exhaustive-deps
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [privateKey])
 
   // Share Transfer poller
