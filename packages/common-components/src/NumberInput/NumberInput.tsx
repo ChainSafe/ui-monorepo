@@ -484,7 +484,7 @@ const TextInput: React.FC<INumberInputProps> = ({
           })}
           disabled={disabled}
           name={name}
-          value={(value as unknown) as number}
+          value={Number(value as unknown)}
           placeholder={placeholder}
           onChange={onChange}
           prefixCls={prefixCls}

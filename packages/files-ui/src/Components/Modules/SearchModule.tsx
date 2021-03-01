@@ -70,7 +70,7 @@ const useStyles = makeStyles(
         transition: `opacity ${animation.transform}ms ease`,
         zIndex: zIndex?.layer3,
         [breakpoints.down("md")]: {
-          top: constants.mobileHeaderHeight as number,
+          top: Number(constants.mobileHeaderHeight),
         },
         [breakpoints.up("md")]: {
           marginTop: constants.generalUnit,

@@ -82,7 +82,7 @@ const useStyles = makeStyles(
         display: "block",
         backgroundColor: palette.additional["gray"][9],
         position: "fixed",
-        top: constants.mobileHeaderHeight as number,
+        top: Number(constants.mobileHeaderHeight),
         left: 0,
         height: `calc(100% - ${constants.mobileHeaderHeight}px)`,
         width: "100%",
@@ -171,7 +171,7 @@ const useStyles = makeStyles(
         },
         "& svg": {
           transitionDuration: `${animation.transform}ms`,
-          width: constants.svgWidth as number,
+          width: Number(constants.svgWidth),
           marginRight: constants.generalUnit * 2,
           fill: (constants as UI_COLORS).nav.itemIconColor,
           [breakpoints.down("md")]: {
@@ -180,7 +180,7 @@ const useStyles = makeStyles(
         },
         [breakpoints.down("md")]: {
           color: `${palette.additional["gray"][3]} !important`,
-          minWidth: constants.mobileNavWidth as number,
+          minWidth: Number(constants.mobileNavWidth),
         },
       },
       navItemText: {

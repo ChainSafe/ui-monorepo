@@ -91,7 +91,7 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: ITheme) => {
     modalInner: {
       [breakpoints.down("md")]: {
         bottom:
-          (constants?.mobileButtonHeight as number) + constants.generalUnit,
+          Number(constants?.mobileButtonHeight) + constants.generalUnit,
         borderTopLeftRadius: `${constants.generalUnit * 1.5}px`,
         borderTopRightRadius: `${constants.generalUnit * 1.5}px`,
         borderBottomLeftRadius: `${constants.generalUnit * 1.5}px`,

@@ -38,7 +38,7 @@ const useStyles = makeStyles(
           padding: `${0}px ${constants.contentPadding}px ${0}px ${
             constants.contentPadding
           }px`,
-          left: constants.navWidth as number,
+          left: Number(constants.navWidth),
           opacity: 0,
 
           backgroundColor: (constants as UI_COLORS).header.rootBackground,
@@ -66,8 +66,8 @@ const useStyles = makeStyles(
           "&.active": {
             opacity: 1,
             visibility: "visible",
-            height: constants.mobileHeaderHeight as number,
-            zIndex: zIndex?.layer1 as number,
+            height: Number(constants.mobileHeaderHeight),
+            zIndex: Number(zIndex?.layer1),
           },
         },
       },

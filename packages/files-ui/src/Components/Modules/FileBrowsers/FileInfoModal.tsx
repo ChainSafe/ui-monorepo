@@ -32,7 +32,7 @@ const useStyles = makeStyles(
         color: (constants as UI_COLORS).fileInfoModal.color,
         [breakpoints.down("md")]: {
           bottom:
-            (constants?.mobileButtonHeight as number) + constants.generalUnit,
+            Number(constants?.mobileButtonHeight) + constants.generalUnit,
           borderTopLeftRadius: `${constants.generalUnit * 1.5}px`,
           borderTopRightRadius: `${constants.generalUnit * 1.5}px`,
           maxWidth: `${breakpoints.width("md")}px !important`,

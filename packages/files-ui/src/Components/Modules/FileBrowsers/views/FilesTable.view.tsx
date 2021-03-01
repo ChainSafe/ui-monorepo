@@ -71,7 +71,7 @@ const useStyles = makeStyles(
           border: `1px solid transparent`,
           padding: `0 ${constants.generalUnit}px`,
           borderRadius: constants.generalUnit / 4,
-          minHeight: `calc(100vh - ${constants.contentTopPadding as number}px)`,
+          minHeight: `calc(100vh - ${Number(constants.contentTopPadding)}px)`,
           "&.droppable": {
             borderColor: palette.additional["geekblue"][4],
           },
@@ -202,7 +202,7 @@ const useStyles = makeStyles(
         width: 260,
         padding: `${constants.generalUnit}px 0`,
         [breakpoints.up("md")]: {
-          left: `calc(50% + ${(constants.navWidth as number) / 2}px)`,
+          left: `calc(50% + ${Number(constants.navWidth) / 2}px)`,
         },
         "&.active": {
           opacity: 1,

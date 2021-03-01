@@ -35,7 +35,7 @@ const useStyles = makeStyles(
         color: (constants as UI_COLORS).createFolder.color,
         [breakpoints.down("md")]: {
           bottom:
-            (constants?.mobileButtonHeight as number) + constants.generalUnit,
+          Number(constants?.mobileButtonHeight) + constants.generalUnit,
           borderTopLeftRadius: `${constants.generalUnit * 1.5}px`,
           borderTopRightRadius: `${constants.generalUnit * 1.5}px`,
           maxWidth: `${breakpoints.width("md")}px !important`,
@@ -46,7 +46,6 @@ const useStyles = makeStyles(
       },
       okButton: {
         marginLeft: constants.generalUnit,
-        color: palette.common.white.main,
         backgroundColor: palette.common.black.main,
       },
       cancelButton: {
