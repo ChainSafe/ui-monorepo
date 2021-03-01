@@ -8,7 +8,7 @@ import WebStorageModule, { WEB_STORAGE_MODULE_NAME } from "@tkey/web-storage"
 import SecurityQuestionsModule, {
   SECURITY_QUESTIONS_MODULE_NAME
 } from "@tkey/security-questions"
-import { IMetadata, KeyDetails } from "@tkey/common-types"
+import { KeyDetails, ShareStore } from "@tkey/common-types"
 import ShareTransferModule, {
   SHARE_TRANSFER_MODULE_NAME
 } from "@tkey/share-transfer"
@@ -292,23 +292,23 @@ const ThresholdKeyProvider = ({
     try {
       const serviceProvider = (TKeySdk.serviceProvider as unknown) as DirectAuthSdk
       switch (loginType) {
-      case "google":
+      case "google":{
         const googleResult = await serviceProvider.triggerLogin({
           typeOfLogin: "google",
           verifier: process.env.REACT_APP_GOOGLE_VERIFIER_NAME || "",
           clientId: process.env.REACT_APP_GOOGLE_CLIENT_ID || ""
         })
         setUserInfo(googleResult)
-        break
-      case "facebook":
+        break}
+      case "facebook":{
         const fbResult = await serviceProvider.triggerLogin({
           typeOfLogin: "facebook",
           verifier: process.env.REACT_APP_FACEBOOK_VERIFIER_NAME || "",
           clientId: process.env.REACT_APP_FACEBOOK_CLIENT_ID || ""
         })
         setUserInfo(fbResult)
-        break
-      case "github":
+        break}
+      case "github":{
         const ghResult = await serviceProvider.triggerLogin({
           typeOfLogin: "github",
           verifier: process.env.REACT_APP_GITHUB_VERIFIER_NAME || "",
@@ -318,8 +318,8 @@ const ThresholdKeyProvider = ({
           }
         })
         setUserInfo(ghResult)
-        break
-      case "web3":
+        break}
+      case "web3":{
         if (!provider) break
 
         if (!isReady || !address) {
@@ -343,8 +343,7 @@ const ThresholdKeyProvider = ({
             })
 
             console.log(access_token)
-            //@ts-ignore
-            const directAuthSdk = serviceProvider.directWeb as DirectAuthSdk
+            const directAuthSdk = (serviceProvider as any).directWeb as DirectAuthSdk
 
             const torusKey = await directAuthSdk.getTorusKey(
               process.env.REACT_APP_FILES_VERIFIER_NAME || "",
@@ -358,7 +357,7 @@ const ThresholdKeyProvider = ({
         } catch (error) {
           console.log(error)
         }
-        break
+        break}
       default:
         break
       }
@@ -371,12 +370,11 @@ const ThresholdKeyProvider = ({
       TORUS_POSTBOX_KEY,
       TKeySdk.serviceProvider.postboxKey.toString("hex")
     )
-    const metadata = await TKeySdk.storageLayer.getMetadata<IMetadata>({
+    const metadata = await TKeySdk.storageLayer.getMetadata<ShareStore | {message: string}>({
       privKey: TKeySdk.serviceProvider.postboxKey
     })
     console.log(metadata)
-    //@ts-ignore
-    const isNewKey = metadata.message === "KEY_NOT_FOUND"
+    const isNewKey = (metadata as {message: string}).message === "KEY_NOT_FOUND"
     if (isNewKey) {
       console.log("New key")
       setIsNewKey(true)
@@ -389,8 +387,7 @@ const ThresholdKeyProvider = ({
       console.log(privKey)
     } else {
       console.log("Existing key")
-      //@ts-ignore
-      await TKeySdk.initialize({ input: metadata })
+      await TKeySdk.initialize({ input: metadata as ShareStore })
       try {
         console.log("Trying to load device share")
         const storageModule = TKeySdk.modules[
