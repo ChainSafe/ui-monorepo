@@ -339,7 +339,8 @@ export const darkTheme = createTheme({
           optionsTextColor: "var(--gray5)",
           optionsBorder: "var(--gray5)",
           menuItemTextColor: "var(--gray10)",
-          iconColor: "var(--gray7)"
+          iconColor: "var(--gray7)",
+          hamburger: "var(--gray10)"
         },
         nav: {
           backgroundColor: "var(--gray1)",
@@ -474,25 +475,31 @@ export const darkTheme = createTheme({
         variants: {
           primary: {
             root: {
-              backgroundColor: "var(--gray4)",
-              color: "var(--gray3)"
+              backgroundColor: "var(--gray5)",
+              color: "var(--gray9)",
+              "& svg": {
+                fill: "var(--gray9)",
+              },
             },  
             active: {
-              color: "var(--gray3)",
+              backgroundColor: "var(--gray7)",
+              color: "var(--gray9)",
               "& svg": {
-                fill: "var(--gray3)",
+                fill: "var(--gray9)",
               },
             },
             hover: {
-              color: "var(--gray3)",
+              backgroundColor: "var(--gray7)",
+              color: "var(--gray9)",
               "& svg": {
-                fill: "var(--gray3)",
+                fill: "var(--gray9)",
               },
             },
             focus: {
-              color: "var(--gray3)",
+              backgroundColor: "var(--gray7)",
+              color: "var(--gray9)",
               "& svg": {
-                fill: "var(--gray3)",
+                fill: "var(--gray9)",
               },
             },
           },

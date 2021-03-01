@@ -25,7 +25,6 @@ const useStyles = makeStyles(
           textAlign: "center",
           marginBottom: constants.generalUnit * 4.125,
           [breakpoints.down("md")]: {
-            color: palette.common.white.main,
           },
         },
       },
@@ -35,14 +34,14 @@ const useStyles = makeStyles(
         marginBottom: constants.generalUnit * 1.5,
         "& span": {
           [breakpoints.down("md")]: {
-            color: palette.common.white.main,
+            // color: palette.common.white.main,
           },
         },
       },
       inputLabel: {
         fontSize: "16px",
         lineHeight: "24px",
-        color: palette.additional["gray"][8],
+        // color: palette.additional["gray"][10],
         marginBottom: constants.generalUnit,
       },
       button: {

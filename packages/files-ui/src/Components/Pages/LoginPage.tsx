@@ -68,7 +68,7 @@ const useStyles = makeStyles(
         fontWeight: typography.fontWeight.semibold,
         paddingLeft: constants.generalUnit,
         [breakpoints.down("md")]: {
-          color: palette.common.white.main,
+          // color: palette.common.white.main,
           fontSize: 16,
         },
       },

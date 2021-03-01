@@ -73,6 +73,9 @@ const useStyles = makeStyles(
       },
       hamburgerMenu: {
         position: "absolute",
+        "& span": {
+          backgroundColor: (constants as UI_COLORS).header.hamburger
+        }
       },
       logo: {
         textDecoration: "none",

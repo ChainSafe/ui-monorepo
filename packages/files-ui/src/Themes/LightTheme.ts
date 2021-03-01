@@ -26,7 +26,8 @@ export const lightTheme = createTheme({
           optionsTextColor: "initial",
           optionsBorder: "initial",
           menuItemTextColor: "var(--gray8)",
-          iconColor: "initial"
+          iconColor: "initial",
+          hamburger: "var(--gray10)"
         },
         nav: {
           backgroundColor: "var(--gray3)",
@@ -90,7 +91,7 @@ export const lightTheme = createTheme({
           itemColor: "initial"
         },
         masterkey: {
-          color: "var(--gray1)",
+          color: "var(--gray10)",
           link: "var(--gray10)"
         },
         profile: {

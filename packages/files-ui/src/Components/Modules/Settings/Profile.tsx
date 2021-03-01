@@ -78,8 +78,6 @@ const useStyles = makeStyles(({
       marginBottom: constants.generalUnit * 2,
     },
     button: {
-      backgroundColor: palette.common.black.main,
-      color: palette.common.white.main,
       width: 200,
       margin: `0px ${constants.generalUnit * 0.5}px ${
         constants.generalUnit * 1

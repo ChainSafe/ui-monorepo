@@ -22,6 +22,7 @@ export interface UI_COLORS extends Partial<IConstants> {
     optionsBorder: string
     menuItemTextColor: string
     iconColor: string
+    hamburger: string
   }
   modalDefault: {
     fadebackground: string

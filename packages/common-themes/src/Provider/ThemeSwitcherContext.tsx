@@ -28,16 +28,16 @@ type ThemeSwitcherProps = {
 const ThemeSwitcher: React.FC<ThemeSwitcherProps> = ({
   children,
   themes,
-  storageKey = "cs.themeKey",
+  storageKey = "cs.themeKey"
 }: ThemeSwitcherProps) => {
   const breakpoints = createBreakpoints({})
   const desktop = useMediaQuery(breakpoints.up("md"))
 
   // TODO: check min 1 theme
   const [current, setCurrent] = useState<string>("")
+  const canUseLocalStorage = React.useMemo(() => testLocalStorage(), [])
 
   useEffect(() => {
-    const canUseLocalStorage = testLocalStorage()
     if (canUseLocalStorage) {
       const cached = localStorage.getItem(storageKey)
       if (!cached) {
@@ -49,10 +49,9 @@ const ThemeSwitcher: React.FC<ThemeSwitcherProps> = ({
     } else {
       setCurrent(Object.keys(themes)[0])
     }
-  }, [themes, setCurrent])
+  }, [themes, setCurrent, canUseLocalStorage, storageKey])
 
   useEffect(() => {
-    const canUseLocalStorage = testLocalStorage()
     if (canUseLocalStorage && current != "") {
       localStorage.setItem(storageKey, current)
     }
@@ -63,7 +62,7 @@ const ThemeSwitcher: React.FC<ThemeSwitcherProps> = ({
         key => document.documentElement.style.setProperty(key, themes[current].globalStyling["@global"][":root"][key])
       )
     }
-  }, [current])
+  }, [current, storageKey, canUseLocalStorage, themes])
 
   return (
     <ThemeSwitcherContext.Provider
