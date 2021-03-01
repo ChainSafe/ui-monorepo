@@ -22,6 +22,7 @@ import { signMessage, useImployApi } from "@imploy/common-contexts"
 import { Wallet } from "ethers"
 import EthCrypto from "eth-crypto"
 import { useWeb3 } from "@chainsafe/web3-context"
+import ShareTransferRequestModal from "../Components/Elements/ShareTransferRequestModal"
 
 const TORUS_POSTBOX_KEY = "csf.postboxKey"
 const TKEY_STORE_KEY = "csf.tkeyStore"
@@ -33,7 +34,6 @@ export type TThresholdKeyContext = {
   isNewDevice: boolean
   isNewKey: boolean
   shouldInitializeAccount: boolean
-  pendingShareTransferRequests: ShareTransferRequest[]
   login(loginType: LOGIN_TYPE | "web3"): Promise<void>
   resetIsNewDevice(): void
   resetShouldInitialize(): void
@@ -57,7 +57,7 @@ type ThresholdKeyProviderProps = {
   apiKey?: string
 }
 
-type ShareTransferRequest = {
+export type ShareTransferRequest = {
   availableShareIndexes: Array<string>
   browserDetail: bowser.Parser.ParsedResult
   encPubKey: any
@@ -94,7 +94,7 @@ const ThresholdKeyProvider = ({
   ] = useState<ShareTransferRequest[]>([])
 
   const [privateKey, setPrivateKey] = useState<string | undefined>()
-
+  console.log("TKeySdk", TKeySdk)
   // Initialize Threshold Key and DirectAuth
   useEffect(() => {
     const init = async () => {
@@ -109,20 +109,9 @@ const ThresholdKeyProvider = ({
           [SHARE_SERIALIZATION_MODULE_NAME]: new ShareSerializationModule()
         }
         const tKeyJson = tkeySerialized ? JSON.parse(tkeySerialized) : {}
-        const serviceProvider = new ServiceProviderBase({
-          enableLogging,
-          postboxKey
-        })
-        const storageLayer = new TorusStorageLayer({
-          serviceProvider,
-          enableLogging,
-          hostUrl: "https://metadata.tor.us"
-        })
-        tkey = await ThresholdKey.fromJSON(tKeyJson, {
-          modules,
-          serviceProvider,
-          storageLayer
-        })
+        const serviceProvider = new ServiceProviderBase({ enableLogging,postboxKey })
+        const storageLayer = new TorusStorageLayer({ serviceProvider,enableLogging,hostUrl: "https://metadata.tor.us" })
+        tkey = await ThresholdKey.fromJSON(tKeyJson, { modules,serviceProvider,storageLayer })
         if (tKeyJson.modules) {
           if (tKeyJson.modules[WEB_STORAGE_MODULE_NAME])
             (tkey.modules[
@@ -131,9 +120,7 @@ const ThresholdKeyProvider = ({
               tKeyJson.modules[WEB_STORAGE_MODULE_NAME].canUseFileStorage
 
           if (tkey.modules[SHARE_TRANSFER_MODULE_NAME])
-            (tkey.modules[
-              SHARE_TRANSFER_MODULE_NAME
-            ] as ShareTransferModule).setRequestStatusCheckInterval(5000)
+            (tkey.modules[SHARE_TRANSFER_MODULE_NAME] as ShareTransferModule).setRequestStatusCheckInterval(5000)
         }
         const keyDetails = tkey.getKeyDetails()
         setKeyDetails(keyDetails)
@@ -222,7 +209,9 @@ const ThresholdKeyProvider = ({
   // Share Transfer poller
   useEffect(() => {
     const handler = async () => {
+      console.log("TKeySdk", TKeySdk)
       if (TKeySdk) {
+        console.log("polling...")
         const shareTransferModule = TKeySdk.modules[
           SHARE_TRANSFER_MODULE_NAME
         ] as ShareTransferModule
@@ -253,6 +242,7 @@ const ThresholdKeyProvider = ({
       handler()
       poller = setInterval(handler, 5000)
     }
+
     return () => {
       poller && clearInterval(poller)
     }
@@ -562,6 +552,8 @@ const ThresholdKeyProvider = ({
     logout()
   }
 
+  console.log("pendingShareTransferRequests", pendingShareTransferRequests)
+
   return (
     <ThresholdKeyContext.Provider
       value={{
@@ -573,7 +565,6 @@ const ThresholdKeyProvider = ({
         keyDetails,
         addNewDeviceShareAndSave,
         isNewDevice,
-        pendingShareTransferRequests,
         approveShareTransferRequest,
         rejectShareTransferRequest,
         isNewKey,
@@ -588,6 +579,7 @@ const ThresholdKeyProvider = ({
         logout: thresholdKeyLogout
       }}
     >
+      {pendingShareTransferRequests.length > 0 && <ShareTransferRequestModal requests={pendingShareTransferRequests}/>}
       {children}
     </ThresholdKeyContext.Provider>
   )
