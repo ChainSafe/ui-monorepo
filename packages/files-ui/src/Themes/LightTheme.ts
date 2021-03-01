@@ -16,6 +16,9 @@ export const lightTheme = createTheme({
     constants: {
       ...UI_CONSTANTS,
       ...({
+        landing: {
+          logoText: "var(--gray1)"
+        },
         modalDefault: {
           fadebackground: "var(--gray10)",
           background: "var(--gray10)",
@@ -31,6 +34,7 @@ export const lightTheme = createTheme({
         },
         nav: {
           backgroundColor: "var(--gray3)",
+          blocker: "var(--gray1)",
           mobileBackgroundColor: "var(--gray3)",
           headingColor: "initial",
           itemColor: "initial",
@@ -91,8 +95,14 @@ export const lightTheme = createTheme({
           itemColor: "initial"
         },
         masterkey: {
-          color: "var(--gray10)",
-          link: "var(--gray10)"
+          desktop: {
+            color: "var(--gray10)",
+            link: "var(--gray1)",
+          },
+          mobile: {
+            color: "var(--gray1)",
+            link: "var(--gray1)",
+          }
         },
         profile: {
           icon: "initial"

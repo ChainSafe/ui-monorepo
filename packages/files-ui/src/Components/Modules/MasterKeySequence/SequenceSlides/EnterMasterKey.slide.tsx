@@ -17,14 +17,18 @@ import { useImployApi, useUser } from "@imploy/common-contexts"
 import { UI_COLORS } from "../../../../Themes/Constants"
 
 const useStyles = makeStyles(
-  ({ constants, breakpoints, palette, typography }: ITheme) =>
+  ({ constants, breakpoints, typography }: ITheme) =>
     createStyles({
       root: {
         maxWidth: 320,
         "& h2": {
           textAlign: "center",
           marginBottom: constants.generalUnit * 4.125,
+          [breakpoints.up("md")]: {
+            color: (constants as UI_COLORS).masterkey.desktop.color,
+          },
           [breakpoints.down("md")]: {
+            color: (constants as UI_COLORS).masterkey.mobile.color,
           },
         },
       },
@@ -32,25 +36,28 @@ const useStyles = makeStyles(
         width: "100%",
         margin: 0,
         marginBottom: constants.generalUnit * 1.5,
-        "& span": {
-          [breakpoints.down("md")]: {
-            // color: palette.common.white.main,
-          },
-        },
       },
       inputLabel: {
         fontSize: "16px",
         lineHeight: "24px",
-        // color: palette.additional["gray"][10],
         marginBottom: constants.generalUnit,
+        [breakpoints.up("md")]: {
+          color: (constants as UI_COLORS).masterkey.desktop.color,
+        },
+        [breakpoints.down("md")]: {
+          color: (constants as UI_COLORS).masterkey.mobile.color,
+        },
       },
       button: {
         marginTop: constants.generalUnit * 3,
       },
       userContainer: {
         marginTop: constants.generalUnit * 4,
+        [breakpoints.up("md")]: {
+          color: (constants as UI_COLORS).masterkey.desktop.color,
+        },
         [breakpoints.down("md")]: {
-          color: palette.common.white.main,
+          color: (constants as UI_COLORS).masterkey.mobile.color,
         },
       },
       logoutButton: {
@@ -60,9 +67,11 @@ const useStyles = makeStyles(
         cursor: "pointer",
         backgroundColor: "transparent",
         ...typography.body1,
-        color: (constants as UI_COLORS).masterkey.color,
+        [breakpoints.up("md")]: {
+          color: (constants as UI_COLORS).masterkey.desktop.color,
+        },
         [breakpoints.down("md")]: {
-          color: (constants as UI_COLORS).masterkey.color,
+          color: (constants as UI_COLORS).masterkey.mobile.color,
         },
       },
     }),

@@ -15,6 +15,9 @@ export const UI_CONSTANTS = {
 }
 
 export interface UI_COLORS extends Partial<IConstants> {
+  landing: {
+    logoText: string
+  }
   header: {
     rootBackground: string
     optionsBackground: string
@@ -30,6 +33,7 @@ export interface UI_COLORS extends Partial<IConstants> {
   }
   nav: {
     backgroundColor: string
+    blocker: string
     mobileBackgroundColor: string
     headingColor: string
     itemColor: string
@@ -90,8 +94,14 @@ export interface UI_COLORS extends Partial<IConstants> {
     itemColor: string
   }
   masterkey: {
-    color: string
-    link: string
+    desktop: {
+      color: string
+      link: string
+    }
+    mobile: {
+      color: string
+      link: string
+    }
   }
   profile: {
     icon: string

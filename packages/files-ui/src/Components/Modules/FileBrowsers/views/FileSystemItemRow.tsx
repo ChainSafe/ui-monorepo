@@ -112,8 +112,6 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: ITheme) => {
     },
     okButton: {
       marginLeft: constants.generalUnit,
-      color: palette.common.white.main,
-      backgroundColor: palette.common.black.main,
     },
     cancelButton: {
       [breakpoints.down("md")]: {

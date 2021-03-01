@@ -19,6 +19,8 @@ import {
   Button,
   formatBytes,
   DeleteSvg,
+  SunSvg,
+  MoonSvg,
 } from "@chainsafe/common-components"
 import { ROUTE_LINKS } from "../FilesRoutes"
 import { FREE_PLAN_LIMIT } from "../../Utils/Constants"
@@ -67,7 +69,7 @@ const useStyles = makeStyles(
       },
       blocker: {
         display: "block",
-        backgroundColor: palette.additional["gray"][9],
+        backgroundColor: (constants as UI_COLORS).nav.blocker,
         position: "fixed",
         top: Number(constants.mobileHeaderHeight),
         left: 0,
@@ -79,7 +81,13 @@ const useStyles = makeStyles(
         visibility: "hidden",
         "&.active": {
           visibility: "visible",
-          opacity: 0.5,
+          [breakpoints.up("md")]: {
+            opacity: 0.5,
+          },
+          [breakpoints.down("md")]: {
+            opacity: 1,
+          },
+          
         },
       },
       logo: {
@@ -146,7 +154,23 @@ const useStyles = makeStyles(
         transitionDuration: `${animation.transform}ms`,
         "& span": {
           transitionDuration: `${animation.transform}ms`,
-          color: (constants as UI_COLORS).nav.itemColor,
+          [breakpoints.up("md")]: {
+            color: (constants as UI_COLORS).nav.itemColor,
+          },
+          [breakpoints.down("md")]: {
+            color: (constants as UI_COLORS).nav.itemColorHover,
+          }
+        },
+        "& svg": {
+          transitionDuration: `${animation.transform}ms`,
+          width: Number(constants.svgWidth),
+          marginRight: constants.generalUnit * 2,
+          [breakpoints.up("md")]: {
+            fill: (constants as UI_COLORS).nav.itemIconColor,
+          },
+          [breakpoints.down("md")]: {
+            fill: (constants as UI_COLORS).nav.itemIconColorHover,
+          }
         },
         "&:hover": {
           "& span": {
@@ -156,17 +180,7 @@ const useStyles = makeStyles(
             fill: (constants as UI_COLORS).nav.itemIconColorHover,
           },
         },
-        "& svg": {
-          transitionDuration: `${animation.transform}ms`,
-          width: Number(constants.svgWidth),
-          marginRight: constants.generalUnit * 2,
-          fill: (constants as UI_COLORS).nav.itemIconColor,
-          [breakpoints.down("md")]: {
-            fill: palette.additional["gray"][3],
-          },
-        },
         [breakpoints.down("md")]: {
-          color: `${palette.additional["gray"][3]} !important`,
           minWidth: Number(constants.mobileNavWidth),
         },
       },
@@ -202,7 +216,7 @@ interface IAppNav {
 }
 
 const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
-  const { desktop } = useThemeSwitcher()
+  const { desktop, setTheme, themeKey } = useThemeSwitcher()
   const classes = useStyles()
 
   const { spaceUsed } = useDrive()
@@ -324,18 +338,29 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
               </div>
             )}
             {!desktop && (
-              <div
-                className={classes.navItem}
-                onClick={() => {
-                  handleOnClick()
-                  signOut()
-                }}
-              >
-                <PowerDownSvg />
-                <Typography>
-                  <Trans>Sign Out</Trans>
-                </Typography>
-              </div>
+              <Fragment>
+                <div 
+                  onClick={() => setTheme(themeKey === "dark" ? "light" : "dark")}
+                  className={classes.navItem}
+                >
+                  {themeKey === "dark" ? <SunSvg /> : <MoonSvg />}
+                  <Typography>
+                    {themeKey === "dark" ? <Trans>Light mode</Trans> : <Trans>Dark mode</Trans>}
+                  </Typography>
+                </div>
+                <div
+                  className={classes.navItem}
+                  onClick={() => {
+                    handleOnClick()
+                    signOut()
+                  }}
+                >
+                  <PowerDownSvg />
+                  <Typography>
+                    <Trans>Sign Out</Trans>
+                  </Typography>
+                </div>
+              </Fragment>
             )}
           </section>
           {!desktop && (

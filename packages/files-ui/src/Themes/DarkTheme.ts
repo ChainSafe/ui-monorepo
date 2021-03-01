@@ -329,6 +329,9 @@ export const darkTheme = createTheme({
     constants: {
       ...UI_CONSTANTS,
       ...({
+        landing: {
+          logoText: "var(--gray10)"
+        },
         modalDefault: {
           fadebackground: "var(--gray2)",
           background: "var(--gray2)",
@@ -344,6 +347,7 @@ export const darkTheme = createTheme({
         },
         nav: {
           backgroundColor: "var(--gray1)",
+          blocker: "var(--gray1)",
           mobileBackgroundColor: "var(--gray1)",
           headingColor: "var(--gray8)",
           itemColor: "var(--gray7)",
@@ -404,8 +408,14 @@ export const darkTheme = createTheme({
           itemColor: "var(--gray9)"
         },
         masterkey: {
-          color: "var(--gray9)",
-          link: "var(--gray10)"
+          desktop: {
+            color: "var(--gray9)",
+            link: "var(--gray10)",
+          },
+          mobile: {
+            color: "var(--gray9)",
+            link: "var(--gray10)",
+          }
         },
         profile: {
           icon: "var(--gray9)"

@@ -27,15 +27,21 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: ITheme) =>
       "& p": {
         fontWeight: 400,
         marginBottom: constants.generalUnit * 2,
+        [breakpoints.up("md")]: {
+          color: (constants as UI_COLORS).masterkey.desktop.color,
+        },
         [breakpoints.down("md")]: {
-          color: palette.common.white.main,
+          color: (constants as UI_COLORS).masterkey.mobile.color,
         },
       },
       "& h2": {
         textAlign: "center",
         marginBottom: constants.generalUnit * 4.125,
+        [breakpoints.up("md")]: {
+          color: (constants as UI_COLORS).masterkey.desktop.color,
+        },
         [breakpoints.down("md")]: {
-          color: palette.common.white.main,
+          color: (constants as UI_COLORS).masterkey.mobile.color,
         },
       },
     },
@@ -44,8 +50,11 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: ITheme) =>
       width: "100%",
       marginBottom: constants.generalUnit * 1.5,
       "& span": {
+        [breakpoints.up("md")]: {
+          color: (constants as UI_COLORS).masterkey.desktop.color,
+        },
         [breakpoints.down("md")]: {
-          color: palette.common.white.main,
+          color: (constants as UI_COLORS).masterkey.mobile.color,
         },
       },
     },
@@ -56,13 +65,10 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: ITheme) =>
     checkbox: {
       marginBottom: constants.generalUnit,
       [breakpoints.up("md")]: {
-        color: palette.additional["gray"][8],
+        color: (constants as UI_COLORS).masterkey.desktop.color,
       },
       [breakpoints.down("md")]: {
-        color: palette.common.white.main,
-        "& a": {
-          color: `${palette.common.white.main} !important`,
-        },
+        color: (constants as UI_COLORS).masterkey.mobile.color,
       },
     },
     button: {
@@ -71,11 +77,21 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: ITheme) =>
     inputLabel: {
       fontSize: "16px",
       lineHeight: "24px",
-      color: palette.additional["gray"][8],
+      [breakpoints.up("md")]: {
+        color: (constants as UI_COLORS).masterkey.desktop.color,
+      },
+      [breakpoints.down("md")]: {
+        color: (constants as UI_COLORS).masterkey.mobile.color,
+      },
       marginBottom: constants.generalUnit,
     },
     link: {
-      color: (constants as UI_COLORS).masterkey.link,
+      [breakpoints.up("md")]: {
+        color: (constants as UI_COLORS).masterkey.desktop.link,
+      },
+      [breakpoints.down("md")]: {
+        color: (constants as UI_COLORS).masterkey.mobile.link,
+      },
     },
   }),
 )
