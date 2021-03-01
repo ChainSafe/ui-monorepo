@@ -191,7 +191,7 @@ const ThresholdKeyProvider = ({
         SHARE_TRANSFER_MODULE_NAME
       ] as ShareTransferModule
       await shareTransferModule.cancelRequestStatusCheck()
-      await shareTransferModule.deleteShareTransferStore(shareTransferModule.currentEncKey.toString("hex"))
+      // await shareTransferModule.deleteShareTransferStore(shareTransferModule.currentEncKey.toString("hex"))
     }
 
     if (keyDetails && keyDetails.requiredShares <= 0 && !privateKey) {
