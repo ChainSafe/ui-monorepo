@@ -65,14 +65,14 @@ const useStyles = makeStyles(
         marginRight: `${constants.generalUnit * 2}px`,
         ...overrides?.Toaster?.typeIcon?.root,
         "&.success": {
-          ...overrides?.Toaster?.typeIcon?.success,
+          ...overrides?.Toaster?.typeIcon?.success
         },
         "&.error": {
-          ...overrides?.Toaster?.typeIcon?.error,
+          ...overrides?.Toaster?.typeIcon?.error
         },
         "&.info": {
-          ...overrides?.Toaster?.typeIcon?.info,
-        },
+          ...overrides?.Toaster?.typeIcon?.info
+        }
       },
       closeButton: {
         backgroundColor: "transparent",

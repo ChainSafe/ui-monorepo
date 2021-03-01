@@ -33,8 +33,8 @@ const createTheme = (themeProps?: ICreateThemeProps): ITheme => {
       "@global": {
         ...(themeProps?.globalStyling
           ? mergeDeep(DefaultGlobalStyling, themeProps.globalStyling)
-          : DefaultGlobalStyling),
-      },
+          : DefaultGlobalStyling)
+      }
     },
     mixins: createMixins(themeProps?.mixins)
   }
