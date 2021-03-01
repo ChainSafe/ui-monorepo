@@ -3,7 +3,7 @@ import {
   createStyles,
   ITheme,
   makeStyles,
-  useThemeSwitcher,
+  useThemeSwitcher
 } from "@chainsafe/common-theme"
 import { useDrive } from "../../../Contexts/DriveContext"
 import UploadBox from "./UploadBox"
@@ -22,9 +22,9 @@ const useStyles = makeStyles(({ constants, zIndex, breakpoints }: ITheme) => {
       zIndex: zIndex?.layer1,
       [breakpoints.down("md")]: {
         margin: constants.generalUnit,
-        width: `calc(100% - ${constants.generalUnit * 2}px)`,
-      },
-    },
+        width: `calc(100% - ${constants.generalUnit * 2}px)`
+      }
+    }
   })
 })
 
@@ -42,7 +42,7 @@ const UploadProgressModals: React.FC = () => {
               key={uploadInProgress.id}
               uploadInProgress={uploadInProgress}
             />
-          ),
+          )
       )}
     </div>
   )

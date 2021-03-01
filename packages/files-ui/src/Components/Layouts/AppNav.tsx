@@ -4,7 +4,7 @@ import {
   createStyles,
   ITheme,
   makeStyles,
-  useThemeSwitcher,
+  useThemeSwitcher
 } from "@chainsafe/common-theme"
 import React, { Fragment, useCallback } from "react"
 import clsx from "clsx"
@@ -18,12 +18,12 @@ import {
   ProgressBar,
   Button,
   formatBytes,
-  DeleteSvg,
+  DeleteSvg
 } from "@chainsafe/common-components"
 import { ROUTE_LINKS } from "../FilesRoutes"
 import { FREE_PLAN_LIMIT } from "../../Utils/Constants"
 import { Trans } from "@lingui/macro"
-import {useThresholdKey} from "../../Contexts/ThresholdKeyContext"
+import { useThresholdKey } from "../../Contexts/ThresholdKeyContext"
 
 const useStyles = makeStyles(
   ({ palette, animation, breakpoints, constants, zIndex }: ITheme) => {
@@ -38,7 +38,7 @@ const useStyles = makeStyles(
         left: 0,
         opacity: 0,
         "&.active": {
-          opacity: 1,
+          opacity: 1
         },
         [breakpoints.up("md")]: {
           padding: `${constants.topPadding}px ${constants.generalUnit * 4.5}px`,
@@ -46,8 +46,8 @@ const useStyles = makeStyles(
           top: 0,
           height: "100%",
           "&.active": {
-            width: constants.navWidth,
-          },
+            width: constants.navWidth
+          }
         },
         [breakpoints.down("md")]: {
           height: `calc(100% - ${constants.mobileHeaderHeight}px)`,
@@ -72,9 +72,9 @@ const useStyles = makeStyles(
           // },
           "&.active": {
             visibility: "visible",
-            width: constants.mobileNavWidth,
-          },
-        },
+            width: constants.mobileNavWidth
+          }
+        }
       },
       blocker: {
         display: "block",
@@ -90,8 +90,8 @@ const useStyles = makeStyles(
         visibility: "hidden",
         "&.active": {
           visibility: "visible",
-          opacity: 0.5,
-        },
+          opacity: 0.5
+        }
       },
       logo: {
         textDecoration: "none",
@@ -102,11 +102,11 @@ const useStyles = makeStyles(
         [breakpoints.up("md")]: {
           "& img": {
             height: constants.generalUnit * 5,
-            width: "auto",
+            width: "auto"
           },
           "& > *:first-child": {
-            marginRight: constants.generalUnit,
-          },
+            marginRight: constants.generalUnit
+          }
         },
         [breakpoints.down("md")]: {
           position: "absolute",
@@ -115,15 +115,15 @@ const useStyles = makeStyles(
           transform: "translate(-50%,-50%)",
           "& img": {
             height: constants.generalUnit * 3.25,
-            width: "auto",
-          },
-        },
+            width: "auto"
+          }
+        }
       },
       navMenu: {
         display: "flex",
         flexDirection: "column",
         marginBottom: constants.generalUnit * 8.5,
-        transitionDuration: `${animation.translate}ms`,
+        transitionDuration: `${animation.translate}ms`
       },
       linksArea: {
         display: "flex",
@@ -132,19 +132,19 @@ const useStyles = makeStyles(
         justifyContent: "center",
         transitionDuration: `${animation.translate}ms`,
         "& > span": {
-          marginBottom: constants.generalUnit * 2,
+          marginBottom: constants.generalUnit * 2
         },
         [breakpoints.up("md")]: {
-          height: 0,
+          height: 0
         },
         [breakpoints.down("md")]: {
           transitionDuration: `${animation.translate}ms`,
           color: palette.additional["gray"][3],
-          "&.active": {},
-        },
+          "&.active": {}
+        }
       },
       navHead: {
-        fontWeight: 600,
+        fontWeight: 600
       },
       navItem: {
         textDecoration: "none",
@@ -158,18 +158,18 @@ const useStyles = makeStyles(
           marginRight: constants.generalUnit * 2,
           fill: palette.additional["gray"][8],
           [breakpoints.down("md")]: {
-            fill: palette.additional["gray"][3],
-          },
+            fill: palette.additional["gray"][3]
+          }
         },
         [breakpoints.down("md")]: {
           color: `${palette.additional["gray"][3]} !important`,
-          minWidth: constants.mobileNavWidth,
-        },
+          minWidth: constants.mobileNavWidth
+        }
       },
       navItemText: {
         [breakpoints.down("md")]: {
-          color: palette.additional["gray"][3],
-        },
+          color: palette.additional["gray"][3]
+        }
       },
       menuItem: {
         width: 100,
@@ -179,17 +179,17 @@ const useStyles = makeStyles(
         "& svg": {
           width: constants.generalUnit * 2,
           height: constants.generalUnit * 2,
-          marginRight: constants.generalUnit,
-        },
+          marginRight: constants.generalUnit
+        }
       },
       spaceUsedMargin: {
-        marginBottom: constants.generalUnit,
+        marginBottom: constants.generalUnit
       },
       betaCaption: {
-        marginBottom: constants.generalUnit * 0.5,
-      },
+        marginBottom: constants.generalUnit * 0.5
+      }
     })
-  },
+  }
 )
 
 interface IAppNav {
@@ -231,7 +231,7 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
           !!publicKey &&
           !isNewDevice &&
           !shouldInitializeAccount
-          : navOpen,
+          : navOpen
       })}
     >
       {isLoggedIn &&
@@ -308,8 +308,8 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
                   className={classes.spaceUsedMargin}
                   component="p"
                 >{`${formatBytes(spaceUsed)} of ${formatBytes(
-                  FREE_PLAN_LIMIT,
-                )} used`}</Typography>
+                    FREE_PLAN_LIMIT
+                  )} used`}</Typography>
                 <ProgressBar
                   className={classes.spaceUsedMargin}
                   progress={(spaceUsed / FREE_PLAN_LIMIT) * 100}
@@ -346,7 +346,7 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
             <div
               onClick={() => setNavOpen(false)}
               className={clsx(classes.blocker, {
-                active: navOpen,
+                active: navOpen
               })}
             ></div>
           )}

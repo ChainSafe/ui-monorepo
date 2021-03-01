@@ -17,16 +17,16 @@ const useStyles = makeStyles(({ constants, palette, breakpoints }: ITheme) =>
         justifyContent: "flex-end",
         alignItems: "center",
         backgroundColor: palette.additional["gray"][3],
-        padding: constants.generalUnit * 2,
-      },
+        padding: constants.generalUnit * 2
+      }
     },
     modalInner: {
       [breakpoints.down("md")]: {
-        maxWidth: `${breakpoints.width("md")}px !important`,
-      },
+        maxWidth: `${breakpoints.width("md")}px !important`
+      }
     },
     input: {
-      marginBottom: constants.generalUnit * 2,
+      marginBottom: constants.generalUnit * 2
     },
     cta: {},
     okButton: {
@@ -35,15 +35,15 @@ const useStyles = makeStyles(({ constants, palette, breakpoints }: ITheme) =>
       backgroundColor: palette.common.black.main,
       "&.wide": {
         paddingLeft: constants.generalUnit * 4,
-        paddingRight: constants.generalUnit * 4,
-      },
+        paddingRight: constants.generalUnit * 4
+      }
     },
     cancelButton: {},
     label: {
       fontSize: 14,
-      lineHeight: "22px",
-    },
-  }),
+      lineHeight: "22px"
+    }
+  })
 )
 
 interface IUploadFileModuleProps {
@@ -53,14 +53,14 @@ interface IUploadFileModuleProps {
 
 const UploadFileModule: React.FC<IUploadFileModuleProps> = ({
   modalOpen,
-  close,
+  close
 }: IUploadFileModuleProps) => {
   const [isDoneDisabled, setIsDoneDisabled] = useState(true)
   const classes = useStyles()
   const { uploadFiles, currentPath } = useDrive()
 
   const UploadSchema = object().shape({
-    files: array().required("Please select a file to upload"),
+    files: array().required("Please select a file to upload")
   })
 
   const onFileNumberChange = useCallback((filesNumber: number) => {
@@ -73,12 +73,12 @@ const UploadFileModule: React.FC<IUploadFileModuleProps> = ({
       closePosition="none"
       maxWidth="sm"
       injectedClass={{
-        inner: classes.modalInner,
+        inner: classes.modalInner
       }}
     >
       <Formik
         initialValues={{
-          files: [],
+          files: []
         }}
         validationSchema={UploadSchema}
         onSubmit={async (values, helpers) => {

@@ -5,12 +5,12 @@ export const lightTheme = createTheme({
     palette: {
       primary: {
         main: "#262626",
-        hover: "#FFF",
+        hover: "#FFF"
       },
       secondary: {
         main: "#FFF",
-        hover: "#000",
-      },
+        hover: "#000"
+      }
     },
     constants: {
       mobileButtonHeight: 44,
@@ -23,14 +23,14 @@ export const lightTheme = createTheme({
       topPadding: 8 * 3, // constants.generalUnit
       mobileNavWidth: 8 * 30, // constants.generalUnit
       headerTopPadding: 8 * 3, // constants.generalUnit
-      accountControlsPadding: 8 * 7, // constants.generalUnit
+      accountControlsPadding: 8 * 7 // constants.generalUnit
     },
     overrides: {
       Typography: {
         h5: {
           fontWeight: 600,
-          color: "#000000",
-        },
+          color: "#000000"
+        }
       },
       Button: {
         variants: {
@@ -38,24 +38,24 @@ export const lightTheme = createTheme({
             active: {
               color: "#262626",
               "& svg": {
-                fill: "#262626",
-              },
+                fill: "#262626"
+              }
             },
             hover: {
               color: "#262626",
               "& svg": {
-                fill: "#262626",
-              },
+                fill: "#262626"
+              }
             },
             focus: {
               color: "#262626",
               "& svg": {
-                fill: "#262626",
-              },
-            },
-          },
-        },
-      },
-    },
-  },
+                fill: "#262626"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
 })

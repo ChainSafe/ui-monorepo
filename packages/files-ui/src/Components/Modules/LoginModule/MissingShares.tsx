@@ -6,15 +6,15 @@ const MissingShares: React.FC = () => {
   const {
     keyDetails,
     inputPasswordShare,
-    inputMnemonicShare,
+    inputMnemonicShare
   } = useThresholdKey()
   const [password, setPassword] = useState<string>("")
   const [mnemonic, setMnemonic] = useState<string>("")
 
   const shares = keyDetails
     ? Object.values(keyDetails.shareDescriptions).map((share) => {
-        return JSON.parse(share[0])
-      })
+      return JSON.parse(share[0])
+    })
     : []
 
   const hasPasswordShare =

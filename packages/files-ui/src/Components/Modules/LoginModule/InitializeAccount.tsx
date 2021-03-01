@@ -8,7 +8,7 @@ const InitializeAccount: React.FC = () => {
     addPasswordShare,
     isNewKey,
     addMnemonicShare,
-    resetShouldInitialize,
+    resetShouldInitialize
   } = useThresholdKey()
   const [password, setPassword] = useState<string | undefined>("")
   const [dismissNewKey, setDismissNewKey] = useState(false)
@@ -16,8 +16,8 @@ const InitializeAccount: React.FC = () => {
 
   const shares = keyDetails
     ? Object.values(keyDetails.shareDescriptions).map((share) => {
-        return JSON.parse(share[0])
-      })
+      return JSON.parse(share[0])
+    })
     : []
 
   const hasPasswordShare =

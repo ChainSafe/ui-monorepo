@@ -19,26 +19,26 @@ const useStyles = makeStyles(({ constants, palette }: ITheme) =>
         width: `calc(25% - ${constants.generalUnit}px)`,
         margin: `${constants.generalUnit}px 0`,
         "&:nth-child(1)": {
-          backgroundColor: palette.error.main,
+          backgroundColor: palette.error.main
         },
         "&:nth-child(2)": {
-          backgroundColor: palette.warning.main,
+          backgroundColor: palette.warning.main
         },
         "&:nth-child(3)": {
-          backgroundColor: palette.success.border,
+          backgroundColor: palette.success.border
         },
         "&:nth-child(4)": {
-          backgroundColor: palette.success.main,
+          backgroundColor: palette.success.main
         },
         "&.inactive": {
-          backgroundColor: palette.additional["gray"][7],
-        },
-      },
+          backgroundColor: palette.additional["gray"][7]
+        }
+      }
     },
     caption: {
-      marginTop: constants.generalUnit,
-    },
-  }),
+      marginTop: constants.generalUnit
+    }
+  })
 )
 
 interface IStrengthIndicator {
@@ -48,7 +48,7 @@ interface IStrengthIndicator {
 
 const StrengthIndicator: React.FC<IStrengthIndicator> = ({
   className,
-  fieldName,
+  fieldName
 }: IStrengthIndicator) => {
   const classes = useStyles()
 
@@ -78,22 +78,22 @@ const StrengthIndicator: React.FC<IStrengthIndicator> = ({
       <div className={classes.indicatorRoot}>
         <div
           className={clsx({
-            inactive: score < 1,
+            inactive: score < 1
           })}
         ></div>
         <div
           className={clsx({
-            inactive: score < 2,
+            inactive: score < 2
           })}
         ></div>
         <div
           className={clsx({
-            inactive: score < 3,
+            inactive: score < 3
           })}
         ></div>
         <div
           className={clsx({
-            inactive: score < 4,
+            inactive: score < 4
           })}
         ></div>
       </div>

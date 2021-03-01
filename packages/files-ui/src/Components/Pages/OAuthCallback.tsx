@@ -18,27 +18,29 @@ const OAuthCallback: React.FC = () => {
         const state = queryParams.get("state")
         if (code && state) {
           switch (provider) {
-            case "github": {
-              await loginWithGithub(code, state)
-              break
-            }
-            case "google": {
-              const scope = queryParams.get("scope") || undefined
-              const authUser = queryParams.get("authUser") || undefined
-              const hd = queryParams.get("hd") || undefined
-              const prompt = queryParams.get("prompt") || undefined
+          case "github": {
+            await loginWithGithub(code, state)
+            break
+          }
+          case "google": {
+            const scope = queryParams.get("scope") || undefined
+            const authUser = queryParams.get("authUser") || undefined
+            const hd = queryParams.get("hd") || undefined
+            const prompt = queryParams.get("prompt") || undefined
 
-              await loginWithGoogle(code, state, scope, authUser, hd, prompt)
-              break
-            }
-            case "facebook": {
-              await loginWithFacebook(code, state)
-              break
-            }
-            default:
+            await loginWithGoogle(code, state, scope, authUser, hd, prompt)
+            break
+          }
+          case "facebook": {
+            await loginWithFacebook(code, state)
+            break
+          }
+          default:
           }
         }
-      } catch {}
+      } catch (e){
+        console.error(e)
+      }
     }
 
     loginWithProvider()

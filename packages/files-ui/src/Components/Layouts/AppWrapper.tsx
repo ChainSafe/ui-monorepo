@@ -16,22 +16,22 @@ const useStyles = makeStyles(
   ({ animation, breakpoints, constants }: ITheme) => {
     return createStyles({
       root: {
-        minHeight: "100vh",
+        minHeight: "100vh"
       },
       bodyWrapper: {
         transitionDuration: `${animation.translate}ms`,
         [breakpoints.up("md")]: {
-          padding: `0`,
+          padding: "0",
           "&.active": {
             // This moves the content areas based on the size of the nav bar
 
             padding: `${0}px ${constants.contentPadding}px ${0}px ${
               (constants.navWidth as number) +
               (constants.contentPadding as number)
-            }px`,
-          },
+            }px`
+          }
         },
-        [breakpoints.down("md")]: {},
+        [breakpoints.down("md")]: {}
       },
       content: {
         [breakpoints.up("md")]: {
@@ -41,19 +41,19 @@ const useStyles = makeStyles(
           padding: 0,
           "&.active": {
             height: "initial",
-            padding: `${constants.contentTopPadding}px 0 0`,
-          },
+            padding: `${constants.contentTopPadding}px 0 0`
+          }
         },
         [breakpoints.down("md")]: {
           minHeight: "100vh",
           "&.active": {
             height: "initial",
-            padding: `${constants.mobileHeaderHeight}px 0 0`,
-          },
-        },
-      },
+            padding: `${constants.mobileHeaderHeight}px 0 0`
+          }
+        }
+      }
     })
-  },
+  }
 )
 
 const AppWrapper: React.FC<IAppWrapper> = ({ children }: IAppWrapper) => {
@@ -74,7 +74,7 @@ const AppWrapper: React.FC<IAppWrapper> = ({ children }: IAppWrapper) => {
             secured &&
             !!publicKey &&
             !isNewDevice &&
-            !shouldInitializeAccount,
+            !shouldInitializeAccount
         })}
       >
         <AppHeader navOpen={navOpen} setNavOpen={setNavOpen} />
@@ -85,7 +85,7 @@ const AppWrapper: React.FC<IAppWrapper> = ({ children }: IAppWrapper) => {
               secured &&
               !!publicKey &&
               !isNewDevice &&
-              !shouldInitializeAccount,
+              !shouldInitializeAccount
           })}
         >
           {children}

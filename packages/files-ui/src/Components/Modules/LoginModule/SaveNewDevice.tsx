@@ -11,6 +11,7 @@ const SaveNewDevice: React.FC = () => {
       <Typography>Would you like to save this device?</Typography>
       <CheckboxInput
         value={useFileStorage}
+        // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
         //@ts-ignore
         onChange={(e) => setUseFileStorage(e.target.value)}
         label="Save to file storage"

@@ -4,7 +4,7 @@ import {
   createStyles,
   ITheme,
   makeStyles,
-  useThemeSwitcher,
+  useThemeSwitcher
 } from "@chainsafe/common-theme"
 import { FileSystemItem, useDrive } from "../../Contexts/DriveContext"
 import MimeMatcher from "mime-matcher"
@@ -19,7 +19,7 @@ import {
   DownloadSvg,
   MoreIcon,
   CloseCircleIcon,
-  ProgressBar,
+  ProgressBar
   // ExportIcon,
   // DeleteIcon,
   // EditIcon,
@@ -41,12 +41,12 @@ const SUPPORTED_FILE_TYPES: Record<string, React.FC<IPreviewRendererProps>> = {
   "application/pdf": PdfPreview,
   "image/*": ImagePreview,
   "audio/*": AudioPreview,
-  "video/*": VideoPreview,
+  "video/*": VideoPreview
   // "text/*": <div>Text Previews coming soon</div>,
 }
 
 const compatibleFilesMatcher = new MimeMatcher(
-  ...Object.keys(SUPPORTED_FILE_TYPES),
+  ...Object.keys(SUPPORTED_FILE_TYPES)
 )
 
 const useStyles = makeStyles(
@@ -60,7 +60,7 @@ const useStyles = makeStyles(
         left: 0,
         top: 0,
         backgroundColor: "rgba(0,0,0, 0.88)",
-        overflowX: "hidden",
+        overflowX: "hidden"
       },
       previewModalControls: {
         position: "absolute",
@@ -77,23 +77,23 @@ const useStyles = makeStyles(
         color: palette.additional["gray"][3],
         borderWidth: 1,
         borderStyle: "solid",
-        borderColor: palette.additional["gray"][8],
+        borderColor: palette.additional["gray"][8]
       },
       closePreviewButton: {
         marginRight: constants.generalUnit * 2,
         marginLeft: constants.generalUnit * 2,
         fill: palette.additional["gray"][2],
-        cursor: "pointer",
+        cursor: "pointer"
       },
       fileOperationsMenu: {
-        fill: palette.additional["gray"][2],
+        fill: palette.additional["gray"][2]
       },
       fileName: {
         width: "100%",
         whiteSpace: "nowrap",
         overflow: "hidden",
         textOverflow: "ellipsis",
-        color: palette.additional["gray"][1],
+        color: palette.additional["gray"][1]
       },
       menuIcon: {
         display: "flex",
@@ -101,20 +101,20 @@ const useStyles = makeStyles(
         alignItems: "center",
         width: 20,
         marginRight: constants.generalUnit * 1.5,
-        fill: palette.additional["gray"][7],
+        fill: palette.additional["gray"][7]
       },
       previewContainer: {
         height: "100%",
         alignItems: "center",
-        textAlign: "center",
+        textAlign: "center"
       },
       prevNext: {
-        alignItems: "center",
+        alignItems: "center"
       },
       prevNextButton: {
         backgroundColor: palette.common.black.main,
         padding: `${constants.generalUnit * 2}px !important`,
-        borderRadius: constants.generalUnit * 4,
+        borderRadius: constants.generalUnit * 4
       },
       previewContent: {
         color: palette.additional["gray"][6],
@@ -123,27 +123,27 @@ const useStyles = makeStyles(
         flexDirection: "column",
         alignItems: "center",
         "& h2": {
-          margin: `${constants.generalUnit}px 0`,
-        },
+          margin: `${constants.generalUnit}px 0`
+        }
       },
       downloadButton: {
         backgroundColor: "rgba(0,0,0, 0.88)",
         color: palette.additional["gray"][3],
         borderColor: palette.additional["gray"][3],
         borderWidth: 1,
-        borderStyle: "solid",
+        borderStyle: "solid"
       },
       swipeContainer: {
         width: "100%",
         height: "100%",
         display: "flex",
-        justifyContent: "center",
+        justifyContent: "center"
       },
       loadingBar: {
         width: 150,
-        marginTop: constants.generalUnit,
-      },
-    }),
+        marginTop: constants.generalUnit
+      }
+    })
 )
 
 const FilePreviewModal: React.FC<{
@@ -164,7 +164,7 @@ const FilePreviewModal: React.FC<{
   const handlers = useSwipeable({
     onSwipedLeft: () => previousFile && !isLoading && previousFile(),
     onSwipedRight: () => nextFile && !isLoading && nextFile(),
-    delta: 20,
+    delta: 20
   })
 
   const source = useRef<CancelTokenSource | null>(null)
@@ -325,8 +325,8 @@ const FilePreviewModal: React.FC<{
                   </span>
                 </Fragment>
               ),
-              onClick: handleDownload,
-            },
+              onClick: handleDownload
+            }
           ]}
           indicator={MoreIcon}
         />
@@ -370,23 +370,23 @@ const FilePreviewModal: React.FC<{
             {!isLoading &&
               !error &&
               !compatibleFilesMatcher.match(file?.content_type) && (
-                <div className={classes.previewContent}>
-                  <CloseCircleIcon
-                    fontSize={desktop ? "extraLarge" : "medium"}
-                  />
-                  <br />
-                  <Typography variant="h1">
-                    <Trans>File format not supported.</Trans>
-                  </Typography>
-                  <br />
-                  <Button
-                    className={classes.downloadButton}
-                    onClick={() => downloadFile(file.cid)}
-                  >
-                    <Trans>Download</Trans>
-                  </Button>
-                </div>
-              )}
+              <div className={classes.previewContent}>
+                <CloseCircleIcon
+                  fontSize={desktop ? "extraLarge" : "medium"}
+                />
+                <br />
+                <Typography variant="h1">
+                  <Trans>File format not supported.</Trans>
+                </Typography>
+                <br />
+                <Button
+                  className={classes.downloadButton}
+                  onClick={() => downloadFile(file.cid)}
+                >
+                  <Trans>Download</Trans>
+                </Button>
+              </div>
+            )}
             {!isLoading &&
               !error &&
               compatibleFilesMatcher.match(file?.content_type) &&

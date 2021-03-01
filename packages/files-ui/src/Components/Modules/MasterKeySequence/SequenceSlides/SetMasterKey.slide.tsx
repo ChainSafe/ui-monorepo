@@ -4,7 +4,7 @@ import {
   Button,
   FormikCheckboxInput,
   FormikTextInput,
-  Typography,
+  Typography
 } from "@chainsafe/common-components"
 import clsx from "clsx"
 import { Form, Formik } from "formik"
@@ -23,16 +23,16 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: ITheme) =>
         fontWeight: 400,
         marginBottom: constants.generalUnit * 2,
         [breakpoints.down("md")]: {
-          color: palette.common.white.main,
-        },
+          color: palette.common.white.main
+        }
       },
       "& h2": {
         textAlign: "center",
         marginBottom: constants.generalUnit * 4.125,
         [breakpoints.down("md")]: {
-          color: palette.common.white.main,
-        },
-      },
+          color: palette.common.white.main
+        }
+      }
     },
     input: {
       margin: 0,
@@ -40,36 +40,36 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: ITheme) =>
       marginBottom: constants.generalUnit * 1.5,
       "& span": {
         [breakpoints.down("md")]: {
-          color: palette.common.white.main,
-        },
-      },
+          color: palette.common.white.main
+        }
+      }
     },
     highlight: {
       fontWeight: 700,
-      textDecoration: "underline",
+      textDecoration: "underline"
     },
     checkbox: {
       marginBottom: constants.generalUnit,
       [breakpoints.up("md")]: {
-        color: palette.additional["gray"][8],
+        color: palette.additional["gray"][8]
       },
       [breakpoints.down("md")]: {
         color: palette.common.white.main,
         "& a": {
-          color: `${palette.common.white.main} !important`,
-        },
-      },
+          color: `${palette.common.white.main} !important`
+        }
+      }
     },
     button: {
-      marginTop: constants.generalUnit * 3,
+      marginTop: constants.generalUnit * 3
     },
     inputLabel: {
       fontSize: "16px",
       lineHeight: "24px",
       color: palette.additional["gray"][8],
-      marginBottom: constants.generalUnit,
-    },
-  }),
+      marginBottom: constants.generalUnit
+    }
+  })
 )
 
 interface ISetMasterKeySlide {
@@ -77,7 +77,7 @@ interface ISetMasterKeySlide {
 }
 
 const SetMasterKeySlide: React.FC<ISetMasterKeySlide> = ({
-  className,
+  className
 }: ISetMasterKeySlide) => {
   const classes = useStyles()
   const { secureDrive } = useDrive()
@@ -98,20 +98,20 @@ const SetMasterKeySlide: React.FC<ISetMasterKeySlide> = ({
             return true
           }
           return false
-        },
+        }
       )
       .required("Please provide an encryption password"),
     confirmMasterKey: yup
       .string()
       .oneOf(
         [yup.ref("masterKey"), undefined],
-        "Encryption password must match",
+        "Encryption password must match"
       )
       .required("Encryption password confirmation is required'"),
     privacyPolicy: yup
       .boolean()
       .oneOf([true], "Please accept the privacy policy"),
-    terms: yup.boolean().oneOf([true], "Please accept the terms & conditions."),
+    terms: yup.boolean().oneOf([true], "Please accept the terms & conditions.")
   })
 
   return (
@@ -124,7 +124,7 @@ const SetMasterKeySlide: React.FC<ISetMasterKeySlide> = ({
           masterKey: "",
           confirmMasterKey: "",
           privacyPolicy: false,
-          terms: false,
+          terms: false
         }}
         validationSchema={masterKeyValidation}
         onSubmit={async (values, helpers) => {

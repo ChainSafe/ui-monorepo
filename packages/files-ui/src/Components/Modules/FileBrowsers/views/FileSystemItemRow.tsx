@@ -23,14 +23,14 @@ import {
   RecoverSvg,
   ZoomInIcon,
   CheckboxInput,
-  EyeSvg,
+  EyeSvg
 } from "@chainsafe/common-components"
 import {
   makeStyles,
   ITheme,
   createStyles,
   useDoubleClick,
-  useThemeSwitcher,
+  useThemeSwitcher
 } from "@chainsafe/common-theme"
 import clsx from "clsx"
 import { Formik, Form } from "formik"
@@ -48,16 +48,16 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: ITheme) => {
   const mobileGridSettings = "69px 3fr 45px !important"
   return createStyles({
     tableRow: {
-      border: `2px solid transparent`,
+      border: "2px solid transparent",
       [breakpoints.up("md")]: {
-        gridTemplateColumns: desktopGridSettings,
+        gridTemplateColumns: desktopGridSettings
       },
       [breakpoints.down("md")]: {
-        gridTemplateColumns: mobileGridSettings,
+        gridTemplateColumns: mobileGridSettings
       },
       "&.droppable": {
-        border: `2px solid ${palette.additional["geekblue"][6]}`,
-      },
+        border: `2px solid ${palette.additional["geekblue"][6]}`
+      }
     },
     fileIcon: {
       display: "flex",
@@ -66,25 +66,25 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: ITheme) => {
       justifyContent: "center",
       "& svg": {
         width: constants.generalUnit * 2.5,
-        fill: palette.additional["gray"][8],
-      },
+        fill: palette.additional["gray"][8]
+      }
     },
     folderIcon: {
       "& svg": {
-        fill: palette.additional["gray"][9],
-      },
+        fill: palette.additional["gray"][9]
+      }
     },
     renameInput: {
       width: "100%",
       [breakpoints.up("md")]: {
-        margin: 0,
+        margin: 0
       },
       [breakpoints.down("md")]: {
-        margin: `${constants.generalUnit * 4.2}px 0`,
-      },
+        margin: `${constants.generalUnit * 4.2}px 0`
+      }
     },
     modalRoot: {
-      [breakpoints.down("md")]: {},
+      [breakpoints.down("md")]: {}
     },
     modalInner: {
       [breakpoints.down("md")]: {
@@ -93,25 +93,25 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: ITheme) => {
         borderTopLeftRadius: `${constants.generalUnit * 1.5}px`,
         borderTopRightRadius: `${constants.generalUnit * 1.5}px`,
         borderBottomLeftRadius: `${constants.generalUnit * 1.5}px`,
-        borderBottomRightRadius: `${constants.generalUnit * 1.5}px`,
-      },
+        borderBottomRightRadius: `${constants.generalUnit * 1.5}px`
+      }
     },
     renameHeader: {
-      textAlign: "center",
+      textAlign: "center"
     },
     renameFooter: {
       display: "flex",
       flexDirection: "row",
       alignItems: "center",
-      justifyContent: "flex-end",
+      justifyContent: "flex-end"
     },
     renameModal: {
-      padding: constants.generalUnit * 4,
+      padding: constants.generalUnit * 4
     },
     okButton: {
       marginLeft: constants.generalUnit,
       color: palette.common.white.main,
-      backgroundColor: palette.common.black.main,
+      backgroundColor: palette.common.black.main
     },
     cancelButton: {
       [breakpoints.down("md")]: {
@@ -119,8 +119,8 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: ITheme) => {
         bottom: 0,
         left: 0,
         width: "100%",
-        height: constants?.mobileButtonHeight,
-      },
+        height: constants?.mobileButtonHeight
+      }
     },
     menuIcon: {
       display: "flex",
@@ -129,22 +129,22 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: ITheme) => {
       width: 20,
       marginRight: constants.generalUnit * 1.5,
       "& svg": {
-        fill: palette.additional["gray"][7],
-      },
+        fill: palette.additional["gray"][7]
+      }
     },
     desktopRename: {
       display: "flex",
       flexDirection: "row",
       "& svg": {
         width: 20,
-        height: 20,
-      },
+        height: 20
+      }
     },
     filename: {
       whiteSpace: "nowrap",
       overflow: "hidden",
-      textOverflow: "ellipsis",
-    },
+      textOverflow: "ellipsis"
+    }
   })
 })
 
@@ -202,7 +202,7 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
   setPreviewFileIndex,
   setMoveFileData,
   setFileInfoPath,
-  handleSelect,
+  handleSelect
 }) => {
   let Icon
   if (file.isFolder) {
@@ -228,7 +228,7 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
           </span>
         </Fragment>
       ),
-      onClick: () => setEditing(file.cid),
+      onClick: () => setEditing(file.cid)
     },
     delete: {
       contents: (
@@ -239,7 +239,7 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
           </span>
         </Fragment>
       ),
-      onClick: () => deleteFile && deleteFile(file.cid),
+      onClick: () => deleteFile && deleteFile(file.cid)
     },
     download: {
       contents: (
@@ -250,7 +250,7 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
           </span>
         </Fragment>
       ),
-      onClick: () => downloadFile && downloadFile(file.cid),
+      onClick: () => downloadFile && downloadFile(file.cid)
     },
     move: {
       contents: (
@@ -261,7 +261,7 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
           </span>
         </Fragment>
       ),
-      onClick: () => setMoveFileData({ modal: true, fileData: file }),
+      onClick: () => setMoveFileData({ modal: true, fileData: file })
     },
     share: {
       contents: (
@@ -272,7 +272,7 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
           </span>
         </Fragment>
       ),
-      onClick: () => console.log,
+      onClick: () => console.log
     },
     info: {
       contents: (
@@ -283,7 +283,7 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
           </span>
         </Fragment>
       ),
-      onClick: () => setFileInfoPath(`${currentPath}${file.name}`),
+      onClick: () => setFileInfoPath(`${currentPath}${file.name}`)
     },
     recover: {
       contents: (
@@ -294,7 +294,7 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
           </span>
         </Fragment>
       ),
-      onClick: () => recoverFile && recoverFile(file.cid),
+      onClick: () => recoverFile && recoverFile(file.cid)
     },
     preview: {
       contents: (
@@ -305,7 +305,7 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
           </span>
         </Fragment>
       ),
-      onClick: () => setPreviewFileIndex(files?.indexOf(file)),
+      onClick: () => setPreviewFileIndex(files?.indexOf(file))
     },
     view_folder: {
       contents: (
@@ -316,16 +316,16 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
           </span>
         </Fragment>
       ),
-      onClick: () => viewFolder && viewFolder(file.cid),
-    },
+      onClick: () => viewFolder && viewFolder(file.cid)
+    }
   }
 
   const menuItems: IMenuItem[] = file.operations.map(
-    (itemOperation) => menuOptions[itemOperation],
+    (itemOperation) => menuOptions[itemOperation]
   )
 
   const [, dragMoveRef, preview] = useDrag({
-    item: { type: DragTypes.MOVABLE_FILE, payload: file },
+    item: { type: DragTypes.MOVABLE_FILE, payload: file }
   })
 
   const [{ isOverMove }, dropMoveRef] = useDrop({
@@ -338,12 +338,12 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
       handleMove &&
         (await handleMove(
           `${currentPath}${item.payload.name}`,
-          `${currentPath}${file.name}/${item.payload.name}`,
+          `${currentPath}${file.name}/${item.payload.name}`
         ))
     },
     collect: (monitor) => ({
-      isOverMove: monitor.isOver(),
-    }),
+      isOverMove: monitor.isOver()
+    })
   })
 
   const [{ isOverUpload }, dropUploadRef] = useDrop({
@@ -353,8 +353,8 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
         handleUploadOnDrop(item.files, item.items, `${currentPath}${file.name}`)
     },
     collect: (monitor) => ({
-      isOverUpload: monitor.isOver(),
-    }),
+      isOverUpload: monitor.isOver()
+    })
   })
 
   function attachRef(el: any) {
@@ -375,23 +375,23 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
       file.isFolder
         ? updateCurrentPath(`${currentPath}${file.name}`, undefined, true)
         : setPreviewFileIndex(files?.indexOf(file))
-    },
+    }
   )
 
   const onFolderOrFileClicks = desktop
     ? doubleClick
     : () => {
-        file.isFolder
-          ? updateCurrentPath(`${currentPath}${file.name}`, undefined, true)
-          : setPreviewFileIndex(files?.indexOf(file))
-      }
+      file.isFolder
+        ? updateCurrentPath(`${currentPath}${file.name}`, undefined, true)
+        : setPreviewFileIndex(files?.indexOf(file))
+    }
 
   return (
     <TableRow
       key={`files-${index}`}
       className={clsx(classes.tableRow, {
         droppable: file.isFolder && (isOverMove || isOverUpload),
-        folder: file.isFolder,
+        folder: file.isFolder
       })}
       type="grid"
       rowSelectable={true}
@@ -425,14 +425,14 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
         {editing === file.cid && desktop ? (
           <Formik
             initialValues={{
-              fileName: file.name,
+              fileName: file.name
             }}
             validationSchema={RenameSchema}
-            onSubmit={(values, actions) => {
+            onSubmit={(values) => {
               handleRename &&
                 handleRename(
                   `${currentPath}${file.name}`,
-                  `${currentPath}${values.fileName}`,
+                  `${currentPath}${values.fileName}`
                 )
               setEditing(undefined)
             }}
@@ -461,7 +461,7 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
           <CustomModal
             className={classes.modalRoot}
             injectedClass={{
-              inner: classes.modalInner,
+              inner: classes.modalInner
             }}
             closePosition="none"
             active={editing === file.cid}
@@ -469,14 +469,14 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
           >
             <Formik
               initialValues={{
-                fileName: file.name,
+                fileName: file.name
               }}
               validationSchema={RenameSchema}
-              onSubmit={(values, actions) => {
+              onSubmit={(values) => {
                 handleRename &&
                   handleRename(
                     `${currentPath}${file.name}`,
-                    `${currentPath}${values.fileName}`,
+                    `${currentPath}${values.fileName}`
                   )
                 setEditing(undefined)
               }}

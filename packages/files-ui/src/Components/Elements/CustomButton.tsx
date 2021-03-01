@@ -8,10 +8,10 @@ const useStyles = makeStyles(({ palette }: ITheme) =>
     root: {
       "&.gray": {
         backgroundColor: palette.additional["gray"][3],
-        color: palette.additional["gray"][9],
-      },
-    },
-  }),
+        color: palette.additional["gray"][9]
+      }
+    }
+  })
 )
 
 const CUSTOM_VARIANTS = ["gray"]
@@ -39,8 +39,8 @@ const CustomButton: React.FC<ICustomButton> = ({
     variant && CUSTOM_VARIANTS.includes(variant)
       ? "primary"
       : variant
-      ? variant
-      : "primary"
+        ? variant
+        : "primary"
 
   return (
     <Button

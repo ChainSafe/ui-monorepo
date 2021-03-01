@@ -5,7 +5,7 @@ import {
   FilesPathRequest,
   DirectoryContentResponse,
   BucketType,
-  SearchEntry,
+  SearchEntry
 } from "@imploy/api-client"
 import React, { useCallback, useEffect, useReducer } from "react"
 import { useState } from "react"
@@ -14,7 +14,7 @@ import { v4 as uuidv4 } from "uuid"
 import { useToaster } from "@chainsafe/common-components"
 import {
   downloadsInProgressReducer,
-  uploadsInProgressReducer,
+  uploadsInProgressReducer
 } from "./DriveReducer"
 import { guessContentType } from "../Utils/contentTypeGuesser"
 import { CancelToken } from "axios"
@@ -108,13 +108,13 @@ const DriveProvider = ({ children }: DriveContextProps) => {
     secured,
     secureAccount,
     secureThresholdKeyAccount,
-    encrypedEncryptionKey,
+    encrypedEncryptionKey
   } = useImployApi()
 
   const {
     publicKey,
     encryptForPublicKey,
-    decryptMessageWithThresholdKey,
+    decryptMessageWithThresholdKey
   } = useThresholdKey()
   const { addToastMessage } = useToaster()
 
@@ -125,7 +125,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
   const [pathContents, setPathContents] = useState<FileSystemItem[]>([])
   const [spaceUsed, setSpaceUsed] = useState(0)
   const [, setMasterPassword] = useState<string | undefined>(
-    undefined,
+    undefined
   )
   const [currentSearchBucket, setCurrentSearchBucket] = useState<
     | {
@@ -136,22 +136,22 @@ const DriveProvider = ({ children }: DriveContextProps) => {
   >(undefined)
 
   const [encryptionKey, setEncryptionKey] = useState<string | undefined>(
-    undefined,
+    undefined
   )
 
   const refreshContents = useCallback(
     async (
       path: string,
       bucketTypeParam?: BucketType,
-      showLoading?: boolean,
+      showLoading?: boolean
     ) => {
       try {
         showLoading && setLoadingCurrentPath(true)
         const newContents = await imployApiClient?.getCSFChildList({
           path,
           source: {
-            type: bucketTypeParam || bucketType,
-          },
+            type: bucketTypeParam || bucketType
+          }
         })
         showLoading && setLoadingCurrentPath(false)
 
@@ -165,37 +165,37 @@ const DriveProvider = ({ children }: DriveContextProps) => {
                   ? fcr.content_type
                   : guessContentType(fcr.name),
               isFolder:
-                fcr.content_type === "application/chainsafe-files-directory",
-            })),
+                fcr.content_type === "application/chainsafe-files-directory"
+            }))
           )
         }
       } catch (error) {
         showLoading && setLoadingCurrentPath(false)
       }
     },
-    [imployApiClient, bucketType],
+    [imployApiClient, bucketType]
   )
 
   const currentPathReducer = (
     currentPath: string,
     action:
       | { type: "update"; payload: string }
-      | { type: "refreshOnSamePath"; payload: string },
+      | { type: "refreshOnSamePath"; payload: string }
   ): string => {
     switch (action.type) {
-      case "update": {
-        return action.payload
+    case "update": {
+      return action.payload
+    }
+    case "refreshOnSamePath": {
+      // check user has not navigated to other folder
+      // using then catch as awaits won't work in reducer
+      if (action.payload === currentPath) {
+        refreshContents(currentPath, bucketType, false)
       }
-      case "refreshOnSamePath": {
-        // check user has not navigated to other folder
-        // using then catch as awaits won't work in reducer
-        if (action.payload === currentPath) {
-          refreshContents(currentPath, bucketType, false)
-        }
-        return currentPath
-      }
-      default:
-        return currentPath
+      return currentPath
+    }
+    default:
+      return currentPath
     }
   }
   const [currentPath, dispatchCurrentPath] = useReducer(currentPathReducer, "/")
@@ -203,7 +203,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
   const setCurrentPath = (
     newPath: string,
     newBucketType?: BucketType,
-    showLoading?: boolean,
+    showLoading?: boolean
   ) => {
     dispatchCurrentPath({ type: "update", payload: newPath })
     if (newBucketType) {
@@ -225,7 +225,9 @@ const DriveProvider = ({ children }: DriveContextProps) => {
       try {
         const { csf_size } = await imployApiClient.getCSFFilesStoreInfo()
         setSpaceUsed(csf_size)
-      } catch (error) {}
+      } catch (error) {
+        console.error(error)
+      }
     }
     if (isLoggedIn) {
       getSpaceUsage()
@@ -244,7 +246,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
     const secureAccount = async () => {
       if (!publicKey) return
       const key = Buffer.from(
-        window.crypto.getRandomValues(new Uint8Array(32)),
+        window.crypto.getRandomValues(new Uint8Array(32))
       ).toString("base64")
       console.log("New key", key)
       setEncryptionKey(key)
@@ -268,7 +270,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
       console.log("Checking whether account is secured ", secured)
       if (secured) {
         console.log("decrypting key")
-        if (!!encrypedEncryptionKey) {
+        if (encrypedEncryptionKey) {
           decryptKey(encrypedEncryptionKey)
         }
       } else {
@@ -276,16 +278,25 @@ const DriveProvider = ({ children }: DriveContextProps) => {
         secureAccount()
       }
     }
-  }, [secured, isLoggedIn, encrypedEncryptionKey, publicKey, encryptForPublicKey, secureThresholdKeyAccount, decryptMessageWithThresholdKey, encryptionKey])
+  }, [
+    secured,
+    isLoggedIn,
+    encrypedEncryptionKey,
+    publicKey,
+    encryptForPublicKey,
+    secureThresholdKeyAccount,
+    decryptMessageWithThresholdKey,
+    encryptionKey
+  ])
 
   const [uploadsInProgress, dispatchUploadsInProgress] = useReducer(
     uploadsInProgressReducer,
-    [],
+    []
   )
 
   const [downloadsInProgress, dispatchDownloadsInProgress] = useReducer(
     downloadsInProgressReducer,
-    [],
+    []
   )
 
   const [closeIntercept, setCloseIntercept] = useState<string | undefined>()
@@ -318,7 +329,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
         error: false,
         noOfFiles: files.length,
         progress: 0,
-        path,
+        path
       }
       dispatchUploadsInProgress({ type: "add", payload: uploadProgress })
       try {
@@ -330,15 +341,15 @@ const DriveProvider = ({ children }: DriveContextProps) => {
               const encryptedData = await encryptFile(fileData, encryptionKey)
               return {
                 data: new Blob([encryptedData], { type: f.type }),
-                fileName: f.name,
+                fileName: f.name
               }
-            }),
+            })
         )
         if (filesParam.length !== files.length) {
           addToastMessage({
             message:
               "We can't encrypt files larger than 2GB. Some items will not be uploaded",
-            appearance: "error",
+            appearance: "error"
           })
         }
         // API call
@@ -354,11 +365,11 @@ const DriveProvider = ({ children }: DriveContextProps) => {
               payload: {
                 id,
                 progress: Math.ceil(
-                  (progressEvent.loaded / progressEvent.total) * 100,
-                ),
-              },
+                  (progressEvent.loaded / progressEvent.total) * 100
+                )
+              }
             })
-          },
+          }
         )
 
         // refresh contents
@@ -383,7 +394,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
         }
         dispatchUploadsInProgress({
           type: "error",
-          payload: { id, errorMessage },
+          payload: { id, errorMessage }
         })
         setTimeout(() => {
           dispatchUploadsInProgress({ type: "remove", payload: { id } })
@@ -399,13 +410,13 @@ const DriveProvider = ({ children }: DriveContextProps) => {
       await refreshContents(currentPath)
       addToastMessage({
         message: t`Folder created successfully`,
-        appearance: "success",
+        appearance: "success"
       })
       return result
     } catch (error) {
       addToastMessage({
         message: t`There was an error creating this folder`,
-        appearance: "error",
+        appearance: "error"
       })
       return Promise.reject()
     }
@@ -418,7 +429,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
     } catch (error) {
       addToastMessage({
         message: t`There was an error getting folder info`,
-        appearance: "error",
+        appearance: "error"
       })
       return Promise.reject()
     }
@@ -431,7 +442,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
     } catch (error) {
       addToastMessage({
         message: t`There was an error getting file info`,
-        appearance: "error",
+        appearance: "error"
       })
       return Promise.reject()
     }
@@ -443,13 +454,13 @@ const DriveProvider = ({ children }: DriveContextProps) => {
       await refreshContents(currentPath)
       addToastMessage({
         message: t`File renamed successfully`,
-        appearance: "success",
+        appearance: "success"
       })
       return Promise.resolve()
     } catch (error) {
       addToastMessage({
         message: t`There was an error renaming this file`,
-        appearance: "error",
+        appearance: "error"
       })
       return Promise.reject()
     }
@@ -461,13 +472,13 @@ const DriveProvider = ({ children }: DriveContextProps) => {
       await refreshContents(currentPath)
       addToastMessage({
         message: t`File moved successfully`,
-        appearance: "success",
+        appearance: "success"
       })
       return Promise.resolve()
     } catch (error) {
       addToastMessage({
         message: t`There was an error moving this file`,
-        appearance: "error",
+        appearance: "error"
       })
       return Promise.reject()
     }
@@ -486,8 +497,8 @@ const DriveProvider = ({ children }: DriveContextProps) => {
       await imployApiClient.removeCSFObjects({
         paths: [`${currentPath}${itemToDelete.name}`],
         source: {
-          type: bucketType,
-        },
+          type: bucketType
+        }
       })
       await refreshContents(currentPath)
       const message = `${
@@ -495,7 +506,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
       } ${t`deleted successfully`}`
       addToastMessage({
         message: message,
-        appearance: "success",
+        appearance: "success"
       })
       return Promise.resolve()
     } catch (error) {
@@ -504,7 +515,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
       }`
       addToastMessage({
         message: message,
-        appearance: "error",
+        appearance: "error"
       })
       return Promise.reject()
     }
@@ -518,8 +529,8 @@ const DriveProvider = ({ children }: DriveContextProps) => {
         path: getPathWithFile(currentPath, itemToDelete.name),
         new_path: getPathWithFile("/", itemToDelete.name),
         destination: {
-          type: "trash",
-        },
+          type: "trash"
+        }
       })
       await refreshContents(currentPath)
       const message = `${
@@ -527,7 +538,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
       } ${t`deleted successfully`}`
       addToastMessage({
         message: message,
-        appearance: "success",
+        appearance: "success"
       })
       return Promise.resolve()
     } catch (error) {
@@ -536,7 +547,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
       }`
       addToastMessage({
         message: message,
-        appearance: "error",
+        appearance: "error"
       })
       return Promise.reject()
     }
@@ -556,11 +567,11 @@ const DriveProvider = ({ children }: DriveContextProps) => {
         path: getPathWithFile("/", itemToRestore.name),
         new_path: getPathWithFile("/", itemToRestore.name),
         source: {
-          type: "trash",
+          type: "trash"
         },
         destination: {
-          type: "csf",
-        },
+          type: "csf"
+        }
       })
       await refreshContents(currentPath)
 
@@ -570,7 +581,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
 
       addToastMessage({
         message: message,
-        appearance: "success",
+        appearance: "success"
       })
       return Promise.resolve()
     } catch (error) {
@@ -579,7 +590,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
       }`
       addToastMessage({
         message: message,
-        appearance: "error",
+        appearance: "error"
       })
       return Promise.reject()
     }
@@ -588,7 +599,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
   const getFileContent = async (
     cid: string,
     cancelToken?: CancelToken,
-    onDownloadProgress?: (progressEvent: ProgressEvent<EventTarget>) => void,
+    onDownloadProgress?: (progressEvent: ProgressEvent<EventTarget>) => void
   ) => {
     if (!encryptionKey) return // TODO: Add better error handling here.
     const file = pathContents.find((i) => i.cid === cid)
@@ -596,10 +607,10 @@ const DriveProvider = ({ children }: DriveContextProps) => {
     try {
       const result = await imployApiClient.getFileContent(
         {
-          path: currentPath + file.name,
+          path: currentPath + file.name
         },
         cancelToken,
-        onDownloadProgress,
+        onDownloadProgress
       )
 
       if (file.version === 0) {
@@ -607,11 +618,11 @@ const DriveProvider = ({ children }: DriveContextProps) => {
       } else {
         const decrypted = await decryptFile(
           await result.data.arrayBuffer(),
-          encryptionKey,
+          encryptionKey
         )
         if (decrypted) {
           return new Blob([decrypted], {
-            type: file.content_type,
+            type: file.content_type
           })
         }
       }
@@ -631,7 +642,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
         fileName: itemToDownload.name,
         complete: false,
         error: false,
-        progress: 0,
+        progress: 0
       }
       dispatchDownloadsInProgress({ type: "add", payload: downloadProgress })
       const result = await getFileContent(
@@ -643,11 +654,11 @@ const DriveProvider = ({ children }: DriveContextProps) => {
             payload: {
               id: toastId,
               progress: Math.ceil(
-                (progressEvent.loaded / itemToDownload.size) * 100,
-              ),
-            },
+                (progressEvent.loaded / itemToDownload.size) * 100
+              )
+            }
           })
-        },
+        }
       )
       if (!result) return
       const link = document.createElement("a")
@@ -656,13 +667,13 @@ const DriveProvider = ({ children }: DriveContextProps) => {
       link.click()
       dispatchDownloadsInProgress({
         type: "complete",
-        payload: { id: toastId },
+        payload: { id: toastId }
       })
       URL.revokeObjectURL(link.href)
       setTimeout(() => {
         dispatchDownloadsInProgress({
           type: "remove",
-          payload: { id: toastId },
+          payload: { id: toastId }
         })
       }, REMOVE_UPLOAD_PROGRESS_DELAY)
       return Promise.resolve()
@@ -696,19 +707,19 @@ const DriveProvider = ({ children }: DriveContextProps) => {
         const bucket1 = results[0]
         setCurrentSearchBucket({
           bucketType,
-          bucketId: bucket1.id,
+          bucketId: bucket1.id
         })
         bucketId = bucket1.id
       }
       const results = await imployApiClient.searchFiles({
         bucket_id: bucketId || "",
-        query: searchString,
+        query: searchString
       })
       return results
     } catch (err) {
       addToastMessage({
         message: t`There was an error getting search results`,
-        appearance: "error",
+        appearance: "error"
       })
       return Promise.reject(err)
     }
@@ -753,7 +764,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
         updateCurrentPath: (
           newPath: string,
           bucketType?: BucketType,
-          showLoading?: boolean,
+          showLoading?: boolean
         ) => {
           newPath.endsWith("/")
             ? setCurrentPath(`${newPath}`, bucketType, showLoading)
@@ -769,7 +780,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
         currentSearchBucket,
         loadingCurrentPath,
         getFileInfo,
-        bucketType,
+        bucketType
       }}
     >
       {children}
@@ -791,5 +802,5 @@ export type {
   DirectoryContentResponse,
   CSFFilesFullinfoResponse as FileFullInfo,
   BucketType,
-  SearchEntry,
+  SearchEntry
 }

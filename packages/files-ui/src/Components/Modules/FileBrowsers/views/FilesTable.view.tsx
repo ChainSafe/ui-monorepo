@@ -2,7 +2,7 @@ import {
   createStyles,
   ITheme,
   makeStyles,
-  useThemeSwitcher,
+  useThemeSwitcher
 } from "@chainsafe/common-theme"
 import React, { Fragment, useCallback, useEffect } from "react"
 import {
@@ -24,7 +24,7 @@ import {
   UploadIcon,
   Dialog,
   Loading,
-  CheckboxInput,
+  CheckboxInput
 } from "@chainsafe/common-components"
 import { useState } from "react"
 import { useMemo } from "react"
@@ -37,7 +37,7 @@ import { useDrop } from "react-dnd"
 import {
   FileOperation,
   IFileConfigured,
-  IFilesTableBrowserProps,
+  IFilesTableBrowserProps
 } from "../types"
 import { FileSystemItem } from "../../../../Contexts/DriveContext"
 import FileSystemItemRow from "./FileSystemItemRow"
@@ -60,17 +60,17 @@ const useStyles = makeStyles(
         position: "relative",
         [breakpoints.down("md")]: {
           marginLeft: constants.generalUnit * 2,
-          marginRight: constants.generalUnit * 2,
+          marginRight: constants.generalUnit * 2
         },
         [breakpoints.up("md")]: {
-          border: `1px solid transparent`,
+          border: "1px solid transparent",
           padding: `0 ${constants.generalUnit}px`,
           borderRadius: constants.generalUnit / 4,
           minHeight: `calc(100vh - ${constants.contentTopPadding as number}px)`,
           "&.droppable": {
-            borderColor: palette.additional["geekblue"][4],
-          },
-        },
+            borderColor: palette.additional["geekblue"][4]
+          }
+        }
         // transitionDuration: `${animation.transform}ms`,
       },
       header: {
@@ -79,8 +79,8 @@ const useStyles = makeStyles(
         justifyContent: "space-between",
         alignItems: "center",
         [breakpoints.down("md")]: {
-          marginTop: constants.generalUnit,
-        },
+          marginTop: constants.generalUnit
+        }
       },
       controls: {
         display: "flex",
@@ -88,27 +88,27 @@ const useStyles = makeStyles(
         justifyContent: "space-between",
         alignItems: "center",
         "& > button": {
-          marginLeft: constants.generalUnit,
-        },
+          marginLeft: constants.generalUnit
+        }
       },
       breadCrumbContainer: {
         margin: `${constants.generalUnit * 2}px 0`,
         height: 22,
         [breakpoints.down("md")]: {
           marginTop: constants.generalUnit * 3,
-          marginBottom: 0,
-        },
+          marginBottom: 0
+        }
       },
       divider: {
         "&:before, &:after": {
-          backgroundColor: palette.additional["gray"][4],
+          backgroundColor: palette.additional["gray"][4]
         },
         [breakpoints.up("md")]: {
-          margin: `${constants.generalUnit * 3}px 0`,
+          margin: `${constants.generalUnit * 3}px 0`
         },
         [breakpoints.down("md")]: {
-          margin: `${constants.generalUnit * 3}px 0 0`,
-        },
+          margin: `${constants.generalUnit * 3}px 0 0`
+        }
       },
       noFiles: {
         display: "flex",
@@ -117,18 +117,18 @@ const useStyles = makeStyles(
         marginTop: "25vh",
         "& svg": {
           maxWidth: 180,
-          marginBottom: constants.generalUnit * 3,
-        },
+          marginBottom: constants.generalUnit * 3
+        }
       },
       tableRow: {
-        border: `2px solid transparent`,
+        border: "2px solid transparent",
         transitionDuration: `${animation.transform}ms`,
         [breakpoints.up("md")]: {
-          gridTemplateColumns: desktopGridSettings,
+          gridTemplateColumns: desktopGridSettings
         },
         [breakpoints.down("md")]: {
-          gridTemplateColumns: mobileGridSettings,
-        },
+          gridTemplateColumns: mobileGridSettings
+        }
       },
       fileIcon: {
         display: "flex",
@@ -136,25 +136,25 @@ const useStyles = makeStyles(
         alignItems: "center",
         justifyContent: "center",
         "& svg": {
-          width: constants.generalUnit * 2.5,
-        },
+          width: constants.generalUnit * 2.5
+        }
       },
       progressIcon: {
         display: "flex",
         flexDirection: "row",
         alignItems: "center",
-        justifyContent: "center",
+        justifyContent: "center"
       },
       dropdownIcon: {
         "& svg": {
           height: 20,
-          width: 20,
-        },
+          width: 20
+        }
       },
       dropdownOptions: {
         "& > *": {
-          padding: 0,
-        },
+          padding: 0
+        }
       },
       mobileButton: {
         padding: `${constants.generalUnit * 2}px !important`,
@@ -162,9 +162,9 @@ const useStyles = makeStyles(
         justifyContent: "flex-start",
         "& > *:last-child": {
           display: "block",
-          width: `calc(100% - 24px)`,
-          textAlign: "center",
-        },
+          width: "calc(100% - 24px)",
+          textAlign: "center"
+        }
       },
       dropNotification: {
         display: "block",
@@ -182,12 +182,12 @@ const useStyles = makeStyles(
         width: 260,
         padding: `${constants.generalUnit}px 0`,
         [breakpoints.up("md")]: {
-          left: `calc(50% + ${(constants.navWidth as number) / 2}px)`,
+          left: `calc(50% + ${(constants.navWidth as number) / 2}px)`
         },
         "&.active": {
           opacity: 1,
-          visibility: "visible",
-        },
+          visibility: "visible"
+        }
       },
       loadingContainer: {
         position: "absolute",
@@ -200,30 +200,30 @@ const useStyles = makeStyles(
         visibility: "hidden",
         transition: `opacity ${animation.transform * 3}ms`,
         "& svg": {
-          marginBottom: constants.generalUnit * 2,
-        },
+          marginBottom: constants.generalUnit * 2
+        }
       },
       showLoadingContainer: {
         visibility: "visible",
-        opacity: 1,
+        opacity: 1
       },
       fadeOutLoading: {
         opacity: 0.2,
-        transition: `opacity ${animation.transform * 3}ms`,
+        transition: `opacity ${animation.transform * 3}ms`
       },
       tableHead: {
-        marginTop: constants.generalUnit * 3,
+        marginTop: constants.generalUnit * 3
       },
       bulkOperations: {
         display: "flex",
         flexDirection: "row",
         marginTop: constants.generalUnit * 3,
         "& > *": {
-          marginRight: constants.generalUnit,
-        },
-      },
+          marginRight: constants.generalUnit
+        }
+      }
     })
-  },
+  }
 )
 
 const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
@@ -245,19 +245,19 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
   loadingCurrentPath,
   uploadsInProgress,
   showUploadsInTable,
-  allowDropUpload,
+  allowDropUpload
 }: IFilesTableBrowserProps) => {
   const classes = useStyles()
   const { desktop } = useThemeSwitcher()
   const [editing, setEditing] = useState<string | undefined>()
   const [direction, setDirection] = useState<SortDirection>("descend")
   const [column, setColumn] = useState<"name" | "size" | "date_uploaded">(
-    "name",
+    "name"
   )
   const [selected, setSelected] = useState<string[]>([])
 
   const [previewFileIndex, setPreviewFileIndex] = useState<number | undefined>(
-    undefined,
+    undefined
   )
 
   // Sorting
@@ -268,32 +268,32 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
     if (!sourceFiles) return []
 
     switch (direction) {
+    default: {
+      // case "descend": {
+      // case "name": {
+      return sourceFiles
+        .sort((a: IFileConfigured, b: IFileConfigured) =>
+          a.name > b.name ? -1 : 1
+        )
+        .sort(sortFoldersFirst)
+    }
+    case "descend": {
+      switch (column) {
       default: {
-        // case "descend": {
         // case "name": {
         return sourceFiles
           .sort((a: IFileConfigured, b: IFileConfigured) =>
-            a.name > b.name ? -1 : 1,
+            a.name > b.name ? -1 : 1
           )
           .sort(sortFoldersFirst)
       }
-      case "descend": {
-        switch (column) {
-          default: {
-            // case "name": {
-            return sourceFiles
-              .sort((a: IFileConfigured, b: IFileConfigured) =>
-                a.name > b.name ? -1 : 1,
-              )
-              .sort(sortFoldersFirst)
-          }
-          case "size": {
-            return sourceFiles
-              .sort((a: FileSystemItem, b: FileSystemItem) =>
-                a.size > b.size ? -1 : 1,
-              )
-              .sort(sortFoldersFirst)
-          }
+      case "size": {
+        return sourceFiles
+          .sort((a: FileSystemItem, b: FileSystemItem) =>
+            a.size > b.size ? -1 : 1
+          )
+          .sort(sortFoldersFirst)
+      }
           // case "date_uploaded": {
           //   return sourceFiles
           //     .sort((a: IFileConfigured, b: IFileConfigured) =>
@@ -301,25 +301,25 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
           //     )
           //     .sort(sortFoldersFirst)
           // }
-        }
       }
-      case "ascend": {
-        switch (column) {
-          default: {
-            // case "name": {
-            return sourceFiles
-              .sort((a: IFileConfigured, b: IFileConfigured) =>
-                a.name < b.name ? -1 : 1,
-              )
-              .sort(sortFoldersFirst)
-          }
-          case "size": {
-            return sourceFiles
-              .sort((a: IFileConfigured, b: IFileConfigured) =>
-                a.size < b.size ? -1 : 1,
-              )
-              .sort(sortFoldersFirst)
-          }
+    }
+    case "ascend": {
+      switch (column) {
+      default: {
+        // case "name": {
+        return sourceFiles
+          .sort((a: IFileConfigured, b: IFileConfigured) =>
+            a.name < b.name ? -1 : 1
+          )
+          .sort(sortFoldersFirst)
+      }
+      case "size": {
+        return sourceFiles
+          .sort((a: IFileConfigured, b: IFileConfigured) =>
+            a.size < b.size ? -1 : 1
+          )
+          .sort(sortFoldersFirst)
+      }
           // case "date_uploaded": {
           //   return sourceFiles
           //     .sort((a: IFileConfigured, b: IFileConfigured) =>
@@ -327,13 +327,13 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
           //     )
           //     .sort(sortFoldersFirst)
           // }
-        }
       }
+    }
     }
   }, [sourceFiles, direction, column])
 
   const handleSortToggle = (
-    targetColumn: "name" | "size" | "date_uploaded",
+    targetColumn: "name" | "size" | "date_uploaded"
   ) => {
     if (column !== targetColumn) {
       setColumn(targetColumn)
@@ -398,9 +398,9 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
         "Invalid name",
         "File name cannot contain '/' character",
         (val: string | null | undefined) =>
-          !invalidFilenameRegex.test(val || ""),
+          !invalidFilenameRegex.test(val || "")
       )
-      .required("File name is required"),
+      .required("File name is required")
   })
 
   const [{ isOverUploadable, isOverBrowser }, dropBrowserRef] = useDrop({
@@ -415,8 +415,8 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
     collect: (monitor) => ({
       isOverBrowser: monitor.isOver(),
       isOverUploadable: monitor.isOver({ shallow: true }),
-      canDrop: monitor.canDrop(),
-    }),
+      canDrop: monitor.canDrop()
+    })
   })
 
   // Modals
@@ -427,7 +427,7 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
   >(undefined)
   const [deleteDialogOpen, setDeleteDialog] = useState<() => void | undefined>()
   const [fileInfoPath, setFileInfoPath] = useState<string | undefined>(
-    undefined,
+    undefined
   )
 
   // Bulk operations
@@ -442,7 +442,7 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
         "move",
         "preview",
         "rename",
-        "share",
+        "share"
       ]
       for (let i = 0; i < selected.length; i++) {
         const contentType = items.find((item) => item.cid === selected[i])
@@ -450,36 +450,36 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
 
         if (contentType) {
           if (contentType === CONTENT_TYPES.Directory) {
-            let validList = filteredList.filter(
+            const validList = filteredList.filter(
               (op: FileOperation) =>
-                bulkOperations[contentType].indexOf(op) >= 0,
+                bulkOperations[contentType].indexOf(op) >= 0
             )
             if (validList.length > 0) {
               filteredList = filteredList.filter(
                 (existingOp: FileOperation) =>
-                  validList.indexOf(existingOp) >= 0,
+                  validList.indexOf(existingOp) >= 0
               )
             }
           } else {
-            let validList = filteredList.filter(
+            const validList = filteredList.filter(
               (op: FileOperation) =>
-                bulkOperations[CONTENT_TYPES.File].indexOf(op) >= 0,
+                bulkOperations[CONTENT_TYPES.File].indexOf(op) >= 0
             )
             if (validList.length > 0) {
               filteredList = filteredList.filter(
                 (existingOp: FileOperation) =>
-                  validList.indexOf(existingOp) >= 0,
+                  validList.indexOf(existingOp) >= 0
               )
             }
           }
         } else {
-          let validList = filteredList.filter(
+          const validList = filteredList.filter(
             (op: FileOperation) =>
-              bulkOperations[CONTENT_TYPES.File].indexOf(op) >= 0,
+              bulkOperations[CONTENT_TYPES.File].indexOf(op) >= 0
           )
           if (validList.length > 0) {
             filteredList = filteredList.filter(
-              (existingOp: FileOperation) => validList.indexOf(existingOp) >= 0,
+              (existingOp: FileOperation) => validList.indexOf(existingOp) >= 0
             )
           }
         }
@@ -498,7 +498,7 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
   return (
     <article
       className={clsx(classes.root, {
-        droppable: isOverUploadable && allowDropUpload,
+        droppable: isOverUploadable && allowDropUpload
       })}
       ref={!uploadModalOpen && allowDropUpload ? dropBrowserRef : null}
     >
@@ -552,7 +552,7 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
               <MenuDropdown
                 classNames={{
                   icon: classes.dropdownIcon,
-                  options: classes.dropdownOptions,
+                  options: classes.dropdownOptions
                 }}
                 autoclose={true}
                 anchor="bottom-right"
@@ -573,7 +573,7 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
                           <Trans>Create folder</Trans>
                         </span>
                       </Button>
-                    ),
+                    )
                   },
                   {
                     contents: (
@@ -588,8 +588,8 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
                           <Trans>Upload</Trans>
                         </span>
                       </Button>
-                    ),
-                  },
+                    )
+                  }
                 ]}
               />
             )
@@ -604,7 +604,7 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
               onClick={() =>
                 setMoveFileData({
                   modal: true,
-                  fileData: files.filter((file) => selected.includes(file.cid)),
+                  fileData: files.filter((file) => selected.includes(file.cid))
                 })
               }
               variant="outline"
@@ -622,7 +622,7 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
       <div
         className={clsx(
           classes.loadingContainer,
-          loadingCurrentPath && classes.showLoadingContainer,
+          loadingCurrentPath && classes.showLoadingContainer
         )}
       >
         <Loading size={24} type="light" />
@@ -632,49 +632,49 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
       </div>
       {(desktop && items.length === 0) ||
       (!desktop && items.length === 0 && uploadsInProgress?.length === 0) ? (
-        <section
-          className={clsx(
-            classes.noFiles,
-            loadingCurrentPath && classes.fadeOutLoading,
-          )}
-        >
-          <EmptySvg />
-          <Typography variant="h4" component="h4">
-            <Trans>No files to show</Trans>
-          </Typography>
-        </section>
-      ) : (
-        <Table
-          fullWidth={true}
-          striped={true}
-          hover={true}
-          className={clsx(loadingCurrentPath && classes.fadeOutLoading)}
-        >
-          {desktop && (
-            <TableHead className={classes.tableHead}>
-              <TableRow type="grid" className={classes.tableRow}>
-                <TableHeadCell>
-                  <CheckboxInput
-                    value={selected.length === items.length}
-                    disabled
-                    onChange={() => toggleAll()}
-                  />
-                </TableHeadCell>
-                <TableHeadCell>
-                  {/* 
+          <section
+            className={clsx(
+              classes.noFiles,
+              loadingCurrentPath && classes.fadeOutLoading
+            )}
+          >
+            <EmptySvg />
+            <Typography variant="h4" component="h4">
+              <Trans>No files to show</Trans>
+            </Typography>
+          </section>
+        ) : (
+          <Table
+            fullWidth={true}
+            striped={true}
+            hover={true}
+            className={clsx(loadingCurrentPath && classes.fadeOutLoading)}
+          >
+            {desktop && (
+              <TableHead className={classes.tableHead}>
+                <TableRow type="grid" className={classes.tableRow}>
+                  <TableHeadCell>
+                    <CheckboxInput
+                      value={selected.length === items.length}
+                      disabled
+                      onChange={() => toggleAll()}
+                    />
+                  </TableHeadCell>
+                  <TableHeadCell>
+                    {/* 
                         Icon
                       */}
-                </TableHeadCell>
-                <TableHeadCell
-                  sortButtons={true}
-                  align="left"
-                  onSortChange={() => handleSortToggle("name")}
-                  sortDirection={column === "name" ? direction : undefined}
-                  sortActive={column === "name"}
-                >
-                  <Trans>Name</Trans>
-                </TableHeadCell>
-                {/* <TableHeadCell
+                  </TableHeadCell>
+                  <TableHeadCell
+                    sortButtons={true}
+                    align="left"
+                    onSortChange={() => handleSortToggle("name")}
+                    sortDirection={column === "name" ? direction : undefined}
+                    sortActive={column === "name"}
+                  >
+                    <Trans>Name</Trans>
+                  </TableHeadCell>
+                  {/* <TableHeadCell
                   sortButtons={true}
                   align="left"
                   onSortChange={() => handleSortToggle("date_uploaded")}
@@ -685,21 +685,21 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
                 >
                   <Trans>Date uploaded</Trans>
                 </TableHeadCell> */}
-                <TableHeadCell
-                  sortButtons={true}
-                  align="left"
-                  onSortChange={() => handleSortToggle("size")}
-                  sortDirection={column === "size" ? direction : undefined}
-                  sortActive={column === "size"}
-                >
-                  <Trans>Size</Trans>
-                </TableHeadCell>
-                <TableHeadCell>{/* Menu */}</TableHeadCell>
-              </TableRow>
-            </TableHead>
-          )}
-          <TableBody>
-            {!desktop &&
+                  <TableHeadCell
+                    sortButtons={true}
+                    align="left"
+                    onSortChange={() => handleSortToggle("size")}
+                    sortDirection={column === "size" ? direction : undefined}
+                    sortActive={column === "size"}
+                  >
+                    <Trans>Size</Trans>
+                  </TableHeadCell>
+                  <TableHeadCell>{/* Menu */}</TableHeadCell>
+                </TableRow>
+              </TableHead>
+            )}
+            <TableBody>
+              {!desktop &&
               showUploadsInTable &&
               uploadsInProgress
                 ?.filter(
@@ -729,42 +729,42 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
                     <TableCell />
                   </TableRow>
                 ))}
-            {items.map((file: IFileConfigured, index: number) => (
-              <FileSystemItemRow
-                key={index}
-                index={index}
-                file={file}
-                files={files}
-                currentPath={currentPath}
-                updateCurrentPath={updateCurrentPath}
-                selected={selected}
-                handleSelect={handleSelect}
-                editing={editing}
-                setEditing={setEditing}
-                RenameSchema={RenameSchema}
-                handleRename={async (path: string, newPath: string) => {
-                  handleRename && (await handleRename(path, newPath))
-                  setEditing(undefined)
-                }}
-                handleMove={handleMove}
-                deleteFile={(cid: string) =>
-                  setDeleteDialog(() => () => {
-                    deleteFile && deleteFile(cid)
-                    setDeleteDialog(undefined)
-                  })
-                }
-                recoverFile={recoverFile}
-                downloadFile={downloadFile}
-                viewFolder={viewFolder}
-                handleUploadOnDrop={handleUploadOnDrop}
-                setPreviewFileIndex={setPreviewFileIndex}
-                setMoveFileData={setMoveFileData}
-                setFileInfoPath={setFileInfoPath}
-              />
-            ))}
-          </TableBody>
-        </Table>
-      )}
+              {items.map((file: IFileConfigured, index: number) => (
+                <FileSystemItemRow
+                  key={index}
+                  index={index}
+                  file={file}
+                  files={files}
+                  currentPath={currentPath}
+                  updateCurrentPath={updateCurrentPath}
+                  selected={selected}
+                  handleSelect={handleSelect}
+                  editing={editing}
+                  setEditing={setEditing}
+                  RenameSchema={RenameSchema}
+                  handleRename={async (path: string, newPath: string) => {
+                    handleRename && (await handleRename(path, newPath))
+                    setEditing(undefined)
+                  }}
+                  handleMove={handleMove}
+                  deleteFile={(cid: string) =>
+                    setDeleteDialog(() => () => {
+                      deleteFile && deleteFile(cid)
+                      setDeleteDialog(undefined)
+                    })
+                  }
+                  recoverFile={recoverFile}
+                  downloadFile={downloadFile}
+                  viewFolder={viewFolder}
+                  handleUploadOnDrop={handleUploadOnDrop}
+                  setPreviewFileIndex={setPreviewFileIndex}
+                  setMoveFileData={setMoveFileData}
+                  setFileInfoPath={setFileInfoPath}
+                />
+              ))}
+            </TableBody>
+          </Table>
+        )}
       {files && previewFileIndex !== undefined && (
         <FilePreviewModal
           file={files[previewFileIndex]}

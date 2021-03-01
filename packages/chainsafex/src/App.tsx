@@ -2,7 +2,7 @@ import React, { useEffect } from "react"
 import {
   init as initSentry,
   ErrorBoundary,
-  showReportDialog,
+  showReportDialog
 } from "@sentry/react"
 import { ThemeSwitcher } from "@chainsafe/common-theme"
 import { CssBaseline, Router } from "@chainsafe/common-components"
@@ -19,7 +19,7 @@ if (
 ) {
   initSentry({
     dsn: process.env.REACT_APP_SENTRY_DSN_URL,
-    release: process.env.REACT_APP_SENTRY_RELEASE,
+    release: process.env.REACT_APP_SENTRY_RELEASE
   })
 }
 

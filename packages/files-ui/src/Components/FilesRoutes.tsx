@@ -19,7 +19,7 @@ export const ROUTE_LINKS = {
   Bin: "/bin",
   Settings: "/settings",
   OAuthCallback: "/oauth2/callback/:provider",
-  PurchasePlan: "/settings/purchase",
+  PurchasePlan: "/settings/purchase"
 }
 
 const FilesRoutes = () => {

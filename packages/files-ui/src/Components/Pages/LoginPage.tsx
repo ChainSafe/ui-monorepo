@@ -7,14 +7,14 @@ import {
   FacebookLogoIcon,
   GithubLogoIcon,
   ChainsafeFilesLogo,
-  Divider,
+  Divider
 } from "@chainsafe/common-components"
 import { useImployApi } from "@imploy/common-contexts"
 import {
   makeStyles,
   ITheme,
   createStyles,
-  useThemeSwitcher,
+  useThemeSwitcher
 } from "@chainsafe/common-theme"
 import { useWeb3 } from "@chainsafe/web3-context"
 import LargeLightBulbSvg from "../../Media/LargeLightBulb.svg"
@@ -35,8 +35,8 @@ const useStyles = makeStyles(
         [breakpoints.down("md")]: {
           backgroundColor: palette.common.black.main,
           height: "100vh",
-          display: "flex",
-        },
+          display: "flex"
+        }
       },
       imageSection: {
         backgroundColor: palette.common.black.main,
@@ -48,32 +48,32 @@ const useStyles = makeStyles(
         display: "flex",
         flexFlow: "column",
         "& > img": {
-          width: `calc(100% - 100px)`,
+          width: "calc(100% - 100px)",
           maxWidth: "1200px",
-          maxHeight: `calc(100% - 100px)`,
-          margin: 50,
-        },
+          maxHeight: "calc(100% - 100px)",
+          margin: 50
+        }
       },
       logoContainer: {
         display: "flex",
         alignItems: "center",
         [breakpoints.down("md")]: {
-          "& > svg": {},
-        },
+          "& > svg": {}
+        }
       },
       logoImage: {
         [breakpoints.down("md")]: {
           width: constants.generalUnit * 4.5,
-          height: constants.generalUnit * 4.5,
-        },
+          height: constants.generalUnit * 4.5
+        }
       },
       logoText: {
         fontWeight: typography.fontWeight.semibold,
         paddingLeft: constants.generalUnit,
         [breakpoints.down("md")]: {
           color: palette.common.white.main,
-          fontSize: 16,
-        },
+          fontSize: 16
+        }
       },
       buttonSection: {
         paddingTop: 26,
@@ -81,52 +81,52 @@ const useStyles = makeStyles(
         flexDirection: "column",
         alignItems: "center",
         justifyItems: "flex-start",
-        zIndex: 0,
+        zIndex: 0
       },
       button: {
         width: 240,
         marginBottom: constants.generalUnit * 2,
         [breakpoints.up("md")]: {
           backgroundColor: palette.common.black.main,
-          color: palette.common.white.main,
+          color: palette.common.white.main
         },
         [breakpoints.down("md")]: {
           backgroundColor: palette.common.black.main,
-          color: palette.common.white.main,
-        },
+          color: palette.common.white.main
+        }
       },
       controls: {
         display: "flex",
         flexDirection: "column",
         height: 0,
         justifyContent: "center",
-        flex: "1 1 0",
+        flex: "1 1 0"
       },
       error: {
         color: palette.error.main,
         paddingBottom: constants.generalUnit * 2,
-        maxWidth: 240,
+        maxWidth: 240
       },
       imageCaption: {
-        fontSize: 20,
+        fontSize: 20
       },
       headerText: {
         paddingBottom: constants.generalUnit * 8,
         [breakpoints.down("md")]: {
           color: palette.common.white.main,
-          textAlign: "center",
-        },
+          textAlign: "center"
+        }
       },
       termsText: {
-        marginTop: constants.generalUnit * 2,
+        marginTop: constants.generalUnit * 2
       },
       footerText: {
         marginTop: constants.generalUnit * 4,
         fontSize: 16,
         [breakpoints.down("md")]: {
           color: palette.common.white.main,
-          textAlign: "center",
-        },
+          textAlign: "center"
+        }
       },
       toggleMode: {
         fontWeight: typography.fontWeight.semibold,
@@ -134,8 +134,8 @@ const useStyles = makeStyles(
         cursor: "pointer",
         [breakpoints.down("md")]: {
           color: palette.common.white.main,
-          textAlign: "center",
-        },
+          textAlign: "center"
+        }
       },
       largeBulb: {
         position: "fixed",
@@ -144,7 +144,7 @@ const useStyles = makeStyles(
         top: "-5vw",
         right: 0,
         maxWidth: "50vw",
-        zIndex: 0,
+        zIndex: 0
       },
       smallBranch: {
         position: "fixed",
@@ -153,15 +153,15 @@ const useStyles = makeStyles(
         maxWidth: "35vw",
         width: "auto",
         height: "auto",
-        zIndex: 0,
+        zIndex: 0
       },
       betaCaption: {
         marginBottom: constants.generalUnit * 0.5,
         [breakpoints.down("md")]: {
-          color: palette.common.white.main,
-        },
-      },
-    }),
+          color: palette.common.white.main
+        }
+      }
+    })
 )
 
 const LoginPage = () => {
@@ -170,18 +170,18 @@ const LoginPage = () => {
   const {
     isReturningUser,
     selectWallet,
-    resetAndSelectWallet,
+    resetAndSelectWallet
   } = useImployApi()
   const { provider, wallet } = useWeb3()
   const {
     login,
     isNewDevice,
     keyDetails,
-    shouldInitializeAccount,
+    shouldInitializeAccount
   } = useThresholdKey()
   const [error, setError] = useState<string>("")
   const [activeMode, setActiveMode] = useState<"newUser" | "returningUser">(
-    isReturningUser ? "returningUser" : "newUser",
+    isReturningUser ? "returningUser" : "newUser"
   )
 
   const toggleActiveMode = () =>
@@ -257,7 +257,7 @@ const LoginPage = () => {
   //   window.location.href = oauthUrl
   // }
 
-  const maintenanceMode = process.env.REACT_APP_MAINTENANCE_MODE === 'true'
+  const maintenanceMode = process.env.REACT_APP_MAINTENANCE_MODE === "true"
 
   const shouldSaveNewDevice =
     !!keyDetails && keyDetails.requiredShares <= 0 && isNewDevice
@@ -313,7 +313,7 @@ const LoginPage = () => {
                 )}
                 {maintenanceMode && (
                   <Typography className={classes.error}>
-                    We're undergoing maintenance, thank you for being patient
+                    We`&apos;`re undergoing maintenance, thank you for being patient
                   </Typography>
                 )}
 

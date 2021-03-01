@@ -4,7 +4,7 @@ import {
   createStyles,
   ITheme,
   makeStyles,
-  useThemeSwitcher,
+  useThemeSwitcher
 } from "@chainsafe/common-theme"
 import clsx from "clsx"
 import {
@@ -13,7 +13,7 @@ import {
   ChainsafeFilesLogo,
   HamburgerMenu,
   MenuDropdown,
-  PowerDownSvg,
+  PowerDownSvg
 } from "@chainsafe/common-components"
 import { ROUTE_LINKS } from "../FilesRoutes"
 import SearchModule from "../Modules/SearchModule"
@@ -39,7 +39,7 @@ const useStyles = makeStyles(
           backgroundColor: palette.common.white.main,
           opacity: 0,
           "& > *:first-child": {
-            flex: "1 1 0",
+            flex: "1 1 0"
           },
           "&.active": {
             opacity: 1,
@@ -48,8 +48,8 @@ const useStyles = makeStyles(
             padding: `${constants.headerTopPadding}px ${
               constants.contentPadding
             }px ${0}px ${constants.contentPadding}px`,
-            zIndex: zIndex?.layer1,
-          },
+            zIndex: zIndex?.layer1
+          }
         },
         [breakpoints.down("md")]: {
           left: 0,
@@ -62,12 +62,12 @@ const useStyles = makeStyles(
             opacity: 1,
             visibility: "visible",
             height: constants.mobileHeaderHeight,
-            zIndex: zIndex?.layer1,
-          },
-        },
+            zIndex: zIndex?.layer1
+          }
+        }
       },
       hamburgerMenu: {
-        position: "absolute",
+        position: "absolute"
       },
       logo: {
         textDecoration: "none",
@@ -78,11 +78,11 @@ const useStyles = makeStyles(
         [breakpoints.up("md")]: {
           "& img": {
             height: constants.generalUnit * 5,
-            width: "auto",
+            width: "auto"
           },
           "& > *:first-child": {
-            marginRight: constants.generalUnit,
-          },
+            marginRight: constants.generalUnit
+          }
         },
         [breakpoints.down("md")]: {
           position: "absolute",
@@ -91,9 +91,9 @@ const useStyles = makeStyles(
           transform: "translate(-50%,-50%)",
           "& img": {
             height: constants.generalUnit * 3.25,
-            width: "auto",
-          },
-        },
+            width: "auto"
+          }
+        }
       },
       accountControls: {
         display: "flex",
@@ -101,11 +101,11 @@ const useStyles = makeStyles(
         alignItems: "center",
         flexDirection: "row",
         [breakpoints.up("md")]: {
-          marginLeft: constants.accountControlsPadding,
+          marginLeft: constants.accountControlsPadding
         },
         "& > *:first-child": {
-          marginRight: constants.generalUnit * 2,
-        },
+          marginRight: constants.generalUnit * 2
+        }
       },
       menuItem: {
         width: 100,
@@ -117,8 +117,8 @@ const useStyles = makeStyles(
           width: constants.generalUnit * 2,
           height: constants.generalUnit * 2,
           marginRight: constants.generalUnit,
-          fill: palette.additional["gray"][7],
-        },
+          fill: palette.additional["gray"][7]
+        }
       },
       searchModule: {
         [breakpoints.down("md")]: {
@@ -127,11 +127,11 @@ const useStyles = makeStyles(
           right: 2,
           width: "100%",
           zIndex: zIndex?.background,
-          "&.active": {},
-        },
-      },
+          "&.active": {}
+        }
+      }
     })
-  },
+  }
 )
 
 interface IAppHeader {
@@ -141,7 +141,7 @@ interface IAppHeader {
 
 const AppHeader: React.FC<IAppHeader> = ({
   navOpen,
-  setNavOpen,
+  setNavOpen
 }: IAppHeader) => {
   const classes = useStyles()
   const { desktop } = useThemeSwitcher()
@@ -165,7 +165,7 @@ const AppHeader: React.FC<IAppHeader> = ({
           secured &&
           !!publicKey &&
           !isNewDevice &&
-          !shouldInitializeAccount,
+          !shouldInitializeAccount
       })}
     >
       {isLoggedIn &&
@@ -197,8 +197,8 @@ const AppHeader: React.FC<IAppHeader> = ({
                             <Trans>Sign Out</Trans>
                           </Typography>
                         </div>
-                      ),
-                    },
+                      )
+                    }
                   ]}
                 />
               </section>

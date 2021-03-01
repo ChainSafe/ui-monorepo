@@ -4,15 +4,15 @@ import {
   ITheme,
   makeStyles,
   useOnClickOutside,
-  useThemeSwitcher,
+  useThemeSwitcher
 } from "@chainsafe/common-theme"
-import React, { ChangeEvent, useRef } from "react"
+import React, { ChangeEvent, useCallback, useRef } from "react"
 import {
   ArrowLeftIcon,
   Button,
   SearchBar,
   Typography,
-  useHistory,
+  useHistory
 } from "@chainsafe/common-components"
 import { useState } from "react"
 import clsx from "clsx"
@@ -30,35 +30,35 @@ const useStyles = makeStyles(
         [breakpoints.down("md")]: {
           display: "flex",
           "& input": {
-            opacity: 0,
+            opacity: 0
           },
           "& svg": {
-            height: `${24}px !important`,
-          },
+            height: `${24}px !important`
+          }
         },
         "&.active": {
           [breakpoints.down("md")]: {
             "& input": {
               opacity: 1,
-              width: "100%",
-            },
-          },
-        },
+              width: "100%"
+            }
+          }
+        }
       },
       searchBar: {
         [breakpoints.down("md")]: {
           height: "100%",
-          width: "100%",
-        },
+          width: "100%"
+        }
       },
       backButton: {
         backgroundColor: "transparent",
-        zIndex: zIndex?.layer1,
+        zIndex: zIndex?.layer1
       },
       backArrow: {
         "& svg": {
-          fill: palette.additional["gray"][9],
-        },
+          fill: palette.additional["gray"][9]
+        }
       },
       resultsContainer: {
         width: "100%",
@@ -69,11 +69,11 @@ const useStyles = makeStyles(
         transition: `opacity ${animation.transform}ms ease`,
         zIndex: zIndex?.layer3,
         [breakpoints.down("md")]: {
-          top: constants.mobileHeaderHeight as number,
+          top: constants.mobileHeaderHeight as number
         },
         [breakpoints.up("md")]: {
           marginTop: constants.generalUnit,
-          boxShadow: shadows.shadow1,
+          boxShadow: shadows.shadow1
         },
         "&.active": {
           opacity: 1,
@@ -82,35 +82,35 @@ const useStyles = makeStyles(
             height: `calc(100vh - ${constants.mobileHeaderHeight}px)`,
             "& input": {
               opacity: 1,
-              width: `calc(100vw - 45px)`,
-            },
-          },
-        },
+              width: "calc(100vw - 45px)"
+            }
+          }
+        }
       },
       resultsBox: {
         backgroundColor: palette.common.white.main,
-        padding: constants.generalUnit * 1,
+        padding: constants.generalUnit * 1
       },
       resultBackDrop: {
         height: "100%",
         backgroundColor: palette.additional["gray"][9],
-        opacity: 0.7,
+        opacity: 0.7
       },
       resultHead: {
         padding: `${constants.generalUnit * 0.5}px ${
           constants.generalUnit * 1
         }px`,
-        color: palette.additional["gray"][8],
+        color: palette.additional["gray"][8]
       },
       resultHeadFolder: {
         marginTop: constants.generalUnit * 0.5,
         padding: `${constants.generalUnit * 0.5}px  ${
           constants.generalUnit * 1
         }px`,
-        color: palette.additional["gray"][8],
+        color: palette.additional["gray"][8]
       },
       boldFont: {
-        fontWeight: 700,
+        fontWeight: 700
       },
       resultRow: {
         padding: `${constants.generalUnit * 0.75}px  ${
@@ -119,17 +119,17 @@ const useStyles = makeStyles(
         cursor: "pointer",
         color: palette.additional["gray"][8],
         "&:hover": {
-          backgroundColor: palette.additional["gray"][4],
-        },
+          backgroundColor: palette.additional["gray"][4]
+        }
       },
       noResultsFound: {
         margin: `${constants.generalUnit}px 0`,
         color: palette.additional["gray"][7],
         [breakpoints.down("md")]: {
-          textAlign: "center",
-        },
-      },
-    }),
+          textAlign: "center"
+        }
+      }
+    })
 )
 
 interface ISearchModule {
@@ -141,7 +141,7 @@ interface ISearchModule {
 const SearchModule: React.FC<ISearchModule> = ({
   className,
   searchActive,
-  setSearchActive,
+  setSearchActive
 }: ISearchModule) => {
   const classes = useStyles()
   const [searchString, setSearchString] = useState<string>("")
@@ -163,8 +163,10 @@ const SearchModule: React.FC<ISearchModule> = ({
     }
   }
 
-  const debouncedSearch = React.useCallback(debounce(onSearch, 400), [
-    currentSearchBucket?.bucketId,
+  // TODO useCallback is maybe not needed here
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const debouncedSearch = useCallback(debounce(onSearch, 400), [
+    currentSearchBucket?.bucketId
   ])
 
   const onSearchChange = (searchString: string) => {
@@ -186,12 +188,12 @@ const SearchModule: React.FC<ISearchModule> = ({
 
   const searchResultsFiles = searchResults.filter(
     (searchResult) =>
-      searchResult.content.content_type !== CONTENT_TYPES.Directory,
+      searchResult.content.content_type !== CONTENT_TYPES.Directory
   )
 
   const searchResultsFolders = searchResults.filter(
     (searchResult) =>
-      searchResult.content.content_type === CONTENT_TYPES.Directory,
+      searchResult.content.content_type === CONTENT_TYPES.Directory
   )
 
   const onSearchEntryClickFolder = (searchEntry: SearchEntry) => {
@@ -215,7 +217,7 @@ const SearchModule: React.FC<ISearchModule> = ({
       }}
       ref={ref}
       className={clsx(classes.root, className, {
-        active: searchActive,
+        active: searchActive
       })}
     >
       {!desktop && searchActive && (

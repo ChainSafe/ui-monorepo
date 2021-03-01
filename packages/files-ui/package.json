@@ -72,9 +72,6 @@
     "compile": "lingui compile",
     "lingui-version": "lingui --version"
   },
-  "eslintConfig": {
-    "extends": "react-app"
-  },
   "browserslist": {
     "production": [
       ">0.2%",

@@ -1,19 +1,19 @@
 import React, { useState, useEffect } from "react"
 import DirectAuthSdk, {
   LOGIN_TYPE,
-  TorusLoginResponse,
+  TorusLoginResponse
 } from "@toruslabs/torus-direct-web-sdk"
 import ThresholdKey from "@tkey/default"
 import WebStorageModule, { WEB_STORAGE_MODULE_NAME } from "@tkey/web-storage"
 import SecurityQuestionsModule, {
-  SECURITY_QUESTIONS_MODULE_NAME,
+  SECURITY_QUESTIONS_MODULE_NAME
 } from "@tkey/security-questions"
 import { IMetadata, KeyDetails } from "@tkey/common-types"
 import ShareTransferModule, {
-  SHARE_TRANSFER_MODULE_NAME,
+  SHARE_TRANSFER_MODULE_NAME
 } from "@tkey/share-transfer"
 import ShareSerializationModule, {
-  SHARE_SERIALIZATION_MODULE_NAME,
+  SHARE_SERIALIZATION_MODULE_NAME
 } from "@tkey/share-serialization"
 import { ServiceProviderBase } from "@tkey/service-provider-base"
 import { TorusStorageLayer } from "@tkey/storage-layer-torus"
@@ -74,7 +74,7 @@ const ThresholdKeyProvider = ({
   children,
   network = "mainnet",
   enableLogging = false,
-  apiKey,
+  apiKey
 }: ThresholdKeyProviderProps) => {
   const { imployApiClient, thresholdKeyLogin, logout } = useImployApi()
   const { provider, isReady, checkIsReady, address } = useWeb3()
@@ -86,11 +86,11 @@ const ThresholdKeyProvider = ({
   const [publicKey, setPublicKey] = useState<string | undefined>()
   const [
     shouldInitializeAccount,
-    setShouldInitializeAccount,
+    setShouldInitializeAccount
   ] = useState<boolean>(false)
   const [
     pendingShareTransferRequests,
-    setPendingShareTransferRequests,
+    setPendingShareTransferRequests
   ] = useState<ShareTransferRequest[]>([])
 
   const [privateKey, setPrivateKey] = useState<string | undefined>()
@@ -106,22 +106,22 @@ const ThresholdKeyProvider = ({
           [SECURITY_QUESTIONS_MODULE_NAME]: new SecurityQuestionsModule(),
           [WEB_STORAGE_MODULE_NAME]: new WebStorageModule(),
           [SHARE_TRANSFER_MODULE_NAME]: new ShareTransferModule(),
-          [SHARE_SERIALIZATION_MODULE_NAME]: new ShareSerializationModule(),
+          [SHARE_SERIALIZATION_MODULE_NAME]: new ShareSerializationModule()
         }
         const tKeyJson = tkeySerialized ? JSON.parse(tkeySerialized) : {}
         const serviceProvider = new ServiceProviderBase({
           enableLogging,
-          postboxKey,
+          postboxKey
         })
         const storageLayer = new TorusStorageLayer({
           serviceProvider,
           enableLogging,
-          hostUrl: "https://metadata.tor.us",
+          hostUrl: "https://metadata.tor.us"
         })
         tkey = await ThresholdKey.fromJSON(tKeyJson, {
           modules,
           serviceProvider,
-          storageLayer,
+          storageLayer
         })
         if (tKeyJson.modules) {
           if (tKeyJson.modules[WEB_STORAGE_MODULE_NAME])
@@ -142,15 +142,15 @@ const ThresholdKeyProvider = ({
           modules: {
             [SECURITY_QUESTIONS_MODULE_NAME]: new SecurityQuestionsModule(),
             [WEB_STORAGE_MODULE_NAME]: new WebStorageModule(true),
-            [SHARE_TRANSFER_MODULE_NAME]: new ShareTransferModule(),
+            [SHARE_TRANSFER_MODULE_NAME]: new ShareTransferModule()
           },
           directParams: {
             baseUrl: `${window.location.origin}/serviceworker`,
             network: network,
             enableLogging: enableLogging,
-            apiKey: apiKey,
+            apiKey: apiKey
           },
-          enableLogging: enableLogging,
+          enableLogging: enableLogging
         })
 
         const serviceProvider = (tkey.serviceProvider as unknown) as DirectAuthSdk
@@ -191,7 +191,7 @@ const ThresholdKeyProvider = ({
         SHARE_TRANSFER_MODULE_NAME
       ] as ShareTransferModule
       await shareTransferModule.cancelRequestStatusCheck()
-      await shareTransferModule.deleteShareTransferStore(shareTransferModule.currentEncKey.toString('hex'))
+      await shareTransferModule.deleteShareTransferStore(shareTransferModule.currentEncKey.toString("hex"))
     }
 
     if (keyDetails && keyDetails.requiredShares <= 0 && !privateKey) {
@@ -213,7 +213,7 @@ const ThresholdKeyProvider = ({
     }
 
     if (privateKey) {
-      console.log('logging in using tkey')
+      console.log("logging in using tkey")
       loginWithThresholdKey()
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -232,17 +232,17 @@ const ThresholdKeyProvider = ({
         const pendingRequests = Object.keys(latestShareTransferStore).reduce(
           (acc: Array<ShareTransferRequest>, x) => {
             const browserDetail = bowser.parse(
-              latestShareTransferStore[x].userAgent,
+              latestShareTransferStore[x].userAgent
             )
             if (!latestShareTransferStore[x].encShareInTransit)
               acc.push({
                 ...latestShareTransferStore[x],
                 browserDetail,
-                encPubKeyX: x,
+                encPubKeyX: x
               })
             return acc
           },
-          [],
+          []
         )
         setPendingShareTransferRequests(pendingRequests)
       }
@@ -270,10 +270,10 @@ const ThresholdKeyProvider = ({
       console.log("Creating a Share Transfer request")
       const currentEncPubKeyX = await shareTransferModule.requestNewShare(
         window.navigator.userAgent,
-        TKeySdk.getCurrentShareIndexes(),
+        TKeySdk.getCurrentShareIndexes()
       )
       console.log(
-        "Share transfer request created. Starting request status poller",
+        "Share transfer request created. Starting request status poller"
       )
 
       await shareTransferModule.startRequestStatusCheck(currentEncPubKeyX, true)
@@ -292,75 +292,75 @@ const ThresholdKeyProvider = ({
     try {
       const serviceProvider = (TKeySdk.serviceProvider as unknown) as DirectAuthSdk
       switch (loginType) {
-        case "google":
-          const googleResult = await serviceProvider.triggerLogin({
-            typeOfLogin: "google",
-            verifier: process.env.REACT_APP_GOOGLE_VERIFIER_NAME || "",
-            clientId: process.env.REACT_APP_GOOGLE_CLIENT_ID || "",
-          })
-          setUserInfo(googleResult)
-          break
-        case "facebook":
-          const fbResult = await serviceProvider.triggerLogin({
-            typeOfLogin: "facebook",
-            verifier: process.env.REACT_APP_FACEBOOK_VERIFIER_NAME || "",
-            clientId: process.env.REACT_APP_FACEBOOK_CLIENT_ID || "",
-          })
-          setUserInfo(fbResult)
-          break
-        case "github":
-          const ghResult = await serviceProvider.triggerLogin({
-            typeOfLogin: "github",
-            verifier: process.env.REACT_APP_GITHUB_VERIFIER_NAME || "",
-            clientId: process.env.REACT_APP_AUTH0_CLIENT_ID || "",
-            jwtParams: {
-              domain: process.env.REACT_APP_AUTH0_DOMAIN || "",
-            },
-          })
-          setUserInfo(ghResult)
-          break
-        case "web3":
-          if (!provider) break
-
-          if (!isReady || !address) {
-            const connected = await checkIsReady()
-            if (!connected || !address) break
+      case "google":
+        const googleResult = await serviceProvider.triggerLogin({
+          typeOfLogin: "google",
+          verifier: process.env.REACT_APP_GOOGLE_VERIFIER_NAME || "",
+          clientId: process.env.REACT_APP_GOOGLE_CLIENT_ID || ""
+        })
+        setUserInfo(googleResult)
+        break
+      case "facebook":
+        const fbResult = await serviceProvider.triggerLogin({
+          typeOfLogin: "facebook",
+          verifier: process.env.REACT_APP_FACEBOOK_VERIFIER_NAME || "",
+          clientId: process.env.REACT_APP_FACEBOOK_CLIENT_ID || ""
+        })
+        setUserInfo(fbResult)
+        break
+      case "github":
+        const ghResult = await serviceProvider.triggerLogin({
+          typeOfLogin: "github",
+          verifier: process.env.REACT_APP_GITHUB_VERIFIER_NAME || "",
+          clientId: process.env.REACT_APP_AUTH0_CLIENT_ID || "",
+          jwtParams: {
+            domain: process.env.REACT_APP_AUTH0_DOMAIN || ""
           }
+        })
+        setUserInfo(ghResult)
+        break
+      case "web3":
+        if (!provider) break
 
-          try {
-            const { token } = await imployApiClient.getIdentityWeb3Token(
-              address,
+        if (!isReady || !address) {
+          const connected = await checkIsReady()
+          if (!connected || !address) break
+        }
+
+        try {
+          const { token } = await imployApiClient.getIdentityWeb3Token(
+            address
+          )
+
+          if (token) {
+            const signature = await signMessage(token, provider.getSigner())
+            const {
+              access_token
+            } = await imployApiClient.postIdentityWeb3Token({
+              signature: signature,
+              token: token,
+              public_address: address
+            })
+
+            console.log(access_token)
+            //@ts-ignore
+            const directAuthSdk = serviceProvider.directWeb as DirectAuthSdk
+
+            const torusKey = await directAuthSdk.getTorusKey(
+              process.env.REACT_APP_FILES_VERIFIER_NAME || "",
+              "pubkey",
+              { verifier_id: "pubkey" },
+              access_token.token
             )
-
-            if (token) {
-              const signature = await signMessage(token, provider.getSigner())
-              const {
-                access_token,
-              } = await imployApiClient.postIdentityWeb3Token({
-                signature: signature,
-                token: token,
-                public_address: address,
-              })
-
-              console.log(access_token)
-              //@ts-ignore
-              const directAuthSdk = serviceProvider.directWeb as DirectAuthSdk
-
-              const torusKey = await directAuthSdk.getTorusKey(
-                process.env.REACT_APP_FILES_VERIFIER_NAME || "",
-                "pubkey",
-                { verifier_id: "pubkey" },
-                access_token.token,
-              )
-              console.log(torusKey)
-              // TODO: Continue any login from here
-            }
-          } catch (error) {
-            console.log(error)
+            console.log(torusKey)
+            // TODO: Continue any login from here
           }
-          break
-        default:
-          break
+        } catch (error) {
+          console.log(error)
+        }
+        break
+      default:
+        break
       }
     } catch (error) {
       console.log("Error logging in")
@@ -369,10 +369,10 @@ const ThresholdKeyProvider = ({
     }
     sessionStorage.setItem(
       TORUS_POSTBOX_KEY,
-      TKeySdk.serviceProvider.postboxKey.toString("hex"),
+      TKeySdk.serviceProvider.postboxKey.toString("hex")
     )
     const metadata = await TKeySdk.storageLayer.getMetadata<IMetadata>({
-      privKey: TKeySdk.serviceProvider.postboxKey,
+      privKey: TKeySdk.serviceProvider.postboxKey
     })
     console.log(metadata)
     //@ts-ignore
@@ -399,7 +399,7 @@ const ThresholdKeyProvider = ({
         await storageModule.inputShareFromWebStorage()
       } catch (error) {
         console.log(
-          "Error loading device share. If this is a new device please add it using one of your other recovery shares.",
+          "Error loading device share. If this is a new device please add it using one of your other recovery shares."
         )
         console.log(error)
         setIsNewDevice(true)
@@ -420,7 +420,7 @@ const ThresholdKeyProvider = ({
     ] as SecurityQuestionsModule
     await securityQuestionModule.generateNewShareWithSecurityQuestions(
       password,
-      "What is your password?",
+      "What is your password?"
     )
     const keyDetails = await TKeySdk.getKeyDetails()
     setKeyDetails(keyDetails)
@@ -436,7 +436,7 @@ const ThresholdKeyProvider = ({
     ]) as ShareSerializationModule
     const result = (await shareSerializationModule.serialize(
       requiredShareStore.share.share,
-      "mnemonic",
+      "mnemonic"
     )) as string
     const keyDetails = await TKeySdk.getKeyDetails()
     setKeyDetails(keyDetails)
@@ -526,7 +526,7 @@ const ThresholdKeyProvider = ({
   const encryptForPublicKey = async (publicKey: string, message: string) => {
     const messageCipher = await EthCrypto.encryptWithPublicKey(
       publicKey,
-      message,
+      message
     )
     return EthCrypto.cipher.stringify(messageCipher)
   }
@@ -548,15 +548,15 @@ const ThresholdKeyProvider = ({
       modules: {
         [SECURITY_QUESTIONS_MODULE_NAME]: new SecurityQuestionsModule(),
         [WEB_STORAGE_MODULE_NAME]: new WebStorageModule(true),
-        [SHARE_TRANSFER_MODULE_NAME]: new ShareTransferModule(),
+        [SHARE_TRANSFER_MODULE_NAME]: new ShareTransferModule()
       },
       directParams: {
         baseUrl: `${window.location.origin}/serviceworker`,
         network: network,
         enableLogging: enableLogging,
-        apiKey: apiKey,
+        apiKey: apiKey
       },
-      enableLogging: enableLogging,
+      enableLogging: enableLogging
     })
 
     const serviceProvider = (tkey.serviceProvider as unknown) as DirectAuthSdk
