@@ -8,7 +8,7 @@ import WebStorageModule, { WEB_STORAGE_MODULE_NAME } from "@tkey/web-storage"
 import SecurityQuestionsModule, {
   SECURITY_QUESTIONS_MODULE_NAME
 } from "@tkey/security-questions"
-import { KeyDetails, ShareStore } from "@tkey/common-types"
+import { KeyDetails, ShareStore, getPubKeyEC } from "@tkey/common-types"
 import ShareTransferModule, {
   SHARE_TRANSFER_MODULE_NAME
 } from "@tkey/share-transfer"
@@ -129,7 +129,8 @@ const ThresholdKeyProvider = ({
           modules: {
             [SECURITY_QUESTIONS_MODULE_NAME]: new SecurityQuestionsModule(),
             [WEB_STORAGE_MODULE_NAME]: new WebStorageModule(true),
-            [SHARE_TRANSFER_MODULE_NAME]: new ShareTransferModule()
+            [SHARE_TRANSFER_MODULE_NAME]: new ShareTransferModule(),
+            [SHARE_SERIALIZATION_MODULE_NAME]: new ShareSerializationModule()
           },
           directParams: {
             baseUrl: `${window.location.origin}/serviceworker`,
@@ -178,7 +179,11 @@ const ThresholdKeyProvider = ({
         SHARE_TRANSFER_MODULE_NAME
       ] as ShareTransferModule
       await shareTransferModule.cancelRequestStatusCheck()
-      // await shareTransferModule.deleteShareTransferStore(shareTransferModule.currentEncKey.toString("hex"))
+      if (shareTransferModule.currentEncKey) {
+        const pubKeyEC = getPubKeyEC(shareTransferModule.currentEncKey)
+        const encPubKeyX = pubKeyEC.getX().toString("hex")        
+        await shareTransferModule.deleteShareTransferStore(encPubKeyX)
+      }
     }
 
     if (keyDetails && keyDetails.requiredShares <= 0 && !privateKey) {
