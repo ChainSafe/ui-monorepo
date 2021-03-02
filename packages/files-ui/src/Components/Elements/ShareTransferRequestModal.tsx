@@ -12,12 +12,12 @@ interface Props {
 }
 const ShareTransferRequestModal = ({ request }: Props) => {
   const { approveShareTransferRequest, rejectShareTransferRequest } = useThresholdKey()
-  const useStyles = makeStyles(({breakpoints, constants, palette}: ITheme) =>
+  const useStyles = makeStyles(({ breakpoints, constants, palette }: ITheme) =>
     createStyles({
       root: {},
       modalInner: {
         padding: constants.generalUnit * 4,
-        textAlign: 'center',
+        textAlign: "center",
 
         "& img" : {
           width: "min-content",
@@ -48,18 +48,18 @@ const ShareTransferRequestModal = ({ request }: Props) => {
   )
   const { desktop } = useThemeSwitcher()
   const classes = useStyles()
-  const [isLoadingApprove, setIsLoadingApprove] = useState(false);
-  const [isLoadingReject, setIsLoadingReject] = useState(false);
+  const [isLoadingApprove, setIsLoadingApprove] = useState(false)
+  const [isLoadingReject, setIsLoadingReject] = useState(false)
 
   const onApproveRequest = useCallback((encPubKeyX: string) => {
     setIsLoadingApprove(true)
     approveShareTransferRequest(encPubKeyX)
-  }, [])
+  }, [approveShareTransferRequest])
 
   const onRejectRequest = useCallback((encPubKeyX: string) => {
     setIsLoadingReject(true)
     rejectShareTransferRequest(encPubKeyX)
-  }, [])
+  }, [rejectShareTransferRequest])
 
   return (
     <CustomModal
@@ -82,12 +82,12 @@ const ShareTransferRequestModal = ({ request }: Props) => {
         </Typography>
         <div className={classes.buttonWrapper}>
           <Button                   
-              className={classes.button}
-              variant={desktop ? "primary" : "outline"}
-              size="large"
-              loading={isLoadingApprove}
-              disabled={isLoadingReject}
-              onClick={() => {onApproveRequest(request.encPubKeyX)}}>
+            className={classes.button}
+            variant={desktop ? "primary" : "outline"}
+            size="large"
+            loading={isLoadingApprove}
+            disabled={isLoadingReject}
+            onClick={() => {onApproveRequest(request.encPubKeyX)}}>
             <Trans>Approve</Trans>
           </Button>
           <Button 

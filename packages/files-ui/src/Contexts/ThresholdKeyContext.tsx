@@ -209,9 +209,7 @@ const ThresholdKeyProvider = ({
   // Share Transfer poller
   useEffect(() => {
     const handler = async () => {
-      console.log("TKeySdk", TKeySdk)
       if (TKeySdk) {
-        console.log("polling...")
         const shareTransferModule = TKeySdk.modules[
           SHARE_TRANSFER_MODULE_NAME
         ] as ShareTransferModule
