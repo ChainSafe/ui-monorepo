@@ -20,8 +20,8 @@ export const lightTheme = createTheme({
           logoText: "var(--gray1)"
         },
         modalDefault: {
-          fadebackground: "var(--gray10)",
-          background: "var(--gray10)",
+          fadebackground: "var(--gray1)",
+          background: "var(--gray1)",
         },
         header: {
           rootBackground: "var(--gray1)",
@@ -43,8 +43,8 @@ export const lightTheme = createTheme({
           itemIconColorHover: "initial",
         },
         createFolder: {
-          backgroundColor: "var(--gray10)",
-          color: "var(--gray1)"
+          backgroundColor: "var(--gray1)",
+          color: "var(--gray10)"
         },
         previewModal: {
           controlsBackground: "var(--gray9)",
@@ -52,7 +52,7 @@ export const lightTheme = createTheme({
           closeButtonColor: "var(--gray2)",
           fileOpsColor: "var(--gray2)",
           fileNameColor: "var(--gray1)",
-          optionsBackground: "initial",
+          optionsBackground: "var(--gray1)",
           optionsTextColor: "initial",
           optionsBorder: "initial",
           menuItemIconColor: "var(--gray7)",
@@ -73,15 +73,15 @@ export const lightTheme = createTheme({
           iconHover: "var(--gray10)"
         },
         fileInfoModal: {
-          background: "initial",
-          color: "initial",
+          background: "var(--gray1)",
+          color: "var(--gray10)",
           copyButtonBackground: "var(--gray1)",
           copyButtonColor: "var(--gray10)",
           infoContainerBorderTop: "var(--gray5)"
         },
         moveFileModal: {
-          background: "var(--gray10)",
-          color: "var(--gray1)"
+          background: "var(--gray1)",
+          color: "var(--gray10)"
         },
         filesTable: {
           color: ""
@@ -90,7 +90,7 @@ export const lightTheme = createTheme({
           icon: "var(--gray8)",
           menuIcon: "var(--gray7)",
           dropdownIcon: "initial",
-          optionsBackground: "initial",
+          optionsBackground: "var(--gray1)",
           optionsColor: "initial",
           optionsBorder: "initial",
           itemBackground: "initial",
