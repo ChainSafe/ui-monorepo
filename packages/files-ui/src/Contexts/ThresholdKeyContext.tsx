@@ -194,7 +194,7 @@ const ThresholdKeyProvider = ({
       await shareTransferModule.cancelRequestStatusCheck()
       if (shareTransferModule.currentEncKey) {
         const pubKeyEC = getPubKeyEC(shareTransferModule.currentEncKey)
-        const encPubKeyX = pubKeyEC.getX().toString('hex')        
+        const encPubKeyX = pubKeyEC.getX().toString("hex")        
         await shareTransferModule.deleteShareTransferStore(encPubKeyX)
       }
     }
