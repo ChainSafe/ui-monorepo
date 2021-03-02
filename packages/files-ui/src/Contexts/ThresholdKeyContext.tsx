@@ -22,6 +22,7 @@ import { signMessage, useImployApi } from "@imploy/common-contexts"
 import { Wallet } from "ethers"
 import EthCrypto from "eth-crypto"
 import { useWeb3 } from "@chainsafe/web3-context"
+import ShareTransferRequestModal from "../Components/Elements/ShareTransferRequestModal"
 
 const TORUS_POSTBOX_KEY = "csf.postboxKey"
 const TKEY_STORE_KEY = "csf.tkeyStore"
@@ -593,6 +594,12 @@ const ThresholdKeyProvider = ({
         logout: thresholdKeyLogout
       }}
     >
+      {pendingShareTransferRequests.map((request, index) => (
+        <ShareTransferRequestModal
+          key={index}
+          request={request}
+        />
+      ))}
       {children}
     </ThresholdKeyContext.Provider>
   )
