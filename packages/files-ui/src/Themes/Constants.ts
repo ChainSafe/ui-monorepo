@@ -68,6 +68,8 @@ export interface UI_COLORS extends Partial<IConstants> {
   uploadModal: {
     background: string
     color: string
+    icon: string
+    iconHover: string
   }
   fileInfoModal: {
     background: string
@@ -97,10 +99,12 @@ export interface UI_COLORS extends Partial<IConstants> {
     desktop: {
       color: string
       link: string
+      checkbox: string
     }
     mobile: {
       color: string
       link: string
+      checkbox: string
     }
   }
   profile: {

@@ -21,7 +21,7 @@ const useStyles = makeStyles(({ constants, palette, breakpoints }: ITheme) =>
         flexDirection: "row",
         justifyContent: "flex-end",
         alignItems: "center",
-        backgroundColor: palette.additional["gray"][3],
+        backgroundColor: (constants as UI_COLORS).uploadModal.background,
         padding: constants.generalUnit * 2,
       },
     },
@@ -38,8 +38,6 @@ const useStyles = makeStyles(({ constants, palette, breakpoints }: ITheme) =>
     cta: {},
     okButton: {
       marginLeft: constants.generalUnit,
-      color: palette.common.white.main,
-      backgroundColor: palette.common.black.main,
       "&.wide": {
         paddingLeft: constants.generalUnit * 4,
         paddingRight: constants.generalUnit * 4,
@@ -50,6 +48,15 @@ const useStyles = makeStyles(({ constants, palette, breakpoints }: ITheme) =>
       fontSize: 14,
       lineHeight: "22px",
     },
+    closeIcon: {
+      "& svg": {
+        fill: (constants as UI_COLORS).uploadModal.icon,
+      },
+      
+      "&:hover svg": {
+        fill: (constants as UI_COLORS).uploadModal.iconHover,
+      }
+    }
   }),
 )
 
@@ -109,6 +116,9 @@ const UploadFileModule: React.FC<IUploadFileModuleProps> = ({
           <FileInput
             multiple={true}
             className={classes.input}
+            classNames={{
+              closeIcon: classes.closeIcon
+            }}
             label={t`Click or drag to upload files`}
             moreFilesLabel={t`Add more files`}
             maxSize={2 * 1024 ** 3}
@@ -128,6 +138,7 @@ const UploadFileModule: React.FC<IUploadFileModuleProps> = ({
             <Button
               size="medium"
               type="submit"
+              variant="primary"
               className={clsx(classes.okButton, "wide")}
               disabled={isDoneDisabled}
             >

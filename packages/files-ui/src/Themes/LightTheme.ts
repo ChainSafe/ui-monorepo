@@ -67,8 +67,10 @@ export const lightTheme = createTheme({
           noResults: "var(--gray7)"
         },
         uploadModal: {
-          background: "var(--gray10)",
+          background: "var(--gray1)",
           color: "var(--gray1)",
+          icon: "var(--gray10)",
+          iconHover: "var(--gray10)"
         },
         fileInfoModal: {
           background: "initial",
@@ -97,11 +99,13 @@ export const lightTheme = createTheme({
         masterkey: {
           desktop: {
             color: "var(--gray10)",
-            link: "var(--gray1)",
+            link: "var(--gray10)",
+            checkbox: "var(--gray1)"
           },
           mobile: {
             color: "var(--gray1)",
             link: "var(--gray1)",
+            checkbox: "var(--gray9)"
           }
         },
         profile: {

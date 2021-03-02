@@ -66,9 +66,15 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: ITheme) =>
       marginBottom: constants.generalUnit,
       [breakpoints.up("md")]: {
         color: (constants as UI_COLORS).masterkey.desktop.color,
+        "& svg": {
+          fill: `${(constants as UI_COLORS).masterkey.desktop.checkbox} !important`,
+        }
       },
       [breakpoints.down("md")]: {
         color: (constants as UI_COLORS).masterkey.mobile.color,
+        "& svg": {
+          fill: `${(constants as UI_COLORS).masterkey.mobile.checkbox} !important`,
+        }
       },
     },
     button: {

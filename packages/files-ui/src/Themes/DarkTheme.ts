@@ -381,7 +381,9 @@ export const darkTheme = createTheme({
         },
         uploadModal: {
           background: "var(--gray2)",
-          color: "var(--gray9)"
+          color: "var(--gray9)",
+          icon: "var(--gray9)",
+          iconHover: "var(--gray9)"
         },
         fileInfoModal: {
           background: "var(--gray2)",
@@ -411,10 +413,12 @@ export const darkTheme = createTheme({
           desktop: {
             color: "var(--gray9)",
             link: "var(--gray10)",
+            checkbox: "var(--gray9)"
           },
           mobile: {
             color: "var(--gray9)",
             link: "var(--gray10)",
+            checkbox: "var(--gray9)"
           }
         },
         profile: {

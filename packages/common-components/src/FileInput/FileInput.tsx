@@ -71,7 +71,11 @@ const useStyles = makeStyles(({ constants, palette, overrides }: ITheme) =>
       alignItems: "center",
       justifyContent: "flex-start",
       "& svg": {
-        height: "100%"
+        position: "absolute",
+        top: "50%",
+        left: "50%",
+        transform: "translate(-50%, -50%)",
+        margin: 0
       },
       "& > *:first-child": {
         marginRight: constants.generalUnit
@@ -82,7 +86,10 @@ const useStyles = makeStyles(({ constants, palette, overrides }: ITheme) =>
       flex: "1 1 0"
     },
     crossIcon: {
-      backgroundColor: palette.primary.hover
+      backgroundColor: "transparent",
+      "& > span": {
+        position: "relative"
+      }
     },
     addFilesText: {
       marginLeft: constants.generalUnit
@@ -101,6 +108,7 @@ interface IFileInputProps extends DropzoneOptions {
   classNames?: {
     pending?: string
     filelist?: string
+    closeIcon?: string
     error?: string
   }
   onFileNumberChange: (filesNumber: number) => void
@@ -202,7 +210,7 @@ const FileInput: React.FC<IFileInputProps> = ({
                   <li className={classes.item} key={i}>
                     <span className={classes.itemText}>{file.name}</span>
                     <Button
-                      className={classes.crossIcon}
+                      className={clsx(classes.crossIcon, classNames?.closeIcon)}
                       type="button"
                       onClick={(e) => {
                         e.stopPropagation()
