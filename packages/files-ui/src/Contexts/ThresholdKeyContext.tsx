@@ -94,7 +94,7 @@ const ThresholdKeyProvider = ({
   ] = useState<ShareTransferRequest[]>([])
 
   const [privateKey, setPrivateKey] = useState<string | undefined>()
-  console.log("TKeySdk", TKeySdk)
+
   // Initialize Threshold Key and DirectAuth
   useEffect(() => {
     const init = async () => {
@@ -552,8 +552,6 @@ const ThresholdKeyProvider = ({
     logout()
   }
 
-  console.log("pendingShareTransferRequests", pendingShareTransferRequests)
-
   return (
     <ThresholdKeyContext.Provider
       value={{
@@ -579,7 +577,12 @@ const ThresholdKeyProvider = ({
         logout: thresholdKeyLogout
       }}
     >
-      {pendingShareTransferRequests.length > 0 && <ShareTransferRequestModal requests={pendingShareTransferRequests}/>}
+      {pendingShareTransferRequests.map((request, index) => (
+        <ShareTransferRequestModal
+          key={index}
+          request={request}
+        />
+      ))}
       {children}
     </ThresholdKeyContext.Provider>
   )
