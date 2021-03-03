@@ -263,8 +263,7 @@ const ThresholdKeyProvider = ({
     return () => {
       poller && clearInterval(poller)
     }
-    // eslint-disable-next-line
-  }, [keyDetails])
+  }, [TKeySdk, keyDetails])
 
   // Initiate request for share transfer if not enough shares
   useEffect(() => {
