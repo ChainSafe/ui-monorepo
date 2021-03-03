@@ -27,7 +27,6 @@ import {
 } from "@chainsafe/common-components"
 import {
   makeStyles,
-  ITheme,
   createStyles,
   useDoubleClick,
   useThemeSwitcher,
@@ -41,9 +40,9 @@ import { useDrag, useDrop } from "react-dnd"
 import { DragTypes } from "../DragConstants"
 import { NativeTypes } from "react-dnd-html5-backend"
 import { FileOperation, IFileConfigured } from "../types"
-import { UI_COLORS } from "../../../../Themes/Constants"
+import { CSFTheme } from "../../../../Themes/types"
 
-const useStyles = makeStyles(({ breakpoints, constants, palette }: ITheme) => {
+const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => {
   // const desktopGridSettings = "50px 69px 3fr 190px 100px 45px !important"
   const desktopGridSettings = "50px 69px 3fr 190px 60px !important"
   const mobileGridSettings = "69px 3fr 45px !important"
@@ -67,7 +66,7 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: ITheme) => {
       justifyContent: "center",
       "& svg": {
         width: constants.generalUnit * 2.5,
-        fill: (constants as UI_COLORS).fileSystemItemRow.icon
+        fill: constants.fileSystemItemRow.icon
       },
     },
     folderIcon: {
@@ -129,7 +128,7 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: ITheme) => {
       width: 20,
       marginRight: constants.generalUnit * 1.5,
       "& svg": {
-        fill: (constants as UI_COLORS).fileSystemItemRow.menuIcon
+        fill: constants.fileSystemItemRow.menuIcon
       },
     },
     desktopRename: {
@@ -147,17 +146,17 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: ITheme) => {
     },
     dropdownIcon: {
       "& svg": {
-        fill: (constants as UI_COLORS).fileSystemItemRow.dropdownIcon,
+        fill: constants.fileSystemItemRow.dropdownIcon,
       },
     },
     dropdownOptions: {
-      backgroundColor: (constants as UI_COLORS).fileSystemItemRow.optionsBackground,
-      color: (constants as UI_COLORS).fileSystemItemRow.optionsColor,
-      border: `1px solid ${(constants as UI_COLORS).fileSystemItemRow.optionsBorder}`,
+      backgroundColor: constants.fileSystemItemRow.optionsBackground,
+      color: constants.fileSystemItemRow.optionsColor,
+      border: `1px solid ${constants.fileSystemItemRow.optionsBorder}`,
     },
     dropdownItem: {
-      backgroundColor: (constants as UI_COLORS).fileSystemItemRow.itemBackground,
-      color: (constants as UI_COLORS).fileSystemItemRow.itemColor,
+      backgroundColor: constants.fileSystemItemRow.itemBackground,
+      color: constants.fileSystemItemRow.itemColor,
     },
   })
 })

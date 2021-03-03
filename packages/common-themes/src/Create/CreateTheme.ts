@@ -13,22 +13,22 @@ import { DefaultGlobalStyling } from "../Defaults/GlobalStyling"
 import { DeepPartial } from "ts-essentials"
 import { mergeDeep } from "../utils"
 
-interface ITheme extends IThemeConfig {
+interface ITheme<IConstantTypes = IConstants> extends IThemeConfig<IConstantTypes> {
   mixins: MixinConfig
   globalStyling: {
     "@global": Record<string, any>
   }
 }
 
-interface ICreateThemeProps {
-  themeConfig?: DeepPartial<IThemeConfig>
+interface ICreateThemeProps<IConstantTypes> {
+  themeConfig?: DeepPartial<IThemeConfig<IConstantTypes>>
   mixins?: DeepPartial<MixinConfig>
   globalStyling?: Record<string, any>
 }
 
-const createTheme = (themeProps?: ICreateThemeProps): ITheme => {
+const createTheme = <IConstantTypes extends IConstants>(themeProps?: ICreateThemeProps<IConstantTypes>): ITheme<IConstantTypes> => {
   return {
-    ...createThemeConfig(themeProps?.themeConfig),
+    ...createThemeConfig<IConstantTypes>(themeProps?.themeConfig),
     globalStyling: {
       "@global": {
         ...(themeProps?.globalStyling

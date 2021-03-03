@@ -1,7 +1,6 @@
 import React from "react"
 import {
   createStyles,
-  ITheme,
   makeStyles,
 } from "@chainsafe/common-theme"
 import { UploadProgress } from "../../../Contexts/DriveContext"
@@ -13,10 +12,10 @@ import {
 } from "@chainsafe/common-components"
 import clsx from "clsx"
 import { Trans } from "@lingui/macro"
-import { UI_COLORS } from "../../../Themes/Constants"
+import { CSFTheme } from "../../../Themes/types"
 
 const useStyles = makeStyles(
-  ({ constants, palette, animation, breakpoints }: ITheme) => {
+  ({ constants, palette, animation, breakpoints }: CSFTheme) => {
     return createStyles({
       boxContainer: {
         backgroundColor: palette.additional["gray"][3],
@@ -46,7 +45,7 @@ const useStyles = makeStyles(
         display: "flex",
         alignItems: "center",
         "& svg": {
-          fill: (constants as UI_COLORS).uploadAlert.icon,
+          fill: constants.uploadAlert.icon,
         },
       },
       marginBottom: {

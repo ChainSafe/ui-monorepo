@@ -1,6 +1,5 @@
 import {
   createStyles,
-  ITheme,
   makeStyles,
   useMediaQuery,
 } from "@chainsafe/common-theme"
@@ -23,18 +22,18 @@ import {
   Typography,
 } from "@chainsafe/common-components"
 import { getPathWithFile } from "../../../Utils/pathUtils"
-import { UI_COLORS } from "../../../Themes/Constants"
+import { CSFTheme } from "../../../Themes/types"
 
 const useStyles = makeStyles(
-  ({ breakpoints, constants, palette, typography, zIndex }: ITheme) => {
+  ({ breakpoints, constants, palette, typography, zIndex }: CSFTheme) => {
     return createStyles({
       modalRoot: {
         zIndex: zIndex?.blocker,
         [breakpoints.down("md")]: {},
       },
       modalInner: {
-        backgroundColor: (constants as UI_COLORS).moveFileModal.background,
-        color: (constants as UI_COLORS).moveFileModal.color,
+        backgroundColor: constants.moveFileModal.background,
+        color: constants.moveFileModal.color,
         [breakpoints.down("md")]: {
           bottom:
             Number(constants?.mobileButtonHeight) + constants.generalUnit,

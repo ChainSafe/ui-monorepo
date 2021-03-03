@@ -1,7 +1,6 @@
 import {
   createStyles,
   debounce,
-  ITheme,
   makeStyles,
   useOnClickOutside,
   useThemeSwitcher,
@@ -21,10 +20,10 @@ import { useDrive, SearchEntry } from "../../Contexts/DriveContext"
 import { CONTENT_TYPES } from "../../Utils/Constants"
 import { getParentPathFromFilePath } from "../../Utils/pathUtils"
 import { Trans } from "@lingui/macro"
-import { UI_COLORS } from "../../Themes/Constants"
+import { CSFTheme } from "../../Themes/types"
 
 const useStyles = makeStyles(
-  ({ breakpoints, palette, constants, animation, zIndex, shadows }: ITheme) =>
+  ({ breakpoints, palette, constants, animation, zIndex, shadows }: CSFTheme) =>
     createStyles({
       root: {
         position: "relative",
@@ -89,26 +88,26 @@ const useStyles = makeStyles(
         },
       },
       resultsBox: {
-        backgroundColor:(constants as UI_COLORS).searchModule.resultsBackground,
+        backgroundColor:constants.searchModule.resultsBackground,
         padding: constants.generalUnit * 1,
       },
       resultBackDrop: {
         height: "100%",
-        backgroundColor: (constants as UI_COLORS).searchModule.resultsBackdrop,
+        backgroundColor: constants.searchModule.resultsBackdrop,
         opacity: 0.7,
       },
       resultHead: {
         padding: `${constants.generalUnit * 0.5}px ${
           constants.generalUnit * 1
         }px`,
-        color:(constants as UI_COLORS).searchModule.resultsHeading,
+        color:constants.searchModule.resultsHeading,
       },
       resultHeadFolder: {
         marginTop: constants.generalUnit * 0.5,
         padding: `${constants.generalUnit * 0.5}px  ${
           constants.generalUnit * 1
         }px`,
-        color: (constants as UI_COLORS).searchModule.resultsFolder,
+        color: constants.searchModule.resultsFolder,
       },
       boldFont: {
         fontWeight: 700,
@@ -118,14 +117,14 @@ const useStyles = makeStyles(
           constants.generalUnit * 1
         }px`,
         cursor: "pointer",
-        color:(constants as UI_COLORS).searchModule.resultsRow,
+        color:constants.searchModule.resultsRow,
         "&:hover": {
           backgroundColor: palette.additional["gray"][4],
         },
       },
       noResultsFound: {
         margin: `${constants.generalUnit}px 0`,
-        color: (constants as UI_COLORS).searchModule.noResults,
+        color: constants.searchModule.noResults,
         [breakpoints.down("md")]: {
           textAlign: "center",
         },

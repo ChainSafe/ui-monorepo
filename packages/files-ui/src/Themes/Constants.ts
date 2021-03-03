@@ -3,18 +3,18 @@ import { IConstants } from "@chainsafe/common-theme";
 export const UI_CONSTANTS = {
   mobileButtonHeight: 44,
   headerHeight: 60,
-  navWidth: 8 * 27, // constants.generalUnit
-  contentPadding: 8 * 15, // constants.generalUnit
-  contentTopPadding: 8 * 15, // constants.generalUnit
-  mobileHeaderHeight: 8 * 6.3, // constants.generalUnit
-  svgWidth: 8 * 2.5, // constants.generalUnit
-  topPadding: 8 * 3, // constants.generalUnit
-  mobileNavWidth: 8 * 30, // constants.generalUnit
-  headerTopPadding: 8 * 3, // constants.generalUnit
-  accountControlsPadding: 8 * 7, // constants.generalUnit
+  navWidth: 8 * 27,
+  contentPadding: 8 * 15,
+  contentTopPadding: 8 * 15,
+  mobileHeaderHeight: 8 * 6.3,
+  svgWidth: 8 * 2.5,
+  topPadding: 8 * 3,
+  mobileNavWidth: 8 * 30,
+  headerTopPadding: 8 * 3,
+  accountControlsPadding: 8 * 7,
 }
 
-export interface UI_COLORS extends Partial<IConstants> {
+export interface UI_COLORS extends IConstants {
   landing: {
     logoText: string
   }

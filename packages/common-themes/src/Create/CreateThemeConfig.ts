@@ -87,10 +87,10 @@ interface IShadows {
   [key: string]: string
 }
 
-interface IThemeConfig {
+interface IThemeConfig<IConstantTypes = IConstants> {
   animation: IAnimation
   breakpoints: IBreakpoints
-  constants: IConstants
+  constants: IConstantTypes
   palette: IPalette
   typography: ITypography
   misc?: any
@@ -110,15 +110,13 @@ interface IThemeConfig {
   overrides?: IComponentOverrides
 }
 
-const createThemeConfig = (
-  themeConfig?: DeepPartial<IThemeConfig>
-): IThemeConfig => {
+const createThemeConfig = <IConstantTypes>(themeConfig?: DeepPartial<IThemeConfig<IConstantTypes>>): IThemeConfig<IConstantTypes> => {
   // No conversion or mapping needed for now
   return {
     ...(mergeDeep(
       DefaultThemeConfig,
-      themeConfig as IThemeConfig
-    ) as IThemeConfig)
+      themeConfig as IThemeConfig<IConstantTypes>
+    ) as IThemeConfig<IConstantTypes>)
   }
 }
 

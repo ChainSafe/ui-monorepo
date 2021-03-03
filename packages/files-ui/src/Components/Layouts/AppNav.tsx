@@ -2,7 +2,6 @@ import { useImployApi, useUser } from "@imploy/common-contexts"
 import { useDrive } from "../../Contexts/DriveContext"
 import {
   createStyles,
-  ITheme,
   makeStyles,
   useThemeSwitcher,
 } from "@chainsafe/common-theme"
@@ -25,10 +24,10 @@ import {
 import { ROUTE_LINKS } from "../FilesRoutes"
 import { FREE_PLAN_LIMIT } from "../../Utils/Constants"
 import { Trans } from "@lingui/macro"
-import { UI_COLORS } from "../../Themes/Constants"
+import { CSFTheme } from "../../Themes/types"
 
 const useStyles = makeStyles(
-  ({ palette, animation, breakpoints, constants, zIndex }: ITheme) => {
+  ({ palette, animation, breakpoints, constants, zIndex }: CSFTheme) => {
     return createStyles({
       root: {
         width: 0,
@@ -48,7 +47,7 @@ const useStyles = makeStyles(
           }px`,
           top: 0,
           height: "100%",
-          backgroundColor: (constants as UI_COLORS).nav.backgroundColor,
+          backgroundColor: constants.nav.backgroundColor,
           "&.active": {
             width: `${constants.navWidth}px`,
           },
@@ -56,7 +55,7 @@ const useStyles = makeStyles(
         [breakpoints.down("md")]: {
           height: `calc(100% - ${constants.mobileHeaderHeight}px)`,
           top: `${constants.mobileHeaderHeight}px`,
-          backgroundColor: (constants as UI_COLORS).nav.mobileBackgroundColor,
+          backgroundColor: constants.nav.mobileBackgroundColor,
           zIndex: zIndex?.layer1,
           padding: `0 ${constants.generalUnit * 4}px`,
           maxWidth: "100vw",
@@ -69,7 +68,7 @@ const useStyles = makeStyles(
       },
       blocker: {
         display: "block",
-        backgroundColor: (constants as UI_COLORS).nav.blocker,
+        backgroundColor: constants.nav.blocker,
         position: "fixed",
         top: Number(constants.mobileHeaderHeight),
         left: 0,
@@ -142,7 +141,7 @@ const useStyles = makeStyles(
       },
       navHead: {
         fontWeight: 600,
-        color: (constants as UI_COLORS).nav.headingColor,
+        color: constants.nav.headingColor,
       },
       navItem: {
         textDecoration: "none",
@@ -155,10 +154,10 @@ const useStyles = makeStyles(
         "& span": {
           transitionDuration: `${animation.transform}ms`,
           [breakpoints.up("md")]: {
-            color: (constants as UI_COLORS).nav.itemColor,
+            color: constants.nav.itemColor,
           },
           [breakpoints.down("md")]: {
-            color: (constants as UI_COLORS).nav.itemColorHover,
+            color: constants.nav.itemColorHover,
           }
         },
         "& svg": {
@@ -166,18 +165,18 @@ const useStyles = makeStyles(
           width: Number(constants.svgWidth),
           marginRight: constants.generalUnit * 2,
           [breakpoints.up("md")]: {
-            fill: (constants as UI_COLORS).nav.itemIconColor,
+            fill: constants.nav.itemIconColor,
           },
           [breakpoints.down("md")]: {
-            fill: (constants as UI_COLORS).nav.itemIconColorHover,
+            fill: constants.nav.itemIconColorHover,
           }
         },
         "&:hover": {
           "& span": {
-            color: (constants as UI_COLORS).nav.itemColorHover,
+            color: constants.nav.itemColorHover,
           },
           "& svg": {
-            fill: (constants as UI_COLORS).nav.itemIconColorHover,
+            fill: constants.nav.itemIconColorHover,
           },
         },
         [breakpoints.down("md")]: {

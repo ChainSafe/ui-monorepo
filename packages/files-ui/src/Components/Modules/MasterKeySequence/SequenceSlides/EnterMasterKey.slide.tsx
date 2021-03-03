@@ -1,6 +1,5 @@
 import {
   createStyles,
-  ITheme,
   makeStyles,
 } from "@chainsafe/common-theme"
 import React from "react"
@@ -14,10 +13,10 @@ import { Form, Formik } from "formik"
 import * as yup from "yup"
 import { useDrive } from "../../../../Contexts/DriveContext"
 import { useImployApi, useUser } from "@imploy/common-contexts"
-import { UI_COLORS } from "../../../../Themes/Constants"
+import { CSFTheme } from "../../../../Themes/types"
 
 const useStyles = makeStyles(
-  ({ constants, breakpoints, typography }: ITheme) =>
+  ({ constants, breakpoints, typography }: CSFTheme) =>
     createStyles({
       root: {
         maxWidth: 320,
@@ -25,10 +24,10 @@ const useStyles = makeStyles(
           textAlign: "center",
           marginBottom: constants.generalUnit * 4.125,
           [breakpoints.up("md")]: {
-            color: (constants as UI_COLORS).masterkey.desktop.color,
+            color: constants.masterkey.desktop.color,
           },
           [breakpoints.down("md")]: {
-            color: (constants as UI_COLORS).masterkey.mobile.color,
+            color: constants.masterkey.mobile.color,
           },
         },
       },
@@ -42,10 +41,10 @@ const useStyles = makeStyles(
         lineHeight: "24px",
         marginBottom: constants.generalUnit,
         [breakpoints.up("md")]: {
-          color: (constants as UI_COLORS).masterkey.desktop.color,
+          color: constants.masterkey.desktop.color,
         },
         [breakpoints.down("md")]: {
-          color: (constants as UI_COLORS).masterkey.mobile.color,
+          color: constants.masterkey.mobile.color,
         },
       },
       button: {
@@ -54,10 +53,10 @@ const useStyles = makeStyles(
       userContainer: {
         marginTop: constants.generalUnit * 4,
         [breakpoints.up("md")]: {
-          color: (constants as UI_COLORS).masterkey.desktop.color,
+          color: constants.masterkey.desktop.color,
         },
         [breakpoints.down("md")]: {
-          color: (constants as UI_COLORS).masterkey.mobile.color,
+          color: constants.masterkey.mobile.color,
         },
       },
       logoutButton: {
@@ -68,10 +67,10 @@ const useStyles = makeStyles(
         backgroundColor: "transparent",
         ...typography.body1,
         [breakpoints.up("md")]: {
-          color: (constants as UI_COLORS).masterkey.desktop.color,
+          color: constants.masterkey.desktop.color,
         },
         [breakpoints.down("md")]: {
-          color: (constants as UI_COLORS).masterkey.mobile.color,
+          color: constants.masterkey.mobile.color,
         },
       },
     }),

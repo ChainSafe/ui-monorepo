@@ -1,14 +1,14 @@
 import { IModalProps, Modal } from "@chainsafe/common-components"
-import { createStyles, fade, ITheme, makeStyles } from "@chainsafe/common-theme"
+import { createStyles, fade, makeStyles } from "@chainsafe/common-theme"
 import React, { ReactNode } from "react"
 import clsx from "clsx"
-import { UI_COLORS } from "../../Themes/Constants"
+import { CSFTheme } from "../../Themes/types"
 
-const useStyles = makeStyles(({ constants, breakpoints, palette }: ITheme) =>
+const useStyles = makeStyles(({ constants, breakpoints }: CSFTheme) =>
   createStyles({
     root: {
       "&:before": {
-        backgroundColor: fade((constants as UI_COLORS).modalDefault.fadebackground, 0.9)
+        backgroundColor: fade(constants.modalDefault.fadebackground, 0.9)
       },
       [breakpoints.down("md")]: {
        
@@ -16,7 +16,7 @@ const useStyles = makeStyles(({ constants, breakpoints, palette }: ITheme) =>
     },
     inner: {
       [breakpoints.down("md")]: {
-        backgroundColor: (constants as UI_COLORS).modalDefault.background,
+        backgroundColor: constants.modalDefault.background,
         top: "unset",
         bottom: 0,
         left: 0,

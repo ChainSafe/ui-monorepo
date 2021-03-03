@@ -8,7 +8,6 @@ import { useDrive } from "../../Contexts/DriveContext"
 import * as yup from "yup"
 import {
   createStyles,
-  ITheme,
   makeStyles,
   useMediaQuery,
 } from "@chainsafe/common-theme"
@@ -17,10 +16,10 @@ import { Formik, Form } from "formik"
 import CustomModal from "../Elements/CustomModal"
 import CustomButton from "../Elements/CustomButton"
 import { Trans } from "@lingui/macro"
-import { UI_COLORS } from "../../Themes/Constants"
+import { CSFTheme } from "../../Themes/types"
 
 const useStyles = makeStyles(
-  ({ breakpoints, constants, palette, typography, zIndex }: ITheme) => {
+  ({ breakpoints, constants, palette, typography, zIndex }: CSFTheme) => {
     return createStyles({
       root: {
         padding: constants.generalUnit * 4,
@@ -31,8 +30,8 @@ const useStyles = makeStyles(
         [breakpoints.down("md")]: {},
       },
       modalInner: {
-        backgroundColor: (constants as UI_COLORS).createFolder.backgroundColor,
-        color: (constants as UI_COLORS).createFolder.color,
+        backgroundColor: constants.createFolder.backgroundColor,
+        color: constants.createFolder.color,
         [breakpoints.down("md")]: {
           bottom:
           Number(constants?.mobileButtonHeight) + constants.generalUnit,
@@ -62,7 +61,7 @@ const useStyles = makeStyles(
         lineHeight: "22px",
       },
       heading: {
-        color: (constants as UI_COLORS).createFolder.color,
+        color: constants.createFolder.color,
         fontWeight: typography.fontWeight.semibold,
         textAlign: "center",
         marginBottom: constants.generalUnit * 4,

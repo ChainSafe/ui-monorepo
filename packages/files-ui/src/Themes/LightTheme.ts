@@ -1,7 +1,7 @@
 import { createTheme } from "@chainsafe/common-theme"
 import { UI_COLORS, UI_CONSTANTS } from "./Constants"
 
-export const lightTheme = createTheme({
+export const lightTheme = createTheme<UI_COLORS>({
   themeConfig: {
     palette: {
       primary: {

@@ -1,6 +1,5 @@
 import {
   createStyles,
-  ITheme,
   makeStyles,
 } from "@chainsafe/common-theme"
 import React from "react"
@@ -17,9 +16,9 @@ import { ROUTE_LINKS } from "../../../FilesRoutes"
 import { useDrive } from "../../../../Contexts/DriveContext"
 import zxcvbn from "zxcvbn"
 import StrengthIndicator from "./StrengthIndicator"
-import { UI_COLORS } from "../../../../Themes/Constants"
+import { CSFTheme } from "../../../../Themes/types"
 
-const useStyles = makeStyles(({ breakpoints, constants, palette }: ITheme) =>
+const useStyles = makeStyles(({ breakpoints, constants }: CSFTheme) =>
   createStyles({
     root: {
       maxWidth: 320,
@@ -28,20 +27,20 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: ITheme) =>
         fontWeight: 400,
         marginBottom: constants.generalUnit * 2,
         [breakpoints.up("md")]: {
-          color: (constants as UI_COLORS).masterkey.desktop.color,
+          color: constants.masterkey.desktop.color,
         },
         [breakpoints.down("md")]: {
-          color: (constants as UI_COLORS).masterkey.mobile.color,
+          color: constants.masterkey.mobile.color,
         },
       },
       "& h2": {
         textAlign: "center",
         marginBottom: constants.generalUnit * 4.125,
         [breakpoints.up("md")]: {
-          color: (constants as UI_COLORS).masterkey.desktop.color,
+          color: constants.masterkey.desktop.color,
         },
         [breakpoints.down("md")]: {
-          color: (constants as UI_COLORS).masterkey.mobile.color,
+          color: constants.masterkey.mobile.color,
         },
       },
     },
@@ -51,10 +50,10 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: ITheme) =>
       marginBottom: constants.generalUnit * 1.5,
       "& span": {
         [breakpoints.up("md")]: {
-          color: (constants as UI_COLORS).masterkey.desktop.color,
+          color: constants.masterkey.desktop.color,
         },
         [breakpoints.down("md")]: {
-          color: (constants as UI_COLORS).masterkey.mobile.color,
+          color: constants.masterkey.mobile.color,
         },
       },
     },
@@ -65,15 +64,15 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: ITheme) =>
     checkbox: {
       marginBottom: constants.generalUnit,
       [breakpoints.up("md")]: {
-        color: (constants as UI_COLORS).masterkey.desktop.color,
+        color: constants.masterkey.desktop.color,
         "& svg": {
-          fill: `${(constants as UI_COLORS).masterkey.desktop.checkbox} !important`,
+          fill: `${constants.masterkey.desktop.checkbox} !important`,
         }
       },
       [breakpoints.down("md")]: {
-        color: (constants as UI_COLORS).masterkey.mobile.color,
+        color: constants.masterkey.mobile.color,
         "& svg": {
-          fill: `${(constants as UI_COLORS).masterkey.mobile.checkbox} !important`,
+          fill: `${constants.masterkey.mobile.checkbox} !important`,
         }
       },
     },
@@ -84,19 +83,19 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: ITheme) =>
       fontSize: "16px",
       lineHeight: "24px",
       [breakpoints.up("md")]: {
-        color: (constants as UI_COLORS).masterkey.desktop.color,
+        color: constants.masterkey.desktop.color,
       },
       [breakpoints.down("md")]: {
-        color: (constants as UI_COLORS).masterkey.mobile.color,
+        color: constants.masterkey.mobile.color,
       },
       marginBottom: constants.generalUnit,
     },
     link: {
       [breakpoints.up("md")]: {
-        color: (constants as UI_COLORS).masterkey.desktop.link,
+        color: constants.masterkey.desktop.link,
       },
       [breakpoints.down("md")]: {
-        color: (constants as UI_COLORS).masterkey.mobile.link,
+        color: constants.masterkey.mobile.link,
       },
     },
   }),
