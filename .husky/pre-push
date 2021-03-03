@@ -2,5 +2,7 @@
 . "$(dirname "$0")/_/husky.sh"
 
 yarn lint;
-# need to check whether there are new files to add or see if git add can return 1.
-(cd packages/files-ui && yarn extract --clean && git add packages/files-ui/src/locales/*; git commit -m "lingui extract" && [ $? -eq 1 ] && return 0);
+# run `yarn extract --clean` then stage and commit any change to the translations files.
+# the command `[ $? -eq 1 ] && return 0` at the end is a trick to return 0 (success)
+# and keep going with the pre-push hook, even if there was nothing to commit (which returns 1) 
+(cd packages/files-ui && yarn extract --clean && git add src/locales/* && git commit -m "lingui extract" || [ $? -eq 1 ] && return 0);
