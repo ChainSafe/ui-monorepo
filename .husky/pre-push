@@ -2,4 +2,4 @@
 . "$(dirname "$0")/_/husky.sh"
 
 yarn lint;
-(cd packages/files-ui && yarn extract);
+(cd packages/files-ui && yarn extract --clean);
