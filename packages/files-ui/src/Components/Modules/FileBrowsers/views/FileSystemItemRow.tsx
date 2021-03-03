@@ -153,7 +153,7 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: ITheme) => {
     dropdownOptions: {
       backgroundColor: (constants as UI_COLORS).fileSystemItemRow.optionsBackground,
       color: (constants as UI_COLORS).fileSystemItemRow.optionsColor,
-      border: (constants as UI_COLORS).fileSystemItemRow.optionsBorder,
+      border: `1px solid ${(constants as UI_COLORS).fileSystemItemRow.optionsBorder}`,
     },
     dropdownItem: {
       backgroundColor: (constants as UI_COLORS).fileSystemItemRow.itemBackground,

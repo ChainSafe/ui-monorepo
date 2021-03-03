@@ -27,7 +27,7 @@ export const lightTheme = createTheme({
           rootBackground: "var(--gray1)",
           optionsBackground: "var(--gray1)",
           optionsTextColor: "initial",
-          optionsBorder: "initial",
+          optionsBorder: "var(--gray4)",
           menuItemTextColor: "var(--gray8)",
           iconColor: "initial",
           hamburger: "var(--gray10)"
@@ -54,7 +54,7 @@ export const lightTheme = createTheme({
           fileNameColor: "var(--gray1)",
           optionsBackground: "var(--gray1)",
           optionsTextColor: "initial",
-          optionsBorder: "initial",
+          optionsBorder: "var(--gray4)",
           menuItemIconColor: "var(--gray7)",
           menuItemTextColor: "var(--gray8)",
         },
@@ -92,7 +92,7 @@ export const lightTheme = createTheme({
           dropdownIcon: "initial",
           optionsBackground: "var(--gray1)",
           optionsColor: "initial",
-          optionsBorder: "initial",
+          optionsBorder: "var(--gray4)",
           itemBackground: "initial",
           itemColor: "initial"
         },

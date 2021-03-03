@@ -128,7 +128,7 @@ const useStyles = makeStyles(
       options: {
         backgroundColor: (constants as UI_COLORS).header.optionsBackground,
         color: (constants as UI_COLORS).header.optionsTextColor,
-        border: (constants as UI_COLORS).header.optionsTextColor,
+        border: `1px solid ${(constants as UI_COLORS).header.optionsBorder}`,
       },
       menuItem: {
         width: 100,
