@@ -2,4 +2,5 @@
 . "$(dirname "$0")/_/husky.sh"
 
 yarn lint;
-(cd packages/files-ui && yarn extract --clean && git add --all; git commit -m "lingui extract");
+# need to check whether there are new files to add or see if git add can return 1.
+(cd packages/files-ui && yarn extract --clean && git add packages/files-ui/src/locales/*; git commit -m "lingui extract" && [ $? -eq 1 ] && return 0);
