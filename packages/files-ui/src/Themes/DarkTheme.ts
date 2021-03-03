@@ -1,7 +1,7 @@
 import { createTheme } from "@chainsafe/common-theme"
 import { UI_COLORS, UI_CONSTANTS } from "./Constants"
 
-export const darkTheme = createTheme({
+export const darkTheme = createTheme<UI_COLORS>({
   globalStyling: {
     ":root": {
       "--blue1": "#111D2C",

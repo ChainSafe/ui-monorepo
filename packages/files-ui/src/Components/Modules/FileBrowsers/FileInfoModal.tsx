@@ -21,15 +21,15 @@ import clsx from "clsx"
 import { UI_COLORS } from "../../../Themes/Constants"
 
 const useStyles = makeStyles(
-  ({ breakpoints, constants, palette, typography, zIndex }: ITheme) => {
+  ({ breakpoints, constants, palette, typography, zIndex }: ITheme<UI_COLORS>) => {
     return createStyles({
       modalRoot: {
         zIndex: zIndex?.blocker,
         [breakpoints.down("md")]: {},
       },
       modalInner: {
-        backgroundColor: (constants as UI_COLORS).fileInfoModal.background,
-        color: (constants as UI_COLORS).fileInfoModal.color,
+        backgroundColor: constants.fileInfoModal.background,
+        color: constants.fileInfoModal.color,
         [breakpoints.down("md")]: {
           bottom:
             Number(constants?.mobileButtonHeight) + constants.generalUnit,
@@ -39,8 +39,8 @@ const useStyles = makeStyles(
         },
       },
       copyButton: {
-        backgroundColor: (constants as UI_COLORS).fileInfoModal.copyButtonBackground,
-        color: (constants as UI_COLORS).fileInfoModal.color,
+        backgroundColor: constants.fileInfoModal.copyButtonBackground,
+        color: constants.fileInfoModal.color,
         flex: 1,
         [breakpoints.down("md")]: {
           margin: `${constants.generalUnit * 2}px`,
@@ -76,7 +76,7 @@ const useStyles = makeStyles(
         textAlign: "left",
       },
       infoContainer: {
-        borderTop: (constants as UI_COLORS).fileInfoModal.infoContainerBorderTop,
+        borderTop: constants.fileInfoModal.infoContainerBorderTop,
         padding: `${constants.generalUnit * 2}px ${
           constants.generalUnit * 3
         }px`,

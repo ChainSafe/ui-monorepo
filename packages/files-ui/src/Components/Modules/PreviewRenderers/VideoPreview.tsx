@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react"
 import { IPreviewRendererProps } from "../FilePreviewModal"
-import { makeStyles, ITheme, createStyles } from "@chainsafe/common-theme"
+import { makeStyles, createStyles } from "@chainsafe/common-theme"
 
-const useStyles = makeStyles(({ constants, palette, zIndex }: ITheme) =>
+const useStyles = makeStyles(() =>
   createStyles({
     root: {
       maxWidth: "100vw",

@@ -16,7 +16,7 @@ import { Trans } from "@lingui/macro"
 import { UI_COLORS } from "../../../Themes/Constants"
 
 const useStyles = makeStyles(
-  ({ constants, palette, animation, breakpoints }: ITheme) => {
+  ({ constants, palette, animation, breakpoints }: ITheme<UI_COLORS>) => {
     return createStyles({
       boxContainer: {
         backgroundColor: palette.additional["gray"][3],
@@ -46,7 +46,7 @@ const useStyles = makeStyles(
         display: "flex",
         alignItems: "center",
         "& svg": {
-          fill: (constants as UI_COLORS).uploadAlert.icon,
+          fill: constants.uploadAlert.icon,
         },
       },
       marginBottom: {

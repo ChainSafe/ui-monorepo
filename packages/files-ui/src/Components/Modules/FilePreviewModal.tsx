@@ -51,7 +51,7 @@ const compatibleFilesMatcher = new MimeMatcher(
 )
 
 const useStyles = makeStyles(
-  ({ constants, palette, zIndex, breakpoints }: ITheme) =>
+  ({ constants, palette, zIndex, breakpoints }: ITheme<UI_COLORS>) =>
     createStyles({
       root: {
         height: "100%",
@@ -74,8 +74,8 @@ const useStyles = makeStyles(
         width: "100%",
         maxWidth: breakpoints.values["md"],
         height: constants.generalUnit * 8,
-        backgroundColor: (constants as UI_COLORS).previewModal.controlsBackground,
-        color: (constants as UI_COLORS).previewModal.controlsColor,
+        backgroundColor: constants.previewModal.controlsBackground,
+        color: constants.previewModal.controlsColor,
         borderWidth: 1,
         borderStyle: "solid",
         borderColor: palette.additional["gray"][8],
@@ -83,18 +83,18 @@ const useStyles = makeStyles(
       closePreviewButton: {
         marginRight: constants.generalUnit * 2,
         marginLeft: constants.generalUnit * 2,
-        fill: (constants as UI_COLORS).previewModal.closeButtonColor,
+        fill: constants.previewModal.closeButtonColor,
         cursor: "pointer",
       },
       fileOperationsMenu: {
-        fill: (constants as UI_COLORS).previewModal.fileOpsColor,
+        fill: constants.previewModal.fileOpsColor,
       },
       fileName: {
         width: "100%",
         whiteSpace: "nowrap",
         overflow: "hidden",
         textOverflow: "ellipsis",
-        color: (constants as UI_COLORS).previewModal.fileNameColor,
+        color: constants.previewModal.fileNameColor,
       },
       previewContainer: {
         height: "100%",
@@ -139,9 +139,9 @@ const useStyles = makeStyles(
         marginTop: constants.generalUnit,
       },
       options: {
-        backgroundColor: (constants as UI_COLORS).previewModal.optionsBackground,
-        color: (constants as UI_COLORS).previewModal.optionsTextColor,
-        border: (constants as UI_COLORS).previewModal.optionsBorder
+        backgroundColor: constants.previewModal.optionsBackground,
+        color: constants.previewModal.optionsTextColor,
+        border: constants.previewModal.optionsBorder
       },
       menuIcon: {
         display: "flex",
@@ -149,10 +149,10 @@ const useStyles = makeStyles(
         alignItems: "center",
         width: 20,
         marginRight: constants.generalUnit * 1.5,
-        fill: (constants as UI_COLORS).previewModal.menuItemIconColor
+        fill: constants.previewModal.menuItemIconColor
       },
       item: {
-        color: (constants as UI_COLORS).previewModal.menuItemTextColor
+        color: constants.previewModal.menuItemTextColor
       },
     }),
 )

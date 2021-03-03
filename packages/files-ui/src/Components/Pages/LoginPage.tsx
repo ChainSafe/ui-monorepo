@@ -27,7 +27,7 @@ import EnterMasterKeySlide from "../Modules/MasterKeySequence/SequenceSlides/Ent
 import { UI_COLORS } from "../../Themes/Constants"
 
 const useStyles = makeStyles(
-  ({ palette, constants, typography, breakpoints }: ITheme) =>
+  ({ palette, constants, typography, breakpoints }: ITheme<UI_COLORS>) =>
     createStyles({
       root: {
         [breakpoints.down("md")]: {
@@ -69,7 +69,7 @@ const useStyles = makeStyles(
         fontWeight: typography.fontWeight.semibold,
         paddingLeft: constants.generalUnit,
         [breakpoints.down("md")]: {
-          color: (constants as UI_COLORS).landing.logoText,
+          color: constants.landing.logoText,
           fontSize: 16,
         },
       },

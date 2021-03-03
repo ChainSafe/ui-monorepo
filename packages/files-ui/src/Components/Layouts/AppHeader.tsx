@@ -24,7 +24,7 @@ import { useDrive } from "../../Contexts/DriveContext"
 import { UI_COLORS } from "../../Themes/Constants"
 
 const useStyles = makeStyles(
-  ({ palette, animation, breakpoints, constants, zIndex }: ITheme) => {
+  ({ palette, animation, breakpoints, constants, zIndex }: ITheme<UI_COLORS>) => {
     return createStyles({
       root: {
         position: "fixed",
@@ -41,7 +41,7 @@ const useStyles = makeStyles(
           left: Number(constants.navWidth),
           opacity: 0,
 
-          backgroundColor: (constants as UI_COLORS).header.rootBackground,
+          backgroundColor: constants.header.rootBackground,
 
           "& > *:first-child": {
             flex: "1 1 0",
@@ -74,7 +74,7 @@ const useStyles = makeStyles(
       hamburgerMenu: {
         position: "absolute",
         "& span": {
-          backgroundColor: (constants as UI_COLORS).header.hamburger
+          backgroundColor: constants.header.hamburger
         }
       },
       logo: {
@@ -126,16 +126,16 @@ const useStyles = makeStyles(
         },
       },
       options: {
-        backgroundColor: (constants as UI_COLORS).header.optionsBackground,
-        color: (constants as UI_COLORS).header.optionsTextColor,
-        border: `1px solid ${(constants as UI_COLORS).header.optionsBorder}`,
+        backgroundColor: constants.header.optionsBackground,
+        color: constants.header.optionsTextColor,
+        border: `1px solid ${constants.header.optionsBorder}`,
       },
       menuItem: {
         width: 100,
         display: "flex",
         flexDirection: "row",
         alignItems: "center",
-        color: (constants as UI_COLORS).header.menuItemTextColor,
+        color: constants.header.menuItemTextColor,
         "& svg": {
           width: constants.generalUnit * 2,
           height: constants.generalUnit * 2,
@@ -146,7 +146,7 @@ const useStyles = makeStyles(
       },
       icon: {
         "& svg": {
-          fill: (constants as UI_COLORS).header.iconColor,
+          fill: constants.header.iconColor,
         },
       },
     })

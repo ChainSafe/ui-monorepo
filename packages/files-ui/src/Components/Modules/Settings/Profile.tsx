@@ -20,12 +20,7 @@ import { Trans } from "@lingui/macro"
 import { centerEllipsis } from "../../../Utils/Helpers"
 import { UI_COLORS } from "../../../Themes/Constants"
 
-const useStyles = makeStyles(({
-  constants,
-  breakpoints,
-  palette,
-  typography
-}: ITheme) =>
+const useStyles = makeStyles(({ constants, breakpoints, palette, typography }: ITheme<UI_COLORS>) =>
   createStyles({
     container: {
       marginTop: constants.generalUnit * 2,
@@ -89,7 +84,7 @@ const useStyles = makeStyles(({
     },
     copyIcon: {
       fontSize: "14px",
-      fill: (constants as UI_COLORS).profile.icon,
+      fill: constants.profile.icon,
       [breakpoints.down("md")]: {
         fontSize: "18px",
         fill: palette.additional["gray"][9],

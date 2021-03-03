@@ -13,7 +13,7 @@ import { Trans, t } from "@lingui/macro"
 import clsx from "clsx"
 import { UI_COLORS } from "../../Themes/Constants"
 
-const useStyles = makeStyles(({ constants, palette, breakpoints }: ITheme) =>
+const useStyles = makeStyles(({ constants, breakpoints }: ITheme<UI_COLORS>) =>
   createStyles({
     root: {
       "& footer": {
@@ -21,13 +21,13 @@ const useStyles = makeStyles(({ constants, palette, breakpoints }: ITheme) =>
         flexDirection: "row",
         justifyContent: "flex-end",
         alignItems: "center",
-        backgroundColor: (constants as UI_COLORS).uploadModal.background,
+        backgroundColor: constants.uploadModal.background,
         padding: constants.generalUnit * 2,
       },
     },
     modalInner: {
-      backgroundColor: (constants as UI_COLORS).uploadModal.background,
-      color: (constants as UI_COLORS).uploadModal.color,
+      backgroundColor: constants.uploadModal.background,
+      color: constants.uploadModal.color,
       [breakpoints.down("md")]: {
         maxWidth: `${breakpoints.width("md")}px !important`,
       },
@@ -50,11 +50,11 @@ const useStyles = makeStyles(({ constants, palette, breakpoints }: ITheme) =>
     },
     closeIcon: {
       "& svg": {
-        fill: (constants as UI_COLORS).uploadModal.icon,
+        fill: constants.uploadModal.icon,
       },
       
       "&:hover svg": {
-        fill: (constants as UI_COLORS).uploadModal.iconHover,
+        fill: constants.uploadModal.iconHover,
       }
     }
   }),
