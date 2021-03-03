@@ -22,6 +22,7 @@ import { signMessage, useImployApi } from "@imploy/common-contexts"
 import { Wallet } from "ethers"
 import EthCrypto from "eth-crypto"
 import { useWeb3 } from "@chainsafe/web3-context"
+import BN from "bn.js"
 
 const TORUS_POSTBOX_KEY = "csf.postboxKey"
 const TKEY_STORE_KEY = "csf.tkeyStore"
@@ -339,79 +340,82 @@ const ThresholdKeyProvider = ({
 
           if (token) {
             const signature = await signMessage(token, provider.getSigner())
-            const {
-              access_token
-            } = await imployApiClient.postIdentityWeb3Token({
+            //TODO: Remove the `: any` when API client is updated
+            const result: any = await imployApiClient.postIdentityWeb3Token({
               signature: signature,
               token: token,
               public_address: address
             })
-
-            console.log(access_token)
+            console.log(result)
             const directAuthSdk = (serviceProvider as any).directWeb as DirectAuthSdk
 
             const torusKey = await directAuthSdk.getTorusKey(
               process.env.REACT_APP_FILES_VERIFIER_NAME || "",
-              "pubkey",
-              { verifier_id: "pubkey" },
-              access_token.token
+              address,
+              { verifier_id: address },
+              
+              result.token
             )
-            console.log(torusKey)
-            // TODO: Continue any login from here
+            TKeySdk.serviceProvider.postboxKey = new BN(torusKey.privateKey, "hex")
           }
         } catch (error) {
-          console.log(error)
+          console.error(error)
         }
-        break}
+        break
+      }
       default:
         break
       }
     } catch (error) {
-      console.log("Error logging in")
-      console.log(error)
+      console.error("Error logging in")
+      console.error(error)
       return
     }
     sessionStorage.setItem(
       TORUS_POSTBOX_KEY,
       TKeySdk.serviceProvider.postboxKey.toString("hex")
     )
-    const metadata = await TKeySdk.storageLayer.getMetadata<ShareStore | {message: string}>({
-      privKey: TKeySdk.serviceProvider.postboxKey
-    })
-    console.log(metadata)
-    const isNewKey = (metadata as {message: string}).message === "KEY_NOT_FOUND"
-    if (isNewKey) {
-      console.log("New key")
-      setIsNewKey(true)
-      setShouldInitializeAccount(true)
-      await TKeySdk.initialize()
-      const resultKey = await TKeySdk.getKeyDetails()
-      console.log(resultKey)
-      setKeyDetails(resultKey)
-      const { privKey } = await TKeySdk.reconstructKey(false)
-      console.log(privKey)
-    } else {
-      console.log("Existing key")
-      await TKeySdk.initialize({ input: metadata as ShareStore })
-      try {
-        console.log("Trying to load device share")
-        const storageModule = TKeySdk.modules[
-          WEB_STORAGE_MODULE_NAME
-        ] as WebStorageModule
-        await storageModule.inputShareFromWebStorage()
-      } catch (error) {
-        console.log(
-          "Error loading device share. If this is a new device please add it using one of your other recovery shares."
-        )
-        console.log(error)
-        setIsNewDevice(true)
-      }
-      const resultKey = await TKeySdk.getKeyDetails()
-      if (resultKey.threshold === resultKey.totalShares) {
+    try {
+      const metadata = await TKeySdk.storageLayer.getMetadata<ShareStore | {message: string}>({
+        privKey: TKeySdk.serviceProvider.postboxKey
+      })
+      console.log(metadata)
+      const isNewKey = (metadata as {message: string}).message === "KEY_NOT_FOUND"
+      if (isNewKey) {
+        console.log("New key")
+        setIsNewKey(true)
         setShouldInitializeAccount(true)
+        await TKeySdk.initialize()
+        const resultKey = await TKeySdk.getKeyDetails()
+        console.log(resultKey)
+        setKeyDetails(resultKey)
+        const { privKey } = await TKeySdk.reconstructKey(false)
+        console.log(privKey)
+      } else {
+        console.log("Existing key")
+        await TKeySdk.initialize({ input: metadata as ShareStore })
+        try {
+          console.log("Trying to load device share")
+          const storageModule = TKeySdk.modules[
+            WEB_STORAGE_MODULE_NAME
+          ] as WebStorageModule
+          await storageModule.inputShareFromWebStorage()
+        } catch (error) {
+          console.log(
+            "Error loading device share. If this is a new device please add it using one of your other recovery shares."
+          )
+          console.log(error)
+          setIsNewDevice(true)
+        }
+        const resultKey = await TKeySdk.getKeyDetails()
+        if (resultKey.threshold === resultKey.totalShares) {
+          setShouldInitializeAccount(true)
+        }
+        console.log(resultKey)
+        setKeyDetails(resultKey)
       }
-      console.log(resultKey)
-      setKeyDetails(resultKey)
+    } catch (error) {
+      console.error(error)
     }
   }
 
