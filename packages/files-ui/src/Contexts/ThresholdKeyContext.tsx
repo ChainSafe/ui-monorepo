@@ -255,15 +255,14 @@ const ThresholdKeyProvider = ({
     }
 
     let poller: number
-    if (keyDetails && keyDetails.requiredShares <= 0) {
+    if (TKeySdk && keyDetails && keyDetails.requiredShares <= 0) {
       handler()
       poller = setInterval(handler, 5000)
     }
     return () => {
       poller && clearInterval(poller)
     }
-    // eslint-disable-next-line
-  }, [keyDetails])
+  }, [TKeySdk, keyDetails])
 
   // Initiate request for share transfer if not enough shares
   useEffect(() => {
