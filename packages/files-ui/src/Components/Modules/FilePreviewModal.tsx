@@ -2,7 +2,6 @@ import React, { Fragment, useEffect, useRef } from "react"
 import { useState } from "react"
 import {
   createStyles,
-  ITheme,
   makeStyles,
   useThemeSwitcher,
 } from "@chainsafe/common-theme"
@@ -32,7 +31,7 @@ import VideoPreview from "./PreviewRenderers/VideoPreview"
 import AudioPreview from "./PreviewRenderers/AudioPreview"
 import { useHotkeys } from "react-hotkeys-hook"
 import { t, Trans } from "@lingui/macro"
-import { UI_COLORS } from "../../Themes/Constants"
+import { CSFTheme } from "../../Themes/types"
 
 export interface IPreviewRendererProps {
   contents: Blob
@@ -51,7 +50,7 @@ const compatibleFilesMatcher = new MimeMatcher(
 )
 
 const useStyles = makeStyles(
-  ({ constants, palette, zIndex, breakpoints }: ITheme<UI_COLORS>) =>
+  ({ constants, palette, zIndex, breakpoints }: CSFTheme) =>
     createStyles({
       root: {
         height: "100%",

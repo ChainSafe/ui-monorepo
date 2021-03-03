@@ -1,6 +1,5 @@
 import {
   createStyles,
-  ITheme,
   makeStyles,
 } from "@chainsafe/common-theme"
 import React from "react"
@@ -17,9 +16,9 @@ import { ROUTE_LINKS } from "../../../FilesRoutes"
 import { useDrive } from "../../../../Contexts/DriveContext"
 import zxcvbn from "zxcvbn"
 import StrengthIndicator from "./StrengthIndicator"
-import { UI_COLORS } from "../../../../Themes/Constants"
+import { CSFTheme } from "../../../../Themes/types"
 
-const useStyles = makeStyles(({ breakpoints, constants }: ITheme<UI_COLORS>) =>
+const useStyles = makeStyles(({ breakpoints, constants }: CSFTheme) =>
   createStyles({
     root: {
       maxWidth: 320,

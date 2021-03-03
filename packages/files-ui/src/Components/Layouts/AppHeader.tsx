@@ -2,7 +2,6 @@ import React, { Fragment, useCallback, useState } from "react"
 import { useImployApi, useUser } from "@imploy/common-contexts"
 import {
   createStyles,
-  ITheme,
   makeStyles,
   useThemeSwitcher,
 } from "@chainsafe/common-theme"
@@ -21,10 +20,10 @@ import { ROUTE_LINKS } from "../FilesRoutes"
 import SearchModule from "../Modules/SearchModule"
 import { Trans } from "@lingui/macro"
 import { useDrive } from "../../Contexts/DriveContext"
-import { UI_COLORS } from "../../Themes/Constants"
+import { CSFTheme } from "../../Themes/types"
 
 const useStyles = makeStyles(
-  ({ palette, animation, breakpoints, constants, zIndex }: ITheme<UI_COLORS>) => {
+  ({ palette, animation, breakpoints, constants, zIndex }: CSFTheme) => {
     return createStyles({
       root: {
         position: "fixed",

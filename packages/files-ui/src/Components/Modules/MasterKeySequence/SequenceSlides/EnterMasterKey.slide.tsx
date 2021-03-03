@@ -1,6 +1,5 @@
 import {
   createStyles,
-  ITheme,
   makeStyles,
 } from "@chainsafe/common-theme"
 import React from "react"
@@ -14,10 +13,10 @@ import { Form, Formik } from "formik"
 import * as yup from "yup"
 import { useDrive } from "../../../../Contexts/DriveContext"
 import { useImployApi, useUser } from "@imploy/common-contexts"
-import { UI_COLORS } from "../../../../Themes/Constants"
+import { CSFTheme } from "../../../../Themes/types"
 
 const useStyles = makeStyles(
-  ({ constants, breakpoints, typography }: ITheme<UI_COLORS>) =>
+  ({ constants, breakpoints, typography }: CSFTheme) =>
     createStyles({
       root: {
         maxWidth: 320,

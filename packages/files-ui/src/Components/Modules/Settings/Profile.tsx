@@ -8,7 +8,6 @@ import {
 } from "@chainsafe/common-components"
 import {
   makeStyles,
-  ITheme,
   createStyles,
   debounce,
   useThemeSwitcher,
@@ -18,9 +17,9 @@ import { Formik, Form } from "formik"
 import { Profile } from "@imploy/common-contexts"
 import { Trans } from "@lingui/macro"
 import { centerEllipsis } from "../../../Utils/Helpers"
-import { UI_COLORS } from "../../../Themes/Constants"
+import { CSFTheme } from "../../../Themes/types"
 
-const useStyles = makeStyles(({ constants, breakpoints, palette, typography }: ITheme<UI_COLORS>) =>
+const useStyles = makeStyles(({ constants, breakpoints, palette, typography }: CSFTheme) =>
   createStyles({
     container: {
       marginTop: constants.generalUnit * 2,

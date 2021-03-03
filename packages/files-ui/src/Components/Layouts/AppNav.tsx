@@ -2,7 +2,6 @@ import { useImployApi, useUser } from "@imploy/common-contexts"
 import { useDrive } from "../../Contexts/DriveContext"
 import {
   createStyles,
-  ITheme,
   makeStyles,
   useThemeSwitcher,
 } from "@chainsafe/common-theme"
@@ -25,10 +24,10 @@ import {
 import { ROUTE_LINKS } from "../FilesRoutes"
 import { FREE_PLAN_LIMIT } from "../../Utils/Constants"
 import { Trans } from "@lingui/macro"
-import { UI_COLORS } from "../../Themes/Constants"
+import { CSFTheme } from "../../Themes/types"
 
 const useStyles = makeStyles(
-  ({ palette, animation, breakpoints, constants, zIndex }: ITheme<UI_COLORS>) => {
+  ({ palette, animation, breakpoints, constants, zIndex }: CSFTheme) => {
     return createStyles({
       root: {
         width: 0,

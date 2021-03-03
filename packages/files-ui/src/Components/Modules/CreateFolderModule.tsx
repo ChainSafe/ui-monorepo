@@ -8,7 +8,6 @@ import { useDrive } from "../../Contexts/DriveContext"
 import * as yup from "yup"
 import {
   createStyles,
-  ITheme,
   makeStyles,
   useMediaQuery,
 } from "@chainsafe/common-theme"
@@ -17,10 +16,10 @@ import { Formik, Form } from "formik"
 import CustomModal from "../Elements/CustomModal"
 import CustomButton from "../Elements/CustomButton"
 import { Trans } from "@lingui/macro"
-import { UI_COLORS } from "../../Themes/Constants"
+import { CSFTheme } from "../../Themes/types"
 
 const useStyles = makeStyles(
-  ({ breakpoints, constants, palette, typography, zIndex }: ITheme<UI_COLORS>) => {
+  ({ breakpoints, constants, palette, typography, zIndex }: CSFTheme) => {
     return createStyles({
       root: {
         padding: constants.generalUnit * 4,

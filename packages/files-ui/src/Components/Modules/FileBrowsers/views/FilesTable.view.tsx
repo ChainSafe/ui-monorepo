@@ -1,6 +1,5 @@
 import {
   createStyles,
-  ITheme,
   makeStyles,
   useThemeSwitcher,
 } from "@chainsafe/common-theme"
@@ -49,14 +48,14 @@ import UploadFileModule from "../../UploadFileModule"
 import MoveFileModule from "../MoveFileModal"
 import FileInfoModal from "../FileInfoModal"
 import { CONTENT_TYPES } from "../../../../Utils/Constants"
-import { UI_COLORS } from "../../../../Themes/Constants"
+import { CSFTheme } from "../../../../Themes/types"
 
 interface IStyleProps {
   themeKey: string
 }
 
 const useStyles = makeStyles(
-  ({ animation, breakpoints, constants, palette, zIndex }: ITheme<UI_COLORS>) => {
+  ({ animation, breakpoints, constants, palette, zIndex }: CSFTheme) => {
     // const desktopGridSettings = "50px 69px 3fr 190px 100px 45px !important"
     const desktopGridSettings = "50px 69px 3fr 190px 60px !important"
     const mobileGridSettings = "69px 3fr 45px !important"

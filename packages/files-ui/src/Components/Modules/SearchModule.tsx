@@ -1,7 +1,6 @@
 import {
   createStyles,
   debounce,
-  ITheme,
   makeStyles,
   useOnClickOutside,
   useThemeSwitcher,
@@ -21,10 +20,10 @@ import { useDrive, SearchEntry } from "../../Contexts/DriveContext"
 import { CONTENT_TYPES } from "../../Utils/Constants"
 import { getParentPathFromFilePath } from "../../Utils/pathUtils"
 import { Trans } from "@lingui/macro"
-import { UI_COLORS } from "../../Themes/Constants"
+import { CSFTheme } from "../../Themes/types"
 
 const useStyles = makeStyles(
-  ({ breakpoints, palette, constants, animation, zIndex, shadows }: ITheme<UI_COLORS>) =>
+  ({ breakpoints, palette, constants, animation, zIndex, shadows }: CSFTheme) =>
     createStyles({
       root: {
         position: "relative",

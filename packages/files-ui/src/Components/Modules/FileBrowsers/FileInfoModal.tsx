@@ -1,7 +1,6 @@
 import {
   createStyles,
   debounce,
-  ITheme,
   makeStyles,
   useThemeSwitcher,
 } from "@chainsafe/common-theme"
@@ -18,10 +17,10 @@ import {
   Typography,
 } from "@chainsafe/common-components"
 import clsx from "clsx"
-import { UI_COLORS } from "../../../Themes/Constants"
+import { CSFTheme } from "../../../Themes/types"
 
 const useStyles = makeStyles(
-  ({ breakpoints, constants, palette, typography, zIndex }: ITheme<UI_COLORS>) => {
+  ({ breakpoints, constants, palette, typography, zIndex }: CSFTheme) => {
     return createStyles({
       modalRoot: {
         zIndex: zIndex?.blocker,

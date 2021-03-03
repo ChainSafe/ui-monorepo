@@ -12,7 +12,6 @@ import {
 import { useImployApi, OAuthProvider } from "@imploy/common-contexts"
 import {
   makeStyles,
-  ITheme,
   createStyles,
   useThemeSwitcher,
 } from "@chainsafe/common-theme"
@@ -24,10 +23,10 @@ import { ROUTE_LINKS } from "../FilesRoutes"
 import LandingImage from "../../Media/auth.jpg"
 import MasterKeyModule from "../Modules/MasterKeySequence/MasterKeyModule"
 import EnterMasterKeySlide from "../Modules/MasterKeySequence/SequenceSlides/EnterMasterKey.slide"
-import { UI_COLORS } from "../../Themes/Constants"
+import { CSFTheme } from "../../Themes/types"
 
 const useStyles = makeStyles(
-  ({ palette, constants, typography, breakpoints }: ITheme<UI_COLORS>) =>
+  ({ palette, constants, typography, breakpoints }: CSFTheme) =>
     createStyles({
       root: {
         [breakpoints.down("md")]: {

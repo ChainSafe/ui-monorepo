@@ -2,7 +2,6 @@ import { Button, FileInput } from "@chainsafe/common-components"
 import { useDrive } from "../../Contexts/DriveContext"
 import {
   createStyles,
-  ITheme,
   makeStyles,
 } from "@chainsafe/common-theme"
 import React, { useCallback, useState } from "react"
@@ -11,9 +10,9 @@ import { array, object } from "yup"
 import CustomModal from "../Elements/CustomModal"
 import { Trans, t } from "@lingui/macro"
 import clsx from "clsx"
-import { UI_COLORS } from "../../Themes/Constants"
+import { CSFTheme } from "../../Themes/types"
 
-const useStyles = makeStyles(({ constants, breakpoints }: ITheme<UI_COLORS>) =>
+const useStyles = makeStyles(({ constants, breakpoints }: CSFTheme) =>
   createStyles({
     root: {
       "& footer": {
