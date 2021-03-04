@@ -109,13 +109,12 @@ const useStyles = makeStyles(
         borderRadius: constants.generalUnit * 4,
       },
       previewContent: {
-        // "TODO: FILL"
-        color: palette.additional["gray"][6],
-        fill: palette.additional["gray"][6],
+        color: constants.previewModal.message,
+        fill: constants.previewModal.message,
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        "& h2": {
+        "& p": {
           margin: `${constants.generalUnit}px 0`,
         },
       },
@@ -388,13 +387,12 @@ const FilePreviewModal: React.FC<{
                   <CloseCircleIcon
                     fontSize={desktop ? "extraLarge" : "medium"}
                   />
-                  <br />
-                  <Typography variant="h1">
+                  <Typography component="p" variant="h1">
                     <Trans>File format not supported.</Trans>
                   </Typography>
-                  <br />
                   <Button
                     className={classes.downloadButton}
+                    variant="outline"
                     onClick={() => downloadFile(file.cid)}
                   >
                     <Trans>Download</Trans>

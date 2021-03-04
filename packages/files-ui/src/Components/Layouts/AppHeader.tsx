@@ -128,6 +128,7 @@ const useStyles = makeStyles(
         backgroundColor: constants.header.optionsBackground,
         color: constants.header.optionsTextColor,
         border: `1px solid ${constants.header.optionsBorder}`,
+        minWidth: 145
       },
       menuItem: {
         width: 100,

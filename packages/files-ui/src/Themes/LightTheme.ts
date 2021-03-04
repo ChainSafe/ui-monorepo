@@ -57,6 +57,7 @@ export const lightTheme = createTheme<UI_COLORS>({
           optionsBorder: "var(--gray4)",
           menuItemIconColor: "var(--gray7)",
           menuItemTextColor: "var(--gray8)",
+          message: "var(--gray6)"
         },
         searchModule:{
           resultsBackground: "var(--gray1)",
@@ -70,7 +71,10 @@ export const lightTheme = createTheme<UI_COLORS>({
           background: "var(--gray1)",
           color: "var(--gray1)",
           icon: "var(--gray10)",
-          iconHover: "var(--gray10)"
+          iconHover: "var(--gray10)",
+          addMore: "var(--gray9)",
+          addMoreBackground: "var(--gray3)",
+          footerBackground: "var(--gray4)"
         },
         fileInfoModal: {
           background: "var(--gray1)",

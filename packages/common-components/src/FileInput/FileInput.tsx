@@ -12,22 +12,9 @@ const useStyles = makeStyles(({ constants, palette, overrides }: ITheme) =>
   createStyles({
     root: {
       "& > div": {
-        color: palette.additional["gray"][8],
-        padding: constants.generalUnit,
-        margin: constants.generalUnit * 4,
-        "&.addFiles": {
-          display: "flex",
-          flexDirection: "row",
-          alignItems: "center",
-          justifyContent: "flex-start",
-          margin: 0,
-          marginTop: constants.generalUnit * 4,
-          paddingTop: constants.generalUnit,
-          paddingLeft: constants.generalUnit * 10,
-          paddingRight: constants.generalUnit,
-          paddingBottom: constants.generalUnit,
-          cursor: "pointer",
-          backgroundColor: palette.additional["gray"][2]
+        "&:first-child": {
+          padding: constants.generalUnit,
+          margin: constants.generalUnit * 4
         },
         "&.scrollbar": {
           maxHeight: "80vh",
@@ -91,6 +78,20 @@ const useStyles = makeStyles(({ constants, palette, overrides }: ITheme) =>
         position: "relative"
       }
     },
+    addFiles: {
+      display: "flex",
+      flexDirection: "row",
+      alignItems: "center",
+      justifyContent: "flex-start",
+      margin: 0,
+      marginTop: constants.generalUnit * 4,
+      paddingTop: constants.generalUnit,
+      paddingLeft: constants.generalUnit * 5,
+      paddingRight: constants.generalUnit,
+      paddingBottom: constants.generalUnit,
+      cursor: "pointer",
+      backgroundColor: palette.additional["gray"][2]
+    },
     addFilesText: {
       marginLeft: constants.generalUnit
     }
@@ -108,6 +109,7 @@ interface IFileInputProps extends DropzoneOptions {
   classNames?: {
     pending?: string
     filelist?: string
+    addFiles?: string
     closeIcon?: string
     error?: string
   }
@@ -237,7 +239,7 @@ const FileInput: React.FC<IFileInputProps> = ({
         </>
       )}
       {value?.length > 0 && (
-        <div className={clsx("addFiles")} onClick={open}>
+        <div className={clsx(classes.addFiles, classNames?.addFiles)} onClick={open}>
           <PlusIcon fontSize="small" color="primary" />
           <span className={classes.addFilesText}>{moreFilesLabel}</span>
         </div>

@@ -56,6 +56,7 @@ export interface UI_COLORS extends IConstants {
     optionsBorder: string
     menuItemIconColor: string
     menuItemTextColor: string
+    message: string
   }
   searchModule: {
     resultsBackground: string
@@ -70,6 +71,9 @@ export interface UI_COLORS extends IConstants {
     color: string
     icon: string
     iconHover: string
+    addMore: string
+    addMoreBackground: string
+    footerBackground: string
   }
   fileInfoModal: {
     background: string

@@ -15,14 +15,6 @@ import { CSFTheme } from "../../Themes/types"
 const useStyles = makeStyles(({ constants, breakpoints }: CSFTheme) =>
   createStyles({
     root: {
-      "& footer": {
-        display: "flex",
-        flexDirection: "row",
-        justifyContent: "flex-end",
-        alignItems: "center",
-        backgroundColor: constants.uploadModal.background,
-        padding: constants.generalUnit * 2,
-      },
     },
     modalInner: {
       backgroundColor: constants.uploadModal.background,
@@ -47,6 +39,13 @@ const useStyles = makeStyles(({ constants, breakpoints }: CSFTheme) =>
       fontSize: 14,
       lineHeight: "22px",
     },
+    addFiles: {
+      backgroundColor: constants.uploadModal.addMoreBackground,
+      color: constants.uploadModal.addMore,
+      "& svg": {
+        fill: constants.uploadModal.addMore
+      }
+    },
     closeIcon: {
       "& svg": {
         fill: constants.uploadModal.icon,
@@ -55,6 +54,14 @@ const useStyles = makeStyles(({ constants, breakpoints }: CSFTheme) =>
       "&:hover svg": {
         fill: constants.uploadModal.iconHover,
       }
+    },
+    footer: {
+      display: "flex",
+      flexDirection: "row",
+      justifyContent: "flex-end",
+      alignItems: "center",
+      padding: constants.generalUnit * 2,
+      backgroundColor: constants.uploadModal.footerBackground
     }
   }),
 )
@@ -116,7 +123,8 @@ const UploadFileModule: React.FC<IUploadFileModuleProps> = ({
             multiple={true}
             className={classes.input}
             classNames={{
-              closeIcon: classes.closeIcon
+              closeIcon: classes.closeIcon,
+              addFiles: classes.addFiles
             }}
             label={t`Click or drag to upload files`}
             moreFilesLabel={t`Add more files`}
@@ -124,7 +132,7 @@ const UploadFileModule: React.FC<IUploadFileModuleProps> = ({
             name="files"
             onFileNumberChange={onFileNumberChange}
           />
-          <footer>
+          <footer className={classes.footer}>
             <Button
               onClick={close}
               size="medium"

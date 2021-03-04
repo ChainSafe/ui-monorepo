@@ -370,6 +370,7 @@ export const darkTheme = createTheme<UI_COLORS>({
           optionsBorder: "var(--gray5)",
           menuItemIconColor: "var(--gray9)",
           menuItemTextColor: "var(--gray10)",
+          message: "var(--gray6)",
         },
         searchModule: {
           resultsBackground: "var(--gray2)",
@@ -383,7 +384,10 @@ export const darkTheme = createTheme<UI_COLORS>({
           background: "var(--gray2)",
           color: "var(--gray9)",
           icon: "var(--gray9)",
-          iconHover: "var(--gray9)"
+          iconHover: "var(--gray9)",
+          addMore: "var(--gray9)",
+          addMoreBackground: "var(--gray4)",
+          footerBackground: "var(--gray2)"
         },
         fileInfoModal: {
           background: "var(--gray2)",
