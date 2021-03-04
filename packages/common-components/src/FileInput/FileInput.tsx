@@ -11,10 +11,11 @@ import { ScrollbarWrapper } from "../ScrollbarWrapper"
 const useStyles = makeStyles(({ constants, palette, overrides }: ITheme) =>
   createStyles({
     root: {
+      paddingTop: constants.generalUnit,
       "& > div": {
         "&:first-child": {
           padding: constants.generalUnit,
-          margin: constants.generalUnit * 4
+          margin: `${constants.generalUnit * 4}px`
         },
         "&.scrollbar": {
           maxHeight: "80vh",
@@ -84,7 +85,7 @@ const useStyles = makeStyles(({ constants, palette, overrides }: ITheme) =>
       alignItems: "center",
       justifyContent: "flex-start",
       margin: 0,
-      marginTop: constants.generalUnit * 4,
+      marginTop: constants.generalUnit * 2,
       paddingTop: constants.generalUnit,
       paddingLeft: constants.generalUnit * 5,
       paddingRight: constants.generalUnit,
@@ -109,6 +110,7 @@ interface IFileInputProps extends DropzoneOptions {
   classNames?: {
     pending?: string
     filelist?: string
+    item?: string
     addFiles?: string
     closeIcon?: string
     error?: string
@@ -209,7 +211,7 @@ const FileInput: React.FC<IFileInputProps> = ({
             <ScrollbarWrapper className={clsx("scrollbar")}>
               <ul>
                 {value.map((file: any, i: any) => (
-                  <li className={classes.item} key={i}>
+                  <li className={clsx(classes.item, classNames?.item)} key={i}>
                     <span className={classes.itemText}>{file.name}</span>
                     <Button
                       className={clsx(classes.crossIcon, classNames?.closeIcon)}

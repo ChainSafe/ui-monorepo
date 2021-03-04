@@ -69,7 +69,7 @@ export const lightTheme = createTheme<UI_COLORS>({
         },
         uploadModal: {
           background: "var(--gray1)",
-          color: "var(--gray1)",
+          color: "var(--gray10)",
           icon: "var(--gray10)",
           iconHover: "var(--gray10)",
           addMore: "var(--gray9)",

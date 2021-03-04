@@ -119,9 +119,6 @@ const useStyles = makeStyles(
         },
       },
       downloadButton: {
-        // "TODO: FILL"
-        backgroundColor: "rgba(0,0,0, 0.88)",
-        color: palette.additional["gray"][3],
         borderColor: palette.additional["gray"][3],
         borderWidth: 1,
         borderStyle: "solid",

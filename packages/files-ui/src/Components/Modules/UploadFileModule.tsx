@@ -26,6 +26,12 @@ const useStyles = makeStyles(({ constants, breakpoints }: CSFTheme) =>
     input: {
       marginBottom: constants.generalUnit * 2,
     },
+    fileList: {
+      color: constants.uploadModal.color,
+    },
+    item: {
+      color: constants.uploadModal.color,
+    },
     cta: {},
     okButton: {
       marginLeft: constants.generalUnit,
@@ -124,6 +130,8 @@ const UploadFileModule: React.FC<IUploadFileModuleProps> = ({
             className={classes.input}
             classNames={{
               closeIcon: classes.closeIcon,
+              filelist: classes.fileList,
+              item: classes.item,
               addFiles: classes.addFiles
             }}
             label={t`Click or drag to upload files`}
