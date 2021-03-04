@@ -1,6 +1,10 @@
+import { DefaultPalette } from "./ColorPalette"
 import { DefaultThemeConfig, defaultFontFamilyStack } from "./ThemeConfig"
 
 export const DefaultGlobalStyling = {
+  ":root": {
+    ...DefaultPalette.root
+  },
   html: {
     ...DefaultThemeConfig.typography.global,
     WebkitFontSmoothing: "antialiased", // Antialiasing.

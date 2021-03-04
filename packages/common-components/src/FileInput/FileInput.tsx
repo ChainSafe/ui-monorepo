@@ -11,23 +11,11 @@ import { ScrollbarWrapper } from "../ScrollbarWrapper"
 const useStyles = makeStyles(({ constants, palette, overrides }: ITheme) =>
   createStyles({
     root: {
+      paddingTop: constants.generalUnit,
       "& > div": {
-        color: palette.additional["gray"][8],
-        padding: constants.generalUnit,
-        margin: constants.generalUnit * 4,
-        "&.addFiles": {
-          display: "flex",
-          flexDirection: "row",
-          alignItems: "center",
-          justifyContent: "flex-start",
-          margin: 0,
-          marginTop: constants.generalUnit * 4,
-          paddingTop: constants.generalUnit,
-          paddingLeft: constants.generalUnit * 10,
-          paddingRight: constants.generalUnit,
-          paddingBottom: constants.generalUnit,
-          cursor: "pointer",
-          backgroundColor: palette.additional["gray"][2]
+        "&:first-child": {
+          padding: constants.generalUnit,
+          margin: `${constants.generalUnit * 4}px`
         },
         "&.scrollbar": {
           maxHeight: "80vh",
@@ -71,7 +59,11 @@ const useStyles = makeStyles(({ constants, palette, overrides }: ITheme) =>
       alignItems: "center",
       justifyContent: "flex-start",
       "& svg": {
-        height: "100%"
+        position: "absolute",
+        top: "50%",
+        left: "50%",
+        transform: "translate(-50%, -50%)",
+        margin: 0
       },
       "& > *:first-child": {
         marginRight: constants.generalUnit
@@ -82,7 +74,24 @@ const useStyles = makeStyles(({ constants, palette, overrides }: ITheme) =>
       flex: "1 1 0"
     },
     crossIcon: {
-      backgroundColor: palette.primary.hover
+      backgroundColor: "transparent",
+      "& > span": {
+        position: "relative"
+      }
+    },
+    addFiles: {
+      display: "flex",
+      flexDirection: "row",
+      alignItems: "center",
+      justifyContent: "flex-start",
+      margin: 0,
+      marginTop: constants.generalUnit * 2,
+      paddingTop: constants.generalUnit,
+      paddingLeft: constants.generalUnit * 5,
+      paddingRight: constants.generalUnit,
+      paddingBottom: constants.generalUnit,
+      cursor: "pointer",
+      backgroundColor: palette.additional["gray"][2]
     },
     addFilesText: {
       marginLeft: constants.generalUnit
@@ -101,6 +110,9 @@ interface IFileInputProps extends DropzoneOptions {
   classNames?: {
     pending?: string
     filelist?: string
+    item?: string
+    addFiles?: string
+    closeIcon?: string
     error?: string
   }
   onFileNumberChange: (filesNumber: number) => void
@@ -199,10 +211,10 @@ const FileInput: React.FC<IFileInputProps> = ({
             <ScrollbarWrapper className={clsx("scrollbar")}>
               <ul>
                 {value.map((file: any, i: any) => (
-                  <li className={classes.item} key={i}>
+                  <li className={clsx(classes.item, classNames?.item)} key={i}>
                     <span className={classes.itemText}>{file.name}</span>
                     <Button
-                      className={classes.crossIcon}
+                      className={clsx(classes.crossIcon, classNames?.closeIcon)}
                       type="button"
                       onClick={(e) => {
                         e.stopPropagation()
@@ -229,7 +241,7 @@ const FileInput: React.FC<IFileInputProps> = ({
         </>
       )}
       {value?.length > 0 && (
-        <div className={clsx("addFiles")} onClick={open}>
+        <div className={clsx(classes.addFiles, classNames?.addFiles)} onClick={open}>
           <PlusIcon fontSize="small" color="primary" />
           <span className={classes.addFilesText}>{moreFilesLabel}</span>
         </div>

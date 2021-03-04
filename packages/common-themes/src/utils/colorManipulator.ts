@@ -3,7 +3,7 @@ function clamp(value: number, min = 0, max = 1): number {
   return Math.min(Math.max(min, value), max)
 }
 
-export type ColorFormat = "rgb" | "rgba" | "hsl" | "hsla";
+export type ColorFormat = "rgb" | "rgba" | "hsl" | "hsla" | "var";
 export type ColorValues = number[];
 export interface IColorObject {
   type: ColorFormat
@@ -86,15 +86,21 @@ export function decomposeColor(color: string): IColorObject {
   const marker = color.indexOf("(")
   const type = color.substring(0, marker)
 
-  if (["rgb", "rgba", "hsl", "hsla"].indexOf(type) === -1) {
+  if (["rgb", "rgba", "hsl", "hsla", "var"].indexOf(type) === -1) {
     throw new Error(
       "Material-UI: Unsupported `%s` color.\n" +
-        "We support the following formats: #nnn, #nnnnnn, rgb(), rgba(), hsl(), hsla()."
+        "We support the following formats: #nnn, #nnnnnn, rgb(), rgba(), hsl(), hsla(), var()."
     )
   }
 
-  const valuesStrings = color
-    .substring(marker + 1, color.length - 1)
+  let colorToParse = `${color}`
+
+  if (type === "var") {
+    colorToParse = getComputedStyle(document.documentElement).getPropertyValue(color.substr(marker + 1, color.length - 1))
+  } 
+
+  const valuesStrings = colorToParse
+    .substring(marker + 1, colorToParse.length - 1)
     .split(",")
   const values = valuesStrings.map((value) => parseFloat(value))
 

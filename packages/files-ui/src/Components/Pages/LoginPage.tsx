@@ -12,7 +12,6 @@ import {
 import { useImployApi, OAuthProvider } from "@imploy/common-contexts"
 import {
   makeStyles,
-  ITheme,
   createStyles,
   useThemeSwitcher,
 } from "@chainsafe/common-theme"
@@ -24,9 +23,10 @@ import { ROUTE_LINKS } from "../FilesRoutes"
 import LandingImage from "../../Media/auth.jpg"
 import MasterKeyModule from "../Modules/MasterKeySequence/MasterKeyModule"
 import EnterMasterKeySlide from "../Modules/MasterKeySequence/SequenceSlides/EnterMasterKey.slide"
+import { CSFTheme } from "../../Themes/types"
 
 const useStyles = makeStyles(
-  ({ palette, constants, typography, breakpoints }: ITheme) =>
+  ({ palette, constants, typography, breakpoints }: CSFTheme) =>
     createStyles({
       root: {
         [breakpoints.down("md")]: {
@@ -68,7 +68,7 @@ const useStyles = makeStyles(
         fontWeight: typography.fontWeight.semibold,
         paddingLeft: constants.generalUnit,
         [breakpoints.down("md")]: {
-          color: palette.common.white.main,
+          color: constants.landing.logoText,
           fontSize: 16,
         },
       },
@@ -83,14 +83,6 @@ const useStyles = makeStyles(
       button: {
         width: 240,
         marginBottom: constants.generalUnit * 2,
-        [breakpoints.up("md")]: {
-          backgroundColor: palette.common.black.main,
-          color: palette.common.white.main,
-        },
-        [breakpoints.down("md")]: {
-          backgroundColor: palette.common.black.main,
-          color: palette.common.white.main,
-        },
       },
       controls: {
         display: "flex",

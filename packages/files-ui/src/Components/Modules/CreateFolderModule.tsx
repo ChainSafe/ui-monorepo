@@ -8,7 +8,6 @@ import { useDrive } from "../../Contexts/DriveContext"
 import * as yup from "yup"
 import {
   createStyles,
-  ITheme,
   makeStyles,
   useMediaQuery,
 } from "@chainsafe/common-theme"
@@ -17,9 +16,10 @@ import { Formik, Form } from "formik"
 import CustomModal from "../Elements/CustomModal"
 import CustomButton from "../Elements/CustomButton"
 import { Trans } from "@lingui/macro"
+import { CSFTheme } from "../../Themes/types"
 
 const useStyles = makeStyles(
-  ({ breakpoints, constants, palette, typography, zIndex }: ITheme) => {
+  ({ breakpoints, constants, palette, typography, zIndex }: CSFTheme) => {
     return createStyles({
       root: {
         padding: constants.generalUnit * 4,
@@ -30,9 +30,11 @@ const useStyles = makeStyles(
         [breakpoints.down("md")]: {},
       },
       modalInner: {
+        backgroundColor: constants.createFolder.backgroundColor,
+        color: constants.createFolder.color,
         [breakpoints.down("md")]: {
           bottom:
-            (constants?.mobileButtonHeight as number) + constants.generalUnit,
+          Number(constants?.mobileButtonHeight) + constants.generalUnit,
           borderTopLeftRadius: `${constants.generalUnit * 1.5}px`,
           borderTopRightRadius: `${constants.generalUnit * 1.5}px`,
           maxWidth: `${breakpoints.width("md")}px !important`,
@@ -43,7 +45,6 @@ const useStyles = makeStyles(
       },
       okButton: {
         marginLeft: constants.generalUnit,
-        color: palette.common.white.main,
         backgroundColor: palette.common.black.main,
       },
       cancelButton: {
@@ -60,6 +61,7 @@ const useStyles = makeStyles(
         lineHeight: "22px",
       },
       heading: {
+        color: constants.createFolder.color,
         fontWeight: typography.fontWeight.semibold,
         textAlign: "center",
         marginBottom: constants.generalUnit * 4,
