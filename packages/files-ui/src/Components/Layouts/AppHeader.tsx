@@ -131,7 +131,7 @@ const useStyles = makeStyles(
         minWidth: 145
       },
       menuItem: {
-        width: 100,
+        width: "100%",
         display: "flex",
         flexDirection: "row",
         alignItems: "center",
