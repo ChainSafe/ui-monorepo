@@ -35,7 +35,6 @@
     "react-hooks/exhaustive-deps": "warn",
     "react/prop-types": 0,
     "comma-dangle": ["error", "never"],
-    "no-console": ["error", { "allow": ["warn", "error"] }],
     "object-curly-spacing": ["error", "always"],
     "space-in-parens": ["error", "never"],
     "@typescript-eslint/no-use-before-define": "off",

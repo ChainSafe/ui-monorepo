@@ -8,7 +8,7 @@ import {
   Breadcrumb,
   Crumb,
   useHistory,
-  useToaster,
+  useToaster
 } from "@chainsafe/common-components"
 import { makeStyles, ITheme, createStyles } from "@chainsafe/common-theme"
 import { useUser } from "@imploy/common-contexts"
@@ -22,40 +22,40 @@ const useStyles = makeStyles(({ constants, breakpoints }: ITheme) =>
       [breakpoints.down("md")]: {
         fontSize: 20,
         lineHeight: "28px",
-        margin: `${constants.generalUnit}px 0`,
-      },
+        margin: `${constants.generalUnit}px 0`
+      }
     },
     divider: {
       [breakpoints.down("md")]: {
         fontSize: 20,
         lineHeight: "28px",
-        margin: `${constants.generalUnit}px 0`,
-      },
+        margin: `${constants.generalUnit}px 0`
+      }
     },
     container: {
-      marginTop: constants.generalUnit * 2,
+      marginTop: constants.generalUnit * 2
     },
     loadingContainer: {
       display: "flex",
       justifyContent: "center",
-      marginTop: constants.generalUnit * 3,
+      marginTop: constants.generalUnit * 3
     },
     headerContainer: {
       marginBottom: constants.generalUnit * 4,
       [breakpoints.down("md")]: {
         padding: `0 ${constants.generalUnit * 2}px`,
         marginTop: constants.generalUnit * 4,
-        marginBottom: constants.generalUnit * 2,
-      },
+        marginBottom: constants.generalUnit * 2
+      }
     },
     tabsContainer: {
       marginTop: constants.generalUnit * 4,
       [breakpoints.down("md")]: {
         marginTop: constants.generalUnit * 2,
-        padding: `0 ${constants.generalUnit * 2}px`,
-      },
-    },
-  }),
+        padding: `0 ${constants.generalUnit * 2}px`
+      }
+    }
+  })
 )
 
 type TabKey = "profileView" | "planView"
@@ -76,7 +76,7 @@ const Settings: React.FC = () => {
         firstName: profile?.firstName,
         lastName: profile?.lastName,
         email: profile?.email,
-        publicAddress: profile?.publicAddress,
+        publicAddress: profile?.publicAddress
       })
     }
   }, [profile])
@@ -85,26 +85,26 @@ const Settings: React.FC = () => {
     e.persist()
     setProfileData((prevInputs) => ({
       ...prevInputs,
-      [e.target.name]: e.target.value,
+      [e.target.name]: e.target.value
     }))
   }
 
   const onUpdateProfile = async (
     firstName: string,
     lastName: string,
-    email: string,
+    email: string
   ) => {
     try {
       setUpdatingProfile(true)
       await updateProfile(firstName, lastName, email)
       addToastMessage({
-        message: "Profile updated",
+        message: "Profile updated"
       })
       setUpdatingProfile(false)
     } catch (error) {
       addToastMessage({
         message: error,
-        appearance: "error",
+        appearance: "error"
       })
       setUpdatingProfile(false)
     }
@@ -112,8 +112,8 @@ const Settings: React.FC = () => {
 
   const crumbs: Crumb[] = [
     {
-      text: "Settings",
-    },
+      text: "Settings"
+    }
   ]
 
   return (

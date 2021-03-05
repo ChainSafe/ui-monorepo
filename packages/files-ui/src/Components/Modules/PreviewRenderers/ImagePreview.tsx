@@ -5,13 +5,13 @@ import {
   makeStyles,
   ITheme,
   createStyles,
-  useThemeSwitcher,
+  useThemeSwitcher
 } from "@chainsafe/common-theme"
 import {
   Button,
   ZoomInIcon,
   ZoomOutIcon,
-  FullscreenIcon,
+  FullscreenIcon
 } from "@chainsafe/common-components"
 
 const useStyles = makeStyles(
@@ -21,8 +21,8 @@ const useStyles = makeStyles(
         maxHeight: "100vh",
         maxWidth: "100vw",
         [breakpoints.up("md")]: {
-          maxWidth: "80vw",
-        },
+          maxWidth: "80vw"
+        }
       },
       controlsContainer: {
         position: "absolute",
@@ -36,9 +36,9 @@ const useStyles = makeStyles(
         color: palette.additional["gray"][3],
         borderWidth: 1,
         borderStyle: "solid",
-        borderColor: palette.additional["gray"][8],
-      },
-    }),
+        borderColor: palette.additional["gray"][8]
+      }
+    })
 )
 
 const ImagePreview: React.FC<IPreviewRendererProps> = ({ contents }) => {
@@ -61,11 +61,12 @@ const ImagePreview: React.FC<IPreviewRendererProps> = ({ contents }) => {
         options={{
           limitToBounds: true,
           limitToWrapper: true,
-          minScale: 0.2,
+          minScale: 0.2
         }}
       >
         {
-          //@ts-ignore
+          // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+          // @ts-ignore
           ({ zoomIn, zoomOut, resetTransform }) => (
             <>
               {desktop && (
@@ -79,9 +80,6 @@ const ImagePreview: React.FC<IPreviewRendererProps> = ({ contents }) => {
                   <Button onClick={resetTransform}>
                     <FullscreenIcon />
                   </Button>
-                  {/* <Button>
-                  <PrinterIcon />
-                </Button> */}
                 </div>
               )}
               <TransformComponent>

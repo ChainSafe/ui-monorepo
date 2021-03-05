@@ -17,9 +17,9 @@ const useStyles = makeStyles(({ constants, zIndex, breakpoints }: ITheme) => {
       zIndex: zIndex?.layer1,
       [breakpoints.down("md")]: {
         margin: constants.generalUnit,
-        width: `calc(100% - ${constants.generalUnit * 2}px)`,
-      },
-    },
+        width: `calc(100% - ${constants.generalUnit * 2}px)`
+      }
+    }
   })
 })
 

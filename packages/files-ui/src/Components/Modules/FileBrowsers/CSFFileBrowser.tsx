@@ -5,7 +5,7 @@ import { getArrayOfPaths, getPathFromArray } from "../../../Utils/pathUtils"
 import {
   IBulkOperations,
   IFileConfigured,
-  IFilesBrowserModuleProps,
+  IFilesBrowserModuleProps
 } from "./types"
 import FilesTableView from "./views/FilesTable.view"
 import { CONTENT_TYPES } from "../../../Utils/Constants"
@@ -14,7 +14,7 @@ import { useQuery } from "../../../Utils/Helpers"
 
 const CSFFileBrowser: React.FC<IFilesBrowserModuleProps> = ({
   heading = "My Files",
-  controls = true,
+  controls = true
 }: IFilesBrowserModuleProps) => {
   const {
     moveFileToTrash,
@@ -28,7 +28,7 @@ const CSFFileBrowser: React.FC<IFilesBrowserModuleProps> = ({
     uploadFiles,
     uploadsInProgress,
     loadingCurrentPath,
-    bucketType,
+    bucketType
   } = useDrive()
 
   const queryPath = useQuery().get("path")
@@ -37,7 +37,7 @@ const CSFFileBrowser: React.FC<IFilesBrowserModuleProps> = ({
     updateCurrentPath(
       queryPath || "/",
       "csf",
-      bucketType !== "csf" || queryPath !== null,
+      bucketType !== "csf" || queryPath !== null
     )
     // eslint-disable-next-line
   }, [queryPath])
@@ -47,14 +47,14 @@ const CSFFileBrowser: React.FC<IFilesBrowserModuleProps> = ({
     // TODO set loading
     await renameFile({
       path: path,
-      new_path: new_path,
+      new_path: new_path
     })
   }
   const handleMove = async (path: string, new_path: string) => {
     // TODO set loading
     await moveFile({
       path: path,
-      new_path: new_path,
+      new_path: new_path
     })
   }
 
@@ -66,8 +66,8 @@ const CSFFileBrowser: React.FC<IFilesBrowserModuleProps> = ({
       updateCurrentPath(
         getPathFromArray(arrayOfPaths.slice(0, index + 1)),
         undefined,
-        true,
-      ),
+        true
+      )
   }))
 
   const { addToastMessage } = useToaster()
@@ -75,7 +75,7 @@ const CSFFileBrowser: React.FC<IFilesBrowserModuleProps> = ({
   const handleUploadOnDrop = (
     files: File[],
     fileItems: DataTransferItemList,
-    path: string,
+    path: string
   ) => {
     let hasFolder = false
     for (let i = 0; i < files.length; i++) {
@@ -86,7 +86,7 @@ const CSFFileBrowser: React.FC<IFilesBrowserModuleProps> = ({
     if (hasFolder) {
       addToastMessage({
         message: "Folder uploads are not supported currently",
-        appearance: "error",
+        appearance: "error"
       })
     } else {
       uploadFiles(files, path)
@@ -96,83 +96,83 @@ const CSFFileBrowser: React.FC<IFilesBrowserModuleProps> = ({
   const parsedContents: IFileConfigured[] = pathContents.map(
     (item: FileSystemItem): IFileConfigured => {
       switch (item.content_type) {
-        case CONTENT_TYPES.Directory:
-          return {
-            ...item,
-            operations: ["delete", "download", "move", "rename"],
-          }
-        case CONTENT_TYPES.File:
-          return {
-            ...item,
-            operations: [
-              "delete",
-              "info",
-              "download",
-              "move",
-              "rename",
-              "share",
-              "preview",
-            ],
-          }
-        case CONTENT_TYPES.Image:
-          return {
-            ...item,
-            operations: [
-              "delete",
-              "info",
-              "download",
-              "move",
-              "rename",
-              "share",
-              "preview",
-            ],
-          }
-        case CONTENT_TYPES.Pdf:
-          return {
-            ...item,
-            operations: [
-              "delete",
-              "info",
-              "download",
-              "move",
-              "rename",
-              "share",
-              "preview",
-            ],
-          }
-        case CONTENT_TYPES.Text:
-          return {
-            ...item,
-            operations: [
-              "delete",
-              "info",
-              "download",
-              "move",
-              "rename",
-              "share",
-              "preview",
-            ],
-          }
-        default:
-          return {
-            ...item,
-            operations: [
-              "delete",
-              "info",
-              "download",
-              "move",
-              "rename",
-              "share",
-              "preview",
-            ],
-          }
+      case CONTENT_TYPES.Directory:
+        return {
+          ...item,
+          operations: ["delete", "download", "move", "rename"]
+        }
+      case CONTENT_TYPES.File:
+        return {
+          ...item,
+          operations: [
+            "delete",
+            "info",
+            "download",
+            "move",
+            "rename",
+            "share",
+            "preview"
+          ]
+        }
+      case CONTENT_TYPES.Image:
+        return {
+          ...item,
+          operations: [
+            "delete",
+            "info",
+            "download",
+            "move",
+            "rename",
+            "share",
+            "preview"
+          ]
+        }
+      case CONTENT_TYPES.Pdf:
+        return {
+          ...item,
+          operations: [
+            "delete",
+            "info",
+            "download",
+            "move",
+            "rename",
+            "share",
+            "preview"
+          ]
+        }
+      case CONTENT_TYPES.Text:
+        return {
+          ...item,
+          operations: [
+            "delete",
+            "info",
+            "download",
+            "move",
+            "rename",
+            "share",
+            "preview"
+          ]
+        }
+      default:
+        return {
+          ...item,
+          operations: [
+            "delete",
+            "info",
+            "download",
+            "move",
+            "rename",
+            "share",
+            "preview"
+          ]
+        }
       }
-    },
+    }
   )
 
   const bulkOperations: IBulkOperations = {
     [CONTENT_TYPES.Directory]: ["move"],
-    [CONTENT_TYPES.File]: ["delete", "move"],
+    [CONTENT_TYPES.File]: ["delete", "move"]
   }
 
   return (

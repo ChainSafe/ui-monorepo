@@ -3,7 +3,7 @@ import { useDrive } from "../../Contexts/DriveContext"
 import {
   createStyles,
   makeStyles,
-  useThemeSwitcher,
+  useThemeSwitcher
 } from "@chainsafe/common-theme"
 import React, { Fragment, useCallback } from "react"
 import clsx from "clsx"
@@ -19,11 +19,12 @@ import {
   formatBytes,
   DeleteSvg,
   SunSvg,
-  MoonSvg,
+  MoonSvg
 } from "@chainsafe/common-components"
 import { ROUTE_LINKS } from "../FilesRoutes"
 import { FREE_PLAN_LIMIT } from "../../Utils/Constants"
 import { Trans } from "@lingui/macro"
+import { useThresholdKey } from "../../Contexts/ThresholdKeyContext"
 import { CSFTheme } from "../../Themes/types"
 
 const useStyles = makeStyles(
@@ -39,7 +40,7 @@ const useStyles = makeStyles(
         left: 0,
         opacity: 0,
         "&.active": {
-          opacity: 1,
+          opacity: 1
         },
         [breakpoints.up("md")]: {
           padding: `${constants.topPadding}px ${
@@ -49,8 +50,8 @@ const useStyles = makeStyles(
           height: "100%",
           backgroundColor: constants.nav.backgroundColor,
           "&.active": {
-            width: `${constants.navWidth}px`,
-          },
+            width: `${constants.navWidth}px`
+          }
         },
         [breakpoints.down("md")]: {
           height: `calc(100% - ${constants.mobileHeaderHeight}px)`,
@@ -62,9 +63,9 @@ const useStyles = makeStyles(
           visibility: "hidden",
           "&.active": {
             visibility: "visible",
-            width: `${constants.mobileNavWidth}px`,
-          },
-        },
+            width: `${constants.mobileNavWidth}px`
+          }
+        }
       },
       blocker: {
         display: "block",
@@ -81,13 +82,13 @@ const useStyles = makeStyles(
         "&.active": {
           visibility: "visible",
           [breakpoints.up("md")]: {
-            opacity: 0.5,
+            opacity: 0.5
           },
           [breakpoints.down("md")]: {
-            opacity: 1,
-          },
+            opacity: 1
+          }
           
-        },
+        }
       },
       logo: {
         textDecoration: "none",
@@ -98,11 +99,11 @@ const useStyles = makeStyles(
         [breakpoints.up("md")]: {
           "& img": {
             height: constants.generalUnit * 5,
-            width: "auto",
+            width: "auto"
           },
           "& > *:first-child": {
-            marginRight: constants.generalUnit,
-          },
+            marginRight: constants.generalUnit
+          }
         },
         [breakpoints.down("md")]: {
           position: "absolute",
@@ -111,15 +112,15 @@ const useStyles = makeStyles(
           transform: "translate(-50%,-50%)",
           "& img": {
             height: constants.generalUnit * 3.25,
-            width: "auto",
-          },
-        },
+            width: "auto"
+          }
+        }
       },
       navMenu: {
         display: "flex",
         flexDirection: "column",
         marginBottom: constants.generalUnit * 8.5,
-        transitionDuration: `${animation.translate}ms`,
+        transitionDuration: `${animation.translate}ms`
       },
       linksArea: {
         display: "flex",
@@ -128,20 +129,20 @@ const useStyles = makeStyles(
         justifyContent: "center",
         transitionDuration: `${animation.translate}ms`,
         "& > span": {
-          marginBottom: constants.generalUnit * 2,
+          marginBottom: constants.generalUnit * 2
         },
         [breakpoints.up("md")]: {
-          height: 0,
+          height: 0
         },
         [breakpoints.down("md")]: {
           transitionDuration: `${animation.translate}ms`,
           color: palette.additional["gray"][3],
-          "&.active": {},
-        },
+          "&.active": {}
+        }
       },
       navHead: {
         fontWeight: 600,
-        color: constants.nav.headingColor,
+        color: constants.nav.headingColor
       },
       navItem: {
         textDecoration: "none",
@@ -154,10 +155,10 @@ const useStyles = makeStyles(
         "& span": {
           transitionDuration: `${animation.transform}ms`,
           [breakpoints.up("md")]: {
-            color: constants.nav.itemColor,
+            color: constants.nav.itemColor
           },
           [breakpoints.down("md")]: {
-            color: constants.nav.itemColorHover,
+            color: constants.nav.itemColorHover
           }
         },
         "& svg": {
@@ -165,28 +166,28 @@ const useStyles = makeStyles(
           width: Number(constants.svgWidth),
           marginRight: constants.generalUnit * 2,
           [breakpoints.up("md")]: {
-            fill: constants.nav.itemIconColor,
+            fill: constants.nav.itemIconColor
           },
           [breakpoints.down("md")]: {
-            fill: constants.nav.itemIconColorHover,
+            fill: constants.nav.itemIconColorHover
           }
         },
         "&:hover": {
           "& span": {
-            color: constants.nav.itemColorHover,
+            color: constants.nav.itemColorHover
           },
           "& svg": {
-            fill: constants.nav.itemIconColorHover,
-          },
+            fill: constants.nav.itemIconColorHover
+          }
         },
         [breakpoints.down("md")]: {
-          minWidth: Number(constants.mobileNavWidth),
-        },
+          minWidth: Number(constants.mobileNavWidth)
+        }
       },
       navItemText: {
         [breakpoints.down("md")]: {
-          color: palette.additional["gray"][3],
-        },
+          color: palette.additional["gray"][3]
+        }
       },
       menuItem: {
         width: 100,
@@ -196,17 +197,17 @@ const useStyles = makeStyles(
         "& svg": {
           width: constants.generalUnit * 2,
           height: constants.generalUnit * 2,
-          marginRight: constants.generalUnit,
-        },
+          marginRight: constants.generalUnit
+        }
       },
       spaceUsedMargin: {
-        marginBottom: constants.generalUnit,
+        marginBottom: constants.generalUnit
       },
       betaCaption: {
-        marginBottom: constants.generalUnit * 0.5,
-      },
+        marginBottom: constants.generalUnit * 0.5
+      }
     })
-  },
+  }
 )
 
 interface IAppNav {
@@ -220,8 +221,9 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
 
   const { spaceUsed } = useDrive()
 
-  const { isLoggedIn, logout, secured } = useImployApi()
-  const { isMasterPasswordSet } = useDrive()
+  const { isLoggedIn, secured } = useImployApi()
+  const { publicKey, isNewDevice, shouldInitializeAccount, logout } = useThresholdKey()
+
   const { removeUser } = useUser()
 
   const signOut = useCallback(() => {
@@ -243,11 +245,19 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
     <section
       className={clsx(classes.root, {
         active: desktop
-          ? isLoggedIn && secured && !!isMasterPasswordSet
-          : navOpen,
+          ? isLoggedIn &&
+          secured &&
+          !!publicKey &&
+          !isNewDevice &&
+          !shouldInitializeAccount
+          : navOpen
       })}
     >
-      {isLoggedIn && secured && !!isMasterPasswordSet && (
+      {isLoggedIn &&
+        secured &&
+        !!publicKey &&
+        !isNewDevice &&
+        !shouldInitializeAccount && (
         <Fragment>
           {desktop && (
             <div>
@@ -317,8 +327,8 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
                   className={classes.spaceUsedMargin}
                   component="p"
                 >{`${formatBytes(spaceUsed)} of ${formatBytes(
-                  FREE_PLAN_LIMIT,
-                )} used`}</Typography>
+                    FREE_PLAN_LIMIT
+                  )} used`}</Typography>
                 <ProgressBar
                   className={classes.spaceUsedMargin}
                   progress={(spaceUsed / FREE_PLAN_LIMIT) * 100}
@@ -366,7 +376,7 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
             <div
               onClick={() => setNavOpen(false)}
               className={clsx(classes.blocker, {
-                active: navOpen,
+                active: navOpen
               })}
             ></div>
           )}

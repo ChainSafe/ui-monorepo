@@ -23,13 +23,13 @@ import {
   ExportSvg,
   ShareAltSvg,
   ExclamationCircleInverseSvg,
-  ZoomInSvg,
+  ZoomInSvg
 } from "@chainsafe/common-components"
 import {
   makeStyles,
   createStyles,
-  useThemeSwitcher,
-  useDoubleClick
+  useDoubleClick,
+  useThemeSwitcher
 } from "@chainsafe/common-theme"
 import clsx from "clsx"
 import { Formik, Form } from "formik"
@@ -47,16 +47,16 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => 
   const mobileGridSettings = "69px 3fr 45px !important"
   return createStyles({
     tableRow: {
-      border: `2px solid transparent`,
+      border: "2px solid transparent",
       [breakpoints.up("md")]: {
-        gridTemplateColumns: desktopGridSettings,
+        gridTemplateColumns: desktopGridSettings
       },
       [breakpoints.down("md")]: {
-        gridTemplateColumns: mobileGridSettings,
+        gridTemplateColumns: mobileGridSettings
       },
       "&.droppable": {
-        border: `2px solid ${palette.additional["geekblue"][6]}`,
-      },
+        border: `2px solid ${palette.additional["geekblue"][6]}`
+      }
     },
     fileIcon: {
       display: "flex",
@@ -66,25 +66,25 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => 
       "& svg": {
         width: constants.generalUnit * 2.5,
         fill: constants.fileSystemItemRow.icon
-      },
+      }
     },
     folderIcon: {
       "& svg": {
         // TODO: FILL
-        fill: palette.additional.gray[9],
-      },
+        fill: palette.additional.gray[9]
+      }
     },
     renameInput: {
       width: "100%",
       [breakpoints.up("md")]: {
-        margin: 0,
+        margin: 0
       },
       [breakpoints.down("md")]: {
-        margin: `${constants.generalUnit * 4.2}px 0`,
-      },
+        margin: `${constants.generalUnit * 4.2}px 0`
+      }
     },
     modalRoot: {
-      [breakpoints.down("md")]: {},
+      [breakpoints.down("md")]: {}
     },
     modalInner: {
       [breakpoints.down("md")]: {
@@ -93,23 +93,23 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => 
         borderTopLeftRadius: `${constants.generalUnit * 1.5}px`,
         borderTopRightRadius: `${constants.generalUnit * 1.5}px`,
         borderBottomLeftRadius: `${constants.generalUnit * 1.5}px`,
-        borderBottomRightRadius: `${constants.generalUnit * 1.5}px`,
-      },
+        borderBottomRightRadius: `${constants.generalUnit * 1.5}px`
+      }
     },
     renameHeader: {
-      textAlign: "center",
+      textAlign: "center"
     },
     renameFooter: {
       display: "flex",
       flexDirection: "row",
       alignItems: "center",
-      justifyContent: "flex-end",
+      justifyContent: "flex-end"
     },
     renameModal: {
-      padding: constants.generalUnit * 4,
+      padding: constants.generalUnit * 4
     },
     okButton: {
-      marginLeft: constants.generalUnit,
+      marginLeft: constants.generalUnit
     },
     cancelButton: {
       [breakpoints.down("md")]: {
@@ -117,8 +117,8 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => 
         bottom: 0,
         left: 0,
         width: "100%",
-        height: constants?.mobileButtonHeight,
-      },
+        height: constants?.mobileButtonHeight
+      }
     },
     menuIcon: {
       display: "flex",
@@ -128,35 +128,35 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => 
       marginRight: constants.generalUnit * 1.5,
       "& svg": {
         fill: constants.fileSystemItemRow.menuIcon
-      },
+      }
     },
     desktopRename: {
       display: "flex",
       flexDirection: "row",
       "& svg": {
         width: 20,
-        height: 20,
-      },
+        height: 20
+      }
     },
     filename: {
       whiteSpace: "nowrap",
       overflow: "hidden",
-      textOverflow: "ellipsis",
+      textOverflow: "ellipsis"
     },
     dropdownIcon: {
       "& svg": {
-        fill: constants.fileSystemItemRow.dropdownIcon,
-      },
+        fill: constants.fileSystemItemRow.dropdownIcon
+      }
     },
     dropdownOptions: {
       backgroundColor: constants.fileSystemItemRow.optionsBackground,
       color: constants.fileSystemItemRow.optionsColor,
-      border: `1px solid ${constants.fileSystemItemRow.optionsBorder}`,
+      border: `1px solid ${constants.fileSystemItemRow.optionsBorder}`
     },
     dropdownItem: {
       backgroundColor: constants.fileSystemItemRow.itemBackground,
-      color: constants.fileSystemItemRow.itemColor,
-    },
+      color: constants.fileSystemItemRow.itemColor
+    }
   })
 })
 
@@ -214,7 +214,7 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
   setPreviewFileIndex,
   setMoveFileData,
   setFileInfoPath,
-  handleSelect,
+  handleSelect
 }) => {
   const {cid, name, isFolder, size, operations, content_type} = file;
   let Icon
@@ -274,7 +274,7 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
           </span>
         </Fragment>
       ),
-      onClick: () => setMoveFileData({ modal: true, fileData: file }),
+      onClick: () => setMoveFileData({ modal: true, fileData: file })
     },
     share: {
       contents: (
@@ -285,7 +285,7 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
           </span>
         </Fragment>
       ),
-      onClick: () => console.log,
+      onClick: () => console.log
     },
     info: {
       contents: (
@@ -318,7 +318,7 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
           </span>
         </Fragment>
       ),
-      onClick: () => setPreviewFileIndex(files?.indexOf(file)),
+      onClick: () => setPreviewFileIndex(files?.indexOf(file))
     },
     view_folder: {
       contents: (
@@ -338,7 +338,7 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
   )
 
   const [, dragMoveRef, preview] = useDrag({
-    item: { type: DragTypes.MOVABLE_FILE, payload: file },
+    item: { type: DragTypes.MOVABLE_FILE, payload: file }
   })
 
   const [{ isOverMove }, dropMoveRef] = useDrop({
@@ -355,8 +355,8 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
         ))
     },
     collect: (monitor) => ({
-      isOverMove: monitor.isOver(),
-    }),
+      isOverMove: monitor.isOver()
+    })
   })
 
   const [{ isOverUpload }, dropUploadRef] = useDrop({
@@ -366,8 +366,8 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
         handleUploadOnDrop(item.files, item.items, `${currentPath}${name}`)
     },
     collect: (monitor) => ({
-      isOverUpload: monitor.isOver(),
-    }),
+      isOverUpload: monitor.isOver()
+    })
   })
 
   function attachRef(el: any) {
@@ -386,7 +386,7 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
       : setPreviewFileIndex(files?.indexOf(file))
   }, [currentPath, file, files, isFolder, name, setPreviewFileIndex, updateCurrentPath])
 
-  const {click} = useDoubleClick(onSingleClick,onDoubleClick)
+  const { click } = useDoubleClick(onSingleClick,onDoubleClick)
 
   const onFolderOrFileClicks = desktop
     ? click
@@ -438,7 +438,7 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
               fileName: name,
             }}
             validationSchema={RenameSchema}
-            onSubmit={(values, actions) => {
+            onSubmit={(values) => {
               handleRename &&
                 handleRename(
                   `${currentPath}${name}`,
@@ -475,7 +475,7 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
           <CustomModal
             className={classes.modalRoot}
             injectedClass={{
-              inner: classes.modalInner,
+              inner: classes.modalInner
             }}
             closePosition="none"
             active={editing === cid}
@@ -486,7 +486,7 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
                 fileName: name,
               }}
               validationSchema={RenameSchema}
-              onSubmit={(values, actions) => {
+              onSubmit={(values) => {
                 handleRename &&
                   handleRename(
                     `${currentPath}${name}`,
@@ -552,7 +552,7 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
           classNames={{
             icon: classes.dropdownIcon,
             options: classes.dropdownOptions,
-            item: classes.dropdownItem,
+            item: classes.dropdownItem
           }}
           indicator={MoreIcon}
         />
