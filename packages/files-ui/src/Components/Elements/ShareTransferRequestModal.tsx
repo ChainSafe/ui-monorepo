@@ -5,7 +5,7 @@ import dayjs from "dayjs"
 import React, { useCallback, useEffect, useMemo, useState } from "react"
 import { ShareTransferRequest, useThresholdKey } from "../../Contexts/ThresholdKeyContext"
 import CustomModal from "../Elements/CustomModal"
-import LandingImage from "../../Media/devices.png"
+import DevicesImage from "../../Media/devices.png"
 
 interface Props {
     requests: ShareTransferRequest[]
@@ -52,23 +52,23 @@ const ShareTransferRequestModal = ({ requests }: Props) => {
   const classes = useStyles()
   const [isLoadingApprove, setIsLoadingApprove] = useState(false)
   const [isLoadingReject, setIsLoadingReject] = useState(false)
-  const request = useMemo(() => requests[requests.length -1], [requests])
+  const { browserDetail, encPubKeyX, timestamp } = useMemo(() => requests[requests.length -1], [requests])
 
   useEffect(() => {
     // reset the buttons state for each new request displayed
     setIsLoadingApprove(false)
     setIsLoadingReject(false)
-  }, [request.timestamp])
+  }, [timestamp])
 
-  const onApproveRequest = useCallback((encPubKeyX: string) => {
+  const onApproveRequest = useCallback(() => {
     setIsLoadingApprove(true)
     approveShareTransferRequest(encPubKeyX)
-  }, [approveShareTransferRequest])
+  }, [approveShareTransferRequest, encPubKeyX])
 
-  const onRejectRequest = useCallback((encPubKeyX: string) => {
+  const onRejectRequest = useCallback(() => {
     setIsLoadingReject(true)
     rejectShareTransferRequest(encPubKeyX)
-  }, [rejectShareTransferRequest])
+  }, [rejectShareTransferRequest, encPubKeyX])
 
   return (
     <CustomModal
@@ -83,11 +83,11 @@ const ShareTransferRequestModal = ({ requests }: Props) => {
         <Typography variant="h3">
           <Trans>Device awaiting confirmation</Trans>{requests.length > 1 ? ` (1/${requests.length})` : ""}
         </Typography>
-        <img src={LandingImage} alt="request other devices"/>
+        <img src={DevicesImage} alt="request other devices"/>
         <Typography>
-          <Trans>Requested from</Trans> {`${request.browserDetail.browser.name} (${request.browserDetail.browser.version}) -
-            ${request.browserDetail.os.name}`}<br/>
-          <Trans>on</Trans> {dayjs(request.timestamp).format("ddd D MMMM h:mm a")}<br/>
+          <Trans>Requested from</Trans> {`${browserDetail.browser.name} (${browserDetail.browser.version}) -
+            ${browserDetail.os.name}`}<br/>
+          <Trans>on</Trans> {dayjs(timestamp).format("ddd D MMMM h:mm a")}<br/>
         </Typography>
         <div className={classes.buttonWrapper}>
           <Button                   
@@ -96,7 +96,7 @@ const ShareTransferRequestModal = ({ requests }: Props) => {
             size="large"
             loading={isLoadingApprove}
             disabled={isLoadingReject || isLoadingApprove}
-            onClick={() => {onApproveRequest(request.encPubKeyX)}}>
+            onClick={onApproveRequest}>
             <Trans>Approve</Trans>
           </Button>
           <Button 
@@ -105,12 +105,11 @@ const ShareTransferRequestModal = ({ requests }: Props) => {
             size="large"
             loading={isLoadingReject}
             disabled={isLoadingApprove || isLoadingReject}
-            onClick={() => {onRejectRequest(request.encPubKeyX)}}>
+            onClick={onRejectRequest}>
             <Trans>Reject</Trans>
           </Button>
         </div>
       </>
-
     </CustomModal>
   )
 }
