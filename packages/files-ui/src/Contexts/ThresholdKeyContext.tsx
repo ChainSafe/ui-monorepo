@@ -22,6 +22,7 @@ import { signMessage, useImployApi } from "@imploy/common-contexts"
 import { Wallet } from "ethers"
 import EthCrypto from "eth-crypto"
 import { useWeb3 } from "@chainsafe/web3-context"
+import ShareTransferRequestModal from "../Components/Elements/ShareTransferRequestModal"
 import BN from "bn.js"
 
 const TORUS_POSTBOX_KEY = "csf.postboxKey"
@@ -58,7 +59,7 @@ type ThresholdKeyProviderProps = {
   apiKey?: string
 }
 
-type ShareTransferRequest = {
+export type ShareTransferRequest = {
   availableShareIndexes: Array<string>
   browserDetail: bowser.Parser.ParsedResult
   encPubKey: any
@@ -603,6 +604,11 @@ const ThresholdKeyProvider = ({
         logout: thresholdKeyLogout
       }}
     >
+      { pendingShareTransferRequests.length > 0 && (
+        <ShareTransferRequestModal
+          requests={pendingShareTransferRequests}
+        />
+      )}
       {children}
     </ThresholdKeyContext.Provider>
   )
