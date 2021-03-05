@@ -16,18 +16,17 @@ import {
   DeleteSvg,
   EditSvg,
   IMenuItem,
-  ExportIcon,
-  ShareAltIcon,
   CheckSvg,
-  ExclamationCircleInverseIcon,
   RecoverSvg,
-  ZoomInIcon,
   CheckboxInput,
-  EyeSvg
+  EyeSvg,
+  ExportSvg,
+  ShareAltSvg,
+  ExclamationCircleInverseSvg,
+  ZoomInSvg,
 } from "@chainsafe/common-components"
 import {
   makeStyles,
-  ITheme,
   createStyles,
   useDoubleClick,
   useThemeSwitcher
@@ -41,8 +40,9 @@ import { useDrag, useDrop } from "react-dnd"
 import { DragTypes } from "../DragConstants"
 import { NativeTypes } from "react-dnd-html5-backend"
 import { FileOperation, IFileConfigured } from "../types"
+import { CSFTheme } from "../../../../Themes/types"
 
-const useStyles = makeStyles(({ breakpoints, constants, palette }: ITheme) => {
+const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => {
   // const desktopGridSettings = "50px 69px 3fr 190px 100px 45px !important"
   const desktopGridSettings = "50px 69px 3fr 190px 60px !important"
   const mobileGridSettings = "69px 3fr 45px !important"
@@ -66,13 +66,14 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: ITheme) => {
       justifyContent: "center",
       "& svg": {
         width: constants.generalUnit * 2.5,
-        fill: palette.additional["gray"][8]
-      }
+        fill: constants.fileSystemItemRow.icon
+      },
     },
     folderIcon: {
       "& svg": {
-        fill: palette.additional["gray"][9]
-      }
+        // TODO: FILL
+        fill: palette.additional.gray[9],
+      },
     },
     renameInput: {
       width: "100%",
@@ -89,7 +90,7 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: ITheme) => {
     modalInner: {
       [breakpoints.down("md")]: {
         bottom:
-          (constants?.mobileButtonHeight as number) + constants.generalUnit,
+          Number(constants?.mobileButtonHeight) + constants.generalUnit,
         borderTopLeftRadius: `${constants.generalUnit * 1.5}px`,
         borderTopRightRadius: `${constants.generalUnit * 1.5}px`,
         borderBottomLeftRadius: `${constants.generalUnit * 1.5}px`,
@@ -110,8 +111,6 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: ITheme) => {
     },
     okButton: {
       marginLeft: constants.generalUnit,
-      color: palette.common.white.main,
-      backgroundColor: palette.common.black.main
     },
     cancelButton: {
       [breakpoints.down("md")]: {
@@ -129,8 +128,8 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: ITheme) => {
       width: 20,
       marginRight: constants.generalUnit * 1.5,
       "& svg": {
-        fill: palette.additional["gray"][7]
-      }
+        fill: constants.fileSystemItemRow.menuIcon
+      },
     },
     desktopRename: {
       display: "flex",
@@ -143,8 +142,22 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: ITheme) => {
     filename: {
       whiteSpace: "nowrap",
       overflow: "hidden",
-      textOverflow: "ellipsis"
-    }
+      textOverflow: "ellipsis",
+    },
+    dropdownIcon: {
+      "& svg": {
+        fill: constants.fileSystemItemRow.dropdownIcon,
+      },
+    },
+    dropdownOptions: {
+      backgroundColor: constants.fileSystemItemRow.optionsBackground,
+      color: constants.fileSystemItemRow.optionsColor,
+      border: `1px solid ${constants.fileSystemItemRow.optionsBorder}`,
+    },
+    dropdownItem: {
+      backgroundColor: constants.fileSystemItemRow.itemBackground,
+      color: constants.fileSystemItemRow.itemColor,
+    },
   })
 })
 
@@ -215,8 +228,8 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
     Icon = FileTextSvg
   }
 
+  const { desktop, themeKey } = useThemeSwitcher()
   const classes = useStyles()
-  const { desktop } = useThemeSwitcher()
 
   const menuOptions: Record<FileOperation, IMenuItem> = {
     rename: {
@@ -255,7 +268,7 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
     move: {
       contents: (
         <Fragment>
-          <ExportIcon className={classes.menuIcon} />
+          <ExportSvg className={classes.menuIcon} />
           <span>
             <Trans>Move</Trans>
           </span>
@@ -266,7 +279,7 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
     share: {
       contents: (
         <Fragment>
-          <ShareAltIcon className={classes.menuIcon} />
+          <ShareAltSvg className={classes.menuIcon} />
           <span>
             <Trans>Share</Trans>
           </span>
@@ -277,7 +290,7 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
     info: {
       contents: (
         <Fragment>
-          <ExclamationCircleInverseIcon className={classes.menuIcon} />
+          <ExclamationCircleInverseSvg className={classes.menuIcon} />
           <span>
             <Trans>Info</Trans>
           </span>
@@ -299,7 +312,7 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
     preview: {
       contents: (
         <Fragment>
-          <ZoomInIcon className={classes.menuIcon} />
+          <ZoomInSvg className={classes.menuIcon} />
           <span>
             <Trans>Preview</Trans>
           </span>
@@ -452,7 +465,11 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
                 } name`}
                 autoFocus={editing === file.cid}
               />
-              <Button variant="dashed" size="small" type="submit">
+              <Button
+                variant={themeKey === "dark" ? "outline" : "dashed"}
+                size="small"
+                type="submit"
+              >
                 <CheckSvg />
               </Button>
             </Form>
@@ -539,6 +556,11 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
           animation="none"
           anchor={desktop ? "bottom-center" : "bottom-right"}
           menuItems={menuItems}
+          classNames={{
+            icon: classes.dropdownIcon,
+            options: classes.dropdownOptions,
+            item: classes.dropdownItem,
+          }}
           indicator={MoreIcon}
         />
       </TableCell>

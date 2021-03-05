@@ -17,12 +17,7 @@ export {
   ITypography
 } from "./Create/CreateTheme"
 
-export {
-  ThemeProvider,
-  createStyles,
-  makeStyles,
-  useTheme
-} from "@material-ui/styles"
+export { ThemeProvider, createStyles, makeStyles, useTheme } from "@material-ui/styles"
 
 export { useThemeSwitcher, ThemeSwitcher, IDefaultPalette }
 export * from "./Hooks"

@@ -1,5 +1,8 @@
 import React from "react"
-import { createStyles, ITheme, makeStyles } from "@chainsafe/common-theme"
+import {
+  createStyles,
+  makeStyles,
+} from "@chainsafe/common-theme"
 import { UploadProgress } from "../../../Contexts/DriveContext"
 import {
   ProgressBar,
@@ -9,9 +12,10 @@ import {
 } from "@chainsafe/common-components"
 import clsx from "clsx"
 import { Trans } from "@lingui/macro"
+import { CSFTheme } from "../../../Themes/types"
 
 const useStyles = makeStyles(
-  ({ constants, palette, animation, breakpoints }: ITheme) => {
+  ({ constants, palette, animation, breakpoints }: CSFTheme) => {
     return createStyles({
       boxContainer: {
         backgroundColor: palette.additional["gray"][3],
@@ -39,7 +43,10 @@ const useStyles = makeStyles(
       },
       contentContainer: {
         display: "flex",
-        alignItems: "center"
+        alignItems: "center",
+        "& svg": {
+          fill: constants.uploadAlert.icon,
+        },
       },
       marginBottom: {
         marginBottom: constants.generalUnit

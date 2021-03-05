@@ -12,7 +12,6 @@ import {
 import { useImployApi } from "@imploy/common-contexts"
 import {
   makeStyles,
-  ITheme,
   createStyles,
   useThemeSwitcher
 } from "@chainsafe/common-theme"
@@ -27,9 +26,10 @@ import { LOGIN_TYPE } from "@toruslabs/torus-direct-web-sdk"
 import InitializeAccount from "../Modules/LoginModule/InitializeAccount"
 import SaveNewDevice from "../Modules/LoginModule/SaveNewDevice"
 import MissingShares from "../Modules/LoginModule/MissingShares"
+import { CSFTheme } from "../../Themes/types"
 
 const useStyles = makeStyles(
-  ({ palette, constants, typography, breakpoints }: ITheme) =>
+  ({ palette, constants, typography, breakpoints }: CSFTheme) =>
     createStyles({
       root: {
         [breakpoints.down("md")]: {
@@ -71,9 +71,9 @@ const useStyles = makeStyles(
         fontWeight: typography.fontWeight.semibold,
         paddingLeft: constants.generalUnit,
         [breakpoints.down("md")]: {
-          color: palette.common.white.main,
-          fontSize: 16
-        }
+          color: constants.landing.logoText,
+          fontSize: 16,
+        },
       },
       buttonSection: {
         paddingTop: 26,
@@ -86,14 +86,6 @@ const useStyles = makeStyles(
       button: {
         width: 240,
         marginBottom: constants.generalUnit * 2,
-        [breakpoints.up("md")]: {
-          backgroundColor: palette.common.black.main,
-          color: palette.common.white.main
-        },
-        [breakpoints.down("md")]: {
-          backgroundColor: palette.common.black.main,
-          color: palette.common.white.main
-        }
       },
       controls: {
         display: "flex",

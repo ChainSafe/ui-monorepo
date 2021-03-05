@@ -2,7 +2,6 @@ import React, { Fragment, useEffect, useRef } from "react"
 import { useState } from "react"
 import {
   createStyles,
-  ITheme,
   makeStyles,
   useThemeSwitcher
 } from "@chainsafe/common-theme"
@@ -32,6 +31,7 @@ import VideoPreview from "./PreviewRenderers/VideoPreview"
 import AudioPreview from "./PreviewRenderers/AudioPreview"
 import { useHotkeys } from "react-hotkeys-hook"
 import { t, Trans } from "@lingui/macro"
+import { CSFTheme } from "../../Themes/types"
 
 export interface IPreviewRendererProps {
   contents: Blob
@@ -50,7 +50,7 @@ const compatibleFilesMatcher = new MimeMatcher(
 )
 
 const useStyles = makeStyles(
-  ({ constants, palette, zIndex, breakpoints }: ITheme) =>
+  ({ constants, palette, zIndex, breakpoints }: CSFTheme) =>
     createStyles({
       root: {
         height: "100%",
@@ -73,8 +73,8 @@ const useStyles = makeStyles(
         width: "100%",
         maxWidth: breakpoints.values["md"],
         height: constants.generalUnit * 8,
-        backgroundColor: palette.additional["gray"][9],
-        color: palette.additional["gray"][3],
+        backgroundColor: constants.previewModal.controlsBackground,
+        color: constants.previewModal.controlsColor,
         borderWidth: 1,
         borderStyle: "solid",
         borderColor: palette.additional["gray"][8]
@@ -82,26 +82,18 @@ const useStyles = makeStyles(
       closePreviewButton: {
         marginRight: constants.generalUnit * 2,
         marginLeft: constants.generalUnit * 2,
-        fill: palette.additional["gray"][2],
-        cursor: "pointer"
+        fill: constants.previewModal.closeButtonColor,
+        cursor: "pointer",
       },
       fileOperationsMenu: {
-        fill: palette.additional["gray"][2]
+        fill: constants.previewModal.fileOpsColor,
       },
       fileName: {
         width: "100%",
         whiteSpace: "nowrap",
         overflow: "hidden",
         textOverflow: "ellipsis",
-        color: palette.additional["gray"][1]
-      },
-      menuIcon: {
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        width: 20,
-        marginRight: constants.generalUnit * 1.5,
-        fill: palette.additional["gray"][7]
+        color: constants.previewModal.fileNameColor,
       },
       previewContainer: {
         height: "100%",
@@ -117,18 +109,16 @@ const useStyles = makeStyles(
         borderRadius: constants.generalUnit * 4
       },
       previewContent: {
-        color: palette.additional["gray"][6],
-        fill: palette.additional["gray"][6],
+        color: constants.previewModal.message,
+        fill: constants.previewModal.message,
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        "& h2": {
-          margin: `${constants.generalUnit}px 0`
-        }
+        "& p": {
+          margin: `${constants.generalUnit}px 0`,
+        },
       },
       downloadButton: {
-        backgroundColor: "rgba(0,0,0, 0.88)",
-        color: palette.additional["gray"][3],
         borderColor: palette.additional["gray"][3],
         borderWidth: 1,
         borderStyle: "solid"
@@ -141,9 +131,25 @@ const useStyles = makeStyles(
       },
       loadingBar: {
         width: 150,
-        marginTop: constants.generalUnit
-      }
-    })
+        marginTop: constants.generalUnit,
+      },
+      options: {
+        backgroundColor: constants.previewModal.optionsBackground,
+        color: constants.previewModal.optionsTextColor,
+        border: constants.previewModal.optionsBorder
+      },
+      menuIcon: {
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        width: 20,
+        marginRight: constants.generalUnit * 1.5,
+        fill: constants.previewModal.menuItemIconColor
+      },
+      item: {
+        color: constants.previewModal.menuItemTextColor
+      },
+    }),
 )
 
 const FilePreviewModal: React.FC<{
@@ -279,6 +285,10 @@ const FilePreviewModal: React.FC<{
           animation="none"
           anchor="top-right"
           className={classes.fileOperationsMenu}
+          classNames={{
+            options: classes.options,
+            item: classes.item,
+          }}
           menuItems={[
             // {
             //   contents: (
@@ -370,23 +380,22 @@ const FilePreviewModal: React.FC<{
             {!isLoading &&
               !error &&
               !compatibleFilesMatcher.match(file?.content_type) && (
-              <div className={classes.previewContent}>
-                <CloseCircleIcon
-                  fontSize={desktop ? "extraLarge" : "medium"}
-                />
-                <br />
-                <Typography variant="h1">
-                  <Trans>File format not supported.</Trans>
-                </Typography>
-                <br />
-                <Button
-                  className={classes.downloadButton}
-                  onClick={() => downloadFile(file.cid)}
-                >
-                  <Trans>Download</Trans>
-                </Button>
-              </div>
-            )}
+                <div className={classes.previewContent}>
+                  <CloseCircleIcon
+                    fontSize={desktop ? "extraLarge" : "medium"}
+                  />
+                  <Typography component="p" variant="h1">
+                    <Trans>File format not supported.</Trans>
+                  </Typography>
+                  <Button
+                    className={classes.downloadButton}
+                    variant="outline"
+                    onClick={() => downloadFile(file.cid)}
+                  >
+                    <Trans>Download</Trans>
+                  </Button>
+                </div>
+              )}
             {!isLoading &&
               !error &&
               compatibleFilesMatcher.match(file?.content_type) &&

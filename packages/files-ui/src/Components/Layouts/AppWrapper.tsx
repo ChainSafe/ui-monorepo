@@ -26,10 +26,10 @@ const useStyles = makeStyles(
             // This moves the content areas based on the size of the nav bar
 
             padding: `${0}px ${constants.contentPadding}px ${0}px ${
-              (constants.navWidth as number) +
-              (constants.contentPadding as number)
-            }px`
-          }
+              Number(constants.navWidth) +
+              Number(constants.contentPadding)
+            }px`,
+          },
         },
         [breakpoints.down("md")]: {}
       },
