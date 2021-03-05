@@ -22,7 +22,6 @@ import { t } from "@lingui/macro"
 import { readFileAsync } from "../Utils/Helpers"
 import { useBeforeunload } from "react-beforeunload"
 import { getPathWithFile } from "../Utils/pathUtils"
-import { ITheme, useTheme, useMediaQuery } from "@chainsafe/common-theme"
 
 type DriveContextProps = {
   children: React.ReactNode | React.ReactNode[]
@@ -89,7 +88,6 @@ type DriveContext = {
     | undefined
   bucketType: BucketType
   loadingCurrentPath: boolean
-  desktop: boolean
 }
 
 // This represents a File or Folder on the
@@ -684,11 +682,6 @@ const DriveProvider = ({ children }: DriveContextProps) => {
     }
   }
 
-  // Media queries
-  // for testing
-  const { breakpoints }: ITheme = useTheme()
-  const desktop = useMediaQuery(breakpoints.up("md"))
-
   return (
     <DriveContext.Provider
       value={{
@@ -727,7 +720,6 @@ const DriveProvider = ({ children }: DriveContextProps) => {
         loadingCurrentPath,
         getFileInfo,
         bucketType,
-        desktop,
       }}
     >
       {children}

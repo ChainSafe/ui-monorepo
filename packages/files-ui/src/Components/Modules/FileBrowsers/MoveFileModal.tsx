@@ -1,6 +1,5 @@
 import {
   createStyles,
-  ITheme,
   makeStyles,
   useMediaQuery,
 } from "@chainsafe/common-theme"
@@ -23,18 +22,21 @@ import {
   Typography,
 } from "@chainsafe/common-components"
 import { getPathWithFile } from "../../../Utils/pathUtils"
+import { CSFTheme } from "../../../Themes/types"
 
 const useStyles = makeStyles(
-  ({ breakpoints, constants, palette, typography, zIndex }: ITheme) => {
+  ({ breakpoints, constants, palette, typography, zIndex }: CSFTheme) => {
     return createStyles({
       modalRoot: {
         zIndex: zIndex?.blocker,
         [breakpoints.down("md")]: {},
       },
       modalInner: {
+        backgroundColor: constants.moveFileModal.background,
+        color: constants.moveFileModal.color,
         [breakpoints.down("md")]: {
           bottom:
-            (constants?.mobileButtonHeight as number) + constants.generalUnit,
+            Number(constants?.mobileButtonHeight) + constants.generalUnit,
           borderTopLeftRadius: `${constants.generalUnit * 1.5}px`,
           borderTopRightRadius: `${constants.generalUnit * 1.5}px`,
           maxWidth: `${breakpoints.width("md")}px !important`,
@@ -42,8 +44,6 @@ const useStyles = makeStyles(
       },
       okButton: {
         marginLeft: constants.generalUnit,
-        color: palette.common.white.main,
-        backgroundColor: palette.common.black.main,
       },
       cancelButton: {
         [breakpoints.down("md")]: {
@@ -92,6 +92,7 @@ const MoveFileModule: React.FC<IMoveFileModuleProps> = ({
   close,
 }: IMoveFileModuleProps) => {
   const classes = useStyles()
+
   const { moveFile, getFolderTree, bulkMoveFile } = useDrive()
   const [movingFile, setMovingFile] = useState(false)
   const [movePath, setMovePath] = useState<undefined | string>(undefined)

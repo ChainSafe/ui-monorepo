@@ -1,4 +1,8 @@
-import { createStyles, ITheme, makeStyles } from "@chainsafe/common-theme"
+import {
+  createStyles,
+  makeStyles,
+  useThemeSwitcher,
+} from "@chainsafe/common-theme"
 import React, { Fragment, useCallback, useEffect } from "react"
 import {
   Divider,
@@ -44,9 +48,14 @@ import UploadFileModule from "../../UploadFileModule"
 import MoveFileModule from "../MoveFileModal"
 import FileInfoModal from "../FileInfoModal"
 import { CONTENT_TYPES } from "../../../../Utils/Constants"
+import { CSFTheme } from "../../../../Themes/types"
+
+interface IStyleProps {
+  themeKey: string
+}
 
 const useStyles = makeStyles(
-  ({ animation, breakpoints, constants, palette, zIndex }: ITheme) => {
+  ({ animation, breakpoints, constants, palette, zIndex }: CSFTheme) => {
     // const desktopGridSettings = "50px 69px 3fr 190px 100px 45px !important"
     const desktopGridSettings = "50px 69px 3fr 190px 60px !important"
     const mobileGridSettings = "69px 3fr 45px !important"
@@ -54,14 +63,14 @@ const useStyles = makeStyles(
       root: {
         position: "relative",
         [breakpoints.down("md")]: {
-          paddingLeft: constants.generalUnit * 2,
-          paddingRight: constants.generalUnit * 2,
+          marginLeft: constants.generalUnit * 2,
+          marginRight: constants.generalUnit * 2,
         },
         [breakpoints.up("md")]: {
           border: `1px solid transparent`,
           padding: `0 ${constants.generalUnit}px`,
           borderRadius: constants.generalUnit / 4,
-          minHeight: `calc(100vh - ${constants.contentTopPadding as number}px)`,
+          minHeight: `calc(100vh - ${Number(constants.contentTopPadding)}px)`,
           "&.droppable": {
             borderColor: palette.additional["geekblue"][4],
           },
@@ -105,16 +114,31 @@ const useStyles = makeStyles(
           margin: `${constants.generalUnit * 3}px 0 0`,
         },
       },
-      noFiles: {
+      noFiles: ({ themeKey }: IStyleProps) => ({
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
         marginTop: "25vh",
+        color: constants.filesTable.color,
+          // themeKey === "dark" ? palette.additional.gray[7] : "",
         "& svg": {
           maxWidth: 180,
           marginBottom: constants.generalUnit * 3,
+          "& path": {
+            "&:first-child": {
+              fill: themeKey === "dark" ? palette.additional.gray[2] : "",
+            },
+            "&:nth-child(2)": {
+              stroke: themeKey === "dark" ? palette.additional.gray[2] : "",
+              fill: themeKey === "dark" ? "transparent" : "",
+            },
+            "&:last-child": {
+              fill: themeKey === "dark" ? palette.additional.gray[4] : "",
+              stroke: themeKey === "dark" ? palette.additional.gray[2] : "",
+            },
+          },
         },
-      },
+      }),
       tableRow: {
         border: `2px solid transparent`,
         transitionDuration: `${animation.transform}ms`,
@@ -177,7 +201,7 @@ const useStyles = makeStyles(
         width: 260,
         padding: `${constants.generalUnit}px 0`,
         [breakpoints.up("md")]: {
-          left: `calc(50% + ${(constants.navWidth as number) / 2}px)`,
+          left: `calc(50% + ${Number(constants.navWidth) / 2}px)`,
         },
         "&.active": {
           opacity: 1,
@@ -241,9 +265,12 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
   uploadsInProgress,
   showUploadsInTable,
   allowDropUpload,
-  desktop,
 }: IFilesTableBrowserProps) => {
-  const classes = useStyles()
+  const { themeKey, desktop } = useThemeSwitcher()
+  const classes = useStyles({
+    themeKey,
+  })
+
   const [editing, setEditing] = useState<string | undefined>()
   const [direction, setDirection] = useState<SortDirection>("descend")
   const [column, setColumn] = useState<"name" | "size" | "date_uploaded">(
@@ -755,7 +782,6 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
                 setPreviewFileIndex={setPreviewFileIndex}
                 setMoveFileData={setMoveFileData}
                 setFileInfoPath={setFileInfoPath}
-                desktop={desktop}
               />
             ))}
           </TableBody>

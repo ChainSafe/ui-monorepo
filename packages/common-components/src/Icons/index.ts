@@ -91,6 +91,7 @@ export {
   default as MastercardCardIcon,
   MastercardCardSvg
 } from "./icons/MastercardCard.icon"
+export { default as MoonIcon, MoonSvg } from "./icons/Moon.icon"
 export { default as MoreIcon, MoreSvg } from "./icons/More.icon"
 export { default as LockIcon, LockSvg } from "./icons/Lock.icon"
 export { default as PaperclipIcon, PaperclipSvg } from "./icons/Paperclip.icon"
@@ -114,6 +115,7 @@ export { default as SearchIcon, SearchSvg } from "./icons/Search.icon"
 export { default as SettingIcon, SettingSvg } from "./icons/Setting.icon"
 export { default as ShareAltIcon, ShareAltSvg } from "./icons/ShareAlt.icon"
 export { default as StarIcon, StarSvg } from "./icons/Star.icon"
+export { default as SunIcon, SunSvg } from "./icons/Sun.icon"
 export { default as UploadIcon, UploadSvg } from "./icons/Upload.icon"
 export {
   default as UnionpayCardIcon,

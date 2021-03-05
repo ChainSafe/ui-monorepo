@@ -2,10 +2,8 @@ import React, { Fragment, useCallback, useState } from "react"
 import { useImployApi, useUser } from "@imploy/common-contexts"
 import {
   createStyles,
-  ITheme,
   makeStyles,
-  useMediaQuery,
-  useTheme,
+  useThemeSwitcher,
 } from "@chainsafe/common-theme"
 import clsx from "clsx"
 import {
@@ -15,14 +13,17 @@ import {
   HamburgerMenu,
   MenuDropdown,
   PowerDownSvg,
+  SunSvg,
+  MoonSvg,
 } from "@chainsafe/common-components"
 import { ROUTE_LINKS } from "../FilesRoutes"
 import SearchModule from "../Modules/SearchModule"
 import { Trans } from "@lingui/macro"
 import { useDrive } from "../../Contexts/DriveContext"
+import { CSFTheme } from "../../Themes/types"
 
 const useStyles = makeStyles(
-  ({ palette, animation, breakpoints, constants, zIndex }: ITheme) => {
+  ({ palette, animation, breakpoints, constants, zIndex }: CSFTheme) => {
     return createStyles({
       root: {
         position: "fixed",
@@ -36,9 +37,11 @@ const useStyles = makeStyles(
           padding: `${0}px ${constants.contentPadding}px ${0}px ${
             constants.contentPadding
           }px`,
-          left: constants.navWidth,
-          backgroundColor: palette.common.white.main,
+          left: Number(constants.navWidth),
           opacity: 0,
+
+          backgroundColor: constants.header.rootBackground,
+
           "& > *:first-child": {
             flex: "1 1 0",
           },
@@ -62,13 +65,16 @@ const useStyles = makeStyles(
           "&.active": {
             opacity: 1,
             visibility: "visible",
-            height: constants.mobileHeaderHeight,
-            zIndex: zIndex?.layer1,
+            height: Number(constants.mobileHeaderHeight),
+            zIndex: Number(zIndex?.layer1),
           },
         },
       },
       hamburgerMenu: {
         position: "absolute",
+        "& span": {
+          backgroundColor: constants.header.hamburger
+        }
       },
       logo: {
         textDecoration: "none",
@@ -108,19 +114,6 @@ const useStyles = makeStyles(
           marginRight: constants.generalUnit * 2,
         },
       },
-      menuItem: {
-        width: 100,
-        display: "flex",
-        flexDirection: "row",
-        alignItems: "center",
-        color: palette.additional["gray"][8],
-        "& svg": {
-          width: constants.generalUnit * 2,
-          height: constants.generalUnit * 2,
-          marginRight: constants.generalUnit,
-          fill: palette.additional["gray"][7],
-        },
-      },
       searchModule: {
         [breakpoints.down("md")]: {
           height: constants.mobileHeaderHeight,
@@ -129,6 +122,31 @@ const useStyles = makeStyles(
           width: "100%",
           zIndex: zIndex?.background,
           "&.active": {},
+        },
+      },
+      options: {
+        backgroundColor: constants.header.optionsBackground,
+        color: constants.header.optionsTextColor,
+        border: `1px solid ${constants.header.optionsBorder}`,
+        minWidth: 145
+      },
+      menuItem: {
+        width: "100%",
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "center",
+        color: constants.header.menuItemTextColor,
+        "& svg": {
+          width: constants.generalUnit * 2,
+          height: constants.generalUnit * 2,
+          marginRight: constants.generalUnit,
+          fill: palette.additional["gray"][7],
+          stroke: palette.additional["gray"][7],
+        },
+      },
+      icon: {
+        "& svg": {
+          fill: constants.header.iconColor,
         },
       },
     })
@@ -144,9 +162,9 @@ const AppHeader: React.FC<IAppHeader> = ({
   navOpen,
   setNavOpen,
 }: IAppHeader) => {
+  const { themeKey, setTheme, desktop } = useThemeSwitcher()
+
   const classes = useStyles()
-  const { breakpoints }: ITheme = useTheme()
-  const desktop = useMediaQuery(breakpoints.up("md"))
 
   const { isLoggedIn, logout, secured } = useImployApi()
   const { isMasterPasswordSet } = useDrive()
@@ -180,6 +198,10 @@ const AppHeader: React.FC<IAppHeader> = ({
                 <MenuDropdown
                   title={getProfileTitle()}
                   anchor="bottom-right"
+                  classNames={{
+                    icon: classes.icon,
+                    options: classes.options,
+                  }}
                   menuItems={[
                     {
                       onClick: () => signOut(),
@@ -188,6 +210,18 @@ const AppHeader: React.FC<IAppHeader> = ({
                           <PowerDownSvg />
                           <Typography>
                             <Trans>Sign Out</Trans>
+                          </Typography>
+                        </div>
+                      ),
+                    },
+                    {
+                      onClick: () =>
+                        setTheme(themeKey === "dark" ? "light" : "dark"),
+                      contents: (
+                        <div className={classes.menuItem}>
+                          {themeKey === "dark" ? <SunSvg /> : <MoonSvg />}
+                          <Typography>
+                            {themeKey === "dark" ? <Trans>Light mode</Trans> : <Trans>Dark mode</Trans>}
                           </Typography>
                         </div>
                       ),

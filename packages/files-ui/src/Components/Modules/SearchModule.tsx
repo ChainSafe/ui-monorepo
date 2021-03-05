@@ -1,11 +1,9 @@
 import {
   createStyles,
   debounce,
-  ITheme,
   makeStyles,
-  useMediaQuery,
   useOnClickOutside,
-  useTheme,
+  useThemeSwitcher,
 } from "@chainsafe/common-theme"
 import React, { ChangeEvent, useRef } from "react"
 import {
@@ -22,9 +20,10 @@ import { useDrive, SearchEntry } from "../../Contexts/DriveContext"
 import { CONTENT_TYPES } from "../../Utils/Constants"
 import { getParentPathFromFilePath } from "../../Utils/pathUtils"
 import { Trans } from "@lingui/macro"
+import { CSFTheme } from "../../Themes/types"
 
 const useStyles = makeStyles(
-  ({ breakpoints, palette, constants, animation, zIndex, shadows }: ITheme) =>
+  ({ breakpoints, palette, constants, animation, zIndex, shadows }: CSFTheme) =>
     createStyles({
       root: {
         position: "relative",
@@ -70,7 +69,7 @@ const useStyles = makeStyles(
         transition: `opacity ${animation.transform}ms ease`,
         zIndex: zIndex?.layer3,
         [breakpoints.down("md")]: {
-          top: constants.mobileHeaderHeight as number,
+          top: Number(constants.mobileHeaderHeight),
         },
         [breakpoints.up("md")]: {
           marginTop: constants.generalUnit,
@@ -89,26 +88,26 @@ const useStyles = makeStyles(
         },
       },
       resultsBox: {
-        backgroundColor: palette.common.white.main,
+        backgroundColor:constants.searchModule.resultsBackground,
         padding: constants.generalUnit * 1,
       },
       resultBackDrop: {
         height: "100%",
-        backgroundColor: palette.additional["gray"][9],
+        backgroundColor: constants.searchModule.resultsBackdrop,
         opacity: 0.7,
       },
       resultHead: {
         padding: `${constants.generalUnit * 0.5}px ${
           constants.generalUnit * 1
         }px`,
-        color: palette.additional["gray"][8],
+        color:constants.searchModule.resultsHeading,
       },
       resultHeadFolder: {
         marginTop: constants.generalUnit * 0.5,
         padding: `${constants.generalUnit * 0.5}px  ${
           constants.generalUnit * 1
         }px`,
-        color: palette.additional["gray"][8],
+        color: constants.searchModule.resultsFolder,
       },
       boldFont: {
         fontWeight: 700,
@@ -118,14 +117,14 @@ const useStyles = makeStyles(
           constants.generalUnit * 1
         }px`,
         cursor: "pointer",
-        color: palette.additional["gray"][8],
+        color:constants.searchModule.resultsRow,
         "&:hover": {
           backgroundColor: palette.additional["gray"][4],
         },
       },
       noResultsFound: {
         margin: `${constants.generalUnit}px 0`,
-        color: palette.additional["gray"][7],
+        color: constants.searchModule.noResults,
         [breakpoints.down("md")]: {
           textAlign: "center",
         },
@@ -144,15 +143,17 @@ const SearchModule: React.FC<ISearchModule> = ({
   searchActive,
   setSearchActive,
 }: ISearchModule) => {
-  const classes = useStyles()
+  const { themeKey, desktop } = useThemeSwitcher()
+  const classes = useStyles({
+    themeKey,
+  })
+
   const [searchString, setSearchString] = useState<string>("")
   const [searchStringCallback, setSearchStringCallback] = useState<string>("")
   const [searchResults, setSearchResults] = useState<SearchEntry[]>([])
   const ref = useRef(null)
   const { getSearchResults, currentSearchBucket } = useDrive()
 
-  const { breakpoints }: ITheme = useTheme()
-  const desktop = useMediaQuery(breakpoints.up("md"))
   const { redirect } = useHistory()
 
   const onSearch = async (searchString: string) => {

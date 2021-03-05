@@ -1,8 +1,8 @@
 import {
   createStyles,
   debounce,
-  ITheme,
   makeStyles,
+  useThemeSwitcher,
 } from "@chainsafe/common-theme"
 import React, { useState, useEffect, useCallback } from "react"
 import CustomModal from "../../Elements/CustomModal"
@@ -17,26 +17,29 @@ import {
   Typography,
 } from "@chainsafe/common-components"
 import clsx from "clsx"
+import { CSFTheme } from "../../../Themes/types"
 
 const useStyles = makeStyles(
-  ({ breakpoints, constants, palette, typography, zIndex }: ITheme) => {
+  ({ breakpoints, constants, palette, typography, zIndex }: CSFTheme) => {
     return createStyles({
       modalRoot: {
         zIndex: zIndex?.blocker,
         [breakpoints.down("md")]: {},
       },
       modalInner: {
+        backgroundColor: constants.fileInfoModal.background,
+        color: constants.fileInfoModal.color,
         [breakpoints.down("md")]: {
           bottom:
-            (constants?.mobileButtonHeight as number) + constants.generalUnit,
+            Number(constants?.mobileButtonHeight) + constants.generalUnit,
           borderTopLeftRadius: `${constants.generalUnit * 1.5}px`,
           borderTopRightRadius: `${constants.generalUnit * 1.5}px`,
           maxWidth: `${breakpoints.width("md")}px !important`,
         },
       },
       copyButton: {
-        color: palette.common.white.main,
-        backgroundColor: palette.common.black.main,
+        backgroundColor: constants.fileInfoModal.copyButtonBackground,
+        color: constants.fileInfoModal.color,
         flex: 1,
         [breakpoints.down("md")]: {
           margin: `${constants.generalUnit * 2}px`,
@@ -72,8 +75,7 @@ const useStyles = makeStyles(
         textAlign: "left",
       },
       infoContainer: {
-        borderTop: `1px solid ${palette.additional["gray"][5]}`,
-        // borderBottom: `1px solid ${palette.additional["gray"][5]}`,
+        borderTop: constants.fileInfoModal.infoContainerBorderTop,
         padding: `${constants.generalUnit * 2}px ${
           constants.generalUnit * 3
         }px`,
@@ -116,7 +118,9 @@ const FileInfoModal: React.FC<IFileInfoModuleProps> = ({
   fileInfoPath,
   close,
 }: IFileInfoModuleProps) => {
+  const { themeKey } = useThemeSwitcher()
   const classes = useStyles()
+
   const { getFileInfo } = useDrive()
   const [loadingFileInfo, setLoadingInfo] = useState(false)
   const [fullFileInfo, setFullFullInfo] = useState<FileFullInfo | undefined>(
@@ -291,7 +295,7 @@ const FileInfoModal: React.FC<IFileInfoModuleProps> = ({
               onClick={() => close()}
               size="large"
               className={classes.closeButton}
-              variant="dashed"
+              variant={themeKey === "dark" ? "outline" : "dashed"}
               type="button"
             >
               <Trans>Close</Trans>
