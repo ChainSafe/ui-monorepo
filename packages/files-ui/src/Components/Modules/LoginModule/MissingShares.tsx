@@ -1,6 +1,7 @@
 import React, { useState } from "react"
 import { useThresholdKey } from "../../../Contexts/ThresholdKeyContext"
 import { Button, TextInput } from "@chainsafe/common-components"
+import {SECURITY_QUESTIONS_MODULE_NAME} from "@tkey/security-questions"
 
 const MissingShares: React.FC = () => {
   const {
@@ -18,7 +19,7 @@ const MissingShares: React.FC = () => {
     : []
 
   const hasPasswordShare =
-    shares.filter((s) => s.module === "securityQuestions").length > 0
+    shares.filter((s) => s.module === SECURITY_QUESTIONS_MODULE_NAME).length > 0
 
   const handleSubmitPassword = async () => {
     if (!password) return
