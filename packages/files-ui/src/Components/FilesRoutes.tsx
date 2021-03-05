@@ -6,7 +6,6 @@ import { useImployApi } from "@imploy/common-contexts"
 import HomePage from "./Pages/HomePage"
 import SearchPage from "./Pages/SearchPage"
 import BinPage from "./Pages/BinPage"
-import OAuthCallbackPage from "./Pages/OAuthCallback"
 import PurchasePlanPage from "./Pages/PurchasePlanPage"
 import { useThresholdKey } from "../Contexts/ThresholdKeyContext"
 
@@ -18,95 +17,56 @@ export const ROUTE_LINKS = {
   Search: (search?: string) => `/search${search ? `?search=${search}` : ""}`,
   Bin: "/bin",
   Settings: "/settings",
-  OAuthCallback: "/oauth2/callback/:provider",
   PurchasePlan: "/settings/purchase"
 }
 
 const FilesRoutes = () => {
   const { isLoggedIn, secured } = useImployApi()
   const { isNewDevice, publicKey, shouldInitializeAccount } = useThresholdKey()
+
+  const isAuthorized = isLoggedIn && secured && !!publicKey && !isNewDevice && !shouldInitializeAccount
+  
   return (
     <Switch>
       <ConditionalRoute
         exact
         path={ROUTE_LINKS.Landing}
-        isAuthorized={
-          !isLoggedIn ||
-          !secured ||
-          !publicKey ||
-          isNewDevice ||
-          shouldInitializeAccount
-        }
+        isAuthorized={!isAuthorized}
         component={LoginPage}
         redirectPath={ROUTE_LINKS.Home()}
       />
       <ConditionalRoute
         exact
         path={ROUTE_LINKS.Home()}
-        isAuthorized={
-          isLoggedIn &&
-          secured &&
-          !!publicKey &&
-          !isNewDevice &&
-          !shouldInitializeAccount
-        }
+        isAuthorized={isAuthorized}
         component={HomePage}
         redirectPath={ROUTE_LINKS.Landing}
       />
       <ConditionalRoute
         exact
         path={ROUTE_LINKS.Search()}
-        isAuthorized={          isLoggedIn &&
-          secured &&
-          !!publicKey &&
-          !isNewDevice &&
-          !shouldInitializeAccount}
+        isAuthorized={isAuthorized}
         component={SearchPage}
         redirectPath={ROUTE_LINKS.Landing}
       />
       <ConditionalRoute
         exact
         path={ROUTE_LINKS.Bin}
-        isAuthorized={
-          isLoggedIn &&
-          secured &&
-          !!publicKey &&
-          !isNewDevice &&
-          !shouldInitializeAccount
-        }
+        isAuthorized={isAuthorized        }
         component={BinPage}
         redirectPath={ROUTE_LINKS.Landing}
       />
       <ConditionalRoute
         exact
         path={ROUTE_LINKS.Settings}
-        isAuthorized={
-          isLoggedIn &&
-          secured &&
-          !!publicKey &&
-          !isNewDevice &&
-          !shouldInitializeAccount
-        }
+        isAuthorized={isAuthorized}
         component={SettingsPage}
         redirectPath={ROUTE_LINKS.Landing}
       />
       <ConditionalRoute
         exact
-        path={ROUTE_LINKS.OAuthCallback}
-        isAuthorized={!isLoggedIn}
-        component={OAuthCallbackPage}
-        redirectPath={ROUTE_LINKS.Landing}
-      />
-      <ConditionalRoute
-        exact
         path={ROUTE_LINKS.PurchasePlan}
-        isAuthorized={
-          isLoggedIn &&
-          secured &&
-          !!publicKey &&
-          !isNewDevice &&
-          !shouldInitializeAccount
-        }
+        isAuthorized={isAuthorized}
         component={PurchasePlanPage}
         redirectPath={ROUTE_LINKS.Landing}
       />

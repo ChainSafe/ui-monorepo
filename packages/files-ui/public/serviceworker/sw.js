@@ -1,3 +1,8 @@
+// This service worker handles all OAuth redirects and calls, as well as parsing 
+// tokens returned, parsing said tokens and communication with the DirectAuth SDK.
+// For more information see https://github.com/torusresearch/torus-direct-web-sdk/blob/master/README.md
+// and https://docs.tor.us/direct-auth/integrating-directauth
+
 /* eslint-disable */
 function getScope() {
   return self.registration.scope;

@@ -102,6 +102,8 @@ const ThresholdKeyProvider = ({
       const tkeySerialized = sessionStorage.getItem(TKEY_STORE_KEY)
       const postboxKey = sessionStorage.getItem(TORUS_POSTBOX_KEY)
       let tkey: ThresholdKey
+
+      // If Session storage contains all the data necessary to recreate the TKey object
       if (postboxKey && tkeySerialized) {
         const modules = {
           [SECURITY_QUESTIONS_MODULE_NAME]: new SecurityQuestionsModule(),
@@ -139,6 +141,8 @@ const ThresholdKeyProvider = ({
         const keyDetails = tkey.getKeyDetails()
         setKeyDetails(keyDetails)
       } else {
+        // If no session storage is available, instantiate a new Threshold key
+        // The user will be required to log in to the respective service 
         tkey = new ThresholdKey({
           modules: {
             [SECURITY_QUESTIONS_MODULE_NAME]: new SecurityQuestionsModule(),
@@ -174,12 +178,15 @@ const ThresholdKeyProvider = ({
   // Reconstruct Key effect
   useEffect(() => {
     const reconstructKey = async () => {
-      console.log("Minimum number of shares is reached, reconstructing key")
       if (!TKeySdk) return
+      console.log("Minimum number of shares is reached, reconstructing key")
       try {
         const { privKey } = await TKeySdk.reconstructKey(false)
         setPrivateKey(privKey.toString("hex"))
       } catch (error) {
+        // Under certain circumstances (approval of login on another device) the metadata
+        // cached may be stale, resulting in a failure to reconstruct the key. This is 
+        // identified through the nonce. Manually refreshing the metadata cache solves this problem
         if (error.message.includes("nonce")) {
           await TKeySdk.updateMetadata()
           const { privKey } = await TKeySdk.reconstructKey(false)

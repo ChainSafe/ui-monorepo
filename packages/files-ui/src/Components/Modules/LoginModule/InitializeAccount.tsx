@@ -11,7 +11,7 @@ const InitializeAccount: React.FC = () => {
     resetShouldInitialize
   } = useThresholdKey()
   const [password, setPassword] = useState<string | undefined>("")
-  const [dismissNewKey, setDismissNewKey] = useState(false)
+  const [showOnboardingInfo, setShowOnboardingInfo] = useState(false)
   const [mnemonic, setMnemonic] = useState("")
 
   const shares = keyDetails
@@ -38,11 +38,11 @@ const InitializeAccount: React.FC = () => {
 
   return (
     <div>
-      {isNewKey && !dismissNewKey ? (
+      {isNewKey && !showOnboardingInfo ? (
         <>
           <Typography variant="h5">This is a new account</Typography>
           <Typography>Lorem ipsum setup info</Typography>
-          <Button onClick={() => setDismissNewKey(true)}>Lets go</Button>
+          <Button onClick={() => setShowOnboardingInfo(true)}>Lets go</Button>
         </>
       ) : (
         <>

@@ -250,8 +250,6 @@ const DriveProvider = ({ children }: DriveContextProps) => {
       ).toString("base64")
       console.log("New key", key)
       setEncryptionKey(key)
-      // const serializedKey = Buffer.from(key).toString("base64")
-      // console.log("Encryption key ", serializedKey)
       const encryptedKey = await encryptForPublicKey(publicKey, key)
       console.log("Encrypted encryption key", encryptedKey)
       secureThresholdKeyAccount(encryptedKey)

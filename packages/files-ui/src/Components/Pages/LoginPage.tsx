@@ -252,11 +252,6 @@ const LoginPage = () => {
     setIsConnecting(false)
   }
 
-  // const onLoginWithProvider = async (provider: OAuthProvider) => {
-  //   const oauthUrl = await getProviderUrl(provider)
-  //   window.location.href = oauthUrl
-  // }
-
   const maintenanceMode = process.env.REACT_APP_MAINTENANCE_MODE === "true"
 
   const shouldSaveNewDevice =
