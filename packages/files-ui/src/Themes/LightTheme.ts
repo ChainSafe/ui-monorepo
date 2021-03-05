@@ -1,7 +1,7 @@
 import { createTheme } from "@chainsafe/common-theme"
-import { UI_COLORS, UI_CONSTANTS } from "./Constants"
+import { CsfColors, UI_CONSTANTS } from "./Constants"
 
-export const lightTheme = createTheme<UI_COLORS>({
+export const lightTheme = createTheme<CsfColors>({
   themeConfig: {
     palette: {
       primary: {
@@ -118,7 +118,7 @@ export const lightTheme = createTheme<UI_COLORS>({
         uploadAlert: {
           icon: "initial"
         }
-      } as UI_COLORS)
+      } as CsfColors)
     },
     overrides: {
       Typography: {
