@@ -10,42 +10,44 @@ import LandingImage from "../../Media/devices.png"
 interface Props {
     requests: ShareTransferRequest[]
 }
+
+const useStyles = makeStyles(({ breakpoints, constants, palette }: ITheme) =>
+  createStyles({
+    root: {},
+    modalInner: {
+      padding: constants.generalUnit * 4,
+      textAlign: "center",
+
+      "& img" : {
+        width: "min-content",
+        margin: "auto",
+        marginTop: constants.generalUnit * 5,
+        marginBottom: constants.generalUnit * 5
+      }
+    },
+    button: {
+      width: 240,
+      marginBottom: constants.generalUnit * 2,
+      [breakpoints.up("md")]: {
+        backgroundColor: palette.common.black.main,
+        color: palette.common.white.main
+      },
+      [breakpoints.down("md")]: {
+        backgroundColor: palette.common.black.main,
+        color: palette.common.white.main
+      }
+    },
+    buttonWrapper: {
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      marginTop: constants.generalUnit * 4
+    }
+  })
+)
+
 const ShareTransferRequestModal = ({ requests }: Props) => {
   const { approveShareTransferRequest, rejectShareTransferRequest } = useThresholdKey()
-  const useStyles = makeStyles(({ breakpoints, constants, palette }: ITheme) =>
-    createStyles({
-      root: {},
-      modalInner: {
-        padding: constants.generalUnit * 4,
-        textAlign: "center",
-
-        "& img" : {
-          width: "min-content",
-          margin: "auto",
-          marginTop: constants.generalUnit * 5,
-          marginBottom: constants.generalUnit * 5
-        }
-      },
-      button: {
-        width: 240,
-        marginBottom: constants.generalUnit * 2,
-        [breakpoints.up("md")]: {
-          backgroundColor: palette.common.black.main,
-          color: palette.common.white.main
-        },
-        [breakpoints.down("md")]: {
-          backgroundColor: palette.common.black.main,
-          color: palette.common.white.main
-        }
-      },
-      buttonWrapper: {
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        marginTop: constants.generalUnit * 4
-      }
-    })
-  )
   const { desktop } = useThemeSwitcher()
   const classes = useStyles()
   const [isLoadingApprove, setIsLoadingApprove] = useState(false)
