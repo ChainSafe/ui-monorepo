@@ -216,7 +216,7 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
   setFileInfoPath,
   handleSelect
 }) => {
-  const {cid, name, isFolder, size, operations, content_type} = file;
+  const { cid, name, isFolder, size, operations, content_type } = file
   let Icon
   if (isFolder) {
     Icon = FolderFilledSvg
@@ -241,7 +241,7 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
           </span>
         </Fragment>
       ),
-      onClick: () => setEditing(cid),
+      onClick: () => setEditing(cid)
     },
     delete: {
       contents: (
@@ -252,7 +252,7 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
           </span>
         </Fragment>
       ),
-      onClick: () => deleteFile && deleteFile(cid),
+      onClick: () => deleteFile && deleteFile(cid)
     },
     download: {
       contents: (
@@ -263,7 +263,7 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
           </span>
         </Fragment>
       ),
-      onClick: () => downloadFile && downloadFile(cid),
+      onClick: () => downloadFile && downloadFile(cid)
     },
     move: {
       contents: (
@@ -296,7 +296,7 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
           </span>
         </Fragment>
       ),
-      onClick: () => setFileInfoPath(`${currentPath}${name}`),
+      onClick: () => setFileInfoPath(`${currentPath}${name}`)
     },
     recover: {
       contents: (
@@ -307,7 +307,7 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
           </span>
         </Fragment>
       ),
-      onClick: () => recoverFile && recoverFile(cid),
+      onClick: () => recoverFile && recoverFile(cid)
     },
     preview: {
       contents: (
@@ -329,12 +329,12 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
           </span>
         </Fragment>
       ),
-      onClick: () => viewFolder && viewFolder(cid),
-    },
+      onClick: () => viewFolder && viewFolder(cid)
+    }
   }
 
   const menuItems: IMenuItem[] = operations.map(
-    (itemOperation) => menuOptions[itemOperation],
+    (itemOperation) => menuOptions[itemOperation]
   )
 
   const [, dragMoveRef, preview] = useDrag({
@@ -351,7 +351,7 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
       handleMove &&
         (await handleMove(
           `${currentPath}${item.payload.name}`,
-          `${currentPath}${name}/${item.payload.name}`,
+          `${currentPath}${name}/${item.payload.name}`
         ))
     },
     collect: (monitor) => ({
@@ -391,17 +391,17 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
   const onFolderOrFileClicks = desktop
     ? click
     : () => {
-        isFolder
-          ? updateCurrentPath(`${currentPath}${name}`, undefined, true)
-          : setPreviewFileIndex(files?.indexOf(file))
-      }
+      isFolder
+        ? updateCurrentPath(`${currentPath}${name}`, undefined, true)
+        : setPreviewFileIndex(files?.indexOf(file))
+    }
 
   return (
     <TableRow
       key={`files-${index}`}
       className={clsx(classes.tableRow, {
         droppable: isFolder && (isOverMove || isOverUpload),
-        folder: isFolder,
+        folder: isFolder
       })}
       type="grid"
       rowSelectable={true}
@@ -435,14 +435,14 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
         {editing === cid && desktop ? (
           <Formik
             initialValues={{
-              fileName: name,
+              fileName: name
             }}
             validationSchema={RenameSchema}
             onSubmit={(values) => {
               handleRename &&
                 handleRename(
                   `${currentPath}${name}`,
-                  `${currentPath}${values.fileName}`,
+                  `${currentPath}${values.fileName}`
                 )
               setEditing(undefined)
             }}
@@ -483,14 +483,14 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
           >
             <Formik
               initialValues={{
-                fileName: name,
+                fileName: name
               }}
               validationSchema={RenameSchema}
               onSubmit={(values) => {
                 handleRename &&
                   handleRename(
                     `${currentPath}${name}`,
-                    `${currentPath}${values.fileName}`,
+                    `${currentPath}${values.fileName}`
                   )
                 setEditing(undefined)
               }}
