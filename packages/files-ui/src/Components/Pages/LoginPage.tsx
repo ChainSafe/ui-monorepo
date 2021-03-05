@@ -7,13 +7,13 @@ import {
   FacebookLogoIcon,
   GithubLogoIcon,
   ChainsafeFilesLogo,
-  Divider,
+  Divider
 } from "@chainsafe/common-components"
-import { useImployApi, OAuthProvider } from "@imploy/common-contexts"
+import { useImployApi } from "@imploy/common-contexts"
 import {
   makeStyles,
   createStyles,
-  useThemeSwitcher,
+  useThemeSwitcher
 } from "@chainsafe/common-theme"
 import { useWeb3 } from "@chainsafe/web3-context"
 import LargeLightBulbSvg from "../../Media/LargeLightBulb.svg"
@@ -21,8 +21,11 @@ import SmallBranchSvg from "../../Media/SmallBranch.svg"
 import { Trans } from "@lingui/macro"
 import { ROUTE_LINKS } from "../FilesRoutes"
 import LandingImage from "../../Media/auth.jpg"
-import MasterKeyModule from "../Modules/MasterKeySequence/MasterKeyModule"
-import EnterMasterKeySlide from "../Modules/MasterKeySequence/SequenceSlides/EnterMasterKey.slide"
+import { useThresholdKey } from "../../Contexts/ThresholdKeyContext"
+import { LOGIN_TYPE } from "@toruslabs/torus-direct-web-sdk"
+import InitializeAccount from "../Modules/LoginModule/InitializeAccount"
+import SaveNewDevice from "../Modules/LoginModule/SaveNewDevice"
+import MissingShares from "../Modules/LoginModule/MissingShares"
 import { CSFTheme } from "../../Themes/types"
 
 const useStyles = makeStyles(
@@ -32,8 +35,8 @@ const useStyles = makeStyles(
         [breakpoints.down("md")]: {
           backgroundColor: palette.common.black.main,
           height: "100vh",
-          display: "flex",
-        },
+          display: "flex"
+        }
       },
       imageSection: {
         backgroundColor: palette.common.black.main,
@@ -45,32 +48,32 @@ const useStyles = makeStyles(
         display: "flex",
         flexFlow: "column",
         "& > img": {
-          width: `calc(100% - 100px)`,
+          width: "calc(100% - 100px)",
           maxWidth: "1200px",
-          maxHeight: `calc(100% - 100px)`,
-          margin: 50,
-        },
+          maxHeight: "calc(100% - 100px)",
+          margin: 50
+        }
       },
       logoContainer: {
         display: "flex",
         alignItems: "center",
         [breakpoints.down("md")]: {
-          "& > svg": {},
-        },
+          "& > svg": {}
+        }
       },
       logoImage: {
         [breakpoints.down("md")]: {
           width: constants.generalUnit * 4.5,
-          height: constants.generalUnit * 4.5,
-        },
+          height: constants.generalUnit * 4.5
+        }
       },
       logoText: {
         fontWeight: typography.fontWeight.semibold,
         paddingLeft: constants.generalUnit,
         [breakpoints.down("md")]: {
           color: constants.landing.logoText,
-          fontSize: 16,
-        },
+          fontSize: 16
+        }
       },
       buttonSection: {
         paddingTop: 26,
@@ -78,44 +81,44 @@ const useStyles = makeStyles(
         flexDirection: "column",
         alignItems: "center",
         justifyItems: "flex-start",
-        zIndex: 0,
+        zIndex: 0
       },
       button: {
         width: 240,
-        marginBottom: constants.generalUnit * 2,
+        marginBottom: constants.generalUnit * 2
       },
       controls: {
         display: "flex",
         flexDirection: "column",
         height: 0,
         justifyContent: "center",
-        flex: "1 1 0",
+        flex: "1 1 0"
       },
       error: {
         color: palette.error.main,
         paddingBottom: constants.generalUnit * 2,
-        maxWidth: 240,
+        maxWidth: 240
       },
       imageCaption: {
-        fontSize: 20,
+        fontSize: 20
       },
       headerText: {
         paddingBottom: constants.generalUnit * 8,
         [breakpoints.down("md")]: {
           color: palette.common.white.main,
-          textAlign: "center",
-        },
+          textAlign: "center"
+        }
       },
       termsText: {
-        marginTop: constants.generalUnit * 2,
+        marginTop: constants.generalUnit * 2
       },
       footerText: {
         marginTop: constants.generalUnit * 4,
         fontSize: 16,
         [breakpoints.down("md")]: {
           color: palette.common.white.main,
-          textAlign: "center",
-        },
+          textAlign: "center"
+        }
       },
       toggleMode: {
         fontWeight: typography.fontWeight.semibold,
@@ -123,8 +126,8 @@ const useStyles = makeStyles(
         cursor: "pointer",
         [breakpoints.down("md")]: {
           color: palette.common.white.main,
-          textAlign: "center",
-        },
+          textAlign: "center"
+        }
       },
       largeBulb: {
         position: "fixed",
@@ -133,7 +136,7 @@ const useStyles = makeStyles(
         top: "-5vw",
         right: 0,
         maxWidth: "50vw",
-        zIndex: 0,
+        zIndex: 0
       },
       smallBranch: {
         position: "fixed",
@@ -142,15 +145,15 @@ const useStyles = makeStyles(
         maxWidth: "35vw",
         width: "auto",
         height: "auto",
-        zIndex: 0,
+        zIndex: 0
       },
       betaCaption: {
         marginBottom: constants.generalUnit * 0.5,
         [breakpoints.down("md")]: {
-          color: palette.common.white.main,
-        },
-      },
-    }),
+          color: palette.common.white.main
+        }
+      }
+    })
 )
 
 const LoginPage = () => {
@@ -158,17 +161,19 @@ const LoginPage = () => {
   const { desktop } = useThemeSwitcher()
   const {
     isReturningUser,
-    web3Login,
     selectWallet,
-    resetAndSelectWallet,
-    getProviderUrl,
-    secured,
-    isLoggedIn,
+    resetAndSelectWallet
   } = useImployApi()
   const { provider, wallet } = useWeb3()
+  const {
+    login,
+    isNewDevice,
+    keyDetails,
+    shouldInitializeAccount
+  } = useThresholdKey()
   const [error, setError] = useState<string>("")
   const [activeMode, setActiveMode] = useState<"newUser" | "returningUser">(
-    isReturningUser ? "returningUser" : "newUser",
+    isReturningUser ? "returningUser" : "newUser"
   )
 
   const toggleActiveMode = () =>
@@ -206,7 +211,7 @@ const LoginPage = () => {
     setIsConnecting(true)
     setShowSignatureMessage(true)
     try {
-      await web3Login()
+      await login("web3")
     } catch (error) {
       let errorMessage = "There was an error authenticating"
       if (Array.isArray(error) && error[0]) {
@@ -229,12 +234,22 @@ const LoginPage = () => {
     setShowSignatureMessage(false)
   }
 
-  const onLoginWithProvider = async (provider: OAuthProvider) => {
-    const oauthUrl = await getProviderUrl(provider)
-    window.location.href = oauthUrl
+  const handleOAuthLogin = async (loginType: LOGIN_TYPE) => {
+    setIsConnecting(true)
+    try {
+      await login(loginType)
+    } catch (error) {
+      console.log(error)
+    }
+    setIsConnecting(false)
   }
 
-  const maintenanceMode = Boolean(process.env.REACT_APP_MAINTENANCE_MODE)
+  const maintenanceMode = process.env.REACT_APP_MAINTENANCE_MODE === "true"
+
+  const shouldSaveNewDevice =
+    !!keyDetails && keyDetails.requiredShares <= 0 && isNewDevice
+
+  const areSharesMissing = !!keyDetails && keyDetails.requiredShares > 0
 
   return (
     <div className={classes.root}>
@@ -269,7 +284,7 @@ const LoginPage = () => {
             </Typography>
           </div>
           <div className={classes.controls}>
-            {!isLoggedIn ? (
+            {!keyDetails && (
               <>
                 <Typography
                   variant="h6"
@@ -285,7 +300,7 @@ const LoginPage = () => {
                 )}
                 {maintenanceMode && (
                   <Typography className={classes.error}>
-                    We're undergoing maintenance, thank you for being patient
+                    We`&apos;`re undergoing maintenance, thank you for being patient
                   </Typography>
                 )}
 
@@ -346,7 +361,7 @@ const LoginPage = () => {
                   className={classes.button}
                   variant={desktop ? "primary" : "outline"}
                   size="large"
-                  onClick={() => onLoginWithProvider("github")}
+                  onClick={() => handleOAuthLogin("github")}
                   disabled={maintenanceMode || isConnecting}
                 >
                   <GithubLogoIcon />
@@ -356,7 +371,7 @@ const LoginPage = () => {
                   className={classes.button}
                   variant={desktop ? "primary" : "outline"}
                   size="large"
-                  onClick={() => onLoginWithProvider("google")}
+                  onClick={() => handleOAuthLogin("google")}
                   disabled={maintenanceMode || isConnecting}
                 >
                   <GoogleLogoIcon />
@@ -366,7 +381,7 @@ const LoginPage = () => {
                   className={classes.button}
                   size="large"
                   variant={desktop ? "primary" : "outline"}
-                  onClick={() => onLoginWithProvider("facebook")}
+                  onClick={() => handleOAuthLogin("facebook")}
                   disabled={maintenanceMode || isConnecting}
                 >
                   <FacebookLogoIcon />
@@ -412,11 +427,10 @@ const LoginPage = () => {
                   )}
                 </Typography>
               </>
-            ) : !secured ? (
-              <MasterKeyModule />
-            ) : (
-              <EnterMasterKeySlide />
             )}
+            {areSharesMissing && <MissingShares />}
+            {shouldInitializeAccount && <InitializeAccount />}
+            {shouldSaveNewDevice && <SaveNewDevice />}
           </div>
         </Grid>
       </Grid>

@@ -5,7 +5,7 @@ import {
   Typography,
   ProgressBar,
   formatBytes,
-  Link,
+  Link
 } from "@chainsafe/common-components"
 import { makeStyles, ITheme, createStyles } from "@chainsafe/common-theme"
 import clsx from "clsx"
@@ -18,24 +18,24 @@ const useStyles = makeStyles((theme: ITheme) =>
   createStyles({
     container: {
       marginTop: 20,
-      marginBottom: 160,
+      marginBottom: 160
     },
     bodyContainer: {
       padding: `${theme.constants.generalUnit * 3}px 0px`,
       borderBottom: `1px solid ${theme.palette.additional["gray"][4]}`,
       [theme.breakpoints.down("md")]: {
-        borderBottom: "none",
-      },
+        borderBottom: "none"
+      }
     },
     storageBox: {
-      maxWidth: 400,
+      maxWidth: 400
     },
     margins: {
-      marginBottom: theme.constants.generalUnit * 2,
+      marginBottom: theme.constants.generalUnit * 2
     },
     essentials: {
       fontWeight: 600,
-      marginBottom: theme.constants.generalUnit * 2,
+      marginBottom: theme.constants.generalUnit * 2
     },
     essentialContainer: {
       display: "flex",
@@ -44,32 +44,32 @@ const useStyles = makeStyles((theme: ITheme) =>
       [theme.breakpoints.down("md")]: {
         flexFlow: "column",
         alignItems: "flex-start",
-        width: 300,
-      },
+        width: 300
+      }
     },
     subtitle: {
       color: theme.palette.additional["gray"][8],
       [theme.breakpoints.down("md")]: {
         fontSize: 16,
-        lineHeight: "22px",
-      },
+        lineHeight: "22px"
+      }
     },
     spaceUsedBox: {
       [theme.breakpoints.down("md")]: {
         marginBottom: theme.constants.generalUnit,
-        width: "inherit",
-      },
+        width: "inherit"
+      }
     },
     spaceUsedMargin: {
-      marginBottom: theme.constants.generalUnit,
+      marginBottom: theme.constants.generalUnit
     },
     changePlanButton: {
-      width: "inherit",
+      width: "inherit"
     },
     link: {
-      textDecoration: "none",
-    },
-  }),
+      textDecoration: "none"
+    }
+  })
 )
 
 const PlanView: React.FC = () => {
@@ -116,8 +116,8 @@ const PlanView: React.FC = () => {
                     className={classes.spaceUsedMargin}
                     component="p"
                   >{`${formatBytes(spaceUsed)} of ${formatBytes(
-                    FREE_PLAN_LIMIT,
-                  )} used`}</Typography>
+                      FREE_PLAN_LIMIT
+                    )} used`}</Typography>
                   <ProgressBar
                     className={classes.spaceUsedMargin}
                     progress={(spaceUsed / FREE_PLAN_LIMIT) * 100}

@@ -5,7 +5,7 @@ import {
   ProgressBar,
   Typography,
   CheckCircleIcon,
-  CloseCircleIcon,
+  CloseCircleIcon
 } from "@chainsafe/common-components"
 import clsx from "clsx"
 import { Trans } from "@lingui/macro"
@@ -18,34 +18,34 @@ const useStyles = makeStyles(
         margin: `${constants.generalUnit}px 0`,
         border: `1px solid ${palette.additional["gray"][6]}`,
         padding: constants.generalUnit * 2,
-        borderRadius: 4,
+        borderRadius: 4
       },
       appearBox: {
         animation: `$slideLeft ${animation.translate}ms`,
         [breakpoints.down("md")]: {
-          animation: `$slideUp ${animation.translate}ms`,
-        },
+          animation: `$slideUp ${animation.translate}ms`
+        }
       },
       "@keyframes slideLeft": {
         from: { transform: "translate(100%)" },
-        to: { transform: "translate(0)" },
+        to: { transform: "translate(0)" }
       },
       "@keyframes slideUp": {
         from: { transform: "translate(0, 100%)" },
-        to: { transform: "translate(0, 0)" },
+        to: { transform: "translate(0, 0)" }
       },
       contentContainer: {
         display: "flex",
-        alignItems: "center",
+        alignItems: "center"
       },
       marginBottom: {
-        marginBottom: constants.generalUnit,
+        marginBottom: constants.generalUnit
       },
       marginRight: {
-        marginRight: constants.generalUnit * 2,
-      },
+        marginRight: constants.generalUnit * 2
+      }
     })
-  },
+  }
 )
 
 interface IDownloadBox {
@@ -58,7 +58,7 @@ const DownloadBox: React.FC<IDownloadBox> = ({ downloadInProgress }) => {
     complete,
     error,
     progress,
-    errorMessage,
+    errorMessage
   } = downloadInProgress
   const classes = useStyles()
 

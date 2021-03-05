@@ -2,7 +2,7 @@ import { Crumb } from "@chainsafe/common-components"
 import {
   FileSystemItem,
   BucketType,
-  UploadProgress,
+  UploadProgress
 } from "../../../Contexts/DriveContext"
 
 export type FileOperation =

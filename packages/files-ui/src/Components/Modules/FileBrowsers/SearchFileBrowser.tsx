@@ -11,7 +11,7 @@ import { useQuery } from "../../../Utils/Helpers"
 
 const SearchFileBrowser: React.FC<IFilesBrowserModuleProps> = ({
   heading = "Search results",
-  controls = false,
+  controls = false
 }: IFilesBrowserModuleProps) => {
   const { updateCurrentPath, getSearchResults } = useDrive()
   const { redirect } = useHistory()
@@ -40,7 +40,7 @@ const SearchFileBrowser: React.FC<IFilesBrowserModuleProps> = ({
 
   const viewFolder = (cid: string) => {
     const searchEntry = searchResults.find(
-      (result) => result.content.cid === cid,
+      (result) => result.content.cid === cid
     )
     if (searchEntry) {
       if (searchEntry.content.content_type === CONTENT_TYPES.Directory) {
@@ -54,7 +54,7 @@ const SearchFileBrowser: React.FC<IFilesBrowserModuleProps> = ({
   const pathContents: IFileConfigured[] = searchResults.map((searchResult) => ({
     ...searchResult.content,
     isFolder: searchResult.content.content_type === CONTENT_TYPES.Directory,
-    operations: ["view_folder"],
+    operations: ["view_folder"]
   }))
 
   return (

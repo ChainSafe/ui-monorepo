@@ -1,7 +1,7 @@
 import {
   createStyles,
   makeStyles,
-  useMediaQuery,
+  useMediaQuery
 } from "@chainsafe/common-theme"
 import React, { useState, useEffect, useCallback } from "react"
 import CustomModal from "../../Elements/CustomModal"
@@ -10,7 +10,7 @@ import { Trans } from "@lingui/macro"
 import {
   useDrive,
   DirectoryContentResponse,
-  FileSystemItem,
+  FileSystemItem
 } from "../../../Contexts/DriveContext"
 import {
   Button,
@@ -19,7 +19,7 @@ import {
   ITreeNodeProps,
   ScrollbarWrapper,
   TreeView,
-  Typography,
+  Typography
 } from "@chainsafe/common-components"
 import { getPathWithFile } from "../../../Utils/pathUtils"
 import { CSFTheme } from "../../../Themes/types"
@@ -29,7 +29,7 @@ const useStyles = makeStyles(
     return createStyles({
       modalRoot: {
         zIndex: zIndex?.blocker,
-        [breakpoints.down("md")]: {},
+        [breakpoints.down("md")]: {}
       },
       modalInner: {
         backgroundColor: constants.moveFileModal.background,
@@ -39,11 +39,11 @@ const useStyles = makeStyles(
             Number(constants?.mobileButtonHeight) + constants.generalUnit,
           borderTopLeftRadius: `${constants.generalUnit * 1.5}px`,
           borderTopRightRadius: `${constants.generalUnit * 1.5}px`,
-          maxWidth: `${breakpoints.width("md")}px !important`,
-        },
+          maxWidth: `${breakpoints.width("md")}px !important`
+        }
       },
       okButton: {
-        marginLeft: constants.generalUnit,
+        marginLeft: constants.generalUnit
       },
       cancelButton: {
         [breakpoints.down("md")]: {
@@ -51,31 +51,31 @@ const useStyles = makeStyles(
           bottom: 0,
           left: 0,
           width: "100%",
-          height: constants?.mobileButtonHeight,
-        },
+          height: constants?.mobileButtonHeight
+        }
       },
       heading: {
         fontWeight: typography.fontWeight.semibold,
         textAlign: "left",
         [breakpoints.down("md")]: {
-          textAlign: "center",
-        },
+          textAlign: "center"
+        }
       },
       treeContainer: {
         padding: `${constants.generalUnit * 4}px 0`,
         borderTop: `1px solid ${palette.additional["gray"][5]}`,
-        borderBottom: `1px solid ${palette.additional["gray"][5]}`,
+        borderBottom: `1px solid ${palette.additional["gray"][5]}`
       },
       treeScrollView: {
-        paddingLeft: constants.generalUnit * 4,
+        paddingLeft: constants.generalUnit * 4
       },
       paddedContainer: {
         padding: `${constants.generalUnit * 2}px ${
           constants.generalUnit * 3
-        }px`,
-      },
+        }px`
+      }
     })
-  },
+  }
 )
 
 interface IMoveFileModuleProps {
@@ -89,7 +89,7 @@ const MoveFileModule: React.FC<IMoveFileModuleProps> = ({
   currentPath,
   fileData,
   modalOpen,
-  close,
+  close
 }: IMoveFileModuleProps) => {
   const classes = useStyles()
 
@@ -104,10 +104,10 @@ const MoveFileModule: React.FC<IMoveFileModuleProps> = ({
         id: entry.path,
         title: entry.name,
         expandable: true,
-        tree: entry.entries ? mapFolderTree(entry.entries) : [],
+        tree: entry.entries ? mapFolderTree(entry.entries) : []
       }))
     },
-    [],
+    []
   )
 
   const getFolderTreeData = useCallback(async () => {
@@ -120,8 +120,8 @@ const MoveFileModule: React.FC<IMoveFileModuleProps> = ({
             title: "Home",
             isExpanded: true,
             expandable: true,
-            tree: mapFolderTree(newFolderTree.entries),
-          },
+            tree: mapFolderTree(newFolderTree.entries)
+          }
         ]
         setFolderTree(folderTreeNodes)
       }
@@ -149,13 +149,13 @@ const MoveFileModule: React.FC<IMoveFileModuleProps> = ({
           await bulkMoveFile(
             fileData.map((file) => ({
               path: `${currentPath}${file.name}`,
-              new_path: getPathWithFile(movePath, file.name),
-            })),
+              new_path: getPathWithFile(movePath, file.name)
+            }))
           )
         } else {
           await moveFile({
             path: `${currentPath}${fileData.name}`,
-            new_path: getPathWithFile(movePath, fileData.name),
+            new_path: getPathWithFile(movePath, fileData.name)
           })
         }
 
@@ -173,7 +173,7 @@ const MoveFileModule: React.FC<IMoveFileModuleProps> = ({
     <CustomModal
       className={classes.modalRoot}
       injectedClass={{
-        inner: classes.modalInner,
+        inner: classes.modalInner
       }}
       active={modalOpen}
       closePosition="none"

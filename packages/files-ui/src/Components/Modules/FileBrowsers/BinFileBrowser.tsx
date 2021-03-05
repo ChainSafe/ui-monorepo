@@ -7,7 +7,7 @@ import DragAndDrop from "../../../Contexts/DnDContext"
 
 const BinFileBrowser: React.FC<IFilesBrowserModuleProps> = ({
   heading = "Bin",
-  controls = true,
+  controls = true
 }: IFilesBrowserModuleProps) => {
   const {
     deleteFile,
@@ -15,7 +15,7 @@ const BinFileBrowser: React.FC<IFilesBrowserModuleProps> = ({
     pathContents,
     loadingCurrentPath,
     bucketType,
-    recoverFile,
+    recoverFile
   } = useDrive()
 
   useEffect(() => {
@@ -35,38 +35,38 @@ const BinFileBrowser: React.FC<IFilesBrowserModuleProps> = ({
   const parsedContents: IFileConfigured[] = pathContents.map(
     (item: FileSystemItem): IFileConfigured => {
       switch (item.content_type) {
-        case CONTENT_TYPES.Directory:
-          return {
-            ...item,
-            operations: ["recover", "delete"],
-          }
-        case CONTENT_TYPES.File:
-          return {
-            ...item,
-            operations: ["recover", "delete"],
-          }
-        case CONTENT_TYPES.Image:
-          return {
-            ...item,
-            operations: ["recover", "delete"],
-          }
-        case CONTENT_TYPES.Pdf:
-          return {
-            ...item,
-            operations: ["recover", "delete"],
-          }
-        case CONTENT_TYPES.Text:
-          return {
-            ...item,
-            operations: ["recover", "delete"],
-          }
-        default:
-          return {
-            ...item,
-            operations: ["recover", "delete"],
-          }
+      case CONTENT_TYPES.Directory:
+        return {
+          ...item,
+          operations: ["recover", "delete"]
+        }
+      case CONTENT_TYPES.File:
+        return {
+          ...item,
+          operations: ["recover", "delete"]
+        }
+      case CONTENT_TYPES.Image:
+        return {
+          ...item,
+          operations: ["recover", "delete"]
+        }
+      case CONTENT_TYPES.Pdf:
+        return {
+          ...item,
+          operations: ["recover", "delete"]
+        }
+      case CONTENT_TYPES.Text:
+        return {
+          ...item,
+          operations: ["recover", "delete"]
+        }
+      default:
+        return {
+          ...item,
+          operations: ["recover", "delete"]
+        }
       }
-    },
+    }
   )
 
   return (

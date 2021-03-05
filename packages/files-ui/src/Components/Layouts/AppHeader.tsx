@@ -3,7 +3,7 @@ import { useImployApi, useUser } from "@imploy/common-contexts"
 import {
   createStyles,
   makeStyles,
-  useThemeSwitcher,
+  useThemeSwitcher
 } from "@chainsafe/common-theme"
 import clsx from "clsx"
 import {
@@ -14,12 +14,12 @@ import {
   MenuDropdown,
   PowerDownSvg,
   SunSvg,
-  MoonSvg,
+  MoonSvg
 } from "@chainsafe/common-components"
 import { ROUTE_LINKS } from "../FilesRoutes"
 import SearchModule from "../Modules/SearchModule"
 import { Trans } from "@lingui/macro"
-import { useDrive } from "../../Contexts/DriveContext"
+import { useThresholdKey } from "../../Contexts/ThresholdKeyContext"
 import { CSFTheme } from "../../Themes/types"
 
 const useStyles = makeStyles(
@@ -43,7 +43,7 @@ const useStyles = makeStyles(
           backgroundColor: constants.header.rootBackground,
 
           "& > *:first-child": {
-            flex: "1 1 0",
+            flex: "1 1 0"
           },
           "&.active": {
             opacity: 1,
@@ -52,8 +52,8 @@ const useStyles = makeStyles(
             padding: `${constants.headerTopPadding}px ${
               constants.contentPadding
             }px ${0}px ${constants.contentPadding}px`,
-            zIndex: zIndex?.layer1,
-          },
+            zIndex: zIndex?.layer1
+          }
         },
         [breakpoints.down("md")]: {
           left: 0,
@@ -66,9 +66,9 @@ const useStyles = makeStyles(
             opacity: 1,
             visibility: "visible",
             height: Number(constants.mobileHeaderHeight),
-            zIndex: Number(zIndex?.layer1),
-          },
-        },
+            zIndex: Number(zIndex?.layer1)
+          }
+        }
       },
       hamburgerMenu: {
         position: "absolute",
@@ -85,11 +85,11 @@ const useStyles = makeStyles(
         [breakpoints.up("md")]: {
           "& img": {
             height: constants.generalUnit * 5,
-            width: "auto",
+            width: "auto"
           },
           "& > *:first-child": {
-            marginRight: constants.generalUnit,
-          },
+            marginRight: constants.generalUnit
+          }
         },
         [breakpoints.down("md")]: {
           position: "absolute",
@@ -98,9 +98,9 @@ const useStyles = makeStyles(
           transform: "translate(-50%,-50%)",
           "& img": {
             height: constants.generalUnit * 3.25,
-            width: "auto",
-          },
-        },
+            width: "auto"
+          }
+        }
       },
       accountControls: {
         display: "flex",
@@ -108,11 +108,11 @@ const useStyles = makeStyles(
         alignItems: "center",
         flexDirection: "row",
         [breakpoints.up("md")]: {
-          marginLeft: constants.accountControlsPadding,
+          marginLeft: constants.accountControlsPadding
         },
         "& > *:first-child": {
-          marginRight: constants.generalUnit * 2,
-        },
+          marginRight: constants.generalUnit * 2
+        }
       },
       searchModule: {
         [breakpoints.down("md")]: {
@@ -121,8 +121,8 @@ const useStyles = makeStyles(
           right: 2,
           width: "100%",
           zIndex: zIndex?.background,
-          "&.active": {},
-        },
+          "&.active": {}
+        }
       },
       options: {
         backgroundColor: constants.header.optionsBackground,
@@ -141,16 +141,16 @@ const useStyles = makeStyles(
           height: constants.generalUnit * 2,
           marginRight: constants.generalUnit,
           fill: palette.additional["gray"][7],
-          stroke: palette.additional["gray"][7],
-        },
+          stroke: palette.additional["gray"][7]
+        }
       },
       icon: {
         "& svg": {
-          fill: constants.header.iconColor,
-        },
-      },
+          fill: constants.header.iconColor
+        }
+      }
     })
-  },
+  }
 )
 
 interface IAppHeader {
@@ -160,14 +160,14 @@ interface IAppHeader {
 
 const AppHeader: React.FC<IAppHeader> = ({
   navOpen,
-  setNavOpen,
+  setNavOpen
 }: IAppHeader) => {
   const { themeKey, setTheme, desktop } = useThemeSwitcher()
 
   const classes = useStyles()
 
-  const { isLoggedIn, logout, secured } = useImployApi()
-  const { isMasterPasswordSet } = useDrive()
+  const { isLoggedIn, secured } = useImployApi()
+  const { publicKey, isNewDevice, shouldInitializeAccount, logout } = useThresholdKey()
   const { getProfileTitle, removeUser } = useUser()
 
   const signOut = useCallback(() => {
@@ -180,10 +180,19 @@ const AppHeader: React.FC<IAppHeader> = ({
   return (
     <header
       className={clsx(classes.root, {
-        active: isLoggedIn && secured && !!isMasterPasswordSet,
+        active:
+          isLoggedIn &&
+          secured &&
+          !!publicKey &&
+          !isNewDevice &&
+          !shouldInitializeAccount
       })}
     >
-      {isLoggedIn && secured && !!isMasterPasswordSet && (
+      {isLoggedIn &&
+        secured &&
+        !!publicKey &&
+        !isNewDevice &&
+        !shouldInitializeAccount && (
         <Fragment>
           {desktop ? (
             <Fragment>
@@ -200,7 +209,7 @@ const AppHeader: React.FC<IAppHeader> = ({
                   anchor="bottom-right"
                   classNames={{
                     icon: classes.icon,
-                    options: classes.options,
+                    options: classes.options
                   }}
                   menuItems={[
                     {
@@ -212,7 +221,7 @@ const AppHeader: React.FC<IAppHeader> = ({
                             <Trans>Sign Out</Trans>
                           </Typography>
                         </div>
-                      ),
+                      )
                     },
                     {
                       onClick: () =>
@@ -224,8 +233,8 @@ const AppHeader: React.FC<IAppHeader> = ({
                             {themeKey === "dark" ? <Trans>Light mode</Trans> : <Trans>Dark mode</Trans>}
                           </Typography>
                         </div>
-                      ),
-                    },
+                      )
+                    }
                   ]}
                 />
               </section>

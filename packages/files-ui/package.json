@@ -12,15 +12,18 @@
     "@lingui/macro": "3.3.0",
     "@lingui/react": "^3.2.3",
     "@sentry/react": "^5.28.0",
-    "@types/yup": "^0.29.9",
-    "@types/zxcvbn": "^4.4.0",
+    "@tkey/default": "3.10.0",
+    "@tkey/security-questions": "3.10.0",
+    "@tkey/web-storage": "3.10.0",
+    "@toruslabs/torus-direct-web-sdk": "4.5.0",
     "babel-loader": "8.1.0",
     "babel-plugin-macros": "^2.8.0",
     "babel-preset-env": "^1.7.0",
     "babel-preset-react": "^6.24.1",
-    "bnc-onboard": "^1.16.1",
+    "bnc-onboard": "1.19.1",
     "clsx": "^1.1.1",
     "dayjs": "^1.9.7",
+    "eth-crypto": "^1.8.0",
     "ethers": "^5.0.24",
     "formik": "^2.2.5",
     "mime-matcher": "^1.0.5",
@@ -53,6 +56,7 @@
     "@types/react-pdf": "^5.0.0",
     "@types/react-toast-notifications": "^2.4.0",
     "@types/yup": "^0.29.9",
+    "@types/zxcvbn": "^4.4.0",
     "babel-plugin-macros": "^2.8.0",
     "craco": "^0.0.3"
   },
@@ -67,9 +71,6 @@
     "extract": "lingui extract",
     "compile": "lingui compile",
     "lingui-version": "lingui --version"
-  },
-  "eslintConfig": {
-    "extends": "react-app"
   },
   "browserslist": {
     "production": [

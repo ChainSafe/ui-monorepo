@@ -55,7 +55,7 @@ export const getCardNumberError = (cardNumber: string): string | undefined => {
   const cardType = cardTypes.getCardTypeByValue(rawCardNumber)
   if (cardType && cardType.lengths) {
     const doesCardNumberMatchLength = cardType.lengths.includes(
-      rawCardNumber.length,
+      rawCardNumber.length
     )
     if (doesCardNumberMatchLength) {
       const isLuhnValid = validateLuhn(rawCardNumber)
