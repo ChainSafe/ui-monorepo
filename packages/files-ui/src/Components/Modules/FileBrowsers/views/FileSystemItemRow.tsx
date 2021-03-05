@@ -29,6 +29,7 @@ import {
   makeStyles,
   createStyles,
   useThemeSwitcher,
+  useDoubleClick
 } from "@chainsafe/common-theme"
 import clsx from "clsx"
 import { Formik, Form } from "formik"
@@ -40,7 +41,6 @@ import { DragTypes } from "../DragConstants"
 import { NativeTypes } from "react-dnd-html5-backend"
 import { FileOperation, IFileConfigured } from "../types"
 import { CSFTheme } from "../../../../Themes/types"
-import { useDoubleClick } from "../../../../Hooks"
 
 const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => {
   const desktopGridSettings = "50px 69px 3fr 190px 60px !important"

@@ -1,1 +1,0 @@
-export {useDoubleClick} from './useDoubleClick'
