@@ -19,7 +19,7 @@ import {
   formatBytes,
   DeleteSvg,
   SunSvg,
-  MoonSvg,
+  MoonSvg
 } from "@chainsafe/common-components"
 import { ROUTE_LINKS } from "../FilesRoutes"
 import { FREE_PLAN_LIMIT } from "../../Utils/Constants"
@@ -50,8 +50,8 @@ const useStyles = makeStyles(
           height: "100%",
           backgroundColor: constants.nav.backgroundColor,
           "&.active": {
-            width: `${constants.navWidth}px`,
-          },
+            width: `${constants.navWidth}px`
+          }
         },
         [breakpoints.down("md")]: {
           height: `calc(100% - ${constants.mobileHeaderHeight}px)`,
@@ -63,9 +63,9 @@ const useStyles = makeStyles(
           visibility: "hidden",
           "&.active": {
             visibility: "visible",
-            width: `${constants.mobileNavWidth}px`,
-          },
-        },
+            width: `${constants.mobileNavWidth}px`
+          }
+        }
       },
       blocker: {
         display: "block",
@@ -82,13 +82,13 @@ const useStyles = makeStyles(
         "&.active": {
           visibility: "visible",
           [breakpoints.up("md")]: {
-            opacity: 0.5,
+            opacity: 0.5
           },
           [breakpoints.down("md")]: {
-            opacity: 1,
-          },
+            opacity: 1
+          }
           
-        },
+        }
       },
       logo: {
         textDecoration: "none",
@@ -142,7 +142,7 @@ const useStyles = makeStyles(
       },
       navHead: {
         fontWeight: 600,
-        color: constants.nav.headingColor,
+        color: constants.nav.headingColor
       },
       navItem: {
         textDecoration: "none",
@@ -155,10 +155,10 @@ const useStyles = makeStyles(
         "& span": {
           transitionDuration: `${animation.transform}ms`,
           [breakpoints.up("md")]: {
-            color: constants.nav.itemColor,
+            color: constants.nav.itemColor
           },
           [breakpoints.down("md")]: {
-            color: constants.nav.itemColorHover,
+            color: constants.nav.itemColorHover
           }
         },
         "& svg": {
@@ -166,23 +166,23 @@ const useStyles = makeStyles(
           width: Number(constants.svgWidth),
           marginRight: constants.generalUnit * 2,
           [breakpoints.up("md")]: {
-            fill: constants.nav.itemIconColor,
+            fill: constants.nav.itemIconColor
           },
           [breakpoints.down("md")]: {
-            fill: constants.nav.itemIconColorHover,
+            fill: constants.nav.itemIconColorHover
           }
         },
         "&:hover": {
           "& span": {
-            color: constants.nav.itemColorHover,
+            color: constants.nav.itemColorHover
           },
           "& svg": {
-            fill: constants.nav.itemIconColorHover,
-          },
+            fill: constants.nav.itemIconColorHover
+          }
         },
         [breakpoints.down("md")]: {
-          minWidth: Number(constants.mobileNavWidth),
-        },
+          minWidth: Number(constants.mobileNavWidth)
+        }
       },
       navItemText: {
         [breakpoints.down("md")]: {

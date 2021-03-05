@@ -2,7 +2,7 @@ import { Button, FileInput } from "@chainsafe/common-components"
 import { useDrive } from "../../Contexts/DriveContext"
 import {
   createStyles,
-  makeStyles,
+  makeStyles
 } from "@chainsafe/common-theme"
 import React, { useCallback, useState } from "react"
 import { Formik, Form } from "formik"
@@ -27,10 +27,10 @@ const useStyles = makeStyles(({ constants, breakpoints }: CSFTheme) =>
       marginBottom: constants.generalUnit * 2
     },
     fileList: {
-      color: constants.uploadModal.color,
+      color: constants.uploadModal.color
     },
     item: {
-      color: constants.uploadModal.color,
+      color: constants.uploadModal.color
     },
     cta: {},
     okButton: {
@@ -43,7 +43,7 @@ const useStyles = makeStyles(({ constants, breakpoints }: CSFTheme) =>
     cancelButton: {},
     label: {
       fontSize: 14,
-      lineHeight: "22px",
+      lineHeight: "22px"
     },
     addFiles: {
       backgroundColor: constants.uploadModal.addMoreBackground,
@@ -54,11 +54,11 @@ const useStyles = makeStyles(({ constants, breakpoints }: CSFTheme) =>
     },
     closeIcon: {
       "& svg": {
-        fill: constants.uploadModal.icon,
+        fill: constants.uploadModal.icon
       },
       
       "&:hover svg": {
-        fill: constants.uploadModal.iconHover,
+        fill: constants.uploadModal.iconHover
       }
     },
     footer: {
@@ -69,7 +69,7 @@ const useStyles = makeStyles(({ constants, breakpoints }: CSFTheme) =>
       padding: constants.generalUnit * 2,
       backgroundColor: constants.uploadModal.footerBackground
     }
-  }),
+  })
 )
 
 interface IUploadFileModuleProps {

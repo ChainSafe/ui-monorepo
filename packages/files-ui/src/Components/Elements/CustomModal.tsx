@@ -12,7 +12,7 @@ const useStyles = makeStyles(({ constants, breakpoints }: CSFTheme) =>
       },
       [breakpoints.down("md")]: {
        
-      },
+      }
     },
     inner: {
       [breakpoints.down("md")]: {

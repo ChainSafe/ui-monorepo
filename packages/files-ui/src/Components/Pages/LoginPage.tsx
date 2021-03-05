@@ -72,8 +72,8 @@ const useStyles = makeStyles(
         paddingLeft: constants.generalUnit,
         [breakpoints.down("md")]: {
           color: constants.landing.logoText,
-          fontSize: 16,
-        },
+          fontSize: 16
+        }
       },
       buttonSection: {
         paddingTop: 26,
@@ -85,7 +85,7 @@ const useStyles = makeStyles(
       },
       button: {
         width: 240,
-        marginBottom: constants.generalUnit * 2,
+        marginBottom: constants.generalUnit * 2
       },
       controls: {
         display: "flex",

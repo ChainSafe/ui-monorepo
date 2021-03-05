@@ -10,7 +10,7 @@ import {
   makeStyles,
   createStyles,
   debounce,
-  useThemeSwitcher,
+  useThemeSwitcher
 } from "@chainsafe/common-theme"
 import { LockIcon, CopyIcon } from "@chainsafe/common-components"
 import { Formik, Form } from "formik"
@@ -25,35 +25,35 @@ const useStyles = makeStyles(({ constants, breakpoints, palette, typography }: C
       marginTop: constants.generalUnit * 2,
       marginBottom: 160,
       [breakpoints.down("md")]: {
-        paddingRight: constants.generalUnit,
-      },
+        paddingRight: constants.generalUnit
+      }
     },
     bodyContainer: {
       padding: `${constants.generalUnit * 3}px 0px`,
       borderBottom: `1px solid ${palette.additional["gray"][4]}`,
       [breakpoints.down("md")]: {
-        borderBottom: "none",
-      },
+        borderBottom: "none"
+      }
     },
     boxContainer: {
-      marginBottom: constants.generalUnit * 4,
+      marginBottom: constants.generalUnit * 4
     },
     labelContainer: {
-      marginBottom: constants.generalUnit,
+      marginBottom: constants.generalUnit
     },
     walletAddressContainer: {
       display: "flex",
       justifyContent: "space-between",
-      marginBottom: constants.generalUnit,
+      marginBottom: constants.generalUnit
     },
     input: {
       width: "100%",
       margin: 0,
-      marginBottom: constants.generalUnit,
+      marginBottom: constants.generalUnit
     },
     label: {
       marginBottom: constants.generalUnit * 1,
-      fontSize: 20,
+      fontSize: 20
     },
     profileBox: {
       maxWidth: 420
@@ -66,16 +66,16 @@ const useStyles = makeStyles(({ constants, breakpoints, palette, typography }: C
       justifyContent: "space-between",
       alignItems: "center",
       cursor: "pointer",
-      color: palette.text.secondary,
+      color: palette.text.secondary
     },
     deletionMargins: {
-      marginBottom: constants.generalUnit * 2,
+      marginBottom: constants.generalUnit * 2
     },
     button: {
       width: 200,
       margin: `0px ${constants.generalUnit * 0.5}px ${
         constants.generalUnit * 1
-      }px`,
+      }px`
     },
     icon: {
       fontSize: "20px",
@@ -86,8 +86,8 @@ const useStyles = makeStyles(({ constants, breakpoints, palette, typography }: C
       fill: constants.profile.icon,
       [breakpoints.down("md")]: {
         fontSize: "18px",
-        fill: palette.additional["gray"][9],
-      },
+        fill: palette.additional["gray"][9]
+      }
     },
     publicAddress: {
       color: palette.additional["gray"][8],
@@ -97,10 +97,10 @@ const useStyles = makeStyles(({ constants, breakpoints, palette, typography }: C
       width: "90%",
       ...typography.body1,
       [breakpoints.down("md")]: {
-        ...typography.body2,
-      },
-    },
-  }),
+        ...typography.body2
+      }
+    }
+  })
 )
 
 interface IProfileProps {

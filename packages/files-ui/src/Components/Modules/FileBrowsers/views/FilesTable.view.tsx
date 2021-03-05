@@ -120,24 +120,24 @@ const useStyles = makeStyles(
         alignItems: "center",
         marginTop: "25vh",
         color: constants.filesTable.color,
-          // themeKey === "dark" ? palette.additional.gray[7] : "",
+        // themeKey === "dark" ? palette.additional.gray[7] : "",
         "& svg": {
           maxWidth: 180,
           marginBottom: constants.generalUnit * 3,
           "& path": {
             "&:first-child": {
-              fill: themeKey === "dark" ? palette.additional.gray[2] : "",
+              fill: themeKey === "dark" ? palette.additional.gray[2] : ""
             },
             "&:nth-child(2)": {
               stroke: themeKey === "dark" ? palette.additional.gray[2] : "",
-              fill: themeKey === "dark" ? "transparent" : "",
+              fill: themeKey === "dark" ? "transparent" : ""
             },
             "&:last-child": {
               fill: themeKey === "dark" ? palette.additional.gray[4] : "",
-              stroke: themeKey === "dark" ? palette.additional.gray[2] : "",
-            },
-          },
-        },
+              stroke: themeKey === "dark" ? palette.additional.gray[2] : ""
+            }
+          }
+        }
       }),
       tableRow: {
         border: "2px solid transparent",
@@ -201,7 +201,7 @@ const useStyles = makeStyles(
         width: 260,
         padding: `${constants.generalUnit}px 0`,
         [breakpoints.up("md")]: {
-          left: `calc(50% + ${Number(constants.navWidth) / 2}px)`,
+          left: `calc(50% + ${Number(constants.navWidth) / 2}px)`
         },
         "&.active": {
           opacity: 1,
@@ -268,7 +268,7 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
 }: IFilesTableBrowserProps) => {
   const { themeKey, desktop } = useThemeSwitcher()
   const classes = useStyles({
-    themeKey,
+    themeKey
   })
 
   const [editing, setEditing] = useState<string | undefined>()

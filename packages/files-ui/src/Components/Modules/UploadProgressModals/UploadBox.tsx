@@ -1,7 +1,7 @@
 import React from "react"
 import {
   createStyles,
-  makeStyles,
+  makeStyles
 } from "@chainsafe/common-theme"
 import { UploadProgress } from "../../../Contexts/DriveContext"
 import {
@@ -45,8 +45,8 @@ const useStyles = makeStyles(
         display: "flex",
         alignItems: "center",
         "& svg": {
-          fill: constants.uploadAlert.icon,
-        },
+          fill: constants.uploadAlert.icon
+        }
       },
       marginBottom: {
         marginBottom: constants.generalUnit

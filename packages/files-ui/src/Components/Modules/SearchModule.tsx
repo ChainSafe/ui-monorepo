@@ -69,7 +69,7 @@ const useStyles = makeStyles(
         transition: `opacity ${animation.transform}ms ease`,
         zIndex: zIndex?.layer3,
         [breakpoints.down("md")]: {
-          top: Number(constants.mobileHeaderHeight),
+          top: Number(constants.mobileHeaderHeight)
         },
         [breakpoints.up("md")]: {
           marginTop: constants.generalUnit,
@@ -89,25 +89,25 @@ const useStyles = makeStyles(
       },
       resultsBox: {
         backgroundColor:constants.searchModule.resultsBackground,
-        padding: constants.generalUnit * 1,
+        padding: constants.generalUnit * 1
       },
       resultBackDrop: {
         height: "100%",
         backgroundColor: constants.searchModule.resultsBackdrop,
-        opacity: 0.7,
+        opacity: 0.7
       },
       resultHead: {
         padding: `${constants.generalUnit * 0.5}px ${
           constants.generalUnit * 1
         }px`,
-        color:constants.searchModule.resultsHeading,
+        color:constants.searchModule.resultsHeading
       },
       resultHeadFolder: {
         marginTop: constants.generalUnit * 0.5,
         padding: `${constants.generalUnit * 0.5}px  ${
           constants.generalUnit * 1
         }px`,
-        color: constants.searchModule.resultsFolder,
+        color: constants.searchModule.resultsFolder
       },
       boldFont: {
         fontWeight: 700
@@ -145,7 +145,7 @@ const SearchModule: React.FC<ISearchModule> = ({
 }: ISearchModule) => {
   const { themeKey, desktop } = useThemeSwitcher()
   const classes = useStyles({
-    themeKey,
+    themeKey
   })
 
   const [searchString, setSearchString] = useState<string>("")

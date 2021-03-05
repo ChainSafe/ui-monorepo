@@ -14,7 +14,7 @@ import {
   MenuDropdown,
   PowerDownSvg,
   SunSvg,
-  MoonSvg,
+  MoonSvg
 } from "@chainsafe/common-components"
 import { ROUTE_LINKS } from "../FilesRoutes"
 import SearchModule from "../Modules/SearchModule"
@@ -66,9 +66,9 @@ const useStyles = makeStyles(
             opacity: 1,
             visibility: "visible",
             height: Number(constants.mobileHeaderHeight),
-            zIndex: Number(zIndex?.layer1),
-          },
-        },
+            zIndex: Number(zIndex?.layer1)
+          }
+        }
       },
       hamburgerMenu: {
         position: "absolute",
@@ -121,8 +121,8 @@ const useStyles = makeStyles(
           right: 2,
           width: "100%",
           zIndex: zIndex?.background,
-          "&.active": {},
-        },
+          "&.active": {}
+        }
       },
       options: {
         backgroundColor: constants.header.optionsBackground,
@@ -141,14 +141,14 @@ const useStyles = makeStyles(
           height: constants.generalUnit * 2,
           marginRight: constants.generalUnit,
           fill: palette.additional["gray"][7],
-          stroke: palette.additional["gray"][7],
-        },
+          stroke: palette.additional["gray"][7]
+        }
       },
       icon: {
         "& svg": {
-          fill: constants.header.iconColor,
-        },
-      },
+          fill: constants.header.iconColor
+        }
+      }
     })
   }
 )
@@ -209,7 +209,7 @@ const AppHeader: React.FC<IAppHeader> = ({
                   anchor="bottom-right"
                   classNames={{
                     icon: classes.icon,
-                    options: classes.options,
+                    options: classes.options
                   }}
                   menuItems={[
                     {
@@ -221,7 +221,7 @@ const AppHeader: React.FC<IAppHeader> = ({
                             <Trans>Sign Out</Trans>
                           </Typography>
                         </div>
-                      ),
+                      )
                     },
                     {
                       onClick: () =>
@@ -233,8 +233,8 @@ const AppHeader: React.FC<IAppHeader> = ({
                             {themeKey === "dark" ? <Trans>Light mode</Trans> : <Trans>Dark mode</Trans>}
                           </Typography>
                         </div>
-                      ),
-                    },
+                      )
+                    }
                   ]}
                 />
               </section>

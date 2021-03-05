@@ -83,17 +83,17 @@ const useStyles = makeStyles(
         marginRight: constants.generalUnit * 2,
         marginLeft: constants.generalUnit * 2,
         fill: constants.previewModal.closeButtonColor,
-        cursor: "pointer",
+        cursor: "pointer"
       },
       fileOperationsMenu: {
-        fill: constants.previewModal.fileOpsColor,
+        fill: constants.previewModal.fileOpsColor
       },
       fileName: {
         width: "100%",
         whiteSpace: "nowrap",
         overflow: "hidden",
         textOverflow: "ellipsis",
-        color: constants.previewModal.fileNameColor,
+        color: constants.previewModal.fileNameColor
       },
       previewContainer: {
         height: "100%",
@@ -115,8 +115,8 @@ const useStyles = makeStyles(
         flexDirection: "column",
         alignItems: "center",
         "& p": {
-          margin: `${constants.generalUnit}px 0`,
-        },
+          margin: `${constants.generalUnit}px 0`
+        }
       },
       downloadButton: {
         borderColor: palette.additional["gray"][3],
@@ -131,7 +131,7 @@ const useStyles = makeStyles(
       },
       loadingBar: {
         width: 150,
-        marginTop: constants.generalUnit,
+        marginTop: constants.generalUnit
       },
       options: {
         backgroundColor: constants.previewModal.optionsBackground,
@@ -148,8 +148,8 @@ const useStyles = makeStyles(
       },
       item: {
         color: constants.previewModal.menuItemTextColor
-      },
-    }),
+      }
+    })
 )
 
 const FilePreviewModal: React.FC<{
@@ -287,7 +287,7 @@ const FilePreviewModal: React.FC<{
           className={classes.fileOperationsMenu}
           classNames={{
             options: classes.options,
-            item: classes.item,
+            item: classes.item
           }}
           menuItems={[
             // {
@@ -380,22 +380,22 @@ const FilePreviewModal: React.FC<{
             {!isLoading &&
               !error &&
               !compatibleFilesMatcher.match(file?.content_type) && (
-                <div className={classes.previewContent}>
-                  <CloseCircleIcon
-                    fontSize={desktop ? "extraLarge" : "medium"}
-                  />
-                  <Typography component="p" variant="h1">
-                    <Trans>File format not supported.</Trans>
-                  </Typography>
-                  <Button
-                    className={classes.downloadButton}
-                    variant="outline"
-                    onClick={() => downloadFile(file.cid)}
-                  >
-                    <Trans>Download</Trans>
-                  </Button>
-                </div>
-              )}
+              <div className={classes.previewContent}>
+                <CloseCircleIcon
+                  fontSize={desktop ? "extraLarge" : "medium"}
+                />
+                <Typography component="p" variant="h1">
+                  <Trans>File format not supported.</Trans>
+                </Typography>
+                <Button
+                  className={classes.downloadButton}
+                  variant="outline"
+                  onClick={() => downloadFile(file.cid)}
+                >
+                  <Trans>Download</Trans>
+                </Button>
+              </div>
+            )}
             {!isLoading &&
               !error &&
               compatibleFilesMatcher.match(file?.content_type) &&

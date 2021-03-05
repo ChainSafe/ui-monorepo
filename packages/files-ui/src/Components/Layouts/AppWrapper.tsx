@@ -28,8 +28,8 @@ const useStyles = makeStyles(
             padding: `${0}px ${constants.contentPadding}px ${0}px ${
               Number(constants.navWidth) +
               Number(constants.contentPadding)
-            }px`,
-          },
+            }px`
+          }
         },
         [breakpoints.down("md")]: {}
       },

@@ -23,7 +23,7 @@ import {
   ExportSvg,
   ShareAltSvg,
   ExclamationCircleInverseSvg,
-  ZoomInSvg,
+  ZoomInSvg
 } from "@chainsafe/common-components"
 import {
   makeStyles,
@@ -67,13 +67,13 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => 
       "& svg": {
         width: constants.generalUnit * 2.5,
         fill: constants.fileSystemItemRow.icon
-      },
+      }
     },
     folderIcon: {
       "& svg": {
         // TODO: FILL
-        fill: palette.additional.gray[9],
-      },
+        fill: palette.additional.gray[9]
+      }
     },
     renameInput: {
       width: "100%",
@@ -110,7 +110,7 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => 
       padding: constants.generalUnit * 4
     },
     okButton: {
-      marginLeft: constants.generalUnit,
+      marginLeft: constants.generalUnit
     },
     cancelButton: {
       [breakpoints.down("md")]: {
@@ -129,7 +129,7 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => 
       marginRight: constants.generalUnit * 1.5,
       "& svg": {
         fill: constants.fileSystemItemRow.menuIcon
-      },
+      }
     },
     desktopRename: {
       display: "flex",
@@ -142,22 +142,22 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => 
     filename: {
       whiteSpace: "nowrap",
       overflow: "hidden",
-      textOverflow: "ellipsis",
+      textOverflow: "ellipsis"
     },
     dropdownIcon: {
       "& svg": {
-        fill: constants.fileSystemItemRow.dropdownIcon,
-      },
+        fill: constants.fileSystemItemRow.dropdownIcon
+      }
     },
     dropdownOptions: {
       backgroundColor: constants.fileSystemItemRow.optionsBackground,
       color: constants.fileSystemItemRow.optionsColor,
-      border: `1px solid ${constants.fileSystemItemRow.optionsBorder}`,
+      border: `1px solid ${constants.fileSystemItemRow.optionsBorder}`
     },
     dropdownItem: {
       backgroundColor: constants.fileSystemItemRow.itemBackground,
-      color: constants.fileSystemItemRow.itemColor,
-    },
+      color: constants.fileSystemItemRow.itemColor
+    }
   })
 })
 
@@ -559,7 +559,7 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
           classNames={{
             icon: classes.dropdownIcon,
             options: classes.dropdownOptions,
-            item: classes.dropdownItem,
+            item: classes.dropdownItem
           }}
           indicator={MoreIcon}
         />

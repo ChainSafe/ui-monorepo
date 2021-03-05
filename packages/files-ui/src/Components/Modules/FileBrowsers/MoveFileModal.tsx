@@ -43,7 +43,7 @@ const useStyles = makeStyles(
         }
       },
       okButton: {
-        marginLeft: constants.generalUnit,
+        marginLeft: constants.generalUnit
       },
       cancelButton: {
         [breakpoints.down("md")]: {

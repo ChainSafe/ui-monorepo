@@ -45,7 +45,7 @@ const useStyles = makeStyles(
       },
       okButton: {
         marginLeft: constants.generalUnit,
-        backgroundColor: palette.common.black.main,
+        backgroundColor: palette.common.black.main
       },
       cancelButton: {
         [breakpoints.down("md")]: {
