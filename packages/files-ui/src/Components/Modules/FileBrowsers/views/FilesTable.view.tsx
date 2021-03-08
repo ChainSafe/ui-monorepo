@@ -395,13 +395,13 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
   }
 
   // Selection logic
-  const handleSelect = (cid: string) => {
+  const handleSelect = useCallback((cid: string) => {
     if (selected.includes(cid)) {
       setSelected(selected.filter((selectedCid: string) => selectedCid !== cid))
     } else {
       setSelected([...selected, cid])
     }
-  }
+  }, [selected])
 
   const toggleAll = () => {
     if (selected.length === items.length) {
