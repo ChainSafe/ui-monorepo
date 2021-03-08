@@ -2,7 +2,7 @@ import React, { useEffect } from "react"
 import {
   init as initSentry,
   ErrorBoundary,
-  showReportDialog,
+  showReportDialog
 } from "@sentry/react"
 import { ThemeSwitcher } from "@chainsafe/common-theme"
 import {
@@ -11,13 +11,13 @@ import {
   Modal,
   Router,
   ToasterProvider,
-  Typography,
+  Typography
 } from "@chainsafe/common-components"
 import { Web3Provider } from "@chainsafe/web3-context"
 import {
   ImployApiProvider,
   UserProvider,
-  BillingProvider,
+  BillingProvider
 } from "@imploy/common-contexts"
 import { DriveProvider } from "./Contexts/DriveContext"
 import FilesRoutes from "./Components/FilesRoutes"
@@ -26,6 +26,7 @@ import { darkTheme } from "./Themes/DarkTheme"
 import { useHotjar } from "react-use-hotjar"
 import { LanguageProvider } from "./Contexts/LanguageContext"
 import { testLocalStorage } from "./Utils/Helpers"
+import { ThresholdKeyProvider } from "./Contexts/ThresholdKeyContext"
 import { lightTheme } from "./Themes/LightTheme"
 
 if (
@@ -35,7 +36,7 @@ if (
   initSentry({
     dsn: process.env.REACT_APP_SENTRY_DSN_URL,
     release: process.env.REACT_APP_SENTRY_RELEASE,
-    environment: process.env.REACT_APP_SENTRY_ENV,
+    environment: process.env.REACT_APP_SENTRY_ENV
   })
 }
 const App: React.FC<{}> = () => {
@@ -62,7 +63,7 @@ const App: React.FC<{}> = () => {
             <Typography>
               An error occurred and has been logged. If you would like to
               provide additional info to help us debug and resolve the issue,
-              click the "Provide Additional Details" button
+              click the `&quot;`Provide Additional Details`&quot;` button
             </Typography>
             <Typography>{error?.message.toString()}</Typography>
             <Typography>{componentStack}</Typography>
@@ -89,7 +90,7 @@ const App: React.FC<{}> = () => {
                     {
                       walletName: "trust",
                       rpcUrl:
-                        "https://mainnet.infura.io/v3/a7e16429d2254d488d396710084e2cd3",
+                        "https://mainnet.infura.io/v3/a7e16429d2254d488d396710084e2cd3"
                     },
                     { walletName: "metamask", preferred: true },
                     { walletName: "authereum" },
@@ -100,26 +101,28 @@ const App: React.FC<{}> = () => {
                     {
                       walletName: "walletConnect",
                       infuraKey: "a7e16429d2254d488d396710084e2cd3",
-                      preferred: true,
-                    },
-                  ],
-                },
+                      preferred: true
+                    }
+                  ]
+                }
               }}
               checkNetwork={false}
               cacheWalletSelection={testLocalStorage()}
             >
               <ImployApiProvider apiUrl={apiUrl}>
-                <UserProvider>
-                  <DriveProvider>
-                    <BillingProvider>
-                      <Router>
-                        <AppWrapper>
-                          <FilesRoutes />
-                        </AppWrapper>
-                      </Router>
-                    </BillingProvider>
-                  </DriveProvider>
-                </UserProvider>
+                <ThresholdKeyProvider enableLogging network="testnet">
+                  <UserProvider>
+                    <DriveProvider>
+                      <BillingProvider>
+                        <Router>
+                          <AppWrapper>
+                            <FilesRoutes />
+                          </AppWrapper>
+                        </Router>
+                      </BillingProvider>
+                    </DriveProvider>
+                  </UserProvider>
+                </ThresholdKeyProvider>
               </ImployApiProvider>
             </Web3Provider>
           </ToasterProvider>

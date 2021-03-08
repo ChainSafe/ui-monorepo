@@ -3,7 +3,7 @@ import { Switch, ConditionalRoute } from "@chainsafe/common-components"
 import HomePage from "./Pages/HomePage"
 
 export const ROUTE_LINKS = {
-  Landing: "/",
+  Landing: "/"
 }
 
 const Routes = () => {

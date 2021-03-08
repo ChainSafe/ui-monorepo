@@ -12,7 +12,7 @@ const useStyles = makeStyles(({ constants, breakpoints }: CSFTheme) =>
       },
       [breakpoints.down("md")]: {
        
-      },
+      }
     },
     inner: {
       [breakpoints.down("md")]: {
@@ -25,13 +25,13 @@ const useStyles = makeStyles(({ constants, breakpoints }: CSFTheme) =>
         borderRadiusLeftTop: `${constants.generalUnit * 1.5}px`,
         borderRadiusRightTop: `${constants.generalUnit * 1.5}px`,
         borderRadiusLeftBottom: 0,
-        borderRadiusRightBottom: 0,
-      },
+        borderRadiusRightBottom: 0
+      }
     },
     close: {
-      [breakpoints.down("md")]: {},
-    },
-  }),
+      [breakpoints.down("md")]: {}
+    }
+  })
 )
 
 interface ICustomModal extends IModalProps {
@@ -52,7 +52,7 @@ const CustomModal: React.FC<ICustomModal> = ({
       className={clsx(classes.root, className)}
       injectedClass={{
         close: clsx(classes.close, injectedClass?.close),
-        inner: clsx(classes.inner, injectedClass?.inner),
+        inner: clsx(classes.inner, injectedClass?.inner)
       }}
       {...rest}
     >

@@ -5,9 +5,9 @@ import { makeStyles, createStyles } from "@chainsafe/common-theme"
 const useStyles = makeStyles(() =>
   createStyles({
     root: {
-      maxWidth: "100vw",
-    },
-  }),
+      maxWidth: "100vw"
+    }
+  })
 )
 
 const VideoPreview: React.FC<IPreviewRendererProps> = ({ contents }) => {

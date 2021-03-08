@@ -6,33 +6,33 @@ import { makeStyles, ITheme, createStyles } from "@chainsafe/common-theme"
 const useStyles = makeStyles((theme: ITheme) =>
   createStyles({
     container: {
-      margin: `${theme.constants.generalUnit * 2}px 0`,
+      margin: `${theme.constants.generalUnit * 2}px 0`
     },
     cardNumber: {
       margin: 0,
       width: "100%",
       "& input": {
-        borderRadius: 0,
-      },
+        borderRadius: 0
+      }
     },
     cardExpiry: {
       margin: 0,
       width: "70%",
       "& input": {
-        borderRadius: 0,
-      },
+        borderRadius: 0
+      }
     },
     cardCvc: {
       margin: 0,
       width: "30%",
       "& input": {
-        borderRadius: 0,
-      },
+        borderRadius: 0
+      }
     },
     error: {
-      color: theme.palette.error.main,
-    },
-  }),
+      color: theme.palette.error.main
+    }
+  })
 )
 
 interface ICardInputsProps {
@@ -55,7 +55,7 @@ const CardInputs = (props: ICardInputsProps) => {
     handleChangeCardNumber,
     handleChangeCardExpiry,
     handleChangeCardCvc,
-    error,
+    error
   } = props
   const cardType = getCardTypeByValue(cardNumber)
 

@@ -23,10 +23,11 @@ type LanguageProviderProps = {
 }
 
 const LanguageContext = React.createContext<LanguageContext | undefined>(
-  undefined,
+  undefined
 )
 
 const getLanguages = (): string[] => {
+  // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
   // @ts-ignore
   const { languages, language, userLanguage } = window.navigator
 
@@ -47,6 +48,7 @@ const getLanguages = (): string[] => {
 }
 
 const getLocales = (): string[] => {
+  // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
   // @ts-ignore
   const { languages, language, userLanguage } = window.navigator
   const localeRegex = new RegExp("[a-z]{2,3}-[A-Z]{2}")
@@ -68,7 +70,7 @@ const getLocales = (): string[] => {
 
 const LanguageProvider = ({
   children,
-  availableLanguages,
+  availableLanguages
 }: LanguageProviderProps) => {
   const [selectedLanguage, setSelectedLanguage] = useState<string>("")
   const userLocales = getLocales()
@@ -77,9 +79,10 @@ const LanguageProvider = ({
     const userLanguages = getLanguages()
 
     const matchingLanguages = [...new Set(userLanguages)].filter((x) =>
-      new Set(availableLanguages.map((l) => l.id)).has(x),
+      new Set(availableLanguages.map((l) => l.id)).has(x)
     )
     const defaultLanguage = matchingLanguages[0] || "en"
+    // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
     //@ts-ignore
     i18n.loadLocaleData(defaultLanguage, { plurals: plurals[defaultLanguage] })
     i18n.load(defaultLanguage, catalogEn)
@@ -96,7 +99,7 @@ const LanguageProvider = ({
       hour12: false,
       month: "numeric",
       day: "numeric",
-      year: "numeric",
+      year: "numeric"
     }).format(date)
 
     return result
@@ -121,7 +124,7 @@ const LanguageProvider = ({
         selectedLanguage: selectedLanguage,
         setActiveLanguage: setLanguage,
         selectedLocale: userLocales[0],
-        formatLocaleDate,
+        formatLocaleDate
       }}
     >
       <I18nProvider i18n={i18n}>{children}</I18nProvider>

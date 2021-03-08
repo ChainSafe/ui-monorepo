@@ -8,7 +8,7 @@ interface IAppWrapper {
 
 const useStyles = makeStyles(() => {
   return createStyles({
-  root: {},
+    root: {}
   })
 })
 

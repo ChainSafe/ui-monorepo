@@ -1,4 +1,4 @@
-import { IConstants } from "@chainsafe/common-theme";
+import { IConstants } from "@chainsafe/common-theme"
 
 export const UI_CONSTANTS = {
   mobileButtonHeight: 44,
@@ -11,7 +11,7 @@ export const UI_CONSTANTS = {
   topPadding: 8 * 3,
   mobileNavWidth: 8 * 30,
   headerTopPadding: 8 * 3,
-  accountControlsPadding: 8 * 7,
+  accountControlsPadding: 8 * 7
 }
 
 export interface UI_COLORS extends IConstants {
@@ -44,13 +44,13 @@ export interface UI_COLORS extends IConstants {
   createFolder: {
     backgroundColor: string
     color: string
-  },
+  }
   previewModal: {
     controlsBackground: string
     controlsColor: string
     closeButtonColor: string
     fileOpsColor: string
-    fileNameColor: string,
+    fileNameColor: string
     optionsBackground: string
     optionsTextColor: string
     optionsBorder: string
@@ -114,7 +114,7 @@ export interface UI_COLORS extends IConstants {
   profile: {
     icon: string
   }
-  uploadAlert:{
+  uploadAlert: {
     icon: string
   }
 }
