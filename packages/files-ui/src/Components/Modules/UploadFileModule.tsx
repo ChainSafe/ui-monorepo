@@ -2,7 +2,7 @@ import { Button, FileInput } from "@chainsafe/common-components"
 import { useDrive } from "../../Contexts/DriveContext"
 import {
   createStyles,
-  makeStyles,
+  makeStyles
 } from "@chainsafe/common-theme"
 import React, { useCallback, useState } from "react"
 import { Formik, Form } from "formik"
@@ -20,30 +20,30 @@ const useStyles = makeStyles(({ constants, breakpoints }: CSFTheme) =>
       backgroundColor: constants.uploadModal.background,
       color: constants.uploadModal.color,
       [breakpoints.down("md")]: {
-        maxWidth: `${breakpoints.width("md")}px !important`,
-      },
+        maxWidth: `${breakpoints.width("md")}px !important`
+      }
     },
     input: {
-      marginBottom: constants.generalUnit * 2,
+      marginBottom: constants.generalUnit * 2
     },
     fileList: {
-      color: constants.uploadModal.color,
+      color: constants.uploadModal.color
     },
     item: {
-      color: constants.uploadModal.color,
+      color: constants.uploadModal.color
     },
     cta: {},
     okButton: {
       marginLeft: constants.generalUnit,
       "&.wide": {
         paddingLeft: constants.generalUnit * 4,
-        paddingRight: constants.generalUnit * 4,
-      },
+        paddingRight: constants.generalUnit * 4
+      }
     },
     cancelButton: {},
     label: {
       fontSize: 14,
-      lineHeight: "22px",
+      lineHeight: "22px"
     },
     addFiles: {
       backgroundColor: constants.uploadModal.addMoreBackground,
@@ -54,11 +54,11 @@ const useStyles = makeStyles(({ constants, breakpoints }: CSFTheme) =>
     },
     closeIcon: {
       "& svg": {
-        fill: constants.uploadModal.icon,
+        fill: constants.uploadModal.icon
       },
       
       "&:hover svg": {
-        fill: constants.uploadModal.iconHover,
+        fill: constants.uploadModal.iconHover
       }
     },
     footer: {
@@ -69,7 +69,7 @@ const useStyles = makeStyles(({ constants, breakpoints }: CSFTheme) =>
       padding: constants.generalUnit * 2,
       backgroundColor: constants.uploadModal.footerBackground
     }
-  }),
+  })
 )
 
 interface IUploadFileModuleProps {
@@ -79,7 +79,7 @@ interface IUploadFileModuleProps {
 
 const UploadFileModule: React.FC<IUploadFileModuleProps> = ({
   modalOpen,
-  close,
+  close
 }: IUploadFileModuleProps) => {
   const classes = useStyles()
 
@@ -87,7 +87,7 @@ const UploadFileModule: React.FC<IUploadFileModuleProps> = ({
   const { uploadFiles, currentPath } = useDrive()
 
   const UploadSchema = object().shape({
-    files: array().required("Please select a file to upload"),
+    files: array().required("Please select a file to upload")
   })
 
   const onFileNumberChange = useCallback((filesNumber: number) => {
@@ -100,12 +100,12 @@ const UploadFileModule: React.FC<IUploadFileModuleProps> = ({
       closePosition="none"
       maxWidth="sm"
       injectedClass={{
-        inner: classes.modalInner,
+        inner: classes.modalInner
       }}
     >
       <Formik
         initialValues={{
-          files: [],
+          files: []
         }}
         validationSchema={UploadSchema}
         onSubmit={async (values, helpers) => {

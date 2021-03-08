@@ -19,16 +19,16 @@ const useStyles = makeStyles(({ constants, palette, zIndex }: ITheme) =>
       color: palette.additional["gray"][3],
       borderWidth: 1,
       borderStyle: "solid",
-      borderColor: palette.additional["gray"][8],
+      borderColor: palette.additional["gray"][8]
     },
     pageButton: {
-      width: 80,
+      width: 80
     },
     paginationInfo: {
       paddingLeft: constants.generalUnit * 2,
-      paddingRight: constants.generalUnit * 2,
-    },
-  }),
+      paddingRight: constants.generalUnit * 2
+    }
+  })
 )
 
 const PdfPreview: React.FC<IPreviewRendererProps> = ({ contents }) => {

@@ -1,21 +1,33 @@
-import { useEffect, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 
-export function useDoubleClick(actionSingleClick: any, actionDoubleClick: any, delay = 250) {
-  const [click, setClick] = useState(0)
+export function useDoubleClick(actionSingleClick: () => void, actionDoubleClick: () => void, delay = 250) {
+  const [clickCount, setClickCount] = useState(0)
 
   useEffect(() => {
     const timer = setTimeout(() => {
       // simple click
-      if (click === 1) actionSingleClick && actionSingleClick()
-      setClick(0)
+      if (clickCount === 1) {
+        actionSingleClick && actionSingleClick()
+      }
+            
+      setClickCount(0)
     }, delay)
-
+        
     // the duration between this click and the previous one
     // is less than the value of delay = double-click
-    if (click === 2) actionDoubleClick && actionDoubleClick()
+    if (clickCount === 2) {
+      actionDoubleClick && actionDoubleClick()
+    }
 
     return () => clearTimeout(timer)
-  }, [actionDoubleClick, actionSingleClick, click, delay])
 
-  return () => setClick((prev) => prev + 1)
+    // actionDoubleClick is very unstable and has many dependencies
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [actionSingleClick, clickCount, delay])
+
+  const onClick = useCallback(() => {
+    setClickCount((prev) => prev + 1)
+  }, [])
+
+  return { click: onClick }
 }

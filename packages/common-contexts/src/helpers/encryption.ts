@@ -1,21 +1,16 @@
-const getPasswordKey = async (passwordBytes: Uint8Array) =>
-  window.crypto.subtle.importKey("raw", passwordBytes, "PBKDF2", false, [
+const importKeyFromBytes = async (keyBytes: Uint8Array) =>
+  window.crypto.subtle.importKey("raw", keyBytes, "PBKDF2", false, [
     "deriveKey"
   ])
 
 const deriveKey = async (
-  passwordKey: CryptoKey,
-  salt: Uint8Array,
-  keyUsage: KeyUsage[]
+  sourceKey: CryptoKey,
+  keyUsage: KeyUsage[],
+  keyDerivationParams: Pbkdf2Params
 ) =>
   window.crypto.subtle.deriveKey(
-    {
-      name: "PBKDF2",
-      salt: salt,
-      iterations: 250000,
-      hash: "SHA-256"
-    },
-    passwordKey,
+    keyDerivationParams,
+    sourceKey,
     { name: "AES-GCM", length: 256 },
     false,
     keyUsage
@@ -32,9 +27,14 @@ export const encryptFile = async (
     const salt = window.crypto.getRandomValues(new Uint8Array(16))
     const iv = window.crypto.getRandomValues(new Uint8Array(12))
 
-    const passwordKey = await getPasswordKey(passwordBytes)
+    const passwordKey = await importKeyFromBytes(passwordBytes)
 
-    const aesKey = await deriveKey(passwordKey, salt, ["encrypt"])
+    const aesKey = await deriveKey(passwordKey, ["encrypt"], {
+      name: "PBKDF2",
+      salt: salt,
+      iterations: 250000,
+      hash: "SHA-256"
+    })
     const cipherBytes = await window.crypto.subtle.encrypt(
       { name: "AES-GCM", iv: iv },
       aesKey,
@@ -68,8 +68,13 @@ export const decryptFile = async (
     const salt = cipherBytes.slice(0, 16)
     const iv = cipherBytes.slice(16, 16 + 12)
     const data = cipherBytes.slice(16 + 12)
-    const passwordKey = await getPasswordKey(passwordBytes)
-    const aesKey = await deriveKey(passwordKey, salt, ["decrypt"])
+    const passwordKey = await importKeyFromBytes(passwordBytes)
+    const aesKey = await deriveKey(passwordKey, ["decrypt"], {
+      name: "PBKDF2",
+      salt: salt,
+      iterations: 250000,
+      hash: "SHA-256"
+    })
 
     const decryptedContent = await window.crypto.subtle.decrypt(
       {
@@ -82,6 +87,8 @@ export const decryptFile = async (
 
     return decryptedContent
   } catch (error) {
+    console.error("Error decrypting file")
+    console.error(error)
     return
   }
 }

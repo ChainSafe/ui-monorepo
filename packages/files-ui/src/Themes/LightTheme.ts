@@ -6,12 +6,12 @@ export const lightTheme = createTheme<CsfColors>({
     palette: {
       primary: {
         main: "var(--gray9)",
-        hover: "var(--gray1)",
+        hover: "var(--gray1)"
       },
       secondary: {
         main: "var(--gray1)",
-        hover: "var(--gray10)",
-      },
+        hover: "var(--gray10)"
+      }
     },
     constants: {
       ...UI_CONSTANTS,
@@ -21,7 +21,7 @@ export const lightTheme = createTheme<CsfColors>({
         },
         modalDefault: {
           fadebackground: "var(--gray1)",
-          background: "var(--gray1)",
+          background: "var(--gray1)"
         },
         header: {
           rootBackground: "var(--gray1)",
@@ -40,7 +40,7 @@ export const lightTheme = createTheme<CsfColors>({
           itemColor: "initial",
           itemColorHover: "initial",
           itemIconColor: "var(--gray8)",
-          itemIconColorHover: "initial",
+          itemIconColorHover: "initial"
         },
         createFolder: {
           backgroundColor: "var(--gray1)",
@@ -124,8 +124,8 @@ export const lightTheme = createTheme<CsfColors>({
       Typography: {
         h5: {
           fontWeight: 600,
-          color: "var(--gray10)",
-        },
+          color: "var(--gray10)"
+        }
       },
       Button: {
         variants: {
@@ -133,24 +133,24 @@ export const lightTheme = createTheme<CsfColors>({
             active: {
               color: "var(--gray9)",
               "& svg": {
-                fill: "var(--gray9)",
-              },
+                fill: "var(--gray9)"
+              }
             },
             hover: {
               color: "var(--gray9)",
               "& svg": {
-                fill: "var(--gray9)",
-              },
+                fill: "var(--gray9)"
+              }
             },
             focus: {
               color: "var(--gray9)",
               "& svg": {
-                fill: "var(--gray9)",
-              },
-            },
-          },
-        },
-      },
-    },
-  },
+                fill: "var(--gray9)"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
 })

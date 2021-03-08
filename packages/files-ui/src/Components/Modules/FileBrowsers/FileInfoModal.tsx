@@ -2,7 +2,7 @@ import {
   createStyles,
   debounce,
   makeStyles,
-  useThemeSwitcher,
+  useThemeSwitcher
 } from "@chainsafe/common-theme"
 import React, { useState, useEffect, useCallback } from "react"
 import CustomModal from "../../Elements/CustomModal"
@@ -14,7 +14,7 @@ import {
   formatBytes,
   Grid,
   Loading,
-  Typography,
+  Typography
 } from "@chainsafe/common-components"
 import clsx from "clsx"
 import { CSFTheme } from "../../../Themes/types"
@@ -24,7 +24,7 @@ const useStyles = makeStyles(
     return createStyles({
       modalRoot: {
         zIndex: zIndex?.blocker,
-        [breakpoints.down("md")]: {},
+        [breakpoints.down("md")]: {}
       },
       modalInner: {
         backgroundColor: constants.fileInfoModal.background,
@@ -34,16 +34,16 @@ const useStyles = makeStyles(
             Number(constants?.mobileButtonHeight) + constants.generalUnit,
           borderTopLeftRadius: `${constants.generalUnit * 1.5}px`,
           borderTopRightRadius: `${constants.generalUnit * 1.5}px`,
-          maxWidth: `${breakpoints.width("md")}px !important`,
-        },
+          maxWidth: `${breakpoints.width("md")}px !important`
+        }
       },
       copyButton: {
         backgroundColor: constants.fileInfoModal.copyButtonBackground,
         color: constants.fileInfoModal.color,
         flex: 1,
         [breakpoints.down("md")]: {
-          margin: `${constants.generalUnit * 2}px`,
-        },
+          margin: `${constants.generalUnit * 2}px`
+        }
       },
       closeButton: {
         flex: 1,
@@ -52,61 +52,61 @@ const useStyles = makeStyles(
           bottom: 0,
           left: 0,
           width: "100%",
-          height: constants?.mobileButtonHeight,
-        },
+          height: constants?.mobileButtonHeight
+        }
       },
       title: {
         fontWeight: typography.fontWeight.semibold,
         textAlign: "left",
         fontSize: 14,
         [breakpoints.down("md")]: {
-          textAlign: "center",
-        },
+          textAlign: "center"
+        }
       },
       heading: {
         fontWeight: typography.fontWeight.semibold,
         textAlign: "left",
         [breakpoints.down("md")]: {
-          textAlign: "center",
-        },
+          textAlign: "center"
+        }
       },
       infoHeading: {
         fontWeight: typography.fontWeight.semibold,
-        textAlign: "left",
+        textAlign: "left"
       },
       infoContainer: {
         borderTop: constants.fileInfoModal.infoContainerBorderTop,
         padding: `${constants.generalUnit * 2}px ${
           constants.generalUnit * 3
-        }px`,
+        }px`
       },
       infoBox: {
-        paddingLeft: constants.generalUnit,
+        paddingLeft: constants.generalUnit
       },
       subInfoBox: {
-        padding: `${constants.generalUnit * 1}px 0`,
+        padding: `${constants.generalUnit * 1}px 0`
       },
       subSubtitle: {
-        color: palette.additional["gray"][8],
+        color: palette.additional["gray"][8]
       },
       technicalContainer: {
         paddingTop: constants.generalUnit,
-        paddingBottom: constants.generalUnit,
+        paddingBottom: constants.generalUnit
       },
       paddedContainer: {
         padding: `${constants.generalUnit * 2}px ${
           constants.generalUnit * 3
-        }px`,
+        }px`
       },
       copiedContainer: {
         color: palette.additional["gray"][9],
-        paddingLeft: constants.generalUnit,
+        paddingLeft: constants.generalUnit
       },
       loadingContainer: {
-        margin: constants.generalUnit * 2,
-      },
+        margin: constants.generalUnit * 2
+      }
     })
-  },
+  }
 )
 
 interface IFileInfoModuleProps {
@@ -116,7 +116,7 @@ interface IFileInfoModuleProps {
 
 const FileInfoModal: React.FC<IFileInfoModuleProps> = ({
   fileInfoPath,
-  close,
+  close
 }: IFileInfoModuleProps) => {
   const { themeKey } = useThemeSwitcher()
   const classes = useStyles()
@@ -124,7 +124,7 @@ const FileInfoModal: React.FC<IFileInfoModuleProps> = ({
   const { getFileInfo } = useDrive()
   const [loadingFileInfo, setLoadingInfo] = useState(false)
   const [fullFileInfo, setFullFullInfo] = useState<FileFullInfo | undefined>(
-    undefined,
+    undefined
   )
 
   useEffect(() => {
@@ -146,9 +146,11 @@ const FileInfoModal: React.FC<IFileInfoModuleProps> = ({
 
   const [copied, setCopied] = useState(false)
 
+  // TODO useCallback is maybe not needed here
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const debouncedSwitchCopied = useCallback(
     debounce(() => setCopied(false), 3000),
-    [],
+    []
   )
 
   const onCopyCID = async () => {
@@ -157,7 +159,9 @@ const FileInfoModal: React.FC<IFileInfoModuleProps> = ({
         await navigator.clipboard.writeText(fullFileInfo?.content?.cid)
         setCopied(true)
         debouncedSwitchCopied()
-      } catch (err) {}
+      } catch (err) {
+        console.error(err)
+      }
     }
   }
 
@@ -165,7 +169,7 @@ const FileInfoModal: React.FC<IFileInfoModuleProps> = ({
     <CustomModal
       className={classes.modalRoot}
       injectedClass={{
-        inner: classes.modalInner,
+        inner: classes.modalInner
       }}
       active={fileInfoPath ? true : false}
       closePosition="none"
@@ -264,7 +268,7 @@ const FileInfoModal: React.FC<IFileInfoModuleProps> = ({
                         component="p"
                         className={clsx(
                           classes.subSubtitle,
-                          classes.copiedContainer,
+                          classes.copiedContainer
                         )}
                       >
                         <Trans>copied !</Trans>

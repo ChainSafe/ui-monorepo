@@ -145,22 +145,22 @@ export const darkTheme = createTheme<CsfColors>({
       "--magenta7": "#E0529C",
       "--magenta8": "#F37FB7",
       "--magenta9": "#F8A8CC",
-      "--magenta10": "#FAD2E3",
+      "--magenta10": "#FAD2E3"
     },
     body: {
       backgroundColor: "var(--gray1)",
-      color: "var(--gray9)",
-    },
+      color: "var(--gray9)"
+    }
   },
   themeConfig: {
     palette: {
       primary: {
         main: "var(--gray3)",
-        hover: "var(--gray10)",
+        hover: "var(--gray10)"
       },
       secondary: {
         main: "var(--gray10)",
-        hover: "#000",
+        hover: "#000"
       },
       common: {
         black: {
@@ -178,7 +178,7 @@ export const darkTheme = createTheme<CsfColors>({
           7: "var(--blue7)",
           8: "var(--blue8)",
           9: "var(--blue9)",
-          10: "var(--blue10)",
+          10: "var(--blue10)"
         },
         gray: {
           1: "var(--gray1)",
@@ -190,7 +190,7 @@ export const darkTheme = createTheme<CsfColors>({
           7: "var(--gray7)",
           8: "var(--gray8)",
           9: "var(--gray9)",
-          10: "var(--gray10)",
+          10: "var(--gray10)"
         },
         red: {
           1: "var(--red1)",
@@ -202,7 +202,7 @@ export const darkTheme = createTheme<CsfColors>({
           7: "var(--red7)",
           8: "var(--red8)",
           9: "var(--red9)",
-          10: "var(--red10)",
+          10: "var(--red10)"
         },
         volcano: {
           1: "var(--volcano1)",
@@ -214,7 +214,7 @@ export const darkTheme = createTheme<CsfColors>({
           7: "var(--volcano7)",
           8: "var(--volcano8)",
           9: "var(--volcano9)",
-          10: "var(--volcano10)",
+          10: "var(--volcano10)"
         },
         orange: {
           1: "var(--orange1)",
@@ -226,7 +226,7 @@ export const darkTheme = createTheme<CsfColors>({
           7: "var(--orange7)",
           8: "var(--orange8)",
           9: "var(--orange9)",
-          10: "var(--orange10)",
+          10: "var(--orange10)"
         },
         gold: {
           1: "var(--gold1)",
@@ -238,7 +238,7 @@ export const darkTheme = createTheme<CsfColors>({
           7: "var(--gold7)",
           8: "var(--gold8)",
           9: "var(--gold9)",
-          10: "var(--gold10)",
+          10: "var(--gold10)"
         },
         yellow: {
           1: "var(--yellow1)",
@@ -250,7 +250,7 @@ export const darkTheme = createTheme<CsfColors>({
           7: "var(--yellow7)",
           8: "var(--yellow8)",
           9: "var(--yellow9)",
-          10: "var(--yellow10)",
+          10: "var(--yellow10)"
         },
         lime: {
           1: "var(--lime1)",
@@ -262,7 +262,7 @@ export const darkTheme = createTheme<CsfColors>({
           7: "var(--lime7)",
           8: "var(--lime8)",
           9: "var(--lime9)",
-          10: "var(--lime10)",
+          10: "var(--lime10)"
         },
         green: {
           1: "var(--green1)",
@@ -274,7 +274,7 @@ export const darkTheme = createTheme<CsfColors>({
           7: "var(--green7)",
           8: "var(--green8)",
           9: "var(--green9)",
-          10: "var(--green10)",
+          10: "var(--green10)"
         },
         cyan: {
           1: "var(--cyan1)",
@@ -286,7 +286,7 @@ export const darkTheme = createTheme<CsfColors>({
           7: "var(--cyan7)",
           8: "var(--cyan8)",
           9: "var(--cyan9)",
-          10: "var(--cyan10)",
+          10: "var(--cyan10)"
         },
         geekblue: {
           1: "var(--geekblue1)",
@@ -298,7 +298,7 @@ export const darkTheme = createTheme<CsfColors>({
           7: "var(--geekblue7)",
           8: "var(--geekblue8)",
           9: "var(--geekblue9)",
-          10: "var(--geekblue10)",
+          10: "var(--geekblue10)"
         },
         purple: {
           1: "var(--purple1)",
@@ -310,7 +310,7 @@ export const darkTheme = createTheme<CsfColors>({
           7: "var(--purple7)",
           8: "var(--purple8)",
           9: "var(--purple9)",
-          10: "var(--purple10)",
+          10: "var(--purple10)"
         },
         magenta: {
           1: "var(--magenta1)",
@@ -322,9 +322,9 @@ export const darkTheme = createTheme<CsfColors>({
           7: "var(--magenta7)",
           8: "var(--magenta8)",
           9: "var(--magenta9)",
-          10: "var(--magenta10)",
-        },
-      },
+          10: "var(--magenta10)"
+        }
+      }
     },
     constants: {
       ...UI_CONSTANTS,
@@ -334,7 +334,7 @@ export const darkTheme = createTheme<CsfColors>({
         },
         modalDefault: {
           fadebackground: "var(--gray2)",
-          background: "var(--gray2)",
+          background: "var(--gray2)"
         },
         header: {
           rootBackground: "var(--gray1)" ,
@@ -353,7 +353,7 @@ export const darkTheme = createTheme<CsfColors>({
           itemColor: "var(--gray7)",
           itemColorHover: "var(--gray9)",
           itemIconColor: "var(--gray7)",
-          itemIconColorHover: "var(--gray9)",
+          itemIconColorHover: "var(--gray9)"
         },
         createFolder: {
           backgroundColor: "var(--gray2)",
@@ -370,7 +370,7 @@ export const darkTheme = createTheme<CsfColors>({
           optionsBorder: "var(--gray5)",
           menuItemIconColor: "var(--gray9)",
           menuItemTextColor: "var(--gray10)",
-          message: "var(--gray8)",
+          message: "var(--gray8)"
         },
         searchModule: {
           resultsBackground: "var(--gray2)",
@@ -438,56 +438,56 @@ export const darkTheme = createTheme<CsfColors>({
         input: {
           root: {
             backgroundColor: "var(--gray1)",
-            color: "var(--gray9)",
-          },
-        },
+            color: "var(--gray9)"
+          }
+        }
       },
       TextInput: {
         label: {
-          color: "var(--gray9)",
+          color: "var(--gray9)"
         },
         input: {
           root: {
             backgroundColor: "var(--gray1)",
             borderColor: "var(--gray4)",
-            color: "var(--gray9)",
-          },
-        },
+            color: "var(--gray9)"
+          }
+        }
       },
       Breadcrumb: {
         home: {
-          fill: "var(--gray9)",
-        },
+          fill: "var(--gray9)"
+        }
       },
       Typography: {
         root: {
           "& a": {
-            color: "var(--gray9)",
-          },
+            color: "var(--gray9)"
+          }
         },
         h5: {
           fontWeight: 600,
-          color: "var(--gray9)",
-        },
+          color: "var(--gray9)"
+        }
       },
       Toaster: {
         closeIcon: {
-          fill: "var(--gray9)",
+          fill: "var(--gray9)"
         },
         message: {
-          color: "var(--gray9)",
+          color: "var(--gray9)"
         },
         typeIcon: {
           root: {
-            fill: "var(--gray9)",
+            fill: "var(--gray9)"
           },
           success: {
-            fill: "var(--green8)",
+            fill: "var(--green8)"
           },
           error: {
-            fill: "var(--red8)",
-          },
-        },
+            fill: "var(--red8)"
+          }
+        }
       },
       Button: {
         variants: {
@@ -496,30 +496,30 @@ export const darkTheme = createTheme<CsfColors>({
               backgroundColor: "var(--gray5)",
               color: "var(--gray9)",
               "& svg": {
-                fill: "var(--gray9)",
-              },
+                fill: "var(--gray9)"
+              }
             },  
             active: {
               backgroundColor: "var(--gray7)",
               color: "var(--gray9)",
               "& svg": {
-                fill: "var(--gray9)",
-              },
+                fill: "var(--gray9)"
+              }
             },
             hover: {
               backgroundColor: "var(--gray7)",
               color: "var(--gray9)",
               "& svg": {
-                fill: "var(--gray9)",
-              },
+                fill: "var(--gray9)"
+              }
             },
             focus: {
               backgroundColor: "var(--gray7)",
               color: "var(--gray9)",
               "& svg": {
-                fill: "var(--gray9)",
-              },
-            },
+                fill: "var(--gray9)"
+              }
+            }
           },
           outline: {
             root: {
@@ -527,12 +527,12 @@ export const darkTheme = createTheme<CsfColors>({
               borderColor: "var(--gray4)",
               color: "var(--gray9)",
               "& svg": {
-                fill: "var(--gray9)",
-              },
-            },
-          },
-        },
-      },
-    },
-  },
+                fill: "var(--gray9)"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
 })

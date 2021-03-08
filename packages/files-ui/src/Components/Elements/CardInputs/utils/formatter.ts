@@ -38,7 +38,7 @@ export const formatExpiry = (cardExpiry: string) => {
   }
 
   if (/^1[/-]$/.test(expiry)) {
-    return `01 / `
+    return "01 / "
   }
 
   expiry = expiry.match(/(\d{1,2})/g) || []
