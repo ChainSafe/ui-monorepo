@@ -1,4 +1,4 @@
 import { ITheme } from "@chainsafe/common-theme"
-import { UI_COLORS } from "./Constants"
+import { CsfColors } from "./Constants"
 
-export type CSFTheme = ITheme<UI_COLORS>
+export type CSFTheme = ITheme<CsfColors>

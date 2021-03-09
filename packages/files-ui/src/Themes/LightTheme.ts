@@ -1,7 +1,7 @@
 import { createTheme } from "@chainsafe/common-theme"
-import { UI_COLORS, UI_CONSTANTS } from "./Constants"
+import { CsfColors, UI_CONSTANTS } from "./Constants"
 
-export const lightTheme = createTheme<UI_COLORS>({
+export const lightTheme = createTheme<CsfColors>({
   themeConfig: {
     palette: {
       primary: {
@@ -17,7 +17,11 @@ export const lightTheme = createTheme<UI_COLORS>({
       ...UI_CONSTANTS,
       ...({
         landing: {
-          logoText: "var(--gray1)"
+          background: "var(--gray3)",
+          border: "var(--gray4)",
+          boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
+          footerBg: "var(--gray4)",
+          footerText: "var(--gray8)"
         },
         modalDefault: {
           fadebackground: "var(--gray1)",
@@ -118,7 +122,7 @@ export const lightTheme = createTheme<UI_COLORS>({
         uploadAlert: {
           icon: "initial"
         }
-      } as UI_COLORS)
+      } as CsfColors)
     },
     overrides: {
       Typography: {

@@ -1,7 +1,7 @@
 import { createTheme } from "@chainsafe/common-theme"
-import { UI_COLORS, UI_CONSTANTS } from "./Constants"
+import { CsfColors, UI_CONSTANTS } from "./Constants"
 
-export const darkTheme = createTheme<UI_COLORS>({
+export const darkTheme = createTheme<CsfColors>({
   globalStyling: {
     ":root": {
       "--blue1": "#111D2C",
@@ -330,7 +330,11 @@ export const darkTheme = createTheme<UI_COLORS>({
       ...UI_CONSTANTS,
       ...({
         landing: {
-          logoText: "var(--gray10)"
+          background: "var(--gray2)",
+          border: "var(--gray4)",
+          boxShadow: "unset",
+          footerBg: "var(--gray4)",
+          footerText: "var(--gray8)"
         },
         modalDefault: {
           fadebackground: "var(--gray2)",
@@ -431,7 +435,7 @@ export const darkTheme = createTheme<UI_COLORS>({
         uploadAlert: {
           icon: "var(--gray9)"
         }
-      } as UI_COLORS)
+      } as CsfColors)
     },
     overrides: {
       SearchBar: {
