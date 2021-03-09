@@ -13,7 +13,7 @@ import DragAndDrop from "../../../Contexts/DnDContext"
 import { useQuery } from "../../../Utils/Helpers"
 
 const CSFFileBrowser: React.FC<IFilesBrowserModuleProps> = ({
-  heading = "My Files",
+  heading,
   controls = true
 }: IFilesBrowserModuleProps) => {
   const {

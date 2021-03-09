@@ -190,7 +190,7 @@ const useStyles = makeStyles(
 export interface SearchBarProps {
   className?: string
   value?: string
-  placeholder?: string
+  placeholder: string
   disabled?: boolean
   isLoading?: boolean
   name?: string
@@ -202,7 +202,7 @@ export interface SearchBarProps {
 const SearchBar: React.FC<SearchBarProps> = ({
   className,
   value,
-  placeholder = "Search...",
+  placeholder,
   disabled = false,
   isLoading = false,
   loaderType = LOADER.PulseLoader,

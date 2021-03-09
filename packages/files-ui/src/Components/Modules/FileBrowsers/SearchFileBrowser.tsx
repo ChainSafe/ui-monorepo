@@ -10,7 +10,7 @@ import { ROUTE_LINKS } from "../../FilesRoutes"
 import { useQuery } from "../../../Utils/Helpers"
 
 const SearchFileBrowser: React.FC<IFilesBrowserModuleProps> = ({
-  heading = "Search results",
+  heading,
   controls = false
 }: IFilesBrowserModuleProps) => {
   const { updateCurrentPath, getSearchResults } = useDrive()

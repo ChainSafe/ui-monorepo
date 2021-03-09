@@ -40,9 +40,9 @@ interface IDialogProps
   accept: () => void
   reject: () => void
   injectedClass?: IDialogClasses
-  requestMessage?: string | ReactNode
-  acceptText?: string
-  rejectText?: string
+  requestMessage: string | ReactNode
+  acceptText: string
+  rejectText: string
   rejectButtonProps?: IButtonProps
   acceptButtonProps?: IButtonProps
 }
@@ -50,9 +50,9 @@ interface IDialogProps
 const Dialog: React.FC<IDialogProps> = ({
   accept,
   reject,
-  requestMessage = "Please confirm",
-  rejectText = "Cancel",
-  acceptText = "Confirm",
+  requestMessage,
+  rejectText,
+  acceptText,
   className,
   injectedClass,
   rejectButtonProps,

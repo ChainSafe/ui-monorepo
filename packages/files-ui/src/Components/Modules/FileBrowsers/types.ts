@@ -17,7 +17,7 @@ export type FileOperation =
   | "view_folder"
 
 export interface IFilesBrowserModuleProps {
-  heading?: string
+  heading: string
   // TODO: once pagination & unique content requests are present, this might change to a passed in function
   controls?: boolean
 }

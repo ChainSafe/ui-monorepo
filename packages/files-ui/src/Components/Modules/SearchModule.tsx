@@ -19,7 +19,7 @@ import { ROUTE_LINKS } from "../FilesRoutes"
 import { useDrive, SearchEntry } from "../../Contexts/DriveContext"
 import { CONTENT_TYPES } from "../../Utils/Constants"
 import { getParentPathFromFilePath } from "../../Utils/pathUtils"
-import { Trans } from "@lingui/macro"
+import { t, Trans } from "@lingui/macro"
 import { CSFTheme } from "../../Themes/types"
 
 const useStyles = makeStyles(
@@ -239,6 +239,7 @@ const SearchModule: React.FC<ISearchModule> = ({
           onChange={(e: ChangeEvent<HTMLInputElement>) =>
             onSearchChange(e.target.value)
           }
+          placeholder={t`Search...`}
         />
       </form>
       {searchString && searchStringCallback ? (
