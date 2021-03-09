@@ -1,4 +1,4 @@
-import React, { Fragment } from "react"
+import React, { Fragment, useCallback } from "react"
 import {
   TableRow,
   TableCell,
@@ -43,7 +43,6 @@ import { FileOperation, IFileConfigured } from "../types"
 import { CSFTheme } from "../../../../Themes/types"
 
 const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => {
-  // const desktopGridSettings = "50px 69px 3fr 190px 100px 45px !important"
   const desktopGridSettings = "50px 69px 3fr 190px 60px !important"
   const mobileGridSettings = "69px 3fr 45px !important"
   return createStyles({
@@ -217,12 +216,13 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
   setFileInfoPath,
   handleSelect
 }) => {
+  const { cid, name, isFolder, size, operations, content_type } = file
   let Icon
-  if (file.isFolder) {
+  if (isFolder) {
     Icon = FolderFilledSvg
-  } else if (file.content_type.includes("image")) {
+  } else if (content_type.includes("image")) {
     Icon = FileImageSvg
-  } else if (file.content_type.includes("pdf")) {
+  } else if (content_type.includes("pdf")) {
     Icon = FilePdfSvg
   } else {
     Icon = FileTextSvg
@@ -241,7 +241,7 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
           </span>
         </Fragment>
       ),
-      onClick: () => setEditing(file.cid)
+      onClick: () => setEditing(cid)
     },
     delete: {
       contents: (
@@ -252,7 +252,7 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
           </span>
         </Fragment>
       ),
-      onClick: () => deleteFile && deleteFile(file.cid)
+      onClick: () => deleteFile && deleteFile(cid)
     },
     download: {
       contents: (
@@ -263,7 +263,7 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
           </span>
         </Fragment>
       ),
-      onClick: () => downloadFile && downloadFile(file.cid)
+      onClick: () => downloadFile && downloadFile(cid)
     },
     move: {
       contents: (
@@ -296,7 +296,7 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
           </span>
         </Fragment>
       ),
-      onClick: () => setFileInfoPath(`${currentPath}${file.name}`)
+      onClick: () => setFileInfoPath(`${currentPath}${name}`)
     },
     recover: {
       contents: (
@@ -307,7 +307,7 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
           </span>
         </Fragment>
       ),
-      onClick: () => recoverFile && recoverFile(file.cid)
+      onClick: () => recoverFile && recoverFile(cid)
     },
     preview: {
       contents: (
@@ -329,11 +329,11 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
           </span>
         </Fragment>
       ),
-      onClick: () => viewFolder && viewFolder(file.cid)
+      onClick: () => viewFolder && viewFolder(cid)
     }
   }
 
-  const menuItems: IMenuItem[] = file.operations.map(
+  const menuItems: IMenuItem[] = operations.map(
     (itemOperation) => menuOptions[itemOperation]
   )
 
@@ -343,7 +343,7 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
 
   const [{ isOverMove }, dropMoveRef] = useDrop({
     accept: DragTypes.MOVABLE_FILE,
-    canDrop: () => file.isFolder,
+    canDrop: () => isFolder,
     drop: async (item: {
       type: typeof DragTypes.MOVABLE_FILE
       payload: FileSystemItem
@@ -351,7 +351,7 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
       handleMove &&
         (await handleMove(
           `${currentPath}${item.payload.name}`,
-          `${currentPath}${file.name}/${item.payload.name}`
+          `${currentPath}${name}/${item.payload.name}`
         ))
     },
     collect: (monitor) => ({
@@ -363,7 +363,7 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
     accept: [NativeTypes.FILE],
     drop: (item: any) => {
       handleUploadOnDrop &&
-        handleUploadOnDrop(item.files, item.items, `${currentPath}${file.name}`)
+        handleUploadOnDrop(item.files, item.items, `${currentPath}${name}`)
     },
     collect: (monitor) => ({
       isOverUpload: monitor.isOver()
@@ -371,7 +371,7 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
   })
 
   function attachRef(el: any) {
-    if (file.isFolder) {
+    if (isFolder) {
       dropMoveRef(el)
       dropUploadRef(el)
     } else {
@@ -379,23 +379,20 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
     }
   }
 
-  // Hook cant be called conditionally
-  const doubleClick = useDoubleClick(
-    () => {
-      handleSelect(file.cid)
-    },
-    () => {
-      file.isFolder
-        ? updateCurrentPath(`${currentPath}${file.name}`, undefined, true)
-        : setPreviewFileIndex(files?.indexOf(file))
-    }
-  )
+  const onSingleClick = useCallback(() => { handleSelect(cid) }, [cid, handleSelect])
+  const onDoubleClick = useCallback(() => {
+    isFolder
+      ? updateCurrentPath(`${currentPath}${name}`, undefined, true)
+      : setPreviewFileIndex(files?.indexOf(file))
+  }, [currentPath, file, files, isFolder, name, setPreviewFileIndex, updateCurrentPath])
+
+  const { click } = useDoubleClick(onSingleClick,onDoubleClick)
 
   const onFolderOrFileClicks = desktop
-    ? doubleClick
+    ? click
     : () => {
-      file.isFolder
-        ? updateCurrentPath(`${currentPath}${file.name}`, undefined, true)
+      isFolder
+        ? updateCurrentPath(`${currentPath}${name}`, undefined, true)
         : setPreviewFileIndex(files?.indexOf(file))
     }
 
@@ -403,24 +400,24 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
     <TableRow
       key={`files-${index}`}
       className={clsx(classes.tableRow, {
-        droppable: file.isFolder && (isOverMove || isOverUpload),
-        folder: file.isFolder
+        droppable: isFolder && (isOverMove || isOverUpload),
+        folder: isFolder
       })}
       type="grid"
       rowSelectable={true}
       ref={attachRef}
-      selected={selected.includes(file.cid)}
+      selected={selected.includes(cid)}
     >
       {desktop && (
         <TableCell>
           <CheckboxInput
-            value={selected.includes(file.cid)}
-            onChange={() => handleSelect(file.cid)}
+            value={selected.includes(cid)}
+            onChange={() => handleSelect(cid)}
           />
         </TableCell>
       )}
       <TableCell
-        className={clsx(classes.fileIcon, file.isFolder && classes.folderIcon)}
+        className={clsx(classes.fileIcon, isFolder && classes.folderIcon)}
         onClick={onFolderOrFileClicks}
       >
         <Icon />
@@ -435,16 +432,16 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
           }
         }}
       >
-        {editing === file.cid && desktop ? (
+        {editing === cid && desktop ? (
           <Formik
             initialValues={{
-              fileName: file.name
+              fileName: name
             }}
             validationSchema={RenameSchema}
             onSubmit={(values) => {
               handleRename &&
                 handleRename(
-                  `${currentPath}${file.name}`,
+                  `${currentPath}${name}`,
                   `${currentPath}${values.fileName}`
                 )
               setEditing(undefined)
@@ -461,9 +458,9 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
                   }
                 }}
                 placeholder={`Please enter a ${
-                  file.isFolder ? "folder" : "file"
+                  isFolder ? "folder" : "file"
                 } name`}
-                autoFocus={editing === file.cid}
+                autoFocus={editing === cid}
               />
               <Button
                 variant={themeKey === "dark" ? "outline" : "dashed"}
@@ -474,25 +471,25 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
               </Button>
             </Form>
           </Formik>
-        ) : editing === file.cid && !desktop ? (
+        ) : editing === cid && !desktop ? (
           <CustomModal
             className={classes.modalRoot}
             injectedClass={{
               inner: classes.modalInner
             }}
             closePosition="none"
-            active={editing === file.cid}
+            active={editing === cid}
             setActive={() => setEditing("")}
           >
             <Formik
               initialValues={{
-                fileName: file.name
+                fileName: name
               }}
               validationSchema={RenameSchema}
               onSubmit={(values) => {
                 handleRename &&
                   handleRename(
-                    `${currentPath}${file.name}`,
+                    `${currentPath}${name}`,
                     `${currentPath}${values.fileName}`
                   )
                 setEditing(undefined)
@@ -511,9 +508,9 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
                   className={classes.renameInput}
                   name="fileName"
                   placeholder={`Please enter a ${
-                    file.isFolder ? "folder" : "file"
+                    isFolder ? "folder" : "file"
                   } name`}
-                  autoFocus={editing === file.cid}
+                  autoFocus={editing === cid}
                 />
                 <footer className={classes.renameFooter}>
                   <Button
@@ -537,17 +534,13 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
             </Formik>
           </CustomModal>
         ) : (
-          <Typography>{file.name}</Typography>
+          <Typography>{name}</Typography>
         )}
       </TableCell>
       {desktop && (
         <>
-          {/* <TableCell align="left">
-            {standardlongDateFormat(new Date(file.date_uploaded), true)}
-          </TableCell> */}
-
           <TableCell align="left">
-            {!file.isFolder && formatBytes(file.size)}
+            {!isFolder && formatBytes(size)}
           </TableCell>
         </>
       )}
