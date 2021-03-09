@@ -16,7 +16,6 @@ const useStyles = makeStyles(
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        justifyContent: "space-between",
         flex: "1 1 0",
         position: "absolute",
         top: "50%",
@@ -26,21 +25,37 @@ const useStyles = makeStyles(
         backgroundColor: constants.landing.background,
         border: `1px solid ${constants.landing.border}`,
         boxShadow: constants.landing.boxShadow,
-        minHeight: "64vh",
         borderRadius: 6,
         [breakpoints.up("md")]:{
+          minHeight: "64vh",
+          justifyContent: "space-between",
           minWidth: 440
+        },
+        [breakpoints.down("md")]: {
+          padding: `${constants.generalUnit * 4}px ${constants.generalUnit * 6.5}px`,
+          justifyContent: "center",
+          width: `calc(100vw - ${constants.generalUnit * 2}px)`
         }
       },
       buttonSection: {
-        position: "absolute",
-        top: "50%",
-        left: "50%",
-        transform: "translate(-50%, -50%)"
+        [breakpoints.up("md")]: {
+          position: "absolute",
+          top: "50%",
+          left: "50%",
+          transform: "translate(-50%, -50%)"
+        },
+        [breakpoints.down("md")]: {
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "space-evenly"
+        }
       },
       button: {
         width: 240,
-        marginBottom: constants.generalUnit * 2
+        marginBottom: constants.generalUnit * 2,
+        "&:last-child": {
+          marginBottom: 0 
+        }
       },
       error: {
         color: palette.error.main,
@@ -55,7 +70,6 @@ const useStyles = makeStyles(
         [breakpoints.down("md")]: {
           paddingTop: constants.generalUnit * 3,
           paddingBottom: constants.generalUnit * 3,
-          color: palette.common.white.main,
           textAlign: "center"
         }
       },
@@ -66,6 +80,10 @@ const useStyles = makeStyles(
         width: "100%",
         "& > *": {
           marginRight: constants.generalUnit * 3.5
+        },
+        [breakpoints.down("md")]: {
+          // TODO: confirm how to move this around
+          display: "none"
         }
       }
     })
@@ -151,15 +169,17 @@ const InitialScreen: React.FC = () => {
 
   return (
     <div className={classes.root}>
-      <Typography
-        variant="h6"
-        component="h1"
-        className={classes.headerText}
-      >
-        <Trans>
-          Sign in
-        </Trans>
-      </Typography>
+      {
+        desktop && (<Typography
+          variant="h6"
+          component="h1"
+          className={classes.headerText}
+        >
+          <Trans>
+            Sign in
+          </Trans>
+        </Typography>)
+      }
       {error && (
         <Typography className={classes.error}>{error}</Typography>
       )}
@@ -174,7 +194,7 @@ const InitialScreen: React.FC = () => {
           <Button
             onClick={handleSelectWalletAndConnect}
             className={classes.button}
-            variant={desktop ? "primary" : "outline"}
+            variant="primary"
             size="large"
             disabled={maintenanceMode}
             loading={isConnecting}
@@ -188,7 +208,7 @@ const InitialScreen: React.FC = () => {
             <Button
               onClick={handleSignAuth}
               className={classes.button}
-              variant={desktop ? "primary" : "outline"}
+              variant="primary"
               size="large"
               disabled={maintenanceMode}
               loading={isConnecting}
@@ -202,7 +222,7 @@ const InitialScreen: React.FC = () => {
               onClick={handleResetAndSelectWalletAndConnect}
               className={classes.button}
               size="large"
-              variant={desktop ? "primary" : "outline"}
+              variant="primary"
               disabled={isConnecting}
             >
               <span>
@@ -218,7 +238,7 @@ const InitialScreen: React.FC = () => {
         )}
         <Button
           className={classes.button}
-          variant={desktop ? "primary" : "outline"}
+          variant="primary"
           size="large"
           onClick={() => handleOAuthLogin("github")}
           disabled={maintenanceMode || isConnecting}
@@ -228,7 +248,7 @@ const InitialScreen: React.FC = () => {
         </Button>
         <Button
           className={classes.button}
-          variant={desktop ? "primary" : "outline"}
+          variant="primary"
           size="large"
           onClick={() => handleOAuthLogin("google")}
           disabled={maintenanceMode || isConnecting}
@@ -239,7 +259,7 @@ const InitialScreen: React.FC = () => {
         <Button
           className={classes.button}
           size="large"
-          variant={desktop ? "primary" : "outline"}
+          variant="primary"
           onClick={() => handleOAuthLogin("facebook")}
           disabled={maintenanceMode || isConnecting}
         >

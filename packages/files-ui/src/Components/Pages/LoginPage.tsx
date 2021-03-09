@@ -19,11 +19,12 @@ import { ROUTE_LINKS } from "../FilesRoutes"
 import { Trans } from "@lingui/macro"
 
 const useStyles = makeStyles(
-  ({ constants, typography, zIndex }: CSFTheme) =>
+  ({ constants, breakpoints, typography, zIndex }: CSFTheme) =>
     createStyles({
       root: {
         position: "relative",
-        minHeight: "100vh"
+        minHeight: "100vh",
+        overflow: "hidden"
       },
       layer1: {
         position: "absolute",
@@ -35,19 +36,32 @@ const useStyles = makeStyles(
       },
       layer2: {
         position: "absolute",
-        top: "calc(50% + 3vh)",
         left: "50%",
+        top: "calc(50% + 3vh)",
         transform: "translate(-50%, -50%)",
-        minHeight: "64vh",
-        maxHeight: "90vh",
-        zIndex: zIndex?.layer0
+        zIndex: zIndex?.layer0,
+        [breakpoints.up("md")]: {
+          minHeight: "64vh",
+          maxHeight: "90vh"
+        },
+        [breakpoints.down("md")]: {
+          width: "120vw"
+        }
       },
       title: {
         position: "absolute",
         top: constants.generalUnit * 5.25,
         left: "50%",
         transform: "translate(-50%, 0)",
-        fontWeight: typography.fontWeight.regular
+        fontWeight: typography.fontWeight.regular,
+        textAlign: "center",
+        width: "100%",
+        [breakpoints.up("md")]:{
+          ...typography.h2
+        },
+        [breakpoints.down("md")]:{
+          ...typography.h4
+        }
       },
       cta: {
         position: "absolute",
@@ -60,6 +74,9 @@ const useStyles = makeStyles(
         textDecoration: "none",
         "& *:first-child": {
           marginBottom: constants.generalUnit
+        },
+        [breakpoints.down("md")]: {
+          display: "none"
         }
       },
       inner: {
@@ -89,7 +106,7 @@ const LoginPage = () => {
 
   return (
     <div className={classes.root}>
-      <Typography variant="h2" className={classes.title}>
+      <Typography className={classes.title}>
         ChainSafe Files
       </Typography>
       {
