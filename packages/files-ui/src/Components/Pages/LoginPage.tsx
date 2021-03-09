@@ -14,7 +14,9 @@ import Layer2DarkSVG from "../../Media/Layer2-darkmode.svg"
 import Layer1LightSVG from "../../Media/Layer1-lightmode.svg"
 import Layer2LightSVG from "../../Media/Layer2-lightmode.svg"
 import InitialScreen from "../Modules/LoginModule/InitialScreen"
-import { Typography } from "@chainsafe/common-components"
+import { ChainsafeFilesLogo, Typography } from "@chainsafe/common-components"
+import { ROUTE_LINKS } from "../FilesRoutes"
+import { Trans } from "@lingui/macro"
 
 const useStyles = makeStyles(
   ({ constants, typography, zIndex }: CSFTheme) =>
@@ -39,19 +41,28 @@ const useStyles = makeStyles(
         minHeight: "64vh",
         zIndex: zIndex?.layer0
       },
-      inner: {
-        position: "absolute",
-        top: "50%",
-        left: "50%",
-        transform: "translate(-50%, -50%)",
-        zIndex: zIndex?.layer1
-      },
       title: {
         position: "absolute",
         top: constants.generalUnit * 5.25,
         left: "50%",
         transform: "translate(-50%, 0)",
         fontWeight: typography.fontWeight.regular
+      },
+      cta: {
+        position: "absolute",
+        bottom: 0,
+        right: 0,
+        padding: `${constants.generalUnit * 2.5}px ${constants.generalUnit}px`,
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center"
+      },
+      inner: {
+        position: "absolute",
+        top: "50%",
+        left: "50%",
+        transform: "translate(-50%, -50%)",
+        zIndex: zIndex?.layer1
       }
     })
 )
@@ -89,6 +100,19 @@ const LoginPage = () => {
           </>
           
       }
+      <a
+        className={classes.cta}
+        href={ROUTE_LINKS.ChainSafe}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <ChainsafeFilesLogo />
+        <Typography>
+          <Trans>
+            Learn more about ChainSafe
+          </Trans>
+        </Typography>
+      </a>
       <div className={classes.inner}>
         {!keyDetails && <InitialScreen/>}
         {areSharesMissing && <MissingShares />}
