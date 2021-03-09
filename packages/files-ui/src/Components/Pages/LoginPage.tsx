@@ -53,10 +53,14 @@ const useStyles = makeStyles(
         position: "absolute",
         bottom: 0,
         right: 0,
-        padding: `${constants.generalUnit * 2.5}px ${constants.generalUnit}px`,
+        padding: `${constants.generalUnit * 2.5}px ${constants.generalUnit * 1.5}px`,
         display: "flex",
         flexDirection: "column",
-        alignItems: "center"
+        alignItems: "center",
+        textDecoration: "none",
+        "& *:first-child": {
+          marginBottom: constants.generalUnit
+        }
       },
       inner: {
         position: "absolute",
