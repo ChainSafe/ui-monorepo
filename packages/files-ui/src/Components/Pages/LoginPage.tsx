@@ -39,6 +39,7 @@ const useStyles = makeStyles(
         left: "50%",
         transform: "translate(-50%, -50%)",
         minHeight: "64vh",
+        maxHeight: "90vh",
         zIndex: zIndex?.layer0
       },
       title: {
