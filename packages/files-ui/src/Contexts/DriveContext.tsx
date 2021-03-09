@@ -75,7 +75,6 @@ type DriveContext = {
   uploadsInProgress: UploadProgress[]
   downloadsInProgress: DownloadProgress[]
   spaceUsed: number
-  secureDrive(password: string): void
   getFolderTree(): Promise<DirectoryContentResponse>
   getFileInfo(path: string): Promise<CSFFilesFullinfoResponse>
   getSearchResults(searchString: string): Promise<SearchEntry[]>
@@ -106,7 +105,6 @@ const DriveProvider = ({ children }: DriveContextProps) => {
     imployApiClient,
     isLoggedIn,
     secured,
-    secureAccount,
     secureThresholdKeyAccount,
     encrypedEncryptionKey
   } = useImployApi()
@@ -723,15 +721,6 @@ const DriveProvider = ({ children }: DriveContextProps) => {
     }
   }
 
-  const secureDrive = async (password: string) => {
-    if (secured) return
-
-    const result = await secureAccount(password)
-    if (result) {
-      setMasterPassword(password)
-    }
-  }
-
   // const setPassword = async (password: string) => {
   //   if (!masterPassword && (await validateMasterPassword(password))) {
   //     setMasterPassword(password)
@@ -772,7 +761,6 @@ const DriveProvider = ({ children }: DriveContextProps) => {
         uploadsInProgress,
         spaceUsed,
         downloadsInProgress,
-        secureDrive,
         getFolderTree,
         getSearchResults,
         currentSearchBucket,

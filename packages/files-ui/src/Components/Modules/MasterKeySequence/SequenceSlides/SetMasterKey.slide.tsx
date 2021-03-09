@@ -109,7 +109,7 @@ const SetMasterKeySlide: React.FC<ISetMasterKeySlide> = ({
   className
 }: ISetMasterKeySlide) => {
   const classes = useStyles()
-  const { secureDrive } = useDrive()
+  // const { secureDrive } = useDrive()
 
   const masterKeyValidation = yup.object().shape({
     masterKey: yup
@@ -158,7 +158,7 @@ const SetMasterKeySlide: React.FC<ISetMasterKeySlide> = ({
         validationSchema={masterKeyValidation}
         onSubmit={async (values, helpers) => {
           helpers.setSubmitting(true)
-          secureDrive(values.masterKey)
+          // secureDrive(values.masterKey)
           helpers.setSubmitting(false)
         }}
       >

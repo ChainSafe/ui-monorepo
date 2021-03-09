@@ -24,7 +24,7 @@ import EthCrypto from "eth-crypto"
 import { useWeb3 } from "@chainsafe/web3-context"
 import ShareTransferRequestModal from "../Components/Elements/ShareTransferRequestModal"
 import BN from "bn.js"
-
+import { TKeyRequestIdentity_provider } from "@imploy/api-client"
 const TORUS_POSTBOX_KEY = "csf.postboxKey"
 const TKEY_STORE_KEY = "csf.tkeyStore"
 
@@ -217,12 +217,18 @@ const ThresholdKeyProvider = ({
   useEffect(() => {
     const loginWithThresholdKey = async () => {
       const { token } = await imployApiClient.getWeb3Token()
-      if (token && privateKey) {
+      if (token && privateKey && userInfo) {
         const pubKey = await EthCrypto.publicKeyByPrivateKey(privateKey)
         setPublicKey(pubKey)
         const wallet = new Wallet(privateKey)
         const signature = await wallet.signMessage(token)
-        await thresholdKeyLogin(signature, token, wallet.address)
+        await thresholdKeyLogin(
+          signature, 
+          token, 
+          userInfo.userInfo.typeOfLogin as TKeyRequestIdentity_provider, 
+          userInfo.userInfo.idToken || '',
+          pubKey
+        )
       }
     }
 
