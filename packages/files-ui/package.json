@@ -45,6 +45,7 @@
     "zxcvbn": "^4.4.2"
   },
   "devDependencies": {
+    "@craco/craco": "^5.9.0",
     "@testing-library/jest-dom": "^5.11.6",
     "@testing-library/react": "^11.2.2",
     "@testing-library/user-event": "^12.5.0",
@@ -57,8 +58,7 @@
     "@types/react-toast-notifications": "^2.4.0",
     "@types/yup": "^0.29.9",
     "@types/zxcvbn": "^4.4.0",
-    "babel-plugin-macros": "^2.8.0",
-    "craco": "^0.0.3"
+    "babel-plugin-macros": "^2.8.0"
   },
   "scripts": {
     "postinstall": "yarn compile",
