@@ -234,7 +234,7 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
     token: string,
     identityProvider: TKeyRequestIdentity_provider,
     identityToken: string,
-    publicKey: string,
+    publicKey: string
   ) => {
     try {
       const {
@@ -375,32 +375,32 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
   }
 
   // const secureAccount = async (masterPassword: string) => {
-    // try {
-    //   if (decodedRefreshToken && refreshToken) {
-    //     const uuidArray = new TextEncoder().encode(decodedRefreshToken.uuid)
-    //     const encryptedUuid = await encryptFile(uuidArray, masterPassword)
-    //     const encryptedUuidString = Buffer.from(encryptedUuid).toString(
-    //       "base64"
-    //     )
-    //     await imployApiClient.secure({
-    //       mps: encryptedUuidString
-    //     })
+  // try {
+  //   if (decodedRefreshToken && refreshToken) {
+  //     const uuidArray = new TextEncoder().encode(decodedRefreshToken.uuid)
+  //     const encryptedUuid = await encryptFile(uuidArray, masterPassword)
+  //     const encryptedUuidString = Buffer.from(encryptedUuid).toString(
+  //       "base64"
+  //     )
+  //     await imployApiClient.secure({
+  //       mps: encryptedUuidString
+  //     })
 
-    //     const {
-    //       access_token,
-    //       refresh_token
-    //     } = await imployApiClient.getRefreshToken({
-    //       refresh: refreshToken.token
-    //     })
+  //     const {
+  //       access_token,
+  //       refresh_token
+  //     } = await imployApiClient.getRefreshToken({
+  //       refresh: refreshToken.token
+  //     })
 
-    //     setTokensAndSave(access_token, refresh_token)
-    //     return true
-    //   } else {
-    //     return false
-    //   }
-    // } catch (error) {
-    //   return false
-    // }
+  //     setTokensAndSave(access_token, refresh_token)
+  //     return true
+  //   } else {
+  //     return false
+  //   }
+  // } catch (error) {
+  //   return false
+  // }
   // }
 
   const secureThresholdKeyAccount = async (encryptedKey: string) => {

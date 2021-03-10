@@ -270,6 +270,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
           decryptKey(encrypedEncryptionKey)
         }
       } else {
+        // TODO: Check if the user has a master password string set
         console.log("generating key and securing account")
         secureAccount()
       }
