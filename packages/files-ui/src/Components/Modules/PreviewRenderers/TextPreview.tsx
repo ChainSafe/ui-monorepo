@@ -4,6 +4,14 @@ import { makeStyles, createStyles } from "@chainsafe/common-theme"
 import { CSFTheme } from "../../../Themes/types"
 import { Button, ZoomInIcon, ZoomOutIcon } from "@chainsafe/common-components"
 
+interface ITextPreviewStyles {
+  fontSize: number
+}
+
+const DEFAULT_FONT_SIZE = 16
+const HIGHEST_FONT_SIZE = 24
+const LOWEST_FONT_SIZE = 10
+
 const useStyles = makeStyles(({ palette, constants, typography, zIndex }: CSFTheme) =>
   createStyles({
     root: {
@@ -11,26 +19,25 @@ const useStyles = makeStyles(({ palette, constants, typography, zIndex }: CSFThe
       width: "100%",
       height: `calc(100vh - 
         ${constants.previewModal.previewTopNavHeight}px - 
-        ${constants.previewModal.previewBottomNavHeight}px - 
-        ${constants.generalUnit * 4}px)`
+        ${constants.generalUnit * 2}px)`
     },
-    filePreview: {
+    filePreview: ({ fontSize }: ITextPreviewStyles) => ({
       height: "100%",
       backgroundColor: palette.additional["gray"][1],
       padding: constants.generalUnit * 2,
       overflow: "scroll",
       textAlign: "left",
-      ...typography.body1
-    },
+      ...typography.body1,
+      fontSize
+    }),
     controlsContainer: {
       position: "absolute",
       zIndex: zIndex?.layer1,
       display: "flex",
       flexDirection: "row",
-      alignItems: "center",
-      bottom: 0,
-      left: "50%",
-      transform: "translate(-50%, -50%)",
+      top: 0,
+      right: 0,
+      height: constants.generalUnit * 8,
       backgroundColor: palette.additional["gray"][9],
       color: palette.additional["gray"][3],
       borderWidth: 1,
@@ -45,8 +52,11 @@ const useStyles = makeStyles(({ palette, constants, typography, zIndex }: CSFThe
 
 const TextPreview: React.FC<IPreviewRendererProps> = ({ contents }) => {
   const [contentText, setContentText] = useState<string | undefined>()
+  const [fontSize, setFontSize] = useState<number>(DEFAULT_FONT_SIZE)
 
-  const classes = useStyles()
+  const classes = useStyles({
+    fontSize
+  })
   useEffect(() => {
     const getContentText = async () => {
       const text = await contents.text()
@@ -58,11 +68,11 @@ const TextPreview: React.FC<IPreviewRendererProps> = ({ contents }) => {
   }, [contents])
 
   const onZoomIn = () => {
-    // 
+    setFontSize(fontSize + 2)
   } 
 
   const onZoomOut = () => {
-    // 
+    setFontSize(fontSize - 2)
   } 
 
   return (
@@ -71,10 +81,10 @@ const TextPreview: React.FC<IPreviewRendererProps> = ({ contents }) => {
         {contentText}
       </div>
       <div className={classes.controlsContainer}>
-        <Button onClick={onZoomOut} className={classes.pageButton}>
+        <Button disabled={fontSize <= LOWEST_FONT_SIZE} onClick={onZoomOut} className={classes.pageButton}>
           <ZoomOutIcon fontSize="medium" />
         </Button>
-        <Button onClick={onZoomIn} className={classes.pageButton}>
+        <Button  disabled={fontSize >= HIGHEST_FONT_SIZE} onClick={onZoomIn} className={classes.pageButton}>
           <ZoomInIcon fontSize="medium" />
         </Button>
       </div>

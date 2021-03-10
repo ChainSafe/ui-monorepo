@@ -600,7 +600,6 @@ const DriveProvider = ({ children }: DriveContextProps) => {
     onDownloadProgress?: (progressEvent: ProgressEvent<EventTarget>) => void
   ) => {
     if (!encryptionKey) return // TODO: Add better error handling here.
-
     const file = pathContents.find((i) => i.cid === cid)
     if (!file) return
     try {
