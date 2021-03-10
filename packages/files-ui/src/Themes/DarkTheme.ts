@@ -333,7 +333,7 @@ export const darkTheme = createTheme<CsfColors>({
           logoText: "var(--gray10)"
         },
         modalDefault: {
-          fadebackground: "var(--gray2)",
+          fadeBackground: "var(--gray2)",
           background: "var(--gray2)"
         },
         header: {
@@ -370,7 +370,9 @@ export const darkTheme = createTheme<CsfColors>({
           optionsBorder: "var(--gray5)",
           menuItemIconColor: "var(--gray9)",
           menuItemTextColor: "var(--gray10)",
-          message: "var(--gray8)"
+          message: "var(--gray8)",
+          previewBottomNavHeight: 64,
+          previewTopNavHeight: 64
         },
         searchModule: {
           resultsBackground: "var(--gray2)",
@@ -413,7 +415,7 @@ export const darkTheme = createTheme<CsfColors>({
           itemBackground: "var(--gray1)",
           itemColor: "var(--gray9)"
         },
-        masterkey: {
+        masterKey: {
           desktop: {
             color: "var(--gray9)",
             link: "var(--gray10)",

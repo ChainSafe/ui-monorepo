@@ -33,10 +33,10 @@ const useStyles = makeStyles(({ constants, palette, zIndex }: ITheme) =>
 
 const PdfPreview: React.FC<IPreviewRendererProps> = ({ contents }) => {
   const classes = useStyles()
-  const [pdfUrl, setPrdfUrl] = useState<string | undefined>()
+  const [pdfUrl, setPdfUrl] = useState<string | undefined>()
 
   useEffect(() => {
-    setPrdfUrl(URL.createObjectURL(contents))
+    setPdfUrl(URL.createObjectURL(contents))
 
     return () => {
       pdfUrl && URL.revokeObjectURL(pdfUrl)

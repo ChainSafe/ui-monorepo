@@ -108,7 +108,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
     secured,
     secureAccount,
     secureThresholdKeyAccount,
-    encrypedEncryptionKey
+    encryptedEncryptionKey
   } = useImployApi()
 
   const {
@@ -268,8 +268,8 @@ const DriveProvider = ({ children }: DriveContextProps) => {
       console.log("Checking whether account is secured ", secured)
       if (secured) {
         console.log("decrypting key")
-        if (encrypedEncryptionKey) {
-          decryptKey(encrypedEncryptionKey)
+        if (encryptedEncryptionKey) {
+          decryptKey(encryptedEncryptionKey)
         }
       } else {
         console.log("generating key and securing account")
@@ -279,7 +279,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
   }, [
     secured,
     isLoggedIn,
-    encrypedEncryptionKey,
+    encryptedEncryptionKey,
     publicKey,
     encryptForPublicKey,
     secureThresholdKeyAccount,
@@ -600,6 +600,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
     onDownloadProgress?: (progressEvent: ProgressEvent<EventTarget>) => void
   ) => {
     if (!encryptionKey) return // TODO: Add better error handling here.
+
     const file = pathContents.find((i) => i.cid === cid)
     if (!file) return
     try {
