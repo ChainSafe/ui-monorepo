@@ -205,7 +205,6 @@ const FilePreviewModal: React.FC<{
         source.current = null
         setLoadingProgress(0)
       } catch (error) {
-        console.log("error in content")
         if (error) {
           setError(t`There was an error getting the preview.`)
         }
