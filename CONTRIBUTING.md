@@ -96,10 +96,6 @@ members of the project's leadership.
 This Code of Conduct is adapted from the [Contributor Covenant][homepage], version 1.4,
 available at [http://contributor-covenant.org/version/1/4][version]
 
-[homepage]: http://contributor-covenant.org
-[version]: http://contributor-covenant.org/version/1/4/
-[updateScripts]: https://gist.github.com/jacogr/9f0c8b33a7f14d944925787643dbf55b
-
 ## Styleguides
 
 All TypeScript code must adhere to the [eslint-recommended](https://eslint.org/docs/rules/). These rules are programmatically enforced by `eslint` in a pre-push hook.
