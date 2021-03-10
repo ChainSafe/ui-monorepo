@@ -58,11 +58,11 @@ const TextPreview: React.FC<IPreviewRendererProps> = ({ contents }) => {
   }, [contents])
 
   const onZoomIn = () => {
-
+    // 
   } 
 
   const onZoomOut = () => {
-
+    // 
   } 
 
   return (
