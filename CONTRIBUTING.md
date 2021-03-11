@@ -26,7 +26,7 @@ When contributing to this repository, please first check whether the issue you e
 
 1. Pick an issue in the Issue tracker for the repository, and assign yourself before working on it so we don't have duplicated effort.
 1. Pull Request must be created against the `dev` branch.
-1. The name of the branch should be in lower case and follow the pattern: [fix,mnt,feat]/[free-text-summarizing-the-PR]-[PR-number] e.g feat/mygithubhandle-file-sharing-888
+1. The name of the branch should be in lower case and follow the pattern: [fix,mnt,feat]/[free-text-summarizing-the-PR]-[issue-number] e.g feat/mygithubhandle-file-sharing-888
     - "fix" should be used when the Pull Request fixes a bug or something that is broken
     - "mnt" should be used for any chore, dependency upgrade, housekeeping
     - "feat" should be used for a new feature
