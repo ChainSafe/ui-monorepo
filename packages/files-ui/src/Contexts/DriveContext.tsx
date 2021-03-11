@@ -447,7 +447,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
 
   const renameFile = async (body: FilesMvRequest) => {
     try {
-      if (body.source != body.new_path) {
+      if (body.path !== body.new_path) {
         await imployApiClient.moveCSFObject(body)
         await refreshContents(currentPath)
         addToastMessage({
