@@ -58,7 +58,8 @@
     "@types/yup": "^0.29.9",
     "@types/zxcvbn": "^4.4.0",
     "babel-plugin-macros": "^2.8.0",
-    "craco": "^0.0.3"
+    "craco": "^0.0.3",
+    "cypress": "^6.6.0"
   },
   "scripts": {
     "postinstall": "yarn compile",
