@@ -8,11 +8,9 @@ import { useHistory } from "@chainsafe/common-components"
 import { getParentPathFromFilePath } from "../../../Utils/pathUtils"
 import { ROUTE_LINKS } from "../../FilesRoutes"
 import { useQuery } from "../../../Utils/Helpers"
+import { t } from "@lingui/macro"
 
-const SearchFileBrowser: React.FC<IFilesBrowserModuleProps> = ({
-  heading = "Search results",
-  controls = false
-}: IFilesBrowserModuleProps) => {
+const SearchFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = false }: IFilesBrowserModuleProps) => {
   const { updateCurrentPath, getSearchResults } = useDrive()
   const { redirect } = useHistory()
 
@@ -66,7 +64,7 @@ const SearchFileBrowser: React.FC<IFilesBrowserModuleProps> = ({
         viewFolder={viewFolder}
         sourceFiles={pathContents}
         updateCurrentPath={updateCurrentPath}
-        heading={heading}
+        heading={t`Search results`}
         controls={controls}
       />
     </DragAndDrop>
