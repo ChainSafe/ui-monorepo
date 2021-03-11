@@ -4,11 +4,9 @@ import { IFileConfigured, IFilesBrowserModuleProps } from "./types"
 import FilesTableView from "./views/FilesTable.view"
 import { CONTENT_TYPES } from "../../../Utils/Constants"
 import DragAndDrop from "../../../Contexts/DnDContext"
+import { t } from "@lingui/macro"
 
-const BinFileBrowser: React.FC<IFilesBrowserModuleProps> = ({
-  heading,
-  controls = true
-}: IFilesBrowserModuleProps) => {
+const BinFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = true }: IFilesBrowserModuleProps) => {
   const {
     deleteFile,
     updateCurrentPath,
@@ -79,7 +77,7 @@ const BinFileBrowser: React.FC<IFilesBrowserModuleProps> = ({
         showUploadsInTable={false}
         sourceFiles={parsedContents}
         updateCurrentPath={updateCurrentPath}
-        heading={heading}
+        heading={t`Bin`}
         controls={controls}
       />
     </DragAndDrop>
