@@ -230,8 +230,8 @@ const ThresholdKeyProvider = ({
         await thresholdKeyLogin(
           signature, 
           token, 
-          (userInfo.userInfo.typeOfLogin === 'jwt') ? 
-            'web3' : 
+          (userInfo.userInfo.typeOfLogin === "jwt") ? 
+            "web3" : 
             userInfo.userInfo.typeOfLogin as TKeyRequestIdentity_provider, 
           userInfo.userInfo.idToken || userInfo.userInfo.accessToken,
           `0x${EthCrypto.publicKey.compress(pubKey)}`
