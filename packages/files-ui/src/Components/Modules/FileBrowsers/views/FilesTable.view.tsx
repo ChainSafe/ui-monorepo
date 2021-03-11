@@ -453,7 +453,6 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
   )
 
   // Bulk operations
-
   const [validBulkOps, setValidBulkOps] = useState<FileOperation[]>([])
   useEffect(() => {
     if (bulkOperations) {
@@ -631,12 +630,12 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
               }
               variant="outline"
             >
-              Move selected
+              <Trans>Move selected</Trans>
             </Button>
           )}
           {validBulkOps.indexOf("delete") >= 0 && (
             <Button onClick={handleBulkMoveToTrash} variant="outline">
-              Delete selected
+              <Trans>Delete selected</Trans>
             </Button>
           )}
         </section>
