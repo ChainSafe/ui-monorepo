@@ -1,11 +1,11 @@
 import { useWeb3 } from "@chainsafe/web3-context"
 import * as React from "react"
 import { useState, useEffect, useMemo, useCallback } from "react"
-import { IImployApiClient, ImployApiClient, Token, Provider } from "@imploy/api-client"
+import { IImployApiClient, ImployApiClient, Token, Provider, TKeyRequestIdentity_provider } from "@imploy/api-client"
 import jwtDecode from "jwt-decode"
 import { signMessage } from "./utils"
 import axios from "axios"
-import { decryptFile, encryptFile } from "../helpers"
+import { decryptFile } from "../helpers"
 
 export { Provider as OAuthProvider }
 
@@ -34,13 +34,15 @@ type ImployApiContext = {
   isReturningUser: boolean
   selectWallet(): Promise<void>
   resetAndSelectWallet(): Promise<void>
-  secureAccount(masterPassword: string): Promise<boolean>
+  // secureAccount(masterPassword: string): Promise<boolean>
   secureThresholdKeyAccount(encryptedKey: string): Promise<boolean>
   web3Login(): Promise<void>
   thresholdKeyLogin(
     signature: string,
     token: string,
-    publicAddress: string,
+    identityProvider: TKeyRequestIdentity_provider,
+    identityToken: string,
+    publicKey: string,
   ): Promise<void>
   getProviderUrl(provider: Provider): Promise<string>
   loginWithGithub(code: string, state: string): Promise<void>
@@ -230,16 +232,20 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
   const thresholdKeyLogin = async (
     signature: string,
     token: string,
-    publicAddress: string
+    identityProvider: TKeyRequestIdentity_provider,
+    identityToken: string,
+    publicKey: string
   ) => {
     try {
       const {
         access_token,
         refresh_token
-      } = await imployApiClient.postWeb3Token({
+      } = await imployApiClient.postIdentityTkeyToken({
         signature: signature,
         token: token,
-        public_address: publicAddress
+        identity_provider: identityProvider,
+        identity_token: identityToken,
+        public_key: publicKey
       })
       setTokensAndSave(access_token, refresh_token)
       setReturningUser()
@@ -255,6 +261,8 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
         const decoded = jwtDecode<{ mps?: string; exp: number; uuid: string }>(
           refreshToken.token
         )
+        console.log(decoded)
+
         setDecodedRefreshToken(decoded)
       } catch (error) {
         console.error("Error decoding access token")
@@ -366,40 +374,40 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
     canUseLocalStorage && localStorage.removeItem(tokenStorageKey)
   }
 
-  const secureAccount = async (masterPassword: string) => {
-    try {
-      if (decodedRefreshToken && refreshToken) {
-        const uuidArray = new TextEncoder().encode(decodedRefreshToken.uuid)
-        const encryptedUuid = await encryptFile(uuidArray, masterPassword)
-        const encryptedUuidString = Buffer.from(encryptedUuid).toString(
-          "base64"
-        )
-        await imployApiClient.secure({
-          mps: encryptedUuidString
-        })
+  // const secureAccount = async (masterPassword: string) => {
+  // try {
+  //   if (decodedRefreshToken && refreshToken) {
+  //     const uuidArray = new TextEncoder().encode(decodedRefreshToken.uuid)
+  //     const encryptedUuid = await encryptFile(uuidArray, masterPassword)
+  //     const encryptedUuidString = Buffer.from(encryptedUuid).toString(
+  //       "base64"
+  //     )
+  //     await imployApiClient.secure({
+  //       mps: encryptedUuidString
+  //     })
 
-        const {
-          access_token,
-          refresh_token
-        } = await imployApiClient.getRefreshToken({
-          refresh: refreshToken.token
-        })
+  //     const {
+  //       access_token,
+  //       refresh_token
+  //     } = await imployApiClient.getRefreshToken({
+  //       refresh: refreshToken.token
+  //     })
 
-        setTokensAndSave(access_token, refresh_token)
-        return true
-      } else {
-        return false
-      }
-    } catch (error) {
-      return false
-    }
-  }
+  //     setTokensAndSave(access_token, refresh_token)
+  //     return true
+  //   } else {
+  //     return false
+  //   }
+  // } catch (error) {
+  //   return false
+  // }
+  // }
 
   const secureThresholdKeyAccount = async (encryptedKey: string) => {
     try {
       if (decodedRefreshToken && refreshToken) {
         await imployApiClient.secure({
-          mps: encryptedKey
+          encryption_key: encryptedKey
         })
 
         const {
@@ -444,7 +452,7 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
         isLoggedIn: isLoggedIn(),
         secured,
         isReturningUser: isReturningUser,
-        secureAccount,
+        // secureAccount,
         web3Login,
         loginWithGithub,
         loginWithGoogle,

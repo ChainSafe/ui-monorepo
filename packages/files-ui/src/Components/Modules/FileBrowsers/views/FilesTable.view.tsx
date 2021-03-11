@@ -246,7 +246,7 @@ const useStyles = makeStyles(
 )
 
 const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
-  heading = "My Files",
+  heading,
   controls = true,
   sourceFiles,
   handleUploadOnDrop,
@@ -801,6 +801,8 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
         reject={() => setDeleteDialog(undefined)}
         accept={() => deleteDialogOpen && deleteDialogOpen()}
         requestMessage={t`Are you sure you wish to delete?`}
+        rejectText = {t`Cancel`}
+        acceptText = {t`Confirm`}
       />
       <UploadProgressModals />
       <DownloadProgressModals />
