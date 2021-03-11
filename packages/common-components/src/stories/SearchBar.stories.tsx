@@ -1,5 +1,5 @@
 import React from "react"
-import { withKnobs, select, boolean } from "@storybook/addon-knobs"
+import { withKnobs, select, boolean, text } from "@storybook/addon-knobs"
 import { action } from "@storybook/addon-actions"
 import { SearchBar } from "../SearchBar"
 import { SizeOption } from "./types"
@@ -24,5 +24,6 @@ export const DefaultStory = (): React.ReactNode => (
     size={select("Size", sizeOptions, "large")}
     disabled={boolean("Disabled", false)}
     isLoading={boolean("Loading", false)}
+    placeholder={text("Placeholder", "Search...")}
   />
 )
