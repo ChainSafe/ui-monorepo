@@ -13,7 +13,6 @@ import clsx from "clsx"
 import { Form, Formik } from "formik"
 import * as yup from "yup"
 import { ROUTE_LINKS } from "../../../FilesRoutes"
-import { useDrive } from "../../../../Contexts/DriveContext"
 import zxcvbn from "zxcvbn"
 import StrengthIndicator from "./StrengthIndicator"
 import { CSFTheme } from "../../../../Themes/types"
@@ -109,7 +108,7 @@ const SetMasterKeySlide: React.FC<ISetMasterKeySlide> = ({
   className
 }: ISetMasterKeySlide) => {
   const classes = useStyles()
-  const { secureDrive } = useDrive()
+  // const { secureDrive } = useDrive()
 
   const masterKeyValidation = yup.object().shape({
     masterKey: yup
@@ -158,7 +157,7 @@ const SetMasterKeySlide: React.FC<ISetMasterKeySlide> = ({
         validationSchema={masterKeyValidation}
         onSubmit={async (values, helpers) => {
           helpers.setSubmitting(true)
-          secureDrive(values.masterKey)
+          // secureDrive(values.masterKey)
           helpers.setSubmitting(false)
         }}
       >

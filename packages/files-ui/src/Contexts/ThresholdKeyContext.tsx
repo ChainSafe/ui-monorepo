@@ -24,9 +24,11 @@ import EthCrypto from "eth-crypto"
 import { useWeb3 } from "@chainsafe/web3-context"
 import ShareTransferRequestModal from "../Components/Elements/ShareTransferRequestModal"
 import BN from "bn.js"
+import { TKeyRequestIdentity_provider } from "@imploy/api-client"
 
 const TORUS_POSTBOX_KEY = "csf.postboxKey"
 const TKEY_STORE_KEY = "csf.tkeyStore"
+const TORUS_USERINFO_KEY = "csf.userInfo"
 
 export type TThresholdKeyContext = {
   userInfo?: TorusLoginResponse
@@ -102,17 +104,18 @@ const ThresholdKeyProvider = ({
     const init = async () => {
       const tkeySerialized = sessionStorage.getItem(TKEY_STORE_KEY)
       const postboxKey = sessionStorage.getItem(TORUS_POSTBOX_KEY)
+      const cachedUserInfo = sessionStorage.getItem(TORUS_USERINFO_KEY)
       let tkey: ThresholdKey
 
       // If Session storage contains all the data necessary to recreate the TKey object
-      if (postboxKey && tkeySerialized) {
+      if (postboxKey && tkeySerialized && cachedUserInfo) {
         const modules = {
           [SECURITY_QUESTIONS_MODULE_NAME]: new SecurityQuestionsModule(),
           [WEB_STORAGE_MODULE_NAME]: new WebStorageModule(),
           [SHARE_TRANSFER_MODULE_NAME]: new ShareTransferModule(),
           [SHARE_SERIALIZATION_MODULE_NAME]: new ShareSerializationModule()
         }
-        const tKeyJson = tkeySerialized ? JSON.parse(tkeySerialized) : {}
+        const tKeyJson = JSON.parse(tkeySerialized)
         const serviceProvider = new ServiceProviderBase({
           enableLogging,
           postboxKey
@@ -141,6 +144,7 @@ const ThresholdKeyProvider = ({
         }
         const keyDetails = tkey.getKeyDetails()
         setKeyDetails(keyDetails)
+        setUserInfo(JSON.parse(cachedUserInfo))
       } else {
         // If no session storage is available, instantiate a new Threshold key
         // The user will be required to log in to the respective service 
@@ -171,10 +175,11 @@ const ThresholdKeyProvider = ({
 
   // Session storage
   useEffect(() => {
-    if (TKeySdk && keyDetails && keyDetails?.requiredShares <= 0) {
+    if (TKeySdk && keyDetails && keyDetails?.requiredShares <= 0 && userInfo) {
       sessionStorage.setItem(TKEY_STORE_KEY, JSON.stringify(TKeySdk.toJSON()))
+      sessionStorage.setItem(TORUS_USERINFO_KEY, JSON.stringify(userInfo))
     }
-  }, [TKeySdk, keyDetails])
+  }, [TKeySdk, keyDetails, userInfo])
 
   // Reconstruct Key effect
   useEffect(() => {
@@ -217,12 +222,20 @@ const ThresholdKeyProvider = ({
   useEffect(() => {
     const loginWithThresholdKey = async () => {
       const { token } = await imployApiClient.getWeb3Token()
-      if (token && privateKey) {
-        const pubKey = await EthCrypto.publicKeyByPrivateKey(privateKey)
+      if (token && privateKey && userInfo) {
+        const pubKey = EthCrypto.publicKeyByPrivateKey(privateKey)
         setPublicKey(pubKey)
         const wallet = new Wallet(privateKey)
         const signature = await wallet.signMessage(token)
-        await thresholdKeyLogin(signature, token, wallet.address)
+        await thresholdKeyLogin(
+          signature, 
+          token, 
+          (userInfo.userInfo.typeOfLogin === 'jwt') ? 
+            'web3' : 
+            userInfo.userInfo.typeOfLogin as TKeyRequestIdentity_provider, 
+          userInfo.userInfo.idToken || userInfo.userInfo.accessToken,
+          `0x${EthCrypto.publicKey.compress(pubKey)}`
+        )
       }
     }
 
@@ -305,23 +318,25 @@ const ThresholdKeyProvider = ({
     try {
       const serviceProvider = (TKeySdk.serviceProvider as unknown) as DirectAuthSdk
       switch (loginType) {
-      case "google":{
+      case "google": {
         const googleResult = await serviceProvider.triggerLogin({
           typeOfLogin: "google",
           verifier: process.env.REACT_APP_GOOGLE_VERIFIER_NAME || "",
           clientId: process.env.REACT_APP_GOOGLE_CLIENT_ID || ""
         })
         setUserInfo(googleResult)
-        break}
-      case "facebook":{
+        break
+      }
+      case "facebook": {
         const fbResult = await serviceProvider.triggerLogin({
           typeOfLogin: "facebook",
           verifier: process.env.REACT_APP_FACEBOOK_VERIFIER_NAME || "",
           clientId: process.env.REACT_APP_FACEBOOK_CLIENT_ID || ""
         })
         setUserInfo(fbResult)
-        break}
-      case "github":{
+        break
+      }
+      case "github": {
         const ghResult = await serviceProvider.triggerLogin({
           typeOfLogin: "github",
           verifier: process.env.REACT_APP_GITHUB_VERIFIER_NAME || "",
@@ -331,7 +346,8 @@ const ThresholdKeyProvider = ({
           }
         })
         setUserInfo(ghResult)
-        break}
+        break
+      }
       case "web3":{
         if (!provider) break
 
@@ -340,33 +356,45 @@ const ThresholdKeyProvider = ({
           if (!connected || !address) break
         }
 
-        try {
-          const { token } = await imployApiClient.getIdentityWeb3Token(
-            address
+        const { token } = await imployApiClient.getIdentityWeb3Token(
+          address
+        )
+
+        if (token) {
+          const signature = await signMessage(token, provider.getSigner())
+          const result = await imployApiClient.postIdentityWeb3Token({
+            signature: signature,
+            token: token,
+            public_address: address
+          })
+          const directAuthSdk = (serviceProvider as any).directWeb as DirectAuthSdk
+
+          const torusKey = await directAuthSdk.getTorusKey(
+            process.env.REACT_APP_FILES_VERIFIER_NAME || "",
+            address,
+            { verifier_id: address },
+            result.token || ""
           )
+          TKeySdk.serviceProvider.postboxKey = new BN(torusKey.privateKey, "hex")
+          const loginResponse: TorusLoginResponse = {
+            privateKey: torusKey.privateKey,
+            publicAddress: torusKey.publicAddress,
+            metadataNonce: "",
+            userInfo: {
+              idToken: result.token,
+              email: "",
+              name: "",
+              profileImage: "",
+              verifier: "",
+              verifierId: "",
+              typeOfLogin: "jwt",
+              accessToken: "",
+              state: {
 
-          if (token) {
-            const signature = await signMessage(token, provider.getSigner())
-            //TODO: Remove the `: any` when API client is updated
-            const result: any = await imployApiClient.postIdentityWeb3Token({
-              signature: signature,
-              token: token,
-              public_address: address
-            })
-            console.log(result)
-            const directAuthSdk = (serviceProvider as any).directWeb as DirectAuthSdk
-
-            const torusKey = await directAuthSdk.getTorusKey(
-              process.env.REACT_APP_FILES_VERIFIER_NAME || "",
-              address,
-              { verifier_id: address },
-              
-              result.token
-            )
-            TKeySdk.serviceProvider.postboxKey = new BN(torusKey.privateKey, "hex")
+              }
+            }
           }
-        } catch (error) {
-          console.error(error)
+          setUserInfo(loginResponse)
         }
         break
       }
