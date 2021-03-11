@@ -19,7 +19,9 @@ const useStyles = makeStyles(({ palette, constants, typography, zIndex }: CSFThe
       width: "100%",
       height: `calc(100vh - 
         ${constants.previewModal.previewTopNavHeight}px - 
-        ${constants.generalUnit * 2}px)`
+        ${constants.generalUnit * 4}px)`,
+      marginTop: constants.previewModal.previewBottomNavHeight + constants.generalUnit * 2,
+      marginBottom: constants.generalUnit * 2
     },
     filePreview: ({ fontSize }: ITextPreviewStyles) => ({
       height: "100%",
