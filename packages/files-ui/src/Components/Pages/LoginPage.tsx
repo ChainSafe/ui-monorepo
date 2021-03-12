@@ -29,19 +29,31 @@ const useStyles = makeStyles(
       },
       bgBottom: {
         position: "absolute",
-        bottom: constants.generalUnit * 4,
         left: "50%",
         transform: "translate(-50%, 0%)",
         zIndex: zIndex?.background,
-        maxHeight: `calc(80vh - ${constants.generalUnit * 4}px)`
+        [breakpoints.up("md")]: {
+          bottom: constants.generalUnit * 4,
+          maxHeight: `calc(80vh - ${constants.generalUnit * 4}px)`
+        },
+        [breakpoints.down("md")]: {
+          bottom: constants.generalUnit * 5,
+          width: "80vw"
+        }
       },
       bgTop: {
         position: "absolute",
-        top: constants.generalUnit * 4,
-        left: "50%",
-        transform: "translate(-50%, 0%)",
+        top: constants.generalUnit * 10,
         zIndex: zIndex?.background,
-        maxHeight: `calc(60vh - ${constants.generalUnit * 4}px)`
+        [breakpoints.up("md")]: {
+          left: "calc(50% + 15vw)",
+          transform: "translate(-50%, 0%)",
+          width: "30vw"
+        },
+        [breakpoints.down("md")]: {
+          width: "50vw",
+          right: constants.generalUnit * 2
+        }
       },
       bgForeground: {
         position: "absolute",
@@ -50,7 +62,7 @@ const useStyles = makeStyles(
         transform: "translate(-50%, -50%)",
         zIndex: zIndex?.layer0,
         [breakpoints.up("md")]: {
-          minHeight: "64vh",
+          minHeight: "85vh",
           maxHeight: "90vh"
         },
         [breakpoints.down("md")]: {
