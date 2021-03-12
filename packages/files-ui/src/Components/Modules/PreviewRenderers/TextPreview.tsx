@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useState, useCallback } from "react"
 import { IPreviewRendererProps } from "../FilePreviewModal"
 import { makeStyles, createStyles } from "@chainsafe/common-theme"
 import { CSFTheme } from "../../../Themes/types"
@@ -57,9 +57,8 @@ const TextPreview: React.FC<IPreviewRendererProps> = ({ contents }) => {
   const [contentText, setContentText] = useState<string | undefined>()
   const [fontSize, setFontSize] = useState<number>(DEFAULT_FONT_SIZE)
 
-  const classes = useStyles({
-    fontSize
-  })
+  const classes = useStyles({ fontSize })
+
   useEffect(() => {
     const getContentText = async () => {
       const text = await contents.text()
@@ -67,16 +66,15 @@ const TextPreview: React.FC<IPreviewRendererProps> = ({ contents }) => {
     }
 
     getContentText()
-    // eslint-disable-next-line
   }, [contents])
 
-  const onZoomIn = () => {
+  const onZoomIn = useCallback(() => {
     setFontSize(fontSize + 2)
-  } 
+  }, [fontSize]) 
 
-  const onZoomOut = () => {
+  const onZoomOut = useCallback(() => {
     setFontSize(fontSize - 2)
-  } 
+  }, [fontSize]) 
 
   return (
     <div className={classes.root}>
