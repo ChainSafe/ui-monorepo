@@ -29,19 +29,19 @@ const useStyles = makeStyles(
       },
       bgBottom: {
         position: "absolute",
-        top: "50%",
+        bottom: constants.generalUnit * 4,
         left: "50%",
-        transform: "translate(-50%, -50%)",
+        transform: "translate(-50%, 0%)",
         zIndex: zIndex?.background,
-        maxHeight: `calc(100% - ${constants.generalUnit * 4}px)`
+        maxHeight: `calc(80vh - ${constants.generalUnit * 4}px)`
       },
       bgTop: {
         position: "absolute",
-        top: "50%",
+        top: constants.generalUnit * 4,
         left: "50%",
-        transform: "translate(-50%, -50%)",
+        transform: "translate(-50%, 0%)",
         zIndex: zIndex?.background,
-        maxHeight: `calc(100% - ${constants.generalUnit * 4}px)`
+        maxHeight: `calc(60vh - ${constants.generalUnit * 4}px)`
       },
       bgForeground: {
         position: "absolute",
