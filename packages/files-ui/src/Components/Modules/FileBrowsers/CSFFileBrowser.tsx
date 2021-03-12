@@ -11,11 +11,9 @@ import FilesTableView from "./views/FilesTable.view"
 import { CONTENT_TYPES } from "../../../Utils/Constants"
 import DragAndDrop from "../../../Contexts/DnDContext"
 import { useQuery } from "../../../Utils/Helpers"
+import { t } from "@lingui/macro"
 
-const CSFFileBrowser: React.FC<IFilesBrowserModuleProps> = ({
-  heading = "My Files",
-  controls = true
-}: IFilesBrowserModuleProps) => {
+const CSFFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = true }: IFilesBrowserModuleProps) => {
   const {
     moveFileToTrash,
     bulkMoveFileToTrash,
@@ -192,7 +190,7 @@ const CSFFileBrowser: React.FC<IFilesBrowserModuleProps> = ({
         showUploadsInTable={true}
         sourceFiles={parsedContents}
         updateCurrentPath={updateCurrentPath}
-        heading={heading}
+        heading = {t`My Files`}
         controls={controls}
         allowDropUpload={true}
       />
