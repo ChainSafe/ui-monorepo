@@ -27,7 +27,7 @@ const useStyles = makeStyles(({ palette, constants, typography, zIndex }: CSFThe
       height: "100%",
       backgroundColor: palette.additional["gray"][1],
       padding: constants.generalUnit * 2,
-      overflow: "scroll",
+      overflowY: "auto",
       textAlign: "left",
       whiteSpace: "pre-wrap",
       ...typography.body1,
