@@ -224,8 +224,6 @@ const FilePreviewModal: React.FC<{
     // eslint-disable-next-line
   }, [file?.cid])
 
-  console.log(file)
-
   const validRendererMimeType =
     file &&
     Object.keys(SUPPORTED_FILE_TYPES).find((type) => {
