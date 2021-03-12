@@ -86,6 +86,7 @@ type DriveContext = {
     | undefined
   bucketType: BucketType
   loadingCurrentPath: boolean
+  secureAccountWithMasterPassword(candidatePassword: string): void
 }
 
 // This represents a File or Folder on the
@@ -106,7 +107,9 @@ const DriveProvider = ({ children }: DriveContextProps) => {
     isLoggedIn,
     secured,
     secureThresholdKeyAccount,
-    encrypedEncryptionKey
+    encrypedEncryptionKey,
+    isMasterPasswordSet,
+    validateMasterPassword,
   } = useImployApi()
 
   const {
@@ -264,15 +267,15 @@ const DriveProvider = ({ children }: DriveContextProps) => {
 
     if (isLoggedIn && publicKey && !encryptionKey) {
       console.log("Checking whether account is secured ", secured)
-      if (secured) {
+      if (!secured && !isMasterPasswordSet) {
+        console.log("Generating key and securing account")
+        secureAccount()
+      } else {
+        // TODO: Check if the user has a master password string set
         console.log("decrypting key")
         if (encrypedEncryptionKey) {
           decryptKey(encrypedEncryptionKey)
         }
-      } else {
-        // TODO: Check if the user has a master password string set
-        console.log("generating key and securing account")
-        secureAccount()
       }
     }
   }, [
@@ -285,6 +288,14 @@ const DriveProvider = ({ children }: DriveContextProps) => {
     decryptMessageWithThresholdKey,
     encryptionKey
   ])
+
+  const secureAccountWithMasterPassword = async (candidatePassword: string) => {
+    if (!publicKey || !validateMasterPassword(candidatePassword)) return
+
+    const encryptedKey = await encryptForPublicKey(publicKey, candidatePassword)
+    setEncryptionKey(candidatePassword)
+    secureThresholdKeyAccount(encryptedKey)
+  }
 
   const [uploadsInProgress, dispatchUploadsInProgress] = useReducer(
     uploadsInProgressReducer,
@@ -767,7 +778,8 @@ const DriveProvider = ({ children }: DriveContextProps) => {
         currentSearchBucket,
         loadingCurrentPath,
         getFileInfo,
-        bucketType
+        bucketType,
+        secureAccountWithMasterPassword
       }}
     >
       {children}
