@@ -30,6 +30,7 @@ import PdfPreview from "./PreviewRenderers/PDFPreview"
 import VideoPreview from "./PreviewRenderers/VideoPreview"
 import AudioPreview from "./PreviewRenderers/AudioPreview"
 import TextPreview from "./PreviewRenderers/TextPreview"
+import MarkdownPreview from "./PreviewRenderers/MarkdownPreview"
 import { useHotkeys } from "react-hotkeys-hook"
 import { t, Trans } from "@lingui/macro"
 import { CSFTheme } from "../../Themes/types"
@@ -43,7 +44,8 @@ const SUPPORTED_FILE_TYPES: Record<string, React.FC<IPreviewRendererProps>> = {
   "image/*": ImagePreview,
   "audio/*": AudioPreview,
   "video/*": VideoPreview,
-  "text/*": TextPreview
+  "text/plain": TextPreview,
+  "text/markdown": MarkdownPreview
 }
 
 const compatibleFilesMatcher = new MimeMatcher(
@@ -221,6 +223,8 @@ const FilePreviewModal: React.FC<{
     }
     // eslint-disable-next-line
   }, [file?.cid])
+
+  console.log(file)
 
   const validRendererMimeType =
     file &&
