@@ -246,7 +246,7 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
         token: token,
         identity_provider: identityProvider,
         identity_token: identityToken,
-        public_key: publicKey,
+        public_key: publicKey
       })
       setTokensAndSave(access_token, refresh_token)
       setReturningUser()
@@ -259,7 +259,7 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
   useEffect(() => {
     if (refreshToken && refreshToken.token) {
       try {
-        const decoded = jwtDecode<{ mps?: string, enckey?: string; exp: number; uuid: string }>(
+        const decoded = jwtDecode<{ mps?: string; enckey?: string; exp: number; uuid: string }>(
           refreshToken.token
         )
 
@@ -374,8 +374,6 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
     canUseLocalStorage && localStorage.removeItem(tokenStorageKey)
   }
 
-
-
   const secureThresholdKeyAccount = async (encryptedKey: string) => {
     try {
       if (decodedRefreshToken && refreshToken) {
@@ -438,7 +436,7 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
         thresholdKeyLogin,
         secureThresholdKeyAccount,
         encrypedEncryptionKey: decodedRefreshToken?.enckey,
-        isMasterPasswordSet: !!decodedRefreshToken?.mps,
+        isMasterPasswordSet: !!decodedRefreshToken?.mps
       }}
     >
       {children}

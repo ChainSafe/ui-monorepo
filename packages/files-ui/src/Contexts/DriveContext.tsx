@@ -109,7 +109,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
     secureThresholdKeyAccount,
     encrypedEncryptionKey,
     isMasterPasswordSet,
-    validateMasterPassword,
+    validateMasterPassword
   } = useImployApi()
 
   const {
@@ -286,7 +286,8 @@ const DriveProvider = ({ children }: DriveContextProps) => {
     encryptForPublicKey,
     secureThresholdKeyAccount,
     decryptMessageWithThresholdKey,
-    encryptionKey
+    encryptionKey,
+    isMasterPasswordSet
   ])
 
   const secureAccountWithMasterPassword = async (candidatePassword: string) => {
