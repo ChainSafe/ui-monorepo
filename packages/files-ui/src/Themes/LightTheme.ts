@@ -20,7 +20,7 @@ export const lightTheme = createTheme<CsfColors>({
           logoText: "var(--gray1)"
         },
         modalDefault: {
-          fadebackground: "var(--gray1)",
+          fadeBackground: "var(--gray1)",
           background: "var(--gray1)"
         },
         header: {
@@ -57,7 +57,9 @@ export const lightTheme = createTheme<CsfColors>({
           optionsBorder: "var(--gray4)",
           menuItemIconColor: "var(--gray7)",
           menuItemTextColor: "var(--gray8)",
-          message: "var(--gray6)"
+          message: "var(--gray6)",
+          previewBottomNavHeight: 64,
+          previewTopNavHeight: 64
         },
         searchModule:{
           resultsBackground: "var(--gray1)",
@@ -100,7 +102,7 @@ export const lightTheme = createTheme<CsfColors>({
           itemBackground: "initial",
           itemColor: "initial"
         },
-        masterkey: {
+        masterKey: {
           desktop: {
             color: "var(--gray10)",
             link: "var(--gray10)",

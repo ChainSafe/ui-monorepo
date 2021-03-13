@@ -57,7 +57,7 @@ type ImployApiContext = {
   loginWithFacebook(code: string, state: string): Promise<void>
   logout(): void
   validateMasterPassword(candidatePassword: string): Promise<boolean>
-  encrypedEncryptionKey?: string
+  encryptedEncryptionKey?: string
 }
 
 const ImployApiContext = React.createContext<ImployApiContext | undefined>(undefined)
@@ -464,7 +464,7 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
         validateMasterPassword,
         thresholdKeyLogin,
         secureThresholdKeyAccount,
-        encrypedEncryptionKey: decodedRefreshToken?.mps
+        encryptedEncryptionKey: decodedRefreshToken?.mps
       }}
     >
       {children}
