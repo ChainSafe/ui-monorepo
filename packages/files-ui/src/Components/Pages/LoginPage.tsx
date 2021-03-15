@@ -27,6 +27,7 @@ import InitializeAccount from "../Modules/LoginModule/InitializeAccount"
 import SaveNewDevice from "../Modules/LoginModule/SaveNewDevice"
 import MissingShares from "../Modules/LoginModule/MissingShares"
 import { CSFTheme } from "../../Themes/types"
+import MigrateAccount from "../Modules/LoginModule/MigrateAccount"
 
 const useStyles = makeStyles(
   ({ palette, constants, typography, breakpoints }: CSFTheme) =>
@@ -162,7 +163,9 @@ const LoginPage = () => {
   const {
     isReturningUser,
     selectWallet,
-    resetAndSelectWallet
+    resetAndSelectWallet,
+    isMasterPasswordSet,
+    secured
   } = useImployApi()
   const { provider, wallet } = useWeb3()
   const {
@@ -171,6 +174,7 @@ const LoginPage = () => {
     keyDetails,
     shouldInitializeAccount
   } = useThresholdKey()
+
   const [error, setError] = useState<string>("")
   const [activeMode, setActiveMode] = useState<"newUser" | "returningUser">(
     isReturningUser ? "returningUser" : "newUser"
@@ -428,9 +432,10 @@ const LoginPage = () => {
                 </Typography>
               </>
             )}
-            {areSharesMissing && <MissingShares />}
-            {shouldInitializeAccount && <InitializeAccount />}
-            {shouldSaveNewDevice && <SaveNewDevice />}
+            {keyDetails && areSharesMissing && <MissingShares />}
+            {keyDetails && shouldInitializeAccount && !isMasterPasswordSet && <InitializeAccount />}
+            {keyDetails && shouldInitializeAccount && isMasterPasswordSet && <MigrateAccount />}
+            {keyDetails && shouldSaveNewDevice && <SaveNewDevice />}
           </div>
         </Grid>
       </Grid>

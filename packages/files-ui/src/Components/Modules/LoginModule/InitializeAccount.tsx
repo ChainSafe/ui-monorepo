@@ -24,7 +24,7 @@ const InitializeAccount: React.FC = () => {
     shares.filter((s) => s.module === "securityQuestions").length > 0
 
   const hasMnemonicShare =
-    shares.filter((s) => s.module === "securityQuestions").length > 0
+    keyDetails && (keyDetails.totalShares - shares.length > 1) 
 
   const handleSetPassword = async () => {
     if (!password) return
@@ -39,42 +39,43 @@ const InitializeAccount: React.FC = () => {
   return (
     <div>
       {isNewKey && !showOnboardingInfo ? (
-        <>
-          <Typography variant="h5">This is a new account</Typography>
-          <Typography>Lorem ipsum setup info</Typography>
-          <Button onClick={() => setShowOnboardingInfo(true)}>Lets go</Button>
-        </>
-      ) : (
-        <>
-          <Typography variant="h5">Min number of shares</Typography>
-          <Typography>
-            Add more shares to ensure you dont get locked out of your account
-          </Typography>
-          {!hasPasswordShare && (
-            <div>
-              <label>Enter you account password:</label>
-              <TextInput
-                value={password}
-                onChange={(val) => setPassword(val?.toString())}
-              />
-              <Button onClick={handleSetPassword}>Submit</Button>
-            </div>
-          )}
-          {!hasMnemonicShare && (
-            <div>
-              <Button onClick={handleSetMnemonic} disabled={!!mnemonic}>
-                Generate mnemonic
-              </Button>
-              {mnemonic && <span>{mnemonic}</span>}
-            </div>
-          )}
-          <Button onClick={resetShouldInitialize}>
-            {keyDetails?.totalShares === keyDetails?.threshold
-              ? "Skip for now"
-              : "Finish"}
-          </Button>
-        </>
-      )}
+          <>
+            <Typography variant="h5">This is a new account</Typography>
+            <Typography>Lorem ipsum setup info</Typography>
+            <Button onClick={() => setShowOnboardingInfo(true)}>Lets go</Button>
+          </>
+        ) : (
+          <>
+            <Typography variant="h5">Min number of shares</Typography>
+            <Typography>
+              Add more shares to ensure you dont get locked out of your account
+            </Typography>
+            {!hasPasswordShare && (
+              <div>
+                <label>Enter you account password:</label>
+                <TextInput
+                  type='password'
+                  value={password}
+                  onChange={(val) => setPassword(val?.toString())}
+                />
+                <Button onClick={handleSetPassword}>Submit</Button>
+              </div>
+            )}
+            {!hasMnemonicShare && (
+              <div>
+                <Button onClick={handleSetMnemonic} disabled={!!mnemonic}>
+                  Generate mnemonic
+                </Button>
+                {mnemonic && <span>{mnemonic}</span>}
+              </div>
+            )}
+            <Button onClick={resetShouldInitialize}>
+              {keyDetails?.totalShares === keyDetails?.threshold
+                ? "Skip for now"
+                : "Finish"}
+            </Button>
+          </>
+        )}
     </div>
   )
 }

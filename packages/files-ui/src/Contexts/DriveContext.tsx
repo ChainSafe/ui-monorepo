@@ -125,9 +125,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
 
   const [pathContents, setPathContents] = useState<FileSystemItem[]>([])
   const [spaceUsed, setSpaceUsed] = useState(0)
-  const [, setMasterPassword] = useState<string | undefined>(
-    undefined
-  )
+
   const [currentSearchBucket, setCurrentSearchBucket] = useState<
     | {
         bucketId: string
@@ -238,7 +236,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
   // Reset password on log out
   useEffect(() => {
     if (!isLoggedIn) {
-      setMasterPassword(undefined)
+      setEncryptionKey(undefined)
     }
   }, [isLoggedIn])
 
@@ -271,7 +269,6 @@ const DriveProvider = ({ children }: DriveContextProps) => {
         console.log("Generating key and securing account")
         secureAccount()
       } else {
-        // TODO: Check if the user has a master password string set
         console.log("decrypting key")
         if (encrypedEncryptionKey) {
           decryptKey(encrypedEncryptionKey)
