@@ -3,6 +3,7 @@ import { IPreviewRendererProps } from "../FilePreviewModal"
 import { makeStyles, createStyles } from "@chainsafe/common-theme"
 import { CSFTheme } from "../../../Themes/types"
 import ReactMarkdown from "react-markdown"
+import gfm from "remark-gfm"
 
 const useStyles = makeStyles(({ palette, constants, typography }: CSFTheme) =>
   createStyles({
@@ -47,7 +48,7 @@ const TextPreview: React.FC<IPreviewRendererProps> = ({ contents }) => {
   return (
     <div className={classes.root}>
       <div className={classes.filePreview}>
-        <ReactMarkdown source={contentText} />
+        <ReactMarkdown plugins={[gfm]} source={contentText} />
       </div>
     </div>
   )

@@ -2,7 +2,7 @@ import React, { useEffect, useState, useCallback } from "react"
 import { IPreviewRendererProps } from "../FilePreviewModal"
 import { makeStyles, createStyles } from "@chainsafe/common-theme"
 import { CSFTheme } from "../../../Themes/types"
-import { Button, ZoomInIcon, ZoomOutIcon } from "@chainsafe/common-components"
+import { Button, ZoomInIcon, ZoomOutIcon, ScrollbarWrapper } from "@chainsafe/common-components"
 
 interface ITextPreviewStyles {
   fontSize: number
@@ -25,9 +25,9 @@ const useStyles = makeStyles(({ palette, constants, typography, zIndex }: CSFThe
     },
     filePreview: ({ fontSize }: ITextPreviewStyles) => ({
       height: "100%",
+      maxHeight: "100%",
       backgroundColor: palette.additional["gray"][1],
       padding: constants.generalUnit * 2,
-      overflowY: "auto",
       textAlign: "left",
       whiteSpace: "pre-wrap",
       ...typography.body1,
@@ -78,9 +78,9 @@ const TextPreview: React.FC<IPreviewRendererProps> = ({ contents }) => {
 
   return (
     <div className={classes.root}>
-      <div className={classes.filePreview}>
+      <ScrollbarWrapper className={classes.filePreview}>
         {contentText}
-      </div>
+      </ScrollbarWrapper>
       <div className={classes.controlsContainer}>
         <Button disabled={fontSize <= LOWEST_FONT_SIZE} onClick={onZoomOut} className={classes.pageButton}>
           <ZoomOutIcon fontSize="medium" />
