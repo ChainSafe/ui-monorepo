@@ -164,8 +164,7 @@ const LoginPage = () => {
     isReturningUser,
     selectWallet,
     resetAndSelectWallet,
-    isMasterPasswordSet,
-    secured
+    isMasterPasswordSet
   } = useImployApi()
   const { provider, wallet } = useWeb3()
   const {

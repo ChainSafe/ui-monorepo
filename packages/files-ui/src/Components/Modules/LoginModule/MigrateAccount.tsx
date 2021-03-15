@@ -3,14 +3,14 @@ import React from "react"
 import {
   Button,
   FormikTextInput,
-  Typography,
+  Typography
 } from "@chainsafe/common-components"
 import clsx from "clsx"
 import { Form, Formik } from "formik"
 import * as yup from "yup"
 import { useDrive } from "../../../../Contexts/DriveContext"
 import { useImployApi, useUser } from "@imploy/common-contexts"
-import {useThresholdKey} from "../../../Contexts/ThresholdKeyContext"
+import { useThresholdKey } from "../../../Contexts/ThresholdKeyContext"
 
 const useStyles = makeStyles(
   ({ constants, breakpoints, palette, typography }: ITheme) =>
@@ -21,9 +21,9 @@ const useStyles = makeStyles(
           textAlign: "center",
           marginBottom: constants.generalUnit * 4.125,
           [breakpoints.down("md")]: {
-            color: palette.common.white.main,
-          },
-        },
+            color: palette.common.white.main
+          }
+        }
       },
       input: {
         width: "100%",
@@ -31,24 +31,24 @@ const useStyles = makeStyles(
         marginBottom: constants.generalUnit * 1.5,
         "& span": {
           [breakpoints.down("md")]: {
-            color: palette.common.white.main,
-          },
-        },
+            color: palette.common.white.main
+          }
+        }
       },
       inputLabel: {
         fontSize: "16px",
         lineHeight: "24px",
         color: palette.additional["gray"][8],
-        marginBottom: constants.generalUnit,
+        marginBottom: constants.generalUnit
       },
       button: {
-        marginTop: constants.generalUnit * 3,
+        marginTop: constants.generalUnit * 3
       },
       userContainer: {
         marginTop: constants.generalUnit * 4,
         [breakpoints.down("md")]: {
-          color: palette.common.white.main,
-        },
+          color: palette.common.white.main
+        }
       },
       logoutButton: {
         padding: 0,
@@ -58,10 +58,10 @@ const useStyles = makeStyles(
         backgroundColor: "transparent",
         ...typography.body1,
         [breakpoints.down("md")]: {
-          color: palette.common.white.main,
-        },
-      },
-    }),
+          color: palette.common.white.main
+        }
+      }
+    })
 )
 
 interface IMigrateAccount {
@@ -69,7 +69,7 @@ interface IMigrateAccount {
 }
 
 const MigrateAccount: React.FC<IMigrateAccount> = ({
-  className,
+  className
 }: IMigrateAccount) => {
   const classes = useStyles()
   const { validateMasterPassword, logout } = useImployApi()
@@ -96,9 +96,9 @@ const MigrateAccount: React.FC<IMigrateAccount> = ({
           } catch (error) {
             return false
           }
-        },
+        }
       )
-      .required("Please provide an encryption password"),
+      .required("Please provide an encryption password")
   })
 
 
@@ -106,7 +106,7 @@ const MigrateAccount: React.FC<IMigrateAccount> = ({
     <section className={clsx(classes.root, className)}>
       <Formik
         initialValues={{
-          masterKey: "",
+          masterKey: ""
         }}
         validateOnBlur={false}
         validationSchema={masterKeyValidation}
