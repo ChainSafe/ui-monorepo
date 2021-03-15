@@ -2,7 +2,7 @@ import React, { useState } from "react"
 import { Button, FacebookLogoIcon, GithubLogoIcon, GoogleLogoIcon, Typography } from "@chainsafe/common-components"
 import { createStyles, makeStyles, useThemeSwitcher } from "@chainsafe/common-theme"
 import { CSFTheme } from "../../../Themes/types"
-import { Trans } from "@lingui/macro"
+import { t, Trans } from "@lingui/macro"
 import { useImployApi } from "@imploy/common-contexts"
 import { useWeb3 } from "@chainsafe/web3-context"
 import { useThresholdKey } from "../../../Contexts/ThresholdKeyContext"
@@ -96,12 +96,10 @@ const InitialScreen: React.FC = () => {
   } = useImployApi()
   const { desktop } = useThemeSwitcher()
   const { provider, wallet } = useWeb3()
-  const {
-    login
-  } = useThresholdKey()
+  const { login } = useThresholdKey()
   const classes = useStyles()
 
-  const [error, setError] = useState<string>("")
+  const [error, setError] = useState("")
   const maintenanceMode = process.env.REACT_APP_MAINTENANCE_MODE === "true"
   
   const [isConnecting, setIsConnecting] = useState(false)
@@ -113,7 +111,7 @@ const InitialScreen: React.FC = () => {
     try {
       await selectWallet()
     } catch (error) {
-      setError("There was an error connecting your wallet")
+      setError(t`There was an error connecting your wallet`)
     }
     setIsConnecting(false)
   }
@@ -124,7 +122,7 @@ const InitialScreen: React.FC = () => {
     try {
       await resetAndSelectWallet()
     } catch (error) {
-      setError("There was an error connecting your wallet")
+      setError(t`There was an error connecting your wallet`)
     }
     setIsConnecting(false)
   }
@@ -136,20 +134,20 @@ const InitialScreen: React.FC = () => {
     try {
       await login("web3")
     } catch (error) {
-      let errorMessage = "There was an error authenticating"
+      let errorMessage = t`There was an error authenticating`
       if (Array.isArray(error) && error[0]) {
         if (
           error[0].type === "signature" &&
           error[0].message === "Invalid signature"
         ) {
-          errorMessage = `Failed to validate signature.
+          errorMessage = t`Failed to validate signature.
             If you are using a contract wallet (Argent) please make 
             sure you have activated your wallet.`
         }
       }
       if (error?.message === "Just nope") {
         // WalletConnect be sassy
-        errorMessage = "Failed to get signature"
+        errorMessage = t`Failed to get signature`
       }
       setError(errorMessage)
     }
@@ -185,7 +183,9 @@ const InitialScreen: React.FC = () => {
       )}
       {maintenanceMode && (
         <Typography className={classes.error}>
-          We`&apos;`re undergoing maintenance, thank you for being patient
+          <Trans>
+            We`&apos;`re undergoing maintenance, thank you for being patient
+          </Trans>
         </Typography>
       )}
 
@@ -231,7 +231,9 @@ const InitialScreen: React.FC = () => {
             </Button>
             {showSignatureMessage && (
               <Typography>
-                Please confirm in your wallet to continue
+                <Trans>
+                  Please confirm in your wallet to continue
+                </Trans>
               </Typography>
             )}
           </>
@@ -274,7 +276,9 @@ const InitialScreen: React.FC = () => {
           rel="noopener noreferrer"
         >
           <Typography>
-            Privacy Policy
+            <Trans>
+              Privacy Policy
+            </Trans>
           </Typography>
         </a>
         <a
@@ -283,7 +287,9 @@ const InitialScreen: React.FC = () => {
           rel="noopener noreferrer"
         >
           <Typography>
-            Terms and Conditions
+            <Trans>
+              Terms and Conditions
+            </Trans>
           </Typography>
         </a>
       </footer>
