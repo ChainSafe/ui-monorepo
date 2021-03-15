@@ -32,7 +32,7 @@ export interface CsfColors extends IConstants {
     hamburger: string
   }
   modalDefault: {
-    fadebackground: string
+    fadeBackground: string
     background: string
   }
   nav: {
@@ -61,6 +61,8 @@ export interface CsfColors extends IConstants {
     menuItemIconColor: string
     menuItemTextColor: string
     message: string
+    previewTopNavHeight: number
+    previewBottomNavHeight: number
   }
   searchModule: {
     resultsBackground: string
@@ -103,7 +105,7 @@ export interface CsfColors extends IConstants {
     itemBackground: string
     itemColor: string
   }
-  masterkey: {
+  masterKey: {
     desktop: {
       color: string
       link: string

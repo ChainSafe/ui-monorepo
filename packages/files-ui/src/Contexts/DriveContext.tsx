@@ -106,7 +106,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
     isLoggedIn,
     secured,
     secureThresholdKeyAccount,
-    encrypedEncryptionKey
+    encryptedEncryptionKey
   } = useImployApi()
 
   const {
@@ -266,8 +266,8 @@ const DriveProvider = ({ children }: DriveContextProps) => {
       console.log("Checking whether account is secured ", secured)
       if (secured) {
         console.log("decrypting key")
-        if (encrypedEncryptionKey) {
-          decryptKey(encrypedEncryptionKey)
+        if (encryptedEncryptionKey) {
+          decryptKey(encryptedEncryptionKey)
         }
       } else {
         // TODO: Check if the user has a master password string set
@@ -278,7 +278,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
   }, [
     secured,
     isLoggedIn,
-    encrypedEncryptionKey,
+    encryptedEncryptionKey,
     publicKey,
     encryptForPublicKey,
     secureThresholdKeyAccount,
@@ -447,12 +447,15 @@ const DriveProvider = ({ children }: DriveContextProps) => {
 
   const renameFile = async (body: FilesMvRequest) => {
     try {
-      await imployApiClient.moveCSFObject(body)
-      await refreshContents(currentPath)
-      addToastMessage({
-        message: t`File renamed successfully`,
-        appearance: "success"
-      })
+      if (body.path !== body.new_path) {
+        await imployApiClient.moveCSFObject(body)
+        await refreshContents(currentPath)
+        addToastMessage({
+          message: t`File renamed successfully`,
+          appearance: "success"
+        })
+      }
+     
       return Promise.resolve()
     } catch (error) {
       addToastMessage({
