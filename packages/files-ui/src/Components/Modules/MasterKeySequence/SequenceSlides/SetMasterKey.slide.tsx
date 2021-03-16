@@ -13,7 +13,6 @@ import clsx from "clsx"
 import { Form, Formik } from "formik"
 import * as yup from "yup"
 import { ROUTE_LINKS } from "../../../FilesRoutes"
-import { useDrive } from "../../../../Contexts/DriveContext"
 import zxcvbn from "zxcvbn"
 import StrengthIndicator from "./StrengthIndicator"
 import { CSFTheme } from "../../../../Themes/types"
@@ -27,20 +26,20 @@ const useStyles = makeStyles(({ breakpoints, constants }: CSFTheme) =>
         fontWeight: 400,
         marginBottom: constants.generalUnit * 2,
         [breakpoints.up("md")]: {
-          color: constants.masterkey.desktop.color
+          color: constants.masterKey.desktop.color
         },
         [breakpoints.down("md")]: {
-          color: constants.masterkey.mobile.color
+          color: constants.masterKey.mobile.color
         }
       },
       "& h2": {
         textAlign: "center",
         marginBottom: constants.generalUnit * 4.125,
         [breakpoints.up("md")]: {
-          color: constants.masterkey.desktop.color
+          color: constants.masterKey.desktop.color
         },
         [breakpoints.down("md")]: {
-          color: constants.masterkey.mobile.color
+          color: constants.masterKey.mobile.color
         }
       }
     },
@@ -50,10 +49,10 @@ const useStyles = makeStyles(({ breakpoints, constants }: CSFTheme) =>
       marginBottom: constants.generalUnit * 1.5,
       "& span": {
         [breakpoints.up("md")]: {
-          color: constants.masterkey.desktop.color
+          color: constants.masterKey.desktop.color
         },
         [breakpoints.down("md")]: {
-          color: constants.masterkey.mobile.color
+          color: constants.masterKey.mobile.color
         }
       }
     },
@@ -64,15 +63,15 @@ const useStyles = makeStyles(({ breakpoints, constants }: CSFTheme) =>
     checkbox: {
       marginBottom: constants.generalUnit,
       [breakpoints.up("md")]: {
-        color: constants.masterkey.desktop.color,
+        color: constants.masterKey.desktop.color,
         "& svg": {
-          fill: `${constants.masterkey.desktop.checkbox} !important`
+          fill: `${constants.masterKey.desktop.checkbox} !important`
         }
       },
       [breakpoints.down("md")]: {
-        color: constants.masterkey.mobile.color,
+        color: constants.masterKey.mobile.color,
         "& svg": {
-          fill: `${constants.masterkey.mobile.checkbox} !important`
+          fill: `${constants.masterKey.mobile.checkbox} !important`
         }
       }
     },
@@ -83,19 +82,19 @@ const useStyles = makeStyles(({ breakpoints, constants }: CSFTheme) =>
       fontSize: "16px",
       lineHeight: "24px",
       [breakpoints.up("md")]: {
-        color: constants.masterkey.desktop.color
+        color: constants.masterKey.desktop.color
       },
       [breakpoints.down("md")]: {
-        color: constants.masterkey.mobile.color
+        color: constants.masterKey.mobile.color
       },
       marginBottom: constants.generalUnit
     },
     link: {
       [breakpoints.up("md")]: {
-        color: constants.masterkey.desktop.link
+        color: constants.masterKey.desktop.link
       },
       [breakpoints.down("md")]: {
-        color: constants.masterkey.mobile.link
+        color: constants.masterKey.mobile.link
       }
     }
   })
@@ -109,7 +108,7 @@ const SetMasterKeySlide: React.FC<ISetMasterKeySlide> = ({
   className
 }: ISetMasterKeySlide) => {
   const classes = useStyles()
-  const { secureDrive } = useDrive()
+  // const { secureDrive } = useDrive()
 
   const masterKeyValidation = yup.object().shape({
     masterKey: yup
@@ -158,7 +157,7 @@ const SetMasterKeySlide: React.FC<ISetMasterKeySlide> = ({
         validationSchema={masterKeyValidation}
         onSubmit={async (values, helpers) => {
           helpers.setSubmitting(true)
-          secureDrive(values.masterKey)
+          // secureDrive(values.masterKey)
           helpers.setSubmitting(false)
         }}
       >

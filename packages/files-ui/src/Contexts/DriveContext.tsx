@@ -75,7 +75,6 @@ type DriveContext = {
   uploadsInProgress: UploadProgress[]
   downloadsInProgress: DownloadProgress[]
   spaceUsed: number
-  secureDrive(password: string): void
   getFolderTree(): Promise<DirectoryContentResponse>
   getFileInfo(path: string): Promise<CSFFilesFullinfoResponse>
   getSearchResults(searchString: string): Promise<SearchEntry[]>
@@ -106,9 +105,8 @@ const DriveProvider = ({ children }: DriveContextProps) => {
     imployApiClient,
     isLoggedIn,
     secured,
-    secureAccount,
     secureThresholdKeyAccount,
-    encrypedEncryptionKey
+    encryptedEncryptionKey
   } = useImployApi()
 
   const {
@@ -268,10 +266,11 @@ const DriveProvider = ({ children }: DriveContextProps) => {
       console.log("Checking whether account is secured ", secured)
       if (secured) {
         console.log("decrypting key")
-        if (encrypedEncryptionKey) {
-          decryptKey(encrypedEncryptionKey)
+        if (encryptedEncryptionKey) {
+          decryptKey(encryptedEncryptionKey)
         }
       } else {
+        // TODO: Check if the user has a master password string set
         console.log("generating key and securing account")
         secureAccount()
       }
@@ -279,7 +278,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
   }, [
     secured,
     isLoggedIn,
-    encrypedEncryptionKey,
+    encryptedEncryptionKey,
     publicKey,
     encryptForPublicKey,
     secureThresholdKeyAccount,
@@ -448,12 +447,15 @@ const DriveProvider = ({ children }: DriveContextProps) => {
 
   const renameFile = async (body: FilesMvRequest) => {
     try {
-      await imployApiClient.moveCSFObject(body)
-      await refreshContents(currentPath)
-      addToastMessage({
-        message: t`File renamed successfully`,
-        appearance: "success"
-      })
+      if (body.path !== body.new_path) {
+        await imployApiClient.moveCSFObject(body)
+        await refreshContents(currentPath)
+        addToastMessage({
+          message: t`File renamed successfully`,
+          appearance: "success"
+        })
+      }
+     
       return Promise.resolve()
     } catch (error) {
       addToastMessage({
@@ -723,15 +725,6 @@ const DriveProvider = ({ children }: DriveContextProps) => {
     }
   }
 
-  const secureDrive = async (password: string) => {
-    if (secured) return
-
-    const result = await secureAccount(password)
-    if (result) {
-      setMasterPassword(password)
-    }
-  }
-
   // const setPassword = async (password: string) => {
   //   if (!masterPassword && (await validateMasterPassword(password))) {
   //     setMasterPassword(password)
@@ -772,7 +765,6 @@ const DriveProvider = ({ children }: DriveContextProps) => {
         uploadsInProgress,
         spaceUsed,
         downloadsInProgress,
-        secureDrive,
         getFolderTree,
         getSearchResults,
         currentSearchBucket,
