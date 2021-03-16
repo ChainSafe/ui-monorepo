@@ -19,7 +19,7 @@ import TopDarkSVG from "../../Media/landing/layers/dark/Top.dark.svg"
 import BottomLightSVG from "../../Media/landing/layers/light/Bottom.light.svg"
 import TopLightSVG from "../../Media/landing/layers/light/Top.light.svg"
 import { ForegroundSVG } from "../../Media/landing/layers/ForegroundSVG"
-import {useImployApi} from "@imploy/common-contexts"
+import { useImployApi } from "@imploy/common-contexts"
 
 const useStyles = makeStyles(
   ({ constants, breakpoints, typography, zIndex }: CSFTheme) =>
@@ -162,10 +162,11 @@ const LoginPage = () => {
         </Typography>
       </a>
       <div className={classes.inner}>
-      {keyDetails && areSharesMissing && <MissingShares />}
-            {keyDetails && shouldInitializeAccount && !isMasterPasswordSet && <InitializeAccount />}
-            {keyDetails && shouldInitializeAccount && isMasterPasswordSet && <MigrateAccount />}
-            {keyDetails && shouldSaveNewDevice && <SaveNewDevice />}
+        {!keyDetails && <InitialScreen />}
+        {!!keyDetails && areSharesMissing && <MissingShares />}
+        {!!keyDetails && shouldInitializeAccount && !isMasterPasswordSet && <InitializeAccount />}
+        {!!keyDetails && shouldInitializeAccount && isMasterPasswordSet && <MigrateAccount />}
+        {!!keyDetails && shouldSaveNewDevice && <SaveNewDevice />}
       </div>
     </div>
   )

@@ -107,7 +107,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
     isLoggedIn,
     secured,
     secureThresholdKeyAccount,
-    encrypedEncryptionKey,
+    encryptedEncryptionKey,
     isMasterPasswordSet,
     validateMasterPassword
   } = useImployApi()
