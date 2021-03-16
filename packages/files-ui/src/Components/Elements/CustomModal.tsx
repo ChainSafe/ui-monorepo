@@ -8,7 +8,7 @@ const useStyles = makeStyles(({ constants, breakpoints }: CSFTheme) =>
   createStyles({
     root: {
       "&:before": {
-        backgroundColor: fade(constants.modalDefault.fadebackground, 0.9)
+        backgroundColor: fade(constants.modalDefault.fadeBackground, 0.9)
       },
       [breakpoints.down("md")]: {
        

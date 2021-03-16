@@ -29,6 +29,7 @@ import { useSwipeable } from "react-swipeable"
 import PdfPreview from "./PreviewRenderers/PDFPreview"
 import VideoPreview from "./PreviewRenderers/VideoPreview"
 import AudioPreview from "./PreviewRenderers/AudioPreview"
+import TextPreview from "./PreviewRenderers/TextPreview"
 import { useHotkeys } from "react-hotkeys-hook"
 import { t, Trans } from "@lingui/macro"
 import { CSFTheme } from "../../Themes/types"
@@ -41,8 +42,8 @@ const SUPPORTED_FILE_TYPES: Record<string, React.FC<IPreviewRendererProps>> = {
   "application/pdf": PdfPreview,
   "image/*": ImagePreview,
   "audio/*": AudioPreview,
-  "video/*": VideoPreview
-  // "text/*": <div>Text Previews coming soon</div>,
+  "video/*": VideoPreview,
+  "text/*": TextPreview
 }
 
 const compatibleFilesMatcher = new MimeMatcher(
@@ -219,7 +220,7 @@ const FilePreviewModal: React.FC<{
       source.current && source.current.cancel("Cancelled by user")
     }
     // eslint-disable-next-line
-  }, [file, getFileContent])
+  }, [file?.cid])
 
   const validRendererMimeType =
     file &&

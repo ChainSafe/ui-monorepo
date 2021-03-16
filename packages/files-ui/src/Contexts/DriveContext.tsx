@@ -270,15 +270,15 @@ const DriveProvider = ({ children }: DriveContextProps) => {
         secureAccount()
       } else {
         console.log("decrypting key")
-        if (encrypedEncryptionKey) {
-          decryptKey(encrypedEncryptionKey)
+        if (encryptedEncryptionKey) {
+          decryptKey(encryptedEncryptionKey)
         }
       }
     }
   }, [
     secured,
     isLoggedIn,
-    encrypedEncryptionKey,
+    encryptedEncryptionKey,
     publicKey,
     encryptForPublicKey,
     secureThresholdKeyAccount,
@@ -456,12 +456,15 @@ const DriveProvider = ({ children }: DriveContextProps) => {
 
   const renameFile = async (body: FilesMvRequest) => {
     try {
-      await imployApiClient.moveCSFObject(body)
-      await refreshContents(currentPath)
-      addToastMessage({
-        message: t`File renamed successfully`,
-        appearance: "success"
-      })
+      if (body.path !== body.new_path) {
+        await imployApiClient.moveCSFObject(body)
+        await refreshContents(currentPath)
+        addToastMessage({
+          message: t`File renamed successfully`,
+          appearance: "success"
+        })
+      }
+     
       return Promise.resolve()
     } catch (error) {
       addToastMessage({
