@@ -9,6 +9,7 @@ import InitializeAccount from "../Modules/LoginModule/InitializeAccount"
 import SaveNewDevice from "../Modules/LoginModule/SaveNewDevice"
 import MissingShares from "../Modules/LoginModule/MissingShares"
 import { CSFTheme } from "../../Themes/types"
+import MigrateAccount from "../Modules/LoginModule/MigrateAccount"
 import InitialScreen from "../Modules/LoginModule/InitialScreen"
 import { ChainsafeFilesLogo, Typography } from "@chainsafe/common-components"
 import { ROUTE_LINKS } from "../FilesRoutes"
@@ -18,6 +19,7 @@ import TopDarkSVG from "../../Media/landing/layers/dark/Top.dark.svg"
 import BottomLightSVG from "../../Media/landing/layers/light/Bottom.light.svg"
 import TopLightSVG from "../../Media/landing/layers/light/Top.light.svg"
 import { ForegroundSVG } from "../../Media/landing/layers/ForegroundSVG"
+import { useImployApi } from "@imploy/common-contexts"
 
 const useStyles = makeStyles(
   ({ constants, breakpoints, typography, zIndex }: CSFTheme) =>
@@ -113,7 +115,7 @@ const useStyles = makeStyles(
 const LoginPage = () => {
   const classes = useStyles()
   const { themeKey } = useThemeSwitcher()
-
+  const { isMasterPasswordSet } = useImployApi()
   const {
     keyDetails,
     isNewDevice,
@@ -160,10 +162,11 @@ const LoginPage = () => {
         </Typography>
       </a>
       <div className={classes.inner}>
-        {!keyDetails && <InitialScreen/>}
-        {areSharesMissing && <MissingShares />}
-        {shouldInitializeAccount && <InitializeAccount />}
-        {shouldSaveNewDevice && <SaveNewDevice />}
+        {!keyDetails && <InitialScreen />}
+        {!!keyDetails && areSharesMissing && <MissingShares />}
+        {!!keyDetails && shouldInitializeAccount && !isMasterPasswordSet && <InitializeAccount />}
+        {!!keyDetails && shouldInitializeAccount && isMasterPasswordSet && <MigrateAccount />}
+        {!!keyDetails && shouldSaveNewDevice && <SaveNewDevice />}
       </div>
     </div>
   )
