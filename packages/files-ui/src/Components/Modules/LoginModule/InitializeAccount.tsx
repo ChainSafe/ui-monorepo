@@ -24,6 +24,11 @@ const InitializeAccount: React.FC = () => {
   const hasPasswordShare =
     shares.filter((s) => s.module === SECURITY_QUESTIONS_MODULE_NAME).length > 0
 
+  // `shares` object above only contains security question and local device shares
+  // The service provider share as well as backup mnemonic do not appear in the 
+  // If an account has totalShares - shares.length === 1 this indicates that a
+  // mnemonic has not been set up for the account. If totalShares - shares.length === 2
+  // this indicates that a mnemonic has already been set up. 
   const hasMnemonicShare =
     keyDetails && (keyDetails.totalShares - shares.length > 1) 
 
