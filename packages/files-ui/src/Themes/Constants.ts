@@ -94,6 +94,7 @@ export interface CsfColors extends IConstants {
   }
   filesTable: {
     color: string
+    uploadText: string
   }
   fileSystemItemRow: {
     icon: string
