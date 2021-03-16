@@ -16,7 +16,11 @@ export const UI_CONSTANTS = {
 
 export interface CsfColors extends IConstants {
   landing: {
-    logoText: string
+    background: string
+    border: string
+    boxShadow: string
+    footerBg: string
+    footerText: string
   }
   header: {
     rootBackground: string
