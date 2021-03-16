@@ -90,7 +90,8 @@ export const lightTheme = createTheme<CsfColors>({
           color: "var(--gray10)"
         },
         filesTable: {
-          color: ""
+          color: "",
+          uploadText: "var(--gray2)"
         },
         fileSystemItemRow: {
           icon: "var(--gray8)",

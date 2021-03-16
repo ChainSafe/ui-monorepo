@@ -403,7 +403,8 @@ export const darkTheme = createTheme<CsfColors>({
           color: "var(--gray9)"
         },
         filesTable: {
-          color: "var(--gray7)"
+          color: "var(--gray7)",
+          uploadText: "var(--gray7)"
         },
         fileSystemItemRow: {
           icon: "var(--gray9)",

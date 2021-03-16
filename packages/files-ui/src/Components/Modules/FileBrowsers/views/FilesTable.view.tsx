@@ -190,10 +190,9 @@ const useStyles = makeStyles(
         position: "fixed",
         zIndex: zIndex?.layer4,
         bottom: 0,
-
         transform: "translateX(-50%)",
         backgroundColor: palette.common.black.main,
-        color: palette.additional["gray"][2],
+        color: constants.filesTable.uploadText,
         opacity: 0,
         visibility: "hidden",
         transitionDuration: `${animation.transform}ms`,
