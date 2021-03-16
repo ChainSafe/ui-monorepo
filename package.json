@@ -41,7 +41,8 @@
     "clean:dist": "rm -rf ./*/**/dist && rm -rf ./*/**/build && rm -rf ./*/**/storybook-static",
     "clean": "yarn clean:dependencies && yarn clean:dist",
     "start:tunnel": "./ngrok http https://localhost:3000",
-    "lint": "eslint 'packages/**/src/**/*.{js,jsx,ts,tsx}'"
+    "lint": "eslint 'packages/**/src/**/*.{js,jsx,ts,tsx}'",
+    "test:files-ui": "yarn wsrun -p files-ui -c test"
   },
   "workspaces": {
     "packages": [

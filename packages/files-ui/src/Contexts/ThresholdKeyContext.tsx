@@ -25,7 +25,7 @@ import { useWeb3 } from "@chainsafe/web3-context"
 import ShareTransferRequestModal from "../Components/Elements/ShareTransferRequestModal"
 import BN from "bn.js"
 
-const TORUS_POSTBOX_KEY = "csf.postboxKey"
+export const TORUS_POSTBOX_KEY = "csf.postboxKey"
 const TKEY_STORE_KEY = "csf.tkeyStore"
 
 export type TThresholdKeyContext = {

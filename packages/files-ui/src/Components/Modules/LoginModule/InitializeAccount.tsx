@@ -20,6 +20,8 @@ const InitializeAccount: React.FC = () => {
     })
     : []
 
+  console.log("keyDetails", keyDetails)
+
   const hasPasswordShare =
     shares.filter((s) => s.module === "securityQuestions").length > 0
 
