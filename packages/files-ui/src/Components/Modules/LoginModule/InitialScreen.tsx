@@ -141,7 +141,7 @@ const InitialScreen: React.FC = () => {
           error[0].message === "Invalid signature"
         ) {
           errorMessage = t`Failed to validate signature.
-            If you are using a contract wallet (Argent) please make 
+            If you are using a contract wallet, please make 
             sure you have activated your wallet.`
         }
       }
@@ -199,9 +199,7 @@ const InitialScreen: React.FC = () => {
             disabled={maintenanceMode}
             loading={isConnecting}
           >
-            <span>
-              <Trans>Select a Web3 Wallet</Trans>
-            </span>
+            <Trans>Select a Web3 Wallet</Trans>
           </Button>
         ) : (
           <>
@@ -213,10 +211,7 @@ const InitialScreen: React.FC = () => {
               disabled={maintenanceMode}
               loading={isConnecting}
             >
-              <span>
-                <Trans>Continue with</Trans>
-              </span>{" "}
-              <span>&nbsp;{wallet?.name}</span>
+              <Trans>Continue with {wallet?.name}</Trans>
             </Button>
             <Button
               onClick={handleResetAndSelectWalletAndConnect}
@@ -225,9 +220,7 @@ const InitialScreen: React.FC = () => {
               variant="primary"
               disabled={isConnecting}
             >
-              <span>
-                <Trans>Select a different wallet</Trans>
-              </span>
+              <Trans>Select a different wallet</Trans>
             </Button>
             {showSignatureMessage && (
               <Typography>
