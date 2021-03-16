@@ -1,7 +1,7 @@
 import React, { useState } from "react"
 import { useThresholdKey } from "../../../Contexts/ThresholdKeyContext"
 import { Button, TextInput, Typography } from "@chainsafe/common-components"
-import {SECURITY_QUESTIONS_MODULE_NAME} from "@tkey/security-questions"
+import { SECURITY_QUESTIONS_MODULE_NAME } from "@tkey/security-questions"
 
 const InitializeAccount: React.FC = () => {
   const {
