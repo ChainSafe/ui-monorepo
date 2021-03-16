@@ -44,8 +44,8 @@ const SUPPORTED_FILE_TYPES: Record<string, React.FC<IPreviewRendererProps>> = {
   "image/*": ImagePreview,
   "audio/*": AudioPreview,
   "video/*": VideoPreview,
-  "text/plain": TextPreview,
-  "text/markdown": MarkdownPreview
+  "text/markdown": MarkdownPreview,
+  "text/*": TextPreview
 }
 
 const compatibleFilesMatcher = new MimeMatcher(
