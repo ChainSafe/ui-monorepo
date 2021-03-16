@@ -1,3 +1,10 @@
-import { ReactComponent as ForegroundSVG } from "./foreground.svg"
+import React from "react"
+import ForegroundSource from "./foreground.svg"
 
-export default ForegroundSVG
+interface IForegroundSVG {
+  className?: string
+}
+
+export const ForegroundSVG = ({ className }: IForegroundSVG) => {
+  return (<img alt="foreground" className={className} src={ForegroundSource} />)
+}
