@@ -188,7 +188,12 @@ const ThresholdKeyProvider = ({
       console.log("Minimum number of shares is reached, reconstructing key")
       try {
         const { privKey } = await TKeySdk.reconstructKey(false)
-        setPrivateKey(privKey.toString("hex"))
+        const privKeyString = privKey.toString("hex")
+        if (privKeyString.length === 63) {
+          setPrivateKey(`0${privKeyString}`)
+        } else {
+          setPrivateKey(privKeyString)
+        }
       } catch (error) {
         // Under certain circumstances (approval of login on another device) the metadata
         // cached may be stale, resulting in a failure to reconstruct the key. This is 
@@ -196,7 +201,12 @@ const ThresholdKeyProvider = ({
         if (error.message.includes("nonce")) {
           await TKeySdk.updateMetadata()
           const { privKey } = await TKeySdk.reconstructKey(false)
-          setPrivateKey(privKey.toString("hex"))
+          const privKeyString = privKey.toString("hex")
+          if (privKeyString.length === 63) {
+            setPrivateKey(`0${privKeyString}`)
+          } else {
+            setPrivateKey(privKeyString)
+          }
         } else {
           console.log(error)
           return
@@ -579,8 +589,8 @@ const ThresholdKeyProvider = ({
       const messageCipher = EthCrypto.cipher.parse(message)
       return EthCrypto.decryptWithPrivateKey(privateKey, messageCipher)
     } catch (error) {
-      console.error('Error decrypting: ', message, privateKey)   
-      return Promise.reject('Error decrypting')   
+      console.error("Error decrypting: ", message, privateKey)   
+      return Promise.reject("Error decrypting")   
     }
   }
 

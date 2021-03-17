@@ -50,6 +50,16 @@ const useStyles = makeStyles(
           justifyContent: "space-evenly"
         }
       },
+      connectingWallet: {
+        padding: `${constants.generalUnit * 30}px ${constants.generalUnit * 8}px`,
+        display: "flex",
+        flexDirection: "column",
+        textAlign: "center",
+        "& > *": {
+          fontWeight: 400,
+          paddingBottom: `${constants.generalUnit * 5}px`
+        }
+      },
       button: {
         width: 240,
         marginBottom: constants.generalUnit * 2,
@@ -80,6 +90,20 @@ const useStyles = makeStyles(
         width: "100%",
         "& > *": {
           marginRight: constants.generalUnit * 3.5
+        },
+        [breakpoints.down("md")]: {
+          // TODO: confirm how to move this around
+          display: "none"
+        }
+      },
+      connectWalletFooter: {
+        backgroundColor: constants.landing.background,
+        color: constants.landing.footerText,
+        padding: `${constants.generalUnit * 4.375}px ${constants.generalUnit * 11}px`,
+        width: "100%",
+        textAlign: "center",
+        "& > *": {
+          fontWeight: 400          
         },
         [breakpoints.down("md")]: {
           // TODO: confirm how to move this around
@@ -153,7 +177,7 @@ const InitialScreen: React.FC = () => {
   return (
     <div className={classes.root}>
       {
-        desktop && (
+        desktop && !isConnecting && (
           <Typography
             variant="h6"
             component="h1"
@@ -177,7 +201,7 @@ const InitialScreen: React.FC = () => {
                 className={classes.button}
                 variant="primary"
                 size="large"
-                disabled={maintenanceMode}
+                disabled={maintenanceMode || isConnecting}
               >
                 <Trans>Continue with Web3 Wallet</Trans>
               </Button>
@@ -250,35 +274,42 @@ const InitialScreen: React.FC = () => {
         ) : (
           wallet ?
             !isConnecting ? (
-              <section className={classes.buttonSection}>
-                <Button
-                  onClick={() => {
-                    handleLogin("web3")
-                  }}
-                  className={classes.button}
-                  variant="primary"
-                  size="large"
-                  disabled={maintenanceMode}
-                >
-                  <Trans>Continue with {wallet.name}</Trans>
-                </Button>
-                <Button
-                  onClick={handleResetAndSelectWallet}
-                  className={classes.button}
-                  variant="primary"
-                  size="large"
-                  disabled={maintenanceMode}
-                >
-                  <Trans>Connect a new wallet</Trans>
-                </Button>
-                <Typography variant='h5'><Trans>By connecting your wallet, you agree to our terms and privacy policy.</Trans></Typography>
-              </section>
+              <>
+                <section className={classes.buttonSection}>
+                  <Button
+                    onClick={() => {
+                      handleLogin("web3")
+                    }}
+                    className={classes.button}
+                    variant="primary"
+                    size="large"
+                    disabled={maintenanceMode}
+                  >
+                    <Trans>Continue with {wallet.name}</Trans>
+                  </Button>
+                  <Button
+                    onClick={handleResetAndSelectWallet}
+                    className={classes.button}
+                    variant="primary"
+                    size="large"
+                    disabled={maintenanceMode}
+                  >
+                    <Trans>Connect a new wallet</Trans>
+                  </Button>
+                </section>
+                <footer className={classes.connectWalletFooter}>
+                  <Typography variant='h5'><Trans>By connecting your wallet, you agree to our terms and privacy policy.</Trans></Typography>
+                </footer>
+              </>
             ) : (
-              <section className={classes.buttonSection}>
-                <Typography variant='h2'><Trans>Connect Wallet to Files</Trans></Typography>  
-                <br />
-                <Typography variant='h5'><Trans>You will need to sign a transaction in your wallet to complete sign in.</Trans></Typography>
-              </section>
+              <>
+                <section className={classes.connectingWallet}>
+                  <Typography variant='h2'><Trans>Connect Wallet to Files</Trans></Typography>  
+                  <Typography variant='h5'>
+                    <Trans>You will need to sign a transaction in your wallet to complete sign in.</Trans>
+                  </Typography>
+                </section>
+              </>
             )
             : null
         )

@@ -263,7 +263,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
           setEncryptionKey(decryptedKey)
         }
       } catch (error) {
-        console.error('Error decrypting key: ', encryptedKey)
+        console.error("Error decrypting key: ", encryptedKey)
       }
     }
 
