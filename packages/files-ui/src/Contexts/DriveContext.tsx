@@ -256,10 +256,14 @@ const DriveProvider = ({ children }: DriveContextProps) => {
 
     const decryptKey = async (encryptedKey: string) => {
       console.log("Decrypting retrieved key")
-      const decryptedKey = await decryptMessageWithThresholdKey(encryptedKey)
-      if (decryptedKey) {
-        console.log("Decrypted key: ", decryptedKey)
-        setEncryptionKey(decryptedKey)
+      try {
+        const decryptedKey = await decryptMessageWithThresholdKey(encryptedKey)
+        if (decryptedKey) {
+          console.log("Decrypted key: ", decryptedKey)
+          setEncryptionKey(decryptedKey)
+        }
+      } catch (error) {
+        console.error('Error decrypting key: ', encryptedKey)
       }
     }
 

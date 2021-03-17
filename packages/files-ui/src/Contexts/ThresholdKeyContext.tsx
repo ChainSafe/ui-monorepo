@@ -225,6 +225,7 @@ const ThresholdKeyProvider = ({
       if (token && privateKey && userInfo) {
         const pubKey = EthCrypto.publicKeyByPrivateKey(privateKey)
         setPublicKey(pubKey)
+        console.log(privateKey)
         const wallet = new Wallet(privateKey)
         const signature = await wallet.signMessage(token)
         await thresholdKeyLogin(
@@ -574,8 +575,13 @@ const ThresholdKeyProvider = ({
 
   const decryptMessageWithThresholdKey = async (message: string) => {
     if (!privateKey) return
-    const messageCipher = EthCrypto.cipher.parse(message)
-    return EthCrypto.decryptWithPrivateKey(privateKey, messageCipher)
+    try {
+      const messageCipher = EthCrypto.cipher.parse(message)
+      return EthCrypto.decryptWithPrivateKey(privateKey, messageCipher)
+    } catch (error) {
+      console.error('Error decrypting: ', message, privateKey)   
+      return Promise.reject('Error decrypting')   
+    }
   }
 
   const thresholdKeyLogout = async () => {
