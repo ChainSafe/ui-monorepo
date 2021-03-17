@@ -58,6 +58,7 @@ type ImployApiContext = {
   logout(): void
   validateMasterPassword(candidatePassword: string): Promise<boolean>
   encryptedEncryptionKey?: string
+  isMasterPasswordSet: boolean
 }
 
 const ImployApiContext = React.createContext<ImployApiContext | undefined>(undefined)
@@ -86,7 +87,7 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
   const [secured, setSecured] = useState<boolean | undefined>(undefined)
   const [refreshToken, setRefreshToken] = useState<Token | undefined>(undefined)
   const [decodedRefreshToken, setDecodedRefreshToken] = useState<
-    { exp: number; mps?: string; uuid: string } | undefined
+    { exp: number; enckey?: string; mps?: string; uuid: string } | undefined
   >(undefined)
 
   // returning user
@@ -258,10 +259,9 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
   useEffect(() => {
     if (refreshToken && refreshToken.token) {
       try {
-        const decoded = jwtDecode<{ mps?: string; exp: number; uuid: string }>(
+        const decoded = jwtDecode<{ mps?: string; enckey?: string; exp: number; uuid: string }>(
           refreshToken.token
         )
-        console.log(decoded)
 
         setDecodedRefreshToken(decoded)
       } catch (error) {
@@ -374,35 +374,6 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
     canUseLocalStorage && localStorage.removeItem(tokenStorageKey)
   }
 
-  // const secureAccount = async (masterPassword: string) => {
-  // try {
-  //   if (decodedRefreshToken && refreshToken) {
-  //     const uuidArray = new TextEncoder().encode(decodedRefreshToken.uuid)
-  //     const encryptedUuid = await encryptFile(uuidArray, masterPassword)
-  //     const encryptedUuidString = Buffer.from(encryptedUuid).toString(
-  //       "base64"
-  //     )
-  //     await imployApiClient.secure({
-  //       mps: encryptedUuidString
-  //     })
-
-  //     const {
-  //       access_token,
-  //       refresh_token
-  //     } = await imployApiClient.getRefreshToken({
-  //       refresh: refreshToken.token
-  //     })
-
-  //     setTokensAndSave(access_token, refresh_token)
-  //     return true
-  //   } else {
-  //     return false
-  //   }
-  // } catch (error) {
-  //   return false
-  // }
-  // }
-
   const secureThresholdKeyAccount = async (encryptedKey: string) => {
     try {
       if (decodedRefreshToken && refreshToken) {
@@ -464,7 +435,8 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
         validateMasterPassword,
         thresholdKeyLogin,
         secureThresholdKeyAccount,
-        encryptedEncryptionKey: decodedRefreshToken?.mps
+        encryptedEncryptionKey: decodedRefreshToken?.enckey,
+        isMasterPasswordSet: !!decodedRefreshToken?.mps
       }}
     >
       {children}

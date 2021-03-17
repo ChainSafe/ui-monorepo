@@ -17,7 +17,11 @@ export const lightTheme = createTheme<CsfColors>({
       ...UI_CONSTANTS,
       ...({
         landing: {
-          logoText: "var(--gray1)"
+          background: "var(--gray3)",
+          border: "var(--gray4)",
+          boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
+          footerBg: "var(--gray4)",
+          footerText: "var(--gray8)"
         },
         modalDefault: {
           fadeBackground: "var(--gray1)",
@@ -90,7 +94,8 @@ export const lightTheme = createTheme<CsfColors>({
           color: "var(--gray10)"
         },
         filesTable: {
-          color: ""
+          color: "",
+          uploadText: "var(--gray2)"
         },
         fileSystemItemRow: {
           icon: "var(--gray8)",

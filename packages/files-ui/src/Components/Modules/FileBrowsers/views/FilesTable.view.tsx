@@ -190,10 +190,9 @@ const useStyles = makeStyles(
         position: "fixed",
         zIndex: zIndex?.layer4,
         bottom: 0,
-
         transform: "translateX(-50%)",
         backgroundColor: palette.common.black.main,
-        color: palette.additional["gray"][2],
+        color: constants.filesTable.uploadText,
         opacity: 0,
         visibility: "hidden",
         transitionDuration: `${animation.transform}ms`,
@@ -453,7 +452,6 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
   )
 
   // Bulk operations
-
   const [validBulkOps, setValidBulkOps] = useState<FileOperation[]>([])
   useEffect(() => {
     if (bulkOperations) {
@@ -631,12 +629,12 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
               }
               variant="outline"
             >
-              Move selected
+              <Trans>Move selected</Trans>
             </Button>
           )}
           {validBulkOps.indexOf("delete") >= 0 && (
             <Button onClick={handleBulkMoveToTrash} variant="outline">
-              Delete selected
+              <Trans>Delete selected</Trans>
             </Button>
           )}
         </section>

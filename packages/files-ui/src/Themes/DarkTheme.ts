@@ -330,7 +330,11 @@ export const darkTheme = createTheme<CsfColors>({
       ...UI_CONSTANTS,
       ...({
         landing: {
-          logoText: "var(--gray10)"
+          background: "var(--gray2)",
+          border: "var(--gray4)",
+          boxShadow: "unset",
+          footerBg: "var(--gray4)",
+          footerText: "var(--gray8)"
         },
         modalDefault: {
           fadeBackground: "var(--gray2)",
@@ -403,7 +407,8 @@ export const darkTheme = createTheme<CsfColors>({
           color: "var(--gray9)"
         },
         filesTable: {
-          color: "var(--gray7)"
+          color: "var(--gray7)",
+          uploadText: "var(--gray7)"
         },
         fileSystemItemRow: {
           icon: "var(--gray9)",

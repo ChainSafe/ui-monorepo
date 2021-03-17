@@ -86,6 +86,7 @@ type DriveContext = {
     | undefined
   bucketType: BucketType
   loadingCurrentPath: boolean
+  secureAccountWithMasterPassword(candidatePassword: string): void
 }
 
 // This represents a File or Folder on the
@@ -106,7 +107,9 @@ const DriveProvider = ({ children }: DriveContextProps) => {
     isLoggedIn,
     secured,
     secureThresholdKeyAccount,
-    encryptedEncryptionKey
+    encryptedEncryptionKey,
+    isMasterPasswordSet,
+    validateMasterPassword
   } = useImployApi()
 
   const {
@@ -122,9 +125,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
 
   const [pathContents, setPathContents] = useState<FileSystemItem[]>([])
   const [spaceUsed, setSpaceUsed] = useState(0)
-  const [, setMasterPassword] = useState<string | undefined>(
-    undefined
-  )
+
   const [currentSearchBucket, setCurrentSearchBucket] = useState<
     | {
         bucketId: string
@@ -235,7 +236,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
   // Reset password on log out
   useEffect(() => {
     if (!isLoggedIn) {
-      setMasterPassword(undefined)
+      setEncryptionKey(undefined)
     }
   }, [isLoggedIn])
 
@@ -264,15 +265,14 @@ const DriveProvider = ({ children }: DriveContextProps) => {
 
     if (isLoggedIn && publicKey && !encryptionKey) {
       console.log("Checking whether account is secured ", secured)
-      if (secured) {
+      if (!secured && !isMasterPasswordSet) {
+        console.log("Generating key and securing account")
+        secureAccount()
+      } else {
         console.log("decrypting key")
         if (encryptedEncryptionKey) {
           decryptKey(encryptedEncryptionKey)
         }
-      } else {
-        // TODO: Check if the user has a master password string set
-        console.log("generating key and securing account")
-        secureAccount()
       }
     }
   }, [
@@ -283,8 +283,17 @@ const DriveProvider = ({ children }: DriveContextProps) => {
     encryptForPublicKey,
     secureThresholdKeyAccount,
     decryptMessageWithThresholdKey,
-    encryptionKey
+    encryptionKey,
+    isMasterPasswordSet
   ])
+
+  const secureAccountWithMasterPassword = async (candidatePassword: string) => {
+    if (!publicKey || !validateMasterPassword(candidatePassword)) return
+
+    const encryptedKey = await encryptForPublicKey(publicKey, candidatePassword)
+    setEncryptionKey(candidatePassword)
+    secureThresholdKeyAccount(encryptedKey)
+  }
 
   const [uploadsInProgress, dispatchUploadsInProgress] = useReducer(
     uploadsInProgressReducer,
@@ -770,7 +779,8 @@ const DriveProvider = ({ children }: DriveContextProps) => {
         currentSearchBucket,
         loadingCurrentPath,
         getFileInfo,
-        bucketType
+        bucketType,
+        secureAccountWithMasterPassword
       }}
     >
       {children}

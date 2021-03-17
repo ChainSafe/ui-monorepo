@@ -632,7 +632,7 @@ const ThresholdKeyProvider = ({
         logout: thresholdKeyLogout
       }}
     >
-      { pendingShareTransferRequests.length > 0 && (
+      {!isNewDevice && pendingShareTransferRequests.length > 0 && (
         <ShareTransferRequestModal
           requests={pendingShareTransferRequests}
         />
