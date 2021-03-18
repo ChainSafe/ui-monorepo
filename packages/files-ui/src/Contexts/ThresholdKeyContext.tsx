@@ -461,7 +461,7 @@ const ThresholdKeyProvider = ({
       }
     } catch (error) {
       console.error(error)
-      throw new Error('Threshold Key Error')
+      throw new Error("Threshold Key Error")
     }
   }
 

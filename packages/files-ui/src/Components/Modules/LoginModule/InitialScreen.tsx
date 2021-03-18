@@ -55,17 +55,17 @@ const useStyles = makeStyles(
         display: "flex",
         flexDirection: "column",
         "& > *": {
-          fontWeight: 400,
+          fontWeight: 400
         },
         [breakpoints.up("md")]: {
           padding: `${constants.generalUnit * 30}px ${constants.generalUnit * 8}px`,
           "& > *": {
             paddingBottom: `${constants.generalUnit * 5}px`
-          },
+          }
         },
         [breakpoints.down("md")]: {
           justifyContent: "space-evenly"
-        },
+        }
       },
       button: {
         width: 240,
@@ -118,7 +118,7 @@ const useStyles = makeStyles(
         }
       }
     }
-  )
+    )
 )
 
 const InitialScreen: React.FC = () => {
@@ -183,7 +183,7 @@ const InitialScreen: React.FC = () => {
       if (error?.message === "Just nope" || error?.code === 4001) {
         errorMessage = t`Failed to get signature`
       }
-      if (error?.message === 'user closed popup') {
+      if (error?.message === "user closed popup") {
         errorMessage = t`The authentication popup was closed`
       }
       setError(errorMessage)
@@ -316,7 +316,9 @@ const InitialScreen: React.FC = () => {
                     </Button>
                   </section>
                   <footer className={classes.connectWalletFooter}>
-                    <Typography variant='h5'><Trans>By connecting your wallet, you agree to our terms and privacy policy.</Trans></Typography>
+                    <Typography variant='h5'>
+                      <Trans>By connecting your wallet, you agree to our terms and privacy policy.</Trans>
+                    </Typography>
                   </footer>
                 </>
               ) : (
@@ -331,18 +333,18 @@ const InitialScreen: React.FC = () => {
               )
               : null
           ) : (                
-          <>
-            <section className={classes.connectingWallet}>
-              <Typography variant='h2'><Trans>Connection failed</Trans></Typography>  
-              <Typography variant='h5'>
-                <Trans>{error}</Trans>
-              </Typography>
-              <Button onClick={resetLogin}>
-                <Trans>Try again</Trans>
-              </Button>
-            </section>
-          </>
-        )
+            <>
+              <section className={classes.connectingWallet}>
+                <Typography variant='h2'><Trans>Connection failed</Trans></Typography>  
+                <Typography variant='h5'>
+                  <Trans>{error}</Trans>
+                </Typography>
+                <Button onClick={resetLogin}>
+                  <Trans>Try again</Trans>
+                </Button>
+              </section>
+            </>
+          )
       }
     </div>
   )
