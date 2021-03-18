@@ -1,8 +1,8 @@
 {
-  "name": "@imploy/common-contexts",
+  "name": "@chainsafe/common-contexts",
   "version": "1.0.0",
   "description": "Common contexts",
-  "author": "Michael Yankelev <michael@chainsafe.io>",
+  "author": "Chainsafe Products Team",
   "license": "GPL-3.0",
   "main": "dist/index.js",
   "engines": {
@@ -13,8 +13,8 @@
     "build": "rollup -c",
     "start": "rollup -c -w"
   },
-  "dependencies": {
-    "@imploy/api-client": "1.7.2-rc2",
+  "dependencies": {    
+    "@chainsafe/files-api-client": "1.7.2-rc2",
     "axios": "^0.21.1",
     "uuid": "^8.3.1"
   },
