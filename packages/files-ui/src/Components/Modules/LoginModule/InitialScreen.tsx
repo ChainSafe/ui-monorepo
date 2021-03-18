@@ -51,14 +51,21 @@ const useStyles = makeStyles(
         }
       },
       connectingWallet: {
-        padding: `${constants.generalUnit * 30}px ${constants.generalUnit * 8}px`,
+        textAlign: "center",
         display: "flex",
         flexDirection: "column",
-        textAlign: "center",
         "& > *": {
           fontWeight: 400,
-          paddingBottom: `${constants.generalUnit * 5}px`
-        }
+        },
+        [breakpoints.up("md")]: {
+          padding: `${constants.generalUnit * 30}px ${constants.generalUnit * 8}px`,
+          "& > *": {
+            paddingBottom: `${constants.generalUnit * 5}px`
+          },
+        },
+        [breakpoints.down("md")]: {
+          justifyContent: "space-evenly"
+        },
       },
       button: {
         width: 240,
@@ -110,7 +117,8 @@ const useStyles = makeStyles(
           display: "none"
         }
       }
-    })
+    }
+  )
 )
 
 const InitialScreen: React.FC = () => {
@@ -124,13 +132,13 @@ const InitialScreen: React.FC = () => {
   const classes = useStyles()
   const [loginMode, setLoginMode] = useState<"web3" | LOGIN_TYPE | undefined>()
 
-  const [, setError] = useState("")
+  const [error, setError] = useState<string | undefined>()
   const maintenanceMode = process.env.REACT_APP_MAINTENANCE_MODE === "true"
   
   const [isConnecting, setIsConnecting] = useState(false)
 
   const handleSelectWalletAndConnect = async () => {
-    setError("")
+    setError(undefined)
     try {
       await selectWallet()
     } catch (error) {
@@ -139,12 +147,17 @@ const InitialScreen: React.FC = () => {
   }
 
   const handleResetAndSelectWallet = async () => {
-    setError("")
+    setError(undefined)
     try {
       await resetAndSelectWallet()
     } catch (error) {
       setError(t`There was an error connecting your wallet`)
     }
+  }
+
+  const resetLogin = async () => {
+    setError(undefined)
+    setLoginMode(undefined)
   }
 
   const handleLogin = async (loginType: LOGIN_TYPE | "web3") => {
@@ -155,6 +168,7 @@ const InitialScreen: React.FC = () => {
       await login(loginType)
     } catch (error) {
       let errorMessage = t`There was an error authenticating`
+      console.log(error)
       if (Array.isArray(error) && error[0]) {
         if (
           error[0].type === "signature" &&
@@ -165,9 +179,12 @@ const InitialScreen: React.FC = () => {
             sure you have activated your wallet.`
         }
       }
-      if (error?.message === "Just nope") {
-        // WalletConnect be sassy
+      // WalletConnect be sassy
+      if (error?.message === "Just nope" || error?.code === 4001) {
         errorMessage = t`Failed to get signature`
+      }
+      if (error?.message === 'user closed popup') {
+        errorMessage = t`The authentication popup was closed`
       }
       setError(errorMessage)
     }
@@ -177,7 +194,7 @@ const InitialScreen: React.FC = () => {
   return (
     <div className={classes.root}>
       {
-        desktop && !isConnecting && (
+        desktop && !isConnecting && !error && (
           <Typography
             variant="h6"
             component="h1"
@@ -190,128 +207,141 @@ const InitialScreen: React.FC = () => {
         )
       }
       {
-        loginMode !== "web3" ? (      
-          <>
-            <section className={classes.buttonSection}>
-              <Button
-                onClick={() => {
-                  setLoginMode("web3")
-                  handleSelectWalletAndConnect()
-                }}
-                className={classes.button}
-                variant="primary"
-                size="large"
-                disabled={maintenanceMode || isConnecting}
-              >
-                <Trans>Continue with Web3 Wallet</Trans>
-              </Button>
-              <Button
-                className={classes.button}
-                variant="primary"
-                size="large"
-                onClick={() => handleLogin("github")}
-                disabled={maintenanceMode || isConnecting}
-                loading={isConnecting && loginMode === "github"}
-              >
-                <GithubLogoIcon />
-                <Trans>Continue with Github</Trans>
-              </Button>
-              <Button
-                className={classes.button}
-                variant="primary"
-                size="large"
-                onClick={() => handleLogin("google")}
-                disabled={maintenanceMode || isConnecting}
-                loading={isConnecting && loginMode === "google"}
-              >
-                <GoogleLogoIcon />
-                <Trans>Continue with Google</Trans>
-              </Button>
-              <Button
-                className={classes.button}
-                size="large"
-                variant="primary"
-                onClick={() => handleLogin("facebook")}
-                disabled={maintenanceMode || isConnecting}
-                loading={isConnecting && loginMode === "facebook"}
-              >
-                <FacebookLogoIcon />
-                <Trans>Continue with Facebook</Trans>
-              </Button>
-              {maintenanceMode && (
-                <Typography>
-                  <Trans>
-                    We`&apos;`re undergoing maintenance, thank you for being patient
-                  </Trans>
-                </Typography>
-              )}
-            </section>
-            <footer className={classes.footer}>
-              <a
-                href={ROUTE_LINKS.PrivacyPolicy}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <Typography>
-                  <Trans>
-                      Privacy Policy
-                  </Trans>
-                </Typography>
-              </a>
-              <a
-                href={ROUTE_LINKS.Terms}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <Typography>
-                  <Trans>
-                      Terms and Conditions
-                  </Trans>
-                </Typography>
-              </a>
-            </footer>
-          </>
-        ) : (
-          wallet ?
-            !isConnecting ? (
-              <>
-                <section className={classes.buttonSection}>
-                  <Button
-                    onClick={() => {
-                      handleLogin("web3")
-                    }}
-                    className={classes.button}
-                    variant="primary"
-                    size="large"
-                    disabled={maintenanceMode}
-                  >
-                    <Trans>Continue with {wallet.name}</Trans>
-                  </Button>
-                  <Button
-                    onClick={handleResetAndSelectWallet}
-                    className={classes.button}
-                    variant="primary"
-                    size="large"
-                    disabled={maintenanceMode}
-                  >
-                    <Trans>Connect a new wallet</Trans>
-                  </Button>
-                </section>
-                <footer className={classes.connectWalletFooter}>
-                  <Typography variant='h5'><Trans>By connecting your wallet, you agree to our terms and privacy policy.</Trans></Typography>
-                </footer>
-              </>
-            ) : (
-              <>
-                <section className={classes.connectingWallet}>
-                  <Typography variant='h2'><Trans>Connect Wallet to Files</Trans></Typography>  
-                  <Typography variant='h5'>
-                    <Trans>You will need to sign a transaction in your wallet to complete sign in.</Trans>
+        !error ? 
+          loginMode !== "web3" ? (      
+            <>
+              <section className={classes.buttonSection}>
+                <Button
+                  onClick={() => {
+                    setLoginMode("web3")
+                    handleSelectWalletAndConnect()
+                  }}
+                  className={classes.button}
+                  variant="primary"
+                  size="large"
+                  disabled={maintenanceMode || isConnecting}
+                >
+                  <Trans>Continue with Web3 Wallet</Trans>
+                </Button>
+                <Button
+                  className={classes.button}
+                  variant="primary"
+                  size="large"
+                  onClick={() => handleLogin("github")}
+                  disabled={maintenanceMode || isConnecting}
+                  loading={isConnecting && loginMode === "github"}
+                >
+                  <GithubLogoIcon />
+                  <Trans>Continue with Github</Trans>
+                </Button>
+                <Button
+                  className={classes.button}
+                  variant="primary"
+                  size="large"
+                  onClick={() => handleLogin("google")}
+                  disabled={maintenanceMode || isConnecting}
+                  loading={isConnecting && loginMode === "google"}
+                >
+                  <GoogleLogoIcon />
+                  <Trans>Continue with Google</Trans>
+                </Button>
+                <Button
+                  className={classes.button}
+                  size="large"
+                  variant="primary"
+                  onClick={() => handleLogin("facebook")}
+                  disabled={maintenanceMode || isConnecting}
+                  loading={isConnecting && loginMode === "facebook"}
+                >
+                  <FacebookLogoIcon />
+                  <Trans>Continue with Facebook</Trans>
+                </Button>
+                {maintenanceMode && (
+                  <Typography>
+                    <Trans>
+                      We`&apos;`re undergoing maintenance, thank you for being patient
+                    </Trans>
                   </Typography>
-                </section>
-              </>
-            )
-            : null
+                )}
+              </section>
+              <footer className={classes.footer}>
+                <a
+                  href={ROUTE_LINKS.PrivacyPolicy}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <Typography>
+                    <Trans>
+                        Privacy Policy
+                    </Trans>
+                  </Typography>
+                </a>
+                <a
+                  href={ROUTE_LINKS.Terms}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <Typography>
+                    <Trans>
+                        Terms and Conditions
+                    </Trans>
+                  </Typography>
+                </a>
+              </footer>
+            </>
+          ) : (
+            wallet ?
+              !isConnecting ? (
+                <>
+                  <section className={classes.buttonSection}>
+                    <Button
+                      onClick={() => {
+                        handleLogin("web3")
+                      }}
+                      className={classes.button}
+                      variant="primary"
+                      size="large"
+                      disabled={maintenanceMode}
+                    >
+                      <Trans>Continue with {wallet.name}</Trans>
+                    </Button>
+                    <Button
+                      onClick={handleResetAndSelectWallet}
+                      className={classes.button}
+                      variant="primary"
+                      size="large"
+                      disabled={maintenanceMode}
+                    >
+                      <Trans>Connect a new wallet</Trans>
+                    </Button>
+                  </section>
+                  <footer className={classes.connectWalletFooter}>
+                    <Typography variant='h5'><Trans>By connecting your wallet, you agree to our terms and privacy policy.</Trans></Typography>
+                  </footer>
+                </>
+              ) : (
+                <>
+                  <section className={classes.connectingWallet}>
+                    <Typography variant='h2'><Trans>Connect Wallet to Files</Trans></Typography>  
+                    <Typography variant='h5'>
+                      <Trans>You will need to sign a transaction in your wallet to complete sign in.</Trans>
+                    </Typography>
+                  </section>
+                </>
+              )
+              : null
+          ) : (                
+          <>
+            <section className={classes.connectingWallet}>
+              <Typography variant='h2'><Trans>Connection failed</Trans></Typography>  
+              <Typography variant='h5'>
+                <Trans>{error}</Trans>
+              </Typography>
+              <Button onClick={resetLogin}>
+                <Trans>Try again</Trans>
+              </Button>
+            </section>
+          </>
         )
       }
     </div>

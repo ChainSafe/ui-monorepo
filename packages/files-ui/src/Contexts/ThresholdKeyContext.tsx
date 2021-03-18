@@ -415,7 +415,7 @@ const ThresholdKeyProvider = ({
     } catch (error) {
       console.error("Error logging in")
       console.error(error)
-      return
+      throw error
     }
     sessionStorage.setItem(
       TORUS_POSTBOX_KEY,
@@ -450,7 +450,6 @@ const ThresholdKeyProvider = ({
           console.log(
             "Error loading device share. If this is a new device please add it using one of your other recovery shares."
           )
-          console.log(error)
           setIsNewDevice(true)
         }
         const resultKey = await TKeySdk.getKeyDetails()
@@ -462,6 +461,7 @@ const ThresholdKeyProvider = ({
       }
     } catch (error) {
       console.error(error)
+      throw new Error('Threshold Key Error')
     }
   }
 
