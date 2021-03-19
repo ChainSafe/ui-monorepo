@@ -8,7 +8,7 @@ import {
 import clsx from "clsx"
 import { Form, Formik } from "formik"
 import * as yup from "yup"
-import { useDrive } from "../../../../Contexts/DriveContext"
+import { useDrive } from "../../../Contexts/DriveContext"
 import { useImployApi, useUser } from "@imploy/common-contexts"
 import { useThresholdKey } from "../../../Contexts/ThresholdKeyContext"
 
