@@ -13,7 +13,7 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
-#: src/Contexts/DriveContext.tsx:232
+#: src/Contexts/DriveContext.tsx:243
 msgid "A file with the same name already exists"
 msgstr "A file with the same name already exists"
 
@@ -37,6 +37,10 @@ msgstr "Are you sure you wish to delete?"
 #: src/Components/Modules/FileBrowsers/BinFileBrowser.tsx:48
 msgid "Bin"
 msgstr "Bin"
+
+#: src/Components/Modules/LoginModule/InitialScreen.tsx:253
+msgid "By connecting your wallet, you agree to our terms and privacy policy."
+msgstr "By connecting your wallet, you agree to our terms and privacy policy."
 
 #: src/Components/Modules/FileBrowsers/FileInfoModal.tsx:197
 msgid "CID (Content Identifier)"
@@ -66,23 +70,39 @@ msgstr "Close"
 msgid "Confirm"
 msgstr "Confirm"
 
+#: src/Components/Modules/LoginModule/InitialScreen.tsx:258
+msgid "Connect Wallet to Files"
+msgstr "Connect Wallet to Files"
+
+#: src/Components/Modules/LoginModule/InitialScreen.tsx:248
+msgid "Connect a new wallet"
+msgstr "Connect a new wallet"
+
+#: src/Components/Modules/LoginModule/InitialScreen.tsx:266
+msgid "Connection failed"
+msgstr "Connection failed"
+
 #: src/Components/Pages/LoginPage.tsx:262
 #~ msgid "Continue with"
 #~ msgstr "Continue with"
 
-#: src/Components/Modules/LoginModule/InitialScreen.tsx:212
+#: src/Components/Modules/LoginModule/InitialScreen.tsx:215
 msgid "Continue with Facebook"
 msgstr "Continue with Facebook"
 
-#: src/Components/Modules/LoginModule/InitialScreen.tsx:204
+#: src/Components/Modules/LoginModule/InitialScreen.tsx:207
 msgid "Continue with Github"
 msgstr "Continue with Github"
 
-#: src/Components/Modules/LoginModule/InitialScreen.tsx:208
+#: src/Components/Modules/LoginModule/InitialScreen.tsx:211
 msgid "Continue with Google"
 msgstr "Continue with Google"
 
-#: src/Components/Modules/LoginModule/InitialScreen.tsx:188
+#: src/Components/Modules/LoginModule/InitialScreen.tsx:203
+msgid "Continue with Web3 Wallet"
+msgstr "Continue with Web3 Wallet"
+
+#: src/Components/Modules/LoginModule/InitialScreen.tsx:245
 msgid "Continue with {0}"
 msgstr "Continue with {0}"
 
@@ -153,11 +173,11 @@ msgstr "Drop to upload files"
 msgid "Essentials - Free"
 msgstr "Essentials - Free"
 
-#: src/Components/Modules/LoginModule/InitialScreen.tsx:150
+#: src/Components/Modules/LoginModule/InitialScreen.tsx:181
 msgid "Failed to get signature"
 msgstr "Failed to get signature"
 
-#: src/Components/Modules/LoginModule/InitialScreen.tsx:143
+#: src/Components/Modules/LoginModule/InitialScreen.tsx:174
 msgid ""
 "Failed to validate signature.\n"
 "If you are using a contract wallet, please make \n"
@@ -167,9 +187,9 @@ msgstr ""
 "If you are using a contract wallet, please make \n"
 "sure you have activated your wallet."
 
-#: src/Contexts/DriveContext.tsx:344
-#: src/Contexts/DriveContext.tsx:373
-#: src/Contexts/DriveContext.tsx:410
+#: src/Contexts/DriveContext.tsx:355
+#: src/Contexts/DriveContext.tsx:384
+#: src/Contexts/DriveContext.tsx:421
 msgid "File"
 msgstr "File"
 
@@ -181,11 +201,11 @@ msgstr "File Info"
 msgid "File format not supported."
 msgstr "File format not supported."
 
-#: src/Contexts/DriveContext.tsx:314
+#: src/Contexts/DriveContext.tsx:325
 msgid "File moved successfully"
 msgstr "File moved successfully"
 
-#: src/Contexts/DriveContext.tsx:295
+#: src/Contexts/DriveContext.tsx:306
 msgid "File renamed successfully"
 msgstr "File renamed successfully"
 
@@ -198,13 +218,13 @@ msgstr "File size"
 msgid "Files"
 msgstr "Files"
 
-#: src/Contexts/DriveContext.tsx:344
-#: src/Contexts/DriveContext.tsx:373
-#: src/Contexts/DriveContext.tsx:410
+#: src/Contexts/DriveContext.tsx:355
+#: src/Contexts/DriveContext.tsx:384
+#: src/Contexts/DriveContext.tsx:421
 msgid "Folder"
 msgstr "Folder"
 
-#: src/Contexts/DriveContext.tsx:250
+#: src/Contexts/DriveContext.tsx:261
 msgid "Folder created successfully"
 msgstr "Folder created successfully"
 
@@ -217,6 +237,10 @@ msgstr "Folders"
 msgid "General"
 msgstr "General"
 
+#: src/Components/Modules/LoginModule/InitialScreen.tsx:192
+msgid "Get Started"
+msgstr "Get Started"
+
 #: src/Components/Layouts/AppNav.tsx:243
 msgid "Home"
 msgstr "Home"
@@ -225,7 +249,7 @@ msgstr "Home"
 msgid "Info"
 msgstr "Info"
 
-#: src/Components/Pages/LoginPage.tsx:128
+#: src/Components/Pages/LoginPage.tsx:131
 msgid "Learn more about ChainSafe"
 msgstr "Learn more about ChainSafe"
 
@@ -288,8 +312,8 @@ msgid "One sec, getting files ready..."
 msgstr "One sec, getting files ready..."
 
 #: src/Components/Modules/LoginModule/InitialScreen.tsx:197
-msgid "Please confirm in your wallet to continue"
-msgstr "Please confirm in your wallet to continue"
+#~ msgid "Please confirm in your wallet to continue"
+#~ msgstr "Please confirm in your wallet to continue"
 
 #: src/Components/Modules/FileBrowsers/views/FileSystemItemRow.tsx:222
 msgid "Preview"
@@ -299,7 +323,7 @@ msgstr "Preview"
 msgid "Previous"
 msgstr "Previous"
 
-#: src/Components/Modules/LoginModule/InitialScreen.tsx:218
+#: src/Components/Modules/LoginModule/InitialScreen.tsx:226
 msgid "Privacy Policy"
 msgstr "Privacy Policy"
 
@@ -340,12 +364,12 @@ msgid "Search..."
 msgstr "Search..."
 
 #: src/Components/Modules/LoginModule/InitialScreen.tsx:183
-msgid "Select a Web3 Wallet"
-msgstr "Select a Web3 Wallet"
+#~ msgid "Select a Web3 Wallet"
+#~ msgstr "Select a Web3 Wallet"
 
 #: src/Components/Modules/LoginModule/InitialScreen.tsx:193
-msgid "Select a different wallet"
-msgstr "Select a different wallet"
+#~ msgid "Select a different wallet"
+#~ msgstr "Select a different wallet"
 
 #: src/Components/Layouts/AppNav.tsx:273
 msgid "Send Feedback"
@@ -366,14 +390,14 @@ msgid "Sign Out"
 msgstr "Sign Out"
 
 #: src/Components/Modules/LoginModule/InitialScreen.tsx:169
-msgid "Sign in"
-msgstr "Sign in"
+#~ msgid "Sign in"
+#~ msgstr "Sign in"
 
 #: src/Components/Modules/FileBrowsers/views/FilesTable.view.tsx:504
 msgid "Size"
 msgstr "Size"
 
-#: src/Contexts/DriveContext.tsx:229
+#: src/Contexts/DriveContext.tsx:240
 msgid "Something went wrong. We couldn't upload your file"
 msgstr "Something went wrong. We couldn't upload your file"
 
@@ -393,37 +417,41 @@ msgstr "Stored by miner"
 msgid "Technical"
 msgstr "Technical"
 
-#: src/Components/Modules/LoginModule/InitialScreen.tsx:225
+#: src/Components/Modules/LoginModule/InitialScreen.tsx:233
 msgid "Terms and Conditions"
 msgstr "Terms and Conditions"
 
-#: src/Components/Modules/LoginModule/InitialScreen.tsx:139
+#: src/Components/Modules/LoginModule/InitialScreen.tsx:184
+msgid "The authentication popup was closed"
+msgstr "The authentication popup was closed"
+
+#: src/Components/Modules/LoginModule/InitialScreen.tsx:169
 msgid "There was an error authenticating"
 msgstr "There was an error authenticating"
 
-#: src/Components/Modules/LoginModule/InitialScreen.tsx:115
-#: src/Components/Modules/LoginModule/InitialScreen.tsx:126
+#: src/Components/Modules/LoginModule/InitialScreen.tsx:144
+#: src/Components/Modules/LoginModule/InitialScreen.tsx:153
 msgid "There was an error connecting your wallet"
 msgstr "There was an error connecting your wallet"
 
-#: src/Contexts/DriveContext.tsx:257
+#: src/Contexts/DriveContext.tsx:268
 msgid "There was an error creating this folder"
 msgstr "There was an error creating this folder"
 
-#: src/Contexts/DriveContext.tsx:352
-#: src/Contexts/DriveContext.tsx:381
+#: src/Contexts/DriveContext.tsx:363
+#: src/Contexts/DriveContext.tsx:392
 msgid "There was an error deleting this"
 msgstr "There was an error deleting this"
 
-#: src/Contexts/DriveContext.tsx:283
+#: src/Contexts/DriveContext.tsx:294
 msgid "There was an error getting file info"
 msgstr "There was an error getting file info"
 
-#: src/Contexts/DriveContext.tsx:270
+#: src/Contexts/DriveContext.tsx:281
 msgid "There was an error getting folder info"
 msgstr "There was an error getting folder info"
 
-#: src/Contexts/DriveContext.tsx:537
+#: src/Contexts/DriveContext.tsx:548
 msgid "There was an error getting search results"
 msgstr "There was an error getting search results"
 
@@ -431,17 +459,21 @@ msgstr "There was an error getting search results"
 msgid "There was an error getting the preview."
 msgstr "There was an error getting the preview."
 
-#: src/Contexts/DriveContext.tsx:321
+#: src/Contexts/DriveContext.tsx:332
 msgid "There was an error moving this file"
 msgstr "There was an error moving this file"
 
-#: src/Contexts/DriveContext.tsx:418
+#: src/Contexts/DriveContext.tsx:429
 msgid "There was an error recovering this"
 msgstr "There was an error recovering this"
 
-#: src/Contexts/DriveContext.tsx:303
+#: src/Contexts/DriveContext.tsx:314
 msgid "There was an error renaming this file"
 msgstr "There was an error renaming this file"
+
+#: src/Components/Modules/LoginModule/InitialScreen.tsx:271
+msgid "Try again"
+msgstr "Try again"
 
 #: src/Components/Modules/FileBrowsers/views/FileSystemItemRow.tsx:339
 msgid "Update"
@@ -464,9 +496,13 @@ msgstr "View folder"
 msgid "Wallet address"
 msgstr "Wallet address"
 
-#: src/Components/Modules/LoginModule/InitialScreen.tsx:175
+#: src/Components/Modules/LoginModule/InitialScreen.tsx:218
 msgid "We`'`re undergoing maintenance, thank you for being patient"
 msgstr "We`'`re undergoing maintenance, thank you for being patient"
+
+#: src/Components/Modules/LoginModule/InitialScreen.tsx:260
+msgid "You will need to sign a transaction in your wallet to complete sign in."
+msgstr "You will need to sign a transaction in your wallet to complete sign in."
 
 #: src/Components/Layouts/AppNav.tsx:229
 msgid "beta"
@@ -476,20 +512,20 @@ msgstr "beta"
 msgid "copied !"
 msgstr "copied !"
 
-#: src/Contexts/DriveContext.tsx:344
-#: src/Contexts/DriveContext.tsx:373
+#: src/Contexts/DriveContext.tsx:355
+#: src/Contexts/DriveContext.tsx:384
 msgid "deleted successfully"
 msgstr "deleted successfully"
 
-#: src/Contexts/DriveContext.tsx:352
-#: src/Contexts/DriveContext.tsx:381
-#: src/Contexts/DriveContext.tsx:418
+#: src/Contexts/DriveContext.tsx:363
+#: src/Contexts/DriveContext.tsx:392
+#: src/Contexts/DriveContext.tsx:429
 msgid "file"
 msgstr "file"
 
-#: src/Contexts/DriveContext.tsx:352
-#: src/Contexts/DriveContext.tsx:381
-#: src/Contexts/DriveContext.tsx:418
+#: src/Contexts/DriveContext.tsx:363
+#: src/Contexts/DriveContext.tsx:392
+#: src/Contexts/DriveContext.tsx:429
 msgid "folder"
 msgstr "folder"
 
@@ -501,10 +537,14 @@ msgstr "on"
 #~ msgid "or"
 #~ msgstr "or"
 
-#: src/Contexts/DriveContext.tsx:410
+#: src/Contexts/DriveContext.tsx:421
 msgid "recovered successfully"
 msgstr "recovered successfully"
 
 #: src/Components/Modules/Settings/Plan.tsx:76
 msgid "storage-plan-desc"
 msgstr "Lorem ipsum aenean et rutrum magna. Morbi nec placerat erat. Nunc elementum sed libero sit amet convallis. Quisque non arcu vitae ex fringilla molestie."
+
+#: src/Components/Modules/LoginModule/InitialScreen.tsx:268
+msgid "{error}"
+msgstr "{error}"
