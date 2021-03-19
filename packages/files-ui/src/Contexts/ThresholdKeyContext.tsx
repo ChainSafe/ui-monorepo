@@ -18,13 +18,13 @@ import ShareSerializationModule, {
 import { ServiceProviderBase } from "@tkey/service-provider-base"
 import { TorusStorageLayer } from "@tkey/storage-layer-torus"
 import bowser from "bowser"
-import { signMessage, useImployApi } from "@imploy/common-contexts"
+import { signMessage, useImployApi } from "@chainsafe/common-contexts"
 import { Wallet } from "ethers"
 import EthCrypto from "eth-crypto"
 import { useWeb3 } from "@chainsafe/web3-context"
 import ShareTransferRequestModal from "../Components/Elements/ShareTransferRequestModal"
 import BN from "bn.js"
-import { TKeyRequestIdentity_provider } from "@imploy/api-client"
+import { TKeyRequestIdentity_provider } from "@chainsafe/files-api-client"
 
 const TORUS_POSTBOX_KEY = "csf.postboxKey"
 const TKEY_STORE_KEY = "csf.tkeyStore"
@@ -632,7 +632,7 @@ const ThresholdKeyProvider = ({
         logout: thresholdKeyLogout
       }}
     >
-      { pendingShareTransferRequests.length > 0 && (
+      {!isNewDevice && pendingShareTransferRequests.length > 0 && (
         <ShareTransferRequestModal
           requests={pendingShareTransferRequests}
         />

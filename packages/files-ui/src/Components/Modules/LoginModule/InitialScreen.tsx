@@ -3,7 +3,7 @@ import { Button, FacebookLogoIcon, GithubLogoIcon, GoogleLogoIcon, Typography } 
 import { createStyles, makeStyles, useThemeSwitcher } from "@chainsafe/common-theme"
 import { CSFTheme } from "../../../Themes/types"
 import { t, Trans } from "@lingui/macro"
-import { useImployApi } from "@imploy/common-contexts"
+import { useImployApi } from "@chainsafe/common-contexts"
 import { useWeb3 } from "@chainsafe/web3-context"
 import { useThresholdKey } from "../../../Contexts/ThresholdKeyContext"
 import { LOGIN_TYPE } from "@toruslabs/torus-direct-web-sdk"

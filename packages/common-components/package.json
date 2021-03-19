@@ -1,10 +1,13 @@
 {
   "name": "@chainsafe/common-components",
   "version": "1.0.28",
-  "description": "Common Components",
-  "author": "Michael Yankelev <michael@chainsafe.io>",
+  "description": "Chainsafe Common React Components",
+  "author": "Chainsafe Products Team",
   "license": "GPL-3.0",
   "main": "dist/index.js",
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org"
+  },
   "scripts": {
     "storybook": "start-storybook -p 6006",
     "build:storybook": "build-storybook",
