@@ -29,7 +29,7 @@ const useStyles = makeStyles(
         [breakpoints.up("md")]:{
           minHeight: "64vh",
           justifyContent: "space-between",
-          minWidth: 440
+          width: 440
         },
         [breakpoints.down("md")]: {
           padding: `${constants.generalUnit * 4}px ${constants.generalUnit * 6.5}px`,
@@ -117,15 +117,11 @@ const useStyles = makeStyles(
           display: "none"
         }
       }
-    }
-    )
+    })
 )
 
 const InitialScreen: React.FC = () => {
-  const {
-    selectWallet,
-    resetAndSelectWallet
-  } = useImployApi()
+  const { selectWallet, resetAndSelectWallet } = useImployApi()
   const { desktop } = useThemeSwitcher()
   const { wallet } = useWeb3()
   const { login } = useThresholdKey()
@@ -192,7 +188,7 @@ const InitialScreen: React.FC = () => {
   }
 
   return (
-    <div className={classes.root}>
+    <>
       {
         desktop && !isConnecting && !error && (
           <Typography
@@ -337,7 +333,7 @@ const InitialScreen: React.FC = () => {
               <section className={classes.connectingWallet}>
                 <Typography variant='h2'><Trans>Connection failed</Trans></Typography>  
                 <Typography variant='h5'>
-                  <Trans>{error}</Trans>
+                  {error}
                 </Typography>
                 <Button onClick={resetLogin}>
                   <Trans>Try again</Trans>
@@ -346,7 +342,7 @@ const InitialScreen: React.FC = () => {
             </>
           )
       }
-    </div>
+    </>
   )
 }
 
