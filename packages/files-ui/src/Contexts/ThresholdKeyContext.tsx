@@ -235,7 +235,6 @@ const ThresholdKeyProvider = ({
       if (token && privateKey && userInfo) {
         const pubKey = EthCrypto.publicKeyByPrivateKey(privateKey)
         setPublicKey(pubKey)
-        console.log(privateKey)
         const wallet = new Wallet(privateKey)
         const signature = await wallet.signMessage(token)
         await thresholdKeyLogin(
