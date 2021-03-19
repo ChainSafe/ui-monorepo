@@ -19,7 +19,7 @@ import TopDarkSVG from "../../Media/landing/layers/dark/Top.dark.svg"
 import BottomLightSVG from "../../Media/landing/layers/light/Bottom.light.svg"
 import TopLightSVG from "../../Media/landing/layers/light/Top.light.svg"
 import { ForegroundSVG } from "../../Media/landing/layers/ForegroundSVG"
-import { useImployApi } from "@imploy/common-contexts"
+import { useImployApi } from "@chainsafe/common-contexts"
 
 const useStyles = makeStyles(
   ({ constants, breakpoints, typography, zIndex }: CSFTheme) =>

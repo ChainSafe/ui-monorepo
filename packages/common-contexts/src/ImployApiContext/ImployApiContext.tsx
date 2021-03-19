@@ -1,7 +1,7 @@
 import { useWeb3 } from "@chainsafe/web3-context"
 import * as React from "react"
 import { useState, useEffect, useMemo, useCallback } from "react"
-import { IImployApiClient, ImployApiClient, Token, Provider, TKeyRequestIdentity_provider } from "@imploy/api-client"
+import { IImployApiClient, ImployApiClient, Token, Provider, TKeyRequestIdentity_provider } from "@chainsafe/files-api-client"
 import jwtDecode from "jwt-decode"
 import axios from "axios"
 import { decryptFile } from "../helpers"

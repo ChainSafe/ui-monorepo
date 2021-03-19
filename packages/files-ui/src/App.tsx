@@ -18,7 +18,7 @@ import {
   ImployApiProvider,
   UserProvider,
   BillingProvider
-} from "@imploy/common-contexts"
+} from "@chainsafe/common-contexts"
 import { DriveProvider } from "./Contexts/DriveContext"
 import FilesRoutes from "./Components/FilesRoutes"
 import AppWrapper from "./Components/Layouts/AppWrapper"

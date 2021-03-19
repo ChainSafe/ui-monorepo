@@ -14,7 +14,7 @@ import {
 } from "@chainsafe/common-theme"
 import { LockIcon, CopyIcon } from "@chainsafe/common-components"
 import { Formik, Form } from "formik"
-import { Profile } from "@imploy/common-contexts"
+import { Profile } from "@chainsafe/common-contexts"
 import { Trans } from "@lingui/macro"
 import { centerEllipsis } from "../../../Utils/Helpers"
 import { CSFTheme } from "../../../Themes/types"
