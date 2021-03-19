@@ -23,7 +23,25 @@ const useStyles = makeStyles(({ palette, constants, typography }: CSFTheme) =>
       overflowY: "auto",
       textAlign: "left",
       whiteSpace: "pre-wrap",
-      ...typography.body1
+      ...typography.body1,
+      "& h1": {
+        ...typography.h1
+      },
+      "& h2": {
+        ...typography.h2
+      },
+      "& h3": {
+        ...typography.h3
+      },
+      "& h4": {
+        ...typography.h4
+      },
+      "& h5": {
+        ...typography.h5
+      },
+      "& p": {
+        ...typography.body1
+      }
     },
     pageButton: {
       width: 80
