@@ -1659,6 +1659,11 @@
     lodash "^4.17.19"
     to-fast-properties "^2.0.0"
 
+"@chainsafe/files-api-client@1.7.2-rc2":
+  version "1.7.2-rc2"
+  resolved "https://npm.pkg.github.com/download/@chainsafe/files-api-client/1.7.2-rc2/dcc68e73c6dab913f8b57df314effc16df61223f77f0803522784216de3c9025#6b79adcab8ce7ac88af6ac6bf633ebfcea8321bf"
+  integrity sha512-u2CZgl76kHbHdQlYLINRzVBKvruh2gHBSxQWafJoIY774CTEGrwYK031NcFIdkUpC+RGc1iCkj8+FM0abeGTQg==
+
 "@chainsafe/web3-context@1.1.4":
   version "1.1.4"
   resolved "https://registry.yarnpkg.com/@chainsafe/web3-context/-/web3-context-1.1.4.tgz#ce0f140af8ccf93af1a189fbdbd6f018b9bf5fb7"
@@ -2574,11 +2579,6 @@
   version "0.2.4"
   resolved "https://registry.yarnpkg.com/@icons/material/-/material-0.2.4.tgz#e90c9f71768b3736e76d7dd6783fc6c2afa88bc8"
   integrity sha512-QPcGmICAPbGLGb6F/yNf/KzKqvFx8z5qx3D1yFqVAjoFmXK35EgyW+cJ57Te3CNsmzblwtzakLGFqHPqrfb4Tw==
-
-"@imploy/api-client@1.7.2-rc2":
-  version "1.7.2-rc2"
-  resolved "https://npm.pkg.github.com/download/@imploy/api-client/1.7.2-rc2/19a6a6a6568f45870aa1a231e4e5f39539f892bedba0495624c753e1534cab70#9021ae2884cd59f72ce714437f99e71bb425c3ec"
-  integrity sha512-qbIg5Se+SF1rA2MGdyWxoYKDpFRMgQT9N8Q/Jt7/0JFRFd85cFsI8byP2tKoAynTW3vZx4oinI3rRPP0l1Quxg==
 
 "@jest/console@^24.7.1", "@jest/console@^24.9.0":
   version "24.9.0"
