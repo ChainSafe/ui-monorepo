@@ -40,7 +40,16 @@ const useStyles = makeStyles(({ palette, constants, typography }: CSFTheme) =>
         ...typography.h5
       },
       "& p": {
+        marginBottom: constants.generalUnit,
         ...typography.body1
+      },
+      "& ul": {
+        listStyle: "disc",
+        paddingLeft: constants.generalUnit * 2
+      },
+      "& ol": {
+        listStyle: "decimal",
+        paddingLeft: constants.generalUnit * 2
       }
     },
     pageButton: {
