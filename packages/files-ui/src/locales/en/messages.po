@@ -501,8 +501,12 @@ msgid "We`'`re undergoing maintenance, thank you for being patient"
 msgstr "We`'`re undergoing maintenance, thank you for being patient"
 
 #: src/Components/Modules/LoginModule/InitialScreen.tsx:260
-msgid "You will need to sign a transaction in your wallet to complete sign in."
-msgstr "You will need to sign a transaction in your wallet to complete sign in."
+msgid "You will need to sign a message in your wallet to complete sign in."
+msgstr "You will need to sign a message in your wallet to complete sign in."
+
+#: src/Components/Modules/LoginModule/InitialScreen.tsx:260
+#~ msgid "You will need to sign a transaction in your wallet to complete sign in."
+#~ msgstr "You will need to sign a transaction in your wallet to complete sign in."
 
 #: src/Components/Layouts/AppNav.tsx:229
 msgid "beta"
