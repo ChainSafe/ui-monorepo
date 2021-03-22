@@ -231,7 +231,7 @@ const MissingShares: React.FC = () => {
               className={clsx(classes.button, classes.belowInput)}
               size="large"
               loading={isLoading}
-              disabled={isLoading}
+              disabled={!!error || isLoading}
             >
               <Trans>Continue</Trans>
             </Button>
@@ -256,7 +256,7 @@ const MissingShares: React.FC = () => {
               className={clsx(classes.button, classes.belowInput)}
               size="large"
               loading={isLoading}
-              disabled={isLoading}
+              disabled={!!error || isLoading}
             >
               <Trans>Continue</Trans>
             </Button>
