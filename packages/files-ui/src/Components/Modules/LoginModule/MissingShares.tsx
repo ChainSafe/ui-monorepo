@@ -1,8 +1,8 @@
 import React, { ChangeEvent, useCallback, useState } from "react"
 import { useThresholdKey } from "../../../Contexts/ThresholdKeyContext"
 import { Button, TextInput, Typography } from "@chainsafe/common-components"
-import { SECURITY_QUESTIONS_MODULE_NAME } from "@tkey/security-questions"
-import { Trans } from "@lingui/macro"
+import { SecurityQuestionsError, SECURITY_QUESTIONS_MODULE_NAME } from "@tkey/security-questions"
+import { t, Trans } from "@lingui/macro"
 import { createStyles, makeStyles } from "@chainsafe/common-theme"
 import { CSFTheme } from "../../../Themes/types"
 import clsx from "clsx"
@@ -26,7 +26,9 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) =>
       }
     },
     button: {
-      width: 240,
+      width: `calc(100% - ${constants.generalUnit * 8}px)`,
+      marginLeft: constants.generalUnit * 4,
+      marginRight: constants.generalUnit * 4,
       marginBottom: constants.generalUnit * 2,
       [breakpoints.up("md")]: {
         backgroundColor: palette.common.black.main,
@@ -81,9 +83,6 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) =>
       textDecoration: "underline",
       cursor: "pointer"
     },
-    form: {
-      
-    },
     textInput:{
       width: "100%",
       margin: 0,
@@ -100,8 +99,13 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) =>
       paddingRight: constants.generalUnit * 4,
       "& > textarea" : {
         width: "100%",
-        height: constants.generalUnit * 10
+        height: constants.generalUnit * 10,
+        padding: constants.generalUnit
       }
+    },
+    error: {
+      display: "inline-block",
+      padding: constants.generalUnit * 4
     }
   }))
 
@@ -114,6 +118,7 @@ const MissingShares: React.FC = () => {
   const classes = useStyles()
   const { logout } = useThresholdKey()
   const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState("")
   
   const shares = keyDetails
     ? Object.values(keyDetails.shareDescriptions).map((share) => {
@@ -123,28 +128,41 @@ const MissingShares: React.FC = () => {
 
   const hasPasswordShare = shares.filter((s) => s.module === SECURITY_QUESTIONS_MODULE_NAME).length > 0
 
-  const handleSubmitPassword = async () => {
+  const handleSubmitPassword = () => {
     if (!password) return
     setIsLoading(true)
-    await inputPasswordShare(password)
+
+    inputPasswordShare(password)
+      .catch((e) => {
+        setIsLoading(false)
+        setError(t`Password does not match user account, please double-check and try again.`)
+        console.error("error upon password input", e)
+      })
   }
 
-  const handleSubmitMnemonicShare = async () => {
+  const handleSubmitMnemonicShare = () => {
     if (!mnemonic) return
     setIsLoading(true)
-    await inputMnemonicShare(mnemonic)
+
+    inputMnemonicShare(mnemonic)
+      .catch(() => {
+        setIsLoading(false)
+        setError(t`Backup phrase does not match user account, please double-check and try again.`)
+      })
   }
 
   const onPasswordChange = useCallback((password: string | number | undefined) => {
+    setError("")
     setPassword(password?.toString() || "") 
   }, [])
 
   const onMnemonicChange = useCallback((event: ChangeEvent<HTMLTextAreaElement>) => {
-    console.log("event", event.currentTarget.value)
+    setError("")
     setMnemonic(event.currentTarget.value) 
   }, [])
 
   const onResetMethod = useCallback(() => {
+    setError("")
     setMnemonic("") 
     setPassword("")
     setWithMnemonic(false)
@@ -175,7 +193,8 @@ const MissingShares: React.FC = () => {
                   className={classes.button}
                   variant="primary"
                   size="large"
-                  onClick={() => setWithPassword(true)}>
+                  onClick={() => setWithPassword(true)}
+                >
                   <Trans>Enter a password</Trans>
                 </Button>
               )}
@@ -183,7 +202,8 @@ const MissingShares: React.FC = () => {
                 className={classes.button}
                 variant="primary"
                 size="large"
-                onClick={() => setWithMnemonic(true)}>
+                onClick={() => setWithMnemonic(true)}
+              >
                 <Trans>Restore with backup phrase</Trans>
               </Button>
             </div>
@@ -196,7 +216,7 @@ const MissingShares: React.FC = () => {
           </>
         )}
         {withPassword && (
-          <div className={classes.form}>
+          <div>
             <Typography className={clsx(classes.text, "label")}>
               <Trans>Enter you account password:</Trans>
             </Typography>
@@ -215,11 +235,13 @@ const MissingShares: React.FC = () => {
             >
               <Trans>Continue</Trans>
             </Button>
-
+            <Typography className={classes.error}>
+              {error}
+            </Typography>
           </div>
         )}
         {withMnemonic && (
-          <div className={classes.form}>
+          <div>
             <Typography className={clsx(classes.text, "label")}>
               <Trans>Enter you backup phrase:</Trans>
             </Typography>
@@ -238,6 +260,9 @@ const MissingShares: React.FC = () => {
             >
               <Trans>Continue</Trans>
             </Button>
+            <Typography className={classes.error}>
+              {error}
+            </Typography>
           </div>
         )}
       </div>

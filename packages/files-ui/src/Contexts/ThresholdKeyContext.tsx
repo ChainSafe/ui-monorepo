@@ -325,9 +325,7 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
           if (!connected || !address) break
         }
 
-        const { token } = await imployApiClient.getIdentityWeb3Token(
-          address
-        )
+        const { token } = await imployApiClient.getIdentityWeb3Token(address)
 
         if (token) {
           const signature = await signMessage(token, provider.getSigner())
@@ -383,8 +381,8 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
         privKey: TKeySdk.serviceProvider.postboxKey
       })
       console.log("metadata", metadata)
-      const isNewKey = (metadata as {message: string}).message === "KEY_NOT_FOUND"
-      if (isNewKey) {
+      const keyNotFound = (metadata as {message: string}).message === "KEY_NOT_FOUND"
+      if (keyNotFound) {
         console.log("New key")
         setIsNewKey(true)
         setShouldInitializeAccount(true)
@@ -398,9 +396,7 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
         await TKeySdk.initialize({ input: metadata as ShareStore })
         try {
           console.log("Trying to load device share")
-          const storageModule = TKeySdk.modules[
-            WEB_STORAGE_MODULE_NAME
-          ] as WebStorageModule
+          const storageModule = TKeySdk.modules[WEB_STORAGE_MODULE_NAME] as WebStorageModule
           await storageModule.inputShareFromWebStorage()
         } catch (error) {
           console.log("Error loading device share. If this is a new device please add it using one of your other recovery shares.")
@@ -456,7 +452,7 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
     try {
       await securityQuestionModule.inputShareFromSecurityQuestions(password)
     } catch (error) {
-      console.log("Invalid share password entered")
+      throw new Error("Invalid share password entered")
     }
     const keyDetails = await TKeySdk.getKeyDetails()
     setKeyDetails(keyDetails)
@@ -471,25 +467,20 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
       const keyDetails = await TKeySdk.getKeyDetails()
       setKeyDetails(keyDetails)
     } catch (error) {
-      console.log("Invalid mnemonic entered")
+      throw new Error("Invalid mnemonic entered")
     }
   }
 
-  const addNewDeviceShareAndSave = async () => {
+  const addNewDeviceShareAndSave = async (useFileStorage: boolean) => {
     if (!TKeySdk) return
-    const storageModule = TKeySdk.modules[
-      WEB_STORAGE_MODULE_NAME
-    ] as WebStorageModule
+
+    const storageModule = TKeySdk.modules[WEB_STORAGE_MODULE_NAME] as WebStorageModule
     await TKeySdk.updateMetadata()
     const newDeviceShare = await TKeySdk.generateNewShare()
-    const newDeviceShareStore =
-      newDeviceShare.newShareStores[
-        newDeviceShare.newShareIndex.toString("hex")
-      ]
+    const newDeviceShareStore = newDeviceShare.newShareStores[newDeviceShare.newShareIndex.toString("hex")]
 
     storageModule.storeDeviceShare(newDeviceShareStore)
-    storageModule.canUseFileStorage &&
-      storageModule.storeDeviceShareOnFileStorage(newDeviceShare.newShareIndex)
+    useFileStorage && storageModule.canUseFileStorage && storageModule.storeDeviceShareOnFileStorage(newDeviceShare.newShareIndex)
     console.log("New device share added")
     setIsNewDevice(false)
     const newKeyDetails = await TKeySdk.getKeyDetails()

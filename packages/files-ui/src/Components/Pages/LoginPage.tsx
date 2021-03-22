@@ -135,10 +135,7 @@ const LoginPage = () => {
   const { themeKey } = useThemeSwitcher()
   const { isMasterPasswordSet } = useImployApi()
   const { keyDetails, isNewDevice, shouldInitializeAccount } = useThresholdKey()
-
-  const shouldSaveNewDevice =
-    !!keyDetails && keyDetails.requiredShares <= 0 && isNewDevice
-
+  const shouldSaveNewDevice = !!keyDetails && keyDetails.requiredShares <= 0 && isNewDevice
   const areSharesMissing = !!keyDetails && keyDetails.requiredShares > 0
 
   return (
