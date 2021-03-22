@@ -1,7 +1,7 @@
 import React, { ChangeEvent, useCallback, useState } from "react"
 import { useThresholdKey } from "../../../Contexts/ThresholdKeyContext"
 import { Button, TextInput, Typography } from "@chainsafe/common-components"
-import { SecurityQuestionsError, SECURITY_QUESTIONS_MODULE_NAME } from "@tkey/security-questions"
+import { SECURITY_QUESTIONS_MODULE_NAME } from "@tkey/security-questions"
 import { t, Trans } from "@lingui/macro"
 import { createStyles, makeStyles } from "@chainsafe/common-theme"
 import { CSFTheme } from "../../../Themes/types"
