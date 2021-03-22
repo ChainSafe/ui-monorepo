@@ -1,6 +1,6 @@
 import React from "react"
 import { createStyles, ITheme, makeStyles } from "@chainsafe/common-theme"
-import { Typography } from "@chainsafe/common-components"
+import { Typography, useScrollToTop } from "@chainsafe/common-components"
 import clsx from "clsx"
 import { Trans } from "@lingui/macro"
 import NavBar from "../Modules/NavBar"
@@ -61,6 +61,7 @@ const useStyles = makeStyles(
 
 const TermsOfServicePage: React.FC = () => {
   const classes = useStyles()
+  useScrollToTop(true);
 
   return (
     <div>
