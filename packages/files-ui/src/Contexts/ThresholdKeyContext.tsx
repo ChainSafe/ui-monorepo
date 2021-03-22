@@ -76,19 +76,12 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
   const [pendingShareTransferRequests, setPendingShareTransferRequests] = useState<ShareTransferRequest[]>([])
   const [privateKey, setPrivateKey] = useState<string | undefined>()
 
-  console.log("TKeySdk", TKeySdk)
-  console.log("userInfo", userInfo)
-  console.log("keyDetails", keyDetails)
-  console.log("privateKey", privateKey)
   // Initialize Threshold Key and DirectAuth
   useEffect(() => {
     const init = async () => {
       const tkeySerialized = sessionStorage.getItem(TKEY_STORE_KEY)
       const postboxKey = sessionStorage.getItem(TORUS_POSTBOX_KEY)
       const cachedUserInfo = sessionStorage.getItem(TORUS_USERINFO_KEY)
-      console.log("tkeySerialized", tkeySerialized)
-      console.log("postboxKey",postboxKey)
-      console.log("cachedUserInfo", cachedUserInfo)
       const modules = {
         [SECURITY_QUESTIONS_MODULE_NAME]: new SecurityQuestionsModule(),
         [WEB_STORAGE_MODULE_NAME]: new WebStorageModule(),
@@ -106,9 +99,7 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
         
         if (tKeyJson.modules) {
           if (tKeyJson.modules[WEB_STORAGE_MODULE_NAME])
-            (tkey.modules[
-              WEB_STORAGE_MODULE_NAME
-            ] as WebStorageModule).canUseFileStorage =
+            (tkey.modules[WEB_STORAGE_MODULE_NAME] as WebStorageModule).canUseFileStorage =
               tKeyJson.modules[WEB_STORAGE_MODULE_NAME].canUseFileStorage
 
           if (tkey.modules[SHARE_TRANSFER_MODULE_NAME])
@@ -227,17 +218,13 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
   useEffect(() => {
     const handler = async () => {
       if (TKeySdk) {
-        const shareTransferModule = TKeySdk.modules[
-          SHARE_TRANSFER_MODULE_NAME
-        ] as ShareTransferModule
-
+        const shareTransferModule = TKeySdk.modules[SHARE_TRANSFER_MODULE_NAME] as ShareTransferModule
         const latestShareTransferStore = await shareTransferModule.getShareTransferStore()
 
         const pendingRequests = Object.keys(latestShareTransferStore).reduce(
           (acc: Array<ShareTransferRequest>, x) => {
-            const browserDetail = bowser.parse(
-              latestShareTransferStore[x].userAgent
-            )
+            const browserDetail = bowser.parse(latestShareTransferStore[x].userAgent)
+
             if (!latestShareTransferStore[x].encShareInTransit)
               acc.push({
                 ...latestShareTransferStore[x],
@@ -416,9 +403,8 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
 
   const addPasswordShare = async (password: string) => {
     if (!TKeySdk) return
-    const securityQuestionModule = TKeySdk.modules[
-      SECURITY_QUESTIONS_MODULE_NAME
-    ] as SecurityQuestionsModule
+
+    const securityQuestionModule = TKeySdk.modules[SECURITY_QUESTIONS_MODULE_NAME] as SecurityQuestionsModule
     await securityQuestionModule.generateNewShareWithSecurityQuestions(
       password,
       "What is your password?"
@@ -429,12 +415,10 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
 
   const addMnemonicShare = async () => {
     if (!TKeySdk) return Promise.reject("No TKey SDK")
+
     const shareCreated = await TKeySdk.generateNewShare()
-    const requiredShareStore =
-      shareCreated.newShareStores[shareCreated.newShareIndex.toString("hex")]
-    const shareSerializationModule = (await TKeySdk.modules[
-      SHARE_SERIALIZATION_MODULE_NAME
-    ]) as ShareSerializationModule
+    const requiredShareStore =shareCreated.newShareStores[shareCreated.newShareIndex.toString("hex")]
+    const shareSerializationModule = (await TKeySdk.modules[SHARE_SERIALIZATION_MODULE_NAME]) as ShareSerializationModule
     const result = (await shareSerializationModule.serialize(
       requiredShareStore.share.share,
       "mnemonic"
@@ -446,9 +430,8 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
 
   const inputPasswordShare = async (password: string) => {
     if (!TKeySdk) return
-    const securityQuestionModule = TKeySdk.modules[
-      SECURITY_QUESTIONS_MODULE_NAME
-    ] as SecurityQuestionsModule
+
+    const securityQuestionModule = TKeySdk.modules[SECURITY_QUESTIONS_MODULE_NAME] as SecurityQuestionsModule
     try {
       await securityQuestionModule.inputShareFromSecurityQuestions(password)
     } catch (error) {
@@ -490,9 +473,7 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
   const approveShareTransferRequest = async (encPubKeyX: string) => {
     if (!TKeySdk) return
 
-    const shareTransferModule = TKeySdk.modules[
-      SHARE_TRANSFER_MODULE_NAME
-    ] as ShareTransferModule
+    const shareTransferModule = TKeySdk.modules[SHARE_TRANSFER_MODULE_NAME] as ShareTransferModule
     await shareTransferModule.approveRequest(encPubKeyX)
     await TKeySdk.syncShareMetadata()
     const newKeyDetails = await TKeySdk.getKeyDetails()
@@ -502,9 +483,7 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
   const rejectShareTransferRequest = async (encPubKey: string) => {
     if (!TKeySdk) return
 
-    const shareTransferModule = TKeySdk.modules[
-      SHARE_TRANSFER_MODULE_NAME
-    ] as ShareTransferModule
+    const shareTransferModule = TKeySdk.modules[SHARE_TRANSFER_MODULE_NAME] as ShareTransferModule
     await shareTransferModule.deleteShareTransferStore(encPubKey)
     await TKeySdk.syncShareMetadata()
   }
@@ -512,9 +491,7 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
   const clearShareTransferRequests = async () => {
     if (!TKeySdk) return
 
-    const shareTransferModule = TKeySdk.modules[
-      SHARE_TRANSFER_MODULE_NAME
-    ] as ShareTransferModule
+    const shareTransferModule = TKeySdk.modules[SHARE_TRANSFER_MODULE_NAME] as ShareTransferModule
     await shareTransferModule.resetShareTransferStore()
     await TKeySdk.syncShareMetadata()
   }
