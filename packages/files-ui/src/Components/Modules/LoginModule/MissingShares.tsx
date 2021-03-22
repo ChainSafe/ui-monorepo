@@ -3,7 +3,7 @@ import { useThresholdKey } from "../../../Contexts/ThresholdKeyContext"
 import { Button, TextInput, Typography } from "@chainsafe/common-components"
 import { SECURITY_QUESTIONS_MODULE_NAME } from "@tkey/security-questions"
 import { Trans } from "@lingui/macro"
-import { createStyles, makeStyles, useThemeSwitcher } from "@chainsafe/common-theme"
+import { createStyles, makeStyles } from "@chainsafe/common-theme"
 import { CSFTheme } from "../../../Themes/types"
 import clsx from "clsx"
 
@@ -60,21 +60,20 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) =>
       display: "inline-block",
       paddingLeft: constants.generalUnit * 4,
       paddingRight: constants.generalUnit * 4,
-      textAlign: "center"
+      textAlign: "center",
+      [breakpoints.down("md")]: {
+        paddingLeft: 0,
+        paddingRight: 0,
+        "&.label": {
+          paddingLeft: constants.generalUnit * 4
+        }
+      }
     },
     footer: {
+      textAlign: "center",
       marginTop: constants.generalUnit * 2,
-      backgroundColor: constants.landing.footerBg,
-      color: constants.landing.footerText,
       padding: `${constants.generalUnit * 2.5}px ${constants.generalUnit * 1.5}px`,
-      width: "100%",
-      "& > *": {
-        marginRight: constants.generalUnit * 3.5
-      },
-      [breakpoints.down("md")]: {
-        // TODO: confirm how to move this around
-        display: "none"
-      }
+      width: "100%"
     },
     buttonLink: {
       color: palette.additional["gray"][10],
@@ -113,7 +112,6 @@ const MissingShares: React.FC = () => {
   const [withMnemonic, setWithMnemonic] = useState(false)
   const [withPassword, setWithPassword] = useState(false)
   const classes = useStyles()
-  const { desktop } = useThemeSwitcher()
   const { logout } = useThresholdKey()
   const [isLoading, setIsLoading] = useState(false)
   
@@ -165,9 +163,7 @@ const MissingShares: React.FC = () => {
         </Typography>
         { !withMnemonic && !withPassword && (
           <>
-            <Typography
-              className={classes.text}
-            >  
+            <Typography className={classes.text}>  
               <Trans>
                 Looks like you’re signing in from a new browser.
                 Please choose one of the following to continue:
@@ -177,7 +173,7 @@ const MissingShares: React.FC = () => {
               {hasPasswordShare && (
                 <Button                   
                   className={classes.button}
-                  variant={desktop ? "primary" : "outline"}
+                  variant="primary"
                   size="large"
                   onClick={() => setWithPassword(true)}>
                   <Trans>Enter a password</Trans>
@@ -185,27 +181,23 @@ const MissingShares: React.FC = () => {
               )}
               <Button 
                 className={classes.button}
-                variant={desktop ? "primary" : "outline"}
+                variant="primary"
                 size="large"
                 onClick={() => setWithMnemonic(true)}>
                 <Trans>Restore with backup phrase</Trans>
               </Button>
             </div>
-            <Typography
-              className={classes.text}
-            >  
+            <Typography className={classes.text}>  
               <Trans>
-              Or confirm by signing into your Files on any
-              browser you’ve used before.
+                Or confirm by signing into your Files on any
+                browser you’ve used before.
               </Trans>
             </Typography>
           </>
         )}
         {withPassword && (
           <div className={classes.form}>
-            <Typography
-              className={classes.text}
-            >
+            <Typography className={clsx(classes.text, "label")}>
               <Trans>Enter you account password:</Trans>
             </Typography>
             <TextInput
@@ -228,9 +220,7 @@ const MissingShares: React.FC = () => {
         )}
         {withMnemonic && (
           <div className={classes.form}>
-            <Typography
-              className={classes.text}
-            >
+            <Typography className={clsx(classes.text, "label")}>
               <Trans>Enter you backup phrase:</Trans>
             </Typography>
             <div className={classes.textAreaContainer}>

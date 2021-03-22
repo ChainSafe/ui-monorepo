@@ -122,7 +122,7 @@ const useStyles = makeStyles(
           width: 440
         },
         [breakpoints.down("md")]: {
-          padding: `${constants.generalUnit * 4}px ${constants.generalUnit * 6.5}px`,
+          padding: `${constants.generalUnit * 4}px ${constants.generalUnit * 2}px`,
           justifyContent: "center",
           width: `calc(100vw - ${constants.generalUnit * 2}px)`
         }
