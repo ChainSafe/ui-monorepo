@@ -100,13 +100,20 @@ const TermsOfServicePage: React.FC = () => {
 
         <ol className={clsx(classes.orderedList, classes.padLarge)}>
           <li>
-           This is an internet-based service. You agree to be bound by Internet regulations, policies and procedures.
+            <Trans>
+              This is an internet-based service. You agree to be bound by Internet regulations, policies and procedures.
+            </Trans>
           </li>
           <li>
-            You agree to comply with all applicable local, state, national and international laws and regulations. You also agree to not use your Files Account for illegal purposes; to not interfere or disrupt networks connected to this service; and to comply with all the rules, policies and procedures connected to this service.
+            <Trans>
+              You agree to comply with all applicable local, state, national and international laws and regulations. You also agree to not use your Files Account for illegal purposes; to not interfere or disrupt networks connected to this service; and to comply with all the rules, policies and procedures connected to this service.
+            </Trans>
           </li>
           <li>
-            You agree not to store any objectionable material including, but not limited to, unlawful or harassing, libelous, abusive, threatening, harmful, vulgar or obscene material that constitutes or encourages conduct that could constitute a criminal offence, give rise to civil liability or otherwise violate items discussed in #2 above.{" "}
+            <Trans>
+            You agree not to store any objectionable material including, but not limited to, unlawful or harassing, libelous, abusive, threatening, harmful, vulgar or obscene material that constitutes or encourages conduct that could constitute a 
+            criminal offence, give rise to civil liability or otherwise violate items discussed in #2 above.{" "}
+            </Trans>
           </li>
         </ol>
 
