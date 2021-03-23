@@ -50,6 +50,23 @@ const useStyles = makeStyles(
           justifyContent: "space-evenly"
         }
       },
+      connectingWallet: {
+        textAlign: "center",
+        display: "flex",
+        flexDirection: "column",
+        "& > *": {
+          fontWeight: 400
+        },
+        [breakpoints.up("md")]: {
+          padding: `${constants.generalUnit * 30}px ${constants.generalUnit * 8}px`,
+          "& > *": {
+            paddingBottom: `${constants.generalUnit * 5}px`
+          }
+        },
+        [breakpoints.down("md")]: {
+          justifyContent: "space-evenly"
+        }
+      },
       button: {
         width: 240,
         marginBottom: constants.generalUnit * 2,
@@ -85,8 +102,23 @@ const useStyles = makeStyles(
           // TODO: confirm how to move this around
           display: "none"
         }
+      },
+      connectWalletFooter: {
+        backgroundColor: constants.landing.background,
+        color: constants.landing.footerText,
+        padding: `${constants.generalUnit * 4.375}px ${constants.generalUnit * 11}px`,
+        width: "100%",
+        textAlign: "center",
+        "& > *": {
+          fontWeight: 400          
+        },
+        [breakpoints.down("md")]: {
+          // TODO: confirm how to move this around
+          display: "none"
+        }
       }
-    })
+    }
+    )
 )
 
 const InitialScreen: React.FC = () => {
@@ -95,46 +127,48 @@ const InitialScreen: React.FC = () => {
     resetAndSelectWallet
   } = useImployApi()
   const { desktop } = useThemeSwitcher()
-  const { provider, wallet } = useWeb3()
+  const { wallet } = useWeb3()
   const { login } = useThresholdKey()
   const classes = useStyles()
+  const [loginMode, setLoginMode] = useState<"web3" | LOGIN_TYPE | undefined>()
 
-  const [error, setError] = useState("")
+  const [error, setError] = useState<string | undefined>()
   const maintenanceMode = process.env.REACT_APP_MAINTENANCE_MODE === "true"
   
   const [isConnecting, setIsConnecting] = useState(false)
-  const [showSignatureMessage, setShowSignatureMessage] = useState(false)
 
   const handleSelectWalletAndConnect = async () => {
-    setIsConnecting(true)
-    setError("")
+    setError(undefined)
     try {
       await selectWallet()
     } catch (error) {
       setError(t`There was an error connecting your wallet`)
     }
-    setIsConnecting(false)
   }
 
-  const handleResetAndSelectWalletAndConnect = async () => {
-    setError("")
-    setIsConnecting(true)
+  const handleResetAndSelectWallet = async () => {
+    setError(undefined)
     try {
       await resetAndSelectWallet()
     } catch (error) {
       setError(t`There was an error connecting your wallet`)
     }
-    setIsConnecting(false)
   }
 
-  const handleSignAuth = async () => {
+  const resetLogin = async () => {
+    setError(undefined)
+    setLoginMode(undefined)
+  }
+
+  const handleLogin = async (loginType: LOGIN_TYPE | "web3") => {
     setError("")
     setIsConnecting(true)
-    setShowSignatureMessage(true)
+    setLoginMode(loginType)
     try {
-      await login("web3")
+      await login(loginType)
     } catch (error) {
       let errorMessage = t`There was an error authenticating`
+      console.log(error)
       if (Array.isArray(error) && error[0]) {
         if (
           error[0].type === "signature" &&
@@ -145,22 +179,14 @@ const InitialScreen: React.FC = () => {
             sure you have activated your wallet.`
         }
       }
-      if (error?.message === "Just nope") {
-        // WalletConnect be sassy
+      // WalletConnect be sassy
+      if (error?.message === "Just nope" || error?.code === 4001) {
         errorMessage = t`Failed to get signature`
       }
+      if (error?.message === "user closed popup") {
+        errorMessage = t`The authentication popup was closed`
+      }
       setError(errorMessage)
-    }
-    setIsConnecting(false)
-    setShowSignatureMessage(false)
-  }
-
-  const handleOAuthLogin = async (loginType: LOGIN_TYPE) => {
-    setIsConnecting(true)
-    try {
-      await login(loginType)
-    } catch (error) {
-      console.log(error)
     }
     setIsConnecting(false)
   }
@@ -168,124 +194,158 @@ const InitialScreen: React.FC = () => {
   return (
     <div className={classes.root}>
       {
-        desktop && (<Typography
-          variant="h6"
-          component="h1"
-          className={classes.headerText}
-        >
-          <Trans>
-            Sign in
-          </Trans>
-        </Typography>)
-      }
-      {error && (
-        <Typography className={classes.error}>{error}</Typography>
-      )}
-      {maintenanceMode && (
-        <Typography className={classes.error}>
-          <Trans>
-            We`&apos;`re undergoing maintenance, thank you for being patient
-          </Trans>
-        </Typography>
-      )}
-
-      <section className={classes.buttonSection}>
-        {!provider ? (
-          <Button
-            onClick={handleSelectWalletAndConnect}
-            className={classes.button}
-            variant="primary"
-            size="large"
-            disabled={maintenanceMode}
-            loading={isConnecting}
+        desktop && !isConnecting && !error && (
+          <Typography
+            variant="h6"
+            component="h1"
+            className={classes.headerText}
           >
-            <Trans>Select a Web3 Wallet</Trans>
-          </Button>
-        ) : (
-          <>
-            <Button
-              onClick={handleSignAuth}
-              className={classes.button}
-              variant="primary"
-              size="large"
-              disabled={maintenanceMode}
-              loading={isConnecting}
-            >
-              <Trans>Continue with {wallet?.name}</Trans>
-            </Button>
-            <Button
-              onClick={handleResetAndSelectWalletAndConnect}
-              className={classes.button}
-              size="large"
-              variant="primary"
-              disabled={isConnecting}
-            >
-              <Trans>Select a different wallet</Trans>
-            </Button>
-            {showSignatureMessage && (
-              <Typography>
-                <Trans>
-                  Please confirm in your wallet to continue
-                </Trans>
-              </Typography>
-            )}
-          </>
-        )}
-        <Button
-          className={classes.button}
-          variant="primary"
-          size="large"
-          onClick={() => handleOAuthLogin("github")}
-          disabled={maintenanceMode || isConnecting}
-        >
-          <GithubLogoIcon />
-          <Trans>Continue with Github</Trans>
-        </Button>
-        <Button
-          className={classes.button}
-          variant="primary"
-          size="large"
-          onClick={() => handleOAuthLogin("google")}
-          disabled={maintenanceMode || isConnecting}
-        >
-          <GoogleLogoIcon />
-          <Trans>Continue with Google</Trans>
-        </Button>
-        <Button
-          className={classes.button}
-          size="large"
-          variant="primary"
-          onClick={() => handleOAuthLogin("facebook")}
-          disabled={maintenanceMode || isConnecting}
-        >
-          <FacebookLogoIcon />
-          <Trans>Continue with Facebook</Trans>
-        </Button>
-      </section>
-      <footer className={classes.footer}>
-        <a
-          href={ROUTE_LINKS.PrivacyPolicy}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Typography>
             <Trans>
-              Privacy Policy
+              Get Started
             </Trans>
           </Typography>
-        </a>
-        <a
-          href={ROUTE_LINKS.Terms}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Typography>
-            <Trans>
-              Terms and Conditions
-            </Trans>
-          </Typography>
-        </a>
-      </footer>
+        )
+      }
+      {
+        !error ? 
+          loginMode !== "web3" ? (      
+            <>
+              <section className={classes.buttonSection}>
+                <Button
+                  onClick={() => {
+                    setLoginMode("web3")
+                    handleSelectWalletAndConnect()
+                  }}
+                  className={classes.button}
+                  variant="primary"
+                  size="large"
+                  disabled={maintenanceMode || isConnecting}
+                >
+                  <Trans>Continue with Web3 Wallet</Trans>
+                </Button>
+                <Button
+                  className={classes.button}
+                  variant="primary"
+                  size="large"
+                  onClick={() => handleLogin("github")}
+                  disabled={maintenanceMode || isConnecting}
+                  loading={isConnecting && loginMode === "github"}
+                >
+                  <GithubLogoIcon />
+                  <Trans>Continue with Github</Trans>
+                </Button>
+                <Button
+                  className={classes.button}
+                  variant="primary"
+                  size="large"
+                  onClick={() => handleLogin("google")}
+                  disabled={maintenanceMode || isConnecting}
+                  loading={isConnecting && loginMode === "google"}
+                >
+                  <GoogleLogoIcon />
+                  <Trans>Continue with Google</Trans>
+                </Button>
+                <Button
+                  className={classes.button}
+                  size="large"
+                  variant="primary"
+                  onClick={() => handleLogin("facebook")}
+                  disabled={maintenanceMode || isConnecting}
+                  loading={isConnecting && loginMode === "facebook"}
+                >
+                  <FacebookLogoIcon />
+                  <Trans>Continue with Facebook</Trans>
+                </Button>
+                {maintenanceMode && (
+                  <Typography>
+                    <Trans>
+                      We`&apos;`re undergoing maintenance, thank you for being patient
+                    </Trans>
+                  </Typography>
+                )}
+              </section>
+              <footer className={classes.footer}>
+                <a
+                  href={ROUTE_LINKS.PrivacyPolicy}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <Typography>
+                    <Trans>
+                        Privacy Policy
+                    </Trans>
+                  </Typography>
+                </a>
+                <a
+                  href={ROUTE_LINKS.Terms}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <Typography>
+                    <Trans>
+                        Terms and Conditions
+                    </Trans>
+                  </Typography>
+                </a>
+              </footer>
+            </>
+          ) : (
+            wallet ?
+              !isConnecting ? (
+                <>
+                  <section className={classes.buttonSection}>
+                    <Button
+                      onClick={() => {
+                        handleLogin("web3")
+                      }}
+                      className={classes.button}
+                      variant="primary"
+                      size="large"
+                      disabled={maintenanceMode}
+                    >
+                      <Trans>Continue with {wallet.name}</Trans>
+                    </Button>
+                    <Button
+                      onClick={handleResetAndSelectWallet}
+                      className={classes.button}
+                      variant="primary"
+                      size="large"
+                      disabled={maintenanceMode}
+                    >
+                      <Trans>Connect a new wallet</Trans>
+                    </Button>
+                  </section>
+                  <footer className={classes.connectWalletFooter}>
+                    <Typography variant='h5'>
+                      <Trans>By connecting your wallet, you agree to our terms and privacy policy.</Trans>
+                    </Typography>
+                  </footer>
+                </>
+              ) : (
+                <>
+                  <section className={classes.connectingWallet}>
+                    <Typography variant='h2'><Trans>Connect Wallet to Files</Trans></Typography>  
+                    <Typography variant='h5'>
+                      <Trans>You will need to sign a message in your wallet to complete sign in.</Trans>
+                    </Typography>
+                  </section>
+                </>
+              )
+              : null
+          ) : (                
+            <>
+              <section className={classes.connectingWallet}>
+                <Typography variant='h2'><Trans>Connection failed</Trans></Typography>  
+                <Typography variant='h5'>
+                  <Trans>{error}</Trans>
+                </Typography>
+                <Button onClick={resetLogin}>
+                  <Trans>Try again</Trans>
+                </Button>
+              </section>
+            </>
+          )
+      }
     </div>
   )
 }

@@ -164,8 +164,8 @@ const LoginPage = () => {
       <div className={classes.inner}>
         {!keyDetails && <InitialScreen />}
         {!!keyDetails && areSharesMissing && <MissingShares />}
-        {!!keyDetails && shouldInitializeAccount && !isMasterPasswordSet && <InitializeAccount />}
-        {!!keyDetails && shouldInitializeAccount && isMasterPasswordSet && <MigrateAccount />}
+        {!!keyDetails && !areSharesMissing && shouldInitializeAccount && !isMasterPasswordSet && <InitializeAccount />}
+        {!!keyDetails && !areSharesMissing && shouldInitializeAccount && isMasterPasswordSet && <MigrateAccount />}
         {!!keyDetails && shouldSaveNewDevice && <SaveNewDevice />}
       </div>
     </div>
