@@ -63,8 +63,6 @@ const TextPreview: React.FC<IPreviewRendererProps> = ({ contents }) => {
 
   const classes = useStyles()
 
-  console.log("md preview")
-
   useEffect(() => {
     contents.text()
       .then((text) => setContentText(text))
