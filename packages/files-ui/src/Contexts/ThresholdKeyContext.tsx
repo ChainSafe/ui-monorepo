@@ -404,28 +404,37 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
   const addPasswordShare = async (password: string) => {
     if (!TKeySdk) return
 
-    const securityQuestionModule = TKeySdk.modules[SECURITY_QUESTIONS_MODULE_NAME] as SecurityQuestionsModule
-    await securityQuestionModule.generateNewShareWithSecurityQuestions(
-      password,
-      "What is your password?"
-    )
-    const keyDetails = await TKeySdk.getKeyDetails()
-    setKeyDetails(keyDetails)
+    try {
+      const securityQuestionModule = TKeySdk.modules[SECURITY_QUESTIONS_MODULE_NAME] as SecurityQuestionsModule
+      await securityQuestionModule.generateNewShareWithSecurityQuestions(
+        password,
+        "What is your password?"
+      )
+      const keyDetails = await TKeySdk.getKeyDetails()
+      setKeyDetails(keyDetails)
+    } catch (e) {
+      console.error(e)
+    }
   }
 
   const addMnemonicShare = async () => {
     if (!TKeySdk) return Promise.reject("No TKey SDK")
 
-    const shareCreated = await TKeySdk.generateNewShare()
-    const requiredShareStore = shareCreated.newShareStores[shareCreated.newShareIndex.toString("hex")]
-    const shareSerializationModule = (await TKeySdk.modules[SHARE_SERIALIZATION_MODULE_NAME]) as ShareSerializationModule
-    const result = (await shareSerializationModule.serialize(
-      requiredShareStore.share.share,
-      "mnemonic"
-    )) as string
-    const keyDetails = await TKeySdk.getKeyDetails()
-    setKeyDetails(keyDetails)
-    return result
+    try {
+      const shareCreated = await TKeySdk.generateNewShare()
+      const requiredShareStore = shareCreated.newShareStores[shareCreated.newShareIndex.toString("hex")]
+      const shareSerializationModule = (await TKeySdk.modules[SHARE_SERIALIZATION_MODULE_NAME]) as ShareSerializationModule
+      const result = (await shareSerializationModule.serialize(
+        requiredShareStore.share.share,
+        "mnemonic"
+      )) as string
+      const keyDetails = await TKeySdk.getKeyDetails()
+      setKeyDetails(keyDetails)
+      return result
+    } catch (e) {
+      console.error(e)
+      return ''
+    }
   }
 
   const inputPasswordShare = async (password: string) => {
@@ -457,42 +466,58 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
   const addNewDeviceShareAndSave = async () => {
     if (!TKeySdk) return
 
-    const storageModule = TKeySdk.modules[WEB_STORAGE_MODULE_NAME] as WebStorageModule
-    await TKeySdk.updateMetadata()
-    const newDeviceShare = await TKeySdk.generateNewShare()
-    const newDeviceShareStore = newDeviceShare.newShareStores[newDeviceShare.newShareIndex.toString("hex")]
-
-    storageModule.storeDeviceShare(newDeviceShareStore)
-    console.log("New device share added")
-    setIsNewDevice(false)
-    const newKeyDetails = await TKeySdk.getKeyDetails()
-    setKeyDetails(newKeyDetails)
+    try {
+      const storageModule = TKeySdk.modules[WEB_STORAGE_MODULE_NAME] as WebStorageModule
+      await TKeySdk.updateMetadata()
+      const newDeviceShare = await TKeySdk.generateNewShare()
+      const newDeviceShareStore = newDeviceShare.newShareStores[newDeviceShare.newShareIndex.toString("hex")]
+  
+      storageModule.storeDeviceShare(newDeviceShareStore)
+      console.log("New device share added")
+      setIsNewDevice(false)
+      const newKeyDetails = await TKeySdk.getKeyDetails()
+      setKeyDetails(newKeyDetails)
+    } catch (e) {
+      console.error(e)
+    }
   }
 
   const approveShareTransferRequest = async (encPubKeyX: string) => {
     if (!TKeySdk) return
-
-    const shareTransferModule = TKeySdk.modules[SHARE_TRANSFER_MODULE_NAME] as ShareTransferModule
-    await shareTransferModule.approveRequest(encPubKeyX)
-    await TKeySdk.syncShareMetadata()
-    const newKeyDetails = await TKeySdk.getKeyDetails()
-    setKeyDetails(newKeyDetails)
+    
+    try {
+      const shareTransferModule = TKeySdk.modules[SHARE_TRANSFER_MODULE_NAME] as ShareTransferModule
+      await shareTransferModule.approveRequest(encPubKeyX)
+      await TKeySdk.syncShareMetadata()
+      const newKeyDetails = await TKeySdk.getKeyDetails()
+      setKeyDetails(newKeyDetails)
+    } catch (e) {
+      console.error(e)
+    }
   }
 
   const rejectShareTransferRequest = async (encPubKey: string) => {
     if (!TKeySdk) return
 
-    const shareTransferModule = TKeySdk.modules[SHARE_TRANSFER_MODULE_NAME] as ShareTransferModule
-    await shareTransferModule.deleteShareTransferStore(encPubKey)
-    await TKeySdk.syncShareMetadata()
+    try {
+      const shareTransferModule = TKeySdk.modules[SHARE_TRANSFER_MODULE_NAME] as ShareTransferModule
+      await shareTransferModule.deleteShareTransferStore(encPubKey)
+      await TKeySdk.syncShareMetadata()
+    } catch (e) {
+      console.error(e)
+    }
   }
 
   const clearShareTransferRequests = async () => {
     if (!TKeySdk) return
 
-    const shareTransferModule = TKeySdk.modules[SHARE_TRANSFER_MODULE_NAME] as ShareTransferModule
-    await shareTransferModule.resetShareTransferStore()
-    await TKeySdk.syncShareMetadata()
+    try {
+      const shareTransferModule = TKeySdk.modules[SHARE_TRANSFER_MODULE_NAME] as ShareTransferModule
+      await shareTransferModule.resetShareTransferStore()
+      await TKeySdk.syncShareMetadata()
+    } catch (e) {
+      console.error(e)
+    }
   }
 
   const encryptForPublicKey = async (publicKey: string, message: string) => {
@@ -505,6 +530,7 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
 
   const decryptMessageWithThresholdKey = async (message: string) => {
     if (!privateKey) return
+
     try {
       const messageCipher = EthCrypto.cipher.parse(message)
       return EthCrypto.decryptWithPrivateKey(privateKey, messageCipher)
