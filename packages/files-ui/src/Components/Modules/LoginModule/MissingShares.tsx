@@ -218,7 +218,7 @@ const MissingShares: React.FC = () => {
         {withPassword && (
           <div>
             <Typography className={clsx(classes.text, "label")}>
-              <Trans>Enter you account password:</Trans>
+              <Trans>Enter password:</Trans>
             </Typography>
             <TextInput
               className={classes.textInput}
@@ -243,7 +243,7 @@ const MissingShares: React.FC = () => {
         {withMnemonic && (
           <div>
             <Typography className={clsx(classes.text, "label")}>
-              <Trans>Enter you backup phrase:</Trans>
+              <Trans>Enter backup phrase:</Trans>
             </Typography>
             <div className={classes.textAreaContainer}>
               <textarea
@@ -297,4 +297,3 @@ const MissingShares: React.FC = () => {
 }
 
 export default MissingShares
-
