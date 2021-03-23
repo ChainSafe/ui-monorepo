@@ -1,8 +1,9 @@
 name: Lingui extract
-on:
-  push:
-    branches:
-      - dev
+# on:
+#   push:
+#     branches:
+#       - dev
+on: [pull_request]
 jobs:
   # extract any new translatable string
   # and commit if there are new ones
@@ -12,6 +13,8 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: lingui-extract
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
         git config --global user.name 'GitHub Actions'
         git config --global user.email 'actions@github.com'
