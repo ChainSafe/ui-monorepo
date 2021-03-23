@@ -30,6 +30,7 @@ import PdfPreview from "./PreviewRenderers/PDFPreview"
 import VideoPreview from "./PreviewRenderers/VideoPreview"
 import AudioPreview from "./PreviewRenderers/AudioPreview"
 import TextPreview from "./PreviewRenderers/TextPreview"
+import MarkdownPreview from "./PreviewRenderers/MarkdownPreview"
 import { useHotkeys } from "react-hotkeys-hook"
 import { t, Trans } from "@lingui/macro"
 import { CSFTheme } from "../../Themes/types"
@@ -43,6 +44,7 @@ const SUPPORTED_FILE_TYPES: Record<string, React.FC<IPreviewRendererProps>> = {
   "image/*": ImagePreview,
   "audio/*": AudioPreview,
   "video/*": VideoPreview,
+  "text/markdown": MarkdownPreview,
   "text/*": TextPreview
 }
 
