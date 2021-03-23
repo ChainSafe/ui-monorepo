@@ -16,6 +16,8 @@ const guessContentType = (fileName: string) => {
     return `video/${ext}`
   case "txt":
     return "text/plain"
+  case "md":
+    return "text/markdown"
   default:
     return "application/octet-stream"
   }
