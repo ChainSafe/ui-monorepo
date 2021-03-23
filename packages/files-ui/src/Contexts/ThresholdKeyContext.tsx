@@ -19,7 +19,7 @@ import { ServiceProviderBase } from "@tkey/service-provider-base"
 import { TorusStorageLayer } from "@tkey/storage-layer-torus"
 import bowser from "bowser"
 import { signMessage, useImployApi } from "@chainsafe/common-contexts"
-import { Wallet } from "ethers"
+import { utils, Wallet } from "ethers"
 import EthCrypto from "eth-crypto"
 import { useWeb3 } from "@chainsafe/web3-context"
 import ShareTransferRequestModal from "../Components/Elements/ShareTransferRequestModal"
@@ -189,8 +189,8 @@ const ThresholdKeyProvider = ({
       try {
         const { privKey } = await TKeySdk.reconstructKey(false)
         const privKeyString = privKey.toString("hex")
-        if (privKeyString.length === 63) {
-          setPrivateKey(`0${privKeyString}`)
+        if (privKeyString.length < 64) {
+          setPrivateKey(utils.hexZeroPad(`0x${privKeyString}`, 32).substr(2))
         } else {
           setPrivateKey(privKeyString)
         }
@@ -202,8 +202,8 @@ const ThresholdKeyProvider = ({
           await TKeySdk.updateMetadata()
           const { privKey } = await TKeySdk.reconstructKey(false)
           const privKeyString = privKey.toString("hex")
-          if (privKeyString.length === 63) {
-            setPrivateKey(`0${privKeyString}`)
+          if (privKeyString.length < 64) {
+            setPrivateKey(utils.hexZeroPad(`0x${privKeyString}`, 32).substr(2))
           } else {
             setPrivateKey(privKeyString)
           }
