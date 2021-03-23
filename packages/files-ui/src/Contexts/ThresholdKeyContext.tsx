@@ -386,7 +386,7 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
           const storageModule = TKeySdk.modules[WEB_STORAGE_MODULE_NAME] as WebStorageModule
           await storageModule.inputShareFromWebStorage()
         } catch (error) {
-          console.log("Error loading device share. If this is a new device please add it using one of your other recovery shares.")
+          console.error("Error loading device share. If this is a new device please add it using one of your other recovery shares.")
           setIsNewDevice(true)
         }
         const resultKey = await TKeySdk.getKeyDetails()
@@ -417,7 +417,7 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
     if (!TKeySdk) return Promise.reject("No TKey SDK")
 
     const shareCreated = await TKeySdk.generateNewShare()
-    const requiredShareStore =shareCreated.newShareStores[shareCreated.newShareIndex.toString("hex")]
+    const requiredShareStore = shareCreated.newShareStores[shareCreated.newShareIndex.toString("hex")]
     const shareSerializationModule = (await TKeySdk.modules[SHARE_SERIALIZATION_MODULE_NAME]) as ShareSerializationModule
     const result = (await shareSerializationModule.serialize(
       requiredShareStore.share.share,
