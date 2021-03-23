@@ -188,7 +188,12 @@ const ThresholdKeyProvider = ({
       console.log("Minimum number of shares is reached, reconstructing key")
       try {
         const { privKey } = await TKeySdk.reconstructKey(false)
-        setPrivateKey(privKey.toString("hex"))
+        const privKeyString = privKey.toString("hex")
+        if (privKeyString.length === 63) {
+          setPrivateKey(`0${privKeyString}`)
+        } else {
+          setPrivateKey(privKeyString)
+        }
       } catch (error) {
         // Under certain circumstances (approval of login on another device) the metadata
         // cached may be stale, resulting in a failure to reconstruct the key. This is 
@@ -196,7 +201,12 @@ const ThresholdKeyProvider = ({
         if (error.message.includes("nonce")) {
           await TKeySdk.updateMetadata()
           const { privKey } = await TKeySdk.reconstructKey(false)
-          setPrivateKey(privKey.toString("hex"))
+          const privKeyString = privKey.toString("hex")
+          if (privKeyString.length === 63) {
+            setPrivateKey(`0${privKeyString}`)
+          } else {
+            setPrivateKey(privKeyString)
+          }
         } else {
           console.log(error)
           return
@@ -404,7 +414,7 @@ const ThresholdKeyProvider = ({
     } catch (error) {
       console.error("Error logging in")
       console.error(error)
-      return
+      throw error
     }
     sessionStorage.setItem(
       TORUS_POSTBOX_KEY,
@@ -439,7 +449,6 @@ const ThresholdKeyProvider = ({
           console.log(
             "Error loading device share. If this is a new device please add it using one of your other recovery shares."
           )
-          console.log(error)
           setIsNewDevice(true)
         }
         const resultKey = await TKeySdk.getKeyDetails()
@@ -451,6 +460,7 @@ const ThresholdKeyProvider = ({
       }
     } catch (error) {
       console.error(error)
+      throw new Error("Threshold Key Error")
     }
   }
 
@@ -574,8 +584,13 @@ const ThresholdKeyProvider = ({
 
   const decryptMessageWithThresholdKey = async (message: string) => {
     if (!privateKey) return
-    const messageCipher = EthCrypto.cipher.parse(message)
-    return EthCrypto.decryptWithPrivateKey(privateKey, messageCipher)
+    try {
+      const messageCipher = EthCrypto.cipher.parse(message)
+      return EthCrypto.decryptWithPrivateKey(privateKey, messageCipher)
+    } catch (error) {
+      console.error("Error decrypting: ", message, privateKey)   
+      return Promise.reject("Error decrypting")   
+    }
   }
 
   const thresholdKeyLogout = async () => {
