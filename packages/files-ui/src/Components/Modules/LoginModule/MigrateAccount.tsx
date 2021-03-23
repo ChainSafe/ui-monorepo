@@ -110,6 +110,7 @@ const MigrateAccount: React.FC<IMigrateAccount> = ({
         await secureAccountWithMasterPassword(masterPassword)
       } catch (err) {
         console.error(err)
+        setError(t`Failed to migrate account, please try again. `)
       }
       setIsLoading(false)
     }).catch(() => {
