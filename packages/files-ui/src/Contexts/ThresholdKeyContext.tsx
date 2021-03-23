@@ -433,7 +433,7 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
       return result
     } catch (e) {
       console.error(e)
-      return ''
+      return ""
     }
   }
 
