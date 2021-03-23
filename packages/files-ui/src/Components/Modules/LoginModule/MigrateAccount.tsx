@@ -129,7 +129,7 @@ const MigrateAccount: React.FC<IMigrateAccount> = ({
     !hasShownConciseExplainer ? <ConciseExplainer screen="migrate" onLetsDoIt={() => setHasShownConciseExplainer(true)} /> : 
       <section className={clsx(classes.root, className)}>
         <Typography variant="h6" component="h6" className={classes.headerText}>
-          Encryption Password
+          <Trans>Encryption Password</Trans>
         </Typography>
         <div>
           <Typography className={clsx(classes.text)}>
@@ -155,14 +155,14 @@ const MigrateAccount: React.FC<IMigrateAccount> = ({
           </Typography>
         </div>
         <div className={classes.userContainer}>
-          <Typography>Signed in as:</Typography>
+          <Typography><Trans>Signed in as:</Trans></Typography>
           <br />
           <Typography>
             <b>{getProfileTitle()}</b>
           </Typography>
           <br />
           <button className={classes.logoutButton} onClick={onLogout}>
-            Log out
+            <Trans>Log out</Trans>
           </button>
         </div>
       </section>
