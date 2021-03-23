@@ -116,7 +116,12 @@ const MigrateAccount: React.FC<IMigrateAccount> = ({
       setIsLoading(false)
       setError(t`Password does not match user account, please double-check and try again.`)
     })
+  }
 
+  const onLogout = () => {
+    // TODO
+    // key details in threshold ket context should be removed
+    logout()
   }
 
 
@@ -156,7 +161,7 @@ const MigrateAccount: React.FC<IMigrateAccount> = ({
             <b>{getProfileTitle()}</b>
           </Typography>
           <br />
-          <button className={classes.logoutButton} onClick={logout}>
+          <button className={classes.logoutButton} onClick={onLogout}>
             Log out
           </button>
         </div>

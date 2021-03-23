@@ -129,7 +129,7 @@ const LoginPage = () => {
   const areSharesMissing = !!keyDetails && keyDetails.requiredShares > 0
 
   console.log(
-    "keyDetails", keyDetails, !!keyDetails, "!areSharesMissing", !areSharesMissing, "shouldInitializeAccount", 
+    "keyDetails", keyDetails, "areSharesMissing", areSharesMissing, "shouldInitializeAccount", 
     shouldInitializeAccount, "isMasterPasswordSet", isMasterPasswordSet
   )
 
