@@ -63,13 +63,12 @@ const TextPreview: React.FC<IPreviewRendererProps> = ({ contents }) => {
 
   const classes = useStyles()
 
-  useEffect(() => {
-    const getContentText = async () => {
-      const text = await contents.text()
-      setContentText(text)
-    }
+  console.log("md preview")
 
-    getContentText()
+  useEffect(() => {
+    contents.text()
+      .then((text) => setContentText(text))
+      .catch(console.error)
   }, [contents])
 
   return (
