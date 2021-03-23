@@ -70,11 +70,11 @@ const TextPreview: React.FC<IPreviewRendererProps> = ({ contents }) => {
 
   const onZoomIn = useCallback(() => {
     setFontSize(fontSize + 2)
-  }, [fontSize]) 
+  }, [fontSize])
 
   const onZoomOut = useCallback(() => {
     setFontSize(fontSize - 2)
-  }, [fontSize]) 
+  }, [fontSize])
 
   return (
     <div className={classes.root}>

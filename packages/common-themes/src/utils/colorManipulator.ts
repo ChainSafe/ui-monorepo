@@ -97,7 +97,7 @@ export function decomposeColor(color: string): IColorObject {
 
   if (type === "var") {
     colorToParse = getComputedStyle(document.documentElement).getPropertyValue(color.substr(marker + 1, color.length - 1))
-  } 
+  }
 
   const valuesStrings = colorToParse
     .substring(marker + 1, colorToParse.length - 1)

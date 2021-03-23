@@ -218,7 +218,7 @@ const ThresholdKeyProvider = ({
       await shareTransferModule.cancelRequestStatusCheck()
       if (shareTransferModule.currentEncKey) {
         const pubKeyEC = getPubKeyEC(shareTransferModule.currentEncKey)
-        const encPubKeyX = pubKeyEC.getX().toString("hex")        
+        const encPubKeyX = pubKeyEC.getX().toString("hex")
         await shareTransferModule.deleteShareTransferStore(encPubKeyX)
       }
     }
@@ -238,11 +238,11 @@ const ThresholdKeyProvider = ({
         const wallet = new Wallet(privateKey)
         const signature = await wallet.signMessage(token)
         await thresholdKeyLogin(
-          signature, 
-          token, 
-          (userInfo.userInfo.typeOfLogin === "jwt") ? 
-            "web3" : 
-            userInfo.userInfo.typeOfLogin as TKeyRequestIdentity_provider, 
+          signature,
+          token,
+          (userInfo.userInfo.typeOfLogin === "jwt") ?
+            "web3" :
+            userInfo.userInfo.typeOfLogin as TKeyRequestIdentity_provider,
           userInfo.userInfo.idToken || userInfo.userInfo.accessToken,
           `0x${EthCrypto.publicKey.compress(pubKey)}`
         )
@@ -588,8 +588,8 @@ const ThresholdKeyProvider = ({
       const messageCipher = EthCrypto.cipher.parse(message)
       return EthCrypto.decryptWithPrivateKey(privateKey, messageCipher)
     } catch (error) {
-      console.error("Error decrypting: ", message, privateKey)   
-      return Promise.reject("Error decrypting")   
+      console.error("Error decrypting: ", message, privateKey)
+      return Promise.reject("Error decrypting")
     }
   }
 

@@ -49,7 +49,7 @@ const UserProvider = ({ children }: UserContextProps) => {
       return Promise.reject("There was an error getting profile.")
     }
   }, [imployApiClient])
-  
+
   useEffect(() => {
     if (isLoggedIn) {
       const retrieveProfile = async () => {

@@ -56,7 +56,6 @@ const useStyles = makeStyles(({ constants, breakpoints }: CSFTheme) =>
       "& svg": {
         fill: constants.uploadModal.icon
       },
-      
       "&:hover svg": {
         fill: constants.uploadModal.iconHover
       }

@@ -87,7 +87,6 @@ const useStyles = makeStyles(
           [breakpoints.down("md")]: {
             opacity: 1
           }
-          
         }
       },
       logo: {
@@ -348,7 +347,7 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
             )}
             {!desktop && (
               <Fragment>
-                <div 
+                <div
                   onClick={() => setTheme(themeKey === "dark" ? "light" : "dark")}
                   className={classes.navItem}
                 >
