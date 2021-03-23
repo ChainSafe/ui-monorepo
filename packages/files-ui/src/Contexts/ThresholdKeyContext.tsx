@@ -35,7 +35,7 @@ export type TThresholdKeyContext = {
   addPasswordShare(password: string): Promise<void>
   inputPasswordShare(password: string): Promise<void>
   inputMnemonicShare(mnemonic: string): Promise<void>
-  addNewDeviceShareAndSave(useFileStorage: boolean): Promise<void>
+  addNewDeviceShareAndSave(): Promise<void>
   approveShareTransferRequest(encPubKeyX: string): Promise<void>
   rejectShareTransferRequest(encPubKeyX: string): Promise<void>
   clearShareTransferRequests(): Promise<void>
@@ -454,7 +454,7 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
     }
   }
 
-  const addNewDeviceShareAndSave = async (useFileStorage: boolean) => {
+  const addNewDeviceShareAndSave = async () => {
     if (!TKeySdk) return
 
     const storageModule = TKeySdk.modules[WEB_STORAGE_MODULE_NAME] as WebStorageModule
@@ -463,7 +463,6 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
     const newDeviceShareStore = newDeviceShare.newShareStores[newDeviceShare.newShareIndex.toString("hex")]
 
     storageModule.storeDeviceShare(newDeviceShareStore)
-    useFileStorage && storageModule.canUseFileStorage && storageModule.storeDeviceShareOnFileStorage(newDeviceShare.newShareIndex)
     console.log("New device share added")
     setIsNewDevice(false)
     const newKeyDetails = await TKeySdk.getKeyDetails()

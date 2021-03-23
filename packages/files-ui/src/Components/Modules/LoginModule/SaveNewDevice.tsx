@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from "react"
 import { useThresholdKey } from "../../../Contexts/ThresholdKeyContext"
-import { Button, CheckboxInput, Typography } from "@chainsafe/common-components"
-import { t, Trans } from "@lingui/macro"
+import { Button, Typography } from "@chainsafe/common-components"
+import { Trans } from "@lingui/macro"
 import { createStyles, makeStyles } from "@chainsafe/common-theme"
 import { CSFTheme } from "../../../Themes/types"
 
@@ -64,26 +64,22 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) =>
         paddingLeft: 0,
         paddingRight: 0
       }
-    },
-    checkbox : {
-      marginTop: constants.generalUnit * 2,
-      justifyContent: "center"
     }
   })
 )
 
 const SaveNewDevice: React.FC = () => {
   const { addNewDeviceShareAndSave, resetIsNewDevice } = useThresholdKey()
-  const [useFileStorage, setUseFileStorage] = useState(false)
   const [isAccepted, setIsAccepted] = useState(false)
   const [isDenied, setIsDenied] = useState(false)
   const classes = useStyles()
 
 
   const onSave = useCallback(() => {
-    addNewDeviceShareAndSave(useFileStorage)
     setIsAccepted(true)
-  }, [addNewDeviceShareAndSave, useFileStorage])
+    addNewDeviceShareAndSave()
+      .catch(console.error)
+  }, [addNewDeviceShareAndSave])
 
   const onDeny = useCallback(() => {
     resetIsNewDevice()
@@ -102,13 +98,6 @@ const SaveNewDevice: React.FC = () => {
       <Typography className={classes.text}>
         <Trans>Save this browser for next time?</Trans>
       </Typography>
-      <CheckboxInput
-        className={classes.checkbox}
-        value={useFileStorage}
-        onChange={(e) => setUseFileStorage(e.currentTarget.checked)}
-        label={t`Download backup phrase`}
-        disabled={isAccepted || isDenied}
-      />
       <div className={classes.buttonWrapper}>
         <Button
           className={classes.button}
