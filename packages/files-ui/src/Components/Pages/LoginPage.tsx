@@ -112,6 +112,7 @@ const useStyles = makeStyles(
     })
 )
 
+
 const LoginPage = () => {
   const classes = useStyles()
   const { themeKey } = useThemeSwitcher()
@@ -126,6 +127,12 @@ const LoginPage = () => {
     !!keyDetails && keyDetails.requiredShares <= 0 && isNewDevice
 
   const areSharesMissing = !!keyDetails && keyDetails.requiredShares > 0
+
+  console.log(
+    "keyDetails", keyDetails, !!keyDetails, "!areSharesMissing", !areSharesMissing, "shouldInitializeAccount", 
+    shouldInitializeAccount, "isMasterPasswordSet", isMasterPasswordSet
+  )
+
 
   return (
     <div className={classes.root}>

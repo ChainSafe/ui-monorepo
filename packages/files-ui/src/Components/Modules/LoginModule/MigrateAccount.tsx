@@ -84,6 +84,8 @@ const MigrateAccount: React.FC<IMigrateAccount> = ({
     await secureAccountWithMasterPassword(password)
   }
 
+  console.log("migrate")
+
   const masterKeyValidation = yup.object().shape({
     masterKey: yup
       .string()
