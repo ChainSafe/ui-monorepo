@@ -64,12 +64,9 @@ const TextPreview: React.FC<IPreviewRendererProps> = ({ contents }) => {
   const classes = useStyles()
 
   useEffect(() => {
-    const getContentText = async () => {
-      const text = await contents.text()
-      setContentText(text)
-    }
-
-    getContentText()
+    contents.text()
+      .then((text) => setContentText(text))
+      .catch(console.error)
   }, [contents])
 
   return (
