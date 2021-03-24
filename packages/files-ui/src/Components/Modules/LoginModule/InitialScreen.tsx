@@ -165,7 +165,7 @@ const InitialScreen: React.FC = () => {
   return (
     <>
       {
-        desktop && !isConnecting && !error && (
+        ((desktop && !isConnecting && !error) || (isConnecting && loginMode !== "web3")) && (
           <Typography
             variant="h6"
             component="h1"
