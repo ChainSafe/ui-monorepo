@@ -51,8 +51,7 @@
             "delimiter": "semi",
             "requireLast": false
         }
-    }],
-    "no-mixed-operators": "off"
+    }]
   },
   "ignorePatterns": [
     ".github/**",
