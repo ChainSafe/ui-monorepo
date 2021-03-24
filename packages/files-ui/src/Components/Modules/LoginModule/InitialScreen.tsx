@@ -46,7 +46,7 @@ const useStyles = makeStyles(
         width: 240,
         marginBottom: constants.generalUnit * 2,
         "&:last-child": {
-          marginBottom: 0 
+          marginBottom: 0
         }
       },
       error: {
@@ -85,7 +85,7 @@ const useStyles = makeStyles(
         width: "100%",
         textAlign: "center",
         "& > *": {
-          fontWeight: 400          
+          fontWeight: 400
         },
         [breakpoints.down("md")]: {
           // TODO: confirm how to move this around
@@ -105,7 +105,7 @@ const InitialScreen: React.FC = () => {
 
   const [error, setError] = useState<string | undefined>()
   const maintenanceMode = process.env.REACT_APP_MAINTENANCE_MODE === "true"
-  
+
   const [isConnecting, setIsConnecting] = useState(false)
 
   const handleSelectWalletAndConnect = async () => {
@@ -178,8 +178,8 @@ const InitialScreen: React.FC = () => {
         )
       }
       {
-        !error ? 
-          loginMode !== "web3" ? (      
+        !error ?
+          loginMode !== "web3" ? (
             <>
               <section className={classes.buttonSection}>
                 <Button
@@ -295,7 +295,7 @@ const InitialScreen: React.FC = () => {
               ) : (
                 <>
                   <section className={classes.connectingWallet}>
-                    <Typography variant='h2'><Trans>Connect Wallet to Files</Trans></Typography>  
+                    <Typography variant='h2'><Trans>Connect Wallet to Files</Trans></Typography>
                     <Typography variant='h5'>
                       <Trans>You will need to sign a message in your wallet to complete sign in.</Trans>
                     </Typography>
@@ -303,10 +303,10 @@ const InitialScreen: React.FC = () => {
                 </>
               )
               : null
-          ) : (                
+          ) : (
             <>
               <section className={classes.connectingWallet}>
-                <Typography variant='h2'><Trans>Connection failed</Trans></Typography>  
+                <Typography variant='h2'><Trans>Connection failed</Trans></Typography>
                 <Typography variant='h5'>
                   {error}
                 </Typography>

@@ -166,7 +166,7 @@ export const darkTheme = createTheme<CsfColors>({
         black: {
           main: "var(--gray1)"
         }
-      },  
+      },
       additional: {
         blue: {
           1: "var(--blue1)",
@@ -505,7 +505,7 @@ export const darkTheme = createTheme<CsfColors>({
               "& svg": {
                 fill: "var(--gray9)"
               }
-            },  
+            },
             active: {
               backgroundColor: "var(--gray7)",
               color: "var(--gray9)",
