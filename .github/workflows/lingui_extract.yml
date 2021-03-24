@@ -1,9 +1,8 @@
 name: Lingui extract
-# on:
-#   push:
-#     branches:
-#       - dev
-on: [pull_request]
+on:
+  push:
+    branches:
+      - dev
 jobs:
   # extract any new translatable string
   # and commit if there are new ones
