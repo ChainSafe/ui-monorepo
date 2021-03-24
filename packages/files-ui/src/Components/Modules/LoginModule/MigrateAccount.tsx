@@ -120,8 +120,6 @@ const MigrateAccount: React.FC<IMigrateAccount> = ({
   }
 
   const onLogout = () => {
-    // TODO
-    // key details in threshold ket context should be removed
     logout()
     thresholdKeyLogout()
   }

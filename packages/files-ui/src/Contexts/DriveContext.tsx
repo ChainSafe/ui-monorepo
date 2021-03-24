@@ -297,8 +297,6 @@ const DriveProvider = ({ children }: DriveContextProps) => {
     const encryptedKey = await encryptForPublicKey(publicKey, candidatePassword)
     setEncryptionKey(candidatePassword)
     secureThresholdKeyAccount(encryptedKey)
-    // TODO
-    // initialization completes here ?
   }
 
   const [uploadsInProgress, dispatchUploadsInProgress] = useReducer(
