@@ -131,14 +131,14 @@ const useStyles = makeStyles(
 )
 
 const Content = () => {
-  const { isMasterPasswordSet } = useImployApi()
+  const { isMasterPasswordSet, secured } = useImployApi()
   const { keyDetails, isNewDevice, shouldInitializeAccount } = useThresholdKey()
   const shouldSaveNewDevice = !!keyDetails && isNewDevice && keyDetails.requiredShares <= 0
   const areSharesMissing = !!keyDetails && keyDetails.requiredShares > 0
 
   console.log(
     "keyDetails", keyDetails, "areSharesMissing", areSharesMissing, "shouldInitializeAccount",
-    shouldInitializeAccount, "isMasterPasswordSet", isMasterPasswordSet
+    shouldInitializeAccount, "isMasterPasswordSet", isMasterPasswordSet, "secured", secured
   )
 
   if (!keyDetails) {

@@ -86,8 +86,8 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) =>
     textInput:{
       width: "100%",
       margin: 0,
-      paddingLeft: constants.generalUnit*4,
-      paddingRight: constants.generalUnit*4
+      paddingLeft: constants.generalUnit * 4,
+      paddingRight: constants.generalUnit * 4
     },
     belowInput: {
       margin: "auto",
@@ -119,7 +119,7 @@ const MissingShares: React.FC = () => {
   const { logout } = useThresholdKey()
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState("")
-  
+
   const shares = keyDetails
     ? Object.values(keyDetails.shareDescriptions).map((share) => {
       return JSON.parse(share[0])
@@ -153,17 +153,17 @@ const MissingShares: React.FC = () => {
 
   const onPasswordChange = useCallback((password: string | number | undefined) => {
     setError("")
-    setPassword(password?.toString() || "") 
+    setPassword(password?.toString() || "")
   }, [])
 
   const onMnemonicChange = useCallback((event: ChangeEvent<HTMLTextAreaElement>) => {
     setError("")
-    setMnemonic(event.currentTarget.value) 
+    setMnemonic(event.currentTarget.value)
   }, [])
 
   const onResetMethod = useCallback(() => {
     setError("")
-    setMnemonic("") 
+    setMnemonic("")
     setPassword("")
     setWithMnemonic(false)
     setWithPassword(false)
@@ -181,7 +181,7 @@ const MissingShares: React.FC = () => {
         </Typography>
         { !withMnemonic && !withPassword && (
           <>
-            <Typography className={classes.text}>  
+            <Typography className={classes.text}>
               <Trans>
                 Looks like you’re signing in from a new browser.
                 Please choose one of the following to continue:
@@ -189,7 +189,7 @@ const MissingShares: React.FC = () => {
             </Typography>
             <div className={classes.buttonWrapper}>
               {hasPasswordShare && (
-                <Button                   
+                <Button
                   className={classes.button}
                   variant="primary"
                   size="large"
@@ -198,7 +198,7 @@ const MissingShares: React.FC = () => {
                   <Trans>Enter a password</Trans>
                 </Button>
               )}
-              <Button 
+              <Button
                 className={classes.button}
                 variant="primary"
                 size="large"
@@ -207,7 +207,7 @@ const MissingShares: React.FC = () => {
                 <Trans>Restore with backup phrase</Trans>
               </Button>
             </div>
-            <Typography className={classes.text}>  
+            <Typography className={classes.text}>
               <Trans>
                 Or confirm by signing into your Files on any
                 browser you’ve used before.

@@ -96,8 +96,8 @@ const ConciseExplainer: React.FC<IConciseExplainerProps> = ({ screen, onLetsDoIt
       </Typography>
       <Typography variant="body1" component="p" className={classes.subtitle}>
         <Trans>
-          {screen === "initialize" 
-            ? "Welcome! Here at Files we don’t require emails and phone numbers to set up an account. " 
+          {screen === "initialize"
+            ? "Welcome! Here at Files we don’t require emails and phone numbers to set up an account. "
             : `Previously, you required a password to access your Files account. 
             We’re happy to announce that you don’t need a password to sign in anymore. 
             All you have to do is set up multiple sign-in methods.`
@@ -107,10 +107,10 @@ const ConciseExplainer: React.FC<IConciseExplainerProps> = ({ screen, onLetsDoIt
       <br />
       <Typography variant="body1" component="p" className={classes.subtitle}>
         <Trans>
-          {screen === "initialize" 
+          {screen === "initialize"
             ? `Instead, we use multiple sign-in methods for security and account recovery purposes. 
             Each time you log in with your cryptowallet, Google, Facebook, or Github, 
-            you’ll be asked for one of the sign-in methods below:` 
+            you’ll be asked for one of the sign-in methods below:`
             : `Setting these up means you’ll be able to recover your account if you do get locked out somehow. 
             Here’s what you can do now:`
           }
@@ -142,14 +142,14 @@ const ConciseExplainer: React.FC<IConciseExplainerProps> = ({ screen, onLetsDoIt
       </div>
       <br />
       <Typography variant="body1" component="p" className={classes.subtitle}>
-        {screen === "initialize" 
+        {screen === "initialize"
           ? (
             <>
-              <Trans>Setting up multiple sign-in methods makes signing in on multiple devices and restoring your account a breeze, 
+              <Trans>Setting up multiple sign-in methods makes signing in on multiple devices and restoring your account a breeze,
               all done without us storing information about you. Think that’s cool? </Trans>&nbsp;
               <a href={ROUTE_LINKS.ApplyCryptography}><Trans>Learn how we apply cryptography to ensure the privacy of your data.</Trans></a>
             </>
-          ) : 
+          ) :
           (
             <>
               <Trans>Check out</Trans>

@@ -87,7 +87,7 @@ const MigrateAccount: React.FC<IMigrateAccount> = ({
   const classes = useStyles()
   const { validateMasterPassword, logout } = useImployApi()
   const { secureAccountWithMasterPassword } = useDrive()
-  const { addPasswordShare } = useThresholdKey()
+  const { addPasswordShare, logout: thresholdKeyLogout, resetShouldInitialize } = useThresholdKey()
   const { getProfileTitle } = useUser()
   const [hasShownConciseExplainer, setHasShownConciseExplainer] = useState(false)
   const [masterPassword, setMasterPassword] = useState("")
@@ -108,6 +108,7 @@ const MigrateAccount: React.FC<IMigrateAccount> = ({
       try {
         await addPasswordShare(masterPassword)
         await secureAccountWithMasterPassword(masterPassword)
+        resetShouldInitialize()
       } catch (err) {
         console.error(err)
         setError(t`Failed to migrate account, please try again. `)
@@ -123,6 +124,7 @@ const MigrateAccount: React.FC<IMigrateAccount> = ({
     // TODO
     // key details in threshold ket context should be removed
     logout()
+    thresholdKeyLogout()
   }
 
 
