@@ -1,9 +1,8 @@
 import { useWeb3 } from "@chainsafe/web3-context"
 import * as React from "react"
 import { useState, useEffect, useMemo, useCallback } from "react"
-import { IImployApiClient, ImployApiClient, Token, Provider, TKeyRequestIdentity_provider } from "@imploy/api-client"
+import { IImployApiClient, ImployApiClient, Token, Provider, TKeyRequestIdentity_provider } from "@chainsafe/files-api-client"
 import jwtDecode from "jwt-decode"
-import { signMessage } from "./utils"
 import axios from "axios"
 import { decryptFile } from "../helpers"
 
@@ -34,9 +33,7 @@ type ImployApiContext = {
   isReturningUser: boolean
   selectWallet(): Promise<void>
   resetAndSelectWallet(): Promise<void>
-  // secureAccount(masterPassword: string): Promise<boolean>
   secureThresholdKeyAccount(encryptedKey: string): Promise<boolean>
-  web3Login(): Promise<void>
   thresholdKeyLogin(
     signature: string,
     token: string,
@@ -66,7 +63,7 @@ const ImployApiContext = React.createContext<ImployApiContext | undefined>(undef
 const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
   const maintenanceMode = process.env.REACT_APP_MAINTENANCE_MODE === "true"
 
-  const { wallet, onboard, checkIsReady, isReady, provider } = useWeb3()
+  const { wallet, onboard, checkIsReady, isReady } = useWeb3()
   const canUseLocalStorage = useMemo(() => testLocalStorage(), [])
   // initializing api
   const initialAxiosInstance = useMemo(() => axios.create({
@@ -184,11 +181,11 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
 
   const selectWallet = async () => {
     if (onboard && !isReady) {
-      let walletReady = !!wallet
-      if (!walletReady) {
-        walletReady = await onboard.walletSelect()
+      let walletSelected = !!wallet
+      if (!walletSelected) {
+        walletSelected = await onboard.walletSelect()
       }
-      walletReady && (await checkIsReady())
+      walletSelected && (await checkIsReady())
     }
   }
 
@@ -196,37 +193,6 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
     if (onboard) {
       const walletReady = await onboard.walletSelect()
       walletReady && (await checkIsReady())
-    }
-  }
-
-  const web3Login = async () => {
-    if (!provider) return Promise.reject("No wallet is selected")
-
-    if (!isReady) {
-      const connected = await checkIsReady()
-      if (!connected) return Promise.reject("You need to allow the connection")
-    }
-
-    try {
-      const { token } = await imployApiClient.getWeb3Token()
-
-      if (token) {
-        const signature = await signMessage(token, provider.getSigner())
-        const addresses = await provider.listAccounts()
-        const {
-          access_token,
-          refresh_token
-        } = await imployApiClient.postWeb3Token({
-          signature: signature,
-          token: token,
-          public_address: addresses[0]
-        })
-        setTokensAndSave(access_token, refresh_token)
-        setReturningUser()
-        return Promise.resolve()
-      }
-    } catch (error) {
-      return Promise.reject(error)
     }
   }
 
@@ -423,8 +389,6 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
         isLoggedIn: isLoggedIn(),
         secured,
         isReturningUser: isReturningUser,
-        // secureAccount,
-        web3Login,
         loginWithGithub,
         loginWithGoogle,
         loginWithFacebook,

@@ -6,10 +6,10 @@ import {
   DirectoryContentResponse,
   BucketType,
   SearchEntry
-} from "@imploy/api-client"
+} from "@chainsafe/files-api-client"
 import React, { useCallback, useEffect, useReducer } from "react"
 import { useState } from "react"
-import { decryptFile, encryptFile, useImployApi } from "@imploy/common-contexts"
+import { decryptFile, encryptFile, useImployApi } from "@chainsafe/common-contexts"
 import { v4 as uuidv4 } from "uuid"
 import { useToaster } from "@chainsafe/common-components"
 import {
@@ -256,10 +256,14 @@ const DriveProvider = ({ children }: DriveContextProps) => {
 
     const decryptKey = async (encryptedKey: string) => {
       console.log("Decrypting retrieved key")
-      const decryptedKey = await decryptMessageWithThresholdKey(encryptedKey)
-      if (decryptedKey) {
-        console.log("Decrypted key: ", decryptedKey)
-        setEncryptionKey(decryptedKey)
+      try {
+        const decryptedKey = await decryptMessageWithThresholdKey(encryptedKey)
+        if (decryptedKey) {
+          console.log("Decrypted key: ", decryptedKey)
+          setEncryptionKey(decryptedKey)
+        }
+      } catch (error) {
+        console.error("Error decrypting key: ", encryptedKey)
       }
     }
 

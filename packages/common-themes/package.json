@@ -1,10 +1,13 @@
 {
   "name": "@chainsafe/common-theme",
-  "version": "1.0.7",
-  "description": "Common Themes",
-  "author": "Michael Yankelev <michael@chainsafe.io>",
+  "version": "1.0.8",
+  "description": "Chainsafe Common React Theming Engine",
+  "author": "Chainsafe Products Team",
   "license": "GPL-3.0",
   "main": "dist/index.js",
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org"
+  },
   "engines": {
     "node": ">=8",
     "yarn": ">=1"

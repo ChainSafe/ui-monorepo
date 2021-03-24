@@ -19,7 +19,7 @@ import TopDarkSVG from "../../Media/landing/layers/dark/Top.dark.svg"
 import BottomLightSVG from "../../Media/landing/layers/light/Bottom.light.svg"
 import TopLightSVG from "../../Media/landing/layers/light/Top.light.svg"
 import { ForegroundSVG } from "../../Media/landing/layers/ForegroundSVG"
-import { useImployApi } from "@imploy/common-contexts"
+import { useImployApi } from "@chainsafe/common-contexts"
 
 const useStyles = makeStyles(
   ({ constants, breakpoints, typography, zIndex }: CSFTheme) =>
@@ -103,29 +103,65 @@ const useStyles = makeStyles(
         }
       },
       inner: {
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        flex: "1 1 0",
         position: "absolute",
         top: "50%",
         left: "50%",
         transform: "translate(-50%, -50%)",
-        zIndex: zIndex?.layer1
+        zIndex: zIndex?.layer1,
+        backgroundColor: constants.landing.background,
+        border: `1px solid ${constants.landing.border}`,
+        boxShadow: constants.landing.boxShadow,
+        borderRadius: 6,
+        [breakpoints.up("md")]:{
+          minHeight: "64vh",
+          justifyContent: "space-between",
+          width: 440
+        },
+        [breakpoints.down("md")]: {
+          padding: `${constants.generalUnit * 4}px ${constants.generalUnit * 2}px`,
+          justifyContent: "center",
+          width: `calc(100vw - ${constants.generalUnit * 2}px)`
+        }
       }
     })
 )
 
+const Content = () => {
+  const { isMasterPasswordSet } = useImployApi()
+  const { keyDetails, isNewDevice, shouldInitializeAccount } = useThresholdKey()
+  const shouldSaveNewDevice = !!keyDetails && isNewDevice && keyDetails.requiredShares <= 0
+  const areSharesMissing = !!keyDetails && keyDetails.requiredShares > 0
+
+  if (!keyDetails) {
+    return <InitialScreen />
+  }
+
+  if (areSharesMissing) {
+    return <MissingShares />
+  }
+
+  if (shouldInitializeAccount){
+    return (
+      isMasterPasswordSet
+        ? <MigrateAccount />
+        : <InitializeAccount />
+    )
+  }
+
+  if (shouldSaveNewDevice) {
+    return <SaveNewDevice />
+  }
+
+  return null
+}
+
 const LoginPage = () => {
   const classes = useStyles()
   const { themeKey } = useThemeSwitcher()
-  const { isMasterPasswordSet } = useImployApi()
-  const {
-    keyDetails,
-    isNewDevice,
-    shouldInitializeAccount
-  } = useThresholdKey()
-
-  const shouldSaveNewDevice =
-    !!keyDetails && keyDetails.requiredShares <= 0 && isNewDevice
-
-  const areSharesMissing = !!keyDetails && keyDetails.requiredShares > 0
 
   return (
     <div className={classes.root}>
@@ -162,11 +198,7 @@ const LoginPage = () => {
         </Typography>
       </a>
       <div className={classes.inner}>
-        {!keyDetails && <InitialScreen />}
-        {!!keyDetails && areSharesMissing && <MissingShares />}
-        {!!keyDetails && shouldInitializeAccount && !isMasterPasswordSet && <InitializeAccount />}
-        {!!keyDetails && shouldInitializeAccount && isMasterPasswordSet && <MigrateAccount />}
-        {!!keyDetails && shouldSaveNewDevice && <SaveNewDevice />}
+        <Content />
       </div>
     </div>
   )
