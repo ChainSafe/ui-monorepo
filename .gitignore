@@ -53,3 +53,4 @@ storybook-static
 .vscode
 .idea
 .env
+.DS_Store
