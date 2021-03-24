@@ -130,13 +130,38 @@ const useStyles = makeStyles(
     })
 )
 
+const Content = () => {
+  const { isMasterPasswordSet } = useImployApi()
+  const { keyDetails, isNewDevice, shouldInitializeAccount } = useThresholdKey()
+  const shouldSaveNewDevice = !!keyDetails && isNewDevice && keyDetails.requiredShares <= 0
+  const areSharesMissing = !!keyDetails && keyDetails.requiredShares > 0
+
+  if (!keyDetails) {
+    return <InitialScreen />
+  }
+
+  if (areSharesMissing) {
+    return <MissingShares />
+  }
+
+  if (shouldInitializeAccount){
+    return (
+      isMasterPasswordSet
+        ? <MigrateAccount />
+        : <InitializeAccount />
+    )
+  }
+
+  if (shouldSaveNewDevice) {
+    return <SaveNewDevice />
+  }
+
+  return null
+}
+
 const LoginPage = () => {
   const classes = useStyles()
   const { themeKey } = useThemeSwitcher()
-  const { isMasterPasswordSet } = useImployApi()
-  const { keyDetails, isNewDevice, shouldInitializeAccount } = useThresholdKey()
-  const shouldSaveNewDevice = !!keyDetails && keyDetails.requiredShares <= 0 && isNewDevice
-  const areSharesMissing = !!keyDetails && keyDetails.requiredShares > 0
 
   return (
     <div className={classes.root}>
@@ -173,11 +198,7 @@ const LoginPage = () => {
         </Typography>
       </a>
       <div className={classes.inner}>
-        {!keyDetails && <InitialScreen />}
-        {!!keyDetails && areSharesMissing && <MissingShares />}
-        {!!keyDetails && !areSharesMissing && shouldInitializeAccount && !isMasterPasswordSet && <InitializeAccount />}
-        {!!keyDetails && !areSharesMissing && shouldInitializeAccount && isMasterPasswordSet && <MigrateAccount />}
-        {!!keyDetails && shouldSaveNewDevice && <SaveNewDevice />}
+        <Content />
       </div>
     </div>
   )
