@@ -1,20 +1,11 @@
 import React, { useState, useEffect } from "react"
-import DirectAuthSdk, {
-  LOGIN_TYPE,
-  TorusLoginResponse
-} from "@toruslabs/torus-direct-web-sdk"
+import DirectAuthSdk, { LOGIN_TYPE, TorusLoginResponse } from "@toruslabs/torus-direct-web-sdk"
 import ThresholdKey from "@tkey/default"
 import WebStorageModule, { WEB_STORAGE_MODULE_NAME } from "@tkey/web-storage"
-import SecurityQuestionsModule, {
-  SECURITY_QUESTIONS_MODULE_NAME
-} from "@tkey/security-questions"
+import SecurityQuestionsModule, { SECURITY_QUESTIONS_MODULE_NAME } from "@tkey/security-questions"
 import { KeyDetails, ShareStore, getPubKeyEC } from "@tkey/common-types"
-import ShareTransferModule, {
-  SHARE_TRANSFER_MODULE_NAME
-} from "@tkey/share-transfer"
-import ShareSerializationModule, {
-  SHARE_SERIALIZATION_MODULE_NAME
-} from "@tkey/share-serialization"
+import ShareTransferModule, { SHARE_TRANSFER_MODULE_NAME } from "@tkey/share-transfer"
+import ShareSerializationModule, { SHARE_SERIALIZATION_MODULE_NAME } from "@tkey/share-serialization"
 import { ServiceProviderBase } from "@tkey/service-provider-base"
 import { TorusStorageLayer } from "@tkey/storage-layer-torus"
 import bowser from "bowser"
@@ -44,7 +35,7 @@ export type TThresholdKeyContext = {
   addPasswordShare(password: string): Promise<void>
   inputPasswordShare(password: string): Promise<void>
   inputMnemonicShare(mnemonic: string): Promise<void>
-  addNewDeviceShareAndSave(useFileStorage: boolean): Promise<void>
+  addNewDeviceShareAndSave(): Promise<void>
   approveShareTransferRequest(encPubKeyX: string): Promise<void>
   rejectShareTransferRequest(encPubKeyX: string): Promise<void>
   clearShareTransferRequests(): Promise<void>
@@ -70,16 +61,9 @@ export type ShareTransferRequest = {
   userAgent: string
 }
 
-const ThresholdKeyContext = React.createContext<
-  TThresholdKeyContext | undefined
->(undefined)
+const ThresholdKeyContext = React.createContext<TThresholdKeyContext | undefined>(undefined)
 
-const ThresholdKeyProvider = ({
-  children,
-  network = "mainnet",
-  enableLogging = false,
-  apiKey
-}: ThresholdKeyProviderProps) => {
+const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = false, apiKey }: ThresholdKeyProviderProps) => {
   const { imployApiClient, thresholdKeyLogin, logout } = useImployApi()
   const { provider, isReady, checkIsReady, address } = useWeb3()
   const [userInfo, setUserInfo] = useState<TorusLoginResponse | undefined>()
@@ -88,15 +72,8 @@ const ThresholdKeyProvider = ({
   const [isNewDevice, setIsNewDevice] = useState<boolean>(false)
   const [isNewKey, setIsNewKey] = useState<boolean>(false)
   const [publicKey, setPublicKey] = useState<string | undefined>()
-  const [
-    shouldInitializeAccount,
-    setShouldInitializeAccount
-  ] = useState<boolean>(false)
-  const [
-    pendingShareTransferRequests,
-    setPendingShareTransferRequests
-  ] = useState<ShareTransferRequest[]>([])
-
+  const [shouldInitializeAccount,setShouldInitializeAccount] = useState<boolean>(false)
+  const [pendingShareTransferRequests, setPendingShareTransferRequests] = useState<ShareTransferRequest[]>([])
   const [privateKey, setPrivateKey] = useState<string | undefined>()
 
   // Initialize Threshold Key and DirectAuth
@@ -105,36 +82,24 @@ const ThresholdKeyProvider = ({
       const tkeySerialized = sessionStorage.getItem(TKEY_STORE_KEY)
       const postboxKey = sessionStorage.getItem(TORUS_POSTBOX_KEY)
       const cachedUserInfo = sessionStorage.getItem(TORUS_USERINFO_KEY)
+      const modules = {
+        [SECURITY_QUESTIONS_MODULE_NAME]: new SecurityQuestionsModule(),
+        [WEB_STORAGE_MODULE_NAME]: new WebStorageModule(),
+        [SHARE_TRANSFER_MODULE_NAME]: new ShareTransferModule(),
+        [SHARE_SERIALIZATION_MODULE_NAME]: new ShareSerializationModule()
+      }
       let tkey: ThresholdKey
 
       // If Session storage contains all the data necessary to recreate the TKey object
       if (postboxKey && tkeySerialized && cachedUserInfo) {
-        const modules = {
-          [SECURITY_QUESTIONS_MODULE_NAME]: new SecurityQuestionsModule(),
-          [WEB_STORAGE_MODULE_NAME]: new WebStorageModule(),
-          [SHARE_TRANSFER_MODULE_NAME]: new ShareTransferModule(),
-          [SHARE_SERIALIZATION_MODULE_NAME]: new ShareSerializationModule()
-        }
         const tKeyJson = JSON.parse(tkeySerialized)
-        const serviceProvider = new ServiceProviderBase({
-          enableLogging,
-          postboxKey
-        })
-        const storageLayer = new TorusStorageLayer({
-          serviceProvider,
-          enableLogging,
-          hostUrl: "https://metadata.tor.us"
-        })
-        tkey = await ThresholdKey.fromJSON(tKeyJson, {
-          modules,
-          serviceProvider,
-          storageLayer
-        })
+        const serviceProvider = new ServiceProviderBase({ enableLogging, postboxKey })
+        const storageLayer = new TorusStorageLayer({ serviceProvider, enableLogging,hostUrl: "https://metadata.tor.us" })
+        tkey = await ThresholdKey.fromJSON(tKeyJson, { modules, serviceProvider, storageLayer })
+        
         if (tKeyJson.modules) {
           if (tKeyJson.modules[WEB_STORAGE_MODULE_NAME])
-            (tkey.modules[
-              WEB_STORAGE_MODULE_NAME
-            ] as WebStorageModule).canUseFileStorage =
+            (tkey.modules[WEB_STORAGE_MODULE_NAME] as WebStorageModule).canUseFileStorage =
               tKeyJson.modules[WEB_STORAGE_MODULE_NAME].canUseFileStorage
 
           if (tkey.modules[SHARE_TRANSFER_MODULE_NAME])
@@ -149,12 +114,7 @@ const ThresholdKeyProvider = ({
         // If no session storage is available, instantiate a new Threshold key
         // The user will be required to log in to the respective service 
         tkey = new ThresholdKey({
-          modules: {
-            [SECURITY_QUESTIONS_MODULE_NAME]: new SecurityQuestionsModule(),
-            [WEB_STORAGE_MODULE_NAME]: new WebStorageModule(true),
-            [SHARE_TRANSFER_MODULE_NAME]: new ShareTransferModule(),
-            [SHARE_SERIALIZATION_MODULE_NAME]: new ShareSerializationModule()
-          },
+          modules,
           directParams: {
             baseUrl: `${window.location.origin}/serviceworker`,
             network: network,
@@ -212,9 +172,7 @@ const ThresholdKeyProvider = ({
           return
         }
       }
-      const shareTransferModule = TKeySdk?.modules[
-        SHARE_TRANSFER_MODULE_NAME
-      ] as ShareTransferModule
+      const shareTransferModule = TKeySdk?.modules[SHARE_TRANSFER_MODULE_NAME] as ShareTransferModule
       await shareTransferModule.cancelRequestStatusCheck()
       if (shareTransferModule.currentEncKey) {
         const pubKeyEC = getPubKeyEC(shareTransferModule.currentEncKey)
@@ -260,17 +218,13 @@ const ThresholdKeyProvider = ({
   useEffect(() => {
     const handler = async () => {
       if (TKeySdk) {
-        const shareTransferModule = TKeySdk.modules[
-          SHARE_TRANSFER_MODULE_NAME
-        ] as ShareTransferModule
-
+        const shareTransferModule = TKeySdk.modules[SHARE_TRANSFER_MODULE_NAME] as ShareTransferModule
         const latestShareTransferStore = await shareTransferModule.getShareTransferStore()
 
         const pendingRequests = Object.keys(latestShareTransferStore).reduce(
           (acc: Array<ShareTransferRequest>, x) => {
-            const browserDetail = bowser.parse(
-              latestShareTransferStore[x].userAgent
-            )
+            const browserDetail = bowser.parse(latestShareTransferStore[x].userAgent)
+
             if (!latestShareTransferStore[x].encShareInTransit)
               acc.push({
                 ...latestShareTransferStore[x],
@@ -300,21 +254,13 @@ const ThresholdKeyProvider = ({
     const handler = async () => {
       if (!TKeySdk) return
       // Generate share transfer request
-      const shareTransferModule = TKeySdk.modules[
-        SHARE_TRANSFER_MODULE_NAME
-      ] as ShareTransferModule
+      const shareTransferModule = TKeySdk.modules[SHARE_TRANSFER_MODULE_NAME] as ShareTransferModule
       console.log("Creating a Share Transfer request")
-      const currentEncPubKeyX = await shareTransferModule.requestNewShare(
-        window.navigator.userAgent,
-        TKeySdk.getCurrentShareIndexes()
-      )
-      console.log(
-        "Share transfer request created. Starting request status poller"
-      )
+      const currentEncPubKeyX = await shareTransferModule.requestNewShare(window.navigator.userAgent, TKeySdk.getCurrentShareIndexes())
+      console.log("Share transfer request created. Starting request status poller")
 
       await shareTransferModule.startRequestStatusCheck(currentEncPubKeyX, true)
       const resultKey = await TKeySdk.getKeyDetails()
-      console.log(resultKey)
       setKeyDetails(resultKey)
     }
 
@@ -366,9 +312,7 @@ const ThresholdKeyProvider = ({
           if (!connected || !address) break
         }
 
-        const { token } = await imployApiClient.getIdentityWeb3Token(
-          address
-        )
+        const { token } = await imployApiClient.getIdentityWeb3Token(address)
 
         if (token) {
           const signature = await signMessage(token, provider.getSigner())
@@ -416,46 +360,39 @@ const ThresholdKeyProvider = ({
       console.error(error)
       throw error
     }
-    sessionStorage.setItem(
-      TORUS_POSTBOX_KEY,
-      TKeySdk.serviceProvider.postboxKey.toString("hex")
-    )
+
+    sessionStorage.setItem(TORUS_POSTBOX_KEY, TKeySdk.serviceProvider.postboxKey.toString("hex"))
+    
     try {
       const metadata = await TKeySdk.storageLayer.getMetadata<ShareStore | {message: string}>({
         privKey: TKeySdk.serviceProvider.postboxKey
       })
-      console.log(metadata)
-      const isNewKey = (metadata as {message: string}).message === "KEY_NOT_FOUND"
-      if (isNewKey) {
+      console.log("metadata", metadata)
+      const keyNotFound = (metadata as {message: string}).message === "KEY_NOT_FOUND"
+      if (keyNotFound) {
         console.log("New key")
         setIsNewKey(true)
         setShouldInitializeAccount(true)
         await TKeySdk.initialize()
         const resultKey = await TKeySdk.getKeyDetails()
-        console.log(resultKey)
         setKeyDetails(resultKey)
         const { privKey } = await TKeySdk.reconstructKey(false)
-        console.log(privKey)
+        console.log("privKey", privKey)
       } else {
         console.log("Existing key")
         await TKeySdk.initialize({ input: metadata as ShareStore })
         try {
           console.log("Trying to load device share")
-          const storageModule = TKeySdk.modules[
-            WEB_STORAGE_MODULE_NAME
-          ] as WebStorageModule
+          const storageModule = TKeySdk.modules[WEB_STORAGE_MODULE_NAME] as WebStorageModule
           await storageModule.inputShareFromWebStorage()
         } catch (error) {
-          console.log(
-            "Error loading device share. If this is a new device please add it using one of your other recovery shares."
-          )
+          console.error("Error loading device share. If this is a new device please add it using one of your other recovery shares.")
           setIsNewDevice(true)
         }
         const resultKey = await TKeySdk.getKeyDetails()
         if (resultKey.threshold === resultKey.totalShares) {
           setShouldInitializeAccount(true)
         }
-        console.log(resultKey)
         setKeyDetails(resultKey)
       }
     } catch (error) {
@@ -466,43 +403,48 @@ const ThresholdKeyProvider = ({
 
   const addPasswordShare = async (password: string) => {
     if (!TKeySdk) return
-    const securityQuestionModule = TKeySdk.modules[
-      SECURITY_QUESTIONS_MODULE_NAME
-    ] as SecurityQuestionsModule
-    await securityQuestionModule.generateNewShareWithSecurityQuestions(
-      password,
-      "What is your password?"
-    )
-    const keyDetails = await TKeySdk.getKeyDetails()
-    setKeyDetails(keyDetails)
+
+    try {
+      const securityQuestionModule = TKeySdk.modules[SECURITY_QUESTIONS_MODULE_NAME] as SecurityQuestionsModule
+      await securityQuestionModule.generateNewShareWithSecurityQuestions(
+        password,
+        "What is your password?"
+      )
+      const keyDetails = await TKeySdk.getKeyDetails()
+      setKeyDetails(keyDetails)
+    } catch (e) {
+      console.error(e)
+    }
   }
 
   const addMnemonicShare = async () => {
     if (!TKeySdk) return Promise.reject("No TKey SDK")
-    const shareCreated = await TKeySdk.generateNewShare()
-    const requiredShareStore =
-      shareCreated.newShareStores[shareCreated.newShareIndex.toString("hex")]
-    const shareSerializationModule = (await TKeySdk.modules[
-      SHARE_SERIALIZATION_MODULE_NAME
-    ]) as ShareSerializationModule
-    const result = (await shareSerializationModule.serialize(
-      requiredShareStore.share.share,
-      "mnemonic"
-    )) as string
-    const keyDetails = await TKeySdk.getKeyDetails()
-    setKeyDetails(keyDetails)
-    return result
+
+    try {
+      const shareCreated = await TKeySdk.generateNewShare()
+      const requiredShareStore = shareCreated.newShareStores[shareCreated.newShareIndex.toString("hex")]
+      const shareSerializationModule = (await TKeySdk.modules[SHARE_SERIALIZATION_MODULE_NAME]) as ShareSerializationModule
+      const result = (await shareSerializationModule.serialize(
+        requiredShareStore.share.share,
+        "mnemonic"
+      )) as string
+      const keyDetails = await TKeySdk.getKeyDetails()
+      setKeyDetails(keyDetails)
+      return result
+    } catch (e) {
+      console.error(e)
+      return ""
+    }
   }
 
   const inputPasswordShare = async (password: string) => {
     if (!TKeySdk) return
-    const securityQuestionModule = TKeySdk.modules[
-      SECURITY_QUESTIONS_MODULE_NAME
-    ] as SecurityQuestionsModule
+
+    const securityQuestionModule = TKeySdk.modules[SECURITY_QUESTIONS_MODULE_NAME] as SecurityQuestionsModule
     try {
       await securityQuestionModule.inputShareFromSecurityQuestions(password)
     } catch (error) {
-      console.log("Invalid share password entered")
+      throw new Error("Invalid share password entered")
     }
     const keyDetails = await TKeySdk.getKeyDetails()
     setKeyDetails(keyDetails)
@@ -517,61 +459,65 @@ const ThresholdKeyProvider = ({
       const keyDetails = await TKeySdk.getKeyDetails()
       setKeyDetails(keyDetails)
     } catch (error) {
-      console.log("Invalid mnemonic entered")
+      throw new Error("Invalid mnemonic entered")
     }
   }
 
   const addNewDeviceShareAndSave = async () => {
     if (!TKeySdk) return
-    const storageModule = TKeySdk.modules[
-      WEB_STORAGE_MODULE_NAME
-    ] as WebStorageModule
-    await TKeySdk.updateMetadata()
-    const newDeviceShare = await TKeySdk.generateNewShare()
-    const newDeviceShareStore =
-      newDeviceShare.newShareStores[
-        newDeviceShare.newShareIndex.toString("hex")
-      ]
 
-    storageModule.storeDeviceShare(newDeviceShareStore)
-    storageModule.canUseFileStorage &&
-      storageModule.storeDeviceShareOnFileStorage(newDeviceShare.newShareIndex)
-    console.log("New device share added")
-    setIsNewDevice(false)
-    const newKeyDetails = await TKeySdk.getKeyDetails()
-    setKeyDetails(newKeyDetails)
+    try {
+      const storageModule = TKeySdk.modules[WEB_STORAGE_MODULE_NAME] as WebStorageModule
+      await TKeySdk.updateMetadata()
+      const newDeviceShare = await TKeySdk.generateNewShare()
+      const newDeviceShareStore = newDeviceShare.newShareStores[newDeviceShare.newShareIndex.toString("hex")]
+  
+      storageModule.storeDeviceShare(newDeviceShareStore)
+      console.log("New device share added")
+      setIsNewDevice(false)
+      const newKeyDetails = await TKeySdk.getKeyDetails()
+      setKeyDetails(newKeyDetails)
+    } catch (e) {
+      console.error(e)
+    }
   }
 
   const approveShareTransferRequest = async (encPubKeyX: string) => {
     if (!TKeySdk) return
-
-    const shareTransferModule = TKeySdk.modules[
-      SHARE_TRANSFER_MODULE_NAME
-    ] as ShareTransferModule
-    await shareTransferModule.approveRequest(encPubKeyX)
-    await TKeySdk.syncShareMetadata()
-    const newKeyDetails = await TKeySdk.getKeyDetails()
-    setKeyDetails(newKeyDetails)
+    
+    try {
+      const shareTransferModule = TKeySdk.modules[SHARE_TRANSFER_MODULE_NAME] as ShareTransferModule
+      await shareTransferModule.approveRequest(encPubKeyX)
+      await TKeySdk.syncShareMetadata()
+      const newKeyDetails = await TKeySdk.getKeyDetails()
+      setKeyDetails(newKeyDetails)
+    } catch (e) {
+      console.error(e)
+    }
   }
 
   const rejectShareTransferRequest = async (encPubKey: string) => {
     if (!TKeySdk) return
 
-    const shareTransferModule = TKeySdk.modules[
-      SHARE_TRANSFER_MODULE_NAME
-    ] as ShareTransferModule
-    await shareTransferModule.deleteShareTransferStore(encPubKey)
-    await TKeySdk.syncShareMetadata()
+    try {
+      const shareTransferModule = TKeySdk.modules[SHARE_TRANSFER_MODULE_NAME] as ShareTransferModule
+      await shareTransferModule.deleteShareTransferStore(encPubKey)
+      await TKeySdk.syncShareMetadata()
+    } catch (e) {
+      console.error(e)
+    }
   }
 
   const clearShareTransferRequests = async () => {
     if (!TKeySdk) return
 
-    const shareTransferModule = TKeySdk.modules[
-      SHARE_TRANSFER_MODULE_NAME
-    ] as ShareTransferModule
-    await shareTransferModule.resetShareTransferStore()
-    await TKeySdk.syncShareMetadata()
+    try {
+      const shareTransferModule = TKeySdk.modules[SHARE_TRANSFER_MODULE_NAME] as ShareTransferModule
+      await shareTransferModule.resetShareTransferStore()
+      await TKeySdk.syncShareMetadata()
+    } catch (e) {
+      console.error(e)
+    }
   }
 
   const encryptForPublicKey = async (publicKey: string, message: string) => {
@@ -584,6 +530,7 @@ const ThresholdKeyProvider = ({
 
   const decryptMessageWithThresholdKey = async (message: string) => {
     if (!privateKey) return
+
     try {
       const messageCipher = EthCrypto.cipher.parse(message)
       return EthCrypto.decryptWithPrivateKey(privateKey, messageCipher)
@@ -599,6 +546,7 @@ const ThresholdKeyProvider = ({
     setKeyDetails(undefined)
     setPublicKey(undefined)
     setUserInfo(undefined)
+    clearShareTransferRequests()
 
     const tkey = new ThresholdKey({
       modules: {

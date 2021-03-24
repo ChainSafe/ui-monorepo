@@ -10,33 +10,8 @@ import { LOGIN_TYPE } from "@toruslabs/torus-direct-web-sdk"
 import { ROUTE_LINKS } from "../../FilesRoutes"
 
 const useStyles = makeStyles(
-  ({ constants, palette, breakpoints, zIndex }: CSFTheme) =>
+  ({ constants, palette, breakpoints }: CSFTheme) =>
     createStyles({
-      root: {
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        flex: "1 1 0",
-        position: "absolute",
-        top: "50%",
-        left: "50%",
-        transform: "translate(-50%, -50%)",
-        zIndex: zIndex?.layer1,
-        backgroundColor: constants.landing.background,
-        border: `1px solid ${constants.landing.border}`,
-        boxShadow: constants.landing.boxShadow,
-        borderRadius: 6,
-        [breakpoints.up("md")]:{
-          minHeight: "64vh",
-          justifyContent: "space-between",
-          minWidth: 440
-        },
-        [breakpoints.down("md")]: {
-          padding: `${constants.generalUnit * 4}px ${constants.generalUnit * 6.5}px`,
-          justifyContent: "center",
-          width: `calc(100vw - ${constants.generalUnit * 2}px)`
-        }
-      },
       buttonSection: {
         [breakpoints.up("md")]: {
           position: "absolute",
@@ -117,15 +92,11 @@ const useStyles = makeStyles(
           display: "none"
         }
       }
-    }
-    )
+    })
 )
 
 const InitialScreen: React.FC = () => {
-  const {
-    selectWallet,
-    resetAndSelectWallet
-  } = useImployApi()
+  const { selectWallet, resetAndSelectWallet } = useImployApi()
   const { desktop } = useThemeSwitcher()
   const { wallet } = useWeb3()
   const { login } = useThresholdKey()
@@ -192,7 +163,7 @@ const InitialScreen: React.FC = () => {
   }
 
   return (
-    <div className={classes.root}>
+    <>
       {
         desktop && !isConnecting && !error && (
           <Typography
@@ -337,7 +308,7 @@ const InitialScreen: React.FC = () => {
               <section className={classes.connectingWallet}>
                 <Typography variant='h2'><Trans>Connection failed</Trans></Typography>  
                 <Typography variant='h5'>
-                  <Trans>{error}</Trans>
+                  {error}
                 </Typography>
                 <Button onClick={resetLogin}>
                   <Trans>Try again</Trans>
@@ -346,7 +317,7 @@ const InitialScreen: React.FC = () => {
             </>
           )
       }
-    </div>
+    </>
   )
 }
 
