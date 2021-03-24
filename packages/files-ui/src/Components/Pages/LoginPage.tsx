@@ -136,11 +136,6 @@ const Content = () => {
   const shouldSaveNewDevice = !!keyDetails && isNewDevice && keyDetails.requiredShares <= 0
   const areSharesMissing = !!keyDetails && keyDetails.requiredShares > 0
 
-  console.log(
-    "keyDetails", keyDetails, "areSharesMissing", areSharesMissing, "shouldInitializeAccount",
-    shouldInitializeAccount, "isMasterPasswordSet", isMasterPasswordSet, "secured", secured
-  )
-
   if (!keyDetails) {
     return <InitialScreen />
   }
@@ -149,12 +144,16 @@ const Content = () => {
     return <MissingShares />
   }
 
-  if (shouldInitializeAccount){
+  if (shouldInitializeAccount && secured !== undefined) {
     return (
       isMasterPasswordSet
         ? <MigrateAccount />
         : <InitializeAccount />
     )
+  }
+
+  if (isMasterPasswordSet && secured === false) {
+    return <MigrateAccount />
   }
 
   if (shouldSaveNewDevice) {

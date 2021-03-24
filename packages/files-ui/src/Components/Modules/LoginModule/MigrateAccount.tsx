@@ -19,8 +19,6 @@ const useStyles = makeStyles(
       root: {
         padding: `${constants.generalUnit * 4}px ${constants.generalUnit * 4}px`,
         backgroundColor: constants.landing.background,
-        boxShadow: constants.landing.boxShadow,
-        width: 440,
         [breakpoints.down("md")]: {
           padding: `${constants.generalUnit * 3}px ${constants.generalUnit * 3}px`,
           width: `calc(100vw - ${constants.generalUnit * 4}px)`,
@@ -72,7 +70,8 @@ const useStyles = makeStyles(
         textDecoration: "underline",
         border: "none",
         cursor: "pointer",
-        backgroundColor: "transparent"
+        backgroundColor: "transparent",
+        color: palette.additional["gray"][8]
       }
     })
 )
