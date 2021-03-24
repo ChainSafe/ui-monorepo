@@ -96,7 +96,7 @@ const MigrateAccount: React.FC<IMigrateAccount> = ({
 
   const onPasswordChange = useCallback((password: string | number | undefined) => {
     setError("")
-    setMasterPassword(password?.toString() || "") 
+    setMasterPassword(password?.toString() || "")
   }, [])
 
   const handleSecureAccountWithMasterPassword = async () => {
@@ -127,7 +127,7 @@ const MigrateAccount: React.FC<IMigrateAccount> = ({
 
 
   return (
-    !hasShownConciseExplainer ? <ConciseExplainer screen="migrate" onLetsDoIt={() => setHasShownConciseExplainer(true)} /> : 
+    !hasShownConciseExplainer ? <ConciseExplainer screen="migrate" onLetsDoIt={() => setHasShownConciseExplainer(true)} /> :
       <section className={clsx(classes.root, className)}>
         <Typography variant="h6" component="h6" className={classes.headerText}>
           <Trans>Encryption Password</Trans>
