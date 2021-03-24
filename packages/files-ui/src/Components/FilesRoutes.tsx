@@ -26,7 +26,7 @@ const FilesRoutes = () => {
   const { isNewDevice, publicKey, shouldInitializeAccount } = useThresholdKey()
 
   const isAuthorized = isLoggedIn && secured && !!publicKey && !isNewDevice && !shouldInitializeAccount
-  
+
   return (
     <Switch>
       <ConditionalRoute

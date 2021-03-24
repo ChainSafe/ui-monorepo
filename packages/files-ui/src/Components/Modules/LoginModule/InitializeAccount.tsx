@@ -33,8 +33,7 @@ const InitializeAccount: React.FC = () => {
   // mnemonic has not been set up for the account. If totalShares - shares.length === 2
   // this indicates that a mnemonic has already been set up. "2" corresponds here to one
   // service provider (default), and one mnemonic.
-  const hasMnemonicShare =
-    keyDetails && (keyDetails.totalShares - shares.length > 1) 
+  const hasMnemonicShare = keyDetails && (keyDetails.totalShares - shares.length > 1)
 
   const handleSetPassword = async () => {
     if (!password) return
