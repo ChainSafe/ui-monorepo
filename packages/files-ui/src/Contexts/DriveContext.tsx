@@ -86,7 +86,7 @@ type DriveContext = {
     | undefined
   bucketType: BucketType
   loadingCurrentPath: boolean
-  secureAccountWithMasterPassword(candidatePassword: string): void
+  secureAccountWithMasterPassword(candidatePassword: string): Promise<void>
 }
 
 // This represents a File or Folder on the
@@ -297,6 +297,8 @@ const DriveProvider = ({ children }: DriveContextProps) => {
     const encryptedKey = await encryptForPublicKey(publicKey, candidatePassword)
     setEncryptionKey(candidatePassword)
     secureThresholdKeyAccount(encryptedKey)
+    // TODO
+    // initialization completes here ?
   }
 
   const [uploadsInProgress, dispatchUploadsInProgress] = useReducer(
