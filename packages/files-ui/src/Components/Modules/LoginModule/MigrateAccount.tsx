@@ -1,5 +1,5 @@
 import { createStyles, makeStyles } from "@chainsafe/common-theme"
-import React, { useState, useCallback } from "react"
+import React, { useState, useCallback, SyntheticEvent } from "react"
 import {
   Button,
   TextInput,
@@ -19,6 +19,7 @@ const useStyles = makeStyles(
       root: {
         padding: `${constants.generalUnit * 4}px ${constants.generalUnit * 4}px`,
         backgroundColor: constants.landing.background,
+        width: "100%",
         [breakpoints.down("md")]: {
           padding: `${constants.generalUnit * 3}px ${constants.generalUnit * 3}px`,
           width: `calc(100vw - ${constants.generalUnit * 4}px)`,
@@ -35,6 +36,9 @@ const useStyles = makeStyles(
           paddingBottom: constants.generalUnit * 3,
           textAlign: "center"
         }
+      },
+      form: {
+        width: "100%"
       },
       text: {
         display: "inline-block",
@@ -98,25 +102,26 @@ const MigrateAccount: React.FC<IMigrateAccount> = ({
     setMasterPassword(password?.toString() || "")
   }, [])
 
-  const handleSecureAccountWithMasterPassword = async () => {
+  const handleSecureAccountWithMasterPassword = async (e: SyntheticEvent) => {
+    e.preventDefault()
+
     if (!masterPassword) return
-
     setIsLoading(true)
-
-    validateMasterPassword(masterPassword).then(async () => {
-      try {
-        await addPasswordShare(masterPassword)
-        await secureAccountWithMasterPassword(masterPassword)
-        resetShouldInitialize()
-      } catch (err) {
-        console.error(err)
-        setError(t`Failed to migrate account, please try again. `)
+    try {
+      const isMasterPasswordValid = await validateMasterPassword(masterPassword)
+      if (!isMasterPasswordValid) {
+        setIsLoading(false)
+        setError(t`Password does not match user account, please double-check and try again.`)
+        return
       }
+      await addPasswordShare(masterPassword)
+      await secureAccountWithMasterPassword(masterPassword)
+      resetShouldInitialize()
       setIsLoading(false)
-    }).catch(() => {
-      setIsLoading(false)
-      setError(t`Password does not match user account, please double-check and try again.`)
-    })
+    } catch (err) {
+      console.error(err)
+      setError(t`Failed to migrate account, please try again. `)
+    }
   }
 
   const onLogout = () => {
@@ -131,7 +136,7 @@ const MigrateAccount: React.FC<IMigrateAccount> = ({
         <Typography variant="h6" component="h6" className={classes.headerText}>
           <Trans>Encryption Password</Trans>
         </Typography>
-        <div>
+        <form onSubmit={handleSecureAccountWithMasterPassword} className={classes.form}>
           <Typography className={clsx(classes.text)}>
             <Trans>Enter password:</Trans>
           </Typography>
@@ -147,13 +152,14 @@ const MigrateAccount: React.FC<IMigrateAccount> = ({
             size="large"
             loading={isLoading}
             disabled={!!error || isLoading}
+            type="submit"
           >
             <Trans>Continue</Trans>
           </Button>
           <Typography className={classes.error}>
             {error}
           </Typography>
-        </div>
+        </form>
         <div className={classes.userContainer}>
           <Typography><Trans>Signed in as:</Trans></Typography>
           <br />
