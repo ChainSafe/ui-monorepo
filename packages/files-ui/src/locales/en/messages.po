@@ -71,8 +71,12 @@ msgstr "Cancel"
 #~ msgstr "Check out"
 
 #: src/Components/Modules/LoginModule/ConciseExplainer.tsx:130
-msgid "Check out <0>how we apply cryptography</0> to ensure the privacy of your data."
-msgstr "Check out <0>how we apply cryptography</0> to ensure the privacy of your data."
+#~ msgid "Check out <0>how we apply cryptography</0> to ensure the privacy of your data."
+#~ msgstr "Check out <0>how we apply cryptography</0> to ensure the privacy of your data."
+
+#: src/Components/Modules/LoginModule/ConciseExplainer.tsx:130
+msgid "Check out  <0>how we apply cryptography</0>to ensure the privacy of your data."
+msgstr "Check out  <0>how we apply cryptography</0>to ensure the privacy of your data."
 
 #: src/Components/Modules/UploadFileModule.tsx:112
 msgid "Click or drag to upload files"
@@ -672,7 +676,7 @@ msgstr "Lorem ipsum aenean et rutrum magna. Morbi nec placerat erat. Nunc elemen
 
 #: src/Components/Modules/LoginModule/ConciseExplainer.tsx:76
 #: src/Components/Modules/LoginModule/ConciseExplainer.tsx:86
-#: src/Components/Modules/LoginModule/ConciseExplainer.tsx:136
+#: src/Components/Modules/LoginModule/ConciseExplainer.tsx:142
 msgid "{0}"
 msgstr "{0}"
 
