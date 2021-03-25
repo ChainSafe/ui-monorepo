@@ -14,7 +14,7 @@ import { makeStyles, ITheme, createStyles } from "@chainsafe/common-theme"
 import { useUser } from "@chainsafe/common-contexts"
 import { ROUTE_LINKS, SettingsPath, SETTINGS_BASE } from "../../FilesRoutes"
 import { t, Trans } from "@lingui/macro"
-import Plan from "./Plan"
+// import Plan from "./Plan"
 import { ProfileIcon } from "@chainsafe/common-components"
 
 const TabPane = (props: ITabPaneProps<SettingsPath>) => TabPaneOrigin(props)
