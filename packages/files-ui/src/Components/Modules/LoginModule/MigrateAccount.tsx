@@ -7,7 +7,7 @@ import {
 } from "@chainsafe/common-components"
 import clsx from "clsx"
 import { useDrive } from "../../../Contexts/DriveContext"
-import { useImployApi, useUser } from "@chainsafe/common-contexts"
+import { useImployApi } from "@chainsafe/common-contexts"
 import { useThresholdKey } from "../../../Contexts/ThresholdKeyContext"
 import ConciseExplainer from "./ConciseExplainer"
 import { CSFTheme } from "../../../Themes/types"
@@ -17,22 +17,24 @@ const useStyles = makeStyles(
   ({ constants, breakpoints, palette }: CSFTheme) =>
     createStyles({
       root: {
-        padding: `${constants.generalUnit * 4}px ${constants.generalUnit * 4}px`,
-        backgroundColor: constants.landing.background,
+        padding: `0 ${constants.generalUnit * 4}px`,
         width: "100%",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "space-between",
+        minHeight: "inherit",
         [breakpoints.down("md")]: {
-          padding: `${constants.generalUnit * 3}px ${constants.generalUnit * 3}px`,
-          width: `calc(100vw - ${constants.generalUnit * 4}px)`,
-          maxHeight: "100vh",
-          overflow: "scroll"
+          padding: `0 ${constants.generalUnit * 3}px`
         }
       },
       headerText: {
         textAlign: "center",
         [breakpoints.up("md")]: {
+          paddingTop: constants.generalUnit * 4,
           paddingBottom: constants.generalUnit * 8
         },
         [breakpoints.down("md")]: {
+          paddingTop: constants.generalUnit * 3,
           paddingBottom: constants.generalUnit * 3,
           textAlign: "center"
         }
@@ -64,18 +66,19 @@ const useStyles = makeStyles(
       },
       button: {
         width: "100%",
-        marginTop: constants.generalUnit * 3
+        marginTop: constants.generalUnit * 4
       },
-      userContainer: {
-        marginTop: constants.generalUnit * 4,
-        textAlign: "center"
+      footer: {
+        textAlign: "center",
+        marginTop: constants.generalUnit * 2,
+        padding: `${constants.generalUnit * 2.5}px ${constants.generalUnit * 1.5}px`,
+        width: "100%"
       },
-      logoutButton: {
+      buttonLink: {
+        color: palette.additional["gray"][10],
+        outline: "none",
         textDecoration: "underline",
-        border: "none",
-        cursor: "pointer",
-        backgroundColor: "transparent",
-        color: palette.additional["gray"][8]
+        cursor: "pointer"
       }
     })
 )
@@ -91,7 +94,6 @@ const MigrateAccount: React.FC<IMigrateAccount> = ({
   const { validateMasterPassword, logout } = useImployApi()
   const { secureAccountWithMasterPassword } = useDrive()
   const { addPasswordShare, logout: thresholdKeyLogout, resetShouldInitialize } = useThresholdKey()
-  const { getProfileTitle } = useUser()
   const [hasShownConciseExplainer, setHasShownConciseExplainer] = useState(false)
   const [masterPassword, setMasterPassword] = useState("")
   const [error, setError] = useState("")
@@ -133,10 +135,10 @@ const MigrateAccount: React.FC<IMigrateAccount> = ({
   return (
     !hasShownConciseExplainer ? <ConciseExplainer screen="migrate" onLetsDoIt={() => setHasShownConciseExplainer(true)} /> :
       <section className={clsx(classes.root, className)}>
-        <Typography variant="h6" component="h6" className={classes.headerText}>
-          <Trans>Encryption Password</Trans>
-        </Typography>
         <form onSubmit={handleSecureAccountWithMasterPassword} className={classes.form}>
+          <Typography variant="h6" component="h6" className={classes.headerText}>
+            <Trans>Encryption Password</Trans>
+          </Typography>
           <Typography className={clsx(classes.text)}>
             <Trans>Enter password:</Trans>
           </Typography>
@@ -160,17 +162,18 @@ const MigrateAccount: React.FC<IMigrateAccount> = ({
             {error}
           </Typography>
         </form>
-        <div className={classes.userContainer}>
-          <Typography><Trans>Signed in as:</Trans></Typography>
-          <br />
-          <Typography>
-            <b>{getProfileTitle()}</b>
-          </Typography>
-          <br />
-          <button className={classes.logoutButton} onClick={onLogout}>
-            <Trans>Log out</Trans>
-          </button>
-        </div>
+        <footer className={classes.footer}>
+          <div
+            className={classes.buttonLink}
+            onClick={onLogout}
+          >
+            <Typography>
+              <Trans>
+                Sign in with a different account
+              </Trans>
+            </Typography>
+          </div>
+        </footer>
       </section>
   )
 }
