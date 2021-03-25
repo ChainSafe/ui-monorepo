@@ -153,7 +153,13 @@ const ConciseExplainer: React.FC<IConciseExplainerProps> = ({ screen, onLetsDoIt
             ) :
             (
               <>
-                <Trans>Check out <a href={ROUTE_LINKS.ApplyCryptography}  target="_blank" rel="noopener noreferrer">how we apply cryptography</a> to ensure the privacy of your data.</Trans>
+                <Trans>
+                  Check out &nbsp;
+                  <a href={ROUTE_LINKS.ApplyCryptography}  target="_blank" rel="noopener noreferrer">
+                    how we apply cryptography
+                  </a>
+                  &nbsp;to ensure the privacy of your data.
+                </Trans>
               </>
             )
           }
