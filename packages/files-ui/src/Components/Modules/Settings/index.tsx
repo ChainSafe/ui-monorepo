@@ -1,21 +1,14 @@
 import React, { useState, useEffect } from "react"
 import Profile from "./Profile"
-import {
-  Tabs,
-  TabPane,
-  Typography,
-  Divider,
-  Breadcrumb,
-  Crumb,
-  useHistory,
-  useToaster
-} from "@chainsafe/common-components"
+import { Tabs, TabPane, Typography, Divider, Breadcrumb, Crumb, useHistory, useToaster } from "@chainsafe/common-components"
 import { makeStyles, ITheme, createStyles } from "@chainsafe/common-theme"
 import { useUser } from "@chainsafe/common-contexts"
 import { ROUTE_LINKS } from "../../FilesRoutes"
-import { Trans } from "@lingui/macro"
+import { t, Trans } from "@lingui/macro"
+import Plan from "./Plan"
+import { ProfileIcon } from "@chainsafe/common-components"
 
-const useStyles = makeStyles(({ constants, breakpoints }: ITheme) =>
+const useStyles = makeStyles(({ constants, breakpoints, palette }: ITheme) =>
   createStyles({
     title: {
       marginTop: constants.generalUnit,
@@ -49,11 +42,17 @@ const useStyles = makeStyles(({ constants, breakpoints }: ITheme) =>
       }
     },
     tabsContainer: {
+      borderRadius: 10,
+      backgroundColor: palette.additional["gray"][3],
       marginTop: constants.generalUnit * 4,
       [breakpoints.down("md")]: {
         marginTop: constants.generalUnit * 2,
         padding: `0 ${constants.generalUnit * 2}px`
       }
+    },
+    tabPane: {
+      flex: 1,
+      padding: `${constants.generalUnit * 2}px ${constants.generalUnit * 5}px`
     }
   })
 )
@@ -89,30 +88,21 @@ const Settings: React.FC = () => {
     }))
   }
 
-  const onUpdateProfile = async (
-    firstName: string,
-    lastName: string,
-    email: string
-  ) => {
+  const onUpdateProfile = async (firstName: string, lastName: string, email: string) => {
     try {
       setUpdatingProfile(true)
       await updateProfile(firstName, lastName, email)
-      addToastMessage({
-        message: "Profile updated"
-      })
+      addToastMessage({ message: t`Profile updated` })
       setUpdatingProfile(false)
     } catch (error) {
-      addToastMessage({
-        message: error,
-        appearance: "error"
-      })
+      addToastMessage({ message: error, appearance: "error" })
       setUpdatingProfile(false)
     }
   }
 
   const crumbs: Crumb[] = [
     {
-      text: "Settings"
+      text: t`Settings`
     }
   ]
 
@@ -133,7 +123,12 @@ const Settings: React.FC = () => {
           activeKey={tabKey}
           onTabSelect={(key) => setTabKey(key as TabKey)}
         >
-          <TabPane title="Profile" tabKey="profileView">
+          <TabPane
+            className={classes.tabPane}
+            title={t`Profile and Display`}
+            tabKey="profileView"
+            icon={<ProfileIcon/>}
+          >
             {profileData ? (
               <Profile
                 profile={profileData}
@@ -143,9 +138,9 @@ const Settings: React.FC = () => {
               />
             ) : null}
           </TabPane>
-          {/* <TabPane title="Plan" tabKey="planView">
-            {/* <Plan />
-          </TabPane> */}
+          <TabPane title={t`Plan`} tabKey="planView">
+            <Plan />
+          </TabPane>
         </Tabs>
       </div>
     </div>

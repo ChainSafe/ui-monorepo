@@ -22,7 +22,6 @@ import { CSFTheme } from "../../../Themes/types"
 const useStyles = makeStyles(({ constants, breakpoints, palette, typography }: CSFTheme) =>
   createStyles({
     container: {
-      marginTop: constants.generalUnit * 2,
       marginBottom: 160,
       [breakpoints.down("md")]: {
         paddingRight: constants.generalUnit

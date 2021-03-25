@@ -5,12 +5,10 @@ export interface ITabPaneProps {
   children: ReactNode | ReactNode[]
   title: string
   tabKey: string
+  icon?: ReactNode | ReactNode[]
 }
 
-const TabPane: React.FC<ITabPaneProps> = ({
-  children,
-  className
-}: ITabPaneProps) => {
+const TabPane: React.FC<ITabPaneProps> = ({ children,className }: ITabPaneProps) => {
   return <div className={className}>{children}</div>
 }
 
