@@ -146,7 +146,7 @@ const ConciseExplainer: React.FC<IConciseExplainerProps> = ({ screen, onLetsDoIt
               <>
                 <Trans>Setting up multiple sign-in methods makes signing in on multiple devices and restoring your account a breeze,
               all done without us storing information about you. Think that’s cool? </Trans>&nbsp;
-                <a href={ROUTE_LINKS.ApplyCryptography}>
+                <a href={ROUTE_LINKS.ApplyCryptography} target="_blank" rel="noopener noreferrer">
                   <Trans>Learn how we apply cryptography to ensure the privacy of your data.</Trans>
                 </a>
               </>
