@@ -12,6 +12,8 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: lingui-extract
+      env:
+        GITHUB_PACKAGES_AUTH_TOKEN: ${{ secrets.GH_PKG_AUTH_TOKEN }}
       run: |
         git config --global user.name 'GitHub Actions'
         git config --global user.email 'actions@github.com'
