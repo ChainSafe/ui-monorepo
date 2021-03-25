@@ -1,13 +1,23 @@
 import React, { useState, useEffect } from "react"
 import Profile from "./Profile"
-import { Tabs, TabPane, Typography, Divider, Breadcrumb, Crumb, useHistory, useToaster } from "@chainsafe/common-components"
+import { Tabs,
+  TabPane as TabPaneOrigin,
+  Typography, Divider,
+  Breadcrumb,
+  Crumb,
+  useToaster,
+  useParams,
+  useHistory,
+  ITabPaneProps
+} from "@chainsafe/common-components"
 import { makeStyles, ITheme, createStyles } from "@chainsafe/common-theme"
 import { useUser } from "@chainsafe/common-contexts"
-import { ROUTE_LINKS } from "../../FilesRoutes"
+import { ROUTE_LINKS, SettingsPath, SETTINGS_BASE } from "../../FilesRoutes"
 import { t, Trans } from "@lingui/macro"
 import Plan from "./Plan"
 import { ProfileIcon } from "@chainsafe/common-components"
 
+const TabPane = (props: ITabPaneProps<SettingsPath>) => TabPaneOrigin(props)
 const useStyles = makeStyles(({ constants, breakpoints, palette }: ITheme) =>
   createStyles({
     title: {
@@ -57,10 +67,8 @@ const useStyles = makeStyles(({ constants, breakpoints, palette }: ITheme) =>
   })
 )
 
-type TabKey = "profileView" | "planView"
-
 const Settings: React.FC = () => {
-  const [tabKey, setTabKey] = useState<TabKey>("profileView")
+  const { path } = useParams<{path: SettingsPath}>()
   const classes = useStyles()
   const { profile, updateProfile } = useUser()
   const { redirect } = useHistory()
@@ -103,6 +111,9 @@ const Settings: React.FC = () => {
   const crumbs: Crumb[] = [
     {
       text: t`Settings`
+    },
+    {
+      text: path
     }
   ]
 
@@ -120,13 +131,13 @@ const Settings: React.FC = () => {
       <Divider />
       <div className={classes.tabsContainer}>
         <Tabs
-          activeKey={tabKey}
-          onTabSelect={(key) => setTabKey(key as TabKey)}
+          activeKey={path}
+          onTabSelect={(key: SettingsPath) => redirect(`${SETTINGS_BASE}/${key}`)}
         >
           <TabPane
             className={classes.tabPane}
             title={t`Profile and Display`}
-            tabKey="profileView"
+            tabKey="profile"
             icon={<ProfileIcon/>}
           >
             {profileData ? (
@@ -138,9 +149,9 @@ const Settings: React.FC = () => {
               />
             ) : null}
           </TabPane>
-          <TabPane title={t`Plan`} tabKey="planView">
+          {/* <TabPane title={t`Plan`} tabKey="purchase">
             <Plan />
-          </TabPane>
+          </TabPane> */}
         </Tabs>
       </div>
     </div>

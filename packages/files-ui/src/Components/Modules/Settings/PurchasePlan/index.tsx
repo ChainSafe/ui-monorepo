@@ -178,7 +178,7 @@ const PurchasePlan: React.FC = () => {
     <div className={classes.container}>
       <div className={classes.headingContainer}>
         {!desktop && (
-          <Link to={ROUTE_LINKS.Settings}>
+          <Link to={ROUTE_LINKS.SettingsDefault}>
             <ArrowLeftIcon className={classes.backIcon} />
             <Typography>Back to plan settings</Typography>
           </Link>
@@ -187,7 +187,7 @@ const PurchasePlan: React.FC = () => {
           {desktop ? "Purchase a Plus subscription" : "Checkout"}
         </Typography>
         {desktop && (
-          <Link to={ROUTE_LINKS.Settings}>
+          <Link to={ROUTE_LINKS.SettingsDefault}>
             <ArrowLeftIcon className={classes.backIcon} />
             <Typography>Back to plan settings</Typography>
           </Link>
