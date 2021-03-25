@@ -66,7 +66,7 @@ const Tabs: React.FC<ITabsProps> = ({ className, children, activeKey, onTabSelec
             className={clsx(classes.tabBar, children.props.tabKey === activeKey && "selected")}
             onClick={() => onTabSelect(children.props.tabKey)}
           >
-            {children.props.title}
+            {children.props.icon}{children.props.title}
           </li>
         }
       </ul>
