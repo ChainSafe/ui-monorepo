@@ -64,7 +64,7 @@ const FilesRoutes = () => {
       />
       <ConditionalRoute
         exact
-        path={SETTINGS_BASE}
+        path={ROUTE_LINKS.SettingsDefault}
         isAuthorized={isAuthorized}
         component={SettingsPage}
         redirectPath={ROUTE_LINKS.Landing}
