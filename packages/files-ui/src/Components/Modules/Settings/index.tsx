@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useCallback } from "react"
 import Profile from "./Profile"
 import { Tabs,
   TabPane as TabPaneOrigin,
@@ -8,14 +8,16 @@ import { Tabs,
   useToaster,
   useParams,
   useHistory,
-  ITabPaneProps
+  ITabPaneProps,
+  CarretRightIcon
 } from "@chainsafe/common-components"
-import { makeStyles, ITheme, createStyles } from "@chainsafe/common-theme"
+import { makeStyles, ITheme, createStyles, useThemeSwitcher } from "@chainsafe/common-theme"
 import { useUser } from "@chainsafe/common-contexts"
 import { ROUTE_LINKS, SettingsPath, SETTINGS_BASE } from "../../FilesRoutes"
 import { t, Trans } from "@lingui/macro"
 // import Plan from "./Plan"
 import { ProfileIcon } from "@chainsafe/common-components"
+import clsx from "clsx"
 
 const TabPane = (props: ITabPaneProps<SettingsPath>) => TabPaneOrigin(props)
 const useStyles = makeStyles(({ constants, breakpoints, palette }: ITheme) =>
@@ -56,19 +58,30 @@ const useStyles = makeStyles(({ constants, breakpoints, palette }: ITheme) =>
       backgroundColor: palette.additional["gray"][3],
       marginTop: constants.generalUnit * 4,
       [breakpoints.down("md")]: {
-        marginTop: constants.generalUnit * 2,
-        padding: `0 ${constants.generalUnit * 2}px`
+        borderRadius: 0,
+        marginTop: 0
       }
     },
     tabPane: {
       flex: 1,
       padding: `${constants.generalUnit * 2}px ${constants.generalUnit * 5}px`
+    },
+    hideTabList: {
+      display: "none"
+    },
+    hideTabPane: {
+      display: "none"
+    },
+    wideTabList: {
+      width: "100%",
+      borderRightStyle: "none"
     }
   })
 )
 
 const Settings: React.FC = () => {
-  const { path } = useParams<{path: SettingsPath}>()
+  const { desktop } = useThemeSwitcher()
+  const { path = desktop ? "profile" : "" } = useParams<{path: SettingsPath}>()
   const classes = useStyles()
   const { profile, updateProfile } = useUser()
   const { redirect } = useHistory()
@@ -108,12 +121,13 @@ const Settings: React.FC = () => {
     }
   }
 
+  const onSelectTab = useCallback(
+    (key: SettingsPath) => redirect(`${SETTINGS_BASE}/${key}`)
+    , [redirect])
+
   const crumbs: Crumb[] = [
     {
       text: t`Settings`
-    },
-    {
-      text: path
     }
   ]
 
@@ -128,32 +142,41 @@ const Settings: React.FC = () => {
           <Trans>Settings</Trans>
         </Typography>
       </div>
-      <Divider />
-      <div className={classes.tabsContainer}>
-        <Tabs
-          activeKey={path}
-          onTabSelect={(key: SettingsPath) => redirect(`${SETTINGS_BASE}/${key}`)}
-        >
-          <TabPane
-            className={classes.tabPane}
-            title={t`Profile and Display`}
-            tabKey="profile"
-            icon={<ProfileIcon/>}
+      {desktop && <Divider />}
+      {
+        <div className={classes.tabsContainer}>
+          <Tabs
+            activeKey={path}
+            onTabSelect={onSelectTab}
+            className={!desktop
+              ? !path
+                ? classes.wideTabList
+                : classes.hideTabList
+              : ""
+            }
           >
-            {profileData ? (
-              <Profile
-                profile={profileData}
-                handleValueChange={handleChange}
-                onUpdateProfile={onUpdateProfile}
-                updatingProfile={updatingProfile}
-              />
-            ) : null}
-          </TabPane>
-          {/* <TabPane title={t`Plan`} tabKey="purchase">
-            <Plan />
-          </TabPane> */}
-        </Tabs>
-      </div>
+            <TabPane
+              className={clsx(classes.tabPane, (!desktop && !path) ? classes.hideTabPane : "")}
+              icon={<ProfileIcon/>}
+              iconRight={<CarretRightIcon/>}
+              title={t`Profile and Display`}
+              tabKey="profile"
+            >
+              {profileData ? (
+                <Profile
+                  profile={profileData}
+                  handleValueChange={handleChange}
+                  onUpdateProfile={onUpdateProfile}
+                  updatingProfile={updatingProfile}
+                />
+              ) : null}
+            </TabPane>
+            {/* <TabPane title={t`Plan`} tabKey="purchase">
+              <Plan />
+            </TabPane> */}
+          </Tabs>
+        </div>
+      }
     </div>
   )
 }

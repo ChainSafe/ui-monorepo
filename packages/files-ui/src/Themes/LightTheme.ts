@@ -176,7 +176,11 @@ export const lightTheme = createTheme<CsfColors>({
           root: {
             padding: "16px 16px",
             marginRight: 0,
-            display: "flex"
+            display: "flex",
+            "& .iconRight": {
+              flex: 1,
+              textAlign: "right"
+            }
           },
           selected: {
             fontWeight: "normal",

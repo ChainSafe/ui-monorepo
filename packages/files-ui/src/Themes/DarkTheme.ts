@@ -559,7 +559,11 @@ export const darkTheme = createTheme<CsfColors>({
             padding: "16px 16px",
             marginRight: 0,
             display: "flex",
-            transition: "none"
+            transition: "none",
+            "& .iconRight": {
+              flex: 1,
+              textAlign: "right"
+            }
           },
           selected: {
             fontWeight: "normal",

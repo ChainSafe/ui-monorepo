@@ -3,9 +3,10 @@ import React, { ReactNode } from "react"
 export interface ITabPaneProps<TabKey = string> {
   className?: string
   children: ReactNode | ReactNode[]
+  icon?: ReactNode
+  iconRight?: ReactNode
   title: string
   tabKey: TabKey
-  icon?: ReactNode | ReactNode[]
 }
 
 const TabPane = <TabKey, >({ children, className }: ITabPaneProps<TabKey>) => {

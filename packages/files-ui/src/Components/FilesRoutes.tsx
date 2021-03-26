@@ -19,7 +19,7 @@ export const ROUTE_LINKS = {
   Search: (search?: string) => `/search${search ? `?search=${search}` : ""}`,
   Bin: "/bin",
   Settings: `${SETTINGS_BASE}/:path`,
-  SettingsDefault: `${SETTINGS_BASE}/profile`,
+  SettingsDefault: `${SETTINGS_BASE}`,
   PurchasePlan: `${SETTINGS_BASE}/purchase`
 }
 
@@ -60,6 +60,13 @@ const FilesRoutes = () => {
         path={ROUTE_LINKS.Bin}
         isAuthorized={isAuthorized        }
         component={BinPage}
+        redirectPath={ROUTE_LINKS.Landing}
+      />
+      <ConditionalRoute
+        exact
+        path={SETTINGS_BASE}
+        isAuthorized={isAuthorized}
+        component={SettingsPage}
         redirectPath={ROUTE_LINKS.Landing}
       />
       <ConditionalRoute
