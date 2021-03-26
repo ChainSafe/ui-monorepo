@@ -79,7 +79,7 @@ const useStyles = makeStyles(
 
 interface IConciseExplainerProps {
   screen: "initialize" | "migrate"
-  onLetsDoIt(): void
+  onLetsDoIt: () => void
 }
 
 const ConciseExplainer: React.FC<IConciseExplainerProps> = ({ screen, onLetsDoIt }) => {
