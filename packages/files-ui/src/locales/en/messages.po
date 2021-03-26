@@ -21,7 +21,7 @@ msgstr "A file with the same name already exists"
 msgid "Account"
 msgstr "Account"
 
-#: src/Components/Modules/LoginModule/ConciseExplainer.tsx:108
+#: src/Components/Modules/LoginModule/ConciseExplainer.tsx:104
 msgid "Add and change passwords"
 msgstr "Add and change passwords"
 
@@ -74,7 +74,7 @@ msgstr "Cancel"
 #~ msgid "Check out <0>how we apply cryptography</0> to ensure the privacy of your data."
 #~ msgstr "Check out <0>how we apply cryptography</0> to ensure the privacy of your data."
 
-#: src/Components/Modules/LoginModule/ConciseExplainer.tsx:130
+#: src/Components/Modules/LoginModule/ConciseExplainer.tsx:127
 msgid "Check out  <0>how we apply cryptography</0>to ensure the privacy of your data."
 msgstr "Check out  <0>how we apply cryptography</0>to ensure the privacy of your data."
 
@@ -102,7 +102,7 @@ msgstr "Connect a new wallet"
 msgid "Connection failed"
 msgstr "Connection failed"
 
-#: src/Components/Modules/LoginModule/MigrateAccount.tsx:136
+#: src/Components/Modules/LoginModule/MigrateAccount.tsx:137
 #: src/Components/Modules/LoginModule/MissingShares.tsx:194
 #: src/Components/Modules/LoginModule/MissingShares.tsx:208
 msgid "Continue"
@@ -195,7 +195,7 @@ msgstr "Download complete"
 msgid "Drop to upload files"
 msgstr "Drop to upload files"
 
-#: src/Components/Modules/LoginModule/MigrateAccount.tsx:129
+#: src/Components/Modules/LoginModule/MigrateAccount.tsx:130
 msgid "Encryption Password"
 msgstr "Encryption Password"
 
@@ -207,7 +207,7 @@ msgstr "Enter a password"
 msgid "Enter backup phrase:"
 msgstr "Enter backup phrase:"
 
-#: src/Components/Modules/LoginModule/MigrateAccount.tsx:132
+#: src/Components/Modules/LoginModule/MigrateAccount.tsx:133
 #: src/Components/Modules/LoginModule/MissingShares.tsx:190
 msgid "Enter password:"
 msgstr "Enter password:"
@@ -296,17 +296,31 @@ msgstr "Home"
 msgid "Info"
 msgstr "Info"
 
+#: src/Components/Modules/LoginModule/ConciseExplainer.tsx:85
+msgid ""
+"Instead, we use multiple sign-in methods for security and account recovery purposes. \n"
+"Each time you log in with your cryptowallet, Google, Facebook, or Github, \n"
+"you’ll be asked for one of the sign-in methods below:"
+msgstr ""
+"Instead, we use multiple sign-in methods for security and account recovery purposes. \n"
+"Each time you log in with your cryptowallet, Google, Facebook, or Github, \n"
+"you’ll be asked for one of the sign-in methods below:"
+
 #: src/Components/Modules/LoginModule/ConciseExplainer.tsx:73
 msgid "Introducing multi-factor sign in"
 msgstr "Introducing multi-factor sign in"
 
 #: src/Components/Modules/LoginModule/ConciseExplainer.tsx:126
-msgid "Learn how we apply cryptography to ensure the privacy of your data."
-msgstr "Learn how we apply cryptography to ensure the privacy of your data."
+#~ msgid "Learn how we apply cryptography to ensure the privacy of your data."
+#~ msgstr "Learn how we apply cryptography to ensure the privacy of your data."
 
 #: src/Components/Pages/LoginPage.tsx:169
 msgid "Learn more about ChainSafe"
 msgstr "Learn more about ChainSafe"
+
+#: src/Components/Modules/LoginModule/ConciseExplainer.tsx:139
+msgid "Let's do it"
+msgstr "Let's do it"
 
 #: src/Components/Layouts/AppHeader.tsx:178
 #: src/Components/Layouts/AppNav.tsx:280
@@ -350,6 +364,7 @@ msgstr "Name"
 msgid "New folder"
 msgstr "New folder"
 
+#: src/Components/Modules/LoginModule/ConciseExplainer.tsx:139
 #: src/Components/Modules/PreviewRenderers/PDFPreview.tsx:64
 msgid "Next"
 msgstr "Next"
@@ -403,6 +418,16 @@ msgstr "Preview"
 msgid "Previous"
 msgstr "Previous"
 
+#: src/Components/Modules/LoginModule/ConciseExplainer.tsx:78
+msgid ""
+"Previously, you required a password to access your Files account. \n"
+"We’re happy to announce that you don’t need a password to sign in anymore. \n"
+"All you have to do is set up multiple sign-in methods."
+msgstr ""
+"Previously, you required a password to access your Files account. \n"
+"We’re happy to announce that you don’t need a password to sign in anymore. \n"
+"All you have to do is set up multiple sign-in methods."
+
 #: src/Components/Modules/LoginModule/InitialScreen.tsx:198
 msgid "Privacy Policy"
 msgstr "Privacy Policy"
@@ -411,7 +436,7 @@ msgstr "Privacy Policy"
 msgid "Recover"
 msgstr "Recover"
 
-#: src/Components/Modules/LoginModule/ConciseExplainer.tsx:115
+#: src/Components/Modules/LoginModule/ConciseExplainer.tsx:111
 msgid "Recover with passphrase"
 msgstr "Recover with passphrase"
 
@@ -443,7 +468,7 @@ msgstr "Restore with backup phrase"
 msgid "Save changes"
 msgstr "Save changes"
 
-#: src/Components/Modules/LoginModule/ConciseExplainer.tsx:101
+#: src/Components/Modules/LoginModule/ConciseExplainer.tsx:97
 msgid "Save the device"
 msgstr "Save the device"
 
@@ -471,9 +496,21 @@ msgstr "Search..."
 msgid "Send Feedback"
 msgstr "Send Feedback"
 
+#: src/Components/Modules/LoginModule/ConciseExplainer.tsx:88
+msgid ""
+"Setting these up means you’ll be able to recover your account if you do get locked out somehow. \n"
+"Here’s what you can do now:"
+msgstr ""
+"Setting these up means you’ll be able to recover your account if you do get locked out somehow. \n"
+"Here’s what you can do now:"
+
 #: src/Components/Modules/LoginModule/ConciseExplainer.tsx:123
-msgid "Setting up multiple sign-in methods makes signing in on multiple devices and restoring your account a breeze, all done without us storing information about you. Think that’s cool?"
-msgstr "Setting up multiple sign-in methods makes signing in on multiple devices and restoring your account a breeze, all done without us storing information about you. Think that’s cool?"
+#~ msgid "Setting up multiple sign-in methods makes signing in on multiple devices and restoring your account a breeze, all done without us storing information about you. Think that’s cool?"
+#~ msgstr "Setting up multiple sign-in methods makes signing in on multiple devices and restoring your account a breeze, all done without us storing information about you. Think that’s cool?"
+
+#: src/Components/Modules/LoginModule/ConciseExplainer.tsx:119
+msgid "Setting up multiple sign-in methods makes signing in on multiple devices and restoring your account a breeze, all done without us storing information about you. Think that’s cool? <0>Learn how we apply cryptography to ensure the privacy of your data.</0>"
+msgstr "Setting up multiple sign-in methods makes signing in on multiple devices and restoring your account a breeze, all done without us storing information about you. Think that’s cool? <0>Learn how we apply cryptography to ensure the privacy of your data.</0>"
 
 #: src/Components/Layouts/AppNav.tsx:262
 #: src/Components/Modules/Settings/index.tsx:106
@@ -493,7 +530,7 @@ msgstr "Sign Out"
 msgid "Sign in"
 msgstr "Sign in"
 
-#: src/Components/Modules/LoginModule/MigrateAccount.tsx:145
+#: src/Components/Modules/LoginModule/MigrateAccount.tsx:146
 #: src/Components/Modules/LoginModule/MissingShares.tsx:218
 msgid "Sign in with a different account"
 msgstr "Sign in with a different account"
@@ -613,6 +650,10 @@ msgstr "Wallet address"
 msgid "We`'`re undergoing maintenance, thank you for being patient"
 msgstr "We`'`re undergoing maintenance, thank you for being patient"
 
+#: src/Components/Modules/LoginModule/ConciseExplainer.tsx:77
+msgid "Welcome! Here at Files we don’t require emails and phone numbers to set up an account."
+msgstr "Welcome! Here at Files we don’t require emails and phone numbers to set up an account."
+
 #: src/Components/Modules/LoginModule/SaveNewDevice.tsx:89
 msgid "Yes, save it"
 msgstr "Yes, save it"
@@ -674,9 +715,7 @@ msgstr "Lorem ipsum aenean et rutrum magna. Morbi nec placerat erat. Nunc elemen
 #~ msgid "to ensure the privacy of your data."
 #~ msgstr "to ensure the privacy of your data."
 
-#: src/Components/Modules/LoginModule/ConciseExplainer.tsx:76
-#: src/Components/Modules/LoginModule/ConciseExplainer.tsx:86
-#: src/Components/Modules/LoginModule/ConciseExplainer.tsx:142
+#: src/Components/Modules/LoginModule/ConciseExplainer.tsx:139
 msgid "{0}"
 msgstr "{0}"
 
