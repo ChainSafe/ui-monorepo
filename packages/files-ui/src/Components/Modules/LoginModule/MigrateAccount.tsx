@@ -122,7 +122,8 @@ const MigrateAccount: React.FC<IMigrateAccount> = ({
       setIsLoading(false)
     } catch (err) {
       console.error(err)
-      setError(t`Failed to migrate account, please try again. `)
+      setError(t`Failed to migrate account, please try again.`)
+      setIsLoading(false)
     }
   }
 
