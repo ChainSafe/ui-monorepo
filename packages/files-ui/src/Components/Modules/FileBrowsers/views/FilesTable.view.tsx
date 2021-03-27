@@ -239,16 +239,6 @@ const useStyles = makeStyles(
         "& > *": {
           marginRight: constants.generalUnit
         }
-      },
-      menuIcon: {
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        width: 20,
-        marginRight: constants.generalUnit * 1.5,
-        "& svg": {
-          fill: constants.fileSystemItemRow.menuIcon
-        }
       }
     })
   }
@@ -530,13 +520,12 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
   const getItemOperations =  (contentType: string) => {
     const result = Object.keys(itemOperations).reduce((acc: FileOperation[], item: string) => {
       const matcher = new MimeMatcher(item)
-      if (item === "*/*" || matcher.match(contentType)) {
-        console.log("match")
+      if (matcher.match(contentType)) {
         acc.push(...itemOperations[item])
       }
       return acc
     },[])
-    return result
+    return [...new Set(result)]
   }
 
   return (
