@@ -4,6 +4,7 @@ import { IFilesBrowserModuleProps } from "./types"
 import FilesTableView from "./views/FilesTable.view"
 import DragAndDrop from "../../../Contexts/DnDContext"
 import { t } from "@lingui/macro"
+import { CONTENT_TYPES } from "../../../Utils/Constants"
 
 const BinFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = true }: IFilesBrowserModuleProps) => {
   const {
@@ -42,7 +43,9 @@ const BinFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = true }:
         heading={t`Bin`}
         controls={controls}
         itemOperations={{
-          "*/*": ["delete", "recover"]
+          [CONTENT_TYPES.File]: ["recover", "delete"],
+          [CONTENT_TYPES.Directory]: ["recover", "delete"]
+
         }}
       />
     </DragAndDrop>

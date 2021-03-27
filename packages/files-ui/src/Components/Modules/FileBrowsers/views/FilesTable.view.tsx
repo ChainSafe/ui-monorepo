@@ -520,7 +520,8 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
   const getItemOperations =  (contentType: string) => {
     const result = Object.keys(itemOperations).reduce((acc: FileOperation[], item: string) => {
       const matcher = new MimeMatcher(item)
-      if (matcher.match(contentType)) {
+      // Prevent Files options from being added to Directory options  
+      if (!(contentType === CONTENT_TYPES.Directory && item === CONTENT_TYPES.File) && matcher.match(contentType)) {
         acc.push(...itemOperations[item])
       }
       return acc

@@ -66,7 +66,8 @@ const SearchFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = fals
         heading={t`Search results`}
         controls={controls}
         itemOperations={{
-          "*/*": ["view_folder"]
+          [CONTENT_TYPES.File]: ["view_folder"],
+          [CONTENT_TYPES.Directory]: ["view_folder"]
         }}
       />
     </DragAndDrop>

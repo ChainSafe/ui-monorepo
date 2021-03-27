@@ -115,7 +115,14 @@ const CSFFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = true }:
         heading = {t`My Files`}
         controls={controls}
         allowDropUpload={true}
-        itemOperations={{ "*/*": ["info", "delete"] }}
+        itemOperations={{
+          [CONTENT_TYPES.Audio]: ["preview"],
+          [CONTENT_TYPES.Image]: ["preview"],
+          [CONTENT_TYPES.Pdf]: ["preview"],
+          [CONTENT_TYPES.Text]: ["preview"],
+          [CONTENT_TYPES.File]: ["download", "info", "rename", "move", "delete"],
+          [CONTENT_TYPES.Directory]: ["rename", "move", "delete"]
+        }}
       />
     </DragAndDrop>
   )
