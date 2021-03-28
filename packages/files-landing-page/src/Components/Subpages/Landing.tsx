@@ -294,12 +294,12 @@ const Landing: React.FC = () => {
               <div className={classes.bodyTextWrapper}>
                 <Trans>
                   <p className={clsx(classes.bodyText, classes.lightText)}>
-                    <strong>We don’t want to know what you’re storing.</strong>
+                    <strong>No data collection, no selling data.</strong>
                   </p>
                 </Trans>
                 <Trans>
                   <p className={clsx(classes.bodyText, classes.lightText)}>
-                    What you want to do with your files is totally up to you.  End-to-end encryption means your content can only be seen by you.
+                    We only collect what is minimally necessary to provide our service to you. We promise to not to change that.
                   </p>
                 </Trans>
               </div>
@@ -313,24 +313,24 @@ const Landing: React.FC = () => {
               <div className={classes.bodyTextWrapper}>
                 <Trans>
                   <p className={classes.bodyText}>
-                    <strong>We don’t want to know what you’re storing.</strong>
+                    <strong>Sign in however you want.</strong>
                   </p>
                 </Trans>
                 <Trans>
                   <p className={classes.bodyText}>
-                    We don’t want to know what you’re storing.
+                    Sign up with your GitHub, Google or Facebook account. Or connect an Ethereum wallet. No emails required, ever. 
                   </p>
                 </Trans>
               </div>
               <div className={classes.bodyTextWrapper}>
                 <Trans>
                   <p className={classes.bodyText}>
-                    <strong>We don’t want to know what you’re storing.</strong>
+                    <strong>Equal parts privacy and convenience.</strong>
                   </p>
                 </Trans>
                 <Trans>
                   <p className={classes.bodyText}>
-                    We don’t want to know what you’re storing.
+                    Preview your stuff. Access it from any device. Organize folders. And soon, create notes in rich text and markdown. <span role="img"  aria-label="sparkle">✨</span>
                   </p>
                 </Trans>
               </div>
@@ -344,24 +344,24 @@ const Landing: React.FC = () => {
               <div className={classes.bodyTextWrapper}>
                 <Trans>
                   <p className={clsx(classes.bodyText, classes.lightText)}>
-                    <strong>We don’t want to know what you’re storing.</strong>
+                    <strong>Powered by peer-to-peer.</strong>
                   </p>
                 </Trans>
                 <Trans>
                   <p className={clsx(classes.bodyText, classes.lightText)}>
-                    We don’t want to know what you’re storing.
+                    Files is a next-gen app that blends cloud storage with blockchain and data privacy. We’re leveraging the power of the IPFS and Filecoin network to protect your stuff from data loss.
                   </p>
                 </Trans>
              </div>
               <div className={classes.bodyTextWrapper}>
                 <Trans>
                   <p className={clsx(classes.bodyText, classes.lightText)}>
-                    <strong>We don’t want to know what you’re storing.</strong>
+                    <strong>Self-reliance with account recovery.</strong>
                   </p>
                 </Trans>
                 <Trans>
                   <p className={clsx(classes.bodyText, classes.lightText)}>
-                    We don’t want to know what you’re storing.
+                    We don’t store passwords and emails; protecting your keys is your responsibility. Mistakes happen, though. That’s why we make account recovery as easy as humanly possible with threshold key management. 
                   </p>
                 </Trans>
              </div>
