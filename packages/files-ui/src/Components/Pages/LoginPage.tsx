@@ -5,11 +5,9 @@ import {
   useThemeSwitcher
 } from "@chainsafe/common-theme"
 import { useThresholdKey } from "../../Contexts/ThresholdKeyContext"
-import InitializeAccount from "../Modules/LoginModule/InitializeAccount"
 import SaveNewDevice from "../Modules/LoginModule/SaveNewDevice"
 import MissingShares from "../Modules/LoginModule/MissingShares"
 import { CSFTheme } from "../../Themes/types"
-import MigrateAccount from "../Modules/LoginModule/MigrateAccount"
 import InitialScreen from "../Modules/LoginModule/InitialScreen"
 import { ChainsafeFilesLogo, Typography } from "@chainsafe/common-components"
 import { ROUTE_LINKS } from "../FilesRoutes"
@@ -20,6 +18,7 @@ import BottomLightSVG from "../../Media/landing/layers/light/Bottom.light.svg"
 import TopLightSVG from "../../Media/landing/layers/light/Top.light.svg"
 import { ForegroundSVG } from "../../Media/landing/layers/ForegroundSVG"
 import { useImployApi } from "@chainsafe/common-contexts"
+import ConciseExplainer from "../Modules/LoginModule/ConciseExplainer"
 
 const useStyles = makeStyles(
   ({ constants, breakpoints, typography, zIndex }: CSFTheme) =>
@@ -146,9 +145,7 @@ const Content = () => {
 
   if (shouldInitializeAccount){
     return (
-      isMasterPasswordSet
-        ? <MigrateAccount />
-        : <InitializeAccount />
+      <ConciseExplainer onLetsDoIt={() => console.log} screen={isMasterPasswordSet ? "migrate" : "initialize"} />
     )
   }
 
