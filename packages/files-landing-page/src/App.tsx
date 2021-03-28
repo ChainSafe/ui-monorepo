@@ -7,10 +7,8 @@ import Routes from "./Components/Routes"
 const theme = createTheme({
   globalStyling: {
     body: {
-      color: "#fafafa",
-    },
-    a: {
-      color: "#fafafa",
+      backgroundColor: "#fafafa",
+      fontFamily: "Neue Montreal, Arial",
     },
   },
 })

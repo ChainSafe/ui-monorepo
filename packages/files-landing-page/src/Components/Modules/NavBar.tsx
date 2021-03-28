@@ -10,11 +10,11 @@ const useStyles = makeStyles(
         width: "100%",
         display: "flex",
         justifyContent: "flex-start",
-        background: "#141414",
-        height: constants.generalUnit * 10,
+        background: palette.additional["gray"][3],
+        height: constants.generalUnit * 9,
         position: "fixed",
-        borderBottom: `1px solid ${palette.additional["gray"][8]}`,
-        padding: "0 2rem",
+        // borderBottom: `1px solid ${palette.additional["gray"][8]}`,
+        padding: "1rem",
         zIndex: zIndex?.layer4,
         [breakpoints.down("sm")]: {
           padding: "none",
@@ -32,15 +32,11 @@ const useStyles = makeStyles(
         margin: constants.generalUnit,
       },
       navlink: {
-        color: palette.common.white.main,
+        color: palette.common.black.main,
         textDecoration: "none",
-        fontFamily: "'Archivo', sans-serif",
         "&:hover": {
           color: palette.additional["gray"][7],
           transition: "ease-in 0.2s",
-        },
-        "& > span": {
-          fontFamily: "'Archivo', sans-serif",
         },
       },
       brandName: {
@@ -49,13 +45,9 @@ const useStyles = makeStyles(
         },
       },
       separator: {
-        color: palette.common.white.main,
+        color: palette.common.black.main,
       },
       textWrapper: {
-        "& > span": {
-          fontFamily: "'Archivo', sans-serif",
-
-        }
       },
     })
   },
@@ -68,11 +60,11 @@ const NavBar: React.FC = () => {
       <Grid container xs={12}>
         <Grid item justifyContent="center" alignItems="flex-start">
           <Grid container alignItems="center" className={classes.textWrapper}>
-            <img
+            {/* <img
               className={classes.logo}
-              src="/ChainSafe_Logo.png"
+              src=""
               alt="chainsafe brand logo"
-            />
+            /> */}
             <Typography variant="h4" className={classes.brandName}>
               <a href="/" className={classes.navlink}>
                 ChainSafe Files

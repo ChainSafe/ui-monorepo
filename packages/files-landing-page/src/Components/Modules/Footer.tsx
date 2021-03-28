@@ -32,14 +32,14 @@ const useStyles = makeStyles(({ palette, constants, breakpoints }: ITheme) => {
       display: "flex",
       flexGrow: 0,
       flexBasis: "300px",
-      color: palette.additional["gray"][3],
+      color: palette.additional["gray"][9],
       margin: "0 0 1rem 0",
       "&:hover": {
         color: palette.additional["gray"][8],
         transition: "ease-in 0.2s",
       },
       "& a": {
-        color: palette.additional["gray"][5],
+        color: palette.additional["gray"][8],
         textDecoration: "none",
         "&:hover": {
           color: palette.additional["gray"][8],
@@ -63,7 +63,7 @@ const useStyles = makeStyles(({ palette, constants, breakpoints }: ITheme) => {
       paddingBottom: constants.generalUnit * 3,
       flex: 0,
       "& > span": {
-        fontFamily: "'Archivo', sans-serif",
+        fontFamily: "Neue Montreal, Arial",
       },
     },
     item: {
@@ -71,7 +71,7 @@ const useStyles = makeStyles(({ palette, constants, breakpoints }: ITheme) => {
       flex: 0,
       paddingBottom: constants.generalUnit * 2,
       "& > span": {
-        fontFamily: "'Archivo', sans-serif",
+        fontFamily: "Neue Montreal, Arial",
       },
     },
     hr: {
@@ -96,7 +96,7 @@ const useStyles = makeStyles(({ palette, constants, breakpoints }: ITheme) => {
     },
     copyright: {
       position: "absolute",
-      fontFamily: "'Archivo', sans-serif",
+      fontFamily: "Neue Montreal, Arial",
       left: "2%",
       color: palette.additional["gray"][8],
       [breakpoints.down("md")]: {
@@ -113,7 +113,7 @@ const useStyles = makeStyles(({ palette, constants, breakpoints }: ITheme) => {
       },
     },
     footerText: {
-      fontFamily: "'Archivo', sans-serif"
+      fontFamily: "Neue Montreal, Arial"
     },
   })
 })
