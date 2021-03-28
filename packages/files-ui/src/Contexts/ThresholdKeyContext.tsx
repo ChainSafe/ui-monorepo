@@ -96,7 +96,7 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
         const serviceProvider = new ServiceProviderBase({ enableLogging, postboxKey })
         const storageLayer = new TorusStorageLayer({ serviceProvider, enableLogging,hostUrl: "https://metadata.tor.us" })
         tkey = await ThresholdKey.fromJSON(tKeyJson, { modules, serviceProvider, storageLayer })
-        
+
         if (tKeyJson.modules) {
           if (tKeyJson.modules[WEB_STORAGE_MODULE_NAME])
             (tkey.modules[WEB_STORAGE_MODULE_NAME] as WebStorageModule).canUseFileStorage =
@@ -362,7 +362,7 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
     }
 
     sessionStorage.setItem(TORUS_POSTBOX_KEY, TKeySdk.serviceProvider.postboxKey.toString("hex"))
-    
+
     try {
       const metadata = await TKeySdk.storageLayer.getMetadata<ShareStore | {message: string}>({
         privKey: TKeySdk.serviceProvider.postboxKey
@@ -471,7 +471,7 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
       await TKeySdk.updateMetadata()
       const newDeviceShare = await TKeySdk.generateNewShare()
       const newDeviceShareStore = newDeviceShare.newShareStores[newDeviceShare.newShareIndex.toString("hex")]
-  
+
       storageModule.storeDeviceShare(newDeviceShareStore)
       console.log("New device share added")
       setIsNewDevice(false)
@@ -484,7 +484,7 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
 
   const approveShareTransferRequest = async (encPubKeyX: string) => {
     if (!TKeySdk) return
-    
+
     try {
       const shareTransferModule = TKeySdk.modules[SHARE_TRANSFER_MODULE_NAME] as ShareTransferModule
       await shareTransferModule.approveRequest(encPubKeyX)
