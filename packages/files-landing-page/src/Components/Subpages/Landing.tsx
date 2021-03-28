@@ -2,6 +2,7 @@ import React from "react"
 // import { Button } from "@chainsafe/common-components"
 import { createStyles, ITheme, makeStyles } from "@chainsafe/common-theme"
 import { Trans } from "@lingui/macro"
+import clsx from "clsx"
 
 const useStyles = makeStyles(
   ({ constants, palette, zIndex, breakpoints }: ITheme) => {
@@ -154,7 +155,12 @@ const useStyles = makeStyles(
     featureTextContainer: {
       display: "grid",
       gridTemplateColumns: "minmax(0,5fr) minmax(0, 7fr)",
-      height: "34vh",
+      [breakpoints.up(750)]:{
+        height: "34vh",
+      },
+      [breakpoints.down(750)]:{
+        minHeight: "45vh",
+      },
       alignContent: "center",
       "&:first-of-type": {
         background: "#5766D7"
@@ -184,31 +190,28 @@ const useStyles = makeStyles(
     },
     bodyTextWrapper: {
       maxWidth: "95%",
+      marginBottom: constants.generalUnit,
+
       [breakpoints.up('lg')]: {
         width: "100%",
         maxWidth: "99%",
-      },
-      [breakpoints.between(960, 1380)]: {
-      },
-      [breakpoints.down('sm')]: {
-        bottom: 0,
-      },
-      "& > p": {
-        color: palette.additional["gray"][9],
-        fontSize: "16px",
-        lineHeight: "24px",
-        [breakpoints.between(960, 1380)]:{
-          maxWidth: "100%",
-        },
-        [breakpoints.down('sm')]:{
-          maxWidth: "100%",
-        },
       },
       "& > a": {
         color: palette.additional["gray"][9],
         fontSize: "16px",
         lineHeight: "24px",
       },
+    },
+    bodyText: {
+        fontSize: "16px",
+        lineHeight: "24px",
+        marginBottom: constants.generalUnit,
+        // [breakpoints.between(960, 1380)]:{
+        //   maxWidth: "100%",
+        // },
+        // [breakpoints.down('sm')]:{
+        //   maxWidth: "100%",
+        // },
     },
     lightText: {
         color: palette.additional["gray"][3],
@@ -272,42 +275,96 @@ const Landing: React.FC = () => {
        {/* Feature List */}
         <article >
           <div className={classes.featureTextContainer}>
-            <h1 className={classes.lightText}>Secure.</h1>
+            <Trans>
+              <h1 className={classes.lightText}>Secure.</h1>
+            </Trans>
             <div className={classes.featureBodyTextContainer}>
               <div className={classes.bodyTextWrapper}>
-              <Trans><p><strong>We don’t want to know what you’re storing.</strong></p></Trans>
-              <p>What you want to do with your files is totally up to you.  End-to-end encryption means your content can only be seen by you. </p>
+                <Trans>
+                  <p className={clsx(classes.bodyText, classes.lightText)}>
+                    <strong>We don’t want to know what you’re storing.</strong>
+                  </p>
+                </Trans>
+                <Trans>
+                  <p className={clsx(classes.bodyText, classes.lightText)}>
+                    What you want to do with your files is totally up to you.  End-to-end encryption means your content can only be seen by you.
+                  </p>
+                </Trans>
               </div>
               <div className={classes.bodyTextWrapper}>
-              <p><strong>We don’t want to know what you’re storing.</strong></p>
-              <p>What you want to do with your files is totally up to you.  End-to-end encryption means your content can only be seen by you. </p>
+                <Trans>
+                  <p className={clsx(classes.bodyText, classes.lightText)}>
+                    <strong>We don’t want to know what you’re storing.</strong>
+                  </p>
+                </Trans>
+                <Trans>
+                  <p className={clsx(classes.bodyText, classes.lightText)}>
+                    What you want to do with your files is totally up to you.  End-to-end encryption means your content can only be seen by you.
+                  </p>
+                </Trans>
               </div>
             </div>
           </div>
           <div className={classes.featureTextContainer}>
-            <h1>Easy to use.</h1>
+            <Trans>
+              <h1>Easy to use.</h1>
+            </Trans>
             <div className={classes.featureBodyTextContainer}>
               <div className={classes.bodyTextWrapper}>
-              <p><strong>We don’t want to know what you’re storing.</strong></p>
-              <p>What you want to do with your files is totally up to you.  End-to-end encryption means your content can only be seen by you. </p>
+                <Trans>
+                  <p className={classes.bodyText}>
+                    <strong>We don’t want to know what you’re storing.</strong>
+                  </p>
+                </Trans>
+                <Trans>
+                  <p className={classes.bodyText}>
+                    We don’t want to know what you’re storing.
+                  </p>
+                </Trans>
               </div>
               <div className={classes.bodyTextWrapper}>
-              <p><strong>We don’t want to know what you’re storing.</strong></p>
-              <p>What you want to do with your files is totally up to you.  End-to-end encryption means your content can only be seen by you. </p>
+                <Trans>
+                  <p className={classes.bodyText}>
+                    <strong>We don’t want to know what you’re storing.</strong>
+                  </p>
+                </Trans>
+                <Trans>
+                  <p className={classes.bodyText}>
+                    We don’t want to know what you’re storing.
+                  </p>
+                </Trans>
               </div>
             </div>
           </div>
           <div className={classes.featureTextContainer}>
-            <h1 className={classes.lightText}>Next gen.</h1>
+            <Trans>
+              <h1 className={classes.lightText}>Next gen.</h1>  
+            </Trans>
             <div className={classes.featureBodyTextContainer}>
               <div className={classes.bodyTextWrapper}>
-              <p><strong>We don’t want to know what you’re storing.</strong></p>
-              <p>What you want to do with your files is totally up to you.  End-to-end encryption means your content can only be seen by you. </p>
-              </div>
+                <Trans>
+                  <p className={clsx(classes.bodyText, classes.lightText)}>
+                    <strong>We don’t want to know what you’re storing.</strong>
+                  </p>
+                </Trans>
+                <Trans>
+                  <p className={clsx(classes.bodyText, classes.lightText)}>
+                    We don’t want to know what you’re storing.
+                  </p>
+                </Trans>
+             </div>
               <div className={classes.bodyTextWrapper}>
-              <p><strong>We don’t want to know what you’re storing.</strong></p>
-              <p>What you want to do with your files is totally up to you.  End-to-end encryption means your content can only be seen by you. </p>
-              </div>
+                <Trans>
+                  <p className={clsx(classes.bodyText, classes.lightText)}>
+                    <strong>We don’t want to know what you’re storing.</strong>
+                  </p>
+                </Trans>
+                <Trans>
+                  <p className={clsx(classes.bodyText, classes.lightText)}>
+                    We don’t want to know what you’re storing.
+                  </p>
+                </Trans>
+             </div>
             </div>
           </div>
         </article>
