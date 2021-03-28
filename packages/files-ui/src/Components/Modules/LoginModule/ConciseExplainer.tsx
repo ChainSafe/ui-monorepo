@@ -54,12 +54,11 @@ const useStyles = makeStyles(
           flexDirection: "row"
         },
         "& img": {
-          maxHeight: 64,
-          marginRight: constants.generalUnit * 3
+          maxHeight: 64
         }
       },
       buttonContainer: {
-        paddingTop: constants.generalUnit * 3,
+        paddingTop: constants.generalUnit * 4,
         display: "flex",
         justifyContent: "flex-end",
         [breakpoints.down("md")]: {
@@ -151,11 +150,11 @@ const ConciseExplainer: React.FC<IConciseExplainerProps> = ({ screen, onLetsDoIt
             (
               <>
                 <Trans>
-                  Check out &nbsp;
-                  <a href={ROUTE_LINKS.ApplyCryptography}  target="_blank" rel="noopener noreferrer">
+                  Check out&nbsp;
+                  <a href={ROUTE_LINKS.ApplyCryptography} target="_blank" rel="noopener noreferrer">
                     how we apply cryptography
-                  </a>
-                  &nbsp;to ensure the privacy of your data.
+                  </a>&nbsp;
+                  to ensure the privacy of your data.
                 </Trans>
               </>
             )
