@@ -56,7 +56,7 @@ const useStyles = makeStyles(
 const NavBar: React.FC = () => {
   const classes = useStyles()
   return (
-    <nav className={classes.container}>
+    <div className={classes.container}>
       <Grid container xs={12}>
         <Grid item justifyContent="center" alignItems="flex-start">
           <Grid container alignItems="center" className={classes.textWrapper}>
@@ -85,7 +85,7 @@ const NavBar: React.FC = () => {
           </Typography>
         </Grid>
       </Grid>
-    </nav>
+    </div>
   )
 }
 
