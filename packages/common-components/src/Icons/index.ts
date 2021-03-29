@@ -8,7 +8,7 @@ export { default as ArrowRightIcon,ArrowRightSvg } from "./icons/ArrowRight.icon
 export { default as BulbIcon, BulbSvg } from "./icons/Bulb.icon"
 export { default as CaretDownIcon, CaretDownSvg } from "./icons/CaretDown.icon"
 export { default as CaretUpIcon, CaretUpSvg } from "./icons/CaretUp.icon"
-export { default as CarretRightIcon, CarretRightSvg } from "./icons/CarretRight.icon"
+export { default as CaretRightIcon, CaretRightSvg as CaretRightSvg } from "./icons/CaretRight.icon"
 export { default as CheckIcon, CheckSvg } from "./icons/Check.icon"
 export { default as CheckCircleIcon,CheckCircleSvg } from "./icons/CheckCircle.icon"
 export { default as CloseCircleIcon,CloseCirceSvg } from "./icons/CloseCircle.icon"

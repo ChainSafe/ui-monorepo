@@ -9,7 +9,7 @@ import { Tabs,
   useParams,
   useHistory,
   ITabPaneProps,
-  CarretRightIcon
+  CaretRightIcon
 } from "@chainsafe/common-components"
 import { makeStyles, ITheme, createStyles, useThemeSwitcher } from "@chainsafe/common-theme"
 import { useUser } from "@chainsafe/common-contexts"
@@ -158,7 +158,7 @@ const Settings: React.FC = () => {
             <TabPane
               className={clsx(classes.tabPane, (!desktop && !path) ? classes.hideTabPane : "")}
               icon={<ProfileIcon/>}
-              iconRight={<CarretRightIcon/>}
+              iconRight={<CaretRightIcon/>}
               title={t`Profile and Display`}
               tabKey="profile"
             >
