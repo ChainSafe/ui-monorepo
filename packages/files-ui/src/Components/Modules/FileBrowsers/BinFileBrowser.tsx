@@ -1,10 +1,10 @@
 import React, { useEffect } from "react"
-import { FileSystemItem, useDrive } from "../../../Contexts/DriveContext"
-import { IFileConfigured, IFilesBrowserModuleProps } from "./types"
+import { useDrive } from "../../../Contexts/DriveContext"
+import { IFilesBrowserModuleProps } from "./types"
 import FilesTableView from "./views/FilesTable.view"
-import { CONTENT_TYPES } from "../../../Utils/Constants"
 import DragAndDrop from "../../../Contexts/DnDContext"
 import { t } from "@lingui/macro"
+import { CONTENT_TYPES } from "../../../Utils/Constants"
 
 const BinFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = true }: IFilesBrowserModuleProps) => {
   const {
@@ -30,43 +30,6 @@ const BinFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = true }:
     }
   }
 
-  const parsedContents: IFileConfigured[] = pathContents.map(
-    (item: FileSystemItem): IFileConfigured => {
-      switch (item.content_type) {
-      case CONTENT_TYPES.Directory:
-        return {
-          ...item,
-          operations: ["recover", "delete"]
-        }
-      case CONTENT_TYPES.File:
-        return {
-          ...item,
-          operations: ["recover", "delete"]
-        }
-      case CONTENT_TYPES.Image:
-        return {
-          ...item,
-          operations: ["recover", "delete"]
-        }
-      case CONTENT_TYPES.Pdf:
-        return {
-          ...item,
-          operations: ["recover", "delete"]
-        }
-      case CONTENT_TYPES.Text:
-        return {
-          ...item,
-          operations: ["recover", "delete"]
-        }
-      default:
-        return {
-          ...item,
-          operations: ["recover", "delete"]
-        }
-      }
-    }
-  )
-
   return (
     <DragAndDrop>
       <FilesTableView
@@ -75,10 +38,14 @@ const BinFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = true }:
         deleteFile={deleteFile}
         loadingCurrentPath={loadingCurrentPath}
         showUploadsInTable={false}
-        sourceFiles={parsedContents}
+        sourceFiles={pathContents}
         updateCurrentPath={updateCurrentPath}
         heading={t`Bin`}
         controls={controls}
+        itemOperations={{
+          [CONTENT_TYPES.File]: ["recover", "delete"],
+          [CONTENT_TYPES.Directory]: ["recover", "delete"]
+        }}
       />
     </DragAndDrop>
   )

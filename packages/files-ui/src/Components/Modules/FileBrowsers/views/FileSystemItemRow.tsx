@@ -39,7 +39,7 @@ import { Trans } from "@lingui/macro"
 import { useDrag, useDrop } from "react-dnd"
 import { DragTypes } from "../DragConstants"
 import { NativeTypes } from "react-dnd-html5-backend"
-import { FileOperation, IFileConfigured } from "../types"
+import { FileOperation } from "../types"
 import { CSFTheme } from "../../../../Themes/types"
 
 const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => {
@@ -162,8 +162,8 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => 
 
 interface IFileSystemItemRowProps {
   index: number
-  file: IFileConfigured
-  files: IFileConfigured[]
+  file: FileSystemItem
+  files: FileSystemItem[]
   currentPath?: string
   updateCurrentPath(
     path: string,
@@ -192,6 +192,7 @@ interface IFileSystemItemRowProps {
     fileData: FileSystemItem | FileSystemItem[]
   }): void
   setFileInfoPath(path: string): void
+  itemOperations: FileOperation[]
 }
 
 const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
@@ -214,9 +215,10 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
   setPreviewFileIndex,
   setMoveFileData,
   setFileInfoPath,
-  handleSelect
+  handleSelect,
+  itemOperations
 }) => {
-  const { cid, name, isFolder, size, operations, content_type } = file
+  const { cid, name, isFolder, size, content_type } = file
   let Icon
   if (isFolder) {
     Icon = FolderFilledSvg
@@ -231,7 +233,7 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
   const { desktop, themeKey } = useThemeSwitcher()
   const classes = useStyles()
 
-  const menuOptions: Record<FileOperation, IMenuItem> = {
+  const allMenuItems: Record<FileOperation, IMenuItem> = {
     rename: {
       contents: (
         <Fragment>
@@ -333,8 +335,8 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
     }
   }
 
-  const menuItems: IMenuItem[] = operations.map(
-    (itemOperation) => menuOptions[itemOperation]
+  const menuItems: IMenuItem[] = itemOperations.map(
+    (itemOperation) => allMenuItems[itemOperation]
   )
 
   const [, dragMoveRef, preview] = useDrag({
