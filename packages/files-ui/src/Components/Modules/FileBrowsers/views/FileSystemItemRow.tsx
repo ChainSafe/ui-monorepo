@@ -386,7 +386,7 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
       : setPreviewFileIndex(files?.indexOf(file))
   }, [currentPath, file, files, isFolder, name, setPreviewFileIndex, updateCurrentPath])
 
-  const { click } = useDoubleClick(onSingleClick,onDoubleClick)
+  const { click } = useDoubleClick(onSingleClick, onDoubleClick)
 
   const onFolderOrFileClicks = desktop
     ? click
