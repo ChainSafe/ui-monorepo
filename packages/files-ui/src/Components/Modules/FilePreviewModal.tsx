@@ -74,7 +74,7 @@ const useStyles = makeStyles(
         left: 0,
         top: 0,
         width: "100%",
-        maxWidth: breakpoints.values["md"],
+        maxWidth: breakpoints.values["md"] - 200,
         height: constants.generalUnit * 8,
         backgroundColor: constants.previewModal.controlsBackground,
         color: constants.previewModal.controlsColor,
