@@ -119,7 +119,7 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
           return response
         },
         async (error) => {
-          if (!error.config._retry && error.response.status === 401) {
+          if (!error?.config?._retry && error?.response?.status === 401) {
             error.config._retry = true
             const refreshTokenLocal =
               canUseLocalStorage && localStorage.getItem(tokenStorageKey)
