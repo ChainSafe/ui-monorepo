@@ -171,7 +171,7 @@ const Settings: React.FC = () => {
                 />
               ) : null}
             </TabPane>
-            {/* <TabPane title={t`Plan`} tabKey="purchase">
+            {/* <TabPane title={t`Plan`} tabKey="plan">
               <Plan />
             </TabPane> */}
           </Tabs>

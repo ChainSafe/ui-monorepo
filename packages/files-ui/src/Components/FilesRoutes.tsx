@@ -20,10 +20,10 @@ export const ROUTE_LINKS = {
   Bin: "/bin",
   Settings: `${SETTINGS_BASE}/:path`,
   SettingsDefault: `${SETTINGS_BASE}`,
-  PurchasePlan: `${SETTINGS_BASE}/purchase`
+  PurchasePlan: "/purchase"
 }
 
-export const SETTINGS_PATHS = ["profile", "purchase"] as const
+export const SETTINGS_PATHS = ["profile", "plan"] as const
 export type SettingsPath = typeof SETTINGS_PATHS[number]
 
 const FilesRoutes = () => {
