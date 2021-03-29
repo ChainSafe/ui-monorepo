@@ -846,5 +846,3 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
 }
 
 export default FilesTableView
-
-

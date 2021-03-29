@@ -45,7 +45,6 @@ const BinFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = true }:
         itemOperations={{
           [CONTENT_TYPES.File]: ["recover", "delete"],
           [CONTENT_TYPES.Directory]: ["recover", "delete"]
-
         }}
       />
     </DragAndDrop>

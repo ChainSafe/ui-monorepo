@@ -117,6 +117,7 @@ const CSFFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = true }:
         allowDropUpload={true}
         itemOperations={{
           [CONTENT_TYPES.Audio]: ["preview"],
+          [CONTENT_TYPES.MP4]: ["preview"],
           [CONTENT_TYPES.Image]: ["preview"],
           [CONTENT_TYPES.Pdf]: ["preview"],
           [CONTENT_TYPES.Text]: ["preview"],
