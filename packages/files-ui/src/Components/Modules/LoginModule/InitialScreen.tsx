@@ -8,10 +8,27 @@ import { useWeb3 } from "@chainsafe/web3-context"
 import { useThresholdKey } from "../../../Contexts/ThresholdKeyContext"
 import { LOGIN_TYPE } from "@toruslabs/torus-direct-web-sdk"
 import { ROUTE_LINKS } from "../../FilesRoutes"
+import clsx from "clsx"
 
 const useStyles = makeStyles(
   ({ constants, palette, breakpoints }: CSFTheme) =>
     createStyles({
+      root: {
+        backgroundColor: constants.loginModule.background,
+        border: `1px solid ${constants.landing.border}`,
+        boxShadow: constants.landing.boxShadow,
+        borderRadius: 6,
+        [breakpoints.up("md")]:{
+          minHeight: "64vh",
+          justifyContent: "space-between",
+          width: 440
+        },
+        [breakpoints.down("md")]: {
+          padding: `${constants.generalUnit * 4}px ${constants.generalUnit * 2}px`,
+          justifyContent: "center",
+          width: `calc(100vw - ${constants.generalUnit * 2}px)`
+        }
+      },
       buttonSection: {
         [breakpoints.up("md")]: {
           position: "absolute",
@@ -95,7 +112,13 @@ const useStyles = makeStyles(
     })
 )
 
-const InitialScreen: React.FC = () => {
+interface IInitialScreen {
+  className?: string
+}
+
+const InitialScreen: React.FC<IInitialScreen> = ({
+  className
+}: IInitialScreen) => {
   const { selectWallet, resetAndSelectWallet } = useImployApi()
   const { desktop } = useThemeSwitcher()
   const { wallet } = useWeb3()
@@ -163,7 +186,7 @@ const InitialScreen: React.FC = () => {
   }
 
   return (
-    <>
+    <div className={clsx(classes.root, className)}>
       {
         desktop && !isConnecting && !error && (
           <Typography
@@ -317,7 +340,7 @@ const InitialScreen: React.FC = () => {
             </>
           )
       }
-    </>
+    </div>
   )
 }
 

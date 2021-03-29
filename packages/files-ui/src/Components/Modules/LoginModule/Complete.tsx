@@ -2,6 +2,7 @@ import React from "react"
 import { createStyles, makeStyles } from "@chainsafe/common-theme"
 import { Button, Typography } from "@chainsafe/common-components"
 import { Trans } from "@lingui/macro"
+import clsx from "clsx"
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -10,11 +11,17 @@ const useStyles = makeStyles(() =>
   })
 )
 
-const Complete: React.FC = () => {
+interface IComplete {
+  className?: string
+}
+
+const Complete: React.FC<IComplete> = ({
+  className
+}: IComplete) => {
   const classes = useStyles()
 
   return (
-    <div className={classes.root}>
+    <div className={clsx(classes.root, className)}>
       <Typography component="p">
         <Trans>
           Great! You’re all done.

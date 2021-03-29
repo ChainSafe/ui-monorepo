@@ -7,6 +7,7 @@ import PasswordKeyPNG from "../../../Media/landing/layers/password-key.png"
 import PeacefulSuccotashPNG from "../../../Media/landing/layers/peaceful-succotash.png"
 import { Trans } from "@lingui/macro"
 import { ROUTE_LINKS } from "../../FilesRoutes"
+import clsx from "clsx"
 
 // Concise explainer is used in both initialize and migrate account
 const useStyles = makeStyles(
@@ -82,15 +83,16 @@ const useStyles = makeStyles(
 interface IConciseExplainerProps {
   screen: "initialize" | "migrate"
   onLetsDoIt(): void
+  className?: string
 }
 
-const ConciseExplainer: React.FC<IConciseExplainerProps> = ({ screen, onLetsDoIt }) => {
+const ConciseExplainer: React.FC<IConciseExplainerProps> = ({ className, screen, onLetsDoIt }) => {
   const classes = useStyles()
 
   const { desktop } = useThemeSwitcher()
 
   return (
-    <div className={classes.root}>
+    <div className={clsx(className, classes.root)}>
       <Typography variant="h2" component="h2" className={classes.title}>
         <Trans>Introducing multi-factor sign in</Trans>
       </Typography>

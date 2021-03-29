@@ -109,6 +109,9 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
         }
         const keyDetails = tkey.getKeyDetails()
         setKeyDetails(keyDetails)
+        if (keyDetails.threshold === keyDetails.totalShares) { 
+          setShouldInitializeAccount(true)
+        }
         setUserInfo(JSON.parse(cachedUserInfo))
       } else {
         // If no session storage is available, instantiate a new Threshold key

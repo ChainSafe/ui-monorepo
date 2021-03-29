@@ -9,6 +9,9 @@ import clsx from "clsx"
 
 const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) =>
   createStyles({
+    root: {
+
+    },
     content:{
       width: "100%"
     },
@@ -109,7 +112,14 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) =>
     }
   }))
 
-const MissingShares: React.FC = () => {
+
+interface IMissingShares {
+  className?: string
+}
+
+const MissingShares: React.FC<IMissingShares> = ({
+  className
+}: IMissingShares) => {
   const { keyDetails, inputPasswordShare, inputMnemonicShare } = useThresholdKey()
   const [password, setPassword] = useState("")
   const [mnemonic, setMnemonic] = useState("")
@@ -170,7 +180,7 @@ const MissingShares: React.FC = () => {
   }, [])
 
   return (
-    <>
+    <div className={clsx(classes.root, className)}>
       <div className={classes.content}>
         <Typography
           variant="h6"
@@ -292,7 +302,7 @@ const MissingShares: React.FC = () => {
           </div>
         )}
       </footer>
-    </>
+    </div>
   )
 }
 

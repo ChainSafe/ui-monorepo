@@ -7,6 +7,7 @@ import { Form, Formik } from "formik"
 import StrengthIndicator from "../MasterKeySequence/SequenceSlides/StrengthIndicator"
 import zxcvbn from "zxcvbn"
 import { t, Trans } from "@lingui/macro"
+import clsx from "clsx"
 
 const useStyles = makeStyles(({ breakpoints, constants }: CSFTheme) =>
   createStyles({
@@ -91,7 +92,12 @@ const useStyles = makeStyles(({ breakpoints, constants }: CSFTheme) =>
   })
 )
 
-const PasswordSetup: React.FC = () => {
+interface IPasswordSetup {
+  className?: string
+  setPassword: (password: string) => void
+}
+
+const PasswordSetup: React.FC<IPasswordSetup> = ({ setPassword, className }: IPasswordSetup) => {
   const classes = useStyles()
 
   const passwordValidation = yup.object().shape({
@@ -123,7 +129,7 @@ const PasswordSetup: React.FC = () => {
   })
 
   return (
-    <section className={classes.root}>
+    <section className={clsx(classes.root, className)}>
       <Typography variant="h2" component="h2">
         <Trans>
           Set up a password
@@ -143,6 +149,7 @@ const PasswordSetup: React.FC = () => {
         onSubmit={async (values, helpers) => {
           helpers.setSubmitting(true)
           // secureDrive(values.masterKey)
+          setPassword(values.password)
           helpers.setSubmitting(false)
         }}
       >

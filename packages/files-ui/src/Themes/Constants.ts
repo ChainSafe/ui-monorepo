@@ -22,6 +22,14 @@ export interface CsfColors extends IConstants {
     footerBg: string
     footerText: string
   }
+  loginModule: {
+    background: string
+    signinOptions: {
+      itemBackground: string
+      iconColor: string
+      textColor: string
+    }
+  }
   header: {
     rootBackground: string
     optionsBackground: string

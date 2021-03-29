@@ -17,11 +17,18 @@ export const lightTheme = createTheme<CsfColors>({
       ...UI_CONSTANTS,
       ...({
         landing: {
-          background: "var(--gray3)",
           border: "var(--gray4)",
           boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
           footerBg: "var(--gray4)",
           footerText: "var(--gray8)"
+        },
+        loginModule: {
+          background: "var(--gray3)",
+          signinOptions: {
+            itemBackground: "var(--gray4)",
+            iconColor: "#9E9E9E", // Gray 7.5
+            textColor: "var(--gray9)"
+          }
         },
         modalDefault: {
           fadeBackground: "var(--gray1)",
