@@ -19,12 +19,11 @@ import TopLightSVG from "../../Media/landing/layers/light/Top.light.svg"
 import { ForegroundSVG } from "../../Media/landing/layers/ForegroundSVG"
 import { useImployApi } from "@chainsafe/common-contexts"
 import ConciseExplainer from "../Modules/LoginModule/ConciseExplainer"
-import SignInMethods from "../Modules/LoginModule/SignInMethod"
+import SignInMethods from "../Modules/LoginModule/SignInMethods"
 import PasswordSetup from "../Modules/LoginModule/PasswordSetup"
 import ConfirmSkip from "../Modules/LoginModule/ConfirmSkip"
 import SaveBackupPhrase from "../Modules/LoginModule/SaveBackupPhrase"
 import Complete from "../Modules/LoginModule/Complete"
-import classes from "*.module.css"
 
 const useStyles = makeStyles(
   ({ constants, breakpoints, typography, zIndex }: CSFTheme) =>
@@ -110,7 +109,6 @@ const useStyles = makeStyles(
       inner: {
         display: "flex",
         flexDirection: "column",
-        alignItems: "center",
         flex: "1 1 0",
         position: "absolute",
         top: "50%",

@@ -27,7 +27,8 @@ export const lightTheme = createTheme<CsfColors>({
           signinOptions: {
             itemBackground: "var(--gray4)",
             iconColor: "#9E9E9E", // Gray 7.5
-            textColor: "var(--gray9)"
+            textColor: "var(--gray9)",
+            subText: "var(--gray8)"
           }
         },
         modalDefault: {

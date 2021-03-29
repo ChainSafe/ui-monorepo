@@ -28,6 +28,7 @@ export interface CsfColors extends IConstants {
       itemBackground: string
       iconColor: string
       textColor: string
+      subText: string
     }
   }
   header: {

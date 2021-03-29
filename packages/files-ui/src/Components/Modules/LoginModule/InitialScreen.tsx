@@ -17,6 +17,7 @@ const useStyles = makeStyles(
         backgroundColor: constants.loginModule.background,
         border: `1px solid ${constants.landing.border}`,
         boxShadow: constants.landing.boxShadow,
+        alignItems: "center",
         borderRadius: 6,
         [breakpoints.up("md")]:{
           minHeight: "64vh",
