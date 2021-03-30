@@ -539,40 +539,6 @@ export const darkTheme = createTheme<CsfColors>({
             }
           }
         }
-      },
-      Tabs: {
-        root: {
-          display: "flex"
-        },
-        tabList: {
-          padding: 0,
-          marginBottom: 0,
-          display: "flex",
-          flexDirection: "column",
-          width: 226,
-          borderRightColor: "var(--gray4)",
-          borderRightWidth: 1,
-          borderRightStyle: "solid"
-        },
-        tabBar: {
-          root: {
-            padding: "16px 16px",
-            marginRight: 0,
-            display: "flex",
-            transition: "none",
-            "& .iconRight": {
-              flex: 1,
-              textAlign: "right"
-            }
-          },
-          selected: {
-            fontWeight: "normal",
-            borderBottom: "none",
-            backgroundColor: "var(--gray4)",
-            borderTopLeftRadius: 10,
-            borderBottomLeftRadius: 10
-          }
-        }
       }
     }
   }

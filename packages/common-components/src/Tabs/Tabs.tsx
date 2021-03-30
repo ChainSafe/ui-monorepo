@@ -42,28 +42,40 @@ const useStyles = makeStyles(
     })
 )
 
+interface TabInjectedClasses {
+  root?: string
+  tabList?: string
+  tabBar?: string
+}
+
 export interface ITabsProps {
   className?: string
   children: React.ReactElement<ITabPaneProps> | React.ReactElement<ITabPaneProps>[]
   activeKey: string
-  onTabSelect(key: string): void
+  onTabSelect: (key: string) => void
+  injectedClass?: TabInjectedClasses
 }
 
-const Tabs: React.FC<ITabsProps> = ({ className, children, activeKey, onTabSelect }: ITabsProps) => {
+const Tabs: React.FC<ITabsProps> = ({ className, children, activeKey, injectedClass, onTabSelect }: ITabsProps) => {
   const classes = useStyles()
   const selectedChild = Array.isArray(children)
     ? children.find((child) => activeKey === child.props.tabKey)
     : children
 
   return (
-    <div className={classes.root}>
-      <ul className={clsx(className, classes.tabList)}>
+    <div className={clsx(classes.root, injectedClass?.root)}>
+      <ul className={clsx(className, classes.tabList, injectedClass?.tabList)}>
         {Array.isArray(children)
           ? children.map((elem, index) => {
             return (
               <li
                 key={index}
-                className={clsx(classes.tabBar, elem.props.tabKey === activeKey && "selected")}
+                className={
+                  clsx(
+                    elem.props.tabKey === activeKey && "selected",
+                    classes.tabBar,
+                    injectedClass?.tabBar
+                  )}
                 onClick={() => onTabSelect(elem.props.tabKey)}
               >
                 {elem.props.icon}{elem.props.title}<span className="iconRight">{elem.props.iconRight}</span>
@@ -71,7 +83,12 @@ const Tabs: React.FC<ITabsProps> = ({ className, children, activeKey, onTabSelec
             )
           })
           : <li
-            className={clsx(classes.tabBar, children.props.tabKey === activeKey && "selected")}
+            className={
+              clsx(
+                children.props.tabKey === activeKey && "selected",
+                classes.tabBar,
+                injectedClass?.tabBar
+              )}
             onClick={() => onTabSelect(children.props.tabKey)}
           >
             {children.props.icon}{children.props.title}<span className="iconRight">{children.props.iconRight}</span>

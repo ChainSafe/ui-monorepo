@@ -66,15 +66,44 @@ const useStyles = makeStyles(({ constants, breakpoints, palette }: ITheme) =>
       flex: 1,
       padding: `${constants.generalUnit * 2}px ${constants.generalUnit * 5}px`
     },
-    hideTabList: {
-      display: "none"
-    },
     hideTabPane: {
       display: "none"
     },
-    wideTabList: {
-      width: "100%",
-      borderRightStyle: "none"
+    injectedTabRoot: {
+      display: "flex"
+    },
+    injectedTabList: {
+      padding: 0,
+      marginBottom: 0,
+      display: "flex",
+      flexDirection: "column",
+      width: 226,
+      borderRightColor: "var(--gray4)",
+      borderRightWidth: 1,
+      borderRightStyle: "solid",
+      "&.wide" : {
+        width: "100%",
+        borderRightStyle: "none"
+      },
+      "&.hidden": {
+        display: "none"
+      }
+    },
+    injectedTabBar: {
+      padding: "16px 16px",
+      marginRight: 0,
+      display: "flex",
+      "& .iconRight": {
+        flex: 1,
+        textAlign: "right"
+      },
+      "&.selected": {
+        fontWeight: "normal",
+        borderBottom: "none",
+        backgroundColor: "var(--gray4)",
+        borderTopLeftRadius: 10,
+        borderBottomLeftRadius: 10
+      }
     }
   })
 )
@@ -86,7 +115,6 @@ const Settings: React.FC = () => {
   const { profile, updateProfile } = useUser()
   const { redirect } = useHistory()
   const { addToastMessage } = useToaster()
-
   const [profileData, setProfileData] = useState(profile)
   const [updatingProfile, setUpdatingProfile] = useState(false)
 
@@ -122,7 +150,7 @@ const Settings: React.FC = () => {
   }
 
   const onSelectTab = useCallback(
-    (key: SettingsPath) => redirect(`${SETTINGS_BASE}/${key}`)
+    (key: string) => redirect(`${SETTINGS_BASE}/${key}`)
     , [redirect])
 
   const crumbs: Crumb[] = [
@@ -148,12 +176,17 @@ const Settings: React.FC = () => {
           <Tabs
             activeKey={path}
             onTabSelect={onSelectTab}
-            className={!desktop
-              ? !path
-                ? classes.wideTabList
-                : classes.hideTabList
-              : ""
-            }
+            injectedClass={{
+              root: classes.injectedTabRoot,
+              tabBar: classes.injectedTabBar,
+              tabList: clsx(
+                !desktop
+                  ? !path
+                    ? "wide"
+                    : "hidden"
+                  : "",
+                classes.injectedTabList)
+            }}
           >
             <TabPane
               className={clsx(classes.tabPane, (!desktop && !path) ? classes.hideTabPane : "")}
