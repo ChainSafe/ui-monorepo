@@ -35,7 +35,6 @@ import { NativeTypes } from "react-dnd-html5-backend"
 import { useDrop } from "react-dnd"
 import {
   FileOperation,
-  IFileConfigured,
   IFilesTableBrowserProps
 } from "../types"
 import { FileSystemItem } from "../../../../Contexts/DriveContext"
@@ -49,6 +48,7 @@ import MoveFileModule from "../MoveFileModal"
 import FileInfoModal from "../FileInfoModal"
 import { CONTENT_TYPES } from "../../../../Utils/Constants"
 import { CSFTheme } from "../../../../Themes/types"
+import MimeMatcher from "../../../../Utils/MimeMatcher"
 
 interface IStyleProps {
   themeKey: string
@@ -263,7 +263,8 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
   loadingCurrentPath,
   uploadsInProgress,
   showUploadsInTable,
-  allowDropUpload
+  allowDropUpload,
+  itemOperations
 }: IFilesTableBrowserProps) => {
   const { themeKey, desktop } = useThemeSwitcher()
   const classes = useStyles({
@@ -285,7 +286,7 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
   const sortFoldersFirst = (a: FileSystemItem, b: FileSystemItem) =>
     a.isFolder && a.content_type !== b.content_type ? -1 : 1
 
-  const items: IFileConfigured[] = useMemo(() => {
+  const items: FileSystemItem[] = useMemo(() => {
     if (!sourceFiles) return []
 
     switch (direction) {
@@ -293,7 +294,7 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
       // case "descend": {
       // case "name": {
       return sourceFiles
-        .sort((a: IFileConfigured, b: IFileConfigured) =>
+        .sort((a, b) =>
           a.name > b.name ? -1 : 1
         )
         .sort(sortFoldersFirst)
@@ -303,14 +304,14 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
       default: {
         // case "name": {
         return sourceFiles
-          .sort((a: IFileConfigured, b: IFileConfigured) =>
+          .sort((a, b) =>
             a.name > b.name ? -1 : 1
           )
           .sort(sortFoldersFirst)
       }
       case "size": {
         return sourceFiles
-          .sort((a: FileSystemItem, b: FileSystemItem) =>
+          .sort((a, b) =>
             a.size > b.size ? -1 : 1
           )
           .sort(sortFoldersFirst)
@@ -329,14 +330,14 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
       default: {
         // case "name": {
         return sourceFiles
-          .sort((a: IFileConfigured, b: IFileConfigured) =>
+          .sort((a, b) =>
             a.name < b.name ? -1 : 1
           )
           .sort(sortFoldersFirst)
       }
       case "size": {
         return sourceFiles
-          .sort((a: IFileConfigured, b: IFileConfigured) =>
+          .sort((a, b) =>
             a.size < b.size ? -1 : 1
           )
           .sort(sortFoldersFirst)
@@ -406,7 +407,7 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
     if (selected.length === items.length) {
       setSelected([])
     } else {
-      setSelected([...items.map((file: IFileConfigured) => file.cid)])
+      setSelected([...items.map((file: FileSystemItem) => file.cid)])
     }
   }
 
@@ -514,6 +515,19 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
       setSelected([])
     }
   }, [selected, bulkMoveFileToTrash, setSelected])
+
+
+  const getItemOperations =  (contentType: string) => {
+    const result = Object.keys(itemOperations).reduce((acc: FileOperation[], item: string) => {
+      const matcher = new MimeMatcher(item)
+      // Prevent Files options from being added to Directory options  
+      if (!(contentType === CONTENT_TYPES.Directory && item === CONTENT_TYPES.File) && matcher.match(contentType)) {
+        acc.push(...itemOperations[item])
+      }
+      return acc
+    }, [])
+    return [...new Set(result)]
+  }
 
   return (
     <article
@@ -749,7 +763,7 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
                     <TableCell />
                   </TableRow>
                 ))}
-              {items.map((file: IFileConfigured, index: number) => (
+              {items.map((file, index) => (
                 <FileSystemItemRow
                   key={index}
                   index={index}
@@ -780,6 +794,7 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
                   setPreviewFileIndex={setPreviewFileIndex}
                   setMoveFileData={setMoveFileData}
                   setFileInfoPath={setFileInfoPath}
+                  itemOperations={getItemOperations(file.content_type)}
                 />
               ))}
             </TableBody>

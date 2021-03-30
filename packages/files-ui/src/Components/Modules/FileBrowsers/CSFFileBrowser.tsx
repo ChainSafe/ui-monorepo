@@ -1,10 +1,9 @@
 import React, { useEffect } from "react"
 import { Crumb, useToaster } from "@chainsafe/common-components"
-import { FileSystemItem, useDrive } from "../../../Contexts/DriveContext"
+import { useDrive } from "../../../Contexts/DriveContext"
 import { getArrayOfPaths, getPathFromArray } from "../../../Utils/pathUtils"
 import {
   IBulkOperations,
-  IFileConfigured,
   IFilesBrowserModuleProps
 } from "./types"
 import FilesTableView from "./views/FilesTable.view"
@@ -91,83 +90,6 @@ const CSFFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = true }:
     }
   }
 
-  const parsedContents: IFileConfigured[] = pathContents.map(
-    (item: FileSystemItem): IFileConfigured => {
-      switch (item.content_type) {
-      case CONTENT_TYPES.Directory:
-        return {
-          ...item,
-          operations: ["delete", "download", "move", "rename"]
-        }
-      case CONTENT_TYPES.File:
-        return {
-          ...item,
-          operations: [
-            "delete",
-            "info",
-            "download",
-            "move",
-            "rename",
-            "share",
-            "preview"
-          ]
-        }
-      case CONTENT_TYPES.Image:
-        return {
-          ...item,
-          operations: [
-            "delete",
-            "info",
-            "download",
-            "move",
-            "rename",
-            "share",
-            "preview"
-          ]
-        }
-      case CONTENT_TYPES.Pdf:
-        return {
-          ...item,
-          operations: [
-            "delete",
-            "info",
-            "download",
-            "move",
-            "rename",
-            "share",
-            "preview"
-          ]
-        }
-      case CONTENT_TYPES.Text:
-        return {
-          ...item,
-          operations: [
-            "delete",
-            "info",
-            "download",
-            "move",
-            "rename",
-            "share",
-            "preview"
-          ]
-        }
-      default:
-        return {
-          ...item,
-          operations: [
-            "delete",
-            "info",
-            "download",
-            "move",
-            "rename",
-            "share",
-            "preview"
-          ]
-        }
-      }
-    }
-  )
-
   const bulkOperations: IBulkOperations = {
     [CONTENT_TYPES.Directory]: ["move"],
     [CONTENT_TYPES.File]: ["delete", "move"]
@@ -188,11 +110,20 @@ const CSFFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = true }:
         uploadsInProgress={uploadsInProgress}
         loadingCurrentPath={loadingCurrentPath}
         showUploadsInTable={true}
-        sourceFiles={parsedContents}
+        sourceFiles={pathContents}
         updateCurrentPath={updateCurrentPath}
         heading = {t`My Files`}
         controls={controls}
         allowDropUpload={true}
+        itemOperations={{
+          [CONTENT_TYPES.Audio]: ["preview"],
+          [CONTENT_TYPES.MP4]: ["preview"],
+          [CONTENT_TYPES.Image]: ["preview"],
+          [CONTENT_TYPES.Pdf]: ["preview"],
+          [CONTENT_TYPES.Text]: ["preview"],
+          [CONTENT_TYPES.File]: ["download", "info", "rename", "move", "delete"],
+          [CONTENT_TYPES.Directory]: ["rename", "move", "delete"]
+        }}
       />
     </DragAndDrop>
   )
