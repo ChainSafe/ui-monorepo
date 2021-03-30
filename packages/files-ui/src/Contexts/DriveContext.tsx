@@ -66,7 +66,7 @@ type DriveContext = {
   ) => Promise<Blob | undefined>
   list: (body: FilesPathRequest) => Promise<FileContentResponse[]>
   currentPath: string
-  updateCurrentPath: (newPath: string,bucketType?: BucketType,showLoading?: boolean) => void
+  updateCurrentPath: (newPath: string, bucketType?: BucketType, showLoading?: boolean) => void
   pathContents: FileSystemItem[]
   uploadsInProgress: UploadProgress[]
   downloadsInProgress: DownloadProgress[]
