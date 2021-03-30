@@ -525,7 +525,7 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
         acc.push(...itemOperations[item])
       }
       return acc
-    },[])
+    }, [])
     return [...new Set(result)]
   }
 

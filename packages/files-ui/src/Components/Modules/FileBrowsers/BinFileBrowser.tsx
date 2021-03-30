@@ -6,7 +6,7 @@ import DragAndDrop from "../../../Contexts/DnDContext"
 import { t } from "@lingui/macro"
 import { CONTENT_TYPES } from "../../../Utils/Constants"
 
-const BinFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = true }: IFilesBrowserModuleProps) => {
+const BinFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = false }: IFilesBrowserModuleProps) => {
   const {
     deleteFile,
     updateCurrentPath,
