@@ -9,6 +9,7 @@ import BinPage from "./Pages/BinPage"
 import PurchasePlanPage from "./Pages/PurchasePlanPage"
 import { useThresholdKey } from "../Contexts/ThresholdKeyContext"
 
+export const SETTINGS_BASE = "/settings"
 export const ROUTE_LINKS = {
   Landing: "/",
   PrivacyPolicy: "https://files.chainsafe.io/privacy-policy",
@@ -19,9 +20,13 @@ export const ROUTE_LINKS = {
   Home: (path?: string) => `/home${path ? `?path=${path}` : ""}`,
   Search: (search?: string) => `/search${search ? `?search=${search}` : ""}`,
   Bin: "/bin",
-  Settings: "/settings",
-  PurchasePlan: "/settings/purchase"
+  Settings: `${SETTINGS_BASE}/:path`,
+  SettingsDefault: `${SETTINGS_BASE}`,
+  PurchasePlan: "/purchase"
 }
+
+export const SETTINGS_PATHS = ["profile", "plan"] as const
+export type SettingsPath = typeof SETTINGS_PATHS[number]
 
 const FilesRoutes = () => {
   const { isLoggedIn, secured } = useImployApi()
@@ -61,6 +66,12 @@ const FilesRoutes = () => {
       />
       <ConditionalRoute
         exact
+        path={ROUTE_LINKS.SettingsDefault}
+        isAuthorized={isAuthorized}
+        component={SettingsPage}
+        redirectPath={ROUTE_LINKS.Landing}
+      />
+      <ConditionalRoute
         path={ROUTE_LINKS.Settings}
         isAuthorized={isAuthorized}
         component={SettingsPage}
