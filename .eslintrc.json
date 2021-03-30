@@ -21,6 +21,7 @@
     }
   },
   "rules": {
+    "comma-spacing": ["error", { "before": false, "after": true }],
     "indent": ["error", 2],
     "linebreak-style": ["error", "unix"],
     "quotes": ["error", "double"],

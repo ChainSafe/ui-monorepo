@@ -341,7 +341,7 @@ export const darkTheme = createTheme<CsfColors>({
           background: "var(--gray2)"
         },
         header: {
-          rootBackground: "var(--gray1)" ,
+          rootBackground: "var(--gray1)",
           optionsBackground: "var(--gray2)",
           optionsTextColor: "var(--gray5)",
           optionsBorder: "var(--gray5)",

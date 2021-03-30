@@ -69,11 +69,11 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
   const initialAxiosInstance = useMemo(() => axios.create({
     // Disable the internal Axios JSON de serialization as this is handled by the client
     transformResponse: []
-  }),[])
+  }), [])
 
   const initialApiClient = useMemo(() => {
     return new ImployApiClient({}, apiUrl, initialAxiosInstance)
-  },[apiUrl, initialAxiosInstance]
+  }, [apiUrl, initialAxiosInstance]
   )
 
   const [imployApiClient, setImployApiClient] = useState<ImployApiClient>(initialApiClient)

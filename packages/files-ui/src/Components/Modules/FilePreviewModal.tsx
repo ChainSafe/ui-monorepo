@@ -2,7 +2,7 @@ import React, { Fragment, useEffect, useRef } from "react"
 import { useState } from "react"
 import { createStyles,makeStyles,useThemeSwitcher } from "@chainsafe/common-theme"
 import { FileSystemItem, useDrive } from "../../Contexts/DriveContext"
-import MimeMatcher from "mime-matcher"
+import MimeMatcher from "./../../Utils/MimeMatcher"
 import axios, { CancelTokenSource } from "axios"
 import {
   Button,
@@ -45,7 +45,7 @@ const SUPPORTED_FILE_TYPES: Record<string, React.FC<IPreviewRendererProps>> = {
 }
 
 const compatibleFilesMatcher = new MimeMatcher(
-  ...Object.keys(SUPPORTED_FILE_TYPES)
+  Object.keys(SUPPORTED_FILE_TYPES)
 )
 
 const useStyles = makeStyles(
@@ -70,7 +70,7 @@ const useStyles = makeStyles(
         left: 0,
         top: 0,
         width: "100%",
-        maxWidth: breakpoints.values["md"],
+        maxWidth: breakpoints.values["md"] - 200,
         height: constants.generalUnit * 8,
         backgroundColor: constants.previewModal.controlsBackground,
         color: constants.previewModal.controlsColor,
