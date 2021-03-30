@@ -24,12 +24,14 @@ export interface CsfColors extends IConstants {
   }
   loginModule: {
     background: string
-    signinOptions: {
-      itemBackground: string
-      iconColor: string
-      textColor: string
-      subText: string
-    }
+    itemBackground: string
+    iconColor: string
+    textColor: string
+    subText: string
+    flagBg: string
+    flagText: string
+    completeBg: string
+    completeText: string
   }
   header: {
     rootBackground: string

@@ -2,18 +2,21 @@ import React from "react"
 import { createStyles, makeStyles } from "@chainsafe/common-theme"
 import { CSFTheme } from "../../../Themes/types"
 import * as yup from "yup"
-import { Button, FormikTextInput, Typography } from "@chainsafe/common-components"
+import { Button, FormikTextInput, Typography, CloseSvg } from "@chainsafe/common-components"
 import { Form, Formik } from "formik"
 import StrengthIndicator from "../MasterKeySequence/SequenceSlides/StrengthIndicator"
 import zxcvbn from "zxcvbn"
 import { t, Trans } from "@lingui/macro"
 import clsx from "clsx"
 
-const useStyles = makeStyles(({ breakpoints, constants }: CSFTheme) =>
+const useStyles = makeStyles(({ breakpoints, constants, typography }: CSFTheme) =>
   createStyles({
     root: {
-      maxWidth: 320,
-      [breakpoints.down("md")]: {},
+      padding: `${constants.generalUnit * 13.5}px ${constants.generalUnit * 9.5}px`,
+      [breakpoints.up("md")]: {
+        maxWidth: 580,
+        width: "100vw"
+      },
       "& p": {
         fontWeight: 400,
         marginBottom: constants.generalUnit * 2,
@@ -25,14 +28,24 @@ const useStyles = makeStyles(({ breakpoints, constants }: CSFTheme) =>
         }
       },
       "& h2": {
-        textAlign: "center",
-        marginBottom: constants.generalUnit * 4.125,
+        fontWeight: typography.fontWeight.regular,
+        marginBottom: constants.generalUnit * 1.5,
         [breakpoints.up("md")]: {
           color: constants.masterKey.desktop.color
         },
         [breakpoints.down("md")]: {
           color: constants.masterKey.mobile.color
         }
+      }
+    },
+    close: {
+      position: "absolute",
+      top: constants.generalUnit * 3,
+      right: constants.generalUnit * 3,
+      cursor: "pointer",
+      "& svg": {
+        width: 15,
+        height: 15
       }
     },
     input: {
@@ -48,28 +61,6 @@ const useStyles = makeStyles(({ breakpoints, constants }: CSFTheme) =>
         }
       }
     },
-    highlight: {
-      fontWeight: 700,
-      textDecoration: "underline"
-    },
-    checkbox: {
-      marginBottom: constants.generalUnit,
-      [breakpoints.up("md")]: {
-        color: constants.masterKey.desktop.color,
-        "& svg": {
-          fill: `${constants.masterKey.desktop.checkbox} !important`
-        }
-      },
-      [breakpoints.down("md")]: {
-        color: constants.masterKey.mobile.color,
-        "& svg": {
-          fill: `${constants.masterKey.mobile.checkbox} !important`
-        }
-      }
-    },
-    button: {
-      marginTop: constants.generalUnit * 3
-    },
     inputLabel: {
       fontSize: "16px",
       lineHeight: "24px",
@@ -81,13 +72,8 @@ const useStyles = makeStyles(({ breakpoints, constants }: CSFTheme) =>
       },
       marginBottom: constants.generalUnit
     },
-    link: {
-      [breakpoints.up("md")]: {
-        color: constants.masterKey.desktop.link
-      },
-      [breakpoints.down("md")]: {
-        color: constants.masterKey.mobile.link
-      }
+    button: {
+      marginTop: constants.generalUnit * 10
     }
   })
 )
@@ -95,9 +81,10 @@ const useStyles = makeStyles(({ breakpoints, constants }: CSFTheme) =>
 interface IPasswordSetup {
   className?: string
   setPassword: (password: string) => void
+  cancel: () => void
 }
 
-const PasswordSetup: React.FC<IPasswordSetup> = ({ setPassword, className }: IPasswordSetup) => {
+const PasswordSetup: React.FC<IPasswordSetup> = ({ setPassword, className, cancel }: IPasswordSetup) => {
   const classes = useStyles()
 
   const passwordValidation = yup.object().shape({
@@ -130,6 +117,9 @@ const PasswordSetup: React.FC<IPasswordSetup> = ({ setPassword, className }: IPa
 
   return (
     <section className={clsx(classes.root, className)}>
+      <div onClick={cancel} className={classes.close}>
+        <CloseSvg />
+      </div>
       <Typography variant="h2" component="h2">
         <Trans>
           Set up a password

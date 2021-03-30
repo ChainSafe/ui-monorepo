@@ -18,6 +18,10 @@ export {
   CheckCircleSvg
 } from "./icons/CheckCircle.icon"
 export {
+  default as CloseIcon,
+  CloseSvg
+} from "./icons/Close.icon"
+export {
   default as CloseCircleIcon,
   CloseCirceSvg
 } from "./icons/CloseCircle.icon"

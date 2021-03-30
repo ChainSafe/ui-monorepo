@@ -6,7 +6,9 @@ import { useThresholdKey } from "../../../Contexts/ThresholdKeyContext"
 import { centerEllipsis } from "../../../Utils/Helpers"
 import { SECURITY_QUESTIONS_MODULE_NAME } from "@tkey/security-questions"
 import { CSFTheme } from "../../../Themes/types"
+import bowser from "bowser"
 import clsx from "clsx"
+import { ROUTE_LINKS } from "../../FilesRoutes"
 
 const useStyles = makeStyles(({
   breakpoints,
@@ -19,7 +21,7 @@ const useStyles = makeStyles(({
     root:{
       zIndex: zIndex?.layer1,
       backgroundColor: constants.loginModule.background,
-      color: constants.loginModule.signinOptions.textColor,
+      color: constants.loginModule.textColor,
       [breakpoints.up("md")]: {
         maxWidth: 580,
         width: "100vw",
@@ -28,8 +30,8 @@ const useStyles = makeStyles(({
     },
     setOption: {
       width: "100%",
-      backgroundColor: constants.loginModule.signinOptions.itemBackground,
-      color: constants.loginModule.signinOptions.textColor,
+      backgroundColor: constants.loginModule.itemBackground,
+      color: constants.loginModule.textColor,
       padding: constants.generalUnit * 1.5,
       borderRadius: 16,
       marginTop: constants.generalUnit * 1.5,
@@ -54,11 +56,11 @@ const useStyles = makeStyles(({
       }
     },
     subText: {
-      color: constants.loginModule.signinOptions.subText,
+      color: constants.loginModule.subText,
       display: "block",
       marginTop: constants.generalUnit * 2,
       "& a": {
-        color: constants.loginModule.signinOptions.subText
+        color: constants.loginModule.subText
       }
     },
     additionalMethods: {
@@ -79,24 +81,24 @@ const useStyles = makeStyles(({
       alignItems: "center",
       padding: `${constants.generalUnit * 2}px ${constants.generalUnit * 1.5}px`,
       width: "100%",
-      color: constants.loginModule.signinOptions.subText,
-      backgroundColor: constants.loginModule.signinOptions.itemBackground,
+      color: constants.loginModule.subText,
+      backgroundColor: constants.loginModule.itemBackground,
       borderRadius: 16,
       "& svg": {
         height: 30,
         width: 30,
         marginBottom: constants.generalUnit
       },
-      [breakpoints.up("sm")]: {
+      [breakpoints.up("md")]: {
         maxWidth: `calc(33% - ${constants.generalUnit * 1.5}px)`,
         marginRight: constants.generalUnit * 1.5
       }
     },
     key: {
-      stroke: constants.loginModule.signinOptions.iconColor
+      stroke: constants.loginModule.iconColor
     },
     copy: {
-      fill: constants.loginModule.signinOptions.iconColor
+      fill: constants.loginModule.iconColor
     },
     continue: {
       textAlign: "right",
@@ -125,16 +127,20 @@ const SignInMethods: React.FC<ISignInMethods> = ({
   const { 
     keyDetails, 
     publicKey
-
   } = useThresholdKey()
   const shares = keyDetails
     ? Object.values(keyDetails.shareDescriptions).map((share) => {
       return JSON.parse(share[0])
     })
     : []
+    
+  const browserShare = 
+    shares.filter((s) => s.module === "webStorage")
+
 
   const hasPasswordShare =
     shares.filter((s) => s.module === SECURITY_QUESTIONS_MODULE_NAME).length > 0
+
   const hasMnemonicShare = keyDetails && (keyDetails.totalShares - shares.length > 1)
 
   return (
@@ -161,6 +167,22 @@ const SignInMethods: React.FC<ISignInMethods> = ({
         )
       }
 
+      <section className={classes.setOption}>
+        <div>
+          <Typography variant="h5">
+            Saved Browser
+          </Typography>
+          <Typography variant="h5">
+            Saved {`${bowser.parse(browserShare[0].userAgent).browser.name} ${bowser.parse(browserShare[0].userAgent).browser.version}`}
+          </Typography>
+          <CheckCircleSvg />
+        </div>
+        <Typography className={classes.subText}>
+          Files uses device backups to save your browser.{" "}
+          <a href={ROUTE_LINKS.Terms} rel="noopener noreferrer" target="_blank">Learn more</a>
+        </Typography>
+      </section>
+
       {
         hasPasswordShare && (
           <section className={classes.setOption}>
@@ -186,35 +208,7 @@ const SignInMethods: React.FC<ISignInMethods> = ({
           </section>
         )
       }
-
-      {
-        hasMnemonicShare && (
-          <section className={classes.setOption}>
-            <div>
-              <Typography variant="h5">
-                Backup phrase saved
-              </Typography>
-              <CheckCircleSvg />
-            </div>
-          </section>
-        )
-      }
-
-      <section className={classes.setOption}>
-        <div>
-          <Typography variant="h5">
-            Saved Browser
-          </Typography>
-          <Typography variant="h5">
-           Saved
-          </Typography>
-          <CheckCircleSvg />
-        </div>
-        <Typography className={classes.subText}>
-          Files uses device backups to save your browser. <a href="" target="_blank">Why?</a>
-        </Typography>
-      </section>
-
+    
       {
         (!hasMnemonicShare || !hasPasswordShare) && (
           <>

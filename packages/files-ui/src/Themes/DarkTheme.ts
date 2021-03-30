@@ -338,12 +338,14 @@ export const darkTheme = createTheme<CsfColors>({
         },
         loginModule: {
           background: "var(--gray3)",
-          signinOptions: {
-            itemBackground: "var(--gray4)",
-            iconColor: "#9E9E9E", // Gray 7.5
-            textColor: "var(--gray9)",
-            subText: "var(--gray8)"
-          }
+          itemBackground: "var(--gray4)",
+          iconColor: "#9E9E9E", // Gray 7.5
+          textColor: "var(--gray9)",
+          subText: "var(--gray8)",
+          flagBg: "var(--gray9)",
+          flagText: "var(--gray1)",
+          completeBg: "#0C082B", // Gray 9.5
+          completeText: "var(--gray3)"
         },
         modalDefault: {
           fadeBackground: "var(--gray2)",
