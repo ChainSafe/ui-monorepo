@@ -1,5 +1,5 @@
 import React from "react"
-import { createStyles, makeStyles } from "@chainsafe/common-theme"
+import { createStyles, makeStyles, useThemeSwitcher } from "@chainsafe/common-theme"
 import { CheckCircleSvg, CopySvg, KeySvg, Typography } from "@chainsafe/common-components"
 import { Trans } from "@lingui/macro"
 import { useThresholdKey } from "../../../Contexts/ThresholdKeyContext"
@@ -22,10 +22,14 @@ const useStyles = makeStyles(({
       zIndex: zIndex?.layer1,
       backgroundColor: constants.loginModule.background,
       color: constants.loginModule.textColor,
+      width: "100vw",
       [breakpoints.up("md")]: {
         maxWidth: 580,
-        width: "100vw",
         padding: `${constants.generalUnit * 6.5}px ${constants.generalUnit * 5}px`
+      },
+      [breakpoints.down("md")]: {
+        height: "100vh",
+        padding: `${constants.generalUnit * 2.5}px ${constants.generalUnit * 2}px`
       }
     },
     setOption: {
@@ -69,25 +73,41 @@ const useStyles = makeStyles(({
     },
     availableOptions: {
       display: "flex",
-      flexDirection: "row",
       justifyContent: "flex-start",
       marginTop: constants.generalUnit * 6.5,
-      marginBottom: constants.generalUnit * 6.5
+      marginBottom: constants.generalUnit * 6.5,
+      [breakpoints.up("md")]: {
+        flexDirection: "row"
+      },
+      [breakpoints.down("md")]: {
+        flexDirection: "column"
+      }
     },
     newOption: {
       cursor: "pointer",
       display: "flex",
-      flexDirection: "column",
       alignItems: "center",
       padding: `${constants.generalUnit * 2}px ${constants.generalUnit * 1.5}px`,
       width: "100%",
       color: constants.loginModule.subText,
       backgroundColor: constants.loginModule.itemBackground,
       borderRadius: 16,
+      [breakpoints.up("md")]:{
+        flexDirection: "column"
+      },
+      [breakpoints.down("md")]:{
+        flexDirection: "row"
+      },
       "& svg": {
-        height: 30,
-        width: 30,
-        marginBottom: constants.generalUnit
+        marginBottom: constants.generalUnit,
+        [breakpoints.up("md")]:{
+          height: 30,
+          width: 30
+        },
+        [breakpoints.down("md")]:{
+          height: 20,
+          width: 20
+        }
       },
       [breakpoints.up("md")]: {
         maxWidth: `calc(33% - ${constants.generalUnit * 1.5}px)`,
@@ -124,6 +144,7 @@ const SignInMethods: React.FC<ISignInMethods> = ({
   className
 }: ISignInMethods) => {
   const classes = useStyles()
+  const { desktop } = useThemeSwitcher()
   const { 
     keyDetails, 
     publicKey
@@ -143,9 +164,10 @@ const SignInMethods: React.FC<ISignInMethods> = ({
 
   const hasMnemonicShare = keyDetails && (keyDetails.totalShares - shares.length > 1)
 
+
   return (
     <div className={clsx(classes.root, className)}>
-      <Typography variant="h2" component="h1">
+      <Typography variant={desktop ? "h2" : "h4"} component="h1">
         <Trans>
           Sign-in Methods
         </Trans>
@@ -155,7 +177,7 @@ const SignInMethods: React.FC<ISignInMethods> = ({
         publicKey && (
           <section className={classes.setOption}>
             <div>
-              <Typography variant="h5">
+              <Typography variant="h5"> 
                 Social Sign-in Wallet
               </Typography>
               <Typography variant="h5">
