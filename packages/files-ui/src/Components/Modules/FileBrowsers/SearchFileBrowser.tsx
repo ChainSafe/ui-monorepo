@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react"
-import { SearchEntry, useDrive } from "../../../Contexts/DriveContext"
-import { IFileConfigured, IFilesBrowserModuleProps } from "./types"
+import { FileSystemItem, SearchEntry, useDrive } from "../../../Contexts/DriveContext"
+import { IFilesBrowserModuleProps } from "./types"
 import FilesTableView from "./views/FilesTable.view"
 import { CONTENT_TYPES } from "../../../Utils/Constants"
 import DragAndDrop from "../../../Contexts/DnDContext"
@@ -49,10 +49,9 @@ const SearchFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = fals
     }
   }
 
-  const pathContents: IFileConfigured[] = searchResults.map((searchResult) => ({
+  const pathContents: FileSystemItem[] = searchResults.map((searchResult) => ({
     ...searchResult.content,
-    isFolder: searchResult.content.content_type === CONTENT_TYPES.Directory,
-    operations: ["view_folder"]
+    isFolder: searchResult.content.content_type === CONTENT_TYPES.Directory
   }))
 
   return (
@@ -66,6 +65,10 @@ const SearchFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = fals
         updateCurrentPath={updateCurrentPath}
         heading={t`Search results`}
         controls={controls}
+        itemOperations={{
+          [CONTENT_TYPES.File]: ["view_folder"],
+          [CONTENT_TYPES.Directory]: ["view_folder"]
+        }}
       />
     </DragAndDrop>
   )

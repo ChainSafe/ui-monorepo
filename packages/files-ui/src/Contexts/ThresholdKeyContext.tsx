@@ -72,7 +72,7 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
   const [isNewDevice, setIsNewDevice] = useState<boolean>(false)
   const [isNewKey, setIsNewKey] = useState<boolean>(false)
   const [publicKey, setPublicKey] = useState<string | undefined>()
-  const [shouldInitializeAccount,setShouldInitializeAccount] = useState<boolean>(false)
+  const [shouldInitializeAccount, setShouldInitializeAccount] = useState<boolean>(false)
   const [pendingShareTransferRequests, setPendingShareTransferRequests] = useState<ShareTransferRequest[]>([])
   const [privateKey, setPrivateKey] = useState<string | undefined>()
 
@@ -94,7 +94,7 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
       if (postboxKey && tkeySerialized && cachedUserInfo) {
         const tKeyJson = JSON.parse(tkeySerialized)
         const serviceProvider = new ServiceProviderBase({ enableLogging, postboxKey })
-        const storageLayer = new TorusStorageLayer({ serviceProvider, enableLogging,hostUrl: "https://metadata.tor.us" })
+        const storageLayer = new TorusStorageLayer({ serviceProvider, enableLogging, hostUrl: "https://metadata.tor.us" })
         tkey = await ThresholdKey.fromJSON(tKeyJson, { modules, serviceProvider, storageLayer })
 
         if (tKeyJson.modules) {
