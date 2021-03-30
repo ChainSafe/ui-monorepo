@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect, useRef } from "react"
 import { useState } from "react"
-import { createStyles,makeStyles,useThemeSwitcher } from "@chainsafe/common-theme"
+import { createStyles, makeStyles, useThemeSwitcher } from "@chainsafe/common-theme"
 import { FileSystemItem, useDrive } from "../../Contexts/DriveContext"
 import MimeMatcher from "./../../Utils/MimeMatcher"
 import axios, { CancelTokenSource } from "axios"
@@ -186,6 +186,11 @@ const FilePreviewModal = ({ file, nextFile, previousFile, closePreview }: Props)
     const getContents = async () => {
       if (!cid || !size) return
 
+      if (source.current) {
+        source.current.cancel("Cancelling previous request")
+        source.current = null
+      }
+
       const token = getSource().token
       setIsLoading(true)
       setError(undefined)
@@ -210,10 +215,6 @@ const FilePreviewModal = ({ file, nextFile, previousFile, closePreview }: Props)
 
     if (content_type && compatibleFilesMatcher.match(content_type)) {
       getContents()
-    }
-
-    return () => {
-      source.current && source.current.cancel("Cancelled by user")
     }
   }, [cid, size, content_type, getFileContent])
 
