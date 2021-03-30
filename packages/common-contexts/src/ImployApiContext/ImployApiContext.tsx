@@ -158,11 +158,13 @@ const ImployApiProvider = ({ apiUrl, useLocalStorage = true, children }: ImployA
                 return axios(error.response.config)
               } catch (err) {
                 canUseLocalStorage && localStorage.removeItem(tokenStorageKey)
+                !useLocalStorage && canUseSessionStorage && sessionStorage.removeItem(tokenStorageKey)
                 setRefreshToken(undefined)
                 return Promise.reject(error)
               }
             } else {
               canUseLocalStorage && localStorage.removeItem(tokenStorageKey)
+              !useLocalStorage && canUseSessionStorage && sessionStorage.removeItem(tokenStorageKey)
               setRefreshToken(undefined)
               return Promise.reject(error)
             }
@@ -354,6 +356,7 @@ const ImployApiProvider = ({ apiUrl, useLocalStorage = true, children }: ImployA
     setRefreshToken(undefined)
     setDecodedRefreshToken(undefined)
     canUseLocalStorage && localStorage.removeItem(tokenStorageKey)
+    !useLocalStorage && canUseSessionStorage && sessionStorage.removeItem(tokenStorageKey)
   }
 
   const secureThresholdKeyAccount = async (encryptedKey: string) => {
