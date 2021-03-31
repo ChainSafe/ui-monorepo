@@ -10,13 +10,7 @@ import bowser from "bowser"
 import clsx from "clsx"
 import { ROUTE_LINKS } from "../../FilesRoutes"
 
-const useStyles = makeStyles(({
-  breakpoints,
-  constants,
-  typography,
-  palette,
-  zIndex
-}: CSFTheme) =>
+const useStyles = makeStyles(({ breakpoints, constants, typography, palette, zIndex }: CSFTheme) =>
   createStyles({
     root:{
       zIndex: zIndex?.layer1,
