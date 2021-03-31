@@ -13,6 +13,10 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
+#: src/Components/Modules/LoginModule/SaveBackupPhrase.tsx:175
+msgid "<0>We can only show you the backup phrase once</0> <1/>because it’s generated and isn’t stored on our servers. Please save it somewhere safe!"
+msgstr "<0>We can only show you the backup phrase once</0> <1/>because it’s generated and isn’t stored on our servers. Please save it somewhere safe!"
+
 #: src/Contexts/DriveContext.tsx:245
 msgid "A file with the same name already exists"
 msgstr "A file with the same name already exists"
@@ -128,6 +132,7 @@ msgstr "Connection failed<<<<<<< HEAD"
 #: src/Components/Modules/LoginModule/Complete.tsx:148
 #: src/Components/Modules/LoginModule/MissingShares.tsx:195
 #: src/Components/Modules/LoginModule/MissingShares.tsx:209
+#: src/Components/Modules/LoginModule/SaveBackupPhrase.tsx:204
 msgid "Continue"
 msgstr "Continue"
 
@@ -155,6 +160,7 @@ msgstr "Continue with Web3 Wallet"
 msgid "Continue with {0}"
 msgstr "Continue with {0}"
 
+#: src/Components/Modules/LoginModule/SaveBackupPhrase.tsx:190
 #: src/Components/Modules/Settings/Profile.tsx:130
 msgid "Copied!"
 msgstr "Copied!"
@@ -525,6 +531,10 @@ msgstr "Resources"
 msgid "Restore with backup phrase"
 msgstr "Restore with backup phrase"
 
+#: src/Components/Modules/LoginModule/SaveBackupPhrase.tsx:170
+msgid "Save backup phrase"
+msgstr "Save backup phrase"
+
 #: src/Components/Modules/Settings/Profile.tsx:154
 msgid "Save changes"
 msgstr "Save changes<<<<<<< HEAD"
@@ -598,6 +608,10 @@ msgstr "Settings"
 #: src/Components/Modules/FileBrowsers/views/FileSystemItemRow.tsx:195
 msgid "Share"
 msgstr "Share"
+
+#: src/Components/Modules/LoginModule/SaveBackupPhrase.tsx:182
+msgid "Show me the backup phrase"
+msgstr "Show me the backup phrase"
 
 #: src/Components/Layouts/AppHeader.tsx:169
 #: src/Components/Layouts/AppNav.tsx:289
@@ -748,8 +762,12 @@ msgid "Welcome! Here at Files we don’t require emails and phone numbers to set
 msgstr "Welcome! Here at Files we don’t require emails and phone numbers to set up an account."
 
 #: src/Components/Modules/LoginModule/ConfirmSkip.tsx:63
-msgid "Without setting up at least three authentication factors, you risk getting locked out of your account. <0/><1/>Remember, you need a minimum of two factors to sign in. If you only have one, you’ll lose access to your account forever."
-msgstr "Without setting up at least three authentication factors, you risk getting locked out of your account. <0/><1/>Remember, you need a minimum of two factors to sign in. If you only have one, you’ll lose access to your account forever."
+#~ msgid "Without setting up at least three authentication factors, you risk getting locked out of your account. <0/><1/>Remember, you need a minimum of two factors to sign in. If you only have one, you’ll lose access to your account forever."
+#~ msgstr "Without setting up at least three authentication factors, you risk getting locked out of your account. <0/><1/>Remember, you need a minimum of two factors to sign in. If you only have one, you’ll lose access to your account forever."
+
+#: src/Components/Modules/LoginModule/ConfirmSkip.tsx:63
+msgid "Without setting up at least three authentication factors, you risk getting locked out of your account.<0/><1/>Remember, you need a minimum of two factors to sign in. If you only have one, you’ll lose access to your account forever."
+msgstr "Without setting up at least three authentication factors, you risk getting locked out of your account.<0/><1/>Remember, you need a minimum of two factors to sign in. If you only have one, you’ll lose access to your account forever."
 
 #: src/Components/Modules/LoginModule/ConfirmSkip.tsx:73
 msgid "Yes I understand"

@@ -4,6 +4,7 @@ import { Button, CloseSvg, CopySvg, Typography } from "@chainsafe/common-compone
 import { useThresholdKey } from "../../../Contexts/ThresholdKeyContext"
 import clsx from "clsx"
 import { CSFTheme } from "../../../Themes/types"
+import { Trans } from "@lingui/macro"
 
 const useStyles = makeStyles(({
   animation,
@@ -184,17 +185,23 @@ const SaveBackupPhrase: React.FC<ISaveBackupPhrase> = ({
         <CloseSvg />
       </div>
       <Typography component="h1" variant={desktop ? "h2" : "h4"}>
-        Save backup phrase
+        <Trans>
+          Save backup phrase
+        </Trans>
       </Typography>
       <Typography component="p">
-        <b>We can only show you the backup phrase once</b> <br/>
-        because it’s generated and isn’t stored on our servers. Please save it somewhere safe!
+        <Trans>
+          <b>We can only show you the backup phrase once</b> <br/>
+          because it’s generated and isn’t stored on our servers. Please save it somewhere safe!
+        </Trans>
       </Typography>
       <section className={classes.phraseSpace} onClick={onSectionClick}>
         {
           mnemonic.length === 0 ? (
             <Typography className={classes.cta} component="p">
-              Show me the backup phrase
+              <Trans>
+                Show me the backup phrase
+              </Trans>
             </Typography>
           ) : (
             <div className={classes.copyArea}>
@@ -204,7 +211,9 @@ const SaveBackupPhrase: React.FC<ISaveBackupPhrase> = ({
                 }
               )}>
                 <span>
-                  Copied!
+                  <Trans>
+                    Copied!
+                  </Trans>
                 </span>
               </div>
               <Typography component="p">
@@ -218,7 +227,9 @@ const SaveBackupPhrase: React.FC<ISaveBackupPhrase> = ({
         }
       </section>
       <Button onClick={complete} disabled={mnemonic.length === 0}>
-        Continue
+        <Trans>
+          Continue
+        </Trans>
       </Button>
     </div>
   )
