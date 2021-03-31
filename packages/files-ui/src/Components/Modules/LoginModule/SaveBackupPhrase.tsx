@@ -123,11 +123,7 @@ interface ISaveBackupPhrase {
   cancel: () => void
 }
 
-const SaveBackupPhrase: React.FC<ISaveBackupPhrase> = ({
-  className,
-  complete,
-  cancel
-}: ISaveBackupPhrase) => {
+const SaveBackupPhrase = ({ className, complete, cancel }: ISaveBackupPhrase) => {
   const classes = useStyles()
   const { desktop } = useThemeSwitcher()
   const {
