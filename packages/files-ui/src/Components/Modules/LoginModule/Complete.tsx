@@ -76,9 +76,7 @@ interface IComplete {
   className?: string
 }
 
-const Complete: React.FC<IComplete> = ({
-  className
-}: IComplete) => {
+const Complete = ({ className }: IComplete) => {
   const classes = useStyles()
   const { keyDetails, userInfo, resetShouldInitialize } = useThresholdKey()
 
