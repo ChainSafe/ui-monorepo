@@ -180,7 +180,7 @@ const MissingShares: React.FC<IMissingShares> = ({
   }, [])
 
   return (
-    <div className={clsx(classes.root, className)}>
+    <div className={className}>
       <div className={classes.content}>
         <Typography
           variant="h6"
