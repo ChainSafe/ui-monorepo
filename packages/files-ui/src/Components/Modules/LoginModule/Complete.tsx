@@ -8,12 +8,7 @@ import CompleteSVG from "../../../Media/svgs/complete.svg"
 import { useThresholdKey } from "../../../Contexts/ThresholdKeyContext"
 import { SECURITY_QUESTIONS_MODULE_NAME } from "@tkey/security-questions"
 
-const useStyles = makeStyles(({
-  breakpoints,
-  constants,
-  palette,
-  zIndex
-}: CSFTheme) =>
+const useStyles = makeStyles(({ breakpoints, constants, palette, zIndex }: CSFTheme) =>
   createStyles({
     root:{
       backgroundColor: `${constants.loginModule.completeBg} !important`,
