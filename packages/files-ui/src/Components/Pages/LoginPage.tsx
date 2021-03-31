@@ -125,7 +125,6 @@ const useStyles = makeStyles(
         [breakpoints.down("md")]: {
           justifyContent: "center"
         }
-       
       }
     })
 )
@@ -141,11 +140,11 @@ const Content: React.FC<{
   const areSharesMissing = !!keyDetails && keyDetails.requiredShares > 0
 
   const [setupScreen, setSetupScreen] = useState<
-    "explainer" | 
-    "signInOptions" | 
-    "setUpPassword" | 
-    "skip" | 
-    "backup" | 
+    "explainer" |
+    "signInOptions" |
+    "setUpPassword" |
+    "skip" |
+    "backup" |
     "complete"
     >("explainer")
 
@@ -158,50 +157,49 @@ const Content: React.FC<{
   }
 
   if (shouldInitializeAccount){
-   
     switch (setupScreen) {
     case "explainer":
       return (
-        <ConciseExplainer 
-          className={className} 
-          onLetsDoIt={() => setSetupScreen("signInOptions")} 
-          screen={isMasterPasswordSet ? "migrate" : "initialize"} 
+        <ConciseExplainer
+          className={className}
+          onLetsDoIt={() => setSetupScreen("signInOptions")}
+          screen={isMasterPasswordSet ? "migrate" : "initialize"}
         />
       )
-    case "signInOptions": 
-      return <SignInMethods 
+    case "signInOptions":
+      return <SignInMethods
         className={className}
-        goToPassword={() => setSetupScreen("setUpPassword")} 
-        goToMnemonic={() => setSetupScreen("backup")} 
-        goToSkip={() => setSetupScreen("skip")} 
+        goToPassword={() => setSetupScreen("setUpPassword")}
+        goToMnemonic={() => setSetupScreen("backup")}
+        goToSkip={() => setSetupScreen("skip")}
         goToComplete={() => setSetupScreen("complete")}
       />
     case "setUpPassword":
-      return <PasswordSetup 
-        className={className} 
-        cancel={() => setSetupScreen("signInOptions")} 
-        setPassword={addPasswordShare} 
+      return <PasswordSetup
+        className={className}
+        cancel={() => setSetupScreen("signInOptions")}
+        setPassword={addPasswordShare}
       />
     case "skip":
-      return <ConfirmSkip 
-        className={className} 
-        confirm={() => setSetupScreen("complete")} 
-        cancel={() => setSetupScreen("signInOptions")} 
+      return <ConfirmSkip
+        className={className}
+        confirm={() => setSetupScreen("complete")}
+        cancel={() => setSetupScreen("signInOptions")}
       />
     case "backup":
-      return <SaveBackupPhrase 
-        className={className} 
-        cancel={() => setSetupScreen("signInOptions")}  
-        complete={() => setSetupScreen("signInOptions")} 
+      return <SaveBackupPhrase
+        className={className}
+        cancel={() => setSetupScreen("signInOptions")}
+        complete={() => setSetupScreen("signInOptions")}
       />
     case "complete":
       return <Complete className={className} />
     default:
       return (
-        <ConciseExplainer 
-          className={className} 
-          onLetsDoIt={() => setSetupScreen("signInOptions")} 
-          screen={isMasterPasswordSet ? "migrate" : "initialize"} 
+        <ConciseExplainer
+          className={className}
+          onLetsDoIt={() => setSetupScreen("signInOptions")}
+          screen={isMasterPasswordSet ? "migrate" : "initialize"}
         />
       )
     }
@@ -226,7 +224,7 @@ const LoginPage = () => {
       <>
       </>
       {
-        themeKey === "dark" ? 
+        themeKey === "dark" ?
           <>
             <BottomDarkSVG className={classes.bgBottom} />
             <TopDarkSVG className={classes.bgTop} />
@@ -236,7 +234,7 @@ const LoginPage = () => {
             <BottomLightSVG className={classes.bgBottom} />
             <TopLightSVG className={classes.bgTop} />
           </>
-          
+
       }
       <ForegroundSVG className={classes.bgForeground} />
       <a

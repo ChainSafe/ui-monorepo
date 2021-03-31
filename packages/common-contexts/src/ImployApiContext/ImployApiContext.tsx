@@ -69,11 +69,11 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
   const initialAxiosInstance = useMemo(() => axios.create({
     // Disable the internal Axios JSON de serialization as this is handled by the client
     transformResponse: []
-  }),[])
+  }), [])
 
   const initialApiClient = useMemo(() => {
     return new ImployApiClient({}, apiUrl, initialAxiosInstance)
-  },[apiUrl, initialAxiosInstance]
+  }, [apiUrl, initialAxiosInstance]
   )
 
   const [imployApiClient, setImployApiClient] = useState<ImployApiClient>(initialApiClient)
@@ -119,7 +119,7 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
           return response
         },
         async (error) => {
-          if (!error.config._retry && error.response.status === 401) {
+          if (!error?.config?._retry && error?.response?.status === 401) {
             error.config._retry = true
             const refreshTokenLocal =
               canUseLocalStorage && localStorage.getItem(tokenStorageKey)

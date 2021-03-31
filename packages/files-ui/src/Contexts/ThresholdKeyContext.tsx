@@ -72,7 +72,7 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
   const [isNewDevice, setIsNewDevice] = useState<boolean>(false)
   const [isNewKey, setIsNewKey] = useState<boolean>(false)
   const [publicKey, setPublicKey] = useState<string | undefined>()
-  const [shouldInitializeAccount,setShouldInitializeAccount] = useState<boolean>(false)
+  const [shouldInitializeAccount, setShouldInitializeAccount] = useState<boolean>(false)
   const [pendingShareTransferRequests, setPendingShareTransferRequests] = useState<ShareTransferRequest[]>([])
   const [privateKey, setPrivateKey] = useState<string | undefined>()
 
@@ -94,9 +94,9 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
       if (postboxKey && tkeySerialized && cachedUserInfo) {
         const tKeyJson = JSON.parse(tkeySerialized)
         const serviceProvider = new ServiceProviderBase({ enableLogging, postboxKey })
-        const storageLayer = new TorusStorageLayer({ serviceProvider, enableLogging,hostUrl: "https://metadata.tor.us" })
+        const storageLayer = new TorusStorageLayer({ serviceProvider, enableLogging, hostUrl: "https://metadata.tor.us" })
         tkey = await ThresholdKey.fromJSON(tKeyJson, { modules, serviceProvider, storageLayer })
-        
+
         if (tKeyJson.modules) {
           if (tKeyJson.modules[WEB_STORAGE_MODULE_NAME])
             (tkey.modules[WEB_STORAGE_MODULE_NAME] as WebStorageModule).canUseFileStorage =
@@ -179,7 +179,7 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
       await shareTransferModule.cancelRequestStatusCheck()
       if (shareTransferModule.currentEncKey) {
         const pubKeyEC = getPubKeyEC(shareTransferModule.currentEncKey)
-        const encPubKeyX = pubKeyEC.getX().toString("hex")        
+        const encPubKeyX = pubKeyEC.getX().toString("hex")
         await shareTransferModule.deleteShareTransferStore(encPubKeyX)
       }
     }
@@ -199,11 +199,11 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
         const wallet = new Wallet(privateKey)
         const signature = await wallet.signMessage(token)
         await thresholdKeyLogin(
-          signature, 
-          token, 
-          (userInfo.userInfo.typeOfLogin === "jwt") ? 
-            "web3" : 
-            userInfo.userInfo.typeOfLogin as TKeyRequestIdentity_provider, 
+          signature,
+          token,
+          (userInfo.userInfo.typeOfLogin === "jwt") ?
+            "web3" :
+            userInfo.userInfo.typeOfLogin as TKeyRequestIdentity_provider,
           userInfo.userInfo.idToken || userInfo.userInfo.accessToken,
           `0x${EthCrypto.publicKey.compress(pubKey)}`
         )
@@ -365,7 +365,7 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
     }
 
     sessionStorage.setItem(TORUS_POSTBOX_KEY, TKeySdk.serviceProvider.postboxKey.toString("hex"))
-    
+
     try {
       const metadata = await TKeySdk.storageLayer.getMetadata<ShareStore | {message: string}>({
         privKey: TKeySdk.serviceProvider.postboxKey
@@ -474,7 +474,7 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
       await TKeySdk.updateMetadata()
       const newDeviceShare = await TKeySdk.generateNewShare()
       const newDeviceShareStore = newDeviceShare.newShareStores[newDeviceShare.newShareIndex.toString("hex")]
-  
+
       storageModule.storeDeviceShare(newDeviceShareStore)
       console.log("New device share added")
       setIsNewDevice(false)
@@ -487,7 +487,7 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
 
   const approveShareTransferRequest = async (encPubKeyX: string) => {
     if (!TKeySdk) return
-    
+
     try {
       const shareTransferModule = TKeySdk.modules[SHARE_TRANSFER_MODULE_NAME] as ShareTransferModule
       await shareTransferModule.approveRequest(encPubKeyX)
@@ -538,8 +538,8 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
       const messageCipher = EthCrypto.cipher.parse(message)
       return EthCrypto.decryptWithPrivateKey(privateKey, messageCipher)
     } catch (error) {
-      console.error("Error decrypting: ", message, privateKey)   
-      return Promise.reject("Error decrypting")   
+      console.error("Error decrypting: ", message, privateKey)
+      return Promise.reject("Error decrypting")
     }
   }
 

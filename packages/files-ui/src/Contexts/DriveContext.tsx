@@ -49,35 +49,31 @@ export type DownloadProgress = {
 }
 
 type DriveContext = {
-  uploadFiles(files: File[], path: string): void
-  createFolder(body: FilesPathRequest): Promise<FileContentResponse>
-  renameFile(body: FilesMvRequest): Promise<void>
-  moveFile(body: FilesMvRequest): Promise<void>
-  bulkMoveFile(cid: FilesMvRequest[]): Promise<void>
-  recoverFile(cid: string): Promise<void>
-  deleteFile(cid: string): Promise<void>
-  bulkMoveFileToTrash(cid: string[]): Promise<void>
-  moveFileToTrash(cid: string): Promise<void>
-  downloadFile(cid: string): Promise<void>
-  getFileContent(
+  uploadFiles: (files: File[], path: string) => void
+  createFolder: (body: FilesPathRequest) => Promise<FileContentResponse>
+  renameFile: (body: FilesMvRequest) => Promise<void>
+  moveFile: (body: FilesMvRequest) => Promise<void>
+  bulkMoveFile: (cid: FilesMvRequest[]) => Promise<void>
+  recoverFile: (cid: string) => Promise<void>
+  deleteFile: (cid: string) => Promise<void>
+  bulkMoveFileToTrash: (cid: string[]) => Promise<void>
+  moveFileToTrash: (cid: string) => Promise<void>
+  downloadFile: (cid: string) => Promise<void>
+  getFileContent: (
     cid: string,
     cancelToken?: CancelToken,
-    onDownloadProgress?: (progressEvent: ProgressEvent<EventTarget>) => void,
-  ): Promise<Blob | undefined>
-  list(body: FilesPathRequest): Promise<FileContentResponse[]>
+    onDownloadProgress?: (progressEvent: ProgressEvent<EventTarget>) => void
+  ) => Promise<Blob | undefined>
+  list: (body: FilesPathRequest) => Promise<FileContentResponse[]>
   currentPath: string
-  updateCurrentPath(
-    newPath: string,
-    bucketType?: BucketType,
-    showLoading?: boolean,
-  ): void
+  updateCurrentPath: (newPath: string, bucketType?: BucketType, showLoading?: boolean) => void
   pathContents: FileSystemItem[]
   uploadsInProgress: UploadProgress[]
   downloadsInProgress: DownloadProgress[]
   spaceUsed: number
-  getFolderTree(): Promise<DirectoryContentResponse>
-  getFileInfo(path: string): Promise<CSFFilesFullinfoResponse>
-  getSearchResults(searchString: string): Promise<SearchEntry[]>
+  getFolderTree: () => Promise<DirectoryContentResponse>
+  getFileInfo: (path: string) => Promise<CSFFilesFullinfoResponse>
+  getSearchResults: (searchString: string) => Promise<SearchEntry[]>
   currentSearchBucket:
     | {
         bucketType: BucketType
@@ -86,7 +82,7 @@ type DriveContext = {
     | undefined
   bucketType: BucketType
   loadingCurrentPath: boolean
-  secureAccountWithMasterPassword(candidatePassword: string): Promise<void>
+  secureAccountWithMasterPassword: (candidatePassword: string) => Promise<void>
 }
 
 // This represents a File or Folder on the
@@ -470,7 +466,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
           appearance: "success"
         })
       }
-     
+
       return Promise.resolve()
     } catch (error) {
       addToastMessage({
@@ -611,7 +607,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
     }
   }
 
-  const getFileContent = async (
+  const getFileContent = useCallback(async (
     cid: string,
     cancelToken?: CancelToken,
     onDownloadProgress?: (progressEvent: ProgressEvent<EventTarget>) => void
@@ -645,7 +641,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
       console.log(error)
       return Promise.reject()
     }
-  }
+  }, [currentPath, encryptionKey, imployApiClient, pathContents])
 
   const downloadFile = async (cid: string) => {
     const itemToDownload = pathContents.find((i) => i.cid === cid)

@@ -52,7 +52,7 @@ const ShareTransferRequestModal = ({ requests }: Props) => {
   const classes = useStyles()
   const [isLoadingApprove, setIsLoadingApprove] = useState(false)
   const [isLoadingReject, setIsLoadingReject] = useState(false)
-  const { browserDetail, encPubKeyX, timestamp } = useMemo(() => requests[requests.length -1], [requests])
+  const { browserDetail, encPubKeyX, timestamp } = useMemo(() => requests[requests.length - 1], [requests])
 
   useEffect(() => {
     // reset the buttons state for each new request displayed
@@ -90,7 +90,7 @@ const ShareTransferRequestModal = ({ requests }: Props) => {
           <Trans>on</Trans> {dayjs(timestamp).format("ddd D MMMM h:mm a")}<br/>
         </Typography>
         <div className={classes.buttonWrapper}>
-          <Button                   
+          <Button
             className={classes.button}
             variant={desktop ? "primary" : "outline"}
             size="large"
@@ -99,7 +99,7 @@ const ShareTransferRequestModal = ({ requests }: Props) => {
             onClick={onApproveRequest}>
             <Trans>Approve</Trans>
           </Button>
-          <Button 
+          <Button
             className={classes.button}
             variant={desktop ? "primary" : "outline"}
             size="large"
