@@ -200,7 +200,7 @@ const SignInMethods: React.FC<ISignInMethods> = ({
           <section className={classes.setOption}>
             <div>
               <Typography variant="h5">
-                Social Sign-in Wallet
+                <Trans>Social Sign-in Wallet</Trans>
               </Typography>
               {
                 desktop && (
