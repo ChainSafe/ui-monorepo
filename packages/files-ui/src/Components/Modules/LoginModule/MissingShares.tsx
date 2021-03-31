@@ -29,15 +29,7 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) =>
       width: `calc(100% - ${constants.generalUnit * 8}px)`,
       marginLeft: constants.generalUnit * 4,
       marginRight: constants.generalUnit * 4,
-      marginBottom: constants.generalUnit * 2,
-      [breakpoints.up("md")]: {
-        backgroundColor: palette.common.black.main,
-        color: palette.common.white.main
-      },
-      [breakpoints.down("md")]: {
-        backgroundColor: palette.common.black.main,
-        color: palette.common.white.main
-      }
+      marginBottom: constants.generalUnit * 2
     },
     buttonWrapper: {
       display: "flex",
