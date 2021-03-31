@@ -200,12 +200,14 @@ const SignInMethods: React.FC<ISignInMethods> = ({
           <section className={classes.setOption}>
             <div>
               <Typography variant="h5">
-                Social Sign-in Wallet
+                <Trans>
+                  Social Sign-in Wallet
+                </Trans>
               </Typography>
               {
                 desktop && (
                   <Typography variant="h5">
-                    Logged in as {centerEllipsis(publicKey, 4)}
+                    <Trans>Logged in as</Trans> {centerEllipsis(publicKey, 4)}
                   </Typography>
                 )
               }
@@ -218,12 +220,15 @@ const SignInMethods: React.FC<ISignInMethods> = ({
       <section className={classes.setOption}>
         <div>
           <Typography variant="h5">
-            Saved Browser
+            <Trans>
+              Saved Browser
+            </Trans>
           </Typography>
           {
             desktop && (
               <Typography variant="h5">
-                Saved {`${bowser.parse(browserShare[0].userAgent).browser.name} ${bowser.parse(browserShare[0].userAgent).browser.version}`}
+                <Trans>Saved</Trans>{" "}
+                {`${bowser.parse(browserShare[0].userAgent).browser.name} ${bowser.parse(browserShare[0].userAgent).browser.version}`}
               </Typography>
             )
           }
@@ -232,8 +237,8 @@ const SignInMethods: React.FC<ISignInMethods> = ({
         {
           desktop && (
             <Typography className={classes.subText}>
-              Files uses device backups to save your browser.{" "}
-              <a href={ROUTE_LINKS.Terms} rel="noopener noreferrer" target="_blank">Learn more</a>
+              <Trans>Files uses device backups to save your browser.</Trans>{" "}
+              <a href={ROUTE_LINKS.Terms} rel="noopener noreferrer" target="_blank"><Trans>Learn more</Trans></a>
             </Typography>
           )
         }
@@ -244,7 +249,9 @@ const SignInMethods: React.FC<ISignInMethods> = ({
           <section className={classes.setOption}>
             <div>
               <Typography variant="h5">
-                Password set.
+                <Trans>
+                  Password set.
+                </Trans>
               </Typography>
               <CheckCircleSvg />
             </div>
@@ -257,7 +264,9 @@ const SignInMethods: React.FC<ISignInMethods> = ({
           <section className={classes.setOption}>
             <div>
               <Typography variant="h5">
-                Backup phrase saved
+                <Trans>
+                  Backup phrase saved
+                </Trans>
               </Typography>
               <CheckCircleSvg />
             </div>
