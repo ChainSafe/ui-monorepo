@@ -162,8 +162,7 @@ const SignInMethods = ({ goToComplete, goToMnemonic, goToPassword, goToSkip, cla
     })
     : []
 
-  const browserShare =
-    shares.filter((s) => s.module === "webStorage")
+  const browserShare = shares.filter((s) => s.module === "webStorage")
 
 
   const hasPasswordShare =
