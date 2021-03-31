@@ -80,11 +80,7 @@ const Complete: React.FC<IComplete> = ({
   className
 }: IComplete) => {
   const classes = useStyles()
-  const {
-    keyDetails,
-    userInfo,
-    resetShouldInitialize
-  } = useThresholdKey()
+  const { keyDetails, userInfo, resetShouldInitialize } = useThresholdKey()
 
   const shares = keyDetails
     ? Object.values(keyDetails.shareDescriptions).map((share) => {
