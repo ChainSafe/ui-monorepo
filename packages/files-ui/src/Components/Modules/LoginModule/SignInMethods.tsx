@@ -155,10 +155,7 @@ interface ISignInMethods {
 const SignInMethods = ({ goToComplete, goToMnemonic, goToPassword, goToSkip, className }: ISignInMethods) => {
   const classes = useStyles()
   const { desktop } = useThemeSwitcher()
-  const {
-    keyDetails,
-    publicKey
-  } = useThresholdKey()
+  const { keyDetails, publicKey } = useThresholdKey()
   const shares = keyDetails
     ? Object.values(keyDetails.shareDescriptions).map((share) => {
       return JSON.parse(share[0])
