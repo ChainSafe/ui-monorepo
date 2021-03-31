@@ -320,7 +320,6 @@ const SignInMethods: React.FC<ISignInMethods> = ({
       {
         keyDetails && (
           keyDetails.totalShares > keyDetails.threshold ? (
-
             <Typography className={classes.continue} onClick={goToComplete} component="p">
               <Trans>
                 Complete
