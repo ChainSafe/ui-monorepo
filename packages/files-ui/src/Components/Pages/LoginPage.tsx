@@ -129,11 +129,7 @@ const useStyles = makeStyles(
     })
 )
 
-const Content: React.FC<{
-  className: string
-}> = ({
-  className
-}) => {
+const Content = ({ className }: { className: string }) => {
   const { isMasterPasswordSet } = useImployApi()
   const { keyDetails, isNewDevice, shouldInitializeAccount, addPasswordShare } = useThresholdKey()
   const shouldSaveNewDevice = !!keyDetails && isNewDevice && keyDetails.requiredShares <= 0

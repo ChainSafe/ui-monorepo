@@ -5,11 +5,7 @@ import { Trans } from "@lingui/macro"
 import clsx from "clsx"
 import { CSFTheme } from "../../../Themes/types"
 
-const useStyles = makeStyles(({
-  breakpoints,
-  constants,
-  typography
-}: CSFTheme) =>
+const useStyles = makeStyles(({ breakpoints, constants, typography }: CSFTheme) =>
   createStyles({
     root: {
       width: "100vw",
@@ -64,11 +60,7 @@ interface IConfirmSkip {
   className?: string
 }
 
-const ConfirmSkip: React.FC<IConfirmSkip> = ({
-  cancel,
-  confirm,
-  className
-}: IConfirmSkip) => {
+const ConfirmSkip = ({ cancel, confirm, className }: IConfirmSkip) => {
   const classes = useStyles()
   const { desktop } = useThemeSwitcher()
 
