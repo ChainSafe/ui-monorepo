@@ -6,6 +6,12 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: @lingui/cli\n"
 "Language: en\n"
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Plural-Forms: \n"
 
 #: src/Components/Modules/LoginModule/SaveBackupPhrase.tsx:175
 msgid "<0>We can only show you the backup phrase once</0> <1/>because it’s generated and isn’t stored on our servers. Please save it somewhere safe!"
@@ -27,7 +33,7 @@ msgstr "Add and change passwords"
 msgid "Add more files"
 msgstr "Add more files"
 
-#: src/Components/Modules/LoginModule/SignInMethods.tsx:212
+#: src/Components/Modules/LoginModule/SignInMethods.tsx:221
 msgid "Add sign-in Methods"
 msgstr "Add sign-in Methods"
 
@@ -47,9 +53,13 @@ msgstr "Are you sure?"
 msgid "Backup phrase"
 msgstr "Backup phrase"
 
-#: src/Components/Modules/LoginModule/MissingShares.tsx:143
+#: src/Components/Modules/LoginModule/MissingShares.tsx:142
 msgid "Backup phrase does not match user account, please double-check and try again."
 msgstr "Backup phrase does not match user account, please double-check and try again."
+
+#: src/Components/Modules/LoginModule/SignInMethods.tsx:211
+msgid "Backup phrase saved"
+msgstr "Backup phrase saved"
 
 #: src/Components/Layouts/AppNav.tsx:251
 #: src/Components/Modules/FileBrowsers/BinFileBrowser.tsx:32
@@ -84,7 +94,7 @@ msgstr "Click or drag to upload files"
 msgid "Close"
 msgstr "Close"
 
-#: src/Components/Modules/LoginModule/SignInMethods.tsx:242
+#: src/Components/Modules/LoginModule/SignInMethods.tsx:251
 msgid "Complete"
 msgstr "Complete"
 
@@ -109,8 +119,8 @@ msgid "Connection failed"
 msgstr "Connection failed"
 
 #: src/Components/Modules/LoginModule/Complete.tsx:148
-#: src/Components/Modules/LoginModule/MissingShares.tsx:195
-#: src/Components/Modules/LoginModule/MissingShares.tsx:209
+#: src/Components/Modules/LoginModule/MissingShares.tsx:194
+#: src/Components/Modules/LoginModule/MissingShares.tsx:208
 #: src/Components/Modules/LoginModule/SaveBackupPhrase.tsx:204
 msgid "Continue"
 msgstr "Continue"
@@ -144,7 +154,7 @@ msgstr "Copied!"
 msgid "Copy CID"
 msgstr "Copy CID"
 
-#: src/Components/Modules/LoginModule/SignInMethods.tsx:234
+#: src/Components/Modules/LoginModule/SignInMethods.tsx:243
 msgid "Copy backup phrase"
 msgstr "Copy backup phrase"
 
@@ -215,15 +225,15 @@ msgstr "Encryption password must match"
 msgid "Encryption password needs to be more complex"
 msgstr "Encryption password needs to be more complex"
 
-#: src/Components/Modules/LoginModule/MissingShares.tsx:176
+#: src/Components/Modules/LoginModule/MissingShares.tsx:175
 msgid "Enter a password"
 msgstr "Enter a password"
 
-#: src/Components/Modules/LoginModule/MissingShares.tsx:203
+#: src/Components/Modules/LoginModule/MissingShares.tsx:202
 msgid "Enter backup phrase:"
 msgstr "Enter backup phrase:"
 
-#: src/Components/Modules/LoginModule/MissingShares.tsx:191
+#: src/Components/Modules/LoginModule/MissingShares.tsx:190
 msgid "Enter password:"
 msgstr "Enter password:"
 
@@ -276,6 +286,10 @@ msgstr "File size"
 msgid "Files"
 msgstr "Files"
 
+#: src/Components/Modules/LoginModule/SignInMethods.tsx:192
+msgid "Files uses device backups to save your browser."
+msgstr "Files uses device backups to save your browser."
+
 #: src/Contexts/DriveContext.tsx:357
 #: src/Contexts/DriveContext.tsx:386
 #: src/Contexts/DriveContext.tsx:423
@@ -325,7 +339,11 @@ msgstr ""
 msgid "Introducing multi-factor sign in"
 msgstr "Introducing multi-factor sign in"
 
-#: src/Components/Pages/LoginPage.tsx:179
+#: src/Components/Modules/LoginModule/SignInMethods.tsx:193
+msgid "Learn more"
+msgstr "Learn more"
+
+#: src/Components/Pages/LoginPage.tsx:177
 msgid "Learn more about ChainSafe"
 msgstr "Learn more about ChainSafe"
 
@@ -342,7 +360,11 @@ msgstr "Light mode"
 msgid "Loading preview"
 msgstr "Loading preview"
 
-#: src/Components/Modules/LoginModule/MissingShares.tsx:169
+#: src/Components/Modules/LoginModule/SignInMethods.tsx:172
+msgid "Logged in as"
+msgstr "Logged in as"
+
+#: src/Components/Modules/LoginModule/MissingShares.tsx:168
 msgid "Looks like you’re signing in from a new browser. Please choose one of the following to continue:"
 msgstr "Looks like you’re signing in from a new browser. Please choose one of the following to continue:"
 
@@ -404,13 +426,17 @@ msgstr "OK"
 msgid "One sec, getting files ready..."
 msgstr "One sec, getting files ready..."
 
-#: src/Components/Modules/LoginModule/MissingShares.tsx:183
+#: src/Components/Modules/LoginModule/MissingShares.tsx:182
 msgid "Or confirm by signing into your Files on any browser you’ve used before."
 msgstr "Or confirm by signing into your Files on any browser you’ve used before."
 
-#: src/Components/Modules/LoginModule/MissingShares.tsx:132
+#: src/Components/Modules/LoginModule/MissingShares.tsx:131
 msgid "Password does not match user account, please double-check and try again."
 msgstr "Password does not match user account, please double-check and try again."
+
+#: src/Components/Modules/LoginModule/SignInMethods.tsx:200
+msgid "Password set."
+msgstr "Password set."
 
 #: src/Components/Modules/LoginModule/Complete.tsx:130
 msgid "Password setup"
@@ -462,7 +488,7 @@ msgstr "Recover with passphrase"
 msgid "Reject"
 msgstr "Reject"
 
-#: src/Components/Modules/LoginModule/SignInMethods.tsx:246
+#: src/Components/Modules/LoginModule/SignInMethods.tsx:255
 msgid "Remind me later"
 msgstr "Remind me later"
 
@@ -482,7 +508,7 @@ msgstr "Requested from"
 msgid "Resources"
 msgstr "Resources"
 
-#: src/Components/Modules/LoginModule/MissingShares.tsx:179
+#: src/Components/Modules/LoginModule/MissingShares.tsx:178
 msgid "Restore with backup phrase"
 msgstr "Restore with backup phrase"
 
@@ -501,6 +527,14 @@ msgstr "Save the device"
 #: src/Components/Modules/LoginModule/SaveNewDevice.tsx:85
 msgid "Save this browser for next time?"
 msgstr "Save this browser for next time?"
+
+#: src/Components/Modules/LoginModule/SignInMethods.tsx:186
+msgid "Saved"
+msgstr "Saved"
+
+#: src/Components/Modules/LoginModule/SignInMethods.tsx:181
+msgid "Saved Browser"
+msgstr "Saved Browser"
 
 #: src/Components/Modules/LoginModule/Complete.tsx:120
 msgid "Saved browser"
@@ -523,7 +557,7 @@ msgid "Set Password"
 msgstr "Set Password"
 
 #: src/Components/Modules/LoginModule/PasswordSetup.tsx:104
-#: src/Components/Modules/LoginModule/SignInMethods.tsx:226
+#: src/Components/Modules/LoginModule/SignInMethods.tsx:235
 msgid "Set up a password"
 msgstr "Set up a password"
 
@@ -562,11 +596,11 @@ msgstr "Show me the backup phrase"
 msgid "Sign Out"
 msgstr "Sign Out"
 
-#: src/Components/Modules/LoginModule/MissingShares.tsx:165
+#: src/Components/Modules/LoginModule/MissingShares.tsx:164
 msgid "Sign in"
 msgstr "Sign in"
 
-#: src/Components/Modules/LoginModule/MissingShares.tsx:219
+#: src/Components/Modules/LoginModule/MissingShares.tsx:218
 msgid "Sign in with a different account"
 msgstr "Sign in with a different account"
 
@@ -577,6 +611,10 @@ msgstr "Sign-in Methods"
 #: src/Components/Modules/FileBrowsers/views/FilesTable.view.tsx:516
 msgid "Size"
 msgstr "Size"
+
+#: src/Components/Modules/LoginModule/SignInMethods.tsx:167
+msgid "Social Sign-in Wallet"
+msgstr "Social Sign-in Wallet"
 
 #: src/Components/Modules/LoginModule/Complete.tsx:110
 msgid "Social sign in or wallet"
@@ -664,7 +702,7 @@ msgstr "There was an error renaming this file"
 msgid "Try again"
 msgstr "Try again"
 
-#: src/Components/Modules/LoginModule/MissingShares.tsx:226
+#: src/Components/Modules/LoginModule/MissingShares.tsx:225
 msgid "Try another method"
 msgstr "Try another method"
 
@@ -689,7 +727,7 @@ msgstr "View folder"
 msgid "Wallet address"
 msgstr "Wallet address"
 
-#: src/Components/Modules/LoginModule/SignInMethods.tsx:217
+#: src/Components/Modules/LoginModule/SignInMethods.tsx:226
 msgid "We seriously advise that you add a third method. If you lose one of the two sign-in methods, you’ll lose access to your account forever. Plus, signing in on multiple devices will be easier."
 msgstr "We seriously advise that you add a third method. If you lose one of the two sign-in methods, you’ll lose access to your account forever. Plus, signing in on multiple devices will be easier."
 
@@ -759,5 +797,5 @@ msgid "storage-plan-desc"
 msgstr "Lorem ipsum aenean et rutrum magna. Morbi nec placerat erat. Nunc elementum sed libero sit amet convallis. Quisque non arcu vitae ex fringilla molestie."
 
 #: src/Components/Modules/LoginModule/ConciseExplainer.tsx:141
-msgid "{0}"
-msgstr "{0}"
+#~ msgid "{0}"
+#~ msgstr "{0}"
