@@ -25,7 +25,7 @@ export const ROUTE_LINKS = {
   PurchasePlan: "/purchase"
 }
 
-export const SETTINGS_PATHS = ["profile", "plan"] as const
+export const SETTINGS_PATHS = ["profile", "plan", "security"] as const
 export type SettingsPath = typeof SETTINGS_PATHS[number]
 
 const FilesRoutes = () => {
