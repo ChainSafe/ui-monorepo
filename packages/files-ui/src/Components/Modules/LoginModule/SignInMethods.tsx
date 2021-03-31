@@ -152,13 +152,7 @@ interface ISignInMethods {
   className?: string
 }
 
-const SignInMethods: React.FC<ISignInMethods> = ({
-  goToComplete,
-  goToMnemonic,
-  goToPassword,
-  goToSkip,
-  className
-}: ISignInMethods) => {
+const SignInMethods = ({ goToComplete, goToMnemonic, goToPassword, goToSkip, className }: ISignInMethods) => {
   const classes = useStyles()
   const { desktop } = useThemeSwitcher()
   const {
