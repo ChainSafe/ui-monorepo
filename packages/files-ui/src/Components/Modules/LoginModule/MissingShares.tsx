@@ -9,9 +9,6 @@ import clsx from "clsx"
 
 const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) =>
   createStyles({
-    root: {
-
-    },
     content:{
       width: "100%"
     },

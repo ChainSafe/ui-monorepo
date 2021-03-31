@@ -177,15 +177,11 @@ const SignInMethods: React.FC<ISignInMethods> = ({
     })
     : []
 
-  const browserShare =
-    shares.filter((s) => s.module === "webStorage")
+  const browserShare = shares.filter((s) => s.module === "webStorage")
 
-
-  const hasPasswordShare =
-    shares.filter((s) => s.module === SECURITY_QUESTIONS_MODULE_NAME).length > 0
+  const hasPasswordShare = shares.filter((s) => s.module === SECURITY_QUESTIONS_MODULE_NAME).length > 0
 
   const hasMnemonicShare = keyDetails && (keyDetails.totalShares - shares.length > 1)
-
 
   return (
     <div className={clsx(classes.root, className)}>

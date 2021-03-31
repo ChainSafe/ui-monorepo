@@ -190,14 +190,6 @@ const Content = ({ className }: { className: string }) => {
       />
     case "complete":
       return <Complete className={className} />
-    default:
-      return (
-        <ConciseExplainer
-          className={className}
-          onLetsDoIt={() => setSetupScreen("signInOptions")}
-          screen={isMasterPasswordSet ? "migrate" : "initialize"}
-        />
-      )
     }
   }
 
