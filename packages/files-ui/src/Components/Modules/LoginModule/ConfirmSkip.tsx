@@ -82,10 +82,10 @@ const ConfirmSkip: React.FC<IConfirmSkip> = ({
 
       <Typography className={classes.warning} component="p">
         <Trans>
-          Without setting up at least three authentication factors, 
-          you risk getting locked out of your account. 
-          <br/><br/>Remember, you need a minimum of two factors to sign in. 
-          If you only have one, you’ll lose access to your account forever. 
+          Without setting up at least three authentication factors,
+          you risk getting locked out of your account.
+          <br/><br/>Remember, you need a minimum of two factors to sign in.
+          If you only have one, you’ll lose access to your account forever.
         </Trans>
       </Typography>
 

@@ -159,12 +159,12 @@ const SaveBackupPhrase: React.FC<ISaveBackupPhrase> = ({
 
   const [copied, setCopied] = useState(false)
   const debouncedSwitchCopied = debounce(() => setCopied(false), 3000)
-  
+
   const onSectionClick = useCallback(async () => {
     if (mnemonic.length === 0) {
       if (!hasMnemonicShare) {
-        // const newMnemonic = await addMnemonicShare()
-        setMnemonic("lamp lamp lamp lamp lamp lamp lamp lamp lamp lamp lamp lamp ")
+        const newMnemonic = await addMnemonicShare()
+        setMnemonic(newMnemonic)
       }
     } else {
       try {
@@ -187,7 +187,7 @@ const SaveBackupPhrase: React.FC<ISaveBackupPhrase> = ({
         Save backup phrase
       </Typography>
       <Typography component="p">
-        <b>We can only show you the backup phrase once</b> <br/> 
+        <b>We can only show you the backup phrase once</b> <br/>
         because it’s generated and isn’t stored on our servers. Please save it somewhere safe!
       </Typography>
       <section className={classes.phraseSpace} onClick={onSectionClick}>

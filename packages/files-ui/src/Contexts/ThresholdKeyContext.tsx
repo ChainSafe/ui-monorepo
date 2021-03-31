@@ -109,7 +109,7 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
         }
         const keyDetails = tkey.getKeyDetails()
         setKeyDetails(keyDetails)
-        if (keyDetails.threshold === keyDetails.totalShares) { 
+        if (keyDetails.threshold === keyDetails.totalShares) {
           setShouldInitializeAccount(true)
         }
         setUserInfo(JSON.parse(cachedUserInfo))

@@ -90,7 +90,7 @@ const Complete: React.FC<IComplete> = ({
     userInfo,
     resetShouldInitialize
   } = useThresholdKey()
-  
+
   const shares = keyDetails
     ? Object.values(keyDetails.shareDescriptions).map((share) => {
       return JSON.parse(share[0])
@@ -98,7 +98,7 @@ const Complete: React.FC<IComplete> = ({
     : []
   const hasSocial = !!userInfo?.userInfo
 
-  const browserShare = 
+  const browserShare =
     shares.filter((s) => s.module === "webStorage")
 
   // `shares` object above only contains security question and local device shares
@@ -111,7 +111,7 @@ const Complete: React.FC<IComplete> = ({
   const hasMnemonicShare = keyDetails && (keyDetails.totalShares - shares.length > 1)
   const hasPasswordShare =
     shares.filter((s) => s.module === SECURITY_QUESTIONS_MODULE_NAME).length > 0
-    
+
   return (
     <div className={clsx(className, classes.root)}>
       <img className={classes.background} src={CompleteSVG} alt="complete slide background" />

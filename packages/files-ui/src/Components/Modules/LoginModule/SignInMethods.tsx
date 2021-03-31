@@ -167,8 +167,8 @@ const SignInMethods: React.FC<ISignInMethods> = ({
 }: ISignInMethods) => {
   const classes = useStyles()
   const { desktop } = useThemeSwitcher()
-  const { 
-    keyDetails, 
+  const {
+    keyDetails,
     publicKey
   } = useThresholdKey()
   const shares = keyDetails
@@ -176,8 +176,8 @@ const SignInMethods: React.FC<ISignInMethods> = ({
       return JSON.parse(share[0])
     })
     : []
-    
-  const browserShare = 
+
+  const browserShare =
     shares.filter((s) => s.module === "webStorage")
 
 
@@ -199,7 +199,7 @@ const SignInMethods: React.FC<ISignInMethods> = ({
         publicKey && (
           <section className={classes.setOption}>
             <div>
-              <Typography variant="h5"> 
+              <Typography variant="h5">
                 Social Sign-in Wallet
               </Typography>
               {
@@ -264,7 +264,7 @@ const SignInMethods: React.FC<ISignInMethods> = ({
           </section>
         )
       }
-    
+
       {
         (!hasMnemonicShare || !hasPasswordShare) && (
           <>
@@ -275,8 +275,8 @@ const SignInMethods: React.FC<ISignInMethods> = ({
             </Typography>
             <Typography component="p">
               <Trans>
-                We seriously advise that you add a third method. If you lose one of the two sign-in methods, 
-                you’ll lose access to your account forever. Plus, signing in on multiple devices will be easier.  
+                We seriously advise that you add a third method. If you lose one of the two sign-in methods,
+                you’ll lose access to your account forever. Plus, signing in on multiple devices will be easier.
               </Trans>
             </Typography>
             <section className={classes.availableOptions}>
@@ -307,16 +307,16 @@ const SignInMethods: React.FC<ISignInMethods> = ({
       {
         keyDetails && (
           keyDetails.totalShares > keyDetails.threshold ? (
-                
+
             <Typography className={classes.continue} onClick={goToComplete} component="p">
               <Trans>
                 Complete
               </Trans>
             </Typography>
-          ): (
+          ) : (
             <Typography className={classes.continue} onClick={goToSkip} component="p">
               <Trans>
-                Remind me later 
+                Remind me later
               </Trans>
             </Typography>
           )
