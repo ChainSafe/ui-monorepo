@@ -105,7 +105,7 @@ msgstr "Click or drag to upload files"
 msgid "Close"
 msgstr "Close"
 
-#: src/Components/Modules/LoginModule/SignInMethods.tsx:238
+#: src/Components/Modules/LoginModule/SignInMethods.tsx:242
 msgid "Complete"
 msgstr "Complete"
 
@@ -168,6 +168,10 @@ msgstr "Copied!"
 #: src/Components/Modules/FileBrowsers/FileInfoModal.tsx:212
 msgid "Copy CID"
 msgstr "Copy CID"
+
+#: src/Components/Modules/LoginModule/SignInMethods.tsx:234
+msgid "Copy backup phrase"
+msgstr "Copy backup phrase"
 
 #: src/Components/Modules/CreateFolderModule.tsx:122
 msgid "Create"
@@ -507,7 +511,7 @@ msgstr "Recover with passphrase"
 msgid "Reject"
 msgstr "Reject"
 
-#: src/Components/Modules/LoginModule/SignInMethods.tsx:242
+#: src/Components/Modules/LoginModule/SignInMethods.tsx:246
 msgid "Remind me later"
 msgstr "Remind me later"
 
@@ -576,6 +580,7 @@ msgid "Set Password"
 msgstr "Set Password"
 
 #: src/Components/Modules/LoginModule/PasswordSetup.tsx:104
+#: src/Components/Modules/LoginModule/SignInMethods.tsx:226
 msgid "Set up a password"
 msgstr "Set up a password"
 

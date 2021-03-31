@@ -285,7 +285,9 @@ const SignInMethods: React.FC<ISignInMethods> = ({
                   <div onClick={goToPassword} className={classes.newOption}>
                     <KeySvg className={classes.key} />
                     <Typography component="p">
-                      Set up a password
+                      <Trans>
+                        Set up a password
+                      </Trans>
                     </Typography>
                   </div>
                 )
@@ -295,7 +297,9 @@ const SignInMethods: React.FC<ISignInMethods> = ({
                   <div onClick={goToMnemonic} className={classes.newOption}>
                     <CopySvg className={classes.copy} />
                     <Typography component="p">
-                      Copy backup phrase
+                      <Trans>
+                        Copy backup phrase
+                      </Trans>
                     </Typography>
                   </div>
                 )
