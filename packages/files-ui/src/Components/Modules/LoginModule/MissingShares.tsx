@@ -117,9 +117,7 @@ interface IMissingShares {
   className?: string
 }
 
-const MissingShares: React.FC<IMissingShares> = ({
-  className
-}: IMissingShares) => {
+const MissingShares = ({ className }: IMissingShares) => {
   const { keyDetails, inputPasswordShare, inputMnemonicShare } = useThresholdKey()
   const [password, setPassword] = useState("")
   const [mnemonic, setMnemonic] = useState("")
