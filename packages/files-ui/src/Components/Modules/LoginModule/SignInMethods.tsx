@@ -10,13 +10,7 @@ import bowser from "bowser"
 import clsx from "clsx"
 import { ROUTE_LINKS } from "../../FilesRoutes"
 
-const useStyles = makeStyles(({
-  breakpoints,
-  constants,
-  typography,
-  palette,
-  zIndex
-}: CSFTheme) =>
+const useStyles = makeStyles(({ breakpoints, constants, typography, palette, zIndex }: CSFTheme) =>
   createStyles({
     root:{
       zIndex: zIndex?.layer1,
@@ -158,19 +152,10 @@ interface ISignInMethods {
   className?: string
 }
 
-const SignInMethods: React.FC<ISignInMethods> = ({
-  goToComplete,
-  goToMnemonic,
-  goToPassword,
-  goToSkip,
-  className
-}: ISignInMethods) => {
+const SignInMethods = ({ goToComplete, goToMnemonic, goToPassword, goToSkip, className }: ISignInMethods) => {
   const classes = useStyles()
   const { desktop } = useThemeSwitcher()
-  const {
-    keyDetails,
-    publicKey
-  } = useThresholdKey()
+  const { keyDetails, publicKey } = useThresholdKey()
   const shares = keyDetails
     ? Object.values(keyDetails.shareDescriptions).map((share) => {
       return JSON.parse(share[0])
@@ -316,7 +301,6 @@ const SignInMethods: React.FC<ISignInMethods> = ({
       {
         keyDetails && (
           keyDetails.totalShares > keyDetails.threshold ? (
-
             <Typography className={classes.continue} onClick={goToComplete} component="p">
               <Trans>
                 Complete

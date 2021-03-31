@@ -6,14 +6,7 @@ import clsx from "clsx"
 import { CSFTheme } from "../../../Themes/types"
 import { Trans } from "@lingui/macro"
 
-const useStyles = makeStyles(({
-  animation,
-  breakpoints,
-  constants,
-  palette,
-  typography,
-  zIndex
-}: CSFTheme) =>
+const useStyles = makeStyles(({ animation, breakpoints, constants, palette, typography, zIndex }: CSFTheme) =>
   createStyles({
     root: {
       color: constants.loginModule.textColor,
@@ -130,17 +123,10 @@ interface ISaveBackupPhrase {
   cancel: () => void
 }
 
-const SaveBackupPhrase: React.FC<ISaveBackupPhrase> = ({
-  className,
-  complete,
-  cancel
-}: ISaveBackupPhrase) => {
+const SaveBackupPhrase = ({ className, complete, cancel }: ISaveBackupPhrase) => {
   const classes = useStyles()
   const { desktop } = useThemeSwitcher()
-  const {
-    keyDetails,
-    addMnemonicShare
-  } = useThresholdKey()
+  const { keyDetails, addMnemonicShare } = useThresholdKey()
   const [mnemonic, setMnemonic] = useState("")
 
   const shares = keyDetails
