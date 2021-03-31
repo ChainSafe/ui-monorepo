@@ -177,11 +177,23 @@ const Content: React.FC<{
         goToComplete={() => setSetupScreen("complete")}
       />
     case "setUpPassword":
-      return <PasswordSetup className={className} cancel={() => setSetupScreen("signInOptions")} setPassword={addPasswordShare} />
+      return <PasswordSetup 
+        className={className} 
+        cancel={() => setSetupScreen("signInOptions")} 
+        setPassword={addPasswordShare} 
+      />
     case "skip":
-      return <ConfirmSkip className={className} confirm={() => setSetupScreen("complete")} cancel={() => setSetupScreen("signInOptions")} />
+      return <ConfirmSkip 
+        className={className} 
+        confirm={() => setSetupScreen("complete")} 
+        cancel={() => setSetupScreen("signInOptions")} 
+      />
     case "backup":
-      return <SaveBackupPhrase complete={() => setSetupScreen("signInOptions")} className={className} />
+      return <SaveBackupPhrase 
+        className={className} 
+        cancel={() => setSetupScreen("signInOptions")}  
+        complete={() => setSetupScreen("signInOptions")} 
+      />
     case "complete":
       return <Complete className={className} />
     default:

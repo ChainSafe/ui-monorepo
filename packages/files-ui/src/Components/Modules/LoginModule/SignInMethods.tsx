@@ -32,6 +32,11 @@ const useStyles = makeStyles(({
         padding: `${constants.generalUnit * 2.5}px ${constants.generalUnit * 2}px`
       }
     },
+    title: {
+      [breakpoints.down("md")]: {
+        textAlign: "center"
+      }
+    },
     setOption: {
       width: "100%",
       backgroundColor: constants.loginModule.itemBackground,
@@ -68,19 +73,27 @@ const useStyles = makeStyles(({
       }
     },
     additionalMethods: {
-      marginTop: constants.generalUnit * 7.5,
-      marginBottom: constants.generalUnit * 3
+      [breakpoints.up("md")]: {
+        marginTop: constants.generalUnit * 7.5,
+        marginBottom: constants.generalUnit * 3
+      },
+      [breakpoints.down("md")]: {
+        marginTop: constants.generalUnit * 4,
+        marginBottom: constants.generalUnit,
+        textAlign: "center"
+      }
     },
     availableOptions: {
       display: "flex",
       justifyContent: "flex-start",
-      marginTop: constants.generalUnit * 6.5,
-      marginBottom: constants.generalUnit * 6.5,
       [breakpoints.up("md")]: {
-        flexDirection: "row"
+        flexDirection: "row",
+        marginTop: constants.generalUnit * 6.5,
+        marginBottom: constants.generalUnit * 6.5
       },
       [breakpoints.down("md")]: {
-        flexDirection: "column"
+        flexDirection: "column",
+        marginTop: constants.generalUnit * 3
       }
     },
     newOption: {
@@ -96,7 +109,8 @@ const useStyles = makeStyles(({
         flexDirection: "column"
       },
       [breakpoints.down("md")]:{
-        flexDirection: "row"
+        flexDirection: "row",
+        marginBottom: constants.generalUnit * 2
       },
       "& svg": {
         marginBottom: constants.generalUnit,
@@ -106,7 +120,8 @@ const useStyles = makeStyles(({
         },
         [breakpoints.down("md")]:{
           height: 20,
-          width: 20
+          width: 20,
+          marginRight: constants.generalUnit * 2
         }
       },
       [breakpoints.up("md")]: {
@@ -121,9 +136,16 @@ const useStyles = makeStyles(({
       fill: constants.loginModule.iconColor
     },
     continue: {
+      display: "block",
       textAlign: "right",
       textDecoration: "underline",
-      cursor: "pointer"
+      cursor: "pointer",
+      [breakpoints.up("md")]: {
+        marginTop: constants.generalUnit * 6
+      },
+      [breakpoints.down("md")]: {
+        marginTop: constants.generalUnit * 3
+      }
     }
   })
 )
@@ -167,7 +189,7 @@ const SignInMethods: React.FC<ISignInMethods> = ({
 
   return (
     <div className={clsx(classes.root, className)}>
-      <Typography variant={desktop ? "h2" : "h4"} component="h1">
+      <Typography className={classes.title} variant={desktop ? "h2" : "h4"} component="h1">
         <Trans>
           Sign-in Methods
         </Trans>
@@ -180,9 +202,13 @@ const SignInMethods: React.FC<ISignInMethods> = ({
               <Typography variant="h5"> 
                 Social Sign-in Wallet
               </Typography>
-              <Typography variant="h5">
-                Logged in as {centerEllipsis(publicKey, 4)}
-              </Typography>
+              {
+                desktop && (
+                  <Typography variant="h5">
+                    Logged in as {centerEllipsis(publicKey, 4)}
+                  </Typography>
+                )
+              }
               <CheckCircleSvg />
             </div>
           </section>
@@ -194,15 +220,23 @@ const SignInMethods: React.FC<ISignInMethods> = ({
           <Typography variant="h5">
             Saved Browser
           </Typography>
-          <Typography variant="h5">
-            Saved {`${bowser.parse(browserShare[0].userAgent).browser.name} ${bowser.parse(browserShare[0].userAgent).browser.version}`}
-          </Typography>
+          {
+            desktop && (
+              <Typography variant="h5">
+                Saved {`${bowser.parse(browserShare[0].userAgent).browser.name} ${bowser.parse(browserShare[0].userAgent).browser.version}`}
+              </Typography>
+            )
+          }
           <CheckCircleSvg />
         </div>
-        <Typography className={classes.subText}>
-          Files uses device backups to save your browser.{" "}
-          <a href={ROUTE_LINKS.Terms} rel="noopener noreferrer" target="_blank">Learn more</a>
-        </Typography>
+        {
+          desktop && (
+            <Typography className={classes.subText}>
+              Files uses device backups to save your browser.{" "}
+              <a href={ROUTE_LINKS.Terms} rel="noopener noreferrer" target="_blank">Learn more</a>
+            </Typography>
+          )
+        }
       </section>
 
       {
@@ -234,7 +268,7 @@ const SignInMethods: React.FC<ISignInMethods> = ({
       {
         (!hasMnemonicShare || !hasPasswordShare) && (
           <>
-            <Typography className={classes.additionalMethods} variant="h2" component="p">
+            <Typography className={classes.additionalMethods} variant={desktop ? "h2" : "h4"} component="p">
               <Trans>
                 Add sign-in Methods
               </Trans>

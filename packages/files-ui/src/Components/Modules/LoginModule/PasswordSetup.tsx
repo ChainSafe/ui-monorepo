@@ -1,5 +1,5 @@
 import React from "react"
-import { createStyles, makeStyles } from "@chainsafe/common-theme"
+import { createStyles, makeStyles, useThemeSwitcher } from "@chainsafe/common-theme"
 import { CSFTheme } from "../../../Themes/types"
 import * as yup from "yup"
 import { Button, FormikTextInput, Typography, CloseSvg } from "@chainsafe/common-components"
@@ -12,68 +12,60 @@ import clsx from "clsx"
 const useStyles = makeStyles(({ breakpoints, constants, typography }: CSFTheme) =>
   createStyles({
     root: {
-      padding: `${constants.generalUnit * 13.5}px ${constants.generalUnit * 9.5}px`,
+      width: "100vw",
       [breakpoints.up("md")]: {
-        maxWidth: 580,
-        width: "100vw"
+        padding: `${constants.generalUnit * 13.5}px ${constants.generalUnit * 9.5}px`,
+        maxWidth: 580
+      },
+      [breakpoints.down("md")]: {
+        padding: `${constants.generalUnit * 2}px ${constants.generalUnit * 3}px`
       },
       "& p": {
         fontWeight: 400,
-        marginBottom: constants.generalUnit * 2,
-        [breakpoints.up("md")]: {
-          color: constants.masterKey.desktop.color
-        },
-        [breakpoints.down("md")]: {
-          color: constants.masterKey.mobile.color
-        }
+        marginBottom: constants.generalUnit * 2
       },
       "& h2": {
         fontWeight: typography.fontWeight.regular,
         marginBottom: constants.generalUnit * 1.5,
-        [breakpoints.up("md")]: {
-          color: constants.masterKey.desktop.color
-        },
         [breakpoints.down("md")]: {
-          color: constants.masterKey.mobile.color
+          textAlign: "center"
         }
       }
     },
     close: {
       position: "absolute",
-      top: constants.generalUnit * 3,
-      right: constants.generalUnit * 3,
       cursor: "pointer",
       "& svg": {
         width: 15,
-        height: 15
+        height: 15,
+        stroke: constants.loginModule.textColor
+      },
+      [breakpoints.up("md")]: {
+        top: constants.generalUnit * 3,
+        right: constants.generalUnit * 3
+      },
+      [breakpoints.down("md")]: {
+        top: constants.generalUnit * 1.5,
+        right: constants.generalUnit * 1.5
       }
     },
     input: {
       margin: 0,
       width: "100%",
-      marginBottom: constants.generalUnit * 1.5,
-      "& span": {
-        [breakpoints.up("md")]: {
-          color: constants.masterKey.desktop.color
-        },
-        [breakpoints.down("md")]: {
-          color: constants.masterKey.mobile.color
-        }
-      }
+      marginBottom: constants.generalUnit * 1.5
     },
     inputLabel: {
       fontSize: "16px",
       lineHeight: "24px",
-      [breakpoints.up("md")]: {
-        color: constants.masterKey.desktop.color
-      },
-      [breakpoints.down("md")]: {
-        color: constants.masterKey.mobile.color
-      },
       marginBottom: constants.generalUnit
     },
     button: {
-      marginTop: constants.generalUnit * 10
+      [breakpoints.up("md")]: {
+        marginTop: constants.generalUnit * 10
+      },
+      [breakpoints.down("md")]: {
+        marginTop: constants.generalUnit
+      }
     }
   })
 )
@@ -86,6 +78,7 @@ interface IPasswordSetup {
 
 const PasswordSetup: React.FC<IPasswordSetup> = ({ setPassword, className, cancel }: IPasswordSetup) => {
   const classes = useStyles()
+  const { desktop } = useThemeSwitcher()
 
   const passwordValidation = yup.object().shape({
     password: yup
@@ -120,16 +113,20 @@ const PasswordSetup: React.FC<IPasswordSetup> = ({ setPassword, className, cance
       <div onClick={cancel} className={classes.close}>
         <CloseSvg />
       </div>
-      <Typography variant="h2" component="h2">
+      <Typography variant={desktop ? "h2" : "h4"} component="h2">
         <Trans>
           Set up a password
         </Trans>
       </Typography>
-      <Typography component="p">
-        <Trans>
-          You can change this later.
-        </Trans>
-      </Typography>
+      {
+        desktop && (
+          <Typography component="p">
+            <Trans>
+              You can change this later.
+            </Trans>
+          </Typography>
+        )
+      }
       <Formik
         initialValues={{
           password: "",

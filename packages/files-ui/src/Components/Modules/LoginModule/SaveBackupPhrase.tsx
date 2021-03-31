@@ -1,12 +1,13 @@
 import React, { useCallback, useState } from "react"
-import { createStyles, debounce, makeStyles } from "@chainsafe/common-theme"
-import { Button, CopySvg, Typography } from "@chainsafe/common-components"
+import { createStyles, debounce, makeStyles, useThemeSwitcher } from "@chainsafe/common-theme"
+import { Button, CloseSvg, CopySvg, Typography } from "@chainsafe/common-components"
 import { useThresholdKey } from "../../../Contexts/ThresholdKeyContext"
 import clsx from "clsx"
 import { CSFTheme } from "../../../Themes/types"
 
 const useStyles = makeStyles(({
   animation,
+  breakpoints,
   constants,
   palette,
   typography,
@@ -14,11 +15,40 @@ const useStyles = makeStyles(({
 }: CSFTheme) =>
   createStyles({
     root: {
-      padding: `${constants.generalUnit * 13.5}px ${constants.generalUnit * 9.5}px`,
       color: constants.loginModule.textColor,
+      width: "100vw",
       "& h1": {
         fontWeight: typography.fontWeight.regular,
-        marginBottom: constants.generalUnit
+        marginBottom: constants.generalUnit,
+        color: constants.loginModule.textColor,
+        [breakpoints.down("md")]: {
+          textAlign: "center",
+          marginBottom: constants.generalUnit * 2
+        }
+      },
+      [breakpoints.up("md")]: {
+        padding: `${constants.generalUnit * 13.5}px ${constants.generalUnit * 9.5}px`,
+        maxWidth: 580
+      },
+      [breakpoints.down("md")]: {
+        padding: constants.generalUnit * 2
+      }
+    },
+    close: {
+      position: "absolute",
+      cursor: "pointer",
+      "& svg": {
+        width: 15,
+        height: 15,
+        stroke: constants.loginModule.textColor
+      },
+      [breakpoints.up("md")]: {
+        top: constants.generalUnit * 3,
+        right: constants.generalUnit * 3
+      },
+      [breakpoints.down("md")]: {
+        top: constants.generalUnit * 1.5,
+        right: constants.generalUnit * 1.5
       }
     },
     phraseSpace: {
@@ -96,13 +126,16 @@ const useStyles = makeStyles(({
 interface ISaveBackupPhrase {
   className?: string
   complete: () => void
+  cancel: () => void
 }
 
 const SaveBackupPhrase: React.FC<ISaveBackupPhrase> = ({
   className,
-  complete
+  complete,
+  cancel
 }: ISaveBackupPhrase) => {
   const classes = useStyles()
+  const { desktop } = useThemeSwitcher()
   const {
     keyDetails,
     addMnemonicShare
@@ -130,8 +163,8 @@ const SaveBackupPhrase: React.FC<ISaveBackupPhrase> = ({
   const onSectionClick = useCallback(async () => {
     if (mnemonic.length === 0) {
       if (!hasMnemonicShare) {
-        const newMnemonic = await addMnemonicShare()
-        setMnemonic(newMnemonic)
+        // const newMnemonic = await addMnemonicShare()
+        setMnemonic("lamp lamp lamp lamp lamp lamp lamp lamp lamp lamp lamp lamp ")
       }
     } else {
       try {
@@ -147,7 +180,10 @@ const SaveBackupPhrase: React.FC<ISaveBackupPhrase> = ({
 
   return (
     <div className={clsx(classes.root, className)}>
-      <Typography component="h1" variant="h2">
+      <div onClick={cancel} className={classes.close}>
+        <CloseSvg />
+      </div>
+      <Typography component="h1" variant={desktop ? "h2" : "h4"}>
         Save backup phrase
       </Typography>
       <Typography component="p">

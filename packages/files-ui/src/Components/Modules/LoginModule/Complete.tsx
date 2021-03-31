@@ -87,7 +87,8 @@ const Complete: React.FC<IComplete> = ({
   const classes = useStyles()
   const {
     keyDetails,
-    userInfo
+    userInfo,
+    resetShouldInitialize
   } = useThresholdKey()
   
   const shares = keyDetails
@@ -198,7 +199,7 @@ const Complete: React.FC<IComplete> = ({
           }
         </div>
       </section>
-      <Button size="large" fullsize className={classes.cta} variant="primary">
+      <Button onClick={() => resetShouldInitialize()} size="large" fullsize className={classes.cta} variant="primary">
         <Trans>
           Continue
         </Trans>
