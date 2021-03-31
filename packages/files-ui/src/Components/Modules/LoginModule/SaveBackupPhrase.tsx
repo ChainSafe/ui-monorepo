@@ -6,14 +6,7 @@ import clsx from "clsx"
 import { CSFTheme } from "../../../Themes/types"
 import { Trans } from "@lingui/macro"
 
-const useStyles = makeStyles(({
-  animation,
-  breakpoints,
-  constants,
-  palette,
-  typography,
-  zIndex
-}: CSFTheme) =>
+const useStyles = makeStyles(({ animation, breakpoints, constants, palette, typography, zIndex }: CSFTheme) =>
   createStyles({
     root: {
       color: constants.loginModule.textColor,
