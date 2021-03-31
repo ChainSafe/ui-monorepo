@@ -117,9 +117,7 @@ interface IInitialScreen {
   className?: string
 }
 
-const InitialScreen: React.FC<IInitialScreen> = ({
-  className
-}: IInitialScreen) => {
+const InitialScreen = ({ className }: IInitialScreen) => {
   const { selectWallet, resetAndSelectWallet } = useImployApi()
   const { desktop } = useThemeSwitcher()
   const { wallet } = useWeb3()
