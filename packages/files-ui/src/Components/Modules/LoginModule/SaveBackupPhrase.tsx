@@ -126,10 +126,7 @@ interface ISaveBackupPhrase {
 const SaveBackupPhrase = ({ className, complete, cancel }: ISaveBackupPhrase) => {
   const classes = useStyles()
   const { desktop } = useThemeSwitcher()
-  const {
-    keyDetails,
-    addMnemonicShare
-  } = useThresholdKey()
+  const { keyDetails, addMnemonicShare } = useThresholdKey()
   const [mnemonic, setMnemonic] = useState("")
 
   const shares = keyDetails
