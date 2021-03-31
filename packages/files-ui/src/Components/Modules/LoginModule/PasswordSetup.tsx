@@ -76,7 +76,7 @@ interface IPasswordSetup {
   cancel: () => void
 }
 
-const PasswordSetup: React.FC<IPasswordSetup> = ({ setPassword, className, cancel }: IPasswordSetup) => {
+const PasswordSetup = ({ setPassword, className, cancel }: IPasswordSetup) => {
   const classes = useStyles()
   const { desktop } = useThemeSwitcher()
 
