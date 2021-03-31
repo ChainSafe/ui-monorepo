@@ -98,8 +98,7 @@ const Complete = ({ className }: IComplete) => {
   // this indicates that a mnemonic has already been set up. "2" corresponds here to one
   // service provider (default), and one mnemonic.
   const hasMnemonicShare = keyDetails && (keyDetails.totalShares - shares.length > 1)
-  const hasPasswordShare =
-    shares.filter((s) => s.module === SECURITY_QUESTIONS_MODULE_NAME).length > 0
+  const hasPasswordShare = shares.filter((s) => s.module === SECURITY_QUESTIONS_MODULE_NAME).length > 0
 
   return (
     <div className={clsx(className, classes.root)}>
