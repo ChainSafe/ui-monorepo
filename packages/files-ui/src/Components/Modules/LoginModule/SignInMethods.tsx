@@ -1,7 +1,7 @@
-import React from "react"
+import React, { useEffect, useState } from "react"
 import { createStyles, makeStyles, useThemeSwitcher } from "@chainsafe/common-theme"
 import { CheckCircleSvg, CopySvg, KeySvg, Typography } from "@chainsafe/common-components"
-import { Trans } from "@lingui/macro"
+import { t, Trans } from "@lingui/macro"
 import { useThresholdKey } from "../../../Contexts/ThresholdKeyContext"
 import { centerEllipsis } from "../../../Utils/Helpers"
 import { SECURITY_QUESTIONS_MODULE_NAME } from "@tkey/security-questions"
@@ -9,6 +9,7 @@ import { CSFTheme } from "../../../Themes/types"
 import bowser from "bowser"
 import clsx from "clsx"
 import { ROUTE_LINKS } from "../../FilesRoutes"
+import { useWeb3 } from "@chainsafe/web3-context"
 
 const useStyles = makeStyles(({ breakpoints, constants, typography, palette, zIndex }: CSFTheme) =>
   createStyles({
@@ -102,7 +103,8 @@ const useStyles = makeStyles(({ breakpoints, constants, typography, palette, zIn
       [breakpoints.up("md")]: {
         flexDirection: "column",
         maxWidth: `calc(33% - ${constants.generalUnit * 1.5}px)`,
-        marginRight: constants.generalUnit * 1.5
+        marginRight: constants.generalUnit * 1.5,
+        textAlign: "center"
       },
       [breakpoints.down("md")]:{
         flexDirection: "row",
@@ -154,7 +156,33 @@ interface ISignInMethods {
 const SignInMethods = ({ goToComplete, goToMnemonic, goToPassword, goToSkip, className }: ISignInMethods) => {
   const classes = useStyles()
   const { desktop } = useThemeSwitcher()
-  const { keyDetails, publicKey } = useThresholdKey()
+  const { keyDetails, userInfo } = useThresholdKey()
+  const { address } = useWeb3()
+
+  const [loggedinAs, setLoggedinAs] = useState("")
+
+  useEffect(() => {
+    if (userInfo?.userInfo.typeOfLogin) {
+      switch (userInfo.userInfo.typeOfLogin) {
+      case "jwt":
+        setLoggedinAs(t`Logged in with Web3` + ` ${centerEllipsis(String(address), 4)}`)
+        break
+      case "facebook":
+        setLoggedinAs(t`Logged in with Facebook` + ` ${centerEllipsis(userInfo.userInfo.email, 4)}`)
+        break
+      case "github":
+        setLoggedinAs(t`Logged in with Github` + ` ${centerEllipsis(userInfo.userInfo.email, 4)}`)
+        break
+      case "google":
+        setLoggedinAs(t`Logged in with Google` + ` ${centerEllipsis(userInfo.userInfo.email, 4)}`)
+        break
+      default:
+        setLoggedinAs(`${centerEllipsis(userInfo.publicAddress, 4)}`)
+        break
+      }
+    }
+  }, [userInfo, address])
+
   const shares = keyDetails
     ? Object.values(keyDetails.shareDescriptions).map((share) => {
       return JSON.parse(share[0])
@@ -176,7 +204,7 @@ const SignInMethods = ({ goToComplete, goToMnemonic, goToPassword, goToSkip, cla
       </Typography>
 
       {
-        publicKey && (
+        userInfo?.userInfo.typeOfLogin && (
           <section className={classes.setOption}>
             <div>
               <Typography variant="h5">
@@ -187,7 +215,7 @@ const SignInMethods = ({ goToComplete, goToMnemonic, goToPassword, goToSkip, cla
               {
                 desktop && (
                   <Typography variant="h5">
-                    <Trans>Logged in as</Trans> {centerEllipsis(publicKey, 4)}
+                    { loggedinAs }
                   </Typography>
                 )
               }
