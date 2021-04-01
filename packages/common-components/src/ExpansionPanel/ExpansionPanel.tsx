@@ -35,6 +35,7 @@ const useStyles = makeStyles(
         }px`,
         color: palette.additional["gray"][9],
         cursor: "pointer",
+        display: "flex",
         "&.basic": {
           backgroundColor: palette.additional["gray"][2],
           ...overrides?.ExpansionPanel?.heading?.basic?.root,
@@ -55,6 +56,9 @@ const useStyles = makeStyles(
           ...overrides?.ExpansionPanel?.heading?.active
         },
         ...overrides?.ExpansionPanel?.heading?.root
+      },
+      flexGrow: {
+        flex: 1
       },
       content: {
         overflow: "hidden",
@@ -90,15 +94,23 @@ export interface IExpansionPanelProps {
   children?: ReactNode | ReactNode[] | null
   active?: boolean
   variant?: "basic" | "borderless"
+  iconPosition?: "left" | "right"
   toggle?: (state: boolean) => void
+  injectedClasses?: {
+    root?: string
+    heading?: string
+    content?: string
+  }
 }
 
 const ExpansionPanel: React.FC<IExpansionPanelProps> = ({
   children,
   header,
+  iconPosition,
   variant = "basic",
   toggle,
-  active
+  active,
+  injectedClasses
 }: IExpansionPanelProps) => {
   const classes = useStyles()
   const [activeInternal, setActive] = useState(!!active)
@@ -107,18 +119,19 @@ const ExpansionPanel: React.FC<IExpansionPanelProps> = ({
     setActive(!activeInternal)
   }
   return (
-    <div className={clsx(classes.root, variant)}>
+    <div className={clsx(classes.root, variant, injectedClasses?.root)}>
       <section
         onClick={() => handleToggle()}
-        className={clsx(classes.heading, variant, {
+        className={clsx(classes.heading, variant, injectedClasses?.heading, {
           ["active"]: active != undefined ? active : activeInternal
         })}
       >
-        <DirectionalRightIcon className={classes.icon} />
+        {iconPosition === "left" && <DirectionalRightIcon className={classes.icon} />}
         <Typography>{header}</Typography>
+        {iconPosition === "right" && <><div className={classes.flexGrow} /><DirectionalRightIcon className={classes.icon} /></>}
       </section>
       <section
-        className={clsx(classes.content, variant, {
+        className={clsx(classes.content, variant, injectedClasses?.content, {
           ["active"]: active != undefined ? active : activeInternal
         })}
       >
