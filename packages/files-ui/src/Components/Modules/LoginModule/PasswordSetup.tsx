@@ -98,7 +98,7 @@ const PasswordSetup = ({ setPassword, className, cancel }: IPasswordSetup) => {
           return false
         }
       )
-      .required(t`Please provide an encryption password`),
+      .required(t`Please provide a password`),
     confirmPassword: yup
       .string()
       .oneOf(
