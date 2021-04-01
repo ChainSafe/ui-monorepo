@@ -13,11 +13,11 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
-#: src/Components/Modules/LoginModule/SaveBackupPhrase.tsx:175
+#: src/Components/Modules/LoginModule/SaveBackupPhrase.tsx:211
 msgid "<0>We can only show you the backup phrase once</0> <1/>because it’s generated and isn’t stored on our servers. Please save it somewhere safe!"
 msgstr "<0>We can only show you the backup phrase once</0> <1/>because it’s generated and isn’t stored on our servers. Please save it somewhere safe!"
 
-#: src/Contexts/DriveContext.tsx:245
+#: src/Contexts/DriveContext.tsx:243
 msgid "A file with the same name already exists"
 msgstr "A file with the same name already exists"
 
@@ -33,7 +33,7 @@ msgstr "Add and change passwords"
 msgid "Add more files"
 msgstr "Add more files"
 
-#: src/Components/Modules/LoginModule/SignInMethods.tsx:221
+#: src/Components/Modules/LoginModule/SignInMethods.tsx:247
 msgid "Add sign-in Methods"
 msgstr "Add sign-in Methods"
 
@@ -57,7 +57,7 @@ msgstr "Backup phrase"
 msgid "Backup phrase does not match user account, please double-check and try again."
 msgstr "Backup phrase does not match user account, please double-check and try again."
 
-#: src/Components/Modules/LoginModule/SignInMethods.tsx:211
+#: src/Components/Modules/LoginModule/SignInMethods.tsx:237
 msgid "Backup phrase saved"
 msgstr "Backup phrase saved"
 
@@ -94,7 +94,7 @@ msgstr "Click or drag to upload files"
 msgid "Close"
 msgstr "Close"
 
-#: src/Components/Modules/LoginModule/SignInMethods.tsx:251
+#: src/Components/Modules/LoginModule/SignInMethods.tsx:277
 msgid "Complete"
 msgstr "Complete"
 
@@ -102,7 +102,7 @@ msgstr "Complete"
 msgid "Confirm"
 msgstr "Confirm"
 
-#: src/Components/Modules/LoginModule/PasswordSetup.tsx:124
+#: src/Components/Modules/LoginModule/PasswordSetup.tsx:129
 msgid "Confirm Encryption Password:"
 msgstr "Confirm Encryption Password:"
 
@@ -119,9 +119,10 @@ msgid "Connection failed"
 msgstr "Connection failed"
 
 #: src/Components/Modules/LoginModule/Complete.tsx:148
+#: src/Components/Modules/LoginModule/MigrateAccount.tsx:140
 #: src/Components/Modules/LoginModule/MissingShares.tsx:194
 #: src/Components/Modules/LoginModule/MissingShares.tsx:208
-#: src/Components/Modules/LoginModule/SaveBackupPhrase.tsx:204
+#: src/Components/Modules/LoginModule/SaveBackupPhrase.tsx:240
 msgid "Continue"
 msgstr "Continue"
 
@@ -145,7 +146,7 @@ msgstr "Continue with Web3 Wallet"
 msgid "Continue with {0}"
 msgstr "Continue with {0}"
 
-#: src/Components/Modules/LoginModule/SaveBackupPhrase.tsx:190
+#: src/Components/Modules/LoginModule/SaveBackupPhrase.tsx:226
 #: src/Components/Modules/Settings/Profile.tsx:130
 msgid "Copied!"
 msgstr "Copied!"
@@ -154,7 +155,7 @@ msgstr "Copied!"
 msgid "Copy CID"
 msgstr "Copy CID"
 
-#: src/Components/Modules/LoginModule/SignInMethods.tsx:243
+#: src/Components/Modules/LoginModule/SignInMethods.tsx:269
 msgid "Copy backup phrase"
 msgstr "Copy backup phrase"
 
@@ -209,21 +210,25 @@ msgstr "Download complete"
 msgid "Drop to upload files"
 msgstr "Drop to upload files"
 
-#: src/Components/Modules/LoginModule/PasswordSetup.tsx:123
+#: src/Components/Modules/LoginModule/MigrateAccount.tsx:133
+msgid "Encryption Password"
+msgstr "Encryption Password"
+
+#: src/Components/Modules/LoginModule/PasswordSetup.tsx:128
 msgid "Encryption Password:"
 msgstr "Encryption Password:"
 
-#: src/Components/Modules/LoginModule/PasswordSetup.tsx:97
+#: src/Components/Modules/LoginModule/PasswordSetup.tsx:99
 msgid "Encryption password confirmation is required"
 msgstr "Encryption password confirmation is required"
 
-#: src/Components/Modules/LoginModule/PasswordSetup.tsx:96
+#: src/Components/Modules/LoginModule/PasswordSetup.tsx:98
 msgid "Encryption password must match"
 msgstr "Encryption password must match"
 
 #: src/Components/Modules/LoginModule/PasswordSetup.tsx:83
-msgid "Encryption password needs to be more complex"
-msgstr "Encryption password needs to be more complex"
+#~ msgid "Encryption password needs to be more complex"
+#~ msgstr "Encryption password needs to be more complex"
 
 #: src/Components/Modules/LoginModule/MissingShares.tsx:175
 msgid "Enter a password"
@@ -233,6 +238,7 @@ msgstr "Enter a password"
 msgid "Enter backup phrase:"
 msgstr "Enter backup phrase:"
 
+#: src/Components/Modules/LoginModule/MigrateAccount.tsx:136
 #: src/Components/Modules/LoginModule/MissingShares.tsx:190
 msgid "Enter password:"
 msgstr "Enter password:"
@@ -245,6 +251,10 @@ msgstr "Essentials - Free"
 msgid "Failed to get signature"
 msgstr "Failed to get signature"
 
+#: src/Components/Modules/LoginModule/MigrateAccount.tsx:120
+msgid "Failed to migrate account, please try again."
+msgstr "Failed to migrate account, please try again."
+
 #: src/Components/Modules/LoginModule/InitialScreen.tsx:164
 msgid ""
 "Failed to validate signature.\n"
@@ -255,9 +265,9 @@ msgstr ""
 "If you are using a contract wallet, please make \n"
 "sure you have activated your wallet."
 
-#: src/Contexts/DriveContext.tsx:357
-#: src/Contexts/DriveContext.tsx:386
-#: src/Contexts/DriveContext.tsx:423
+#: src/Contexts/DriveContext.tsx:355
+#: src/Contexts/DriveContext.tsx:384
+#: src/Contexts/DriveContext.tsx:421
 msgid "File"
 msgstr "File"
 
@@ -269,11 +279,11 @@ msgstr "File Info"
 msgid "File format not supported."
 msgstr "File format not supported."
 
-#: src/Contexts/DriveContext.tsx:327
+#: src/Contexts/DriveContext.tsx:325
 msgid "File moved successfully"
 msgstr "File moved successfully"
 
-#: src/Contexts/DriveContext.tsx:308
+#: src/Contexts/DriveContext.tsx:306
 msgid "File renamed successfully"
 msgstr "File renamed successfully"
 
@@ -286,17 +296,17 @@ msgstr "File size"
 msgid "Files"
 msgstr "Files"
 
-#: src/Components/Modules/LoginModule/SignInMethods.tsx:192
+#: src/Components/Modules/LoginModule/SignInMethods.tsx:218
 msgid "Files uses device backups to save your browser."
 msgstr "Files uses device backups to save your browser."
 
-#: src/Contexts/DriveContext.tsx:357
-#: src/Contexts/DriveContext.tsx:386
-#: src/Contexts/DriveContext.tsx:423
+#: src/Contexts/DriveContext.tsx:355
+#: src/Contexts/DriveContext.tsx:384
+#: src/Contexts/DriveContext.tsx:421
 msgid "Folder"
 msgstr "Folder"
 
-#: src/Contexts/DriveContext.tsx:263
+#: src/Contexts/DriveContext.tsx:261
 msgid "Folder created successfully"
 msgstr "Folder created successfully"
 
@@ -339,11 +349,11 @@ msgstr ""
 msgid "Introducing multi-factor sign in"
 msgstr "Introducing multi-factor sign in"
 
-#: src/Components/Modules/LoginModule/SignInMethods.tsx:193
+#: src/Components/Modules/LoginModule/SignInMethods.tsx:219
 msgid "Learn more"
 msgstr "Learn more"
 
-#: src/Components/Pages/LoginPage.tsx:177
+#: src/Components/Pages/LoginPage.tsx:193
 msgid "Learn more about ChainSafe"
 msgstr "Learn more about ChainSafe"
 
@@ -361,8 +371,24 @@ msgid "Loading preview"
 msgstr "Loading preview"
 
 #: src/Components/Modules/LoginModule/SignInMethods.tsx:172
-msgid "Logged in as"
-msgstr "Logged in as"
+#~ msgid "Logged in as"
+#~ msgstr "Logged in as"
+
+#: src/Components/Modules/LoginModule/SignInMethods.tsx:161
+msgid "Logged in with Facebook"
+msgstr "Logged in with Facebook"
+
+#: src/Components/Modules/LoginModule/SignInMethods.tsx:164
+msgid "Logged in with Github"
+msgstr "Logged in with Github"
+
+#: src/Components/Modules/LoginModule/SignInMethods.tsx:167
+msgid "Logged in with Google"
+msgstr "Logged in with Google"
+
+#: src/Components/Modules/LoginModule/SignInMethods.tsx:158
+msgid "Logged in with Web3"
+msgstr "Logged in with Web3"
 
 #: src/Components/Modules/LoginModule/MissingShares.tsx:168
 msgid "Looks like you’re signing in from a new browser. Please choose one of the following to continue:"
@@ -430,21 +456,34 @@ msgstr "One sec, getting files ready..."
 msgid "Or confirm by signing into your Files on any browser you’ve used before."
 msgstr "Or confirm by signing into your Files on any browser you’ve used before."
 
+#: src/Components/Modules/LoginModule/MigrateAccount.tsx:110
 #: src/Components/Modules/LoginModule/MissingShares.tsx:131
 msgid "Password does not match user account, please double-check and try again."
 msgstr "Password does not match user account, please double-check and try again."
 
+#: src/Components/Modules/LoginModule/PasswordSetup.tsx:85
+msgid "Password needs to be more complex"
+msgstr "Password needs to be more complex"
+
+#: src/Components/Modules/LoginModule/SignInMethods.tsx:226
+msgid "Password set"
+msgstr "Password set"
+
 #: src/Components/Modules/LoginModule/SignInMethods.tsx:200
-msgid "Password set."
-msgstr "Password set."
+#~ msgid "Password set."
+#~ msgstr "Password set."
 
 #: src/Components/Modules/LoginModule/Complete.tsx:130
 msgid "Password setup"
 msgstr "Password setup"
 
+#: src/Components/Modules/LoginModule/PasswordSetup.tsx:95
+msgid "Please provide a password"
+msgstr "Please provide a password"
+
 #: src/Components/Modules/LoginModule/PasswordSetup.tsx:93
-msgid "Please provide an encryption password"
-msgstr "Please provide an encryption password"
+#~ msgid "Please provide an encryption password"
+#~ msgstr "Please provide an encryption password"
 
 #: src/Components/Modules/FileBrowsers/views/FileSystemItemRow.tsx:222
 msgid "Preview"
@@ -488,7 +527,7 @@ msgstr "Recover with passphrase"
 msgid "Reject"
 msgstr "Reject"
 
-#: src/Components/Modules/LoginModule/SignInMethods.tsx:255
+#: src/Components/Modules/LoginModule/SignInMethods.tsx:281
 msgid "Remind me later"
 msgstr "Remind me later"
 
@@ -512,7 +551,7 @@ msgstr "Resources"
 msgid "Restore with backup phrase"
 msgstr "Restore with backup phrase"
 
-#: src/Components/Modules/LoginModule/SaveBackupPhrase.tsx:170
+#: src/Components/Modules/LoginModule/SaveBackupPhrase.tsx:206
 msgid "Save backup phrase"
 msgstr "Save backup phrase"
 
@@ -528,11 +567,11 @@ msgstr "Save the device"
 msgid "Save this browser for next time?"
 msgstr "Save this browser for next time?"
 
-#: src/Components/Modules/LoginModule/SignInMethods.tsx:186
+#: src/Components/Modules/LoginModule/SignInMethods.tsx:212
 msgid "Saved"
 msgstr "Saved"
 
-#: src/Components/Modules/LoginModule/SignInMethods.tsx:181
+#: src/Components/Modules/LoginModule/SignInMethods.tsx:207
 msgid "Saved Browser"
 msgstr "Saved Browser"
 
@@ -552,12 +591,12 @@ msgstr "Search..."
 msgid "Send Feedback"
 msgstr "Send Feedback"
 
-#: src/Components/Modules/LoginModule/PasswordSetup.tsx:126
+#: src/Components/Modules/LoginModule/PasswordSetup.tsx:131
 msgid "Set Password"
 msgstr "Set Password"
 
-#: src/Components/Modules/LoginModule/PasswordSetup.tsx:104
-#: src/Components/Modules/LoginModule/SignInMethods.tsx:235
+#: src/Components/Modules/LoginModule/PasswordSetup.tsx:107
+#: src/Components/Modules/LoginModule/SignInMethods.tsx:261
 msgid "Set up a password"
 msgstr "Set up a password"
 
@@ -587,7 +626,7 @@ msgstr "Settings"
 msgid "Share"
 msgstr "Share"
 
-#: src/Components/Modules/LoginModule/SaveBackupPhrase.tsx:182
+#: src/Components/Modules/LoginModule/SaveBackupPhrase.tsx:218
 msgid "Show me the backup phrase"
 msgstr "Show me the backup phrase"
 
@@ -600,11 +639,12 @@ msgstr "Sign Out"
 msgid "Sign in"
 msgstr "Sign in"
 
+#: src/Components/Modules/LoginModule/MigrateAccount.tsx:149
 #: src/Components/Modules/LoginModule/MissingShares.tsx:218
 msgid "Sign in with a different account"
 msgstr "Sign in with a different account"
 
-#: src/Components/Modules/LoginModule/SignInMethods.tsx:159
+#: src/Components/Modules/LoginModule/SignInMethods.tsx:185
 msgid "Sign-in Methods"
 msgstr "Sign-in Methods"
 
@@ -612,7 +652,7 @@ msgstr "Sign-in Methods"
 msgid "Size"
 msgstr "Size"
 
-#: src/Components/Modules/LoginModule/SignInMethods.tsx:167
+#: src/Components/Modules/LoginModule/SignInMethods.tsx:193
 msgid "Social Sign-in Wallet"
 msgstr "Social Sign-in Wallet"
 
@@ -620,7 +660,7 @@ msgstr "Social Sign-in Wallet"
 msgid "Social sign in or wallet"
 msgstr "Social sign in or wallet"
 
-#: src/Contexts/DriveContext.tsx:242
+#: src/Contexts/DriveContext.tsx:240
 msgid "Something went wrong. We couldn't upload your file"
 msgstr "Something went wrong. We couldn't upload your file"
 
@@ -661,24 +701,24 @@ msgstr "There was an error authenticating"
 msgid "There was an error connecting your wallet"
 msgstr "There was an error connecting your wallet"
 
-#: src/Contexts/DriveContext.tsx:270
+#: src/Contexts/DriveContext.tsx:268
 msgid "There was an error creating this folder"
 msgstr "There was an error creating this folder"
 
-#: src/Contexts/DriveContext.tsx:365
-#: src/Contexts/DriveContext.tsx:394
+#: src/Contexts/DriveContext.tsx:363
+#: src/Contexts/DriveContext.tsx:392
 msgid "There was an error deleting this"
 msgstr "There was an error deleting this"
 
-#: src/Contexts/DriveContext.tsx:296
+#: src/Contexts/DriveContext.tsx:294
 msgid "There was an error getting file info"
 msgstr "There was an error getting file info"
 
-#: src/Contexts/DriveContext.tsx:283
+#: src/Contexts/DriveContext.tsx:281
 msgid "There was an error getting folder info"
 msgstr "There was an error getting folder info"
 
-#: src/Contexts/DriveContext.tsx:550
+#: src/Contexts/DriveContext.tsx:548
 msgid "There was an error getting search results"
 msgstr "There was an error getting search results"
 
@@ -686,15 +726,15 @@ msgstr "There was an error getting search results"
 msgid "There was an error getting the preview."
 msgstr "There was an error getting the preview."
 
-#: src/Contexts/DriveContext.tsx:334
+#: src/Contexts/DriveContext.tsx:332
 msgid "There was an error moving this file"
 msgstr "There was an error moving this file"
 
-#: src/Contexts/DriveContext.tsx:431
+#: src/Contexts/DriveContext.tsx:429
 msgid "There was an error recovering this"
 msgstr "There was an error recovering this"
 
-#: src/Contexts/DriveContext.tsx:316
+#: src/Contexts/DriveContext.tsx:314
 msgid "There was an error renaming this file"
 msgstr "There was an error renaming this file"
 
@@ -727,7 +767,7 @@ msgstr "View folder"
 msgid "Wallet address"
 msgstr "Wallet address"
 
-#: src/Components/Modules/LoginModule/SignInMethods.tsx:226
+#: src/Components/Modules/LoginModule/SignInMethods.tsx:252
 msgid "We seriously advise that you add a third method. If you lose one of the two sign-in methods, you’ll lose access to your account forever. Plus, signing in on multiple devices will be easier."
 msgstr "We seriously advise that you add a third method. If you lose one of the two sign-in methods, you’ll lose access to your account forever. Plus, signing in on multiple devices will be easier."
 
@@ -751,7 +791,7 @@ msgstr "Yes I understand"
 msgid "Yes, save it"
 msgstr "Yes, save it"
 
-#: src/Components/Modules/LoginModule/PasswordSetup.tsx:109
+#: src/Components/Modules/LoginModule/PasswordSetup.tsx:112
 msgid "You can change this later."
 msgstr "You can change this later."
 
@@ -767,20 +807,20 @@ msgstr "beta"
 msgid "copied !"
 msgstr "copied !"
 
-#: src/Contexts/DriveContext.tsx:357
-#: src/Contexts/DriveContext.tsx:386
+#: src/Contexts/DriveContext.tsx:355
+#: src/Contexts/DriveContext.tsx:384
 msgid "deleted successfully"
 msgstr "deleted successfully"
 
-#: src/Contexts/DriveContext.tsx:365
-#: src/Contexts/DriveContext.tsx:394
-#: src/Contexts/DriveContext.tsx:431
+#: src/Contexts/DriveContext.tsx:363
+#: src/Contexts/DriveContext.tsx:392
+#: src/Contexts/DriveContext.tsx:429
 msgid "file"
 msgstr "file"
 
-#: src/Contexts/DriveContext.tsx:365
-#: src/Contexts/DriveContext.tsx:394
-#: src/Contexts/DriveContext.tsx:431
+#: src/Contexts/DriveContext.tsx:363
+#: src/Contexts/DriveContext.tsx:392
+#: src/Contexts/DriveContext.tsx:429
 msgid "folder"
 msgstr "folder"
 
@@ -788,7 +828,7 @@ msgstr "folder"
 msgid "on"
 msgstr "on"
 
-#: src/Contexts/DriveContext.tsx:423
+#: src/Contexts/DriveContext.tsx:421
 msgid "recovered successfully"
 msgstr "recovered successfully"
 

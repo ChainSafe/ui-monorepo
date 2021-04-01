@@ -137,9 +137,10 @@ const PasswordSetup = ({ setPassword, className, cancel }: IPasswordSetup) => {
         }}
         validationSchema={passwordValidation}
         onSubmit={async (values, helpers) => {
+          debugger
           helpers.setSubmitting(true)
           setLoading(true)
-          setPassword(values.password)
+          await setPassword(values.password)
           setLoading(false)
           helpers.setSubmitting(false)
         }}

@@ -51,7 +51,7 @@ const TkeyLoader = ({ className, loading }: ITkeyLoader) => {
 
   return (
     <div className={clsx(classes.root, className, {
-      "active": !loading
+      "active": loading
     })}>
       <Spinner color={palette.secondary.main} size={50} width={50} loader={LOADER.ClockLoader} />
     </div>

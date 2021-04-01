@@ -258,7 +258,7 @@ const SignInMethods = ({ goToComplete, goToMnemonic, goToPassword, goToSkip, cla
             <div>
               <Typography variant="h5">
                 <Trans>
-                  Password set.
+                  Password set
                 </Trans>
               </Typography>
               <CheckCircleSvg />
