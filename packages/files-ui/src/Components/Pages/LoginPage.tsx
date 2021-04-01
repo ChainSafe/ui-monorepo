@@ -24,6 +24,7 @@ import PasswordSetup from "../Modules/LoginModule/PasswordSetup"
 import ConfirmSkip from "../Modules/LoginModule/ConfirmSkip"
 import SaveBackupPhrase from "../Modules/LoginModule/SaveBackupPhrase"
 import Complete from "../Modules/LoginModule/Complete"
+import MigrateAccount from "../Modules/LoginModule/MigrateAccount"
 
 const useStyles = makeStyles(
   ({ constants, breakpoints, typography, zIndex }: CSFTheme) =>
@@ -130,7 +131,7 @@ const useStyles = makeStyles(
 )
 
 const Content = ({ className }: { className: string }) => {
-  const { isMasterPasswordSet } = useImployApi()
+  const { isMasterPasswordSet, secured } = useImployApi()
   const { keyDetails, isNewDevice, shouldInitializeAccount, addPasswordShare } = useThresholdKey()
   const shouldSaveNewDevice = !!keyDetails && isNewDevice && keyDetails.requiredShares <= 0
   const areSharesMissing = !!keyDetails && keyDetails.requiredShares > 0
@@ -191,6 +192,10 @@ const Content = ({ className }: { className: string }) => {
     case "complete":
       return <Complete className={className} />
     }
+  }
+
+  if (isMasterPasswordSet && secured === false) {
+    return <MigrateAccount />
   }
 
   if (shouldSaveNewDevice) {
