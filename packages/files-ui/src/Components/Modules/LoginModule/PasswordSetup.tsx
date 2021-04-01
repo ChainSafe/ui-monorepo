@@ -8,7 +8,6 @@ import StrengthIndicator from "../MasterKeySequence/SequenceSlides/StrengthIndic
 import zxcvbn from "zxcvbn"
 import { t, Trans } from "@lingui/macro"
 import clsx from "clsx"
-import TkeyLoader from "./TkeyLoader"
 
 const useStyles = makeStyles(({  breakpoints, constants, typography }: CSFTheme) =>
   createStyles({
@@ -73,7 +72,7 @@ const useStyles = makeStyles(({  breakpoints, constants, typography }: CSFTheme)
 
 interface IPasswordSetup {
   className?: string
-  setPassword: (password: string) => void
+  setPassword: (password: string) => Promise<void>
   cancel: () => void
 }
 
@@ -105,14 +104,13 @@ const PasswordSetup = ({ setPassword, className, cancel }: IPasswordSetup) => {
       .string()
       .oneOf(
         [yup.ref("password"), undefined],
-        t`Encryption password must match`
+        t`Passwords must match`
       )
-      .required(t`Encryption password confirmation is required`)
+      .required(t`Password confirmation is required`)
   })
 
   return (
     <section className={clsx(classes.root, className)}>
-      <TkeyLoader loading={loading}/>
       <div onClick={cancel} className={classes.close}>
         <CloseSvg />
       </div>
@@ -149,7 +147,7 @@ const PasswordSetup = ({ setPassword, className, cancel }: IPasswordSetup) => {
             type="password"
             className={classes.input}
             name="password"
-            label={t`Encryption Password:`}
+            label={t`Password:`}
             labelClassName={classes.inputLabel}
             captionMessage={<StrengthIndicator fieldName="password" />}
           />
@@ -157,10 +155,10 @@ const PasswordSetup = ({ setPassword, className, cancel }: IPasswordSetup) => {
             type="password"
             className={classes.input}
             name="confirmPassword"
-            label={t`Confirm Encryption Password:`}
+            label={t`Confirm Password:`}
             labelClassName={classes.inputLabel}
           />
-          <Button className={classes.button} fullsize type="submit">
+          <Button className={classes.button} fullsize type="submit" loading={loading}>
             <Trans>
               Set Password
             </Trans>

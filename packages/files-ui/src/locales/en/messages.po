@@ -102,9 +102,9 @@ msgstr "Complete"
 msgid "Confirm"
 msgstr "Confirm"
 
-#: src/Components/Modules/LoginModule/PasswordSetup.tsx:129
-msgid "Confirm Encryption Password:"
-msgstr "Confirm Encryption Password:"
+#: src/Components/Modules/LoginModule/PasswordSetup.tsx:126
+msgid "Confirm Password:"
+msgstr "Confirm Password:"
 
 #: src/Components/Modules/LoginModule/InitialScreen.tsx:248
 msgid "Connect Wallet to Files"
@@ -213,22 +213,6 @@ msgstr "Drop to upload files"
 #: src/Components/Modules/LoginModule/MigrateAccount.tsx:133
 msgid "Encryption Password"
 msgstr "Encryption Password"
-
-#: src/Components/Modules/LoginModule/PasswordSetup.tsx:128
-msgid "Encryption Password:"
-msgstr "Encryption Password:"
-
-#: src/Components/Modules/LoginModule/PasswordSetup.tsx:99
-msgid "Encryption password confirmation is required"
-msgstr "Encryption password confirmation is required"
-
-#: src/Components/Modules/LoginModule/PasswordSetup.tsx:98
-msgid "Encryption password must match"
-msgstr "Encryption password must match"
-
-#: src/Components/Modules/LoginModule/PasswordSetup.tsx:83
-#~ msgid "Encryption password needs to be more complex"
-#~ msgstr "Encryption password needs to be more complex"
 
 #: src/Components/Modules/LoginModule/MissingShares.tsx:175
 msgid "Enter a password"
@@ -370,10 +354,6 @@ msgstr "Light mode"
 msgid "Loading preview"
 msgstr "Loading preview"
 
-#: src/Components/Modules/LoginModule/SignInMethods.tsx:172
-#~ msgid "Logged in as"
-#~ msgstr "Logged in as"
-
 #: src/Components/Modules/LoginModule/SignInMethods.tsx:161
 msgid "Logged in with Facebook"
 msgstr "Logged in with Facebook"
@@ -456,12 +436,16 @@ msgstr "One sec, getting files ready..."
 msgid "Or confirm by signing into your Files on any browser you’ve used before."
 msgstr "Or confirm by signing into your Files on any browser you’ve used before."
 
+#: src/Components/Modules/LoginModule/PasswordSetup.tsx:98
+msgid "Password confirmation is required"
+msgstr "Password confirmation is required"
+
 #: src/Components/Modules/LoginModule/MigrateAccount.tsx:110
 #: src/Components/Modules/LoginModule/MissingShares.tsx:131
 msgid "Password does not match user account, please double-check and try again."
 msgstr "Password does not match user account, please double-check and try again."
 
-#: src/Components/Modules/LoginModule/PasswordSetup.tsx:85
+#: src/Components/Modules/LoginModule/PasswordSetup.tsx:84
 msgid "Password needs to be more complex"
 msgstr "Password needs to be more complex"
 
@@ -469,21 +453,21 @@ msgstr "Password needs to be more complex"
 msgid "Password set"
 msgstr "Password set"
 
-#: src/Components/Modules/LoginModule/SignInMethods.tsx:200
-#~ msgid "Password set."
-#~ msgstr "Password set."
-
 #: src/Components/Modules/LoginModule/Complete.tsx:130
 msgid "Password setup"
 msgstr "Password setup"
 
-#: src/Components/Modules/LoginModule/PasswordSetup.tsx:95
+#: src/Components/Modules/LoginModule/PasswordSetup.tsx:125
+msgid "Password:"
+msgstr "Password:"
+
+#: src/Components/Modules/LoginModule/PasswordSetup.tsx:97
+msgid "Passwords must match"
+msgstr "Passwords must match"
+
+#: src/Components/Modules/LoginModule/PasswordSetup.tsx:94
 msgid "Please provide a password"
 msgstr "Please provide a password"
-
-#: src/Components/Modules/LoginModule/PasswordSetup.tsx:93
-#~ msgid "Please provide an encryption password"
-#~ msgstr "Please provide an encryption password"
 
 #: src/Components/Modules/FileBrowsers/views/FileSystemItemRow.tsx:222
 msgid "Preview"
@@ -591,11 +575,11 @@ msgstr "Search..."
 msgid "Send Feedback"
 msgstr "Send Feedback"
 
-#: src/Components/Modules/LoginModule/PasswordSetup.tsx:131
+#: src/Components/Modules/LoginModule/PasswordSetup.tsx:128
 msgid "Set Password"
 msgstr "Set Password"
 
-#: src/Components/Modules/LoginModule/PasswordSetup.tsx:107
+#: src/Components/Modules/LoginModule/PasswordSetup.tsx:105
 #: src/Components/Modules/LoginModule/SignInMethods.tsx:261
 msgid "Set up a password"
 msgstr "Set up a password"
@@ -791,7 +775,7 @@ msgstr "Yes I understand"
 msgid "Yes, save it"
 msgstr "Yes, save it"
 
-#: src/Components/Modules/LoginModule/PasswordSetup.tsx:112
+#: src/Components/Modules/LoginModule/PasswordSetup.tsx:110
 msgid "You can change this later."
 msgstr "You can change this later."
 
@@ -835,7 +819,3 @@ msgstr "recovered successfully"
 #: src/Components/Modules/Settings/Plan.tsx:76
 msgid "storage-plan-desc"
 msgstr "Lorem ipsum aenean et rutrum magna. Morbi nec placerat erat. Nunc elementum sed libero sit amet convallis. Quisque non arcu vitae ex fringilla molestie."
-
-#: src/Components/Modules/LoginModule/ConciseExplainer.tsx:141
-#~ msgid "{0}"
-#~ msgstr "{0}"
