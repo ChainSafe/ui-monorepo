@@ -91,9 +91,9 @@ const MigrateAccount: React.FC<IMigrateAccount> = ({
   className
 }: IMigrateAccount) => {
   const classes = useStyles()
-  const { validateMasterPassword, logout } = useImployApi()
+  const { validateMasterPassword } = useImployApi()
   const { secureAccountWithMasterPassword } = useDrive()
-  const { addPasswordShare, logout: thresholdKeyLogout, resetShouldInitialize } = useThresholdKey()
+  const { addPasswordShare, logout, resetShouldInitialize } = useThresholdKey()
   const [hasShownConciseExplainer, setHasShownConciseExplainer] = useState(false)
   const [masterPassword, setMasterPassword] = useState("")
   const [error, setError] = useState("")
@@ -129,7 +129,6 @@ const MigrateAccount: React.FC<IMigrateAccount> = ({
 
   const onLogout = () => {
     logout()
-    thresholdKeyLogout()
   }
 
 
