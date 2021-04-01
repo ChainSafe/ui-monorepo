@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 import { createStyles, makeStyles, useThemeSwitcher } from "@chainsafe/common-theme"
 import { CSFTheme } from "../../../Themes/types"
 import * as yup from "yup"
@@ -8,8 +8,9 @@ import StrengthIndicator from "../MasterKeySequence/SequenceSlides/StrengthIndic
 import zxcvbn from "zxcvbn"
 import { t, Trans } from "@lingui/macro"
 import clsx from "clsx"
+import TkeyLoader from "./TkeyLoader"
 
-const useStyles = makeStyles(({ breakpoints, constants, typography }: CSFTheme) =>
+const useStyles = makeStyles(({  breakpoints, constants, typography }: CSFTheme) =>
   createStyles({
     root: {
       width: "100vw",
@@ -79,6 +80,7 @@ interface IPasswordSetup {
 const PasswordSetup = ({ setPassword, className, cancel }: IPasswordSetup) => {
   const classes = useStyles()
   const { desktop } = useThemeSwitcher()
+  const [loading, setLoading] = useState(false)
 
   const passwordValidation = yup.object().shape({
     password: yup
@@ -110,6 +112,7 @@ const PasswordSetup = ({ setPassword, className, cancel }: IPasswordSetup) => {
 
   return (
     <section className={clsx(classes.root, className)}>
+      <TkeyLoader loading={loading}/>
       <div onClick={cancel} className={classes.close}>
         <CloseSvg />
       </div>
@@ -135,8 +138,9 @@ const PasswordSetup = ({ setPassword, className, cancel }: IPasswordSetup) => {
         validationSchema={passwordValidation}
         onSubmit={async (values, helpers) => {
           helpers.setSubmitting(true)
-          // secureDrive(values.masterKey)
+          setLoading(true)
           setPassword(values.password)
+          setLoading(false)
           helpers.setSubmitting(false)
         }}
       >

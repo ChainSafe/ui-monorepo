@@ -5,6 +5,7 @@ import { useThresholdKey } from "../../../Contexts/ThresholdKeyContext"
 import clsx from "clsx"
 import { CSFTheme } from "../../../Themes/types"
 import { Trans } from "@lingui/macro"
+import TkeyLoader from "./TkeyLoader"
 
 const useStyles = makeStyles(({ animation, breakpoints, constants, palette, typography, zIndex }: CSFTheme) =>
   createStyles({
@@ -26,6 +27,37 @@ const useStyles = makeStyles(({ animation, breakpoints, constants, palette, typo
       },
       [breakpoints.down("md")]: {
         padding: constants.generalUnit * 2
+      }
+    },
+    loader: {
+      opacity: 0,
+      visibility: "hidden",
+      position: "absolute",
+      top: 0,
+      left: 0,
+      height: "100%",
+      width: "100%",
+      zIndex: zIndex?.blocker,
+      transitionDuration: `${animation.transform}ms`,
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "center",
+      alignItems: "center",
+      "&:before": {
+        content: "''",
+        display: "block",
+        position: "absolute",
+        top: 0,
+        left: 0,
+        height: "100%",
+        width: "100%",
+        zIndex: zIndex?.background,
+        backgroundColor: palette.common.black.main,
+        opacity: 0.3
+      },
+      "&.active": {
+        opacity: 1,
+        visibility: "visible"
       }
     },
     close: {
@@ -128,6 +160,7 @@ const SaveBackupPhrase = ({ className, complete, cancel }: ISaveBackupPhrase) =>
   const { desktop } = useThemeSwitcher()
   const { keyDetails, addMnemonicShare } = useThresholdKey()
   const [mnemonic, setMnemonic] = useState("")
+  const [loading, setLoading] = useState(false)
 
   const shares = keyDetails
     ? Object.values(keyDetails.shareDescriptions).map((share) => {
@@ -150,7 +183,9 @@ const SaveBackupPhrase = ({ className, complete, cancel }: ISaveBackupPhrase) =>
   const onSectionClick = useCallback(async () => {
     if (mnemonic.length === 0) {
       if (!hasMnemonicShare) {
+        setLoading(true)
         const newMnemonic = await addMnemonicShare()
+        setLoading(false)
         setMnemonic(newMnemonic)
       }
     } else {
@@ -167,6 +202,7 @@ const SaveBackupPhrase = ({ className, complete, cancel }: ISaveBackupPhrase) =>
 
   return (
     <div className={clsx(classes.root, className)}>
+      <TkeyLoader loading={loading}/>
       <div onClick={cancel} className={classes.close}>
         <CloseSvg />
       </div>
