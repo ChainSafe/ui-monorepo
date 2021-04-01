@@ -78,7 +78,7 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) =>
   })
 )
 
-const SaveNewDevice = ({className}: {className: string}) => {
+const SaveNewDevice = ({ className }: {className: string}) => {
   const { addNewDeviceShareAndSave, resetIsNewDevice } = useThresholdKey()
   const [isAccepted, setIsAccepted] = useState(false)
   const [isDenied, setIsDenied] = useState(false)

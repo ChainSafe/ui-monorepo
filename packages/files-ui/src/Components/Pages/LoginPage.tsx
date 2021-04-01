@@ -125,7 +125,7 @@ const useStyles = makeStyles(
         },
         [breakpoints.down("md")]: {
           justifyContent: "center",
-          width: '100%'
+          width: "100%"
         }
       }
     })
