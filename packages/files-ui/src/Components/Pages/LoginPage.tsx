@@ -153,14 +153,14 @@ const Content = ({ className }: { className: string }) => {
     return <MissingShares className={className} />
   }
 
-  if (shouldInitializeAccount){
+  if (shouldInitializeAccount && !isMasterPasswordSet){
     switch (setupScreen) {
     case "explainer":
       return (
         <ConciseExplainer
           className={className}
           onLetsDoIt={() => setSetupScreen("signInOptions")}
-          screen={isMasterPasswordSet ? "migrate" : "initialize"}
+          screen={"initialize"}
         />
       )
     case "signInOptions":
@@ -194,7 +194,7 @@ const Content = ({ className }: { className: string }) => {
     }
   }
 
-  if (isMasterPasswordSet && secured === false) {
+  if (shouldInitializeAccount && isMasterPasswordSet) {
     return <MigrateAccount />
   }
 
