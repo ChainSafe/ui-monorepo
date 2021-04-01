@@ -167,7 +167,7 @@ const ConciseExplainer: React.FC<IConciseExplainerProps> = ({ className, screen,
       </div>
       <div className={classes.buttonContainer}>
         <Button onClick={onLetsDoIt} className={classes.doItButton}>
-          <Trans>{desktop ? t`Let's do it` : t`Next`}</Trans>
+          {desktop ? t`Let's do it` : t`Next`}
         </Button>
       </div>
     </div>
