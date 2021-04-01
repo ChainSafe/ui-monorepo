@@ -355,6 +355,7 @@ const ImployApiProvider = ({ apiUrl, useLocalStorage = true, children }: ImployA
     setAccessToken(undefined)
     setRefreshToken(undefined)
     setDecodedRefreshToken(undefined)
+    imployApiClient.setToken('')
     canUseLocalStorage && localStorage.removeItem(tokenStorageKey)
     !useLocalStorage && canUseSessionStorage && sessionStorage.removeItem(tokenStorageKey)
   }
