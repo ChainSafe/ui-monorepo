@@ -99,8 +99,10 @@ const useStyles = makeStyles(({ breakpoints, constants, typography, palette, zIn
       color: constants.loginModule.subText,
       backgroundColor: constants.loginModule.itemBackground,
       borderRadius: 16,
-      [breakpoints.up("md")]:{
-        flexDirection: "column"
+      [breakpoints.up("md")]: {
+        flexDirection: "column",
+        maxWidth: `calc(33% - ${constants.generalUnit * 1.5}px)`,
+        marginRight: constants.generalUnit * 1.5
       },
       [breakpoints.down("md")]:{
         flexDirection: "row",
@@ -117,14 +119,11 @@ const useStyles = makeStyles(({ breakpoints, constants, typography, palette, zIn
           width: 20,
           marginRight: constants.generalUnit * 2
         }
-      },
-      [breakpoints.up("md")]: {
-        maxWidth: `calc(33% - ${constants.generalUnit * 1.5}px)`,
-        marginRight: constants.generalUnit * 1.5
       }
     },
     key: {
-      stroke: constants.loginModule.iconColor
+      stroke: constants.loginModule.iconColor,
+      fill: constants.loginModule.iconColor
     },
     copy: {
       fill: constants.loginModule.iconColor
