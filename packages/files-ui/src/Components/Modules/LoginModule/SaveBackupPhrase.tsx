@@ -5,7 +5,6 @@ import { useThresholdKey } from "../../../Contexts/ThresholdKeyContext"
 import clsx from "clsx"
 import { CSFTheme } from "../../../Themes/types"
 import { Trans } from "@lingui/macro"
-import TkeyLoader from "./TkeyLoader"
 
 const useStyles = makeStyles(({ animation, breakpoints, constants, palette, typography, zIndex }: CSFTheme) =>
   createStyles({
@@ -202,7 +201,6 @@ const SaveBackupPhrase = ({ className, complete, cancel }: ISaveBackupPhrase) =>
 
   return (
     <div className={clsx(classes.root, className)}>
-      <TkeyLoader loading={loading}/>
       <div onClick={cancel} className={classes.close}>
         <CloseSvg />
       </div>
@@ -219,7 +217,7 @@ const SaveBackupPhrase = ({ className, complete, cancel }: ISaveBackupPhrase) =>
       </Typography>
       <section className={classes.phraseSpace} onClick={onSectionClick}>
         {
-          mnemonic.length === 0 ? (
+          mnemonic.length === 0 && !loading ? (
             <Typography className={classes.cta} component="p">
               <Trans>
                 Show me the backup phrase
@@ -248,7 +246,7 @@ const SaveBackupPhrase = ({ className, complete, cancel }: ISaveBackupPhrase) =>
           )
         }
       </section>
-      <Button onClick={complete} disabled={mnemonic.length === 0}>
+      <Button onClick={complete} disabled={mnemonic.length === 0 || loading} loading={loading}>
         <Trans>
           Continue
         </Trans>
