@@ -85,7 +85,7 @@ const PasswordSetup = ({ setPassword, className, cancel }: IPasswordSetup) => {
       .string()
       .test(
         "Complexity",
-        t`Encryption password needs to be more complex`,
+        t`Password needs to be more complex`,
         async (val: string | null | undefined | object) => {
           if (val === undefined) {
             return false
@@ -98,7 +98,7 @@ const PasswordSetup = ({ setPassword, className, cancel }: IPasswordSetup) => {
           return false
         }
       )
-      .required(t`Please provide an encryption password`),
+      .required(t`Please provide a password`),
     confirmPassword: yup
       .string()
       .oneOf(
