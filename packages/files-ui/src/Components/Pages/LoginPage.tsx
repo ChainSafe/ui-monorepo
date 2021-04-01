@@ -131,7 +131,7 @@ const useStyles = makeStyles(
 )
 
 const Content = ({ className }: { className: string }) => {
-  const { isMasterPasswordSet, secured } = useImployApi()
+  const { isMasterPasswordSet } = useImployApi()
   const { keyDetails, isNewDevice, shouldInitializeAccount, addPasswordShare, resetShouldInitialize } = useThresholdKey()
   const shouldSaveNewDevice = !!keyDetails && isNewDevice && keyDetails.requiredShares <= 0
   const areSharesMissing = !!keyDetails && keyDetails.requiredShares > 0
@@ -144,7 +144,6 @@ const Content = ({ className }: { className: string }) => {
     "backup" |
     "complete"
     >("explainer")
-
   if (!keyDetails) {
     return <InitialScreen className={className} />
   }
@@ -195,7 +194,7 @@ const Content = ({ className }: { className: string }) => {
   }
 
   if (shouldInitializeAccount && isMasterPasswordSet) {
-    return <MigrateAccount />
+    return <MigrateAccount className={className} />
   }
 
   if (shouldSaveNewDevice) {

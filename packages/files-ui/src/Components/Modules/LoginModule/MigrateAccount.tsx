@@ -18,11 +18,13 @@ const useStyles = makeStyles(
     createStyles({
       root: {
         padding: `0 ${constants.generalUnit * 4}px`,
-        width: "100%",
+        width: "100vw",
         display: "flex",
         flexDirection: "column",
         justifyContent: "space-between",
-        minHeight: "inherit",
+        [breakpoints.up("md")]: {
+          maxWidth: 580
+        },
         [breakpoints.down("md")]: {
           padding: `0 ${constants.generalUnit * 3}px`
         }
@@ -134,7 +136,8 @@ const MigrateAccount: React.FC<IMigrateAccount> = ({
 
 
   return (
-    !hasShownConciseExplainer ? <ConciseExplainer screen="migrate" onLetsDoIt={() => setHasShownConciseExplainer(true)} /> :
+    !hasShownConciseExplainer ?
+      <ConciseExplainer className={className} screen="migrate" onLetsDoIt={() => setHasShownConciseExplainer(true)} /> :
       <section className={clsx(classes.root, className)}>
         <form onSubmit={handleSecureAccountWithMasterPassword} className={classes.form}>
           <Typography variant="h6" component="h6" className={classes.headerText}>
