@@ -46,6 +46,9 @@ const App: React.FC<{}> = () => {
   const apiUrl =
     process.env.REACT_APP_API_URL || "https://stage.imploy.site/api/v1"
 
+  // This will default to testnet unless mainnet is specifically set in the ENV
+  const directAuthNetwork = (process.env.REACT_APP_DIRECT_AUTH_NETWORK === "mainnet") ? "mainnet" : "testnet"
+
   useEffect(() => {
     if (hotjarId && process.env.NODE_ENV === "production") {
       initHotjar(hotjarId, "6", () => console.log("Hotjar initialized"))
@@ -110,7 +113,7 @@ const App: React.FC<{}> = () => {
               cacheWalletSelection={testLocalStorage()}
             >
               <ImployApiProvider apiUrl={apiUrl} useLocalStorage={false}>
-                <ThresholdKeyProvider enableLogging network="testnet">
+                <ThresholdKeyProvider enableLogging network={directAuthNetwork}>
                   <UserProvider>
                     <DriveProvider>
                       <BillingProvider>
