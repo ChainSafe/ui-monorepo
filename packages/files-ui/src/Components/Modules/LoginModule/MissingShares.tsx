@@ -14,7 +14,7 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) =>
       padding: `0 ${constants.generalUnit * 14}px`,
       [breakpoints.down("md")]: {
         width: "100%",
-        padding: `0 ${constants.generalUnit * 2.75}px`,
+        padding: `0 ${constants.generalUnit * 2.75}px`
       }
     },
     buttonSection: {
