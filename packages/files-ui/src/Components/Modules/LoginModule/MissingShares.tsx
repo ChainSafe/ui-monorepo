@@ -10,7 +10,14 @@ import clsx from "clsx"
 const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) =>
   createStyles({
     content:{
-      width: "100%"
+        paddingLeft: 113,
+        paddingRight: 133,
+        width: 580,
+      [breakpoints.down("md")]: {
+        width: '100%',
+        paddingLeft: 22,
+        paddingRight: 22
+      }
     },
     buttonSection: {
       [breakpoints.up("md")]: {

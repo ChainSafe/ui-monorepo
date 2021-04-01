@@ -124,7 +124,8 @@ const useStyles = makeStyles(
           justifyContent: "space-between"
         },
         [breakpoints.down("md")]: {
-          justifyContent: "center"
+          justifyContent: "center",
+          width: '100%'
         }
       }
     })
@@ -201,7 +202,7 @@ const Content = ({ className }: { className: string }) => {
   }
 
   if (shouldSaveNewDevice) {
-    return <SaveNewDevice />
+    return <SaveNewDevice className={className} />
   }
 
   return null
