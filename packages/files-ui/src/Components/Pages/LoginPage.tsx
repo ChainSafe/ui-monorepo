@@ -174,7 +174,10 @@ const Content = ({ className }: { className: string }) => {
       return <PasswordSetup
         className={className}
         cancel={() => setSetupScreen("signInOptions")}
-        setPassword={addPasswordShare}
+        setPassword={async (password: string) => {
+          await addPasswordShare(password)
+          setSetupScreen("signInOptions")
+        }}
       />
     case "skip":
       return <ConfirmSkip
