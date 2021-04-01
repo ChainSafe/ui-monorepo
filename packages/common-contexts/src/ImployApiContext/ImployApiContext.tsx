@@ -18,11 +18,22 @@ const testLocalStorage = () => {
   }
 }
 
+const testSessionStorage = () => {
+  try {
+    sessionStorage.setItem("test", "test")
+    sessionStorage.removeItem("test")
+    return true
+  } catch (e) {
+    return false
+  }
+}
+
 const tokenStorageKey = "csf.refreshToken"
 const isReturningUserStorageKey = "csf.isReturningUser"
 
 type ImployApiContextProps = {
   apiUrl?: string
+  useLocalStorage?: boolean
   children: React.ReactNode | React.ReactNode[]
 }
 
@@ -60,11 +71,13 @@ type ImployApiContext = {
 
 const ImployApiContext = React.createContext<ImployApiContext | undefined>(undefined)
 
-const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
+const ImployApiProvider = ({ apiUrl, useLocalStorage = true, children }: ImployApiContextProps) => {
   const maintenanceMode = process.env.REACT_APP_MAINTENANCE_MODE === "true"
 
   const { wallet, onboard, checkIsReady, isReady } = useWeb3()
   const canUseLocalStorage = useMemo(() => testLocalStorage(), [])
+  const canUseSessionStorage = useMemo(() => testSessionStorage(), [])
+
   // initializing api
   const initialAxiosInstance = useMemo(() => axios.create({
     // Disable the internal Axios JSON de serialization as this is handled by the client
@@ -97,9 +110,10 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
   const setTokensAndSave = useCallback((accessToken: Token, refreshToken: Token) => {
     setAccessToken(accessToken)
     setRefreshToken(refreshToken)
-    refreshToken.token && canUseLocalStorage && localStorage.setItem(tokenStorageKey, refreshToken.token)
+    refreshToken.token && canUseLocalStorage && useLocalStorage && localStorage.setItem(tokenStorageKey, refreshToken.token)
+    !useLocalStorage && canUseSessionStorage && sessionStorage.setItem(tokenStorageKey, refreshToken.token)
     accessToken.token && imployApiClient.setToken(accessToken.token)
-  }, [canUseLocalStorage, imployApiClient])
+  }, [canUseLocalStorage, canUseSessionStorage, imployApiClient, useLocalStorage])
 
   const setReturningUser = () => {
     // set returning user
@@ -122,7 +136,9 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
           if (!error?.config?._retry && error?.response?.status === 401) {
             error.config._retry = true
             const refreshTokenLocal =
-              canUseLocalStorage && localStorage.getItem(tokenStorageKey)
+              (canUseLocalStorage && useLocalStorage) ?
+                localStorage.getItem(tokenStorageKey) :
+                canUseSessionStorage && sessionStorage.getItem(tokenStorageKey)
             if (refreshTokenLocal) {
               const refreshTokenApiClient = new ImployApiClient(
                 {},
@@ -142,11 +158,13 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
                 return axios(error.response.config)
               } catch (err) {
                 canUseLocalStorage && localStorage.removeItem(tokenStorageKey)
+                !useLocalStorage && canUseSessionStorage && sessionStorage.removeItem(tokenStorageKey)
                 setRefreshToken(undefined)
                 return Promise.reject(error)
               }
             } else {
               canUseLocalStorage && localStorage.removeItem(tokenStorageKey)
+              !useLocalStorage && canUseSessionStorage && sessionStorage.removeItem(tokenStorageKey)
               setRefreshToken(undefined)
               return Promise.reject(error)
             }
@@ -337,7 +355,9 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
     setAccessToken(undefined)
     setRefreshToken(undefined)
     setDecodedRefreshToken(undefined)
+    imployApiClient.setToken("")
     canUseLocalStorage && localStorage.removeItem(tokenStorageKey)
+    !useLocalStorage && canUseSessionStorage && sessionStorage.removeItem(tokenStorageKey)
   }
 
   const secureThresholdKeyAccount = async (encryptedKey: string) => {

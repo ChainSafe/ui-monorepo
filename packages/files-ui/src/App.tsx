@@ -44,7 +44,7 @@ const App: React.FC<{}> = () => {
   const hotjarId = process.env.REACT_APP_HOTJAR_ID
 
   const apiUrl =
-    process.env.REACT_APP_API_URL || "http://3.236.79.100:8000/api/v1"
+    process.env.REACT_APP_API_URL || "https://stage.imploy.site/api/v1"
 
   // This will default to testnet unless mainnet is specifically set in the ENV
   const directAuthNetwork = (process.env.REACT_APP_DIRECT_AUTH_NETWORK === "mainnet") ? "mainnet" : "testnet"
@@ -112,7 +112,7 @@ const App: React.FC<{}> = () => {
               checkNetwork={false}
               cacheWalletSelection={testLocalStorage()}
             >
-              <ImployApiProvider apiUrl={apiUrl}>
+              <ImployApiProvider apiUrl={apiUrl} useLocalStorage={false}>
                 <ThresholdKeyProvider enableLogging network={directAuthNetwork}>
                   <UserProvider>
                     <DriveProvider>
