@@ -37,14 +37,14 @@ export const lightTheme = createTheme<CsfColors>({
           hamburger: "var(--gray10)"
         },
         nav: {
-          backgroundColor: "var(--gray3)",
-          blocker: "var(--gray1)",
-          mobileBackgroundColor: "var(--gray3)",
-          headingColor: "initial",
-          itemColor: "initial",
-          itemColorHover: "initial",
-          itemIconColor: "var(--gray8)",
-          itemIconColorHover: "initial"
+          backgroundColor: "var(--gray9)",
+          blocker: "var(--gray9)",
+          mobileBackgroundColor: "var(--gray9)",
+          headingColor: "var(--gray5)",
+          itemColor: "var(--gray3)",
+          itemColorHover: "var(--gray1)",
+          itemIconColor: "var(--gray3)",
+          itemIconColorHover: "var(--gray1)"
         },
         createFolder: {
           backgroundColor: "var(--gray1)",
