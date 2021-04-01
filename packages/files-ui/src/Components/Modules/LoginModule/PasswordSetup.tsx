@@ -158,7 +158,7 @@ const PasswordSetup = ({ setPassword, className, cancel }: IPasswordSetup) => {
             label={t`Confirm Password:`}
             labelClassName={classes.inputLabel}
           />
-          <Button className={classes.button} fullsize type="submit" loading={loading}>
+          <Button className={classes.button} fullsize type="submit" loading={loading} disabled={loading}>
             <Trans>
               Set Password
             </Trans>
