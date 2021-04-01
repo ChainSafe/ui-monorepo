@@ -132,7 +132,7 @@ const useStyles = makeStyles(
 
 const Content = ({ className }: { className: string }) => {
   const { isMasterPasswordSet, secured } = useImployApi()
-  const { keyDetails, isNewDevice, shouldInitializeAccount, addPasswordShare } = useThresholdKey()
+  const { keyDetails, isNewDevice, shouldInitializeAccount, addPasswordShare, resetShouldInitialize } = useThresholdKey()
   const shouldSaveNewDevice = !!keyDetails && isNewDevice && keyDetails.requiredShares <= 0
   const areSharesMissing = !!keyDetails && keyDetails.requiredShares > 0
 
@@ -180,7 +180,7 @@ const Content = ({ className }: { className: string }) => {
     case "skip":
       return <ConfirmSkip
         className={className}
-        confirm={() => setSetupScreen("complete")}
+        confirm={() => resetShouldInitialize()}
         cancel={() => setSetupScreen("signInOptions")}
       />
     case "backup":
