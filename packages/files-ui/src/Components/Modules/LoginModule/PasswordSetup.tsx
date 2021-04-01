@@ -102,7 +102,7 @@ const PasswordSetup = ({ setPassword, className, cancel }: IPasswordSetup) => {
     confirmPassword: yup
       .string()
       .oneOf(
-        [yup.ref("masterKey"), undefined],
+        [yup.ref("password"), undefined],
         t`Encryption password must match`
       )
       .required(t`Encryption password confirmation is required`)
