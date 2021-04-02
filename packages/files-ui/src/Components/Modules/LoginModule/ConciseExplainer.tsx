@@ -7,6 +7,7 @@ import PasswordKeyPNG from "../../../Media/landing/layers/password-key.png"
 import PeacefulSuccotashPNG from "../../../Media/landing/layers/peaceful-succotash.png"
 import { t, Trans } from "@lingui/macro"
 import { ROUTE_LINKS } from "../../FilesRoutes"
+import clsx from "clsx"
 
 // Concise explainer is used in both initialize and migrate account
 const useStyles = makeStyles(
@@ -14,23 +15,25 @@ const useStyles = makeStyles(
     createStyles({
       root: {
         padding: `${constants.generalUnit * 6}px ${constants.generalUnit * 4}px`,
-        minHeight: "inherit",
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "space-between",
+        backgroundColor: `${constants.loginModule.explainerBg} !important`,
+        width: 480,
         [breakpoints.down("md")]: {
-          padding: `${constants.generalUnit * 3}px ${constants.generalUnit * 3}px`
+          padding: `${constants.generalUnit * 3}px ${constants.generalUnit * 3}px`,
+          width: "100vw",
+          heighteight: "100vh",
+          borderRadius: 0
         }
       },
       title: {
         fontWeight: 400,
-        marginBottom: constants.generalUnit * 2,
+        marginBottom: constants.generalUnit * 2.5,
         [breakpoints.down("md")]: {
           ...typography.h4
         }
       },
       subtitle: {
         ...typography.body1,
+        marginBottom: constants.generalUnit * 5,
         [breakpoints.down("md")]: {
           ...typography.body2
         }
@@ -47,22 +50,41 @@ const useStyles = makeStyles(
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
+        width: "100%",
         [breakpoints.up("md")]: {
-          textAlign: "center"
+          textAlign: "center",
+          maxWidth: `calc(33% - ${constants.generalUnit})`
         },
         [breakpoints.down("md")]: {
-          flexDirection: "row"
+          flexDirection: "row",
+          justifyContent: "space-between"
         },
         "& img": {
-          maxHeight: 64
+          maxHeight: 64,
+          display: "block",
+          marginBottom: constants.generalUnit * 2
+        },
+        "& p":{
+          ...typography.body1,
+          [breakpoints.down("md")]: {
+            ...typography.body2,
+            width: `calc(100% - ${100 + (constants.generalUnit * 1.5)}px)`
+          }
+        }
+      },
+      learnMore: {
+        marginTop: constants.generalUnit * 4,
+        ...typography.body1,
+        [breakpoints.down("md")]: {
+          ...typography.body2
         }
       },
       buttonContainer: {
-        paddingTop: constants.generalUnit * 4,
+        marginTop: constants.generalUnit * 4,
         display: "flex",
         justifyContent: "flex-end",
         [breakpoints.down("md")]: {
-          paddingTop: constants.generalUnit * 3,
+          marginTop: constants.generalUnit * 3,
           flexDirection: "row",
           justifyContent: "center"
         }
@@ -78,30 +100,30 @@ const useStyles = makeStyles(
 
 interface IConciseExplainerProps {
   screen: "initialize" | "migrate"
-  onLetsDoIt: () => void
+  onLetsDoIt(): void
+  className?: string
 }
 
-const ConciseExplainer: React.FC<IConciseExplainerProps> = ({ screen, onLetsDoIt }) => {
+const ConciseExplainer: React.FC<IConciseExplainerProps> = ({ className, screen, onLetsDoIt }) => {
   const classes = useStyles()
 
   const { desktop } = useThemeSwitcher()
 
   return (
-    <div className={classes.root}>
+    <div className={clsx(className, classes.root)}>
       <div>
         <Typography variant="h2" component="h2" className={classes.title}>
           <Trans>Introducing multi-factor sign in</Trans>
         </Typography>
-        <Typography variant="body1" component="p" className={classes.subtitle}>
+        <Typography component="p" className={classes.subtitle}>
           {screen === "initialize"
             ? t`Welcome! Here at Files we don’t require emails and phone numbers to set up an account. `
             : t`Previously, you required a password to access your Files account. 
             We’re happy to announce that you don’t need a password to sign in anymore. 
             All you have to do is set up multiple sign-in methods.`
           }
-        </Typography>
-        <br />
-        <Typography variant="body1" component="p" className={classes.subtitle}>
+          <br/>
+          <br/>
           {screen === "initialize"
             ? t`Instead, we use multiple sign-in methods for security and account recovery purposes. 
             Each time you log in with your cryptowallet, Google, Facebook, or Github, 
@@ -110,60 +132,55 @@ const ConciseExplainer: React.FC<IConciseExplainerProps> = ({ screen, onLetsDoIt
             Here’s what you can do now:`
           }
         </Typography>
-        <br />
         <div className={classes.graphicsContainer}>
           <div className={classes.imageBox}>
             <img src={DesktopMobilePNG} alt="devices" />
-            <br />
-            <Typography variant="body1" component="p" className={classes.subtitle}>
+            <Typography component="p">
               <Trans>Save the device</Trans>
             </Typography>
           </div>
           <div className={classes.imageBox}>
             <img src={PasswordKeyPNG}  alt="password and keys" />
-            <br />
-            <Typography variant="body1" component="p" className={classes.subtitle}>
+            <Typography component="p">
               <Trans>Add and change passwords</Trans>
             </Typography>
           </div>
           <div className={classes.imageBox}>
             <img src={PeacefulSuccotashPNG} alt="peaceful succotash" />
-            <br />
-            <Typography variant="body1" component="p" className={classes.subtitle}>
+            <Typography component="p">
               <Trans>Recover with passphrase</Trans>
             </Typography>
           </div>
         </div>
-        <br />
-        <Typography variant="body1" component="p" className={classes.subtitle}>
-          {screen === "initialize"
-            ? (
-              <>
-                <Trans>Setting up multiple sign-in methods makes signing in on multiple devices and restoring your account a breeze,
-                all done without us storing information about you. Think that’s cool?&nbsp;
-                <a href={ROUTE_LINKS.ApplyCryptography} target="_blank" rel="noopener noreferrer">
-                  Learn how we apply cryptography to ensure the privacy of your data.
-                </a>
-                </Trans>
-              </>
-            ) :
-            (
-              <>
-                <Trans>
-                  Check out&nbsp;
+        {
+          desktop && (
+            <Typography component="p" className={classes.learnMore}>
+              {screen === "initialize"
+                ? (
+                  <Trans>Setting up multiple sign-in methods makes signing in on multiple devices and restoring your account a breeze,
+                  all done without us storing information about you. Think that’s cool?&nbsp;
                   <a href={ROUTE_LINKS.ApplyCryptography} target="_blank" rel="noopener noreferrer">
-                    how we apply cryptography
-                  </a>&nbsp;
-                  to ensure the privacy of your data.
-                </Trans>
-              </>
-            )
-          }
-        </Typography>
+                    Learn how we apply cryptography to ensure the privacy of your data.
+                  </a>
+                  </Trans>
+                ) :
+                (
+                  <Trans>
+                    Check out&nbsp;
+                    <a href={ROUTE_LINKS.ApplyCryptography} target="_blank" rel="noopener noreferrer">
+                      how we apply cryptography
+                    </a>&nbsp;
+                    to ensure the privacy of your data.
+                  </Trans>
+                )
+              }
+            </Typography>
+          )
+        }
       </div>
       <div className={classes.buttonContainer}>
         <Button onClick={onLetsDoIt} className={classes.doItButton}>
-          <Trans>{desktop ? t`Let's do it` : t`Next`}</Trans>
+          {desktop ? t`Let's do it` : t`Next`}
         </Button>
       </div>
     </div>
