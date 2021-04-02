@@ -98,7 +98,10 @@ const useStyles = makeStyles(({ animation, breakpoints, constants, palette, typo
       display: "flex",
       flexDirection: "row",
       alignItems: "center",
-      justifyContent: "space-between"
+      justifyContent: "space-between",
+      "& > p": {
+        maxWidth: `calc(100% - (35px + ${constants.generalUnit * 3}px))`
+      }
     },
     copiedFlag: {
       display: "flex",

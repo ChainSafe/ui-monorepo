@@ -27,6 +27,9 @@ const useStyles = makeStyles(({ breakpoints, constants, palette, zIndex }: CSFTh
       },
       "& p": {
         margin: `${constants.generalUnit * 1.5}px 0`
+      },
+      "& h2": {
+        textAlign: "center"
       }
     },
     background: {

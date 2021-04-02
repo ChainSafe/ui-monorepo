@@ -337,6 +337,7 @@ export const darkTheme = createTheme<CsfColors>({
           footerText: "var(--gray8)"
         },
         loginModule: {
+          explainerBg: "var(--gray2)",
           background: "var(--gray3)",
           itemBackground: "var(--gray4)",
           iconColor: "#9E9E9E", // Gray 7.5

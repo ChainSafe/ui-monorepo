@@ -23,6 +23,7 @@ export interface CsfColors extends IConstants {
     footerText: string
   }
   loginModule: {
+    explainerBg: string
     background: string
     itemBackground: string
     iconColor: string
