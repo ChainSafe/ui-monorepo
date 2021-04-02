@@ -19,7 +19,7 @@ const useStyles = makeStyles(
           position: "absolute",
           transitionDuration: `${animation.transform}ms`,
           borderRadius: strokeHeight,
-          backgroundColor: palette.common.black.main,
+          backgroundColor: palette.common.black.main
         },
         "&.default": {
           "& span": {
@@ -28,25 +28,25 @@ const useStyles = makeStyles(
             transform: "translateY(-50%)",
             left: 0,
             "&:first-child": {
-              top: `calc(50% - ${constants.generalUnit}px)`,
+              top: `calc(50% - ${constants.generalUnit}px)`
             },
             "&:nth-child(2)": {
-              top: "50%",
+              top: "50%"
             },
             "&:last-child": {
               top: `calc(50% + ${constants.generalUnit}px)`,
-              width: "60%",
-            },
+              width: "60%"
+            }
           },
           "&:hover": {
             [breakpoints.up("sm")]: {
               "& span": {
                 "&:last-child": {
-                  width: "100%",
-                },
-              },
-            },
-          },
+                  width: "100%"
+                }
+              }
+            }
+          }
         },
         "&.active": {
           "& span": {
@@ -55,25 +55,25 @@ const useStyles = makeStyles(
             transform: "translateY(-50%)",
             left: 0,
             "&:first-child": {
-              top: `calc(50% - ${constants.generalUnit}px)`,
+              top: `calc(50% - ${constants.generalUnit}px)`
             },
             "&:nth-child(2)": {
-              top: "50%",
+              top: "50%"
             },
             "&:last-child": {
-              top: `calc(50% + ${constants.generalUnit}px)`,
-            },
+              top: `calc(50% + ${constants.generalUnit}px)`
+            }
           },
           "&:hover": {
             [breakpoints.up("sm")]: {
               "& span": {
                 "&:last-child": {
-                  width: "60%",
-                },
-              },
-            },
-          },
-        },
+                  width: "60%"
+                }
+              }
+            }
+          }
+        }
 
         // TODO: Add loading option
         // "&.loading": {
@@ -88,24 +88,28 @@ const useStyles = makeStyles(
         transitionDuration: `${animation.transform}ms`,
         position: "relative",
         width: defaultSize,
-        height: defaultSize,
-      },
+        height: defaultSize
+      }
     })
-  },
+  }
 )
 
 export interface IHamburgerMenu extends React.HTMLProps<HTMLDivElement> {
   variant: "default" | "active"
-  // | "loading"
+  className?: string
 }
 
 const HamburgerMenu: React.FC<IHamburgerMenu> = ({
   variant = "default",
   onClick,
+  className
 }: IHamburgerMenu) => {
   const classes = useStyles()
   return (
-    <section onClick={onClick} className={clsx(classes.root, variant)}>
+    <section
+      onClick={onClick}
+      className={clsx(classes.root, variant, className)}
+    >
       <div className={classes.inner}>
         <span></span>
         <span></span>

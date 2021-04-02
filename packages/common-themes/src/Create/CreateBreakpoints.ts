@@ -29,7 +29,7 @@ export type BreakpointDefaults = Record<
   "xs" | "sm" | "md" | "lg" | "xl" | string,
   true
 >
-export interface BreakpointOverrides {}
+export interface BreakpointOverrides {[key: string]: unknown}
 
 export type Breakpoint = OverridableStringUnion<
   BreakpointDefaults,
@@ -57,7 +57,7 @@ export type BreakpointsOptions = Partial<
 
 // Keep in mind that @media is inclusive by the CSS specification.
 export const createBreakpoints = (
-  breakpoints: BreakpointsOptions,
+  breakpoints: BreakpointsOptions
 ): IBreakpoints => {
   const {
     // The breakpoint **start** at this value.
@@ -67,7 +67,7 @@ export const createBreakpoints = (
       sm: 600,
       md: 960,
       lg: 1280,
-      xl: 1920,
+      xl: 1920
     },
     unit = "px",
     step = 5,
@@ -83,7 +83,7 @@ export const createBreakpoints = (
 
   function down(key: Breakpoint | number) {
     const value =
-      typeof values[key] === "number" ? values[key] : (key as number)
+      typeof values[key] === "number" ? values[key] : Number(key)
     return `@media (max-width:${value - step / 100}${unit})`
   }
 
@@ -97,7 +97,7 @@ export const createBreakpoints = (
       `(max-width:${
         (endIndex !== -1 && typeof values[keys[endIndex]] === "number"
           ? values[keys[endIndex]]
-          : (end as number)) -
+          : Number(end)) -
         step / 100
       }${unit})`
     )
@@ -124,6 +124,6 @@ export const createBreakpoints = (
     between,
     only,
     width,
-    ...other,
+    ...other
   }
 }

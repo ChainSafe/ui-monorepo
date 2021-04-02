@@ -29,21 +29,21 @@ const useStyles = makeStyles(
           height: 22,
           display: "flex",
           alignItems: "center",
-          justifyContent: "center",
+          justifyContent: "center"
         },
-        ...overrides?.Breadcrumb?.root,
+        ...overrides?.Breadcrumb?.root
       },
       home: {
         height: 16,
         margin: "3px 0",
         "& > svg": {
           display: "block",
-          height: "100%",
+          height: "100%"
         },
         "&.clickable": {
-          cursor: "pointer",
+          cursor: "pointer"
         },
-        ...overrides?.Breadcrumb?.home,
+        ...overrides?.Breadcrumb?.home
       },
       separator: {
         width: 1,
@@ -52,50 +52,50 @@ const useStyles = makeStyles(
         transform: "skew(-15deg)",
         backgroundColor: palette.additional["gray"][7],
         zIndex: zIndex?.background,
-        ...overrides?.Breadcrumb?.separator,
+        ...overrides?.Breadcrumb?.separator
       },
       crumb: {
         fontSize: 14,
         display: "inline-block",
         "&.clickable": {
-          cursor: "pointer",
+          cursor: "pointer"
         },
         maxWidth: 100,
         whiteSpace: "nowrap",
         overflow: "hidden",
         textOverflow: "ellipsis",
-        ...overrides?.Breadcrumb?.crumb,
+        ...overrides?.Breadcrumb?.crumb
       },
       menuItem: {
         padding: `${constants.generalUnit}px ${constants.generalUnit * 1.5}px`,
-        color: palette.additional["gray"][9],
+        color: palette.additional["gray"][9]
       },
       menuTitleText: {
         fontSize: 14,
         maxWidth: 100,
         whiteSpace: "nowrap",
         overflow: "hidden",
-        textOverflow: "ellipsis",
+        textOverflow: "ellipsis"
       },
       menuTitle: {
-        padding: `0px ${constants.generalUnit}px 0px 0px`,
+        padding: `0px ${constants.generalUnit}px 0px 0px`
       },
       menuIcon: {
         width: 12,
         height: 12,
         "& svg": {
           height: 12,
-          width: 12,
-        },
-      },
-    }),
+          width: 12
+        }
+      }
+    })
 )
 
 const Breadcrumb: React.FC<BreadcrumbProps> = ({
   crumbs = [],
   homeOnClick,
   className,
-  showDropDown,
+  showDropDown
 }: BreadcrumbProps) => {
   const classes = useStyles()
 
@@ -126,7 +126,7 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({
           item: classes.menuItem,
           title: classes.menuTitle,
           icon: classes.menuIcon,
-          titleText: classes.menuTitleText,
+          titleText: classes.menuTitleText
         }}
         menuItems={crumbs.map((crumb) => ({
           contents: (
@@ -136,7 +136,7 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({
             >
               {crumb.text}
             </Typography>
-          ),
+          )
         }))}
       />
     )

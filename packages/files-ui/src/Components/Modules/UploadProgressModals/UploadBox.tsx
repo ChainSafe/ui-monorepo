@@ -1,17 +1,21 @@
 import React from "react"
-import { createStyles, ITheme, makeStyles } from "@chainsafe/common-theme"
+import {
+  createStyles,
+  makeStyles
+} from "@chainsafe/common-theme"
 import { UploadProgress } from "../../../Contexts/DriveContext"
 import {
   ProgressBar,
   Typography,
   CheckCircleIcon,
-  CloseCircleIcon,
+  CloseCircleIcon
 } from "@chainsafe/common-components"
 import clsx from "clsx"
 import { Trans } from "@lingui/macro"
+import { CSFTheme } from "../../../Themes/types"
 
 const useStyles = makeStyles(
-  ({ constants, palette, animation, breakpoints }: ITheme) => {
+  ({ constants, palette, animation, breakpoints }: CSFTheme) => {
     return createStyles({
       boxContainer: {
         backgroundColor: palette.additional["gray"][3],
@@ -20,35 +24,38 @@ const useStyles = makeStyles(
         padding: constants.generalUnit * 2,
         borderRadius: 4,
         [breakpoints.down("md")]: {
-          margin: 0,
-        },
+          margin: 0
+        }
       },
       appearBox: {
         animation: `$slideLeft ${animation.translate}ms`,
         [breakpoints.down("md")]: {
-          animation: `$slideUp ${animation.translate}ms`,
-        },
+          animation: `$slideUp ${animation.translate}ms`
+        }
       },
       "@keyframes slideLeft": {
         from: { transform: "translate(100%)" },
-        to: { transform: "translate(0)" },
+        to: { transform: "translate(0)" }
       },
       "@keyframes slideUp": {
         from: { transform: "translate(0, 100%)" },
-        to: { transform: "translate(0, 0)" },
+        to: { transform: "translate(0, 0)" }
       },
       contentContainer: {
         display: "flex",
         alignItems: "center",
+        "& svg": {
+          fill: constants.uploadAlert.icon
+        }
       },
       marginBottom: {
-        marginBottom: constants.generalUnit,
+        marginBottom: constants.generalUnit
       },
       marginRight: {
-        marginRight: constants.generalUnit * 2,
-      },
+        marginRight: constants.generalUnit * 2
+      }
     })
-  },
+  }
 )
 
 interface IUploadBox {
@@ -62,7 +69,7 @@ const UploadBox: React.FC<IUploadBox> = (props) => {
     error,
     noOfFiles,
     progress,
-    errorMessage,
+    errorMessage
   } = uploadInProgress
   const classes = useStyles()
 
@@ -90,8 +97,8 @@ const UploadBox: React.FC<IUploadBox> = (props) => {
               component="p"
               className={classes.marginBottom}
             >{`Uploading and encrypting ${noOfFiles} ${
-              noOfFiles === 1 ? "file" : "files"
-            }...`}</Typography>
+                noOfFiles === 1 ? "file" : "files"
+              }...`}</Typography>
             <ProgressBar progress={progress} size="small" />
           </div>
         )}

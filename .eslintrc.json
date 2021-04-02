@@ -12,7 +12,8 @@
     "eslint:recommended",
     "plugin:@typescript-eslint/eslint-recommended",
     "plugin:@typescript-eslint/recommended",
-    "plugin:react/recommended"
+    "plugin:react/recommended",
+    "plugin:react-hooks/recommended"
   ],
   "settings": {
     "react": {
@@ -20,42 +21,47 @@
     }
   },
   "rules": {
-    "indent": [
-      "error",
-      2,
-      {
-        "SwitchCase": 1
-      }
-    ],
+    "comma-spacing": ["error", { "before": false, "after": true }],
+    "indent": ["error", 2],
     "linebreak-style": ["error", "unix"],
     "quotes": ["error", "double"],
-    "semi": ["error", "off"],
+    "semi": ["error", "never"],
     "max-len": [
       "error",
       {
-        "code": 120
+        "code": 140
       }
     ],
-    "no-console": 2,
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn",
     "react/prop-types": 0,
-    "@typescript-eslint/no-unused-vars": [
-      2,
-      {
-        "vars": "all",
-        // "args": "all",
-        "varsIgnorePattern": "^jsx$",
-        "argsIgnorePattern": "[Ii]gnored$"
-      }
-    ],
+    "arrow-spacing": "error",
+    "space-infix-ops": "error",
+    "no-trailing-spaces": ["error", { "ignoreComments": true }],
+    "comma-dangle": ["error", "never"],
+    "object-curly-spacing": ["error", "always"],
+    "space-in-parens": ["error", "never"],
     "@typescript-eslint/no-use-before-define": "off",
     "@typescript-eslint/explicit-function-return-type": "off",
     "@typescript-eslint/no-explicit-any": "off",
     "@typescript-eslint/camelcase": "off",
-    "@typescript-eslint/interface-name-prefix": [
-      "error",
-      {
-        "prefixWithI": "always"
-      }
-    ]
-  }
+    "@typescript-eslint/interface-name-prefix": "off",
+    "@typescript-eslint/member-delimiter-style" : ["warn", {
+        "multiline": {
+            "delimiter": "none",
+            "requireLast": true
+        },
+        "singleline": {
+            "delimiter": "semi",
+            "requireLast": false
+        }
+    }]
+  },
+  "ignorePatterns": [
+    ".github/**",
+    ".vscode/**",
+    ".yarn/**",
+    "**/dist/*",
+    "**/node_modules/*"
+  ]
 }

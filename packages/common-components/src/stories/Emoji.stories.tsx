@@ -4,7 +4,7 @@ import { Emoji, SmileEmoji } from "../Emoji"
 export default {
   title: "Emoji",
   component: Emoji,
-  excludeStories: /.*Data$/,
+  excludeStories: /.*Data$/
 }
 
 export const SmileEmojiDemo = (): React.ReactNode => <SmileEmoji />

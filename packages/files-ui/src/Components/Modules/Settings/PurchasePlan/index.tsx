@@ -3,8 +3,7 @@ import {
   makeStyles,
   ITheme,
   createStyles,
-  useTheme,
-  useMediaQuery,
+  useThemeSwitcher
 } from "@chainsafe/common-theme"
 import {
   ArrowLeftIcon,
@@ -14,18 +13,18 @@ import {
   Link,
   SelectInput,
   TextInput,
-  Typography,
+  Typography
 } from "@chainsafe/common-components"
 import { ROUTE_LINKS } from "../../../FilesRoutes"
 import { Form, Formik } from "formik"
-import { useBilling, useUser } from "@imploy/common-contexts"
+import { useBilling, useUser } from "@chainsafe/common-contexts"
 import * as yup from "yup"
 import countryList from "./countryList"
 import CardInputs from "../../../Elements/CardInputs"
 import {
   getCardNumberError,
   getExpiryDateError,
-  getCVCError,
+  getCVCError
 } from "../../../Elements/CardInputs/utils"
 
 const ACTUAL_PRICE = 108.5
@@ -39,62 +38,62 @@ const useStyles = makeStyles((theme: ITheme) =>
       marginBottom: theme.constants.generalUnit * 6,
       [theme.breakpoints.down("md")]: {
         marginTop: theme.constants.generalUnit * 2,
-        padding: `0 ${theme.constants.generalUnit}px`,
-      },
+        padding: `0 ${theme.constants.generalUnit}px`
+      }
     },
     headingContainer: {
       marginBottom: theme.constants.generalUnit * 6,
       [theme.breakpoints.down("md")]: {
-        marginBottom: theme.constants.generalUnit * 2,
-      },
+        marginBottom: theme.constants.generalUnit * 2
+      }
     },
     heading: {
       marginBottom: theme.constants.generalUnit * 4,
       [theme.breakpoints.down("md")]: {
-        marginBottom: theme.constants.generalUnit * 2,
-      },
+        marginBottom: theme.constants.generalUnit * 2
+      }
     },
     countryOrRegionContainer: {
-      margin: `${theme.constants.generalUnit}px 0`,
+      margin: `${theme.constants.generalUnit}px 0`
     },
     zipCodeInput: {
       width: "100%",
-      margin: `${theme.constants.generalUnit * 2}px 0px`,
+      margin: `${theme.constants.generalUnit * 2}px 0px`
     },
     purchaseContainer: {
       border: `1px solid ${theme.palette.additional["gray"][6]}`,
       padding: theme.constants.generalUnit * 6,
       [theme.breakpoints.down("md")]: {
         border: "none",
-        padding: 0,
-      },
+        padding: 0
+      }
     },
     backIcon: {
       fontSize: "10px",
-      marginRight: theme.constants.generalUnit,
+      marginRight: theme.constants.generalUnit
     },
     submitButton: {
       width: "100%",
-      marginTop: theme.constants.generalUnit * 4,
+      marginTop: theme.constants.generalUnit * 4
     },
     title: {
       color: theme.palette.additional["gray"][8],
       marginBottom: `${theme.constants.generalUnit * 2}px`,
       fontWeight: 600,
       [theme.breakpoints.down("md")]: {
-        marginBottom: 0,
-      },
+        marginBottom: 0
+      }
     },
     textInput: {
       margin: `${theme.constants.generalUnit * 1}px 0`,
-      width: "100%",
+      width: "100%"
     },
     terms: {
       maxWidth: 700,
       margin: `${theme.constants.generalUnit}px 0 ${
         theme.constants.generalUnit * 3
       }px 0`,
-      color: theme.palette.additional["gray"][8],
+      color: theme.palette.additional["gray"][8]
     },
     cardContainer: {
       marginRight: theme.constants.generalUnit * 3,
@@ -103,8 +102,8 @@ const useStyles = makeStyles((theme: ITheme) =>
       flexDirection: "column",
       [theme.breakpoints.down("md")]: {
         margin: 0,
-        maxWidth: "100%",
-      },
+        maxWidth: "100%"
+      }
     },
     countriesContainer: {
       marginTop: theme.constants.generalUnit * 6,
@@ -117,70 +116,69 @@ const useStyles = makeStyles((theme: ITheme) =>
       maxWidth: 500,
       [theme.breakpoints.down("md")]: {
         margin: 0,
-        maxWidth: "100%",
-      },
+        maxWidth: "100%"
+      }
     },
     pricingContainer: {
       padding: `${theme.constants.generalUnit * 2}px 0`,
       borderBottom: `1px solid ${theme.palette.additional["gray"][7]}`,
       [theme.breakpoints.down("md")]: {
         border: "none",
-        padding: `${theme.constants.generalUnit * 2}px 0`,
-      },
+        padding: `${theme.constants.generalUnit * 2}px 0`
+      }
     },
     pricing: {
       display: "flex",
       flexDirection: "column",
       alignItems: "end",
       [theme.breakpoints.down("md")]: {
-        alignItems: "start",
-      },
+        alignItems: "start"
+      }
     },
     pricingTitle: {
       color: theme.palette.additional["gray"][8],
-      marginBottom: theme.constants.generalUnit,
+      marginBottom: theme.constants.generalUnit
     },
     actualPrice: {
       color: theme.palette.additional["gray"][7],
       fontSize: 16,
-      lineHeight: "24px",
+      lineHeight: "24px"
     },
     priceContainer: {
       display: "flex",
-      alignItems: "center",
+      alignItems: "center"
     },
     price: {
       color: theme.palette.additional["gray"][9],
-      marginRight: theme.constants.generalUnit,
+      marginRight: theme.constants.generalUnit
     },
     priceSubtitle: {
-      color: theme.palette.additional["gray"][7],
-    },
-  }),
+      color: theme.palette.additional["gray"][7]
+    }
+  })
 )
 
 const PurchasePlan: React.FC = () => {
   const classes = useStyles()
   const { profile } = useUser()
   const { addCard, getCardTokenFromStripe } = useBilling()
-  const { breakpoints }: ITheme = useTheme()
-  const desktop = useMediaQuery(breakpoints.up("md"))
+  const { desktop } = useThemeSwitcher()
 
   const validationSchema = yup.object().shape({
     name: yup.string().required("Name is required"),
     email: yup.string().email("Email is invalid").required("Email is required"),
     country: yup.string().when(["zipCode"], {
       is: (zipCode: string | undefined | null) => !zipCode,
-      then: yup.string().required("Country or zip code is required"),
+      then: yup.string().required("Country or zip code is required")
     }),
-    zipCode: yup.string(),
+    zipCode: yup.string()
   })
 
   return (
     <div className={classes.container}>
       <div className={classes.headingContainer}>
         {!desktop && (
-          <Link to={ROUTE_LINKS.Settings}>
+          <Link to={ROUTE_LINKS.SettingsDefault}>
             <ArrowLeftIcon className={classes.backIcon} />
             <Typography>Back to plan settings</Typography>
           </Link>
@@ -189,7 +187,7 @@ const PurchasePlan: React.FC = () => {
           {desktop ? "Purchase a Plus subscription" : "Checkout"}
         </Typography>
         {desktop && (
-          <Link to={ROUTE_LINKS.Settings}>
+          <Link to={ROUTE_LINKS.SettingsDefault}>
             <ArrowLeftIcon className={classes.backIcon} />
             <Typography>Back to plan settings</Typography>
           </Link>
@@ -203,7 +201,7 @@ const PurchasePlan: React.FC = () => {
           cardExpiry: "",
           cardCvc: "",
           country: "",
-          zipCode: "",
+          zipCode: ""
         }}
         onSubmit={async (values) => {
           if (!STRIPE_PK) {
@@ -213,9 +211,9 @@ const PurchasePlan: React.FC = () => {
             {
               cardNumber: values.cardNumber,
               cardExpiry: values.cardExpiry,
-              cardCvc: values.cardCvc,
+              cardCvc: values.cardCvc
             },
-            STRIPE_PK,
+            STRIPE_PK
           )
           // add card api for now
           await addCard(stripeResp.data.id)
@@ -223,7 +221,7 @@ const PurchasePlan: React.FC = () => {
         validateOnChange={false}
         validationSchema={validationSchema}
         validate={(values) => {
-          let errors: any = {}
+          const errors: any = {}
           if (getCardNumberError(values.cardNumber)) {
             errors.cardNumber = getCardNumberError(values.cardNumber)
           } else if (getExpiryDateError(values.cardExpiry)) {
@@ -234,7 +232,7 @@ const PurchasePlan: React.FC = () => {
           return errors
         }}
       >
-        {({ values, errors, handleChange, isSubmitting, setValues }) => (
+        {({ values, errors, handleChange, setValues }) => (
           <Form>
             <div className={classes.purchaseContainer}>
               <Grid container>
@@ -313,7 +311,7 @@ const PurchasePlan: React.FC = () => {
                         }
                         options={countryList.map((country) => ({
                           label: country.label,
-                          value: country.label,
+                          value: country.label
                         }))}
                         isClearable={false}
                         name="country"

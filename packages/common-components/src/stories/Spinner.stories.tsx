@@ -4,7 +4,7 @@ import {
   select,
   number,
   color,
-  boolean,
+  boolean
 } from "@storybook/addon-knobs"
 import { LOADER, Spinner } from "../Spinner"
 import { Loading } from "../Spinner"
@@ -13,7 +13,7 @@ export default {
   title: "Spinner",
   component: Spinner,
   excludeStories: /.*Data$/,
-  decorators: [withKnobs],
+  decorators: [withKnobs]
 }
 
 const loaderOptions: LOADER[] = [
@@ -37,7 +37,7 @@ const loaderOptions: LOADER[] = [
   LOADER.RiseLoader,
   LOADER.RotateLoader,
   LOADER.ScaleLoader,
-  LOADER.SyncLoader,
+  LOADER.SyncLoader
 ]
 
 export const SpinnerStory = (): React.ReactNode => (

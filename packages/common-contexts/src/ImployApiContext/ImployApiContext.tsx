@@ -1,16 +1,10 @@
 import { useWeb3 } from "@chainsafe/web3-context"
 import * as React from "react"
-import { useState, useEffect } from "react"
-import {
-  IImployApiClient,
-  ImployApiClient,
-  Token,
-  Provider,
-} from "@imploy/api-client"
+import { useState, useEffect, useMemo, useCallback } from "react"
+import { IImployApiClient, ImployApiClient, Token, Provider, TKeyRequestIdentity_provider } from "@chainsafe/files-api-client"
 import jwtDecode from "jwt-decode"
-import { signMessage } from "./utils"
 import axios from "axios"
-import { decryptFile, encryptFile } from "../helpers"
+import { decryptFile } from "../helpers"
 
 export { Provider as OAuthProvider }
 
@@ -24,11 +18,22 @@ const testLocalStorage = () => {
   }
 }
 
+const testSessionStorage = () => {
+  try {
+    sessionStorage.setItem("test", "test")
+    sessionStorage.removeItem("test")
+    return true
+  } catch (e) {
+    return false
+  }
+}
+
 const tokenStorageKey = "csf.refreshToken"
 const isReturningUserStorageKey = "csf.isReturningUser"
 
 type ImployApiContextProps = {
   apiUrl?: string
+  useLocalStorage?: boolean
   children: React.ReactNode | React.ReactNode[]
 }
 
@@ -39,8 +44,14 @@ type ImployApiContext = {
   isReturningUser: boolean
   selectWallet(): Promise<void>
   resetAndSelectWallet(): Promise<void>
-  secureAccount(masterPassword: string): Promise<boolean>
-  web3Login(): Promise<void>
+  secureThresholdKeyAccount(encryptedKey: string): Promise<boolean>
+  thresholdKeyLogin(
+    signature: string,
+    token: string,
+    identityProvider: TKeyRequestIdentity_provider,
+    identityToken: string,
+    publicKey: string,
+  ): Promise<void>
   getProviderUrl(provider: Provider): Promise<string>
   loginWithGithub(code: string, state: string): Promise<void>
   loginWithGoogle(
@@ -54,25 +65,31 @@ type ImployApiContext = {
   loginWithFacebook(code: string, state: string): Promise<void>
   logout(): void
   validateMasterPassword(candidatePassword: string): Promise<boolean>
+  encryptedEncryptionKey?: string
+  isMasterPasswordSet: boolean
 }
 
-const ImployApiContext = React.createContext<ImployApiContext | undefined>(
-  undefined,
-)
+const ImployApiContext = React.createContext<ImployApiContext | undefined>(undefined)
 
-const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
-  const { wallet, onboard, checkIsReady, isReady, provider } = useWeb3()
-  const canUseLocalStorage = testLocalStorage()
+const ImployApiProvider = ({ apiUrl, useLocalStorage = true, children }: ImployApiContextProps) => {
+  const maintenanceMode = process.env.REACT_APP_MAINTENANCE_MODE === "true"
+
+  const { wallet, onboard, checkIsReady, isReady } = useWeb3()
+  const canUseLocalStorage = useMemo(() => testLocalStorage(), [])
+  const canUseSessionStorage = useMemo(() => testSessionStorage(), [])
+
   // initializing api
-  const initialAxiosInstance = axios.create({
+  const initialAxiosInstance = useMemo(() => axios.create({
     // Disable the internal Axios JSON de serialization as this is handled by the client
-    transformResponse: [],
-  })
-  const initialApiClient = new ImployApiClient({}, apiUrl, initialAxiosInstance)
+    transformResponse: []
+  }), [])
 
-  const [imployApiClient, setImployApiClient] = useState<ImployApiClient>(
-    initialApiClient,
+  const initialApiClient = useMemo(() => {
+    return new ImployApiClient({}, apiUrl, initialAxiosInstance)
+  }, [apiUrl, initialAxiosInstance]
   )
+
+  const [imployApiClient, setImployApiClient] = useState<ImployApiClient>(initialApiClient)
   const [isLoadingUser, setIsLoadingUser] = useState(true)
 
   // access tokens
@@ -80,30 +97,27 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
   const [secured, setSecured] = useState<boolean | undefined>(undefined)
   const [refreshToken, setRefreshToken] = useState<Token | undefined>(undefined)
   const [decodedRefreshToken, setDecodedRefreshToken] = useState<
-    { exp: number; mps?: string; uuid: string } | undefined
+    { exp: number; enckey?: string; mps?: string; uuid: string } | undefined
   >(undefined)
 
   // returning user
   const isReturningUserLocal =
     canUseLocalStorage && localStorage.getItem(isReturningUserStorageKey)
   const [isReturningUser, setIsReturningUser] = useState(
-    isReturningUserLocal ? true : false,
+    isReturningUserLocal ? true : false
   )
 
-  const setTokensAndSave = (accessToken: Token, refreshToken: Token) => {
+  const setTokensAndSave = useCallback((accessToken: Token, refreshToken: Token) => {
     setAccessToken(accessToken)
     setRefreshToken(refreshToken)
-    refreshToken.token &&
-      canUseLocalStorage &&
-      localStorage.setItem(tokenStorageKey, refreshToken.token)
-
+    refreshToken.token && canUseLocalStorage && useLocalStorage && localStorage.setItem(tokenStorageKey, refreshToken.token)
+    !useLocalStorage && canUseSessionStorage && sessionStorage.setItem(tokenStorageKey, refreshToken.token)
     accessToken.token && imployApiClient.setToken(accessToken.token)
-  }
+  }, [canUseLocalStorage, canUseSessionStorage, imployApiClient, useLocalStorage])
 
   const setReturningUser = () => {
     // set returning user
-    canUseLocalStorage &&
-      localStorage.setItem(isReturningUserStorageKey, "returning")
+    canUseLocalStorage && localStorage.setItem(isReturningUserStorageKey, "returning")
     setIsReturningUser(true)
   }
 
@@ -111,7 +125,7 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
     const initializeApiClient = async () => {
       const axiosInstance = axios.create({
         // Disable the internal Axios JSON de serialization as this is handled by the client
-        transformResponse: [],
+        transformResponse: []
       })
 
       axiosInstance.interceptors.response.use(
@@ -119,22 +133,24 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
           return response
         },
         async (error) => {
-          if (!error.config._retry && error.response.status === 401) {
+          if (!error?.config?._retry && error?.response?.status === 401) {
             error.config._retry = true
             const refreshTokenLocal =
-              canUseLocalStorage && localStorage.getItem(tokenStorageKey)
+              (canUseLocalStorage && useLocalStorage) ?
+                localStorage.getItem(tokenStorageKey) :
+                canUseSessionStorage && sessionStorage.getItem(tokenStorageKey)
             if (refreshTokenLocal) {
               const refreshTokenApiClient = new ImployApiClient(
                 {},
                 apiUrl,
-                axiosInstance,
+                axiosInstance
               )
               try {
                 const {
                   access_token,
-                  refresh_token,
+                  refresh_token
                 } = await refreshTokenApiClient.getRefreshToken({
-                  refresh: refreshTokenLocal,
+                  refresh: refreshTokenLocal
                 })
 
                 setTokensAndSave(access_token, refresh_token)
@@ -142,95 +158,98 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
                 return axios(error.response.config)
               } catch (err) {
                 canUseLocalStorage && localStorage.removeItem(tokenStorageKey)
+                !useLocalStorage && canUseSessionStorage && sessionStorage.removeItem(tokenStorageKey)
                 setRefreshToken(undefined)
                 return Promise.reject(error)
               }
             } else {
               canUseLocalStorage && localStorage.removeItem(tokenStorageKey)
+              !useLocalStorage && canUseSessionStorage && sessionStorage.removeItem(tokenStorageKey)
               setRefreshToken(undefined)
               return Promise.reject(error)
             }
           }
           return Promise.reject(error)
-        },
+        }
       )
+
+      const apiClient = new ImployApiClient({}, apiUrl, axiosInstance)
       const savedRefreshToken =
         canUseLocalStorage && localStorage.getItem(tokenStorageKey)
-      const apiClient = new ImployApiClient({}, apiUrl, axiosInstance)
       setImployApiClient(apiClient)
-      if (savedRefreshToken) {
+      if (!maintenanceMode && savedRefreshToken) {
         try {
           const {
             access_token,
-            refresh_token,
+            refresh_token
           } = await apiClient.getRefreshToken({ refresh: savedRefreshToken })
 
           setTokensAndSave(access_token, refresh_token)
-        } catch (error) {}
+        } catch (error) {
+          console.error("There was an error refreshing the saved token")
+          console.error(error)
+        }
       }
       setIsLoadingUser(false)
     }
 
     initializeApiClient()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const selectWallet = async () => {
     if (onboard && !isReady) {
-      let walletReady = !!wallet
-      if (!walletReady) {
-        walletReady = await onboard.walletSelect()
+      let walletSelected = !!wallet
+      if (!walletSelected) {
+        walletSelected = await onboard.walletSelect()
       }
-      walletReady && (await checkIsReady())
+      walletSelected && (await checkIsReady())
     }
   }
 
   const resetAndSelectWallet = async () => {
     if (onboard) {
-      let walletReady = await onboard.walletSelect()
+      const walletReady = await onboard.walletSelect()
       walletReady && (await checkIsReady())
     }
   }
 
-  const web3Login = async () => {
-    if (!provider) return Promise.reject("No wallet is selected")
-
-    if (!isReady) {
-      const connected = await checkIsReady()
-      if (!connected) return Promise.reject("You need to allow the connection")
-    }
-
+  const thresholdKeyLogin = async (
+    signature: string,
+    token: string,
+    identityProvider: TKeyRequestIdentity_provider,
+    identityToken: string,
+    publicKey: string
+  ) => {
     try {
-      const { token } = await imployApiClient.getWeb3Token()
-
-      if (token) {
-        const signature = await signMessage(token, provider)
-        const addresses = await provider.listAccounts()
-        const {
-          access_token,
-          refresh_token,
-        } = await imployApiClient.postWeb3Token({
-          signature: signature,
-          token: token,
-          public_address: addresses[0],
-        })
-        setTokensAndSave(access_token, refresh_token)
-        setReturningUser()
-        return Promise.resolve()
-      }
+      const {
+        access_token,
+        refresh_token
+      } = await imployApiClient.postIdentityTkeyToken({
+        signature: signature,
+        token: token,
+        identity_provider: identityProvider,
+        identity_token: identityToken,
+        public_key: publicKey
+      })
+      setTokensAndSave(access_token, refresh_token)
+      setReturningUser()
+      return Promise.resolve()
     } catch (error) {
-      return Promise.reject("There was an error logging in.")
+      return Promise.reject(error)
     }
   }
 
   useEffect(() => {
     if (refreshToken && refreshToken.token) {
       try {
-        const decoded = jwtDecode<{ mps?: string; exp: number; uuid: string }>(
-          refreshToken.token,
+        const decoded = jwtDecode<{ mps?: string; enckey?: string; exp: number; uuid: string }>(
+          refreshToken.token
         )
+
         setDecodedRefreshToken(decoded)
       } catch (error) {
-        console.log("Error decoding access token")
+        console.error("Error decoding access token")
       }
     }
   }, [refreshToken])
@@ -239,7 +258,7 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
     if (accessToken && accessToken.token && imployApiClient) {
       imployApiClient?.setToken(accessToken.token)
       const decodedAccessToken = jwtDecode<{ perm: { secured?: string } }>(
-        accessToken.token,
+        accessToken.token
       )
       if (decodedAccessToken.perm.secured === "true") {
         setSecured(true)
@@ -247,7 +266,7 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
         setSecured(false)
       }
     }
-  }, [accessToken])
+  }, [accessToken, imployApiClient])
 
   const isLoggedIn = () => {
     if (isLoadingUser) {
@@ -278,7 +297,7 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
     try {
       const {
         access_token,
-        refresh_token,
+        refresh_token
       } = await imployApiClient.postOauth2CodeGithub(code, state)
       setTokensAndSave(access_token, refresh_token)
       setReturningUser()
@@ -294,19 +313,19 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
     scope: string | undefined,
     authUser: string | undefined,
     hd: string | undefined,
-    prompt: string | undefined,
+    prompt: string | undefined
   ) => {
     try {
       const {
         access_token,
-        refresh_token,
+        refresh_token
       } = await imployApiClient.postOauth2CodeGoogle(
         code,
         state,
         scope,
         authUser,
         hd,
-        prompt,
+        prompt
       )
 
       setTokensAndSave(access_token, refresh_token)
@@ -321,7 +340,7 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
     try {
       const {
         access_token,
-        refresh_token,
+        refresh_token
       } = await imployApiClient.postOauth2CodeFacebook(code, state)
 
       setTokensAndSave(access_token, refresh_token)
@@ -336,26 +355,23 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
     setAccessToken(undefined)
     setRefreshToken(undefined)
     setDecodedRefreshToken(undefined)
+    imployApiClient.setToken("")
     canUseLocalStorage && localStorage.removeItem(tokenStorageKey)
+    !useLocalStorage && canUseSessionStorage && sessionStorage.removeItem(tokenStorageKey)
   }
 
-  const secureAccount = async (masterPassword: string) => {
+  const secureThresholdKeyAccount = async (encryptedKey: string) => {
     try {
       if (decodedRefreshToken && refreshToken) {
-        const uuidArray = new TextEncoder().encode(decodedRefreshToken.uuid)
-        const encryptedUuid = await encryptFile(uuidArray, masterPassword)
-        const encryptedUuidString = Buffer.from(encryptedUuid).toString(
-          "base64",
-        )
         await imployApiClient.secure({
-          mps: encryptedUuidString,
+          encryption_key: encryptedKey
         })
 
         const {
           access_token,
-          refresh_token,
+          refresh_token
         } = await imployApiClient.getRefreshToken({
-          refresh: refreshToken.token,
+          refresh: refreshToken.token
         })
 
         setTokensAndSave(access_token, refresh_token)
@@ -369,7 +385,7 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
   }
 
   const validateMasterPassword = async (
-    candidatePassword: string,
+    candidatePassword: string
   ): Promise<boolean> => {
     if (!decodedRefreshToken || !decodedRefreshToken.mps) return false
     try {
@@ -389,12 +405,10 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
   return (
     <ImployApiContext.Provider
       value={{
-        imployApiClient: imployApiClient,
+        imployApiClient,
         isLoggedIn: isLoggedIn(),
         secured,
         isReturningUser: isReturningUser,
-        secureAccount,
-        web3Login,
         loginWithGithub,
         loginWithGoogle,
         loginWithFacebook,
@@ -403,6 +417,10 @@ const ImployApiProvider = ({ apiUrl, children }: ImployApiContextProps) => {
         getProviderUrl,
         logout,
         validateMasterPassword,
+        thresholdKeyLogin,
+        secureThresholdKeyAccount,
+        encryptedEncryptionKey: decodedRefreshToken?.enckey,
+        isMasterPasswordSet: !!decodedRefreshToken?.mps
       }}
     >
       {children}

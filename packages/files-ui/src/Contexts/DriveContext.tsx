@@ -1,24 +1,28 @@
 import {
-  DirectoryContentResponse,
+  CSFFilesFullinfoResponse,
   FileContentResponse,
   FilesMvRequest,
   FilesPathRequest,
-} from "@imploy/api-client"
+  DirectoryContentResponse,
+  BucketType,
+  SearchEntry
+} from "@chainsafe/files-api-client"
 import React, { useCallback, useEffect, useReducer } from "react"
 import { useState } from "react"
-import { decryptFile, encryptFile, useImployApi } from "@imploy/common-contexts"
-import dayjs from "dayjs"
+import { decryptFile, encryptFile, useImployApi } from "@chainsafe/common-contexts"
 import { v4 as uuidv4 } from "uuid"
 import { useToaster } from "@chainsafe/common-components"
 import {
   downloadsInProgressReducer,
-  uploadsInProgressReducer,
+  uploadsInProgressReducer
 } from "./DriveReducer"
 import { guessContentType } from "../Utils/contentTypeGuesser"
 import { CancelToken } from "axios"
 import { t } from "@lingui/macro"
 import { readFileAsync } from "../Utils/Helpers"
 import { useBeforeunload } from "react-beforeunload"
+import { getPathWithFile } from "../Utils/pathUtils"
+import { useThresholdKey } from "./ThresholdKeyContext"
 
 type DriveContextProps = {
   children: React.ReactNode | React.ReactNode[]
@@ -45,35 +49,48 @@ export type DownloadProgress = {
 }
 
 type DriveContext = {
-  uploadFiles(files: File[], path: string): void
-  createFolder(body: FilesPathRequest): Promise<FileContentResponse>
-  renameFile(body: FilesMvRequest): Promise<void>
-  moveFile(body: FilesMvRequest): Promise<void>
-  deleteFile(cid: string): Promise<void>
-  downloadFile(cid: string): Promise<void>
-  getFileContent(
+  uploadFiles: (files: File[], path: string) => void
+  createFolder: (body: FilesPathRequest) => Promise<FileContentResponse>
+  renameFile: (body: FilesMvRequest) => Promise<void>
+  moveFile: (body: FilesMvRequest) => Promise<void>
+  bulkMoveFile: (cid: FilesMvRequest[]) => Promise<void>
+  recoverFile: (cid: string) => Promise<void>
+  deleteFile: (cid: string) => Promise<void>
+  bulkMoveFileToTrash: (cid: string[]) => Promise<void>
+  moveFileToTrash: (cid: string) => Promise<void>
+  downloadFile: (cid: string) => Promise<void>
+  getFileContent: (
     cid: string,
     cancelToken?: CancelToken,
-    onDownloadProgress?: (progressEvent: ProgressEvent<EventTarget>) => void,
-  ): Promise<Blob | undefined>
-  list(body: FilesPathRequest): Promise<FileContentResponse[]>
+    onDownloadProgress?: (progressEvent: ProgressEvent<EventTarget>) => void
+  ) => Promise<Blob | undefined>
+  list: (body: FilesPathRequest) => Promise<FileContentResponse[]>
   currentPath: string
-  updateCurrentPath(newPath: string): void
-  pathContents: IItem[]
+  updateCurrentPath: (newPath: string, bucketType?: BucketType, showLoading?: boolean) => void
+  pathContents: FileSystemItem[]
   uploadsInProgress: UploadProgress[]
   downloadsInProgress: DownloadProgress[]
   spaceUsed: number
-  isMasterPasswordSet: boolean
-  setMasterPassword(password: string): void
-  secureDrive(password: string): void
-  getFolderTree(): Promise<DirectoryContentResponse>
+  getFolderTree: () => Promise<DirectoryContentResponse>
+  getFileInfo: (path: string) => Promise<CSFFilesFullinfoResponse>
+  getSearchResults: (searchString: string) => Promise<SearchEntry[]>
+  currentSearchBucket:
+    | {
+        bucketType: BucketType
+        bucketId: string
+      }
+    | undefined
+  bucketType: BucketType
   loadingCurrentPath: boolean
+  secureAccountWithMasterPassword: (candidatePassword: string) => Promise<void>
 }
 
-interface IItem extends FileContentResponse {
-  date_uploaded: number
-  isFolder: boolean // This can be removed when date is added to the schema
+// This represents a File or Folder on the
+interface IFileSystemItem extends FileContentResponse {
+  isFolder: boolean
 }
+
+type FileSystemItem = IFileSystemItem
 
 const REMOVE_UPLOAD_PROGRESS_DELAY = 5000
 const MAX_FILE_SIZE = 2 * 1024 ** 3
@@ -85,19 +102,51 @@ const DriveProvider = ({ children }: DriveContextProps) => {
     imployApiClient,
     isLoggedIn,
     secured,
-    secureAccount,
-    validateMasterPassword,
+    secureThresholdKeyAccount,
+    encryptedEncryptionKey,
+    isMasterPasswordSet,
+    validateMasterPassword
   } = useImployApi()
+
+  const {
+    publicKey,
+    encryptForPublicKey,
+    decryptMessageWithThresholdKey
+  } = useThresholdKey()
   const { addToastMessage } = useToaster()
 
   const [loadingCurrentPath, setLoadingCurrentPath] = useState(false)
 
+  const [bucketType, setBucketType] = useState<BucketType>("csf")
+
+  const [pathContents, setPathContents] = useState<FileSystemItem[]>([])
+  const [spaceUsed, setSpaceUsed] = useState(0)
+
+  const [currentSearchBucket, setCurrentSearchBucket] = useState<
+    | {
+        bucketId: string
+        bucketType: BucketType
+      }
+    | undefined
+  >(undefined)
+
+  const [encryptionKey, setEncryptionKey] = useState<string | undefined>(
+    undefined
+  )
+
   const refreshContents = useCallback(
-    async (path: string, showLoading?: boolean) => {
+    async (
+      path: string,
+      bucketTypeParam?: BucketType,
+      showLoading?: boolean
+    ) => {
       try {
         showLoading && setLoadingCurrentPath(true)
         const newContents = await imployApiClient?.getCSFChildList({
           path,
+          source: {
+            type: bucketTypeParam || bucketType
+          }
         })
         showLoading && setLoadingCurrentPath(false)
 
@@ -106,90 +155,154 @@ const DriveProvider = ({ children }: DriveContextProps) => {
           setPathContents(
             newContents?.map((fcr) => ({
               ...fcr,
-              date_uploaded: dayjs().subtract(2, "hour").unix() * 1000,
               content_type:
                 fcr.content_type !== "application/octet-stream"
                   ? fcr.content_type
                   : guessContentType(fcr.name),
               isFolder:
-                fcr.content_type === "application/chainsafe-files-directory",
-            })),
+                fcr.content_type === "application/chainsafe-files-directory"
+            }))
           )
         }
       } catch (error) {
         showLoading && setLoadingCurrentPath(false)
       }
     },
-    [imployApiClient],
+    [imployApiClient, bucketType]
   )
 
   const currentPathReducer = (
     currentPath: string,
     action:
       | { type: "update"; payload: string }
-      | { type: "refreshOnSamePath"; payload: string },
+      | { type: "refreshOnSamePath"; payload: string }
   ): string => {
     switch (action.type) {
-      case "update": {
-        return action.payload
+    case "update": {
+      return action.payload
+    }
+    case "refreshOnSamePath": {
+      // check user has not navigated to other folder
+      // using then catch as awaits won't work in reducer
+      if (action.payload === currentPath) {
+        refreshContents(currentPath, bucketType, false)
       }
-      case "refreshOnSamePath": {
-        // check user has not navigated to other folder
-        // using then catch as awaits won't work in reducer
-        if (action.payload === currentPath) {
-          refreshContents(currentPath)
-        }
-        return currentPath
-      }
-      default:
-        return currentPath
+      return currentPath
+    }
+    default:
+      return currentPath
     }
   }
   const [currentPath, dispatchCurrentPath] = useReducer(currentPathReducer, "/")
 
-  const [pathContents, setPathContents] = useState<IItem[]>([])
-  const [spaceUsed, setSpaceUsed] = useState(0)
-  const [masterPassword, setMasterPassword] = useState<string | undefined>(
-    undefined,
-  )
-
-  const setCurrentPath = (newPath: string) => {
+  const setCurrentPath = (
+    newPath: string,
+    newBucketType?: BucketType,
+    showLoading?: boolean
+  ) => {
     dispatchCurrentPath({ type: "update", payload: newPath })
-    refreshContents(newPath, true)
+    if (newBucketType) {
+      setBucketType(newBucketType)
+    }
+    refreshContents(newPath, newBucketType || bucketType, showLoading)
   }
 
+  // Ensure path contents are refreshed
   useEffect(() => {
     if (isLoggedIn) {
       refreshContents("/")
     }
   }, [imployApiClient, refreshContents, isLoggedIn])
 
+  // Space used counter
   useEffect(() => {
-    if (isLoggedIn) {
-      const getSpaceUsage = async () => {
-        try {
-          const { csf_size } = await imployApiClient.getCSFFilesStoreInfo()
-          setSpaceUsed(csf_size)
-        } catch (error) {}
+    const getSpaceUsage = async () => {
+      try {
+        const { csf_size } = await imployApiClient.getCSFFilesStoreInfo()
+        setSpaceUsed(csf_size)
+      } catch (error) {
+        console.error(error)
       }
+    }
+    if (isLoggedIn) {
       getSpaceUsage()
     }
   }, [imployApiClient, pathContents, isLoggedIn])
 
+  // Reset password on log out
   useEffect(() => {
     if (!isLoggedIn) {
-      setMasterPassword(undefined)
+      setEncryptionKey(undefined)
     }
   }, [isLoggedIn])
 
+  // Drive encryption handler
+  useEffect(() => {
+    const secureAccount = async () => {
+      if (!publicKey) return
+      const key = Buffer.from(
+        window.crypto.getRandomValues(new Uint8Array(32))
+      ).toString("base64")
+      console.log("New key", key)
+      setEncryptionKey(key)
+      const encryptedKey = await encryptForPublicKey(publicKey, key)
+      console.log("Encrypted encryption key", encryptedKey)
+      secureThresholdKeyAccount(encryptedKey)
+    }
+
+    const decryptKey = async (encryptedKey: string) => {
+      console.log("Decrypting retrieved key")
+      try {
+        const decryptedKey = await decryptMessageWithThresholdKey(encryptedKey)
+        if (decryptedKey) {
+          console.log("Decrypted key: ", decryptedKey)
+          setEncryptionKey(decryptedKey)
+        }
+      } catch (error) {
+        console.error("Error decrypting key: ", encryptedKey)
+      }
+    }
+
+    if (isLoggedIn && publicKey && !encryptionKey) {
+      console.log("Checking whether account is secured ", secured)
+      if (!secured && !isMasterPasswordSet) {
+        console.log("Generating key and securing account")
+        secureAccount()
+      } else {
+        console.log("decrypting key")
+        if (encryptedEncryptionKey) {
+          decryptKey(encryptedEncryptionKey)
+        }
+      }
+    }
+  }, [
+    secured,
+    isLoggedIn,
+    encryptedEncryptionKey,
+    publicKey,
+    encryptForPublicKey,
+    secureThresholdKeyAccount,
+    decryptMessageWithThresholdKey,
+    encryptionKey,
+    isMasterPasswordSet
+  ])
+
+  const secureAccountWithMasterPassword = async (candidatePassword: string) => {
+    if (!publicKey || !validateMasterPassword(candidatePassword)) return
+
+    const encryptedKey = await encryptForPublicKey(publicKey, candidatePassword)
+    setEncryptionKey(candidatePassword)
+    secureThresholdKeyAccount(encryptedKey)
+  }
+
   const [uploadsInProgress, dispatchUploadsInProgress] = useReducer(
     uploadsInProgressReducer,
-    [],
+    []
   )
 
   const [downloadsInProgress, dispatchDownloadsInProgress] = useReducer(
     downloadsInProgressReducer,
-    [],
+    []
   )
 
   const [closeIntercept, setCloseIntercept] = useState<string | undefined>()
@@ -212,7 +325,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
 
   const uploadFiles = async (files: File[], path: string) => {
     const startUploadFile = async () => {
-      if (!masterPassword) return // TODO: Add better error handling here.
+      if (!encryptionKey) return // TODO: Add better error handling here.
 
       const id = uuidv4()
       const uploadProgress: UploadProgress = {
@@ -222,7 +335,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
         error: false,
         noOfFiles: files.length,
         progress: 0,
-        path,
+        path
       }
       dispatchUploadsInProgress({ type: "add", payload: uploadProgress })
       try {
@@ -231,18 +344,18 @@ const DriveProvider = ({ children }: DriveContextProps) => {
             .filter((f) => f.size <= MAX_FILE_SIZE)
             .map(async (f) => {
               const fileData = await readFileAsync(f)
-              const encryptedData = await encryptFile(fileData, masterPassword)
+              const encryptedData = await encryptFile(fileData, encryptionKey)
               return {
                 data: new Blob([encryptedData], { type: f.type }),
-                fileName: f.name,
+                fileName: f.name
               }
-            }),
+            })
         )
         if (filesParam.length !== files.length) {
           addToastMessage({
             message:
               "We can't encrypt files larger than 2GB. Some items will not be uploaded",
-            appearance: "error",
+            appearance: "error"
           })
         }
         // API call
@@ -258,11 +371,11 @@ const DriveProvider = ({ children }: DriveContextProps) => {
               payload: {
                 id,
                 progress: Math.ceil(
-                  (progressEvent.loaded / progressEvent.total) * 100,
-                ),
-              },
+                  (progressEvent.loaded / progressEvent.total) * 100
+                )
+              }
             })
-          },
+          }
         )
 
         // refresh contents
@@ -287,7 +400,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
         }
         dispatchUploadsInProgress({
           type: "error",
-          payload: { id, errorMessage },
+          payload: { id, errorMessage }
         })
         setTimeout(() => {
           dispatchUploadsInProgress({ type: "remove", payload: { id } })
@@ -303,13 +416,13 @@ const DriveProvider = ({ children }: DriveContextProps) => {
       await refreshContents(currentPath)
       addToastMessage({
         message: t`Folder created successfully`,
-        appearance: "success",
+        appearance: "success"
       })
       return result
     } catch (error) {
       addToastMessage({
         message: t`There was an error creating this folder`,
-        appearance: "error",
+        appearance: "error"
       })
       return Promise.reject()
     }
@@ -322,7 +435,20 @@ const DriveProvider = ({ children }: DriveContextProps) => {
     } catch (error) {
       addToastMessage({
         message: t`There was an error getting folder info`,
-        appearance: "error",
+        appearance: "error"
+      })
+      return Promise.reject()
+    }
+  }
+
+  const getFileInfo = async (path: string) => {
+    try {
+      const result = await imployApiClient.getCSFFileInfo({ path })
+      return result
+    } catch (error) {
+      addToastMessage({
+        message: t`There was an error getting file info`,
+        appearance: "error"
       })
       return Promise.reject()
     }
@@ -330,17 +456,20 @@ const DriveProvider = ({ children }: DriveContextProps) => {
 
   const renameFile = async (body: FilesMvRequest) => {
     try {
-      await imployApiClient.moveCSFObject(body)
-      await refreshContents(currentPath)
-      addToastMessage({
-        message: t`File renamed successfully`,
-        appearance: "success",
-      })
+      if (body.path !== body.new_path) {
+        await imployApiClient.moveCSFObject(body)
+        await refreshContents(currentPath)
+        addToastMessage({
+          message: t`File renamed successfully`,
+          appearance: "success"
+        })
+      }
+
       return Promise.resolve()
     } catch (error) {
       addToastMessage({
         message: t`There was an error renaming this file`,
-        appearance: "error",
+        appearance: "error"
       })
       return Promise.reject()
     }
@@ -352,15 +481,21 @@ const DriveProvider = ({ children }: DriveContextProps) => {
       await refreshContents(currentPath)
       addToastMessage({
         message: t`File moved successfully`,
-        appearance: "success",
+        appearance: "success"
       })
       return Promise.resolve()
     } catch (error) {
       addToastMessage({
         message: t`There was an error moving this file`,
-        appearance: "error",
+        appearance: "error"
       })
       return Promise.reject()
+    }
+  }
+
+  const bulkMoveFile = async (filesToMove: FilesMvRequest[]) => {
+    for (let i = 0; i < filesToMove.length; i++) {
+      await moveFile(filesToMove[i])
     }
   }
 
@@ -370,6 +505,9 @@ const DriveProvider = ({ children }: DriveContextProps) => {
     try {
       await imployApiClient.removeCSFObjects({
         paths: [`${currentPath}${itemToDelete.name}`],
+        source: {
+          type: bucketType
+        }
       })
       await refreshContents(currentPath)
       const message = `${
@@ -377,7 +515,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
       } ${t`deleted successfully`}`
       addToastMessage({
         message: message,
-        appearance: "success",
+        appearance: "success"
       })
       return Promise.resolve()
     } catch (error) {
@@ -386,27 +524,102 @@ const DriveProvider = ({ children }: DriveContextProps) => {
       }`
       addToastMessage({
         message: message,
-        appearance: "error",
+        appearance: "error"
       })
       return Promise.reject()
     }
   }
 
-  const getFileContent = async (
+  const moveFileToTrash = async (cid: string) => {
+    const itemToDelete = pathContents.find((i) => i.cid === cid)
+    if (!itemToDelete) return
+    try {
+      await imployApiClient.moveCSFObject({
+        path: getPathWithFile(currentPath, itemToDelete.name),
+        new_path: getPathWithFile("/", itemToDelete.name),
+        destination: {
+          type: "trash"
+        }
+      })
+      await refreshContents(currentPath)
+      const message = `${
+        itemToDelete.isFolder ? t`Folder` : t`File`
+      } ${t`deleted successfully`}`
+      addToastMessage({
+        message: message,
+        appearance: "success"
+      })
+      return Promise.resolve()
+    } catch (error) {
+      const message = `${t`There was an error deleting this`} ${
+        itemToDelete.isFolder ? t`folder` : t`file`
+      }`
+      addToastMessage({
+        message: message,
+        appearance: "error"
+      })
+      return Promise.reject()
+    }
+  }
+
+  const bulkMoveFileToTrash = async (cidsToTrash: string[]) => {
+    for (let i = 0; i < cidsToTrash.length; i++) {
+      await moveFileToTrash(cidsToTrash[i])
+    }
+  }
+
+  const recoverFile = async (cid: string) => {
+    const itemToRestore = pathContents.find((i) => i.cid === cid)
+    if (!itemToRestore) return
+    try {
+      await imployApiClient.moveCSFObject({
+        path: getPathWithFile("/", itemToRestore.name),
+        new_path: getPathWithFile("/", itemToRestore.name),
+        source: {
+          type: "trash"
+        },
+        destination: {
+          type: "csf"
+        }
+      })
+      await refreshContents(currentPath)
+
+      const message = `${
+        itemToRestore.isFolder ? t`Folder` : t`File`
+      } ${t`recovered successfully`}`
+
+      addToastMessage({
+        message: message,
+        appearance: "success"
+      })
+      return Promise.resolve()
+    } catch (error) {
+      const message = `${t`There was an error recovering this`} ${
+        itemToRestore.isFolder ? t`folder` : t`file`
+      }`
+      addToastMessage({
+        message: message,
+        appearance: "error"
+      })
+      return Promise.reject()
+    }
+  }
+
+  const getFileContent = useCallback(async (
     cid: string,
     cancelToken?: CancelToken,
-    onDownloadProgress?: (progressEvent: ProgressEvent<EventTarget>) => void,
+    onDownloadProgress?: (progressEvent: ProgressEvent<EventTarget>) => void
   ) => {
-    if (!masterPassword) return // TODO: Add better error handling here.
+    if (!encryptionKey) return // TODO: Add better error handling here.
     const file = pathContents.find((i) => i.cid === cid)
     if (!file) return
     try {
       const result = await imployApiClient.getFileContent(
         {
-          path: currentPath + file.name,
+          path: currentPath + file.name
         },
         cancelToken,
-        onDownloadProgress,
+        onDownloadProgress
       )
 
       if (file.version === 0) {
@@ -414,11 +627,11 @@ const DriveProvider = ({ children }: DriveContextProps) => {
       } else {
         const decrypted = await decryptFile(
           await result.data.arrayBuffer(),
-          masterPassword,
+          encryptionKey
         )
         if (decrypted) {
           return new Blob([decrypted], {
-            type: file.content_type,
+            type: file.content_type
           })
         }
       }
@@ -426,7 +639,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
       console.log(error)
       return Promise.reject()
     }
-  }
+  }, [currentPath, encryptionKey, imployApiClient, pathContents])
 
   const downloadFile = async (cid: string) => {
     const itemToDownload = pathContents.find((i) => i.cid === cid)
@@ -438,7 +651,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
         fileName: itemToDownload.name,
         complete: false,
         error: false,
-        progress: 0,
+        progress: 0
       }
       dispatchDownloadsInProgress({ type: "add", payload: downloadProgress })
       const result = await getFileContent(
@@ -450,11 +663,11 @@ const DriveProvider = ({ children }: DriveContextProps) => {
             payload: {
               id: toastId,
               progress: Math.ceil(
-                (progressEvent.loaded / itemToDownload.size) * 100,
-              ),
-            },
+                (progressEvent.loaded / itemToDownload.size) * 100
+              )
+            }
           })
-        },
+        }
       )
       if (!result) return
       const link = document.createElement("a")
@@ -463,13 +676,13 @@ const DriveProvider = ({ children }: DriveContextProps) => {
       link.click()
       dispatchDownloadsInProgress({
         type: "complete",
-        payload: { id: toastId },
+        payload: { id: toastId }
       })
       URL.revokeObjectURL(link.href)
       setTimeout(() => {
         dispatchDownloadsInProgress({
           type: "remove",
-          payload: { id: toastId },
+          payload: { id: toastId }
         })
       }, REMOVE_UPLOAD_PROGRESS_DELAY)
       return Promise.resolve()
@@ -487,25 +700,50 @@ const DriveProvider = ({ children }: DriveContextProps) => {
     }
   }
 
-  const secureDrive = async (password: string) => {
-    if (secured) return
-
-    const result = await secureAccount(password)
-    if (result) {
-      setMasterPassword(password)
+  const getSearchResults = async (searchString: string) => {
+    try {
+      if (!searchString) return []
+      let bucketId
+      if (
+        currentSearchBucket &&
+        currentSearchBucket.bucketType === bucketType
+      ) {
+        // we have the bucket id
+        bucketId = currentSearchBucket.bucketId
+      } else {
+        // fetch bucket id
+        const results = await imployApiClient.listBuckets(bucketType)
+        const bucket1 = results[0]
+        setCurrentSearchBucket({
+          bucketType,
+          bucketId: bucket1.id
+        })
+        bucketId = bucket1.id
+      }
+      const results = await imployApiClient.searchFiles({
+        bucket_id: bucketId || "",
+        query: searchString
+      })
+      return results
+    } catch (err) {
+      addToastMessage({
+        message: t`There was an error getting search results`,
+        appearance: "error"
+      })
+      return Promise.reject(err)
     }
   }
 
-  const setPassword = async (password: string) => {
-    if (!masterPassword && (await validateMasterPassword(password))) {
-      setMasterPassword(password)
-    } else {
-      console.log(
-        "The password is already set, or an incorrect password was entered.",
-      )
-      return false
-    }
-  }
+  // const setPassword = async (password: string) => {
+  //   if (!masterPassword && (await validateMasterPassword(password))) {
+  //     setMasterPassword(password)
+  //   } else {
+  //     console.log(
+  //       "The password is already set, or an incorrect password was entered.",
+  //     )
+  //     return false
+  //   }
+  // }
 
   return (
     <DriveContext.Provider
@@ -514,24 +752,35 @@ const DriveProvider = ({ children }: DriveContextProps) => {
         createFolder,
         renameFile,
         moveFile,
+        bulkMoveFile,
         deleteFile,
+        moveFileToTrash,
+        bulkMoveFileToTrash,
         downloadFile,
         getFileContent,
+        recoverFile,
         list,
         currentPath,
-        updateCurrentPath: (newPath: string) =>
+        updateCurrentPath: (
+          newPath: string,
+          bucketType?: BucketType,
+          showLoading?: boolean
+        ) => {
           newPath.endsWith("/")
-            ? setCurrentPath(`${newPath}`)
-            : setCurrentPath(`${newPath}/`),
+            ? setCurrentPath(`${newPath}`, bucketType, showLoading)
+            : setCurrentPath(`${newPath}/`, bucketType, showLoading)
+        },
         pathContents,
         uploadsInProgress,
         spaceUsed,
         downloadsInProgress,
-        isMasterPasswordSet: !!masterPassword,
-        setMasterPassword: setPassword,
-        secureDrive,
         getFolderTree,
+        getSearchResults,
+        currentSearchBucket,
         loadingCurrentPath,
+        getFileInfo,
+        bucketType,
+        secureAccountWithMasterPassword
       }}
     >
       {children}
@@ -548,4 +797,10 @@ const useDrive = () => {
 }
 
 export { DriveProvider, useDrive }
-export type { IItem as IFile, DirectoryContentResponse }
+export type {
+  FileSystemItem,
+  DirectoryContentResponse,
+  CSFFilesFullinfoResponse as FileFullInfo,
+  BucketType,
+  SearchEntry
+}

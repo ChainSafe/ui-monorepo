@@ -1,43 +1,74 @@
 import { Button, FileInput } from "@chainsafe/common-components"
 import { useDrive } from "../../Contexts/DriveContext"
-import { createStyles, ITheme, makeStyles } from "@chainsafe/common-theme"
-import React from "react"
+import {
+  createStyles,
+  makeStyles
+} from "@chainsafe/common-theme"
+import React, { useCallback, useState } from "react"
 import { Formik, Form } from "formik"
 import { array, object } from "yup"
 import CustomModal from "../Elements/CustomModal"
-import { Trans } from "@lingui/macro"
+import { Trans, t } from "@lingui/macro"
+import clsx from "clsx"
+import { CSFTheme } from "../../Themes/types"
 
-const useStyles = makeStyles(({ constants, palette, breakpoints }: ITheme) =>
+const useStyles = makeStyles(({ constants, breakpoints }: CSFTheme) =>
   createStyles({
     root: {
-      padding: constants.generalUnit * 4,
-      "& footer": {
-        display: "flex",
-        flexDirection: "row",
-        justifyContent: "flex-end",
-        alignItems: "center",
-      },
     },
     modalInner: {
+      backgroundColor: constants.uploadModal.background,
+      color: constants.uploadModal.color,
       [breakpoints.down("md")]: {
-        maxWidth: `${breakpoints.width("md")}px !important`,
-      },
+        maxWidth: `${breakpoints.width("md")}px !important`
+      }
     },
     input: {
-      marginBottom: constants.generalUnit * 2,
+      marginBottom: constants.generalUnit * 2
+    },
+    fileList: {
+      color: constants.uploadModal.color
+    },
+    item: {
+      color: constants.uploadModal.color
     },
     cta: {},
     okButton: {
       marginLeft: constants.generalUnit,
-      color: palette.common.white.main,
-      backgroundColor: palette.common.black.main,
+      "&.wide": {
+        paddingLeft: constants.generalUnit * 4,
+        paddingRight: constants.generalUnit * 4
+      }
     },
     cancelButton: {},
     label: {
       fontSize: 14,
-      lineHeight: "22px",
+      lineHeight: "22px"
     },
-  }),
+    addFiles: {
+      backgroundColor: constants.uploadModal.addMoreBackground,
+      color: constants.uploadModal.addMore,
+      "& svg": {
+        fill: constants.uploadModal.addMore
+      }
+    },
+    closeIcon: {
+      "& svg": {
+        fill: constants.uploadModal.icon
+      },
+      "&:hover svg": {
+        fill: constants.uploadModal.iconHover
+      }
+    },
+    footer: {
+      display: "flex",
+      flexDirection: "row",
+      justifyContent: "flex-end",
+      alignItems: "center",
+      padding: constants.generalUnit * 2,
+      backgroundColor: constants.uploadModal.footerBackground
+    }
+  })
 )
 
 interface IUploadFileModuleProps {
@@ -47,16 +78,20 @@ interface IUploadFileModuleProps {
 
 const UploadFileModule: React.FC<IUploadFileModuleProps> = ({
   modalOpen,
-  close,
+  close
 }: IUploadFileModuleProps) => {
   const classes = useStyles()
+
+  const [isDoneDisabled, setIsDoneDisabled] = useState(true)
   const { uploadFiles, currentPath } = useDrive()
 
   const UploadSchema = object().shape({
-    files: array()
-      .min(1, "Please select a file")
-      .required("Please select a file to upload"),
+    files: array().required("Please select a file to upload")
   })
+
+  const onFileNumberChange = useCallback((filesNumber: number) => {
+    setIsDoneDisabled(filesNumber === 0)
+  }, [])
 
   return (
     <CustomModal
@@ -64,12 +99,12 @@ const UploadFileModule: React.FC<IUploadFileModuleProps> = ({
       closePosition="none"
       maxWidth="sm"
       injectedClass={{
-        inner: classes.modalInner,
+        inner: classes.modalInner
       }}
     >
       <Formik
         initialValues={{
-          files: [],
+          files: []
         }}
         validationSchema={UploadSchema}
         onSubmit={async (values, helpers) => {
@@ -92,13 +127,21 @@ const UploadFileModule: React.FC<IUploadFileModuleProps> = ({
           <FileInput
             multiple={true}
             className={classes.input}
-            label="Upload Files and Folders"
+            classNames={{
+              closeIcon: classes.closeIcon,
+              filelist: classes.fileList,
+              item: classes.item,
+              addFiles: classes.addFiles
+            }}
+            label={t`Click or drag to upload files`}
+            moreFilesLabel={t`Add more files`}
             maxSize={2 * 1024 ** 3}
             name="files"
+            onFileNumberChange={onFileNumberChange}
           />
-          <footer>
+          <footer className={classes.footer}>
             <Button
-              onClick={() => close()}
+              onClick={close}
               size="medium"
               className={classes.cancelButton}
               variant="outline"
@@ -106,8 +149,14 @@ const UploadFileModule: React.FC<IUploadFileModuleProps> = ({
             >
               <Trans>Cancel</Trans>
             </Button>
-            <Button size="medium" type="submit" className={classes.okButton}>
-              <Trans>Upload</Trans>
+            <Button
+              size="medium"
+              type="submit"
+              variant="primary"
+              className={clsx(classes.okButton, "wide")}
+              disabled={isDoneDisabled}
+            >
+              <Trans>Start Upload</Trans>
             </Button>
           </footer>
         </Form>

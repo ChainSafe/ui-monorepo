@@ -1,11 +1,7 @@
 import React, { ReactNode, useRef } from "react"
-import {
-  ITheme,
-  useOnClickOutside,
-  makeStyles,
-  createStyles,
-} from "@chainsafe/common-theme"
+import { ITheme, useOnClickOutside, makeStyles, createStyles } from "@chainsafe/common-theme"
 import clsx from "clsx"
+import { CloseSvg } from "../Icons/icons/Close.icon"
 
 const useStyles = makeStyles(
   ({ animation, constants, breakpoints, palette, overrides, zIndex }: ITheme) =>
@@ -29,8 +25,8 @@ const useStyles = makeStyles(
         transitionProperty: "opacity",
         "&.closable": {
           "&:before": {
-            cursor: "pointer",
-          },
+            cursor: "pointer"
+          }
         },
         "&:before": {
           content: "''",
@@ -43,23 +39,23 @@ const useStyles = makeStyles(
           left: 0,
           zIndex: 0,
           backgroundColor: palette.common?.black.main,
-          transitionDuration: `${animation.transform}ms`,
+          transitionDuration: `${animation.transform}ms`
         },
         "& > *": {
           opacity: 0,
           visibility: "hidden",
-          transitionDuration: `${animation.transform}ms`,
+          transitionDuration: `${animation.transform}ms`
         },
         "&.active": {
           visibility: "visible",
           opacity: 1,
           "& > *": {
             opacity: 1,
-            visibility: "visible",
+            visibility: "visible"
           },
-          ...overrides?.Modal?.active,
+          ...overrides?.Modal?.active
         },
-        ...overrides?.Modal?.root,
+        ...overrides?.Modal?.root
       },
       inner: {
         ...constants.modal.inner,
@@ -75,29 +71,29 @@ const useStyles = makeStyles(
         "&.xs": {
           width: `calc(100% - ${constants.generalUnit * 2}px)`,
           maxWidth: breakpoints.width("xs"),
-          ...overrides?.Modal?.inner?.size?.xs,
+          ...overrides?.Modal?.inner?.size?.xs
         },
         "&.sm": {
           width: `calc(100% - ${constants.generalUnit * 2}px)`,
           maxWidth: breakpoints.width("sm"),
-          ...overrides?.Modal?.inner?.size?.sm,
+          ...overrides?.Modal?.inner?.size?.sm
         },
         "&.md": {
           width: `calc(100% - ${constants.generalUnit * 2}px)`,
           maxWidth: breakpoints.width("md"),
-          ...overrides?.Modal?.inner?.size?.md,
+          ...overrides?.Modal?.inner?.size?.md
         },
         "&.lg": {
           width: `calc(100% - ${constants.generalUnit * 2}px)`,
           maxWidth: breakpoints.width("lg"),
-          ...overrides?.Modal?.inner?.size?.lg,
+          ...overrides?.Modal?.inner?.size?.lg
         },
         "&.xl": {
           width: `calc(100% - ${constants.generalUnit * 2}px)`,
           maxWidth: breakpoints.width("lg"),
-          ...overrides?.Modal?.inner?.size?.xl,
+          ...overrides?.Modal?.inner?.size?.xl
         },
-        ...overrides?.Modal?.inner?.root,
+        ...overrides?.Modal?.inner?.root
       },
       closeIcon: {
         ...constants.icon,
@@ -107,22 +103,26 @@ const useStyles = makeStyles(
         backgroundColor: palette.common?.white.main,
         cursor: "pointer",
         position: "absolute",
+        "& svg": {
+          height: 15,
+          width: 15
+        },
         "&.right": {
           transform: "translate(50%, -50%)",
           right: 0,
-          ...overrides?.Modal?.closeIcon?.right,
+          ...overrides?.Modal?.closeIcon?.right
         },
         "&.left": {
           left: 0,
           transform: "translate(-50%, -50%)",
-          ...overrides?.Modal?.closeIcon?.left,
+          ...overrides?.Modal?.closeIcon?.left
         },
         "&.none": {
-          display: "none",
+          display: "none"
         },
-        ...overrides?.Modal?.closeIcon?.root,
-      },
-    }),
+        ...overrides?.Modal?.closeIcon?.root
+      }
+    })
 )
 
 interface IModalClasses {
@@ -147,7 +147,7 @@ const Modal: React.FC<IModalProps> = ({
   injectedClass,
   active = false,
   setActive,
-  maxWidth = "sm",
+  maxWidth = "sm"
 }: IModalProps) => {
   const classes = useStyles()
 
@@ -166,8 +166,8 @@ const Modal: React.FC<IModalProps> = ({
       className={clsx(
         classes.root,
         className && `${className}`,
-        setActive ? `closable` : "",
-        active ? "active" : "closed",
+        setActive ? "closable" : "",
+        active ? "active" : "closed"
       )}
     >
       <section
@@ -175,15 +175,15 @@ const Modal: React.FC<IModalProps> = ({
         style={
           maxWidth && typeof maxWidth == "number"
             ? {
-                width: "100%",
-                maxWidth: maxWidth,
-              }
+              width: "100%",
+              maxWidth: maxWidth
+            }
             : {}
         }
         className={clsx(
           classes.inner,
           injectedClass?.inner,
-          typeof maxWidth != "number" ? maxWidth : "",
+          typeof maxWidth != "number" ? maxWidth : ""
         )}
       >
         {setActive && (
@@ -192,11 +192,10 @@ const Modal: React.FC<IModalProps> = ({
             className={clsx(
               classes.closeIcon,
               injectedClass?.close,
-              `${closePosition}`,
+              `${closePosition}`
             )}
           >
-            {/* TODO: Close icon replace */}
-            close
+            <CloseSvg />
           </div>
         )}
         {children}

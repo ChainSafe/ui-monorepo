@@ -3,7 +3,7 @@ import {
   ITheme,
   makeStyles,
   createStyles,
-  useTheme,
+  useTheme
 } from "@chainsafe/common-theme"
 import clsx from "clsx"
 import Blockies from "react-blockies"
@@ -12,9 +12,9 @@ const useStyles = makeStyles(({ overrides }: ITheme) =>
   createStyles({
     // JSS in CSS goes here
     root: {
-      ...overrides?.Blockies?.root,
-    },
-  }),
+      ...overrides?.Blockies?.root
+    }
+  })
 )
 
 interface IBlockiesProps {
@@ -34,7 +34,7 @@ const BlockiesComponent: React.FC<IBlockiesProps> = ({
   scale = 4,
   color,
   bgColor,
-  spotColor,
+  spotColor
 }: IBlockiesProps) => {
   const classes = useStyles()
   const theme: ITheme = useTheme()

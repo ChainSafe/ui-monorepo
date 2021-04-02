@@ -1,11 +1,9 @@
-import { useImployApi, useUser } from "@imploy/common-contexts"
+import { useImployApi, useUser } from "@chainsafe/common-contexts"
 import { useDrive } from "../../Contexts/DriveContext"
 import {
   createStyles,
-  ITheme,
   makeStyles,
-  useMediaQuery,
-  useTheme,
+  useThemeSwitcher
 } from "@chainsafe/common-theme"
 import React, { Fragment, useCallback } from "react"
 import clsx from "clsx"
@@ -19,13 +17,18 @@ import {
   ProgressBar,
   Button,
   formatBytes,
+  DeleteSvg,
+  SunSvg,
+  MoonSvg
 } from "@chainsafe/common-components"
 import { ROUTE_LINKS } from "../FilesRoutes"
 import { FREE_PLAN_LIMIT } from "../../Utils/Constants"
 import { Trans } from "@lingui/macro"
+import { useThresholdKey } from "../../Contexts/ThresholdKeyContext"
+import { CSFTheme } from "../../Themes/types"
 
 const useStyles = makeStyles(
-  ({ palette, animation, breakpoints, constants, zIndex }: ITheme) => {
+  ({ palette, animation, breakpoints, constants, zIndex }: CSFTheme) => {
     return createStyles({
       root: {
         width: 0,
@@ -37,49 +40,38 @@ const useStyles = makeStyles(
         left: 0,
         opacity: 0,
         "&.active": {
-          opacity: 1,
+          opacity: 1
         },
         [breakpoints.up("md")]: {
-          padding: `${constants.topPadding}px ${constants.generalUnit * 4.5}px`,
-          backgroundColor: palette.additional["gray"][3],
+          padding: `${constants.topPadding}px ${
+            constants.generalUnit * 4.5
+          }px`,
           top: 0,
           height: "100%",
+          backgroundColor: constants.nav.backgroundColor,
           "&.active": {
-            width: constants.navWidth,
-          },
+            width: `${constants.navWidth}px`
+          }
         },
         [breakpoints.down("md")]: {
           height: `calc(100% - ${constants.mobileHeaderHeight}px)`,
-          top: constants.mobileHeaderHeight,
-          backgroundColor: palette.additional["gray"][9],
+          top: `${constants.mobileHeaderHeight}px`,
+          backgroundColor: constants.nav.mobileBackgroundColor,
           zIndex: zIndex?.layer1,
           padding: `0 ${constants.generalUnit * 4}px`,
           maxWidth: "100vw",
           visibility: "hidden",
-          // "&:before": {
-          //   content: "''",
-          //   display: "block",
-          //   backgroundColor: palette.additional["gray"][9],
-          //   opacity: 0.5,
-          //   position: "fixed",
-          //   top: mobileHeaderHeight,
-          //   left: 0,
-          //   height: `calc(100% - ${mobileHeaderHeight}px)`,
-          //   width: "100%",
-          //   transitionDuration: `${animation.translate}ms`,
-          //   zIndex: zIndex?.background,
-          // },
           "&.active": {
             visibility: "visible",
-            width: constants.mobileNavWidth,
-          },
-        },
+            width: `${constants.mobileNavWidth}px`
+          }
+        }
       },
       blocker: {
         display: "block",
-        backgroundColor: palette.additional["gray"][9],
+        backgroundColor: constants.nav.blocker,
         position: "fixed",
-        top: constants.mobileHeaderHeight as number,
+        top: Number(constants.mobileHeaderHeight),
         left: 0,
         height: `calc(100% - ${constants.mobileHeaderHeight}px)`,
         width: "100%",
@@ -89,8 +81,10 @@ const useStyles = makeStyles(
         visibility: "hidden",
         "&.active": {
           visibility: "visible",
-          opacity: 0.5,
-        },
+          [breakpoints.down("md")]: {
+            opacity: 0.5
+          }
+        }
       },
       logo: {
         textDecoration: "none",
@@ -101,11 +95,11 @@ const useStyles = makeStyles(
         [breakpoints.up("md")]: {
           "& img": {
             height: constants.generalUnit * 5,
-            width: "auto",
+            width: "auto"
           },
           "& > *:first-child": {
-            marginRight: constants.generalUnit,
-          },
+            marginRight: constants.generalUnit
+          }
         },
         [breakpoints.down("md")]: {
           position: "absolute",
@@ -114,15 +108,15 @@ const useStyles = makeStyles(
           transform: "translate(-50%,-50%)",
           "& img": {
             height: constants.generalUnit * 3.25,
-            width: "auto",
-          },
-        },
+            width: "auto"
+          }
+        }
       },
       navMenu: {
         display: "flex",
         flexDirection: "column",
         marginBottom: constants.generalUnit * 8.5,
-        transitionDuration: `${animation.translate}ms`,
+        transitionDuration: `${animation.translate}ms`
       },
       linksArea: {
         display: "flex",
@@ -131,19 +125,20 @@ const useStyles = makeStyles(
         justifyContent: "center",
         transitionDuration: `${animation.translate}ms`,
         "& > span": {
-          marginBottom: constants.generalUnit * 2,
+          marginBottom: constants.generalUnit * 2
         },
         [breakpoints.up("md")]: {
-          height: 0,
+          height: 0
         },
         [breakpoints.down("md")]: {
           transitionDuration: `${animation.translate}ms`,
           color: palette.additional["gray"][3],
-          "&.active": {},
-        },
+          "&.active": {}
+        }
       },
       navHead: {
         fontWeight: 600,
+        color: constants.nav.headingColor
       },
       navItem: {
         textDecoration: "none",
@@ -152,23 +147,43 @@ const useStyles = makeStyles(
         alignItems: "center",
         cursor: "pointer",
         padding: `${constants.generalUnit * 1.5}px 0`,
-        "& svg": {
-          width: constants.svgWidth,
-          marginRight: constants.generalUnit * 2,
-          fill: palette.additional["gray"][8],
-          [breakpoints.down("md")]: {
-            fill: palette.additional["gray"][3],
+        transitionDuration: `${animation.transform}ms`,
+        "& span": {
+          transitionDuration: `${animation.transform}ms`,
+          [breakpoints.up("md")]: {
+            color: constants.nav.itemColor
           },
+          [breakpoints.down("md")]: {
+            color: constants.nav.itemColorHover
+          }
+        },
+        "& svg": {
+          transitionDuration: `${animation.transform}ms`,
+          width: Number(constants.svgWidth),
+          marginRight: constants.generalUnit * 2,
+          [breakpoints.up("md")]: {
+            fill: constants.nav.itemIconColor
+          },
+          [breakpoints.down("md")]: {
+            fill: constants.nav.itemIconColorHover
+          }
+        },
+        "&:hover": {
+          "& span": {
+            color: constants.nav.itemColorHover
+          },
+          "& svg": {
+            fill: constants.nav.itemIconColorHover
+          }
         },
         [breakpoints.down("md")]: {
-          color: `${palette.additional["gray"][3]} !important`,
-          minWidth: constants.mobileNavWidth,
-        },
+          minWidth: Number(constants.mobileNavWidth)
+        }
       },
       navItemText: {
         [breakpoints.down("md")]: {
-          color: palette.additional["gray"][3],
-        },
+          color: palette.additional["gray"][3]
+        }
       },
       menuItem: {
         width: 100,
@@ -178,17 +193,17 @@ const useStyles = makeStyles(
         "& svg": {
           width: constants.generalUnit * 2,
           height: constants.generalUnit * 2,
-          marginRight: constants.generalUnit,
-        },
+          marginRight: constants.generalUnit
+        }
       },
       spaceUsedMargin: {
-        marginBottom: constants.generalUnit,
+        marginBottom: constants.generalUnit
       },
       betaCaption: {
-        marginBottom: constants.generalUnit * 0.5,
-      },
+        marginBottom: constants.generalUnit * 0.5
+      }
     })
-  },
+  }
 )
 
 interface IAppNav {
@@ -197,13 +212,14 @@ interface IAppNav {
 }
 
 const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
+  const { desktop, setTheme, themeKey } = useThemeSwitcher()
   const classes = useStyles()
-  const { breakpoints }: ITheme = useTheme()
-  const desktop = useMediaQuery(breakpoints.up("md"))
-  const { spaceUsed, updateCurrentPath } = useDrive()
 
-  const { isLoggedIn, logout, secured } = useImployApi()
-  const { isMasterPasswordSet } = useDrive()
+  const { spaceUsed } = useDrive()
+
+  const { isLoggedIn, secured } = useImployApi()
+  const { publicKey, isNewDevice, shouldInitializeAccount, logout } = useThresholdKey()
+
   const { removeUser } = useUser()
 
   const signOut = useCallback(() => {
@@ -225,15 +241,23 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
     <section
       className={clsx(classes.root, {
         active: desktop
-          ? isLoggedIn && secured && !!isMasterPasswordSet
-          : navOpen,
+          ? isLoggedIn &&
+          secured &&
+          !!publicKey &&
+          !isNewDevice &&
+          !shouldInitializeAccount
+          : navOpen
       })}
     >
-      {isLoggedIn && secured && !!isMasterPasswordSet && (
+      {isLoggedIn &&
+        secured &&
+        !!publicKey &&
+        !isNewDevice &&
+        !shouldInitializeAccount && (
         <Fragment>
           {desktop && (
             <div>
-              <Link className={classes.logo} to={ROUTE_LINKS.Home}>
+              <Link className={classes.logo} to={ROUTE_LINKS.Home()}>
                 <ChainsafeFilesLogo />
                 <Typography variant="h5">
                   <Trans>Files</Trans>
@@ -252,15 +276,26 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
             <nav className={classes.navMenu}>
               <Link
                 onClick={() => {
-                  updateCurrentPath("/")
                   handleOnClick()
                 }}
                 className={classes.navItem}
-                to={ROUTE_LINKS.Home}
+                to={ROUTE_LINKS.Home()}
               >
                 <DatabaseSvg />
                 <Typography variant="h5" className={classes.navItemText}>
                   <Trans>Home</Trans>
+                </Typography>
+              </Link>
+              <Link
+                onClick={() => {
+                  handleOnClick()
+                }}
+                className={classes.navItem}
+                to={ROUTE_LINKS.Bin}
+              >
+                <DeleteSvg />
+                <Typography variant="h5" className={classes.navItemText}>
+                  <Trans>Bin</Trans>
                 </Typography>
               </Link>
             </nav>
@@ -271,7 +306,7 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
               <Link
                 onClick={handleOnClick}
                 className={classes.navItem}
-                to={ROUTE_LINKS.Settings}
+                to={ROUTE_LINKS.SettingsDefault}
               >
                 <SettingSvg />
                 <Typography variant="h5" className={classes.navItemText}>
@@ -288,8 +323,8 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
                   className={classes.spaceUsedMargin}
                   component="p"
                 >{`${formatBytes(spaceUsed)} of ${formatBytes(
-                  FREE_PLAN_LIMIT,
-                )} used`}</Typography>
+                    FREE_PLAN_LIMIT
+                  )} used`}</Typography>
                 <ProgressBar
                   className={classes.spaceUsedMargin}
                   progress={(spaceUsed / FREE_PLAN_LIMIT) * 100}
@@ -308,25 +343,36 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
               </div>
             )}
             {!desktop && (
-              <div
-                className={classes.navItem}
-                onClick={() => {
-                  handleOnClick()
-                  signOut()
-                }}
-              >
-                <PowerDownSvg />
-                <Typography>
-                  <Trans>Sign Out</Trans>
-                </Typography>
-              </div>
+              <Fragment>
+                <div
+                  onClick={() => setTheme(themeKey === "dark" ? "light" : "dark")}
+                  className={classes.navItem}
+                >
+                  {themeKey === "dark" ? <SunSvg /> : <MoonSvg />}
+                  <Typography>
+                    {themeKey === "dark" ? <Trans>Light mode</Trans> : <Trans>Dark mode</Trans>}
+                  </Typography>
+                </div>
+                <div
+                  className={classes.navItem}
+                  onClick={() => {
+                    handleOnClick()
+                    signOut()
+                  }}
+                >
+                  <PowerDownSvg />
+                  <Typography>
+                    <Trans>Sign Out</Trans>
+                  </Typography>
+                </div>
+              </Fragment>
             )}
           </section>
           {!desktop && (
             <div
               onClick={() => setNavOpen(false)}
               className={clsx(classes.blocker, {
-                active: navOpen,
+                active: navOpen
               })}
             ></div>
           )}

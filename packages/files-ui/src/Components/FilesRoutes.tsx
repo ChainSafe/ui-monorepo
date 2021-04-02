@@ -2,59 +2,85 @@ import React from "react"
 import { Switch, ConditionalRoute } from "@chainsafe/common-components"
 import LoginPage from "./Pages/LoginPage"
 import SettingsPage from "./Pages/SettingsPage"
-import { useImployApi } from "@imploy/common-contexts"
+import { useImployApi } from "@chainsafe/common-contexts"
 import HomePage from "./Pages/HomePage"
-import OAuthCallbackPage from "./Pages/OAuthCallback"
+import SearchPage from "./Pages/SearchPage"
+import BinPage from "./Pages/BinPage"
 import PurchasePlanPage from "./Pages/PurchasePlanPage"
-import { useDrive } from "../Contexts/DriveContext"
+import { useThresholdKey } from "../Contexts/ThresholdKeyContext"
 
+export const SETTINGS_BASE = "/settings"
 export const ROUTE_LINKS = {
   Landing: "/",
   PrivacyPolicy: "https://files.chainsafe.io/privacy-policy",
   Terms: "https://files.chainsafe.io/terms-of-service",
-  Home: "/home",
-  Settings: "/settings",
-  OAuthCallback: "/oauth2/callback/:provider",
-  PurchasePlan: "/settings/purchase",
+  ChainSafe: "https://chainsafe.io/",
+  // TODO: update link
+  ApplyCryptography: "https://chainsafe.io/",
+  Home: (path?: string) => `/home${path ? `?path=${path}` : ""}`,
+  Search: (search?: string) => `/search${search ? `?search=${search}` : ""}`,
+  Bin: "/bin",
+  Settings: `${SETTINGS_BASE}/:path`,
+  SettingsDefault: `${SETTINGS_BASE}`,
+  PurchasePlan: "/purchase"
 }
+
+export const SETTINGS_PATHS = ["profile", "plan"] as const
+export type SettingsPath = typeof SETTINGS_PATHS[number]
 
 const FilesRoutes = () => {
   const { isLoggedIn, secured } = useImployApi()
-  const { isMasterPasswordSet } = useDrive()
+  const { isNewDevice, publicKey, shouldInitializeAccount } = useThresholdKey()
+
+  const isAuthorized = isLoggedIn && secured && !!publicKey && !isNewDevice && !shouldInitializeAccount
+
   return (
     <Switch>
       <ConditionalRoute
         exact
         path={ROUTE_LINKS.Landing}
-        isAuthorized={!isLoggedIn || !secured || !isMasterPasswordSet}
+        isAuthorized={!isAuthorized}
         component={LoginPage}
-        redirectPath={ROUTE_LINKS.Home}
+        redirectPath={ROUTE_LINKS.Home()}
       />
       <ConditionalRoute
         exact
-        path={ROUTE_LINKS.Home}
-        isAuthorized={isLoggedIn && secured && !!isMasterPasswordSet}
+        path={ROUTE_LINKS.Home()}
+        isAuthorized={isAuthorized}
         component={HomePage}
         redirectPath={ROUTE_LINKS.Landing}
       />
       <ConditionalRoute
         exact
+        path={ROUTE_LINKS.Search()}
+        isAuthorized={isAuthorized}
+        component={SearchPage}
+        redirectPath={ROUTE_LINKS.Landing}
+      />
+      <ConditionalRoute
+        exact
+        path={ROUTE_LINKS.Bin}
+        isAuthorized={isAuthorized        }
+        component={BinPage}
+        redirectPath={ROUTE_LINKS.Landing}
+      />
+      <ConditionalRoute
+        exact
+        path={ROUTE_LINKS.SettingsDefault}
+        isAuthorized={isAuthorized}
+        component={SettingsPage}
+        redirectPath={ROUTE_LINKS.Landing}
+      />
+      <ConditionalRoute
         path={ROUTE_LINKS.Settings}
-        isAuthorized={isLoggedIn && secured && !!isMasterPasswordSet}
+        isAuthorized={isAuthorized}
         component={SettingsPage}
         redirectPath={ROUTE_LINKS.Landing}
       />
       <ConditionalRoute
         exact
-        path={ROUTE_LINKS.OAuthCallback}
-        isAuthorized={!isLoggedIn}
-        component={OAuthCallbackPage}
-        redirectPath={ROUTE_LINKS.Landing}
-      />
-      <ConditionalRoute
-        exact
         path={ROUTE_LINKS.PurchasePlan}
-        isAuthorized={isLoggedIn && secured && !!isMasterPasswordSet}
+        isAuthorized={isAuthorized}
         component={PurchasePlanPage}
         redirectPath={ROUTE_LINKS.Landing}
       />

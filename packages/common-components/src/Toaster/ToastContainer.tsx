@@ -18,9 +18,9 @@ const useStyles = makeStyles(({ zIndex, constants }: ITheme) =>
       padding: constants.generalUnit,
       position: "fixed",
       zIndex: zIndex?.blocker,
-      ...placements[props.placement],
-    }),
-  }),
+      ...placements[props.placement]
+    })
+  })
 )
 
 const placements = {
@@ -29,7 +29,7 @@ const placements = {
   "top-right": { top: 0, right: 0 },
   "bottom-left": { bottom: 0, left: 0 },
   "bottom-center": { bottom: 0, left: "50%", transform: "translateX(-50%)" },
-  "bottom-right": { bottom: 0, right: 0 },
+  "bottom-right": { bottom: 0, right: 0 }
 }
 
 export type ToastContainerProps = {
@@ -45,7 +45,7 @@ const ToastContainer: React.FC<ToastContainerProps> = ({
 }) => {
   const classes = useStyles({
     hasToasts,
-    placement,
+    placement
   })
   return <div className={classes.container} {...props} />
 }

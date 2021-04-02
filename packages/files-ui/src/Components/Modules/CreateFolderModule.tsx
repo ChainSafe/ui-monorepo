@@ -2,49 +2,50 @@ import {
   Button,
   FormikTextInput,
   Grid,
-  Typography,
+  Typography
 } from "@chainsafe/common-components"
 import { useDrive } from "../../Contexts/DriveContext"
 import * as yup from "yup"
 import {
   createStyles,
-  ITheme,
   makeStyles,
-  useMediaQuery,
+  useMediaQuery
 } from "@chainsafe/common-theme"
 import React, { useRef, useEffect, useState } from "react"
 import { Formik, Form } from "formik"
 import CustomModal from "../Elements/CustomModal"
 import CustomButton from "../Elements/CustomButton"
 import { Trans } from "@lingui/macro"
+import { CSFTheme } from "../../Themes/types"
 
 const useStyles = makeStyles(
-  ({ breakpoints, constants, palette, typography, zIndex }: ITheme) => {
+  ({ breakpoints, constants, palette, typography, zIndex }: CSFTheme) => {
     return createStyles({
       root: {
         padding: constants.generalUnit * 4,
-        flexDirection: "column",
+        flexDirection: "column"
       },
       modalRoot: {
         zIndex: zIndex?.blocker,
-        [breakpoints.down("md")]: {},
+        [breakpoints.down("md")]: {}
       },
       modalInner: {
+        backgroundColor: constants.createFolder.backgroundColor,
+        color: constants.createFolder.color,
         [breakpoints.down("md")]: {
           bottom:
-            (constants?.mobileButtonHeight as number) + constants.generalUnit,
+          Number(constants?.mobileButtonHeight) + constants.generalUnit,
           borderTopLeftRadius: `${constants.generalUnit * 1.5}px`,
           borderTopRightRadius: `${constants.generalUnit * 1.5}px`,
-          maxWidth: `${breakpoints.width("md")}px !important`,
-        },
+          maxWidth: `${breakpoints.width("md")}px !important`
+        }
       },
       input: {
-        marginBottom: constants.generalUnit * 2,
+        marginBottom: constants.generalUnit * 2
       },
       okButton: {
         marginLeft: constants.generalUnit,
-        color: palette.common.white.main,
-        backgroundColor: palette.common.black.main,
+        backgroundColor: palette.common.black.main
       },
       cancelButton: {
         [breakpoints.down("md")]: {
@@ -52,20 +53,21 @@ const useStyles = makeStyles(
           bottom: 0,
           left: 0,
           width: "100%",
-          height: constants?.mobileButtonHeight,
-        },
+          height: constants?.mobileButtonHeight
+        }
       },
       label: {
         fontSize: 14,
-        lineHeight: "22px",
+        lineHeight: "22px"
       },
       heading: {
+        color: constants.createFolder.color,
         fontWeight: typography.fontWeight.semibold,
         textAlign: "center",
-        marginBottom: constants.generalUnit * 4,
-      },
+        marginBottom: constants.generalUnit * 4
+      }
     })
-  },
+  }
 )
 
 interface ICreateFolderModuleProps {
@@ -75,14 +77,14 @@ interface ICreateFolderModuleProps {
 
 const CreateFolderModule: React.FC<ICreateFolderModuleProps> = ({
   modalOpen,
-  close,
+  close
 }: ICreateFolderModuleProps) => {
   const classes = useStyles()
   const { createFolder, currentPath } = useDrive()
   const [creatingFolder, setCreatingFolder] = useState(false)
 
   const desktop = useMediaQuery("md")
-  const inputRef = useRef<any>()
+  const inputRef = useRef<any>(null)
 
   useEffect(() => {
     if (modalOpen) {
@@ -91,14 +93,14 @@ const CreateFolderModule: React.FC<ICreateFolderModuleProps> = ({
   }, [modalOpen])
 
   const folderNameValidator = yup.object().shape({
-    name: yup.string().required("Folder name is required"),
+    name: yup.string().required("Folder name is required")
   })
 
   return (
     <CustomModal
       className={classes.modalRoot}
       injectedClass={{
-        inner: classes.modalInner,
+        inner: classes.modalInner
       }}
       active={modalOpen}
       closePosition="none"
@@ -106,7 +108,7 @@ const CreateFolderModule: React.FC<ICreateFolderModuleProps> = ({
     >
       <Formik
         initialValues={{
-          name: "",
+          name: ""
         }}
         validationSchema={folderNameValidator}
         validateOnChange={false}

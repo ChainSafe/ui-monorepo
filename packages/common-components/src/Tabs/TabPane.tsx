@@ -1,16 +1,15 @@
 import React, { ReactNode } from "react"
 
-export interface ITabPaneProps {
+export interface ITabPaneProps<TabKey = string> {
   className?: string
   children: ReactNode | ReactNode[]
+  icon?: ReactNode
+  iconRight?: ReactNode
   title: string
-  tabKey: string
+  tabKey: TabKey
 }
 
-const TabPane: React.FC<ITabPaneProps> = ({
-  children,
-  className,
-}: ITabPaneProps) => {
+const TabPane = <TabKey, >({ children, className }: ITabPaneProps<TabKey>) => {
   return <div className={className}>{children}</div>
 }
 

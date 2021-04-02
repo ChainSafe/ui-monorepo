@@ -1,20 +1,23 @@
-import { createStyles, ITheme, makeStyles } from "@chainsafe/common-theme"
+import {
+  createStyles,
+  makeStyles
+} from "@chainsafe/common-theme"
 import React from "react"
 import {
   Button,
   FormikCheckboxInput,
   FormikTextInput,
-  Typography,
+  Typography
 } from "@chainsafe/common-components"
 import clsx from "clsx"
 import { Form, Formik } from "formik"
 import * as yup from "yup"
 import { ROUTE_LINKS } from "../../../FilesRoutes"
-import { useDrive } from "../../../../Contexts/DriveContext"
 import zxcvbn from "zxcvbn"
 import StrengthIndicator from "./StrengthIndicator"
+import { CSFTheme } from "../../../../Themes/types"
 
-const useStyles = makeStyles(({ breakpoints, constants, palette }: ITheme) =>
+const useStyles = makeStyles(({ breakpoints, constants }: CSFTheme) =>
   createStyles({
     root: {
       maxWidth: 320,
@@ -22,54 +25,79 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: ITheme) =>
       "& p": {
         fontWeight: 400,
         marginBottom: constants.generalUnit * 2,
-        [breakpoints.down("md")]: {
-          color: palette.common.white.main,
+        [breakpoints.up("md")]: {
+          color: constants.masterKey.desktop.color
         },
+        [breakpoints.down("md")]: {
+          color: constants.masterKey.mobile.color
+        }
       },
       "& h2": {
         textAlign: "center",
         marginBottom: constants.generalUnit * 4.125,
-        [breakpoints.down("md")]: {
-          color: palette.common.white.main,
+        [breakpoints.up("md")]: {
+          color: constants.masterKey.desktop.color
         },
-      },
+        [breakpoints.down("md")]: {
+          color: constants.masterKey.mobile.color
+        }
+      }
     },
     input: {
       margin: 0,
       width: "100%",
       marginBottom: constants.generalUnit * 1.5,
       "& span": {
-        [breakpoints.down("md")]: {
-          color: palette.common.white.main,
+        [breakpoints.up("md")]: {
+          color: constants.masterKey.desktop.color
         },
-      },
+        [breakpoints.down("md")]: {
+          color: constants.masterKey.mobile.color
+        }
+      }
     },
     highlight: {
       fontWeight: 700,
-      textDecoration: "underline",
+      textDecoration: "underline"
     },
     checkbox: {
       marginBottom: constants.generalUnit,
       [breakpoints.up("md")]: {
-        color: palette.additional["gray"][8],
+        color: constants.masterKey.desktop.color,
+        "& svg": {
+          fill: `${constants.masterKey.desktop.checkbox} !important`
+        }
       },
       [breakpoints.down("md")]: {
-        color: palette.common.white.main,
-        "& a": {
-          color: `${palette.common.white.main} !important`,
-        },
-      },
+        color: constants.masterKey.mobile.color,
+        "& svg": {
+          fill: `${constants.masterKey.mobile.checkbox} !important`
+        }
+      }
     },
     button: {
-      marginTop: constants.generalUnit * 3,
+      marginTop: constants.generalUnit * 3
     },
     inputLabel: {
       fontSize: "16px",
       lineHeight: "24px",
-      color: palette.additional["gray"][8],
-      marginBottom: constants.generalUnit,
+      [breakpoints.up("md")]: {
+        color: constants.masterKey.desktop.color
+      },
+      [breakpoints.down("md")]: {
+        color: constants.masterKey.mobile.color
+      },
+      marginBottom: constants.generalUnit
     },
-  }),
+    link: {
+      [breakpoints.up("md")]: {
+        color: constants.masterKey.desktop.link
+      },
+      [breakpoints.down("md")]: {
+        color: constants.masterKey.mobile.link
+      }
+    }
+  })
 )
 
 interface ISetMasterKeySlide {
@@ -77,10 +105,10 @@ interface ISetMasterKeySlide {
 }
 
 const SetMasterKeySlide: React.FC<ISetMasterKeySlide> = ({
-  className,
+  className
 }: ISetMasterKeySlide) => {
   const classes = useStyles()
-  const { secureDrive } = useDrive()
+  // const { secureDrive } = useDrive()
 
   const masterKeyValidation = yup.object().shape({
     masterKey: yup
@@ -98,20 +126,20 @@ const SetMasterKeySlide: React.FC<ISetMasterKeySlide> = ({
             return true
           }
           return false
-        },
+        }
       )
       .required("Please provide an encryption password"),
     confirmMasterKey: yup
       .string()
       .oneOf(
         [yup.ref("masterKey"), undefined],
-        "Encryption password must match",
+        "Encryption password must match"
       )
       .required("Encryption password confirmation is required'"),
     privacyPolicy: yup
       .boolean()
       .oneOf([true], "Please accept the privacy policy"),
-    terms: yup.boolean().oneOf([true], "Please accept the terms & conditions."),
+    terms: yup.boolean().oneOf([true], "Please accept the terms & conditions.")
   })
 
   return (
@@ -124,12 +152,12 @@ const SetMasterKeySlide: React.FC<ISetMasterKeySlide> = ({
           masterKey: "",
           confirmMasterKey: "",
           privacyPolicy: false,
-          terms: false,
+          terms: false
         }}
         validationSchema={masterKeyValidation}
         onSubmit={async (values, helpers) => {
           helpers.setSubmitting(true)
-          secureDrive(values.masterKey)
+          // secureDrive(values.masterKey)
           helpers.setSubmitting(false)
         }}
       >
@@ -163,6 +191,7 @@ const SetMasterKeySlide: React.FC<ISetMasterKeySlide> = ({
               <>
                 I have read the{" "}
                 <a
+                  className={classes.link}
                   rel="noopener noreferrer"
                   href={ROUTE_LINKS.PrivacyPolicy}
                   target="_blank"
@@ -179,6 +208,7 @@ const SetMasterKeySlide: React.FC<ISetMasterKeySlide> = ({
               <>
                 I have read the{" "}
                 <a
+                  className={classes.link}
                   rel="noopener noreferrer"
                   href={ROUTE_LINKS.Terms}
                   target="_blank"

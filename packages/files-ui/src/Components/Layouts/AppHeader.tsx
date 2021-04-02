@@ -1,12 +1,10 @@
-import { useImployApi, useUser } from "@imploy/common-contexts"
+import React, { Fragment, useCallback, useState } from "react"
+import { useImployApi, useUser } from "@chainsafe/common-contexts"
 import {
   createStyles,
-  ITheme,
   makeStyles,
-  useMediaQuery,
-  useTheme,
+  useThemeSwitcher
 } from "@chainsafe/common-theme"
-import React, { Fragment, useCallback } from "react"
 import clsx from "clsx"
 import {
   Link,
@@ -15,14 +13,17 @@ import {
   HamburgerMenu,
   MenuDropdown,
   PowerDownSvg,
+  SunSvg,
+  MoonSvg
 } from "@chainsafe/common-components"
 import { ROUTE_LINKS } from "../FilesRoutes"
-// import SearchModule from "../Modules/SearchModule"
+import SearchModule from "../Modules/SearchModule"
 import { Trans } from "@lingui/macro"
-import { useDrive } from "../../Contexts/DriveContext"
+import { useThresholdKey } from "../../Contexts/ThresholdKeyContext"
+import { CSFTheme } from "../../Themes/types"
 
 const useStyles = makeStyles(
-  ({ palette, animation, breakpoints, constants, zIndex }: ITheme) => {
+  ({ palette, animation, breakpoints, constants, zIndex }: CSFTheme) => {
     return createStyles({
       root: {
         position: "fixed",
@@ -36,11 +37,13 @@ const useStyles = makeStyles(
           padding: `${0}px ${constants.contentPadding}px ${0}px ${
             constants.contentPadding
           }px`,
-          left: constants.navWidth,
-          backgroundColor: palette.common.white.main,
+          left: Number(constants.navWidth),
           opacity: 0,
+
+          backgroundColor: constants.header.rootBackground,
+
           "& > *:first-child": {
-            flex: "1 1 0",
+            flex: "1 1 0"
           },
           "&.active": {
             opacity: 1,
@@ -49,8 +52,8 @@ const useStyles = makeStyles(
             padding: `${constants.headerTopPadding}px ${
               constants.contentPadding
             }px ${0}px ${constants.contentPadding}px`,
-            zIndex: zIndex?.layer1,
-          },
+            zIndex: zIndex?.layer1
+          }
         },
         [breakpoints.down("md")]: {
           left: 0,
@@ -62,10 +65,16 @@ const useStyles = makeStyles(
           "&.active": {
             opacity: 1,
             visibility: "visible",
-            height: constants.mobileHeaderHeight,
-            zIndex: zIndex?.layer1,
-          },
-        },
+            height: Number(constants.mobileHeaderHeight),
+            zIndex: Number(zIndex?.layer1)
+          }
+        }
+      },
+      hamburgerMenu: {
+        position: "absolute",
+        "& span": {
+          backgroundColor: constants.header.hamburger
+        }
       },
       logo: {
         textDecoration: "none",
@@ -76,11 +85,11 @@ const useStyles = makeStyles(
         [breakpoints.up("md")]: {
           "& img": {
             height: constants.generalUnit * 5,
-            width: "auto",
+            width: "auto"
           },
           "& > *:first-child": {
-            marginRight: constants.generalUnit,
-          },
+            marginRight: constants.generalUnit
+          }
         },
         [breakpoints.down("md")]: {
           position: "absolute",
@@ -89,9 +98,9 @@ const useStyles = makeStyles(
           transform: "translate(-50%,-50%)",
           "& img": {
             height: constants.generalUnit * 3.25,
-            width: "auto",
-          },
-        },
+            width: "auto"
+          }
+        }
       },
       accountControls: {
         display: "flex",
@@ -99,35 +108,49 @@ const useStyles = makeStyles(
         alignItems: "center",
         flexDirection: "row",
         [breakpoints.up("md")]: {
-          marginLeft: constants.accountControlsPadding,
+          marginLeft: constants.accountControlsPadding
         },
         "& > *:first-child": {
-          marginRight: constants.generalUnit * 2,
-        },
+          marginRight: constants.generalUnit * 2
+        }
+      },
+      searchModule: {
+        [breakpoints.down("md")]: {
+          height: constants.mobileHeaderHeight,
+          position: "absolute",
+          right: 2,
+          width: "100%",
+          zIndex: zIndex?.background,
+          "&.active": {}
+        }
+      },
+      options: {
+        backgroundColor: constants.header.optionsBackground,
+        color: constants.header.optionsTextColor,
+        border: `1px solid ${constants.header.optionsBorder}`,
+        minWidth: 145
       },
       menuItem: {
-        width: 100,
+        width: "100%",
         display: "flex",
         flexDirection: "row",
         alignItems: "center",
-        color: palette.additional["gray"][8],
+        color: constants.header.menuItemTextColor,
         "& svg": {
           width: constants.generalUnit * 2,
           height: constants.generalUnit * 2,
           marginRight: constants.generalUnit,
           fill: palette.additional["gray"][7],
-        },
+          stroke: palette.additional["gray"][7]
+        }
       },
-      searchModule: {
-        [breakpoints.down("md")]: {
-          position: "fixed",
-          top: 0,
-          right: 0,
-          height: constants.mobileHeaderHeight,
-        },
-      },
+      icon: {
+        "& svg": {
+          fill: constants.header.iconColor
+        }
+      }
     })
-  },
+  }
 )
 
 interface IAppHeader {
@@ -137,14 +160,14 @@ interface IAppHeader {
 
 const AppHeader: React.FC<IAppHeader> = ({
   navOpen,
-  setNavOpen,
+  setNavOpen
 }: IAppHeader) => {
-  const classes = useStyles()
-  const { breakpoints }: ITheme = useTheme()
-  const desktop = useMediaQuery(breakpoints.up("md"))
+  const { themeKey, setTheme, desktop } = useThemeSwitcher()
 
-  const { isLoggedIn, logout, secured } = useImployApi()
-  const { isMasterPasswordSet } = useDrive()
+  const classes = useStyles()
+
+  const { isLoggedIn, secured } = useImployApi()
+  const { publicKey, isNewDevice, shouldInitializeAccount, logout } = useThresholdKey()
   const { getProfileTitle, removeUser } = useUser()
 
   const signOut = useCallback(() => {
@@ -152,20 +175,42 @@ const AppHeader: React.FC<IAppHeader> = ({
     removeUser()
   }, [logout, removeUser])
 
+  const [searchActive, setSearchActive] = useState(false)
+
   return (
     <header
       className={clsx(classes.root, {
-        active: isLoggedIn && secured && !!isMasterPasswordSet,
+        active:
+          isLoggedIn &&
+          secured &&
+          !!publicKey &&
+          !isNewDevice &&
+          !shouldInitializeAccount
       })}
     >
-      {isLoggedIn && secured && !!isMasterPasswordSet && (
+      {isLoggedIn &&
+        secured &&
+        !!publicKey &&
+        !isNewDevice &&
+        !shouldInitializeAccount && (
         <Fragment>
           {desktop ? (
             <Fragment>
+              <section>
+                <SearchModule
+                  className={classes.searchModule}
+                  searchActive={searchActive}
+                  setSearchActive={setSearchActive}
+                />
+              </section>
               <section className={classes.accountControls}>
                 <MenuDropdown
                   title={getProfileTitle()}
                   anchor="bottom-right"
+                  classNames={{
+                    icon: classes.icon,
+                    options: classes.options
+                  }}
                   menuItems={[
                     {
                       onClick: () => signOut(),
@@ -176,24 +221,45 @@ const AppHeader: React.FC<IAppHeader> = ({
                             <Trans>Sign Out</Trans>
                           </Typography>
                         </div>
-                      ),
+                      )
                     },
+                    {
+                      onClick: () =>
+                        setTheme(themeKey === "dark" ? "light" : "dark"),
+                      contents: (
+                        <div className={classes.menuItem}>
+                          {themeKey === "dark" ? <SunSvg /> : <MoonSvg />}
+                          <Typography>
+                            {themeKey === "dark" ? <Trans>Light mode</Trans> : <Trans>Dark mode</Trans>}
+                          </Typography>
+                        </div>
+                      )
+                    }
                   ]}
                 />
               </section>
             </Fragment>
           ) : (
             <Fragment>
-              <HamburgerMenu
-                onClick={() => setNavOpen(!navOpen)}
-                variant={navOpen ? "active" : "default"}
+              {!searchActive && (
+                <>
+                  <HamburgerMenu
+                    onClick={() => setNavOpen(!navOpen)}
+                    variant={navOpen ? "active" : "default"}
+                    className={classes.hamburgerMenu}
+                  />
+                  <Link className={classes.logo} to={ROUTE_LINKS.Home()}>
+                    <ChainsafeFilesLogo />
+                    &nbsp;
+                    <Typography variant="caption">beta</Typography>
+                  </Link>
+                </>
+              )}
+              <SearchModule
+                className={clsx(classes.searchModule, searchActive && "active")}
+                searchActive={searchActive}
+                setSearchActive={setSearchActive}
               />
-              <Link className={classes.logo} to={ROUTE_LINKS.Home}>
-                <ChainsafeFilesLogo />
-                &nbsp;
-                <Typography variant="caption">beta</Typography>
-              </Link>
-              {/* <SearchModule className={classes.searchModule} /> */}
             </Fragment>
           )}
         </Fragment>

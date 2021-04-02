@@ -9,15 +9,12 @@ interface IFormikCheckboxProps
   label?: string | ReactNode
 }
 
-const FormikCheckboxInput: React.FC<IFormikCheckboxProps> = ({
-  name,
-  onChange,
-  ...props
-}) => {
+const FormikCheckboxInput: React.FC<IFormikCheckboxProps> = ({ name, onChange, ...props }) => {
   const [field, meta, helpers] = useField<boolean>(name)
 
-  const handleChange = () => {
+  const handleChange = (event: React.FormEvent<HTMLInputElement>) => {
     helpers.setValue(!field.value)
+    onChange && onChange(event)
   }
 
   return (

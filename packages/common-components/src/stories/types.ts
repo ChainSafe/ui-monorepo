@@ -1,0 +1,1 @@
+export type SizeOption = "large" | "medium" | "small"

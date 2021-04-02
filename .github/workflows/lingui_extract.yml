@@ -1,0 +1,23 @@
+name: Lingui extract
+on:
+  push:
+    branches:
+      - dev
+jobs:
+  # extract any new translatable string
+  # and commit if there are new ones
+  extract:
+    name: lingui-extract
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: lingui-extract
+      env:
+        GITHUB_PACKAGES_AUTH_TOKEN: ${{ secrets.GH_PKG_AUTH_TOKEN }}
+      run: |
+        git config --global user.name 'GitHub Actions'
+        git config --global user.email 'actions@github.com'
+        yarn install --immutable
+        (cd packages/files-ui && yarn extract --clean)
+        git add packages/files-ui/src/locales/*
+        if git commit -m "lingui extract"; then git push; else echo 'exiting successfully without commit'; fi

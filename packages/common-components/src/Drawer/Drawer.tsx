@@ -4,7 +4,7 @@ import {
   ITheme,
   makeStyles,
   createStyles,
-  useOnClickOutside,
+  useOnClickOutside
 } from "@chainsafe/common-theme"
 
 interface IStyleProps {
@@ -25,15 +25,15 @@ const useStyles = makeStyles(({ animation, palette, overrides }: ITheme) =>
         top: 0,
         left: 0,
         height: `${props.size}px`,
-        width: `100%`,
+        width: "100%",
         transform: "translateY(-100%)",
         "&.open": {
           opacity: 1,
           visibility: "visible",
           transform: "translateY(0)",
-          ...overrides?.Drawer?.position?.top?.open,
+          ...overrides?.Drawer?.position?.top?.open
         },
-        ...overrides?.Drawer?.position?.top?.root,
+        ...overrides?.Drawer?.position?.top?.root
       },
       "&.right": {
         right: 0,
@@ -45,23 +45,23 @@ const useStyles = makeStyles(({ animation, palette, overrides }: ITheme) =>
           opacity: 1,
           visibility: "visible",
           transform: "translateX(0)",
-          ...overrides?.Drawer?.position?.right?.open,
+          ...overrides?.Drawer?.position?.right?.open
         },
-        ...overrides?.Drawer?.position?.right?.root,
+        ...overrides?.Drawer?.position?.right?.root
       },
       "&.bottom": {
         bottom: 0,
         left: 0,
         height: `${props.size}px`,
-        width: `100%`,
+        width: "100%",
         transform: "translateY(100%)",
         "&.open": {
           opacity: 1,
           visibility: "visible",
           transform: "translateY(0)",
-          ...overrides?.Drawer?.position?.bottom?.open,
+          ...overrides?.Drawer?.position?.bottom?.open
         },
-        ...overrides?.Drawer?.position?.bottom?.root,
+        ...overrides?.Drawer?.position?.bottom?.root
       },
       "&.left": {
         left: 0,
@@ -73,11 +73,11 @@ const useStyles = makeStyles(({ animation, palette, overrides }: ITheme) =>
           opacity: 1,
           visibility: "visible",
           transform: "translateX(0)",
-          ...overrides?.Drawer?.position?.left?.open,
+          ...overrides?.Drawer?.position?.left?.open
         },
-        ...overrides?.Drawer?.position?.left?.root,
+        ...overrides?.Drawer?.position?.left?.root
       },
-      ...overrides?.Drawer?.root,
+      ...overrides?.Drawer?.root
     }),
     backdrop: {
       transition: `all ${animation.transform}ms`,
@@ -94,13 +94,13 @@ const useStyles = makeStyles(({ animation, palette, overrides }: ITheme) =>
         background: palette.additional["gray"][6],
         "&.transparent": {
           background: "transparent",
-          ...overrides?.Drawer?.backdrop?.transparent,
+          ...overrides?.Drawer?.backdrop?.transparent
         },
-        ...overrides?.Drawer?.backdrop?.open,
+        ...overrides?.Drawer?.backdrop?.open
       },
-      ...overrides?.Drawer?.backdrop?.root,
-    },
-  }),
+      ...overrides?.Drawer?.backdrop?.root
+    }
+  })
 )
 
 export type Position = "top" | "bottom" | "right" | "left"
@@ -128,15 +128,13 @@ const Drawer: React.FC<IDrawerProps> = ({
   size = SIZE,
   backdrop = true,
   onClose,
-  classNames,
+  classNames
 }: IDrawerProps) => {
   const classes = useStyles({ size })
 
   const drawerRef = React.useRef(null)
 
-  if (onClose) {
-    useOnClickOutside(drawerRef, onClose)
-  }
+  useOnClickOutside(drawerRef, onClose)
 
   return (
     <div>
@@ -145,7 +143,7 @@ const Drawer: React.FC<IDrawerProps> = ({
           classes.backdrop,
           classNames?.backdrop,
           open && "open",
-          !backdrop && "transparent",
+          !backdrop && "transparent"
         )}
       />
       <div

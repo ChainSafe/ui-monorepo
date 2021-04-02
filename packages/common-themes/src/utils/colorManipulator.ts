@@ -3,8 +3,8 @@ function clamp(value: number, min = 0, max = 1): number {
   return Math.min(Math.max(min, value), max)
 }
 
-export type ColorFormat = "rgb" | "rgba" | "hsl" | "hsla"
-export type ColorValues = number[]
+export type ColorFormat = "rgb" | "rgba" | "hsl" | "hsla" | "var";
+export type ColorValues = number[];
 export interface IColorObject {
   type: ColorFormat
   values: ColorValues
@@ -28,12 +28,12 @@ export function hexToRgb(color: string): string {
 
   return colors
     ? `rgb${colors.length === 4 ? "a" : ""}(${colors
-        .map((n, index) => {
-          return index < 3
-            ? parseInt(n, 16)
-            : Math.round((parseInt(n, 16) / 255) * 1000) / 1000
-        })
-        .join(", ")})`
+      .map((n, index) => {
+        return index < 3
+          ? parseInt(n, 16)
+          : Math.round((parseInt(n, 16) / 255) * 1000) / 1000
+      })
+      .join(", ")})`
     : ""
 }
 
@@ -63,7 +63,7 @@ export function hslToRgb(color: string): string {
   const rgb = [
     Math.round(f(0) * 255),
     Math.round(f(8) * 255),
-    Math.round(f(4) * 255),
+    Math.round(f(4) * 255)
   ]
 
   if (colorObj.type === "hsla") {
@@ -73,7 +73,7 @@ export function hslToRgb(color: string): string {
 
   return recomposeColor({
     type: type as ColorFormat,
-    values: rgb as ColorValues,
+    values: rgb as ColorValues
   })
 }
 
@@ -86,14 +86,22 @@ export function decomposeColor(color: string): IColorObject {
   const marker = color.indexOf("(")
   const type = color.substring(0, marker)
 
-  if (["rgb", "rgba", "hsl", "hsla"].indexOf(type) === -1) {
+  if (["rgb", "rgba", "hsl", "hsla", "var"].indexOf(type) === -1) {
     throw new Error(
       "Material-UI: Unsupported `%s` color.\n" +
-        "We support the following formats: #nnn, #nnnnnn, rgb(), rgba(), hsl(), hsla().",
+        "We support the following formats: #nnn, #nnnnnn, rgb(), rgba(), hsl(), hsla(), var()."
     )
   }
 
-  const valuesStrings = color.substring(marker + 1, color.length - 1).split(",")
+  let colorToParse = `${color}`
+
+  if (type === "var") {
+    colorToParse = getComputedStyle(document.documentElement).getPropertyValue(color.substr(marker + 1, color.length - 1))
+  }
+
+  const valuesStrings = colorToParse
+    .substring(marker + 1, colorToParse.length - 1)
+    .split(",")
   const values = valuesStrings.map((value) => parseFloat(value))
 
   return { type: type as ColorFormat, values: values as ColorValues }
@@ -121,7 +129,7 @@ export function recomposeColor(color: IColorObject) {
 
 export function getContrastRatio(
   foreground: string,
-  background: string,
+  background: string
 ): number {
   const lumA = getLuminance(foreground)
   const lumB = getLuminance(background)
@@ -144,7 +152,7 @@ export function getLuminance(color: string): number {
 
   // Truncate at 3 digits
   return Number(
-    (0.2126 * rgb[0] + 0.7152 * rgb[1] + 0.0722 * rgb[2]).toFixed(3),
+    (0.2126 * rgb[0] + 0.7152 * rgb[1] + 0.0722 * rgb[2]).toFixed(3)
   )
 }
 

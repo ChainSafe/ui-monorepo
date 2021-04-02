@@ -14,7 +14,7 @@ export const ToasterProvider: React.FC<IToasterProviderProps> = ({
   autoDismiss,
   autoDismissTimeout,
   children,
-  placement = "top-right",
+  placement = "top-right"
 }: IToasterProviderProps) => {
   return (
     <ToastProvider

@@ -4,103 +4,102 @@ import {
   FormikTextInput,
   Grid,
   Button,
-  Typography,
+  Typography
 } from "@chainsafe/common-components"
 import {
   makeStyles,
-  ITheme,
   createStyles,
   debounce,
+  useThemeSwitcher
 } from "@chainsafe/common-theme"
 import { LockIcon, CopyIcon } from "@chainsafe/common-components"
 import { Formik, Form } from "formik"
-import { Profile } from "@imploy/common-contexts"
+import { Profile } from "@chainsafe/common-contexts"
 import { Trans } from "@lingui/macro"
 import { centerEllipsis } from "../../../Utils/Helpers"
+import { CSFTheme } from "../../../Themes/types"
 
-const useStyles = makeStyles((theme: ITheme) =>
+const useStyles = makeStyles(({ constants, breakpoints, palette, typography }: CSFTheme) =>
   createStyles({
     container: {
-      marginTop: theme.constants.generalUnit * 2,
       marginBottom: 160,
-      [theme.breakpoints.down("md")]: {
-        paddingRight: theme.constants.generalUnit,
-      },
+      [breakpoints.down("md")]: {
+        paddingRight: constants.generalUnit
+      }
     },
     bodyContainer: {
-      padding: `${theme.constants.generalUnit * 3}px 0px`,
-      borderBottom: `1px solid ${theme.palette.additional["gray"][4]}`,
-      [theme.breakpoints.down("md")]: {
-        borderBottom: "none",
-      },
+      padding: `${constants.generalUnit * 3}px 0px`,
+      borderBottom: `1px solid ${palette.additional["gray"][4]}`,
+      [breakpoints.down("md")]: {
+        borderBottom: "none"
+      }
     },
     boxContainer: {
-      marginBottom: theme.constants.generalUnit * 4,
+      marginBottom: constants.generalUnit * 4
     },
     labelContainer: {
-      marginBottom: theme.constants.generalUnit,
+      marginBottom: constants.generalUnit
     },
     walletAddressContainer: {
       display: "flex",
       justifyContent: "space-between",
-      marginBottom: theme.constants.generalUnit,
+      marginBottom: constants.generalUnit
     },
     input: {
       width: "100%",
       margin: 0,
-      marginBottom: theme.constants.generalUnit,
+      marginBottom: constants.generalUnit
     },
     label: {
-      marginBottom: theme.constants.generalUnit * 1,
-      fontSize: 20,
+      marginBottom: constants.generalUnit * 1,
+      fontSize: 20
     },
     profileBox: {
-      maxWidth: 420,
+      maxWidth: 420
     },
     deletionBox: {
-      maxWidth: 300,
+      maxWidth: 300
     },
     copyBox: {
       display: "flex",
       justifyContent: "space-between",
       alignItems: "center",
       cursor: "pointer",
-      color: theme.palette.text.secondary,
+      color: palette.text.secondary
     },
     deletionMargins: {
-      marginBottom: theme.constants.generalUnit * 2,
+      marginBottom: constants.generalUnit * 2
     },
     button: {
-      backgroundColor: theme.palette.common.black.main,
-      color: theme.palette.common.white.main,
       width: 200,
-      margin: `0px ${theme.constants.generalUnit * 0.5}px ${
-        theme.constants.generalUnit * 1
-      }px`,
+      margin: `0px ${constants.generalUnit * 0.5}px ${
+        constants.generalUnit * 1
+      }px`
     },
     icon: {
       fontSize: "20px",
-      margin: "-2px 2px 0 2px",
+      margin: "-2px 2px 0 2px"
     },
     copyIcon: {
       fontSize: "14px",
-      [theme.breakpoints.down("md")]: {
+      fill: constants.profile.icon,
+      [breakpoints.down("md")]: {
         fontSize: "18px",
-        fill: theme.palette.additional["gray"][8],
-      },
+        fill: palette.additional["gray"][9]
+      }
     },
     publicAddress: {
-      color: theme.palette.additional["gray"][8],
+      color: palette.additional["gray"][8],
       overflowWrap: "break-word",
       wordBreak: "break-all",
-      paddingRight: theme.constants.generalUnit * 2,
+      paddingRight: constants.generalUnit * 2,
       width: "90%",
-      ...theme.typography.body1,
-      [theme.breakpoints.down("md")]: {
-        ...theme.typography.body2,
-      },
-    },
-  }),
+      ...typography.body1,
+      [breakpoints.down("md")]: {
+        ...typography.body2
+      }
+    }
+  })
 )
 
 interface IProfileProps {
@@ -111,13 +110,17 @@ interface IProfileProps {
 }
 
 const ProfileView: React.FC<IProfileProps> = (props) => {
-  const { profile, onUpdateProfile, updatingProfile } = props
-  const [copied, setCopied] = useState(false)
+  const { themeKey } = useThemeSwitcher()
   const classes = useStyles()
 
+  const { profile, onUpdateProfile, updatingProfile } = props
+  const [copied, setCopied] = useState(false)
+
+  // TODO useCallback is maybe not needed here
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const debouncedSwitchCopied = useCallback(
     debounce(() => setCopied(false), 3000),
-    [],
+    []
   )
 
   const copyAddress = async () => {
@@ -126,14 +129,16 @@ const ProfileView: React.FC<IProfileProps> = (props) => {
         await navigator.clipboard.writeText(profile.publicAddress)
         setCopied(true)
         debouncedSwitchCopied()
-      } catch (err) {}
+      } catch (err) {
+        console.error(err)
+      }
     }
   }
 
   const profileValidation = yup.object().shape({
     email: yup.string().email("Email is invalid").required("Email is required"),
     firstName: yup.string(),
-    lastName: yup.string(),
+    lastName: yup.string()
   })
 
   return (
@@ -146,13 +151,13 @@ const ProfileView: React.FC<IProfileProps> = (props) => {
                 initialValues={{
                   firstName: profile.firstName,
                   lastName: profile.lastName,
-                  email: profile.email,
+                  email: profile.email
                 }}
                 onSubmit={(values) => {
                   onUpdateProfile(
                     values.firstName || "",
                     values.lastName || "",
-                    values.email || "",
+                    values.email || ""
                   )
                 }}
                 validationSchema={profileValidation}
@@ -220,6 +225,7 @@ const ProfileView: React.FC<IProfileProps> = (props) => {
                     size="large"
                     type="submit"
                     loading={updatingProfile}
+                    variant={themeKey === "dark" ? "outline" : "primary"}
                     loadingText="Saving"
                   >
                     <LockIcon className={classes.icon} />

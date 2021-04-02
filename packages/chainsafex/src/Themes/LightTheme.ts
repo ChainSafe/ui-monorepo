@@ -5,17 +5,17 @@ export const lightTheme = createTheme({
     palette: {
       primary: {
         main: "#262626",
-        hover: "#FFF",
+        hover: "#FFF"
       },
       secondary: {
         main: "#FFF",
-        hover: "#000",
-      },
+        hover: "#000"
+      }
     },
     constants: {},
     overrides: {
       Typography: {},
-      Button: {},
-    },
-  },
+      Button: {}
+    }
+  }
 })

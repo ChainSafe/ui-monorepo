@@ -1,14 +1,8 @@
 import React, { Fragment, useEffect, useRef } from "react"
 import { useState } from "react"
-import {
-  createStyles,
-  ITheme,
-  makeStyles,
-  useMediaQuery,
-  useTheme,
-} from "@chainsafe/common-theme"
-import { IFile, useDrive } from "../../Contexts/DriveContext"
-import MimeMatcher from "mime-matcher"
+import { createStyles, makeStyles, useThemeSwitcher } from "@chainsafe/common-theme"
+import { FileSystemItem, useDrive } from "../../Contexts/DriveContext"
+import MimeMatcher from "./../../Utils/MimeMatcher"
 import axios, { CancelTokenSource } from "axios"
 import {
   Button,
@@ -20,7 +14,7 @@ import {
   DownloadSvg,
   MoreIcon,
   CloseCircleIcon,
-  ProgressBar,
+  ProgressBar
   // ExportIcon,
   // DeleteIcon,
   // EditIcon,
@@ -31,8 +25,11 @@ import { useSwipeable } from "react-swipeable"
 import PdfPreview from "./PreviewRenderers/PDFPreview"
 import VideoPreview from "./PreviewRenderers/VideoPreview"
 import AudioPreview from "./PreviewRenderers/AudioPreview"
+import TextPreview from "./PreviewRenderers/TextPreview"
+import MarkdownPreview from "./PreviewRenderers/MarkdownPreview"
 import { useHotkeys } from "react-hotkeys-hook"
 import { t, Trans } from "@lingui/macro"
+import { CSFTheme } from "../../Themes/types"
 
 export interface IPreviewRendererProps {
   contents: Blob
@@ -43,15 +40,16 @@ const SUPPORTED_FILE_TYPES: Record<string, React.FC<IPreviewRendererProps>> = {
   "image/*": ImagePreview,
   "audio/*": AudioPreview,
   "video/*": VideoPreview,
-  // "text/*": <div>Text Previews coming soon</div>,
+  "text/markdown": MarkdownPreview,
+  "text/*": TextPreview
 }
 
 const compatibleFilesMatcher = new MimeMatcher(
-  ...Object.keys(SUPPORTED_FILE_TYPES),
+  Object.keys(SUPPORTED_FILE_TYPES)
 )
 
 const useStyles = makeStyles(
-  ({ constants, palette, zIndex, breakpoints }: ITheme) =>
+  ({ constants, palette, zIndex, breakpoints }: CSFTheme) =>
     createStyles({
       root: {
         height: "100%",
@@ -61,7 +59,7 @@ const useStyles = makeStyles(
         left: 0,
         top: 0,
         backgroundColor: "rgba(0,0,0, 0.88)",
-        overflowX: "hidden",
+        overflowX: "hidden"
       },
       previewModalControls: {
         position: "absolute",
@@ -72,29 +70,72 @@ const useStyles = makeStyles(
         left: 0,
         top: 0,
         width: "100%",
-        maxWidth: breakpoints.values["md"],
+        maxWidth: breakpoints.values["md"] - 200,
         height: constants.generalUnit * 8,
-        backgroundColor: palette.additional["gray"][9],
-        color: palette.additional["gray"][3],
+        backgroundColor: constants.previewModal.controlsBackground,
+        color: constants.previewModal.controlsColor,
         borderWidth: 1,
         borderStyle: "solid",
-        borderColor: palette.additional["gray"][8],
+        borderColor: palette.additional["gray"][8]
       },
       closePreviewButton: {
         marginRight: constants.generalUnit * 2,
         marginLeft: constants.generalUnit * 2,
-        fill: palette.additional["gray"][2],
-        cursor: "pointer",
+        fill: constants.previewModal.closeButtonColor,
+        cursor: "pointer"
       },
       fileOperationsMenu: {
-        fill: palette.additional["gray"][2],
+        fill: constants.previewModal.fileOpsColor
       },
       fileName: {
         width: "100%",
         whiteSpace: "nowrap",
         overflow: "hidden",
         textOverflow: "ellipsis",
-        color: palette.additional["gray"][1],
+        color: constants.previewModal.fileNameColor
+      },
+      previewContainer: {
+        height: "100%",
+        alignItems: "center",
+        textAlign: "center"
+      },
+      prevNext: {
+        alignItems: "center"
+      },
+      prevNextButton: {
+        backgroundColor: palette.common.black.main,
+        padding: `${constants.generalUnit * 2}px !important`,
+        borderRadius: constants.generalUnit * 4
+      },
+      previewContent: {
+        color: constants.previewModal.message,
+        fill: constants.previewModal.message,
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        "& p": {
+          margin: `${constants.generalUnit}px 0`
+        }
+      },
+      downloadButton: {
+        borderColor: palette.additional["gray"][3],
+        borderWidth: 1,
+        borderStyle: "solid"
+      },
+      swipeContainer: {
+        width: "100%",
+        height: "100%",
+        display: "flex",
+        justifyContent: "center"
+      },
+      loadingBar: {
+        width: 150,
+        marginTop: constants.generalUnit
+      },
+      options: {
+        backgroundColor: constants.previewModal.optionsBackground,
+        color: constants.previewModal.optionsTextColor,
+        border: constants.previewModal.optionsBorder
       },
       menuIcon: {
         display: "flex",
@@ -102,74 +143,37 @@ const useStyles = makeStyles(
         alignItems: "center",
         width: 20,
         marginRight: constants.generalUnit * 1.5,
-        fill: palette.additional["gray"][7],
+        fill: constants.previewModal.menuItemIconColor
       },
-      previewContainer: {
-        height: "100%",
-        alignItems: "center",
-        textAlign: "center",
-      },
-      prevNext: {
-        alignItems: "center",
-      },
-      prevNextButton: {
-        backgroundColor: palette.common.black.main,
-        padding: `${constants.generalUnit * 2}px !important`,
-        borderRadius: constants.generalUnit * 4,
-      },
-      previewContent: {
-        color: palette.additional["gray"][6],
-        fill: palette.additional["gray"][6],
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        "& h2": {
-          margin: `${constants.generalUnit}px 0`,
-        },
-      },
-      downloadButton: {
-        backgroundColor: "rgba(0,0,0, 0.88)",
-        color: palette.additional["gray"][3],
-        borderColor: palette.additional["gray"][3],
-        borderWidth: 1,
-        borderStyle: "solid",
-      },
-      swipeContainer: {
-        width: "100%",
-        height: "100%",
-        display: "flex",
-        justifyContent: "center",
-      },
-      loadingBar: {
-        width: 150,
-        marginTop: constants.generalUnit,
-      },
-    }),
+      item: {
+        color: constants.previewModal.menuItemTextColor
+      }
+    })
 )
 
-const FilePreviewModal: React.FC<{
-  file?: IFile
-  nextFile?(): void
-  previousFile?(): void
-  closePreview(): void
-}> = ({ file, nextFile, previousFile, closePreview }) => {
+interface Props {
+  file?: FileSystemItem
+  nextFile?: () => void
+  previousFile?: () => void
+  closePreview: () => void
+}
+
+const FilePreviewModal = ({ file, nextFile, previousFile, closePreview }: Props) => {
   const classes = useStyles()
   const { getFileContent, downloadFile } = useDrive()
-
-  const { breakpoints }: ITheme = useTheme()
-  const desktop = useMediaQuery(breakpoints.up("md"))
-
+  const { desktop } = useThemeSwitcher()
   const [isLoading, setIsLoading] = useState(false)
   const [loadingProgress, setLoadingProgress] = useState(0)
   const [error, setError] = useState<string | undefined>(undefined)
   const [fileContent, setFileContent] = useState<Blob | undefined>(undefined)
+  const source = useRef<CancelTokenSource | null>(null)
+  const { cid, content_type, name, size } = file || {}
+
   const handlers = useSwipeable({
     onSwipedLeft: () => previousFile && !isLoading && previousFile(),
     onSwipedRight: () => nextFile && !isLoading && nextFile(),
-    delta: 20,
+    delta: 20
   })
-
-  const source = useRef<CancelTokenSource | null>(null)
 
   function getSource() {
     if (source.current === null) {
@@ -180,17 +184,19 @@ const FilePreviewModal: React.FC<{
 
   useEffect(() => {
     const getContents = async () => {
-      if (!file) return
-      if (isLoading && source.current) {
+      if (!cid || !size) return
+
+      if (source.current) {
         source.current.cancel("Cancelling previous request")
         source.current = null
       }
+
       const token = getSource().token
       setIsLoading(true)
       setError(undefined)
       try {
-        const content = await getFileContent(file.cid, token, (evt) => {
-          setLoadingProgress((evt.loaded / file.size) * 100)
+        const content = await getFileContent(cid, token, (evt) => {
+          setLoadingProgress((evt.loaded / size) * 100)
         })
         if (content) {
           setFileContent(content)
@@ -207,27 +213,21 @@ const FilePreviewModal: React.FC<{
       setIsLoading(false)
     }
 
-    if (file && compatibleFilesMatcher.match(file?.content_type)) {
+    if (content_type && compatibleFilesMatcher.match(content_type)) {
       getContents()
     }
-
-    return () => {
-      source.current && source.current.cancel("Cancelled by user")
-    }
-    // eslint-disable-next-line
-  }, [file, getFileContent])
+  }, [cid, size, content_type, getFileContent])
 
   const validRendererMimeType =
-    file &&
+    content_type &&
     Object.keys(SUPPORTED_FILE_TYPES).find((type) => {
       const matcher = new MimeMatcher(type)
 
-      return matcher.match(file.content_type)
+      return matcher.match(content_type)
     })
 
   const PreviewComponent =
-    file &&
-    file.content_type &&
+    content_type &&
     fileContent &&
     validRendererMimeType &&
     SUPPORTED_FILE_TYPES[validRendererMimeType]
@@ -251,19 +251,23 @@ const FilePreviewModal: React.FC<{
   })
 
   const handleDownload = () => {
-    if (!file) return
+    if (!name || !cid) return
     if (fileContent) {
       const link = document.createElement("a")
       link.href = URL.createObjectURL(fileContent)
-      link.download = file.name
+      link.download = name
       link.click()
       URL.revokeObjectURL(link.href)
     } else {
-      downloadFile(file.cid)
+      downloadFile(cid)
     }
   }
 
-  return !file ? null : (
+  if (!name || !cid || !content_type) {
+    return null
+  }
+
+  return (
     <div className={classes.root}>
       <div className={classes.previewModalControls}>
         <ArrowLeftIcon
@@ -275,12 +279,16 @@ const FilePreviewModal: React.FC<{
           component="h1"
           className={classes.fileName}
         >
-          {file.name}
+          {name}
         </Typography>
         <MenuDropdown
           animation="none"
           anchor="top-right"
           className={classes.fileOperationsMenu}
+          classNames={{
+            options: classes.options,
+            item: classes.item
+          }}
           menuItems={[
             // {
             //   contents: (
@@ -327,8 +335,8 @@ const FilePreviewModal: React.FC<{
                   </span>
                 </Fragment>
               ),
-              onClick: handleDownload,
-            },
+              onClick: handleDownload
+            }
           ]}
           indicator={MoreIcon}
         />
@@ -371,27 +379,26 @@ const FilePreviewModal: React.FC<{
             )}
             {!isLoading &&
               !error &&
-              !compatibleFilesMatcher.match(file?.content_type) && (
-                <div className={classes.previewContent}>
-                  <CloseCircleIcon
-                    fontSize={desktop ? "extraLarge" : "medium"}
-                  />
-                  <br />
-                  <Typography variant="h1">
-                    <Trans>File format not supported.</Trans>
-                  </Typography>
-                  <br />
-                  <Button
-                    className={classes.downloadButton}
-                    onClick={() => downloadFile(file.cid)}
-                  >
-                    <Trans>Download</Trans>
-                  </Button>
-                </div>
-              )}
+              !compatibleFilesMatcher.match(content_type) && (
+              <div className={classes.previewContent}>
+                <CloseCircleIcon
+                  fontSize={desktop ? "extraLarge" : "medium"}
+                />
+                <Typography component="p" variant="h1">
+                  <Trans>File format not supported.</Trans>
+                </Typography>
+                <Button
+                  className={classes.downloadButton}
+                  variant="outline"
+                  onClick={() => downloadFile(cid)}
+                >
+                  <Trans>Download</Trans>
+                </Button>
+              </div>
+            )}
             {!isLoading &&
               !error &&
-              compatibleFilesMatcher.match(file?.content_type) &&
+              compatibleFilesMatcher.match(content_type) &&
               fileContent &&
               PreviewComponent && <PreviewComponent contents={fileContent} />}
           </div>

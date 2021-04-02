@@ -2,7 +2,7 @@ import {
   useHistory,
   useParams,
   useRouteMatch,
-  useLocation,
+  useLocation
 } from "react-router-dom"
 
 function useHistoryFunctions() {

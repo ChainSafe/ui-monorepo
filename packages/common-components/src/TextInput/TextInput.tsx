@@ -7,22 +7,22 @@ import {
   CheckCircleIcon,
   CloseCircleIcon,
   ExclamationCircleIcon,
-  SvgIcon,
+  SvgIcon
 } from "../Icons"
 
 const iconSize = {
   large: {
     height: 18,
-    padding: 6,
+    padding: 6
   },
   medium: {
     height: 16,
-    padding: 6,
+    padding: 6
   },
   small: {
     height: 16,
-    padding: 4,
-  },
+    padding: 4
+  }
 }
 
 const useStyles = makeStyles(
@@ -38,20 +38,20 @@ const useStyles = makeStyles(
         "&.large": {
           fontSize: 14,
           lineHeight: "22px",
-          ...overrides?.TextInput?.size?.large,
+          ...overrides?.TextInput?.size?.large
         },
         "&.medium": {
           fontSize: 14,
           lineHeight: "22px",
-          ...overrides?.TextInput?.size?.medium,
+          ...overrides?.TextInput?.size?.medium
         },
         "&.small": {
           fontSize: 14,
           lineHeight: "22px",
-          ...overrides?.TextInput?.size?.small,
+          ...overrides?.TextInput?.size?.small
         },
         "& .right > *:nth-child(2) svg": {
-          fill: palette.primary.main,
+          fill: palette.primary.main
         },
         "& input": {
           transitionDuration: `${animation.transform}ms`,
@@ -60,62 +60,62 @@ const useStyles = makeStyles(
           borderRadius: 2,
           "&:hover": {
             borderColor: palette.primary.border,
-            ...overrides?.TextInput?.input?.hover,
+            ...overrides?.TextInput?.input?.hover
           },
           "&:focus": {
             borderColor: palette.primary.border,
             // borderColor: palette
             boxShadow: "0px 0px 4px rgba(24, 144, 255, 0.5)",
-            ...overrides?.TextInput?.input?.focus,
+            ...overrides?.TextInput?.input?.focus
           },
-          ...overrides?.TextInput?.input?.root,
+          ...overrides?.TextInput?.input?.root
         },
         "&.disabled": {
           "& input": {
             color: palette.additional["gray"][6],
             backgroundColor: palette.additional["gray"][3],
-            ...overrides?.TextInput?.input?.disabled,
+            ...overrides?.TextInput?.input?.disabled
           },
-          ...overrides?.TextInput?.disabled,
+          ...overrides?.TextInput?.disabled
         },
-        ...overrides?.TextInput?.root,
+        ...overrides?.TextInput?.root
       },
       error: {
         "& .right > *:nth-child(2) svg": {
-          fill: palette.error.main,
+          fill: palette.error.main
         },
         "& input": {
           borderColor: palette.error.border,
           "&:hover": {
             borderColor: palette.error.border,
-            boxShadow: "0px 0px 4px rgba(245, 34, 45, 0.5)",
+            boxShadow: "0px 0px 4px rgba(245, 34, 45, 0.5)"
           },
           "&:focus": {
             borderColor: palette.error.border,
-            boxShadow: "0px 0px 4px rgba(245, 34, 45, 0.5)",
-          },
-        },
+            boxShadow: "0px 0px 4px rgba(245, 34, 45, 0.5)"
+          }
+        }
       },
       warning: {
         "& .right > *:nth-child(2) svg": {
-          fill: palette.warning.main,
+          fill: palette.warning.main
         },
         "& input": {
           borderColor: palette.warning.border,
           "&:hover": {
             borderColor: palette.warning.border,
-            boxShadow: "0px 0px 4px rgba(250, 173, 20, 0.5)",
+            boxShadow: "0px 0px 4px rgba(250, 173, 20, 0.5)"
           },
           "&:focus": {
             borderColor: palette.warning.border,
-            boxShadow: "0px 0px 4px rgba(250, 173, 20, 0.5)",
-          },
-        },
+            boxShadow: "0px 0px 4px rgba(250, 173, 20, 0.5)"
+          }
+        }
       },
       success: {
         "& .right > *:nth-child(2) svg": {
-          fill: palette.success.main,
-        },
+          fill: palette.success.main
+        }
       },
       caption: {
         display: "block",
@@ -123,10 +123,10 @@ const useStyles = makeStyles(
         transitionDuration: `${animation.transform}ms`,
         color: palette.additional["gray"][7],
         "&.error": {
-          color: palette.error.main,
+          color: palette.error.main
         },
         "&.warning": {
-          color: palette.warning.main,
+          color: palette.warning.main
         },
         "&.default": {},
         "&.minimal": {
@@ -151,40 +151,40 @@ const useStyles = makeStyles(
             left: "50%",
             borderWidth: constants.generalUnit,
             borderStyle: "solid",
-            borderColor: ` ${palette.common.black.main} transparent transparent transparent`,
+            borderColor: ` ${palette.common.black.main} transparent transparent transparent`
           },
           "&.error": {
             // backgroundColor: palette.error.main,
           },
           "&.warning": {
             // backgroundColor: palette.warning.main,
-          },
+          }
         },
-        ...overrides?.TextInput?.caption,
+        ...overrides?.TextInput?.caption
       },
       warningIcon: {
         fill: palette.warning.main,
         "& svg": {
-          fill: `${palette.warning.main} !important`,
-        },
+          fill: `${palette.warning.main} !important`
+        }
       },
       errorIcon: {
         fill: palette.error.main,
         "& svg": {
-          fill: `${palette.error.main} !important`,
-        },
+          fill: `${palette.error.main} !important`
+        }
       },
       successIcon: {
         fill: palette.success.main,
         "& svg": {
-          fill: `${palette.success.main} !important`,
-        },
+          fill: `${palette.success.main} !important`
+        }
       },
       label: {
         transitionDuration: `${animation.transform}ms`,
         display: "block",
         marginBottom: constants.generalUnit / 4,
-        ...overrides?.TextInput?.label,
+        ...overrides?.TextInput?.label
       },
       inputArea: {
         ...typography.body2,
@@ -200,29 +200,29 @@ const useStyles = makeStyles(
             lineHeight: "24px",
             padding: `${constants.generalUnit}px ${
               constants.generalUnit * 1.5
-            }px`,
+            }px`
           },
           "&.iconLeft input": {
             paddingLeft:
               iconSize.large.height +
               iconSize.large.padding * 2 +
-              constants.generalUnit * 1.5,
+              constants.generalUnit * 1.5
           },
           "&.success": {
             "& input": {
               paddingRight:
                 iconSize.large.height +
                 iconSize.large.padding +
-                constants.generalUnit * 1.5,
+                constants.generalUnit * 1.5
             },
             "&.iconRight input": {
               paddingRight:
                 iconSize.large.height * 2 +
                 iconSize.large.padding +
-                constants.generalUnit * 1.5,
-            },
+                constants.generalUnit * 1.5
+            }
           },
-          ...overrides?.TextInput?.inputArea?.size?.large,
+          ...overrides?.TextInput?.inputArea?.size?.large
         },
         "&.medium": {
           "& input": {
@@ -230,64 +230,64 @@ const useStyles = makeStyles(
               constants.generalUnit * 1.5
             }px`,
             fontSize: 16,
-            lineHeight: "20px",
+            lineHeight: "20px"
           },
           "&.iconLeft input": {
             paddingLeft:
               iconSize.medium.height +
               iconSize.medium.padding * 2 +
-              constants.generalUnit * 1.5,
+              constants.generalUnit * 1.5
           },
           "&.success": {
             "& input": {
               paddingRight:
                 iconSize.medium.height +
                 iconSize.medium.padding +
-                constants.generalUnit * 1.5,
+                constants.generalUnit * 1.5
             },
             "&.iconRight input": {
               paddingRight:
                 iconSize.medium.height * 2 +
                 iconSize.medium.padding +
-                constants.generalUnit * 1.5,
-            },
+                constants.generalUnit * 1.5
+            }
           },
-          ...overrides?.TextInput?.inputArea?.size?.medium,
+          ...overrides?.TextInput?.inputArea?.size?.medium
         },
         "&.small": {
           "& input": {
             padding: `${constants.generalUnit / constants.generalUnit}px ${
               constants.generalUnit
-            }px`,
+            }px`
           },
           "&.iconLeft input": {
             paddingLeft:
               iconSize.small.height +
               iconSize.small.padding * 2 +
-              constants.generalUnit,
+              constants.generalUnit
           },
           "&.success": {
             "& input": {
               paddingRight:
                 iconSize.small.height +
                 iconSize.small.padding * 2 +
-                constants.generalUnit,
+                constants.generalUnit
             },
             "&.iconRight input": {
               paddingRight:
                 iconSize.small.height * 2 +
                 iconSize.small.padding * 2 +
-                constants.generalUnit,
-            },
+                constants.generalUnit
+            }
           },
-          ...overrides?.TextInput?.inputArea?.size?.small,
+          ...overrides?.TextInput?.inputArea?.size?.small
         },
         "&.error": {
           "& input:focus": {
-            backgroundColor: "unset",
-          },
+            backgroundColor: "unset"
+          }
         },
-        ...overrides?.TextInput?.inputArea?.root,
+        ...overrides?.TextInput?.inputArea?.root
       },
       input: {
         width: "100%",
@@ -295,7 +295,7 @@ const useStyles = makeStyles(
         outline: "none",
         border: `1px solid ${palette.additional["gray"][6]}`,
         color: palette.additional["gray"][10],
-        transitionDuration: `${animation.transform}ms`,
+        transitionDuration: `${animation.transform}ms`
       },
       standardIcon: {
         position: "absolute",
@@ -314,66 +314,66 @@ const useStyles = makeStyles(
           justifyContent: "center",
           alignItems: "center",
           "&:last-child": {
-            marginLeft: 5,
-          },
+            marginLeft: 5
+          }
         },
         "&.left": {
-          margin: 0,
+          margin: 0
         },
         "&.right": {
           display: "flex",
           flexDirection: "row",
           justifyContent: "flex-end",
-          alignItems: "center",
+          alignItems: "center"
         },
         "& svg": {
-          fill: palette.additional["gray"][7],
+          fill: palette.additional["gray"][7]
         },
         "&.large": {
           "&.left": {
             left: constants.generalUnit * 1.5,
-            ...overrides?.TextInput?.icon?.size?.large?.left,
+            ...overrides?.TextInput?.icon?.size?.large?.left
           },
           "&.right": {
             right: constants.generalUnit * 1.5,
-            ...overrides?.TextInput?.icon?.size?.large?.right,
+            ...overrides?.TextInput?.icon?.size?.large?.right
           },
           "& svg": {
-            height: iconSize.large.height,
+            height: iconSize.large.height
           },
-          ...overrides?.TextInput?.icon?.size?.large?.root,
+          ...overrides?.TextInput?.icon?.size?.large?.root
         },
         "&.medium": {
           "&.left": {
             left: iconSize.medium.padding,
-            ...overrides?.TextInput?.icon?.size?.medium?.left,
+            ...overrides?.TextInput?.icon?.size?.medium?.left
           },
           "&.right": {
             right: iconSize.medium.padding,
-            ...overrides?.TextInput?.icon?.size?.medium?.right,
+            ...overrides?.TextInput?.icon?.size?.medium?.right
           },
           "& svg": {
-            height: iconSize.medium.height,
+            height: iconSize.medium.height
           },
-          ...overrides?.TextInput?.icon?.size?.medium?.root,
+          ...overrides?.TextInput?.icon?.size?.medium?.root
         },
         "&.small": {
           "&.left": {
             left: iconSize.small.padding,
-            ...overrides?.TextInput?.icon?.size?.small?.left,
+            ...overrides?.TextInput?.icon?.size?.small?.left
           },
           "&.right": {
             right: iconSize.small.padding,
-            ...overrides?.TextInput?.icon?.size?.small?.right,
+            ...overrides?.TextInput?.icon?.size?.small?.right
           },
           "& svg": {
-            height: iconSize.small.height,
+            height: iconSize.small.height
           },
-          ...overrides?.TextInput?.icon?.size?.small?.root,
+          ...overrides?.TextInput?.icon?.size?.small?.root
         },
-        ...overrides?.TextInput?.icon?.root,
-      },
-    }),
+        ...overrides?.TextInput?.icon?.root
+      }
+    })
 )
 
 export type InputState = "normal" | "warning" | "success" | "error"
@@ -422,7 +422,7 @@ const TextInput = React.forwardRef(
       autoFocus = false,
       ...rest
     }: ITextInputProps,
-    forwardedRef: any,
+    forwardedRef: any
   ) => {
     const classes = useStyles()
     return (
@@ -431,7 +431,7 @@ const TextInput = React.forwardRef(
           ["disabled"]: disabled,
           [classes.error]: state == "error",
           [classes.warning]: state == "warning",
-          [classes.success]: state == "success",
+          [classes.success]: state == "success"
         })}
       >
         {inputVariant === "default" && label && label.length > 0 && (
@@ -441,7 +441,7 @@ const TextInput = React.forwardRef(
             className={clsx(classes.label, labelClassName, {
               ["error"]: state == "error",
               ["success"]: state == "success",
-              ["warning"]: state == "warning",
+              ["warning"]: state == "warning"
             })}
           >
             {label}
@@ -450,7 +450,7 @@ const TextInput = React.forwardRef(
         <div
           className={clsx(classes.inputArea, size, {
             ["iconLeft"]: LeftIcon,
-            ["iconRight"]: RightIcon,
+            ["iconRight"]: RightIcon
           })}
         >
           {LeftIcon && (
@@ -461,7 +461,7 @@ const TextInput = React.forwardRef(
               ["disabled"]: disabled,
               ["error"]: state == "error",
               ["success"]: state == "success",
-              ["warning"]: state == "warning",
+              ["warning"]: state == "warning"
             })}
             type={type}
             disabled={disabled}
@@ -493,7 +493,7 @@ const TextInput = React.forwardRef(
             className={clsx(classes.caption, inputVariant, {
               ["error"]: state == "error",
               ["success"]: state == "success",
-              ["warning"]: state == "warning",
+              ["warning"]: state == "warning"
             })}
           >
             {captionMessage}
@@ -501,7 +501,9 @@ const TextInput = React.forwardRef(
         )}
       </label>
     )
-  },
+  }
 )
+
+TextInput.displayName = "TextInput"
 
 export default TextInput

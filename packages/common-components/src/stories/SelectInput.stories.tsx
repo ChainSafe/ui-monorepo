@@ -11,18 +11,18 @@ export default {
   title: "Select Input",
   component: SelectInput,
   excludeStories: /.*Data$/,
-  decorators: [withKnobs],
+  decorators: [withKnobs]
 }
 
 const sizeOptions: Array<"large" | "medium" | "small"> = [
   "large",
   "medium",
-  "small",
+  "small"
 ]
 
 export const actionsData = {
   onChange: action("onChange"),
-  onFormSubmit: action("Submit Form"),
+  onFormSubmit: action("Submit Form")
 }
 
 export const SelectInputStory = (): React.ReactNode => {
@@ -48,11 +48,11 @@ export const SelectInputStory = (): React.ReactNode => {
               <Typography>Custom markup</Typography>
             </Fragment>
           ),
-          value: "4",
+          value: "4"
         },
         { label: "a", value: "a" },
         { label: "b", value: "b" },
-        { label: "c", value: "c" },
+        { label: "c", value: "c" }
       ]}
     />
   )
@@ -62,7 +62,7 @@ export const FormikStory = (): React.ReactNode => {
   return (
     <Formik
       initialValues={{
-        select: "4",
+        select: "4"
       }}
       onSubmit={(values: any) => actionsData.onFormSubmit(values)}
     >
@@ -77,10 +77,10 @@ export const FormikStory = (): React.ReactNode => {
                   <Typography>Custom markup</Typography>
                 </Fragment>
               ),
-              value: "4",
+              value: "4"
             },
             { label: "b", value: "b" },
-            { label: "c", value: "c" },
+            { label: "c", value: "c" }
           ]}
           isMulti={boolean("Multi", false)}
           isClearable={boolean("Clearable", false)}

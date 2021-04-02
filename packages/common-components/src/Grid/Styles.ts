@@ -5,7 +5,7 @@ import {
   FlexDirection,
   FlexWrap,
   GridSize,
-  SpacingSize,
+  SpacingSize
 } from "./types"
 
 export const alignItemsOptions: AlignItems[] = [
@@ -13,7 +13,7 @@ export const alignItemsOptions: AlignItems[] = [
   "flex-end",
   "center",
   "baseline",
-  "stretch",
+  "stretch"
 ]
 
 export const justifyContentOptions: JustifyContent[] = [
@@ -22,14 +22,14 @@ export const justifyContentOptions: JustifyContent[] = [
   "center",
   "space-between",
   "space-around",
-  "space-evenly",
+  "space-evenly"
 ]
 
 export const flexDirectionOptions: FlexDirection[] = [
   "row",
   "column",
   "row-reverse",
-  "column-reverse",
+  "column-reverse"
 ]
 
 export const flexWrapOptions: FlexWrap[] = ["nowrap", "wrap", "wrap-reverse"]
@@ -46,7 +46,7 @@ export const gridSizeOptions: GridSize[] = [
   9,
   10,
   11,
-  12,
+  12
 ]
 
 export const spacingOptions: SpacingSize[] = [1, 2, 3, 4, 5, 6]
@@ -56,58 +56,58 @@ export const createFlexStyles = (): Record<string, React.CSSProperties> => ({
     (accumulator: Record<string, any>, alignItemsOption) => ({
       ...accumulator,
       [`align-${alignItemsOption}`]: {
-        "align-items": alignItemsOption,
-      },
+        "align-items": alignItemsOption
+      }
     }),
-    {},
+    {}
   ),
   ...justifyContentOptions.reduce(
     (accumulator: Record<string, any>, justifyContentOption) => ({
       ...accumulator,
       [`justify-${justifyContentOption}`]: {
-        "justify-content": justifyContentOption,
-      },
+        "justify-content": justifyContentOption
+      }
     }),
-    {},
+    {}
   ),
   ...flexDirectionOptions.reduce(
     (accumulator: Record<string, any>, flexDirectionOption) => ({
       ...accumulator,
       [`flex-direction-${flexDirectionOption}`]: {
-        "flex-direction": flexDirectionOption,
-      },
+        "flex-direction": flexDirectionOption
+      }
     }),
-    {},
+    {}
   ),
   ...flexWrapOptions.reduce(
     (accumulator: Record<string, any>, flexWrapOption) => ({
       ...accumulator,
       [`flex-wrap-${flexWrapOption}`]: {
-        "flex-wrap": flexWrapOption,
-      },
+        "flex-wrap": flexWrapOption
+      }
     }),
-    {},
-  ),
+    {}
+  )
 })
 
 export const createGridStyles = ({
   breakpoints,
-  overrides,
+  overrides
 }: ITheme): Record<string, React.CSSProperties> => {
   const styles = {
     container: {
       display: "flex",
       width: "100%",
-      ...overrides?.Grid?.container,
+      ...overrides?.Grid?.container
     },
     item: {
       flex: "1 1 0px",
-      ...overrides?.Grid?.item,
+      ...overrides?.Grid?.item
     },
     fullWidth: {
       width: "100%",
-      ...overrides?.Grid?.fullWidth,
-    },
+      ...overrides?.Grid?.fullWidth
+    }
   }
 
   const gridBreakpoints = breakpoints.keys
@@ -121,7 +121,7 @@ export const createGridStyles = ({
       gridLevelStyles[`grid-${breakpointKey}-${gridSize}`] = {
         flexBasis: widthPercent,
         flexGrow: 0,
-        maxWidth: widthPercent,
+        maxWidth: widthPercent
       }
     })
     styles[
@@ -133,7 +133,7 @@ export const createGridStyles = ({
 }
 
 export const createSpacingStyles = ({
-  constants,
+  constants
 }: ITheme): Record<string, React.CSSProperties> => {
   const styles = {}
 
@@ -142,8 +142,8 @@ export const createSpacingStyles = ({
 
     styles[`spacing-${spacing}`] = {
       "& $item": {
-        padding: `0 ${themeSpacing * spacing}px`,
-      },
+        padding: `0 ${themeSpacing * spacing}px`
+      }
     }
   })
 

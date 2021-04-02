@@ -6,7 +6,7 @@ import {
   DiscoverCardIcon,
   JcbCardIcon,
   UnionpayCardIcon,
-  SvgIconProps,
+  SvgIconProps
 } from "@chainsafe/common-components"
 
 export const DEFAULT_CVC_LENGTH = 3
@@ -47,9 +47,9 @@ export const CARD_TYPES: ICardType[] = [
     lengths: [16, 18, 19],
     code: {
       name: "CVV",
-      length: 3,
+      length: 3
     },
-    icon: VisaCardIcon,
+    icon: VisaCardIcon
   },
   {
     displayName: "Mastercard",
@@ -60,9 +60,9 @@ export const CARD_TYPES: ICardType[] = [
     lengths: [16],
     code: {
       name: "CVC",
-      length: 3,
+      length: 3
     },
-    icon: MastercardCardIcon,
+    icon: MastercardCardIcon
   },
   {
     displayName: "American Express",
@@ -73,9 +73,9 @@ export const CARD_TYPES: ICardType[] = [
     lengths: [15],
     code: {
       name: "CID",
-      length: 4,
+      length: 4
     },
-    icon: AmexCardIcon,
+    icon: AmexCardIcon
   },
   {
     displayName: "Diners Club",
@@ -86,9 +86,9 @@ export const CARD_TYPES: ICardType[] = [
     lengths: [14, 16, 19],
     code: {
       name: "CVV",
-      length: 3,
+      length: 3
     },
-    icon: DinersclubCardIcon,
+    icon: DinersclubCardIcon
   },
   {
     displayName: "Discover",
@@ -99,9 +99,9 @@ export const CARD_TYPES: ICardType[] = [
     lengths: [16, 19],
     code: {
       name: "CID",
-      length: 3,
+      length: 3
     },
-    icon: DiscoverCardIcon,
+    icon: DiscoverCardIcon
   },
   {
     displayName: "JCB",
@@ -112,9 +112,9 @@ export const CARD_TYPES: ICardType[] = [
     lengths: [16, 17, 18, 19],
     code: {
       name: "CVV",
-      length: 3,
+      length: 3
     },
-    icon: JcbCardIcon,
+    icon: JcbCardIcon
   },
   {
     displayName: "UnionPay",
@@ -125,15 +125,15 @@ export const CARD_TYPES: ICardType[] = [
     lengths: [14, 15, 16, 17, 18, 19],
     code: {
       name: "CVN",
-      length: 3,
+      length: 3
     },
-    icon: UnionpayCardIcon,
-  },
+    icon: UnionpayCardIcon
+  }
 ]
 
 export const getCardTypeByValue = (value: string) => {
   const cardTypes = CARD_TYPES.filter((cardType) =>
-    cardType.startPattern.test(value),
+    cardType.startPattern.test(value)
   )
   return cardTypes[0] ? cardTypes[0] : undefined
 }

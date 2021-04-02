@@ -1,5 +1,5 @@
 import * as React from "react"
-import { useEffect } from "react"
+import { useCallback, useEffect } from "react"
 import { useImployApi } from "../ImployApiContext"
 import { useState } from "react"
 
@@ -33,18 +33,7 @@ const UserProvider = ({ children }: UserContextProps) => {
 
   const [profile, setProfile] = useState<Profile | undefined>(undefined)
 
-  useEffect(() => {
-    if (isLoggedIn) {
-      const retrieveProfile = async () => {
-        try {
-          await refreshProfile()
-        } catch (err) {}
-      }
-      retrieveProfile()
-    }
-  }, [isLoggedIn])
-
-  const refreshProfile = async () => {
+  const refreshProfile = useCallback(async () => {
     try {
       const profileApiData = await imployApiClient.getUser()
 
@@ -52,19 +41,32 @@ const UserProvider = ({ children }: UserContextProps) => {
         firstName: profileApiData.first_name,
         lastName: profileApiData.last_name,
         email: profileApiData.email,
-        publicAddress: profileApiData.public_address,
+        publicAddress: profileApiData.public_address
       }
       setProfile(profileState)
       return Promise.resolve()
     } catch (error) {
       return Promise.reject("There was an error getting profile.")
     }
-  }
+  }, [imployApiClient])
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      const retrieveProfile = async () => {
+        try {
+          await refreshProfile()
+        } catch (err) {
+          console.error(err)
+        }
+      }
+      retrieveProfile()
+    }
+  }, [isLoggedIn, refreshProfile])
 
   const updateProfile = async (
     firstName?: string,
     lastName?: string,
-    email?: string,
+    email?: string
   ) => {
     if (!profile) return Promise.reject("Profile not initialized")
 
@@ -72,21 +74,21 @@ const UserProvider = ({ children }: UserContextProps) => {
       const profileData = await imployApiClient.updateUser({
         first_name: firstName || "",
         last_name: lastName || "",
-        email: email || "",
+        email: email || ""
       })
 
       setProfile({
         firstName: profileData.first_name,
         lastName: profileData.last_name,
         email: profileData.email,
-        publicAddress: profileData.public_address,
+        publicAddress: profileData.public_address
       })
       return Promise.resolve()
     } catch (error) {
       return Promise.reject(
         error && error.length
           ? error[0].message
-          : "There was an error updating profile.",
+          : "There was an error updating profile."
       )
     }
   }
@@ -100,7 +102,7 @@ const UserProvider = ({ children }: UserContextProps) => {
       const { publicAddress } = profile
       return `${publicAddress.substr(0, 6)}...${publicAddress.substr(
         publicAddress.length - 6,
-        publicAddress.length,
+        publicAddress.length
       )}`
     } else {
       return profile?.firstName || profile?.email || ""
@@ -114,7 +116,7 @@ const UserProvider = ({ children }: UserContextProps) => {
         updateProfile,
         refreshProfile,
         removeUser,
-        getProfileTitle,
+        getProfileTitle
       }}
     >
       {children}

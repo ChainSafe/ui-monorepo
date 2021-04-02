@@ -4,14 +4,14 @@ import {
   ITheme,
   useTheme,
   makeStyles,
-  createStyles,
+  createStyles
 } from "@chainsafe/common-theme"
 import { Placement, ToastProps } from "react-toast-notifications"
 import {
   CheckCircleIcon,
   CloseCircleIcon,
   CrossOutlinedIcon,
-  InfoCircleIcon,
+  InfoCircleIcon
 } from "../Icons"
 export { ToastProvider, useToasts } from "react-toast-notifications"
 
@@ -24,7 +24,7 @@ function getTranslate(placement: Placement) {
     right: "translate(120%, 0)",
     left: "translate(-120%, 0)",
     bottom: "translate(0, 120%)",
-    top: "translate(0, -120%)",
+    top: "translate(0, -120%)"
   }
 
   return translateMap[relevantPlacement]
@@ -38,14 +38,14 @@ interface IStyleProps {
 const useStyles = makeStyles(
   ({ animation, zIndex, constants, palette, overrides }: ITheme) =>
     createStyles({
-      root: (props: IStyleProps) => ({
+      root: ({ height }: IStyleProps) => ({
         transition: `height ${animation.transform - 100}ms 100ms`,
-        height: props.height,
+        height: height,
         position: "relative",
         zIndex: zIndex?.layer4,
-        ...overrides?.Toaster?.root,
+        ...overrides?.Toaster?.root
       }),
-      inner: (props: IStyleProps) => ({
+      inner: ({ placement }: IStyleProps) => ({
         borderRadius: 4,
         border: `1px solid ${palette.additional["gray"][6]}`,
         display: "flex",
@@ -55,29 +55,38 @@ const useStyles = makeStyles(
         marginBottom: constants.generalUnit,
         transition: `transform ${animation.transform}ms cubic-bezier(0.2, 0, 0, 1), opacity ${animation.transform}ms`,
         width: WidthToaster,
-        "&.entering": { transform: getTranslate(props.placement) },
+        "&.entering": { transform: getTranslate(placement) },
         "&.entered": { transform: "translate3d(0,0,0)" },
         "&.exiting": { transform: "scale(0.66)", opacity: 0 },
         "&.exited": { transform: "scale(0.66)", opacity: 0 },
-        ...overrides?.Toaster?.inner,
+        ...overrides?.Toaster?.inner
       }),
       typeIcon: {
         marginRight: `${constants.generalUnit * 2}px`,
-        ...overrides?.Toaster?.typeIcon,
+        ...overrides?.Toaster?.typeIcon?.root,
+        "&.success": {
+          ...overrides?.Toaster?.typeIcon?.success
+        },
+        "&.error": {
+          ...overrides?.Toaster?.typeIcon?.error
+        },
+        "&.info": {
+          ...overrides?.Toaster?.typeIcon?.info
+        }
       },
       closeButton: {
         backgroundColor: "transparent",
         border: "none",
         cursor: "pointer",
-        ...overrides?.Toaster?.closeButton,
+        ...overrides?.Toaster?.closeButton
       },
       closeIcon: {
         fontSize: `${constants.generalUnit * 1.5}px`,
         fill: palette.additional["gray"][6],
         marginLeft: `${constants.generalUnit * 2}px`,
-        ...overrides?.Toaster?.closeIcon,
-      },
-    }),
+        ...overrides?.Toaster?.closeIcon
+      }
+    })
 )
 
 const Toaster = ({
@@ -85,14 +94,14 @@ const Toaster = ({
   children,
   onDismiss,
   placement,
-  transitionState,
+  transitionState
 }: ToastProps) => {
   const [height, setHeight] = useState<string | number>("auto")
   const elementRef = useRef<any>(null)
 
   const classes = useStyles({
     height,
-    placement,
+    placement
   })
 
   const { constants }: ITheme = useTheme()
@@ -105,17 +114,17 @@ const Toaster = ({
     if (transitionState === "exiting") {
       setHeight(0)
     }
-  }, [transitionState])
+  }, [constants.generalUnit, transitionState])
 
   return (
     <div ref={elementRef} className={classes.root}>
       <div className={clsx(classes.inner, placement, transitionState)}>
         {appearance === "success" ? (
-          <CheckCircleIcon className={classes.typeIcon} />
+          <CheckCircleIcon className={clsx(classes.typeIcon, appearance)} />
         ) : appearance === "error" ? (
-          <CloseCircleIcon className={classes.typeIcon} />
+          <CloseCircleIcon className={clsx(classes.typeIcon, appearance)} />
         ) : (
-          <InfoCircleIcon className={classes.typeIcon} />
+          <InfoCircleIcon className={clsx(classes.typeIcon, appearance)} />
         )}
         {children}
         {onDismiss ? (

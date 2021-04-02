@@ -7,12 +7,12 @@ export default {
   title: "Breadcrumb",
   component: Breadcrumb,
   excludeStories: /.*Data$/,
-  decorators: [withKnobs],
+  decorators: [withKnobs]
 }
 
 export const actionsData = {
   linkClick: action("Clicked link"),
-  homeClicked: action("Clicked link"),
+  homeClicked: action("Clicked link")
 }
 
 export const BreadcrumbStory = (): React.ReactNode => (
@@ -23,17 +23,17 @@ export const BreadcrumbStory = (): React.ReactNode => (
       crumbs={[
         {
           text: text("breadcrumb 2", "Level 1 Clickable"),
-          onClick: () => actionsData.linkClick(),
+          onClick: () => actionsData.linkClick()
         },
         {
-          text: "Level 2",
+          text: "Level 2"
         },
         {
-          text: "Level 3",
+          text: "Level 3"
         },
         {
-          text: "Level 4",
-        },
+          text: "Level 4"
+        }
       ]}
     />
   </>

@@ -18,8 +18,9 @@ const FormikRadioInput: React.FC<IFormikRadioInputProps> = ({
 }) => {
   const [field, meta, helpers] = useField<string>(name)
 
-  const handleChange = () => {
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     helpers.setValue(id)
+    onChange && onChange(event)
   }
 
   return (

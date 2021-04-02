@@ -10,7 +10,7 @@ export interface ILoadingProps {
 const Loading: React.FC<ILoadingProps> = ({
   type = "primary",
   size = 64,
-  className,
+  className
 }) => {
   const theme: ITheme = useTheme()
   return (
@@ -19,17 +19,17 @@ const Loading: React.FC<ILoadingProps> = ({
         <linearGradient id="gradient" x1="0%" y1="0%" x2="0%" y2="100%">
           <stop
             offset="0%"
-            stop-color={
+            stopColor={
               type === "primary"
                 ? theme.palette.primary.main
                 : type === "dark"
-                ? theme.palette.common.black.main
-                : theme.palette.additional["gray"][5]
+                  ? theme.palette.common.black.main
+                  : theme.palette.additional["gray"][5]
             }
           />
           <stop
             offset="100%"
-            stop-color={
+            stopColor={
               type === "light" ? theme.palette.common.white.main : "transparent"
             }
           />
@@ -40,7 +40,7 @@ const Loading: React.FC<ILoadingProps> = ({
         cy="50"
         r="47"
         stroke="url(#gradient)"
-        stroke-width="6"
+        strokeWidth="6"
         fill="none"
         transform="rotate(90 50 50)"
       >

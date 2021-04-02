@@ -2,7 +2,7 @@ import React, { useEffect } from "react"
 import {
   init as initSentry,
   ErrorBoundary,
-  showReportDialog,
+  showReportDialog
 } from "@sentry/react"
 import { ThemeSwitcher } from "@chainsafe/common-theme"
 import { CssBaseline, Router } from "@chainsafe/common-components"
@@ -19,7 +19,7 @@ if (
 ) {
   initSentry({
     dsn: process.env.REACT_APP_SENTRY_DSN_URL,
-    release: process.env.REACT_APP_SENTRY_RELEASE,
+    release: process.env.REACT_APP_SENTRY_RELEASE
   })
 }
 
@@ -27,8 +27,8 @@ const App: React.FC<{}> = () => {
   const { initHotjar } = useHotjar()
   const hotjarId = process.env.REACT_APP_HOTJAR_ID
 
-  const apiUrl =
-    process.env.REACT_APP_API_URL || "http://3.236.79.100:8000/api/v1"
+  // const apiUrl =
+  //   process.env.REACT_APP_API_URL || "http://3.236.79.100:8000/api/v1"
 
   useEffect(() => {
     if (hotjarId && process.env.NODE_ENV === "production") {

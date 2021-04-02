@@ -1,7 +1,7 @@
 export const formatBytes = (
   sizeInBytes: number,
   base: 2 | 10 = 10,
-  decimals: number = 2,
+  decimals = 2
 ) => {
   if (0 === sizeInBytes) return "0 Bytes"
   const c = 0 > decimals ? 0 : decimals

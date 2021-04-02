@@ -1,20 +1,21 @@
 import React from "react"
-import { withKnobs, select, boolean } from "@storybook/addon-knobs"
+import { withKnobs, select, boolean, text } from "@storybook/addon-knobs"
 import { action } from "@storybook/addon-actions"
 import { SearchBar } from "../SearchBar"
+import { SizeOption } from "./types"
 
 export default {
   title: "Search Bar",
   component: SearchBar,
   excludeStories: /.*Data$/,
-  decorators: [withKnobs],
+  decorators: [withKnobs]
 }
 
-const sizeOptions: ["large", "medium", "small"] = ["large", "medium", "small"]
+const sizeOptions: SizeOption[] = ["large", "medium", "small"]
 
 export const actionsData = {
   onChange: action("onChange"),
-  onFormSubmit: action("Submit Form"),
+  onFormSubmit: action("Submit Form")
 }
 
 export const DefaultStory = (): React.ReactNode => (
@@ -23,5 +24,6 @@ export const DefaultStory = (): React.ReactNode => (
     size={select("Size", sizeOptions, "large")}
     disabled={boolean("Disabled", false)}
     isLoading={boolean("Loading", false)}
+    placeholder={text("Placeholder", "Search...")}
   />
 )
