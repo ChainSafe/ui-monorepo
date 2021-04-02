@@ -38,13 +38,13 @@ export const lightTheme = createTheme<CsfColors>({
         },
         nav: {
           backgroundColor: "var(--gray3)",
-          blocker: "var(--gray1)",
-          mobileBackgroundColor: "var(--gray3)",
-          headingColor: "initial",
-          itemColor: "initial",
-          itemColorHover: "initial",
-          itemIconColor: "var(--gray8)",
-          itemIconColorHover: "initial"
+          blocker: "var(--gray9)",
+          mobileBackgroundColor: "var(--gray9)",
+          headingColor: "inherit",
+          itemColor: "inherit",
+          itemColorHover: "var(--gray1)",
+          itemIconColor: "inherit",
+          itemIconColorHover: "var(--gray1)"
         },
         createFolder: {
           backgroundColor: "var(--gray1)",

@@ -350,13 +350,13 @@ export const darkTheme = createTheme<CsfColors>({
           hamburger: "var(--gray10)"
         },
         nav: {
-          backgroundColor: "var(--gray1)",
-          blocker: "var(--gray1)",
-          mobileBackgroundColor: "var(--gray1)",
-          headingColor: "var(--gray8)",
-          itemColor: "var(--gray7)",
+          backgroundColor: "var(--gray2)",
+          blocker: "var(--gray2)",
+          mobileBackgroundColor: "var(--gray2)",
+          headingColor: "var(--gray9)",
+          itemColor: "var(--gray9)",
           itemColorHover: "var(--gray9)",
-          itemIconColor: "var(--gray7)",
+          itemIconColor: "var(--gray9)",
           itemIconColorHover: "var(--gray9)"
         },
         createFolder: {
