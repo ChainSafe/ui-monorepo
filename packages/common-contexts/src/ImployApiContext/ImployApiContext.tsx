@@ -6,7 +6,7 @@ import {
   ImployApiClient,
   Token,
   Provider,
-} from "@imploy/api-client"
+} from "@chainsafe/files-api-client"
 import jwtDecode from "jwt-decode"
 import { signMessage } from "./utils"
 import axios from "axios"

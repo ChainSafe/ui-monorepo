@@ -24,7 +24,7 @@
   "scripts": {
     "postinstall": "yarn build:common",
     "build:common": "yarn build:theme && yarn build:components && yarn build:contexts",
-    "build:contexts": "yarn wsrun -t -p @imploy/common-contexts -c build",
+    "build:contexts": "yarn wsrun -t -p @chainsafe/common-contexts -c build",
     "build:components": "yarn wsrun -t -p @chainsafe/common-components -c build",
     "build:theme": "yarn wsrun -t -p @chainsafe/common-theme -c build",
     "build:storybook": "yarn wsrun -p @chainsafe/common-components -c build:storybook",
