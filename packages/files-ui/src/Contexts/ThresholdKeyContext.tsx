@@ -254,7 +254,7 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
 
   // Initiate request for share transfer if not enough shares
   useEffect(() => {
-    let shareEncPubKeyX: string | undefined;
+    let shareEncPubKeyX: string | undefined
     const handler = async () => {
       if (!TKeySdk) return
       // Generate share transfer request
