@@ -28,7 +28,6 @@ import { LanguageProvider } from "./Contexts/LanguageContext"
 import { testLocalStorage } from "./Utils/Helpers"
 import { ThresholdKeyProvider } from "./Contexts/ThresholdKeyContext"
 import { lightTheme } from "./Themes/LightTheme"
-import SavedBrowsers from "./Components/Modules/Settings/SavedBrowsers"
 
 if (
   process.env.NODE_ENV === "production" &&
@@ -115,12 +114,11 @@ const App: React.FC<{}> = () => {
                   <UserProvider>
                     <DriveProvider>
                       <BillingProvider>
-                        <SavedBrowsers />
-                        {/* <Router>
+                        <Router>
                           <AppWrapper>
                             <FilesRoutes />
                           </AppWrapper>
-                        </Router> */}
+                        </Router>
                       </BillingProvider>
                     </DriveProvider>
                   </UserProvider>

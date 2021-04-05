@@ -10,7 +10,7 @@ import BrowserPanel from "./BrowserPanel"
 const useStyles = makeStyles(({ constants }: CSFTheme) =>
   createStyles({
     root: {
-      padding: `${constants.generalUnit}px 0`
+      padding: `${constants.generalUnit * 3}px 0`
     },
     title: {
       fontSize: "16px",
