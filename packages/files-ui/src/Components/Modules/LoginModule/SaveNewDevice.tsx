@@ -4,12 +4,22 @@ import { Button, Typography } from "@chainsafe/common-components"
 import { Trans } from "@lingui/macro"
 import { createStyles, makeStyles } from "@chainsafe/common-theme"
 import { CSFTheme } from "../../../Themes/types"
+import clsx from "clsx"
 
 const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) =>
   createStyles({
-    root:{
-      width: "100%",
-      textAlign: "center"
+    root: {
+      padding: `0 ${constants.generalUnit * 4}px`,
+      width: "100vw",
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "space-between",
+      [breakpoints.up("md")]: {
+        maxWidth: 580
+      },
+      [breakpoints.down("md")]: {
+        padding: `0 ${constants.generalUnit * 3}px`
+      }
     },
     buttonSection: {
       [breakpoints.up("md")]: {
@@ -68,7 +78,7 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) =>
   })
 )
 
-const SaveNewDevice: React.FC = () => {
+const SaveNewDevice = ({ className }: {className: string}) => {
   const { addNewDeviceShareAndSave, resetIsNewDevice } = useThresholdKey()
   const [isAccepted, setIsAccepted] = useState(false)
   const [isDenied, setIsDenied] = useState(false)
@@ -87,7 +97,7 @@ const SaveNewDevice: React.FC = () => {
   }, [resetIsNewDevice])
 
   return (
-    <div className={classes.root}>
+    <section className={clsx(classes.root, className)}>
       <Typography
         variant="h6"
         component="h1"
@@ -111,7 +121,7 @@ const SaveNewDevice: React.FC = () => {
         </Button>
         <Button
           className={classes.button}
-          variant="primary"
+          variant="outline"
           size="large"
           onClick={onDeny}
           loading={isDenied}
@@ -120,7 +130,7 @@ const SaveNewDevice: React.FC = () => {
           <Trans>No thanks</Trans>
         </Button>
       </div>
-    </div>
+    </section>
   )
 }
 
