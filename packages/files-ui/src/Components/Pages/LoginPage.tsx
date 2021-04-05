@@ -9,7 +9,7 @@ import {
   ChainsafeFilesLogo,
   Divider,
 } from "@chainsafe/common-components"
-import { useImployApi, OAuthProvider } from "@imploy/common-contexts"
+import { useImployApi, OAuthProvider } from "@chainsafe/common-contexts"
 import {
   makeStyles,
   ITheme,

@@ -1,6 +1,6 @@
 import React, { useEffect } from "react"
 import { useLocation, useParams } from "@chainsafe/common-components"
-import { useImployApi } from "@imploy/common-contexts"
+import { useImployApi } from "@chainsafe/common-contexts"
 
 function useQueryParams() {
   return new URLSearchParams(useLocation().search)

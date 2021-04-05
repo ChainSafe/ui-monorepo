@@ -3,10 +3,10 @@ import {
   FileContentResponse,
   FilesMvRequest,
   FilesPathRequest,
-} from "@imploy/api-client"
+} from "@chainsafe/files-api-client"
 import React, { useCallback, useEffect, useReducer } from "react"
 import { useState } from "react"
-import { decryptFile, encryptFile, useImployApi } from "@imploy/common-contexts"
+import { decryptFile, encryptFile, useImployApi } from "@chainsafe/common-contexts"
 import dayjs from "dayjs"
 import { v4 as uuidv4 } from "uuid"
 import { useToaster } from "@chainsafe/common-components"

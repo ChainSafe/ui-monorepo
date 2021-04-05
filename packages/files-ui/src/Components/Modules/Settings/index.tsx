@@ -12,7 +12,7 @@ import {
   useToaster,
 } from "@chainsafe/common-components"
 import { makeStyles, ITheme, createStyles } from "@chainsafe/common-theme"
-import { useUser } from "@imploy/common-contexts"
+import { useUser } from "@chainsafe/common-contexts"
 import { ROUTE_LINKS } from "../../FilesRoutes"
 import { Trans } from "@lingui/macro"
 
