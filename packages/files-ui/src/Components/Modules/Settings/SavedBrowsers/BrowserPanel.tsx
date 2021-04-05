@@ -7,6 +7,8 @@ import { CSFTheme } from "../../../../Themes/types"
 import { Button, ExpansionPanel, Typography } from "@chainsafe/common-components"
 import clsx from "clsx"
 import { Trans } from "@lingui/macro"
+import bowser from "bowser"
+import dayjs from "dayjs"
 
 const useStyles = makeStyles(({ palette, constants, animation, breakpoints }: CSFTheme) =>
   createStyles({
@@ -64,16 +66,17 @@ const useStyles = makeStyles(({ palette, constants, animation, breakpoints }: CS
 )
 
 interface IBrowserPanelProps {
-  nickname: string
+  browserInstance: bowser.Parser.ParsedResult
+  dateAdded: number
 }
 
-const BrowserPanel: React.FC<IBrowserPanelProps> = ({ nickname }) => {
+const BrowserPanel: React.FC<IBrowserPanelProps> = ({ browserInstance, dateAdded }) => {
   const classes = useStyles()
   const [showPanel, setShowPanel] = useState(false)
 
   return (
     <ExpansionPanel
-      header={nickname}
+      header={browserInstance.browser.name || ""}
       variant="borderless"
       injectedClasses={{ heading: clsx(classes.panelHeading, showPanel && "active"), content: classes.panelBody }}
       iconPosition={"right"}
@@ -83,13 +86,13 @@ const BrowserPanel: React.FC<IBrowserPanelProps> = ({ nickname }) => {
       <div className={classes.panelBody}>
         <div className={classes.panelContent}>
           <Typography variant="body1" component="p" className={classes.subtitle}>
-            <Trans>Operating system: {"Linux"}</Trans>
+            <Trans>Operating system :</Trans>&nbsp;{browserInstance.os.name}
           </Typography>
           <Typography variant="body1" component="p" className={classes.subtitle}>
-            <Trans>Browser: {"Google chrome v88"}</Trans>
+            <Trans>Browser : </Trans>&nbsp;{browserInstance.browser.name}&nbsp;{browserInstance.browser.version}
           </Typography>
           <Typography variant="body1" component="p" className={classes.subtitleLast}>
-            <Trans>Saved on: {"01 April 2020"}</Trans>
+            <Trans>Saved on: </Trans>&nbsp;{dayjs(dateAdded).format("DD MMM YYYY")}
           </Typography>
           <div className={classes.actionBox}>
             <Typography variant="body1" component="p" className={classes.lightSubtitle}>
