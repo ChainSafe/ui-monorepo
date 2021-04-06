@@ -323,11 +323,8 @@ const Landing: React.FC = () => {
         <header className={classes.headerContainer}>
           <div className={classes.headerContentContainer}>
             <p>Store Files. In absolute privacy. With absolute simplicity.</p>
-            {/* <a  href="https://app.files.chainsafe.io/">
-              <img className={classes.headerLink} src="https://res.cloudinary.com/ddxhvanz2/image/upload/v1617730904/files.chainsafe.io/glowx10_nq40ld.png" alt=""/>
-            </a> */}
             <a href="/" className={classes.headerLink}>
-              Go to App
+              <Trans>Go to App</Trans>
             </a>
             <img src="https://res.cloudinary.com/ddxhvanz2/image/upload/v1617729970/files.chainsafe.io/large-grouped_p5inej.png" alt="ChainSafe Files interface"/>
           </div>
@@ -352,7 +349,7 @@ const Landing: React.FC = () => {
               </div>
              </div>
               <div className={classes.singleColContainer}>
-                <p>A sanctuary for all your files and thoughts.</p>
+                <p><Trans>A sanctuary for all your files and thoughts.</Trans></p>
               </div>
              <div className={classes.gifGrid}>
               <div className={classes.gifThumbnail}>
@@ -375,95 +372,77 @@ const Landing: React.FC = () => {
        {/* Feature List */}
         <article >
           <div className={classes.featureTextContainer}>
-            <Trans>
-              <h1 className={classes.lightText}>Secure.</h1>
-            </Trans>
+              <h1 className={classes.lightText}><Trans>Secure.</Trans></h1>
             <div className={classes.featureBodyTextContainer}>
               <div className={classes.bodyTextWrapper}>
-                <Trans>
                   <p className={clsx(classes.bodyText, classes.lightText)}>
-                    <strong>We don't know what you’re storing.</strong>
+                    <strong><Trans>We don't know what you’re storing.</Trans></strong>
                   </p>
-                </Trans>
-                <Trans>
                   <p className={clsx(classes.bodyText, classes.lightText)}>
-                    What you want to do with your files is totally up to you.  End-to-end encryption means your content can only be seen by you.
+                    <Trans>
+                      What you want to do with your files is totally up to you.  End-to-end encryption means your content can only be seen by you.
+                    </Trans>
                   </p>
-                </Trans>
               </div>
               <div className={classes.bodyTextWrapper}>
-                <Trans>
                   <p className={clsx(classes.bodyText, classes.lightText)}>
-                    <strong>No data collection, no selling data.</strong>
+                    <strong><Trans>No data collection, no selling data.</Trans></strong>
                   </p>
-                </Trans>
-                <Trans>
                   <p className={clsx(classes.bodyText, classes.lightText)}>
-                    We only collect what is minimally necessary to provide our service to you. We promise to not to change that.
+                    <Trans> 
+                      We only collect what is minimally necessary to provide our service to you. We promise to not to change that.
+                    </Trans>
                   </p>
-                </Trans>
               </div>
             </div>
           </div>
           <div className={classes.featureTextContainer}>
-            <Trans>
-              <h1>Easy to use.</h1>
-            </Trans>
+              <h1><Trans>Easy to use.</Trans></h1>
             <div className={classes.featureBodyTextContainer}>
               <div className={classes.bodyTextWrapper}>
-                <Trans>
                   <p className={classes.bodyText}>
-                    <strong>Sign in however you want.</strong>
+                    <strong><Trans>Sign in however you want.</Trans></strong>
                   </p>
-                </Trans>
-                <Trans>
                   <p className={classes.bodyText}>
-                    Sign up with your GitHub, Google or Facebook account. Or connect an Ethereum wallet. No emails required, ever. 
+                    <Trans>
+                      Sign up with your GitHub, Google or Facebook account. Or connect an Ethereum wallet. No emails required, ever. 
+                    </Trans>
                   </p>
-                </Trans>
               </div>
               <div className={classes.bodyTextWrapper}>
-                <Trans>
                   <p className={classes.bodyText}>
-                    <strong>Equal parts privacy and convenience.</strong>
+                    <strong><Trans>Equal parts privacy and convenience.</Trans></strong>
                   </p>
-                </Trans>
-                <Trans>
                   <p className={classes.bodyText}>
+                    <Trans>
                     Preview your stuff. Access it from any device. Organize folders. And soon, create notes in rich text and markdown. <span role="img"  aria-label="sparkle">✨</span>
+                    </Trans>
                   </p>
-                </Trans>
               </div>
             </div>
           </div>
           <div className={classes.featureTextContainer}>
-            <Trans>
-              <h1 className={classes.lightText}>Next gen.</h1>  
-            </Trans>
+              <h1 className={classes.lightText}><Trans>Next gen.</Trans></h1>  
             <div className={classes.featureBodyTextContainer}>
               <div className={classes.bodyTextWrapper}>
-                <Trans>
                   <p className={clsx(classes.bodyText, classes.lightText)}>
-                    <strong>Powered by peer-to-peer.</strong>
+                    <strong><Trans>Powered by peer-to-peer.</Trans></strong>
                   </p>
-                </Trans>
-                <Trans>
                   <p className={clsx(classes.bodyText, classes.lightText)}>
-                    Files is a next-gen app that blends cloud storage with blockchain and data privacy. We’re leveraging the power of the IPFS and Filecoin network to protect your stuff from data loss.
+                    <Trans>
+                      Files is a next-gen app that blends cloud storage with blockchain and data privacy. We’re leveraging the power of the IPFS and Filecoin network to protect your stuff from data loss.
+                    </Trans>
                   </p>
-                </Trans>
              </div>
               <div className={classes.bodyTextWrapper}>
-                <Trans>
                   <p className={clsx(classes.bodyText, classes.lightText)}>
-                    <strong>Self-reliance with account recovery.</strong>
+                    <strong><Trans>Self-reliance with account recovery.</Trans></strong>
                   </p>
-                </Trans>
-                <Trans>
                   <p className={clsx(classes.bodyText, classes.lightText)}>
-                    We don’t store passwords and emails; protecting your keys is your responsibility. Mistakes happen, though. That’s why we make account recovery as easy as humanly possible with threshold key management. 
+                    <Trans>
+                      We don’t store passwords and emails; protecting your keys is your responsibility. Mistakes happen, though. That’s why we make account recovery as easy as humanly possible with threshold key management. 
+                    </Trans>
                   </p>
-                </Trans>
              </div>
             </div>
           </div>
@@ -474,13 +453,16 @@ const Landing: React.FC = () => {
             <div className={classes.loveLetterContentContainer}>
               <img className={classes.loveLetterImg} src="https://res.cloudinary.com/ddxhvanz2/image/upload/v1617711769/files.chainsafe.io/cs-logo-black-bg_mdbtml.png" alt="ChainSafe Logo on black background"/>
               <div className={clsx(classes.bodyTextWrapper, classes.flexDirectionColumn, classes.loveLetterTextWrapper)}>
-                <h1>A love letter to the WWW...</h1>
-                <p className={clsx(classes.bodyText, classes.loveLetterText)}>Yes, we want people to have the best experience online without sacrificing their privacy or security. But there’s more. We’re reimagining the future of filesystems and file lifecycles.   Why? Because you deserve to spend less time uploading here, downloading there, and shuffling stuff from platform to platform.  We’re going to make it incredibly easy to connect all your content securely. Without forcing you onto a single platform. 
-                <br></br>
-                <br></br>
-                Stay tuned. We’re working with the best teams innovating software to make this a reality.
+                <h1><Trans>A love letter to the WWW...</Trans></h1>
+                <p className={clsx(classes.bodyText, classes.loveLetterText)}>
+                  <Trans>
+                  Yes, we want people to have the best experience online without sacrificing their privacy or security. But there’s more. We’re reimagining the future of filesystems and file lifecycles.   Why? Because you deserve to spend less time uploading here, downloading there, and shuffling stuff from platform to platform.  We’re going to make it incredibly easy to connect all your content securely. Without forcing you onto a single platform. 
+                  <br></br>
+                  <br></br>
+                  Stay tuned. We’re working with the best teams innovating software to make this a reality.
+                </Trans>
                 </p>
-                <h1>...From the team at ChainSafe Products</h1>
+                <h1><Trans>...From the team at ChainSafe Products</Trans></h1>
               </div>
             </div>
           </div>

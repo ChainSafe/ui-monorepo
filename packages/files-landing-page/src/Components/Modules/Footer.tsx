@@ -117,17 +117,23 @@ const Footer: React.FC = () => {
                 rel="noopener noreferrer"
                 target="_blank"
               >
-                <Typography variant="h5" className={classes.footerText}>Launch App</Typography>
+                <Typography variant="h5" className={classes.footerText}>
+                  <Trans>Launch App</Trans>
+                  </Typography>
               </a>
             </Grid>
             <Grid item className={classes.item}>
               <Link to={ROUTE_LINKS.TermsOfService}>
-                <Typography variant="h5" className={classes.footerText}>Terms of Service</Typography>
+                <Typography variant="h5" className={classes.footerText}>
+                  <Trans>Terms of Service</Trans>
+                </Typography>
               </Link>
             </Grid>
             <Grid item className={classes.item}>
               <Link to={ROUTE_LINKS.PrivacyPolicy}>
-                <Typography variant="h5" className={classes.footerText}>Privacy Policy</Typography>
+                <Typography variant="h5" className={classes.footerText}>
+                  <Trans>Privacy Policy</Trans>
+                </Typography>
               </Link>
             </Grid>
           </Grid>
@@ -143,7 +149,9 @@ const Footer: React.FC = () => {
                 rel="noopener noreferrer"
                 target="_blank"
               >
-                <Typography variant="h5" className={classes.footerText}>Visit Site</Typography>
+                <Typography variant="h5" className={classes.footerText}>
+                  <Trans>Visit Site</Trans>
+                </Typography>
               </a>
             </Grid>
           </Grid>
@@ -188,7 +196,7 @@ const Footer: React.FC = () => {
         >
           <Grid item>
             <p className={classes.copyright}>
-              &copy; {currentYear} ChainSafe Systems, All Rights Reserved.
+              &copy; {currentYear} ChainSafe Systems, <Trans>All Rights Reserved</Trans>.
             </p>
           </Grid>
         </Grid>

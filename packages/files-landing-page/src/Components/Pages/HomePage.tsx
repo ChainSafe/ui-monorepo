@@ -8,7 +8,6 @@ const HomePage: React.FC = () => {
     <div>
       <NavBar />
       <Landing />
-
       <Footer />
     </div>
   )
