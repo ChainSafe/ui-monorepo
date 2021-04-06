@@ -371,7 +371,7 @@ const Landing: React.FC = () => {
         <header className={classes.headerContainer}>
           <div className={classes.headerContentContainer}>
             <p>Store Files. In absolute privacy. With absolute simplicity.</p>
-            <a href="/" className={classes.headerLink}>
+            <a href="https://app.files.chainsafe.io/" className={classes.headerLink}>
               <Trans>Go to App</Trans>
             </a>
             <img src="https://res.cloudinary.com/ddxhvanz2/image/upload/v1617729970/files.chainsafe.io/large-grouped_p5inej.png" alt="ChainSafe Files interface"/>
