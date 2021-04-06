@@ -34,7 +34,7 @@ const useStyles = makeStyles(
         color: palette.common.black.main,
         textDecoration: "none",
         "&:hover": {
-          color: palette.additional["gray"][7],
+          color: "#5165DC",
           transition: "ease-in 0.2s",
         },
       },

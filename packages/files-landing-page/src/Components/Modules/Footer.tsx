@@ -25,14 +25,14 @@ const useStyles = makeStyles(({ palette, constants, breakpoints }: ITheme) => {
       color: palette.additional["gray"][9],
       margin: "0 0 .5rem 0",
       "&:hover": {
-        color: palette.additional["gray"][8],
+        color: "#5165DC",
         transition: "ease-in 0.2s",
       },
       "& a": {
         color: palette.additional["gray"][8],
         textDecoration: "none",
         "&:hover": {
-          color: palette.additional["gray"][8],
+          color: "#5165DC",
           transition: "ease-in 0.2s",
         },
       },
