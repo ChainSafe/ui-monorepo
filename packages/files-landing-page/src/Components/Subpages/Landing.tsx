@@ -23,8 +23,14 @@ const useStyles = makeStyles(
       alignItems: "center",
       width: "100%",
       marginTop: "10%",
+      [breakpoints.down(750)]: {
+        marginTop: "20%",
+      },
       "& > img": {
-        maxWidth: "80vw",
+        width: "70%",
+        [breakpoints.down('md')]:{
+          width: "100%",
+        }
       },
       "& > p": {
         fontSize: "20px",
@@ -60,11 +66,12 @@ const useStyles = makeStyles(
       },
     },
     gifGridContainer: {
-      [breakpoints.up('lg')]:{
+      [breakpoints.up(1500)]:{
         minHeight: "100vh",
       },
-      [breakpoints.down('lg')]:{
-        minHeight: "60vh",
+      [breakpoints.down(1500)]:{
+        minHeight: "auto",
+        padding: "24px 0",
       },
       [breakpoints.down('sm')]:{
         minHeight: "auto",
@@ -300,7 +307,7 @@ const Landing: React.FC = () => {
         <header className={classes.headerContainer}>
           <div className={classes.headerContentContainer}>
             <p>Store Files. In absolute privacy. With absolute simplicity.</p>
-            <img style={{width: "80%"}} src="https://res.cloudinary.com/ddxhvanz2/image/upload/v1616945694/files.chainsafe.io/screenshots_ss4chz.png" alt=""/>
+            <img src="https://res.cloudinary.com/ddxhvanz2/image/upload/v1617729970/files.chainsafe.io/large-grouped_p5inej.png" alt=""/>
           </div>
        </header>
        <main className={classes.bodyContainer}>
