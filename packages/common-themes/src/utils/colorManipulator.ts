@@ -86,33 +86,34 @@ export function decomposeColor(color: string): IColorObject {
   const marker = color.indexOf("(")
   const type = color.substring(0, marker)
 
-  if (["rgb", "rgba", "hsl", "hsla"].indexOf(type) === -1) {
+  if (["rgb", "rgba", "hsl", "hsla", "var"].indexOf(type) === -1) {
     throw new Error(
       `ChainSafe themes: Unsupported ${type} color.\n` +
-        "We support the following formats: #nnn, #nnnnnn, rgb(), rgba(), hsl(), hsla()."
+        "We support the following formats: #nnn, #nnnnnn, rgb(), rgba(), hsl(), hsla(), var()."
     )
   }
 
-  const colorToParse = `${color}`
+  let colorToParse = `${color}`
 
-  // TODO: #875: Resolve variables not being loaded in time issue
-  // if (type === "var") {
-  //   // Check if loaded
-  //   if (!getComputedStyle(document.documentElement).getPropertyValue("--ready")) {
-  //     throw new Error(
-  //       "Css variable not loaded yet"
-  //     )
-  //   }
+  if (type === "var") {
+    // Check if loaded
+    if (!getComputedStyle(document.documentElement).getPropertyValue("--ready")) {
+      // throw new Error(
+      //   "Css variable not loaded yet"
+      // )
+      // TODO: #875: Resolve variables not being loaded in time issue
+      console.debug("Css variable not loaded yet")
+    }
 
-  //   colorToParse = getComputedStyle(document.documentElement).getPropertyValue(color.replace("var(", "").replace(")", ""))
-  //   if (colorToParse.charAt(0) === "#") {
-  //     return decomposeColor(
-  //       hexToRgb(
-  //         colorToParse
-  //       )
-  //     )
-  //   }
-  // }
+    colorToParse = getComputedStyle(document.documentElement).getPropertyValue(color.replace("var(", "").replace(")", ""))
+    if (colorToParse.charAt(0) === "#") {
+      return decomposeColor(
+        hexToRgb(
+          colorToParse
+        )
+      )
+    }
+  }
 
   const valuesStrings = colorToParse
     .substring(marker + 1, colorToParse.length - 1)

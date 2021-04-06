@@ -191,8 +191,8 @@ const DefaultThemeConfig: IThemeConfig = {
     blocker: 10000
   },
   shadows: {
-    shadow1: `0px 1px 4px ${fade(DefaultPalette.additional.gray[10], 0.15)}`,
-    shadow2: `0px 2px 8px ${fade(DefaultPalette.additional.gray[10], 0.25)}`
+    shadow1: `0px 1px 4px ${fade("#000000", 0.15)}`, // Gray[10] // TODO: #875
+    shadow2: `0px 2px 8px ${fade("#000000", 0.25)}` // Gray[10] // TODO: #875
   }
 }
 
