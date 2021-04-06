@@ -80,6 +80,7 @@ const useStyles = makeStyles(
     },
     gifGrid: {
       display: "grid",
+      justifyItems: "center",
         [breakpoints.up('lg')]: {
         maxWidth: "100%",
         gridTemplateColumns: "repeat(4, minmax(0, 1fr))",
@@ -156,7 +157,7 @@ const useStyles = makeStyles(
       display: "grid",
       gridTemplateColumns: "minmax(0,5fr) minmax(0, 7fr)",
       [breakpoints.up(750)]:{
-        height: "34vh",
+        minHeight: "35vh",
       },
       [breakpoints.down(750)]:{
         minHeight: "45vh",
@@ -203,7 +204,7 @@ const useStyles = makeStyles(
       },
     },
     bodyText: {
-        fontSize: "16px",
+        fontSize: "17px",
         lineHeight: "24px",
         marginBottom: constants.generalUnit,
         // [breakpoints.between(960, 1380)]:{
@@ -215,6 +216,61 @@ const useStyles = makeStyles(
     },
     lightText: {
         color: palette.additional["gray"][3],
+    },
+    loveLetterContainer: {
+      minHeight: "auto",
+      width: "auto",
+      margin: "100px",
+      [breakpoints.down("sm")]:{
+        margin: 0,
+      }
+    },
+    loveLetterContentContainer: {
+      display: "grid",
+      gridTemplateColumns: "minmax(0,1fr) minmax(0, 1.5fr)",
+      justifyItems: "center",
+      [breakpoints.down(1100)]: {
+        gridTemplateColumns: "minmax(0,1fr)",
+        alignItems: "center",
+      }
+    },
+    flexDirectionColumn: {
+      display: "flex",
+      flexDirection: "column",
+      "& > h1:last-of-type": {
+        [breakpoints.up(1200)]: {
+          textAlign: "right",
+        }
+      }
+    }, 
+    loveLetterTextWrapper: {
+      maxWidth: "90%",
+      justifySelf: "left",
+      [breakpoints.up(1500)]:{
+        maxWidth: "80%",
+      },
+      [breakpoints.down(1200)]:{
+        paddingTop: "40px",
+      }
+    },
+    loveLetterText: {
+      [breakpoints.up(1200)]:{
+        margin: "24px 0 16px 0",
+      },
+      [breakpoints.down(1200)]: {
+        margin: "8px 0"
+      }
+    },
+    loveLetterImg: {
+      [breakpoints.up('md')]:{
+        width: 300,
+        height: 300,
+        alignSelf: "center",
+      },
+      [breakpoints.down('md')]:{
+        width: "190px",
+        height: "190px",
+      }
     }
     })
   },
@@ -365,6 +421,23 @@ const Landing: React.FC = () => {
                   </p>
                 </Trans>
              </div>
+            </div>
+          </div>
+        </article>
+        {/* To WWW, from ChainSafe */}
+        <article>
+          <div className={classes.loveLetterContainer}>
+            <div className={classes.loveLetterContentContainer}>
+              <img className={classes.loveLetterImg} src="https://res.cloudinary.com/ddxhvanz2/image/upload/v1617711769/files.chainsafe.io/cs-logo-black-bg_mdbtml.png" alt="ChainSafe Logo on black background"/>
+              <div className={clsx(classes.bodyTextWrapper, classes.flexDirectionColumn, classes.loveLetterTextWrapper)}>
+                <h1>A love letter to the WWW...</h1>
+                <p className={clsx(classes.bodyText, classes.loveLetterText)}>Yes, we want people to have the best experience online without sacrificing their privacy or security. But there’s more. We’re reimagining the future of filesystems and file lifecycles.   Why? Because you deserve to spend less time uploading here, downloading there, and shuffling stuff from platform to platform.  We’re going to make it incredibly easy to connect all your content securely. Without forcing you onto a single platform. 
+                <br></br>
+                <br></br>
+                Stay tuned. We’re working with the best teams innovating software to make this a reality.
+                </p>
+                <h1>...From the team at ChainSafe Products</h1>
+              </div>
             </div>
           </div>
         </article>

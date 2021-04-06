@@ -13,14 +13,13 @@ const useStyles = makeStyles(
         background: palette.additional["gray"][3],
         height: constants.generalUnit * 9,
         position: "fixed",
-        // borderBottom: `1px solid ${palette.additional["gray"][8]}`,
         padding: "1rem",
         zIndex: zIndex?.layer4,
         [breakpoints.down("sm")]: {
           padding: "none",
         },
         [breakpoints.up("xl")]: {
-          height: constants.generalUnit * 12,
+          height: constants.generalUnit * 9,
           width: "100vw",
           left: "50%",
           transform: "translateX(-50%)",
