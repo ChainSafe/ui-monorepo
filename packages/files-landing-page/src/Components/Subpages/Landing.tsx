@@ -282,7 +282,7 @@ const Landing: React.FC = () => {
               <div className={classes.bodyTextWrapper}>
                 <Trans>
                   <p className={clsx(classes.bodyText, classes.lightText)}>
-                    <strong>We don’t want to know what you’re storing.</strong>
+                    <strong>We don't know what you’re storing.</strong>
                   </p>
                 </Trans>
                 <Trans>
