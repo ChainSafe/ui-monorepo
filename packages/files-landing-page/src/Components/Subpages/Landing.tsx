@@ -39,13 +39,19 @@ const useStyles = makeStyles(
         [breakpoints.up('lg')]:{
           fontSize: "25px",
         },
+        [breakpoints.up(3500)]:{
+          fontSize: "40px",
+          marginBottom: constants.generalUnit * 7,
+        },
         fontSize: "20px",
         marginBottom: constants.generalUnit * 4,
       }
     },
     headerLink: {
       boxShadow: "-2px 3px 5px -2px rgba(0,0,0,0.4)",
-      background: "rgba(0,0,0,0.06)",
+      background: "#5165DC",
+      color: palette.additional["gray"][3],
+      textDecoration: "none",
       borderRadius: "3px",
       padding: ".5rem 1rem",
       fontSize: "18px",
@@ -53,8 +59,14 @@ const useStyles = makeStyles(
       maxWidth: "150px",
       transition: "0.33s ease",
       "&:hover": {
-        background: "transparent",
-      }
+        background: palette.additional["gray"][9],
+      },
+      [breakpoints.up(3500)]:{
+        fontSize: "40px",
+        maxWidth: "300px",
+        padding: "1.5rem 2rem",
+        marginBottom: constants.generalUnit * 7,
+      },
     },
     bodyContainer: {
       width: "100%",

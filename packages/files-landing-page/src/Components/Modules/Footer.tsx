@@ -139,7 +139,7 @@ const Footer: React.FC = () => {
                 target="_blank"
               >
                 <Typography variant="h5" className={classes.footerText}>
-                  <Trans>Visit Site</Trans>
+                  <Trans>ChainSafe Systems</Trans>
                 </Typography>
               </a>
             </Grid>
