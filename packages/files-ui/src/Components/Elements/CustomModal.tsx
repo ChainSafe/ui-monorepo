@@ -1,5 +1,5 @@
 import { IModalProps, Modal } from "@chainsafe/common-components"
-import { createStyles, fade, makeStyles } from "@chainsafe/common-theme"
+import { createStyles, makeStyles } from "@chainsafe/common-theme"
 import React, { ReactNode } from "react"
 import clsx from "clsx"
 import { CSFTheme } from "../../Themes/types"
@@ -8,7 +8,8 @@ const useStyles = makeStyles(({ constants, breakpoints }: CSFTheme) =>
   createStyles({
     root: {
       "&:before": {
-        backgroundColor: fade(constants.modalDefault.fadeBackground, 0.9)
+        backgroundColor: constants.modalDefault.fadeBackground,
+        opacity: 0.9
       }
     },
     inner: {
