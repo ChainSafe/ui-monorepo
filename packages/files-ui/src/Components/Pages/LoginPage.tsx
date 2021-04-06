@@ -1,9 +1,5 @@
-import React, { useState } from "react"
-import {
-  makeStyles,
-  createStyles,
-  useThemeSwitcher
-} from "@chainsafe/common-theme"
+import React, { useCallback, useState } from "react"
+import { makeStyles, createStyles, useThemeSwitcher } from "@chainsafe/common-theme"
 import { useThresholdKey } from "../../Contexts/ThresholdKeyContext"
 import SaveNewDevice from "../Modules/LoginModule/SaveNewDevice"
 import MissingShares from "../Modules/LoginModule/MissingShares"
@@ -145,6 +141,15 @@ const Content = ({ className }: { className: string }) => {
     "backup" |
     "complete"
     >("explainer")
+
+  const onSetPassword = useCallback((password: string) => {
+    addPasswordShare(password)
+      .then(() => {
+        setSetupScreen("signInOptions")
+      })
+      .catch(console.error)
+  }, [addPasswordShare])
+
   if (!keyDetails) {
     return <InitialScreen className={className} />
   }
@@ -175,10 +180,7 @@ const Content = ({ className }: { className: string }) => {
       return <PasswordSetup
         className={className}
         cancel={() => setSetupScreen("signInOptions")}
-        setPassword={async (password: string) => {
-          await addPasswordShare(password)
-          setSetupScreen("signInOptions")
-        }}
+        setPassword={onSetPassword}
       />
     case "skip":
       return <ConfirmSkip

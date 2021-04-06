@@ -66,7 +66,10 @@ const useStyles = makeStyles(({ constants, breakpoints, palette }: ITheme) =>
     },
     tabPane: {
       flex: 1,
-      padding: `${constants.generalUnit * 2}px ${constants.generalUnit * 5}px`
+      padding: `${constants.generalUnit * 2}px ${constants.generalUnit * 5}px`,
+      [breakpoints.down("md")]: {
+        padding: 0
+      }
     },
     lockIcon : {
       width: "1rem",

@@ -1,13 +1,13 @@
 import React, { useState } from "react"
-import { Button, CheckCircleSvg, CrossOutlinedSvg, CrossSvg, FormikTextInput, Grid, Typography } from "@chainsafe/common-components"
-import { makeStyles, createStyles } from "@chainsafe/common-theme"
+import { CheckCircleSvg, CloseSvg, CrossOutlinedSvg, Grid, Typography } from "@chainsafe/common-components"
+import { makeStyles, createStyles, useThemeSwitcher } from "@chainsafe/common-theme"
 import { CSFTheme } from "../../../../Themes/types"
 import { Trans } from "@lingui/macro"
 import { useThresholdKey } from "../../../../Contexts/ThresholdKeyContext"
 import { SECURITY_QUESTIONS_MODULE_NAME } from "@tkey/security-questions"
 import clsx from "clsx"
-import { Form, Formik } from "formik"
-import StrengthIndicator from "../../MasterKeySequence/SequenceSlides/StrengthIndicator"
+import PasswordForm from "../../../Elements/PasswordForm"
+import useLoggedInAs from "../../hooks/useLoggedInAs"
 
 const useStyles = makeStyles(({ constants, breakpoints, palette, typography }: CSFTheme) =>
   createStyles({
@@ -58,14 +58,10 @@ const useStyles = makeStyles(({ constants, breakpoints, palette, typography }: C
       cursor: "pointer"
     },
     passwordRoot: {
-      width: "100vw",
-      [breakpoints.up("md")]: {
-        padding: `${constants.generalUnit * 13.5}px ${constants.generalUnit * 9.5}px`,
-        maxWidth: 580
-      },
-      [breakpoints.down("md")]: {
-        padding: `${constants.generalUnit * 2}px ${constants.generalUnit * 3}px`
-      },
+      position: "relative",
+      marginTop: constants.generalUnit * 2,
+      width: "100%",
+      maxWidth: "580px",
       "& p": {
         fontWeight: 400,
         marginBottom: constants.generalUnit * 2
@@ -81,13 +77,12 @@ const useStyles = makeStyles(({ constants, breakpoints, palette, typography }: C
     close: {
       position: "absolute",
       cursor: "pointer",
-      "& svg": {
-        width: 15,
-        height: 15
-      },
+      width: 15,
+      height: 15,
+      stroke: palette.additional["gray"][9],
       [breakpoints.up("md")]: {
-        top: constants.generalUnit * 3,
-        right: constants.generalUnit * 3
+        top: 0,
+        right: 0
       },
       [breakpoints.down("md")]: {
         top: constants.generalUnit * 1.5,
@@ -125,7 +120,9 @@ const Security = ({ className }: SecurityProps) => {
   // const areSharesMissing = !!keyDetails && keyDetails.requiredShares > 0
   const classes = useStyles()
   const [settingUpPassword, setSettingUpPassword] = useState(false)
-  // TODO this is a dublicate from Missinshares, should be extracted
+  const { loggedinAs } = useLoggedInAs()
+  const { desktop } = useThemeSwitcher()
+  // TODO this is a dublicate from Missingshares, should be extracted
   const shares = keyDetails
     ? Object.values(keyDetails.shareDescriptions).map((share) => {
       return JSON.parse(share[0])
@@ -138,99 +135,121 @@ const Security = ({ className }: SecurityProps) => {
   return (
     <Grid container>
       <Grid item xs={12} sm={8} md={8}>
-        <div className={className}>
-          <div id="security">
-            <Typography
-              variant="h4"
-              component="h4"
-              className={classes.text}
-            >
-              <Trans>Sign-in Methods</Trans>
-            </Typography>
-
-            {shouldInitializeAccount && (
-              <Typography variant="body1">
-                <Trans>
-                  Hey! You only have two sign-in methods. If you lose that and have only one left,
-                  you will be locked out of your account forever.
-                </Trans>
-              </Typography>
-            )}
-            <section className={classes.setOption}>
-              <div>
-                <Typography variant="h5">
-                  <Trans>
-                    Saved Browser
-                  </Trans>
-                </Typography>
-                <Typography variant="h5">
-                  {browserShare.length} <Trans>Saved</Trans>{" "}
-                </Typography>
-                { browserShare.length
-                  ? <CheckCircleSvg className={clsx(classes.icon, classes.green)}/>
-                  : <CrossOutlinedSvg className={clsx(classes.icon, classes.red)}/>
-                }
-              </div>
-            </section>
-            { !settingUpPassword
-              ? (
-                <section className={classes.setOption}>
-                  <div>
-                    <Typography variant="h5">
-                      <Trans>
-                    Password
-                      </Trans>
-                    </Typography>
-                    <Typography variant="h5">
-                      { hasPasswordShare
-                        ? (
-                          <span className={classes.action}>
-                            <span
-                              className={classes.buttonLink}
-                              onClick={() => {setSettingUpPassword(true)}}
-                            >
-                              <Trans>Set up password</Trans>
-                            </span>
-                            <CrossOutlinedSvg className={clsx(classes.icon, classes.red)}/>
-                          </span>
-                        )
-                        : (
-                          <span className={classes.action}>
-                            <Trans>Set up</Trans>
-                            <CheckCircleSvg className={clsx(classes.icon, classes.green)}/>
-                          </span>
-                        )
-                      }
-                    </Typography>
-                  </div>
-                </section>
-              )
-              : (
-                <section className={clsx(classes.passwordRoot, className)}>
-                  <div onClick={() => setSettingUpPassword(false)} className={classes.close}>
-                    {/* <CloseSvg /> */}
-                    close
-                  </div>
-                  <Typography variant="h4" component="h2">
+        <div
+          id="security"
+          className={className}
+        >
+          <Typography
+            variant="h4"
+            component="h4"
+            className={classes.text}
+          >
+            <Trans>Sign-in methods</Trans>
+          </Typography>
+          {
+            !!loggedinAs && (
+              <section className={classes.setOption}>
+                <div>
+                  <Typography variant="h5">
                     <Trans>
-                      Set up a password
+                      Social Sign-in Wallet
                     </Trans>
                   </Typography>
-                  {/* get the form from the security setting view*/}
-                </section>
-              )}
-            {shouldInitializeAccount && (
-              <div>
-                <Typography variant="body1">
+                  {
+                    desktop && (
+                      <Typography variant="h5">
+                        { loggedinAs }
+                      </Typography>
+                    )
+                  }
+                  <CheckCircleSvg className={clsx(classes.icon, classes.green)}/>
+                </div>
+              </section>
+            )
+          }
+          {shouldInitializeAccount && (
+            <Typography variant="body1">
+              <Trans>
+                  Hey! You only have two sign-in methods. If you lose that and have only one left,
+                  you will be locked out of your account forever.
+              </Trans>
+            </Typography>
+          )}
+          <section className={classes.setOption}>
+            <div>
+              <Typography variant="h5">
+                <Trans>
+                    Saved Browser
+                </Trans>
+              </Typography>
+              <Typography variant="h5">
+                {browserShare.length} <Trans>Saved</Trans>{" "}
+              </Typography>
+              { browserShare.length
+                ? <CheckCircleSvg className={clsx(classes.icon, classes.green)}/>
+                : <CrossOutlinedSvg className={clsx(classes.icon, classes.red)}/>
+              }
+            </div>
+          </section>
+          { !settingUpPassword
+            ? (
+              <section className={classes.setOption}>
+                <div>
+                  <Typography variant="h5">
+                    <Trans>
+                        Password
+                    </Trans>
+                  </Typography>
+                  <Typography variant="h5">
+                    { !hasPasswordShare
+                      ? (
+                        <span className={classes.action}>
+                          <span
+                            className={classes.buttonLink}
+                            onClick={() => {setSettingUpPassword(true)}}
+                          >
+                            <Trans>Set up password</Trans>
+                          </span>
+                          <CrossOutlinedSvg className={clsx(classes.icon, classes.red)}/>
+                        </span>
+                      )
+                      : (
+                        <span className={classes.action}>
+                          <Trans>Set up</Trans>
+                          <CheckCircleSvg className={clsx(classes.icon, classes.green)}/>
+                        </span>
+                      )
+                    }
+                  </Typography>
+                </div>
+              </section>
+            )
+            : (
+              <section className={clsx(classes.passwordRoot, className)}>
+                <CloseSvg
+                  onClick={() => setSettingUpPassword(false)}
+                  className={classes.close}
+                />
+                <Typography variant="h4" component="h2">
                   <Trans>
-                    Add at least one more sign-in method to protect your account for account recovery.
-                    You’d only need any two to sign in to Files from any device.
+                      Set up a password
                   </Trans>
                 </Typography>
-              </div>
+                <PasswordForm setPassword={(pw: string) => {console.log(pw)}}/>
+              </section>
             )}
-          </div>
-          {/* <div id="deletion" className={classes.bodyContainer}>
+          {shouldInitializeAccount && (
+            <div>
+              <Typography variant="body1">
+                <Trans>
+                    Add at least one more sign-in method to protect your account for account recovery.
+                    You’d only need any two to sign in to Files from any device.
+                </Trans>
+              </Typography>
+            </div>
+          )}
+        </div>
+        {/* <div id="deletion" className={classes.bodyContainer}>
             <div className={classes.deletionBox}>
               <Typography
                 variant="h4"
@@ -258,7 +277,6 @@ const Security = ({ className }: SecurityProps) => {
               </Button>
             </div>
           </div> */}
-        </div>
       </Grid>
     </Grid>
   )

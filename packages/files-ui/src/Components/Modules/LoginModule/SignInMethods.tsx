@@ -10,6 +10,7 @@ import bowser from "bowser"
 import clsx from "clsx"
 import { ROUTE_LINKS } from "../../FilesRoutes"
 import { useWeb3 } from "@chainsafe/web3-context"
+import useLoggedInAs from "../hooks/useLoggedInAs"
 
 const useStyles = makeStyles(({ breakpoints, constants, typography, palette, zIndex }: CSFTheme) =>
   createStyles({
@@ -156,32 +157,8 @@ interface ISignInMethods {
 const SignInMethods = ({ goToComplete, goToMnemonic, goToPassword, goToSkip, className }: ISignInMethods) => {
   const classes = useStyles()
   const { desktop } = useThemeSwitcher()
-  const { keyDetails, userInfo } = useThresholdKey()
-  const { address } = useWeb3()
-
-  const [loggedinAs, setLoggedinAs] = useState("")
-
-  useEffect(() => {
-    if (userInfo?.userInfo.typeOfLogin) {
-      switch (userInfo.userInfo.typeOfLogin) {
-      case "jwt":
-        setLoggedinAs(t`Logged in with Web3` + ` ${centerEllipsis(String(address), 4)}`)
-        break
-      case "facebook":
-        setLoggedinAs(t`Logged in with Facebook` + ` ${centerEllipsis(userInfo.userInfo.email, 4)}`)
-        break
-      case "github":
-        setLoggedinAs(t`Logged in with Github` + ` ${centerEllipsis(userInfo.userInfo.email, 4)}`)
-        break
-      case "google":
-        setLoggedinAs(t`Logged in with Google` + ` ${centerEllipsis(userInfo.userInfo.email, 4)}`)
-        break
-      default:
-        setLoggedinAs(`${centerEllipsis(userInfo.publicAddress, 4)}`)
-        break
-      }
-    }
-  }, [userInfo, address])
+  const { keyDetails } = useThresholdKey()
+  const { loggedinAs } = useLoggedInAs()
 
   const shares = keyDetails
     ? Object.values(keyDetails.shareDescriptions).map((share) => {
@@ -204,7 +181,7 @@ const SignInMethods = ({ goToComplete, goToMnemonic, goToPassword, goToSkip, cla
       </Typography>
 
       {
-        userInfo?.userInfo.typeOfLogin && (
+        !!loggedinAs && (
           <section className={classes.setOption}>
             <div>
               <Typography variant="h5">
