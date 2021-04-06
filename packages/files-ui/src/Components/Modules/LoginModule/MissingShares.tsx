@@ -10,7 +10,12 @@ import clsx from "clsx"
 const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) =>
   createStyles({
     content:{
-      width: "100%"
+      width: 580,
+      padding: `0 ${constants.generalUnit * 14}px`,
+      [breakpoints.down("md")]: {
+        width: "100%",
+        padding: `0 ${constants.generalUnit * 2.75}px`
+      }
     },
     buttonSection: {
       [breakpoints.up("md")]: {
@@ -29,15 +34,7 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) =>
       width: `calc(100% - ${constants.generalUnit * 8}px)`,
       marginLeft: constants.generalUnit * 4,
       marginRight: constants.generalUnit * 4,
-      marginBottom: constants.generalUnit * 2,
-      [breakpoints.up("md")]: {
-        backgroundColor: palette.common.black.main,
-        color: palette.common.white.main
-      },
-      [breakpoints.down("md")]: {
-        backgroundColor: palette.common.black.main,
-        color: palette.common.white.main
-      }
+      marginBottom: constants.generalUnit * 2
     },
     buttonWrapper: {
       display: "flex",
@@ -109,7 +106,12 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) =>
     }
   }))
 
-const MissingShares: React.FC = () => {
+
+interface IMissingShares {
+  className?: string
+}
+
+const MissingShares = ({ className }: IMissingShares) => {
   const { keyDetails, inputPasswordShare, inputMnemonicShare } = useThresholdKey()
   const [password, setPassword] = useState("")
   const [mnemonic, setMnemonic] = useState("")
@@ -170,7 +172,7 @@ const MissingShares: React.FC = () => {
   }, [])
 
   return (
-    <>
+    <div className={className}>
       <div className={classes.content}>
         <Typography
           variant="h6"
@@ -292,7 +294,7 @@ const MissingShares: React.FC = () => {
           </div>
         )}
       </footer>
-    </>
+    </div>
   )
 }
 

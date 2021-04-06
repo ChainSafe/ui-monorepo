@@ -81,11 +81,8 @@ const useStyles = makeStyles(
         visibility: "hidden",
         "&.active": {
           visibility: "visible",
-          [breakpoints.up("md")]: {
-            opacity: 0.5
-          },
           [breakpoints.down("md")]: {
-            opacity: 1
+            opacity: 0.5
           }
         }
       },
