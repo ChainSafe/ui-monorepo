@@ -6,8 +6,6 @@ import { ROUTE_LINKS } from "../Routes"
 
 const useStyles = makeStyles(({ palette, constants, breakpoints }: ITheme) => {
   return createStyles({
-    wrapper: {
-    },
     root: {
       padding: "2rem 0 2rem 0",
       [breakpoints.up("xl")]: {
@@ -63,7 +61,6 @@ const useStyles = makeStyles(({ palette, constants, breakpoints }: ITheme) => {
         fontFamily: "Neue Montreal, Arial",
       },
     },
-
     smalltextContainer: {
       [breakpoints.down("sm")]: {
         display: "flex",
@@ -75,6 +72,7 @@ const useStyles = makeStyles(({ palette, constants, breakpoints }: ITheme) => {
       position: "absolute",
       fontFamily: "Neue Montreal, Arial",
       color: palette.additional["gray"][8],
+      marginLeft: constants.generalUnit * 2,
       [breakpoints.up("xl")]: {
         textAlign: "left",
         fontSize: "1rem",
@@ -91,7 +89,6 @@ const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear()
   const classes = useStyles()
   return (
-    <div className={classes.wrapper}>
       <footer className={classes.root}>
         <Grid container>
           <Grid item className={classes.linkWrapper}>
@@ -189,7 +186,6 @@ const Footer: React.FC = () => {
           </Grid>
         </Grid>
       </footer>
-    </div>
   )
 }
 export default Footer

@@ -1,5 +1,4 @@
 import React from "react"
-// import { Button } from "@chainsafe/common-components"
 import { createStyles, ITheme, makeStyles } from "@chainsafe/common-theme"
 import { Trans } from "@lingui/macro"
 import clsx from "clsx"
@@ -36,17 +35,21 @@ const useStyles = makeStyles(
         }
       },
       "& > p": {
+        [breakpoints.down('md')]:{
+          maxWidth: "90%",
+          textAlign: "center",
+        },
         [breakpoints.up('lg')]: {
           fontSize: "32px",
           marginBottom: constants.generalUnit * 6,
-
         },
         [breakpoints.up(3500)]:{
           fontSize: "40px",
           marginBottom: constants.generalUnit * 7,
         },
         fontSize: "20px",
-        marginBottom: constants.generalUnit * 4,
+        lineHeight: "32px",
+        marginBottom: constants.generalUnit * 3,
       }
     },
     headerLink: {
