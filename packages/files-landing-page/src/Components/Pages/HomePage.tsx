@@ -1,7 +1,7 @@
 import React from "react"
 import NavBar from "../Modules/NavBar"
 import Landing from "../Subpages/Landing"
-// import Footer from "../Modules/Footer"
+import Footer from "../Modules/Footer"
 
 const HomePage: React.FC = () => {
   return (
@@ -9,7 +9,7 @@ const HomePage: React.FC = () => {
       <NavBar />
       <Landing />
 
-      {/* <Footer /> */}
+      <Footer />
     </div>
   )
 }
