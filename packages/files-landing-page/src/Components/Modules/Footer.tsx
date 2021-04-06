@@ -13,16 +13,9 @@ const useStyles = makeStyles(({ palette, constants, breakpoints }: ITheme) => {
       [breakpoints.up("xl")]: {
         maxWidth: "2560px",
         padding: `80px 72px 80px 72px`,
-        position: "relative",
-        left: "50%",
-        transform: "translate(-50%)",
       },
       [breakpoints.up("3800")]: {
         maxWidth: "2560px",
-        padding: `80px 72px 80px 72px`,
-        position: "relative",
-        left: "65%",
-        transform: "translate(-50%)",
       },
     },
     linkWrapper: {
@@ -78,14 +71,10 @@ const useStyles = makeStyles(({ palette, constants, breakpoints }: ITheme) => {
         marginBottom: constants.generalUnit,
       },
     },
-    smalltext: {
-      color: palette.additional["gray"][8],
-    },
     copyright: {
       position: "absolute",
       fontFamily: "Neue Montreal, Arial",
       color: palette.additional["gray"][8],
-
       [breakpoints.up("xl")]: {
         textAlign: "left",
         fontSize: "1rem",
@@ -191,7 +180,6 @@ const Footer: React.FC = () => {
           md={4}
           xl={4}
           justifyContent="flex-start"
-          spacing={2}
           className={classes.smalltextContainer}
         >
           <Grid item>

@@ -26,6 +26,9 @@ const useStyles = makeStyles(
       [breakpoints.down(750)]: {
         marginTop: "20%",
       },
+      [breakpoints.up(3500)]:{
+        marginTop: "5%",
+      },
       "& > img": {
         width: "70%",
         [breakpoints.down('md')]:{
@@ -89,6 +92,10 @@ const useStyles = makeStyles(
         minHeight: "auto",
         padding: "24px 0",
       },
+      [breakpoints.up(3500)]:{
+        minHeight: "unset",
+        padding: "5% 0",
+      },
       [breakpoints.down('sm')]:{
         minHeight: "auto",
         padding: "24px 0",
@@ -139,18 +146,30 @@ const useStyles = makeStyles(
           fontSize: "24px",
           lineHeight: "32px",
         },
+        [breakpoints.up(3500)]:{
+          fontSize: "62px",
+          lineHeight: "72px",
+          marginTop: "2%",
+        }
       }
     },
     gifThumbnailContainer: {
-      margin: "5% 5% 5% 5%",
+      margin: "5%",
       [breakpoints.down(500)]:{
         margin: "24px 5%"
+      },
+      [breakpoints.up(3500)]:{
+        margin: "2%",
       }
     },
     gifThumbnail: {
       maxWidth: "100%",
       objectFit: "contain",
       objectPosition: "left top",
+      [breakpoints.up(3500)]:{
+        width: "350px",
+        height: "350px",
+      },
       [breakpoints.up(1380)]: {
         width: "250px",
         height: "250px",
@@ -173,6 +192,10 @@ const useStyles = makeStyles(
         [breakpoints.down(1380)]: {
           width: "150px",
           height: "150px",
+        },
+        [breakpoints.up(3500)]:{
+        width: "350px",
+        height: "350px",
         },
         [breakpoints.down(500)]: {
           width: "80px",
@@ -225,6 +248,9 @@ const useStyles = makeStyles(
         width: "100%",
         maxWidth: "99%",
       },
+      [breakpoints.up(3500)]: {
+        maxWidth: "40%",
+      },
       "& > a": {
         color: palette.additional["gray"][9],
         fontSize: "16px",
@@ -235,12 +261,10 @@ const useStyles = makeStyles(
         fontSize: "17px",
         lineHeight: "24px",
         marginBottom: constants.generalUnit,
-        // [breakpoints.between(960, 1380)]:{
-        //   maxWidth: "100%",
-        // },
-        // [breakpoints.down('sm')]:{
-        //   maxWidth: "100%",
-        // },
+        [breakpoints.up(3500)]:{
+          fontSize: "20px",
+          lineHeight: "30px",
+        }
     },
     lightText: {
         color: palette.additional["gray"][3],
@@ -251,6 +275,12 @@ const useStyles = makeStyles(
       margin: "100px",
       [breakpoints.down(1100)]:{
         margin: "5vh",
+      },
+      [breakpoints.up(3500)]:{
+        maxWidth: "1496px",
+        position: "relative",
+        left: "50%",
+        transform: "translateX(-50%)",
       }
     },
     loveLetterContentContainer: {
