@@ -11,9 +11,6 @@ import useLoggedInAs from "../../hooks/useLoggedInAs"
 
 const useStyles = makeStyles(({ constants, breakpoints, palette, typography }: CSFTheme) =>
   createStyles({
-    text: {
-
-    },
     setOption: {
       width: "100%",
       backgroundColor: palette.additional["gray"][4],
@@ -142,7 +139,6 @@ const Security = ({ className }: SecurityProps) => {
           <Typography
             variant="h4"
             component="h4"
-            className={classes.text}
           >
             <Trans>Sign-in methods</Trans>
           </Typography>

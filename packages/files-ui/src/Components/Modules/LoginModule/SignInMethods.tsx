@@ -1,15 +1,13 @@
-import React, { useEffect, useState } from "react"
+import React from "react"
 import { createStyles, makeStyles, useThemeSwitcher } from "@chainsafe/common-theme"
 import { CheckCircleSvg, CopySvg, KeySvg, Typography } from "@chainsafe/common-components"
-import { t, Trans } from "@lingui/macro"
+import { Trans } from "@lingui/macro"
 import { useThresholdKey } from "../../../Contexts/ThresholdKeyContext"
-import { centerEllipsis } from "../../../Utils/Helpers"
 import { SECURITY_QUESTIONS_MODULE_NAME } from "@tkey/security-questions"
 import { CSFTheme } from "../../../Themes/types"
 import bowser from "bowser"
 import clsx from "clsx"
 import { ROUTE_LINKS } from "../../FilesRoutes"
-import { useWeb3 } from "@chainsafe/web3-context"
 import useLoggedInAs from "../hooks/useLoggedInAs"
 
 const useStyles = makeStyles(({ breakpoints, constants, typography, palette, zIndex }: CSFTheme) =>
