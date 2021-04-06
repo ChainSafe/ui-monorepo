@@ -277,9 +277,9 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
     }
 
     return () => {
-      if (shareEncPubKeyX) {
-        shareTransferModule && shareTransferModule.cancelRequestStatusCheck()
-        shareTransferModule && shareTransferModule.deleteShareTransferStore(shareEncPubKeyX)
+      if (shareEncPubKeyX && shareTransferModule) {
+        shareTransferModule.cancelRequestStatusCheck()
+        shareTransferModule.deleteShareTransferStore(shareEncPubKeyX)
       }
     }
   }, [TKeySdk, keyDetails])
