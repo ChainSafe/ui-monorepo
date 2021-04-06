@@ -68,11 +68,43 @@ const useStyles = makeStyles(({ palette, constants, animation, breakpoints }: CS
 interface IBrowserPanelProps {
   browserInstance: bowser.Parser.ParsedResult
   dateAdded: number
+  shareIndex: string
+  deleteShare: (shareIndex: string) => Promise<void>
+  getSerializedDeviceShare: () => Promise<string | undefined>
+  download: (filename: string, text: string) => void
 }
 
-const BrowserPanel: React.FC<IBrowserPanelProps> = ({ browserInstance, dateAdded }) => {
+const BrowserPanel: React.FC<IBrowserPanelProps> = ({
+  browserInstance, dateAdded, shareIndex, deleteShare, getSerializedDeviceShare, download
+}) => {
   const classes = useStyles()
   const [showPanel, setShowPanel] = useState(false)
+  const [loadingDeleteShare, setLoadingDeleteShare] = useState(false)
+  const [loadingDownloadKey, setLoadingDownloadKey] = useState(false)
+
+  const onDeleteShare = async () => {
+    try {
+      setLoadingDeleteShare(true)
+      await deleteShare(shareIndex.toString())
+      setLoadingDeleteShare(false)
+      setShowPanel(false)
+    } catch {
+      setLoadingDeleteShare(false)
+    }
+  }
+
+  const onDownloadKey = async () => {
+    try {
+      setLoadingDownloadKey(true)
+      const mnemonicKey = await getSerializedDeviceShare()
+      if (mnemonicKey) {
+        download(`${browserInstance.browser.name || ""} key.txt`, mnemonicKey)
+      }
+      setLoadingDownloadKey(false)
+    } catch {
+      setLoadingDownloadKey(false)
+    }
+  }
 
   return (
     <ExpansionPanel
@@ -100,6 +132,9 @@ const BrowserPanel: React.FC<IBrowserPanelProps> = ({ browserInstance, dateAdded
             </Typography>
             <Button
               size="small"
+              loading={loadingDownloadKey}
+              disabled={loadingDownloadKey}
+              onClick={onDownloadKey}
             >
               <Trans>Download recovery key</Trans>
             </Button>
@@ -111,6 +146,9 @@ const BrowserPanel: React.FC<IBrowserPanelProps> = ({ browserInstance, dateAdded
             </Typography>
             <Button
               size="small"
+              loading={loadingDeleteShare}
+              onClick={onDeleteShare}
+              disabled={loadingDeleteShare}
             >
               <Trans>Forget this browser</Trans>
             </Button>

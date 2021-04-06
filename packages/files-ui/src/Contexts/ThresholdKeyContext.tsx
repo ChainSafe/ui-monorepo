@@ -36,10 +36,12 @@ export type TThresholdKeyContext = {
   inputPasswordShare(password: string): Promise<void>
   inputMnemonicShare(mnemonic: string): Promise<void>
   addNewDeviceShareAndSave(): Promise<void>
+  deleteShare(shareIndex: string): Promise<void>
   approveShareTransferRequest(encPubKeyX: string): Promise<void>
   rejectShareTransferRequest(encPubKeyX: string): Promise<void>
   clearShareTransferRequests(): Promise<void>
   addMnemonicShare(): Promise<string>
+  getSerializedDeviceShare(): Promise<string | undefined>
   encryptForPublicKey(publicKey: string, message: string): Promise<string>
   decryptMessageWithThresholdKey(message: string): Promise<string | undefined>
   logout(): Promise<void>
@@ -523,6 +525,36 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
     }
   }
 
+  const deleteShare = async (shareIndex: string) => {
+    if (!TKeySdk) return
+    try {
+      await TKeySdk.deleteShare(shareIndex)
+      const newKeyDetails = await TKeySdk.getKeyDetails()
+      setKeyDetails(newKeyDetails)
+    } catch (e) {
+      console.error(e)
+      return Promise.reject(e)
+    }
+  }
+
+  const getSerializedDeviceShare = async () => {
+    if (!TKeySdk) return
+    try {
+      const storageModule = TKeySdk.modules[WEB_STORAGE_MODULE_NAME] as WebStorageModule
+      const storedShare = await storageModule.getDeviceShare() // This should return a shareStore object
+
+      const shareSerializationModule = TKeySdk.modules[SHARE_SERIALIZATION_MODULE_NAME] as ShareSerializationModule
+      const result = (await shareSerializationModule.serialize(
+        storedShare.share.share,
+        "mnemonic"
+      )) as string
+      return result
+    } catch (e) {
+      console.error(e)
+      return Promise.reject(e)
+    }
+  }
+
   const encryptForPublicKey = async (publicKey: string, message: string) => {
     const messageCipher = await EthCrypto.encryptWithPublicKey(
       publicKey,
@@ -583,6 +615,8 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
         inputMnemonicShare,
         keyDetails,
         addNewDeviceShareAndSave,
+        deleteShare,
+        getSerializedDeviceShare,
         isNewDevice,
         pendingShareTransferRequests,
         approveShareTransferRequest,

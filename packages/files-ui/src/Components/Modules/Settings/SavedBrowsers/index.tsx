@@ -25,36 +25,45 @@ const useStyles = makeStyles(({ constants }: CSFTheme) =>
   })
 )
 
+function download(filename: string, text: string) {
+  const element = document.createElement("a")
+  element.setAttribute("href", "data:text/plain;charset=utf-8," + encodeURIComponent(text))
+  element.setAttribute("download", filename)
+  element.style.display = "none"
+  document.body.appendChild(element)
+  element.click()
+  document.body.removeChild(element)
+}
 
 const SavedBrowsers: React.FC = () => {
   const classes = useStyles()
-  const { keyDetails } = useThresholdKey()
-
-  const shares = keyDetails
-    ? Object.values(keyDetails.shareDescriptions).map((share) => {
-      return JSON.parse(share[0])
-    })
-    : []
-
-  const browserShares = shares.filter((s) => s.module === "webStorage")
+  const { keyDetails, deleteShare, getSerializedDeviceShare } = useThresholdKey()
 
   const browserShareInstances: {
-    browserInstance: bowser.Parser.ParsedResult
-    dateAdded: number
-  }[] = []
-  browserShares.forEach((browserShare) => {
-    try {
-      const browserInstance = bowser.parse(browserShare.userAgent)
-      if (browserInstance) {
-        browserShareInstances.push({
-          browserInstance,
-          dateAdded: browserShare.dateAdded
-        })
+      browserInstance: bowser.Parser.ParsedResult
+      dateAdded: number
+      shareIndex: string
+    }[] = []
+
+  if (keyDetails) {
+    Object.keys(keyDetails.shareDescriptions).forEach((shareIndex) => {
+      const share = JSON.parse(keyDetails.shareDescriptions[shareIndex][0])
+      if (share.module === "webStorage") {
+        try {
+          const browserInstance = bowser.parse(share.userAgent)
+          if (browserInstance) {
+            browserShareInstances.push({
+              browserInstance,
+              dateAdded: share.dateAdded,
+              shareIndex: shareIndex
+            })
+          }
+        } catch (e) {
+          console.error(e)
+        }
       }
-    } catch {
-      // 
-    }
-  })
+    })
+  }
 
   return (
     <div className={classes.root}>
@@ -66,6 +75,10 @@ const SavedBrowsers: React.FC = () => {
           <BrowserPanel
             browserInstance={browserShareInstance.browserInstance}
             dateAdded={browserShareInstance.dateAdded}
+            shareIndex={browserShareInstance.shareIndex}
+            deleteShare={deleteShare}
+            getSerializedDeviceShare={getSerializedDeviceShare}
+            download={download}
           />
         </div>
       ))
