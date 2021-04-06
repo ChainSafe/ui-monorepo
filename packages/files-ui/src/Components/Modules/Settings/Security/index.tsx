@@ -108,6 +108,9 @@ const useStyles = makeStyles(({ constants, breakpoints, palette, typography }: C
       marginTop: constants.generalUnit * 2,
       display: "inline-block",
       marginBottom: constants.generalUnit
+    },
+    changeButton: {
+      marginLeft: "0.5rem"
     }
   })
 )
@@ -250,10 +253,10 @@ const Security = ({ className }: SecurityProps) => {
                         <span className={classes.action}>
                           <Trans>Set up</Trans>
                           <span
-                            className={classes.buttonLink}
+                            className={clsx(classes.buttonLink, classes.changeButton)}
                             onClick={() => {setIsChangingPassword(true)}}
                           >
-                            <Trans> (Change) </Trans>
+                            <Trans>(Change)</Trans>
                           </span>
                           <CheckCircleSvg className={clsx(classes.icon, classes.green)}/>
                         </span>
