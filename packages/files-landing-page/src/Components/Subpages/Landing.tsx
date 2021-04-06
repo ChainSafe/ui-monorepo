@@ -33,8 +33,24 @@ const useStyles = makeStyles(
         }
       },
       "& > p": {
+        [breakpoints.up('lg')]:{
+          fontSize: "25px",
+        },
         fontSize: "20px",
-        marginBottom: constants.generalUnit * 3,
+        marginBottom: constants.generalUnit * 4,
+      }
+    },
+    headerLink: {
+      boxShadow: "-2px 3px 5px -2px rgba(0,0,0,0.4)",
+      background: "rgba(0,0,0,0.06)",
+      borderRadius: "3px",
+      padding: ".5rem 1rem",
+      fontSize: "18px",
+      marginBottom: constants.generalUnit * 3,
+      maxWidth: "150px",
+      transition: "0.33s ease",
+      "&:hover": {
+        background: "transparent",
       }
     },
     bodyContainer: {
@@ -307,7 +323,13 @@ const Landing: React.FC = () => {
         <header className={classes.headerContainer}>
           <div className={classes.headerContentContainer}>
             <p>Store Files. In absolute privacy. With absolute simplicity.</p>
-            <img src="https://res.cloudinary.com/ddxhvanz2/image/upload/v1617729970/files.chainsafe.io/large-grouped_p5inej.png" alt=""/>
+            {/* <a  href="https://app.files.chainsafe.io/">
+              <img className={classes.headerLink} src="https://res.cloudinary.com/ddxhvanz2/image/upload/v1617730904/files.chainsafe.io/glowx10_nq40ld.png" alt=""/>
+            </a> */}
+            <a href="/" className={classes.headerLink}>
+              Go to App
+            </a>
+            <img src="https://res.cloudinary.com/ddxhvanz2/image/upload/v1617729970/files.chainsafe.io/large-grouped_p5inej.png" alt="ChainSafe Files interface"/>
           </div>
        </header>
        <main className={classes.bodyContainer}>
