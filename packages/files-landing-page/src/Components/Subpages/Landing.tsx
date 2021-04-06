@@ -94,7 +94,7 @@ const useStyles = makeStyles(
       },
       [breakpoints.up(3500)]:{
         minHeight: "unset",
-        padding: "5% 0",
+        padding: "15vh",
       },
       [breakpoints.down('sm')]:{
         minHeight: "auto",
@@ -226,6 +226,9 @@ const useStyles = makeStyles(
           fontSize: "72px",
           lineHeight: "80px",
         },
+        [breakpoints.up(3500)]: {
+          justifySelf: "center",
+        },
         [breakpoints.down('lg')]:{
           fontSize: "48px",
           lineHeight: "56px",
@@ -262,8 +265,8 @@ const useStyles = makeStyles(
         lineHeight: "24px",
         marginBottom: constants.generalUnit,
         [breakpoints.up(3500)]:{
-          fontSize: "20px",
-          lineHeight: "30px",
+          fontSize: "24px",
+          lineHeight: "34px",
         }
     },
     lightText: {
@@ -277,10 +280,11 @@ const useStyles = makeStyles(
         margin: "5vh",
       },
       [breakpoints.up(3500)]:{
-        maxWidth: "1496px",
+        margin: "15vh",
+        maxWidth: "1500px",
         position: "relative",
-        left: "50%",
-        transform: "translateX(-50%)",
+        left: "40%",
+        transform: "translateX(-40%)",
       }
     },
     loveLetterContentContainer: {
