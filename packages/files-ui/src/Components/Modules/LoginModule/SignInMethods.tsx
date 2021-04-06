@@ -199,7 +199,7 @@ const SignInMethods = ({ goToComplete, goToMnemonic, goToPassword, goToSkip, cla
     <div className={clsx(classes.root, className)}>
       <Typography className={classes.title} variant={desktop ? "h2" : "h4"} component="h1">
         <Trans>
-          Sign-in Methods
+          Sign-in methods
         </Trans>
       </Typography>
 
@@ -287,7 +287,7 @@ const SignInMethods = ({ goToComplete, goToMnemonic, goToPassword, goToSkip, cla
           <>
             <Typography className={classes.additionalMethods} variant={desktop ? "h2" : "h4"} component="p">
               <Trans>
-                Add sign-in Methods
+                Add sign-in methods
               </Trans>
             </Typography>
             <Typography component="p">
