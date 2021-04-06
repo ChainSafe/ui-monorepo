@@ -21,7 +21,7 @@ const TORUS_POSTBOX_KEY = "csf.postboxKey"
 const TKEY_STORE_KEY = "csf.tkeyStore"
 const TORUS_USERINFO_KEY = "csf.userInfo"
 
-export type ThresholdKeyContextStatus = 'initializing'|'initialized'|'awaiting confirmation'|'logging in'|'done'
+export type ThresholdKeyContextStatus = "initializing"|"initialized"|"awaiting confirmation"|"logging in"|"done"
 
 export type TThresholdKeyContext = {
   userInfo?: TorusLoginResponse
@@ -78,7 +78,7 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
   const [shouldInitializeAccount, setShouldInitializeAccount] = useState<boolean>(false)
   const [pendingShareTransferRequests, setPendingShareTransferRequests] = useState<ShareTransferRequest[]>([])
   const [privateKey, setPrivateKey] = useState<string | undefined>()
-  const [status, setStatus] = useState<ThresholdKeyContextStatus>('initializing')
+  const [status, setStatus] = useState<ThresholdKeyContextStatus>("initializing")
   // Initialize Threshold Key and DirectAuth
   useEffect(() => {
     const init = async () => {
@@ -95,7 +95,7 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
 
       // If Session storage contains all the data necessary to recreate the TKey object
       if (postboxKey && tkeySerialized && cachedUserInfo) {
-        setStatus('logging in')
+        setStatus("logging in")
         const tKeyJson = JSON.parse(tkeySerialized)
         const serviceProvider = new ServiceProviderBase({ enableLogging, postboxKey })
         const storageLayer = new TorusStorageLayer({ serviceProvider, enableLogging, hostUrl: "https://metadata.tor.us" })
@@ -117,7 +117,7 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
           setShouldInitializeAccount(true)
         }
         setUserInfo(JSON.parse(cachedUserInfo))
-        setStatus('done')
+        setStatus("done")
       } else {
         // If no session storage is available, instantiate a new Threshold key
         // The user will be required to log in to the respective service 
@@ -133,8 +133,8 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
         })
 
         const serviceProvider = (tkey.serviceProvider as unknown) as DirectAuthSdk
-        
-        await serviceProvider.init({ skipSw: false }).then(() => setStatus('initialized')).catch(e => console.log(e))
+
+        await serviceProvider.init({ skipSw: false }).then(() => setStatus("initialized")).catch(e => console.log(e))
       }
       setTKeySdk(tkey)
     }
@@ -200,7 +200,7 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
     const loginWithThresholdKey = async () => {
       const { token } = await imployApiClient.getWeb3Token()
       if (token && privateKey && userInfo) {
-        setStatus('logging in')
+        setStatus("logging in")
         const pubKey = EthCrypto.publicKeyByPrivateKey(privateKey)
         setPublicKey(pubKey)
         const wallet = new Wallet(privateKey)
@@ -214,7 +214,7 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
           userInfo.userInfo.idToken || userInfo.userInfo.accessToken,
           `0x${EthCrypto.publicKey.compress(pubKey)}`
         )
-        setStatus('done')
+        setStatus("done")
       }
     }
 
@@ -284,7 +284,7 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
     if (!TKeySdk) return
     try {
       const serviceProvider = (TKeySdk.serviceProvider as unknown) as DirectAuthSdk
-      setStatus('awaiting confirmation')
+      setStatus("awaiting confirmation")
       switch (loginType) {
       case "google": {
         const googleResult = await serviceProvider.triggerLogin({
@@ -327,9 +327,9 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
         const { token } = await imployApiClient.getIdentityWeb3Token(address)
 
         if (token) {
-          setStatus('awaiting confirmation')
+          setStatus("awaiting confirmation")
           const signature = await signMessage(token, provider.getSigner())
-          setStatus('logging in')
+          setStatus("logging in")
           const result = await imployApiClient.postIdentityWeb3Token({
             signature: signature,
             token: token,
@@ -376,7 +376,7 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
     }
 
     sessionStorage.setItem(TORUS_POSTBOX_KEY, TKeySdk.serviceProvider.postboxKey.toString("hex"))
-    setStatus('logging in')
+    setStatus("logging in")
     try {
       const metadata = await TKeySdk.storageLayer.getMetadata<ShareStore | {message: string}>({
         privKey: TKeySdk.serviceProvider.postboxKey
@@ -561,7 +561,7 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
     setPublicKey(undefined)
     setUserInfo(undefined)
     setShouldInitializeAccount(false)
-    setStatus('initializing')
+    setStatus("initializing")
     clearShareTransferRequests()
 
     const tkey = new ThresholdKey({
@@ -580,7 +580,7 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
     })
 
     const serviceProvider = (tkey.serviceProvider as unknown) as DirectAuthSdk
-    await serviceProvider.init({ skipSw: false }).then(()=>setStatus('initialized')).catch(e => console.error(e))
+    await serviceProvider.init({ skipSw: false }).then(() => setStatus("initialized")).catch(e => console.error(e))
     setTKeySdk(tkey)
     logout()
   }
