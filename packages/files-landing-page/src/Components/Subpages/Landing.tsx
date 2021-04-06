@@ -67,7 +67,8 @@ const useStyles = makeStyles(
         minHeight: "60vh",
       },
       [breakpoints.down('sm')]:{
-        minHeight: "50vh",
+        minHeight: "auto",
+        padding: "24px 0",
       },
       width: "100%",
       background: "#0f0f0f",
@@ -118,7 +119,10 @@ const useStyles = makeStyles(
       }
     },
     gifThumbnailContainer: {
-        margin: "5% 5% 5% 5%",
+      margin: "5% 5% 5% 5%",
+      [breakpoints.down(500)]:{
+        margin: "24px 5%"
+      }
     },
     gifThumbnail: {
       maxWidth: "100%",
@@ -155,12 +159,13 @@ const useStyles = makeStyles(
     },
     featureTextContainer: {
       display: "grid",
-      gridTemplateColumns: "minmax(0,5fr) minmax(0, 7fr)",
       [breakpoints.up(750)]:{
+        gridTemplateColumns: "minmax(0,5fr) minmax(0, 7fr)",
         minHeight: "35vh",
       },
       [breakpoints.down(750)]:{
         minHeight: "45vh",
+        gridTemplateColimns: "minmax(0, 1fr)",
       },
       alignContent: "center",
       "&:first-of-type": {
@@ -221,8 +226,8 @@ const useStyles = makeStyles(
       minHeight: "auto",
       width: "auto",
       margin: "100px",
-      [breakpoints.down("sm")]:{
-        margin: 0,
+      [breakpoints.down(1100)]:{
+        margin: "5vh",
       }
     },
     loveLetterContentContainer: {
@@ -232,11 +237,21 @@ const useStyles = makeStyles(
       [breakpoints.down(1100)]: {
         gridTemplateColumns: "minmax(0,1fr)",
         alignItems: "center",
+      },
+      [breakpoints.down('md')]:{
+        justifyItems: "flex-start",
       }
     },
     flexDirectionColumn: {
       display: "flex",
       flexDirection: "column",
+      [breakpoints.down(750)]: {
+        justifyContent: "center",
+        "& > h1": {
+          fontSize: "20px",
+          lineHeight: "28px",
+        }
+      },
       "& > h1:last-of-type": {
         [breakpoints.up(1200)]: {
           textAlign: "right",
