@@ -254,21 +254,33 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
 
   // Initiate request for share transfer if not enough shares
   useEffect(() => {
-    const handler = async () => {
-      if (!TKeySdk) return
-      // Generate share transfer request
-      const shareTransferModule = TKeySdk.modules[SHARE_TRANSFER_MODULE_NAME] as ShareTransferModule
-      console.log("Creating a Share Transfer request")
-      const currentEncPubKeyX = await shareTransferModule.requestNewShare(window.navigator.userAgent, TKeySdk.getCurrentShareIndexes())
-      console.log("Share transfer request created. Starting request status poller")
-
-      await shareTransferModule.startRequestStatusCheck(currentEncPubKeyX, true)
-      const resultKey = await TKeySdk.getKeyDetails()
-      setKeyDetails(resultKey)
+    if (!TKeySdk) return
+    const shareTransferModule = TKeySdk?.modules[SHARE_TRANSFER_MODULE_NAME] as ShareTransferModule
+    let shareEncPubKeyX: string | undefined
+    const createShareTransferRequest = async () => {
+      try {
+        console.log("Creating a Share Transfer request")
+        const currentEncPubKeyX = await shareTransferModule.requestNewShare(window.navigator.userAgent, TKeySdk?.getCurrentShareIndexes())
+        console.log("Share transfer request created. Starting request status poller")
+        shareEncPubKeyX = currentEncPubKeyX
+        await shareTransferModule.startRequestStatusCheck(currentEncPubKeyX, true)
+        const resultKey = await TKeySdk?.getKeyDetails()
+        setKeyDetails(resultKey)
+        shareEncPubKeyX = undefined
+      } catch (error) {
+        console.error(error)
+      }
     }
 
     if (keyDetails && keyDetails.requiredShares > 0) {
-      handler()
+      createShareTransferRequest()
+    }
+
+    return () => {
+      if (shareEncPubKeyX && shareTransferModule) {
+        shareTransferModule.cancelRequestStatusCheck()
+        shareTransferModule.deleteShareTransferStore(shareEncPubKeyX)
+      }
     }
   }, [TKeySdk, keyDetails])
 
@@ -550,7 +562,6 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
     setPublicKey(undefined)
     setUserInfo(undefined)
     setShouldInitializeAccount(false)
-    clearShareTransferRequests()
 
     const tkey = new ThresholdKey({
       modules: {
