@@ -72,7 +72,9 @@ const useStyles = makeStyles(({ palette, constants, breakpoints }: ITheme) => {
       position: "absolute",
       fontFamily: "Neue Montreal, Arial",
       color: palette.additional["gray"][8],
-      marginLeft: constants.generalUnit * 2,
+      [breakpoints.down("lg")]:{
+        marginLeft: constants.generalUnit * 2,
+      },
       [breakpoints.up("xl")]: {
         textAlign: "left",
         fontSize: "1rem",
