@@ -254,18 +254,17 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
 
   // Initiate request for share transfer if not enough shares
   useEffect(() => {
+    if (!TKeySdk) return
+    const shareTransferModule = TKeySdk?.modules[SHARE_TRANSFER_MODULE_NAME] as ShareTransferModule
     let shareEncPubKeyX: string | undefined
     const createShareTransferRequest = async () => {
-      if (!TKeySdk) return
-      // Generate share transfer request
       try {
-        const shareTransferModule = TKeySdk.modules[SHARE_TRANSFER_MODULE_NAME] as ShareTransferModule
         console.log("Creating a Share Transfer request")
-        const currentEncPubKeyX = await shareTransferModule.requestNewShare(window.navigator.userAgent, TKeySdk.getCurrentShareIndexes())
+        const currentEncPubKeyX = await shareTransferModule.requestNewShare(window.navigator.userAgent, TKeySdk?.getCurrentShareIndexes())
         console.log("Share transfer request created. Starting request status poller")
         shareEncPubKeyX = currentEncPubKeyX
         await shareTransferModule.startRequestStatusCheck(currentEncPubKeyX, true)
-        const resultKey = await TKeySdk.getKeyDetails()
+        const resultKey = await TKeySdk?.getKeyDetails()
         setKeyDetails(resultKey)
         shareEncPubKeyX = undefined
       } catch (error) {
@@ -279,7 +278,6 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
 
     return () => {
       if (shareEncPubKeyX) {
-        const shareTransferModule = TKeySdk?.modules[SHARE_TRANSFER_MODULE_NAME] as ShareTransferModule
         shareTransferModule && shareTransferModule.cancelRequestStatusCheck()
         shareTransferModule && shareTransferModule.deleteShareTransferStore(shareEncPubKeyX)
       }
