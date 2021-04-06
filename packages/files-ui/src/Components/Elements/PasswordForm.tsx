@@ -6,7 +6,7 @@ import * as yup from "yup"
 import { createStyles, makeStyles } from "@chainsafe/common-theme"
 import { CSFTheme } from "../../Themes/types"
 import zxcvbn from "zxcvbn"
-import { t, Trans } from "@lingui/macro"
+import { t } from "@lingui/macro"
 import StrengthIndicator from "../Modules/MasterKeySequence/SequenceSlides/StrengthIndicator"
 
 const useStyles = makeStyles(({  breakpoints, constants }: CSFTheme) =>
@@ -33,12 +33,14 @@ const useStyles = makeStyles(({  breakpoints, constants }: CSFTheme) =>
 )
 
 interface Props {
-  setPassword: (password: string) => void
+  buttonLabel?: string
+  setPassword: (password: string) => Promise<void>
 }
 
-const PasswordForm = ({ setPassword }: Props) => {
+const PasswordForm = ({ buttonLabel, setPassword }: Props) => {
   const [loading, setLoading] = useState(false)
   const classes = useStyles()
+  const displayLabel = buttonLabel || t`Set Password`
   const passwordValidation = useMemo(() => yup.object().shape({
     password: yup
       .string()
@@ -72,8 +74,15 @@ const PasswordForm = ({ setPassword }: Props) => {
     helpers.setSubmitting(true)
     setLoading(true)
     setPassword(values.password)
-    setLoading(false)
-    helpers.setSubmitting(false)
+      .then(() => {
+        setLoading(false)
+        helpers.setSubmitting(false)
+      })
+      .catch ((e) => {
+        setLoading(false)
+        helpers.setSubmitting(false)
+        console.error(e)
+      })
   }, [setPassword])
 
   return (
@@ -108,9 +117,7 @@ const PasswordForm = ({ setPassword }: Props) => {
           loading={loading}
           disabled={loading}
         >
-          <Trans>
-            Set Password
-          </Trans>
+          {displayLabel}
         </Button>
       </Form>
     </Formik>

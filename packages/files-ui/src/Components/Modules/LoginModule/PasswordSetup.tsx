@@ -52,7 +52,7 @@ const useStyles = makeStyles(({  breakpoints, constants, typography }: CSFTheme)
 
 interface IPasswordSetup {
   className?: string
-  setPassword: (password: string) => void
+  setPassword: (password: string) => Promise<void>
   cancel: () => void
 }
 

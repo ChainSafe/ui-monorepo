@@ -1,8 +1,8 @@
-import React, { useState } from "react"
+import React, { useCallback, useMemo, useState } from "react"
 import { CheckCircleSvg, CloseSvg, CrossOutlinedSvg, Grid, Typography } from "@chainsafe/common-components"
 import { makeStyles, createStyles, useThemeSwitcher } from "@chainsafe/common-theme"
 import { CSFTheme } from "../../../../Themes/types"
-import { Trans } from "@lingui/macro"
+import { t, Trans } from "@lingui/macro"
 import { useThresholdKey } from "../../../../Contexts/ThresholdKeyContext"
 import { SECURITY_QUESTIONS_MODULE_NAME } from "@tkey/security-questions"
 import clsx from "clsx"
@@ -103,6 +103,11 @@ const useStyles = makeStyles(({ constants, breakpoints, palette, typography }: C
       [breakpoints.down("md")]: {
         marginTop: constants.generalUnit
       }
+    },
+    warningMessage: {
+      marginTop: constants.generalUnit * 2,
+      display: "inline-block",
+      marginBottom: constants.generalUnit
     }
   })
 )
@@ -113,12 +118,14 @@ interface SecurityProps {
 
 const Security = ({ className }: SecurityProps) => {
   // Note should we rename this? it's very specific
-  const { shouldInitializeAccount, keyDetails } = useThresholdKey()
+  const { keyDetails, addPasswordShare, changePasswordShare } = useThresholdKey()
   // const areSharesMissing = !!keyDetails && keyDetails.requiredShares > 0
   const classes = useStyles()
-  const [settingUpPassword, setSettingUpPassword] = useState(false)
+  const [isSettingPassword, setIsSettingPassword] = useState(false)
+  const [isChangingPassword, setIsChangingPassword] = useState(false)
   const { loggedinAs } = useLoggedInAs()
   const { desktop } = useThemeSwitcher()
+  const showWarning = useMemo(() => !!keyDetails && (keyDetails.threshold === keyDetails.totalShares), [keyDetails])
   // TODO this is a dublicate from Missingshares, should be extracted
   const shares = keyDetails
     ? Object.values(keyDetails.shareDescriptions).map((share) => {
@@ -128,6 +135,23 @@ const Security = ({ className }: SecurityProps) => {
 
   const browserShare = shares.filter((s) => s.module === "webStorage")
   const hasPasswordShare = shares.filter((s) => s.module === SECURITY_QUESTIONS_MODULE_NAME).length > 0
+  const onResetPasswordForm = useCallback(() => {
+    setIsChangingPassword(false)
+    setIsSettingPassword(false)
+  }, [])
+
+  const onSetPassword = useCallback(async (password: string) => {
+    if (isSettingPassword) {
+      await addPasswordShare(password)
+      setIsSettingPassword(false)
+    }
+
+    if (isChangingPassword) {
+      console.log("settingUpPassword", password)
+      await changePasswordShare(password)
+      setIsChangingPassword(false)
+    }
+  }, [addPasswordShare, changePasswordShare, isChangingPassword, isSettingPassword])
 
   return (
     <Grid container>
@@ -142,6 +166,14 @@ const Security = ({ className }: SecurityProps) => {
           >
             <Trans>Sign-in methods</Trans>
           </Typography>
+          {showWarning && (
+            <Typography variant="body1" className={classes.warningMessage}>
+              <Trans>
+                  Hey! You only have two sign-in methods. If you lose that and have only one left,
+                  you will be locked out of your account forever.
+              </Trans>
+            </Typography>
+          )}
           {
             !!loggedinAs && (
               <section className={classes.setOption}>
@@ -163,14 +195,6 @@ const Security = ({ className }: SecurityProps) => {
               </section>
             )
           }
-          {shouldInitializeAccount && (
-            <Typography variant="body1">
-              <Trans>
-                  Hey! You only have two sign-in methods. If you lose that and have only one left,
-                  you will be locked out of your account forever.
-              </Trans>
-            </Typography>
-          )}
           <section className={classes.setOption}>
             <div>
               <Typography variant="h5">
@@ -187,7 +211,20 @@ const Security = ({ className }: SecurityProps) => {
               }
             </div>
           </section>
-          { !settingUpPassword
+          {showWarning && (
+            <div>
+              <Typography
+                variant="body1"
+                className={classes.warningMessage}
+              >
+                <Trans>
+                    Add at least one more sign-in method to protect your account for account recovery.
+                    You’d only need any two to sign in to Files from any device.
+                </Trans>
+              </Typography>
+            </div>
+          )}
+          { !isSettingPassword && !isChangingPassword
             ? (
               <section className={classes.setOption}>
                 <div>
@@ -202,7 +239,7 @@ const Security = ({ className }: SecurityProps) => {
                         <span className={classes.action}>
                           <span
                             className={classes.buttonLink}
-                            onClick={() => {setSettingUpPassword(true)}}
+                            onClick={() => {setIsSettingPassword(true)}}
                           >
                             <Trans>Set up password</Trans>
                           </span>
@@ -212,6 +249,12 @@ const Security = ({ className }: SecurityProps) => {
                       : (
                         <span className={classes.action}>
                           <Trans>Set up</Trans>
+                          <span
+                            className={classes.buttonLink}
+                            onClick={() => {setIsChangingPassword(true)}}
+                          >
+                            <Trans> (Change) </Trans>
+                          </span>
                           <CheckCircleSvg className={clsx(classes.icon, classes.green)}/>
                         </span>
                       )
@@ -223,27 +266,25 @@ const Security = ({ className }: SecurityProps) => {
             : (
               <section className={clsx(classes.passwordRoot, className)}>
                 <CloseSvg
-                  onClick={() => setSettingUpPassword(false)}
+                  onClick={onResetPasswordForm}
                   className={classes.close}
                 />
                 <Typography variant="h4" component="h2">
-                  <Trans>
+                  {isChangingPassword
+                    ? <Trans>
+                      Change password
+                    </Trans>
+                    : <Trans>
                       Set up a password
-                  </Trans>
+                    </Trans>
+                  }
                 </Typography>
-                <PasswordForm setPassword={(pw: string) => {console.log(pw)}}/>
+                <PasswordForm
+                  setPassword={onSetPassword}
+                  buttonLabel={isChangingPassword ? t`Change Password` : t`Set Password`}
+                />
               </section>
             )}
-          {shouldInitializeAccount && (
-            <div>
-              <Typography variant="body1">
-                <Trans>
-                    Add at least one more sign-in method to protect your account for account recovery.
-                    You’d only need any two to sign in to Files from any device.
-                </Trans>
-              </Typography>
-            </div>
-          )}
         </div>
         {/* <div id="deletion" className={classes.bodyContainer}>
             <div className={classes.deletionBox}>

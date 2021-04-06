@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useMemo } from "react"
 import DirectAuthSdk, { LOGIN_TYPE, TorusLoginResponse } from "@toruslabs/torus-direct-web-sdk"
 import ThresholdKey from "@tkey/default"
 import WebStorageModule, { WEB_STORAGE_MODULE_NAME } from "@tkey/web-storage"
@@ -20,6 +20,7 @@ import { TKeyRequestIdentity_provider } from "@chainsafe/files-api-client"
 const TORUS_POSTBOX_KEY = "csf.postboxKey"
 const TKEY_STORE_KEY = "csf.tkeyStore"
 const TORUS_USERINFO_KEY = "csf.userInfo"
+const PASSWORD_QUESTION = "What is your password?"
 
 export type TThresholdKeyContext = {
   userInfo?: TorusLoginResponse
@@ -33,6 +34,7 @@ export type TThresholdKeyContext = {
   resetIsNewDevice(): void
   resetShouldInitialize(): void
   addPasswordShare(password: string): Promise<void>
+  changePasswordShare(password: string): Promise<void>
   inputPasswordShare(password: string): Promise<void>
   inputMnemonicShare(mnemonic: string): Promise<void>
   addNewDeviceShareAndSave(): Promise<void>
@@ -75,6 +77,10 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
   const [shouldInitializeAccount, setShouldInitializeAccount] = useState<boolean>(false)
   const [pendingShareTransferRequests, setPendingShareTransferRequests] = useState<ShareTransferRequest[]>([])
   const [privateKey, setPrivateKey] = useState<string | undefined>()
+  const securityQuestionModule = useMemo(
+    () => TKeySdk?.modules[SECURITY_QUESTIONS_MODULE_NAME] as SecurityQuestionsModule | undefined
+    , [TKeySdk]
+  )
 
   // Initialize Threshold Key and DirectAuth
   useEffect(() => {
@@ -405,18 +411,32 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
   }
 
   const addPasswordShare = async (password: string) => {
-    if (!TKeySdk) return
+    if (!TKeySdk || !securityQuestionModule) return
 
     try {
-      const securityQuestionModule = TKeySdk.modules[SECURITY_QUESTIONS_MODULE_NAME] as SecurityQuestionsModule
       await securityQuestionModule.generateNewShareWithSecurityQuestions(
         password,
-        "What is your password?"
+        PASSWORD_QUESTION
       )
       const keyDetails = await TKeySdk.getKeyDetails()
       setKeyDetails(keyDetails)
     } catch (e) {
       console.error(e)
+    }
+  }
+
+  const changePasswordShare = async (password: string) => {
+    if (!TKeySdk || !securityQuestionModule) return
+
+    try {
+      await securityQuestionModule.changeSecurityQuestionAndAnswer(
+        password,
+        PASSWORD_QUESTION
+      )
+      const keyDetails = await TKeySdk.getKeyDetails()
+      setKeyDetails(keyDetails)
+    } catch (e) {
+      console.error("Oops", e)
     }
   }
 
@@ -441,9 +461,8 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
   }
 
   const inputPasswordShare = async (password: string) => {
-    if (!TKeySdk) return
+    if (!TKeySdk || !securityQuestionModule) return
 
-    const securityQuestionModule = TKeySdk.modules[SECURITY_QUESTIONS_MODULE_NAME] as SecurityQuestionsModule
     try {
       await securityQuestionModule.inputShareFromSecurityQuestions(password)
     } catch (error) {
@@ -579,6 +598,7 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
         userInfo,
         login,
         addPasswordShare,
+        changePasswordShare,
         inputPasswordShare,
         inputMnemonicShare,
         keyDetails,

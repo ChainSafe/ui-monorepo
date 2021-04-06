@@ -142,13 +142,13 @@ const Content = ({ className }: { className: string }) => {
     "complete"
     >("explainer")
 
-  const onSetPassword = useCallback((password: string) => {
+  const onSetPassword = useCallback((password: string) =>
     addPasswordShare(password)
       .then(() => {
         setSetupScreen("signInOptions")
       })
       .catch(console.error)
-  }, [addPasswordShare])
+  , [addPasswordShare])
 
   if (!keyDetails) {
     return <InitialScreen className={className} />
