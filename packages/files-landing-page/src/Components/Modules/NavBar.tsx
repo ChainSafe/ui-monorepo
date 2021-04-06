@@ -59,11 +59,11 @@ const NavBar: React.FC = () => {
       <Grid container xs={12}>
         <Grid item justifyContent="center" alignItems="flex-start">
           <Grid container alignItems="center" className={classes.textWrapper}>
-            {/* <img
+            <img
               className={classes.logo}
-              src=""
+              src="https://res.cloudinary.com/ddxhvanz2/image/upload/v1617731776/files.chainsafe.io/csfAsset_27_20x_tt5pi4.png"
               alt="chainsafe brand logo"
-            /> */}
+            />
             <Typography variant="h4" className={classes.brandName}>
               <a href="/" className={classes.navlink}>
                 ChainSafe Files

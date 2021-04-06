@@ -29,7 +29,7 @@ const useStyles = makeStyles(
       "& > img": {
         width: "70%",
         [breakpoints.down('md')]:{
-          width: "100%",
+          width: "90%",
         }
       },
       "& > p": {
