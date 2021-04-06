@@ -36,8 +36,10 @@ const useStyles = makeStyles(
         }
       },
       "& > p": {
-        [breakpoints.up('lg')]:{
-          fontSize: "25px",
+        [breakpoints.up('lg')]: {
+          fontSize: "32px",
+          marginBottom: constants.generalUnit * 6,
+
         },
         [breakpoints.up(3500)]:{
           fontSize: "40px",
@@ -432,7 +434,7 @@ const Landing: React.FC = () => {
               </div>
               <div className={classes.bodyTextWrapper}>
                   <p className={clsx(classes.bodyText, classes.lightText)}>
-                    <strong><Trans>No data collection, no selling data.</Trans></strong>
+                    <strong><Trans>**Changing this!!**No data collection, no selling data.</Trans></strong>
                   </p>
                   <p className={clsx(classes.bodyText, classes.lightText)}>
                     <Trans> 
@@ -461,7 +463,7 @@ const Landing: React.FC = () => {
                   </p>
                   <p className={classes.bodyText}>
                     <Trans>
-                    Preview your stuff. Access it from any device. Organize folders. And soon, create notes in rich text and markdown. <span role="img"  aria-label="sparkle">✨</span>
+                    Preview your stuff. Access it from any device. Organize folders. And much more coming soon. <span role="img"  aria-label="sparkle">✨</span>
                     </Trans>
                   </p>
               </div>
