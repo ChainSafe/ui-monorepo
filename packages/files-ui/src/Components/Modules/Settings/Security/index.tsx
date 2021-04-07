@@ -7,7 +7,6 @@ import { useThresholdKey } from "../../../../Contexts/ThresholdKeyContext"
 import { SECURITY_QUESTIONS_MODULE_NAME } from "@tkey/security-questions"
 import clsx from "clsx"
 import PasswordForm from "../../../Elements/PasswordForm"
-import useLoggedInAs from "../../hooks/useLoggedInAs"
 import MnemonicForm from "../../../Elements/MnemonicForm"
 
 const useStyles = makeStyles(({ constants, breakpoints, palette, typography }: CSFTheme) =>
@@ -121,12 +120,11 @@ interface SecurityProps {
 }
 
 const Security = ({ className }: SecurityProps) => {
-  const { keyDetails, addPasswordShare, changePasswordShare } = useThresholdKey()
+  const { keyDetails, addPasswordShare, changePasswordShare, loggedinAs } = useThresholdKey()
   const classes = useStyles()
   const [isSettingPassword, setIsSettingPassword] = useState(false)
   const [isChangingPassword, setIsChangingPassword] = useState(false)
   const [isSettingBackupPhrase, setIsSettingBackupPhrase] = useState(false)
-  const { loggedinAs } = useLoggedInAs()
   const { desktop } = useThemeSwitcher()
   const showWarning = useMemo(() => !!keyDetails && (keyDetails.threshold === keyDetails.totalShares), [keyDetails])
   const shares = keyDetails

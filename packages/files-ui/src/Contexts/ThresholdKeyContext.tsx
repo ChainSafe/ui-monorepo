@@ -16,6 +16,8 @@ import { useWeb3 } from "@chainsafe/web3-context"
 import ShareTransferRequestModal from "../Components/Elements/ShareTransferRequestModal"
 import BN from "bn.js"
 import { TKeyRequestIdentity_provider } from "@chainsafe/files-api-client"
+import { capitalize, centerEllipsis } from "../Utils/Helpers"
+import { t } from "@lingui/macro"
 
 const TORUS_POSTBOX_KEY = "csf.postboxKey"
 const TKEY_STORE_KEY = "csf.tkeyStore"
@@ -49,6 +51,7 @@ export type TThresholdKeyContext = {
   logout(): Promise<void>
   status: ThresholdKeyContextStatus
   resetStatus(): void
+  loggedinAs: string
 }
 
 type ThresholdKeyProviderProps = {
@@ -81,12 +84,13 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
   const [shouldInitializeAccount, setShouldInitializeAccount] = useState<boolean>(false)
   const [pendingShareTransferRequests, setPendingShareTransferRequests] = useState<ShareTransferRequest[]>([])
   const [privateKey, setPrivateKey] = useState<string | undefined>()
+  const [status, setStatus] = useState<ThresholdKeyContextStatus>("initializing")
+  const [loggedinAs, setLoggedinAs] = useState("")
   const securityQuestionModule = useMemo(
     () => TKeySdk?.modules[SECURITY_QUESTIONS_MODULE_NAME] as SecurityQuestionsModule | undefined
     , [TKeySdk]
   )
 
-  const [status, setStatus] = useState<ThresholdKeyContextStatus>("initializing")
   // Initialize Threshold Key and DirectAuth
   useEffect(() => {
     const init = async () => {
@@ -302,6 +306,26 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
       }
     }
   }, [TKeySdk, keyDetails])
+
+  useEffect(() => {
+    const loginType = userInfo?.userInfo.typeOfLogin
+
+    if (userInfo && loginType) {
+      switch (loginType) {
+      case "jwt":
+        setLoggedinAs(t`Logged in with Web3` + ` ${centerEllipsis(String(address), 4)}`)
+        break
+      case "facebook":
+      case "google":
+      case "github":
+        setLoggedinAs(t`Logged in with` + `${capitalize(loginType)} ${centerEllipsis(userInfo.userInfo.email, 4)}`)
+        break
+      default:
+        setLoggedinAs(`${centerEllipsis(userInfo.publicAddress, 4)}`)
+        break
+      }
+    }
+  }, [userInfo, address])
 
   const login = async (loginType: LOGIN_TYPE | "web3") => {
     if (!TKeySdk) return
@@ -649,7 +673,8 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
         encryptForPublicKey,
         logout: thresholdKeyLogout,
         status,
-        resetStatus: () => setStatus("initialized")
+        resetStatus: () => setStatus("initialized"),
+        loggedinAs
       }}
     >
       {!isNewDevice && pendingShareTransferRequests.length > 0 && (

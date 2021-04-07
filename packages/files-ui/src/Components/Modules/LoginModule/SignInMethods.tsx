@@ -8,7 +8,6 @@ import { CSFTheme } from "../../../Themes/types"
 import bowser from "bowser"
 import clsx from "clsx"
 import { ROUTE_LINKS } from "../../FilesRoutes"
-import useLoggedInAs from "../hooks/useLoggedInAs"
 
 const useStyles = makeStyles(({ breakpoints, constants, typography, palette, zIndex }: CSFTheme) =>
   createStyles({
@@ -155,8 +154,7 @@ interface ISignInMethods {
 const SignInMethods = ({ goToComplete, goToMnemonic, goToPassword, goToSkip, className }: ISignInMethods) => {
   const classes = useStyles()
   const { desktop } = useThemeSwitcher()
-  const { keyDetails } = useThresholdKey()
-  const { loggedinAs } = useLoggedInAs()
+  const { keyDetails, loggedinAs } = useThresholdKey()
 
   const shares = keyDetails
     ? Object.values(keyDetails.shareDescriptions).map((share) => {
