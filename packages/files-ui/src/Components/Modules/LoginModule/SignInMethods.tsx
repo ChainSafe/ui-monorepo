@@ -155,19 +155,11 @@ interface ISignInMethods {
 const SignInMethods = ({ goToComplete, goToMnemonic, goToPassword, goToSkip, className }: ISignInMethods) => {
   const classes = useStyles()
   const { desktop } = useThemeSwitcher()
-  const { keyDetails } = useThresholdKey()
+  const { keyDetails, shares } = useThresholdKey()
   const { loggedinAs } = useLoggedInAs()
 
-  const shares = keyDetails
-    ? Object.values(keyDetails.shareDescriptions).map((share) => {
-      return JSON.parse(share[0])
-    })
-    : []
-
   const browserShare = shares.filter((s) => s.module === "webStorage")
-
   const hasPasswordShare = shares.filter((s) => s.module === SECURITY_QUESTIONS_MODULE_NAME).length > 0
-
   const hasMnemonicShare = keyDetails && (keyDetails.totalShares - shares.length > 1)
 
   return (

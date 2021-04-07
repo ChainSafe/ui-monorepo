@@ -100,16 +100,10 @@ const MnemonicForm = ({ buttonLabel, onComplete }: Props) => {
   const classes = useStyles()
   const displayButtonLabel = buttonLabel || t`Continue`
   const [isLoading, setIsLoading] = useState(false)
-  const { addMnemonicShare, keyDetails } = useThresholdKey()
+  const { addMnemonicShare, keyDetails, shares } = useThresholdKey()
   const [mnemonic, setMnemonic] = useState("")
   const [copied, setCopied] = useState(false)
   const debouncedSwitchCopied = debounce(() => setCopied(false), 3000)
-
-  const shares = keyDetails
-    ? Object.values(keyDetails.shareDescriptions).map((share) => {
-      return JSON.parse(share[0])
-    })
-    : []
 
   const hasMnemonicShare = keyDetails && (keyDetails.totalShares - shares.length > 1)
 

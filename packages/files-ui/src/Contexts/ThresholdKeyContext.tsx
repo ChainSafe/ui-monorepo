@@ -28,6 +28,7 @@ export type TThresholdKeyContext = {
   publicKey?: string
   isNewDevice: boolean
   isNewKey: boolean
+  shares: any[]
   shouldInitializeAccount: boolean
   pendingShareTransferRequests: ShareTransferRequest[]
   login(loginType: LOGIN_TYPE | "web3"): Promise<void>
@@ -81,6 +82,19 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
     () => TKeySdk?.modules[SECURITY_QUESTIONS_MODULE_NAME] as SecurityQuestionsModule | undefined
     , [TKeySdk]
   )
+  // `shares` object contains security question and local device shares
+  // The service provider share as well as backup mnemonic do not appear in this share 
+  // array. Note: Files accounts have one service provider by default.
+  // If an account has totalShares - shares.length === 1 this indicates that a
+  // mnemonic has not been set up for the account. If totalShares - shares.length === 2
+  // this indicates that a mnemonic has already been set up. "2" corresponds here to one
+  // service provider (default), and one mnemonic.
+  const shares = useMemo(() => keyDetails
+    ? Object.values(keyDetails.shareDescriptions).map((share) => {
+      return JSON.parse(share[0])
+    })
+    : []
+  , [keyDetails])
 
   // Initialize Threshold Key and DirectAuth
   useEffect(() => {
@@ -616,7 +630,8 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
         publicKey,
         decryptMessageWithThresholdKey,
         encryptForPublicKey,
-        logout: thresholdKeyLogout
+        logout: thresholdKeyLogout,
+        shares
       }}
     >
       {!isNewDevice && pendingShareTransferRequests.length > 0 && (

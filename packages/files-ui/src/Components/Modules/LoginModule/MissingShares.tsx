@@ -112,7 +112,7 @@ interface IMissingShares {
 }
 
 const MissingShares = ({ className }: IMissingShares) => {
-  const { keyDetails, inputPasswordShare, inputMnemonicShare } = useThresholdKey()
+  const { inputPasswordShare, inputMnemonicShare, shares } = useThresholdKey()
   const [password, setPassword] = useState("")
   const [mnemonic, setMnemonic] = useState("")
   const [withMnemonic, setWithMnemonic] = useState(false)
@@ -121,12 +121,6 @@ const MissingShares = ({ className }: IMissingShares) => {
   const { logout } = useThresholdKey()
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState("")
-
-  const shares = keyDetails
-    ? Object.values(keyDetails.shareDescriptions).map((share) => {
-      return JSON.parse(share[0])
-    })
-    : []
 
   const hasPasswordShare = shares.filter((s) => s.module === SECURITY_QUESTIONS_MODULE_NAME).length > 0
 
