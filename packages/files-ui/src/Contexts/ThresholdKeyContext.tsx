@@ -136,9 +136,9 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
         const serviceProvider = (tkey.serviceProvider as unknown) as DirectAuthSdk
 
         await serviceProvider.init({ skipSw: false }).then(() => {
-          console.log('initialized')  
+          console.log("initialized")
           setStatus("initialized")
-        }).catch(e => 'error initializing')
+        }).catch(() => "error initializing")
       }
       setTKeySdk(tkey)
     }
@@ -596,9 +596,9 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
 
     const serviceProvider = (tkey.serviceProvider as unknown) as DirectAuthSdk
     await serviceProvider.init({ skipSw: false }).then(() => {
-      console.log('initialized')  
+      console.log("initialized")
       setStatus("initialized")
-    }).catch(e => 'error initializing')
+    }).catch(() => "error initializing")
     setTKeySdk(tkey)
     logout()
   }
@@ -628,7 +628,7 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
         encryptForPublicKey,
         logout: thresholdKeyLogout,
         status,
-        resetStatus: () => setStatus('initialized')
+        resetStatus: () => setStatus("initialized")
       }}
     >
       {!isNewDevice && pendingShareTransferRequests.length > 0 && (
