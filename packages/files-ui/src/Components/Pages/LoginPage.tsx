@@ -127,6 +127,10 @@ const useStyles = makeStyles(
           justifyContent: "center",
           width: "100%"
         }
+      },
+      logo: {
+        height: 60,
+        width: 60
       }
     })
 )
@@ -239,7 +243,7 @@ const LoginPage = () => {
         target="_blank"
         rel="noopener noreferrer"
       >
-        <ChainsafeFilesLogo />
+        <ChainsafeFilesLogo className={classes.logo} />
         <Typography>
           <Trans>
             Learn more about ChainSafe

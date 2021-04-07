@@ -3,6 +3,7 @@ import { DefaultThemeConfig, defaultFontFamilyStack } from "./ThemeConfig"
 
 export const DefaultGlobalStyling = {
   ":root": {
+    "--ready": "true",
     ...DefaultPalette.root
   },
   html: {
