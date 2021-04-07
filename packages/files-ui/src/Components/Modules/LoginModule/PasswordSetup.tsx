@@ -1,7 +1,6 @@
 import React from "react"
 import { createStyles, makeStyles, useThemeSwitcher } from "@chainsafe/common-theme"
 import { CSFTheme } from "../../../Themes/types"
-
 import { Typography, CloseSvg } from "@chainsafe/common-components"
 import { Trans } from "@lingui/macro"
 import clsx from "clsx"
