@@ -23,14 +23,14 @@ const useStyles = makeStyles(({ palette, constants, breakpoints }: ITheme) => {
       color: palette.additional["gray"][9],
       margin: "0 0 .5rem 0",
       "&:hover": {
-        color: "#5165DC",
+        color: palette.primary.main,
         transition: "ease-in 0.2s",
       },
       "& a": {
         color: palette.additional["gray"][8],
         textDecoration: "none",
         "&:hover": {
-          color: "#5165DC",
+          color: palette.primary.main,
           transition: "ease-in 0.2s",
         },
       },
@@ -72,7 +72,7 @@ const useStyles = makeStyles(({ palette, constants, breakpoints }: ITheme) => {
       position: "absolute",
       fontFamily: "Neue Montreal, Arial",
       color: palette.additional["gray"][8],
-      [breakpoints.down("lg")]:{
+      [breakpoints.down("xl")]:{
         marginLeft: constants.generalUnit * 2,
       },
       [breakpoints.up("xl")]: {
@@ -182,9 +182,9 @@ const Footer: React.FC = () => {
           className={classes.smalltextContainer}
         >
           <Grid item>
-            <p className={classes.copyright}>
+            <Typography component="p" variant="body1" className={classes.copyright}>
               &copy; {currentYear} ChainSafe Systems, <Trans>All Rights Reserved</Trans>.
-            </p>
+            </Typography>
           </Grid>
         </Grid>
       </footer>

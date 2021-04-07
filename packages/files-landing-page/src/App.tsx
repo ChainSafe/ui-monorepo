@@ -11,6 +11,16 @@ const theme = createTheme({
       fontFamily: "Neue Montreal, Arial",
     },
   },
+  themeConfig: {
+    palette: {
+      primary: {
+        main: "#5165DC",
+      }
+    },
+    constants: {
+      headerHeight: 150,
+    }
+  }
 })
 
 const App: React.FC<{}> = () => {

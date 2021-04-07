@@ -34,19 +34,12 @@ const useStyles = makeStyles(
         color: palette.common.black.main,
         textDecoration: "none",
         "&:hover": {
-          color: "#5165DC",
+          color: palette.primary.main,
           transition: "ease-in 0.2s",
-        },
-      },
-      brandName: {
-        [breakpoints.down("sm")]: {
-          display: "none",
         },
       },
       separator: {
         color: palette.common.black.main,
-      },
-      textWrapper: {
       },
     })
   },
@@ -58,13 +51,13 @@ const NavBar: React.FC = () => {
     <div className={classes.container}>
       <Grid container xs={12}>
         <Grid item justifyContent="center" alignItems="flex-start">
-          <Grid container alignItems="center" className={classes.textWrapper}>
+          <Grid container alignItems="center">
             <img
               className={classes.logo}
               src="https://res.cloudinary.com/ddxhvanz2/image/upload/v1617731776/files.chainsafe.io/csfAsset_27_20x_tt5pi4.png"
               alt="chainsafe brand logo"
             />
-            <Typography variant="h4" className={classes.brandName}>
+            <Typography variant="h4">
               <a href="/" className={classes.navlink}>
                 ChainSafe Files
               </a>
@@ -72,7 +65,7 @@ const NavBar: React.FC = () => {
           </Grid>
         </Grid>
         <Grid item justifyContent="center" alignItems="flex-end">
-          <Typography variant="h4" className={classes.textWrapper}>
+          <Typography variant="h4">
             <a
               target="_blank"
               rel="noopener noreferrer"

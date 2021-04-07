@@ -4,71 +4,61 @@ import { Trans } from "@lingui/macro"
 import clsx from "clsx"
 
 const useStyles = makeStyles(
-  ({ constants, palette, zIndex, breakpoints }: ITheme) => {
+  ({ constants, palette, breakpoints }: ITheme) => {
     return createStyles({
-    headerContainer: {
-      minHeight: "80vh",
-      display: "flex",
-      justifyContent: "center",
-      flexDirection: "column",
-      alignItems: "flex-start",
-      width: "100%",
-      paddingBottom: constants.generalUnit * 5,
-    },
-    headerContentContainer: {
-      display: "flex",
-      flexDirection: "column",
-      justifyContent: "center",
-      alignItems: "center",
-      width: "100%",
-      marginTop: "10%",
-      [breakpoints.down(750)]: {
-        marginTop: "20%",
+      headerContainer: {
+        display: "flex",
+        justifyContent: "flex-start",
+        flexDirection: "column",
+        alignItems: "center",
+        width: "100%",
+        height: "auto",
+        paddingTop: `${constants.headerHeight}px`,
       },
-      [breakpoints.up(3500)]:{
-        marginTop: "5%",
-      },
-      "& > img": {
-        width: "70%",
-        [breakpoints.down('md')]:{
-          width: "90%",
+      headerContentContainer: {
+        display: "flex",
+        justifyContent: "center",
+        flexDirection: "column",
+        alignItems: "center",
+        height: `calc(100% - ${constants.headerHeight}px)`,
+        "& > img": {
+          width: "70%",
+          [breakpoints.down('md')]:{
+            width: "90%",
+          }
+        },
+        "& > p": {
+          [breakpoints.down('md')]:{
+            maxWidth: "90%",
+            textAlign: "center",
+          },
+          [breakpoints.up('lg')]: {
+            fontSize: "32px",
+          },
+          [breakpoints.up(3500)]:{
+            fontSize: "40px",
+            marginBottom: constants.generalUnit * 7,
+          },
+          fontSize: "20px",
+          lineHeight: "32px",
+          marginBottom: constants.generalUnit * 3,
         }
-      },
-      "& > p": {
-        [breakpoints.down('md')]:{
-          maxWidth: "90%",
-          textAlign: "center",
-        },
-        [breakpoints.up('lg')]: {
-          fontSize: "32px",
-          marginBottom: constants.generalUnit * 6,
-        },
-        [breakpoints.up(3500)]:{
-          fontSize: "40px",
-          marginBottom: constants.generalUnit * 7,
-        },
-        fontSize: "20px",
-        lineHeight: "32px",
-        marginBottom: constants.generalUnit * 3,
-      }
     },
     headerLink: {
       boxShadow: "-2px 3px 5px -2px rgba(0,0,0,0.4)",
-      background: "#5165DC",
+      background: palette.primary.main,
       color: palette.additional["gray"][3],
       textDecoration: "none",
       borderRadius: "3px",
       padding: ".5rem 1rem",
       fontSize: "18px",
       marginBottom: constants.generalUnit * 3,
-      maxWidth: "150px",
       transition: "0.33s ease",
       "&:hover": {
         background: palette.additional["gray"][9],
       },
       [breakpoints.up(3500)]:{
         fontSize: "40px",
-        maxWidth: "300px",
         padding: "1.5rem 2rem",
         marginBottom: constants.generalUnit * 7,
       },
@@ -232,7 +222,7 @@ const useStyles = makeStyles(
       },
       alignContent: "center",
       "&:first-of-type": {
-        background: "#5766D7"
+        background: palette.primary.main
       },
       "&:last-of-type": {
         background: "#141414"
@@ -375,7 +365,7 @@ const Landing: React.FC = () => {
           <div className={classes.headerContentContainer}>
             <p>Store Files. In absolute privacy. With absolute simplicity.</p>
             <a href="https://app.files.chainsafe.io/" className={classes.headerLink}>
-              <Trans>Go to App</Trans>
+              <Trans>Go to ChainSafe Files</Trans>
             </a>
             <img src="https://res.cloudinary.com/ddxhvanz2/image/upload/v1617729970/files.chainsafe.io/large-grouped_p5inej.png" alt="ChainSafe Files interface"/>
           </div>
@@ -437,7 +427,7 @@ const Landing: React.FC = () => {
               </div>
               <div className={classes.bodyTextWrapper}>
                   <p className={clsx(classes.bodyText, classes.lightText)}>
-                    <strong><Trans>**Changing this!!**No data collection, no selling data.</Trans></strong>
+                    <strong><Trans>Not in the business of tracking you and selling your data.</Trans></strong>
                   </p>
                   <p className={clsx(classes.bodyText, classes.lightText)}>
                     <Trans> 
