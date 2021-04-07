@@ -164,7 +164,7 @@ const Security = ({ className }: SecurityProps) => {
       <Grid item xs={12} sm={8} md={8}>
         <div
           id="security"
-          className={clsx(classes.root)}
+          className={clsx(classes.root, className)}
         >
           <Typography
             variant="h4"
