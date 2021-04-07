@@ -28,8 +28,9 @@ export type TThresholdKeyContext = {
   publicKey?: string
   isNewDevice: boolean
   isNewKey: boolean
-  shares: any[]
   browserShares: any[]
+  hasMnemonicShare: boolean
+  hasPasswordShare: boolean
   shouldInitializeAccount: boolean
   pendingShareTransferRequests: ShareTransferRequest[]
   login(loginType: LOGIN_TYPE | "web3"): Promise<void>
@@ -96,7 +97,9 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
     })
     : []
   , [keyDetails])
-  const browserShares = shares.filter((s) => s.module === "webStorage")
+  const browserShares = useMemo(() => shares.filter((s) => s.module === WEB_STORAGE_MODULE_NAME), [shares])
+  const hasMnemonicShare = useMemo(() => (keyDetails && (keyDetails.totalShares - shares.length > 1)) || false, [keyDetails, shares.length])
+  const hasPasswordShare = useMemo(() => shares.filter((s) => s.module === SECURITY_QUESTIONS_MODULE_NAME).length > 0, [shares])
 
   // Initialize Threshold Key and DirectAuth
   useEffect(() => {
@@ -633,8 +636,9 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
         decryptMessageWithThresholdKey,
         encryptForPublicKey,
         logout: thresholdKeyLogout,
-        shares,
-        browserShares
+        browserShares,
+        hasMnemonicShare,
+        hasPasswordShare
       }}
     >
       {!isNewDevice && pendingShareTransferRequests.length > 0 && (

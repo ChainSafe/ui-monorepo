@@ -3,7 +3,6 @@ import { createStyles, makeStyles, useThemeSwitcher } from "@chainsafe/common-th
 import { CheckCircleSvg, CopySvg, KeySvg, Typography } from "@chainsafe/common-components"
 import { Trans } from "@lingui/macro"
 import { useThresholdKey } from "../../../Contexts/ThresholdKeyContext"
-import { SECURITY_QUESTIONS_MODULE_NAME } from "@tkey/security-questions"
 import { CSFTheme } from "../../../Themes/types"
 import bowser from "bowser"
 import clsx from "clsx"
@@ -155,12 +154,8 @@ interface ISignInMethods {
 const SignInMethods = ({ goToComplete, goToMnemonic, goToPassword, goToSkip, className }: ISignInMethods) => {
   const classes = useStyles()
   const { desktop } = useThemeSwitcher()
-  const { keyDetails, shares, browserShares } = useThresholdKey()
+  const { keyDetails, hasMnemonicShare, hasPasswordShare, browserShares } = useThresholdKey()
   const { loggedinAs } = useLoggedInAs()
-
-
-  const hasPasswordShare = shares.filter((s) => s.module === SECURITY_QUESTIONS_MODULE_NAME).length > 0
-  const hasMnemonicShare = keyDetails && (keyDetails.totalShares - shares.length > 1)
 
   return (
     <div className={clsx(classes.root, className)}>

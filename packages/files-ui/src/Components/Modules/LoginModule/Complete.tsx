@@ -6,7 +6,6 @@ import clsx from "clsx"
 import { CSFTheme } from "../../../Themes/types"
 import CompleteSVG from "../../../Media/svgs/complete.svg"
 import { useThresholdKey } from "../../../Contexts/ThresholdKeyContext"
-import { SECURITY_QUESTIONS_MODULE_NAME } from "@tkey/security-questions"
 
 const useStyles = makeStyles(({ breakpoints, constants, palette, zIndex }: CSFTheme) =>
   createStyles({
@@ -81,11 +80,9 @@ interface IComplete {
 
 const Complete = ({ className }: IComplete) => {
   const classes = useStyles()
-  const { keyDetails, userInfo, resetShouldInitialize, shares, browserShares } = useThresholdKey()
+  const { userInfo, resetShouldInitialize, hasPasswordShare, hasMnemonicShare, browserShares } = useThresholdKey()
 
   const hasSocial = !!userInfo?.userInfo
-  const hasMnemonicShare = keyDetails && (keyDetails.totalShares - shares.length > 1)
-  const hasPasswordShare = shares.filter((s) => s.module === SECURITY_QUESTIONS_MODULE_NAME).length > 0
 
   return (
     <div className={clsx(className, classes.root)}>

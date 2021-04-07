@@ -4,7 +4,6 @@ import { makeStyles, createStyles, useThemeSwitcher } from "@chainsafe/common-th
 import { CSFTheme } from "../../../../Themes/types"
 import { t, Trans } from "@lingui/macro"
 import { useThresholdKey } from "../../../../Contexts/ThresholdKeyContext"
-import { SECURITY_QUESTIONS_MODULE_NAME } from "@tkey/security-questions"
 import clsx from "clsx"
 import PasswordForm from "../../../Elements/PasswordForm"
 import useLoggedInAs from "../../hooks/useLoggedInAs"
@@ -121,7 +120,7 @@ interface SecurityProps {
 }
 
 const Security = ({ className }: SecurityProps) => {
-  const { keyDetails, addPasswordShare, changePasswordShare, shares, browserShares } = useThresholdKey()
+  const { keyDetails, addPasswordShare, changePasswordShare, hasPasswordShare, hasMnemonicShare, browserShares } = useThresholdKey()
   const classes = useStyles()
   const [isSettingPassword, setIsSettingPassword] = useState(false)
   const [isChangingPassword, setIsChangingPassword] = useState(false)
@@ -129,8 +128,7 @@ const Security = ({ className }: SecurityProps) => {
   const { loggedinAs } = useLoggedInAs()
   const { desktop } = useThemeSwitcher()
   const showWarning = useMemo(() => !!keyDetails && (keyDetails.threshold === keyDetails.totalShares), [keyDetails])
-  const hasPasswordShare = shares.filter((s) => s.module === SECURITY_QUESTIONS_MODULE_NAME).length > 0
-  const hasMnemonicShare = keyDetails && (keyDetails.totalShares - shares.length > 1)
+
   const onResetPasswordForm = useCallback(() => {
     setIsChangingPassword(false)
     setIsSettingPassword(false)
