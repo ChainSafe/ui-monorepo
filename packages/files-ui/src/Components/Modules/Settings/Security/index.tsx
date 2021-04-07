@@ -11,6 +11,11 @@ import MnemonicForm from "../../../Elements/MnemonicForm"
 
 const useStyles = makeStyles(({ constants, breakpoints, palette, typography }: CSFTheme) =>
   createStyles({
+    root: {
+      [breakpoints.down("md")]: {
+        padding: constants.generalUnit * 2
+      }
+    },
     setOption: {
       width: "100%",
       backgroundColor: palette.additional["gray"][4],
@@ -159,7 +164,7 @@ const Security = ({ className }: SecurityProps) => {
       <Grid item xs={12} sm={8} md={8}>
         <div
           id="security"
-          className={className}
+          className={clsx(classes.root)}
         >
           <Typography
             variant="h4"
