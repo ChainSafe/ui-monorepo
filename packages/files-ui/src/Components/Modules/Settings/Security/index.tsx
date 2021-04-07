@@ -8,6 +8,7 @@ import { SECURITY_QUESTIONS_MODULE_NAME } from "@tkey/security-questions"
 import clsx from "clsx"
 import PasswordForm from "../../../Elements/PasswordForm"
 import useLoggedInAs from "../../hooks/useLoggedInAs"
+import MnemonicForm from "../../../Elements/MnemonicForm"
 
 const useStyles = makeStyles(({ constants, breakpoints, palette, typography }: CSFTheme) =>
   createStyles({
@@ -120,16 +121,14 @@ interface SecurityProps {
 }
 
 const Security = ({ className }: SecurityProps) => {
-  // Note should we rename this? it's very specific
   const { keyDetails, addPasswordShare, changePasswordShare } = useThresholdKey()
-  // const areSharesMissing = !!keyDetails && keyDetails.requiredShares > 0
   const classes = useStyles()
   const [isSettingPassword, setIsSettingPassword] = useState(false)
   const [isChangingPassword, setIsChangingPassword] = useState(false)
+  const [isSettingBackupPhrase, setIsSettingBackupPhrase] = useState(false)
   const { loggedinAs } = useLoggedInAs()
   const { desktop } = useThemeSwitcher()
   const showWarning = useMemo(() => !!keyDetails && (keyDetails.threshold === keyDetails.totalShares), [keyDetails])
-  // TODO this is a dublicate from Missingshares, should be extracted
   const shares = keyDetails
     ? Object.values(keyDetails.shareDescriptions).map((share) => {
       return JSON.parse(share[0])
@@ -138,6 +137,7 @@ const Security = ({ className }: SecurityProps) => {
 
   const browserShare = shares.filter((s) => s.module === "webStorage")
   const hasPasswordShare = shares.filter((s) => s.module === SECURITY_QUESTIONS_MODULE_NAME).length > 0
+  const hasMnemonicShare = keyDetails && (keyDetails.totalShares - shares.length > 1)
   const onResetPasswordForm = useCallback(() => {
     setIsChangingPassword(false)
     setIsSettingPassword(false)
@@ -267,7 +267,7 @@ const Security = ({ className }: SecurityProps) => {
               </section>
             )
             : (
-              <section className={clsx(classes.passwordRoot, className)}>
+              <section className={clsx(classes.passwordRoot)}>
                 <CloseSvg
                   onClick={onResetPasswordForm}
                   className={classes.close}
@@ -288,35 +288,58 @@ const Security = ({ className }: SecurityProps) => {
                 />
               </section>
             )}
+          { isSettingBackupPhrase
+            ? (
+              <section className={clsx(classes.passwordRoot)}>
+                <Typography variant="h4" component="h2">
+                  <Trans>
+                    Generate backup phrase
+                  </Trans>
+                </Typography>
+                <Typography component="p">
+                  <Trans>
+                  A backup phrase will be generated for your account.<br/>
+                  We do not store it and <b>it can only be displayed once</b>. Please save it somewhere safe!
+                  </Trans>
+                </Typography>
+                <MnemonicForm
+                  buttonLabel={t`I’m done saving my backup phrase`}
+                  onComplete={() => setIsSettingBackupPhrase(false)}
+                />
+              </section>
+            )
+            : (<section className={classes.setOption}>
+              <div>
+                <Typography variant="h5">
+                  <Trans>
+                      Backup Phrase
+                  </Trans>
+                </Typography>
+                <Typography variant="h5">
+                  { !hasMnemonicShare
+                    ? (
+                      <span className={classes.action}>
+                        <span
+                          className={classes.buttonLink}
+                          onClick={() => {setIsSettingBackupPhrase(true)}}
+                        >
+                          <Trans>Generate backup phrase</Trans>
+                        </span>
+                        <CrossOutlinedSvg className={clsx(classes.icon, classes.red)}/>
+                      </span>
+                    )
+                    : (
+                      <span className={classes.action}>
+                        <Trans>Set up</Trans>
+                        <CheckCircleSvg className={clsx(classes.icon, classes.green)}/>
+                      </span>
+                    )
+                  }
+                </Typography>
+              </div>
+            </section>)
+          }
         </div>
-        {/* <div id="deletion" className={classes.bodyContainer}>
-            <div className={classes.deletionBox}>
-              <Typography
-                variant="h4"
-                component="h4"
-                className={classes.deletionMargins}
-              >
-                <Trans>Deletion</Trans>
-              </Typography>
-              <Typography
-                variant="body1"
-                component="p"
-                className={classes.deletionMargins}
-              >
-                <Trans>
-                  Deleting your account is irreversible. You will lose all your
-                  data on files.
-                </Trans>
-              </Typography>
-              <Button
-                variant="outline"
-                disabled
-                className={classes.deletionMargins}
-              >
-                <Trans>Delete Account</Trans>
-              </Button>
-            </div>
-          </div> */}
       </Grid>
     </Grid>
   )
