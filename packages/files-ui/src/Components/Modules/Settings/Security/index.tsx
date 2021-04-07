@@ -6,11 +6,15 @@ import { t, Trans } from "@lingui/macro"
 import { useThresholdKey } from "../../../../Contexts/ThresholdKeyContext"
 import clsx from "clsx"
 import PasswordForm from "../../../Elements/PasswordForm"
-import useLoggedInAs from "../../hooks/useLoggedInAs"
 import MnemonicForm from "../../../Elements/MnemonicForm"
 
 const useStyles = makeStyles(({ constants, breakpoints, palette, typography }: CSFTheme) =>
   createStyles({
+    root: {
+      [breakpoints.down("md")]: {
+        padding: constants.generalUnit * 2
+      }
+    },
     setOption: {
       width: "100%",
       backgroundColor: palette.additional["gray"][4],
@@ -120,12 +124,18 @@ interface SecurityProps {
 }
 
 const Security = ({ className }: SecurityProps) => {
-  const { keyDetails, addPasswordShare, changePasswordShare, hasPasswordShare, hasMnemonicShare, browserShares } = useThresholdKey()
+  const { keyDetails,
+    addPasswordShare,
+    changePasswordShare,
+    loggedinAs,
+    hasPasswordShare,
+    hasMnemonicShare,
+    browserShares
+  } = useThresholdKey()
   const classes = useStyles()
   const [isSettingPassword, setIsSettingPassword] = useState(false)
   const [isChangingPassword, setIsChangingPassword] = useState(false)
   const [isSettingBackupPhrase, setIsSettingBackupPhrase] = useState(false)
-  const { loggedinAs } = useLoggedInAs()
   const { desktop } = useThemeSwitcher()
   const showWarning = useMemo(() => !!keyDetails && (keyDetails.threshold === keyDetails.totalShares), [keyDetails])
 
@@ -152,7 +162,7 @@ const Security = ({ className }: SecurityProps) => {
       <Grid item xs={12} sm={8} md={8}>
         <div
           id="security"
-          className={className}
+          className={clsx(classes.root, className)}
         >
           <Typography
             variant="h4"

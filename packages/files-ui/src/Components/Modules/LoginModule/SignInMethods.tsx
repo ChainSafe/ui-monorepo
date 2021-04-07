@@ -7,7 +7,6 @@ import { CSFTheme } from "../../../Themes/types"
 import bowser from "bowser"
 import clsx from "clsx"
 import { ROUTE_LINKS } from "../../FilesRoutes"
-import useLoggedInAs from "../hooks/useLoggedInAs"
 
 const useStyles = makeStyles(({ breakpoints, constants, typography, palette, zIndex }: CSFTheme) =>
   createStyles({
@@ -154,14 +153,13 @@ interface ISignInMethods {
 const SignInMethods = ({ goToComplete, goToMnemonic, goToPassword, goToSkip, className }: ISignInMethods) => {
   const classes = useStyles()
   const { desktop } = useThemeSwitcher()
-  const { keyDetails, hasMnemonicShare, hasPasswordShare, browserShares } = useThresholdKey()
-  const { loggedinAs } = useLoggedInAs()
+  const { keyDetails, loggedinAs, hasMnemonicShare, hasPasswordShare, browserShares } = useThresholdKey()
 
   return (
     <div className={clsx(classes.root, className)}>
       <Typography className={classes.title} variant={desktop ? "h2" : "h4"} component="h1">
         <Trans>
-          Sign-in Methods
+          Sign-in methods
         </Trans>
       </Typography>
 
@@ -249,7 +247,7 @@ const SignInMethods = ({ goToComplete, goToMnemonic, goToPassword, goToSkip, cla
           <>
             <Typography className={classes.additionalMethods} variant={desktop ? "h2" : "h4"} component="p">
               <Trans>
-                Add sign-in Methods
+                Add sign-in methods
               </Trans>
             </Typography>
             <Typography component="p">

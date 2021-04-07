@@ -16,11 +16,15 @@ import { useWeb3 } from "@chainsafe/web3-context"
 import ShareTransferRequestModal from "../Components/Elements/ShareTransferRequestModal"
 import BN from "bn.js"
 import { TKeyRequestIdentity_provider } from "@chainsafe/files-api-client"
+import { capitalize, centerEllipsis } from "../Utils/Helpers"
+import { t } from "@lingui/macro"
 
 const TORUS_POSTBOX_KEY = "csf.postboxKey"
 const TKEY_STORE_KEY = "csf.tkeyStore"
 const TORUS_USERINFO_KEY = "csf.userInfo"
 const PASSWORD_QUESTION = "What is your password?"
+
+export type ThresholdKeyContextStatus = "initializing"|"initialized"|"awaiting confirmation"|"logging in"|"done"
 
 export type TThresholdKeyContext = {
   userInfo?: TorusLoginResponse
@@ -48,6 +52,9 @@ export type TThresholdKeyContext = {
   encryptForPublicKey(publicKey: string, message: string): Promise<string>
   decryptMessageWithThresholdKey(message: string): Promise<string | undefined>
   logout(): Promise<void>
+  status: ThresholdKeyContextStatus
+  resetStatus(): void
+  loggedinAs: string
 }
 
 type ThresholdKeyProviderProps = {
@@ -80,6 +87,8 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
   const [shouldInitializeAccount, setShouldInitializeAccount] = useState<boolean>(false)
   const [pendingShareTransferRequests, setPendingShareTransferRequests] = useState<ShareTransferRequest[]>([])
   const [privateKey, setPrivateKey] = useState<string | undefined>()
+  const [status, setStatus] = useState<ThresholdKeyContextStatus>("initializing")
+  const [loggedinAs, setLoggedinAs] = useState("")
   const securityQuestionModule = useMemo(
     () => TKeySdk?.modules[SECURITY_QUESTIONS_MODULE_NAME] as SecurityQuestionsModule | undefined
     , [TKeySdk]
@@ -117,6 +126,7 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
 
       // If Session storage contains all the data necessary to recreate the TKey object
       if (postboxKey && tkeySerialized && cachedUserInfo) {
+        setStatus("logging in")
         const tKeyJson = JSON.parse(tkeySerialized)
         const serviceProvider = new ServiceProviderBase({ enableLogging, postboxKey })
         const storageLayer = new TorusStorageLayer({ serviceProvider, enableLogging, hostUrl: "https://metadata.tor.us" })
@@ -138,6 +148,7 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
           setShouldInitializeAccount(true)
         }
         setUserInfo(JSON.parse(cachedUserInfo))
+        setStatus("done")
       } else {
         // If no session storage is available, instantiate a new Threshold key
         // The user will be required to log in to the respective service 
@@ -153,7 +164,11 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
         })
 
         const serviceProvider = (tkey.serviceProvider as unknown) as DirectAuthSdk
-        await serviceProvider.init({ skipSw: false })
+
+        await serviceProvider.init({ skipSw: false }).then(() => {
+          console.log("initialized")
+          setStatus("initialized")
+        }).catch(() => "error initializing")
       }
       setTKeySdk(tkey)
     }
@@ -219,6 +234,7 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
     const loginWithThresholdKey = async () => {
       const { token } = await imployApiClient.getWeb3Token()
       if (token && privateKey && userInfo) {
+        setStatus("logging in")
         const pubKey = EthCrypto.publicKeyByPrivateKey(privateKey)
         setPublicKey(pubKey)
         const wallet = new Wallet(privateKey)
@@ -232,6 +248,7 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
           userInfo.userInfo.idToken || userInfo.userInfo.accessToken,
           `0x${EthCrypto.publicKey.compress(pubKey)}`
         )
+        setStatus("done")
       }
     }
 
@@ -279,28 +296,61 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
 
   // Initiate request for share transfer if not enough shares
   useEffect(() => {
-    const handler = async () => {
-      if (!TKeySdk) return
-      // Generate share transfer request
-      const shareTransferModule = TKeySdk.modules[SHARE_TRANSFER_MODULE_NAME] as ShareTransferModule
-      console.log("Creating a Share Transfer request")
-      const currentEncPubKeyX = await shareTransferModule.requestNewShare(window.navigator.userAgent, TKeySdk.getCurrentShareIndexes())
-      console.log("Share transfer request created. Starting request status poller")
-
-      await shareTransferModule.startRequestStatusCheck(currentEncPubKeyX, true)
-      const resultKey = await TKeySdk.getKeyDetails()
-      setKeyDetails(resultKey)
+    if (!TKeySdk) return
+    const shareTransferModule = TKeySdk?.modules[SHARE_TRANSFER_MODULE_NAME] as ShareTransferModule
+    let shareEncPubKeyX: string | undefined
+    const createShareTransferRequest = async () => {
+      try {
+        console.log("Creating a Share Transfer request")
+        const currentEncPubKeyX = await shareTransferModule.requestNewShare(window.navigator.userAgent, TKeySdk?.getCurrentShareIndexes())
+        console.log("Share transfer request created. Starting request status poller")
+        shareEncPubKeyX = currentEncPubKeyX
+        await shareTransferModule.startRequestStatusCheck(currentEncPubKeyX, true)
+        const resultKey = await TKeySdk?.getKeyDetails()
+        setKeyDetails(resultKey)
+        shareEncPubKeyX = undefined
+      } catch (error) {
+        console.error(error)
+      }
     }
 
     if (keyDetails && keyDetails.requiredShares > 0) {
-      handler()
+      createShareTransferRequest()
+    }
+
+    return () => {
+      if (shareEncPubKeyX && shareTransferModule) {
+        shareTransferModule.cancelRequestStatusCheck()
+        shareTransferModule.deleteShareTransferStore(shareEncPubKeyX)
+      }
     }
   }, [TKeySdk, keyDetails])
+
+  useEffect(() => {
+    const loginType = userInfo?.userInfo.typeOfLogin
+
+    if (userInfo && loginType) {
+      switch (loginType) {
+      case "jwt":
+        setLoggedinAs(t`Logged in with Web3` + ` ${centerEllipsis(String(address), 4)}`)
+        break
+      case "facebook":
+      case "google":
+      case "github":
+        setLoggedinAs(t`Logged in with` + `${capitalize(loginType)} ${centerEllipsis(userInfo.userInfo.email, 4)}`)
+        break
+      default:
+        setLoggedinAs(`${centerEllipsis(userInfo.publicAddress, 4)}`)
+        break
+      }
+    }
+  }, [userInfo, address])
 
   const login = async (loginType: LOGIN_TYPE | "web3") => {
     if (!TKeySdk) return
     try {
       const serviceProvider = (TKeySdk.serviceProvider as unknown) as DirectAuthSdk
+      setStatus("awaiting confirmation")
       switch (loginType) {
       case "google": {
         const googleResult = await serviceProvider.triggerLogin({
@@ -343,7 +393,9 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
         const { token } = await imployApiClient.getIdentityWeb3Token(address)
 
         if (token) {
+          setStatus("awaiting confirmation")
           const signature = await signMessage(token, provider.getSigner())
+          setStatus("logging in")
           const result = await imployApiClient.postIdentityWeb3Token({
             signature: signature,
             token: token,
@@ -390,7 +442,7 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
     }
 
     sessionStorage.setItem(TORUS_POSTBOX_KEY, TKeySdk.serviceProvider.postboxKey.toString("hex"))
-
+    setStatus("logging in")
     try {
       const metadata = await TKeySdk.storageLayer.getMetadata<ShareStore | {message: string}>({
         privKey: TKeySdk.serviceProvider.postboxKey
@@ -588,7 +640,7 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
     setPublicKey(undefined)
     setUserInfo(undefined)
     setShouldInitializeAccount(false)
-    clearShareTransferRequests()
+    setStatus("initializing")
 
     const tkey = new ThresholdKey({
       modules: {
@@ -606,7 +658,10 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
     })
 
     const serviceProvider = (tkey.serviceProvider as unknown) as DirectAuthSdk
-    await serviceProvider.init({ skipSw: false })
+    await serviceProvider.init({ skipSw: false }).then(() => {
+      console.log("initialized")
+      setStatus("initialized")
+    }).catch(() => "error initializing")
     setTKeySdk(tkey)
     logout()
   }
@@ -638,7 +693,10 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
         logout: thresholdKeyLogout,
         browserShares,
         hasMnemonicShare,
-        hasPasswordShare
+        hasPasswordShare,
+        status,
+        resetStatus: () => setStatus("initialized"),
+        loggedinAs
       }}
     >
       {!isNewDevice && pendingShareTransferRequests.length > 0 && (

@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { Button, FacebookLogoIcon, GithubLogoIcon, GoogleLogoIcon, Typography } from "@chainsafe/common-components"
+import { Button, FacebookLogoIcon, GithubLogoIcon, GoogleLogoIcon, Loading, Typography } from "@chainsafe/common-components"
 import { createStyles, makeStyles, useThemeSwitcher } from "@chainsafe/common-theme"
 import { CSFTheme } from "../../../Themes/types"
 import { t, Trans } from "@lingui/macro"
@@ -45,6 +45,7 @@ const useStyles = makeStyles(
       },
       connectingWallet: {
         textAlign: "center",
+        alignItems: "center",
         display: "flex",
         flexDirection: "column",
         "& > *": {
@@ -121,7 +122,7 @@ const InitialScreen = ({ className }: IInitialScreen) => {
   const { selectWallet, resetAndSelectWallet } = useImployApi()
   const { desktop } = useThemeSwitcher()
   const { wallet } = useWeb3()
-  const { login } = useThresholdKey()
+  const { login, status, resetStatus } = useThresholdKey()
   const classes = useStyles()
   const [loginMode, setLoginMode] = useState<"web3" | LOGIN_TYPE | undefined>()
 
@@ -151,6 +152,7 @@ const InitialScreen = ({ className }: IInitialScreen) => {
   const resetLogin = async () => {
     setError(undefined)
     setLoginMode(undefined)
+    resetStatus()
   }
 
   const handleLogin = async (loginType: LOGIN_TYPE | "web3") => {
@@ -183,7 +185,6 @@ const InitialScreen = ({ className }: IInitialScreen) => {
     }
     setIsConnecting(false)
   }
-
   return (
     <div className={clsx(classes.root, className)}>
       {
@@ -212,7 +213,7 @@ const InitialScreen = ({ className }: IInitialScreen) => {
                   className={classes.button}
                   variant="primary"
                   size="large"
-                  disabled={maintenanceMode || isConnecting}
+                  disabled={maintenanceMode || isConnecting || status !== "initialized"}
                 >
                   <Trans>Continue with Web3 Wallet</Trans>
                 </Button>
@@ -221,7 +222,7 @@ const InitialScreen = ({ className }: IInitialScreen) => {
                   variant="primary"
                   size="large"
                   onClick={() => handleLogin("github")}
-                  disabled={maintenanceMode || isConnecting}
+                  disabled={maintenanceMode || isConnecting || status !== "initialized"}
                   loading={isConnecting && loginMode === "github"}
                 >
                   <GithubLogoIcon />
@@ -232,7 +233,7 @@ const InitialScreen = ({ className }: IInitialScreen) => {
                   variant="primary"
                   size="large"
                   onClick={() => handleLogin("google")}
-                  disabled={maintenanceMode || isConnecting}
+                  disabled={maintenanceMode || isConnecting || status !== "initialized"}
                   loading={isConnecting && loginMode === "google"}
                 >
                   <GoogleLogoIcon />
@@ -243,7 +244,7 @@ const InitialScreen = ({ className }: IInitialScreen) => {
                   size="large"
                   variant="primary"
                   onClick={() => handleLogin("facebook")}
-                  disabled={maintenanceMode || isConnecting}
+                  disabled={maintenanceMode || isConnecting || status !== "initialized"}
                   loading={isConnecting && loginMode === "facebook"}
                 >
                   <FacebookLogoIcon />
@@ -318,13 +319,46 @@ const InitialScreen = ({ className }: IInitialScreen) => {
                 <>
                   <section className={classes.connectingWallet}>
                     <Typography variant='h2'><Trans>Connect Wallet to Files</Trans></Typography>
-                    <Typography variant='h5'>
-                      <Trans>You will need to sign a message in your wallet to complete sign in.</Trans>
-                    </Typography>
+                    {status === "awaiting confirmation" &&
+                      <Typography variant='h5'>
+                        <Trans>You will need to sign a message in your wallet to complete sign in.</Trans>
+                      </Typography>}
+                    {status === "logging in" && <>
+                      <Typography variant='h5'>
+                        <Trans>Hold on, we are logging you in...</Trans>
+                      </Typography>
+                      <Loading type='inherit' />
+                    </>}
                   </section>
                 </>
               )
-              : null
+              : <>
+                <section className={classes.buttonSection}>
+                  <Button
+                    onClick={handleResetAndSelectWallet}
+                    className={classes.button}
+                    variant="primary"
+                    size="large"
+                    disabled={maintenanceMode}
+                  >
+                    <Trans>Select a wallet</Trans>
+                  </Button>
+                  <Button
+                    onClick={() => setLoginMode(undefined)}
+                    className={classes.button}
+                    variant="primary"
+                    size="large"
+                    disabled={maintenanceMode}
+                  >
+                    <Trans>Use a different login method</Trans>
+                  </Button>
+                </section>
+                <footer className={classes.connectWalletFooter}>
+                  <Typography variant='h5'>
+                    <Trans>By connecting your wallet, you agree to our terms and privacy policy.</Trans>
+                  </Typography>
+                </footer>
+              </>
           ) : (
             <>
               <section className={classes.connectingWallet}>
