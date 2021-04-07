@@ -346,7 +346,7 @@ export const darkTheme = createTheme<CsfColors>({
           flagBg: "var(--gray9)",
           flagText: "var(--gray1)",
           completeBg: "#0C082B", // Gray 9.5
-          completeText: "var(--gray3)"
+          completeText: "var(--gray9)"
         },
         modalDefault: {
           fadeBackground: "var(--gray2)",
