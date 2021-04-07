@@ -16,7 +16,7 @@ import BottomDarkSVG from "../../Media/landing/layers/dark/Bottom.dark.svg"
 import TopDarkSVG from "../../Media/landing/layers/dark/Top.dark.svg"
 import BottomLightSVG from "../../Media/landing/layers/light/Bottom.light.svg"
 import TopLightSVG from "../../Media/landing/layers/light/Top.light.svg"
-import { ForegroundSVG } from "../../Media/landing/layers/ForegroundSVG"
+// import { ForegroundSVG } from "../../Media/landing/layers/ForegroundSVG"
 import { useImployApi } from "@chainsafe/common-contexts"
 import ConciseExplainer from "../Modules/LoginModule/ConciseExplainer"
 import SignInMethods from "../Modules/LoginModule/SignInMethods"
@@ -127,6 +127,10 @@ const useStyles = makeStyles(
           justifyContent: "center",
           width: "100%"
         }
+      },
+      logo: {
+        height: 60,
+        width: 60
       }
     })
 )
@@ -232,14 +236,14 @@ const LoginPage = () => {
           </>
 
       }
-      <ForegroundSVG className={classes.bgForeground} />
+      {/* <ForegroundSVG className={classes.bgForeground} /> */}
       <a
         className={classes.cta}
         href={ROUTE_LINKS.ChainSafe}
         target="_blank"
         rel="noopener noreferrer"
       >
-        <ChainsafeFilesLogo />
+        <ChainsafeFilesLogo className={classes.logo} />
         <Typography>
           <Trans>
             Learn more about ChainSafe

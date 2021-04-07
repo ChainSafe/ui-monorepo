@@ -338,7 +338,7 @@ export const darkTheme = createTheme<CsfColors>({
         },
         loginModule: {
           explainerBg: "var(--gray2)",
-          background: "var(--gray3)",
+          background: "var(--gray2)",
           itemBackground: "var(--gray4)",
           iconColor: "#9E9E9E", // Gray 7.5
           textColor: "var(--gray9)",
