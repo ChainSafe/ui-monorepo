@@ -9,6 +9,7 @@ import clsx from "clsx"
 import { Trans } from "@lingui/macro"
 import bowser from "bowser"
 import dayjs from "dayjs"
+import { useThresholdKey } from "../../../../Contexts/ThresholdKeyContext"
 
 const useStyles = makeStyles(({ palette, constants, animation, breakpoints }: CSFTheme) =>
   createStyles({
@@ -69,14 +70,23 @@ interface IBrowserPanelProps {
   browserInstance: bowser.Parser.ParsedResult
   dateAdded: number
   shareIndex: string
-  deleteShare: (shareIndex: string) => Promise<void>
-  getSerializedDeviceShare: () => Promise<string | undefined>
-  download: (filename: string, text: string) => void
+  isShareAvailable: boolean
+}
+
+function download(filename: string, text: string) {
+  const element = document.createElement("a")
+  element.setAttribute("href", "data:text/plain;charset=utf-8," + encodeURIComponent(text))
+  element.setAttribute("download", filename)
+  element.style.display = "none"
+  document.body.appendChild(element)
+  element.click()
+  document.body.removeChild(element)
 }
 
 const BrowserPanel: React.FC<IBrowserPanelProps> = ({
-  browserInstance, dateAdded, shareIndex, deleteShare, getSerializedDeviceShare, download
+  browserInstance, dateAdded, shareIndex, isShareAvailable
 }) => {
+  const { deleteShare, getSerializedDeviceShare } = useThresholdKey()
   const classes = useStyles()
   const [showPanel, setShowPanel] = useState(false)
   const [loadingDeleteShare, setLoadingDeleteShare] = useState(false)
@@ -85,7 +95,7 @@ const BrowserPanel: React.FC<IBrowserPanelProps> = ({
   const onDeleteShare = async () => {
     try {
       setLoadingDeleteShare(true)
-      await deleteShare(shareIndex.toString())
+      await deleteShare(shareIndex)
       setLoadingDeleteShare(false)
       setShowPanel(false)
     } catch {
@@ -94,9 +104,10 @@ const BrowserPanel: React.FC<IBrowserPanelProps> = ({
   }
 
   const onDownloadKey = async () => {
+    if (!isShareAvailable) return
     try {
       setLoadingDownloadKey(true)
-      const mnemonicKey = await getSerializedDeviceShare()
+      const mnemonicKey = await getSerializedDeviceShare(shareIndex)
       if (mnemonicKey) {
         download(`${browserInstance.browser.name || ""} key.txt`, mnemonicKey)
       }
@@ -118,15 +129,16 @@ const BrowserPanel: React.FC<IBrowserPanelProps> = ({
       <div className={classes.panelBody}>
         <div className={classes.panelContent}>
           <Typography variant="body1" component="p" className={classes.subtitle}>
-            <Trans>Operating system :</Trans>&nbsp;{browserInstance.os.name}
+            <Trans>Operating system:</Trans>&nbsp;{browserInstance.os.name}
           </Typography>
           <Typography variant="body1" component="p" className={classes.subtitle}>
-            <Trans>Browser : </Trans>&nbsp;{browserInstance.browser.name}&nbsp;{browserInstance.browser.version}
+            <Trans>Browser: </Trans>&nbsp;{browserInstance.browser.name}&nbsp;{browserInstance.browser.version}
           </Typography>
           <Typography variant="body1" component="p" className={classes.subtitleLast}>
             <Trans>Saved on: </Trans>&nbsp;{dayjs(dateAdded).format("DD MMM YYYY")}
           </Typography>
-          <div className={classes.actionBox}>
+
+          {isShareAvailable && <div className={classes.actionBox}>
             <Typography variant="body1" component="p" className={classes.lightSubtitle}>
               <Trans>Your recovery key can be used to restore your account in place of your backup phrase.</Trans>
             </Typography>
@@ -138,7 +150,7 @@ const BrowserPanel: React.FC<IBrowserPanelProps> = ({
             >
               <Trans>Download recovery key</Trans>
             </Button>
-          </div>
+          </div>}
           <div className={classes.actionBox}>
             <Typography variant="body1" component="p" className={classes.lightSubtitle}>
               <Trans>Forgetting this browser deletes this from your list of sign-in methods.

@@ -25,25 +25,20 @@ const useStyles = makeStyles(({ constants }: CSFTheme) =>
   })
 )
 
-function download(filename: string, text: string) {
-  const element = document.createElement("a")
-  element.setAttribute("href", "data:text/plain;charset=utf-8," + encodeURIComponent(text))
-  element.setAttribute("download", filename)
-  element.style.display = "none"
-  document.body.appendChild(element)
-  element.click()
-  document.body.removeChild(element)
-}
+
 
 const SavedBrowsers: React.FC = () => {
   const classes = useStyles()
-  const { keyDetails, deleteShare, getSerializedDeviceShare } = useThresholdKey()
+  const { keyDetails, getAvailableShareIndicies } = useThresholdKey()
 
   const browserShareInstances: {
       browserInstance: bowser.Parser.ParsedResult
       dateAdded: number
       shareIndex: string
+      isShareAvailable: boolean
     }[] = []
+
+  const availableShareIndicies = getAvailableShareIndicies()
 
   if (keyDetails) {
     Object.keys(keyDetails.shareDescriptions).forEach((shareIndex) => {
@@ -55,7 +50,8 @@ const SavedBrowsers: React.FC = () => {
             browserShareInstances.push({
               browserInstance,
               dateAdded: share.dateAdded,
-              shareIndex: shareIndex
+              shareIndex: shareIndex,
+              isShareAvailable: !!availableShareIndicies && availableShareIndicies.includes(shareIndex)
             })
           }
         } catch (e) {
@@ -76,9 +72,7 @@ const SavedBrowsers: React.FC = () => {
             browserInstance={browserShareInstance.browserInstance}
             dateAdded={browserShareInstance.dateAdded}
             shareIndex={browserShareInstance.shareIndex}
-            deleteShare={deleteShare}
-            getSerializedDeviceShare={getSerializedDeviceShare}
-            download={download}
+            isShareAvailable={browserShareInstance.isShareAvailable}
           />
         </div>
       ))

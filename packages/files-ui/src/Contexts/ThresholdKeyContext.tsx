@@ -43,12 +43,13 @@ export type TThresholdKeyContext = {
   rejectShareTransferRequest(encPubKeyX: string): Promise<void>
   clearShareTransferRequests(): Promise<void>
   addMnemonicShare(): Promise<string>
-  getSerializedDeviceShare(): Promise<string | undefined>
+  getSerializedDeviceShare(shareIndex: string): Promise<string | undefined>
   encryptForPublicKey(publicKey: string, message: string): Promise<string>
   decryptMessageWithThresholdKey(message: string): Promise<string | undefined>
   logout(): Promise<void>
   status: ThresholdKeyContextStatus
   resetStatus(): void
+  getAvailableShareIndicies(): string[] | undefined
 }
 
 type ThresholdKeyProviderProps = {
@@ -564,11 +565,13 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
     }
   }
 
-  const getSerializedDeviceShare = async () => {
+  const getSerializedDeviceShare = async (shareIndex: string) => {
     if (!TKeySdk) return
     try {
-      const storageModule = TKeySdk.modules[WEB_STORAGE_MODULE_NAME] as WebStorageModule
-      const storedShare = await storageModule.getDeviceShare() // This should return a shareStore object
+      const pubPoly = TKeySdk.metadata.getLatestPublicPolynomial()
+      const polyId = pubPoly.getPolynomialID()
+      const shareStoreMap = TKeySdk.shares[polyId]
+      const storedShare = shareStoreMap[shareIndex]
 
       const shareSerializationModule = TKeySdk.modules[SHARE_SERIALIZATION_MODULE_NAME] as ShareSerializationModule
       const result = (await shareSerializationModule.serialize(
@@ -580,6 +583,15 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
       console.error(e)
       return Promise.reject(e)
     }
+  }
+
+  const getAvailableShareIndicies = () => {
+    if (!TKeySdk) return
+
+    const pubPoly = TKeySdk.metadata.getLatestPublicPolynomial()
+    const polyId = pubPoly.getPolynomialID()
+    const shareStoreMap = TKeySdk.shares[polyId]
+    return Object.keys(shareStoreMap)
   }
 
   const encryptForPublicKey = async (publicKey: string, message: string) => {
@@ -628,9 +640,8 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
 
     const serviceProvider = (tkey.serviceProvider as unknown) as DirectAuthSdk
     await serviceProvider.init({ skipSw: false }).then(() => {
-      console.log("initialized")
       setStatus("initialized")
-    }).catch(() => "error initializing")
+    }).catch(() => console.error("error initializing"))
     setTKeySdk(tkey)
     logout()
   }
@@ -662,7 +673,8 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
         encryptForPublicKey,
         logout: thresholdKeyLogout,
         status,
-        resetStatus: () => setStatus("initialized")
+        resetStatus: () => setStatus("initialized"),
+        getAvailableShareIndicies
       }}
     >
       {!isNewDevice && pendingShareTransferRequests.length > 0 && (
