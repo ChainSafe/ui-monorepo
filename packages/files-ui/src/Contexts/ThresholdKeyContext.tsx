@@ -46,6 +46,7 @@ export type TThresholdKeyContext = {
   decryptMessageWithThresholdKey(message: string): Promise<string | undefined>
   logout(): Promise<void>
   status: ThresholdKeyContextStatus
+  resetStatus(): void
 }
 
 type ThresholdKeyProviderProps = {
@@ -134,7 +135,10 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
 
         const serviceProvider = (tkey.serviceProvider as unknown) as DirectAuthSdk
 
-        await serviceProvider.init({ skipSw: false }).then(() => setStatus("initialized")).catch(e => console.log(e))
+        await serviceProvider.init({ skipSw: false }).then(() => {
+          console.log('initialized')  
+          setStatus("initialized")
+        }).catch(e => 'error initializing')
       }
       setTKeySdk(tkey)
     }
@@ -591,7 +595,10 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
     })
 
     const serviceProvider = (tkey.serviceProvider as unknown) as DirectAuthSdk
-    await serviceProvider.init({ skipSw: false }).then(() => setStatus("initialized")).catch(e => console.error(e))
+    await serviceProvider.init({ skipSw: false }).then(() => {
+      console.log('initialized')  
+      setStatus("initialized")
+    }).catch(e => 'error initializing')
     setTKeySdk(tkey)
     logout()
   }
@@ -620,7 +627,8 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
         decryptMessageWithThresholdKey,
         encryptForPublicKey,
         logout: thresholdKeyLogout,
-        status
+        status,
+        resetStatus: () => setStatus('initialized')
       }}
     >
       {!isNewDevice && pendingShareTransferRequests.length > 0 && (

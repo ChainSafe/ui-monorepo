@@ -122,7 +122,7 @@ const InitialScreen = ({ className }: IInitialScreen) => {
   const { selectWallet, resetAndSelectWallet } = useImployApi()
   const { desktop } = useThemeSwitcher()
   const { wallet } = useWeb3()
-  const { login, status } = useThresholdKey()
+  const { login, status, resetStatus } = useThresholdKey()
   const classes = useStyles()
   const [loginMode, setLoginMode] = useState<"web3" | LOGIN_TYPE | undefined>()
 
@@ -152,6 +152,7 @@ const InitialScreen = ({ className }: IInitialScreen) => {
   const resetLogin = async () => {
     setError(undefined)
     setLoginMode(undefined)
+    resetStatus()
   }
 
   const handleLogin = async (loginType: LOGIN_TYPE | "web3") => {
