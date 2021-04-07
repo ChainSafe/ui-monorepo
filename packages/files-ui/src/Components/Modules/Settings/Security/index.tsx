@@ -121,7 +121,7 @@ interface SecurityProps {
 }
 
 const Security = ({ className }: SecurityProps) => {
-  const { keyDetails, addPasswordShare, changePasswordShare, shares } = useThresholdKey()
+  const { keyDetails, addPasswordShare, changePasswordShare, shares, browserShares } = useThresholdKey()
   const classes = useStyles()
   const [isSettingPassword, setIsSettingPassword] = useState(false)
   const [isChangingPassword, setIsChangingPassword] = useState(false)
@@ -129,8 +129,6 @@ const Security = ({ className }: SecurityProps) => {
   const { loggedinAs } = useLoggedInAs()
   const { desktop } = useThemeSwitcher()
   const showWarning = useMemo(() => !!keyDetails && (keyDetails.threshold === keyDetails.totalShares), [keyDetails])
-
-  const browserShare = shares.filter((s) => s.module === "webStorage")
   const hasPasswordShare = shares.filter((s) => s.module === SECURITY_QUESTIONS_MODULE_NAME).length > 0
   const hasMnemonicShare = keyDetails && (keyDetails.totalShares - shares.length > 1)
   const onResetPasswordForm = useCallback(() => {
@@ -201,9 +199,9 @@ const Security = ({ className }: SecurityProps) => {
                 </Trans>
               </Typography>
               <Typography variant="h5">
-                {browserShare.length} <Trans>Saved</Trans>{" "}
+                {browserShares.length} <Trans>Saved</Trans>{" "}
               </Typography>
-              { browserShare.length
+              { browserShares.length
                 ? <CheckCircleSvg className={clsx(classes.icon, classes.green)}/>
                 : <CrossOutlinedSvg className={clsx(classes.icon, classes.red)}/>
               }

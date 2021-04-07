@@ -81,10 +81,9 @@ interface IComplete {
 
 const Complete = ({ className }: IComplete) => {
   const classes = useStyles()
-  const { keyDetails, userInfo, resetShouldInitialize, shares } = useThresholdKey()
+  const { keyDetails, userInfo, resetShouldInitialize, shares, browserShares } = useThresholdKey()
 
   const hasSocial = !!userInfo?.userInfo
-  const browserShare = shares.filter((s) => s.module === "webStorage")
   const hasMnemonicShare = keyDetails && (keyDetails.totalShares - shares.length > 1)
   const hasPasswordShare = shares.filter((s) => s.module === SECURITY_QUESTIONS_MODULE_NAME).length > 0
 
@@ -122,7 +121,7 @@ const Complete = ({ className }: IComplete) => {
         </div>
         <div className={clsx(
           classes.option, {
-            "active": browserShare.length > 0
+            "active": browserShares.length > 0
           }
         )}>
           <Typography>
@@ -131,7 +130,7 @@ const Complete = ({ className }: IComplete) => {
             </Trans>
           </Typography>
           {
-            browserShare.length > 0 ? (
+            browserShares.length > 0 ? (
               <CheckSvg />
             ) : (
               <CloseSvg />

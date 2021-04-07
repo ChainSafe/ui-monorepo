@@ -155,10 +155,10 @@ interface ISignInMethods {
 const SignInMethods = ({ goToComplete, goToMnemonic, goToPassword, goToSkip, className }: ISignInMethods) => {
   const classes = useStyles()
   const { desktop } = useThemeSwitcher()
-  const { keyDetails, shares } = useThresholdKey()
+  const { keyDetails, shares, browserShares } = useThresholdKey()
   const { loggedinAs } = useLoggedInAs()
 
-  const browserShare = shares.filter((s) => s.module === "webStorage")
+
   const hasPasswordShare = shares.filter((s) => s.module === SECURITY_QUESTIONS_MODULE_NAME).length > 0
   const hasMnemonicShare = keyDetails && (keyDetails.totalShares - shares.length > 1)
 
@@ -203,7 +203,7 @@ const SignInMethods = ({ goToComplete, goToMnemonic, goToPassword, goToSkip, cla
             desktop && (
               <Typography variant="h5">
                 <Trans>Saved</Trans>{" "}
-                {`${bowser.parse(browserShare[0].userAgent).browser.name} ${bowser.parse(browserShare[0].userAgent).browser.version}`}
+                {`${bowser.parse(browserShares[0].userAgent).browser.name} ${bowser.parse(browserShares[0].userAgent).browser.version}`}
               </Typography>
             )
           }
