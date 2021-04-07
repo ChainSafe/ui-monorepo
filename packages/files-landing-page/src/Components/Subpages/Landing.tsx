@@ -14,6 +14,7 @@ const useStyles = makeStyles(
         width: "100%",
         height: "auto",
         paddingTop: `${constants.headerHeight}px`,
+        paddingBottom: constants.generalUnit * 3,
       },
       headerContentContainer: {
         display: "flex",

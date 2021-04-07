@@ -171,6 +171,17 @@ const Footer: React.FC = () => {
                 </Typography>
               </a>
             </Grid>
+            <Grid item className={classes.item}>
+              <a
+                href="mailto:support@files.chainsafe.io"
+                target="__blank"
+                rel="noopener noreferrer"
+              >
+                <Typography variant="h5" className={classes.footerText}>
+                  <Trans>Support</Trans>
+                </Typography>
+              </a>
+            </Grid>
           </Grid>
         </Grid>
         <Grid
