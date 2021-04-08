@@ -112,7 +112,8 @@ const useStyles = makeStyles(
         }
       },
       loader: {
-        marginTop: constants.generalUnit
+        marginTop: constants.generalUnit,
+        padding: 0
       }
     })
 )
@@ -330,7 +331,7 @@ const InitialScreen = ({ className }: IInitialScreen) => {
                       <Typography variant='h5'>
                         <Trans>Hold on, we are logging you in...</Trans>
                       </Typography>
-                      <Loading className={classes.loader} size={15} type='inherit' />
+                      <Loading className={classes.loader} size={50} type='inherit' />
                     </>}
                   </section>
                 </>
