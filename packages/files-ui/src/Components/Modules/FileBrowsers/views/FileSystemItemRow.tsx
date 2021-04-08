@@ -407,7 +407,7 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
       })}
       type="grid"
       rowSelectable={true}
-      ref={attachRef}
+      ref={!editing ? attachRef : null}
       selected={selected.includes(cid)}
     >
       {desktop && (
