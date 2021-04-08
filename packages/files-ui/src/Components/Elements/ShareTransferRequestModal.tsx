@@ -6,6 +6,7 @@ import React, { useCallback, useEffect, useMemo, useState } from "react"
 import { ShareTransferRequest, useThresholdKey } from "../../Contexts/ThresholdKeyContext"
 import CustomModal from "../Elements/CustomModal"
 import DevicesImage from "../../Media/devices.png"
+import clsx from "clsx"
 
 interface Props {
     requests: ShareTransferRequest[]
@@ -41,17 +42,22 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: ITheme) =>
       display: "flex",
       flexDirection: "column",
       alignItems: "center",
-      marginTop: constants.generalUnit * 4
+      marginTop: constants.generalUnit * 4,
+      flexWrap: "wrap"
+    },
+    clearAll: {
+      marginTop: constants.generalUnit
     }
   })
 )
 
 const ShareTransferRequestModal = ({ requests }: Props) => {
-  const { approveShareTransferRequest, rejectShareTransferRequest } = useThresholdKey()
+  const { approveShareTransferRequest, rejectShareTransferRequest, clearShareTransferRequests } = useThresholdKey()
   const { desktop } = useThemeSwitcher()
   const classes = useStyles()
   const [isLoadingApprove, setIsLoadingApprove] = useState(false)
   const [isLoadingReject, setIsLoadingReject] = useState(false)
+  const [isClearing, setIsClearing] = useState(false)
   const { browserDetail, encPubKeyX, timestamp } = useMemo(() => requests[requests.length - 1], [requests])
 
   useEffect(() => {
@@ -69,6 +75,11 @@ const ShareTransferRequestModal = ({ requests }: Props) => {
     setIsLoadingReject(true)
     rejectShareTransferRequest(encPubKeyX)
   }, [rejectShareTransferRequest, encPubKeyX])
+
+  const onClearingRequest = useCallback(() => {
+    setIsClearing(true)
+    clearShareTransferRequests()
+  }, [clearShareTransferRequests])
 
   return (
     <CustomModal
@@ -95,7 +106,7 @@ const ShareTransferRequestModal = ({ requests }: Props) => {
             variant={desktop ? "primary" : "outline"}
             size="large"
             loading={isLoadingApprove}
-            disabled={isLoadingReject || isLoadingApprove}
+            disabled={isLoadingReject || isLoadingApprove || isClearing}
             onClick={onApproveRequest}>
             <Trans>Approve</Trans>
           </Button>
@@ -104,9 +115,19 @@ const ShareTransferRequestModal = ({ requests }: Props) => {
             variant={desktop ? "primary" : "outline"}
             size="large"
             loading={isLoadingReject}
-            disabled={isLoadingApprove || isLoadingReject}
+            disabled={isLoadingApprove || isLoadingReject || isClearing}
             onClick={onRejectRequest}>
             <Trans>Reject</Trans>
+          </Button>
+          <Button
+            className={clsx(classes.button, classes.clearAll)}
+            variant={desktop ? "primary" : "outline"}
+            size="large"
+            fullsize
+            loading={isClearing}
+            disabled={isLoadingApprove || isLoadingReject || isClearing}
+            onClick={onClearingRequest}>
+            <Trans></Trans>
           </Button>
         </div>
       </>
