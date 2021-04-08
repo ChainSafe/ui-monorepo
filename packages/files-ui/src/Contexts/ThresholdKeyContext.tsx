@@ -337,7 +337,7 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
       case "facebook":
       case "google":
       case "github":
-        setLoggedinAs(t`Logged in with` + `${capitalize(loginType)} ${centerEllipsis(userInfo.userInfo.email, 4)}`)
+        setLoggedinAs(t`Logged in with` + ` ${capitalize(loginType)} ${centerEllipsis(userInfo.userInfo.email, 4)}`)
         break
       default:
         setLoggedinAs(`${centerEllipsis(userInfo.publicAddress, 4)}`)
