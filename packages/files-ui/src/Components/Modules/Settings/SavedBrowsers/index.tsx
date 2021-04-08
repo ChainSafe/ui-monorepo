@@ -9,10 +9,13 @@ import BrowserPanel from "./BrowserPanel"
 import { useThresholdKey } from "../../../../Contexts/ThresholdKeyContext"
 import bowser from "bowser"
 
-const useStyles = makeStyles(({ constants }: CSFTheme) =>
+const useStyles = makeStyles(({ constants, breakpoints }: CSFTheme) =>
   createStyles({
     root: {
-      paddingBottom: constants.generalUnit
+      paddingBottom: constants.generalUnit,
+      [breakpoints.down("md")]: {
+        padding: `0 ${constants.generalUnit * 2}px`
+      }
     },
     title: {
       fontSize: "16px",
@@ -24,8 +27,6 @@ const useStyles = makeStyles(({ constants }: CSFTheme) =>
     }
   })
 )
-
-
 
 const SavedBrowsers: React.FC = () => {
   const classes = useStyles()
