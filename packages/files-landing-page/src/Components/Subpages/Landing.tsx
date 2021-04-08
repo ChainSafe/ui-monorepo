@@ -32,16 +32,14 @@ const useStyles = makeStyles(
           [breakpoints.down('md')]:{
             maxWidth: "90%",
             textAlign: "center",
-          },
-          [breakpoints.up('lg')]: {
-            fontSize: "32px",
+            fontSize: "30px",
           },
           [breakpoints.up(3500)]:{
-            fontSize: "40px",
+            fontSize: "38px",
             marginBottom: constants.generalUnit * 7,
           },
-          fontSize: "20px",
-          lineHeight: "32px",
+          fontSize: "38px",
+          lineHeight: "48px",
           marginBottom: constants.generalUnit * 3,
         }
     },
