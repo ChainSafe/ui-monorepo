@@ -57,7 +57,7 @@ const NavBar: React.FC = () => {
               src="https://res.cloudinary.com/ddxhvanz2/image/upload/v1617731776/files.chainsafe.io/csfAsset_27_20x_tt5pi4.png"
               alt="chainsafe brand logo"
             />
-            <Typography variant="h4">
+            <Typography variant="h5">
               <a href="/" className={classes.navlink}>
                 ChainSafe Files
               </a>
@@ -65,7 +65,7 @@ const NavBar: React.FC = () => {
           </Grid>
         </Grid>
         <Grid item justifyContent="center" alignItems="flex-end">
-          <Typography variant="h4">
+          <Typography variant="h5">
             <a
               target="_blank"
               rel="noopener noreferrer"
