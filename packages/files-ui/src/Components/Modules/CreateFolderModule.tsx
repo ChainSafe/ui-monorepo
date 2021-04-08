@@ -92,15 +92,18 @@ const CreateFolderModule: React.FC<ICreateFolderModuleProps> = ({
     }
   }, [modalOpen])
 
-  // should not have `/` or `$`
-  const folderNameRegex = /^[^/$]+$/
+  // should not have `/`
+  const invalidFolderNameRegex = new RegExp("/")
   const folderNameValidator = yup.object().shape({
     name: yup
       .string()
       .required("Folder name is required")
-      .test("characters", "Folder name has special characters", (value) => {
-        return value ? folderNameRegex.test(value) : false
-      })
+      .test(
+        "Invalid name",
+        "Folder name cannot contain '/' character",
+        (val: string | null | undefined) =>
+          !invalidFolderNameRegex.test(val || "")
+      )
   })
 
   return (
