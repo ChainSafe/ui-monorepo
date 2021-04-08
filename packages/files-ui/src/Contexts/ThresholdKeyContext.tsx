@@ -50,6 +50,7 @@ export type TThresholdKeyContext = {
   status: ThresholdKeyContextStatus
   resetStatus(): void
   getAvailableShareIndicies(): string[] | undefined
+  refreshTKeyMeta(): Promise<void>
 }
 
 type ThresholdKeyProviderProps = {
@@ -568,17 +569,7 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
   const getSerializedDeviceShare = async (shareIndex: string) => {
     if (!TKeySdk) return
     try {
-      const pubPoly = TKeySdk.metadata.getLatestPublicPolynomial()
-      const polyId = pubPoly.getPolynomialID()
-      const shareStoreMap = TKeySdk.shares[polyId]
-      const storedShare = shareStoreMap[shareIndex]
-
-      const shareSerializationModule = TKeySdk.modules[SHARE_SERIALIZATION_MODULE_NAME] as ShareSerializationModule
-      const result = (await shareSerializationModule.serialize(
-        storedShare.share.share,
-        "mnemonic"
-      )) as string
-      return result
+      return await TKeySdk.outputShare(shareIndex, 'mnemonic') as string
     } catch (e) {
       console.error(e)
       return Promise.reject(e)
@@ -646,6 +637,14 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
     logout()
   }
 
+  const refreshTKeyMeta = async () => {
+    if (!TKeySdk) return
+
+    await TKeySdk.syncShareMetadata()
+    const newKeyDetails = await TKeySdk.getKeyDetails()
+    setKeyDetails(newKeyDetails)
+  }
+
   return (
     <ThresholdKeyContext.Provider
       value={{
@@ -674,7 +673,8 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
         logout: thresholdKeyLogout,
         status,
         resetStatus: () => setStatus("initialized"),
-        getAvailableShareIndicies
+        getAvailableShareIndicies,
+        refreshTKeyMeta
       }}
     >
       {!isNewDevice && pendingShareTransferRequests.length > 0 && (

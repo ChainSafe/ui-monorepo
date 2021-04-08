@@ -70,7 +70,6 @@ interface IBrowserPanelProps {
   browserInstance: bowser.Parser.ParsedResult
   dateAdded: number
   shareIndex: string
-  isShareAvailable: boolean
 }
 
 function download(filename: string, text: string) {
@@ -84,7 +83,7 @@ function download(filename: string, text: string) {
 }
 
 const BrowserPanel: React.FC<IBrowserPanelProps> = ({
-  browserInstance, dateAdded, shareIndex, isShareAvailable
+  browserInstance, dateAdded, shareIndex
 }) => {
   const { deleteShare, getSerializedDeviceShare } = useThresholdKey()
   const classes = useStyles()
@@ -104,12 +103,11 @@ const BrowserPanel: React.FC<IBrowserPanelProps> = ({
   }
 
   const onDownloadKey = async () => {
-    if (!isShareAvailable) return
     try {
       setLoadingDownloadKey(true)
       const mnemonicKey = await getSerializedDeviceShare(shareIndex)
       if (mnemonicKey) {
-        download(`${browserInstance.browser.name || ""} key.txt`, mnemonicKey)
+        download(`Chainsafe Files - ${browserInstance.browser.name || ""} key.txt`, mnemonicKey)
       }
       setLoadingDownloadKey(false)
     } catch {
@@ -137,8 +135,7 @@ const BrowserPanel: React.FC<IBrowserPanelProps> = ({
           <Typography variant="body1" component="p" className={classes.subtitleLast}>
             <Trans>Saved on: </Trans>&nbsp;{dayjs(dateAdded).format("DD MMM YYYY")}
           </Typography>
-
-          {isShareAvailable && <div className={classes.actionBox}>
+          <div className={classes.actionBox}>
             <Typography variant="body1" component="p" className={classes.lightSubtitle}>
               <Trans>Your recovery key can be used to restore your account in place of your backup phrase.</Trans>
             </Typography>
@@ -150,7 +147,7 @@ const BrowserPanel: React.FC<IBrowserPanelProps> = ({
             >
               <Trans>Download recovery key</Trans>
             </Button>
-          </div>}
+          </div>
           <div className={classes.actionBox}>
             <Typography variant="body1" component="p" className={classes.lightSubtitle}>
               <Trans>Forgetting this browser deletes this from your list of sign-in methods.

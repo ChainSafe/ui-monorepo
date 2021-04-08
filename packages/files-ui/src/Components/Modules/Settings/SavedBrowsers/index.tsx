@@ -29,16 +29,13 @@ const useStyles = makeStyles(({ constants }: CSFTheme) =>
 
 const SavedBrowsers: React.FC = () => {
   const classes = useStyles()
-  const { keyDetails, getAvailableShareIndicies } = useThresholdKey()
+  const { keyDetails } = useThresholdKey()
 
   const browserShareInstances: {
       browserInstance: bowser.Parser.ParsedResult
       dateAdded: number
       shareIndex: string
-      isShareAvailable: boolean
     }[] = []
-
-  const availableShareIndicies = getAvailableShareIndicies()
 
   if (keyDetails) {
     Object.keys(keyDetails.shareDescriptions).forEach((shareIndex) => {
@@ -51,7 +48,6 @@ const SavedBrowsers: React.FC = () => {
               browserInstance,
               dateAdded: share.dateAdded,
               shareIndex: shareIndex,
-              isShareAvailable: !!availableShareIndicies && availableShareIndicies.includes(shareIndex)
             })
           }
         } catch (e) {
@@ -72,7 +68,6 @@ const SavedBrowsers: React.FC = () => {
             browserInstance={browserShareInstance.browserInstance}
             dateAdded={browserShareInstance.dateAdded}
             shareIndex={browserShareInstance.shareIndex}
-            isShareAvailable={browserShareInstance.isShareAvailable}
           />
         </div>
       ))
