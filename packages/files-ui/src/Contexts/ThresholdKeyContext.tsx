@@ -49,7 +49,7 @@ export type TThresholdKeyContext = {
   logout(): Promise<void>
   status: ThresholdKeyContextStatus
   resetStatus(): void
-  getAvailableShareIndicies(): string[] | undefined
+  getAvailableShareIndices(): string[] | undefined
   refreshTKeyMeta(): Promise<void>
 }
 
@@ -576,7 +576,7 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
     }
   }
 
-  const getAvailableShareIndicies = () => {
+  const getAvailableShareIndices = () => {
     if (!TKeySdk) return
 
     const pubPoly = TKeySdk.metadata.getLatestPublicPolynomial()
@@ -673,7 +673,7 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
         logout: thresholdKeyLogout,
         status,
         resetStatus: () => setStatus("initialized"),
-        getAvailableShareIndicies,
+        getAvailableShareIndices,
         refreshTKeyMeta
       }}
     >
