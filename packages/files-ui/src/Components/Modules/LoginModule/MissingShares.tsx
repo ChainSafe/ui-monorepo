@@ -1,7 +1,6 @@
 import React, { ChangeEvent, useCallback, useState } from "react"
 import { useThresholdKey } from "../../../Contexts/ThresholdKeyContext"
 import { Button, TextInput, Typography } from "@chainsafe/common-components"
-import { SECURITY_QUESTIONS_MODULE_NAME } from "@tkey/security-questions"
 import { t, Trans } from "@lingui/macro"
 import { createStyles, makeStyles } from "@chainsafe/common-theme"
 import { CSFTheme } from "../../../Themes/types"
@@ -112,7 +111,7 @@ interface IMissingShares {
 }
 
 const MissingShares = ({ className }: IMissingShares) => {
-  const { keyDetails, inputPasswordShare, inputMnemonicShare } = useThresholdKey()
+  const { inputPasswordShare, inputMnemonicShare, hasPasswordShare } = useThresholdKey()
   const [password, setPassword] = useState("")
   const [mnemonic, setMnemonic] = useState("")
   const [withMnemonic, setWithMnemonic] = useState(false)
@@ -121,14 +120,6 @@ const MissingShares = ({ className }: IMissingShares) => {
   const { logout } = useThresholdKey()
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState("")
-
-  const shares = keyDetails
-    ? Object.values(keyDetails.shareDescriptions).map((share) => {
-      return JSON.parse(share[0])
-    })
-    : []
-
-  const hasPasswordShare = shares.filter((s) => s.module === SECURITY_QUESTIONS_MODULE_NAME).length > 0
 
   const handleSubmitPassword = () => {
     if (!password) return

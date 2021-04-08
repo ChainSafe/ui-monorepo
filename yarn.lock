@@ -4014,7 +4014,7 @@
     json-stable-stringify "^1.0.1"
     web3-utils "^1.3.4"
 
-"@tkey/default@3.12.0":
+"@tkey/default@^3.12.0":
   version "3.12.0"
   resolved "https://registry.yarnpkg.com/@tkey/default/-/default-3.12.0.tgz#3c74f0ee15d1ed63e1a244f6b8980f60ed6c8622"
   integrity sha512-xmAr8/dwQB6BUUc2A9hRazJPua7Kezv0oBTLf0XmQjz1e0uigEHJZ7dA53lJO7h8JzTH4gCTTuLI74mB180ANw==
@@ -4042,7 +4042,7 @@
     bn.js "^5.2.0"
     randombytes "^2.1.0"
 
-"@tkey/security-questions@3.12.0", "@tkey/security-questions@^3.12.0":
+"@tkey/security-questions@^3.12.0":
   version "3.12.0"
   resolved "https://registry.yarnpkg.com/@tkey/security-questions/-/security-questions-3.12.0.tgz#769eb916af60a490daff3c95b6d2b143eaf611e9"
   integrity sha512-EITaEC4IzFaGFgNEjIgStzgWet1h8xuu9eqaMA2fM3Iyi6jjelmigGtZOerim6bfPv+7JcVGLB/2VkQNYHmMag==
@@ -4114,7 +4114,7 @@
     json-stable-stringify "^1.0.1"
     web3-utils "^1.3.4"
 
-"@tkey/web-storage@3.12.0":
+"@tkey/web-storage@^3.12.0":
   version "3.12.0"
   resolved "https://registry.yarnpkg.com/@tkey/web-storage/-/web-storage-3.12.0.tgz#970e900ce746338908f046c381e2132cca2f7851"
   integrity sha512-Zwu9+1zcqsDaxFWsyJLSzGwEjuMCNsFQiXmnbV44yKLRTP4fVNfOwkie5pgEJmCj2BQNagV26YhbH75hqSlL9g==
@@ -4177,7 +4177,7 @@
   dependencies:
     deepmerge "^4.2.2"
 
-"@toruslabs/torus-direct-web-sdk@4.10.0", "@toruslabs/torus-direct-web-sdk@^4.8.0":
+"@toruslabs/torus-direct-web-sdk@^4.10.0", "@toruslabs/torus-direct-web-sdk@^4.8.0":
   version "4.10.0"
   resolved "https://registry.yarnpkg.com/@toruslabs/torus-direct-web-sdk/-/torus-direct-web-sdk-4.10.0.tgz#e15f0bf04acdacee211b736d67370d408eb537ce"
   integrity sha512-z5LmA0K8uFvXFOl4zmckYnX+6efBfnnalTHNRwvxUHW+fiUamgiesB04IWufWQ4IzWyP7VmbHuNPcINjebrM0A==

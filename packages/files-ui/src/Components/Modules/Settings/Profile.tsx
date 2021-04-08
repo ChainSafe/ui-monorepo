@@ -23,13 +23,12 @@ import SavedBrowsers from "./SavedBrowsers"
 const useStyles = makeStyles(({ constants, breakpoints, palette, typography }: CSFTheme) =>
   createStyles({
     container: {
-      marginBottom: 160,
       [breakpoints.down("md")]: {
-        paddingRight: constants.generalUnit
+        paddingRight: constants.generalUnit * 2,
+        paddingLeft: constants.generalUnit * 2
       }
     },
     bodyContainer: {
-      padding: `${constants.generalUnit * 3}px 0px`,
       borderBottom: `1px solid ${palette.additional["gray"][4]}`,
       [breakpoints.down("md")]: {
         borderBottom: "none"

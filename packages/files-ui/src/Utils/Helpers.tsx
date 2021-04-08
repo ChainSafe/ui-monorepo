@@ -37,3 +37,7 @@ export const readFileAsync = (file: Blob): Promise<ArrayBuffer> => {
 export function useQuery() {
   return new URLSearchParams(useLocation().search)
 }
+
+export const capitalize = (value: string) => {
+  return value.charAt(0).toUpperCase() + value.slice(1)
+}
