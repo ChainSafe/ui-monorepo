@@ -690,7 +690,6 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
                   <TableHeadCell>
                     <CheckboxInput
                       value={selected.length === items.length}
-                      disabled
                       onChange={() => toggleAll()}
                     />
                   </TableHeadCell>
