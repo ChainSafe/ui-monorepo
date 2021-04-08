@@ -9,7 +9,8 @@ import { Tabs,
   useParams,
   useHistory,
   ITabPaneProps,
-  CaretRightIcon
+  CaretRightIcon,
+  LockIcon
 } from "@chainsafe/common-components"
 import { makeStyles, ITheme, createStyles, useThemeSwitcher } from "@chainsafe/common-theme"
 import { useUser } from "@chainsafe/common-contexts"
@@ -18,6 +19,7 @@ import { t, Trans } from "@lingui/macro"
 // import Plan from "./Plan"
 import { ProfileIcon } from "@chainsafe/common-components"
 import clsx from "clsx"
+import Security from "./Security"
 
 const TabPane = (props: ITabPaneProps<SettingsPath>) => TabPaneOrigin(props)
 const useStyles = makeStyles(({ constants, breakpoints, palette }: ITheme) =>
@@ -64,7 +66,14 @@ const useStyles = makeStyles(({ constants, breakpoints, palette }: ITheme) =>
     },
     tabPane: {
       flex: 1,
-      padding: `${constants.generalUnit * 2}px ${constants.generalUnit * 5}px`
+      padding: `${constants.generalUnit * 2}px ${constants.generalUnit * 5}px`,
+      [breakpoints.down("md")]: {
+        padding: 0
+      }
+    },
+    lockIcon : {
+      width: "1rem",
+      marginRight: "0.5rem"
     },
     hideTabPane: {
       display: "none"
@@ -78,29 +87,34 @@ const useStyles = makeStyles(({ constants, breakpoints, palette }: ITheme) =>
       display: "flex",
       flexDirection: "column",
       width: 226,
-      borderRightColor: "var(--gray4)",
+      borderRightColor: palette.additional["gray"][4],
       borderRightWidth: 1,
       borderRightStyle: "solid",
+
       "&.wide" : {
         width: "100%",
         borderRightStyle: "none"
       },
+
       "&.hidden": {
         display: "none"
       }
     },
     injectedTabBar: {
-      padding: "16px 16px",
+      padding: `${constants.generalUnit * 2}px ${constants.generalUnit * 2}px`,
       marginRight: 0,
       display: "flex",
+      borderBottom: "none",
+
       "& .iconRight": {
         flex: 1,
         textAlign: "right"
       },
+
       "&.selected": {
-        fontWeight: "normal",
         borderBottom: "none",
-        backgroundColor: "var(--gray4)",
+        fontWeight: "normal",
+        backgroundColor: palette.additional["gray"][4],
         borderTopLeftRadius: 10,
         borderBottomLeftRadius: 10
       }
@@ -203,6 +217,15 @@ const Settings: React.FC = () => {
                   updatingProfile={updatingProfile}
                 />
               ) : null}
+            </TabPane>
+            <TabPane
+              className={clsx(classes.tabPane, (!desktop && !path) ? classes.hideTabPane : "")}
+              icon={<LockIcon className={classes.lockIcon}/>}
+              iconRight={<CaretRightIcon/>}
+              title={t`Security`}
+              tabKey="security"
+            >
+              <Security />
             </TabPane>
             {/* <TabPane title={t`Plan`} tabKey="plan">
               <Plan />

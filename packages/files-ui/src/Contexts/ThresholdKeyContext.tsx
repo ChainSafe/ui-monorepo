@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useMemo } from "react"
 import DirectAuthSdk, { LOGIN_TYPE, TorusLoginResponse } from "@toruslabs/torus-direct-web-sdk"
 import ThresholdKey from "@tkey/default"
 import WebStorageModule, { WEB_STORAGE_MODULE_NAME } from "@tkey/web-storage"
@@ -16,10 +16,13 @@ import { useWeb3 } from "@chainsafe/web3-context"
 import ShareTransferRequestModal from "../Components/Elements/ShareTransferRequestModal"
 import BN from "bn.js"
 import { TKeyRequestIdentity_provider } from "@chainsafe/files-api-client"
+import { capitalize, centerEllipsis } from "../Utils/Helpers"
+import { t } from "@lingui/macro"
 
 const TORUS_POSTBOX_KEY = "csf.postboxKey"
 const TKEY_STORE_KEY = "csf.tkeyStore"
 const TORUS_USERINFO_KEY = "csf.userInfo"
+const PASSWORD_QUESTION = "What is your password?"
 
 export type ThresholdKeyContextStatus = "initializing"|"initialized"|"awaiting confirmation"|"logging in"|"done"
 
@@ -29,12 +32,16 @@ export type TThresholdKeyContext = {
   publicKey?: string
   isNewDevice: boolean
   isNewKey: boolean
+  browserShares: any[]
+  hasMnemonicShare: boolean
+  hasPasswordShare: boolean
   shouldInitializeAccount: boolean
   pendingShareTransferRequests: ShareTransferRequest[]
   login(loginType: LOGIN_TYPE | "web3"): Promise<void>
   resetIsNewDevice(): void
   resetShouldInitialize(): void
   addPasswordShare(password: string): Promise<void>
+  changePasswordShare(password: string): Promise<void>
   inputPasswordShare(password: string): Promise<void>
   inputMnemonicShare(mnemonic: string): Promise<void>
   addNewDeviceShareAndSave(): Promise<void>
@@ -47,6 +54,7 @@ export type TThresholdKeyContext = {
   logout(): Promise<void>
   status: ThresholdKeyContextStatus
   resetStatus(): void
+  loggedinAs: string
 }
 
 type ThresholdKeyProviderProps = {
@@ -80,6 +88,28 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
   const [pendingShareTransferRequests, setPendingShareTransferRequests] = useState<ShareTransferRequest[]>([])
   const [privateKey, setPrivateKey] = useState<string | undefined>()
   const [status, setStatus] = useState<ThresholdKeyContextStatus>("initializing")
+  const [loggedinAs, setLoggedinAs] = useState("")
+  const securityQuestionModule = useMemo(
+    () => TKeySdk?.modules[SECURITY_QUESTIONS_MODULE_NAME] as SecurityQuestionsModule | undefined
+    , [TKeySdk]
+  )
+  // `shares` object contains security question and local device shares
+  // The service provider share as well as backup mnemonic do not appear in this share 
+  // array. Note: Files accounts have one service provider by default.
+  // If an account has totalShares - shares.length === 1 this indicates that a
+  // mnemonic has not been set up for the account. If totalShares - shares.length === 2
+  // this indicates that a mnemonic has already been set up. "2" corresponds here to one
+  // service provider (default), and one mnemonic.
+  const shares = useMemo(() => keyDetails
+    ? Object.values(keyDetails.shareDescriptions).map((share) => {
+      return JSON.parse(share[0])
+    })
+    : []
+  , [keyDetails])
+  const browserShares = useMemo(() => shares.filter((s) => s.module === WEB_STORAGE_MODULE_NAME), [shares])
+  const hasMnemonicShare = useMemo(() => (keyDetails && (keyDetails.totalShares - shares.length > 1)) || false, [keyDetails, shares.length])
+  const hasPasswordShare = useMemo(() => shares.filter((s) => s.module === SECURITY_QUESTIONS_MODULE_NAME).length > 0, [shares])
+
   // Initialize Threshold Key and DirectAuth
   useEffect(() => {
     const init = async () => {
@@ -296,6 +326,26 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
     }
   }, [TKeySdk, keyDetails])
 
+  useEffect(() => {
+    const loginType = userInfo?.userInfo.typeOfLogin
+
+    if (userInfo && loginType) {
+      switch (loginType) {
+      case "jwt":
+        setLoggedinAs(t`Logged in with Web3` + ` ${centerEllipsis(String(address), 4)}`)
+        break
+      case "facebook":
+      case "google":
+      case "github":
+        setLoggedinAs(t`Logged in with` + ` ${capitalize(loginType)} ${centerEllipsis(userInfo.userInfo.email, 4)}`)
+        break
+      default:
+        setLoggedinAs(`${centerEllipsis(userInfo.publicAddress, 4)}`)
+        break
+      }
+    }
+  }, [userInfo, address])
+
   const login = async (loginType: LOGIN_TYPE | "web3") => {
     if (!TKeySdk) return
     try {
@@ -432,18 +482,32 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
   }
 
   const addPasswordShare = async (password: string) => {
-    if (!TKeySdk) return
+    if (!TKeySdk || !securityQuestionModule) return
 
     try {
-      const securityQuestionModule = TKeySdk.modules[SECURITY_QUESTIONS_MODULE_NAME] as SecurityQuestionsModule
       await securityQuestionModule.generateNewShareWithSecurityQuestions(
         password,
-        "What is your password?"
+        PASSWORD_QUESTION
       )
       const keyDetails = await TKeySdk.getKeyDetails()
       setKeyDetails(keyDetails)
     } catch (e) {
       console.error(e)
+    }
+  }
+
+  const changePasswordShare = async (password: string) => {
+    if (!TKeySdk || !securityQuestionModule) return
+
+    try {
+      await securityQuestionModule.changeSecurityQuestionAndAnswer(
+        password,
+        PASSWORD_QUESTION
+      )
+      const keyDetails = await TKeySdk.getKeyDetails()
+      setKeyDetails(keyDetails)
+    } catch (e) {
+      console.error("Oops", e)
     }
   }
 
@@ -468,9 +532,8 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
   }
 
   const inputPasswordShare = async (password: string) => {
-    if (!TKeySdk) return
+    if (!TKeySdk || !securityQuestionModule) return
 
-    const securityQuestionModule = TKeySdk.modules[SECURITY_QUESTIONS_MODULE_NAME] as SecurityQuestionsModule
     try {
       await securityQuestionModule.inputShareFromSecurityQuestions(password)
     } catch (error) {
@@ -609,6 +672,7 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
         userInfo,
         login,
         addPasswordShare,
+        changePasswordShare,
         inputPasswordShare,
         inputMnemonicShare,
         keyDetails,
@@ -627,8 +691,12 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
         decryptMessageWithThresholdKey,
         encryptForPublicKey,
         logout: thresholdKeyLogout,
+        browserShares,
+        hasMnemonicShare,
+        hasPasswordShare,
         status,
-        resetStatus: () => setStatus("initialized")
+        resetStatus: () => setStatus("initialized"),
+        loggedinAs
       }}
     >
       {!isNewDevice && pendingShareTransferRequests.length > 0 && (
