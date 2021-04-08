@@ -4,7 +4,6 @@ import { makeStyles, createStyles, useThemeSwitcher } from "@chainsafe/common-th
 import { CSFTheme } from "../../../../Themes/types"
 import { t, Trans } from "@lingui/macro"
 import { useThresholdKey } from "../../../../Contexts/ThresholdKeyContext"
-import { SECURITY_QUESTIONS_MODULE_NAME } from "@tkey/security-questions"
 import clsx from "clsx"
 import PasswordForm from "../../../Elements/PasswordForm"
 import MnemonicForm from "../../../Elements/MnemonicForm"
@@ -125,22 +124,21 @@ interface SecurityProps {
 }
 
 const Security = ({ className }: SecurityProps) => {
-  const { keyDetails, addPasswordShare, changePasswordShare, loggedinAs } = useThresholdKey()
+  const { keyDetails,
+    addPasswordShare,
+    changePasswordShare,
+    loggedinAs,
+    hasPasswordShare,
+    hasMnemonicShare,
+    browserShares
+  } = useThresholdKey()
   const classes = useStyles()
   const [isSettingPassword, setIsSettingPassword] = useState(false)
   const [isChangingPassword, setIsChangingPassword] = useState(false)
   const [isSettingBackupPhrase, setIsSettingBackupPhrase] = useState(false)
   const { desktop } = useThemeSwitcher()
   const showWarning = useMemo(() => !!keyDetails && (keyDetails.threshold === keyDetails.totalShares), [keyDetails])
-  const shares = keyDetails
-    ? Object.values(keyDetails.shareDescriptions).map((share) => {
-      return JSON.parse(share[0])
-    })
-    : []
 
-  const browserShare = shares.filter((s) => s.module === "webStorage")
-  const hasPasswordShare = shares.filter((s) => s.module === SECURITY_QUESTIONS_MODULE_NAME).length > 0
-  const hasMnemonicShare = keyDetails && (keyDetails.totalShares - shares.length > 1)
   const onResetPasswordForm = useCallback(() => {
     setIsChangingPassword(false)
     setIsSettingPassword(false)
@@ -209,9 +207,9 @@ const Security = ({ className }: SecurityProps) => {
                 </Trans>
               </Typography>
               <Typography variant="h5">
-                {browserShare.length} <Trans>Saved</Trans>{" "}
+                {browserShares.length} <Trans>Saved</Trans>{" "}
               </Typography>
-              { browserShare.length
+              { browserShares.length
                 ? <CheckCircleSvg className={clsx(classes.icon, classes.green)}/>
                 : <CrossOutlinedSvg className={clsx(classes.icon, classes.red)}/>
               }

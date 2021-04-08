@@ -3,7 +3,6 @@ import { createStyles, makeStyles, useThemeSwitcher } from "@chainsafe/common-th
 import { CheckCircleSvg, CopySvg, KeySvg, Typography } from "@chainsafe/common-components"
 import { Trans } from "@lingui/macro"
 import { useThresholdKey } from "../../../Contexts/ThresholdKeyContext"
-import { SECURITY_QUESTIONS_MODULE_NAME } from "@tkey/security-questions"
 import { CSFTheme } from "../../../Themes/types"
 import bowser from "bowser"
 import clsx from "clsx"
@@ -154,19 +153,7 @@ interface ISignInMethods {
 const SignInMethods = ({ goToComplete, goToMnemonic, goToPassword, goToSkip, className }: ISignInMethods) => {
   const classes = useStyles()
   const { desktop } = useThemeSwitcher()
-  const { keyDetails, loggedinAs } = useThresholdKey()
-
-  const shares = keyDetails
-    ? Object.values(keyDetails.shareDescriptions).map((share) => {
-      return JSON.parse(share[0])
-    })
-    : []
-
-  const browserShare = shares.filter((s) => s.module === "webStorage")
-
-  const hasPasswordShare = shares.filter((s) => s.module === SECURITY_QUESTIONS_MODULE_NAME).length > 0
-
-  const hasMnemonicShare = keyDetails && (keyDetails.totalShares - shares.length > 1)
+  const { keyDetails, loggedinAs, hasMnemonicShare, hasPasswordShare, browserShares } = useThresholdKey()
 
   return (
     <div className={clsx(classes.root, className)}>
@@ -209,7 +196,7 @@ const SignInMethods = ({ goToComplete, goToMnemonic, goToPassword, goToSkip, cla
             desktop && (
               <Typography variant="h5">
                 <Trans>Saved</Trans>{" "}
-                {`${bowser.parse(browserShare[0].userAgent).browser.name} ${bowser.parse(browserShare[0].userAgent).browser.version}`}
+                {`${bowser.parse(browserShares[0].userAgent).browser.name} ${bowser.parse(browserShares[0].userAgent).browser.version}`}
               </Typography>
             )
           }
