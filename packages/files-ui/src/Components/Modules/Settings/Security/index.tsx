@@ -161,7 +161,7 @@ const Security = ({ className }: SecurityProps) => {
 
   return (
     <Grid container>
-      <Grid item xs={12} sm={8} md={8}>
+      <Grid item xs={12} sm={12} md={8}>
         <div
           id="security"
           className={clsx(classes.root, className)}
