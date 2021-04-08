@@ -54,9 +54,9 @@ export const lightTheme = createTheme<CsfColors>({
           mobileBackgroundColor: "var(--gray9)",
           headingColor: "inherit",
           itemColor: "inherit",
-          itemColorHover: "var(--gray1)",
+          itemColorHover: "var(--gray7)",
           itemIconColor: "inherit",
-          itemIconColorHover: "var(--gray1)"
+          itemIconColorHover: "var(--gray7)"
         },
         createFolder: {
           backgroundColor: "var(--gray1)",
