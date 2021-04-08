@@ -18,7 +18,6 @@ import { Profile } from "@chainsafe/common-contexts"
 import { Trans } from "@lingui/macro"
 import { centerEllipsis } from "../../../Utils/Helpers"
 import { CSFTheme } from "../../../Themes/types"
-import SavedBrowsers from "./SavedBrowsers"
 
 const useStyles = makeStyles(({ constants, breakpoints, palette, typography }: CSFTheme) =>
   createStyles({
@@ -238,7 +237,6 @@ const ProfileView: React.FC<IProfileProps> = (props) => {
               </Formik>
             </div>
           </div>
-          <SavedBrowsers />
           {/* <div id="deletion" className={classes.bodyContainer}>
             <div className={classes.deletionBox}>
               <Typography

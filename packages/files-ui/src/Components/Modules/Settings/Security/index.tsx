@@ -7,6 +7,7 @@ import { useThresholdKey } from "../../../../Contexts/ThresholdKeyContext"
 import clsx from "clsx"
 import PasswordForm from "../../../Elements/PasswordForm"
 import MnemonicForm from "../../../Elements/MnemonicForm"
+import SavedBrowsers from "../SavedBrowsers"
 
 const useStyles = makeStyles(({ constants, breakpoints, palette, typography }: CSFTheme) =>
   createStyles({
@@ -346,6 +347,7 @@ const Security = ({ className }: SecurityProps) => {
               </div>
             </section>)
           }
+          <SavedBrowsers />
         </div>
       </Grid>
     </Grid>
