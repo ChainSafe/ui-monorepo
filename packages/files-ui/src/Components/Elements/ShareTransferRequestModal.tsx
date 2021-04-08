@@ -111,7 +111,7 @@ const ShareTransferRequestModal = ({ requests }: Props) => {
             onClick={onRejectRequest}>
             <Trans>Reject</Trans>
           </Button>
-          <Button
+          {requests.length > 1 && <Button
             className={clsx(classes.button, classes.clearAll)}
             variant={desktop ? "primary" : "outline"}
             size="large"
@@ -119,8 +119,8 @@ const ShareTransferRequestModal = ({ requests }: Props) => {
             loading={isClearing}
             disabled={isLoadingApprove || isLoadingReject || isClearing}
             onClick={onClearingRequest}>
-            <Trans></Trans>
-          </Button>
+            <Trans>Reject all</Trans>
+          </Button>}
         </div>
       </>
     </CustomModal>
