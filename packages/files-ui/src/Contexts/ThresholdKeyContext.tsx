@@ -569,7 +569,7 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
   const getSerializedDeviceShare = async (shareIndex: string) => {
     if (!TKeySdk) return
     try {
-      return await TKeySdk.outputShare(shareIndex, 'mnemonic') as string
+      return await TKeySdk.outputShare(shareIndex, "mnemonic") as string
     } catch (e) {
       console.error(e)
       return Promise.reject(e)

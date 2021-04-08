@@ -47,7 +47,7 @@ const SavedBrowsers: React.FC = () => {
             browserShareInstances.push({
               browserInstance,
               dateAdded: share.dateAdded,
-              shareIndex: shareIndex,
+              shareIndex: shareIndex
             })
           }
         } catch (e) {
