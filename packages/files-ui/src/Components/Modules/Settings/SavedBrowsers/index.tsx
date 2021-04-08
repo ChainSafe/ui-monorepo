@@ -12,7 +12,7 @@ import bowser from "bowser"
 const useStyles = makeStyles(({ constants }: CSFTheme) =>
   createStyles({
     root: {
-      padding: `${constants.generalUnit * 3}px 0`
+      paddingBottom: constants.generalUnit
     },
     title: {
       fontSize: "16px",

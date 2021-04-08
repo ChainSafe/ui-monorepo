@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo, useState } from "react"
-import { CheckCircleSvg, CloseSvg, CrossOutlinedSvg, Grid, Typography } from "@chainsafe/common-components"
+import { CheckCircleSvg, CloseSvg, CrossOutlinedSvg, Divider, Grid, Typography } from "@chainsafe/common-components"
 import { makeStyles, createStyles, useThemeSwitcher } from "@chainsafe/common-theme"
 import { CSFTheme } from "../../../../Themes/types"
 import { t, Trans } from "@lingui/macro"
@@ -9,10 +9,11 @@ import PasswordForm from "../../../Elements/PasswordForm"
 import MnemonicForm from "../../../Elements/MnemonicForm"
 import SavedBrowsers from "../SavedBrowsers"
 
-const useStyles = makeStyles(({ constants, breakpoints, palette, typography }: CSFTheme) =>
+const useStyles = makeStyles(({ constants, breakpoints, palette, typography, zIndex }: CSFTheme) =>
   createStyles({
     root: {
       paddingTop: constants.generalUnit * 2,
+      paddingBottom: constants.generalUnit * 3,
       [breakpoints.down("md")]: {
         padding: constants.generalUnit * 2
       }
@@ -122,6 +123,9 @@ const useStyles = makeStyles(({ constants, breakpoints, palette, typography }: C
     },
     changeButton: {
       marginLeft: "0.5rem"
+    },
+    divider: {
+      zIndex: zIndex?.layer1
     }
   })
 )
@@ -347,8 +351,9 @@ const Security = ({ className }: SecurityProps) => {
               </div>
             </section>)
           }
-          <SavedBrowsers />
         </div>
+        <Divider className={classes.divider} />
+        <SavedBrowsers />
       </Grid>
     </Grid>
   )
