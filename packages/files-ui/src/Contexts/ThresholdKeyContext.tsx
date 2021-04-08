@@ -122,9 +122,9 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
     ...bs,
     ...bowser.parse(bs.userAgent)
   } as BrowserShare)), [parsedShares])
-  const hasMnemonicShare = useMemo(() => (keyDetails && (keyDetails.totalShares - parsedShares.length > 1)) || false, 
+  const hasMnemonicShare = useMemo(() => (keyDetails && (keyDetails.totalShares - parsedShares.length > 1)) || false,
     [keyDetails, parsedShares.length])
-  const hasPasswordShare = useMemo(() => parsedShares.filter((s) => s.module === SECURITY_QUESTIONS_MODULE_NAME).length > 0, 
+  const hasPasswordShare = useMemo(() => parsedShares.filter((s) => s.module === SECURITY_QUESTIONS_MODULE_NAME).length > 0,
     [parsedShares])
 
   // Initialize Threshold Key and DirectAuth
