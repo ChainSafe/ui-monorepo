@@ -4042,7 +4042,8 @@
     bn.js "^5.2.0"
     randombytes "^2.1.0"
 
-"@tkey/security-questions@3.12.0", "@tkey/security-questions@^3.12.0":
+
+"@tkey/security-questions@^3.12.0":
   version "3.12.0"
   resolved "https://registry.yarnpkg.com/@tkey/security-questions/-/security-questions-3.12.0.tgz#769eb916af60a490daff3c95b6d2b143eaf611e9"
   integrity sha512-EITaEC4IzFaGFgNEjIgStzgWet1h8xuu9eqaMA2fM3Iyi6jjelmigGtZOerim6bfPv+7JcVGLB/2VkQNYHmMag==
