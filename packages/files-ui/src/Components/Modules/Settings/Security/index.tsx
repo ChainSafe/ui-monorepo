@@ -61,7 +61,8 @@ const useStyles = makeStyles(({ constants, breakpoints, palette, typography }: C
     },
     formRoot: {
       position: "relative",
-      marginTop: constants.generalUnit * 2,
+      marginTop: constants.generalUnit * 4,
+      marginBottom: constants.generalUnit * 4,
       width: "100%",
       maxWidth: "580px",
       "& p": {
