@@ -11,6 +11,7 @@ import MnemonicForm from "../../../Elements/MnemonicForm"
 const useStyles = makeStyles(({ constants, breakpoints, palette, typography }: CSFTheme) =>
   createStyles({
     root: {
+      paddingTop: constants.generalUnit * 2,
       [breakpoints.down("md")]: {
         padding: constants.generalUnit * 2
       }
@@ -58,7 +59,7 @@ const useStyles = makeStyles(({ constants, breakpoints, palette, typography }: C
       textDecoration: "underline",
       cursor: "pointer"
     },
-    passwordRoot: {
+    formRoot: {
       position: "relative",
       marginTop: constants.generalUnit * 2,
       width: "100%",
@@ -73,6 +74,10 @@ const useStyles = makeStyles(({ constants, breakpoints, palette, typography }: C
         [breakpoints.down("md")]: {
           textAlign: "center"
         }
+      },
+      "& .passwordFormButton": {
+        marginTop: 0,
+        marginBottom: constants.generalUnit * 3
       }
     },
     close: {
@@ -222,7 +227,7 @@ const Security = ({ className }: SecurityProps) => {
                 className={classes.warningMessage}
               >
                 <Trans>
-                    Add at least one more sign-in method to protect your account for account recovery.
+                    Add at least one more authentication method to protect your account.
                     You’d only need any two to sign in to Files from any device.
                 </Trans>
               </Typography>
@@ -268,7 +273,7 @@ const Security = ({ className }: SecurityProps) => {
               </section>
             )
             : (
-              <section className={clsx(classes.passwordRoot)}>
+              <section className={classes.formRoot}>
                 <CloseSvg
                   onClick={onResetPasswordForm}
                   className={classes.close}
@@ -291,7 +296,7 @@ const Security = ({ className }: SecurityProps) => {
             )}
           { isSettingBackupPhrase
             ? (
-              <section className={clsx(classes.passwordRoot)}>
+              <section className={classes.formRoot}>
                 <Typography variant="h4" component="h2">
                   <Trans>
                     Generate backup phrase
@@ -299,8 +304,8 @@ const Security = ({ className }: SecurityProps) => {
                 </Typography>
                 <Typography component="p">
                   <Trans>
-                  A backup phrase will be generated for your account.<br/>
-                  We do not store it and <b>it can only be displayed once</b>. Please save it somewhere safe!
+                    A backup phrase will be generated for your account.<br/>
+                    We do not store it and <b>it can only be displayed once</b>. Please save it somewhere safe!
                   </Trans>
                 </Typography>
                 <MnemonicForm

@@ -8,6 +8,7 @@ import { CSFTheme } from "../../Themes/types"
 import zxcvbn from "zxcvbn"
 import { t } from "@lingui/macro"
 import StrengthIndicator from "../Modules/MasterKeySequence/SequenceSlides/StrengthIndicator"
+import clsx from "clsx"
 
 const useStyles = makeStyles(({  breakpoints, constants }: CSFTheme) =>
   createStyles({
@@ -111,7 +112,7 @@ const PasswordForm = ({ buttonLabel, setPassword }: Props) => {
           labelClassName={classes.inputLabel}
         />
         <Button
-          className={classes.button}
+          className={clsx(classes.button, "passwordFormButton")}
           fullsize
           type="submit"
           loading={loading}
