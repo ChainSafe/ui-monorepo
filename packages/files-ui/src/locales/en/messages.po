@@ -13,7 +13,7 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
-#: src/Components/Modules/Settings/Security/index.tsx:223
+#: src/Components/Modules/Settings/Security/index.tsx:230
 msgid "(Change)"
 msgstr "(Change)"
 
@@ -21,7 +21,7 @@ msgstr "(Change)"
 msgid "A backup phrase will be generated and used for your account.<0/>We do not store it and <1>it can only be displayed once</1>. Save it somewhere safe!"
 msgstr "A backup phrase will be generated and used for your account.<0/>We do not store it and <1>it can only be displayed once</1>. Save it somewhere safe!"
 
-#: src/Components/Modules/Settings/Security/index.tsx:251
+#: src/Components/Modules/Settings/Security/index.tsx:258
 msgid "A backup phrase will be generated for your account.<0/>We do not store it and <1>it can only be displayed once</1>. Please save it somewhere safe!"
 msgstr "A backup phrase will be generated for your account.<0/>We do not store it and <1>it can only be displayed once</1>. Please save it somewhere safe!"
 
@@ -37,7 +37,7 @@ msgstr "Account"
 msgid "Add and change passwords"
 msgstr "Add and change passwords"
 
-#: src/Components/Modules/Settings/Security/index.tsx:198
+#: src/Components/Modules/Settings/Security/index.tsx:205
 msgid "Add at least one more authentication method to protect your account. You’d only need any two to sign in to Files from any device."
 msgstr "Add at least one more authentication method to protect your account. You’d only need any two to sign in to Files from any device."
 
@@ -69,7 +69,7 @@ msgstr "Are you sure you wish to delete?"
 msgid "Are you sure?"
 msgstr "Are you sure?"
 
-#: src/Components/Modules/Settings/Security/index.tsx:261
+#: src/Components/Modules/Settings/Security/index.tsx:268
 msgid "Backup Phrase"
 msgstr "Backup Phrase"
 
@@ -111,11 +111,11 @@ msgstr "CID (Content Identifier)"
 msgid "Cancel"
 msgstr "Cancel"
 
-#: src/Components/Modules/Settings/Security/index.tsx:241
+#: src/Components/Modules/Settings/Security/index.tsx:248
 msgid "Change Password"
 msgstr "Change Password"
 
-#: src/Components/Modules/Settings/Security/index.tsx:234
+#: src/Components/Modules/Settings/Security/index.tsx:241
 msgid "Change password"
 msgstr "Change password"
 
@@ -354,8 +354,8 @@ msgid "General"
 msgstr "General"
 
 #: src/Components/Modules/LoginModule/SaveBackupPhrase.tsx:54
-#: src/Components/Modules/Settings/Security/index.tsx:246
-#: src/Components/Modules/Settings/Security/index.tsx:269
+#: src/Components/Modules/Settings/Security/index.tsx:253
+#: src/Components/Modules/Settings/Security/index.tsx:276
 msgid "Generate backup phrase"
 msgstr "Generate backup phrase"
 
@@ -375,7 +375,7 @@ msgstr "Get Started"
 msgid "Great! You’re all done."
 msgstr "Great! You’re all done."
 
-#: src/Components/Modules/Settings/Security/index.tsx:163
+#: src/Components/Modules/Settings/Security/index.tsx:170
 msgid "Hey! You only have two sign-in methods. If you lose that and have only one left, you will be locked out of your account forever."
 msgstr "Hey! You only have two sign-in methods. If you lose that and have only one left, you will be locked out of your account forever."
 
@@ -405,7 +405,7 @@ msgstr ""
 msgid "Introducing multi-factor sign in"
 msgstr "Introducing multi-factor sign in"
 
-#: src/Components/Modules/Settings/Security/index.tsx:256
+#: src/Components/Modules/Settings/Security/index.tsx:263
 msgid "I’m done saving my backup phrase"
 msgstr "I’m done saving my backup phrase"
 
@@ -520,7 +520,7 @@ msgstr "Operating system:"
 msgid "Or confirm by signing into your Files on any browser you’ve used before."
 msgstr "Or confirm by signing into your Files on any browser you’ve used before."
 
-#: src/Components/Modules/Settings/Security/index.tsx:208
+#: src/Components/Modules/Settings/Security/index.tsx:215
 msgid "Password"
 msgstr "Password"
 
@@ -636,12 +636,12 @@ msgid "Save this browser for next time?"
 msgstr "Save this browser for next time?"
 
 #: src/Components/Modules/LoginModule/SignInMethods.tsx:176
-#: src/Components/Modules/Settings/Security/index.tsx:189
+#: src/Components/Modules/Settings/Security/index.tsx:196
 msgid "Saved"
 msgstr "Saved"
 
 #: src/Components/Modules/LoginModule/SignInMethods.tsx:171
-#: src/Components/Modules/Settings/Security/index.tsx:184
+#: src/Components/Modules/Settings/Security/index.tsx:191
 msgid "Saved Browser"
 msgstr "Saved Browser"
 
@@ -674,22 +674,22 @@ msgid "Send Feedback"
 msgstr "Send Feedback"
 
 #: src/Components/Elements/PasswordForm.tsx:43
-#: src/Components/Modules/Settings/Security/index.tsx:241
+#: src/Components/Modules/Settings/Security/index.tsx:248
 msgid "Set Password"
 msgstr "Set Password"
 
-#: src/Components/Modules/Settings/Security/index.tsx:221
-#: src/Components/Modules/Settings/Security/index.tsx:274
+#: src/Components/Modules/Settings/Security/index.tsx:228
+#: src/Components/Modules/Settings/Security/index.tsx:281
 msgid "Set up"
 msgstr "Set up"
 
 #: src/Components/Modules/LoginModule/PasswordSetup.tsx:55
 #: src/Components/Modules/LoginModule/SignInMethods.tsx:225
-#: src/Components/Modules/Settings/Security/index.tsx:237
+#: src/Components/Modules/Settings/Security/index.tsx:244
 msgid "Set up a password"
 msgstr "Set up a password"
 
-#: src/Components/Modules/Settings/Security/index.tsx:216
+#: src/Components/Modules/Settings/Security/index.tsx:223
 msgid "Set up password"
 msgstr "Set up password"
 
@@ -738,7 +738,7 @@ msgstr "Sign in with a different account"
 #~ msgstr "Sign-in Methods"
 
 #: src/Components/Modules/LoginModule/SignInMethods.tsx:149
-#: src/Components/Modules/Settings/Security/index.tsx:160
+#: src/Components/Modules/Settings/Security/index.tsx:167
 msgid "Sign-in methods"
 msgstr "Sign-in methods"
 
@@ -747,7 +747,7 @@ msgid "Size"
 msgstr "Size"
 
 #: src/Components/Modules/LoginModule/SignInMethods.tsx:157
-#: src/Components/Modules/Settings/Security/index.tsx:171
+#: src/Components/Modules/Settings/Security/index.tsx:178
 msgid "Social Sign-in Wallet"
 msgstr "Social Sign-in Wallet"
 
