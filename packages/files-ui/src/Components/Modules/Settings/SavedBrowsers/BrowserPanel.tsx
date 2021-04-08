@@ -7,9 +7,8 @@ import { CSFTheme } from "../../../../Themes/types"
 import { Button, ExpansionPanel, Typography } from "@chainsafe/common-components"
 import clsx from "clsx"
 import { Trans } from "@lingui/macro"
-import bowser from "bowser"
 import dayjs from "dayjs"
-import { useThresholdKey } from "../../../../Contexts/ThresholdKeyContext"
+import { BrowserShare, useThresholdKey } from "../../../../Contexts/ThresholdKeyContext"
 
 const useStyles = makeStyles(({ palette, constants, animation, breakpoints }: CSFTheme) =>
   createStyles({
@@ -66,11 +65,7 @@ const useStyles = makeStyles(({ palette, constants, animation, breakpoints }: CS
   })
 )
 
-interface IBrowserPanelProps {
-  browserInstance: bowser.Parser.ParsedResult
-  dateAdded: number
-  shareIndex: string
-}
+type IBrowserPanelProps = BrowserShare
 
 function download(filename: string, text: string) {
   const element = document.createElement("a")
@@ -82,9 +77,7 @@ function download(filename: string, text: string) {
   document.body.removeChild(element)
 }
 
-const BrowserPanel: React.FC<IBrowserPanelProps> = ({
-  browserInstance, dateAdded, shareIndex
-}) => {
+const BrowserPanel: React.FC<IBrowserPanelProps> = ({ dateAdded, shareIndex, browser, os }) => {
   const { deleteShare, getSerializedDeviceShare } = useThresholdKey()
   const classes = useStyles()
   const [showPanel, setShowPanel] = useState(false)
@@ -107,7 +100,7 @@ const BrowserPanel: React.FC<IBrowserPanelProps> = ({
       setLoadingDownloadKey(true)
       const mnemonicKey = await getSerializedDeviceShare(shareIndex)
       if (mnemonicKey) {
-        download(`Chainsafe Files - ${browserInstance.browser.name || ""} key.txt`, mnemonicKey)
+        download(`Chainsafe Files - ${browser.name || ""} key.txt`, mnemonicKey)
       }
       setLoadingDownloadKey(false)
     } catch {
@@ -117,7 +110,7 @@ const BrowserPanel: React.FC<IBrowserPanelProps> = ({
 
   return (
     <ExpansionPanel
-      header={browserInstance.browser.name || ""}
+      header={browser.name || ""}
       variant="borderless"
       injectedClasses={{ heading: clsx(classes.panelHeading, showPanel && "active"), content: classes.panelBody }}
       iconPosition={"right"}
@@ -127,10 +120,10 @@ const BrowserPanel: React.FC<IBrowserPanelProps> = ({
       <div className={classes.panelBody}>
         <div className={classes.panelContent}>
           <Typography variant="body1" component="p" className={classes.subtitle}>
-            <Trans>Operating system:</Trans>&nbsp;{browserInstance.os.name}
+            <Trans>Operating system:</Trans>&nbsp;{os.name}
           </Typography>
           <Typography variant="body1" component="p" className={classes.subtitle}>
-            <Trans>Browser: </Trans>&nbsp;{browserInstance.browser.name}&nbsp;{browserInstance.browser.version}
+            <Trans>Browser: </Trans>&nbsp;{browser.name}&nbsp;{browser.version}
           </Typography>
           <Typography variant="body1" component="p" className={classes.subtitleLast}>
             <Trans>Saved on: </Trans>&nbsp;{dayjs(dateAdded).format("DD MMM YYYY")}

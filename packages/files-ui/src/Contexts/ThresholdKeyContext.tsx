@@ -25,6 +25,12 @@ const TORUS_USERINFO_KEY = "csf.userInfo"
 const PASSWORD_QUESTION = "What is your password?"
 
 export type ThresholdKeyContextStatus = "initializing"|"initialized"|"awaiting confirmation"|"logging in"|"done"
+export type BrowserShare = {
+  shareIndex: string
+  module: string
+  userAgent: string
+  dateAdded: number
+} & Bowser.Parser.ParsedResult
 
 export type TThresholdKeyContext = {
   userInfo?: TorusLoginResponse
@@ -32,7 +38,7 @@ export type TThresholdKeyContext = {
   publicKey?: string
   isNewDevice: boolean
   isNewKey: boolean
-  browserShares: any[]
+  browserShares: BrowserShare[]
   hasMnemonicShare: boolean
   hasPasswordShare: boolean
   shouldInitializeAccount: boolean
@@ -104,15 +110,20 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
   // mnemonic has not been set up for the account. If totalShares - shares.length === 2
   // this indicates that a mnemonic has already been set up. "2" corresponds here to one
   // service provider (default), and one mnemonic.
-  const shares = useMemo(() => keyDetails
-    ? Object.values(keyDetails.shareDescriptions).map((share) => {
-      return JSON.parse(share[0])
-    })
+  const parsedShares = useMemo(() => keyDetails
+    ? Object.keys(keyDetails.shareDescriptions).map(shareIndex => ({
+      shareIndex: shareIndex,
+      ...JSON.parse(keyDetails.shareDescriptions[shareIndex][0])
+    }))
     : []
   , [keyDetails])
-  const browserShares = useMemo(() => shares.filter((s) => s.module === WEB_STORAGE_MODULE_NAME), [shares])
-  const hasMnemonicShare = useMemo(() => (keyDetails && (keyDetails.totalShares - shares.length > 1)) || false, [keyDetails, shares.length])
-  const hasPasswordShare = useMemo(() => shares.filter((s) => s.module === SECURITY_QUESTIONS_MODULE_NAME).length > 0, [shares])
+
+  const browserShares = useMemo(() => parsedShares.filter((s) => s.module === WEB_STORAGE_MODULE_NAME).map(bs => ({
+    ...bs,
+    ...bowser.parse(bs.userAgent)
+  } as BrowserShare)), [parsedShares])
+  const hasMnemonicShare = useMemo(() => (keyDetails && (keyDetails.totalShares - parsedShares.length > 1)) || false, [keyDetails, parsedShares.length])
+  const hasPasswordShare = useMemo(() => parsedShares.filter((s) => s.module === SECURITY_QUESTIONS_MODULE_NAME).length > 0, [parsedShares])
 
   // Initialize Threshold Key and DirectAuth
   useEffect(() => {
