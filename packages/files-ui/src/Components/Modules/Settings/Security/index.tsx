@@ -56,7 +56,6 @@ const useStyles = makeStyles(({ constants, breakpoints, palette, typography, zIn
       fill: palette.additional.red[6]
     },
     buttonLink: {
-      // color: palette.additional["gray"][10],
       outline: "none",
       textDecoration: "underline",
       cursor: "pointer"

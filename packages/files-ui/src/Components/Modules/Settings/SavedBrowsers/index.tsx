@@ -40,8 +40,7 @@ const SavedBrowsers: React.FC = () => {
         <div key={i} className={classes.expansionContainer}>
           <BrowserPanel {...bs}/>
         </div>
-      ))
-      }
+      ))}
     </div>
   )
 }

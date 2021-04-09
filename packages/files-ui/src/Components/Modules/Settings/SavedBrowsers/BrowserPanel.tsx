@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useCallback, useState } from "react"
 import {
   makeStyles,
   createStyles
@@ -61,11 +61,12 @@ const useStyles = makeStyles(({ palette, constants, animation, breakpoints }: CS
     },
     actionBox: {
       marginTop: constants.generalUnit * 2
+    },
+    spanMarginRight: {
+      marginRight: "0.5rem"
     }
   })
 )
-
-type IBrowserPanelProps = BrowserShare
 
 function download(filename: string, text: string) {
   const element = document.createElement("a")
@@ -77,36 +78,40 @@ function download(filename: string, text: string) {
   document.body.removeChild(element)
 }
 
-const BrowserPanel: React.FC<IBrowserPanelProps> = ({ dateAdded, shareIndex, browser, os }) => {
+const BrowserPanel = ({ dateAdded, shareIndex, browser, os }: BrowserShare) => {
   const { deleteShare, getSerializedDeviceShare } = useThresholdKey()
   const classes = useStyles()
   const [showPanel, setShowPanel] = useState(false)
   const [loadingDeleteShare, setLoadingDeleteShare] = useState(false)
   const [loadingDownloadKey, setLoadingDownloadKey] = useState(false)
 
-  const onDeleteShare = async () => {
-    try {
-      setLoadingDeleteShare(true)
-      await deleteShare(shareIndex)
-      setLoadingDeleteShare(false)
-      setShowPanel(false)
-    } catch {
-      setLoadingDeleteShare(false)
-    }
-  }
+  const onDeleteShare = useCallback(() => {
+    setLoadingDeleteShare(true)
+    deleteShare(shareIndex)
+      .then(() => {
+        setLoadingDeleteShare(false)
+        setShowPanel(false)
+      }).catch((e) => {
+        console.error(e)
+        setLoadingDeleteShare(false)
+      })
+  },
+  [deleteShare, shareIndex])
 
-  const onDownloadKey = async () => {
-    try {
-      setLoadingDownloadKey(true)
-      const mnemonicKey = await getSerializedDeviceShare(shareIndex)
-      if (mnemonicKey) {
-        download(`Chainsafe Files - ${browser.name || ""} key.txt`, mnemonicKey)
-      }
-      setLoadingDownloadKey(false)
-    } catch {
-      setLoadingDownloadKey(false)
-    }
-  }
+  const onDownloadKey = useCallback(() => {
+    setLoadingDownloadKey(true)
+    getSerializedDeviceShare(shareIndex)
+      .then((mnemonicKey) => {
+        if (mnemonicKey) {
+          download(`Chainsafe Files - ${browser.name || ""} key.txt`, mnemonicKey)
+        }
+        setLoadingDownloadKey(false)
+      })
+      .catch((e) => {
+        console.error(e)
+        setLoadingDownloadKey(false)
+      })
+  }, [browser.name, getSerializedDeviceShare, shareIndex])
 
   return (
     <ExpansionPanel
@@ -119,17 +124,36 @@ const BrowserPanel: React.FC<IBrowserPanelProps> = ({ dateAdded, shareIndex, bro
     >
       <div className={classes.panelBody}>
         <div className={classes.panelContent}>
-          <Typography variant="body1" component="p" className={classes.subtitle}>
-            <Trans>Operating system:</Trans>&nbsp;{os.name}
+          <Typography
+            variant="body1"
+            component="p"
+            className={classes.subtitle}
+          >
+            <span className={classes.spanMarginRight}><Trans>Operating system:</Trans></span>{os.name}
           </Typography>
-          <Typography variant="body1" component="p" className={classes.subtitle}>
-            <Trans>Browser: </Trans>&nbsp;{browser.name}&nbsp;{browser.version}
+          <Typography
+            variant="body1"
+            component="p"
+            className={classes.subtitle}
+          >
+            <span className={classes.spanMarginRight}>
+              <Trans>Browser:</Trans>
+            </span>
+            <span className={classes.spanMarginRight}>{browser.name}</span>{browser.version}
           </Typography>
-          <Typography variant="body1" component="p" className={classes.subtitleLast}>
-            <Trans>Saved on: </Trans>&nbsp;{dayjs(dateAdded).format("DD MMM YYYY")}
+          <Typography
+            variant="body1"
+            component="p"
+            className={classes.subtitleLast}
+          >
+            <span className={classes.spanMarginRight}><Trans>Saved on:</Trans></span>{dayjs(dateAdded).format("DD MMM YYYY - HH:mm")}
           </Typography>
           <div className={classes.actionBox}>
-            <Typography variant="body1" component="p" className={classes.lightSubtitle}>
+            <Typography
+              variant="body1"
+              component="p"
+              className={classes.lightSubtitle}
+            >
               <Trans>Your recovery key can be used to restore your account in place of your backup phrase.</Trans>
             </Typography>
             <Button
@@ -142,7 +166,11 @@ const BrowserPanel: React.FC<IBrowserPanelProps> = ({ dateAdded, shareIndex, bro
             </Button>
           </div>
           <div className={classes.actionBox}>
-            <Typography variant="body1" component="p" className={classes.lightSubtitle}>
+            <Typography
+              variant="body1"
+              component="p"
+              className={classes.lightSubtitle}
+            >
               <Trans>Forgetting this browser deletes this from your list of sign-in methods.
               You will not be able to forget a browser if you only have two methods set up.</Trans>
             </Typography>

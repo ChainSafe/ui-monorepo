@@ -111,10 +111,12 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
   // this indicates that a mnemonic has already been set up. "2" corresponds here to one
   // service provider (default), and one mnemonic.
   const parsedShares = useMemo(() => keyDetails
-    ? Object.keys(keyDetails.shareDescriptions).map(shareIndex => ({
-      shareIndex: shareIndex,
-      ...JSON.parse(keyDetails.shareDescriptions[shareIndex][0])
-    }))
+    ? Object.keys(keyDetails.shareDescriptions).map((shareIndex) => (
+      {
+        shareIndex: shareIndex,
+        ...JSON.parse(keyDetails.shareDescriptions[shareIndex][0])
+      }
+    ))
     : []
   , [keyDetails])
 
@@ -706,11 +708,15 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
     })
 
     const serviceProvider = (tkey.serviceProvider as unknown) as DirectAuthSdk
-    await serviceProvider.init({ skipSw: false }).then(() => {
-      setStatus("initialized")
-    }).catch(() => console.error("error initializing"))
-    setTKeySdk(tkey)
-    logout()
+    serviceProvider.init({ skipSw: false })
+      .then(() => {
+        setStatus("initialized")
+      })
+      .catch((e) => console.error("error initializing", e))
+      .finally(() => {
+        setTKeySdk(tkey)
+        logout()
+      })
   }
 
   const refreshTKeyMeta = async () => {

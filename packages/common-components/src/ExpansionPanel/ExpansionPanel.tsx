@@ -1,4 +1,4 @@
-import React, { ReactNode, useState } from "react"
+import React, { ReactNode, useCallback, useState } from "react"
 import { ITheme, makeStyles, createStyles } from "@chainsafe/common-theme"
 import { Typography } from "../Typography"
 import clsx from "clsx"
@@ -103,37 +103,45 @@ export interface IExpansionPanelProps {
   }
 }
 
-const ExpansionPanel: React.FC<IExpansionPanelProps> = ({
-  children,
-  header,
-  iconPosition,
-  variant = "basic",
-  toggle,
-  active,
-  injectedClasses
-}: IExpansionPanelProps) => {
+const ExpansionPanel = ({ children, header, iconPosition, variant = "basic", toggle, active, injectedClasses }: IExpansionPanelProps) => {
   const classes = useStyles()
   const [activeInternal, setActive] = useState(!!active)
-  const handleToggle = () => {
+  const handleToggle = useCallback(() => {
     toggle && toggle(!activeInternal)
     setActive(!activeInternal)
-  }
+  }, [activeInternal, toggle])
+
   return (
     <div className={clsx(classes.root, variant, injectedClasses?.root)}>
       <section
-        onClick={() => handleToggle()}
-        className={clsx(classes.heading, variant, injectedClasses?.heading, {
-          ["active"]: active != undefined ? active : activeInternal
-        })}
+        onClick={handleToggle}
+        className={clsx(
+          classes.heading,
+          variant,
+          injectedClasses?.heading,
+          {
+            ["active"]: active !== undefined ? active : activeInternal
+          }
+        )}
       >
         {iconPosition === "left" && <DirectionalRightIcon className={classes.icon} />}
         <Typography>{header}</Typography>
-        {iconPosition === "right" && <><div className={classes.flexGrow} /><DirectionalRightIcon className={classes.icon} /></>}
+        {iconPosition === "right" && (
+          <>
+            <div className={classes.flexGrow} />
+            <DirectionalRightIcon className={classes.icon} />
+          </>
+        )}
       </section>
       <section
-        className={clsx(classes.content, variant, injectedClasses?.content, {
-          ["active"]: active != undefined ? active : activeInternal
-        })}
+        className={clsx(
+          classes.content,
+          variant,
+          injectedClasses?.content,
+          {
+            ["active"]: active !== undefined ? active : activeInternal
+          }
+        )}
       >
         {children}
       </section>
