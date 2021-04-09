@@ -101,8 +101,7 @@ const CreateFolderModule: React.FC<ICreateFolderModuleProps> = ({
       .test(
         "Invalid name",
         "Folder name cannot contain '/' character",
-        (val: string | null | undefined) =>
-          !invalidFolderNameRegex.test(val || "")
+        (val: string | null | undefined) => !!val && !val.includes("/")
       )
   })
 
