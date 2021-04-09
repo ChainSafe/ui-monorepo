@@ -92,8 +92,6 @@ const CreateFolderModule: React.FC<ICreateFolderModuleProps> = ({
     }
   }, [modalOpen])
 
-  // should not have `/`
-  const invalidFolderNameRegex = new RegExp("/")
   const folderNameValidator = yup.object().shape({
     name: yup
       .string()
