@@ -215,7 +215,7 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
   const { desktop, setTheme, themeKey } = useThemeSwitcher()
   const classes = useStyles()
 
-  const { spaceUsed } = useDrive()
+  const { spaceUsed, updateCurrentPath } = useDrive()
 
   const { isLoggedIn, secured } = useImployApi()
   const { publicKey, isNewDevice, shouldInitializeAccount, logout } = useThresholdKey()
@@ -231,7 +231,8 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
     if (!desktop && navOpen) {
       setNavOpen(false)
     }
-  }, [desktop, navOpen, setNavOpen])
+    updateCurrentPath("/", "csf", true)
+  }, [desktop, navOpen, setNavOpen, updateCurrentPath])
 
   const collectFeedback = () => {
     window.open("https://forms.gle/FefqZRD3fDVYyarC8", "_blank")
