@@ -4,7 +4,6 @@ import { CheckCircleSvg, CopySvg, KeySvg, Typography } from "@chainsafe/common-c
 import { Trans } from "@lingui/macro"
 import { useThresholdKey } from "../../../Contexts/ThresholdKeyContext"
 import { CSFTheme } from "../../../Themes/types"
-import bowser from "bowser"
 import clsx from "clsx"
 import { ROUTE_LINKS } from "../../FilesRoutes"
 
@@ -196,7 +195,7 @@ const SignInMethods = ({ goToComplete, goToMnemonic, goToPassword, goToSkip, cla
             desktop && (
               <Typography variant="h5">
                 <Trans>Saved</Trans>{" "}
-                {`${bowser.parse(browserShares[0].userAgent).browser.name} ${bowser.parse(browserShares[0].userAgent).browser.version}`}
+                {`${browserShares[0].browser.name} ${browserShares[0].browser.version}`}
               </Typography>
             )
           }
