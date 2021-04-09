@@ -1,11 +1,8 @@
-import React, { useEffect } from "react"
+import React, { useCallback, useEffect, useMemo } from "react"
 import { Crumb, useToaster } from "@chainsafe/common-components"
 import { useDrive } from "../../../Contexts/DriveContext"
 import { getArrayOfPaths, getPathFromArray } from "../../../Utils/pathUtils"
-import {
-  IBulkOperations,
-  IFilesBrowserModuleProps
-} from "./types"
+import { IBulkOperations, IFilesBrowserModuleProps, IFilesTableBrowserProps } from "./types"
 import FilesTableView from "./views/FilesTable.view"
 import { CONTENT_TYPES } from "../../../Utils/Constants"
 import DragAndDrop from "../../../Contexts/DnDContext"
@@ -40,24 +37,22 @@ const CSFFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = true }:
   }, [queryPath])
 
   // Rename
-  const handleRename = async (path: string, new_path: string) => {
+  const handleRename = useCallback(async (path: string, newPath: string) => {
     // TODO set loading
-    await renameFile({
-      path: path,
-      new_path: new_path
-    })
-  }
-  const handleMove = async (path: string, new_path: string) => {
+    await renameFile({ path: path, new_path: newPath })
+  }, [renameFile])
+
+  const handleMove = useCallback(async (path: string, new_path: string) => {
     // TODO set loading
     await moveFile({
       path: path,
       new_path: new_path
     })
-  }
+  }, [moveFile])
 
   // Breadcrumbs/paths
-  const arrayOfPaths = getArrayOfPaths(currentPath)
-  const crumbs: Crumb[] = arrayOfPaths.map((path, index) => ({
+  const arrayOfPaths = useMemo(() => getArrayOfPaths(currentPath), [currentPath])
+  const crumbs: Crumb[] = useMemo(() => arrayOfPaths.map((path, index) => ({
     text: path,
     onClick: () =>
       updateCurrentPath(
@@ -65,15 +60,11 @@ const CSFFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = true }:
         undefined,
         true
       )
-  }))
+  })), [arrayOfPaths, updateCurrentPath])
 
   const { addToastMessage } = useToaster()
 
-  const handleUploadOnDrop = (
-    files: File[],
-    fileItems: DataTransferItemList,
-    path: string
-  ) => {
+  const handleUploadOnDrop = useCallback((files: File[], fileItems: DataTransferItemList, path: string) => {
     let hasFolder = false
     for (let i = 0; i < files.length; i++) {
       if (fileItems[i].webkitGetAsEntry().isDirectory) {
@@ -88,12 +79,24 @@ const CSFFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = true }:
     } else {
       uploadFiles(files, path)
     }
-  }
+  }, [addToastMessage, uploadFiles])
 
-  const bulkOperations: IBulkOperations = {
+  const bulkOperations: IBulkOperations = useMemo(() => ({
     [CONTENT_TYPES.Directory]: ["move"],
     [CONTENT_TYPES.File]: ["delete", "move"]
-  }
+  }), [])
+
+  const ItemOperations: IFilesTableBrowserProps["itemOperations"] = useMemo(() => ({
+    [CONTENT_TYPES.Audio]: ["preview"],
+    [CONTENT_TYPES.MP4]: ["preview"],
+    [CONTENT_TYPES.Image]: ["preview"],
+    [CONTENT_TYPES.Pdf]: ["preview"],
+    [CONTENT_TYPES.Text]: ["preview"],
+    [CONTENT_TYPES.File]: ["download", "info", "rename", "move", "delete"],
+    [CONTENT_TYPES.Directory]: ["rename", "move", "delete"]
+  }), [])
+
+  console.log("CSFB")
 
   return (
     <DragAndDrop>
@@ -115,15 +118,7 @@ const CSFFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = true }:
         heading = {t`My Files`}
         controls={controls}
         allowDropUpload={true}
-        itemOperations={{
-          [CONTENT_TYPES.Audio]: ["preview"],
-          [CONTENT_TYPES.MP4]: ["preview"],
-          [CONTENT_TYPES.Image]: ["preview"],
-          [CONTENT_TYPES.Pdf]: ["preview"],
-          [CONTENT_TYPES.Text]: ["preview"],
-          [CONTENT_TYPES.File]: ["download", "info", "rename", "move", "delete"],
-          [CONTENT_TYPES.Directory]: ["rename", "move", "delete"]
-        }}
+        itemOperations={ItemOperations}
       />
     </DragAndDrop>
   )

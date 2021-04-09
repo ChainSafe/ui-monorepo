@@ -381,12 +381,14 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
     }
   }
 
-  const onSingleClick = useCallback(() => { handleSelect(cid) }, [cid, handleSelect])
+  const onSingleClick = useCallback(() => { console.log("single", name, isFolder, size, content_type);  handleSelect(cid) },
+    [cid, content_type, handleSelect, isFolder, name, size])
   const onDoubleClick = useCallback(() => {
+    console.log("doubleclick", name, isFolder, size, content_type)
     isFolder
       ? updateCurrentPath(`${currentPath}${name}`, undefined, true)
       : setPreviewFileIndex(files?.indexOf(file))
-  }, [currentPath, file, files, isFolder, name, setPreviewFileIndex, updateCurrentPath])
+  }, [content_type, currentPath, file, files, isFolder, name, setPreviewFileIndex, size, updateCurrentPath])
 
   const { click } = useDoubleClick(onSingleClick, onDoubleClick)
 

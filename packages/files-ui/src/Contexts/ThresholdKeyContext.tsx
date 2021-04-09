@@ -280,7 +280,10 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
           },
           []
         )
-        setPendingShareTransferRequests(pendingRequests)
+
+        if(pendingShareTransferRequests.length !== pendingRequests.length){
+          setPendingShareTransferRequests(pendingRequests)
+        }
       }
     }
 
@@ -292,7 +295,7 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
     return () => {
       poller && clearInterval(poller)
     }
-  }, [TKeySdk, keyDetails])
+  }, [TKeySdk, keyDetails, pendingShareTransferRequests.length])
 
   // Initiate request for share transfer if not enough shares
   useEffect(() => {
