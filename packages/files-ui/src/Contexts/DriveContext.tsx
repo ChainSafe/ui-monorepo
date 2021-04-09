@@ -616,7 +616,10 @@ const DriveProvider = ({ children }: DriveContextProps) => {
     try {
       const result = await imployApiClient.getFileContent(
         {
-          path: currentPath + file.name
+          path: currentPath + file.name,
+          source: {
+            type: bucketType
+          }
         },
         cancelToken,
         onDownloadProgress
@@ -639,7 +642,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
       console.log(error)
       return Promise.reject()
     }
-  }, [currentPath, encryptionKey, imployApiClient, pathContents])
+  }, [currentPath, encryptionKey, imployApiClient, pathContents, bucketType])
 
   const downloadFile = async (cid: string) => {
     const itemToDownload = pathContents.find((i) => i.cid === cid)
