@@ -381,7 +381,7 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
     }
   }
 
-  const onSingleClick = useCallback(() => { console.log("single", name, isFolder, size, content_type);  handleSelect(cid) },
+  const onSingleClick = useCallback(() => { handleSelect(cid) },
     [cid, content_type, handleSelect, isFolder, name, size])
   const onDoubleClick = useCallback(() => {
     isFolder
