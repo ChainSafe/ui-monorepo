@@ -96,7 +96,6 @@ const CSFFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = true }:
     [CONTENT_TYPES.Directory]: ["rename", "move", "delete"]
   }), [])
 
-  console.log("CSFB")
 
   return (
     <DragAndDrop>
