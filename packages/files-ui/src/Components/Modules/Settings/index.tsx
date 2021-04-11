@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react"
+import React, { useState, useEffect, useCallback, useMemo } from "react"
 import Profile from "./Profile"
 import { Tabs,
   TabPane as TabPaneOrigin,
@@ -167,11 +167,11 @@ const Settings: React.FC = () => {
     (key: string) => redirect(`${SETTINGS_BASE}/${key}`)
     , [redirect])
 
-  const crumbs: Crumb[] = [
+  const crumbs: Crumb[] = useMemo(() => [
     {
       text: t`Settings`
     }
-  ]
+  ], [])
 
   return (
     <div className={classes.container}>

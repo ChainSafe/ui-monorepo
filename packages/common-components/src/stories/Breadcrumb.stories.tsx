@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useMemo } from "react"
 import { action } from "@storybook/addon-actions"
 import { boolean, withKnobs, text } from "@storybook/addon-knobs"
 import { Breadcrumb } from "../Breadcrumb"
@@ -15,26 +15,29 @@ export const actionsData = {
   homeClicked: action("Clicked link")
 }
 
-export const BreadcrumbStory = (): React.ReactNode => (
-  <>
-    <Breadcrumb
-      homeOnClick={() => actionsData.homeClicked()}
-      showDropDown={boolean("show dropdown", true)}
-      crumbs={[
-        {
-          text: text("breadcrumb 2", "Level 1 Clickable"),
-          onClick: () => actionsData.linkClick()
-        },
-        {
-          text: "Level 2"
-        },
-        {
-          text: "Level 3"
-        },
-        {
-          text: "Level 4"
-        }
-      ]}
-    />
-  </>
-)
+export const BreadcrumbStory = (): React.ReactNode => {
+  const crumbs = useMemo(() => ([
+    {
+      text: text("breadcrumb 2", "Level 1 Clickable"),
+      onClick: () => actionsData.linkClick()
+    },
+    {
+      text: "Level 2"
+    },
+    {
+      text: "Level 3"
+    },
+    {
+      text: "Level 4"
+    }
+  ]), [])
+
+  return (
+    <>
+      <Breadcrumb
+        homeOnClick={() => actionsData.homeClicked()}
+        showDropDown={boolean("show dropdown", true)}
+        crumbs={crumbs}
+      />
+    </>
+  )}
