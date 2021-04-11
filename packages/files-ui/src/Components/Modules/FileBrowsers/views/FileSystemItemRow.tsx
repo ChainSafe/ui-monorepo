@@ -540,10 +540,10 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
                 </Form>
               </Formik>
             </CustomModal>
-            <Typography style={{ overflow: "hidden" }}>{name}</Typography>
+            <Typography>{name}</Typography>
           </>
         ) : (
-          <Typography style={{ overflow: "hidden" }}>{name}</Typography>
+          <Typography>{name}</Typography>
         )}
       </TableCell>
       {desktop && (
