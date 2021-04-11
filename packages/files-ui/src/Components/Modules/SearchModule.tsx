@@ -149,7 +149,7 @@ const SearchModule: React.FC<ISearchModule> = ({
   })
 
   const [searchQuery, setSearchQuery] = useState<string>("")
-  const [searchResults, setSearchResults] = useState<{results: SearchEntry[], query: string} | undefined>(undefined)
+  const [searchResults, setSearchResults] = useState<{results: SearchEntry[]; query: string} | undefined>(undefined)
   const ref = useRef(null)
   const { getSearchResults, currentSearchBucket } = useDrive()
 
@@ -158,7 +158,7 @@ const SearchModule: React.FC<ISearchModule> = ({
   const onSearch = async (searchString: string) => {
     try {
       const results = await getSearchResults(searchString)
-      setSearchResults({results, query: searchString})
+      setSearchResults({ results, query: searchString })
     } catch (err) {
       //
     }
@@ -195,7 +195,7 @@ const SearchModule: React.FC<ISearchModule> = ({
 
   const searchResultsFolders = searchResults?.results.filter(
     (searchResult) =>
-      searchResult.content.content_type === CONTENT_TYPES.Directory || 
+      searchResult.content.content_type === CONTENT_TYPES.Directory ||
       searchResult.content.content_type === CONTENT_TYPES.Drectory2
   )
 
