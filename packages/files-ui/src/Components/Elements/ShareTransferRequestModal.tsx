@@ -6,7 +6,7 @@ import React, { useCallback, useEffect, useMemo, useState } from "react"
 import { ShareTransferRequest, useThresholdKey } from "../../Contexts/ThresholdKeyContext"
 import CustomModal from "../Elements/CustomModal"
 import DevicesImage from "../../Media/devices.png"
-import {CSFTheme} from "../../Themes/types"
+import { CSFTheme } from "../../Themes/types"
 
 interface Props {
     requests: ShareTransferRequest[]
@@ -24,16 +24,16 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) =>
         marginTop: constants.generalUnit * 5,
         marginBottom: constants.generalUnit * 5
       },
-      [breakpoints.up('sm')]: {
+      [breakpoints.up("sm")]: {
         top: "50%",
         left: "50%",
-        display: 'flex',
-        position: 'absolute',
+        display: "flex",
+        position: "absolute",
         flexGrow: 1,
-        transform: 'translate(-50%, -50%)',
-        flexDirection: 'column',
-        backgroundColor: 'var(--gray1)',
-        minHeight: 550,
+        transform: "translate(-50%, -50%)",
+        flexDirection: "column",
+        backgroundColor: "var(--gray1)",
+        minHeight: 550
       },
       [breakpoints.down("sm")]: {
         backgroundColor: constants?.modalDefault?.background,
