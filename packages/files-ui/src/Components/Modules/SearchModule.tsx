@@ -240,7 +240,7 @@ const SearchModule: React.FC<ISearchModule> = ({
           placeholder={t`Search...`}
         />
       </form>
-      {searchQuery && searchResults ? (
+      {searchQuery && searchResults?.query ? (
         <div
           className={clsx(classes.resultsContainer, searchActive && "active")}
         >
