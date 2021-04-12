@@ -107,21 +107,12 @@ const DriveProvider = ({ children }: DriveContextProps) => {
     isMasterPasswordSet,
     validateMasterPassword
   } = useImployApi()
-
-  const {
-    publicKey,
-    encryptForPublicKey,
-    decryptMessageWithThresholdKey
-  } = useThresholdKey()
+  const { publicKey, encryptForPublicKey, decryptMessageWithThresholdKey } = useThresholdKey()
   const { addToastMessage } = useToaster()
-
   const [loadingCurrentPath, setLoadingCurrentPath] = useState(false)
-
   const [bucketType, setBucketType] = useState<BucketType>("csf")
-
   const [pathContents, setPathContents] = useState<FileSystemItem[]>([])
   const [spaceUsed, setSpaceUsed] = useState(0)
-
   const [currentSearchBucket, setCurrentSearchBucket] = useState<
     | {
         bucketId: string
@@ -129,10 +120,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
       }
     | undefined
   >(undefined)
-
-  const [encryptionKey, setEncryptionKey] = useState<string | undefined>(
-    undefined
-  )
+  const [encryptionKey, setEncryptionKey] = useState<string | undefined>()
 
   const refreshContents = useCallback(
     async (
@@ -195,17 +183,13 @@ const DriveProvider = ({ children }: DriveContextProps) => {
   }
   const [currentPath, dispatchCurrentPath] = useReducer(currentPathReducer, "/")
 
-  const setCurrentPath = (
-    newPath: string,
-    newBucketType?: BucketType,
-    showLoading?: boolean
-  ) => {
+  const setCurrentPath = useCallback((newPath: string, newBucketType?: BucketType, showLoading?: boolean) => {
     dispatchCurrentPath({ type: "update", payload: newPath })
     if (newBucketType) {
       setBucketType(newBucketType)
     }
     refreshContents(newPath, newBucketType || bucketType, showLoading)
-  }
+  }, [bucketType, refreshContents])
 
   // Ensure path contents are refreshed
   useEffect(() => {
@@ -323,7 +307,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
     }
   })
 
-  const uploadFiles = async (files: File[], path: string) => {
+  const uploadFiles = useCallback(async (files: File[], path: string) => {
     const startUploadFile = async () => {
       if (!encryptionKey) return // TODO: Add better error handling here.
 
@@ -408,7 +392,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
       }
     }
     startUploadFile()
-  }
+  }, [addToastMessage, encryptionKey, imployApiClient])
 
   const createFolder = async (body: FilesPathRequest) => {
     try {
@@ -454,7 +438,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
     }
   }
 
-  const renameFile = async (body: FilesMvRequest) => {
+  const renameFile = useCallback(async (body: FilesMvRequest) => {
     try {
       if (body.path !== body.new_path) {
         await imployApiClient.moveCSFObject(body)
@@ -473,9 +457,9 @@ const DriveProvider = ({ children }: DriveContextProps) => {
       })
       return Promise.reject()
     }
-  }
+  }, [addToastMessage, currentPath, imployApiClient, refreshContents])
 
-  const moveFile = async (body: FilesMvRequest) => {
+  const moveFile = useCallback(async (body: FilesMvRequest) => {
     try {
       await imployApiClient.moveCSFObject(body)
       await refreshContents(currentPath)
@@ -491,7 +475,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
       })
       return Promise.reject()
     }
-  }
+  }, [addToastMessage, currentPath, imployApiClient, refreshContents])
 
   const bulkMoveFile = async (filesToMove: FilesMvRequest[]) => {
     for (let i = 0; i < filesToMove.length; i++) {
@@ -530,7 +514,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
     }
   }
 
-  const moveFileToTrash = async (cid: string) => {
+  const moveFileToTrash = useCallback(async (cid: string) => {
     const itemToDelete = pathContents.find((i) => i.cid === cid)
     if (!itemToDelete) return
     try {
@@ -560,13 +544,13 @@ const DriveProvider = ({ children }: DriveContextProps) => {
       })
       return Promise.reject()
     }
-  }
+  }, [addToastMessage, currentPath, imployApiClient, pathContents, refreshContents])
 
-  const bulkMoveFileToTrash = async (cidsToTrash: string[]) => {
+  const bulkMoveFileToTrash = useCallback(async (cidsToTrash: string[]) => {
     for (let i = 0; i < cidsToTrash.length; i++) {
       await moveFileToTrash(cidsToTrash[i])
     }
-  }
+  }, [moveFileToTrash])
 
   const recoverFile = async (cid: string) => {
     const itemToRestore = pathContents.find((i) => i.cid === cid)
@@ -641,7 +625,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
     }
   }, [currentPath, encryptionKey, imployApiClient, pathContents])
 
-  const downloadFile = async (cid: string) => {
+  const downloadFile = useCallback(async (cid: string) => {
     const itemToDownload = pathContents.find((i) => i.cid === cid)
     if (!itemToDownload) return
     const toastId = uuidv4()
@@ -690,7 +674,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
       dispatchDownloadsInProgress({ type: "error", payload: { id: toastId } })
       return Promise.reject()
     }
-  }
+  }, [getFileContent, pathContents])
 
   const list = async (body: FilesPathRequest) => {
     try {
@@ -745,6 +729,12 @@ const DriveProvider = ({ children }: DriveContextProps) => {
   //   }
   // }
 
+  const updateCurrentPath = useCallback((newPath: string, bucketType?: BucketType, showLoading?: boolean) => {
+    newPath.endsWith("/")
+      ? setCurrentPath(`${newPath}`, bucketType, showLoading)
+      : setCurrentPath(`${newPath}/`, bucketType, showLoading)
+  }, [setCurrentPath])
+
   return (
     <DriveContext.Provider
       value={{
@@ -761,15 +751,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
         recoverFile,
         list,
         currentPath,
-        updateCurrentPath: (
-          newPath: string,
-          bucketType?: BucketType,
-          showLoading?: boolean
-        ) => {
-          newPath.endsWith("/")
-            ? setCurrentPath(`${newPath}`, bucketType, showLoading)
-            : setCurrentPath(`${newPath}/`, bucketType, showLoading)
-        },
+        updateCurrentPath,
         pathContents,
         uploadsInProgress,
         spaceUsed,

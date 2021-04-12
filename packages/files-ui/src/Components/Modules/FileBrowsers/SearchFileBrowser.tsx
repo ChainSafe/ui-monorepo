@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useMemo, useState } from "react"
 import { FileSystemItem, SearchEntry, useDrive } from "../../../Contexts/DriveContext"
-import { IFilesBrowserModuleProps } from "./types"
+import { IFilesBrowserModuleProps, IFilesTableBrowserProps } from "./types"
 import FilesTableView from "./views/FilesTable.view"
 import { CONTENT_TYPES } from "../../../Utils/Constants"
 import DragAndDrop from "../../../Contexts/DnDContext"
@@ -54,6 +54,11 @@ const SearchFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = fals
     isFolder: searchResult.content.content_type === CONTENT_TYPES.Directory
   }))
 
+  const itemOperations: IFilesTableBrowserProps["itemOperations"] = useMemo(() => ({
+    [CONTENT_TYPES.File]: ["view_folder"],
+    [CONTENT_TYPES.Directory]: ["view_folder"]
+  }), [])
+
   return (
     <DragAndDrop>
       <FilesTableView
@@ -65,10 +70,7 @@ const SearchFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = fals
         updateCurrentPath={updateCurrentPath}
         heading={t`Search results`}
         controls={controls}
-        itemOperations={{
-          [CONTENT_TYPES.File]: ["view_folder"],
-          [CONTENT_TYPES.Directory]: ["view_folder"]
-        }}
+        itemOperations={itemOperations}
       />
     </DragAndDrop>
   )
