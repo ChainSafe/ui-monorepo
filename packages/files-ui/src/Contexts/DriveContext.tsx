@@ -715,7 +715,6 @@ const DriveProvider = ({ children }: DriveContextProps) => {
       } else {
         // fetch bucket id
         const results = await imployApiClient.listBuckets(bucketType)
-        console.log(results)
         const bucket1 = results[0]
         setCurrentSearchBucket({
           bucketType,
