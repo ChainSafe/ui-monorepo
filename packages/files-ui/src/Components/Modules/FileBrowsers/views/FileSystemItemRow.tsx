@@ -431,7 +431,7 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
       <TableCell
         ref={preview}
         align="left"
-        className={clsx(classes.filename, editing && "editing")}
+        className={clsx(classes.filename, desktop && editing === cid && "editing")}
         onClick={() => {
           if (!editing) {
             onFolderOrFileClicks()
