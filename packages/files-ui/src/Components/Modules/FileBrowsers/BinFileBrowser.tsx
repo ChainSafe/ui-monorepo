@@ -1,10 +1,11 @@
-import React, { useEffect } from "react"
+import React, { useEffect, useMemo } from "react"
 import { useDrive } from "../../../Contexts/DriveContext"
 import { IFilesBrowserModuleProps } from "./types"
 import FilesTableView from "./views/FilesTable.view"
 import DragAndDrop from "../../../Contexts/DnDContext"
 import { t } from "@lingui/macro"
 import { CONTENT_TYPES } from "../../../Utils/Constants"
+import { IFilesTableBrowserProps } from "../../Modules/FileBrowsers/types"
 
 const BinFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = false }: IFilesBrowserModuleProps) => {
   const {
@@ -30,6 +31,11 @@ const BinFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = false }
     }
   }
 
+  const itemOperations: IFilesTableBrowserProps["itemOperations"] = useMemo(() => ({
+    [CONTENT_TYPES.File]: ["recover", "delete"],
+    [CONTENT_TYPES.Directory]: ["recover", "delete"]
+  }), [])
+
   return (
     <DragAndDrop>
       <FilesTableView
@@ -42,10 +48,7 @@ const BinFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = false }
         updateCurrentPath={updateCurrentPath}
         heading={t`Bin`}
         controls={controls}
-        itemOperations={{
-          [CONTENT_TYPES.File]: ["recover", "delete"],
-          [CONTENT_TYPES.Directory]: ["recover", "delete"]
-        }}
+        itemOperations={itemOperations}
       />
     </DragAndDrop>
   )

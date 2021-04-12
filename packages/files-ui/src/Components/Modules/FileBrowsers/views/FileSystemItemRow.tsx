@@ -93,7 +93,8 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => 
         borderTopLeftRadius: `${constants.generalUnit * 1.5}px`,
         borderTopRightRadius: `${constants.generalUnit * 1.5}px`,
         borderBottomLeftRadius: `${constants.generalUnit * 1.5}px`,
-        borderBottomRightRadius: `${constants.generalUnit * 1.5}px`
+        borderBottomRightRadius: `${constants.generalUnit * 1.5}px`,
+        maxWidth: `${breakpoints.width("md")}px !important`
       }
     },
     renameHeader: {
@@ -140,8 +141,11 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => 
     },
     filename: {
       whiteSpace: "nowrap",
+      textOverflow: "ellipsis",
       overflow: "hidden",
-      textOverflow: "ellipsis"
+      "&.editing": {
+        overflow: "visible"
+      }
     },
     dropdownIcon: {
       "& svg": {
@@ -381,7 +385,8 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
     }
   }
 
-  const onSingleClick = useCallback(() => { handleSelect(cid) }, [cid, handleSelect])
+  const onSingleClick = useCallback(() => { handleSelect(cid) },
+    [cid, handleSelect])
   const onDoubleClick = useCallback(() => {
     isFolder
       ? updateCurrentPath(`${currentPath}${name}`, undefined, true)
@@ -407,7 +412,7 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
       })}
       type="grid"
       rowSelectable={true}
-      ref={attachRef}
+      ref={!editing ? attachRef : null}
       selected={selected.includes(cid)}
     >
       {desktop && (
@@ -427,7 +432,7 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
       <TableCell
         ref={preview}
         align="left"
-        className={classes.filename}
+        className={clsx(classes.filename, desktop && editing === cid && "editing")}
         onClick={() => {
           if (!editing) {
             onFolderOrFileClicks()
@@ -474,67 +479,70 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
             </Form>
           </Formik>
         ) : editing === cid && !desktop ? (
-          <CustomModal
-            className={classes.modalRoot}
-            injectedClass={{
-              inner: classes.modalInner
-            }}
-            closePosition="none"
-            active={editing === cid}
-            setActive={() => setEditing("")}
-          >
-            <Formik
-              initialValues={{
-                fileName: name
+          <>
+            <CustomModal
+              className={classes.modalRoot}
+              injectedClass={{
+                inner: classes.modalInner
               }}
-              validationSchema={RenameSchema}
-              onSubmit={(values) => {
-                handleRename &&
+              closePosition="none"
+              active={editing === cid}
+              setActive={() => setEditing("")}
+            >
+              <Formik
+                initialValues={{
+                  fileName: name
+                }}
+                validationSchema={RenameSchema}
+                onSubmit={(values) => {
+                  handleRename &&
                   handleRename(
                     `${currentPath}${name}`,
                     `${currentPath}${values.fileName}`
                   )
-                setEditing(undefined)
-              }}
-            >
-              <Form className={classes.renameModal}>
-                <Typography
-                  className={classes.renameHeader}
-                  component="p"
-                  variant="h5"
-                >
-                  <Trans>Rename File/Folder</Trans>
-                </Typography>
-                <FormikTextInput
-                  label="Name"
-                  className={classes.renameInput}
-                  name="fileName"
-                  placeholder={`Please enter a ${
-                    isFolder ? "folder" : "file"
-                  } name`}
-                  autoFocus={editing === cid}
-                />
-                <footer className={classes.renameFooter}>
-                  <Button
-                    onClick={() => setEditing("")}
-                    size="medium"
-                    className={classes.cancelButton}
-                    variant="outline"
-                    type="button"
+                  setEditing(undefined)
+                }}
+              >
+                <Form className={classes.renameModal}>
+                  <Typography
+                    className={classes.renameHeader}
+                    component="p"
+                    variant="h5"
                   >
-                    <Trans>Cancel</Trans>
-                  </Button>
-                  <Button
-                    size="medium"
-                    type="submit"
-                    className={classes.okButton}
-                  >
-                    <Trans>Update</Trans>
-                  </Button>
-                </footer>
-              </Form>
-            </Formik>
-          </CustomModal>
+                    <Trans>Rename File/Folder</Trans>
+                  </Typography>
+                  <FormikTextInput
+                    label="Name"
+                    className={classes.renameInput}
+                    name="fileName"
+                    placeholder={`Please enter a ${
+                      isFolder ? "folder" : "file"
+                    } name`}
+                    autoFocus={editing === cid}
+                  />
+                  <footer className={classes.renameFooter}>
+                    <Button
+                      onClick={() => setEditing("")}
+                      size="medium"
+                      className={classes.cancelButton}
+                      variant="outline"
+                      type="button"
+                    >
+                      <Trans>Cancel</Trans>
+                    </Button>
+                    <Button
+                      size="medium"
+                      type="submit"
+                      className={classes.okButton}
+                    >
+                      <Trans>Update</Trans>
+                    </Button>
+                  </footer>
+                </Form>
+              </Formik>
+            </CustomModal>
+            <Typography>{name}</Typography>
+          </>
         ) : (
           <Typography>{name}</Typography>
         )}

@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useMemo } from "react"
 import { Switch, ConditionalRoute } from "@chainsafe/common-components"
 import LoginPage from "./Pages/LoginPage"
 import SettingsPage from "./Pages/SettingsPage"
@@ -25,14 +25,15 @@ export const ROUTE_LINKS = {
   PurchasePlan: "/purchase"
 }
 
-export const SETTINGS_PATHS = ["profile", "plan"] as const
+export const SETTINGS_PATHS = ["profile", "plan", "security"] as const
 export type SettingsPath = typeof SETTINGS_PATHS[number]
 
 const FilesRoutes = () => {
   const { isLoggedIn, secured } = useImployApi()
   const { isNewDevice, publicKey, shouldInitializeAccount } = useThresholdKey()
 
-  const isAuthorized = isLoggedIn && secured && !!publicKey && !isNewDevice && !shouldInitializeAccount
+  const isAuthorized = useMemo(() => isLoggedIn && secured && !!publicKey && !isNewDevice && !shouldInitializeAccount,
+    [isLoggedIn, isNewDevice, publicKey, secured, shouldInitializeAccount])
 
   return (
     <Switch>

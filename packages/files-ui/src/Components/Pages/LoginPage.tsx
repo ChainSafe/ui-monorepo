@@ -1,9 +1,5 @@
-import React, { useState } from "react"
-import {
-  makeStyles,
-  createStyles,
-  useThemeSwitcher
-} from "@chainsafe/common-theme"
+import React, { useCallback, useState } from "react"
+import { makeStyles, createStyles, useThemeSwitcher } from "@chainsafe/common-theme"
 import { useThresholdKey } from "../../Contexts/ThresholdKeyContext"
 import SaveNewDevice from "../Modules/LoginModule/SaveNewDevice"
 import MissingShares from "../Modules/LoginModule/MissingShares"
@@ -16,7 +12,7 @@ import BottomDarkSVG from "../../Media/landing/layers/dark/Bottom.dark.svg"
 import TopDarkSVG from "../../Media/landing/layers/dark/Top.dark.svg"
 import BottomLightSVG from "../../Media/landing/layers/light/Bottom.light.svg"
 import TopLightSVG from "../../Media/landing/layers/light/Top.light.svg"
-import { ForegroundSVG } from "../../Media/landing/layers/ForegroundSVG"
+// import { ForegroundSVG } from "../../Media/landing/layers/ForegroundSVG"
 import { useImployApi } from "@chainsafe/common-contexts"
 import ConciseExplainer from "../Modules/LoginModule/ConciseExplainer"
 import SignInMethods from "../Modules/LoginModule/SignInMethods"
@@ -127,6 +123,10 @@ const useStyles = makeStyles(
           justifyContent: "center",
           width: "100%"
         }
+      },
+      logo: {
+        height: 60,
+        width: 60
       }
     })
 )
@@ -145,6 +145,15 @@ const Content = ({ className }: { className: string }) => {
     "backup" |
     "complete"
     >("explainer")
+
+  const onSetPassword = useCallback((password: string) =>
+    addPasswordShare(password)
+      .then(() => {
+        setSetupScreen("signInOptions")
+      })
+      .catch(console.error)
+  , [addPasswordShare])
+
   if (!keyDetails) {
     return <InitialScreen className={className} />
   }
@@ -175,10 +184,7 @@ const Content = ({ className }: { className: string }) => {
       return <PasswordSetup
         className={className}
         cancel={() => setSetupScreen("signInOptions")}
-        setPassword={async (password: string) => {
-          await addPasswordShare(password)
-          setSetupScreen("signInOptions")
-        }}
+        setPassword={onSetPassword}
       />
     case "skip":
       return <ConfirmSkip
@@ -232,14 +238,14 @@ const LoginPage = () => {
           </>
 
       }
-      <ForegroundSVG className={classes.bgForeground} />
+      {/* <ForegroundSVG className={classes.bgForeground} /> */}
       <a
         className={classes.cta}
         href={ROUTE_LINKS.ChainSafe}
         target="_blank"
         rel="noopener noreferrer"
       >
-        <ChainsafeFilesLogo />
+        <ChainsafeFilesLogo className={classes.logo} />
         <Typography>
           <Trans>
             Learn more about ChainSafe

@@ -6,6 +6,7 @@ import svgr from "@svgr/rollup"
 import url from "rollup-plugin-url"
 import babel from "rollup-plugin-babel"
 import postcss from "rollup-plugin-postcss"
+import image from "@rollup/plugin-image"
 
 export default {
   input: "./src/index.ts",
@@ -14,23 +15,24 @@ export default {
     dir: "dist/",
     exports: "named",
     sourcemap: true,
-    strict: true,
+    strict: true
   },
   plugins: [
+    image(),
     peerDepsExternal(),
     resolve(),
     commonjs(),
     typescript(),
     postcss({
-      plugins: [],
+      plugins: []
     }),
     url(),
     svgr(),
     babel({
       exclude: "node_modules/**",
       presets: ["@babel/preset-react", "@babel/preset-env"],
-      plugins: ["emotion"],
-    }),
+      plugins: ["emotion"]
+    })
   ],
   external: [
     "react",
@@ -38,6 +40,6 @@ export default {
     "@material-ui/styles",
     "formik",
     "react-toast-notifications",
-    "@chainsafe/common-theme",
-  ],
+    "@chainsafe/common-theme"
+  ]
 }

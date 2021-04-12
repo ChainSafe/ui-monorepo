@@ -1,8 +1,4 @@
-import {
-  createStyles,
-  makeStyles,
-  useThemeSwitcher
-} from "@chainsafe/common-theme"
+import { createStyles, makeStyles, useThemeSwitcher } from "@chainsafe/common-theme"
 import React, { Fragment, useCallback, useEffect } from "react"
 import {
   Divider,
@@ -33,10 +29,7 @@ import clsx from "clsx"
 import { t, Trans } from "@lingui/macro"
 import { NativeTypes } from "react-dnd-html5-backend"
 import { useDrop } from "react-dnd"
-import {
-  FileOperation,
-  IFilesTableBrowserProps
-} from "../types"
+import { FileOperation, IFilesTableBrowserProps } from "../types"
 import { FileSystemItem } from "../../../../Contexts/DriveContext"
 import FileSystemItemRow from "./FileSystemItemRow"
 import FilePreviewModal from "../../FilePreviewModal"
@@ -244,6 +237,10 @@ const useStyles = makeStyles(
   }
 )
 
+// Sorting
+const sortFoldersFirst = (a: FileSystemItem, b: FileSystemItem) =>
+  a.isFolder && a.content_type !== b.content_type ? -1 : 1
+
 const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
   heading,
   controls = true,
@@ -267,24 +264,12 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
   itemOperations
 }: IFilesTableBrowserProps) => {
   const { themeKey, desktop } = useThemeSwitcher()
-  const classes = useStyles({
-    themeKey
-  })
-
+  const classes = useStyles({ themeKey })
   const [editing, setEditing] = useState<string | undefined>()
   const [direction, setDirection] = useState<SortDirection>("descend")
-  const [column, setColumn] = useState<"name" | "size" | "date_uploaded">(
-    "name"
-  )
+  const [column, setColumn] = useState<"name" | "size" | "date_uploaded">("name")
   const [selected, setSelected] = useState<string[]>([])
-
-  const [previewFileIndex, setPreviewFileIndex] = useState<number | undefined>(
-    undefined
-  )
-
-  // Sorting
-  const sortFoldersFirst = (a: FileSystemItem, b: FileSystemItem) =>
-    a.isFolder && a.content_type !== b.content_type ? -1 : 1
+  const [previewFileIndex, setPreviewFileIndex] = useState<number | undefined>()
 
   const items: FileSystemItem[] = useMemo(() => {
     if (!sourceFiles) return []
@@ -517,7 +502,7 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
   }, [selected, bulkMoveFileToTrash, setSelected])
 
 
-  const getItemOperations =  (contentType: string) => {
+  const getItemOperations =  useCallback((contentType: string) => {
     const result = Object.keys(itemOperations).reduce((acc: FileOperation[], item: string) => {
       const matcher = new MimeMatcher(item)
       // Prevent Files options from being added to Directory options  
@@ -527,7 +512,7 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
       return acc
     }, [])
     return [...new Set(result)]
-  }
+  }, [itemOperations])
 
   return (
     <article
@@ -690,7 +675,6 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
                   <TableHeadCell>
                     <CheckboxInput
                       value={selected.length === items.length}
-                      disabled
                       onChange={() => toggleAll()}
                     />
                   </TableHeadCell>

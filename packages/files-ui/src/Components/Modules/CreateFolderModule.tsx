@@ -93,7 +93,14 @@ const CreateFolderModule: React.FC<ICreateFolderModuleProps> = ({
   }, [modalOpen])
 
   const folderNameValidator = yup.object().shape({
-    name: yup.string().required("Folder name is required")
+    name: yup
+      .string()
+      .required("Folder name is required")
+      .test(
+        "Invalid name",
+        "Folder name cannot contain '/' character",
+        (val: string | null | undefined) => !!val && !val.includes("/")
+      )
   })
 
   return (

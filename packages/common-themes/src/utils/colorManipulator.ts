@@ -88,7 +88,7 @@ export function decomposeColor(color: string): IColorObject {
 
   if (["rgb", "rgba", "hsl", "hsla", "var"].indexOf(type) === -1) {
     throw new Error(
-      "Material-UI: Unsupported `%s` color.\n" +
+      `ChainSafe themes: Unsupported ${type} color.\n` +
         "We support the following formats: #nnn, #nnnnnn, rgb(), rgba(), hsl(), hsla(), var()."
     )
   }
@@ -96,14 +96,30 @@ export function decomposeColor(color: string): IColorObject {
   let colorToParse = `${color}`
 
   if (type === "var") {
-    colorToParse = getComputedStyle(document.documentElement).getPropertyValue(color.substr(marker + 1, color.length - 1))
+    // Check if loaded
+    if (!getComputedStyle(document.documentElement).getPropertyValue("--ready")) {
+      // throw new Error(
+      //   "Css variable not loaded yet"
+      // )
+      // TODO: #875: Resolve variables not being loaded in time issue
+      console.debug("Css variable not loaded yet")
+    }
+
+    colorToParse = getComputedStyle(document.documentElement).getPropertyValue(color.replace("var(", "").replace(")", ""))
+    if (colorToParse.charAt(0) === "#") {
+      return decomposeColor(
+        hexToRgb(
+          colorToParse
+        )
+      )
+    }
   }
 
   const valuesStrings = colorToParse
     .substring(marker + 1, colorToParse.length - 1)
     .split(",")
-  const values = valuesStrings.map((value) => parseFloat(value))
 
+  const values = valuesStrings.map((value) => parseFloat(value))
   return { type: type as ColorFormat, values: values as ColorValues }
 }
 

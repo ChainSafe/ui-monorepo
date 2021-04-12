@@ -1,15 +1,11 @@
-import React, { useEffect, useState } from "react"
+import React from "react"
 import { createStyles, makeStyles, useThemeSwitcher } from "@chainsafe/common-theme"
 import { CheckCircleSvg, CopySvg, KeySvg, Typography } from "@chainsafe/common-components"
-import { t, Trans } from "@lingui/macro"
+import { Trans } from "@lingui/macro"
 import { useThresholdKey } from "../../../Contexts/ThresholdKeyContext"
-import { centerEllipsis } from "../../../Utils/Helpers"
-import { SECURITY_QUESTIONS_MODULE_NAME } from "@tkey/security-questions"
 import { CSFTheme } from "../../../Themes/types"
-import bowser from "bowser"
 import clsx from "clsx"
 import { ROUTE_LINKS } from "../../FilesRoutes"
-import { useWeb3 } from "@chainsafe/web3-context"
 
 const useStyles = makeStyles(({ breakpoints, constants, typography, palette, zIndex }: CSFTheme) =>
   createStyles({
@@ -156,55 +152,18 @@ interface ISignInMethods {
 const SignInMethods = ({ goToComplete, goToMnemonic, goToPassword, goToSkip, className }: ISignInMethods) => {
   const classes = useStyles()
   const { desktop } = useThemeSwitcher()
-  const { keyDetails, userInfo } = useThresholdKey()
-  const { address } = useWeb3()
-
-  const [loggedinAs, setLoggedinAs] = useState("")
-
-  useEffect(() => {
-    if (userInfo?.userInfo.typeOfLogin) {
-      switch (userInfo.userInfo.typeOfLogin) {
-      case "jwt":
-        setLoggedinAs(t`Logged in with Web3` + ` ${centerEllipsis(String(address), 4)}`)
-        break
-      case "facebook":
-        setLoggedinAs(t`Logged in with Facebook` + ` ${centerEllipsis(userInfo.userInfo.email, 4)}`)
-        break
-      case "github":
-        setLoggedinAs(t`Logged in with Github` + ` ${centerEllipsis(userInfo.userInfo.email, 4)}`)
-        break
-      case "google":
-        setLoggedinAs(t`Logged in with Google` + ` ${centerEllipsis(userInfo.userInfo.email, 4)}`)
-        break
-      default:
-        setLoggedinAs(`${centerEllipsis(userInfo.publicAddress, 4)}`)
-        break
-      }
-    }
-  }, [userInfo, address])
-
-  const shares = keyDetails
-    ? Object.values(keyDetails.shareDescriptions).map((share) => {
-      return JSON.parse(share[0])
-    })
-    : []
-
-  const browserShare = shares.filter((s) => s.module === "webStorage")
-
-  const hasPasswordShare = shares.filter((s) => s.module === SECURITY_QUESTIONS_MODULE_NAME).length > 0
-
-  const hasMnemonicShare = keyDetails && (keyDetails.totalShares - shares.length > 1)
+  const { keyDetails, loggedinAs, hasMnemonicShare, hasPasswordShare, browserShares } = useThresholdKey()
 
   return (
     <div className={clsx(classes.root, className)}>
       <Typography className={classes.title} variant={desktop ? "h2" : "h4"} component="h1">
         <Trans>
-          Sign-in Methods
+          Sign-in methods
         </Trans>
       </Typography>
 
       {
-        userInfo?.userInfo.typeOfLogin && (
+        !!loggedinAs && (
           <section className={classes.setOption}>
             <div>
               <Typography variant="h5">
@@ -236,7 +195,7 @@ const SignInMethods = ({ goToComplete, goToMnemonic, goToPassword, goToSkip, cla
             desktop && (
               <Typography variant="h5">
                 <Trans>Saved</Trans>{" "}
-                {`${bowser.parse(browserShare[0].userAgent).browser.name} ${bowser.parse(browserShare[0].userAgent).browser.version}`}
+                {`${browserShares[0].browser.name} ${browserShares[0].browser.version}`}
               </Typography>
             )
           }
@@ -287,7 +246,7 @@ const SignInMethods = ({ goToComplete, goToMnemonic, goToPassword, goToSkip, cla
           <>
             <Typography className={classes.additionalMethods} variant={desktop ? "h2" : "h4"} component="p">
               <Trans>
-                Add sign-in Methods
+                Add sign-in methods
               </Trans>
             </Typography>
             <Typography component="p">

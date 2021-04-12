@@ -148,9 +148,8 @@ const SearchModule: React.FC<ISearchModule> = ({
     themeKey
   })
 
-  const [searchString, setSearchString] = useState<string>("")
-  const [searchStringCallback, setSearchStringCallback] = useState<string>("")
-  const [searchResults, setSearchResults] = useState<SearchEntry[]>([])
+  const [searchQuery, setSearchQuery] = useState<string>("")
+  const [searchResults, setSearchResults] = useState<{results: SearchEntry[]; query: string} | undefined>(undefined)
   const ref = useRef(null)
   const { getSearchResults, currentSearchBucket } = useDrive()
 
@@ -159,8 +158,7 @@ const SearchModule: React.FC<ISearchModule> = ({
   const onSearch = async (searchString: string) => {
     try {
       const results = await getSearchResults(searchString)
-      setSearchResults(results)
-      setSearchStringCallback(searchString)
+      setSearchResults({ results, query: searchString })
     } catch (err) {
       //
     }
@@ -173,7 +171,7 @@ const SearchModule: React.FC<ISearchModule> = ({
   ])
 
   const onSearchChange = (searchString: string) => {
-    setSearchString(searchString)
+    setSearchQuery(searchString)
     debouncedSearch(searchString)
   }
 
@@ -186,30 +184,30 @@ const SearchModule: React.FC<ISearchModule> = ({
   const onSearchSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setSearchActive(false)
-    redirect(ROUTE_LINKS.Search(searchString))
+    redirect(ROUTE_LINKS.Search(searchQuery))
   }
 
-  const searchResultsFiles = searchResults.filter(
+  const searchResultsFiles = searchResults?.results.filter(
     (searchResult) =>
-      searchResult.content.content_type !== CONTENT_TYPES.Directory
+      searchResult.content.content_type !== CONTENT_TYPES.Directory &&
+      searchResult.content.content_type !== CONTENT_TYPES.Directory2
   )
 
-  const searchResultsFolders = searchResults.filter(
+  const searchResultsFolders = searchResults?.results.filter(
     (searchResult) =>
-      searchResult.content.content_type === CONTENT_TYPES.Directory
+      searchResult.content.content_type === CONTENT_TYPES.Directory ||
+      searchResult.content.content_type === CONTENT_TYPES.Directory2
   )
 
   const onSearchEntryClickFolder = (searchEntry: SearchEntry) => {
     redirect(ROUTE_LINKS.Home(searchEntry.path))
-    setSearchString("")
-    setSearchStringCallback("")
+    setSearchQuery("")
     setSearchActive(false)
   }
 
   const onSearchEntryClickFile = (searchEntry: SearchEntry) => {
     redirect(ROUTE_LINKS.Home(getParentPathFromFilePath(searchEntry.path)))
-    setSearchString("")
-    setSearchStringCallback("")
+    setSearchQuery("")
     setSearchActive(false)
   }
 
@@ -242,18 +240,17 @@ const SearchModule: React.FC<ISearchModule> = ({
           placeholder={t`Search...`}
         />
       </form>
-      {searchString && searchStringCallback ? (
+      {searchQuery && searchResults?.query ? (
         <div
           className={clsx(classes.resultsContainer, searchActive && "active")}
         >
           <div className={classes.resultsBox}>
-            {searchStringCallback && !searchResults.length ? (
+            {searchResults?.query && !searchResults.results.length ? (
               <Typography className={classes.noResultsFound}>
-                <Trans>No search results for </Trans>
-                {searchStringCallback}
+               <Trans>No search results for </Trans>{` ${searchResults.query}`}
               </Typography>
             ) : null}
-            {searchResultsFiles.length ? (
+            {searchResultsFiles && searchResultsFiles.length ? (
               <div>
                 <div className={classes.resultHead}>
                   <Typography
@@ -277,7 +274,7 @@ const SearchModule: React.FC<ISearchModule> = ({
                 ))}
               </div>
             ) : null}
-            {searchResultsFolders.length ? (
+            {searchResultsFolders && searchResultsFolders.length ? (
               <div>
                 <div className={classes.resultHeadFolder}>
                   <Typography
