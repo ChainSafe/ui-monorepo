@@ -38,12 +38,7 @@ const FormikTextInput = React.forwardRef(
         name={field.name}
         value={field.value}
         placeholder={placeholder}
-        captionMessage={
-          <>
-            {captionMessage && captionMessage}
-            {meta.touched && meta.error && `${meta.error}`}
-          </>
-        }
+        captionMessage={meta.error ? `${meta.error}` : captionMessage ? captionMessage : null}
         state={meta.error ? "error" : undefined}
         onChange={helpers.setValue}
         autoFocus={autoFocus}
