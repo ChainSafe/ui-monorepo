@@ -195,6 +195,8 @@ const DriveProvider = ({ children }: DriveContextProps) => {
   useEffect(() => {
     if (isLoggedIn) {
       refreshContents("/")
+    } else {
+      setCurrentSearchBucket(undefined)
     }
   }, [imployApiClient, refreshContents, isLoggedIn])
 
