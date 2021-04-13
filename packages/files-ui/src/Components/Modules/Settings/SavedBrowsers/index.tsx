@@ -7,6 +7,7 @@ import { CSFTheme } from "../../../../Themes/types"
 import { Loading, Typography } from "@chainsafe/common-components"
 import BrowserPanel from "./BrowserPanel"
 import { useThresholdKey } from "../../../../Contexts/ThresholdKeyContext"
+import {Trans} from "@lingui/macro"
 
 const useStyles = makeStyles(({ constants, breakpoints }: CSFTheme) =>
   createStyles({
@@ -34,7 +35,7 @@ const SavedBrowsers: React.FC<{isRefreshing: boolean}> = ({ isRefreshing }) => {
   return (
     <div className={classes.root}>
       <Typography component="p" variant="body1" className={classes.title}>
-        Saved Browsers {isRefreshing && <Loading size={16} type='inherit' />}
+        <Trans>Saved Browsers</Trans> {isRefreshing && <Loading size={16} type='inherit' />}
       </Typography>
       {browserShares.sort((a, b) => a.dateAdded - b.dateAdded).map((bs, i) => (
         <div key={i} className={classes.expansionContainer}>
