@@ -12,7 +12,7 @@ interface Props {
     requests: ShareTransferRequest[]
 }
 
-const useStyles = makeStyles(({ constants, typography }: ITheme) =>
+const useStyles = makeStyles(({ constants }: ITheme) =>
   createStyles({
     root: {},
     modalInner: {
