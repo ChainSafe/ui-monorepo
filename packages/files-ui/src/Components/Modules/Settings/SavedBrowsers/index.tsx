@@ -40,10 +40,10 @@ const SavedBrowsers: React.FC<{isRefreshing: boolean}> = ({ isRefreshing }) => {
       {browserShares
         .sort((a, b) => a.dateAdded - b.dateAdded)
         .map((bs, i) => (
-        <div key={i} className={classes.expansionContainer}>
-          <BrowserPanel {...bs}/>
-        </div>
-      ))}
+          <div key={i} className={classes.expansionContainer}>
+            <BrowserPanel {...bs}/>
+          </div>
+        ))}
     </div>
   )
 }
