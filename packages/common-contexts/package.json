@@ -14,7 +14,7 @@
     "start": "rollup -c -w"
   },
   "dependencies": {    
-    "@chainsafe/files-api-client": "1.7.2-rc2",
+    "@chainsafe/files-api-client": "1.7.2",
     "axios": "^0.21.1",
     "uuid": "^8.3.1"
   },
