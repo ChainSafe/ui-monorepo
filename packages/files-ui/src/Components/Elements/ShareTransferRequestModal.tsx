@@ -1,4 +1,4 @@
-import { Button, Typography } from "@chainsafe/common-components"
+import { Button, Loading, Typography } from "@chainsafe/common-components"
 import { createStyles, ITheme, makeStyles, useThemeSwitcher } from "@chainsafe/common-theme"
 import { Trans } from "@lingui/macro"
 import dayjs from "dayjs"
@@ -113,16 +113,21 @@ const ShareTransferRequestModal = ({ requests }: Props) => {
             onClick={onRejectRequest}>
             <Trans>Reject</Trans>
           </Button>
-          {requests.length > 1 && <Typography
-            className={clsx(classes.clearAll)}
-            disabled={isLoadingApprove || isLoadingReject || isClearing}
-            onClick={() => {
-              if (!isLoadingApprove || !isLoadingReject || !isClearing) {
-                onClearingRequest()
-              }
-            }}>
-            <Trans>Reject all</Trans>
-          </Typography>}
+          {
+            requests.length > 1 && (isClearing
+              ? <Loading size={25} type='inherit' />
+              : <Typography
+                className={clsx(classes.clearAll)}
+                disabled={isLoadingApprove || isLoadingReject || isClearing}
+                onClick={() => {
+                  if (!isLoadingApprove || !isLoadingReject || !isClearing) {
+                    onClearingRequest()
+                  }
+                }}>
+                <Trans>Reject all</Trans>
+              </Typography>
+            )
+          }
         </div>
       </>
     </CustomModal>
