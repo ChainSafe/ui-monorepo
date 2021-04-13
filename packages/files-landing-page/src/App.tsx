@@ -23,7 +23,7 @@ const theme = createTheme({
       }
     },
     constants: {
-      headerHeight: 150,
+      headerHeight: 70,
     }
   }
 })

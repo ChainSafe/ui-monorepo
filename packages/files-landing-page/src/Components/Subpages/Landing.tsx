@@ -13,7 +13,7 @@ const useStyles = makeStyles(
         alignItems: "center",
         width: "100%",
         height: "auto",
-        paddingTop: `${constants.headerHeight}px`,
+        paddingTop: "130px",
         paddingBottom: constants.generalUnit * 3,
       },
       headerContentContainer: {
