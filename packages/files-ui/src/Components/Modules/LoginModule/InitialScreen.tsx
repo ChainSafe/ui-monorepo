@@ -201,7 +201,7 @@ const InitialScreen = ({ className }: IInitialScreen) => {
         <Trans>
           By connecting your wallet, you agree to our <a href={ROUTE_LINKS.Terms} target="_blank" rel="noopener noreferrer" >
             Terms of Service
-          </a> and our <a href={ROUTE_LINKS.PrivacyPolicy} target="_blank" rel="noopener noreferrer">
+          </a> and <a href={ROUTE_LINKS.PrivacyPolicy} target="_blank" rel="noopener noreferrer">
             Privacy Policy
           </a>
         </Trans>
