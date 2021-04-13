@@ -170,10 +170,10 @@ const Security = ({ className }: SecurityProps) => {
   }, [addPasswordShare, changePasswordShare, isChangingPassword, isSettingPassword])
 
   useEffect(() => {
-      setIsRefreshingMetadata(true)
-      refreshTKeyMeta()
-        .catch(console.error)
-        .finally(() => setIsRefreshingMetadata(false))
+    setIsRefreshingMetadata(true)
+    refreshTKeyMeta()
+      .catch(console.error)
+      .finally(() => setIsRefreshingMetadata(false))
   }, [refreshTKeyMeta])
 
   return (
