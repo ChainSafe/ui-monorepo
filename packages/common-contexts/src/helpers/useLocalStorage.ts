@@ -26,7 +26,7 @@ const useLocalStorage = () => {
       throw new Error("Unable to use localStorage")
     }
 
-    sessionStorage.setItem(key, value)
+    localStorage.setItem(key, value)
   }, [canUseLocalStorage])
 
   const localStorageRemove = useCallback((key: string) => {
@@ -34,7 +34,7 @@ const useLocalStorage = () => {
       throw new Error("Unable to use localStorage")
     }
 
-    sessionStorage.removeItem(key)
+    localStorage.removeItem(key)
   }, [canUseLocalStorage])
 
   return { canUseLocalStorage, localStorageRemove, localStorageGet, localStorageSet }
