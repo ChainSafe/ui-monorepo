@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { Button, FacebookLogoIcon, GithubLogoIcon, GoogleLogoIcon, Loading, Typography } from "@chainsafe/common-components"
+import { Button, FacebookLogoIcon, GithubLogoIcon, GoogleLogoIcon, Link, Loading, Typography } from "@chainsafe/common-components"
 import { createStyles, makeStyles, useThemeSwitcher } from "@chainsafe/common-theme"
 import { CSFTheme } from "../../../Themes/types"
 import { t, Trans } from "@lingui/macro"
@@ -100,7 +100,7 @@ const useStyles = makeStyles(
       connectWalletFooter: {
         backgroundColor: constants.landing.background,
         color: constants.landing.footerText,
-        padding: `${constants.generalUnit * 4.375}px ${constants.generalUnit * 11}px`,
+        padding: `${constants.generalUnit * 4.375}px ${constants.generalUnit * 7}px`,
         width: "100%",
         textAlign: "center",
         "& > *": {
@@ -196,6 +196,18 @@ const InitialScreen = ({ className }: IInitialScreen) => {
     }
     setIsConnecting(false)
   }
+
+  const Footer = () => (
+    <footer className={classes.connectWalletFooter}>
+      <Typography variant='h5'>
+        <Trans>
+        By connecting your wallet, you agree to our <Link to={ROUTE_LINKS.Terms}>
+        Terms of Service</Link> and our <Link to={ROUTE_LINKS.PrivacyPolicy}>Privacy Policy</Link>
+        </Trans>
+      </Typography>
+    </footer>
+  )
+
   return (
     <div className={clsx(classes.root, className)}>
       {
@@ -300,9 +312,7 @@ const InitialScreen = ({ className }: IInitialScreen) => {
                 <>
                   <section className={classes.buttonSection}>
                     <Button
-                      onClick={() => {
-                        handleLogin("web3")
-                      }}
+                      onClick={() => {handleLogin("web3")}}
                       className={classes.button}
                       variant="primary"
                       size="large"
@@ -326,11 +336,7 @@ const InitialScreen = ({ className }: IInitialScreen) => {
                       <Typography><Trans>Go back</Trans></Typography>
                     </div>
                   </section>
-                  <footer className={classes.connectWalletFooter}>
-                    <Typography variant='h5'>
-                      <Trans>By connecting your wallet, you agree to our terms and privacy policy.</Trans>
-                    </Typography>
-                  </footer>
+                  <Footer/>
                 </>
               ) : (
                 <>
@@ -370,11 +376,7 @@ const InitialScreen = ({ className }: IInitialScreen) => {
                     <Trans>Use a different login method</Trans>
                   </Button>
                 </section>
-                <footer className={classes.connectWalletFooter}>
-                  <Typography variant='h5'>
-                    <Trans>By connecting your wallet, you agree to our terms and privacy policy.</Trans>
-                  </Typography>
-                </footer>
+                <Footer/>
               </>
           ) : (
             <>
