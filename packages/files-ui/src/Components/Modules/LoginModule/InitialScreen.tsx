@@ -136,10 +136,8 @@ const InitialScreen = ({ className }: IInitialScreen) => {
   const { login, status, resetStatus } = useThresholdKey()
   const classes = useStyles()
   const [loginMode, setLoginMode] = useState<"web3" | LOGIN_TYPE | undefined>()
-
   const [error, setError] = useState<string | undefined>()
   const maintenanceMode = process.env.REACT_APP_MAINTENANCE_MODE === "true"
-
   const [isConnecting, setIsConnecting] = useState(false)
 
   const handleSelectWalletAndConnect = async () => {

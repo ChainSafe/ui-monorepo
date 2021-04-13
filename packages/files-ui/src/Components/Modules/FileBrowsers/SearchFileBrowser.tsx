@@ -51,7 +51,8 @@ const SearchFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = fals
 
   const pathContents: FileSystemItem[] = searchResults.map((searchResult) => ({
     ...searchResult.content,
-    isFolder: searchResult.content.content_type === CONTENT_TYPES.Directory || searchResult.content.content_type === CONTENT_TYPES.Directory2
+    isFolder: (searchResult.content.content_type === CONTENT_TYPES.Directory)
+      || (searchResult.content.content_type === CONTENT_TYPES.Directory2)
   }))
 
   const itemOperations: IFilesTableBrowserProps["itemOperations"] = useMemo(() => ({
