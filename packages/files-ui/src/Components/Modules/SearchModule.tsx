@@ -247,7 +247,7 @@ const SearchModule: React.FC<ISearchModule> = ({
           <div className={classes.resultsBox}>
             {searchResults?.query && !searchResults.results.length ? (
               <Typography className={classes.noResultsFound}>
-               <Trans>No search results for </Trans>{` ${searchResults.query}`}
+                <Trans>No search results for </Trans>{` ${searchResults.query}`}
               </Typography>
             ) : null}
             {searchResultsFiles && searchResultsFiles.length ? (
