@@ -738,7 +738,7 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
         const newKeyDetails = await TKeySdk.getKeyDetails()
         setKeyDetails(newKeyDetails)
       } else {
-        console.error('Error refreshing share metadata: ',error)
+        console.error("Error refreshing share metadata: ", error)
       }
       return
     }
