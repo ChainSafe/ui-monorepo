@@ -37,7 +37,9 @@ const SavedBrowsers: React.FC<{isRefreshing: boolean}> = ({ isRefreshing }) => {
       <Typography component="p" variant="body1" className={classes.title}>
         <Trans>Saved Browsers</Trans> {isRefreshing && <Loading size={16} type='inherit' />}
       </Typography>
-      {browserShares.sort((a, b) => a.dateAdded - b.dateAdded).map((bs, i) => (
+      {browserShares
+        .sort((a, b) => a.dateAdded - b.dateAdded)
+        .map((bs, i) => (
         <div key={i} className={classes.expansionContainer}>
           <BrowserPanel {...bs}/>
         </div>
