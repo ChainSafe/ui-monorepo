@@ -12,7 +12,7 @@ interface Props {
     requests: ShareTransferRequest[]
 }
 
-const useStyles = makeStyles(({ constants }: ITheme) =>
+const useStyles = makeStyles(({ constants, typography }: ITheme) =>
   createStyles({
     root: {},
     modalInner: {
@@ -38,7 +38,10 @@ const useStyles = makeStyles(({ constants }: ITheme) =>
       flexWrap: "wrap"
     },
     clearAll: {
-      marginTop: constants.generalUnit
+      position: "absolute",
+      bottom: constants.generalUnit * 2,
+      right: constants.generalUnit * 2,
+      textDecoration: "underline"
     }
   })
 )
@@ -111,16 +114,16 @@ const ShareTransferRequestModal = ({ requests }: Props) => {
             onClick={onRejectRequest}>
             <Trans>Reject</Trans>
           </Button>
-          {requests.length > 1 && <Button
-            className={clsx(classes.button, classes.clearAll)}
-            variant={desktop ? "primary" : "outline"}
-            size="large"
-            fullsize
-            loading={isClearing}
+          {requests.length > 1 && <Typography
+            className={clsx(classes.clearAll)}
             disabled={isLoadingApprove || isLoadingReject || isClearing}
-            onClick={onClearingRequest}>
+            onClick={() => {
+              if (!isLoadingApprove || !isLoadingReject || !isClearing) {
+                onClearingRequest()
+              }
+            }}>
             <Trans>Reject all</Trans>
-          </Button>}
+          </Typography>}
         </div>
       </>
     </CustomModal>
