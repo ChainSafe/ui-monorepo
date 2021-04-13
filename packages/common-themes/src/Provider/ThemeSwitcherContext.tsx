@@ -26,7 +26,7 @@ type ThemeSwitcherProps = {
 const ThemeSwitcher = ({ children, themes, storageKey = "cs.themeKey" }: ThemeSwitcherProps) => {
   const breakpoints = createBreakpoints({})
   const desktop = useMediaQuery(breakpoints.up("md"))
-  const { canUseLocalStorage, localStorageGet, localStorageRemove, localStorageSet } = useLocalStorage()
+  const { canUseLocalStorage, localStorageGet, localStorageSet } = useLocalStorage()
 
   // TODO: check min 1 theme
   const [current, setCurrent] = useState<string>("")
