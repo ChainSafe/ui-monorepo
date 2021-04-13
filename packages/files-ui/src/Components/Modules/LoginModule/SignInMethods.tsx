@@ -1,6 +1,6 @@
 import React from "react"
 import { createStyles, makeStyles, useThemeSwitcher } from "@chainsafe/common-theme"
-import { CheckCircleSvg, CopySvg, KeySvg, Typography } from "@chainsafe/common-components"
+import { CheckCircleSvg, CopySvg, CrossSvg, KeySvg, Typography } from "@chainsafe/common-components"
 import { Trans } from "@lingui/macro"
 import { useThresholdKey } from "../../../Contexts/ThresholdKeyContext"
 import { CSFTheme } from "../../../Themes/types"
@@ -53,6 +53,11 @@ const useStyles = makeStyles(({ breakpoints, constants, typography, palette, zIn
         marginLeft: constants.generalUnit * 1,
         stroke: palette.additional.green[6],
         fill: palette.additional.green[6]
+      },
+      "&.error svg": {
+        stroke: palette.error.main,
+        fill: palette.error.main,
+        marginLeft: constants.generalUnit * 1
       }
     },
     subText: {
@@ -184,22 +189,26 @@ const SignInMethods = ({ goToComplete, goToMnemonic, goToPassword, goToSkip, cla
         )
       }
 
-      <section className={classes.setOption}>
+      <section className={clsx(
+        classes.setOption, {
+          "error": browserShares.length === 0
+        }
+      )}>
         <div>
-          <Typography variant="h5">
+          {browserShares.length > 0 && <Typography variant="h5">
             <Trans>
               Saved Browser
             </Trans>
-          </Typography>
+          </Typography>}
           {
             desktop && (
               <Typography variant="h5">
                 <Trans>Saved</Trans>{" "}
-                {`${browserShares[0].browser.name} ${browserShares[0].browser.version}`}
+                {browserShares.length > 0 && `${browserShares[0].browser.name} ${browserShares[0].browser.version}`}
               </Typography>
             )
           }
-          <CheckCircleSvg />
+          {browserShares.length > 0 ? <CheckCircleSvg /> : <CrossSvg />}
         </div>
         {
           desktop && (
