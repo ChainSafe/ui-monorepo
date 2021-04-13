@@ -41,7 +41,9 @@ const useStyles = makeStyles(({ constants }: ITheme) =>
       position: "absolute",
       bottom: constants.generalUnit * 2,
       right: constants.generalUnit * 2,
-      textDecoration: "underline"
+      textDecoration: "underline",
+      outline: "none",
+      cursor: "pointer"
     }
   })
 )
