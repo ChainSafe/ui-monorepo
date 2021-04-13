@@ -114,6 +114,13 @@ const useStyles = makeStyles(
       loader: {
         marginTop: constants.generalUnit,
         padding: 0
+      },
+      buttonLink: {
+        color: palette.additional["gray"][10],
+        outline: "none",
+        textDecoration: "underline",
+        cursor: "pointer",
+        textAlign: "center"
       }
     })
 )
@@ -312,6 +319,12 @@ const InitialScreen = ({ className }: IInitialScreen) => {
                     >
                       <Trans>Connect a new wallet</Trans>
                     </Button>
+                    <div
+                      className={classes.buttonLink}
+                      onClick={resetLogin}
+                    >
+                      <Typography><Trans>Go back</Trans></Typography>
+                    </div>
                   </section>
                   <footer className={classes.connectWalletFooter}>
                     <Typography variant='h5'>
