@@ -38,9 +38,6 @@ const useStyles = makeStyles(({ constants }: ITheme) =>
       flexWrap: "wrap"
     },
     clearAll: {
-      position: "absolute",
-      bottom: constants.generalUnit * 2,
-      right: constants.generalUnit * 2,
       textDecoration: "underline",
       outline: "none",
       cursor: "pointer"
