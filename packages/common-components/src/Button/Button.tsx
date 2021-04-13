@@ -54,12 +54,6 @@ const useStyles = makeStyles(
             : palette.primary.main,
           ...overrides?.Button?.variants?.primary?.hover
         },
-        "&:focus": {
-          backgroundColor: palette.primary.hover
-            ? palette.primary.hover
-            : palette.primary.main,
-          ...overrides?.Button?.variants?.primary?.focus
-        },
         "&:active": {
           backgroundColor: palette.primary.hover
             ? palette.primary.hover

@@ -15,7 +15,6 @@ export interface IButtonOverride {
     primary?: {
       root?: Record<string, any>
       hover?: Record<string, any>
-      focus?: Record<string, any>
       active?: Record<string, any>
     }
     outline?: {
