@@ -37,7 +37,7 @@ const useSessionStorage = () => {
     sessionStorage.removeItem(key)
   }, [canUseSessionStorage])
 
-  return { sessionStorageRemove, sessionStorageGet, sessionStorageSet }
+  return { canUseSessionStorage, sessionStorageRemove, sessionStorageGet, sessionStorageSet }
 }
 
 export default useSessionStorage

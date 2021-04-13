@@ -1,31 +1,15 @@
 import React, { useEffect } from "react"
-import {
-  init as initSentry,
-  ErrorBoundary,
-  showReportDialog
-} from "@sentry/react"
+import { init as initSentry, ErrorBoundary, showReportDialog } from "@sentry/react"
 import { ThemeSwitcher } from "@chainsafe/common-theme"
-import {
-  Button,
-  CssBaseline,
-  Modal,
-  Router,
-  ToasterProvider,
-  Typography
-} from "@chainsafe/common-components"
+import { Button, CssBaseline, Modal, Router, ToasterProvider, Typography } from "@chainsafe/common-components"
 import { Web3Provider } from "@chainsafe/web3-context"
-import {
-  ImployApiProvider,
-  UserProvider,
-  BillingProvider
-} from "@chainsafe/common-contexts"
+import { ImployApiProvider, UserProvider, BillingProvider, useLocalStorage } from "@chainsafe/common-contexts"
 import { DriveProvider } from "./Contexts/DriveContext"
 import FilesRoutes from "./Components/FilesRoutes"
 import AppWrapper from "./Components/Layouts/AppWrapper"
 import { darkTheme } from "./Themes/DarkTheme"
 import { useHotjar } from "react-use-hotjar"
 import { LanguageProvider } from "./Contexts/LanguageContext"
-import { testLocalStorage } from "./Utils/Helpers"
 import { ThresholdKeyProvider } from "./Contexts/ThresholdKeyContext"
 import { lightTheme } from "./Themes/LightTheme"
 
@@ -41,8 +25,8 @@ if (
 }
 const App: React.FC<{}> = () => {
   const { initHotjar } = useHotjar()
+  const { canUseLocalStorage } = useLocalStorage()
   const hotjarId = process.env.REACT_APP_HOTJAR_ID
-
   const apiUrl =
     process.env.REACT_APP_API_URL || "https://stage.imploy.site/api/v1"
 
@@ -110,7 +94,7 @@ const App: React.FC<{}> = () => {
                 }
               }}
               checkNetwork={false}
-              cacheWalletSelection={testLocalStorage()}
+              cacheWalletSelection={canUseLocalStorage }
             >
               <ImployApiProvider apiUrl={apiUrl} withLocalStorage={false}>
                 <ThresholdKeyProvider enableLogging network={directAuthNetwork}>
