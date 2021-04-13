@@ -7,7 +7,7 @@ import { CSFTheme } from "../../../../Themes/types"
 import { Loading, Typography } from "@chainsafe/common-components"
 import BrowserPanel from "./BrowserPanel"
 import { useThresholdKey } from "../../../../Contexts/ThresholdKeyContext"
-import {Trans} from "@lingui/macro"
+import { Trans } from "@lingui/macro"
 
 const useStyles = makeStyles(({ constants, breakpoints }: CSFTheme) =>
   createStyles({
