@@ -1,5 +1,5 @@
 import { Button, Loading, Typography } from "@chainsafe/common-components"
-import { createStyles, ITheme, makeStyles, useThemeSwitcher } from "@chainsafe/common-theme"
+import { createStyles, makeStyles, useThemeSwitcher } from "@chainsafe/common-theme"
 import { Trans } from "@lingui/macro"
 import dayjs from "dayjs"
 import React, { useCallback, useEffect, useMemo, useState } from "react"
@@ -7,23 +7,46 @@ import { ShareTransferRequest, useThresholdKey } from "../../Contexts/ThresholdK
 import CustomModal from "../Elements/CustomModal"
 import DevicesImage from "../../Media/devices.png"
 import clsx from "clsx"
+import { CSFTheme } from "../../Themes/types"
 
 interface Props {
     requests: ShareTransferRequest[]
 }
 
-const useStyles = makeStyles(({ constants }: ITheme) =>
+const useStyles = makeStyles(({ breakpoints, constants }: CSFTheme) =>
   createStyles({
     root: {},
     modalInner: {
       padding: constants.generalUnit * 4,
       textAlign: "center",
-
       "& img" : {
         width: "min-content",
         margin: "auto",
         marginTop: constants.generalUnit * 5,
         marginBottom: constants.generalUnit * 5
+      },
+      [breakpoints.up("sm")]: {
+        top: "50%",
+        left: "50%",
+        display: "flex",
+        position: "absolute",
+        flexGrow: 1,
+        transform: "translate(-50%, -50%)",
+        flexDirection: "column",
+        backgroundColor: "var(--gray1)",
+        minHeight: 550
+      },
+      [breakpoints.down("sm")]: {
+        backgroundColor: constants?.modalDefault?.background,
+        top: "unset",
+        bottom: 0,
+        left: 0,
+        width: "100% !important",
+        transform: "unset",
+        borderRadiusLeftTop: `${constants.generalUnit * 1.5}px`,
+        borderRadiusRightTop: `${constants.generalUnit * 1.5}px`,
+        borderRadiusLeftBottom: 0,
+        borderRadiusRightBottom: 0
       }
     },
     button: {

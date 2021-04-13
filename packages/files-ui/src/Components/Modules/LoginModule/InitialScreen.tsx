@@ -100,7 +100,7 @@ const useStyles = makeStyles(
       connectWalletFooter: {
         backgroundColor: constants.landing.background,
         color: constants.landing.footerText,
-        padding: `${constants.generalUnit * 4.375}px ${constants.generalUnit * 11}px`,
+        padding: `${constants.generalUnit * 4.375}px ${constants.generalUnit * 7}px`,
         width: "100%",
         textAlign: "center",
         "& > *": {
@@ -114,6 +114,13 @@ const useStyles = makeStyles(
       loader: {
         marginTop: constants.generalUnit,
         padding: 0
+      },
+      buttonLink: {
+        color: palette.additional["gray"][10],
+        outline: "none",
+        textDecoration: "underline",
+        cursor: "pointer",
+        textAlign: "center"
       }
     })
 )
@@ -129,10 +136,8 @@ const InitialScreen = ({ className }: IInitialScreen) => {
   const { login, status, resetStatus } = useThresholdKey()
   const classes = useStyles()
   const [loginMode, setLoginMode] = useState<"web3" | LOGIN_TYPE | undefined>()
-
   const [error, setError] = useState<string | undefined>()
   const maintenanceMode = process.env.REACT_APP_MAINTENANCE_MODE === "true"
-
   const [isConnecting, setIsConnecting] = useState(false)
 
   const handleSelectWalletAndConnect = async () => {
@@ -189,6 +194,21 @@ const InitialScreen = ({ className }: IInitialScreen) => {
     }
     setIsConnecting(false)
   }
+
+  const Footer = () => (
+    <footer className={classes.connectWalletFooter}>
+      <Typography variant='h5'>
+        <Trans>
+          By connecting your wallet, you agree to our <a href={ROUTE_LINKS.Terms} target="_blank" rel="noopener noreferrer" >
+            Terms of Service
+          </a> and <a href={ROUTE_LINKS.PrivacyPolicy} target="_blank" rel="noopener noreferrer">
+            Privacy Policy
+          </a>
+        </Trans>
+      </Typography>
+    </footer>
+  )
+
   return (
     <div className={clsx(classes.root, className)}>
       {
@@ -293,9 +313,7 @@ const InitialScreen = ({ className }: IInitialScreen) => {
                 <>
                   <section className={classes.buttonSection}>
                     <Button
-                      onClick={() => {
-                        handleLogin("web3")
-                      }}
+                      onClick={() => {handleLogin("web3")}}
                       className={classes.button}
                       variant="primary"
                       size="large"
@@ -312,12 +330,14 @@ const InitialScreen = ({ className }: IInitialScreen) => {
                     >
                       <Trans>Connect a new wallet</Trans>
                     </Button>
+                    <div
+                      className={classes.buttonLink}
+                      onClick={resetLogin}
+                    >
+                      <Typography><Trans>Go back</Trans></Typography>
+                    </div>
                   </section>
-                  <footer className={classes.connectWalletFooter}>
-                    <Typography variant='h5'>
-                      <Trans>By connecting your wallet, you agree to our terms and privacy policy.</Trans>
-                    </Typography>
-                  </footer>
+                  <Footer/>
                 </>
               ) : (
                 <>
@@ -357,11 +377,7 @@ const InitialScreen = ({ className }: IInitialScreen) => {
                     <Trans>Use a different login method</Trans>
                   </Button>
                 </section>
-                <footer className={classes.connectWalletFooter}>
-                  <Typography variant='h5'>
-                    <Trans>By connecting your wallet, you agree to our terms and privacy policy.</Trans>
-                  </Typography>
-                </footer>
+                <Footer/>
               </>
           ) : (
             <>

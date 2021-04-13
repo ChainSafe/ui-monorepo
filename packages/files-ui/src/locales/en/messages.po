@@ -13,7 +13,7 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
-#: src/Components/Modules/Settings/Security/index.tsx:230
+#: src/Components/Modules/Settings/Security/index.tsx:229
 msgid "(Change)"
 msgstr "(Change)"
 
@@ -21,15 +21,15 @@ msgstr "(Change)"
 msgid "A backup phrase will be generated and used for your account.<0/>We do not store it and <1>it can only be displayed once</1>. Save it somewhere safe!"
 msgstr "A backup phrase will be generated and used for your account.<0/>We do not store it and <1>it can only be displayed once</1>. Save it somewhere safe!"
 
-#: src/Components/Modules/Settings/Security/index.tsx:258
+#: src/Components/Modules/Settings/Security/index.tsx:257
 msgid "A backup phrase will be generated for your account.<0/>We do not store it and <1>it can only be displayed once</1>. Please save it somewhere safe!"
 msgstr "A backup phrase will be generated for your account.<0/>We do not store it and <1>it can only be displayed once</1>. Please save it somewhere safe!"
 
-#: src/Contexts/DriveContext.tsx:243
+#: src/Contexts/DriveContext.tsx:246
 msgid "A file with the same name already exists"
 msgstr "A file with the same name already exists"
 
-#: src/Components/Layouts/AppNav.tsx:253
+#: src/Components/Layouts/AppNav.tsx:254
 msgid "Account"
 msgstr "Account"
 
@@ -37,31 +37,23 @@ msgstr "Account"
 msgid "Add and change passwords"
 msgstr "Add and change passwords"
 
-#: src/Components/Modules/Settings/Security/index.tsx:205
+#: src/Components/Modules/Settings/Security/index.tsx:204
 msgid "Add at least one more authentication method to protect your account. You’d only need any two to sign in to Files from any device."
 msgstr "Add at least one more authentication method to protect your account. You’d only need any two to sign in to Files from any device."
-
-#: src/Components/Modules/Settings/Security/index.tsx:197
-#~ msgid "Add at least one more sign-in method to protect your account for account recovery. You’d only need any two to sign in to Files from any device."
-#~ msgstr "Add at least one more sign-in method to protect your account for account recovery. You’d only need any two to sign in to Files from any device."
 
 #: src/Components/Modules/UploadFileModule.tsx:112
 msgid "Add more files"
 msgstr "Add more files"
 
-#: src/Components/Modules/LoginModule/SignInMethods.tsx:222
-#~ msgid "Add sign-in Methods"
-#~ msgstr "Add sign-in Methods"
-
-#: src/Components/Modules/LoginModule/SignInMethods.tsx:211
+#: src/Components/Modules/LoginModule/SignInMethods.tsx:210
 msgid "Add sign-in methods"
 msgstr "Add sign-in methods"
 
-#: src/Components/Elements/ShareTransferRequestModal.tsx:75
+#: src/Components/Elements/ShareTransferRequestModal.tsx:101
 msgid "Approve"
 msgstr "Approve"
 
-#: src/Components/Modules/FileBrowsers/views/FilesTable.view.tsx:546
+#: src/Components/Modules/FileBrowsers/views/FilesTable.view.tsx:544
 msgid "Are you sure you wish to delete?"
 msgstr "Are you sure you wish to delete?"
 
@@ -69,7 +61,7 @@ msgstr "Are you sure you wish to delete?"
 msgid "Are you sure?"
 msgstr "Are you sure?"
 
-#: src/Components/Modules/Settings/Security/index.tsx:268
+#: src/Components/Modules/Settings/Security/index.tsx:267
 msgid "Backup Phrase"
 msgstr "Backup Phrase"
 
@@ -81,41 +73,40 @@ msgstr "Backup phrase"
 msgid "Backup phrase does not match user account, please double-check and try again."
 msgstr "Backup phrase does not match user account, please double-check and try again."
 
-#: src/Components/Modules/LoginModule/SignInMethods.tsx:201
+#: src/Components/Modules/LoginModule/SignInMethods.tsx:200
 msgid "Backup phrase saved"
 msgstr "Backup phrase saved"
 
-#: src/Components/Layouts/AppNav.tsx:248
-#: src/Components/Modules/FileBrowsers/BinFileBrowser.tsx:32
+#: src/Components/Layouts/AppNav.tsx:249
+#: src/Components/Modules/FileBrowsers/BinFileBrowser.tsx:36
 msgid "Bin"
 msgstr "Bin"
 
-#: src/Components/Modules/Settings/SavedBrowsers/BrowserPanel.tsx:115
+#: src/Components/Modules/Settings/SavedBrowsers/BrowserPanel.tsx:111
 msgid "Browser:"
 msgstr "Browser:"
 
-#: src/Components/Modules/LoginModule/InitialScreen.tsx:249
-#: src/Components/Modules/LoginModule/InitialScreen.tsx:278
-msgid "By connecting your wallet, you agree to our terms and privacy policy."
-msgstr "By connecting your wallet, you agree to our terms and privacy policy."
+#: src/Components/Modules/LoginModule/InitialScreen.tsx:195
+msgid "By connecting your wallet, you agree to our <0>Terms of Service</0> and our <1>Privacy Policy</1>"
+msgstr "By connecting your wallet, you agree to our <0>Terms of Service</0> and our <1>Privacy Policy</1>"
 
 #: src/Components/Modules/FileBrowsers/FileInfoModal.tsx:197
 msgid "CID (Content Identifier)"
 msgstr "CID (Content Identifier)"
 
-#: src/Components/Modules/CreateFolderModule.tsx:119
+#: src/Components/Modules/CreateFolderModule.tsx:122
 #: src/Components/Modules/FileBrowsers/MoveFileModal.tsx:152
-#: src/Components/Modules/FileBrowsers/views/FileSystemItemRow.tsx:336
-#: src/Components/Modules/FileBrowsers/views/FilesTable.view.tsx:546
+#: src/Components/Modules/FileBrowsers/views/FileSystemItemRow.tsx:341
+#: src/Components/Modules/FileBrowsers/views/FilesTable.view.tsx:544
 #: src/Components/Modules/UploadFileModule.tsx:115
 msgid "Cancel"
 msgstr "Cancel"
 
-#: src/Components/Modules/Settings/Security/index.tsx:248
+#: src/Components/Modules/Settings/Security/index.tsx:247
 msgid "Change Password"
 msgstr "Change Password"
 
-#: src/Components/Modules/Settings/Security/index.tsx:241
+#: src/Components/Modules/Settings/Security/index.tsx:240
 msgid "Change password"
 msgstr "Change password"
 
@@ -131,11 +122,11 @@ msgstr "Click or drag to upload files"
 msgid "Close"
 msgstr "Close"
 
-#: src/Components/Modules/LoginModule/SignInMethods.tsx:241
+#: src/Components/Modules/LoginModule/SignInMethods.tsx:240
 msgid "Complete"
 msgstr "Complete"
 
-#: src/Components/Modules/FileBrowsers/views/FilesTable.view.tsx:546
+#: src/Components/Modules/FileBrowsers/views/FilesTable.view.tsx:544
 msgid "Confirm"
 msgstr "Confirm"
 
@@ -143,15 +134,15 @@ msgstr "Confirm"
 msgid "Confirm Password:"
 msgstr "Confirm Password:"
 
-#: src/Components/Modules/LoginModule/InitialScreen.tsx:254
+#: src/Components/Modules/LoginModule/InitialScreen.tsx:266
 msgid "Connect Wallet to Files"
 msgstr "Connect Wallet to Files"
 
-#: src/Components/Modules/LoginModule/InitialScreen.tsx:244
+#: src/Components/Modules/LoginModule/InitialScreen.tsx:257
 msgid "Connect a new wallet"
 msgstr "Connect a new wallet"
 
-#: src/Components/Modules/LoginModule/InitialScreen.tsx:283
+#: src/Components/Modules/LoginModule/InitialScreen.tsx:291
 msgid "Connection failed"
 msgstr "Connection failed"
 
@@ -164,23 +155,23 @@ msgstr "Connection failed"
 msgid "Continue"
 msgstr "Continue"
 
-#: src/Components/Modules/LoginModule/InitialScreen.tsx:211
+#: src/Components/Modules/LoginModule/InitialScreen.tsx:226
 msgid "Continue with Facebook"
 msgstr "Continue with Facebook"
 
-#: src/Components/Modules/LoginModule/InitialScreen.tsx:203
+#: src/Components/Modules/LoginModule/InitialScreen.tsx:218
 msgid "Continue with Github"
 msgstr "Continue with Github"
 
-#: src/Components/Modules/LoginModule/InitialScreen.tsx:207
+#: src/Components/Modules/LoginModule/InitialScreen.tsx:222
 msgid "Continue with Google"
 msgstr "Continue with Google"
 
-#: src/Components/Modules/LoginModule/InitialScreen.tsx:199
+#: src/Components/Modules/LoginModule/InitialScreen.tsx:214
 msgid "Continue with Web3 Wallet"
 msgstr "Continue with Web3 Wallet"
 
-#: src/Components/Modules/LoginModule/InitialScreen.tsx:241
+#: src/Components/Modules/LoginModule/InitialScreen.tsx:254
 msgid "Continue with {0}"
 msgstr "Continue with {0}"
 
@@ -193,24 +184,24 @@ msgstr "Copied!"
 msgid "Copy CID"
 msgstr "Copy CID"
 
-#: src/Components/Modules/LoginModule/SignInMethods.tsx:233
+#: src/Components/Modules/LoginModule/SignInMethods.tsx:232
 msgid "Copy backup phrase"
 msgstr "Copy backup phrase"
 
-#: src/Components/Modules/CreateFolderModule.tsx:122
+#: src/Components/Modules/CreateFolderModule.tsx:125
 msgid "Create"
 msgstr "Create"
 
-#: src/Components/Modules/CreateFolderModule.tsx:111
+#: src/Components/Modules/CreateFolderModule.tsx:114
 msgid "Create Folder"
 msgstr "Create Folder"
 
-#: src/Components/Modules/FileBrowsers/views/FilesTable.view.tsx:463
+#: src/Components/Modules/FileBrowsers/views/FilesTable.view.tsx:461
 msgid "Create folder"
 msgstr "Create folder"
 
 #: src/Components/Layouts/AppHeader.tsx:178
-#: src/Components/Layouts/AppNav.tsx:277
+#: src/Components/Layouts/AppNav.tsx:278
 msgid "Dark mode"
 msgstr "Dark mode"
 
@@ -222,19 +213,19 @@ msgstr "Date uploaded"
 msgid "Decryption failed"
 msgstr "Decryption failed"
 
-#: src/Components/Modules/FileBrowsers/views/FileSystemItemRow.tsx:168
+#: src/Components/Modules/FileBrowsers/views/FileSystemItemRow.tsx:172
 msgid "Delete"
 msgstr "Delete"
 
-#: src/Components/Modules/FileBrowsers/views/FilesTable.view.tsx:487
+#: src/Components/Modules/FileBrowsers/views/FilesTable.view.tsx:485
 msgid "Delete selected"
 msgstr "Delete selected"
 
-#: src/Components/Elements/ShareTransferRequestModal.tsx:65
+#: src/Components/Elements/ShareTransferRequestModal.tsx:91
 msgid "Device awaiting confirmation"
 msgstr "Device awaiting confirmation"
 
-#: src/Components/Modules/FileBrowsers/views/FileSystemItemRow.tsx:177
+#: src/Components/Modules/FileBrowsers/views/FileSystemItemRow.tsx:181
 #: src/Components/Modules/FilePreviewModal.tsx:289
 #: src/Components/Modules/FilePreviewModal.tsx:324
 msgid "Download"
@@ -244,11 +235,11 @@ msgstr "Download"
 msgid "Download complete"
 msgstr "Download complete"
 
-#: src/Components/Modules/Settings/SavedBrowsers/BrowserPanel.tsx:125
+#: src/Components/Modules/Settings/SavedBrowsers/BrowserPanel.tsx:123
 msgid "Download recovery key"
 msgstr "Download recovery key"
 
-#: src/Components/Modules/FileBrowsers/views/FilesTable.view.tsx:430
+#: src/Components/Modules/FileBrowsers/views/FilesTable.view.tsx:428
 msgid "Drop to upload files"
 msgstr "Drop to upload files"
 
@@ -273,7 +264,7 @@ msgstr "Enter password:"
 msgid "Essentials - Free"
 msgstr "Essentials - Free"
 
-#: src/Components/Modules/LoginModule/InitialScreen.tsx:177
+#: src/Components/Modules/LoginModule/InitialScreen.tsx:184
 msgid "Failed to get signature"
 msgstr "Failed to get signature"
 
@@ -281,7 +272,7 @@ msgstr "Failed to get signature"
 msgid "Failed to migrate account, please try again."
 msgstr "Failed to migrate account, please try again."
 
-#: src/Components/Modules/LoginModule/InitialScreen.tsx:170
+#: src/Components/Modules/LoginModule/InitialScreen.tsx:177
 msgid ""
 "Failed to validate signature.\n"
 "If you are using a contract wallet, please make \n"
@@ -291,9 +282,9 @@ msgstr ""
 "If you are using a contract wallet, please make \n"
 "sure you have activated your wallet."
 
-#: src/Contexts/DriveContext.tsx:355
-#: src/Contexts/DriveContext.tsx:384
-#: src/Contexts/DriveContext.tsx:421
+#: src/Contexts/DriveContext.tsx:358
+#: src/Contexts/DriveContext.tsx:387
+#: src/Contexts/DriveContext.tsx:424
 msgid "File"
 msgstr "File"
 
@@ -305,11 +296,11 @@ msgstr "File Info"
 msgid "File format not supported."
 msgstr "File format not supported."
 
-#: src/Contexts/DriveContext.tsx:325
+#: src/Contexts/DriveContext.tsx:328
 msgid "File moved successfully"
 msgstr "File moved successfully"
 
-#: src/Contexts/DriveContext.tsx:306
+#: src/Contexts/DriveContext.tsx:309
 msgid "File renamed successfully"
 msgstr "File renamed successfully"
 
@@ -317,35 +308,35 @@ msgstr "File renamed successfully"
 msgid "File size"
 msgstr "File size"
 
-#: src/Components/Layouts/AppNav.tsx:222
-#: src/Components/Modules/SearchModule.tsx:201
+#: src/Components/Layouts/AppNav.tsx:223
+#: src/Components/Modules/SearchModule.tsx:198
 msgid "Files"
 msgstr "Files"
 
-#: src/Components/Modules/LoginModule/SignInMethods.tsx:182
+#: src/Components/Modules/LoginModule/SignInMethods.tsx:181
 msgid "Files uses device backups to save your browser."
 msgstr "Files uses device backups to save your browser."
 
-#: src/Contexts/DriveContext.tsx:355
-#: src/Contexts/DriveContext.tsx:384
-#: src/Contexts/DriveContext.tsx:421
+#: src/Contexts/DriveContext.tsx:358
+#: src/Contexts/DriveContext.tsx:387
+#: src/Contexts/DriveContext.tsx:424
 msgid "Folder"
 msgstr "Folder"
 
-#: src/Contexts/DriveContext.tsx:261
+#: src/Contexts/DriveContext.tsx:264
 msgid "Folder created successfully"
 msgstr "Folder created successfully"
 
-#: src/Components/Layouts/AppNav.tsx:232
-#: src/Components/Modules/SearchModule.tsx:213
+#: src/Components/Layouts/AppNav.tsx:233
+#: src/Components/Modules/SearchModule.tsx:210
 msgid "Folders"
 msgstr "Folders"
 
-#: src/Components/Modules/Settings/SavedBrowsers/BrowserPanel.tsx:134
+#: src/Components/Modules/Settings/SavedBrowsers/BrowserPanel.tsx:132
 msgid "Forget this browser"
 msgstr "Forget this browser"
 
-#: src/Components/Modules/Settings/SavedBrowsers/BrowserPanel.tsx:130
+#: src/Components/Modules/Settings/SavedBrowsers/BrowserPanel.tsx:128
 msgid "Forgetting this browser deletes this from your list of sign-in methods. You will not be able to forget a browser if you only have two methods set up."
 msgstr "Forgetting this browser deletes this from your list of sign-in methods. You will not be able to forget a browser if you only have two methods set up."
 
@@ -354,8 +345,8 @@ msgid "General"
 msgstr "General"
 
 #: src/Components/Modules/LoginModule/SaveBackupPhrase.tsx:54
-#: src/Components/Modules/Settings/Security/index.tsx:253
-#: src/Components/Modules/Settings/Security/index.tsx:276
+#: src/Components/Modules/Settings/Security/index.tsx:252
+#: src/Components/Modules/Settings/Security/index.tsx:275
 msgid "Generate backup phrase"
 msgstr "Generate backup phrase"
 
@@ -367,27 +358,31 @@ msgstr "Generate phrase"
 msgid "Generating..."
 msgstr "Generating..."
 
-#: src/Components/Modules/LoginModule/InitialScreen.tsx:188
+#: src/Components/Modules/LoginModule/InitialScreen.tsx:203
 msgid "Get Started"
 msgstr "Get Started"
+
+#: src/Components/Modules/LoginModule/InitialScreen.tsx:260
+msgid "Go back"
+msgstr "Go back"
 
 #: src/Components/Modules/LoginModule/Complete.tsx:83
 msgid "Great! You’re all done."
 msgstr "Great! You’re all done."
 
-#: src/Components/Modules/Settings/Security/index.tsx:170
+#: src/Components/Modules/Settings/Security/index.tsx:169
 msgid "Hey! You only have two sign-in methods. If you lose that and have only one left, you will be locked out of your account forever."
 msgstr "Hey! You only have two sign-in methods. If you lose that and have only one left, you will be locked out of your account forever."
 
-#: src/Components/Modules/LoginModule/InitialScreen.tsx:261
+#: src/Components/Modules/LoginModule/InitialScreen.tsx:273
 msgid "Hold on, we are logging you in..."
 msgstr "Hold on, we are logging you in..."
 
-#: src/Components/Layouts/AppNav.tsx:240
+#: src/Components/Layouts/AppNav.tsx:241
 msgid "Home"
 msgstr "Home"
 
-#: src/Components/Modules/FileBrowsers/views/FileSystemItemRow.tsx:204
+#: src/Components/Modules/FileBrowsers/views/FileSystemItemRow.tsx:208
 msgid "Info"
 msgstr "Info"
 
@@ -405,11 +400,11 @@ msgstr ""
 msgid "Introducing multi-factor sign in"
 msgstr "Introducing multi-factor sign in"
 
-#: src/Components/Modules/Settings/Security/index.tsx:263
+#: src/Components/Modules/Settings/Security/index.tsx:262
 msgid "I’m done saving my backup phrase"
 msgstr "I’m done saving my backup phrase"
 
-#: src/Components/Modules/LoginModule/SignInMethods.tsx:183
+#: src/Components/Modules/LoginModule/SignInMethods.tsx:182
 msgid "Learn more"
 msgstr "Learn more"
 
@@ -422,7 +417,7 @@ msgid "Let's do it"
 msgstr "Let's do it"
 
 #: src/Components/Layouts/AppHeader.tsx:178
-#: src/Components/Layouts/AppNav.tsx:277
+#: src/Components/Layouts/AppNav.tsx:278
 msgid "Light mode"
 msgstr "Light mode"
 
@@ -434,18 +429,6 @@ msgstr "Loading preview"
 msgid "Logged in with"
 msgstr "Logged in with"
 
-#: src/Components/Modules/hooks/useLoggedInAs.ts:18
-#~ msgid "Logged in with Facebook"
-#~ msgstr "Logged in with Facebook"
-
-#: src/Components/Modules/hooks/useLoggedInAs.ts:21
-#~ msgid "Logged in with Github"
-#~ msgstr "Logged in with Github"
-
-#: src/Components/Modules/hooks/useLoggedInAs.ts:24
-#~ msgid "Logged in with Google"
-#~ msgstr "Logged in with Google"
-
 #: src/Contexts/ThresholdKeyContext.tsx:264
 msgid "Logged in with Web3"
 msgstr "Logged in with Web3"
@@ -455,11 +438,11 @@ msgid "Looks like you’re signing in from a new browser. Please choose one of t
 msgstr "Looks like you’re signing in from a new browser. Please choose one of the following to continue:"
 
 #: src/Components/Modules/FileBrowsers/MoveFileModal.tsx:155
-#: src/Components/Modules/FileBrowsers/views/FileSystemItemRow.tsx:186
+#: src/Components/Modules/FileBrowsers/views/FileSystemItemRow.tsx:190
 msgid "Move"
 msgstr "Move"
 
-#: src/Components/Modules/FileBrowsers/views/FilesTable.view.tsx:484
+#: src/Components/Modules/FileBrowsers/views/FilesTable.view.tsx:482
 msgid "Move selected"
 msgstr "Move selected"
 
@@ -467,15 +450,15 @@ msgstr "Move selected"
 msgid "Move to..."
 msgstr "Move to..."
 
-#: src/Components/Modules/FileBrowsers/CSFFileBrowser.tsx:70
+#: src/Components/Modules/FileBrowsers/CSFFileBrowser.tsx:76
 msgid "My Files"
 msgstr "My Files"
 
-#: src/Components/Modules/FileBrowsers/views/FilesTable.view.tsx:512
+#: src/Components/Modules/FileBrowsers/views/FilesTable.view.tsx:510
 msgid "Name"
 msgstr "Name"
 
-#: src/Components/Modules/FileBrowsers/views/FilesTable.view.tsx:445
+#: src/Components/Modules/FileBrowsers/views/FilesTable.view.tsx:443
 msgid "New folder"
 msgstr "New folder"
 
@@ -488,11 +471,11 @@ msgstr "Next"
 msgid "Nice to see you again!"
 msgstr "Nice to see you again!"
 
-#: src/Components/Modules/FileBrowsers/views/FilesTable.view.tsx:500
+#: src/Components/Modules/FileBrowsers/views/FilesTable.view.tsx:498
 msgid "No files to show"
 msgstr "No files to show"
 
-#: src/Components/Modules/SearchModule.tsx:195
+#: src/Components/Modules/SearchModule.tsx:193
 msgid "No search results for"
 msgstr "No search results for"
 
@@ -504,15 +487,15 @@ msgstr "No thanks"
 msgid "Number of copies (Replication Factor)"
 msgstr "Number of copies (Replication Factor)"
 
-#: src/Components/Modules/CreateFolderModule.tsx:122
+#: src/Components/Modules/CreateFolderModule.tsx:125
 msgid "OK"
 msgstr "OK"
 
-#: src/Components/Modules/FileBrowsers/views/FilesTable.view.tsx:493
+#: src/Components/Modules/FileBrowsers/views/FilesTable.view.tsx:491
 msgid "One sec, getting files ready..."
 msgstr "One sec, getting files ready..."
 
-#: src/Components/Modules/Settings/SavedBrowsers/BrowserPanel.tsx:112
+#: src/Components/Modules/Settings/SavedBrowsers/BrowserPanel.tsx:107
 msgid "Operating system:"
 msgstr "Operating system:"
 
@@ -520,7 +503,7 @@ msgstr "Operating system:"
 msgid "Or confirm by signing into your Files on any browser you’ve used before."
 msgstr "Or confirm by signing into your Files on any browser you’ve used before."
 
-#: src/Components/Modules/Settings/Security/index.tsx:215
+#: src/Components/Modules/Settings/Security/index.tsx:214
 msgid "Password"
 msgstr "Password"
 
@@ -537,7 +520,7 @@ msgstr "Password does not match user account, please double-check and try again.
 msgid "Password needs to be more complex"
 msgstr "Password needs to be more complex"
 
-#: src/Components/Modules/LoginModule/SignInMethods.tsx:190
+#: src/Components/Modules/LoginModule/SignInMethods.tsx:189
 msgid "Password set"
 msgstr "Password set"
 
@@ -557,7 +540,7 @@ msgstr "Passwords must match"
 msgid "Please provide a password"
 msgstr "Please provide a password"
 
-#: src/Components/Modules/FileBrowsers/views/FileSystemItemRow.tsx:222
+#: src/Components/Modules/FileBrowsers/views/FileSystemItemRow.tsx:226
 msgid "Preview"
 msgstr "Preview"
 
@@ -575,7 +558,7 @@ msgstr ""
 "We’re happy to announce that you don’t need a password to sign in anymore. \n"
 "All you have to do is set up multiple sign-in methods."
 
-#: src/Components/Modules/LoginModule/InitialScreen.tsx:222
+#: src/Components/Modules/LoginModule/InitialScreen.tsx:237
 msgid "Privacy Policy"
 msgstr "Privacy Policy"
 
@@ -587,7 +570,7 @@ msgstr "Profile and Display"
 msgid "Profile updated"
 msgstr "Profile updated"
 
-#: src/Components/Modules/FileBrowsers/views/FileSystemItemRow.tsx:213
+#: src/Components/Modules/FileBrowsers/views/FileSystemItemRow.tsx:217
 msgid "Recover"
 msgstr "Recover"
 
@@ -595,27 +578,27 @@ msgstr "Recover"
 msgid "Recover with passphrase"
 msgstr "Recover with passphrase"
 
-#: src/Components/Elements/ShareTransferRequestModal.tsx:78
+#: src/Components/Elements/ShareTransferRequestModal.tsx:104
 msgid "Reject"
 msgstr "Reject"
 
-#: src/Components/Modules/LoginModule/SignInMethods.tsx:245
+#: src/Components/Modules/LoginModule/SignInMethods.tsx:244
 msgid "Remind me later"
 msgstr "Remind me later"
 
-#: src/Components/Modules/FileBrowsers/views/FileSystemItemRow.tsx:159
+#: src/Components/Modules/FileBrowsers/views/FileSystemItemRow.tsx:163
 msgid "Rename"
 msgstr "Rename"
 
-#: src/Components/Modules/FileBrowsers/views/FileSystemItemRow.tsx:331
+#: src/Components/Modules/FileBrowsers/views/FileSystemItemRow.tsx:336
 msgid "Rename File/Folder"
 msgstr "Rename File/Folder"
 
-#: src/Components/Elements/ShareTransferRequestModal.tsx:69
+#: src/Components/Elements/ShareTransferRequestModal.tsx:95
 msgid "Requested from"
 msgstr "Requested from"
 
-#: src/Components/Layouts/AppNav.tsx:253
+#: src/Components/Layouts/AppNav.tsx:254
 msgid "Resources"
 msgstr "Resources"
 
@@ -635,13 +618,13 @@ msgstr "Save the device"
 msgid "Save this browser for next time?"
 msgstr "Save this browser for next time?"
 
-#: src/Components/Modules/LoginModule/SignInMethods.tsx:176
-#: src/Components/Modules/Settings/Security/index.tsx:196
+#: src/Components/Modules/LoginModule/SignInMethods.tsx:175
+#: src/Components/Modules/Settings/Security/index.tsx:195
 msgid "Saved"
 msgstr "Saved"
 
-#: src/Components/Modules/LoginModule/SignInMethods.tsx:171
-#: src/Components/Modules/Settings/Security/index.tsx:191
+#: src/Components/Modules/LoginModule/SignInMethods.tsx:170
+#: src/Components/Modules/Settings/Security/index.tsx:190
 msgid "Saved Browser"
 msgstr "Saved Browser"
 
@@ -649,15 +632,15 @@ msgstr "Saved Browser"
 msgid "Saved browser"
 msgstr "Saved browser"
 
-#: src/Components/Modules/Settings/SavedBrowsers/BrowserPanel.tsx:118
+#: src/Components/Modules/Settings/SavedBrowsers/BrowserPanel.tsx:116
 msgid "Saved on:"
 msgstr "Saved on:"
 
-#: src/Components/Modules/FileBrowsers/SearchFileBrowser.tsx:56
+#: src/Components/Modules/FileBrowsers/SearchFileBrowser.tsx:60
 msgid "Search results"
 msgstr "Search results"
 
-#: src/Components/Modules/SearchModule.tsx:190
+#: src/Components/Modules/SearchModule.tsx:188
 msgid "Search..."
 msgstr "Search..."
 
@@ -665,31 +648,31 @@ msgstr "Search..."
 msgid "Security"
 msgstr "Security"
 
-#: src/Components/Modules/LoginModule/InitialScreen.tsx:270
+#: src/Components/Modules/LoginModule/InitialScreen.tsx:282
 msgid "Select a wallet"
 msgstr "Select a wallet"
 
-#: src/Components/Layouts/AppNav.tsx:270
+#: src/Components/Layouts/AppNav.tsx:271
 msgid "Send Feedback"
 msgstr "Send Feedback"
 
 #: src/Components/Elements/PasswordForm.tsx:43
-#: src/Components/Modules/Settings/Security/index.tsx:248
+#: src/Components/Modules/Settings/Security/index.tsx:247
 msgid "Set Password"
 msgstr "Set Password"
 
-#: src/Components/Modules/Settings/Security/index.tsx:228
-#: src/Components/Modules/Settings/Security/index.tsx:281
+#: src/Components/Modules/Settings/Security/index.tsx:227
+#: src/Components/Modules/Settings/Security/index.tsx:280
 msgid "Set up"
 msgstr "Set up"
 
 #: src/Components/Modules/LoginModule/PasswordSetup.tsx:55
-#: src/Components/Modules/LoginModule/SignInMethods.tsx:225
-#: src/Components/Modules/Settings/Security/index.tsx:244
+#: src/Components/Modules/LoginModule/SignInMethods.tsx:224
+#: src/Components/Modules/Settings/Security/index.tsx:243
 msgid "Set up a password"
 msgstr "Set up a password"
 
-#: src/Components/Modules/Settings/Security/index.tsx:223
+#: src/Components/Modules/Settings/Security/index.tsx:222
 msgid "Set up password"
 msgstr "Set up password"
 
@@ -709,18 +692,18 @@ msgstr ""
 msgid "Setting up multiple sign-in methods makes signing in on multiple devices and restoring your account a breeze, all done without us storing information about you. Think that’s cool? <0>Learn how we apply cryptography to ensure the privacy of your data.</0>"
 msgstr "Setting up multiple sign-in methods makes signing in on multiple devices and restoring your account a breeze, all done without us storing information about you. Think that’s cool? <0>Learn how we apply cryptography to ensure the privacy of your data.</0>"
 
-#: src/Components/Layouts/AppNav.tsx:259
+#: src/Components/Layouts/AppNav.tsx:260
 #: src/Components/Modules/Settings/index.tsx:154
 #: src/Components/Modules/Settings/index.tsx:161
 msgid "Settings"
 msgstr "Settings"
 
-#: src/Components/Modules/FileBrowsers/views/FileSystemItemRow.tsx:195
+#: src/Components/Modules/FileBrowsers/views/FileSystemItemRow.tsx:199
 msgid "Share"
 msgstr "Share"
 
 #: src/Components/Layouts/AppHeader.tsx:169
-#: src/Components/Layouts/AppNav.tsx:286
+#: src/Components/Layouts/AppNav.tsx:287
 msgid "Sign Out"
 msgstr "Sign Out"
 
@@ -733,21 +716,17 @@ msgstr "Sign in"
 msgid "Sign in with a different account"
 msgstr "Sign in with a different account"
 
-#: src/Components/Modules/LoginModule/SignInMethods.tsx:160
-#~ msgid "Sign-in Methods"
-#~ msgstr "Sign-in Methods"
-
-#: src/Components/Modules/LoginModule/SignInMethods.tsx:149
-#: src/Components/Modules/Settings/Security/index.tsx:167
+#: src/Components/Modules/LoginModule/SignInMethods.tsx:148
+#: src/Components/Modules/Settings/Security/index.tsx:166
 msgid "Sign-in methods"
 msgstr "Sign-in methods"
 
-#: src/Components/Modules/FileBrowsers/views/FilesTable.view.tsx:516
+#: src/Components/Modules/FileBrowsers/views/FilesTable.view.tsx:514
 msgid "Size"
 msgstr "Size"
 
-#: src/Components/Modules/LoginModule/SignInMethods.tsx:157
-#: src/Components/Modules/Settings/Security/index.tsx:178
+#: src/Components/Modules/LoginModule/SignInMethods.tsx:156
+#: src/Components/Modules/Settings/Security/index.tsx:177
 msgid "Social Sign-in Wallet"
 msgstr "Social Sign-in Wallet"
 
@@ -755,7 +734,7 @@ msgstr "Social Sign-in Wallet"
 msgid "Social sign in or wallet"
 msgstr "Social sign in or wallet"
 
-#: src/Contexts/DriveContext.tsx:240
+#: src/Contexts/DriveContext.tsx:243
 msgid "Something went wrong. We couldn't upload your file"
 msgstr "Something went wrong. We couldn't upload your file"
 
@@ -775,7 +754,7 @@ msgstr "Stored by miner"
 msgid "Technical"
 msgstr "Technical"
 
-#: src/Components/Modules/LoginModule/InitialScreen.tsx:229
+#: src/Components/Modules/LoginModule/InitialScreen.tsx:244
 msgid "Terms and Conditions"
 msgstr "Terms and Conditions"
 
@@ -783,37 +762,37 @@ msgstr "Terms and Conditions"
 msgid "Thanks for taking care of that. You can <0/> adjust these anytime in security settings."
 msgstr "Thanks for taking care of that. You can <0/> adjust these anytime in security settings."
 
-#: src/Components/Modules/LoginModule/InitialScreen.tsx:180
+#: src/Components/Modules/LoginModule/InitialScreen.tsx:187
 msgid "The authentication popup was closed"
 msgstr "The authentication popup was closed"
 
-#: src/Components/Modules/LoginModule/InitialScreen.tsx:165
+#: src/Components/Modules/LoginModule/InitialScreen.tsx:172
 msgid "There was an error authenticating"
 msgstr "There was an error authenticating"
 
-#: src/Components/Modules/LoginModule/InitialScreen.tsx:139
-#: src/Components/Modules/LoginModule/InitialScreen.tsx:148
+#: src/Components/Modules/LoginModule/InitialScreen.tsx:146
+#: src/Components/Modules/LoginModule/InitialScreen.tsx:155
 msgid "There was an error connecting your wallet"
 msgstr "There was an error connecting your wallet"
 
-#: src/Contexts/DriveContext.tsx:268
+#: src/Contexts/DriveContext.tsx:271
 msgid "There was an error creating this folder"
 msgstr "There was an error creating this folder"
 
-#: src/Contexts/DriveContext.tsx:363
-#: src/Contexts/DriveContext.tsx:392
+#: src/Contexts/DriveContext.tsx:366
+#: src/Contexts/DriveContext.tsx:395
 msgid "There was an error deleting this"
 msgstr "There was an error deleting this"
 
-#: src/Contexts/DriveContext.tsx:294
+#: src/Contexts/DriveContext.tsx:297
 msgid "There was an error getting file info"
 msgstr "There was an error getting file info"
 
-#: src/Contexts/DriveContext.tsx:281
+#: src/Contexts/DriveContext.tsx:284
 msgid "There was an error getting folder info"
 msgstr "There was an error getting folder info"
 
-#: src/Contexts/DriveContext.tsx:548
+#: src/Contexts/DriveContext.tsx:554
 msgid "There was an error getting search results"
 msgstr "There was an error getting search results"
 
@@ -821,19 +800,19 @@ msgstr "There was an error getting search results"
 msgid "There was an error getting the preview."
 msgstr "There was an error getting the preview."
 
-#: src/Contexts/DriveContext.tsx:332
+#: src/Contexts/DriveContext.tsx:335
 msgid "There was an error moving this file"
 msgstr "There was an error moving this file"
 
-#: src/Contexts/DriveContext.tsx:429
+#: src/Contexts/DriveContext.tsx:432
 msgid "There was an error recovering this"
 msgstr "There was an error recovering this"
 
-#: src/Contexts/DriveContext.tsx:314
+#: src/Contexts/DriveContext.tsx:317
 msgid "There was an error renaming this file"
 msgstr "There was an error renaming this file"
 
-#: src/Components/Modules/LoginModule/InitialScreen.tsx:288
+#: src/Components/Modules/LoginModule/InitialScreen.tsx:296
 msgid "Try again"
 msgstr "Try again"
 
@@ -841,12 +820,12 @@ msgstr "Try again"
 msgid "Try another method"
 msgstr "Try another method"
 
-#: src/Components/Modules/FileBrowsers/views/FileSystemItemRow.tsx:339
+#: src/Components/Modules/FileBrowsers/views/FileSystemItemRow.tsx:344
 msgid "Update"
 msgstr "Update"
 
-#: src/Components/Modules/FileBrowsers/views/FilesTable.view.tsx:451
-#: src/Components/Modules/FileBrowsers/views/FilesTable.view.tsx:471
+#: src/Components/Modules/FileBrowsers/views/FilesTable.view.tsx:449
+#: src/Components/Modules/FileBrowsers/views/FilesTable.view.tsx:469
 msgid "Upload"
 msgstr "Upload"
 
@@ -854,11 +833,11 @@ msgstr "Upload"
 msgid "Upload complete"
 msgstr "Upload complete"
 
-#: src/Components/Modules/LoginModule/InitialScreen.tsx:273
+#: src/Components/Modules/LoginModule/InitialScreen.tsx:285
 msgid "Use a different login method"
 msgstr "Use a different login method"
 
-#: src/Components/Modules/FileBrowsers/views/FileSystemItemRow.tsx:231
+#: src/Components/Modules/FileBrowsers/views/FileSystemItemRow.tsx:235
 msgid "View folder"
 msgstr "View folder"
 
@@ -866,11 +845,11 @@ msgstr "View folder"
 msgid "Wallet address"
 msgstr "Wallet address"
 
-#: src/Components/Modules/LoginModule/SignInMethods.tsx:216
+#: src/Components/Modules/LoginModule/SignInMethods.tsx:215
 msgid "We seriously advise that you add a third method. If you lose one of the two sign-in methods, you’ll lose access to your account forever. Plus, signing in on multiple devices will be easier."
 msgstr "We seriously advise that you add a third method. If you lose one of the two sign-in methods, you’ll lose access to your account forever. Plus, signing in on multiple devices will be easier."
 
-#: src/Components/Modules/LoginModule/InitialScreen.tsx:214
+#: src/Components/Modules/LoginModule/InitialScreen.tsx:229
 msgid "We`'`re undergoing maintenance, thank you for being patient"
 msgstr "We`'`re undergoing maintenance, thank you for being patient"
 
@@ -894,15 +873,15 @@ msgstr "Yes, save it"
 msgid "You can change this later."
 msgstr "You can change this later."
 
-#: src/Components/Modules/LoginModule/InitialScreen.tsx:257
+#: src/Components/Modules/LoginModule/InitialScreen.tsx:269
 msgid "You will need to sign a message in your wallet to complete sign in."
 msgstr "You will need to sign a message in your wallet to complete sign in."
 
-#: src/Components/Modules/Settings/SavedBrowsers/BrowserPanel.tsx:122
+#: src/Components/Modules/Settings/SavedBrowsers/BrowserPanel.tsx:120
 msgid "Your recovery key can be used to restore your account in place of your backup phrase."
 msgstr "Your recovery key can be used to restore your account in place of your backup phrase."
 
-#: src/Components/Layouts/AppNav.tsx:226
+#: src/Components/Layouts/AppNav.tsx:227
 msgid "beta"
 msgstr "beta"
 
@@ -910,28 +889,28 @@ msgstr "beta"
 msgid "copied !"
 msgstr "copied !"
 
-#: src/Contexts/DriveContext.tsx:355
-#: src/Contexts/DriveContext.tsx:384
+#: src/Contexts/DriveContext.tsx:358
+#: src/Contexts/DriveContext.tsx:387
 msgid "deleted successfully"
 msgstr "deleted successfully"
 
-#: src/Contexts/DriveContext.tsx:363
-#: src/Contexts/DriveContext.tsx:392
-#: src/Contexts/DriveContext.tsx:429
+#: src/Contexts/DriveContext.tsx:366
+#: src/Contexts/DriveContext.tsx:395
+#: src/Contexts/DriveContext.tsx:432
 msgid "file"
 msgstr "file"
 
-#: src/Contexts/DriveContext.tsx:363
-#: src/Contexts/DriveContext.tsx:392
-#: src/Contexts/DriveContext.tsx:429
+#: src/Contexts/DriveContext.tsx:366
+#: src/Contexts/DriveContext.tsx:395
+#: src/Contexts/DriveContext.tsx:432
 msgid "folder"
 msgstr "folder"
 
-#: src/Components/Elements/ShareTransferRequestModal.tsx:71
+#: src/Components/Elements/ShareTransferRequestModal.tsx:97
 msgid "on"
 msgstr "on"
 
-#: src/Contexts/DriveContext.tsx:421
+#: src/Contexts/DriveContext.tsx:424
 msgid "recovered successfully"
 msgstr "recovered successfully"
 

@@ -16,6 +16,7 @@ export function useDoubleClick(actionSingleClick: () => void, actionDoubleClick:
     // the duration between this click and the previous one
     // is less than the value of delay = double-click
     if (clickCount === 2) {
+      setClickCount(0)
       actionDoubleClick && actionDoubleClick()
     }
 
