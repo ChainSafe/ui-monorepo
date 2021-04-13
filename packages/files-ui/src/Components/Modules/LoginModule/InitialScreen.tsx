@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { Button, FacebookLogoIcon, GithubLogoIcon, GoogleLogoIcon, Link, Loading, Typography } from "@chainsafe/common-components"
+import { Button, FacebookLogoIcon, GithubLogoIcon, GoogleLogoIcon, Loading, Typography } from "@chainsafe/common-components"
 import { createStyles, makeStyles, useThemeSwitcher } from "@chainsafe/common-theme"
 import { CSFTheme } from "../../../Themes/types"
 import { t, Trans } from "@lingui/macro"
@@ -199,8 +199,11 @@ const InitialScreen = ({ className }: IInitialScreen) => {
     <footer className={classes.connectWalletFooter}>
       <Typography variant='h5'>
         <Trans>
-        By connecting your wallet, you agree to our <Link to={ROUTE_LINKS.Terms}>
-        Terms of Service</Link> and our <Link to={ROUTE_LINKS.PrivacyPolicy}>Privacy Policy</Link>
+          By connecting your wallet, you agree to our <a href={ROUTE_LINKS.Terms} target="_blank" rel="noopener noreferrer" >
+            Terms of Service
+          </a> and our <a href={ROUTE_LINKS.PrivacyPolicy} target="_blank" rel="noopener noreferrer">
+            Privacy Policy
+          </a>
         </Trans>
       </Typography>
     </footer>
