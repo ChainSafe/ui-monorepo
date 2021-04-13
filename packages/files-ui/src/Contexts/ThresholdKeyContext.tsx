@@ -726,8 +726,6 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
 
   const refreshTKeyMeta = useCallback(async () => {
     if (!TKeySdk) return
-
-    console.log("refreshing share metadata")
     try {
       await TKeySdk.syncShareMetadata()
       const newKeyDetails = await TKeySdk.getKeyDetails()
@@ -740,7 +738,7 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
         const newKeyDetails = await TKeySdk.getKeyDetails()
         setKeyDetails(newKeyDetails)
       } else {
-        console.log(error)
+        console.error('Error refreshing share metadata: ',error)
       }
       return
     }
