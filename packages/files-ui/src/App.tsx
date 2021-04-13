@@ -112,7 +112,7 @@ const App: React.FC<{}> = () => {
               checkNetwork={false}
               cacheWalletSelection={testLocalStorage()}
             >
-              <ImployApiProvider apiUrl={apiUrl} useLocalStorage={false}>
+              <ImployApiProvider apiUrl={apiUrl} withLocalStorage={false}>
                 <ThresholdKeyProvider enableLogging network={directAuthNetwork}>
                   <UserProvider>
                     <DriveProvider>
