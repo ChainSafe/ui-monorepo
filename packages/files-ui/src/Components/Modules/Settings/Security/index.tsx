@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from "react"
+import React, { useCallback, useEffect, useMemo, useState } from "react"
 import { CheckCircleSvg, CloseSvg, CrossOutlinedSvg, Divider, Grid, Typography } from "@chainsafe/common-components"
 import { makeStyles, createStyles, useThemeSwitcher } from "@chainsafe/common-theme"
 import { CSFTheme } from "../../../../Themes/types"
@@ -140,7 +140,8 @@ const Security = ({ className }: SecurityProps) => {
     loggedinAs,
     hasPasswordShare,
     hasMnemonicShare,
-    browserShares
+    browserShares,
+    refreshTKeyMeta
   } = useThresholdKey()
   const classes = useStyles()
   const [isSettingPassword, setIsSettingPassword] = useState(false)
@@ -148,6 +149,7 @@ const Security = ({ className }: SecurityProps) => {
   const [isSettingBackupPhrase, setIsSettingBackupPhrase] = useState(false)
   const { desktop } = useThemeSwitcher()
   const showWarning = useMemo(() => !!keyDetails && (keyDetails.threshold === keyDetails.totalShares), [keyDetails])
+  const [isRefreshingMetadata, setIsRefreshingMetadata] = useState(false)
 
   const onResetPasswordForm = useCallback(() => {
     setIsChangingPassword(false)
@@ -166,6 +168,15 @@ const Security = ({ className }: SecurityProps) => {
       setIsChangingPassword(false)
     }
   }, [addPasswordShare, changePasswordShare, isChangingPassword, isSettingPassword])
+
+  useEffect(() => {
+    const refreshMetadata = async () => {
+      setIsRefreshingMetadata(true)
+      await refreshTKeyMeta()
+      setIsRefreshingMetadata(false)
+    }
+    refreshMetadata()
+  }, [refreshTKeyMeta])
 
   return (
     <Grid container>
@@ -352,7 +363,7 @@ const Security = ({ className }: SecurityProps) => {
           }
         </div>
         <Divider className={classes.divider} />
-        <SavedBrowsers />
+        <SavedBrowsers isRefreshing={isRefreshingMetadata}/>
       </Grid>
     </Grid>
   )

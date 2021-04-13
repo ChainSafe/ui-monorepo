@@ -4,7 +4,7 @@ import {
   createStyles
 } from "@chainsafe/common-theme"
 import { CSFTheme } from "../../../../Themes/types"
-import { Typography } from "@chainsafe/common-components"
+import { Loading, Typography } from "@chainsafe/common-components"
 import BrowserPanel from "./BrowserPanel"
 import { useThresholdKey } from "../../../../Contexts/ThresholdKeyContext"
 
@@ -27,16 +27,16 @@ const useStyles = makeStyles(({ constants, breakpoints }: CSFTheme) =>
   })
 )
 
-const SavedBrowsers: React.FC = () => {
+const SavedBrowsers: React.FC<{isRefreshing: boolean}> = ({ isRefreshing }) => {
   const classes = useStyles()
   const { browserShares } = useThresholdKey()
 
   return (
     <div className={classes.root}>
       <Typography component="p" variant="body1" className={classes.title}>
-        Saved Browsers
+        Saved Browsers {isRefreshing && <Loading size={16} type='inherit' />}
       </Typography>
-      {browserShares.map((bs, i) => (
+      {browserShares.sort((a, b) => a.dateAdded - b.dateAdded).map((bs, i) => (
         <div key={i} className={classes.expansionContainer}>
           <BrowserPanel {...bs}/>
         </div>
