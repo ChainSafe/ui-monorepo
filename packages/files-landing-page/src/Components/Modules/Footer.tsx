@@ -49,17 +49,11 @@ const useStyles = makeStyles(({ palette, constants, breakpoints }: ITheme) => {
       display: "block",
       paddingBottom: constants.generalUnit * 3,
       flex: 0,
-      "& > span": {
-        fontFamily: "Neue Montreal, Arial",
-      },
     },
     item: {
       display: "block",
       flex: 0,
       paddingBottom: constants.generalUnit * 2,
-      "& > span": {
-        fontFamily: "Neue Montreal, Arial",
-      },
     },
     smalltextContainer: {
       [breakpoints.down("sm")]: {
@@ -70,7 +64,6 @@ const useStyles = makeStyles(({ palette, constants, breakpoints }: ITheme) => {
     },
     copyright: {
       position: "absolute",
-      fontFamily: "Neue Montreal, Arial",
       color: palette.additional["gray"][8],
       [breakpoints.down("xl")]:{
         marginLeft: constants.generalUnit * 2,
@@ -80,9 +73,6 @@ const useStyles = makeStyles(({ palette, constants, breakpoints }: ITheme) => {
         fontSize: "1rem",
         color: palette.additional["gray"][7],
       },
-    },
-    footerText: {
-      fontFamily: "Neue Montreal, Arial"
     },
   })
 })
@@ -105,21 +95,21 @@ const Footer: React.FC = () => {
                 rel="noopener noreferrer"
                 target="_blank"
               >
-                <Typography variant="h5" className={classes.footerText}>
+                <Typography variant="h5">
                   <Trans>Launch App</Trans>
                   </Typography>
               </a>
             </Grid>
             <Grid item className={classes.item}>
               <Link to={ROUTE_LINKS.TermsOfService}>
-                <Typography variant="h5" className={classes.footerText}>
+                <Typography variant="h5">
                   <Trans>Terms of Service</Trans>
                 </Typography>
               </Link>
             </Grid>
             <Grid item className={classes.item}>
               <Link to={ROUTE_LINKS.PrivacyPolicy}>
-                <Typography variant="h5" className={classes.footerText}>
+                <Typography variant="h5">
                   <Trans>Privacy Policy</Trans>
                 </Typography>
               </Link>
@@ -137,7 +127,7 @@ const Footer: React.FC = () => {
                 rel="noopener noreferrer"
                 target="_blank"
               >
-                <Typography variant="h5" className={classes.footerText}>
+                <Typography variant="h5">
                   <Trans>ChainSafe Systems</Trans>
                 </Typography>
               </a>
@@ -152,10 +142,10 @@ const Footer: React.FC = () => {
             <Grid item className={classes.item}>
               <a
                 href="https://twitter.com/ChainSafeth"
-                target="__blank"
+                target="_blank"
                 rel="noopener noreferrer"
               >
-                <Typography variant="h5" className={classes.footerText}>
+                <Typography variant="h5">
                   <Trans>Twitter</Trans>
                 </Typography>
               </a>
@@ -163,10 +153,10 @@ const Footer: React.FC = () => {
             <Grid item className={classes.item}>
               <a
                 href="https://github.com/ChainSafe"
-                target="__blank"
+                target="_blank"
                 rel="noopener noreferrer"
               >
-                <Typography variant="h5" className={classes.footerText}>
+                <Typography variant="h5">
                   <Trans>Github</Trans>
                 </Typography>
               </a>
@@ -174,10 +164,10 @@ const Footer: React.FC = () => {
             <Grid item className={classes.item}>
               <a
                 href="mailto:support@files.chainsafe.io"
-                target="__blank"
+                target="_blank"
                 rel="noopener noreferrer"
               >
-                <Typography variant="h5" className={classes.footerText}>
+                <Typography variant="h5">
                   <Trans>Support</Trans>
                 </Typography>
               </a>

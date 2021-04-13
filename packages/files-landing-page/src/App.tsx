@@ -17,6 +17,11 @@ const theme = createTheme({
         main: "#5165DC",
       }
     },
+    typography: {
+      global: {
+        fontFamily: "Neue Montreal, Arial"
+      }
+    },
     constants: {
       headerHeight: 150,
     }
