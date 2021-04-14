@@ -3,10 +3,8 @@ import { DefaultPalette } from "./ColorPalette"
 import { fade } from "../utils/colorManipulator"
 import { createBreakpoints } from "../Create/CreateBreakpoints"
 
-import "./font-faces.css"
-
 export const defaultFontFamilyStack = {
-  fontFamily: "'NeueMontreal', sans-serif"
+  fontFamily: "'Archivo', sans-serif"
 }
 
 const defaultFontStyles = {}
