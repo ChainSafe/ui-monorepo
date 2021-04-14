@@ -2,6 +2,7 @@ import React, { ReactNode } from "react"
 import clsx from "clsx"
 import { ITheme, makeStyles, createStyles } from "@chainsafe/common-theme"
 import { Loading } from "../Spinner"
+import { Typography } from "../Typography"
 
 const useStyles = makeStyles(
   ({ constants, typography, animation, palette, overrides }: ITheme) =>
@@ -42,6 +43,21 @@ const useStyles = makeStyles(
         ...overrides?.Button?.root
       },
       // Variants
+      link: {
+        display: "flex",
+        justifyContent: "center",
+        textAlign: "center",
+        alignItems: "center",
+        textDecoration: "underline",
+        cursor: "pointer",
+        transitionDuration: `${animation.transform}ms`,
+        border: "none",
+        outline: "none",
+        "& svg": {
+          transitionDuration: `${animation.transform}ms`,
+          margin: `${0}px ${constants.generalUnit / 2}px 0`
+        }
+      },
       primary: {
         backgroundColor: palette.primary.main,
         color: palette.common.white.main,
@@ -249,7 +265,7 @@ interface IButtonProps extends Omit<ReactButton, "size"> {
   className?: string
   children?: ReactNode | ReactNode[]
   fullsize?: boolean
-  variant?: "primary" | "secondary" | "outline" | "dashed" | "danger"
+  variant?: "link" | "primary" | "secondary" | "outline" | "dashed" | "danger"
   iconButton?: boolean
   size?: "large" | "medium" | "small"
   type?: "button" | "submit" | "reset"
@@ -271,7 +287,19 @@ const Button: React.FC<IButtonProps> = ({
 }: IButtonProps) => {
   const classes = useStyles()
 
-  return (
+  return variant === "link" ? (<Typography
+    className={clsx(
+      classes.root,
+      className,
+      classes[variant],
+      fullsize && classes.fullsize,
+      disabled && classes.disabled,
+      iconButton && classes.icon,
+      `${size}`
+    )}
+  >
+    {loading && loadingText ? loadingText : children}
+  </Typography>) : (
     <button
       className={clsx(
         classes.root,
