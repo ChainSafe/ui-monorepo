@@ -9,6 +9,7 @@ import clsx from "clsx"
 import { Trans } from "@lingui/macro"
 import dayjs from "dayjs"
 import { BrowserShare, useThresholdKey } from "../../../../Contexts/ThresholdKeyContext"
+import CustomModal from "../../../Elements/CustomModal"
 
 const useStyles = makeStyles(({ palette, constants, animation, breakpoints }: CSFTheme) =>
   createStyles({
@@ -63,7 +64,31 @@ const useStyles = makeStyles(({ palette, constants, animation, breakpoints }: CS
       marginTop: constants.generalUnit * 2
     },
     spanMarginRight: {
-      marginRight: "0.5rem"
+      marginRight: constants.generalUnit
+    },
+    modalContainer: {
+      padding: `${constants.generalUnit * 3}px ${constants.generalUnit * 4}px`,
+      [breakpoints.down("md")]: {
+        padding: `${constants.generalUnit * 2}px ${constants.generalUnit * 2}px`
+      }
+    },
+    modalFooter: {
+      marginTop: constants.generalUnit * 4,
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "flex-end"
+    },
+    cancelButton: {
+      marginRight: constants.generalUnit
+    },
+    modalInner: {
+      backgroundColor: constants.actionModal.backgroundColor,
+      color: constants.actionModal.color,
+      [breakpoints.down("md")]: {
+        borderTopLeftRadius: `${constants.generalUnit * 1.5}px`,
+        borderTopRightRadius: `${constants.generalUnit * 1.5}px`,
+        maxWidth: `${breakpoints.width("md")}px !important`
+      }
     }
   })
 )
@@ -84,6 +109,7 @@ const BrowserPanel = ({ dateAdded, shareIndex, browser, os }: BrowserShare) => {
   const [showPanel, setShowPanel] = useState(false)
   const [loadingDeleteShare, setLoadingDeleteShare] = useState(false)
   const [loadingDownloadKey, setLoadingDownloadKey] = useState(false)
+  const [confirmDeleteShare, setConfirmDeleteShare] = useState(false)
 
   const onDeleteShare = useCallback(() => {
     setLoadingDeleteShare(true)
@@ -177,12 +203,38 @@ const BrowserPanel = ({ dateAdded, shareIndex, browser, os }: BrowserShare) => {
               </Typography>
               <Button
                 size="small"
-                loading={loadingDeleteShare}
-                onClick={onDeleteShare}
-                disabled={loadingDeleteShare}
+                onClick={() => setConfirmDeleteShare(true)}
               >
                 <Trans>Forget this browser</Trans>
               </Button>
+              <CustomModal
+                active={confirmDeleteShare}
+                injectedClass={{
+                  inner: classes.modalInner
+                }}
+              >
+                <div className={classes.modalContainer}>
+                  <Typography>
+                    <Trans>By forgetting this browser, you will not be able to use its associated recovery key to sign-in.</Trans>
+                  </Typography>
+                  <div className={classes.modalFooter}>
+                    <Button
+                      variant="outline"
+                      onClick={() => setConfirmDeleteShare(false)}
+                      className={classes.cancelButton}
+                    >
+                      <Trans>Cancel</Trans>
+                    </Button>
+                    <Button
+                      onClick={onDeleteShare}
+                      loading={loadingDeleteShare}
+                      disabled={loadingDeleteShare}
+                    >
+                      <Trans>Forget this browser</Trans>
+                    </Button>
+                  </div>
+                </div>
+              </CustomModal>
             </div>
           }
         </div>
