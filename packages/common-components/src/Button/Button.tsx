@@ -68,6 +68,26 @@ const useStyles = makeStyles(
         },
         ...overrides?.Button?.variants?.primary?.root
       },
+      secondary: {
+        backgroundColor: palette.primary.hover,
+        color: palette.common.white.main,
+        "& svg": {
+          fill: palette.common.white.main
+        },
+        "&:hover": {
+          backgroundColor: palette.primary.main,
+          ...overrides?.Button?.variants?.secondary?.hover
+        },
+        "&:focus": {
+          backgroundColor: palette.primary.main,
+          ...overrides?.Button?.variants?.secondary?.focus
+        },
+        "&:active": {
+          backgroundColor: palette.primary.main,
+          ...overrides?.Button?.variants?.secondary?.active
+        },
+        ...overrides?.Button?.variants?.secondary?.root
+      },
       outline: {
         color: palette.additional["gray"][8],
         backgroundColor: palette.common?.white.main,
@@ -229,7 +249,7 @@ interface IButtonProps extends Omit<ReactButton, "size"> {
   className?: string
   children?: ReactNode | ReactNode[]
   fullsize?: boolean
-  variant?: "primary" | "outline" | "dashed" | "danger"
+  variant?: "primary" | "secondary" | "outline" | "dashed" | "danger"
   iconButton?: boolean
   size?: "large" | "medium" | "small"
   type?: "button" | "submit" | "reset"
