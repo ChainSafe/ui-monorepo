@@ -165,7 +165,7 @@ const BrowserPanel = ({ dateAdded, shareIndex, browser, os }: BrowserShare) => {
               <Trans>Download recovery key</Trans>
             </Button>
           </div>
-          {keyDetails && browserShares.length > 1 && keyDetails?.totalShares > 3 &&
+          {keyDetails && browserShares.length > 1 && keyDetails.totalShares > 3 &&
             <div className={classes.actionBox}>
               <Typography
                 variant="body1"

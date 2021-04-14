@@ -1,6 +1,6 @@
 import React from "react"
 import { createStyles, makeStyles, useThemeSwitcher } from "@chainsafe/common-theme"
-import { CheckCircleSvg, CopySvg, CrossSvg, KeySvg, Typography } from "@chainsafe/common-components"
+import { CheckCircleSvg, CopySvg, CrossOutlinedSvg, KeySvg, Typography } from "@chainsafe/common-components"
 import { Trans } from "@lingui/macro"
 import { useThresholdKey } from "../../../Contexts/ThresholdKeyContext"
 import { CSFTheme } from "../../../Themes/types"
@@ -208,7 +208,7 @@ const SignInMethods = ({ goToComplete, goToMnemonic, goToPassword, goToSkip, cla
               </Typography>
             )
           }
-          {browserShares.length > 0 ? <CheckCircleSvg /> : <CrossSvg />}
+          {browserShares.length > 0 ? <CheckCircleSvg /> : <CrossOutlinedSvg />}
         </div>
         {
           desktop && (
