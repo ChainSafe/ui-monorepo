@@ -79,7 +79,7 @@ function download(filename: string, text: string) {
 }
 
 const BrowserPanel = ({ dateAdded, shareIndex, browser, os }: BrowserShare) => {
-  const { deleteShare, getSerializedDeviceShare } = useThresholdKey()
+  const { deleteShare, getSerializedDeviceShare, keyDetails, browserShares } = useThresholdKey()
   const classes = useStyles()
   const [showPanel, setShowPanel] = useState(false)
   const [loadingDeleteShare, setLoadingDeleteShare] = useState(false)
@@ -165,24 +165,26 @@ const BrowserPanel = ({ dateAdded, shareIndex, browser, os }: BrowserShare) => {
               <Trans>Download recovery key</Trans>
             </Button>
           </div>
-          <div className={classes.actionBox}>
-            <Typography
-              variant="body1"
-              component="p"
-              className={classes.lightSubtitle}
-            >
-              <Trans>Forgetting this browser deletes this from your list of sign-in methods.
-              You will not be able to forget a browser if you only have two methods set up.</Trans>
-            </Typography>
-            <Button
-              size="small"
-              loading={loadingDeleteShare}
-              onClick={onDeleteShare}
-              disabled={loadingDeleteShare}
-            >
-              <Trans>Forget this browser</Trans>
-            </Button>
-          </div>
+          {keyDetails && browserShares.length > 1 && keyDetails.totalShares > 3 &&
+            <div className={classes.actionBox}>
+              <Typography
+                variant="body1"
+                component="p"
+                className={classes.lightSubtitle}
+              >
+                <Trans>Forgetting this browser deletes this from your list of sign-in methods.
+                You will not be able to forget a browser if you only have two methods set up.</Trans>
+              </Typography>
+              <Button
+                size="small"
+                loading={loadingDeleteShare}
+                onClick={onDeleteShare}
+                disabled={loadingDeleteShare}
+              >
+                <Trans>Forget this browser</Trans>
+              </Button>
+            </div>
+          }
         </div>
       </div>
     </ExpansionPanel>
