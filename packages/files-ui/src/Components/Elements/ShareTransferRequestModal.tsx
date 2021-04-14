@@ -141,7 +141,6 @@ const ShareTransferRequestModal = ({ requests }: Props) => {
               ? <Loading size={25} type='inherit' />
               : <Typography
                 className={clsx(classes.clearAll)}
-                disabled={isLoadingApprove || isLoadingReject || isClearing}
                 onClick={() => {
                   if (!isLoadingApprove || !isLoadingReject || !isClearing) {
                     onClearingRequest()
