@@ -1,10 +1,8 @@
 import React, { useEffect } from "react"
-import {
-  init as initSentry,
-  ErrorBoundary,
-  showReportDialog
-} from "@sentry/react"
+import { init as initSentry, ErrorBoundary, showReportDialog } from "@sentry/react"
 import { ThemeSwitcher } from "@chainsafe/common-theme"
+import { Web3Provider } from "@chainsafe/web3-context"
+import { ImployApiProvider, UserProvider, BillingProvider } from "@chainsafe/common-contexts"
 import {
   Button,
   CssBaseline,
@@ -13,21 +11,17 @@ import {
   ToasterProvider,
   Typography
 } from "@chainsafe/common-components"
-import { Web3Provider } from "@chainsafe/web3-context"
-import {
-  ImployApiProvider,
-  UserProvider,
-  BillingProvider
-} from "@chainsafe/common-contexts"
+import "@chainsafe/common-theme/dist/font-faces.css"
+
 import { DriveProvider } from "./Contexts/DriveContext"
 import FilesRoutes from "./Components/FilesRoutes"
 import AppWrapper from "./Components/Layouts/AppWrapper"
-import { darkTheme } from "./Themes/DarkTheme"
 import { useHotjar } from "react-use-hotjar"
 import { LanguageProvider } from "./Contexts/LanguageContext"
 import { testLocalStorage } from "./Utils/Helpers"
 import { ThresholdKeyProvider } from "./Contexts/ThresholdKeyContext"
 import { lightTheme } from "./Themes/LightTheme"
+import { darkTheme } from "./Themes/DarkTheme"
 
 if (
   process.env.NODE_ENV === "production" &&

@@ -5,6 +5,7 @@ import json from "@rollup/plugin-json"
 import nodePolyfills from "rollup-plugin-node-polyfills"
 import peerDepsExternal from "rollup-plugin-peer-deps-external"
 import postcss from "rollup-plugin-postcss"
+import copy from 'rollup-plugin-copy'
 
 export default {
   input: "src/index.ts",
@@ -17,6 +18,12 @@ export default {
   },
   plugins: [
     resolve(),
+    copy({
+      targets: [
+        { src: ["src/Defaults/fonts/font-faces.css"], dest: "dist/" },
+        { src: ["src/Defaults/fonts/*.woff", "src/Defaults/fonts/*.woff2", "src/Defaults/fonts/*.ttf"], dest: "dist/" }
+      ]
+    }),
     typescript(),
     postcss(),
     peerDepsExternal(),

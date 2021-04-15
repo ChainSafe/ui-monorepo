@@ -4,7 +4,7 @@ import { fade } from "../utils/colorManipulator"
 import { createBreakpoints } from "../Create/CreateBreakpoints"
 
 export const defaultFontFamilyStack = {
-  fontFamily: "'Archivo', sans-serif"
+  fontFamily: "'NeueMontreal','Archivo', sans-serif"
 }
 
 const defaultFontStyles = {}
@@ -61,14 +61,14 @@ const DefaultThemeConfig: IThemeConfig = {
         DefaultPalette.additional.blue[DefaultPalette.colorTags.background],
       border: DefaultPalette.additional.blue[DefaultPalette.colorTags.border],
       main: String(DefaultPalette.additional.csPrimary),
-      hover: String(DefaultPalette.additional.csBlack),
+      hover: String(DefaultPalette.additional.gray[10]),
       active: DefaultPalette.additional.blue[7]
     },
     secondary: {
       background:
         DefaultPalette.additional.blue[DefaultPalette.colorTags.background],
       border: DefaultPalette.additional.blue[DefaultPalette.colorTags.border],
-      main: String(DefaultPalette.additional.csBlack),
+      main: String(DefaultPalette.additional.gray[10]),
       hover: String(DefaultPalette.additional.csPrimary)
     },
     error: {
