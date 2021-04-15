@@ -218,8 +218,6 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
   handleSelect,
   itemOperations
 }) => {
-  console.log("files", files)
-  console.log("file", file)
   const { cid, name, isFolder, size, content_type } = file
   let Icon
   if (isFolder) {
