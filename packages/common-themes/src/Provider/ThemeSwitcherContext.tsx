@@ -4,9 +4,9 @@ import { useState, useEffect } from "react"
 import { ThemeProvider } from "@material-ui/styles"
 import "reset-css"
 import "simplebar/dist/simplebar.min.css"
-import { testLocalStorage } from "../utils/localStorage"
 import { useMediaQuery } from ".."
 import { createBreakpoints } from "../Create/CreateBreakpoints"
+import { useLocalStorage } from "@chainsafe/browser-storage-hooks"
 
 type ThemeSwitcherContext = {
   desktop: boolean
@@ -15,9 +15,7 @@ type ThemeSwitcherContext = {
   setTheme(themeName: string): void
 };
 
-const ThemeSwitcherContext = React.createContext<
-  ThemeSwitcherContext | undefined
->(undefined)
+const ThemeSwitcherContext = React.createContext<ThemeSwitcherContext | undefined>(undefined)
 
 type ThemeSwitcherProps = {
   children: React.ReactNode
@@ -25,23 +23,19 @@ type ThemeSwitcherProps = {
   themes: Record<string, ITheme>
 };
 
-const ThemeSwitcher: React.FC<ThemeSwitcherProps> = ({
-  children,
-  themes,
-  storageKey = "cs.themeKey"
-}: ThemeSwitcherProps) => {
+const ThemeSwitcher = ({ children, themes, storageKey = "cs.themeKey" }: ThemeSwitcherProps) => {
   const breakpoints = createBreakpoints({})
   const desktop = useMediaQuery(breakpoints.up("md"))
+  const { canUseLocalStorage, localStorageGet, localStorageSet } = useLocalStorage()
 
   // TODO: check min 1 theme
   const [current, setCurrent] = useState<string>("")
-  const canUseLocalStorage = React.useMemo(() => testLocalStorage(), [])
 
   useEffect(() => {
     if (canUseLocalStorage) {
-      const cached = localStorage.getItem(storageKey)
+      const cached = localStorageGet(storageKey)
       if (!cached) {
-        localStorage.setItem(storageKey, Object.keys(themes)[0])
+        localStorageSet(storageKey, Object.keys(themes)[0])
         setCurrent(Object.keys(themes)[0])
       } else {
         setCurrent(cached)
@@ -49,12 +43,10 @@ const ThemeSwitcher: React.FC<ThemeSwitcherProps> = ({
     } else {
       setCurrent(Object.keys(themes)[0])
     }
-  }, [themes, setCurrent, canUseLocalStorage, storageKey])
+  }, [themes, setCurrent, canUseLocalStorage, storageKey, localStorageGet, localStorageSet])
 
   useEffect(() => {
-    if (canUseLocalStorage && current != "") {
-      localStorage.setItem(storageKey, current)
-    }
+    current != "" && localStorageSet(storageKey, current)
 
     // Update CSS vars 
     if (current != "" && themes[current].globalStyling["@global"][":root"]) {
@@ -62,7 +54,7 @@ const ThemeSwitcher: React.FC<ThemeSwitcherProps> = ({
         key => document.documentElement.style.setProperty(key, themes[current].globalStyling["@global"][":root"][key])
       )
     }
-  }, [current, storageKey, canUseLocalStorage, themes])
+  }, [current, storageKey, canUseLocalStorage, themes, localStorageSet])
 
   return (
     <ThemeSwitcherContext.Provider
