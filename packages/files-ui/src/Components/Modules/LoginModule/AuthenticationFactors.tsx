@@ -1,6 +1,6 @@
 import React from "react"
 import { createStyles, makeStyles, useThemeSwitcher } from "@chainsafe/common-theme"
-import { CheckCircleSvg, Typography, WarningSvg } from "@chainsafe/common-components"
+import { CheckCircleSvg, CrossOutlinedSvg, Typography, WarningSvg } from "@chainsafe/common-components"
 import { Trans } from "@lingui/macro"
 import { useThresholdKey } from "../../../Contexts/ThresholdKeyContext"
 import { CSFTheme } from "../../../Themes/types"
@@ -55,6 +55,11 @@ const useStyles = makeStyles(({ breakpoints, constants, typography, palette, zIn
     checkIcon: {
       stroke: palette.additional.green[6],
       fill: palette.additional.green[6]
+    },
+    errorIcon: {
+      stroke: palette.error.main,
+      fill: palette.error.main,
+      marginLeft: constants.generalUnit * 1
     },
     subText: {
       color: constants.loginModule.subText,
@@ -131,23 +136,38 @@ const AuthenticationFactors = ({ goToComplete, goToMnemonic, goToPassword, goToS
         )
       }
 
-      <section className={classes.setOption}>
+      <section className={clsx(
+        classes.setOption, {
+          "error": browserShares.length === 0
+        }
+      )}>
         <div>
-          <Typography variant="h5">
+          {browserShares.length > 0 && <Typography variant="h5">
             <Trans>
               Saved Browser
             </Trans>
-          </Typography>
-          <Typography  variant="h5">
-            <Trans>Saved</Trans>{" "}
-            {`${browserShares[0].browser.name} ${browserShares[0].browser.version}`}
-          </Typography>
-          <CheckCircleSvg className={classes.checkIcon} />
+          </Typography>}
+          {
+            desktop && (
+              <Typography variant="h5">
+                <Trans>Saved</Trans>{" "}
+                {browserShares.length > 0 && `${browserShares[0].browser.name} ${browserShares[0].browser.version}`}
+              </Typography>
+            )
+          }
+          {browserShares.length > 0 ?
+            <CheckCircleSvg className={classes.checkIcon} /> :
+            <CrossOutlinedSvg className={classes.errorIcon} />
+          }
         </div>
-        <Typography className={classes.subText}>
-          <Trans>Files uses device backups to save your browser.</Trans>{" "}
-          <a href={ROUTE_LINKS.Terms} rel="noopener noreferrer" target="_blank"><Trans>Learn more</Trans></a>
-        </Typography>
+        {
+          desktop && (
+            <Typography className={classes.subText}>
+              <Trans>Files uses device backups to save your browser.</Trans>{" "}
+              <a href={ROUTE_LINKS.Terms} rel="noopener noreferrer" target="_blank"><Trans>Learn more</Trans></a>
+            </Typography>
+          )
+        }
       </section>
       <section onClick={() => !hasPasswordShare ? goToPassword() : null} className={clsx(classes.setOption, {
         "clickable": !hasPasswordShare

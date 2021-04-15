@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from "react"
+import React, { useState, useEffect, useMemo, useCallback } from "react"
 import DirectAuthSdk, { LOGIN_TYPE, TorusLoginResponse } from "@toruslabs/torus-direct-web-sdk"
 import ThresholdKey from "@tkey/default"
 import WebStorageModule, { WEB_STORAGE_MODULE_NAME } from "@tkey/web-storage"
@@ -489,11 +489,13 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
           await storageModule.inputShareFromWebStorage()
         } catch (error) {
           console.error("Error loading device share. If this is a new device please add it using one of your other recovery shares.")
-          setIsNewDevice(true)
         }
         const resultKey = await TKeySdk.getKeyDetails()
         if (resultKey.threshold === resultKey.totalShares) {
           setShouldInitializeAccount(true)
+        }
+        if (resultKey.requiredShares > 0) {
+          setIsNewDevice(true)
         }
         setKeyDetails(resultKey)
       }
@@ -587,7 +589,7 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
       const newDeviceShare = await TKeySdk.generateNewShare()
       const newDeviceShareStore = newDeviceShare.newShareStores[newDeviceShare.newShareIndex.toString("hex")]
 
-      storageModule.storeDeviceShare(newDeviceShareStore)
+      await storageModule.storeDeviceShare(newDeviceShareStore)
       console.log("New device share added")
       setIsNewDevice(false)
       const newKeyDetails = await TKeySdk.getKeyDetails()
@@ -722,13 +724,25 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
       })
   }
 
-  const refreshTKeyMeta = async () => {
+  const refreshTKeyMeta = useCallback(async () => {
     if (!TKeySdk) return
-
-    await TKeySdk.syncShareMetadata()
-    const newKeyDetails = await TKeySdk.getKeyDetails()
-    setKeyDetails(newKeyDetails)
-  }
+    try {
+      await TKeySdk.syncShareMetadata()
+      const newKeyDetails = await TKeySdk.getKeyDetails()
+      setKeyDetails(newKeyDetails)
+      return
+    } catch (error) {
+      if (error.message.includes("nonce")) {
+        await TKeySdk.updateMetadata()
+        await TKeySdk.syncShareMetadata()
+        const newKeyDetails = await TKeySdk.getKeyDetails()
+        setKeyDetails(newKeyDetails)
+      } else {
+        console.error("Error refreshing share metadata: ", error)
+      }
+      return
+    }
+  }, [TKeySdk])
 
   return (
     <ThresholdKeyContext.Provider
