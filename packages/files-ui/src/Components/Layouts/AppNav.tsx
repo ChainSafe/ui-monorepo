@@ -261,11 +261,11 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
               <Link className={classes.logo} to={ROUTE_LINKS.Home()}>
                 <ChainsafeFilesLogo />
                 <Typography variant="h5">
-                  <Trans>Files</Trans>
+                  Files
                 </Typography>
                 &nbsp;
                 <Typography variant="caption" className={classes.betaCaption}>
-                  <Trans>beta</Trans>
+                  beta
                 </Typography>
               </Link>
             </div>

@@ -25,12 +25,7 @@ import {
   ExclamationCircleInverseSvg,
   ZoomInSvg
 } from "@chainsafe/common-components"
-import {
-  makeStyles,
-  createStyles,
-  useDoubleClick,
-  useThemeSwitcher
-} from "@chainsafe/common-theme"
+import { makeStyles, createStyles, useDoubleClick, useThemeSwitcher } from "@chainsafe/common-theme"
 import clsx from "clsx"
 import { Formik, Form } from "formik"
 import { FileSystemItem, BucketType } from "../../../../Contexts/DriveContext"
@@ -45,6 +40,7 @@ import { CSFTheme } from "../../../../Themes/types"
 const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => {
   const desktopGridSettings = "50px 69px 3fr 190px 60px !important"
   const mobileGridSettings = "69px 3fr 45px !important"
+
   return createStyles({
     tableRow: {
       border: "2px solid transparent",
