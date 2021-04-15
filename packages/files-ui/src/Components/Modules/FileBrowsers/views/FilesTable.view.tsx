@@ -261,7 +261,9 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
   uploadsInProgress,
   showUploadsInTable,
   allowDropUpload,
-  itemOperations
+  itemOperations,
+  getPath,
+  isSearch
 }: IFilesTableBrowserProps) => {
   const { themeKey, desktop } = useThemeSwitcher()
   const classes = useStyles({ themeKey })
@@ -270,7 +272,6 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
   const [column, setColumn] = useState<"name" | "size" | "date_uploaded">("name")
   const [selected, setSelected] = useState<string[]>([])
   const [previewFileIndex, setPreviewFileIndex] = useState<number | undefined>()
-
   const items: FileSystemItem[] = useMemo(() => {
     if (!sourceFiles) return []
 
@@ -792,6 +793,7 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
             previewFileIndex < files.length - 1 ? setNextPreview : undefined
           }
           previousFile={previewFileIndex > 0 ? setPreviousPreview : undefined}
+          path={isSearch && getPath ? getPath(files[previewFileIndex].cid) : undefined}
         />
       )}
       <Dialog
