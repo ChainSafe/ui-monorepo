@@ -64,7 +64,7 @@ const useStyles = makeStyles(({ palette, constants, animation, breakpoints }: CS
       marginTop: constants.generalUnit * 2
     },
     spanMarginRight: {
-      marginRight: constants.generalUnit
+      marginRight: "0.5rem"
     },
     modalContainer: {
       padding: `${constants.generalUnit * 3}px ${constants.generalUnit * 4}px`,
