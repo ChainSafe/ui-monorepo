@@ -60,16 +60,16 @@ const DefaultThemeConfig: IThemeConfig = {
       background:
         DefaultPalette.additional.blue[DefaultPalette.colorTags.background],
       border: DefaultPalette.additional.blue[DefaultPalette.colorTags.border],
-      main: String(DefaultPalette.additional.csPrimary),
-      hover: String(DefaultPalette.additional.gray[10]),
+      main: DefaultPalette.additional.csPrimary,
+      hover: DefaultPalette.additional.gray[10],
       active: DefaultPalette.additional.blue[7]
     },
     secondary: {
       background:
         DefaultPalette.additional.blue[DefaultPalette.colorTags.background],
       border: DefaultPalette.additional.blue[DefaultPalette.colorTags.border],
-      main: String(DefaultPalette.additional.gray[10]),
-      hover: String(DefaultPalette.additional.csPrimary)
+      main: DefaultPalette.additional.gray[10],
+      hover: DefaultPalette.additional.csPrimary
     },
     error: {
       background:
