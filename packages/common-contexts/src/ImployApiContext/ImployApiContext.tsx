@@ -5,8 +5,7 @@ import { IImployApiClient, ImployApiClient, Token, Provider, TKeyRequestIdentity
 import jwtDecode from "jwt-decode"
 import axios from "axios"
 import { decryptFile } from "../helpers"
-import useLocalStorage from "../helpers/useLocalStorage"
-import useSessionStorage from "../helpers/useSessionStorage"
+import { useLocalStorage, useSessionStorage } from "@chainsafe/browser-storage-hooks"
 
 export { Provider as OAuthProvider }
 

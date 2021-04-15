@@ -3,7 +3,7 @@ import { init as initSentry, ErrorBoundary, showReportDialog } from "@sentry/rea
 import { ThemeSwitcher } from "@chainsafe/common-theme"
 import { Button, CssBaseline, Modal, Router, ToasterProvider, Typography } from "@chainsafe/common-components"
 import { Web3Provider } from "@chainsafe/web3-context"
-import { ImployApiProvider, UserProvider, BillingProvider, useLocalStorage } from "@chainsafe/common-contexts"
+import { ImployApiProvider, UserProvider, BillingProvider } from "@chainsafe/common-contexts"
 import { DriveProvider } from "./Contexts/DriveContext"
 import FilesRoutes from "./Components/FilesRoutes"
 import AppWrapper from "./Components/Layouts/AppWrapper"
@@ -12,6 +12,7 @@ import { useHotjar } from "react-use-hotjar"
 import { LanguageProvider } from "./Contexts/LanguageContext"
 import { ThresholdKeyProvider } from "./Contexts/ThresholdKeyContext"
 import { lightTheme } from "./Themes/LightTheme"
+import { useLocalStorage } from "@chainsafe/browser-storage-hooks"
 
 if (
   process.env.NODE_ENV === "production" &&

@@ -6,7 +6,7 @@ import "reset-css"
 import "simplebar/dist/simplebar.min.css"
 import { useMediaQuery } from ".."
 import { createBreakpoints } from "../Create/CreateBreakpoints"
-import { useLocalStorage } from "../Hooks"
+import { useLocalStorage } from "@chainsafe/browser-storage-hooks"
 
 type ThemeSwitcherContext = {
   desktop: boolean
