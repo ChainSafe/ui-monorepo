@@ -142,7 +142,7 @@ const ShareTransferRequestModal = ({ requests }: Props) => {
               : <Typography
                 className={clsx(classes.clearAll)}
                 onClick={() => {
-                  if (!isLoadingApprove || !isLoadingReject || !isClearing) {
+                  if (!isLoadingApprove && !isLoadingReject && !isClearing) {
                     onClearingRequest()
                   }
                 }}>
