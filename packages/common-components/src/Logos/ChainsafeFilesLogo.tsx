@@ -1,6 +1,7 @@
 import React from "react"
 import { makeStyles, createStyles, ITheme } from "@chainsafe/common-theme"
 import clsx from "clsx"
+import logo from "./ChainSafe-Files-logo.png"
 
 const useStyles = makeStyles(({ overrides }: ITheme) =>
   createStyles({
@@ -20,7 +21,7 @@ const ChainsafeFilesLogo = ({ className }: ChainsafeFilesLogoProps) => {
 
   return (
     <img
-      src="ChainSafe-Files-logo.png"
+      src={logo}
       alt="Chainsafe Files Logo"
       className={clsx(classes.root, className)}
     />
