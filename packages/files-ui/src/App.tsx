@@ -95,7 +95,7 @@ const App: React.FC<{}> = () => {
                 }
               }}
               checkNetwork={false}
-              cacheWalletSelection={canUseLocalStorage }
+              cacheWalletSelection={canUseLocalStorage}
             >
               <ImployApiProvider apiUrl={apiUrl} withLocalStorage={false}>
                 <ThresholdKeyProvider enableLogging network={directAuthNetwork}>
