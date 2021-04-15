@@ -1,2 +1,2 @@
 export { default as ChainsafeFilesLogo } from "./ChainsafeFilesLogo"
-export * from "./ChainsafeFilesLogo"
+export { default as ChainsafeLogo } from "./ChainsafeLogo"
