@@ -68,18 +68,21 @@ const useStyles = makeStyles(
           backgroundColor: palette.primary.hover
             ? palette.primary.hover
             : palette.primary.main,
+          color: palette.common.white.main,
           ...overrides?.Button?.variants?.primary?.hover
         },
         "&:focus": {
           backgroundColor: palette.primary.hover
             ? palette.primary.hover
             : palette.primary.main,
+          color: palette.common.white.main,
           ...overrides?.Button?.variants?.primary?.focus
         },
         "&:active": {
           backgroundColor: palette.primary.hover
             ? palette.primary.hover
             : palette.primary.main,
+          color: palette.common.white.main,
           ...overrides?.Button?.variants?.primary?.active
         },
         ...overrides?.Button?.variants?.primary?.root
@@ -92,14 +95,17 @@ const useStyles = makeStyles(
         },
         "&:hover": {
           backgroundColor: palette.primary.main,
+          color: palette.common.white.main,
           ...overrides?.Button?.variants?.secondary?.hover
         },
         "&:focus": {
           backgroundColor: palette.primary.main,
+          color: palette.common.white.main,
           ...overrides?.Button?.variants?.secondary?.focus
         },
         "&:active": {
           backgroundColor: palette.primary.main,
+          color: palette.common.white.main,
           ...overrides?.Button?.variants?.secondary?.active
         },
         ...overrides?.Button?.variants?.secondary?.root

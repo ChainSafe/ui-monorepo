@@ -5,12 +5,8 @@ export const lightTheme = createTheme<CsfColors>({
   themeConfig: {
     palette: {
       primary: {
-        main: "var(--gray9)",
-        hover: "var(--gray1)"
       },
       secondary: {
-        main: "var(--gray1)",
-        hover: "var(--gray10)"
       }
     },
     constants: {
@@ -144,30 +140,6 @@ export const lightTheme = createTheme<CsfColors>({
         h5: {
           fontWeight: 600,
           color: "var(--gray10)"
-        }
-      },
-      Button: {
-        variants: {
-          primary: {
-            active: {
-              color: "var(--gray9)",
-              "& svg": {
-                fill: "var(--gray9)"
-              }
-            },
-            hover: {
-              color: "var(--gray9)",
-              "& svg": {
-                fill: "var(--gray9)"
-              }
-            },
-            focus: {
-              color: "var(--gray9)",
-              "& svg": {
-                fill: "var(--gray9)"
-              }
-            }
-          }
         }
       }
     }

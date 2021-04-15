@@ -15,7 +15,7 @@ import TopLightSVG from "../../Media/landing/layers/light/Top.light.svg"
 // import { ForegroundSVG } from "../../Media/landing/layers/ForegroundSVG"
 import { useImployApi } from "@chainsafe/common-contexts"
 import ConciseExplainer from "../Modules/LoginModule/ConciseExplainer"
-import SignInMethods from "../Modules/LoginModule/SignInMethods"
+import AuthenticationFactors from "../Modules/LoginModule/AuthenticationFactors"
 import PasswordSetup from "../Modules/LoginModule/PasswordSetup"
 import ConfirmSkip from "../Modules/LoginModule/ConfirmSkip"
 import SaveBackupPhrase from "../Modules/LoginModule/SaveBackupPhrase"
@@ -139,7 +139,7 @@ const Content = ({ className }: { className: string }) => {
 
   const [setupScreen, setSetupScreen] = useState<
     "explainer" |
-    "signInOptions" |
+    "authenticationFactors" |
     "setUpPassword" |
     "skip" |
     "backup" |
@@ -149,7 +149,7 @@ const Content = ({ className }: { className: string }) => {
   const onSetPassword = useCallback((password: string) =>
     addPasswordShare(password)
       .then(() => {
-        setSetupScreen("signInOptions")
+        setSetupScreen("authenticationFactors")
       })
       .catch(console.error)
   , [addPasswordShare])
@@ -168,12 +168,11 @@ const Content = ({ className }: { className: string }) => {
       return (
         <ConciseExplainer
           className={className}
-          onLetsDoIt={() => setSetupScreen("signInOptions")}
-          screen={"initialize"}
+          onContinue={() => setSetupScreen("authenticationFactors")}
         />
       )
-    case "signInOptions":
-      return <SignInMethods
+    case "authenticationFactors":
+      return <AuthenticationFactors
         className={className}
         goToPassword={() => setSetupScreen("setUpPassword")}
         goToMnemonic={() => setSetupScreen("backup")}
@@ -183,20 +182,20 @@ const Content = ({ className }: { className: string }) => {
     case "setUpPassword":
       return <PasswordSetup
         className={className}
-        cancel={() => setSetupScreen("signInOptions")}
+        cancel={() => setSetupScreen("authenticationFactors")}
         setPassword={onSetPassword}
       />
     case "skip":
       return <ConfirmSkip
         className={className}
         confirm={() => resetShouldInitialize()}
-        cancel={() => setSetupScreen("signInOptions")}
+        cancel={() => setSetupScreen("authenticationFactors")}
       />
     case "backup":
       return <SaveBackupPhrase
         className={className}
-        cancel={() => setSetupScreen("signInOptions")}
-        complete={() => setSetupScreen("signInOptions")}
+        cancel={() => setSetupScreen("authenticationFactors")}
+        complete={() => setSetupScreen("authenticationFactors")}
       />
     case "complete":
       return <Complete className={className} />
