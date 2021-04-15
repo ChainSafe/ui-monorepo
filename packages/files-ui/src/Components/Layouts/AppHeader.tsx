@@ -81,14 +81,10 @@ const useStyles = makeStyles(
         display: "flex",
         flexDirection: "row",
         alignItems: "center",
-
         [breakpoints.up("md")]: {
           "& img": {
             height: constants.generalUnit * 5,
             width: "auto"
-          },
-          "& > *:first-child": {
-            marginRight: constants.generalUnit
           }
         },
         [breakpoints.down("md")]: {
@@ -148,6 +144,9 @@ const useStyles = makeStyles(
         "& svg": {
           fill: constants.header.iconColor
         }
+      },
+      title : {
+        marginLeft: constants.generalUnit
       }
     })
   }
@@ -250,6 +249,9 @@ const AppHeader: React.FC<IAppHeader> = ({
                   />
                   <Link className={classes.logo} to={ROUTE_LINKS.Home()}>
                     <ChainsafeFilesLogo />
+                    <Typography variant="h5" className={classes.title}>
+                      Files
+                    </Typography>
                     &nbsp;
                     <Typography variant="caption">beta</Typography>
                   </Link>
