@@ -27,10 +27,7 @@ export interface IBulkOperations {
 }
 
 export interface IFilesTableBrowserProps
-  extends Omit<
-    IFilesBrowserModuleProps,
-    "fileOperations" | "folderOperations"
-  > {
+  extends Omit<IFilesBrowserModuleProps, "fileOperations" | "folderOperations"> {
   itemOperations: {[contentType: string]: FileOperation[]}
 
   bulkOperations?: IBulkOperations
@@ -61,4 +58,6 @@ export interface IFilesTableBrowserProps
   sourceFiles: FileSystemItem[]
   currentPath?: string
   crumbs: Crumb[] | undefined
+  getPath?: (cid: string) => string | undefined
+  isSearch?: boolean
 }

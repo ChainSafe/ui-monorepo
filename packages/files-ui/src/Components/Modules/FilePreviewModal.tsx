@@ -156,9 +156,10 @@ interface Props {
   nextFile?: () => void
   previousFile?: () => void
   closePreview: () => void
+  path?: string
 }
 
-const FilePreviewModal = ({ file, nextFile, previousFile, closePreview }: Props) => {
+const FilePreviewModal = ({ file, nextFile, previousFile, closePreview, path }: Props) => {
   const classes = useStyles()
   const { getFileContent, downloadFile } = useDrive()
   const { desktop } = useThemeSwitcher()
@@ -194,29 +195,39 @@ const FilePreviewModal = ({ file, nextFile, previousFile, closePreview }: Props)
       const token = getSource().token
       setIsLoading(true)
       setError(undefined)
+
       try {
-        const content = await getFileContent(cid, token, (evt) => {
-          setLoadingProgress((evt.loaded / size) * 100)
+        const content = await getFileContent({
+          cid,
+          cancelToken: token,
+          onDownloadProgress: (evt) => {
+            setLoadingProgress((evt.loaded / size) * 100)
+          },
+          file,
+          path
         })
+
         if (content) {
           setFileContent(content)
         } else {
           setError(t`Decryption failed`)
         }
+
         source.current = null
         setLoadingProgress(0)
+
       } catch (error) {
-        if (error) {
-          setError(t`There was an error getting the preview.`)
-        }
+        console.error(error)
+        setError(t`There was an error getting the preview.`)
       }
+
       setIsLoading(false)
     }
 
     if (content_type && compatibleFilesMatcher.match(content_type)) {
       getContents()
     }
-  }, [cid, size, content_type, getFileContent])
+  }, [cid, size, content_type, getFileContent, file, path])
 
   const validRendererMimeType =
     content_type &&
