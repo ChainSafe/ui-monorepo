@@ -5,35 +5,16 @@ import { IImployApiClient, ImployApiClient, Token, Provider, TKeyRequestIdentity
 import jwtDecode from "jwt-decode"
 import axios from "axios"
 import { decryptFile } from "../helpers"
+import { useLocalStorage, useSessionStorage } from "@chainsafe/browser-storage-hooks"
 
 export { Provider as OAuthProvider }
-
-const testLocalStorage = () => {
-  try {
-    localStorage.setItem("test", "test")
-    localStorage.removeItem("test")
-    return true
-  } catch (e) {
-    return false
-  }
-}
-
-const testSessionStorage = () => {
-  try {
-    sessionStorage.setItem("test", "test")
-    sessionStorage.removeItem("test")
-    return true
-  } catch (e) {
-    return false
-  }
-}
 
 const tokenStorageKey = "csf.refreshToken"
 const isReturningUserStorageKey = "csf.isReturningUser"
 
 type ImployApiContextProps = {
   apiUrl?: string
-  useLocalStorage?: boolean
+  withLocalStorage?: boolean
   children: React.ReactNode | React.ReactNode[]
 }
 
@@ -42,9 +23,9 @@ type ImployApiContext = {
   isLoggedIn: boolean | undefined
   secured: boolean | undefined
   isReturningUser: boolean
-  selectWallet(): Promise<void>
-  resetAndSelectWallet(): Promise<void>
-  secureThresholdKeyAccount(encryptedKey: string): Promise<boolean>
+  selectWallet: () => Promise<void>
+  resetAndSelectWallet: () => Promise<void>
+  secureThresholdKeyAccount: (encryptedKey: string) => Promise<boolean>
   thresholdKeyLogin(
     signature: string,
     token: string,
@@ -52,31 +33,31 @@ type ImployApiContext = {
     identityToken: string,
     publicKey: string,
   ): Promise<void>
-  getProviderUrl(provider: Provider): Promise<string>
-  loginWithGithub(code: string, state: string): Promise<void>
-  loginWithGoogle(
+  getProviderUrl: (provider: Provider) => Promise<string>
+  loginWithGithub: (code: string, state: string) => Promise<void>
+  loginWithGoogle: (
     code: string,
     state: string,
     scope: string | undefined,
     authUser: string | undefined,
     hd: string | undefined,
     prompt: string | undefined,
-  ): Promise<void>
-  loginWithFacebook(code: string, state: string): Promise<void>
-  logout(): void
-  validateMasterPassword(candidatePassword: string): Promise<boolean>
+  ) => Promise<void>
+  loginWithFacebook: (code: string, state: string) => Promise<void>
+  logout: () => void
+  validateMasterPassword: (candidatePassword: string) => Promise<boolean>
   encryptedEncryptionKey?: string
   isMasterPasswordSet: boolean
 }
 
 const ImployApiContext = React.createContext<ImployApiContext | undefined>(undefined)
 
-const ImployApiProvider = ({ apiUrl, useLocalStorage = true, children }: ImployApiContextProps) => {
+const ImployApiProvider = ({ apiUrl, withLocalStorage = true, children }: ImployApiContextProps) => {
   const maintenanceMode = process.env.REACT_APP_MAINTENANCE_MODE === "true"
 
   const { wallet, onboard, checkIsReady, isReady } = useWeb3()
-  const canUseLocalStorage = useMemo(() => testLocalStorage(), [])
-  const canUseSessionStorage = useMemo(() => testSessionStorage(), [])
+  const { localStorageRemove, localStorageGet, localStorageSet } = useLocalStorage()
+  const { sessionStorageRemove, sessionStorageGet, sessionStorageSet } = useSessionStorage()
 
   // initializing api
   const initialAxiosInstance = useMemo(() => axios.create({
@@ -101,23 +82,20 @@ const ImployApiProvider = ({ apiUrl, useLocalStorage = true, children }: ImployA
   >(undefined)
 
   // returning user
-  const isReturningUserLocal =
-    canUseLocalStorage && localStorage.getItem(isReturningUserStorageKey)
-  const [isReturningUser, setIsReturningUser] = useState(
-    isReturningUserLocal ? true : false
-  )
+  const isReturningUserLocal = localStorageGet(isReturningUserStorageKey)
+  const [isReturningUser, setIsReturningUser] = useState(isReturningUserLocal ? true : false)
 
   const setTokensAndSave = useCallback((accessToken: Token, refreshToken: Token) => {
     setAccessToken(accessToken)
     setRefreshToken(refreshToken)
-    refreshToken.token && canUseLocalStorage && useLocalStorage && localStorage.setItem(tokenStorageKey, refreshToken.token)
-    !useLocalStorage && canUseSessionStorage && sessionStorage.setItem(tokenStorageKey, refreshToken.token)
+    refreshToken.token && withLocalStorage && localStorageSet(tokenStorageKey, refreshToken.token)
+    !withLocalStorage && sessionStorageSet(tokenStorageKey, refreshToken.token)
     accessToken.token && imployApiClient.setToken(accessToken.token)
-  }, [canUseLocalStorage, canUseSessionStorage, imployApiClient, useLocalStorage])
+  }, [imployApiClient, localStorageSet, sessionStorageSet, withLocalStorage])
 
   const setReturningUser = () => {
     // set returning user
-    canUseLocalStorage && localStorage.setItem(isReturningUserStorageKey, "returning")
+    localStorageSet(isReturningUserStorageKey, "returning")
     setIsReturningUser(true)
   }
 
@@ -136,9 +114,9 @@ const ImployApiProvider = ({ apiUrl, useLocalStorage = true, children }: ImployA
           if (!error?.config?._retry && error?.response?.status === 401) {
             error.config._retry = true
             const refreshTokenLocal =
-              (canUseLocalStorage && useLocalStorage) ?
-                localStorage.getItem(tokenStorageKey) :
-                canUseSessionStorage && sessionStorage.getItem(tokenStorageKey)
+              (withLocalStorage)
+                ? localStorageGet(tokenStorageKey)
+                : sessionStorageGet(tokenStorageKey)
             if (refreshTokenLocal) {
               const refreshTokenApiClient = new ImployApiClient(
                 {},
@@ -157,14 +135,14 @@ const ImployApiProvider = ({ apiUrl, useLocalStorage = true, children }: ImployA
                 error.response.config.headers.Authorization = `Bearer ${access_token.token}`
                 return axios(error.response.config)
               } catch (err) {
-                canUseLocalStorage && localStorage.removeItem(tokenStorageKey)
-                !useLocalStorage && canUseSessionStorage && sessionStorage.removeItem(tokenStorageKey)
+                localStorageRemove(tokenStorageKey)
+                !withLocalStorage && sessionStorageRemove(tokenStorageKey)
                 setRefreshToken(undefined)
                 return Promise.reject(error)
               }
             } else {
-              canUseLocalStorage && localStorage.removeItem(tokenStorageKey)
-              !useLocalStorage && canUseSessionStorage && sessionStorage.removeItem(tokenStorageKey)
+              localStorageRemove(tokenStorageKey)
+              !withLocalStorage && sessionStorageRemove(tokenStorageKey)
               setRefreshToken(undefined)
               return Promise.reject(error)
             }
@@ -174,8 +152,7 @@ const ImployApiProvider = ({ apiUrl, useLocalStorage = true, children }: ImployA
       )
 
       const apiClient = new ImployApiClient({}, apiUrl, axiosInstance)
-      const savedRefreshToken =
-        canUseLocalStorage && localStorage.getItem(tokenStorageKey)
+      const savedRefreshToken = localStorageGet(tokenStorageKey)
       setImployApiClient(apiClient)
       if (!maintenanceMode && savedRefreshToken) {
         try {
@@ -356,8 +333,8 @@ const ImployApiProvider = ({ apiUrl, useLocalStorage = true, children }: ImployA
     setRefreshToken(undefined)
     setDecodedRefreshToken(undefined)
     imployApiClient.setToken("")
-    canUseLocalStorage && localStorage.removeItem(tokenStorageKey)
-    !useLocalStorage && canUseSessionStorage && sessionStorage.removeItem(tokenStorageKey)
+    localStorageRemove(tokenStorageKey)
+    !withLocalStorage && sessionStorageRemove(tokenStorageKey)
   }
 
   const secureThresholdKeyAccount = async (encryptedKey: string) => {
