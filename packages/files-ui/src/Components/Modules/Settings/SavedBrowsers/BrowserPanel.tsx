@@ -63,8 +63,8 @@ const useStyles = makeStyles(({ palette, constants, animation, breakpoints }: CS
     actionBox: {
       marginTop: constants.generalUnit * 2
     },
-    spanMarginRight: {
-      marginRight: constants.generalUnit
+    oneSpace: {
+      marginRight: "0.5rem"
     },
     modalContainer: {
       padding: `${constants.generalUnit * 3}px ${constants.generalUnit * 4}px`,
@@ -109,7 +109,7 @@ const BrowserPanel = ({ dateAdded, shareIndex, browser, os }: BrowserShare) => {
   const [showPanel, setShowPanel] = useState(false)
   const [loadingDeleteShare, setLoadingDeleteShare] = useState(false)
   const [loadingDownloadKey, setLoadingDownloadKey] = useState(false)
-  const [confirmDeleteShare, setConfirmDeleteShare] = useState(false)
+  const [isModalConfirmationOpen, setIsModalConfirmationOpen] = useState(false)
 
   const onDeleteShare = useCallback(() => {
     setLoadingDeleteShare(true)
@@ -117,6 +117,7 @@ const BrowserPanel = ({ dateAdded, shareIndex, browser, os }: BrowserShare) => {
       .then(() => {
         setLoadingDeleteShare(false)
         setShowPanel(false)
+        setIsModalConfirmationOpen(false)
       }).catch((e) => {
         console.error(e)
         setLoadingDeleteShare(false)
@@ -155,24 +156,24 @@ const BrowserPanel = ({ dateAdded, shareIndex, browser, os }: BrowserShare) => {
             component="p"
             className={classes.subtitle}
           >
-            <span className={classes.spanMarginRight}><Trans>Operating system:</Trans></span>{os.name}
+            <span className={classes.oneSpace}><Trans>Operating system:</Trans></span>{os.name}
           </Typography>
           <Typography
             variant="body1"
             component="p"
             className={classes.subtitle}
           >
-            <span className={classes.spanMarginRight}>
+            <span className={classes.oneSpace}>
               <Trans>Browser:</Trans>
             </span>
-            <span className={classes.spanMarginRight}>{browser.name}</span>{browser.version}
+            <span className={classes.oneSpace}>{browser.name}</span>{browser.version}
           </Typography>
           <Typography
             variant="body1"
             component="p"
             className={classes.subtitleLast}
           >
-            <span className={classes.spanMarginRight}><Trans>Saved on:</Trans></span>{dayjs(dateAdded).format("DD MMM YYYY - HH:mm")}
+            <span className={classes.oneSpace}><Trans>Saved on:</Trans></span>{dayjs(dateAdded).format("DD MMM YYYY - HH:mm")}
           </Typography>
           <div className={classes.actionBox}>
             <Typography
@@ -193,22 +194,14 @@ const BrowserPanel = ({ dateAdded, shareIndex, browser, os }: BrowserShare) => {
           </div>
           {keyDetails && browserShares.length > 1 && keyDetails.totalShares > 3 &&
             <div className={classes.actionBox}>
-              <Typography
-                variant="body1"
-                component="p"
-                className={classes.lightSubtitle}
-              >
-                <Trans>Forgetting this browser deletes this from your list of sign-in methods.
-                You will not be able to forget a browser if you only have two methods set up.</Trans>
-              </Typography>
               <Button
                 size="small"
-                onClick={() => setConfirmDeleteShare(true)}
+                onClick={() => setIsModalConfirmationOpen(true)}
               >
                 <Trans>Forget this browser</Trans>
               </Button>
               <CustomModal
-                active={confirmDeleteShare}
+                active={isModalConfirmationOpen}
                 injectedClass={{
                   inner: classes.modalInner
                 }}
@@ -220,7 +213,7 @@ const BrowserPanel = ({ dateAdded, shareIndex, browser, os }: BrowserShare) => {
                   <div className={classes.modalFooter}>
                     <Button
                       variant="outline"
-                      onClick={() => setConfirmDeleteShare(false)}
+                      onClick={() => setIsModalConfirmationOpen(false)}
                       className={classes.cancelButton}
                     >
                       <Trans>Cancel</Trans>
