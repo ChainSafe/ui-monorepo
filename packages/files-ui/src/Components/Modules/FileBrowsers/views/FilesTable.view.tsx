@@ -433,7 +433,7 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
   const [moveFileData, setMoveFileData] = useState<
     { modal: boolean; fileData: FileSystemItem | FileSystemItem[] } | undefined
   >(undefined)
-  const [deleteDialogOpen, setDeleteDialog] = useState<() => void | undefined>()
+  const [deleteHandler, setDeleteHandler] = useState<() => void | undefined>()
   const [isDeletingFiles, setIsDeletingFiles] = useState(false)
   const [fileInfoPath, setFileInfoPath] = useState<string | undefined>(
     undefined
@@ -504,7 +504,7 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
         .finally(() => {
           setIsDeletingFiles(false)
           setSelected([])
-          setDeleteDialog(undefined)
+          setDeleteHandler(undefined)
         })
     }
   }, [selected, bulkMoveFileToTrash, setSelected])
@@ -516,7 +516,7 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
         .catch(console.error)
         .finally(() => {
           setIsDeletingFiles(false)
-          setDeleteDialog(undefined)
+          setDeleteHandler(undefined)
         })
     }
   }, [deleteFile])
@@ -654,7 +654,7 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
           {validBulkOps.indexOf("delete") >= 0 && (
             <Button
               onClick={() =>
-                setDeleteDialog(() => () => {
+                setDeleteHandler(() => () => {
                   handleBulkMoveToTrash()
                 })
               }
@@ -793,7 +793,7 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
                   }}
                   handleMove={handleMove}
                   deleteFile={(cid: string) =>
-                    setDeleteDialog(() => () => {
+                    setDeleteHandler(() => () => {
                       handleDeleteFile(cid)
                     })
                   }
@@ -822,9 +822,9 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
         />
       )}
       <Dialog
-        active={deleteDialogOpen !== undefined}
-        reject={() => setDeleteDialog(undefined)}
-        accept={() => deleteDialogOpen && deleteDialogOpen()}
+        active={deleteHandler !== undefined}
+        reject={() => setDeleteHandler(undefined)}
+        accept={() => deleteHandler && deleteHandler()}
         requestMessage={t`Are you sure you wish to delete?`}
         rejectText = {t`Cancel`}
         acceptText = {t`Confirm`}
