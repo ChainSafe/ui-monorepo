@@ -375,6 +375,10 @@ export const darkTheme = createTheme<CsfColors>({
           backgroundColor: "var(--gray2)",
           color: "var(--gray9)"
         },
+        actionModal: {
+          backgroundColor: "var(--gray2)",
+          color: "var(--gray9)"
+        },
         previewModal: {
           controlsBackground: "var(--gray1)",
           controlsColor: "var(--gray10)",
