@@ -499,11 +499,13 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
   const handleBulkMoveToTrash = useCallback(async () => {
     if (bulkMoveFileToTrash) {
       setIsDeletingFiles(true)
-      bulkMoveFileToTrash(selected).catch(console.error).finally(() => {
-        setIsDeletingFiles(false)
-        setSelected([])
-        setDeleteDialog(undefined)
-      })
+      bulkMoveFileToTrash(selected)
+        .catch(console.error)
+        .finally(() => {
+          setIsDeletingFiles(false)
+          setSelected([])
+          setDeleteDialog(undefined)
+        })
     }
   }, [selected, bulkMoveFileToTrash, setSelected])
 
