@@ -54,8 +54,8 @@ const NavBar: React.FC = () => {
           <Grid container alignItems="center">
             <img
               className={classes.logo}
-              src="https://res.cloudinary.com/ddxhvanz2/image/upload/v1617731776/files.chainsafe.io/csfAsset_27_20x_tt5pi4.png"
-              alt="chainsafe brand logo"
+              src="/csf_logo.png"
+              alt="chainsafe files logo"
             />
             <Typography variant="h5">
               <a href="/" className={classes.navlink}>

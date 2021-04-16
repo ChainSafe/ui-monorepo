@@ -96,7 +96,7 @@ const useStyles = makeStyles(
       },
       [breakpoints.down(1500)]:{
         minHeight: "auto",
-        padding: "24px 0",
+        padding: `${constants.generalUnit * 3}px 0`,
       },
       [breakpoints.up(3500)]:{
         minHeight: "unset",
@@ -104,7 +104,7 @@ const useStyles = makeStyles(
       },
       [breakpoints.down('sm')]:{
         minHeight: "auto",
-        padding: "24px 0",
+        padding: `${constants.generalUnit * 3}px 0`,
       },
       width: "100%",
       background: "#0f0f0f",
@@ -250,15 +250,16 @@ const useStyles = makeStyles(
       gridTemplateRows: "repeat(2, 1fr)",
     },
     bodyTextWrapper: {
-      maxWidth: "95%",
+      maxWidth: `calc(100% - ${constants.generalUnit * 10}px)`,
       marginBottom: constants.generalUnit,
 
       [breakpoints.up('lg')]: {
         width: "100%",
-        maxWidth: "99%",
+        maxWidth: `calc(100% - ${constants.generalUnit * 20}px)`,
       },
       [breakpoints.up(3500)]: {
-        maxWidth: "40%",
+        maxWidth: `calc(100% - ${constants.generalUnit * 150}px)`,
+
       },
       "& > a": {
         color: palette.additional["gray"][9],
@@ -281,7 +282,7 @@ const useStyles = makeStyles(
     loveLetterContainer: {
       minHeight: "auto",
       width: "auto",
-      margin: "100px",
+      margin: constants.generalUnit * 12,
       [breakpoints.down(1100)]:{
         margin: "5vh",
       },
@@ -289,8 +290,8 @@ const useStyles = makeStyles(
         margin: "15vh",
         maxWidth: "1500px",
         position: "relative",
-        left: "40%",
-        transform: "translateX(-40%)",
+        left: "35%",
+        transform: "translateX(-35%)",
       }
     },
     loveLetterContentContainer: {
@@ -322,21 +323,21 @@ const useStyles = makeStyles(
       }
     }, 
     loveLetterTextWrapper: {
-      maxWidth: "90%",
+      maxWidth: `calc(100% - ${constants.generalUnit * 10}px)`,
       justifySelf: "left",
       [breakpoints.up(1500)]:{
-        maxWidth: "80%",
+        maxWidth: `calc(100% - ${constants.generalUnit * 25}px)`,
       },
       [breakpoints.down(1200)]:{
-        paddingTop: "40px",
+        paddingTop: constants.generalUnit * 5,
       }
     },
     loveLetterText: {
       [breakpoints.up(1200)]:{
-        margin: "24px 0 16px 0",
+        margin: `${constants.generalUnit *3}px 0 ${constants.generalUnit *2}px 0`,
       },
       [breakpoints.down(1200)]: {
-        margin: "8px 0"
+        margin: `${constants.generalUnit}px 0`
       }
     },
     loveLetterImg: {
