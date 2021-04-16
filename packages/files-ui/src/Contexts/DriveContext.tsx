@@ -69,7 +69,7 @@ type DriveContext = {
   bulkMoveFile: (cid: FilesMvRequest[]) => Promise<void>
   recoverFile: (cid: string) => Promise<void>
   deleteFile: (cid: string) => Promise<void>
-  moveToTrash: (cid: string[] | string) => Promise<void[]>
+  moveToTrash: (cids: string[]) => Promise<void[]>
   downloadFile: (cid: string) => Promise<void>
   getFileContent: ({ cid, cancelToken, onDownloadProgress, file }: GetFileContentParams) => Promise<Blob | undefined>
   list: (body: FilesPathRequest) => Promise<FileContentResponse[]>
@@ -551,11 +551,9 @@ const DriveProvider = ({ children }: DriveContextProps) => {
     }
   }, [addToastMessage, currentPath, imployApiClient, pathContents, refreshContents])
 
-  const moveToTrash = useCallback(async (cids: string[] | string) => {
-    const filesToTrash = Array.isArray(cids) ? cids : [cids]
-
+  const moveToTrash = useCallback(async (cids: string[]) => {
     return Promise.all(
-      filesToTrash.map((cid: string) =>
+      cids.map((cid: string) =>
         moveFileToTrash(cid)
       ))
   }, [moveFileToTrash])
