@@ -231,6 +231,9 @@ const useStyles = makeStyles(
         "& > *": {
           marginRight: constants.generalUnit
         }
+      },
+      confirmDeletionDialog: {
+        top: "50%"
       }
     })
   }
@@ -791,6 +794,8 @@ const FilesTableView = ({
         rejectText = {t`Cancel`}
         acceptText = {t`Confirm`}
         acceptButtonProps={{ loading: isDeletingFiles, disabled: isDeletingFiles }}
+        rejectButtonProps={{ disabled: isDeletingFiles }}
+        injectedClass={{ inner: classes.confirmDeletionDialog }}
       />
       <UploadProgressModals />
       <DownloadProgressModals />
