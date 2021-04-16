@@ -215,6 +215,7 @@ const BrowserPanel = ({ dateAdded, shareIndex, browser, os }: BrowserShare) => {
                       variant="outline"
                       onClick={() => setIsModalConfirmationOpen(false)}
                       className={classes.cancelButton}
+                      disabled={loadingDeleteShare}
                     >
                       <Trans>Cancel</Trans>
                     </Button>
