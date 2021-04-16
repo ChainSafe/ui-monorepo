@@ -512,10 +512,12 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
   const handleDeleteFile = useCallback((cid: string) => {
     if (deleteFile) {
       setIsDeletingFiles(true)
-      deleteFile(cid).catch(console.error).finally(() => {
-        setIsDeletingFiles(false)
-        setDeleteDialog(undefined)
-      })
+      deleteFile(cid)
+        .catch(console.error)
+        .finally(() => {
+          setIsDeletingFiles(false)
+          setDeleteDialog(undefined)
+        })
     }
   }, [deleteFile])
 
