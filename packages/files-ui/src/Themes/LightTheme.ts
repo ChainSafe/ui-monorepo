@@ -162,10 +162,10 @@ export const lightTheme = createTheme<CsfColors>({
               }
             },
             focus: {
-              color: "var(--gray1)",
-              backgroundColor: "var(--gray9)",
+              color: "none",
+              backgroundColor: "none",
               "& svg": {
-                fill: "var(--gray1)"
+                fill: "none"
               }
             }
           }

@@ -49,7 +49,7 @@ msgstr "Add more files"
 msgid "Add sign-in methods"
 msgstr "Add sign-in methods"
 
-#: src/Components/Elements/ShareTransferRequestModal.tsx:101
+#: src/Components/Elements/ShareTransferRequestModal.tsx:105
 msgid "Approve"
 msgstr "Approve"
 
@@ -82,7 +82,7 @@ msgstr "Backup phrase saved"
 msgid "Bin"
 msgstr "Bin"
 
-#: src/Components/Modules/Settings/SavedBrowsers/BrowserPanel.tsx:112
+#: src/Components/Modules/Settings/SavedBrowsers/BrowserPanel.tsx:111
 msgid "Browser:"
 msgstr "Browser:"
 
@@ -171,10 +171,6 @@ msgstr "Continue with Google"
 msgid "Continue with Web3 Wallet"
 msgstr "Continue with Web3 Wallet"
 
-#: src/Components/Modules/LoginModule/InitialScreen.tsx:257
-msgid "Continue with {0}"
-msgstr "Continue with {0}"
-
 #: src/Components/Elements/MnemonicForm.tsx:147
 #: src/Components/Modules/Settings/Profile.tsx:129
 msgid "Copied!"
@@ -209,7 +205,7 @@ msgstr "Dark mode"
 msgid "Date uploaded"
 msgstr "Date uploaded"
 
-#: src/Components/Modules/FilePreviewModal.tsx:182
+#: src/Components/Modules/FilePreviewModal.tsx:188
 msgid "Decryption failed"
 msgstr "Decryption failed"
 
@@ -221,13 +217,13 @@ msgstr "Delete"
 msgid "Delete selected"
 msgstr "Delete selected"
 
-#: src/Components/Elements/ShareTransferRequestModal.tsx:91
+#: src/Components/Elements/ShareTransferRequestModal.tsx:95
 msgid "Device awaiting confirmation"
 msgstr "Device awaiting confirmation"
 
 #: src/Components/Modules/FileBrowsers/views/FileSystemItemRow.tsx:181
-#: src/Components/Modules/FilePreviewModal.tsx:289
-#: src/Components/Modules/FilePreviewModal.tsx:324
+#: src/Components/Modules/FilePreviewModal.tsx:294
+#: src/Components/Modules/FilePreviewModal.tsx:329
 msgid "Download"
 msgstr "Download"
 
@@ -235,7 +231,7 @@ msgstr "Download"
 msgid "Download complete"
 msgstr "Download complete"
 
-#: src/Components/Modules/Settings/SavedBrowsers/BrowserPanel.tsx:124
+#: src/Components/Modules/Settings/SavedBrowsers/BrowserPanel.tsx:123
 msgid "Download recovery key"
 msgstr "Download recovery key"
 
@@ -292,7 +288,7 @@ msgstr "File"
 msgid "File Info"
 msgstr "File Info"
 
-#: src/Components/Modules/FilePreviewModal.tsx:321
+#: src/Components/Modules/FilePreviewModal.tsx:326
 msgid "File format not supported."
 msgstr "File format not supported."
 
@@ -308,7 +304,6 @@ msgstr "File renamed successfully"
 msgid "File size"
 msgstr "File size"
 
-#: src/Components/Layouts/AppNav.tsx:223
 #: src/Components/Modules/SearchModule.tsx:198
 msgid "Files"
 msgstr "Files"
@@ -332,11 +327,11 @@ msgstr "Folder created successfully"
 msgid "Folders"
 msgstr "Folders"
 
-#: src/Components/Modules/Settings/SavedBrowsers/BrowserPanel.tsx:134
+#: src/Components/Modules/Settings/SavedBrowsers/BrowserPanel.tsx:133
 msgid "Forget this browser"
 msgstr "Forget this browser"
 
-#: src/Components/Modules/Settings/SavedBrowsers/BrowserPanel.tsx:130
+#: src/Components/Modules/Settings/SavedBrowsers/BrowserPanel.tsx:129
 msgid "Forgetting this browser deletes this from your list of sign-in methods. You will not be able to forget a browser if you only have two methods set up."
 msgstr "Forgetting this browser deletes this from your list of sign-in methods. You will not be able to forget a browser if you only have two methods set up."
 
@@ -408,7 +403,7 @@ msgstr "I’m done saving my backup phrase"
 msgid "Learn more"
 msgstr "Learn more"
 
-#: src/Components/Pages/LoginPage.tsx:191
+#: src/Components/Pages/LoginPage.tsx:195
 msgid "Learn more about ChainSafe"
 msgstr "Learn more about ChainSafe"
 
@@ -421,7 +416,7 @@ msgstr "Let's do it"
 msgid "Light mode"
 msgstr "Light mode"
 
-#: src/Components/Modules/FilePreviewModal.tsx:306
+#: src/Components/Modules/FilePreviewModal.tsx:311
 msgid "Loading preview"
 msgstr "Loading preview"
 
@@ -495,7 +490,7 @@ msgstr "OK"
 msgid "One sec, getting files ready..."
 msgstr "One sec, getting files ready..."
 
-#: src/Components/Modules/Settings/SavedBrowsers/BrowserPanel.tsx:108
+#: src/Components/Modules/Settings/SavedBrowsers/BrowserPanel.tsx:107
 msgid "Operating system:"
 msgstr "Operating system:"
 
@@ -578,9 +573,13 @@ msgstr "Recover"
 msgid "Recover with passphrase"
 msgstr "Recover with passphrase"
 
-#: src/Components/Elements/ShareTransferRequestModal.tsx:104
+#: src/Components/Elements/ShareTransferRequestModal.tsx:108
 msgid "Reject"
 msgstr "Reject"
+
+#: src/Components/Elements/ShareTransferRequestModal.tsx:117
+msgid "Reject all"
+msgstr "Reject all"
 
 #: src/Components/Modules/LoginModule/SignInMethods.tsx:251
 msgid "Remind me later"
@@ -594,7 +593,7 @@ msgstr "Rename"
 msgid "Rename File/Folder"
 msgstr "Rename File/Folder"
 
-#: src/Components/Elements/ShareTransferRequestModal.tsx:95
+#: src/Components/Elements/ShareTransferRequestModal.tsx:99
 msgid "Requested from"
 msgstr "Requested from"
 
@@ -636,11 +635,11 @@ msgstr "Saved Browsers"
 msgid "Saved browser"
 msgstr "Saved browser"
 
-#: src/Components/Modules/Settings/SavedBrowsers/BrowserPanel.tsx:117
+#: src/Components/Modules/Settings/SavedBrowsers/BrowserPanel.tsx:116
 msgid "Saved on:"
 msgstr "Saved on:"
 
-#: src/Components/Modules/FileBrowsers/SearchFileBrowser.tsx:61
+#: src/Components/Modules/FileBrowsers/SearchFileBrowser.tsx:67
 msgid "Search results"
 msgstr "Search results"
 
@@ -725,6 +724,10 @@ msgstr "Sign in with a different account"
 msgid "Sign-in methods"
 msgstr "Sign-in methods"
 
+#: src/Components/Modules/LoginModule/InitialScreen.tsx:257
+msgid "Sign-in with {0}"
+msgstr "Sign-in with {0}"
+
 #: src/Components/Modules/FileBrowsers/views/FilesTable.view.tsx:514
 msgid "Size"
 msgstr "Size"
@@ -796,11 +799,11 @@ msgstr "There was an error getting file info"
 msgid "There was an error getting folder info"
 msgstr "There was an error getting folder info"
 
-#: src/Contexts/DriveContext.tsx:554
+#: src/Contexts/DriveContext.tsx:563
 msgid "There was an error getting search results"
 msgstr "There was an error getting search results"
 
-#: src/Components/Modules/FilePreviewModal.tsx:189
+#: src/Components/Modules/FilePreviewModal.tsx:195
 msgid "There was an error getting the preview."
 msgstr "There was an error getting the preview."
 
@@ -881,13 +884,9 @@ msgstr "You can change this later."
 msgid "You will need to sign a message in your wallet to complete sign in."
 msgstr "You will need to sign a message in your wallet to complete sign in."
 
-#: src/Components/Modules/Settings/SavedBrowsers/BrowserPanel.tsx:121
+#: src/Components/Modules/Settings/SavedBrowsers/BrowserPanel.tsx:120
 msgid "Your recovery key can be used to restore your account in place of your backup phrase."
 msgstr "Your recovery key can be used to restore your account in place of your backup phrase."
-
-#: src/Components/Layouts/AppNav.tsx:227
-msgid "beta"
-msgstr "beta"
 
 #: src/Components/Modules/FileBrowsers/FileInfoModal.tsx:200
 msgid "copied !"
@@ -910,7 +909,7 @@ msgstr "file"
 msgid "folder"
 msgstr "folder"
 
-#: src/Components/Elements/ShareTransferRequestModal.tsx:97
+#: src/Components/Elements/ShareTransferRequestModal.tsx:101
 msgid "on"
 msgstr "on"
 
