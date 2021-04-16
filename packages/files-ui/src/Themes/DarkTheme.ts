@@ -533,7 +533,7 @@ export const darkTheme = createTheme<CsfColors>({
               }
             },
             focus: {
-              backgroundColor: "var(--gray7)",
+              backgroundColor: "var(--gray5)",
               color: "var(--gray9)",
               "& svg": {
                 fill: "var(--gray9)"
