@@ -433,7 +433,7 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
   const [moveFileData, setMoveFileData] = useState<
     { modal: boolean; fileData: FileSystemItem | FileSystemItem[] } | undefined
   >(undefined)
-  const [deleteDialogOpen, setDeleteDialog] = useState<() => Promise<void> | undefined>()
+  const [deleteDialogOpen, setDeleteDialog] = useState<() => void | undefined>()
   const [isDeletingFiles, setIsDeletingFiles] = useState(false)
   const [fileInfoPath, setFileInfoPath] = useState<string | undefined>(
     undefined
@@ -496,7 +496,7 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
     }
   }, [selected, items, bulkOperations])
 
-  const handleBulkMoveToTrash = useCallback(async () => {
+  const handleBulkMoveToTrash = useCallback(() => {
     if (bulkMoveFileToTrash) {
       setIsDeletingFiles(true)
       bulkMoveFileToTrash(selected)
@@ -509,7 +509,7 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
     }
   }, [selected, bulkMoveFileToTrash, setSelected])
 
-  const handleDeleteFile = useCallback(async (cid: string) => {
+  const handleDeleteFile = useCallback((cid: string) => {
     if (deleteFile) {
       setIsDeletingFiles(true)
       deleteFile(cid).catch(console.error).finally(() => {
@@ -652,7 +652,7 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
           {validBulkOps.indexOf("delete") >= 0 && (
             <Button
               onClick={() =>
-                setDeleteDialog(() => async () => {
+                setDeleteDialog(() => () => {
                   handleBulkMoveToTrash()
                 })
               }
@@ -791,7 +791,7 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
                   }}
                   handleMove={handleMove}
                   deleteFile={(cid: string) =>
-                    setDeleteDialog(() => async () => {
+                    setDeleteDialog(() => () => {
                       handleDeleteFile(cid)
                     })
                   }
