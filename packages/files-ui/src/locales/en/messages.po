@@ -53,10 +53,6 @@ msgstr "Add sign-in methods"
 msgid "Approve"
 msgstr "Approve"
 
-#: src/Components/Modules/FileBrowsers/views/FilesTable.view.tsx:563
-msgid "Are you sure you wish to delete?"
-msgstr "Are you sure you wish to delete?"
-
 #: src/Components/Modules/LoginModule/ConfirmSkip.tsx:57
 msgid "Are you sure?"
 msgstr "Are you sure?"
@@ -96,8 +92,8 @@ msgstr "CID (Content Identifier)"
 
 #: src/Components/Modules/CreateFolderModule.tsx:122
 #: src/Components/Modules/FileBrowsers/MoveFileModal.tsx:153
-#: src/Components/Modules/FileBrowsers/views/FileSystemItemRow.tsx:341
-#: src/Components/Modules/FileBrowsers/views/FilesTable.view.tsx:563
+#: src/Components/Modules/FileBrowsers/views/FileSystemItemRow.tsx:348
+#: src/Components/Modules/FileBrowsers/views/FilesTable.view.tsx:544
 #: src/Components/Modules/UploadFileModule.tsx:115
 msgid "Cancel"
 msgstr "Cancel"
@@ -126,7 +122,7 @@ msgstr "Close"
 msgid "Complete"
 msgstr "Complete"
 
-#: src/Components/Modules/FileBrowsers/views/FilesTable.view.tsx:563
+#: src/Components/Modules/FileBrowsers/views/FilesTable.view.tsx:544
 msgid "Confirm"
 msgstr "Confirm"
 
@@ -196,7 +192,7 @@ msgstr "Create"
 msgid "Create Folder"
 msgstr "Create Folder"
 
-#: src/Components/Modules/FileBrowsers/views/FilesTable.view.tsx:479
+#: src/Components/Modules/FileBrowsers/views/FilesTable.view.tsx:461
 msgid "Create folder"
 msgstr "Create folder"
 
@@ -213,11 +209,11 @@ msgstr "Date uploaded"
 msgid "Decryption failed"
 msgstr "Decryption failed"
 
-#: src/Components/Modules/FileBrowsers/views/FileSystemItemRow.tsx:172
+#: src/Components/Modules/FileBrowsers/views/FileSystemItemRow.tsx:179
 msgid "Delete"
 msgstr "Delete"
 
-#: src/Components/Modules/FileBrowsers/views/FilesTable.view.tsx:505
+#: src/Components/Modules/FileBrowsers/views/FilesTable.view.tsx:485
 msgid "Delete selected"
 msgstr "Delete selected"
 
@@ -225,7 +221,7 @@ msgstr "Delete selected"
 msgid "Device awaiting confirmation"
 msgstr "Device awaiting confirmation"
 
-#: src/Components/Modules/FileBrowsers/views/FileSystemItemRow.tsx:181
+#: src/Components/Modules/FileBrowsers/views/FileSystemItemRow.tsx:188
 #: src/Components/Modules/FilePreviewModal.tsx:294
 #: src/Components/Modules/FilePreviewModal.tsx:329
 msgid "Download"
@@ -239,7 +235,7 @@ msgstr "Download complete"
 msgid "Download recovery key"
 msgstr "Download recovery key"
 
-#: src/Components/Modules/FileBrowsers/views/FilesTable.view.tsx:446
+#: src/Components/Modules/FileBrowsers/views/FilesTable.view.tsx:428
 msgid "Drop to upload files"
 msgstr "Drop to upload files"
 
@@ -282,9 +278,9 @@ msgstr ""
 "If you are using a contract wallet, please make \n"
 "sure you have activated your wallet."
 
-#: src/Contexts/DriveContext.tsx:358
-#: src/Contexts/DriveContext.tsx:387
-#: src/Contexts/DriveContext.tsx:424
+#: src/Contexts/DriveContext.tsx:360
+#: src/Contexts/DriveContext.tsx:391
+#: src/Contexts/DriveContext.tsx:427
 msgid "File"
 msgstr "File"
 
@@ -316,9 +312,9 @@ msgstr "Files"
 msgid "Files uses device backups to save your browser."
 msgstr "Files uses device backups to save your browser."
 
-#: src/Contexts/DriveContext.tsx:358
-#: src/Contexts/DriveContext.tsx:387
-#: src/Contexts/DriveContext.tsx:424
+#: src/Contexts/DriveContext.tsx:360
+#: src/Contexts/DriveContext.tsx:391
+#: src/Contexts/DriveContext.tsx:427
 msgid "Folder"
 msgstr "Folder"
 
@@ -381,7 +377,7 @@ msgstr "Hold on, we are logging you in..."
 msgid "Home"
 msgstr "Home"
 
-#: src/Components/Modules/FileBrowsers/views/FileSystemItemRow.tsx:208
+#: src/Components/Modules/FileBrowsers/views/FileSystemItemRow.tsx:215
 msgid "Info"
 msgstr "Info"
 
@@ -437,11 +433,11 @@ msgid "Looks like you’re signing in from a new browser. Please choose one of t
 msgstr "Looks like you’re signing in from a new browser. Please choose one of the following to continue:"
 
 #: src/Components/Modules/FileBrowsers/MoveFileModal.tsx:156
-#: src/Components/Modules/FileBrowsers/views/FileSystemItemRow.tsx:190
+#: src/Components/Modules/FileBrowsers/views/FileSystemItemRow.tsx:197
 msgid "Move"
 msgstr "Move"
 
-#: src/Components/Modules/FileBrowsers/views/FilesTable.view.tsx:500
+#: src/Components/Modules/FileBrowsers/views/FilesTable.view.tsx:482
 msgid "Move selected"
 msgstr "Move selected"
 
@@ -453,11 +449,11 @@ msgstr "Move to..."
 msgid "My Files"
 msgstr "My Files"
 
-#: src/Components/Modules/FileBrowsers/views/FilesTable.view.tsx:530
+#: src/Components/Modules/FileBrowsers/views/FilesTable.view.tsx:510
 msgid "Name"
 msgstr "Name"
 
-#: src/Components/Modules/FileBrowsers/views/FilesTable.view.tsx:461
+#: src/Components/Modules/FileBrowsers/views/FilesTable.view.tsx:443
 msgid "New folder"
 msgstr "New folder"
 
@@ -470,7 +466,7 @@ msgstr "Next"
 msgid "Nice to see you again!"
 msgstr "Nice to see you again!"
 
-#: src/Components/Modules/FileBrowsers/views/FilesTable.view.tsx:518
+#: src/Components/Modules/FileBrowsers/views/FilesTable.view.tsx:498
 msgid "No files to show"
 msgstr "No files to show"
 
@@ -494,7 +490,7 @@ msgstr "Number of copies (Replication Factor)"
 msgid "OK"
 msgstr "OK"
 
-#: src/Components/Modules/FileBrowsers/views/FilesTable.view.tsx:511
+#: src/Components/Modules/FileBrowsers/views/FilesTable.view.tsx:491
 msgid "One sec, getting files ready..."
 msgstr "One sec, getting files ready..."
 
@@ -543,7 +539,7 @@ msgstr "Passwords must match"
 msgid "Please provide a password"
 msgstr "Please provide a password"
 
-#: src/Components/Modules/FileBrowsers/views/FileSystemItemRow.tsx:226
+#: src/Components/Modules/FileBrowsers/views/FileSystemItemRow.tsx:233
 msgid "Preview"
 msgstr "Preview"
 
@@ -573,7 +569,7 @@ msgstr "Profile and Display"
 msgid "Profile updated"
 msgstr "Profile updated"
 
-#: src/Components/Modules/FileBrowsers/views/FileSystemItemRow.tsx:217
+#: src/Components/Modules/FileBrowsers/views/FileSystemItemRow.tsx:224
 msgid "Recover"
 msgstr "Recover"
 
@@ -593,11 +589,11 @@ msgstr "Reject all"
 msgid "Remind me later"
 msgstr "Remind me later"
 
-#: src/Components/Modules/FileBrowsers/views/FileSystemItemRow.tsx:163
+#: src/Components/Modules/FileBrowsers/views/FileSystemItemRow.tsx:170
 msgid "Rename"
 msgstr "Rename"
 
-#: src/Components/Modules/FileBrowsers/views/FileSystemItemRow.tsx:336
+#: src/Components/Modules/FileBrowsers/views/FileSystemItemRow.tsx:343
 msgid "Rename File/Folder"
 msgstr "Rename File/Folder"
 
@@ -709,7 +705,7 @@ msgstr "Setting up multiple sign-in methods makes signing in on multiple devices
 msgid "Settings"
 msgstr "Settings"
 
-#: src/Components/Modules/FileBrowsers/views/FileSystemItemRow.tsx:199
+#: src/Components/Modules/FileBrowsers/views/FileSystemItemRow.tsx:206
 msgid "Share"
 msgstr "Share"
 
@@ -732,7 +728,7 @@ msgstr "Sign in with a different account"
 msgid "Sign-in methods"
 msgstr "Sign-in methods"
 
-#: src/Components/Modules/FileBrowsers/views/FilesTable.view.tsx:534
+#: src/Components/Modules/FileBrowsers/views/FilesTable.view.tsx:514
 msgid "Size"
 msgstr "Size"
 
@@ -790,8 +786,8 @@ msgstr "There was an error connecting your wallet"
 msgid "There was an error creating this folder"
 msgstr "There was an error creating this folder"
 
-#: src/Contexts/DriveContext.tsx:366
-#: src/Contexts/DriveContext.tsx:395
+#: src/Contexts/DriveContext.tsx:368
+#: src/Contexts/DriveContext.tsx:399
 msgid "There was an error deleting this"
 msgstr "There was an error deleting this"
 
@@ -803,7 +799,7 @@ msgstr "There was an error getting file info"
 msgid "There was an error getting folder info"
 msgstr "There was an error getting folder info"
 
-#: src/Contexts/DriveContext.tsx:563
+#: src/Contexts/DriveContext.tsx:566
 msgid "There was an error getting search results"
 msgstr "There was an error getting search results"
 
@@ -815,7 +811,7 @@ msgstr "There was an error getting the preview."
 msgid "There was an error moving this file"
 msgstr "There was an error moving this file"
 
-#: src/Contexts/DriveContext.tsx:432
+#: src/Contexts/DriveContext.tsx:435
 msgid "There was an error recovering this"
 msgstr "There was an error recovering this"
 
@@ -831,12 +827,12 @@ msgstr "Try again"
 msgid "Try another method"
 msgstr "Try another method"
 
-#: src/Components/Modules/FileBrowsers/views/FileSystemItemRow.tsx:344
+#: src/Components/Modules/FileBrowsers/views/FileSystemItemRow.tsx:351
 msgid "Update"
 msgstr "Update"
 
-#: src/Components/Modules/FileBrowsers/views/FilesTable.view.tsx:467
-#: src/Components/Modules/FileBrowsers/views/FilesTable.view.tsx:487
+#: src/Components/Modules/FileBrowsers/views/FilesTable.view.tsx:449
+#: src/Components/Modules/FileBrowsers/views/FilesTable.view.tsx:469
 msgid "Upload"
 msgstr "Upload"
 
@@ -848,7 +844,7 @@ msgstr "Upload complete"
 msgid "Use a different login method"
 msgstr "Use a different login method"
 
-#: src/Components/Modules/FileBrowsers/views/FileSystemItemRow.tsx:235
+#: src/Components/Modules/FileBrowsers/views/FileSystemItemRow.tsx:242
 msgid "View folder"
 msgstr "View folder"
 
@@ -880,6 +876,10 @@ msgstr "Yes I understand"
 msgid "Yes, save it"
 msgstr "Yes, save it"
 
+#: src/Components/Modules/FileBrowsers/views/FilesTable.view.tsx:544
+msgid "You are about to delete {0} file(s)."
+msgstr "You are about to delete {0} file(s)."
+
 #: src/Components/Modules/LoginModule/PasswordSetup.tsx:60
 msgid "You can change this later."
 msgstr "You can change this later."
@@ -892,28 +892,24 @@ msgstr "You will need to sign a message in your wallet to complete sign in."
 msgid "Your recovery key can be used to restore your account in place of your backup phrase."
 msgstr "Your recovery key can be used to restore your account in place of your backup phrase."
 
-#: src/Components/Layouts/AppNav.tsx:227
-#~ msgid "beta"
-#~ msgstr "beta"
-
 #: src/Components/Modules/FileBrowsers/FileInfoModal.tsx:200
 msgid "copied !"
 msgstr "copied !"
 
-#: src/Contexts/DriveContext.tsx:358
-#: src/Contexts/DriveContext.tsx:387
+#: src/Contexts/DriveContext.tsx:360
+#: src/Contexts/DriveContext.tsx:391
 msgid "deleted successfully"
 msgstr "deleted successfully"
 
-#: src/Contexts/DriveContext.tsx:366
-#: src/Contexts/DriveContext.tsx:395
-#: src/Contexts/DriveContext.tsx:432
+#: src/Contexts/DriveContext.tsx:368
+#: src/Contexts/DriveContext.tsx:399
+#: src/Contexts/DriveContext.tsx:435
 msgid "file"
 msgstr "file"
 
-#: src/Contexts/DriveContext.tsx:366
-#: src/Contexts/DriveContext.tsx:395
-#: src/Contexts/DriveContext.tsx:432
+#: src/Contexts/DriveContext.tsx:368
+#: src/Contexts/DriveContext.tsx:399
+#: src/Contexts/DriveContext.tsx:435
 msgid "folder"
 msgstr "folder"
 
@@ -921,7 +917,7 @@ msgstr "folder"
 msgid "on"
 msgstr "on"
 
-#: src/Contexts/DriveContext.tsx:424
+#: src/Contexts/DriveContext.tsx:427
 msgid "recovered successfully"
 msgstr "recovered successfully"
 

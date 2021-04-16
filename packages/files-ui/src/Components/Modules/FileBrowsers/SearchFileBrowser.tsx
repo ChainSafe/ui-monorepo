@@ -75,7 +75,7 @@ const SearchFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = fals
     <DragAndDrop>
       <FilesTableView
         crumbs={undefined}
-        loadingCurrentPath={loadingSearchResults}
+        loadingSearchResults={loadingSearchResults}
         showUploadsInTable={false}
         viewFolder={viewFolder}
         sourceFiles={pathContents}

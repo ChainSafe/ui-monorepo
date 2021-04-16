@@ -11,17 +11,11 @@ import { t } from "@lingui/macro"
 
 const CSFFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = true }: IFilesBrowserModuleProps) => {
   const {
-    moveFileToTrash,
-    bulkMoveFileToTrash,
-    downloadFile,
     renameFile,
     moveFile,
     currentPath,
     updateCurrentPath,
-    pathContents,
     uploadFiles,
-    uploadsInProgress,
-    loadingCurrentPath,
     bucketType
   } = useDrive()
 
@@ -103,16 +97,10 @@ const CSFFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = true }:
         bulkOperations={bulkOperations}
         crumbs={crumbs}
         currentPath={currentPath}
-        deleteFile={moveFileToTrash}
-        bulkMoveFileToTrash={bulkMoveFileToTrash}
-        downloadFile={downloadFile}
         handleMove={handleMove}
         handleRename={handleRename}
         handleUploadOnDrop={handleUploadOnDrop}
-        uploadsInProgress={uploadsInProgress}
-        loadingCurrentPath={loadingCurrentPath}
         showUploadsInTable={true}
-        sourceFiles={pathContents}
         updateCurrentPath={updateCurrentPath}
         heading = {t`My Files`}
         controls={controls}

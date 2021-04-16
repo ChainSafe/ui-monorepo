@@ -9,10 +9,7 @@ import { IFilesTableBrowserProps } from "../../Modules/FileBrowsers/types"
 
 const BinFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = false }: IFilesBrowserModuleProps) => {
   const {
-    deleteFile,
     updateCurrentPath,
-    pathContents,
-    loadingCurrentPath,
     bucketType,
     recoverFile
   } = useDrive()
@@ -41,10 +38,7 @@ const BinFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = false }
       <FilesTableView
         crumbs={undefined}
         recoverFile={handleRecover}
-        deleteFile={deleteFile}
-        loadingCurrentPath={loadingCurrentPath}
         showUploadsInTable={false}
-        sourceFiles={pathContents}
         updateCurrentPath={updateCurrentPath}
         heading={t`Bin`}
         controls={controls}

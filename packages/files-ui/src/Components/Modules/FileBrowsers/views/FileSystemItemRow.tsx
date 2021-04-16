@@ -36,6 +36,7 @@ import { DragTypes } from "../DragConstants"
 import { NativeTypes } from "react-dnd-html5-backend"
 import { FileOperation } from "../types"
 import { CSFTheme } from "../../../../Themes/types"
+import { object, string } from "yup"
 
 const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => {
   const desktopGridSettings = "50px 69px 3fr 190px 60px !important"
@@ -66,7 +67,6 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => 
     },
     folderIcon: {
       "& svg": {
-        // TODO: FILL
         fill: palette.additional.gray[9]
       }
     },
@@ -165,35 +165,36 @@ interface IFileSystemItemRowProps {
   file: FileSystemItem
   files: FileSystemItem[]
   currentPath?: string
-  updateCurrentPath(
-    path: string,
-    newBucketType?: BucketType,
-    showLoading?: boolean,
-  ): void
+  updateCurrentPath: (path: string, newBucketType?: BucketType, showLoading?: boolean) => void
   selected: string[]
   handleSelect(selected: string): void
   editing: string | undefined
   setEditing(editing: string | undefined): void
-  RenameSchema: any
-  handleRename?(path: string, newPath: string): Promise<void>
-  handleMove?(path: string, newPath: string): Promise<void>
-  deleteFile?(cid: string): void
-  recoverFile?(cid: string): void
-  viewFolder?(cid: string): void
-  downloadFile?(cid: string): Promise<void>
-  handleUploadOnDrop?(
-    files: File[],
-    fileItems: DataTransferItemList,
-    path: string,
-  ): void
-  setPreviewFileIndex(fileIndex: number | undefined): void
-  setMoveFileData(moveFileData: {
-    modal: boolean
-    fileData: FileSystemItem | FileSystemItem[]
-  }): void
-  setFileInfoPath(path: string): void
+  handleRename?: (path: string, newPath: string) => Promise<void>
+  handleMove?: (path: string, newPath: string) => Promise<void>
+  deleteFile?: (cid: string) => void
+  recoverFile?: (cid: string) => void
+  viewFolder?: (cid: string) => void
+  downloadFile?: (cid: string) => Promise<void>
+  handleUploadOnDrop?: (files: File[], fileItems: DataTransferItemList, path: string,) => void
+  setPreviewFileIndex: (fileIndex: number | undefined) => void
+  setMoveFileData: (moveFileData: { modal: boolean; fileData: FileSystemItem | FileSystemItem[] }) => void
+  setFileInfoPath: (path: string) => void
   itemOperations: FileOperation[]
 }
+
+const renameSchema = object().shape({
+  fileName: string()
+    .min(1, "Please enter a file name")
+    .max(65, "File name length exceeded")
+    .test(
+      "Invalid name",
+      "File name cannot contain '/' character",
+      (val: string | null | undefined) =>
+        !val?.includes("/")
+    )
+    .required("File name is required")
+})
 
 const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
   index,
@@ -204,7 +205,6 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
   selected,
   editing,
   setEditing,
-  RenameSchema,
   handleRename,
   handleMove,
   deleteFile,
@@ -218,8 +218,11 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
   handleSelect,
   itemOperations
 }) => {
+  const { desktop, themeKey } = useThemeSwitcher()
+  const classes = useStyles()
   const { cid, name, isFolder, size, content_type } = file
   let Icon
+
   if (isFolder) {
     Icon = FolderFilledSvg
   } else if (content_type.includes("image")) {
@@ -229,9 +232,6 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
   } else {
     Icon = FileTextSvg
   }
-
-  const { desktop, themeKey } = useThemeSwitcher()
-  const classes = useStyles()
 
   const allMenuItems: Record<FileOperation, IMenuItem> = {
     rename: {
@@ -440,7 +440,7 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
             initialValues={{
               fileName: name
             }}
-            validationSchema={RenameSchema}
+            validationSchema={renameSchema}
             onSubmit={(values) => {
               handleRename &&
                 handleRename(
@@ -489,7 +489,7 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
                 initialValues={{
                   fileName: name
                 }}
-                validationSchema={RenameSchema}
+                validationSchema={renameSchema}
                 onSubmit={(values) => {
                   handleRename &&
                   handleRename(
