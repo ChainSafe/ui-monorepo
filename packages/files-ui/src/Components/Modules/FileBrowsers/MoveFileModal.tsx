@@ -193,7 +193,7 @@ const MoveFileModule: React.FC<IMoveFileModuleProps> = ({
                 commonIcon={<FolderIcon />}
                 selectedId={movePath}
                 onSelectNode={(path: string) => setMovePath(path)}
-              /> : <Typography>No folders</Typography>
+              /> : <Typography><Trans>No folders</Trans></Typography>
             }
           </div>
         </ScrollbarWrapper>
