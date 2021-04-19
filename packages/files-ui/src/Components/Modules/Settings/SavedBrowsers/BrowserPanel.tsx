@@ -156,7 +156,6 @@ const BrowserPanel = ({ dateAdded, shareIndex, browser, os }: BrowserShare) => {
             component="p"
             className={classes.subtitle}
           >
-
             <span className={classes.oneSpace}><Trans>Operating system:</Trans></span>{os.name}
           </Typography>
           <Typography
