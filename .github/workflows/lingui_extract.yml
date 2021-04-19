@@ -15,8 +15,6 @@ jobs:
         ref: ${{ github.event.pull_request.head.ref }}
 
     - name: set user
-      env:
-        GITHUB_PACKAGES_AUTH_TOKEN: ${{ secrets.GH_PKG_AUTH_TOKEN }}
       run: |
         git config --global user.name 'GitHub Actions'
         git config --global user.email 'actions@github.com'
@@ -28,6 +26,8 @@ jobs:
         key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
 
     - name: install packages
+      env:
+        GITHUB_PACKAGES_AUTH_TOKEN: ${{ secrets.GH_PKG_AUTH_TOKEN }}
       run: yarn install --immutable
 
     - name: lingui-extract
