@@ -307,12 +307,6 @@ msgstr "Light mode"
 msgid "Loading preview"
 msgstr "Loading preview"
 
-msgid "Logged in with"
-msgstr "Logged in with"
-
-msgid "Logged in with Web3"
-msgstr "Logged in with Web3"
-
 msgid "Looks like you’re signing in from a new browser. Please choose one of the following to continue:"
 msgstr "Looks like you’re signing in from a new browser. Please choose one of the following to continue:"
 
@@ -622,6 +616,9 @@ msgstr "We seriously advise that you add a third method. If you lose one of the 
 
 msgid "We`'`re undergoing maintenance, thank you for being patient"
 msgstr "We`'`re undergoing maintenance, thank you for being patient"
+
+msgid "Web3: {0}"
+msgstr "Web3: {0}"
 
 msgid "Welcome! Here at Files we don’t require emails and phone numbers to set up an account."
 msgstr "Welcome! Here at Files we don’t require emails and phone numbers to set up an account."
