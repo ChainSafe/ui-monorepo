@@ -34,6 +34,6 @@ jobs:
       env:
         GITHUB_PACKAGES_AUTH_TOKEN: ${{ secrets.GH_PKG_AUTH_TOKEN }}
       run: |
-        (cd packages/files-ui && yarn extract)
+        (cd packages/files-ui && yarn extract --clean)
         git add packages/files-ui/src/locales/*
         if git commit -m "lingui extract"; then git push; else echo 'exiting successfully without commit'; fi
