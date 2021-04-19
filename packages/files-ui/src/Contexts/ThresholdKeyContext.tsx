@@ -285,7 +285,13 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
   // Ensure API client is logged in
   useEffect(() => {
     const loginWithThresholdKey = async () => {
-      const { token } = await imployApiClient.getWeb3Token()
+      if (!userInfo) return
+      const { token } = await imployApiClient.generateServiceIdentityToken({
+        identity_provider: (userInfo.userInfo.typeOfLogin === "jwt") ?
+          "web3" :
+        userInfo.userInfo.typeOfLogin as IdentityProvider,
+        identity_token: userInfo.userInfo.idToken || userInfo?.userInfo.accessToken
+      })
       if (token && privateKey && userInfo) {
         setStatus("logging in")
         const pubKey = EthCrypto.publicKeyByPrivateKey(privateKey)
@@ -294,7 +300,7 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
         const signature = await wallet.signMessage(token)
         await thresholdKeyLogin(
           signature,
-          userInfo.userInfo.idToken || "",
+          token,
           `0x${EthCrypto.publicKey.compress(pubKey)}`
         )
         setStatus("done")
@@ -408,7 +414,14 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
         throw new Error("No identity token could be retrieved")
       }
 
-      const decodedToken = jwtDecode<{uuid: string}>(identityToken.token || "")
+      const decodedToken = jwtDecode<{
+        uuid: string
+        email: string
+        name: string
+        profileImage: string
+        accessToken: string
+      }>(identityToken.token || "")
+
       const directAuthSdk = (serviceProvider as any).directWeb as DirectAuthSdk
 
       const torusKey = loginType === "web3" ? await directAuthSdk.getTorusKey(
@@ -417,7 +430,7 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
         { verifier_id: address || "" },
         identityToken.token || ""
       ) : await directAuthSdk.getTorusKey(
-        process.env.REACT_APP_FILES_UUID_VERIFIER_NAME || "",
+        process.env.REACT_APP_FILES_VERIFIER_NAME || "",
         decodedToken.uuid,
         { verifier_id: decodedToken.uuid },
         identityToken.token || ""
@@ -430,16 +443,14 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
         metadataNonce: "",
         userInfo: {
           idToken: identityToken.token,
-          email: "",
-          name: "",
-          profileImage: "",
+          email: decodedToken.email,
+          name: decodedToken.name,
+          profileImage: decodedToken.profileImage,
           verifier: "",
-          verifierId: "",
+          verifierId: (loginType === "web3") ? address || "" : decodedToken.uuid,
           typeOfLogin: loginType !== "web3" ? loginType : "jwt",
-          accessToken: "",
-          state: {
-
-          }
+          accessToken: decodedToken.accessToken,
+          state: { }
         }
       }
       setUserInfo(loginResponse)
