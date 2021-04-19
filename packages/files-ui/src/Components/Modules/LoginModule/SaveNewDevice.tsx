@@ -6,7 +6,7 @@ import { createStyles, makeStyles } from "@chainsafe/common-theme"
 import { CSFTheme } from "../../../Themes/types"
 import clsx from "clsx"
 
-const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) =>
+const useStyles = makeStyles(({ breakpoints, constants }: CSFTheme) =>
   createStyles({
     root: {
       padding: `0 ${constants.generalUnit * 4}px`,
@@ -36,15 +36,7 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) =>
     },
     button: {
       width: 240,
-      marginBottom: constants.generalUnit * 2,
-      [breakpoints.up("md")]: {
-        backgroundColor: palette.common.black.main,
-        color: palette.common.white.main
-      },
-      [breakpoints.down("md")]: {
-        backgroundColor: palette.common.black.main,
-        color: palette.common.white.main
-      }
+      marginBottom: constants.generalUnit * 2
     },
     buttonWrapper: {
       display: "flex",
