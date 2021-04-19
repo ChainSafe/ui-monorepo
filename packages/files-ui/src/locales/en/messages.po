@@ -82,7 +82,7 @@ msgstr "Backup phrase saved"
 msgid "Bin"
 msgstr "Bin"
 
-#: src/Components/Modules/Settings/SavedBrowsers/BrowserPanel.tsx:139
+#: src/Components/Modules/Settings/SavedBrowsers/BrowserPanel.tsx:138
 msgid "Browser:"
 msgstr "Browser:"
 
@@ -90,7 +90,7 @@ msgstr "Browser:"
 msgid "By connecting your wallet, you agree to our <0>Terms of Service</0> and <1>Privacy Policy</1>"
 msgstr "By connecting your wallet, you agree to our <0>Terms of Service</0> and <1>Privacy Policy</1>"
 
-#: src/Components/Modules/Settings/SavedBrowsers/BrowserPanel.tsx:164
+#: src/Components/Modules/Settings/SavedBrowsers/BrowserPanel.tsx:163
 msgid "By forgetting this browser, you will not be able to use its associated recovery key to sign-in."
 msgstr "By forgetting this browser, you will not be able to use its associated recovery key to sign-in."
 
@@ -102,7 +102,7 @@ msgstr "CID (Content Identifier)"
 #: src/Components/Modules/FileBrowsers/MoveFileModal.tsx:152
 #: src/Components/Modules/FileBrowsers/views/FileSystemItemRow.tsx:341
 #: src/Components/Modules/FileBrowsers/views/FilesTable.view.tsx:544
-#: src/Components/Modules/Settings/SavedBrowsers/BrowserPanel.tsx:168
+#: src/Components/Modules/Settings/SavedBrowsers/BrowserPanel.tsx:167
 #: src/Components/Modules/UploadFileModule.tsx:115
 msgid "Cancel"
 msgstr "Cancel"
@@ -240,7 +240,7 @@ msgstr "Download"
 msgid "Download complete"
 msgstr "Download complete"
 
-#: src/Components/Modules/Settings/SavedBrowsers/BrowserPanel.tsx:151
+#: src/Components/Modules/Settings/SavedBrowsers/BrowserPanel.tsx:150
 msgid "Download recovery key"
 msgstr "Download recovery key"
 
@@ -336,8 +336,8 @@ msgstr "Folder created successfully"
 msgid "Folders"
 msgstr "Folders"
 
-#: src/Components/Modules/Settings/SavedBrowsers/BrowserPanel.tsx:157
-#: src/Components/Modules/Settings/SavedBrowsers/BrowserPanel.tsx:171
+#: src/Components/Modules/Settings/SavedBrowsers/BrowserPanel.tsx:156
+#: src/Components/Modules/Settings/SavedBrowsers/BrowserPanel.tsx:170
 msgid "Forget this browser"
 msgstr "Forget this browser"
 
@@ -496,7 +496,7 @@ msgstr "OK"
 msgid "One sec, getting files ready..."
 msgstr "One sec, getting files ready..."
 
-#: src/Components/Modules/Settings/SavedBrowsers/BrowserPanel.tsx:135
+#: src/Components/Modules/Settings/SavedBrowsers/BrowserPanel.tsx:134
 msgid "Operating system:"
 msgstr "Operating system:"
 
@@ -641,7 +641,7 @@ msgstr "Saved Browsers"
 msgid "Saved browser"
 msgstr "Saved browser"
 
-#: src/Components/Modules/Settings/SavedBrowsers/BrowserPanel.tsx:144
+#: src/Components/Modules/Settings/SavedBrowsers/BrowserPanel.tsx:143
 msgid "Saved on:"
 msgstr "Saved on:"
 
@@ -886,7 +886,7 @@ msgstr "You can change this later."
 msgid "You will need to sign a message in your wallet to complete sign in."
 msgstr "You will need to sign a message in your wallet to complete sign in."
 
-#: src/Components/Modules/Settings/SavedBrowsers/BrowserPanel.tsx:148
+#: src/Components/Modules/Settings/SavedBrowsers/BrowserPanel.tsx:147
 msgid "Your recovery key can be used to restore your account in place of your backup phrase."
 msgstr "Your recovery key can be used to restore your account in place of your backup phrase."
 
