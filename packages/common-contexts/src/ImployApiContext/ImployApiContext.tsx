@@ -1,13 +1,13 @@
 import { useWeb3 } from "@chainsafe/web3-context"
 import * as React from "react"
 import { useState, useEffect, useMemo, useCallback } from "react"
-import { IImployApiClient, ImployApiClient, Token, Provider, TKeyRequestIdentity_provider } from "@chainsafe/files-api-client"
+import { IImployApiClient, ImployApiClient, Token, IdentityProvider, OAuthIdentityToken } from "@chainsafe/files-api-client"
 import jwtDecode from "jwt-decode"
 import axios from "axios"
 import { decryptFile } from "../helpers"
 import { useLocalStorage, useSessionStorage } from "@chainsafe/browser-storage-hooks"
 
-export { Provider as OAuthProvider }
+export { IdentityProvider as OAuthProvider }
 
 const tokenStorageKey = "csf.refreshToken"
 const isReturningUserStorageKey = "csf.isReturningUser"
@@ -28,12 +28,10 @@ type ImployApiContext = {
   secureThresholdKeyAccount: (encryptedKey: string) => Promise<boolean>
   thresholdKeyLogin(
     signature: string,
-    token: string,
-    identityProvider: TKeyRequestIdentity_provider,
     identityToken: string,
-    publicKey: string,
+    publicKey: string
   ): Promise<void>
-  getProviderUrl: (provider: Provider) => Promise<string>
+  getProviderUrl: (provider: OAuthIdentityToken) => Promise<string>
   loginWithGithub: (code: string, state: string) => Promise<void>
   loginWithGoogle: (
     code: string,
@@ -193,8 +191,6 @@ const ImployApiProvider = ({ apiUrl, withLocalStorage = true, children }: Imploy
 
   const thresholdKeyLogin = async (
     signature: string,
-    token: string,
-    identityProvider: TKeyRequestIdentity_provider,
     identityToken: string,
     publicKey: string
   ) => {
@@ -202,12 +198,10 @@ const ImployApiProvider = ({ apiUrl, withLocalStorage = true, children }: Imploy
       const {
         access_token,
         refresh_token
-      } = await imployApiClient.postIdentityTkeyToken({
+      } = await imployApiClient.verifyServiceIdentityToken({
         signature: signature,
-        token: token,
-        identity_provider: identityProvider,
-        identity_token: identityToken,
-        public_key: publicKey
+        public_key: publicKey,
+        service_identity_token: identityToken
       })
       setTokensAndSave(access_token, refresh_token)
       setReturningUser()
@@ -261,7 +255,7 @@ const ImployApiProvider = ({ apiUrl, withLocalStorage = true, children }: Imploy
     }
   }
 
-  const getProviderUrl = async (provider: Provider) => {
+  const getProviderUrl = async (provider: OAuthIdentityToken) => {
     try {
       const { url } = await imployApiClient.getOauth2Provider(provider)
       return Promise.resolve(url)

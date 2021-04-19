@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo, useCallback } from "react"
-import DirectAuthSdk, { LOGIN_TYPE, TorusLoginResponse } from "@toruslabs/torus-direct-web-sdk"
+import DirectAuthSdk, { createHandler, ILoginHandler, LOGIN_TYPE, TorusLoginResponse } from "@toruslabs/torus-direct-web-sdk"
 import ThresholdKey from "@tkey/default"
 import WebStorageModule, { WEB_STORAGE_MODULE_NAME } from "@tkey/web-storage"
 import SecurityQuestionsModule, { SECURITY_QUESTIONS_MODULE_NAME } from "@tkey/security-questions"
@@ -15,9 +15,10 @@ import EthCrypto from "eth-crypto"
 import { useWeb3 } from "@chainsafe/web3-context"
 import ShareTransferRequestModal from "../Components/Elements/ShareTransferRequestModal"
 import BN from "bn.js"
-import { TKeyRequestIdentity_provider } from "@chainsafe/files-api-client"
+import { IdentityProvider } from "@chainsafe/files-api-client"
 import { capitalize, centerEllipsis } from "../Utils/Helpers"
 import { t } from "@lingui/macro"
+import jwtDecode from "jwt-decode"
 
 const TORUS_POSTBOX_KEY = "csf.postboxKey"
 const TKEY_STORE_KEY = "csf.tkeyStore"
@@ -84,6 +85,39 @@ export type ShareTransferRequest = {
 }
 
 const ThresholdKeyContext = React.createContext<TThresholdKeyContext | undefined>(undefined)
+
+const getProviderSpecificParams = (loginType: LOGIN_TYPE):
+  {typeOfLogin: LOGIN_TYPE; clientId: string; verifier: string; jwtParams?: any} => {
+  switch (loginType) {
+  case "google": {
+    return {
+      typeOfLogin: loginType,
+      clientId: process.env.REACT_APP_GOOGLE_CLIENT_ID || "",
+      verifier: process.env.REACT_APP_GOOGLE_VERIFIER_NAME || ""
+    }
+  }
+  case "facebook": {
+    return {
+      typeOfLogin: loginType,
+      clientId: process.env.REACT_APP_FACEBOOK_CLIENT_ID || "",
+      verifier: process.env.REACT_APP_FACEBOOK_VERIFIER_NAME || ""
+    }
+  }
+  case "github":{
+    return {
+      typeOfLogin: loginType,
+      clientId: process.env.REACT_APP_AUTH0_CLIENT_ID || "",
+      verifier: process.env.REACT_APP_GITHUB_VERIFIER_NAME || "",
+      jwtParams: {
+        domain: process.env.REACT_APP_AUTH0_DOMAIN || ""
+      }
+    }
+  }
+  default:{
+    throw new Error(`${loginType} is unsupported`)
+  }
+  }
+}
 
 const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = false, apiKey }: ThresholdKeyProviderProps) => {
   const { imployApiClient, thresholdKeyLogin, logout } = useImployApi()
@@ -260,11 +294,7 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
         const signature = await wallet.signMessage(token)
         await thresholdKeyLogin(
           signature,
-          token,
-          (userInfo.userInfo.typeOfLogin === "jwt") ?
-            "web3" :
-            userInfo.userInfo.typeOfLogin as TKeyRequestIdentity_provider,
-          userInfo.userInfo.idToken || userInfo.userInfo.accessToken,
+          userInfo.userInfo.idToken || '',
           `0x${EthCrypto.publicKey.compress(pubKey)}`
         )
         setStatus("done")
@@ -373,90 +403,47 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
     try {
       const serviceProvider = (TKeySdk.serviceProvider as unknown) as DirectAuthSdk
       setStatus("awaiting confirmation")
-      switch (loginType) {
-      case "google": {
-        const googleResult = await serviceProvider.triggerLogin({
-          typeOfLogin: "google",
-          verifier: process.env.REACT_APP_GOOGLE_VERIFIER_NAME || "",
-          clientId: process.env.REACT_APP_GOOGLE_CLIENT_ID || ""
-        })
-        setUserInfo(googleResult)
-        break
+      const identityToken = await getIdentityToken(loginType)
+      if (!identityToken) {
+        console.error("No identity token could be retrieved")
+        return
       }
-      case "facebook": {
-        const fbResult = await serviceProvider.triggerLogin({
-          typeOfLogin: "facebook",
-          verifier: process.env.REACT_APP_FACEBOOK_VERIFIER_NAME || "",
-          clientId: process.env.REACT_APP_FACEBOOK_CLIENT_ID || ""
-        })
-        setUserInfo(fbResult)
-        break
-      }
-      case "github": {
-        const ghResult = await serviceProvider.triggerLogin({
-          typeOfLogin: "github",
-          verifier: process.env.REACT_APP_GITHUB_VERIFIER_NAME || "",
-          clientId: process.env.REACT_APP_AUTH0_CLIENT_ID || "",
-          jwtParams: {
-            domain: process.env.REACT_APP_AUTH0_DOMAIN || ""
+      const decodedToken = jwtDecode<{uuid: string}>(identityToken.token || "")
+      debugger
+      const directAuthSdk = (serviceProvider as any).directWeb as DirectAuthSdk
+
+      const torusKey = loginType === "web3" ? await directAuthSdk.getTorusKey(
+        process.env.REACT_APP_FILES_VERIFIER_NAME || "",
+        address || "",
+        { verifier_id: address || "" },
+        identityToken.token || ""
+      ) : await directAuthSdk.getTorusKey(
+        process.env.REACT_APP_FILES_UUID_VERIFIER_NAME || "",
+        decodedToken.uuid,
+        { verifier_id: decodedToken.uuid },
+        identityToken.token || ""
+      )
+      TKeySdk.serviceProvider.postboxKey = new BN(torusKey.privateKey, "hex")
+
+      const loginResponse: TorusLoginResponse = {
+        privateKey: torusKey.privateKey,
+        publicAddress: torusKey.publicAddress,
+        metadataNonce: "",
+        userInfo: {
+          idToken: identityToken.token,
+          email: "",
+          name: "",
+          profileImage: "",
+          verifier: "",
+          verifierId: "",
+          typeOfLogin: loginType !== 'web3' ? loginType : 'jwt',
+          accessToken: "",
+          state: {
+
           }
-        })
-        setUserInfo(ghResult)
-        break
-      }
-      case "web3":{
-        if (!provider) break
-
-        if (!isReady || !address) {
-          const connected = await checkIsReady()
-          if (!connected || !address) break
         }
-
-        const { token } = await imployApiClient.getIdentityWeb3Token(address)
-
-        if (token) {
-          setStatus("awaiting confirmation")
-          const signature = await signMessage(token, provider.getSigner())
-          setStatus("logging in")
-          const result = await imployApiClient.postIdentityWeb3Token({
-            signature: signature,
-            token: token,
-            public_address: address
-          })
-          const directAuthSdk = (serviceProvider as any).directWeb as DirectAuthSdk
-
-          const torusKey = await directAuthSdk.getTorusKey(
-            process.env.REACT_APP_FILES_VERIFIER_NAME || "",
-            address,
-            { verifier_id: address },
-            result.token || ""
-          )
-          TKeySdk.serviceProvider.postboxKey = new BN(torusKey.privateKey, "hex")
-          const loginResponse: TorusLoginResponse = {
-            privateKey: torusKey.privateKey,
-            publicAddress: torusKey.publicAddress,
-            metadataNonce: "",
-            userInfo: {
-              idToken: result.token,
-              email: "",
-              name: "",
-              profileImage: "",
-              verifier: "",
-              verifierId: "",
-              typeOfLogin: "jwt",
-              accessToken: "",
-              state: {
-
-              }
-            }
-          }
-          setUserInfo(loginResponse)
-        }
-        break
       }
-      default:
-        break
-      }
+      setUserInfo(loginResponse)
     } catch (error) {
       console.error("Error logging in")
       console.error(error)
@@ -502,6 +489,48 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
     } catch (error) {
       console.error(error)
       throw new Error("Threshold Key Error")
+    }
+  }
+
+  const getIdentityToken = async (loginType: LOGIN_TYPE | "web3") => {
+    if (loginType === "web3") {
+      if (!provider) return
+
+      if (!isReady || !address) {
+        const connected = await checkIsReady()
+        if (!connected || !address) return
+      }
+
+      const { token } = await imployApiClient.getIdentityWeb3Token(address)
+
+      if (token) {
+        setStatus("awaiting confirmation")
+        const signature = await signMessage(token, provider.getSigner())
+        setStatus("logging in")
+        const identityToken = await imployApiClient.postIdentityWeb3Token({
+          signature: signature,
+          token: token,
+          public_address: address
+        })
+        return identityToken
+      }
+
+    } else {
+      const providerSpecificHandlerProps = getProviderSpecificParams(loginType as LOGIN_TYPE)
+
+      const loginHandler: ILoginHandler = createHandler({
+        ...providerSpecificHandlerProps,
+        redirect_uri: `${window.location.origin}/serviceworker/redirect`,
+        redirectToOpener: false,
+        uxMode: "popup",
+        customState: {}
+      })
+      const oauthIdToken = await loginHandler.handleLoginWindow({})
+      const identityToken = await imployApiClient.generateServiceIdentityToken({
+        identity_provider: loginType as IdentityProvider,
+        identity_token: oauthIdToken.idToken || ""
+      })
+      return identityToken
     }
   }
 
@@ -800,3 +829,5 @@ function useThresholdKey() {
 }
 
 export { ThresholdKeyProvider, useThresholdKey }
+
+
