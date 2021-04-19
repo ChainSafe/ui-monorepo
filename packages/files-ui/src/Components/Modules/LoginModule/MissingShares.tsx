@@ -121,7 +121,8 @@ const MissingShares = ({ className }: IMissingShares) => {
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState("")
 
-  const handleSubmitPassword = () => {
+  const handleSubmitPassword = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
     if (!password) return
     setIsLoading(true)
 
@@ -133,7 +134,8 @@ const MissingShares = ({ className }: IMissingShares) => {
       })
   }
 
-  const handleSubmitMnemonicShare = () => {
+  const handleSubmitMnemonicShare = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
     if (!mnemonic) return
     setIsLoading(true)
 
@@ -209,7 +211,7 @@ const MissingShares = ({ className }: IMissingShares) => {
           </>
         )}
         {withPassword && (
-          <div>
+          <form onSubmit={handleSubmitPassword}>
             <Typography className={clsx(classes.text, "label")}>
               <Trans>Enter password:</Trans>
             </Typography>
@@ -220,7 +222,7 @@ const MissingShares = ({ className }: IMissingShares) => {
               type={"password"}
             />
             <Button
-              onClick={handleSubmitPassword}
+              type='submit'
               className={clsx(classes.button, classes.belowInput)}
               size="large"
               loading={isLoading}
@@ -231,10 +233,10 @@ const MissingShares = ({ className }: IMissingShares) => {
             <Typography className={classes.error}>
               {error}
             </Typography>
-          </div>
+          </form>
         )}
         {withMnemonic && (
-          <div>
+          <form onSubmit={handleSubmitMnemonicShare}>
             <Typography className={clsx(classes.text, "label")}>
               <Trans>Enter backup phrase:</Trans>
             </Typography>
@@ -245,7 +247,7 @@ const MissingShares = ({ className }: IMissingShares) => {
               />
             </div>
             <Button
-              onClick={handleSubmitMnemonicShare}
+              type='submit'
               className={clsx(classes.button, classes.belowInput)}
               size="large"
               loading={isLoading}
@@ -256,7 +258,7 @@ const MissingShares = ({ className }: IMissingShares) => {
             <Typography className={classes.error}>
               {error}
             </Typography>
-          </div>
+          </form>
         )}
       </div>
       <footer className={classes.footer}>
