@@ -294,7 +294,7 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
         const signature = await wallet.signMessage(token)
         await thresholdKeyLogin(
           signature,
-          userInfo.userInfo.idToken || '',
+          userInfo.userInfo.idToken || "",
           `0x${EthCrypto.publicKey.compress(pubKey)}`
         )
         setStatus("done")
@@ -405,11 +405,10 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
       setStatus("awaiting confirmation")
       const identityToken = await getIdentityToken(loginType)
       if (!identityToken) {
-        console.error("No identity token could be retrieved")
-        return
+        throw new Error("No identity token could be retrieved")
       }
+
       const decodedToken = jwtDecode<{uuid: string}>(identityToken.token || "")
-      debugger
       const directAuthSdk = (serviceProvider as any).directWeb as DirectAuthSdk
 
       const torusKey = loginType === "web3" ? await directAuthSdk.getTorusKey(
@@ -436,7 +435,7 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
           profileImage: "",
           verifier: "",
           verifierId: "",
-          typeOfLogin: loginType !== 'web3' ? loginType : 'jwt',
+          typeOfLogin: loginType !== "web3" ? loginType : "jwt",
           accessToken: "",
           state: {
 
