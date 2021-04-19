@@ -6,7 +6,7 @@ import { createStyles, makeStyles } from "@chainsafe/common-theme"
 import { CSFTheme } from "../../../Themes/types"
 import clsx from "clsx"
 
-const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) =>
+const useStyles = makeStyles(({ breakpoints, constants }: CSFTheme) =>
   createStyles({
     root: {
       padding: `0 ${constants.generalUnit * 4}px`,
