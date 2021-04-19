@@ -5,7 +5,10 @@
       "exclude": ["**/node_modules/**", "<rootDir>/src/locales/**"]
    }],
    "compileNamespace": "cjs",
-   "format": "minimal",
+   "format": "po",
+   "formatOptions": { 
+      "origins": false, 
+   },
    "locales": ["en"],
    "sourceLocale": "en"
 } 
