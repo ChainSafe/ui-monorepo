@@ -30,8 +30,9 @@ const useStyles = makeStyles(({ constants, breakpoints, palette, typography }: C
         paddingLeft: constants.generalUnit * 2
       }
     },
-    bodyContainer: {
+    sectionContainer: {
       borderBottom: `1px solid ${palette.additional["gray"][4]}`,
+      marginBottom: 32,
       [breakpoints.down("md")]: {
         borderBottom: "none"
       }
@@ -112,17 +113,20 @@ const useStyles = makeStyles(({ constants, breakpoints, palette, typography }: C
       }
     },
     themeBoxDark: {
-      backgroundColor: palette.additional.gray[9],
-      color: palette.additional.gray[5]
+      ...constants.settingsPage.darkSwitch
     },
     themeBoxLight: {
-      border: `1px solid ${palette.additional.geekblue[4]}`,
-      backgroundColor: palette.additional.gray[4],
-      color: palette.additional.gray[9]
+      ...constants.settingsPage.lightSwitch
     },
     themeSubtitle: {
       ...typography.body1,
       color: palette.additional.gray[8]
+    },
+    sectionSubHeading: {
+      ...typography.h5,
+      fontWeight: 400,
+      marginTop: 25,
+      marginBottom: 14
     }
   })
 )
@@ -178,7 +182,7 @@ const ProfileView = () => {
     <Grid container>
       <Grid item xs={12} sm={10} md={8}>
         <div className={classes.container}>
-          <div id="profile" className={classes.bodyContainer}>
+          <div id="profile" className={classes.sectionContainer}>
             <div className={classes.profileBox}>
               <Formik
                 initialValues={{
@@ -271,8 +275,7 @@ const ProfileView = () => {
               </Formik>
             </div>
           </div>
-
-          {/* <div id="deletion" className={classes.bodyContainer}>
+          {/* <div id="deletion" className={classes.sectionContainer}>
             <div className={classes.deletionBox}>
               <Typography
                 variant="h4"
@@ -301,11 +304,10 @@ const ProfileView = () => {
             </div>
           </div> */}
           <div>
-            <Typography variant="body1" className={classes.label}>
+            <Typography variant='h4' component='h4'>
               <Trans>Display Settings</Trans>
             </Typography>
-            <br/>
-            <Typography><Trans>Theme</Trans></Typography>
+            <Typography variant='h5' component='h5' className={classes.sectionSubHeading}><Trans>Theme</Trans></Typography>
             <Grid container>
               <Grid item xs={12} sm={12} md={6}>
                 <div className={clsx(classes.themeBox, classes.themeBoxDark)}>
