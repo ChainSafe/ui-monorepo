@@ -68,9 +68,8 @@ type DriveContext = {
   moveFile: (body: FilesMvRequest) => Promise<void>
   bulkMoveFile: (cid: FilesMvRequest[]) => Promise<void>
   recoverFile: (cid: string) => Promise<void>
-  deleteFile: (cid: string) => Promise<void>
-  bulkMoveFileToTrash: (cid: string[]) => Promise<void>
-  moveFileToTrash: (cid: string) => Promise<void>
+  deleteFiles: (cids: string[]) => Promise<void[]>
+  moveToTrash: (cids: string[]) => Promise<void[]>
   downloadFile: (cid: string) => Promise<void>
   getFileContent: ({ cid, cancelToken, onDownloadProgress, file }: GetFileContentParams) => Promise<Blob | undefined>
   list: (body: FilesPathRequest) => Promise<FileContentResponse[]>
@@ -483,9 +482,14 @@ const DriveProvider = ({ children }: DriveContextProps) => {
     }
   }
 
-  const deleteFile = async (cid: string) => {
+  const deleteFile = useCallback(async (cid: string) => {
     const itemToDelete = pathContents.find((i) => i.cid === cid)
-    if (!itemToDelete) return
+
+    if (!itemToDelete) {
+      console.error("No item found to delete")
+      return
+    }
+
     try {
       await imployApiClient.removeCSFObjects({
         paths: [`${currentPath}${itemToDelete.name}`],
@@ -512,11 +516,23 @@ const DriveProvider = ({ children }: DriveContextProps) => {
       })
       return Promise.reject()
     }
-  }
+  }, [addToastMessage, bucketType, currentPath, imployApiClient, pathContents, refreshContents])
+
+  const deleteFiles = useCallback(async (cids: string[]) => {
+    return Promise.all(
+      cids.map((cid: string) =>
+        deleteFile(cid)
+      ))
+  }, [deleteFile])
 
   const moveFileToTrash = useCallback(async (cid: string) => {
     const itemToDelete = pathContents.find((i) => i.cid === cid)
-    if (!itemToDelete) return
+
+    if (!itemToDelete) {
+      console.error("No item found to move to the trash")
+      return
+    }
+
     try {
       await imployApiClient.moveCSFObject({
         path: getPathWithFile(currentPath, itemToDelete.name),
@@ -546,10 +562,11 @@ const DriveProvider = ({ children }: DriveContextProps) => {
     }
   }, [addToastMessage, currentPath, imployApiClient, pathContents, refreshContents])
 
-  const bulkMoveFileToTrash = useCallback(async (cidsToTrash: string[]) => {
-    for (let i = 0; i < cidsToTrash.length; i++) {
-      await moveFileToTrash(cidsToTrash[i])
-    }
+  const moveToTrash = useCallback(async (cids: string[]) => {
+    return Promise.all(
+      cids.map((cid: string) =>
+        moveFileToTrash(cid)
+      ))
   }, [moveFileToTrash])
 
   const recoverFile = async (cid: string) => {
@@ -752,9 +769,8 @@ const DriveProvider = ({ children }: DriveContextProps) => {
         renameFile,
         moveFile,
         bulkMoveFile,
-        deleteFile,
-        moveFileToTrash,
-        bulkMoveFileToTrash,
+        deleteFiles,
+        moveToTrash,
         downloadFile,
         getFileContent,
         recoverFile,

@@ -30,7 +30,7 @@ import { t, Trans } from "@lingui/macro"
 import { NativeTypes } from "react-dnd-html5-backend"
 import { useDrop } from "react-dnd"
 import { FileOperation, IFilesTableBrowserProps } from "../types"
-import { FileSystemItem } from "../../../../Contexts/DriveContext"
+import { FileSystemItem, useDrive } from "../../../../Contexts/DriveContext"
 import FileSystemItemRow from "./FileSystemItemRow"
 import FilePreviewModal from "../../FilePreviewModal"
 import UploadProgressModals from "../../UploadProgressModals"
@@ -232,6 +232,9 @@ const useStyles = makeStyles(
         "& > *": {
           marginRight: constants.generalUnit
         }
+      },
+      confirmDeletionDialog: {
+        top: "50%"
       }
     })
   }
@@ -241,7 +244,7 @@ const useStyles = makeStyles(
 const sortFoldersFirst = (a: FileSystemItem, b: FileSystemItem) =>
   a.isFolder && a.content_type !== b.content_type ? -1 : 1
 
-const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
+const FilesTableView = ({
   heading,
   controls = true,
   sourceFiles,
@@ -251,9 +254,8 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
   crumbs,
   handleRename,
   handleMove,
-  bulkMoveFileToTrash,
   downloadFile,
-  deleteFile,
+  deleteFiles,
   recoverFile,
   viewFolder,
   currentPath,
@@ -272,14 +274,17 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
   const [column, setColumn] = useState<"name" | "size" | "date_uploaded">("name")
   const [selected, setSelected] = useState<string[]>([])
   const [previewFileIndex, setPreviewFileIndex] = useState<number | undefined>()
+  const { pathContents } = useDrive()
   const items: FileSystemItem[] = useMemo(() => {
-    if (!sourceFiles) return []
+    const itemList: FileSystemItem[] = sourceFiles || pathContents
+
+    if (!itemList) return []
 
     switch (direction) {
     default: {
       // case "descend": {
       // case "name": {
-      return sourceFiles
+      return itemList
         .sort((a, b) =>
           a.name > b.name ? -1 : 1
         )
@@ -289,21 +294,21 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
       switch (column) {
       default: {
         // case "name": {
-        return sourceFiles
+        return itemList
           .sort((a, b) =>
             a.name > b.name ? -1 : 1
           )
           .sort(sortFoldersFirst)
       }
       case "size": {
-        return sourceFiles
+        return itemList
           .sort((a, b) =>
             a.size > b.size ? -1 : 1
           )
           .sort(sortFoldersFirst)
       }
           // case "date_uploaded": {
-          //   return sourceFiles
+          //   return fileList
           //     .sort((a: IFileConfigured, b: IFileConfigured) =>
           //       a.date_uploaded > b.date_uploaded ? -1 : 1,
           //     )
@@ -315,21 +320,21 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
       switch (column) {
       default: {
         // case "name": {
-        return sourceFiles
+        return itemList
           .sort((a, b) =>
             a.name < b.name ? -1 : 1
           )
           .sort(sortFoldersFirst)
       }
       case "size": {
-        return sourceFiles
+        return itemList
           .sort((a, b) =>
             a.size < b.size ? -1 : 1
           )
           .sort(sortFoldersFirst)
       }
           // case "date_uploaded": {
-          //   return sourceFiles
+          //   return fileList
           //     .sort((a: IFileConfigured, b: IFileConfigured) =>
           //       a.date_uploaded < b.date_uploaded ? -1 : 1,
           //     )
@@ -338,7 +343,7 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
       }
     }
     }
-  }, [sourceFiles, direction, column])
+  }, [sourceFiles, pathContents, direction, column])
 
   const handleSortToggle = (
     targetColumn: "name" | "size" | "date_uploaded"
@@ -398,7 +403,7 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
   }
 
   const invalidFilenameRegex = new RegExp("/")
-  const RenameSchema = object().shape({
+  const renameSchema = object().shape({
     fileName: string()
       .min(1, "Please enter a file name")
       .max(65, "File name length exceeded")
@@ -433,7 +438,7 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
   const [moveFileData, setMoveFileData] = useState<
     { modal: boolean; fileData: FileSystemItem | FileSystemItem[] } | undefined
   >(undefined)
-  const [deleteHandler, setDeleteHandler] = useState<() => void | undefined>()
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false)
   const [isDeletingFiles, setIsDeletingFiles] = useState(false)
   const [fileInfoPath, setFileInfoPath] = useState<string | undefined>(
     undefined
@@ -496,31 +501,18 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
     }
   }, [selected, items, bulkOperations])
 
-  const handleBulkMoveToTrash = useCallback(() => {
-    if (bulkMoveFileToTrash) {
-      setIsDeletingFiles(true)
-      bulkMoveFileToTrash(selected)
-        .catch(console.error)
-        .finally(() => {
-          setIsDeletingFiles(false)
-          setSelected([])
-          setDeleteHandler(undefined)
-        })
-    }
-  }, [selected, bulkMoveFileToTrash, setSelected])
+  const handleDeleteFiles = useCallback(() => {
+    if(!deleteFiles) return
 
-  const handleDeleteFile = useCallback((cid: string) => {
-    if (deleteFile) {
-      setIsDeletingFiles(true)
-      deleteFile(cid)
-        .catch(console.error)
-        .finally(() => {
-          setIsDeletingFiles(false)
-          setDeleteHandler(undefined)
-        })
-    }
-  }, [deleteFile])
-
+    setIsDeletingFiles(true)
+    deleteFiles(selected)
+      .catch(console.error)
+      .finally(() => {
+        setIsDeletingFiles(false)
+        setSelected([])
+        setIsDeleteDialogOpen(false)
+      })
+  }, [deleteFiles, selected])
 
   const getItemOperations =  useCallback((contentType: string) => {
     const result = Object.keys(itemOperations).reduce((acc: FileOperation[], item: string) => {
@@ -653,11 +645,7 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
           )}
           {validBulkOps.indexOf("delete") >= 0 && (
             <Button
-              onClick={() =>
-                setDeleteHandler(() => () => {
-                  handleBulkMoveToTrash()
-                })
-              }
+              onClick={() => {setIsDeleteDialogOpen(true)}}
               variant="outline"
             >
               <Trans>Delete selected</Trans>
@@ -786,17 +774,16 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
                   handleSelect={handleSelect}
                   editing={editing}
                   setEditing={setEditing}
-                  RenameSchema={RenameSchema}
+                  renameSchema={renameSchema}
                   handleRename={async (path: string, newPath: string) => {
                     handleRename && (await handleRename(path, newPath))
                     setEditing(undefined)
                   }}
                   handleMove={handleMove}
-                  deleteFile={(cid: string) =>
-                    setDeleteHandler(() => () => {
-                      handleDeleteFile(cid)
-                    })
-                  }
+                  deleteFile={() => {
+                    setSelected([file.cid])
+                    setIsDeleteDialogOpen(true)
+                  }}
                   recoverFile={recoverFile}
                   downloadFile={downloadFile}
                   viewFolder={viewFolder}
@@ -822,13 +809,15 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
         />
       )}
       <Dialog
-        active={deleteHandler !== undefined}
-        reject={() => setDeleteHandler(undefined)}
-        accept={() => deleteHandler && deleteHandler()}
-        requestMessage={t`Are you sure you wish to delete?`}
+        active={isDeleteDialogOpen}
+        reject={() => setIsDeleteDialogOpen(false)}
+        accept={handleDeleteFiles}
+        requestMessage={t`You are about to delete ${selected.length} file(s).`}
         rejectText = {t`Cancel`}
         acceptText = {t`Confirm`}
         acceptButtonProps={{ loading: isDeletingFiles, disabled: isDeletingFiles }}
+        rejectButtonProps={{ disabled: isDeletingFiles }}
+        injectedClass={{ inner: classes.confirmDeletionDialog }}
       />
       <UploadProgressModals />
       <DownloadProgressModals />
