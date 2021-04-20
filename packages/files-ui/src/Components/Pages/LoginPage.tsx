@@ -5,7 +5,7 @@ import SaveNewDevice from "../Modules/LoginModule/SaveNewDevice"
 import MissingShares from "../Modules/LoginModule/MissingShares"
 import { CSFTheme } from "../../Themes/types"
 import InitialScreen from "../Modules/LoginModule/InitialScreen"
-import { ChainsafeFilesLogo, Typography } from "@chainsafe/common-components"
+import { ChainsafeFilesLogo, ChainsafeLogo, Typography } from "@chainsafe/common-components"
 import { ROUTE_LINKS } from "../FilesRoutes"
 import { Trans } from "@lingui/macro"
 import BottomDarkSVG from "../../Media/landing/layers/dark/Bottom.dark.svg"
@@ -73,13 +73,11 @@ const useStyles = makeStyles(
         }
       },
       title: {
-        position: "absolute",
-        top: constants.generalUnit * 5.25,
-        left: "50%",
-        transform: "translate(-50%, 0)",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        marginTop: "2rem",
         fontWeight: typography.fontWeight.regular,
-        textAlign: "center",
-        width: "100%",
         [breakpoints.up("md")]:{
           ...typography.h2
         },
@@ -127,6 +125,11 @@ const useStyles = makeStyles(
       logo: {
         height: 60,
         width: 60
+      },
+      filesLogo: {
+        height: 60,
+        width: 60,
+        marginRight: "1rem"
       }
     })
 )
@@ -220,6 +223,7 @@ const LoginPage = () => {
   return (
     <div className={classes.root}>
       <Typography className={classes.title}>
+        <ChainsafeFilesLogo className={classes.filesLogo} />
         ChainSafe Files
       </Typography>
       <>
@@ -244,7 +248,7 @@ const LoginPage = () => {
         target="_blank"
         rel="noopener noreferrer"
       >
-        <ChainsafeFilesLogo className={classes.logo} />
+        <ChainsafeLogo className={classes.logo} />
         <Typography>
           <Trans>
             Learn more about ChainSafe

@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react"
+import React, { useCallback, useEffect, useMemo, useState } from "react"
 import { FileSystemItem, SearchEntry, useDrive } from "../../../Contexts/DriveContext"
 import { IFilesBrowserModuleProps, IFilesTableBrowserProps } from "./types"
 import FilesTableView from "./views/FilesTable.view"
@@ -36,10 +36,14 @@ const SearchFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = fals
     // eslint-disable-next-line
   }, [querySearch])
 
-  const viewFolder = (cid: string) => {
-    const searchEntry = searchResults.find(
+  const getSearchEntry = useCallback((cid: string) =>
+    searchResults.find(
       (result) => result.content.cid === cid
     )
+  , [searchResults])
+
+  const viewFolder = (cid: string) => {
+    const searchEntry = getSearchEntry(cid)
     if (searchEntry) {
       if (searchEntry.content.content_type === CONTENT_TYPES.Directory) {
         redirect(ROUTE_LINKS.Home(searchEntry.path))
@@ -49,11 +53,18 @@ const SearchFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = fals
     }
   }
 
-  const pathContents: FileSystemItem[] = searchResults.map((searchResult) => ({
-    ...searchResult.content,
-    isFolder: (searchResult.content.content_type === CONTENT_TYPES.Directory)
+  const getPath = useCallback((cid: string) => {
+    const searchEntry = getSearchEntry(cid)
+    return searchEntry?.path
+  }, [getSearchEntry])
+
+  const pathContents: FileSystemItem[] = useMemo(() =>
+    searchResults.map((searchResult) => ({
+      ...searchResult.content,
+      isFolder: (searchResult.content.content_type === CONTENT_TYPES.Directory)
       || (searchResult.content.content_type === CONTENT_TYPES.Directory2)
-  }))
+    }))
+  , [searchResults])
 
   const itemOperations: IFilesTableBrowserProps["itemOperations"] = useMemo(() => ({
     [CONTENT_TYPES.File]: ["view_folder"],
@@ -72,6 +83,8 @@ const SearchFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = fals
         heading={t`Search results`}
         controls={controls}
         itemOperations={itemOperations}
+        isSearch
+        getPath={getPath}
       />
     </DragAndDrop>
   )

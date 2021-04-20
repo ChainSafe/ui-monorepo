@@ -58,6 +58,10 @@ export const lightTheme = createTheme<CsfColors>({
           backgroundColor: "var(--gray1)",
           color: "var(--gray10)"
         },
+        actionModal: {
+          backgroundColor: "var(--gray1)",
+          color: "var(--gray10)"
+        },
         previewModal: {
           controlsBackground: "var(--gray9)",
           controlsColor: "var(--gray8)",

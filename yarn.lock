@@ -1659,6 +1659,11 @@
     lodash "^4.17.19"
     to-fast-properties "^2.0.0"
 
+"@chainsafe/browser-storage-hooks@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@chainsafe/browser-storage-hooks/-/browser-storage-hooks-1.0.1.tgz#26d32cde1999914db755a631e2643823c54959f7"
+  integrity sha512-Q4b5gQAZnsRXKeADspd5isqfwwhhXjDk70y++YadufA6EZ3tf340oW0OVszp74KaGEw+CAYFGQR4X7bzpZ3x9Q==
+
 "@chainsafe/files-api-client@1.7.2":
   version "1.7.2"
   resolved "https://npm.pkg.github.com/download/@chainsafe/files-api-client/1.7.2/9ea14d7d3e078bb3c05a036cbc8f1d65320bb24ae23170eca19f54da741eaff2#af225b994a54a54114f5bf29dc0292636c7b5109"

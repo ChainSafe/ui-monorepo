@@ -9,6 +9,7 @@ import clsx from "clsx"
 import { Trans } from "@lingui/macro"
 import dayjs from "dayjs"
 import { BrowserShare, useThresholdKey } from "../../../../Contexts/ThresholdKeyContext"
+import CustomModal from "../../../Elements/CustomModal"
 
 const useStyles = makeStyles(({ palette, constants, animation, breakpoints }: CSFTheme) =>
   createStyles({
@@ -62,8 +63,32 @@ const useStyles = makeStyles(({ palette, constants, animation, breakpoints }: CS
     actionBox: {
       marginTop: constants.generalUnit * 2
     },
-    spanMarginRight: {
+    oneSpace: {
       marginRight: "0.5rem"
+    },
+    modalContainer: {
+      padding: `${constants.generalUnit * 3}px ${constants.generalUnit * 4}px`,
+      [breakpoints.down("md")]: {
+        padding: `${constants.generalUnit * 2}px ${constants.generalUnit * 2}px`
+      }
+    },
+    modalFooter: {
+      marginTop: constants.generalUnit * 4,
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "flex-end"
+    },
+    cancelButton: {
+      marginRight: constants.generalUnit
+    },
+    modalInner: {
+      backgroundColor: constants.actionModal.backgroundColor,
+      color: constants.actionModal.color,
+      [breakpoints.down("md")]: {
+        borderTopLeftRadius: `${constants.generalUnit * 1.5}px`,
+        borderTopRightRadius: `${constants.generalUnit * 1.5}px`,
+        maxWidth: `${breakpoints.width("md")}px !important`
+      }
     }
   })
 )
@@ -84,6 +109,7 @@ const BrowserPanel = ({ dateAdded, shareIndex, browser, os }: BrowserShare) => {
   const [showPanel, setShowPanel] = useState(false)
   const [loadingDeleteShare, setLoadingDeleteShare] = useState(false)
   const [loadingDownloadKey, setLoadingDownloadKey] = useState(false)
+  const [isModalConfirmationOpen, setIsModalConfirmationOpen] = useState(false)
 
   const onDeleteShare = useCallback(() => {
     setLoadingDeleteShare(true)
@@ -91,6 +117,7 @@ const BrowserPanel = ({ dateAdded, shareIndex, browser, os }: BrowserShare) => {
       .then(() => {
         setLoadingDeleteShare(false)
         setShowPanel(false)
+        setIsModalConfirmationOpen(false)
       }).catch((e) => {
         console.error(e)
         setLoadingDeleteShare(false)
@@ -129,24 +156,24 @@ const BrowserPanel = ({ dateAdded, shareIndex, browser, os }: BrowserShare) => {
             component="p"
             className={classes.subtitle}
           >
-            <span className={classes.spanMarginRight}><Trans>Operating system:</Trans></span>{os.name}
+            <span className={classes.oneSpace}><Trans>Operating system:</Trans></span>{os.name}
           </Typography>
           <Typography
             variant="body1"
             component="p"
             className={classes.subtitle}
           >
-            <span className={classes.spanMarginRight}>
+            <span className={classes.oneSpace}>
               <Trans>Browser:</Trans>
             </span>
-            <span className={classes.spanMarginRight}>{browser.name}</span>{browser.version}
+            <span className={classes.oneSpace}>{browser.name}</span>{browser.version}
           </Typography>
           <Typography
             variant="body1"
             component="p"
             className={classes.subtitleLast}
           >
-            <span className={classes.spanMarginRight}><Trans>Saved on:</Trans></span>{dayjs(dateAdded).format("DD MMM YYYY - HH:mm")}
+            <span className={classes.oneSpace}><Trans>Saved on:</Trans></span>{dayjs(dateAdded).format("DD MMM YYYY - HH:mm")}
           </Typography>
           <div className={classes.actionBox}>
             <Typography
@@ -167,22 +194,41 @@ const BrowserPanel = ({ dateAdded, shareIndex, browser, os }: BrowserShare) => {
           </div>
           {keyDetails && browserShares.length > 1 && keyDetails.totalShares > 3 &&
             <div className={classes.actionBox}>
-              <Typography
-                variant="body1"
-                component="p"
-                className={classes.lightSubtitle}
-              >
-                <Trans>Forgetting this browser deletes this from your list of sign-in methods.
-                You will not be able to forget a browser if you only have two methods set up.</Trans>
-              </Typography>
               <Button
                 size="small"
-                loading={loadingDeleteShare}
-                onClick={onDeleteShare}
-                disabled={loadingDeleteShare}
+                onClick={() => setIsModalConfirmationOpen(true)}
               >
                 <Trans>Forget this browser</Trans>
               </Button>
+              <CustomModal
+                active={isModalConfirmationOpen}
+                injectedClass={{
+                  inner: classes.modalInner
+                }}
+              >
+                <div className={classes.modalContainer}>
+                  <Typography>
+                    <Trans>By forgetting this browser, you will not be able to use its associated recovery key to sign-in.</Trans>
+                  </Typography>
+                  <div className={classes.modalFooter}>
+                    <Button
+                      variant="outline"
+                      onClick={() => setIsModalConfirmationOpen(false)}
+                      className={classes.cancelButton}
+                      disabled={loadingDeleteShare}
+                    >
+                      <Trans>Cancel</Trans>
+                    </Button>
+                    <Button
+                      onClick={onDeleteShare}
+                      loading={loadingDeleteShare}
+                      disabled={loadingDeleteShare}
+                    >
+                      <Trans>Forget this browser</Trans>
+                    </Button>
+                  </div>
+                </div>
+              </CustomModal>
             </div>
           }
         </div>

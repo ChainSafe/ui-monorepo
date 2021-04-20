@@ -5,7 +5,9 @@
       "exclude": ["**/node_modules/**", "<rootdir>/src/locales/**"]
    }],
    "compileNamespace": "cjs",
-   "format": "po",
+   "formatOptions": { 
+      "origins": false
+   },
    "locales": ["en"],
    "sourceLocale": "en"
 }

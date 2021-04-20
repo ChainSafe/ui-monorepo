@@ -187,12 +187,14 @@ const MoveFileModule: React.FC<IMoveFileModuleProps> = ({
       <Grid item xs={12} sm={12} className={classes.treeContainer}>
         <ScrollbarWrapper autoHide={true} maxHeight={200}>
           <div className={classes.treeScrollView}>
-            <TreeView
-              treeData={folderTree}
-              commonIcon={<FolderIcon />}
-              selectedId={movePath}
-              onSelectNode={(path: string) => setMovePath(path)}
-            />
+            {folderTree.length ?
+              <TreeView
+                treeData={folderTree}
+                commonIcon={<FolderIcon />}
+                selectedId={movePath}
+                onSelectNode={(path: string) => setMovePath(path)}
+              /> : <Typography><Trans>No folders</Trans></Typography>
+            }
           </div>
         </ScrollbarWrapper>
       </Grid>
