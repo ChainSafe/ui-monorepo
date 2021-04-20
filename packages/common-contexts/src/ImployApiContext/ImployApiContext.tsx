@@ -198,6 +198,9 @@ const ImployApiProvider = ({ apiUrl, withLocalStorage = true, children }: Imploy
     identityToken: string,
     publicKey: string
   ) => {
+    if (maintenanceMode) {
+      throw new Error("App is undergoing maintenance")
+    }
     try {
       const {
         access_token,
