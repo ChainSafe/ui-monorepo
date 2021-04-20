@@ -60,7 +60,7 @@ const DefaultThemeConfig: IThemeConfig = {
       background:
         DefaultPalette.additional.blue[DefaultPalette.colorTags.background],
       border: DefaultPalette.additional.blue[DefaultPalette.colorTags.border],
-      main: DefaultPalette.additional.csPrimary,
+      main: DefaultPalette.additional.blue[6],
       hover: DefaultPalette.additional.gray[10],
       active: DefaultPalette.additional.blue[7]
     },
@@ -69,7 +69,7 @@ const DefaultThemeConfig: IThemeConfig = {
         DefaultPalette.additional.blue[DefaultPalette.colorTags.background],
       border: DefaultPalette.additional.blue[DefaultPalette.colorTags.border],
       main: DefaultPalette.additional.gray[10],
-      hover: DefaultPalette.additional.csPrimary
+      hover: DefaultPalette.additional.blue[6]
     },
     error: {
       background:

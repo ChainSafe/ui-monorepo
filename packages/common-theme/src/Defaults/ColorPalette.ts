@@ -10,7 +10,6 @@ export interface IDefaultPalette {
     [key: number]: number
   }
   additional: {
-    csPrimary: string
     blue: {
       [key: number]: string
     }
@@ -55,8 +54,6 @@ export interface IDefaultPalette {
 
 export const DefaultPalette: IDefaultPalette = {
   root: {
-    "--cs-primary": "#5165DC",
-
     "--blue1": "#e6f7ff",
     "--blue2": "#BAE7FF",
     "--blue3": "#91D5FF",
@@ -207,7 +204,6 @@ export const DefaultPalette: IDefaultPalette = {
     hover: 5
   },
   additional: {
-    csPrimary: "var(--cs-primary)",
     blue: {
       1: "var(--blue1)",
       2: "var(--blue2)",
