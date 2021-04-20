@@ -208,9 +208,10 @@ const AuthenticationFactors = ({ goToComplete, goToMnemonic, goToPassword, goToS
           )
         }
       </section>
-      <section onClick={() => !hasMnemonicShare ? goToMnemonic() : null}className={clsx(classes.setOption, {
-        "clickable": !hasMnemonicShare
-      })}>
+      <section
+        onClick={() => !hasMnemonicShare && goToMnemonic()}
+        className={clsx(classes.setOption, {"clickable": !hasMnemonicShare})}
+      >
         <div>
           <Typography variant="h5">
             <Trans>
