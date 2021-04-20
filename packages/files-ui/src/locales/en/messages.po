@@ -271,8 +271,8 @@ msgstr "Learn more"
 msgid "Learn more about ChainSafe"
 msgstr "Learn more about ChainSafe"
 
-msgid "Let’s get you set up."
-msgstr "Let’s get you set up."
+msgid "Let's get you set up."
+msgstr "Let's get you set up."
 
 msgid "Light mode"
 msgstr "Light mode"
