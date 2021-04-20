@@ -169,9 +169,10 @@ const AuthenticationFactors = ({ goToComplete, goToMnemonic, goToPassword, goToS
           )
         }
       </section>
-      <section onClick={() => !hasPasswordShare ? goToPassword() : null} className={clsx(classes.setOption, {
-        "clickable": !hasPasswordShare
-      })}>
+      <section
+        onClick={() => !hasPasswordShare && goToPassword()}
+        className={clsx(classes.setOption, {"clickable": !hasPasswordShare})}
+      >
         <div>
           <Typography variant="h5">
             <Trans>
