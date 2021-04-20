@@ -386,7 +386,7 @@ const InitialScreen = ({ className }: IInitialScreen) => {
                 <Typography variant='h5'>
                   {error}
                 </Typography>
-                <Button onClick={resetLogin}>
+                <Button variant="primary" onClick={resetLogin}>
                   <Trans>Try again</Trans>
                 </Button>
               </section>

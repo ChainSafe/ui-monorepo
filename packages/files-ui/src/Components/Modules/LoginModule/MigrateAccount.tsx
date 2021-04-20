@@ -152,6 +152,7 @@ const MigrateAccount: React.FC<IMigrateAccount> = ({
             type="password"
           />
           <Button
+            variant="primary"
             onClick={handleSecureAccountWithMasterPassword}
             className={clsx(classes.button, classes.belowInput)}
             size="large"

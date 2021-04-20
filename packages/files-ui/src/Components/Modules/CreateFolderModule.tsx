@@ -45,7 +45,6 @@ const useStyles = makeStyles(
       },
       okButton: {
         marginLeft: constants.generalUnit,
-        backgroundColor: palette.common.black.main
       },
       cancelButton: {
         [breakpoints.down("md")]: {
@@ -173,6 +172,7 @@ const CreateFolderModule: React.FC<ICreateFolderModuleProps> = ({
               </CustomButton>
               <Button
                 size={desktop ? "medium" : "large"}
+                variant="primary"
                 type="submit"
                 className={classes.okButton}
                 loading={creatingFolder}
