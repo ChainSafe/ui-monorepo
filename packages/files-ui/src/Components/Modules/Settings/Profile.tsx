@@ -317,7 +317,11 @@ const ProfileView = () => {
               </Grid>
               <Grid item xs={12} sm={12} md={6}>
                 <div className={clsx(classes.themeBox, classes.themeBoxLight)}>
-                  <RadioInput value='light' label={t`Light Theme`} onChange={(e) => setTheme(e.target.value)} checked={themeKey === "light"}/>
+                  <RadioInput
+                    value='light'
+                    label={t`Light Theme`}
+                    onChange={(e) => setTheme(e.target.value)}
+                    checked={themeKey === "light"} />
                   {themeKey === "light" && <Typography className={classes.themeSubtitle}>
                     <Trans>What a fine day it is.</Trans>
                   </Typography>}
