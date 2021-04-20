@@ -145,6 +145,9 @@ msgstr "Create Folder"
 msgid "Create folder"
 msgstr "Create folder"
 
+msgid "Dark Theme"
+msgstr "Dark Theme"
+
 msgid "Dark mode"
 msgstr "Dark mode"
 
@@ -162,6 +165,9 @@ msgstr "Delete selected"
 
 msgid "Device awaiting confirmation"
 msgstr "Device awaiting confirmation"
+
+msgid "Display Settings"
+msgstr "Display Settings"
 
 msgid "Download"
 msgstr "Download"
@@ -297,6 +303,9 @@ msgstr "Learn more about ChainSafe"
 
 msgid "Let's do it"
 msgstr "Let's do it"
+
+msgid "Light Theme"
+msgstr "Light Theme"
 
 msgid "Light mode"
 msgstr "Light mode"
@@ -557,6 +566,9 @@ msgstr "Thanks for taking care of that. You can <0/> adjust these anytime in sec
 msgid "The authentication popup was closed"
 msgstr "The authentication popup was closed"
 
+msgid "Theme"
+msgstr "Theme"
+
 msgid "There was an error authenticating"
 msgstr "There was an error authenticating"
 
@@ -625,6 +637,12 @@ msgstr "Web3: {0}"
 
 msgid "Welcome! Here at Files we don’t require emails and phone numbers to set up an account."
 msgstr "Welcome! Here at Files we don’t require emails and phone numbers to set up an account."
+
+msgid "What a fine day it is."
+msgstr "What a fine day it is."
+
+msgid "What a fine night it is."
+msgstr "What a fine night it is."
 
 msgid "Without setting up at least three authentication factors, you risk getting locked out of your account.<0/><1/>Remember, you need a minimum of two factors to sign in. If you only have one, you’ll lose access to your account forever."
 msgstr "Without setting up at least three authentication factors, you risk getting locked out of your account.<0/><1/>Remember, you need a minimum of two factors to sign in. If you only have one, you’ll lose access to your account forever."
