@@ -362,6 +362,7 @@ const PurchasePlan: React.FC = () => {
                 </Grid>
               </Grid>
               <Button
+                variant="primary"
                 size="large"
                 className={classes.submitButton}
                 type="submit"
