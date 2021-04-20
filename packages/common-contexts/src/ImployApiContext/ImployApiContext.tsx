@@ -111,7 +111,7 @@ const ImployApiProvider = ({ apiUrl, withLocalStorage = true, children }: Imploy
           return response
         },
         async (error) => {
-          if (!error?.config?._retry && error?.response?.status === 401) {
+          if (!error?.config?._retry && error?.response?.status === 401 && !maintenanceMode) {
             error.config._retry = true
             const refreshTokenLocal =
               (withLocalStorage)
