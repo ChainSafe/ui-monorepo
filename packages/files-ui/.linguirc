@@ -7,7 +7,7 @@
    "compileNamespace": "cjs",
    "format": "po",
    "formatOptions": { 
-      "origins": false, 
+      "origins": false
    },
    "locales": ["en"],
    "sourceLocale": "en"
