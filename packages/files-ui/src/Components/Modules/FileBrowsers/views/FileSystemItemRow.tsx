@@ -527,6 +527,7 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
                       <Trans>Cancel</Trans>
                     </Button>
                     <Button
+                      variant="primary"
                       size="medium"
                       type="submit"
                       className={classes.okButton}

@@ -290,6 +290,7 @@ const FileInfoModal: React.FC<IFileInfoModuleProps> = ({
             <Button
               type="submit"
               size="large"
+              variant="primary"
               className={classes.copyButton}
               onClick={onCopyCID}
             >

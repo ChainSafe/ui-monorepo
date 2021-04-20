@@ -223,6 +223,7 @@ const MissingShares = ({ className }: IMissingShares) => {
               type={"password"}
             />
             <Button
+              variant="primary"
               type='submit'
               className={clsx(classes.button, classes.belowInput)}
               size="large"
@@ -249,6 +250,7 @@ const MissingShares = ({ className }: IMissingShares) => {
               />
             </div>
             <Button
+              variant="primary"
               type='submit'
               className={clsx(classes.button, classes.belowInput)}
               size="large"

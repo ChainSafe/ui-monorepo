@@ -113,6 +113,7 @@ const PasswordForm = ({ buttonLabel, setPassword }: Props) => {
         />
         <Button
           className={clsx(classes.button, "passwordFormButton")}
+          variant="primary"
           fullsize
           type="submit"
           loading={loading}

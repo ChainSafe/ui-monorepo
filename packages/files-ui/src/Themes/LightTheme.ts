@@ -2,15 +2,17 @@ import { createTheme } from "@chainsafe/common-theme"
 import { CsfColors, UI_CONSTANTS } from "./Constants"
 
 export const lightTheme = createTheme<CsfColors>({
+  globalStyling: {
+    ":root": {
+      "--csf-primary": "#5165DC"
+    }
+  },
   themeConfig: {
     palette: {
       primary: {
-        main: "var(--gray9)",
-        hover: "var(--gray1)"
+        main: "var(--csf-primary)"
       },
       secondary: {
-        main: "var(--gray1)",
-        hover: "var(--gray10)"
       }
     },
     constants: {
@@ -153,18 +155,6 @@ export const lightTheme = createTheme<CsfColors>({
       Button: {
         variants: {
           primary: {
-            active: {
-              color: "var(--gray9)",
-              "& svg": {
-                fill: "var(--gray9)"
-              }
-            },
-            hover: {
-              color: "var(--gray9)",
-              "& svg": {
-                fill: "var(--gray9)"
-              }
-            },
             focus: {
               color: "none",
               backgroundColor: "none",
