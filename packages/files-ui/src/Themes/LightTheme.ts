@@ -62,6 +62,10 @@ export const lightTheme = createTheme<CsfColors>({
           backgroundColor: "var(--gray1)",
           color: "var(--gray10)"
         },
+        actionModal: {
+          backgroundColor: "var(--gray1)",
+          color: "var(--gray10)"
+        },
         previewModal: {
           controlsBackground: "var(--gray9)",
           controlsColor: "var(--gray8)",
@@ -162,9 +166,10 @@ export const lightTheme = createTheme<CsfColors>({
               }
             },
             focus: {
-              color: "var(--gray9)",
+              color: "none",
+              backgroundColor: "none",
               "& svg": {
-                fill: "var(--gray9)"
+                fill: "none"
               }
             }
           }

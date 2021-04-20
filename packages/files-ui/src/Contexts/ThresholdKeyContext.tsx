@@ -354,12 +354,12 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
     if (userInfo && loginType) {
       switch (loginType) {
       case "jwt":
-        setLoggedinAs(t`Logged in with Web3` + ` ${centerEllipsis(String(address), 4)}`)
+        setLoggedinAs(t`Web3: ${centerEllipsis(String(address), 4)}`)
         break
       case "facebook":
       case "google":
       case "github":
-        setLoggedinAs(t`Logged in with` + ` ${capitalize(loginType)} ${centerEllipsis(userInfo.userInfo.email, 4)}`)
+        setLoggedinAs(`${capitalize(loginType)}: ${centerEllipsis(userInfo.userInfo.email, 4)}`)
         break
       default:
         setLoggedinAs(`${centerEllipsis(userInfo.publicAddress, 4)}`)
