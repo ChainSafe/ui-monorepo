@@ -231,8 +231,7 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
     if (!desktop && navOpen) {
       setNavOpen(false)
     }
-    updateCurrentPath("/", "csf", true)
-  }, [desktop, navOpen, setNavOpen, updateCurrentPath])
+  }, [desktop, navOpen, setNavOpen])
 
   const collectFeedback = () => {
     window.open("https://forms.gle/FefqZRD3fDVYyarC8", "_blank")
@@ -278,6 +277,7 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
               <Link
                 onClick={() => {
                   handleOnClick()
+                  updateCurrentPath("/", "csf", true)
                 }}
                 className={classes.navItem}
                 to={ROUTE_LINKS.Home()}
@@ -288,9 +288,7 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
                 </Typography>
               </Link>
               <Link
-                onClick={() => {
-                  handleOnClick()
-                }}
+                onClick={handleOnClick}
                 className={classes.navItem}
                 to={ROUTE_LINKS.Bin}
               >
