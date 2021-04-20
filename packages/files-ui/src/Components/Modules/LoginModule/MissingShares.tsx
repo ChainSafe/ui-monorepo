@@ -216,6 +216,7 @@ const MissingShares = ({ className }: IMissingShares) => {
               <Trans>Enter password:</Trans>
             </Typography>
             <TextInput
+              autoFocus
               className={classes.textInput}
               value={password}
               onChange={onPasswordChange}
@@ -242,6 +243,7 @@ const MissingShares = ({ className }: IMissingShares) => {
             </Typography>
             <div className={classes.textAreaContainer}>
               <textarea
+                autoFocus
                 value={mnemonic}
                 onChange={onMnemonicChange}
               />
