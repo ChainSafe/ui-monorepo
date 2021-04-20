@@ -69,7 +69,7 @@ msgstr "Backup Phrase"
 msgid "Backup phrase"
 msgstr "Backup phrase"
 
-#: src/Components/Modules/LoginModule/MissingShares.tsx:132
+#: src/Components/Modules/LoginModule/MissingShares.tsx:134
 msgid "Backup phrase does not match user account, please double-check and try again."
 msgstr "Backup phrase does not match user account, please double-check and try again."
 
@@ -154,8 +154,8 @@ msgstr "Connection failed"
 #: src/Components/Elements/MnemonicForm.tsx:103
 #: src/Components/Modules/LoginModule/Complete.tsx:135
 #: src/Components/Modules/LoginModule/MigrateAccount.tsx:139
-#: src/Components/Modules/LoginModule/MissingShares.tsx:184
-#: src/Components/Modules/LoginModule/MissingShares.tsx:198
+#: src/Components/Modules/LoginModule/MissingShares.tsx:186
+#: src/Components/Modules/LoginModule/MissingShares.tsx:200
 #: src/Components/Modules/LoginModule/SaveBackupPhrase.tsx:64
 msgid "Continue"
 msgstr "Continue"
@@ -252,16 +252,16 @@ msgstr "Drop to upload files"
 msgid "Encryption Password"
 msgstr "Encryption Password"
 
-#: src/Components/Modules/LoginModule/MissingShares.tsx:165
+#: src/Components/Modules/LoginModule/MissingShares.tsx:167
 msgid "Enter a password"
 msgstr "Enter a password"
 
-#: src/Components/Modules/LoginModule/MissingShares.tsx:192
+#: src/Components/Modules/LoginModule/MissingShares.tsx:194
 msgid "Enter backup phrase:"
 msgstr "Enter backup phrase:"
 
 #: src/Components/Modules/LoginModule/MigrateAccount.tsx:135
-#: src/Components/Modules/LoginModule/MissingShares.tsx:180
+#: src/Components/Modules/LoginModule/MissingShares.tsx:182
 msgid "Enter password:"
 msgstr "Enter password:"
 
@@ -340,10 +340,6 @@ msgstr "Folders"
 #: src/Components/Modules/Settings/SavedBrowsers/BrowserPanel.tsx:170
 msgid "Forget this browser"
 msgstr "Forget this browser"
-
-#: src/Components/Modules/Settings/SavedBrowsers/BrowserPanel.tsx:130
-#~ msgid "Forgetting this browser deletes this from your list of sign-in methods. You will not be able to forget a browser if you only have two methods set up."
-#~ msgstr "Forgetting this browser deletes this from your list of sign-in methods. You will not be able to forget a browser if you only have two methods set up."
 
 #: src/Components/Modules/FileBrowsers/FileInfoModal.tsx:155
 msgid "General"
@@ -430,15 +426,7 @@ msgstr "Light mode"
 msgid "Loading preview"
 msgstr "Loading preview"
 
-#: src/Contexts/ThresholdKeyContext.tsx:269
-#~ msgid "Logged in with"
-#~ msgstr "Logged in with"
-
-#: src/Contexts/ThresholdKeyContext.tsx:264
-#~ msgid "Logged in with Web3"
-#~ msgstr "Logged in with Web3"
-
-#: src/Components/Modules/LoginModule/MissingShares.tsx:158
+#: src/Components/Modules/LoginModule/MissingShares.tsx:160
 msgid "Looks like you’re signing in from a new browser. Please choose one of the following to continue:"
 msgstr "Looks like you’re signing in from a new browser. Please choose one of the following to continue:"
 
@@ -472,7 +460,7 @@ msgstr "New folder"
 msgid "Next"
 msgstr "Next"
 
-#: src/Components/Modules/LoginModule/SaveNewDevice.tsx:92
+#: src/Components/Modules/LoginModule/SaveNewDevice.tsx:84
 msgid "Nice to see you again!"
 msgstr "Nice to see you again!"
 
@@ -484,7 +472,7 @@ msgstr "No files to show"
 msgid "No search results for"
 msgstr "No search results for"
 
-#: src/Components/Modules/LoginModule/SaveNewDevice.tsx:102
+#: src/Components/Modules/LoginModule/SaveNewDevice.tsx:94
 msgid "No thanks"
 msgstr "No thanks"
 
@@ -504,7 +492,7 @@ msgstr "One sec, getting files ready..."
 msgid "Operating system:"
 msgstr "Operating system:"
 
-#: src/Components/Modules/LoginModule/MissingShares.tsx:172
+#: src/Components/Modules/LoginModule/MissingShares.tsx:174
 msgid "Or confirm by signing into your Files on any browser you’ve used before."
 msgstr "Or confirm by signing into your Files on any browser you’ve used before."
 
@@ -517,7 +505,7 @@ msgid "Password confirmation is required"
 msgstr "Password confirmation is required"
 
 #: src/Components/Modules/LoginModule/MigrateAccount.tsx:110
-#: src/Components/Modules/LoginModule/MissingShares.tsx:121
+#: src/Components/Modules/LoginModule/MissingShares.tsx:122
 msgid "Password does not match user account, please double-check and try again."
 msgstr "Password does not match user account, please double-check and try again."
 
@@ -611,7 +599,7 @@ msgstr "Requested from"
 msgid "Resources"
 msgstr "Resources"
 
-#: src/Components/Modules/LoginModule/MissingShares.tsx:168
+#: src/Components/Modules/LoginModule/MissingShares.tsx:170
 msgid "Restore with backup phrase"
 msgstr "Restore with backup phrase"
 
@@ -623,7 +611,7 @@ msgstr "Save changes"
 msgid "Save the device"
 msgstr "Save the device"
 
-#: src/Components/Modules/LoginModule/SaveNewDevice.tsx:95
+#: src/Components/Modules/LoginModule/SaveNewDevice.tsx:87
 msgid "Save this browser for next time?"
 msgstr "Save this browser for next time?"
 
@@ -720,12 +708,12 @@ msgstr "Share"
 msgid "Sign Out"
 msgstr "Sign Out"
 
-#: src/Components/Modules/LoginModule/MissingShares.tsx:154
+#: src/Components/Modules/LoginModule/MissingShares.tsx:156
 msgid "Sign in"
 msgstr "Sign in"
 
 #: src/Components/Modules/LoginModule/MigrateAccount.tsx:148
-#: src/Components/Modules/LoginModule/MissingShares.tsx:208
+#: src/Components/Modules/LoginModule/MissingShares.tsx:210
 msgid "Sign in with a different account"
 msgstr "Sign in with a different account"
 
@@ -829,7 +817,7 @@ msgstr "There was an error renaming this file"
 msgid "Try again"
 msgstr "Try again"
 
-#: src/Components/Modules/LoginModule/MissingShares.tsx:215
+#: src/Components/Modules/LoginModule/MissingShares.tsx:217
 msgid "Try another method"
 msgstr "Try another method"
 
@@ -882,7 +870,7 @@ msgstr "Without setting up at least three authentication factors, you risk getti
 msgid "Yes I understand"
 msgstr "Yes I understand"
 
-#: src/Components/Modules/LoginModule/SaveNewDevice.tsx:99
+#: src/Components/Modules/LoginModule/SaveNewDevice.tsx:91
 msgid "Yes, save it"
 msgstr "Yes, save it"
 
@@ -897,10 +885,6 @@ msgstr "You will need to sign a message in your wallet to complete sign in."
 #: src/Components/Modules/Settings/SavedBrowsers/BrowserPanel.tsx:147
 msgid "Your recovery key can be used to restore your account in place of your backup phrase."
 msgstr "Your recovery key can be used to restore your account in place of your backup phrase."
-
-#: src/Components/Layouts/AppNav.tsx:227
-#~ msgid "beta"
-#~ msgstr "beta"
 
 #: src/Components/Modules/FileBrowsers/FileInfoModal.tsx:200
 msgid "copied !"
