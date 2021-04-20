@@ -189,14 +189,12 @@ const SearchModule: React.FC<ISearchModule> = ({
 
   const searchResultsFiles = searchResults?.results.filter(
     (searchResult) =>
-      searchResult.content.content_type !== CONTENT_TYPES.Directory &&
-      searchResult.content.content_type !== CONTENT_TYPES.Directory2
+      searchResult.content.content_type !== CONTENT_TYPES.Directory
   )
 
   const searchResultsFolders = searchResults?.results.filter(
     (searchResult) =>
-      searchResult.content.content_type === CONTENT_TYPES.Directory ||
-      searchResult.content.content_type === CONTENT_TYPES.Directory2
+      searchResult.content.content_type === CONTENT_TYPES.Directory
   )
 
   const onSearchEntryClickFolder = (searchEntry: SearchEntry) => {
