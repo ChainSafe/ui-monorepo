@@ -274,17 +274,12 @@ const FilesTableView = ({
   const [column, setColumn] = useState<"name" | "size" | "date_uploaded">("name")
   const [selected, setSelected] = useState<string[]>([])
   const [previewFileIndex, setPreviewFileIndex] = useState<number | undefined>()
-  const { pathContents } = useDrive()
   const items: FileSystemItem[] = useMemo(() => {
-    const itemList: FileSystemItem[] = sourceFiles || pathContents
-
-    if (!itemList) return []
-
     switch (direction) {
     default: {
       // case "descend": {
       // case "name": {
-      return itemList
+      return sourceFiles
         .sort((a, b) =>
           a.name > b.name ? -1 : 1
         )
@@ -294,14 +289,14 @@ const FilesTableView = ({
       switch (column) {
       default: {
         // case "name": {
-        return itemList
+        return sourceFiles
           .sort((a, b) =>
             a.name > b.name ? -1 : 1
           )
           .sort(sortFoldersFirst)
       }
       case "size": {
-        return itemList
+        return sourceFiles
           .sort((a, b) =>
             a.size > b.size ? -1 : 1
           )
@@ -320,14 +315,14 @@ const FilesTableView = ({
       switch (column) {
       default: {
         // case "name": {
-        return itemList
+        return sourceFiles
           .sort((a, b) =>
             a.name < b.name ? -1 : 1
           )
           .sort(sortFoldersFirst)
       }
       case "size": {
-        return itemList
+        return sourceFiles
           .sort((a, b) =>
             a.size < b.size ? -1 : 1
           )
@@ -343,7 +338,7 @@ const FilesTableView = ({
       }
     }
     }
-  }, [sourceFiles, pathContents, direction, column])
+  }, [sourceFiles, direction, column])
 
   const handleSortToggle = (
     targetColumn: "name" | "size" | "date_uploaded"
