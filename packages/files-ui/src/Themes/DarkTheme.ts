@@ -5,7 +5,7 @@ export const darkTheme = createTheme<CsfColors>({
   globalStyling: {
     ":root": {
       "--csf-primary": "#5165DC",
-      
+
       "--blue1": "#111D2C",
       "--blue2": "#112A45",
       "--blue3": "#15395B",

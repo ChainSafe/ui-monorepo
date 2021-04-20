@@ -4,7 +4,7 @@ import { CsfColors, UI_CONSTANTS } from "./Constants"
 export const lightTheme = createTheme<CsfColors>({
   globalStyling: {
     ":root": {
-      "--csf-primary": "#5165DC",
+      "--csf-primary": "#5165DC"
     }
   },
   themeConfig: {
