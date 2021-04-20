@@ -114,7 +114,6 @@ const useStyles = makeStyles(
         [breakpoints.down("md")]: {
           height: constants.mobileHeaderHeight,
           position: "absolute",
-          right: 2,
           width: "100%",
           zIndex: zIndex?.background,
           "&.active": {}
