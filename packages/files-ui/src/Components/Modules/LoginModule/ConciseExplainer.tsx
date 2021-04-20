@@ -124,7 +124,6 @@ const ConciseExplainer: React.FC<IConciseExplainerProps> = ({ className, onConti
           <Trans>
             For security reasons, upon signing in we’ll ask you for one of the following to confirm your identity.
           </Trans>
-          {/* TODO: get link */}
           &nbsp;
           <a target="_blank" rel="noopener noreferrer" href="https://chainsafe.io/">
             <Trans>
