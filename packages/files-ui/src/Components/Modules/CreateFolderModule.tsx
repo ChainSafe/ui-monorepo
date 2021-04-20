@@ -19,7 +19,7 @@ import { Trans } from "@lingui/macro"
 import { CSFTheme } from "../../Themes/types"
 
 const useStyles = makeStyles(
-  ({ breakpoints, constants, palette, typography, zIndex }: CSFTheme) => {
+  ({ breakpoints, constants, typography, zIndex }: CSFTheme) => {
     return createStyles({
       root: {
         padding: constants.generalUnit * 4,
@@ -44,7 +44,7 @@ const useStyles = makeStyles(
         marginBottom: constants.generalUnit * 2
       },
       okButton: {
-        marginLeft: constants.generalUnit,
+        marginLeft: constants.generalUnit
       },
       cancelButton: {
         [breakpoints.down("md")]: {

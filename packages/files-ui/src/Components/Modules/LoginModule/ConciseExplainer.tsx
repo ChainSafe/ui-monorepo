@@ -118,7 +118,7 @@ const ConciseExplainer: React.FC<IConciseExplainerProps> = ({ className, onConti
     <div className={clsx(className, classes.root)}>
       <div>
         <Typography variant="h2" component="h2" className={classes.title}>
-          <Trans>Let's get you set up.</Trans>
+          <Trans>Let&apos;s get you set up.</Trans>
         </Typography>
         <Typography component="p" className={classes.subtitle}>
           <Trans>
