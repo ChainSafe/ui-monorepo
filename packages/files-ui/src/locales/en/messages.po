@@ -592,9 +592,6 @@ msgstr "We`'`re undergoing maintenance, thank you for being patient"
 msgid "Web3: {0}"
 msgstr "Web3: {0}"
 
-msgid "Welcome! Here at Files we don’t require emails and phone numbers to set up an account."
-msgstr "Welcome! Here at Files we don’t require emails and phone numbers to set up an account."
-
 msgid "What a fine day it is."
 msgstr "What a fine day it is."
 
