@@ -83,6 +83,7 @@ const UserProvider = ({ children }: UserContextProps) => {
         email: profileData.email,
         publicAddress: profileData.public_address
       })
+      await refreshProfile()
       return Promise.resolve()
     } catch (error) {
       return Promise.reject(

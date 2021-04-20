@@ -4,7 +4,9 @@ import {
   FormikTextInput,
   Grid,
   Button,
-  Typography
+  Typography,
+  useToaster,
+  RadioInput
 } from "@chainsafe/common-components"
 import {
   makeStyles,
@@ -14,10 +16,11 @@ import {
 } from "@chainsafe/common-theme"
 import { LockIcon, CopyIcon } from "@chainsafe/common-components"
 import { Formik, Form } from "formik"
-import { Profile } from "@chainsafe/common-contexts"
-import { Trans } from "@lingui/macro"
+import { useUser } from "@chainsafe/common-contexts"
+import { t, Trans } from "@lingui/macro"
 import { centerEllipsis } from "../../../Utils/Helpers"
 import { CSFTheme } from "../../../Themes/types"
+import clsx from "clsx"
 
 const useStyles = makeStyles(({ constants, breakpoints, palette, typography }: CSFTheme) =>
   createStyles({
@@ -97,22 +100,53 @@ const useStyles = makeStyles(({ constants, breakpoints, palette, typography }: C
       [breakpoints.down("md")]: {
         ...typography.body2
       }
+    },
+    themeBox: {
+      height: 87,
+      borderRadius: 4,
+      paddingLeft: 20,
+      paddingTop: 14,
+      margin: 6,
+      [breakpoints.down("sm")]: {
+        width: "100%"
+      }
+    },
+    themeBoxDark: {
+      backgroundColor: palette.additional.gray[9],
+      color: palette.additional.gray[5]
+    },
+    themeBoxLight: {
+      border: `1px solid ${palette.additional.geekblue[4]}`,
+      backgroundColor: palette.additional.gray[4],
+      color: palette.additional.gray[9]
+    },
+    themeSubtitle: {
+      ...typography.body1,
+      color: palette.additional.gray[8]
     }
   })
 )
 
-interface IProfileProps {
-  profile: Profile
-  handleValueChange(e: React.ChangeEvent<HTMLInputElement>): void
-  onUpdateProfile(firstName: string, lastName: string, email: string): void
-  updatingProfile: boolean
-}
+const ProfileView = () => {
+  const { themeKey, setTheme } = useThemeSwitcher()
+  const { addToastMessage } = useToaster()
+  const { profile, updateProfile } = useUser()
+  const [updatingProfile, setUpdatingProfile] = useState(false)
 
-const ProfileView: React.FC<IProfileProps> = (props) => {
-  const { themeKey } = useThemeSwitcher()
+  const onUpdateProfile = async (firstName: string, lastName: string, email: string) => {
+    try {
+      setUpdatingProfile(true)
+      await updateProfile(firstName, lastName, email)
+      addToastMessage({ message: t`Profile updated` })
+      setUpdatingProfile(false)
+    } catch (error) {
+      addToastMessage({ message: error, appearance: "error" })
+      setUpdatingProfile(false)
+    }
+  }
+
   const classes = useStyles()
 
-  const { profile, onUpdateProfile, updatingProfile } = props
   const [copied, setCopied] = useState(false)
 
   // TODO useCallback is maybe not needed here
@@ -123,7 +157,7 @@ const ProfileView: React.FC<IProfileProps> = (props) => {
   )
 
   const copyAddress = async () => {
-    if (profile.publicAddress) {
+    if (profile?.publicAddress) {
       try {
         await navigator.clipboard.writeText(profile.publicAddress)
         setCopied(true)
@@ -148,9 +182,9 @@ const ProfileView: React.FC<IProfileProps> = (props) => {
             <div className={classes.profileBox}>
               <Formik
                 initialValues={{
-                  firstName: profile.firstName,
-                  lastName: profile.lastName,
-                  email: profile.email
+                  firstName: profile?.firstName || "",
+                  lastName: profile?.lastName || "",
+                  email: profile?.email || ""
                 }}
                 onSubmit={(values) => {
                   onUpdateProfile(
@@ -163,7 +197,7 @@ const ProfileView: React.FC<IProfileProps> = (props) => {
                 validateOnChange={false}
               >
                 <Form>
-                  {profile.publicAddress ? (
+                  {profile?.publicAddress ? (
                     <div className={classes.boxContainer}>
                       <div className={classes.walletAddressContainer}>
                         <Typography variant="body1" className={classes.label}>
@@ -215,7 +249,7 @@ const ProfileView: React.FC<IProfileProps> = (props) => {
                       className={classes.input}
                       labelClassName={classes.label}
                       label="Email"
-                      disabled={!profile.publicAddress}
+                      disabled={!profile?.publicAddress}
                     />
                   </div>
 
@@ -237,6 +271,7 @@ const ProfileView: React.FC<IProfileProps> = (props) => {
               </Formik>
             </div>
           </div>
+
           {/* <div id="deletion" className={classes.bodyContainer}>
             <div className={classes.deletionBox}>
               <Typography
@@ -265,6 +300,31 @@ const ProfileView: React.FC<IProfileProps> = (props) => {
               </Button>
             </div>
           </div> */}
+          <div>
+            <Typography variant="body1" className={classes.label}>
+              <Trans>Display Settings</Trans>
+            </Typography>
+            <br/>
+            <Typography><Trans>Theme</Trans></Typography>
+            <Grid container>
+              <Grid item xs={12} sm={12} md={6}>
+                <div className={clsx(classes.themeBox, classes.themeBoxDark)}>
+                  <RadioInput value='dark' label={t`Dark Theme`} onChange={(e) => setTheme(e.target.value)} checked={themeKey === "dark"}/>
+                  {themeKey === "dark" && <Typography className={classes.themeSubtitle}>
+                    <Trans>What a fine night it is.</Trans>
+                  </Typography>}
+                </div>
+              </Grid>
+              <Grid item xs={12} sm={12} md={6}>
+                <div className={clsx(classes.themeBox, classes.themeBoxLight)}>
+                  <RadioInput value='light' label={t`Light Theme`} onChange={(e) => setTheme(e.target.value)} checked={themeKey === "light"}/>
+                  {themeKey === "light" && <Typography className={classes.themeSubtitle}>
+                    <Trans>What a fine day it is.</Trans>
+                  </Typography>}
+                </div>
+              </Grid>
+            </Grid>
+          </div>
         </div>
       </Grid>
     </Grid>
