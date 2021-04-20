@@ -127,9 +127,6 @@ msgstr "Continue with Google"
 msgid "Continue with Web3 Wallet"
 msgstr "Continue with Web3 Wallet"
 
-msgid "Continue with {0}"
-msgstr "Continue with {0}"
-
 msgid "Copied!"
 msgstr "Copied!"
 
@@ -520,6 +517,9 @@ msgstr "Sign in with a different account"
 
 msgid "Sign-in methods"
 msgstr "Sign-in methods"
+
+msgid "Sign-in with {0}"
+msgstr "Sign-in with {0}"
 
 msgid "Size"
 msgstr "Size"

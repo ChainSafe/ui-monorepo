@@ -319,7 +319,7 @@ const InitialScreen = ({ className }: IInitialScreen) => {
                       size="large"
                       disabled={maintenanceMode}
                     >
-                      <Trans>Continue with {wallet.name}</Trans>
+                      <Trans>Sign-in with {wallet.name}</Trans>
                     </Button>
                     <Button
                       onClick={handleResetAndSelectWallet}
