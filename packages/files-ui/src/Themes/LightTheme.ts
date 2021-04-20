@@ -151,6 +151,19 @@ export const lightTheme = createTheme<CsfColors>({
           fontWeight: 600,
           color: "var(--gray10)"
         }
+      },
+      Button: {
+        variants: {
+          primary: {
+            focus: {
+              color: "none",
+              backgroundColor: "none",
+              "& svg": {
+                fill: "none"
+              }
+            }
+          }
+        }
       }
     }
   }
