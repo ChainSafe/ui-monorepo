@@ -334,6 +334,9 @@ msgstr "Nice to see you again!"
 msgid "No files to show"
 msgstr "No files to show"
 
+msgid "No folders"
+msgstr "No folders"
+
 msgid "No search results for"
 msgstr "No search results for"
 
