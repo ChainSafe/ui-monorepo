@@ -534,7 +534,6 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
       const oauthIdToken = await loginHandler.handleLoginWindow({})
 
       const decodedIdToken = oauthIdToken.idToken && jwtDecode(oauthIdToken.idToken)
-      console.log(decodedIdToken)
       const identityToken = await imployApiClient.generateServiceIdentityToken({
         identity_provider: loginType as IdentityProvider,
         identity_token: oauthIdToken.idToken || ""
