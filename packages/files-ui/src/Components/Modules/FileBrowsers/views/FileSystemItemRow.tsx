@@ -536,7 +536,7 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
       </TableCell>
       <TableCell align="left">
         {
-          standardlongDateFormat(new Date(created_at * 1000), true, false) 
+          standardlongDateFormat(new Date(created_at * 1000), true, false)
         }
       </TableCell>
       {desktop && (

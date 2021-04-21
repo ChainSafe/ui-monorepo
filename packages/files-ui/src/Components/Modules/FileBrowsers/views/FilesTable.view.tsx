@@ -304,7 +304,7 @@ const FilesTableView = ({
       case "date_uploaded": {
         return sourceFiles
           .sort((a, b) =>
-            a.created_at > b.created_at ? -1 : 1,
+            a.created_at > b.created_at ? -1 : 1
           )
           .sort(sortFoldersFirst)
       }
@@ -330,7 +330,7 @@ const FilesTableView = ({
       case "date_uploaded": {
         return sourceFiles
           .sort((a, b) =>
-            a.created_at < b.created_at ? -1 : 1,
+            a.created_at < b.created_at ? -1 : 1
           )
           .sort(sortFoldersFirst)
       }

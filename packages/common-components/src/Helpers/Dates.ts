@@ -12,7 +12,7 @@ export const formatAMPM = (date: Date) => {
   return `${hours}:${minutes < 10 ? "0" + minutes : minutes} ${ampm}`
 }
 
-export const standardlongDateFormat = (input: Date, time?: boolean, fullMonth: boolean = false): string => {
+export const standardlongDateFormat = (input: Date, time?: boolean, fullMonth = false): string => {
   const months = fullMonth ? [
     "January",
     "February",
