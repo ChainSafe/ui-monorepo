@@ -179,20 +179,37 @@ const MoveFileModule: React.FC<IMoveFileModuleProps> = ({
       closePosition="none"
       maxWidth="sm"
     >
-      <Grid item xs={12} sm={12} className={classes.paddedContainer}>
-        <Typography className={classes.heading} variant="h5" component="h5">
+      <Grid
+        item
+        xs={12}
+        sm={12}
+        className={classes.paddedContainer}
+      >
+        <Typography className={classes.heading}
+          variant="h5"
+          component="h5">
           <Trans>Move to...</Trans>
         </Typography>
       </Grid>
-      <Grid item xs={12} sm={12} className={classes.treeContainer}>
-        <ScrollbarWrapper autoHide={true} maxHeight={200}>
+      <Grid
+        item
+        xs={12}
+        sm={12}
+        className={classes.treeContainer}
+      >
+        <ScrollbarWrapper
+          autoHide={true}
+          maxHeight={200}
+        >
           <div className={classes.treeScrollView}>
-            <TreeView
-              treeData={folderTree}
-              commonIcon={<FolderIcon />}
-              selectedId={movePath}
-              onSelectNode={(path: string) => setMovePath(path)}
-            />
+            {folderTree.length ?
+              <TreeView
+                treeData={folderTree}
+                commonIcon={<FolderIcon />}
+                selectedId={movePath}
+                onSelectNode={(path: string) => setMovePath(path)}
+              /> : <Typography><Trans>No folders</Trans></Typography>
+            }
           </div>
         </ScrollbarWrapper>
       </Grid>
@@ -212,6 +229,7 @@ const MoveFileModule: React.FC<IMoveFileModuleProps> = ({
           <Trans>Cancel</Trans>
         </CustomButton>
         <Button
+          variant="primary"
           size={desktop ? "medium" : "large"}
           type="submit"
           className={classes.okButton}

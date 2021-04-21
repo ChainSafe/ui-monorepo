@@ -117,7 +117,10 @@ const Toaster = ({
   }, [constants.generalUnit, transitionState])
 
   return (
-    <div ref={elementRef} className={classes.root}>
+    <div
+      ref={elementRef}
+      className={classes.root}
+    >
       <div className={clsx(classes.inner, placement, transitionState)}>
         {appearance === "success" ? (
           <CheckCircleIcon className={clsx(classes.typeIcon, appearance)} />
@@ -128,7 +131,10 @@ const Toaster = ({
         )}
         {children}
         {onDismiss ? (
-          <button onClick={() => onDismiss()} className={classes.closeButton}>
+          <button
+            onClick={() => onDismiss()}
+            className={classes.closeButton}
+          >
             <CrossOutlinedIcon className={classes.closeIcon} />
           </button>
         ) : null}

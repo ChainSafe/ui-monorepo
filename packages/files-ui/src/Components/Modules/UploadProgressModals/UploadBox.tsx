@@ -79,14 +79,20 @@ const UploadBox: React.FC<IUploadBox> = (props) => {
         {complete ? (
           <div className={classes.contentContainer}>
             <CheckCircleIcon className={classes.marginRight} />
-            <Typography variant="body1" component="p">
+            <Typography
+              variant="body1"
+              component="p"
+            >
               <Trans>Upload complete</Trans>
             </Typography>
           </div>
         ) : error ? (
           <div className={classes.contentContainer}>
             <CloseCircleIcon className={classes.marginRight} />
-            <Typography variant="body1" component="p">
+            <Typography
+              variant="body1"
+              component="p"
+            >
               {errorMessage}
             </Typography>
           </div>
@@ -99,7 +105,10 @@ const UploadBox: React.FC<IUploadBox> = (props) => {
             >{`Uploading and encrypting ${noOfFiles} ${
                 noOfFiles === 1 ? "file" : "files"
               }...`}</Typography>
-            <ProgressBar progress={progress} size="small" />
+            <ProgressBar
+              progress={progress}
+              size="small"
+            />
           </div>
         )}
       </div>

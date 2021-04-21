@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react"
+import React, { useState } from "react"
 import { withKnobs, select } from "@storybook/addon-knobs"
 import { Button } from "../Button"
 import { Modal } from "../Modal"
@@ -33,8 +33,12 @@ const maxWidthOptions: MaxWidthOption[] = [
 export const ModalStory = (): React.ReactNode => {
   const [active, setActive] = useState(false)
   return (
-    <Fragment>
-      <Button onClick={() => setActive(true)} variant="primary" size="large">
+    <>
+      <Button
+        onClick={() => setActive(true)}
+        variant="primary"
+        size="large"
+      >
         Open modal
       </Button>
       <Modal
@@ -49,10 +53,14 @@ export const ModalStory = (): React.ReactNode => {
           magni ullam soluta iusto doloremque harum laborum quia accusantium
           incidunt necessitatibus.
         </Typography>
-        <Button onClick={() => setActive(false)} variant="primary" size="large">
+        <Button
+          onClick={() => setActive(false)}
+          variant="primary"
+          size="large"
+        >
           Close modal
         </Button>
       </Modal>
-    </Fragment>
+    </>
   )
 }

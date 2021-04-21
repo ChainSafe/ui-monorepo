@@ -1,17 +1,18 @@
 import React, { useEffect } from "react"
 import { init as initSentry, ErrorBoundary, showReportDialog } from "@sentry/react"
-import { ThemeSwitcher } from "@chainsafe/common-theme"
-import { Button, CssBaseline, Modal, Router, ToasterProvider, Typography } from "@chainsafe/common-components"
 import { Web3Provider } from "@chainsafe/web3-context"
 import { ImployApiProvider, UserProvider, BillingProvider } from "@chainsafe/common-contexts"
+import { ThemeSwitcher } from "@chainsafe/common-theme"
+import "@chainsafe/common-theme/dist/font-faces.css"
+import { Button, CssBaseline, Modal, Router, ToasterProvider, Typography } from "@chainsafe/common-components"
 import { DriveProvider } from "./Contexts/DriveContext"
 import FilesRoutes from "./Components/FilesRoutes"
 import AppWrapper from "./Components/Layouts/AppWrapper"
-import { darkTheme } from "./Themes/DarkTheme"
 import { useHotjar } from "react-use-hotjar"
 import { LanguageProvider } from "./Contexts/LanguageContext"
 import { ThresholdKeyProvider } from "./Contexts/ThresholdKeyContext"
 import { lightTheme } from "./Themes/LightTheme"
+import { darkTheme } from "./Themes/DarkTheme"
 import { useLocalStorage } from "@chainsafe/browser-storage-hooks"
 
 if (
@@ -47,7 +48,11 @@ const App: React.FC<{}> = () => {
     >
       <ErrorBoundary
         fallback={({ error, componentStack, eventId, resetError }) => (
-          <Modal active closePosition="none" setActive={resetError}>
+          <Modal
+            active
+            closePosition="none"
+            setActive={resetError}
+          >
             <Typography>
               An error occurred and has been logged. If you would like to
               provide additional info to help us debug and resolve the issue,
@@ -97,8 +102,14 @@ const App: React.FC<{}> = () => {
               checkNetwork={false}
               cacheWalletSelection={canUseLocalStorage}
             >
-              <ImployApiProvider apiUrl={apiUrl} withLocalStorage={false}>
-                <ThresholdKeyProvider enableLogging network={directAuthNetwork}>
+              <ImployApiProvider
+                apiUrl={apiUrl}
+                withLocalStorage={false}
+              >
+                <ThresholdKeyProvider
+                  enableLogging
+                  network={directAuthNetwork}
+                >
                   <UserProvider>
                     <DriveProvider>
                       <BillingProvider>

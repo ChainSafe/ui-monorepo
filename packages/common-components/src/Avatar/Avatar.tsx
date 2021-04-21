@@ -78,7 +78,10 @@ const Avatar: React.FC<AvatarProps> = ({
 }: AvatarProps) => {
   const classes = useStyles()
   return (
-    <article className={clsx(classes.root, className, variant, size)} {...rest}>
+    <article
+      className={clsx(classes.root, className, variant, size)}
+      {...rest}
+    >
       {children}
     </article>
   )

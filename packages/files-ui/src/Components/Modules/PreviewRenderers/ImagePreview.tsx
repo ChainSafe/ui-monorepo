@@ -83,7 +83,11 @@ const ImagePreview: React.FC<IPreviewRendererProps> = ({ contents }) => {
                 </div>
               )}
               <TransformComponent>
-                <img src={imageUrl} alt="" className={classes.root} />
+                <img
+                  src={imageUrl}
+                  alt=""
+                  className={classes.root}
+                />
               </TransformComponent>
             </>
           )

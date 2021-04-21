@@ -66,13 +66,20 @@ const ConfirmSkip = ({ cancel, confirm, className }: IConfirmSkip) => {
 
   return (
     <div className={clsx(classes.root, className)}>
-      <Typography className={classes.title} variant={desktop ? "h2" : "h4"} component="p">
+      <Typography
+        className={classes.title}
+        variant={desktop ? "h2" : "h4"}
+        component="p"
+      >
         <Trans>
           Are you sure?
         </Trans>
       </Typography>
 
-      <Typography className={classes.warning} component="p">
+      <Typography
+        className={classes.warning}
+        component="p"
+      >
         <Trans>
           Without setting up at least three authentication factors,
           you risk getting locked out of your account.
@@ -82,12 +89,22 @@ const ConfirmSkip = ({ cancel, confirm, className }: IConfirmSkip) => {
       </Typography>
 
       <section className={classes.buttons}>
-        <Button fullsize onClick={confirm} size="large" variant="outline">
+        <Button
+          fullsize
+          onClick={confirm}
+          size="large"
+          variant="outline"
+        >
           <Trans>
             Yes I understand
           </Trans>
         </Button>
-        <Button fullsize onClick={cancel} size="large" variant="primary">
+        <Button
+          fullsize
+          onClick={cancel}
+          size="large"
+          variant="primary"
+        >
           <Trans>
             Set up sign in methods
           </Trans>

@@ -1,4 +1,4 @@
-import React, { Fragment, useCallback } from "react"
+import React, { useCallback } from "react"
 import {
   TableRow,
   TableCell,
@@ -165,34 +165,24 @@ interface IFileSystemItemRowProps {
   file: FileSystemItem
   files: FileSystemItem[]
   currentPath?: string
-  updateCurrentPath(
-    path: string,
-    newBucketType?: BucketType,
-    showLoading?: boolean,
-  ): void
+  updateCurrentPath: (path: string, newBucketType?: BucketType, showLoading?: boolean) => void
   selected: string[]
   handleSelect(selected: string): void
   editing: string | undefined
   setEditing(editing: string | undefined): void
-  RenameSchema: any
-  handleRename?(path: string, newPath: string): Promise<void>
-  handleMove?(path: string, newPath: string): Promise<void>
-  deleteFile?(cid: string): void
-  recoverFile?(cid: string): void
-  viewFolder?(cid: string): void
-  downloadFile?(cid: string): Promise<void>
-  handleUploadOnDrop?(
-    files: File[],
-    fileItems: DataTransferItemList,
-    path: string,
-  ): void
-  setPreviewFileIndex(fileIndex: number | undefined): void
-  setMoveFileData(moveFileData: {
-    modal: boolean
-    fileData: FileSystemItem | FileSystemItem[]
-  }): void
-  setFileInfoPath(path: string): void
+  renameSchema: any
+  handleRename?: (path: string, newPath: string) => Promise<void>
+  handleMove?: (path: string, newPath: string) => Promise<void>
+  deleteFile?: (cid: string) => void
+  recoverFile?: (cid: string) => void
+  viewFolder?: (cid: string) => void
+  downloadFile?: (cid: string) => Promise<void>
+  handleUploadOnDrop?: (files: File[], fileItems: DataTransferItemList, path: string,) => void
+  setPreviewFileIndex: (fileIndex: number | undefined) => void
+  setMoveFileData: (moveFileData: { modal: boolean; fileData: FileSystemItem | FileSystemItem[] }) => void
+  setFileInfoPath: (path: string) => void
   itemOperations: FileOperation[]
+  resetSelectedFiles: () => void
 }
 
 const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
@@ -204,7 +194,7 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
   selected,
   editing,
   setEditing,
-  RenameSchema,
+  renameSchema,
   handleRename,
   handleMove,
   deleteFile,
@@ -216,7 +206,8 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
   setMoveFileData,
   setFileInfoPath,
   handleSelect,
-  itemOperations
+  itemOperations,
+  resetSelectedFiles
 }) => {
   const { cid, name, isFolder, size, content_type } = file
   let Icon
@@ -236,100 +227,100 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
   const allMenuItems: Record<FileOperation, IMenuItem> = {
     rename: {
       contents: (
-        <Fragment>
+        <>
           <EditSvg className={classes.menuIcon} />
           <span>
             <Trans>Rename</Trans>
           </span>
-        </Fragment>
+        </>
       ),
       onClick: () => setEditing(cid)
     },
     delete: {
       contents: (
-        <Fragment>
+        <>
           <DeleteSvg className={classes.menuIcon} />
           <span>
             <Trans>Delete</Trans>
           </span>
-        </Fragment>
+        </>
       ),
       onClick: () => deleteFile && deleteFile(cid)
     },
     download: {
       contents: (
-        <Fragment>
+        <>
           <DownloadSvg className={classes.menuIcon} />
           <span>
             <Trans>Download</Trans>
           </span>
-        </Fragment>
+        </>
       ),
       onClick: () => downloadFile && downloadFile(cid)
     },
     move: {
       contents: (
-        <Fragment>
+        <>
           <ExportSvg className={classes.menuIcon} />
           <span>
             <Trans>Move</Trans>
           </span>
-        </Fragment>
+        </>
       ),
       onClick: () => setMoveFileData({ modal: true, fileData: file })
     },
     share: {
       contents: (
-        <Fragment>
+        <>
           <ShareAltSvg className={classes.menuIcon} />
           <span>
             <Trans>Share</Trans>
           </span>
-        </Fragment>
+        </>
       ),
       onClick: () => console.log
     },
     info: {
       contents: (
-        <Fragment>
+        <>
           <ExclamationCircleInverseSvg className={classes.menuIcon} />
           <span>
             <Trans>Info</Trans>
           </span>
-        </Fragment>
+        </>
       ),
       onClick: () => setFileInfoPath(`${currentPath}${name}`)
     },
     recover: {
       contents: (
-        <Fragment>
+        <>
           <RecoverSvg className={classes.menuIcon} />
           <span>
             <Trans>Recover</Trans>
           </span>
-        </Fragment>
+        </>
       ),
       onClick: () => recoverFile && recoverFile(cid)
     },
     preview: {
       contents: (
-        <Fragment>
+        <>
           <ZoomInSvg className={classes.menuIcon} />
           <span>
             <Trans>Preview</Trans>
           </span>
-        </Fragment>
+        </>
       ),
       onClick: () => setPreviewFileIndex(files?.indexOf(file))
     },
     view_folder: {
       contents: (
-        <Fragment>
+        <>
           <EyeSvg className={classes.menuIcon} />
           <span>
             <Trans>View folder</Trans>
           </span>
-        </Fragment>
+        </>
       ),
       onClick: () => viewFolder && viewFolder(cid)
     }
@@ -381,13 +372,22 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
     }
   }
 
+  const onFolderClick = useCallback(() => {
+    updateCurrentPath(`${currentPath}${name}`, undefined, true)
+    resetSelectedFiles()
+  }, [currentPath, name, resetSelectedFiles, updateCurrentPath])
+
+  const onFileClick = useCallback(() => {
+    setPreviewFileIndex(files?.indexOf(file))
+  }, [file, files, setPreviewFileIndex])
+
   const onSingleClick = useCallback(() => { handleSelect(cid) },
     [cid, handleSelect])
   const onDoubleClick = useCallback(() => {
     isFolder
-      ? updateCurrentPath(`${currentPath}${name}`, undefined, true)
-      : setPreviewFileIndex(files?.indexOf(file))
-  }, [currentPath, file, files, isFolder, name, setPreviewFileIndex, updateCurrentPath])
+      ? onFolderClick()
+      : onFileClick()
+  }, [isFolder, onFileClick, onFolderClick])
 
   const { click } = useDoubleClick(onSingleClick, onDoubleClick)
 
@@ -395,8 +395,8 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
     ? click
     : () => {
       isFolder
-        ? updateCurrentPath(`${currentPath}${name}`, undefined, true)
-        : setPreviewFileIndex(files?.indexOf(file))
+        ? onFolderClick()
+        : onFileClick()
     }
 
   return (
@@ -440,7 +440,7 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
             initialValues={{
               fileName: name
             }}
-            validationSchema={RenameSchema}
+            validationSchema={renameSchema}
             onSubmit={(values) => {
               handleRename &&
                 handleRename(
@@ -489,7 +489,7 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
                 initialValues={{
                   fileName: name
                 }}
-                validationSchema={RenameSchema}
+                validationSchema={renameSchema}
                 onSubmit={(values) => {
                   handleRename &&
                   handleRename(
@@ -527,6 +527,7 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
                       <Trans>Cancel</Trans>
                     </Button>
                     <Button
+                      variant="primary"
                       size="medium"
                       type="submit"
                       className={classes.okButton}

@@ -36,7 +36,10 @@ const CardHeader: React.FC<ICardHeader> = ({
   return (
     <div className={clsx(className, classes.root, dense && classes.dense)}>
       {title && (
-        <Typography variant="h5" component="h5">
+        <Typography
+          variant="h5"
+          component="h5"
+        >
           {title}
         </Typography>
       )}

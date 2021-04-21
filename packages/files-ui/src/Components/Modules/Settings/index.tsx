@@ -67,6 +67,12 @@ const useStyles = makeStyles(({ constants, breakpoints, palette }: ITheme) =>
     tabPane: {
       flex: 1,
       padding: `${constants.generalUnit * 2}px ${constants.generalUnit * 5}px`,
+      "&.securityPane": {
+        [breakpoints.down("lg")]: {
+          paddingLeft: constants.generalUnit,
+          paddingRight: constants.generalUnit
+        }
+      },
       [breakpoints.down("md")]: {
         padding: 0
       }
@@ -180,7 +186,11 @@ const Settings: React.FC = () => {
           crumbs={crumbs}
           homeOnClick={() => redirect(ROUTE_LINKS.Home())}
         />
-        <Typography variant="h1" component="p" className={classes.title}>
+        <Typography
+          variant="h1"
+          component="p"
+          className={classes.title}
+        >
           <Trans>Settings</Trans>
         </Typography>
       </div>
@@ -219,7 +229,7 @@ const Settings: React.FC = () => {
               ) : null}
             </TabPane>
             <TabPane
-              className={clsx(classes.tabPane, (!desktop && !path) ? classes.hideTabPane : "")}
+              className={clsx(classes.tabPane, "securityPane", (!desktop && !path) ? classes.hideTabPane : "")}
               icon={<LockIcon className={classes.lockIcon}/>}
               iconRight={<CaretRightIcon/>}
               title={t`Security`}

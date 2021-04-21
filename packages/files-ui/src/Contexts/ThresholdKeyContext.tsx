@@ -86,6 +86,7 @@ export type ShareTransferRequest = {
 }
 
 const ThresholdKeyContext = React.createContext<TThresholdKeyContext | undefined>(undefined)
+const maintenanceMode = process.env.REACT_APP_MAINTENANCE_MODE === "true"
 
 const getProviderSpecificParams = (loginType: LOGIN_TYPE):
   {typeOfLogin: LOGIN_TYPE; clientId: string; verifier: string; jwtParams?: any} => {
@@ -179,7 +180,7 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
       let tkey: ThresholdKey
 
       // If Session storage contains all the data necessary to recreate the TKey object
-      if (postboxKey && tkeySerialized && cachedUserInfo) {
+      if (postboxKey && tkeySerialized && cachedUserInfo && !maintenanceMode) {
         setStatus("logging in")
         const tKeyJson = JSON.parse(tkeySerialized)
         const serviceProvider = new ServiceProviderBase({ enableLogging, postboxKey })
@@ -386,12 +387,12 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
     if (userInfo && loginType) {
       switch (loginType) {
       case "jwt":
-        setLoggedinAs(t`Logged in with Web3` + ` ${centerEllipsis(String(address), 4)}`)
+        setLoggedinAs(t`Web3: ${centerEllipsis(String(address), 4)}`)
         break
       case "facebook":
       case "google":
       case "github":
-        setLoggedinAs(t`Logged in with` + ` ${capitalize(loginType)} ${centerEllipsis(userInfo.userInfo.email, 4)}`)
+        setLoggedinAs(`${capitalize(loginType)}: ${centerEllipsis(userInfo.userInfo.email, 4)}`)
         break
       default:
         setLoggedinAs(`${centerEllipsis(userInfo.publicAddress, 4)}`)
@@ -401,7 +402,7 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
   }, [userInfo, address])
 
   const login = async (loginType: LOGIN_TYPE | "web3") => {
-    if (!TKeySdk) return
+    if (!TKeySdk || maintenanceMode) return
     try {
       const serviceProvider = (TKeySdk.serviceProvider as unknown) as DirectAuthSdk
       setStatus("awaiting confirmation")

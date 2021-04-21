@@ -21,7 +21,7 @@
     "wsrun": "^5.2.4"
   },
   "scripts": {
-    "postinstall": "husky install && yarn build:common",
+    "postinstall": "husky install && yarn build:common && yarn wsrun -p files-ui -c compile",
     "build:common": "yarn build:theme && yarn build:components && yarn build:contexts",
     "build:contexts": "yarn wsrun -t -p @chainsafe/common-contexts -c build",
     "build:components": "yarn wsrun -t -p @chainsafe/common-components -c build",

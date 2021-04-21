@@ -1,4 +1,4 @@
-import React, { ReactNode, Fragment } from "react"
+import React, { ReactNode } from "react"
 import { ITheme, makeStyles, createStyles } from "@chainsafe/common-theme"
 import "normalize.css"
 
@@ -17,7 +17,7 @@ const CssBaseline: React.FC<IBaselineProps> = ({
   children = null
 }: IBaselineProps) => {
   useStyles()
-  return <Fragment>{children}</Fragment>
+  return <>{children}</>
 }
 
 export default CssBaseline

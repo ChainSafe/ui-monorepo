@@ -189,14 +189,12 @@ const SearchModule: React.FC<ISearchModule> = ({
 
   const searchResultsFiles = searchResults?.results.filter(
     (searchResult) =>
-      searchResult.content.content_type !== CONTENT_TYPES.Directory &&
-      searchResult.content.content_type !== CONTENT_TYPES.Directory2
+      searchResult.content.content_type !== CONTENT_TYPES.Directory
   )
 
   const searchResultsFolders = searchResults?.results.filter(
     (searchResult) =>
-      searchResult.content.content_type === CONTENT_TYPES.Directory ||
-      searchResult.content.content_type === CONTENT_TYPES.Directory2
+      searchResult.content.content_type === CONTENT_TYPES.Directory
   )
 
   const onSearchEntryClickFolder = (searchEntry: SearchEntry) => {
@@ -231,7 +229,10 @@ const SearchModule: React.FC<ISearchModule> = ({
           <ArrowLeftIcon className={classes.backArrow} />
         </Button>
       )}
-      <form className={classes.searchBar} onSubmit={onSearchSubmit}>
+      <form
+        className={classes.searchBar}
+        onSubmit={onSearchSubmit}
+      >
         <SearchBar
           className={classes.searchBar}
           onChange={(e: ChangeEvent<HTMLInputElement>) =>
@@ -267,7 +268,10 @@ const SearchModule: React.FC<ISearchModule> = ({
                     className={classes.resultRow}
                     onClick={() => onSearchEntryClickFile(searchResult)}
                   >
-                    <Typography component="p" variant="body1">
+                    <Typography
+                      component="p"
+                      variant="body1"
+                    >
                       {searchResult.content.name}
                     </Typography>
                   </div>
@@ -291,7 +295,10 @@ const SearchModule: React.FC<ISearchModule> = ({
                     className={classes.resultRow}
                     onClick={() => onSearchEntryClickFolder(searchResult)}
                   >
-                    <Typography component="p" variant="body1">
+                    <Typography
+                      component="p"
+                      variant="body1"
+                    >
                       {searchResult.content.name}
                     </Typography>
                   </div>

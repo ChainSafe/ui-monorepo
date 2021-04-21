@@ -5,7 +5,7 @@ import {
   makeStyles,
   useThemeSwitcher
 } from "@chainsafe/common-theme"
-import React, { Fragment, useCallback } from "react"
+import React, { useCallback } from "react"
 import clsx from "clsx"
 import {
   Link,
@@ -231,8 +231,7 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
     if (!desktop && navOpen) {
       setNavOpen(false)
     }
-    updateCurrentPath("/", "csf", true)
-  }, [desktop, navOpen, setNavOpen, updateCurrentPath])
+  }, [desktop, navOpen, setNavOpen])
 
   const collectFeedback = () => {
     window.open("https://forms.gle/FefqZRD3fDVYyarC8", "_blank")
@@ -255,16 +254,22 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
         !!publicKey &&
         !isNewDevice &&
         !shouldInitializeAccount && (
-        <Fragment>
+        <>
           {desktop && (
             <div>
-              <Link className={classes.logo} to={ROUTE_LINKS.Home()}>
+              <Link
+                className={classes.logo}
+                to={ROUTE_LINKS.Home()}
+              >
                 <ChainsafeFilesLogo />
                 <Typography variant="h5">
                   Files
                 </Typography>
                 &nbsp;
-                <Typography variant="caption" className={classes.betaCaption}>
+                <Typography
+                  variant="caption"
+                  className={classes.betaCaption}
+                >
                   beta
                 </Typography>
               </Link>
@@ -278,24 +283,29 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
               <Link
                 onClick={() => {
                   handleOnClick()
+                  updateCurrentPath("/", "csf", true)
                 }}
                 className={classes.navItem}
                 to={ROUTE_LINKS.Home()}
               >
                 <DatabaseSvg />
-                <Typography variant="h5" className={classes.navItemText}>
+                <Typography
+                  variant="h5"
+                  className={classes.navItemText}
+                >
                   <Trans>Home</Trans>
                 </Typography>
               </Link>
               <Link
-                onClick={() => {
-                  handleOnClick()
-                }}
+                onClick={handleOnClick}
                 className={classes.navItem}
                 to={ROUTE_LINKS.Bin}
               >
                 <DeleteSvg />
-                <Typography variant="h5" className={classes.navItemText}>
+                <Typography
+                  variant="h5"
+                  className={classes.navItemText}
+                >
                   <Trans>Bin</Trans>
                 </Typography>
               </Link>
@@ -310,7 +320,10 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
                 to={ROUTE_LINKS.SettingsDefault}
               >
                 <SettingSvg />
-                <Typography variant="h5" className={classes.navItemText}>
+                <Typography
+                  variant="h5"
+                  className={classes.navItemText}
+                >
                   <Trans>Settings</Trans>
                 </Typography>
               </Link>
@@ -344,7 +357,7 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
               </div>
             )}
             {!desktop && (
-              <Fragment>
+              <>
                 <div
                   onClick={() => setTheme(themeKey === "dark" ? "light" : "dark")}
                   className={classes.navItem}
@@ -366,7 +379,7 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
                     <Trans>Sign Out</Trans>
                   </Typography>
                 </div>
-              </Fragment>
+              </>
             )}
           </section>
           {!desktop && (
@@ -377,7 +390,7 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
               })}
             ></div>
           )}
-        </Fragment>
+        </>
       )}
     </section>
   )
