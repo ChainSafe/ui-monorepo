@@ -319,7 +319,8 @@ const ProfileView = () => {
             </div>
           </div> */}
           <div>
-            <Typography variant='h4' component='h4'>
+            <Typography variant='h4'
+              component='h4'>
               <Trans>Display Settings</Trans>
             </Typography>
             <Typography
@@ -330,7 +331,10 @@ const ProfileView = () => {
               <Trans>Theme</Trans>
             </Typography>
             <Grid container>
-              <Grid item xs={12} sm={12} md={6}>
+              <Grid item
+                xs={12}
+                sm={12}
+                md={6}>
                 <label className={clsx(classes.themeBox, classes.themeBoxDark)}>
                   <RadioInput
                     value='dark'
@@ -343,7 +347,10 @@ const ProfileView = () => {
                   </Typography>}
                 </label>
               </Grid>
-              <Grid item xs={12} sm={12} md={6}>
+              <Grid item
+                xs={12}
+                sm={12}
+                md={6}>
                 <label className={clsx(classes.themeBox, classes.themeBoxLight)}>
                   <RadioInput
                     value='light'

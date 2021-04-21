@@ -209,7 +209,7 @@ interface IAppNav {
 }
 
 const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
-  const { desktop, setTheme, themeKey } = useThemeSwitcher()
+  const { desktop } = useThemeSwitcher()
   const classes = useStyles()
 
   const { spaceUsed, updateCurrentPath } = useDrive()
