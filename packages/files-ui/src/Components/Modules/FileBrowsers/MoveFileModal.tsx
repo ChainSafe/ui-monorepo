@@ -111,8 +111,7 @@ const MoveFileModule: React.FC<IMoveFileModuleProps> = ({
   )
 
   const getFolderTreeData = useCallback(async () => {
-    try {
-      const newFolderTree = await getFolderTree()
+    getFolderTree().then((newFolderTree) => {
       if (newFolderTree.entries) {
         const folderTreeNodes = [
           {
@@ -124,16 +123,11 @@ const MoveFileModule: React.FC<IMoveFileModuleProps> = ({
           }
         ]
         setFolderTree(folderTreeNodes)
+      } else {
+        setFolderTree([])
       }
-    } catch {
-      //
-    }
-    // eslint-disable-next-line
-  }, [])
-
-  useEffect(() => {
-    getFolderTreeData()
-  }, [getFolderTreeData])
+    }).catch(console.error)
+  }, [getFolderTree, mapFolderTree])
 
   useEffect(() => {
     if (modalOpen) {
