@@ -84,10 +84,9 @@ export type ShareTransferRequest = {
 }
 
 const ThresholdKeyContext = React.createContext<TThresholdKeyContext | undefined>(undefined)
+const maintenanceMode = process.env.REACT_APP_MAINTENANCE_MODE === "true"
 
 const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = false, apiKey }: ThresholdKeyProviderProps) => {
-  const maintenanceMode = process.env.REACT_APP_MAINTENANCE_MODE === "true"
-
   const { imployApiClient, thresholdKeyLogin, logout } = useImployApi()
   const { provider, isReady, checkIsReady, address } = useWeb3()
   const [userInfo, setUserInfo] = useState<TorusLoginResponse | undefined>()
