@@ -130,9 +130,6 @@ msgstr "Create folder"
 msgid "Dark Theme"
 msgstr "Dark Theme"
 
-msgid "Dark mode"
-msgstr "Dark mode"
-
 msgid "Date uploaded"
 msgstr "Date uploaded"
 
@@ -279,9 +276,6 @@ msgstr "Let's get you set up."
 
 msgid "Light Theme"
 msgstr "Light Theme"
-
-msgid "Light mode"
-msgstr "Light mode"
 
 msgid "Loading preview"
 msgstr "Loading preview"
