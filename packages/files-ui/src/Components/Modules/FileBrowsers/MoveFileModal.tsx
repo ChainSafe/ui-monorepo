@@ -93,7 +93,7 @@ const MoveFileModule: React.FC<IMoveFileModuleProps> = ({
 }: IMoveFileModuleProps) => {
   const classes = useStyles()
 
-  const { moveFile, getFolderTree, bulkMoveFile } = useDrive()
+  const { moveFile, getFolderTree, moveFiles } = useDrive()
   const [movingFile, setMovingFile] = useState(false)
   const [movePath, setMovePath] = useState<undefined | string>(undefined)
   const [folderTree, setFolderTree] = useState<ITreeNodeProps[]>([])
@@ -132,6 +132,8 @@ const MoveFileModule: React.FC<IMoveFileModuleProps> = ({
   useEffect(() => {
     if (modalOpen) {
       getFolderTreeData()
+    } else {
+      setMovePath(undefined)
     }
   }, [modalOpen, getFolderTreeData])
 
@@ -140,7 +142,7 @@ const MoveFileModule: React.FC<IMoveFileModuleProps> = ({
       try {
         setMovingFile(true)
         if (Array.isArray(fileData)) {
-          await bulkMoveFile(
+          await moveFiles(
             fileData.map((file) => ({
               path: `${currentPath}${file.name}`,
               new_path: getPathWithFile(movePath, file.name)
