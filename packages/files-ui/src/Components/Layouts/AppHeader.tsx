@@ -1,10 +1,6 @@
-import React, { Fragment, useCallback, useState } from "react"
+import React, { useCallback, useState } from "react"
 import { useImployApi, useUser } from "@chainsafe/common-contexts"
-import {
-  createStyles,
-  makeStyles,
-  useThemeSwitcher
-} from "@chainsafe/common-theme"
+import { createStyles, makeStyles, useThemeSwitcher } from "@chainsafe/common-theme"
 import clsx from "clsx"
 import {
   Link,
@@ -191,9 +187,9 @@ const AppHeader: React.FC<IAppHeader> = ({
         !!publicKey &&
         !isNewDevice &&
         !shouldInitializeAccount && (
-        <Fragment>
+        <>
           {desktop ? (
-            <Fragment>
+            <>
               <section>
                 <SearchModule
                   className={classes.searchModule}
@@ -236,9 +232,9 @@ const AppHeader: React.FC<IAppHeader> = ({
                   ]}
                 />
               </section>
-            </Fragment>
+            </>
           ) : (
-            <Fragment>
+            <>
               {!searchActive && (
                 <>
                   <HamburgerMenu
@@ -246,9 +242,15 @@ const AppHeader: React.FC<IAppHeader> = ({
                     variant={navOpen ? "active" : "default"}
                     className={classes.hamburgerMenu}
                   />
-                  <Link className={classes.logo} to={ROUTE_LINKS.Home()}>
+                  <Link
+                    className={classes.logo}
+                    to={ROUTE_LINKS.Home()}
+                  >
                     <ChainsafeFilesLogo />
-                    <Typography variant="h5" className={classes.title}>
+                    <Typography
+                      variant="h5"
+                      className={classes.title}
+                    >
                       Files
                     </Typography>
                     &nbsp;
@@ -261,9 +263,9 @@ const AppHeader: React.FC<IAppHeader> = ({
                 searchActive={searchActive}
                 setSearchActive={setSearchActive}
               />
-            </Fragment>
+            </>
           )}
-        </Fragment>
+        </>
       )}
     </header>
   )

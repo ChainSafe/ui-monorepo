@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react"
+import React, { useState } from "react"
 import { withKnobs, text, select } from "@storybook/addon-knobs"
 import { Button } from "../Button"
 import ExpansionPanel from "../ExpansionPanel/ExpansionPanel"
@@ -13,7 +13,7 @@ export default {
 
 export const StandardStory = (): React.ReactNode => {
   return (
-    <Fragment>
+    <>
       <ExpansionPanel
         variant={select("Variant", ["basic", "borderless"], "basic")}
         header={text("Header Text", "This is panel header")}
@@ -24,14 +24,14 @@ export const StandardStory = (): React.ReactNode => {
           in time growth strategies. Seamlessly procrastinate competitive human.
         </Typography>
       </ExpansionPanel>
-    </Fragment>
+    </>
   )
 }
 
 export const ExternalControlStory = (): React.ReactNode => {
   const [active, setActive] = useState(false)
   return (
-    <Fragment>
+    <>
       <Button onClick={() => setActive(!active)}>
         <span>Toggle external: {`${active}`}</span>
       </Button>
@@ -47,6 +47,6 @@ export const ExternalControlStory = (): React.ReactNode => {
           in time growth strategies. Seamlessly procrastinate competitive human.
         </Typography>
       </ExpansionPanel>
-    </Fragment>
+    </>
   )
 }

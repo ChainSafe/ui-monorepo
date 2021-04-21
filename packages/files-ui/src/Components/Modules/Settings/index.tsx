@@ -186,7 +186,11 @@ const Settings: React.FC = () => {
           crumbs={crumbs}
           homeOnClick={() => redirect(ROUTE_LINKS.Home())}
         />
-        <Typography variant="h1" component="p" className={classes.title}>
+        <Typography
+          variant="h1"
+          component="p"
+          className={classes.title}
+        >
           <Trans>Settings</Trans>
         </Typography>
       </div>

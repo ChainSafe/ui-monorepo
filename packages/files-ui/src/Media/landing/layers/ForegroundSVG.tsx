@@ -6,5 +6,11 @@ interface IForegroundSVG {
 }
 
 export const ForegroundSVG = ({ className }: IForegroundSVG) => {
-  return (<img alt="foreground" className={className} src={ForegroundSource} />)
+  return (
+    <img
+      alt="foreground"
+      className={className}
+      src={ForegroundSource}
+    />
+  )
 }

@@ -192,7 +192,10 @@ const FileInput: React.FC<IFileInputProps> = ({
   }
 
   return (
-    <div {...getRootProps()} className={clsx(classes.root, className)}>
+    <div
+      {...getRootProps()}
+      className={clsx(classes.root, className)}
+    >
       <input {...getInputProps()} />
       {variant === "dropzone" ? (
         value?.length === 0 ? (
@@ -201,7 +204,10 @@ const FileInput: React.FC<IFileInputProps> = ({
               pending
             ) : (
               <>
-                <PlusIcon fontSize="large" color="primary" />
+                <PlusIcon
+                  fontSize="large"
+                  color="primary"
+                />
                 <Typography>{label}</Typography>
               </>
             )}
@@ -211,7 +217,10 @@ const FileInput: React.FC<IFileInputProps> = ({
             <ScrollbarWrapper className={clsx("scrollbar")}>
               <ul>
                 {value.map((file: any, i: any) => (
-                  <li className={clsx(classes.item, classNames?.item)} key={i}>
+                  <li
+                    className={clsx(classes.item, classNames?.item)}
+                    key={i}
+                  >
                     <span className={classes.itemText}>{file.name}</span>
                     <Button
                       className={clsx(classes.crossIcon, classNames?.closeIcon)}
@@ -235,14 +244,21 @@ const FileInput: React.FC<IFileInputProps> = ({
           {value.value?.length === 0
             ? "No files selected"
             : `${value.value?.length} file(s) selected`}
-          <Button onClick={open} size="small">
+          <Button
+            onClick={open}
+            size="small"
+          >
             Select
           </Button>
         </>
       )}
       {value?.length > 0 && (
-        <div className={clsx(classes.addFiles, classNames?.addFiles)} onClick={open}>
-          <PlusIcon fontSize="small" color="primary" />
+        <div className={clsx(classes.addFiles, classNames?.addFiles)}
+          onClick={open}>
+          <PlusIcon
+            fontSize="small"
+            color="primary"
+          />
           <span className={classes.addFilesText}>{moreFilesLabel}</span>
         </div>
       )}
@@ -250,7 +266,10 @@ const FileInput: React.FC<IFileInputProps> = ({
         <ul className={classNames?.error}>
           <li className={classes.error}>{meta.error}</li>
           {errors.map((error, i) => (
-            <li key={i} className={classes.error}>
+            <li
+              key={i}
+              className={classes.error}
+            >
               {error}
             </li>
           ))}

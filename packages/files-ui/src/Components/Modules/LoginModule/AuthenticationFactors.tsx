@@ -108,7 +108,12 @@ const AuthenticationFactors = ({ goToComplete, goToMnemonic, goToPassword, goToS
 
   return (
     <div className={clsx(classes.root, className)}>
-      <Typography variant={desktop ? "h2" : "h4"} component="h1">
+      <Typography
+
+        variant={desktop ? "h2" : "h4"}
+        component="h1"
+
+      >
         <Trans>
           Your Authentication Factors
         </Trans>
@@ -164,7 +169,11 @@ const AuthenticationFactors = ({ goToComplete, goToMnemonic, goToPassword, goToS
           desktop && (
             <Typography className={classes.subText}>
               <Trans>Files uses device backups to save your browser.</Trans>{" "}
-              <a href={ROUTE_LINKS.Terms} rel="noopener noreferrer" target="_blank"><Trans>Learn more</Trans></a>
+              <a
+                href={ROUTE_LINKS.Terms}
+                rel="noopener noreferrer"
+                target="_blank"
+              ><Trans>Learn more</Trans></a>
             </Typography>
           )
         }
@@ -184,7 +193,10 @@ const AuthenticationFactors = ({ goToComplete, goToMnemonic, goToPassword, goToS
               <>
                 {
                   desktop && (
-                    <Typography className={classes.ctaText} variant="h5">
+                    <Typography
+                      className={classes.ctaText}
+                      variant="h5"
+                    >
                       <Trans>
                         Set it up now
                       </Trans>
@@ -200,7 +212,10 @@ const AuthenticationFactors = ({ goToComplete, goToMnemonic, goToPassword, goToS
         </div>
         {
           !desktop && (
-            <Typography className={classes.ctaText} variant="h5">
+            <Typography
+              className={classes.ctaText}
+              variant="h5"
+            >
               <Trans>
                 Set it up now
               </Trans>
@@ -223,7 +238,10 @@ const AuthenticationFactors = ({ goToComplete, goToMnemonic, goToPassword, goToS
               <>
                 {
                   desktop && (
-                    <Typography className={classes.ctaText} variant="h5">
+                    <Typography
+                      className={classes.ctaText}
+                      variant="h5"
+                    >
                       <Trans>
                         Set it up now
                       </Trans>
@@ -239,7 +257,10 @@ const AuthenticationFactors = ({ goToComplete, goToMnemonic, goToPassword, goToS
         </div>
         {
           !desktop && (
-            <Typography className={classes.ctaText} variant="h5">
+            <Typography
+              className={classes.ctaText}
+              variant="h5"
+            >
               <Trans>
                 Set it up now
               </Trans>
@@ -250,13 +271,21 @@ const AuthenticationFactors = ({ goToComplete, goToMnemonic, goToPassword, goToS
       {
         keyDetails && (
           keyDetails.totalShares > keyDetails.threshold ? (
-            <Typography className={classes.continue} onClick={goToComplete} component="p">
+            <Typography
+              className={classes.continue}
+              onClick={goToComplete}
+              component="p"
+            >
               <Trans>
                 Complete
               </Trans>
             </Typography>
           ) : (
-            <Typography className={classes.continue} onClick={goToSkip} component="p">
+            <Typography
+              className={classes.continue}
+              onClick={goToSkip}
+              component="p"
+            >
               <Trans>
                 Remind me later
               </Trans>

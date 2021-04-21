@@ -1,5 +1,5 @@
 import { createStyles, makeStyles, useThemeSwitcher } from "@chainsafe/common-theme"
-import React, { Fragment, useCallback, useEffect } from "react"
+import React, { useCallback, useEffect } from "react"
 import {
   Divider,
   MenuDropdown,
@@ -531,7 +531,10 @@ const FilesTableView = ({
       <div
         className={clsx(classes.dropNotification, { active: isOverBrowser })}
       >
-        <Typography variant="h4" component="p">
+        <Typography
+          variant="h4"
+          component="p"
+        >
           <Trans>Drop to upload files</Trans>
         </Typography>
       </div>
@@ -545,12 +548,15 @@ const FilesTableView = ({
         ) : null}
       </div>
       <header className={classes.header}>
-        <Typography variant="h1" component="h1">
+        <Typography
+          variant="h1"
+          component="h1"
+        >
           {heading}
         </Typography>
         <div className={classes.controls}>
           {controls && desktop ? (
-            <Fragment>
+            <>
               <Button
                 onClick={() => setCreateFolderModalOpen(true)}
                 variant="outline"
@@ -571,7 +577,7 @@ const FilesTableView = ({
                   <Trans>Upload</Trans>
                 </span>
               </Button>
-            </Fragment>
+            </>
           ) : (
             controls &&
             !desktop && (
@@ -654,8 +660,14 @@ const FilesTableView = ({
           loadingCurrentPath && classes.showLoadingContainer
         )}
       >
-        <Loading size={24} type="light" />
-        <Typography variant="body2" component="p">
+        <Loading
+          size={24}
+          type="light"
+        />
+        <Typography
+          variant="body2"
+          component="p"
+        >
           <Trans>One sec, getting files ready...</Trans>
         </Typography>
       </div>
@@ -668,7 +680,10 @@ const FilesTableView = ({
             )}
           >
             <EmptySvg />
-            <Typography variant="h4" component="h4">
+            <Typography
+              variant="h4"
+              component="h4"
+            >
               <Trans>No files to show</Trans>
             </Typography>
           </section>
@@ -681,7 +696,10 @@ const FilesTableView = ({
           >
             {desktop && (
               <TableHead className={classes.tableHead}>
-                <TableRow type="grid" className={classes.tableRow}>
+                <TableRow
+                  type="grid"
+                  className={classes.tableRow}
+                >
                   <TableHeadCell>
                     <CheckboxInput
                       value={selected.length === items.length}

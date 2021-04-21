@@ -61,17 +61,26 @@ const PdfPreview: React.FC<IPreviewRendererProps> = ({ contents }) => {
 
   return (
     <>
-      <Document file={pdfUrl} onLoadSuccess={onDocumentLoadSuccess}>
+      <Document
+        file={pdfUrl}
+        onLoadSuccess={onDocumentLoadSuccess}
+      >
         <Page pageNumber={pageNumber} />
       </Document>
       <div className={classes.controlsContainer}>
-        <Button onClick={prevPage} className={classes.pageButton}>
+        <Button
+          onClick={prevPage}
+          className={classes.pageButton}
+        >
           <Trans>Previous</Trans>
         </Button>
         <Typography className={classes.paginationInfo}>
           {pageNumber} of {numPages}
         </Typography>
-        <Button onClick={nextPage} className={classes.pageButton}>
+        <Button
+          onClick={nextPage}
+          className={classes.pageButton}
+        >
           <Trans>Next</Trans>
         </Button>
       </div>

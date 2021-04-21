@@ -117,15 +117,26 @@ const ConciseExplainer: React.FC<IConciseExplainerProps> = ({ className, onConti
   return (
     <div className={clsx(className, classes.root)}>
       <div>
-        <Typography variant="h2" component="h2" className={classes.title}>
+        <Typography
+          variant="h2"
+          component="h2"
+          className={classes.title}
+        >
           <Trans>Let&apos;s get you set up.</Trans>
         </Typography>
-        <Typography component="p" className={classes.subtitle}>
+        <Typography
+          component="p"
+          className={classes.subtitle}
+        >
           <Trans>
             For security reasons, upon signing in we’ll ask you for one of the following to confirm your identity.
           </Trans>
           &nbsp;
-          <a target="_blank" rel="noopener noreferrer" href="https://chainsafe.io/">
+          <a
+            target="_blank"
+            rel="noopener noreferrer"
+            href="https://chainsafe.io/"
+          >
             <Trans>
               Learn more
             </Trans>
@@ -133,19 +144,28 @@ const ConciseExplainer: React.FC<IConciseExplainerProps> = ({ className, onConti
         </Typography>
         <div className={classes.graphicsContainer}>
           <div className={classes.imageBox}>
-            <img src={DesktopMobilePNG} alt="devices" />
+            <img
+              src={DesktopMobilePNG}
+              alt="devices"
+            />
             <Typography component="p">
               <Trans>Use a saved browser</Trans>
             </Typography>
           </div>
           <div className={classes.imageBox}>
-            <img src={PasswordKeyPNG}  alt="password and keys" />
+            <img
+              src={PasswordKeyPNG}
+              alt="password and keys"
+            />
             <Typography component="p">
               <Trans>Enter a password</Trans>
             </Typography>
           </div>
           <div className={classes.imageBox}>
-            <img src={PeacefulSuccotashPNG} alt="peaceful succotash" />
+            <img
+              src={PeacefulSuccotashPNG}
+              alt="peaceful succotash"
+            />
             <Typography component="p">
               <Trans>Recover with passphrase</Trans>
             </Typography>
@@ -153,7 +173,11 @@ const ConciseExplainer: React.FC<IConciseExplainerProps> = ({ className, onConti
         </div>
       </div>
       <div className={classes.buttonContainer}>
-        <Button variant="primary" onClick={onContinue} className={classes.continue}>
+        <Button
+          variant="primary"
+          onClick={onContinue}
+          className={classes.continue}
+        >
           <Trans>
             Continue
           </Trans>

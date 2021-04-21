@@ -65,7 +65,10 @@ const AppWrapper: React.FC<IAppWrapper> = ({ children }: IAppWrapper) => {
   return (
     <div className={classes.root}>
       <CssBaseline />
-      <AppNav setNavOpen={setNavOpen} navOpen={navOpen} />
+      <AppNav
+        setNavOpen={setNavOpen}
+        navOpen={navOpen}
+      />
       <article
         className={clsx(classes.bodyWrapper, {
           active:
@@ -76,7 +79,10 @@ const AppWrapper: React.FC<IAppWrapper> = ({ children }: IAppWrapper) => {
             !shouldInitializeAccount
         })}
       >
-        <AppHeader navOpen={navOpen} setNavOpen={setNavOpen} />
+        <AppHeader
+          navOpen={navOpen}
+          setNavOpen={setNavOpen}
+        />
         <section
           className={clsx(classes.content, {
             active:
