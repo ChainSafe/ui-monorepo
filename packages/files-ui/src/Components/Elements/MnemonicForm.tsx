@@ -126,11 +126,18 @@ const MnemonicForm = ({ buttonLabel, onComplete }: Props) => {
 
   return (
     <>
-      <section className={clsx(classes.phraseSpace, "phraseSection")} onClick={onSectionClick}>
+      <section
+        className={clsx(classes.phraseSpace, "phraseSection")}
+        onClick={onSectionClick}
+      >
         { isLoading
           ? (
-            <Typography component="p" className={classes.loader}>
-              <Loading type="inherit" size={16} />
+            <Typography
+              component="p"
+              className={classes.loader}
+            >
+              <Loading type="inherit"
+                size={16} />
               <Trans>
                 Generating...
               </Trans>
@@ -139,7 +146,10 @@ const MnemonicForm = ({ buttonLabel, onComplete }: Props) => {
           : (
             mnemonic.length === 0
               ? (
-                <Typography className={classes.cta} component="p">
+                <Typography
+                  className={classes.cta}
+                  component="p"
+                >
                   <Trans>
                     Generate phrase
                   </Trans>
@@ -163,7 +173,10 @@ const MnemonicForm = ({ buttonLabel, onComplete }: Props) => {
           )}
       </section>
       {!!mnemonic.length && (
-        <Button variant="primary" onClick={onComplete}>
+        <Button
+          variant="primary"
+          onClick={onComplete}
+        >
           {displayButtonLabel}
         </Button>
       )}

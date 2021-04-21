@@ -175,14 +175,28 @@ const FileInfoModal: React.FC<IFileInfoModuleProps> = ({
       closePosition="none"
       maxWidth="sm"
     >
-      <Grid item xs={12} sm={12} className={classes.paddedContainer}>
-        <Typography className={classes.title} variant="h5" component="h5">
+      <Grid
+        item
+        xs={12}
+        sm={12}
+        className={classes.paddedContainer}
+      >
+        <Typography
+          className={classes.title}
+          variant="h5"
+          component="h5"
+        >
           <Trans>File Info</Trans>
         </Typography>
       </Grid>
       {fullFileInfo && !loadingFileInfo ? (
         <>
-          <Grid item xs={12} sm={12} className={classes.infoContainer}>
+          <Grid
+            item
+            xs={12}
+            sm={12}
+            className={classes.infoContainer}
+          >
             <div className={classes.infoBox}>
               <div>
                 <Typography
@@ -194,7 +208,10 @@ const FileInfoModal: React.FC<IFileInfoModuleProps> = ({
                 </Typography>
                 {fullFileInfo.persistent?.uploaded ? (
                   <div className={classes.subInfoBox}>
-                    <Typography variant="body1" component="p">
+                    <Typography
+                      variant="body1"
+                      component="p"
+                    >
                       <Trans>Date uploaded</Trans>
                     </Typography>
                     <Typography
@@ -208,7 +225,10 @@ const FileInfoModal: React.FC<IFileInfoModuleProps> = ({
                 ) : null}
                 {fullFileInfo.content?.size !== undefined ? (
                   <div className={classes.subInfoBox}>
-                    <Typography variant="body1" component="p">
+                    <Typography
+                      variant="body1"
+                      component="p"
+                    >
                       <Trans>File size</Trans>
                     </Typography>
                     <Typography
@@ -231,7 +251,10 @@ const FileInfoModal: React.FC<IFileInfoModuleProps> = ({
                 </Typography>
                 {fullFileInfo.persistent?.stored_cid !== undefined ? (
                   <div className={classes.subInfoBox}>
-                    <Typography variant="body1" component="p">
+                    <Typography
+                      variant="body1"
+                      component="p"
+                    >
                       <Trans>Stored by miner</Trans>
                     </Typography>
                     <Typography
@@ -245,7 +268,10 @@ const FileInfoModal: React.FC<IFileInfoModuleProps> = ({
                 ) : null}
                 {fullFileInfo.persistent?.stored_cid !== undefined ? (
                   <div className={classes.subInfoBox}>
-                    <Typography variant="body1" component="p">
+                    <Typography
+                      variant="body1"
+                      component="p"
+                    >
                       <Trans>Number of copies (Replication Factor)</Trans>
                     </Typography>
                     <Typography
@@ -258,8 +284,14 @@ const FileInfoModal: React.FC<IFileInfoModuleProps> = ({
                   </div>
                 ) : null}
                 <div className={classes.subInfoBox}>
-                  <Grid item flexDirection="row">
-                    <Typography variant="body1" component="p">
+                  <Grid
+                    item
+                    flexDirection="row"
+                  >
+                    <Typography
+                      variant="body1"
+                      component="p"
+                    >
                       <Trans>CID (Content Identifier)</Trans>
                     </Typography>
                     {copied ? (
@@ -286,7 +318,11 @@ const FileInfoModal: React.FC<IFileInfoModuleProps> = ({
               </div>
             </div>
           </Grid>
-          <Grid item flexDirection="row" justifyContent="flex-end">
+          <Grid
+            item
+            flexDirection="row"
+            justifyContent="flex-end"
+          >
             <Button
               type="submit"
               size="large"
@@ -308,9 +344,16 @@ const FileInfoModal: React.FC<IFileInfoModuleProps> = ({
           </Grid>
         </>
       ) : (
-        <Grid item flexDirection="row" justifyContent="center">
+        <Grid
+          item
+          flexDirection="row"
+          justifyContent="center"
+        >
           <div className={classes.loadingContainer}>
-            <Loading size={32} type="inherit" />
+            <Loading
+              size={32}
+              type="inherit"
+            />
           </div>
         </Grid>
       )}

@@ -1,4 +1,4 @@
-import React, { Fragment } from "react"
+import React from "react"
 import { withKnobs, text, select, boolean } from "@storybook/addon-knobs"
 import { MenuDropdown } from "../MenuDropdown"
 import { action } from "@storybook/addon-actions"
@@ -42,10 +42,10 @@ export const MenuDropdownDefault = (): React.ReactNode => (
         },
         {
           contents: (
-            <Fragment>
+            <>
               <HomeIcon />
               <Typography>Nandos</Typography>
-            </Fragment>
+            </>
           ),
           onClick: actionsData.onClick
         }
@@ -83,10 +83,10 @@ export const MenuDropdownCustomIcon = (): React.ReactNode => (
         },
         {
           contents: (
-            <Fragment>
+            <>
               <HomeIcon />
               <Typography>Nandos</Typography>
-            </Fragment>
+            </>
           ),
           onClick: actionsData.onClick
         }

@@ -1,14 +1,6 @@
-import {
-  createStyles,
-  makeStyles
-} from "@chainsafe/common-theme"
+import { createStyles, makeStyles } from "@chainsafe/common-theme"
 import React from "react"
-import {
-  Button,
-  FormikCheckboxInput,
-  FormikTextInput,
-  Typography
-} from "@chainsafe/common-components"
+import { Button, FormikCheckboxInput, FormikTextInput, Typography } from "@chainsafe/common-components"
 import clsx from "clsx"
 import { Form, Formik } from "formik"
 import * as yup from "yup"
@@ -144,7 +136,10 @@ const SetMasterKeySlide: React.FC<ISetMasterKeySlide> = ({
 
   return (
     <section className={clsx(classes.root, className)}>
-      <Typography variant="h2" component="h2">
+      <Typography
+        variant="h2"
+        component="h2"
+      >
         Set an Encryption Password
       </Typography>
       <Formik
@@ -177,7 +172,10 @@ const SetMasterKeySlide: React.FC<ISetMasterKeySlide> = ({
             label="Confirm Encryption Password:"
             labelClassName={classes.inputLabel}
           />
-          <Typography variant="h5" component="p">
+          <Typography
+            variant="h5"
+            component="p"
+          >
             Please record your encryption password somewhere safe. <br />
             Forgetting this password means{" "}
             <span className={classes.highlight}>
@@ -218,7 +216,12 @@ const SetMasterKeySlide: React.FC<ISetMasterKeySlide> = ({
               </>
             }
           />
-          <Button variant="primary" className={classes.button} fullsize type="submit">
+          <Button
+            variant="primary"
+            className={classes.button}
+            fullsize
+            type="submit"
+          >
             Set Encryption Password
           </Button>
         </Form>

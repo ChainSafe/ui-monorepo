@@ -14,7 +14,13 @@ const AudioPreview: React.FC<IPreviewRendererProps> = ({ contents }) => {
     // eslint-disable-next-line
   }, [contents])
 
-  return <audio controls src={audioUrl} autoPlay></audio>
+  return (
+    <audio
+      controls
+      src={audioUrl}
+      autoPlay
+    />
+  )
 }
 
 export default AudioPreview

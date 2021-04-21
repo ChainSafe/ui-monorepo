@@ -61,10 +61,16 @@ const PasswordSetup = ({ setPassword, className, cancel }: IPasswordSetup) => {
 
   return (
     <section className={clsx(classes.root, className)}>
-      <div onClick={cancel} className={classes.close}>
+      <div
+        onClick={cancel}
+        className={classes.close}
+      >
         <CloseSvg />
       </div>
-      <Typography variant={desktop ? "h2" : "h4"} component="h2">
+      <Typography
+        variant={desktop ? "h2" : "h4"}
+        component="h2"
+      >
         <Trans>
           Set up a password
         </Trans>

@@ -321,7 +321,10 @@ const Button: React.FC<IButtonProps> = ({
     >
       {loading && (
         <>
-          <Loading type="inherit" size={16} />
+          <Loading
+            type="inherit"
+            size={16}
+          />
         </>
       )}
       {loading && loadingText ? loadingText : children}

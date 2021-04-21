@@ -86,13 +86,21 @@ const Complete = ({ className }: IComplete) => {
 
   return (
     <div className={clsx(className, classes.root)}>
-      <img className={classes.background} src={CompleteSVG} alt="complete slide background" />
-      <Typography variant="h2" component="h2">
+      <img
+        className={classes.background}
+        src={CompleteSVG}
+        alt="complete slide background"
+      />
+      <Typography variant="h2"
+        component="h2">
         <Trans>
           Great! You’re all done.
         </Trans>
       </Typography>
-      <Typography component="p" variant="body2">
+      <Typography
+        component="p"
+        variant="body2"
+      >
         <Trans>
           Thanks for taking care of that. You can <br/> adjust these anytime in security settings.
         </Trans>
@@ -171,7 +179,13 @@ const Complete = ({ className }: IComplete) => {
           }
         </div>
       </section>
-      <Button onClick={() => resetShouldInitialize()} size="large" fullsize className={classes.cta} variant="primary">
+      <Button
+        onClick={() => resetShouldInitialize()}
+        size="large"
+        fullsize
+        className={classes.cta}
+        variant="primary"
+      >
         <Trans>
           Continue
         </Trans>

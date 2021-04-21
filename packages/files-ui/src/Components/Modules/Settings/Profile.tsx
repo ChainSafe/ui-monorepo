@@ -142,9 +142,17 @@ const ProfileView: React.FC<IProfileProps> = (props) => {
 
   return (
     <Grid container>
-      <Grid item xs={12} sm={10} md={8}>
+      <Grid
+        item
+        xs={12}
+        sm={10}
+        md={8}
+      >
         <div className={classes.container}>
-          <div id="profile" className={classes.bodyContainer}>
+          <div
+            id="profile"
+            className={classes.bodyContainer}
+          >
             <div className={classes.profileBox}>
               <Formik
                 initialValues={{
@@ -166,7 +174,10 @@ const ProfileView: React.FC<IProfileProps> = (props) => {
                   {profile.publicAddress ? (
                     <div className={classes.boxContainer}>
                       <div className={classes.walletAddressContainer}>
-                        <Typography variant="body1" className={classes.label}>
+                        <Typography
+                          variant="body1"
+                          className={classes.label}
+                        >
                           <Trans>Wallet address</Trans>
                         </Typography>
                         {copied && (
@@ -175,7 +186,10 @@ const ProfileView: React.FC<IProfileProps> = (props) => {
                           </Typography>
                         )}
                       </div>
-                      <div className={classes.copyBox} onClick={copyAddress}>
+                      <div
+                        className={classes.copyBox}
+                        onClick={copyAddress}
+                      >
                         <Typography
                           variant="body1"
                           component="p"
