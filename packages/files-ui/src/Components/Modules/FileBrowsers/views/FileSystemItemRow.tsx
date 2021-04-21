@@ -165,33 +165,22 @@ interface IFileSystemItemRowProps {
   file: FileSystemItem
   files: FileSystemItem[]
   currentPath?: string
-  updateCurrentPath(
-    path: string,
-    newBucketType?: BucketType,
-    showLoading?: boolean,
-  ): void
+  updateCurrentPath: (path: string, newBucketType?: BucketType, showLoading?: boolean) => void
   selected: string[]
   handleSelect(selected: string): void
   editing: string | undefined
   setEditing(editing: string | undefined): void
-  RenameSchema: any
-  handleRename?(path: string, newPath: string): Promise<void>
-  handleMove?(path: string, newPath: string): Promise<void>
-  deleteFile?(cid: string): void
-  recoverFile?(cid: string): void
-  viewFolder?(cid: string): void
-  downloadFile?(cid: string): Promise<void>
-  handleUploadOnDrop?(
-    files: File[],
-    fileItems: DataTransferItemList,
-    path: string,
-  ): void
-  setPreviewFileIndex(fileIndex: number | undefined): void
-  setMoveFileData(moveFileData: {
-    modal: boolean
-    fileData: FileSystemItem | FileSystemItem[]
-  }): void
-  setFileInfoPath(path: string): void
+  renameSchema: any
+  handleRename?: (path: string, newPath: string) => Promise<void>
+  handleMove?: (path: string, newPath: string) => Promise<void>
+  deleteFile?: (cid: string) => void
+  recoverFile?: (cid: string) => void
+  viewFolder?: (cid: string) => void
+  downloadFile?: (cid: string) => Promise<void>
+  handleUploadOnDrop?: (files: File[], fileItems: DataTransferItemList, path: string,) => void
+  setPreviewFileIndex: (fileIndex: number | undefined) => void
+  setMoveFileData: (moveFileData: { modal: boolean; fileData: FileSystemItem | FileSystemItem[] }) => void
+  setFileInfoPath: (path: string) => void
   itemOperations: FileOperation[]
 }
 
@@ -204,7 +193,7 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
   selected,
   editing,
   setEditing,
-  RenameSchema,
+  renameSchema,
   handleRename,
   handleMove,
   deleteFile,
@@ -440,7 +429,7 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
             initialValues={{
               fileName: name
             }}
-            validationSchema={RenameSchema}
+            validationSchema={renameSchema}
             onSubmit={(values) => {
               handleRename &&
                 handleRename(
@@ -489,7 +478,7 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
                 initialValues={{
                   fileName: name
                 }}
-                validationSchema={RenameSchema}
+                validationSchema={renameSchema}
                 onSubmit={(values) => {
                   handleRename &&
                   handleRename(
