@@ -19,6 +19,7 @@ import { IdentityProvider } from "@chainsafe/files-api-client"
 import { capitalize, centerEllipsis } from "../Utils/Helpers"
 import { t } from "@lingui/macro"
 import jwtDecode from "jwt-decode"
+import { IdentityToken } from "@chainsafe/files-api-client"
 
 const TORUS_POSTBOX_KEY = "csf.postboxKey"
 const TKEY_STORE_KEY = "csf.tkeyStore"
@@ -93,21 +94,21 @@ const getProviderSpecificParams = (loginType: LOGIN_TYPE):
     return {
       typeOfLogin: loginType,
       clientId: process.env.REACT_APP_GOOGLE_CLIENT_ID || "",
-      verifier: process.env.REACT_APP_GOOGLE_VERIFIER_NAME || ""
+      verifier: "chainsafe-uuid-testnet"
     }
   }
   case "facebook": {
     return {
       typeOfLogin: loginType,
       clientId: process.env.REACT_APP_FACEBOOK_CLIENT_ID || "",
-      verifier: process.env.REACT_APP_FACEBOOK_VERIFIER_NAME || ""
+      verifier: "chainsafe-uuid-testnet"
     }
   }
   case "github":{
     return {
       typeOfLogin: loginType,
       clientId: process.env.REACT_APP_AUTH0_CLIENT_ID || "",
-      verifier: process.env.REACT_APP_GITHUB_VERIFIER_NAME || "",
+      verifier: "chainsafe-uuid-testnet",
       jwtParams: {
         domain: process.env.REACT_APP_AUTH0_DOMAIN || ""
       }
@@ -409,32 +410,26 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
     try {
       const serviceProvider = (TKeySdk.serviceProvider as unknown) as DirectAuthSdk
       setStatus("awaiting confirmation")
-      const identityToken = await getIdentityToken(loginType)
-      if (!identityToken) {
+      const identityTokenResponse = await getIdentityToken(loginType)
+      if (!identityTokenResponse) {
         throw new Error("No identity token could be retrieved")
       }
-
-      const decodedToken = jwtDecode<{
-        uuid: string
-        email: string
-        name: string
-        profileImage: string
-        accessToken: string
-      }>(identityToken.token || "")
+      const { identityToken, userInfo } = identityTokenResponse
+      const decodedToken = jwtDecode<{ uuid: string; address: string }>(identityToken.token || "")
 
       const directAuthSdk = (serviceProvider as any).directWeb as DirectAuthSdk
-
-      const torusKey = loginType === "web3" ? await directAuthSdk.getTorusKey(
-        process.env.REACT_APP_FILES_VERIFIER_NAME || "",
-        address || "",
-        { verifier_id: address || "" },
-        identityToken.token || ""
-      ) : await directAuthSdk.getTorusKey(
-        process.env.REACT_APP_FILES_VERIFIER_NAME || "",
-        decodedToken.uuid,
-        { verifier_id: decodedToken.uuid },
-        identityToken.token || ""
-      )
+      const torusKey = loginType === "web3" ?
+        await directAuthSdk.getTorusKey(
+          process.env.REACT_APP_FILES_WEB3_VERIFIER_NAME || "",
+          userInfo.address,
+          { verifier_id: userInfo.address },
+          identityToken.token || ""
+        ) : await directAuthSdk.getTorusKey(
+          process.env.REACT_APP_FILES_UUID_VERIFIER_NAME || "",
+          decodedToken.uuid,
+          { verifier_id: decodedToken.uuid },
+          identityToken.token || ""
+        )
       TKeySdk.serviceProvider.postboxKey = new BN(torusKey.privateKey, "hex")
 
       const loginResponse: TorusLoginResponse = {
@@ -443,13 +438,13 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
         metadataNonce: "",
         userInfo: {
           idToken: identityToken.token,
-          email: decodedToken.email,
-          name: decodedToken.name,
-          profileImage: decodedToken.profileImage,
+          email: userInfo?.email,
+          name: userInfo?.name,
+          profileImage: userInfo?.profileImage,
           verifier: "",
           verifierId: (loginType === "web3") ? address || "" : decodedToken.uuid,
           typeOfLogin: loginType !== "web3" ? loginType : "jwt",
-          accessToken: decodedToken.accessToken,
+          accessToken: userInfo?.accessToken,
           state: { }
         }
       }
@@ -502,27 +497,28 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
     }
   }
 
-  const getIdentityToken = async (loginType: LOGIN_TYPE | "web3") => {
+  const getIdentityToken = async (loginType: LOGIN_TYPE | "web3"): Promise<{identityToken: IdentityToken; userInfo: any}> => {
     if (loginType === "web3") {
-      if (!provider) return
-
-      if (!isReady || !address) {
+      if (!isReady || !address || !provider) {
         const connected = await checkIsReady()
-        if (!connected || !address) return
+        if (!connected || !address || !provider) throw new Error("Unable to connect to wallet.")
       }
 
       const { token } = await imployApiClient.getIdentityWeb3Token(address)
 
-      if (token) {
-        setStatus("awaiting confirmation")
-        const signature = await signMessage(token, provider.getSigner())
-        setStatus("logging in")
-        const identityToken = await imployApiClient.postIdentityWeb3Token({
-          signature: signature,
-          token: token,
-          public_address: address
-        })
-        return identityToken
+      if (!token) throw new Error()
+
+      setStatus("awaiting confirmation")
+      const signature = await signMessage(token, provider.getSigner())
+      setStatus("logging in")
+      const identityToken = await imployApiClient.postIdentityWeb3Token({
+        signature: signature,
+        token: token,
+        public_address: address
+      })
+      return {
+        identityToken: identityToken,
+        userInfo: { address: address }
       }
 
     } else {
@@ -536,11 +532,14 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
         customState: {}
       })
       const oauthIdToken = await loginHandler.handleLoginWindow({})
+
+      const decodedIdToken = oauthIdToken.idToken && jwtDecode(oauthIdToken.idToken)
+      console.log(decodedIdToken)
       const identityToken = await imployApiClient.generateServiceIdentityToken({
         identity_provider: loginType as IdentityProvider,
         identity_token: oauthIdToken.idToken || ""
       })
-      return identityToken
+      return { identityToken: identityToken, userInfo: decodedIdToken }
     }
   }
 
