@@ -84,6 +84,7 @@ export type ShareTransferRequest = {
 }
 
 const ThresholdKeyContext = React.createContext<TThresholdKeyContext | undefined>(undefined)
+const maintenanceMode = process.env.REACT_APP_MAINTENANCE_MODE === "true"
 
 const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = false, apiKey }: ThresholdKeyProviderProps) => {
   const { imployApiClient, thresholdKeyLogin, logout } = useImployApi()
@@ -144,7 +145,7 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
       let tkey: ThresholdKey
 
       // If Session storage contains all the data necessary to recreate the TKey object
-      if (postboxKey && tkeySerialized && cachedUserInfo) {
+      if (postboxKey && tkeySerialized && cachedUserInfo && !maintenanceMode) {
         setStatus("logging in")
         const tKeyJson = JSON.parse(tkeySerialized)
         const serviceProvider = new ServiceProviderBase({ enableLogging, postboxKey })
@@ -369,7 +370,7 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
   }, [userInfo, address])
 
   const login = async (loginType: LOGIN_TYPE | "web3") => {
-    if (!TKeySdk) return
+    if (!TKeySdk || maintenanceMode) return
     try {
       const serviceProvider = (TKeySdk.serviceProvider as unknown) as DirectAuthSdk
       setStatus("awaiting confirmation")

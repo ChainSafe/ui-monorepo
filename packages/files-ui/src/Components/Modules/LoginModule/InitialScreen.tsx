@@ -199,9 +199,18 @@ const InitialScreen = ({ className }: IInitialScreen) => {
     <footer className={classes.connectWalletFooter}>
       <Typography variant='h5'>
         <Trans>
-          By connecting your wallet, you agree to our <a href={ROUTE_LINKS.Terms} target="_blank" rel="noopener noreferrer" >
+
+          By connecting your wallet, you agree to our <a
+            href={ROUTE_LINKS.Terms}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             Terms of Service
-          </a> and <a href={ROUTE_LINKS.PrivacyPolicy} target="_blank" rel="noopener noreferrer">
+          </a> and <a
+            href={ROUTE_LINKS.PrivacyPolicy}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             Privacy Policy
           </a>
         </Trans>
@@ -351,7 +360,11 @@ const InitialScreen = ({ className }: IInitialScreen) => {
                       <Typography variant='h5'>
                         <Trans>Hold on, we are logging you in...</Trans>
                       </Typography>
-                      <Loading className={classes.loader} size={50} type='inherit' />
+                      <Loading
+                        className={classes.loader}
+                        size={50}
+                        type='inherit'
+                      />
                     </>}
                   </section>
                 </>
@@ -386,7 +399,10 @@ const InitialScreen = ({ className }: IInitialScreen) => {
                 <Typography variant='h5'>
                   {error}
                 </Typography>
-                <Button variant="primary" onClick={resetLogin}>
+                <Button
+                  variant="primary"
+                  onClick={resetLogin}
+                >
                   <Trans>Try again</Trans>
                 </Button>
               </section>

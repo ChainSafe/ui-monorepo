@@ -37,9 +37,6 @@ msgstr "Add more files"
 msgid "Approve"
 msgstr "Approve"
 
-msgid "Are you sure you wish to delete?"
-msgstr "Are you sure you wish to delete?"
-
 msgid "Are you sure?"
 msgstr "Are you sure?"
 
@@ -606,6 +603,9 @@ msgstr "Yes I understand"
 
 msgid "Yes, save it"
 msgstr "Yes, save it"
+
+msgid "You are about to delete {0} file(s)."
+msgstr "You are about to delete {0} file(s)."
 
 msgid "You can change this later."
 msgstr "You can change this later."

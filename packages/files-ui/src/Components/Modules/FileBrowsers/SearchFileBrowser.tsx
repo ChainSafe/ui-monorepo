@@ -62,7 +62,6 @@ const SearchFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = fals
     searchResults.map((searchResult) => ({
       ...searchResult.content,
       isFolder: (searchResult.content.content_type === CONTENT_TYPES.Directory)
-      || (searchResult.content.content_type === CONTENT_TYPES.Directory2)
     }))
   , [searchResults])
 

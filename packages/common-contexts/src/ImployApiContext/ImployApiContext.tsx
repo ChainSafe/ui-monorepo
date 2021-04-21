@@ -111,7 +111,7 @@ const ImployApiProvider = ({ apiUrl, withLocalStorage = true, children }: Imploy
           return response
         },
         async (error) => {
-          if (!error?.config?._retry && error?.response?.status === 401) {
+          if (!error?.config?._retry && error?.response?.status === 401 && !maintenanceMode) {
             error.config._retry = true
             const refreshTokenLocal =
               (withLocalStorage)
@@ -198,6 +198,9 @@ const ImployApiProvider = ({ apiUrl, withLocalStorage = true, children }: Imploy
     identityToken: string,
     publicKey: string
   ) => {
+    if (maintenanceMode) {
+      throw new Error("App is undergoing maintenance")
+    }
     try {
       const {
         access_token,

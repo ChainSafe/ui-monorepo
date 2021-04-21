@@ -34,8 +34,7 @@ export interface IFilesTableBrowserProps
   handleRename?: (path: string, new_path: string) => Promise<void>
   handleMove?: (path: string, new_path: string) => Promise<void>
   downloadFile?: (cid: string) => Promise<void>
-  deleteFile?: (cid: string) => Promise<void>
-  bulkMoveFileToTrash?: (cids: string[]) => Promise<void>
+  deleteFiles?: (cid: string[]) => Promise<void[]>
   recoverFile?: (cid: string) => Promise<void>
   viewFolder?: (cid: string) => void
   allowDropUpload?: boolean

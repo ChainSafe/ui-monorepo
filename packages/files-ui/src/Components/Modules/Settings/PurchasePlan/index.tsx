@@ -183,7 +183,11 @@ const PurchasePlan: React.FC = () => {
             <Typography>Back to plan settings</Typography>
           </Link>
         )}
-        <Typography className={classes.heading} variant="h1" component="p">
+        <Typography
+          className={classes.heading}
+          variant="h1"
+          component="p"
+        >
           {desktop ? "Purchase a Plus subscription" : "Checkout"}
         </Typography>
         {desktop && (
@@ -236,7 +240,11 @@ const PurchasePlan: React.FC = () => {
           <Form>
             <div className={classes.purchaseContainer}>
               <Grid container>
-                <Grid xs={12} md={6} item>
+                <Grid
+                  xs={12}
+                  md={6}
+                  item
+                >
                   <div className={classes.cardContainer}>
                     {!desktop && (
                       <div className={classes.pricingContainer}>
@@ -251,7 +259,10 @@ const PurchasePlan: React.FC = () => {
                             <del>USD $107.67</del>
                           </Typography>
                           <div className={classes.priceContainer}>
-                            <Typography variant="h3" className={classes.price}>
+                            <Typography
+                              variant="h3"
+                              className={classes.price}
+                            >
                               USD $83.45
                             </Typography>
                             <Typography className={classes.priceSubtitle}>
@@ -302,7 +313,11 @@ const PurchasePlan: React.FC = () => {
                     />
                   </div>
                 </Grid>
-                <Grid xs={12} md={6} item>
+                <Grid
+                  xs={12}
+                  md={6}
+                  item
+                >
                   <div className={classes.countriesContainer}>
                     <div className={classes.countryOrRegionContainer}>
                       <SelectInput
@@ -348,7 +363,10 @@ const PurchasePlan: React.FC = () => {
                             <del>USD ${ACTUAL_PRICE}</del>
                           </Typography>
                           <div className={classes.priceContainer}>
-                            <Typography variant="h3" className={classes.price}>
+                            <Typography
+                              variant="h3"
+                              className={classes.price}
+                            >
                               USD ${FINAL_PRICE}
                             </Typography>
                             <Typography className={classes.priceSubtitle}>
@@ -369,7 +387,10 @@ const PurchasePlan: React.FC = () => {
               >
                 Submit
               </Button>
-              <Typography className={classes.terms} component="p">
+              <Typography
+                className={classes.terms}
+                component="p"
+              >
                 By confirming your subscription, you allow ChainSafe Files to
                 charge your card for this payment and future payments in
                 accordance with their terms.

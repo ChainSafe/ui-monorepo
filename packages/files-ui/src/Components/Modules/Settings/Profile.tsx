@@ -181,9 +181,17 @@ const ProfileView = () => {
 
   return (
     <Grid container>
-      <Grid item xs={12} sm={10} md={8}>
+      <Grid
+        item
+        xs={12}
+        sm={10}
+        md={8}
+      >
         <div className={classes.container}>
-          <div id="profile" className={classes.sectionContainer}>
+          <div
+            id="profile"
+            className={classes.sectionContainer}
+          >
             <div className={classes.profileBox}>
               <Formik
                 initialValues={{
@@ -205,7 +213,10 @@ const ProfileView = () => {
                   {profile?.publicAddress ? (
                     <div className={classes.boxContainer}>
                       <div className={classes.walletAddressContainer}>
-                        <Typography variant="body1" className={classes.label}>
+                        <Typography
+                          variant="body1"
+                          className={classes.label}
+                        >
                           <Trans>Wallet address</Trans>
                         </Typography>
                         {copied && (
@@ -214,7 +225,10 @@ const ProfileView = () => {
                           </Typography>
                         )}
                       </div>
-                      <div className={classes.copyBox} onClick={copyAddress}>
+                      <div
+                        className={classes.copyBox}
+                        onClick={copyAddress}
+                      >
                         <Typography
                           variant="body1"
                           component="p"

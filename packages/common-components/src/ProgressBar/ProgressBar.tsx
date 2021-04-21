@@ -173,7 +173,10 @@ const ProgressBar: React.FC<IProgressBarProps> = ({
   const classes = useStyles({ width: progressValue })
 
   return (
-    <div className={clsx(className, classes.root, size)} {...rest}>
+    <div
+      className={clsx(className, classes.root, size)}
+      {...rest}
+    >
       {progressValue == -1 ? (
         <div className={clsx(classes.slider, size)}>
           <div className={clsx(variant, size, classes.line)}></div>
