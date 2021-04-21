@@ -11,7 +11,7 @@ import { t } from "@lingui/macro"
 
 const CSFFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = true }: IFilesBrowserModuleProps) => {
   const {
-    moveToTrash,
+    moveFilesToTrash,
     downloadFile,
     renameFile,
     moveFile,
@@ -102,7 +102,7 @@ const CSFFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = true }:
         bulkOperations={bulkOperations}
         crumbs={crumbs}
         currentPath={currentPath}
-        deleteFiles={moveToTrash}
+        deleteFiles={moveFilesToTrash}
         downloadFile={downloadFile}
         handleMove={handleMove}
         handleRename={handleRename}
