@@ -17,10 +17,7 @@ import {
   ProgressBar,
   Button,
   formatBytes,
-  DeleteSvg,
-  SunSvg,
-  MoonSvg
-} from "@chainsafe/common-components"
+  DeleteSvg } from "@chainsafe/common-components"
 import { ROUTE_LINKS } from "../FilesRoutes"
 import { FREE_PLAN_LIMIT } from "../../Utils/Constants"
 import { Trans } from "@lingui/macro"
@@ -357,29 +354,18 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
               </div>
             )}
             {!desktop && (
-              <>
-                <div
-                  onClick={() => setTheme(themeKey === "dark" ? "light" : "dark")}
-                  className={classes.navItem}
-                >
-                  {themeKey === "dark" ? <SunSvg /> : <MoonSvg />}
-                  <Typography>
-                    {themeKey === "dark" ? <Trans>Light mode</Trans> : <Trans>Dark mode</Trans>}
-                  </Typography>
-                </div>
-                <div
-                  className={classes.navItem}
-                  onClick={() => {
-                    handleOnClick()
-                    signOut()
-                  }}
-                >
-                  <PowerDownSvg />
-                  <Typography>
-                    <Trans>Sign Out</Trans>
-                  </Typography>
-                </div>
-              </>
+              <div
+                className={classes.navItem}
+                onClick={() => {
+                  handleOnClick()
+                  signOut()
+                }}
+              >
+                <PowerDownSvg />
+                <Typography>
+                  <Trans>Sign Out</Trans>
+                </Typography>
+              </div>
             )}
           </section>
           {!desktop && (
