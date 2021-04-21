@@ -521,6 +521,10 @@ const FilesTableView = ({
     return [...new Set(result)]
   }, [itemOperations])
 
+  const resetSelectedFiles = useCallback(() => {
+    setSelected([])
+  }, [])
+
   return (
     <article
       className={clsx(classes.root, {
@@ -787,6 +791,7 @@ const FilesTableView = ({
                   setMoveFileData={setMoveFileData}
                   setFileInfoPath={setFileInfoPath}
                   itemOperations={getItemOperations(file.content_type)}
+                  resetSelectedFiles={resetSelectedFiles}
                 />
               ))}
             </TableBody>

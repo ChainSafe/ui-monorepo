@@ -182,6 +182,7 @@ interface IFileSystemItemRowProps {
   setMoveFileData: (moveFileData: { modal: boolean; fileData: FileSystemItem | FileSystemItem[] }) => void
   setFileInfoPath: (path: string) => void
   itemOperations: FileOperation[]
+  resetSelectedFiles: () => void
 }
 
 const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
@@ -205,7 +206,8 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
   setMoveFileData,
   setFileInfoPath,
   handleSelect,
-  itemOperations
+  itemOperations,
+  resetSelectedFiles
 }) => {
   const { cid, name, isFolder, size, content_type } = file
   let Icon
@@ -370,13 +372,22 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
     }
   }
 
+  const onFolderClick = useCallback(() => {
+    updateCurrentPath(`${currentPath}${name}`, undefined, true)
+    resetSelectedFiles()
+  }, [currentPath, name, resetSelectedFiles, updateCurrentPath])
+
+  const onFileClick = useCallback(() => {
+    setPreviewFileIndex(files?.indexOf(file))
+  }, [file, files, setPreviewFileIndex])
+
   const onSingleClick = useCallback(() => { handleSelect(cid) },
     [cid, handleSelect])
   const onDoubleClick = useCallback(() => {
     isFolder
-      ? updateCurrentPath(`${currentPath}${name}`, undefined, true)
-      : setPreviewFileIndex(files?.indexOf(file))
-  }, [currentPath, file, files, isFolder, name, setPreviewFileIndex, updateCurrentPath])
+      ? onFolderClick()
+      : onFileClick()
+  }, [isFolder, onFileClick, onFolderClick])
 
   const { click } = useDoubleClick(onSingleClick, onDoubleClick)
 
@@ -384,8 +395,8 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
     ? click
     : () => {
       isFolder
-        ? updateCurrentPath(`${currentPath}${name}`, undefined, true)
-        : setPreviewFileIndex(files?.indexOf(file))
+        ? onFolderClick()
+        : onFileClick()
     }
 
   return (
