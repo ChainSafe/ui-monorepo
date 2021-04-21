@@ -110,7 +110,8 @@ const useStyles = makeStyles(({ constants, breakpoints, palette, typography }: C
       margin: 6,
       [breakpoints.down("sm")]: {
         width: "100%"
-      }
+      },
+      cursor: "pointer"
     },
     themeBoxDark: {
       ...constants.settingsPage.darkSwitch
@@ -316,7 +317,7 @@ const ProfileView = () => {
             </Typography>
             <Grid container>
               <Grid item xs={12} sm={12} md={6}>
-                <div className={clsx(classes.themeBox, classes.themeBoxDark)}>
+                <label className={clsx(classes.themeBox, classes.themeBoxDark)}>
                   <RadioInput
                     value='dark'
                     label={t`Dark Theme`}
@@ -326,10 +327,10 @@ const ProfileView = () => {
                   {themeKey === "dark" && <Typography className={classes.themeSubtitle}>
                     <Trans>What a fine night it is.</Trans>
                   </Typography>}
-                </div>
+                </label>
               </Grid>
               <Grid item xs={12} sm={12} md={6}>
-                <div className={clsx(classes.themeBox, classes.themeBoxLight)}>
+                <label className={clsx(classes.themeBox, classes.themeBoxLight)}>
                   <RadioInput
                     value='light'
                     label={t`Light Theme`}
@@ -338,7 +339,7 @@ const ProfileView = () => {
                   {themeKey === "light" && <Typography className={classes.themeSubtitle}>
                     <Trans>What a fine day it is.</Trans>
                   </Typography>}
-                </div>
+                </label>
               </Grid>
             </Grid>
           </div>
