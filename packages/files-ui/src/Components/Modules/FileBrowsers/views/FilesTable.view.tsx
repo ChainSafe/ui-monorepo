@@ -521,9 +521,9 @@ const FilesTableView = ({
     return [...new Set(result)]
   }, [itemOperations])
 
-  const resetSelectedFiles = () => {
+  const resetSelectedFiles = useCallback(() => {
     setSelected([])
-  }
+  }, [])
 
   return (
     <article
