@@ -109,10 +109,8 @@ const AuthenticationFactors = ({ goToComplete, goToMnemonic, goToPassword, goToS
   return (
     <div className={clsx(classes.root, className)}>
       <Typography
-
         variant={desktop ? "h2" : "h4"}
         component="h1"
-
       >
         <Trans>
           Your Authentication Factors

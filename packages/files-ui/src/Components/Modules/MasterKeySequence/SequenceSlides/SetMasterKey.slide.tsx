@@ -137,10 +137,8 @@ const SetMasterKeySlide: React.FC<ISetMasterKeySlide> = ({
   return (
     <section className={clsx(classes.root, className)}>
       <Typography
-
         variant="h2"
         component="h2"
-
       >
         Set an Encryption Password
       </Typography>

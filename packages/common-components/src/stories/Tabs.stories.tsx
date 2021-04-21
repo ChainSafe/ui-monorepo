@@ -11,7 +11,8 @@ export const TabsDemo = (): React.ReactNode => {
   return (
     <Tabs
       activeKey={tab}
-      onTabSelect={setTab}>
+      onTabSelect={setTab}
+    >
       <TabPane title="tab 1"
         tabKey="1"
       >

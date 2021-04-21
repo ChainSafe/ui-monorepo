@@ -253,8 +253,10 @@ const FileInput: React.FC<IFileInputProps> = ({
         </>
       )}
       {value?.length > 0 && (
-        <div className={clsx(classes.addFiles, classNames?.addFiles)}
-          onClick={open}>
+        <div
+          className={clsx(classes.addFiles, classNames?.addFiles)}
+          onClick={open}
+        >
           <PlusIcon
             fontSize="small"
             color="primary"

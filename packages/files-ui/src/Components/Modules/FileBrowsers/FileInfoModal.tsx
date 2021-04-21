@@ -181,9 +181,11 @@ const FileInfoModal: React.FC<IFileInfoModuleProps> = ({
         sm={12}
         className={classes.paddedContainer}
       >
-        <Typography className={classes.title}
+        <Typography
+          className={classes.title}
           variant="h5"
-          component="h5">
+          component="h5"
+        >
           <Trans>File Info</Trans>
         </Typography>
       </Grid>

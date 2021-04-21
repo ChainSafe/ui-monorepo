@@ -73,11 +73,13 @@ export const GridSpacing = (): React.ReactNode => (
     container
     spacing={select("Spacing", spacingOptions, 1)}
   >
-    <Grid item
+    <Grid
+      item
       xs={12}
       sm={6}
       md={3}
-      lg={3}>
+      lg={3}
+    >
       <Box>Box 1</Box>
     </Grid>
     <Grid
