@@ -307,11 +307,22 @@ const ProfileView = () => {
             <Typography variant='h4' component='h4'>
               <Trans>Display Settings</Trans>
             </Typography>
-            <Typography variant='h5' component='h5' className={classes.sectionSubHeading}><Trans>Theme</Trans></Typography>
+            <Typography
+              variant='h5'
+              component='h5'
+              className={classes.sectionSubHeading}
+            >
+              <Trans>Theme</Trans>
+            </Typography>
             <Grid container>
               <Grid item xs={12} sm={12} md={6}>
                 <div className={clsx(classes.themeBox, classes.themeBoxDark)}>
-                  <RadioInput value='dark' label={t`Dark Theme`} onChange={(e) => setTheme(e.target.value)} checked={themeKey === "dark"}/>
+                  <RadioInput
+                    value='dark'
+                    label={t`Dark Theme`}
+                    onChange={(e) => setTheme(e.target.value)}
+                    checked={themeKey === "dark"}
+                  />
                   {themeKey === "dark" && <Typography className={classes.themeSubtitle}>
                     <Trans>What a fine night it is.</Trans>
                   </Typography>}
