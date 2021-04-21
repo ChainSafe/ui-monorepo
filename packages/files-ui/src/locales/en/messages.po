@@ -28,17 +28,11 @@ msgstr "A file with the same name already exists"
 msgid "Account"
 msgstr "Account"
 
-msgid "Add and change passwords"
-msgstr "Add and change passwords"
-
 msgid "Add at least one more authentication method to protect your account. You’d only need any two to sign in to Files from any device."
 msgstr "Add at least one more authentication method to protect your account. You’d only need any two to sign in to Files from any device."
 
 msgid "Add more files"
 msgstr "Add more files"
-
-msgid "Add sign-in methods"
-msgstr "Add sign-in methods"
 
 msgid "Approve"
 msgstr "Approve"
@@ -54,9 +48,6 @@ msgstr "Backup phrase"
 
 msgid "Backup phrase does not match user account, please double-check and try again."
 msgstr "Backup phrase does not match user account, please double-check and try again."
-
-msgid "Backup phrase saved"
-msgstr "Backup phrase saved"
 
 msgid "Bin"
 msgstr "Bin"
@@ -81,9 +72,6 @@ msgstr "Change Password"
 
 msgid "Change password"
 msgstr "Change password"
-
-msgid "Check out <0>how we apply cryptography</0> to ensure the privacy of your data."
-msgstr "Check out <0>how we apply cryptography</0> to ensure the privacy of your data."
 
 msgid "Click or drag to upload files"
 msgstr "Click or drag to upload files"
@@ -129,9 +117,6 @@ msgstr "Copied!"
 
 msgid "Copy CID"
 msgstr "Copy CID"
-
-msgid "Copy backup phrase"
-msgstr "Copy backup phrase"
 
 msgid "Create"
 msgstr "Create"
@@ -235,6 +220,9 @@ msgstr "Folder created successfully"
 msgid "Folders"
 msgstr "Folders"
 
+msgid "For security reasons, upon signing in we’ll ask you for one of the following to confirm your identity."
+msgstr "For security reasons, upon signing in we’ll ask you for one of the following to confirm your identity."
+
 msgid "Forget this browser"
 msgstr "Forget this browser"
 
@@ -271,18 +259,6 @@ msgstr "Home"
 msgid "Info"
 msgstr "Info"
 
-msgid ""
-"Instead, we use multiple sign-in methods for security and account recovery purposes. \n"
-"Each time you log in with your cryptowallet, Google, Facebook, or Github, \n"
-"you’ll be asked for one of the sign-in methods below:"
-msgstr ""
-"Instead, we use multiple sign-in methods for security and account recovery purposes. \n"
-"Each time you log in with your cryptowallet, Google, Facebook, or Github, \n"
-"you’ll be asked for one of the sign-in methods below:"
-
-msgid "Introducing multi-factor sign in"
-msgstr "Introducing multi-factor sign in"
-
 msgid "I’m done saving my backup phrase"
 msgstr "I’m done saving my backup phrase"
 
@@ -292,8 +268,8 @@ msgstr "Learn more"
 msgid "Learn more about ChainSafe"
 msgstr "Learn more about ChainSafe"
 
-msgid "Let's do it"
-msgstr "Let's do it"
+msgid "Let's get you set up."
+msgstr "Let's get you set up."
 
 msgid "Light mode"
 msgstr "Light mode"
@@ -367,9 +343,6 @@ msgstr "Password does not match user account, please double-check and try again.
 msgid "Password needs to be more complex"
 msgstr "Password needs to be more complex"
 
-msgid "Password set"
-msgstr "Password set"
-
 msgid "Password setup"
 msgstr "Password setup"
 
@@ -387,15 +360,6 @@ msgstr "Preview"
 
 msgid "Previous"
 msgstr "Previous"
-
-msgid ""
-"Previously, you required a password to access your Files account. \n"
-"We’re happy to announce that you don’t need a password to sign in anymore. \n"
-"All you have to do is set up multiple sign-in methods."
-msgstr ""
-"Previously, you required a password to access your Files account. \n"
-"We’re happy to announce that you don’t need a password to sign in anymore. \n"
-"All you have to do is set up multiple sign-in methods."
 
 msgid "Privacy Policy"
 msgstr "Privacy Policy"
@@ -439,9 +403,6 @@ msgstr "Restore with backup phrase"
 msgid "Save changes"
 msgstr "Save changes"
 
-msgid "Save the device"
-msgstr "Save the device"
-
 msgid "Save this browser for next time?"
 msgstr "Save this browser for next time?"
 
@@ -478,6 +439,9 @@ msgstr "Send Feedback"
 msgid "Set Password"
 msgstr "Set Password"
 
+msgid "Set it up now"
+msgstr "Set it up now"
+
 msgid "Set up"
 msgstr "Set up"
 
@@ -489,16 +453,6 @@ msgstr "Set up password"
 
 msgid "Set up sign in methods"
 msgstr "Set up sign in methods"
-
-msgid ""
-"Setting these up means you’ll be able to recover your account if you do get locked out somehow. \n"
-"Here’s what you can do now:"
-msgstr ""
-"Setting these up means you’ll be able to recover your account if you do get locked out somehow. \n"
-"Here’s what you can do now:"
-
-msgid "Setting up multiple sign-in methods makes signing in on multiple devices and restoring your account a breeze, all done without us storing information about you. Think that’s cool? <0>Learn how we apply cryptography to ensure the privacy of your data.</0>"
-msgstr "Setting up multiple sign-in methods makes signing in on multiple devices and restoring your account a breeze, all done without us storing information about you. Think that’s cool? <0>Learn how we apply cryptography to ensure the privacy of your data.</0>"
 
 msgid "Settings"
 msgstr "Settings"
@@ -526,6 +480,9 @@ msgstr "Size"
 
 msgid "Social Sign-in Wallet"
 msgstr "Social Sign-in Wallet"
+
+msgid "Social Sign-in or Wallet"
+msgstr "Social Sign-in or Wallet"
 
 msgid "Social sign in or wallet"
 msgstr "Social sign in or wallet"
@@ -605,23 +562,20 @@ msgstr "Upload complete"
 msgid "Use a different login method"
 msgstr "Use a different login method"
 
+msgid "Use a saved browser"
+msgstr "Use a saved browser"
+
 msgid "View folder"
 msgstr "View folder"
 
 msgid "Wallet address"
 msgstr "Wallet address"
 
-msgid "We seriously advise that you add a third method. If you lose one of the two sign-in methods, you’ll lose access to your account forever. Plus, signing in on multiple devices will be easier."
-msgstr "We seriously advise that you add a third method. If you lose one of the two sign-in methods, you’ll lose access to your account forever. Plus, signing in on multiple devices will be easier."
-
 msgid "We`'`re undergoing maintenance, thank you for being patient"
 msgstr "We`'`re undergoing maintenance, thank you for being patient"
 
 msgid "Web3: {0}"
 msgstr "Web3: {0}"
-
-msgid "Welcome! Here at Files we don’t require emails and phone numbers to set up an account."
-msgstr "Welcome! Here at Files we don’t require emails and phone numbers to set up an account."
 
 msgid "Without setting up at least three authentication factors, you risk getting locked out of your account.<0/><1/>Remember, you need a minimum of two factors to sign in. If you only have one, you’ll lose access to your account forever."
 msgstr "Without setting up at least three authentication factors, you risk getting locked out of your account.<0/><1/>Remember, you need a minimum of two factors to sign in. If you only have one, you’ll lose access to your account forever."
@@ -640,6 +594,9 @@ msgstr "You can change this later."
 
 msgid "You will need to sign a message in your wallet to complete sign in."
 msgstr "You will need to sign a message in your wallet to complete sign in."
+
+msgid "Your Authentication Factors"
+msgstr "Your Authentication Factors"
 
 msgid "Your recovery key can be used to restore your account in place of your backup phrase."
 msgstr "Your recovery key can be used to restore your account in place of your backup phrase."

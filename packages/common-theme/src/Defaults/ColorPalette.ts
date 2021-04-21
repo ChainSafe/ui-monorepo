@@ -74,7 +74,7 @@ export const DefaultPalette: IDefaultPalette = {
     "--gray7": "#8C8C8C",
     "--gray8": "#595959",
     "--gray9": "#262626",
-    "--gray10": "#000000",
+    "--gray10": "#0f0f0f",
 
     "--red1": "#FFF1F0",
     "--red2": "#FFCCC7",

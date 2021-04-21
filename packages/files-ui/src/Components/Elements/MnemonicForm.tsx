@@ -163,7 +163,7 @@ const MnemonicForm = ({ buttonLabel, onComplete }: Props) => {
           )}
       </section>
       {!!mnemonic.length && (
-        <Button onClick={onComplete}>
+        <Button variant="primary" onClick={onComplete}>
           {displayButtonLabel}
         </Button>
       )}

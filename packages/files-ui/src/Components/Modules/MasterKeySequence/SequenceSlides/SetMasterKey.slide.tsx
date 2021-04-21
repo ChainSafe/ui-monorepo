@@ -218,7 +218,7 @@ const SetMasterKeySlide: React.FC<ISetMasterKeySlide> = ({
               </>
             }
           />
-          <Button className={classes.button} fullsize type="submit">
+          <Button variant="primary" className={classes.button} fullsize type="submit">
             Set Encryption Password
           </Button>
         </Form>

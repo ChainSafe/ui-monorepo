@@ -214,6 +214,7 @@ const MoveFileModule: React.FC<IMoveFileModuleProps> = ({
           <Trans>Cancel</Trans>
         </CustomButton>
         <Button
+          variant="primary"
           size={desktop ? "medium" : "large"}
           type="submit"
           className={classes.okButton}

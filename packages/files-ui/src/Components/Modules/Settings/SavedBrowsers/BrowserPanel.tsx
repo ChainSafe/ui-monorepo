@@ -184,6 +184,7 @@ const BrowserPanel = ({ dateAdded, shareIndex, browser, os }: BrowserShare) => {
               <Trans>Your recovery key can be used to restore your account in place of your backup phrase.</Trans>
             </Typography>
             <Button
+              variant="primary"
               size="small"
               loading={loadingDownloadKey}
               disabled={loadingDownloadKey}
@@ -195,6 +196,7 @@ const BrowserPanel = ({ dateAdded, shareIndex, browser, os }: BrowserShare) => {
           {keyDetails && browserShares.length > 1 && keyDetails.totalShares > 3 &&
             <div className={classes.actionBox}>
               <Button
+                variant="primary"
                 size="small"
                 onClick={() => setIsModalConfirmationOpen(true)}
               >
@@ -220,6 +222,7 @@ const BrowserPanel = ({ dateAdded, shareIndex, browser, os }: BrowserShare) => {
                       <Trans>Cancel</Trans>
                     </Button>
                     <Button
+                      variant="primary"
                       onClick={onDeleteShare}
                       loading={loadingDeleteShare}
                       disabled={loadingDeleteShare}
