@@ -12,8 +12,8 @@ export const formatAMPM = (date: Date) => {
   return `${hours}:${minutes < 10 ? "0" + minutes : minutes} ${ampm}`
 }
 
-export const standardlongDateFormat = (input: Date, time?: boolean): string => {
-  const months = [
+export const standardlongDateFormat = (input: Date, time?: boolean, fullMonth: boolean = false): string => {
+  const months = fullMonth ? [
     "January",
     "February",
     "March",
@@ -26,7 +26,21 @@ export const standardlongDateFormat = (input: Date, time?: boolean): string => {
     "October",
     "November",
     "December"
+  ] : [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sept",
+    "Oct",
+    "Nov",
+    "Dec"
   ]
+
   return `${`${input.getDay()}`.padStart(2, "0")} ${`${
     months[input.getMonth()].substr(0, 4)
   }`} ${`${input.getFullYear()}`.substr(0, 4)}${time ? ` ${formatAMPM(input)}` : ""}`
