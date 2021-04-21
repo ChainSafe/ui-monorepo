@@ -20,7 +20,7 @@ interface IUserContext {
   updateProfile(
     firstName: string,
     lastName: string,
-    email: string,
+    // email: string,
   ): Promise<void>
   removeUser(): void
   getProfileTitle(): string
@@ -65,8 +65,7 @@ const UserProvider = ({ children }: UserContextProps) => {
 
   const updateProfile = async (
     firstName?: string,
-    lastName?: string,
-    email?: string
+    lastName?: string
   ) => {
     if (!profile) return Promise.reject("Profile not initialized")
 
@@ -74,7 +73,7 @@ const UserProvider = ({ children }: UserContextProps) => {
       const profileData = await imployApiClient.updateUser({
         first_name: firstName || "",
         last_name: lastName || "",
-        email: email || ""
+        email: profile.email || ""
       })
 
       setProfile({
@@ -83,7 +82,6 @@ const UserProvider = ({ children }: UserContextProps) => {
         email: profileData.email,
         publicAddress: profileData.public_address
       })
-      await refreshProfile()
       return Promise.resolve()
     } catch (error) {
       return Promise.reject(

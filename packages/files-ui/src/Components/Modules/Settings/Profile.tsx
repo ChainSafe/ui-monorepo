@@ -138,10 +138,10 @@ const ProfileView = () => {
   const { profile, updateProfile } = useUser()
   const [updatingProfile, setUpdatingProfile] = useState(false)
 
-  const onUpdateProfile = async (firstName: string, lastName: string, email: string) => {
+  const onUpdateProfile = async (firstName: string, lastName: string) => {
     try {
       setUpdatingProfile(true)
-      await updateProfile(firstName, lastName, email)
+      await updateProfile(firstName, lastName)
       addToastMessage({ message: t`Profile updated` })
       setUpdatingProfile(false)
     } catch (error) {
@@ -174,7 +174,7 @@ const ProfileView = () => {
   }
 
   const profileValidation = yup.object().shape({
-    email: yup.string().email("Email is invalid").required("Email is required"),
+    // email: yup.string().email("Email is invalid").required("Email is required"),
     firstName: yup.string(),
     lastName: yup.string()
   })
@@ -196,14 +196,14 @@ const ProfileView = () => {
               <Formik
                 initialValues={{
                   firstName: profile?.firstName || "",
-                  lastName: profile?.lastName || "",
-                  email: profile?.email || ""
+                  lastName: profile?.lastName || ""
+                  // email: profile?.email || ""
                 }}
                 onSubmit={(values) => {
                   onUpdateProfile(
                     values.firstName || "",
-                    values.lastName || "",
-                    values.email || ""
+                    values.lastName || ""
+                    // values.email || ""
                   )
                 }}
                 validationSchema={profileValidation}
@@ -260,7 +260,7 @@ const ProfileView = () => {
                       label="Last name"
                     />
                   </div>
-                  <div className={classes.boxContainer}>
+                  {/* <div className={classes.boxContainer}>
                     <FormikTextInput
                       placeholder="Email"
                       name="email"
@@ -270,7 +270,7 @@ const ProfileView = () => {
                       label="Email"
                       disabled={!profile?.publicAddress}
                     />
-                  </div>
+                  </div> */}
 
                   <Button
                     className={classes.button}
