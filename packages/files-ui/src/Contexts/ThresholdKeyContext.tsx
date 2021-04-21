@@ -287,21 +287,16 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
   useEffect(() => {
     const loginWithThresholdKey = async () => {
       if (!userInfo) return
-      const { token } = await imployApiClient.generateServiceIdentityToken({
-        identity_provider: (userInfo.userInfo.typeOfLogin === "jwt") ?
-          "web3" :
-        userInfo.userInfo.typeOfLogin as IdentityProvider,
-        identity_token: userInfo.userInfo.idToken || userInfo?.userInfo.accessToken
-      })
-      if (token && privateKey && userInfo) {
+
+      if (privateKey && userInfo) {
         setStatus("logging in")
         const pubKey = EthCrypto.publicKeyByPrivateKey(privateKey)
         setPublicKey(pubKey)
         const wallet = new Wallet(privateKey)
-        const signature = await wallet.signMessage(token)
+        const signature = await wallet.signMessage(userInfo.userInfo.idToken || "")
         await thresholdKeyLogin(
           signature,
-          token,
+          userInfo.userInfo.idToken || "",
           `0x${EthCrypto.publicKey.compress(pubKey)}`
         )
         setStatus("done")
@@ -418,18 +413,12 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
       const decodedToken = jwtDecode<{ uuid: string; address: string }>(identityToken.token || "")
 
       const directAuthSdk = (serviceProvider as any).directWeb as DirectAuthSdk
-      const torusKey = loginType === "web3" ?
-        await directAuthSdk.getTorusKey(
-          process.env.REACT_APP_FILES_WEB3_VERIFIER_NAME || "",
-          userInfo.address,
-          { verifier_id: userInfo.address },
-          identityToken.token || ""
-        ) : await directAuthSdk.getTorusKey(
-          process.env.REACT_APP_FILES_UUID_VERIFIER_NAME || "",
-          decodedToken.uuid,
-          { verifier_id: decodedToken.uuid },
-          identityToken.token || ""
-        )
+      const torusKey = await directAuthSdk.getTorusKey(
+        process.env.REACT_APP_FILES_UUID_VERIFIER_NAME || "",
+        decodedToken.uuid,
+        { verifier_id: decodedToken.uuid },
+        identityToken.token || ""
+      )
       TKeySdk.serviceProvider.postboxKey = new BN(torusKey.privateKey, "hex")
 
       const loginResponse: TorusLoginResponse = {
@@ -511,13 +500,17 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
       setStatus("awaiting confirmation")
       const signature = await signMessage(token, provider.getSigner())
       setStatus("logging in")
-      const identityToken = await imployApiClient.postIdentityWeb3Token({
+      const web3IdentityToken = await imployApiClient.postIdentityWeb3Token({
         signature: signature,
         token: token,
         public_address: address
       })
+      const uuidToken = await imployApiClient.generateServiceIdentityToken({
+        identity_provider: loginType as IdentityProvider,
+        identity_token: web3IdentityToken.token || ""
+      })
       return {
-        identityToken: identityToken,
+        identityToken: uuidToken,
         userInfo: { address: address }
       }
 
@@ -533,12 +526,12 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
       })
       const oauthIdToken = await loginHandler.handleLoginWindow({})
 
-      const decodedIdToken = oauthIdToken.idToken && jwtDecode(oauthIdToken.idToken)
-      const identityToken = await imployApiClient.generateServiceIdentityToken({
+      const decodedOauthIdToken = oauthIdToken.idToken && jwtDecode(oauthIdToken.idToken)
+      const uuidToken = await imployApiClient.generateServiceIdentityToken({
         identity_provider: loginType as IdentityProvider,
         identity_token: oauthIdToken.idToken || ""
       })
-      return { identityToken: identityToken, userInfo: decodedIdToken }
+      return { identityToken: uuidToken, userInfo: decodedOauthIdToken }
     }
   }
 
