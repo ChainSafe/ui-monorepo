@@ -8,9 +8,7 @@ import {
   ChainsafeFilesLogo,
   HamburgerMenu,
   MenuDropdown,
-  PowerDownSvg,
-  SunSvg,
-  MoonSvg
+  PowerDownSvg
 } from "@chainsafe/common-components"
 import { ROUTE_LINKS } from "../FilesRoutes"
 import SearchModule from "../Modules/SearchModule"
@@ -156,7 +154,7 @@ const AppHeader: React.FC<IAppHeader> = ({
   navOpen,
   setNavOpen
 }: IAppHeader) => {
-  const { themeKey, setTheme, desktop } = useThemeSwitcher()
+  const { desktop } = useThemeSwitcher()
 
   const classes = useStyles()
 
@@ -213,18 +211,6 @@ const AppHeader: React.FC<IAppHeader> = ({
                           <PowerDownSvg />
                           <Typography>
                             <Trans>Sign Out</Trans>
-                          </Typography>
-                        </div>
-                      )
-                    },
-                    {
-                      onClick: () =>
-                        setTheme(themeKey === "dark" ? "light" : "dark"),
-                      contents: (
-                        <div className={classes.menuItem}>
-                          {themeKey === "dark" ? <SunSvg /> : <MoonSvg />}
-                          <Typography>
-                            {themeKey === "dark" ? <Trans>Light mode</Trans> : <Trans>Dark mode</Trans>}
                           </Typography>
                         </div>
                       )

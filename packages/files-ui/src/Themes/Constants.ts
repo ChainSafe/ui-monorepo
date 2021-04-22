@@ -140,4 +140,18 @@ export interface CsfColors extends IConstants {
   uploadAlert: {
     icon: string
   }
+  settingsPage: {
+    darkSwitch: {
+      backgroundColor: string
+      color: string
+      border?: string
+      borderColor?: string
+    }
+    lightSwitch: {
+      backgroundColor: string
+      color: string
+      border?: string
+      borderColor?: string
+    }
+ }
 }

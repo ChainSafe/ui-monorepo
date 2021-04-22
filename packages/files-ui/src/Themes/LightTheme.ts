@@ -142,6 +142,18 @@ export const lightTheme = createTheme<CsfColors>({
         },
         uploadAlert: {
           icon: "initial"
+        },
+        settingsPage:{
+          darkSwitch: {
+            backgroundColor: "var(--gray9)",
+            color: "var(--gray5)"
+          },
+          lightSwitch: {
+            backgroundColor: "var(--gray4)",
+            color: "var(--gray9)",
+            border: "1px solid",
+            borderColor: "var(--geekblue4)"
+          }
         }
       } as CsfColors)
     },
