@@ -126,7 +126,7 @@ const MoveFileModule = ({ currentPath, fileData, modalOpen, onClose, onCancel }:
           new_path: getPathWithFile(movePath, file.name)
         }))
       )
-        .then(() => onClose)
+        .then(onClose)
         .catch(console.error)
         .finally(() => setMovingFile(false))
     }
