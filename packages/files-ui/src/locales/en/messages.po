@@ -514,6 +514,9 @@ msgstr "Thanks for taking care of that. You can <0/> adjust these anytime in sec
 msgid "The authentication popup was closed"
 msgstr "The authentication popup was closed"
 
+msgid "The system is undergoing maintenance, thank you for being patient."
+msgstr "The system is undergoing maintenance, thank you for being patient."
+
 msgid "Theme"
 msgstr "Theme"
 
@@ -576,9 +579,6 @@ msgstr "View folder"
 
 msgid "Wallet address"
 msgstr "Wallet address"
-
-msgid "We`'`re undergoing maintenance, thank you for being patient"
-msgstr "We`'`re undergoing maintenance, thank you for being patient"
 
 msgid "Web3: {0}"
 msgstr "Web3: {0}"
