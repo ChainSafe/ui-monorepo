@@ -849,7 +849,7 @@ const FilesTableView = ({
       />
       <MoveFileModule
         currentPath={currentPath}
-        fileData={selectedFiles}
+        filesToMove={selectedFiles}
         modalOpen={isMoveFileModalOpen}
         onClose={() => {
           setIsMoveFileModalOpen(false)
