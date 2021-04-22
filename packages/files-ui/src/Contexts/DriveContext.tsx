@@ -483,7 +483,6 @@ const DriveProvider = ({ children }: DriveContextProps) => {
       )
     )
   }, [moveFile])
-  }
 
   const deleteFile = useCallback(async (cid: string) => {
     const itemToDelete = pathContents.find((i) => i.cid === cid)
