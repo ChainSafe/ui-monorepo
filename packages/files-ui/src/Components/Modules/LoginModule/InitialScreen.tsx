@@ -238,6 +238,13 @@ const InitialScreen = ({ className }: IInitialScreen) => {
           loginMode !== "web3" ? (
             <>
               <section className={classes.buttonSection}>
+                {maintenanceMode && (
+                  <Typography>
+                    <Trans>
+                      The system is undergoing maintenance, thank you for being patient.
+                    </Trans>
+                  </Typography>
+                )}
                 <Button
                   onClick={() => {
                     setLoginMode("web3")
@@ -283,13 +290,6 @@ const InitialScreen = ({ className }: IInitialScreen) => {
                   <FacebookLogoIcon />
                   <Trans>Continue with Facebook</Trans>
                 </Button>
-                {maintenanceMode && (
-                  <Typography>
-                    <Trans>
-                      We`&apos;`re undergoing maintenance, thank you for being patient
-                    </Trans>
-                  </Typography>
-                )}
               </section>
               <footer className={classes.footer}>
                 <a
