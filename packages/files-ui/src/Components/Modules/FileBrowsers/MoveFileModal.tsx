@@ -64,13 +64,13 @@ const useStyles = makeStyles(
 
 interface IMoveFileModuleProps {
   currentPath?: string
-  fileData: FileSystemItem[]
+  filesToMove: FileSystemItem[]
   modalOpen: boolean
   onClose: () => void
   onCancel: () => void
 }
 
-const MoveFileModule = ({ currentPath, fileData, modalOpen, onClose, onCancel }: IMoveFileModuleProps) => {
+const MoveFileModule = ({ currentPath, filesToMove, modalOpen, onClose, onCancel }: IMoveFileModuleProps) => {
   const classes = useStyles()
   const { getFolderTree, moveFiles } = useDrive()
   const [movingFile, setMovingFile] = useState(false)
@@ -121,7 +121,7 @@ const MoveFileModule = ({ currentPath, fileData, modalOpen, onClose, onCancel }:
       setMovingFile(true)
 
       moveFiles(
-        fileData.map((file) => ({
+        filesToMove.map((file) => ({
           path: `${currentPath}${file.name}`,
           new_path: getPathWithFile(movePath, file.name)
         }))
