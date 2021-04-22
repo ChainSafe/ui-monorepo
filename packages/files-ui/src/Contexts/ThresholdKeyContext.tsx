@@ -404,16 +404,11 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
   const login = async (loginType: LOGIN_TYPE | "web3") => {
     if (!TKeySdk || maintenanceMode) return
     try {
-      const serviceProvider = (TKeySdk.serviceProvider as unknown) as DirectAuthSdk
       setStatus("awaiting confirmation")
-      const identityTokenResponse = await getIdentityToken(loginType)
-      if (!identityTokenResponse) {
-        throw new Error("No identity token could be retrieved")
-      }
-      const { identityToken, userInfo } = identityTokenResponse
-      const decodedToken = jwtDecode<{ uuid: string; address: string }>(identityToken.token || "")
+      const { identityToken, userInfo } = await getIdentityToken(loginType)
 
-      const directAuthSdk = (serviceProvider as any).directWeb as DirectAuthSdk
+      const decodedToken = jwtDecode<{ uuid: string; address: string }>(identityToken.token || "")
+      const directAuthSdk = (TKeySdk.serviceProvider as any).directWeb as DirectAuthSdk
       const torusKey = await directAuthSdk.getTorusKey(
         process.env.REACT_APP_FILES_UUID_VERIFIER_NAME || "",
         decodedToken.uuid,
