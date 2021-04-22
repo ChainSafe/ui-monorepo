@@ -135,11 +135,21 @@ const MigrateAccount: React.FC<IMigrateAccount> = ({
 
 
   return (
-    !hasShownConciseExplainer ?
-      <ConciseExplainer className={className} onContinue={() => setHasShownConciseExplainer(true)} /> :
-      <section className={clsx(classes.root, className)}>
-        <form onSubmit={handleSecureAccountWithMasterPassword} className={classes.form}>
-          <Typography variant="h6" component="h6" className={classes.headerText}>
+    !hasShownConciseExplainer
+      ? <ConciseExplainer
+        className={className}
+        onContinue={() => setHasShownConciseExplainer(true)}
+      />
+      : <section className={clsx(classes.root, className)}>
+        <form
+          onSubmit={handleSecureAccountWithMasterPassword}
+          className={classes.form}
+        >
+          <Typography
+            variant="h6"
+            component="h6"
+            className={classes.headerText}
+          >
             <Trans>Encryption Password</Trans>
           </Typography>
           <Typography className={clsx(classes.text)}>

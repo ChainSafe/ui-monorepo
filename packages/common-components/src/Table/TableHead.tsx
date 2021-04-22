@@ -30,7 +30,10 @@ const TableHead: React.FC<ITableHeadProps> = ({
   const classes = useStyles()
 
   return (
-    <thead className={clsx(classes.root, className)} {...rest}>
+    <thead
+      className={clsx(classes.root, className)}
+      {...rest}
+    >
       {children}
     </thead>
   )

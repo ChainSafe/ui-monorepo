@@ -9,6 +9,7 @@ import { useThresholdKey } from "../../../Contexts/ThresholdKeyContext"
 import { LOGIN_TYPE } from "@toruslabs/torus-direct-web-sdk"
 import { ROUTE_LINKS } from "../../FilesRoutes"
 import clsx from "clsx"
+import { IdentityProvider } from "@chainsafe/files-api-client"
 
 const useStyles = makeStyles(
   ({ constants, palette, breakpoints }: CSFTheme) =>
@@ -164,7 +165,7 @@ const InitialScreen = ({ className }: IInitialScreen) => {
     resetStatus()
   }
 
-  const handleLogin = async (loginType: LOGIN_TYPE | "web3") => {
+  const handleLogin = async (loginType: IdentityProvider) => {
     setError("")
     setIsConnecting(true)
     setLoginMode(loginType)
@@ -199,9 +200,18 @@ const InitialScreen = ({ className }: IInitialScreen) => {
     <footer className={classes.connectWalletFooter}>
       <Typography variant='h5'>
         <Trans>
-          By connecting your wallet, you agree to our <a href={ROUTE_LINKS.Terms} target="_blank" rel="noopener noreferrer" >
+
+          By connecting your wallet, you agree to our <a
+            href={ROUTE_LINKS.Terms}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             Terms of Service
-          </a> and <a href={ROUTE_LINKS.PrivacyPolicy} target="_blank" rel="noopener noreferrer">
+          </a> and <a
+            href={ROUTE_LINKS.PrivacyPolicy}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             Privacy Policy
           </a>
         </Trans>
@@ -229,6 +239,13 @@ const InitialScreen = ({ className }: IInitialScreen) => {
           loginMode !== "web3" ? (
             <>
               <section className={classes.buttonSection}>
+                {maintenanceMode && (
+                  <Typography>
+                    <Trans>
+                      The system is undergoing maintenance, thank you for being patient.
+                    </Trans>
+                  </Typography>
+                )}
                 <Button
                   onClick={() => {
                     setLoginMode("web3")
@@ -274,13 +291,6 @@ const InitialScreen = ({ className }: IInitialScreen) => {
                   <FacebookLogoIcon />
                   <Trans>Continue with Facebook</Trans>
                 </Button>
-                {maintenanceMode && (
-                  <Typography>
-                    <Trans>
-                      We`&apos;`re undergoing maintenance, thank you for being patient
-                    </Trans>
-                  </Typography>
-                )}
               </section>
               <footer className={classes.footer}>
                 <a
@@ -351,7 +361,11 @@ const InitialScreen = ({ className }: IInitialScreen) => {
                       <Typography variant='h5'>
                         <Trans>Hold on, we are logging you in...</Trans>
                       </Typography>
-                      <Loading className={classes.loader} size={50} type='inherit' />
+                      <Loading
+                        className={classes.loader}
+                        size={50}
+                        type='inherit'
+                      />
                     </>}
                   </section>
                 </>
@@ -386,7 +400,10 @@ const InitialScreen = ({ className }: IInitialScreen) => {
                 <Typography variant='h5'>
                   {error}
                 </Typography>
-                <Button variant="primary" onClick={resetLogin}>
+                <Button
+                  variant="primary"
+                  onClick={resetLogin}
+                >
                   <Trans>Try again</Trans>
                 </Button>
               </section>

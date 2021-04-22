@@ -72,7 +72,10 @@ const TextPreview: React.FC<IPreviewRendererProps> = ({ contents }) => {
   return (
     <div className={classes.root}>
       <div className={classes.filePreview}>
-        <ReactMarkdown plugins={[gfm]} source={contentText} />
+        <ReactMarkdown
+          plugins={[gfm]}
+          source={contentText}
+        />
       </div>
     </div>
   )

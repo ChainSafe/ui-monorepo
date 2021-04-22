@@ -48,7 +48,11 @@ const App: React.FC<{}> = () => {
     >
       <ErrorBoundary
         fallback={({ error, componentStack, eventId, resetError }) => (
-          <Modal active closePosition="none" setActive={resetError}>
+          <Modal
+            active
+            closePosition="none"
+            setActive={resetError}
+          >
             <Typography>
               An error occurred and has been logged. If you would like to
               provide additional info to help us debug and resolve the issue,
@@ -98,8 +102,14 @@ const App: React.FC<{}> = () => {
               checkNetwork={false}
               cacheWalletSelection={canUseLocalStorage}
             >
-              <ImployApiProvider apiUrl={apiUrl} withLocalStorage={false}>
-                <ThresholdKeyProvider enableLogging network={directAuthNetwork}>
+              <ImployApiProvider
+                apiUrl={apiUrl}
+                withLocalStorage={false}
+              >
+                <ThresholdKeyProvider
+                  enableLogging
+                  network={directAuthNetwork}
+                >
                   <UserProvider>
                     <DriveProvider>
                       <BillingProvider>

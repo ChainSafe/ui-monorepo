@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useRef } from "react"
+import React, { useEffect, useRef } from "react"
 import { useState } from "react"
 import { createStyles, makeStyles, useThemeSwitcher } from "@chainsafe/common-theme"
 import { FileSystemItem, useDrive } from "../../Contexts/DriveContext"
@@ -339,12 +339,12 @@ const FilePreviewModal = ({ file, nextFile, previousFile, closePreview, path }: 
             // },
             {
               contents: (
-                <Fragment>
+                <>
                   <DownloadSvg className={classes.menuIcon} />
                   <span>
                     <Trans>Download</Trans>
                   </span>
-                </Fragment>
+                </>
               ),
               onClick: handleDownload
             }
@@ -359,16 +359,35 @@ const FilePreviewModal = ({ file, nextFile, previousFile, closePreview, path }: 
         className={classes.previewContainer}
       >
         {desktop && (
-          <Grid item sm={1} md={1} lg={1} xl={1} className={classes.prevNext}>
+          <Grid
+            item
+            sm={1}
+            md={1}
+            lg={1}
+            xl={1}
+            className={classes.prevNext}
+          >
             {previousFile && (
-              <Button onClick={previousFile} className={classes.prevNextButton}>
+              <Button onClick={previousFile}
+                className={classes.prevNextButton}>
                 <ArrowLeftIcon />
               </Button>
             )}
           </Grid>
         )}
-        <Grid item xs={12} sm={12} md={10} lg={10} xl={10} alignItems="center">
-          <div {...handlers} className={classes.swipeContainer}>
+        <Grid
+          item
+          xs={12}
+          sm={12}
+          md={10}
+          lg={10}
+          xl={10}
+          alignItems="center"
+        >
+          <div
+            {...handlers}
+            className={classes.swipeContainer}
+          >
             {isLoading && (
               <div className={classes.previewContent}>
                 <Typography variant="h1">
@@ -383,7 +402,10 @@ const FilePreviewModal = ({ file, nextFile, previousFile, closePreview, path }: 
             {error && (
               <div className={classes.previewContent}>
                 <CloseCircleIcon fontSize={desktop ? "extraLarge" : "medium"} />
-                <Typography component="h2" variant="h1">
+                <Typography
+                  component="h2"
+                  variant="h1"
+                >
                   {error}
                 </Typography>
               </div>
@@ -395,7 +417,10 @@ const FilePreviewModal = ({ file, nextFile, previousFile, closePreview, path }: 
                 <CloseCircleIcon
                   fontSize={desktop ? "extraLarge" : "medium"}
                 />
-                <Typography component="p" variant="h1">
+                <Typography
+                  component="p"
+                  variant="h1"
+                >
                   <Trans>File format not supported.</Trans>
                 </Typography>
                 <Button
@@ -415,9 +440,18 @@ const FilePreviewModal = ({ file, nextFile, previousFile, closePreview, path }: 
           </div>
         </Grid>
         {desktop && (
-          <Grid item md={1} lg={1} xl={1} className={classes.prevNext}>
+          <Grid
+            item
+            md={1}
+            lg={1}
+            xl={1}
+            className={classes.prevNext}
+          >
             {nextFile && (
-              <Button onClick={nextFile} className={classes.prevNextButton}>
+              <Button
+                onClick={nextFile}
+                className={classes.prevNextButton}
+              >
                 <ArrowRightIcon />
               </Button>
             )}

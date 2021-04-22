@@ -142,13 +142,28 @@ const MoveFileModule = ({ currentPath, fileData, modalOpen, onClose, onCancel }:
       closePosition="none"
       maxWidth="sm"
     >
-      <Grid item xs={12} sm={12} className={classes.paddedContainer}>
-        <Typography className={classes.heading} variant="h5" component="h5">
+      <Grid
+        item
+        xs={12}
+        sm={12}
+        className={classes.paddedContainer}
+      >
+        <Typography className={classes.heading}
+          variant="h5"
+          component="h5">
           <Trans>Move to...</Trans>
         </Typography>
       </Grid>
-      <Grid item xs={12} sm={12} className={classes.treeContainer}>
-        <ScrollbarWrapper autoHide={true} maxHeight={200}>
+      <Grid
+        item
+        xs={12}
+        sm={12}
+        className={classes.treeContainer}
+      >
+        <ScrollbarWrapper
+          autoHide={true}
+          maxHeight={200}
+        >
           <div className={classes.treeScrollView}>
             {folderTree.length
               ? <TreeView

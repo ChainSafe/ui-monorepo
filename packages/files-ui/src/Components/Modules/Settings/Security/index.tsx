@@ -188,7 +188,10 @@ const Security = ({ className }: SecurityProps) => {
           <Trans>Sign-in methods</Trans>
         </Typography>
         {showWarning && (
-          <Typography variant="body1" className={classes.warningMessage}>
+          <Typography
+            variant="body1"
+            className={classes.warningMessage}
+          >
             <Trans>
               Hey! You only have two sign-in methods. If you lose that and have only one left,
               you will be locked out of your account forever.
@@ -290,7 +293,10 @@ const Security = ({ className }: SecurityProps) => {
                 onClick={onResetPasswordForm}
                 className={classes.close}
               />
-              <Typography variant="h4" component="h2">
+              <Typography
+                variant="h4"
+                component="h2"
+              >
                 {isChangingPassword
                   ? <Trans>
                     Change password
@@ -309,7 +315,10 @@ const Security = ({ className }: SecurityProps) => {
         { isSettingBackupPhrase
           ? (
             <section className={classes.formRoot}>
-              <Typography variant="h4" component="h2">
+              <Typography
+                variant="h4"
+                component="h2"
+              >
                 <Trans>
                   Generate backup phrase
                 </Trans>

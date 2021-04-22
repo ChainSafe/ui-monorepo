@@ -1,4 +1,4 @@
-import React, { Fragment, useCallback } from "react"
+import React, { useCallback } from "react"
 import {
   TableRow,
   TableCell,
@@ -23,7 +23,8 @@ import {
   ExportSvg,
   ShareAltSvg,
   ExclamationCircleInverseSvg,
-  ZoomInSvg
+  ZoomInSvg,
+  standardlongDateFormat
 } from "@chainsafe/common-components"
 import { makeStyles, createStyles, useDoubleClick, useThemeSwitcher } from "@chainsafe/common-theme"
 import clsx from "clsx"
@@ -38,7 +39,7 @@ import { FileOperation } from "../types"
 import { CSFTheme } from "../../../../Themes/types"
 
 const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => {
-  const desktopGridSettings = "50px 69px 3fr 190px 60px !important"
+  const desktopGridSettings = "50px 69px 3fr 190px 100px 45px !important"
   const mobileGridSettings = "69px 3fr 45px !important"
 
   return createStyles({
@@ -208,7 +209,7 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
   itemOperations,
   resetSelectedFiles
 }) => {
-  const { cid, name, isFolder, size, content_type } = file
+  const { cid, name, isFolder, size, content_type, created_at } = file
   let Icon
   if (isFolder) {
     Icon = FolderFilledSvg
@@ -226,100 +227,100 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
   const allMenuItems: Record<FileOperation, IMenuItem> = {
     rename: {
       contents: (
-        <Fragment>
+        <>
           <EditSvg className={classes.menuIcon} />
           <span>
             <Trans>Rename</Trans>
           </span>
-        </Fragment>
+        </>
       ),
       onClick: () => setEditing(cid)
     },
     delete: {
       contents: (
-        <Fragment>
+        <>
           <DeleteSvg className={classes.menuIcon} />
           <span>
             <Trans>Delete</Trans>
           </span>
-        </Fragment>
+        </>
       ),
       onClick: () => deleteFile && deleteFile()
     },
     download: {
       contents: (
-        <Fragment>
+        <>
           <DownloadSvg className={classes.menuIcon} />
           <span>
             <Trans>Download</Trans>
           </span>
-        </Fragment>
+        </>
       ),
       onClick: () => downloadFile && downloadFile(cid)
     },
     move: {
       contents: (
-        <Fragment>
+        <>
           <ExportSvg className={classes.menuIcon} />
           <span>
             <Trans>Move</Trans>
           </span>
-        </Fragment>
+        </>
       ),
       onClick: () => moveFile && moveFile()
     },
     share: {
       contents: (
-        <Fragment>
+        <>
           <ShareAltSvg className={classes.menuIcon} />
           <span>
             <Trans>Share</Trans>
           </span>
-        </Fragment>
+        </>
       ),
       onClick: () => console.log
     },
     info: {
       contents: (
-        <Fragment>
+        <>
           <ExclamationCircleInverseSvg className={classes.menuIcon} />
           <span>
             <Trans>Info</Trans>
           </span>
-        </Fragment>
+        </>
       ),
       onClick: () => setFileInfoPath(`${currentPath}${name}`)
     },
     recover: {
       contents: (
-        <Fragment>
+        <>
           <RecoverSvg className={classes.menuIcon} />
           <span>
             <Trans>Recover</Trans>
           </span>
-        </Fragment>
+        </>
       ),
       onClick: () => recoverFile && recoverFile(cid)
     },
     preview: {
       contents: (
-        <Fragment>
+        <>
           <ZoomInSvg className={classes.menuIcon} />
           <span>
             <Trans>Preview</Trans>
           </span>
-        </Fragment>
+        </>
       ),
       onClick: () => setPreviewFileIndex(files?.indexOf(file))
     },
     view_folder: {
       contents: (
-        <Fragment>
+        <>
           <EyeSvg className={classes.menuIcon} />
           <span>
             <Trans>View folder</Trans>
           </span>
-        </Fragment>
+        </>
       ),
       onClick: () => viewFolder && viewFolder(cid)
     }
@@ -545,6 +546,11 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
       </TableCell>
       {desktop && (
         <>
+          <TableCell align="left">
+            {
+              standardlongDateFormat(new Date(created_at * 1000), true, false)
+            }
+          </TableCell>
           <TableCell align="left">
             {!isFolder && formatBytes(size)}
           </TableCell>

@@ -79,10 +79,18 @@ const TextPreview: React.FC<IPreviewRendererProps> = ({ contents }) => {
         {contentText}
       </ScrollbarWrapper>
       <div className={classes.controlsContainer}>
-        <Button disabled={fontSize <= LOWEST_FONT_SIZE} onClick={onZoomOut} className={classes.pageButton}>
+        <Button
+          disabled={fontSize <= LOWEST_FONT_SIZE}
+          onClick={onZoomOut}
+          className={classes.pageButton}
+        >
           <ZoomOutIcon fontSize="medium" />
         </Button>
-        <Button  disabled={fontSize >= HIGHEST_FONT_SIZE} onClick={onZoomIn} className={classes.pageButton}>
+        <Button
+          disabled={fontSize >= HIGHEST_FONT_SIZE}
+          onClick={onZoomIn}
+          className={classes.pageButton}
+        >
           <ZoomInIcon fontSize="medium" />
         </Button>
       </div>

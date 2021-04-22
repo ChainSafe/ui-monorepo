@@ -60,10 +60,16 @@ const SaveBackupPhrase = ({ className, complete, cancel }: ISaveBackupPhrase) =>
 
   return (
     <div className={clsx(classes.root, className)}>
-      <div onClick={cancel} className={clsx(classes.close, "close")}>
+      <div
+        onClick={cancel}
+        className={clsx(classes.close, "close")}
+      >
         <CloseSvg />
       </div>
-      <Typography component="h1" variant={desktop ? "h2" : "h4"}>
+      <Typography
+        component="h1"
+        variant={desktop ? "h2" : "h4"}
+      >
         <Trans>
           Generate backup phrase
         </Trans>

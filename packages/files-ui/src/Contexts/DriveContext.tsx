@@ -476,12 +476,13 @@ const DriveProvider = ({ children }: DriveContextProps) => {
     }
   }, [addToastMessage, currentPath, imployApiClient, refreshContents])
 
-  const moveFiles = async (filesToMove: FilesMvRequest[]) => {
+  const moveFiles = useCallback(async (filesToMove: FilesMvRequest[]) => {
     return Promise.all(
       filesToMove.map((fileToMove) =>
         moveFile(fileToMove)
-      ))
-  }
+      )
+    )
+  }, [moveFile])
 
   const deleteFile = useCallback(async (cid: string) => {
     const itemToDelete = pathContents.find((i) => i.cid === cid)

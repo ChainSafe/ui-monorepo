@@ -111,7 +111,10 @@ const ShareTransferRequestModal = ({ requests }: Props) => {
         <Typography variant="h3">
           <Trans>Device awaiting confirmation</Trans>{requests.length > 1 ? ` (1/${requests.length})` : ""}
         </Typography>
-        <img src={DevicesImage} alt="request other devices"/>
+        <img
+          src={DevicesImage}
+          alt="request other devices"
+        />
         <Typography>
           <Trans>Requested from</Trans> {`${browserDetail.browser.name} (${browserDetail.browser.version}) -
             ${browserDetail.os.name}`}<br/>
@@ -138,7 +141,10 @@ const ShareTransferRequestModal = ({ requests }: Props) => {
           </Button>
           {
             requests.length > 1 && (isClearing
-              ? <Loading size={25} type='inherit' />
+              ? <Loading
+                size={25}
+                type='inherit'
+              />
               : <Typography
                 className={clsx(classes.clearAll)}
                 onClick={() => {

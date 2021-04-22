@@ -1,10 +1,6 @@
-import React, { Fragment, useCallback, useState } from "react"
+import React, { useCallback, useState } from "react"
 import { useImployApi, useUser } from "@chainsafe/common-contexts"
-import {
-  createStyles,
-  makeStyles,
-  useThemeSwitcher
-} from "@chainsafe/common-theme"
+import { createStyles, makeStyles, useThemeSwitcher } from "@chainsafe/common-theme"
 import clsx from "clsx"
 import {
   Link,
@@ -12,9 +8,7 @@ import {
   ChainsafeFilesLogo,
   HamburgerMenu,
   MenuDropdown,
-  PowerDownSvg,
-  SunSvg,
-  MoonSvg
+  PowerDownSvg
 } from "@chainsafe/common-components"
 import { ROUTE_LINKS } from "../FilesRoutes"
 import SearchModule from "../Modules/SearchModule"
@@ -160,7 +154,7 @@ const AppHeader: React.FC<IAppHeader> = ({
   navOpen,
   setNavOpen
 }: IAppHeader) => {
-  const { themeKey, setTheme, desktop } = useThemeSwitcher()
+  const { desktop } = useThemeSwitcher()
 
   const classes = useStyles()
 
@@ -191,9 +185,9 @@ const AppHeader: React.FC<IAppHeader> = ({
         !!publicKey &&
         !isNewDevice &&
         !shouldInitializeAccount && (
-        <Fragment>
+        <>
           {desktop ? (
-            <Fragment>
+            <>
               <section>
                 <SearchModule
                   className={classes.searchModule}
@@ -220,25 +214,13 @@ const AppHeader: React.FC<IAppHeader> = ({
                           </Typography>
                         </div>
                       )
-                    },
-                    {
-                      onClick: () =>
-                        setTheme(themeKey === "dark" ? "light" : "dark"),
-                      contents: (
-                        <div className={classes.menuItem}>
-                          {themeKey === "dark" ? <SunSvg /> : <MoonSvg />}
-                          <Typography>
-                            {themeKey === "dark" ? <Trans>Light mode</Trans> : <Trans>Dark mode</Trans>}
-                          </Typography>
-                        </div>
-                      )
                     }
                   ]}
                 />
               </section>
-            </Fragment>
+            </>
           ) : (
-            <Fragment>
+            <>
               {!searchActive && (
                 <>
                   <HamburgerMenu
@@ -246,9 +228,15 @@ const AppHeader: React.FC<IAppHeader> = ({
                     variant={navOpen ? "active" : "default"}
                     className={classes.hamburgerMenu}
                   />
-                  <Link className={classes.logo} to={ROUTE_LINKS.Home()}>
+                  <Link
+                    className={classes.logo}
+                    to={ROUTE_LINKS.Home()}
+                  >
                     <ChainsafeFilesLogo />
-                    <Typography variant="h5" className={classes.title}>
+                    <Typography
+                      variant="h5"
+                      className={classes.title}
+                    >
                       Files
                     </Typography>
                     &nbsp;
@@ -261,9 +249,9 @@ const AppHeader: React.FC<IAppHeader> = ({
                 searchActive={searchActive}
                 setSearchActive={setSearchActive}
               />
-            </Fragment>
+            </>
           )}
-        </Fragment>
+        </>
       )}
     </header>
   )

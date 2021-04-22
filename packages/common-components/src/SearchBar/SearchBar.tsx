@@ -230,7 +230,11 @@ const SearchBar: React.FC<SearchBarProps> = ({
           onChange={onChange}
         />
         <div className={clsx(classes.standardIcon, size, "right")}>
-          <Spinner loader={loaderType} size={spinnerSize} loading={isLoading} />
+          <Spinner
+            loader={loaderType}
+            size={spinnerSize}
+            loading={isLoading}
+          />
           {!isLoading && <SearchIcon />}
         </div>
       </div>

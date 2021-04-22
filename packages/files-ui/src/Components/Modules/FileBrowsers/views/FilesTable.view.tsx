@@ -1,5 +1,5 @@
 import { createStyles, makeStyles, useThemeSwitcher } from "@chainsafe/common-theme"
-import React, { Fragment, useCallback, useEffect } from "react"
+import React, { useCallback, useEffect } from "react"
 import {
   Divider,
   MenuDropdown,
@@ -49,8 +49,7 @@ interface IStyleProps {
 
 const useStyles = makeStyles(
   ({ animation, breakpoints, constants, palette, zIndex }: CSFTheme) => {
-    // const desktopGridSettings = "50px 69px 3fr 190px 100px 45px !important"
-    const desktopGridSettings = "50px 69px 3fr 190px 60px !important"
+    const desktopGridSettings = "50px 69px 3fr 190px 100px 45px !important"
     const mobileGridSettings = "69px 3fr 45px !important"
     return createStyles({
       root: {
@@ -113,7 +112,6 @@ const useStyles = makeStyles(
         alignItems: "center",
         marginTop: "25vh",
         color: constants.filesTable.color,
-        // themeKey === "dark" ? palette.additional.gray[7] : "",
         "& svg": {
           maxWidth: 180,
           marginBottom: constants.generalUnit * 3,
@@ -302,13 +300,13 @@ const FilesTableView = ({
           )
           .sort(sortFoldersFirst)
       }
-          // case "date_uploaded": {
-          //   return fileList
-          //     .sort((a: IFileConfigured, b: IFileConfigured) =>
-          //       a.date_uploaded > b.date_uploaded ? -1 : 1,
-          //     )
-          //     .sort(sortFoldersFirst)
-          // }
+      case "date_uploaded": {
+        return sourceFiles
+          .sort((a, b) =>
+            a.created_at > b.created_at ? -1 : 1
+          )
+          .sort(sortFoldersFirst)
+      }
       }
     }
     case "ascend": {
@@ -328,13 +326,13 @@ const FilesTableView = ({
           )
           .sort(sortFoldersFirst)
       }
-          // case "date_uploaded": {
-          //   return fileList
-          //     .sort((a: IFileConfigured, b: IFileConfigured) =>
-          //       a.date_uploaded < b.date_uploaded ? -1 : 1,
-          //     )
-          //     .sort(sortFoldersFirst)
-          // }
+      case "date_uploaded": {
+        return sourceFiles
+          .sort((a, b) =>
+            a.created_at < b.created_at ? -1 : 1
+          )
+          .sort(sortFoldersFirst)
+      }
       }
     }
     }
@@ -539,7 +537,10 @@ const FilesTableView = ({
       <div
         className={clsx(classes.dropNotification, { active: isOverBrowser })}
       >
-        <Typography variant="h4" component="p">
+        <Typography
+          variant="h4"
+          component="p"
+        >
           <Trans>Drop to upload files</Trans>
         </Typography>
       </div>
@@ -553,12 +554,15 @@ const FilesTableView = ({
         ) : null}
       </div>
       <header className={classes.header}>
-        <Typography variant="h1" component="h1">
+        <Typography
+          variant="h1"
+          component="h1"
+        >
           {heading}
         </Typography>
         <div className={classes.controls}>
           {controls && desktop ? (
-            <Fragment>
+            <>
               <Button
                 onClick={() => setCreateFolderModalOpen(true)}
                 variant="outline"
@@ -579,7 +583,7 @@ const FilesTableView = ({
                   <Trans>Upload</Trans>
                 </span>
               </Button>
-            </Fragment>
+            </>
           ) : (
             controls &&
             !desktop && (
@@ -657,8 +661,14 @@ const FilesTableView = ({
           loadingCurrentPath && classes.showLoadingContainer
         )}
       >
-        <Loading size={24} type="light" />
-        <Typography variant="body2" component="p">
+        <Loading
+          size={24}
+          type="light"
+        />
+        <Typography
+          variant="body2"
+          component="p"
+        >
           <Trans>One sec, getting files ready...</Trans>
         </Typography>
       </div>
@@ -671,7 +681,10 @@ const FilesTableView = ({
             )}
           >
             <EmptySvg />
-            <Typography variant="h4" component="h4">
+            <Typography
+              variant="h4"
+              component="h4"
+            >
               <Trans>No files to show</Trans>
             </Typography>
           </section>
@@ -684,7 +697,10 @@ const FilesTableView = ({
           >
             {desktop && (
               <TableHead className={classes.tableHead}>
-                <TableRow type="grid" className={classes.tableRow}>
+                <TableRow
+                  type="grid"
+                  className={classes.tableRow}
+                >
                   <TableHeadCell>
                     <CheckboxInput
                       value={selectedCids.length === items.length}
@@ -705,17 +721,17 @@ const FilesTableView = ({
                   >
                     <Trans>Name</Trans>
                   </TableHeadCell>
-                  {/* <TableHeadCell
-                  sortButtons={true}
-                  align="left"
-                  onSortChange={() => handleSortToggle("date_uploaded")}
-                  sortDirection={
-                    column === "date_uploaded" ? direction : undefined
-                  }
-                  sortActive={column === "date_uploaded"}
-                >
-                  <Trans>Date uploaded</Trans>
-                </TableHeadCell> */}
+                  <TableHeadCell
+                    sortButtons={true}
+                    align="left"
+                    onSortChange={() => handleSortToggle("date_uploaded")}
+                    sortDirection={
+                      column === "date_uploaded" ? direction : undefined
+                    }
+                    sortActive={column === "date_uploaded"}
+                  >
+                    <Trans>Date uploaded</Trans>
+                  </TableHeadCell>
                   <TableHeadCell
                     sortButtons={true}
                     align="left"

@@ -1,13 +1,8 @@
-name: Lingui extract
-on:
-  pull_request:
-    branches:
-      - "dev"
+name: Lint
+on: pull_request
 jobs:
-  # extract any new translatable string
-  # and commit if there are new ones
   extract:
-    name: lingui-extract
+    name: eslint
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
@@ -30,10 +25,7 @@ jobs:
         GITHUB_PACKAGES_AUTH_TOKEN: ${{ secrets.GH_PKG_AUTH_TOKEN }}
       run: yarn install --immutable
 
-    - name: lingui-extract
+    - name: lint
       env:
         GITHUB_PACKAGES_AUTH_TOKEN: ${{ secrets.GH_PKG_AUTH_TOKEN }}
-      run: |
-        (cd packages/files-ui && yarn extract --clean)
-        git add packages/files-ui/src/locales/*
-        if git commit -m "lingui extract"; then git push --no-verify; else echo 'exiting successfully without commit'; fi
+      run: yarn lint

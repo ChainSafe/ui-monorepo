@@ -127,8 +127,8 @@ msgstr "Create Folder"
 msgid "Create folder"
 msgstr "Create folder"
 
-msgid "Dark mode"
-msgstr "Dark mode"
+msgid "Dark Theme"
+msgstr "Dark Theme"
 
 msgid "Date uploaded"
 msgstr "Date uploaded"
@@ -144,6 +144,9 @@ msgstr "Delete selected"
 
 msgid "Device awaiting confirmation"
 msgstr "Device awaiting confirmation"
+
+msgid "Display Settings"
+msgstr "Display Settings"
 
 msgid "Download"
 msgstr "Download"
@@ -271,8 +274,8 @@ msgstr "Learn more about ChainSafe"
 msgid "Let's get you set up."
 msgstr "Let's get you set up."
 
-msgid "Light mode"
-msgstr "Light mode"
+msgid "Light Theme"
+msgstr "Light Theme"
 
 msgid "Loading preview"
 msgstr "Loading preview"
@@ -511,6 +514,12 @@ msgstr "Thanks for taking care of that. You can <0/> adjust these anytime in sec
 msgid "The authentication popup was closed"
 msgstr "The authentication popup was closed"
 
+msgid "The system is undergoing maintenance, thank you for being patient."
+msgstr "The system is undergoing maintenance, thank you for being patient."
+
+msgid "Theme"
+msgstr "Theme"
+
 msgid "There was an error authenticating"
 msgstr "There was an error authenticating"
 
@@ -571,11 +580,14 @@ msgstr "View folder"
 msgid "Wallet address"
 msgstr "Wallet address"
 
-msgid "We`'`re undergoing maintenance, thank you for being patient"
-msgstr "We`'`re undergoing maintenance, thank you for being patient"
-
 msgid "Web3: {0}"
 msgstr "Web3: {0}"
+
+msgid "What a fine day it is."
+msgstr "What a fine day it is."
+
+msgid "What a fine night it is."
+msgstr "What a fine night it is."
 
 msgid "Without setting up at least three authentication factors, you risk getting locked out of your account.<0/><1/>Remember, you need a minimum of two factors to sign in. If you only have one, you’ll lose access to your account forever."
 msgstr "Without setting up at least three authentication factors, you risk getting locked out of your account.<0/><1/>Remember, you need a minimum of two factors to sign in. If you only have one, you’ll lose access to your account forever."
