@@ -9,6 +9,7 @@ import { useThresholdKey } from "../../../Contexts/ThresholdKeyContext"
 import { LOGIN_TYPE } from "@toruslabs/torus-direct-web-sdk"
 import { ROUTE_LINKS } from "../../FilesRoutes"
 import clsx from "clsx"
+import { IdentityProvider } from "@chainsafe/files-api-client"
 
 const useStyles = makeStyles(
   ({ constants, palette, breakpoints }: CSFTheme) =>
@@ -164,7 +165,7 @@ const InitialScreen = ({ className }: IInitialScreen) => {
     resetStatus()
   }
 
-  const handleLogin = async (loginType: LOGIN_TYPE | "web3") => {
+  const handleLogin = async (loginType: IdentityProvider) => {
     setError("")
     setIsConnecting(true)
     setLoginMode(loginType)

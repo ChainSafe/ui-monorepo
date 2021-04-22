@@ -45,7 +45,7 @@ export type TThresholdKeyContext = {
   hasPasswordShare: boolean
   shouldInitializeAccount: boolean
   pendingShareTransferRequests: ShareTransferRequest[]
-  login(loginType: LOGIN_TYPE | "web3"): Promise<void>
+  login(loginType: IdentityProvider): Promise<void>
   resetIsNewDevice(): void
   resetShouldInitialize(): void
   addPasswordShare(password: string): Promise<void>
@@ -401,7 +401,7 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
     }
   }, [userInfo, address])
 
-  const login = async (loginType: LOGIN_TYPE | "web3") => {
+  const login = async (loginType: IdentityProvider) => {
     if (!TKeySdk || maintenanceMode) return
     try {
       setStatus("awaiting confirmation")
@@ -482,7 +482,7 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
     }
   }
 
-  const getIdentityToken = async (loginType: LOGIN_TYPE | "web3"): Promise<{identityToken: IdentityToken; userInfo: any}> => {
+  const getIdentityToken = async (loginType: IdentityProvider): Promise<{identityToken: IdentityToken; userInfo: any}> => {
     if (loginType === "web3") {
       if (!isReady || !address || !provider) {
         const connected = await checkIsReady()
@@ -502,7 +502,7 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
         public_address: address
       })
       const uuidToken = await imployApiClient.generateServiceIdentityToken({
-        identity_provider: loginType as IdentityProvider,
+        identity_provider: loginType,
         identity_token: web3IdentityToken.token || ""
       })
       return {
@@ -524,7 +524,7 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
 
       const decodedOauthIdToken = oauthIdToken.idToken && jwtDecode(oauthIdToken.idToken)
       const uuidToken = await imployApiClient.generateServiceIdentityToken({
-        identity_provider: loginType as IdentityProvider,
+        identity_provider: loginType,
         identity_token: oauthIdToken.idToken || ""
       })
       return { identityToken: uuidToken, userInfo: decodedOauthIdToken }
