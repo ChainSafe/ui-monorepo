@@ -1,5 +1,5 @@
-import React, { useCallback, useMemo, useState } from "react"
-import { CheckCircleSvg, CloseSvg, CrossOutlinedSvg, Divider, Grid, Typography } from "@chainsafe/common-components"
+import React, { useCallback, useEffect, useMemo, useState } from "react"
+import { CheckCircleSvg, CloseSvg, CrossOutlinedSvg, Divider, Typography } from "@chainsafe/common-components"
 import { makeStyles, createStyles, useThemeSwitcher } from "@chainsafe/common-theme"
 import { CSFTheme } from "../../../../Themes/types"
 import { t, Trans } from "@lingui/macro"
@@ -14,6 +14,7 @@ const useStyles = makeStyles(({ constants, breakpoints, palette, typography, zIn
     root: {
       paddingTop: constants.generalUnit * 2,
       paddingBottom: constants.generalUnit * 3,
+      maxWidth: breakpoints.values["md"],
       [breakpoints.down("md")]: {
         padding: constants.generalUnit * 2
       }
@@ -124,7 +125,8 @@ const useStyles = makeStyles(({ constants, breakpoints, palette, typography, zIn
       marginLeft: "0.5rem"
     },
     divider: {
-      zIndex: zIndex?.layer1
+      zIndex: zIndex?.layer1,
+      marginTop: constants.generalUnit * 3
     }
   })
 )
@@ -140,7 +142,8 @@ const Security = ({ className }: SecurityProps) => {
     loggedinAs,
     hasPasswordShare,
     hasMnemonicShare,
-    browserShares
+    browserShares,
+    refreshTKeyMeta
   } = useThresholdKey()
   const classes = useStyles()
   const [isSettingPassword, setIsSettingPassword] = useState(false)
@@ -148,6 +151,7 @@ const Security = ({ className }: SecurityProps) => {
   const [isSettingBackupPhrase, setIsSettingBackupPhrase] = useState(false)
   const { desktop } = useThemeSwitcher()
   const showWarning = useMemo(() => !!keyDetails && (keyDetails.threshold === keyDetails.totalShares), [keyDetails])
+  const [isRefreshingMetadata, setIsRefreshingMetadata] = useState(false)
 
   const onResetPasswordForm = useCallback(() => {
     setIsChangingPassword(false)
@@ -167,174 +171,101 @@ const Security = ({ className }: SecurityProps) => {
     }
   }, [addPasswordShare, changePasswordShare, isChangingPassword, isSettingPassword])
 
+  useEffect(() => {
+    setIsRefreshingMetadata(true)
+    refreshTKeyMeta()
+      .catch(console.error)
+      .finally(() => setIsRefreshingMetadata(false))
+  }, [refreshTKeyMeta])
+
   return (
-    <Grid container>
-      <Grid item xs={12} sm={12} md={8}>
-        <div
-          id="security"
-          className={clsx(classes.root, className)}
+    <div className={clsx(classes.root, className)}>
+      <div id="security">
+        <Typography
+          variant="h4"
+          component="h4"
         >
+          <Trans>Sign-in methods</Trans>
+        </Typography>
+        {showWarning && (
           <Typography
-            variant="h4"
-            component="h4"
+            variant="body1"
+            className={classes.warningMessage}
           >
-            <Trans>Sign-in methods</Trans>
+            <Trans>
+              Hey! You only have two sign-in methods. If you lose that and have only one left,
+              you will be locked out of your account forever.
+            </Trans>
           </Typography>
-          {showWarning && (
-            <Typography variant="body1" className={classes.warningMessage}>
-              <Trans>
-                  Hey! You only have two sign-in methods. If you lose that and have only one left,
-                  you will be locked out of your account forever.
-              </Trans>
-            </Typography>
-          )}
-          {
-            !!loggedinAs && (
-              <section className={classes.setOption}>
-                <div>
-                  <Typography variant="h5">
-                    <Trans>
-                      Social Sign-in Wallet
-                    </Trans>
-                  </Typography>
-                  {
-                    desktop && (
-                      <Typography variant="h5">
-                        { loggedinAs }
-                      </Typography>
-                    )
-                  }
-                  <CheckCircleSvg className={clsx(classes.icon, classes.green)}/>
-                </div>
-              </section>
-            )
-          }
-          <section className={classes.setOption}>
-            <div>
-              <Typography variant="h5">
-                <Trans>
-                    Saved Browser
-                </Trans>
-              </Typography>
-              <Typography variant="h5">
-                {browserShares.length} <Trans>Saved</Trans>{" "}
-              </Typography>
-              { browserShares.length
-                ? <CheckCircleSvg className={clsx(classes.icon, classes.green)}/>
-                : <CrossOutlinedSvg className={clsx(classes.icon, classes.red)}/>
-              }
-            </div>
-          </section>
-          {showWarning && (
-            <div>
-              <Typography
-                variant="body1"
-                className={classes.warningMessage}
-              >
-                <Trans>
-                    Add at least one more authentication method to protect your account.
-                    You’d only need any two to sign in to Files from any device.
-                </Trans>
-              </Typography>
-            </div>
-          )}
-          { !isSettingPassword && !isChangingPassword
-            ? (
-              <section className={classes.setOption}>
-                <div>
-                  <Typography variant="h5">
-                    <Trans>
-                        Password
-                    </Trans>
-                  </Typography>
-                  <Typography variant="h5">
-                    { !hasPasswordShare
-                      ? (
-                        <span className={classes.action}>
-                          <span
-                            className={classes.buttonLink}
-                            onClick={() => {setIsSettingPassword(true)}}
-                          >
-                            <Trans>Set up password</Trans>
-                          </span>
-                          <CrossOutlinedSvg className={clsx(classes.icon, classes.red)}/>
-                        </span>
-                      )
-                      : (
-                        <span className={classes.action}>
-                          <Trans>Set up</Trans>
-                          <span
-                            className={clsx(classes.buttonLink, classes.changeButton)}
-                            onClick={() => {setIsChangingPassword(true)}}
-                          >
-                            <Trans>(Change)</Trans>
-                          </span>
-                          <CheckCircleSvg className={clsx(classes.icon, classes.green)}/>
-                        </span>
-                      )
-                    }
-                  </Typography>
-                </div>
-              </section>
-            )
-            : (
-              <section className={classes.formRoot}>
-                <CloseSvg
-                  onClick={onResetPasswordForm}
-                  className={classes.close}
-                />
-                <Typography variant="h4" component="h2">
-                  {isChangingPassword
-                    ? <Trans>
-                      Change password
-                    </Trans>
-                    : <Trans>
-                      Set up a password
-                    </Trans>
-                  }
-                </Typography>
-                <PasswordForm
-                  setPassword={onSetPassword}
-                  buttonLabel={isChangingPassword ? t`Change Password` : t`Set Password`}
-                />
-              </section>
-            )}
-          { isSettingBackupPhrase
-            ? (
-              <section className={classes.formRoot}>
-                <Typography variant="h4" component="h2">
-                  <Trans>
-                    Generate backup phrase
-                  </Trans>
-                </Typography>
-                <Typography component="p">
-                  <Trans>
-                    A backup phrase will be generated for your account.<br/>
-                    We do not store it and <b>it can only be displayed once</b>. Please save it somewhere safe!
-                  </Trans>
-                </Typography>
-                <MnemonicForm
-                  buttonLabel={t`I’m done saving my backup phrase`}
-                  onComplete={() => setIsSettingBackupPhrase(false)}
-                />
-              </section>
-            )
-            : (<section className={classes.setOption}>
+        )}
+        {
+          !!loggedinAs && (
+            <section className={classes.setOption}>
               <div>
                 <Typography variant="h5">
                   <Trans>
-                      Backup Phrase
+                    Social Sign-in Wallet
+                  </Trans>
+                </Typography>
+                {
+                  desktop && (
+                    <Typography variant="h5">
+                      { loggedinAs }
+                    </Typography>
+                  )
+                }
+                <CheckCircleSvg className={clsx(classes.icon, classes.green)}/>
+              </div>
+            </section>
+          )
+        }
+        <section className={classes.setOption}>
+          <div>
+            <Typography variant="h5">
+              <Trans>
+                Saved Browser
+              </Trans>
+            </Typography>
+            <Typography variant="h5">
+              {browserShares.length} <Trans>Saved</Trans>{" "}
+            </Typography>
+            { browserShares.length
+              ? <CheckCircleSvg className={clsx(classes.icon, classes.green)}/>
+              : <CrossOutlinedSvg className={clsx(classes.icon, classes.red)}/>
+            }
+          </div>
+        </section>
+        {showWarning && (
+          <div>
+            <Typography
+              variant="body1"
+              className={classes.warningMessage}
+            >
+              <Trans>
+                Add at least one more authentication method to protect your account.
+                You’d only need any two to sign in to Files from any device.
+              </Trans>
+            </Typography>
+          </div>
+        )}
+        { !isSettingPassword && !isChangingPassword
+          ? (
+            <section className={classes.setOption}>
+              <div>
+                <Typography variant="h5">
+                  <Trans>
+                    Password
                   </Trans>
                 </Typography>
                 <Typography variant="h5">
-                  { !hasMnemonicShare
+                  { !hasPasswordShare
                     ? (
                       <span className={classes.action}>
                         <span
                           className={classes.buttonLink}
-                          onClick={() => {setIsSettingBackupPhrase(true)}}
+                          onClick={() => {setIsSettingPassword(true)}}
                         >
-                          <Trans>Generate backup phrase</Trans>
+                          <Trans>Set up password</Trans>
                         </span>
                         <CrossOutlinedSvg className={clsx(classes.icon, classes.red)}/>
                       </span>
@@ -342,19 +273,103 @@ const Security = ({ className }: SecurityProps) => {
                     : (
                       <span className={classes.action}>
                         <Trans>Set up</Trans>
+                        <span
+                          className={clsx(classes.buttonLink, classes.changeButton)}
+                          onClick={() => {setIsChangingPassword(true)}}
+                        >
+                          <Trans>(Change)</Trans>
+                        </span>
                         <CheckCircleSvg className={clsx(classes.icon, classes.green)}/>
                       </span>
                     )
                   }
                 </Typography>
               </div>
-            </section>)
-          }
-        </div>
-        <Divider className={classes.divider} />
-        <SavedBrowsers />
-      </Grid>
-    </Grid>
+            </section>
+          )
+          : (
+            <section className={classes.formRoot}>
+              <CloseSvg
+                onClick={onResetPasswordForm}
+                className={classes.close}
+              />
+              <Typography
+                variant="h4"
+                component="h2"
+              >
+                {isChangingPassword
+                  ? <Trans>
+                    Change password
+                  </Trans>
+                  : <Trans>
+                    Set up a password
+                  </Trans>
+                }
+              </Typography>
+              <PasswordForm
+                setPassword={onSetPassword}
+                buttonLabel={isChangingPassword ? t`Change Password` : t`Set Password`}
+              />
+            </section>
+          )}
+        { isSettingBackupPhrase
+          ? (
+            <section className={classes.formRoot}>
+              <Typography
+                variant="h4"
+                component="h2"
+              >
+                <Trans>
+                  Generate backup phrase
+                </Trans>
+              </Typography>
+              <Typography component="p">
+                <Trans>
+                  A backup phrase will be generated for your account.<br/>
+                  We do not store it and <b>it can only be displayed once</b>. Please save it somewhere safe!
+                </Trans>
+              </Typography>
+              <MnemonicForm
+                buttonLabel={t`I’m done saving my backup phrase`}
+                onComplete={() => setIsSettingBackupPhrase(false)}
+              />
+            </section>
+          )
+          : (<section className={classes.setOption}>
+            <div>
+              <Typography variant="h5">
+                <Trans>
+                  Backup Phrase
+                </Trans>
+              </Typography>
+              <Typography variant="h5">
+                { !hasMnemonicShare
+                  ? (
+                    <span className={classes.action}>
+                      <span
+                        className={classes.buttonLink}
+                        onClick={() => {setIsSettingBackupPhrase(true)}}
+                      >
+                        <Trans>Generate backup phrase</Trans>
+                      </span>
+                      <CrossOutlinedSvg className={clsx(classes.icon, classes.red)}/>
+                    </span>
+                  )
+                  : (
+                    <span className={classes.action}>
+                      <Trans>Set up</Trans>
+                      <CheckCircleSvg className={clsx(classes.icon, classes.green)}/>
+                    </span>
+                  )
+                }
+              </Typography>
+            </div>
+          </section>)
+        }
+      </div>
+      <Divider className={classes.divider} />
+      <SavedBrowsers isRefreshing={isRefreshingMetadata}/>
+    </div>
   )
 }
 

@@ -10,16 +10,6 @@ export const centerEllipsis = (address: string, remaining = 6) => {
   )}`
 }
 
-export const testLocalStorage = () => {
-  try {
-    localStorage.setItem("test", "test")
-    localStorage.removeItem("test")
-    return true
-  } catch (e) {
-    return false
-  }
-}
-
 export const readFileAsync = (file: Blob): Promise<ArrayBuffer> => {
   return new Promise((resolve, reject) => {
     const reader = new FileReader()

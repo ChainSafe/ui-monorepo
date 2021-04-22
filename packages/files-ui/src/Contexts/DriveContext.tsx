@@ -48,22 +48,30 @@ export type DownloadProgress = {
   complete: boolean
 }
 
+interface GetFileContentParams {
+  cid: string
+  cancelToken?: CancelToken
+  onDownloadProgress?: (progressEvent: ProgressEvent<EventTarget>) => void
+  file?: FileSystemItem
+  path?: string
+}
+
+interface SearchParams {
+  bucketType: BucketType
+  bucketId: string
+}
+
 type DriveContext = {
   uploadFiles: (files: File[], path: string) => void
   createFolder: (body: FilesPathRequest) => Promise<FileContentResponse>
   renameFile: (body: FilesMvRequest) => Promise<void>
   moveFile: (body: FilesMvRequest) => Promise<void>
-  bulkMoveFile: (cid: FilesMvRequest[]) => Promise<void>
+  moveFiles: (cid: FilesMvRequest[]) => Promise<void[]>
   recoverFile: (cid: string) => Promise<void>
-  deleteFile: (cid: string) => Promise<void>
-  bulkMoveFileToTrash: (cid: string[]) => Promise<void>
-  moveFileToTrash: (cid: string) => Promise<void>
+  deleteFiles: (cids: string[]) => Promise<void[]>
+  moveFilesToTrash: (cids: string[]) => Promise<void[]>
   downloadFile: (cid: string) => Promise<void>
-  getFileContent: (
-    cid: string,
-    cancelToken?: CancelToken,
-    onDownloadProgress?: (progressEvent: ProgressEvent<EventTarget>) => void
-  ) => Promise<Blob | undefined>
+  getFileContent: ({ cid, cancelToken, onDownloadProgress, file }: GetFileContentParams) => Promise<Blob | undefined>
   list: (body: FilesPathRequest) => Promise<FileContentResponse[]>
   currentPath: string
   updateCurrentPath: (newPath: string, bucketType?: BucketType, showLoading?: boolean) => void
@@ -74,12 +82,7 @@ type DriveContext = {
   getFolderTree: () => Promise<DirectoryContentResponse>
   getFileInfo: (path: string) => Promise<CSFFilesFullinfoResponse>
   getSearchResults: (searchString: string) => Promise<SearchEntry[]>
-  currentSearchBucket:
-    | {
-        bucketType: BucketType
-        bucketId: string
-      }
-    | undefined
+  currentSearchBucket: SearchParams | undefined
   bucketType: BucketType
   loadingCurrentPath: boolean
   secureAccountWithMasterPassword: (candidatePassword: string) => Promise<void>
@@ -113,13 +116,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
   const [bucketType, setBucketType] = useState<BucketType>("csf")
   const [pathContents, setPathContents] = useState<FileSystemItem[]>([])
   const [spaceUsed, setSpaceUsed] = useState(0)
-  const [currentSearchBucket, setCurrentSearchBucket] = useState<
-    | {
-        bucketId: string
-        bucketType: BucketType
-      }
-    | undefined
-  >(undefined)
+  const [currentSearchBucket, setCurrentSearchBucket] = useState<SearchParams | undefined>()
   const [encryptionKey, setEncryptionKey] = useState<string | undefined>()
 
   const refreshContents = useCallback(
@@ -479,15 +476,22 @@ const DriveProvider = ({ children }: DriveContextProps) => {
     }
   }, [addToastMessage, currentPath, imployApiClient, refreshContents])
 
-  const bulkMoveFile = async (filesToMove: FilesMvRequest[]) => {
-    for (let i = 0; i < filesToMove.length; i++) {
-      await moveFile(filesToMove[i])
-    }
-  }
+  const moveFiles = useCallback(async (filesToMove: FilesMvRequest[]) => {
+    return Promise.all(
+      filesToMove.map((fileToMove) =>
+        moveFile(fileToMove)
+      )
+    )
+  }, [moveFile])
 
-  const deleteFile = async (cid: string) => {
+  const deleteFile = useCallback(async (cid: string) => {
     const itemToDelete = pathContents.find((i) => i.cid === cid)
-    if (!itemToDelete) return
+
+    if (!itemToDelete) {
+      console.error("No item found to delete")
+      return
+    }
+
     try {
       await imployApiClient.removeCSFObjects({
         paths: [`${currentPath}${itemToDelete.name}`],
@@ -514,11 +518,23 @@ const DriveProvider = ({ children }: DriveContextProps) => {
       })
       return Promise.reject()
     }
-  }
+  }, [addToastMessage, bucketType, currentPath, imployApiClient, pathContents, refreshContents])
+
+  const deleteFiles = useCallback(async (cids: string[]) => {
+    return Promise.all(
+      cids.map((cid: string) =>
+        deleteFile(cid)
+      ))
+  }, [deleteFile])
 
   const moveFileToTrash = useCallback(async (cid: string) => {
     const itemToDelete = pathContents.find((i) => i.cid === cid)
-    if (!itemToDelete) return
+
+    if (!itemToDelete) {
+      console.error("No item found to move to the trash")
+      return
+    }
+
     try {
       await imployApiClient.moveCSFObject({
         path: getPathWithFile(currentPath, itemToDelete.name),
@@ -548,10 +564,11 @@ const DriveProvider = ({ children }: DriveContextProps) => {
     }
   }, [addToastMessage, currentPath, imployApiClient, pathContents, refreshContents])
 
-  const bulkMoveFileToTrash = useCallback(async (cidsToTrash: string[]) => {
-    for (let i = 0; i < cidsToTrash.length; i++) {
-      await moveFileToTrash(cidsToTrash[i])
-    }
+  const moveFilesToTrash = useCallback(async (cids: string[]) => {
+    return Promise.all(
+      cids.map((cid: string) =>
+        moveFileToTrash(cid)
+      ))
   }, [moveFileToTrash])
 
   const recoverFile = async (cid: string) => {
@@ -591,18 +608,25 @@ const DriveProvider = ({ children }: DriveContextProps) => {
     }
   }
 
-  const getFileContent = useCallback(async (
-    cid: string,
-    cancelToken?: CancelToken,
-    onDownloadProgress?: (progressEvent: ProgressEvent<EventTarget>) => void
-  ) => {
-    if (!encryptionKey) return // TODO: Add better error handling here.
-    const file = pathContents.find((i) => i.cid === cid)
-    if (!file) return
+  const getFileContent = useCallback(async ({ cid, cancelToken, onDownloadProgress, file, path }: GetFileContentParams) => {
+    if (!encryptionKey) {
+      throw new Error("No encryption key")
+    }
+
+    // when a file is accessed from the search page, a file  and a path are passed in
+    // because the current path will not reflect the right state of the app 
+    const fileToGet = file || pathContents.find((i) => i.cid === cid)
+
+    if (!fileToGet) {
+      console.error("No file passed, and no file found for cid:", cid, "in pathContents:", pathContents)
+      throw new Error("No file found.")
+    }
+
+    const pathToUse = path || currentPath + fileToGet.name
     try {
       const result = await imployApiClient.getFileContent(
         {
-          path: currentPath + file.name,
+          path: pathToUse,
           source: {
             type: bucketType
           }
@@ -611,7 +635,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
         onDownloadProgress
       )
 
-      if (file.version === 0) {
+      if (fileToGet.version === 0) {
         return result.data
       } else {
         const decrypted = await decryptFile(
@@ -620,12 +644,12 @@ const DriveProvider = ({ children }: DriveContextProps) => {
         )
         if (decrypted) {
           return new Blob([decrypted], {
-            type: file.content_type
+            type: fileToGet.content_type
           })
         }
       }
     } catch (error) {
-      console.log(error)
+      console.error(error)
       return Promise.reject()
     }
   }, [currentPath, encryptionKey, imployApiClient, pathContents, bucketType])
@@ -643,10 +667,9 @@ const DriveProvider = ({ children }: DriveContextProps) => {
         progress: 0
       }
       dispatchDownloadsInProgress({ type: "add", payload: downloadProgress })
-      const result = await getFileContent(
-        itemToDownload.cid,
-        undefined,
-        (progressEvent) => {
+      const result = await getFileContent({
+        cid: itemToDownload.cid,
+        onDownloadProgress: (progressEvent) => {
           dispatchDownloadsInProgress({
             type: "progress",
             payload: {
@@ -657,7 +680,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
             }
           })
         }
-      )
+      })
       if (!result) return
       const link = document.createElement("a")
       link.href = URL.createObjectURL(result)
@@ -747,10 +770,9 @@ const DriveProvider = ({ children }: DriveContextProps) => {
         createFolder,
         renameFile,
         moveFile,
-        bulkMoveFile,
-        deleteFile,
-        moveFileToTrash,
-        bulkMoveFileToTrash,
+        moveFiles,
+        deleteFiles,
+        moveFilesToTrash,
         downloadFile,
         getFileContent,
         recoverFile,

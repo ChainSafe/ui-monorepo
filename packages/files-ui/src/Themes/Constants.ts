@@ -61,6 +61,10 @@ export interface CsfColors extends IConstants {
     backgroundColor: string
     color: string
   }
+  actionModal: {
+    backgroundColor: string
+    color: string
+  }
   previewModal: {
     controlsBackground: string
     controlsColor: string
@@ -136,4 +140,18 @@ export interface CsfColors extends IConstants {
   uploadAlert: {
     icon: string
   }
+  settingsPage: {
+    darkSwitch: {
+      backgroundColor: string
+      color: string
+      border?: string
+      borderColor?: string
+    }
+    lightSwitch: {
+      backgroundColor: string
+      color: string
+      border?: string
+      borderColor?: string
+    }
+ }
 }

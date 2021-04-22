@@ -43,7 +43,10 @@ export const FlexOptions = (): React.ReactNode => (
 )
 
 export const GridDisplay = (): React.ReactNode => (
-  <Grid container fullWidth>
+  <Grid
+    container
+    fullWidth
+  >
     <Grid
       item
       xs={select("box 1", gridSizeOptions, 12)}
@@ -66,11 +69,26 @@ export const GridDisplay = (): React.ReactNode => (
 )
 
 export const GridSpacing = (): React.ReactNode => (
-  <Grid container spacing={select("Spacing", spacingOptions, 1)}>
-    <Grid item xs={12} sm={6} md={3} lg={3}>
+  <Grid
+    container
+    spacing={select("Spacing", spacingOptions, 1)}
+  >
+    <Grid
+      item
+      xs={12}
+      sm={6}
+      md={3}
+      lg={3}
+    >
       <Box>Box 1</Box>
     </Grid>
-    <Grid item xs={12} sm={6} md={3} lg={3}>
+    <Grid
+      item
+      xs={12}
+      sm={6}
+      md={3}
+      lg={3}
+    >
       <Box>Box 2</Box>
     </Grid>
   </Grid>

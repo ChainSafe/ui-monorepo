@@ -1,5 +1,5 @@
 import React from "react"
-import { ChainsafeFilesLogo } from "../ChainsafeFilesLogo"
+import { ChainsafeFilesLogo } from "../Logos"
 
 export default {
   title: "Chainsafe Files Logo",

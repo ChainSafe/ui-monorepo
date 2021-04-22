@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useRef } from "react"
+import React, { useEffect, useRef } from "react"
 import { useState } from "react"
 import { createStyles, makeStyles, useThemeSwitcher } from "@chainsafe/common-theme"
 import { FileSystemItem, useDrive } from "../../Contexts/DriveContext"
@@ -156,9 +156,10 @@ interface Props {
   nextFile?: () => void
   previousFile?: () => void
   closePreview: () => void
+  path?: string
 }
 
-const FilePreviewModal = ({ file, nextFile, previousFile, closePreview }: Props) => {
+const FilePreviewModal = ({ file, nextFile, previousFile, closePreview, path }: Props) => {
   const classes = useStyles()
   const { getFileContent, downloadFile } = useDrive()
   const { desktop } = useThemeSwitcher()
@@ -194,29 +195,39 @@ const FilePreviewModal = ({ file, nextFile, previousFile, closePreview }: Props)
       const token = getSource().token
       setIsLoading(true)
       setError(undefined)
+
       try {
-        const content = await getFileContent(cid, token, (evt) => {
-          setLoadingProgress((evt.loaded / size) * 100)
+        const content = await getFileContent({
+          cid,
+          cancelToken: token,
+          onDownloadProgress: (evt) => {
+            setLoadingProgress((evt.loaded / size) * 100)
+          },
+          file,
+          path
         })
+
         if (content) {
           setFileContent(content)
         } else {
           setError(t`Decryption failed`)
         }
+
         source.current = null
         setLoadingProgress(0)
+
       } catch (error) {
-        if (error) {
-          setError(t`There was an error getting the preview.`)
-        }
+        console.error(error)
+        setError(t`There was an error getting the preview.`)
       }
+
       setIsLoading(false)
     }
 
     if (content_type && compatibleFilesMatcher.match(content_type)) {
       getContents()
     }
-  }, [cid, size, content_type, getFileContent])
+  }, [cid, size, content_type, getFileContent, file, path])
 
   const validRendererMimeType =
     content_type &&
@@ -328,12 +339,12 @@ const FilePreviewModal = ({ file, nextFile, previousFile, closePreview }: Props)
             // },
             {
               contents: (
-                <Fragment>
+                <>
                   <DownloadSvg className={classes.menuIcon} />
                   <span>
                     <Trans>Download</Trans>
                   </span>
-                </Fragment>
+                </>
               ),
               onClick: handleDownload
             }
@@ -348,16 +359,35 @@ const FilePreviewModal = ({ file, nextFile, previousFile, closePreview }: Props)
         className={classes.previewContainer}
       >
         {desktop && (
-          <Grid item sm={1} md={1} lg={1} xl={1} className={classes.prevNext}>
+          <Grid
+            item
+            sm={1}
+            md={1}
+            lg={1}
+            xl={1}
+            className={classes.prevNext}
+          >
             {previousFile && (
-              <Button onClick={previousFile} className={classes.prevNextButton}>
+              <Button onClick={previousFile}
+                className={classes.prevNextButton}>
                 <ArrowLeftIcon />
               </Button>
             )}
           </Grid>
         )}
-        <Grid item xs={12} sm={12} md={10} lg={10} xl={10} alignItems="center">
-          <div {...handlers} className={classes.swipeContainer}>
+        <Grid
+          item
+          xs={12}
+          sm={12}
+          md={10}
+          lg={10}
+          xl={10}
+          alignItems="center"
+        >
+          <div
+            {...handlers}
+            className={classes.swipeContainer}
+          >
             {isLoading && (
               <div className={classes.previewContent}>
                 <Typography variant="h1">
@@ -372,7 +402,10 @@ const FilePreviewModal = ({ file, nextFile, previousFile, closePreview }: Props)
             {error && (
               <div className={classes.previewContent}>
                 <CloseCircleIcon fontSize={desktop ? "extraLarge" : "medium"} />
-                <Typography component="h2" variant="h1">
+                <Typography
+                  component="h2"
+                  variant="h1"
+                >
                   {error}
                 </Typography>
               </div>
@@ -384,7 +417,10 @@ const FilePreviewModal = ({ file, nextFile, previousFile, closePreview }: Props)
                 <CloseCircleIcon
                   fontSize={desktop ? "extraLarge" : "medium"}
                 />
-                <Typography component="p" variant="h1">
+                <Typography
+                  component="p"
+                  variant="h1"
+                >
                   <Trans>File format not supported.</Trans>
                 </Typography>
                 <Button
@@ -404,9 +440,18 @@ const FilePreviewModal = ({ file, nextFile, previousFile, closePreview }: Props)
           </div>
         </Grid>
         {desktop && (
-          <Grid item md={1} lg={1} xl={1} className={classes.prevNext}>
+          <Grid
+            item
+            md={1}
+            lg={1}
+            xl={1}
+            className={classes.prevNext}
+          >
             {nextFile && (
-              <Button onClick={nextFile} className={classes.prevNextButton}>
+              <Button
+                onClick={nextFile}
+                className={classes.prevNextButton}
+              >
                 <ArrowRightIcon />
               </Button>
             )}

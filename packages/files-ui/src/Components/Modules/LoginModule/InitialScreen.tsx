@@ -9,6 +9,7 @@ import { useThresholdKey } from "../../../Contexts/ThresholdKeyContext"
 import { LOGIN_TYPE } from "@toruslabs/torus-direct-web-sdk"
 import { ROUTE_LINKS } from "../../FilesRoutes"
 import clsx from "clsx"
+import { IdentityProvider } from "@chainsafe/files-api-client"
 
 const useStyles = makeStyles(
   ({ constants, palette, breakpoints }: CSFTheme) =>
@@ -100,7 +101,7 @@ const useStyles = makeStyles(
       connectWalletFooter: {
         backgroundColor: constants.landing.background,
         color: constants.landing.footerText,
-        padding: `${constants.generalUnit * 4.375}px ${constants.generalUnit * 11}px`,
+        padding: `${constants.generalUnit * 4.375}px ${constants.generalUnit * 7}px`,
         width: "100%",
         textAlign: "center",
         "& > *": {
@@ -114,6 +115,13 @@ const useStyles = makeStyles(
       loader: {
         marginTop: constants.generalUnit,
         padding: 0
+      },
+      buttonLink: {
+        color: palette.additional["gray"][10],
+        outline: "none",
+        textDecoration: "underline",
+        cursor: "pointer",
+        textAlign: "center"
       }
     })
 )
@@ -129,10 +137,8 @@ const InitialScreen = ({ className }: IInitialScreen) => {
   const { login, status, resetStatus } = useThresholdKey()
   const classes = useStyles()
   const [loginMode, setLoginMode] = useState<"web3" | LOGIN_TYPE | undefined>()
-
   const [error, setError] = useState<string | undefined>()
   const maintenanceMode = process.env.REACT_APP_MAINTENANCE_MODE === "true"
-
   const [isConnecting, setIsConnecting] = useState(false)
 
   const handleSelectWalletAndConnect = async () => {
@@ -159,7 +165,7 @@ const InitialScreen = ({ className }: IInitialScreen) => {
     resetStatus()
   }
 
-  const handleLogin = async (loginType: LOGIN_TYPE | "web3") => {
+  const handleLogin = async (loginType: IdentityProvider) => {
     setError("")
     setIsConnecting(true)
     setLoginMode(loginType)
@@ -189,6 +195,30 @@ const InitialScreen = ({ className }: IInitialScreen) => {
     }
     setIsConnecting(false)
   }
+
+  const Footer = () => (
+    <footer className={classes.connectWalletFooter}>
+      <Typography variant='h5'>
+        <Trans>
+
+          By connecting your wallet, you agree to our <a
+            href={ROUTE_LINKS.Terms}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Terms of Service
+          </a> and <a
+            href={ROUTE_LINKS.PrivacyPolicy}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Privacy Policy
+          </a>
+        </Trans>
+      </Typography>
+    </footer>
+  )
+
   return (
     <div className={clsx(classes.root, className)}>
       {
@@ -209,6 +239,13 @@ const InitialScreen = ({ className }: IInitialScreen) => {
           loginMode !== "web3" ? (
             <>
               <section className={classes.buttonSection}>
+                {maintenanceMode && (
+                  <Typography>
+                    <Trans>
+                      The system is undergoing maintenance, thank you for being patient.
+                    </Trans>
+                  </Typography>
+                )}
                 <Button
                   onClick={() => {
                     setLoginMode("web3")
@@ -254,13 +291,6 @@ const InitialScreen = ({ className }: IInitialScreen) => {
                   <FacebookLogoIcon />
                   <Trans>Continue with Facebook</Trans>
                 </Button>
-                {maintenanceMode && (
-                  <Typography>
-                    <Trans>
-                      We`&apos;`re undergoing maintenance, thank you for being patient
-                    </Trans>
-                  </Typography>
-                )}
               </section>
               <footer className={classes.footer}>
                 <a
@@ -293,15 +323,13 @@ const InitialScreen = ({ className }: IInitialScreen) => {
                 <>
                   <section className={classes.buttonSection}>
                     <Button
-                      onClick={() => {
-                        handleLogin("web3")
-                      }}
+                      onClick={() => {handleLogin("web3")}}
                       className={classes.button}
                       variant="primary"
                       size="large"
                       disabled={maintenanceMode}
                     >
-                      <Trans>Continue with {wallet.name}</Trans>
+                      <Trans>Sign-in with {wallet.name}</Trans>
                     </Button>
                     <Button
                       onClick={handleResetAndSelectWallet}
@@ -312,12 +340,14 @@ const InitialScreen = ({ className }: IInitialScreen) => {
                     >
                       <Trans>Connect a new wallet</Trans>
                     </Button>
+                    <div
+                      className={classes.buttonLink}
+                      onClick={resetLogin}
+                    >
+                      <Typography><Trans>Go back</Trans></Typography>
+                    </div>
                   </section>
-                  <footer className={classes.connectWalletFooter}>
-                    <Typography variant='h5'>
-                      <Trans>By connecting your wallet, you agree to our terms and privacy policy.</Trans>
-                    </Typography>
-                  </footer>
+                  <Footer/>
                 </>
               ) : (
                 <>
@@ -331,7 +361,11 @@ const InitialScreen = ({ className }: IInitialScreen) => {
                       <Typography variant='h5'>
                         <Trans>Hold on, we are logging you in...</Trans>
                       </Typography>
-                      <Loading className={classes.loader} size={50} type='inherit' />
+                      <Loading
+                        className={classes.loader}
+                        size={50}
+                        type='inherit'
+                      />
                     </>}
                   </section>
                 </>
@@ -357,11 +391,7 @@ const InitialScreen = ({ className }: IInitialScreen) => {
                     <Trans>Use a different login method</Trans>
                   </Button>
                 </section>
-                <footer className={classes.connectWalletFooter}>
-                  <Typography variant='h5'>
-                    <Trans>By connecting your wallet, you agree to our terms and privacy policy.</Trans>
-                  </Typography>
-                </footer>
+                <Footer/>
               </>
           ) : (
             <>
@@ -370,7 +400,10 @@ const InitialScreen = ({ className }: IInitialScreen) => {
                 <Typography variant='h5'>
                   {error}
                 </Typography>
-                <Button onClick={resetLogin}>
+                <Button
+                  variant="primary"
+                  onClick={resetLogin}
+                >
                   <Trans>Try again</Trans>
                 </Button>
               </section>

@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react"
+import React, { useState } from "react"
 import { withKnobs, select, text } from "@storybook/addon-knobs"
 import { Button } from "../Button"
 import { Dialog } from "../Dialog"
@@ -24,8 +24,12 @@ const maxWidthOptions: MaxWidthOption[] = [
 export const DialogStory = (): React.ReactNode => {
   const [active, setActive] = useState(false)
   return (
-    <Fragment>
-      <Button onClick={() => setActive(true)} variant="primary" size="large">
+    <>
+      <Button
+        onClick={() => setActive(true)}
+        variant="primary"
+        size="large"
+      >
         Open dialog
       </Button>
       <Dialog
@@ -37,6 +41,6 @@ export const DialogStory = (): React.ReactNode => {
         rejectText={text("Reject text", "Cancel")}
         requestMessage={text("Request message", "Please confirm")}
       />
-    </Fragment>
+    </>
   )
 }

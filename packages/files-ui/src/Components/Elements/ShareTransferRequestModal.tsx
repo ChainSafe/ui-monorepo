@@ -1,4 +1,4 @@
-import { Button, Typography } from "@chainsafe/common-components"
+import { Button, Loading, Typography } from "@chainsafe/common-components"
 import { createStyles, makeStyles, useThemeSwitcher } from "@chainsafe/common-theme"
 import { Trans } from "@lingui/macro"
 import dayjs from "dayjs"
@@ -6,13 +6,14 @@ import React, { useCallback, useEffect, useMemo, useState } from "react"
 import { ShareTransferRequest, useThresholdKey } from "../../Contexts/ThresholdKeyContext"
 import CustomModal from "../Elements/CustomModal"
 import DevicesImage from "../../Media/devices.png"
+import clsx from "clsx"
 import { CSFTheme } from "../../Themes/types"
 
 interface Props {
     requests: ShareTransferRequest[]
 }
 
-const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) =>
+const useStyles = makeStyles(({ breakpoints, constants }: CSFTheme) =>
   createStyles({
     root: {},
     modalInner: {
@@ -50,31 +51,30 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) =>
     },
     button: {
       width: 240,
-      marginBottom: constants.generalUnit * 2,
-      [breakpoints.up("md")]: {
-        backgroundColor: palette.common.black.main,
-        color: palette.common.white.main
-      },
-      [breakpoints.down("md")]: {
-        backgroundColor: palette.common.black.main,
-        color: palette.common.white.main
-      }
+      marginBottom: constants.generalUnit * 2
     },
     buttonWrapper: {
       display: "flex",
       flexDirection: "column",
       alignItems: "center",
-      marginTop: constants.generalUnit * 4
+      marginTop: constants.generalUnit * 4,
+      flexWrap: "wrap"
+    },
+    clearAll: {
+      textDecoration: "underline",
+      outline: "none",
+      cursor: "pointer"
     }
   })
 )
 
 const ShareTransferRequestModal = ({ requests }: Props) => {
-  const { approveShareTransferRequest, rejectShareTransferRequest } = useThresholdKey()
+  const { approveShareTransferRequest, rejectShareTransferRequest, clearShareTransferRequests } = useThresholdKey()
   const { desktop } = useThemeSwitcher()
   const classes = useStyles()
   const [isLoadingApprove, setIsLoadingApprove] = useState(false)
   const [isLoadingReject, setIsLoadingReject] = useState(false)
+  const [isClearing, setIsClearing] = useState(false)
   const { browserDetail, encPubKeyX, timestamp } = useMemo(() => requests[requests.length - 1], [requests])
 
   useEffect(() => {
@@ -93,6 +93,11 @@ const ShareTransferRequestModal = ({ requests }: Props) => {
     rejectShareTransferRequest(encPubKeyX)
   }, [rejectShareTransferRequest, encPubKeyX])
 
+  const onClearingRequest = useCallback(() => {
+    setIsClearing(true)
+    clearShareTransferRequests()
+  }, [clearShareTransferRequests])
+
   return (
     <CustomModal
       active
@@ -106,7 +111,10 @@ const ShareTransferRequestModal = ({ requests }: Props) => {
         <Typography variant="h3">
           <Trans>Device awaiting confirmation</Trans>{requests.length > 1 ? ` (1/${requests.length})` : ""}
         </Typography>
-        <img src={DevicesImage} alt="request other devices"/>
+        <img
+          src={DevicesImage}
+          alt="request other devices"
+        />
         <Typography>
           <Trans>Requested from</Trans> {`${browserDetail.browser.name} (${browserDetail.browser.version}) -
             ${browserDetail.os.name}`}<br/>
@@ -118,7 +126,7 @@ const ShareTransferRequestModal = ({ requests }: Props) => {
             variant={desktop ? "primary" : "outline"}
             size="large"
             loading={isLoadingApprove}
-            disabled={isLoadingReject || isLoadingApprove}
+            disabled={isLoadingReject || isLoadingApprove || isClearing}
             onClick={onApproveRequest}>
             <Trans>Approve</Trans>
           </Button>
@@ -127,10 +135,27 @@ const ShareTransferRequestModal = ({ requests }: Props) => {
             variant={desktop ? "primary" : "outline"}
             size="large"
             loading={isLoadingReject}
-            disabled={isLoadingApprove || isLoadingReject}
+            disabled={isLoadingApprove || isLoadingReject || isClearing}
             onClick={onRejectRequest}>
             <Trans>Reject</Trans>
           </Button>
+          {
+            requests.length > 1 && (isClearing
+              ? <Loading
+                size={25}
+                type='inherit'
+              />
+              : <Typography
+                className={clsx(classes.clearAll)}
+                onClick={() => {
+                  if (!isLoadingApprove && !isLoadingReject && !isClearing) {
+                    onClearingRequest()
+                  }
+                }}>
+                <Trans>Reject all</Trans>
+              </Typography>
+            )
+          }
         </div>
       </>
     </CustomModal>

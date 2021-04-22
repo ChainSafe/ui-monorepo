@@ -1,6 +1,5 @@
 export enum CONTENT_TYPES {
   Directory = "application/chainsafe-files-directory",
-  Directory2 = "application/chainsafe-files-entry",
   File = "*/*",
   Image = "image/*",
   Text = "text/*",

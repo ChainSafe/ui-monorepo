@@ -5,7 +5,7 @@ import SaveNewDevice from "../Modules/LoginModule/SaveNewDevice"
 import MissingShares from "../Modules/LoginModule/MissingShares"
 import { CSFTheme } from "../../Themes/types"
 import InitialScreen from "../Modules/LoginModule/InitialScreen"
-import { ChainsafeFilesLogo, Typography } from "@chainsafe/common-components"
+import { ChainsafeFilesLogo, ChainsafeLogo, Typography } from "@chainsafe/common-components"
 import { ROUTE_LINKS } from "../FilesRoutes"
 import { Trans } from "@lingui/macro"
 import BottomDarkSVG from "../../Media/landing/layers/dark/Bottom.dark.svg"
@@ -15,7 +15,7 @@ import TopLightSVG from "../../Media/landing/layers/light/Top.light.svg"
 // import { ForegroundSVG } from "../../Media/landing/layers/ForegroundSVG"
 import { useImployApi } from "@chainsafe/common-contexts"
 import ConciseExplainer from "../Modules/LoginModule/ConciseExplainer"
-import SignInMethods from "../Modules/LoginModule/SignInMethods"
+import AuthenticationFactors from "../Modules/LoginModule/AuthenticationFactors"
 import PasswordSetup from "../Modules/LoginModule/PasswordSetup"
 import ConfirmSkip from "../Modules/LoginModule/ConfirmSkip"
 import SaveBackupPhrase from "../Modules/LoginModule/SaveBackupPhrase"
@@ -73,13 +73,11 @@ const useStyles = makeStyles(
         }
       },
       title: {
-        position: "absolute",
-        top: constants.generalUnit * 5.25,
-        left: "50%",
-        transform: "translate(-50%, 0)",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        marginTop: "2rem",
         fontWeight: typography.fontWeight.regular,
-        textAlign: "center",
-        width: "100%",
         [breakpoints.up("md")]:{
           ...typography.h2
         },
@@ -127,6 +125,11 @@ const useStyles = makeStyles(
       logo: {
         height: 60,
         width: 60
+      },
+      filesLogo: {
+        height: 60,
+        width: 60,
+        marginRight: "1rem"
       }
     })
 )
@@ -139,7 +142,7 @@ const Content = ({ className }: { className: string }) => {
 
   const [setupScreen, setSetupScreen] = useState<
     "explainer" |
-    "signInOptions" |
+    "authenticationFactors" |
     "setUpPassword" |
     "skip" |
     "backup" |
@@ -149,7 +152,7 @@ const Content = ({ className }: { className: string }) => {
   const onSetPassword = useCallback((password: string) =>
     addPasswordShare(password)
       .then(() => {
-        setSetupScreen("signInOptions")
+        setSetupScreen("authenticationFactors")
       })
       .catch(console.error)
   , [addPasswordShare])
@@ -168,12 +171,11 @@ const Content = ({ className }: { className: string }) => {
       return (
         <ConciseExplainer
           className={className}
-          onLetsDoIt={() => setSetupScreen("signInOptions")}
-          screen={"initialize"}
+          onContinue={() => setSetupScreen("authenticationFactors")}
         />
       )
-    case "signInOptions":
-      return <SignInMethods
+    case "authenticationFactors":
+      return <AuthenticationFactors
         className={className}
         goToPassword={() => setSetupScreen("setUpPassword")}
         goToMnemonic={() => setSetupScreen("backup")}
@@ -183,20 +185,20 @@ const Content = ({ className }: { className: string }) => {
     case "setUpPassword":
       return <PasswordSetup
         className={className}
-        cancel={() => setSetupScreen("signInOptions")}
+        cancel={() => setSetupScreen("authenticationFactors")}
         setPassword={onSetPassword}
       />
     case "skip":
       return <ConfirmSkip
         className={className}
         confirm={() => resetShouldInitialize()}
-        cancel={() => setSetupScreen("signInOptions")}
+        cancel={() => setSetupScreen("authenticationFactors")}
       />
     case "backup":
       return <SaveBackupPhrase
         className={className}
-        cancel={() => setSetupScreen("signInOptions")}
-        complete={() => setSetupScreen("signInOptions")}
+        cancel={() => setSetupScreen("authenticationFactors")}
+        complete={() => setSetupScreen("authenticationFactors")}
       />
     case "complete":
       return <Complete className={className} />
@@ -221,6 +223,7 @@ const LoginPage = () => {
   return (
     <div className={classes.root}>
       <Typography className={classes.title}>
+        <ChainsafeFilesLogo className={classes.filesLogo} />
         ChainSafe Files
       </Typography>
       <>
@@ -245,7 +248,7 @@ const LoginPage = () => {
         target="_blank"
         rel="noopener noreferrer"
       >
-        <ChainsafeFilesLogo className={classes.logo} />
+        <ChainsafeLogo className={classes.logo} />
         <Typography>
           <Trans>
             Learn more about ChainSafe

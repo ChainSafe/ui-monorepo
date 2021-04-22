@@ -4,7 +4,7 @@ import { fade } from "../utils/colorManipulator"
 import { createBreakpoints } from "../Create/CreateBreakpoints"
 
 export const defaultFontFamilyStack = {
-  fontFamily: "'Archivo', sans-serif"
+  fontFamily: "'NeueMontreal','Archivo', sans-serif"
 }
 
 const defaultFontStyles = {}
@@ -60,16 +60,16 @@ const DefaultThemeConfig: IThemeConfig = {
       background:
         DefaultPalette.additional.blue[DefaultPalette.colorTags.background],
       border: DefaultPalette.additional.blue[DefaultPalette.colorTags.border],
-      main: DefaultPalette.additional.blue[DefaultPalette.colorTags.primary],
-      hover: DefaultPalette.additional.blue[DefaultPalette.colorTags.hover],
+      main: DefaultPalette.additional.blue[6],
+      hover: DefaultPalette.additional.gray[10],
       active: DefaultPalette.additional.blue[7]
     },
     secondary: {
       background:
         DefaultPalette.additional.blue[DefaultPalette.colorTags.background],
       border: DefaultPalette.additional.blue[DefaultPalette.colorTags.border],
-      hover: DefaultPalette.additional.blue[DefaultPalette.colorTags.hover],
-      main: DefaultPalette.additional.blue[DefaultPalette.colorTags.primary]
+      main: DefaultPalette.additional.gray[10],
+      hover: DefaultPalette.additional.blue[6]
     },
     error: {
       background:

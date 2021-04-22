@@ -4,6 +4,8 @@ import { CsfColors, UI_CONSTANTS } from "./Constants"
 export const darkTheme = createTheme<CsfColors>({
   globalStyling: {
     ":root": {
+      "--csf-primary": "#5165DC",
+
       "--blue1": "#111D2C",
       "--blue2": "#112A45",
       "--blue3": "#15395B",
@@ -375,6 +377,10 @@ export const darkTheme = createTheme<CsfColors>({
           backgroundColor: "var(--gray2)",
           color: "var(--gray9)"
         },
+        actionModal: {
+          backgroundColor: "var(--gray2)",
+          color: "var(--gray9)"
+        },
         previewModal: {
           controlsBackground: "var(--gray1)",
           controlsColor: "var(--gray10)",
@@ -449,6 +455,18 @@ export const darkTheme = createTheme<CsfColors>({
         },
         uploadAlert: {
           icon: "var(--gray9)"
+        },
+        settingsPage:{
+          darkSwitch: {
+            backgroundColor: "var(--gray2)",
+            color: "var(--gray9)",
+            border: "1px solid",
+            borderColor: "var(--geekblue4)"
+          },
+          lightSwitch: {
+            backgroundColor: "var(--gray4)",
+            color: "var(--gray7)"
+          }
         }
       } as CsfColors)
     },
@@ -533,10 +551,10 @@ export const darkTheme = createTheme<CsfColors>({
               }
             },
             focus: {
-              backgroundColor: "var(--gray7)",
-              color: "var(--gray9)",
+              color: "none",
+              backgroundColor: "none",
               "& svg": {
-                fill: "var(--gray9)"
+                fill: "none"
               }
             }
           },

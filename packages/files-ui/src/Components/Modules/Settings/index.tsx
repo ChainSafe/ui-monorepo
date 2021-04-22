@@ -1,11 +1,10 @@
-import React, { useState, useEffect, useCallback, useMemo } from "react"
+import React, { useCallback, useMemo } from "react"
 import Profile from "./Profile"
 import { Tabs,
   TabPane as TabPaneOrigin,
   Typography, Divider,
   Breadcrumb,
   Crumb,
-  useToaster,
   useParams,
   useHistory,
   ITabPaneProps,
@@ -13,7 +12,6 @@ import { Tabs,
   LockIcon
 } from "@chainsafe/common-components"
 import { makeStyles, ITheme, createStyles, useThemeSwitcher } from "@chainsafe/common-theme"
-import { useUser } from "@chainsafe/common-contexts"
 import { ROUTE_LINKS, SettingsPath, SETTINGS_BASE } from "../../FilesRoutes"
 import { t, Trans } from "@lingui/macro"
 // import Plan from "./Plan"
@@ -67,6 +65,12 @@ const useStyles = makeStyles(({ constants, breakpoints, palette }: ITheme) =>
     tabPane: {
       flex: 1,
       padding: `${constants.generalUnit * 2}px ${constants.generalUnit * 5}px`,
+      "&.securityPane": {
+        [breakpoints.down("lg")]: {
+          paddingLeft: constants.generalUnit,
+          paddingRight: constants.generalUnit
+        }
+      },
       [breakpoints.down("md")]: {
         padding: 0
       }
@@ -126,42 +130,8 @@ const Settings: React.FC = () => {
   const { desktop } = useThemeSwitcher()
   const { path = desktop ? "profile" : "" } = useParams<{path: SettingsPath}>()
   const classes = useStyles()
-  const { profile, updateProfile } = useUser()
   const { redirect } = useHistory()
-  const { addToastMessage } = useToaster()
-  const [profileData, setProfileData] = useState(profile)
-  const [updatingProfile, setUpdatingProfile] = useState(false)
 
-  useEffect(() => {
-    if (profile) {
-      setProfileData({
-        firstName: profile?.firstName,
-        lastName: profile?.lastName,
-        email: profile?.email,
-        publicAddress: profile?.publicAddress
-      })
-    }
-  }, [profile])
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    e.persist()
-    setProfileData((prevInputs) => ({
-      ...prevInputs,
-      [e.target.name]: e.target.value
-    }))
-  }
-
-  const onUpdateProfile = async (firstName: string, lastName: string, email: string) => {
-    try {
-      setUpdatingProfile(true)
-      await updateProfile(firstName, lastName, email)
-      addToastMessage({ message: t`Profile updated` })
-      setUpdatingProfile(false)
-    } catch (error) {
-      addToastMessage({ message: error, appearance: "error" })
-      setUpdatingProfile(false)
-    }
-  }
 
   const onSelectTab = useCallback(
     (key: string) => redirect(`${SETTINGS_BASE}/${key}`)
@@ -180,7 +150,11 @@ const Settings: React.FC = () => {
           crumbs={crumbs}
           homeOnClick={() => redirect(ROUTE_LINKS.Home())}
         />
-        <Typography variant="h1" component="p" className={classes.title}>
+        <Typography
+          variant="h1"
+          component="p"
+          className={classes.title}
+        >
           <Trans>Settings</Trans>
         </Typography>
       </div>
@@ -209,17 +183,10 @@ const Settings: React.FC = () => {
               title={t`Profile and Display`}
               tabKey="profile"
             >
-              {profileData ? (
-                <Profile
-                  profile={profileData}
-                  handleValueChange={handleChange}
-                  onUpdateProfile={onUpdateProfile}
-                  updatingProfile={updatingProfile}
-                />
-              ) : null}
+              <Profile />
             </TabPane>
             <TabPane
-              className={clsx(classes.tabPane, (!desktop && !path) ? classes.hideTabPane : "")}
+              className={clsx(classes.tabPane, "securityPane", (!desktop && !path) ? classes.hideTabPane : "")}
               icon={<LockIcon className={classes.lockIcon}/>}
               iconRight={<CaretRightIcon/>}
               title={t`Security`}

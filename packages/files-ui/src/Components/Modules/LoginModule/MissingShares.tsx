@@ -121,7 +121,8 @@ const MissingShares = ({ className }: IMissingShares) => {
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState("")
 
-  const handleSubmitPassword = () => {
+  const handleSubmitPassword = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
     if (!password) return
     setIsLoading(true)
 
@@ -133,7 +134,8 @@ const MissingShares = ({ className }: IMissingShares) => {
       })
   }
 
-  const handleSubmitMnemonicShare = () => {
+  const handleSubmitMnemonicShare = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
     if (!mnemonic) return
     setIsLoading(true)
 
@@ -209,18 +211,20 @@ const MissingShares = ({ className }: IMissingShares) => {
           </>
         )}
         {withPassword && (
-          <div>
+          <form onSubmit={handleSubmitPassword}>
             <Typography className={clsx(classes.text, "label")}>
               <Trans>Enter password:</Trans>
             </Typography>
             <TextInput
+              autoFocus
               className={classes.textInput}
               value={password}
               onChange={onPasswordChange}
               type={"password"}
             />
             <Button
-              onClick={handleSubmitPassword}
+              variant="primary"
+              type='submit'
               className={clsx(classes.button, classes.belowInput)}
               size="large"
               loading={isLoading}
@@ -231,21 +235,23 @@ const MissingShares = ({ className }: IMissingShares) => {
             <Typography className={classes.error}>
               {error}
             </Typography>
-          </div>
+          </form>
         )}
         {withMnemonic && (
-          <div>
+          <form onSubmit={handleSubmitMnemonicShare}>
             <Typography className={clsx(classes.text, "label")}>
               <Trans>Enter backup phrase:</Trans>
             </Typography>
             <div className={classes.textAreaContainer}>
               <textarea
+                autoFocus
                 value={mnemonic}
                 onChange={onMnemonicChange}
               />
             </div>
             <Button
-              onClick={handleSubmitMnemonicShare}
+              variant="primary"
+              type='submit'
               className={clsx(classes.button, classes.belowInput)}
               size="large"
               loading={isLoading}
@@ -256,7 +262,7 @@ const MissingShares = ({ className }: IMissingShares) => {
             <Typography className={classes.error}>
               {error}
             </Typography>
-          </div>
+          </form>
         )}
       </div>
       <footer className={classes.footer}>

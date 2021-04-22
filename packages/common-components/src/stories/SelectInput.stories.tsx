@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react"
+import React, { useState } from "react"
 import { withKnobs, select, boolean, text } from "@storybook/addon-knobs"
 import { action } from "@storybook/addon-actions"
 import { Formik, Form } from "formik"
@@ -43,10 +43,10 @@ export const SelectInputStory = (): React.ReactNode => {
       options={[
         {
           label: (
-            <Fragment>
+            <>
               <BulbIcon fontSize="small" />{" "}
               <Typography>Custom markup</Typography>
-            </Fragment>
+            </>
           ),
           value: "4"
         },
@@ -72,10 +72,10 @@ export const FormikStory = (): React.ReactNode => {
           options={[
             {
               label: (
-                <Fragment>
+                <>
                   <BulbIcon fontSize="small" />{" "}
                   <Typography>Custom markup</Typography>
-                </Fragment>
+                </>
               ),
               value: "4"
             },

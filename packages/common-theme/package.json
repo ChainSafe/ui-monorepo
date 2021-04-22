@@ -1,6 +1,6 @@
 {
   "name": "@chainsafe/common-theme",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "Chainsafe Common React Theming Engine",
   "author": "Chainsafe Products Team",
   "license": "GPL-3.0",
@@ -18,6 +18,8 @@
     "lint": "eslint 'src/**/*.{js,ts,tsx}' --quiet --fix"
   },
   "dependencies": {
+    "rollup-plugin-copy": "^3.4.0",
+    "@chainsafe/browser-storage-hooks": "^1.0.1",
     "ts-essentials": "^7.0.1"
   },
   "peerDependencies": {

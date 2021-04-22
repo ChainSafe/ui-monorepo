@@ -47,7 +47,12 @@ const ToastContainer: React.FC<ToastContainerProps> = ({
     hasToasts,
     placement
   })
-  return <div className={classes.container} {...props} />
+  return (
+    <div
+      className={classes.container}
+      {...props}
+    />
+  )
 }
 
 export default ToastContainer
