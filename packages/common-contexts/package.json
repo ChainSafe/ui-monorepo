@@ -15,7 +15,7 @@
   },
   "dependencies": {
     "@chainsafe/browser-storage-hooks": "^1.0.1",
-    "@chainsafe/files-api-client": "1.7.4-rc2",
+    "@chainsafe/files-api-client": "1.9.0-rc1",
     "axios": "^0.21.1",
     "uuid": "^8.3.1"
   },
