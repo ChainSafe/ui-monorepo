@@ -50,7 +50,6 @@ interface IStyleProps {
 const useStyles = makeStyles(
   ({ animation, breakpoints, constants, palette, zIndex }: CSFTheme) => {
     const desktopGridSettings = "50px 69px 3fr 190px 100px 45px !important"
-    // const desktopGridSettings = "50px 69px 3fr 190px 60px !important"
     const mobileGridSettings = "69px 3fr 45px !important"
     return createStyles({
       root: {
