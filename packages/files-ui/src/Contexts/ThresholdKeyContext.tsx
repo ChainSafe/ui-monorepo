@@ -511,7 +511,7 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
       }
 
     } else {
-      const providerSpecificHandlerProps = getProviderSpecificParams(loginType as LOGIN_TYPE)
+      const providerSpecificHandlerProps = getProviderSpecificParams(loginType)
 
       const loginHandler: ILoginHandler = createHandler({
         ...providerSpecificHandlerProps,
@@ -826,5 +826,4 @@ function useThresholdKey() {
 }
 
 export { ThresholdKeyProvider, useThresholdKey }
-
 
