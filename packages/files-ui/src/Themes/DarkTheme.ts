@@ -455,6 +455,18 @@ export const darkTheme = createTheme<CsfColors>({
         },
         uploadAlert: {
           icon: "var(--gray9)"
+        },
+        settingsPage:{
+          darkSwitch: {
+            backgroundColor: "var(--gray2)",
+            color: "var(--gray9)",
+            border: "1px solid",
+            borderColor: "var(--geekblue4)"
+          },
+          lightSwitch: {
+            backgroundColor: "var(--gray4)",
+            color: "var(--gray7)"
+          }
         }
       } as CsfColors)
     },
