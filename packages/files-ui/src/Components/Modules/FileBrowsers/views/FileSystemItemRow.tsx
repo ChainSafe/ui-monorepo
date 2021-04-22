@@ -23,7 +23,8 @@ import {
   ExportSvg,
   ShareAltSvg,
   ExclamationCircleInverseSvg,
-  ZoomInSvg
+  ZoomInSvg,
+  standardlongDateFormat
 } from "@chainsafe/common-components"
 import { makeStyles, createStyles, useDoubleClick, useThemeSwitcher } from "@chainsafe/common-theme"
 import clsx from "clsx"
@@ -38,7 +39,7 @@ import { FileOperation } from "../types"
 import { CSFTheme } from "../../../../Themes/types"
 
 const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => {
-  const desktopGridSettings = "50px 69px 3fr 190px 60px !important"
+  const desktopGridSettings = "50px 69px 3fr 190px 100px 45px !important"
   const mobileGridSettings = "69px 3fr 45px !important"
 
   return createStyles({
@@ -209,7 +210,7 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
   itemOperations,
   resetSelectedFiles
 }) => {
-  const { cid, name, isFolder, size, content_type } = file
+  const { cid, name, isFolder, size, content_type, created_at } = file
   let Icon
   if (isFolder) {
     Icon = FolderFilledSvg
@@ -546,6 +547,11 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
       </TableCell>
       {desktop && (
         <>
+          <TableCell align="left">
+            {
+              standardlongDateFormat(new Date(created_at * 1000), true, false)
+            }
+          </TableCell>
           <TableCell align="left">
             {!isFolder && formatBytes(size)}
           </TableCell>
