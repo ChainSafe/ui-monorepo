@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useCallback } from "react"
 import { i18n } from "@lingui/core"
-import { messages as catalogEn } from "../locales/en/messages"
 import { I18nProvider } from "@lingui/react"
 import * as plurals from "make-plural/plurals"
+import { useLocalStorage } from "@chainsafe/browser-storage-hooks"
 
 export type LanguageContext = {
   availableLanguages: Language[]
@@ -22,29 +22,39 @@ type LanguageProviderProps = {
   availableLanguages: Language[]
 }
 
-const LanguageContext = React.createContext<LanguageContext | undefined>(
-  undefined
-)
+const DEFAULT_LANGUAGE = "en"
+const DEFAULT_LOCALE = "en-GB"
+const PREFERED_LANGUAGE_KEY = "csf.preferedLanguage"
 
-const getLanguages = (): string[] => {
-  // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-  // @ts-ignore
-  const { languages, language, userLanguage } = window.navigator
+const defaultContext: LanguageContext =   {
+  availableLanguages: [],
+  selectedLanguage: DEFAULT_LANGUAGE,
+  selectedLocale: DEFAULT_LOCALE,
+  setActiveLanguage: () => {console.error("setActiveLanguage not implemented")},
+  formatLocaleDate: () => {console.error("formatLocaleDate not implemented"); return ""}
+}
+
+const LanguageContext = React.createContext<LanguageContext>(defaultContext)
+
+const getLanguages = (prefered = ""): string[] => {
+  const { languages, language } = window.navigator
 
   if (Array.isArray(languages)) {
     // Dedupe array of languages
-    return [...new Set(languages.map((l) => l.split("-")[0]))]
+    const deduped = [...new Set(languages.map((l) => l.split("-")[0]))]
+    const preferedFirst = prefered
+      ? [prefered, ...deduped.filter((lang) => prefered !== lang)]
+      : deduped
+
+    return preferedFirst
   }
 
   if (language) {
-    return [language.split("-")[0]]
+    return [prefered, language.split("-")[0]]
   }
 
-  if (userLanguage) {
-    return [userLanguage.split("-")[0]]
-  }
   // If language not detected use english
-  return ["en"]
+  return [prefered, DEFAULT_LANGUAGE]
 }
 
 const getLocales = (): string[] => {
@@ -65,30 +75,45 @@ const getLocales = (): string[] => {
     return [userLanguage]
   }
   // If language not detected use english
-  return ["en-GB"]
+  return [DEFAULT_LOCALE]
 }
 
-const LanguageProvider = ({
-  children,
-  availableLanguages
-}: LanguageProviderProps) => {
-  const [selectedLanguage, setSelectedLanguage] = useState<string>("")
+const LanguageProvider = ({ children, availableLanguages }: LanguageProviderProps) => {
+  const [selectedLanguage, setSelectedLanguage] = useState("")
+  const { localStorageGet, localStorageSet } = useLocalStorage()
   const userLocales = getLocales()
 
-  useEffect(() => {
-    const userLanguages = getLanguages()
+  const setLanguage = useCallback((newLanguage: string, setPrefered = true) => {
+    if (!availableLanguages.find((l) => l.id === newLanguage)) {
+      console.error("Locale is not available, evalutaing:", newLanguage)
+      return
+    }
 
+    import(`../locales/${newLanguage}/messages.js`)
+      .then((newCatalog) => {
+        i18n.load(newLanguage, newCatalog.default.messages)
+        i18n.loadLocaleData(newLanguage, { plurals: (plurals as Record<string, any>)[newLanguage] })
+        i18n.activate(newLanguage)
+        setSelectedLanguage(newLanguage)
+        setPrefered && localStorageSet(PREFERED_LANGUAGE_KEY, newLanguage)
+      })
+      .catch(console.error)
+  }, [availableLanguages, localStorageSet])
+
+
+  useEffect(() => {
+    const prefered = localStorageGet(PREFERED_LANGUAGE_KEY)
+    const userLanguages = getLanguages(prefered || "")
     const matchingLanguages = [...new Set(userLanguages)].filter((x) =>
       new Set(availableLanguages.map((l) => l.id)).has(x)
     )
-    const defaultLanguage = matchingLanguages[0] || "en"
-    // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-    //@ts-ignore
-    i18n.loadLocaleData(defaultLanguage, { plurals: plurals[defaultLanguage] })
-    i18n.load(defaultLanguage, catalogEn)
-    i18n.activate(defaultLanguage)
-    setSelectedLanguage(defaultLanguage)
-  }, [availableLanguages])
+
+    const defaultLanguage = matchingLanguages[0] || DEFAULT_LANGUAGE
+
+    // passing false because this language wasn't
+    // set explicitely by the user
+    setLanguage(defaultLanguage, false)
+  }, [availableLanguages, localStorageGet, setLanguage])
 
   const formatLocaleDate = (date: Date) => {
     const result = new Intl.DateTimeFormat(userLocales[0], {
@@ -105,23 +130,11 @@ const LanguageProvider = ({
     return result
   }
 
-  const setLanguage = async (newLanguage: string) => {
-    if (!availableLanguages.map((l) => l.id).includes(newLanguage)) {
-      console.log("This locale is not available")
-      return
-    }
-
-    // const newCatalog = await import(`../locales/${newLanguage}/messages.js`)
-    // i18n.load(newLanguage, neimport { messagesascatalogEn } from "locales/en/messages.mjs";
-    // i18n.activate(newLanguage)
-    setSelectedLanguage(newLanguage)
-  }
-
   return (
     <LanguageContext.Provider
       value={{
-        availableLanguages: availableLanguages,
-        selectedLanguage: selectedLanguage,
+        availableLanguages,
+        selectedLanguage,
         setActiveLanguage: setLanguage,
         selectedLocale: userLocales[0],
         formatLocaleDate

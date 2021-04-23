@@ -325,8 +325,8 @@ const Security = ({ className }: SecurityProps) => {
               </Typography>
               <Typography component="p">
                 <Trans>
-                  A backup phrase will be generated for your account.<br/>
-                  We do not store it and <b>it can only be displayed once</b>. Please save it somewhere safe!
+                  A backup phrase will be generated and used for your account.<br/>
+                  We do not store it and <b>it can only be displayed once</b>. Save it somewhere safe!
                 </Trans>
               </Typography>
               <MnemonicForm
@@ -339,7 +339,7 @@ const Security = ({ className }: SecurityProps) => {
             <div>
               <Typography variant="h5">
                 <Trans>
-                  Backup Phrase
+                  Backup phrase
                 </Trans>
               </Typography>
               <Typography variant="h5">

@@ -21,6 +21,7 @@ import { t, Trans } from "@lingui/macro"
 import { centerEllipsis } from "../../../Utils/Helpers"
 import { CSFTheme } from "../../../Themes/types"
 import clsx from "clsx"
+import LanguageSelection from "./LanguageSelection"
 
 const useStyles = makeStyles(({ constants, breakpoints, palette, typography }: CSFTheme) =>
   createStyles({
@@ -364,6 +365,7 @@ const ProfileView = () => {
               </Grid>
             </Grid>
           </div>
+          <LanguageSelection/>
         </div>
       </Grid>
     </Grid>
