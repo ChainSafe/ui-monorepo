@@ -1,25 +1,26 @@
-import React from "react"
-import {
-  makeStyles,
-  createStyles,
-  useThemeSwitcher
-} from "@chainsafe/common-theme"
+import React, { useCallback, useState } from "react"
+import { makeStyles, createStyles, useThemeSwitcher } from "@chainsafe/common-theme"
 import { useThresholdKey } from "../../Contexts/ThresholdKeyContext"
-import InitializeAccount from "../Modules/LoginModule/InitializeAccount"
 import SaveNewDevice from "../Modules/LoginModule/SaveNewDevice"
 import MissingShares from "../Modules/LoginModule/MissingShares"
 import { CSFTheme } from "../../Themes/types"
-import MigrateAccount from "../Modules/LoginModule/MigrateAccount"
 import InitialScreen from "../Modules/LoginModule/InitialScreen"
-import { ChainsafeFilesLogo, Typography } from "@chainsafe/common-components"
+import { ChainsafeFilesLogo, ChainsafeLogo, Typography } from "@chainsafe/common-components"
 import { ROUTE_LINKS } from "../FilesRoutes"
 import { Trans } from "@lingui/macro"
 import BottomDarkSVG from "../../Media/landing/layers/dark/Bottom.dark.svg"
 import TopDarkSVG from "../../Media/landing/layers/dark/Top.dark.svg"
 import BottomLightSVG from "../../Media/landing/layers/light/Bottom.light.svg"
 import TopLightSVG from "../../Media/landing/layers/light/Top.light.svg"
-import { ForegroundSVG } from "../../Media/landing/layers/ForegroundSVG"
+// import { ForegroundSVG } from "../../Media/landing/layers/ForegroundSVG"
 import { useImployApi } from "@chainsafe/common-contexts"
+import ConciseExplainer from "../Modules/LoginModule/ConciseExplainer"
+import AuthenticationFactors from "../Modules/LoginModule/AuthenticationFactors"
+import PasswordSetup from "../Modules/LoginModule/PasswordSetup"
+import ConfirmSkip from "../Modules/LoginModule/ConfirmSkip"
+import SaveBackupPhrase from "../Modules/LoginModule/SaveBackupPhrase"
+import Complete from "../Modules/LoginModule/Complete"
+import MigrateAccount from "../Modules/LoginModule/MigrateAccount"
 
 const useStyles = makeStyles(
   ({ constants, breakpoints, typography, zIndex }: CSFTheme) =>
@@ -72,13 +73,11 @@ const useStyles = makeStyles(
         }
       },
       title: {
-        position: "absolute",
-        top: constants.generalUnit * 5.25,
-        left: "50%",
-        transform: "translate(-50%, 0)",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        marginTop: "2rem",
         fontWeight: typography.fontWeight.regular,
-        textAlign: "center",
-        width: "100%",
         [breakpoints.up("md")]:{
           ...typography.h2
         },
@@ -103,39 +102,134 @@ const useStyles = makeStyles(
         }
       },
       inner: {
+        display: "flex",
+        flexDirection: "column",
+        flex: "1 1 0",
         position: "absolute",
         top: "50%",
         left: "50%",
         transform: "translate(-50%, -50%)",
-        zIndex: zIndex?.layer1
+        zIndex: zIndex?.layer1,
+        backgroundColor: constants.loginModule.background,
+        border: `1px solid ${constants.landing.border}`,
+        boxShadow: constants.landing.boxShadow,
+        borderRadius: 6,
+        [breakpoints.up("md")]:{
+          justifyContent: "space-between"
+        },
+        [breakpoints.down("md")]: {
+          justifyContent: "center",
+          width: "100%"
+        }
+      },
+      logo: {
+        height: 60,
+        width: 60
+      },
+      filesLogo: {
+        height: 60,
+        width: 60,
+        marginRight: "1rem"
       }
     })
 )
 
+const Content = ({ className }: { className: string }) => {
+  const { isMasterPasswordSet } = useImployApi()
+  const { keyDetails, isNewDevice, shouldInitializeAccount, addPasswordShare, resetShouldInitialize } = useThresholdKey()
+  const shouldSaveNewDevice = !!keyDetails && isNewDevice && keyDetails.requiredShares <= 0
+  const areSharesMissing = !!keyDetails && keyDetails.requiredShares > 0
+
+  const [setupScreen, setSetupScreen] = useState<
+    "explainer" |
+    "authenticationFactors" |
+    "setUpPassword" |
+    "skip" |
+    "backup" |
+    "complete"
+    >("explainer")
+
+  const onSetPassword = useCallback((password: string) =>
+    addPasswordShare(password)
+      .then(() => {
+        setSetupScreen("authenticationFactors")
+      })
+      .catch(console.error)
+  , [addPasswordShare])
+
+  if (!keyDetails) {
+    return <InitialScreen className={className} />
+  }
+
+  if (areSharesMissing) {
+    return <MissingShares className={className} />
+  }
+
+  if (shouldInitializeAccount && !isMasterPasswordSet){
+    switch (setupScreen) {
+    case "explainer":
+      return (
+        <ConciseExplainer
+          className={className}
+          onContinue={() => setSetupScreen("authenticationFactors")}
+        />
+      )
+    case "authenticationFactors":
+      return <AuthenticationFactors
+        className={className}
+        goToPassword={() => setSetupScreen("setUpPassword")}
+        goToMnemonic={() => setSetupScreen("backup")}
+        goToSkip={() => setSetupScreen("skip")}
+        goToComplete={() => setSetupScreen("complete")}
+      />
+    case "setUpPassword":
+      return <PasswordSetup
+        className={className}
+        cancel={() => setSetupScreen("authenticationFactors")}
+        setPassword={onSetPassword}
+      />
+    case "skip":
+      return <ConfirmSkip
+        className={className}
+        confirm={() => resetShouldInitialize()}
+        cancel={() => setSetupScreen("authenticationFactors")}
+      />
+    case "backup":
+      return <SaveBackupPhrase
+        className={className}
+        cancel={() => setSetupScreen("authenticationFactors")}
+        complete={() => setSetupScreen("authenticationFactors")}
+      />
+    case "complete":
+      return <Complete className={className} />
+    }
+  }
+
+  if (shouldInitializeAccount && isMasterPasswordSet) {
+    return <MigrateAccount className={className} />
+  }
+
+  if (shouldSaveNewDevice) {
+    return <SaveNewDevice className={className} />
+  }
+
+  return null
+}
+
 const LoginPage = () => {
   const classes = useStyles()
   const { themeKey } = useThemeSwitcher()
-  const { isMasterPasswordSet } = useImployApi()
-  const {
-    keyDetails,
-    isNewDevice,
-    shouldInitializeAccount
-  } = useThresholdKey()
-
-  const shouldSaveNewDevice =
-    !!keyDetails && keyDetails.requiredShares <= 0 && isNewDevice
-
-  const areSharesMissing = !!keyDetails && keyDetails.requiredShares > 0
 
   return (
     <div className={classes.root}>
       <Typography className={classes.title}>
+        <ChainsafeFilesLogo className={classes.filesLogo} />
         ChainSafe Files
       </Typography>
       <>
       </>
       {
-        themeKey === "dark" ? 
+        themeKey === "dark" ?
           <>
             <BottomDarkSVG className={classes.bgBottom} />
             <TopDarkSVG className={classes.bgTop} />
@@ -145,29 +239,23 @@ const LoginPage = () => {
             <BottomLightSVG className={classes.bgBottom} />
             <TopLightSVG className={classes.bgTop} />
           </>
-          
+
       }
-      <ForegroundSVG className={classes.bgForeground} />
+      {/* <ForegroundSVG className={classes.bgForeground} /> */}
       <a
         className={classes.cta}
         href={ROUTE_LINKS.ChainSafe}
         target="_blank"
         rel="noopener noreferrer"
       >
-        <ChainsafeFilesLogo />
+        <ChainsafeLogo className={classes.logo} />
         <Typography>
           <Trans>
             Learn more about ChainSafe
           </Trans>
         </Typography>
       </a>
-      <div className={classes.inner}>
-        {!keyDetails && <InitialScreen />}
-        {!!keyDetails && areSharesMissing && <MissingShares />}
-        {!!keyDetails && !areSharesMissing && shouldInitializeAccount && !isMasterPasswordSet && <InitializeAccount />}
-        {!!keyDetails && !areSharesMissing && shouldInitializeAccount && isMasterPasswordSet && <MigrateAccount />}
-        {!!keyDetails && shouldSaveNewDevice && <SaveNewDevice />}
-      </div>
+      <Content className={classes.inner} />
     </div>
   )
 }

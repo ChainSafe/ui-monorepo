@@ -14,9 +14,20 @@ const Loading: React.FC<ILoadingProps> = ({
 }) => {
   const theme: ITheme = useTheme()
   return (
-    <svg width={size} height={size} className={className} viewBox="0 0 100 100">
+    <svg
+      width={size}
+      height={size}
+      className={className}
+      viewBox="0 0 100 100"
+    >
       <defs>
-        <linearGradient id="gradient" x1="0%" y1="0%" x2="0%" y2="100%">
+        <linearGradient
+          id="gradient"
+          x1="0%"
+          y1="0%"
+          x2="0%"
+          y2="100%"
+        >
           <stop
             offset="0%"
             stopColor={

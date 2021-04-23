@@ -1,33 +1,19 @@
 import React, { useEffect } from "react"
-import {
-  init as initSentry,
-  ErrorBoundary,
-  showReportDialog
-} from "@sentry/react"
-import { ThemeSwitcher } from "@chainsafe/common-theme"
-import {
-  Button,
-  CssBaseline,
-  Modal,
-  Router,
-  ToasterProvider,
-  Typography
-} from "@chainsafe/common-components"
+import { init as initSentry, ErrorBoundary, showReportDialog } from "@sentry/react"
 import { Web3Provider } from "@chainsafe/web3-context"
-import {
-  ImployApiProvider,
-  UserProvider,
-  BillingProvider
-} from "@chainsafe/common-contexts"
+import { ImployApiProvider, UserProvider, BillingProvider } from "@chainsafe/common-contexts"
+import { ThemeSwitcher } from "@chainsafe/common-theme"
+import "@chainsafe/common-theme/dist/font-faces.css"
+import { Button, CssBaseline, Modal, Router, ToasterProvider, Typography } from "@chainsafe/common-components"
 import { DriveProvider } from "./Contexts/DriveContext"
 import FilesRoutes from "./Components/FilesRoutes"
 import AppWrapper from "./Components/Layouts/AppWrapper"
-import { darkTheme } from "./Themes/DarkTheme"
 import { useHotjar } from "react-use-hotjar"
 import { LanguageProvider } from "./Contexts/LanguageContext"
-import { testLocalStorage } from "./Utils/Helpers"
 import { ThresholdKeyProvider } from "./Contexts/ThresholdKeyContext"
 import { lightTheme } from "./Themes/LightTheme"
+import { darkTheme } from "./Themes/DarkTheme"
+import { useLocalStorage } from "@chainsafe/browser-storage-hooks"
 
 if (
   process.env.NODE_ENV === "production" &&
@@ -41,10 +27,13 @@ if (
 }
 const App: React.FC<{}> = () => {
   const { initHotjar } = useHotjar()
+  const { canUseLocalStorage } = useLocalStorage()
   const hotjarId = process.env.REACT_APP_HOTJAR_ID
-
   const apiUrl =
-    process.env.REACT_APP_API_URL || "http://3.236.79.100:8000/api/v1"
+    process.env.REACT_APP_API_URL || "https://stage.imploy.site/api/v1"
+
+  // This will default to testnet unless mainnet is specifically set in the ENV
+  const directAuthNetwork = (process.env.REACT_APP_DIRECT_AUTH_NETWORK === "mainnet") ? "mainnet" : "testnet"
 
   useEffect(() => {
     if (hotjarId && process.env.NODE_ENV === "production") {
@@ -59,7 +48,11 @@ const App: React.FC<{}> = () => {
     >
       <ErrorBoundary
         fallback={({ error, componentStack, eventId, resetError }) => (
-          <Modal active closePosition="none" setActive={resetError}>
+          <Modal
+            active
+            closePosition="none"
+            setActive={resetError}
+          >
             <Typography>
               An error occurred and has been logged. If you would like to
               provide additional info to help us debug and resolve the issue,
@@ -107,10 +100,16 @@ const App: React.FC<{}> = () => {
                 }
               }}
               checkNetwork={false}
-              cacheWalletSelection={testLocalStorage()}
+              cacheWalletSelection={canUseLocalStorage}
             >
-              <ImployApiProvider apiUrl={apiUrl}>
-                <ThresholdKeyProvider enableLogging network="testnet">
+              <ImployApiProvider
+                apiUrl={apiUrl}
+                withLocalStorage={false}
+              >
+                <ThresholdKeyProvider
+                  enableLogging
+                  network={directAuthNetwork}
+                >
                   <UserProvider>
                     <DriveProvider>
                       <BillingProvider>

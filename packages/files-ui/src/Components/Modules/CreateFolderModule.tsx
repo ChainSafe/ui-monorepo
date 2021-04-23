@@ -19,7 +19,7 @@ import { Trans } from "@lingui/macro"
 import { CSFTheme } from "../../Themes/types"
 
 const useStyles = makeStyles(
-  ({ breakpoints, constants, palette, typography, zIndex }: CSFTheme) => {
+  ({ breakpoints, constants, typography, zIndex }: CSFTheme) => {
     return createStyles({
       root: {
         padding: constants.generalUnit * 4,
@@ -44,8 +44,7 @@ const useStyles = makeStyles(
         marginBottom: constants.generalUnit * 2
       },
       okButton: {
-        marginLeft: constants.generalUnit,
-        backgroundColor: palette.common.black.main
+        marginLeft: constants.generalUnit
       },
       cancelButton: {
         [breakpoints.down("md")]: {
@@ -93,7 +92,14 @@ const CreateFolderModule: React.FC<ICreateFolderModuleProps> = ({
   }, [modalOpen])
 
   const folderNameValidator = yup.object().shape({
-    name: yup.string().required("Folder name is required")
+    name: yup
+      .string()
+      .required("Folder name is required")
+      .test(
+        "Invalid name",
+        "Folder name cannot contain '/' character",
+        (val: string | null | undefined) => !!val && !val.includes("/")
+      )
   })
 
   return (
@@ -134,7 +140,11 @@ const CreateFolderModule: React.FC<ICreateFolderModuleProps> = ({
         <Form>
           <div className={classes.root}>
             {!desktop && (
-              <Grid item xs={12} sm={12}>
+              <Grid
+                item
+                xs={12}
+                sm={12}
+              >
                 <Typography
                   className={classes.heading}
                   variant="h5"
@@ -144,7 +154,12 @@ const CreateFolderModule: React.FC<ICreateFolderModuleProps> = ({
                 </Typography>
               </Grid>
             )}
-            <Grid item xs={12} sm={12} className={classes.input}>
+            <Grid
+              item
+              xs={12}
+              sm={12}
+              className={classes.input}
+            >
               <FormikTextInput
                 name="name"
                 size="large"
@@ -154,7 +169,11 @@ const CreateFolderModule: React.FC<ICreateFolderModuleProps> = ({
                 ref={inputRef}
               />
             </Grid>
-            <Grid item flexDirection="row" justifyContent="flex-end">
+            <Grid
+              item
+              flexDirection="row"
+              justifyContent="flex-end"
+            >
               <CustomButton
                 onClick={() => close()}
                 size="medium"
@@ -166,6 +185,7 @@ const CreateFolderModule: React.FC<ICreateFolderModuleProps> = ({
               </CustomButton>
               <Button
                 size={desktop ? "medium" : "large"}
+                variant="primary"
                 type="submit"
                 className={classes.okButton}
                 loading={creatingFolder}

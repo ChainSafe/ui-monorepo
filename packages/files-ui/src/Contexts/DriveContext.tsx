@@ -48,45 +48,44 @@ export type DownloadProgress = {
   complete: boolean
 }
 
+interface GetFileContentParams {
+  cid: string
+  cancelToken?: CancelToken
+  onDownloadProgress?: (progressEvent: ProgressEvent<EventTarget>) => void
+  file?: FileSystemItem
+  path?: string
+}
+
+interface SearchParams {
+  bucketType: BucketType
+  bucketId: string
+}
+
 type DriveContext = {
-  uploadFiles(files: File[], path: string): void
-  createFolder(body: FilesPathRequest): Promise<FileContentResponse>
-  renameFile(body: FilesMvRequest): Promise<void>
-  moveFile(body: FilesMvRequest): Promise<void>
-  bulkMoveFile(cid: FilesMvRequest[]): Promise<void>
-  recoverFile(cid: string): Promise<void>
-  deleteFile(cid: string): Promise<void>
-  bulkMoveFileToTrash(cid: string[]): Promise<void>
-  moveFileToTrash(cid: string): Promise<void>
-  downloadFile(cid: string): Promise<void>
-  getFileContent(
-    cid: string,
-    cancelToken?: CancelToken,
-    onDownloadProgress?: (progressEvent: ProgressEvent<EventTarget>) => void,
-  ): Promise<Blob | undefined>
-  list(body: FilesPathRequest): Promise<FileContentResponse[]>
+  uploadFiles: (files: File[], path: string) => void
+  createFolder: (body: FilesPathRequest) => Promise<FileContentResponse>
+  renameFile: (body: FilesMvRequest) => Promise<void>
+  moveFile: (body: FilesMvRequest) => Promise<void>
+  moveFiles: (cid: FilesMvRequest[]) => Promise<void[]>
+  recoverFile: (cid: string) => Promise<void>
+  deleteFiles: (cids: string[]) => Promise<void[]>
+  moveFilesToTrash: (cids: string[]) => Promise<void[]>
+  downloadFile: (cid: string) => Promise<void>
+  getFileContent: ({ cid, cancelToken, onDownloadProgress, file }: GetFileContentParams) => Promise<Blob | undefined>
+  list: (body: FilesPathRequest) => Promise<FileContentResponse[]>
   currentPath: string
-  updateCurrentPath(
-    newPath: string,
-    bucketType?: BucketType,
-    showLoading?: boolean,
-  ): void
+  updateCurrentPath: (newPath: string, bucketType?: BucketType, showLoading?: boolean) => void
   pathContents: FileSystemItem[]
   uploadsInProgress: UploadProgress[]
   downloadsInProgress: DownloadProgress[]
   spaceUsed: number
-  getFolderTree(): Promise<DirectoryContentResponse>
-  getFileInfo(path: string): Promise<CSFFilesFullinfoResponse>
-  getSearchResults(searchString: string): Promise<SearchEntry[]>
-  currentSearchBucket:
-    | {
-        bucketType: BucketType
-        bucketId: string
-      }
-    | undefined
+  getFolderTree: () => Promise<DirectoryContentResponse>
+  getFileInfo: (path: string) => Promise<CSFFilesFullinfoResponse>
+  getSearchResults: (searchString: string) => Promise<SearchEntry[]>
+  currentSearchBucket: SearchParams | undefined
   bucketType: BucketType
   loadingCurrentPath: boolean
-  secureAccountWithMasterPassword(candidatePassword: string): void
+  secureAccountWithMasterPassword: (candidatePassword: string) => Promise<void>
 }
 
 // This represents a File or Folder on the
@@ -111,32 +110,14 @@ const DriveProvider = ({ children }: DriveContextProps) => {
     isMasterPasswordSet,
     validateMasterPassword
   } = useImployApi()
-
-  const {
-    publicKey,
-    encryptForPublicKey,
-    decryptMessageWithThresholdKey
-  } = useThresholdKey()
+  const { publicKey, encryptForPublicKey, decryptMessageWithThresholdKey } = useThresholdKey()
   const { addToastMessage } = useToaster()
-
   const [loadingCurrentPath, setLoadingCurrentPath] = useState(false)
-
   const [bucketType, setBucketType] = useState<BucketType>("csf")
-
   const [pathContents, setPathContents] = useState<FileSystemItem[]>([])
   const [spaceUsed, setSpaceUsed] = useState(0)
-
-  const [currentSearchBucket, setCurrentSearchBucket] = useState<
-    | {
-        bucketId: string
-        bucketType: BucketType
-      }
-    | undefined
-  >(undefined)
-
-  const [encryptionKey, setEncryptionKey] = useState<string | undefined>(
-    undefined
-  )
+  const [currentSearchBucket, setCurrentSearchBucket] = useState<SearchParams | undefined>()
+  const [encryptionKey, setEncryptionKey] = useState<string | undefined>()
 
   const refreshContents = useCallback(
     async (
@@ -199,22 +180,20 @@ const DriveProvider = ({ children }: DriveContextProps) => {
   }
   const [currentPath, dispatchCurrentPath] = useReducer(currentPathReducer, "/")
 
-  const setCurrentPath = (
-    newPath: string,
-    newBucketType?: BucketType,
-    showLoading?: boolean
-  ) => {
+  const setCurrentPath = useCallback((newPath: string, newBucketType?: BucketType, showLoading?: boolean) => {
     dispatchCurrentPath({ type: "update", payload: newPath })
     if (newBucketType) {
       setBucketType(newBucketType)
     }
     refreshContents(newPath, newBucketType || bucketType, showLoading)
-  }
+  }, [bucketType, refreshContents])
 
   // Ensure path contents are refreshed
   useEffect(() => {
     if (isLoggedIn) {
       refreshContents("/")
+    } else {
+      setCurrentSearchBucket(undefined)
     }
   }, [imployApiClient, refreshContents, isLoggedIn])
 
@@ -327,7 +306,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
     }
   })
 
-  const uploadFiles = async (files: File[], path: string) => {
+  const uploadFiles = useCallback(async (files: File[], path: string) => {
     const startUploadFile = async () => {
       if (!encryptionKey) return // TODO: Add better error handling here.
 
@@ -412,7 +391,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
       }
     }
     startUploadFile()
-  }
+  }, [addToastMessage, encryptionKey, imployApiClient])
 
   const createFolder = async (body: FilesPathRequest) => {
     try {
@@ -458,7 +437,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
     }
   }
 
-  const renameFile = async (body: FilesMvRequest) => {
+  const renameFile = useCallback(async (body: FilesMvRequest) => {
     try {
       if (body.path !== body.new_path) {
         await imployApiClient.moveCSFObject(body)
@@ -468,7 +447,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
           appearance: "success"
         })
       }
-     
+
       return Promise.resolve()
     } catch (error) {
       addToastMessage({
@@ -477,9 +456,9 @@ const DriveProvider = ({ children }: DriveContextProps) => {
       })
       return Promise.reject()
     }
-  }
+  }, [addToastMessage, currentPath, imployApiClient, refreshContents])
 
-  const moveFile = async (body: FilesMvRequest) => {
+  const moveFile = useCallback(async (body: FilesMvRequest) => {
     try {
       await imployApiClient.moveCSFObject(body)
       await refreshContents(currentPath)
@@ -495,17 +474,24 @@ const DriveProvider = ({ children }: DriveContextProps) => {
       })
       return Promise.reject()
     }
-  }
+  }, [addToastMessage, currentPath, imployApiClient, refreshContents])
 
-  const bulkMoveFile = async (filesToMove: FilesMvRequest[]) => {
-    for (let i = 0; i < filesToMove.length; i++) {
-      await moveFile(filesToMove[i])
-    }
-  }
+  const moveFiles = useCallback(async (filesToMove: FilesMvRequest[]) => {
+    return Promise.all(
+      filesToMove.map((fileToMove) =>
+        moveFile(fileToMove)
+      )
+    )
+  }, [moveFile])
 
-  const deleteFile = async (cid: string) => {
+  const deleteFile = useCallback(async (cid: string) => {
     const itemToDelete = pathContents.find((i) => i.cid === cid)
-    if (!itemToDelete) return
+
+    if (!itemToDelete) {
+      console.error("No item found to delete")
+      return
+    }
+
     try {
       await imployApiClient.removeCSFObjects({
         paths: [`${currentPath}${itemToDelete.name}`],
@@ -532,11 +518,23 @@ const DriveProvider = ({ children }: DriveContextProps) => {
       })
       return Promise.reject()
     }
-  }
+  }, [addToastMessage, bucketType, currentPath, imployApiClient, pathContents, refreshContents])
 
-  const moveFileToTrash = async (cid: string) => {
+  const deleteFiles = useCallback(async (cids: string[]) => {
+    return Promise.all(
+      cids.map((cid: string) =>
+        deleteFile(cid)
+      ))
+  }, [deleteFile])
+
+  const moveFileToTrash = useCallback(async (cid: string) => {
     const itemToDelete = pathContents.find((i) => i.cid === cid)
-    if (!itemToDelete) return
+
+    if (!itemToDelete) {
+      console.error("No item found to move to the trash")
+      return
+    }
+
     try {
       await imployApiClient.moveCSFObject({
         path: getPathWithFile(currentPath, itemToDelete.name),
@@ -564,13 +562,14 @@ const DriveProvider = ({ children }: DriveContextProps) => {
       })
       return Promise.reject()
     }
-  }
+  }, [addToastMessage, currentPath, imployApiClient, pathContents, refreshContents])
 
-  const bulkMoveFileToTrash = async (cidsToTrash: string[]) => {
-    for (let i = 0; i < cidsToTrash.length; i++) {
-      await moveFileToTrash(cidsToTrash[i])
-    }
-  }
+  const moveFilesToTrash = useCallback(async (cids: string[]) => {
+    return Promise.all(
+      cids.map((cid: string) =>
+        moveFileToTrash(cid)
+      ))
+  }, [moveFileToTrash])
 
   const recoverFile = async (cid: string) => {
     const itemToRestore = pathContents.find((i) => i.cid === cid)
@@ -609,24 +608,34 @@ const DriveProvider = ({ children }: DriveContextProps) => {
     }
   }
 
-  const getFileContent = async (
-    cid: string,
-    cancelToken?: CancelToken,
-    onDownloadProgress?: (progressEvent: ProgressEvent<EventTarget>) => void
-  ) => {
-    if (!encryptionKey) return // TODO: Add better error handling here.
-    const file = pathContents.find((i) => i.cid === cid)
-    if (!file) return
+  const getFileContent = useCallback(async ({ cid, cancelToken, onDownloadProgress, file, path }: GetFileContentParams) => {
+    if (!encryptionKey) {
+      throw new Error("No encryption key")
+    }
+
+    // when a file is accessed from the search page, a file  and a path are passed in
+    // because the current path will not reflect the right state of the app 
+    const fileToGet = file || pathContents.find((i) => i.cid === cid)
+
+    if (!fileToGet) {
+      console.error("No file passed, and no file found for cid:", cid, "in pathContents:", pathContents)
+      throw new Error("No file found.")
+    }
+
+    const pathToUse = path || currentPath + fileToGet.name
     try {
       const result = await imployApiClient.getFileContent(
         {
-          path: currentPath + file.name
+          path: pathToUse,
+          source: {
+            type: bucketType
+          }
         },
         cancelToken,
         onDownloadProgress
       )
 
-      if (file.version === 0) {
+      if (fileToGet.version === 0) {
         return result.data
       } else {
         const decrypted = await decryptFile(
@@ -635,17 +644,17 @@ const DriveProvider = ({ children }: DriveContextProps) => {
         )
         if (decrypted) {
           return new Blob([decrypted], {
-            type: file.content_type
+            type: fileToGet.content_type
           })
         }
       }
     } catch (error) {
-      console.log(error)
+      console.error(error)
       return Promise.reject()
     }
-  }
+  }, [currentPath, encryptionKey, imployApiClient, pathContents, bucketType])
 
-  const downloadFile = async (cid: string) => {
+  const downloadFile = useCallback(async (cid: string) => {
     const itemToDownload = pathContents.find((i) => i.cid === cid)
     if (!itemToDownload) return
     const toastId = uuidv4()
@@ -658,10 +667,9 @@ const DriveProvider = ({ children }: DriveContextProps) => {
         progress: 0
       }
       dispatchDownloadsInProgress({ type: "add", payload: downloadProgress })
-      const result = await getFileContent(
-        itemToDownload.cid,
-        undefined,
-        (progressEvent) => {
+      const result = await getFileContent({
+        cid: itemToDownload.cid,
+        onDownloadProgress: (progressEvent) => {
           dispatchDownloadsInProgress({
             type: "progress",
             payload: {
@@ -672,7 +680,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
             }
           })
         }
-      )
+      })
       if (!result) return
       const link = document.createElement("a")
       link.href = URL.createObjectURL(result)
@@ -694,7 +702,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
       dispatchDownloadsInProgress({ type: "error", payload: { id: toastId } })
       return Promise.reject()
     }
-  }
+  }, [getFileContent, pathContents])
 
   const list = async (body: FilesPathRequest) => {
     try {
@@ -749,6 +757,12 @@ const DriveProvider = ({ children }: DriveContextProps) => {
   //   }
   // }
 
+  const updateCurrentPath = useCallback((newPath: string, bucketType?: BucketType, showLoading?: boolean) => {
+    newPath.endsWith("/")
+      ? setCurrentPath(`${newPath}`, bucketType, showLoading)
+      : setCurrentPath(`${newPath}/`, bucketType, showLoading)
+  }, [setCurrentPath])
+
   return (
     <DriveContext.Provider
       value={{
@@ -756,24 +770,15 @@ const DriveProvider = ({ children }: DriveContextProps) => {
         createFolder,
         renameFile,
         moveFile,
-        bulkMoveFile,
-        deleteFile,
-        moveFileToTrash,
-        bulkMoveFileToTrash,
+        moveFiles,
+        deleteFiles,
+        moveFilesToTrash,
         downloadFile,
         getFileContent,
         recoverFile,
         list,
         currentPath,
-        updateCurrentPath: (
-          newPath: string,
-          bucketType?: BucketType,
-          showLoading?: boolean
-        ) => {
-          newPath.endsWith("/")
-            ? setCurrentPath(`${newPath}`, bucketType, showLoading)
-            : setCurrentPath(`${newPath}/`, bucketType, showLoading)
-        },
+        updateCurrentPath,
         pathContents,
         uploadsInProgress,
         spaceUsed,

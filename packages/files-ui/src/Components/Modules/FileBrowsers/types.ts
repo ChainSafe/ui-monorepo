@@ -22,25 +22,19 @@ export interface IFilesBrowserModuleProps {
   controls?: boolean
 }
 
-export interface IFileConfigured extends FileSystemItem {
-  operations: FileOperation[]
-}
-
 export interface IBulkOperations {
   [index: string]: FileOperation[]
 }
 
 export interface IFilesTableBrowserProps
-  extends Omit<
-    IFilesBrowserModuleProps,
-    "fileOperations" | "folderOperations"
-  > {
+  extends Omit<IFilesBrowserModuleProps, "fileOperations" | "folderOperations"> {
+  itemOperations: {[contentType: string]: FileOperation[]}
+
   bulkOperations?: IBulkOperations
   handleRename?: (path: string, new_path: string) => Promise<void>
   handleMove?: (path: string, new_path: string) => Promise<void>
   downloadFile?: (cid: string) => Promise<void>
-  deleteFile?: (cid: string) => Promise<void>
-  bulkMoveFileToTrash?: (cids: string[]) => Promise<void>
+  deleteFiles?: (cid: string[]) => Promise<void[]>
   recoverFile?: (cid: string) => Promise<void>
   viewFolder?: (cid: string) => void
   allowDropUpload?: boolean
@@ -60,7 +54,9 @@ export interface IFilesTableBrowserProps
   uploadsInProgress?: UploadProgress[]
   showUploadsInTable: boolean
 
-  sourceFiles: IFileConfigured[]
+  sourceFiles: FileSystemItem[]
   currentPath?: string
   crumbs: Crumb[] | undefined
+  getPath?: (cid: string) => string | undefined
+  isSearch?: boolean
 }

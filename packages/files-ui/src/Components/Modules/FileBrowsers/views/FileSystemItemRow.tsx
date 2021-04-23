@@ -1,4 +1,4 @@
-import React, { Fragment, useCallback } from "react"
+import React, { useCallback } from "react"
 import {
   TableRow,
   TableCell,
@@ -23,14 +23,10 @@ import {
   ExportSvg,
   ShareAltSvg,
   ExclamationCircleInverseSvg,
-  ZoomInSvg
+  ZoomInSvg,
+  standardlongDateFormat
 } from "@chainsafe/common-components"
-import {
-  makeStyles,
-  createStyles,
-  useDoubleClick,
-  useThemeSwitcher
-} from "@chainsafe/common-theme"
+import { makeStyles, createStyles, useDoubleClick, useThemeSwitcher } from "@chainsafe/common-theme"
 import clsx from "clsx"
 import { Formik, Form } from "formik"
 import { FileSystemItem, BucketType } from "../../../../Contexts/DriveContext"
@@ -39,12 +35,13 @@ import { Trans } from "@lingui/macro"
 import { useDrag, useDrop } from "react-dnd"
 import { DragTypes } from "../DragConstants"
 import { NativeTypes } from "react-dnd-html5-backend"
-import { FileOperation, IFileConfigured } from "../types"
+import { FileOperation } from "../types"
 import { CSFTheme } from "../../../../Themes/types"
 
 const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => {
-  const desktopGridSettings = "50px 69px 3fr 190px 60px !important"
+  const desktopGridSettings = "50px 69px 3fr 190px 100px 45px !important"
   const mobileGridSettings = "69px 3fr 45px !important"
+
   return createStyles({
     tableRow: {
       border: "2px solid transparent",
@@ -93,7 +90,8 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => 
         borderTopLeftRadius: `${constants.generalUnit * 1.5}px`,
         borderTopRightRadius: `${constants.generalUnit * 1.5}px`,
         borderBottomLeftRadius: `${constants.generalUnit * 1.5}px`,
-        borderBottomRightRadius: `${constants.generalUnit * 1.5}px`
+        borderBottomRightRadius: `${constants.generalUnit * 1.5}px`,
+        maxWidth: `${breakpoints.width("md")}px !important`
       }
     },
     renameHeader: {
@@ -140,8 +138,11 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => 
     },
     filename: {
       whiteSpace: "nowrap",
+      textOverflow: "ellipsis",
       overflow: "hidden",
-      textOverflow: "ellipsis"
+      "&.editing": {
+        overflow: "visible"
+      }
     },
     dropdownIcon: {
       "& svg": {
@@ -162,36 +163,27 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => 
 
 interface IFileSystemItemRowProps {
   index: number
-  file: IFileConfigured
-  files: IFileConfigured[]
+  file: FileSystemItem
+  files: FileSystemItem[]
   currentPath?: string
-  updateCurrentPath(
-    path: string,
-    newBucketType?: BucketType,
-    showLoading?: boolean,
-  ): void
+  updateCurrentPath: (path: string, newBucketType?: BucketType, showLoading?: boolean) => void
   selected: string[]
   handleSelect(selected: string): void
   editing: string | undefined
   setEditing(editing: string | undefined): void
-  RenameSchema: any
-  handleRename?(path: string, newPath: string): Promise<void>
-  handleMove?(path: string, newPath: string): Promise<void>
-  deleteFile?(cid: string): void
-  recoverFile?(cid: string): void
-  viewFolder?(cid: string): void
-  downloadFile?(cid: string): Promise<void>
-  handleUploadOnDrop?(
-    files: File[],
-    fileItems: DataTransferItemList,
-    path: string,
-  ): void
-  setPreviewFileIndex(fileIndex: number | undefined): void
-  setMoveFileData(moveFileData: {
-    modal: boolean
-    fileData: FileSystemItem | FileSystemItem[]
-  }): void
-  setFileInfoPath(path: string): void
+  renameSchema: any
+  handleRename?: (path: string, newPath: string) => Promise<void>
+  handleMove?: (path: string, newPath: string) => Promise<void>
+  deleteFile?: (cid: string) => void
+  recoverFile?: (cid: string) => void
+  viewFolder?: (cid: string) => void
+  downloadFile?: (cid: string) => Promise<void>
+  handleUploadOnDrop?: (files: File[], fileItems: DataTransferItemList, path: string,) => void
+  setPreviewFileIndex: (fileIndex: number | undefined) => void
+  setMoveFileData: (moveFileData: { modal: boolean; fileData: FileSystemItem | FileSystemItem[] }) => void
+  setFileInfoPath: (path: string) => void
+  itemOperations: FileOperation[]
+  resetSelectedFiles: () => void
 }
 
 const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
@@ -203,7 +195,7 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
   selected,
   editing,
   setEditing,
-  RenameSchema,
+  renameSchema,
   handleRename,
   handleMove,
   deleteFile,
@@ -214,9 +206,11 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
   setPreviewFileIndex,
   setMoveFileData,
   setFileInfoPath,
-  handleSelect
+  handleSelect,
+  itemOperations,
+  resetSelectedFiles
 }) => {
-  const { cid, name, isFolder, size, operations, content_type } = file
+  const { cid, name, isFolder, size, content_type, created_at } = file
   let Icon
   if (isFolder) {
     Icon = FolderFilledSvg
@@ -231,110 +225,110 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
   const { desktop, themeKey } = useThemeSwitcher()
   const classes = useStyles()
 
-  const menuOptions: Record<FileOperation, IMenuItem> = {
+  const allMenuItems: Record<FileOperation, IMenuItem> = {
     rename: {
       contents: (
-        <Fragment>
+        <>
           <EditSvg className={classes.menuIcon} />
           <span>
             <Trans>Rename</Trans>
           </span>
-        </Fragment>
+        </>
       ),
       onClick: () => setEditing(cid)
     },
     delete: {
       contents: (
-        <Fragment>
+        <>
           <DeleteSvg className={classes.menuIcon} />
           <span>
             <Trans>Delete</Trans>
           </span>
-        </Fragment>
+        </>
       ),
       onClick: () => deleteFile && deleteFile(cid)
     },
     download: {
       contents: (
-        <Fragment>
+        <>
           <DownloadSvg className={classes.menuIcon} />
           <span>
             <Trans>Download</Trans>
           </span>
-        </Fragment>
+        </>
       ),
       onClick: () => downloadFile && downloadFile(cid)
     },
     move: {
       contents: (
-        <Fragment>
+        <>
           <ExportSvg className={classes.menuIcon} />
           <span>
             <Trans>Move</Trans>
           </span>
-        </Fragment>
+        </>
       ),
       onClick: () => setMoveFileData({ modal: true, fileData: file })
     },
     share: {
       contents: (
-        <Fragment>
+        <>
           <ShareAltSvg className={classes.menuIcon} />
           <span>
             <Trans>Share</Trans>
           </span>
-        </Fragment>
+        </>
       ),
       onClick: () => console.log
     },
     info: {
       contents: (
-        <Fragment>
+        <>
           <ExclamationCircleInverseSvg className={classes.menuIcon} />
           <span>
             <Trans>Info</Trans>
           </span>
-        </Fragment>
+        </>
       ),
       onClick: () => setFileInfoPath(`${currentPath}${name}`)
     },
     recover: {
       contents: (
-        <Fragment>
+        <>
           <RecoverSvg className={classes.menuIcon} />
           <span>
             <Trans>Recover</Trans>
           </span>
-        </Fragment>
+        </>
       ),
       onClick: () => recoverFile && recoverFile(cid)
     },
     preview: {
       contents: (
-        <Fragment>
+        <>
           <ZoomInSvg className={classes.menuIcon} />
           <span>
             <Trans>Preview</Trans>
           </span>
-        </Fragment>
+        </>
       ),
       onClick: () => setPreviewFileIndex(files?.indexOf(file))
     },
     view_folder: {
       contents: (
-        <Fragment>
+        <>
           <EyeSvg className={classes.menuIcon} />
           <span>
             <Trans>View folder</Trans>
           </span>
-        </Fragment>
+        </>
       ),
       onClick: () => viewFolder && viewFolder(cid)
     }
   }
 
-  const menuItems: IMenuItem[] = operations.map(
-    (itemOperation) => menuOptions[itemOperation]
+  const menuItems: IMenuItem[] = itemOperations.map(
+    (itemOperation) => allMenuItems[itemOperation]
   )
 
   const [, dragMoveRef, preview] = useDrag({
@@ -379,21 +373,31 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
     }
   }
 
-  const onSingleClick = useCallback(() => { handleSelect(cid) }, [cid, handleSelect])
+  const onFolderClick = useCallback(() => {
+    updateCurrentPath(`${currentPath}${name}`, undefined, true)
+    resetSelectedFiles()
+  }, [currentPath, name, resetSelectedFiles, updateCurrentPath])
+
+  const onFileClick = useCallback(() => {
+    setPreviewFileIndex(files?.indexOf(file))
+  }, [file, files, setPreviewFileIndex])
+
+  const onSingleClick = useCallback(() => { handleSelect(cid) },
+    [cid, handleSelect])
   const onDoubleClick = useCallback(() => {
     isFolder
-      ? updateCurrentPath(`${currentPath}${name}`, undefined, true)
-      : setPreviewFileIndex(files?.indexOf(file))
-  }, [currentPath, file, files, isFolder, name, setPreviewFileIndex, updateCurrentPath])
+      ? onFolderClick()
+      : onFileClick()
+  }, [isFolder, onFileClick, onFolderClick])
 
-  const { click } = useDoubleClick(onSingleClick,onDoubleClick)
+  const { click } = useDoubleClick(onSingleClick, onDoubleClick)
 
   const onFolderOrFileClicks = desktop
     ? click
     : () => {
       isFolder
-        ? updateCurrentPath(`${currentPath}${name}`, undefined, true)
-        : setPreviewFileIndex(files?.indexOf(file))
+        ? onFolderClick()
+        : onFileClick()
     }
 
   return (
@@ -405,7 +409,7 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
       })}
       type="grid"
       rowSelectable={true}
-      ref={attachRef}
+      ref={!editing ? attachRef : null}
       selected={selected.includes(cid)}
     >
       {desktop && (
@@ -425,7 +429,7 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
       <TableCell
         ref={preview}
         align="left"
-        className={classes.filename}
+        className={clsx(classes.filename, desktop && editing === cid && "editing")}
         onClick={() => {
           if (!editing) {
             onFolderOrFileClicks()
@@ -437,7 +441,7 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
             initialValues={{
               fileName: name
             }}
-            validationSchema={RenameSchema}
+            validationSchema={renameSchema}
             onSubmit={(values) => {
               handleRename &&
                 handleRename(
@@ -472,73 +476,82 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
             </Form>
           </Formik>
         ) : editing === cid && !desktop ? (
-          <CustomModal
-            className={classes.modalRoot}
-            injectedClass={{
-              inner: classes.modalInner
-            }}
-            closePosition="none"
-            active={editing === cid}
-            setActive={() => setEditing("")}
-          >
-            <Formik
-              initialValues={{
-                fileName: name
+          <>
+            <CustomModal
+              className={classes.modalRoot}
+              injectedClass={{
+                inner: classes.modalInner
               }}
-              validationSchema={RenameSchema}
-              onSubmit={(values) => {
-                handleRename &&
+              closePosition="none"
+              active={editing === cid}
+              setActive={() => setEditing("")}
+            >
+              <Formik
+                initialValues={{
+                  fileName: name
+                }}
+                validationSchema={renameSchema}
+                onSubmit={(values) => {
+                  handleRename &&
                   handleRename(
                     `${currentPath}${name}`,
                     `${currentPath}${values.fileName}`
                   )
-                setEditing(undefined)
-              }}
-            >
-              <Form className={classes.renameModal}>
-                <Typography
-                  className={classes.renameHeader}
-                  component="p"
-                  variant="h5"
-                >
-                  <Trans>Rename File/Folder</Trans>
-                </Typography>
-                <FormikTextInput
-                  label="Name"
-                  className={classes.renameInput}
-                  name="fileName"
-                  placeholder={`Please enter a ${
-                    isFolder ? "folder" : "file"
-                  } name`}
-                  autoFocus={editing === cid}
-                />
-                <footer className={classes.renameFooter}>
-                  <Button
-                    onClick={() => setEditing("")}
-                    size="medium"
-                    className={classes.cancelButton}
-                    variant="outline"
-                    type="button"
+                  setEditing(undefined)
+                }}
+              >
+                <Form className={classes.renameModal}>
+                  <Typography
+                    className={classes.renameHeader}
+                    component="p"
+                    variant="h5"
                   >
-                    <Trans>Cancel</Trans>
-                  </Button>
-                  <Button
-                    size="medium"
-                    type="submit"
-                    className={classes.okButton}
-                  >
-                    <Trans>Update</Trans>
-                  </Button>
-                </footer>
-              </Form>
-            </Formik>
-          </CustomModal>
+                    <Trans>Rename File/Folder</Trans>
+                  </Typography>
+                  <FormikTextInput
+                    label="Name"
+                    className={classes.renameInput}
+                    name="fileName"
+                    placeholder={`Please enter a ${
+                      isFolder ? "folder" : "file"
+                    } name`}
+                    autoFocus={editing === cid}
+                  />
+                  <footer className={classes.renameFooter}>
+                    <Button
+                      onClick={() => setEditing("")}
+                      size="medium"
+                      className={classes.cancelButton}
+                      variant="outline"
+                      type="button"
+                    >
+                      <Trans>Cancel</Trans>
+                    </Button>
+                    <Button
+                      variant="primary"
+                      size="medium"
+                      type="submit"
+                      className={classes.okButton}
+                    >
+                      <Trans>Update</Trans>
+                    </Button>
+                  </footer>
+                </Form>
+              </Formik>
+            </CustomModal>
+            <Typography>{name}</Typography>
+          </>
         ) : (
           <Typography>{name}</Typography>
         )}
       </TableCell>
       {desktop && (
         <>
+          <TableCell align="left">
+            {
+              standardlongDateFormat(new Date(created_at * 1000), true, false)
+            }
+          </TableCell>
           <TableCell align="left">
             {!isFolder && formatBytes(size)}
           </TableCell>

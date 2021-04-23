@@ -1,14 +1,5 @@
 import React from "react"
-import {
-  Table,
-  TableHead,
-  TableHeadCell,
-  TableBody,
-  TableRow,
-  TableCell,
-  AlignOption,
-  SortDirection
-} from "../Table"
+import { Table, TableHead, TableHeadCell, TableBody, TableRow, TableCell, AlignOption, SortDirection } from "../Table"
 import { withKnobs, select, boolean } from "@storybook/addon-knobs"
 import { action } from "@storybook/addon-actions"
 
@@ -73,9 +64,15 @@ export const MainDemo = (): React.ReactNode => (
 )
 
 export const FilesTableDemo = (): React.ReactNode => (
-  <Table fullWidth={true} dense={true}>
+  <Table
+    fullWidth={true}
+    dense={true}
+  >
     <TableHead>
-      <TableHeadCell align="left" sortButtons>
+      <TableHeadCell
+        align="left"
+        sortButtons
+      >
         Filename
       </TableHeadCell>
       <TableHeadCell align="left">Last modified</TableHeadCell>

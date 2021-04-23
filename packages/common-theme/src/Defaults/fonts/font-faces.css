@@ -1,0 +1,32 @@
+@font-face {
+  font-family: 'NeueMontreal';
+  src: url('./NeueMontreal-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-display: swap;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'NeueMontreal';
+  src: url('./NeueMontreal-Italic.ttf') format('truetype');
+  font-weight: 400;
+  font-display: swap;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'NeueMontreal';
+  src: url('./NeueMontreal-Medium.ttf') format('truetype');
+  font-weight: 600;
+  font-display: swap;
+  font-style: normal;
+}
+
+
+@font-face {
+  font-family: 'NeueMontreal';
+  src: url('./NeueMontreal-MediumItalic.ttf') format('truetype');
+  font-weight: 600;
+  font-display: swap;
+  font-style: italic;
+}

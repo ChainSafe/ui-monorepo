@@ -4,6 +4,8 @@ import { CsfColors, UI_CONSTANTS } from "./Constants"
 export const darkTheme = createTheme<CsfColors>({
   globalStyling: {
     ":root": {
+      "--csf-primary": "#5165DC",
+
       "--blue1": "#111D2C",
       "--blue2": "#112A45",
       "--blue3": "#15395B",
@@ -166,7 +168,7 @@ export const darkTheme = createTheme<CsfColors>({
         black: {
           main: "var(--gray1)"
         }
-      },  
+      },
       additional: {
         blue: {
           1: "var(--blue1)",
@@ -336,12 +338,24 @@ export const darkTheme = createTheme<CsfColors>({
           footerBg: "var(--gray4)",
           footerText: "var(--gray8)"
         },
+        loginModule: {
+          explainerBg: "var(--gray2)",
+          background: "var(--gray2)",
+          itemBackground: "var(--gray4)",
+          iconColor: "#9E9E9E", // Gray 7.5
+          textColor: "var(--gray9)",
+          subText: "var(--gray8)",
+          flagBg: "var(--gray9)",
+          flagText: "var(--gray1)",
+          completeBg: "#0C082B", // Gray 9.5
+          completeText: "var(--gray9)"
+        },
         modalDefault: {
           fadeBackground: "var(--gray2)",
           background: "var(--gray2)"
         },
         header: {
-          rootBackground: "var(--gray1)" ,
+          rootBackground: "var(--gray1)",
           optionsBackground: "var(--gray2)",
           optionsTextColor: "var(--gray5)",
           optionsBorder: "var(--gray5)",
@@ -350,16 +364,20 @@ export const darkTheme = createTheme<CsfColors>({
           hamburger: "var(--gray10)"
         },
         nav: {
-          backgroundColor: "var(--gray1)",
-          blocker: "var(--gray1)",
-          mobileBackgroundColor: "var(--gray1)",
-          headingColor: "var(--gray8)",
-          itemColor: "var(--gray7)",
+          backgroundColor: "var(--gray2)",
+          blocker: "var(--gray2)",
+          mobileBackgroundColor: "var(--gray2)",
+          headingColor: "var(--gray9)",
+          itemColor: "var(--gray9)",
           itemColorHover: "var(--gray9)",
-          itemIconColor: "var(--gray7)",
+          itemIconColor: "var(--gray9)",
           itemIconColorHover: "var(--gray9)"
         },
         createFolder: {
+          backgroundColor: "var(--gray2)",
+          color: "var(--gray9)"
+        },
+        actionModal: {
           backgroundColor: "var(--gray2)",
           color: "var(--gray9)"
         },
@@ -437,6 +455,18 @@ export const darkTheme = createTheme<CsfColors>({
         },
         uploadAlert: {
           icon: "var(--gray9)"
+        },
+        settingsPage:{
+          darkSwitch: {
+            backgroundColor: "var(--gray2)",
+            color: "var(--gray9)",
+            border: "1px solid",
+            borderColor: "var(--geekblue4)"
+          },
+          lightSwitch: {
+            backgroundColor: "var(--gray4)",
+            color: "var(--gray7)"
+          }
         }
       } as CsfColors)
     },
@@ -505,7 +535,7 @@ export const darkTheme = createTheme<CsfColors>({
               "& svg": {
                 fill: "var(--gray9)"
               }
-            },  
+            },
             active: {
               backgroundColor: "var(--gray7)",
               color: "var(--gray9)",
@@ -521,10 +551,10 @@ export const darkTheme = createTheme<CsfColors>({
               }
             },
             focus: {
-              backgroundColor: "var(--gray7)",
-              color: "var(--gray9)",
+              color: "none",
+              backgroundColor: "none",
               "& svg": {
-                fill: "var(--gray9)"
+                fill: "none"
               }
             }
           },

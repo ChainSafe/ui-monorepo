@@ -1,23 +1,19 @@
-import React from "react"
+import React, { useCallback } from "react"
 import ToasterContent from "./ToasterContent"
-import {
-  useToasts,
-  AppearanceTypes,
-  Placement
-} from "react-toast-notifications"
+import { useToasts, AppearanceTypes, Placement } from "react-toast-notifications"
 
 export interface IToasterMessage {
   message: string
   description?: string
   appearance?: AppearanceTypes
   autoDismiss?: boolean
-  onDismiss?(id: string): void
+  onDismiss?: (id: string) => void
 }
 
 export const useToaster = () => {
   const { addToast } = useToasts()
 
-  const addToastMessage = (config: IToasterMessage) => {
+  const addToastMessage = useCallback((config: IToasterMessage) => {
     addToast(
       <ToasterContent
         message={config.message}
@@ -29,7 +25,7 @@ export const useToaster = () => {
         onDismiss: config.onDismiss
       }
     )
-  }
+  }, [addToast])
 
   return {
     addToastMessage
