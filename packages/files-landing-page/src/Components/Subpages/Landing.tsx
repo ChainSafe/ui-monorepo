@@ -2,9 +2,10 @@ import React from "react"
 import { createStyles, ITheme, makeStyles } from "@chainsafe/common-theme"
 import { Trans } from "@lingui/macro"
 import clsx from "clsx"
+import { Typography } from "@chainsafe/common-components"
 
 const useStyles = makeStyles(
-  ({ constants, palette, breakpoints }: ITheme) => {
+  ({ constants, palette, breakpoints, typography }: ITheme) => {
     return createStyles({
       headerContainer: {
         display: "flex",
@@ -13,7 +14,7 @@ const useStyles = makeStyles(
         alignItems: "center",
         width: "100%",
         height: "auto",
-        paddingTop: "130px",
+        paddingTop: `${constants.headerHeight}px`,
         paddingBottom: constants.generalUnit * 3,
       },
       headerContentContainer: {
@@ -21,14 +22,18 @@ const useStyles = makeStyles(
         justifyContent: "center",
         flexDirection: "column",
         alignItems: "center",
-        height: `calc(100% - ${constants.headerHeight}px)`,
+        height: `calc(100vh - ${constants.headerHeight}px)`,
         "& > img": {
           width: "70%",
+          maxHeight: "100%",
           [breakpoints.down('md')]:{
             width: "90%",
           }
         },
         "& > p": {
+          fontSize: "38px",
+          lineHeight: "48px",
+          marginBottom: constants.generalUnit * 3,
           [breakpoints.down('md')]:{
             maxWidth: "90%",
             textAlign: "center",
@@ -38,9 +43,6 @@ const useStyles = makeStyles(
             fontSize: "38px",
             marginBottom: constants.generalUnit * 7,
           },
-          fontSize: "38px",
-          lineHeight: "48px",
-          marginBottom: constants.generalUnit * 3,
         }
     },
     headerLink: {
@@ -75,6 +77,7 @@ const useStyles = makeStyles(
         margin: "3% 10%",
       },
       [breakpoints.up('md')]: {
+        height: `calc(100vh - ${constants.headerHeight}px)`,
         gridTemplateColumns: "1fr",
         marginTop: "8%",
       },
@@ -125,7 +128,7 @@ const useStyles = makeStyles(
         },
         [breakpoints.down('lg')]:{
           maxWidth: "100%",
-         gridTemplateColumns: "repeat(4, minmax(0, 1fr))",
+          gridTemplateColumns: "repeat(4, minmax(0, 1fr))",
           gridTemplateRows: "1",
         },
         [breakpoints.down('sm')]:{
@@ -209,48 +212,50 @@ const useStyles = makeStyles(
         },
       }
     },
+    featureList: {
+      [breakpoints.up("md")]: {
+        height: `calc(100vh - ${constants.headerHeight}px)`,
+      }
+    },
     featureTextContainer: {
       display: "grid",
+      padding: "5vh",
+      alignContent: "center",
       [breakpoints.up(750)]:{
         gridTemplateColumns: "minmax(0,5fr) minmax(0, 7fr)",
-        minHeight: "35vh",
+        minHeight: "33%",
       },
       [breakpoints.down(750)]:{
-        minHeight: "45vh",
+        minHeight: "50%",
         gridTemplateColimns: "minmax(0, 1fr)",
       },
-      alignContent: "center",
       "&:first-of-type": {
         background: palette.primary.main
       },
       "&:last-of-type": {
         background: "#141414"
       },
-      padding: "5vh",
-      "& > h1": {
-        [breakpoints.up('lg')]:{
-          fontSize: "72px",
-          lineHeight: "80px",
-        },
-        [breakpoints.up(3500)]: {
-          justifySelf: "center",
-        },
-        [breakpoints.down('lg')]:{
-          fontSize: "48px",
-          lineHeight: "56px",
-        },
-        [breakpoints.down('md')]:{
-          fontSize: "30px",
-          lineHeight: "38px",
-        },
-      }
+    },
+    featureHeading: {
+      alignSelf: "center",
+      [breakpoints.up('lg')]:{
+        ...typography.h1
+      },
+      [breakpoints.up(3500)]: {
+        justifySelf: "center",
+      },
+      [breakpoints.down('lg')]:{
+        ...typography.h2
+      },
+      [breakpoints.down('md')]:{
+       ...typography.h3
+      },
     },
     featureBodyTextContainer: {
       display: "grid",
       gridTemplateRows: "repeat(2, 1fr)",
     },
     bodyTextWrapper: {
-      maxWidth: `calc(100% - ${constants.generalUnit * 10}px)`,
       marginBottom: constants.generalUnit,
 
       [breakpoints.up('lg')]: {
@@ -259,7 +264,9 @@ const useStyles = makeStyles(
       },
       [breakpoints.up(3500)]: {
         maxWidth: `calc(100% - ${constants.generalUnit * 150}px)`,
-
+      },
+      [breakpoints.up("md")]: {
+        maxWidth: `calc(100% - ${constants.generalUnit * 10}px)`,
       },
       "& > a": {
         color: palette.additional["gray"][9],
@@ -268,16 +275,16 @@ const useStyles = makeStyles(
       },
     },
     bodyText: {
-        fontSize: "17px",
-        lineHeight: "24px",
-        marginBottom: constants.generalUnit,
-        [breakpoints.up(3500)]:{
-          fontSize: "24px",
-          lineHeight: "34px",
-        }
+      fontSize: "17px",
+      lineHeight: "24px",
+      marginBottom: constants.generalUnit,
+      [breakpoints.up(3500)]:{
+        fontSize: "24px",
+        lineHeight: "34px",
+      }
     },
     lightText: {
-        color: palette.additional["gray"][3],
+      color: palette.additional["gray"][3],
     },
     loveLetterContainer: {
       minHeight: "auto",
@@ -323,13 +330,15 @@ const useStyles = makeStyles(
       }
     }, 
     loveLetterTextWrapper: {
-      maxWidth: `calc(100% - ${constants.generalUnit * 10}px)`,
       justifySelf: "left",
       [breakpoints.up(1500)]:{
         maxWidth: `calc(100% - ${constants.generalUnit * 25}px)`,
       },
       [breakpoints.down(1200)]:{
         paddingTop: constants.generalUnit * 5,
+      },
+      [breakpoints.up("md")]: {
+        maxWidth: `calc(100% - ${constants.generalUnit * 10}px)`,
       }
     },
     loveLetterText: {
@@ -351,9 +360,8 @@ const useStyles = makeStyles(
         height: "190px",
       }
     }
-    })
-  },
-)
+  })
+})
 
 const Landing: React.FC = () => {
   const classes = useStyles()
@@ -362,7 +370,7 @@ const Landing: React.FC = () => {
       <header className={classes.headerContainer}>
         <div className={classes.headerContentContainer}>
           <Trans>
-            <p>Store Files. Unparalleled privacy. Unparalleled simplicity.</p>
+            <Typography component="p">Store Files. Unparalleled privacy. Unparalleled simplicity.</Typography>
           </Trans>
           <a href="https://app.files.chainsafe.io/" className={classes.headerLink}>
             <Trans>Go to ChainSafe Files</Trans>
@@ -410,79 +418,79 @@ const Landing: React.FC = () => {
         </div>
       </article>
       {/* Feature List */}
-      <article>
+      <article className={classes.featureList}>
         <div className={classes.featureTextContainer}>
-            <h1 className={classes.lightText}><Trans>Secure.</Trans></h1>
+          <Typography className={clsx(classes.featureHeading, classes.lightText)}><Trans>Secure.</Trans></Typography>
           <div className={classes.featureBodyTextContainer}>
             <div className={classes.bodyTextWrapper}>
-                <p className={clsx(classes.bodyText, classes.lightText)}>
-                  <strong><Trans>We don't know what you’re storing.</Trans></strong>
-                </p>
-                <p className={clsx(classes.bodyText, classes.lightText)}>
-                  <Trans>
-                    What you want to do with your files is totally up to you.  End-to-end encryption means your content can only be seen by you.
-                  </Trans>
-                </p>
+              <Typography component="p" className={clsx(classes.bodyText, classes.lightText)}>
+                <strong><Trans>We don't know what you’re storing.</Trans></strong>
+              </Typography>
+              <Typography component="p" className={clsx(classes.bodyText, classes.lightText)}>
+                <Trans>
+                  What you want to do with your files is totally up to you.  End-to-end encryption means your content can only be seen by you.
+                </Trans>
+              </Typography>
             </div>
             <div className={classes.bodyTextWrapper}>
-                <p className={clsx(classes.bodyText, classes.lightText)}>
-                  <strong><Trans>Not in the business of tracking you and selling your data.</Trans></strong>
-                </p>
-                <p className={clsx(classes.bodyText, classes.lightText)}>
-                  <Trans> 
-                    We only collect what is minimally necessary to provide our service to you. We promise to not to change that.
-                  </Trans>
-                </p>
+              <p className={clsx(classes.bodyText, classes.lightText)}>
+                <strong><Trans>Not in the business of tracking you and selling your data.</Trans></strong>
+              </p>
+              <p className={clsx(classes.bodyText, classes.lightText)}>
+                <Trans> 
+                  We only collect what is minimally necessary to provide our service to you. We promise to not to change that.
+                </Trans>
+              </p>
             </div>
           </div>
         </div>
         <div className={classes.featureTextContainer}>
-            <h1><Trans>Easy to use.</Trans></h1>
+          <Typography className={classes.featureHeading} component="h2"><Trans>Easy to use.</Trans></Typography>
           <div className={classes.featureBodyTextContainer}>
             <div className={classes.bodyTextWrapper}>
-                <p className={classes.bodyText}>
-                  <strong><Trans>Sign in however you want.</Trans></strong>
-                </p>
-                <p className={classes.bodyText}>
-                  <Trans>
-                    Sign up with your GitHub, Google or Facebook account. Or connect an Ethereum wallet. No emails required, ever. 
-                  </Trans>
-                </p>
+              <Typography component="p" className={classes.bodyText}>
+                <strong><Trans>Sign in however you want.</Trans></strong>
+              </Typography>
+              <Typography component="p" className={classes.bodyText}>
+                <Trans>
+                  Sign up with your GitHub, Google or Facebook account. Or connect an Ethereum wallet. No emails required, ever. 
+                </Trans>
+              </Typography>
             </div>
             <div className={classes.bodyTextWrapper}>
-                <p className={classes.bodyText}>
-                  <strong><Trans>Equal parts privacy and convenience.</Trans></strong>
-                </p>
-                <p className={classes.bodyText}>
-                  <Trans>
-                  Preview your stuff. Access it from any device. Organize folders. And much more coming soon. <span role="img"  aria-label="sparkle">✨</span>
-                  </Trans>
-                </p>
+              <Typography component="p" className={classes.bodyText}>
+                <strong><Trans>Equal parts privacy and convenience.</Trans></strong>
+              </Typography>
+              <Typography component="p" className={classes.bodyText}>
+                <Trans>
+                Preview your stuff. Access it from any device. Organize folders. And much more coming soon. <span role="img"  aria-label="sparkle">✨</span>
+                </Trans>
+              </Typography>
             </div>
           </div>
         </div>
         <div className={classes.featureTextContainer}>
-            <h1 className={classes.lightText}><Trans>Next gen.</Trans></h1>  
+          <Typography className={clsx(classes.featureHeading, classes.lightText)} component="h2"><Trans>Next gen.</Trans></Typography>  
           <div className={classes.featureBodyTextContainer}>
             <div className={classes.bodyTextWrapper}>
-                <p className={clsx(classes.bodyText, classes.lightText)}>
-                  <strong><Trans>Powered by peer-to-peer.</Trans></strong>
-                </p>
-                <p className={clsx(classes.bodyText, classes.lightText)}>
-                  <Trans>
-                    Files is a next-gen app that blends cloud storage with blockchain and data privacy. We’re leveraging the power of the IPFS and Filecoin network to protect your stuff from data loss.
-                  </Trans>
-                </p>
+              <Typography component="p" className={clsx(classes.bodyText, classes.lightText)}>
+                <strong><Trans>Powered by peer-to-peer.</Trans></strong>
+              </Typography>
+              <Typography component="p" className={clsx(classes.bodyText, classes.lightText)}>
+                <Trans>
+                  Files is a next-gen app that blends cloud storage with blockchain and data privacy. We’re leveraging the power of the IPFS and Filecoin network to protect your stuff from data loss.
+                </Trans>
+              </Typography>
             </div>
             <div className={classes.bodyTextWrapper}>
-                <p className={clsx(classes.bodyText, classes.lightText)}>
-                  <strong><Trans>Self-reliance with account recovery.</Trans></strong>
-                </p>
-                <p className={clsx(classes.bodyText, classes.lightText)}>
-                  <Trans>
-                    We don’t store passwords and emails; protecting your keys is your responsibility. Mistakes happen, though. That’s why we make account recovery as easy as humanly possible with threshold key management. 
-                  </Trans>
-                </p>
+              <Typography component="p" className={clsx(classes.bodyText, classes.lightText)}>
+                <strong><Trans>Self-reliance with account recovery.</Trans></strong>
+              </Typography>
+              <Typography component="p" className={clsx(classes.bodyText, classes.lightText)}>
+                <Trans>
+                  We don’t store passwords and emails; protecting your keys is your responsibility. Mistakes happen, though. That’s why we make account recovery as easy as humanly possible with threshold key management. 
+                </Trans>
+              </Typography>
             </div>
           </div>
         </div>
@@ -492,16 +500,16 @@ const Landing: React.FC = () => {
         <div className={classes.loveLetterContentContainer}>
           <img className={classes.loveLetterImg} src="https://res.cloudinary.com/ddxhvanz2/image/upload/v1617711769/files.chainsafe.io/cs-logo-black-bg_mdbtml.png" alt="ChainSafe Logo on black background"/>
           <div className={clsx(classes.bodyTextWrapper, classes.flexDirectionColumn, classes.loveLetterTextWrapper)}>
-            <h1><Trans>A love letter to the WWW...</Trans></h1>
-            <p className={clsx(classes.bodyText, classes.loveLetterText)}>
+            <Typography variant="h4" component="h2"><Trans>A love letter to the WWW...</Trans></Typography>
+            <Typography component="p" className={clsx(classes.bodyText, classes.loveLetterText)}>
               <Trans>
               Yes, we want people to have the best experience online without sacrificing their privacy or security. But there’s more. We’re reimagining the future of filesystems and file lifecycles.   Why? Because you deserve to spend less time uploading here, downloading there, and shuffling stuff from platform to platform.  We’re going to make it incredibly easy to connect all your content securely. Without forcing you onto a single platform. 
               <br></br>
               <br></br>
               Stay tuned. We’re working with the best teams innovating software to make this a reality.
             </Trans>
-            </p>
-            <h1><Trans>...From the team at ChainSafe Products</Trans></h1>
+            </Typography>
+            <Typography variant="h4" component="h3"><Trans>...From the team at ChainSafe Products</Trans></Typography>
           </div>
         </div>
       </div>
