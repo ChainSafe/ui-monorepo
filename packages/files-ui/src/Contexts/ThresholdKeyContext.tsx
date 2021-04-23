@@ -20,6 +20,7 @@ import { capitalize, centerEllipsis } from "../Utils/Helpers"
 import { t } from "@lingui/macro"
 import jwtDecode from "jwt-decode"
 import { IdentityToken } from "@chainsafe/files-api-client"
+import dayjs from "dayjs"
 
 const TORUS_POSTBOX_KEY = "csf.postboxKey"
 const TKEY_STORE_KEY = "csf.tkeyStore"
@@ -288,9 +289,9 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
   useEffect(() => {
     const loginWithThresholdKey = async () => {
       if (!userInfo) return
-
-      if (privateKey && userInfo) {
-        setStatus("logging in")
+      const decodedIdToken = jwtDecode<{exp: number}>(userInfo.userInfo.idToken || "")
+      console.log(dayjs.unix(decodedIdToken.exp).toISOString())
+      if (privateKey && dayjs.unix(decodedIdToken.exp).isAfter(dayjs())) {
         const pubKey = EthCrypto.publicKeyByPrivateKey(privateKey)
         setPublicKey(pubKey)
         const wallet = new Wallet(privateKey)
@@ -301,6 +302,9 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
           `0x${EthCrypto.publicKey.compress(pubKey)}`
         )
         setStatus("done")
+      } else {
+        console.error("Service Identity Token is expired.")
+        thresholdKeyLogout()
       }
     }
 
@@ -520,7 +524,9 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
         uxMode: "popup",
         customState: {}
       })
+      setStatus("awaiting confirmation")
       const oauthIdToken = await loginHandler.handleLoginWindow({})
+      setStatus("logging in")
       const userInfo = await loginHandler.getUserInfo(oauthIdToken)
       const uuidToken = await imployApiClient.generateServiceIdentityToken({
         identity_provider: loginType,
