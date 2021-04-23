@@ -158,7 +158,10 @@ const MigrateAccount: React.FC<IMigrateAccount> = ({
               component="h5"
               className={classes.text}
             >
-              <Trans>We’ve got a new authentication system in place. All you need to do is enter your password again to migrate your credentials over to the new system.</Trans>
+              <Trans>
+                We’ve got a new authentication system in place. All you need to do is enter
+                your password again to migrate your credentials over to the new system.
+              </Trans>
             </Typography>
             <Typography>
               <Trans>Password</Trans>
