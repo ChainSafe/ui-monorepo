@@ -288,8 +288,15 @@ const FilesTableView = ({
       default: {
         // case "name": {
         return sourceFiles
-          .sort((a, b) =>
-            a.name > b.name ? -1 : 1
+          .sort((a, b) => {
+            console.log("filter", a.name,  b.name, a.name > b.name)
+            // return a.name > b.name ? -1 : 1
+            return a.name.localeCompare(b.name, undefined, {
+              ignorePunctuation: true,
+              sensitivity: "base"
+
+            })  ? -1 : 1
+          }
           )
           .sort(sortFoldersFirst)
       }
@@ -337,6 +344,9 @@ const FilesTableView = ({
     }
     }
   }, [sourceFiles, direction, column])
+
+  console.log("sourceFiles", sourceFiles)
+  console.log("items", items)
 
   const handleSortToggle = (
     targetColumn: "name" | "size" | "date_uploaded"
