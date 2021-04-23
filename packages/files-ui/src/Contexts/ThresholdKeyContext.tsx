@@ -521,13 +521,12 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
         customState: {}
       })
       const oauthIdToken = await loginHandler.handleLoginWindow({})
-
-      const decodedOauthIdToken = oauthIdToken.idToken && jwtDecode(oauthIdToken.idToken)
+      const userInfo = await loginHandler.getUserInfo(oauthIdToken)
       const uuidToken = await imployApiClient.generateServiceIdentityToken({
         identity_provider: loginType,
-        identity_token: oauthIdToken.idToken || ""
+        identity_token: oauthIdToken.idToken || oauthIdToken.accessToken
       })
-      return { identityToken: uuidToken, userInfo: decodedOauthIdToken }
+      return { identityToken: uuidToken, userInfo: userInfo }
     }
   }
 
