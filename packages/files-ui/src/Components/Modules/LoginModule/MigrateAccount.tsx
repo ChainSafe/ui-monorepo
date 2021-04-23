@@ -12,12 +12,13 @@ import { useThresholdKey } from "../../../Contexts/ThresholdKeyContext"
 import ConciseExplainer from "./ConciseExplainer"
 import { CSFTheme } from "../../../Themes/types"
 import { t, Trans } from "@lingui/macro"
+import Complete from "./Complete"
 
 const useStyles = makeStyles(
-  ({ constants, breakpoints, palette }: CSFTheme) =>
+  ({ constants, breakpoints, palette, typography }: CSFTheme) =>
     createStyles({
       root: {
-        padding: `0 ${constants.generalUnit * 4}px`,
+        padding: `0 ${constants.generalUnit * 15.5}px`,
         width: "100vw",
         display: "flex",
         flexDirection: "column",
@@ -32,12 +33,11 @@ const useStyles = makeStyles(
       headerText: {
         textAlign: "center",
         [breakpoints.up("md")]: {
-          paddingTop: constants.generalUnit * 4,
-          paddingBottom: constants.generalUnit * 8
+          paddingTop: constants.generalUnit * 6.625,
+          paddingBottom: constants.generalUnit * 3
         },
         [breakpoints.down("md")]: {
           paddingTop: constants.generalUnit * 3,
-          paddingBottom: constants.generalUnit * 3,
           textAlign: "center"
         }
       },
@@ -45,8 +45,9 @@ const useStyles = makeStyles(
         width: "100%"
       },
       text: {
-        display: "inline-block",
-        textAlign: "center"
+        ...typography.h5,
+        fontWeight: typography.fontWeight.regular,
+        paddingBottom: constants.generalUnit * 3
       },
       textInput:{
         width: "100%",
@@ -57,8 +58,8 @@ const useStyles = makeStyles(
         marginTop: constants.generalUnit * 4
       },
       inputLabel: {
-        fontSize: 16,
-        lineHeight: 24,
+        ...typography.h5,
+        fontWeight: typography.fontWeight.regular,
         color: palette.additional["gray"][8],
         marginBottom: constants.generalUnit
       },
@@ -95,8 +96,8 @@ const MigrateAccount: React.FC<IMigrateAccount> = ({
   const classes = useStyles()
   const { validateMasterPassword } = useImployApi()
   const { secureAccountWithMasterPassword } = useDrive()
-  const { addPasswordShare, logout, resetShouldInitialize } = useThresholdKey()
-  const [hasShownConciseExplainer, setHasShownConciseExplainer] = useState(false)
+  const { addPasswordShare, logout } = useThresholdKey()
+  const [migrateState, setMigrateState] = useState<"explainer"|"migrate"|"complete">("explainer")
   const [masterPassword, setMasterPassword] = useState("")
   const [error, setError] = useState("")
   const [isLoading, setIsLoading] = useState(false)
@@ -120,7 +121,7 @@ const MigrateAccount: React.FC<IMigrateAccount> = ({
       }
       await addPasswordShare(masterPassword)
       await secureAccountWithMasterPassword(masterPassword)
-      resetShouldInitialize()
+      setMigrateState("complete")
       setIsLoading(false)
     } catch (err) {
       console.error(err)
@@ -133,62 +134,72 @@ const MigrateAccount: React.FC<IMigrateAccount> = ({
     logout()
   }
 
-
   return (
-    !hasShownConciseExplainer
-      ? <ConciseExplainer
+    (migrateState === "explainer") ?
+      <ConciseExplainer
         className={className}
-        onContinue={() => setHasShownConciseExplainer(true)}
-      />
-      : <section className={clsx(classes.root, className)}>
-        <form
-          onSubmit={handleSecureAccountWithMasterPassword}
-          className={classes.form}
-        >
-          <Typography
-            variant="h6"
-            component="h6"
-            className={classes.headerText}
+        onContinue={() => setMigrateState("migrate")}
+      /> :
+      (migrateState === "migrate") ?
+        <section className={clsx(classes.root, className)}>
+          <form
+            onSubmit={handleSecureAccountWithMasterPassword}
+            className={classes.form}
           >
-            <Trans>Encryption Password</Trans>
-          </Typography>
-          <Typography className={clsx(classes.text)}>
-            <Trans>Enter password:</Trans>
-          </Typography>
-          <TextInput
-            className={classes.textInput}
-            value={masterPassword}
-            onChange={onPasswordChange}
-            type="password"
-          />
-          <Button
-            variant="primary"
-            onClick={handleSecureAccountWithMasterPassword}
-            className={clsx(classes.button, classes.belowInput)}
-            size="large"
-            loading={isLoading}
-            disabled={!!error || isLoading}
-            type="submit"
-          >
-            <Trans>Continue</Trans>
-          </Button>
-          <Typography className={classes.error}>
-            {error}
-          </Typography>
-        </form>
-        <footer className={classes.footer}>
-          <div
-            className={classes.buttonLink}
-            onClick={onLogout}
-          >
-            <Typography>
-              <Trans>
-                Sign in with a different account
-              </Trans>
+            <Typography
+              variant="h6"
+              component="h6"
+              className={classes.headerText}
+            >
+              <Trans>Hello again!</Trans>
             </Typography>
-          </div>
-        </footer>
-      </section>
+            <Typography
+              variant="h5"
+              component="h5"
+              className={classes.text}
+            >
+              <Trans>We’ve got a new authentication system in place. All you need to do is enter your password again to migrate your credentials over to the new system.</Trans>
+            </Typography>
+            <Typography>
+              <Trans>Password</Trans>
+            </Typography>
+            <TextInput
+              className={classes.textInput}
+              value={masterPassword}
+              onChange={onPasswordChange}
+              type="password"
+            />
+            <Button
+              variant="primary"
+              onClick={handleSecureAccountWithMasterPassword}
+              className={clsx(classes.button, classes.belowInput)}
+              size="large"
+              loading={isLoading}
+              disabled={!!error || isLoading}
+              type="submit"
+            >
+              <Trans>Continue</Trans>
+            </Button>
+            <Typography className={classes.error}>
+              {error}
+            </Typography>
+          </form>
+          <footer className={classes.footer}>
+            <div
+              className={classes.buttonLink}
+              onClick={onLogout}
+            >
+              <Typography>
+                <Trans>
+                  Sign in with a different account
+                </Trans>
+              </Typography>
+            </div>
+          </footer>
+        </section>
+        :
+        <Complete className={className} />
+
   )
 }
 
