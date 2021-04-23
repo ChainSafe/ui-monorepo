@@ -290,7 +290,6 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
     const loginWithThresholdKey = async () => {
       if (!userInfo) return
       const decodedIdToken = jwtDecode<{exp: number}>(userInfo.userInfo.idToken || "")
-      console.log(dayjs.unix(decodedIdToken.exp).toISOString())
       if (privateKey && dayjs.unix(decodedIdToken.exp).isAfter(dayjs())) {
         const pubKey = EthCrypto.publicKeyByPrivateKey(privateKey)
         setPublicKey(pubKey)
