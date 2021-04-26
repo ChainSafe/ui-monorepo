@@ -194,13 +194,13 @@ const MigrateAccount: React.FC<IMigrateAccount> = ({
             </Typography>
           </div>
         </footer>
-      </section>
-      : (migrateState === "explainer")
-        ? <ConciseExplainer
+      </section> :
+      (migrateState === "explainer") ?
+        <ConciseExplainer
           className={className}
           onContinue={() => setMigrateState("complete")}
-        />
-        : <Complete className={className} />
+        /> :
+        <Complete className={className} />
   )
 }
 
