@@ -209,6 +209,9 @@ msgstr "Fichiers"
 msgid "Files uses device backups to save your browser."
 msgstr "Files enregistre ce navigateur."
 
+msgid "First name"
+msgstr "Prénom"
+
 msgid "Folder"
 msgstr "Dossier"
 
@@ -262,6 +265,9 @@ msgstr "Phrase de sauvegarde enregistrée"
 
 msgid "Language"
 msgstr "Langue de l'interface"
+
+msgid "Last name"
+msgstr "Nom"
 
 msgid "Learn more"
 msgstr "En apprendre plus"

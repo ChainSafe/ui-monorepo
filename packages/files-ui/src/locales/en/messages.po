@@ -208,6 +208,9 @@ msgstr "Files"
 msgid "Files uses device backups to save your browser."
 msgstr "Files uses device backups to save your browser."
 
+msgid "First name"
+msgstr "First name"
+
 msgid "Folder"
 msgstr "Folder"
 
@@ -261,6 +264,9 @@ msgstr "I’m done saving my backup phrase"
 
 msgid "Language"
 msgstr "Language"
+
+msgid "Last name"
+msgstr "Last name"
 
 msgid "Learn more"
 msgstr "Learn more"

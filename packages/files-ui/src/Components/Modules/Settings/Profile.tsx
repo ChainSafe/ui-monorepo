@@ -243,22 +243,22 @@ const ProfileView = () => {
                   ) : null}
                   <div className={classes.boxContainer}>
                     <FormikTextInput
-                      placeholder="First name"
+                      placeholder={t`First name`}
                       name="firstName"
                       size="medium"
                       className={classes.input}
                       labelClassName={classes.label}
-                      label="First name"
+                      label={t`First name`}
                     />
                   </div>
                   <div className={classes.boxContainer}>
                     <FormikTextInput
-                      placeholder="Last name"
+                      placeholder={t`Last name`}
                       name="lastName"
                       size="medium"
                       className={classes.input}
                       labelClassName={classes.label}
-                      label="Last name"
+                      label={t`Last name`}
                     />
                   </div>
                   {/* <div className={classes.boxContainer}>
