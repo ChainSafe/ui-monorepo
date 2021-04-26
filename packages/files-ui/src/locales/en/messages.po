@@ -613,9 +613,6 @@ msgstr "Your Authentication Factors"
 msgid "Your recovery key can be used to restore your account in place of your backup phrase."
 msgstr "Your recovery key can be used to restore your account in place of your backup phrase."
 
-msgid "copied !"
-msgstr "copied !"
-
 msgid "deleted successfully"
 msgstr "deleted successfully"
 
