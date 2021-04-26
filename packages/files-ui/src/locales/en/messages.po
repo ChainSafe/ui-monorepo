@@ -259,6 +259,9 @@ msgstr "Info"
 msgid "I’m done saving my backup phrase"
 msgstr "I’m done saving my backup phrase"
 
+msgid "Language"
+msgstr "Language"
+
 msgid "Learn more"
 msgstr "Learn more"
 
@@ -276,6 +279,9 @@ msgstr "Loading preview"
 
 msgid "Looks like you’re signing in from a new browser. Please choose one of the following to continue:"
 msgstr "Looks like you’re signing in from a new browser. Please choose one of the following to continue:"
+
+msgid "Lorem ipsum aenean et rutrum magna. Morbi nec placerat erat. Nunc elementum sed libero sit amet convallis. Quisque non arcu vitae ex fringilla molestie."
+msgstr "Lorem ipsum aenean et rutrum magna. Morbi nec placerat erat. Nunc elementum sed libero sit amet convallis. Quisque non arcu vitae ex fringilla molestie."
 
 msgid "Move"
 msgstr "Move"
@@ -624,6 +630,3 @@ msgstr "on"
 
 msgid "recovered successfully"
 msgstr "recovered successfully"
-
-msgid "storage-plan-desc"
-msgstr "Lorem ipsum aenean et rutrum magna. Morbi nec placerat erat. Nunc elementum sed libero sit amet convallis. Quisque non arcu vitae ex fringilla molestie."

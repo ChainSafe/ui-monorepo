@@ -260,6 +260,9 @@ msgstr "Info"
 msgid "I’m done saving my backup phrase"
 msgstr "Phrase de sauvegarde enregistrée"
 
+msgid "Language"
+msgstr "Langue de l'interface"
+
 msgid "Learn more"
 msgstr "En apprendre plus"
 
@@ -277,6 +280,9 @@ msgstr "Chargement de l’aperçu"
 
 msgid "Looks like you’re signing in from a new browser. Please choose one of the following to continue:"
 msgstr "Connectez à partir d'un nouveau navigateur. Choisis une des options suivantes pour continuer:"
+
+msgid "Lorem ipsum aenean et rutrum magna. Morbi nec placerat erat. Nunc elementum sed libero sit amet convallis. Quisque non arcu vitae ex fringilla molestie."
+msgstr "Lorem ipsum aenean et rutrum magna. Morbi nec placerat erat. Nunc elementum sed libero sit amet convallis. Quisque non arcu vitae ex fringilla molestie."
 
 msgid "Move"
 msgstr "Déplacer"
@@ -357,274 +363,271 @@ msgid "Preview"
 msgstr "Aperçu"
 
 msgid "Previous"
-msgstr ""
+msgstr "Précédent"
 
 msgid "Privacy Policy"
-msgstr ""
+msgstr "Politique de Confidentialité"
 
 msgid "Profile and Display"
-msgstr ""
+msgstr "Profil et Affichage"
 
 msgid "Profile updated"
-msgstr ""
+msgstr "Profile mis à jour"
 
 msgid "Recover"
-msgstr ""
+msgstr "Récupérer"
 
 msgid "Recover with passphrase"
-msgstr ""
+msgstr "Récupérer avec un mot de passe"
 
 msgid "Reject"
-msgstr ""
+msgstr "Refuser"
 
 msgid "Reject all"
-msgstr ""
+msgstr "Refuser tous"
 
 msgid "Remind me later"
-msgstr ""
+msgstr "Plus tard"
 
 msgid "Rename"
-msgstr ""
+msgstr "Renommer"
 
 msgid "Rename File/Folder"
-msgstr ""
+msgstr "Renommer Ficher/Dossier"
 
 msgid "Requested from"
-msgstr ""
+msgstr "Envoyé par"
 
 msgid "Resources"
-msgstr ""
+msgstr "Ressources"
 
 msgid "Restore with backup phrase"
-msgstr ""
+msgstr "Récupérer avec la phrase de sauvegarde"
 
 msgid "Save changes"
-msgstr ""
+msgstr "Enregistrer les changements"
 
 msgid "Save this browser for next time?"
-msgstr ""
+msgstr "Enregistrer ce navigateur?"
 
 msgid "Saved"
-msgstr ""
+msgstr "Enregistré"
 
 msgid "Saved Browser"
-msgstr ""
+msgstr "Navigateur enregistré"
 
 msgid "Saved Browsers"
-msgstr ""
+msgstr "Navigateurs enregistrés"
 
 msgid "Saved browser"
-msgstr ""
+msgstr "Navigateur enregistré"
 
 msgid "Saved on:"
-msgstr ""
+msgstr "Enregistré sur:"
 
 msgid "Search results"
-msgstr ""
+msgstr "Résultats de recherche"
 
 msgid "Search..."
-msgstr ""
+msgstr "Rechercher..."
 
 msgid "Security"
-msgstr ""
+msgstr "Sécurité"
 
 msgid "Select a wallet"
-msgstr ""
+msgstr "Sélectionner un wallet"
 
 msgid "Send Feedback"
-msgstr ""
+msgstr "Envoyer des commentaires"
 
 msgid "Set Password"
-msgstr ""
+msgstr "Définir un Mot de Passe"
 
 msgid "Set it up now"
-msgstr ""
+msgstr "Définir"
 
 msgid "Set up"
-msgstr ""
+msgstr "Définir"
 
 msgid "Set up a password"
-msgstr ""
+msgstr "Définir un mot de passe"
 
 msgid "Set up password"
-msgstr ""
+msgstr "Définir un mot de passe"
 
 msgid "Set up sign in methods"
-msgstr ""
+msgstr "Définir les méthodes d'authentifiction"
 
 msgid "Settings"
-msgstr ""
+msgstr "Paramètres"
 
 msgid "Share"
-msgstr ""
+msgstr "Partager"
 
 msgid "Sign Out"
-msgstr ""
+msgstr "Se Déconnecter"
 
 msgid "Sign in"
-msgstr ""
+msgstr "Se connecter"
 
 msgid "Sign in with a different account"
-msgstr ""
+msgstr "Se connecter avec un autre compte"
 
 msgid "Sign-in methods"
-msgstr ""
+msgstr "Méthodes de connections"
 
 msgid "Sign-in with {0}"
-msgstr ""
+msgstr "Se connecter avec {0}"
 
 msgid "Size"
-msgstr ""
+msgstr "Taille"
 
 msgid "Social Sign-in Wallet"
-msgstr ""
+msgstr "Connecté avec un réseau social ou wallet"
 
 msgid "Social Sign-in or Wallet"
-msgstr ""
+msgstr "Connecté avec un réseau social ou wallet"
 
 msgid "Social sign in or wallet"
-msgstr ""
+msgstr "Connecté avec un réseau social ou wallet"
 
 msgid "Something went wrong. We couldn't upload your file"
-msgstr ""
+msgstr "Un problème est survenu. Nous n'avons pas pu uploader votre fichier"
 
 msgid "Start Upload"
-msgstr ""
+msgstr "Démarrer l'upload"
 
 msgid "Storage Plan"
-msgstr ""
+msgstr "Plan de stockage"
 
 msgid "Stored by miner"
-msgstr ""
+msgstr "Sauvegardé par le mineur"
 
 msgid "Technical"
-msgstr ""
+msgstr "Technique"
 
 msgid "Terms and Conditions"
-msgstr ""
+msgstr "Termes et conditions"
 
 msgid "Thanks for taking care of that. You can <0/> adjust these anytime in security settings."
-msgstr ""
+msgstr "Vous pouvez <0 /> les ajuster à tout moment dans les paramètres de sécurité."
 
 msgid "The authentication popup was closed"
-msgstr ""
+msgstr "Le popup d'authentification a été fermé"
 
 msgid "The system is undergoing maintenance, thank you for being patient."
-msgstr ""
+msgstr "Le système est en cours de maintenance, merci d'être patient."
 
 msgid "Theme"
-msgstr ""
+msgstr "Thème"
 
 msgid "There was an error authenticating"
-msgstr ""
+msgstr "Une erreur s'est produite lors de l'authentification"
 
 msgid "There was an error connecting your wallet"
-msgstr ""
+msgstr "Une erreur s'est produite lors de la connexion de votre wallet"
 
 msgid "There was an error creating this folder"
-msgstr ""
+msgstr "Une erreur s'est produite lors de la création de ce dossier"
 
 msgid "There was an error deleting this"
-msgstr ""
+msgstr "Une erreur s'est produite lors de la suppression"
 
 msgid "There was an error getting file info"
-msgstr ""
+msgstr "Une erreur s'est produite lors de l'obtention des informations sur le fichier"
 
 msgid "There was an error getting folder info"
-msgstr ""
+msgstr "Une erreur s'est produite lors de l'obtention des informations sur le dossier"
 
 msgid "There was an error getting search results"
-msgstr ""
+msgstr "Une erreur s'est produite lors de l'obtention des résultats de recherche"
 
 msgid "There was an error getting the preview."
-msgstr ""
+msgstr "Une erreur s'est produite lors de la génération de l’aperçu."
 
 msgid "There was an error moving this file"
-msgstr ""
+msgstr "Une erreur s'est produite lors du déplacement de ce fichier"
 
 msgid "There was an error recovering this"
-msgstr ""
+msgstr "Une erreur s'est produite lors de la récupération"
 
 msgid "There was an error renaming this file"
-msgstr ""
+msgstr "Une erreur s'est produite lors de renommage de ce fichier"
 
 msgid "Try again"
-msgstr ""
+msgstr "Essayer de nouveau"
 
 msgid "Try another method"
-msgstr ""
+msgstr "Essayer une autre méthode"
 
 msgid "Update"
-msgstr ""
+msgstr "Mettre à jour"
 
 msgid "Upload"
-msgstr ""
+msgstr "Uploader"
 
 msgid "Upload complete"
-msgstr ""
+msgstr "Upload terminé"
 
 msgid "Use a different login method"
-msgstr ""
+msgstr "Utilisez une méthode de connexion différente"
 
 msgid "Use a saved browser"
-msgstr ""
+msgstr "Utiliser un navigateur enregistré"
 
 msgid "View folder"
-msgstr ""
+msgstr "Voir le dossier"
 
 msgid "Wallet address"
-msgstr ""
+msgstr "Addresse du wallet"
 
 msgid "Web3: {0}"
-msgstr ""
+msgstr "Web3: {0}"
 
 msgid "What a fine day it is."
-msgstr ""
+msgstr "Une belle journée."
 
 msgid "What a fine night it is."
-msgstr ""
+msgstr "Une belle nuit."
 
 msgid "Without setting up at least three authentication factors, you risk getting locked out of your account.<0/><1/>Remember, you need a minimum of two factors to sign in. If you only have one, you’ll lose access to your account forever."
-msgstr ""
+msgstr "Si vous ne configurez pas au moins trois facteurs d'authentification, vous risquez de ne plus pouvoir accéder à votre compte. <0 /> <1 /> N'oubliez pas que vous avez besoin d'au moins deux facteurs pour vous connecter. Si vous n'en avez qu'un, vous perdrez l'accès à votre compte pour toujours."
 
 msgid "Yes I understand"
-msgstr ""
+msgstr "Oui, je comprends"
 
 msgid "Yes, save it"
-msgstr ""
+msgstr "Oui, l'enregistrer"
 
 msgid "You are about to delete {0} file(s)."
-msgstr ""
+msgstr "Suppression de {0} fichier(s)."
 
 msgid "You can change this later."
-msgstr ""
+msgstr "Vous pouvez en changer plus tard."
 
 msgid "You will need to sign a message in your wallet to complete sign in."
-msgstr ""
+msgstr "Vous devrez signer un message avec votre wallet pour terminer la procédure connexion."
 
 msgid "Your Authentication Factors"
-msgstr ""
+msgstr "Vos Facteurs d'Authentification"
 
 msgid "Your recovery key can be used to restore your account in place of your backup phrase."
-msgstr ""
+msgstr "Votre clé de récupération peut être utilisée pour restaurer votre compte à la place de votre phrase de sauvegarde."
 
 msgid "copied !"
-msgstr ""
+msgstr "copié !"
 
 msgid "deleted successfully"
-msgstr ""
+msgstr "supprimé avec succès"
 
 msgid "file"
-msgstr ""
+msgstr "fichier"
 
 msgid "folder"
-msgstr ""
+msgstr "dossier"
 
 msgid "on"
-msgstr ""
+msgstr "le"
 
 msgid "recovered successfully"
-msgstr ""
-
-msgid "storage-plan-desc"
-msgstr ""
+msgstr "récupéré avec succès"
