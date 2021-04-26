@@ -5,8 +5,8 @@
   "dependencies": {
     "@babel/core": "^7.12.10",
     "@craco/craco": "^5.9.0",
-    "@lingui/react": "^3.7.2",
     "@lingui/core": "^3.7.2",
+    "@lingui/react": "^3.7.2",
     "@material-ui/styles": "^4.11.2",
     "@testing-library/jest-dom": "^5.11.6",
     "@testing-library/react": "^11.2.2",
@@ -19,6 +19,7 @@
     "babel-plugin-macros": "^2.8.0",
     "babel-preset-env": "^1.7.0",
     "babel-preset-react": "^6.24.1",
+    "clsx": "^1.1.1",
     "formik": "2.2.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
@@ -53,8 +54,8 @@
     ]
   },
   "devDependencies": {
-    "@lingui/cli": "^3.7.2",
     "@lingui/babel-preset-react": "^2.9.2",
+    "@lingui/cli": "^3.7.2",
     "@lingui/macro": "3.7.2"
   }
 }
