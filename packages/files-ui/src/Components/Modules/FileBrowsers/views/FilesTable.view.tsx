@@ -42,6 +42,7 @@ import FileInfoModal from "../FileInfoModal"
 import { CONTENT_TYPES } from "../../../../Utils/Constants"
 import { CSFTheme } from "../../../../Themes/types"
 import MimeMatcher from "../../../../Utils/MimeMatcher"
+import { useLanguageContext } from "../../../../Contexts/LanguageContext"
 
 interface IStyleProps {
   themeKey: string
@@ -272,71 +273,41 @@ const FilesTableView = ({
   const [column, setColumn] = useState<"name" | "size" | "date_uploaded">("name")
   const [selectedCids, setSelectedCids] = useState<string[]>([])
   const [previewFileIndex, setPreviewFileIndex] = useState<number | undefined>()
+  const { selectedLocale } = useLanguageContext()
   const items: FileSystemItem[] = useMemo(() => {
-    switch (direction) {
+    let temp = []
+
+    switch (column) {
     default: {
-      // case "descend": {
       // case "name": {
-      return sourceFiles
+      temp = sourceFiles
+        .sort((a, b) => {
+          return a.name.localeCompare(b.name, selectedLocale, {
+            sensitivity: "base"
+          })
+        }
+        )
+      break
+    }
+    case "size": {
+      temp =  sourceFiles
         .sort((a, b) =>
-          a.name > b.name ? -1 : 1
+          a.size < b.size ? -1 : 1
         )
         .sort(sortFoldersFirst)
+      break
     }
-    case "descend": {
-      switch (column) {
-      default: {
-        // case "name": {
-        return sourceFiles
-          .sort((a, b) =>
-            a.name > b.name ? -1 : 1
-          )
-          .sort(sortFoldersFirst)
-      }
-      case "size": {
-        return sourceFiles
-          .sort((a, b) =>
-            a.size > b.size ? -1 : 1
-          )
-          .sort(sortFoldersFirst)
-      }
-      case "date_uploaded": {
-        return sourceFiles
-          .sort((a, b) =>
-            a.created_at > b.created_at ? -1 : 1
-          )
-          .sort(sortFoldersFirst)
-      }
-      }
-    }
-    case "ascend": {
-      switch (column) {
-      default: {
-        // case "name": {
-        return sourceFiles
-          .sort((a, b) =>
-            a.name < b.name ? -1 : 1
-          )
-          .sort(sortFoldersFirst)
-      }
-      case "size": {
-        return sourceFiles
-          .sort((a, b) =>
-            a.size < b.size ? -1 : 1
-          )
-          .sort(sortFoldersFirst)
-      }
-      case "date_uploaded": {
-        return sourceFiles
-          .sort((a, b) =>
-            a.created_at < b.created_at ? -1 : 1
-          )
-          .sort(sortFoldersFirst)
-      }
-      }
+    case "date_uploaded": {
+      temp =  sourceFiles
+        .sort((a, b) =>
+          a.created_at < b.created_at ? -1 : 1
+        )
+        .sort(sortFoldersFirst)
+      break
     }
     }
-  }, [sourceFiles, direction, column])
+    return direction === "descend" ? temp.reverse().sort(sortFoldersFirst) : temp.sort(sortFoldersFirst)
+  }, [sourceFiles, direction, column, selectedLocale])
 
   const files = useMemo(
     () => items.filter((i) => !i.isFolder)
