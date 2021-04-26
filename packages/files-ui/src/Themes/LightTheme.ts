@@ -38,7 +38,7 @@ export const lightTheme = createTheme<CsfColors>({
           completeText: "var(--gray3)"
         },
         modalDefault: {
-          fadeBackground: "var(--gray10)",
+          fadeBackground: "var(--gray9)",
           background: "var(--gray1)"
         },
         header: {
