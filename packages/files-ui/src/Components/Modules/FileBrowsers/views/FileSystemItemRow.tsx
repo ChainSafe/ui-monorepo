@@ -67,7 +67,6 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => 
     },
     folderIcon: {
       "& svg": {
-        // TODO: FILL
         fill: palette.additional.gray[9]
       }
     },
@@ -174,13 +173,13 @@ interface IFileSystemItemRowProps {
   renameSchema: any
   handleRename?: (path: string, newPath: string) => Promise<void>
   handleMove?: (path: string, newPath: string) => Promise<void>
-  deleteFile?: (cid: string) => void
+  deleteFile?: () => void
   recoverFile?: (cid: string) => void
   viewFolder?: (cid: string) => void
   downloadFile?: (cid: string) => Promise<void>
   handleUploadOnDrop?: (files: File[], fileItems: DataTransferItemList, path: string,) => void
   setPreviewFileIndex: (fileIndex: number | undefined) => void
-  setMoveFileData: (moveFileData: { modal: boolean; fileData: FileSystemItem | FileSystemItem[] }) => void
+  moveFile?: () => void
   setFileInfoPath: (path: string) => void
   itemOperations: FileOperation[]
   resetSelectedFiles: () => void
@@ -204,7 +203,7 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
   viewFolder,
   handleUploadOnDrop,
   setPreviewFileIndex,
-  setMoveFileData,
+  moveFile,
   setFileInfoPath,
   handleSelect,
   itemOperations,
@@ -246,7 +245,7 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
           </span>
         </>
       ),
-      onClick: () => deleteFile && deleteFile(cid)
+      onClick: () => deleteFile && deleteFile()
     },
     download: {
       contents: (
@@ -268,7 +267,7 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
           </span>
         </>
       ),
-      onClick: () => setMoveFileData({ modal: true, fileData: file })
+      onClick: () => moveFile && moveFile()
     },
     share: {
       contents: (
