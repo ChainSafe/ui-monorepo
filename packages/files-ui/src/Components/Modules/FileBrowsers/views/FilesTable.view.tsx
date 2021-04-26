@@ -42,6 +42,7 @@ import FileInfoModal from "../FileInfoModal"
 import { CONTENT_TYPES } from "../../../../Utils/Constants"
 import { CSFTheme } from "../../../../Themes/types"
 import MimeMatcher from "../../../../Utils/MimeMatcher"
+import { useLanguageContext } from "../../../../Contexts/LanguageContext"
 
 interface IStyleProps {
   themeKey: string
@@ -270,73 +271,53 @@ const FilesTableView = ({
   const [editing, setEditing] = useState<string | undefined>()
   const [direction, setDirection] = useState<SortDirection>("descend")
   const [column, setColumn] = useState<"name" | "size" | "date_uploaded">("name")
-  const [selected, setSelected] = useState<string[]>([])
+  const [selectedCids, setSelectedCids] = useState<string[]>([])
   const [previewFileIndex, setPreviewFileIndex] = useState<number | undefined>()
+  const { selectedLocale } = useLanguageContext()
   const items: FileSystemItem[] = useMemo(() => {
-    switch (direction) {
+    let temp = []
+
+    switch (column) {
     default: {
-      // case "descend": {
       // case "name": {
-      return sourceFiles
+      temp = sourceFiles
+        .sort((a, b) => {
+          return a.name.localeCompare(b.name, selectedLocale, {
+            sensitivity: "base"
+          })
+        }
+        )
+      break
+    }
+    case "size": {
+      temp =  sourceFiles
         .sort((a, b) =>
-          a.name > b.name ? -1 : 1
+          a.size < b.size ? -1 : 1
         )
         .sort(sortFoldersFirst)
+      break
     }
-    case "descend": {
-      switch (column) {
-      default: {
-        // case "name": {
-        return sourceFiles
-          .sort((a, b) =>
-            a.name > b.name ? -1 : 1
-          )
-          .sort(sortFoldersFirst)
-      }
-      case "size": {
-        return sourceFiles
-          .sort((a, b) =>
-            a.size > b.size ? -1 : 1
-          )
-          .sort(sortFoldersFirst)
-      }
-      case "date_uploaded": {
-        return sourceFiles
-          .sort((a, b) =>
-            a.created_at > b.created_at ? -1 : 1
-          )
-          .sort(sortFoldersFirst)
-      }
-      }
-    }
-    case "ascend": {
-      switch (column) {
-      default: {
-        // case "name": {
-        return sourceFiles
-          .sort((a, b) =>
-            a.name < b.name ? -1 : 1
-          )
-          .sort(sortFoldersFirst)
-      }
-      case "size": {
-        return sourceFiles
-          .sort((a, b) =>
-            a.size < b.size ? -1 : 1
-          )
-          .sort(sortFoldersFirst)
-      }
-      case "date_uploaded": {
-        return sourceFiles
-          .sort((a, b) =>
-            a.created_at < b.created_at ? -1 : 1
-          )
-          .sort(sortFoldersFirst)
-      }
-      }
+    case "date_uploaded": {
+      temp =  sourceFiles
+        .sort((a, b) =>
+          a.created_at < b.created_at ? -1 : 1
+        )
+        .sort(sortFoldersFirst)
+      break
     }
     }
-  }, [sourceFiles, direction, column])
+    return direction === "descend" ? temp.reverse().sort(sortFoldersFirst) : temp.sort(sortFoldersFirst)
+  }, [sourceFiles, direction, column, selectedLocale])
+
+  const files = useMemo(
+    () => items.filter((i) => !i.isFolder)
+    , [items]
+  )
+
+  const selectedFiles = useMemo(
+    () => files.filter((file) => selectedCids.includes(file.cid))
+    , [files, selectedCids]
+  )
 
   const handleSortToggle = (
     targetColumn: "name" | "size" | "date_uploaded"
@@ -352,10 +333,6 @@ const FilesTableView = ({
       }
     }
   }
-
-  const files = useMemo(() => {
-    return items.filter((i) => !i.isFolder)
-  }, [items])
 
   // Previews
   const setNextPreview = () => {
@@ -380,18 +357,18 @@ const FilesTableView = ({
 
   // Selection logic
   const handleSelect = useCallback((cid: string) => {
-    if (selected.includes(cid)) {
-      setSelected(selected.filter((selectedCid: string) => selectedCid !== cid))
+    if (selectedCids.includes(cid)) {
+      setSelectedCids(selectedCids.filter((selectedCid: string) => selectedCid !== cid))
     } else {
-      setSelected([...selected, cid])
+      setSelectedCids([...selectedCids, cid])
     }
-  }, [selected])
+  }, [selectedCids])
 
   const toggleAll = () => {
-    if (selected.length === items.length) {
-      setSelected([])
+    if (selectedCids.length === items.length) {
+      setSelectedCids([])
     } else {
-      setSelected([...items.map((file: FileSystemItem) => file.cid)])
+      setSelectedCids([...items.map((file: FileSystemItem) => file.cid)])
     }
   }
 
@@ -427,11 +404,9 @@ const FilesTableView = ({
 
   // Modals
   const [createFolderModalOpen, setCreateFolderModalOpen] = useState(false)
-  const [uploadModalOpen, setUploadModalOpen] = useState(false)
-  const [moveFileData, setMoveFileData] = useState<
-    { modal: boolean; fileData: FileSystemItem | FileSystemItem[] } | undefined
-  >(undefined)
-  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false)
+  const [isUploadModalOpen, setIsUploadModalOpen] = useState(false)
+  const [isMoveFileModalOpen, setIsMoveFileModalOpen] = useState(false)
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
   const [isDeletingFiles, setIsDeletingFiles] = useState(false)
   const [fileInfoPath, setFileInfoPath] = useState<string | undefined>(
     undefined
@@ -450,8 +425,8 @@ const FilesTableView = ({
         "rename",
         "share"
       ]
-      for (let i = 0; i < selected.length; i++) {
-        const contentType = items.find((item) => item.cid === selected[i])
+      for (let i = 0; i < selectedCids.length; i++) {
+        const contentType = items.find((item) => item.cid === selectedCids[i])
           ?.content_type
 
         if (contentType) {
@@ -492,20 +467,20 @@ const FilesTableView = ({
       }
       setValidBulkOps(filteredList)
     }
-  }, [selected, items, bulkOperations])
+  }, [selectedCids, items, bulkOperations])
 
   const handleDeleteFiles = useCallback(() => {
     if(!deleteFiles) return
 
     setIsDeletingFiles(true)
-    deleteFiles(selected)
+    deleteFiles(selectedCids)
       .catch(console.error)
       .finally(() => {
         setIsDeletingFiles(false)
-        setSelected([])
-        setIsDeleteDialogOpen(false)
+        setSelectedCids([])
+        setIsDeleteModalOpen(false)
       })
-  }, [deleteFiles, selected])
+  }, [deleteFiles, selectedCids])
 
   const getItemOperations =  useCallback((contentType: string) => {
     const result = Object.keys(itemOperations).reduce((acc: FileOperation[], item: string) => {
@@ -519,8 +494,8 @@ const FilesTableView = ({
     return [...new Set(result)]
   }, [itemOperations])
 
-  const resetSelectedFiles = useCallback(() => {
-    setSelected([])
+  const resetSelectedCids = useCallback(() => {
+    setSelectedCids([])
   }, [])
 
   return (
@@ -528,7 +503,7 @@ const FilesTableView = ({
       className={clsx(classes.root, {
         droppable: isOverUploadable && allowDropUpload
       })}
-      ref={!uploadModalOpen && allowDropUpload ? dropBrowserRef : null}
+      ref={!isUploadModalOpen && allowDropUpload ? dropBrowserRef : null}
     >
       <div
         className={clsx(classes.dropNotification, { active: isOverBrowser })}
@@ -570,7 +545,7 @@ const FilesTableView = ({
                 </span>
               </Button>
               <Button
-                onClick={() => setUploadModalOpen(true)}
+                onClick={() => setIsUploadModalOpen(true)}
                 variant="outline"
                 size="large"
               >
@@ -612,7 +587,7 @@ const FilesTableView = ({
                   {
                     contents: (
                       <Button
-                        onClick={() => setUploadModalOpen(true)}
+                        onClick={() => setIsUploadModalOpen(true)}
                         variant="primary"
                         fullsize
                         className={classes.mobileButton}
@@ -631,16 +606,11 @@ const FilesTableView = ({
         </div>
       </header>
       <Divider className={classes.divider} />
-      {selected.length > 0 && validBulkOps.length > 0 && (
+      {selectedCids.length > 0 && validBulkOps.length > 0 && (
         <section className={classes.bulkOperations}>
           {validBulkOps.indexOf("move") >= 0 && (
             <Button
-              onClick={() =>
-                setMoveFileData({
-                  modal: true,
-                  fileData: files.filter((file) => selected.includes(file.cid))
-                })
-              }
+              onClick={() => setIsMoveFileModalOpen(true)}
               variant="outline"
             >
               <Trans>Move selected</Trans>
@@ -648,7 +618,7 @@ const FilesTableView = ({
           )}
           {validBulkOps.indexOf("delete") >= 0 && (
             <Button
-              onClick={() => {setIsDeleteDialogOpen(true)}}
+              onClick={() => {setIsDeleteModalOpen(true)}}
               variant="outline"
             >
               <Trans>Delete selected</Trans>
@@ -704,7 +674,7 @@ const FilesTableView = ({
                 >
                   <TableHeadCell>
                     <CheckboxInput
-                      value={selected.length === items.length}
+                      value={selectedCids.length === items.length}
                       onChange={() => toggleAll()}
                     />
                   </TableHeadCell>
@@ -785,7 +755,7 @@ const FilesTableView = ({
                   files={files}
                   currentPath={currentPath}
                   updateCurrentPath={updateCurrentPath}
-                  selected={selected}
+                  selected={selectedCids}
                   handleSelect={handleSelect}
                   editing={editing}
                   setEditing={setEditing}
@@ -796,18 +766,21 @@ const FilesTableView = ({
                   }}
                   handleMove={handleMove}
                   deleteFile={() => {
-                    setSelected([file.cid])
-                    setIsDeleteDialogOpen(true)
+                    setSelectedCids([file.cid])
+                    setIsDeleteModalOpen(true)
                   }}
                   recoverFile={recoverFile}
                   downloadFile={downloadFile}
                   viewFolder={viewFolder}
                   handleUploadOnDrop={handleUploadOnDrop}
                   setPreviewFileIndex={setPreviewFileIndex}
-                  setMoveFileData={setMoveFileData}
+                  moveFile={() => {
+                    setSelectedCids([file.cid])
+                    setIsMoveFileModalOpen(true)
+                  }}
                   setFileInfoPath={setFileInfoPath}
                   itemOperations={getItemOperations(file.content_type)}
-                  resetSelectedFiles={resetSelectedFiles}
+                  resetSelectedFiles={resetSelectedCids}
                 />
               ))}
             </TableBody>
@@ -825,10 +798,10 @@ const FilesTableView = ({
         />
       )}
       <Dialog
-        active={isDeleteDialogOpen}
-        reject={() => setIsDeleteDialogOpen(false)}
+        active={isDeleteModalOpen}
+        reject={() => setIsDeleteModalOpen(false)}
         accept={handleDeleteFiles}
-        requestMessage={t`You are about to delete ${selected.length} file(s).`}
+        requestMessage={t`You are about to delete ${selectedCids.length} file(s).`}
         rejectText = {t`Cancel`}
         acceptText = {t`Confirm`}
         acceptButtonProps={{ loading: isDeletingFiles, disabled: isDeletingFiles }}
@@ -842,17 +815,18 @@ const FilesTableView = ({
         close={() => setCreateFolderModalOpen(false)}
       />
       <UploadFileModule
-        modalOpen={uploadModalOpen}
-        close={() => setUploadModalOpen(false)}
+        modalOpen={isUploadModalOpen}
+        close={() => setIsUploadModalOpen(false)}
       />
       <MoveFileModule
         currentPath={currentPath}
-        fileData={moveFileData?.fileData}
-        modalOpen={moveFileData ? moveFileData.modal : false}
-        close={() => {
-          setMoveFileData(undefined)
-          setSelected([])
+        filesToMove={selectedFiles}
+        modalOpen={isMoveFileModalOpen}
+        onClose={() => {
+          setIsMoveFileModalOpen(false)
+          setSelectedCids([])
         }}
+        onCancel={() => setIsMoveFileModalOpen(false)}
       />
       <FileInfoModal
         fileInfoPath={fileInfoPath}

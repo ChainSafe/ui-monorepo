@@ -10,17 +10,16 @@ const useStyles = makeStyles(
         width: "100%",
         display: "flex",
         justifyContent: "flex-start",
-        background: "#141414",
-        height: constants.generalUnit * 10,
+        background: palette.additional["gray"][3],
+        height: `${constants.headerHeight}px`,
         position: "fixed",
-        borderBottom: `1px solid ${palette.additional["gray"][8]}`,
-        padding: "0 2rem",
+        padding: "1rem",
         zIndex: zIndex?.layer4,
         [breakpoints.down("sm")]: {
           padding: "none",
         },
         [breakpoints.up("xl")]: {
-          height: constants.generalUnit * 12,
+          height: constants.generalUnit * 9,
           width: "100vw",
           left: "50%",
           transform: "translateX(-50%)",
@@ -32,30 +31,15 @@ const useStyles = makeStyles(
         margin: constants.generalUnit,
       },
       navlink: {
-        color: palette.common.white.main,
+        color: palette.common.black.main,
         textDecoration: "none",
-        fontFamily: "'Archivo', sans-serif",
         "&:hover": {
-          color: palette.additional["gray"][7],
+          color: palette.primary.main,
           transition: "ease-in 0.2s",
-        },
-        "& > span": {
-          fontFamily: "'Archivo', sans-serif",
-        },
-      },
-      brandName: {
-        [breakpoints.down("sm")]: {
-          display: "none",
         },
       },
       separator: {
-        color: palette.common.white.main,
-      },
-      textWrapper: {
-        "& > span": {
-          fontFamily: "'Archivo', sans-serif",
-
-        }
+        color: palette.common.black.main,
       },
     })
   },
@@ -64,16 +48,16 @@ const useStyles = makeStyles(
 const NavBar: React.FC = () => {
   const classes = useStyles()
   return (
-    <nav className={classes.container}>
+    <div className={classes.container}>
       <Grid container xs={12}>
         <Grid item justifyContent="center" alignItems="flex-start">
-          <Grid container alignItems="center" className={classes.textWrapper}>
+          <Grid container alignItems="center">
             <img
               className={classes.logo}
-              src="/ChainSafe_Logo.png"
-              alt="chainsafe brand logo"
+              src="/csf_logo.png"
+              alt="chainsafe files logo"
             />
-            <Typography variant="h4" className={classes.brandName}>
+            <Typography variant="h5">
               <a href="/" className={classes.navlink}>
                 ChainSafe Files
               </a>
@@ -81,7 +65,7 @@ const NavBar: React.FC = () => {
           </Grid>
         </Grid>
         <Grid item justifyContent="center" alignItems="flex-end">
-          <Typography variant="h4" className={classes.textWrapper}>
+          <Typography variant="h5">
             <a
               target="_blank"
               rel="noopener noreferrer"
@@ -93,7 +77,7 @@ const NavBar: React.FC = () => {
           </Typography>
         </Grid>
       </Grid>
-    </nav>
+    </div>
   )
 }
 
