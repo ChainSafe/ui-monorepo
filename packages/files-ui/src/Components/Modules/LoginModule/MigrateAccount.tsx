@@ -135,8 +135,8 @@ const MigrateAccount: React.FC<IMigrateAccount> = ({
   }
 
   return (
-    (migrateState === "explainer") ?
-      <ConciseExplainer
+    (migrateState === "explainer")
+    ? <ConciseExplainer
         className={className}
         onContinue={() => setMigrateState("migrate")}
       /> :
