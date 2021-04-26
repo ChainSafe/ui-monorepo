@@ -136,7 +136,7 @@ const MigrateAccount: React.FC<IMigrateAccount> = ({
 
   return (
     (migrateState === "explainer")
-    ? <ConciseExplainer
+      ? <ConciseExplainer
         className={className}
         onContinue={() => setMigrateState("migrate")}
       /> :
@@ -200,9 +200,7 @@ const MigrateAccount: React.FC<IMigrateAccount> = ({
             </div>
           </footer>
         </section>
-        :
-        <Complete className={className} />
-
+        : <Complete className={className} />
   )
 }
 
