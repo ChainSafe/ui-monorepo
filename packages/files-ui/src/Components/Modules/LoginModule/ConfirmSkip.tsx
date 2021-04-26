@@ -25,7 +25,7 @@ const useStyles = makeStyles(({ breakpoints, constants, typography }: CSFTheme) 
     },
     warning: {
       fontSize: 16,
-      lineHeight: 24,
+      lineHeight: "24px",
       [breakpoints.up("md")]: {
         marginTop: constants.generalUnit * 2.5,
         marginBottom: constants.generalUnit * 14.5

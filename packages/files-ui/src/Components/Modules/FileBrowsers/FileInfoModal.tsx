@@ -303,7 +303,7 @@ const FileInfoModal: React.FC<IFileInfoModuleProps> = ({
                           classes.copiedContainer
                         )}
                       >
-                        <Trans>copied !</Trans>
+                        <Trans>copied!</Trans>
                       </Typography>
                     ) : null}
                   </Grid>

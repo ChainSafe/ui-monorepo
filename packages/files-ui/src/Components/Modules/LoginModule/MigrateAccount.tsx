@@ -58,7 +58,7 @@ const useStyles = makeStyles(
       },
       inputLabel: {
         fontSize: 16,
-        lineHeight: 24,
+        lineHeight: "24px",
         color: palette.additional["gray"][8],
         marginBottom: constants.generalUnit
       },

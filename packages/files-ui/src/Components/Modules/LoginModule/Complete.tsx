@@ -67,8 +67,8 @@ const useStyles = makeStyles(({ breakpoints, constants, palette, zIndex }: CSFTh
       color: constants.loginModule.completeBg,
       backgroundColor: constants.loginModule.completeText,
       "&:hover": {
-        backgroundColor: palette.success.main,
-        color: constants.loginModule.completeBg
+        backgroundColor: palette.primary.main,
+        color: palette.common.white.main
       }
     }
   })
