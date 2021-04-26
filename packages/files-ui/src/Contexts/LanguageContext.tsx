@@ -42,19 +42,19 @@ const getLanguages = (prefered = ""): string[] => {
   if (Array.isArray(languages)) {
     // Dedupe array of languages
     const deduped = [...new Set(languages.map((l) => l.split("-")[0]))]
-    const preferedFirst = prefered
-      ? [prefered, ...deduped.filter((lang) => prefered !== lang)]
+    const preferredFirst = preferred
+      ? [preferred, ...deduped.filter((lang) => preferred !== lang)]
       : deduped
 
-    return preferedFirst
+    return preferredFirst
   }
 
   if (language) {
-    return [prefered, language.split("-")[0]]
+    return [preferred, language.split("-")[0]]
   }
 
   // If language not detected use english
-  return [prefered, DEFAULT_LANGUAGE]
+  return [preferred, DEFAULT_LANGUAGE]
 }
 
 const getLocales = (): string[] => {
