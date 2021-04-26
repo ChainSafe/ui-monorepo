@@ -34,7 +34,6 @@ const Content = ({ className }: {
       .catch(console.error)
   , [addPasswordShare])
 
-
   switch (initializeState) {
   case "explainer":
     return <ConciseExplainer
