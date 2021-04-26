@@ -21,8 +21,7 @@ type InitializeState =   "explainer" |
 const Content = ({ className }: {
   className?: string
 }) => {
-  const { addPasswordShare } = useThresholdKey()
-  const { resetShouldInitialize } = useThresholdKey()
+  const { addPasswordShare, resetShouldInitialize } = useThresholdKey()
 
   const [initializeState, setInitializeState] = useState<InitializeState>("explainer")
 
