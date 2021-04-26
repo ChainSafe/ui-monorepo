@@ -69,7 +69,7 @@ msgid "Change password"
 msgstr "Modifier"
 
 msgid "Click or drag to upload files"
-msgstr "Clique ou faire glisser un ficher pour uploader"
+msgstr "Cliquer ou faire glisser un ficher pour uploader"
 
 msgid "Close"
 msgstr "Fermer"
@@ -405,7 +405,7 @@ msgid "Restore with backup phrase"
 msgstr "Récupérer avec la phrase de sauvegarde"
 
 msgid "Save changes"
-msgstr "Enregistrer les changements"
+msgstr "Enregistrer"
 
 msgid "Save this browser for next time?"
 msgstr "Enregistrer ce navigateur?"
@@ -438,7 +438,7 @@ msgid "Select a wallet"
 msgstr "Sélectionner un wallet"
 
 msgid "Send Feedback"
-msgstr "Envoyer des commentaires"
+msgstr "Donner son avis"
 
 msgid "Set Password"
 msgstr "Définir un Mot de Passe"
@@ -568,6 +568,9 @@ msgstr "Uploader"
 
 msgid "Upload complete"
 msgstr "Upload terminé"
+
+msgid "Uploading {0} files"
+msgstr "Upload de {0} fichiers"
 
 msgid "Use a different login method"
 msgstr "Utilisez une méthode de connexion différente"

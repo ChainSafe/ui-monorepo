@@ -23,6 +23,9 @@ const useStyles = makeStyles(
         "& svg": {
           fill: constants.header.iconColor
         }
+      },
+      title: {
+        width: "100%"
       }
     })
   }
@@ -43,7 +46,8 @@ const LanguageSelection = () => {
       className={classes.root}
       classNames={{
         icon: classes.icon,
-        options: classes.options
+        options: classes.options,
+        title: classes.title
       }}
       menuItems={availableLanguages.map((lang) => (
         {

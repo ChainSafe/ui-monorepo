@@ -568,6 +568,9 @@ msgstr "Upload"
 msgid "Upload complete"
 msgstr "Upload complete"
 
+msgid "Uploading {0} files"
+msgstr "Uploading {0} files"
+
 msgid "Use a different login method"
 msgstr "Use a different login method"
 
