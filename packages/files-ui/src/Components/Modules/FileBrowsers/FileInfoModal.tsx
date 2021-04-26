@@ -13,11 +13,11 @@ import {
   formatBytes,
   Grid,
   Loading,
-  Typography,
-  standardlongDateFormat
+  Typography
 } from "@chainsafe/common-components"
 import clsx from "clsx"
 import { CSFTheme } from "../../../Themes/types"
+import dayjs from "dayjs"
 
 const useStyles = makeStyles(
   ({ breakpoints, constants, palette, typography, zIndex, animation }: CSFTheme) => {
@@ -255,7 +255,7 @@ const FileInfoModal: React.FC<IFileInfoModuleProps> = ({
                       variant="body2"
                       component="p"
                     >
-                      {standardlongDateFormat(new Date(fullFileInfo.content.created_at * 1000), true, false)}
+                      {dayjs.unix(fullFileInfo.content.created_at).format("DD MMM YYYY h:mm a")}
                     </Typography>
                   </div>
                 ) : null}
