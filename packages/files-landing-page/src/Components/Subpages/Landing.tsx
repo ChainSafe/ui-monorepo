@@ -21,7 +21,7 @@ const useStyles = makeStyles(
         justifyContent: "center",
         flexDirection: "column",
         alignItems: "center",
-        height: `calc(100% - ${constants.headerHeight}px)`,
+        height: `calc(100%- ${constants.headerHeight}px)`,
         "& > img": {
           width: "70%",
           [breakpoints.down('md')]:{
