@@ -12,7 +12,7 @@ import clsx from "clsx"
 import { IdentityProvider } from "@chainsafe/files-api-client"
 
 const useStyles = makeStyles(
-  ({ constants, palette, breakpoints }: CSFTheme) =>
+  ({ constants, palette, breakpoints, typography }: CSFTheme) =>
     createStyles({
       root: {
         backgroundColor: constants.loginModule.background,
@@ -64,7 +64,11 @@ const useStyles = makeStyles(
       },
       button: {
         width: 240,
+        fontWeight: typography.fontWeight.medium,
         marginBottom: constants.generalUnit * 2,
+        "& .icon" : {
+          fontSize: 25
+        },
         "&:last-child": {
           marginBottom: 0
         }
@@ -266,7 +270,7 @@ const InitialScreen = ({ className }: IInitialScreen) => {
                   disabled={maintenanceMode || isConnecting || status !== "initialized"}
                   loading={isConnecting && loginMode === "github"}
                 >
-                  <GithubLogoIcon />
+                  <GithubLogoIcon className="icon"/>
                   <Trans>Continue with Github</Trans>
                 </Button>
                 <Button
@@ -277,7 +281,7 @@ const InitialScreen = ({ className }: IInitialScreen) => {
                   disabled={maintenanceMode || isConnecting || status !== "initialized"}
                   loading={isConnecting && loginMode === "google"}
                 >
-                  <GoogleLogoIcon />
+                  <GoogleLogoIcon className="icon"/>
                   <Trans>Continue with Google</Trans>
                 </Button>
                 <Button
@@ -288,7 +292,7 @@ const InitialScreen = ({ className }: IInitialScreen) => {
                   disabled={maintenanceMode || isConnecting || status !== "initialized"}
                   loading={isConnecting && loginMode === "facebook"}
                 >
-                  <FacebookLogoIcon />
+                  <FacebookLogoIcon className="icon"/>
                   <Trans>Continue with Facebook</Trans>
                 </Button>
               </section>
