@@ -3,13 +3,13 @@ import { i18n } from "@lingui/core"
 import { I18nProvider } from "@lingui/react"
 import * as plurals from "make-plural/plurals"
 import { useLocalStorage } from "@chainsafe/browser-storage-hooks"
+import dayjs from "dayjs"
 
 export type LanguageContext = {
   availableLanguages: Language[]
   selectedLanguage: string
   selectedLocale: string
   setActiveLanguage(newLanguage: string): void | Promise<void>
-  formatLocaleDate(date: Date): string
 }
 
 type Language = {
@@ -30,13 +30,12 @@ const defaultContext: LanguageContext =   {
   availableLanguages: [],
   selectedLanguage: DEFAULT_LANGUAGE,
   selectedLocale: DEFAULT_LOCALE,
-  setActiveLanguage: () => {console.error("setActiveLanguage not implemented")},
-  formatLocaleDate: () => {console.error("formatLocaleDate not implemented"); return ""}
+  setActiveLanguage: () => {console.error("setActiveLanguage not implemented")}
 }
 
 const LanguageContext = React.createContext<LanguageContext>(defaultContext)
 
-const getLanguages = (prefered = ""): string[] => {
+const getLanguages = (preferred = ""): string[] => {
   const { languages, language } = window.navigator
 
   if (Array.isArray(languages)) {
@@ -96,6 +95,7 @@ const LanguageProvider = ({ children, availableLanguages }: LanguageProviderProp
         i18n.activate(newLanguage)
         setSelectedLanguage(newLanguage)
         setPrefered && localStorageSet(PREFERED_LANGUAGE_KEY, newLanguage)
+        dayjs.locale(newLanguage)
       })
       .catch(console.error)
   }, [availableLanguages, localStorageSet])
@@ -115,29 +115,13 @@ const LanguageProvider = ({ children, availableLanguages }: LanguageProviderProp
     setLanguage(defaultLanguage, false)
   }, [availableLanguages, localStorageGet, setLanguage])
 
-  const formatLocaleDate = (date: Date) => {
-    const result = new Intl.DateTimeFormat(userLocales[0], {
-      timeZone: "UTC",
-      timeZoneName: "short",
-      hour: "numeric",
-      minute: "numeric",
-      hour12: false,
-      month: "numeric",
-      day: "numeric",
-      year: "numeric"
-    }).format(date)
-
-    return result
-  }
-
   return (
     <LanguageContext.Provider
       value={{
         availableLanguages,
         selectedLanguage,
         setActiveLanguage: setLanguage,
-        selectedLocale: userLocales[0],
-        formatLocaleDate
+        selectedLocale: userLocales[0]
       }}
     >
       <I18nProvider i18n={i18n}>{children}</I18nProvider>
