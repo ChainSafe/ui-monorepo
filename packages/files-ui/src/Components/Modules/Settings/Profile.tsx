@@ -365,6 +365,13 @@ const ProfileView = () => {
               </Grid>
             </Grid>
           </div>
+          <Typography
+            variant='h5'
+            component='h5'
+            className={classes.sectionSubHeading}
+          >
+            <Trans>Language</Trans>
+          </Typography>
           <LanguageSelection/>
         </div>
       </Grid>
