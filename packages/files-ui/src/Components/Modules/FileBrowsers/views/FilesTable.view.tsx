@@ -42,6 +42,7 @@ import FileInfoModal from "../FileInfoModal"
 import { CONTENT_TYPES } from "../../../../Utils/Constants"
 import { CSFTheme } from "../../../../Themes/types"
 import MimeMatcher from "../../../../Utils/MimeMatcher"
+import { useLanguageContext } from "../../../../Contexts/LanguageContext"
 
 interface IStyleProps {
   themeKey: string
@@ -272,6 +273,7 @@ const FilesTableView = ({
   const [column, setColumn] = useState<"name" | "size" | "date_uploaded">("name")
   const [selectedCids, setSelectedCids] = useState<string[]>([])
   const [previewFileIndex, setPreviewFileIndex] = useState<number | undefined>()
+  const { selectedLocale } = useLanguageContext()
   const items: FileSystemItem[] = useMemo(() => {
     let temp = []
 
@@ -280,8 +282,7 @@ const FilesTableView = ({
       // case "name": {
       temp = sourceFiles
         .sort((a, b) => {
-          return a.name.toLocaleLowerCase().localeCompare(b.name.toLocaleLowerCase(), undefined, {
-            ignorePunctuation: true,
+          return a.name.localeCompare(b.name, selectedLocale, {
             sensitivity: "base"
           })
         }
@@ -306,7 +307,7 @@ const FilesTableView = ({
     }
     }
     return direction === "descend" ? temp.reverse().sort(sortFoldersFirst) : temp.sort(sortFoldersFirst)
-  }, [sourceFiles, direction, column])
+  }, [sourceFiles, direction, column, selectedLocale])
 
   const files = useMemo(
     () => items.filter((i) => !i.isFolder)
