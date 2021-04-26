@@ -11,9 +11,7 @@ interface IInitializeAccount {
   className?: string
 }
 
-const InitializeAccount: React.FC<IInitializeAccount> = ({
-  className
-}: IInitializeAccount) => {
+const InitializeAccount = ({className}: IInitializeAccount) => {
   const { addPasswordShare } = useThresholdKey()
   const [initializeState, setInitializeState] = useState<
   "explainer" |
