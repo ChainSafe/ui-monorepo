@@ -1,4 +1,4 @@
-import React, {  } from "react"
+import React from "react"
 import { makeStyles, createStyles, useThemeSwitcher } from "@chainsafe/common-theme"
 import { useThresholdKey } from "../../Contexts/ThresholdKeyContext"
 import SaveNewDevice from "../Modules/LoginModule/SaveNewDevice"
