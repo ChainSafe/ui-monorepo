@@ -741,7 +741,7 @@ const FilesTableView = ({
                     </TableCell>
                     <TableCell align="left">
                       {uploadInProgress.noOfFiles > 1
-                        ? `Uploading ${uploadInProgress.noOfFiles} files`
+                        ? t`Uploading ${uploadInProgress.noOfFiles} files`
                         : uploadInProgress.fileName}
                     </TableCell>
                     <TableCell />

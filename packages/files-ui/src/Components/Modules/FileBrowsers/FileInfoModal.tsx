@@ -206,7 +206,7 @@ const FileInfoModal: React.FC<IFileInfoModuleProps> = ({
                 >
                   <Trans>General</Trans>
                 </Typography>
-                {fullFileInfo.persistent?.uploaded ? (
+                {fullFileInfo.persistent?.uploaded && (
                   <div className={classes.subInfoBox}>
                     <Typography
                       variant="body1"
@@ -222,8 +222,8 @@ const FileInfoModal: React.FC<IFileInfoModuleProps> = ({
                       {fullFileInfo.persistent?.uploaded}
                     </Typography>
                   </div>
-                ) : null}
-                {fullFileInfo.content?.size !== undefined ? (
+                )}
+                {fullFileInfo.content?.size !== undefined && (
                   <div className={classes.subInfoBox}>
                     <Typography
                       variant="body1"
@@ -239,7 +239,7 @@ const FileInfoModal: React.FC<IFileInfoModuleProps> = ({
                       {formatBytes(fullFileInfo.content?.size)}
                     </Typography>
                   </div>
-                ) : null}
+                )}
               </div>
               <div className={classes.technicalContainer}>
                 <Typography
@@ -249,7 +249,7 @@ const FileInfoModal: React.FC<IFileInfoModuleProps> = ({
                 >
                   <Trans>Technical</Trans>
                 </Typography>
-                {fullFileInfo.persistent?.stored_cid !== undefined ? (
+                {fullFileInfo.persistent?.stored_cid !== undefined && (
                   <div className={classes.subInfoBox}>
                     <Typography
                       variant="body1"
@@ -265,8 +265,8 @@ const FileInfoModal: React.FC<IFileInfoModuleProps> = ({
                       {fullFileInfo.persistent?.stored_cid}
                     </Typography>
                   </div>
-                ) : null}
-                {fullFileInfo.persistent?.stored_cid !== undefined ? (
+                )}
+                {fullFileInfo.persistent?.stored_cid !== undefined && (
                   <div className={classes.subInfoBox}>
                     <Typography
                       variant="body1"
@@ -282,7 +282,7 @@ const FileInfoModal: React.FC<IFileInfoModuleProps> = ({
                       {fullFileInfo.persistent?.stored_cid}
                     </Typography>
                   </div>
-                ) : null}
+                )}
                 <div className={classes.subInfoBox}>
                   <Grid
                     item
@@ -294,7 +294,7 @@ const FileInfoModal: React.FC<IFileInfoModuleProps> = ({
                     >
                       <Trans>CID (Content Identifier)</Trans>
                     </Typography>
-                    {copied ? (
+                    {copied && (
                       <Typography
                         variant="body2"
                         component="p"
@@ -303,9 +303,9 @@ const FileInfoModal: React.FC<IFileInfoModuleProps> = ({
                           classes.copiedContainer
                         )}
                       >
-                        <Trans>copied !</Trans>
+                        <Trans>copied!</Trans>
                       </Typography>
-                    ) : null}
+                    )}
                   </Grid>
                   <Typography
                     className={classes.subSubtitle}

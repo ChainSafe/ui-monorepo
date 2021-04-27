@@ -129,7 +129,7 @@ const ConciseExplainer: React.FC<IConciseExplainerProps> = ({ className, onConti
           className={classes.subtitle}
         >
           <Trans>
-            For security reasons, upon signing in we’ll ask you for one of the following to confirm your identity.
+            For security reasons, each time you sign in we’ll ask you for one of the following to confirm your identity.
           </Trans>
           &nbsp;
           <a
@@ -158,7 +158,7 @@ const ConciseExplainer: React.FC<IConciseExplainerProps> = ({ className, onConti
               alt="password and keys"
             />
             <Typography component="p">
-              <Trans>Enter a password</Trans>
+              <Trans>Enter password</Trans>
             </Typography>
           </div>
           <div className={classes.imageBox}>
