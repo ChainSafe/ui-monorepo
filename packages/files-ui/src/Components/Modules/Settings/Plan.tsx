@@ -102,7 +102,7 @@ const PlanView: React.FC = () => {
                 component="p"
                 className={clsx(classes.margins, classes.subtitle)}
               >
-                <Trans id="storage-plan-desc">
+                <Trans>
                   Lorem ipsum aenean et rutrum magna. Morbi nec placerat erat.
                   Nunc elementum sed libero sit amet convallis. Quisque non arcu
                   vitae ex fringilla molestie.

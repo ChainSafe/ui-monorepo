@@ -16,11 +16,11 @@ msgstr ""
 msgid "(Change)"
 msgstr "(Change)"
 
+msgid "<0>You’re at risk of getting locked out of your account because you only have two auth factors set up.</0> Add at least one more to ensure account recovery."
+msgstr "<0>You’re at risk of getting locked out of your account because you only have two auth factors set up.</0> Add at least one more to ensure account recovery."
+
 msgid "A backup phrase will be generated and used for your account.<0/>We do not store it and <1>it can only be displayed once</1>. Save it somewhere safe!"
 msgstr "A backup phrase will be generated and used for your account.<0/>We do not store it and <1>it can only be displayed once</1>. Save it somewhere safe!"
-
-msgid "A backup phrase will be generated for your account.<0/>We do not store it and <1>it can only be displayed once</1>. Please save it somewhere safe!"
-msgstr "A backup phrase will be generated for your account.<0/>We do not store it and <1>it can only be displayed once</1>. Please save it somewhere safe!"
 
 msgid "A file with the same name already exists"
 msgstr "A file with the same name already exists"
@@ -36,12 +36,6 @@ msgstr "Add more files"
 
 msgid "Approve"
 msgstr "Approve"
-
-msgid "Are you sure?"
-msgstr "Are you sure?"
-
-msgid "Backup Phrase"
-msgstr "Backup Phrase"
 
 msgid "Backup phrase"
 msgstr "Backup phrase"
@@ -160,11 +154,11 @@ msgstr "Download recovery key"
 msgid "Drop to upload files"
 msgstr "Drop to upload files"
 
-msgid "Enter a password"
-msgstr "Enter a password"
-
 msgid "Enter backup phrase:"
 msgstr "Enter backup phrase:"
+
+msgid "Enter password"
+msgstr "Enter password"
 
 msgid "Enter password:"
 msgstr "Enter password:"
@@ -211,6 +205,9 @@ msgstr "Files"
 msgid "Files uses device backups to save your browser."
 msgstr "Files uses device backups to save your browser."
 
+msgid "First name"
+msgstr "First name"
+
 msgid "Folder"
 msgstr "Folder"
 
@@ -220,8 +217,8 @@ msgstr "Folder created successfully"
 msgid "Folders"
 msgstr "Folders"
 
-msgid "For security reasons, upon signing in we’ll ask you for one of the following to confirm your identity."
-msgstr "For security reasons, upon signing in we’ll ask you for one of the following to confirm your identity."
+msgid "For security reasons, each time you sign in we’ll ask you for one of the following to confirm your identity."
+msgstr "For security reasons, each time you sign in we’ll ask you for one of the following to confirm your identity."
 
 msgid "Forget this browser"
 msgstr "Forget this browser"
@@ -259,11 +256,20 @@ msgstr "Hold on, we are logging you in..."
 msgid "Home"
 msgstr "Home"
 
+msgid "I understand the risk"
+msgstr "I understand the risk"
+
 msgid "Info"
 msgstr "Info"
 
 msgid "I’m done saving my backup phrase"
 msgstr "I’m done saving my backup phrase"
+
+msgid "Language"
+msgstr "Language"
+
+msgid "Last name"
+msgstr "Last name"
 
 msgid "Learn more"
 msgstr "Learn more"
@@ -282,6 +288,9 @@ msgstr "Loading preview"
 
 msgid "Looks like you’re signing in from a new browser. Please choose one of the following to continue:"
 msgstr "Looks like you’re signing in from a new browser. Please choose one of the following to continue:"
+
+msgid "Lorem ipsum aenean et rutrum magna. Morbi nec placerat erat. Nunc elementum sed libero sit amet convallis. Quisque non arcu vitae ex fringilla molestie."
+msgstr "Lorem ipsum aenean et rutrum magna. Morbi nec placerat erat. Nunc elementum sed libero sit amet convallis. Quisque non arcu vitae ex fringilla molestie."
 
 msgid "Move"
 msgstr "Move"
@@ -451,14 +460,17 @@ msgstr "Set up"
 msgid "Set up a password"
 msgstr "Set up a password"
 
+msgid "Set up auth factors"
+msgstr "Set up auth factors"
+
 msgid "Set up password"
 msgstr "Set up password"
 
-msgid "Set up sign in methods"
-msgstr "Set up sign in methods"
-
 msgid "Settings"
 msgstr "Settings"
+
+msgid "Setup incomplete"
+msgstr "Setup incomplete"
 
 msgid "Share"
 msgstr "Share"
@@ -568,6 +580,9 @@ msgstr "Upload"
 msgid "Upload complete"
 msgstr "Upload complete"
 
+msgid "Uploading {0} files"
+msgstr "Uploading {0} files"
+
 msgid "Use a different login method"
 msgstr "Use a different login method"
 
@@ -592,12 +607,6 @@ msgstr "What a fine day it is."
 msgid "What a fine night it is."
 msgstr "What a fine night it is."
 
-msgid "Without setting up at least three authentication factors, you risk getting locked out of your account.<0/><1/>Remember, you need a minimum of two factors to sign in. If you only have one, you’ll lose access to your account forever."
-msgstr "Without setting up at least three authentication factors, you risk getting locked out of your account.<0/><1/>Remember, you need a minimum of two factors to sign in. If you only have one, you’ll lose access to your account forever."
-
-msgid "Yes I understand"
-msgstr "Yes I understand"
-
 msgid "Yes, save it"
 msgstr "Yes, save it"
 
@@ -616,8 +625,8 @@ msgstr "Your Authentication Factors"
 msgid "Your recovery key can be used to restore your account in place of your backup phrase."
 msgstr "Your recovery key can be used to restore your account in place of your backup phrase."
 
-msgid "copied !"
-msgstr "copied !"
+msgid "copied!"
+msgstr "copied!"
 
 msgid "deleted successfully"
 msgstr "deleted successfully"
@@ -633,6 +642,3 @@ msgstr "on"
 
 msgid "recovered successfully"
 msgstr "recovered successfully"
-
-msgid "storage-plan-desc"
-msgstr "Lorem ipsum aenean et rutrum magna. Morbi nec placerat erat. Nunc elementum sed libero sit amet convallis. Quisque non arcu vitae ex fringilla molestie."

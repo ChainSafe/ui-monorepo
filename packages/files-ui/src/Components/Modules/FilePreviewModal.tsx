@@ -303,37 +303,37 @@ const FilePreviewModal = ({ file, nextFile, previousFile, closePreview, path }: 
           menuItems={[
             // {
             //   contents: (
-            //     <Fragment>
+            //     <>
             //       <ExportIcon className={classes.menuIcon} />
             //       <span>Move</span>
-            //     </Fragment>
+            //     </>
             //   ),
             //   onClick: () => console.log,
             // },
             // {
             //   contents: (
-            //     <Fragment>
+            //     <>
             //       <ShareAltIcon className={classes.menuIcon} />
             //       <span>Share</span>
-            //     </Fragment>
+            //     </>
             //   ),
             //   onClick: () => console.log,
             // },
             // {
             //   contents: (
-            //     <Fragment>
+            //     <>
             //       <EditIcon className={classes.menuIcon} />
             //       <span>Rename</span>
-            //     </Fragment>
+            //     </>
             //   ),
             //   onClick: () => console.log,
             // },
             // {
             //   contents: (
-            //     <Fragment>
+            //     <>
             //       <DeleteIcon className={classes.menuIcon} />
             //       <span>Delete</span>
-            //     </Fragment>
+            //     </>
             //   ),
             //   onClick: () => console.log,
             // },

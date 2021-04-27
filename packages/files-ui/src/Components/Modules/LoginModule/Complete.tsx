@@ -67,8 +67,8 @@ const useStyles = makeStyles(({ breakpoints, constants, palette, zIndex }: CSFTh
       color: constants.loginModule.completeBg,
       backgroundColor: constants.loginModule.completeText,
       "&:hover": {
-        backgroundColor: palette.success.main,
-        color: constants.loginModule.completeBg
+        backgroundColor: palette.primary.main,
+        color: palette.common.white.main
       }
     }
   })
@@ -99,7 +99,7 @@ const Complete = ({ className }: IComplete) => {
       </Typography>
       <Typography
         component="p"
-        variant="body2"
+        variant="body1"
       >
         <Trans>
           Thanks for taking care of that. You can <br/> adjust these anytime in security settings.
