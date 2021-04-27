@@ -142,42 +142,23 @@ const Complete = ({ className }: IComplete) => {
             )
           }
         </div>
-        <div className={clsx(
-          classes.option, {
-            "active": hasPasswordShare
-          }
-        )}>
+        {hasPasswordShare &&
+        <div className={clsx(classes.option, "active")}>
           <Typography>
             <Trans>
               Password setup
             </Trans>
           </Typography>
-          {
-            hasPasswordShare ? (
-              <CheckSvg />
-            ) : (
-              <CloseSvg />
-            )
-          }
-        </div>
-        <div className={clsx(
-          classes.option, {
-            "active": hasMnemonicShare
-          }
-        )}>
+          <CheckSvg />
+        </div>}
+        {hasMnemonicShare && <div className={clsx(classes.option, "active")}>
           <Typography>
             <Trans>
               Backup phrase
             </Trans>
           </Typography>
-          {
-            hasMnemonicShare ? (
-              <CheckSvg />
-            ) : (
-              <CloseSvg />
-            )
-          }
-        </div>
+          <CheckSvg />
+        </div>}
       </section>
       <Button
         onClick={() => resetShouldInitialize()}

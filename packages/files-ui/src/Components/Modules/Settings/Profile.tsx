@@ -21,6 +21,7 @@ import { t, Trans } from "@lingui/macro"
 import { centerEllipsis } from "../../../Utils/Helpers"
 import { CSFTheme } from "../../../Themes/types"
 import clsx from "clsx"
+import LanguageSelection from "./LanguageSelection"
 
 const useStyles = makeStyles(({ constants, breakpoints, palette, typography }: CSFTheme) =>
   createStyles({
@@ -242,22 +243,22 @@ const ProfileView = () => {
                   ) : null}
                   <div className={classes.boxContainer}>
                     <FormikTextInput
-                      placeholder="First name"
+                      placeholder={t`First name`}
                       name="firstName"
                       size="medium"
                       className={classes.input}
                       labelClassName={classes.label}
-                      label="First name"
+                      label={t`First name`}
                     />
                   </div>
                   <div className={classes.boxContainer}>
                     <FormikTextInput
-                      placeholder="Last name"
+                      placeholder={t`Last name`}
                       name="lastName"
                       size="medium"
                       className={classes.input}
                       labelClassName={classes.label}
-                      label="Last name"
+                      label={t`Last name`}
                     />
                   </div>
                   {/* <div className={classes.boxContainer}>
@@ -364,6 +365,14 @@ const ProfileView = () => {
               </Grid>
             </Grid>
           </div>
+          <Typography
+            variant='h5'
+            component='h5'
+            className={classes.sectionSubHeading}
+          >
+            <Trans>Language</Trans>
+          </Typography>
+          <LanguageSelection/>
         </div>
       </Grid>
     </Grid>

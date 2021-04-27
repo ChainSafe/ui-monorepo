@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react"
+import React from "react"
 import { makeStyles, createStyles, useThemeSwitcher } from "@chainsafe/common-theme"
 import { useThresholdKey } from "../../Contexts/ThresholdKeyContext"
 import SaveNewDevice from "../Modules/LoginModule/SaveNewDevice"
@@ -14,13 +14,8 @@ import BottomLightSVG from "../../Media/landing/layers/light/Bottom.light.svg"
 import TopLightSVG from "../../Media/landing/layers/light/Top.light.svg"
 // import { ForegroundSVG } from "../../Media/landing/layers/ForegroundSVG"
 import { useImployApi } from "@chainsafe/common-contexts"
-import ConciseExplainer from "../Modules/LoginModule/ConciseExplainer"
-import AuthenticationFactors from "../Modules/LoginModule/AuthenticationFactors"
-import PasswordSetup from "../Modules/LoginModule/PasswordSetup"
-import ConfirmSkip from "../Modules/LoginModule/ConfirmSkip"
-import SaveBackupPhrase from "../Modules/LoginModule/SaveBackupPhrase"
-import Complete from "../Modules/LoginModule/Complete"
 import MigrateAccount from "../Modules/LoginModule/MigrateAccount"
+import InitializeAccount from "../Modules/LoginModule/InitializeAccount"
 
 const useStyles = makeStyles(
   ({ constants, breakpoints, typography, zIndex }: CSFTheme) =>
@@ -136,26 +131,9 @@ const useStyles = makeStyles(
 
 const Content = ({ className }: { className: string }) => {
   const { isMasterPasswordSet } = useImployApi()
-  const { keyDetails, isNewDevice, shouldInitializeAccount, addPasswordShare, resetShouldInitialize } = useThresholdKey()
+  const { keyDetails, isNewDevice, shouldInitializeAccount } = useThresholdKey()
   const shouldSaveNewDevice = !!keyDetails && isNewDevice && keyDetails.requiredShares <= 0
   const areSharesMissing = !!keyDetails && keyDetails.requiredShares > 0
-
-  const [setupScreen, setSetupScreen] = useState<
-    "explainer" |
-    "authenticationFactors" |
-    "setUpPassword" |
-    "skip" |
-    "backup" |
-    "complete"
-    >("explainer")
-
-  const onSetPassword = useCallback((password: string) =>
-    addPasswordShare(password)
-      .then(() => {
-        setSetupScreen("authenticationFactors")
-      })
-      .catch(console.error)
-  , [addPasswordShare])
 
   if (!keyDetails) {
     return <InitialScreen className={className} />
@@ -166,43 +144,7 @@ const Content = ({ className }: { className: string }) => {
   }
 
   if (shouldInitializeAccount && !isMasterPasswordSet){
-    switch (setupScreen) {
-    case "explainer":
-      return (
-        <ConciseExplainer
-          className={className}
-          onContinue={() => setSetupScreen("authenticationFactors")}
-        />
-      )
-    case "authenticationFactors":
-      return <AuthenticationFactors
-        className={className}
-        goToPassword={() => setSetupScreen("setUpPassword")}
-        goToMnemonic={() => setSetupScreen("backup")}
-        goToSkip={() => setSetupScreen("skip")}
-        goToComplete={() => setSetupScreen("complete")}
-      />
-    case "setUpPassword":
-      return <PasswordSetup
-        className={className}
-        cancel={() => setSetupScreen("authenticationFactors")}
-        setPassword={onSetPassword}
-      />
-    case "skip":
-      return <ConfirmSkip
-        className={className}
-        confirm={() => resetShouldInitialize()}
-        cancel={() => setSetupScreen("authenticationFactors")}
-      />
-    case "backup":
-      return <SaveBackupPhrase
-        className={className}
-        cancel={() => setSetupScreen("authenticationFactors")}
-        complete={() => setSetupScreen("authenticationFactors")}
-      />
-    case "complete":
-      return <Complete className={className} />
-    }
+    return <InitializeAccount className={className} />
   }
 
   if (shouldInitializeAccount && isMasterPasswordSet) {

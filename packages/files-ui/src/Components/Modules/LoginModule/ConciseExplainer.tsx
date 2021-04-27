@@ -158,7 +158,7 @@ const ConciseExplainer: React.FC<IConciseExplainerProps> = ({ className, onConti
               alt="password and keys"
             />
             <Typography component="p">
-              <Trans>Enter a password</Trans>
+              <Trans>Enter password</Trans>
             </Typography>
           </div>
           <div className={classes.imageBox}>

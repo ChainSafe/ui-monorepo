@@ -190,7 +190,7 @@ const MissingShares = ({ className }: IMissingShares) => {
                   size="large"
                   onClick={() => setWithPassword(true)}
                 >
-                  <Trans>Enter a password</Trans>
+                  <Trans>Enter password</Trans>
                 </Button>
               )}
               <Button
