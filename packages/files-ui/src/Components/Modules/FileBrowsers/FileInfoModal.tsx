@@ -367,7 +367,7 @@ const FileInfoModal: React.FC<IFileInfoModuleProps> = ({
               onClick={() => close()}
               size="large"
               className={classes.closeButton}
-              variant="gray"
+              variant="outline"
               type="button"
             >
               <Trans>Close</Trans>
