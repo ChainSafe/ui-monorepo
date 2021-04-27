@@ -372,7 +372,6 @@ const DriveProvider = ({ children }: DriveContextProps) => {
   const moveFile = useCallback(async (body: FilesMvRequest) => {
     try {
       await imployApiClient.moveCSFObject(body)
-      await refreshContents(currentPath)
       addToastMessage({
         message: t`File moved successfully`,
         appearance: "success"
@@ -385,7 +384,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
       })
       return Promise.reject()
     }
-  }, [addToastMessage, currentPath, imployApiClient, refreshContents])
+  }, [addToastMessage, imployApiClient])
 
   const moveFiles = useCallback(async (filesToMove: FilesMvRequest[]) => {
     return Promise.all(
