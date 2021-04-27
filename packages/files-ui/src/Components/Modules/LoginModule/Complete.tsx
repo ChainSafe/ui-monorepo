@@ -70,9 +70,6 @@ const useStyles = makeStyles(({ breakpoints, constants, palette, zIndex }: CSFTh
         backgroundColor: palette.primary.main,
         color: palette.common.white.main
       }
-    },
-    thankText: {
-      fontSize: 14
     }
   })
 )
@@ -101,9 +98,8 @@ const Complete = ({ className }: IComplete) => {
         </Trans>
       </Typography>
       <Typography
-        className={classes.thankText}
         component="p"
-        variant="body2"
+        variant="body1"
       >
         <Trans>
           Thanks for taking care of that. You can <br/> adjust these anytime in security settings.
