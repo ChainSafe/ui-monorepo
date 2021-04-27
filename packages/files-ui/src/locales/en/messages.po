@@ -154,9 +154,6 @@ msgstr "Download recovery key"
 msgid "Drop to upload files"
 msgstr "Drop to upload files"
 
-msgid "Encryption Password"
-msgstr "Encryption Password"
-
 msgid "Enter backup phrase:"
 msgstr "Enter backup phrase:"
 
