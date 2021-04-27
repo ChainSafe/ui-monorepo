@@ -102,7 +102,7 @@ const Complete = ({ className }: IComplete) => {
         variant="body1"
       >
         <Trans>
-          Thanks for taking care of that. You can <br/> adjust these anytime in security settings.
+          Thanks for taking care of that. You can adjust these anytime in security settings.
         </Trans>
       </Typography>
       <section>

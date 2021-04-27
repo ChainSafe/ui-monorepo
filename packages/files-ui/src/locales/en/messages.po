@@ -520,8 +520,8 @@ msgstr "Technical"
 msgid "Terms and Conditions"
 msgstr "Terms and Conditions"
 
-msgid "Thanks for taking care of that. You can <0/> adjust these anytime in security settings."
-msgstr "Thanks for taking care of that. You can <0/> adjust these anytime in security settings."
+msgid "Thanks for taking care of that. You can adjust these anytime in security settings."
+msgstr "Thanks for taking care of that. You can adjust these anytime in security settings."
 
 msgid "The authentication popup was closed"
 msgstr "The authentication popup was closed"
@@ -642,3 +642,6 @@ msgstr "on"
 
 msgid "recovered successfully"
 msgstr "recovered successfully"
+
+msgid "{noOfFiles, plural, one {Uploading and encrypting {noOfFiles} file} other {Uploading and encrypting {noOfFiles} files}}"
+msgstr "{noOfFiles, plural, one {Uploading and encrypting {noOfFiles} file} other {Uploading and encrypting {noOfFiles} files}}"
