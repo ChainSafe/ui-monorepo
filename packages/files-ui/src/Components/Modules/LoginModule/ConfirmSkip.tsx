@@ -24,6 +24,8 @@ const useStyles = makeStyles(({ breakpoints, constants, typography }: CSFTheme) 
       }
     },
     warning: {
+      fontSize: 16,
+      lineHeight: "24px",
       [breakpoints.up("md")]: {
         marginTop: constants.generalUnit * 2.5,
         marginBottom: constants.generalUnit * 14.5
@@ -50,6 +52,9 @@ const useStyles = makeStyles(({ breakpoints, constants, typography }: CSFTheme) 
         position: "relative",
         left: -constants.generalUnit
       }
+    },
+    importantText:{
+      textDecorationLine: "underline"
     }
   })
 )
@@ -72,7 +77,7 @@ const ConfirmSkip = ({ cancel, confirm, className }: IConfirmSkip) => {
         component="p"
       >
         <Trans>
-          Are you sure?
+          Setup incomplete
         </Trans>
       </Typography>
 
@@ -81,10 +86,8 @@ const ConfirmSkip = ({ cancel, confirm, className }: IConfirmSkip) => {
         component="p"
       >
         <Trans>
-          Without setting up at least three authentication factors,
-          you risk getting locked out of your account.
-          <br/><br/>Remember, you need a minimum of two factors to sign in.
-          If you only have one, you’ll lose access to your account forever.
+          <span className={classes.importantText}>You’re at risk of getting locked out of your account
+          because you only have two auth factors set up.</span> Add at least one more to ensure account recovery.
         </Trans>
       </Typography>
 
@@ -96,7 +99,7 @@ const ConfirmSkip = ({ cancel, confirm, className }: IConfirmSkip) => {
           variant="outline"
         >
           <Trans>
-            Yes I understand
+            I understand the risk
           </Trans>
         </Button>
         <Button
@@ -106,7 +109,7 @@ const ConfirmSkip = ({ cancel, confirm, className }: IConfirmSkip) => {
           variant="primary"
         >
           <Trans>
-            Set up sign in methods
+            Set up auth factors
           </Trans>
         </Button>
       </section>

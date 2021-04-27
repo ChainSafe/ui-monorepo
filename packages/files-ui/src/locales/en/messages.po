@@ -16,6 +16,9 @@ msgstr ""
 msgid "(Change)"
 msgstr "(Change)"
 
+msgid "<0>You’re at risk of getting locked out of your account because you only have two auth factors set up.</0> Add at least one more to ensure account recovery."
+msgstr "<0>You’re at risk of getting locked out of your account because you only have two auth factors set up.</0> Add at least one more to ensure account recovery."
+
 msgid "A backup phrase will be generated and used for your account.<0/>We do not store it and <1>it can only be displayed once</1>. Save it somewhere safe!"
 msgstr "A backup phrase will be generated and used for your account.<0/>We do not store it and <1>it can only be displayed once</1>. Save it somewhere safe!"
 
@@ -33,9 +36,6 @@ msgstr "Add more files"
 
 msgid "Approve"
 msgstr "Approve"
-
-msgid "Are you sure?"
-msgstr "Are you sure?"
 
 msgid "Backup phrase"
 msgstr "Backup phrase"
@@ -217,8 +217,8 @@ msgstr "Folder created successfully"
 msgid "Folders"
 msgstr "Folders"
 
-msgid "For security reasons, upon signing in we’ll ask you for one of the following to confirm your identity."
-msgstr "For security reasons, upon signing in we’ll ask you for one of the following to confirm your identity."
+msgid "For security reasons, each time you sign in we’ll ask you for one of the following to confirm your identity."
+msgstr "For security reasons, each time you sign in we’ll ask you for one of the following to confirm your identity."
 
 msgid "Forget this browser"
 msgstr "Forget this browser"
@@ -255,6 +255,9 @@ msgstr "Hold on, we are logging you in..."
 
 msgid "Home"
 msgstr "Home"
+
+msgid "I understand the risk"
+msgstr "I understand the risk"
 
 msgid "Info"
 msgstr "Info"
@@ -457,14 +460,17 @@ msgstr "Set up"
 msgid "Set up a password"
 msgstr "Set up a password"
 
+msgid "Set up auth factors"
+msgstr "Set up auth factors"
+
 msgid "Set up password"
 msgstr "Set up password"
 
-msgid "Set up sign in methods"
-msgstr "Set up sign in methods"
-
 msgid "Settings"
 msgstr "Settings"
+
+msgid "Setup incomplete"
+msgstr "Setup incomplete"
 
 msgid "Share"
 msgstr "Share"
@@ -601,12 +607,6 @@ msgstr "What a fine day it is."
 msgid "What a fine night it is."
 msgstr "What a fine night it is."
 
-msgid "Without setting up at least three authentication factors, you risk getting locked out of your account.<0/><1/>Remember, you need a minimum of two factors to sign in. If you only have one, you’ll lose access to your account forever."
-msgstr "Without setting up at least three authentication factors, you risk getting locked out of your account.<0/><1/>Remember, you need a minimum of two factors to sign in. If you only have one, you’ll lose access to your account forever."
-
-msgid "Yes I understand"
-msgstr "Yes I understand"
-
 msgid "Yes, save it"
 msgstr "Yes, save it"
 
@@ -625,8 +625,8 @@ msgstr "Your Authentication Factors"
 msgid "Your recovery key can be used to restore your account in place of your backup phrase."
 msgstr "Your recovery key can be used to restore your account in place of your backup phrase."
 
-msgid "copied !"
-msgstr "copied !"
+msgid "copied!"
+msgstr "copied!"
 
 msgid "deleted successfully"
 msgstr "deleted successfully"

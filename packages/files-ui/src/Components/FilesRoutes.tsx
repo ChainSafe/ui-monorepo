@@ -16,7 +16,7 @@ export const ROUTE_LINKS = {
   Terms: "https://files.chainsafe.io/terms-of-service",
   ChainSafe: "https://chainsafe.io/",
   // TODO: update link
-  ApplyCryptography: "https://chainsafe.io/",
+  ApplyCryptography: "https://medium.com/chainsafe-systems/major-improvement-to-chainsafe-files-ab489d3e52a2",
   Home: (path?: string) => `/home${path ? `?path=${path}` : ""}`,
   Search: (search?: string) => `/search${search ? `?search=${search}` : ""}`,
   Bin: "/bin",

@@ -17,6 +17,9 @@ msgstr ""
 msgid "(Change)"
 msgstr "(Changer)"
 
+msgid "<0>You’re at risk of getting locked out of your account because you only have two auth factors set up.</0> Add at least one more to ensure account recovery."
+msgstr "<0> Vous risquez d'être bloqué sur votre compte car vous n'avez configuré que deux facteurs d'authentification.</0> Ajoutez-en au moins un autre pour garantir la récupération du compte."
+
 msgid "A backup phrase will be generated and used for your account.<0/>We do not store it and <1>it can only be displayed once</1>. Save it somewhere safe!"
 msgstr "Une phrase de backup sera générée et utilisé pour ce comte.<0/>Nous ne la sauvergardons pas <1>elle ne peut être montrée qu'une seule fois</1>. Garde la dans un endroit sûr!"
 
@@ -34,9 +37,6 @@ msgstr "Ajoute d'autres fichiers"
 
 msgid "Approve"
 msgstr "Accepter"
-
-msgid "Are you sure?"
-msgstr "Es-tu certain?"
 
 msgid "Backup phrase"
 msgstr "Phrase de secours"
@@ -218,8 +218,8 @@ msgstr "Dossier créé avec succès"
 msgid "Folders"
 msgstr "Dossiers"
 
-msgid "For security reasons, upon signing in we’ll ask you for one of the following to confirm your identity."
-msgstr "Pour des raisons de sécurité, lors de votre connexion, nous vous demanderons l'un des éléments suivants pour confirmer votre identité."
+msgid "For security reasons, each time you sign in we’ll ask you for one of the following to confirm your identity."
+msgstr "Pour des raisons de sécurité, chaque fois que vous vous connectez, nous vous demanderons l'une des informations suivantes pour confirmer votre identité."
 
 msgid "Forget this browser"
 msgstr "Oublier ce navigateur"
@@ -246,7 +246,7 @@ msgid "Great! You’re all done."
 msgstr "Génial! Vous avez terminé."
 
 msgid "Hello again!"
-msgstr ""
+msgstr "Ravis de vous revoir!"
 
 msgid "Hey! You only have two sign-in methods. If you lose that and have only one left, you will be locked out of your account forever."
 msgstr "Hey! Tu ne disposes que de deux méthodes d'authentification. Si tu en perds une, tu seras bloqué pour toujours et ne pourras plus te connecter à ton compte Files."
@@ -256,6 +256,9 @@ msgstr "Un instant, nous te connectons ..."
 
 msgid "Home"
 msgstr "Accueil"
+
+msgid "I understand the risk"
+msgstr "Je prends le risque"
 
 msgid "Info"
 msgstr "Info"
@@ -447,7 +450,7 @@ msgid "Send Feedback"
 msgstr "Donner son avis"
 
 msgid "Set Password"
-msgstr "Définir un Mot de Passe"
+msgstr "Définir un mot de passe"
 
 msgid "Set it up now"
 msgstr "Définir"
@@ -458,14 +461,17 @@ msgstr "Définir"
 msgid "Set up a password"
 msgstr "Définir un mot de passe"
 
+msgid "Set up auth factors"
+msgstr "Configurer"
+
 msgid "Set up password"
 msgstr "Définir un mot de passe"
 
-msgid "Set up sign in methods"
-msgstr "Définir les méthodes d'authentifiction"
-
 msgid "Settings"
 msgstr "Paramètres"
+
+msgid "Setup incomplete"
+msgstr "Configuration incomplète"
 
 msgid "Share"
 msgstr "Partager"
@@ -516,7 +522,7 @@ msgid "Terms and Conditions"
 msgstr "Termes et conditions"
 
 msgid "Thanks for taking care of that. You can <0/> adjust these anytime in security settings."
-msgstr "Vous pouvez <0 /> les ajuster à tout moment dans les paramètres de sécurité."
+msgstr "Vous pouvez <0/> les ajuster à tout moment dans les paramètres de sécurité."
 
 msgid "The authentication popup was closed"
 msgstr "Le popup d'authentification a été fermé"
@@ -594,19 +600,13 @@ msgid "Web3: {0}"
 msgstr "Web3: {0}"
 
 msgid "We’ve got a new authentication system in place. All you need to do is enter your password again to migrate your credentials over to the new system."
-msgstr ""
+msgstr "Nous avons mis en place un nouveau système d’authentification. Tout ce que vous avez à faire est de saisir à nouveau votre mot de passe pour migrer vos informations d'identification vers le nouveau système."
 
 msgid "What a fine day it is."
 msgstr "Une belle journée."
 
 msgid "What a fine night it is."
 msgstr "Une belle nuit."
-
-msgid "Without setting up at least three authentication factors, you risk getting locked out of your account.<0/><1/>Remember, you need a minimum of two factors to sign in. If you only have one, you’ll lose access to your account forever."
-msgstr "Si vous ne configurez pas au moins trois facteurs d'authentification, vous risquez de ne plus pouvoir accéder à votre compte. <0 /> <1 /> N'oubliez pas que vous avez besoin d'au moins deux facteurs pour vous connecter. Si vous n'en avez qu'un, vous perdrez l'accès à votre compte pour toujours."
-
-msgid "Yes I understand"
-msgstr "Oui, je comprends"
 
 msgid "Yes, save it"
 msgstr "Oui, l'enregistrer"
@@ -626,7 +626,7 @@ msgstr "Vos Facteurs d'Authentification"
 msgid "Your recovery key can be used to restore your account in place of your backup phrase."
 msgstr "Votre clé de récupération peut être utilisée pour restaurer votre compte à la place de votre phrase de sauvegarde."
 
-msgid "copied !"
+msgid "copied!"
 msgstr "copié !"
 
 msgid "deleted successfully"
