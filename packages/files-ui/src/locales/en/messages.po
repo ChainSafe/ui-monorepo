@@ -19,9 +19,6 @@ msgstr "(Change)"
 msgid "A backup phrase will be generated and used for your account.<0/>We do not store it and <1>it can only be displayed once</1>. Save it somewhere safe!"
 msgstr "A backup phrase will be generated and used for your account.<0/>We do not store it and <1>it can only be displayed once</1>. Save it somewhere safe!"
 
-msgid "A backup phrase will be generated for your account.<0/>We do not store it and <1>it can only be displayed once</1>. Please save it somewhere safe!"
-msgstr "A backup phrase will be generated for your account.<0/>We do not store it and <1>it can only be displayed once</1>. Please save it somewhere safe!"
-
 msgid "A file with the same name already exists"
 msgstr "A file with the same name already exists"
 
@@ -39,9 +36,6 @@ msgstr "Approve"
 
 msgid "Are you sure?"
 msgstr "Are you sure?"
-
-msgid "Backup Phrase"
-msgstr "Backup Phrase"
 
 msgid "Backup phrase"
 msgstr "Backup phrase"
@@ -160,11 +154,11 @@ msgstr "Download recovery key"
 msgid "Drop to upload files"
 msgstr "Drop to upload files"
 
-msgid "Enter a password"
-msgstr "Enter a password"
-
 msgid "Enter backup phrase:"
 msgstr "Enter backup phrase:"
+
+msgid "Enter password"
+msgstr "Enter password"
 
 msgid "Enter password:"
 msgstr "Enter password:"
@@ -210,6 +204,9 @@ msgstr "Files"
 
 msgid "Files uses device backups to save your browser."
 msgstr "Files uses device backups to save your browser."
+
+msgid "First name"
+msgstr "First name"
 
 msgid "Folder"
 msgstr "Folder"
@@ -265,6 +262,12 @@ msgstr "Info"
 msgid "I’m done saving my backup phrase"
 msgstr "I’m done saving my backup phrase"
 
+msgid "Language"
+msgstr "Language"
+
+msgid "Last name"
+msgstr "Last name"
+
 msgid "Learn more"
 msgstr "Learn more"
 
@@ -282,6 +285,9 @@ msgstr "Loading preview"
 
 msgid "Looks like you’re signing in from a new browser. Please choose one of the following to continue:"
 msgstr "Looks like you’re signing in from a new browser. Please choose one of the following to continue:"
+
+msgid "Lorem ipsum aenean et rutrum magna. Morbi nec placerat erat. Nunc elementum sed libero sit amet convallis. Quisque non arcu vitae ex fringilla molestie."
+msgstr "Lorem ipsum aenean et rutrum magna. Morbi nec placerat erat. Nunc elementum sed libero sit amet convallis. Quisque non arcu vitae ex fringilla molestie."
 
 msgid "Move"
 msgstr "Move"
@@ -568,6 +574,9 @@ msgstr "Upload"
 msgid "Upload complete"
 msgstr "Upload complete"
 
+msgid "Uploading {0} files"
+msgstr "Uploading {0} files"
+
 msgid "Use a different login method"
 msgstr "Use a different login method"
 
@@ -633,6 +642,3 @@ msgstr "on"
 
 msgid "recovered successfully"
 msgstr "recovered successfully"
-
-msgid "storage-plan-desc"
-msgstr "Lorem ipsum aenean et rutrum magna. Morbi nec placerat erat. Nunc elementum sed libero sit amet convallis. Quisque non arcu vitae ex fringilla molestie."
