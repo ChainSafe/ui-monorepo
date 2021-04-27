@@ -5,6 +5,7 @@ import {
   FilesPathRequest,
   DirectoryContentResponse,
   BucketType,
+  Bucket,
   SearchEntry
 } from "@chainsafe/files-api-client"
 import React, { useCallback, useEffect, useReducer } from "react"
@@ -16,7 +17,6 @@ import {
   downloadsInProgressReducer,
   uploadsInProgressReducer
 } from "./DriveReducer"
-import { guessContentType } from "../Utils/contentTypeGuesser"
 import { CancelToken } from "axios"
 import { t } from "@lingui/macro"
 import { readFileAsync } from "../Utils/Helpers"
@@ -56,10 +56,6 @@ interface GetFileContentParams {
   path?: string
 }
 
-interface SearchParams {
-  bucketType: BucketType
-  bucketId: string
-}
 
 type DriveContext = {
   uploadFiles: (files: File[], path: string) => void
@@ -73,18 +69,14 @@ type DriveContext = {
   downloadFile: (cid: string) => Promise<void>
   getFileContent: ({ cid, cancelToken, onDownloadProgress, file }: GetFileContentParams) => Promise<Blob | undefined>
   list: (body: FilesPathRequest) => Promise<FileContentResponse[]>
-  currentPath: string
-  updateCurrentPath: (newPath: string, bucketType?: BucketType, showLoading?: boolean) => void
-  pathContents: FileSystemItem[]
+  listBuckets: (bucketType: BucketType) => Promise<Bucket[]>
+  searchFiles: (bucketId: string, searchString: string) => Promise<SearchEntry[]>
   uploadsInProgress: UploadProgress[]
   downloadsInProgress: DownloadProgress[]
   spaceUsed: number
   getFolderTree: () => Promise<DirectoryContentResponse>
-  getFileInfo: (path: string) => Promise<CSFFilesFullinfoResponse>
+  getFileInfo: (path: string)  => Promise<CSFFilesFullinfoResponse>
   getSearchResults: (searchString: string) => Promise<SearchEntry[]>
-  currentSearchBucket: SearchParams | undefined
-  bucketType: BucketType
-  loadingCurrentPath: boolean
   secureAccountWithMasterPassword: (candidatePassword: string) => Promise<void>
 }
 
@@ -112,90 +104,9 @@ const DriveProvider = ({ children }: DriveContextProps) => {
   } = useImployApi()
   const { publicKey, encryptForPublicKey, decryptMessageWithThresholdKey } = useThresholdKey()
   const { addToastMessage } = useToaster()
-  const [loadingCurrentPath, setLoadingCurrentPath] = useState(false)
-  const [bucketType, setBucketType] = useState<BucketType>("csf")
-  const [pathContents, setPathContents] = useState<FileSystemItem[]>([])
   const [spaceUsed, setSpaceUsed] = useState(0)
-  const [currentSearchBucket, setCurrentSearchBucket] = useState<SearchParams | undefined>()
   const [encryptionKey, setEncryptionKey] = useState<string | undefined>()
 
-  const refreshContents = useCallback(
-    async (
-      path: string,
-      bucketTypeParam?: BucketType,
-      showLoading?: boolean
-    ) => {
-      try {
-        showLoading && setLoadingCurrentPath(true)
-        const newContents = await imployApiClient?.getCSFChildList({
-          path,
-          source: {
-            type: bucketTypeParam || bucketType
-          }
-        })
-        showLoading && setLoadingCurrentPath(false)
-
-        if (newContents) {
-          // Remove this when the API returns dates
-          setPathContents(
-            newContents?.map((fcr) => ({
-              ...fcr,
-              content_type:
-                fcr.content_type !== "application/octet-stream"
-                  ? fcr.content_type
-                  : guessContentType(fcr.name),
-              isFolder:
-                fcr.content_type === "application/chainsafe-files-directory"
-            }))
-          )
-        }
-      } catch (error) {
-        showLoading && setLoadingCurrentPath(false)
-      }
-    },
-    [imployApiClient, bucketType]
-  )
-
-  const currentPathReducer = (
-    currentPath: string,
-    action:
-      | { type: "update"; payload: string }
-      | { type: "refreshOnSamePath"; payload: string }
-  ): string => {
-    switch (action.type) {
-    case "update": {
-      return action.payload
-    }
-    case "refreshOnSamePath": {
-      // check user has not navigated to other folder
-      // using then catch as awaits won't work in reducer
-      if (action.payload === currentPath) {
-        refreshContents(currentPath, bucketType, false)
-      }
-      return currentPath
-    }
-    default:
-      return currentPath
-    }
-  }
-  const [currentPath, dispatchCurrentPath] = useReducer(currentPathReducer, "/")
-
-  const setCurrentPath = useCallback((newPath: string, newBucketType?: BucketType, showLoading?: boolean) => {
-    dispatchCurrentPath({ type: "update", payload: newPath })
-    if (newBucketType) {
-      setBucketType(newBucketType)
-    }
-    refreshContents(newPath, newBucketType || bucketType, showLoading)
-  }, [bucketType, refreshContents])
-
-  // Ensure path contents are refreshed
-  useEffect(() => {
-    if (isLoggedIn) {
-      refreshContents("/")
-    } else {
-      setCurrentSearchBucket(undefined)
-    }
-  }, [imployApiClient, refreshContents, isLoggedIn])
 
   // Space used counter
   useEffect(() => {
@@ -210,7 +121,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
     if (isLoggedIn) {
       getSpaceUsage()
     }
-  }, [imployApiClient, pathContents, isLoggedIn])
+  }, [imployApiClient, isLoggedIn])
 
   // Reset password on log out
   useEffect(() => {
@@ -712,38 +623,15 @@ const DriveProvider = ({ children }: DriveContextProps) => {
     }
   }
 
-  const getSearchResults = async (searchString: string) => {
-    try {
-      if (!searchString) return []
-      let bucketId
-      if (
-        currentSearchBucket &&
-        currentSearchBucket.bucketType === bucketType
-      ) {
-        // we have the bucket id
-        bucketId = currentSearchBucket.bucketId
-      } else {
-        // fetch bucket id
-        const results = await imployApiClient.listBuckets(bucketType)
-        const bucket1 = results[0]
-        setCurrentSearchBucket({
-          bucketType,
-          bucketId: bucket1.id
-        })
-        bucketId = bucket1.id
-      }
-      const results = await imployApiClient.searchFiles({
-        bucket_id: bucketId || "",
-        query: searchString
-      })
-      return results
-    } catch (err) {
-      addToastMessage({
-        message: t`There was an error getting search results`,
-        appearance: "error"
-      })
-      return Promise.reject(err)
-    }
+  const listBuckets = async (bucketType: BucketType) => {
+    return await imployApiClient.listBuckets(bucketType)
+  }
+
+  const searchFiles = async (bucketId: string, searchString: string) => {
+    return  await imployApiClient.searchFiles({
+      bucket_id: bucketId || "",
+      query: searchString
+    })
   }
 
   // const setPassword = async (password: string) => {
@@ -757,11 +645,6 @@ const DriveProvider = ({ children }: DriveContextProps) => {
   //   }
   // }
 
-  const updateCurrentPath = useCallback((newPath: string, bucketType?: BucketType, showLoading?: boolean) => {
-    newPath.endsWith("/")
-      ? setCurrentPath(`${newPath}`, bucketType, showLoading)
-      : setCurrentPath(`${newPath}/`, bucketType, showLoading)
-  }, [setCurrentPath])
 
   return (
     <DriveContext.Provider
@@ -777,18 +660,13 @@ const DriveProvider = ({ children }: DriveContextProps) => {
         getFileContent,
         recoverFile,
         list,
-        currentPath,
-        updateCurrentPath,
-        pathContents,
         uploadsInProgress,
         spaceUsed,
         downloadsInProgress,
         getFolderTree,
-        getSearchResults,
-        currentSearchBucket,
-        loadingCurrentPath,
+        listBuckets,
+        searchFiles,
         getFileInfo,
-        bucketType,
         secureAccountWithMasterPassword
       }}
     >

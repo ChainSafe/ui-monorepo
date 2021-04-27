@@ -1,6 +1,6 @@
-import React, { useCallback, useEffect, useMemo } from "react"
+import React, { useCallback, useEffect, useMemo, useReducer, useState } from "react"
 import { Crumb, useToaster } from "@chainsafe/common-components"
-import { useDrive } from "../../../Contexts/DriveContext"
+import { useDrive, FileSystemItem, BucketType } from "../../../Contexts/DriveContext"
 import { getArrayOfPaths, getPathFromArray } from "../../../Utils/pathUtils"
 import { IBulkOperations, IFilesBrowserModuleProps, IFilesTableBrowserProps } from "./types"
 import FilesTableView from "./views/FilesTable.view"
@@ -8,6 +8,7 @@ import { CONTENT_TYPES } from "../../../Utils/Constants"
 import DragAndDrop from "../../../Contexts/DnDContext"
 import { useQuery } from "../../../Utils/Helpers"
 import { t } from "@lingui/macro"
+import { guessContentType } from "../../../Utils/contentTypeGuesser"
 
 const CSFFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = true }: IFilesBrowserModuleProps) => {
   const {
@@ -15,16 +16,94 @@ const CSFFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = true }:
     downloadFile,
     renameFile,
     moveFile,
-    currentPath,
-    updateCurrentPath,
-    pathContents,
     uploadFiles,
     uploadsInProgress,
-    loadingCurrentPath,
-    bucketType
+    list
   } = useDrive()
 
   const queryPath = useQuery().get("path")
+
+  // const { currentPath } = useParams<{ currentPath: string }>()
+  const [loadingCurrentPath, setLoadingCurrentPath] = useState(false)
+  const [pathContents, setPathContents] = useState<FileSystemItem[]>([])
+  const [bucketType, setBucketType] = useState<BucketType>("csf")
+
+  const currentPathReducer = (
+    currentPath: string,
+    action:
+      | { type: "update"; payload: string }
+      | { type: "refreshOnSamePath"; payload: string }
+  ): string => {
+    switch (action.type) {
+    case "update": {
+      return action.payload
+    }
+    case "refreshOnSamePath": {
+      // check user has not navigated to other folder
+      // using then catch as awaits won't work in reducer
+      if (action.payload === currentPath) {
+        refreshContents(currentPath, bucketType, false)
+      }
+      return currentPath
+    }
+    default:
+      return currentPath
+    }
+  }
+  const [currentPath, dispatchCurrentPath] = useReducer(currentPathReducer, "/")
+
+  const refreshContents = useCallback(
+    async (
+      path: string,
+      bucketTypeParam?: BucketType,
+      showLoading?: boolean
+    ) => {
+      try {
+        showLoading && setLoadingCurrentPath(true)
+        const newContents = await list({
+          path,
+          source: {
+            type: bucketTypeParam || bucketType
+          }
+        })
+        showLoading && setLoadingCurrentPath(false)
+
+        if (newContents) {
+          // Remove this when the API returns dates
+          setPathContents(
+            newContents?.map((fcr) => ({
+              ...fcr,
+              content_type:
+                fcr.content_type !== "application/octet-stream"
+                  ? fcr.content_type
+                  : guessContentType(fcr.name),
+              isFolder:
+                fcr.content_type === "application/chainsafe-files-directory"
+            }))
+          )
+        }
+      } catch (error) {
+        showLoading && setLoadingCurrentPath(false)
+      }
+    },
+    [bucketType, list]
+  )
+
+  // From drive
+  const setCurrentPath = useCallback((newPath: string, newBucketType?: BucketType, showLoading?: boolean) => {
+    dispatchCurrentPath({ type: "update", payload: newPath })
+    if (newBucketType) {
+      setBucketType(newBucketType)
+    }
+    refreshContents(newPath, newBucketType || bucketType, showLoading)
+  }, [bucketType, refreshContents])
+
+  const updateCurrentPath = useCallback((newPath: string, bucketType?: BucketType, showLoading?: boolean) => {
+    newPath.endsWith("/")
+      ? setCurrentPath(`${newPath}`, bucketType, showLoading)
+      : setCurrentPath(`${newPath}/`, bucketType, showLoading)
+  }, [setCurrentPath])
+  // END
 
   useEffect(() => {
     updateCurrentPath(
@@ -47,7 +126,8 @@ const CSFFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = true }:
       path: path,
       new_path: new_path
     })
-  }, [moveFile])
+    await refreshContents(currentPath)
+  }, [moveFile, refreshContents, currentPath])
 
   // Breadcrumbs/paths
   const arrayOfPaths = useMemo(() => getArrayOfPaths(currentPath), [currentPath])
