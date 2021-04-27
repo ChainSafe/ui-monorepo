@@ -83,7 +83,7 @@ const ConfirmSkip = ({ cancel, confirm, className }: IConfirmSkip) => {
 
       <Typography
         className={classes.warning}
-        component="h2"
+        component="p"
       >
         <Trans>
           <span className={classes.importantText}>You’re at risk of getting locked out of your account

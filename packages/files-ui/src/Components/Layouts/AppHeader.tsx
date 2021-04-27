@@ -64,9 +64,6 @@ const useStyles = makeStyles(
           }
         }
       },
-      menuTitle: {
-        fontSize: 14
-      },
       hamburgerMenu: {
         position: "absolute",
         "& span": {
@@ -204,8 +201,7 @@ const AppHeader: React.FC<IAppHeader> = ({
                   anchor="bottom-right"
                   classNames={{
                     icon: classes.icon,
-                    options: classes.options,
-                    title: classes.menuTitle
+                    options: classes.options
                   }}
                   menuItems={[
                     {

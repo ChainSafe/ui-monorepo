@@ -462,7 +462,7 @@ msgid "Set up a password"
 msgstr "Définir un mot de passe"
 
 msgid "Set up auth factors"
-msgstr "Définir une autre méthode"
+msgstr "Configurer"
 
 msgid "Set up password"
 msgstr "Définir un mot de passe"
