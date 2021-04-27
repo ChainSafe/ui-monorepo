@@ -13,7 +13,7 @@ const useStyles = makeStyles(
         alignItems: "center",
         width: "100%",
         height: "auto",
-        paddingTop: "130px",
+        paddingTop: "8%",
         paddingBottom: constants.generalUnit * 3,
       },
       headerContentContainer: {
@@ -21,7 +21,7 @@ const useStyles = makeStyles(
         justifyContent: "center",
         flexDirection: "column",
         alignItems: "center",
-        height: `calc(100%- ${constants.headerHeight}px)`,
+        height: "auto",
         "& > img": {
           width: "70%",
           [breakpoints.down('md')]:{
