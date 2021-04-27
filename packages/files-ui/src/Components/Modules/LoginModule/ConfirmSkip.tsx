@@ -94,7 +94,7 @@ const ConfirmSkip = ({ cancel, confirm, className }: IConfirmSkip) => {
       <section className={classes.buttons}>
         <Button
           fullsize
-          onClick={cancel}
+          onClick={confirm}
           size="large"
           variant="outline"
         >
@@ -104,7 +104,7 @@ const ConfirmSkip = ({ cancel, confirm, className }: IConfirmSkip) => {
         </Button>
         <Button
           fullsize
-          onClick={confirm}
+          onClick={cancel}
           size="large"
           variant="primary"
         >
