@@ -610,9 +610,6 @@ msgstr "What a fine night it is."
 msgid "Yes, save it"
 msgstr "Yes, save it"
 
-msgid "You are about to delete {0} file(s)."
-msgstr "You are about to delete {0} file(s)."
-
 msgid "You can change this later."
 msgstr "You can change this later."
 
@@ -642,6 +639,9 @@ msgstr "on"
 
 msgid "recovered successfully"
 msgstr "recovered successfully"
+
+msgid "{0, plural, one {You are about to delete {1} file.} other {You are about to delete {2} files.}}"
+msgstr "{0, plural, one {You are about to delete {1} file.} other {You are about to delete {2} files.}}"
 
 msgid "{noOfFiles, plural, one {Uploading and encrypting {noOfFiles} file} other {Uploading and encrypting {noOfFiles} files}}"
 msgstr "{noOfFiles, plural, one {Uploading and encrypting {noOfFiles} file} other {Uploading and encrypting {noOfFiles} files}}"
