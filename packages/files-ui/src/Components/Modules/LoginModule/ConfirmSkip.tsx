@@ -94,22 +94,22 @@ const ConfirmSkip = ({ cancel, confirm, className }: IConfirmSkip) => {
       <section className={classes.buttons}>
         <Button
           fullsize
-          onClick={confirm}
+          onClick={cancel}
           size="large"
           variant="outline"
         >
           <Trans>
-            Set up auth factors
+            I understand the risk
           </Trans>
         </Button>
         <Button
           fullsize
-          onClick={cancel}
+          onClick={confirm}
           size="large"
           variant="primary"
         >
           <Trans>
-            I understand the risk
+            Set up auth factors
           </Trans>
         </Button>
       </section>

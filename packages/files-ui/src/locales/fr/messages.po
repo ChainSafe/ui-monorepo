@@ -18,7 +18,7 @@ msgid "(Change)"
 msgstr "(Changer)"
 
 msgid "<0>You’re at risk of getting locked out of your account because you only have two auth factors set up.</0> Add at least one more to ensure account recovery."
-msgstr "<0> Vous risquez d'être bloqué sur votre compte car vous n'avez configuré que deux facteurs d'authentification. </0> Ajoutez au moins un autre pour garantir la récupération du compte."
+msgstr "<0> Vous risquez d'être bloqué sur votre compte car vous n'avez configuré que deux facteurs d'authentification.</0> Ajoutez-en au moins un autre pour garantir la récupération du compte."
 
 msgid "A backup phrase will be generated and used for your account.<0/>We do not store it and <1>it can only be displayed once</1>. Save it somewhere safe!"
 msgstr "Une phrase de backup sera générée et utilisé pour ce comte.<0/>Nous ne la sauvergardons pas <1>elle ne peut être montrée qu'une seule fois</1>. Garde la dans un endroit sûr!"
@@ -246,7 +246,7 @@ msgid "Great! You’re all done."
 msgstr "Génial! Vous avez terminé."
 
 msgid "Hello again!"
-msgstr "Ravi de vous revoir!"
+msgstr "Ravis de vous revoir!"
 
 msgid "Hey! You only have two sign-in methods. If you lose that and have only one left, you will be locked out of your account forever."
 msgstr "Hey! Tu ne disposes que de deux méthodes d'authentification. Si tu en perds une, tu seras bloqué pour toujours et ne pourras plus te connecter à ton compte Files."
