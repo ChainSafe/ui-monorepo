@@ -126,6 +126,9 @@ const useStyles = makeStyles(
         textDecoration: "underline",
         cursor: "pointer",
         textAlign: "center"
+      },
+      web3Button: {
+        minHeight: 41
       }
     })
 )
@@ -255,7 +258,7 @@ const InitialScreen = ({ className }: IInitialScreen) => {
                     setLoginMode("web3")
                     handleSelectWalletAndConnect()
                   }}
-                  className={classes.button}
+                  className={clsx(classes.button, classes.web3Button)}
                   variant="primary"
                   size="large"
                   disabled={maintenanceMode || isConnecting || status !== "initialized"}
@@ -264,22 +267,22 @@ const InitialScreen = ({ className }: IInitialScreen) => {
                 </Button>
                 <Button
                   className={classes.button}
-                  variant="primary"
                   size="large"
                   onClick={() => handleLogin("github")}
                   disabled={maintenanceMode || isConnecting || status !== "initialized"}
                   loading={isConnecting && loginMode === "github"}
+                  variant="secondary"
                 >
                   <GithubLogoIcon className="icon"/>
                   <Trans>Continue with Github</Trans>
                 </Button>
                 <Button
                   className={classes.button}
-                  variant="primary"
                   size="large"
                   onClick={() => handleLogin("google")}
                   disabled={maintenanceMode || isConnecting || status !== "initialized"}
                   loading={isConnecting && loginMode === "google"}
+                  variant="secondary"
                 >
                   <GoogleLogoIcon className="icon"/>
                   <Trans>Continue with Google</Trans>
@@ -287,10 +290,10 @@ const InitialScreen = ({ className }: IInitialScreen) => {
                 <Button
                   className={classes.button}
                   size="large"
-                  variant="primary"
                   onClick={() => handleLogin("facebook")}
                   disabled={maintenanceMode || isConnecting || status !== "initialized"}
                   loading={isConnecting && loginMode === "facebook"}
+                  variant="secondary"
                 >
                   <FacebookLogoIcon className="icon"/>
                   <Trans>Continue with Facebook</Trans>
