@@ -97,9 +97,7 @@ const useStyles = makeStyles(
       },
       buttonsContainer: {
         display: "flex",
-        padding: `0 ${
-          constants.generalUnit * 4
-        }px ${constants.generalUnit * 4}px`
+        padding: `0 ${constants.generalUnit * 4}px ${constants.generalUnit * 4}px`
       },
       copiedFlag: {
         display: "flex",
