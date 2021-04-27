@@ -114,8 +114,8 @@ const useStyles = makeStyles(
         transitionDuration: `${animation.transform}ms`,
         opacity: 0,
         visibility: "hidden",
-        backgroundColor: constants.loginModule.flagBg,
-        color: constants.loginModule.flagText,
+        backgroundColor: palette.additional["gray"][9],
+        color: palette.additional["gray"][1],
         padding: `${constants.generalUnit / 2}px ${constants.generalUnit}px`,
         borderRadius: 2,
         "&:after": {
@@ -129,7 +129,7 @@ const useStyles = makeStyles(
           height: 0,
           borderLeft: "5px solid transparent",
           borderRight: "5px solid transparent",
-          borderTop: `5px solid ${constants.loginModule.flagBg}`
+          borderTop: `5px solid ${ palette.additional["gray"][9]}`
         },
         "&.active": {
           opacity: 1,
