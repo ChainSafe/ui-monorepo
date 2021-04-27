@@ -7,6 +7,7 @@ import PasswordKeyPNG from "../../../Media/landing/layers/password-key.png"
 import PeacefulSuccotashPNG from "../../../Media/landing/layers/peaceful-succotash.png"
 import { Trans } from "@lingui/macro"
 import clsx from "clsx"
+import { ROUTE_LINKS } from "../../FilesRoutes"
 
 const useStyles = makeStyles(
   ({ constants, breakpoints, typography }: CSFTheme) =>
@@ -135,7 +136,7 @@ const ConciseExplainer: React.FC<IConciseExplainerProps> = ({ className, onConti
           <a
             target="_blank"
             rel="noopener noreferrer"
-            href="https://chainsafe.io/"
+            href={ROUTE_LINKS.ApplyCryptography}
           >
             <Trans>
               Learn more
