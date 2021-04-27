@@ -247,6 +247,9 @@ msgstr "Go back"
 msgid "Great! You’re all done."
 msgstr "Great! You’re all done."
 
+msgid "Hello again!"
+msgstr "Hello again!"
+
 msgid "Hey! You only have two sign-in methods. If you lose that and have only one left, you will be locked out of your account forever."
 msgstr "Hey! You only have two sign-in methods. If you lose that and have only one left, you will be locked out of your account forever."
 
@@ -591,6 +594,9 @@ msgstr "Wallet address"
 
 msgid "Web3: {0}"
 msgstr "Web3: {0}"
+
+msgid "We’ve got a new authentication system in place. All you need to do is enter your password again to migrate your credentials over to the new system."
+msgstr "We’ve got a new authentication system in place. All you need to do is enter your password again to migrate your credentials over to the new system."
 
 msgid "What a fine day it is."
 msgstr "What a fine day it is."

@@ -23,8 +23,7 @@ import {
   ExportSvg,
   ShareAltSvg,
   ExclamationCircleInverseSvg,
-  ZoomInSvg,
-  standardlongDateFormat
+  ZoomInSvg
 } from "@chainsafe/common-components"
 import { makeStyles, createStyles, useDoubleClick, useThemeSwitcher } from "@chainsafe/common-theme"
 import clsx from "clsx"
@@ -37,6 +36,7 @@ import { DragTypes } from "../DragConstants"
 import { NativeTypes } from "react-dnd-html5-backend"
 import { FileOperation } from "../types"
 import { CSFTheme } from "../../../../Themes/types"
+import dayjs from "dayjs"
 
 const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => {
   const desktopGridSettings = "50px 69px 3fr 190px 100px 45px !important"
@@ -548,7 +548,7 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
         <>
           <TableCell align="left">
             {
-              standardlongDateFormat(new Date(created_at * 1000), true, false)
+              dayjs.unix(created_at).format("DD MMM YYYY h:mm a")
             }
           </TableCell>
           <TableCell align="left">
