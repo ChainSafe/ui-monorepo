@@ -176,7 +176,7 @@ const AuthenticationFactors = ({ goToComplete, goToMnemonic, goToPassword, goToS
             <Typography className={classes.subText}>
               <Trans>Files uses device backups to save your browser.</Trans>{" "}
               <a
-                href={ROUTE_LINKS.Terms}
+                href={ROUTE_LINKS.ApplyCryptography}
                 rel="noopener noreferrer"
                 target="_blank"
               ><Trans>Learn more</Trans></a>

@@ -24,8 +24,7 @@ const useStyles = makeStyles(
         alignItems: "center",
         height: `calc(100vh - ${constants.headerHeight}px)`,
         "& > img": {
-          width: "70%",
-          maxHeight: "100%",
+          maxHeight: "60%",
           [breakpoints.down('md')]:{
             width: "90%",
           }
