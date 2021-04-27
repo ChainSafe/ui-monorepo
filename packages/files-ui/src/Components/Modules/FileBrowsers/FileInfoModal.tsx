@@ -259,7 +259,7 @@ const FileInfoModal: React.FC<IFileInfoModuleProps> = ({
                     </Typography>
                   </div>
                 ) : null}
-                {fullFileInfo.content?.size !== undefined ? (
+                {fullFileInfo.content?.size !== undefined && (
                   <div className={classes.subInfoBox}>
                     <Typography
                       variant="body1"
@@ -275,7 +275,7 @@ const FileInfoModal: React.FC<IFileInfoModuleProps> = ({
                       {formatBytes(fullFileInfo.content?.size)}
                     </Typography>
                   </div>
-                ) : null}
+                )}
               </div>
               <div className={classes.technicalContainer}>
                 <Typography
@@ -285,7 +285,7 @@ const FileInfoModal: React.FC<IFileInfoModuleProps> = ({
                 >
                   <Trans>Technical</Trans>
                 </Typography>
-                {fullFileInfo.persistent?.stored_cid !== undefined ? (
+                {fullFileInfo.persistent?.stored_cid !== undefined && (
                   <div className={classes.subInfoBox}>
                     <Typography
                       variant="body1"
@@ -301,8 +301,8 @@ const FileInfoModal: React.FC<IFileInfoModuleProps> = ({
                       {fullFileInfo.persistent?.stored_cid}
                     </Typography>
                   </div>
-                ) : null}
-                {fullFileInfo.persistent?.stored_cid !== undefined ? (
+                )}
+                {fullFileInfo.persistent?.stored_cid !== undefined && (
                   <div className={classes.subInfoBox}>
                     <Typography
                       variant="body1"
@@ -318,7 +318,7 @@ const FileInfoModal: React.FC<IFileInfoModuleProps> = ({
                       {fullFileInfo.persistent?.stored_cid}
                     </Typography>
                   </div>
-                ) : null}
+                )}
                 <div className={classes.subInfoBox}>
                   <Grid
                     item
