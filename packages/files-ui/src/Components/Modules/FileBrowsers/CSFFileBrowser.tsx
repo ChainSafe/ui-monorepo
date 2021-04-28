@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useReducer, useState } from "react"
 import { Crumb, useToaster } from "@chainsafe/common-components"
 import { useDrive, FileSystemItem, BucketType } from "../../../Contexts/DriveContext"
-import { getArrayOfPaths, getPathFromArray } from "../../../Utils/pathUtils"
+import { getArrayOfPaths, getPathFromArray, getPathWithFile } from "../../../Utils/pathUtils"
 import { IBulkOperations, IFilesBrowserModuleProps, IFilesTableBrowserProps } from "./types"
 import FilesTableView from "./views/FilesTable.view"
 import { CONTENT_TYPES } from "../../../Utils/Constants"
@@ -12,14 +12,15 @@ import { guessContentType } from "../../../Utils/contentTypeGuesser"
 
 const CSFFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = true }: IFilesBrowserModuleProps) => {
   const {
-    moveFilesToTrash,
     downloadFile,
     renameFile,
+    moveCSFObject,
     moveFile,
     uploadFiles,
     uploadsInProgress,
     list
   } = useDrive()
+  const { addToastMessage } = useToaster()
 
   const queryPath = useQuery().get("path")
 
@@ -103,6 +104,51 @@ const CSFFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = true }:
       ? setCurrentPath(`${newPath}`, bucketType, showLoading)
       : setCurrentPath(`${newPath}/`, bucketType, showLoading)
   }, [setCurrentPath])
+
+  const moveFileToTrash = useCallback(async (cid: string) => {
+    const itemToDelete = pathContents.find((i) => i.cid === cid)
+
+    if (!itemToDelete) {
+      console.error("No item found to move to the trash")
+      return
+    }
+
+    try {
+      await moveCSFObject({
+        path: getPathWithFile(currentPath, itemToDelete.name),
+        new_path: getPathWithFile("/", itemToDelete.name),
+        destination: {
+          type: "trash"
+        }
+      })
+      await refreshContents(currentPath)
+      const message = `${
+        itemToDelete.isFolder ? t`Folder` : t`File`
+      } ${t`deleted successfully`}`
+      addToastMessage({
+        message: message,
+        appearance: "success"
+      })
+      return Promise.resolve()
+    } catch (error) {
+      const message = `${t`There was an error deleting this`} ${
+        itemToDelete.isFolder ? t`folder` : t`file`
+      }`
+      addToastMessage({
+        message: message,
+        appearance: "error"
+      })
+      return Promise.reject()
+    }
+  }, [addToastMessage, currentPath, pathContents, refreshContents, moveCSFObject])
+
+  const moveFilesToTrash = useCallback(async (cids: string[]) => {
+    return Promise.all(
+      cids.map((cid: string) =>
+        moveFileToTrash(cid)
+      ))
+  }, [moveFileToTrash])
+ 
   // END
 
   useEffect(() => {
@@ -118,7 +164,8 @@ const CSFFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = true }:
   const handleRename = useCallback(async (path: string, newPath: string) => {
     // TODO set loading
     await renameFile({ path: path, new_path: newPath })
-  }, [renameFile])
+    await refreshContents(currentPath)
+  }, [renameFile, currentPath, refreshContents])
 
   const handleMove = useCallback(async (path: string, new_path: string) => {
     // TODO set loading
@@ -141,9 +188,8 @@ const CSFFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = true }:
       )
   })), [arrayOfPaths, updateCurrentPath])
 
-  const { addToastMessage } = useToaster()
 
-  const handleUploadOnDrop = useCallback((files: File[], fileItems: DataTransferItemList, path: string) => {
+  const handleUploadOnDrop = useCallback(async (files: File[], fileItems: DataTransferItemList, path: string) => {
     let hasFolder = false
     for (let i = 0; i < files.length; i++) {
       if (fileItems[i].webkitGetAsEntry().isDirectory) {
@@ -156,7 +202,11 @@ const CSFFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = true }:
         appearance: "error"
       })
     } else {
-      uploadFiles(files, path)
+      await uploadFiles(files, path)
+      // refresh contents
+      // using reducer because user may navigate to other paths
+      // need to check currentPath and upload path is same
+      dispatchCurrentPath({ type: "refreshOnSamePath", payload: path })
     }
   }, [addToastMessage, uploadFiles])
 

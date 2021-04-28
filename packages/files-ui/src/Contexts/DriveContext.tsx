@@ -65,7 +65,7 @@ type DriveContext = {
   moveFiles: (bodies: FilesMvRequest[]) => Promise<void[]>
   recoverFile: (cid: string) => Promise<void>
   deleteFiles: (cids: string[]) => Promise<void[]>
-  moveFilesToTrash: (cids: string[]) => Promise<void[]>
+  moveCSFObject: (body: FilesMvRequest) => Promise<void>
   downloadFile: (cid: string) => Promise<void>
   getFileContent: ({ cid, cancelToken, onDownloadProgress, file }: GetFileContentParams) => Promise<Blob | undefined>
   list: (body: FilesPathRequest) => Promise<FileContentResponse[]>
@@ -272,11 +272,6 @@ const DriveProvider = ({ children }: DriveContextProps) => {
           }
         )
 
-        // refresh contents
-        // using reducer because user may navigate to other paths
-        // need to check currentPath and upload path is same
-        dispatchCurrentPath({ type: "refreshOnSamePath", payload: path })
-
         // setting complete
         dispatchUploadsInProgress({ type: "complete", payload: { id } })
         setTimeout(() => {
@@ -307,7 +302,6 @@ const DriveProvider = ({ children }: DriveContextProps) => {
   const createFolder = async (body: FilesPathRequest) => {
     try {
       const result = await imployApiClient.addCSFDirectory(body)
-      await refreshContents(currentPath)
       addToastMessage({
         message: t`Folder created successfully`,
         appearance: "success"
@@ -352,7 +346,6 @@ const DriveProvider = ({ children }: DriveContextProps) => {
     try {
       if (body.path !== body.new_path) {
         await imployApiClient.moveCSFObject(body)
-        await refreshContents(currentPath)
         addToastMessage({
           message: t`File renamed successfully`,
           appearance: "success"
@@ -367,7 +360,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
       })
       return Promise.reject()
     }
-  }, [addToastMessage, currentPath, imployApiClient, refreshContents])
+  }, [addToastMessage, imployApiClient])
 
   const moveFile = useCallback(async (body: FilesMvRequest) => {
     try {
@@ -394,130 +387,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
     )
   }, [moveFile])
 
-  const deleteFile = useCallback(async (cid: string) => {
-    const itemToDelete = pathContents.find((i) => i.cid === cid)
-
-    if (!itemToDelete) {
-      console.error("No item found to delete")
-      return
-    }
-
-    try {
-      await imployApiClient.removeCSFObjects({
-        paths: [`${currentPath}${itemToDelete.name}`],
-        source: {
-          type: bucketType
-        }
-      })
-      await refreshContents(currentPath)
-      const message = `${
-        itemToDelete.isFolder ? t`Folder` : t`File`
-      } ${t`deleted successfully`}`
-      addToastMessage({
-        message: message,
-        appearance: "success"
-      })
-      return Promise.resolve()
-    } catch (error) {
-      const message = `${t`There was an error deleting this`} ${
-        itemToDelete.isFolder ? t`folder` : t`file`
-      }`
-      addToastMessage({
-        message: message,
-        appearance: "error"
-      })
-      return Promise.reject()
-    }
-  }, [addToastMessage, bucketType, currentPath, imployApiClient, pathContents, refreshContents])
-
-  const deleteFiles = useCallback(async (cids: string[]) => {
-    return Promise.all(
-      cids.map((cid: string) =>
-        deleteFile(cid)
-      ))
-  }, [deleteFile])
-
-  const moveFileToTrash = useCallback(async (cid: string) => {
-    const itemToDelete = pathContents.find((i) => i.cid === cid)
-
-    if (!itemToDelete) {
-      console.error("No item found to move to the trash")
-      return
-    }
-
-    try {
-      await imployApiClient.moveCSFObject({
-        path: getPathWithFile(currentPath, itemToDelete.name),
-        new_path: getPathWithFile("/", itemToDelete.name),
-        destination: {
-          type: "trash"
-        }
-      })
-      await refreshContents(currentPath)
-      const message = `${
-        itemToDelete.isFolder ? t`Folder` : t`File`
-      } ${t`deleted successfully`}`
-      addToastMessage({
-        message: message,
-        appearance: "success"
-      })
-      return Promise.resolve()
-    } catch (error) {
-      const message = `${t`There was an error deleting this`} ${
-        itemToDelete.isFolder ? t`folder` : t`file`
-      }`
-      addToastMessage({
-        message: message,
-        appearance: "error"
-      })
-      return Promise.reject()
-    }
-  }, [addToastMessage, currentPath, imployApiClient, pathContents, refreshContents])
-
-  const moveFilesToTrash = useCallback(async (cids: string[]) => {
-    return Promise.all(
-      cids.map((cid: string) =>
-        moveFileToTrash(cid)
-      ))
-  }, [moveFileToTrash])
-
-  const recoverFile = async (cid: string) => {
-    const itemToRestore = pathContents.find((i) => i.cid === cid)
-    if (!itemToRestore) return
-    try {
-      await imployApiClient.moveCSFObject({
-        path: getPathWithFile("/", itemToRestore.name),
-        new_path: getPathWithFile("/", itemToRestore.name),
-        source: {
-          type: "trash"
-        },
-        destination: {
-          type: "csf"
-        }
-      })
-      await refreshContents(currentPath)
-
-      const message = `${
-        itemToRestore.isFolder ? t`Folder` : t`File`
-      } ${t`recovered successfully`}`
-
-      addToastMessage({
-        message: message,
-        appearance: "success"
-      })
-      return Promise.resolve()
-    } catch (error) {
-      const message = `${t`There was an error recovering this`} ${
-        itemToRestore.isFolder ? t`folder` : t`file`
-      }`
-      addToastMessage({
-        message: message,
-        appearance: "error"
-      })
-      return Promise.reject()
-    }
-  }
-
+ 
   const getFileContent = useCallback(async ({ cid, cancelToken, onDownloadProgress, file, path }: GetFileContentParams) => {
     if (!encryptionKey) {
       throw new Error("No encryption key")
