@@ -50,12 +50,13 @@ export interface IFilesTableBrowserProps
     newBucketType?: BucketType,
     showLoading?: boolean,
   ) => void
+  refreshContents: () => Promise<void>
+  currentPath: string
   loadingCurrentPath: boolean
   uploadsInProgress?: UploadProgress[]
   showUploadsInTable: boolean
 
   sourceFiles: FileSystemItem[]
-  currentPath?: string
   crumbs: Crumb[] | undefined
   getPath?: (cid: string) => string | undefined
   isSearch?: boolean

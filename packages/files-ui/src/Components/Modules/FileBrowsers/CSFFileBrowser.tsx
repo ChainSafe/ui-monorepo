@@ -14,9 +14,9 @@ const CSFFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = true }:
   const {
     downloadFile,
     renameFile,
-    moveCSFObject,
     moveFile,
     uploadFiles,
+    moveCSFObject,
     uploadsInProgress,
     list
   } = useDrive()
@@ -148,7 +148,6 @@ const CSFFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = true }:
         moveFileToTrash(cid)
       ))
   }, [moveFileToTrash])
- 
   // END
 
   useEffect(() => {
@@ -175,6 +174,13 @@ const CSFFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = true }:
     })
     await refreshContents(currentPath)
   }, [moveFile, refreshContents, currentPath])
+
+  const handleDownload = useCallback(async (cid: string) => {
+    const target = pathContents.find(item => item.cid === cid)
+    if (!target) return
+
+    await downloadFile(target, currentPath, bucketType)
+  }, [pathContents, downloadFile, currentPath, bucketType])
 
   // Breadcrumbs/paths
   const arrayOfPaths = useMemo(() => getArrayOfPaths(currentPath), [currentPath])
@@ -231,8 +237,9 @@ const CSFFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = true }:
         bulkOperations={bulkOperations}
         crumbs={crumbs}
         currentPath={currentPath}
+        refreshContents={() => refreshContents(currentPath)}
         deleteFiles={moveFilesToTrash}
-        downloadFile={downloadFile}
+        downloadFile={handleDownload}
         handleMove={handleMove}
         handleRename={handleRename}
         handleUploadOnDrop={handleUploadOnDrop}

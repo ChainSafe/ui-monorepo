@@ -99,6 +99,7 @@ const BinFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = false }
     updateCurrentPath("/", "trash", bucketType !== "trash")
     // eslint-disable-next-line
   }, [])
+
   const deleteFile = useCallback(async (cid: string) => {
     const itemToDelete = pathContents.find((i) => i.cid === cid)
 
@@ -133,7 +134,7 @@ const BinFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = false }
       })
       return Promise.reject()
     }
-  }, [addToastMessage, bucketType, currentPath, imployApiClient, pathContents, refreshContents])
+  }, [addToastMessage, bucketType, currentPath, pathContents, refreshContents, removeCSFObjects])
 
   const deleteFiles = useCallback(async (cids: string[]) => {
     return Promise.all(
@@ -201,6 +202,8 @@ const BinFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = false }
         crumbs={undefined}
         recoverFile={handleRecover}
         deleteFiles={deleteFiles}
+        currentPath={currentPath}
+        refreshContents={() => refreshContents(currentPath)}
         loadingCurrentPath={loadingCurrentPath}
         showUploadsInTable={false}
         sourceFiles={pathContents}

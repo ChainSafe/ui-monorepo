@@ -6,7 +6,8 @@ import {
   DirectoryContentResponse,
   BucketType,
   Bucket,
-  SearchEntry
+  SearchEntry,
+  FilesRmRequest
 } from "@chainsafe/files-api-client"
 import React, { useCallback, useEffect, useReducer } from "react"
 import { useState } from "react"
@@ -21,7 +22,6 @@ import { CancelToken } from "axios"
 import { t } from "@lingui/macro"
 import { readFileAsync } from "../Utils/Helpers"
 import { useBeforeunload } from "react-beforeunload"
-import { getPathWithFile } from "../Utils/pathUtils"
 import { useThresholdKey } from "./ThresholdKeyContext"
 
 type DriveContextProps = {
@@ -52,8 +52,9 @@ interface GetFileContentParams {
   cid: string
   cancelToken?: CancelToken
   onDownloadProgress?: (progressEvent: ProgressEvent<EventTarget>) => void
-  file?: FileSystemItem
-  path?: string
+  file: FileSystemItem
+  path: string
+  bucketType: BucketType
 }
 
 
@@ -62,11 +63,10 @@ type DriveContext = {
   createFolder: (body: FilesPathRequest) => Promise<FileContentResponse>
   renameFile: (body: FilesMvRequest) => Promise<void>
   moveFile: (body: FilesMvRequest) => Promise<void>
-  moveFiles: (bodies: FilesMvRequest[]) => Promise<void[]>
-  recoverFile: (cid: string) => Promise<void>
-  deleteFiles: (cids: string[]) => Promise<void[]>
+  moveFiles: (filesToMove: FilesMvRequest[]) => Promise<void[]>
   moveCSFObject: (body: FilesMvRequest) => Promise<void>
-  downloadFile: (cid: string) => Promise<void>
+  removeCSFObjects: (body: FilesRmRequest) => Promise<void>
+  downloadFile: (itemToDownload: FileSystemItem, path: string, bucketType: BucketType) => void
   getFileContent: ({ cid, cancelToken, onDownloadProgress, file }: GetFileContentParams) => Promise<Blob | undefined>
   list: (body: FilesPathRequest) => Promise<FileContentResponse[]>
   listBuckets: (bucketType: BucketType) => Promise<Bucket[]>
@@ -76,7 +76,6 @@ type DriveContext = {
   spaceUsed: number
   getFolderTree: () => Promise<DirectoryContentResponse>
   getFileInfo: (path: string)  => Promise<CSFFilesFullinfoResponse>
-  getSearchResults: (searchString: string) => Promise<SearchEntry[]>
   secureAccountWithMasterPassword: (candidatePassword: string) => Promise<void>
 }
 
@@ -106,7 +105,6 @@ const DriveProvider = ({ children }: DriveContextProps) => {
   const { addToastMessage } = useToaster()
   const [spaceUsed, setSpaceUsed] = useState(0)
   const [encryptionKey, setEncryptionKey] = useState<string | undefined>()
-
 
   // Space used counter
   useEffect(() => {
@@ -387,22 +385,22 @@ const DriveProvider = ({ children }: DriveContextProps) => {
     )
   }, [moveFile])
 
- 
-  const getFileContent = useCallback(async ({ cid, cancelToken, onDownloadProgress, file, path }: GetFileContentParams) => {
+  const getFileContent = useCallback(async ({ cid, cancelToken, onDownloadProgress, file, path, bucketType }: GetFileContentParams) => {
     if (!encryptionKey) {
       throw new Error("No encryption key")
     }
 
     // when a file is accessed from the search page, a file  and a path are passed in
     // because the current path will not reflect the right state of the app 
-    const fileToGet = file || pathContents.find((i) => i.cid === cid)
+    const fileToGet = file
 
+    // TODO: move to implementations
     if (!fileToGet) {
-      console.error("No file passed, and no file found for cid:", cid, "in pathContents:", pathContents)
+      console.error("No file passed, and no file found for cid:", cid, "in pathContents:", path)
       throw new Error("No file found.")
     }
 
-    const pathToUse = path || currentPath + fileToGet.name
+    const pathToUse = path
     try {
       const result = await imployApiClient.getFileContent(
         {
@@ -432,11 +430,9 @@ const DriveProvider = ({ children }: DriveContextProps) => {
       console.error(error)
       return Promise.reject()
     }
-  }, [currentPath, encryptionKey, imployApiClient, pathContents, bucketType])
+  }, [encryptionKey, imployApiClient])
 
-  const downloadFile = useCallback(async (cid: string) => {
-    const itemToDownload = pathContents.find((i) => i.cid === cid)
-    if (!itemToDownload) return
+  const downloadFile = useCallback(async (itemToDownload: FileSystemItem, path: string, bucketType: BucketType) => {
     const toastId = uuidv4()
     try {
       const downloadProgress: DownloadProgress = {
@@ -449,6 +445,9 @@ const DriveProvider = ({ children }: DriveContextProps) => {
       dispatchDownloadsInProgress({ type: "add", payload: downloadProgress })
       const result = await getFileContent({
         cid: itemToDownload.cid,
+        bucketType: bucketType,
+        file: itemToDownload,
+        path: path,
         onDownloadProgress: (progressEvent) => {
           dispatchDownloadsInProgress({
             type: "progress",
@@ -482,7 +481,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
       dispatchDownloadsInProgress({ type: "error", payload: { id: toastId } })
       return Promise.reject()
     }
-  }, [getFileContent, pathContents])
+  }, [getFileContent])
 
   const list = async (body: FilesPathRequest) => {
     try {
@@ -494,6 +493,14 @@ const DriveProvider = ({ children }: DriveContextProps) => {
 
   const listBuckets = async (bucketType: BucketType) => {
     return await imployApiClient.listBuckets(bucketType)
+  }
+
+  const removeCSFObjects = async (body: FilesRmRequest) => {
+    return await imployApiClient.removeCSFObjects(body)
+  }
+
+  const moveCSFObject = async (body: FilesMvRequest) => {
+    await moveCSFObject(body)
   }
 
   const searchFiles = async (bucketId: string, searchString: string) => {
@@ -514,7 +521,6 @@ const DriveProvider = ({ children }: DriveContextProps) => {
   //   }
   // }
 
-
   return (
     <DriveContext.Provider
       value={{
@@ -523,11 +529,10 @@ const DriveProvider = ({ children }: DriveContextProps) => {
         renameFile,
         moveFile,
         moveFiles,
-        deleteFiles,
-        moveFilesToTrash,
+        moveCSFObject,
+        removeCSFObjects,
         downloadFile,
         getFileContent,
-        recoverFile,
         list,
         uploadsInProgress,
         spaceUsed,
