@@ -377,7 +377,9 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
 
   const onFolderClick = useCallback(() => {
     if (!moduleRootPath) return
-    redirect(`${moduleRootPath}/${currentPath}${name}`)
+    // React route runs a decode in creating a location in the context so double encoding is needed
+    const newPath = `${moduleRootPath}${currentPath}${encodeURI(encodeURI(name))}`
+    redirect(newPath)
     resetSelectedFiles()
   }, [currentPath, name, resetSelectedFiles, redirect, moduleRootPath])
 

@@ -1,5 +1,5 @@
-import React, { useCallback, useMemo, useReducer, useState } from "react"
-import { Crumb, useToaster, useHistory } from "@chainsafe/common-components"
+import React, { useCallback, useEffect, useMemo, useState } from "react"
+import { Crumb, useToaster, useHistory, useParams } from "@chainsafe/common-components"
 import { useDrive, FileSystemItem, BucketType } from "../../../Contexts/DriveContext"
 import { getArrayOfPaths, getPathFromArray, getPathWithFile } from "../../../Utils/pathUtils"
 import { IBulkOperations, IFilesBrowserModuleProps, IFilesTableBrowserProps } from "./types"
@@ -29,30 +29,10 @@ const CSFFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = true }:
 
   const { redirect } = useHistory()
 
-  const currentPathReducer = (
-    currentPath: string,
-    action:
-      | { type: "update"; payload: string }
-      | { type: "refreshOnSamePath"; payload: string }
-  ): string => {
-    switch (action.type) {
-    case "update": {
-      return action.payload
-    }
-    case "refreshOnSamePath": {
-      // check user has not navigated to other folder
-      // using then catch as awaits won't work in reducer
-      if (action.payload === currentPath) {
-        refreshContents(currentPath, bucketType, false)
-      }
-      return currentPath
-    }
-    default:
-      return currentPath
-    }
-  }
-  const [currentPath, dispatchCurrentPath] = useReducer(currentPathReducer, "/")
+  const { rawCurrentPath } = useParams<{ rawCurrentPath: string }>()
+  console.log("rawCurrentPath", rawCurrentPath)
 
+  const [currentPath, setCurrentPath] = useState(rawCurrentPath ? decodeURI(rawCurrentPath) : "/")
   const refreshContents = useCallback(
     async (
       path: string,
@@ -89,6 +69,12 @@ const CSFFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = true }:
     },
     [bucketType, list]
   )
+
+  useEffect(() => {
+    console.log("refreshing")
+    setCurrentPath(rawCurrentPath ? decodeURI(rawCurrentPath) : "/")
+    refreshContents(rawCurrentPath ? decodeURI(rawCurrentPath) : "/")
+  }, [refreshContents, rawCurrentPath])
 
   // From drive
   const moveFileToTrash = useCallback(async (cid: string) => {
@@ -166,7 +152,7 @@ const CSFFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = true }:
     text: path,
     onClick: () =>
       redirect(
-        ROUTE_LINKS.Drive(getPathFromArray(arrayOfPaths.slice(0, index + 1)))
+        ROUTE_LINKS.Drive(encodeURI(encodeURI(getPathFromArray(arrayOfPaths.slice(0, index + 1)))))
       )
   })), [arrayOfPaths, redirect])
 
@@ -188,9 +174,9 @@ const CSFFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = true }:
       // refresh contents
       // using reducer because user may navigate to other paths
       // need to check currentPath and upload path is same
-      dispatchCurrentPath({ type: "refreshOnSamePath", payload: path })
+      refreshContents(currentPath)
     }
-  }, [addToastMessage, uploadFiles])
+  }, [addToastMessage, uploadFiles, currentPath, refreshContents])
 
   const bulkOperations: IBulkOperations = useMemo(() => ({
     [CONTENT_TYPES.Directory]: ["move"],
