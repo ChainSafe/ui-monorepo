@@ -23,12 +23,13 @@ import {
   ExportSvg,
   ShareAltSvg,
   ExclamationCircleInverseSvg,
-  ZoomInSvg
+  ZoomInSvg,
+  useHistory
 } from "@chainsafe/common-components"
 import { makeStyles, createStyles, useDoubleClick, useThemeSwitcher } from "@chainsafe/common-theme"
 import clsx from "clsx"
 import { Formik, Form } from "formik"
-import { FileSystemItem, BucketType } from "../../../../Contexts/DriveContext"
+import { FileSystemItem } from "../../../../Contexts/DriveContext"
 import CustomModal from "../../../Elements/CustomModal"
 import { Trans } from "@lingui/macro"
 import { useDrag, useDrop } from "react-dnd"
@@ -164,8 +165,8 @@ interface IFileSystemItemRowProps {
   index: number
   file: FileSystemItem
   files: FileSystemItem[]
-  currentPath?: string
-  updateCurrentPath: (path: string, newBucketType?: BucketType, showLoading?: boolean) => void
+  currentPath: string
+  moduleRootPath?: string
   selected: string[]
   handleSelect(selected: string): void
   editing: string | undefined
@@ -189,11 +190,11 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
   index,
   file,
   files,
-  currentPath,
-  updateCurrentPath,
   selected,
   editing,
   setEditing,
+  currentPath,
+  moduleRootPath,
   renameSchema,
   handleRename,
   handleMove,
@@ -223,6 +224,8 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
 
   const { desktop, themeKey } = useThemeSwitcher()
   const classes = useStyles()
+
+  const { redirect } = useHistory()
 
   const allMenuItems: Record<FileOperation, IMenuItem> = {
     rename: {
@@ -373,9 +376,10 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
   }
 
   const onFolderClick = useCallback(() => {
-    updateCurrentPath(`${currentPath}${name}`, undefined, true)
+    if (!moduleRootPath) return
+    redirect(`${moduleRootPath}/${currentPath}${name}`)
     resetSelectedFiles()
-  }, [currentPath, name, resetSelectedFiles, updateCurrentPath])
+  }, [currentPath, name, resetSelectedFiles, redirect, moduleRootPath])
 
   const onFileClick = useCallback(() => {
     setPreviewFileIndex(files?.indexOf(file))

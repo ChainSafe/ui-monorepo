@@ -1,4 +1,4 @@
-import { Button, FileInput } from "@chainsafe/common-components"
+import { Button, FileInput, useParams } from "@chainsafe/common-components"
 import { useDrive } from "../../Contexts/DriveContext"
 import {
   createStyles,
@@ -83,7 +83,7 @@ const UploadFileModule: React.FC<IUploadFileModuleProps> = ({
   const classes = useStyles()
 
   const [isDoneDisabled, setIsDoneDisabled] = useState(true)
-  const { uploadFiles, currentPath } = useDrive()
+  const { uploadFiles } = useDrive()
 
   const UploadSchema = object().shape({
     files: array().required("Please select a file to upload")
@@ -92,6 +92,8 @@ const UploadFileModule: React.FC<IUploadFileModuleProps> = ({
   const onFileNumberChange = useCallback((filesNumber: number) => {
     setIsDoneDisabled(filesNumber === 0)
   }, [])
+
+  const { currentPath } = useParams<{ currentPath: string }>()
 
   return (
     <CustomModal

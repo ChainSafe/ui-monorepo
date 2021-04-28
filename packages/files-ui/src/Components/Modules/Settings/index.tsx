@@ -148,7 +148,7 @@ const Settings: React.FC = () => {
       <div className={classes.headerContainer}>
         <Breadcrumb
           crumbs={crumbs}
-          homeOnClick={() => redirect(ROUTE_LINKS.Home())}
+          homeOnClick={() => redirect(ROUTE_LINKS.Drive(""))}
         />
         <Typography
           variant="h1"

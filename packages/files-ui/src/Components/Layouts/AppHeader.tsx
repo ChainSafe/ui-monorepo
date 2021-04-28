@@ -230,7 +230,7 @@ const AppHeader: React.FC<IAppHeader> = ({
                   />
                   <Link
                     className={classes.logo}
-                    to={ROUTE_LINKS.Home()}
+                    to={ROUTE_LINKS.Drive("/")}
                   >
                     <ChainsafeFilesLogo />
                     <Typography

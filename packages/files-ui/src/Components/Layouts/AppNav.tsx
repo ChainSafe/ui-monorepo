@@ -212,7 +212,7 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
   const { desktop } = useThemeSwitcher()
   const classes = useStyles()
 
-  const { spaceUsed, updateCurrentPath } = useDrive()
+  const { spaceUsed } = useDrive()
 
   const { isLoggedIn, secured } = useImployApi()
   const { publicKey, isNewDevice, shouldInitializeAccount, logout } = useThresholdKey()
@@ -256,7 +256,7 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
             <div>
               <Link
                 className={classes.logo}
-                to={ROUTE_LINKS.Home()}
+                to={ROUTE_LINKS.Drive("/")}
               >
                 <ChainsafeFilesLogo />
                 <Typography variant="h5">
@@ -280,10 +280,9 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
               <Link
                 onClick={() => {
                   handleOnClick()
-                  updateCurrentPath("/", "csf", true)
                 }}
                 className={classes.navItem}
-                to={ROUTE_LINKS.Home()}
+                to={ROUTE_LINKS.Drive("/")}
               >
                 <DatabaseSvg />
                 <Typography

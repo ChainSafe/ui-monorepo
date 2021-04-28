@@ -1,14 +1,14 @@
-import React, { useCallback, useEffect, useMemo, useReducer, useState } from "react"
-import { Crumb, useToaster } from "@chainsafe/common-components"
+import React, { useCallback, useMemo, useReducer, useState } from "react"
+import { Crumb, useToaster, useHistory } from "@chainsafe/common-components"
 import { useDrive, FileSystemItem, BucketType } from "../../../Contexts/DriveContext"
 import { getArrayOfPaths, getPathFromArray, getPathWithFile } from "../../../Utils/pathUtils"
 import { IBulkOperations, IFilesBrowserModuleProps, IFilesTableBrowserProps } from "./types"
 import FilesTableView from "./views/FilesTable.view"
 import { CONTENT_TYPES } from "../../../Utils/Constants"
 import DragAndDrop from "../../../Contexts/DnDContext"
-import { useQuery } from "../../../Utils/Helpers"
 import { t } from "@lingui/macro"
 import { guessContentType } from "../../../Utils/contentTypeGuesser"
+import { ROUTE_LINKS } from "../../FilesRoutes"
 
 const CSFFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = true }: IFilesBrowserModuleProps) => {
   const {
@@ -22,12 +22,12 @@ const CSFFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = true }:
   } = useDrive()
   const { addToastMessage } = useToaster()
 
-  const queryPath = useQuery().get("path")
-
   // const { currentPath } = useParams<{ currentPath: string }>()
   const [loadingCurrentPath, setLoadingCurrentPath] = useState(false)
   const [pathContents, setPathContents] = useState<FileSystemItem[]>([])
-  const [bucketType, setBucketType] = useState<BucketType>("csf")
+  const [bucketType] = useState<BucketType>("csf")
+
+  const { redirect } = useHistory()
 
   const currentPathReducer = (
     currentPath: string,
@@ -91,20 +91,6 @@ const CSFFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = true }:
   )
 
   // From drive
-  const setCurrentPath = useCallback((newPath: string, newBucketType?: BucketType, showLoading?: boolean) => {
-    dispatchCurrentPath({ type: "update", payload: newPath })
-    if (newBucketType) {
-      setBucketType(newBucketType)
-    }
-    refreshContents(newPath, newBucketType || bucketType, showLoading)
-  }, [bucketType, refreshContents])
-
-  const updateCurrentPath = useCallback((newPath: string, bucketType?: BucketType, showLoading?: boolean) => {
-    newPath.endsWith("/")
-      ? setCurrentPath(`${newPath}`, bucketType, showLoading)
-      : setCurrentPath(`${newPath}/`, bucketType, showLoading)
-  }, [setCurrentPath])
-
   const moveFileToTrash = useCallback(async (cid: string) => {
     const itemToDelete = pathContents.find((i) => i.cid === cid)
 
@@ -150,15 +136,6 @@ const CSFFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = true }:
   }, [moveFileToTrash])
   // END
 
-  useEffect(() => {
-    updateCurrentPath(
-      queryPath || "/",
-      "csf",
-      bucketType !== "csf" || queryPath !== null
-    )
-    // eslint-disable-next-line
-  }, [queryPath])
-
   // Rename
   const handleRename = useCallback(async (path: string, newPath: string) => {
     // TODO set loading
@@ -182,17 +159,16 @@ const CSFFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = true }:
     await downloadFile(target, currentPath, bucketType)
   }, [pathContents, downloadFile, currentPath, bucketType])
 
+
   // Breadcrumbs/paths
   const arrayOfPaths = useMemo(() => getArrayOfPaths(currentPath), [currentPath])
   const crumbs: Crumb[] = useMemo(() => arrayOfPaths.map((path, index) => ({
     text: path,
     onClick: () =>
-      updateCurrentPath(
-        getPathFromArray(arrayOfPaths.slice(0, index + 1)),
-        undefined,
-        true
+      redirect(
+        ROUTE_LINKS.Drive(getPathFromArray(arrayOfPaths.slice(0, index + 1)))
       )
-  })), [arrayOfPaths, updateCurrentPath])
+  })), [arrayOfPaths, redirect])
 
 
   const handleUploadOnDrop = useCallback(async (files: File[], fileItems: DataTransferItemList, path: string) => {
@@ -236,6 +212,7 @@ const CSFFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = true }:
       <FilesTableView
         bulkOperations={bulkOperations}
         crumbs={crumbs}
+        moduleRootPath={ROUTE_LINKS.Drive("")}
         currentPath={currentPath}
         refreshContents={() => refreshContents(currentPath)}
         deleteFiles={moveFilesToTrash}
@@ -247,8 +224,8 @@ const CSFFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = true }:
         loadingCurrentPath={loadingCurrentPath}
         showUploadsInTable={true}
         sourceFiles={pathContents}
-        updateCurrentPath={updateCurrentPath}
         heading = {t`My Files`}
+        bucketType={bucketType}
         controls={controls}
         allowDropUpload={true}
         itemOperations={ItemOperations}

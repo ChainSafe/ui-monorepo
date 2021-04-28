@@ -71,9 +71,9 @@ const useStyles = makeStyles(
 
 interface ICreateFolderModuleProps {
   modalOpen: boolean
-  currentPath: string
   refreshCurrentPath: () => void
   close: () => void
+  currentPath: string
 }
 
 const CreateFolderModule: React.FC<ICreateFolderModuleProps> = ({

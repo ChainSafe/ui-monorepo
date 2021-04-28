@@ -19,7 +19,8 @@ import {
   UploadIcon,
   Dialog,
   Loading,
-  CheckboxInput
+  CheckboxInput,
+  useHistory
 } from "@chainsafe/common-components"
 import { useState } from "react"
 import { useMemo } from "react"
@@ -43,6 +44,7 @@ import { CONTENT_TYPES } from "../../../../Utils/Constants"
 import { CSFTheme } from "../../../../Themes/types"
 import MimeMatcher from "../../../../Utils/MimeMatcher"
 import { useLanguageContext } from "../../../../Contexts/LanguageContext"
+import { getPathWithFile } from "../../../../Utils/pathUtils"
 
 interface IStyleProps {
   themeKey: string
@@ -249,7 +251,6 @@ const FilesTableView = ({
   sourceFiles,
   handleUploadOnDrop,
   bulkOperations,
-  updateCurrentPath,
   crumbs,
   handleRename,
   handleMove,
@@ -258,13 +259,16 @@ const FilesTableView = ({
   recoverFile,
   viewFolder,
   currentPath,
+  refreshContents,
   loadingCurrentPath,
   uploadsInProgress,
   showUploadsInTable,
   allowDropUpload,
   itemOperations,
   getPath,
-  isSearch
+  moduleRootPath,
+  isSearch,
+  bucketType
 }: IFilesTableBrowserProps) => {
   const { themeKey, desktop } = useThemeSwitcher()
   const classes = useStyles({ themeKey })
@@ -308,6 +312,8 @@ const FilesTableView = ({
     }
     return direction === "descend" ? temp.reverse().sort(sortFoldersFirst) : temp.sort(sortFoldersFirst)
   }, [sourceFiles, direction, column, selectedLocale])
+
+  const { redirect } = useHistory()
 
   const files = useMemo(
     () => items.filter((i) => !i.isFolder)
@@ -516,10 +522,10 @@ const FilesTableView = ({
         </Typography>
       </div>
       <div className={classes.breadCrumbContainer}>
-        {crumbs ? (
+        {crumbs && moduleRootPath ? (
           <Breadcrumb
             crumbs={crumbs}
-            homeOnClick={() => updateCurrentPath("/", undefined, true)}
+            homeOnClick={() => redirect(moduleRootPath)}
             showDropDown={!desktop}
           />
         ) : null}
@@ -753,8 +759,8 @@ const FilesTableView = ({
                   index={index}
                   file={file}
                   files={files}
+                  moduleRootPath={moduleRootPath}
                   currentPath={currentPath}
-                  updateCurrentPath={updateCurrentPath}
                   selected={selectedCids}
                   handleSelect={handleSelect}
                   editing={editing}
@@ -790,11 +796,12 @@ const FilesTableView = ({
         <FilePreviewModal
           file={files[previewFileIndex]}
           closePreview={clearPreview}
+          bucketType={bucketType}
           nextFile={
             previewFileIndex < files.length - 1 ? setNextPreview : undefined
           }
           previousFile={previewFileIndex > 0 ? setPreviousPreview : undefined}
-          path={isSearch && getPath ? getPath(files[previewFileIndex].cid) : undefined}
+          path={isSearch && getPath ? getPath(files[previewFileIndex].cid) : getPathWithFile(currentPath, files[previewFileIndex].name)}
         />
       )}
       <Dialog
@@ -810,10 +817,16 @@ const FilesTableView = ({
       />
       <UploadProgressModals />
       <DownloadProgressModals />
-      <CreateFolderModule
-        modalOpen={createFolderModalOpen}
-        close={() => setCreateFolderModalOpen(false)}
-      />
+      {
+        refreshContents && (
+          <CreateFolderModule
+            modalOpen={createFolderModalOpen}
+            currentPath={currentPath}
+            refreshCurrentPath={refreshContents}
+            close={() => setCreateFolderModalOpen(false)}
+          />
+        )
+      }
       <UploadFileModule
         modalOpen={isUploadModalOpen}
         close={() => setIsUploadModalOpen(false)}

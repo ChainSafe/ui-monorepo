@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react"
 import { useState } from "react"
 import { createStyles, makeStyles, useThemeSwitcher } from "@chainsafe/common-theme"
-import { FileSystemItem, useDrive } from "../../Contexts/DriveContext"
+import { BucketType, FileSystemItem, useDrive } from "../../Contexts/DriveContext"
 import MimeMatcher from "./../../Utils/MimeMatcher"
 import axios, { CancelTokenSource } from "axios"
 import {
@@ -152,14 +152,15 @@ const useStyles = makeStyles(
 )
 
 interface Props {
-  file?: FileSystemItem
+  file: FileSystemItem
   nextFile?: () => void
   previousFile?: () => void
   closePreview: () => void
-  path?: string
+  path: string
+  bucketType: BucketType
 }
 
-const FilePreviewModal = ({ file, nextFile, previousFile, closePreview, path }: Props) => {
+const FilePreviewModal = ({ file, nextFile, previousFile, closePreview, path, bucketType }: Props) => {
   const classes = useStyles()
   const { getFileContent, downloadFile } = useDrive()
   const { desktop } = useThemeSwitcher()
@@ -204,7 +205,8 @@ const FilePreviewModal = ({ file, nextFile, previousFile, closePreview, path }: 
             setLoadingProgress((evt.loaded / size) * 100)
           },
           file,
-          path
+          path,
+          bucketType: bucketType
         })
 
         if (content) {
@@ -227,7 +229,7 @@ const FilePreviewModal = ({ file, nextFile, previousFile, closePreview, path }: 
     if (content_type && compatibleFilesMatcher.match(content_type)) {
       getContents()
     }
-  }, [cid, size, content_type, getFileContent, file, path])
+  }, [cid, size, content_type, getFileContent, file, path, bucketType])
 
   const validRendererMimeType =
     content_type &&
@@ -270,7 +272,7 @@ const FilePreviewModal = ({ file, nextFile, previousFile, closePreview, path }: 
       link.click()
       URL.revokeObjectURL(link.href)
     } else {
-      downloadFile(cid)
+      downloadFile(file, path, bucketType)
     }
   }
 
@@ -426,7 +428,7 @@ const FilePreviewModal = ({ file, nextFile, previousFile, closePreview, path }: 
                 <Button
                   className={classes.downloadButton}
                   variant="outline"
-                  onClick={() => downloadFile(cid)}
+                  onClick={() => downloadFile(file, path, bucketType)}
                 >
                   <Trans>Download</Trans>
                 </Button>

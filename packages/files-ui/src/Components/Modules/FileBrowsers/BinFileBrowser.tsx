@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useReducer, useState } from "react"
+import React, { useCallback, useEffect, useMemo, useState } from "react"
 import { BucketType, FileSystemItem, useDrive } from "../../../Contexts/DriveContext"
 import { IFilesBrowserModuleProps } from "./types"
 import FilesTableView from "./views/FilesTable.view"
@@ -7,8 +7,9 @@ import { t } from "@lingui/macro"
 import { CONTENT_TYPES } from "../../../Utils/Constants"
 import { IFilesTableBrowserProps } from "../../Modules/FileBrowsers/types"
 import { guessContentType } from "../../../Utils/contentTypeGuesser"
-import { useToaster } from "@chainsafe/common-components"
+import { useParams, useToaster } from "@chainsafe/common-components"
 import { getPathWithFile } from "../../../Utils/pathUtils"
+import { ROUTE_LINKS } from "../../FilesRoutes"
 
 const BinFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = false }: IFilesBrowserModuleProps) => {
   const {
@@ -20,40 +21,18 @@ const BinFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = false }
 
   const [loadingCurrentPath, setLoadingCurrentPath] = useState(false)
   const [pathContents, setPathContents] = useState<FileSystemItem[]>([])
-  const [bucketType, setBucketType] = useState<BucketType>("csf")
-  const currentPathReducer = (
-    currentPath: string,
-    action:
-      | { type: "update"; payload: string }
-      | { type: "refreshOnSamePath"; payload: string }
-  ): string => {
-    switch (action.type) {
-    case "update": {
-      return action.payload
-    }
-    case "refreshOnSamePath": {
-      // check user has not navigated to other folder
-      // using then catch as awaits won't work in reducer
-      if (action.payload === currentPath) {
-        refreshContents(currentPath, bucketType, false)
-      }
-      return currentPath
-    }
-    default:
-      return currentPath
-    }
-  }
+  const [bucketType] = useState<BucketType>("csf")
+  const { currentPath } = useParams<{ currentPath: string }>()
 
   const refreshContents = useCallback(
     async (
-      path: string,
       bucketTypeParam?: BucketType,
       showLoading?: boolean
     ) => {
       try {
         showLoading && setLoadingCurrentPath(true)
         const newContents = await list({
-          path,
+          path: currentPath,
           source: {
             type: bucketTypeParam || bucketType
           }
@@ -78,25 +57,11 @@ const BinFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = false }
         showLoading && setLoadingCurrentPath(false)
       }
     },
-    [bucketType, list]
+    [bucketType, list, currentPath]
   )
 
-  const [currentPath, dispatchCurrentPath] = useReducer(currentPathReducer, "/")
-  const setCurrentPath = useCallback((newPath: string, newBucketType?: BucketType, showLoading?: boolean) => {
-    dispatchCurrentPath({ type: "update", payload: newPath })
-    if (newBucketType) {
-      setBucketType(newBucketType)
-    }
-    refreshContents(newPath, newBucketType || bucketType, showLoading)
-  }, [bucketType, refreshContents])
-  const updateCurrentPath = useCallback((newPath: string, bucketType?: BucketType, showLoading?: boolean) => {
-    newPath.endsWith("/")
-      ? setCurrentPath(`${newPath}`, bucketType, showLoading)
-      : setCurrentPath(`${newPath}/`, bucketType, showLoading)
-  }, [setCurrentPath])
-
   useEffect(() => {
-    updateCurrentPath("/", "trash", bucketType !== "trash")
+    refreshContents()
     // eslint-disable-next-line
   }, [])
 
@@ -115,7 +80,7 @@ const BinFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = false }
           type: bucketType
         }
       })
-      await refreshContents(currentPath)
+      await refreshContents()
       const message = `${
         itemToDelete.isFolder ? t`Folder` : t`File`
       } ${t`deleted successfully`}`
@@ -158,7 +123,7 @@ const BinFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = false }
           type: "csf"
         }
       })
-      await refreshContents(currentPath)
+      await refreshContents()
 
       const message = `${
         itemToRestore.isFolder ? t`Folder` : t`File`
@@ -190,7 +155,6 @@ const BinFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = false }
     }
   }
 
-
   const itemOperations: IFilesTableBrowserProps["itemOperations"] = useMemo(() => ({
     [CONTENT_TYPES.File]: ["recover", "delete"],
     [CONTENT_TYPES.Directory]: ["recover", "delete"]
@@ -203,13 +167,14 @@ const BinFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = false }
         recoverFile={handleRecover}
         deleteFiles={deleteFiles}
         currentPath={currentPath}
-        refreshContents={() => refreshContents(currentPath)}
+        moduleRootPath={ROUTE_LINKS.Bin}
+        refreshContents={refreshContents}
         loadingCurrentPath={loadingCurrentPath}
         showUploadsInTable={false}
         sourceFiles={pathContents}
-        updateCurrentPath={updateCurrentPath}
         heading={t`Bin`}
         controls={controls}
+        bucketType={bucketType}
         itemOperations={itemOperations}
       />
     </DragAndDrop>

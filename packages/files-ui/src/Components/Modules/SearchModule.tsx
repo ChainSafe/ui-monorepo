@@ -23,7 +23,7 @@ import { getParentPathFromFilePath } from "../../Utils/pathUtils"
 import { t, Trans } from "@lingui/macro"
 import { CSFTheme } from "../../Themes/types"
 
-interface SearchParams {
+export interface SearchParams {
   bucketType: BucketType
   bucketId: string
 }
@@ -241,13 +241,13 @@ const SearchModule: React.FC<ISearchModule> = ({
   )
 
   const onSearchEntryClickFolder = (searchEntry: SearchEntry) => {
-    redirect(ROUTE_LINKS.Home(searchEntry.path))
+    redirect(ROUTE_LINKS.Drive(searchEntry.path))
     setSearchQuery("")
     setSearchActive(false)
   }
 
   const onSearchEntryClickFile = (searchEntry: SearchEntry) => {
-    redirect(ROUTE_LINKS.Home(getParentPathFromFilePath(searchEntry.path)))
+    redirect(ROUTE_LINKS.Drive(getParentPathFromFilePath(searchEntry.path)))
     setSearchQuery("")
     setSearchActive(false)
   }

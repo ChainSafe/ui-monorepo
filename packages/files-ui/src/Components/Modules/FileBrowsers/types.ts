@@ -1,9 +1,5 @@
 import { Crumb } from "@chainsafe/common-components"
-import {
-  FileSystemItem,
-  BucketType,
-  UploadProgress
-} from "../../../Contexts/DriveContext"
+import { BucketType, FileSystemItem, UploadProgress } from "../../../Contexts/DriveContext"
 
 export type FileOperation =
   | "rename"
@@ -45,19 +41,17 @@ export interface IFilesTableBrowserProps
     path: string,
   ) => void
 
-  updateCurrentPath: (
-    newPath: string,
-    newBucketType?: BucketType,
-    showLoading?: boolean,
-  ) => void
-  refreshContents: () => Promise<void>
+  refreshContents?: () => Promise<void>
   currentPath: string
+  bucketType: BucketType
   loadingCurrentPath: boolean
   uploadsInProgress?: UploadProgress[]
   showUploadsInTable: boolean
 
   sourceFiles: FileSystemItem[]
   crumbs: Crumb[] | undefined
-  getPath?: (cid: string) => string | undefined
+  moduleRootPath: string | undefined
+
+  getPath?: (cid: string) => string
   isSearch?: boolean
 }
