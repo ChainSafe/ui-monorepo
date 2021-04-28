@@ -68,14 +68,20 @@ const DownloadBox: React.FC<IDownloadBox> = ({ downloadInProgress }) => {
         {complete ? (
           <div className={classes.contentContainer}>
             <CheckCircleIcon className={classes.marginRight} />
-            <Typography variant="body1" component="p">
+            <Typography
+              variant="body1"
+              component="p"
+            >
               <Trans>Download complete</Trans>
             </Typography>
           </div>
         ) : error ? (
           <div className={classes.contentContainer}>
             <CloseCircleIcon className={classes.marginRight} />
-            <Typography variant="body1" component="p">
+            <Typography
+              variant="body1"
+              component="p"
+            >
               {errorMessage}
             </Typography>
           </div>
@@ -88,7 +94,10 @@ const DownloadBox: React.FC<IDownloadBox> = ({ downloadInProgress }) => {
             >
               Downloading {fileName}...
             </Typography>
-            <ProgressBar progress={progress} size="small" />
+            <ProgressBar
+              progress={progress}
+              size="small"
+            />
           </div>
         )}
       </div>

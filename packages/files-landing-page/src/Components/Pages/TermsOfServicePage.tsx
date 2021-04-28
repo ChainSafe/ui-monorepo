@@ -16,23 +16,23 @@ const useStyles = makeStyles(
           }px ${constants.generalUnit * 20}px`,
       },
       heading: {
-        ...typography.h2,
-        fontFamily: "'Lato', sans-serif",
+        ...typography.h1,
+        fontFamily: "'Neue Montreal, Arial', sans-serif",
       },
       title: {
         ...typography.h3,
         paddingTop: constants.generalUnit * 3,
-        fontFamily: "'Lato', sans-serif",
+        fontFamily: "'Neue Montreal, Arial', sans-serif",
       },
       text: {
         ...typography.body1,
         fontSize: "16px",
         lineHeight: "24px",
-        fontFamily: "'Lato', sans-serif",
+        fontFamily: "'Neue Montreal, Arial', sans-serif",
       },
       caption: {
         ...typography.body1,
-        fontFamily: "'Lato', sans-serif",
+        fontFamily: "'Neue Montreal, Arial', sans-serif",
       },
       padLarge: {
         padding: `${constants.generalUnit * 3}px 0 ${constants.generalUnit * 1
@@ -45,7 +45,7 @@ const useStyles = makeStyles(
         ...typography.body1,
         padding: "revert",
         listStyle: "decimal",
-        fontFamily: "'Lato', sans-serif",
+        fontFamily: "'Neue Montreal, Arial', sans-serif",
         fontSize: "16px",
         lineHeight: "24px",
         margin: `${constants.generalUnit * 2}px 0`,
@@ -119,10 +119,10 @@ const TermsOfServicePage: React.FC = () => {
 
         <Typography
           component="h2"
-          variant="h3"
+          variant="h2"
           className={clsx(classes.title, classes.padLarge)}
         >
-          <Trans>SUBSCRIPTION TYPES AND PAYMENT TERMS</Trans>
+          <Trans>Subscription Types and Payment Terms</Trans>
         </Typography>
         <Typography
           component="p"
@@ -148,7 +148,7 @@ const TermsOfServicePage: React.FC = () => {
           variant="h3"
           className={clsx(classes.title, classes.padLarge)}
         >
-          <Trans>ACCOUNT TERM AND TERMINATION</Trans>
+          <Trans>Account Term and Termination</Trans>
         </Typography>
         <Typography
           component="p"
@@ -165,7 +165,7 @@ const TermsOfServicePage: React.FC = () => {
           variant="h3"
           className={clsx(classes.title, classes.padLarge)}
         >
-          <Trans>LIMITATION OF LIABILITY</Trans>
+          <Trans>Limitation of Liability</Trans>
         </Typography>
         <Typography
           component="p"
@@ -200,7 +200,7 @@ const TermsOfServicePage: React.FC = () => {
           variant="h3"
           className={clsx(classes.title, classes.padLarge)}
         >
-          <Trans>INDEMNIFICATION</Trans>
+          <Trans>Indemnificaiton</Trans>
         </Typography>
         <Typography
           component="p"
@@ -217,7 +217,7 @@ const TermsOfServicePage: React.FC = () => {
           variant="h3"
           className={clsx(classes.title, classes.padLarge)}
         >
-          <Trans>STORAGE LIMITATIONS</Trans>
+          <Trans>Storage Limitations</Trans>
         </Typography>
         <Typography
           component="p"
@@ -234,7 +234,7 @@ const TermsOfServicePage: React.FC = () => {
           variant="h3"
           className={clsx(classes.title, classes.padLarge)}
         >
-          <Trans>THIRD PARTIES, ADVERTISEMENTS, AND PROMOTIONS</Trans>
+          <Trans>Third parties, Advertisements, Promotions</Trans>
         </Typography>
         <Typography
           component="p"
@@ -251,7 +251,7 @@ const TermsOfServicePage: React.FC = () => {
           variant="h3"
           className={clsx(classes.title, classes.padLarge)}
         >
-          <Trans>MODIFICATIONS TO TERMS OF SERVICE, MEMBER POLICIES</Trans>
+          <Trans>Modifications to Terms of Service, Member Policies</Trans>
         </Typography>
         <Typography
           component="p"
@@ -268,7 +268,7 @@ const TermsOfServicePage: React.FC = () => {
           variant="h3"
           className={clsx(classes.title, classes.padLarge)}
         >
-          <Trans>IP</Trans>
+          <Trans>Intellectual Property</Trans>
         </Typography>
         <Typography
           component="p"

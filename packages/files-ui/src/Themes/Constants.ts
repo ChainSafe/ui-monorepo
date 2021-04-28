@@ -22,6 +22,18 @@ export interface CsfColors extends IConstants {
     footerBg: string
     footerText: string
   }
+  loginModule: {
+    explainerBg: string
+    background: string
+    itemBackground: string
+    iconColor: string
+    textColor: string
+    subText: string
+    flagBg: string
+    flagText: string
+    completeBg: string
+    completeText: string
+  }
   header: {
     rootBackground: string
     optionsBackground: string
@@ -46,6 +58,10 @@ export interface CsfColors extends IConstants {
     itemIconColorHover: string
   }
   createFolder: {
+    backgroundColor: string
+    color: string
+  }
+  actionModal: {
     backgroundColor: string
     color: string
   }
@@ -124,4 +140,18 @@ export interface CsfColors extends IConstants {
   uploadAlert: {
     icon: string
   }
+  settingsPage: {
+    darkSwitch: {
+      backgroundColor: string
+      color: string
+      border?: string
+      borderColor?: string
+    }
+    lightSwitch: {
+      backgroundColor: string
+      color: string
+      border?: string
+      borderColor?: string
+    }
+ }
 }

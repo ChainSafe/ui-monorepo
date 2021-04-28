@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { Button, FacebookLogoIcon, GithubLogoIcon, GoogleLogoIcon, Typography } from "@chainsafe/common-components"
+import { Button, FacebookLogoIcon, GithubLogoIcon, GoogleLogoIcon, Loading, Typography } from "@chainsafe/common-components"
 import { createStyles, makeStyles, useThemeSwitcher } from "@chainsafe/common-theme"
 import { CSFTheme } from "../../../Themes/types"
 import { t, Trans } from "@lingui/macro"
@@ -8,10 +8,29 @@ import { useWeb3 } from "@chainsafe/web3-context"
 import { useThresholdKey } from "../../../Contexts/ThresholdKeyContext"
 import { LOGIN_TYPE } from "@toruslabs/torus-direct-web-sdk"
 import { ROUTE_LINKS } from "../../FilesRoutes"
+import clsx from "clsx"
+import { IdentityProvider } from "@chainsafe/files-api-client"
 
 const useStyles = makeStyles(
-  ({ constants, palette, breakpoints }: CSFTheme) =>
+  ({ constants, palette, breakpoints, typography }: CSFTheme) =>
     createStyles({
+      root: {
+        backgroundColor: constants.loginModule.background,
+        border: `1px solid ${constants.landing.border}`,
+        boxShadow: constants.landing.boxShadow,
+        alignItems: "center",
+        borderRadius: 6,
+        [breakpoints.up("md")]:{
+          minHeight: "64vh",
+          justifyContent: "space-between",
+          width: 440
+        },
+        [breakpoints.down("md")]: {
+          padding: `${constants.generalUnit * 4}px ${constants.generalUnit * 2}px`,
+          justifyContent: "center",
+          width: `calc(100vw - ${constants.generalUnit * 2}px)`
+        }
+      },
       buttonSection: {
         [breakpoints.up("md")]: {
           position: "absolute",
@@ -27,6 +46,7 @@ const useStyles = makeStyles(
       },
       connectingWallet: {
         textAlign: "center",
+        alignItems: "center",
         display: "flex",
         flexDirection: "column",
         "& > *": {
@@ -44,7 +64,11 @@ const useStyles = makeStyles(
       },
       button: {
         width: 240,
+        fontWeight: typography.fontWeight.medium,
         marginBottom: constants.generalUnit * 2,
+        "& .icon" : {
+          fontSize: 25
+        },
         "&:last-child": {
           marginBottom: 0
         }
@@ -81,7 +105,7 @@ const useStyles = makeStyles(
       connectWalletFooter: {
         backgroundColor: constants.landing.background,
         color: constants.landing.footerText,
-        padding: `${constants.generalUnit * 4.375}px ${constants.generalUnit * 11}px`,
+        padding: `${constants.generalUnit * 4.375}px ${constants.generalUnit * 7}px`,
         width: "100%",
         textAlign: "center",
         "& > *": {
@@ -91,21 +115,37 @@ const useStyles = makeStyles(
           // TODO: confirm how to move this around
           display: "none"
         }
+      },
+      loader: {
+        marginTop: constants.generalUnit,
+        padding: 0
+      },
+      buttonLink: {
+        color: palette.additional["gray"][10],
+        outline: "none",
+        textDecoration: "underline",
+        cursor: "pointer",
+        textAlign: "center"
+      },
+      web3Button: {
+        minHeight: 41
       }
     })
 )
 
-const InitialScreen: React.FC = () => {
+interface IInitialScreen {
+  className?: string
+}
+
+const InitialScreen = ({ className }: IInitialScreen) => {
   const { selectWallet, resetAndSelectWallet } = useImployApi()
   const { desktop } = useThemeSwitcher()
   const { wallet } = useWeb3()
-  const { login } = useThresholdKey()
+  const { login, status, resetStatus } = useThresholdKey()
   const classes = useStyles()
   const [loginMode, setLoginMode] = useState<"web3" | LOGIN_TYPE | undefined>()
-
   const [error, setError] = useState<string | undefined>()
   const maintenanceMode = process.env.REACT_APP_MAINTENANCE_MODE === "true"
-
   const [isConnecting, setIsConnecting] = useState(false)
 
   const handleSelectWalletAndConnect = async () => {
@@ -129,9 +169,10 @@ const InitialScreen: React.FC = () => {
   const resetLogin = async () => {
     setError(undefined)
     setLoginMode(undefined)
+    resetStatus()
   }
 
-  const handleLogin = async (loginType: LOGIN_TYPE | "web3") => {
+  const handleLogin = async (loginType: IdentityProvider) => {
     setError("")
     setIsConnecting(true)
     setLoginMode(loginType)
@@ -162,10 +203,33 @@ const InitialScreen: React.FC = () => {
     setIsConnecting(false)
   }
 
+  const Footer = () => (
+    <footer className={classes.connectWalletFooter}>
+      <Typography variant='h5'>
+        <Trans>
+
+          By connecting your wallet, you agree to our <a
+            href={ROUTE_LINKS.Terms}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Terms of Service
+          </a> and <a
+            href={ROUTE_LINKS.PrivacyPolicy}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Privacy Policy
+          </a>
+        </Trans>
+      </Typography>
+    </footer>
+  )
+
   return (
-    <>
+    <div className={clsx(classes.root, className)}>
       {
-        desktop && !isConnecting && !error && (
+        ((desktop && !isConnecting && !error) || (isConnecting && loginMode !== "web3")) && (
           <Typography
             variant="h6"
             component="h1"
@@ -182,58 +246,58 @@ const InitialScreen: React.FC = () => {
           loginMode !== "web3" ? (
             <>
               <section className={classes.buttonSection}>
+                {maintenanceMode && (
+                  <Typography>
+                    <Trans>
+                      The system is undergoing maintenance, thank you for being patient.
+                    </Trans>
+                  </Typography>
+                )}
                 <Button
                   onClick={() => {
                     setLoginMode("web3")
                     handleSelectWalletAndConnect()
                   }}
-                  className={classes.button}
+                  className={clsx(classes.button, classes.web3Button)}
                   variant="primary"
                   size="large"
-                  disabled={maintenanceMode || isConnecting}
+                  disabled={maintenanceMode || isConnecting || status !== "initialized"}
                 >
                   <Trans>Continue with Web3 Wallet</Trans>
                 </Button>
                 <Button
                   className={classes.button}
-                  variant="primary"
                   size="large"
                   onClick={() => handleLogin("github")}
-                  disabled={maintenanceMode || isConnecting}
+                  disabled={maintenanceMode || isConnecting || status !== "initialized"}
                   loading={isConnecting && loginMode === "github"}
+                  variant="secondary"
                 >
-                  <GithubLogoIcon />
+                  <GithubLogoIcon className="icon"/>
                   <Trans>Continue with Github</Trans>
                 </Button>
                 <Button
                   className={classes.button}
-                  variant="primary"
                   size="large"
                   onClick={() => handleLogin("google")}
-                  disabled={maintenanceMode || isConnecting}
+                  disabled={maintenanceMode || isConnecting || status !== "initialized"}
                   loading={isConnecting && loginMode === "google"}
+                  variant="secondary"
                 >
-                  <GoogleLogoIcon />
+                  <GoogleLogoIcon className="icon"/>
                   <Trans>Continue with Google</Trans>
                 </Button>
                 <Button
                   className={classes.button}
                   size="large"
-                  variant="primary"
                   onClick={() => handleLogin("facebook")}
-                  disabled={maintenanceMode || isConnecting}
+                  disabled={maintenanceMode || isConnecting || status !== "initialized"}
                   loading={isConnecting && loginMode === "facebook"}
+                  variant="secondary"
                 >
-                  <FacebookLogoIcon />
+                  <FacebookLogoIcon className="icon"/>
                   <Trans>Continue with Facebook</Trans>
                 </Button>
-                {maintenanceMode && (
-                  <Typography>
-                    <Trans>
-                      We`&apos;`re undergoing maintenance, thank you for being patient
-                    </Trans>
-                  </Typography>
-                )}
               </section>
               <footer className={classes.footer}>
                 <a
@@ -266,15 +330,13 @@ const InitialScreen: React.FC = () => {
                 <>
                   <section className={classes.buttonSection}>
                     <Button
-                      onClick={() => {
-                        handleLogin("web3")
-                      }}
+                      onClick={() => {handleLogin("web3")}}
                       className={classes.button}
                       variant="primary"
                       size="large"
                       disabled={maintenanceMode}
                     >
-                      <Trans>Continue with {wallet.name}</Trans>
+                      <Trans>Sign-in with {wallet.name}</Trans>
                     </Button>
                     <Button
                       onClick={handleResetAndSelectWallet}
@@ -285,24 +347,59 @@ const InitialScreen: React.FC = () => {
                     >
                       <Trans>Connect a new wallet</Trans>
                     </Button>
+                    <div
+                      className={classes.buttonLink}
+                      onClick={resetLogin}
+                    >
+                      <Typography><Trans>Go back</Trans></Typography>
+                    </div>
                   </section>
-                  <footer className={classes.connectWalletFooter}>
-                    <Typography variant='h5'>
-                      <Trans>By connecting your wallet, you agree to our terms and privacy policy.</Trans>
-                    </Typography>
-                  </footer>
+                  <Footer/>
                 </>
               ) : (
                 <>
                   <section className={classes.connectingWallet}>
                     <Typography variant='h2'><Trans>Connect Wallet to Files</Trans></Typography>
-                    <Typography variant='h5'>
-                      <Trans>You will need to sign a message in your wallet to complete sign in.</Trans>
-                    </Typography>
+                    {status === "awaiting confirmation" &&
+                      <Typography variant='h5'>
+                        <Trans>You will need to sign a message in your wallet to complete sign in.</Trans>
+                      </Typography>}
+                    {status === "logging in" && <>
+                      <Typography variant='h5'>
+                        <Trans>Hold on, we are logging you in...</Trans>
+                      </Typography>
+                      <Loading
+                        className={classes.loader}
+                        size={50}
+                        type='inherit'
+                      />
+                    </>}
                   </section>
                 </>
               )
-              : null
+              : <>
+                <section className={classes.buttonSection}>
+                  <Button
+                    onClick={handleResetAndSelectWallet}
+                    className={classes.button}
+                    variant="primary"
+                    size="large"
+                    disabled={maintenanceMode}
+                  >
+                    <Trans>Select a wallet</Trans>
+                  </Button>
+                  <Button
+                    onClick={() => setLoginMode(undefined)}
+                    className={classes.button}
+                    variant="primary"
+                    size="large"
+                    disabled={maintenanceMode}
+                  >
+                    <Trans>Use a different login method</Trans>
+                  </Button>
+                </section>
+                <Footer/>
+              </>
           ) : (
             <>
               <section className={classes.connectingWallet}>
@@ -310,14 +407,17 @@ const InitialScreen: React.FC = () => {
                 <Typography variant='h5'>
                   {error}
                 </Typography>
-                <Button onClick={resetLogin}>
+                <Button
+                  variant="primary"
+                  onClick={resetLogin}
+                >
                   <Trans>Try again</Trans>
                 </Button>
               </section>
             </>
           )
       }
-    </>
+    </div>
   )
 }
 

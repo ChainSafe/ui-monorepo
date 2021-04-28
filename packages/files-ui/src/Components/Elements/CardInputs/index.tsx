@@ -89,7 +89,10 @@ const CardInputs = (props: ICardInputsProps) => {
         placeholder="CVC"
       />
       {error && (
-        <Typography variant="body2" className={classes.error}>
+        <Typography
+          variant="body2"
+          className={classes.error}
+        >
           {error}
         </Typography>
       )}

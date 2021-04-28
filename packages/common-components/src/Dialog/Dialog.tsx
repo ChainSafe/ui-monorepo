@@ -72,7 +72,11 @@ const Dialog: React.FC<IDialogProps> = ({
       maxWidth={maxWidth}
       {...rest}
     >
-      <Typography className={classes.message} variant="h5" component="p">
+      <Typography
+        className={classes.message}
+        variant="h5"
+        component="p"
+      >
         {requestMessage}
       </Typography>
       <section className={classes.buttons}>

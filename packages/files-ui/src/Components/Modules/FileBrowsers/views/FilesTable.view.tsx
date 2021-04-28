@@ -1,9 +1,5 @@
-import {
-  createStyles,
-  makeStyles,
-  useThemeSwitcher
-} from "@chainsafe/common-theme"
-import React, { Fragment, useCallback, useEffect } from "react"
+import { createStyles, makeStyles, useThemeSwitcher } from "@chainsafe/common-theme"
+import React, { useCallback, useEffect } from "react"
 import {
   Divider,
   MenuDropdown,
@@ -33,11 +29,7 @@ import clsx from "clsx"
 import { t, Trans } from "@lingui/macro"
 import { NativeTypes } from "react-dnd-html5-backend"
 import { useDrop } from "react-dnd"
-import {
-  FileOperation,
-  IFileConfigured,
-  IFilesTableBrowserProps
-} from "../types"
+import { FileOperation, IFilesTableBrowserProps } from "../types"
 import { FileSystemItem } from "../../../../Contexts/DriveContext"
 import FileSystemItemRow from "./FileSystemItemRow"
 import FilePreviewModal from "../../FilePreviewModal"
@@ -49,6 +41,8 @@ import MoveFileModule from "../MoveFileModal"
 import FileInfoModal from "../FileInfoModal"
 import { CONTENT_TYPES } from "../../../../Utils/Constants"
 import { CSFTheme } from "../../../../Themes/types"
+import MimeMatcher from "../../../../Utils/MimeMatcher"
+import { useLanguageContext } from "../../../../Contexts/LanguageContext"
 
 interface IStyleProps {
   themeKey: string
@@ -56,8 +50,7 @@ interface IStyleProps {
 
 const useStyles = makeStyles(
   ({ animation, breakpoints, constants, palette, zIndex }: CSFTheme) => {
-    // const desktopGridSettings = "50px 69px 3fr 190px 100px 45px !important"
-    const desktopGridSettings = "50px 69px 3fr 190px 60px !important"
+    const desktopGridSettings = "50px 69px 3fr 190px 100px 45px !important"
     const mobileGridSettings = "69px 3fr 45px !important"
     return createStyles({
       root: {
@@ -120,7 +113,6 @@ const useStyles = makeStyles(
         alignItems: "center",
         marginTop: "25vh",
         color: constants.filesTable.color,
-        // themeKey === "dark" ? palette.additional.gray[7] : "",
         "& svg": {
           maxWidth: 180,
           marginBottom: constants.generalUnit * 3,
@@ -239,12 +231,19 @@ const useStyles = makeStyles(
         "& > *": {
           marginRight: constants.generalUnit
         }
+      },
+      confirmDeletionDialog: {
+        top: "50%"
       }
     })
   }
 )
 
-const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
+// Sorting
+const sortFoldersFirst = (a: FileSystemItem, b: FileSystemItem) =>
+  a.isFolder && a.content_type !== b.content_type ? -1 : 1
+
+const FilesTableView = ({
   heading,
   controls = true,
   sourceFiles,
@@ -254,104 +253,71 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
   crumbs,
   handleRename,
   handleMove,
-  bulkMoveFileToTrash,
   downloadFile,
-  deleteFile,
+  deleteFiles,
   recoverFile,
   viewFolder,
   currentPath,
   loadingCurrentPath,
   uploadsInProgress,
   showUploadsInTable,
-  allowDropUpload
+  allowDropUpload,
+  itemOperations,
+  getPath,
+  isSearch
 }: IFilesTableBrowserProps) => {
   const { themeKey, desktop } = useThemeSwitcher()
-  const classes = useStyles({
-    themeKey
-  })
-
+  const classes = useStyles({ themeKey })
   const [editing, setEditing] = useState<string | undefined>()
   const [direction, setDirection] = useState<SortDirection>("descend")
-  const [column, setColumn] = useState<"name" | "size" | "date_uploaded">(
-    "name"
-  )
-  const [selected, setSelected] = useState<string[]>([])
+  const [column, setColumn] = useState<"name" | "size" | "date_uploaded">("name")
+  const [selectedCids, setSelectedCids] = useState<string[]>([])
+  const [previewFileIndex, setPreviewFileIndex] = useState<number | undefined>()
+  const { selectedLocale } = useLanguageContext()
+  const items: FileSystemItem[] = useMemo(() => {
+    let temp = []
 
-  const [previewFileIndex, setPreviewFileIndex] = useState<number | undefined>(
-    undefined
-  )
-
-  // Sorting
-  const sortFoldersFirst = (a: FileSystemItem, b: FileSystemItem) =>
-    a.isFolder && a.content_type !== b.content_type ? -1 : 1
-
-  const items: IFileConfigured[] = useMemo(() => {
-    if (!sourceFiles) return []
-
-    switch (direction) {
+    switch (column) {
     default: {
-      // case "descend": {
       // case "name": {
-      return sourceFiles
-        .sort((a: IFileConfigured, b: IFileConfigured) =>
-          a.name > b.name ? -1 : 1
+      temp = sourceFiles
+        .sort((a, b) => {
+          return a.name.localeCompare(b.name, selectedLocale, {
+            sensitivity: "base"
+          })
+        }
+        )
+      break
+    }
+    case "size": {
+      temp =  sourceFiles
+        .sort((a, b) =>
+          a.size < b.size ? -1 : 1
         )
         .sort(sortFoldersFirst)
+      break
     }
-    case "descend": {
-      switch (column) {
-      default: {
-        // case "name": {
-        return sourceFiles
-          .sort((a: IFileConfigured, b: IFileConfigured) =>
-            a.name > b.name ? -1 : 1
-          )
-          .sort(sortFoldersFirst)
-      }
-      case "size": {
-        return sourceFiles
-          .sort((a: FileSystemItem, b: FileSystemItem) =>
-            a.size > b.size ? -1 : 1
-          )
-          .sort(sortFoldersFirst)
-      }
-          // case "date_uploaded": {
-          //   return sourceFiles
-          //     .sort((a: IFileConfigured, b: IFileConfigured) =>
-          //       a.date_uploaded > b.date_uploaded ? -1 : 1,
-          //     )
-          //     .sort(sortFoldersFirst)
-          // }
-      }
-    }
-    case "ascend": {
-      switch (column) {
-      default: {
-        // case "name": {
-        return sourceFiles
-          .sort((a: IFileConfigured, b: IFileConfigured) =>
-            a.name < b.name ? -1 : 1
-          )
-          .sort(sortFoldersFirst)
-      }
-      case "size": {
-        return sourceFiles
-          .sort((a: IFileConfigured, b: IFileConfigured) =>
-            a.size < b.size ? -1 : 1
-          )
-          .sort(sortFoldersFirst)
-      }
-          // case "date_uploaded": {
-          //   return sourceFiles
-          //     .sort((a: IFileConfigured, b: IFileConfigured) =>
-          //       a.date_uploaded < b.date_uploaded ? -1 : 1,
-          //     )
-          //     .sort(sortFoldersFirst)
-          // }
-      }
+    case "date_uploaded": {
+      temp =  sourceFiles
+        .sort((a, b) =>
+          a.created_at < b.created_at ? -1 : 1
+        )
+        .sort(sortFoldersFirst)
+      break
     }
     }
-  }, [sourceFiles, direction, column])
+    return direction === "descend" ? temp.reverse().sort(sortFoldersFirst) : temp.sort(sortFoldersFirst)
+  }, [sourceFiles, direction, column, selectedLocale])
+
+  const files = useMemo(
+    () => items.filter((i) => !i.isFolder)
+    , [items]
+  )
+
+  const selectedFiles = useMemo(
+    () => files.filter((file) => selectedCids.includes(file.cid))
+    , [files, selectedCids]
+  )
 
   const handleSortToggle = (
     targetColumn: "name" | "size" | "date_uploaded"
@@ -367,10 +333,6 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
       }
     }
   }
-
-  const files = useMemo(() => {
-    return items.filter((i) => !i.isFolder)
-  }, [items])
 
   // Previews
   const setNextPreview = () => {
@@ -395,23 +357,23 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
 
   // Selection logic
   const handleSelect = useCallback((cid: string) => {
-    if (selected.includes(cid)) {
-      setSelected(selected.filter((selectedCid: string) => selectedCid !== cid))
+    if (selectedCids.includes(cid)) {
+      setSelectedCids(selectedCids.filter((selectedCid: string) => selectedCid !== cid))
     } else {
-      setSelected([...selected, cid])
+      setSelectedCids([...selectedCids, cid])
     }
-  }, [selected])
+  }, [selectedCids])
 
   const toggleAll = () => {
-    if (selected.length === items.length) {
-      setSelected([])
+    if (selectedCids.length === items.length) {
+      setSelectedCids([])
     } else {
-      setSelected([...items.map((file: IFileConfigured) => file.cid)])
+      setSelectedCids([...items.map((file: FileSystemItem) => file.cid)])
     }
   }
 
   const invalidFilenameRegex = new RegExp("/")
-  const RenameSchema = object().shape({
+  const renameSchema = object().shape({
     fileName: string()
       .min(1, "Please enter a file name")
       .max(65, "File name length exceeded")
@@ -442,11 +404,10 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
 
   // Modals
   const [createFolderModalOpen, setCreateFolderModalOpen] = useState(false)
-  const [uploadModalOpen, setUploadModalOpen] = useState(false)
-  const [moveFileData, setMoveFileData] = useState<
-    { modal: boolean; fileData: FileSystemItem | FileSystemItem[] } | undefined
-  >(undefined)
-  const [deleteDialogOpen, setDeleteDialog] = useState<() => void | undefined>()
+  const [isUploadModalOpen, setIsUploadModalOpen] = useState(false)
+  const [isMoveFileModalOpen, setIsMoveFileModalOpen] = useState(false)
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
+  const [isDeletingFiles, setIsDeletingFiles] = useState(false)
   const [fileInfoPath, setFileInfoPath] = useState<string | undefined>(
     undefined
   )
@@ -464,8 +425,8 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
         "rename",
         "share"
       ]
-      for (let i = 0; i < selected.length; i++) {
-        const contentType = items.find((item) => item.cid === selected[i])
+      for (let i = 0; i < selectedCids.length; i++) {
+        const contentType = items.find((item) => item.cid === selectedCids[i])
           ?.content_type
 
         if (contentType) {
@@ -506,26 +467,51 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
       }
       setValidBulkOps(filteredList)
     }
-  }, [selected, items, bulkOperations])
+  }, [selectedCids, items, bulkOperations])
 
-  const handleBulkMoveToTrash = useCallback(async () => {
-    if (bulkMoveFileToTrash) {
-      await bulkMoveFileToTrash(selected)
-      setSelected([])
-    }
-  }, [selected, bulkMoveFileToTrash, setSelected])
+  const handleDeleteFiles = useCallback(() => {
+    if(!deleteFiles) return
+
+    setIsDeletingFiles(true)
+    deleteFiles(selectedCids)
+      .catch(console.error)
+      .finally(() => {
+        setIsDeletingFiles(false)
+        setSelectedCids([])
+        setIsDeleteModalOpen(false)
+      })
+  }, [deleteFiles, selectedCids])
+
+  const getItemOperations =  useCallback((contentType: string) => {
+    const result = Object.keys(itemOperations).reduce((acc: FileOperation[], item: string) => {
+      const matcher = new MimeMatcher(item)
+      // Prevent Files options from being added to Directory options  
+      if (!(contentType === CONTENT_TYPES.Directory && item === CONTENT_TYPES.File) && matcher.match(contentType)) {
+        acc.push(...itemOperations[item])
+      }
+      return acc
+    }, [])
+    return [...new Set(result)]
+  }, [itemOperations])
+
+  const resetSelectedCids = useCallback(() => {
+    setSelectedCids([])
+  }, [])
 
   return (
     <article
       className={clsx(classes.root, {
         droppable: isOverUploadable && allowDropUpload
       })}
-      ref={!uploadModalOpen && allowDropUpload ? dropBrowserRef : null}
+      ref={!isUploadModalOpen && allowDropUpload ? dropBrowserRef : null}
     >
       <div
         className={clsx(classes.dropNotification, { active: isOverBrowser })}
       >
-        <Typography variant="h4" component="p">
+        <Typography
+          variant="h4"
+          component="p"
+        >
           <Trans>Drop to upload files</Trans>
         </Typography>
       </div>
@@ -539,12 +525,15 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
         ) : null}
       </div>
       <header className={classes.header}>
-        <Typography variant="h1" component="h1">
+        <Typography
+          variant="h1"
+          component="h1"
+        >
           {heading}
         </Typography>
         <div className={classes.controls}>
           {controls && desktop ? (
-            <Fragment>
+            <>
               <Button
                 onClick={() => setCreateFolderModalOpen(true)}
                 variant="outline"
@@ -556,7 +545,7 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
                 </span>
               </Button>
               <Button
-                onClick={() => setUploadModalOpen(true)}
+                onClick={() => setIsUploadModalOpen(true)}
                 variant="outline"
                 size="large"
               >
@@ -565,7 +554,7 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
                   <Trans>Upload</Trans>
                 </span>
               </Button>
-            </Fragment>
+            </>
           ) : (
             controls &&
             !desktop && (
@@ -598,7 +587,7 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
                   {
                     contents: (
                       <Button
-                        onClick={() => setUploadModalOpen(true)}
+                        onClick={() => setIsUploadModalOpen(true)}
                         variant="primary"
                         fullsize
                         className={classes.mobileButton}
@@ -617,23 +606,21 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
         </div>
       </header>
       <Divider className={classes.divider} />
-      {selected.length > 0 && validBulkOps.length > 0 && (
+      {selectedCids.length > 0 && validBulkOps.length > 0 && (
         <section className={classes.bulkOperations}>
           {validBulkOps.indexOf("move") >= 0 && (
             <Button
-              onClick={() =>
-                setMoveFileData({
-                  modal: true,
-                  fileData: files.filter((file) => selected.includes(file.cid))
-                })
-              }
+              onClick={() => setIsMoveFileModalOpen(true)}
               variant="outline"
             >
               <Trans>Move selected</Trans>
             </Button>
           )}
           {validBulkOps.indexOf("delete") >= 0 && (
-            <Button onClick={handleBulkMoveToTrash} variant="outline">
+            <Button
+              onClick={() => {setIsDeleteModalOpen(true)}}
+              variant="outline"
+            >
               <Trans>Delete selected</Trans>
             </Button>
           )}
@@ -645,8 +632,14 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
           loadingCurrentPath && classes.showLoadingContainer
         )}
       >
-        <Loading size={24} type="light" />
-        <Typography variant="body2" component="p">
+        <Loading
+          size={24}
+          type="light"
+        />
+        <Typography
+          variant="body2"
+          component="p"
+        >
           <Trans>One sec, getting files ready...</Trans>
         </Typography>
       </div>
@@ -659,7 +652,10 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
             )}
           >
             <EmptySvg />
-            <Typography variant="h4" component="h4">
+            <Typography
+              variant="h4"
+              component="h4"
+            >
               <Trans>No files to show</Trans>
             </Typography>
           </section>
@@ -672,11 +668,13 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
           >
             {desktop && (
               <TableHead className={classes.tableHead}>
-                <TableRow type="grid" className={classes.tableRow}>
+                <TableRow
+                  type="grid"
+                  className={classes.tableRow}
+                >
                   <TableHeadCell>
                     <CheckboxInput
-                      value={selected.length === items.length}
-                      disabled
+                      value={selectedCids.length === items.length}
                       onChange={() => toggleAll()}
                     />
                   </TableHeadCell>
@@ -694,17 +692,17 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
                   >
                     <Trans>Name</Trans>
                   </TableHeadCell>
-                  {/* <TableHeadCell
-                  sortButtons={true}
-                  align="left"
-                  onSortChange={() => handleSortToggle("date_uploaded")}
-                  sortDirection={
-                    column === "date_uploaded" ? direction : undefined
-                  }
-                  sortActive={column === "date_uploaded"}
-                >
-                  <Trans>Date uploaded</Trans>
-                </TableHeadCell> */}
+                  <TableHeadCell
+                    sortButtons={true}
+                    align="left"
+                    onSortChange={() => handleSortToggle("date_uploaded")}
+                    sortDirection={
+                      column === "date_uploaded" ? direction : undefined
+                    }
+                    sortActive={column === "date_uploaded"}
+                  >
+                    <Trans>Date uploaded</Trans>
+                  </TableHeadCell>
                   <TableHeadCell
                     sortButtons={true}
                     align="left"
@@ -743,13 +741,13 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
                     </TableCell>
                     <TableCell align="left">
                       {uploadInProgress.noOfFiles > 1
-                        ? `Uploading ${uploadInProgress.noOfFiles} files`
+                        ? t`Uploading ${uploadInProgress.noOfFiles} files`
                         : uploadInProgress.fileName}
                     </TableCell>
                     <TableCell />
                   </TableRow>
                 ))}
-              {items.map((file: IFileConfigured, index: number) => (
+              {items.map((file, index) => (
                 <FileSystemItemRow
                   key={index}
                   index={index}
@@ -757,29 +755,32 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
                   files={files}
                   currentPath={currentPath}
                   updateCurrentPath={updateCurrentPath}
-                  selected={selected}
+                  selected={selectedCids}
                   handleSelect={handleSelect}
                   editing={editing}
                   setEditing={setEditing}
-                  RenameSchema={RenameSchema}
+                  renameSchema={renameSchema}
                   handleRename={async (path: string, newPath: string) => {
                     handleRename && (await handleRename(path, newPath))
                     setEditing(undefined)
                   }}
                   handleMove={handleMove}
-                  deleteFile={(cid: string) =>
-                    setDeleteDialog(() => () => {
-                      deleteFile && deleteFile(cid)
-                      setDeleteDialog(undefined)
-                    })
-                  }
+                  deleteFile={() => {
+                    setSelectedCids([file.cid])
+                    setIsDeleteModalOpen(true)
+                  }}
                   recoverFile={recoverFile}
                   downloadFile={downloadFile}
                   viewFolder={viewFolder}
                   handleUploadOnDrop={handleUploadOnDrop}
                   setPreviewFileIndex={setPreviewFileIndex}
-                  setMoveFileData={setMoveFileData}
+                  moveFile={() => {
+                    setSelectedCids([file.cid])
+                    setIsMoveFileModalOpen(true)
+                  }}
                   setFileInfoPath={setFileInfoPath}
+                  itemOperations={getItemOperations(file.content_type)}
+                  resetSelectedFiles={resetSelectedCids}
                 />
               ))}
             </TableBody>
@@ -793,15 +794,19 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
             previewFileIndex < files.length - 1 ? setNextPreview : undefined
           }
           previousFile={previewFileIndex > 0 ? setPreviousPreview : undefined}
+          path={isSearch && getPath ? getPath(files[previewFileIndex].cid) : undefined}
         />
       )}
       <Dialog
-        active={deleteDialogOpen !== undefined}
-        reject={() => setDeleteDialog(undefined)}
-        accept={() => deleteDialogOpen && deleteDialogOpen()}
-        requestMessage={t`Are you sure you wish to delete?`}
+        active={isDeleteModalOpen}
+        reject={() => setIsDeleteModalOpen(false)}
+        accept={handleDeleteFiles}
+        requestMessage={t`You are about to delete ${selectedCids.length} file(s).`}
         rejectText = {t`Cancel`}
         acceptText = {t`Confirm`}
+        acceptButtonProps={{ loading: isDeletingFiles, disabled: isDeletingFiles }}
+        rejectButtonProps={{ disabled: isDeletingFiles }}
+        injectedClass={{ inner: classes.confirmDeletionDialog }}
       />
       <UploadProgressModals />
       <DownloadProgressModals />
@@ -810,17 +815,18 @@ const FilesTableView: React.FC<IFilesTableBrowserProps> = ({
         close={() => setCreateFolderModalOpen(false)}
       />
       <UploadFileModule
-        modalOpen={uploadModalOpen}
-        close={() => setUploadModalOpen(false)}
+        modalOpen={isUploadModalOpen}
+        close={() => setIsUploadModalOpen(false)}
       />
       <MoveFileModule
         currentPath={currentPath}
-        fileData={moveFileData?.fileData}
-        modalOpen={moveFileData ? moveFileData.modal : false}
-        close={() => {
-          setMoveFileData(undefined)
-          setSelected([])
+        filesToMove={selectedFiles}
+        modalOpen={isMoveFileModalOpen}
+        onClose={() => {
+          setIsMoveFileModalOpen(false)
+          setSelectedCids([])
         }}
+        onCancel={() => setIsMoveFileModalOpen(false)}
       />
       <FileInfoModal
         fileInfoPath={fileInfoPath}

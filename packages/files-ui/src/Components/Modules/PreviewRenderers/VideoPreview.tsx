@@ -24,7 +24,11 @@ const VideoPreview: React.FC<IPreviewRendererProps> = ({ contents }) => {
   }, [contents])
 
   return (
-    <video className={classes.root} src={videoUrl} controls autoPlay></video>
+    <video
+      className={classes.root}
+      src={videoUrl}
+      controls
+      autoPlay/>
   )
 }
 

@@ -1,65 +1,87 @@
-import { createStyles, ITheme, makeStyles } from "@chainsafe/common-theme"
-import React from "react"
+import { createStyles, makeStyles } from "@chainsafe/common-theme"
+import React, { useState, useCallback, SyntheticEvent } from "react"
 import {
   Button,
-  FormikTextInput,
+  TextInput,
   Typography
 } from "@chainsafe/common-components"
 import clsx from "clsx"
-import { Form, Formik } from "formik"
-import * as yup from "yup"
 import { useDrive } from "../../../Contexts/DriveContext"
-import { useImployApi, useUser } from "@chainsafe/common-contexts"
+import { useImployApi } from "@chainsafe/common-contexts"
 import { useThresholdKey } from "../../../Contexts/ThresholdKeyContext"
+import ConciseExplainer from "./ConciseExplainer"
+import { CSFTheme } from "../../../Themes/types"
+import { t, Trans } from "@lingui/macro"
+import Complete from "./Complete"
 
 const useStyles = makeStyles(
-  ({ constants, breakpoints, palette, typography }: ITheme) =>
+  ({ constants, breakpoints, palette, typography }: CSFTheme) =>
     createStyles({
       root: {
-        maxWidth: 320,
-        "& h2": {
-          textAlign: "center",
-          marginBottom: constants.generalUnit * 4.125,
-          [breakpoints.down("md")]: {
-            color: palette.common.white.main
-          }
+        padding: `0 ${constants.generalUnit * 15.5}px`,
+        width: "100vw",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "space-between",
+        [breakpoints.up("md")]: {
+          maxWidth: 580
+        },
+        [breakpoints.down("md")]: {
+          padding: `0 ${constants.generalUnit * 3}px`
         }
       },
-      input: {
-        width: "100%",
-        margin: 0,
-        marginBottom: constants.generalUnit * 1.5,
-        "& span": {
-          [breakpoints.down("md")]: {
-            color: palette.common.white.main
-          }
+      headerText: {
+        textAlign: "center",
+        [breakpoints.up("md")]: {
+          paddingTop: constants.generalUnit * 6.625,
+          paddingBottom: constants.generalUnit * 3
+        },
+        [breakpoints.down("md")]: {
+          paddingTop: constants.generalUnit * 3,
+          textAlign: "center"
         }
+      },
+      form: {
+        width: "100%"
+      },
+      text: {
+        ...typography.h5,
+        fontWeight: typography.fontWeight.regular,
+        paddingBottom: constants.generalUnit * 3
+      },
+      textInput:{
+        width: "100%",
+        margin: 0
+      },
+      belowInput: {
+        margin: "auto",
+        marginTop: constants.generalUnit * 4
       },
       inputLabel: {
-        fontSize: "16px",
-        lineHeight: "24px",
+        ...typography.h5,
+        fontWeight: typography.fontWeight.regular,
         color: palette.additional["gray"][8],
         marginBottom: constants.generalUnit
       },
+      error: {
+        display: "inline-block",
+        padding: `${constants.generalUnit * 4}px 0`
+      },
       button: {
-        marginTop: constants.generalUnit * 3
+        width: "100%",
+        marginTop: constants.generalUnit * 4
       },
-      userContainer: {
-        marginTop: constants.generalUnit * 4,
-        [breakpoints.down("md")]: {
-          color: palette.common.white.main
-        }
+      footer: {
+        textAlign: "center",
+        marginTop: constants.generalUnit * 2,
+        padding: `${constants.generalUnit * 2.5}px ${constants.generalUnit * 1.5}px`,
+        width: "100%"
       },
-      logoutButton: {
-        padding: 0,
+      buttonLink: {
+        color: palette.additional["gray"][10],
+        outline: "none",
         textDecoration: "underline",
-        border: "none",
-        cursor: "pointer",
-        backgroundColor: "transparent",
-        ...typography.body1,
-        [breakpoints.down("md")]: {
-          color: palette.common.white.main
-        }
+        cursor: "pointer"
       }
     })
 )
@@ -72,78 +94,113 @@ const MigrateAccount: React.FC<IMigrateAccount> = ({
   className
 }: IMigrateAccount) => {
   const classes = useStyles()
-  const { validateMasterPassword, logout } = useImployApi()
+  const { validateMasterPassword } = useImployApi()
   const { secureAccountWithMasterPassword } = useDrive()
-  const { addPasswordShare } = useThresholdKey()
-  const { getProfileTitle } = useUser()
+  const { addPasswordShare, logout } = useThresholdKey()
+  const [migrateState, setMigrateState] = useState<"migrate"|"explainer"|"complete">("migrate")
+  const [masterPassword, setMasterPassword] = useState("")
+  const [error, setError] = useState("")
+  const [isLoading, setIsLoading] = useState(false)
 
-  const handleSecureAccountWithMasterPassword = async (password: string) => {
-    if (!password || !validateMasterPassword(password)) return
+  const onPasswordChange = useCallback((password: string | number | undefined) => {
+    setError("")
+    setMasterPassword(password?.toString() || "")
+  }, [])
 
-    await addPasswordShare(password)
-    await secureAccountWithMasterPassword(password)
+  const handleSecureAccountWithMasterPassword = async (e: SyntheticEvent) => {
+    e.preventDefault()
+
+    if (!masterPassword) return
+    setIsLoading(true)
+    try {
+      const isMasterPasswordValid = await validateMasterPassword(masterPassword)
+      if (!isMasterPasswordValid) {
+        setIsLoading(false)
+        setError(t`Password does not match user account, please double-check and try again.`)
+        return
+      }
+      await addPasswordShare(masterPassword)
+      await secureAccountWithMasterPassword(masterPassword)
+      setMigrateState("explainer")
+      setIsLoading(false)
+    } catch (err) {
+      console.error(err)
+      setError(t`Failed to migrate account, please try again.`)
+      setIsLoading(false)
+    }
   }
 
-  const masterKeyValidation = yup.object().shape({
-    masterKey: yup
-      .string()
-      .test(
-        "Key valid",
-        "Encryption password is invalid",
-        async (value: string | null | undefined | object) => {
-          try {
-            return await validateMasterPassword(`${value}`)
-          } catch (error) {
-            return false
-          }
-        }
-      )
-      .required("Please provide an encryption password")
-  })
-
+  const onLogout = () => {
+    logout()
+  }
 
   return (
-    <section className={clsx(classes.root, className)}>
-      <Formik
-        initialValues={{
-          masterKey: ""
-        }}
-        validateOnBlur={false}
-        validationSchema={masterKeyValidation}
-        onSubmit={async (values, helpers) => {
-          helpers.setSubmitting(true)
-          handleSecureAccountWithMasterPassword(values.masterKey)
-          helpers.setSubmitting(false)
-        }}
-      >
-        <Form className={classes.root}>
-          <Typography variant="h2" component="h2">
-            Encryption Password
+    (migrateState === "migrate") ?
+      <section className={clsx(classes.root, className)}>
+        <form
+          onSubmit={handleSecureAccountWithMasterPassword}
+          className={classes.form}
+        >
+          <Typography
+            variant="h6"
+            component="h6"
+            className={classes.headerText}
+          >
+            <Trans>Hello again!</Trans>
           </Typography>
-          <FormikTextInput
-            className={classes.input}
+          <Typography
+            variant="h5"
+            component="h5"
+            className={classes.text}
+          >
+            <Trans>
+              We’ve got a new authentication system in place. All you need to do is enter
+              your password again to migrate your credentials over to the new system.
+            </Trans>
+          </Typography>
+          <Typography>
+            <Trans>Password</Trans>
+          </Typography>
+          <TextInput
+            className={classes.textInput}
+            value={masterPassword}
+            onChange={onPasswordChange}
             type="password"
-            name="masterKey"
-            label="Enter encryption password:"
-            labelClassName={classes.inputLabel}
           />
-          <Button className={classes.button} fullsize type="submit">
-            Continue
+          <Button
+            variant="primary"
+            onClick={handleSecureAccountWithMasterPassword}
+            className={clsx(classes.button, classes.belowInput)}
+            size="large"
+            loading={isLoading}
+            disabled={!!error || isLoading}
+            type="submit"
+          >
+            <Trans>Continue</Trans>
           </Button>
-        </Form>
-      </Formik>
-      <div className={classes.userContainer}>
-        <Typography>Signed in as:</Typography>
-        <br />
-        <Typography>
-          <b>{getProfileTitle()}</b>
-        </Typography>
-        <br />
-        <button className={classes.logoutButton} onClick={logout}>
-          Log out
-        </button>
-      </div>
-    </section>
+          <Typography className={classes.error}>
+            {error}
+          </Typography>
+        </form>
+        <footer className={classes.footer}>
+          <div
+            className={classes.buttonLink}
+            onClick={onLogout}
+          >
+            <Typography>
+              <Trans>
+                Sign in with a different account
+              </Trans>
+            </Typography>
+          </div>
+        </footer>
+      </section> :
+      (migrateState === "explainer") ?
+        <ConciseExplainer
+          className={className}
+          onContinue={() => setMigrateState("complete")}
+        /> :
+        <Complete className={className} />
   )
 }
 

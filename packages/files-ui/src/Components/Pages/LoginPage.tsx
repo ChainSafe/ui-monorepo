@@ -1,25 +1,21 @@
 import React from "react"
-import {
-  makeStyles,
-  createStyles,
-  useThemeSwitcher
-} from "@chainsafe/common-theme"
+import { makeStyles, createStyles, useThemeSwitcher } from "@chainsafe/common-theme"
 import { useThresholdKey } from "../../Contexts/ThresholdKeyContext"
-import InitializeAccount from "../Modules/LoginModule/InitializeAccount"
 import SaveNewDevice from "../Modules/LoginModule/SaveNewDevice"
 import MissingShares from "../Modules/LoginModule/MissingShares"
 import { CSFTheme } from "../../Themes/types"
-import MigrateAccount from "../Modules/LoginModule/MigrateAccount"
 import InitialScreen from "../Modules/LoginModule/InitialScreen"
-import { ChainsafeFilesLogo, Typography } from "@chainsafe/common-components"
+import { ChainsafeFilesLogo, ChainsafeLogo, Typography } from "@chainsafe/common-components"
 import { ROUTE_LINKS } from "../FilesRoutes"
 import { Trans } from "@lingui/macro"
 import BottomDarkSVG from "../../Media/landing/layers/dark/Bottom.dark.svg"
 import TopDarkSVG from "../../Media/landing/layers/dark/Top.dark.svg"
 import BottomLightSVG from "../../Media/landing/layers/light/Bottom.light.svg"
 import TopLightSVG from "../../Media/landing/layers/light/Top.light.svg"
-import { ForegroundSVG } from "../../Media/landing/layers/ForegroundSVG"
+// import { ForegroundSVG } from "../../Media/landing/layers/ForegroundSVG"
 import { useImployApi } from "@chainsafe/common-contexts"
+import MigrateAccount from "../Modules/LoginModule/MigrateAccount"
+import InitializeAccount from "../Modules/LoginModule/InitializeAccount"
 
 const useStyles = makeStyles(
   ({ constants, breakpoints, typography, zIndex }: CSFTheme) =>
@@ -72,13 +68,11 @@ const useStyles = makeStyles(
         }
       },
       title: {
-        position: "absolute",
-        top: constants.generalUnit * 5.25,
-        left: "50%",
-        transform: "translate(-50%, 0)",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        marginTop: "2rem",
         fontWeight: typography.fontWeight.regular,
-        textAlign: "center",
-        width: "100%",
         [breakpoints.up("md")]:{
           ...typography.h2
         },
@@ -105,55 +99,60 @@ const useStyles = makeStyles(
       inner: {
         display: "flex",
         flexDirection: "column",
-        alignItems: "center",
         flex: "1 1 0",
         position: "absolute",
         top: "50%",
         left: "50%",
         transform: "translate(-50%, -50%)",
         zIndex: zIndex?.layer1,
-        backgroundColor: constants.landing.background,
+        backgroundColor: constants.loginModule.background,
         border: `1px solid ${constants.landing.border}`,
         boxShadow: constants.landing.boxShadow,
         borderRadius: 6,
         [breakpoints.up("md")]:{
-          minHeight: "64vh",
-          justifyContent: "space-between",
-          width: 440
+          justifyContent: "space-between"
         },
         [breakpoints.down("md")]: {
-          padding: `${constants.generalUnit * 4}px ${constants.generalUnit * 2}px`,
           justifyContent: "center",
-          width: `calc(100vw - ${constants.generalUnit * 2}px)`
+          width: "100%"
         }
+      },
+      logo: {
+        height: 60,
+        width: 60
+      },
+      filesLogo: {
+        height: 60,
+        width: 60,
+        marginRight: "1rem"
       }
     })
 )
 
-const Content = () => {
+const Content = ({ className }: { className: string }) => {
   const { isMasterPasswordSet } = useImployApi()
   const { keyDetails, isNewDevice, shouldInitializeAccount } = useThresholdKey()
   const shouldSaveNewDevice = !!keyDetails && isNewDevice && keyDetails.requiredShares <= 0
   const areSharesMissing = !!keyDetails && keyDetails.requiredShares > 0
 
   if (!keyDetails) {
-    return <InitialScreen />
+    return <InitialScreen className={className} />
   }
 
   if (areSharesMissing) {
-    return <MissingShares />
+    return <MissingShares className={className} />
   }
 
-  if (shouldInitializeAccount){
-    return (
-      isMasterPasswordSet
-        ? <MigrateAccount />
-        : <InitializeAccount />
-    )
+  if (shouldInitializeAccount && !isMasterPasswordSet){
+    return <InitializeAccount className={className} />
+  }
+
+  if (shouldInitializeAccount && isMasterPasswordSet) {
+    return <MigrateAccount className={className} />
   }
 
   if (shouldSaveNewDevice) {
-    return <SaveNewDevice />
+    return <SaveNewDevice className={className} />
   }
 
   return null
@@ -166,6 +165,7 @@ const LoginPage = () => {
   return (
     <div className={classes.root}>
       <Typography className={classes.title}>
+        <ChainsafeFilesLogo className={classes.filesLogo} />
         ChainSafe Files
       </Typography>
       <>
@@ -183,23 +183,21 @@ const LoginPage = () => {
           </>
 
       }
-      <ForegroundSVG className={classes.bgForeground} />
+      {/* <ForegroundSVG className={classes.bgForeground} /> */}
       <a
         className={classes.cta}
         href={ROUTE_LINKS.ChainSafe}
         target="_blank"
         rel="noopener noreferrer"
       >
-        <ChainsafeFilesLogo />
+        <ChainsafeLogo className={classes.logo} />
         <Typography>
           <Trans>
             Learn more about ChainSafe
           </Trans>
         </Typography>
       </a>
-      <div className={classes.inner}>
-        <Content />
-      </div>
+      <Content className={classes.inner} />
     </div>
   )
 }

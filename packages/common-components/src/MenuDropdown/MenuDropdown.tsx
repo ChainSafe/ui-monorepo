@@ -205,7 +205,10 @@ const MenuDropdown: React.FC<IMenuDropdownProps> = ({
     }
   })
   return (
-    <div ref={ref} className={clsx(classes.root, className)}>
+    <div
+      ref={ref}
+      className={clsx(classes.root, className)}
+    >
       <section
         onClick={() => setOpen(!open)}
         className={clsx(classes.title, classNames?.title, {
@@ -215,7 +218,7 @@ const MenuDropdown: React.FC<IMenuDropdownProps> = ({
         {title && (
           <Typography
             component="p"
-            variant="body2"
+            variant="body1"
             className={classNames?.titleText}
           >
             {title}

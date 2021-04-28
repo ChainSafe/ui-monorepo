@@ -17,22 +17,22 @@ const useStyles = makeStyles(
       },
       heading: {
         ...typography.h2,
-        fontFamily: "'Lato', sans-serif",
+        fontFamily: "'Neue Montreal, Arial', sans-serif",
       },
       title: {
         ...typography.h3,
         paddingTop: constants.generalUnit * 3,
-        fontFamily: "'Lato', sans-serif",
+        fontFamily: "'Neue Montreal, Arial', sans-serif",
       },
       text: {
         ...typography.body1,
         fontSize: "16px",
         lineHeight: "24px",
-        fontFamily: "'Lato', sans-serif",
+        fontFamily: "'Neue Montreal, Arial', sans-serif",
       },
       caption: {
         ...typography.body1,
-        fontFamily: "'Lato', sans-serif",
+        fontFamily: "'Neue Montreal, Arial', sans-serif",
       },
       padLarge: {
         padding: `${constants.generalUnit * 3}px 0 ${constants.generalUnit * 1
@@ -45,7 +45,7 @@ const useStyles = makeStyles(
         ...typography.body1,
         padding: "revert",
         listStyle: "decimal",
-        fontFamily: "'Lato', sans-serif",
+        fontFamily: "'Neue Montreal, Arial', sans-serif",
         fontSize: "16px",
         lineHeight: "24px",
         margin: `${constants.generalUnit * 2}px 0`,
@@ -54,7 +54,7 @@ const useStyles = makeStyles(
         ...typography.body1,
         padding: "revert",
         listStyle: "disc",
-        fontFamily: "'Lato', sans-serif",
+        fontFamily: "'Neue Montreal, Arial', sans-serif",
         fontSize: "16px",
         lineHeight: "24px",
         margin: `${constants.generalUnit * 2}px 0`,
@@ -63,7 +63,7 @@ const useStyles = makeStyles(
         ...typography.body1,
         padding: "revert",
         listStyle: "circle",
-        fontFamily: "'Lato', sans-serif",
+        fontFamily: "'Neue Montreal, Arial', sans-serif",
         fontSize: "16px",
         lineHeight: "24px",
         margin: `${constants.generalUnit * 2}px 0`,

@@ -5,8 +5,14 @@ import { ITheme } from "@chainsafe/common-theme"
 import { ITabPaneProps } from "./TabPane"
 
 const useStyles = makeStyles(
-  ({ constants, palette, animation, typography, overrides }: ITheme) =>
+  ({ breakpoints, constants, palette, animation, typography, overrides }: ITheme) =>
     createStyles({
+      root : {
+        [breakpoints.down("md")]: {
+          marginBottom: 0
+        },
+        ...overrides?.Tabs?.root
+      },
       tabList: {
         padding: 0,
         marginBottom: 0,
@@ -17,9 +23,7 @@ const useStyles = makeStyles(
         display: "inline-block",
         marginLeft: 0,
         marginRight: `${constants.generalUnit * 2}px`,
-        padding: `${constants.generalUnit * 1.5}px ${
-          constants.generalUnit * 0.5
-        }px`,
+        padding: `${constants.generalUnit * 1.5}px ${constants.generalUnit * 0.5}px`,
         borderBottom: "2px solid transparent",
         transition: `all ${animation.transform}ms`,
         cursor: "pointer",
@@ -28,61 +32,68 @@ const useStyles = makeStyles(
           borderBottom: `2px solid ${palette.additional["blue"][6]}`,
           ...overrides?.Tabs?.tabBar?.selected
         },
+        [breakpoints.up("md")]: {
+          "& .iconRight":{
+            display: "none"
+          }
+        },
         ...overrides?.Tabs?.tabBar?.root
       }
     })
 )
 
-export interface ITabsProps {
-  className?: string
-  children:
-    | React.ReactElement<ITabPaneProps>
-    | React.ReactElement<ITabPaneProps>[]
-  activeKey: string
-  onTabSelect(key: string): void
+interface TabInjectedClasses {
+  root?: string
+  tabList?: string
+  tabBar?: string
 }
 
-const Tabs: React.FC<ITabsProps> = ({
-  className,
-  children,
-  activeKey,
-  onTabSelect
-}: ITabsProps) => {
-  const classes = useStyles()
+export interface ITabsProps {
+  className?: string
+  children: React.ReactElement<ITabPaneProps> | React.ReactElement<ITabPaneProps>[]
+  activeKey: string
+  onTabSelect: (key: string) => void
+  injectedClass?: TabInjectedClasses
+}
 
+const Tabs: React.FC<ITabsProps> = ({ className, children, activeKey, injectedClass, onTabSelect }: ITabsProps) => {
+  const classes = useStyles()
   const selectedChild = Array.isArray(children)
     ? children.find((child) => activeKey === child.props.tabKey)
     : children
 
   return (
-    <div>
-      <ul className={clsx(className, classes.tabList)}>
-        {Array.isArray(children) ? (
-          children.map((elem, index) => {
+    <div className={clsx(classes.root, injectedClass?.root)}>
+      <ul className={clsx(className, classes.tabList, injectedClass?.tabList)}>
+        {Array.isArray(children)
+          ? children.map((elem, index) => {
             return (
               <li
                 key={index}
-                className={clsx(
-                  classes.tabBar,
-                  elem.props.tabKey === activeKey && "selected"
-                )}
+                className={
+                  clsx(
+                    elem.props.tabKey === activeKey && "selected",
+                    classes.tabBar,
+                    injectedClass?.tabBar
+                  )}
                 onClick={() => onTabSelect(elem.props.tabKey)}
               >
-                {elem.props.title}
+                {elem.props.icon}{elem.props.title}<span className="iconRight">{elem.props.iconRight}</span>
               </li>
             )
           })
-        ) : (
-          <li
-            className={clsx(
-              classes.tabBar,
-              children.props.tabKey === activeKey && "selected"
-            )}
+          : <li
+            className={
+              clsx(
+                children.props.tabKey === activeKey && "selected",
+                classes.tabBar,
+                injectedClass?.tabBar
+              )}
             onClick={() => onTabSelect(children.props.tabKey)}
           >
-            {children.props.title}
+            {children.props.icon}{children.props.title}<span className="iconRight">{children.props.iconRight}</span>
           </li>
-        )}
+        }
       </ul>
       {selectedChild}
     </div>

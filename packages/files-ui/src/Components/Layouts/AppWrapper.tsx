@@ -58,15 +58,17 @@ const useStyles = makeStyles(
 
 const AppWrapper: React.FC<IAppWrapper> = ({ children }: IAppWrapper) => {
   const classes = useStyles()
-
   const [navOpen, setNavOpen] = useState<boolean>(false)
-
   const { isLoggedIn, secured } = useImployApi()
   const { publicKey, isNewDevice, shouldInitializeAccount } = useThresholdKey()
+
   return (
     <div className={classes.root}>
       <CssBaseline />
-      <AppNav setNavOpen={setNavOpen} navOpen={navOpen} />
+      <AppNav
+        setNavOpen={setNavOpen}
+        navOpen={navOpen}
+      />
       <article
         className={clsx(classes.bodyWrapper, {
           active:
@@ -77,7 +79,10 @@ const AppWrapper: React.FC<IAppWrapper> = ({ children }: IAppWrapper) => {
             !shouldInitializeAccount
         })}
       >
-        <AppHeader navOpen={navOpen} setNavOpen={setNavOpen} />
+        <AppHeader
+          navOpen={navOpen}
+          setNavOpen={setNavOpen}
+        />
         <section
           className={clsx(classes.content, {
             active:

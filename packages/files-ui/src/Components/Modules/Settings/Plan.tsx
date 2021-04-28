@@ -78,9 +78,17 @@ const PlanView: React.FC = () => {
 
   return (
     <Grid container>
-      <Grid item xs={12} sm={8} md={6}>
+      <Grid
+        item
+        xs={12}
+        sm={8}
+        md={6}
+      >
         <div className={classes.container}>
-          <div id="storage" className={classes.bodyContainer}>
+          <div
+            id="storage"
+            className={classes.bodyContainer}
+          >
             <div className={classes.storageBox}>
               <Typography
                 variant="h4"
@@ -94,7 +102,7 @@ const PlanView: React.FC = () => {
                 component="p"
                 className={clsx(classes.margins, classes.subtitle)}
               >
-                <Trans id="storage-plan-desc">
+                <Trans>
                   Lorem ipsum aenean et rutrum magna. Morbi nec placerat erat.
                   Nunc elementum sed libero sit amet convallis. Quisque non arcu
                   vitae ex fringilla molestie.
@@ -124,7 +132,10 @@ const PlanView: React.FC = () => {
                     size="small"
                   />
                 </div>
-                <Link className={classes.link} to={ROUTE_LINKS.PurchasePlan}>
+                <Link
+                  className={classes.link}
+                  to={ROUTE_LINKS.PurchasePlan}
+                >
                   <Button
                     variant="outline"
                     className={classes.changePlanButton}

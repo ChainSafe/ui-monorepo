@@ -1,26 +1,10 @@
-import {
-  createStyles,
-  makeStyles,
-  useMediaQuery
-} from "@chainsafe/common-theme"
+import { createStyles, makeStyles, useMediaQuery } from "@chainsafe/common-theme"
 import React, { useState, useEffect, useCallback } from "react"
 import CustomModal from "../../Elements/CustomModal"
 import CustomButton from "../../Elements/CustomButton"
 import { Trans } from "@lingui/macro"
-import {
-  useDrive,
-  DirectoryContentResponse,
-  FileSystemItem
-} from "../../../Contexts/DriveContext"
-import {
-  Button,
-  FolderIcon,
-  Grid,
-  ITreeNodeProps,
-  ScrollbarWrapper,
-  TreeView,
-  Typography
-} from "@chainsafe/common-components"
+import { useDrive, DirectoryContentResponse, FileSystemItem } from "../../../Contexts/DriveContext"
+import { Button, FolderIcon, Grid, ITreeNodeProps, ScrollbarWrapper, TreeView, Typography } from "@chainsafe/common-components"
 import { getPathWithFile } from "../../../Utils/pathUtils"
 import { CSFTheme } from "../../../Themes/types"
 
@@ -80,20 +64,15 @@ const useStyles = makeStyles(
 
 interface IMoveFileModuleProps {
   currentPath?: string
-  fileData?: FileSystemItem | FileSystemItem[]
+  filesToMove: FileSystemItem[]
   modalOpen: boolean
-  close: () => void
+  onClose: () => void
+  onCancel: () => void
 }
 
-const MoveFileModule: React.FC<IMoveFileModuleProps> = ({
-  currentPath,
-  fileData,
-  modalOpen,
-  close
-}: IMoveFileModuleProps) => {
+const MoveFileModule = ({ currentPath, filesToMove, modalOpen, onClose, onCancel }: IMoveFileModuleProps) => {
   const classes = useStyles()
-
-  const { moveFile, getFolderTree, bulkMoveFile } = useDrive()
+  const { getFolderTree, moveFiles } = useDrive()
   const [movingFile, setMovingFile] = useState(false)
   const [movePath, setMovePath] = useState<undefined | string>(undefined)
   const [folderTree, setFolderTree] = useState<ITreeNodeProps[]>([])
@@ -111,8 +90,7 @@ const MoveFileModule: React.FC<IMoveFileModuleProps> = ({
   )
 
   const getFolderTreeData = useCallback(async () => {
-    try {
-      const newFolderTree = await getFolderTree()
+    getFolderTree().then((newFolderTree) => {
       if (newFolderTree.entries) {
         const folderTreeNodes = [
           {
@@ -124,46 +102,33 @@ const MoveFileModule: React.FC<IMoveFileModuleProps> = ({
           }
         ]
         setFolderTree(folderTreeNodes)
+      } else {
+        setFolderTree([])
       }
-    } catch {
-      //
-    }
-    // eslint-disable-next-line
-  }, [])
-
-  useEffect(() => {
-    getFolderTreeData()
-  }, [getFolderTreeData])
+    }).catch(console.error)
+  }, [getFolderTree, mapFolderTree])
 
   useEffect(() => {
     if (modalOpen) {
       getFolderTreeData()
+    } else {
+      setMovePath(undefined)
     }
   }, [modalOpen, getFolderTreeData])
 
-  const onMoveFile = async () => {
-    if (fileData && movePath) {
-      try {
-        setMovingFile(true)
-        if (Array.isArray(fileData)) {
-          await bulkMoveFile(
-            fileData.map((file) => ({
-              path: `${currentPath}${file.name}`,
-              new_path: getPathWithFile(movePath, file.name)
-            }))
-          )
-        } else {
-          await moveFile({
-            path: `${currentPath}${fileData.name}`,
-            new_path: getPathWithFile(movePath, fileData.name)
-          })
-        }
+  const onMoveFile = () => {
+    if (movePath) {
+      setMovingFile(true)
 
-        setMovingFile(false)
-        close()
-      } catch {
-        setMovingFile(false)
-      }
+      moveFiles(
+        filesToMove.map((file) => ({
+          path: `${currentPath}${file.name}`,
+          new_path: getPathWithFile(movePath, file.name)
+        }))
+      )
+        .then(onClose)
+        .catch(console.error)
+        .finally(() => setMovingFile(false))
     }
   }
 
@@ -172,27 +137,43 @@ const MoveFileModule: React.FC<IMoveFileModuleProps> = ({
   return (
     <CustomModal
       className={classes.modalRoot}
-      injectedClass={{
-        inner: classes.modalInner
-      }}
+      injectedClass={{ inner: classes.modalInner }}
       active={modalOpen}
       closePosition="none"
       maxWidth="sm"
     >
-      <Grid item xs={12} sm={12} className={classes.paddedContainer}>
-        <Typography className={classes.heading} variant="h5" component="h5">
+      <Grid
+        item
+        xs={12}
+        sm={12}
+        className={classes.paddedContainer}
+      >
+        <Typography className={classes.heading}
+          variant="h5"
+          component="h5">
           <Trans>Move to...</Trans>
         </Typography>
       </Grid>
-      <Grid item xs={12} sm={12} className={classes.treeContainer}>
-        <ScrollbarWrapper autoHide={true} maxHeight={200}>
+      <Grid
+        item
+        xs={12}
+        sm={12}
+        className={classes.treeContainer}
+      >
+        <ScrollbarWrapper
+          autoHide={true}
+          maxHeight={200}
+        >
           <div className={classes.treeScrollView}>
-            <TreeView
-              treeData={folderTree}
-              commonIcon={<FolderIcon />}
-              selectedId={movePath}
-              onSelectNode={(path: string) => setMovePath(path)}
-            />
+            {folderTree.length
+              ? <TreeView
+                treeData={folderTree}
+                commonIcon={<FolderIcon />}
+                selectedId={movePath}
+                onSelectNode={(path: string) => setMovePath(path)}
+              />
+              : <Typography><Trans>No folders</Trans></Typography>
+            }
           </div>
         </ScrollbarWrapper>
       </Grid>
@@ -203,7 +184,7 @@ const MoveFileModule: React.FC<IMoveFileModuleProps> = ({
         className={classes.paddedContainer}
       >
         <CustomButton
-          onClick={() => close()}
+          onClick={onCancel}
           size="medium"
           className={classes.cancelButton}
           variant={desktop ? "outline" : "gray"}
@@ -212,6 +193,7 @@ const MoveFileModule: React.FC<IMoveFileModuleProps> = ({
           <Trans>Cancel</Trans>
         </CustomButton>
         <Button
+          variant="primary"
           size={desktop ? "medium" : "large"}
           type="submit"
           className={classes.okButton}

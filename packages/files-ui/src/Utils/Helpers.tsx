@@ -10,16 +10,6 @@ export const centerEllipsis = (address: string, remaining = 6) => {
   )}`
 }
 
-export const testLocalStorage = () => {
-  try {
-    localStorage.setItem("test", "test")
-    localStorage.removeItem("test")
-    return true
-  } catch (e) {
-    return false
-  }
-}
-
 export const readFileAsync = (file: Blob): Promise<ArrayBuffer> => {
   return new Promise((resolve, reject) => {
     const reader = new FileReader()
@@ -36,4 +26,8 @@ export const readFileAsync = (file: Blob): Promise<ArrayBuffer> => {
 
 export function useQuery() {
   return new URLSearchParams(useLocation().search)
+}
+
+export const capitalize = (value: string) => {
+  return value.charAt(0).toUpperCase() + value.slice(1)
 }

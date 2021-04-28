@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useMemo } from "react"
 import { Switch, ConditionalRoute } from "@chainsafe/common-components"
 import LoginPage from "./Pages/LoginPage"
 import SettingsPage from "./Pages/SettingsPage"
@@ -9,23 +9,31 @@ import BinPage from "./Pages/BinPage"
 import PurchasePlanPage from "./Pages/PurchasePlanPage"
 import { useThresholdKey } from "../Contexts/ThresholdKeyContext"
 
+export const SETTINGS_BASE = "/settings"
 export const ROUTE_LINKS = {
   Landing: "/",
   PrivacyPolicy: "https://files.chainsafe.io/privacy-policy",
   Terms: "https://files.chainsafe.io/terms-of-service",
   ChainSafe: "https://chainsafe.io/",
+  // TODO: update link
+  ApplyCryptography: "https://medium.com/chainsafe-systems/major-improvement-to-chainsafe-files-ab489d3e52a2",
   Home: (path?: string) => `/home${path ? `?path=${path}` : ""}`,
   Search: (search?: string) => `/search${search ? `?search=${search}` : ""}`,
   Bin: "/bin",
-  Settings: "/settings",
-  PurchasePlan: "/settings/purchase"
+  Settings: `${SETTINGS_BASE}/:path`,
+  SettingsDefault: `${SETTINGS_BASE}`,
+  PurchasePlan: "/purchase"
 }
+
+export const SETTINGS_PATHS = ["profile", "plan", "security"] as const
+export type SettingsPath = typeof SETTINGS_PATHS[number]
 
 const FilesRoutes = () => {
   const { isLoggedIn, secured } = useImployApi()
   const { isNewDevice, publicKey, shouldInitializeAccount } = useThresholdKey()
 
-  const isAuthorized = isLoggedIn && secured && !!publicKey && !isNewDevice && !shouldInitializeAccount
+  const isAuthorized = useMemo(() => isLoggedIn && secured && !!publicKey && !isNewDevice && !shouldInitializeAccount,
+    [isLoggedIn, isNewDevice, publicKey, secured, shouldInitializeAccount])
 
   return (
     <Switch>
@@ -59,6 +67,12 @@ const FilesRoutes = () => {
       />
       <ConditionalRoute
         exact
+        path={ROUTE_LINKS.SettingsDefault}
+        isAuthorized={isAuthorized}
+        component={SettingsPage}
+        redirectPath={ROUTE_LINKS.Landing}
+      />
+      <ConditionalRoute
         path={ROUTE_LINKS.Settings}
         isAuthorized={isAuthorized}
         component={SettingsPage}

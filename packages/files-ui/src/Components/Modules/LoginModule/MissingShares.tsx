@@ -1,7 +1,6 @@
 import React, { ChangeEvent, useCallback, useState } from "react"
 import { useThresholdKey } from "../../../Contexts/ThresholdKeyContext"
 import { Button, TextInput, Typography } from "@chainsafe/common-components"
-import { SECURITY_QUESTIONS_MODULE_NAME } from "@tkey/security-questions"
 import { t, Trans } from "@lingui/macro"
 import { createStyles, makeStyles } from "@chainsafe/common-theme"
 import { CSFTheme } from "../../../Themes/types"
@@ -10,7 +9,12 @@ import clsx from "clsx"
 const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) =>
   createStyles({
     content:{
-      width: "100%"
+      width: 580,
+      padding: `0 ${constants.generalUnit * 14}px`,
+      [breakpoints.down("md")]: {
+        width: "100%",
+        padding: `0 ${constants.generalUnit * 2.75}px`
+      }
     },
     buttonSection: {
       [breakpoints.up("md")]: {
@@ -29,15 +33,7 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) =>
       width: `calc(100% - ${constants.generalUnit * 8}px)`,
       marginLeft: constants.generalUnit * 4,
       marginRight: constants.generalUnit * 4,
-      marginBottom: constants.generalUnit * 2,
-      [breakpoints.up("md")]: {
-        backgroundColor: palette.common.black.main,
-        color: palette.common.white.main
-      },
-      [breakpoints.down("md")]: {
-        backgroundColor: palette.common.black.main,
-        color: palette.common.white.main
-      }
+      marginBottom: constants.generalUnit * 2
     },
     buttonWrapper: {
       display: "flex",
@@ -86,8 +82,8 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) =>
     textInput:{
       width: "100%",
       margin: 0,
-      paddingLeft: constants.generalUnit*4,
-      paddingRight: constants.generalUnit*4
+      paddingLeft: constants.generalUnit * 4,
+      paddingRight: constants.generalUnit * 4
     },
     belowInput: {
       margin: "auto",
@@ -109,8 +105,13 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) =>
     }
   }))
 
-const MissingShares: React.FC = () => {
-  const { keyDetails, inputPasswordShare, inputMnemonicShare } = useThresholdKey()
+
+interface IMissingShares {
+  className?: string
+}
+
+const MissingShares = ({ className }: IMissingShares) => {
+  const { inputPasswordShare, inputMnemonicShare, hasPasswordShare } = useThresholdKey()
   const [password, setPassword] = useState("")
   const [mnemonic, setMnemonic] = useState("")
   const [withMnemonic, setWithMnemonic] = useState(false)
@@ -119,16 +120,9 @@ const MissingShares: React.FC = () => {
   const { logout } = useThresholdKey()
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState("")
-  
-  const shares = keyDetails
-    ? Object.values(keyDetails.shareDescriptions).map((share) => {
-      return JSON.parse(share[0])
-    })
-    : []
 
-  const hasPasswordShare = shares.filter((s) => s.module === SECURITY_QUESTIONS_MODULE_NAME).length > 0
-
-  const handleSubmitPassword = () => {
+  const handleSubmitPassword = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
     if (!password) return
     setIsLoading(true)
 
@@ -140,7 +134,8 @@ const MissingShares: React.FC = () => {
       })
   }
 
-  const handleSubmitMnemonicShare = () => {
+  const handleSubmitMnemonicShare = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
     if (!mnemonic) return
     setIsLoading(true)
 
@@ -153,24 +148,24 @@ const MissingShares: React.FC = () => {
 
   const onPasswordChange = useCallback((password: string | number | undefined) => {
     setError("")
-    setPassword(password?.toString() || "") 
+    setPassword(password?.toString() || "")
   }, [])
 
   const onMnemonicChange = useCallback((event: ChangeEvent<HTMLTextAreaElement>) => {
     setError("")
-    setMnemonic(event.currentTarget.value) 
+    setMnemonic(event.currentTarget.value)
   }, [])
 
   const onResetMethod = useCallback(() => {
     setError("")
-    setMnemonic("") 
+    setMnemonic("")
     setPassword("")
     setWithMnemonic(false)
     setWithPassword(false)
   }, [])
 
   return (
-    <>
+    <div className={className}>
       <div className={classes.content}>
         <Typography
           variant="h6"
@@ -181,7 +176,7 @@ const MissingShares: React.FC = () => {
         </Typography>
         { !withMnemonic && !withPassword && (
           <>
-            <Typography className={classes.text}>  
+            <Typography className={classes.text}>
               <Trans>
                 Looks like you’re signing in from a new browser.
                 Please choose one of the following to continue:
@@ -189,16 +184,16 @@ const MissingShares: React.FC = () => {
             </Typography>
             <div className={classes.buttonWrapper}>
               {hasPasswordShare && (
-                <Button                   
+                <Button
                   className={classes.button}
                   variant="primary"
                   size="large"
                   onClick={() => setWithPassword(true)}
                 >
-                  <Trans>Enter a password</Trans>
+                  <Trans>Enter password</Trans>
                 </Button>
               )}
-              <Button 
+              <Button
                 className={classes.button}
                 variant="primary"
                 size="large"
@@ -207,7 +202,7 @@ const MissingShares: React.FC = () => {
                 <Trans>Restore with backup phrase</Trans>
               </Button>
             </div>
-            <Typography className={classes.text}>  
+            <Typography className={classes.text}>
               <Trans>
                 Or confirm by signing into your Files on any
                 browser you’ve used before.
@@ -216,18 +211,20 @@ const MissingShares: React.FC = () => {
           </>
         )}
         {withPassword && (
-          <div>
+          <form onSubmit={handleSubmitPassword}>
             <Typography className={clsx(classes.text, "label")}>
               <Trans>Enter password:</Trans>
             </Typography>
             <TextInput
+              autoFocus
               className={classes.textInput}
               value={password}
               onChange={onPasswordChange}
               type={"password"}
             />
             <Button
-              onClick={handleSubmitPassword}
+              variant="primary"
+              type='submit'
               className={clsx(classes.button, classes.belowInput)}
               size="large"
               loading={isLoading}
@@ -238,21 +235,23 @@ const MissingShares: React.FC = () => {
             <Typography className={classes.error}>
               {error}
             </Typography>
-          </div>
+          </form>
         )}
         {withMnemonic && (
-          <div>
+          <form onSubmit={handleSubmitMnemonicShare}>
             <Typography className={clsx(classes.text, "label")}>
               <Trans>Enter backup phrase:</Trans>
             </Typography>
             <div className={classes.textAreaContainer}>
               <textarea
+                autoFocus
                 value={mnemonic}
                 onChange={onMnemonicChange}
               />
             </div>
             <Button
-              onClick={handleSubmitMnemonicShare}
+              variant="primary"
+              type='submit'
               className={clsx(classes.button, classes.belowInput)}
               size="large"
               loading={isLoading}
@@ -263,7 +262,7 @@ const MissingShares: React.FC = () => {
             <Typography className={classes.error}>
               {error}
             </Typography>
-          </div>
+          </form>
         )}
       </div>
       <footer className={classes.footer}>
@@ -292,7 +291,7 @@ const MissingShares: React.FC = () => {
           </div>
         )}
       </footer>
-    </>
+    </div>
   )
 }
 

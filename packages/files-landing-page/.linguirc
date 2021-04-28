@@ -6,6 +6,9 @@
    }],
    "compileNamespace": "cjs",
    "format": "po",
+   "formatOptions": { 
+      "origins": false
+   },
    "locales": ["en"],
    "sourceLocale": "en"
 }

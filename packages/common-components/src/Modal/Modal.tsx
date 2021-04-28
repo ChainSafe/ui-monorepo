@@ -1,6 +1,7 @@
 import React, { ReactNode, useRef } from "react"
 import { ITheme, useOnClickOutside, makeStyles, createStyles } from "@chainsafe/common-theme"
 import clsx from "clsx"
+import { CloseSvg } from "../Icons/icons/Close.icon"
 
 const useStyles = makeStyles(
   ({ animation, constants, breakpoints, palette, overrides, zIndex }: ITheme) =>
@@ -102,6 +103,10 @@ const useStyles = makeStyles(
         backgroundColor: palette.common?.white.main,
         cursor: "pointer",
         position: "absolute",
+        "& svg": {
+          height: 15,
+          width: 15
+        },
         "&.right": {
           transform: "translate(50%, -50%)",
           right: 0,
@@ -190,8 +195,7 @@ const Modal: React.FC<IModalProps> = ({
               `${closePosition}`
             )}
           >
-            {/* TODO: Close icon replace */}
-            close
+            <CloseSvg />
           </div>
         )}
         {children}

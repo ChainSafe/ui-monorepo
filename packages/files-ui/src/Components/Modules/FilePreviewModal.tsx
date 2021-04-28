@@ -1,12 +1,8 @@
-import React, { Fragment, useEffect, useRef } from "react"
+import React, { useEffect, useRef } from "react"
 import { useState } from "react"
-import {
-  createStyles,
-  makeStyles,
-  useThemeSwitcher
-} from "@chainsafe/common-theme"
+import { createStyles, makeStyles, useThemeSwitcher } from "@chainsafe/common-theme"
 import { FileSystemItem, useDrive } from "../../Contexts/DriveContext"
-import MimeMatcher from "mime-matcher"
+import MimeMatcher from "./../../Utils/MimeMatcher"
 import axios, { CancelTokenSource } from "axios"
 import {
   Button,
@@ -49,7 +45,7 @@ const SUPPORTED_FILE_TYPES: Record<string, React.FC<IPreviewRendererProps>> = {
 }
 
 const compatibleFilesMatcher = new MimeMatcher(
-  ...Object.keys(SUPPORTED_FILE_TYPES)
+  Object.keys(SUPPORTED_FILE_TYPES)
 )
 
 const useStyles = makeStyles(
@@ -74,7 +70,7 @@ const useStyles = makeStyles(
         left: 0,
         top: 0,
         width: "100%",
-        maxWidth: breakpoints.values["md"],
+        maxWidth: breakpoints.values["md"] - 200,
         height: constants.generalUnit * 8,
         backgroundColor: constants.previewModal.controlsBackground,
         color: constants.previewModal.controlsColor,
@@ -155,28 +151,30 @@ const useStyles = makeStyles(
     })
 )
 
-const FilePreviewModal: React.FC<{
+interface Props {
   file?: FileSystemItem
-  nextFile?(): void
-  previousFile?(): void
-  closePreview(): void
-}> = ({ file, nextFile, previousFile, closePreview }) => {
+  nextFile?: () => void
+  previousFile?: () => void
+  closePreview: () => void
+  path?: string
+}
+
+const FilePreviewModal = ({ file, nextFile, previousFile, closePreview, path }: Props) => {
   const classes = useStyles()
   const { getFileContent, downloadFile } = useDrive()
-
   const { desktop } = useThemeSwitcher()
-
   const [isLoading, setIsLoading] = useState(false)
   const [loadingProgress, setLoadingProgress] = useState(0)
   const [error, setError] = useState<string | undefined>(undefined)
   const [fileContent, setFileContent] = useState<Blob | undefined>(undefined)
+  const source = useRef<CancelTokenSource | null>(null)
+  const { cid, content_type, name, size } = file || {}
+
   const handlers = useSwipeable({
     onSwipedLeft: () => previousFile && !isLoading && previousFile(),
     onSwipedRight: () => nextFile && !isLoading && nextFile(),
     delta: 20
   })
-
-  const source = useRef<CancelTokenSource | null>(null)
 
   function getSource() {
     if (source.current === null) {
@@ -187,54 +185,60 @@ const FilePreviewModal: React.FC<{
 
   useEffect(() => {
     const getContents = async () => {
-      if (!file) return
-      if (isLoading && source.current) {
+      if (!cid || !size) return
+
+      if (source.current) {
         source.current.cancel("Cancelling previous request")
         source.current = null
       }
+
       const token = getSource().token
       setIsLoading(true)
       setError(undefined)
+
       try {
-        const content = await getFileContent(file.cid, token, (evt) => {
-          setLoadingProgress((evt.loaded / file.size) * 100)
+        const content = await getFileContent({
+          cid,
+          cancelToken: token,
+          onDownloadProgress: (evt) => {
+            setLoadingProgress((evt.loaded / size) * 100)
+          },
+          file,
+          path
         })
+
         if (content) {
           setFileContent(content)
         } else {
           setError(t`Decryption failed`)
         }
+
         source.current = null
         setLoadingProgress(0)
+
       } catch (error) {
-        if (error) {
-          setError(t`There was an error getting the preview.`)
-        }
+        console.error(error)
+        setError(t`There was an error getting the preview.`)
       }
+
       setIsLoading(false)
     }
 
-    if (file && compatibleFilesMatcher.match(file?.content_type)) {
+    if (content_type && compatibleFilesMatcher.match(content_type)) {
       getContents()
     }
-
-    return () => {
-      source.current && source.current.cancel("Cancelled by user")
-    }
-    // eslint-disable-next-line
-  }, [file?.cid])
+  }, [cid, size, content_type, getFileContent, file, path])
 
   const validRendererMimeType =
-    file &&
+    content_type &&
     Object.keys(SUPPORTED_FILE_TYPES).find((type) => {
       const matcher = new MimeMatcher(type)
 
-      return matcher.match(file.content_type)
+      return matcher.match(content_type)
     })
 
   const PreviewComponent =
-    file &&
-    file.content_type &&
+    content_type &&
     fileContent &&
     validRendererMimeType &&
     SUPPORTED_FILE_TYPES[validRendererMimeType]
@@ -258,19 +262,23 @@ const FilePreviewModal: React.FC<{
   })
 
   const handleDownload = () => {
-    if (!file) return
+    if (!name || !cid) return
     if (fileContent) {
       const link = document.createElement("a")
       link.href = URL.createObjectURL(fileContent)
-      link.download = file.name
+      link.download = name
       link.click()
       URL.revokeObjectURL(link.href)
     } else {
-      downloadFile(file.cid)
+      downloadFile(cid)
     }
   }
 
-  return !file ? null : (
+  if (!name || !cid || !content_type) {
+    return null
+  }
+
+  return (
     <div className={classes.root}>
       <div className={classes.previewModalControls}>
         <ArrowLeftIcon
@@ -282,7 +290,7 @@ const FilePreviewModal: React.FC<{
           component="h1"
           className={classes.fileName}
         >
-          {file.name}
+          {name}
         </Typography>
         <MenuDropdown
           animation="none"
@@ -295,48 +303,48 @@ const FilePreviewModal: React.FC<{
           menuItems={[
             // {
             //   contents: (
-            //     <Fragment>
+            //     <>
             //       <ExportIcon className={classes.menuIcon} />
             //       <span>Move</span>
-            //     </Fragment>
+            //     </>
             //   ),
             //   onClick: () => console.log,
             // },
             // {
             //   contents: (
-            //     <Fragment>
+            //     <>
             //       <ShareAltIcon className={classes.menuIcon} />
             //       <span>Share</span>
-            //     </Fragment>
+            //     </>
             //   ),
             //   onClick: () => console.log,
             // },
             // {
             //   contents: (
-            //     <Fragment>
+            //     <>
             //       <EditIcon className={classes.menuIcon} />
             //       <span>Rename</span>
-            //     </Fragment>
+            //     </>
             //   ),
             //   onClick: () => console.log,
             // },
             // {
             //   contents: (
-            //     <Fragment>
+            //     <>
             //       <DeleteIcon className={classes.menuIcon} />
             //       <span>Delete</span>
-            //     </Fragment>
+            //     </>
             //   ),
             //   onClick: () => console.log,
             // },
             {
               contents: (
-                <Fragment>
+                <>
                   <DownloadSvg className={classes.menuIcon} />
                   <span>
                     <Trans>Download</Trans>
                   </span>
-                </Fragment>
+                </>
               ),
               onClick: handleDownload
             }
@@ -351,16 +359,35 @@ const FilePreviewModal: React.FC<{
         className={classes.previewContainer}
       >
         {desktop && (
-          <Grid item sm={1} md={1} lg={1} xl={1} className={classes.prevNext}>
+          <Grid
+            item
+            sm={1}
+            md={1}
+            lg={1}
+            xl={1}
+            className={classes.prevNext}
+          >
             {previousFile && (
-              <Button onClick={previousFile} className={classes.prevNextButton}>
+              <Button onClick={previousFile}
+                className={classes.prevNextButton}>
                 <ArrowLeftIcon />
               </Button>
             )}
           </Grid>
         )}
-        <Grid item xs={12} sm={12} md={10} lg={10} xl={10} alignItems="center">
-          <div {...handlers} className={classes.swipeContainer}>
+        <Grid
+          item
+          xs={12}
+          sm={12}
+          md={10}
+          lg={10}
+          xl={10}
+          alignItems="center"
+        >
+          <div
+            {...handlers}
+            className={classes.swipeContainer}
+          >
             {isLoading && (
               <div className={classes.previewContent}>
                 <Typography variant="h1">
@@ -375,25 +402,31 @@ const FilePreviewModal: React.FC<{
             {error && (
               <div className={classes.previewContent}>
                 <CloseCircleIcon fontSize={desktop ? "extraLarge" : "medium"} />
-                <Typography component="h2" variant="h1">
+                <Typography
+                  component="h2"
+                  variant="h1"
+                >
                   {error}
                 </Typography>
               </div>
             )}
             {!isLoading &&
               !error &&
-              !compatibleFilesMatcher.match(file?.content_type) && (
+              !compatibleFilesMatcher.match(content_type) && (
               <div className={classes.previewContent}>
                 <CloseCircleIcon
                   fontSize={desktop ? "extraLarge" : "medium"}
                 />
-                <Typography component="p" variant="h1">
+                <Typography
+                  component="p"
+                  variant="h1"
+                >
                   <Trans>File format not supported.</Trans>
                 </Typography>
                 <Button
                   className={classes.downloadButton}
                   variant="outline"
-                  onClick={() => downloadFile(file.cid)}
+                  onClick={() => downloadFile(cid)}
                 >
                   <Trans>Download</Trans>
                 </Button>
@@ -401,15 +434,24 @@ const FilePreviewModal: React.FC<{
             )}
             {!isLoading &&
               !error &&
-              compatibleFilesMatcher.match(file?.content_type) &&
+              compatibleFilesMatcher.match(content_type) &&
               fileContent &&
               PreviewComponent && <PreviewComponent contents={fileContent} />}
           </div>
         </Grid>
         {desktop && (
-          <Grid item md={1} lg={1} xl={1} className={classes.prevNext}>
+          <Grid
+            item
+            md={1}
+            lg={1}
+            xl={1}
+            className={classes.prevNext}
+          >
             {nextFile && (
-              <Button onClick={nextFile} className={classes.prevNextButton}>
+              <Button
+                onClick={nextFile}
+                className={classes.prevNextButton}
+              >
                 <ArrowRightIcon />
               </Button>
             )}

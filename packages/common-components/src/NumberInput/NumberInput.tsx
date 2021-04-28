@@ -66,7 +66,6 @@ const useStyles = makeStyles(
           },
           "&:focus": {
             borderColor: palette.primary.border,
-            // borderColor: palette
             boxShadow: "0px 0px 4px rgba(24, 144, 255, 0.5)",
             ...overrides?.TextInput?.input?.focus
           },
