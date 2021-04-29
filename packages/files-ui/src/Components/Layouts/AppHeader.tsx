@@ -8,7 +8,8 @@ import {
   ChainsafeFilesLogo,
   HamburgerMenu,
   MenuDropdown,
-  PowerDownSvg
+  PowerDownSvg,
+  useHistory
 } from "@chainsafe/common-components"
 import { ROUTE_LINKS } from "../FilesRoutes"
 import SearchModule from "../Modules/SearchModule"
@@ -161,11 +162,14 @@ const AppHeader: React.FC<IAppHeader> = ({
   const { isLoggedIn, secured } = useImployApi()
   const { publicKey, isNewDevice, shouldInitializeAccount, logout } = useThresholdKey()
   const { getProfileTitle, removeUser } = useUser()
+  const { history } = useHistory()
 
-  const signOut = useCallback(() => {
-    logout()
+  const signOut = useCallback(async () => {
+    await logout()
     removeUser()
-  }, [logout, removeUser])
+    history.replace("/", {})
+
+  }, [logout, removeUser, history])
 
   const [searchActive, setSearchActive] = useState(false)
 

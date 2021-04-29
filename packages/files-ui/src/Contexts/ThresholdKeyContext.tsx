@@ -743,7 +743,7 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
     })
 
     const serviceProvider = (tkey.serviceProvider as unknown) as DirectAuthSdk
-    serviceProvider.init({ skipSw: false })
+    return serviceProvider.init({ skipSw: false })
       .then(() => {
         setStatus("initialized")
       })
