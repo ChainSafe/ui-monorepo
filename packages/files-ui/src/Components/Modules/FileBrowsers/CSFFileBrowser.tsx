@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react"
-import { Crumb, useToaster, useHistory, useParams } from "@chainsafe/common-components"
+import { Crumb, useToaster, useHistory, useLocation } from "@chainsafe/common-components"
 import { useDrive, FileSystemItem, BucketType } from "../../../Contexts/DriveContext"
 import { getArrayOfPaths, getPathFromArray, getPathWithFile } from "../../../Utils/pathUtils"
 import { IBulkOperations, IFilesBrowserModuleProps, IFilesTableBrowserProps } from "./types"
@@ -22,17 +22,14 @@ const CSFFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = true }:
   } = useDrive()
   const { addToastMessage } = useToaster()
 
-  // const { currentPath } = useParams<{ currentPath: string }>()
   const [loadingCurrentPath, setLoadingCurrentPath] = useState(false)
   const [pathContents, setPathContents] = useState<FileSystemItem[]>([])
   const [bucketType] = useState<BucketType>("csf")
 
   const { redirect } = useHistory()
 
-  const { rawCurrentPath } = useParams<{ rawCurrentPath: string }>()
-  console.log("rawCurrentPath", rawCurrentPath)
-
-  const [currentPath, setCurrentPath] = useState(rawCurrentPath ? decodeURI(rawCurrentPath) : "/")
+  const { pathname } = useLocation()
+  const [currentPath, setCurrentPath] = useState(pathname.split("/").slice(1).join("/"))
   const refreshContents = useCallback(
     async (
       path: string,
@@ -72,9 +69,14 @@ const CSFFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = true }:
 
   useEffect(() => {
     console.log("refreshing")
-    setCurrentPath(rawCurrentPath ? decodeURI(rawCurrentPath) : "/")
-    refreshContents(rawCurrentPath ? decodeURI(rawCurrentPath) : "/")
-  }, [refreshContents, rawCurrentPath])
+    let drivePath = pathname.split("/").slice(2).join("/").concat("/")
+    if (drivePath[0] !== "/") {
+      drivePath = "/" + drivePath
+    }
+
+    setCurrentPath(decodeURI(drivePath))
+    refreshContents(decodeURI(drivePath))
+  }, [refreshContents, pathname])
 
   // From drive
   const moveFileToTrash = useCallback(async (cid: string) => {

@@ -45,8 +45,7 @@ const FilesRoutes = () => {
         redirectPath={ROUTE_LINKS.Drive("/")}
       />
       <ConditionalRoute
-        exact
-        path={ROUTE_LINKS.Drive("/")}
+        path='/drive'
         isAuthorized={isAuthorized}
         component={DrivePage}
         redirectPath={ROUTE_LINKS.Landing}
