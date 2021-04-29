@@ -38,21 +38,7 @@ const FilesRoutes = () => {
   return (
     <Switch>
       <ConditionalRoute
-        exact
-        path={ROUTE_LINKS.Landing}
-        isAuthorized={!isAuthorized}
-        component={LoginPage}
-        redirectPath={ROUTE_LINKS.Drive("/")}
-      />
-      <ConditionalRoute
-        path='/drive'
-        isAuthorized={isAuthorized}
-        component={DrivePage}
-        redirectPath={ROUTE_LINKS.Landing}
-      />
-      <ConditionalRoute
-        exact
-        path={ROUTE_LINKS.Drive(":path")}
+        path={ROUTE_LINKS.Drive("/")}
         isAuthorized={isAuthorized}
         component={DrivePage}
         redirectPath={ROUTE_LINKS.Landing}
@@ -97,6 +83,13 @@ const FilesRoutes = () => {
         isAuthorized={isAuthorized}
         component={PurchasePlanPage}
         redirectPath={ROUTE_LINKS.Landing}
+      />
+      <ConditionalRoute
+        path='/'
+        isAuthorized={!isAuthorized}
+        component={LoginPage}
+        redirectPath={ROUTE_LINKS.Drive("/")}
+        redirectToSource
       />
     </Switch>
   )
