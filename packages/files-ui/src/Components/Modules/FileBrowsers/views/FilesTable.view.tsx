@@ -19,7 +19,9 @@ import {
   UploadIcon,
   Dialog,
   Loading,
-  CheckboxInput
+  CheckboxInput,
+  GridIcon,
+  TableIcon
 } from "@chainsafe/common-components"
 import { useState } from "react"
 import { useMemo } from "react"
@@ -29,7 +31,7 @@ import clsx from "clsx"
 import { t, Trans } from "@lingui/macro"
 import { NativeTypes } from "react-dnd-html5-backend"
 import { useDrop } from "react-dnd"
-import { FileOperation, IFilesTableBrowserProps } from "../types"
+import { BrowserView, FileOperation, IFilesTableBrowserProps } from "../types"
 import { FileSystemItem } from "../../../../Contexts/DriveContext"
 import FileSystemItemRow from "./FileSystemItemRow"
 import FilePreviewModal from "../../FilePreviewModal"
@@ -234,6 +236,34 @@ const useStyles = makeStyles(
       },
       confirmDeletionDialog: {
         top: "50%"
+      },
+      gridRoot: {
+        display: "grid",
+        gridTemplateColumns: "1fr 1fr 1fr 1fr",
+        gridColumnGap: constants.generalUnit * 2,
+        gridRowGap: constants.generalUnit * 2,
+        marginBottom: constants.generalUnit * 4,
+        marginTop: constants.generalUnit * 4,
+        [breakpoints.down("lg")]: {
+          gridTemplateColumns: "1fr 1fr 1fr"
+        },
+        [breakpoints.down("md")]: {
+          margin: `${constants.generalUnit * 4}px 0`
+        },
+        [breakpoints.down("sm")]: {
+          gridTemplateColumns: "1fr 1fr",
+          margin: `${constants.generalUnit * 2}px 0`
+        }
+      },
+      viewToggleButton: {
+        [breakpoints.down("md")]: {
+          border: "none",
+          "& svg": {
+            marginTop: "2px",
+            width: "20px",
+            height: "20px"
+          }
+        }
       }
     })
   }
@@ -269,7 +299,7 @@ const FilesTableView = ({
   const { themeKey, desktop } = useThemeSwitcher()
   const classes = useStyles({ themeKey })
   const [editing, setEditing] = useState<string | undefined>()
-  const [direction, setDirection] = useState<SortDirection>("descend")
+  const [direction, setDirection] = useState<SortDirection>("ascend")
   const [column, setColumn] = useState<"name" | "size" | "date_uploaded">("name")
   const [selectedCids, setSelectedCids] = useState<string[]>([])
   const [previewFileIndex, setPreviewFileIndex] = useState<number | undefined>()
@@ -412,6 +442,8 @@ const FilesTableView = ({
     undefined
   )
 
+  const [browserView, setBrowserView] = useState<BrowserView>("table")
+
   // Bulk operations
   const [validBulkOps, setValidBulkOps] = useState<FileOperation[]>([])
   useEffect(() => {
@@ -535,6 +567,13 @@ const FilesTableView = ({
           {controls && desktop ? (
             <>
               <Button
+                onClick={() => setBrowserView(browserView === "grid" ? "table" : "grid")}
+                variant="outline"
+                size="large"
+              >
+                {browserView === "table" ? <GridIcon /> : <TableIcon />}
+              </Button>
+              <Button
                 onClick={() => setCreateFolderModalOpen(true)}
                 variant="outline"
                 size="large"
@@ -558,49 +597,59 @@ const FilesTableView = ({
           ) : (
             controls &&
             !desktop && (
-              <MenuDropdown
-                classNames={{
-                  icon: classes.dropdownIcon,
-                  options: classes.dropdownOptions
-                }}
-                autoclose={true}
-                anchor="bottom-right"
-                animation="none"
-                indicator={PlusIcon}
-                menuItems={[
-                  {
-                    contents: (
-                      <Button
-                        onClick={() => setCreateFolderModalOpen(true)}
-                        variant="primary"
-                        size="large"
-                        className={classes.mobileButton}
-                        fullsize
-                      >
-                        <PlusCircleIcon />
-                        <span>
-                          <Trans>Create folder</Trans>
-                        </span>
-                      </Button>
-                    )
-                  },
-                  {
-                    contents: (
-                      <Button
-                        onClick={() => setIsUploadModalOpen(true)}
-                        variant="primary"
-                        fullsize
-                        className={classes.mobileButton}
-                      >
-                        <UploadIcon />
-                        <span>
-                          <Trans>Upload</Trans>
-                        </span>
-                      </Button>
-                    )
-                  }
-                ]}
-              />
+              <>
+                <Button
+                  onClick={() => setBrowserView(browserView === "grid" ? "table" : "grid")}
+                  variant="outline"
+                  size="large"
+                  className={classes.viewToggleButton}
+                >
+                  {browserView === "table" ? <GridIcon /> : <TableIcon />}
+                </Button>
+                <MenuDropdown
+                  classNames={{
+                    icon: classes.dropdownIcon,
+                    options: classes.dropdownOptions
+                  }}
+                  autoclose={true}
+                  anchor="bottom-right"
+                  animation="none"
+                  indicator={PlusIcon}
+                  menuItems={[
+                    {
+                      contents: (
+                        <Button
+                          onClick={() => setCreateFolderModalOpen(true)}
+                          variant="primary"
+                          size="large"
+                          className={classes.mobileButton}
+                          fullsize
+                        >
+                          <PlusCircleIcon />
+                          <span>
+                            <Trans>Create folder</Trans>
+                          </span>
+                        </Button>
+                      )
+                    },
+                    {
+                      contents: (
+                        <Button
+                          onClick={() => setIsUploadModalOpen(true)}
+                          variant="primary"
+                          fullsize
+                          className={classes.mobileButton}
+                        >
+                          <UploadIcon />
+                          <span>
+                            <Trans>Upload</Trans>
+                          </span>
+                        </Button>
+                      )
+                    }
+                  ]}
+                />
+              </>
             )
           )}
         </div>
@@ -660,64 +709,65 @@ const FilesTableView = ({
             </Typography>
           </section>
         ) : (
-          <Table
-            fullWidth={true}
-            striped={true}
-            hover={true}
-            className={clsx(loadingCurrentPath && classes.fadeOutLoading)}
-          >
-            {desktop && (
-              <TableHead className={classes.tableHead}>
-                <TableRow
-                  type="grid"
-                  className={classes.tableRow}
-                >
-                  <TableHeadCell>
-                    <CheckboxInput
-                      value={selectedCids.length === items.length}
-                      onChange={() => toggleAll()}
-                    />
-                  </TableHeadCell>
-                  <TableHeadCell>
-                    {/* 
+          browserView === "table" ? (
+            <Table
+              fullWidth={true}
+              striped={true}
+              hover={true}
+              className={clsx(loadingCurrentPath && classes.fadeOutLoading)}
+            >
+              {desktop && (
+                <TableHead className={classes.tableHead}>
+                  <TableRow
+                    type="grid"
+                    className={classes.tableRow}
+                  >
+                    <TableHeadCell>
+                      <CheckboxInput
+                        value={selectedCids.length === items.length}
+                        onChange={() => toggleAll()}
+                      />
+                    </TableHeadCell>
+                    <TableHeadCell>
+                      {/* 
                         Icon
                       */}
-                  </TableHeadCell>
-                  <TableHeadCell
-                    sortButtons={true}
-                    align="left"
-                    onSortChange={() => handleSortToggle("name")}
-                    sortDirection={column === "name" ? direction : undefined}
-                    sortActive={column === "name"}
-                  >
-                    <Trans>Name</Trans>
-                  </TableHeadCell>
-                  <TableHeadCell
-                    sortButtons={true}
-                    align="left"
-                    onSortChange={() => handleSortToggle("date_uploaded")}
-                    sortDirection={
-                      column === "date_uploaded" ? direction : undefined
-                    }
-                    sortActive={column === "date_uploaded"}
-                  >
-                    <Trans>Date uploaded</Trans>
-                  </TableHeadCell>
-                  <TableHeadCell
-                    sortButtons={true}
-                    align="left"
-                    onSortChange={() => handleSortToggle("size")}
-                    sortDirection={column === "size" ? direction : undefined}
-                    sortActive={column === "size"}
-                  >
-                    <Trans>Size</Trans>
-                  </TableHeadCell>
-                  <TableHeadCell>{/* Menu */}</TableHeadCell>
-                </TableRow>
-              </TableHead>
-            )}
-            <TableBody>
-              {!desktop &&
+                    </TableHeadCell>
+                    <TableHeadCell
+                      sortButtons={true}
+                      align="left"
+                      onSortChange={() => handleSortToggle("name")}
+                      sortDirection={column === "name" ? direction : undefined}
+                      sortActive={column === "name"}
+                    >
+                      <Trans>Name</Trans>
+                    </TableHeadCell>
+                    <TableHeadCell
+                      sortButtons={true}
+                      align="left"
+                      onSortChange={() => handleSortToggle("date_uploaded")}
+                      sortDirection={
+                        column === "date_uploaded" ? direction : undefined
+                      }
+                      sortActive={column === "date_uploaded"}
+                    >
+                      <Trans>Date uploaded</Trans>
+                    </TableHeadCell>
+                    <TableHeadCell
+                      sortButtons={true}
+                      align="left"
+                      onSortChange={() => handleSortToggle("size")}
+                      sortDirection={column === "size" ? direction : undefined}
+                      sortActive={column === "size"}
+                    >
+                      <Trans>Size</Trans>
+                    </TableHeadCell>
+                    <TableHeadCell>{/* Menu */}</TableHeadCell>
+                  </TableRow>
+                </TableHead>
+              )}
+              <TableBody>
+                {!desktop &&
               showUploadsInTable &&
               uploadsInProgress
                 ?.filter(
@@ -747,6 +797,47 @@ const FilesTableView = ({
                     <TableCell />
                   </TableRow>
                 ))}
+                {items.map((file, index) => (
+                  <FileSystemItemRow
+                    key={index}
+                    index={index}
+                    file={file}
+                    files={files}
+                    currentPath={currentPath}
+                    updateCurrentPath={updateCurrentPath}
+                    selected={selectedCids}
+                    handleSelect={handleSelect}
+                    editing={editing}
+                    setEditing={setEditing}
+                    renameSchema={renameSchema}
+                    handleRename={async (path: string, newPath: string) => {
+                      handleRename && (await handleRename(path, newPath))
+                      setEditing(undefined)
+                    }}
+                    handleMove={handleMove}
+                    deleteFile={() => {
+                      setSelectedCids([file.cid])
+                      setIsDeleteModalOpen(true)
+                    }}
+                    recoverFile={recoverFile}
+                    downloadFile={downloadFile}
+                    viewFolder={viewFolder}
+                    handleUploadOnDrop={handleUploadOnDrop}
+                    setPreviewFileIndex={setPreviewFileIndex}
+                    moveFile={() => {
+                      setSelectedCids([file.cid])
+                      setIsMoveFileModalOpen(true)
+                    }}
+                    setFileInfoPath={setFileInfoPath}
+                    itemOperations={getItemOperations(file.content_type)}
+                    resetSelectedFiles={resetSelectedCids}
+                    browserView="table"
+                  />
+                ))}
+              </TableBody>
+            </Table>
+          ) : (
+            <section className={clsx(classes.gridRoot, loadingCurrentPath && classes.fadeOutLoading)}>
               {items.map((file, index) => (
                 <FileSystemItemRow
                   key={index}
@@ -781,10 +872,11 @@ const FilesTableView = ({
                   setFileInfoPath={setFileInfoPath}
                   itemOperations={getItemOperations(file.content_type)}
                   resetSelectedFiles={resetSelectedCids}
+                  browserView="grid"
                 />
               ))}
-            </TableBody>
-          </Table>
+            </section>
+          )
         )}
       {files && previewFileIndex !== undefined && (
         <FilePreviewModal

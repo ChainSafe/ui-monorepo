@@ -16,6 +16,8 @@ export type FileOperation =
   | "preview"
   | "view_folder"
 
+export type BrowserView = "grid" | "table"
+
 export interface IFilesBrowserModuleProps {
   heading?: string
   // TODO: once pagination & unique content requests are present, this might change to a passed in function

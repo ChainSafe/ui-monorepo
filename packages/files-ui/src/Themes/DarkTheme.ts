@@ -426,7 +426,8 @@ export const darkTheme = createTheme<CsfColors>({
         },
         filesTable: {
           color: "var(--gray7)",
-          uploadText: "var(--gray7)"
+          uploadText: "var(--gray7)",
+          gridItemShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
         },
         fileSystemItemRow: {
           icon: "var(--gray9)",
