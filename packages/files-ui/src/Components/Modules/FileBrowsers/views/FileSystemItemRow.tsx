@@ -264,7 +264,7 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
     Icon = FileTextSvg
   }
 
-  const { desktop, themeKey } = useThemeSwitcher()
+  const { desktop } = useThemeSwitcher()
   const classes = useStyles()
 
   const allMenuItems: Record<FileOperation, IMenuItem> = {
@@ -508,7 +508,7 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
                       autoFocus={editing === cid}
                     />
                     <Button
-                      variant={themeKey === "dark" ? "outline" : "dashed"}
+                      variant="dashed"
                       size="small"
                       type="submit"
                     >
