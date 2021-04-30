@@ -254,6 +254,7 @@ const InitialScreen = ({ className }: IInitialScreen) => {
                   </Typography>
                 )}
                 <Button
+                  data-cy="web3"
                   onClick={() => {
                     setLoginMode("web3")
                     handleSelectWalletAndConnect()
