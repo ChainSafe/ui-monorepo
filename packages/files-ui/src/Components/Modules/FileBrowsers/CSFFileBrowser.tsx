@@ -88,6 +88,7 @@ const CSFFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = true }:
     }
 
     try {
+      debugger
       await moveCSFObject({
         path: getPathWithFile(currentPath, itemToDelete.name),
         new_path: getPathWithFile("/", itemToDelete.name),
