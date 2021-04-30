@@ -569,11 +569,10 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
                   }}
                   validationSchema={renameSchema}
                   onSubmit={(values) => {
-                    handleRename &&
-                handleRename(
-                  `${currentPath}${name}`,
-                  `${currentPath}${values.fileName}`
-                )
+                    handleRename && handleRename(
+                      `${currentPath}${name}`,
+                      `${currentPath}${values.fileName}`
+                    )
                     setEditing(undefined)
                   }}
                 >
