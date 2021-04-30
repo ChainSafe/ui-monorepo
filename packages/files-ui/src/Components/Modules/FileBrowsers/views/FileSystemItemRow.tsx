@@ -586,9 +586,10 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
                           setEditing(undefined)
                         }
                       }}
-                      placeholder={`Please enter a ${
-                        isFolder ? "folder" : "file"
-                      } name`}
+                      placeholder = {isFolder
+                        ? t`Please enter a file name`
+                        : t`Please enter a folder name`
+                      }
                       autoFocus={editing === cid}
                     />
                   </Form>
