@@ -37,6 +37,7 @@ import { NativeTypes } from "react-dnd-html5-backend"
 import { BrowserView, FileOperation } from "../types"
 import { CSFTheme } from "../../../../Themes/types"
 import dayjs from "dayjs"
+import { t } from "@lingui/macro"
 
 const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => {
   const desktopGridSettings = "50px 69px 3fr 190px 100px 45px !important"
@@ -504,9 +505,10 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
                           setEditing(undefined)
                         }
                       }}
-                      placeholder={`Please enter a ${
-                        isFolder ? "folder" : "file"
-                      } name`}
+                      placeholder = {isFolder
+                        ? t`Please enter a file name`
+                        : t`Please enter a folder name`
+                      }
                       autoFocus={editing === cid}
                     />
                     <Button
