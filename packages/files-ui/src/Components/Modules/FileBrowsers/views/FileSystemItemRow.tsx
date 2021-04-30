@@ -473,11 +473,7 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
               ref={preview}
               align="left"
               className={clsx(classes.filename, desktop && editing === cid && "editing")}
-              onClick={() => {
-                if (!editing) {
-                  onFolderOrFileClicks()
-                }
-              }}
+              onClick={() => !editing && onFolderOrFileClicks()}
             >
               {editing === cid && desktop ? (
                 <Formik
