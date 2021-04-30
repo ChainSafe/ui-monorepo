@@ -615,7 +615,7 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
         )
       }
       {
-        editing === cid && !desktop ? (
+        editing === cid && !desktop && (
           <>
             <CustomModal
               className={classes.modalRoot}
@@ -681,7 +681,7 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
             </CustomModal>
             <Typography>{name}</Typography>
           </>
-        ) : null
+        )
       }
     </>
   )
