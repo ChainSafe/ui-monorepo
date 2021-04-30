@@ -4,21 +4,24 @@ import { IFilesBrowserModuleProps, IFilesTableBrowserProps } from "./types"
 import FilesTableView from "./views/FilesTable.view"
 import { CONTENT_TYPES } from "../../../Utils/Constants"
 import DragAndDrop from "../../../Contexts/DnDContext"
-import { useHistory, useParams, useToaster } from "@chainsafe/common-components"
+import { useHistory, useLocation, useToaster } from "@chainsafe/common-components"
 import { getParentPathFromFilePath } from "../../../Utils/pathUtils"
 import { ROUTE_LINKS } from "../../FilesRoutes"
-import { useQuery } from "../../../Utils/Helpers"
 import { t } from "@lingui/macro"
 import { SearchParams } from "../SearchModule"
 
 const SearchFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = false }: IFilesBrowserModuleProps) => {
-  const { searchTerm } = useParams<{ searchTerm: string }>()
+  const { pathname } = useLocation()
+  const [searchTerm, setSearchTerm] = useState(pathname.split("/").slice(2)[0])
+  const { redirect } = useHistory()
+
   const { listBuckets, searchFiles } = useDrive()
 
   const [bucketType] = useState<BucketType>("csf")
   const [currentSearchBucket, setCurrentSearchBucket] = useState<SearchParams | undefined>()
   const { addToastMessage } = useToaster()
-  const getSearchResults = async (searchString: string) => {
+
+  const getSearchResults = useCallback(async (searchString: string) => {
     try {
       if (!searchString) return []
       let bucketId
@@ -47,20 +50,26 @@ const SearchFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = fals
       })
       return Promise.reject(err)
     }
-  }
-  const { redirect } = useHistory()
+  }, [addToastMessage, bucketType, currentSearchBucket, listBuckets, searchFiles])
+
+  useEffect(() => {
+    console.log("refreshing")
+    const drivePath = pathname.split("/").slice(2)[0]
+
+    setSearchTerm(decodeURI(drivePath))
+    getSearchResults(decodeURI(drivePath))
+  }, [getSearchResults, pathname])
 
   const [loadingSearchResults, setLoadingSearchResults] = useState(true)
   const [searchResults, setSearchResults] = useState<SearchEntry[]>([])
 
-  const querySearch = useQuery().get("search")
 
   useEffect(() => {
     const onSearch = async () => {
-      if (querySearch) {
+      if (searchTerm) {
         try {
           setLoadingSearchResults(true)
-          const results = await getSearchResults(querySearch)
+          const results = await getSearchResults(searchTerm)
           setSearchResults(results)
           setLoadingSearchResults(false)
         } catch {
@@ -70,7 +79,7 @@ const SearchFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = fals
     }
     onSearch()
     // eslint-disable-next-line
-  }, [querySearch])
+  }, [searchTerm])
 
   const getSearchEntry = useCallback((cid: string) =>
     searchResults.find(

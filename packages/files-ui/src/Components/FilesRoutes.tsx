@@ -18,7 +18,7 @@ export const ROUTE_LINKS = {
   // TODO: update link
   ApplyCryptography: "https://chainsafe.io/",
   Drive: (rawCurrentPath: string) => `/drive${rawCurrentPath}`,
-  Search: (rawSearchTerm: string) => `/search${rawSearchTerm}`,
+  Search: (rawSearchTerm: string) => `/search/${rawSearchTerm}`,
   Bin: "/bin",
   Settings: `${SETTINGS_BASE}/:path`,
   SettingsDefault: `${SETTINGS_BASE}`,
