@@ -1,6 +1,4 @@
-# Chainafe Imploy UI Monorepo
-
-Imploy UI monorepo
+# Chainafe Files UI Monorepo
 
 ## Requirements
 
