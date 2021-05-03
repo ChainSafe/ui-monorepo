@@ -1,3 +1,6 @@
+import { ethers } from "ethers"
+
+
 describe("My First Test", () => {
 
   // beforeEach(() => {
@@ -13,6 +16,8 @@ describe("My First Test", () => {
   it("Visits the login page", () => {
 
     cy.on("window:before:load", (win) => {
+      const wallet = new ethers.Wallet("0xa25e2110b53821441a5f476d4666dd7a48569a0be4b1bab87350f94923e99a9c")
+      const provider = new ethers.EIP1193Bridge
       // eslint-disable-next-line max-len
       Object.defineProperty(win, "ethereum", {
         get: () => ({
