@@ -75,14 +75,15 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => 
       display: "flex",
       justifyContent: "center",
       alignItems: "center",
-      height: constants.generalUnit * 28,
+      height: constants.generalUnit * 16,
+      maxWidth: constants.generalUnit * 24,
       border: `1px solid ${palette.additional["gray"][6]}`,
       boxShadow: constants.filesTable.gridItemShadow,
       "& svg": {
         width: "30%"
       },
       [breakpoints.down("lg")]: {
-        height: constants.generalUnit * 20
+        height: constants.generalUnit * 16
       },
       [breakpoints.down("sm")]: {
         height: constants.generalUnit * 16
