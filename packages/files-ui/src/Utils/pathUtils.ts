@@ -31,7 +31,11 @@ export function getPathFromArray(arrayOfPaths: string[]): string {
 
 // get path and file
 export function getPathWithFile(path: string, fileName: string) {
-  return path === "/" ? `/${fileName}` : `${path}/${fileName}`
+  return path === "/"
+    ? `/${fileName}`
+    : path[path.length - 1] === "/"
+      ? `${path}${fileName}`
+      : `${path}/${fileName}`
 }
 
 // get path and file
