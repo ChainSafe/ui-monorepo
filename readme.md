@@ -1,5 +1,8 @@
 # Chainafe Files UI Monorepo
 
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/700aaf66f15641be8db21e180064e252)](https://www.codacy.com?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=ChainSafe/files-ui&amp;utm_campaign=Badge_Grade)
+[![Lint](https://github.com/ChainSafe/files-ui/actions/workflows/lint.yml/badge.svg?branch=dev)](https://github.com/ChainSafe/files-ui/actions/workflows/lint.yml)
+
 ## Requirements
 
 - Node > 12
