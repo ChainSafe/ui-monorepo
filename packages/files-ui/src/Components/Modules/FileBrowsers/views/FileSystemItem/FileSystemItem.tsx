@@ -1,13 +1,8 @@
 import React, { useCallback } from "react"
 import {
-  TableRow,
-  TableCell,
   FormikTextInput,
   Typography,
   Button,
-  formatBytes,
-  MenuDropdown,
-  MoreIcon,
   FileImageSvg,
   FilePdfSvg,
   FileTextSvg,
@@ -16,9 +11,7 @@ import {
   DeleteSvg,
   EditSvg,
   IMenuItem,
-  CheckSvg,
   RecoverSvg,
-  CheckboxInput,
   EyeSvg,
   ExportSvg,
   ShareAltSvg,
@@ -26,72 +19,20 @@ import {
   ZoomInSvg
 } from "@chainsafe/common-components"
 import { makeStyles, createStyles, useDoubleClick, useThemeSwitcher } from "@chainsafe/common-theme"
-import clsx from "clsx"
 import { Formik, Form } from "formik"
-import { FileSystemItem, BucketType } from "../../../../Contexts/DriveContext"
-import CustomModal from "../../../Elements/CustomModal"
+import { FileSystemItem, BucketType } from "../../../../../Contexts/DriveContext"
+import CustomModal from "../../../../Elements/CustomModal"
 import { Trans } from "@lingui/macro"
 import { useDrag, useDrop } from "react-dnd"
-import { DragTypes } from "../DragConstants"
+import { DragTypes } from "../../DragConstants"
 import { NativeTypes } from "react-dnd-html5-backend"
-import { BrowserView, FileOperation } from "../types"
-import { CSFTheme } from "../../../../Themes/types"
-import dayjs from "dayjs"
-import { t } from "@lingui/macro"
+import { BrowserView, FileOperation } from "../../types"
+import { CSFTheme } from "../../../../../Themes/types"
+import FileItemTableItem from "./FileSystemTableItem"
+import FileItemGridItem from "./FileSystemGridItem"
 
-const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => {
-  const desktopGridSettings = "50px 69px 3fr 190px 100px 45px !important"
-  const mobileGridSettings = "69px 3fr 45px !important"
-
+const useStyles = makeStyles(({ breakpoints, constants }: CSFTheme) => {
   return createStyles({
-    tableRow: {
-      border: "2px solid transparent",
-      [breakpoints.up("md")]: {
-        gridTemplateColumns: desktopGridSettings
-      },
-      [breakpoints.down("md")]: {
-        gridTemplateColumns: mobileGridSettings
-      },
-      "&.droppable": {
-        border: `2px solid ${palette.additional["geekblue"][6]}`
-      }
-    },
-    fileIcon: {
-      display: "flex",
-      flexDirection: "row",
-      alignItems: "center",
-      justifyContent: "center",
-      "& svg": {
-        width: constants.generalUnit * 2.5,
-        fill: constants.fileSystemItemRow.icon
-      }
-    },
-    folderIcon: {
-      "& svg": {
-        fill: palette.additional.gray[9]
-      }
-    },
-    gridIcon: {
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
-      height: constants.generalUnit * 16,
-      maxWidth: constants.generalUnit * 24,
-      border: `1px solid ${palette.additional["gray"][6]}`,
-      boxShadow: constants.filesTable.gridItemShadow,
-      "& svg": {
-        width: "30%"
-      },
-      [breakpoints.down("lg")]: {
-        height: constants.generalUnit * 16
-      },
-      [breakpoints.down("sm")]: {
-        height: constants.generalUnit * 16
-      },
-      "&.highlighted": {
-        border: `1px solid ${palette.additional["geekblue"][6]}`
-      }
-    },
     renameInput: {
       width: "100%",
       [breakpoints.up("md")]: {
@@ -149,54 +90,9 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => 
         fill: constants.fileSystemItemRow.menuIcon
       }
     },
-    desktopRename: {
-      display: "flex",
-      flexDirection: "row",
-      "& svg": {
-        width: 20,
-        height: 20
-      }
-    },
-    filename: {
-      whiteSpace: "nowrap",
-      textOverflow: "ellipsis",
-      overflow: "hidden",
-      "&.editing": {
-        overflow: "visible"
-      }
-    },
     dropdownIcon: {
       "& svg": {
         fill: constants.fileSystemItemRow.dropdownIcon
-      }
-    },
-    dropdownOptions: {
-      backgroundColor: constants.fileSystemItemRow.optionsBackground,
-      color: constants.fileSystemItemRow.optionsColor,
-      border: `1px solid ${constants.fileSystemItemRow.optionsBorder}`
-    },
-    dropdownItem: {
-      backgroundColor: constants.fileSystemItemRow.itemBackground,
-      color: constants.fileSystemItemRow.itemColor
-    },
-    gridViewContainer: {
-      display: "flex",
-      flex: 1
-    },
-    gridFolderName: {
-      textAlign: "center",
-      wordBreak: "break-all",
-      overflowWrap: "break-word",
-      padding: constants.generalUnit
-    },
-    gridViewIconNameBox: {
-      display: "flex",
-      flexDirection: "column"
-    },
-    menuTitleGrid: {
-      padding: `0 ${constants.generalUnit * 0.5}px`,
-      [breakpoints.down("md")]: {
-        padding: 0
       }
     }
   })
@@ -229,7 +125,6 @@ interface IFileSystemItemRowProps {
 }
 
 const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
-  index,
   file,
   files,
   currentPath,
@@ -253,7 +148,7 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
   resetSelectedFiles,
   browserView
 }) => {
-  const { cid, name, isFolder, size, content_type, created_at } = file
+  const { cid, name, isFolder, content_type } = file
   let Icon
   if (isFolder) {
     Icon = FolderFilledSvg
@@ -425,8 +320,11 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
     setPreviewFileIndex(files?.indexOf(file))
   }, [file, files, setPreviewFileIndex])
 
-  const onSingleClick = useCallback(() => { handleSelect(cid) },
-    [cid, handleSelect])
+  const onSingleClick = useCallback(
+    () => { handleSelect(cid) },
+    [cid, handleSelect]
+  )
+
   const onDoubleClick = useCallback(() => {
     isFolder
       ? onFolderClick()
@@ -443,177 +341,32 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
         : onFileClick()
     }
 
+  const itemProps = {
+    attachRef,
+    currentPath,
+    editing,
+    file,
+    handleSelect,
+    handleRename,
+    icon: <Icon />,
+    isFolder,
+    isOverMove,
+    isOverUpload,
+    menuItems,
+    onFolderOrFileClicks,
+    preview,
+    renameSchema,
+    selected,
+    setEditing
+  }
+
   return (
     <>
       {
         browserView === "table" ? (
-          <TableRow
-            key={`files-${index}`}
-            className={clsx(classes.tableRow, {
-              droppable: isFolder && (isOverMove || isOverUpload)
-            })}
-            type="grid"
-            rowSelectable={true}
-            ref={!editing ? attachRef : null}
-            selected={selected.includes(cid)}
-          >
-            {desktop && (
-              <TableCell>
-                <CheckboxInput
-                  value={selected.includes(cid)}
-                  onChange={() => handleSelect(cid)}
-                />
-              </TableCell>
-            )}
-            <TableCell
-              className={clsx(classes.fileIcon, isFolder && classes.folderIcon)}
-              onClick={onFolderOrFileClicks}
-            >
-              <Icon />
-            </TableCell>
-            <TableCell
-              ref={preview}
-              align="left"
-              className={clsx(classes.filename, desktop && editing === cid && "editing")}
-              onClick={() => !editing && onFolderOrFileClicks()}
-            >
-              {editing === cid && desktop ? (
-                <Formik
-                  initialValues={{
-                    fileName: name
-                  }}
-                  validationSchema={renameSchema}
-                  onSubmit={(values) => {
-                    handleRename &&
-                handleRename(
-                  `${currentPath}${name}`,
-                  `${currentPath}${values.fileName}`
-                )
-                    setEditing(undefined)
-                  }}
-                >
-                  <Form className={classes.desktopRename}>
-                    <FormikTextInput
-                      className={classes.renameInput}
-                      name="fileName"
-                      inputVariant="minimal"
-                      onKeyDown={(event) => {
-                        if (event.key === "Escape") {
-                          setEditing(undefined)
-                        }
-                      }}
-                      placeholder = {isFolder
-                        ? t`Please enter a file name`
-                        : t`Please enter a folder name`
-                      }
-                      autoFocus={editing === cid}
-                    />
-                    <Button
-                      variant="dashed"
-                      size="small"
-                      type="submit"
-                    >
-                      <CheckSvg />
-                    </Button>
-                  </Form>
-                </Formik>
-              ) : (
-                <Typography>{name}</Typography>
-              )}
-            </TableCell>
-            {desktop && (
-              <>
-                <TableCell align="left">
-                  {
-                    dayjs.unix(created_at).format("DD MMM YYYY h:mm a")
-                  }
-                </TableCell>
-                <TableCell align="left">
-                  {!isFolder && formatBytes(size)}
-                </TableCell>
-              </>
-            )}
-            <TableCell align="right">
-              <MenuDropdown
-                animation="none"
-                anchor={desktop ? "bottom-center" : "bottom-right"}
-                menuItems={menuItems}
-                classNames={{
-                  icon: classes.dropdownIcon,
-                  options: classes.dropdownOptions,
-                  item: classes.dropdownItem
-                }}
-                indicator={MoreIcon}
-              />
-            </TableCell>
-          </TableRow>
+          <FileItemTableItem {...itemProps} />
         ) : (
-          <div className={classes.gridViewContainer}>
-            <div className={clsx(classes.gridViewIconNameBox)}
-              ref={!editing ? attachRef : null}
-              onClick={onFolderOrFileClicks}
-            >
-              <div
-                className={clsx(
-                  classes.fileIcon,
-                  isFolder && classes.folderIcon,
-                  classes.gridIcon,
-                  (isOverMove || isOverUpload || selected.includes(cid)) && "highlighted"
-                )}
-              >
-                <Icon />
-              </div>
-              {editing === cid && desktop ? (
-                <Formik
-                  initialValues={{
-                    fileName: name
-                  }}
-                  validationSchema={renameSchema}
-                  onSubmit={(values) => {
-                    handleRename && handleRename(
-                      `${currentPath}${name}`,
-                      `${currentPath}${values.fileName}`
-                    )
-                    setEditing(undefined)
-                  }}
-                >
-                  <Form className={classes.desktopRename}>
-                    <FormikTextInput
-                      className={classes.renameInput}
-                      name="fileName"
-                      inputVariant="minimal"
-                      onKeyDown={(event) => {
-                        if (event.key === "Escape") {
-                          setEditing(undefined)
-                        }
-                      }}
-                      placeholder = {isFolder
-                        ? t`Please enter a file name`
-                        : t`Please enter a folder name`
-                      }
-                      autoFocus={editing === cid}
-                    />
-                  </Form>
-                </Formik>
-              ) : (
-                <div className={classes.gridFolderName}>{name}</div>
-              )}
-            </div>
-            <div>
-              <MenuDropdown
-                animation="none"
-                anchor="bottom-right"
-                menuItems={menuItems}
-                classNames={{
-                  icon: classes.dropdownIcon,
-                  options: classes.dropdownOptions,
-                  item: classes.dropdownItem,
-                  title: classes.menuTitleGrid
-                }}
-                indicator={MoreIcon}
-              />
-            </div>
-          </div>
+          <FileItemGridItem {...itemProps} />
         )
       }
       {
