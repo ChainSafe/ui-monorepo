@@ -438,7 +438,7 @@ msgid "Saved browser"
 msgstr "Navigateur enregistré"
 
 msgid "Saved on:"
-msgstr "Enregistré sur:"
+msgstr "sur:"
 
 msgid "Search results"
 msgstr "Résultats de recherche"
@@ -483,10 +483,10 @@ msgid "Share"
 msgstr "Partager"
 
 msgid "Sign Out"
-msgstr "Se Déconnecter"
+msgstr "Déconnexion"
 
 msgid "Sign in"
-msgstr "Se connecter"
+msgstr "Connexion"
 
 msgid "Sign in with a different account"
 msgstr "Se connecter avec un autre compte"
@@ -495,7 +495,7 @@ msgid "Sign-in methods"
 msgstr "Méthodes de connections"
 
 msgid "Sign-in with {0}"
-msgstr "Se connecter avec {0}"
+msgstr "Connexion avec {0}"
 
 msgid "Size"
 msgstr "Taille"
@@ -527,8 +527,8 @@ msgstr "Technique"
 msgid "Terms and Conditions"
 msgstr "Termes et conditions"
 
-msgid "Thanks for taking care of that. You can <0/> adjust these anytime in security settings."
-msgstr "Vous pouvez <0/> les ajuster à tout moment dans les paramètres de sécurité."
+msgid "Thanks for taking care of that. You can adjust these anytime in security settings."
+msgstr "Vous pouvez les changer à tout moment dans les paramètres de sécurité."
 
 msgid "The authentication popup was closed"
 msgstr "Le popup d'authentification a été fermé"
@@ -617,9 +617,6 @@ msgstr "Une belle nuit."
 msgid "Yes, save it"
 msgstr "Oui, l'enregistrer"
 
-msgid "You are about to delete {0} file(s)."
-msgstr "Suppression de {0} fichier(s)."
-
 msgid "You can change this later."
 msgstr "Vous pouvez en changer plus tard."
 
@@ -631,9 +628,6 @@ msgstr "Vos Facteurs d'Authentification"
 
 msgid "Your recovery key can be used to restore your account in place of your backup phrase."
 msgstr "Votre clé de récupération peut être utilisée pour restaurer votre compte à la place de votre phrase de sauvegarde."
-
-msgid "copied!"
-msgstr "copié !"
 
 msgid "deleted successfully"
 msgstr "supprimé avec succès"
@@ -649,3 +643,9 @@ msgstr "le"
 
 msgid "recovered successfully"
 msgstr "récupéré avec succès"
+
+msgid "{0, plural, one {You are about to delete {1} file.} other {You are about to delete {2} files.}}"
+msgstr "{0, plural, one {Supprimer {1} fichier.} other {Supprimer {2} fichiers.}}"
+
+msgid "{noOfFiles, plural, one {Uploading and encrypting {noOfFiles} file} other {Uploading and encrypting {noOfFiles} files}}"
+msgstr "{noOfFiles, plural, one {Upload et chiffrage de {noOfFiles} fichier} other {Upload et chiffrage de {noOfFiles} fichiers}}"

@@ -1,10 +1,9 @@
 import {
   createStyles,
   debounce,
-  makeStyles,
-  useThemeSwitcher
+  makeStyles
 } from "@chainsafe/common-theme"
-import React, { useState, useEffect, useCallback } from "react"
+import React, { useState, useEffect } from "react"
 import CustomModal from "../../Elements/CustomModal"
 import CustomButton from "../../Elements/CustomButton"
 import { Trans } from "@lingui/macro"
@@ -18,9 +17,10 @@ import {
 } from "@chainsafe/common-components"
 import clsx from "clsx"
 import { CSFTheme } from "../../../Themes/types"
+import dayjs from "dayjs"
 
 const useStyles = makeStyles(
-  ({ breakpoints, constants, palette, typography, zIndex }: CSFTheme) => {
+  ({ breakpoints, constants, palette, typography, zIndex, animation }: CSFTheme) => {
     return createStyles({
       modalRoot: {
         zIndex: zIndex?.blocker,
@@ -37,28 +37,21 @@ const useStyles = makeStyles(
           maxWidth: `${breakpoints.width("md")}px !important`
         }
       },
-      copyButton: {
-        backgroundColor: constants.fileInfoModal.copyButtonBackground,
-        color: constants.fileInfoModal.color,
-        flex: 1,
-        [breakpoints.down("md")]: {
-          margin: `${constants.generalUnit * 2}px`
-        }
-      },
       closeButton: {
         flex: 1,
+        marginLeft: constants.generalUnit * 2,
         [breakpoints.down("md")]: {
           position: "fixed",
           bottom: 0,
           left: 0,
           width: "100%",
-          height: constants?.mobileButtonHeight
+          height: constants?.mobileButtonHeight,
+          margin: 0
         }
       },
       title: {
         fontWeight: typography.fontWeight.semibold,
         textAlign: "left",
-        fontSize: 14,
         [breakpoints.down("md")]: {
           textAlign: "center"
         }
@@ -95,15 +88,63 @@ const useStyles = makeStyles(
       },
       paddedContainer: {
         padding: `${constants.generalUnit * 2}px ${
-          constants.generalUnit * 3
-        }px`
-      },
-      copiedContainer: {
-        color: palette.additional["gray"][9],
-        paddingLeft: constants.generalUnit
+          constants.generalUnit * 4
+        }px`,
+        borderBottom: `1px solid ${palette.additional["gray"][3]}`
       },
       loadingContainer: {
         margin: constants.generalUnit * 2
+      },
+      buttonsContainer: {
+        display: "flex",
+        padding: `0 ${constants.generalUnit * 4}px ${constants.generalUnit * 4}px`
+      },
+      copiedFlag: {
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        left: "50%",
+        bottom: "calc(100% + 5px)",
+        position: "absolute",
+        transform: "translate(-50%, 0%)",
+        zIndex: zIndex?.layer1,
+        transitionDuration: `${animation.transform}ms`,
+        opacity: 0,
+        visibility: "hidden",
+        backgroundColor: palette.additional["gray"][9],
+        color: palette.additional["gray"][1],
+        padding: `${constants.generalUnit / 2}px ${constants.generalUnit}px`,
+        borderRadius: 2,
+        "&:after": {
+          transitionDuration: `${animation.transform}ms`,
+          content: "''",
+          position: "absolute",
+          top: "100%",
+          left: "50%",
+          transform: "translate(-50%,0)",
+          width: 0,
+          height: 0,
+          borderLeft: "5px solid transparent",
+          borderRight: "5px solid transparent",
+          borderTop: `5px solid ${ palette.additional["gray"][9]}`
+        },
+        "&.active": {
+          opacity: 1,
+          visibility: "visible"
+        }
+      },
+      copyButton: {
+        width: "100%"
+      },
+      copyContainer: {
+        position: "relative",
+        flexBasis: "75%",
+        color: palette.additional["gray"][9],
+        [breakpoints.down("md")]: {
+          flexBasis: "100%",
+          margin: `${constants.generalUnit * 2}px`
+        }
       }
     })
   }
@@ -118,7 +159,6 @@ const FileInfoModal: React.FC<IFileInfoModuleProps> = ({
   fileInfoPath,
   close
 }: IFileInfoModuleProps) => {
-  const { themeKey } = useThemeSwitcher()
   const classes = useStyles()
 
   const { getFileInfo } = useDrive()
@@ -145,13 +185,7 @@ const FileInfoModal: React.FC<IFileInfoModuleProps> = ({
   }, [fileInfoPath])
 
   const [copied, setCopied] = useState(false)
-
-  // TODO useCallback is maybe not needed here
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const debouncedSwitchCopied = useCallback(
-    debounce(() => setCopied(false), 3000),
-    []
-  )
+  const debouncedSwitchCopied = debounce(() => setCopied(false), 3000)
 
   const onCopyCID = async () => {
     if (fullFileInfo?.content?.cid) {
@@ -206,7 +240,7 @@ const FileInfoModal: React.FC<IFileInfoModuleProps> = ({
                 >
                   <Trans>General</Trans>
                 </Typography>
-                {fullFileInfo.persistent?.uploaded && (
+                {fullFileInfo.content?.created_at ? (
                   <div className={classes.subInfoBox}>
                     <Typography
                       variant="body1"
@@ -219,10 +253,10 @@ const FileInfoModal: React.FC<IFileInfoModuleProps> = ({
                       variant="body2"
                       component="p"
                     >
-                      {fullFileInfo.persistent?.uploaded}
+                      {dayjs.unix(fullFileInfo.content.created_at).format("DD MMM YYYY h:mm a")}
                     </Typography>
                   </div>
-                )}
+                ) : null}
                 {fullFileInfo.content?.size !== undefined && (
                   <div className={classes.subInfoBox}>
                     <Typography
@@ -294,18 +328,6 @@ const FileInfoModal: React.FC<IFileInfoModuleProps> = ({
                     >
                       <Trans>CID (Content Identifier)</Trans>
                     </Typography>
-                    {copied && (
-                      <Typography
-                        variant="body2"
-                        component="p"
-                        className={clsx(
-                          classes.subSubtitle,
-                          classes.copiedContainer
-                        )}
-                      >
-                        <Trans>copied!</Trans>
-                      </Typography>
-                    )}
                   </Grid>
                   <Typography
                     className={classes.subSubtitle}
@@ -321,22 +343,31 @@ const FileInfoModal: React.FC<IFileInfoModuleProps> = ({
           <Grid
             item
             flexDirection="row"
-            justifyContent="flex-end"
+            className={classes.buttonsContainer}
           >
-            <Button
-              type="submit"
-              size="large"
-              variant="primary"
-              className={classes.copyButton}
-              onClick={onCopyCID}
-            >
-              <Trans>Copy CID</Trans>
-            </Button>
+            <div className={classes.copyContainer}>
+              <Button
+                type="submit"
+                size="large"
+                variant="primary"
+                className={classes.copyButton}
+                onClick={onCopyCID}
+              >
+                <Trans>Copy CID</Trans>
+              </Button>
+              <div className={clsx(classes.copiedFlag, { "active": copied })}>
+                <span>
+                  <Trans>
+                      Copied!
+                  </Trans>
+                </span>
+              </div>
+            </div>
             <CustomButton
               onClick={() => close()}
               size="large"
               className={classes.closeButton}
-              variant={themeKey === "dark" ? "outline" : "dashed"}
+              variant="outline"
               type="button"
             >
               <Trans>Close</Trans>

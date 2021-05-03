@@ -32,7 +32,7 @@ import { useMemo } from "react"
 import { object, string } from "yup"
 import EmptySvg from "../../../../Media/Empty.svg"
 import clsx from "clsx"
-import { t, Trans } from "@lingui/macro"
+import { plural, t, Trans } from "@lingui/macro"
 import { NativeTypes } from "react-dnd-html5-backend"
 import { useDrop } from "react-dnd"
 import { BrowserView, FileOperation, IFilesTableBrowserProps } from "../types"
@@ -911,13 +911,15 @@ const FilesTableView = ({
         active={isDeleteModalOpen}
         reject={() => setIsDeleteModalOpen(false)}
         accept={handleDeleteFiles}
-        requestMessage={t`You are about to delete ${selectedCids.length} file(s).`}
-        rejectText={t`Cancel`}
-        acceptText={t`Confirm`}
-        acceptButtonProps={{
-          loading: isDeletingFiles,
-          disabled: isDeletingFiles
-        }}
+        requestMessage={
+          plural(selectedCids.length, {
+            one: `You are about to delete ${selectedCids.length} file.`,
+            other: `You are about to delete ${selectedCids.length} files.`
+          })
+        }
+        rejectText = {t`Cancel`}
+        acceptText = {t`Confirm`}
+        acceptButtonProps={{ loading: isDeletingFiles, disabled: isDeletingFiles }}
         rejectButtonProps={{ disabled: isDeletingFiles }}
         injectedClass={{ inner: classes.confirmDeletionDialog }}
       />
