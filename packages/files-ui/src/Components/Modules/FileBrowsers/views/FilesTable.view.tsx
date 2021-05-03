@@ -1,4 +1,8 @@
-import { createStyles, makeStyles, useThemeSwitcher } from "@chainsafe/common-theme"
+import {
+  createStyles,
+  makeStyles,
+  useThemeSwitcher
+} from "@chainsafe/common-theme"
 import React, { useCallback, useEffect } from "react"
 import {
   Divider,
@@ -256,13 +260,11 @@ const useStyles = makeStyles(
         }
       },
       viewToggleButton: {
-        [breakpoints.down("md")]: {
-          border: "none",
-          "& svg": {
-            marginTop: "2px",
-            width: "20px",
-            height: "20px"
-          }
+        border: "none",
+        "& svg": {
+          marginTop: "2px",
+          width: "20px",
+          height: "20px"
         }
       }
     })
@@ -300,9 +302,13 @@ const FilesTableView = ({
   const classes = useStyles({ themeKey })
   const [editing, setEditing] = useState<string | undefined>()
   const [direction, setDirection] = useState<SortDirection>("ascend")
-  const [column, setColumn] = useState<"name" | "size" | "date_uploaded">("name")
+  const [column, setColumn] = useState<"name" | "size" | "date_uploaded">(
+    "name"
+  )
   const [selectedCids, setSelectedCids] = useState<string[]>([])
-  const [previewFileIndex, setPreviewFileIndex] = useState<number | undefined>()
+  const [previewFileIndex, setPreviewFileIndex] = useState<
+    number | undefined
+  >()
   const { selectedLocale } = useLanguageContext()
   const items: FileSystemItem[] = useMemo(() => {
     let temp = []
@@ -310,43 +316,36 @@ const FilesTableView = ({
     switch (column) {
     default: {
       // case "name": {
-      temp = sourceFiles
-        .sort((a, b) => {
-          return a.name.localeCompare(b.name, selectedLocale, {
-            sensitivity: "base"
-          })
-        }
-        )
+      temp = sourceFiles.sort((a, b) => {
+        return a.name.localeCompare(b.name, selectedLocale, {
+          sensitivity: "base"
+        })
+      })
       break
     }
     case "size": {
-      temp =  sourceFiles
-        .sort((a, b) =>
-          a.size < b.size ? -1 : 1
-        )
+      temp = sourceFiles
+        .sort((a, b) => (a.size < b.size ? -1 : 1))
         .sort(sortFoldersFirst)
       break
     }
     case "date_uploaded": {
-      temp =  sourceFiles
-        .sort((a, b) =>
-          a.created_at < b.created_at ? -1 : 1
-        )
+      temp = sourceFiles
+        .sort((a, b) => (a.created_at < b.created_at ? -1 : 1))
         .sort(sortFoldersFirst)
       break
     }
     }
-    return direction === "descend" ? temp.reverse().sort(sortFoldersFirst) : temp.sort(sortFoldersFirst)
+    return direction === "descend"
+      ? temp.reverse().sort(sortFoldersFirst)
+      : temp.sort(sortFoldersFirst)
   }, [sourceFiles, direction, column, selectedLocale])
 
-  const files = useMemo(
-    () => items.filter((i) => !i.isFolder)
-    , [items]
-  )
+  const files = useMemo(() => items.filter((i) => !i.isFolder), [items])
 
   const selectedFiles = useMemo(
-    () => files.filter((file) => selectedCids.includes(file.cid))
-    , [files, selectedCids]
+    () => files.filter((file) => selectedCids.includes(file.cid)),
+    [files, selectedCids]
   )
 
   const handleSortToggle = (
@@ -386,13 +385,18 @@ const FilesTableView = ({
   }
 
   // Selection logic
-  const handleSelect = useCallback((cid: string) => {
-    if (selectedCids.includes(cid)) {
-      setSelectedCids(selectedCids.filter((selectedCid: string) => selectedCid !== cid))
-    } else {
-      setSelectedCids([...selectedCids, cid])
-    }
-  }, [selectedCids])
+  const handleSelect = useCallback(
+    (cid: string) => {
+      if (selectedCids.includes(cid)) {
+        setSelectedCids(
+          selectedCids.filter((selectedCid: string) => selectedCid !== cid)
+        )
+      } else {
+        setSelectedCids([...selectedCids, cid])
+      }
+    },
+    [selectedCids]
+  )
 
   const toggleAll = () => {
     if (selectedCids.length === items.length) {
@@ -502,7 +506,7 @@ const FilesTableView = ({
   }, [selectedCids, items, bulkOperations])
 
   const handleDeleteFiles = useCallback(() => {
-    if(!deleteFiles) return
+    if (!deleteFiles) return
 
     setIsDeletingFiles(true)
     deleteFiles(selectedCids)
@@ -514,17 +518,29 @@ const FilesTableView = ({
       })
   }, [deleteFiles, selectedCids])
 
-  const getItemOperations =  useCallback((contentType: string) => {
-    const result = Object.keys(itemOperations).reduce((acc: FileOperation[], item: string) => {
-      const matcher = new MimeMatcher(item)
-      // Prevent Files options from being added to Directory options  
-      if (!(contentType === CONTENT_TYPES.Directory && item === CONTENT_TYPES.File) && matcher.match(contentType)) {
-        acc.push(...itemOperations[item])
-      }
-      return acc
-    }, [])
-    return [...new Set(result)]
-  }, [itemOperations])
+  const getItemOperations = useCallback(
+    (contentType: string) => {
+      const result = Object.keys(itemOperations).reduce(
+        (acc: FileOperation[], item: string) => {
+          const matcher = new MimeMatcher(item)
+          // Prevent Files options from being added to Directory options
+          if (
+            !(
+              contentType === CONTENT_TYPES.Directory &&
+              item === CONTENT_TYPES.File
+            ) &&
+            matcher.match(contentType)
+          ) {
+            acc.push(...itemOperations[item])
+          }
+          return acc
+        },
+        []
+      )
+      return [...new Set(result)]
+    },
+    [itemOperations]
+  )
 
   const resetSelectedCids = useCallback(() => {
     setSelectedCids([])
@@ -540,10 +556,8 @@ const FilesTableView = ({
       <div
         className={clsx(classes.dropNotification, { active: isOverBrowser })}
       >
-        <Typography
-          variant="h4"
-          component="p"
-        >
+        <Typography variant="h4"
+          component="p">
           <Trans>Drop to upload files</Trans>
         </Typography>
       </div>
@@ -557,19 +571,20 @@ const FilesTableView = ({
         ) : null}
       </div>
       <header className={classes.header}>
-        <Typography
-          variant="h1"
-          component="h1"
-        >
+        <Typography variant="h1"
+          component="h1">
           {heading}
         </Typography>
         <div className={classes.controls}>
           {controls && desktop ? (
             <>
               <Button
-                onClick={() => setBrowserView(browserView === "grid" ? "table" : "grid")}
+                onClick={() =>
+                  setBrowserView(browserView === "grid" ? "table" : "grid")
+                }
                 variant="outline"
                 size="large"
+                className={classes.viewToggleButton}
               >
                 {browserView === "table" ? <GridIcon /> : <TableIcon />}
               </Button>
@@ -599,7 +614,9 @@ const FilesTableView = ({
             !desktop && (
               <>
                 <Button
-                  onClick={() => setBrowserView(browserView === "grid" ? "table" : "grid")}
+                  onClick={() =>
+                    setBrowserView(browserView === "grid" ? "table" : "grid")
+                  }
                   variant="outline"
                   size="large"
                   className={classes.viewToggleButton}
@@ -667,7 +684,9 @@ const FilesTableView = ({
           )}
           {validBulkOps.indexOf("delete") >= 0 && (
             <Button
-              onClick={() => {setIsDeleteModalOpen(true)}}
+              onClick={() => {
+                setIsDeleteModalOpen(true)
+              }}
               variant="outline"
             >
               <Trans>Delete selected</Trans>
@@ -681,14 +700,10 @@ const FilesTableView = ({
           loadingCurrentPath && classes.showLoadingContainer
         )}
       >
-        <Loading
-          size={24}
-          type="light"
-        />
-        <Typography
-          variant="body2"
-          component="p"
-        >
+        <Loading size={24}
+          type="light" />
+        <Typography variant="body2"
+          component="p">
           <Trans>One sec, getting files ready...</Trans>
         </Typography>
       </div>
@@ -701,80 +716,75 @@ const FilesTableView = ({
             )}
           >
             <EmptySvg />
-            <Typography
-              variant="h4"
-              component="h4"
-            >
+            <Typography variant="h4"
+              component="h4">
               <Trans>No files to show</Trans>
             </Typography>
           </section>
-        ) : (
-          browserView === "table" ? (
-            <Table
-              fullWidth={true}
-              striped={true}
-              hover={true}
-              className={clsx(loadingCurrentPath && classes.fadeOutLoading)}
-            >
-              {desktop && (
-                <TableHead className={classes.tableHead}>
-                  <TableRow
-                    type="grid"
-                    className={classes.tableRow}
-                  >
-                    <TableHeadCell>
-                      <CheckboxInput
-                        value={selectedCids.length === items.length}
-                        onChange={() => toggleAll()}
-                      />
-                    </TableHeadCell>
-                    <TableHeadCell>
-                      {/* 
+        ) : browserView === "table" ? (
+          <Table
+            fullWidth={true}
+            striped={true}
+            hover={true}
+            className={clsx(loadingCurrentPath && classes.fadeOutLoading)}
+          >
+            {desktop && (
+              <TableHead className={classes.tableHead}>
+                <TableRow type="grid"
+                  className={classes.tableRow}>
+                  <TableHeadCell>
+                    <CheckboxInput
+                      value={selectedCids.length === items.length}
+                      onChange={() => toggleAll()}
+                    />
+                  </TableHeadCell>
+                  <TableHeadCell>
+                    {/* 
                         Icon
                       */}
-                    </TableHeadCell>
-                    <TableHeadCell
-                      sortButtons={true}
-                      align="left"
-                      onSortChange={() => handleSortToggle("name")}
-                      sortDirection={column === "name" ? direction : undefined}
-                      sortActive={column === "name"}
-                    >
-                      <Trans>Name</Trans>
-                    </TableHeadCell>
-                    <TableHeadCell
-                      sortButtons={true}
-                      align="left"
-                      onSortChange={() => handleSortToggle("date_uploaded")}
-                      sortDirection={
-                        column === "date_uploaded" ? direction : undefined
-                      }
-                      sortActive={column === "date_uploaded"}
-                    >
-                      <Trans>Date uploaded</Trans>
-                    </TableHeadCell>
-                    <TableHeadCell
-                      sortButtons={true}
-                      align="left"
-                      onSortChange={() => handleSortToggle("size")}
-                      sortDirection={column === "size" ? direction : undefined}
-                      sortActive={column === "size"}
-                    >
-                      <Trans>Size</Trans>
-                    </TableHeadCell>
-                    <TableHeadCell>{/* Menu */}</TableHeadCell>
-                  </TableRow>
-                </TableHead>
-              )}
-              <TableBody>
-                {!desktop &&
+                  </TableHeadCell>
+                  <TableHeadCell
+                    sortButtons={true}
+                    align="left"
+                    onSortChange={() => handleSortToggle("name")}
+                    sortDirection={column === "name" ? direction : undefined}
+                    sortActive={column === "name"}
+                  >
+                    <Trans>Name</Trans>
+                  </TableHeadCell>
+                  <TableHeadCell
+                    sortButtons={true}
+                    align="left"
+                    onSortChange={() => handleSortToggle("date_uploaded")}
+                    sortDirection={
+                      column === "date_uploaded" ? direction : undefined
+                    }
+                    sortActive={column === "date_uploaded"}
+                  >
+                    <Trans>Date uploaded</Trans>
+                  </TableHeadCell>
+                  <TableHeadCell
+                    sortButtons={true}
+                    align="left"
+                    onSortChange={() => handleSortToggle("size")}
+                    sortDirection={column === "size" ? direction : undefined}
+                    sortActive={column === "size"}
+                  >
+                    <Trans>Size</Trans>
+                  </TableHeadCell>
+                  <TableHeadCell>{/* Menu */}</TableHeadCell>
+                </TableRow>
+              </TableHead>
+            )}
+            <TableBody>
+              {!desktop &&
               showUploadsInTable &&
               uploadsInProgress
                 ?.filter(
                   (uploadInProgress) =>
                     uploadInProgress.path === currentPath &&
                     !uploadInProgress.complete &&
-                    !uploadInProgress.error,
+                    !uploadInProgress.error
                 )
                 .map((uploadInProgress) => (
                   <TableRow
@@ -797,47 +807,6 @@ const FilesTableView = ({
                     <TableCell />
                   </TableRow>
                 ))}
-                {items.map((file, index) => (
-                  <FileSystemItemRow
-                    key={index}
-                    index={index}
-                    file={file}
-                    files={files}
-                    currentPath={currentPath}
-                    updateCurrentPath={updateCurrentPath}
-                    selected={selectedCids}
-                    handleSelect={handleSelect}
-                    editing={editing}
-                    setEditing={setEditing}
-                    renameSchema={renameSchema}
-                    handleRename={async (path: string, newPath: string) => {
-                      handleRename && (await handleRename(path, newPath))
-                      setEditing(undefined)
-                    }}
-                    handleMove={handleMove}
-                    deleteFile={() => {
-                      setSelectedCids([file.cid])
-                      setIsDeleteModalOpen(true)
-                    }}
-                    recoverFile={recoverFile}
-                    downloadFile={downloadFile}
-                    viewFolder={viewFolder}
-                    handleUploadOnDrop={handleUploadOnDrop}
-                    setPreviewFileIndex={setPreviewFileIndex}
-                    moveFile={() => {
-                      setSelectedCids([file.cid])
-                      setIsMoveFileModalOpen(true)
-                    }}
-                    setFileInfoPath={setFileInfoPath}
-                    itemOperations={getItemOperations(file.content_type)}
-                    resetSelectedFiles={resetSelectedCids}
-                    browserView="table"
-                  />
-                ))}
-              </TableBody>
-            </Table>
-          ) : (
-            <section className={clsx(classes.gridRoot, loadingCurrentPath && classes.fadeOutLoading)}>
               {items.map((file, index) => (
                 <FileSystemItemRow
                   key={index}
@@ -872,11 +841,56 @@ const FilesTableView = ({
                   setFileInfoPath={setFileInfoPath}
                   itemOperations={getItemOperations(file.content_type)}
                   resetSelectedFiles={resetSelectedCids}
-                  browserView="grid"
+                  browserView="table"
                 />
               ))}
-            </section>
-          )
+            </TableBody>
+          </Table>
+        ) : (
+          <section
+            className={clsx(
+              classes.gridRoot,
+              loadingCurrentPath && classes.fadeOutLoading
+            )}
+          >
+            {items.map((file, index) => (
+              <FileSystemItemRow
+                key={index}
+                index={index}
+                file={file}
+                files={files}
+                currentPath={currentPath}
+                updateCurrentPath={updateCurrentPath}
+                selected={selectedCids}
+                handleSelect={handleSelect}
+                editing={editing}
+                setEditing={setEditing}
+                renameSchema={renameSchema}
+                handleRename={async (path: string, newPath: string) => {
+                  handleRename && (await handleRename(path, newPath))
+                  setEditing(undefined)
+                }}
+                handleMove={handleMove}
+                deleteFile={() => {
+                  setSelectedCids([file.cid])
+                  setIsDeleteModalOpen(true)
+                }}
+                recoverFile={recoverFile}
+                downloadFile={downloadFile}
+                viewFolder={viewFolder}
+                handleUploadOnDrop={handleUploadOnDrop}
+                setPreviewFileIndex={setPreviewFileIndex}
+                moveFile={() => {
+                  setSelectedCids([file.cid])
+                  setIsMoveFileModalOpen(true)
+                }}
+                setFileInfoPath={setFileInfoPath}
+                itemOperations={getItemOperations(file.content_type)}
+                resetSelectedFiles={resetSelectedCids}
+                browserView="grid"
+              />
+            ))}
+          </section>
         )}
       {files && previewFileIndex !== undefined && (
         <FilePreviewModal
@@ -886,7 +900,11 @@ const FilesTableView = ({
             previewFileIndex < files.length - 1 ? setNextPreview : undefined
           }
           previousFile={previewFileIndex > 0 ? setPreviousPreview : undefined}
-          path={isSearch && getPath ? getPath(files[previewFileIndex].cid) : undefined}
+          path={
+            isSearch && getPath
+              ? getPath(files[previewFileIndex].cid)
+              : undefined
+          }
         />
       )}
       <Dialog
@@ -894,9 +912,12 @@ const FilesTableView = ({
         reject={() => setIsDeleteModalOpen(false)}
         accept={handleDeleteFiles}
         requestMessage={t`You are about to delete ${selectedCids.length} file(s).`}
-        rejectText = {t`Cancel`}
-        acceptText = {t`Confirm`}
-        acceptButtonProps={{ loading: isDeletingFiles, disabled: isDeletingFiles }}
+        rejectText={t`Cancel`}
+        acceptText={t`Confirm`}
+        acceptButtonProps={{
+          loading: isDeletingFiles,
+          disabled: isDeletingFiles
+        }}
         rejectButtonProps={{ disabled: isDeletingFiles }}
         injectedClass={{ inner: classes.confirmDeletionDialog }}
       />
