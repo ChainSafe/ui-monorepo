@@ -157,7 +157,8 @@ function FileSystemGridItem({
 
   return  (
     <div className={classes.gridViewContainer}>
-      <div className={clsx(classes.gridViewIconNameBox)}
+      <div
+        className={clsx(classes.gridViewIconNameBox)}
         ref={!editing ? attachRef : null}
         onClick={onFolderOrFileClicks}
       >
