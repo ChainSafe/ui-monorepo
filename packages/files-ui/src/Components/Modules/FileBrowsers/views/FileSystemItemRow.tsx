@@ -373,9 +373,8 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
   }
 
   const onFolderClick = useCallback(() => {
-    updateCurrentPath(`${currentPath}${name}`, undefined, true)
-    resetSelectedFiles()
-  }, [currentPath, name, resetSelectedFiles, updateCurrentPath])
+    viewFolder && viewFolder(cid)
+  }, [cid, viewFolder])
 
   const onFileClick = useCallback(() => {
     setPreviewFileIndex(files?.indexOf(file))
