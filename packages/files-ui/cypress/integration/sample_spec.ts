@@ -1,5 +1,86 @@
-import { ethers } from "ethers"
+import { ethers, Wallet } from "ethers"
+import { Eip1193Bridge } from "@ethersproject/experimental/lib/eip1193-bridge"
 
+const PRIVATE_KEY_TEST_NEVER_USE = "0xa25e2110b53821441a5f476d4666dd7a48569a0be4b1bab87350f94923e99a9c"
+// address of the above key
+export const TEST_ADDRESS_NEVER_USE = "0xf0Ae62B0EbcB5963538B7103b9A022b3e8cBDB80"
+
+
+class CustomizedBridge extends Eip1193Bridge {
+  async sendAsync(...args) {
+    console.debug("sendAsync called", ...args)
+    return this.send(...args)
+  }
+  async isMetaMask(){
+    return true
+  }
+  async send(...args) {
+    console.debug("send called", ...args)
+    const isCallbackForm = typeof args[0] === "object" && typeof args[1] === "function"
+    let callback
+    let method
+    let params
+    if (isCallbackForm) {
+      callback = args[1]
+      method = args[0].method
+      params = args[0].params
+    } else {
+      method = args[0]
+      params = args[1]
+    }
+
+    if (method === "personal_sign"){
+      console.log("---> personal_sign requested", args, typeof args[0])
+
+      const addr = params[1]
+      const message = params[0]
+
+      if ((addr as string).toLowerCase() !== TEST_ADDRESS_NEVER_USE.toLowerCase()){
+        return Promise.reject(`Wrong address, expected ${TEST_ADDRESS_NEVER_USE}, but got ${addr}`)
+      }
+
+      try {
+        const sig = await this.signer.signMessage(message)
+        console.log("sig", sig)
+        return sig
+      } catch (e) {
+        return Promise.reject(`Error in CustomizedBridge for personal_sign: ${e.message}`)
+      }
+    }
+
+    if (method === "eth_requestAccounts" || method === "eth_accounts") {
+      if (isCallbackForm) {
+        callback({ result: [TEST_ADDRESS_NEVER_USE] })
+      } else {
+        return Promise.resolve([TEST_ADDRESS_NEVER_USE])
+      }
+    }
+
+    if (method === "eth_chainId") {
+      if (isCallbackForm) {
+        callback(null, { result: "0x4" })
+      } else {
+        return Promise.resolve("0x4")
+      }
+    }
+
+    try {
+      const result = await super.send(method, params)
+      console.debug("result received", method, params, result)
+      if (isCallbackForm) {
+        callback(null, { result })
+      } else {
+        return result
+      }
+    } catch (error) {
+      if (isCallbackForm) {
+        callback(error, null)
+      } else {
+        throw error
+      }
+    }
+  }
+}
 
 describe("My First Test", () => {
 
@@ -13,64 +94,37 @@ describe("My First Test", () => {
   //   });
   // });
 
+
   it("Visits the login page", () => {
 
     cy.on("window:before:load", (win) => {
-      const wallet = new ethers.Wallet("0xa25e2110b53821441a5f476d4666dd7a48569a0be4b1bab87350f94923e99a9c")
-      const provider = new ethers.EIP1193Bridge
-      // eslint-disable-next-line max-len
+      const provider = new ethers.providers.JsonRpcProvider("https://rinkeby.infura.io/v3/4bf032f2d38a4ed6bb975b80d6340847", 4)
+      const signer = new Wallet(PRIVATE_KEY_TEST_NEVER_USE, provider)
+      // const wallet = new ethers.Wallet("")
+      // console.log('br', new Eip1193Bridge(signer as any, provider as any))
+      // const bridge = new Eip1193Bridge(signer as any, provider as any)
+      // (win as any).ethereum = new CustomizedBridge(signer as any, provider as any);
+      // (win as any).isMetaMask = {
+      //   isMetaMask: true,
+      //   request: () => {
+      //     console.log('request called')
+      //     return Promise.resolve()
+      //   }
+      // }
+
       Object.defineProperty(win, "ethereum", {
-        get: () => ({
-          "_events": {},
-          "_eventsCount": 4,
-          "_maxListeners": 100,
-          "_log": {
-            "levels": {
-              "TRACE": 0,
-              "DEBUG": 1,
-              "INFO": 2,
-              "WARN": 3,
-              "ERROR": 4,
-              "SILENT": 5
-            }
-          },
-          "isMetaMask": true,
-          "_state": {
-            "sentWarnings": {
-              "enable": false,
-              "experimentalMethods": false,
-              "send": false,
-              "events": {
-                "close": false,
-                "data": false,
-                "networkChanged": true,
-                "notification": false
-              }
-            },
-            "accounts": [
-              "0x8c4118c0a13d0a77a5e7f2197fa24ced0e94c9f4"
-            ],
-            "isConnected": true,
-            "isUnlocked": true,
-            "initialized": true,
-            "isPermanentlyDisconnected": false
-          },
-          "_metamask": {},
-          "selectedAddress": "0x8c4118c0a13d0a77a5e7f2197fa24ced0e94c9f4",
-          "networkVersion": "1",
-          "chainId": "0x1",
-          "_rpcEngine": {
-            "_events": {},
-            "_eventsCount": 0,
-            "_middleware": [
-              null,
-              null,
-              null
-            ]
-          },
-          "autoRefreshOnNetworkChange": false
-        })
+        get: () => new CustomizedBridge(signer as any, provider as any)
       })
+
+      // Object.defineProperty(win, "isMetaMask", {
+      //   get: () => ({
+      //     isMetaMask: true,
+      //     request: () => {
+      //       console.log("request called")
+      //       return Promise.resolve()
+      //     }
+      //   })
+      // })
     })
     // cy.on("window:before:load", (win) => {
     //   Object.defineProperty(win, 'aaaaa', {

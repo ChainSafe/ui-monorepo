@@ -46,6 +46,7 @@
   },
   "devDependencies": {
     "@craco/craco": "^5.9.0",
+    "@ethersproject/experimental": "^5.1.2",
     "@lingui/babel-preset-react": "^2.9.2",
     "@lingui/cli": "^3.7.2",
     "@lingui/macro": "3.7.2",
