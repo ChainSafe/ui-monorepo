@@ -9,7 +9,7 @@ import ShareSerializationModule, { SHARE_SERIALIZATION_MODULE_NAME } from "@tkey
 import { ServiceProviderBase } from "@tkey/service-provider-base"
 import { TorusStorageLayer } from "@tkey/storage-layer-torus"
 import bowser from "bowser"
-import { signMessage, useImployApi } from "@chainsafe/common-contexts"
+import { useImployApi } from "@chainsafe/common-contexts"
 import { utils, Wallet } from "ethers"
 import EthCrypto from "eth-crypto"
 import { useWeb3 } from "@chainsafe/web3-context"
@@ -497,7 +497,8 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
       if (!token) throw new Error()
 
       setStatus("awaiting confirmation")
-      const signature = await signMessage(token, provider.getSigner())
+      const signer = provider.getSigner()
+      const signature = await signer.signMessage(token)
       setStatus("logging in")
       const web3IdentityToken = await imployApiClient.postIdentityWeb3Token({
         signature: signature,
