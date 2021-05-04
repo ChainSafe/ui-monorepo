@@ -248,6 +248,9 @@ msgstr "Génial! Vous avez terminé."
 msgid "Hello again!"
 msgstr "Ravis de vous revoir!"
 
+msgid "Help us make Files better in under a minute."
+msgstr ""
+
 msgid "Hey! You only have two sign-in methods. If you lose that and have only one left, you will be locked out of your account forever."
 msgstr "Hey! Tu ne disposes que de deux méthodes d'authentification. Si tu en perds une, tu seras bloqué pour toujours et ne pourras plus te connecter à ton compte Files."
 
