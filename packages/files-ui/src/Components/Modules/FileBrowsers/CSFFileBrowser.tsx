@@ -10,6 +10,8 @@ import { useQuery } from "../../../Utils/Helpers"
 import { t } from "@lingui/macro"
 import { useLocalStorage } from "@chainsafe/browser-storage-hooks"
 import { DISMISSED_SURVEY_KEY } from "../../SurveyBanner"
+import { useUser } from "@chainsafe/common-contexts"
+import dayjs from "dayjs"
 
 const CSFFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = true }: IFilesBrowserModuleProps) => {
   const {
@@ -28,7 +30,14 @@ const CSFFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = true }:
 
   const queryPath = useQuery().get("path")
   const { localStorageGet } = useLocalStorage()
+  const { profile } = useUser()
   const hasDismissedSurvey = localStorageGet(DISMISSED_SURVEY_KEY) === "true"
+  const olderThanOneWeek = useMemo(
+    () => profile?.createdAt
+      ? dayjs(Date.now()).diff(profile.createdAt, "day") > 7
+      : false
+    , [profile?.createdAt]
+  )
 
   useEffect(() => {
     updateCurrentPath(
@@ -119,7 +128,7 @@ const CSFFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = true }:
         controls={controls}
         allowDropUpload={true}
         itemOperations={ItemOperations}
-        withSurvey={!hasDismissedSurvey}
+        withSurvey={!hasDismissedSurvey && olderThanOneWeek}
       />
     </DragAndDrop>
   )
