@@ -150,7 +150,7 @@ function FileSystemGridItem({
   handleRename,
   currentPath,
   menuItems
-}: IFileSystemTableItemProps) {
+}: IFileSystemTableItemProps): JSX.Element {
   const classes = useStyles()
   const { name, cid } = file
   const { desktop } = useThemeSwitcher()
