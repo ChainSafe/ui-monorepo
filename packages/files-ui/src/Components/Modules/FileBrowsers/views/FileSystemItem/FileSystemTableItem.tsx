@@ -141,7 +141,7 @@ function FileSystemTableItem({
   handleRename,
   currentPath,
   menuItems
-}: IFileSystemTableItemProps): JSX.Element {
+}: IFileSystemTableItemProps) {
   const classes = useStyles()
   const { name, cid, created_at, size } = file
   const { desktop } = useThemeSwitcher()
