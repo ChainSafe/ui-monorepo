@@ -295,7 +295,7 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
               <Link
                 onClick={handleOnClick}
                 className={classes.navItem}
-                to={ROUTE_LINKS.Bin}
+                to={ROUTE_LINKS.Bin("/")}
               >
                 <DeleteSvg />
                 <Typography

@@ -19,7 +19,7 @@ export const ROUTE_LINKS = {
   ApplyCryptography: "https://chainsafe.io/",
   Drive: (rawCurrentPath: string) => `/drive${rawCurrentPath}`,
   Search: (rawSearchTerm: string) => `/search/${rawSearchTerm}`,
-  Bin: "/bin",
+  Bin: (rawBinPath: string) => `/bin${rawBinPath}`,
   Settings: `${SETTINGS_BASE}/:path`,
   SettingsDefault: `${SETTINGS_BASE}`,
   PurchasePlan: "/purchase"
@@ -59,7 +59,7 @@ const FilesRoutes = () => {
       />
       <ConditionalRoute
         exact
-        path={ROUTE_LINKS.Bin}
+        path={ROUTE_LINKS.Bin("/")}
         isAuthorized={isAuthorized}
         component={BinPage}
         redirectPath={ROUTE_LINKS.Landing}

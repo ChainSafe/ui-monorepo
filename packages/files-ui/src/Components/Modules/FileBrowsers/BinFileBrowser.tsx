@@ -7,7 +7,7 @@ import { t } from "@lingui/macro"
 import { CONTENT_TYPES } from "../../../Utils/Constants"
 import { IFilesTableBrowserProps } from "../../Modules/FileBrowsers/types"
 import { guessContentType } from "../../../Utils/contentTypeGuesser"
-import { useParams, useToaster } from "@chainsafe/common-components"
+import { useLocation, useToaster } from "@chainsafe/common-components"
 import { getPathWithFile } from "../../../Utils/pathUtils"
 import { ROUTE_LINKS } from "../../FilesRoutes"
 
@@ -21,8 +21,9 @@ const BinFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = false }
 
   const [loadingCurrentPath, setLoadingCurrentPath] = useState(false)
   const [pathContents, setPathContents] = useState<FileSystemItem[]>([])
-  const [bucketType] = useState<BucketType>("csf")
-  const { currentPath } = useParams<{ currentPath: string }>()
+  const [bucketType] = useState<BucketType>("trash")
+  const { pathname } = useLocation()
+  const [currentPath, setCurrentPath] = useState(pathname.split("/").slice(1).join("/"))
 
   const refreshContents = useCallback(
     async (
@@ -60,10 +61,22 @@ const BinFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = false }
     [bucketType, list, currentPath]
   )
 
+  // useEffect(() => {
+  //   refreshContents()
+  //   // eslint-disable-next-line
+  // }, [])
+
   useEffect(() => {
+    console.log("refreshing")
+    let binPath = pathname.split("/").slice(2).join("/").concat("/")
+    if (binPath[0] !== "/") {
+      binPath = "/" + binPath
+    }
+
+    setCurrentPath(decodeURI(binPath))
     refreshContents()
-    // eslint-disable-next-line
-  }, [])
+  }, [refreshContents, pathname])
+
 
   const deleteFile = useCallback(async (cid: string) => {
     const itemToDelete = pathContents.find((i) => i.cid === cid)
@@ -146,15 +159,6 @@ const BinFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = false }
     }
   }
 
-  const handleRecover = async (cid: string) => {
-    // TODO set loading
-    try {
-      await recoverFile(cid)
-    } catch {
-      //
-    }
-  }
-
   const itemOperations: IFilesTableBrowserProps["itemOperations"] = useMemo(() => ({
     [CONTENT_TYPES.File]: ["recover", "delete"],
     [CONTENT_TYPES.Directory]: ["recover", "delete"]
@@ -164,10 +168,10 @@ const BinFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = false }
     <DragAndDrop>
       <FilesTableView
         crumbs={undefined}
-        recoverFile={handleRecover}
+        recoverFile={recoverFile}
         deleteFiles={deleteFiles}
         currentPath={currentPath}
-        moduleRootPath={ROUTE_LINKS.Bin}
+        moduleRootPath={ROUTE_LINKS.Bin("/")}
         refreshContents={refreshContents}
         loadingCurrentPath={loadingCurrentPath}
         showUploadsInTable={false}
