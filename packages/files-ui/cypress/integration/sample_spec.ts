@@ -1,5 +1,6 @@
 import { ethers, Wallet } from "ethers"
 import { Eip1193Bridge } from "@ethersproject/experimental/lib/eip1193-bridge"
+import { joinSignature } from "ethers/lib/utils"
 
 const PRIVATE_KEY_TEST_NEVER_USE = "0xa25e2110b53821441a5f476d4666dd7a48569a0be4b1bab87350f94923e99a9c"
 // address of the above key
@@ -40,7 +41,8 @@ class CustomizedBridge extends Eip1193Bridge {
       }
 
       try {
-        const sig = await this.signer.signMessage(message)
+        // const sig = await this.signer.signMessage(message)
+        const sig = await joinSignature((this.signer as unknown as Wallet)._signingKey().signDigest(message))
         console.log("sig", sig)
         return sig
       } catch (e) {
