@@ -547,9 +547,7 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
       {desktop && (
         <>
           <TableCell align="left">
-            {
-              created_at && dayjs.unix(created_at).format("DD MMM YYYY h:mm a")
-            }
+            {created_at && dayjs.unix(created_at).format("DD MMM YYYY h:mm a")}
           </TableCell>
           <TableCell align="left">
             {!isFolder && formatBytes(size)}
