@@ -78,7 +78,7 @@ const useStyles = makeStyles(({ animation, constants, palette, zIndex }: CSFThem
       width: 35,
       marginLeft: constants.generalUnit * 3,
       "&.active": {
-        fill: palette.success.main
+        fill: palette.primary.main
       }
     },
     loader: {
@@ -160,7 +160,7 @@ const MnemonicForm = ({ buttonLabel, onComplete }: Props) => {
                   <div className={clsx(classes.copiedFlag, { "active": copied })}>
                     <span>
                       <Trans>
-                      Copied!
+                        Copied!
                       </Trans>
                     </span>
                   </div>

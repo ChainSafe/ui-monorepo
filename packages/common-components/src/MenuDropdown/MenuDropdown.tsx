@@ -218,7 +218,7 @@ const MenuDropdown: React.FC<IMenuDropdownProps> = ({
         {title && (
           <Typography
             component="p"
-            variant="body2"
+            variant="body1"
             className={classNames?.titleText}
           >
             {title}

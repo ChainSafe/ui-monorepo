@@ -569,6 +569,16 @@ export const darkTheme = createTheme<CsfColors>({
             }
           }
         }
+      },
+      CheckboxInput: {
+        checkbox: {
+          checked: {
+            "& span > svg": {
+              opacity: 1,
+              fill: "var(--gray9)"
+            }
+          }
+        }
       }
     }
   }

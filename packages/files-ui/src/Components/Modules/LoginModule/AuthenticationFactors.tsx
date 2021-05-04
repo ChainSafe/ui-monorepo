@@ -89,6 +89,13 @@ const useStyles = makeStyles(({ breakpoints, constants, typography, palette, zIn
       [breakpoints.down("md")]: {
         marginTop: constants.generalUnit * 3
       }
+    },
+    title: {
+      fontWeight: 400,
+      marginBottom: constants.generalUnit * 2.5,
+      [breakpoints.down("md")]: {
+        ...typography.h4
+      }
     }
   })
 )
@@ -109,8 +116,9 @@ const AuthenticationFactors = ({ goToComplete, goToMnemonic, goToPassword, goToS
   return (
     <div className={clsx(classes.root, className)}>
       <Typography
-        variant={desktop ? "h2" : "h4"}
-        component="h1"
+        variant="h2"
+        component="h2"
+        className={classes.title}
       >
         <Trans>
           Your Authentication Factors
@@ -168,7 +176,7 @@ const AuthenticationFactors = ({ goToComplete, goToMnemonic, goToPassword, goToS
             <Typography className={classes.subText}>
               <Trans>Files uses device backups to save your browser.</Trans>{" "}
               <a
-                href={ROUTE_LINKS.Terms}
+                href={ROUTE_LINKS.ApplyCryptography}
                 rel="noopener noreferrer"
                 target="_blank"
               ><Trans>Learn more</Trans></a>

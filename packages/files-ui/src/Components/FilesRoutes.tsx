@@ -15,11 +15,10 @@ export const ROUTE_LINKS = {
   PrivacyPolicy: "https://files.chainsafe.io/privacy-policy",
   Terms: "https://files.chainsafe.io/terms-of-service",
   ChainSafe: "https://chainsafe.io/",
-  // TODO: update link
-  ApplyCryptography: "https://chainsafe.io/",
   Drive: (rawCurrentPath: string) => `/drive${rawCurrentPath}`,
   Search: (rawSearchTerm: string) => `/search/${rawSearchTerm}`,
   Bin: (rawBinPath: string) => `/bin${rawBinPath}`,
+  ApplyCryptography: "https://medium.com/chainsafe-systems/major-improvement-to-chainsafe-files-ab489d3e52a2",
   Settings: `${SETTINGS_BASE}/:path`,
   SettingsDefault: `${SETTINGS_BASE}`,
   PurchasePlan: "/purchase"
