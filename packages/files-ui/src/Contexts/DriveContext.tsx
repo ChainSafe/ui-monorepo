@@ -500,7 +500,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
   }
 
   const moveCSFObject = async (body: FilesMvRequest) => {
-    await moveCSFObject(body)
+    return await imployApiClient.moveCSFObject(body)
   }
 
   const searchFiles = async (bucketId: string, searchString: string) => {
