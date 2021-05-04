@@ -363,11 +363,9 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
   return (
     <>
       {
-        browserView === "table" ? (
-          <FileItemTableItem {...itemProps} />
-        ) : (
-          <FileItemGridItem {...itemProps} />
-        )
+        browserView === "table"
+          ? <FileItemTableItem {...itemProps} />
+          : <FileItemGridItem {...itemProps} />
       }
       {
         editing === cid && !desktop && (
