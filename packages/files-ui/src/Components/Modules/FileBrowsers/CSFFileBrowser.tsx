@@ -8,6 +8,8 @@ import { CONTENT_TYPES } from "../../../Utils/Constants"
 import DragAndDrop from "../../../Contexts/DnDContext"
 import { useQuery } from "../../../Utils/Helpers"
 import { t } from "@lingui/macro"
+import { useLocalStorage } from "@chainsafe/browser-storage-hooks"
+import { DISMISSED_SURVEY_KEY } from "../../SurveyBanner"
 
 const CSFFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = true }: IFilesBrowserModuleProps) => {
   const {
@@ -25,6 +27,8 @@ const CSFFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = true }:
   } = useDrive()
 
   const queryPath = useQuery().get("path")
+  const { localStorageGet } = useLocalStorage()
+  const hasDismissedSurvey = localStorageGet(DISMISSED_SURVEY_KEY) === "true"
 
   useEffect(() => {
     updateCurrentPath(
@@ -115,6 +119,7 @@ const CSFFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = true }:
         controls={controls}
         allowDropUpload={true}
         itemOperations={ItemOperations}
+        withSurvey={!hasDismissedSurvey}
       />
     </DragAndDrop>
   )
