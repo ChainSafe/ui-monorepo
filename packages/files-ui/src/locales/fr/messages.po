@@ -366,7 +366,7 @@ msgid "Passwords must match"
 msgstr "Les mots de passes de correspondent pas"
 
 msgid "Please enter a file name"
-msgstr ""
+msgstr "Nom du fichier"
 
 msgid "Please enter a folder name"
 msgstr ""
