@@ -40,7 +40,7 @@ const BinFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = false }
         }).then((newContents) => {
           showLoading && setLoadingCurrentPath(false)
 
-          if (newContents) {
+          if (newContents?.length > 0) {
             setPathContents(
               newContents?.map((fcr) => ({
                 ...fcr,
