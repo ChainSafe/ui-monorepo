@@ -94,7 +94,8 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => 
     },
     gridViewContainer: {
       display: "flex",
-      flex: 1
+      flex: 1,
+      maxWidth: constants.generalUnit * 24
     },
     gridFolderName: {
       textAlign: "center",
@@ -104,7 +105,9 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => 
     },
     gridViewIconNameBox: {
       display: "flex",
-      flexDirection: "column"
+      flexDirection: "column",
+      width: "100%",
+      cursor: "pointer"
     },
     menuTitleGrid: {
       padding: `0 ${constants.generalUnit * 0.5}px`,
@@ -156,7 +159,8 @@ function FileSystemGridItem({
 
   return  (
     <div className={classes.gridViewContainer}>
-      <div className={clsx(classes.gridViewIconNameBox)}
+      <div
+        className={clsx(classes.gridViewIconNameBox)}
         ref={!editing ? attachRef : null}
         onClick={onFolderOrFileClicks}
       >
