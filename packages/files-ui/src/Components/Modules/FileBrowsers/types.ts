@@ -61,4 +61,5 @@ export interface IFilesTableBrowserProps
   crumbs: Crumb[] | undefined
   getPath?: (cid: string) => string | undefined
   isSearch?: boolean
+  withSurvey?: boolean
 }

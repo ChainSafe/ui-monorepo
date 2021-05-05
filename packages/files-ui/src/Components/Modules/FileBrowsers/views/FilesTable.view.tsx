@@ -1,8 +1,4 @@
-import {
-  createStyles,
-  makeStyles,
-  useThemeSwitcher
-} from "@chainsafe/common-theme"
+import { createStyles, makeStyles, useThemeSwitcher } from "@chainsafe/common-theme"
 import React, { useCallback, useEffect } from "react"
 import {
   Divider,
@@ -49,6 +45,7 @@ import { CONTENT_TYPES } from "../../../../Utils/Constants"
 import { CSFTheme } from "../../../../Themes/types"
 import MimeMatcher from "../../../../Utils/MimeMatcher"
 import { useLanguageContext } from "../../../../Contexts/LanguageContext"
+import SurveyBanner from "../../../SurveyBanner"
 
 interface IStyleProps {
   themeKey: string
@@ -296,19 +293,17 @@ const FilesTableView = ({
   allowDropUpload,
   itemOperations,
   getPath,
-  isSearch
+  isSearch,
+  withSurvey
 }: IFilesTableBrowserProps) => {
   const { themeKey, desktop } = useThemeSwitcher()
   const classes = useStyles({ themeKey })
   const [editing, setEditing] = useState<string | undefined>()
   const [direction, setDirection] = useState<SortDirection>("ascend")
-  const [column, setColumn] = useState<"name" | "size" | "date_uploaded">(
-    "name"
-  )
+  const [isSurveyBannerVisible, setIsSurveyBannerVisible] = useState(true)
+  const [column, setColumn] = useState<"name" | "size" | "date_uploaded">("name")
   const [selectedCids, setSelectedCids] = useState<string[]>([])
-  const [previewFileIndex, setPreviewFileIndex] = useState<
-    number | undefined
-  >()
+  const [previewFileIndex, setPreviewFileIndex] = useState<number | undefined>()
   const { selectedLocale } = useLanguageContext()
   const items: FileSystemItem[] = useMemo(() => {
     let temp = []
@@ -546,6 +541,10 @@ const FilesTableView = ({
     setSelectedCids([])
   }, [])
 
+  const onHideSurveyBanner = useCallback(() => {
+    setIsSurveyBannerVisible(false)
+  }, [setIsSurveyBannerVisible])
+
   return (
     <article
       className={clsx(classes.root, {
@@ -610,8 +609,7 @@ const FilesTableView = ({
               </Button>
             </>
           ) : (
-            controls &&
-            !desktop && (
+            controls && !desktop && (
               <>
                 <Button
                   onClick={() =>
@@ -671,7 +669,10 @@ const FilesTableView = ({
           )}
         </div>
       </header>
-      <Divider className={classes.divider} />
+      { withSurvey && isSurveyBannerVisible
+        ? <SurveyBanner onHide={onHideSurveyBanner}/>
+        : <Divider className={classes.divider} />
+      }
       {selectedCids.length > 0 && validBulkOps.length > 0 && (
         <section className={classes.bulkOperations}>
           {validBulkOps.indexOf("move") >= 0 && (
