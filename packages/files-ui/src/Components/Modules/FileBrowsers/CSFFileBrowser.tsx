@@ -59,6 +59,7 @@ const CSFFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = true }:
           )
         }
       } catch (error) {
+        console.error(error)
         showLoading && setLoadingCurrentPath(false)
       }
     },

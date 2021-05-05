@@ -55,6 +55,7 @@ const BinFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = false }
           )
         }
       } catch (error) {
+        console.error(error)
         showLoading && setLoadingCurrentPath(false)
       }
     },
@@ -123,7 +124,7 @@ const BinFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = false }
 
   const recoverFile = async (cid: string) => {
     const itemToRestore = pathContents.find((i) => i.cid === cid)
-    if (!itemToRestore) return
+    if (!itemToRestore) throw "Not found"
     try {
       await moveCSFObject({
         path: getPathWithFile("/", itemToRestore.name),

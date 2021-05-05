@@ -165,9 +165,12 @@ const AppHeader: React.FC<IAppHeader> = ({
   const { history } = useHistory()
 
   const signOut = useCallback(async () => {
-    await logout()
-    removeUser()
-    history.replace("/", {})
+    logout()
+      .catch(console.error)
+      .finally(() => {
+        removeUser()
+        history.replace("/", {})
+      })
 
   }, [logout, removeUser, history])
 
