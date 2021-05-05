@@ -8,7 +8,7 @@ import { CONTENT_TYPES } from "../../../Utils/Constants"
 import { IFilesTableBrowserProps } from "../../Modules/FileBrowsers/types"
 import { guessContentType } from "../../../Utils/contentTypeGuesser"
 import { useLocation, useToaster } from "@chainsafe/common-components"
-import { getPathWithFile } from "../../../Utils/pathUtils"
+import { extractDrivePath, getPathWithFile } from "../../../Utils/pathUtils"
 import { ROUTE_LINKS } from "../../FilesRoutes"
 
 const BinFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = false }: IFilesBrowserModuleProps) => {
@@ -67,8 +67,7 @@ const BinFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = false }
   // }, [])
 
   useEffect(() => {
-    console.log("refreshing")
-    let binPath = pathname.split("/").slice(2).join("/").concat("/")
+    let binPath = extractDrivePath(pathname)
     if (binPath[0] !== "/") {
       binPath = "/" + binPath
     }

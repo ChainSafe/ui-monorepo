@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react"
 import { Crumb, useToaster, useHistory, useLocation } from "@chainsafe/common-components"
 import { useDrive, FileSystemItem, BucketType } from "../../../Contexts/DriveContext"
-import { getArrayOfPaths, getPathFromArray, getPathWithFile } from "../../../Utils/pathUtils"
+import { extractDrivePath, getArrayOfPaths, getPathFromArray, getPathWithFile } from "../../../Utils/pathUtils"
 import { IBulkOperations, IFilesBrowserModuleProps, IFilesTableBrowserProps } from "./types"
 import FilesTableView from "./views/FilesTable.view"
 import { CONTENT_TYPES } from "../../../Utils/Constants"
@@ -68,8 +68,7 @@ const CSFFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = true }:
   )
 
   useEffect(() => {
-    console.log("refreshing")
-    let drivePath = pathname.split("/").slice(2).join("/").concat("/")
+    let drivePath = extractDrivePath(pathname)
     if (drivePath[0] !== "/") {
       drivePath = "/" + drivePath
     }

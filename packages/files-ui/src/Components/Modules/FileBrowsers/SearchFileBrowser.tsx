@@ -53,7 +53,6 @@ const SearchFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = fals
   }, [addToastMessage, bucketType, currentSearchBucket, listBuckets, searchFiles])
 
   useEffect(() => {
-    console.log("refreshing")
     const drivePath = pathname.split("/").slice(2)[0]
 
     setSearchTerm(decodeURI(drivePath))
