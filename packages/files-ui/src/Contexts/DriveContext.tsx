@@ -508,17 +508,6 @@ const DriveProvider = ({ children }: DriveContextProps) => {
     })
   }, [imployApiClient])
 
-  // const setPassword = async (password: string) => {
-  //   if (!masterPassword && (await validateMasterPassword(password))) {
-  //     setMasterPassword(password)
-  //   } else {
-  //     console.log(
-  //       "The password is already set, or an incorrect password was entered.",
-  //     )
-  //     return false
-  //   }
-  // }
-
   return (
     <DriveContext.Provider
       value={{
