@@ -26,33 +26,36 @@ const BinFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = false }
   const [currentPath, setCurrentPath] = useState(pathname.split("/").slice(1).join("/"))
 
   const refreshContents = useCallback(
-    async (
+    (
       bucketTypeParam?: BucketType,
       showLoading?: boolean
     ) => {
       try {
         showLoading && setLoadingCurrentPath(true)
-        const newContents = await list({
+        list({
           path: currentPath,
           source: {
             type: bucketTypeParam || bucketType
           }
-        })
-        showLoading && setLoadingCurrentPath(false)
+        }).then((newContents) => {
+          showLoading && setLoadingCurrentPath(false)
 
-        if (newContents) {
-          setPathContents(
-            newContents?.map((fcr) => ({
-              ...fcr,
-              content_type:
-                fcr.content_type !== "application/octet-stream"
-                  ? fcr.content_type
-                  : guessContentType(fcr.name),
-              isFolder:
-                fcr.content_type === "application/chainsafe-files-directory"
-            }))
-          )
-        }
+          if (newContents) {
+            setPathContents(
+              newContents?.map((fcr) => ({
+                ...fcr,
+                content_type:
+                  fcr.content_type !== "application/octet-stream"
+                    ? fcr.content_type
+                    : guessContentType(fcr.name),
+                isFolder:
+                  fcr.content_type === "application/chainsafe-files-directory"
+              }))
+            )
+          }
+        }).catch((error) => {
+          throw error
+        })
       } catch (error) {
         console.error(error)
         showLoading && setLoadingCurrentPath(false)
