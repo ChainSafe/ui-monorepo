@@ -4,6 +4,7 @@ import { createStyles, makeStyles } from "@chainsafe/common-theme"
 import { Trans } from "@lingui/macro"
 import React, { useCallback } from "react"
 import { CSFTheme } from "../Themes/types"
+import { ROUTE_LINKS } from "./FilesRoutes"
 
 const SURVEY_VERSION = 1
 export const DISMISSED_SURVEY_KEY = `csf.dismissedSurveyBannerV${SURVEY_VERSION}`
@@ -65,7 +66,7 @@ const SurveyBanner = ({ onHide }: Props) => {
 
   const onOpen = useCallback(() => {
     onClose()
-    window.open("https://shrl.ink/8eeP", "_blank")
+    window.open(ROUTE_LINKS.UserSurvey, "_blank")
   }, [onClose])
 
   return (
