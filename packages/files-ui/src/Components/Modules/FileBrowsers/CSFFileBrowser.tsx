@@ -98,7 +98,6 @@ const CSFFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = true }:
   return (
     <DragAndDrop>
       <FilesTableView
-        data-cy="home-files-view"
         bulkOperations={bulkOperations}
         crumbs={crumbs}
         currentPath={currentPath}

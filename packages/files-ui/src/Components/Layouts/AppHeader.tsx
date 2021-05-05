@@ -150,24 +150,18 @@ interface IAppHeader {
   setNavOpen: (state: boolean) => void
 }
 
-const AppHeader: React.FC<IAppHeader> = ({
-  navOpen,
-  setNavOpen
-}: IAppHeader) => {
+const AppHeader = ({ navOpen, setNavOpen}: IAppHeader) => {
   const { desktop } = useThemeSwitcher()
-
   const classes = useStyles()
-
   const { isLoggedIn, secured } = useImployApi()
   const { publicKey, isNewDevice, shouldInitializeAccount, logout } = useThresholdKey()
   const { getProfileTitle, removeUser } = useUser()
+  const [searchActive, setSearchActive] = useState(false)
 
   const signOut = useCallback(() => {
     logout()
     removeUser()
   }, [logout, removeUser])
-
-  const [searchActive, setSearchActive] = useState(false)
 
   return (
     <header

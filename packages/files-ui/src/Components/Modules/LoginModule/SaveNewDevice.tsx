@@ -113,6 +113,7 @@ const SaveNewDevice = ({ className }: {className: string}) => {
           <Trans>Yes, save it</Trans>
         </Button>
         <Button
+          data-cy="do-not-save-browser-button"
           className={classes.button}
           variant="outline"
           size="large"
