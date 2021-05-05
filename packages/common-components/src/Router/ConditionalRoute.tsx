@@ -21,7 +21,7 @@ const ConditionalRoute: React.FC<IConditionalRouteProps> = ({
   exact,
   ...rest
 }) => {
-  const { state, pathname } = useLocation()
+  const { state, pathname } = useLocation<{from?: string} | undefined>()
   const from = (state as any)?.from
 
   return <Route

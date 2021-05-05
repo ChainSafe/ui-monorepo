@@ -159,19 +159,13 @@ const SearchModule: React.FC<ISearchModule> = ({
   const ref = useRef(null)
   const { listBuckets, searchFiles } = useDrive()
   const { addToastMessage } = useToaster()
-
   const [bucketType] = useState<BucketType>("csf")
-
   const [currentSearchBucket, setCurrentSearchBucket] = useState<SearchParams | undefined>()
-
   const getSearchResults = async (searchString: string) => {
     try {
       if (!searchString) return []
       let bucketId
-      if (
-        currentSearchBucket &&
-        currentSearchBucket.bucketType === bucketType
-      ) {
+      if (currentSearchBucket?.bucketType === bucketType) {
         // we have the bucket id
         bucketId = currentSearchBucket.bucketId
       } else {
