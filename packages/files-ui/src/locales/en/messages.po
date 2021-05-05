@@ -364,6 +364,12 @@ msgstr "Password:"
 msgid "Passwords must match"
 msgstr "Passwords must match"
 
+msgid "Please enter a file name"
+msgstr "Please enter a file name"
+
+msgid "Please enter a folder name"
+msgstr "Please enter a folder name"
+
 msgid "Please provide a password"
 msgstr "Please provide a password"
 
