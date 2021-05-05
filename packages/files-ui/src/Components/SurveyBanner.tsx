@@ -65,7 +65,7 @@ const SurveyBanner = ({ onHide }: Props) => {
 
   const onOpen = useCallback(() => {
     onClose()
-    window.open("https://app.files.chainsafe.io/", "_blank")
+    window.open("https://shrl.ink/8eeP", "_blank")
   }, [onClose])
 
   return (
