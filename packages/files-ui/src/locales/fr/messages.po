@@ -369,7 +369,7 @@ msgid "Please enter a file name"
 msgstr "Nom du fichier"
 
 msgid "Please enter a folder name"
-msgstr ""
+msgstr "Nom du dossier"
 
 msgid "Please provide a password"
 msgstr "Merci de donner un mot de passe"
