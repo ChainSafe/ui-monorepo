@@ -41,7 +41,6 @@ const BinFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = false }
         showLoading && setLoadingCurrentPath(false)
 
         if (newContents) {
-          // Remove this when the API returns dates
           setPathContents(
             newContents?.map((fcr) => ({
               ...fcr,
