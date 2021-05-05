@@ -41,7 +41,7 @@ export interface IFilesTableBrowserProps
     path: string,
   ) => void
 
-  refreshContents?: () => Promise<void>
+  refreshContents?: () => void
   currentPath: string
   bucketType: BucketType
   loadingCurrentPath: boolean
