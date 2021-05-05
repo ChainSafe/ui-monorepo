@@ -394,7 +394,6 @@ const DriveProvider = ({ children }: DriveContextProps) => {
     // because the current path will not reflect the right state of the app 
     const fileToGet = file
 
-    // TODO: move to implementations
     if (!fileToGet) {
       console.error("No file passed, and no file found for cid:", cid, "in pathContents:", path)
       throw new Error("No file found.")
