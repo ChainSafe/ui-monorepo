@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo } from "react"
-import { Crumb, useToaster } from "@chainsafe/common-components"
+import { Crumb, useHistory, useToaster } from "@chainsafe/common-components"
 import { useDrive } from "../../../Contexts/DriveContext"
 import { getArrayOfPaths, getPathFromArray } from "../../../Utils/pathUtils"
 import { IBulkOperations, IFilesBrowserModuleProps, IFilesTableBrowserProps } from "./types"
@@ -8,6 +8,7 @@ import { CONTENT_TYPES } from "../../../Utils/Constants"
 import DragAndDrop from "../../../Contexts/DnDContext"
 import { useQuery } from "../../../Utils/Helpers"
 import { t } from "@lingui/macro"
+import { ROUTE_LINKS } from "../../FilesRoutes"
 
 const CSFFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = true }: IFilesBrowserModuleProps) => {
   const {
@@ -25,7 +26,7 @@ const CSFFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = true }:
   } = useDrive()
 
   const queryPath = useQuery().get("path")
-
+  const { redirect } = useHistory()
   useEffect(() => {
     updateCurrentPath(
       queryPath || "/",
@@ -80,6 +81,13 @@ const CSFFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = true }:
     }
   }, [addToastMessage, uploadFiles])
 
+  const viewFolder = useCallback((cid: string) => {
+    const fileSystemItem = pathContents.find(f => f.cid === cid)
+    if (fileSystemItem && fileSystemItem.content_type === CONTENT_TYPES.Directory) {
+      redirect(ROUTE_LINKS.Home(`${currentPath}${fileSystemItem.name}`))
+    }
+  }, [currentPath, pathContents, redirect])
+
   const bulkOperations: IBulkOperations = useMemo(() => ({
     [CONTENT_TYPES.Directory]: ["move"],
     [CONTENT_TYPES.File]: ["delete", "move"]
@@ -105,6 +113,7 @@ const CSFFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = true }:
         downloadFile={downloadFile}
         handleMove={handleMove}
         handleRename={handleRename}
+        viewFolder={viewFolder}
         handleUploadOnDrop={handleUploadOnDrop}
         uploadsInProgress={uploadsInProgress}
         loadingCurrentPath={loadingCurrentPath}
