@@ -102,6 +102,7 @@ const SaveNewDevice = ({ className }: {className: string}) => {
       </Typography>
       <div className={classes.buttonWrapper}>
         <Button
+          data-cy="save-browser-button"
           className={classes.button}
           variant="primary"
           size="large"

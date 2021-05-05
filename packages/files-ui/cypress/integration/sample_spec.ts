@@ -1,156 +1,112 @@
-import { ethers, Wallet } from "ethers";
-import { Eip1193Bridge } from "@ethersproject/experimental/lib/eip1193-bridge";
-import { toUtf8String } from "ethers/lib/utils";
+import { ethers, Wallet } from "ethers"
+import { Eip1193Bridge } from "@ethersproject/experimental/lib/eip1193-bridge"
+import { toUtf8String } from "ethers/lib/utils"
 
-const PRIVATE_KEY_TEST_NEVER_USE =
-  "0xa25e2110b53821441a5f476d4666dd7a48569a0be4b1bab87350f94923e99a9c";
+const PRIVATE_KEY_TEST_NEVER_USE = "0xa25e2110b53821441a5f476d4666dd7a48569a0be4b1bab87350f94923e99a9c"
 // address of the above key
-export const TEST_ADDRESS_NEVER_USE =
-  "0xf0Ae62B0EbcB5963538B7103b9A022b3e8cBDB80";
-const TEST_ACCOUNT_TKEY_PASSWORD = "correct horse";
+export const TEST_ADDRESS_NEVER_USE = "0xf0Ae62B0EbcB5963538B7103b9A022b3e8cBDB80"
+const TEST_ACCOUNT_TKEY_PASSWORD = "correct horse"
 
 class CustomizedBridge extends Eip1193Bridge {
   async sendAsync(...args) {
-    console.debug("sendAsync called", ...args);
-    return this.send(...args);
+    console.debug("sendAsync called", ...args)
+    return this.send(...args)
   }
   async isMetaMask() {
-    return true;
+    return true
   }
   async send(...args) {
-    console.debug("send called", ...args);
+    console.debug("send called", ...args)
     const isCallbackForm =
-      typeof args[0] === "object" && typeof args[1] === "function";
-    let callback;
-    let method;
-    let params;
+      typeof args[0] === "object" && typeof args[1] === "function"
+    let callback
+    let method
+    let params
     if (isCallbackForm) {
-      callback = args[1];
-      method = args[0].method;
-      params = args[0].params;
+      callback = args[1]
+      method = args[0].method
+      params = args[0].params
     } else {
-      method = args[0];
-      params = args[1];
+      method = args[0]
+      params = args[1]
     }
 
     if (method === "personal_sign") {
-      console.log("---> personal_sign requested", args);
+      console.log("---> personal_sign requested", args)
 
-      const addr = params[1];
-      const message = params[0];
+      const addr = params[1]
+      const message = params[0]
 
       if (
         (addr as string).toLowerCase() !== TEST_ADDRESS_NEVER_USE.toLowerCase()
       ) {
         return Promise.reject(
           `Wrong address, expected ${TEST_ADDRESS_NEVER_USE}, but got ${addr}`
-        );
+        )
       }
 
       try {
-        const sig = await this.signer.signMessage(toUtf8String(message));
-        return sig;
+        const sig = await this.signer.signMessage(toUtf8String(message))
+        return sig
       } catch (e) {
         return Promise.reject(
           `Error in CustomizedBridge for personal_sign: ${e.message}`
-        );
+        )
       }
     }
 
     if (method === "eth_requestAccounts" || method === "eth_accounts") {
       if (isCallbackForm) {
-        callback({ result: [TEST_ADDRESS_NEVER_USE] });
+        callback({ result: [TEST_ADDRESS_NEVER_USE] })
       } else {
-        return Promise.resolve([TEST_ADDRESS_NEVER_USE]);
+        return Promise.resolve([TEST_ADDRESS_NEVER_USE])
       }
     }
 
     if (method === "eth_chainId") {
       if (isCallbackForm) {
-        callback(null, { result: "0x4" });
+        callback(null, { result: "0x4" })
       } else {
-        return Promise.resolve("0x4");
+        return Promise.resolve("0x4")
       }
     }
 
     try {
-      const result = await super.send(method, params);
-      console.debug("result received", method, params, result);
+      const result = await super.send(method, params)
+      console.debug("result received", method, params, result)
       if (isCallbackForm) {
-        callback(null, { result });
+        callback(null, { result })
       } else {
-        return result;
+        return result
       }
     } catch (error) {
       if (isCallbackForm) {
-        callback(error, null);
+        callback(error, null)
       } else {
-        throw error;
+        throw error
       }
     }
   }
 }
 
 describe("My First Test", () => {
-  // beforeEach(() => {
-  //   cy.log("--> window")
-  //   cy.on('window:after:load', (win) => {
-  //     Object.defineProperty(win, 'aaaaa', {
-  //       value: "bbb",
-  //     });
-  //     cy.log("winn",win)
-  //   });
-  // });
-
   it("Visits the login page", () => {
     cy.on("window:before:load", (win) => {
-      const provider = new ethers.providers.JsonRpcProvider(
-        "https://rinkeby.infura.io/v3/4bf032f2d38a4ed6bb975b80d6340847",
-        4
-      );
-      const signer = new Wallet(PRIVATE_KEY_TEST_NEVER_USE, provider);
-      // const wallet = new ethers.Wallet("")
-      // console.log('br', new Eip1193Bridge(signer as any, provider as any))
-      // const bridge = new Eip1193Bridge(signer as any, provider as any)
-      // (win as any).ethereum = new CustomizedBridge(signer as any, provider as any);
-      // (win as any).isMetaMask = {
-      //   isMetaMask: true,
-      //   request: () => {
-      //     console.log('request called')
-      //     return Promise.resolve()
-      //   }
-      // }
+      const provider = new ethers.providers.JsonRpcProvider("https://rinkeby.infura.io/v3/4bf032f2d38a4ed6bb975b80d6340847", 4)
+      const signer = new Wallet(PRIVATE_KEY_TEST_NEVER_USE, provider)
 
       Object.defineProperty(win, "ethereum", {
-        get: () => new CustomizedBridge(signer as any, provider as any),
-      });
+        get: () => new CustomizedBridge(signer as any, provider as any)
+      })
+      win.sessionStorage.clear();
+    })
 
-      // Object.defineProperty(win, "isMetaMask", {
-      //   get: () => ({
-      //     isMetaMask: true,
-      //     request: () => {
-      //       console.log("request called")
-      //       return Promise.resolve()
-      //     }
-      //   })
-      // })
-    });
-    // cy.on("window:before:load", (win) => {
-    //   Object.defineProperty(win, 'aaaaa', {
-    //     configurable: false,
-    //     get: () => "bbbb", // always return the stub
-    //     set: () => {}, // don't allow actual google analytics to overwrite this property
-    //   })
-    //   // (win as any).thib = "bla"
-    //   // const provider = new PrivateKeyProvider(
-    //   //   "0xe3ae65151e19ea16ceac0627cddff698f7cf0e22aea0f7f4063181000c156ed3",
-    //   //   "https://rinkeby.infura.io"
-    //   // );
-    //   // (win as any).web3 = new Web3(provider); // eslint-disable-line no-param-reassign
-    //   console.log('injected2--------------')
-    // });
+    cy.on("window:after:load", (win) => {
+      // cy.window().then((window) => {
+        // })
+    })
 
-    cy.visit("http://localhost:3000");
+    cy.visit("http://localhost:3000")
 
     // cy.fixture("login").then((fixt) => {
     //   Object.keys(fixt).forEach((key) => {
@@ -159,18 +115,13 @@ describe("My First Test", () => {
     //     // })
     //   })
     // })
-    cy.get("[data-cy=web3]").click();
-    cy.get(
-      ".bn-onboard-modal-select-wallets > :nth-child(1) > .bn-onboard-custom"
-    ).click();
-    cy.wait(1000);
-    cy.get(".makeStyles-buttonSection-49 > :nth-child(1)").click();
-    cy.wait(20000);
-    cy.get(".makeStyles-buttonWrapper-84 > :nth-child(1)").click();
-    cy.get(".makeStyles-input-113").type(TEST_ACCOUNT_TKEY_PASSWORD);
-    cy.wait(1000);
-    cy.get(".makeStyles-root-93").click();
-    cy.get(".makeStyles-primary-95").click();
-    // cy.pause()
-  });
-});
+    cy.get("[data-cy=web3]").click()
+    cy.get(".bn-onboard-modal-select-wallets > :nth-child(1) > .bn-onboard-custom").click()
+    cy.wait(100)
+    cy.get("[data-cy=sign-in-with-web3-button]").click()
+    cy.get("[data-cy=login-password-button]", { timeout: 10000 }).click()
+    cy.get("[data-cy=login-password-input]").type(`${TEST_ACCOUNT_TKEY_PASSWORD}{enter}`)
+    cy.get("[data-cy=save-browser-button]").click()
+    cy.get("[data-cy=home-files-view", { timeout: 15000 }).should('be.visible')
+  })
+})

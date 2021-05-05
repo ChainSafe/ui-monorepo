@@ -331,6 +331,7 @@ const InitialScreen = ({ className }: IInitialScreen) => {
                 <>
                   <section className={classes.buttonSection}>
                     <Button
+                      data-cy="sign-in-with-web3-button"
                       onClick={() => {handleLogin("web3")}}
                       className={classes.button}
                       variant="primary"
