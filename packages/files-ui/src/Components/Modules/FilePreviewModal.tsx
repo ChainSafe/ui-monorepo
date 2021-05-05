@@ -206,7 +206,7 @@ const FilePreviewModal = ({ file, nextFile, previousFile, closePreview, path, bu
           },
           file,
           path,
-          bucketType: bucketType
+          bucketType
         })
 
         if (content) {

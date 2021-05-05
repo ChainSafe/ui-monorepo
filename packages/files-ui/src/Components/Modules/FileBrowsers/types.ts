@@ -47,11 +47,9 @@ export interface IFilesTableBrowserProps
   loadingCurrentPath: boolean
   uploadsInProgress?: UploadProgress[]
   showUploadsInTable: boolean
-
   sourceFiles: FileSystemItem[]
   crumbs: Crumb[] | undefined
   moduleRootPath: string | undefined
-
   getPath?: (cid: string) => string
   isSearch?: boolean
 }

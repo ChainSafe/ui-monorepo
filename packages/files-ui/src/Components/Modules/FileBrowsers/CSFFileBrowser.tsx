@@ -21,11 +21,9 @@ const CSFFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = true }:
     list
   } = useDrive()
   const { addToastMessage } = useToaster()
-
   const [loadingCurrentPath, setLoadingCurrentPath] = useState(false)
   const [pathContents, setPathContents] = useState<FileSystemItem[]>([])
   const [bucketType] = useState<BucketType>("csf")
-
   const { redirect } = useHistory()
 
   const { pathname } = useLocation()
