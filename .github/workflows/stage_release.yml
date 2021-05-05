@@ -2,7 +2,7 @@ name: Release Staging
 on:
   push:
     branches:
-      - "stage"
+      - "dev"
 
 jobs:
   build:

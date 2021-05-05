@@ -1,8 +1,4 @@
-import {
-  createStyles,
-  makeStyles,
-  useThemeSwitcher
-} from "@chainsafe/common-theme"
+import {createStyles, makeStyles, useThemeSwitcher} from "@chainsafe/common-theme"
 import React, { useCallback, useEffect } from "react"
 import {
   Divider,
@@ -305,13 +301,9 @@ const FilesTableView = ({
   const [editing, setEditing] = useState<string | undefined>()
   const [direction, setDirection] = useState<SortDirection>("ascend")
   const [isSurveyBannerVisible, setIsSurveyBannerVisible] = useState(true)
-  const [column, setColumn] = useState<"name" | "size" | "date_uploaded">(
-    "name"
-  )
+  const [column, setColumn] = useState<"name" | "size" | "date_uploaded">("name")
   const [selectedCids, setSelectedCids] = useState<string[]>([])
-  const [previewFileIndex, setPreviewFileIndex] = useState<
-    number | undefined
-  >()
+  const [previewFileIndex, setPreviewFileIndex] = useState<number | undefined>()
   const { selectedLocale } = useLanguageContext()
   const items: FileSystemItem[] = useMemo(() => {
     let temp = []
