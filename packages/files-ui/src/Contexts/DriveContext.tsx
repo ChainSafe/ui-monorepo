@@ -400,11 +400,10 @@ const DriveProvider = ({ children }: DriveContextProps) => {
       throw new Error("No file found.")
     }
 
-    const pathToUse = path
     try {
       const result = await imployApiClient.getFileContent(
         {
-          path: pathToUse,
+          path: path,
           source: {
             type: bucketType
           }
@@ -503,12 +502,12 @@ const DriveProvider = ({ children }: DriveContextProps) => {
     return await imployApiClient.moveCSFObject(body)
   }
 
-  const searchFiles = async (bucketId: string, searchString: string) => {
+  const searchFiles = useCallback(async (bucketId: string, searchString: string) => {
     return  await imployApiClient.searchFiles({
       bucket_id: bucketId || "",
       query: searchString
     })
-  }
+  }, [imployApiClient])
 
   // const setPassword = async (password: string) => {
   //   if (!masterPassword && (await validateMasterPassword(password))) {
