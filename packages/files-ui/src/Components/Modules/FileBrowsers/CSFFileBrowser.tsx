@@ -38,7 +38,7 @@ const CSFFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = true }:
     () => profile?.createdAt
       ? dayjs(Date.now()).diff(profile.createdAt, "day") > 7
       : false
-    , [profile?.createdAt]
+    , [profile]
   )
 
   useEffect(() => {
