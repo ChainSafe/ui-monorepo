@@ -213,7 +213,6 @@ const DriveProvider = ({ children }: DriveContextProps) => {
   })
 
   const uploadFiles = useCallback(async (files: File[], path: string) => {
-    console.log("path", path)
     const startUploadFile = async () => {
       if (!encryptionKey) {
         console.error("No encryption key")
