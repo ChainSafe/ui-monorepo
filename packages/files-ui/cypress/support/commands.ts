@@ -26,14 +26,15 @@
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
 
 import { ethers, Wallet } from "ethers"
-import { testPrivateKey, testAccountPassword } from "../fixtures/loginData"
+import { testPrivateKey, testAccountPassword, localHost } from "../fixtures/loginData"
 import { CustomizedBridge } from "./utils/CustomBridge"
 
 export interface Web3LoginOptions {
+  url?: string
   saveBrowser?: boolean
 }
 
-Cypress.Commands.add("web3Login", ({saveBrowser = false}: Web3LoginOptions = {}) => {
+Cypress.Commands.add("web3Login", ({saveBrowser = false, url= localHost}: Web3LoginOptions = {}) => {
   cy.on("window:before:load", (win) => {
     const provider = new ethers.providers.JsonRpcProvider("https://rinkeby.infura.io/v3/4bf032f2d38a4ed6bb975b80d6340847", 4)
     const signer = new Wallet(testPrivateKey, provider)
@@ -45,19 +46,20 @@ Cypress.Commands.add("web3Login", ({saveBrowser = false}: Web3LoginOptions = {})
     win.sessionStorage.clear()
   })
 
-  cy.visit("http://localhost:3000")
+  cy.visit(url)
   cy.get("[data-cy=web3]").click()
   cy.get(".bn-onboard-modal-select-wallets > :nth-child(1) > .bn-onboard-custom").click()
   cy.get("[data-cy=sign-in-with-web3-button]").click()
   cy.get("[data-cy=login-password-button]", { timeout: 10000 }).click()
   cy.get("[data-cy=login-password-input]").type(`${testAccountPassword}{enter}`)
-  cy.pause()
+
   if(saveBrowser){
-    cy.get("[data-cy=do-not-save-browser-button]").click()
-  } else {
     cy.get("[data-cy=save-browser-button]").click()
+  } else {
+    cy.get("[data-cy=do-not-save-browser-button]").click()
   }
-  cy.get("[data-cy=files-app-header", { timeout: 60000 }).should("be.visible")
+
+  cy.get("[data-cy=files-app-header", { timeout: 15000 }).should("be.visible")
 })
 
 // Must be declared global to be detected by typescript (allows import/export)
@@ -66,12 +68,13 @@ declare global {
   namespace Cypress {
     interface Chainable {
       /**
-       * Login using Metamask to an instance of files running on localhost:3000.
-        * @param {Object} options
-        * @param {string} options.saveBrowser - save the browser to localstorage (default: false).
-       * @example cy.web3Login({saveBrowser: true})
-       */
-      web3Login(options?: Web3LoginOptions): Chainable
+      * Login using Metamask to an instance of files running on localhost:3000.
+      * @param {Object} options
+      * @param {string} options.saveBrowser - save the browser to localstorage (default: false).
+      * @param {string} options.url - what url to visit (default: "http://localhost:3000").
+      * @example cy.web3Login({saveBrowser: true})
+      */
+      web3Login: (options?: Web3LoginOptions) => Chainable
     }
   }
 }

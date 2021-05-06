@@ -496,17 +496,20 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
         
       }
 
-      if(!addressToUse){
-        // checkIsReady unfortunately doesn't make sure that the address is defined
-        // we pull the address here to have it defined for sure
+      if(!signer){
         signer = provider.getSigner()
+        if (!signer) throw new Error("Signer undefined")
+      }
+      
+      if(!addressToUse){
+        // checkIsReady above doesn't make sure that the address is defined
+        // we pull the address here to have it defined for sure
         addressToUse = await signer.getAddress()
       }
-  
+
       const {token} = await (await imployApiClient.getIdentityWeb3Token(addressToUse as string))
 
-      if (!token || !signer) throw new Error("Signer or token undefined")
-
+      if (!token) throw new Error("Token undefined")
 
       setStatus("awaiting confirmation")
       const signature = await signer.signMessage(token)
