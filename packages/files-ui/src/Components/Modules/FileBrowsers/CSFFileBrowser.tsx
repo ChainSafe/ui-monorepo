@@ -37,11 +37,12 @@ const CSFFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = true }:
     () => profile?.createdAt
       ? dayjs(Date.now()).diff(profile.createdAt, "day") > 7
       : false
-    , [profile?.createdAt]
+    , [profile]
   )
 
   useEffect(() => {
-    if(localStorageGet(DISMISSED_SURVEY_KEY) === undefined){
+    const dismissedFlag = localStorageGet(DISMISSED_SURVEY_KEY)
+    if (dismissedFlag === undefined || dismissedFlag === null) {
       localStorageSet(DISMISSED_SURVEY_KEY, "false")
     }
   }, [localStorageGet, localStorageSet])
