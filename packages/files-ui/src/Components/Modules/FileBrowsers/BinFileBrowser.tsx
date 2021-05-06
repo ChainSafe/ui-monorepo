@@ -12,13 +12,8 @@ import { extractDrivePath, getPathWithFile } from "../../../Utils/pathUtils"
 import { ROUTE_LINKS } from "../../FilesRoutes"
 
 const BinFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = false }: IFilesBrowserModuleProps) => {
-  const {
-    removeCSFObjects,
-    moveCSFObject,
-    list
-  } = useDrive()
+  const { removeCSFObjects, moveCSFObject, list } = useDrive()
   const { addToastMessage } = useToaster()
-
   const [loadingCurrentPath, setLoadingCurrentPath] = useState(false)
   const [pathContents, setPathContents] = useState<FileSystemItem[]>([])
   const [bucketType] = useState<BucketType>("trash")
