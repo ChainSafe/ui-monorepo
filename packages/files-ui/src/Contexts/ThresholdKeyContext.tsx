@@ -409,7 +409,6 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
     try {
       setStatus("awaiting confirmation")
       const { identityToken, userInfo } = await getIdentityToken(loginType)
-
       const decodedToken = jwtDecode<{ uuid: string; address: string }>(identityToken.token || "")
       const directAuthSdk = (TKeySdk.serviceProvider as any).directWeb as DirectAuthSdk
       const torusKey = await directAuthSdk.getTorusKey(
@@ -438,8 +437,7 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
       }
       setUserInfo(loginResponse)
     } catch (error) {
-      console.error("Error logging in")
-      console.error(error)
+      console.error("Error logging in", error)
       throw error
     }
 
@@ -487,23 +485,36 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
 
   const getIdentityToken = async (loginType: IdentityProvider): Promise<{identityToken: IdentityToken; userInfo: any}> => {
     if (loginType === "web3") {
-      if (!isReady || !address || !provider) {
+      
+      let addressToUse = address
+      let signer
+
+      if (!isReady  || !provider ) {
         const connected = await checkIsReady()
-        if (!connected || !address || !provider) throw new Error("Unable to connect to wallet.")
+        
+        if (!connected || !provider) throw new Error("Unable to connect to wallet.")
+        
       }
 
-      const { token } = await imployApiClient.getIdentityWeb3Token(address)
+      if(!addressToUse){
+        // checkIsReady unfortunately doesn't make sure that the address is defined
+        // we pull the address here to have it defined for sure
+        signer = provider.getSigner()
+        addressToUse = await signer.getAddress()
+      }
+  
+      const {token} = await (await imployApiClient.getIdentityWeb3Token(addressToUse as string))
 
-      if (!token) throw new Error()
+      if (!token || !signer) throw new Error("Signer or token undefined")
+
 
       setStatus("awaiting confirmation")
-      const signer = provider.getSigner()
       const signature = await signer.signMessage(token)
       setStatus("logging in")
       const web3IdentityToken = await imployApiClient.postIdentityWeb3Token({
         signature: signature,
         token: token,
-        public_address: address
+        public_address: addressToUse
       })
       const uuidToken = await imployApiClient.generateServiceIdentityToken({
         identity_provider: loginType,
@@ -511,7 +522,7 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
       })
       return {
         identityToken: uuidToken,
-        userInfo: { address: address }
+        userInfo: { address: addressToUse }
       }
 
     } else {
