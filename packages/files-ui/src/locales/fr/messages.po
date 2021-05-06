@@ -248,6 +248,9 @@ msgstr "Génial! Vous avez terminé."
 msgid "Hello again!"
 msgstr "Ravis de vous revoir!"
 
+msgid "Help us make Files better in under 30 seconds."
+msgstr ""
+
 msgid "Hey! You only have two sign-in methods. If you lose that and have only one left, you will be locked out of your account forever."
 msgstr "Hey! Tu ne disposes que de deux méthodes d'authentification. Si tu en perds une, tu seras bloqué pour toujours et ne pourras plus te connecter à ton compte Files."
 
@@ -364,6 +367,12 @@ msgstr "Mot de Passe:"
 
 msgid "Passwords must match"
 msgstr "Les mots de passes de correspondent pas"
+
+msgid "Please enter a file name"
+msgstr "Nom du fichier"
+
+msgid "Please enter a folder name"
+msgstr "Nom du dossier"
 
 msgid "Please provide a password"
 msgstr "Merci de donner un mot de passe"

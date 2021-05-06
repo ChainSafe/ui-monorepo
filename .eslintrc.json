@@ -51,6 +51,7 @@
     "@typescript-eslint/no-explicit-any": "off",
     "@typescript-eslint/camelcase": "off",
     "@typescript-eslint/interface-name-prefix": "off",
+    "@typescript-eslint/explicit-module-boundary-types": "off",
     "@typescript-eslint/member-delimiter-style" : ["warn", {
         "multiline": {
             "delimiter": "none",

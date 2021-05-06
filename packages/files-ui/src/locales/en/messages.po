@@ -247,6 +247,9 @@ msgstr "Great! You’re all done."
 msgid "Hello again!"
 msgstr "Hello again!"
 
+msgid "Help us make Files better in under 30 seconds."
+msgstr "Help us make Files better in under 30 seconds."
+
 msgid "Hey! You only have two sign-in methods. If you lose that and have only one left, you will be locked out of your account forever."
 msgstr "Hey! You only have two sign-in methods. If you lose that and have only one left, you will be locked out of your account forever."
 
@@ -363,6 +366,12 @@ msgstr "Password:"
 
 msgid "Passwords must match"
 msgstr "Passwords must match"
+
+msgid "Please enter a file name"
+msgstr "Please enter a file name"
+
+msgid "Please enter a folder name"
+msgstr "Please enter a folder name"
 
 msgid "Please provide a password"
 msgstr "Please provide a password"

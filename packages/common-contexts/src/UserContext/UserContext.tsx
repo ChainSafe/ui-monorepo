@@ -12,6 +12,7 @@ export type Profile = {
   lastName?: string
   publicAddress?: string
   email?: string
+  createdAt?: Date
 }
 
 interface IUserContext {
@@ -41,7 +42,8 @@ const UserProvider = ({ children }: UserContextProps) => {
         firstName: profileApiData.first_name,
         lastName: profileApiData.last_name,
         email: profileApiData.email,
-        publicAddress: profileApiData.public_address
+        publicAddress: profileApiData.public_address,
+        createdAt: profileApiData.created_at
       }
       setProfile(profileState)
       return Promise.resolve()
@@ -52,21 +54,12 @@ const UserProvider = ({ children }: UserContextProps) => {
 
   useEffect(() => {
     if (isLoggedIn) {
-      const retrieveProfile = async () => {
-        try {
-          await refreshProfile()
-        } catch (err) {
-          console.error(err)
-        }
-      }
-      retrieveProfile()
+      refreshProfile()
+        .catch(console.error)
     }
   }, [isLoggedIn, refreshProfile])
 
-  const updateProfile = async (
-    firstName?: string,
-    lastName?: string
-  ) => {
+  const updateProfile = async (firstName?: string, lastName?: string) => {
     if (!profile) return Promise.reject("Profile not initialized")
 
     try {
@@ -92,9 +85,7 @@ const UserProvider = ({ children }: UserContextProps) => {
     }
   }
 
-  const removeUser = () => {
-    setProfile(undefined)
-  }
+  const removeUser = useCallback(() => setProfile(undefined), [])
 
   const getProfileTitle = () => {
     if (profile?.publicAddress) {
