@@ -224,7 +224,7 @@ function FileSystemTableItem({
         <>
           <TableCell align="left">
             {
-              dayjs.unix(created_at).format("DD MMM YYYY h:mm a")
+              created_at && dayjs.unix(created_at).format("DD MMM YYYY h:mm a")
             }
           </TableCell>
           <TableCell align="left">
