@@ -21,11 +21,11 @@ const useStyles = makeStyles(
         display: "flex"
       },
       banner: {
-        color: palette.common.white.main
+        color: constants.surveyBanner.color
       },
       link: {
         marginLeft: constants.generalUnit * 2,
-        color: palette.common.white.main,
+        color: constants.surveyBanner.color,
         cursor: "pointer",
         outline: "none",
         textDecoration: "underline"
@@ -42,7 +42,7 @@ const useStyles = makeStyles(
           marginRight: constants.generalUnit
         },
         "& svg": {
-          fill: palette.common.white.main
+          fill: constants.surveyBanner.color
         }
       },
       spacer: {

@@ -154,5 +154,8 @@ export interface CsfColors extends IConstants {
       border?: string
       borderColor?: string
     }
- }
+  }
+  surveyBanner: {
+   color: string
+  }
 }
