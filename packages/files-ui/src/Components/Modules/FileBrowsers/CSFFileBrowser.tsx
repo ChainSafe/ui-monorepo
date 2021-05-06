@@ -29,15 +29,22 @@ const CSFFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = true }:
   } = useDrive()
 
   const queryPath = useQuery().get("path")
-  const { localStorageGet } = useLocalStorage()
+  const { localStorageGet, localStorageSet } = useLocalStorage()
   const { profile } = useUser()
-  const hasDismissedSurvey = localStorageGet(DISMISSED_SURVEY_KEY) === "true"
+  const showSurvey = localStorageGet(DISMISSED_SURVEY_KEY) === "false"
+
   const olderThanOneWeek = useMemo(
     () => profile?.createdAt
       ? dayjs(Date.now()).diff(profile.createdAt, "day") > 7
       : false
     , [profile?.createdAt]
   )
+
+  useEffect(() => {
+    if(localStorageGet(DISMISSED_SURVEY_KEY) === undefined){
+      localStorageSet(DISMISSED_SURVEY_KEY, "false")
+    }
+  }, [localStorageGet, localStorageSet])
 
   useEffect(() => {
     updateCurrentPath(
@@ -128,7 +135,7 @@ const CSFFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = true }:
         controls={controls}
         allowDropUpload={true}
         itemOperations={ItemOperations}
-        withSurvey={!hasDismissedSurvey && olderThanOneWeek}
+        withSurvey={showSurvey && olderThanOneWeek}
       />
     </DragAndDrop>
   )
