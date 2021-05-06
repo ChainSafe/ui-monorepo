@@ -155,6 +155,9 @@ export const lightTheme = createTheme<CsfColors>({
             border: "1px solid",
             borderColor: "var(--geekblue4)"
           }
+        },
+        surveyBanner: {
+          color: "var(--gray1)"
         }
       } as CsfColors)
     },
