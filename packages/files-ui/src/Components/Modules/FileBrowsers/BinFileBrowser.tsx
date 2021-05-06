@@ -16,13 +16,12 @@ const BinFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = false }
   const { addToastMessage } = useToaster()
   const [loadingCurrentPath, setLoadingCurrentPath] = useState(false)
   const [pathContents, setPathContents] = useState<FileSystemItem[]>([])
-  const [bucketType] = useState<BucketType>("trash")
+  const bucketType: BucketType = "trash"
   const { pathname } = useLocation()
   const [currentPath, setCurrentPath] = useState(extractDrivePath(pathname.split("/").slice(1).join("/")))
 
   const refreshContents = useCallback(
     (
-      bucketTypeParam?: BucketType,
       showLoading?: boolean
     ) => {
       try {
@@ -30,7 +29,7 @@ const BinFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = false }
         list({
           path: currentPath,
           source: {
-            type: bucketTypeParam || bucketType
+            type: bucketType
           }
         }).then((newContents) => {
           showLoading && setLoadingCurrentPath(false)
@@ -58,7 +57,7 @@ const BinFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = false }
   )
 
   useEffect(() => {
-    refreshContents()
+    refreshContents(true)
     // eslint-disable-next-line
   }, [])
 
@@ -69,7 +68,7 @@ const BinFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = false }
     }
     if (binPath !== currentPath) {
       setCurrentPath(decodeURI(binPath))
-      refreshContents()
+      refreshContents(true)
     }
   }, [refreshContents, pathname, currentPath])
 
@@ -89,7 +88,7 @@ const BinFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = false }
           type: bucketType
         }
       })
-      await refreshContents()
+      refreshContents()
       const message = `${
         itemToDelete.isFolder ? t`Folder` : t`File`
       } ${t`deleted successfully`}`
@@ -132,7 +131,7 @@ const BinFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = false }
           type: "csf"
         }
       })
-      await refreshContents()
+      refreshContents()
 
       const message = `${
         itemToRestore.isFolder ? t`Folder` : t`File`

@@ -27,7 +27,7 @@ const CSFFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = true }:
   const { addToastMessage } = useToaster()
   const [loadingCurrentPath, setLoadingCurrentPath] = useState(false)
   const [pathContents, setPathContents] = useState<FileSystemItem[]>([])
-  const [bucketType] = useState<BucketType>("csf")
+  const bucketType: BucketType = "csf"
   const { redirect } = useHistory()
 
   const { pathname } = useLocation()
@@ -35,7 +35,6 @@ const CSFFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = true }:
   const refreshContents = useCallback(
     (
       path: string,
-      bucketTypeParam?: BucketType,
       showLoading?: boolean
     ) => {
       try {
@@ -43,7 +42,7 @@ const CSFFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = true }:
         list({
           path,
           source: {
-            type: bucketTypeParam || bucketType
+            type: bucketType
           }
         }).then((newContents) => {
           showLoading && setLoadingCurrentPath(false)
@@ -81,7 +80,7 @@ const CSFFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = true }:
   )
 
   useEffect(() => {
-    refreshContents(currentPath)
+    refreshContents(currentPath, true)
     // eslint-disable-next-line
   }, [])
 
@@ -92,7 +91,7 @@ const CSFFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = true }:
     }
     if (drivePath !== currentPath) {
       setCurrentPath(decodeURI(drivePath))
-      refreshContents(decodeURI(drivePath))
+      refreshContents(decodeURI(drivePath), true)
     }
   }, [refreshContents, pathname, currentPath])
 
@@ -113,7 +112,7 @@ const CSFFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = true }:
           type: "trash"
         }
       })
-      await refreshContents(currentPath)
+      refreshContents(currentPath)
       const message = `${
         itemToDelete.isFolder ? t`Folder` : t`File`
       } ${t`deleted successfully`}`
