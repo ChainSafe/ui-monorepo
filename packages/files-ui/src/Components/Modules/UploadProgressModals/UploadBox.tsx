@@ -1,17 +1,9 @@
 import React from "react"
-import {
-  createStyles,
-  makeStyles
-} from "@chainsafe/common-theme"
+import { createStyles, makeStyles } from "@chainsafe/common-theme"
 import { UploadProgress } from "../../../Contexts/DriveContext"
-import {
-  ProgressBar,
-  Typography,
-  CheckCircleIcon,
-  CloseCircleIcon
-} from "@chainsafe/common-components"
+import { ProgressBar, Typography, CheckCircleIcon, CloseCircleIcon } from "@chainsafe/common-components"
 import clsx from "clsx"
-import { Trans } from "@lingui/macro"
+import { plural, Trans } from "@lingui/macro"
 import { CSFTheme } from "../../../Themes/types"
 
 const useStyles = makeStyles(
@@ -102,9 +94,10 @@ const UploadBox: React.FC<IUploadBox> = (props) => {
               variant="body2"
               component="p"
               className={classes.marginBottom}
-            >{`Uploading and encrypting ${noOfFiles} ${
-                noOfFiles === 1 ? "file" : "files"
-              }...`}</Typography>
+            >{plural(noOfFiles, {
+                one: `Uploading and encrypting ${noOfFiles} file`,
+                other: `Uploading and encrypting ${noOfFiles} files`
+              })}</Typography>
             <ProgressBar
               progress={progress}
               size="small"

@@ -76,7 +76,8 @@
     "analyze": "source-map-explorer 'build/static/js/*.js'",
     "extract": "lingui extract",
     "compile": "lingui compile",
-    "lingui-version": "lingui --version"
+    "lingui-version": "lingui --version",
+    "lint": "eslint './src/**/*.{js,jsx,ts,tsx}'"
   },
   "browserslist": {
     "production": [

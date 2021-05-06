@@ -1,13 +1,8 @@
 import React, { useCallback } from "react"
 import {
-  TableRow,
-  TableCell,
   FormikTextInput,
   Typography,
   Button,
-  formatBytes,
-  MenuDropdown,
-  MoreIcon,
   FileImageSvg,
   FilePdfSvg,
   FileTextSvg,
@@ -16,9 +11,7 @@ import {
   DeleteSvg,
   EditSvg,
   IMenuItem,
-  CheckSvg,
   RecoverSvg,
-  CheckboxInput,
   EyeSvg,
   ExportSvg,
   ShareAltSvg,
@@ -26,50 +19,20 @@ import {
   ZoomInSvg
 } from "@chainsafe/common-components"
 import { makeStyles, createStyles, useDoubleClick, useThemeSwitcher } from "@chainsafe/common-theme"
-import clsx from "clsx"
 import { Formik, Form } from "formik"
-import { FileSystemItem, BucketType } from "../../../../Contexts/DriveContext"
-import CustomModal from "../../../Elements/CustomModal"
+import { FileSystemItem, BucketType } from "../../../../../Contexts/DriveContext"
+import CustomModal from "../../../../Elements/CustomModal"
 import { Trans } from "@lingui/macro"
 import { useDrag, useDrop } from "react-dnd"
-import { DragTypes } from "../DragConstants"
+import { DragTypes } from "../../DragConstants"
 import { NativeTypes } from "react-dnd-html5-backend"
-import { FileOperation } from "../types"
-import { CSFTheme } from "../../../../Themes/types"
-import dayjs from "dayjs"
+import { BrowserView, FileOperation } from "../../types"
+import { CSFTheme } from "../../../../../Themes/types"
+import FileItemTableItem from "./FileSystemTableItem"
+import FileItemGridItem from "./FileSystemGridItem"
 
-const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => {
-  const desktopGridSettings = "50px 69px 3fr 190px 100px 45px !important"
-  const mobileGridSettings = "69px 3fr 45px !important"
-
+const useStyles = makeStyles(({ breakpoints, constants }: CSFTheme) => {
   return createStyles({
-    tableRow: {
-      border: "2px solid transparent",
-      [breakpoints.up("md")]: {
-        gridTemplateColumns: desktopGridSettings
-      },
-      [breakpoints.down("md")]: {
-        gridTemplateColumns: mobileGridSettings
-      },
-      "&.droppable": {
-        border: `2px solid ${palette.additional["geekblue"][6]}`
-      }
-    },
-    fileIcon: {
-      display: "flex",
-      flexDirection: "row",
-      alignItems: "center",
-      justifyContent: "center",
-      "& svg": {
-        width: constants.generalUnit * 2.5,
-        fill: constants.fileSystemItemRow.icon
-      }
-    },
-    folderIcon: {
-      "& svg": {
-        fill: palette.additional.gray[9]
-      }
-    },
     renameInput: {
       width: "100%",
       [breakpoints.up("md")]: {
@@ -127,35 +90,10 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => 
         fill: constants.fileSystemItemRow.menuIcon
       }
     },
-    desktopRename: {
-      display: "flex",
-      flexDirection: "row",
-      "& svg": {
-        width: 20,
-        height: 20
-      }
-    },
-    filename: {
-      whiteSpace: "nowrap",
-      textOverflow: "ellipsis",
-      overflow: "hidden",
-      "&.editing": {
-        overflow: "visible"
-      }
-    },
     dropdownIcon: {
       "& svg": {
         fill: constants.fileSystemItemRow.dropdownIcon
       }
-    },
-    dropdownOptions: {
-      backgroundColor: constants.fileSystemItemRow.optionsBackground,
-      color: constants.fileSystemItemRow.optionsColor,
-      border: `1px solid ${constants.fileSystemItemRow.optionsBorder}`
-    },
-    dropdownItem: {
-      backgroundColor: constants.fileSystemItemRow.itemBackground,
-      color: constants.fileSystemItemRow.itemColor
     }
   })
 })
@@ -183,10 +121,10 @@ interface IFileSystemItemRowProps {
   setFileInfoPath: (path: string) => void
   itemOperations: FileOperation[]
   resetSelectedFiles: () => void
+  browserView: BrowserView
 }
 
 const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
-  index,
   file,
   files,
   currentPath,
@@ -207,9 +145,10 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
   setFileInfoPath,
   handleSelect,
   itemOperations,
-  resetSelectedFiles
+  resetSelectedFiles,
+  browserView
 }) => {
-  const { cid, name, isFolder, size, content_type, created_at } = file
+  const { cid, name, isFolder, content_type } = file
   let Icon
   if (isFolder) {
     Icon = FolderFilledSvg
@@ -221,7 +160,7 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
     Icon = FileTextSvg
   }
 
-  const { desktop, themeKey } = useThemeSwitcher()
+  const { desktop } = useThemeSwitcher()
   const classes = useStyles()
 
   const allMenuItems: Record<FileOperation, IMenuItem> = {
@@ -381,8 +320,11 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
     setPreviewFileIndex(files?.indexOf(file))
   }, [file, files, setPreviewFileIndex])
 
-  const onSingleClick = useCallback(() => { handleSelect(cid) },
-    [cid, handleSelect])
+  const onSingleClick = useCallback(
+    () => { handleSelect(cid) },
+    [cid, handleSelect]
+  )
+
   const onDoubleClick = useCallback(() => {
     isFolder
       ? onFolderClick()
@@ -399,82 +341,34 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
         : onFileClick()
     }
 
+  const itemProps = {
+    attachRef,
+    currentPath,
+    editing,
+    file,
+    handleSelect,
+    handleRename,
+    icon: <Icon />,
+    isFolder,
+    isOverMove,
+    isOverUpload,
+    menuItems,
+    onFolderOrFileClicks,
+    preview,
+    renameSchema,
+    selected,
+    setEditing
+  }
+
   return (
-    <TableRow
-      key={`files-${index}`}
-      className={clsx(classes.tableRow, {
-        droppable: isFolder && (isOverMove || isOverUpload),
-        folder: isFolder
-      })}
-      type="grid"
-      rowSelectable={true}
-      ref={!editing ? attachRef : null}
-      selected={selected.includes(cid)}
-    >
-      {desktop && (
-        <TableCell>
-          <CheckboxInput
-            value={selected.includes(cid)}
-            onChange={() => handleSelect(cid)}
-          />
-        </TableCell>
-      )}
-      <TableCell
-        className={clsx(classes.fileIcon, isFolder && classes.folderIcon)}
-        onClick={onFolderOrFileClicks}
-      >
-        <Icon />
-      </TableCell>
-      <TableCell
-        ref={preview}
-        align="left"
-        className={clsx(classes.filename, desktop && editing === cid && "editing")}
-        onClick={() => {
-          if (!editing) {
-            onFolderOrFileClicks()
-          }
-        }}
-      >
-        {editing === cid && desktop ? (
-          <Formik
-            initialValues={{
-              fileName: name
-            }}
-            validationSchema={renameSchema}
-            onSubmit={(values) => {
-              handleRename &&
-                handleRename(
-                  `${currentPath}${name}`,
-                  `${currentPath}${values.fileName}`
-                )
-              setEditing(undefined)
-            }}
-          >
-            <Form className={classes.desktopRename}>
-              <FormikTextInput
-                className={classes.renameInput}
-                name="fileName"
-                inputVariant="minimal"
-                onKeyDown={(event) => {
-                  if (event.key === "Escape") {
-                    setEditing(undefined)
-                  }
-                }}
-                placeholder={`Please enter a ${
-                  isFolder ? "folder" : "file"
-                } name`}
-                autoFocus={editing === cid}
-              />
-              <Button
-                variant={themeKey === "dark" ? "outline" : "dashed"}
-                size="small"
-                type="submit"
-              >
-                <CheckSvg />
-              </Button>
-            </Form>
-          </Formik>
-        ) : editing === cid && !desktop ? (
+    <>
+      {
+        browserView === "table"
+          ? <FileItemTableItem {...itemProps} />
+          : <FileItemGridItem {...itemProps} />
+      }
+      {
+        editing === cid && !desktop && (
           <>
             <CustomModal
               className={classes.modalRoot}
@@ -540,36 +434,9 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
             </CustomModal>
             <Typography>{name}</Typography>
           </>
-        ) : (
-          <Typography>{name}</Typography>
-        )}
-      </TableCell>
-      {desktop && (
-        <>
-          <TableCell align="left">
-            {
-              dayjs.unix(created_at).format("DD MMM YYYY h:mm a")
-            }
-          </TableCell>
-          <TableCell align="left">
-            {!isFolder && formatBytes(size)}
-          </TableCell>
-        </>
-      )}
-      <TableCell align="right">
-        <MenuDropdown
-          animation="none"
-          anchor={desktop ? "bottom-center" : "bottom-right"}
-          menuItems={menuItems}
-          classNames={{
-            icon: classes.dropdownIcon,
-            options: classes.dropdownOptions,
-            item: classes.dropdownItem
-          }}
-          indicator={MoreIcon}
-        />
-      </TableCell>
-    </TableRow>
+        )
+      }
+    </>
   )
 }
 

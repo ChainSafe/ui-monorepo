@@ -231,7 +231,7 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
   }, [desktop, navOpen, setNavOpen])
 
   const collectFeedback = () => {
-    window.open("https://forms.gle/FefqZRD3fDVYyarC8", "_blank")
+    window.open(ROUTE_LINKS.GeneralFeedbackForm, "_blank")
   }
 
   return (
