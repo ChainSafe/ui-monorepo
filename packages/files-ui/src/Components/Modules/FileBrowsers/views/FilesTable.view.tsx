@@ -941,6 +941,7 @@ const FilesTableView = ({
       <UploadFileModule
         modalOpen={isUploadModalOpen}
         close={() => setIsUploadModalOpen(false)}
+        currentPath={currentPath}
       />
       <MoveFileModule
         currentPath={currentPath}

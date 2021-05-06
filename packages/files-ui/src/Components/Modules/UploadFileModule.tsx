@@ -1,9 +1,6 @@
-import { Button, FileInput, useParams } from "@chainsafe/common-components"
+import { Button, FileInput } from "@chainsafe/common-components"
 import { useDrive } from "../../Contexts/DriveContext"
-import {
-  createStyles,
-  makeStyles
-} from "@chainsafe/common-theme"
+import { createStyles, makeStyles } from "@chainsafe/common-theme"
 import React, { useCallback, useState } from "react"
 import { Formik, Form } from "formik"
 import { array, object } from "yup"
@@ -74,26 +71,34 @@ const useStyles = makeStyles(({ constants, breakpoints }: CSFTheme) =>
 interface IUploadFileModuleProps {
   modalOpen: boolean
   close: () => void
+  currentPath: string
 }
 
-const UploadFileModule: React.FC<IUploadFileModuleProps> = ({
-  modalOpen,
-  close
-}: IUploadFileModuleProps) => {
+const UploadFileModule = ({ modalOpen, close, currentPath }: IUploadFileModuleProps) => {
   const classes = useStyles()
-
   const [isDoneDisabled, setIsDoneDisabled] = useState(true)
   const { uploadFiles } = useDrive()
-
-  const UploadSchema = object().shape({
-    files: array().required("Please select a file to upload")
-  })
+  const UploadSchema = object().shape({ files: array().required(t`Please select a file to upload`) })
 
   const onFileNumberChange = useCallback((filesNumber: number) => {
     setIsDoneDisabled(filesNumber === 0)
   }, [])
 
-  const { currentPath } = useParams<{ currentPath: string }>()
+  const onSubmit = useCallback((values, helpers) => {
+    helpers.setSubmitting(true)
+    try {
+      uploadFiles(values.files, currentPath)
+      helpers.resetForm()
+      close()
+    } catch (errors) {
+      if (errors[0].message.includes("conflict with existing")) {
+        helpers.setFieldError("files", "File/Folder exists")
+      } else {
+        helpers.setFieldError("files", errors[0].message)
+      }
+    }
+    helpers.setSubmitting(false)
+  }, [close, currentPath, uploadFiles])
 
   return (
     <CustomModal
@@ -105,25 +110,9 @@ const UploadFileModule: React.FC<IUploadFileModuleProps> = ({
       }}
     >
       <Formik
-        initialValues={{
-          files: []
-        }}
+        initialValues={{ files: [] }}
         validationSchema={UploadSchema}
-        onSubmit={async (values, helpers) => {
-          helpers.setSubmitting(true)
-          try {
-            uploadFiles(values.files, currentPath)
-            helpers.resetForm()
-            close()
-          } catch (errors) {
-            if (errors[0].message.includes("conflict with existing")) {
-              helpers.setFieldError("files", "File/Folder exists")
-            } else {
-              helpers.setFieldError("files", errors[0].message)
-            }
-          }
-          helpers.setSubmitting(false)
-        }}
+        onSubmit={onSubmit}
       >
         <Form className={classes.root}>
           <FileInput

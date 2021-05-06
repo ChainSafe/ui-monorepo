@@ -14,10 +14,7 @@ import { useState } from "react"
 import { decryptFile, encryptFile, useImployApi } from "@chainsafe/common-contexts"
 import { v4 as uuidv4 } from "uuid"
 import { useToaster } from "@chainsafe/common-components"
-import {
-  downloadsInProgressReducer,
-  uploadsInProgressReducer
-} from "./DriveReducer"
+import { downloadsInProgressReducer, uploadsInProgressReducer } from "./DriveReducer"
 import { CancelToken } from "axios"
 import { t } from "@lingui/macro"
 import { readFileAsync } from "../Utils/Helpers"
@@ -217,7 +214,10 @@ const DriveProvider = ({ children }: DriveContextProps) => {
 
   const uploadFiles = useCallback(async (files: File[], path: string) => {
     const startUploadFile = async () => {
-      if (!encryptionKey) return // TODO: Add better error handling here.
+      if (!encryptionKey) {
+        console.error("No encryption key")
+        return
+      }
 
       const id = uuidv4()
       const uploadProgress: UploadProgress = {
@@ -278,6 +278,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
 
         return result
       } catch (error) {
+        console.error(error)
         // setting error
         let errorMessage = t`Something went wrong. We couldn't upload your file`
 
