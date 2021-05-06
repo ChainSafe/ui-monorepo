@@ -376,6 +376,9 @@ msgstr "Please enter a folder name"
 msgid "Please provide a password"
 msgstr "Please provide a password"
 
+msgid "Please select a file to upload"
+msgstr "Please select a file to upload"
+
 msgid "Preview"
 msgstr "Preview"
 
