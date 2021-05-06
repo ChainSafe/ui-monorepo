@@ -1,0 +1,644 @@
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2021-05-06 20:51+0200\n"
+"Mime-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: es\n"
+
+msgid "(Change)"
+msgstr ""
+
+msgid "<0>You’re at risk of getting locked out of your account because you only have two auth factors set up.</0> Add at least one more to ensure account recovery."
+msgstr ""
+
+msgid "A backup phrase will be generated and used for your account.<0/>We do not store it and <1>it can only be displayed once</1>. Save it somewhere safe!"
+msgstr ""
+
+msgid "A file with the same name already exists"
+msgstr ""
+
+msgid "Account"
+msgstr ""
+
+msgid "Add at least one more authentication method to protect your account. You’d only need any two to sign in to Files from any device."
+msgstr ""
+
+msgid "Add more files"
+msgstr ""
+
+msgid "Approve"
+msgstr ""
+
+msgid "Backup phrase"
+msgstr ""
+
+msgid "Backup phrase does not match user account, please double-check and try again."
+msgstr ""
+
+msgid "Bin"
+msgstr ""
+
+msgid "Browser:"
+msgstr ""
+
+msgid "By connecting your wallet, you agree to our <0>Terms of Service</0> and <1>Privacy Policy</1>"
+msgstr ""
+
+msgid "By forgetting this browser, you will not be able to use its associated recovery key to sign-in."
+msgstr ""
+
+msgid "CID (Content Identifier)"
+msgstr ""
+
+msgid "Cancel"
+msgstr ""
+
+msgid "Change Password"
+msgstr ""
+
+msgid "Change password"
+msgstr ""
+
+msgid "Click or drag to upload files"
+msgstr ""
+
+msgid "Close"
+msgstr ""
+
+msgid "Complete"
+msgstr ""
+
+msgid "Confirm"
+msgstr ""
+
+msgid "Confirm Password:"
+msgstr ""
+
+msgid "Connect Wallet to Files"
+msgstr ""
+
+msgid "Connect a new wallet"
+msgstr ""
+
+msgid "Connection failed"
+msgstr ""
+
+msgid "Continue"
+msgstr ""
+
+msgid "Continue with Facebook"
+msgstr ""
+
+msgid "Continue with Github"
+msgstr ""
+
+msgid "Continue with Google"
+msgstr ""
+
+msgid "Continue with Web3 Wallet"
+msgstr ""
+
+msgid "Copied!"
+msgstr ""
+
+msgid "Copy CID"
+msgstr ""
+
+msgid "Create"
+msgstr ""
+
+msgid "Create Folder"
+msgstr ""
+
+msgid "Create folder"
+msgstr ""
+
+msgid "Dark Theme"
+msgstr ""
+
+msgid "Date uploaded"
+msgstr ""
+
+msgid "Decryption failed"
+msgstr ""
+
+msgid "Delete"
+msgstr ""
+
+msgid "Delete selected"
+msgstr ""
+
+msgid "Device awaiting confirmation"
+msgstr ""
+
+msgid "Display Settings"
+msgstr ""
+
+msgid "Download"
+msgstr ""
+
+msgid "Download complete"
+msgstr ""
+
+msgid "Download recovery key"
+msgstr ""
+
+msgid "Drop to upload files"
+msgstr ""
+
+msgid "Enter backup phrase:"
+msgstr ""
+
+msgid "Enter password"
+msgstr ""
+
+msgid "Enter password:"
+msgstr ""
+
+msgid "Essentials - Free"
+msgstr ""
+
+msgid "Failed to get signature"
+msgstr ""
+
+msgid "Failed to migrate account, please try again."
+msgstr ""
+
+msgid ""
+"Failed to validate signature.\n"
+"If you are using a contract wallet, please make \n"
+"sure you have activated your wallet."
+msgstr ""
+
+msgid "File"
+msgstr ""
+
+msgid "File Info"
+msgstr ""
+
+msgid "File format not supported."
+msgstr ""
+
+msgid "File moved successfully"
+msgstr ""
+
+msgid "File renamed successfully"
+msgstr ""
+
+msgid "File size"
+msgstr ""
+
+msgid "Files"
+msgstr ""
+
+msgid "Files uses device backups to save your browser."
+msgstr ""
+
+msgid "First name"
+msgstr ""
+
+msgid "Folder"
+msgstr ""
+
+msgid "Folder created successfully"
+msgstr ""
+
+msgid "Folders"
+msgstr ""
+
+msgid "For security reasons, each time you sign in we’ll ask you for one of the following to confirm your identity."
+msgstr ""
+
+msgid "Forget this browser"
+msgstr ""
+
+msgid "General"
+msgstr ""
+
+msgid "Generate backup phrase"
+msgstr ""
+
+msgid "Generate phrase"
+msgstr ""
+
+msgid "Generating..."
+msgstr ""
+
+msgid "Get Started"
+msgstr ""
+
+msgid "Go back"
+msgstr ""
+
+msgid "Great! You’re all done."
+msgstr ""
+
+msgid "Hello again!"
+msgstr ""
+
+msgid "Help us make Files better in under 30 seconds."
+msgstr ""
+
+msgid "Hey! You only have two sign-in methods. If you lose that and have only one left, you will be locked out of your account forever."
+msgstr ""
+
+msgid "Hold on, we are logging you in..."
+msgstr ""
+
+msgid "Home"
+msgstr ""
+
+msgid "I understand the risk"
+msgstr ""
+
+msgid "Info"
+msgstr ""
+
+msgid "I’m done saving my backup phrase"
+msgstr ""
+
+msgid "Language"
+msgstr ""
+
+msgid "Last name"
+msgstr ""
+
+msgid "Learn more"
+msgstr ""
+
+msgid "Learn more about ChainSafe"
+msgstr ""
+
+msgid "Let's get you set up."
+msgstr ""
+
+msgid "Light Theme"
+msgstr ""
+
+msgid "Loading preview"
+msgstr ""
+
+msgid "Looks like you’re signing in from a new browser. Please choose one of the following to continue:"
+msgstr ""
+
+msgid "Lorem ipsum aenean et rutrum magna. Morbi nec placerat erat. Nunc elementum sed libero sit amet convallis. Quisque non arcu vitae ex fringilla molestie."
+msgstr ""
+
+msgid "Move"
+msgstr ""
+
+msgid "Move selected"
+msgstr ""
+
+msgid "Move to..."
+msgstr ""
+
+msgid "My Files"
+msgstr ""
+
+msgid "Name"
+msgstr ""
+
+msgid "New folder"
+msgstr ""
+
+msgid "Next"
+msgstr ""
+
+msgid "Nice to see you again!"
+msgstr ""
+
+msgid "No files to show"
+msgstr ""
+
+msgid "No folders"
+msgstr ""
+
+msgid "No search results for"
+msgstr ""
+
+msgid "No thanks"
+msgstr ""
+
+msgid "Number of copies (Replication Factor)"
+msgstr ""
+
+msgid "OK"
+msgstr ""
+
+msgid "One sec, getting files ready..."
+msgstr ""
+
+msgid "Operating system:"
+msgstr ""
+
+msgid "Or confirm by signing into your Files on any browser you’ve used before."
+msgstr ""
+
+msgid "Password"
+msgstr ""
+
+msgid "Password confirmation is required"
+msgstr ""
+
+msgid "Password does not match user account, please double-check and try again."
+msgstr ""
+
+msgid "Password needs to be more complex"
+msgstr ""
+
+msgid "Password setup"
+msgstr ""
+
+msgid "Password:"
+msgstr ""
+
+msgid "Passwords must match"
+msgstr ""
+
+msgid "Please enter a file name"
+msgstr ""
+
+msgid "Please enter a folder name"
+msgstr ""
+
+msgid "Please provide a password"
+msgstr ""
+
+msgid "Preview"
+msgstr ""
+
+msgid "Previous"
+msgstr ""
+
+msgid "Privacy Policy"
+msgstr ""
+
+msgid "Profile and Display"
+msgstr ""
+
+msgid "Profile updated"
+msgstr ""
+
+msgid "Recover"
+msgstr ""
+
+msgid "Recover with passphrase"
+msgstr ""
+
+msgid "Reject"
+msgstr ""
+
+msgid "Reject all"
+msgstr ""
+
+msgid "Remind me later"
+msgstr ""
+
+msgid "Rename"
+msgstr ""
+
+msgid "Rename File/Folder"
+msgstr ""
+
+msgid "Requested from"
+msgstr ""
+
+msgid "Resources"
+msgstr ""
+
+msgid "Restore with backup phrase"
+msgstr ""
+
+msgid "Save changes"
+msgstr ""
+
+msgid "Save this browser for next time?"
+msgstr ""
+
+msgid "Saved"
+msgstr ""
+
+msgid "Saved Browser"
+msgstr ""
+
+msgid "Saved Browsers"
+msgstr ""
+
+msgid "Saved browser"
+msgstr ""
+
+msgid "Saved on:"
+msgstr ""
+
+msgid "Search results"
+msgstr ""
+
+msgid "Search..."
+msgstr ""
+
+msgid "Security"
+msgstr ""
+
+msgid "Select a wallet"
+msgstr ""
+
+msgid "Send Feedback"
+msgstr ""
+
+msgid "Set Password"
+msgstr ""
+
+msgid "Set it up now"
+msgstr ""
+
+msgid "Set up"
+msgstr ""
+
+msgid "Set up a password"
+msgstr ""
+
+msgid "Set up auth factors"
+msgstr ""
+
+msgid "Set up password"
+msgstr ""
+
+msgid "Settings"
+msgstr ""
+
+msgid "Setup incomplete"
+msgstr ""
+
+msgid "Share"
+msgstr ""
+
+msgid "Sign Out"
+msgstr ""
+
+msgid "Sign in"
+msgstr ""
+
+msgid "Sign in with a different account"
+msgstr ""
+
+msgid "Sign-in methods"
+msgstr ""
+
+msgid "Sign-in with {0}"
+msgstr ""
+
+msgid "Size"
+msgstr ""
+
+msgid "Social Sign-in Wallet"
+msgstr ""
+
+msgid "Social Sign-in or Wallet"
+msgstr ""
+
+msgid "Social sign in or wallet"
+msgstr ""
+
+msgid "Something went wrong. We couldn't upload your file"
+msgstr ""
+
+msgid "Start Upload"
+msgstr ""
+
+msgid "Storage Plan"
+msgstr ""
+
+msgid "Stored by miner"
+msgstr ""
+
+msgid "Technical"
+msgstr ""
+
+msgid "Terms and Conditions"
+msgstr ""
+
+msgid "Thanks for taking care of that. You can adjust these anytime in security settings."
+msgstr ""
+
+msgid "The authentication popup was closed"
+msgstr ""
+
+msgid "The system is undergoing maintenance, thank you for being patient."
+msgstr ""
+
+msgid "Theme"
+msgstr ""
+
+msgid "There was an error authenticating"
+msgstr ""
+
+msgid "There was an error connecting your wallet"
+msgstr ""
+
+msgid "There was an error creating this folder"
+msgstr ""
+
+msgid "There was an error deleting this"
+msgstr ""
+
+msgid "There was an error getting file info"
+msgstr ""
+
+msgid "There was an error getting folder info"
+msgstr ""
+
+msgid "There was an error getting search results"
+msgstr ""
+
+msgid "There was an error getting the preview."
+msgstr ""
+
+msgid "There was an error moving this file"
+msgstr ""
+
+msgid "There was an error recovering this"
+msgstr ""
+
+msgid "There was an error renaming this file"
+msgstr ""
+
+msgid "Try again"
+msgstr ""
+
+msgid "Try another method"
+msgstr ""
+
+msgid "Update"
+msgstr ""
+
+msgid "Upload"
+msgstr ""
+
+msgid "Upload complete"
+msgstr ""
+
+msgid "Uploading {0} files"
+msgstr ""
+
+msgid "Use a different login method"
+msgstr ""
+
+msgid "Use a saved browser"
+msgstr ""
+
+msgid "View folder"
+msgstr ""
+
+msgid "Wallet address"
+msgstr ""
+
+msgid "Web3: {0}"
+msgstr ""
+
+msgid "We’ve got a new authentication system in place. All you need to do is enter your password again to migrate your credentials over to the new system."
+msgstr ""
+
+msgid "What a fine day it is."
+msgstr ""
+
+msgid "What a fine night it is."
+msgstr ""
+
+msgid "Yes, save it"
+msgstr ""
+
+msgid "You can change this later."
+msgstr ""
+
+msgid "You will need to sign a message in your wallet to complete sign in."
+msgstr ""
+
+msgid "Your Authentication Factors"
+msgstr ""
+
+msgid "Your recovery key can be used to restore your account in place of your backup phrase."
+msgstr ""
+
+msgid "deleted successfully"
+msgstr ""
+
+msgid "file"
+msgstr ""
+
+msgid "folder"
+msgstr ""
+
+msgid "on"
+msgstr ""
+
+msgid "recovered successfully"
+msgstr ""
+
+msgid "{0, plural, one {You are about to delete {1} file.} other {You are about to delete {2} files.}}"
+msgstr ""
+
+msgid "{noOfFiles, plural, one {Uploading and encrypting {noOfFiles} file} other {Uploading and encrypting {noOfFiles} files}}"
+msgstr ""
