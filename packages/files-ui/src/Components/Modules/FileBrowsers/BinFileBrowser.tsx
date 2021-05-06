@@ -18,7 +18,7 @@ const BinFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = false }
   const [pathContents, setPathContents] = useState<FileSystemItem[]>([])
   const [bucketType] = useState<BucketType>("trash")
   const { pathname } = useLocation()
-  const [currentPath, setCurrentPath] = useState(pathname.split("/").slice(1).join("/"))
+  const [currentPath, setCurrentPath] = useState(extractDrivePath(pathname.split("/").slice(1).join("/")))
 
   const refreshContents = useCallback(
     (
@@ -57,20 +57,21 @@ const BinFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = false }
     [bucketType, list, currentPath]
   )
 
-  // useEffect(() => {
-  //   refreshContents()
-  //   // eslint-disable-next-line
-  // }, [])
+  useEffect(() => {
+    refreshContents()
+    // eslint-disable-next-line
+  }, [])
 
   useEffect(() => {
     let binPath = extractDrivePath(pathname)
     if (binPath[0] !== "/") {
       binPath = "/" + binPath
     }
-
-    setCurrentPath(decodeURI(binPath))
-    refreshContents()
-  }, [refreshContents, pathname])
+    if (binPath !== currentPath) {
+      setCurrentPath(decodeURI(binPath))
+      refreshContents()
+    }
+  }, [refreshContents, pathname, currentPath])
 
 
   const deleteFile = useCallback(async (cid: string) => {

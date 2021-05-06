@@ -31,7 +31,7 @@ const CSFFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = true }:
   const { redirect } = useHistory()
 
   const { pathname } = useLocation()
-  const [currentPath, setCurrentPath] = useState(pathname.split("/").slice(1).join("/"))
+  const [currentPath, setCurrentPath] = useState(extractDrivePath(pathname.split("/").slice(1).join("/")))
   const refreshContents = useCallback(
     (
       path: string,
@@ -81,14 +81,20 @@ const CSFFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = true }:
   )
 
   useEffect(() => {
+    refreshContents(currentPath)
+    // eslint-disable-next-line
+  }, [])
+
+  useEffect(() => {
     let drivePath = extractDrivePath(pathname)
     if (drivePath[0] !== "/") {
       drivePath = "/" + drivePath
     }
-
-    setCurrentPath(decodeURI(drivePath))
-    refreshContents(decodeURI(drivePath))
-  }, [refreshContents, pathname])
+    if (drivePath !== currentPath) {
+      setCurrentPath(decodeURI(drivePath))
+      refreshContents(decodeURI(drivePath))
+    }
+  }, [refreshContents, pathname, currentPath])
 
   // From drive
   const moveFileToTrash = useCallback(async (cid: string) => {
