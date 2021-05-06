@@ -24,8 +24,8 @@ version-resolver:
     labels:
       - "Release: Patch"
   default: patch
-# exclude-labels:
-#   - "skip-changelog"
+exclude-labels:
+  - "skip-changelog"
 template: |
   ## Changelog
 
