@@ -48,20 +48,18 @@ const CSFFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = true }:
         }).then((newContents) => {
           showLoading && setLoadingCurrentPath(false)
 
-          if (newContents?.length > 0) {
-            // Remove this when the API returns dates
-            setPathContents(
-              newContents?.map((fcr) => ({
-                ...fcr,
-                content_type:
-                  fcr.content_type !== "application/octet-stream"
-                    ? fcr.content_type
-                    : guessContentType(fcr.name),
-                isFolder:
-                  fcr.content_type === "application/chainsafe-files-directory"
-              }))
-            )
-          }
+          // Remove this when the API returns dates
+          setPathContents(
+            newContents.map((fcr) => ({
+              ...fcr,
+              content_type:
+                fcr.content_type !== "application/octet-stream"
+                  ? fcr.content_type
+                  : guessContentType(fcr.name),
+              isFolder:
+                fcr.content_type === "application/chainsafe-files-directory"
+            }))
+          )
         }).catch(error => {
           throw error
         })
@@ -79,7 +77,7 @@ const CSFFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = true }:
     () => profile?.createdAt
       ? dayjs(Date.now()).diff(profile.createdAt, "day") > 7
       : false
-    , [profile?.createdAt]
+    , [profile]
   )
 
   useEffect(() => {
@@ -136,7 +134,6 @@ const CSFFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = true }:
         moveFileToTrash(cid)
       ))
   }, [moveFileToTrash])
-  // END
 
   // Rename
   const handleRename = useCallback(async (path: string, newPath: string) => {

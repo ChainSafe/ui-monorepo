@@ -40,19 +40,17 @@ const BinFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = false }
         }).then((newContents) => {
           showLoading && setLoadingCurrentPath(false)
 
-          if (newContents?.length > 0) {
-            setPathContents(
-              newContents?.map((fcr) => ({
-                ...fcr,
-                content_type:
-                  fcr.content_type !== "application/octet-stream"
-                    ? fcr.content_type
-                    : guessContentType(fcr.name),
-                isFolder:
-                  fcr.content_type === "application/chainsafe-files-directory"
-              }))
-            )
-          }
+          setPathContents(
+            newContents.map((fcr) => ({
+              ...fcr,
+              content_type:
+                fcr.content_type !== "application/octet-stream"
+                  ? fcr.content_type
+                  : guessContentType(fcr.name),
+              isFolder:
+                fcr.content_type === "application/chainsafe-files-directory"
+            }))
+          )
         }).catch((error) => {
           throw error
         })
