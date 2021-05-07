@@ -146,7 +146,6 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
   setFileInfoPath,
   handleSelect,
   itemOperations,
-  resetSelectedFiles,
   browserView
 }) => {
   const { cid, name, isFolder, content_type } = file
@@ -321,8 +320,7 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
     }
     const newPath = `${moduleRootPath}${currentPath}${encodeURI(name)}`
     redirect(newPath)
-    resetSelectedFiles()
-  }, [currentPath, name, resetSelectedFiles, redirect, moduleRootPath])
+  }, [currentPath, name, redirect, moduleRootPath])
 
   const onFileClick = useCallback(() => {
     setPreviewFileIndex(files?.indexOf(file))
