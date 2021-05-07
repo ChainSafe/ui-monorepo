@@ -22,7 +22,7 @@ import jwtDecode from "jwt-decode"
 import { IdentityToken } from "@chainsafe/files-api-client"
 import dayjs from "dayjs"
 
-export const TORUS_POSTBOX_KEY = "csf.postboxKey"
+const TORUS_POSTBOX_KEY = "csf.postboxKey"
 const TKEY_STORE_KEY = "csf.tkeyStore"
 const TORUS_USERINFO_KEY = "csf.userInfo"
 const PASSWORD_QUESTION = "What is your password?"
