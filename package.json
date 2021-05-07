@@ -16,6 +16,7 @@
     "@sentry/cli": "1.60.1",
     "chalk": "^4.1.0",
     "eslint-plugin-react-hooks": "^4.2.0",
+    "npm-run-all": "^4.1.5",
     "typescript": "^4.0.5",
     "wsrun": "^5.2.4"
   },
@@ -38,7 +39,9 @@
     "clean": "yarn clean:dependencies && yarn clean:dist",
     "start:tunnel": "./ngrok http https://localhost:3000",
     "lint": "eslint 'packages/**/{src, cypress}/**/*.{js,jsx,ts,tsx}'",
-    "test:ci": "npx start-server-and-test 'yarn start:files-ui' 3000 'yarn cypress run --project packages/files-ui'"
+    "serve:files-ui": "npx serve packages/files-ui/build -p 3000",
+    "test:files-ui": "cypress run --project packages/files-ui",
+    "test:ci": "yarn npm-run-all -p --race serve:files-ui test:files-ui"
   },
   "workspaces": {
     "packages": [
