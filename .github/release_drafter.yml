@@ -40,13 +40,11 @@ version-resolver:
     labels:
       - "Release: Patch"
   default: patch
-exclude-labels:
-  - "skip-changelog"
-template: |
-  ## Changelog
+# template: |
+#   ## Changelog
 
-  $CHANGES
+#   $CHANGES
 
-  🙏 A big thank you to all the contributors to this release:
+#   🙏 A big thank you to all the contributors to this release:
 
-  $CONTRIBUTORS
+#   $CONTRIBUTORS
