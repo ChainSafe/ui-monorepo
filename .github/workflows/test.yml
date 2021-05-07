@@ -14,7 +14,7 @@ jobs:
         id: yarn-build-cache
         with:
           path: |
-            node_modules
+            **/node_modules
             ~/.cache/Cypress
             build
           key: ${{ runner.os }}-node_modules-build-${{ hashFiles('**/yarn.lock') }}
@@ -24,7 +24,10 @@ jobs:
       # Install NPM dependencies, cache them correctly
       # and run all Cypress tests
       - name: Cypress run
+        env:
+          GITHUB_PACKAGES_AUTH_TOKEN: ${{ secrets.GH_PKG_AUTH_TOKEN }}
         uses: cypress-io/github-action@v2
+      run: yarn install --immutable
         with:
           build: yarn
           start: yarn start:files-ui
