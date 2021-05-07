@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo } from "react"
-import { Crumb, useToaster } from "@chainsafe/common-components"
+import { Crumb, useHistory, useToaster } from "@chainsafe/common-components"
 import { useDrive } from "../../../Contexts/DriveContext"
 import { getArrayOfPaths, getPathFromArray } from "../../../Utils/pathUtils"
 import { IBulkOperations, IFilesBrowserModuleProps, IFilesTableBrowserProps } from "./types"
@@ -8,6 +8,11 @@ import { CONTENT_TYPES } from "../../../Utils/Constants"
 import DragAndDrop from "../../../Contexts/DnDContext"
 import { useQuery } from "../../../Utils/Helpers"
 import { t } from "@lingui/macro"
+import { ROUTE_LINKS } from "../../FilesRoutes"
+import { useLocalStorage } from "@chainsafe/browser-storage-hooks"
+import { DISMISSED_SURVEY_KEY } from "../../SurveyBanner"
+import { useUser } from "@chainsafe/common-contexts"
+import dayjs from "dayjs"
 
 const CSFFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = true }: IFilesBrowserModuleProps) => {
   const {
@@ -25,6 +30,24 @@ const CSFFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = true }:
   } = useDrive()
 
   const queryPath = useQuery().get("path")
+  const { redirect } = useHistory()
+  const { localStorageGet, localStorageSet } = useLocalStorage()
+  const { profile } = useUser()
+  const showSurvey = localStorageGet(DISMISSED_SURVEY_KEY) === "false"
+
+  const olderThanOneWeek = useMemo(
+    () => profile?.createdAt
+      ? dayjs(Date.now()).diff(profile.createdAt, "day") > 7
+      : false
+    , [profile]
+  )
+
+  useEffect(() => {
+    const dismissedFlag = localStorageGet(DISMISSED_SURVEY_KEY)
+    if (dismissedFlag === undefined || dismissedFlag === null) {
+      localStorageSet(DISMISSED_SURVEY_KEY, "false")
+    }
+  }, [localStorageGet, localStorageSet])
 
   useEffect(() => {
     updateCurrentPath(
@@ -80,6 +103,13 @@ const CSFFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = true }:
     }
   }, [addToastMessage, uploadFiles])
 
+  const viewFolder = useCallback((cid: string) => {
+    const fileSystemItem = pathContents.find(f => f.cid === cid)
+    if (fileSystemItem && fileSystemItem.content_type === CONTENT_TYPES.Directory) {
+      redirect(ROUTE_LINKS.Home(`${currentPath}${fileSystemItem.name}`))
+    }
+  }, [currentPath, pathContents, redirect])
+
   const bulkOperations: IBulkOperations = useMemo(() => ({
     [CONTENT_TYPES.Directory]: ["move"],
     [CONTENT_TYPES.File]: ["delete", "move"]
@@ -105,6 +135,7 @@ const CSFFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = true }:
         downloadFile={downloadFile}
         handleMove={handleMove}
         handleRename={handleRename}
+        viewFolder={viewFolder}
         handleUploadOnDrop={handleUploadOnDrop}
         uploadsInProgress={uploadsInProgress}
         loadingCurrentPath={loadingCurrentPath}
@@ -115,6 +146,7 @@ const CSFFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = true }:
         controls={controls}
         allowDropUpload={true}
         itemOperations={ItemOperations}
+        withSurvey={showSurvey && olderThanOneWeek}
       />
     </DragAndDrop>
   )

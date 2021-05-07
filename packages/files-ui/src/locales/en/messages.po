@@ -247,6 +247,9 @@ msgstr "Great! You’re all done."
 msgid "Hello again!"
 msgstr "Hello again!"
 
+msgid "Help us make Files better in under 30 seconds."
+msgstr "Help us make Files better in under 30 seconds."
+
 msgid "Hey! You only have two sign-in methods. If you lose that and have only one left, you will be locked out of your account forever."
 msgstr "Hey! You only have two sign-in methods. If you lose that and have only one left, you will be locked out of your account forever."
 
@@ -363,6 +366,12 @@ msgstr "Password:"
 
 msgid "Passwords must match"
 msgstr "Passwords must match"
+
+msgid "Please enter a file name"
+msgstr "Please enter a file name"
+
+msgid "Please enter a folder name"
+msgstr "Please enter a folder name"
 
 msgid "Please provide a password"
 msgstr "Please provide a password"
@@ -520,8 +529,8 @@ msgstr "Technical"
 msgid "Terms and Conditions"
 msgstr "Terms and Conditions"
 
-msgid "Thanks for taking care of that. You can <0/> adjust these anytime in security settings."
-msgstr "Thanks for taking care of that. You can <0/> adjust these anytime in security settings."
+msgid "Thanks for taking care of that. You can adjust these anytime in security settings."
+msgstr "Thanks for taking care of that. You can adjust these anytime in security settings."
 
 msgid "The authentication popup was closed"
 msgstr "The authentication popup was closed"
@@ -610,9 +619,6 @@ msgstr "What a fine night it is."
 msgid "Yes, save it"
 msgstr "Yes, save it"
 
-msgid "You are about to delete {0} file(s)."
-msgstr "You are about to delete {0} file(s)."
-
 msgid "You can change this later."
 msgstr "You can change this later."
 
@@ -624,9 +630,6 @@ msgstr "Your Authentication Factors"
 
 msgid "Your recovery key can be used to restore your account in place of your backup phrase."
 msgstr "Your recovery key can be used to restore your account in place of your backup phrase."
-
-msgid "copied!"
-msgstr "copied!"
 
 msgid "deleted successfully"
 msgstr "deleted successfully"
@@ -642,3 +645,9 @@ msgstr "on"
 
 msgid "recovered successfully"
 msgstr "recovered successfully"
+
+msgid "{0, plural, one {You are about to delete {1} file.} other {You are about to delete {2} files.}}"
+msgstr "{0, plural, one {You are about to delete {1} file.} other {You are about to delete {2} files.}}"
+
+msgid "{noOfFiles, plural, one {Uploading and encrypting {noOfFiles} file} other {Uploading and encrypting {noOfFiles} files}}"
+msgstr "{noOfFiles, plural, one {Uploading and encrypting {noOfFiles} file} other {Uploading and encrypting {noOfFiles} files}}"

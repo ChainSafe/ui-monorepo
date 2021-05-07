@@ -111,6 +111,7 @@ export interface CsfColors extends IConstants {
   filesTable: {
     color: string
     uploadText: string
+    gridItemShadow: string
   }
   fileSystemItemRow: {
     icon: string
@@ -153,5 +154,8 @@ export interface CsfColors extends IConstants {
       border?: string
       borderColor?: string
     }
- }
+  }
+  surveyBanner: {
+   color: string
+  }
 }

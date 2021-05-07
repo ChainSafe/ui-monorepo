@@ -16,6 +16,8 @@ export type FileOperation =
   | "preview"
   | "view_folder"
 
+export type BrowserView = "grid" | "table"
+
 export interface IFilesBrowserModuleProps {
   heading?: string
   // TODO: once pagination & unique content requests are present, this might change to a passed in function
@@ -59,4 +61,5 @@ export interface IFilesTableBrowserProps
   crumbs: Crumb[] | undefined
   getPath?: (cid: string) => string | undefined
   isSearch?: boolean
+  withSurvey?: boolean
 }

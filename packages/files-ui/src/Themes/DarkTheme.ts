@@ -426,7 +426,8 @@ export const darkTheme = createTheme<CsfColors>({
         },
         filesTable: {
           color: "var(--gray7)",
-          uploadText: "var(--gray7)"
+          uploadText: "var(--gray7)",
+          gridItemShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
         },
         fileSystemItemRow: {
           icon: "var(--gray9)",
@@ -467,6 +468,9 @@ export const darkTheme = createTheme<CsfColors>({
             backgroundColor: "var(--gray4)",
             color: "var(--gray7)"
           }
+        },
+        surveyBanner: {
+          color: "var(--gray9)"
         }
       } as CsfColors)
     },
@@ -566,6 +570,16 @@ export const darkTheme = createTheme<CsfColors>({
               "& svg": {
                 fill: "var(--gray9)"
               }
+            }
+          }
+        }
+      },
+      CheckboxInput: {
+        checkbox: {
+          checked: {
+            "& span > svg": {
+              opacity: 1,
+              fill: "var(--gray9)"
             }
           }
         }
