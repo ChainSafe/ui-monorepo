@@ -173,7 +173,7 @@ const ImployApiProvider = ({ apiUrl, withLocalStorage = true, children }: Imploy
   }, [])
 
   const selectWallet = async () => {
-    console.log('onboard, isReady', onboard, isReady)
+    console.log("onboard, isReady", onboard, isReady)
     if (onboard && !isReady) {
       let walletSelected = !!wallet
       if (!walletSelected) {

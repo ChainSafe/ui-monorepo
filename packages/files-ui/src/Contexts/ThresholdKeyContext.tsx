@@ -485,29 +485,29 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
 
   const getIdentityToken = async (loginType: IdentityProvider): Promise<{identityToken: IdentityToken; userInfo: any}> => {
     if (loginType === "web3") {
-      
+
       let addressToUse = address
       let signer
 
-      if (!isReady  || !provider ) {
+      if (!isReady  || !provider) {
         const connected = await checkIsReady()
-        
+
         if (!connected || !provider) throw new Error("Unable to connect to wallet.")
-        
+
       }
 
       if(!signer){
         signer = provider.getSigner()
         if (!signer) throw new Error("Signer undefined")
       }
-      
+
       if(!addressToUse){
         // checkIsReady above doesn't make sure that the address is defined
         // we pull the address here to have it defined for sure
         addressToUse = await signer.getAddress()
       }
 
-      const {token} = await (await imployApiClient.getIdentityWeb3Token(addressToUse as string))
+      const { token } = await (await imployApiClient.getIdentityWeb3Token(addressToUse as string))
 
       if (!token) throw new Error("Token undefined")
 

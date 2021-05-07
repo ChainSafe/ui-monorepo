@@ -34,7 +34,7 @@ export interface Web3LoginOptions {
   saveBrowser?: boolean
 }
 
-Cypress.Commands.add("web3Login", ({saveBrowser = false, url= localHost}: Web3LoginOptions = {}) => {
+Cypress.Commands.add("web3Login", ({ saveBrowser = false, url = localHost }: Web3LoginOptions = {}) => {
   cy.on("window:before:load", (win) => {
     const provider = new ethers.providers.JsonRpcProvider("https://rinkeby.infura.io/v3/4bf032f2d38a4ed6bb975b80d6340847", 4)
     const signer = new Wallet(testPrivateKey, provider)

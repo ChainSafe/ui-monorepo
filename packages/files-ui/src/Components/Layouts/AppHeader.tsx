@@ -150,7 +150,7 @@ interface IAppHeader {
   setNavOpen: (state: boolean) => void
 }
 
-const AppHeader = ({ navOpen, setNavOpen}: IAppHeader) => {
+const AppHeader = ({ navOpen, setNavOpen }: IAppHeader) => {
   const { desktop } = useThemeSwitcher()
   const classes = useStyles()
   const { isLoggedIn, secured } = useImployApi()
