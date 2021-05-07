@@ -27,5 +27,5 @@ jobs:
           GITHUB_PACKAGES_AUTH_TOKEN: ${{ secrets.GH_PKG_AUTH_TOKEN }}
         with:
           # project: ./packages/files-ui
-          build: yarn build:files-ui
-          start: yarn test:ci
+          build: yarn build:files-ui && yarn serve:files-ui
+          start: yarn test:files-ui
