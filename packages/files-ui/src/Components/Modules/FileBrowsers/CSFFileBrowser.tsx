@@ -204,6 +204,13 @@ const CSFFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = true }:
     }
   }, [addToastMessage, uploadFiles, currentPath, refreshContents])
 
+  const viewFolder = useCallback((cid: string) => {
+    const fileSystemItem = pathContents.find(f => f.cid === cid)
+    if (fileSystemItem && fileSystemItem.content_type === CONTENT_TYPES.Directory) {
+      redirect(ROUTE_LINKS.Drive(`${currentPath}${fileSystemItem.name}`))
+    }
+  }, [currentPath, pathContents, redirect])
+
   const bulkOperations: IBulkOperations = useMemo(() => ({
     [CONTENT_TYPES.Directory]: ["move"],
     [CONTENT_TYPES.File]: ["delete", "move"]
@@ -231,6 +238,7 @@ const CSFFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = true }:
         downloadFile={handleDownload}
         handleMove={handleMove}
         handleRename={handleRename}
+        viewFolder={viewFolder}
         handleUploadOnDrop={handleUploadOnDrop}
         uploadsInProgress={uploadsInProgress}
         loadingCurrentPath={loadingCurrentPath}

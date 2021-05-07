@@ -551,6 +551,11 @@ const FilesTableView = ({
     setIsSurveyBannerVisible(false)
   }, [setIsSurveyBannerVisible])
 
+  const handleViewFolder = useCallback((cid: string) => {
+    resetSelectedCids()
+    viewFolder && viewFolder(cid)
+  }, [viewFolder, resetSelectedCids])
+
   return (
     <article
       className={clsx(classes.root, {
@@ -838,7 +843,7 @@ const FilesTableView = ({
                   }}
                   recoverFile={recoverFile}
                   downloadFile={downloadFile}
-                  viewFolder={viewFolder}
+                  viewFolder={handleViewFolder}
                   handleUploadOnDrop={handleUploadOnDrop}
                   setPreviewFileIndex={setPreviewFileIndex}
                   moveFile={() => {
