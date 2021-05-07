@@ -41,7 +41,7 @@
     "lint": "eslint 'packages/**/{src, cypress}/**/*.{js,jsx,ts,tsx}'",
     "serve:files-ui": "npx serve packages/files-ui/build -p 3000",
     "test:files-ui": "yarn cypress run --project ./packages/files-ui",
-    "test:ci": "yarn serve:files-ui &; yarn test:files-ui"
+    "test:ci": "yarn serve:files-ui && yarn test:files-ui"
   },
   "workspaces": {
     "packages": [
