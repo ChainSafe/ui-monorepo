@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react"
 import { BucketType, FileSystemItem, useDrive } from "../../../Contexts/DriveContext"
-import { IFilesBrowserModuleProps } from "./types"
+import { IBulkOperations, IFilesBrowserModuleProps } from "./types"
 import FilesTableView from "./views/FilesTable.view"
 import DragAndDrop from "../../../Contexts/DnDContext"
 import { t } from "@lingui/macro"
@@ -117,7 +117,7 @@ const BinFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = false }
   }, [deleteFile])
 
 
-  const recoverFile = async (cid: string) => {
+  const recoverFile = useCallback(async (cid: string) => {
     const itemToRestore = pathContents.find((i) => i.cid === cid)
     if (!itemToRestore) throw new Error("Not found")
     try {
@@ -152,7 +152,19 @@ const BinFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = false }
       })
       return Promise.reject()
     }
-  }
+  }, [addToastMessage, moveCSFObject, pathContents, refreshContents])
+
+  const recoverFiles = useCallback(async (cids: string[]) => {
+    return Promise.all(
+      cids.map((cid: string) =>
+        recoverFile(cid)
+      ))
+  }, [recoverFile])
+
+  const bulkOperations: IBulkOperations = useMemo(() => ({
+    [CONTENT_TYPES.Directory]: [],
+    [CONTENT_TYPES.File]: ["recover", "delete"]
+  }), [])
 
   const itemOperations: IFilesTableBrowserProps["itemOperations"] = useMemo(() => ({
     [CONTENT_TYPES.File]: ["recover", "delete"],
@@ -165,6 +177,7 @@ const BinFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = false }
         crumbs={undefined}
         recoverFile={recoverFile}
         deleteFiles={deleteFiles}
+        recoverFiles={recoverFiles}
         currentPath={currentPath}
         moduleRootPath={ROUTE_LINKS.Bin("/")}
         refreshContents={refreshContents}
@@ -175,6 +188,7 @@ const BinFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = false }
         controls={controls}
         bucketType={bucketType}
         itemOperations={itemOperations}
+        bulkOperations={bulkOperations}
       />
     </DragAndDrop>
   )
