@@ -1,7 +1,5 @@
 name: Cypress Tests with Dependency and Artifact Caching
-
-on: [pull_request]
-
+on: pull_request
 jobs:
   cypress-run:
     runs-on: ubuntu-latest
