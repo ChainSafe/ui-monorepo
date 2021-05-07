@@ -22,9 +22,9 @@ jobs:
       # Install NPM dependencies, cache them correctly
       # and run all Cypress tests
       - name: Cypress run
+        uses: cypress-io/github-action@v2
         env:
           GITHUB_PACKAGES_AUTH_TOKEN: ${{ secrets.GH_PKG_AUTH_TOKEN }}
-        uses: cypress-io/github-action@v2
       run: yarn install --immutable
         with:
           build: yarn
