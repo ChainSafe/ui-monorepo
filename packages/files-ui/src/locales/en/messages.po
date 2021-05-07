@@ -397,6 +397,9 @@ msgstr "Profile updated"
 msgid "Recover"
 msgstr "Recover"
 
+msgid "Recover selected"
+msgstr "Recover selected"
+
 msgid "Recover with passphrase"
 msgstr "Recover with passphrase"
 
