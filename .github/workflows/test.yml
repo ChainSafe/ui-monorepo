@@ -23,9 +23,8 @@ jobs:
       # and run all Cypress tests
       - name: Cypress run
         uses: cypress-io/github-action@v2
-      run: yarn install --immutable
-        env:
-          GITHUB_PACKAGES_AUTH_TOKEN: ${{ secrets.GH_PKG_AUTH_TOKEN }}
-        with:
-          build: yarn
-          start: yarn start:files-ui
+        run: yarn install --immutable
+          with:
+            token: ${{ secrets.GH_PKG_AUTH_TOKEN }}
+            build: yarn
+            start: yarn start:files-ui
