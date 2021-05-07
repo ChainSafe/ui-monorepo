@@ -26,5 +26,5 @@ jobs:
         env:
           GITHUB_PACKAGES_AUTH_TOKEN: ${{ secrets.GH_PKG_AUTH_TOKEN }}
         with:
-          build: yarn install --immutable
-          start: yarn start:files-ui
+          # build: yarn install --immutable
+          start: yarn test:ci

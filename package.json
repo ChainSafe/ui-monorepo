@@ -38,7 +38,7 @@
     "clean": "yarn clean:dependencies && yarn clean:dist",
     "start:tunnel": "./ngrok http https://localhost:3000",
     "lint": "eslint 'packages/**/{src, cypress}/**/*.{js,jsx,ts,tsx}'",
-    "test:files-ui": "yarn wsrun -p files-ui -c test"
+    "test:ci": "yarn start:files-ui && yarn wsrun -p files-ui -c test"
   },
   "workspaces": {
     "packages": [
