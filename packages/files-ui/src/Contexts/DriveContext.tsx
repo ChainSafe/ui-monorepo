@@ -251,7 +251,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
         })
       }
       // API call
-      const result = await imployApiClient.addCSFFiles(
+      await imployApiClient.addCSFFiles(
         filesParam,
         path,
         "",
