@@ -26,6 +26,10 @@ jobs:
         env:
           GITHUB_PACKAGES_AUTH_TOKEN: ${{ secrets.GH_PKG_AUTH_TOKEN }}
         with:
+          start: yarn start:files-ui
+          # quote the url to be safe against YML parsing surprises
+          wait-on: 'http://localhost:3000'
+          # wait for max 2 minutes for the files-ui to respond
+          wait-on-timeout: 120
           # project: ./packages/files-ui
-          build: yarn build:files-ui && yarn serve:files-ui
-          start: ls && yarn test:files-ui
+          command: yarn test:files-ui
