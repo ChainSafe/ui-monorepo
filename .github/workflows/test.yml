@@ -28,4 +28,4 @@ jobs:
         with:
           # project: ./packages/files-ui
           build: yarn build:files-ui && yarn serve:files-ui
-          start: ls && yarn test:files-ui --config-file false
+          start: ls && yarn test:files-ui

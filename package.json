@@ -40,8 +40,7 @@
     "start:tunnel": "./ngrok http https://localhost:3000",
     "lint": "eslint 'packages/**/{src, cypress}/**/*.{js,jsx,ts,tsx}'",
     "serve:files-ui": "npx serve packages/files-ui/build -p 3000",
-    "test:files-ui": "yarn wsrun -p files-ui -c test:ci",
-    "test:ci": "yarn serve:files-ui && yarn test:files-ui"
+    "test:files-ui": "yarn wsrun -p files-ui -c test:ci"
   },
   "workspaces": {
     "packages": [
