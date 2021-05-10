@@ -493,7 +493,6 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
         const connected = await checkIsReady()
 
         if (!connected || !provider) throw new Error("Unable to connect to wallet.")
-
       }
 
       if(!signer){
@@ -507,7 +506,7 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
         addressToUse = await signer.getAddress()
       }
 
-      const { token } = await (await imployApiClient.getIdentityWeb3Token(addressToUse as string))
+      const { token } = await imployApiClient.getIdentityWeb3Token(addressToUse)
 
       if (!token) throw new Error("Token undefined")
 
