@@ -20,6 +20,7 @@ import {
   Dialog,
   Loading,
   CheckboxInput,
+  useHistory,
   GridIcon,
   TableIcon
 } from "@chainsafe/common-components"
@@ -45,6 +46,7 @@ import { CONTENT_TYPES } from "../../../../Utils/Constants"
 import { CSFTheme } from "../../../../Themes/types"
 import MimeMatcher from "../../../../Utils/MimeMatcher"
 import { useLanguageContext } from "../../../../Contexts/LanguageContext"
+import { getPathWithFile } from "../../../../Utils/pathUtils"
 import SurveyBanner from "../../../SurveyBanner"
 
 interface IStyleProps {
@@ -278,7 +280,6 @@ const FilesTableView = ({
   sourceFiles,
   handleUploadOnDrop,
   bulkOperations,
-  updateCurrentPath,
   crumbs,
   handleRename,
   handleMove,
@@ -287,12 +288,15 @@ const FilesTableView = ({
   recoverFile,
   viewFolder,
   currentPath,
+  refreshContents,
   loadingCurrentPath,
   uploadsInProgress,
   showUploadsInTable,
   allowDropUpload,
   itemOperations,
   getPath,
+  moduleRootPath,
+  bucketType,
   isSearch,
   withSurvey
 }: IFilesTableBrowserProps) => {
@@ -335,6 +339,8 @@ const FilesTableView = ({
       ? temp.reverse().sort(sortFoldersFirst)
       : temp.sort(sortFoldersFirst)
   }, [sourceFiles, direction, column, selectedLocale])
+
+  const { redirect } = useHistory()
 
   const files = useMemo(() => items.filter((i) => !i.isFolder), [items])
 
@@ -422,6 +428,7 @@ const FilesTableView = ({
         handleUploadOnDrop &&
           currentPath &&
           handleUploadOnDrop(item.files, item.items, currentPath)
+        refreshContents && refreshContents()
       }
     },
     collect: (monitor) => ({
@@ -545,6 +552,11 @@ const FilesTableView = ({
     setIsSurveyBannerVisible(false)
   }, [setIsSurveyBannerVisible])
 
+  const handleViewFolder = useCallback((cid: string) => {
+    resetSelectedCids()
+    viewFolder && viewFolder(cid)
+  }, [viewFolder, resetSelectedCids])
+
   return (
     <article
       className={clsx(classes.root, {
@@ -561,10 +573,10 @@ const FilesTableView = ({
         </Typography>
       </div>
       <div className={classes.breadCrumbContainer}>
-        {crumbs ? (
+        {crumbs && moduleRootPath ? (
           <Breadcrumb
             crumbs={crumbs}
-            homeOnClick={() => updateCurrentPath("/", undefined, true)}
+            homeOnClick={() => redirect(moduleRootPath)}
             showDropDown={!desktop}
           />
         ) : null}
@@ -817,8 +829,8 @@ const FilesTableView = ({
                   index={index}
                   file={file}
                   files={files}
+                  moduleRootPath={moduleRootPath}
                   currentPath={currentPath}
-                  updateCurrentPath={updateCurrentPath}
                   selected={selectedCids}
                   handleSelect={handleSelect}
                   editing={editing}
@@ -835,7 +847,7 @@ const FilesTableView = ({
                   }}
                   recoverFile={recoverFile}
                   downloadFile={downloadFile}
-                  viewFolder={viewFolder}
+                  viewFolder={handleViewFolder}
                   handleUploadOnDrop={handleUploadOnDrop}
                   setPreviewFileIndex={setPreviewFileIndex}
                   moveFile={() => {
@@ -864,7 +876,6 @@ const FilesTableView = ({
                 file={file}
                 files={files}
                 currentPath={currentPath}
-                updateCurrentPath={updateCurrentPath}
                 selected={selectedCids}
                 handleSelect={handleSelect}
                 editing={editing}
@@ -900,15 +911,12 @@ const FilesTableView = ({
         <FilePreviewModal
           file={files[previewFileIndex]}
           closePreview={clearPreview}
+          bucketType={bucketType}
           nextFile={
             previewFileIndex < files.length - 1 ? setNextPreview : undefined
           }
           previousFile={previewFileIndex > 0 ? setPreviousPreview : undefined}
-          path={
-            isSearch && getPath
-              ? getPath(files[previewFileIndex].cid)
-              : undefined
-          }
+          path={isSearch && getPath ? getPath(files[previewFileIndex].cid) : getPathWithFile(currentPath, files[previewFileIndex].name)}
         />
       )}
       <Dialog
@@ -929,24 +937,36 @@ const FilesTableView = ({
       />
       <UploadProgressModals />
       <DownloadProgressModals />
-      <CreateFolderModule
-        modalOpen={createFolderModalOpen}
-        close={() => setCreateFolderModalOpen(false)}
-      />
-      <UploadFileModule
-        modalOpen={isUploadModalOpen}
-        close={() => setIsUploadModalOpen(false)}
-      />
-      <MoveFileModule
-        currentPath={currentPath}
-        filesToMove={selectedFiles}
-        modalOpen={isMoveFileModalOpen}
-        onClose={() => {
-          setIsMoveFileModalOpen(false)
-          setSelectedCids([])
-        }}
-        onCancel={() => setIsMoveFileModalOpen(false)}
-      />
+      {
+        refreshContents && (
+          <>
+            <CreateFolderModule
+              modalOpen={createFolderModalOpen}
+              currentPath={currentPath}
+              refreshCurrentPath={refreshContents}
+              close={() => setCreateFolderModalOpen(false)}
+            />
+            <UploadFileModule
+              modalOpen={isUploadModalOpen}
+              close={() => setIsUploadModalOpen(false)}
+              refreshCurrentPath={refreshContents}
+              currentPath={currentPath}
+            />
+            <MoveFileModule
+              currentPath={currentPath}
+              filesToMove={selectedFiles}
+              modalOpen={isMoveFileModalOpen}
+              refreshCurrentPath={refreshContents}
+              onClose={() => {
+                setIsMoveFileModalOpen(false)
+                setSelectedCids([])
+              }}
+              onCancel={() => setIsMoveFileModalOpen(false)}
+            />
+          </>
+        )
+      }
+
       <FileInfoModal
         fileInfoPath={fileInfoPath}
         close={() => setFileInfoPath(undefined)}

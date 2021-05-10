@@ -253,7 +253,7 @@ const FileInfoModal: React.FC<IFileInfoModuleProps> = ({
                       variant="body2"
                       component="p"
                     >
-                      {dayjs.unix(fullFileInfo.content.created_at).format("DD MMM YYYY h:mm a")}
+                      {fullFileInfo.content.created_at && dayjs.unix(fullFileInfo.content.created_at).format("DD MMM YYYY h:mm a")}
                     </Typography>
                   </div>
                 ) : null}

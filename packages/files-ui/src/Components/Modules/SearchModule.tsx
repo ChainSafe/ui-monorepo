@@ -11,16 +11,22 @@ import {
   Button,
   SearchBar,
   Typography,
-  useHistory
+  useHistory,
+  useToaster
 } from "@chainsafe/common-components"
 import { useState } from "react"
 import clsx from "clsx"
 import { ROUTE_LINKS } from "../FilesRoutes"
-import { useDrive, SearchEntry } from "../../Contexts/DriveContext"
+import { useDrive, BucketType, SearchEntry } from "../../Contexts/DriveContext"
 import { CONTENT_TYPES } from "../../Utils/Constants"
 import { getParentPathFromFilePath } from "../../Utils/pathUtils"
 import { t, Trans } from "@lingui/macro"
 import { CSFTheme } from "../../Themes/types"
+
+export interface SearchParams {
+  bucketType: BucketType
+  bucketId: string
+}
 
 const useStyles = makeStyles(
   ({ breakpoints, palette, constants, animation, zIndex, shadows }: CSFTheme) =>
@@ -151,7 +157,38 @@ const SearchModule: React.FC<ISearchModule> = ({
   const [searchQuery, setSearchQuery] = useState<string>("")
   const [searchResults, setSearchResults] = useState<{results: SearchEntry[]; query: string} | undefined>(undefined)
   const ref = useRef(null)
-  const { getSearchResults, currentSearchBucket } = useDrive()
+  const { listBuckets, searchFiles } = useDrive()
+  const { addToastMessage } = useToaster()
+  const [bucketType] = useState<BucketType>("csf")
+  const [currentSearchBucket, setCurrentSearchBucket] = useState<SearchParams | undefined>()
+  const getSearchResults = async (searchString: string) => {
+    try {
+      if (!searchString) return []
+      let bucketId
+      if (currentSearchBucket?.bucketType === bucketType) {
+        // we have the bucket id
+        bucketId = currentSearchBucket.bucketId
+      } else {
+        // fetch bucket id
+        const results = await listBuckets(bucketType)
+        const bucket1 = results[0]
+        setCurrentSearchBucket({
+          bucketType,
+          bucketId: bucket1.id
+        })
+        bucketId = bucket1.id
+      }
+      const results = await searchFiles(bucketId || "", searchString)
+      return results
+    } catch (err) {
+      addToastMessage({
+        message: t`There was an error getting search results`,
+        appearance: "error"
+      })
+      return Promise.reject(err)
+    }
+  }
+
 
   const { redirect } = useHistory()
 
@@ -198,13 +235,13 @@ const SearchModule: React.FC<ISearchModule> = ({
   )
 
   const onSearchEntryClickFolder = (searchEntry: SearchEntry) => {
-    redirect(ROUTE_LINKS.Home(searchEntry.path))
+    redirect(ROUTE_LINKS.Drive(searchEntry.path))
     setSearchQuery("")
     setSearchActive(false)
   }
 
   const onSearchEntryClickFile = (searchEntry: SearchEntry) => {
-    redirect(ROUTE_LINKS.Home(getParentPathFromFilePath(searchEntry.path)))
+    redirect(ROUTE_LINKS.Drive(getParentPathFromFilePath(searchEntry.path)))
     setSearchQuery("")
     setSearchActive(false)
   }

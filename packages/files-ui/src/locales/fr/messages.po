@@ -377,6 +377,9 @@ msgstr "Nom du dossier"
 msgid "Please provide a password"
 msgstr "Merci de donner un mot de passe"
 
+msgid "Please select a file to upload"
+msgstr ""
+
 msgid "Preview"
 msgstr "Aperçu"
 

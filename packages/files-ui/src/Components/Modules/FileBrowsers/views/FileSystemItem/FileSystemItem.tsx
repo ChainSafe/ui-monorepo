@@ -16,11 +16,11 @@ import {
   ExportSvg,
   ShareAltSvg,
   ExclamationCircleInverseSvg,
-  ZoomInSvg
+  ZoomInSvg,
+  useHistory
 } from "@chainsafe/common-components"
 import { makeStyles, createStyles, useDoubleClick, useThemeSwitcher } from "@chainsafe/common-theme"
 import { Formik, Form } from "formik"
-import { FileSystemItem, BucketType } from "../../../../../Contexts/DriveContext"
 import CustomModal from "../../../../Elements/CustomModal"
 import { Trans } from "@lingui/macro"
 import { useDrag, useDrop } from "react-dnd"
@@ -30,6 +30,7 @@ import { BrowserView, FileOperation } from "../../types"
 import { CSFTheme } from "../../../../../Themes/types"
 import FileItemTableItem from "./FileSystemTableItem"
 import FileItemGridItem from "./FileSystemGridItem"
+import { FileSystemItem } from "../../../../../Contexts/DriveContext"
 
 const useStyles = makeStyles(({ breakpoints, constants }: CSFTheme) => {
   return createStyles({
@@ -102,8 +103,8 @@ interface IFileSystemItemRowProps {
   index: number
   file: FileSystemItem
   files: FileSystemItem[]
-  currentPath?: string
-  updateCurrentPath: (path: string, newBucketType?: BucketType, showLoading?: boolean) => void
+  currentPath: string
+  moduleRootPath?: string
   selected: string[]
   handleSelect(selected: string): void
   editing: string | undefined
@@ -127,11 +128,11 @@ interface IFileSystemItemRowProps {
 const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
   file,
   files,
-  currentPath,
-  updateCurrentPath,
   selected,
   editing,
   setEditing,
+  currentPath,
+  moduleRootPath,
   renameSchema,
   handleRename,
   handleMove,
@@ -145,7 +146,6 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
   setFileInfoPath,
   handleSelect,
   itemOperations,
-  resetSelectedFiles,
   browserView
 }) => {
   const { cid, name, isFolder, content_type } = file
@@ -162,6 +162,8 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
 
   const { desktop } = useThemeSwitcher()
   const classes = useStyles()
+
+  const { redirect } = useHistory()
 
   const allMenuItems: Record<FileOperation, IMenuItem> = {
     rename: {
@@ -312,9 +314,13 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
   }
 
   const onFolderClick = useCallback(() => {
-    updateCurrentPath(`${currentPath}${name}`, undefined, true)
-    resetSelectedFiles()
-  }, [currentPath, name, resetSelectedFiles, updateCurrentPath])
+    if (!moduleRootPath) {
+      console.debug("Module root path not set")
+      return
+    }
+    const newPath = `${moduleRootPath}${currentPath}${encodeURI(name)}`
+    redirect(newPath)
+  }, [currentPath, name, redirect, moduleRootPath])
 
   const onFileClick = useCallback(() => {
     setPreviewFileIndex(files?.indexOf(file))

@@ -31,7 +31,11 @@ export function getPathFromArray(arrayOfPaths: string[]): string {
 
 // get path and file
 export function getPathWithFile(path: string, fileName: string) {
-  return path === "/" ? `/${fileName}` : `${path}/${fileName}`
+  return path === "/"
+    ? `/${fileName}`
+    : path[path.length - 1] === "/"
+      ? `${path}${fileName}`
+      : `${path}/${fileName}`
 }
 
 // get path and file
@@ -39,4 +43,9 @@ export function getParentPathFromFilePath(filePath: string) {
   const parentPath = filePath.substring(0, filePath.lastIndexOf("/"))
   if (!parentPath) return "/"
   else return parentPath
+}
+
+
+export function extractDrivePath(pathname: string) {
+  return pathname.split("/").slice(2).join("/").concat("/")
 }

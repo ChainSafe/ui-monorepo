@@ -3,7 +3,7 @@ import { Switch, ConditionalRoute } from "@chainsafe/common-components"
 import LoginPage from "./Pages/LoginPage"
 import SettingsPage from "./Pages/SettingsPage"
 import { useImployApi } from "@chainsafe/common-contexts"
-import HomePage from "./Pages/HomePage"
+import DrivePage from "./Pages/DrivePage"
 import SearchPage from "./Pages/SearchPage"
 import BinPage from "./Pages/BinPage"
 import PurchasePlanPage from "./Pages/PurchasePlanPage"
@@ -15,11 +15,10 @@ export const ROUTE_LINKS = {
   PrivacyPolicy: "https://files.chainsafe.io/privacy-policy",
   Terms: "https://files.chainsafe.io/terms-of-service",
   ChainSafe: "https://chainsafe.io/",
-  // TODO: update link
+  Drive: (rawCurrentPath: string) => `/drive${rawCurrentPath}`,
+  Search: (rawSearchTerm: string) => `/search/${rawSearchTerm}`,
+  Bin: (rawBinPath: string) => `/bin${rawBinPath}`,
   ApplyCryptography: "https://medium.com/chainsafe-systems/major-improvement-to-chainsafe-files-ab489d3e52a2",
-  Home: (path?: string) => `/home${path ? `?path=${path}` : ""}`,
-  Search: (search?: string) => `/search${search ? `?search=${search}` : ""}`,
-  Bin: "/bin",
   Settings: `${SETTINGS_BASE}/:path`,
   SettingsDefault: `${SETTINGS_BASE}`,
   PurchasePlan: "/purchase",
@@ -40,30 +39,29 @@ const FilesRoutes = () => {
   return (
     <Switch>
       <ConditionalRoute
-        exact
-        path={ROUTE_LINKS.Landing}
-        isAuthorized={!isAuthorized}
-        component={LoginPage}
-        redirectPath={ROUTE_LINKS.Home()}
-      />
-      <ConditionalRoute
-        exact
-        path={ROUTE_LINKS.Home()}
+        path={ROUTE_LINKS.Drive("/")}
         isAuthorized={isAuthorized}
-        component={HomePage}
+        component={DrivePage}
         redirectPath={ROUTE_LINKS.Landing}
       />
       <ConditionalRoute
         exact
-        path={ROUTE_LINKS.Search()}
+        path={ROUTE_LINKS.Search("")}
         isAuthorized={isAuthorized}
         component={SearchPage}
         redirectPath={ROUTE_LINKS.Landing}
       />
       <ConditionalRoute
         exact
-        path={ROUTE_LINKS.Bin}
-        isAuthorized={isAuthorized        }
+        path={ROUTE_LINKS.Search(":searchTerm")}
+        isAuthorized={isAuthorized}
+        component={SearchPage}
+        redirectPath={ROUTE_LINKS.Landing}
+      />
+      <ConditionalRoute
+        exact
+        path={ROUTE_LINKS.Bin("/")}
+        isAuthorized={isAuthorized}
         component={BinPage}
         redirectPath={ROUTE_LINKS.Landing}
       />
@@ -86,6 +84,13 @@ const FilesRoutes = () => {
         isAuthorized={isAuthorized}
         component={PurchasePlanPage}
         redirectPath={ROUTE_LINKS.Landing}
+      />
+      <ConditionalRoute
+        path='/'
+        isAuthorized={!isAuthorized}
+        component={LoginPage}
+        redirectPath={ROUTE_LINKS.Drive("/")}
+        redirectToSource
       />
     </Switch>
   )
