@@ -142,11 +142,12 @@ const CSFFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = true }:
   }, [addToastMessage, currentPath, pathContents, refreshContents, moveCSFObject])
 
   const moveFilesToTrash = useCallback(async (cids: string[]) => {
-    return Promise.all(
+    await Promise.all(
       cids.map((cid: string) =>
         moveFileToTrash(cid)
       ))
-  }, [moveFileToTrash])
+    await refreshContents(currentPath)
+  }, [moveFileToTrash, refreshContents, currentPath])
 
   // Rename
   const handleRename = useCallback(async (path: string, newPath: string) => {

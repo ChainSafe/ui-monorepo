@@ -315,7 +315,7 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
 
   const onFolderClick = useCallback(() => {
     if (!moduleRootPath) {
-      console.error("Module root path not set")
+      console.debug("Module root path not set")
       return
     }
     const newPath = `${moduleRootPath}${currentPath}${encodeURI(name)}`

@@ -72,9 +72,10 @@ interface IUploadFileModuleProps {
   modalOpen: boolean
   close: () => void
   currentPath: string
+  refreshCurrentPath: () => void
 }
 
-const UploadFileModule = ({ modalOpen, close, currentPath }: IUploadFileModuleProps) => {
+const UploadFileModule = ({ modalOpen, close, currentPath, refreshCurrentPath }: IUploadFileModuleProps) => {
   const classes = useStyles()
   const [isDoneDisabled, setIsDoneDisabled] = useState(true)
   const { uploadFiles } = useDrive()
@@ -84,11 +85,12 @@ const UploadFileModule = ({ modalOpen, close, currentPath }: IUploadFileModulePr
     setIsDoneDisabled(filesNumber === 0)
   }, [])
 
-  const onSubmit = useCallback((values, helpers) => {
+  const onSubmit = useCallback(async (values, helpers) => {
     helpers.setSubmitting(true)
     try {
-      uploadFiles(values.files, currentPath)
+      await uploadFiles(values.files, currentPath)
       helpers.resetForm()
+      refreshCurrentPath()
       close()
     } catch (errors) {
       if (errors[0].message.includes("conflict with existing")) {
@@ -98,7 +100,7 @@ const UploadFileModule = ({ modalOpen, close, currentPath }: IUploadFileModulePr
       }
     }
     helpers.setSubmitting(false)
-  }, [close, currentPath, uploadFiles])
+  }, [close, currentPath, uploadFiles, refreshCurrentPath])
 
   return (
     <CustomModal

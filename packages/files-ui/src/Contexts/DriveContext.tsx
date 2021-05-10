@@ -56,7 +56,7 @@ interface GetFileContentParams {
 
 
 type DriveContext = {
-  uploadFiles: (files: File[], path: string) => void
+  uploadFiles: (files: File[], path: string) => Promise<void>
   createFolder: (body: FilesPathRequest) => Promise<FileContentResponse>
   renameFile: (body: FilesMvRequest) => Promise<void>
   moveFile: (body: FilesMvRequest) => Promise<void>
@@ -213,89 +213,87 @@ const DriveProvider = ({ children }: DriveContextProps) => {
   })
 
   const uploadFiles = useCallback(async (files: File[], path: string) => {
-    const startUploadFile = async () => {
-      if (!encryptionKey) {
-        console.error("No encryption key")
-        return
-      }
 
-      const id = uuidv4()
-      const uploadProgress: UploadProgress = {
-        id,
-        fileName: files[0].name, // TODO: Do we need this?
-        complete: false,
-        error: false,
-        noOfFiles: files.length,
-        progress: 0,
-        path
-      }
-      dispatchUploadsInProgress({ type: "add", payload: uploadProgress })
-      try {
-        const filesParam = await Promise.all(
-          files
-            .filter((f) => f.size <= MAX_FILE_SIZE)
-            .map(async (f) => {
-              const fileData = await readFileAsync(f)
-              const encryptedData = await encryptFile(fileData, encryptionKey)
-              return {
-                data: new Blob([encryptedData], { type: f.type }),
-                fileName: f.name
-              }
-            })
-        )
-        if (filesParam.length !== files.length) {
-          addToastMessage({
-            message:
+    if (!encryptionKey) {
+      console.error("No encryption key")
+      return
+    }
+
+    const id = uuidv4()
+    const uploadProgress: UploadProgress = {
+      id,
+      fileName: files[0].name, // TODO: Do we need this?
+      complete: false,
+      error: false,
+      noOfFiles: files.length,
+      progress: 0,
+      path
+    }
+    dispatchUploadsInProgress({ type: "add", payload: uploadProgress })
+    try {
+      const filesParam = await Promise.all(
+        files
+          .filter((f) => f.size <= MAX_FILE_SIZE)
+          .map(async (f) => {
+            const fileData = await readFileAsync(f)
+            const encryptedData = await encryptFile(fileData, encryptionKey)
+            return {
+              data: new Blob([encryptedData], { type: f.type }),
+              fileName: f.name
+            }
+          })
+      )
+      if (filesParam.length !== files.length) {
+        addToastMessage({
+          message:
               "We can't encrypt files larger than 2GB. Some items will not be uploaded",
-            appearance: "error"
+          appearance: "error"
+        })
+      }
+      // API call
+      await imployApiClient.addCSFFiles(
+        filesParam,
+        path,
+        "",
+        undefined,
+        undefined,
+        (progressEvent: { loaded: number; total: number }) => {
+          dispatchUploadsInProgress({
+            type: "progress",
+            payload: {
+              id,
+              progress: Math.ceil(
+                (progressEvent.loaded / progressEvent.total) * 100
+              )
+            }
           })
         }
-        // API call
-        const result = await imployApiClient.addCSFFiles(
-          filesParam,
-          path,
-          "",
-          undefined,
-          undefined,
-          (progressEvent: { loaded: number; total: number }) => {
-            dispatchUploadsInProgress({
-              type: "progress",
-              payload: {
-                id,
-                progress: Math.ceil(
-                  (progressEvent.loaded / progressEvent.total) * 100
-                )
-              }
-            })
-          }
-        )
+      )
 
-        // setting complete
-        dispatchUploadsInProgress({ type: "complete", payload: { id } })
-        setTimeout(() => {
-          dispatchUploadsInProgress({ type: "remove", payload: { id } })
-        }, REMOVE_UPLOAD_PROGRESS_DELAY)
+      // setting complete
+      dispatchUploadsInProgress({ type: "complete", payload: { id } })
+      setTimeout(() => {
+        dispatchUploadsInProgress({ type: "remove", payload: { id } })
+      }, REMOVE_UPLOAD_PROGRESS_DELAY)
 
-        return result
-      } catch (error) {
-        console.error(error)
-        // setting error
-        let errorMessage = t`Something went wrong. We couldn't upload your file`
+      return Promise.resolve()
+    } catch (error) {
+      console.error(error)
+      // setting error
+      let errorMessage = t`Something went wrong. We couldn't upload your file`
 
-        // we will need a method to parse server errors
-        if (Array.isArray(error) && error[0].message.includes("conflict")) {
-          errorMessage = t`A file with the same name already exists`
-        }
-        dispatchUploadsInProgress({
-          type: "error",
-          payload: { id, errorMessage }
-        })
-        setTimeout(() => {
-          dispatchUploadsInProgress({ type: "remove", payload: { id } })
-        }, REMOVE_UPLOAD_PROGRESS_DELAY)
+      // we will need a method to parse server errors
+      if (Array.isArray(error) && error[0].message.includes("conflict")) {
+        errorMessage = t`A file with the same name already exists`
       }
+      dispatchUploadsInProgress({
+        type: "error",
+        payload: { id, errorMessage }
+      })
+      setTimeout(() => {
+        dispatchUploadsInProgress({ type: "remove", payload: { id } })
+      }, REMOVE_UPLOAD_PROGRESS_DELAY)
     }
-    startUploadFile()
   }, [addToastMessage, encryptionKey, imployApiClient])
 
   const createFolder = async (body: FilesPathRequest) => {

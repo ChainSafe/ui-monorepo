@@ -110,11 +110,12 @@ const BinFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = false }
   }, [addToastMessage, bucketType, currentPath, pathContents, refreshContents, removeCSFObjects])
 
   const deleteFiles = useCallback(async (cids: string[]) => {
-    return Promise.all(
+    await Promise.all(
       cids.map((cid: string) =>
         deleteFile(cid)
       ))
-  }, [deleteFile])
+    refreshContents()
+  }, [deleteFile, refreshContents])
 
 
   const recoverFile = useCallback(async (cid: string) => {

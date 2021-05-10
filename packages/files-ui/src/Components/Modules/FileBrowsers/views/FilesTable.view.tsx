@@ -429,6 +429,7 @@ const FilesTableView = ({
         handleUploadOnDrop &&
           currentPath &&
           handleUploadOnDrop(item.files, item.items, currentPath)
+        refreshContents && refreshContents()
       }
     },
     collect: (monitor) => ({
@@ -959,29 +960,34 @@ const FilesTableView = ({
       <DownloadProgressModals />
       {
         refreshContents && (
-          <CreateFolderModule
-            modalOpen={createFolderModalOpen}
-            currentPath={currentPath}
-            refreshCurrentPath={refreshContents}
-            close={() => setCreateFolderModalOpen(false)}
-          />
+          <>
+            <CreateFolderModule
+              modalOpen={createFolderModalOpen}
+              currentPath={currentPath}
+              refreshCurrentPath={refreshContents}
+              close={() => setCreateFolderModalOpen(false)}
+            />
+            <UploadFileModule
+              modalOpen={isUploadModalOpen}
+              close={() => setIsUploadModalOpen(false)}
+              refreshCurrentPath={refreshContents}
+              currentPath={currentPath}
+            />
+            <MoveFileModule
+              currentPath={currentPath}
+              filesToMove={selectedFiles}
+              modalOpen={isMoveFileModalOpen}
+              refreshCurrentPath={refreshContents}
+              onClose={() => {
+                setIsMoveFileModalOpen(false)
+                setSelectedCids([])
+              }}
+              onCancel={() => setIsMoveFileModalOpen(false)}
+            />
+          </>
         )
       }
-      <UploadFileModule
-        modalOpen={isUploadModalOpen}
-        close={() => setIsUploadModalOpen(false)}
-        currentPath={currentPath}
-      />
-      <MoveFileModule
-        currentPath={currentPath}
-        filesToMove={selectedFiles}
-        modalOpen={isMoveFileModalOpen}
-        onClose={() => {
-          setIsMoveFileModalOpen(false)
-          setSelectedCids([])
-        }}
-        onCancel={() => setIsMoveFileModalOpen(false)}
-      />
+
       <FileInfoModal
         fileInfoPath={fileInfoPath}
         close={() => setFileInfoPath(undefined)}
