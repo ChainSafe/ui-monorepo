@@ -151,17 +151,13 @@ interface IAppHeader {
   setNavOpen: (state: boolean) => void
 }
 
-const AppHeader: React.FC<IAppHeader> = ({
-  navOpen,
-  setNavOpen
-}: IAppHeader) => {
+const AppHeader = ({ navOpen, setNavOpen }: IAppHeader) => {
   const { desktop } = useThemeSwitcher()
-
   const classes = useStyles()
-
   const { isLoggedIn, secured } = useImployApi()
   const { publicKey, isNewDevice, shouldInitializeAccount, logout } = useThresholdKey()
   const { getProfileTitle, removeUser } = useUser()
+  const [searchActive, setSearchActive] = useState(false)
   const { history } = useHistory()
 
   const signOut = useCallback(async () => {
@@ -173,8 +169,6 @@ const AppHeader: React.FC<IAppHeader> = ({
       })
 
   }, [logout, removeUser, history])
-
-  const [searchActive, setSearchActive] = useState(false)
 
   return (
     <header

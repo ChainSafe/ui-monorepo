@@ -597,8 +597,11 @@ const FilesTableView = ({
         ) : null}
       </div>
       <header className={classes.header}>
-        <Typography variant="h1"
-          component="h1">
+        <Typography
+          variant="h1"
+          component="h1"
+          data-cy="files-app-header"
+        >
           {heading}
         </Typography>
         <div className={classes.controls}>
