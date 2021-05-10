@@ -28,11 +28,12 @@ jobs:
           REACT_APP_API_URL: ${{ secrets.GH_REACT_APP_API_URL }}
           REACT_APP_BLOCKNATIVE_ID: ${{ secrets.GH_REACT_APP_BLOCKNATIVE_ID }}
           REACT_APP_FILES_VERIFIER_NAME: ${{ secrets.GH_REACT_APP_FILES_VERIFIER_NAME }}
+          REACT_APP_FILES_UUID_VERIFIER_NAME: 'chainsafe-uuid-testnet'
         with:
           start: yarn start:files-ui
           # quote the url to be safe against YML parsing surprises
           wait-on: 'http://localhost:3000'
           # wait for max 2 minutes for the files-ui to respond
           wait-on-timeout: 120
-          # project: ./packages/files-ui
-          command: yarn test:files-ui
+          # custom test command to run
+          command: yarn test:ci:files-ui
