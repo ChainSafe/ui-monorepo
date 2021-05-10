@@ -286,6 +286,7 @@ const FilesTableView = ({
   downloadFile,
   deleteFiles,
   recoverFile,
+  recoverFiles,
   viewFolder,
   currentPath,
   refreshContents,
@@ -444,6 +445,7 @@ const FilesTableView = ({
   const [isMoveFileModalOpen, setIsMoveFileModalOpen] = useState(false)
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
   const [isDeletingFiles, setIsDeletingFiles] = useState(false)
+  const [isRecoveringFiles, setIsRecoveringFiles] = useState(false)
   const [fileInfoPath, setFileInfoPath] = useState<string | undefined>(
     undefined
   )
@@ -461,7 +463,8 @@ const FilesTableView = ({
         "move",
         "preview",
         "rename",
-        "share"
+        "share",
+        "recover"
       ]
       for (let i = 0; i < selectedCids.length; i++) {
         const contentType = items.find((item) => item.cid === selectedCids[i])
@@ -519,6 +522,18 @@ const FilesTableView = ({
         setIsDeleteModalOpen(false)
       })
   }, [deleteFiles, selectedCids])
+
+  const handleRecoverFiles = useCallback(() => {
+    if (!recoverFiles) return
+
+    setIsRecoveringFiles(true)
+    recoverFiles(selectedCids)
+      .catch(console.error)
+      .finally(() => {
+        setIsRecoveringFiles(false)
+        setSelectedCids([])
+      })
+  }, [recoverFiles, selectedCids])
 
   const getItemOperations = useCallback(
     (contentType: string) => {
@@ -696,6 +711,15 @@ const FilesTableView = ({
               variant="outline"
             >
               <Trans>Move selected</Trans>
+            </Button>
+          )}
+          {validBulkOps.indexOf("recover") >= 0 && (
+            <Button
+              onClick={handleRecoverFiles}
+              variant="outline"
+              loading={isRecoveringFiles}
+            >
+              <Trans>Recover selected</Trans>
             </Button>
           )}
           {validBulkOps.indexOf("delete") >= 0 && (
