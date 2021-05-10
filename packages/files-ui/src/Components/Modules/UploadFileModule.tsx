@@ -91,7 +91,6 @@ const UploadFileModule = ({ modalOpen, close, currentPath, refreshCurrentPath }:
       await uploadFiles(values.files, currentPath)
       helpers.resetForm()
       refreshCurrentPath()
-      debugger
       close()
     } catch (errors) {
       if (errors[0].message.includes("conflict with existing")) {
