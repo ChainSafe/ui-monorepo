@@ -399,7 +399,7 @@ msgid "Recover"
 msgstr "Récupérer"
 
 msgid "Recover selected"
-msgstr ""
+msgstr "Récupérer sélection"
 
 msgid "Recover with passphrase"
 msgstr "Récupérer avec un mot de passe"
