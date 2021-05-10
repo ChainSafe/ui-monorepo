@@ -59,7 +59,7 @@ Cypress.Commands.add("web3Login", ({ saveBrowser = false, url = localHost }: Web
     cy.get("[data-cy=do-not-save-browser-button]").click()
   }
 
-  cy.get("[data-cy=files-app-header", { timeout: 15000 }).should("be.visible")
+  cy.get("[data-cy=files-app-header", { timeout: 30000 }).should("be.visible")
 })
 
 // Must be declared global to be detected by typescript (allows import/export)
