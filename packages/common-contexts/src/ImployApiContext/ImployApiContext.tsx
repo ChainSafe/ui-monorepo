@@ -6,7 +6,6 @@ import jwtDecode from "jwt-decode"
 import axios from "axios"
 import { decryptFile } from "../helpers"
 import { useLocalStorage, useSessionStorage } from "@chainsafe/browser-storage-hooks"
-
 export { IdentityProvider as OAuthProvider }
 
 const tokenStorageKey = "csf.refreshToken"
@@ -411,3 +410,4 @@ const useImployApi = () => {
 }
 
 export { ImployApiProvider, useImployApi }
+
