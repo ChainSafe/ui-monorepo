@@ -233,7 +233,7 @@ const useStyles = makeStyles(
         display: "flex",
         flexDirection: "row",
         marginTop: constants.generalUnit * 3,
-        minHeight: 33,
+        minHeight: 33.6,
         "& > *": {
           marginRight: constants.generalUnit
         }
