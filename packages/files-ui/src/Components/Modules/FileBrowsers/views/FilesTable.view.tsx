@@ -309,6 +309,8 @@ const FilesTableView = ({
   const [selectedCids, setSelectedCids] = useState<string[]>([])
   const [previewFileIndex, setPreviewFileIndex] = useState<number | undefined>()
   const { selectedLocale } = useLanguageContext()
+  const { redirect } = useHistory()
+
   const items: FileSystemItem[] = useMemo(() => {
     let temp = []
 
@@ -339,8 +341,6 @@ const FilesTableView = ({
       ? temp.reverse().sort(sortFoldersFirst)
       : temp.sort(sortFoldersFirst)
   }, [sourceFiles, direction, column, selectedLocale])
-
-  const { redirect } = useHistory()
 
   const files = useMemo(() => items.filter((i) => !i.isFolder), [items])
 
@@ -399,13 +399,13 @@ const FilesTableView = ({
     [selectedCids]
   )
 
-  const toggleAll = () => {
+  const toggleAll = useCallback(() => {
     if (selectedCids.length === items.length) {
       setSelectedCids([])
     } else {
       setSelectedCids([...items.map((file: FileSystemItem) => file.cid)])
     }
-  }
+  }, [setSelectedCids, items, selectedCids])
 
   const invalidFilenameRegex = new RegExp("/")
   const renameSchema = object().shape({
@@ -452,6 +452,7 @@ const FilesTableView = ({
 
   // Bulk operations
   const [validBulkOps, setValidBulkOps] = useState<FileOperation[]>([])
+
   useEffect(() => {
     if (bulkOperations) {
       let filteredList: FileOperation[] = [
@@ -507,6 +508,8 @@ const FilesTableView = ({
     }
   }, [selectedCids, items, bulkOperations])
 
+
+
   const handleDeleteFiles = useCallback(() => {
     if (!deleteFiles) return
 
@@ -547,6 +550,10 @@ const FilesTableView = ({
   const resetSelectedCids = useCallback(() => {
     setSelectedCids([])
   }, [])
+
+  useEffect(() => {
+    resetSelectedCids()
+  }, [currentPath, resetSelectedCids])
 
   const onHideSurveyBanner = useCallback(() => {
     setIsSurveyBannerVisible(false)

@@ -271,22 +271,30 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
     (itemOperation) => allMenuItems[itemOperation]
   )
 
-  const [, dragMoveRef, preview] = useDrag({
-    item: { type: DragTypes.MOVABLE_FILE, payload: file }
-  })
+  const [, dragMoveRef, preview] = useDrag(() =>
+    ({ type: DragTypes.MOVABLE_FILE,
+      item: () => {
+        if (selected.includes(file.cid)) {
+          return { ids: selected }
+        } else {
+          return { ids: [...selected, file.cid] }
+        }
+      }
+    }), [selected])
 
   const [{ isOverMove }, dropMoveRef] = useDrop({
     accept: DragTypes.MOVABLE_FILE,
     canDrop: () => isFolder,
-    drop: async (item: {
-      type: typeof DragTypes.MOVABLE_FILE
-      payload: FileSystemItem
-    }) => {
-      handleMove &&
-        (await handleMove(
-          `${currentPath}${item.payload.name}`,
-          `${currentPath}${name}/${item.payload.name}`
-        ))
+    drop: async (item: {ids: string[]}) => {
+      console.log(item)
+      item?.ids?.map((cid) => {
+        const fileToMove = files.find(f => f.cid === cid)
+        handleMove && fileToMove &&
+        handleMove(
+          `${currentPath}${fileToMove.name}`,
+          `${currentPath}${name}/${fileToMove.name}`
+        )
+      })
     },
     collect: (monitor) => ({
       isOverMove: monitor.isOver()
