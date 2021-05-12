@@ -31,6 +31,7 @@ import { CSFTheme } from "../../../../../Themes/types"
 import FileItemTableItem from "./FileSystemTableItem"
 import FileItemGridItem from "./FileSystemGridItem"
 import { FileSystemItem } from "../../../../../Contexts/DriveContext"
+import { useFileBrowser } from "../../../../../Contexts/FileBrowserContext"
 
 const useStyles = makeStyles(({ breakpoints, constants }: CSFTheme) => {
   return createStyles({
@@ -103,8 +104,6 @@ interface IFileSystemItemRowProps {
   index: number
   file: FileSystemItem
   files: FileSystemItem[]
-  currentPath: string
-  moduleRootPath?: string
   selected: string[]
   handleSelect(selected: string): void
   editing: string | undefined
@@ -115,8 +114,6 @@ interface IFileSystemItemRowProps {
   deleteFile?: () => void
   recoverFile?: (cid: string) => void
   viewFolder?: (cid: string) => void
-  downloadFile?: (cid: string) => Promise<void>
-  handleUploadOnDrop?: (files: File[], fileItems: DataTransferItemList, path: string,) => void
   setPreviewFileIndex: (fileIndex: number | undefined) => void
   moveFile?: () => void
   setFileInfoPath: (path: string) => void
@@ -131,15 +128,12 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
   selected,
   editing,
   setEditing,
-  moduleRootPath,
   renameSchema,
   handleRename,
   handleMove,
   deleteFile,
   recoverFile,
-  downloadFile,
   viewFolder,
-  handleUploadOnDrop,
   setPreviewFileIndex,
   moveFile,
   setFileInfoPath,
@@ -147,6 +141,7 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
   itemOperations,
   browserView
 }) => {
+  const { downloadFile, currentPath, handleUploadOnDrop, moduleRootPath} = useFileBrowser()
   const { cid, name, isFolder, content_type } = file
   let Icon
   if (isFolder) {

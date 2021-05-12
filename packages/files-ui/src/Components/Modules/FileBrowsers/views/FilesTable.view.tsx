@@ -32,7 +32,7 @@ import clsx from "clsx"
 import { plural, t, Trans } from "@lingui/macro"
 import { NativeTypes } from "react-dnd-html5-backend"
 import { useDrop } from "react-dnd"
-import { BrowserView, FileOperation, IFilesTableBrowserProps } from "../types"
+import { BrowserView, FileOperation } from "../types"
 import { FileSystemItem } from "../../../../Contexts/DriveContext"
 import FileSystemItemRow from "./FileSystemItem/FileSystemItem"
 import FilePreviewModal from "../../FilePreviewModal"
@@ -286,10 +286,7 @@ const FilesTableView = () => {
     bulkOperations,
     crumbs,
     handleRename,
-    handleMove,
-    downloadFile,
     deleteFiles,
-    recoverFile,
     recoverFiles,
     viewFolder,
     currentPath,

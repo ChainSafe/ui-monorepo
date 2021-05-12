@@ -128,7 +128,9 @@ const MoveFileModule = ({ filesToMove, modalOpen, onClose, onCancel }: IMoveFile
         }))
       )
         .then(() => {
-          refreshContents ? refreshContents() : null
+          if (refreshContents) {
+            refreshContents()
+          }
         })
         .then(onClose)
         .catch(console.error)

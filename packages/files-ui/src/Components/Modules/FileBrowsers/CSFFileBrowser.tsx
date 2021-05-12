@@ -218,7 +218,7 @@ const CSFFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = true }:
     [CONTENT_TYPES.File]: ["delete", "move"]
   }), [])
 
-  const ItemOperations: IFilesTableBrowserProps["itemOperations"] = useMemo(() => ({
+  const itemOperations: IFilesTableBrowserProps["itemOperations"] = useMemo(() => ({
     [CONTENT_TYPES.Audio]: ["preview"],
     [CONTENT_TYPES.MP4]: ["preview"],
     [CONTENT_TYPES.Image]: ["preview"],
@@ -249,7 +249,7 @@ const CSFFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = true }:
       bucketType,
       controls: true,
       allowDropUpload: true,
-      itemOperations: ItemOperations,
+      itemOperations,
       withSurvey: showSurvey && olderThanOneWeek,
     }}>
       <DragAndDrop>
