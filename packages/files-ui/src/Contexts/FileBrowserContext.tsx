@@ -1,7 +1,7 @@
-import { Crumb } from "@chainsafe/common-components";
-import React, { useContext } from "react";
-import { FileOperation, IBulkOperations, IFilesBrowserModuleProps } from "../Components/Modules/FileBrowsers/types";
-import { BucketType, FileSystemItem, UploadProgress } from "./DriveContext";
+import { Crumb } from "@chainsafe/common-components"
+import React, { useContext } from "react"
+import { FileOperation, IBulkOperations, IFilesBrowserModuleProps } from "../Components/Modules/FileBrowsers/types"
+import { BucketType, FileSystemItem, UploadProgress } from "./DriveContext"
 
 interface FileBrowserContext extends IFilesBrowserModuleProps {
   itemOperations: {[contentType: string]: FileOperation[]}
@@ -38,14 +38,14 @@ interface FileBrowserContext extends IFilesBrowserModuleProps {
 
 const FileBrowserContext = React.createContext<
   FileBrowserContext | undefined
->(undefined);
+>(undefined)
 
 const useFileBrowser = () => {
-  const context = useContext(FileBrowserContext);
+  const context = useContext(FileBrowserContext)
   if (context === undefined) {
-    throw new Error("useFileBrowserContext must be called within a FileBrowserProvider");
+    throw new Error("useFileBrowserContext must be called within a FileBrowserProvider")
   }
-  return context;
+  return context
 };
 
-export { FileBrowserContext, useFileBrowser };
+export { FileBrowserContext, useFileBrowser }

@@ -250,7 +250,7 @@ const CSFFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = true }:
       controls: true,
       allowDropUpload: true,
       itemOperations,
-      withSurvey: showSurvey && olderThanOneWeek,
+      withSurvey: showSurvey && olderThanOneWeek
     }}>
       <DragAndDrop>
         <FilesTableView />
