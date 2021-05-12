@@ -46,6 +46,6 @@ const useFileBrowser = () => {
     throw new Error("useFileBrowserContext must be called within a FileBrowserProvider")
   }
   return context
-};
+}
 
 export { FileBrowserContext, useFileBrowser }
