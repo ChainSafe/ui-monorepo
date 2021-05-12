@@ -125,7 +125,6 @@ interface IFileSystemTableItemProps {
   selected: string[]
   file: FileSystemItem
   editing: string | undefined
-  attachRef: (element: any) => void
   handleSelect: (selected: string) => void
   onFolderOrFileClicks: () => void
   icon: React.ReactNode
@@ -137,95 +136,98 @@ interface IFileSystemTableItemProps {
   menuItems: IMenuItem[]
 }
 
-function FileSystemGridItem({
-  isFolder,
-  isOverMove,
-  isOverUpload,
-  selected,
-  file,
-  editing,
-  attachRef,
-  onFolderOrFileClicks,
-  icon,
-  renameSchema,
-  setEditing,
-  handleRename,
-  currentPath,
-  menuItems
-}: IFileSystemTableItemProps) {
-  const classes = useStyles()
-  const { name, cid } = file
-  const { desktop } = useThemeSwitcher()
+const FileSystemGridItem = React.forwardRef(
+  ({
+    isFolder,
+    isOverMove,
+    isOverUpload,
+    selected,
+    file,
+    editing,
+    onFolderOrFileClicks,
+    icon,
+    renameSchema,
+    setEditing,
+    handleRename,
+    currentPath,
+    menuItems
+  }: IFileSystemTableItemProps, forwardedRef: any) => {
+    const classes = useStyles()
+    const { name, cid } = file
+    const { desktop } = useThemeSwitcher()
 
-  return  (
-    <div className={classes.gridViewContainer}>
-      <div
-        className={clsx(classes.gridViewIconNameBox)}
-        ref={!editing ? attachRef : null}
-        onClick={onFolderOrFileClicks}
-      >
+    return  (
+      <div className={classes.gridViewContainer}>
         <div
-          className={clsx(
-            classes.fileIcon,
-            isFolder && classes.folderIcon,
-            classes.gridIcon,
-            (isOverMove || isOverUpload || selected.includes(cid)) && "highlighted"
-          )}
+          className={clsx(classes.gridViewIconNameBox)}
+          ref={forwardedRef}
+          onClick={onFolderOrFileClicks}
         >
-          {icon}
-        </div>
-        {editing === cid && desktop ? (
-          <Formik
-            initialValues={{
-              fileName: name
-            }}
-            validationSchema={renameSchema}
-            onSubmit={(values) => {
-              handleRename && handleRename(
-                `${currentPath}${name}`,
-                `${currentPath}${values.fileName}`
-              )
-              setEditing(undefined)
-            }}
+          <div
+            className={clsx(
+              classes.fileIcon,
+              isFolder && classes.folderIcon,
+              classes.gridIcon,
+              (isOverMove || isOverUpload || selected.includes(cid)) && "highlighted"
+            )}
           >
-            <Form className={classes.desktopRename}>
-              <FormikTextInput
-                className={classes.renameInput}
-                name="fileName"
-                inputVariant="minimal"
-                onKeyDown={(event) => {
-                  if (event.key === "Escape") {
-                    setEditing(undefined)
+            {icon}
+          </div>
+          {editing === cid && desktop ? (
+            <Formik
+              initialValues={{
+                fileName: name
+              }}
+              validationSchema={renameSchema}
+              onSubmit={(values) => {
+                handleRename && handleRename(
+                  `${currentPath}${name}`,
+                  `${currentPath}${values.fileName}`
+                )
+                setEditing(undefined)
+              }}
+            >
+              <Form className={classes.desktopRename}>
+                <FormikTextInput
+                  className={classes.renameInput}
+                  name="fileName"
+                  inputVariant="minimal"
+                  onKeyDown={(event) => {
+                    if (event.key === "Escape") {
+                      setEditing(undefined)
+                    }
+                  }}
+                  placeholder = {isFolder
+                    ? t`Please enter a file name`
+                    : t`Please enter a folder name`
                   }
-                }}
-                placeholder = {isFolder
-                  ? t`Please enter a file name`
-                  : t`Please enter a folder name`
-                }
-                autoFocus={editing === cid}
-              />
-            </Form>
-          </Formik>
-        ) : (
-          <div className={classes.gridFolderName}>{name}</div>
-        )}
+                  autoFocus={editing === cid}
+                />
+              </Form>
+            </Formik>
+          ) : (
+            <div className={classes.gridFolderName}>{name}</div>
+          )}
+        </div>
+        <div>
+          <MenuDropdown
+            animation="none"
+            anchor="bottom-right"
+            menuItems={menuItems}
+            classNames={{
+              icon: classes.dropdownIcon,
+              options: classes.dropdownOptions,
+              item: classes.dropdownItem,
+              title: classes.menuTitleGrid
+            }}
+            indicator={MoreIcon}
+          />
+        </div>
       </div>
-      <div>
-        <MenuDropdown
-          animation="none"
-          anchor="bottom-right"
-          menuItems={menuItems}
-          classNames={{
-            icon: classes.dropdownIcon,
-            options: classes.dropdownOptions,
-            item: classes.dropdownItem,
-            title: classes.menuTitleGrid
-          }}
-          indicator={MoreIcon}
-        />
-      </div>
-    </div>
-  )
-}
+    )
+  }
+)
+
+FileSystemGridItem.displayName = "FileSystemGridItem"
 
 export default FileSystemGridItem

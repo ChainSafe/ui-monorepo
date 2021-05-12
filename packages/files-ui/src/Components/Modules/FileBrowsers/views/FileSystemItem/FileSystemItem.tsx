@@ -1,4 +1,4 @@
-import React, { useCallback } from "react"
+import React, { useCallback, useRef } from "react"
 import {
   FormikTextInput,
   Typography,
@@ -125,7 +125,7 @@ interface IFileSystemItemRowProps {
   browserView: BrowserView
 }
 
-const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
+const FileSystemItemRow = ({
   file,
   files,
   selected,
@@ -147,7 +147,7 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
   handleSelect,
   itemOperations,
   browserView
-}) => {
+}: IFileSystemItemRowProps) => {
   const { cid, name, isFolder, content_type } = file
   let Icon
   if (isFolder) {
@@ -304,13 +304,14 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
     })
   })
 
-  function attachRef(el: any) {
-    if (isFolder) {
-      dropMoveRef(el)
-      dropUploadRef(el)
-    } else {
-      dragMoveRef(el)
-    }
+  const fileOrFolderRef = useRef<any>()
+
+  if (!editing && isFolder) {
+    dropMoveRef(fileOrFolderRef)
+    dropUploadRef(fileOrFolderRef)
+  }
+  if (!editing && !isFolder) {
+    dragMoveRef(fileOrFolderRef)
   }
 
   const onFolderClick = useCallback(() => {
@@ -348,7 +349,7 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
     }
 
   const itemProps = {
-    attachRef,
+    ref: fileOrFolderRef,
     currentPath,
     editing,
     file,
