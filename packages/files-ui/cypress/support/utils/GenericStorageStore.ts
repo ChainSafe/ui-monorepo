@@ -3,11 +3,10 @@ export type Storage = Record<StorageType, Record<string, string>[]>
 
 // Singleton class to store the session or local storage
 // accross the tests
-
 export class GenericStorageStore {
     private static _instance: GenericStorageStore;
 
-    strorage = {} as Storage
+    strorage = { local: [], session: [] } as Storage
 
     // private constructor to prevent the usage of "new GenericStorage()"
     private constructor() {/** */}

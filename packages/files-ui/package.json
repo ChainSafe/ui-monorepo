@@ -64,7 +64,8 @@
     "@types/zxcvbn": "^4.4.0",
     "babel-plugin-macros": "^2.8.0",
     "cypress": "^7.2.0",
-    "eslint-plugin-cypress": "^2.11.2"
+    "eslint-plugin-cypress": "^2.11.2",
+    "fs": "^0.0.1-security"
   },
   "scripts": {
     "postinstall": "yarn compile",
