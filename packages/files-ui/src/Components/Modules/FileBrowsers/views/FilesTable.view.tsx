@@ -852,7 +852,6 @@ const FilesTableView = () => {
                   key={index}
                   index={index}
                   file={file}
-                  
                   files={files}
                   selected={selectedCids}
                   handleSelect={handleSelect}

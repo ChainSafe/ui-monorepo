@@ -189,13 +189,12 @@ const BinFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = false }
       controls,
       bucketType,
       itemOperations,
-      bulkOperations,
+      bulkOperations
     }}>
       <DragAndDrop>
         <FilesTableView />
       </DragAndDrop>
     </FileBrowserContext.Provider>
-   
   )
 }
 

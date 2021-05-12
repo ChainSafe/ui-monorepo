@@ -15,7 +15,7 @@ import { useLocalStorage } from "@chainsafe/browser-storage-hooks"
 import { DISMISSED_SURVEY_KEY } from "../../SurveyBanner"
 import { FileBrowserContext } from "../../../Contexts/FileBrowserContext"
 
-const CSFFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = true }: IFilesBrowserModuleProps) => {
+const CSFFileBrowser: React.FC<IFilesBrowserModuleProps> = () => {
   const {
     downloadFile,
     renameFile,
@@ -250,7 +250,7 @@ const CSFFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = true }:
       controls: true,
       allowDropUpload: true,
       itemOperations,
-      withSurvey: showSurvey && olderThanOneWeek,
+      withSurvey: showSurvey && olderThanOneWeek
     }}>
       <DragAndDrop>
         <FilesTableView />

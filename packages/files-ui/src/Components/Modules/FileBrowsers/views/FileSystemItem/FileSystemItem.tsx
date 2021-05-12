@@ -141,7 +141,7 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
   itemOperations,
   browserView
 }) => {
-  const { downloadFile, currentPath, handleUploadOnDrop, moduleRootPath} = useFileBrowser()
+  const { downloadFile, currentPath, handleUploadOnDrop, moduleRootPath } = useFileBrowser()
   const { cid, name, isFolder, content_type } = file
   let Icon
   if (isFolder) {
