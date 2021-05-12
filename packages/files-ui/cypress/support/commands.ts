@@ -28,7 +28,6 @@
 import { ethers, Wallet } from "ethers"
 import { testPrivateKey, testAccountPassword, localHost } from "../fixtures/loginData"
 import { CustomizedBridge } from "./utils/CustomBridge"
-import { GenericStorageStore } from "./utils/GenericStorageStore"
 
 export type Storage = Record<string, string>[]
 
@@ -40,40 +39,19 @@ export interface Web3LoginOptions {
 
 const SESSION_FILE = "cypress/fixtures/storage/sessionStorage.json"
 const LOCAL_FILE = "cypress/fixtures/storage/localStorage.json"
-// const storageStore = GenericStorageStore.Instance
 
 Cypress.Commands.add("web3Login", ({ saveBrowser = false, url = localHost, useLocalAndSessionStorage = true }: Web3LoginOptions = {}) => {
-let sessionS: Storage = []
-let localS: Storage = []
+let session: Storage = []
+let local: Storage = []
 
   cy.task<string | null>("readFileMaybe", SESSION_FILE)
     .then((unparsedSession) => {
-      const session = unparsedSession && JSON.parse(unparsedSession)
-
-      if(!session?.length) {
-        cy.log("session noting in there", session)
-        return
-      }
-
-      console.log("0 session", session)
-      // storageStore.set("session", session)
-      sessionS = session
-      console.log("1-> session done")
-
+      session = unparsedSession && JSON.parse(unparsedSession) || []
     })
 
   cy.task<string | null>("readFileMaybe", LOCAL_FILE)
     .then((unparsedLocal) => {
-      const local = unparsedLocal && JSON.parse(unparsedLocal)
-
-      if(!local?.length) {
-        cy.log("local noting in there", local)
-        return
-      }
-
-      // storageStore.set("local", local)
-      // console.log("2-> local done")
-      localS = local
+      local = unparsedLocal && JSON.parse(unparsedLocal) || []
     })
 
   cy.on("window:before:load", (win) => {
@@ -91,20 +69,13 @@ let localS: Storage = []
     win.localStorage.clear()
 
     if (useLocalAndSessionStorage){
-    // if (useLocalAndSessionStorage && localS && sessionS){
-      // console.log("localS", localS)
-      // console.log("sessionS", sessionS)
-      // const local = storageStore.get("local")
-      // const session = storageStore.get("session")
-      // console.log("3.0locc", local)
-      sessionS.forEach(({ key, value }) => {
+      session.forEach(({ key, value }) => {
         win.sessionStorage.setItem(key, value)
       })
 
-      localS.forEach(({ key, value }) => {
+      local.forEach(({ key, value }) => {
         win.localStorage.setItem(key, value)
       })
-      console.log("3.1 feeding done")
     }
   })
 
@@ -113,11 +84,10 @@ let localS: Storage = []
   // with nothing in localstorage (and in session storage)
   // the whole login flow should kick in
   cy.then(() => {
-    // cy.log("boom", storageStore.get("local").length && "something ---> direct login")
-    // if(storageStore.get("local").length === 0){
-      cy.log("boom", localS.length && "something ---> direct login")
-      if(localS.length === 0){
-      cy.log("<--- nothing click on web3 button")
+    cy.log("Loging in", !!local.length && "there is something in session storage ---> direct login")
+    
+    if(local.length === 0){
+      cy.log("nothing in session storage, --> click on web3 button")
       cy.get("[data-cy=web3]").click()
       cy.get(".bn-onboard-modal-select-wallets > :nth-child(1) > .bn-onboard-custom").click()
       cy.get("[data-cy=sign-in-with-web3-button]").click()
@@ -137,26 +107,22 @@ let localS: Storage = []
 
   // save local and session storage in files
   cy.window().then((win) => {
-    // console.log("4 saving everything")
-    const local: Array<Record<string, string>> = []
-    const session: Array<Record<string, string>> = []
+    const newLocal: Array<Record<string, string>> = []
+    const newSession: Array<Record<string, string>> = []
 
     Object.keys(win.localStorage).forEach((key) => {
-      local.push({ key, value: localStorage.getItem(key) || "" })
+      newLocal.push({ key, value: localStorage.getItem(key) || "" })
     })
 
     Object.keys(win.sessionStorage).forEach((key) => {
-      session.push({ key, value: sessionStorage.getItem(key) || "" })
+      newSession.push({ key, value: sessionStorage.getItem(key) || "" })
     })
 
-    // storageStore.set("local", local)
-    // storageStore.set("session", session)
+    const newLocalString = JSON.stringify(newLocal)
+    const newSessionString = JSON.stringify(newSession)
 
-    const localData = JSON.stringify(local)
-    const sessionData = JSON.stringify(session)
-
-    cy.writeFile(SESSION_FILE, sessionData)
-    cy.writeFile(LOCAL_FILE, localData)
+    cy.writeFile(SESSION_FILE, newSessionString)
+    cy.writeFile(LOCAL_FILE, newLocalString)
   })
 })
 
