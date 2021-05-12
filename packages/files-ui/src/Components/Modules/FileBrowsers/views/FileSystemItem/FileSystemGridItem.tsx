@@ -125,7 +125,7 @@ interface IFileSystemTableItemProps {
   selected: string[]
   file: FileSystemItem
   editing: string | undefined
-  handleSelect: (selected: string) => void
+  handleAddToSelectedCids: (selected: string) => void
   onFolderOrFileClicks: () => void
   icon: React.ReactNode
   preview: ConnectDragPreview

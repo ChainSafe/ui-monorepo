@@ -112,8 +112,8 @@ interface IFileSystemTableItemProps {
   selected: string[]
   file: FileSystemItem
   editing: string | undefined
-  handleSelect: (selected: string) => void
-  onFolderOrFileClicks: () => void
+  handleAddToSelectedCids: (selected: string) => void
+  onFolderOrFileClicks: (e?: React.MouseEvent) => void
   icon: React.ReactNode
   preview: ConnectDragPreview
   renameSchema: any
@@ -131,7 +131,7 @@ const FileSystemTableItem = React.forwardRef(
     selected,
     file,
     editing,
-    handleSelect,
+    handleAddToSelectedCids,
     onFolderOrFileClicks,
     icon,
     preview,
@@ -159,13 +159,13 @@ const FileSystemTableItem = React.forwardRef(
           <TableCell>
             <CheckboxInput
               value={selected.includes(cid)}
-              onChange={() => handleSelect(cid)}
+              onChange={() => handleAddToSelectedCids(cid)}
             />
           </TableCell>
         )}
         <TableCell
           className={clsx(classes.fileIcon, isFolder && classes.folderIcon)}
-          onClick={onFolderOrFileClicks}
+          onClick={(e) => onFolderOrFileClicks(e)}
         >
           {icon}
         </TableCell>
@@ -173,7 +173,7 @@ const FileSystemTableItem = React.forwardRef(
           ref={preview}
           align="left"
           className={clsx(classes.filename, desktop && editing === cid && "editing")}
-          onClick={() => !editing && onFolderOrFileClicks()}
+          onClick={(e) => !editing && onFolderOrFileClicks(e)}
         >
           {editing === cid && desktop ? (
             <Formik

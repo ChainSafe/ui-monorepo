@@ -106,7 +106,8 @@ interface IFileSystemItemRowProps {
   currentPath: string
   moduleRootPath?: string
   selected: string[]
-  handleSelect(selected: string): void
+  handleSelectCid(selectedCid: string): void
+  handleAddToSelectedCids(selectedCid: string): void
   editing: string | undefined
   setEditing(editing: string | undefined): void
   renameSchema: any
@@ -144,7 +145,8 @@ const FileSystemItemRow = ({
   setPreviewFileIndex,
   moveFile,
   setFileInfoPath,
-  handleSelect,
+  handleSelectCid,
+  handleAddToSelectedCids,
   itemOperations,
   browserView
 }: IFileSystemItemRowProps) => {
@@ -328,8 +330,14 @@ const FileSystemItemRow = ({
   }, [file, files, setPreviewFileIndex])
 
   const onSingleClick = useCallback(
-    () => { handleSelect(cid) },
-    [cid, handleSelect]
+    (e) => {
+      if (e && (e.ctrlKey || e.metaKey)) {
+        handleAddToSelectedCids(cid)
+      } else {
+        handleSelectCid(cid)
+      }
+    },
+    [cid, handleSelectCid, handleAddToSelectedCids]
   )
 
   const onDoubleClick = useCallback(() => {
@@ -340,20 +348,25 @@ const FileSystemItemRow = ({
 
   const { click } = useDoubleClick(onSingleClick, onDoubleClick)
 
-  const onFolderOrFileClicks = desktop
-    ? click
-    : () => {
-      isFolder
-        ? onFolderClick()
-        : onFileClick()
+  const onFolderOrFileClicks = (e?: React.MouseEvent) => {
+    e?.persist()
+    if (desktop) {
+      click(e)
+    } else {
+      if (isFolder) {
+        onFolderClick()
+      } else {
+        onFileClick()
+      }
     }
+  }
 
   const itemProps = {
     ref: fileOrFolderRef,
     currentPath,
     editing,
     file,
-    handleSelect,
+    handleAddToSelectedCids,
     handleRename,
     icon: <Icon />,
     isFolder,

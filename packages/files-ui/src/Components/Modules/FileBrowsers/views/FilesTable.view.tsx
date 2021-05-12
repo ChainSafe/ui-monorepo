@@ -387,7 +387,14 @@ const FilesTableView = ({
   }
 
   // Selection logic
-  const handleSelect = useCallback(
+  const handleSelectCid = useCallback(
+    (cid: string) => {
+      setSelectedCids([cid])
+    },
+    []
+  )
+
+  const handleAddToSelectedCids = useCallback(
     (cid: string) => {
       if (selectedCids.includes(cid)) {
         setSelectedCids(
@@ -856,7 +863,8 @@ const FilesTableView = ({
                   moduleRootPath={moduleRootPath}
                   currentPath={currentPath}
                   selected={selectedCids}
-                  handleSelect={handleSelect}
+                  handleSelectCid={handleSelectCid}
+                  handleAddToSelectedCids={handleAddToSelectedCids}
                   editing={editing}
                   setEditing={setEditing}
                   renameSchema={renameSchema}
@@ -901,7 +909,8 @@ const FilesTableView = ({
                 files={files}
                 currentPath={currentPath}
                 selected={selectedCids}
-                handleSelect={handleSelect}
+                handleSelectCid={handleSelectCid}
+                handleAddToSelectedCids={handleAddToSelectedCids}
                 editing={editing}
                 setEditing={setEditing}
                 renameSchema={renameSchema}
