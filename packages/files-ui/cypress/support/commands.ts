@@ -41,8 +41,8 @@ const SESSION_FILE = "cypress/fixtures/storage/sessionStorage.json"
 const LOCAL_FILE = "cypress/fixtures/storage/localStorage.json"
 
 Cypress.Commands.add("web3Login", ({ saveBrowser = false, url = localHost, useLocalAndSessionStorage = true }: Web3LoginOptions = {}) => {
-let session: Storage = []
-let local: Storage = []
+  let session: Storage = []
+  let local: Storage = []
 
   cy.task<string | null>("readFileMaybe", SESSION_FILE)
     .then((unparsedSession) => {
@@ -85,7 +85,7 @@ let local: Storage = []
   // the whole login flow should kick in
   cy.then(() => {
     cy.log("Loging in", !!local.length && "there is something in session storage ---> direct login")
-    
+
     if(local.length === 0){
       cy.log("nothing in session storage, --> click on web3 button")
       cy.get("[data-cy=web3]").click()

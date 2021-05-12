@@ -179,7 +179,7 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
         [SHARE_SERIALIZATION_MODULE_NAME]: new ShareSerializationModule()
       }
       let tkey: ThresholdKey
-console.log('postboxKey && tkeySerialized && cachedUserInfo', !!postboxKey, !!tkeySerialized, !!cachedUserInfo)
+
       // If Session storage contains all the data necessary to recreate the TKey object
       if (postboxKey && tkeySerialized && cachedUserInfo && !maintenanceMode) {
         setStatus("logging in")
