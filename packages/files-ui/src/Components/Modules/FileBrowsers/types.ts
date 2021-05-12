@@ -34,6 +34,7 @@ export interface IFilesTableBrowserProps
   downloadFile?: (cid: string) => Promise<void>
   deleteFiles?: (cid: string[]) => Promise<void>
   recoverFile?: (cid: string) => Promise<void>
+  recoverFiles?: (cid: string[]) => Promise<void[]>
   viewFolder?: (cid: string) => void
   allowDropUpload?: boolean
 

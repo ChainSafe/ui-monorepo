@@ -16,6 +16,7 @@
     "@sentry/cli": "1.60.1",
     "chalk": "^4.1.0",
     "eslint-plugin-react-hooks": "^4.2.0",
+    "npm-run-all": "^4.1.5",
     "typescript": "^4.0.5",
     "wsrun": "^5.2.4"
   },
@@ -37,7 +38,10 @@
     "clean:dist": "rm -rf ./*/**/dist && rm -rf ./*/**/build && rm -rf ./*/**/storybook-static",
     "clean": "yarn clean:dependencies && yarn clean:dist",
     "start:tunnel": "./ngrok http https://localhost:3000",
-    "lint": "eslint 'packages/**/src/**/*.{js,jsx,ts,tsx}'"
+    "lint": "eslint 'packages/**/{src, cypress}/**/*.{js,jsx,ts,tsx}'",
+    "serve:files-ui": "npx serve packages/files-ui/build -p 3000",
+    "test:files-ui": "yarn wsrun -p files-ui -c test",
+    "test:ci:files-ui": "yarn wsrun -p files-ui -c test:ci"
   },
   "workspaces": {
     "packages": [
