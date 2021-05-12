@@ -7,6 +7,7 @@ import { useDrive, DirectoryContentResponse, FileSystemItem } from "../../../Con
 import { Button, FolderIcon, Grid, ITreeNodeProps, ScrollbarWrapper, TreeView, Typography } from "@chainsafe/common-components"
 import { getPathWithFile } from "../../../Utils/pathUtils"
 import { CSFTheme } from "../../../Themes/types"
+import { useFileBrowser } from "../../../Contexts/FileBrowserContext"
 
 const useStyles = makeStyles(
   ({ breakpoints, constants, palette, typography, zIndex }: CSFTheme) => {
@@ -63,20 +64,19 @@ const useStyles = makeStyles(
 )
 
 interface IMoveFileModuleProps {
-  currentPath?: string
   filesToMove: FileSystemItem[]
   modalOpen: boolean
   onClose: () => void
   onCancel: () => void
-  refreshCurrentPath: () => void
 }
 
-const MoveFileModule = ({ currentPath, filesToMove, modalOpen, onClose, onCancel, refreshCurrentPath }: IMoveFileModuleProps) => {
+const MoveFileModule = ({ filesToMove, modalOpen, onClose, onCancel }: IMoveFileModuleProps) => {
   const classes = useStyles()
   const { getFolderTree, moveFiles } = useDrive()
   const [movingFile, setMovingFile] = useState(false)
   const [movePath, setMovePath] = useState<undefined | string>(undefined)
   const [folderTree, setFolderTree] = useState<ITreeNodeProps[]>([])
+  const { currentPath, refreshContents } = useFileBrowser()
 
   const mapFolderTree = useCallback(
     (folderTreeEntries: DirectoryContentResponse[]): ITreeNodeProps[] => {
@@ -127,7 +127,9 @@ const MoveFileModule = ({ currentPath, filesToMove, modalOpen, onClose, onCancel
           new_path: getPathWithFile(movePath, file.name)
         }))
       )
-        .then(refreshCurrentPath)
+        .then(() => {
+          refreshContents ? refreshContents() : null
+        })
         .then(onClose)
         .catch(console.error)
         .finally(() => setMovingFile(false))

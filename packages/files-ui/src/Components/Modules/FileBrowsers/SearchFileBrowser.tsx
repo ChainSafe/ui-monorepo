@@ -9,6 +9,7 @@ import { getParentPathFromFilePath } from "../../../Utils/pathUtils"
 import { ROUTE_LINKS } from "../../FilesRoutes"
 import { t } from "@lingui/macro"
 import { SearchParams } from "../SearchModule"
+import { FileBrowserContext } from "../../../Contexts/FileBrowserContext"
 
 const SearchFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = false }: IFilesBrowserModuleProps) => {
   const { pathname } = useLocation()
@@ -116,23 +117,26 @@ const SearchFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = fals
   }), [])
 
   return (
-    <DragAndDrop>
-      <FilesTableView
-        crumbs={undefined}
-        loadingCurrentPath={loadingSearchResults}
-        showUploadsInTable={false}
-        viewFolder={viewFolder}
-        sourceFiles={pathContents}
-        moduleRootPath={undefined}
-        currentPath={searchTerm}
-        heading={t`Search results`}
-        controls={controls}
-        itemOperations={itemOperations}
-        isSearch
-        bucketType={bucketType}
-        getPath={getPath}
-      />
-    </DragAndDrop>
+    <FileBrowserContext.Provider value={{
+      crumbs: undefined,
+      loadingCurrentPath: loadingSearchResults,
+      showUploadsInTable: false,
+      viewFolder,
+      sourceFiles: pathContents,
+      moduleRootPath: undefined,
+      currentPath: searchTerm,
+      heading: t`Search results`,
+      controls,
+      itemOperations,
+      isSearch: true,
+      bucketType,
+      getPath,
+    }}>
+      <DragAndDrop>
+        <FilesTableView />
+      </DragAndDrop>
+    </FileBrowserContext.Provider>
+    
   )
 }
 

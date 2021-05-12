@@ -48,6 +48,7 @@ import MimeMatcher from "../../../../Utils/MimeMatcher"
 import { useLanguageContext } from "../../../../Contexts/LanguageContext"
 import { getPathWithFile } from "../../../../Utils/pathUtils"
 import SurveyBanner from "../../../SurveyBanner"
+import { useFileBrowser } from "../../../../Contexts/FileBrowserContext"
 
 interface IStyleProps {
   themeKey: string
@@ -274,34 +275,36 @@ const useStyles = makeStyles(
 const sortFoldersFirst = (a: FileSystemItem, b: FileSystemItem) =>
   a.isFolder && a.content_type !== b.content_type ? -1 : 1
 
-const FilesTableView = ({
-  heading,
-  controls = true,
-  sourceFiles,
-  handleUploadOnDrop,
-  bulkOperations,
-  crumbs,
-  handleRename,
-  handleMove,
-  downloadFile,
-  deleteFiles,
-  recoverFile,
-  recoverFiles,
-  viewFolder,
-  currentPath,
-  refreshContents,
-  loadingCurrentPath,
-  uploadsInProgress,
-  showUploadsInTable,
-  allowDropUpload,
-  itemOperations,
-  getPath,
-  moduleRootPath,
-  bucketType,
-  isSearch,
-  withSurvey
-}: IFilesTableBrowserProps) => {
+const FilesTableView = () => {
   const { themeKey, desktop } = useThemeSwitcher()
+
+  const {
+    heading,
+    controls = true,
+    sourceFiles,
+    handleUploadOnDrop,
+    bulkOperations,
+    crumbs,
+    handleRename,
+    handleMove,
+    downloadFile,
+    deleteFiles,
+    recoverFile,
+    recoverFiles,
+    viewFolder,
+    currentPath,
+    refreshContents,
+    loadingCurrentPath,
+    uploadsInProgress,
+    showUploadsInTable,
+    allowDropUpload,
+    itemOperations,
+    getPath,
+    moduleRootPath,
+    bucketType,
+    isSearch,
+    withSurvey
+  } = useFileBrowser()
   const classes = useStyles({ themeKey })
   const [editing, setEditing] = useState<string | undefined>()
   const [direction, setDirection] = useState<SortDirection>("ascend")

@@ -13,6 +13,7 @@ import dayjs from "dayjs"
 import { useUser } from "@chainsafe/common-contexts"
 import { useLocalStorage } from "@chainsafe/browser-storage-hooks"
 import { DISMISSED_SURVEY_KEY } from "../../SurveyBanner"
+import { FileBrowserContext } from "../../../Contexts/FileBrowserContext"
 
 const CSFFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = true }: IFilesBrowserModuleProps) => {
   const {
@@ -228,31 +229,33 @@ const CSFFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = true }:
   }), [])
 
   return (
-    <DragAndDrop>
-      <FilesTableView
-        bulkOperations={bulkOperations}
-        crumbs={crumbs}
-        moduleRootPath={ROUTE_LINKS.Drive("")}
-        currentPath={currentPath}
-        refreshContents={() => refreshContents(currentPath)}
-        deleteFiles={moveFilesToTrash}
-        downloadFile={handleDownload}
-        handleMove={handleMove}
-        handleRename={handleRename}
-        viewFolder={viewFolder}
-        handleUploadOnDrop={handleUploadOnDrop}
-        uploadsInProgress={uploadsInProgress}
-        loadingCurrentPath={loadingCurrentPath}
-        showUploadsInTable={true}
-        sourceFiles={pathContents}
-        heading = {t`My Files`}
-        bucketType={bucketType}
-        controls={controls}
-        allowDropUpload={true}
-        itemOperations={ItemOperations}
-        withSurvey={showSurvey && olderThanOneWeek}
-      />
-    </DragAndDrop>
+    <FileBrowserContext.Provider value={{
+      bulkOperations,
+      crumbs,
+      moduleRootPath: ROUTE_LINKS.Drive(""),
+      currentPath,
+      refreshContents:() => refreshContents(currentPath),
+      deleteFiles: moveFilesToTrash,
+      downloadFile:handleDownload,
+      handleMove,
+      handleRename,
+      viewFolder,
+      handleUploadOnDrop,
+      uploadsInProgress,
+      loadingCurrentPath,
+      showUploadsInTable: true,
+      sourceFiles: pathContents,
+      heading: t`My Files`,
+      bucketType,
+      controls: true,
+      allowDropUpload: true,
+      itemOperations: ItemOperations,
+      withSurvey: showSurvey && olderThanOneWeek,
+    }}>
+      <DragAndDrop>
+        <FilesTableView />
+      </DragAndDrop>
+    </FileBrowserContext.Provider>
   )
 }
 
