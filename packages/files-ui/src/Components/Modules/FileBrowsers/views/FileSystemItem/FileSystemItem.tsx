@@ -148,7 +148,8 @@ const FileSystemItemRow = ({
   handleSelectCid,
   handleAddToSelectedCids,
   itemOperations,
-  browserView
+  browserView,
+  resetSelectedFiles
 }: IFileSystemItemRowProps) => {
   const { cid, name, isFolder, content_type } = file
   let Icon
@@ -377,7 +378,8 @@ const FileSystemItemRow = ({
     preview,
     renameSchema,
     selected,
-    setEditing
+    setEditing,
+    resetSelectedFiles
   }
 
   return (

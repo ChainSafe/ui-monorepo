@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useCallback, useEffect } from "react"
 import { makeStyles, createStyles, useThemeSwitcher } from "@chainsafe/common-theme"
 import { t } from "@lingui/macro"
 import clsx from "clsx"
@@ -126,7 +126,7 @@ interface IFileSystemTableItemProps {
   file: FileSystemItem
   editing: string | undefined
   handleAddToSelectedCids: (selected: string) => void
-  onFolderOrFileClicks: () => void
+  onFolderOrFileClicks: (e?: React.MouseEvent) => void
   icon: React.ReactNode
   preview: ConnectDragPreview
   renameSchema: any
@@ -134,6 +134,7 @@ interface IFileSystemTableItemProps {
   handleRename?: (path: string, newPath: string) => Promise<void>
   currentPath: string | undefined
   menuItems: IMenuItem[]
+  resetSelectedFiles: () => void
 }
 
 const FileSystemGridItem = React.forwardRef(
@@ -150,18 +151,47 @@ const FileSystemGridItem = React.forwardRef(
     setEditing,
     handleRename,
     currentPath,
-    menuItems
+    menuItems,
+    resetSelectedFiles
   }: IFileSystemTableItemProps, forwardedRef: any) => {
     const classes = useStyles()
     const { name, cid } = file
     const { desktop } = useThemeSwitcher()
+
+    const handleClickOutside = useCallback(
+      (e) => {
+        if (forwardedRef.current && forwardedRef.current.contains(e.target)) {
+          // inside click
+          return
+        }
+        if (e.defaultPrevented) {
+          return
+        }
+
+        console.log("resetting")
+        // outside click
+        resetSelectedFiles()
+      },
+      [resetSelectedFiles, forwardedRef]
+    )
+
+    useEffect(() => {
+      document.addEventListener("click", handleClickOutside)
+      return () => {
+        document.removeEventListener("click", handleClickOutside)
+      }
+    }, [handleClickOutside])
 
     return  (
       <div className={classes.gridViewContainer}>
         <div
           className={clsx(classes.gridViewIconNameBox)}
           ref={forwardedRef}
-          onClick={onFolderOrFileClicks}
+          onClick={(e) => {
+            e.preventDefault()
+            e.stopPropagation()
+            onFolderOrFileClicks(e)
+          }}
         >
           <div
             className={clsx(
