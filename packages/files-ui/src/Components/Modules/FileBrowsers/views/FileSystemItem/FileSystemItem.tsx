@@ -131,7 +131,6 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
   selected,
   editing,
   setEditing,
-  currentPath,
   moduleRootPath,
   renameSchema,
   handleRename,

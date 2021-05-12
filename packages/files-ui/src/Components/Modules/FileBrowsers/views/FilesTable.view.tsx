@@ -855,9 +855,8 @@ const FilesTableView = () => {
                   key={index}
                   index={index}
                   file={file}
+                  
                   files={files}
-                  moduleRootPath={moduleRootPath}
-                  currentPath={currentPath}
                   selected={selectedCids}
                   handleSelect={handleSelect}
                   editing={editing}
@@ -867,15 +866,11 @@ const FilesTableView = () => {
                     handleRename && (await handleRename(path, newPath))
                     setEditing(undefined)
                   }}
-                  handleMove={handleMove}
                   deleteFile={() => {
                     setSelectedCids([file.cid])
                     setIsDeleteModalOpen(true)
                   }}
-                  recoverFile={recoverFile}
-                  downloadFile={downloadFile}
                   viewFolder={handleViewFolder}
-                  handleUploadOnDrop={handleUploadOnDrop}
                   setPreviewFileIndex={setPreviewFileIndex}
                   moveFile={() => {
                     setSelectedCids([file.cid])
@@ -902,7 +897,6 @@ const FilesTableView = () => {
                 index={index}
                 file={file}
                 files={files}
-                currentPath={currentPath}
                 selected={selectedCids}
                 handleSelect={handleSelect}
                 editing={editing}
@@ -912,15 +906,10 @@ const FilesTableView = () => {
                   handleRename && (await handleRename(path, newPath))
                   setEditing(undefined)
                 }}
-                handleMove={handleMove}
                 deleteFile={() => {
                   setSelectedCids([file.cid])
                   setIsDeleteModalOpen(true)
                 }}
-                recoverFile={recoverFile}
-                downloadFile={downloadFile}
-                viewFolder={viewFolder}
-                handleUploadOnDrop={handleUploadOnDrop}
                 setPreviewFileIndex={setPreviewFileIndex}
                 moveFile={() => {
                   setSelectedCids([file.cid])
@@ -969,21 +958,15 @@ const FilesTableView = () => {
           <>
             <CreateFolderModule
               modalOpen={createFolderModalOpen}
-              currentPath={currentPath}
-              refreshCurrentPath={refreshContents}
               close={() => setCreateFolderModalOpen(false)}
             />
             <UploadFileModule
               modalOpen={isUploadModalOpen}
               close={() => setIsUploadModalOpen(false)}
-              refreshCurrentPath={refreshContents}
-              currentPath={currentPath}
             />
             <MoveFileModule
-              currentPath={currentPath}
               filesToMove={selectedFiles}
               modalOpen={isMoveFileModalOpen}
-              refreshCurrentPath={refreshContents}
               onClose={() => {
                 setIsMoveFileModalOpen(false)
                 setSelectedCids([])
