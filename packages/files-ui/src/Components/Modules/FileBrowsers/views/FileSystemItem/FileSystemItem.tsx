@@ -1,4 +1,4 @@
-import React, { useCallback } from "react"
+import React, { useCallback, useEffect } from "react"
 import {
   FormikTextInput,
   Typography,
@@ -25,7 +25,7 @@ import CustomModal from "../../../../Elements/CustomModal"
 import { Trans } from "@lingui/macro"
 import { useDrag, useDrop } from "react-dnd"
 import { DragTypes } from "../../DragConstants"
-import { NativeTypes } from "react-dnd-html5-backend"
+import { getEmptyImage, NativeTypes } from "react-dnd-html5-backend"
 import { BrowserView, FileOperation } from "../../types"
 import { CSFTheme } from "../../../../../Themes/types"
 import FileItemTableItem from "./FileSystemTableItem"
@@ -282,11 +282,22 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
       }
     }), [selected])
 
+  useEffect(() => {
+    // This gets called after every render, by default
+
+    // Use empty image as a drag preview so browsers don't draw it
+    // and we can draw whatever we want on the custom drag layer instead.
+    preview(getEmptyImage(), {
+      // IE fallback: specify that we'd rather screenshot the node
+      // when it already knows it's being dragged so we can hide it with CSS.
+      captureDraggingState: true
+    })
+  })
+
   const [{ isOverMove }, dropMoveRef] = useDrop({
     accept: DragTypes.MOVABLE_FILE,
     canDrop: () => isFolder,
     drop: async (item: {ids: string[]}) => {
-      console.log(item)
       item?.ids?.map((cid) => {
         const fileToMove = files.find(f => f.cid === cid)
         handleMove && fileToMove &&

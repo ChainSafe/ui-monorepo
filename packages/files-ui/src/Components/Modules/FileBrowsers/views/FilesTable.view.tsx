@@ -48,6 +48,7 @@ import MimeMatcher from "../../../../Utils/MimeMatcher"
 import { useLanguageContext } from "../../../../Contexts/LanguageContext"
 import { getPathWithFile } from "../../../../Utils/pathUtils"
 import SurveyBanner from "../../../SurveyBanner"
+import { DragPreviewLayer } from "./DragPreviewLayer"
 
 interface IStyleProps {
   themeKey: string
@@ -593,6 +594,7 @@ const FilesTableView = ({
           <Trans>Drop to upload files</Trans>
         </Typography>
       </div>
+      <DragPreviewLayer items={sourceFiles}/>
       <div className={classes.breadCrumbContainer}>
         {crumbs && moduleRootPath ? (
           <Breadcrumb
