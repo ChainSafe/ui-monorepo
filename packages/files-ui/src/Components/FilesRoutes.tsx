@@ -23,7 +23,7 @@ export const ROUTE_LINKS = {
   SettingsDefault: `${SETTINGS_BASE}`,
   PurchasePlan: "/purchase",
   UserSurvey: "https://shrl.ink/8eeP",
-  GeneralFeedbackForm: "https://shrl.ink/gvVJ",
+  GeneralFeedbackForm: "https://shrl.ink/gvVJ"
 }
 
 export const SETTINGS_PATHS = ["profile", "plan", "security"] as const
