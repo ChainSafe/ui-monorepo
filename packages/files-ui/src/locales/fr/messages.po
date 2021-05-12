@@ -398,6 +398,9 @@ msgstr "Profile mis à jour"
 msgid "Recover"
 msgstr "Récupérer"
 
+msgid "Recover selected"
+msgstr "Récupérer sélection"
+
 msgid "Recover with passphrase"
 msgstr "Récupérer avec un mot de passe"
 
