@@ -74,7 +74,8 @@ const Tabs: React.FC<ITabsProps> = ({ className, children, activeKey, injectedCl
                   clsx(
                     elem.props.tabKey === activeKey && "selected",
                     classes.tabBar,
-                    injectedClass?.tabBar
+                    injectedClass?.tabBar,
+                    elem.props.tabKey
                   )}
                 onClick={() => onTabSelect(elem.props.tabKey)}
               >
@@ -87,7 +88,8 @@ const Tabs: React.FC<ITabsProps> = ({ className, children, activeKey, injectedCl
               clsx(
                 children.props.tabKey === activeKey && "selected",
                 classes.tabBar,
-                injectedClass?.tabBar
+                injectedClass?.tabBar,
+                children.props.tabKey
               )}
             onClick={() => onTabSelect(children.props.tabKey)}
           >
