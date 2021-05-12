@@ -552,17 +552,16 @@ const FilesTableView = ({
   }, [])
 
   useEffect(() => {
-    resetSelectedCids()
-  }, [currentPath, resetSelectedCids])
+    setSelectedCids([])
+  }, [currentPath])
 
   const onHideSurveyBanner = useCallback(() => {
     setIsSurveyBannerVisible(false)
   }, [setIsSurveyBannerVisible])
 
   const handleViewFolder = useCallback((cid: string) => {
-    resetSelectedCids()
     viewFolder && viewFolder(cid)
-  }, [viewFolder, resetSelectedCids])
+  }, [viewFolder])
 
   return (
     <article
@@ -879,6 +878,7 @@ const FilesTableView = ({
                 index={index}
                 file={file}
                 files={files}
+                moduleRootPath={moduleRootPath}
                 currentPath={currentPath}
                 selected={selectedCids}
                 handleSelect={handleSelect}
@@ -896,7 +896,7 @@ const FilesTableView = ({
                 }}
                 recoverFile={recoverFile}
                 downloadFile={downloadFile}
-                viewFolder={viewFolder}
+                viewFolder={handleViewFolder}
                 handleUploadOnDrop={handleUploadOnDrop}
                 setPreviewFileIndex={setPreviewFileIndex}
                 moveFile={() => {
