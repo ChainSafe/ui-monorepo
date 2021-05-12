@@ -825,11 +825,11 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
         loggedinAs
       }}
     >
-      {!isNewDevice && pendingShareTransferRequests.length > 0 && (
+      {/* {!isNewDevice && pendingShareTransferRequests.length > 0 && (
         <ShareTransferRequestModal
           requests={pendingShareTransferRequests}
         />
-      )}
+      )} */}
       {children}
     </ThresholdKeyContext.Provider>
   )

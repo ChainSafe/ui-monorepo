@@ -217,6 +217,7 @@ const ProfileView = () => {
                         <Typography
                           variant="body1"
                           className={classes.label}
+                          data-cy="settings-profile-header"
                         >
                           <Trans>Wallet address</Trans>
                         </Typography>
