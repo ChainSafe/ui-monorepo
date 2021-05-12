@@ -40,9 +40,11 @@ export interface Web3LoginOptions {
 
 const SESSION_FILE = "cypress/fixtures/storage/sessionStorage.json"
 const LOCAL_FILE = "cypress/fixtures/storage/localStorage.json"
-const storageStore = GenericStorageStore.Instance
+// const storageStore = GenericStorageStore.Instance
 
 Cypress.Commands.add("web3Login", ({ saveBrowser = false, url = localHost, useLocalAndSessionStorage = true }: Web3LoginOptions = {}) => {
+let sessionS: Storage = []
+let localS: Storage = []
 
   cy.task<string | null>("readFileMaybe", SESSION_FILE)
     .then((unparsedSession) => {
@@ -54,8 +56,8 @@ Cypress.Commands.add("web3Login", ({ saveBrowser = false, url = localHost, useLo
       }
 
       console.log("0 session", session)
-      storageStore.set("session", session)
-      // sessionS = session
+      // storageStore.set("session", session)
+      sessionS = session
       console.log("1-> session done")
 
     })
@@ -69,9 +71,9 @@ Cypress.Commands.add("web3Login", ({ saveBrowser = false, url = localHost, useLo
         return
       }
 
-      storageStore.set("local", local)
-      console.log("2-> local done")
-      // localS = local
+      // storageStore.set("local", local)
+      // console.log("2-> local done")
+      localS = local
     })
 
   cy.on("window:before:load", (win) => {
@@ -92,15 +94,15 @@ Cypress.Commands.add("web3Login", ({ saveBrowser = false, url = localHost, useLo
     // if (useLocalAndSessionStorage && localS && sessionS){
       // console.log("localS", localS)
       // console.log("sessionS", sessionS)
-      const local = storageStore.get("local")
-      const session = storageStore.get("session")
-      console.log("3.0locc", local)
-      session.forEach(({ key, value }) => {
-        win.localStorage.setItem(key, value)
+      // const local = storageStore.get("local")
+      // const session = storageStore.get("session")
+      // console.log("3.0locc", local)
+      sessionS.forEach(({ key, value }) => {
+        win.sessionStorage.setItem(key, value)
       })
 
-      local.forEach(({ key, value }) => {
-        win.sessionStorage.setItem(key, value)
+      localS.forEach(({ key, value }) => {
+        win.localStorage.setItem(key, value)
       })
       console.log("3.1 feeding done")
     }
@@ -111,13 +113,15 @@ Cypress.Commands.add("web3Login", ({ saveBrowser = false, url = localHost, useLo
   // with nothing in localstorage (and in session storage)
   // the whole login flow should kick in
   cy.then(() => {
-    cy.log("boom", storageStore.get("local").length)
-    if(storageStore.get("local").length === 0){
-      cy.log("<--- nothing")
+    // cy.log("boom", storageStore.get("local").length && "something ---> direct login")
+    // if(storageStore.get("local").length === 0){
+      cy.log("boom", localS.length && "something ---> direct login")
+      if(localS.length === 0){
+      cy.log("<--- nothing click on web3 button")
       cy.get("[data-cy=web3]").click()
       cy.get(".bn-onboard-modal-select-wallets > :nth-child(1) > .bn-onboard-custom").click()
       cy.get("[data-cy=sign-in-with-web3-button]").click()
-      cy.get("[data-cy=login-password-button]", { timeout: 10000 }).click()
+      cy.get("[data-cy=login-password-button]", { timeout: 20000 }).click()
       cy.get("[data-cy=login-password-input]").type(`${testAccountPassword}{enter}`)
 
       if(saveBrowser){
@@ -133,7 +137,7 @@ Cypress.Commands.add("web3Login", ({ saveBrowser = false, url = localHost, useLo
 
   // save local and session storage in files
   cy.window().then((win) => {
-    console.log("4 saving everything")
+    // console.log("4 saving everything")
     const local: Array<Record<string, string>> = []
     const session: Array<Record<string, string>> = []
 

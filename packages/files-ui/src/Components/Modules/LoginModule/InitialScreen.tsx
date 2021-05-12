@@ -148,6 +148,8 @@ const InitialScreen = ({ className }: IInitialScreen) => {
   const maintenanceMode = process.env.REACT_APP_MAINTENANCE_MODE === "true"
   const [isConnecting, setIsConnecting] = useState(false)
 
+  console.log('status', status)
+  
   const handleSelectWalletAndConnect = async () => {
     setError(undefined)
     try {
