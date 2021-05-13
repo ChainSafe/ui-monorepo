@@ -78,7 +78,7 @@
     "extract": "lingui extract",
     "compile": "lingui compile",
     "lingui-version": "lingui --version",
-    "lint": "eslint './src/**/*.{js,jsx,ts,tsx}'"
+    "lint": "eslint './{src, cypress}/**/*.{js,jsx,ts,tsx}'"
   },
   "browserslist": {
     "production": [

@@ -212,7 +212,10 @@ const ProfileView = () => {
               >
                 <Form>
                   {profile?.publicAddress ? (
-                    <div className={classes.boxContainer}>
+                    <div
+                      className={classes.boxContainer}
+                      data-cy="settings-profile-header"
+                    >
                       <div className={classes.walletAddressContainer}>
                         <Typography
                           variant="body1"
@@ -320,8 +323,10 @@ const ProfileView = () => {
             </div>
           </div> */}
           <div>
-            <Typography variant='h4'
-              component='h4'>
+            <Typography
+              variant='h4'
+              component='h4'
+            >
               <Trans>Display Settings</Trans>
             </Typography>
             <Typography

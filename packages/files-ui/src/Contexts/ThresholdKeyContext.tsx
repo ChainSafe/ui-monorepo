@@ -825,7 +825,7 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
         loggedinAs
       }}
     >
-      {!isNewDevice && pendingShareTransferRequests.length > 0 && (
+      {!isNewDevice && pendingShareTransferRequests.length > 0 && process.env.REACT_APP_TEST !== "true" && (
         <ShareTransferRequestModal
           requests={pendingShareTransferRequests}
         />
