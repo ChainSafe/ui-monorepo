@@ -594,7 +594,8 @@ const FilesTableView = ({
           <Trans>Drop to upload files</Trans>
         </Typography>
       </div>
-      <DragPreviewLayer items={sourceFiles}/>
+      <DragPreviewLayer items={sourceFiles}
+        previewType={browserView} />
       <div className={classes.breadCrumbContainer}>
         {crumbs && moduleRootPath ? (
           <Breadcrumb
