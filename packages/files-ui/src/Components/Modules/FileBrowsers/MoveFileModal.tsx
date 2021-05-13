@@ -143,6 +143,10 @@ const MoveFileModule = ({ currentPath, filesToMove, modalOpen, onClose, onCancel
       active={modalOpen}
       closePosition="none"
       maxWidth="sm"
+      onClick={(e) => {
+        e.preventDefault()
+        e.stopPropagation()
+      }}
     >
       <Grid
         item
@@ -166,7 +170,9 @@ const MoveFileModule = ({ currentPath, filesToMove, modalOpen, onClose, onCancel
           autoHide={true}
           maxHeight={200}
         >
-          <div className={classes.treeScrollView}>
+          <div
+            className={classes.treeScrollView}
+          >
             {folderTree.length
               ? <TreeView
                 treeData={folderTree}

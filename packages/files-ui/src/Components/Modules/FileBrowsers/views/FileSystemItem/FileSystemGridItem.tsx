@@ -169,7 +169,6 @@ const FileSystemGridItem = React.forwardRef(
           return
         }
 
-        console.log("resetting")
         // outside click
         resetSelectedFiles()
       },

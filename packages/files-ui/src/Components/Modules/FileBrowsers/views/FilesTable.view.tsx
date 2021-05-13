@@ -350,8 +350,6 @@ const FilesTableView = ({
     [files, selectedCids]
   )
 
-  console.log(moduleRootPath)
-
   const handleSortToggle = (
     targetColumn: "name" | "size" | "date_uploaded"
   ) => {
@@ -716,7 +714,7 @@ const FilesTableView = ({
         ? <SurveyBanner onHide={onHideSurveyBanner}/>
         : <Divider className={classes.divider} />
       }
-      {selectedCids.length > 0 && validBulkOps.length > 0 && (
+      {selectedCids.length > 0 && validBulkOps.length > 0 && desktop && (
         <section className={classes.bulkOperations}>
           {validBulkOps.indexOf("move") >= 0 && (
             <Button
@@ -984,6 +982,10 @@ const FilesTableView = ({
         acceptButtonProps={{ loading: isDeletingFiles, disabled: isDeletingFiles }}
         rejectButtonProps={{ disabled: isDeletingFiles }}
         injectedClass={{ inner: classes.confirmDeletionDialog }}
+        onClick={(e) => {
+          e.preventDefault()
+          e.stopPropagation()
+        }}
       />
       <UploadProgressModals />
       <DownloadProgressModals />
