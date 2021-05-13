@@ -138,6 +138,7 @@ interface IModalProps {
   closePosition?: "left" | "right" | "none"
   children?: ReactNode | ReactNode[]
   maxWidth?: "xs" | "sm" | "md" | "lg" | "xl" | number
+  onClick?: (e: React.MouseEvent) => void
 }
 
 const Modal: React.FC<IModalProps> = ({
@@ -147,7 +148,8 @@ const Modal: React.FC<IModalProps> = ({
   injectedClass,
   active = false,
   setActive,
-  maxWidth = "sm"
+  maxWidth = "sm",
+  onClick
 }: IModalProps) => {
   const classes = useStyles()
 
@@ -169,6 +171,7 @@ const Modal: React.FC<IModalProps> = ({
         setActive ? "closable" : "",
         active ? "active" : "closed"
       )}
+      onClick={onClick}
     >
       <section
         ref={ref}
