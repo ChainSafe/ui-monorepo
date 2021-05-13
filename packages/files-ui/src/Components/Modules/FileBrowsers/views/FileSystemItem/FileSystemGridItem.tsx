@@ -125,7 +125,6 @@ interface IFileSystemTableItemProps {
   selected: string[]
   file: FileSystemItem
   editing: string | undefined
-  handleAddToSelectedCids: (selected: string) => void
   onFolderOrFileClicks: (e?: React.MouseEvent) => void
   icon: React.ReactNode
   preview: ConnectDragPreview
@@ -168,7 +167,6 @@ const FileSystemGridItem = React.forwardRef(
         if (e.defaultPrevented || e.isPropagationStopped) {
           return
         }
-
         // outside click
         resetSelectedFiles()
       },

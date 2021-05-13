@@ -332,24 +332,7 @@ const FileSystemItemRow = ({
     setPreviewFileIndex(files?.indexOf(file))
   }, [file, files, setPreviewFileIndex])
 
-  const onDouble = useCallback(
-    () => {
-      if (desktop) {
-        // on desktop
-        if (isFolder) {
-          onFolderNavigation()
-        } else {
-          onFilePreview()
-        }
-      } else {
-        // on mobile
-        return
-      }
-    },
-    [desktop, onFolderNavigation, onFilePreview, isFolder]
-  )
-
-  const onSingle = useCallback(
+  const onSingleClick = useCallback(
     (e) => {
       if (desktop) {
         // on desktop 
@@ -370,7 +353,24 @@ const FileSystemItemRow = ({
     [cid, handleSelectCid, handleAddToSelectedCids, desktop, isFolder, onFolderNavigation, onFilePreview]
   )
 
-  const { click } = useDoubleClick(onSingle, onDouble)
+  const onDoubleClick = useCallback(
+    () => {
+      if (desktop) {
+        // on desktop
+        if (isFolder) {
+          onFolderNavigation()
+        } else {
+          onFilePreview()
+        }
+      } else {
+        // on mobile
+        return
+      }
+    },
+    [desktop, onFolderNavigation, onFilePreview, isFolder]
+  )
+
+  const { click } = useDoubleClick(onSingleClick, onDoubleClick)
 
   const onFolderOrFileClicks = (e?: React.MouseEvent) => {
     e?.persist()
