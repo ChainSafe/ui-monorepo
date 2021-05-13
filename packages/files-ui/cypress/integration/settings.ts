@@ -6,7 +6,7 @@ describe("Settings", () => {
     cy.url().should("include", "/settings")
     cy.get(".profile").click()
     cy.url().should("include", "/settings/profile")
-    cy.get("[data-cy=settings-profile-header").should("be.visible")
+    cy.get("[data-cy=settings-profile-header]").should("be.visible")
     cy.get(".security").click()
     cy.url().should("include", "/settings/security")
     cy.get("[data-cy=settings-security-header").should("be.visible")
