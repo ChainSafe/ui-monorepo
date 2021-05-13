@@ -29,37 +29,101 @@ import { ethers, Wallet } from "ethers"
 import { testPrivateKey, testAccountPassword, localHost } from "../fixtures/loginData"
 import { CustomizedBridge } from "./utils/CustomBridge"
 
+export type Storage = Record<string, string>[]
+
 export interface Web3LoginOptions {
   url?: string
   saveBrowser?: boolean
+  useLocalAndSessionStorage?: boolean
 }
 
-Cypress.Commands.add("web3Login", ({ saveBrowser = false, url = localHost }: Web3LoginOptions = {}) => {
+const SESSION_FILE = "cypress/fixtures/storage/sessionStorage.json"
+const LOCAL_FILE = "cypress/fixtures/storage/localStorage.json"
+
+Cypress.Commands.add("web3Login", ({ saveBrowser = false, url = localHost, useLocalAndSessionStorage = true }: Web3LoginOptions = {}) => {
+  let session: Storage = []
+  let local: Storage = []
+
+  cy.task<string | null>("readFileMaybe", SESSION_FILE)
+    .then((unparsedSession) => {
+      session = unparsedSession && JSON.parse(unparsedSession) || []
+    })
+
+  cy.task<string | null>("readFileMaybe", LOCAL_FILE)
+    .then((unparsedLocal) => {
+      local = unparsedLocal && JSON.parse(unparsedLocal) || []
+    })
+
   cy.on("window:before:load", (win) => {
     const provider = new ethers.providers.JsonRpcProvider("https://rinkeby.infura.io/v3/4bf032f2d38a4ed6bb975b80d6340847", 4)
     const signer = new Wallet(testPrivateKey, provider)
-
     // inject ethereum object in the global window
     Object.defineProperty(win, "ethereum", {
       get: () => new CustomizedBridge(signer as any, provider as any)
     })
+
+    // clear session storage in any case, if previous session storage should be
+    // kept will be decided after.
+    // Note that Cypress keep the session storage between test but clears localStorage
     win.sessionStorage.clear()
+    win.localStorage.clear()
+
+    if (useLocalAndSessionStorage){
+      session.forEach(({ key, value }) => {
+        win.sessionStorage.setItem(key, value)
+      })
+
+      local.forEach(({ key, value }) => {
+        win.localStorage.setItem(key, value)
+      })
+    }
   })
 
   cy.visit(url)
-  cy.get("[data-cy=web3]").click()
-  cy.get(".bn-onboard-modal-select-wallets > :nth-child(1) > .bn-onboard-custom").click()
-  cy.get("[data-cy=sign-in-with-web3-button]").click()
-  cy.get("[data-cy=login-password-button]", { timeout: 10000 }).click()
-  cy.get("[data-cy=login-password-input]").type(`${testAccountPassword}{enter}`)
 
-  if(saveBrowser){
-    cy.get("[data-cy=save-browser-button]").click()
-  } else {
-    cy.get("[data-cy=do-not-save-browser-button]").click()
-  }
+  // with nothing in localstorage (and in session storage)
+  // the whole login flow should kick in
+  cy.then(() => {
+    cy.log("Logging in", !!local.length && "there is something in session storage ---> direct login")
 
-  cy.get("[data-cy=files-app-header", { timeout: 30000 }).should("be.visible")
+    if(local.length === 0){
+      cy.log("nothing in session storage, --> click on web3 button")
+      cy.get("[data-cy=web3]").click()
+      cy.get(".bn-onboard-modal-select-wallets > :nth-child(1) > .bn-onboard-custom").click()
+      cy.get("[data-cy=sign-in-with-web3-button]").click()
+      cy.get("[data-cy=login-password-button]", { timeout: 20000 }).click()
+      cy.get("[data-cy=login-password-input]").type(`${testAccountPassword}{enter}`)
+
+      if(saveBrowser){
+      // this is taking forever for test accounts
+        cy.get("[data-cy=save-browser-button]").click()
+      } else {
+        cy.get("[data-cy=do-not-save-browser-button]").click()
+      }
+    }
+  })
+
+  cy.get("[data-cy=files-app-header", { timeout: 20000 }).should("be.visible")
+
+  // save local and session storage in files
+  cy.window().then((win) => {
+    const newLocal: Array<Record<string, string>> = []
+    const newSession: Array<Record<string, string>> = []
+
+    Object.keys(win.localStorage).forEach((key) => {
+      newLocal.push({ key, value: localStorage.getItem(key) || "" })
+    })
+
+    Object.keys(win.sessionStorage).forEach((key) => {
+      newSession.push({ key, value: sessionStorage.getItem(key) || "" })
+    })
+
+    const newLocalString = JSON.stringify(newLocal)
+    const newSessionString = JSON.stringify(newSession)
+
+    cy.writeFile(SESSION_FILE, newSessionString)
+    cy.writeFile(LOCAL_FILE, newLocalString)
+  })
 })
 
 // Must be declared global to be detected by typescript (allows import/export)
@@ -68,11 +132,11 @@ declare global {
   namespace Cypress {
     interface Chainable {
       /**
-      * Login using Metamask to an instance of files running on localhost:3000.
-      * @param {Object} options
-      * @param {string} options.saveBrowser - save the browser to localstorage (default: false).
-      * @param {string} options.url - what url to visit (default: "http://localhost:3000").
-      * @example cy.web3Login({saveBrowser: true})
+      * Login using Metamask to an instance of Files.
+      * @param {String} options.url - (default: "http://localhost:3000") - what url to visit.
+      * @param {Boolean} options.saveBrowser - (default: false) - save the browser to localstorage.
+      * @param {Boolean} options.useLocalAndSessionStorage - (default: true) - use what could have been stored before to speedup login
+      * @example cy.web3Login({saveBrowser: true, url: 'http://localhost:8080'})
       */
       web3Login: (options?: Web3LoginOptions) => Chainable
     }
