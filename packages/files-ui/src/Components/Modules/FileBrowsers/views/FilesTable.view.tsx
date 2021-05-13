@@ -233,7 +233,7 @@ const useStyles = makeStyles(
         display: "flex",
         flexDirection: "row",
         marginTop: constants.generalUnit * 3,
-        minHeight: 33.6,
+        minHeight: 33.6, // reserve space for buttons for the interface not to jump when they get visible
         "& > *": {
           marginRight: constants.generalUnit
         }
