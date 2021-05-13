@@ -8,6 +8,7 @@
 // You can read more here:
 // https://on.cypress.io/plugins-guide
 // ***********************************************************
+import { existsSync, readFileSync } from "fs"
 
 // This function is called when a project is opened or re-opened (e.g. due to
 // the project's config changing)
@@ -15,10 +16,18 @@
 /**
  * @type {Cypress.PluginConfig}
  */
-// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-// @ts-ignore
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export default (on, config) => {
+
+export default (on: any) => {
   // `on` is used to hook into various events Cypress emits
   // `config` is the resolved Cypress config
+
+  on("task", {
+    readFileMaybe(filename: string) {
+      if (existsSync(filename)) {
+        return readFileSync(filename, "utf8")
+      }
+
+      return null
+    }
+  })
 }
