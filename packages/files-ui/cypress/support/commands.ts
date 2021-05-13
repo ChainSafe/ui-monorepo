@@ -84,7 +84,7 @@ Cypress.Commands.add("web3Login", ({ saveBrowser = false, url = localHost, useLo
   // with nothing in localstorage (and in session storage)
   // the whole login flow should kick in
   cy.then(() => {
-    cy.log("Loging in", !!local.length && "there is something in session storage ---> direct login")
+    cy.log("Logging in", !!local.length && "there is something in session storage ---> direct login")
 
     if(local.length === 0){
       cy.log("nothing in session storage, --> click on web3 button")
