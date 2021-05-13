@@ -1,5 +1,5 @@
 import { FolderFilledSvg, FileImageSvg, FilePdfSvg, FileTextSvg, formatBytes,
-  MenuDropdown, MoreIcon, TableCell, TableRow, Typography } from "@chainsafe/common-components"
+  MenuDropdown, MoreIcon, TableCell, TableRow, Typography, CheckboxInput } from "@chainsafe/common-components"
 import { createStyles, makeStyles, useThemeSwitcher } from "@chainsafe/common-theme"
 import clsx from "clsx"
 import dayjs from "dayjs"
@@ -16,6 +16,7 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => 
 
   return createStyles({
     tableRow: {
+      width: "calc(100vw - 504px)",
       border: "2px solid transparent",
       [breakpoints.up("md")]: {
         gridTemplateColumns: desktopGridSettings
@@ -128,7 +129,10 @@ const DragPreviewTableItem: React.FC<{item: FileSystemItem; icon: React.ReactNod
     >
       {desktop && (
         <TableCell>
-
+          <CheckboxInput
+            value={false}
+            onChange={() => {return}}
+          />
         </TableCell>
       )}
       <TableCell
@@ -176,7 +180,6 @@ const DragPreviewGridItem: React.FC<{item: FileSystemItem; icon: React.ReactNode
   icon
 }) => {
   const classes = useStyles()
-  const { desktop } = useThemeSwitcher()
   return (
     <div className={classes.gridViewContainer}>
       <div
@@ -213,7 +216,7 @@ const DragPreviewGridItem: React.FC<{item: FileSystemItem; icon: React.ReactNode
 
 export const DragPreviewLayer: React.FC<{items: FileSystemItem[]; previewType: BrowserView} > = ({ items, previewType }) => {
   const classes = useStyles()
-  const { isDragging, dragItems, itemType, initialOffset, currentOffset } = useDragLayer(monitor => ({
+  const { isDragging, dragItems, itemType, currentOffset } = useDragLayer(monitor => ({
     itemType: monitor.getItemType(),
     dragItems: monitor.getItem() as {ids: string[]},
     isDragging: monitor.isDragging(),
@@ -227,7 +230,6 @@ export const DragPreviewLayer: React.FC<{items: FileSystemItem[]; previewType: B
         display: "none"
       }
     }
-    console.log(initialOffset)
     const { x, y } = currentOffset
 
     const transform = `translate(${x}px, ${y}px)`
@@ -256,15 +258,13 @@ export const DragPreviewLayer: React.FC<{items: FileSystemItem[]; previewType: B
               Icon = FileTextSvg
             }
 
-
-            return (previewType === "table") ?
-              <DragPreviewTableItem
-                item={previewItem}
-                icon={Icon}
-              /> :
-              <DragPreviewGridItem item={previewItem}
-                icon={Icon}
-              />
+            return (previewType === "table")
+              ? <DragPreviewTableItem item={previewItem}
+                icon={<Icon />}
+                key={previewItem.cid} />
+              : <DragPreviewGridItem item={previewItem}
+                icon={<Icon />}
+                key={previewItem.cid} />
           } else {
             return null
           }})}
