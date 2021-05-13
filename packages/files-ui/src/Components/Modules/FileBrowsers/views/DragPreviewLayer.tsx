@@ -23,9 +23,6 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => 
       },
       [breakpoints.down("md")]: {
         gridTemplateColumns: mobileGridSettings
-      },
-      "&.droppable": {
-        border: `2px solid ${palette.additional["geekblue"][6]}`
       }
     },
     fileIcon: {
@@ -46,10 +43,7 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => 
     filename: {
       whiteSpace: "nowrap",
       textOverflow: "ellipsis",
-      overflow: "hidden",
-      "&.editing": {
-        overflow: "visible"
-      }
+      overflow: "hidden"
     },
     previewDragLayer: {
       position: "fixed",
@@ -103,9 +97,6 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => 
       },
       [breakpoints.down("sm")]: {
         height: constants.generalUnit * 16
-      },
-      "&.highlighted": {
-        border: `1px solid ${palette.additional["geekblue"][6]}`
       }
     },
     menuTitleGrid: {
