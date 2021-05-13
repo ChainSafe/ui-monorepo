@@ -250,12 +250,16 @@ export const DragPreviewLayer: React.FC<{items: FileSystemItem[]; previewType: B
             }
 
             return (previewType === "table")
-              ? <DragPreviewTableItem item={previewItem}
+              ? <DragPreviewTableItem
+                item={previewItem}
                 icon={<Icon />}
-                key={previewItem.cid} />
-              : <DragPreviewGridItem item={previewItem}
+                key={previewItem.cid}
+              />
+              : <DragPreviewGridItem
+                item={previewItem}
                 icon={<Icon />}
-                key={previewItem.cid} />
+                key={previewItem.cid}
+              />
           } else {
             return null
           }})}

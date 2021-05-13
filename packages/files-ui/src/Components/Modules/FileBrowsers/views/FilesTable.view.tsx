@@ -512,8 +512,6 @@ const FilesTableView = ({
     }
   }, [selectedCids, items, bulkOperations])
 
-
-
   const handleDeleteFiles = useCallback(() => {
     if (!deleteFiles) return
 
@@ -594,8 +592,10 @@ const FilesTableView = ({
           <Trans>Drop to upload files</Trans>
         </Typography>
       </div>
-      <DragPreviewLayer items={sourceFiles}
-        previewType={browserView} />
+      <DragPreviewLayer
+        items={sourceFiles}
+        previewType={browserView}
+      />
       <div className={classes.breadCrumbContainer}>
         {crumbs && moduleRootPath ? (
           <Breadcrumb
