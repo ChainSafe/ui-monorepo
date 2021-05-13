@@ -115,7 +115,7 @@ const App: React.FC<{}> = () => {
                 withLocalStorage={false}
               >
                 <ThresholdKeyProvider
-                  enableLogging
+                  enableLogging={directAuthNetwork !== "mainnet"}
                   network={directAuthNetwork}
                 >
                   <UserProvider>
