@@ -350,6 +350,8 @@ const FilesTableView = ({
     [files, selectedCids]
   )
 
+  console.log(moduleRootPath)
+
   const handleSortToggle = (
     targetColumn: "name" | "size" | "date_uploaded"
   ) => {
@@ -389,9 +391,13 @@ const FilesTableView = ({
   // Selection logic
   const handleSelectCid = useCallback(
     (cid: string) => {
-      setSelectedCids([cid])
+      if (selectedCids.includes(cid)) {
+        setSelectedCids([])
+      } else {
+        setSelectedCids([cid])
+      }
     },
-    []
+    [selectedCids]
   )
 
   const handleAddToSelectedCids = useCallback(
@@ -714,7 +720,11 @@ const FilesTableView = ({
         <section className={classes.bulkOperations}>
           {validBulkOps.indexOf("move") >= 0 && (
             <Button
-              onClick={() => setIsMoveFileModalOpen(true)}
+              onClick={(e) => {
+                e.preventDefault()
+                e.stopPropagation()
+                setIsMoveFileModalOpen(true)
+              }}
               variant="outline"
             >
               <Trans>Move selected</Trans>
@@ -722,7 +732,11 @@ const FilesTableView = ({
           )}
           {validBulkOps.indexOf("recover") >= 0 && (
             <Button
-              onClick={handleRecoverFiles}
+              onClick={(e) => {
+                e.preventDefault()
+                e.stopPropagation()
+                handleRecoverFiles()
+              }}
               variant="outline"
               loading={isRecoveringFiles}
             >
@@ -731,7 +745,9 @@ const FilesTableView = ({
           )}
           {validBulkOps.indexOf("delete") >= 0 && (
             <Button
-              onClick={() => {
+              onClick={(e) => {
+                e.preventDefault()
+                e.stopPropagation()
                 setIsDeleteModalOpen(true)
               }}
               variant="outline"
@@ -935,6 +951,7 @@ const FilesTableView = ({
                 setFileInfoPath={setFileInfoPath}
                 itemOperations={getItemOperations(file.content_type)}
                 resetSelectedFiles={resetSelectedCids}
+                moduleRootPath={moduleRootPath}
                 browserView="grid"
               />
             ))}

@@ -317,49 +317,64 @@ const FileSystemItemRow = ({
     dragMoveRef(fileOrFolderRef)
   }
 
-  const onFolderClick = useCallback(() => {
+  const onFolderNavigation = useCallback(() => {
+    resetSelectedFiles()
+    console.log(moduleRootPath)
     if (!moduleRootPath) {
       console.debug("Module root path not set")
       return
     }
     const newPath = `${moduleRootPath}${currentPath}${encodeURI(name)}`
     redirect(newPath)
-  }, [currentPath, name, redirect, moduleRootPath])
+  }, [currentPath, name, redirect, moduleRootPath, resetSelectedFiles])
 
-  const onFileClick = useCallback(() => {
+  const onFilePreview = useCallback(() => {
     setPreviewFileIndex(files?.indexOf(file))
   }, [file, files, setPreviewFileIndex])
 
-  const onSingleClick = useCallback(
-    (e) => {
-      if (e && (e.ctrlKey || e.metaKey)) {
-        handleAddToSelectedCids(cid)
+  const onDouble = useCallback(
+    () => {
+      if (desktop) {
+        // on desktop
+        if (isFolder) {
+          onFolderNavigation()
+        } else {
+          onFilePreview()
+        }
       } else {
-        handleSelectCid(cid)
+        // on mobile
+        return
       }
     },
-    [cid, handleSelectCid, handleAddToSelectedCids]
+    [desktop, onFolderNavigation, onFilePreview, isFolder]
   )
 
-  const onDoubleClick = useCallback(() => {
-    isFolder
-      ? onFolderClick()
-      : onFileClick()
-  }, [isFolder, onFileClick, onFolderClick])
+  const onSingle = useCallback(
+    (e) => {
+      if (desktop) {
+        // on desktop 
+        if (e && (e.ctrlKey || e.metaKey)) {
+          handleAddToSelectedCids(cid)
+        } else {
+          handleSelectCid(cid)
+        }
+      } else {
+        // on mobile
+        if (isFolder) {
+          onFolderNavigation()
+        } else {
+          onFilePreview()
+        }
+      }
+    },
+    [cid, handleSelectCid, handleAddToSelectedCids, desktop, isFolder, onFolderNavigation, onFilePreview]
+  )
 
-  const { click } = useDoubleClick(onSingleClick, onDoubleClick)
+  const { click } = useDoubleClick(onSingle, onDouble)
 
   const onFolderOrFileClicks = (e?: React.MouseEvent) => {
     e?.persist()
-    if (desktop) {
-      click(e)
-    } else {
-      if (isFolder) {
-        onFolderClick()
-      } else {
-        onFileClick()
-      }
-    }
+    click(e)
   }
 
   const itemProps = {

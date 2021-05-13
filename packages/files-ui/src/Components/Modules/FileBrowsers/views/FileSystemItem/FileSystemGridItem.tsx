@@ -152,7 +152,8 @@ const FileSystemGridItem = React.forwardRef(
     handleRename,
     currentPath,
     menuItems,
-    resetSelectedFiles
+    resetSelectedFiles,
+    preview
   }: IFileSystemTableItemProps, forwardedRef: any) => {
     const classes = useStyles()
     const { name, cid } = file
@@ -164,7 +165,7 @@ const FileSystemGridItem = React.forwardRef(
           // inside click
           return
         }
-        if (e.defaultPrevented) {
+        if (e.defaultPrevented || e.isPropagationStopped) {
           return
         }
 
@@ -183,15 +184,18 @@ const FileSystemGridItem = React.forwardRef(
     }, [handleClickOutside])
 
     return  (
-      <div className={classes.gridViewContainer}>
+      <div
+        className={classes.gridViewContainer}
+        ref={forwardedRef}
+        onClick={(e) => {
+          e.preventDefault()
+          e.stopPropagation()
+        }}
+      >
         <div
           className={clsx(classes.gridViewIconNameBox)}
-          ref={forwardedRef}
-          onClick={(e) => {
-            e.preventDefault()
-            e.stopPropagation()
-            onFolderOrFileClicks(e)
-          }}
+          ref={preview}
+          onClick={(e) => onFolderOrFileClicks(e)}
         >
           <div
             className={clsx(
