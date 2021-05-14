@@ -317,6 +317,7 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
               >
                 <SettingSvg />
                 <Typography
+                  data-cy="settings-nav"
                   variant="h5"
                   className={classes.navItemText}
                 >
