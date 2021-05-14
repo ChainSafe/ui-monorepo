@@ -180,7 +180,10 @@ const Security = ({ className }: SecurityProps) => {
 
   return (
     <div className={clsx(classes.root, className)}>
-      <div id="security">
+      <div
+        id="security"
+        data-cy="settings-security-header"
+      >
         <Typography
           variant="h4"
           component="h4"
