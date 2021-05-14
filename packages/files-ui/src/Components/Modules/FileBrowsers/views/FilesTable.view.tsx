@@ -234,6 +234,7 @@ const useStyles = makeStyles(
         display: "flex",
         flexDirection: "row",
         marginTop: constants.generalUnit * 3,
+        minHeight: constants.generalUnit * 4.2, // reserve space for buttons for the interface not to jump when they get visible
         "& > *": {
           marginRight: constants.generalUnit
         }
@@ -712,37 +713,40 @@ const FilesTableView = ({
         ? <SurveyBanner onHide={onHideSurveyBanner}/>
         : <Divider className={classes.divider} />
       }
-      {selectedCids.length > 0 && validBulkOps.length > 0 && (
-        <section className={classes.bulkOperations}>
-          {validBulkOps.indexOf("move") >= 0 && (
-            <Button
-              onClick={() => setIsMoveFileModalOpen(true)}
-              variant="outline"
-            >
-              <Trans>Move selected</Trans>
-            </Button>
-          )}
-          {validBulkOps.indexOf("recover") >= 0 && (
-            <Button
-              onClick={handleRecoverFiles}
-              variant="outline"
-              loading={isRecoveringFiles}
-            >
-              <Trans>Recover selected</Trans>
-            </Button>
-          )}
-          {validBulkOps.indexOf("delete") >= 0 && (
-            <Button
-              onClick={() => {
-                setIsDeleteModalOpen(true)
-              }}
-              variant="outline"
-            >
-              <Trans>Delete selected</Trans>
-            </Button>
-          )}
-        </section>
-      )}
+
+      <section className={classes.bulkOperations}>
+        {selectedCids.length > 0 && (
+          <>
+            {validBulkOps.indexOf("move") >= 0 && (
+              <Button
+                onClick={() => setIsMoveFileModalOpen(true)}
+                variant="outline"
+              >
+                <Trans>Move selected</Trans>
+              </Button>
+            )}
+            {validBulkOps.indexOf("recover") >= 0 && (
+              <Button
+                onClick={handleRecoverFiles}
+                variant="outline"
+                loading={isRecoveringFiles}
+              >
+                <Trans>Recover selected</Trans>
+              </Button>
+            )}
+            {validBulkOps.indexOf("delete") >= 0 && (
+              <Button
+                onClick={() => {
+                  setIsDeleteModalOpen(true)
+                }}
+                variant="outline"
+              >
+                <Trans>Delete selected</Trans>
+              </Button>
+            )}
+          </>
+        )}
+      </section>
       <div
         className={clsx(
           classes.loadingContainer,
