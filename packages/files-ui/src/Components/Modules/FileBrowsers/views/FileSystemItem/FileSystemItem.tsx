@@ -319,7 +319,6 @@ const FileSystemItemRow = ({
 
   const onFolderNavigation = useCallback(() => {
     resetSelectedFiles()
-    console.log(moduleRootPath)
     if (!moduleRootPath) {
       console.debug("Module root path not set")
       return
