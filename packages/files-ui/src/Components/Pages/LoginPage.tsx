@@ -109,9 +109,6 @@ const useStyles = makeStyles(
         border: `1px solid ${constants.landing.border}`,
         boxShadow: constants.landing.boxShadow,
         borderRadius: 6,
-        [breakpoints.up("md")]:{
-          justifyContent: "space-between"
-        },
         [breakpoints.down("md")]: {
           justifyContent: "center",
           width: "100%"
