@@ -377,6 +377,9 @@ msgstr "Nom du dossier"
 msgid "Please provide a password"
 msgstr "Merci de donner un mot de passe"
 
+msgid "Please select a file to upload"
+msgstr ""
+
 msgid "Preview"
 msgstr "Aperçu"
 
@@ -394,6 +397,9 @@ msgstr "Profile mis à jour"
 
 msgid "Recover"
 msgstr "Récupérer"
+
+msgid "Recover selected"
+msgstr "Récupérer sélection"
 
 msgid "Recover with passphrase"
 msgstr "Récupérer avec un mot de passe"

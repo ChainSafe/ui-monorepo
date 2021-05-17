@@ -68,9 +68,10 @@ interface IMoveFileModuleProps {
   modalOpen: boolean
   onClose: () => void
   onCancel: () => void
+  refreshCurrentPath: () => void
 }
 
-const MoveFileModule = ({ currentPath, filesToMove, modalOpen, onClose, onCancel }: IMoveFileModuleProps) => {
+const MoveFileModule = ({ currentPath, filesToMove, modalOpen, onClose, onCancel, refreshCurrentPath }: IMoveFileModuleProps) => {
   const classes = useStyles()
   const { getFolderTree, moveFiles } = useDrive()
   const [movingFile, setMovingFile] = useState(false)
@@ -126,6 +127,7 @@ const MoveFileModule = ({ currentPath, filesToMove, modalOpen, onClose, onCancel
           new_path: getPathWithFile(movePath, file.name)
         }))
       )
+        .then(refreshCurrentPath)
         .then(onClose)
         .catch(console.error)
         .finally(() => setMovingFile(false))

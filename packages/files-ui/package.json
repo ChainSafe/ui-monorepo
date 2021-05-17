@@ -22,7 +22,7 @@
     "clsx": "^1.1.1",
     "dayjs": "^1.9.7",
     "eth-crypto": "^1.8.0",
-    "ethers": "^5.0.24",
+    "ethers": "^5.1.4",
     "formik": "^2.2.5",
     "mime-matcher": "^1.0.5",
     "react": "^16.14.0",
@@ -46,6 +46,7 @@
   },
   "devDependencies": {
     "@craco/craco": "^5.9.0",
+    "@ethersproject/experimental": "^5.1.2",
     "@lingui/babel-preset-react": "^2.9.2",
     "@lingui/cli": "^3.7.2",
     "@lingui/macro": "3.7.2",
@@ -61,7 +62,9 @@
     "@types/react-toast-notifications": "^2.4.0",
     "@types/yup": "^0.29.9",
     "@types/zxcvbn": "^4.4.0",
-    "babel-plugin-macros": "^2.8.0"
+    "babel-plugin-macros": "^2.8.0",
+    "cypress": "^7.2.0",
+    "eslint-plugin-cypress": "^2.11.2"
   },
   "scripts": {
     "postinstall": "yarn compile",
@@ -69,12 +72,13 @@
     "build": "craco --max_old_space_size=4096 build",
     "sentry": "(export REACT_APP_SENTRY_RELEASE=$(sentry-cli releases propose-version); node scripts/sentry.js)",
     "release": "(export REACT_APP_SENTRY_RELEASE=$(sentry-cli releases propose-version); yarn compile && yarn build && node scripts/sentry.js)",
-    "test": "react-scripts test",
+    "test": "cypress open",
+    "test:ci": "cypress run",
     "analyze": "source-map-explorer 'build/static/js/*.js'",
     "extract": "lingui extract",
     "compile": "lingui compile",
     "lingui-version": "lingui --version",
-    "lint": "eslint './src/**/*.{js,jsx,ts,tsx}'"
+    "lint": "eslint './{src, cypress}/**/*.{js,jsx,ts,tsx}'"
   },
   "browserslist": {
     "production": [

@@ -71,15 +71,19 @@ const useStyles = makeStyles(
 
 interface ICreateFolderModuleProps {
   modalOpen: boolean
+  refreshCurrentPath: () => void
   close: () => void
+  currentPath: string
 }
 
 const CreateFolderModule: React.FC<ICreateFolderModuleProps> = ({
   modalOpen,
+  refreshCurrentPath,
+  currentPath,
   close
 }: ICreateFolderModuleProps) => {
   const classes = useStyles()
-  const { createFolder, currentPath } = useDrive()
+  const { createFolder } = useDrive()
   const [creatingFolder, setCreatingFolder] = useState(false)
 
   const desktop = useMediaQuery("md")
@@ -123,6 +127,7 @@ const CreateFolderModule: React.FC<ICreateFolderModuleProps> = ({
           try {
             setCreatingFolder(true)
             await createFolder({ path: currentPath + values.name })
+            refreshCurrentPath()
             setCreatingFolder(false)
             helpers.resetForm()
             close()

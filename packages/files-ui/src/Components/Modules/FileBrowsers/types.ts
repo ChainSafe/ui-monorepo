@@ -1,9 +1,5 @@
 import { Crumb } from "@chainsafe/common-components"
-import {
-  FileSystemItem,
-  BucketType,
-  UploadProgress
-} from "../../../Contexts/DriveContext"
+import { BucketType, FileSystemItem, UploadProgress } from "../../../Contexts/DriveContext"
 
 export type FileOperation =
   | "rename"
@@ -36,8 +32,9 @@ export interface IFilesTableBrowserProps
   handleRename?: (path: string, new_path: string) => Promise<void>
   handleMove?: (path: string, new_path: string) => Promise<void>
   downloadFile?: (cid: string) => Promise<void>
-  deleteFiles?: (cid: string[]) => Promise<void[]>
+  deleteFiles?: (cid: string[]) => Promise<void>
   recoverFile?: (cid: string) => Promise<void>
+  recoverFiles?: (cid: string[]) => Promise<void[]>
   viewFolder?: (cid: string) => void
   allowDropUpload?: boolean
 
@@ -47,19 +44,16 @@ export interface IFilesTableBrowserProps
     path: string,
   ) => void
 
-  updateCurrentPath: (
-    newPath: string,
-    newBucketType?: BucketType,
-    showLoading?: boolean,
-  ) => void
+  refreshContents?: () => void
+  currentPath: string
+  bucketType: BucketType
   loadingCurrentPath: boolean
   uploadsInProgress?: UploadProgress[]
   showUploadsInTable: boolean
-
   sourceFiles: FileSystemItem[]
-  currentPath?: string
   crumbs: Crumb[] | undefined
-  getPath?: (cid: string) => string | undefined
+  moduleRootPath: string | undefined
+  getPath?: (cid: string) => string
   isSearch?: boolean
   withSurvey?: boolean
 }
