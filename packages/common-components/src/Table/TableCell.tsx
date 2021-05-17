@@ -29,7 +29,7 @@ export interface ITableCellProps {
   className?: string
   children?: ReactNode | ReactNode[]
   align?: AlignOption
-  onClick?: () => void
+  onClick?: (e?: React.MouseEvent) => void
 }
 const TableCell = React.forwardRef(
   (
@@ -46,7 +46,7 @@ const TableCell = React.forwardRef(
 
     return (
       <td
-        onClick={() => (onClick ? onClick() : null)}
+        onClick={onClick}
         className={clsx(
           className,
           classes.root,

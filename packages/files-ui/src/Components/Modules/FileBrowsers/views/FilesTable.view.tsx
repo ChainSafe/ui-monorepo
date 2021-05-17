@@ -388,7 +388,18 @@ const FilesTableView = () => {
   }
 
   // Selection logic
-  const handleSelect = useCallback(
+  const handleSelectCid = useCallback(
+    (cid: string) => {
+      if (selectedCids.includes(cid)) {
+        setSelectedCids([])
+      } else {
+        setSelectedCids([cid])
+      }
+    },
+    [selectedCids]
+  )
+
+  const handleAddToSelectedCids = useCallback(
     (cid: string) => {
       if (selectedCids.includes(cid)) {
         setSelectedCids(
@@ -858,7 +869,8 @@ const FilesTableView = () => {
                   file={file}
                   files={files}
                   selected={selectedCids}
-                  handleSelect={handleSelect}
+                  handleSelectCid={handleSelectCid}
+                  handleAddToSelectedCids={handleAddToSelectedCids}
                   editing={editing}
                   setEditing={setEditing}
                   renameSchema={renameSchema}
@@ -898,7 +910,8 @@ const FilesTableView = () => {
                 file={file}
                 files={files}
                 selected={selectedCids}
-                handleSelect={handleSelect}
+                handleSelectCid={handleSelectCid}
+                handleAddToSelectedCids={handleAddToSelectedCids}
                 editing={editing}
                 setEditing={setEditing}
                 renameSchema={renameSchema}
@@ -950,6 +963,10 @@ const FilesTableView = () => {
         acceptButtonProps={{ loading: isDeletingFiles, disabled: isDeletingFiles }}
         rejectButtonProps={{ disabled: isDeletingFiles }}
         injectedClass={{ inner: classes.confirmDeletionDialog }}
+        onModalBodyClick={(e) => {
+          e.preventDefault()
+          e.stopPropagation()
+        }}
       />
       <UploadProgressModals />
       <DownloadProgressModals />
