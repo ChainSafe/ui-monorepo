@@ -8,6 +8,7 @@ import CustomModal from "../Elements/CustomModal"
 import { Trans, t } from "@lingui/macro"
 import clsx from "clsx"
 import { CSFTheme } from "../../Themes/types"
+import { useFileBrowser } from "../../Contexts/FileBrowserContext"
 
 const useStyles = makeStyles(({ constants, breakpoints }: CSFTheme) =>
   createStyles({
@@ -71,14 +72,14 @@ const useStyles = makeStyles(({ constants, breakpoints }: CSFTheme) =>
 interface IUploadFileModuleProps {
   modalOpen: boolean
   close: () => void
-  currentPath: string
-  refreshCurrentPath: () => void
 }
 
-const UploadFileModule = ({ modalOpen, close, currentPath, refreshCurrentPath }: IUploadFileModuleProps) => {
+const UploadFileModule = ({ modalOpen, close }: IUploadFileModuleProps) => {
   const classes = useStyles()
   const [isDoneDisabled, setIsDoneDisabled] = useState(true)
   const { uploadFiles } = useDrive()
+  const { currentPath, refreshContents } = useFileBrowser()
+
   const UploadSchema = object().shape({ files: array().required(t`Please select a file to upload`) })
 
   const onFileNumberChange = useCallback((filesNumber: number) => {
@@ -90,7 +91,7 @@ const UploadFileModule = ({ modalOpen, close, currentPath, refreshCurrentPath }:
     try {
       await uploadFiles(values.files, currentPath)
       helpers.resetForm()
-      refreshCurrentPath()
+      refreshContents && refreshContents()
       close()
     } catch (errors) {
       if (errors[0].message.includes("conflict with existing")) {
@@ -100,7 +101,7 @@ const UploadFileModule = ({ modalOpen, close, currentPath, refreshCurrentPath }:
       }
     }
     helpers.setSubmitting(false)
-  }, [close, currentPath, uploadFiles, refreshCurrentPath])
+  }, [close, currentPath, uploadFiles, refreshContents])
 
   return (
     <CustomModal
