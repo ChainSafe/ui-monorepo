@@ -145,7 +145,7 @@ const MoveFileModule = ({ filesToMove, modalOpen, onClose, onCancel }: IMoveFile
       active={modalOpen}
       closePosition="none"
       maxWidth="sm"
-      onClick={(e) => {
+      onModalBodyClick={(e) => {
         e.preventDefault()
         e.stopPropagation()
       }}

@@ -963,7 +963,7 @@ const FilesTableView = () => {
         acceptButtonProps={{ loading: isDeletingFiles, disabled: isDeletingFiles }}
         rejectButtonProps={{ disabled: isDeletingFiles }}
         injectedClass={{ inner: classes.confirmDeletionDialog }}
-        onClick={(e) => {
+        onModalBodyClick={(e) => {
           e.preventDefault()
           e.stopPropagation()
         }}
