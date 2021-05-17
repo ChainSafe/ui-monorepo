@@ -629,6 +629,7 @@ const FilesTableView = ({
                 </span>
               </Button>
               <Button
+                data-cy="upload-modal-button"
                 onClick={() => setIsUploadModalOpen(true)}
                 variant="outline"
                 size="large"
@@ -899,6 +900,7 @@ const FilesTableView = ({
           >
             {items.map((file, index) => (
               <FileSystemItemRow
+                data-cy="file-item-row"
                 key={index}
                 index={index}
                 file={file}

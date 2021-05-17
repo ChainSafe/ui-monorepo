@@ -116,7 +116,10 @@ const UploadFileModule = ({ modalOpen, close, currentPath, refreshCurrentPath }:
         validationSchema={UploadSchema}
         onSubmit={onSubmit}
       >
-        <Form className={classes.root}>
+        <Form
+          data-cy="upload-file-form"
+          className={classes.root}
+        >
           <FileInput
             multiple={true}
             className={classes.input}
@@ -134,6 +137,7 @@ const UploadFileModule = ({ modalOpen, close, currentPath, refreshCurrentPath }:
           />
           <footer className={classes.footer}>
             <Button
+              data-cy="upload-cancel-button"
               onClick={close}
               size="medium"
               className={classes.cancelButton}
@@ -143,6 +147,7 @@ const UploadFileModule = ({ modalOpen, close, currentPath, refreshCurrentPath }:
               <Trans>Cancel</Trans>
             </Button>
             <Button
+              data-cy="upload-ok-button"
               size="medium"
               type="submit"
               variant="primary"

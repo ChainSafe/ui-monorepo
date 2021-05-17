@@ -28,6 +28,7 @@
 import { ethers, Wallet } from "ethers"
 import { testPrivateKey, testAccountPassword, localHost } from "../fixtures/loginData"
 import { CustomizedBridge } from "./utils/CustomBridge"
+import "cypress-file-upload"
 
 export type Storage = Record<string, string>[]
 

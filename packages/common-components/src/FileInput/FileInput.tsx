@@ -223,7 +223,7 @@ const FileInput: React.FC<IFileInputProps> = ({
                   >
                     <span className={classes.itemText}>{file.name}</span>
                     <Button
-                      className={clsx(classes.crossIcon, classNames?.closeIcon)}
+                      className={clsx(classes.crossIcon, classNames?.closeIcon, "removeFileIcon")}
                       type="button"
                       onClick={(e) => {
                         e.stopPropagation()
