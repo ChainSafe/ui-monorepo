@@ -36,7 +36,7 @@ interface FileBrowserContext extends IFilesBrowserModuleProps {
   withSurvey?: boolean
 }
 
-const FileBrowserContext = React.createContext<FileBrowserContext | undefined>()
+const FileBrowserContext = React.createContext<FileBrowserContext | undefined>(undefined)
 
 const useFileBrowser = () => {
   const context = useContext(FileBrowserContext)
