@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from "react"
+import React, { useCallback, useEffect, useRef } from "react"
 import {
   FormikTextInput,
   Typography,
@@ -31,6 +31,7 @@ import { CSFTheme } from "../../../../../Themes/types"
 import FileItemTableItem from "./FileSystemTableItem"
 import FileItemGridItem from "./FileSystemGridItem"
 import { FileSystemItem } from "../../../../../Contexts/DriveContext"
+import { useFileBrowser } from "../../../../../Contexts/FileBrowserContext"
 
 const useStyles = makeStyles(({ breakpoints, constants }: CSFTheme) => {
   return createStyles({
@@ -103,10 +104,9 @@ interface IFileSystemItemRowProps {
   index: number
   file: FileSystemItem
   files: FileSystemItem[]
-  currentPath: string
-  moduleRootPath?: string
   selected: string[]
-  handleSelect(selected: string): void
+  handleSelectCid(selectedCid: string): void
+  handleAddToSelectedCids(selectedCid: string): void
   editing: string | undefined
   setEditing(editing: string | undefined): void
   renameSchema: any
@@ -115,8 +115,6 @@ interface IFileSystemItemRowProps {
   deleteFile?: () => void
   recoverFile?: (cid: string) => void
   viewFolder?: (cid: string) => void
-  downloadFile?: (cid: string) => Promise<void>
-  handleUploadOnDrop?: (files: File[], fileItems: DataTransferItemList, path: string,) => void
   setPreviewFileIndex: (fileIndex: number | undefined) => void
   moveFile?: () => void
   setFileInfoPath: (path: string) => void
@@ -125,29 +123,27 @@ interface IFileSystemItemRowProps {
   browserView: BrowserView
 }
 
-const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
+const FileSystemItemRow = ({
   file,
   files,
   selected,
   editing,
   setEditing,
-  currentPath,
-  moduleRootPath,
   renameSchema,
   handleRename,
-  handleMove,
   deleteFile,
   recoverFile,
-  downloadFile,
   viewFolder,
-  handleUploadOnDrop,
   setPreviewFileIndex,
   moveFile,
   setFileInfoPath,
-  handleSelect,
+  handleSelectCid,
+  handleAddToSelectedCids,
   itemOperations,
-  browserView
-}) => {
+  browserView,
+  resetSelectedFiles
+}: IFileSystemItemRowProps) => {
+  const { downloadFile, currentPath, handleUploadOnDrop, moduleRootPath, handleMove } = useFileBrowser()
   const { cid, name, isFolder, content_type } = file
   let Icon
   if (isFolder) {
@@ -298,7 +294,7 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
     accept: DragTypes.MOVABLE_FILE,
     canDrop: () => isFolder,
     drop: (item: {ids: string[]}) => {
-      item.ids.map((cid) => {
+      item.ids.forEach((cid) => {
         const fileToMove = files.find(f => f.cid === cid)
         handleMove && fileToMove &&
         handleMove(
@@ -323,55 +319,81 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
     })
   })
 
-  function attachRef(el: any) {
-    if (isFolder) {
-      dropMoveRef(el)
-      dropUploadRef(el)
-    } else {
-      dragMoveRef(el)
-    }
+  const fileOrFolderRef = useRef<any>()
+
+  if (!editing && isFolder) {
+    dropMoveRef(fileOrFolderRef)
+    dropUploadRef(fileOrFolderRef)
+  }
+  if (!editing && !isFolder) {
+    dragMoveRef(fileOrFolderRef)
   }
 
-  const onFolderClick = useCallback(() => {
+  const onFolderNavigation = useCallback(() => {
+    resetSelectedFiles()
     if (!moduleRootPath) {
       console.debug("Module root path not set")
       return
     }
     const newPath = `${moduleRootPath}${currentPath}${encodeURI(name)}`
     redirect(newPath)
-  }, [currentPath, name, redirect, moduleRootPath])
+  }, [currentPath, name, redirect, moduleRootPath, resetSelectedFiles])
 
-  const onFileClick = useCallback(() => {
+  const onFilePreview = useCallback(() => {
     setPreviewFileIndex(files?.indexOf(file))
   }, [file, files, setPreviewFileIndex])
 
   const onSingleClick = useCallback(
-    () => { handleSelect(cid) },
-    [cid, handleSelect]
+    (e) => {
+      if (desktop) {
+        // on desktop 
+        if (e && (e.ctrlKey || e.metaKey)) {
+          handleAddToSelectedCids(cid)
+        } else {
+          handleSelectCid(cid)
+        }
+      } else {
+        // on mobile
+        if (isFolder) {
+          onFolderNavigation()
+        } else {
+          onFilePreview()
+        }
+      }
+    },
+    [cid, handleSelectCid, handleAddToSelectedCids, desktop, isFolder, onFolderNavigation, onFilePreview]
   )
 
-  const onDoubleClick = useCallback(() => {
-    isFolder
-      ? onFolderClick()
-      : onFileClick()
-  }, [isFolder, onFileClick, onFolderClick])
+  const onDoubleClick = useCallback(
+    () => {
+      if (desktop) {
+        // on desktop
+        if (isFolder) {
+          onFolderNavigation()
+        } else {
+          onFilePreview()
+        }
+      } else {
+        // on mobile
+        return
+      }
+    },
+    [desktop, onFolderNavigation, onFilePreview, isFolder]
+  )
 
   const { click } = useDoubleClick(onSingleClick, onDoubleClick)
 
-  const onFolderOrFileClicks = desktop
-    ? click
-    : () => {
-      isFolder
-        ? onFolderClick()
-        : onFileClick()
-    }
+  const onFolderOrFileClicks = (e?: React.MouseEvent) => {
+    e?.persist()
+    click(e)
+  }
 
   const itemProps = {
-    attachRef,
+    ref: fileOrFolderRef,
     currentPath,
     editing,
     file,
-    handleSelect,
+    handleAddToSelectedCids,
     handleRename,
     icon: <Icon />,
     isFolder,
@@ -382,7 +404,8 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
     preview,
     renameSchema,
     selected,
-    setEditing
+    setEditing,
+    resetSelectedFiles
   }
 
   return (

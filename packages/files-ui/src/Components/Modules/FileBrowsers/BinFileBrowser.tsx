@@ -10,6 +10,7 @@ import { guessContentType } from "../../../Utils/contentTypeGuesser"
 import { useLocation, useToaster } from "@chainsafe/common-components"
 import { extractDrivePath, getPathWithFile } from "../../../Utils/pathUtils"
 import { ROUTE_LINKS } from "../../FilesRoutes"
+import { FileBrowserContext } from "../../../Contexts/FileBrowserContext"
 
 const BinFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = false }: IFilesBrowserModuleProps) => {
   const { removeCSFObjects, moveCSFObject, list } = useDrive()
@@ -173,25 +174,27 @@ const BinFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = false }
   }), [])
 
   return (
-    <DragAndDrop>
-      <FilesTableView
-        crumbs={undefined}
-        recoverFile={recoverFile}
-        deleteFiles={deleteFiles}
-        recoverFiles={recoverFiles}
-        currentPath={currentPath}
-        moduleRootPath={ROUTE_LINKS.Bin("/")}
-        refreshContents={refreshContents}
-        loadingCurrentPath={loadingCurrentPath}
-        showUploadsInTable={false}
-        sourceFiles={pathContents}
-        heading={t`Bin`}
-        controls={controls}
-        bucketType={bucketType}
-        itemOperations={itemOperations}
-        bulkOperations={bulkOperations}
-      />
-    </DragAndDrop>
+    <FileBrowserContext.Provider value={{
+      crumbs: undefined,
+      recoverFile,
+      deleteFiles,
+      recoverFiles,
+      currentPath,
+      moduleRootPath: ROUTE_LINKS.Bin("/"),
+      refreshContents,
+      loadingCurrentPath,
+      showUploadsInTable: false,
+      sourceFiles: pathContents,
+      heading: t`Bin`,
+      controls,
+      bucketType,
+      itemOperations,
+      bulkOperations
+    }}>
+      <DragAndDrop>
+        <FilesTableView />
+      </DragAndDrop>
+    </FileBrowserContext.Provider>
   )
 }
 

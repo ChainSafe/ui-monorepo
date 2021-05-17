@@ -112,9 +112,8 @@ interface IFileSystemTableItemProps {
   selected: string[]
   file: FileSystemItem
   editing: string | undefined
-  attachRef: (element: any) => void
-  handleSelect: (selected: string) => void
-  onFolderOrFileClicks: () => void
+  handleAddToSelectedCids: (selected: string) => void
+  onFolderOrFileClicks: (e?: React.MouseEvent) => void
   icon: React.ReactNode
   preview: ConnectDragPreview
   renameSchema: any
@@ -124,129 +123,132 @@ interface IFileSystemTableItemProps {
   menuItems: IMenuItem[]
 }
 
-function FileSystemTableItem({
-  isFolder,
-  isOverMove,
-  isOverUpload,
-  selected,
-  file,
-  editing,
-  attachRef,
-  handleSelect,
-  onFolderOrFileClicks,
-  icon,
-  preview,
-  renameSchema,
-  setEditing,
-  handleRename,
-  currentPath,
-  menuItems
-}: IFileSystemTableItemProps) {
-  const classes = useStyles()
-  const { name, cid, created_at, size } = file
-  const { desktop } = useThemeSwitcher()
+const FileSystemTableItem = React.forwardRef(
+  ({
+    isFolder,
+    isOverMove,
+    isOverUpload,
+    selected,
+    file,
+    editing,
+    handleAddToSelectedCids,
+    onFolderOrFileClicks,
+    icon,
+    preview,
+    renameSchema,
+    setEditing,
+    handleRename,
+    currentPath,
+    menuItems
+  }: IFileSystemTableItemProps, forwardedRef: any) => {
+    const classes = useStyles()
+    const { name, cid, created_at, size } = file
+    const { desktop } = useThemeSwitcher()
 
-  return  (
-    <TableRow
-      className={clsx(classes.tableRow, {
-        droppable: isFolder && (isOverMove || isOverUpload)
-      })}
-      type="grid"
-      rowSelectable={true}
-      ref={!editing ? attachRef : null}
-      selected={selected.includes(cid)}
-    >
-      {desktop && (
-        <TableCell>
-          <CheckboxInput
-            value={selected.includes(cid)}
-            onChange={() => handleSelect(cid)}
-          />
+    return  (
+      <TableRow
+        className={clsx(classes.tableRow, {
+          droppable: isFolder && (isOverMove || isOverUpload)
+        })}
+        type="grid"
+        rowSelectable={true}
+        ref={forwardedRef}
+        selected={selected.includes(cid)}
+      >
+        {desktop && (
+          <TableCell>
+            <CheckboxInput
+              value={selected.includes(cid)}
+              onChange={() => handleAddToSelectedCids(cid)}
+            />
+          </TableCell>
+        )}
+        <TableCell
+          className={clsx(classes.fileIcon, isFolder && classes.folderIcon)}
+          onClick={(e) => onFolderOrFileClicks(e)}
+        >
+          {icon}
         </TableCell>
-      )}
-      <TableCell
-        className={clsx(classes.fileIcon, isFolder && classes.folderIcon)}
-        onClick={onFolderOrFileClicks}
-      >
-        {icon}
-      </TableCell>
-      <TableCell
-        ref={preview}
-        align="left"
-        className={clsx(classes.filename, desktop && editing === cid && "editing")}
-        onClick={() => !editing && onFolderOrFileClicks()}
-      >
-        {editing === cid && desktop ? (
-          <Formik
-            initialValues={{
-              fileName: name
-            }}
-            validationSchema={renameSchema}
-            onSubmit={(values) => {
-              handleRename &&
+        <TableCell
+          ref={preview}
+          align="left"
+          className={clsx(classes.filename, desktop && editing === cid && "editing")}
+          onClick={(e) => !editing && onFolderOrFileClicks(e)}
+        >
+          {editing === cid && desktop ? (
+            <Formik
+              initialValues={{
+                fileName: name
+              }}
+              validationSchema={renameSchema}
+              onSubmit={(values) => {
+                handleRename &&
                 handleRename(
                   `${currentPath}${name}`,
                   `${currentPath}${values.fileName}`
                 )
-              setEditing(undefined)
-            }}
-          >
-            <Form className={classes.desktopRename}>
-              <FormikTextInput
-                className={classes.renameInput}
-                name="fileName"
-                inputVariant="minimal"
-                onKeyDown={(event) => {
-                  if (event.key === "Escape") {
-                    setEditing(undefined)
+                setEditing(undefined)
+              }}
+            >
+              <Form className={classes.desktopRename}>
+                <FormikTextInput
+                  className={classes.renameInput}
+                  name="fileName"
+                  inputVariant="minimal"
+                  onKeyDown={(event) => {
+                    if (event.key === "Escape") {
+                      setEditing(undefined)
+                    }
+                  }}
+                  placeholder = {isFolder
+                    ? t`Please enter a file name`
+                    : t`Please enter a folder name`
                   }
-                }}
-                placeholder = {isFolder
-                  ? t`Please enter a file name`
-                  : t`Please enter a folder name`
-                }
-                autoFocus={editing === cid}
-              />
-              <Button
-                variant="dashed"
-                size="small"
-                type="submit"
-              >
-                <CheckSvg />
-              </Button>
-            </Form>
-          </Formik>
-        ) : (
-          <Typography>{name}</Typography>
+                  autoFocus={editing === cid}
+                />
+                <Button
+                  variant="dashed"
+                  size="small"
+                  type="submit"
+                >
+                  <CheckSvg />
+                </Button>
+              </Form>
+            </Formik>
+          ) : (
+            <Typography>{name}</Typography>
+          )}
+        </TableCell>
+        {desktop && (
+          <>
+            <TableCell align="left">
+              {
+                created_at && dayjs.unix(created_at).format("DD MMM YYYY h:mm a")
+              }
+            </TableCell>
+            <TableCell align="left">
+              {!isFolder && formatBytes(size)}
+            </TableCell>
+          </>
         )}
-      </TableCell>
-      {desktop && (
-        <>
-          <TableCell align="left">
-            {
-              !isFolder && created_at && dayjs.unix(created_at).format("DD MMM YYYY h:mm a")
-            }
-          </TableCell>
-          <TableCell align="left">
-            {!isFolder && formatBytes(size)}
-          </TableCell>
-        </>
-      )}
-      <TableCell align="right">
-        <MenuDropdown
-          animation="none"
-          anchor={desktop ? "bottom-center" : "bottom-right"}
-          menuItems={menuItems}
-          classNames={{
-            icon: classes.dropdownIcon,
-            options: classes.dropdownOptions,
-            item: classes.dropdownItem
-          }}
-          indicator={MoreIcon}
-        />
-      </TableCell>
-    </TableRow>
-  )
-}
+        <TableCell align="right">
+          <MenuDropdown
+            animation="none"
+            anchor={desktop ? "bottom-center" : "bottom-right"}
+            menuItems={menuItems}
+            classNames={{
+              icon: classes.dropdownIcon,
+              options: classes.dropdownOptions,
+              item: classes.dropdownItem
+            }}
+            indicator={MoreIcon}
+          />
+        </TableCell>
+      </TableRow>
+    )
+  }
+)
+
+FileSystemTableItem.displayName = "FileSystemTableItem"
 
 export default FileSystemTableItem
