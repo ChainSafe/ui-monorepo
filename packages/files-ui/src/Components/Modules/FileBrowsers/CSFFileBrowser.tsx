@@ -13,8 +13,9 @@ import dayjs from "dayjs"
 import { useUser } from "@chainsafe/common-contexts"
 import { useLocalStorage } from "@chainsafe/browser-storage-hooks"
 import { DISMISSED_SURVEY_KEY } from "../../SurveyBanner"
+import { FileBrowserContext } from "../../../Contexts/FileBrowserContext"
 
-const CSFFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = true }: IFilesBrowserModuleProps) => {
+const CSFFileBrowser: React.FC<IFilesBrowserModuleProps> = () => {
   const {
     downloadFile,
     renameFile,
@@ -217,7 +218,7 @@ const CSFFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = true }:
     [CONTENT_TYPES.File]: ["delete", "move"]
   }), [])
 
-  const ItemOperations: IFilesTableBrowserProps["itemOperations"] = useMemo(() => ({
+  const itemOperations: IFilesTableBrowserProps["itemOperations"] = useMemo(() => ({
     [CONTENT_TYPES.Audio]: ["preview"],
     [CONTENT_TYPES.MP4]: ["preview"],
     [CONTENT_TYPES.Image]: ["preview"],
@@ -228,31 +229,33 @@ const CSFFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = true }:
   }), [])
 
   return (
-    <DragAndDrop>
-      <FilesTableView
-        bulkOperations={bulkOperations}
-        crumbs={crumbs}
-        moduleRootPath={ROUTE_LINKS.Drive("")}
-        currentPath={currentPath}
-        refreshContents={() => refreshContents(currentPath)}
-        deleteFiles={moveFilesToTrash}
-        downloadFile={handleDownload}
-        handleMove={handleMove}
-        handleRename={handleRename}
-        viewFolder={viewFolder}
-        handleUploadOnDrop={handleUploadOnDrop}
-        uploadsInProgress={uploadsInProgress}
-        loadingCurrentPath={loadingCurrentPath}
-        showUploadsInTable={true}
-        sourceFiles={pathContents}
-        heading = {t`My Files`}
-        bucketType={bucketType}
-        controls={controls}
-        allowDropUpload={true}
-        itemOperations={ItemOperations}
-        withSurvey={showSurvey && olderThanOneWeek}
-      />
-    </DragAndDrop>
+    <FileBrowserContext.Provider value={{
+      bulkOperations,
+      crumbs,
+      moduleRootPath: ROUTE_LINKS.Drive(""),
+      currentPath,
+      refreshContents:() => refreshContents(currentPath),
+      deleteFiles: moveFilesToTrash,
+      downloadFile:handleDownload,
+      handleMove,
+      handleRename,
+      viewFolder,
+      handleUploadOnDrop,
+      uploadsInProgress,
+      loadingCurrentPath,
+      showUploadsInTable: true,
+      sourceFiles: pathContents,
+      heading: t`My Files`,
+      bucketType,
+      controls: true,
+      allowDropUpload: true,
+      itemOperations,
+      withSurvey: showSurvey && olderThanOneWeek
+    }}>
+      <DragAndDrop>
+        <FilesTableView />
+      </DragAndDrop>
+    </FileBrowserContext.Provider>
   )
 }
 

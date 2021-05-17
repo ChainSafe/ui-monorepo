@@ -17,6 +17,7 @@ import CustomModal from "../Elements/CustomModal"
 import CustomButton from "../Elements/CustomButton"
 import { Trans } from "@lingui/macro"
 import { CSFTheme } from "../../Themes/types"
+import { useFileBrowser } from "../../Contexts/FileBrowserContext"
 
 const useStyles = makeStyles(
   ({ breakpoints, constants, typography, zIndex }: CSFTheme) => {
@@ -71,18 +72,15 @@ const useStyles = makeStyles(
 
 interface ICreateFolderModuleProps {
   modalOpen: boolean
-  refreshCurrentPath: () => void
   close: () => void
-  currentPath: string
 }
 
 const CreateFolderModule: React.FC<ICreateFolderModuleProps> = ({
   modalOpen,
-  refreshCurrentPath,
-  currentPath,
   close
 }: ICreateFolderModuleProps) => {
   const classes = useStyles()
+  const { currentPath, refreshContents } = useFileBrowser()
   const { createFolder } = useDrive()
   const [creatingFolder, setCreatingFolder] = useState(false)
 
@@ -127,7 +125,7 @@ const CreateFolderModule: React.FC<ICreateFolderModuleProps> = ({
           try {
             setCreatingFolder(true)
             await createFolder({ path: currentPath + values.name })
-            refreshCurrentPath()
+            refreshContents && refreshContents()
             setCreatingFolder(false)
             helpers.resetForm()
             close()

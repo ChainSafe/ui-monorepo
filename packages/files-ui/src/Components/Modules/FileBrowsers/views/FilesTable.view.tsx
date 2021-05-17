@@ -32,7 +32,7 @@ import clsx from "clsx"
 import { plural, t, Trans } from "@lingui/macro"
 import { NativeTypes } from "react-dnd-html5-backend"
 import { useDrop } from "react-dnd"
-import { BrowserView, FileOperation, IFilesTableBrowserProps } from "../types"
+import { BrowserView, FileOperation } from "../types"
 import { FileSystemItem } from "../../../../Contexts/DriveContext"
 import FileSystemItemRow from "./FileSystemItem/FileSystemItem"
 import FilePreviewModal from "../../FilePreviewModal"
@@ -48,6 +48,7 @@ import MimeMatcher from "../../../../Utils/MimeMatcher"
 import { useLanguageContext } from "../../../../Contexts/LanguageContext"
 import { getPathWithFile } from "../../../../Utils/pathUtils"
 import SurveyBanner from "../../../SurveyBanner"
+import { useFileBrowser } from "../../../../Contexts/FileBrowserContext"
 
 interface IStyleProps {
   themeKey: string
@@ -275,34 +276,33 @@ const useStyles = makeStyles(
 const sortFoldersFirst = (a: FileSystemItem, b: FileSystemItem) =>
   a.isFolder && a.content_type !== b.content_type ? -1 : 1
 
-const FilesTableView = ({
-  heading,
-  controls = true,
-  sourceFiles,
-  handleUploadOnDrop,
-  bulkOperations,
-  crumbs,
-  handleRename,
-  handleMove,
-  downloadFile,
-  deleteFiles,
-  recoverFile,
-  recoverFiles,
-  viewFolder,
-  currentPath,
-  refreshContents,
-  loadingCurrentPath,
-  uploadsInProgress,
-  showUploadsInTable,
-  allowDropUpload,
-  itemOperations,
-  getPath,
-  moduleRootPath,
-  bucketType,
-  isSearch,
-  withSurvey
-}: IFilesTableBrowserProps) => {
+const FilesTableView = () => {
   const { themeKey, desktop } = useThemeSwitcher()
+
+  const {
+    heading,
+    controls = true,
+    sourceFiles,
+    handleUploadOnDrop,
+    bulkOperations,
+    crumbs,
+    handleRename,
+    deleteFiles,
+    recoverFiles,
+    viewFolder,
+    currentPath,
+    refreshContents,
+    loadingCurrentPath,
+    uploadsInProgress,
+    showUploadsInTable,
+    allowDropUpload,
+    itemOperations,
+    getPath,
+    moduleRootPath,
+    bucketType,
+    isSearch,
+    withSurvey
+  } = useFileBrowser()
   const classes = useStyles({ themeKey })
   const [editing, setEditing] = useState<string | undefined>()
   const [direction, setDirection] = useState<SortDirection>("ascend")
@@ -388,7 +388,18 @@ const FilesTableView = ({
   }
 
   // Selection logic
-  const handleSelect = useCallback(
+  const handleSelectCid = useCallback(
+    (cid: string) => {
+      if (selectedCids.includes(cid)) {
+        setSelectedCids([])
+      } else {
+        setSelectedCids([cid])
+      }
+    },
+    [selectedCids]
+  )
+
+  const handleAddToSelectedCids = useCallback(
     (cid: string) => {
       if (selectedCids.includes(cid)) {
         setSelectedCids(
@@ -857,10 +868,9 @@ const FilesTableView = ({
                   index={index}
                   file={file}
                   files={files}
-                  moduleRootPath={moduleRootPath}
-                  currentPath={currentPath}
                   selected={selectedCids}
-                  handleSelect={handleSelect}
+                  handleSelectCid={handleSelectCid}
+                  handleAddToSelectedCids={handleAddToSelectedCids}
                   editing={editing}
                   setEditing={setEditing}
                   renameSchema={renameSchema}
@@ -868,15 +878,11 @@ const FilesTableView = ({
                     handleRename && (await handleRename(path, newPath))
                     setEditing(undefined)
                   }}
-                  handleMove={handleMove}
                   deleteFile={() => {
                     setSelectedCids([file.cid])
                     setIsDeleteModalOpen(true)
                   }}
-                  recoverFile={recoverFile}
-                  downloadFile={downloadFile}
                   viewFolder={handleViewFolder}
-                  handleUploadOnDrop={handleUploadOnDrop}
                   setPreviewFileIndex={setPreviewFileIndex}
                   moveFile={() => {
                     setSelectedCids([file.cid])
@@ -903,9 +909,9 @@ const FilesTableView = ({
                 index={index}
                 file={file}
                 files={files}
-                currentPath={currentPath}
                 selected={selectedCids}
-                handleSelect={handleSelect}
+                handleSelectCid={handleSelectCid}
+                handleAddToSelectedCids={handleAddToSelectedCids}
                 editing={editing}
                 setEditing={setEditing}
                 renameSchema={renameSchema}
@@ -913,15 +919,10 @@ const FilesTableView = ({
                   handleRename && (await handleRename(path, newPath))
                   setEditing(undefined)
                 }}
-                handleMove={handleMove}
                 deleteFile={() => {
                   setSelectedCids([file.cid])
                   setIsDeleteModalOpen(true)
                 }}
-                recoverFile={recoverFile}
-                downloadFile={downloadFile}
-                viewFolder={viewFolder}
-                handleUploadOnDrop={handleUploadOnDrop}
                 setPreviewFileIndex={setPreviewFileIndex}
                 moveFile={() => {
                   setSelectedCids([file.cid])
@@ -962,6 +963,10 @@ const FilesTableView = ({
         acceptButtonProps={{ loading: isDeletingFiles, disabled: isDeletingFiles }}
         rejectButtonProps={{ disabled: isDeletingFiles }}
         injectedClass={{ inner: classes.confirmDeletionDialog }}
+        onModalBodyClick={(e) => {
+          e.preventDefault()
+          e.stopPropagation()
+        }}
       />
       <UploadProgressModals />
       <DownloadProgressModals />
@@ -970,21 +975,15 @@ const FilesTableView = ({
           <>
             <CreateFolderModule
               modalOpen={createFolderModalOpen}
-              currentPath={currentPath}
-              refreshCurrentPath={refreshContents}
               close={() => setCreateFolderModalOpen(false)}
             />
             <UploadFileModule
               modalOpen={isUploadModalOpen}
               close={() => setIsUploadModalOpen(false)}
-              refreshCurrentPath={refreshContents}
-              currentPath={currentPath}
             />
             <MoveFileModule
-              currentPath={currentPath}
               filesToMove={selectedFiles}
               modalOpen={isMoveFileModalOpen}
-              refreshCurrentPath={refreshContents}
               onClose={() => {
                 setIsMoveFileModalOpen(false)
                 setSelectedCids([])
