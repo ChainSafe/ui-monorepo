@@ -40,6 +40,7 @@ export const Default = (): React.ReactNode => {
           name="uploadedFiles"
           variant={select("Variant", ["dropzone", "filepicker"], "dropzone")}
           multiple={boolean("multiple", true)}
+          folders={boolean("upload folders", false)}
           minSize={number("Minimum File Size", 0)}
           maxSize={number("Maximum File Size", 1024 * 100)}
           accept={select("Accept File Type", acceptOptions, "")}

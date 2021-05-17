@@ -117,6 +117,7 @@ interface IFileInputProps extends DropzoneOptions {
   }
   onFileNumberChange: (filesNumber: number) => void
   moreFilesLabel: string
+  folders?: boolean
 }
 
 const FileInput: React.FC<IFileInputProps> = ({
@@ -130,6 +131,7 @@ const FileInput: React.FC<IFileInputProps> = ({
   classNames,
   onFileNumberChange,
   moreFilesLabel,
+  folders = false,
   ...props
 }: IFileInputProps) => {
   const classes = useStyles()
@@ -143,8 +145,11 @@ const FileInput: React.FC<IFileInputProps> = ({
 
   const onDrop = useCallback(
     async (acceptedFiles: File[], fileRejections: FileRejection[]) => {
-      const filtered = acceptedFiles.filter((file) =>
-        maxFileSize ? file.size <= maxFileSize : true
+      const filtered = acceptedFiles.filter((file) => {
+        console.error(file)
+        debugger
+        return maxFileSize ? file.size <= maxFileSize : true
+      }
       )
       setErrors([])
       if (showPreviews) {
@@ -196,7 +201,14 @@ const FileInput: React.FC<IFileInputProps> = ({
       {...getRootProps()}
       className={clsx(classes.root, className)}
     >
-      <input {...getInputProps()} />
+      {
+        folders ?  <input
+          {...getInputProps()}
+          // @ts-ignore
+          webkitdirectory=""
+        />
+          : <input {...getInputProps()} />
+      }
       {variant === "dropzone" ? (
         value?.length === 0 ? (
           <div className={clsx(classes.pending, classNames?.pending)}>
