@@ -1,5 +1,5 @@
 import {
-  CSFFilesFullinfoResponse,
+  CSFFilesFullInfoResponse,
   FileContentResponse,
   FilesMvRequest,
   FilesPathRequest,
@@ -56,6 +56,7 @@ interface GetFileContentParams {
 
 
 type DriveContext = {
+  buckets: Bucket[]
   uploadFiles: (files: File[], path: string) => Promise<void>
   createFolder: (body: FilesPathRequest) => Promise<FileContentResponse>
   renameFile: (body: FilesMvRequest) => Promise<void>
@@ -72,7 +73,7 @@ type DriveContext = {
   downloadsInProgress: DownloadProgress[]
   spaceUsed: number
   getFolderTree: () => Promise<DirectoryContentResponse>
-  getFileInfo: (path: string)  => Promise<CSFFilesFullinfoResponse>
+  getFileInfo: (path: string)  => Promise<CSFFilesFullInfoResponse>
   secureAccountWithMasterPassword: (candidatePassword: string) => Promise<void>
 }
 
@@ -102,6 +103,16 @@ const DriveProvider = ({ children }: DriveContextProps) => {
   const { addToastMessage } = useToaster()
   const [spaceUsed, setSpaceUsed] = useState(0)
   const [encryptionKey, setEncryptionKey] = useState<string | undefined>()
+
+  const [buckets, setBuckets] = useState<Bucket[]>([])
+
+  useEffect(() => {
+    const fetchBuckets = async () => {
+      const result = await imployApiClient.listBuckets()
+      setBuckets(result)
+    }
+    fetchBuckets()
+  }, [imployApiClient])
 
   // Space used counter
   useEffect(() => {
@@ -527,7 +538,8 @@ const DriveProvider = ({ children }: DriveContextProps) => {
         listBuckets,
         searchFiles,
         getFileInfo,
-        secureAccountWithMasterPassword
+        secureAccountWithMasterPassword,
+        buckets
       }}
     >
       {children}
@@ -547,7 +559,7 @@ export { DriveProvider, useDrive }
 export type {
   FileSystemItem,
   DirectoryContentResponse,
-  CSFFilesFullinfoResponse as FileFullInfo,
+  CSFFilesFullInfoResponse as FileFullInfo,
   BucketType,
   SearchEntry
 }

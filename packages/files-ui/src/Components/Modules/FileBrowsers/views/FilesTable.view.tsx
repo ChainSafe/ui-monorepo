@@ -299,9 +299,9 @@ const FilesTableView = () => {
     itemOperations,
     getPath,
     moduleRootPath,
-    bucketType,
     isSearch,
-    withSurvey
+    withSurvey,
+    bucket
   } = useFileBrowser()
   const classes = useStyles({ themeKey })
   const [editing, setEditing] = useState<string | undefined>()
@@ -936,11 +936,11 @@ const FilesTableView = () => {
             ))}
           </section>
         )}
-      {files && previewFileIndex !== undefined && (
+      {files && previewFileIndex !== undefined && bucket && (
         <FilePreviewModal
           file={files[previewFileIndex]}
           closePreview={clearPreview}
-          bucketType={bucketType}
+          bucketType={bucket.type}
           nextFile={
             previewFileIndex < files.length - 1 ? setNextPreview : undefined
           }

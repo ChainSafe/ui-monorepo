@@ -23,16 +23,19 @@ const CSFFileBrowser: React.FC<IFilesBrowserModuleProps> = () => {
     uploadFiles,
     moveCSFObject,
     uploadsInProgress,
-    list
+    list,
+    buckets
   } = useDrive()
   const { addToastMessage } = useToaster()
   const [loadingCurrentPath, setLoadingCurrentPath] = useState(false)
   const [pathContents, setPathContents] = useState<FileSystemItem[]>([])
-  const bucketType: BucketType = "csf"
   const { redirect } = useHistory()
 
   const { pathname } = useLocation()
   const [currentPath, setCurrentPath] = useState(extractDrivePath(pathname.split("/").slice(1).join("/")))
+  const bucket = useMemo(() => {
+    return buckets.find(b => b.type === "csf")
+  }, [buckets])
   const refreshContents = useCallback(
     (
       path: string,
@@ -43,7 +46,7 @@ const CSFFileBrowser: React.FC<IFilesBrowserModuleProps> = () => {
         list({
           path,
           source: {
-            type: bucketType
+            type: bucket?.type
           }
         }).then((newContents) => {
           showLoading && setLoadingCurrentPath(false)
@@ -68,7 +71,7 @@ const CSFFileBrowser: React.FC<IFilesBrowserModuleProps> = () => {
         showLoading && setLoadingCurrentPath(false)
       }
     },
-    [bucketType, list]
+    [bucket, list]
   )
   const { localStorageGet, localStorageSet } = useLocalStorage()
   const { profile } = useUser()
@@ -168,10 +171,10 @@ const CSFFileBrowser: React.FC<IFilesBrowserModuleProps> = () => {
 
   const handleDownload = useCallback(async (cid: string) => {
     const target = pathContents.find(item => item.cid === cid)
-    if (!target) return
+    if (!target || !bucket) return
 
-    await downloadFile(target, currentPath, bucketType)
-  }, [pathContents, downloadFile, currentPath, bucketType])
+    await downloadFile(target, currentPath, bucket.type)
+  }, [pathContents, downloadFile, currentPath, bucket])
 
 
   // Breadcrumbs/paths
@@ -230,6 +233,7 @@ const CSFFileBrowser: React.FC<IFilesBrowserModuleProps> = () => {
 
   return (
     <FileBrowserContext.Provider value={{
+      bucket: bucket,
       bulkOperations,
       crumbs,
       moduleRootPath: ROUTE_LINKS.Drive(""),
@@ -246,7 +250,6 @@ const CSFFileBrowser: React.FC<IFilesBrowserModuleProps> = () => {
       showUploadsInTable: true,
       sourceFiles: pathContents,
       heading: t`My Files`,
-      bucketType,
       controls: true,
       allowDropUpload: true,
       itemOperations,

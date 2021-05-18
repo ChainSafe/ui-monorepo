@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react"
-import { BucketType, FileSystemItem, useDrive } from "../../../Contexts/DriveContext"
+import { FileSystemItem, useDrive } from "../../../Contexts/DriveContext"
 import { IBulkOperations, IFilesBrowserModuleProps } from "./types"
 import FilesTableView from "./views/FilesTable.view"
 import DragAndDrop from "../../../Contexts/DnDContext"
@@ -13,13 +13,14 @@ import { ROUTE_LINKS } from "../../FilesRoutes"
 import { FileBrowserContext } from "../../../Contexts/FileBrowserContext"
 
 const BinFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = false }: IFilesBrowserModuleProps) => {
-  const { removeCSFObjects, moveCSFObject, list } = useDrive()
+  const { removeCSFObjects, moveCSFObject, list, buckets } = useDrive()
   const { addToastMessage } = useToaster()
   const [loadingCurrentPath, setLoadingCurrentPath] = useState(false)
   const [pathContents, setPathContents] = useState<FileSystemItem[]>([])
-  const bucketType: BucketType = "trash"
   const { pathname } = useLocation()
   const [currentPath, setCurrentPath] = useState(extractDrivePath(pathname.split("/").slice(1).join("/")))
+
+  const bucket = useMemo(() => buckets.find(b => b.type === "trash"), [buckets])
 
   const refreshContents = useCallback(
     (
@@ -30,7 +31,7 @@ const BinFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = false }
         list({
           path: currentPath,
           source: {
-            type: bucketType
+            type: bucket?.type
           }
         }).then((newContents) => {
           showLoading && setLoadingCurrentPath(false)
@@ -54,7 +55,7 @@ const BinFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = false }
         showLoading && setLoadingCurrentPath(false)
       }
     },
-    [bucketType, list, currentPath]
+    [bucket, list, currentPath]
   )
 
   useEffect(() => {
@@ -77,7 +78,7 @@ const BinFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = false }
   const deleteFile = useCallback(async (cid: string) => {
     const itemToDelete = pathContents.find((i) => i.cid === cid)
 
-    if (!itemToDelete) {
+    if (!itemToDelete || !bucket) {
       console.error("No item found to delete")
       return
     }
@@ -86,7 +87,7 @@ const BinFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = false }
       await removeCSFObjects({
         paths: [`${currentPath}${itemToDelete.name}`],
         source: {
-          type: bucketType
+          type: bucket.type
         }
       })
       refreshContents()
@@ -108,7 +109,7 @@ const BinFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = false }
       })
       return Promise.reject()
     }
-  }, [addToastMessage, bucketType, currentPath, pathContents, refreshContents, removeCSFObjects])
+  }, [addToastMessage, bucket, currentPath, pathContents, refreshContents, removeCSFObjects])
 
   const deleteFiles = useCallback(async (cids: string[]) => {
     await Promise.all(
@@ -126,9 +127,6 @@ const BinFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = false }
       await moveCSFObject({
         path: getPathWithFile("/", itemToRestore.name),
         new_path: getPathWithFile("/", itemToRestore.name),
-        source: {
-          type: "trash"
-        },
         destination: {
           type: "csf"
         }
@@ -175,6 +173,7 @@ const BinFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = false }
 
   return (
     <FileBrowserContext.Provider value={{
+      bucket: bucket,
       crumbs: undefined,
       recoverFile,
       deleteFiles,
@@ -187,7 +186,6 @@ const BinFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = false }
       sourceFiles: pathContents,
       heading: t`Bin`,
       controls,
-      bucketType,
       itemOperations,
       bulkOperations
     }}>

@@ -129,7 +129,6 @@ const SearchFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = fals
       controls,
       itemOperations,
       isSearch: true,
-      bucketType,
       getPath
     }}>
       <DragAndDrop>

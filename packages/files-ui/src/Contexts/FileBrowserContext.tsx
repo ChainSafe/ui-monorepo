@@ -2,8 +2,9 @@ import { Crumb } from "@chainsafe/common-components"
 import React, { useContext } from "react"
 import { FileOperation, IBulkOperations, IFilesBrowserModuleProps } from "../Components/Modules/FileBrowsers/types"
 import { BucketType, FileSystemItem, UploadProgress } from "./DriveContext"
-
+import { Bucket } from "@chainsafe/files-api-client"
 interface FileBrowserContext extends IFilesBrowserModuleProps {
+  bucket?: Bucket
   itemOperations: {[contentType: string]: FileOperation[]}
 
   bulkOperations?: IBulkOperations
@@ -24,7 +25,6 @@ interface FileBrowserContext extends IFilesBrowserModuleProps {
 
   refreshContents?: () => void
   currentPath: string
-  bucketType: BucketType
   loadingCurrentPath: boolean
   uploadsInProgress?: UploadProgress[]
   showUploadsInTable: boolean
