@@ -49,11 +49,6 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => 
         fill: constants.fileSystemItemRow.dropdownIcon
       }
     },
-    dropdownOptions: {
-      backgroundColor: constants.fileSystemItemRow.optionsBackground,
-      color: constants.fileSystemItemRow.optionsColor,
-      border: `1px solid ${constants.fileSystemItemRow.optionsBorder}`
-    },
     gridViewContainer: {
       display: "flex",
       flex: 1,
@@ -133,21 +128,7 @@ const DragPreviewGridItem: React.FC<{item: FileSystemItem; icon: React.ReactNode
         >
           {icon}
         </div>
-
         <div className={classes.gridFolderName}>{name}</div>
-      </div>
-      <div>
-        <MenuDropdown
-          animation="none"
-          anchor="bottom-right"
-          menuItems={[]}
-          classNames={{
-            icon: classes.dropdownIcon,
-            options: classes.dropdownOptions,
-            title: classes.menuTitleGrid
-          }}
-          indicator={MoreIcon}
-        />
       </div>
     </div>
   )
