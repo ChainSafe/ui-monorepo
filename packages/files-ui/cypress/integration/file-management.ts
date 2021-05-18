@@ -1,5 +1,3 @@
-// import textFile from "../fixtures/uploadedFiles/text-file.txt"
-
 describe("File management", () => {
   it("can add files and cancel", () => {
     cy.web3Login()

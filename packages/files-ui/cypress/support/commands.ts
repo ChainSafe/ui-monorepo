@@ -153,7 +153,6 @@ Cypress.Commands.add("web3Login", ({ saveBrowser = false, url = localHost, apiUr
               if(!res.isOkStatusCode){
                 throw new Error(`unexpected answer when deleting files: ${JSON.stringify(res, null, 2)}`)  
               }
-              
               res.isOkStatusCode && cy.reload()
             })
           })
