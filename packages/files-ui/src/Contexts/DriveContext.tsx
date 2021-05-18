@@ -236,6 +236,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
           .filter((f) => f.size <= MAX_FILE_SIZE)
           .map(async (f) => {
             const fileData = await readFileAsync(f)
+            debugger
             const encryptedData = await encryptFile(fileData, encryptionKey)
             return {
               data: new Blob([encryptedData], { type: f.type }),
