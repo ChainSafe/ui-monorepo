@@ -900,7 +900,6 @@ const FilesTableView = ({
           >
             {items.map((file, index) => (
               <FileSystemItemRow
-                data-cy="file-item-row"
                 key={index}
                 index={index}
                 file={file}
