@@ -1,4 +1,4 @@
-import { FolderFilledSvg, FileImageSvg, FilePdfSvg, FileTextSvg, MenuDropdown, MoreIcon, Typography } from "@chainsafe/common-components"
+import { FolderFilledSvg, FileImageSvg, FilePdfSvg, FileTextSvg, Typography } from "@chainsafe/common-components"
 import {  makeStyles } from "@chainsafe/common-theme"
 import clsx from "clsx"
 import React from "react"
