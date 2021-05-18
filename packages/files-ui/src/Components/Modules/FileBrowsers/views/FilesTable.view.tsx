@@ -730,7 +730,11 @@ const FilesTableView = () => {
           <>
             {validBulkOps.indexOf("move") >= 0 && (
               <Button
-                onClick={() => setIsMoveFileModalOpen(true)}
+                onClick={(e) => {
+                  e.preventDefault()
+                  e.stopPropagation()
+                  setIsMoveFileModalOpen(true)
+                }}
                 variant="outline"
               >
                 <Trans>Move selected</Trans>
@@ -738,7 +742,11 @@ const FilesTableView = () => {
             )}
             {validBulkOps.indexOf("recover") >= 0 && (
               <Button
-                onClick={handleRecoverFiles}
+                onClick={(e) => {
+                  e.preventDefault()
+                  e.stopPropagation()
+                  handleRecoverFiles()
+                }}
                 variant="outline"
                 loading={isRecoveringFiles}
               >
@@ -747,7 +755,9 @@ const FilesTableView = () => {
             )}
             {validBulkOps.indexOf("delete") >= 0 && (
               <Button
-                onClick={() => {
+                onClick={(e) => {
+                  e.preventDefault()
+                  e.stopPropagation()
                   setIsDeleteModalOpen(true)
                 }}
                 variant="outline"
