@@ -146,9 +146,7 @@ Cypress.Commands.add("web3Login", ({ saveBrowser = false, url = localHost, apiUr
               method: "POST",
               url: `${apiUrlBase}/files/rm`,
               body: { "paths": toDelete, "source": { "type": "csf" } },
-              auth: {
-                'bearer': accessToken
-              }
+              auth: {'bearer': accessToken}
             }).then(res => { 
               if(!res.isOkStatusCode){
                 throw new Error(`unexpected answer when deleting files: ${JSON.stringify(res, null, 2)}`)  
