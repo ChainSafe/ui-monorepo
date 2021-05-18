@@ -185,8 +185,6 @@ const ProfileView = () => {
       <Grid
         item
         xs={12}
-        sm={12}
-        md={12}
       >
         <div className={classes.container}>
           <div
