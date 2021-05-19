@@ -195,7 +195,7 @@ declare global {
       clearCsfBucket: (apiUrlBase: string) => Chainable
 
       /**
-      * Save loval and session storage to local files
+      * Save local and session storage to local files
       * @example cy.saveLocalAndSession()
       */
       saveLocalAndSession: () => Chainable
