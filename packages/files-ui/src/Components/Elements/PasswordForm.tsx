@@ -7,7 +7,7 @@ import { createStyles, makeStyles } from "@chainsafe/common-theme"
 import { CSFTheme } from "../../Themes/types"
 import zxcvbn from "zxcvbn"
 import { t } from "@lingui/macro"
-import StrengthIndicator from "../Modules/MasterKeySequence/SequenceSlides/StrengthIndicator"
+import StrengthIndicator from "./StrengthIndicator"
 import clsx from "clsx"
 
 const useStyles = makeStyles(({  breakpoints, constants }: CSFTheme) =>

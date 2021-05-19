@@ -7,7 +7,7 @@ import React, { useState, useEffect } from "react"
 import CustomModal from "../../Elements/CustomModal"
 import CustomButton from "../../Elements/CustomButton"
 import { Trans } from "@lingui/macro"
-import { useDrive, FileFullInfo } from "../../../Contexts/DriveContext"
+import { useDrive, FileFullInfo } from "../../../Contexts/FilesContext"
 import {
   Button,
   formatBytes,
@@ -18,6 +18,8 @@ import {
 import clsx from "clsx"
 import { CSFTheme } from "../../../Themes/types"
 import dayjs from "dayjs"
+import { useFilesApi } from "@chainsafe/common-contexts"
+import { useFileBrowser } from "../../../Contexts/FileBrowserContext"
 
 const useStyles = makeStyles(
   ({ breakpoints, constants, palette, typography, zIndex, animation }: CSFTheme) => {
@@ -160,19 +162,19 @@ const FileInfoModal: React.FC<IFileInfoModuleProps> = ({
   close
 }: IFileInfoModuleProps) => {
   const classes = useStyles()
-
-  const { getFileInfo } = useDrive()
+  const { filesApiClient } = useFilesApi()
   const [loadingFileInfo, setLoadingInfo] = useState(false)
   const [fullFileInfo, setFullFullInfo] = useState<FileFullInfo | undefined>(
     undefined
   )
+  const { bucket } = useFileBrowser()
 
   useEffect(() => {
     const getFullFileInfo = async () => {
-      if (fileInfoPath) {
+      if (fileInfoPath && bucket) {
         try {
           setLoadingInfo(true)
-          const fullFileResponse = await getFileInfo(fileInfoPath)
+          const fullFileResponse = await filesApiClient.getFPSFileInfo(bucket.id, { path: fileInfoPath })
           setFullFullInfo(fullFileResponse)
           setLoadingInfo(false)
         } catch {

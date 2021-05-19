@@ -1,5 +1,5 @@
 import { Button, FileInput } from "@chainsafe/common-components"
-import { useDrive } from "../../Contexts/DriveContext"
+import { useDrive } from "../../Contexts/FilesContext"
 import { createStyles, makeStyles } from "@chainsafe/common-theme"
 import React, { useCallback, useState } from "react"
 import { Formik, Form } from "formik"
@@ -78,7 +78,7 @@ const UploadFileModule = ({ modalOpen, close }: IUploadFileModuleProps) => {
   const classes = useStyles()
   const [isDoneDisabled, setIsDoneDisabled] = useState(true)
   const { uploadFiles } = useDrive()
-  const { currentPath, refreshContents } = useFileBrowser()
+  const { currentPath, refreshContents, bucket } = useFileBrowser()
 
   const UploadSchema = object().shape({ files: array().required(t`Please select a file to upload`) })
 
@@ -87,9 +87,10 @@ const UploadFileModule = ({ modalOpen, close }: IUploadFileModuleProps) => {
   }, [])
 
   const onSubmit = useCallback(async (values, helpers) => {
+    if (!bucket) return
     helpers.setSubmitting(true)
     try {
-      await uploadFiles(values.files, currentPath)
+      await uploadFiles(bucket.id, values.files, currentPath)
       helpers.resetForm()
       refreshContents && refreshContents()
       close()
@@ -101,7 +102,7 @@ const UploadFileModule = ({ modalOpen, close }: IUploadFileModuleProps) => {
       }
     }
     helpers.setSubmitting(false)
-  }, [close, currentPath, uploadFiles, refreshContents])
+  }, [close, currentPath, uploadFiles, refreshContents, bucket])
 
   return (
     <CustomModal

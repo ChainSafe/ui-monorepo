@@ -17,7 +17,7 @@ import {
 } from "@chainsafe/common-components"
 import { CSFTheme } from "../../../../../Themes/types"
 import dayjs from "dayjs"
-import { FileSystemItem } from "../../../../../Contexts/DriveContext"
+import { FileSystemItem } from "../../../../../Contexts/FilesContext"
 import { ConnectDragPreview } from "react-dnd"
 import { Form, Formik } from "formik"
 

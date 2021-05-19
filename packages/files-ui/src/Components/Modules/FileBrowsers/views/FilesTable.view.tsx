@@ -33,12 +33,12 @@ import { plural, t, Trans } from "@lingui/macro"
 import { NativeTypes } from "react-dnd-html5-backend"
 import { useDrop } from "react-dnd"
 import { BrowserView, FileOperation } from "../types"
-import { FileSystemItem } from "../../../../Contexts/DriveContext"
+import { FileSystemItem } from "../../../../Contexts/FilesContext"
 import FileSystemItemRow from "./FileSystemItem/FileSystemItem"
 import FilePreviewModal from "../../FilePreviewModal"
 import UploadProgressModals from "../../UploadProgressModals"
 import DownloadProgressModals from "../../DownloadProgressModals"
-import CreateFolderModule from "../../CreateFolderModule"
+import CreateFolderModal from "../CreateFolderModal"
 import UploadFileModule from "../../UploadFileModule"
 import MoveFileModule from "../MoveFileModal"
 import FileInfoModal from "../FileInfoModal"
@@ -286,9 +286,9 @@ const FilesTableView = () => {
     handleUploadOnDrop,
     bulkOperations,
     crumbs,
-    handleRename,
-    deleteFiles,
-    recoverFiles,
+    renameItem: handleRename,
+    deleteItems: deleteFiles,
+    recoverItems,
     viewFolder,
     currentPath,
     refreshContents,
@@ -536,16 +536,16 @@ const FilesTableView = () => {
   }, [deleteFiles, selectedCids])
 
   const handleRecoverFiles = useCallback(() => {
-    if (!recoverFiles) return
+    if (!recoverItems) return
 
     setIsRecoveringFiles(true)
-    recoverFiles(selectedCids)
+    recoverItems(selectedCids)
       .catch(console.error)
       .finally(() => {
         setIsRecoveringFiles(false)
         setSelectedCids([])
       })
-  }, [recoverFiles, selectedCids])
+  }, [recoverItems, selectedCids])
 
   const getItemOperations = useCallback(
     (contentType: string) => {
@@ -973,7 +973,7 @@ const FilesTableView = () => {
       {
         refreshContents && (
           <>
-            <CreateFolderModule
+            <CreateFolderModal
               modalOpen={createFolderModalOpen}
               close={() => setCreateFolderModalOpen(false)}
             />

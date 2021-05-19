@@ -1,17 +1,14 @@
 import {
   CSFFilesFullInfoResponse,
   FileContentResponse,
-  FilesMvRequest,
-  FilesPathRequest,
   DirectoryContentResponse,
   BucketType,
-  Bucket,
-  SearchEntry,
-  FilesRmRequest
+  Bucket as FilesBucket,
+  SearchEntry
 } from "@chainsafe/files-api-client"
 import React, { useCallback, useEffect, useReducer } from "react"
 import { useState } from "react"
-import { decryptFile, encryptFile, useImployApi } from "@chainsafe/common-contexts"
+import { decryptFile, encryptFile, useFilesApi, useUser } from "@chainsafe/common-contexts"
 import { v4 as uuidv4 } from "uuid"
 import { useToaster } from "@chainsafe/common-components"
 import { downloadsInProgressReducer, uploadsInProgressReducer } from "./DriveReducer"
@@ -21,7 +18,7 @@ import { readFileAsync } from "../Utils/Helpers"
 import { useBeforeunload } from "react-beforeunload"
 import { useThresholdKey } from "./ThresholdKeyContext"
 
-type DriveContextProps = {
+type FilesContextProps = {
   children: React.ReactNode | React.ReactNode[]
 }
 
@@ -51,29 +48,19 @@ interface GetFileContentParams {
   onDownloadProgress?: (progressEvent: ProgressEvent<EventTarget>) => void
   file: FileSystemItem
   path: string
-  bucketType: BucketType
 }
 
+type Bucket = FilesBucket & { encryptionKey: string}
 
-type DriveContext = {
+type FilesContext = {
   buckets: Bucket[]
-  uploadFiles: (files: File[], path: string) => Promise<void>
-  createFolder: (body: FilesPathRequest) => Promise<FileContentResponse>
-  renameFile: (body: FilesMvRequest) => Promise<void>
-  moveFile: (body: FilesMvRequest) => Promise<void>
-  moveFiles: (filesToMove: FilesMvRequest[]) => Promise<void[]>
-  moveCSFObject: (body: FilesMvRequest) => Promise<void>
-  removeCSFObjects: (body: FilesRmRequest) => Promise<void>
-  downloadFile: (itemToDownload: FileSystemItem, path: string, bucketType: BucketType) => void
-  getFileContent: ({ cid, cancelToken, onDownloadProgress, file }: GetFileContentParams) => Promise<Blob | undefined>
-  list: (body: FilesPathRequest) => Promise<FileContentResponse[]>
-  listBuckets: (bucketType: BucketType) => Promise<Bucket[]>
-  searchFiles: (bucketId: string, searchString: string) => Promise<SearchEntry[]>
   uploadsInProgress: UploadProgress[]
   downloadsInProgress: DownloadProgress[]
   spaceUsed: number
-  getFolderTree: () => Promise<DirectoryContentResponse>
-  getFileInfo: (path: string)  => Promise<CSFFilesFullInfoResponse>
+  uploadFiles: (bucketId: string, files: File[], path: string) => Promise<void>
+  downloadFile: (bucketId: string, itemToDownload: FileSystemItem, path: string) => void
+  getFileContent: (bucketId: string, params: GetFileContentParams) => Promise<Blob | undefined>
+  refreshBuckets: () => Promise<void>
   secureAccountWithMasterPassword: (candidatePassword: string) => Promise<void>
 }
 
@@ -87,39 +74,62 @@ type FileSystemItem = IFileSystemItem
 const REMOVE_UPLOAD_PROGRESS_DELAY = 5000
 const MAX_FILE_SIZE = 2 * 1024 ** 3
 
-const DriveContext = React.createContext<DriveContext | undefined>(undefined)
+const FilesContext = React.createContext<FilesContext | undefined>(undefined)
 
-const DriveProvider = ({ children }: DriveContextProps) => {
+const FilesProvider = ({ children }: FilesContextProps) => {
   const {
-    imployApiClient,
+    filesApiClient,
     isLoggedIn,
     secured,
     secureThresholdKeyAccount,
     encryptedEncryptionKey,
     isMasterPasswordSet,
     validateMasterPassword
-  } = useImployApi()
+  } = useFilesApi()
   const { publicKey, encryptForPublicKey, decryptMessageWithThresholdKey } = useThresholdKey()
   const { addToastMessage } = useToaster()
   const [spaceUsed, setSpaceUsed] = useState(0)
-  const [encryptionKey, setEncryptionKey] = useState<string | undefined>()
-
+  const [personalEncryptionKey, setPersonalEncryptionKey] = useState<string | undefined>()
   const [buckets, setBuckets] = useState<Bucket[]>([])
+  const { profile } = useUser()
+
+  const getKeyForBucket = useCallback(async (bucket: FilesBucket) => {
+    // TODO: Add bucket.owners here when the API returns this
+    const bucketUsers = [...bucket.readers, ...bucket.writers]
+    const bucketUser = bucketUsers.find(bu => bu.uuid === profile?.userId)
+    if (!bucketUser || !bucketUser.encryption_key) {
+      console.error(`Unable to retrieve encryption key for ${bucket.id}`)
+      return ""
+    }
+    const decrypted = await decryptMessageWithThresholdKey(bucketUser.encryption_key)
+    return decrypted || ""
+  }, [decryptMessageWithThresholdKey, profile])
+
+  const refreshBuckets = useCallback(async () => {
+    if (!personalEncryptionKey) return
+    const result = await filesApiClient.listBuckets()
+
+    const bucketsWithKeys: Bucket[] = await Promise.all(result.map(async (b) => ({
+      ...b,
+      encryptionKey: (b.type === "csf" || b.type === "trash") ? personalEncryptionKey : await getKeyForBucket(b)
+    })))
+    setBuckets(bucketsWithKeys)
+    return Promise.resolve()
+  }, [getKeyForBucket, filesApiClient, personalEncryptionKey])
 
   useEffect(() => {
-    const fetchBuckets = async () => {
-      const result = await imployApiClient.listBuckets()
-      setBuckets(result)
-    }
-    fetchBuckets()
-  }, [imployApiClient])
+    refreshBuckets()
+  }, [refreshBuckets])
 
   // Space used counter
   useEffect(() => {
     const getSpaceUsage = async () => {
       try {
-        const { csf_size } = await imployApiClient.getCSFFilesStoreInfo()
-        setSpaceUsed(csf_size)
+        // TODO: Update this to include Share buckets where the current user is the owner
+        const totalSize = buckets.filter(b => b.type === "csf" || b.type === "trash")
+          .reduce((totalSize, bucket) => { return totalSize += bucket.uploaded_size}, 0)
+
+        setSpaceUsed(totalSize)
       } catch (error) {
         console.error(error)
       }
@@ -127,12 +137,13 @@ const DriveProvider = ({ children }: DriveContextProps) => {
     if (isLoggedIn) {
       getSpaceUsage()
     }
-  }, [imployApiClient, isLoggedIn])
+  }, [filesApiClient, isLoggedIn, buckets])
 
   // Reset password on log out
   useEffect(() => {
     if (!isLoggedIn) {
-      setEncryptionKey(undefined)
+      setPersonalEncryptionKey(undefined)
+      setBuckets([])
     }
   }, [isLoggedIn])
 
@@ -144,7 +155,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
         window.crypto.getRandomValues(new Uint8Array(32))
       ).toString("base64")
       console.log("New key", key)
-      setEncryptionKey(key)
+      setPersonalEncryptionKey(key)
       const encryptedKey = await encryptForPublicKey(publicKey, key)
       console.log("Encrypted encryption key", encryptedKey)
       secureThresholdKeyAccount(encryptedKey)
@@ -156,14 +167,14 @@ const DriveProvider = ({ children }: DriveContextProps) => {
         const decryptedKey = await decryptMessageWithThresholdKey(encryptedKey)
         if (decryptedKey) {
           console.log("Decrypted key: ", decryptedKey)
-          setEncryptionKey(decryptedKey)
+          setPersonalEncryptionKey(decryptedKey)
         }
       } catch (error) {
         console.error("Error decrypting key: ", encryptedKey)
       }
     }
 
-    if (isLoggedIn && publicKey && !encryptionKey) {
+    if (isLoggedIn && publicKey && !personalEncryptionKey) {
       console.log("Checking whether account is secured ", secured)
       if (!secured && !isMasterPasswordSet) {
         console.log("Generating key and securing account")
@@ -183,7 +194,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
     encryptForPublicKey,
     secureThresholdKeyAccount,
     decryptMessageWithThresholdKey,
-    encryptionKey,
+    personalEncryptionKey,
     isMasterPasswordSet
   ])
 
@@ -191,7 +202,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
     if (!publicKey || !validateMasterPassword(candidatePassword)) return
 
     const encryptedKey = await encryptForPublicKey(publicKey, candidatePassword)
-    setEncryptionKey(candidatePassword)
+    setPersonalEncryptionKey(candidatePassword)
     secureThresholdKeyAccount(encryptedKey)
   }
 
@@ -223,10 +234,11 @@ const DriveProvider = ({ children }: DriveContextProps) => {
     }
   })
 
-  const uploadFiles = useCallback(async (files: File[], path: string) => {
+  const uploadFiles = useCallback(async (bucketId: string, files: File[], path: string) => {
+    const bucket = buckets.find(b => b.id === bucketId)
 
-    if (!encryptionKey) {
-      console.error("No encryption key")
+    if (!bucket || !bucket.encryptionKey) {
+      console.error("No encryption key for this bucket is available.")
       return
     }
 
@@ -247,7 +259,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
           .filter((f) => f.size <= MAX_FILE_SIZE)
           .map(async (f) => {
             const fileData = await readFileAsync(f)
-            const encryptedData = await encryptFile(fileData, encryptionKey)
+            const encryptedData = await encryptFile(fileData, bucket.encryptionKey)
             return {
               data: new Blob([encryptedData], { type: f.type }),
               fileName: f.name
@@ -262,10 +274,12 @@ const DriveProvider = ({ children }: DriveContextProps) => {
         })
       }
       // API call
-      await imployApiClient.addCSFFiles(
+      await filesApiClient.addFPSFiles(
+        bucketId,
         filesParam,
         path,
-        "",
+        undefined,
+        undefined,
         undefined,
         undefined,
         (progressEvent: { loaded: number; total: number }) => {
@@ -305,99 +319,78 @@ const DriveProvider = ({ children }: DriveContextProps) => {
         dispatchUploadsInProgress({ type: "remove", payload: { id } })
       }, REMOVE_UPLOAD_PROGRESS_DELAY)
     }
-  }, [addToastMessage, encryptionKey, imployApiClient])
+  }, [addToastMessage, filesApiClient, buckets])
 
-  const createFolder = async (body: FilesPathRequest) => {
-    try {
-      const result = await imployApiClient.addCSFDirectory(body)
-      addToastMessage({
-        message: t`Folder created successfully`,
-        appearance: "success"
-      })
-      return result
-    } catch (error) {
-      addToastMessage({
-        message: t`There was an error creating this folder`,
-        appearance: "error"
-      })
-      return Promise.reject()
-    }
-  }
+  // const createFolder = async (body: FilesPathRequest) => {
+  //   try {
+  //     const result = await filesApiClient.addCSFDirectory(body)
+  //     addToastMessage({
+  //       message: t`Folder created successfully`,
+  //       appearance: "success"
+  //     })
+  //     return result
+  //   } catch (error) {
+  //     addToastMessage({
+  //       message: t`There was an error creating this folder`,
+  //       appearance: "error"
+  //     })
+  //     return Promise.reject()
+  //   }
+  // }
 
-  const getFolderTree = async () => {
-    try {
-      const result = await imployApiClient.getCSFTree()
-      return result
-    } catch (error) {
-      addToastMessage({
-        message: t`There was an error getting folder info`,
-        appearance: "error"
-      })
-      return Promise.reject()
-    }
-  }
+  // const renameFile = useCallback(async (body: FilesMvRequest) => {
+  //   try {
+  //     if (body.path !== body.new_path) {
+  //       await filesApiClient.moveCSFObject(body)
+  //       addToastMessage({
+  //         message: t`File renamed successfully`,
+  //         appearance: "success"
+  //       })
+  //     }
 
-  const getFileInfo = async (path: string) => {
-    try {
-      const result = await imployApiClient.getCSFFileInfo({ path })
-      return result
-    } catch (error) {
-      addToastMessage({
-        message: t`There was an error getting file info`,
-        appearance: "error"
-      })
-      return Promise.reject()
-    }
-  }
+  //     return Promise.resolve()
+  //   } catch (error) {
+  //     addToastMessage({
+  //       message: t`There was an error renaming this file`,
+  //       appearance: "error"
+  //     })
+  //     return Promise.reject()
+  //   }
+  // }, [addToastMessage, filesApiClient])
 
-  const renameFile = useCallback(async (body: FilesMvRequest) => {
-    try {
-      if (body.path !== body.new_path) {
-        await imployApiClient.moveCSFObject(body)
-        addToastMessage({
-          message: t`File renamed successfully`,
-          appearance: "success"
-        })
-      }
+  // const moveFile = useCallback(async (body: FilesMvRequest) => {
+  //   try {
+  //     await filesApiClient.moveCSFObject(body)
+  //     addToastMessage({
+  //       message: t`File moved successfully`,
+  //       appearance: "success"
+  //     })
+  //     return Promise.resolve()
+  //   } catch (error) {
+  //     addToastMessage({
+  //       message: t`There was an error moving this file`,
+  //       appearance: "error"
+  //     })
+  //     return Promise.reject()
+  //   }
+  // }, [addToastMessage, filesApiClient])
 
-      return Promise.resolve()
-    } catch (error) {
-      addToastMessage({
-        message: t`There was an error renaming this file`,
-        appearance: "error"
-      })
-      return Promise.reject()
-    }
-  }, [addToastMessage, imployApiClient])
+  // const moveFiles = useCallback(async (filesToMove: FilesMvRequest[]) => {
+  //   return Promise.all(
+  //     filesToMove.map((fileToMove) =>
+  //       moveFile(fileToMove)
+  //     )
+  //   )
+  // }, [moveFile])
 
-  const moveFile = useCallback(async (body: FilesMvRequest) => {
-    try {
-      await imployApiClient.moveCSFObject(body)
-      addToastMessage({
-        message: t`File moved successfully`,
-        appearance: "success"
-      })
-      return Promise.resolve()
-    } catch (error) {
-      addToastMessage({
-        message: t`There was an error moving this file`,
-        appearance: "error"
-      })
-      return Promise.reject()
-    }
-  }, [addToastMessage, imployApiClient])
+  const getFileContent = useCallback(async (
+    bucketId: string,
+    { cid, cancelToken, onDownloadProgress, file, path }: GetFileContentParams
+  ) => {
+    const bucket = buckets.find(b => b.id === bucketId)
 
-  const moveFiles = useCallback(async (filesToMove: FilesMvRequest[]) => {
-    return Promise.all(
-      filesToMove.map((fileToMove) =>
-        moveFile(fileToMove)
-      )
-    )
-  }, [moveFile])
-
-  const getFileContent = useCallback(async ({ cid, cancelToken, onDownloadProgress, file, path, bucketType }: GetFileContentParams) => {
-    if (!encryptionKey) {
-      throw new Error("No encryption key")
+    if (!bucket || !bucket.encryptionKey) {
+      throw new Error("No encryption key for this bucket found")
     }
 
     // when a file is accessed from the search page, a file  and a path are passed in
@@ -410,11 +403,11 @@ const DriveProvider = ({ children }: DriveContextProps) => {
     }
 
     try {
-      const result = await imployApiClient.getFileContent(
+      const result = await filesApiClient.getFileContent(
         {
           path: path,
           source: {
-            type: bucketType
+            id: bucket.id
           }
         },
         cancelToken,
@@ -426,7 +419,7 @@ const DriveProvider = ({ children }: DriveContextProps) => {
       } else {
         const decrypted = await decryptFile(
           await result.data.arrayBuffer(),
-          encryptionKey
+          bucket.encryptionKey
         )
         if (decrypted) {
           return new Blob([decrypted], {
@@ -438,9 +431,9 @@ const DriveProvider = ({ children }: DriveContextProps) => {
       console.error(error)
       return Promise.reject()
     }
-  }, [encryptionKey, imployApiClient])
+  }, [buckets, filesApiClient])
 
-  const downloadFile = useCallback(async (itemToDownload: FileSystemItem, path: string, bucketType: BucketType) => {
+  const downloadFile = useCallback(async (bucketId: string, itemToDownload: FileSystemItem, path: string) => {
     const toastId = uuidv4()
     try {
       const downloadProgress: DownloadProgress = {
@@ -451,9 +444,8 @@ const DriveProvider = ({ children }: DriveContextProps) => {
         progress: 0
       }
       dispatchDownloadsInProgress({ type: "add", payload: downloadProgress })
-      const result = await getFileContent({
+      const result = await getFileContent(bucketId, {
         cid: itemToDownload.cid,
-        bucketType: bucketType,
         file: itemToDownload,
         path: path,
         onDownloadProgress: (progressEvent) => {
@@ -491,71 +483,35 @@ const DriveProvider = ({ children }: DriveContextProps) => {
     }
   }, [getFileContent])
 
-  const list = async (body: FilesPathRequest) => {
-    try {
-      return imployApiClient.getCSFChildList(body)
-    } catch (error) {
-      return Promise.reject()
-    }
-  }
-
-  const listBuckets = async (bucketType: BucketType) => {
-    return await imployApiClient.listBuckets(bucketType)
-  }
-
-  const removeCSFObjects = async (body: FilesRmRequest) => {
-    return await imployApiClient.removeCSFObjects(body)
-  }
-
-  const moveCSFObject = async (body: FilesMvRequest) => {
-    return await imployApiClient.moveCSFObject(body)
-  }
-
-  const searchFiles = useCallback(async (bucketId: string, searchString: string) => {
-    return  await imployApiClient.searchFiles({
-      bucket_id: bucketId || "",
-      query: searchString
-    })
-  }, [imployApiClient])
-
   return (
-    <DriveContext.Provider
+    <FilesContext.Provider
       value={{
         uploadFiles,
-        createFolder,
-        renameFile,
-        moveFile,
-        moveFiles,
-        moveCSFObject,
-        removeCSFObjects,
         downloadFile,
         getFileContent,
-        list,
         uploadsInProgress,
         spaceUsed,
         downloadsInProgress,
-        getFolderTree,
-        listBuckets,
-        searchFiles,
-        getFileInfo,
         secureAccountWithMasterPassword,
-        buckets
+        buckets,
+        refreshBuckets
+
       }}
     >
       {children}
-    </DriveContext.Provider>
+    </FilesContext.Provider>
   )
 }
 
 const useDrive = () => {
-  const context = React.useContext(DriveContext)
+  const context = React.useContext(FilesContext)
   if (context === undefined) {
     throw new Error("useDrive must be used within a DriveProvider")
   }
   return context
 }
 
-export { DriveProvider, useDrive }
+export { FilesProvider as DriveProvider, useDrive }
 export type {
   FileSystemItem,
   DirectoryContentResponse,

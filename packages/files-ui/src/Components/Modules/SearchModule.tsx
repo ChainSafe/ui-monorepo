@@ -5,7 +5,7 @@ import {
   useOnClickOutside,
   useThemeSwitcher
 } from "@chainsafe/common-theme"
-import React, { ChangeEvent, useCallback, useRef } from "react"
+import React, { ChangeEvent, useCallback, useMemo, useRef } from "react"
 import {
   ArrowLeftIcon,
   Button,
@@ -17,11 +17,12 @@ import {
 import { useState } from "react"
 import clsx from "clsx"
 import { ROUTE_LINKS } from "../FilesRoutes"
-import { useDrive, BucketType, SearchEntry } from "../../Contexts/DriveContext"
+import { useDrive, BucketType, SearchEntry } from "../../Contexts/FilesContext"
 import { CONTENT_TYPES } from "../../Utils/Constants"
 import { getParentPathFromFilePath } from "../../Utils/pathUtils"
 import { t, Trans } from "@lingui/macro"
 import { CSFTheme } from "../../Themes/types"
+import { useFilesApi } from "@chainsafe/common-contexts"
 
 export interface SearchParams {
   bucketType: BucketType
@@ -157,28 +158,16 @@ const SearchModule: React.FC<ISearchModule> = ({
   const [searchQuery, setSearchQuery] = useState<string>("")
   const [searchResults, setSearchResults] = useState<{results: SearchEntry[]; query: string} | undefined>(undefined)
   const ref = useRef(null)
-  const { listBuckets, searchFiles } = useDrive()
+  const { buckets } = useDrive()
   const { addToastMessage } = useToaster()
-  const [bucketType] = useState<BucketType>("csf")
-  const [currentSearchBucket, setCurrentSearchBucket] = useState<SearchParams | undefined>()
-  const getSearchResults = async (searchString: string) => {
+  const { filesApiClient } = useFilesApi()
+  const bucket = useMemo(() => buckets.find(b => b.type === "csf"), [buckets])
+
+  const getSearchResults = useCallback(async (searchString: string) => {
     try {
-      if (!searchString) return []
-      let bucketId
-      if (currentSearchBucket?.bucketType === bucketType) {
-        // we have the bucket id
-        bucketId = currentSearchBucket.bucketId
-      } else {
-        // fetch bucket id
-        const results = await listBuckets(bucketType)
-        const bucket1 = results[0]
-        setCurrentSearchBucket({
-          bucketType,
-          bucketId: bucket1.id
-        })
-        bucketId = bucket1.id
-      }
-      const results = await searchFiles(bucketId || "", searchString)
+      if (!searchString || !bucket) return []
+
+      const results = await filesApiClient.searchFiles({ bucket_id: bucket.id, query: searchString })
       return results
     } catch (err) {
       addToastMessage({
@@ -187,7 +176,7 @@ const SearchModule: React.FC<ISearchModule> = ({
       })
       return Promise.reject(err)
     }
-  }
+  }, [addToastMessage, bucket, filesApiClient])
 
 
   const { redirect } = useHistory()
@@ -203,9 +192,7 @@ const SearchModule: React.FC<ISearchModule> = ({
 
   // TODO useCallback is maybe not needed here
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  const debouncedSearch = useCallback(debounce(onSearch, 400), [
-    currentSearchBucket?.bucketId
-  ])
+  const debouncedSearch = useCallback(debounce(onSearch, 400), [])
 
   const onSearchChange = (searchString: string) => {
     setSearchQuery(searchString)

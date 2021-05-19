@@ -5,7 +5,7 @@ import {
   makeStyles,
   useThemeSwitcher
 } from "@chainsafe/common-theme"
-import { useDrive } from "../../../Contexts/DriveContext"
+import { useDrive } from "../../../Contexts/FilesContext"
 import UploadBox from "./UploadBox"
 
 const useStyles = makeStyles(({ constants, zIndex, breakpoints }: ITheme) => {

@@ -1,6 +1,6 @@
 import React from "react"
 import { createStyles, ITheme, makeStyles } from "@chainsafe/common-theme"
-import { useDrive } from "../../../Contexts/DriveContext"
+import { useDrive } from "../../../Contexts/FilesContext"
 import DownloadBox from "./DownloadBox"
 
 const useStyles = makeStyles(({ constants, zIndex, breakpoints }: ITheme) => {

@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react"
-import { FileSystemItem, useDrive } from "../../../Contexts/DriveContext"
-import { IBulkOperations, IFilesBrowserModuleProps } from "./types"
+import { FileSystemItem, useDrive } from "../../../Contexts/FilesContext"
+import { IBulkOperations, IFileBrowserModuleProps } from "./types"
 import FilesTableView from "./views/FilesTable.view"
 import DragAndDrop from "../../../Contexts/DnDContext"
 import { t } from "@lingui/macro"
@@ -11,9 +11,12 @@ import { useLocation, useToaster } from "@chainsafe/common-components"
 import { extractDrivePath, getPathWithFile } from "../../../Utils/pathUtils"
 import { ROUTE_LINKS } from "../../FilesRoutes"
 import { FileBrowserContext } from "../../../Contexts/FileBrowserContext"
+import { useFilesApi } from "@chainsafe/common-contexts"
+import { parseFileContentResponse } from "../../../Utils/Helpers"
 
-const BinFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = false }: IFilesBrowserModuleProps) => {
-  const { removeCSFObjects, moveCSFObject, list, buckets } = useDrive()
+const BinFileBrowser: React.FC<IFileBrowserModuleProps> = ({ controls = false }: IFileBrowserModuleProps) => {
+  const { buckets } = useDrive()
+  const { filesApiClient } = useFilesApi()
   const { addToastMessage } = useToaster()
   const [loadingCurrentPath, setLoadingCurrentPath] = useState(false)
   const [pathContents, setPathContents] = useState<FileSystemItem[]>([])
@@ -26,36 +29,24 @@ const BinFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = false }
     (
       showLoading?: boolean
     ) => {
+      if (!bucket) return
       try {
         showLoading && setLoadingCurrentPath(true)
-        list({
-          path: currentPath,
-          source: {
-            type: bucket?.type
-          }
-        }).then((newContents) => {
-          showLoading && setLoadingCurrentPath(false)
-
-          setPathContents(
-            newContents.map((fcr) => ({
-              ...fcr,
-              content_type:
-                fcr.content_type !== "application/octet-stream"
-                  ? fcr.content_type
-                  : guessContentType(fcr.name),
-              isFolder:
-                fcr.content_type === "application/chainsafe-files-directory"
-            }))
-          )
-        }).catch((error) => {
-          throw error
-        })
+        filesApiClient.getFPSChildList(bucket.id, { path: currentPath })
+          .then((newContents) => {
+            showLoading && setLoadingCurrentPath(false)
+            setPathContents(
+              newContents.map((fcr) => parseFileContentResponse(fcr))
+            )
+          }).catch((error) => {
+            throw error
+          })
       } catch (error) {
         console.error(error)
         showLoading && setLoadingCurrentPath(false)
       }
     },
-    [bucket, list, currentPath]
+    [bucket, currentPath, filesApiClient]
   )
 
   useEffect(() => {
@@ -84,7 +75,7 @@ const BinFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = false }
     }
 
     try {
-      await removeCSFObjects({
+      await filesApiClient.removeFPSObjects(bucket.id, {
         paths: [`${currentPath}${itemToDelete.name}`],
         source: {
           type: bucket.type
@@ -109,7 +100,7 @@ const BinFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = false }
       })
       return Promise.reject()
     }
-  }, [addToastMessage, bucket, currentPath, pathContents, refreshContents, removeCSFObjects])
+  }, [addToastMessage, bucket, currentPath, pathContents, refreshContents, filesApiClient])
 
   const deleteFiles = useCallback(async (cids: string[]) => {
     await Promise.all(
@@ -119,47 +110,44 @@ const BinFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = false }
     refreshContents()
   }, [deleteFile, refreshContents])
 
+  const recoverItems = useCallback(async (cids: string[]) => {
+    if (!bucket) return Promise.reject()
 
-  const recoverFile = useCallback(async (cid: string) => {
-    const itemToRestore = pathContents.find((i) => i.cid === cid)
-    if (!itemToRestore) throw new Error("Not found")
-    try {
-      await moveCSFObject({
-        path: getPathWithFile("/", itemToRestore.name),
-        new_path: getPathWithFile("/", itemToRestore.name),
-        destination: {
-          type: "csf"
-        }
-      })
-      refreshContents()
-
-      const message = `${
-        itemToRestore.isFolder ? t`Folder` : t`File`
-      } ${t`recovered successfully`}`
-
-      addToastMessage({
-        message: message,
-        appearance: "success"
-      })
-      return Promise.resolve()
-    } catch (error) {
-      const message = `${t`There was an error recovering this`} ${
-        itemToRestore.isFolder ? t`folder` : t`file`
-      }`
-      addToastMessage({
-        message: message,
-        appearance: "error"
-      })
-      return Promise.reject()
-    }
-  }, [addToastMessage, moveCSFObject, pathContents, refreshContents])
-
-  const recoverFiles = useCallback(async (cids: string[]) => {
     return Promise.all(
-      cids.map((cid: string) =>
-        recoverFile(cid)
-      ))
-  }, [recoverFile])
+      cids.map(async (cid: string) => {
+        const itemToRestore = pathContents.find((i) => i.cid === cid)
+        if (!itemToRestore) throw new Error("Not found")
+        try {
+          await filesApiClient.moveFPSObject(bucket.id, {
+            path: getPathWithFile("/", itemToRestore.name),
+            new_path: getPathWithFile("/", itemToRestore.name),
+            destination: {
+              type: "csf"
+            }
+          })
+          refreshContents()
+
+          const message = `${
+            itemToRestore.isFolder ? t`Folder` : t`File`
+          } ${t`recovered successfully`}`
+
+          addToastMessage({
+            message: message,
+            appearance: "success"
+          })
+          return Promise.resolve()
+        } catch (error) {
+          const message = `${t`There was an error recovering this`} ${
+            itemToRestore.isFolder ? t`folder` : t`file`
+          }`
+          addToastMessage({
+            message: message,
+            appearance: "error"
+          })
+          return Promise.resolve()
+        }
+      }))
+  }, [addToastMessage, pathContents, refreshContents, filesApiClient, bucket])
 
   const bulkOperations: IBulkOperations = useMemo(() => ({
     [CONTENT_TYPES.Directory]: [],
@@ -175,9 +163,8 @@ const BinFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = false }
     <FileBrowserContext.Provider value={{
       bucket: bucket,
       crumbs: undefined,
-      recoverFile,
-      deleteFiles,
-      recoverFiles,
+      deleteItems: deleteFiles,
+      recoverItems,
       currentPath,
       moduleRootPath: ROUTE_LINKS.Bin("/"),
       refreshContents,

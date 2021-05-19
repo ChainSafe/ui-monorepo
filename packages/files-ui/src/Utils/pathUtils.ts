@@ -42,7 +42,7 @@ export function getPathWithFile(path: string, fileName: string) {
 export function getParentPathFromFilePath(filePath: string) {
   const parentPath = filePath.substring(0, filePath.lastIndexOf("/"))
   if (!parentPath) return "/"
-  else return parentPath
+  return parentPath
 }
 
 

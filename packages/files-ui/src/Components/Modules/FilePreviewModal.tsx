@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react"
 import { useState } from "react"
 import { createStyles, makeStyles, useThemeSwitcher } from "@chainsafe/common-theme"
-import { BucketType, FileSystemItem, useDrive } from "../../Contexts/DriveContext"
+import { BucketType, FileSystemItem, useDrive } from "../../Contexts/FilesContext"
 import MimeMatcher from "./../../Utils/MimeMatcher"
 import axios, { CancelTokenSource } from "axios"
 import {
@@ -30,6 +30,7 @@ import MarkdownPreview from "./PreviewRenderers/MarkdownPreview"
 import { useHotkeys } from "react-hotkeys-hook"
 import { t, Trans } from "@lingui/macro"
 import { CSFTheme } from "../../Themes/types"
+import { useFileBrowser } from "../../Contexts/FileBrowserContext"
 
 export interface IPreviewRendererProps {
   contents: Blob
@@ -163,6 +164,7 @@ interface Props {
 const FilePreviewModal = ({ file, nextFile, previousFile, closePreview, path, bucketType }: Props) => {
   const classes = useStyles()
   const { getFileContent, downloadFile } = useDrive()
+  const { bucket } = useFileBrowser()
   const { desktop } = useThemeSwitcher()
   const [isLoading, setIsLoading] = useState(false)
   const [loadingProgress, setLoadingProgress] = useState(0)
@@ -186,7 +188,7 @@ const FilePreviewModal = ({ file, nextFile, previousFile, closePreview, path, bu
 
   useEffect(() => {
     const getContents = async () => {
-      if (!cid || !size) return
+      if (!cid || !size || !bucket) return
 
       if (source.current) {
         source.current.cancel("Cancelling previous request")
@@ -198,15 +200,14 @@ const FilePreviewModal = ({ file, nextFile, previousFile, closePreview, path, bu
       setError(undefined)
 
       try {
-        const content = await getFileContent({
+        const content = await getFileContent(bucket.id, {
           cid,
           cancelToken: token,
           onDownloadProgress: (evt) => {
             setLoadingProgress((evt.loaded / size) * 100)
           },
           file,
-          path,
-          bucketType
+          path
         })
 
         if (content) {
@@ -264,7 +265,7 @@ const FilePreviewModal = ({ file, nextFile, previousFile, closePreview, path, bu
   })
 
   const handleDownload = () => {
-    if (!name || !cid) return
+    if (!name || !cid || !bucket) return
     if (fileContent) {
       const link = document.createElement("a")
       link.href = URL.createObjectURL(fileContent)
@@ -272,7 +273,7 @@ const FilePreviewModal = ({ file, nextFile, previousFile, closePreview, path, bu
       link.click()
       URL.revokeObjectURL(link.href)
     } else {
-      downloadFile(file, path, bucketType)
+      downloadFile(bucket.id, file, path)
     }
   }
 
@@ -428,7 +429,7 @@ const FilePreviewModal = ({ file, nextFile, previousFile, closePreview, path, bu
                 <Button
                   className={classes.downloadButton}
                   variant="outline"
-                  onClick={() => downloadFile(file, path, bucketType)}
+                  onClick={handleDownload}
                 >
                   <Trans>Download</Trans>
                 </Button>

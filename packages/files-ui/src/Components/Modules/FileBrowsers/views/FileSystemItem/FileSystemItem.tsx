@@ -30,7 +30,7 @@ import { BrowserView, FileOperation } from "../../types"
 import { CSFTheme } from "../../../../../Themes/types"
 import FileItemTableItem from "./FileSystemTableItem"
 import FileItemGridItem from "./FileSystemGridItem"
-import { FileSystemItem } from "../../../../../Contexts/DriveContext"
+import { FileSystemItem } from "../../../../../Contexts/FilesContext"
 import { useFileBrowser } from "../../../../../Contexts/FileBrowserContext"
 
 const useStyles = makeStyles(({ breakpoints, constants }: CSFTheme) => {
