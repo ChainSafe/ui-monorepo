@@ -202,6 +202,7 @@ const FileInput: React.FC<IFileInputProps> = ({
         folders
           ?  <input
             {...getInputProps()}
+            // https://caniuse.com/input-file-directory
             // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
             // @ts-ignore
             webkitdirectory=""
