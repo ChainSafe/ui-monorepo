@@ -45,3 +45,11 @@ You then need to add it as environment variable, depending on your OS and shell:
   OR
 - Create a `packages/files-ui/.env` based on `packages/files-ui/.env.example`
 - Run `yarn start:files-ui` to start the development server.
+
+## Run Tests
+
+Our tests use Cypress running against the local instance of the Files UI. The files UI needs to run **before** the test are launched.
+By default the tests are run against `localhost:3000`
+
+- To start the tests UI run `yarn test:files-ui`
+- To start all the tests like in CI run `yarn test:ci:files-ui`
