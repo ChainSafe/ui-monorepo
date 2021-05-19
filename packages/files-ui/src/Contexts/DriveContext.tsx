@@ -20,7 +20,7 @@ import { t } from "@lingui/macro"
 import { readFileAsync } from "../Utils/Helpers"
 import { useBeforeunload } from "react-beforeunload"
 import { useThresholdKey } from "./ThresholdKeyContext"
-import { FileWithPath } from 'react-dropzone';
+import { FileWithPath } from "react-dropzone"
 
 type DriveContextProps = {
   children: React.ReactNode | React.ReactNode[]
