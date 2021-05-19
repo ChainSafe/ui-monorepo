@@ -199,11 +199,13 @@ const FileInput: React.FC<IFileInputProps> = ({
       className={clsx(classes.root, className)}
     >
       {
-        folders ?  <input
-          {...getInputProps()}
-          // @ts-ignore
-          webkitdirectory=""
-        />
+        folders
+          ?  <input
+            {...getInputProps()}
+            // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+            // @ts-ignore
+            webkitdirectory=""
+          />
           : <input {...getInputProps()} />
       }
       {variant === "dropzone" ? (
