@@ -20,6 +20,7 @@ import { t } from "@lingui/macro"
 import { readFileAsync } from "../Utils/Helpers"
 import { useBeforeunload } from "react-beforeunload"
 import { useThresholdKey } from "./ThresholdKeyContext"
+import { FileWithPath } from 'react-dropzone';
 
 type DriveContextProps = {
   children: React.ReactNode | React.ReactNode[]
@@ -234,13 +235,13 @@ const DriveProvider = ({ children }: DriveContextProps) => {
       const filesParam = await Promise.all(
         files
           .filter((f) => f.size <= MAX_FILE_SIZE)
-          .map(async (f) => {
+          .map(async (f: FileWithPath) => {
             const fileData = await readFileAsync(f)
-            debugger
             const encryptedData = await encryptFile(fileData, encryptionKey)
+
             return {
               data: new Blob([encryptedData], { type: f.type }),
-              fileName: f.name
+              fileName: f.path ? f.path : f.name
             }
           })
       )

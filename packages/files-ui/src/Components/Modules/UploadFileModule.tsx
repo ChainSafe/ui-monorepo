@@ -89,7 +89,6 @@ const UploadFileModule = ({ modalOpen, close }: IUploadFileModuleProps) => {
   const onSubmit = useCallback(async (values, helpers) => {
     helpers.setSubmitting(true)
     try {
-      debugger
       await uploadFiles(values.files, currentPath)
       helpers.resetForm()
       refreshContents && refreshContents()
