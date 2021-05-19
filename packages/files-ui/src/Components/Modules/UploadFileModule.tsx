@@ -125,7 +125,7 @@ const UploadFileModule = ({ modalOpen, close }: IUploadFileModuleProps) => {
             multiple={true}
             className={classes.input}
             classNames={{
-              closeIcon: classes.closeIcon,
+              closeIcon: clsx(classes.closeIcon, "removeFileIcon"),
               filelist: classes.fileList,
               item: classes.item,
               addFiles: classes.addFiles
