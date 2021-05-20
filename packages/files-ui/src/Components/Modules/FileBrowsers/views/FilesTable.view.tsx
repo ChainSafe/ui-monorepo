@@ -649,6 +649,7 @@ const FilesTableView = () => {
                 </span>
               </Button>
               <Button
+                data-cy="upload-modal-button"
                 onClick={() => setIsUploadModalOpen(true)}
                 variant="outline"
                 size="large"
