@@ -3,7 +3,7 @@ import { Crumb, useToaster, useHistory, useLocation } from "@chainsafe/common-co
 import { useDrive, FileSystemItem } from "../../../Contexts/FilesContext"
 import { extractDrivePath, getArrayOfPaths, getURISafePathFromArray, getPathWithFile } from "../../../Utils/pathUtils"
 import { IBulkOperations, IFileBrowserModuleProps, IFilesTableBrowserProps } from "./types"
-import FilesTableView from "./views/FilesTable.view"
+import FilesList from "./views/FilesList"
 import { CONTENT_TYPES } from "../../../Utils/Constants"
 import DragAndDrop from "../../../Contexts/DnDContext"
 import { t } from "@lingui/macro"
@@ -243,7 +243,7 @@ const CSFFileBrowser: React.FC<IFileBrowserModuleProps> = () => {
       withSurvey: showSurvey && olderThanOneWeek
     }}>
       <DragAndDrop>
-        <FilesTableView />
+        <FilesList />
       </DragAndDrop>
     </FileBrowserContext.Provider>
   )

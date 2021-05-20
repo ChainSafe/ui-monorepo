@@ -33,8 +33,8 @@ const UploadProgressModals: React.FC = () => {
   const { uploadsInProgress } = useDrive()
   const { desktop } = useThemeSwitcher()
 
-  return (
-    <div className={classes.root}>
+  if (uploadsInProgress.length > 0) {
+    return (<div className={classes.root}>
       {uploadsInProgress.map(
         (uploadInProgress) =>
           (desktop || uploadInProgress.complete || uploadInProgress.error) && (
@@ -45,7 +45,9 @@ const UploadProgressModals: React.FC = () => {
           )
       )}
     </div>
-  )
+    )} else {
+    return null
+  }
 }
 
 export default UploadProgressModals

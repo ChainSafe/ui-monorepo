@@ -277,7 +277,7 @@ const useStyles = makeStyles(
 const sortFoldersFirst = (a: FileSystemItem, b: FileSystemItem) =>
   a.isFolder && a.content_type !== b.content_type ? -1 : 1
 
-const FilesTableView = () => {
+const FilesList = () => {
   const { themeKey, desktop } = useThemeSwitcher()
 
   const {
@@ -349,7 +349,7 @@ const FilesTableView = () => {
 
   const selectedFiles = useMemo(
     () => items.filter((file) => selectedCids.includes(file.cid)),
-    [files, selectedCids]
+    [selectedCids, items]
   )
 
   const handleSortToggle = (
@@ -1011,4 +1011,4 @@ const FilesTableView = () => {
   )
 }
 
-export default FilesTableView
+export default FilesList

@@ -16,9 +16,7 @@ import {
   ExportSvg,
   ShareAltSvg,
   ExclamationCircleInverseSvg,
-  ZoomInSvg,
-  useHistory
-} from "@chainsafe/common-components"
+  ZoomInSvg } from "@chainsafe/common-components"
 import { makeStyles, createStyles, useDoubleClick, useThemeSwitcher } from "@chainsafe/common-theme"
 import { Formik, Form } from "formik"
 import CustomModal from "../../../../Elements/CustomModal"
@@ -143,7 +141,7 @@ const FileSystemItemRow = ({
   browserView,
   resetSelectedFiles
 }: IFileSystemItemRowProps) => {
-  const { downloadFile, currentPath, handleUploadOnDrop, moduleRootPath, handleMove } = useFileBrowser()
+  const { downloadFile, currentPath, handleUploadOnDrop, moveItems } = useFileBrowser()
   const { cid, name, isFolder, content_type } = file
   let Icon
   if (isFolder) {
@@ -159,7 +157,6 @@ const FileSystemItemRow = ({
   const { desktop } = useThemeSwitcher()
   const classes = useStyles()
 
-  const { redirect } = useHistory()
 
   const allMenuItems: Record<FileOperation, IMenuItem> = {
     rename: {
@@ -294,14 +291,7 @@ const FileSystemItemRow = ({
     accept: DragTypes.MOVABLE_FILE,
     canDrop: () => isFolder,
     drop: (item: {ids: string[]}) => {
-      item.ids.forEach((cid) => {
-        const fileToMove = files.find(f => f.cid === cid)
-        handleMove && fileToMove &&
-        handleMove(
-          `${currentPath}${fileToMove.name}`,
-          `${currentPath}${name}/${fileToMove.name}`
-        )
-      })
+      moveItems && moveItems(item.ids, `${currentPath}${name}/`)
     },
     collect: (monitor) => ({
       isOverMove: monitor.isOver()

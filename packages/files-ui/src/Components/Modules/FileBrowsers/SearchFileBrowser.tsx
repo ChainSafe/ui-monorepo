@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react"
 import { FileSystemItem, SearchEntry, useDrive } from "../../../Contexts/FilesContext"
 import { IFileBrowserModuleProps, IFilesTableBrowserProps } from "./types"
-import FilesTableView from "./views/FilesTable.view"
+import FilesList from "./views/FilesList"
 import { CONTENT_TYPES } from "../../../Utils/Constants"
 import DragAndDrop from "../../../Contexts/DnDContext"
 import { useHistory, useLocation, useToaster } from "@chainsafe/common-components"
@@ -116,7 +116,7 @@ const SearchFileBrowser: React.FC<IFileBrowserModuleProps> = ({ controls = false
       getPath
     }}>
       <DragAndDrop>
-        <FilesTableView />
+        <FilesList />
       </DragAndDrop>
     </FileBrowserContext.Provider>
   )

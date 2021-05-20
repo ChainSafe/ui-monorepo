@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react"
 import { FileSystemItem, useDrive } from "../../../Contexts/FilesContext"
 import { IBulkOperations, IFileBrowserModuleProps } from "./types"
-import FilesTableView from "./views/FilesTable.view"
+import FilesList from "./views/FilesList"
 import DragAndDrop from "../../../Contexts/DnDContext"
 import { t } from "@lingui/macro"
 import { CONTENT_TYPES } from "../../../Utils/Constants"
@@ -176,7 +176,7 @@ const BinFileBrowser: React.FC<IFileBrowserModuleProps> = ({ controls = false }:
       bulkOperations
     }}>
       <DragAndDrop>
-        <FilesTableView />
+        <FilesList />
       </DragAndDrop>
     </FileBrowserContext.Provider>
   )
