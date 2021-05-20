@@ -311,16 +311,6 @@ const FileSystemItemRow = ({
     dragMoveRef(fileOrFolderRef)
   }
 
-  const onFolderNavigation = useCallback(() => {
-    resetSelectedFiles()
-    if (!moduleRootPath) {
-      console.debug("Module root path not set")
-      return
-    }
-    const newPath = `${moduleRootPath}${currentPath}${encodeURI(name)}`
-    redirect(newPath)
-  }, [currentPath, name, redirect, moduleRootPath, resetSelectedFiles])
-
   const onFilePreview = useCallback(() => {
     setPreviewFileIndex(files?.indexOf(file))
   }, [file, files, setPreviewFileIndex])
@@ -337,13 +327,13 @@ const FileSystemItemRow = ({
       } else {
         // on mobile
         if (isFolder) {
-          onFolderNavigation()
+          viewFolder && viewFolder(file.cid)
         } else {
           onFilePreview()
         }
       }
     },
-    [cid, handleSelectCid, handleAddToSelectedCids, desktop, isFolder, onFolderNavigation, onFilePreview]
+    [cid, handleSelectCid, handleAddToSelectedCids, desktop, isFolder, viewFolder, file, onFilePreview]
   )
 
   const onDoubleClick = useCallback(
@@ -351,7 +341,7 @@ const FileSystemItemRow = ({
       if (desktop) {
         // on desktop
         if (isFolder) {
-          onFolderNavigation()
+          viewFolder && viewFolder(file.cid)
         } else {
           onFilePreview()
         }
@@ -360,7 +350,7 @@ const FileSystemItemRow = ({
         return
       }
     },
-    [desktop, onFolderNavigation, onFilePreview, isFolder]
+    [desktop, viewFolder, file, onFilePreview, isFolder]
   )
 
   const { click } = useDoubleClick(onSingleClick, onDoubleClick)

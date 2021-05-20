@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react"
 import { Crumb, useToaster, useHistory, useLocation } from "@chainsafe/common-components"
 import { useDrive, FileSystemItem } from "../../../Contexts/FilesContext"
-import { extractDrivePath, getArrayOfPaths, getPathFromArray, getPathWithFile } from "../../../Utils/pathUtils"
+import { extractDrivePath, getArrayOfPaths, getURISafePathFromArray, getPathWithFile } from "../../../Utils/pathUtils"
 import { IBulkOperations, IFileBrowserModuleProps, IFilesTableBrowserProps } from "./types"
 import FilesTableView from "./views/FilesTable.view"
 import { CONTENT_TYPES } from "../../../Utils/Constants"
@@ -77,12 +77,17 @@ const CSFFileBrowser: React.FC<IFileBrowserModuleProps> = () => {
       drivePath = "/" + drivePath
     }
     if (drivePath !== currentPath) {
-      setCurrentPath(decodeURI(drivePath))
+      if (drivePath === "/") {
+        setCurrentPath(drivePath)
+      } else {
+        setCurrentPath(decodeURIComponent(drivePath.slice(0, -1)))
+      }
+
       refreshContents(true)
     }
   }, [refreshContents, pathname, currentPath])
 
-  const moveFilesToBin = useCallback(async (cids: string[]) => {
+  const moveItemsToBin = useCallback(async (cids: string[]) => {
     if (!bucket) return
     await Promise.all(
       cids.map(async (cid: string) => {
@@ -134,7 +139,6 @@ const CSFFileBrowser: React.FC<IFileBrowserModuleProps> = () => {
 
   const moveItems = useCallback(async (cids: string[], newPath: string) => {
     if (!bucket) return
-
     await Promise.all(
       cids.map(async (cid: string) => {
         const itemToMove = pathContents.find(i => i.cid === cid)
@@ -156,11 +160,13 @@ const CSFFileBrowser: React.FC<IFileBrowserModuleProps> = () => {
   // Breadcrumbs/paths
   const arrayOfPaths = useMemo(() => getArrayOfPaths(currentPath), [currentPath])
   const crumbs: Crumb[] = useMemo(() => arrayOfPaths.map((path, index) => ({
-    text: path,
-    onClick: () =>
+    text: decodeURIComponent(path),
+    onClick: () => {
+
       redirect(
-        ROUTE_LINKS.Drive(encodeURI(getPathFromArray(arrayOfPaths.slice(0, index + 1))))
+        ROUTE_LINKS.Drive(getURISafePathFromArray(arrayOfPaths.slice(0, index + 1)))
       )
+    }
   })), [arrayOfPaths, redirect])
 
 
@@ -179,9 +185,6 @@ const CSFFileBrowser: React.FC<IFileBrowserModuleProps> = () => {
       })
     } else {
       await uploadFiles(bucket.id, files, path)
-      // refresh contents
-      // using reducer because user may navigate to other paths
-      // need to check currentPath and upload path is same
       refreshContents()
     }
   }, [addToastMessage, uploadFiles, bucket, refreshContents])
@@ -189,7 +192,14 @@ const CSFFileBrowser: React.FC<IFileBrowserModuleProps> = () => {
   const viewFolder = useCallback((cid: string) => {
     const fileSystemItem = pathContents.find(f => f.cid === cid)
     if (fileSystemItem && fileSystemItem.content_type === CONTENT_TYPES.Directory) {
-      redirect(ROUTE_LINKS.Drive(`${currentPath}${fileSystemItem.name}`))
+      let urlSafePath
+      if (currentPath !== "/") {
+        urlSafePath = `/${currentPath.slice(1).split("/").map(encodeURIComponent).join("/")}`
+      } else {
+        urlSafePath = ""
+      }
+      console.log(ROUTE_LINKS.Drive(`${urlSafePath}/${encodeURIComponent(`${fileSystemItem.name}`)}`))
+      redirect(ROUTE_LINKS.Drive(`${urlSafePath}/${encodeURIComponent(`${fileSystemItem.name}`)}`))
     }
   }, [currentPath, pathContents, redirect])
 
@@ -216,7 +226,7 @@ const CSFFileBrowser: React.FC<IFileBrowserModuleProps> = () => {
       moduleRootPath: ROUTE_LINKS.Drive(""),
       currentPath,
       refreshContents,
-      deleteItems: moveFilesToBin,
+      deleteItems: moveItemsToBin,
       downloadFile: handleDownload,
       moveItems,
       renameItem: renameItem,

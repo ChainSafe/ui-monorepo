@@ -124,8 +124,8 @@ const CreateFolderModal: React.FC<ICreateFolderModalProps> = ({
           helpers.setSubmitting(true)
           try {
             setCreatingFolder(true)
-            await filesApiClient.addFPSDirectory(bucket.id, { path: currentPath + values.name })
-            refreshContents && refreshContents()
+            await filesApiClient.addFPSDirectory(bucket.id, { path: `${currentPath}/${values.name}` })
+            refreshContents && await refreshContents()
             setCreatingFolder(false)
             helpers.resetForm()
             close()

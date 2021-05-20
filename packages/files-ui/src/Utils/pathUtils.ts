@@ -22,10 +22,11 @@ export function getArrayOfPaths(path: string): string[] {
 
 // [] -> "/"
 // ["path", "to", "this"] -> "/path/to/this"
-export function getPathFromArray(arrayOfPaths: string[]): string {
+export function getURISafePathFromArray(arrayOfPaths: string[]): string {
   if (!arrayOfPaths.length) return "/"
   else {
-    return "/" + arrayOfPaths.join("/")
+    console.log("/" + arrayOfPaths.map(encodeURIComponent).join("/"))
+    return "/" + arrayOfPaths.map(encodeURIComponent).join("/")
   }
 }
 

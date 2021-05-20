@@ -347,7 +347,7 @@ const FilesTableView = () => {
   const files = useMemo(() => items.filter((i) => !i.isFolder), [items])
 
   const selectedFiles = useMemo(
-    () => files.filter((file) => selectedCids.includes(file.cid)),
+    () => items.filter((file) => selectedCids.includes(file.cid)),
     [files, selectedCids]
   )
 

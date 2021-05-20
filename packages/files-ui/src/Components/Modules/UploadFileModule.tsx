@@ -90,10 +90,10 @@ const UploadFileModule = ({ modalOpen, close }: IUploadFileModuleProps) => {
     if (!bucket) return
     helpers.setSubmitting(true)
     try {
-      await uploadFiles(bucket.id, values.files, currentPath)
-      helpers.resetForm()
-      refreshContents && refreshContents()
       close()
+      await uploadFiles(bucket.id, values.files, currentPath)
+      refreshContents && refreshContents()
+      helpers.resetForm()
     } catch (errors) {
       if (errors[0].message.includes("conflict with existing")) {
         helpers.setFieldError("files", "File/Folder exists")

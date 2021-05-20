@@ -273,15 +273,16 @@ const FilesProvider = ({ children }: FilesContextProps) => {
           appearance: "error"
         })
       }
-      // API call
-      await filesApiClient.addFPSFiles(
-        bucketId,
+
+      // TODO: Update this once API support for FPS is working
+      await filesApiClient.addCSFFiles(
+        // bucketId,
         filesParam,
         path,
+        "csf",
         undefined,
         undefined,
-        undefined,
-        undefined,
+        // undefined,
         (progressEvent: { loaded: number; total: number }) => {
           dispatchUploadsInProgress({
             type: "progress",
