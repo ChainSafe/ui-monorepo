@@ -198,7 +198,6 @@ const CSFFileBrowser: React.FC<IFileBrowserModuleProps> = () => {
       } else {
         urlSafePath = ""
       }
-      console.log(ROUTE_LINKS.Drive(`${urlSafePath}/${encodeURIComponent(`${fileSystemItem.name}`)}`))
       redirect(ROUTE_LINKS.Drive(`${urlSafePath}/${encodeURIComponent(`${fileSystemItem.name}`)}`))
     }
   }, [currentPath, pathContents, redirect])
