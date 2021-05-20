@@ -1,8 +1,6 @@
-import { FolderFilledSvg, FileImageSvg, FilePdfSvg, FileTextSvg, formatBytes,
-  MenuDropdown, MoreIcon, TableCell, TableRow, Typography, CheckboxInput } from "@chainsafe/common-components"
-import { createStyles, makeStyles, useThemeSwitcher } from "@chainsafe/common-theme"
+import { FolderFilledSvg, FileImageSvg, FilePdfSvg, FileTextSvg, Typography } from "@chainsafe/common-components"
+import {  makeStyles } from "@chainsafe/common-theme"
 import clsx from "clsx"
-import dayjs from "dayjs"
 import React from "react"
 import { useDragLayer, XYCoord } from "react-dnd"
 import { FileSystemItem } from "../../../../Contexts/DriveContext"
@@ -11,29 +9,21 @@ import { DragTypes } from "../DragConstants"
 import { BrowserView } from "../types"
 
 const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => {
-  const desktopGridSettings = "50px 69px 3fr 190px 100px 45px !important"
-  const mobileGridSettings = "69px 3fr 45px !important"
-
-  return createStyles({
-    tableRow: {
-      width: "calc(100vw - 504px)",
-      border: "2px solid transparent",
-      [breakpoints.up("md")]: {
-        gridTemplateColumns: desktopGridSettings
-      },
-      [breakpoints.down("md")]: {
-        gridTemplateColumns: mobileGridSettings
-      }
+  return ({
+    rowItem: {
+      display: "flex",
+      height: 70,
+      border: "2px solid transparent"
     },
     fileIcon: {
-      display: "flex",
-      flexDirection: "row",
-      alignItems: "center",
-      justifyContent: "center",
       "& svg": {
         width: constants.generalUnit * 2.5,
         fill: constants.fileSystemItemRow.icon
-      }
+      },
+      [breakpoints.up("md")]: {
+        paddingLeft: constants.generalUnit * 8.5
+      },
+      paddingRight: constants.generalUnit * 6
     },
     folderIcon: {
       "& svg": {
@@ -58,11 +48,6 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => 
       "& svg": {
         fill: constants.fileSystemItemRow.dropdownIcon
       }
-    },
-    dropdownOptions: {
-      backgroundColor: constants.fileSystemItemRow.optionsBackground,
-      color: constants.fileSystemItemRow.optionsColor,
-      border: `1px solid ${constants.fileSystemItemRow.optionsBorder}`
     },
     gridViewContainer: {
       display: "flex",
@@ -107,64 +92,22 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => 
     }
   })})
 
-const DragPreviewTableItem: React.FC<{item: FileSystemItem; icon: React.ReactNode}> = ({
-  item: { name, isFolder, created_at, size },
+const DragPreviewRowItem: React.FC<{item: FileSystemItem; icon: React.ReactNode}> = ({
+  item: { name, isFolder },
   icon
 }) => {
   const classes = useStyles()
-  const { desktop } = useThemeSwitcher()
   return (
-    <TableRow
-      className={classes.tableRow}
-      type="grid"
-    >
-      {desktop && (
-        <TableCell>
-          <CheckboxInput
-            value={false}
-            onChange={() => {return}}
-          />
-        </TableCell>
-      )}
-      <TableCell
-        className={clsx(classes.fileIcon, isFolder && classes.folderIcon)}
-      >
+    <div className={classes.rowItem}>
+      <div className={clsx(classes.fileIcon, isFolder && classes.folderIcon)}>
         {icon}
-      </TableCell>
-      <TableCell
-        align="left"
-        className={classes.filename}
-      >
+      </div>
+      <div className={classes.filename}>
         <Typography>{name}</Typography>
-      </TableCell>
-      {desktop && (
-        <>
-          <TableCell align="left">
-            {
-              !isFolder && created_at && dayjs.unix(created_at).format("DD MMM YYYY h:mm a")
-            }
-          </TableCell>
-          <TableCell align="left">
-            {!isFolder && formatBytes(size)}
-          </TableCell>
-        </>
-      )}
-      <TableCell align="right">
-        <MenuDropdown
-          animation="none"
-          anchor={desktop ? "bottom-center" : "bottom-right"}
-          menuItems={[]}
-          classNames={{
-            icon: classes.dropdownIcon,
-            options: classes.dropdownOptions
-          }}
-          indicator={MoreIcon}
-        />
-      </TableCell>
-    </TableRow>
+      </div>
+    </div>
   )
 }
-
 
 const DragPreviewGridItem: React.FC<{item: FileSystemItem; icon: React.ReactNode}> = ({
   item: { name, isFolder },
@@ -185,21 +128,7 @@ const DragPreviewGridItem: React.FC<{item: FileSystemItem; icon: React.ReactNode
         >
           {icon}
         </div>
-
         <div className={classes.gridFolderName}>{name}</div>
-      </div>
-      <div>
-        <MenuDropdown
-          animation="none"
-          anchor="bottom-right"
-          menuItems={[]}
-          classNames={{
-            icon: classes.dropdownIcon,
-            options: classes.dropdownOptions,
-            title: classes.menuTitleGrid
-          }}
-          indicator={MoreIcon}
-        />
       </div>
     </div>
   )
@@ -250,7 +179,7 @@ export const DragPreviewLayer: React.FC<{items: FileSystemItem[]; previewType: B
             }
 
             return (previewType === "table")
-              ? <DragPreviewTableItem
+              ? <DragPreviewRowItem
                 item={previewItem}
                 icon={<Icon />}
                 key={previewItem.cid}
