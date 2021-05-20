@@ -25,7 +25,6 @@ export function getArrayOfPaths(path: string): string[] {
 export function getURISafePathFromArray(arrayOfPaths: string[]): string {
   if (!arrayOfPaths.length) return "/"
   else {
-    console.log("/" + arrayOfPaths.map(encodeURIComponent).join("/"))
     return "/" + arrayOfPaths.map(encodeURIComponent).join("/")
   }
 }
