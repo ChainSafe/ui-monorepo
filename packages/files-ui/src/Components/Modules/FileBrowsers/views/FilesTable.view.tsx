@@ -537,7 +537,9 @@ const FilesTableView = () => {
       })
   }, [deleteFiles, selectedCids])
 
-  const handleRecoverFiles = useCallback(() => {
+  const handleRecoverFiles = useCallback((e: React.MouseEvent) => {
+    e.preventDefault()
+    e.stopPropagation()
     if (!recoverFiles) return
 
     setIsRecoveringFiles(true)
@@ -588,6 +590,18 @@ const FilesTableView = () => {
   const handleViewFolder = useCallback((cid: string) => {
     viewFolder && viewFolder(cid)
   }, [viewFolder])
+
+  const handleOpenMoveFileDialog = useCallback((e: React.MouseEvent) => {
+    e.preventDefault()
+    e.stopPropagation()
+    setIsMoveFileModalOpen(true)
+  }, [])
+
+  const handleOpenDeleteDialog = useCallback((e: React.MouseEvent) => {
+    e.preventDefault()
+    e.stopPropagation()
+    setIsDeleteModalOpen(true)
+  }, [])
 
   return (
     <article
@@ -731,11 +745,7 @@ const FilesTableView = () => {
           <>
             {validBulkOps.indexOf("move") >= 0 && (
               <Button
-                onClick={(e) => {
-                  e.preventDefault()
-                  e.stopPropagation()
-                  setIsMoveFileModalOpen(true)
-                }}
+                onClick={handleOpenMoveFileDialog}
                 variant="outline"
               >
                 <Trans>Move selected</Trans>
@@ -743,11 +753,7 @@ const FilesTableView = () => {
             )}
             {validBulkOps.indexOf("recover") >= 0 && (
               <Button
-                onClick={(e) => {
-                  e.preventDefault()
-                  e.stopPropagation()
-                  handleRecoverFiles()
-                }}
+                onClick={handleRecoverFiles}
                 variant="outline"
                 loading={isRecoveringFiles}
               >
@@ -756,11 +762,7 @@ const FilesTableView = () => {
             )}
             {validBulkOps.indexOf("delete") >= 0 && (
               <Button
-                onClick={(e) => {
-                  e.preventDefault()
-                  e.stopPropagation()
-                  setIsDeleteModalOpen(true)
-                }}
+                onClick={handleOpenDeleteDialog}
                 variant="outline"
               >
                 <Trans>Delete selected</Trans>
