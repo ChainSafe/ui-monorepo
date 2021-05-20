@@ -48,6 +48,7 @@ import MimeMatcher from "../../../../Utils/MimeMatcher"
 import { useLanguageContext } from "../../../../Contexts/LanguageContext"
 import { getPathWithFile } from "../../../../Utils/pathUtils"
 import SurveyBanner from "../../../SurveyBanner"
+import { DragPreviewLayer } from "./DragPreviewLayer"
 import { useFileBrowser } from "../../../../Contexts/FileBrowserContext"
 
 interface IStyleProps {
@@ -311,6 +312,8 @@ const FilesTableView = () => {
   const [selectedCids, setSelectedCids] = useState<string[]>([])
   const [previewFileIndex, setPreviewFileIndex] = useState<number | undefined>()
   const { selectedLocale } = useLanguageContext()
+  const { redirect } = useHistory()
+
   const items: FileSystemItem[] = useMemo(() => {
     let temp = []
 
@@ -341,8 +344,6 @@ const FilesTableView = () => {
       ? temp.reverse().sort(sortFoldersFirst)
       : temp.sort(sortFoldersFirst)
   }, [sourceFiles, direction, column, selectedLocale])
-
-  const { redirect } = useHistory()
 
   const files = useMemo(() => items.filter((i) => !i.isFolder), [items])
 
@@ -412,13 +413,13 @@ const FilesTableView = () => {
     [selectedCids]
   )
 
-  const toggleAll = () => {
+  const toggleAll = useCallback(() => {
     if (selectedCids.length === items.length) {
       setSelectedCids([])
     } else {
       setSelectedCids([...items.map((file: FileSystemItem) => file.cid)])
     }
-  }
+  }, [setSelectedCids, items, selectedCids])
 
   const invalidFilenameRegex = new RegExp("/")
   const renameSchema = object().shape({
@@ -466,6 +467,7 @@ const FilesTableView = () => {
 
   // Bulk operations
   const [validBulkOps, setValidBulkOps] = useState<FileOperation[]>([])
+
   useEffect(() => {
     if (bulkOperations) {
       let filteredList: FileOperation[] = [
@@ -575,14 +577,17 @@ const FilesTableView = () => {
     setSelectedCids([])
   }, [])
 
+  useEffect(() => {
+    setSelectedCids([])
+  }, [currentPath])
+
   const onHideSurveyBanner = useCallback(() => {
     setIsSurveyBannerVisible(false)
   }, [setIsSurveyBannerVisible])
 
   const handleViewFolder = useCallback((cid: string) => {
-    resetSelectedCids()
     viewFolder && viewFolder(cid)
-  }, [viewFolder, resetSelectedCids])
+  }, [viewFolder])
 
   return (
     <article
@@ -599,6 +604,10 @@ const FilesTableView = () => {
           <Trans>Drop to upload files</Trans>
         </Typography>
       </div>
+      <DragPreviewLayer
+        items={sourceFiles}
+        previewType={browserView}
+      />
       <div className={classes.breadCrumbContainer}>
         {crumbs && moduleRootPath ? (
           <Breadcrumb
@@ -640,6 +649,7 @@ const FilesTableView = () => {
                 </span>
               </Button>
               <Button
+                data-cy="upload-modal-button"
                 onClick={() => setIsUploadModalOpen(true)}
                 variant="outline"
                 size="large"
