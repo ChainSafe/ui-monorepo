@@ -1,4 +1,4 @@
-import React, { useCallback, useRef } from "react"
+import React, { useCallback, useEffect, useRef } from "react"
 import {
   FormikTextInput,
   Typography,
@@ -25,7 +25,7 @@ import CustomModal from "../../../../Elements/CustomModal"
 import { Trans } from "@lingui/macro"
 import { useDrag, useDrop } from "react-dnd"
 import { DragTypes } from "../../DragConstants"
-import { NativeTypes } from "react-dnd-html5-backend"
+import { getEmptyImage, NativeTypes } from "react-dnd-html5-backend"
 import { BrowserView, FileOperation } from "../../types"
 import { CSFTheme } from "../../../../../Themes/types"
 import FileItemTableItem from "./FileSystemTableItem"
@@ -131,7 +131,6 @@ const FileSystemItemRow = ({
   setEditing,
   renameSchema,
   handleRename,
-  handleMove,
   deleteFile,
   recoverFile,
   viewFolder,
@@ -144,7 +143,7 @@ const FileSystemItemRow = ({
   browserView,
   resetSelectedFiles
 }: IFileSystemItemRowProps) => {
-  const { downloadFile, currentPath, handleUploadOnDrop, moduleRootPath } = useFileBrowser()
+  const { downloadFile, currentPath, handleUploadOnDrop, moduleRootPath, handleMove } = useFileBrowser()
   const { cid, name, isFolder, content_type } = file
   let Icon
   if (isFolder) {
@@ -268,22 +267,41 @@ const FileSystemItemRow = ({
     (itemOperation) => allMenuItems[itemOperation]
   )
 
-  const [, dragMoveRef, preview] = useDrag({
-    item: { type: DragTypes.MOVABLE_FILE, payload: file }
+  const [, dragMoveRef, preview] = useDrag(() =>
+    ({ type: DragTypes.MOVABLE_FILE,
+      item: () => {
+        if (selected.includes(file.cid)) {
+          return { ids: selected }
+        } else {
+          return { ids: [...selected, file.cid] }
+        }
+      }
+    }), [selected])
+
+  useEffect(() => {
+    // This gets called after every render, by default
+
+    // Use empty image as a drag preview so browsers don't draw it
+    // and we can draw whatever we want on the custom drag layer instead.
+    preview(getEmptyImage(), {
+      // IE fallback: specify that we'd rather screenshot the node
+      // when it already knows it's being dragged so we can hide it with CSS.
+      captureDraggingState: true
+    })
   })
 
   const [{ isOverMove }, dropMoveRef] = useDrop({
     accept: DragTypes.MOVABLE_FILE,
     canDrop: () => isFolder,
-    drop: async (item: {
-      type: typeof DragTypes.MOVABLE_FILE
-      payload: FileSystemItem
-    }) => {
-      handleMove &&
-        (await handleMove(
-          `${currentPath}${item.payload.name}`,
-          `${currentPath}${name}/${item.payload.name}`
-        ))
+    drop: (item: {ids: string[]}) => {
+      item.ids.forEach((cid) => {
+        const fileToMove = files.find(f => f.cid === cid)
+        handleMove && fileToMove &&
+        handleMove(
+          `${currentPath}${fileToMove.name}`,
+          `${currentPath}${name}/${fileToMove.name}`
+        )
+      })
     },
     collect: (monitor) => ({
       isOverMove: monitor.isOver()

@@ -46,7 +46,6 @@ export function getParentPathFromFilePath(filePath: string) {
   return parentPath
 }
 
-
 export function extractDrivePath(pathname: string) {
   return pathname.split("/").slice(2).join("/").concat("/")
 }

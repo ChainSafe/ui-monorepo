@@ -118,12 +118,15 @@ const UploadFileModule = ({ modalOpen, close }: IUploadFileModuleProps) => {
         validationSchema={UploadSchema}
         onSubmit={onSubmit}
       >
-        <Form className={classes.root}>
+        <Form
+          data-cy="upload-file-form"
+          className={classes.root}
+        >
           <FileInput
             multiple={true}
             className={classes.input}
             classNames={{
-              closeIcon: classes.closeIcon,
+              closeIcon: clsx(classes.closeIcon, "removeFileIcon"),
               filelist: classes.fileList,
               item: classes.item,
               addFiles: classes.addFiles
@@ -136,6 +139,7 @@ const UploadFileModule = ({ modalOpen, close }: IUploadFileModuleProps) => {
           />
           <footer className={classes.footer}>
             <Button
+              data-cy="upload-cancel-button"
               onClick={close}
               size="medium"
               className={classes.cancelButton}
@@ -145,6 +149,7 @@ const UploadFileModule = ({ modalOpen, close }: IUploadFileModuleProps) => {
               <Trans>Cancel</Trans>
             </Button>
             <Button
+              data-cy="upload-ok-button"
               size="medium"
               type="submit"
               variant="primary"

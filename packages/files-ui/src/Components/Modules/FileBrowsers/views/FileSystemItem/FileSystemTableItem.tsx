@@ -147,6 +147,7 @@ const FileSystemTableItem = React.forwardRef(
 
     return  (
       <TableRow
+        data-cy="file-item-row"
         className={clsx(classes.tableRow, {
           droppable: isFolder && (isOverMove || isOverUpload)
         })}
