@@ -1,0 +1,30 @@
+name: Release Staging
+on:
+  push:
+    branches:
+      - "none-sem"
+
+jobs:
+  build:
+    name: Release Staging
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Short SHA
+        id: vars
+        run: echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: stage-${{ steps.vars.outputs.sha_short }}
+          release_name: stage-${{ steps.vars.outputs.sha_short }}
+          draft: false
+          prerelease: true
+      - name: Semantic release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: npx semantic-release
