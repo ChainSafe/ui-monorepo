@@ -7,7 +7,7 @@ import React, { useState, useEffect } from "react"
 import CustomModal from "../../Elements/CustomModal"
 import CustomButton from "../../Elements/CustomButton"
 import { Trans } from "@lingui/macro"
-import { useDrive, FileFullInfo } from "../../../Contexts/FilesContext"
+import { FileFullInfo } from "../../../Contexts/FilesContext"
 import {
   Button,
   formatBytes,

@@ -4,7 +4,6 @@ import {
   Grid,
   Typography
 } from "@chainsafe/common-components"
-import { useDrive } from "../../../Contexts/FilesContext"
 import * as yup from "yup"
 import {
   createStyles,

@@ -940,7 +940,6 @@ const FilesTableView = () => {
         <FilePreviewModal
           file={files[previewFileIndex]}
           closePreview={clearPreview}
-          bucketType={bucket.type}
           nextFile={
             previewFileIndex < files.length - 1 ? setNextPreview : undefined
           }

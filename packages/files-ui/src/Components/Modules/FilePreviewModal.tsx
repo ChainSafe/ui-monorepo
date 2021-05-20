@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react"
 import { useState } from "react"
 import { createStyles, makeStyles, useThemeSwitcher } from "@chainsafe/common-theme"
-import { BucketType, FileSystemItem, useDrive } from "../../Contexts/FilesContext"
+import { FileSystemItem, useDrive } from "../../Contexts/FilesContext"
 import MimeMatcher from "./../../Utils/MimeMatcher"
 import axios, { CancelTokenSource } from "axios"
 import {
@@ -158,10 +158,9 @@ interface Props {
   previousFile?: () => void
   closePreview: () => void
   path: string
-  bucketType: BucketType
 }
 
-const FilePreviewModal = ({ file, nextFile, previousFile, closePreview, path, bucketType }: Props) => {
+const FilePreviewModal = ({ file, nextFile, previousFile, closePreview, path }: Props) => {
   const classes = useStyles()
   const { getFileContent, downloadFile } = useDrive()
   const { bucket } = useFileBrowser()
@@ -230,7 +229,7 @@ const FilePreviewModal = ({ file, nextFile, previousFile, closePreview, path, bu
     if (content_type && compatibleFilesMatcher.match(content_type)) {
       getContents()
     }
-  }, [cid, size, content_type, getFileContent, file, path, bucketType])
+  }, [cid, size, content_type, getFileContent, file, path, bucket])
 
   const validRendererMimeType =
     content_type &&

@@ -73,7 +73,7 @@ interface IMoveFileModuleProps {
 const MoveFileModule = ({ filesToMove, modalOpen, onClose, onCancel }: IMoveFileModuleProps) => {
   const classes = useStyles()
   const { filesApiClient } = useFilesApi()
-  const { moveItems, bucket } = useFileBrowser()
+  const { moveItems } = useFileBrowser()
   const [movingFile, setMovingFile] = useState(false)
   const [movePath, setMovePath] = useState<undefined | string>(undefined)
   const [folderTree, setFolderTree] = useState<ITreeNodeProps[]>([])

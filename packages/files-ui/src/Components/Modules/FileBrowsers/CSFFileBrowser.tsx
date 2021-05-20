@@ -69,7 +69,7 @@ const CSFFileBrowser: React.FC<IFileBrowserModuleProps> = () => {
 
   useEffect(() => {
     refreshContents(true)
-  }, [bucket])
+  }, [bucket, refreshContents])
 
   useEffect(() => {
     let drivePath = extractDrivePath(pathname)

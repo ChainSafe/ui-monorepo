@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react"
-import { BucketType, FileSystemItem, SearchEntry, useDrive } from "../../../Contexts/FilesContext"
+import { FileSystemItem, SearchEntry, useDrive } from "../../../Contexts/FilesContext"
 import { IFileBrowserModuleProps, IFilesTableBrowserProps } from "./types"
 import FilesTableView from "./views/FilesTable.view"
 import { CONTENT_TYPES } from "../../../Utils/Constants"
