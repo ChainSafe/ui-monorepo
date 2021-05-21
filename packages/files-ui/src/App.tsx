@@ -5,7 +5,7 @@ import { FilesApiProvider, UserProvider, BillingProvider } from "@chainsafe/comm
 import { ThemeSwitcher } from "@chainsafe/common-theme"
 import "@chainsafe/common-theme/dist/font-faces.css"
 import { Button, CssBaseline, Modal, Router, ToasterProvider, Typography } from "@chainsafe/common-components"
-import { DriveProvider } from "./Contexts/FilesContext"
+import { FilesProvider } from "./Contexts/FilesContext"
 import FilesRoutes from "./Components/FilesRoutes"
 import AppWrapper from "./Components/Layouts/AppWrapper"
 import { useHotjar } from "react-use-hotjar"
@@ -119,7 +119,7 @@ const App: React.FC<{}> = () => {
                   network={directAuthNetwork}
                 >
                   <UserProvider>
-                    <DriveProvider>
+                    <FilesProvider>
                       <BillingProvider>
                         <Router>
                           <AppWrapper>
@@ -127,7 +127,7 @@ const App: React.FC<{}> = () => {
                           </AppWrapper>
                         </Router>
                       </BillingProvider>
-                    </DriveProvider>
+                    </FilesProvider>
                   </UserProvider>
                 </ThresholdKeyProvider>
               </FilesApiProvider>

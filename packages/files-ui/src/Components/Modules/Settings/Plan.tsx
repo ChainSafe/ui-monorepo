@@ -10,7 +10,7 @@ import {
 import { makeStyles, ITheme, createStyles } from "@chainsafe/common-theme"
 import clsx from "clsx"
 import { FREE_PLAN_LIMIT } from "../../../Utils/Constants"
-import { useDrive } from "../../../Contexts/FilesContext"
+import { useFiles } from "../../../Contexts/FilesContext"
 import { Trans } from "@lingui/macro"
 import { ROUTE_LINKS } from "../../FilesRoutes"
 
@@ -74,7 +74,7 @@ const useStyles = makeStyles((theme: ITheme) =>
 
 const PlanView: React.FC = () => {
   const classes = useStyles()
-  const { spaceUsed } = useDrive()
+  const { spaceUsed } = useFiles()
 
   return (
     <Grid container>

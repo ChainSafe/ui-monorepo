@@ -1,5 +1,5 @@
 import { useFilesApi, useUser } from "@chainsafe/common-contexts"
-import { useDrive } from "../../Contexts/FilesContext"
+import { useFiles } from "../../Contexts/FilesContext"
 import {
   createStyles,
   makeStyles,
@@ -212,7 +212,7 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
   const { desktop } = useThemeSwitcher()
   const classes = useStyles()
 
-  const { spaceUsed } = useDrive()
+  const { spaceUsed } = useFiles()
 
   const { isLoggedIn, secured } = useFilesApi()
   const { publicKey, isNewDevice, shouldInitializeAccount, logout } = useThresholdKey()

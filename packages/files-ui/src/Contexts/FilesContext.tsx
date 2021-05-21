@@ -127,7 +127,7 @@ const FilesProvider = ({ children }: FilesContextProps) => {
       try {
         // TODO: Update this to include Share buckets where the current user is the owner
         const totalSize = buckets.filter(b => b.type === "csf" || b.type === "trash")
-          .reduce((totalSize, bucket) => { return totalSize += bucket.uploaded_size}, 0)
+          .reduce((totalSize, bucket) => { return totalSize += (bucket as any).size}, 0)
 
         setSpaceUsed(totalSize)
       } catch (error) {
@@ -139,7 +139,7 @@ const FilesProvider = ({ children }: FilesContextProps) => {
     }
   }, [filesApiClient, isLoggedIn, buckets])
 
-  // Reset password on log out
+  // Reset encryption keys on log out
   useEffect(() => {
     if (!isLoggedIn) {
       setPersonalEncryptionKey(undefined)
@@ -322,67 +322,7 @@ const FilesProvider = ({ children }: FilesContextProps) => {
     }
   }, [addToastMessage, filesApiClient, buckets])
 
-  // const createFolder = async (body: FilesPathRequest) => {
-  //   try {
-  //     const result = await filesApiClient.addCSFDirectory(body)
-  //     addToastMessage({
-  //       message: t`Folder created successfully`,
-  //       appearance: "success"
-  //     })
-  //     return result
-  //   } catch (error) {
-  //     addToastMessage({
-  //       message: t`There was an error creating this folder`,
-  //       appearance: "error"
-  //     })
-  //     return Promise.reject()
-  //   }
-  // }
 
-  // const renameFile = useCallback(async (body: FilesMvRequest) => {
-  //   try {
-  //     if (body.path !== body.new_path) {
-  //       await filesApiClient.moveCSFObject(body)
-  //       addToastMessage({
-  //         message: t`File renamed successfully`,
-  //         appearance: "success"
-  //       })
-  //     }
-
-  //     return Promise.resolve()
-  //   } catch (error) {
-  //     addToastMessage({
-  //       message: t`There was an error renaming this file`,
-  //       appearance: "error"
-  //     })
-  //     return Promise.reject()
-  //   }
-  // }, [addToastMessage, filesApiClient])
-
-  // const moveFile = useCallback(async (body: FilesMvRequest) => {
-  //   try {
-  //     await filesApiClient.moveCSFObject(body)
-  //     addToastMessage({
-  //       message: t`File moved successfully`,
-  //       appearance: "success"
-  //     })
-  //     return Promise.resolve()
-  //   } catch (error) {
-  //     addToastMessage({
-  //       message: t`There was an error moving this file`,
-  //       appearance: "error"
-  //     })
-  //     return Promise.reject()
-  //   }
-  // }, [addToastMessage, filesApiClient])
-
-  // const moveFiles = useCallback(async (filesToMove: FilesMvRequest[]) => {
-  //   return Promise.all(
-  //     filesToMove.map((fileToMove) =>
-  //       moveFile(fileToMove)
-  //     )
-  //   )
-  // }, [moveFile])
 
   const getFileContent = useCallback(async (
     bucketId: string,
@@ -504,15 +444,15 @@ const FilesProvider = ({ children }: FilesContextProps) => {
   )
 }
 
-const useDrive = () => {
+const useFiles = () => {
   const context = React.useContext(FilesContext)
   if (context === undefined) {
-    throw new Error("useDrive must be used within a DriveProvider")
+    throw new Error("useFiles must be used within a FilesProvider")
   }
   return context
 }
 
-export { FilesProvider as DriveProvider, useDrive }
+export { FilesProvider, useFiles }
 export type {
   FileSystemItem,
   DirectoryContentResponse,

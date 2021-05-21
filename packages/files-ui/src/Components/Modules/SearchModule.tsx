@@ -17,7 +17,7 @@ import {
 import { useState } from "react"
 import clsx from "clsx"
 import { ROUTE_LINKS } from "../FilesRoutes"
-import { useDrive, BucketType, SearchEntry } from "../../Contexts/FilesContext"
+import { useFiles, BucketType, SearchEntry } from "../../Contexts/FilesContext"
 import { CONTENT_TYPES } from "../../Utils/Constants"
 import { getParentPathFromFilePath } from "../../Utils/pathUtils"
 import { t, Trans } from "@lingui/macro"
@@ -158,13 +158,14 @@ const SearchModule: React.FC<ISearchModule> = ({
   const [searchQuery, setSearchQuery] = useState<string>("")
   const [searchResults, setSearchResults] = useState<{results: SearchEntry[]; query: string} | undefined>(undefined)
   const ref = useRef(null)
-  const { buckets } = useDrive()
+  const { buckets } = useFiles()
   const { addToastMessage } = useToaster()
   const { filesApiClient } = useFilesApi()
   const bucket = useMemo(() => buckets.find(b => b.type === "csf"), [buckets])
 
   const getSearchResults = useCallback(async (searchString: string) => {
     try {
+      debugger
       if (!searchString || !bucket) return []
 
       const results = await filesApiClient.searchFiles({ bucket_id: bucket.id, query: searchString })

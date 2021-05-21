@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react"
 import { Crumb, useToaster, useHistory, useLocation } from "@chainsafe/common-components"
-import { useDrive, FileSystemItem } from "../../../Contexts/FilesContext"
+import { useFiles, FileSystemItem } from "../../../Contexts/FilesContext"
 import { extractDrivePath, getArrayOfPaths, getURISafePathFromArray, getPathWithFile } from "../../../Utils/pathUtils"
 import { IBulkOperations, IFileBrowserModuleProps, IFilesTableBrowserProps } from "./types"
 import FilesList from "./views/FilesList"
@@ -21,7 +21,7 @@ const CSFFileBrowser: React.FC<IFileBrowserModuleProps> = () => {
     uploadFiles,
     uploadsInProgress,
     buckets
-  } = useDrive()
+  } = useFiles()
   const { filesApiClient } = useFilesApi()
   const { addToastMessage } = useToaster()
   const [loadingCurrentPath, setLoadingCurrentPath] = useState(false)

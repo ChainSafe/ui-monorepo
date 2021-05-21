@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react"
 import { useState } from "react"
 import { createStyles, makeStyles, useThemeSwitcher } from "@chainsafe/common-theme"
-import { FileSystemItem, useDrive } from "../../Contexts/FilesContext"
+import { FileSystemItem, useFiles } from "../../Contexts/FilesContext"
 import MimeMatcher from "./../../Utils/MimeMatcher"
 import axios, { CancelTokenSource } from "axios"
 import {
@@ -162,7 +162,7 @@ interface Props {
 
 const FilePreviewModal = ({ file, nextFile, previousFile, closePreview, path }: Props) => {
   const classes = useStyles()
-  const { getFileContent, downloadFile } = useDrive()
+  const { getFileContent, downloadFile } = useFiles()
   const { bucket } = useFileBrowser()
   const { desktop } = useThemeSwitcher()
   const [isLoading, setIsLoading] = useState(false)

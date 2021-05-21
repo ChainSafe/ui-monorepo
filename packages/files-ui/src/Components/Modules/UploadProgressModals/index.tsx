@@ -5,7 +5,7 @@ import {
   makeStyles,
   useThemeSwitcher
 } from "@chainsafe/common-theme"
-import { useDrive } from "../../../Contexts/FilesContext"
+import { useFiles } from "../../../Contexts/FilesContext"
 import UploadBox from "./UploadBox"
 
 const useStyles = makeStyles(({ constants, zIndex, breakpoints }: ITheme) => {
@@ -30,7 +30,7 @@ const useStyles = makeStyles(({ constants, zIndex, breakpoints }: ITheme) => {
 
 const UploadProgressModals: React.FC = () => {
   const classes = useStyles()
-  const { uploadsInProgress } = useDrive()
+  const { uploadsInProgress } = useFiles()
   const { desktop } = useThemeSwitcher()
 
   if (uploadsInProgress.length > 0) {

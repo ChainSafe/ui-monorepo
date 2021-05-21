@@ -1,5 +1,5 @@
 import { Button, FileInput } from "@chainsafe/common-components"
-import { useDrive } from "../../Contexts/FilesContext"
+import { useFiles } from "../../Contexts/FilesContext"
 import { createStyles, makeStyles } from "@chainsafe/common-theme"
 import React, { useCallback, useState } from "react"
 import { Formik, Form } from "formik"
@@ -77,7 +77,7 @@ interface IUploadFileModuleProps {
 const UploadFileModule = ({ modalOpen, close }: IUploadFileModuleProps) => {
   const classes = useStyles()
   const [isDoneDisabled, setIsDoneDisabled] = useState(true)
-  const { uploadFiles } = useDrive()
+  const { uploadFiles } = useFiles()
   const { currentPath, refreshContents, bucket } = useFileBrowser()
 
   const UploadSchema = object().shape({ files: array().required(t`Please select a file to upload`) })

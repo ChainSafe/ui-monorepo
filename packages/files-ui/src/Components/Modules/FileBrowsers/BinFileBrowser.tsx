@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react"
-import { FileSystemItem, useDrive } from "../../../Contexts/FilesContext"
+import { FileSystemItem, useFiles } from "../../../Contexts/FilesContext"
 import { IBulkOperations, IFileBrowserModuleProps } from "./types"
 import FilesList from "./views/FilesList"
 import DragAndDrop from "../../../Contexts/DnDContext"
@@ -14,7 +14,7 @@ import { useFilesApi } from "@chainsafe/common-contexts"
 import { parseFileContentResponse } from "../../../Utils/Helpers"
 
 const BinFileBrowser: React.FC<IFileBrowserModuleProps> = ({ controls = false }: IFileBrowserModuleProps) => {
-  const { buckets } = useDrive()
+  const { buckets } = useFiles()
   const { filesApiClient } = useFilesApi()
   const { addToastMessage } = useToaster()
   const [loadingCurrentPath, setLoadingCurrentPath] = useState(false)

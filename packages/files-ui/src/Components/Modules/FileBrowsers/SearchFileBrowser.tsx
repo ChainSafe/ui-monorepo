@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react"
-import { FileSystemItem, SearchEntry, useDrive } from "../../../Contexts/FilesContext"
+import { FileSystemItem, SearchEntry, useFiles } from "../../../Contexts/FilesContext"
 import { IFileBrowserModuleProps, IFilesTableBrowserProps } from "./types"
 import FilesList from "./views/FilesList"
 import { CONTENT_TYPES } from "../../../Utils/Constants"
@@ -14,7 +14,7 @@ import { useFilesApi } from "@chainsafe/common-contexts"
 const SearchFileBrowser: React.FC<IFileBrowserModuleProps> = ({ controls = false }: IFileBrowserModuleProps) => {
   const { pathname } = useLocation()
   const { filesApiClient } = useFilesApi()
-  const { buckets } = useDrive()
+  const { buckets } = useFiles()
   const [searchTerm, setSearchTerm] = useState(pathname.split("/").slice(2)[0])
   const { redirect } = useHistory()
 
