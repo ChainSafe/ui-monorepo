@@ -131,10 +131,10 @@ const CSFFileBrowser: React.FC<IFileBrowserModuleProps> = () => {
     const itemToRename = pathContents.find(i => i.cid === cid)
     if (!bucket || !itemToRename) return
 
-    await filesApiClient.moveFPSObject(bucket.id, {
+    filesApiClient.moveFPSObject(bucket.id, {
       path: getPathWithFile(currentPath, itemToRename.name),
-      new_path: getPathWithFile(currentPath, newName) })
-    await refreshContents()
+      new_path: getPathWithFile(currentPath, newName) }).then(() => refreshContents())
+      .catch(console.error)
   }, [refreshContents, filesApiClient, bucket, currentPath, pathContents])
 
   const moveItems = useCallback(async (cids: string[], newPath: string) => {
@@ -154,7 +154,7 @@ const CSFFileBrowser: React.FC<IFileBrowserModuleProps> = () => {
     const itemToDownload = pathContents.find(item => item.cid === cid)
     if (!itemToDownload || !bucket) return
 
-    await downloadFile(bucket.id, itemToDownload, currentPath)
+    downloadFile(bucket.id, itemToDownload, currentPath)
   }, [pathContents, downloadFile, currentPath, bucket])
 
   // Breadcrumbs/paths
@@ -184,8 +184,7 @@ const CSFFileBrowser: React.FC<IFileBrowserModuleProps> = () => {
         appearance: "error"
       })
     } else {
-      await uploadFiles(bucket.id, files, path)
-      refreshContents()
+      uploadFiles(bucket.id, files, path).then(() => refreshContents()).catch(console.error)
     }
   }, [addToastMessage, uploadFiles, bucket, refreshContents])
 

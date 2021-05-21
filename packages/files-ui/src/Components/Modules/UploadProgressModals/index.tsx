@@ -33,21 +33,19 @@ const UploadProgressModals: React.FC = () => {
   const { uploadsInProgress } = useFiles()
   const { desktop } = useThemeSwitcher()
 
-  if (uploadsInProgress.length > 0) {
-    return (<div className={classes.root}>
-      {uploadsInProgress.map(
-        (uploadInProgress) =>
-          (desktop || uploadInProgress.complete || uploadInProgress.error) && (
-            <UploadBox
-              key={uploadInProgress.id}
-              uploadInProgress={uploadInProgress}
-            />
-          )
-      )}
-    </div>
-    )} else {
-    return null
-  }
+  if (uploadsInProgress.length === 0) { return null }
+  return (<div className={classes.root}>
+    {uploadsInProgress.map(
+      (uploadInProgress) =>
+        (desktop || uploadInProgress.complete || uploadInProgress.error) && (
+          <UploadBox
+            key={uploadInProgress.id}
+            uploadInProgress={uploadInProgress}
+          />
+        )
+    )}
+  </div>
+  )
 }
 
 export default UploadProgressModals
