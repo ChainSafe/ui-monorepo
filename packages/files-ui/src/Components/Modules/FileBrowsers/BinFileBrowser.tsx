@@ -72,7 +72,7 @@ const BinFileBrowser: React.FC<IFileBrowserModuleProps> = ({ controls = false }:
     const itemToDelete = pathContents.find((i) => i.cid === cid)
 
     if (!itemToDelete || !bucket) {
-      console.error("No item found to delete")
+      console.error("Bucket not set or no item found to delete")
       return
     }
 
@@ -118,7 +118,7 @@ const BinFileBrowser: React.FC<IFileBrowserModuleProps> = ({ controls = false }:
     return Promise.all(
       cids.map(async (cid: string) => {
         const itemToRestore = pathContents.find((i) => i.cid === cid)
-        if (!itemToRestore) throw new Error("Not found")
+        if (!itemToRestore) throw new Error("Item to restore not found")
         try {
           await filesApiClient.moveFPSObject(bucket.id, {
             path: getPathWithFile("/", itemToRestore.name),
