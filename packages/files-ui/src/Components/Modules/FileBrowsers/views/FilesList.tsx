@@ -537,7 +537,9 @@ const FilesList = () => {
       })
   }, [deleteFiles, selectedCids])
 
-  const handleRecoverFiles = useCallback(() => {
+  const handleRecoverFiles = useCallback((e: React.MouseEvent) => {
+    e.preventDefault()
+    e.stopPropagation()
     if (!recoverItems) return
 
     setIsRecoveringFiles(true)
@@ -588,6 +590,18 @@ const FilesList = () => {
   const handleViewFolder = useCallback((cid: string) => {
     viewFolder && viewFolder(cid)
   }, [viewFolder])
+
+  const handleOpenMoveFileDialog = useCallback((e: React.MouseEvent) => {
+    e.preventDefault()
+    e.stopPropagation()
+    setIsMoveFileModalOpen(true)
+  }, [])
+
+  const handleOpenDeleteDialog = useCallback((e: React.MouseEvent) => {
+    e.preventDefault()
+    e.stopPropagation()
+    setIsDeleteModalOpen(true)
+  }, [])
 
   return (
     <article
@@ -731,7 +745,7 @@ const FilesList = () => {
           <>
             {validBulkOps.indexOf("move") >= 0 && (
               <Button
-                onClick={() => setIsMoveFileModalOpen(true)}
+                onClick={handleOpenMoveFileDialog}
                 variant="outline"
               >
                 <Trans>Move selected</Trans>
@@ -748,9 +762,7 @@ const FilesList = () => {
             )}
             {validBulkOps.indexOf("delete") >= 0 && (
               <Button
-                onClick={() => {
-                  setIsDeleteModalOpen(true)
-                }}
+                onClick={handleOpenDeleteDialog}
                 variant="outline"
               >
                 <Trans>Delete selected</Trans>
