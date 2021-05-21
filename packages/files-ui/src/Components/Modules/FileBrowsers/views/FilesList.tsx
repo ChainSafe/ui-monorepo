@@ -538,6 +538,7 @@ const FilesList = () => {
   }, [deleteFiles, selectedCids])
 
   const handleRecoverFiles = useCallback((e: React.MouseEvent) => {
+    debugger
     e.preventDefault()
     e.stopPropagation()
     if (!recoverItems) return
@@ -914,6 +915,7 @@ const FilesList = () => {
                   itemOperations={getItemOperations(file.content_type)}
                   resetSelectedFiles={resetSelectedCids}
                   browserView="table"
+                  recoverFile={() => recoverItems && recoverItems([file.cid])}
                 />
               ))}
             </TableBody>

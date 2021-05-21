@@ -104,7 +104,7 @@ const BinFileBrowser: React.FC<IFileBrowserModuleProps> = ({ controls = false }:
     }
   }, [addToastMessage, bucket, currentPath, pathContents, refreshContents, filesApiClient])
 
-  const deleteFiles = useCallback(async (cids: string[]) => {
+  const deleteItems = useCallback(async (cids: string[]) => {
     await Promise.all(
       cids.map((cid: string) =>
         deleteFile(cid)
@@ -114,14 +114,13 @@ const BinFileBrowser: React.FC<IFileBrowserModuleProps> = ({ controls = false }:
 
   const recoverItems = useCallback(async (cids: string[]) => {
     if (!bucket) return Promise.reject()
-
     return Promise.all(
       cids.map(async (cid: string) => {
         const itemToRestore = pathContents.find((i) => i.cid === cid)
         if (!itemToRestore) throw new Error("Item to restore not found")
         try {
           await filesApiClient.moveFPSObject(bucket.id, {
-            path: getPathWithFile("/", itemToRestore.name),
+            path: getPathWithFile(currentPath, itemToRestore.name),
             new_path: getPathWithFile("/", itemToRestore.name),
             destination: {
               type: "csf"
@@ -178,7 +177,7 @@ const BinFileBrowser: React.FC<IFileBrowserModuleProps> = ({ controls = false }:
     <FileBrowserContext.Provider value={{
       bucket: bucket,
       crumbs: undefined,
-      deleteItems: deleteFiles,
+      deleteItems: deleteItems,
       recoverItems,
       currentPath,
       moduleRootPath: ROUTE_LINKS.Bin("/"),

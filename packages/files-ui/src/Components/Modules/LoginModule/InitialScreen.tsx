@@ -98,7 +98,6 @@ const useStyles = makeStyles(
           marginRight: constants.generalUnit * 3.5
         },
         [breakpoints.down("md")]: {
-          // TODO: confirm how to move this around
           display: "none"
         }
       },
@@ -112,7 +111,6 @@ const useStyles = makeStyles(
           fontWeight: 400
         },
         [breakpoints.down("md")]: {
-          // TODO: confirm how to move this around
           display: "none"
         }
       },
