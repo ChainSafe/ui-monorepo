@@ -6,7 +6,7 @@ import DragAndDrop from "../../../Contexts/DnDContext"
 import { t } from "@lingui/macro"
 import { CONTENT_TYPES } from "../../../Utils/Constants"
 import { IFilesTableBrowserProps } from "../../Modules/FileBrowsers/types"
-import { useLocation, useToaster } from "@chainsafe/common-components"
+import { useHistory, useLocation, useToaster } from "@chainsafe/common-components"
 import { extractDrivePath, getPathWithFile } from "../../../Utils/pathUtils"
 import { ROUTE_LINKS } from "../../FilesRoutes"
 import { FileBrowserContext } from "../../../Contexts/FileBrowserContext"
@@ -21,6 +21,7 @@ const BinFileBrowser: React.FC<IFileBrowserModuleProps> = ({ controls = false }:
   const [pathContents, setPathContents] = useState<FileSystemItem[]>([])
   const { pathname } = useLocation()
   const [currentPath, setCurrentPath] = useState(extractDrivePath(pathname.split("/").slice(1).join("/")))
+  const { redirect } = useHistory()
 
   const bucket = useMemo(() => buckets.find(b => b.type === "trash"), [buckets])
 
@@ -47,11 +48,9 @@ const BinFileBrowser: React.FC<IFileBrowserModuleProps> = ({ controls = false }:
     },
     [bucket, currentPath, filesApiClient]
   )
-
   useEffect(() => {
     refreshContents(true)
-    // eslint-disable-next-line
-  }, [])
+  }, [bucket, refreshContents])
 
   useEffect(() => {
     let binPath = extractDrivePath(pathname)
@@ -59,7 +58,11 @@ const BinFileBrowser: React.FC<IFileBrowserModuleProps> = ({ controls = false }:
       binPath = "/" + binPath
     }
     if (binPath !== currentPath) {
-      setCurrentPath(decodeURI(binPath))
+      if (binPath === "/") {
+        setCurrentPath(binPath)
+      } else {
+        setCurrentPath(decodeURIComponent(binPath.slice(0, -1)))
+      }
       refreshContents(true)
     }
   }, [refreshContents, pathname, currentPath])
@@ -148,6 +151,20 @@ const BinFileBrowser: React.FC<IFileBrowserModuleProps> = ({ controls = false }:
       }))
   }, [addToastMessage, pathContents, refreshContents, filesApiClient, bucket])
 
+  const viewFolder = useCallback((cid: string) => {
+    const fileSystemItem = pathContents.find(f => f.cid === cid)
+    if (fileSystemItem && fileSystemItem.content_type === CONTENT_TYPES.Directory) {
+      let urlSafePath
+      if (currentPath !== "/") {
+        urlSafePath = `/${currentPath.slice(1).split("/").map(encodeURIComponent).join("/")}`
+      } else {
+        urlSafePath = ""
+      }
+      // console.log(ROUTE_LINKS.Bin(`${urlSafePath}/${encodeURIComponent(`${fileSystemItem.name}`)}`))
+      redirect(ROUTE_LINKS.Bin(`${urlSafePath}/${encodeURIComponent(`${fileSystemItem.name}`)}`))
+    }
+  }, [currentPath, pathContents, redirect])
+
   const bulkOperations: IBulkOperations = useMemo(() => ({
     [CONTENT_TYPES.Directory]: [],
     [CONTENT_TYPES.File]: ["recover", "delete"]
@@ -173,7 +190,8 @@ const BinFileBrowser: React.FC<IFileBrowserModuleProps> = ({ controls = false }:
       heading: t`Bin`,
       controls,
       itemOperations,
-      bulkOperations
+      bulkOperations,
+      viewFolder
     }}>
       <DragAndDrop>
         <FilesList />

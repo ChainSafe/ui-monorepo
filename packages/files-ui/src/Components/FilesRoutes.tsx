@@ -45,6 +45,12 @@ const FilesRoutes = () => {
         redirectPath={ROUTE_LINKS.Landing}
       />
       <ConditionalRoute
+        path={ROUTE_LINKS.Bin("/")}
+        isAuthorized={isAuthorized}
+        component={BinPage}
+        redirectPath={ROUTE_LINKS.Landing}
+      />
+      <ConditionalRoute
         exact
         path={ROUTE_LINKS.Search("")}
         isAuthorized={isAuthorized}
@@ -58,13 +64,7 @@ const FilesRoutes = () => {
         component={SearchPage}
         redirectPath={ROUTE_LINKS.Landing}
       />
-      <ConditionalRoute
-        exact
-        path={ROUTE_LINKS.Bin("/")}
-        isAuthorized={isAuthorized}
-        component={BinPage}
-        redirectPath={ROUTE_LINKS.Landing}
-      />
+
       <ConditionalRoute
         exact
         path={ROUTE_LINKS.SettingsDefault}
