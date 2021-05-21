@@ -218,7 +218,7 @@ const CSFFileBrowser: React.FC<IFileBrowserModuleProps> = () => {
 
   return (
     <FileBrowserContext.Provider value={{
-      bucket: bucket,
+      bucket,
       bulkOperations,
       crumbs,
       moduleRootPath: ROUTE_LINKS.Drive(""),
