@@ -349,7 +349,6 @@ const FileSystemItem = ({
       if (desktop) {
         // on desktop
         if (isFolder) {
-          debugger
           viewFolder && viewFolder(file.cid)
         } else {
           onFilePreview()

@@ -388,7 +388,7 @@ const FilesProvider = ({ children }: FilesContextProps) => {
       const result = await getFileContent(bucketId, {
         cid: itemToDownload.cid,
         file: itemToDownload,
-        path: path,
+        path: `${path}/${itemToDownload.name}`,
         onDownloadProgress: (progressEvent) => {
           dispatchDownloadsInProgress({
             type: "progress",
