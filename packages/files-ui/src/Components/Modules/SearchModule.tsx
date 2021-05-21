@@ -165,7 +165,6 @@ const SearchModule: React.FC<ISearchModule> = ({
 
   const getSearchResults = useCallback(async (searchString: string) => {
     try {
-      debugger
       if (!searchString || !bucket) return []
 
       const results = await filesApiClient.searchFiles({ bucket_id: bucket.id, query: searchString })
@@ -193,7 +192,7 @@ const SearchModule: React.FC<ISearchModule> = ({
 
   // TODO useCallback is maybe not needed here
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  const debouncedSearch = useCallback(debounce(onSearch, 400), [])
+  const debouncedSearch = useCallback(debounce(onSearch, 400), [getSearchResults])
 
   const onSearchChange = (searchString: string) => {
     setSearchQuery(searchString)
