@@ -48,7 +48,7 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => 
         height: constants.generalUnit * 16
       },
       "&.highlighted": {
-        border: `1px solid ${palette.additional["geekblue"][6]}`
+        border: `1px solid ${palette.primary.main}`
       }
     },
     renameInput: {

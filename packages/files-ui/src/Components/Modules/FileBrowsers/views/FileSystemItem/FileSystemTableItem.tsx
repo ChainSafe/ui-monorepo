@@ -35,7 +35,7 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => 
         gridTemplateColumns: mobileGridSettings
       },
       "&.droppable": {
-        border: `2px solid ${palette.additional["geekblue"][6]}`
+        border: `2px solid ${palette.primary.main}`
       }
     },
     fileIcon: {
