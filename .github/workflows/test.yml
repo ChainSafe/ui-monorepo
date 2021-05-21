@@ -1,4 +1,4 @@
-name: Cypress Tests with Dependency and Artifact Caching
+name: Cypress Tests
 on: pull_request
 jobs:
   cypress-run:
