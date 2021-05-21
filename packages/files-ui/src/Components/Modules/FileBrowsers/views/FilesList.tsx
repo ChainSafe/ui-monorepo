@@ -33,8 +33,8 @@ import { plural, t, Trans } from "@lingui/macro"
 import { NativeTypes } from "react-dnd-html5-backend"
 import { useDrop } from "react-dnd"
 import { BrowserView, FileOperation } from "../types"
-import { FileSystemItem } from "../../../../Contexts/FilesContext"
-import FileSystemItemRow from "./FileSystemItem/FileSystemItem"
+import { FileSystemItem as FileSystemItemType } from "../../../../Contexts/FilesContext"
+import FileSystemItem from "./FileSystemItem/FileSystemItem"
 import FilePreviewModal from "../../FilePreviewModal"
 import UploadProgressModals from "../../UploadProgressModals"
 import DownloadProgressModals from "../../DownloadProgressModals"
@@ -274,7 +274,7 @@ const useStyles = makeStyles(
 )
 
 // Sorting
-const sortFoldersFirst = (a: FileSystemItem, b: FileSystemItem) =>
+const sortFoldersFirst = (a: FileSystemItemType, b: FileSystemItemType) =>
   a.isFolder && a.content_type !== b.content_type ? -1 : 1
 
 const FilesList = () => {
@@ -314,7 +314,7 @@ const FilesList = () => {
   const { selectedLocale } = useLanguageContext()
   const { redirect } = useHistory()
 
-  const items: FileSystemItem[] = useMemo(() => {
+  const items: FileSystemItemType[] = useMemo(() => {
     let temp = []
 
     switch (column) {
@@ -347,7 +347,7 @@ const FilesList = () => {
 
   const files = useMemo(() => items.filter((i) => !i.isFolder), [items])
 
-  const selectedFiles = useMemo(
+  const selectedItems = useMemo(
     () => items.filter((file) => selectedCids.includes(file.cid)),
     [selectedCids, items]
   )
@@ -417,7 +417,7 @@ const FilesList = () => {
     if (selectedCids.length === items.length) {
       setSelectedCids([])
     } else {
-      setSelectedCids([...items.map((file: FileSystemItem) => file.cid)])
+      setSelectedCids([...items.map((file: FileSystemItemType) => file.cid)])
     }
   }, [setSelectedCids, items, selectedCids])
 
@@ -885,7 +885,7 @@ const FilesList = () => {
                   </TableRow>
                 ))}
               {items.map((file, index) => (
-                <FileSystemItemRow
+                <FileSystemItem
                   key={index}
                   index={index}
                   file={file}
@@ -896,8 +896,8 @@ const FilesList = () => {
                   editing={editing}
                   setEditing={setEditing}
                   renameSchema={renameSchema}
-                  handleRename={async (path: string, newPath: string) => {
-                    handleRename && (await handleRename(path, newPath))
+                  handleRename={async (cid: string, newName: string) => {
+                    handleRename && (await handleRename(cid, newName))
                     setEditing(undefined)
                   }}
                   deleteFile={() => {
@@ -926,13 +926,14 @@ const FilesList = () => {
             )}
           >
             {items.map((file, index) => (
-              <FileSystemItemRow
+              <FileSystemItem
                 key={index}
                 index={index}
                 file={file}
                 files={files}
                 selected={selectedCids}
                 handleSelectCid={handleSelectCid}
+                viewFolder={handleViewFolder}
                 handleAddToSelectedCids={handleAddToSelectedCids}
                 editing={editing}
                 setEditing={setEditing}
@@ -1003,7 +1004,7 @@ const FilesList = () => {
               close={() => setIsUploadModalOpen(false)}
             />
             <MoveFileModule
-              filesToMove={selectedFiles}
+              filesToMove={selectedItems}
               modalOpen={isMoveFileModalOpen}
               onClose={() => {
                 setIsMoveFileModalOpen(false)

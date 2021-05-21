@@ -28,7 +28,7 @@ import { BrowserView, FileOperation } from "../../types"
 import { CSFTheme } from "../../../../../Themes/types"
 import FileItemTableItem from "./FileSystemTableItem"
 import FileItemGridItem from "./FileSystemGridItem"
-import { FileSystemItem } from "../../../../../Contexts/FilesContext"
+import { FileSystemItem as FileSystemItemType } from "../../../../../Contexts/FilesContext"
 import { useFileBrowser } from "../../../../../Contexts/FileBrowserContext"
 
 const useStyles = makeStyles(({ breakpoints, constants }: CSFTheme) => {
@@ -98,18 +98,18 @@ const useStyles = makeStyles(({ breakpoints, constants }: CSFTheme) => {
   })
 })
 
-interface IFileSystemItemRowProps {
+interface IFileSystemItemProps {
   index: number
-  file: FileSystemItem
-  files: FileSystemItem[]
+  file: FileSystemItemType
+  files: FileSystemItemType[]
   selected: string[]
   handleSelectCid(selectedCid: string): void
   handleAddToSelectedCids(selectedCid: string): void
   editing: string | undefined
   setEditing(editing: string | undefined): void
   renameSchema: any
-  handleRename?: (path: string, newPath: string) => Promise<void>
-  handleMove?: (path: string, newPath: string) => Promise<void>
+  handleRename?: (cid: string, newName: string) => Promise<void>
+  handleMove?: (cid: string, newPath: string) => Promise<void>
   deleteFile?: () => void
   recoverFile?: (cid: string) => void
   viewFolder?: (cid: string) => void
@@ -121,7 +121,7 @@ interface IFileSystemItemRowProps {
   browserView: BrowserView
 }
 
-const FileSystemItemRow = ({
+const FileSystemItem = ({
   file,
   files,
   selected,
@@ -140,7 +140,7 @@ const FileSystemItemRow = ({
   itemOperations,
   browserView,
   resetSelectedFiles
-}: IFileSystemItemRowProps) => {
+}: IFileSystemItemProps) => {
   const { downloadFile, currentPath, handleUploadOnDrop, moveItems } = useFileBrowser()
   const { cid, name, isFolder, content_type } = file
   let Icon
@@ -349,6 +349,7 @@ const FileSystemItemRow = ({
       if (desktop) {
         // on desktop
         if (isFolder) {
+          debugger
           viewFolder && viewFolder(file.cid)
         } else {
           onFilePreview()
@@ -415,10 +416,9 @@ const FileSystemItemRow = ({
                 onSubmit={(values) => {
                   handleRename &&
                   handleRename(
-                    `${currentPath}${name}`,
-                    `${currentPath}${values.fileName}`
+                    file.cid,
+                    values.fileName
                   )
-                  setEditing(undefined)
                 }}
               >
                 <Form className={classes.renameModal}>
@@ -468,4 +468,4 @@ const FileSystemItemRow = ({
   )
 }
 
-export default FileSystemItemRow
+export default FileSystemItem

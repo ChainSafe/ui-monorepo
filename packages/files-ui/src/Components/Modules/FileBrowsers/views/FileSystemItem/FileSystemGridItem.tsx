@@ -12,6 +12,7 @@ import { CSFTheme } from "../../../../../Themes/types"
 import { FileSystemItem } from "../../../../../Contexts/FilesContext"
 import { ConnectDragPreview } from "react-dnd"
 import { Form, Formik } from "formik"
+import { useFileBrowser } from "../../../../../Contexts/FileBrowserContext"
 
 const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => {
   return createStyles({
@@ -149,7 +150,6 @@ const FileSystemGridItem = React.forwardRef(
     renameSchema,
     setEditing,
     handleRename,
-    currentPath,
     menuItems,
     resetSelectedFiles,
     preview
@@ -157,7 +157,8 @@ const FileSystemGridItem = React.forwardRef(
     const classes = useStyles()
     const { name, cid } = file
     const { desktop } = useThemeSwitcher()
-
+    const { viewFolder } = useFileBrowser()
+    
     const handleClickOutside = useCallback(
       (e) => {
         if (forwardedRef.current && forwardedRef.current.contains(e.target)) {
@@ -211,11 +212,11 @@ const FileSystemGridItem = React.forwardRef(
               }}
               validationSchema={renameSchema}
               onSubmit={(values) => {
-                handleRename && handleRename(
-                  `${currentPath}${name}`,
-                  `${currentPath}${values.fileName}`
-                )
-                setEditing(undefined)
+                handleRename &&
+                  handleRename(
+                    file.cid,
+                    values.fileName
+                  )
               }}
             >
               <Form className={classes.desktopRename}>
