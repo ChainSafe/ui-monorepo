@@ -89,10 +89,10 @@ const UploadFileModule = ({ modalOpen, close }: IUploadFileModuleProps) => {
   const onSubmit = useCallback(async (values, helpers) => {
     helpers.setSubmitting(true)
     try {
+      close()
       await uploadFiles(values.files, currentPath)
       helpers.resetForm()
       refreshContents && refreshContents()
-      close()
     } catch (errors) {
       if (errors[0].message.includes("conflict with existing")) {
         helpers.setFieldError("files", "File/Folder exists")
