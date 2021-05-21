@@ -148,7 +148,7 @@ const BinFileBrowser: React.FC<IFileBrowserModuleProps> = ({ controls = false }:
           return Promise.resolve()
         }
       }))
-  }, [addToastMessage, pathContents, refreshContents, filesApiClient, bucket])
+  }, [addToastMessage, pathContents, refreshContents, filesApiClient, bucket, currentPath])
 
   const viewFolder = useCallback((cid: string) => {
     const fileSystemItem = pathContents.find(f => f.cid === cid)
