@@ -145,9 +145,9 @@ const FileInput: React.FC<IFileInputProps> = ({
 
   const onDrop = useCallback(
     async (acceptedFiles: File[], fileRejections: FileRejection[]) => {
-      const filtered = acceptedFiles.filter((file) => {
-        return maxFileSize ? file.size <= maxFileSize : true
-      })
+      const filtered = acceptedFiles.filter((file) =>
+        maxFileSize ? file.size <= maxFileSize : true
+      )
       setErrors([])
       if (showPreviews) {
         setPreviews(
