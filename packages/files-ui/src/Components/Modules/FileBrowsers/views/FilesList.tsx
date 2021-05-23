@@ -538,7 +538,6 @@ const FilesList = () => {
   }, [deleteFiles, selectedCids])
 
   const handleRecoverFiles = useCallback((e: React.MouseEvent) => {
-    debugger
     e.preventDefault()
     e.stopPropagation()
     if (!recoverItems) return
