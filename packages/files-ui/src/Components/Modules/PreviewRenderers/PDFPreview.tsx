@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react"
 import { IPreviewRendererProps } from "../FilePreviewModal"
 import { makeStyles, ITheme, createStyles } from "@chainsafe/common-theme"
-import { Document, Page } from "react-pdf/dist/esm/entry.webpack"
+import { Document, Page } from "react-pdf/dist/umd/entry.webpack"
 
 import { Button, Typography } from "@chainsafe/common-components"
 import { Trans } from "@lingui/macro"
