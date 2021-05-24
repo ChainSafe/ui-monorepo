@@ -72,7 +72,7 @@ const useStyles = makeStyles(
           borderRadius: constants.generalUnit / 4,
           minHeight: `calc(100vh - ${Number(constants.contentTopPadding)}px)`,
           "&.droppable": {
-            borderColor: palette.additional["geekblue"][4]
+            borderColor: palette.primary.main
           }
         }
         // transitionDuration: `${animation.transform}ms`,
