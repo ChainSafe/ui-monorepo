@@ -1,48 +1,32 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react"
-import { BucketType, FileSystemItem, SearchEntry, useDrive } from "../../../Contexts/DriveContext"
-import { IFilesBrowserModuleProps, IFilesTableBrowserProps } from "./types"
-import FilesTableView from "./views/FilesTable.view"
+import { FileSystemItem, SearchEntry, useFiles } from "../../../Contexts/FilesContext"
+import { IFileBrowserModuleProps, IFilesTableBrowserProps } from "./types"
+import FilesList from "./views/FilesList"
 import { CONTENT_TYPES } from "../../../Utils/Constants"
 import DragAndDrop from "../../../Contexts/DnDContext"
 import { useHistory, useLocation, useToaster } from "@chainsafe/common-components"
 import { getParentPathFromFilePath } from "../../../Utils/pathUtils"
 import { ROUTE_LINKS } from "../../FilesRoutes"
 import { t } from "@lingui/macro"
-import { SearchParams } from "../SearchModule"
 import { FileBrowserContext } from "../../../Contexts/FileBrowserContext"
+import { useFilesApi } from "@chainsafe/common-contexts"
 
-const SearchFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = false }: IFilesBrowserModuleProps) => {
+const SearchFileBrowser: React.FC<IFileBrowserModuleProps> = ({ controls = false }: IFileBrowserModuleProps) => {
   const { pathname } = useLocation()
+  const { filesApiClient } = useFilesApi()
+  const { buckets } = useFiles()
   const [searchTerm, setSearchTerm] = useState(pathname.split("/").slice(2)[0])
   const { redirect } = useHistory()
 
-  const { listBuckets, searchFiles } = useDrive()
-
-  const [bucketType] = useState<BucketType>("csf")
-  const [currentSearchBucket, setCurrentSearchBucket] = useState<SearchParams | undefined>()
   const { addToastMessage } = useToaster()
+
+  const bucket = useMemo(() => buckets.find(b => b.type === "csf"), [buckets])
 
   const getSearchResults = useCallback(async (searchString: string) => {
     try {
-      if (!searchString) return []
-      let bucketId
-      if (
-        currentSearchBucket &&
-        currentSearchBucket.bucketType === bucketType
-      ) {
-        // we have the bucket id
-        bucketId = currentSearchBucket.bucketId
-      } else {
-        // fetch bucket id
-        const results = await listBuckets(bucketType)
-        const bucket1 = results[0]
-        setCurrentSearchBucket({
-          bucketType,
-          bucketId: bucket1.id
-        })
-        bucketId = bucket1.id
-      }
-      const results = await searchFiles(bucketId || "", searchString)
+      if (!searchString || !bucket) return []
+
+      const results = await filesApiClient.searchFiles({ bucket_id: bucket.id, query: searchString })
       return results
     } catch (err) {
       addToastMessage({
@@ -51,13 +35,13 @@ const SearchFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = fals
       })
       return Promise.reject(err)
     }
-  }, [addToastMessage, bucketType, currentSearchBucket, listBuckets, searchFiles])
+  }, [addToastMessage, bucket, filesApiClient])
 
   useEffect(() => {
-    const drivePath = pathname.split("/").slice(2)[0]
+    const searchPath = pathname.split("/").slice(2)[0]
 
-    setSearchTerm(decodeURI(drivePath))
-    getSearchResults(decodeURI(drivePath))
+    setSearchTerm(decodeURI(searchPath))
+    getSearchResults(decodeURI(searchPath))
   }, [getSearchResults, pathname])
 
   const [loadingSearchResults, setLoadingSearchResults] = useState(true)
@@ -129,11 +113,10 @@ const SearchFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = fals
       controls,
       itemOperations,
       isSearch: true,
-      bucketType,
       getPath
     }}>
       <DragAndDrop>
-        <FilesTableView />
+        <FilesList />
       </DragAndDrop>
     </FileBrowserContext.Provider>
   )

@@ -1,18 +1,17 @@
 import { Crumb } from "@chainsafe/common-components"
 import React, { useContext } from "react"
-import { FileOperation, IBulkOperations, IFilesBrowserModuleProps } from "../Components/Modules/FileBrowsers/types"
-import { BucketType, FileSystemItem, UploadProgress } from "./DriveContext"
-
-interface FileBrowserContext extends IFilesBrowserModuleProps {
+import { FileOperation, IBulkOperations, IFileBrowserModuleProps } from "../Components/Modules/FileBrowsers/types"
+import { FileSystemItem, UploadProgress } from "./FilesContext"
+import { Bucket } from "@chainsafe/files-api-client"
+interface FileBrowserContext extends IFileBrowserModuleProps {
+  bucket?: Bucket
   itemOperations: {[contentType: string]: FileOperation[]}
-
   bulkOperations?: IBulkOperations
-  handleRename?: (path: string, new_path: string) => Promise<void>
-  handleMove?: (path: string, new_path: string) => Promise<void>
+  renameItem?: (cid: string, newName: string) => Promise<void>
+  moveItems?: (cids: string[], newPath: string) => Promise<void>
   downloadFile?: (cid: string) => Promise<void>
-  deleteFiles?: (cid: string[]) => Promise<void>
-  recoverFile?: (cid: string) => Promise<void>
-  recoverFiles?: (cid: string[]) => Promise<void[]>
+  deleteItems?: (cid: string[]) => Promise<void>
+  recoverItems?: (cid: string[]) => Promise<void[]>
   viewFolder?: (cid: string) => void
   allowDropUpload?: boolean
 
@@ -24,7 +23,6 @@ interface FileBrowserContext extends IFilesBrowserModuleProps {
 
   refreshContents?: () => void
   currentPath: string
-  bucketType: BucketType
   loadingCurrentPath: boolean
   uploadsInProgress?: UploadProgress[]
   showUploadsInTable: boolean

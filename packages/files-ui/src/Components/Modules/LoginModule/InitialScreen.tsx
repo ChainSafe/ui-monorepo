@@ -3,7 +3,7 @@ import { Button, FacebookLogoIcon, GithubLogoIcon, GoogleLogoIcon, Loading, Typo
 import { createStyles, makeStyles, useThemeSwitcher } from "@chainsafe/common-theme"
 import { CSFTheme } from "../../../Themes/types"
 import { t, Trans } from "@lingui/macro"
-import { useImployApi } from "@chainsafe/common-contexts"
+import { useFilesApi } from "@chainsafe/common-contexts"
 import { useWeb3 } from "@chainsafe/web3-context"
 import { useThresholdKey } from "../../../Contexts/ThresholdKeyContext"
 import { LOGIN_TYPE } from "@toruslabs/torus-direct-web-sdk"
@@ -98,7 +98,6 @@ const useStyles = makeStyles(
           marginRight: constants.generalUnit * 3.5
         },
         [breakpoints.down("md")]: {
-          // TODO: confirm how to move this around
           display: "none"
         }
       },
@@ -112,7 +111,6 @@ const useStyles = makeStyles(
           fontWeight: 400
         },
         [breakpoints.down("md")]: {
-          // TODO: confirm how to move this around
           display: "none"
         }
       },
@@ -138,7 +136,7 @@ interface IInitialScreen {
 }
 
 const InitialScreen = ({ className }: IInitialScreen) => {
-  const { selectWallet, resetAndSelectWallet } = useImployApi()
+  const { selectWallet, resetAndSelectWallet } = useFilesApi()
   const { desktop } = useThemeSwitcher()
   const { wallet } = useWeb3()
   const { login, status, resetStatus } = useThresholdKey()

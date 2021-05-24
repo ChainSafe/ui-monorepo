@@ -17,7 +17,7 @@ import {
 } from "@chainsafe/common-components"
 import { CSFTheme } from "../../../../../Themes/types"
 import dayjs from "dayjs"
-import { FileSystemItem } from "../../../../../Contexts/DriveContext"
+import { FileSystemItem } from "../../../../../Contexts/FilesContext"
 import { ConnectDragPreview } from "react-dnd"
 import { Form, Formik } from "formik"
 
@@ -138,7 +138,6 @@ const FileSystemTableItem = React.forwardRef(
     renameSchema,
     setEditing,
     handleRename,
-    currentPath,
     menuItems
   }: IFileSystemTableItemProps, forwardedRef: any) => {
     const classes = useStyles()
@@ -184,11 +183,10 @@ const FileSystemTableItem = React.forwardRef(
               validationSchema={renameSchema}
               onSubmit={(values) => {
                 handleRename &&
-                handleRename(
-                  `${currentPath}${name}`,
-                  `${currentPath}${values.fileName}`
-                )
-                setEditing(undefined)
+                  handleRename(
+                    file.cid,
+                    values.fileName
+                  )
               }}
             >
               <Form className={classes.desktopRename}>

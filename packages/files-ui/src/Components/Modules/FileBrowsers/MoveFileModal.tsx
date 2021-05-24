@@ -3,11 +3,11 @@ import React, { useState, useEffect, useCallback } from "react"
 import CustomModal from "../../Elements/CustomModal"
 import CustomButton from "../../Elements/CustomButton"
 import { Trans } from "@lingui/macro"
-import { useDrive, DirectoryContentResponse, FileSystemItem } from "../../../Contexts/DriveContext"
+import { DirectoryContentResponse, FileSystemItem } from "../../../Contexts/FilesContext"
 import { Button, FolderIcon, Grid, ITreeNodeProps, ScrollbarWrapper, TreeView, Typography } from "@chainsafe/common-components"
-import { getPathWithFile } from "../../../Utils/pathUtils"
 import { CSFTheme } from "../../../Themes/types"
 import { useFileBrowser } from "../../../Contexts/FileBrowserContext"
+import { useFilesApi } from "@chainsafe/common-contexts"
 
 const useStyles = makeStyles(
   ({ breakpoints, constants, palette, typography, zIndex }: CSFTheme) => {
@@ -72,11 +72,12 @@ interface IMoveFileModuleProps {
 
 const MoveFileModule = ({ filesToMove, modalOpen, onClose, onCancel }: IMoveFileModuleProps) => {
   const classes = useStyles()
-  const { getFolderTree, moveFiles } = useDrive()
+  const { filesApiClient } = useFilesApi()
+  const { moveItems } = useFileBrowser()
   const [movingFile, setMovingFile] = useState(false)
   const [movePath, setMovePath] = useState<undefined | string>(undefined)
   const [folderTree, setFolderTree] = useState<ITreeNodeProps[]>([])
-  const { currentPath, refreshContents } = useFileBrowser()
+  const { refreshContents } = useFileBrowser()
 
   const mapFolderTree = useCallback(
     (folderTreeEntries: DirectoryContentResponse[]): ITreeNodeProps[] => {
@@ -91,7 +92,8 @@ const MoveFileModule = ({ filesToMove, modalOpen, onClose, onCancel }: IMoveFile
   )
 
   const getFolderTreeData = useCallback(async () => {
-    getFolderTree().then((newFolderTree) => {
+    // TODO: Update this when the getBucketTree method is available on the API
+    filesApiClient.getCSFTree().then((newFolderTree) => {
       if (newFolderTree.entries) {
         const folderTreeNodes = [
           {
@@ -107,7 +109,7 @@ const MoveFileModule = ({ filesToMove, modalOpen, onClose, onCancel }: IMoveFile
         setFolderTree([])
       }
     }).catch(console.error)
-  }, [getFolderTree, mapFolderTree])
+  }, [filesApiClient, mapFolderTree])
 
   useEffect(() => {
     if (modalOpen) {
@@ -121,12 +123,7 @@ const MoveFileModule = ({ filesToMove, modalOpen, onClose, onCancel }: IMoveFile
     if (movePath) {
       setMovingFile(true)
 
-      moveFiles(
-        filesToMove.map((file) => ({
-          path: `${currentPath}${file.name}`,
-          new_path: getPathWithFile(movePath, file.name)
-        }))
-      )
+      moveItems && moveItems(filesToMove.map(f => f.cid), movePath)
         .then(() => {
           refreshContents && refreshContents()
         })

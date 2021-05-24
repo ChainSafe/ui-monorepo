@@ -1,5 +1,5 @@
 import { Crumb } from "@chainsafe/common-components"
-import { BucketType, FileSystemItem, UploadProgress } from "../../../Contexts/DriveContext"
+import { BucketType, FileSystemItem, UploadProgress } from "../../../Contexts/FilesContext"
 
 export type FileOperation =
   | "rename"
@@ -14,7 +14,7 @@ export type FileOperation =
 
 export type BrowserView = "grid" | "table"
 
-export interface IFilesBrowserModuleProps {
+export interface IFileBrowserModuleProps {
   heading?: string
   // TODO: once pagination & unique content requests are present, this might change to a passed in function
   controls?: boolean
@@ -25,7 +25,7 @@ export interface IBulkOperations {
 }
 
 export interface IFilesTableBrowserProps
-  extends Omit<IFilesBrowserModuleProps, "fileOperations" | "folderOperations"> {
+  extends Omit<IFileBrowserModuleProps, "fileOperations" | "folderOperations"> {
   itemOperations: {[contentType: string]: FileOperation[]}
 
   bulkOperations?: IBulkOperations

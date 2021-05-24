@@ -2,7 +2,7 @@ import React, { useMemo } from "react"
 import { Switch, ConditionalRoute } from "@chainsafe/common-components"
 import LoginPage from "./Pages/LoginPage"
 import SettingsPage from "./Pages/SettingsPage"
-import { useImployApi } from "@chainsafe/common-contexts"
+import { useFilesApi } from "@chainsafe/common-contexts"
 import DrivePage from "./Pages/DrivePage"
 import SearchPage from "./Pages/SearchPage"
 import BinPage from "./Pages/BinPage"
@@ -30,7 +30,7 @@ export const SETTINGS_PATHS = ["profile", "plan", "security"] as const
 export type SettingsPath = typeof SETTINGS_PATHS[number]
 
 const FilesRoutes = () => {
-  const { isLoggedIn, secured } = useImployApi()
+  const { isLoggedIn, secured } = useFilesApi()
   const { isNewDevice, publicKey, shouldInitializeAccount } = useThresholdKey()
 
   const isAuthorized = useMemo(() => isLoggedIn && secured && !!publicKey && !isNewDevice && !shouldInitializeAccount,
@@ -42,6 +42,12 @@ const FilesRoutes = () => {
         path={ROUTE_LINKS.Drive("/")}
         isAuthorized={isAuthorized}
         component={DrivePage}
+        redirectPath={ROUTE_LINKS.Landing}
+      />
+      <ConditionalRoute
+        path={ROUTE_LINKS.Bin("/")}
+        isAuthorized={isAuthorized}
+        component={BinPage}
         redirectPath={ROUTE_LINKS.Landing}
       />
       <ConditionalRoute
@@ -58,13 +64,7 @@ const FilesRoutes = () => {
         component={SearchPage}
         redirectPath={ROUTE_LINKS.Landing}
       />
-      <ConditionalRoute
-        exact
-        path={ROUTE_LINKS.Bin("/")}
-        isAuthorized={isAuthorized}
-        component={BinPage}
-        redirectPath={ROUTE_LINKS.Landing}
-      />
+
       <ConditionalRoute
         exact
         path={ROUTE_LINKS.SettingsDefault}
