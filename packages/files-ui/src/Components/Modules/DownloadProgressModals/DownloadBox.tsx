@@ -1,6 +1,6 @@
 import React from "react"
 import { createStyles, ITheme, makeStyles } from "@chainsafe/common-theme"
-import { DownloadProgress } from "../../../Contexts/DriveContext"
+import { DownloadProgress } from "../../../Contexts/FilesContext"
 import {
   ProgressBar,
   Typography,

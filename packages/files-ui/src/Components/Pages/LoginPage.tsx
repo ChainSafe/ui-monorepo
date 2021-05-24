@@ -13,7 +13,7 @@ import TopDarkSVG from "../../Media/landing/layers/dark/Top.dark.svg"
 import BottomLightSVG from "../../Media/landing/layers/light/Bottom.light.svg"
 import TopLightSVG from "../../Media/landing/layers/light/Top.light.svg"
 // import { ForegroundSVG } from "../../Media/landing/layers/ForegroundSVG"
-import { useImployApi } from "@chainsafe/common-contexts"
+import { useFilesApi } from "@chainsafe/common-contexts"
 import MigrateAccount from "../Modules/LoginModule/MigrateAccount"
 import InitializeAccount from "../Modules/LoginModule/InitializeAccount"
 
@@ -127,7 +127,7 @@ const useStyles = makeStyles(
 )
 
 const Content = ({ className }: { className: string }) => {
-  const { isMasterPasswordSet } = useImployApi()
+  const { isMasterPasswordSet } = useFilesApi()
   const { keyDetails, isNewDevice, shouldInitializeAccount } = useThresholdKey()
   const shouldSaveNewDevice = !!keyDetails && isNewDevice && keyDetails.requiredShares <= 0
   const areSharesMissing = !!keyDetails && keyDetails.requiredShares > 0

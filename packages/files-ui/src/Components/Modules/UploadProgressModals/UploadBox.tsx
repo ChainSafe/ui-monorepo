@@ -1,6 +1,6 @@
 import React from "react"
 import { createStyles, makeStyles } from "@chainsafe/common-theme"
-import { UploadProgress } from "../../../Contexts/DriveContext"
+import { UploadProgress } from "../../../Contexts/FilesContext"
 import { ProgressBar, Typography, CheckCircleIcon, CloseCircleIcon } from "@chainsafe/common-components"
 import clsx from "clsx"
 import { plural, Trans } from "@lingui/macro"

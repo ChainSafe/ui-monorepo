@@ -33,12 +33,12 @@ import { plural, t, Trans } from "@lingui/macro"
 import { NativeTypes } from "react-dnd-html5-backend"
 import { useDrop } from "react-dnd"
 import { BrowserView, FileOperation } from "../types"
-import { FileSystemItem } from "../../../../Contexts/DriveContext"
-import FileSystemItemRow from "./FileSystemItem/FileSystemItem"
+import { FileSystemItem as FileSystemItemType } from "../../../../Contexts/FilesContext"
+import FileSystemItem from "./FileSystemItem/FileSystemItem"
 import FilePreviewModal from "../../FilePreviewModal"
 import UploadProgressModals from "../../UploadProgressModals"
 import DownloadProgressModals from "../../DownloadProgressModals"
-import CreateFolderModule from "../../CreateFolderModule"
+import CreateFolderModal from "../CreateFolderModal"
 import UploadFileModule from "../../UploadFileModule"
 import MoveFileModule from "../MoveFileModal"
 import FileInfoModal from "../FileInfoModal"
@@ -274,10 +274,10 @@ const useStyles = makeStyles(
 )
 
 // Sorting
-const sortFoldersFirst = (a: FileSystemItem, b: FileSystemItem) =>
+const sortFoldersFirst = (a: FileSystemItemType, b: FileSystemItemType) =>
   a.isFolder && a.content_type !== b.content_type ? -1 : 1
 
-const FilesTableView = () => {
+const FilesList = () => {
   const { themeKey, desktop } = useThemeSwitcher()
 
   const {
@@ -287,9 +287,9 @@ const FilesTableView = () => {
     handleUploadOnDrop,
     bulkOperations,
     crumbs,
-    handleRename,
-    deleteFiles,
-    recoverFiles,
+    renameItem: handleRename,
+    deleteItems: deleteFiles,
+    recoverItems,
     viewFolder,
     currentPath,
     refreshContents,
@@ -300,9 +300,9 @@ const FilesTableView = () => {
     itemOperations,
     getPath,
     moduleRootPath,
-    bucketType,
     isSearch,
-    withSurvey
+    withSurvey,
+    bucket
   } = useFileBrowser()
   const classes = useStyles({ themeKey })
   const [editing, setEditing] = useState<string | undefined>()
@@ -314,7 +314,7 @@ const FilesTableView = () => {
   const { selectedLocale } = useLanguageContext()
   const { redirect } = useHistory()
 
-  const items: FileSystemItem[] = useMemo(() => {
+  const items: FileSystemItemType[] = useMemo(() => {
     let temp = []
 
     switch (column) {
@@ -347,9 +347,9 @@ const FilesTableView = () => {
 
   const files = useMemo(() => items.filter((i) => !i.isFolder), [items])
 
-  const selectedFiles = useMemo(
-    () => files.filter((file) => selectedCids.includes(file.cid)),
-    [files, selectedCids]
+  const selectedItems = useMemo(
+    () => items.filter((file) => selectedCids.includes(file.cid)),
+    [selectedCids, items]
   )
 
   const handleSortToggle = (
@@ -417,7 +417,7 @@ const FilesTableView = () => {
     if (selectedCids.length === items.length) {
       setSelectedCids([])
     } else {
-      setSelectedCids([...items.map((file: FileSystemItem) => file.cid)])
+      setSelectedCids([...items.map((file: FileSystemItemType) => file.cid)])
     }
   }, [setSelectedCids, items, selectedCids])
 
@@ -540,16 +540,16 @@ const FilesTableView = () => {
   const handleRecoverFiles = useCallback((e: React.MouseEvent) => {
     e.preventDefault()
     e.stopPropagation()
-    if (!recoverFiles) return
+    if (!recoverItems) return
 
     setIsRecoveringFiles(true)
-    recoverFiles(selectedCids)
+    recoverItems(selectedCids)
       .catch(console.error)
       .finally(() => {
         setIsRecoveringFiles(false)
         setSelectedCids([])
       })
-  }, [recoverFiles, selectedCids])
+  }, [recoverItems, selectedCids])
 
   const getItemOperations = useCallback(
     (contentType: string) => {
@@ -885,7 +885,7 @@ const FilesTableView = () => {
                   </TableRow>
                 ))}
               {items.map((file, index) => (
-                <FileSystemItemRow
+                <FileSystemItem
                   key={index}
                   index={index}
                   file={file}
@@ -896,8 +896,8 @@ const FilesTableView = () => {
                   editing={editing}
                   setEditing={setEditing}
                   renameSchema={renameSchema}
-                  handleRename={async (path: string, newPath: string) => {
-                    handleRename && (await handleRename(path, newPath))
+                  handleRename={async (cid: string, newName: string) => {
+                    handleRename && (await handleRename(cid, newName))
                     setEditing(undefined)
                   }}
                   deleteFile={() => {
@@ -914,6 +914,7 @@ const FilesTableView = () => {
                   itemOperations={getItemOperations(file.content_type)}
                   resetSelectedFiles={resetSelectedCids}
                   browserView="table"
+                  recoverFile={() => recoverItems && recoverItems([file.cid])}
                 />
               ))}
             </TableBody>
@@ -926,13 +927,14 @@ const FilesTableView = () => {
             )}
           >
             {items.map((file, index) => (
-              <FileSystemItemRow
+              <FileSystemItem
                 key={index}
                 index={index}
                 file={file}
                 files={files}
                 selected={selectedCids}
                 handleSelectCid={handleSelectCid}
+                viewFolder={handleViewFolder}
                 handleAddToSelectedCids={handleAddToSelectedCids}
                 editing={editing}
                 setEditing={setEditing}
@@ -958,11 +960,10 @@ const FilesTableView = () => {
             ))}
           </section>
         )}
-      {files && previewFileIndex !== undefined && (
+      {files && previewFileIndex !== undefined && bucket && (
         <FilePreviewModal
           file={files[previewFileIndex]}
           closePreview={clearPreview}
-          bucketType={bucketType}
           nextFile={
             previewFileIndex < files.length - 1 ? setNextPreview : undefined
           }
@@ -995,7 +996,7 @@ const FilesTableView = () => {
       {
         refreshContents && (
           <>
-            <CreateFolderModule
+            <CreateFolderModal
               modalOpen={createFolderModalOpen}
               close={() => setCreateFolderModalOpen(false)}
             />
@@ -1004,7 +1005,7 @@ const FilesTableView = () => {
               close={() => setIsUploadModalOpen(false)}
             />
             <MoveFileModule
-              filesToMove={selectedFiles}
+              filesToMove={selectedItems}
               modalOpen={isMoveFileModalOpen}
               onClose={() => {
                 setIsMoveFileModalOpen(false)
@@ -1024,4 +1025,4 @@ const FilesTableView = () => {
   )
 }
 
-export default FilesTableView
+export default FilesList

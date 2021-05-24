@@ -190,12 +190,6 @@ msgstr "File Info"
 msgid "File format not supported."
 msgstr "File format not supported."
 
-msgid "File moved successfully"
-msgstr "File moved successfully"
-
-msgid "File renamed successfully"
-msgstr "File renamed successfully"
-
 msgid "File size"
 msgstr "File size"
 
@@ -210,9 +204,6 @@ msgstr "First name"
 
 msgid "Folder"
 msgstr "Folder"
-
-msgid "Folder created successfully"
-msgstr "Folder created successfully"
 
 msgid "Folders"
 msgstr "Folders"
@@ -553,17 +544,8 @@ msgstr "There was an error authenticating"
 msgid "There was an error connecting your wallet"
 msgstr "There was an error connecting your wallet"
 
-msgid "There was an error creating this folder"
-msgstr "There was an error creating this folder"
-
 msgid "There was an error deleting this"
 msgstr "There was an error deleting this"
-
-msgid "There was an error getting file info"
-msgstr "There was an error getting file info"
-
-msgid "There was an error getting folder info"
-msgstr "There was an error getting folder info"
 
 msgid "There was an error getting search results"
 msgstr "There was an error getting search results"
@@ -571,14 +553,8 @@ msgstr "There was an error getting search results"
 msgid "There was an error getting the preview."
 msgstr "There was an error getting the preview."
 
-msgid "There was an error moving this file"
-msgstr "There was an error moving this file"
-
 msgid "There was an error recovering this"
 msgstr "There was an error recovering this"
-
-msgid "There was an error renaming this file"
-msgstr "There was an error renaming this file"
 
 msgid "Try again"
 msgstr "Try again"

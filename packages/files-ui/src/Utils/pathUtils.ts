@@ -22,10 +22,10 @@ export function getArrayOfPaths(path: string): string[] {
 
 // [] -> "/"
 // ["path", "to", "this"] -> "/path/to/this"
-export function getPathFromArray(arrayOfPaths: string[]): string {
+export function getURISafePathFromArray(arrayOfPaths: string[]): string {
   if (!arrayOfPaths.length) return "/"
   else {
-    return "/" + arrayOfPaths.join("/")
+    return "/" + arrayOfPaths.map(encodeURIComponent).join("/")
   }
 }
 
@@ -42,7 +42,7 @@ export function getPathWithFile(path: string, fileName: string) {
 export function getParentPathFromFilePath(filePath: string) {
   const parentPath = filePath.substring(0, filePath.lastIndexOf("/"))
   if (!parentPath) return "/"
-  else return parentPath
+  return parentPath
 }
 
 export function extractDrivePath(pathname: string) {

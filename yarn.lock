@@ -1664,10 +1664,10 @@
   resolved "https://registry.yarnpkg.com/@chainsafe/browser-storage-hooks/-/browser-storage-hooks-1.0.1.tgz#26d32cde1999914db755a631e2643823c54959f7"
   integrity sha512-Q4b5gQAZnsRXKeADspd5isqfwwhhXjDk70y++YadufA6EZ3tf340oW0OVszp74KaGEw+CAYFGQR4X7bzpZ3x9Q==
 
-"@chainsafe/files-api-client@1.9.0":
-  version "1.9.0"
-  resolved "https://npm.pkg.github.com/download/@chainsafe/files-api-client/1.9.0/4670ba7db48668a6ac1f5ef204bdae517594fcfb5855e4324fe228dfc9da4f29#08dd2c11392619d5cd9f3828876347d07177cd72"
-  integrity sha512-m5zJkB4zVKZE+8RFThsky1kJmh09niMyAB6xLykyCkUJeF2b4t1Wd5OItoSPTeo09tzUNjQmh+HbOP/jUDA9+Q==
+"@chainsafe/files-api-client@1.11.2":
+  version "1.11.2"
+  resolved "https://npm.pkg.github.com/download/@chainsafe/files-api-client/1.11.2/67d8597bea590f72e00eb384d1b140b342012ea38e49f0ef2801425da816a2b9#c77351af8289f228ed6733ed2e59983e2c7b0d75"
+  integrity sha512-723zDIbWFX6HUUcXm7nXiziQyzIM619VsXkGH3wOXCmS+UiLs1gUnS8j1k41AkjZoYAu6t/Vkbssxm6/1yjK1Q==
 
 "@chainsafe/web3-context@1.1.4":
   version "1.1.4"
@@ -11448,6 +11448,14 @@ file-loader@4.3.0, file-loader@^4.2.0:
     loader-utils "^1.2.3"
     schema-utils "^2.5.0"
 
+file-loader@^6.0.0:
+  version "6.2.0"
+  resolved "https://registry.yarnpkg.com/file-loader/-/file-loader-6.2.0.tgz#baef7cf8e1840df325e4390b4484879480eebe4d"
+  integrity sha512-qo3glqyTa61Ytg4u73GultjHGjdRyig3tG6lPtyX/jOEJvHif9uB0/OCI2Kif6ctF3caQTW2G5gym21oAsI4pw==
+  dependencies:
+    loader-utils "^2.0.0"
+    schema-utils "^3.0.0"
+
 file-selector@^0.2.2:
   version "0.2.2"
   resolved "https://registry.yarnpkg.com/file-selector/-/file-selector-0.2.2.tgz#76186ac94ea01a18262a1e9ee36a8815911bc0b4"
@@ -15130,6 +15138,11 @@ merge-descriptors@1.0.1:
   resolved "https://registry.yarnpkg.com/merge-descriptors/-/merge-descriptors-1.0.1.tgz#b00aaa556dd8b44568150ec9d1b953f3f90cbb61"
   integrity sha1-sAqqVW3YtEVoFQ7J0blT8/kMu2E=
 
+merge-refs@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/merge-refs/-/merge-refs-1.0.0.tgz#388348bce22e623782c6df9d3c4fc55888276120"
+  integrity sha512-WZ4S5wqD9FCR9hxkLgvcHJCBxzXzy3VVE6p8W2OzxRzB+hLRlcadGE2bW9xp2KSzk10rvp4y+pwwKO6JQVguMg==
+
 merge-stream@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/merge-stream/-/merge-stream-2.0.0.tgz#52823629a14dd00c9770fb6ad47dc6310f2c1f60"
@@ -16472,10 +16485,10 @@ pbkdf2@^3.0.17, pbkdf2@^3.0.3, pbkdf2@^3.0.9:
     safe-buffer "^5.0.1"
     sha.js "^2.4.8"
 
-pdfjs-dist@2.4.456:
-  version "2.4.456"
-  resolved "https://registry.yarnpkg.com/pdfjs-dist/-/pdfjs-dist-2.4.456.tgz#0eaad2906cda866bbb393e79a0e5b4e68bd75520"
-  integrity sha512-yckJEHq3F48hcp6wStEpbN9McOj328Ib09UrBlGAKxvN2k+qYPN5iq6TH6jD1C0pso7zTep+g/CKsYgdrQd5QA==
+pdfjs-dist@2.6.347:
+  version "2.6.347"
+  resolved "https://registry.yarnpkg.com/pdfjs-dist/-/pdfjs-dist-2.6.347.tgz#f257ed66e83be900cd0fd28524a2187fb9e25cd5"
+  integrity sha512-QC+h7hG2su9v/nU1wEI3SnpPIrqJODL7GTDFvR74ANKGq1AFJW16PH8VWnhpiTi9YcLSFV9xLeWSgq+ckHLdVQ==
 
 pend@~1.2.0:
   version "1.2.0"
@@ -18105,18 +18118,19 @@ react-markdown@^5.0.3:
     unist-util-visit "^2.0.0"
     xtend "^4.0.1"
 
-react-pdf@^5.0.0:
-  version "5.0.0"
-  resolved "https://registry.yarnpkg.com/react-pdf/-/react-pdf-5.0.0.tgz#baddeecd5c5ef92ae57aed1ee141203ad14d4b5d"
-  integrity sha512-VpqZjpZGEevmotLYl6acU6GYQeJ0dxn9+5sth5QjWLFhKu0xy3zSZgt3U3m97zW6UWzQ/scvw5drfPyun5l4eA==
+react-pdf@5.3.0:
+  version "5.3.0"
+  resolved "https://registry.yarnpkg.com/react-pdf/-/react-pdf-5.3.0.tgz#29f128c70fdb2397ce9d65f3402e762847259f9d"
+  integrity sha512-9/8gx5uy79PTkN7+NZoFxiOYfMWoBFlUEdAPyf9ZVvOtPdumJD9z6j7O40pMSlw2vENfdNoPIo8E+iolafg4Hg==
   dependencies:
     "@babel/runtime" "^7.0.0"
+    file-loader "^6.0.0"
     make-cancellable-promise "^1.0.0"
     make-event-props "^1.1.0"
     merge-class-names "^1.1.1"
-    pdfjs-dist "2.4.456"
+    merge-refs "^1.0.0"
+    pdfjs-dist "2.6.347"
     prop-types "^15.6.2"
-    worker-loader "^3.0.0"
 
 react-popper-tooltip@^2.8.3:
   version "2.11.1"
@@ -22321,14 +22335,6 @@ worker-farm@^1.7.0:
   integrity sha512-rvw3QTZc8lAxyVrqcSGVm5yP/IJ2UcB3U0graE3LCFoZ0Yn2x4EoVSqJKdB/T5M+FLcRPjz4TDacRf3OCfNUzw==
   dependencies:
     errno "~0.1.7"
-
-worker-loader@^3.0.0:
-  version "3.0.5"
-  resolved "https://registry.yarnpkg.com/worker-loader/-/worker-loader-3.0.5.tgz#6e13a583c4120ba419eece8e4f2e098b014311bf"
-  integrity sha512-cOh4UqTtvT8eHpyuuTK2C66Fg/G5Pb7g11bwtKm7uyD0vj2hCGY1APlSzVD75V9ciYZt44VPbFPiSFTSLxkQ+w==
-  dependencies:
-    loader-utils "^2.0.0"
-    schema-utils "^3.0.0"
 
 worker-rpc@^0.1.0:
   version "0.1.1"

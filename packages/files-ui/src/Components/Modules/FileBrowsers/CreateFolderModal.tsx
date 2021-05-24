@@ -4,7 +4,6 @@ import {
   Grid,
   Typography
 } from "@chainsafe/common-components"
-import { useDrive } from "../../Contexts/DriveContext"
 import * as yup from "yup"
 import {
   createStyles,
@@ -13,11 +12,12 @@ import {
 } from "@chainsafe/common-theme"
 import React, { useRef, useEffect, useState } from "react"
 import { Formik, Form } from "formik"
-import CustomModal from "../Elements/CustomModal"
-import CustomButton from "../Elements/CustomButton"
+import CustomModal from "../../Elements/CustomModal"
+import CustomButton from "../../Elements/CustomButton"
 import { Trans } from "@lingui/macro"
-import { CSFTheme } from "../../Themes/types"
-import { useFileBrowser } from "../../Contexts/FileBrowserContext"
+import { CSFTheme } from "../../../Themes/types"
+import { useFileBrowser } from "../../../Contexts/FileBrowserContext"
+import { useFilesApi } from "@chainsafe/common-contexts"
 
 const useStyles = makeStyles(
   ({ breakpoints, constants, typography, zIndex }: CSFTheme) => {
@@ -70,20 +70,19 @@ const useStyles = makeStyles(
   }
 )
 
-interface ICreateFolderModuleProps {
+interface ICreateFolderModalProps {
   modalOpen: boolean
   close: () => void
 }
 
-const CreateFolderModule: React.FC<ICreateFolderModuleProps> = ({
+const CreateFolderModal: React.FC<ICreateFolderModalProps> = ({
   modalOpen,
   close
-}: ICreateFolderModuleProps) => {
+}: ICreateFolderModalProps) => {
   const classes = useStyles()
-  const { currentPath, refreshContents } = useFileBrowser()
-  const { createFolder } = useDrive()
+  const { filesApiClient } = useFilesApi()
+  const { currentPath, refreshContents, bucket } = useFileBrowser()
   const [creatingFolder, setCreatingFolder] = useState(false)
-
   const desktop = useMediaQuery("md")
   const inputRef = useRef<any>(null)
 
@@ -121,11 +120,12 @@ const CreateFolderModule: React.FC<ICreateFolderModuleProps> = ({
         validationSchema={folderNameValidator}
         validateOnChange={false}
         onSubmit={async (values, helpers) => {
+          if (!bucket) return
           helpers.setSubmitting(true)
           try {
             setCreatingFolder(true)
-            await createFolder({ path: currentPath + values.name })
-            refreshContents && refreshContents()
+            await filesApiClient.addFPSDirectory(bucket.id, { path: `${currentPath}/${values.name}` })
+            refreshContents && await refreshContents()
             setCreatingFolder(false)
             helpers.resetForm()
             close()
@@ -203,4 +203,4 @@ const CreateFolderModule: React.FC<ICreateFolderModuleProps> = ({
   )
 }
 
-export default CreateFolderModule
+export default CreateFolderModal

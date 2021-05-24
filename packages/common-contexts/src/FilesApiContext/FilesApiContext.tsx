@@ -1,7 +1,7 @@
 import { useWeb3 } from "@chainsafe/web3-context"
 import * as React from "react"
 import { useState, useEffect, useMemo, useCallback } from "react"
-import { IImployApiClient, ImployApiClient, Token, IdentityProvider, OAuthIdentityToken } from "@chainsafe/files-api-client"
+import { IFilesApiClient, FilesApiClient, Token, IdentityProvider, OAuthIdentityToken } from "@chainsafe/files-api-client"
 import jwtDecode from "jwt-decode"
 import axios from "axios"
 import { decryptFile } from "../helpers"
@@ -11,14 +11,14 @@ export { IdentityProvider as OAuthProvider }
 const tokenStorageKey = "csf.refreshToken"
 const isReturningUserStorageKey = "csf.isReturningUser"
 
-type ImployApiContextProps = {
+type FilesApiContextProps = {
   apiUrl?: string
   withLocalStorage?: boolean
   children: React.ReactNode | React.ReactNode[]
 }
 
-type ImployApiContext = {
-  imployApiClient: IImployApiClient
+type FilesApiContext = {
+  filesApiClient: IFilesApiClient
   isLoggedIn: boolean | undefined
   secured: boolean | undefined
   isReturningUser: boolean
@@ -47,9 +47,9 @@ type ImployApiContext = {
   isMasterPasswordSet: boolean
 }
 
-const ImployApiContext = React.createContext<ImployApiContext | undefined>(undefined)
+const FilesApiContext = React.createContext<FilesApiContext | undefined>(undefined)
 
-const ImployApiProvider = ({ apiUrl, withLocalStorage = true, children }: ImployApiContextProps) => {
+const FilesApiProvider = ({ apiUrl, withLocalStorage = true, children }: FilesApiContextProps) => {
   const maintenanceMode = process.env.REACT_APP_MAINTENANCE_MODE === "true"
 
   const { wallet, onboard, checkIsReady, isReady } = useWeb3()
@@ -63,11 +63,11 @@ const ImployApiProvider = ({ apiUrl, withLocalStorage = true, children }: Imploy
   }), [])
 
   const initialApiClient = useMemo(() => {
-    return new ImployApiClient({}, apiUrl, initialAxiosInstance)
+    return new FilesApiClient({}, apiUrl, initialAxiosInstance)
   }, [apiUrl, initialAxiosInstance]
   )
 
-  const [imployApiClient, setImployApiClient] = useState<ImployApiClient>(initialApiClient)
+  const [filesApiClient, setFilesApiClient] = useState<FilesApiClient>(initialApiClient)
   const [isLoadingUser, setIsLoadingUser] = useState(true)
 
   // access tokens
@@ -87,8 +87,8 @@ const ImployApiProvider = ({ apiUrl, withLocalStorage = true, children }: Imploy
     setRefreshToken(refreshToken)
     refreshToken.token && withLocalStorage && localStorageSet(tokenStorageKey, refreshToken.token)
     !withLocalStorage && sessionStorageSet(tokenStorageKey, refreshToken.token)
-    accessToken.token && imployApiClient.setToken(accessToken.token)
-  }, [imployApiClient, localStorageSet, sessionStorageSet, withLocalStorage])
+    accessToken.token && filesApiClient.setToken(accessToken.token)
+  }, [filesApiClient, localStorageSet, sessionStorageSet, withLocalStorage])
 
   const setReturningUser = () => {
     // set returning user
@@ -115,7 +115,7 @@ const ImployApiProvider = ({ apiUrl, withLocalStorage = true, children }: Imploy
                 ? localStorageGet(tokenStorageKey)
                 : sessionStorageGet(tokenStorageKey)
             if (refreshTokenLocal) {
-              const refreshTokenApiClient = new ImployApiClient(
+              const refreshTokenApiClient = new FilesApiClient(
                 {},
                 apiUrl,
                 axiosInstance
@@ -148,9 +148,9 @@ const ImployApiProvider = ({ apiUrl, withLocalStorage = true, children }: Imploy
         }
       )
 
-      const apiClient = new ImployApiClient({}, apiUrl, axiosInstance)
+      const apiClient = new FilesApiClient({}, apiUrl, axiosInstance)
       const savedRefreshToken = localStorageGet(tokenStorageKey)
-      setImployApiClient(apiClient)
+      setFilesApiClient(apiClient)
       if (!maintenanceMode && savedRefreshToken) {
         try {
           const {
@@ -200,7 +200,7 @@ const ImployApiProvider = ({ apiUrl, withLocalStorage = true, children }: Imploy
       const {
         access_token,
         refresh_token
-      } = await imployApiClient.verifyServiceIdentityToken({
+      } = await filesApiClient.verifyServiceIdentityToken({
         signature: signature,
         public_key: publicKey,
         service_identity_token: identityToken
@@ -228,8 +228,8 @@ const ImployApiProvider = ({ apiUrl, withLocalStorage = true, children }: Imploy
   }, [refreshToken])
 
   useEffect(() => {
-    if (accessToken && accessToken.token && imployApiClient) {
-      imployApiClient?.setToken(accessToken.token)
+    if (accessToken && accessToken.token && filesApiClient) {
+      filesApiClient?.setToken(accessToken.token)
       const decodedAccessToken = jwtDecode<{ perm: { secured?: string } }>(
         accessToken.token
       )
@@ -239,7 +239,7 @@ const ImployApiProvider = ({ apiUrl, withLocalStorage = true, children }: Imploy
         setSecured(false)
       }
     }
-  }, [accessToken, imployApiClient])
+  }, [accessToken, filesApiClient])
 
   const isLoggedIn = () => {
     if (isLoadingUser) {
@@ -259,7 +259,7 @@ const ImployApiProvider = ({ apiUrl, withLocalStorage = true, children }: Imploy
 
   const getProviderUrl = async (provider: OAuthIdentityToken) => {
     try {
-      const { url } = await imployApiClient.getOauth2Provider(provider)
+      const { url } = await filesApiClient.getOauth2Provider(provider)
       return Promise.resolve(url)
     } catch {
       return Promise.reject("There was an error logging in")
@@ -271,7 +271,7 @@ const ImployApiProvider = ({ apiUrl, withLocalStorage = true, children }: Imploy
       const {
         access_token,
         refresh_token
-      } = await imployApiClient.postOauth2CodeGithub(code, state)
+      } = await filesApiClient.postOauth2CodeGithub(code, state)
       setTokensAndSave(access_token, refresh_token)
       setReturningUser()
       return Promise.resolve()
@@ -292,7 +292,7 @@ const ImployApiProvider = ({ apiUrl, withLocalStorage = true, children }: Imploy
       const {
         access_token,
         refresh_token
-      } = await imployApiClient.postOauth2CodeGoogle(
+      } = await filesApiClient.postOauth2CodeGoogle(
         code,
         state,
         scope,
@@ -314,7 +314,7 @@ const ImployApiProvider = ({ apiUrl, withLocalStorage = true, children }: Imploy
       const {
         access_token,
         refresh_token
-      } = await imployApiClient.postOauth2CodeFacebook(code, state)
+      } = await filesApiClient.postOauth2CodeFacebook(code, state)
 
       setTokensAndSave(access_token, refresh_token)
       setReturningUser()
@@ -328,7 +328,7 @@ const ImployApiProvider = ({ apiUrl, withLocalStorage = true, children }: Imploy
     setAccessToken(undefined)
     setRefreshToken(undefined)
     setDecodedRefreshToken(undefined)
-    imployApiClient.setToken("")
+    filesApiClient.setToken("")
     localStorageRemove(tokenStorageKey)
     !withLocalStorage && sessionStorageRemove(tokenStorageKey)
   }
@@ -336,14 +336,14 @@ const ImployApiProvider = ({ apiUrl, withLocalStorage = true, children }: Imploy
   const secureThresholdKeyAccount = async (encryptedKey: string) => {
     try {
       if (decodedRefreshToken && refreshToken) {
-        await imployApiClient.secure({
+        await filesApiClient.secure({
           encryption_key: encryptedKey
         })
 
         const {
           access_token,
           refresh_token
-        } = await imployApiClient.getRefreshToken({
+        } = await filesApiClient.getRefreshToken({
           refresh: refreshToken.token
         })
 
@@ -376,9 +376,9 @@ const ImployApiProvider = ({ apiUrl, withLocalStorage = true, children }: Imploy
   }
 
   return (
-    <ImployApiContext.Provider
+    <FilesApiContext.Provider
       value={{
-        imployApiClient,
+        filesApiClient,
         isLoggedIn: isLoggedIn(),
         secured,
         isReturningUser: isReturningUser,
@@ -397,17 +397,17 @@ const ImployApiProvider = ({ apiUrl, withLocalStorage = true, children }: Imploy
       }}
     >
       {children}
-    </ImployApiContext.Provider>
+    </FilesApiContext.Provider>
   )
 }
 
-const useImployApi = () => {
-  const context = React.useContext(ImployApiContext)
+const useFilesApi = () => {
+  const context = React.useContext(FilesApiContext)
   if (context === undefined) {
     throw new Error("useAuth must be used within a AuthProvider")
   }
   return context
 }
 
-export { ImployApiProvider, useImployApi }
+export { FilesApiProvider, useFilesApi }
 

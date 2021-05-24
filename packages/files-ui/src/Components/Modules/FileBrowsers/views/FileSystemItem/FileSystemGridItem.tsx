@@ -9,7 +9,7 @@ import {
   MoreIcon
 } from "@chainsafe/common-components"
 import { CSFTheme } from "../../../../../Themes/types"
-import { FileSystemItem } from "../../../../../Contexts/DriveContext"
+import { FileSystemItem } from "../../../../../Contexts/FilesContext"
 import { ConnectDragPreview } from "react-dnd"
 import { Form, Formik } from "formik"
 
@@ -149,7 +149,6 @@ const FileSystemGridItem = React.forwardRef(
     renameSchema,
     setEditing,
     handleRename,
-    currentPath,
     menuItems,
     resetSelectedFiles,
     preview
@@ -211,11 +210,11 @@ const FileSystemGridItem = React.forwardRef(
               }}
               validationSchema={renameSchema}
               onSubmit={(values) => {
-                handleRename && handleRename(
-                  `${currentPath}${name}`,
-                  `${currentPath}${values.fileName}`
-                )
-                setEditing(undefined)
+                handleRename &&
+                  handleRename(
+                    file.cid,
+                    values.fileName
+                  )
               }}
             >
               <Form className={classes.desktopRename}>
