@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { Button, FacebookLogoIcon, GithubLogoIcon, GoogleLogoIcon, Loading, Typography } from "@chainsafe/common-components"
+import { Button, FacebookLogoIcon, GithubLogoIcon, MailIcon, GoogleLogoIcon, Loading, Typography } from "@chainsafe/common-components"
 import { createStyles, makeStyles, useThemeSwitcher } from "@chainsafe/common-theme"
 import { CSFTheme } from "../../../Themes/types"
 import { t, Trans } from "@lingui/macro"
@@ -10,6 +10,7 @@ import { LOGIN_TYPE } from "@toruslabs/torus-direct-web-sdk"
 import { ROUTE_LINKS } from "../../FilesRoutes"
 import clsx from "clsx"
 import { IdentityProvider } from "@chainsafe/files-api-client"
+import PasswordlessEmail from "./PasswordlessEmail"
 
 const useStyles = makeStyles(
   ({ constants, palette, breakpoints, typography }: CSFTheme) =>
@@ -227,6 +228,7 @@ const InitialScreen = ({ className }: IInitialScreen) => {
   return (
     <div className={clsx(classes.root, className)}>
       {
+        loginMode !== "passwordless" &&
         ((desktop && !isConnecting && !error) || (isConnecting && loginMode !== "web3")) && (
           <Typography
             variant="h6"
@@ -241,7 +243,7 @@ const InitialScreen = ({ className }: IInitialScreen) => {
       }
       {
         !error ?
-          loginMode !== "web3" ? (
+          loginMode !== "web3" && loginMode !== "passwordless" ? (
             <>
               <section className={classes.buttonSection}>
                 {maintenanceMode && (
@@ -263,6 +265,19 @@ const InitialScreen = ({ className }: IInitialScreen) => {
                   disabled={maintenanceMode || isConnecting || status !== "initialized"}
                 >
                   <Trans>Continue with Web3 Wallet</Trans>
+                </Button>
+                <Button
+                  className={classes.button}
+                  size="large"
+                  onClick={() => {
+                    setLoginMode("passwordless")
+                  }}
+                  disabled={maintenanceMode || isConnecting || status !== "initialized"}
+                  loading={isConnecting && loginMode === "github"}
+                  variant="secondary"
+                >
+                  <MailIcon className="icon"/>
+                  <Trans>Continue with Email</Trans>
                 </Button>
                 <Button
                   className={classes.button}
@@ -323,21 +338,65 @@ const InitialScreen = ({ className }: IInitialScreen) => {
                 </a>
               </footer>
             </>
-          ) : (
-            wallet ?
-              !isConnecting ? (
-                <>
+          ) :
+            loginMode === "passwordless" ? (
+              <PasswordlessEmail resetLogin={resetLogin} />
+            ) : (
+              wallet ?
+                !isConnecting ? (
+                  <div>
+                    <section className={classes.buttonSection}>
+                      <Button
+                        data-cy="sign-in-with-web3-button"
+                        onClick={() => {handleLogin("web3")}}
+                        className={classes.button}
+                        variant="primary"
+                        size="large"
+                        disabled={maintenanceMode}
+                      >
+                        <Trans>Sign-in with {wallet.name}</Trans>
+                      </Button>
+                      <Button
+                        onClick={handleResetAndSelectWallet}
+                        className={classes.button}
+                        variant="primary"
+                        size="large"
+                        disabled={maintenanceMode}
+                      >
+                        <Trans>Connect a new wallet</Trans>
+                      </Button>
+                      <div
+                        className={classes.buttonLink}
+                        onClick={resetLogin}
+                      >
+                        <Typography><Trans>Go back</Trans></Typography>
+                      </div>
+                    </section>
+                    <Footer/>
+                  </div>
+                ) : (
+                  <>
+                    <section className={classes.connectingWallet}>
+                      <Typography variant='h2'><Trans>Connect Wallet to Files</Trans></Typography>
+                      {status === "awaiting confirmation" &&
+                      <Typography variant='h5'>
+                        <Trans>You will need to sign a message in your wallet to complete sign in.</Trans>
+                      </Typography>}
+                      {status === "logging in" && <>
+                        <Typography variant='h5'>
+                          <Trans>Hold on, we are logging you in...</Trans>
+                        </Typography>
+                        <Loading
+                          className={classes.loader}
+                          size={50}
+                          type='inherit'
+                        />
+                      </>}
+                    </section>
+                  </>
+                )
+                : <>
                   <section className={classes.buttonSection}>
-                    <Button
-                      data-cy="sign-in-with-web3-button"
-                      onClick={() => {handleLogin("web3")}}
-                      className={classes.button}
-                      variant="primary"
-                      size="large"
-                      disabled={maintenanceMode}
-                    >
-                      <Trans>Sign-in with {wallet.name}</Trans>
-                    </Button>
                     <Button
                       onClick={handleResetAndSelectWallet}
                       className={classes.button}
@@ -345,62 +404,21 @@ const InitialScreen = ({ className }: IInitialScreen) => {
                       size="large"
                       disabled={maintenanceMode}
                     >
-                      <Trans>Connect a new wallet</Trans>
+                      <Trans>Select a wallet</Trans>
                     </Button>
-                    <div
-                      className={classes.buttonLink}
-                      onClick={resetLogin}
+                    <Button
+                      onClick={() => setLoginMode(undefined)}
+                      className={classes.button}
+                      variant="primary"
+                      size="large"
+                      disabled={maintenanceMode}
                     >
-                      <Typography><Trans>Go back</Trans></Typography>
-                    </div>
+                      <Trans>Use a different login method</Trans>
+                    </Button>
                   </section>
                   <Footer/>
                 </>
-              ) : (
-                <>
-                  <section className={classes.connectingWallet}>
-                    <Typography variant='h2'><Trans>Connect Wallet to Files</Trans></Typography>
-                    {status === "awaiting confirmation" &&
-                      <Typography variant='h5'>
-                        <Trans>You will need to sign a message in your wallet to complete sign in.</Trans>
-                      </Typography>}
-                    {status === "logging in" && <>
-                      <Typography variant='h5'>
-                        <Trans>Hold on, we are logging you in...</Trans>
-                      </Typography>
-                      <Loading
-                        className={classes.loader}
-                        size={50}
-                        type='inherit'
-                      />
-                    </>}
-                  </section>
-                </>
-              )
-              : <>
-                <section className={classes.buttonSection}>
-                  <Button
-                    onClick={handleResetAndSelectWallet}
-                    className={classes.button}
-                    variant="primary"
-                    size="large"
-                    disabled={maintenanceMode}
-                  >
-                    <Trans>Select a wallet</Trans>
-                  </Button>
-                  <Button
-                    onClick={() => setLoginMode(undefined)}
-                    className={classes.button}
-                    variant="primary"
-                    size="large"
-                    disabled={maintenanceMode}
-                  >
-                    <Trans>Use a different login method</Trans>
-                  </Button>
-                </section>
-                <Footer/>
-              </>
-          ) : (
+            ) : (
             <>
               <section className={classes.connectingWallet}>
                 <Typography variant='h2'><Trans>Connection failed</Trans></Typography>
