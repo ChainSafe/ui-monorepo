@@ -23,7 +23,7 @@ describe("Settings", () => {
     cy.url().should("include", "/settings/profile")
     cy.get("[data-cy=settings-profile-header").should("be.visible")
     cy.go("back")
-    cy.get(".securityy").click()
+    cy.get(".security").click()
     cy.url().should("include", "/settings/security")
     cy.get("[data-cy=settings-security-header").should("be.visible")
   })

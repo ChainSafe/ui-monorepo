@@ -45,6 +45,7 @@ jobs:
         with:
           name: cypress-screenshots
           path: packages/files-ui/cypress/screenshots
+          retention-days: 7
       # store the videos if the tests fail
       - name: Store videos 
         uses: actions/upload-artifact@v1
@@ -52,3 +53,4 @@ jobs:
         with:
           name: cypress-videos
           path: packages/files-ui/cypress/videos
+          retention-days: 7
