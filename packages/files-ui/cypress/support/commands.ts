@@ -55,8 +55,8 @@ Cypress.Commands.add("clearCsfBucket", (apiUrlBase: string) => {
           body: { "path": "/", "source": { "type": "csf" } },
           auth: { "bearer": accessToken }
         }).then((res) => {
-          console.log("res", res)
           const toDelete = res.body.map(({ name }: { name: string }) => `/${name}`)
+          cy.log(`clearCsfBucket - Deleting ${JSON.stringify(toDelete)}`)
           cy.request({
             method: "POST",
             url: `${apiUrlBase}/files/rm`,
@@ -66,6 +66,7 @@ Cypress.Commands.add("clearCsfBucket", (apiUrlBase: string) => {
             if(!res.isOkStatusCode){
               throw new Error(`unexpected answer when deleting files: ${JSON.stringify(res, null, 2)}`)
             }
+            cy.log("clearCsfBucket - Deletion successful")
           })
         })
       })
