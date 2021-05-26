@@ -8,7 +8,7 @@ describe("File management", () => {
     cy.get("[data-cy=files-app-header").should("be.visible")
   })
 
-  it.only("can add/remove files and upload", () => {
+  it("can add/remove files and upload", () => {
     cy.web3Login({ clearCSFBucket: true })
     cy.get("[data-cy=upload-modal-button").click()
     cy.get("[data-cy=upload-file-form] input").attachFile("../fixtures/uploadedFiles/text-file.txt")
