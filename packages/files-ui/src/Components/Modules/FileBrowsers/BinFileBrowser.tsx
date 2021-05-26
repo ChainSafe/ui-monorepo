@@ -10,7 +10,7 @@ import { useHistory, useLocation, useToaster } from "@chainsafe/common-component
 import { extractDrivePath, getPathWithFile } from "../../../Utils/pathUtils"
 import { ROUTE_LINKS } from "../../FilesRoutes"
 import { FileBrowserContext } from "../../../Contexts/FileBrowserContext"
-import { useFilesApi } from "@chainsafe/common-contexts"
+import { useFilesApi } from "../../../Contexts/FilesApiContext"
 import { parseFileContentResponse } from "../../../Utils/Helpers"
 
 const BinFileBrowser: React.FC<IFileBrowserModuleProps> = ({ controls = false }: IFileBrowserModuleProps) => {
