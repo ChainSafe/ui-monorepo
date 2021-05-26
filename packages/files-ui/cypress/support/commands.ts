@@ -66,7 +66,6 @@ Cypress.Commands.add("clearCsfBucket", (apiUrlBase: string) => {
             if(!res.isOkStatusCode){
               throw new Error(`unexpected answer when deleting files: ${JSON.stringify(res, null, 2)}`)
             }
-            cy.log("clearCsfBucket - Deletion successful")
           })
         })
       })
@@ -169,8 +168,8 @@ Cypress.Commands.add("web3Login", ({
   cy.saveLocalAndSession()
 
   if (clearCSFBucket) {
-    cy.log("Clear CSF bucket")
     cy.clearCsfBucket(apiUrlBase)
+    cy.reload()
   }
 })
 
