@@ -1,7 +1,7 @@
 describe("File management", () => {
   it("can add files and cancel", () => {
     cy.web3Login()
-    cy.get("[data-cy=upload-modal-button").click()
+    cy.get("[data-cy=upload-modal-button]").click()
     cy.get("[data-cy=upload-file-form] input").attachFile("../fixtures/uploadedFiles/text-file.txt")
     cy.get("[data-testid=file-list-fileUpload] li").should("have.length", 1)
     cy.get("[data-cy=upload-cancel-button").click()
@@ -10,7 +10,7 @@ describe("File management", () => {
 
   it("can add/remove files and upload", () => {
     cy.web3Login({ clearCSFBucket: true })
-    cy.get("[data-cy=upload-modal-button").click()
+    cy.get("[data-cy=upload-modal-button]").click()
     cy.get("[data-cy=upload-file-form] input").attachFile("../fixtures/uploadedFiles/text-file.txt")
     cy.get("[data-testid=file-list-fileUpload] li").should("have.length", 1)
     cy.get("[data-cy=upload-file-form] input").attachFile("../fixtures/uploadedFiles/logo.png")
@@ -28,10 +28,10 @@ describe("File management", () => {
     const newName = "awesome new name"
 
     cy.web3Login({ clearCSFBucket: true })
-    cy.get("[data-cy=upload-modal-button").click()
+    cy.get("[data-cy=upload-modal-button]").click()
     cy.get("[data-cy=upload-file-form] input").attachFile("../fixtures/uploadedFiles/text-file.txt")
-    cy.get("[data-cy=upload-ok-button").click()
-    cy.get("[data-cy=files-app-header").should("be.visible")
+    cy.get("[data-cy=upload-ok-button]").click()
+    cy.get("[data-cy=files-app-header]").should("be.visible")
 
     cy.get("[data-testid=drowpdown-title-fileDropdown]").first().click()
     cy.get("[data-cy=menu-rename]").click()
