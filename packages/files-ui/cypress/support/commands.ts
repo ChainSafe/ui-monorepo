@@ -55,6 +55,7 @@ Cypress.Commands.add("clearCsfBucket", (apiUrlBase: string) => {
           body: { "path": "/", "source": { "type": "csf" } },
           auth: { "bearer": accessToken }
         }).then((res) => {
+          console.log("res", res)
           const toDelete = res.body.map(({ name }: { name: string }) => `/${name}`)
           cy.request({
             method: "POST",
@@ -167,6 +168,7 @@ Cypress.Commands.add("web3Login", ({
   cy.saveLocalAndSession()
 
   if (clearCSFBucket) {
+    cy.log("Clear CSF bucket")
     cy.clearCsfBucket(apiUrlBase)
   }
 })

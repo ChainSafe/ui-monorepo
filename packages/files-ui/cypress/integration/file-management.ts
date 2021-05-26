@@ -24,7 +24,7 @@ describe("File management", () => {
     cy.get("[data-cy=file-item-row]").should("have.length", 2)
   })
 
-  it("can rename a file with error handling", () => {
+  it.only("can rename a file with error handling", () => {
     const newName = "awesome new name"
 
     cy.web3Login({ clearCSFBucket: true })
