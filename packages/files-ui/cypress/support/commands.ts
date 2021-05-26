@@ -170,6 +170,7 @@ Cypress.Commands.add("web3Login", ({
   if (clearCSFBucket) {
     cy.clearCsfBucket(apiUrlBase)
     cy.reload()
+    cy.get("[data-cy=files-app-header]", { timeout: 20000 }).should("be.visible")
   }
 })
 
