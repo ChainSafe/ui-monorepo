@@ -12,7 +12,7 @@ describe("Settings", () => {
     cy.get("[data-cy=settings-security-header").should("be.visible")
   })
 
-  it.only("can navigate to the settings security page on a phone", () => {
+  it("can navigate to the settings security page on a phone", () => {
     cy.viewport("iphone-6")
     cy.web3Login()
     cy.get("[data-testId=hamburger-menu]").click()
