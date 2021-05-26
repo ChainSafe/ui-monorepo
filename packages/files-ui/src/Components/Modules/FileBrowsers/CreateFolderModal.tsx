@@ -17,7 +17,8 @@ import CustomButton from "../../Elements/CustomButton"
 import { Trans } from "@lingui/macro"
 import { CSFTheme } from "../../../Themes/types"
 import { useFileBrowser } from "../../../Contexts/FileBrowserContext"
-import { useFilesApi } from "@chainsafe/common-contexts"
+import { useFilesApi } from "../../../Contexts/FilesApiContext"
+
 
 const useStyles = makeStyles(
   ({ breakpoints, constants, typography, zIndex }: CSFTheme) => {
