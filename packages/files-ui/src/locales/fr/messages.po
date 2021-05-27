@@ -27,7 +27,7 @@ msgid "A file with the same name already exists"
 msgstr "Un fichier avec ce nom existe déjà"
 
 msgid "A name is required"
-msgstr ""
+msgstr "Le nom ne peut être vide"
 
 msgid "Account"
 msgstr "Compte"
@@ -261,7 +261,7 @@ msgid "Info"
 msgstr "Info"
 
 msgid "Invalid name"
-msgstr ""
+msgstr "Nom invalide"
 
 msgid "I’m done saving my backup phrase"
 msgstr "Phrase de sauvegarde enregistrée"
@@ -309,10 +309,10 @@ msgid "Name"
 msgstr "Nom"
 
 msgid "Name cannot contain '/' character"
-msgstr ""
+msgstr "Le nom ne peut pas contenir le caractère '/'"
 
 msgid "Name too long"
-msgstr ""
+msgstr "Le nom est trop long"
 
 msgid "New folder"
 msgstr "Nouveau dossier"
@@ -378,7 +378,7 @@ msgid "Please enter a folder name"
 msgstr "Nom du dossier"
 
 msgid "Please enter a name"
-msgstr ""
+msgstr "Entrer un nom"
 
 msgid "Please provide a password"
 msgstr "Merci de donner un mot de passe"
