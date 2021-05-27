@@ -6,6 +6,7 @@ import { Trans, t } from "@lingui/macro"
 import clsx from "clsx"
 import { Form, Formik } from "formik"
 import * as yup from "yup"
+import { useFilesApi } from "@chainsafe/common-contexts"
 
 const useStyles = makeStyles(({ palette, breakpoints, constants }: CSFTheme) =>
   createStyles({
@@ -55,6 +56,9 @@ const useStyles = makeStyles(({ palette, breakpoints, constants }: CSFTheme) =>
       marginTop: constants.generalUnit * 2,
       "&.disabled": {
         color: palette.additional["gray"][7]
+      },
+      "&.spaceLeft": {
+        marginLeft: constants.generalUnit * 0.5
       }
     },
     title: {
@@ -68,6 +72,10 @@ const useStyles = makeStyles(({ palette, breakpoints, constants }: CSFTheme) =>
     resendText: {
       textAlign: "center",
       marginTop: constants.generalUnit * 4
+    },
+    errorText: {
+      textAlign: "center",
+      color: palette.error.main
     }
   })
 )
@@ -84,6 +92,8 @@ const PasswordlessEmail = ({ resetLogin }: IPasswordlessEmail) => {
   const [page, setPage] = useState<"page1" | "page2">("page1")
   const [email, setEmail] = useState<string | undefined>()
   const [hasEmailResent, setHasEmailResent] = useState(false)
+  const { filesApiClient } = useFilesApi()
+  const [error, setError] = useState<string | undefined>()
 
   const emailValidation = useMemo(() => yup.object().shape({
     email: yup
@@ -100,46 +110,42 @@ const PasswordlessEmail = ({ resetLogin }: IPasswordlessEmail) => {
   })
   , [])
 
-  // eslint-disable-next-line 
-  const sendEmailVerification = async (email: string) => {
-    Promise.resolve()
-  }
-
-  // eslint-disable-next-line 
-  const sendVerificationCode = async (verificationCode: string) => {
-    Promise.resolve()
-  }
-
   const onSubmitEmail = useCallback((values) => {
     setLoadingEmail(true)
-    sendEmailVerification(values.email)
+    setError(undefined)
+    filesApiClient.getIdentityEmailToken(values.email)
       .then(() => {
         setEmail(values.email)
         setPage("page2")
         setLoadingEmail(false)
-      })
-      .catch ((e) => {
+      }).catch ((e) => {
+        setError("Something went wrong!")
         setLoadingEmail(false)
         console.error(e)
       })
-  }, [sendEmailVerification])
+  }, [filesApiClient])
 
   const onSubmitVerificationCode = useCallback((values) => {
+    if (!email) return
     setLoadingVerificationCode(true)
-    sendVerificationCode(values.verificationCode)
-      .then(() => {
-        setLoadingVerificationCode(false)
-      })
+    setError(undefined)
+    filesApiClient.postIdentityEmailToken({
+      email: email,
+      nonce: values.verificationCode
+    }).then(() => {
+      setLoadingVerificationCode(false)
+    })
       .catch ((e) => {
+        setError(t`Something went wrong!`)
         setLoadingVerificationCode(false)
         console.error(e)
       })
-  }, [sendVerificationCode])
+  }, [filesApiClient, email])
 
   const onResendEmail = useCallback(() => {
     if (!email) return
     setLoadingEmailResend(true)
-    sendEmailVerification(email)
+    filesApiClient.getIdentityEmailToken(email)
       .then(() => {
         setHasEmailResent(true)
         setLoadingEmailResend(false)
@@ -148,7 +154,7 @@ const PasswordlessEmail = ({ resetLogin }: IPasswordlessEmail) => {
         setLoadingEmailResend(false)
         console.error(e)
       })
-  }, [sendEmailVerification, email])
+  }, [filesApiClient, email])
 
   return (
     <section className={clsx(classes.root)}>
@@ -175,6 +181,11 @@ const PasswordlessEmail = ({ resetLogin }: IPasswordlessEmail) => {
             label={t`Enter your email:`}
             labelClassName={classes.inputLabel}
           />
+          {error && (
+            <Typography component="p"
+              variant="body1"
+              className={classes.errorText}>{error}</Typography>
+          )}
           <Button
             className={clsx(classes.button)}
             variant="primary"
@@ -216,6 +227,11 @@ const PasswordlessEmail = ({ resetLogin }: IPasswordlessEmail) => {
               label={t`Enter the verification code:`}
               labelClassName={classes.inputLabel}
             />
+            {error && (
+              <Typography component="p"
+                variant="body1"
+                className={classes.errorText}>{error}</Typography>
+            )}
             <Button
               className={clsx(classes.button)}
               variant="primary"
@@ -235,11 +251,11 @@ const PasswordlessEmail = ({ resetLogin }: IPasswordlessEmail) => {
               >
                 <span>
                   <Trans>
-                    Didn&apos;t receive the email?&nbsp;
+                    Didn&apos;t receive the email ?
                   </Trans>
                 </span>
                 <span
-                  className={clsx(classes.buttonLink, loadingEmailResend && "disabled")}
+                  className={clsx(classes.buttonLink, "spaceLeft", loadingEmailResend && "disabled")}
                   onClick={onResendEmail}
                 >
                   <Trans>

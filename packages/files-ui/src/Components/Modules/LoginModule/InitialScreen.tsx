@@ -142,7 +142,7 @@ const InitialScreen = ({ className }: IInitialScreen) => {
   const { wallet } = useWeb3()
   const { login, status, resetStatus } = useThresholdKey()
   const classes = useStyles()
-  const [loginMode, setLoginMode] = useState<"web3" | LOGIN_TYPE | undefined>()
+  const [loginMode, setLoginMode] = useState<"web3" | "email" | LOGIN_TYPE | undefined>()
   const [error, setError] = useState<string | undefined>()
   const maintenanceMode = process.env.REACT_APP_MAINTENANCE_MODE === "true"
   const [isConnecting, setIsConnecting] = useState(false)
@@ -228,7 +228,7 @@ const InitialScreen = ({ className }: IInitialScreen) => {
   return (
     <div className={clsx(classes.root, className)}>
       {
-        loginMode !== "passwordless" &&
+        loginMode !== "email" &&
         ((desktop && !isConnecting && !error) || (isConnecting && loginMode !== "web3")) && (
           <Typography
             variant="h6"
@@ -243,7 +243,7 @@ const InitialScreen = ({ className }: IInitialScreen) => {
       }
       {
         !error ?
-          loginMode !== "web3" && loginMode !== "passwordless" ? (
+          loginMode !== "web3" && loginMode !== "email" ? (
             <>
               <section className={classes.buttonSection}>
                 {maintenanceMode && (
@@ -270,7 +270,7 @@ const InitialScreen = ({ className }: IInitialScreen) => {
                   className={classes.button}
                   size="large"
                   onClick={() => {
-                    setLoginMode("passwordless")
+                    setLoginMode("email")
                   }}
                   disabled={maintenanceMode || isConnecting || status !== "initialized"}
                   loading={isConnecting && loginMode === "github"}
@@ -339,7 +339,7 @@ const InitialScreen = ({ className }: IInitialScreen) => {
               </footer>
             </>
           ) :
-            loginMode === "passwordless" ? (
+            loginMode === "email" ? (
               <PasswordlessEmail resetLogin={resetLogin} />
             ) : (
               wallet ?
