@@ -286,6 +286,7 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
               >
                 <DatabaseSvg />
                 <Typography
+                  data-cy="home-nav"
                   variant="h5"
                   className={classes.navItemText}
                 >
@@ -299,6 +300,7 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
               >
                 <DeleteSvg />
                 <Typography
+                  data-cy="bin-nav"
                   variant="h5"
                   className={classes.navItemText}
                 >
@@ -330,6 +332,7 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
             {desktop && (
               <div>
                 <Typography
+                  data-cy="space-used-textfield"
                   variant="body2"
                   className={classes.spaceUsedMargin}
                   component="p"
@@ -345,6 +348,7 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
                   <Trans>UPGRADE</Trans>
                 </Button> */}
                 <Button
+                  data-cy="send-feedback-nav"
                   variant="outline"
                   size="small"
                   onClick={() => collectFeedback()}
@@ -355,6 +359,7 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
             )}
             {!desktop && (
               <div
+                data-cy="signout-nav"
                 className={classes.navItem}
                 onClick={() => {
                   handleOnClick()
