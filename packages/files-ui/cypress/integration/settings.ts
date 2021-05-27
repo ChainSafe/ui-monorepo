@@ -1,30 +1,42 @@
-describe("Settings", () => {
-  it("can navigate to the settings profile page", () => {
-    cy.web3Login()
-    cy.get("[data-cy=settings-nav]").click()
-    cy.get("[data-cy=settings-profile-header").should("be.visible")
-    cy.url().should("include", "/settings")
-    cy.get(".profile").click()
-    cy.url().should("include", "/settings/profile")
-    cy.get("[data-cy=settings-profile-header]").should("be.visible")
-    cy.get(".security").click()
-    cy.url().should("include", "/settings/security")
-    cy.get("[data-cy=settings-security-header").should("be.visible")
-  })
+import { NavigationMenu } from "../support/page-objects/NavigationMenu"
+import { SettingsPage } from "../support/page-objects/SettingsPage"
+import { HomePage } from "../support/page-objects/HomePage"
 
-  it("can navigate to the settings security page on a phone", () => {
-    cy.viewport("iphone-6")
+const homePage = new HomePage()
+const navigationMenu = new NavigationMenu()
+const settingsPage = new SettingsPage()
+
+describe("Settings", () => {
+  // it("can navigate to the settings profile page", () => {
+  //   cy.web3Login()
+  //   navigationMenu.settingsNavButton().click()
+  //   settingsPage.profileTabHeader().should("be.visible")
+  //   cy.url().should("include", "/settings")
+  //   settingsPage.profileTabButton().click()
+  //   cy.url().should("include", "/settings/profile")
+  //   settingsPage.profileTabHeader().should("be.visible")
+  //   settingsPage.securityTabButton().click()
+  //   cy.url().should("include", "/settings/security")
+  //   settingsPage.securityTabHeader().should("be.visible")
+  // })
+
+  // it("can navigate to the settings security page on a phone", () => {
+  //   cy.viewport("iphone-6")
+  //   cy.web3Login()
+  //   homePage.hamburgerMenuButton().click()
+  //   navigationMenu.settingsNavButton().click()
+  //   settingsPage.profileTabHeader().should("not.exist")
+  //   cy.url().should("include", "/settings")
+  //   settingsPage.profileTabButton().click()
+  //   cy.url().should("include", "/settings/profile")
+  //   settingsPage.profileTabHeader().should("be.visible")
+  //   cy.go("back")
+  //   settingsPage.securityTabButton().click()
+  //   cy.url().should("include", "/settings/security")
+  //   settingsPage.securityTabHeader().should("be.visible")
+  it("Andy test", () => {
     cy.web3Login()
-    cy.get(".hamburger-menu").click()
-    cy.get("[data-cy=settings-nav]").click()
-    cy.get("[data-cy=settings-profile-header]").should("not.exist")
-    cy.url().should("include", "/settings")
-    cy.get(".profile").click()
-    cy.url().should("include", "/settings/profile")
-    cy.get("[data-cy=settings-profile-header").should("be.visible")
-    cy.go("back")
-    cy.get(".security").click()
-    cy.url().should("include", "/settings/security")
-    cy.get("[data-cy=settings-security-header").should("be.visible")
+    navigationMenu.settingsNavButton().click()
+    settingsPage.profileTabHeader().should("be.visible")
   })
 })
