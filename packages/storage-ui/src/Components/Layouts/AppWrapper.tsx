@@ -1,8 +1,8 @@
-import { useFilesApi } from "../../Contexts/FilesApiContext"
 import { createStyles, ITheme, makeStyles } from "@chainsafe/common-theme"
 import React, { useState } from "react"
 import { ReactNode } from "react"
 import clsx from "clsx"
+import { useStorageApi } from "../../Contexts/StorageApiContext"
 import { CssBaseline } from "@chainsafe/common-components"
 import AppHeader from "./AppHeader"
 import AppNav from "./AppNav"
@@ -58,7 +58,7 @@ const useStyles = makeStyles(
 const AppWrapper: React.FC<IAppWrapper> = ({ children }: IAppWrapper) => {
   const classes = useStyles()
   const [navOpen, setNavOpen] = useState<boolean>(false)
-  const { isLoggedIn, secured } = useFilesApi()
+  const { isLoggedIn } = useStorageApi()
 
   return (
     <div className={classes.root}>
@@ -69,7 +69,7 @@ const AppWrapper: React.FC<IAppWrapper> = ({ children }: IAppWrapper) => {
       />
       <article
         className={clsx(classes.bodyWrapper, {
-          active:            isLoggedIn
+          active: isLoggedIn
         })}
       >
         <AppHeader

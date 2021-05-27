@@ -13,7 +13,7 @@ import {
 import { ROUTE_LINKS } from "../StorageRoutes"
 import { Trans } from "@lingui/macro"
 import { CSFTheme } from "../../Themes/types"
-import { useFilesApi } from "../../Contexts/FilesApiContext"
+import { useStorageApi } from "../../Contexts/StorageApiContext"
 
 const useStyles = makeStyles(
   ({ palette, animation, breakpoints, constants, zIndex }: CSFTheme) => {
@@ -152,8 +152,7 @@ interface IAppHeader {
 const AppHeader = ({ navOpen, setNavOpen }: IAppHeader) => {
   const { desktop } = useThemeSwitcher()
   const classes = useStyles()
-  const { isLoggedIn, secured, logout } = useFilesApi()
-  const [searchActive, setSearchActive] = useState(false)
+  const { isLoggedIn, logout } = useStorageApi()
   const { history } = useHistory()
 
   const signOut = useCallback(async () => {
@@ -199,8 +198,6 @@ const AppHeader = ({ navOpen, setNavOpen }: IAppHeader) => {
             </>
           ) : (
             <>
-              {!searchActive && (
-                <>
                   <HamburgerMenu
                     onClick={() => setNavOpen(!navOpen)}
                     variant={navOpen ? "active" : "default"}
@@ -220,8 +217,6 @@ const AppHeader = ({ navOpen, setNavOpen }: IAppHeader) => {
                     &nbsp;
                     <Typography variant="caption">beta</Typography>
                   </Link>
-                </>
-              )}
             </>
           )}
         </>

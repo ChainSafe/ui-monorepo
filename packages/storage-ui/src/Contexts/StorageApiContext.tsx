@@ -4,20 +4,19 @@ import { useState, useEffect, useMemo, useCallback } from "react"
 import { IFilesApiClient, FilesApiClient, Token, IdentityProvider, OAuthIdentityToken } from "@chainsafe/files-api-client"
 import jwtDecode from "jwt-decode"
 import axios from "axios"
-import { decryptFile } from "../Utils/encryption"
 import { useLocalStorage, useSessionStorage } from "@chainsafe/browser-storage-hooks"
 export type { IdentityProvider as OAuthProvider }
 
 const tokenStorageKey = "csf.refreshToken"
 const isReturningUserStorageKey = "csf.isReturningUser"
 
-type FilesApiContextProps = {
+type StorageApiContextProps = {
   apiUrl?: string
   withLocalStorage?: boolean
   children: React.ReactNode | React.ReactNode[]
 }
 
-type FilesApiContext = {
+type StorageApiContext = {
   filesApiClient: IFilesApiClient
   isLoggedIn: boolean | undefined
   secured: boolean | undefined
@@ -35,15 +34,16 @@ type FilesApiContext = {
     prompt: string | undefined,
   ) => Promise<void>
   loginWithFacebook: (code: string, state: string) => Promise<void>
+  web3Login(): Promise<void>
   logout: () => void
 }
 
-const FilesApiContext = React.createContext<FilesApiContext | undefined>(undefined)
+const StorageApiContext = React.createContext<StorageApiContext | undefined>(undefined)
 
-const FilesApiProvider = ({ apiUrl, withLocalStorage = true, children }: FilesApiContextProps) => {
+const StorageApiProvider = ({ apiUrl, withLocalStorage = true, children }: StorageApiContextProps) => {
   const maintenanceMode = process.env.REACT_APP_MAINTENANCE_MODE === "true"
 
-  const { wallet, onboard, checkIsReady, isReady } = useWeb3()
+  const { wallet, onboard, checkIsReady, isReady, provider } = useWeb3()
   const { localStorageRemove, localStorageGet, localStorageSet } = useLocalStorage()
   const { sessionStorageRemove, sessionStorageGet, sessionStorageSet } = useSessionStorage()
 
@@ -89,6 +89,7 @@ const FilesApiProvider = ({ apiUrl, withLocalStorage = true, children }: FilesAp
 
   useEffect(() => {
     const initializeApiClient = async () => {
+      debugger
       const axiosInstance = axios.create({
         // Disable the internal Axios JSON de serialization as this is handled by the client
         transformResponse: []
@@ -176,31 +177,6 @@ const FilesApiProvider = ({ apiUrl, withLocalStorage = true, children }: FilesAp
     if (onboard) {
       const walletReady = await onboard.walletSelect()
       walletReady && (await checkIsReady())
-    }
-  }
-
-  const thresholdKeyLogin = async (
-    signature: string,
-    identityToken: string,
-    publicKey: string
-  ) => {
-    if (maintenanceMode) {
-      throw new Error("App is undergoing maintenance")
-    }
-    try {
-      const {
-        access_token,
-        refresh_token
-      } = await filesApiClient.verifyServiceIdentityToken({
-        signature: signature,
-        public_key: publicKey,
-        service_identity_token: identityToken
-      })
-      setTokensAndSave(access_token, refresh_token)
-      setReturningUser()
-      return Promise.resolve()
-    } catch (error) {
-      return Promise.reject(error)
     }
   }
 
@@ -315,6 +291,38 @@ const FilesApiProvider = ({ apiUrl, withLocalStorage = true, children }: FilesAp
     }
   }
 
+    const web3Login = async () => {
+    if (!provider) return Promise.reject("No wallet is selected")
+
+    if (!isReady) {
+      const connected = await checkIsReady()
+      if (!connected) return Promise.reject("You need to allow the connection")
+    }
+    const signer = provider.getSigner()
+    try {
+      debugger
+      const { token } = await filesApiClient.getWeb3Token()
+
+      if (token) {
+        const signature = await signer.signMessage(token)
+        const address = await signer.getAddress()
+        const {
+          access_token,
+          refresh_token,
+        } = await filesApiClient.postWeb3Token({
+          signature: signature,
+          token: token,
+          public_address: address,
+        })
+        setTokensAndSave(access_token, refresh_token)
+        setReturningUser()
+        return Promise.resolve()
+      }
+    } catch (error) {
+      return Promise.reject("There was an error logging in.")
+    }
+  }
+
   const logout = () => {
     setAccessToken(undefined)
     setRefreshToken(undefined)
@@ -324,50 +332,8 @@ const FilesApiProvider = ({ apiUrl, withLocalStorage = true, children }: FilesAp
     !withLocalStorage && sessionStorageRemove(tokenStorageKey)
   }
 
-  const secureThresholdKeyAccount = async (encryptedKey: string) => {
-    try {
-      if (decodedRefreshToken && refreshToken) {
-        await filesApiClient.secure({
-          encryption_key: encryptedKey
-        })
-
-        const {
-          access_token,
-          refresh_token
-        } = await filesApiClient.getRefreshToken({
-          refresh: refreshToken.token
-        })
-
-        setTokensAndSave(access_token, refresh_token)
-        return true
-      } else {
-        return false
-      }
-    } catch (error) {
-      return false
-    }
-  }
-
-  const validateMasterPassword = async (
-    candidatePassword: string
-  ): Promise<boolean> => {
-    if (!decodedRefreshToken || !decodedRefreshToken.mps) return false
-    try {
-      const toDecryptArray = Buffer.from(decodedRefreshToken.mps, "base64")
-      const decrypted = await decryptFile(toDecryptArray, candidatePassword)
-      if (decrypted) {
-        const decryptedUuid = new TextDecoder().decode(decrypted)
-        return decodedRefreshToken.uuid === decryptedUuid
-      } else {
-        return false
-      }
-    } catch (error) {
-      return false
-    }
-  }
-
   return (
-    <FilesApiContext.Provider
+    <StorageApiContext.Provider
       value={{
         filesApiClient,
         isLoggedIn: isLoggedIn(),
@@ -376,6 +342,7 @@ const FilesApiProvider = ({ apiUrl, withLocalStorage = true, children }: FilesAp
         loginWithGithub,
         loginWithGoogle,
         loginWithFacebook,
+        web3Login,
         selectWallet,
         resetAndSelectWallet,
         getProviderUrl,
@@ -383,17 +350,17 @@ const FilesApiProvider = ({ apiUrl, withLocalStorage = true, children }: FilesAp
       }}
     >
       {children}
-    </FilesApiContext.Provider>
+    </StorageApiContext.Provider>
   )
 }
 
-const useFilesApi = () => {
-  const context = React.useContext(FilesApiContext)
+const useStorageApi = () => {
+  const context = React.useContext(StorageApiContext)
   if (context === undefined) {
     throw new Error("useAuth must be used within a AuthProvider")
   }
   return context
 }
 
-export { FilesApiProvider, useFilesApi }
+export { StorageApiProvider, useStorageApi }
 
