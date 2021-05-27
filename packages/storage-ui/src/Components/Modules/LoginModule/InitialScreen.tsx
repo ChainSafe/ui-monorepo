@@ -3,7 +3,7 @@ import { Button, FacebookLogoIcon, GithubLogoIcon, GoogleLogoIcon, Typography } 
 import { createStyles, makeStyles, useThemeSwitcher } from "@chainsafe/common-theme"
 import { CSFTheme } from "../../../Themes/types"
 import { t, Trans } from "@lingui/macro"
-import { useFilesApi } from "../../../Contexts/FilesApiContext"
+import { useStorageApi } from "../../../Contexts/StorageApiContext"
 import { useWeb3 } from "@chainsafe/web3-context"
 import { LOGIN_TYPE } from "@toruslabs/torus-direct-web-sdk"
 import { ROUTE_LINKS } from "../../StorageRoutes"
@@ -135,11 +135,11 @@ interface IInitialScreen {
 }
 
 const InitialScreen = ({ className }: IInitialScreen) => {
-  const { selectWallet, resetAndSelectWallet } = useFilesApi()
+  const { selectWallet, resetAndSelectWallet, getProviderUrl, web3Login } = useStorageApi()
   const { desktop } = useThemeSwitcher()
   const { wallet } = useWeb3()
   const classes = useStyles()
-  const [loginMode, setLoginMode] = useState<"web3" | LOGIN_TYPE | undefined>()
+  const [loginMode, setLoginMode] = useState<IdentityProvider>()
   const [error, setError] = useState<string | undefined>()
   const maintenanceMode = process.env.REACT_APP_MAINTENANCE_MODE === "true"
   const [isConnecting, setIsConnecting] = useState(false)
@@ -172,7 +172,18 @@ const InitialScreen = ({ className }: IInitialScreen) => {
     setIsConnecting(true)
     setLoginMode(loginType)
     try {
-      // await login(loginType)
+      switch(loginType) {
+        case 'facebook': 
+        case 'github':
+        case 'google': {
+          const oauthUrl = await getProviderUrl(loginType)
+          window.location.href = oauthUrl
+          break
+        }
+        case 'web3':{
+          await web3Login()
+        }
+      }
     } catch (error) {
       let errorMessage = t`There was an error authenticating`
       console.log(error)

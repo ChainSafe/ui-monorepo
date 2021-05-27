@@ -13,7 +13,7 @@ import { downloadsInProgressReducer, uploadsInProgressReducer } from "./FilesRed
 import { CancelToken } from "axios"
 import { t } from "@lingui/macro"
 import { useBeforeunload } from "react-beforeunload"
-import { useFilesApi } from "./FilesApiContext"
+import { useStorageApi } from "./StorageApiContext"
 
 type StorageContextProps = {
   children: React.ReactNode | React.ReactNode[]
@@ -75,7 +75,7 @@ const StorageProvider = ({ children }: StorageContextProps) => {
   const {
     filesApiClient,
     isLoggedIn
-  } = useFilesApi()
+  } = useStorageApi()
   const [spaceUsed, setSpaceUsed] = useState(0)
   const [pins, setPins] = useState<Bucket[]>([])
 
@@ -87,8 +87,8 @@ const StorageProvider = ({ children }: StorageContextProps) => {
   }, [filesApiClient])
 
   useEffect(() => {
-    refreshPins()
-  }, [refreshPins])
+    isLoggedIn && refreshPins()
+  }, [isLoggedIn, refreshPins])
 
   // Space used counter
   useEffect(() => {

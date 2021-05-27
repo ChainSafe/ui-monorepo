@@ -11,7 +11,7 @@ import { LanguageProvider } from "./Contexts/LanguageContext"
 import { lightTheme } from "./Themes/LightTheme"
 import { darkTheme } from "./Themes/DarkTheme"
 import { useLocalStorage } from "@chainsafe/browser-storage-hooks"
-import { FilesApiProvider }  from "./Contexts/FilesApiContext"
+import { StorageApiProvider }  from "./Contexts/StorageApiContext"
 import { StorageProvider } from "./Contexts/StorageContext"
 
 if (
@@ -109,7 +109,7 @@ const App: React.FC<{}> = () => {
               checkNetwork={false}
               cacheWalletSelection={canUseLocalStorage}
             >
-              <FilesApiProvider
+              <StorageApiProvider
                 apiUrl={apiUrl}
                 withLocalStorage={false}
               >
@@ -120,7 +120,7 @@ const App: React.FC<{}> = () => {
                     </AppWrapper>
                   </Router>
                 </StorageProvider>
-              </FilesApiProvider>
+              </StorageApiProvider>
             </Web3Provider>
           </ToasterProvider>
         </LanguageProvider>

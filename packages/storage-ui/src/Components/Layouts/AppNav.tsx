@@ -20,7 +20,7 @@ import { ROUTE_LINKS } from "../StorageRoutes"
 import { FREE_PLAN_LIMIT } from "../../Utils/Constants"
 import { Trans } from "@lingui/macro"
 import { CSFTheme } from "../../Themes/types"
-import { useFilesApi } from "../../Contexts/FilesApiContext"
+import { useStorageApi } from "../../Contexts/StorageApiContext"
 import { useStorage } from "../../Contexts/StorageContext"
 
 const useStyles = makeStyles(
@@ -213,7 +213,7 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
 
   const { spaceUsed } = useStorage()
 
-  const { isLoggedIn, logout } = useFilesApi()
+  const { isLoggedIn, logout } = useStorageApi()
 
 
   const signOut = useCallback(() => {

@@ -1,7 +1,7 @@
 import React from "react"
 import { Switch, ConditionalRoute } from "@chainsafe/common-components"
 import LoginPage from "./Pages/LoginPage"
-import { useFilesApi }  from "../Contexts/FilesApiContext"
+import { useStorageApi }  from "../Contexts/StorageApiContext"
 import PinsPage from "./Pages/PinsPage"
 
 export const ROUTE_LINKS = {
@@ -16,7 +16,7 @@ export const SETTINGS_PATHS = ["profile", "plan", "security"] as const
 export type SettingsPath = typeof SETTINGS_PATHS[number]
 
 const FilesRoutes = () => {
-  const { isLoggedIn } = useFilesApi()
+  const { isLoggedIn } = useStorageApi()
 
   return (
     <Switch>

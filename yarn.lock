@@ -1664,10 +1664,10 @@
   resolved "https://registry.yarnpkg.com/@chainsafe/browser-storage-hooks/-/browser-storage-hooks-1.0.1.tgz#26d32cde1999914db755a631e2643823c54959f7"
   integrity sha512-Q4b5gQAZnsRXKeADspd5isqfwwhhXjDk70y++YadufA6EZ3tf340oW0OVszp74KaGEw+CAYFGQR4X7bzpZ3x9Q==
 
-"@chainsafe/files-api-client@1.11.4":
-  version "1.11.4"
-  resolved "https://npm.pkg.github.com/download/@chainsafe/files-api-client/1.11.4/02f01962de33e57a6622a2c59b38f4716b48f7cd2fe567984033cf65a7364b7f#68d97dd382b998988816ac6943072356b96ea3e9"
-  integrity sha512-3VkToIUl2rKxmxkdM1pUFGNGz+Ngsd2P2CIXsAGRDhn56zEhsvhujythy4/JTrgeiCfPgo5C+ONPCRi7YIVu6g==
+"@chainsafe/files-api-client@1.11.3":
+  version "1.11.3"
+  resolved "https://npm.pkg.github.com/download/@chainsafe/files-api-client/1.11.3/2817fd5c98430022620c5780b8f250486c24a0c2ef3b50ee64a4487df1a7a798#64a2123619c77eac61fbae588496cb5777eb1207"
+  integrity sha512-nBQwpG6t0W7jjcUOaRwhb3VDG7FnAKssU21rBGedXYEuGn+CeOUM5bR3ERqoB22i7tVFEZjiY0AJhoGo2YxIGA==
 
 "@chainsafe/web3-context@1.1.4":
   version "1.1.4"
@@ -6170,6 +6170,13 @@ aws4@^1.8.0:
   version "1.10.1"
   resolved "https://registry.yarnpkg.com/aws4/-/aws4-1.10.1.tgz#e1e82e4f3e999e2cfd61b161280d16a111f86428"
   integrity sha512-zg7Hz2k5lI8kb7U32998pRRFin7zJlkfezGJjUc2heaD4Pw2wObakCDVzkKztTm/Ln7eiVvYsjqak0Ed4LkMDA==
+
+axios@0.21.1:
+  version "0.21.1"
+  resolved "https://registry.yarnpkg.com/axios/-/axios-0.21.1.tgz#22563481962f4d6bde9a76d516ef0e5d3c09b2b8"
+  integrity sha512-dKQiRHxGD9PPRIUNIWvZhPTPpl1rf/OxTYKsqKUDjBwYylTvV7SjSHJb9ratfyzM6wCdLCOYLzs73qpg5c4iGA==
+  dependencies:
+    follow-redirects "^1.10.0"
 
 axios@^0.18.0:
   version "0.18.1"
@@ -11452,6 +11459,11 @@ follow-redirects@^1.0.0:
   version "1.13.0"
   resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.13.0.tgz#b42e8d93a2a7eea5ed88633676d6597bc8e384db"
   integrity sha512-aq6gF1BEKje4a9i9+5jimNFIpq4Q1WiwBToeRK5NvZBd/TRsmW8BsJfOEGkr76TbOyPVD3OVDN910EcUNtRYEA==
+
+follow-redirects@^1.10.0:
+  version "1.14.1"
+  resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.14.1.tgz#d9114ded0a1cfdd334e164e6662ad02bfd91ff43"
+  integrity sha512-HWqDgT7ZEkqRzBvc2s64vSZ/hfOceEol3ac/7tKwzuvEyWx3/4UegXh5oBOIotkGsObyk3xznnSRVADBgWSQVg==
 
 for-each@~0.3.3:
   version "0.3.3"
