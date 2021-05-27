@@ -26,6 +26,9 @@ msgstr "Une phrase de backup sera générée et utilisé pour ce comte.<0/>Nous 
 msgid "A file with the same name already exists"
 msgstr "Un fichier avec ce nom existe déjà"
 
+msgid "A name is required"
+msgstr ""
+
 msgid "Account"
 msgstr "Compte"
 
@@ -257,6 +260,9 @@ msgstr "Je prends le risque"
 msgid "Info"
 msgstr "Info"
 
+msgid "Invalid name"
+msgstr ""
+
 msgid "I’m done saving my backup phrase"
 msgstr "Phrase de sauvegarde enregistrée"
 
@@ -301,6 +307,12 @@ msgstr "Mes Fichiers"
 
 msgid "Name"
 msgstr "Nom"
+
+msgid "Name cannot contain '/' character"
+msgstr ""
+
+msgid "Name too long"
+msgstr ""
 
 msgid "New folder"
 msgstr "Nouveau dossier"
@@ -364,6 +376,9 @@ msgstr "Nom du fichier"
 
 msgid "Please enter a folder name"
 msgstr "Nom du dossier"
+
+msgid "Please enter a name"
+msgstr ""
 
 msgid "Please provide a password"
 msgstr "Merci de donner un mot de passe"
