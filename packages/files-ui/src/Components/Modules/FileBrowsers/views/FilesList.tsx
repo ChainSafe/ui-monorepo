@@ -424,15 +424,15 @@ const FilesList = () => {
   const invalidFilenameRegex = new RegExp("/")
   const renameSchema = object().shape({
     fileName: string()
-      .min(1, "Please enter a file name")
-      .max(65, "File name length exceeded")
+      .min(1, t`Please enter a name`)
+      .max(65, t`Name too long`)
       .test(
-        "Invalid name",
-        "File name cannot contain '/' character",
+        t`Invalid name`,
+        t`Name cannot contain '/' character`,
         (val: string | null | undefined) =>
           !invalidFilenameRegex.test(val || "")
       )
-      .required("File name is required")
+      .required(t`A name is required`)
   })
 
   const [{ isOverUploadable, isOverBrowser }, dropBrowserRef] = useDrop({
