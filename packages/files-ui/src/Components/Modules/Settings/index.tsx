@@ -185,6 +185,7 @@ const Settings: React.FC = () => {
               iconRight={<CaretRightIcon/>}
               title={t`Profile and Display`}
               tabKey="profile"
+              testId="profile-tab"
             >
               <Profile />
             </TabPane>
@@ -194,6 +195,7 @@ const Settings: React.FC = () => {
               iconRight={<CaretRightIcon/>}
               title={t`Security`}
               tabKey="security"
+              testId="security-tab"
             >
               <Security />
             </TabPane>

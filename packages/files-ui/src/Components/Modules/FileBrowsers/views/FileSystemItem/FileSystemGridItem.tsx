@@ -228,8 +228,8 @@ const FileSystemGridItem = React.forwardRef(
                     }
                   }}
                   placeholder = {isFolder
-                    ? t`Please enter a file name`
-                    : t`Please enter a folder name`
+                    ? t`Please enter a folder name`
+                    : t`Please enter a file name`
                   }
                   autoFocus={editing === cid}
                 />

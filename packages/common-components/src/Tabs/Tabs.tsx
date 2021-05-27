@@ -69,13 +69,13 @@ const Tabs: React.FC<ITabsProps> = ({ className, children, activeKey, injectedCl
           ? children.map((elem, index) => {
             return (
               <li
+                data-testId={elem.props.testId}
                 key={index}
                 className={
                   clsx(
                     elem.props.tabKey === activeKey && "selected",
                     classes.tabBar,
-                    injectedClass?.tabBar,
-                    elem.props.tabKey
+                    injectedClass?.tabBar
                   )}
                 onClick={() => onTabSelect(elem.props.tabKey)}
               >

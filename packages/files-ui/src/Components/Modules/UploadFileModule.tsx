@@ -126,7 +126,7 @@ const UploadFileModule = ({ modalOpen, close }: IUploadFileModuleProps) => {
             multiple={true}
             className={classes.input}
             classNames={{
-              closeIcon: clsx(classes.closeIcon, "removeFileIcon"),
+              closeIcon: classes.closeIcon,
               filelist: classes.fileList,
               item: classes.item,
               addFiles: classes.addFiles
@@ -136,6 +136,7 @@ const UploadFileModule = ({ modalOpen, close }: IUploadFileModuleProps) => {
             maxSize={2 * 1024 ** 3}
             name="files"
             onFileNumberChange={onFileNumberChange}
+            testId="fileUpload"
           />
           <footer className={classes.footer}>
             <Button
