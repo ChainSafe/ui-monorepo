@@ -19,7 +19,7 @@ import clsx from "clsx"
 import { ROUTE_LINKS } from "../FilesRoutes"
 import { useFiles, BucketType, SearchEntry } from "../../Contexts/FilesContext"
 import { CONTENT_TYPES } from "../../Utils/Constants"
-import { getParentPathFromFilePath } from "../../Utils/pathUtils"
+import { getArrayOfPaths, getParentPathFromFilePath, getURISafePathFromArray } from "../../Utils/pathUtils"
 import { t, Trans } from "@lingui/macro"
 import { CSFTheme } from "../../Themes/types"
 import { useFilesApi } from "@chainsafe/common-contexts"
@@ -223,13 +223,13 @@ const SearchModule: React.FC<ISearchModule> = ({
   )
 
   const onSearchEntryClickFolder = (searchEntry: SearchEntry) => {
-    redirect(ROUTE_LINKS.Drive(trimChar(searchEntry.path, "/")))
+    redirect(ROUTE_LINKS.Drive(getURISafePathFromArray(getArrayOfPaths(searchEntry.path))))
     setSearchQuery("")
     setSearchActive(false)
   }
 
   const onSearchEntryClickFile = (searchEntry: SearchEntry) => {
-    redirect(ROUTE_LINKS.Drive(getParentPathFromFilePath(searchEntry.path)))
+    redirect(ROUTE_LINKS.Drive(getURISafePathFromArray(getArrayOfPaths(getParentPathFromFilePath(searchEntry.path)))))
     setSearchQuery("")
     setSearchActive(false)
   }
