@@ -16,18 +16,12 @@ import { FileBrowserContext } from "../../../Contexts/FileBrowserContext"
 import { parseFileContentResponse } from "../../../Utils/Helpers"
 
 const CSFFileBrowser: React.FC<IFileBrowserModuleProps> = () => {
-  const {
-    downloadFile,
-    uploadFiles,
-    uploadsInProgress,
-    buckets
-  } = useFiles()
+  const { downloadFile, uploadFiles, uploadsInProgress, buckets } = useFiles()
   const { filesApiClient } = useFilesApi()
   const { addToastMessage } = useToaster()
   const [loadingCurrentPath, setLoadingCurrentPath] = useState(false)
   const [pathContents, setPathContents] = useState<FileSystemItem[]>([])
   const { redirect } = useHistory()
-
   const { pathname } = useLocation()
   const [currentPath, setCurrentPath] = useState(extractDrivePath(pathname.split("/").slice(1).join("/")))
 

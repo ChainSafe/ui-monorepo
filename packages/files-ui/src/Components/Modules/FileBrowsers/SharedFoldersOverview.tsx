@@ -26,22 +26,22 @@ const SharedFolderOverview = () => {
   const { pathname } = useLocation()
   const [currentPath, setCurrentPath] = useState(extractDrivePath(pathname.split("/").slice(1).join("/")))
 
-  const bucket = useMemo(() => buckets.find(b => b.type === "csf"), [buckets])
+  const bucketsToShow = useMemo(() => buckets.find(b => b.type === "share"), [buckets])
 
-  const refreshContents = useCallback((showLoading?: boolean) => {
-    if (!bucket) return
-    showLoading && setLoadingCurrentPath(true)
-    filesApiClient.getFPSChildList(bucket.id, { path: currentPath })
-      .then((newContents) => {
-        showLoading && setLoadingCurrentPath(false)
+  // const refreshContents = useCallback((showLoading?: boolean) => {
+  // if (!bucketsToShow) return
+  // showLoading && setLoadingCurrentPath(true)
+  // filesApiClient.getFPSChildList(bucket.id, { path: currentPath })
+  //   .then((newContents) => {
+  //     showLoading && setLoadingCurrentPath(false)
 
-        setPathContents(
-          newContents.map((fcr) => parseFileContentResponse(fcr))
-        )
-      }).catch(error => {
-        console.error(error)
-      }).finally(() => showLoading && setLoadingCurrentPath(false))
-  }, [bucket, filesApiClient, currentPath])
+  //     setPathContents(
+  //       newContents.map((fcr) => parseFileContentResponse(fcr))
+  //     )
+  //   }).catch(error => {
+  //     console.error(error)
+  //   }).finally(() => showLoading && setLoadingCurrentPath(false))
+  // }, [bucket, filesApiClient, currentPath])
 
   const { localStorageGet, localStorageSet } = useLocalStorage()
   const { profile } = useUser()

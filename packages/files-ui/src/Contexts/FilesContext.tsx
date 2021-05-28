@@ -50,7 +50,12 @@ interface GetFileContentParams {
   path: string
 }
 
-type Bucket = FilesBucket & { encryptionKey: string}
+type BucketPermission = "writer" | "owner" | "reader"
+
+type Bucket = FilesBucket & {
+  encryptionKey: string
+  permission?: BucketPermission
+}
 
 type FilesContext = {
   buckets: Bucket[]
@@ -92,30 +97,42 @@ const FilesProvider = ({ children }: FilesContextProps) => {
   const [personalEncryptionKey, setPersonalEncryptionKey] = useState<string | undefined>()
   const [buckets, setBuckets] = useState<Bucket[]>([])
   const { profile } = useUser()
+  const { userId } = profile || {}
 
   const getKeyForBucket = useCallback(async (bucket: FilesBucket) => {
-    // TODO: Add bucket.owners here when the API returns this
-    const bucketUsers = [...bucket.readers, ...bucket.writers]
-    const bucketUser = bucketUsers.find(bu => bu.uuid === profile?.userId)
+    const bucketUsers = [...bucket.readers, ...bucket.writers, ...bucket.owners]
+    const bucketUser = bucketUsers.find(bu => bu.uuid === userId)
     if (!bucketUser || !bucketUser.encryption_key) {
       console.error(`Unable to retrieve encryption key for ${bucket.id}`)
       return ""
     }
     const decrypted = await decryptMessageWithThresholdKey(bucketUser.encryption_key)
     return decrypted || ""
-  }, [decryptMessageWithThresholdKey, profile])
+  }, [decryptMessageWithThresholdKey, userId])
 
   const refreshBuckets = useCallback(async () => {
     if (!personalEncryptionKey) return
     const result = await filesApiClient.listBuckets()
 
-    const bucketsWithKeys: Bucket[] = await Promise.all(result.map(async (b) => ({
-      ...b,
-      encryptionKey: (b.type === "csf" || b.type === "trash") ? personalEncryptionKey : await getKeyForBucket(b)
-    })))
+    const bucketsWithKeys: Bucket[] = await Promise.all(
+      result.map(async (b) => {
+
+        const permission = b.owners.find(owner => owner === profile?.userId)
+          ? "owner" as BucketPermission
+          : b.writers.find(writer => writer === profile?.userId)
+            ? "writer" as BucketPermission
+            : b.readers.find(reader => reader === profile?.userId)
+              ? "reader" as BucketPermission
+              : undefined
+
+        return {
+          ...b,
+          encryptionKey: (b.type === "csf" || b.type === "trash") ? personalEncryptionKey : await getKeyForBucket(b),
+          permission
+        }}))
     setBuckets(bucketsWithKeys)
     return Promise.resolve()
-  }, [getKeyForBucket, filesApiClient, personalEncryptionKey])
+  }, [personalEncryptionKey, filesApiClient, getKeyForBucket, profile?.userId])
 
   useEffect(() => {
     refreshBuckets()
