@@ -13,7 +13,9 @@ describe("Settings", () => {
   })
 
   it("can navigate to the settings security page on a phone", () => {
-    cy.viewport("iphone-6")
+    before(() => {
+      cy.viewport("iphone-6")
+    })
     cy.web3Login()
     cy.get("[data-testId=hamburger-menu]").click()
     cy.get("[data-cy=settings-nav]").click()
