@@ -227,7 +227,7 @@ const FileSystemTableItem = React.forwardRef(
           <>
             <TableCell align="left">
               {
-                created_at && dayjs.unix(created_at).format("DD MMM YYYY h:mm a")
+                !isFolder && !!created_at && dayjs.unix(created_at).format("DD MMM YYYY h:mm a")
               }
             </TableCell>
             <TableCell align="left">
