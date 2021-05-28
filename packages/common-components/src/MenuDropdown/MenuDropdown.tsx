@@ -212,7 +212,7 @@ const MenuDropdown = ({
       className={clsx(classes.root, className)}
     >
       <section
-        data-testId={`drowpdown-title-${testId}`}
+        data-testid={`drowpdown-title-${testId}`}
         onClick={() => setOpen(!open)}
         className={clsx(classes.title, classNames?.title, {
           ["open"]: open
@@ -241,7 +241,7 @@ const MenuDropdown = ({
       >
         {menuItems.map((item: IMenuItem, index: number) => (
           <div
-            data-testId={`drowpdown-item-${testId}`}
+            data-testid={`drowpdown-item-${testId}`}
             key={`menu-${index}`}
             className={clsx(classes.item, classNames?.item)}
             onClick={() => {
