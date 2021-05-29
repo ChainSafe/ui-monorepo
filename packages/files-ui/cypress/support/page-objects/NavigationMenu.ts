@@ -12,6 +12,14 @@ export class NavigationMenu {
     return cy.get("[data-cy=settings-nav]")
   }
 
+  spaceUsedLabel() {
+    return cy.get("[data-cy=space-used-label]")
+  }
+
+  spaceUsedProgressBar() {
+    return cy.get("[data-cy=space-used-progress-bar]")
+  }
+
   sendFeedbackNavButton() {
     return cy.get("[data-cy=send-feedback-nav]")
   }
