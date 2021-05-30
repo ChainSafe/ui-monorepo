@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react"
 import { Crumb, useToaster, useHistory, useLocation } from "@chainsafe/common-components"
 import { useFiles, FileSystemItem } from "../../../Contexts/FilesContext"
-import { extractDrivePath, getArrayOfPaths, getURISafePathFromArray, getPathWithFile } from "../../../Utils/pathUtils"
+import { getArrayOfPaths, getURISafePathFromArray, getPathWithFile, extractFileBrowserPathFromURL } from "../../../Utils/pathUtils"
 import { IBulkOperations, IFileBrowserModuleProps, IFilesTableBrowserProps } from "./types"
 import FilesList from "./views/FilesList"
 import { CONTENT_TYPES } from "../../../Utils/Constants"
@@ -29,8 +29,9 @@ const CSFFileBrowser: React.FC<IFileBrowserModuleProps> = () => {
   const { redirect } = useHistory()
 
   const { pathname } = useLocation()
-  const [currentPath, setCurrentPath] = useState(extractDrivePath(pathname.split("/").slice(1).join("/")))
-
+  const currentPath = useMemo(() =>
+    extractFileBrowserPathFromURL(pathname, ROUTE_LINKS.Drive(""))
+  , [pathname])
   const bucket = useMemo(() => buckets.find(b => b.type === "csf"), [buckets])
 
   const refreshContents = useCallback((showLoading?: boolean) => {
@@ -70,22 +71,6 @@ const CSFFileBrowser: React.FC<IFileBrowserModuleProps> = () => {
   useEffect(() => {
     refreshContents(true)
   }, [bucket, refreshContents])
-
-  useEffect(() => {
-    let drivePath = extractDrivePath(pathname)
-    if (drivePath[0] !== "/") {
-      drivePath = "/" + drivePath
-    }
-    if (drivePath !== currentPath) {
-      if (drivePath === "/") {
-        setCurrentPath(drivePath)
-      } else {
-        setCurrentPath(decodeURIComponent(drivePath.slice(0, -1)))
-      }
-
-      refreshContents(true)
-    }
-  }, [refreshContents, pathname, currentPath])
 
   const moveItemsToBin = useCallback(async (cids: string[]) => {
     if (!bucket) return
@@ -162,7 +147,6 @@ const CSFFileBrowser: React.FC<IFileBrowserModuleProps> = () => {
   const crumbs: Crumb[] = useMemo(() => arrayOfPaths.map((path, index) => ({
     text: decodeURIComponent(path),
     onClick: () => {
-
       redirect(
         ROUTE_LINKS.Drive(getURISafePathFromArray(arrayOfPaths.slice(0, index + 1)))
       )
@@ -191,10 +175,8 @@ const CSFFileBrowser: React.FC<IFileBrowserModuleProps> = () => {
   const viewFolder = useCallback((cid: string) => {
     const fileSystemItem = pathContents.find(f => f.cid === cid)
     if (fileSystemItem && fileSystemItem.content_type === CONTENT_TYPES.Directory) {
-      let urlSafePath
-      if (currentPath !== "/") {
-        urlSafePath = `/${currentPath.slice(1).split("/").map(encodeURIComponent).join("/")}`
-      } else {
+      let urlSafePath =  getURISafePathFromArray(getArrayOfPaths(currentPath))
+      if (urlSafePath === "/") {
         urlSafePath = ""
       }
       redirect(ROUTE_LINKS.Drive(`${urlSafePath}/${encodeURIComponent(`${fileSystemItem.name}`)}`))
@@ -221,7 +203,7 @@ const CSFFileBrowser: React.FC<IFileBrowserModuleProps> = () => {
       bucket,
       bulkOperations,
       crumbs,
-      moduleRootPath: ROUTE_LINKS.Drive(""),
+      moduleRootPath: ROUTE_LINKS.Drive("/"),
       currentPath,
       refreshContents,
       deleteItems: moveItemsToBin,
