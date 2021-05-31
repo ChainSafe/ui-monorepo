@@ -1,5 +1,5 @@
-name-template: "v$RESOLVED_VERSION 🌈"
-tag-template: "v$RESOLVED_VERSION"
+name-template: "v$NEXT_PATCH_VERSION 🌈"
+tag-template: "v$NEXT_PATCH_VERSION"
 # references:
 #   - dev
 categories:
@@ -34,3 +34,4 @@ template: |
   $CHANGES
   🙏 A big thank you to all the contributors to this release:
   $CONTRIBUTORS
+  $PREVIOUS_TAG	
