@@ -23,7 +23,6 @@ import { getArrayOfPaths, getParentPathFromFilePath, getURISafePathFromArray } f
 import { t, Trans } from "@lingui/macro"
 import { CSFTheme } from "../../Themes/types"
 import { useFilesApi } from "@chainsafe/common-contexts"
-import { trimChar } from "../../Utils/pathUtils"
 
 export interface SearchParams {
   bucketType: BucketType

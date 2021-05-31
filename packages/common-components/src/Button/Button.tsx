@@ -5,7 +5,7 @@ import { Loading } from "../Spinner"
 import { Typography } from "../Typography"
 
 const useStyles = makeStyles(
-  ({ constants, typography, animation, palette, overrides }: ITheme) =>
+  ({ constants, typography, animation, palette, overrides, breakpoints }: ITheme) =>
     createStyles({
       // JSS in CSS goes here
       root: {
@@ -64,12 +64,14 @@ const useStyles = makeStyles(
         "& svg": {
           fill: palette.common.white.main
         },
-        "&:hover": {
-          backgroundColor: palette.primary.hover
-            ? palette.primary.hover
-            : palette.primary.main,
-          color: palette.common.white.main,
-          ...overrides?.Button?.variants?.primary?.hover
+        [breakpoints.up("sm")]: {
+          "&:hover": {
+            backgroundColor: palette.primary.hover
+              ? palette.primary.hover
+              : palette.primary.main,
+            color: palette.common.white.main,
+            ...overrides?.Button?.variants?.primary?.hover
+          }
         },
         "&:focus": {
           backgroundColor: palette.primary.hover
@@ -93,10 +95,12 @@ const useStyles = makeStyles(
         "& svg": {
           fill: palette.common.white.main
         },
-        "&:hover": {
-          backgroundColor: palette.primary.main,
-          color: palette.common.white.main,
-          ...overrides?.Button?.variants?.secondary?.hover
+        [breakpoints.up("sm")]: {
+          "&:hover": {
+            backgroundColor: palette.primary.main,
+            color: palette.common.white.main,
+            ...overrides?.Button?.variants?.secondary?.hover
+          }
         },
         "&:focus": {
           backgroundColor: palette.primary.main,
@@ -117,13 +121,15 @@ const useStyles = makeStyles(
         "& svg": {
           fill: palette.additional["gray"][8]
         },
-        "&:hover": {
-          borderColor: palette.additional["blue"][5],
-          color: palette.additional["blue"][5],
-          "& svg": {
-            fill: palette.additional["blue"][5]
-          },
-          ...overrides?.Button?.variants?.outline?.hover
+        [breakpoints.up("sm")]: {
+          "&:hover": {
+            borderColor: palette.additional["blue"][5],
+            color: palette.additional["blue"][5],
+            "& svg": {
+              fill: palette.additional["blue"][5]
+            },
+            ...overrides?.Button?.variants?.outline?.hover
+          }
         },
         "&:focus": {
           borderColor: palette.additional["blue"][5],
@@ -150,13 +156,15 @@ const useStyles = makeStyles(
         "& svg": {
           fill: palette.additional["gray"][8]
         },
-        "&:hover": {
-          borderColor: palette.additional["blue"][5],
-          color: palette.additional["blue"][5],
-          "& svg": {
-            fill: palette.additional["blue"][5]
-          },
-          ...overrides?.Button?.variants?.dashed?.hover
+        [breakpoints.up("sm")]: {
+          "&:hover": {
+            borderColor: palette.additional["blue"][5],
+            color: palette.additional["blue"][5],
+            "& svg": {
+              fill: palette.additional["blue"][5]
+            },
+            ...overrides?.Button?.variants?.dashed?.hover
+          }
         },
         "&:focus": {
           borderColor: palette.additional["blue"][5],
@@ -183,9 +191,11 @@ const useStyles = makeStyles(
         "& svg": {
           fill: palette.common?.white.main
         },
-        "&:hover": {
-          backgroundColor: palette.additional["red"][4],
-          ...overrides?.Button?.state?.danger?.hover
+        [breakpoints.up("sm")]: {
+          "&:hover": {
+            backgroundColor: palette.additional["red"][4],
+            ...overrides?.Button?.state?.danger?.hover
+          }
         },
         "&:focus": {
           backgroundColor: palette.additional["red"][4],
@@ -251,14 +261,16 @@ const useStyles = makeStyles(
         "& svg": {
           fill: `${palette.additional["gray"][6]} !important`
         },
-        "&:hover": {
-          backgroundColor: palette.additional["gray"][3],
-          borderColor: palette.additional["gray"][5],
-          color: palette.additional["gray"][6],
-          "& svg": {
-            fill: `${palette.additional["gray"][6]} !important`
-          },
-          ...overrides?.Button?.state?.disabled?.hover
+        [breakpoints.up("sm")]: {
+          "&:hover": {
+            backgroundColor: palette.additional["gray"][3],
+            borderColor: palette.additional["gray"][5],
+            color: palette.additional["gray"][6],
+            "& svg": {
+              fill: `${palette.additional["gray"][6]} !important`
+            },
+            ...overrides?.Button?.state?.disabled?.hover
+          }
         },
         ...overrides?.Button?.state?.disabled?.root
       }
