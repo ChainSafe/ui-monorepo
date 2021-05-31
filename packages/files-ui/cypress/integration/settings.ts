@@ -19,7 +19,7 @@ describe("Settings", () => {
 
     it("can navigate to the settings security page on a phone", () => {
       cy.web3Login()
-      cy.get("[data-testId=hamburger-menu]").click()
+      cy.get("[data-testid=hamburger-menu]").click()
       cy.get("[data-cy=settings-nav]").click()
       cy.get("[data-cy=settings-profile-header]").should("not.exist")
       cy.url().should("include", "/settings")
