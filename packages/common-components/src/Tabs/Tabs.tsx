@@ -69,7 +69,7 @@ const Tabs: React.FC<ITabsProps> = ({ className, children, activeKey, injectedCl
           ? children.map((elem, index) => {
             return (
               <li
-                data-testId={elem.props.testId}
+                data-testid={elem.props.testId}
                 key={index}
                 className={
                   clsx(
