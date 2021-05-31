@@ -35,7 +35,6 @@ describe("Main Navigation", () => {
     it("can navigate to the home page", () => {
       navigationMenu.homeNavButton().click()
       cy.url().should("include", "/drive")
-
     })
   })
 
@@ -63,7 +62,6 @@ describe("Main Navigation", () => {
       homePage.hamburgerMenuButton().click()
       navigationMenu.homeNavButton().click()
       cy.url().should("include", "/drive")
-
     })
 
     it("can sign out from the navigation bar", () => {

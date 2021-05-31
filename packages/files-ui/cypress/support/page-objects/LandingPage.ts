@@ -2,8 +2,6 @@ import { BasePage } from "./BasePage"
 
 export class LandingPage extends BasePage {
 
-  // "Get Started" Elements
-
   web3Button() {
     return cy.get("[data-cy=web3]")
   }
@@ -28,5 +26,4 @@ export class LandingPage extends BasePage {
     return cy.get("[data-cy=do-not-save-browser-button]")
   }
 
-  // Page Helpers
 }
