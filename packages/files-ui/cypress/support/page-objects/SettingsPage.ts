@@ -2,7 +2,6 @@ import { BasePage } from "./BasePage"
 
 export class SettingsPage extends BasePage {
 
-  // Elements 
   profileTabButton() {
     return cy.get("[data-testid=profile-tab]")
   }
@@ -11,15 +10,15 @@ export class SettingsPage extends BasePage {
     return cy.get("[data-cy=settings-profile-header")
   }
 
-  FirstNameInput() {
+  firstNameInput() {
     return cy.get("data-cy=profile-firstname-input")
   }
 
-  LastNameInput() {
+  lastNameInput() {
     return cy.get("data-cy=profile-firstname-input")
   }
 
-  SaveChangesButton() {
+  saveChangesButton() {
     return cy.get("data-cy=profile-save-button")
   }
 
@@ -30,7 +29,5 @@ export class SettingsPage extends BasePage {
   securityTabHeader() {
     return cy.get("[data-cy=settings-security-header")
   }
-
-  // Page helpers
 
 }
