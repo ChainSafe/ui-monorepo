@@ -185,8 +185,6 @@ const ProfileView = () => {
       <Grid
         item
         xs={12}
-        sm={10}
-        md={8}
       >
         <div className={classes.container}>
           <div
@@ -212,7 +210,10 @@ const ProfileView = () => {
               >
                 <Form>
                   {profile?.publicAddress ? (
-                    <div className={classes.boxContainer}>
+                    <div
+                      className={classes.boxContainer}
+                      data-cy="settings-profile-header"
+                    >
                       <div className={classes.walletAddressContainer}>
                         <Typography
                           variant="body1"
@@ -319,9 +320,11 @@ const ProfileView = () => {
               </Button>
             </div>
           </div> */}
-          <div>
-            <Typography variant='h4'
-              component='h4'>
+          <div className={classes.profileBox}>
+            <Typography
+              variant='h4'
+              component='h4'
+            >
               <Trans>Display Settings</Trans>
             </Typography>
             <Typography
@@ -334,8 +337,8 @@ const ProfileView = () => {
             <Grid container>
               <Grid item
                 xs={12}
-                sm={12}
-                md={6}>
+                lg={6}
+              >
                 <label className={clsx(classes.themeBox, classes.themeBoxDark)}>
                   <RadioInput
                     value='dark'
@@ -350,8 +353,8 @@ const ProfileView = () => {
               </Grid>
               <Grid item
                 xs={12}
-                sm={12}
-                md={6}>
+                lg={6}
+              >
                 <label className={clsx(classes.themeBox, classes.themeBoxLight)}>
                   <RadioInput
                     value='light'

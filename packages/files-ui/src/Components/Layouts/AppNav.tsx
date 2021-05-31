@@ -1,5 +1,5 @@
-import { useImployApi, useUser } from "@chainsafe/common-contexts"
-import { useDrive } from "../../Contexts/DriveContext"
+import { useFilesApi, useUser } from "@chainsafe/common-contexts"
+import { useFiles } from "../../Contexts/FilesContext"
 import {
   createStyles,
   makeStyles,
@@ -212,9 +212,9 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
   const { desktop } = useThemeSwitcher()
   const classes = useStyles()
 
-  const { spaceUsed, updateCurrentPath } = useDrive()
+  const { spaceUsed } = useFiles()
 
-  const { isLoggedIn, secured } = useImployApi()
+  const { isLoggedIn, secured } = useFilesApi()
   const { publicKey, isNewDevice, shouldInitializeAccount, logout } = useThresholdKey()
 
   const { removeUser } = useUser()
@@ -256,7 +256,7 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
             <div>
               <Link
                 className={classes.logo}
-                to={ROUTE_LINKS.Home()}
+                to={ROUTE_LINKS.Drive("/")}
               >
                 <ChainsafeFilesLogo />
                 <Typography variant="h5">
@@ -280,10 +280,9 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
               <Link
                 onClick={() => {
                   handleOnClick()
-                  updateCurrentPath("/", "csf", true)
                 }}
                 className={classes.navItem}
-                to={ROUTE_LINKS.Home()}
+                to={ROUTE_LINKS.Drive("/")}
               >
                 <DatabaseSvg />
                 <Typography
@@ -296,7 +295,7 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
               <Link
                 onClick={handleOnClick}
                 className={classes.navItem}
-                to={ROUTE_LINKS.Bin}
+                to={ROUTE_LINKS.Bin("/")}
               >
                 <DeleteSvg />
                 <Typography
@@ -318,6 +317,7 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
               >
                 <SettingSvg />
                 <Typography
+                  data-cy="settings-nav"
                   variant="h5"
                   className={classes.navItemText}
                 >

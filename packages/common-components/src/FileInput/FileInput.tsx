@@ -117,9 +117,10 @@ interface IFileInputProps extends DropzoneOptions {
   }
   onFileNumberChange: (filesNumber: number) => void
   moreFilesLabel: string
+  testId?: string
 }
 
-const FileInput: React.FC<IFileInputProps> = ({
+const FileInput = ({
   className,
   variant = "dropzone",
   showPreviews = false,
@@ -130,6 +131,7 @@ const FileInput: React.FC<IFileInputProps> = ({
   classNames,
   onFileNumberChange,
   moreFilesLabel,
+  testId,
   ...props
 }: IFileInputProps) => {
   const classes = useStyles()
@@ -194,6 +196,7 @@ const FileInput: React.FC<IFileInputProps> = ({
   return (
     <div
       {...getRootProps()}
+      data-testid={`file-input-dropzone-${testId}`}
       className={clsx(classes.root, className)}
     >
       <input {...getInputProps()} />
@@ -213,7 +216,10 @@ const FileInput: React.FC<IFileInputProps> = ({
             )}
           </div>
         ) : (
-          <div className={clsx(classes.root, classNames?.filelist)}>
+          <div
+            data-testid={`file-list-${testId}`}
+            className={clsx(classes.root, classNames?.filelist)}
+          >
             <ScrollbarWrapper className={clsx("scrollbar")}>
               <ul>
                 {value.map((file: any, i: any) => (
@@ -223,6 +229,7 @@ const FileInput: React.FC<IFileInputProps> = ({
                   >
                     <span className={classes.itemText}>{file.name}</span>
                     <Button
+                      data-testid={`file-list-close-button-${testId}`}
                       className={clsx(classes.crossIcon, classNames?.closeIcon)}
                       type="button"
                       onClick={(e) => {

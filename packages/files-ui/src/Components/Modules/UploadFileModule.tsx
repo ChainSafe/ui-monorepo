@@ -1,9 +1,6 @@
 import { Button, FileInput } from "@chainsafe/common-components"
-import { useDrive } from "../../Contexts/DriveContext"
-import {
-  createStyles,
-  makeStyles
-} from "@chainsafe/common-theme"
+import { useFiles } from "../../Contexts/FilesContext"
+import { createStyles, makeStyles } from "@chainsafe/common-theme"
 import React, { useCallback, useState } from "react"
 import { Formik, Form } from "formik"
 import { array, object } from "yup"
@@ -11,6 +8,7 @@ import CustomModal from "../Elements/CustomModal"
 import { Trans, t } from "@lingui/macro"
 import clsx from "clsx"
 import { CSFTheme } from "../../Themes/types"
+import { useFileBrowser } from "../../Contexts/FileBrowserContext"
 
 const useStyles = makeStyles(({ constants, breakpoints }: CSFTheme) =>
   createStyles({
@@ -76,22 +74,35 @@ interface IUploadFileModuleProps {
   close: () => void
 }
 
-const UploadFileModule: React.FC<IUploadFileModuleProps> = ({
-  modalOpen,
-  close
-}: IUploadFileModuleProps) => {
+const UploadFileModule = ({ modalOpen, close }: IUploadFileModuleProps) => {
   const classes = useStyles()
-
   const [isDoneDisabled, setIsDoneDisabled] = useState(true)
-  const { uploadFiles, currentPath } = useDrive()
+  const { uploadFiles } = useFiles()
+  const { currentPath, refreshContents, bucket } = useFileBrowser()
 
-  const UploadSchema = object().shape({
-    files: array().required("Please select a file to upload")
-  })
+  const UploadSchema = object().shape({ files: array().required(t`Please select a file to upload`) })
 
   const onFileNumberChange = useCallback((filesNumber: number) => {
     setIsDoneDisabled(filesNumber === 0)
   }, [])
+
+  const onSubmit = useCallback(async (values, helpers) => {
+    if (!bucket) return
+    helpers.setSubmitting(true)
+    try {
+      close()
+      await uploadFiles(bucket.id, values.files, currentPath)
+      refreshContents && refreshContents()
+      helpers.resetForm()
+    } catch (errors) {
+      if (errors[0].message.includes("conflict with existing")) {
+        helpers.setFieldError("files", "File/Folder exists")
+      } else {
+        helpers.setFieldError("files", errors[0].message)
+      }
+    }
+    helpers.setSubmitting(false)
+  }, [close, currentPath, uploadFiles, refreshContents, bucket])
 
   return (
     <CustomModal
@@ -103,27 +114,14 @@ const UploadFileModule: React.FC<IUploadFileModuleProps> = ({
       }}
     >
       <Formik
-        initialValues={{
-          files: []
-        }}
+        initialValues={{ files: [] }}
         validationSchema={UploadSchema}
-        onSubmit={async (values, helpers) => {
-          helpers.setSubmitting(true)
-          try {
-            uploadFiles(values.files, currentPath)
-            helpers.resetForm()
-            close()
-          } catch (errors) {
-            if (errors[0].message.includes("conflict with existing")) {
-              helpers.setFieldError("files", "File/Folder exists")
-            } else {
-              helpers.setFieldError("files", errors[0].message)
-            }
-          }
-          helpers.setSubmitting(false)
-        }}
+        onSubmit={onSubmit}
       >
-        <Form className={classes.root}>
+        <Form
+          data-cy="upload-file-form"
+          className={classes.root}
+        >
           <FileInput
             multiple={true}
             className={classes.input}
@@ -138,9 +136,11 @@ const UploadFileModule: React.FC<IUploadFileModuleProps> = ({
             maxSize={2 * 1024 ** 3}
             name="files"
             onFileNumberChange={onFileNumberChange}
+            testId="fileUpload"
           />
           <footer className={classes.footer}>
             <Button
+              data-cy="upload-cancel-button"
               onClick={close}
               size="medium"
               className={classes.cancelButton}
@@ -150,6 +150,7 @@ const UploadFileModule: React.FC<IUploadFileModuleProps> = ({
               <Trans>Cancel</Trans>
             </Button>
             <Button
+              data-cy="upload-ok-button"
               size="medium"
               type="submit"
               variant="primary"

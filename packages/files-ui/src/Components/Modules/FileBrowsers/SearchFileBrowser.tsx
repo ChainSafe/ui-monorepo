@@ -1,30 +1,58 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react"
-import { FileSystemItem, SearchEntry, useDrive } from "../../../Contexts/DriveContext"
-import { IFilesBrowserModuleProps, IFilesTableBrowserProps } from "./types"
-import FilesTableView from "./views/FilesTable.view"
+import { FileSystemItem, SearchEntry, useFiles } from "../../../Contexts/FilesContext"
+import { IFileBrowserModuleProps, IFilesTableBrowserProps } from "./types"
+import FilesList from "./views/FilesList"
 import { CONTENT_TYPES } from "../../../Utils/Constants"
 import DragAndDrop from "../../../Contexts/DnDContext"
-import { useHistory } from "@chainsafe/common-components"
-import { getParentPathFromFilePath } from "../../../Utils/pathUtils"
+import { useHistory, useLocation, useToaster } from "@chainsafe/common-components"
+import { getArrayOfPaths, getParentPathFromFilePath, getURISafePathFromArray } from "../../../Utils/pathUtils"
 import { ROUTE_LINKS } from "../../FilesRoutes"
-import { useQuery } from "../../../Utils/Helpers"
 import { t } from "@lingui/macro"
+import { FileBrowserContext } from "../../../Contexts/FileBrowserContext"
+import { useFilesApi } from "@chainsafe/common-contexts"
 
-const SearchFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = false }: IFilesBrowserModuleProps) => {
-  const { updateCurrentPath, getSearchResults } = useDrive()
+const SearchFileBrowser: React.FC<IFileBrowserModuleProps> = ({ controls = false }: IFileBrowserModuleProps) => {
+  const { pathname } = useLocation()
+  const { filesApiClient } = useFilesApi()
+  const { buckets } = useFiles()
+  const searchTerm = useMemo(() => decodeURIComponent(pathname.split("/").slice(2)[0]), [pathname])
   const { redirect } = useHistory()
+
+  const { addToastMessage } = useToaster()
+
+  const bucket = useMemo(() => buckets.find(b => b.type === "csf"), [buckets])
+
+  const getSearchResults = useCallback(async (searchString: string) => {
+    try {
+      if (!searchString || !bucket) return []
+
+      const results = await filesApiClient.searchFiles({ bucket_id: bucket.id, query: searchString })
+      return results
+    } catch (err) {
+      addToastMessage({
+        message: t`There was an error getting search results`,
+        appearance: "error"
+      })
+      return Promise.reject(err)
+    }
+  }, [addToastMessage, bucket, filesApiClient])
+
+  useEffect(() => {
+    getSearchResults(searchTerm)
+      .then(setSearchResults)
+      .catch(console.error)
+  }, [searchTerm, getSearchResults])
 
   const [loadingSearchResults, setLoadingSearchResults] = useState(true)
   const [searchResults, setSearchResults] = useState<SearchEntry[]>([])
 
-  const querySearch = useQuery().get("search")
 
   useEffect(() => {
     const onSearch = async () => {
-      if (querySearch) {
+      if (searchTerm) {
         try {
           setLoadingSearchResults(true)
-          const results = await getSearchResults(querySearch)
+          const results = await getSearchResults(searchTerm)
           setSearchResults(results)
           setLoadingSearchResults(false)
         } catch {
@@ -34,7 +62,7 @@ const SearchFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = fals
     }
     onSearch()
     // eslint-disable-next-line
-  }, [querySearch])
+  }, [searchTerm])
 
   const getSearchEntry = useCallback((cid: string) =>
     searchResults.find(
@@ -46,16 +74,17 @@ const SearchFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = fals
     const searchEntry = getSearchEntry(cid)
     if (searchEntry) {
       if (searchEntry.content.content_type === CONTENT_TYPES.Directory) {
-        redirect(ROUTE_LINKS.Home(searchEntry.path))
+        redirect(ROUTE_LINKS.Drive(getURISafePathFromArray(getArrayOfPaths(searchEntry.path))))
       } else {
-        redirect(ROUTE_LINKS.Home(getParentPathFromFilePath(searchEntry.path)))
+        redirect(ROUTE_LINKS.Drive(getURISafePathFromArray(getArrayOfPaths(getParentPathFromFilePath(searchEntry.path)))))
       }
     }
   }
 
-  const getPath = useCallback((cid: string) => {
+  const getPath = useCallback((cid: string): string => {
     const searchEntry = getSearchEntry(cid)
-    return searchEntry?.path
+    // Set like this as look ups should always be using available cids
+    return searchEntry ? searchEntry.path : ""
   }, [getSearchEntry])
 
   const pathContents: FileSystemItem[] = useMemo(() =>
@@ -71,21 +100,24 @@ const SearchFileBrowser: React.FC<IFilesBrowserModuleProps> = ({ controls = fals
   }), [])
 
   return (
-    <DragAndDrop>
-      <FilesTableView
-        crumbs={undefined}
-        loadingCurrentPath={loadingSearchResults}
-        showUploadsInTable={false}
-        viewFolder={viewFolder}
-        sourceFiles={pathContents}
-        updateCurrentPath={updateCurrentPath}
-        heading={t`Search results`}
-        controls={controls}
-        itemOperations={itemOperations}
-        isSearch
-        getPath={getPath}
-      />
-    </DragAndDrop>
+    <FileBrowserContext.Provider value={{
+      crumbs: undefined,
+      loadingCurrentPath: loadingSearchResults,
+      showUploadsInTable: false,
+      viewFolder,
+      sourceFiles: pathContents,
+      moduleRootPath: undefined,
+      currentPath: searchTerm,
+      heading: t`Search results`,
+      controls,
+      itemOperations,
+      isSearch: true,
+      getPath
+    }}>
+      <DragAndDrop>
+        <FilesList />
+      </DragAndDrop>
+    </FileBrowserContext.Provider>
   )
 }
 

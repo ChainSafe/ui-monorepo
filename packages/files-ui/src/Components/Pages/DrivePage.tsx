@@ -1,8 +1,8 @@
 import React from "react"
 import CSFFileBrowser from "../Modules/FileBrowsers/CSFFileBrowser"
 
-const HomePage = () => {
+const DrivePage = () => {
   return <CSFFileBrowser />
 }
 
-export default HomePage
+export default DrivePage

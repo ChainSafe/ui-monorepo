@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from "react"
-import { useImployApi, useUser } from "@chainsafe/common-contexts"
+import { useFilesApi, useUser } from "@chainsafe/common-contexts"
 import { createStyles, makeStyles, useThemeSwitcher } from "@chainsafe/common-theme"
 import clsx from "clsx"
 import {
@@ -8,7 +8,8 @@ import {
   ChainsafeFilesLogo,
   HamburgerMenu,
   MenuDropdown,
-  PowerDownSvg
+  PowerDownSvg,
+  useHistory
 } from "@chainsafe/common-components"
 import { ROUTE_LINKS } from "../FilesRoutes"
 import SearchModule from "../Modules/SearchModule"
@@ -150,24 +151,24 @@ interface IAppHeader {
   setNavOpen: (state: boolean) => void
 }
 
-const AppHeader: React.FC<IAppHeader> = ({
-  navOpen,
-  setNavOpen
-}: IAppHeader) => {
+const AppHeader = ({ navOpen, setNavOpen }: IAppHeader) => {
   const { desktop } = useThemeSwitcher()
-
   const classes = useStyles()
-
-  const { isLoggedIn, secured } = useImployApi()
+  const { isLoggedIn, secured } = useFilesApi()
   const { publicKey, isNewDevice, shouldInitializeAccount, logout } = useThresholdKey()
   const { getProfileTitle, removeUser } = useUser()
-
-  const signOut = useCallback(() => {
-    logout()
-    removeUser()
-  }, [logout, removeUser])
-
   const [searchActive, setSearchActive] = useState(false)
+  const { history } = useHistory()
+
+  const signOut = useCallback(async () => {
+    logout()
+      .catch(console.error)
+      .finally(() => {
+        removeUser()
+        history.replace("/", {})
+      })
+
+  }, [logout, removeUser, history])
 
   return (
     <header
@@ -226,11 +227,12 @@ const AppHeader: React.FC<IAppHeader> = ({
                   <HamburgerMenu
                     onClick={() => setNavOpen(!navOpen)}
                     variant={navOpen ? "active" : "default"}
-                    className={classes.hamburgerMenu}
+                    className={clsx(classes.hamburgerMenu)}
+                    testId="hamburger-menu"
                   />
                   <Link
                     className={classes.logo}
-                    to={ROUTE_LINKS.Home()}
+                    to={ROUTE_LINKS.Drive("/")}
                   >
                     <ChainsafeFilesLogo />
                     <Typography

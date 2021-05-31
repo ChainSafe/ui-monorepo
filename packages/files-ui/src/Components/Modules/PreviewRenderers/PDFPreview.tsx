@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react"
 import { IPreviewRendererProps } from "../FilePreviewModal"
 import { makeStyles, ITheme, createStyles } from "@chainsafe/common-theme"
-import { Document, Page } from "react-pdf"
-
+import { Document, Page, pdfjs } from "react-pdf"
 import { Button, Typography } from "@chainsafe/common-components"
 import { Trans } from "@lingui/macro"
+
+pdfjs.GlobalWorkerOptions.workerSrc = "/pdf.worker.min.js"
 
 const useStyles = makeStyles(({ constants, palette, zIndex }: ITheme) =>
   createStyles({

@@ -26,6 +26,9 @@ msgstr "Une phrase de backup sera générée et utilisé pour ce comte.<0/>Nous 
 msgid "A file with the same name already exists"
 msgstr "Un fichier avec ce nom existe déjà"
 
+msgid "A name is required"
+msgstr "Le nom ne peut être vide"
+
 msgid "Account"
 msgstr "Compte"
 
@@ -191,12 +194,6 @@ msgstr "Info du fichier"
 msgid "File format not supported."
 msgstr "Format de fichier non supporté."
 
-msgid "File moved successfully"
-msgstr "Fichier déplacé avec succès"
-
-msgid "File renamed successfully"
-msgstr "Fichier renommé avec succès"
-
 msgid "File size"
 msgstr "Taille"
 
@@ -211,9 +208,6 @@ msgstr "Prénom"
 
 msgid "Folder"
 msgstr "Dossier"
-
-msgid "Folder created successfully"
-msgstr "Dossier créé avec succès"
 
 msgid "Folders"
 msgstr "Dossiers"
@@ -266,6 +260,9 @@ msgstr "Je prends le risque"
 msgid "Info"
 msgstr "Info"
 
+msgid "Invalid name"
+msgstr "Nom invalide"
+
 msgid "I’m done saving my backup phrase"
 msgstr "Phrase de sauvegarde enregistrée"
 
@@ -310,6 +307,12 @@ msgstr "Mes Fichiers"
 
 msgid "Name"
 msgstr "Nom"
+
+msgid "Name cannot contain '/' character"
+msgstr "Le nom ne peut pas contenir le caractère '/'"
+
+msgid "Name too long"
+msgstr "Le nom est trop long"
 
 msgid "New folder"
 msgstr "Nouveau dossier"
@@ -374,8 +377,14 @@ msgstr "Nom du fichier"
 msgid "Please enter a folder name"
 msgstr "Nom du dossier"
 
+msgid "Please enter a name"
+msgstr "Entrer un nom"
+
 msgid "Please provide a password"
 msgstr "Merci de donner un mot de passe"
+
+msgid "Please select a file to upload"
+msgstr ""
 
 msgid "Preview"
 msgstr "Aperçu"
@@ -394,6 +403,9 @@ msgstr "Profile mis à jour"
 
 msgid "Recover"
 msgstr "Récupérer"
+
+msgid "Recover selected"
+msgstr "Récupérer sélection"
 
 msgid "Recover with passphrase"
 msgstr "Récupérer avec un mot de passe"
@@ -548,17 +560,8 @@ msgstr "Une erreur s'est produite lors de l'authentification"
 msgid "There was an error connecting your wallet"
 msgstr "Une erreur s'est produite lors de la connexion de votre wallet"
 
-msgid "There was an error creating this folder"
-msgstr "Une erreur s'est produite lors de la création de ce dossier"
-
 msgid "There was an error deleting this"
 msgstr "Une erreur s'est produite lors de la suppression"
-
-msgid "There was an error getting file info"
-msgstr "Une erreur s'est produite lors de l'obtention des informations sur le fichier"
-
-msgid "There was an error getting folder info"
-msgstr "Une erreur s'est produite lors de l'obtention des informations sur le dossier"
 
 msgid "There was an error getting search results"
 msgstr "Une erreur s'est produite lors de l'obtention des résultats de recherche"
@@ -566,14 +569,8 @@ msgstr "Une erreur s'est produite lors de l'obtention des résultats de recherch
 msgid "There was an error getting the preview."
 msgstr "Une erreur s'est produite lors de la génération de l’aperçu."
 
-msgid "There was an error moving this file"
-msgstr "Une erreur s'est produite lors du déplacement de ce fichier"
-
 msgid "There was an error recovering this"
 msgstr "Une erreur s'est produite lors de la récupération"
-
-msgid "There was an error renaming this file"
-msgstr "Une erreur s'est produite lors de renommage de ce fichier"
 
 msgid "Try again"
 msgstr "Essayer de nouveau"

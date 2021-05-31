@@ -20,6 +20,7 @@ import {
   Dialog,
   Loading,
   CheckboxInput,
+  useHistory,
   GridIcon,
   TableIcon
 } from "@chainsafe/common-components"
@@ -31,13 +32,13 @@ import clsx from "clsx"
 import { plural, t, Trans } from "@lingui/macro"
 import { NativeTypes } from "react-dnd-html5-backend"
 import { useDrop } from "react-dnd"
-import { BrowserView, FileOperation, IFilesTableBrowserProps } from "../types"
-import { FileSystemItem } from "../../../../Contexts/DriveContext"
-import FileSystemItemRow from "./FileSystemItem/FileSystemItem"
+import { BrowserView, FileOperation } from "../types"
+import { FileSystemItem as FileSystemItemType } from "../../../../Contexts/FilesContext"
+import FileSystemItem from "./FileSystemItem/FileSystemItem"
 import FilePreviewModal from "../../FilePreviewModal"
 import UploadProgressModals from "../../UploadProgressModals"
 import DownloadProgressModals from "../../DownloadProgressModals"
-import CreateFolderModule from "../../CreateFolderModule"
+import CreateFolderModal from "../CreateFolderModal"
 import UploadFileModule from "../../UploadFileModule"
 import MoveFileModule from "../MoveFileModal"
 import FileInfoModal from "../FileInfoModal"
@@ -45,7 +46,10 @@ import { CONTENT_TYPES } from "../../../../Utils/Constants"
 import { CSFTheme } from "../../../../Themes/types"
 import MimeMatcher from "../../../../Utils/MimeMatcher"
 import { useLanguageContext } from "../../../../Contexts/LanguageContext"
+import { getPathWithFile } from "../../../../Utils/pathUtils"
 import SurveyBanner from "../../../SurveyBanner"
+import { DragPreviewLayer } from "./DragPreviewLayer"
+import { useFileBrowser } from "../../../../Contexts/FileBrowserContext"
 
 interface IStyleProps {
   themeKey: string
@@ -68,7 +72,7 @@ const useStyles = makeStyles(
           borderRadius: constants.generalUnit / 4,
           minHeight: `calc(100vh - ${Number(constants.contentTopPadding)}px)`,
           "&.droppable": {
-            borderColor: palette.additional["geekblue"][4]
+            borderColor: palette.primary.main
           }
         }
         // transitionDuration: `${animation.transform}ms`,
@@ -231,6 +235,7 @@ const useStyles = makeStyles(
         display: "flex",
         flexDirection: "row",
         marginTop: constants.generalUnit * 3,
+        minHeight: constants.generalUnit * 4.2, // reserve space for buttons for the interface not to jump when they get visible
         "& > *": {
           marginRight: constants.generalUnit
         }
@@ -269,34 +274,36 @@ const useStyles = makeStyles(
 )
 
 // Sorting
-const sortFoldersFirst = (a: FileSystemItem, b: FileSystemItem) =>
+const sortFoldersFirst = (a: FileSystemItemType, b: FileSystemItemType) =>
   a.isFolder && a.content_type !== b.content_type ? -1 : 1
 
-const FilesTableView = ({
-  heading,
-  controls = true,
-  sourceFiles,
-  handleUploadOnDrop,
-  bulkOperations,
-  updateCurrentPath,
-  crumbs,
-  handleRename,
-  handleMove,
-  downloadFile,
-  deleteFiles,
-  recoverFile,
-  viewFolder,
-  currentPath,
-  loadingCurrentPath,
-  uploadsInProgress,
-  showUploadsInTable,
-  allowDropUpload,
-  itemOperations,
-  getPath,
-  isSearch,
-  withSurvey
-}: IFilesTableBrowserProps) => {
+const FilesList = () => {
   const { themeKey, desktop } = useThemeSwitcher()
+
+  const {
+    heading,
+    controls = true,
+    sourceFiles,
+    handleUploadOnDrop,
+    bulkOperations,
+    crumbs,
+    renameItem: handleRename,
+    deleteItems: deleteFiles,
+    recoverItems,
+    viewFolder,
+    currentPath,
+    refreshContents,
+    loadingCurrentPath,
+    uploadsInProgress,
+    showUploadsInTable,
+    allowDropUpload,
+    itemOperations,
+    getPath,
+    moduleRootPath,
+    isSearch,
+    withSurvey,
+    bucket
+  } = useFileBrowser()
   const classes = useStyles({ themeKey })
   const [editing, setEditing] = useState<string | undefined>()
   const [direction, setDirection] = useState<SortDirection>("ascend")
@@ -305,7 +312,9 @@ const FilesTableView = ({
   const [selectedCids, setSelectedCids] = useState<string[]>([])
   const [previewFileIndex, setPreviewFileIndex] = useState<number | undefined>()
   const { selectedLocale } = useLanguageContext()
-  const items: FileSystemItem[] = useMemo(() => {
+  const { redirect } = useHistory()
+
+  const items: FileSystemItemType[] = useMemo(() => {
     let temp = []
 
     switch (column) {
@@ -338,9 +347,9 @@ const FilesTableView = ({
 
   const files = useMemo(() => items.filter((i) => !i.isFolder), [items])
 
-  const selectedFiles = useMemo(
-    () => files.filter((file) => selectedCids.includes(file.cid)),
-    [files, selectedCids]
+  const selectedItems = useMemo(
+    () => items.filter((file) => selectedCids.includes(file.cid)),
+    [selectedCids, items]
   )
 
   const handleSortToggle = (
@@ -380,7 +389,18 @@ const FilesTableView = ({
   }
 
   // Selection logic
-  const handleSelect = useCallback(
+  const handleSelectCid = useCallback(
+    (cid: string) => {
+      if (selectedCids.includes(cid)) {
+        setSelectedCids([])
+      } else {
+        setSelectedCids([cid])
+      }
+    },
+    [selectedCids]
+  )
+
+  const handleAddToSelectedCids = useCallback(
     (cid: string) => {
       if (selectedCids.includes(cid)) {
         setSelectedCids(
@@ -393,26 +413,26 @@ const FilesTableView = ({
     [selectedCids]
   )
 
-  const toggleAll = () => {
+  const toggleAll = useCallback(() => {
     if (selectedCids.length === items.length) {
       setSelectedCids([])
     } else {
-      setSelectedCids([...items.map((file: FileSystemItem) => file.cid)])
+      setSelectedCids([...items.map((file: FileSystemItemType) => file.cid)])
     }
-  }
+  }, [setSelectedCids, items, selectedCids])
 
   const invalidFilenameRegex = new RegExp("/")
   const renameSchema = object().shape({
     fileName: string()
-      .min(1, "Please enter a file name")
-      .max(65, "File name length exceeded")
+      .min(1, t`Please enter a name`)
+      .max(65, t`Name too long`)
       .test(
-        "Invalid name",
-        "File name cannot contain '/' character",
+        t`Invalid name`,
+        t`Name cannot contain '/' character`,
         (val: string | null | undefined) =>
           !invalidFilenameRegex.test(val || "")
       )
-      .required("File name is required")
+      .required(t`A name is required`)
   })
 
   const [{ isOverUploadable, isOverBrowser }, dropBrowserRef] = useDrop({
@@ -422,6 +442,7 @@ const FilesTableView = ({
         handleUploadOnDrop &&
           currentPath &&
           handleUploadOnDrop(item.files, item.items, currentPath)
+        refreshContents && refreshContents()
       }
     },
     collect: (monitor) => ({
@@ -437,6 +458,7 @@ const FilesTableView = ({
   const [isMoveFileModalOpen, setIsMoveFileModalOpen] = useState(false)
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
   const [isDeletingFiles, setIsDeletingFiles] = useState(false)
+  const [isRecoveringFiles, setIsRecoveringFiles] = useState(false)
   const [fileInfoPath, setFileInfoPath] = useState<string | undefined>(
     undefined
   )
@@ -445,6 +467,7 @@ const FilesTableView = ({
 
   // Bulk operations
   const [validBulkOps, setValidBulkOps] = useState<FileOperation[]>([])
+
   useEffect(() => {
     if (bulkOperations) {
       let filteredList: FileOperation[] = [
@@ -454,7 +477,8 @@ const FilesTableView = ({
         "move",
         "preview",
         "rename",
-        "share"
+        "share",
+        "recover"
       ]
       for (let i = 0; i < selectedCids.length; i++) {
         const contentType = items.find((item) => item.cid === selectedCids[i])
@@ -513,6 +537,20 @@ const FilesTableView = ({
       })
   }, [deleteFiles, selectedCids])
 
+  const handleRecoverFiles = useCallback((e: React.MouseEvent) => {
+    e.preventDefault()
+    e.stopPropagation()
+    if (!recoverItems) return
+
+    setIsRecoveringFiles(true)
+    recoverItems(selectedCids)
+      .catch(console.error)
+      .finally(() => {
+        setIsRecoveringFiles(false)
+        setSelectedCids([])
+      })
+  }, [recoverItems, selectedCids])
+
   const getItemOperations = useCallback(
     (contentType: string) => {
       const result = Object.keys(itemOperations).reduce(
@@ -541,14 +579,29 @@ const FilesTableView = ({
     setSelectedCids([])
   }, [])
 
+  useEffect(() => {
+    setSelectedCids([])
+  }, [currentPath])
+
   const onHideSurveyBanner = useCallback(() => {
     setIsSurveyBannerVisible(false)
   }, [setIsSurveyBannerVisible])
 
   const handleViewFolder = useCallback((cid: string) => {
-    resetSelectedCids()
     viewFolder && viewFolder(cid)
-  }, [viewFolder, resetSelectedCids])
+  }, [viewFolder])
+
+  const handleOpenMoveFileDialog = useCallback((e: React.MouseEvent) => {
+    e.preventDefault()
+    e.stopPropagation()
+    setIsMoveFileModalOpen(true)
+  }, [])
+
+  const handleOpenDeleteDialog = useCallback((e: React.MouseEvent) => {
+    e.preventDefault()
+    e.stopPropagation()
+    setIsDeleteModalOpen(true)
+  }, [])
 
   return (
     <article
@@ -565,18 +618,25 @@ const FilesTableView = ({
           <Trans>Drop to upload files</Trans>
         </Typography>
       </div>
+      <DragPreviewLayer
+        items={sourceFiles}
+        previewType={browserView}
+      />
       <div className={classes.breadCrumbContainer}>
-        {crumbs ? (
+        {crumbs && moduleRootPath ? (
           <Breadcrumb
             crumbs={crumbs}
-            homeOnClick={() => updateCurrentPath("/", undefined, true)}
+            homeOnClick={() => redirect(moduleRootPath)}
             showDropDown={!desktop}
           />
         ) : null}
       </div>
       <header className={classes.header}>
-        <Typography variant="h1"
-          component="h1">
+        <Typography
+          variant="h1"
+          component="h1"
+          data-cy="files-app-header"
+        >
           {heading}
         </Typography>
         <div className={classes.controls}>
@@ -603,6 +663,7 @@ const FilesTableView = ({
                 </span>
               </Button>
               <Button
+                data-cy="upload-modal-button"
                 onClick={() => setIsUploadModalOpen(true)}
                 variant="outline"
                 size="large"
@@ -678,28 +739,38 @@ const FilesTableView = ({
         ? <SurveyBanner onHide={onHideSurveyBanner}/>
         : <Divider className={classes.divider} />
       }
-      {selectedCids.length > 0 && validBulkOps.length > 0 && (
-        <section className={classes.bulkOperations}>
-          {validBulkOps.indexOf("move") >= 0 && (
-            <Button
-              onClick={() => setIsMoveFileModalOpen(true)}
-              variant="outline"
-            >
-              <Trans>Move selected</Trans>
-            </Button>
-          )}
-          {validBulkOps.indexOf("delete") >= 0 && (
-            <Button
-              onClick={() => {
-                setIsDeleteModalOpen(true)
-              }}
-              variant="outline"
-            >
-              <Trans>Delete selected</Trans>
-            </Button>
-          )}
-        </section>
-      )}
+
+      <section className={classes.bulkOperations}>
+        {selectedCids.length > 0 && (
+          <>
+            {validBulkOps.indexOf("move") >= 0 && (
+              <Button
+                onClick={handleOpenMoveFileDialog}
+                variant="outline"
+              >
+                <Trans>Move selected</Trans>
+              </Button>
+            )}
+            {validBulkOps.indexOf("recover") >= 0 && (
+              <Button
+                onClick={handleRecoverFiles}
+                variant="outline"
+                loading={isRecoveringFiles}
+              >
+                <Trans>Recover selected</Trans>
+              </Button>
+            )}
+            {validBulkOps.indexOf("delete") >= 0 && (
+              <Button
+                onClick={handleOpenDeleteDialog}
+                variant="outline"
+              >
+                <Trans>Delete selected</Trans>
+              </Button>
+            )}
+          </>
+        )}
+      </section>
       <div
         className={clsx(
           classes.loadingContainer,
@@ -814,31 +885,26 @@ const FilesTableView = ({
                   </TableRow>
                 ))}
               {items.map((file, index) => (
-                <FileSystemItemRow
+                <FileSystemItem
                   key={index}
                   index={index}
                   file={file}
                   files={files}
-                  currentPath={currentPath}
-                  updateCurrentPath={updateCurrentPath}
                   selected={selectedCids}
-                  handleSelect={handleSelect}
+                  handleSelectCid={handleSelectCid}
+                  handleAddToSelectedCids={handleAddToSelectedCids}
                   editing={editing}
                   setEditing={setEditing}
                   renameSchema={renameSchema}
-                  handleRename={async (path: string, newPath: string) => {
-                    handleRename && (await handleRename(path, newPath))
+                  handleRename={async (cid: string, newName: string) => {
+                    handleRename && (await handleRename(cid, newName))
                     setEditing(undefined)
                   }}
-                  handleMove={handleMove}
                   deleteFile={() => {
                     setSelectedCids([file.cid])
                     setIsDeleteModalOpen(true)
                   }}
-                  recoverFile={recoverFile}
-                  downloadFile={downloadFile}
                   viewFolder={handleViewFolder}
-                  handleUploadOnDrop={handleUploadOnDrop}
                   setPreviewFileIndex={setPreviewFileIndex}
                   moveFile={() => {
                     setSelectedCids([file.cid])
@@ -848,6 +914,7 @@ const FilesTableView = ({
                   itemOperations={getItemOperations(file.content_type)}
                   resetSelectedFiles={resetSelectedCids}
                   browserView="table"
+                  recoverFile={() => recoverItems && recoverItems([file.cid])}
                 />
               ))}
             </TableBody>
@@ -860,15 +927,15 @@ const FilesTableView = ({
             )}
           >
             {items.map((file, index) => (
-              <FileSystemItemRow
+              <FileSystemItem
                 key={index}
                 index={index}
                 file={file}
                 files={files}
-                currentPath={currentPath}
-                updateCurrentPath={updateCurrentPath}
                 selected={selectedCids}
-                handleSelect={handleSelect}
+                handleSelectCid={handleSelectCid}
+                viewFolder={handleViewFolder}
+                handleAddToSelectedCids={handleAddToSelectedCids}
                 editing={editing}
                 setEditing={setEditing}
                 renameSchema={renameSchema}
@@ -876,15 +943,10 @@ const FilesTableView = ({
                   handleRename && (await handleRename(path, newPath))
                   setEditing(undefined)
                 }}
-                handleMove={handleMove}
                 deleteFile={() => {
                   setSelectedCids([file.cid])
                   setIsDeleteModalOpen(true)
                 }}
-                recoverFile={recoverFile}
-                downloadFile={downloadFile}
-                viewFolder={viewFolder}
-                handleUploadOnDrop={handleUploadOnDrop}
                 setPreviewFileIndex={setPreviewFileIndex}
                 moveFile={() => {
                   setSelectedCids([file.cid])
@@ -898,7 +960,7 @@ const FilesTableView = ({
             ))}
           </section>
         )}
-      {files && previewFileIndex !== undefined && (
+      {files && previewFileIndex !== undefined && bucket && (
         <FilePreviewModal
           file={files[previewFileIndex]}
           closePreview={clearPreview}
@@ -906,11 +968,7 @@ const FilesTableView = ({
             previewFileIndex < files.length - 1 ? setNextPreview : undefined
           }
           previousFile={previewFileIndex > 0 ? setPreviousPreview : undefined}
-          path={
-            isSearch && getPath
-              ? getPath(files[previewFileIndex].cid)
-              : undefined
-          }
+          path={isSearch && getPath ? getPath(files[previewFileIndex].cid) : getPathWithFile(currentPath, files[previewFileIndex].name)}
         />
       )}
       <Dialog
@@ -928,27 +986,37 @@ const FilesTableView = ({
         acceptButtonProps={{ loading: isDeletingFiles, disabled: isDeletingFiles }}
         rejectButtonProps={{ disabled: isDeletingFiles }}
         injectedClass={{ inner: classes.confirmDeletionDialog }}
+        onModalBodyClick={(e) => {
+          e.preventDefault()
+          e.stopPropagation()
+        }}
       />
       <UploadProgressModals />
       <DownloadProgressModals />
-      <CreateFolderModule
-        modalOpen={createFolderModalOpen}
-        close={() => setCreateFolderModalOpen(false)}
-      />
-      <UploadFileModule
-        modalOpen={isUploadModalOpen}
-        close={() => setIsUploadModalOpen(false)}
-      />
-      <MoveFileModule
-        currentPath={currentPath}
-        filesToMove={selectedFiles}
-        modalOpen={isMoveFileModalOpen}
-        onClose={() => {
-          setIsMoveFileModalOpen(false)
-          setSelectedCids([])
-        }}
-        onCancel={() => setIsMoveFileModalOpen(false)}
-      />
+      {
+        refreshContents && (
+          <>
+            <CreateFolderModal
+              modalOpen={createFolderModalOpen}
+              close={() => setCreateFolderModalOpen(false)}
+            />
+            <UploadFileModule
+              modalOpen={isUploadModalOpen}
+              close={() => setIsUploadModalOpen(false)}
+            />
+            <MoveFileModule
+              filesToMove={selectedItems}
+              modalOpen={isMoveFileModalOpen}
+              onClose={() => {
+                setIsMoveFileModalOpen(false)
+                setSelectedCids([])
+              }}
+              onCancel={() => setIsMoveFileModalOpen(false)}
+            />
+          </>
+        )
+      }
+
       <FileInfoModal
         fileInfoPath={fileInfoPath}
         close={() => setFileInfoPath(undefined)}
@@ -957,4 +1025,4 @@ const FilesTableView = ({
   )
 }
 
-export default FilesTableView
+export default FilesList

@@ -5,22 +5,29 @@ import {
   useOnClickOutside,
   useThemeSwitcher
 } from "@chainsafe/common-theme"
-import React, { ChangeEvent, useCallback, useRef } from "react"
+import React, { ChangeEvent, useCallback, useMemo, useRef } from "react"
 import {
   ArrowLeftIcon,
   Button,
   SearchBar,
   Typography,
-  useHistory
+  useHistory,
+  useToaster
 } from "@chainsafe/common-components"
 import { useState } from "react"
 import clsx from "clsx"
 import { ROUTE_LINKS } from "../FilesRoutes"
-import { useDrive, SearchEntry } from "../../Contexts/DriveContext"
+import { useFiles, BucketType, SearchEntry } from "../../Contexts/FilesContext"
 import { CONTENT_TYPES } from "../../Utils/Constants"
-import { getParentPathFromFilePath } from "../../Utils/pathUtils"
+import { getArrayOfPaths, getParentPathFromFilePath, getURISafePathFromArray } from "../../Utils/pathUtils"
 import { t, Trans } from "@lingui/macro"
 import { CSFTheme } from "../../Themes/types"
+import { useFilesApi } from "@chainsafe/common-contexts"
+
+export interface SearchParams {
+  bucketType: BucketType
+  bucketId: string
+}
 
 const useStyles = makeStyles(
   ({ breakpoints, palette, constants, animation, zIndex, shadows }: CSFTheme) =>
@@ -151,7 +158,26 @@ const SearchModule: React.FC<ISearchModule> = ({
   const [searchQuery, setSearchQuery] = useState<string>("")
   const [searchResults, setSearchResults] = useState<{results: SearchEntry[]; query: string} | undefined>(undefined)
   const ref = useRef(null)
-  const { getSearchResults, currentSearchBucket } = useDrive()
+  const { buckets } = useFiles()
+  const { addToastMessage } = useToaster()
+  const { filesApiClient } = useFilesApi()
+  const bucket = useMemo(() => buckets.find(b => b.type === "csf"), [buckets])
+
+  const getSearchResults = useCallback(async (searchString: string) => {
+    try {
+      if (!searchString || !bucket) return []
+
+      const results = await filesApiClient.searchFiles({ bucket_id: bucket.id, query: searchString })
+      return results
+    } catch (err) {
+      addToastMessage({
+        message: t`There was an error getting search results`,
+        appearance: "error"
+      })
+      return Promise.reject(err)
+    }
+  }, [addToastMessage, bucket, filesApiClient])
+
 
   const { redirect } = useHistory()
 
@@ -166,9 +192,7 @@ const SearchModule: React.FC<ISearchModule> = ({
 
   // TODO useCallback is maybe not needed here
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  const debouncedSearch = useCallback(debounce(onSearch, 400), [
-    currentSearchBucket?.bucketId
-  ])
+  const debouncedSearch = useCallback(debounce(onSearch, 400), [getSearchResults])
 
   const onSearchChange = (searchString: string) => {
     setSearchQuery(searchString)
@@ -184,7 +208,7 @@ const SearchModule: React.FC<ISearchModule> = ({
   const onSearchSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setSearchActive(false)
-    redirect(ROUTE_LINKS.Search(searchQuery))
+    redirect(ROUTE_LINKS.Search(encodeURIComponent(searchQuery)))
   }
 
   const searchResultsFiles = searchResults?.results.filter(
@@ -198,13 +222,13 @@ const SearchModule: React.FC<ISearchModule> = ({
   )
 
   const onSearchEntryClickFolder = (searchEntry: SearchEntry) => {
-    redirect(ROUTE_LINKS.Home(searchEntry.path))
+    redirect(ROUTE_LINKS.Drive(getURISafePathFromArray(getArrayOfPaths(searchEntry.path))))
     setSearchQuery("")
     setSearchActive(false)
   }
 
   const onSearchEntryClickFile = (searchEntry: SearchEntry) => {
-    redirect(ROUTE_LINKS.Home(getParentPathFromFilePath(searchEntry.path)))
+    redirect(ROUTE_LINKS.Drive(getURISafePathFromArray(getArrayOfPaths(getParentPathFromFilePath(searchEntry.path)))))
     setSearchQuery("")
     setSearchActive(false)
   }
@@ -319,3 +343,4 @@ const SearchModule: React.FC<ISearchModule> = ({
 }
 
 export default SearchModule
+

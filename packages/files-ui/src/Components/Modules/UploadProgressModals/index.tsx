@@ -5,7 +5,7 @@ import {
   makeStyles,
   useThemeSwitcher
 } from "@chainsafe/common-theme"
-import { useDrive } from "../../../Contexts/DriveContext"
+import { useFiles } from "../../../Contexts/FilesContext"
 import UploadBox from "./UploadBox"
 
 const useStyles = makeStyles(({ constants, zIndex, breakpoints }: ITheme) => {
@@ -30,21 +30,21 @@ const useStyles = makeStyles(({ constants, zIndex, breakpoints }: ITheme) => {
 
 const UploadProgressModals: React.FC = () => {
   const classes = useStyles()
-  const { uploadsInProgress } = useDrive()
+  const { uploadsInProgress } = useFiles()
   const { desktop } = useThemeSwitcher()
 
-  return (
-    <div className={classes.root}>
-      {uploadsInProgress.map(
-        (uploadInProgress) =>
-          (desktop || uploadInProgress.complete || uploadInProgress.error) && (
-            <UploadBox
-              key={uploadInProgress.id}
-              uploadInProgress={uploadInProgress}
-            />
-          )
-      )}
-    </div>
+  if (uploadsInProgress.length === 0) { return null }
+  return (<div className={classes.root}>
+    {uploadsInProgress.map(
+      (uploadInProgress) =>
+        (desktop || uploadInProgress.complete || uploadInProgress.error) && (
+          <UploadBox
+            key={uploadInProgress.id}
+            uploadInProgress={uploadInProgress}
+          />
+        )
+    )}
+  </div>
   )
 }
 

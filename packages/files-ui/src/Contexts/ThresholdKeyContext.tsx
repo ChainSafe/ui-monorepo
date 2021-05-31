@@ -9,7 +9,7 @@ import ShareSerializationModule, { SHARE_SERIALIZATION_MODULE_NAME } from "@tkey
 import { ServiceProviderBase } from "@tkey/service-provider-base"
 import { TorusStorageLayer } from "@tkey/storage-layer-torus"
 import bowser from "bowser"
-import { signMessage, useImployApi } from "@chainsafe/common-contexts"
+import { useFilesApi } from "@chainsafe/common-contexts"
 import { utils, Wallet } from "ethers"
 import EthCrypto from "eth-crypto"
 import { useWeb3 } from "@chainsafe/web3-context"
@@ -123,7 +123,7 @@ const getProviderSpecificParams = (loginType: LOGIN_TYPE):
 }
 
 const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = false, apiKey }: ThresholdKeyProviderProps) => {
-  const { imployApiClient, thresholdKeyLogin, logout } = useImployApi()
+  const { filesApiClient, thresholdKeyLogin, logout } = useFilesApi()
   const { provider, isReady, checkIsReady, address } = useWeb3()
   const [userInfo, setUserInfo] = useState<TorusLoginResponse | undefined>()
   const [TKeySdk, setTKeySdk] = useState<ThresholdKey | undefined>()
@@ -409,7 +409,6 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
     try {
       setStatus("awaiting confirmation")
       const { identityToken, userInfo } = await getIdentityToken(loginType)
-
       const decodedToken = jwtDecode<{ uuid: string; address: string }>(identityToken.token || "")
       const directAuthSdk = (TKeySdk.serviceProvider as any).directWeb as DirectAuthSdk
       const torusKey = await directAuthSdk.getTorusKey(
@@ -438,8 +437,7 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
       }
       setUserInfo(loginResponse)
     } catch (error) {
-      console.error("Error logging in")
-      console.error(error)
+      console.error("Error logging in", error)
       throw error
     }
 
@@ -487,30 +485,46 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
 
   const getIdentityToken = async (loginType: IdentityProvider): Promise<{identityToken: IdentityToken; userInfo: any}> => {
     if (loginType === "web3") {
-      if (!isReady || !address || !provider) {
+
+      let addressToUse = address
+      let signer
+
+      if (!isReady  || !provider) {
         const connected = await checkIsReady()
-        if (!connected || !address || !provider) throw new Error("Unable to connect to wallet.")
+
+        if (!connected || !provider) throw new Error("Unable to connect to wallet.")
       }
 
-      const { token } = await imployApiClient.getIdentityWeb3Token(address)
+      if(!signer){
+        signer = provider.getSigner()
+        if (!signer) throw new Error("Signer undefined")
+      }
 
-      if (!token) throw new Error()
+      if(!addressToUse){
+        // checkIsReady above doesn't make sure that the address is defined
+        // we pull the address here to have it defined for sure
+        addressToUse = await signer.getAddress()
+      }
+
+      const { token } = await filesApiClient.getIdentityWeb3Token(addressToUse)
+
+      if (!token) throw new Error("Token undefined")
 
       setStatus("awaiting confirmation")
-      const signature = await signMessage(token, provider.getSigner())
+      const signature = await signer.signMessage(token)
       setStatus("logging in")
-      const web3IdentityToken = await imployApiClient.postIdentityWeb3Token({
+      const web3IdentityToken = await filesApiClient.postIdentityWeb3Token({
         signature: signature,
         token: token,
-        public_address: address
+        public_address: addressToUse
       })
-      const uuidToken = await imployApiClient.generateServiceIdentityToken({
+      const uuidToken = await filesApiClient.generateServiceIdentityToken({
         identity_provider: loginType,
         identity_token: web3IdentityToken.token || ""
       })
       return {
         identityToken: uuidToken,
-        userInfo: { address: address }
+        userInfo: { address: addressToUse }
       }
 
     } else {
@@ -527,7 +541,7 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
       const oauthIdToken = await loginHandler.handleLoginWindow({})
       setStatus("logging in")
       const userInfo = await loginHandler.getUserInfo(oauthIdToken)
-      const uuidToken = await imployApiClient.generateServiceIdentityToken({
+      const uuidToken = await filesApiClient.generateServiceIdentityToken({
         identity_provider: loginType,
         identity_token: oauthIdToken.idToken || oauthIdToken.accessToken
       })
@@ -743,7 +757,7 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
     })
 
     const serviceProvider = (tkey.serviceProvider as unknown) as DirectAuthSdk
-    serviceProvider.init({ skipSw: false })
+    return serviceProvider.init({ skipSw: false })
       .then(() => {
         setStatus("initialized")
       })
@@ -811,7 +825,7 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
         loggedinAs
       }}
     >
-      {!isNewDevice && pendingShareTransferRequests.length > 0 && (
+      {!isNewDevice && pendingShareTransferRequests.length > 0 && process.env.REACT_APP_TEST !== "true" && (
         <ShareTransferRequestModal
           requests={pendingShareTransferRequests}
         />

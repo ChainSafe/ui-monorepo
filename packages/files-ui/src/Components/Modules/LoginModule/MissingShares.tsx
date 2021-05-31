@@ -185,6 +185,7 @@ const MissingShares = ({ className }: IMissingShares) => {
             <div className={classes.buttonWrapper}>
               {hasPasswordShare && (
                 <Button
+                  data-cy="login-password-button"
                   className={classes.button}
                   variant="primary"
                   size="large"
@@ -216,6 +217,7 @@ const MissingShares = ({ className }: IMissingShares) => {
               <Trans>Enter password:</Trans>
             </Typography>
             <TextInput
+              data-cy="login-password-input"
               autoFocus
               className={classes.textInput}
               value={password}

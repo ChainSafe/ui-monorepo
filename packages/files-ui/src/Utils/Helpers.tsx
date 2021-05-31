@@ -1,4 +1,7 @@
 import { useLocation } from "@chainsafe/common-components"
+import { guessContentType } from "./contentTypeGuesser"
+import { FileContentResponse } from "@chainsafe/files-api-client"
+import { FileSystemItem } from "../Contexts/FilesContext"
 
 export const centerEllipsis = (address: string, remaining = 6) => {
   if (address.length <= remaining * 2) {
@@ -31,3 +34,13 @@ export function useQuery() {
 export const capitalize = (value: string) => {
   return value.charAt(0).toUpperCase() + value.slice(1)
 }
+
+export const parseFileContentResponse = (fcr: FileContentResponse): FileSystemItem => ({
+  ...fcr,
+  content_type:
+    fcr.content_type !== "application/octet-stream"
+      ? fcr.content_type
+      : guessContentType(fcr.name),
+  isFolder:
+    fcr.content_type === "application/chainsafe-files-directory"
+})

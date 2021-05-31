@@ -1,18 +1,19 @@
 name-template: "v$RESOLVED_VERSION 🌈"
 tag-template: "v$RESOLVED_VERSION"
-references:
-  - dev
+# references:
+#   - dev
 categories:
   - title: "🚀 Features"
     labels:
-      - "Type: Feature"
-      - "Type: Enhancement"
+      - "Feature"
+      - "Enhancement"
   - title: "🐛 Bug Fixes"
     labels:
-      - "Type: Bug"
+      - "Bug"
+      - "Bugfix"
+      - "fix" 
   - title: "🧰 Maintenance"
-    label:
-      - "Type: Maintenance"
+    label: "Maintenance"
 change-template: "- $TITLE @$AUTHOR (#$NUMBER)"
 change-title-escapes: '\<*_&' # You can add # and @ to disable mentions, and add ` to disable code blocks.
 version-resolver:
@@ -30,9 +31,6 @@ exclude-labels:
   - "skip-changelog"
 template: |
   ## Changelog
-
   $CHANGES
-
   🙏 A big thank you to all the contributors to this release:
-
   $CONTRIBUTORS

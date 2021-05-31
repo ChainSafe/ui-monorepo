@@ -1,4 +1,4 @@
-import React, { useCallback } from "react"
+import React, { useCallback, useEffect, useRef } from "react"
 import {
   FormikTextInput,
   Typography,
@@ -16,20 +16,20 @@ import {
   ExportSvg,
   ShareAltSvg,
   ExclamationCircleInverseSvg,
-  ZoomInSvg
-} from "@chainsafe/common-components"
+  ZoomInSvg } from "@chainsafe/common-components"
 import { makeStyles, createStyles, useDoubleClick, useThemeSwitcher } from "@chainsafe/common-theme"
 import { Formik, Form } from "formik"
-import { FileSystemItem, BucketType } from "../../../../../Contexts/DriveContext"
 import CustomModal from "../../../../Elements/CustomModal"
 import { Trans } from "@lingui/macro"
 import { useDrag, useDrop } from "react-dnd"
 import { DragTypes } from "../../DragConstants"
-import { NativeTypes } from "react-dnd-html5-backend"
+import { getEmptyImage, NativeTypes } from "react-dnd-html5-backend"
 import { BrowserView, FileOperation } from "../../types"
 import { CSFTheme } from "../../../../../Themes/types"
 import FileItemTableItem from "./FileSystemTableItem"
 import FileItemGridItem from "./FileSystemGridItem"
+import { FileSystemItem as FileSystemItemType } from "../../../../../Contexts/FilesContext"
+import { useFileBrowser } from "../../../../../Contexts/FileBrowserContext"
 
 const useStyles = makeStyles(({ breakpoints, constants }: CSFTheme) => {
   return createStyles({
@@ -98,24 +98,21 @@ const useStyles = makeStyles(({ breakpoints, constants }: CSFTheme) => {
   })
 })
 
-interface IFileSystemItemRowProps {
+interface IFileSystemItemProps {
   index: number
-  file: FileSystemItem
-  files: FileSystemItem[]
-  currentPath?: string
-  updateCurrentPath: (path: string, newBucketType?: BucketType, showLoading?: boolean) => void
+  file: FileSystemItemType
+  files: FileSystemItemType[]
   selected: string[]
-  handleSelect(selected: string): void
+  handleSelectCid(selectedCid: string): void
+  handleAddToSelectedCids(selectedCid: string): void
   editing: string | undefined
   setEditing(editing: string | undefined): void
   renameSchema: any
-  handleRename?: (path: string, newPath: string) => Promise<void>
-  handleMove?: (path: string, newPath: string) => Promise<void>
+  handleRename?: (cid: string, newName: string) => Promise<void>
+  handleMove?: (cid: string, newPath: string) => Promise<void>
   deleteFile?: () => void
   recoverFile?: (cid: string) => void
   viewFolder?: (cid: string) => void
-  downloadFile?: (cid: string) => Promise<void>
-  handleUploadOnDrop?: (files: File[], fileItems: DataTransferItemList, path: string,) => void
   setPreviewFileIndex: (fileIndex: number | undefined) => void
   moveFile?: () => void
   setFileInfoPath: (path: string) => void
@@ -124,28 +121,27 @@ interface IFileSystemItemRowProps {
   browserView: BrowserView
 }
 
-const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
+const FileSystemItem = ({
   file,
   files,
-  currentPath,
   selected,
   editing,
   setEditing,
   renameSchema,
   handleRename,
-  handleMove,
   deleteFile,
   recoverFile,
-  downloadFile,
   viewFolder,
-  handleUploadOnDrop,
   setPreviewFileIndex,
   moveFile,
   setFileInfoPath,
-  handleSelect,
+  handleSelectCid,
+  handleAddToSelectedCids,
   itemOperations,
-  browserView
-}) => {
+  browserView,
+  resetSelectedFiles
+}: IFileSystemItemProps) => {
+  const { downloadFile, currentPath, handleUploadOnDrop, moveItems } = useFileBrowser()
   const { cid, name, isFolder, content_type } = file
   let Icon
   if (isFolder) {
@@ -161,12 +157,13 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
   const { desktop } = useThemeSwitcher()
   const classes = useStyles()
 
+
   const allMenuItems: Record<FileOperation, IMenuItem> = {
     rename: {
       contents: (
         <>
           <EditSvg className={classes.menuIcon} />
-          <span>
+          <span data-cy="menu-rename">
             <Trans>Rename</Trans>
           </span>
         </>
@@ -177,7 +174,7 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
       contents: (
         <>
           <DeleteSvg className={classes.menuIcon} />
-          <span>
+          <span data-cy="menu-delete">
             <Trans>Delete</Trans>
           </span>
         </>
@@ -188,7 +185,7 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
       contents: (
         <>
           <DownloadSvg className={classes.menuIcon} />
-          <span>
+          <span data-cy="menu-download">
             <Trans>Download</Trans>
           </span>
         </>
@@ -199,7 +196,7 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
       contents: (
         <>
           <ExportSvg className={classes.menuIcon} />
-          <span>
+          <span data-cy="menu-move">
             <Trans>Move</Trans>
           </span>
         </>
@@ -210,7 +207,7 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
       contents: (
         <>
           <ShareAltSvg className={classes.menuIcon} />
-          <span>
+          <span data-cy="menu-share">
             <Trans>Share</Trans>
           </span>
         </>
@@ -221,7 +218,7 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
       contents: (
         <>
           <ExclamationCircleInverseSvg className={classes.menuIcon} />
-          <span>
+          <span data-cy="menu-info">
             <Trans>Info</Trans>
           </span>
         </>
@@ -232,7 +229,7 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
       contents: (
         <>
           <RecoverSvg className={classes.menuIcon} />
-          <span>
+          <span data-cy="menu-recover">
             <Trans>Recover</Trans>
           </span>
         </>
@@ -243,7 +240,7 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
       contents: (
         <>
           <ZoomInSvg className={classes.menuIcon} />
-          <span>
+          <span data-cy="menu-preview">
             <Trans>Preview</Trans>
           </span>
         </>
@@ -254,7 +251,7 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
       contents: (
         <>
           <EyeSvg className={classes.menuIcon} />
-          <span>
+          <span data-cy="view-folder">
             <Trans>View folder</Trans>
           </span>
         </>
@@ -267,22 +264,34 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
     (itemOperation) => allMenuItems[itemOperation]
   )
 
-  const [, dragMoveRef, preview] = useDrag({
-    item: { type: DragTypes.MOVABLE_FILE, payload: file }
+  const [, dragMoveRef, preview] = useDrag(() =>
+    ({ type: DragTypes.MOVABLE_FILE,
+      item: () => {
+        if (selected.includes(file.cid)) {
+          return { ids: selected }
+        } else {
+          return { ids: [...selected, file.cid] }
+        }
+      }
+    }), [selected])
+
+  useEffect(() => {
+    // This gets called after every render, by default
+
+    // Use empty image as a drag preview so browsers don't draw it
+    // and we can draw whatever we want on the custom drag layer instead.
+    preview(getEmptyImage(), {
+      // IE fallback: specify that we'd rather screenshot the node
+      // when it already knows it's being dragged so we can hide it with CSS.
+      captureDraggingState: true
+    })
   })
 
   const [{ isOverMove }, dropMoveRef] = useDrop({
     accept: DragTypes.MOVABLE_FILE,
     canDrop: () => isFolder,
-    drop: async (item: {
-      type: typeof DragTypes.MOVABLE_FILE
-      payload: FileSystemItem
-    }) => {
-      handleMove &&
-        (await handleMove(
-          `${currentPath}${item.payload.name}`,
-          `${currentPath}${name}/${item.payload.name}`
-        ))
+    drop: (item: {ids: string[]}) => {
+      moveItems && moveItems(item.ids, `${currentPath}${name}/`)
     },
     collect: (monitor) => ({
       isOverMove: monitor.isOver()
@@ -300,50 +309,71 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
     })
   })
 
-  function attachRef(el: any) {
-    if (isFolder) {
-      dropMoveRef(el)
-      dropUploadRef(el)
-    } else {
-      dragMoveRef(el)
-    }
+  const fileOrFolderRef = useRef<any>()
+
+  if (!editing && isFolder) {
+    dropMoveRef(fileOrFolderRef)
+    dropUploadRef(fileOrFolderRef)
+  }
+  if (!editing && !isFolder) {
+    dragMoveRef(fileOrFolderRef)
   }
 
-  const onFolderClick = useCallback(() => {
-    viewFolder && viewFolder(cid)
-  }, [cid, viewFolder])
-
-  const onFileClick = useCallback(() => {
+  const onFilePreview = useCallback(() => {
     setPreviewFileIndex(files?.indexOf(file))
   }, [file, files, setPreviewFileIndex])
 
   const onSingleClick = useCallback(
-    () => { handleSelect(cid) },
-    [cid, handleSelect]
+    (e) => {
+      if (desktop) {
+        // on desktop 
+        if (e && (e.ctrlKey || e.metaKey)) {
+          handleAddToSelectedCids(cid)
+        } else {
+          handleSelectCid(cid)
+        }
+      } else {
+        // on mobile
+        if (isFolder) {
+          viewFolder && viewFolder(file.cid)
+        } else {
+          onFilePreview()
+        }
+      }
+    },
+    [cid, handleSelectCid, handleAddToSelectedCids, desktop, isFolder, viewFolder, file, onFilePreview]
   )
 
-  const onDoubleClick = useCallback(() => {
-    isFolder
-      ? onFolderClick()
-      : onFileClick()
-  }, [isFolder, onFileClick, onFolderClick])
+  const onDoubleClick = useCallback(
+    () => {
+      if (desktop) {
+        // on desktop
+        if (isFolder) {
+          viewFolder && viewFolder(file.cid)
+        } else {
+          onFilePreview()
+        }
+      } else {
+        // on mobile
+        return
+      }
+    },
+    [desktop, viewFolder, file, onFilePreview, isFolder]
+  )
 
   const { click } = useDoubleClick(onSingleClick, onDoubleClick)
 
-  const onFolderOrFileClicks = desktop
-    ? click
-    : () => {
-      isFolder
-        ? onFolderClick()
-        : onFileClick()
-    }
+  const onFolderOrFileClicks = (e?: React.MouseEvent) => {
+    e?.persist()
+    click(e)
+  }
 
   const itemProps = {
-    attachRef,
+    ref: fileOrFolderRef,
     currentPath,
     editing,
     file,
-    handleSelect,
+    handleAddToSelectedCids,
     handleRename,
     icon: <Icon />,
     isFolder,
@@ -354,7 +384,8 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
     preview,
     renameSchema,
     selected,
-    setEditing
+    setEditing,
+    resetSelectedFiles
   }
 
   return (
@@ -384,10 +415,9 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
                 onSubmit={(values) => {
                   handleRename &&
                   handleRename(
-                    `${currentPath}${name}`,
-                    `${currentPath}${values.fileName}`
+                    file.cid,
+                    values.fileName
                   )
-                  setEditing(undefined)
                 }}
               >
                 <Form className={classes.renameModal}>
@@ -437,4 +467,4 @@ const FileSystemItemRow: React.FC<IFileSystemItemRowProps> = ({
   )
 }
 
-export default FileSystemItemRow
+export default FileSystemItem
