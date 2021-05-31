@@ -196,7 +196,7 @@ const FileInput = ({
   return (
     <div
       {...getRootProps()}
-      data-testId={`file-input-dropzone-${testId}`}
+      data-testid={`file-input-dropzone-${testId}`}
       className={clsx(classes.root, className)}
     >
       <input {...getInputProps()} />
@@ -217,7 +217,7 @@ const FileInput = ({
           </div>
         ) : (
           <div
-            data-testId={`file-list-${testId}`}
+            data-testid={`file-list-${testId}`}
             className={clsx(classes.root, classNames?.filelist)}
           >
             <ScrollbarWrapper className={clsx("scrollbar")}>
@@ -229,7 +229,7 @@ const FileInput = ({
                   >
                     <span className={classes.itemText}>{file.name}</span>
                     <Button
-                      data-testId={`file-list-close-button-${testId}`}
+                      data-testid={`file-list-close-button-${testId}`}
                       className={clsx(classes.crossIcon, classNames?.closeIcon)}
                       type="button"
                       onClick={(e) => {
