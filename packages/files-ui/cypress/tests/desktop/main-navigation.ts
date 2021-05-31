@@ -28,8 +28,8 @@ describe("Main Navigation", () => {
     navigationMenu.spaceUsedProgressBar().should("be.visible").should
   })
 
-//   it("can navigate to block survey via send feedback button", () => {
-//     // TODO: find a way to check button link, cypress doesn't support tabs
-//   })
+  // it("can navigate to block survey via send feedback button", () => {
+  //  TODO: Andrew - find a way to check the button link, cypress doesn't support tabs
+  // })
 
 })
