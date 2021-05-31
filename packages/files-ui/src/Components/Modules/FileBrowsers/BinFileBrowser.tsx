@@ -21,7 +21,9 @@ const BinFileBrowser: React.FC<IFileBrowserModuleProps> = ({ controls = false }:
   const [pathContents, setPathContents] = useState<FileSystemItem[]>([])
   const { pathname } = useLocation()
   const currentPath = useMemo(() =>
-    extractFileBrowserPathFromURL(pathname, ROUTE_LINKS.Bin("")), [pathname])
+    extractFileBrowserPathFromURL(pathname, ROUTE_LINKS.Bin("")),
+    [pathname]
+  )
   const { redirect } = useHistory()
 
   const bucket = useMemo(() => buckets.find(b => b.type === "trash"), [buckets])

@@ -38,11 +38,11 @@ const SearchFileBrowser: React.FC<IFileBrowserModuleProps> = ({ controls = false
   }, [addToastMessage, bucket, filesApiClient])
 
   useEffect(() => {
-    const fetchSearchResults = async () => {
-      const results = await getSearchResults(searchTerm)
-      setSearchResults(results)
+    const fetchSearchResults = () => {
+      getSearchResults(searchTerm)
+        .then(setSearchResults)
+        .catch(console.error)
     }
-    fetchSearchResults()
   }, [searchTerm, getSearchResults])
 
   const [loadingSearchResults, setLoadingSearchResults] = useState(true)

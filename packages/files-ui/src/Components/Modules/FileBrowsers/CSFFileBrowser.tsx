@@ -30,8 +30,9 @@ const CSFFileBrowser: React.FC<IFileBrowserModuleProps> = () => {
 
   const { pathname } = useLocation()
   const currentPath = useMemo(() =>
-    extractFileBrowserPathFromURL(pathname, ROUTE_LINKS.Drive(""))
-  , [pathname])
+    extractFileBrowserPathFromURL(pathname, ROUTE_LINKS.Drive("")),
+    [pathname]
+  )
   const bucket = useMemo(() => buckets.find(b => b.type === "csf"), [buckets])
 
   const refreshContents = useCallback((showLoading?: boolean) => {
