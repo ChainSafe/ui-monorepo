@@ -67,6 +67,9 @@ msgstr "Change Password"
 msgid "Change password"
 msgstr "Change password"
 
+msgid "Check your inbox! We've sent another email"
+msgstr "Check your inbox! We've sent another email"
+
 msgid "Click or drag to upload files"
 msgstr "Click or drag to upload files"
 
@@ -93,6 +96,9 @@ msgstr "Connection failed"
 
 msgid "Continue"
 msgstr "Continue"
+
+msgid "Continue with Email"
+msgstr "Continue with Email"
 
 msgid "Continue with Facebook"
 msgstr "Continue with Facebook"
@@ -139,6 +145,9 @@ msgstr "Delete selected"
 msgid "Device awaiting confirmation"
 msgstr "Device awaiting confirmation"
 
+msgid "Didn't receive the email ?"
+msgstr "Didn't receive the email ?"
+
 msgid "Display Settings"
 msgstr "Display Settings"
 
@@ -162,6 +171,12 @@ msgstr "Enter password"
 
 msgid "Enter password:"
 msgstr "Enter password:"
+
+msgid "Enter the verification code:"
+msgstr "Enter the verification code:"
+
+msgid "Enter your email:"
+msgstr "Enter your email:"
 
 msgid "Essentials - Free"
 msgstr "Essentials - Free"
@@ -255,6 +270,9 @@ msgstr "I understand the risk"
 
 msgid "Info"
 msgstr "Info"
+
+msgid "It contains a verification code that’ll sign you in super quickly!"
+msgstr "It contains a verification code that’ll sign you in super quickly!"
 
 msgid "I’m done saving my backup phrase"
 msgstr "I’m done saving my backup phrase"
@@ -454,6 +472,9 @@ msgstr "Select a wallet"
 msgid "Send Feedback"
 msgstr "Send Feedback"
 
+msgid "Send another email"
+msgstr "Send another email"
+
 msgid "Set Password"
 msgstr "Set Password"
 
@@ -507,6 +528,9 @@ msgstr "Social Sign-in or Wallet"
 
 msgid "Social sign in or wallet"
 msgstr "Social sign in or wallet"
+
+msgid "Something went wrong!"
+msgstr "Something went wrong!"
 
 msgid "Something went wrong. We couldn't upload your file"
 msgstr "Something went wrong. We couldn't upload your file"
@@ -580,6 +604,9 @@ msgstr "Use a different login method"
 msgid "Use a saved browser"
 msgstr "Use a saved browser"
 
+msgid "Verification code sent!"
+msgstr "Verification code sent!"
+
 msgid "View folder"
 msgstr "View folder"
 
@@ -591,6 +618,9 @@ msgstr "Web3: {0}"
 
 msgid "We’ve got a new authentication system in place. All you need to do is enter your password again to migrate your credentials over to the new system."
 msgstr "We’ve got a new authentication system in place. All you need to do is enter your password again to migrate your credentials over to the new system."
+
+msgid "We’ve sent an email to"
+msgstr "We’ve sent an email to"
 
 msgid "What a fine day it is."
 msgstr "What a fine day it is."

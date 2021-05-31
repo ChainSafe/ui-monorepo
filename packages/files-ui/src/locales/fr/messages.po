@@ -68,6 +68,9 @@ msgstr "Modifier"
 msgid "Change password"
 msgstr "Modifier"
 
+msgid "Check your inbox! We've sent another email"
+msgstr ""
+
 msgid "Click or drag to upload files"
 msgstr "Cliquer ou faire glisser un ficher pour uploader"
 
@@ -94,6 +97,9 @@ msgstr "La connexion a échouée"
 
 msgid "Continue"
 msgstr "Continuer"
+
+msgid "Continue with Email"
+msgstr ""
 
 msgid "Continue with Facebook"
 msgstr "Continuer avec Facebook"
@@ -140,6 +146,9 @@ msgstr "Supprimer selection"
 msgid "Device awaiting confirmation"
 msgstr "Appareil en attente de confirmation"
 
+msgid "Didn't receive the email ?"
+msgstr ""
+
 msgid "Display Settings"
 msgstr "Paramètres d'affichage"
 
@@ -163,6 +172,12 @@ msgstr "Mot de passe"
 
 msgid "Enter password:"
 msgstr "Mot de passe:"
+
+msgid "Enter the verification code:"
+msgstr ""
+
+msgid "Enter your email:"
+msgstr ""
 
 msgid "Essentials - Free"
 msgstr "Essentials - Gratuit"
@@ -256,6 +271,9 @@ msgstr "Je prends le risque"
 
 msgid "Info"
 msgstr "Info"
+
+msgid "It contains a verification code that’ll sign you in super quickly!"
+msgstr ""
 
 msgid "I’m done saving my backup phrase"
 msgstr "Phrase de sauvegarde enregistrée"
@@ -455,6 +473,9 @@ msgstr "Sélectionner un wallet"
 msgid "Send Feedback"
 msgstr "Donner son avis"
 
+msgid "Send another email"
+msgstr ""
+
 msgid "Set Password"
 msgstr "Définir un mot de passe"
 
@@ -508,6 +529,9 @@ msgstr "Connecté avec un réseau social ou wallet"
 
 msgid "Social sign in or wallet"
 msgstr "Connecté avec un réseau social ou wallet"
+
+msgid "Something went wrong!"
+msgstr ""
 
 msgid "Something went wrong. We couldn't upload your file"
 msgstr "Un problème est survenu. Nous n'avons pas pu uploader votre fichier"
@@ -581,6 +605,9 @@ msgstr "Utilisez une méthode de connexion différente"
 msgid "Use a saved browser"
 msgstr "Utiliser un navigateur enregistré"
 
+msgid "Verification code sent!"
+msgstr ""
+
 msgid "View folder"
 msgstr "Voir le dossier"
 
@@ -592,6 +619,9 @@ msgstr "Web3: {0}"
 
 msgid "We’ve got a new authentication system in place. All you need to do is enter your password again to migrate your credentials over to the new system."
 msgstr "Nous avons mis en place un nouveau système d’authentification. Tout ce que vous avez à faire est de saisir à nouveau votre mot de passe pour migrer vos informations d'identification vers le nouveau système."
+
+msgid "We’ve sent an email to"
+msgstr ""
 
 msgid "What a fine day it is."
 msgstr "Une belle journée."
