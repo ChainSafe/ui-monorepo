@@ -1,5 +1,5 @@
 // trims a string at both ends for a character
-function trimChar(str: string, char: string) {
+export function trimChar(str: string, char: string) {
   char = char.charAt(0)
   if (str.charAt(0) === char) {
     str = str.substr(1, str.length - 1)

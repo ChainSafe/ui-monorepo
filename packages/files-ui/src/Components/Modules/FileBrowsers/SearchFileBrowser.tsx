@@ -5,7 +5,7 @@ import FilesList from "./views/FilesList"
 import { CONTENT_TYPES } from "../../../Utils/Constants"
 import DragAndDrop from "../../../Contexts/DnDContext"
 import { useHistory, useLocation, useToaster } from "@chainsafe/common-components"
-import { getParentPathFromFilePath } from "../../../Utils/pathUtils"
+import { getArrayOfPaths, getParentPathFromFilePath, getURISafePathFromArray } from "../../../Utils/pathUtils"
 import { ROUTE_LINKS } from "../../FilesRoutes"
 import { t } from "@lingui/macro"
 import { FileBrowserContext } from "../../../Contexts/FileBrowserContext"
@@ -75,9 +75,9 @@ const SearchFileBrowser: React.FC<IFileBrowserModuleProps> = ({ controls = false
     const searchEntry = getSearchEntry(cid)
     if (searchEntry) {
       if (searchEntry.content.content_type === CONTENT_TYPES.Directory) {
-        redirect(ROUTE_LINKS.Drive(searchEntry.path))
+        redirect(ROUTE_LINKS.Drive(getURISafePathFromArray(getArrayOfPaths(searchEntry.path))))
       } else {
-        redirect(ROUTE_LINKS.Drive(getParentPathFromFilePath(searchEntry.path)))
+        redirect(ROUTE_LINKS.Drive(getURISafePathFromArray(getArrayOfPaths(getParentPathFromFilePath(searchEntry.path)))))
       }
     }
   }
