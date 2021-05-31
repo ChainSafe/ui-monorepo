@@ -38,11 +38,9 @@ const SearchFileBrowser: React.FC<IFileBrowserModuleProps> = ({ controls = false
   }, [addToastMessage, bucket, filesApiClient])
 
   useEffect(() => {
-    const fetchSearchResults = () => {
-      getSearchResults(searchTerm)
-        .then(setSearchResults)
-        .catch(console.error)
-    }
+    getSearchResults(searchTerm)
+      .then(setSearchResults)
+      .catch(console.error)
   }, [searchTerm, getSearchResults])
 
   const [loadingSearchResults, setLoadingSearchResults] = useState(true)

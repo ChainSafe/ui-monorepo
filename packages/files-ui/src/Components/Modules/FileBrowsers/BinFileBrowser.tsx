@@ -22,7 +22,7 @@ const BinFileBrowser: React.FC<IFileBrowserModuleProps> = ({ controls = false }:
   const { pathname } = useLocation()
   const currentPath = useMemo(() =>
     extractFileBrowserPathFromURL(pathname, ROUTE_LINKS.Bin("")),
-    [pathname]
+  [pathname]
   )
   const { redirect } = useHistory()
 
