@@ -15,7 +15,7 @@ const SearchFileBrowser: React.FC<IFileBrowserModuleProps> = ({ controls = false
   const { pathname } = useLocation()
   const { filesApiClient } = useFilesApi()
   const { buckets } = useFiles()
-  const [searchTerm, setSearchTerm] = useState(pathname.split("/").slice(2)[0])
+  const searchTerm = useMemo(() => decodeURIComponent(pathname.split("/").slice(2)[0]), [pathname])
   const { redirect } = useHistory()
 
   const { addToastMessage } = useToaster()
@@ -38,11 +38,10 @@ const SearchFileBrowser: React.FC<IFileBrowserModuleProps> = ({ controls = false
   }, [addToastMessage, bucket, filesApiClient])
 
   useEffect(() => {
-    const searchPath = pathname.split("/").slice(2)[0]
-
-    setSearchTerm(decodeURI(searchPath))
-    getSearchResults(decodeURI(searchPath))
-  }, [getSearchResults, pathname])
+    getSearchResults(searchTerm)
+      .then(setSearchResults)
+      .catch(console.error)
+  }, [searchTerm, getSearchResults])
 
   const [loadingSearchResults, setLoadingSearchResults] = useState(true)
   const [searchResults, setSearchResults] = useState<SearchEntry[]>([])

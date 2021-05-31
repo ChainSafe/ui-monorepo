@@ -23,7 +23,6 @@ import { getArrayOfPaths, getParentPathFromFilePath, getURISafePathFromArray } f
 import { t, Trans } from "@lingui/macro"
 import { CSFTheme } from "../../Themes/types"
 import { useFilesApi } from "@chainsafe/common-contexts"
-import { trimChar } from "../../Utils/pathUtils"
 
 export interface SearchParams {
   bucketType: BucketType
@@ -209,7 +208,7 @@ const SearchModule: React.FC<ISearchModule> = ({
   const onSearchSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setSearchActive(false)
-    redirect(ROUTE_LINKS.Search(searchQuery))
+    redirect(ROUTE_LINKS.Search(encodeURIComponent(searchQuery)))
   }
 
   const searchResultsFiles = searchResults?.results.filter(
