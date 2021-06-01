@@ -89,7 +89,6 @@ const StorageApiProvider = ({ apiUrl, withLocalStorage = true, children }: Stora
 
   useEffect(() => {
     const initializeApiClient = async () => {
-      debugger
       const axiosInstance = axios.create({
         // Disable the internal Axios JSON de serialization as this is handled by the client
         transformResponse: []
@@ -363,4 +362,3 @@ const useStorageApi = () => {
 }
 
 export { StorageApiProvider, useStorageApi }
-

@@ -1,4 +1,4 @@
-# ChainSafe Files UI Repo
+# ChainSafe Storage UI Repo
 
 ![Dev](https://github.com/imploy/files-ui/workflows/Dev/badge.svg?branch=dev)
 [![Netlify Status](https://api.netlify.com/api/v1/badges/cb6afc46-ec5d-4cac-91c2-dbd0d866b89a/deploy-status)](https://app.netlify.com/sites/angry-lewin-719dd6/deploys)
