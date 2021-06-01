@@ -1,5 +1,5 @@
 // trims a string at both ends for a character
-function trimChar(str: string, char: string) {
+export function trimChar(str: string, char: string) {
   char = char.charAt(0)
   if (str.charAt(0) === char) {
     str = str.substr(1, str.length - 1)
@@ -22,14 +22,16 @@ export function getArrayOfPaths(path: string): string[] {
 
 // [] -> "/"
 // ["path", "to", "this"] -> "/path/to/this"
-export function getPathFromArray(arrayOfPaths: string[]): string {
+export function getURISafePathFromArray(arrayOfPaths: string[]): string {
   if (!arrayOfPaths.length) return "/"
   else {
-    return "/" + arrayOfPaths.join("/")
+    return `/${arrayOfPaths.map(encodeURIComponent).join("/")}`
   }
 }
 
-// get path and file
+// Safe append path to file name
+// /path/to/somewhere + 1.txt -> /path/to/somewhere/1.txt
+// /path/to/somewhere/ + 1.txt -> /path/to/somewhere/1.txt
 export function getPathWithFile(path: string, fileName: string) {
   return path === "/"
     ? `/${fileName}`
@@ -38,13 +40,14 @@ export function getPathWithFile(path: string, fileName: string) {
       : `${path}/${fileName}`
 }
 
-// get path and file
+// /path/to/somewhere/1.txt -> /path/to/somewhere
 export function getParentPathFromFilePath(filePath: string) {
   const parentPath = filePath.substring(0, filePath.lastIndexOf("/"))
   if (!parentPath) return "/"
-  else return parentPath
+  return parentPath
 }
 
-export function extractDrivePath(pathname: string) {
-  return pathname.split("/").slice(2).join("/").concat("/")
+// /drive/path/to/somewhere -> /path/to/somewhere
+export function extractFileBrowserPathFromURL(browserUrl: string, modulePath: string) {
+  return browserUrl.replace(modulePath, "").split("/").map(decodeURIComponent).join("/")
 }

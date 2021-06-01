@@ -64,7 +64,7 @@ const useStyles = makeStyles(({ constants, breakpoints, palette }: ITheme) =>
     },
     tabPane: {
       flex: 1,
-      padding: `${constants.generalUnit * 2}px ${constants.generalUnit * 5}px`,
+      padding: `${constants.generalUnit * 4}px ${constants.generalUnit * 4}px`,
       "&.securityPane": {
         [breakpoints.down("lg")]: {
           paddingLeft: constants.generalUnit,
@@ -72,7 +72,10 @@ const useStyles = makeStyles(({ constants, breakpoints, palette }: ITheme) =>
         }
       },
       [breakpoints.down("md")]: {
-        padding: 0
+        padding: `${constants.generalUnit * 2}px`
+      },
+      [breakpoints.down("md")]: {
+        padding: `${constants.generalUnit * 2}px 0`
       }
     },
     lockIcon : {
@@ -182,6 +185,7 @@ const Settings: React.FC = () => {
               iconRight={<CaretRightIcon/>}
               title={t`Profile and Display`}
               tabKey="profile"
+              testId="profile-tab"
             >
               <Profile />
             </TabPane>
@@ -191,6 +195,7 @@ const Settings: React.FC = () => {
               iconRight={<CaretRightIcon/>}
               title={t`Security`}
               tabKey="security"
+              testId="security-tab"
             >
               <Security />
             </TabPane>

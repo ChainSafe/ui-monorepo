@@ -57,7 +57,8 @@ const useStyles = makeStyles(
             left: "50%",
             transitionDuration: `${animation.transform}ms`,
             transform: "translate(-50%,-50%)",
-            borderRadius: "50%"
+            borderRadius: "50%",
+            ...overrides?.RadioInput?.radio?.checkedBefore
           }
         },
         "&.disabled": {

@@ -1,11 +1,11 @@
 import React, { useCallback, useEffect } from "react"
 import { init as initSentry, ErrorBoundary, showReportDialog } from "@sentry/react"
 import { Web3Provider } from "@chainsafe/web3-context"
-import { ImployApiProvider, UserProvider, BillingProvider } from "@chainsafe/common-contexts"
+import { FilesApiProvider, UserProvider, BillingProvider } from "@chainsafe/common-contexts"
 import { ThemeSwitcher } from "@chainsafe/common-theme"
 import "@chainsafe/common-theme/dist/font-faces.css"
 import { Button, CssBaseline, Modal, Router, ToasterProvider, Typography } from "@chainsafe/common-components"
-import { DriveProvider } from "./Contexts/DriveContext"
+import { FilesProvider } from "./Contexts/FilesContext"
 import FilesRoutes from "./Components/FilesRoutes"
 import AppWrapper from "./Components/Layouts/AppWrapper"
 import { useHotjar } from "react-use-hotjar"
@@ -110,7 +110,7 @@ const App: React.FC<{}> = () => {
               checkNetwork={false}
               cacheWalletSelection={canUseLocalStorage}
             >
-              <ImployApiProvider
+              <FilesApiProvider
                 apiUrl={apiUrl}
                 withLocalStorage={false}
               >
@@ -119,7 +119,7 @@ const App: React.FC<{}> = () => {
                   network={directAuthNetwork}
                 >
                   <UserProvider>
-                    <DriveProvider>
+                    <FilesProvider>
                       <BillingProvider>
                         <Router>
                           <AppWrapper>
@@ -127,10 +127,10 @@ const App: React.FC<{}> = () => {
                           </AppWrapper>
                         </Router>
                       </BillingProvider>
-                    </DriveProvider>
+                    </FilesProvider>
                   </UserProvider>
                 </ThresholdKeyProvider>
-              </ImployApiProvider>
+              </FilesApiProvider>
             </Web3Provider>
           </ToasterProvider>
         </LanguageProvider>

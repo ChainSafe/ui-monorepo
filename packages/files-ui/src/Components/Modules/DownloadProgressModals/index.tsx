@@ -1,6 +1,6 @@
 import React from "react"
 import { createStyles, ITheme, makeStyles } from "@chainsafe/common-theme"
-import { useDrive } from "../../../Contexts/DriveContext"
+import { useFiles } from "../../../Contexts/FilesContext"
 import DownloadBox from "./DownloadBox"
 
 const useStyles = makeStyles(({ constants, zIndex, breakpoints }: ITheme) => {
@@ -25,7 +25,9 @@ const useStyles = makeStyles(({ constants, zIndex, breakpoints }: ITheme) => {
 
 const DownloadProgressModals: React.FC = () => {
   const classes = useStyles()
-  const { downloadsInProgress } = useDrive()
+  const { downloadsInProgress } = useFiles()
+
+  if (downloadsInProgress.length === 0) { return null }
 
   return (
     <div className={classes.root}>

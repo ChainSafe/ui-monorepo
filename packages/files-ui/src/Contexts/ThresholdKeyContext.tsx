@@ -9,7 +9,7 @@ import ShareSerializationModule, { SHARE_SERIALIZATION_MODULE_NAME } from "@tkey
 import { ServiceProviderBase } from "@tkey/service-provider-base"
 import { TorusStorageLayer } from "@tkey/storage-layer-torus"
 import bowser from "bowser"
-import { useImployApi } from "@chainsafe/common-contexts"
+import { useFilesApi } from "@chainsafe/common-contexts"
 import { utils, Wallet } from "ethers"
 import EthCrypto from "eth-crypto"
 import { useWeb3 } from "@chainsafe/web3-context"
@@ -123,7 +123,7 @@ const getProviderSpecificParams = (loginType: LOGIN_TYPE):
 }
 
 const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = false, apiKey }: ThresholdKeyProviderProps) => {
-  const { imployApiClient, thresholdKeyLogin, logout } = useImployApi()
+  const { filesApiClient, thresholdKeyLogin, logout } = useFilesApi()
   const { provider, isReady, checkIsReady, address } = useWeb3()
   const [userInfo, setUserInfo] = useState<TorusLoginResponse | undefined>()
   const [TKeySdk, setTKeySdk] = useState<ThresholdKey | undefined>()
@@ -506,19 +506,19 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
         addressToUse = await signer.getAddress()
       }
 
-      const { token } = await imployApiClient.getIdentityWeb3Token(addressToUse)
+      const { token } = await filesApiClient.getIdentityWeb3Token(addressToUse)
 
       if (!token) throw new Error("Token undefined")
 
       setStatus("awaiting confirmation")
       const signature = await signer.signMessage(token)
       setStatus("logging in")
-      const web3IdentityToken = await imployApiClient.postIdentityWeb3Token({
+      const web3IdentityToken = await filesApiClient.postIdentityWeb3Token({
         signature: signature,
         token: token,
         public_address: addressToUse
       })
-      const uuidToken = await imployApiClient.generateServiceIdentityToken({
+      const uuidToken = await filesApiClient.generateServiceIdentityToken({
         identity_provider: loginType,
         identity_token: web3IdentityToken.token || ""
       })
@@ -541,7 +541,7 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
       const oauthIdToken = await loginHandler.handleLoginWindow({})
       setStatus("logging in")
       const userInfo = await loginHandler.getUserInfo(oauthIdToken)
-      const uuidToken = await imployApiClient.generateServiceIdentityToken({
+      const uuidToken = await filesApiClient.generateServiceIdentityToken({
         identity_provider: loginType,
         identity_token: oauthIdToken.idToken || oauthIdToken.accessToken
       })

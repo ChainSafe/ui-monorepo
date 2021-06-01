@@ -9,7 +9,7 @@ import {
   MoreIcon
 } from "@chainsafe/common-components"
 import { CSFTheme } from "../../../../../Themes/types"
-import { FileSystemItem } from "../../../../../Contexts/DriveContext"
+import { FileSystemItem } from "../../../../../Contexts/FilesContext"
 import { ConnectDragPreview } from "react-dnd"
 import { Form, Formik } from "formik"
 
@@ -48,7 +48,7 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => 
         height: constants.generalUnit * 16
       },
       "&.highlighted": {
-        border: `1px solid ${palette.additional["geekblue"][6]}`
+        border: `1px solid ${palette.primary.main}`
       }
     },
     renameInput: {
@@ -149,7 +149,6 @@ const FileSystemGridItem = React.forwardRef(
     renameSchema,
     setEditing,
     handleRename,
-    currentPath,
     menuItems,
     resetSelectedFiles,
     preview
@@ -211,11 +210,11 @@ const FileSystemGridItem = React.forwardRef(
               }}
               validationSchema={renameSchema}
               onSubmit={(values) => {
-                handleRename && handleRename(
-                  `${currentPath}${name}`,
-                  `${currentPath}${values.fileName}`
-                )
-                setEditing(undefined)
+                handleRename &&
+                  handleRename(
+                    file.cid,
+                    values.fileName
+                  )
               }}
             >
               <Form className={classes.desktopRename}>
@@ -229,8 +228,8 @@ const FileSystemGridItem = React.forwardRef(
                     }
                   }}
                   placeholder = {isFolder
-                    ? t`Please enter a file name`
-                    : t`Please enter a folder name`
+                    ? t`Please enter a folder name`
+                    : t`Please enter a file name`
                   }
                   autoFocus={editing === cid}
                 />

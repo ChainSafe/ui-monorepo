@@ -17,7 +17,7 @@ import {
 } from "@chainsafe/common-components"
 import { CSFTheme } from "../../../../../Themes/types"
 import dayjs from "dayjs"
-import { FileSystemItem } from "../../../../../Contexts/DriveContext"
+import { FileSystemItem } from "../../../../../Contexts/FilesContext"
 import { ConnectDragPreview } from "react-dnd"
 import { Form, Formik } from "formik"
 
@@ -35,7 +35,7 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => 
         gridTemplateColumns: mobileGridSettings
       },
       "&.droppable": {
-        border: `2px solid ${palette.additional["geekblue"][6]}`
+        border: `2px solid ${palette.primary.main}`
       }
     },
     fileIcon: {
@@ -138,7 +138,6 @@ const FileSystemTableItem = React.forwardRef(
     renameSchema,
     setEditing,
     handleRename,
-    currentPath,
     menuItems
   }: IFileSystemTableItemProps, forwardedRef: any) => {
     const classes = useStyles()
@@ -171,6 +170,7 @@ const FileSystemTableItem = React.forwardRef(
           {icon}
         </TableCell>
         <TableCell
+          data-cy="file-item-name"
           ref={preview}
           align="left"
           className={clsx(classes.filename, desktop && editing === cid && "editing")}
@@ -184,14 +184,16 @@ const FileSystemTableItem = React.forwardRef(
               validationSchema={renameSchema}
               onSubmit={(values) => {
                 handleRename &&
-                handleRename(
-                  `${currentPath}${name}`,
-                  `${currentPath}${values.fileName}`
-                )
-                setEditing(undefined)
+                  handleRename(
+                    file.cid,
+                    values.fileName
+                  )
               }}
             >
-              <Form className={classes.desktopRename}>
+              <Form
+                className={classes.desktopRename}
+                data-cy='rename-form'
+              >
                 <FormikTextInput
                   className={classes.renameInput}
                   name="fileName"
@@ -202,12 +204,13 @@ const FileSystemTableItem = React.forwardRef(
                     }
                   }}
                   placeholder = {isFolder
-                    ? t`Please enter a file name`
-                    : t`Please enter a folder name`
+                    ? t`Please enter a folder name`
+                    : t`Please enter a file name`
                   }
                   autoFocus={editing === cid}
                 />
                 <Button
+                  data-cy='rename-submit-button'
                   variant="dashed"
                   size="small"
                   type="submit"
@@ -224,7 +227,7 @@ const FileSystemTableItem = React.forwardRef(
           <>
             <TableCell align="left">
               {
-                created_at && dayjs.unix(created_at).format("DD MMM YYYY h:mm a")
+                !isFolder && !!created_at && dayjs.unix(created_at).format("DD MMM YYYY h:mm a")
               }
             </TableCell>
             <TableCell align="left">
@@ -234,6 +237,7 @@ const FileSystemTableItem = React.forwardRef(
         )}
         <TableCell align="right">
           <MenuDropdown
+            testId='fileDropdown'
             animation="none"
             anchor={desktop ? "bottom-center" : "bottom-right"}
             menuItems={menuItems}

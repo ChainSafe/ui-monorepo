@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from "react"
-import { useImployApi, useUser } from "@chainsafe/common-contexts"
+import { useFilesApi, useUser } from "@chainsafe/common-contexts"
 import { createStyles, makeStyles, useThemeSwitcher } from "@chainsafe/common-theme"
 import clsx from "clsx"
 import {
@@ -154,7 +154,7 @@ interface IAppHeader {
 const AppHeader = ({ navOpen, setNavOpen }: IAppHeader) => {
   const { desktop } = useThemeSwitcher()
   const classes = useStyles()
-  const { isLoggedIn, secured } = useImployApi()
+  const { isLoggedIn, secured } = useFilesApi()
   const { publicKey, isNewDevice, shouldInitializeAccount, logout } = useThresholdKey()
   const { getProfileTitle, removeUser } = useUser()
   const [searchActive, setSearchActive] = useState(false)
@@ -227,7 +227,8 @@ const AppHeader = ({ navOpen, setNavOpen }: IAppHeader) => {
                   <HamburgerMenu
                     onClick={() => setNavOpen(!navOpen)}
                     variant={navOpen ? "active" : "default"}
-                    className={clsx(classes.hamburgerMenu, "hamburger-menu")}
+                    className={clsx(classes.hamburgerMenu)}
+                    testId="hamburger-menu"
                   />
                   <Link
                     className={classes.logo}

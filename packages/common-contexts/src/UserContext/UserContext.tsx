@@ -1,6 +1,6 @@
 import * as React from "react"
 import { useCallback, useEffect } from "react"
-import { useImployApi } from "../ImployApiContext"
+import { useFilesApi } from "../FilesApiContext"
 import { useState } from "react"
 
 type UserContextProps = {
@@ -8,6 +8,7 @@ type UserContextProps = {
 }
 
 export type Profile = {
+  userId: string
   firstName?: string
   lastName?: string
   publicAddress?: string
@@ -30,15 +31,16 @@ interface IUserContext {
 const UserContext = React.createContext<IUserContext | undefined>(undefined)
 
 const UserProvider = ({ children }: UserContextProps) => {
-  const { imployApiClient, isLoggedIn } = useImployApi()
+  const { filesApiClient, isLoggedIn } = useFilesApi()
 
   const [profile, setProfile] = useState<Profile | undefined>(undefined)
 
   const refreshProfile = useCallback(async () => {
     try {
-      const profileApiData = await imployApiClient.getUser()
+      const profileApiData = await filesApiClient.getUser()
 
       const profileState = {
+        userId: profileApiData.uuid,
         firstName: profileApiData.first_name,
         lastName: profileApiData.last_name,
         email: profileApiData.email,
@@ -50,7 +52,7 @@ const UserProvider = ({ children }: UserContextProps) => {
     } catch (error) {
       return Promise.reject("There was an error getting profile.")
     }
-  }, [imployApiClient])
+  }, [filesApiClient])
 
   useEffect(() => {
     if (isLoggedIn) {
@@ -63,13 +65,14 @@ const UserProvider = ({ children }: UserContextProps) => {
     if (!profile) return Promise.reject("Profile not initialized")
 
     try {
-      const profileData = await imployApiClient.updateUser({
+      const profileData = await filesApiClient.updateUser({
         first_name: firstName || "",
         last_name: lastName || "",
         email: profile.email || ""
       })
 
       setProfile({
+        ...profile,
         firstName: profileData.first_name,
         lastName: profileData.last_name,
         email: profileData.email,

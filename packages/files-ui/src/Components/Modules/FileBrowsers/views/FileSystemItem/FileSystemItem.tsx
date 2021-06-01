@@ -16,9 +16,7 @@ import {
   ExportSvg,
   ShareAltSvg,
   ExclamationCircleInverseSvg,
-  ZoomInSvg,
-  useHistory
-} from "@chainsafe/common-components"
+  ZoomInSvg } from "@chainsafe/common-components"
 import { makeStyles, createStyles, useDoubleClick, useThemeSwitcher } from "@chainsafe/common-theme"
 import { Formik, Form } from "formik"
 import CustomModal from "../../../../Elements/CustomModal"
@@ -30,7 +28,7 @@ import { BrowserView, FileOperation } from "../../types"
 import { CSFTheme } from "../../../../../Themes/types"
 import FileItemTableItem from "./FileSystemTableItem"
 import FileItemGridItem from "./FileSystemGridItem"
-import { FileSystemItem } from "../../../../../Contexts/DriveContext"
+import { FileSystemItem as FileSystemItemType } from "../../../../../Contexts/FilesContext"
 import { useFileBrowser } from "../../../../../Contexts/FileBrowserContext"
 
 const useStyles = makeStyles(({ breakpoints, constants }: CSFTheme) => {
@@ -100,18 +98,18 @@ const useStyles = makeStyles(({ breakpoints, constants }: CSFTheme) => {
   })
 })
 
-interface IFileSystemItemRowProps {
+interface IFileSystemItemProps {
   index: number
-  file: FileSystemItem
-  files: FileSystemItem[]
+  file: FileSystemItemType
+  files: FileSystemItemType[]
   selected: string[]
   handleSelectCid(selectedCid: string): void
   handleAddToSelectedCids(selectedCid: string): void
   editing: string | undefined
   setEditing(editing: string | undefined): void
   renameSchema: any
-  handleRename?: (path: string, newPath: string) => Promise<void>
-  handleMove?: (path: string, newPath: string) => Promise<void>
+  handleRename?: (cid: string, newName: string) => Promise<void>
+  handleMove?: (cid: string, newPath: string) => Promise<void>
   deleteFile?: () => void
   recoverFile?: (cid: string) => void
   viewFolder?: (cid: string) => void
@@ -123,7 +121,7 @@ interface IFileSystemItemRowProps {
   browserView: BrowserView
 }
 
-const FileSystemItemRow = ({
+const FileSystemItem = ({
   file,
   files,
   selected,
@@ -142,8 +140,8 @@ const FileSystemItemRow = ({
   itemOperations,
   browserView,
   resetSelectedFiles
-}: IFileSystemItemRowProps) => {
-  const { downloadFile, currentPath, handleUploadOnDrop, moduleRootPath, handleMove } = useFileBrowser()
+}: IFileSystemItemProps) => {
+  const { downloadFile, currentPath, handleUploadOnDrop, moveItems } = useFileBrowser()
   const { cid, name, isFolder, content_type } = file
   let Icon
   if (isFolder) {
@@ -159,14 +157,13 @@ const FileSystemItemRow = ({
   const { desktop } = useThemeSwitcher()
   const classes = useStyles()
 
-  const { redirect } = useHistory()
 
   const allMenuItems: Record<FileOperation, IMenuItem> = {
     rename: {
       contents: (
         <>
           <EditSvg className={classes.menuIcon} />
-          <span>
+          <span data-cy="menu-rename">
             <Trans>Rename</Trans>
           </span>
         </>
@@ -177,7 +174,7 @@ const FileSystemItemRow = ({
       contents: (
         <>
           <DeleteSvg className={classes.menuIcon} />
-          <span>
+          <span data-cy="menu-delete">
             <Trans>Delete</Trans>
           </span>
         </>
@@ -188,7 +185,7 @@ const FileSystemItemRow = ({
       contents: (
         <>
           <DownloadSvg className={classes.menuIcon} />
-          <span>
+          <span data-cy="menu-download">
             <Trans>Download</Trans>
           </span>
         </>
@@ -199,7 +196,7 @@ const FileSystemItemRow = ({
       contents: (
         <>
           <ExportSvg className={classes.menuIcon} />
-          <span>
+          <span data-cy="menu-move">
             <Trans>Move</Trans>
           </span>
         </>
@@ -210,7 +207,7 @@ const FileSystemItemRow = ({
       contents: (
         <>
           <ShareAltSvg className={classes.menuIcon} />
-          <span>
+          <span data-cy="menu-share">
             <Trans>Share</Trans>
           </span>
         </>
@@ -221,7 +218,7 @@ const FileSystemItemRow = ({
       contents: (
         <>
           <ExclamationCircleInverseSvg className={classes.menuIcon} />
-          <span>
+          <span data-cy="menu-info">
             <Trans>Info</Trans>
           </span>
         </>
@@ -232,7 +229,7 @@ const FileSystemItemRow = ({
       contents: (
         <>
           <RecoverSvg className={classes.menuIcon} />
-          <span>
+          <span data-cy="menu-recover">
             <Trans>Recover</Trans>
           </span>
         </>
@@ -243,7 +240,7 @@ const FileSystemItemRow = ({
       contents: (
         <>
           <ZoomInSvg className={classes.menuIcon} />
-          <span>
+          <span data-cy="menu-preview">
             <Trans>Preview</Trans>
           </span>
         </>
@@ -254,7 +251,7 @@ const FileSystemItemRow = ({
       contents: (
         <>
           <EyeSvg className={classes.menuIcon} />
-          <span>
+          <span data-cy="view-folder">
             <Trans>View folder</Trans>
           </span>
         </>
@@ -294,14 +291,7 @@ const FileSystemItemRow = ({
     accept: DragTypes.MOVABLE_FILE,
     canDrop: () => isFolder,
     drop: (item: {ids: string[]}) => {
-      item.ids.forEach((cid) => {
-        const fileToMove = files.find(f => f.cid === cid)
-        handleMove && fileToMove &&
-        handleMove(
-          `${currentPath}${fileToMove.name}`,
-          `${currentPath}${name}/${fileToMove.name}`
-        )
-      })
+      moveItems && moveItems(item.ids, `${currentPath}${name}/`)
     },
     collect: (monitor) => ({
       isOverMove: monitor.isOver()
@@ -329,16 +319,6 @@ const FileSystemItemRow = ({
     dragMoveRef(fileOrFolderRef)
   }
 
-  const onFolderNavigation = useCallback(() => {
-    resetSelectedFiles()
-    if (!moduleRootPath) {
-      console.debug("Module root path not set")
-      return
-    }
-    const newPath = `${moduleRootPath}${currentPath}${encodeURI(name)}`
-    redirect(newPath)
-  }, [currentPath, name, redirect, moduleRootPath, resetSelectedFiles])
-
   const onFilePreview = useCallback(() => {
     setPreviewFileIndex(files?.indexOf(file))
   }, [file, files, setPreviewFileIndex])
@@ -355,13 +335,13 @@ const FileSystemItemRow = ({
       } else {
         // on mobile
         if (isFolder) {
-          onFolderNavigation()
+          viewFolder && viewFolder(file.cid)
         } else {
           onFilePreview()
         }
       }
     },
-    [cid, handleSelectCid, handleAddToSelectedCids, desktop, isFolder, onFolderNavigation, onFilePreview]
+    [cid, handleSelectCid, handleAddToSelectedCids, desktop, isFolder, viewFolder, file, onFilePreview]
   )
 
   const onDoubleClick = useCallback(
@@ -369,7 +349,7 @@ const FileSystemItemRow = ({
       if (desktop) {
         // on desktop
         if (isFolder) {
-          onFolderNavigation()
+          viewFolder && viewFolder(file.cid)
         } else {
           onFilePreview()
         }
@@ -378,7 +358,7 @@ const FileSystemItemRow = ({
         return
       }
     },
-    [desktop, onFolderNavigation, onFilePreview, isFolder]
+    [desktop, viewFolder, file, onFilePreview, isFolder]
   )
 
   const { click } = useDoubleClick(onSingleClick, onDoubleClick)
@@ -435,10 +415,9 @@ const FileSystemItemRow = ({
                 onSubmit={(values) => {
                   handleRename &&
                   handleRename(
-                    `${currentPath}${name}`,
-                    `${currentPath}${values.fileName}`
+                    file.cid,
+                    values.fileName
                   )
-                  setEditing(undefined)
                 }}
               >
                 <Form className={classes.renameModal}>
@@ -488,4 +467,4 @@ const FileSystemItemRow = ({
   )
 }
 
-export default FileSystemItemRow
+export default FileSystemItem

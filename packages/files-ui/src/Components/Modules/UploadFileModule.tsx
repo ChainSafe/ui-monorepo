@@ -1,5 +1,5 @@
 import { Button, FileInput } from "@chainsafe/common-components"
-import { useDrive } from "../../Contexts/DriveContext"
+import { useFiles } from "../../Contexts/FilesContext"
 import { createStyles, makeStyles } from "@chainsafe/common-theme"
 import React, { useCallback, useState } from "react"
 import { Formik, Form } from "formik"
@@ -77,8 +77,8 @@ interface IUploadFileModuleProps {
 const UploadFileModule = ({ modalOpen, close }: IUploadFileModuleProps) => {
   const classes = useStyles()
   const [isDoneDisabled, setIsDoneDisabled] = useState(true)
-  const { uploadFiles } = useDrive()
-  const { currentPath, refreshContents } = useFileBrowser()
+  const { uploadFiles } = useFiles()
+  const { currentPath, refreshContents, bucket } = useFileBrowser()
 
   const UploadSchema = object().shape({ files: array().required(t`Please select a file to upload`) })
 
@@ -87,12 +87,13 @@ const UploadFileModule = ({ modalOpen, close }: IUploadFileModuleProps) => {
   }, [])
 
   const onSubmit = useCallback(async (values, helpers) => {
+    if (!bucket) return
     helpers.setSubmitting(true)
     try {
-      await uploadFiles(values.files, currentPath)
-      helpers.resetForm()
-      refreshContents && refreshContents()
       close()
+      await uploadFiles(bucket.id, values.files, currentPath)
+      refreshContents && refreshContents()
+      helpers.resetForm()
     } catch (errors) {
       if (errors[0].message.includes("conflict with existing")) {
         helpers.setFieldError("files", "File/Folder exists")
@@ -101,7 +102,7 @@ const UploadFileModule = ({ modalOpen, close }: IUploadFileModuleProps) => {
       }
     }
     helpers.setSubmitting(false)
-  }, [close, currentPath, uploadFiles, refreshContents])
+  }, [close, currentPath, uploadFiles, refreshContents, bucket])
 
   return (
     <CustomModal
@@ -125,7 +126,7 @@ const UploadFileModule = ({ modalOpen, close }: IUploadFileModuleProps) => {
             multiple={true}
             className={classes.input}
             classNames={{
-              closeIcon: clsx(classes.closeIcon, "removeFileIcon"),
+              closeIcon: classes.closeIcon,
               filelist: classes.fileList,
               item: classes.item,
               addFiles: classes.addFiles
@@ -135,6 +136,7 @@ const UploadFileModule = ({ modalOpen, close }: IUploadFileModuleProps) => {
             maxSize={2 * 1024 ** 3}
             name="files"
             onFileNumberChange={onFileNumberChange}
+            testId="fileUpload"
           />
           <footer className={classes.footer}>
             <Button
