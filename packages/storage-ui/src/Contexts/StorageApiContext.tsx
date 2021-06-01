@@ -299,7 +299,6 @@ const StorageApiProvider = ({ apiUrl, withLocalStorage = true, children }: Stora
     }
     const signer = provider.getSigner()
     try {
-      debugger
       const { token } = await filesApiClient.getWeb3Token()
 
       if (token) {
