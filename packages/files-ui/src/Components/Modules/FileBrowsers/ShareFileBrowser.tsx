@@ -1,77 +1,58 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react"
 import { Crumb, useToaster, useHistory, useLocation } from "@chainsafe/common-components"
-import { useDrive, FileSystemItem, BucketType } from "../../../Contexts/DriveContext"
-import { extractDrivePath, getArrayOfPaths, getPathFromArray, getPathWithFile } from "../../../Utils/pathUtils"
-import { IBulkOperations, IFilesBrowserModuleProps, IFilesTableBrowserProps } from "./types"
-import FilesTableView from "./views/FilesTable.view"
+import { useFiles, FileSystemItem } from "../../../Contexts/FilesContext"
+import { getArrayOfPaths, getURISafePathFromArray, getPathWithFile, extractFileBrowserPathFromURL } from "../../../Utils/pathUtils"
+import { IBulkOperations, IFileBrowserModuleProps, IFilesTableBrowserProps } from "./types"
+import FilesList from "./views/FilesList"
 import { CONTENT_TYPES } from "../../../Utils/Constants"
 import DragAndDrop from "../../../Contexts/DnDContext"
 import { t } from "@lingui/macro"
-import { guessContentType } from "../../../Utils/contentTypeGuesser"
 import { ROUTE_LINKS } from "../../FilesRoutes"
 import dayjs from "dayjs"
-import { useUser } from "@chainsafe/common-contexts"
+import { useUser, useFilesApi } from "@chainsafe/common-contexts"
 import { useLocalStorage } from "@chainsafe/browser-storage-hooks"
 import { DISMISSED_SURVEY_KEY } from "../../SurveyBanner"
 import { FileBrowserContext } from "../../../Contexts/FileBrowserContext"
+import { parseFileContentResponse } from "../../../Utils/Helpers"
 
-const ShareFileBrowser: React.FC<IFilesBrowserModuleProps> = () => {
+const CSFFileBrowser: React.FC<IFileBrowserModuleProps> = () => {
   const {
     downloadFile,
-    renameFile,
-    moveFile,
     uploadFiles,
-    moveCSFObject,
     uploadsInProgress,
-    list
-  } = useDrive()
+    buckets
+  } = useFiles()
+  const { filesApiClient } = useFilesApi()
   const { addToastMessage } = useToaster()
   const [loadingCurrentPath, setLoadingCurrentPath] = useState(false)
   const [pathContents, setPathContents] = useState<FileSystemItem[]>([])
-  const bucketType: BucketType = "csf"
   const { redirect } = useHistory()
 
   const { pathname } = useLocation()
-  const [currentPath, setCurrentPath] = useState(extractDrivePath(pathname.split("/").slice(1).join("/")))
-  const refreshContents = useCallback(
-    (
-      path: string,
-      showLoading?: boolean
-    ) => {
-      try {
-        showLoading && setLoadingCurrentPath(true)
-        list({
-          path,
-          source: {
-            type: bucketType
-          }
-        }).then((newContents) => {
-          showLoading && setLoadingCurrentPath(false)
-
-          // Remove this when the API returns dates
-          setPathContents(
-            newContents.map((fcr) => ({
-              ...fcr,
-              content_type:
-                fcr.content_type !== "application/octet-stream"
-                  ? fcr.content_type
-                  : guessContentType(fcr.name),
-              isFolder:
-                fcr.content_type === "application/chainsafe-files-directory"
-            }))
-          )
-        }).catch(error => {
-          throw error
-        })
-      } catch (error) {
-        console.error(error)
-        showLoading && setLoadingCurrentPath(false)
-      }
-    },
-    [bucketType, list]
+  const currentPath = useMemo(() =>
+    extractFileBrowserPathFromURL(pathname, ROUTE_LINKS.Drive("")),
+  [pathname]
   )
+  const bucket = useMemo(() => buckets.find(b => b.type === "csf"), [buckets])
+
+  const refreshContents = useCallback((showLoading?: boolean) => {
+    if (!bucket) return
+    showLoading && setLoadingCurrentPath(true)
+    filesApiClient.getFPSChildList(bucket.id, { path: currentPath })
+      .then((newContents) => {
+        showLoading && setLoadingCurrentPath(false)
+
+        setPathContents(
+          newContents.map((fcr) => parseFileContentResponse(fcr))
+        )
+      }).catch(error => {
+        console.error(error)
+      }).finally(() => showLoading && setLoadingCurrentPath(false))
+  }, [bucket, filesApiClient, currentPath])
+
   const { localStorageGet, localStorageSet } = useLocalStorage()
   const { profile } = useUser()
+
   const showSurvey = localStorageGet(DISMISSED_SURVEY_KEY) === "false"
 
   const olderThanOneWeek = useMemo(
@@ -89,103 +70,93 @@ const ShareFileBrowser: React.FC<IFilesBrowserModuleProps> = () => {
   }, [localStorageGet, localStorageSet])
 
   useEffect(() => {
-    refreshContents(currentPath, true)
-    // eslint-disable-next-line
-  }, [])
+    refreshContents(true)
+  }, [bucket, refreshContents])
 
-  useEffect(() => {
-    let drivePath = extractDrivePath(pathname)
-    if (drivePath[0] !== "/") {
-      drivePath = "/" + drivePath
-    }
-    if (drivePath !== currentPath) {
-      setCurrentPath(decodeURI(drivePath))
-      refreshContents(decodeURI(drivePath), true)
-    }
-  }, [refreshContents, pathname, currentPath])
-
-  // From drive
-  const moveFileToTrash = useCallback(async (cid: string) => {
-    const itemToDelete = pathContents.find((i) => i.cid === cid)
-
-    if (!itemToDelete) {
-      console.error("No item found to move to the trash")
-      return
-    }
-
-    try {
-      await moveCSFObject({
-        path: getPathWithFile(currentPath, itemToDelete.name),
-        new_path: getPathWithFile("/", itemToDelete.name),
-        destination: {
-          type: "trash"
-        }
-      })
-      refreshContents(currentPath)
-      const message = `${
-        itemToDelete.isFolder ? t`Folder` : t`File`
-      } ${t`deleted successfully`}`
-      addToastMessage({
-        message: message,
-        appearance: "success"
-      })
-      return Promise.resolve()
-    } catch (error) {
-      const message = `${t`There was an error deleting this`} ${
-        itemToDelete.isFolder ? t`folder` : t`file`
-      }`
-      addToastMessage({
-        message: message,
-        appearance: "error"
-      })
-      return Promise.reject()
-    }
-  }, [addToastMessage, currentPath, pathContents, refreshContents, moveCSFObject])
-
-  const moveFilesToTrash = useCallback(async (cids: string[]) => {
+  const moveItemsToBin = useCallback(async (cids: string[]) => {
+    if (!bucket) return
     await Promise.all(
-      cids.map((cid: string) =>
-        moveFileToTrash(cid)
-      ))
-    await refreshContents(currentPath)
-  }, [moveFileToTrash, refreshContents, currentPath])
+      cids.map(async (cid: string) => {
+        const itemToDelete = pathContents.find((i) => i.cid === cid)
+        if (!itemToDelete) {
+          console.error("No item found to move to the trash")
+          return
+        }
+
+        try {
+          await filesApiClient.moveFPSObject(bucket.id, {
+            path: getPathWithFile(currentPath, itemToDelete.name),
+            new_path: getPathWithFile("/", itemToDelete.name),
+            destination: {
+              type: "trash"
+            }
+          })
+          const message = `${
+            itemToDelete.isFolder ? t`Folder` : t`File`
+          } ${t`deleted successfully`}`
+          addToastMessage({
+            message: message,
+            appearance: "success"
+          })
+          return Promise.resolve()
+        } catch (error) {
+          const message = `${t`There was an error deleting this`} ${
+            itemToDelete.isFolder ? t`folder` : t`file`
+          }`
+          addToastMessage({
+            message: message,
+            appearance: "error"
+          })
+          return Promise.reject()
+        }}
+      )).finally(refreshContents)
+  }, [addToastMessage, currentPath, pathContents, refreshContents, filesApiClient, bucket])
 
   // Rename
-  const handleRename = useCallback(async (path: string, newPath: string) => {
-    // TODO set loading
-    await renameFile({ path: path, new_path: newPath })
-    await refreshContents(currentPath)
-  }, [renameFile, currentPath, refreshContents])
+  const renameItem = useCallback(async (cid: string, newName: string) => {
+    const itemToRename = pathContents.find(i => i.cid === cid)
+    if (!bucket || !itemToRename) return
 
-  const handleMove = useCallback(async (path: string, new_path: string) => {
-    // TODO set loading
-    await moveFile({
-      path: path,
-      new_path: new_path
-    })
-    await refreshContents(currentPath)
-  }, [moveFile, refreshContents, currentPath])
+    filesApiClient.moveFPSObject(bucket.id, {
+      path: getPathWithFile(currentPath, itemToRename.name),
+      new_path: getPathWithFile(currentPath, newName) }).then(() => refreshContents())
+      .catch(console.error)
+  }, [refreshContents, filesApiClient, bucket, currentPath, pathContents])
+
+  const moveItems = useCallback(async (cids: string[], newPath: string) => {
+    if (!bucket) return
+    await Promise.all(
+      cids.map(async (cid: string) => {
+        const itemToMove = pathContents.find(i => i.cid === cid)
+        if (!bucket || !itemToMove) return
+        await filesApiClient.moveFPSObject(bucket.id, {
+          path: getPathWithFile(currentPath, itemToMove.name),
+          new_path: getPathWithFile(newPath, itemToMove.name)
+        })
+      })).finally(refreshContents)
+  }, [refreshContents, filesApiClient, bucket, currentPath, pathContents])
 
   const handleDownload = useCallback(async (cid: string) => {
-    const target = pathContents.find(item => item.cid === cid)
-    if (!target) return
+    const itemToDownload = pathContents.find(item => item.cid === cid)
+    if (!itemToDownload || !bucket) return
 
-    await downloadFile(target, currentPath, bucketType)
-  }, [pathContents, downloadFile, currentPath, bucketType])
-
+    downloadFile(bucket.id, itemToDownload, currentPath)
+  }, [pathContents, downloadFile, currentPath, bucket])
 
   // Breadcrumbs/paths
   const arrayOfPaths = useMemo(() => getArrayOfPaths(currentPath), [currentPath])
   const crumbs: Crumb[] = useMemo(() => arrayOfPaths.map((path, index) => ({
-    text: path,
-    onClick: () =>
+    text: decodeURIComponent(path),
+    onClick: () => {
       redirect(
-        ROUTE_LINKS.Drive(encodeURI(encodeURI(getPathFromArray(arrayOfPaths.slice(0, index + 1)))))
+        ROUTE_LINKS.Drive(getURISafePathFromArray(arrayOfPaths.slice(0, index + 1)))
       )
+    }
   })), [arrayOfPaths, redirect])
 
 
   const handleUploadOnDrop = useCallback(async (files: File[], fileItems: DataTransferItemList, path: string) => {
+    if (!bucket) return
     let hasFolder = false
     for (let i = 0; i < files.length; i++) {
       if (fileItems[i].webkitGetAsEntry().isDirectory) {
@@ -198,18 +169,18 @@ const ShareFileBrowser: React.FC<IFilesBrowserModuleProps> = () => {
         appearance: "error"
       })
     } else {
-      await uploadFiles(files, path)
-      // refresh contents
-      // using reducer because user may navigate to other paths
-      // need to check currentPath and upload path is same
-      refreshContents(currentPath)
+      uploadFiles(bucket.id, files, path).then(() => refreshContents()).catch(console.error)
     }
-  }, [addToastMessage, uploadFiles, currentPath, refreshContents])
+  }, [addToastMessage, uploadFiles, bucket, refreshContents])
 
   const viewFolder = useCallback((cid: string) => {
     const fileSystemItem = pathContents.find(f => f.cid === cid)
     if (fileSystemItem && fileSystemItem.content_type === CONTENT_TYPES.Directory) {
-      redirect(ROUTE_LINKS.Drive(`${currentPath}${fileSystemItem.name}`))
+      let urlSafePath =  getURISafePathFromArray(getArrayOfPaths(currentPath))
+      if (urlSafePath === "/") {
+        urlSafePath = ""
+      }
+      redirect(ROUTE_LINKS.Drive(`${urlSafePath}/${encodeURIComponent(`${fileSystemItem.name}`)}`))
     }
   }, [currentPath, pathContents, redirect])
 
@@ -230,15 +201,16 @@ const ShareFileBrowser: React.FC<IFilesBrowserModuleProps> = () => {
 
   return (
     <FileBrowserContext.Provider value={{
+      bucket,
       bulkOperations,
       crumbs,
-      moduleRootPath: ROUTE_LINKS.Drive(""),
+      moduleRootPath: ROUTE_LINKS.Drive("/"),
       currentPath,
-      refreshContents:() => refreshContents(currentPath),
-      deleteFiles: moveFilesToTrash,
-      downloadFile:handleDownload,
-      handleMove,
-      handleRename,
+      refreshContents,
+      deleteItems: moveItemsToBin,
+      downloadFile: handleDownload,
+      moveItems,
+      renameItem: renameItem,
       viewFolder,
       handleUploadOnDrop,
       uploadsInProgress,
@@ -246,17 +218,16 @@ const ShareFileBrowser: React.FC<IFilesBrowserModuleProps> = () => {
       showUploadsInTable: true,
       sourceFiles: pathContents,
       heading: t`My Files`,
-      bucketType,
       controls: true,
       allowDropUpload: true,
       itemOperations,
       withSurvey: showSurvey && olderThanOneWeek
     }}>
       <DragAndDrop>
-        <FilesTableView />
+        <FilesList />
       </DragAndDrop>
     </FileBrowserContext.Provider>
   )
 }
 
-export default ShareFileBrowser
+export default CSFFileBrowser
