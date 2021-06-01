@@ -1,9 +1,8 @@
 import { NavigationMenu } from "../support/page-objects/NavigationMenu"
 import { HomePage } from "../support/page-objects/HomePage"
-import { LandingPage } from "../support/page-objects/LandingPage"
+import { landingPage } from "../support/page-objects/LandingPage"
 
 const homePage = new HomePage()
-const landingPage = new LandingPage()
 const navigationMenu = new NavigationMenu()
 
 describe("Main Navigation", () => {
