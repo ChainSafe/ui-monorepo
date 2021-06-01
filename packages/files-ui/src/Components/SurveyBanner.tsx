@@ -6,7 +6,7 @@ import React, { useCallback } from "react"
 import { CSFTheme } from "../Themes/types"
 import { ROUTE_LINKS } from "./FilesRoutes"
 
-const SURVEY_VERSION = 1
+const SURVEY_VERSION = 2
 export const DISMISSED_SURVEY_KEY = `csf.dismissedSurveyBannerV${SURVEY_VERSION}`
 
 const useStyles = makeStyles(
@@ -75,7 +75,7 @@ const SurveyBanner = ({ onHide }: Props) => {
         variant="body1"
         className={classes.banner}>
         <Trans>
-            Help us make Files better in under 30 seconds.
+          Are we on the right track? Let us know is less than 1 minute.
         </Trans>
         <span
           className={classes.link}
