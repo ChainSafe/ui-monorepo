@@ -27,6 +27,8 @@ const DownloadProgressModals: React.FC = () => {
   const classes = useStyles()
   const { downloadsInProgress } = useFiles()
 
+  if (downloadsInProgress.length === 0) { return null }
+
   if (downloadsInProgress.length > 0) {
     return (
       <div className={classes.root}>

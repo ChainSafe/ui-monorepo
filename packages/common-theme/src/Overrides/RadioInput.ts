@@ -5,6 +5,7 @@ export interface IRadioInputOverride {
     root?: Record<string, any>
     checked?: Record<string, any>
     disabled?: Record<string, any>
+    checkedBefore?: Record<string, any>
   }
   label?: Record<string, any>
   labelDisabled?: Record<string, any>

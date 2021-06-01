@@ -7,7 +7,7 @@ import { t } from "@lingui/macro"
 import { CONTENT_TYPES } from "../../../Utils/Constants"
 import { IFilesTableBrowserProps } from "../../Modules/FileBrowsers/types"
 import { useHistory, useLocation, useToaster } from "@chainsafe/common-components"
-import { extractDrivePath, getPathWithFile } from "../../../Utils/pathUtils"
+import { extractFileBrowserPathFromURL, getArrayOfPaths, getPathWithFile, getURISafePathFromArray } from "../../../Utils/pathUtils"
 import { ROUTE_LINKS } from "../../FilesRoutes"
 import { FileBrowserContext } from "../../../Contexts/FileBrowserContext"
 import { useFilesApi } from "@chainsafe/common-contexts"
@@ -20,7 +20,7 @@ const BinFileBrowser: React.FC<IFileBrowserModuleProps> = ({ controls = false }:
   const [loadingCurrentPath, setLoadingCurrentPath] = useState(false)
   const [pathContents, setPathContents] = useState<FileSystemItem[]>([])
   const { pathname } = useLocation()
-  const [currentPath, setCurrentPath] = useState(extractDrivePath(pathname.split("/").slice(1).join("/")))
+  const currentPath = useMemo(() => extractFileBrowserPathFromURL(pathname, ROUTE_LINKS.Bin("")), [pathname])
   const { redirect } = useHistory()
 
   const bucket = useMemo(() => buckets.find(b => b.type === "trash"), [buckets])
@@ -52,27 +52,11 @@ const BinFileBrowser: React.FC<IFileBrowserModuleProps> = ({ controls = false }:
     refreshContents(true)
   }, [bucket, refreshContents])
 
-  useEffect(() => {
-    let binPath = extractDrivePath(pathname)
-    if (binPath[0] !== "/") {
-      binPath = "/" + binPath
-    }
-    if (binPath !== currentPath) {
-      if (binPath === "/") {
-        setCurrentPath(binPath)
-      } else {
-        setCurrentPath(decodeURIComponent(binPath.slice(0, -1)))
-      }
-      refreshContents(true)
-    }
-  }, [refreshContents, pathname, currentPath])
-
-
   const deleteFile = useCallback(async (cid: string) => {
     const itemToDelete = pathContents.find((i) => i.cid === cid)
 
     if (!itemToDelete || !bucket) {
-      console.error("No item found to delete")
+      console.error("Bucket not set or no item found to delete")
       return
     }
 
@@ -104,7 +88,7 @@ const BinFileBrowser: React.FC<IFileBrowserModuleProps> = ({ controls = false }:
     }
   }, [addToastMessage, bucket, currentPath, pathContents, refreshContents, filesApiClient])
 
-  const deleteFiles = useCallback(async (cids: string[]) => {
+  const deleteItems = useCallback(async (cids: string[]) => {
     await Promise.all(
       cids.map((cid: string) =>
         deleteFile(cid)
@@ -114,14 +98,13 @@ const BinFileBrowser: React.FC<IFileBrowserModuleProps> = ({ controls = false }:
 
   const recoverItems = useCallback(async (cids: string[]) => {
     if (!bucket) return Promise.reject()
-
     return Promise.all(
       cids.map(async (cid: string) => {
         const itemToRestore = pathContents.find((i) => i.cid === cid)
-        if (!itemToRestore) throw new Error("Not found")
+        if (!itemToRestore) throw new Error("Item to restore not found")
         try {
           await filesApiClient.moveFPSObject(bucket.id, {
-            path: getPathWithFile("/", itemToRestore.name),
+            path: getPathWithFile(currentPath, itemToRestore.name),
             new_path: getPathWithFile("/", itemToRestore.name),
             destination: {
               type: "csf"
@@ -149,18 +132,15 @@ const BinFileBrowser: React.FC<IFileBrowserModuleProps> = ({ controls = false }:
           return Promise.resolve()
         }
       }))
-  }, [addToastMessage, pathContents, refreshContents, filesApiClient, bucket])
+  }, [addToastMessage, pathContents, refreshContents, filesApiClient, bucket, currentPath])
 
   const viewFolder = useCallback((cid: string) => {
     const fileSystemItem = pathContents.find(f => f.cid === cid)
     if (fileSystemItem && fileSystemItem.content_type === CONTENT_TYPES.Directory) {
-      let urlSafePath
-      if (currentPath !== "/") {
-        urlSafePath = `/${currentPath.slice(1).split("/").map(encodeURIComponent).join("/")}`
-      } else {
+      let urlSafePath =  getURISafePathFromArray(getArrayOfPaths(currentPath))
+      if (urlSafePath === "/") {
         urlSafePath = ""
       }
-      // console.log(ROUTE_LINKS.Bin(`${urlSafePath}/${encodeURIComponent(`${fileSystemItem.name}`)}`))
       redirect(ROUTE_LINKS.Bin(`${urlSafePath}/${encodeURIComponent(`${fileSystemItem.name}`)}`))
     }
   }, [currentPath, pathContents, redirect])
@@ -179,7 +159,7 @@ const BinFileBrowser: React.FC<IFileBrowserModuleProps> = ({ controls = false }:
     <FileBrowserContext.Provider value={{
       bucket: bucket,
       crumbs: undefined,
-      deleteItems: deleteFiles,
+      deleteItems,
       recoverItems,
       currentPath,
       moduleRootPath: ROUTE_LINKS.Bin("/"),

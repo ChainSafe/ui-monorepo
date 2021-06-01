@@ -1,4 +1,4 @@
-name: Cypress Tests with Dependency and Artifact Caching
+name: Cypress tests
 on: pull_request
 jobs:
   cypress-run:
@@ -38,3 +38,17 @@ jobs:
           wait-on-timeout: 120
           # custom test command to run
           command: yarn test:ci:files-ui
+      # store the screenshots if the tests fail
+      - name: Store screenshots 
+        uses: actions/upload-artifact@v1
+        if: failure()
+        with:
+          name: cypress-screenshots
+          path: packages/files-ui/cypress/screenshots
+      # store the videos if the tests fail
+      # - name: Store videos 
+      #   uses: actions/upload-artifact@v1
+      #   if: failure()
+      #   with:
+      #     name: cypress-videos
+      #     path: packages/files-ui/cypress/videos

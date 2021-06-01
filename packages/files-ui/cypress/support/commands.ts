@@ -56,6 +56,7 @@ Cypress.Commands.add("clearCsfBucket", (apiUrlBase: string) => {
           auth: { "bearer": accessToken }
         }).then((res) => {
           const toDelete = res.body.map(({ name }: { name: string }) => `/${name}`)
+          cy.log(`clearCsfBucket - Deleting ${JSON.stringify(toDelete)}`)
           cy.request({
             method: "POST",
             url: `${apiUrlBase}/files/rm`,
@@ -162,12 +163,14 @@ Cypress.Commands.add("web3Login", ({
     }
   })
 
-  cy.get("[data-cy=files-app-header", { timeout: 20000 }).should("be.visible")
+  cy.get("[data-cy=files-app-header]", { timeout: 20000 }).should("be.visible")
 
   cy.saveLocalAndSession()
 
   if (clearCSFBucket) {
     cy.clearCsfBucket(apiUrlBase)
+    cy.reload()
+    cy.get("[data-cy=files-app-header]", { timeout: 20000 }).should("be.visible")
   }
 })
 

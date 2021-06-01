@@ -7,6 +7,7 @@ export interface ITabPaneProps<TabKey = string> {
   iconRight?: ReactNode
   title: string
   tabKey: TabKey
+  testId?: string
 }
 
 const TabPane = <TabKey, >({ children, className }: ITabPaneProps<TabKey>) => {

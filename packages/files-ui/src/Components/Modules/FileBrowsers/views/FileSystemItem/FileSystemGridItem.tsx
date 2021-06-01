@@ -49,7 +49,7 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => 
         height: constants.generalUnit * 16
       },
       "&.highlighted": {
-        border: `1px solid ${palette.additional["geekblue"][6]}`
+        border: `1px solid ${palette.primary.main}`
       }
     },
     renameInput: {
@@ -230,8 +230,8 @@ const FileSystemGridItem = React.forwardRef(
                     }
                   }}
                   placeholder = {isFolder
-                    ? t`Please enter a file name`
-                    : t`Please enter a folder name`
+                    ? t`Please enter a folder name`
+                    : t`Please enter a file name`
                   }
                   autoFocus={editing === cid}
                 />

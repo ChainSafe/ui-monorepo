@@ -163,7 +163,7 @@ const FileSystemItem = ({
       contents: (
         <>
           <EditSvg className={classes.menuIcon} />
-          <span>
+          <span data-cy="menu-rename">
             <Trans>Rename</Trans>
           </span>
         </>
@@ -174,7 +174,7 @@ const FileSystemItem = ({
       contents: (
         <>
           <DeleteSvg className={classes.menuIcon} />
-          <span>
+          <span data-cy="menu-delete">
             <Trans>Delete</Trans>
           </span>
         </>
@@ -185,7 +185,7 @@ const FileSystemItem = ({
       contents: (
         <>
           <DownloadSvg className={classes.menuIcon} />
-          <span>
+          <span data-cy="menu-download">
             <Trans>Download</Trans>
           </span>
         </>
@@ -196,7 +196,7 @@ const FileSystemItem = ({
       contents: (
         <>
           <ExportSvg className={classes.menuIcon} />
-          <span>
+          <span data-cy="menu-move">
             <Trans>Move</Trans>
           </span>
         </>
@@ -207,7 +207,7 @@ const FileSystemItem = ({
       contents: (
         <>
           <ShareAltSvg className={classes.menuIcon} />
-          <span>
+          <span data-cy="menu-share">
             <Trans>Share</Trans>
           </span>
         </>
@@ -218,7 +218,7 @@ const FileSystemItem = ({
       contents: (
         <>
           <ExclamationCircleInverseSvg className={classes.menuIcon} />
-          <span>
+          <span data-cy="menu-info">
             <Trans>Info</Trans>
           </span>
         </>
@@ -229,7 +229,7 @@ const FileSystemItem = ({
       contents: (
         <>
           <RecoverSvg className={classes.menuIcon} />
-          <span>
+          <span data-cy="menu-recover">
             <Trans>Recover</Trans>
           </span>
         </>
@@ -240,7 +240,7 @@ const FileSystemItem = ({
       contents: (
         <>
           <ZoomInSvg className={classes.menuIcon} />
-          <span>
+          <span data-cy="menu-preview">
             <Trans>Preview</Trans>
           </span>
         </>
@@ -251,7 +251,7 @@ const FileSystemItem = ({
       contents: (
         <>
           <EyeSvg className={classes.menuIcon} />
-          <span>
+          <span data-cy="view-folder">
             <Trans>View folder</Trans>
           </span>
         </>
@@ -349,7 +349,6 @@ const FileSystemItem = ({
       if (desktop) {
         // on desktop
         if (isFolder) {
-          debugger
           viewFolder && viewFolder(file.cid)
         } else {
           onFilePreview()

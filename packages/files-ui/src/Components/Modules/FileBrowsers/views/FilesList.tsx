@@ -72,7 +72,7 @@ const useStyles = makeStyles(
           borderRadius: constants.generalUnit / 4,
           minHeight: `calc(100vh - ${Number(constants.contentTopPadding)}px)`,
           "&.droppable": {
-            borderColor: palette.additional["geekblue"][4]
+            borderColor: palette.primary.main
           }
         }
         // transitionDuration: `${animation.transform}ms`,
@@ -424,15 +424,15 @@ const FilesList = () => {
   const invalidFilenameRegex = new RegExp("/")
   const renameSchema = object().shape({
     fileName: string()
-      .min(1, "Please enter a file name")
-      .max(65, "File name length exceeded")
+      .min(1, t`Please enter a name`)
+      .max(65, t`Name too long`)
       .test(
-        "Invalid name",
-        "File name cannot contain '/' character",
+        t`Invalid name`,
+        t`Name cannot contain '/' character`,
         (val: string | null | undefined) =>
           !invalidFilenameRegex.test(val || "")
       )
-      .required("File name is required")
+      .required(t`A name is required`)
   })
 
   const [{ isOverUploadable, isOverBrowser }, dropBrowserRef] = useDrop({
@@ -914,6 +914,7 @@ const FilesList = () => {
                   itemOperations={getItemOperations(file.content_type)}
                   resetSelectedFiles={resetSelectedCids}
                   browserView="table"
+                  recoverFile={() => recoverItems && recoverItems([file.cid])}
                 />
               ))}
             </TableBody>
