@@ -2,6 +2,6 @@ import { BasePage } from "./BasePage"
 
 export class BinPage extends BasePage {
 
-  // TODO: Andrew - add declarations for unique elements
+  // TODO: Andrew - add declarations for unique elements #1086
 
 }
