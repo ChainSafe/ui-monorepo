@@ -5,7 +5,7 @@
 
 ![full-word-stacked](https://user-images.githubusercontent.com/47398578/120363393-1b343f00-c2da-11eb-8578-130f88a0b75b.png)
 
-[ChainSafe Files](https://files.chainsafe.io) is an end-to-end encrypted file storage app that utilizes the [IPFS](https://ipfs.io) and [Filecoin network](https://filecoin.io) to store user data. The UI features similar user experience to that of large cloud storage providers, with added encryption and Web3 login functionalities.
+[ChainSafe Files](https://files.chainsafe.io) is an end-to-end encrypted file storage app that utilizes the [IPFS](https://ipfs.io) and [Filecoin network](https://filecoin.io) to store user data. 
 
 ## Requirements
 
