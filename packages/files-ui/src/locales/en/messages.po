@@ -40,6 +40,9 @@ msgstr "Add more files"
 msgid "Approve"
 msgstr "Approve"
 
+msgid "Are we on the right track? Let us know is less than 1 minute."
+msgstr "Are we on the right track? Let us know is less than 1 minute."
+
 msgid "Backup phrase"
 msgstr "Backup phrase"
 
@@ -241,8 +244,8 @@ msgstr "Great! You’re all done."
 msgid "Hello again!"
 msgstr "Hello again!"
 
-msgid "Help us make Files better in under 30 seconds."
-msgstr "Help us make Files better in under 30 seconds."
+#~ msgid "Help us make Files better in under 30 seconds."
+#~ msgstr "Help us make Files better in under 30 seconds."
 
 msgid "Hey! You only have two sign-in methods. If you lose that and have only one left, you will be locked out of your account forever."
 msgstr "Hey! You only have two sign-in methods. If you lose that and have only one left, you will be locked out of your account forever."
