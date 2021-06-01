@@ -10,10 +10,10 @@ const SURVEY_VERSION = 2
 export const DISMISSED_SURVEY_KEY = `csf.dismissedSurveyBannerV${SURVEY_VERSION}`
 
 const useStyles = makeStyles(
-  ({ constants, palette }: CSFTheme) => {
+  ({ constants }: CSFTheme) => {
     return createStyles({
       root: {
-        backgroundColor: palette.primary.main,
+        background: "linear-gradient(90deg, rgba(81,101,220,1) 0%, rgba(141,157,252,1) 35%, rgba(206,255,209,1) 100%);",
         padding: constants.generalUnit,
         paddingLeft: constants.generalUnit * 2,
         marginTop: constants.generalUnit,
