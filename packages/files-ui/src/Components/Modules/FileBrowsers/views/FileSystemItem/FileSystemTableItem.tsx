@@ -170,6 +170,7 @@ const FileSystemTableItem = React.forwardRef(
           {icon}
         </TableCell>
         <TableCell
+          data-cy="file-item-name"
           ref={preview}
           align="left"
           className={clsx(classes.filename, desktop && editing === cid && "editing")}
@@ -189,7 +190,10 @@ const FileSystemTableItem = React.forwardRef(
                   )
               }}
             >
-              <Form className={classes.desktopRename}>
+              <Form
+                className={classes.desktopRename}
+                data-cy='rename-form'
+              >
                 <FormikTextInput
                   className={classes.renameInput}
                   name="fileName"
@@ -200,12 +204,13 @@ const FileSystemTableItem = React.forwardRef(
                     }
                   }}
                   placeholder = {isFolder
-                    ? t`Please enter a file name`
-                    : t`Please enter a folder name`
+                    ? t`Please enter a folder name`
+                    : t`Please enter a file name`
                   }
                   autoFocus={editing === cid}
                 />
                 <Button
+                  data-cy='rename-submit-button'
                   variant="dashed"
                   size="small"
                   type="submit"
@@ -222,7 +227,7 @@ const FileSystemTableItem = React.forwardRef(
           <>
             <TableCell align="left">
               {
-                created_at && dayjs.unix(created_at).format("DD MMM YYYY h:mm a")
+                !isFolder && !!created_at && dayjs.unix(created_at).format("DD MMM YYYY h:mm a")
               }
             </TableCell>
             <TableCell align="left">
@@ -232,6 +237,7 @@ const FileSystemTableItem = React.forwardRef(
         )}
         <TableCell align="right">
           <MenuDropdown
+            testId='fileDropdown'
             animation="none"
             anchor={desktop ? "bottom-center" : "bottom-right"}
             menuItems={menuItems}

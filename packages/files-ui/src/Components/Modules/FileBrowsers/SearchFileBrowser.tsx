@@ -5,7 +5,7 @@ import FilesList from "./views/FilesList"
 import { CONTENT_TYPES } from "../../../Utils/Constants"
 import DragAndDrop from "../../../Contexts/DnDContext"
 import { useHistory, useLocation, useToaster } from "@chainsafe/common-components"
-import { getParentPathFromFilePath } from "../../../Utils/pathUtils"
+import { getArrayOfPaths, getParentPathFromFilePath, getURISafePathFromArray } from "../../../Utils/pathUtils"
 import { ROUTE_LINKS } from "../../FilesRoutes"
 import { t } from "@lingui/macro"
 import { FileBrowserContext } from "../../../Contexts/FileBrowserContext"
@@ -15,7 +15,7 @@ const SearchFileBrowser: React.FC<IFileBrowserModuleProps> = ({ controls = false
   const { pathname } = useLocation()
   const { filesApiClient } = useFilesApi()
   const { buckets } = useFiles()
-  const [searchTerm, setSearchTerm] = useState(pathname.split("/").slice(2)[0])
+  const searchTerm = useMemo(() => decodeURIComponent(pathname.split("/").slice(2)[0]), [pathname])
   const { redirect } = useHistory()
 
   const { addToastMessage } = useToaster()
@@ -38,11 +38,10 @@ const SearchFileBrowser: React.FC<IFileBrowserModuleProps> = ({ controls = false
   }, [addToastMessage, bucket, filesApiClient])
 
   useEffect(() => {
-    const searchPath = pathname.split("/").slice(2)[0]
-
-    setSearchTerm(decodeURI(searchPath))
-    getSearchResults(decodeURI(searchPath))
-  }, [getSearchResults, pathname])
+    getSearchResults(searchTerm)
+      .then(setSearchResults)
+      .catch(console.error)
+  }, [searchTerm, getSearchResults])
 
   const [loadingSearchResults, setLoadingSearchResults] = useState(true)
   const [searchResults, setSearchResults] = useState<SearchEntry[]>([])
@@ -75,9 +74,9 @@ const SearchFileBrowser: React.FC<IFileBrowserModuleProps> = ({ controls = false
     const searchEntry = getSearchEntry(cid)
     if (searchEntry) {
       if (searchEntry.content.content_type === CONTENT_TYPES.Directory) {
-        redirect(ROUTE_LINKS.Drive(searchEntry.path))
+        redirect(ROUTE_LINKS.Drive(getURISafePathFromArray(getArrayOfPaths(searchEntry.path))))
       } else {
-        redirect(ROUTE_LINKS.Drive(getParentPathFromFilePath(searchEntry.path)))
+        redirect(ROUTE_LINKS.Drive(getURISafePathFromArray(getArrayOfPaths(getParentPathFromFilePath(searchEntry.path)))))
       }
     }
   }
