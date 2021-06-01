@@ -1,25 +1,24 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react"
 import { Crumb, useToaster, useHistory, useLocation } from "@chainsafe/common-components"
-import { useFiles, FileSystemItem } from "../../../Contexts/FilesContext"
-import { getArrayOfPaths, getURISafePathFromArray, getPathWithFile, extractFileBrowserPathFromURL } from "../../../Utils/pathUtils"
-import { IBulkOperations, IFileBrowserModuleProps, IFilesTableBrowserProps } from "./types"
-import FilesList from "./views/FilesList"
-import { CONTENT_TYPES } from "../../../Utils/Constants"
-import DragAndDrop from "../../../Contexts/DnDContext"
+import { getArrayOfPaths, getURISafePathFromArray, getPathWithFile, extractFileBrowserPathFromURL } from "../../../../Utils/pathUtils"
+import { IBulkOperations, IFileBrowserModuleProps, IFilesTableBrowserProps } from "../types"
+import FilesList from "../views/FilesList"
+import { CONTENT_TYPES } from "../../../../Utils/Constants"
+import DragAndDrop from "../../../../Contexts/DnDContext"
 import { t } from "@lingui/macro"
-import { ROUTE_LINKS } from "../../FilesRoutes"
+import { ROUTE_LINKS } from "../../../FilesRoutes"
 import dayjs from "dayjs"
 import { useUser, useFilesApi } from "@chainsafe/common-contexts"
 import { useLocalStorage } from "@chainsafe/browser-storage-hooks"
-import { DISMISSED_SURVEY_KEY } from "../../SurveyBanner"
-import { FileBrowserContext } from "../../../Contexts/FileBrowserContext"
-import { parseFileContentResponse } from "../../../Utils/Helpers"
+import { DISMISSED_SURVEY_KEY } from "../../../SurveyBanner"
+import { FileBrowserContext } from "../../../../Contexts/FileBrowserContext"
+import { parseFileContentResponse } from "../../../../Utils/Helpers"
+import { FileSystemItem, useFiles } from "../../../../Contexts/FilesContext"
 
-const CSFFileBrowser: React.FC<IFileBrowserModuleProps> = () => {
+
+const ShareFileBrowser = () => {
   const {
     downloadFile,
-    uploadFiles,
-    uploadsInProgress,
     buckets
   } = useFiles()
   const { filesApiClient } = useFilesApi()
@@ -30,10 +29,10 @@ const CSFFileBrowser: React.FC<IFileBrowserModuleProps> = () => {
 
   const { pathname } = useLocation()
   const currentPath = useMemo(() =>
-    extractFileBrowserPathFromURL(pathname, ROUTE_LINKS.Drive("")),
+    extractFileBrowserPathFromURL(pathname, ROUTE_LINKS.Share("")),
   [pathname]
   )
-  const bucket = useMemo(() => buckets.find(b => b.type === "csf"), [buckets])
+  const bucket = useMemo(() => buckets.find(b => b.type === "sharing"), [buckets])
 
   const refreshContents = useCallback((showLoading?: boolean) => {
     if (!bucket) return
@@ -143,36 +142,6 @@ const CSFFileBrowser: React.FC<IFileBrowserModuleProps> = () => {
     downloadFile(bucket.id, itemToDownload, currentPath)
   }, [pathContents, downloadFile, currentPath, bucket])
 
-  // Breadcrumbs/paths
-  const arrayOfPaths = useMemo(() => getArrayOfPaths(currentPath), [currentPath])
-  const crumbs: Crumb[] = useMemo(() => arrayOfPaths.map((path, index) => ({
-    text: decodeURIComponent(path),
-    onClick: () => {
-      redirect(
-        ROUTE_LINKS.Drive(getURISafePathFromArray(arrayOfPaths.slice(0, index + 1)))
-      )
-    }
-  })), [arrayOfPaths, redirect])
-
-
-  const handleUploadOnDrop = useCallback(async (files: File[], fileItems: DataTransferItemList, path: string) => {
-    if (!bucket) return
-    let hasFolder = false
-    for (let i = 0; i < files.length; i++) {
-      if (fileItems[i].webkitGetAsEntry().isDirectory) {
-        hasFolder = true
-      }
-    }
-    if (hasFolder) {
-      addToastMessage({
-        message: "Folder uploads are not supported currently",
-        appearance: "error"
-      })
-    } else {
-      uploadFiles(bucket.id, files, path).then(() => refreshContents()).catch(console.error)
-    }
-  }, [addToastMessage, uploadFiles, bucket, refreshContents])
-
   const viewFolder = useCallback((cid: string) => {
     const fileSystemItem = pathContents.find(f => f.cid === cid)
     if (fileSystemItem && fileSystemItem.content_type === CONTENT_TYPES.Directory) {
@@ -189,6 +158,7 @@ const CSFFileBrowser: React.FC<IFileBrowserModuleProps> = () => {
     [CONTENT_TYPES.File]: ["delete", "move"]
   }), [])
 
+  // TODO access control filtering
   const itemOperations: IFilesTableBrowserProps["itemOperations"] = useMemo(() => ({
     [CONTENT_TYPES.Audio]: ["preview"],
     [CONTENT_TYPES.MP4]: ["preview"],
@@ -203,7 +173,7 @@ const CSFFileBrowser: React.FC<IFileBrowserModuleProps> = () => {
     <FileBrowserContext.Provider value={{
       bucket,
       bulkOperations,
-      crumbs,
+      crumbs: undefined,
       moduleRootPath: ROUTE_LINKS.Drive("/"),
       currentPath,
       refreshContents,
@@ -212,12 +182,10 @@ const CSFFileBrowser: React.FC<IFileBrowserModuleProps> = () => {
       moveItems,
       renameItem: renameItem,
       viewFolder,
-      handleUploadOnDrop,
-      uploadsInProgress,
       loadingCurrentPath,
-      showUploadsInTable: true,
+      showUploadsInTable: false,
       sourceFiles: pathContents,
-      heading: t`My Files`,
+      heading: t`Shared`,
       controls: true,
       allowDropUpload: true,
       itemOperations,
@@ -230,4 +198,4 @@ const CSFFileBrowser: React.FC<IFileBrowserModuleProps> = () => {
   )
 }
 
-export default CSFFileBrowser
+export default ShareFileBrowser

@@ -9,6 +9,8 @@ import BinPage from "./Pages/BinPage"
 import PurchasePlanPage from "./Pages/PurchasePlanPage"
 import { useThresholdKey } from "../Contexts/ThresholdKeyContext"
 import SharePage from "./Pages/SharePage"
+import ShareFilesPage from "./Pages/ShareFilesPage"
+import ShareOverviewPage from "./Pages/ShareOverviewPage"
 
 export const SETTINGS_BASE = "/settings"
 export const ROUTE_LINKS = {
@@ -54,9 +56,16 @@ const FilesRoutes = () => {
       />
       <ConditionalRoute
         exact
+        path={ROUTE_LINKS.Share("/:bucket-id/")}
+        isAuthorized={isAuthorized}
+        component={ShareFilesPage}
+        redirectPath={ROUTE_LINKS.Landing}
+      />
+      <ConditionalRoute
+        exact
         path={ROUTE_LINKS.Share("")}
         isAuthorized={isAuthorized}
-        component={SharePage}
+        component={ShareOverviewPage}
         redirectPath={ROUTE_LINKS.Landing}
       />
       <ConditionalRoute
