@@ -1,6 +1,6 @@
 import { NavigationMenu } from "../support/page-objects/NavigationMenu"
 import { HomePage } from "../support/page-objects/HomePage"
-import { landingPage } from "../support/page-objects/LandingPage"
+import { landingPage } from "../support/page-objects/landingPage"
 
 const homePage = new HomePage()
 const navigationMenu = new NavigationMenu()
