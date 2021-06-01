@@ -100,7 +100,8 @@ const FilesProvider = ({ children }: FilesContextProps) => {
   const { userId } = profile || {}
 
   const getKeyForBucket = useCallback(async (bucket: FilesBucket) => {
-    const bucketUsers = [...bucket.readers, ...bucket.writers, ...bucket.owners]
+    // todo remove the "|| []" once this is set in the api.
+    const bucketUsers = [...bucket.readers || [], ...bucket.writers || [], ...bucket.owners || []]
     const bucketUser = bucketUsers.find(bu => bu.uuid === userId)
     if (!bucketUser || !bucketUser.encryption_key) {
       console.error(`Unable to retrieve encryption key for ${bucket.id}`)
@@ -117,11 +118,12 @@ const FilesProvider = ({ children }: FilesContextProps) => {
     const bucketsWithKeys: Bucket[] = await Promise.all(
       result.map(async (b) => {
 
+        //todo remove the ? once the writers and readers are non null
         const permission = b.owners.find(owner => owner === profile?.userId)
           ? "owner" as BucketPermission
-          : b.writers.find(writer => writer === profile?.userId)
+          : b.writers?.find(writer => writer === profile?.userId)
             ? "writer" as BucketPermission
-            : b.readers.find(reader => reader === profile?.userId)
+            : b.readers?.find(reader => reader === profile?.userId)
               ? "reader" as BucketPermission
               : undefined
 

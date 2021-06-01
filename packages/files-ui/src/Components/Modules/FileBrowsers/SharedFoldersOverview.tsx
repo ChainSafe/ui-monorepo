@@ -97,6 +97,7 @@ const SharedFolderOverview = () => {
       }
     }
   }
+  console.log(buckets)
 
   return (
     <article
@@ -126,6 +127,18 @@ const SharedFolderOverview = () => {
           <Trans>One sec, getting files ready...</Trans>
         </Typography>
       </div> */}
+      <div
+        onClick={() => {
+          filesApiClient.listBuckets().then(console.log).catch(console.error)
+          // filesApiClient.createBucket({
+          //   name: "catBucket",
+          //   encryption_key:"none",
+          //   type: "share"
+          // }).then(console.log)
+          //   .catch(console.error)
+        }}>
+        Click me
+      </div>
       <Table
         fullWidth={true}
         striped={true}
