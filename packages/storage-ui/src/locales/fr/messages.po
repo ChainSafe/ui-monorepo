@@ -1,0 +1,101 @@
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2021-05-27 00:48+0200\n"
+"Mime-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: fr\n"
+
+msgid "A file with the same name already exists"
+msgstr ""
+
+msgid "Account"
+msgstr ""
+
+msgid "Bin"
+msgstr ""
+
+msgid "By connecting your wallet, you agree to our <0>Terms of Service</0> and <1>Privacy Policy</1>"
+msgstr ""
+
+msgid "Connect a new wallet"
+msgstr ""
+
+msgid "Connection failed"
+msgstr ""
+
+msgid "Continue with Facebook"
+msgstr ""
+
+msgid "Continue with Github"
+msgstr ""
+
+msgid "Continue with Google"
+msgstr ""
+
+msgid "Continue with Web3 Wallet"
+msgstr ""
+
+msgid "Failed to get signature"
+msgstr ""
+
+msgid ""
+"Failed to validate signature.\n"
+"If you are using a contract wallet, please make \n"
+"sure you have activated your wallet."
+msgstr ""
+
+msgid "Folders"
+msgstr ""
+
+msgid "Get Started"
+msgstr ""
+
+msgid "Go back"
+msgstr ""
+
+msgid "Home"
+msgstr ""
+
+msgid "Learn more about ChainSafe"
+msgstr ""
+
+msgid "Privacy Policy"
+msgstr ""
+
+msgid "Resources"
+msgstr ""
+
+msgid "Select a wallet"
+msgstr ""
+
+msgid "Sign Out"
+msgstr ""
+
+msgid "Sign-in with {0}"
+msgstr ""
+
+msgid "Something went wrong. We couldn't upload your file"
+msgstr ""
+
+msgid "Terms and Conditions"
+msgstr ""
+
+msgid "The authentication popup was closed"
+msgstr ""
+
+msgid "The system is undergoing maintenance, thank you for being patient."
+msgstr ""
+
+msgid "There was an error authenticating"
+msgstr ""
+
+msgid "There was an error connecting your wallet"
+msgstr ""
+
+msgid "Try again"
+msgstr ""
+
+msgid "Use a different login method"
+msgstr ""
