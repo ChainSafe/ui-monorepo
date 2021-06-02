@@ -1,4 +1,3 @@
-import { useFilesApi, useUser } from "@chainsafe/common-contexts"
 import { useFiles } from "../../Contexts/FilesContext"
 import {
   createStyles,
@@ -23,7 +22,8 @@ import { FREE_PLAN_LIMIT } from "../../Utils/Constants"
 import { Trans } from "@lingui/macro"
 import { useThresholdKey } from "../../Contexts/ThresholdKeyContext"
 import { CSFTheme } from "../../Themes/types"
-
+import { useUser } from "../../Contexts/UserContext"
+import { useFilesApi } from "../../Contexts/FilesApiContext"
 const useStyles = makeStyles(
   ({ palette, animation, breakpoints, constants, zIndex }: CSFTheme) => {
     return createStyles({

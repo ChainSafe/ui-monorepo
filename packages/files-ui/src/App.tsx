@@ -1,7 +1,6 @@
 import React, { useCallback, useEffect } from "react"
 import { init as initSentry, ErrorBoundary, showReportDialog } from "@sentry/react"
 import { Web3Provider } from "@chainsafe/web3-context"
-import { FilesApiProvider, UserProvider, BillingProvider } from "@chainsafe/common-contexts"
 import { ThemeSwitcher } from "@chainsafe/common-theme"
 import "@chainsafe/common-theme/dist/font-faces.css"
 import { Button, CssBaseline, Modal, Router, ToasterProvider, Typography } from "@chainsafe/common-components"
@@ -14,6 +13,9 @@ import { ThresholdKeyProvider } from "./Contexts/ThresholdKeyContext"
 import { lightTheme } from "./Themes/LightTheme"
 import { darkTheme } from "./Themes/DarkTheme"
 import { useLocalStorage } from "@chainsafe/browser-storage-hooks"
+import { FilesApiProvider }  from "./Contexts/FilesApiContext"
+import { UserProvider } from "./Contexts/UserContext"
+import { BillingProvider } from "./Contexts/BillingContext"
 
 if (
   process.env.NODE_ENV === "production" &&
