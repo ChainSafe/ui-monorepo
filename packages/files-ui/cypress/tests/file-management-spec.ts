@@ -1,11 +1,9 @@
 describe("File management", () => {
 
   context("desktop", () => {
-    before(() => {
-      cy.web3Login()
-    })
 
     it("can add files and cancel", () => {
+      cy.web3Login()
       cy.get("[data-cy=upload-modal-button]").click()
       cy.get("[data-cy=upload-file-form] input").attachFile("../fixtures/uploadedFiles/text-file.txt")
       cy.get("[data-testid=file-list-fileUpload] li").should("have.length", 1)
