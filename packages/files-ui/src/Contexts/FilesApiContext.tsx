@@ -30,17 +30,6 @@ type FilesApiContext = {
     identityToken: string,
     publicKey: string
   ): Promise<void>
-  getProviderUrl: (provider: OAuthIdentityToken) => Promise<string>
-  loginWithGithub: (code: string, state: string) => Promise<void>
-  loginWithGoogle: (
-    code: string,
-    state: string,
-    scope: string | undefined,
-    authUser: string | undefined,
-    hd: string | undefined,
-    prompt: string | undefined,
-  ) => Promise<void>
-  loginWithFacebook: (code: string, state: string) => Promise<void>
   logout: () => void
   validateMasterPassword: (candidatePassword: string) => Promise<boolean>
   encryptedEncryptionKey?: string
@@ -257,73 +246,6 @@ const FilesApiProvider = ({ apiUrl, withLocalStorage = true, children }: FilesAp
     }
   }
 
-  const getProviderUrl = async (provider: OAuthIdentityToken) => {
-    try {
-      const { url } = await filesApiClient.getOauth2Provider(provider)
-      return Promise.resolve(url)
-    } catch {
-      return Promise.reject("There was an error logging in")
-    }
-  }
-
-  const loginWithGithub = async (code: string, state: string) => {
-    try {
-      const {
-        access_token,
-        refresh_token
-      } = await filesApiClient.postOauth2CodeGithub(code, state)
-      setTokensAndSave(access_token, refresh_token)
-      setReturningUser()
-      return Promise.resolve()
-    } catch {
-      return Promise.reject("There was an error logging in")
-    }
-  }
-
-  const loginWithGoogle = async (
-    code: string,
-    state: string,
-    scope: string | undefined,
-    authUser: string | undefined,
-    hd: string | undefined,
-    prompt: string | undefined
-  ) => {
-    try {
-      const {
-        access_token,
-        refresh_token
-      } = await filesApiClient.postOauth2CodeGoogle(
-        code,
-        state,
-        scope,
-        authUser,
-        hd,
-        prompt
-      )
-
-      setTokensAndSave(access_token, refresh_token)
-      setReturningUser()
-      return Promise.resolve()
-    } catch (err) {
-      return Promise.reject("There was an error logging in")
-    }
-  }
-
-  const loginWithFacebook = async (code: string, state: string) => {
-    try {
-      const {
-        access_token,
-        refresh_token
-      } = await filesApiClient.postOauth2CodeFacebook(code, state)
-
-      setTokensAndSave(access_token, refresh_token)
-      setReturningUser()
-      return Promise.resolve()
-    } catch (err) {
-      return Promise.reject("There was an error logging in")
-    }
-  }
-
   const logout = () => {
     setAccessToken(undefined)
     setRefreshToken(undefined)
@@ -382,12 +304,8 @@ const FilesApiProvider = ({ apiUrl, withLocalStorage = true, children }: FilesAp
         isLoggedIn: isLoggedIn(),
         secured,
         isReturningUser: isReturningUser,
-        loginWithGithub,
-        loginWithGoogle,
-        loginWithFacebook,
         selectWallet,
         resetAndSelectWallet,
-        getProviderUrl,
         logout,
         validateMasterPassword,
         thresholdKeyLogin,
