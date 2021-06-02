@@ -5,7 +5,6 @@ import { CSFTheme } from "../../../Themes/types"
 import { t, Trans } from "@lingui/macro"
 import { useStorageApi } from "../../../Contexts/StorageApiContext"
 import { useWeb3 } from "@chainsafe/web3-context"
-import { LOGIN_TYPE } from "@toruslabs/torus-direct-web-sdk"
 import { ROUTE_LINKS } from "../../StorageRoutes"
 import clsx from "clsx"
 import { IdentityProvider } from "@chainsafe/files-api-client"
@@ -173,16 +172,16 @@ const InitialScreen = ({ className }: IInitialScreen) => {
     setLoginMode(loginType)
     try {
       switch(loginType) {
-        case 'facebook': 
-        case 'github':
-        case 'google': {
-          const oauthUrl = await getProviderUrl(loginType)
-          window.location.href = oauthUrl
-          break
-        }
-        case 'web3':{
-          await web3Login()
-        }
+      case "facebook":
+      case "github":
+      case "google": {
+        const oauthUrl = await getProviderUrl(loginType)
+        window.location.href = oauthUrl
+        break
+      }
+      case "web3":{
+        await web3Login()
+      }
       }
     } catch (error) {
       let errorMessage = t`There was an error authenticating`

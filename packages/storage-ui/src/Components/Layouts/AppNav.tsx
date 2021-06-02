@@ -10,10 +10,8 @@ import {
   Typography,
   ChainsafeFilesLogo,
   DatabaseSvg,
-  SettingSvg,
   PowerDownSvg,
   ProgressBar,
-  Button,
   formatBytes,
   DeleteSvg } from "@chainsafe/common-components"
 import { ROUTE_LINKS } from "../StorageRoutes"

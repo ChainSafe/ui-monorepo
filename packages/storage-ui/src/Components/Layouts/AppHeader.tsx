@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react"
+import React, { useCallback } from "react"
 import { createStyles, makeStyles, useThemeSwitcher } from "@chainsafe/common-theme"
 import clsx from "clsx"
 import {
@@ -198,25 +198,25 @@ const AppHeader = ({ navOpen, setNavOpen }: IAppHeader) => {
             </>
           ) : (
             <>
-                  <HamburgerMenu
-                    onClick={() => setNavOpen(!navOpen)}
-                    variant={navOpen ? "active" : "default"}
-                    className={clsx(classes.hamburgerMenu, "hamburger-menu")}
-                  />
-                  <Link
-                    className={classes.logo}
-                    to={ROUTE_LINKS.Pins}
-                  >
-                    <ChainsafeFilesLogo />
-                    <Typography
-                      variant="h5"
-                      className={classes.title}
-                    >
+              <HamburgerMenu
+                onClick={() => setNavOpen(!navOpen)}
+                variant={navOpen ? "active" : "default"}
+                className={clsx(classes.hamburgerMenu, "hamburger-menu")}
+              />
+              <Link
+                className={classes.logo}
+                to={ROUTE_LINKS.Pins}
+              >
+                <ChainsafeFilesLogo />
+                <Typography
+                  variant="h5"
+                  className={classes.title}
+                >
                       Files
-                    </Typography>
+                </Typography>
                     &nbsp;
-                    <Typography variant="caption">beta</Typography>
-                  </Link>
+                <Typography variant="caption">beta</Typography>
+              </Link>
             </>
           )}
         </>

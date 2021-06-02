@@ -290,7 +290,7 @@ const StorageApiProvider = ({ apiUrl, withLocalStorage = true, children }: Stora
     }
   }
 
-    const web3Login = async () => {
+  const web3Login = async () => {
     if (!provider) return Promise.reject("No wallet is selected")
 
     if (!isReady) {
@@ -306,11 +306,11 @@ const StorageApiProvider = ({ apiUrl, withLocalStorage = true, children }: Stora
         const address = await signer.getAddress()
         const {
           access_token,
-          refresh_token,
+          refresh_token
         } = await filesApiClient.postWeb3Token({
           signature: signature,
           token: token,
-          public_address: address,
+          public_address: address
         })
         setTokensAndSave(access_token, refresh_token)
         setReturningUser()
