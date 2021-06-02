@@ -521,8 +521,6 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
 
       const { token } = await filesApiClient.getIdentityWeb3Token(addressToUse)
 
-      console.log(token)
-
       if (!token) throw new Error("Token undefined")
 
       setStatus("awaiting confirmation")

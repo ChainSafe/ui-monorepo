@@ -6,7 +6,7 @@ import { Trans, t } from "@lingui/macro"
 import clsx from "clsx"
 import { Form, Formik } from "formik"
 import * as yup from "yup"
-import { useFilesApi } from "@chainsafe/common-contexts"
+import { useFilesApi } from "../../../Contexts/FilesApiContext"
 import { useThresholdKey } from "../../../Contexts/ThresholdKeyContext"
 
 const useStyles = makeStyles(({ palette, breakpoints, constants }: CSFTheme) =>
@@ -115,7 +115,7 @@ const PasswordlessEmail = ({ resetLogin }: IPasswordlessEmail) => {
   const onSubmitEmail = useCallback((values) => {
     setLoadingEmail(true)
     setError(undefined)
-    filesApiClient.getIdentityEmailToken(values.email)
+    filesApiClient.getIdentityEmailToken({ email: values.email })
       .then(() => {
         setEmail(values.email)
         setPage("page2")
@@ -151,7 +151,7 @@ const PasswordlessEmail = ({ resetLogin }: IPasswordlessEmail) => {
   const onResendEmail = useCallback(() => {
     if (!email) return
     setLoadingEmailResend(true)
-    filesApiClient.getIdentityEmailToken(email).then(() => {
+    filesApiClient.getIdentityEmailToken({ email }).then(() => {
       setHasEmailResent(true)
       setLoadingEmailResend(false)
     }).catch ((e) => {
