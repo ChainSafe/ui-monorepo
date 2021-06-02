@@ -9,7 +9,7 @@ categories:
       - "Type: Enhancement"
   - title: "🐛 Bug Fixes"
     labels:
-      - "Type: Bug"
+      - "Type: Bug Fix"
   - title: "🧰 Maintenance"
     label:
       - "Type: Maintenance"
