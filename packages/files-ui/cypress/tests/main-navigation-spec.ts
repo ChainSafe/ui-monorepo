@@ -1,9 +1,6 @@
-import { NavigationMenu } from "../support/page-objects/NavigationMenu"
-import { HomePage } from "../support/page-objects/HomePage"
+import { navigationMenu } from "../support/page-objects/navigationMenu"
+import { homePage } from "../support/page-objects/homePage"
 import { landingPage } from "../support/page-objects/landingPage"
-
-const homePage = new HomePage()
-const navigationMenu = new NavigationMenu()
 
 describe("Main Navigation", () => {
 
@@ -38,33 +35,30 @@ describe("Main Navigation", () => {
   })
 
   context("mobile", () => {
-    beforeEach(() => {
-      cy.viewport("iphone-6")
-    })
     before(() => {
       cy.web3Login()
     })
+    beforeEach(() => {
+      cy.viewport("iphone-6")
+      homePage.hamburgerMenuButton().click()
+    })
 
     it("can navigate to the bin page", () => {
-      homePage.hamburgerMenuButton().click()
       navigationMenu.binNavButton().click()
       cy.url().should("include", "/bin")
     })
 
     it("can navigate to the settings page", () => {
-      homePage.hamburgerMenuButton().click()
       navigationMenu.settingsNavButton().click()
       cy.url().should("include", "/settings")
     })
 
     it("can navigate to the home page", () => {
-      homePage.hamburgerMenuButton().click()
       navigationMenu.homeNavButton().click()
       cy.url().should("include", "/drive")
     })
 
     it("can sign out from the navigation bar", () => {
-      homePage.hamburgerMenuButton().click()
       navigationMenu.signOutButton().click()
       landingPage.web3Button().should("be.visible")
       cy.url().should("not.include", "/drive")

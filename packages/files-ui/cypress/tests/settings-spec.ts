@@ -1,10 +1,6 @@
-import { NavigationMenu } from "../support/page-objects/NavigationMenu"
-import { SettingsPage } from "../support/page-objects/SettingsPage"
-import { HomePage } from "../support/page-objects/HomePage"
-
-const homePage = new HomePage()
-const navigationMenu = new NavigationMenu()
-const settingsPage = new SettingsPage()
+import { navigationMenu } from "../support/page-objects/navigationMenu"
+import { settingsPage } from "../support/page-objects/settingsPage"
+import { homePage } from "../support/page-objects/homePage"
 
 describe("Settings", () => {
 
