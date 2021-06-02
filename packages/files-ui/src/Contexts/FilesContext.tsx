@@ -8,7 +8,7 @@ import {
 } from "@chainsafe/files-api-client"
 import React, { useCallback, useEffect, useReducer } from "react"
 import { useState } from "react"
-import { decryptFile, encryptFile, useFilesApi, useUser } from "@chainsafe/common-contexts"
+import { decryptFile, encryptFile  } from "../Utils/encryption"
 import { v4 as uuidv4 } from "uuid"
 import { useToaster } from "@chainsafe/common-components"
 import { downloadsInProgressReducer, uploadsInProgressReducer } from "./FilesReducers"
@@ -17,6 +17,8 @@ import { t } from "@lingui/macro"
 import { readFileAsync } from "../Utils/Helpers"
 import { useBeforeunload } from "react-beforeunload"
 import { useThresholdKey } from "./ThresholdKeyContext"
+import { useFilesApi } from "./FilesApiContext"
+import { useUser } from "./UserContext"
 
 type FilesContextProps = {
   children: React.ReactNode | React.ReactNode[]

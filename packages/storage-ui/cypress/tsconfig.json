@@ -1,0 +1,10 @@
+{
+    "compilerOptions": {
+      "strict": true,
+      "target": "es5",
+      "jsx": "react",
+      "lib": ["es5", "dom"],
+      "types": ["cypress",  "cypress-file-upload"]
+    },
+    "include": ["**/*.ts"]
+  }
