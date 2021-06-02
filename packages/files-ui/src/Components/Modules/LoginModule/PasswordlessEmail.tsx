@@ -115,7 +115,7 @@ const PasswordlessEmail = ({ resetLogin }: IPasswordlessEmail) => {
   const onSubmitEmail = useCallback((values) => {
     setLoadingEmail(true)
     setError(undefined)
-    filesApiClient.getIdentityEmailToken({ email: values.email })
+    filesApiClient.getIdentityEmailToken(values.email)
       .then(() => {
         setEmail(values.email)
         setPage("page2")
@@ -151,9 +151,7 @@ const PasswordlessEmail = ({ resetLogin }: IPasswordlessEmail) => {
   const onResendEmail = useCallback(() => {
     if (!email) return
     setLoadingEmailResend(true)
-    filesApiClient.getIdentityEmailToken({
-      email: email
-    }).then(() => {
+    filesApiClient.getIdentityEmailToken(email).then(() => {
       setHasEmailResent(true)
       setLoadingEmailResend(false)
     }).catch ((e) => {

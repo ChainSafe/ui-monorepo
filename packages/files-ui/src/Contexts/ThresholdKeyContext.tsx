@@ -9,7 +9,7 @@ import ShareSerializationModule, { SHARE_SERIALIZATION_MODULE_NAME } from "@tkey
 import { ServiceProviderBase } from "@tkey/service-provider-base"
 import { TorusStorageLayer } from "@tkey/storage-layer-torus"
 import bowser from "bowser"
-import { useFilesApi } from "@chainsafe/common-contexts"
+import { useFilesApi } from "../Contexts/FilesApiContext"
 import { utils, Wallet } from "ethers"
 import EthCrypto from "eth-crypto"
 import { useWeb3 } from "@chainsafe/web3-context"
@@ -342,7 +342,7 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
       }
     }
 
-    let poller: number
+    let poller: NodeJS.Timeout
     if (TKeySdk && keyDetails && keyDetails.requiredShares <= 0) {
       handler()
       poller = setInterval(handler, 5000)

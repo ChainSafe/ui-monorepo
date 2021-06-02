@@ -1,6 +1,0 @@
-dist
-.babelrc
-.storybook
-.gitignore
-rollup.config.js
-tsconfig.json
