@@ -40,8 +40,8 @@ msgstr "Add more files"
 msgid "Approve"
 msgstr "Approve"
 
-msgid "Are we on the right track? Let us know is less than 1 minute."
-msgstr "Are we on the right track? Let us know is less than 1 minute."
+msgid "Are we on the right track? Let us know in less than 1 minute."
+msgstr "Are we on the right track? Let us know in less than 1 minute."
 
 msgid "Backup phrase"
 msgstr "Backup phrase"

@@ -41,8 +41,8 @@ msgstr "Ajoute d'autres fichiers"
 msgid "Approve"
 msgstr "Accepter"
 
-msgid "Are we on the right track? Let us know is less than 1 minute."
-msgstr "Sommes nous sur les bons rails? Dites le nous en moins d'1minute (en anglais)."
+msgid "Are we on the right track? Let us know in less than 1 minute."
+msgstr ""
 
 msgid "Backup phrase"
 msgstr "Phrase de secours"
