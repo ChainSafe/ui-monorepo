@@ -13,7 +13,7 @@ const useStyles = makeStyles(
   ({ constants }: CSFTheme) => {
     return createStyles({
       root: {
-        background: "linear-gradient(90deg, rgba(81,101,220,1) 0%, rgba(141,157,252,1) 35%, rgba(206,255,209,1) 100%);",
+        background: "linear-gradient(90deg, rgba(81,101,220,1) 0%, rgba(3,150,166,1) 68%, rgba(22,212,96,1) 100%);",
         padding: constants.generalUnit,
         paddingLeft: constants.generalUnit * 2,
         marginTop: constants.generalUnit,
@@ -21,7 +21,9 @@ const useStyles = makeStyles(
         display: "flex"
       },
       banner: {
-        color: constants.surveyBanner.color
+        color: constants.surveyBanner.color,
+        fontWeight: 600,
+        paddingRight: constants.generalUnit
       },
       link: {
         marginLeft: constants.generalUnit * 2,
