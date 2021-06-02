@@ -41,6 +41,9 @@ msgstr "Ajoute d'autres fichiers"
 msgid "Approve"
 msgstr "Accepter"
 
+msgid "Are we on the right track? Let us know in less than 1 minute."
+msgstr "Sommes nous sur les bons rails ? Dites le nous en moins d'1 minute (en anglais)."
+
 msgid "Backup phrase"
 msgstr "Phrase de secours"
 
@@ -242,9 +245,6 @@ msgstr "Génial! Vous avez terminé."
 msgid "Hello again!"
 msgstr "Ravis de vous revoir!"
 
-msgid "Help us make Files better in under 30 seconds."
-msgstr ""
-
 msgid "Hey! You only have two sign-in methods. If you lose that and have only one left, you will be locked out of your account forever."
 msgstr "Hey! Tu ne disposes que de deux méthodes d'authentification. Si tu en perds une, tu seras bloqué pour toujours et ne pourras plus te connecter à ton compte Files."
 
@@ -384,7 +384,7 @@ msgid "Please provide a password"
 msgstr "Merci de donner un mot de passe"
 
 msgid "Please select a file to upload"
-msgstr ""
+msgstr "Merci de sélectionner un fichier à uploader"
 
 msgid "Preview"
 msgstr "Aperçu"
