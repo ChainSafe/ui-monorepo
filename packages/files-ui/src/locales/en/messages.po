@@ -73,8 +73,8 @@ msgstr "Change Password"
 msgid "Change password"
 msgstr "Change password"
 
-msgid "Check your inbox! We've sent another email"
-msgstr "Check your inbox! We've sent another email"
+msgid "Check your inbox! We've sent another email."
+msgstr "Check your inbox! We've sent another email."
 
 msgid "Click or drag to upload files"
 msgstr "Click or drag to upload files"
@@ -276,6 +276,9 @@ msgstr "Info"
 
 msgid "Invalid name"
 msgstr "Invalid name"
+
+msgid "It contains a verification code that’ll sign you in super quickly!"
+msgstr "It contains a verification code that’ll sign you in super quickly!"
 
 msgid "I’m done saving my backup phrase"
 msgstr "I’m done saving my backup phrase"
@@ -615,6 +618,9 @@ msgstr "Use a different login method"
 
 msgid "Use a saved browser"
 msgstr "Use a saved browser"
+
+msgid "Verification code not correct!"
+msgstr "Verification code not correct!"
 
 msgid "Verification code sent!"
 msgstr "Verification code sent!"
