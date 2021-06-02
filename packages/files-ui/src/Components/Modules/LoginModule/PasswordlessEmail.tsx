@@ -7,6 +7,7 @@ import clsx from "clsx"
 import { Form, Formik } from "formik"
 import * as yup from "yup"
 import { useFilesApi } from "@chainsafe/common-contexts"
+import { useThresholdKey } from "../../../Contexts/ThresholdKeyContext"
 
 const useStyles = makeStyles(({ palette, breakpoints, constants }: CSFTheme) =>
   createStyles({
@@ -93,6 +94,7 @@ const PasswordlessEmail = ({ resetLogin }: IPasswordlessEmail) => {
   const [email, setEmail] = useState<string | undefined>()
   const [hasEmailResent, setHasEmailResent] = useState(false)
   const { filesApiClient } = useFilesApi()
+  const { login } = useThresholdKey()
   const [error, setError] = useState<string | undefined>()
 
   const emailValidation = useMemo(() => yup.object().shape({
@@ -113,7 +115,7 @@ const PasswordlessEmail = ({ resetLogin }: IPasswordlessEmail) => {
   const onSubmitEmail = useCallback((values) => {
     setLoadingEmail(true)
     setError(undefined)
-    filesApiClient.getIdentityEmailToken(values.email)
+    filesApiClient.getIdentityEmailToken({ email: values.email })
       .then(() => {
         setEmail(values.email)
         setPage("page2")
@@ -132,7 +134,8 @@ const PasswordlessEmail = ({ resetLogin }: IPasswordlessEmail) => {
     filesApiClient.postIdentityEmailToken({
       email: email,
       nonce: values.verificationCode
-    }).then(() => {
+    }).then(async (data) => {
+      login("email", { token: data.token || "", email })
       setLoadingVerificationCode(false)
     })
       .catch ((e) => {
@@ -140,20 +143,20 @@ const PasswordlessEmail = ({ resetLogin }: IPasswordlessEmail) => {
         setLoadingVerificationCode(false)
         console.error(e)
       })
-  }, [filesApiClient, email])
+  }, [filesApiClient, email, login])
 
   const onResendEmail = useCallback(() => {
     if (!email) return
     setLoadingEmailResend(true)
-    filesApiClient.getIdentityEmailToken(email)
-      .then(() => {
-        setHasEmailResent(true)
-        setLoadingEmailResend(false)
-      })
-      .catch ((e) => {
-        setLoadingEmailResend(false)
-        console.error(e)
-      })
+    filesApiClient.getIdentityEmailToken({
+      email: email
+    }).then(() => {
+      setHasEmailResent(true)
+      setLoadingEmailResend(false)
+    }).catch ((e) => {
+      setLoadingEmailResend(false)
+      console.error(e)
+    })
   }, [filesApiClient, email])
 
   return (
