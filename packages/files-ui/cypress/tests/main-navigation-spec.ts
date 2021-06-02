@@ -38,6 +38,7 @@ describe("Main Navigation", () => {
     before(() => {
       cy.web3Login()
     })
+
     beforeEach(() => {
       cy.viewport("iphone-6")
       homePage.hamburgerMenuButton().click()

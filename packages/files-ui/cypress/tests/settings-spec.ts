@@ -26,6 +26,7 @@ describe("Settings", () => {
     beforeEach(() => {
       cy.viewport("iphone-6")
     })
+
     before(() => {
       cy.web3Login()
     })
