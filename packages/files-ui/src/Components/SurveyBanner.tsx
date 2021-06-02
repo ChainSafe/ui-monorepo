@@ -75,7 +75,7 @@ const SurveyBanner = ({ onHide }: Props) => {
         variant="body1"
         className={classes.banner}>
         <Trans>
-          Are we on the right track? Let us know is less than 1 minute.
+          Are we on the right track? Let us know in less than 1 minute.
         </Trans>
         <span
           className={classes.link}
