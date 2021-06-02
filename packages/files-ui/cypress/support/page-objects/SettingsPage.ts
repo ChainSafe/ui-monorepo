@@ -15,7 +15,7 @@ export class SettingsPage extends BasePage {
   }
 
   lastNameInput() {
-    return cy.get("data-cy=profile-firstname-input")
+    return cy.get("data-cy=profile-lastname-input")
   }
 
   saveChangesButton() {
