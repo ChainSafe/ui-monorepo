@@ -89,7 +89,7 @@ const PasswordlessEmail = ({ resetLogin }: IPasswordlessEmail) => {
   const classes = useStyles()
   const [loadingEmail, setLoadingEmail] = useState(false)
   const [loadingEmailResend, setLoadingEmailResend] = useState(false)
-  const [loadingVerificationCode, setLoadingVerificationCode] = useState(false)
+  const [loadingNonceAndLogin, setLoadingNonceAndLogin] = useState(false)
   const [page, setPage] = useState<"page1" | "page2">("page1")
   const [email, setEmail] = useState<string | undefined>()
   const [hasEmailResent, setHasEmailResent] = useState(false)
@@ -105,8 +105,8 @@ const PasswordlessEmail = ({ resetLogin }: IPasswordlessEmail) => {
   })
   , [])
 
-  const verificationCodeValidation = useMemo(() => yup.object().shape({
-    verificationCode: yup
+  const nonceValidation = useMemo(() => yup.object().shape({
+    nonce: yup
       .string()
       .required("Verification code is required")
   })
@@ -127,22 +127,25 @@ const PasswordlessEmail = ({ resetLogin }: IPasswordlessEmail) => {
       })
   }, [filesApiClient])
 
-  const onSubmitVerificationCode = useCallback((values) => {
+  const onSubmitNonce = useCallback((values) => {
     if (!email) return
-    setLoadingVerificationCode(true)
+    setLoadingNonceAndLogin(true)
     setError(undefined)
     filesApiClient.postIdentityEmailToken({
       email: email,
-      nonce: values.verificationCode
+      nonce: values.nonce
     }).then(async (data) => {
-      login("email", { token: data.token || "", email })
-      setLoadingVerificationCode(false)
-    })
-      .catch ((e) => {
+      await login("email", { token: data.token || "", email })
+      setLoadingNonceAndLogin(false)
+    }).catch ((e) => {
+      if (e && e[0] && e[0].type === "nonce") {
+        setError(t`Verification code not correct!`)
+      } else {
         setError(t`Something went wrong!`)
-        setLoadingVerificationCode(false)
-        console.error(e)
-      })
+      }
+      setLoadingNonceAndLogin(false)
+      console.error(e)
+    })
   }, [filesApiClient, email, login])
 
   const onResendEmail = useCallback(() => {
@@ -202,86 +205,87 @@ const PasswordlessEmail = ({ resetLogin }: IPasswordlessEmail) => {
         </Form>
       </Formik>
       ) : (
-        <Formik
-          initialValues={{
-            verificationCode: ""
-          }}
-          validationSchema={verificationCodeValidation}
-          onSubmit={onSubmitVerificationCode}
-        >
-          <Form>
+        <>
+          <Formik
+            initialValues={{
+              nonce: ""
+            }}
+            validationSchema={nonceValidation}
+            onSubmit={onSubmitNonce}
+          >
+            <Form>
+              <Typography
+                variant="h3"
+                component="h3"
+                className={classes.title}
+              >
+                <Trans>Verification code sent!</Trans> <Emoji symbol="✨" />
+              </Typography>
+              <Typography
+                variant="body1"
+                component="p"
+                className={classes.subtitle}
+              >
+                {t`We’ve sent an email to`} {email}. {t`It contains a verification code that’ll sign you in super quickly!` }
+              </Typography>
+              <FormikTextInput
+                className={classes.input}
+                name="nonce"
+                label={t`Enter the verification code:`}
+                labelClassName={classes.inputLabel}
+              />
+              {error && (
+                <Typography component="p"
+                  variant="body1"
+                  className={classes.errorText}>{error}</Typography>
+              )}
+              <Button
+                className={clsx(classes.button)}
+                variant="primary"
+                fullsize
+                type="submit"
+                loading={loadingNonceAndLogin}
+                disabled={loadingNonceAndLogin}
+              >
+                <Trans>Continue</Trans>
+              </Button>
+            </Form>
+          </Formik>
+
+          {!hasEmailResent ? (
             <Typography
-              variant="h3"
-              component="h3"
-              className={classes.title}
-            >
-              <Trans>Verification code sent!</Trans> <Emoji symbol="✨" />
-            </Typography>
-            <Typography
-              variant="body1"
+              className={classes.resendText}
               component="p"
-              className={classes.subtitle}
+              variant="body1"
             >
-              {t`We’ve sent an email to`} {email}. {t`It contains a verification code that’ll sign you in super quickly!` }
-            </Typography>
-            <FormikTextInput
-              className={classes.input}
-              name="verificationCode"
-              label={t`Enter the verification code:`}
-              labelClassName={classes.inputLabel}
-            />
-            {error && (
-              <Typography component="p"
-                variant="body1"
-                className={classes.errorText}>{error}</Typography>
-            )}
-            <Button
-              className={clsx(classes.button)}
-              variant="primary"
-              fullsize
-              type="submit"
-              loading={loadingVerificationCode}
-              disabled={loadingVerificationCode}
-            >
-              <Trans>Continue</Trans>
-            </Button>
-
-            {!hasEmailResent ? (
-              <Typography
-                className={classes.resendText}
-                component="p"
-                variant="body1"
-              >
-                <span>
-                  <Trans>
+              <span>
+                <Trans>
                     Didn&apos;t receive the email ?
-                  </Trans>
-                </span>
-                <span
-                  className={clsx(classes.buttonLink, "spaceLeft", loadingEmailResend && "disabled")}
-                  onClick={onResendEmail}
-                >
-                  <Trans>
-                    Send another email
-                  </Trans>
-                </span>
-              </Typography>
-            ) : (
-              <Typography
-                className={classes.resendText}
-                component="p"
-                variant="body1"
+                </Trans>
+              </span>
+              <span
+                className={clsx(classes.buttonLink, "spaceLeft", loadingEmailResend && "disabled")}
+                onClick={onResendEmail}
               >
-                <span>
-                  <Trans>
-                    Check your inbox! We&apos;ve sent another email
-                  </Trans>
-                </span>
-              </Typography>
-            )}
-          </Form>
-        </Formik>
-
+                <Trans>
+                    Send another email
+                </Trans>
+              </span>
+            </Typography>
+          ) : (
+            <Typography
+              className={classes.resendText}
+              component="p"
+              variant="body1"
+            >
+              <span>
+                <Trans>
+                    Check your inbox! We&apos;ve sent another email.
+                </Trans>
+              </span>
+            </Typography>
+          )}
+        </>
       )}
       <div
         className={classes.buttonLink}
