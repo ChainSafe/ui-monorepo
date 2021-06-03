@@ -325,7 +325,9 @@ const InitialScreen = ({ className }: IInitialScreen) => {
             className={classes.buttonLink}
             onClick={resetLogin}
           >
-            <Typography><Trans>Go back</Trans></Typography>
+            <Typography>
+              <Trans>Go back</Trans>
+            </Typography>
           </div>
         </section>
         <Footer/>
@@ -385,22 +387,19 @@ const InitialScreen = ({ className }: IInitialScreen) => {
   const Footer = () => (
     <footer className={classes.connectWalletFooter}>
       <Typography variant='h5'>
-        <Trans>
-
-          By connecting your wallet, you agree to our <a
-            href={ROUTE_LINKS.Terms}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+        <Trans>By connecting your wallet, you agree to our <a
+          href={ROUTE_LINKS.Terms}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
             Terms of Service
-          </a> and <a
-            href={ROUTE_LINKS.PrivacyPolicy}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+        </a> and <a
+          href={ROUTE_LINKS.PrivacyPolicy}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
             Privacy Policy
-          </a>
-        </Trans>
+        </a></Trans>
       </Typography>
     </footer>
   )
@@ -429,7 +428,9 @@ const InitialScreen = ({ className }: IInitialScreen) => {
       {!!error && (
         <>
           <section className={classes.connectingWallet}>
-            <Typography variant='h2'><Trans>Connection failed</Trans></Typography>
+            <Typography variant='h2'>
+              <Trans>Connection failed</Trans>
+            </Typography>
             <Typography variant='h5'>
               {error}
             </Typography>
