@@ -4,7 +4,7 @@ import { useState, useEffect } from "react"
 import { ThemeProvider } from "@material-ui/styles"
 import "reset-css"
 import "simplebar/dist/simplebar.min.css"
-import { useMediaQuery } from ".."
+import { useMediaQuery } from "../Hooks"
 import { createBreakpoints } from "../Create/CreateBreakpoints"
 import { useLocalStorage } from "@chainsafe/browser-storage-hooks"
 

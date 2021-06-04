@@ -1,7 +1,7 @@
 import { useWeb3 } from "@chainsafe/web3-context"
 import * as React from "react"
 import { useState, useEffect, useMemo, useCallback } from "react"
-import { IFilesApiClient, FilesApiClient, Token, IdentityProvider, OAuthIdentityToken } from "@chainsafe/files-api-client"
+import { IFilesApiClient, FilesApiClient, Token, IdentityProvider } from "@chainsafe/files-api-client"
 import jwtDecode from "jwt-decode"
 import axios from "axios"
 import { decryptFile } from "../Utils/encryption"
@@ -322,7 +322,7 @@ const FilesApiProvider = ({ apiUrl, withLocalStorage = true, children }: FilesAp
 const useFilesApi = () => {
   const context = React.useContext(FilesApiContext)
   if (context === undefined) {
-    throw new Error("useAuth must be used within a AuthProvider")
+    throw new Error("useFilesApi must be used within a FilesApiProvider")
   }
   return context
 }
