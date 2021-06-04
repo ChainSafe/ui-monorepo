@@ -170,6 +170,9 @@ msgstr "Télécharger la clé de sauvegarde"
 msgid "Drop to upload files"
 msgstr "Faire glisser pour uploader un fichier"
 
+msgid "Email is required"
+msgstr ""
+
 msgid "Enter backup phrase:"
 msgstr "Phrase de sauvegarder:"
 
@@ -619,6 +622,9 @@ msgstr "Utilisez une méthode de connexion différente"
 
 msgid "Use a saved browser"
 msgstr "Utiliser un navigateur enregistré"
+
+msgid "Verification code is required"
+msgstr ""
 
 msgid "Verification code not correct!"
 msgstr ""

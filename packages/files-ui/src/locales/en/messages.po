@@ -169,6 +169,9 @@ msgstr "Download recovery key"
 msgid "Drop to upload files"
 msgstr "Drop to upload files"
 
+msgid "Email is required"
+msgstr "Email is required"
+
 msgid "Enter backup phrase:"
 msgstr "Enter backup phrase:"
 
@@ -618,6 +621,9 @@ msgstr "Use a different login method"
 
 msgid "Use a saved browser"
 msgstr "Use a saved browser"
+
+msgid "Verification code is required"
+msgstr "Verification code is required"
 
 msgid "Verification code not correct!"
 msgstr "Verification code not correct!"
