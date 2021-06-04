@@ -1669,6 +1669,11 @@
   resolved "https://npm.pkg.github.com/download/@chainsafe/files-api-client/1.11.3/2817fd5c98430022620c5780b8f250486c24a0c2ef3b50ee64a4487df1a7a798#64a2123619c77eac61fbae588496cb5777eb1207"
   integrity sha512-nBQwpG6t0W7jjcUOaRwhb3VDG7FnAKssU21rBGedXYEuGn+CeOUM5bR3ERqoB22i7tVFEZjiY0AJhoGo2YxIGA==
 
+"@chainsafe/files-api-client@^1.14.3":
+  version "1.14.3"
+  resolved "https://npm.pkg.github.com/download/@chainsafe/files-api-client/1.14.3/3a86b5b65dccc5d572a2969acb540a0fd70fd4f36f7e3eb502fc11da7b82bf07#cafc5b54a4c1b88f483fca6e233b6044746989d5"
+  integrity sha512-vLDnJ4sMBXEvLzBGWwXFFVGwlXWlqxk0mjCA20sHnJSyxO7QFiqCVx0mDs0F+2BGJZ2fhp8ppNVH+wBShc1wIQ==
+
 "@chainsafe/web3-context@1.1.4":
   version "1.1.4"
   resolved "https://registry.yarnpkg.com/@chainsafe/web3-context/-/web3-context-1.1.4.tgz#ce0f140af8ccf93af1a189fbdbd6f018b9bf5fb7"
@@ -8995,7 +9000,7 @@ cypress-file-upload@^5.0.7:
   resolved "https://registry.yarnpkg.com/cypress-file-upload/-/cypress-file-upload-5.0.7.tgz#acf24fe08a92b2d0c892a58b56811fb933d34ea9"
   integrity sha512-cgWsWx7igxjyyVm9/VJ9ukdy69jL00I7z0lrwUWtXXLPvX4neO+8JAZ054Ax8Xf+mdV9OerenXzb9nqRoafjHA==
 
-cypress@^7.4.0:
+cypress@^7.3.0, cypress@^7.4.0:
   version "7.4.0"
   resolved "https://registry.yarnpkg.com/cypress/-/cypress-7.4.0.tgz#679bfe75335b9a4873d44f0d989e9f0367f00665"
   integrity sha512-+CmSoT5DS88e92YDfc6aDA3Zf3uCBRKVB92caWsjXMilz0tf6NpByFvIbLLVWXiYOwrhtWV0m/k93+rzodYwRQ==

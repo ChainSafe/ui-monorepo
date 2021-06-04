@@ -4,7 +4,9 @@ import {
   DirectoryContentResponse,
   BucketType,
   Bucket as FilesBucket,
-  SearchEntry
+  SearchEntry,
+  Pin,
+  PinObject
 } from "@chainsafe/files-api-client"
 import React, { useCallback, useEffect, useReducer } from "react"
 import { useState } from "react"
@@ -50,14 +52,15 @@ interface GetFileContentParams {
 type Bucket = FilesBucket
 
 type StorageContext = {
-  pins: Bucket[]
+  pins: PinObject[]
   uploadsInProgress: UploadProgress[]
   downloadsInProgress: DownloadProgress[]
   spaceUsed: number
+  addPin: (cid: string) => void
   createPin: (bucketId: string, files: File[], path: string) => Promise<void>
   downloadPin: (bucketId: string, itemToDownload: FileSystemItem, path: string) => void
   getPinContent: (bucketId: string, params: GetFileContentParams) => Promise<Blob | undefined>
-  refreshPins: () => Promise<void>
+  refreshPins: () => void
 }
 
 // This represents a File or Folder on the
@@ -77,36 +80,35 @@ const StorageProvider = ({ children }: StorageContextProps) => {
     isLoggedIn
   } = useStorageApi()
   const [spaceUsed, setSpaceUsed] = useState(0)
-  const [pins, setPins] = useState<Bucket[]>([])
+  const [pins, setPins] = useState<PinObject[]>([])
 
-  const refreshPins = useCallback(async () => {
-    const result = await filesApiClient.listBuckets()
-
-    setPins(result.filter(b => b.type === "pinning"))
-    return Promise.resolve()
+  const refreshPins = useCallback(() => {
+    filesApiClient.getAllPins()
+      .then((pins) =>  setPins(pins.results || []))
+      .catch(console.error)
   }, [filesApiClient])
 
   useEffect(() => {
     isLoggedIn && refreshPins()
   }, [isLoggedIn, refreshPins])
 
-  // Space used counter
-  useEffect(() => {
-    const getSpaceUsage = async () => {
-      try {
-        // TODO: Update this to include Share buckets where the current user is the owner
-        const totalSize = pins.filter(b => b.type === "pinning")
-          .reduce((totalSize, bucket) => { return totalSize += (bucket as any).size}, 0)
+  // // Space used counter
+  // useEffect(() => {
+  //   const getSpaceUsage = async () => {
+  //     try {
+  //       // TODO: Update this to include Share buckets where the current user is the owner
+  //       const totalSize = pins.filter(p => p.pin === "pinning")
+  //         .reduce((totalSize, bucket) => { return totalSize += (bucket as any).size}, 0)
 
-        setSpaceUsed(totalSize)
-      } catch (error) {
-        console.error(error)
-      }
-    }
-    if (isLoggedIn) {
-      getSpaceUsage()
-    }
-  }, [filesApiClient, isLoggedIn, pins])
+  //       setSpaceUsed(totalSize)
+  //     } catch (error) {
+  //       console.error(error)
+  //     }
+  //   }
+  //   if (isLoggedIn) {
+  //     getSpaceUsage()
+  //   }
+  // }, [filesApiClient, isLoggedIn, pins])
 
   // Reset encryption keys on log out
   useEffect(() => {
@@ -142,6 +144,12 @@ const StorageProvider = ({ children }: StorageContextProps) => {
       return closeIntercept
     }
   })
+
+  const addPin = useCallback((cid: string) => {
+    filesApiClient.addPin({ pins: [{ cid }] })
+      .then(res => console.log(res))
+      .catch(console.error)
+  }, [filesApiClient])
 
   const createPin = useCallback(async (bucketId: string, files: File[], path: string) => {
     const bucket = pins.find(b => b.id === bucketId)
@@ -278,15 +286,15 @@ const StorageProvider = ({ children }: StorageContextProps) => {
   return (
     <StorageContext.Provider
       value={{
+        addPin,
         createPin,
         downloadPin,
         getPinContent,
         uploadsInProgress,
         spaceUsed,
         downloadsInProgress,
-        pins: pins,
+        pins,
         refreshPins
-
       }}
     >
       {children}
