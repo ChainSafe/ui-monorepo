@@ -75,7 +75,7 @@ msgid "Change password"
 msgstr "Modifier"
 
 msgid "Check your inbox! We've sent another email."
-msgstr ""
+msgstr "Email envoyé à nouveau."
 
 msgid "Click or drag to upload files"
 msgstr "Cliquer ou faire glisser un ficher pour uploader"
@@ -105,7 +105,7 @@ msgid "Continue"
 msgstr "Continuer"
 
 msgid "Continue with Email"
-msgstr ""
+msgstr "Continuer avec un e-mail"
 
 msgid "Continue with Facebook"
 msgstr "Continuer avec Facebook"
@@ -153,7 +153,7 @@ msgid "Device awaiting confirmation"
 msgstr "Appareil en attente de confirmation"
 
 msgid "Didn't receive the email ?"
-msgstr ""
+msgstr "E-mail non reçu ?"
 
 msgid "Display Settings"
 msgstr "Paramètres d'affichage"
@@ -171,7 +171,7 @@ msgid "Drop to upload files"
 msgstr "Faire glisser pour uploader un fichier"
 
 msgid "Email is required"
-msgstr ""
+msgstr "Un e-mail est requis"
 
 msgid "Enter backup phrase:"
 msgstr "Phrase de sauvegarder:"
@@ -183,10 +183,10 @@ msgid "Enter password:"
 msgstr "Mot de passe:"
 
 msgid "Enter the verification code:"
-msgstr ""
+msgstr "Entrer le code de vérification:"
 
 msgid "Enter your email:"
-msgstr ""
+msgstr "Enter votre e-mail:"
 
 msgid "Essentials - Free"
 msgstr "Essentials - Gratuit"
@@ -489,7 +489,7 @@ msgid "Send Feedback"
 msgstr "Donner son avis"
 
 msgid "Send another email"
-msgstr ""
+msgstr "Envoyer un nouvel e-mail"
 
 msgid "Set Password"
 msgstr "Définir un mot de passe"
@@ -546,7 +546,7 @@ msgid "Social sign in or wallet"
 msgstr "Connecté avec un réseau social ou wallet"
 
 msgid "Something went wrong!"
-msgstr ""
+msgstr "Oups! Il y a eu une erreur, merci de ré-essayer."
 
 msgid "Something went wrong. We couldn't upload your file"
 msgstr "Un problème est survenu. Nous n'avons pas pu uploader votre fichier"
@@ -621,13 +621,13 @@ msgid "Use a saved browser"
 msgstr "Utiliser un navigateur enregistré"
 
 msgid "Verification code is required"
-msgstr ""
+msgstr "Code de vérification requis"
 
 msgid "Verification code not correct!"
-msgstr ""
+msgstr "Code de vérification incorrecte!"
 
 msgid "Verification code sent!"
-msgstr ""
+msgstr "Code de vérification envoyé!"
 
 msgid "View folder"
 msgstr "Voir le dossier"
@@ -642,7 +642,7 @@ msgid "We’ve got a new authentication system in place. All you need to do is e
 msgstr "Nous avons mis en place un nouveau système d’authentification. Tout ce que vous avez à faire est de saisir à nouveau votre mot de passe pour migrer vos informations d'identification vers le nouveau système."
 
 msgid "We’ve sent an email to {email}. It contains a verification code that’ll sign you in super quickly!"
-msgstr ""
+msgstr "Nous avons envoyé un e-mail à {email}. Il contient un code de vérification pour vous connecter!"
 
 msgid "What a fine day it is."
 msgstr "Une belle journée."
