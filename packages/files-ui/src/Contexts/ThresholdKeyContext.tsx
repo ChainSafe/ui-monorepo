@@ -430,7 +430,7 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
           profileImage: userInfo?.profileImage,
           verifier: "",
           verifierId: (loginType === "web3") ? address || "" : decodedToken.uuid,
-          typeOfLogin: loginType !== "web3" ? loginType : "jwt",
+          typeOfLogin: (loginType !== "web3" && loginType !== "email") ? loginType : "jwt",
           accessToken: userInfo?.accessToken,
           state: { }
         }
@@ -484,7 +484,7 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
   }
 
   const getIdentityToken = async (loginType: IdentityProvider): Promise<{identityToken: IdentityToken; userInfo: any}> => {
-    if (loginType === "web3") {
+    if (loginType === "web3" || loginType === "email") {
 
       let addressToUse = address
       let signer
