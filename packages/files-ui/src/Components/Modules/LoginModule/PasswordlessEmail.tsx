@@ -226,7 +226,7 @@ const PasswordlessEmail = ({ resetLogin }: IPasswordlessEmail) => {
                   component="p"
                   className={classes.subtitle}
                 >
-                  {t`We’ve sent an email to`} {email}. {t`It contains a verification code that’ll sign you in super quickly!` }
+                  <Trans>We’ve sent an email to {email}. It contains a verification code that’ll sign you in super quickly!</Trans>
                 </Typography>
                 <FormikTextInput
                   className={classes.input}

@@ -280,9 +280,6 @@ msgstr "Info"
 msgid "Invalid name"
 msgstr "Invalid name"
 
-msgid "It contains a verification code that’ll sign you in super quickly!"
-msgstr "It contains a verification code that’ll sign you in super quickly!"
-
 msgid "I’m done saving my backup phrase"
 msgstr "I’m done saving my backup phrase"
 
@@ -643,8 +640,8 @@ msgstr "Web3: {0}"
 msgid "We’ve got a new authentication system in place. All you need to do is enter your password again to migrate your credentials over to the new system."
 msgstr "We’ve got a new authentication system in place. All you need to do is enter your password again to migrate your credentials over to the new system."
 
-msgid "We’ve sent an email to"
-msgstr "We’ve sent an email to"
+msgid "We’ve sent an email to {email}. It contains a verification code that’ll sign you in super quickly!"
+msgstr "We’ve sent an email to {email}. It contains a verification code that’ll sign you in super quickly!"
 
 msgid "What a fine day it is."
 msgstr "What a fine day it is."
