@@ -99,22 +99,20 @@ const BinFileBrowser: React.FC<IFileBrowserModuleProps> = ({ controls = false }:
     refreshContents()
   }, [deleteFile, refreshContents])
 
-  const recoverItems = useCallback(async (cids: string[]) => {
-    if (!bucket) return Promise.reject()
-    return Promise.all(
+  const recoverItems = useCallback(async (cids: string[], newPath: string) => {
+    if (!bucket) return
+    await Promise.all(
       cids.map(async (cid: string) => {
         const itemToRestore = pathContents.find((i) => i.cid === cid)
-        if (!itemToRestore) throw new Error("Item to restore not found")
+        if (!itemToRestore) return
         try {
           await filesApiClient.moveFPSObject(bucket.id, {
             path: getPathWithFile(currentPath, itemToRestore.name),
-            new_path: getPathWithFile("/", itemToRestore.name),
+            new_path: getPathWithFile(newPath, itemToRestore.name),
             destination: {
               type: "csf"
             }
           })
-          refreshContents()
-
           const message = `${
             itemToRestore.isFolder ? t`Folder` : t`File`
           } ${t`recovered successfully`}`
@@ -123,7 +121,6 @@ const BinFileBrowser: React.FC<IFileBrowserModuleProps> = ({ controls = false }:
             message: message,
             appearance: "success"
           })
-          return Promise.resolve()
         } catch (error) {
           const message = `${t`There was an error recovering this`} ${
             itemToRestore.isFolder ? t`folder` : t`file`
@@ -132,9 +129,8 @@ const BinFileBrowser: React.FC<IFileBrowserModuleProps> = ({ controls = false }:
             message: message,
             appearance: "error"
           })
-          return Promise.resolve()
         }
-      }))
+      })).finally(refreshContents)
   }, [addToastMessage, pathContents, refreshContents, filesApiClient, bucket, currentPath])
 
   const viewFolder = useCallback((cid: string) => {
