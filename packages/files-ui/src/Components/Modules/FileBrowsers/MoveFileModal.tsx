@@ -3,7 +3,7 @@ import React, { useState, useEffect, useCallback } from "react"
 import CustomModal from "../../Elements/CustomModal"
 import CustomButton from "../../Elements/CustomButton"
 import { t, Trans } from "@lingui/macro"
-import { DirectoryContentResponse, FileSystemItem } from "../../../Contexts/FilesContext"
+import { DirectoryContentResponse, FileSystemItem, useFiles } from "../../../Contexts/FilesContext"
 import { Button, FolderIcon, Grid, ITreeNodeProps, ScrollbarWrapper, TreeView, Typography } from "@chainsafe/common-components"
 import { CSFTheme } from "../../../Themes/types"
 import { useFileBrowser } from "../../../Contexts/FileBrowserContext"
@@ -76,7 +76,8 @@ interface IMoveFileModuleProps {
 const MoveFileModule = ({ filesToMove, modalOpen, onClose, onCancel, mode }: IMoveFileModuleProps) => {
   const classes = useStyles()
   const { filesApiClient } = useFilesApi()
-  const { moveItems, recoverItems, bucket } = useFileBrowser()
+  const { buckets } = useFiles()
+  const { moveItems, recoverItems } = useFileBrowser()
   const [movingFile, setMovingFile] = useState(false)
   const [movePath, setMovePath] = useState<undefined | string>(undefined)
   const [folderTree, setFolderTree] = useState<ITreeNodeProps[]>([])
@@ -94,6 +95,7 @@ const MoveFileModule = ({ filesToMove, modalOpen, onClose, onCancel, mode }: IMo
   )
 
   const getFolderTreeData = useCallback(async () => {
+    const bucket = buckets.find((bucket) => bucket.type === "csf")
     if (!bucket) return
     filesApiClient.getBucketDirectoriesTree(bucket.id).then((newFolderTree) => {
       if (newFolderTree.entries) {
@@ -111,7 +113,7 @@ const MoveFileModule = ({ filesToMove, modalOpen, onClose, onCancel, mode }: IMo
         setFolderTree([])
       }
     }).catch(console.error)
-  }, [filesApiClient, mapFolderTree, bucket])
+  }, [filesApiClient, mapFolderTree, buckets])
 
   useEffect(() => {
     if (modalOpen) {
