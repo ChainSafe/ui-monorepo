@@ -1,10 +1,10 @@
 import {
-  CSFFilesFullInfoResponse,
   FileContentResponse,
   DirectoryContentResponse,
   BucketType,
   Bucket as FilesBucket,
-  SearchEntry
+  SearchEntry,
+  BucketFileFullInfoResponse
 } from "@chainsafe/files-api-client"
 import React, { useCallback, useEffect, useReducer } from "react"
 import { useState } from "react"
@@ -276,15 +276,13 @@ const FilesProvider = ({ children }: FilesContextProps) => {
         })
       }
 
-      // TODO: Update this once API support for FPS is working
-      await filesApiClient.addCSFFiles(
-        // bucketId,
+      await filesApiClient.uploadBucketObjects(
+        bucketId,
         filesParam,
         path,
-        "csf",
         undefined,
         undefined,
-        // undefined,
+        undefined,
         (progressEvent: { loaded: number; total: number }) => {
           dispatchUploadsInProgress({
             type: "progress",
@@ -346,13 +344,9 @@ const FilesProvider = ({ children }: FilesContextProps) => {
     }
 
     try {
-      const result = await filesApiClient.getFileContent(
-        {
-          path: path,
-          source: {
-            id: bucket.id
-          }
-        },
+      const result = await filesApiClient.getBucketObjectContent(
+        bucket.id,
+        { path: path },
         cancelToken,
         onDownloadProgress
       )
@@ -458,7 +452,7 @@ export { FilesProvider, useFiles }
 export type {
   FileSystemItem,
   DirectoryContentResponse,
-  CSFFilesFullInfoResponse as FileFullInfo,
+  BucketFileFullInfoResponse as FileFullInfo,
   BucketType,
   SearchEntry
 }

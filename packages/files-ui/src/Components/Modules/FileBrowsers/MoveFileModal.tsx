@@ -74,7 +74,7 @@ interface IMoveFileModuleProps {
 const MoveFileModule = ({ filesToMove, modalOpen, onClose, onCancel }: IMoveFileModuleProps) => {
   const classes = useStyles()
   const { filesApiClient } = useFilesApi()
-  const { moveItems } = useFileBrowser()
+  const { moveItems, bucket } = useFileBrowser()
   const [movingFile, setMovingFile] = useState(false)
   const [movePath, setMovePath] = useState<undefined | string>(undefined)
   const [folderTree, setFolderTree] = useState<ITreeNodeProps[]>([])
@@ -93,8 +93,8 @@ const MoveFileModule = ({ filesToMove, modalOpen, onClose, onCancel }: IMoveFile
   )
 
   const getFolderTreeData = useCallback(async () => {
-    // TODO: Update this when the getBucketTree method is available on the API
-    filesApiClient.getCSFTree().then((newFolderTree) => {
+    if (!bucket) return
+    filesApiClient.getBucketDirectoriesTree(bucket.id).then((newFolderTree) => {
       if (newFolderTree.entries) {
         const folderTreeNodes = [
           {
@@ -110,7 +110,7 @@ const MoveFileModule = ({ filesToMove, modalOpen, onClose, onCancel }: IMoveFile
         setFolderTree([])
       }
     }).catch(console.error)
-  }, [filesApiClient, mapFolderTree])
+  }, [filesApiClient, mapFolderTree, bucket])
 
   useEffect(() => {
     if (modalOpen) {
