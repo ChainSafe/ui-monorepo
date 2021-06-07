@@ -107,6 +107,8 @@ const FilesProvider = ({ children }: FilesContextProps) => {
 
   const refreshBuckets = useCallback(async () => {
     if (!personalEncryptionKey) return
+    // TODO: Remove this once the API creates buckets for new users
+    await filesApiClient.getCSFChildList({ path:"/" })
     const result = await filesApiClient.listBuckets()
 
     const bucketsWithKeys: Bucket[] = await Promise.all(result.map(async (b) => ({
