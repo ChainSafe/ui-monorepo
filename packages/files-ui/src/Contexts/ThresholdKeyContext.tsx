@@ -46,7 +46,7 @@ export type TThresholdKeyContext = {
   hasPasswordShare: boolean
   shouldInitializeAccount: boolean
   pendingShareTransferRequests: ShareTransferRequest[]
-  login(loginType: IdentityProvider): Promise<void>
+  login(loginType: IdentityProvider, tokenInfo?: {token: string; email: string}): Promise<void>
   resetIsNewDevice(): void
   resetShouldInitialize(): void
   addPasswordShare(password: string): Promise<void>
@@ -404,11 +404,11 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
     }
   }, [userInfo, address])
 
-  const login = async (loginType: IdentityProvider) => {
+  const login = async (loginType: IdentityProvider, tokenInfo?: {token: string; email: string}) => {
     if (!TKeySdk || maintenanceMode) return
     try {
       setStatus("awaiting confirmation")
-      const { identityToken, userInfo } = await getIdentityToken(loginType)
+      const { identityToken, userInfo } = await getIdentityToken(loginType, tokenInfo)
       const decodedToken = jwtDecode<{ uuid: string; address: string }>(identityToken.token || "")
       const directAuthSdk = (TKeySdk.serviceProvider as any).directWeb as DirectAuthSdk
       const torusKey = await directAuthSdk.getTorusKey(
@@ -430,7 +430,7 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
           profileImage: userInfo?.profileImage,
           verifier: "",
           verifierId: (loginType === "web3") ? address || "" : decodedToken.uuid,
-          typeOfLogin: loginType !== "web3" ? loginType : "jwt",
+          typeOfLogin: loginType !== "web3" && loginType !== "email" ? loginType : "jwt",
           accessToken: userInfo?.accessToken,
           state: { }
         }
@@ -483,7 +483,20 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
     }
   }
 
-  const getIdentityToken = async (loginType: IdentityProvider): Promise<{identityToken: IdentityToken; userInfo: any}> => {
+  const getIdentityToken = async (
+    loginType: IdentityProvider,
+    tokenInfo?: {token: string; email: string}
+  ): Promise<{identityToken: IdentityToken; userInfo: any}> => {
+    if (loginType === "email") {
+      const uuidToken = await filesApiClient.generateServiceIdentityToken({
+        identity_provider: loginType,
+        identity_token: tokenInfo?.token || ""
+      })
+      return {
+        identityToken: uuidToken,
+        userInfo: { email: tokenInfo?.email }
+      }
+    }
     if (loginType === "web3") {
 
       let addressToUse = address
