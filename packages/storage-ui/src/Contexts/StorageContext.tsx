@@ -1,11 +1,9 @@
 import {
-  CSFFilesFullInfoResponse,
   FileContentResponse,
   DirectoryContentResponse,
   BucketType,
   Bucket as FilesBucket,
   SearchEntry,
-  Pin,
   PinObject
 } from "@chainsafe/files-api-client"
 import React, { useCallback, useEffect, useReducer } from "react"
@@ -58,8 +56,8 @@ type StorageContext = {
   spaceUsed: number
   addPin: (cid: string) => void
   createPin: (bucketId: string, files: File[], path: string) => Promise<void>
-  downloadPin: (bucketId: string, itemToDownload: FileSystemItem, path: string) => void
-  getPinContent: (bucketId: string, params: GetFileContentParams) => Promise<Blob | undefined>
+  // downloadPin: (bucketId: string, itemToDownload: FileSystemItem, path: string) => void
+  // getPinContent: (bucketId: string, params: GetFileContentParams) => Promise<Blob | undefined>
   refreshPins: () => void
 }
 
@@ -199,97 +197,97 @@ const StorageProvider = ({ children }: StorageContextProps) => {
     }
   }, [pins])
 
-  const getPinContent = useCallback(async (
-    bucketId: string,
-    { cid, cancelToken, onDownloadProgress, file, path }: GetFileContentParams
-  ) => {
-    const bucket = pins.find(b => b.id === bucketId)
+  // const getPinContent = useCallback(async (
+  //   bucketId: string,
+  //   { cid, cancelToken, onDownloadProgress, file, path }: GetFileContentParams
+  // ) => {
+  //   const bucket = pins.find(b => b.id === bucketId)
 
-    if (!bucket) {
-      throw new Error("No encryption key for this bucket found")
-    }
+  //   if (!bucket) {
+  //     throw new Error("No encryption key for this bucket found")
+  //   }
 
-    if (!file) {
-      console.error("No file passed, and no file found for cid:", cid, "in pathContents:", path)
-      throw new Error("No file found.")
-    }
+  //   if (!file) {
+  //     console.error("No file passed, and no file found for cid:", cid, "in pathContents:", path)
+  //     throw new Error("No file found.")
+  //   }
 
-    try {
-      const result = await filesApiClient.getFileContent(
-        {
-          path: path,
-          source: {
-            id: bucket.id
-          }
-        },
-        cancelToken,
-        onDownloadProgress
-      )
+  //   try {
+  //     const result = await filesApiClient.getFileContent(
+  //       {
+  //         path: path,
+  //         source: {
+  //           id: bucket.id
+  //         }
+  //       },
+  //       cancelToken,
+  //       onDownloadProgress
+  //     )
 
-      return result.data
-    } catch (error) {
-      console.error(error)
-      return Promise.reject()
-    }
-  }, [pins, filesApiClient])
+  //     return result.data
+  //   } catch (error) {
+  //     console.error(error)
+  //     return Promise.reject()
+  //   }
+  // }, [pins, filesApiClient])
 
-  const downloadPin = useCallback(async (bucketId: string, itemToDownload: FileSystemItem, path: string) => {
-    const toastId = uuidv4()
-    try {
-      const downloadProgress: DownloadProgress = {
-        id: toastId,
-        fileName: itemToDownload.name,
-        complete: false,
-        error: false,
-        progress: 0
-      }
-      dispatchDownloadsInProgress({ type: "add", payload: downloadProgress })
-      const result = await getPinContent(bucketId, {
-        cid: itemToDownload.cid,
-        file: itemToDownload,
-        path: `${path}/${itemToDownload.name}`,
-        onDownloadProgress: (progressEvent) => {
-          dispatchDownloadsInProgress({
-            type: "progress",
-            payload: {
-              id: toastId,
-              progress: Math.ceil(
-                (progressEvent.loaded / itemToDownload.size) * 100
-              )
-            }
-          })
-        }
-      })
-      if (!result) return
-      const link = document.createElement("a")
-      link.href = URL.createObjectURL(result)
-      link.download = itemToDownload?.name || "file"
-      link.click()
-      dispatchDownloadsInProgress({
-        type: "complete",
-        payload: { id: toastId }
-      })
-      URL.revokeObjectURL(link.href)
-      setTimeout(() => {
-        dispatchDownloadsInProgress({
-          type: "remove",
-          payload: { id: toastId }
-        })
-      }, REMOVE_UPLOAD_PROGRESS_DELAY)
-      return Promise.resolve()
-    } catch (error) {
-      dispatchDownloadsInProgress({ type: "error", payload: { id: toastId } })
-      return Promise.reject()
-    }
-  }, [getPinContent])
+  // const downloadPin = useCallback(async (bucketId: string, itemToDownload: FileSystemItem, path: string) => {
+  //   const toastId = uuidv4()
+  //   try {
+  //     const downloadProgress: DownloadProgress = {
+  //       id: toastId,
+  //       fileName: itemToDownload.name,
+  //       complete: false,
+  //       error: false,
+  //       progress: 0
+  //     }
+  //     dispatchDownloadsInProgress({ type: "add", payload: downloadProgress })
+  //     const result = await getPinContent(bucketId, {
+  //       cid: itemToDownload.cid,
+  //       file: itemToDownload,
+  //       path: `${path}/${itemToDownload.name}`,
+  //       onDownloadProgress: (progressEvent) => {
+  //         dispatchDownloadsInProgress({
+  //           type: "progress",
+  //           payload: {
+  //             id: toastId,
+  //             progress: Math.ceil(
+  //               (progressEvent.loaded / itemToDownload.size) * 100
+  //             )
+  //           }
+  //         })
+  //       }
+  //     })
+  //     if (!result) return
+  //     const link = document.createElement("a")
+  //     link.href = URL.createObjectURL(result)
+  //     link.download = itemToDownload?.name || "file"
+  //     link.click()
+  //     dispatchDownloadsInProgress({
+  //       type: "complete",
+  //       payload: { id: toastId }
+  //     })
+  //     URL.revokeObjectURL(link.href)
+  //     setTimeout(() => {
+  //       dispatchDownloadsInProgress({
+  //         type: "remove",
+  //         payload: { id: toastId }
+  //       })
+  //     }, REMOVE_UPLOAD_PROGRESS_DELAY)
+  //     return Promise.resolve()
+  //   } catch (error) {
+  //     dispatchDownloadsInProgress({ type: "error", payload: { id: toastId } })
+  //     return Promise.reject()
+  //   }
+  // }, [getPinContent])
 
   return (
     <StorageContext.Provider
       value={{
         addPin,
         createPin,
-        downloadPin,
-        getPinContent,
+        // downloadPin,
+        // getPinContent,
         uploadsInProgress,
         spaceUsed,
         downloadsInProgress,
@@ -314,7 +312,6 @@ export { StorageProvider, useStorage }
 export type {
   FileSystemItem,
   DirectoryContentResponse,
-  CSFFilesFullInfoResponse as FileFullInfo,
   BucketType,
   SearchEntry
 }
