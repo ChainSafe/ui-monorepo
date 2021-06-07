@@ -7,8 +7,9 @@ jobs:
   pr-labeler:
     runs-on: ubuntu-latest
     steps:
+      - run: cat .github/pr-labeler.yml
       - uses: TimonVS/pr-labeler-action@v3
         with:
-          configuration-path: .github/pr-labeler.yml # optional, .github/pr-labeler.yml is the default value
+          configuration-path: .github/pr-labeler.yml
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
