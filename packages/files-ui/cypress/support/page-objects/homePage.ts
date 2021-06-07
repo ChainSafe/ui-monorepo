@@ -35,9 +35,9 @@ export const homePage = {
 
     // get count of current items in list
     let preExistingItems = 0
-    
-    if this.fileItemRow().length != 0 {
-      preExistingItems = this.fileItemRow().length
+
+    if (this.fileItemRow().its("length") && this.fileItemRow().length != 0) {
+      let preExistingItems = this.fileItemRow().its("length")
     }
 
     // invoke upload modal dialog
@@ -50,7 +50,7 @@ export const homePage = {
     // Wait for upload to complete by ensuring the upload modal has disappeared
     this.uploadFileForm().should("not.exist")
 
-    const currentItems = this.fileItemRow().
+    const currentItems = this.fileItemRow().its("length")
     cy.log("Pre-existing file count: " + String(preExistingItems))
     cy.log("Current file count: " + String(currentItems))
     if (currentItems != preExistingItems + 1) {
