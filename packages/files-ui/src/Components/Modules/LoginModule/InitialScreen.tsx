@@ -415,7 +415,7 @@ const InitialScreen = ({ className }: IInitialScreen) => {
           <Trans>Get Started</Trans>
         </Typography>
       )}
-      { !error && (
+      {!error && (
         loginMode !== "web3" && loginMode !== "email"
           ? <LoginButtons />
           : loginMode === "email"
@@ -425,8 +425,7 @@ const InitialScreen = ({ className }: IInitialScreen) => {
                 ? <ConnectWallet />
                 : <WalletConnection />
               : <WalletSelection />
-        )
-      }
+      )}
       {!!error && (
         <>
           <section className={classes.connectingWallet}>
