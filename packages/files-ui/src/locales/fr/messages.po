@@ -74,6 +74,9 @@ msgstr "Modifier"
 msgid "Change password"
 msgstr "Modifier"
 
+msgid "Check your inbox! We've sent another email."
+msgstr "Email envoyé à nouveau."
+
 msgid "Click or drag to upload files"
 msgstr "Cliquer ou faire glisser un ficher pour uploader"
 
@@ -100,6 +103,9 @@ msgstr "La connexion a échouée"
 
 msgid "Continue"
 msgstr "Continuer"
+
+msgid "Continue with Email"
+msgstr "Continuer avec un e-mail"
 
 msgid "Continue with Facebook"
 msgstr "Continuer avec Facebook"
@@ -146,6 +152,9 @@ msgstr "Supprimer selection"
 msgid "Device awaiting confirmation"
 msgstr "Appareil en attente de confirmation"
 
+msgid "Didn't receive the email ?"
+msgstr "E-mail non reçu ?"
+
 msgid "Display Settings"
 msgstr "Paramètres d'affichage"
 
@@ -161,6 +170,9 @@ msgstr "Télécharger la clé de sauvegarde"
 msgid "Drop to upload files"
 msgstr "Faire glisser pour uploader un fichier"
 
+msgid "Email is required"
+msgstr "Un e-mail est requis"
+
 msgid "Enter backup phrase:"
 msgstr "Phrase de sauvegarder:"
 
@@ -169,6 +181,12 @@ msgstr "Mot de passe"
 
 msgid "Enter password:"
 msgstr "Mot de passe:"
+
+msgid "Enter the verification code:"
+msgstr "Entrer le code de vérification:"
+
+msgid "Enter your email:"
+msgstr "Enter votre e-mail:"
 
 msgid "Essentials - Free"
 msgstr "Essentials - Gratuit"
@@ -470,6 +488,9 @@ msgstr "Sélectionner un wallet"
 msgid "Send Feedback"
 msgstr "Donner son avis"
 
+msgid "Send another email"
+msgstr "Envoyer un nouvel e-mail"
+
 msgid "Set Password"
 msgstr "Définir un mot de passe"
 
@@ -523,6 +544,9 @@ msgstr "Connecté avec un réseau social ou wallet"
 
 msgid "Social sign in or wallet"
 msgstr "Connecté avec un réseau social ou wallet"
+
+msgid "Something went wrong!"
+msgstr "Oups! Il y a eu une erreur, merci de ré-essayer."
 
 msgid "Something went wrong. We couldn't upload your file"
 msgstr "Un problème est survenu. Nous n'avons pas pu uploader votre fichier"
@@ -596,6 +620,15 @@ msgstr "Utilisez une méthode de connexion différente"
 msgid "Use a saved browser"
 msgstr "Utiliser un navigateur enregistré"
 
+msgid "Verification code is required"
+msgstr "Code de vérification requis"
+
+msgid "Verification code not correct!"
+msgstr "Code de vérification incorrecte!"
+
+msgid "Verification code sent!"
+msgstr "Code de vérification envoyé!"
+
 msgid "View folder"
 msgstr "Voir le dossier"
 
@@ -607,6 +640,9 @@ msgstr "Web3: {0}"
 
 msgid "We’ve got a new authentication system in place. All you need to do is enter your password again to migrate your credentials over to the new system."
 msgstr "Nous avons mis en place un nouveau système d’authentification. Tout ce que vous avez à faire est de saisir à nouveau votre mot de passe pour migrer vos informations d'identification vers le nouveau système."
+
+msgid "We’ve sent an email to {email}. It contains a verification code that’ll sign you in super quickly!"
+msgstr "Nous avons envoyé un e-mail à {email}. Il contient un code de vérification pour vous connecter!"
 
 msgid "What a fine day it is."
 msgstr "Une belle journée."
