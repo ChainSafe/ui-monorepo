@@ -96,8 +96,7 @@ const FilesProvider = ({ children }: FilesContextProps) => {
   const { profile } = useUser()
 
   const getKeyForBucket = useCallback(async (bucket: FilesBucket) => {
-    // TODO: Add bucket.owners here when the API returns this
-    const bucketUsers = [...bucket.readers, ...bucket.writers]
+    const bucketUsers = [...bucket.owners, ...bucket.readers, ...bucket.writers]
     const bucketUser = bucketUsers.find(bu => bu.uuid === profile?.userId)
     if (!bucketUser || !bucketUser.encryption_key) {
       console.error(`Unable to retrieve encryption key for ${bucket.id}`)
@@ -127,9 +126,10 @@ const FilesProvider = ({ children }: FilesContextProps) => {
   useEffect(() => {
     const getSpaceUsage = async () => {
       try {
-        // TODO: Update this to include Share buckets where the current user is the owner
-        const totalSize = buckets.filter(b => b.type === "csf" || b.type === "trash")
-          .reduce((totalSize, bucket) => { return totalSize += (bucket as any).size}, 0)
+        const totalSize = buckets.filter(b => b.type === "csf" ||
+          b.type === "trash" ||
+          (b.type === "share" && !!b.owners.find(u => u.uuid === profile?.userId)))
+          .reduce((totalSize, bucket) => totalSize += bucket.size, 0)
 
         setSpaceUsed(totalSize)
       } catch (error) {
@@ -139,7 +139,7 @@ const FilesProvider = ({ children }: FilesContextProps) => {
     if (isLoggedIn) {
       getSpaceUsage()
     }
-  }, [filesApiClient, isLoggedIn, buckets])
+  }, [filesApiClient, isLoggedIn, buckets, profile])
 
   // Reset encryption keys on log out
   useEffect(() => {
