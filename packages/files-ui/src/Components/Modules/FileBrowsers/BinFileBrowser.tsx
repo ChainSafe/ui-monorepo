@@ -66,7 +66,7 @@ const BinFileBrowser: React.FC<IFileBrowserModuleProps> = ({ controls = false }:
     try {
       await filesApiClient.removeBucketObject(
         bucket.id,
-        { paths: [`${currentPath}${itemToDelete.name}`] }
+        { paths: [getPathWithFile(currentPath, itemToDelete.name)] } 
       )
 
       refreshContents()
