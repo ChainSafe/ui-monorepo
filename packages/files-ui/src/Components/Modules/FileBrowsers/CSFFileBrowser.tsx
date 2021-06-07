@@ -39,7 +39,7 @@ const CSFFileBrowser: React.FC<IFileBrowserModuleProps> = () => {
   const refreshContents = useCallback((showLoading?: boolean) => {
     if (!bucket) return
     showLoading && setLoadingCurrentPath(true)
-    filesApiClient.getFPSChildList(bucket.id, { path: currentPath })
+    filesApiClient.getBucketObjectChildrenList(bucket.id, { path: currentPath })
       .then((newContents) => {
         showLoading && setLoadingCurrentPath(false)
 
@@ -85,12 +85,10 @@ const CSFFileBrowser: React.FC<IFileBrowserModuleProps> = () => {
         }
 
         try {
-          await filesApiClient.moveFPSObject(bucket.id, {
+          await filesApiClient.moveBucketObjects(bucket.id, {
             path: getPathWithFile(currentPath, itemToDelete.name),
             new_path: getPathWithFile("/", itemToDelete.name),
-            destination: {
-              type: "trash"
-            }
+            destination: buckets.find(b => b.type === "trash")?.id
           })
           const message = `${
             itemToDelete.isFolder ? t`Folder` : t`File`
@@ -111,16 +109,17 @@ const CSFFileBrowser: React.FC<IFileBrowserModuleProps> = () => {
           return Promise.reject()
         }}
       )).finally(refreshContents)
-  }, [addToastMessage, currentPath, pathContents, refreshContents, filesApiClient, bucket])
+  }, [addToastMessage, currentPath, pathContents, refreshContents, filesApiClient, bucket, buckets])
 
   // Rename
   const renameItem = useCallback(async (cid: string, newName: string) => {
     const itemToRename = pathContents.find(i => i.cid === cid)
     if (!bucket || !itemToRename) return
 
-    filesApiClient.moveFPSObject(bucket.id, {
+    filesApiClient.moveBucketObjects(bucket.id, {
       path: getPathWithFile(currentPath, itemToRename.name),
-      new_path: getPathWithFile(currentPath, newName) }).then(() => refreshContents())
+      new_path: getPathWithFile(currentPath, newName) })
+      .then(() => refreshContents())
       .catch(console.error)
   }, [refreshContents, filesApiClient, bucket, currentPath, pathContents])
 
@@ -131,7 +130,7 @@ const CSFFileBrowser: React.FC<IFileBrowserModuleProps> = () => {
         const itemToMove = pathContents.find((i) => i.cid === cid)
         if (!itemToMove) return
         try {
-          await filesApiClient.moveFPSObject(bucket.id, {
+          await filesApiClient.moveBucketObjects(bucket.id, {
             path: getPathWithFile(currentPath, itemToMove.name),
             new_path: getPathWithFile(newPath, itemToMove.name)
           })
