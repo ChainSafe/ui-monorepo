@@ -1,13 +1,11 @@
 name: PR Labeler
-on:
-  pull_request:
-    types: [opened]
+on: pull_request
 
 jobs:
   pr-labeler:
     runs-on: ubuntu-latest
     steps:
-      - run: cat .github/pr-labeler.yml
+      - run: cat ../pr-labeler.yml
       - uses: TimonVS/pr-labeler-action@v3
         with:
           configuration-path: .github/pr-labeler.yml
