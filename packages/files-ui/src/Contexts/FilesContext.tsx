@@ -346,13 +346,9 @@ const FilesProvider = ({ children }: FilesContextProps) => {
     }
 
     try {
-      const result = await filesApiClient.getFileContent(
-        {
-          path: path,
-          source: {
-            id: bucket.id
-          }
-        },
+      const result = await filesApiClient.getBucketContent(
+        bucket.id,
+        { path: path },
         cancelToken,
         onDownloadProgress
       )
