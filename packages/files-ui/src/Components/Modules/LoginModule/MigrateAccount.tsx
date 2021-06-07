@@ -7,7 +7,7 @@ import {
 } from "@chainsafe/common-components"
 import clsx from "clsx"
 import { useFiles } from "../../../Contexts/FilesContext"
-import { useFilesApi } from "@chainsafe/common-contexts"
+import { useFilesApi } from "../../../Contexts/FilesApiContext"
 import { useThresholdKey } from "../../../Contexts/ThresholdKeyContext"
 import ConciseExplainer from "./ConciseExplainer"
 import { CSFTheme } from "../../../Themes/types"

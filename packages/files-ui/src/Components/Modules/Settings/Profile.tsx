@@ -16,7 +16,7 @@ import {
 } from "@chainsafe/common-theme"
 import { LockIcon, CopyIcon } from "@chainsafe/common-components"
 import { Formik, Form } from "formik"
-import { useUser } from "@chainsafe/common-contexts"
+import { useUser } from "../../../Contexts/UserContext"
 import { t, Trans } from "@lingui/macro"
 import { centerEllipsis } from "../../../Utils/Helpers"
 import { CSFTheme } from "../../../Themes/types"
@@ -250,6 +250,7 @@ const ProfileView = () => {
                       className={classes.input}
                       labelClassName={classes.label}
                       label={t`First name`}
+                      data-cy="profile-firstname-input"
                     />
                   </div>
                   <div className={classes.boxContainer}>
@@ -260,6 +261,7 @@ const ProfileView = () => {
                       className={classes.input}
                       labelClassName={classes.label}
                       label={t`Last name`}
+                      data-cy="profile-lastname-input"
                     />
                   </div>
                   {/* <div className={classes.boxContainer}>
@@ -281,6 +283,7 @@ const ProfileView = () => {
                     loading={updatingProfile}
                     variant={themeKey === "dark" ? "outline" : "primary"}
                     loadingText="Saving"
+                    data-cy="profile-save-button"
                   >
                     <LockIcon className={classes.icon} />
                     {"  "}

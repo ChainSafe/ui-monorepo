@@ -18,7 +18,7 @@ import {
 import clsx from "clsx"
 import { CSFTheme } from "../../../Themes/types"
 import dayjs from "dayjs"
-import { useFilesApi } from "@chainsafe/common-contexts"
+import { useFilesApi } from "../../../Contexts/FilesApiContext"
 import { useFileBrowser } from "../../../Contexts/FileBrowserContext"
 
 const useStyles = makeStyles(
