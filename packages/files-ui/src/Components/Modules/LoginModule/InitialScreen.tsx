@@ -324,8 +324,9 @@ const InitialScreen = ({ className }: IInitialScreen) => {
           <Trans>Get Started</Trans>
         </Typography>
       )}
-      { !error && loginMode !== "web3" && loginMode !== "email"
-        ? <>
+      {!error && (
+        loginMode !== "web3" && loginMode !== "email"
+          ? <>
           <section className={classes.buttonSection}>
             {maintenanceMode && (
               <Typography>
@@ -411,14 +412,14 @@ const InitialScreen = ({ className }: IInitialScreen) => {
             </a>
           </footer>
         </>
-        : loginMode === "email"
-          ? <PasswordlessEmail resetLogin={resetLogin} />
-          : wallet
-            ? !isConnecting
-              ? <ConnectWallet />
-              : <WalletConnection />
-            : <WalletSelection />
-      }
+          : loginMode === "email"
+            ? <PasswordlessEmail resetLogin={resetLogin} />
+            : wallet
+              ? !isConnecting
+                ? <ConnectWallet />
+                : <WalletConnection />
+              : <WalletSelection />
+      )}
       {!!error && (
         <>
           <section className={classes.connectingWallet}>
