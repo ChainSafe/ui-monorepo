@@ -8,9 +8,7 @@ import SearchPage from "./Pages/SearchPage"
 import BinPage from "./Pages/BinPage"
 import PurchasePlanPage from "./Pages/PurchasePlanPage"
 import { useThresholdKey } from "../Contexts/ThresholdKeyContext"
-import SharePage from "./Pages/SharePage"
 import ShareFilesPage from "./Pages/ShareFilesPage"
-import ShareOverviewPage from "./Pages/ShareOverviewPage"
 
 export const SETTINGS_BASE = "/settings"
 export const ROUTE_LINKS = {
@@ -19,7 +17,7 @@ export const ROUTE_LINKS = {
   Terms: "https://files.chainsafe.io/terms-of-service",
   ChainSafe: "https://chainsafe.io/",
   Drive: (rawCurrentPath: string) => `/drive${rawCurrentPath}`,
-  Share: (rawCurrentPath: string) => `/share${rawCurrentPath}`,
+  ShareExplorer: (bucketId: string, rawCurrentPath: string) => `/share/${bucketId}${rawCurrentPath}`,
   Bin: (rawBinPath: string) => `/bin${rawBinPath}`,
   Search: (rawSearchTerm: string) => `/search/${rawSearchTerm}`,
   ApplyCryptography: "https://medium.com/chainsafe-systems/major-improvement-to-chainsafe-files-ab489d3e52a2",
@@ -56,16 +54,9 @@ const FilesRoutes = () => {
       />
       <ConditionalRoute
         exact
-        path={ROUTE_LINKS.Share("/:bucket-id/")}
+        path={ROUTE_LINKS.ShareExplorer("/:bucket-id", "/")}
         isAuthorized={isAuthorized}
         component={ShareFilesPage}
-        redirectPath={ROUTE_LINKS.Landing}
-      />
-      <ConditionalRoute
-        exact
-        path={ROUTE_LINKS.Share("")}
-        isAuthorized={isAuthorized}
-        component={ShareOverviewPage}
         redirectPath={ROUTE_LINKS.Landing}
       />
       <ConditionalRoute

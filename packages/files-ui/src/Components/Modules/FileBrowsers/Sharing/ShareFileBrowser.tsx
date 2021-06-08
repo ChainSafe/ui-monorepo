@@ -1,20 +1,19 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react"
-import { Crumb, useToaster, useHistory, useLocation } from "@chainsafe/common-components"
+import { useToaster, useHistory, useLocation } from "@chainsafe/common-components"
 import { getArrayOfPaths, getURISafePathFromArray, getPathWithFile, extractFileBrowserPathFromURL } from "../../../../Utils/pathUtils"
-import { IBulkOperations, IFileBrowserModuleProps, IFilesTableBrowserProps } from "../types"
+import { IBulkOperations, IFilesTableBrowserProps } from "../types"
 import FilesList from "../views/FilesList"
 import { CONTENT_TYPES } from "../../../../Utils/Constants"
-import DragAndDrop from "../../../../Contexts/DnDContext"
 import { t } from "@lingui/macro"
 import { ROUTE_LINKS } from "../../../FilesRoutes"
 import dayjs from "dayjs"
-import { useUser, useFilesApi } from "@chainsafe/common-contexts"
 import { useLocalStorage } from "@chainsafe/browser-storage-hooks"
 import { DISMISSED_SURVEY_KEY } from "../../../SurveyBanner"
 import { FileBrowserContext } from "../../../../Contexts/FileBrowserContext"
 import { parseFileContentResponse } from "../../../../Utils/Helpers"
 import { FileSystemItem, useFiles } from "../../../../Contexts/FilesContext"
-
+import { useFilesApi } from "../../../../Contexts/FilesApiContext"
+import { useUser } from "../../../../Contexts/UserContext"
 
 const ShareFileBrowser = () => {
   const {
@@ -28,14 +27,39 @@ const ShareFileBrowser = () => {
   const { redirect } = useHistory()
 
   const { pathname } = useLocation()
-  const currentPath = useMemo(() =>
-    extractFileBrowserPathFromURL(pathname, ROUTE_LINKS.Share("")),
+  const currentPath = useMemo(() => {
+    const moduleRemoved = extractFileBrowserPathFromURL(pathname, ROUTE_LINKS.ShareExplorer("", "/"))
+    // TODO fetch contents for bucketId
+    const bucketId = moduleRemoved.split("/")[0]
+
+    return extractFileBrowserPathFromURL(pathname, ROUTE_LINKS.ShareExplorer(`${bucketId}/`, "/"))
+  },
   [pathname]
   )
-  const bucket = useMemo(() => buckets.find(b => b.type === "sharing"), [buckets])
+  const bucket = useMemo(() => buckets.find(b => b.type === "share"), [buckets])
+  const { profile } = useUser()
+
+  const [access, setAccess] = useState<"reader" | "owner" | "writer" | "none">("none")
 
   const refreshContents = useCallback((showLoading?: boolean) => {
     if (!bucket) return
+
+    // Water fall to reduce map calls
+    const isOwner = !!(bucket.owners.find(owner => owner.uuid === profile?.userId))
+    if (isOwner) {
+      setAccess("owner")
+    } else {
+      const isWriter = !!(bucket.writers.find(owner => owner.uuid === profile?.userId))
+      if (isWriter) {
+        setAccess("writer")
+      } else {
+        const isReader = !!(bucket.readers.find(owner => owner.uuid === profile?.userId))
+        if (isReader) {
+          setAccess("reader")
+        }
+      }
+    }
+
     showLoading && setLoadingCurrentPath(true)
     filesApiClient.getFPSChildList(bucket.id, { path: currentPath })
       .then((newContents) => {
@@ -47,10 +71,9 @@ const ShareFileBrowser = () => {
       }).catch(error => {
         console.error(error)
       }).finally(() => showLoading && setLoadingCurrentPath(false))
-  }, [bucket, filesApiClient, currentPath])
+  }, [bucket, filesApiClient, currentPath, profile?.userId])
 
   const { localStorageGet, localStorageSet } = useLocalStorage()
-  const { profile } = useUser()
 
   const showSurvey = localStorageGet(DISMISSED_SURVEY_KEY) === "false"
 
@@ -159,15 +182,51 @@ const ShareFileBrowser = () => {
   }), [])
 
   // TODO access control filtering
-  const itemOperations: IFilesTableBrowserProps["itemOperations"] = useMemo(() => ({
-    [CONTENT_TYPES.Audio]: ["preview"],
-    [CONTENT_TYPES.MP4]: ["preview"],
-    [CONTENT_TYPES.Image]: ["preview"],
-    [CONTENT_TYPES.Pdf]: ["preview"],
-    [CONTENT_TYPES.Text]: ["preview"],
-    [CONTENT_TYPES.File]: ["download", "info", "rename", "move", "delete"],
-    [CONTENT_TYPES.Directory]: ["rename", "move", "delete"]
-  }), [])
+  const itemOperations: IFilesTableBrowserProps["itemOperations"] = useMemo(() => {
+    switch (access) {
+    case "owner":
+      return {
+        [CONTENT_TYPES.Audio]: ["preview"],
+        [CONTENT_TYPES.MP4]: ["preview"],
+        [CONTENT_TYPES.Image]: ["preview"],
+        [CONTENT_TYPES.Pdf]: ["preview"],
+        [CONTENT_TYPES.Text]: ["preview"],
+        [CONTENT_TYPES.File]: ["download", "info", "rename", "move", "delete"],
+        [CONTENT_TYPES.Directory]: ["rename", "move", "delete"]
+      }
+    case "writer":
+      return {
+        [CONTENT_TYPES.Audio]: ["preview"],
+        [CONTENT_TYPES.MP4]: ["preview"],
+        [CONTENT_TYPES.Image]: ["preview"],
+        [CONTENT_TYPES.Pdf]: ["preview"],
+        [CONTENT_TYPES.Text]: ["preview"],
+        [CONTENT_TYPES.File]: ["download", "info", "rename", "move", "delete"],
+        [CONTENT_TYPES.Directory]: ["rename", "move", "delete"]
+      }
+    case "reader":
+      return {
+        [CONTENT_TYPES.Audio]: ["preview"],
+        [CONTENT_TYPES.MP4]: ["preview"],
+        [CONTENT_TYPES.Image]: ["preview"],
+        [CONTENT_TYPES.Pdf]: ["preview"],
+        [CONTENT_TYPES.Text]: ["preview"],
+        [CONTENT_TYPES.File]: ["download", "info"],
+        [CONTENT_TYPES.Directory]: ["rename"]
+      }
+    case "none":
+      return {
+        [CONTENT_TYPES.Audio]: [],
+        [CONTENT_TYPES.MP4]: [],
+        [CONTENT_TYPES.Image]: [],
+        [CONTENT_TYPES.Pdf]: [],
+        [CONTENT_TYPES.Text]: [],
+        [CONTENT_TYPES.File]: [],
+        [CONTENT_TYPES.Directory]: []
+      }
+    }
+  }, [access])
+
 
   return (
     <FileBrowserContext.Provider value={{
@@ -191,9 +250,7 @@ const ShareFileBrowser = () => {
       itemOperations,
       withSurvey: showSurvey && olderThanOneWeek
     }}>
-      <DragAndDrop>
-        <FilesList />
-      </DragAndDrop>
+      <FilesList />
     </FileBrowserContext.Provider>
   )
 }
