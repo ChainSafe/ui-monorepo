@@ -8,12 +8,14 @@ import clsx from "clsx"
 import {
   Link,
   Typography,
-  ChainsafeFilesLogo,
   DatabaseSvg,
   PowerDownSvg,
   ProgressBar,
   formatBytes,
-  DeleteSvg } from "@chainsafe/common-components"
+  DeleteSvg,
+  ChainsafeLogo,
+  FolderSvg
+} from "@chainsafe/common-components"
 import { ROUTE_LINKS } from "../StorageRoutes"
 import { FREE_PLAN_LIMIT } from "../../Utils/Constants"
 import { Trans } from "@lingui/macro"
@@ -130,10 +132,6 @@ const useStyles = makeStyles(
           "&.active": {}
         }
       },
-      navHead: {
-        fontWeight: 600,
-        color: constants.nav.headingColor
-      },
       navItem: {
         textDecoration: "none",
         display: "flex",
@@ -240,24 +238,14 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
                 className={classes.logo}
                 to={ROUTE_LINKS.Pins}
               >
-                <ChainsafeFilesLogo />
-                <Typography variant="h5">
-                  Files
-                </Typography>
-                &nbsp;
-                <Typography
-                  variant="caption"
-                  className={classes.betaCaption}
-                >
-                  beta
+                <ChainsafeLogo />
+                <Typography variant="body1">
+                  ChainSafe Storage
                 </Typography>
               </Link>
             </div>
           )}
           <div className={classes.linksArea}>
-            <Typography className={classes.navHead}>
-              <Trans>Folders</Trans>
-            </Typography>
             <nav className={classes.navMenu}>
               <Link
                 onClick={() => {
@@ -271,26 +259,23 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
                   variant="h5"
                   className={classes.navItemText}
                 >
-                  <Trans>Home</Trans>
+                  <Trans>Pins</Trans>
                 </Typography>
               </Link>
               <Link
                 onClick={handleOnClick}
                 className={classes.navItem}
-                to={ROUTE_LINKS.Pins}
+                to={ROUTE_LINKS.Buckets}
               >
-                <DeleteSvg />
+                <FolderSvg />
                 <Typography
                   variant="h5"
                   className={classes.navItemText}
                 >
-                  <Trans>Bin</Trans>
+                  <Trans>Buckets</Trans>
                 </Typography>
               </Link>
             </nav>
-            <Typography className={classes.navHead}>
-              {desktop ? <Trans>Resources</Trans> : <Trans>Account</Trans>}
-            </Typography>
             <nav className={classes.navMenu}>
 
             </nav>

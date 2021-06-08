@@ -3,10 +3,12 @@ import { Switch, ConditionalRoute } from "@chainsafe/common-components"
 import LoginPage from "./Pages/LoginPage"
 import { useStorageApi }  from "../Contexts/StorageApiContext"
 import PinsPage from "./Pages/PinsPage"
+import BucketsPage from "./Pages/Buckets"
 
 export const ROUTE_LINKS = {
   Landing: "/",
   Pins: "/pins",
+  Buckets: "/buckets",
   PrivacyPolicy: "https://files.chainsafe.io/privacy-policy",
   Terms: "https://files.chainsafe.io/terms-of-service",
   ChainSafe: "https://chainsafe.io/"
@@ -26,6 +28,13 @@ const FilesRoutes = () => {
         isAuthorized={isLoggedIn}
         component={PinsPage}
         redirectPath={ROUTE_LINKS.Landing}
+      />
+      <ConditionalRoute
+        exact
+        path={ROUTE_LINKS.Buckets}
+        isAuthorized={isLoggedIn}
+        component={BucketsPage}
+        redirectPath={ROUTE_LINKS.Buckets}
       />
       <ConditionalRoute
         path={ROUTE_LINKS.Landing}
