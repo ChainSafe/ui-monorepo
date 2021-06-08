@@ -61,15 +61,15 @@ const REMOVE_UPLOAD_PROGRESS_DELAY = 5000
 const StorageContext = React.createContext<StorageContext | undefined>(undefined)
 
 const StorageProvider = ({ children }: StorageContextProps) => {
-  const { filesApiClient, isLoggedIn } = useStorageApi()
-  const [spaceUsed, setSpaceUsed] = useState(0)
+  const { storageApiClient, isLoggedIn } = useStorageApi()
+  const [spaceUsed] = useState(0)
   const [pins, setPins] = useState<PinObject[]>([])
 
   const refreshPins = useCallback(() => {
-    filesApiClient.getAllPins()
+    storageApiClient.getAllPins()
       .then((pins) =>  setPins(pins.results || []))
       .catch(console.error)
-  }, [filesApiClient])
+  }, [storageApiClient])
 
   useEffect(() => {
     isLoggedIn && refreshPins()
@@ -91,7 +91,7 @@ const StorageProvider = ({ children }: StorageContextProps) => {
   //   if (isLoggedIn) {
   //     getSpaceUsage()
   //   }
-  // }, [filesApiClient, isLoggedIn, pins])
+  // }, [storageApiClient, isLoggedIn, pins])
 
   // Reset encryption keys on log out
   useEffect(() => {
@@ -105,7 +105,7 @@ const StorageProvider = ({ children }: StorageContextProps) => {
     []
   )
 
-  const [downloadsInProgress, dispatchDownloadsInProgress] = useReducer(
+  const [downloadsInProgress] = useReducer(
     downloadsInProgressReducer,
     []
   )
@@ -130,10 +130,10 @@ const StorageProvider = ({ children }: StorageContextProps) => {
 
   const addPin = useCallback((cid: string) => {
     // Remove the as any once the api specs will be updated
-    filesApiClient.addPin(({ cid }) as any)
+    storageApiClient.addPin(({ cid }) as any)
       .then(res => console.log(res))
       .catch(console.error)
-  }, [filesApiClient])
+  }, [storageApiClient])
 
   const createPin = useCallback(async (bucketId: string, files: File[], path: string) => {
     const bucket = pins.find(b => b.id === bucketId)
@@ -199,7 +199,7 @@ const StorageProvider = ({ children }: StorageContextProps) => {
   //   }
 
   //   try {
-  //     const result = await filesApiClient.getFileContent(
+  //     const result = await storageApiClient.getFileContent(
   //       {
   //         path: path,
   //         source: {
@@ -215,7 +215,7 @@ const StorageProvider = ({ children }: StorageContextProps) => {
   //     console.error(error)
   //     return Promise.reject()
   //   }
-  // }, [pins, filesApiClient])
+  // }, [pins, storageApiClient])
 
   // const downloadPin = useCallback(async (bucketId: string, itemToDownload: FileSystemItem, path: string) => {
   //   const toastId = uuidv4()

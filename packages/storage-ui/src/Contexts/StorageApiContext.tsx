@@ -7,8 +7,8 @@ import axios from "axios"
 import { useLocalStorage, useSessionStorage } from "@chainsafe/browser-storage-hooks"
 export type { IdentityProvider as OAuthProvider }
 
-const tokenStorageKey = "csf.refreshToken"
-const isReturningUserStorageKey = "csf.isReturningUser"
+const tokenStorageKey = "css.refreshToken"
+const isReturningUserStorageKey = "css.isReturningUser"
 
 type StorageApiContextProps = {
   apiUrl?: string
@@ -17,7 +17,7 @@ type StorageApiContextProps = {
 }
 
 type StorageApiContext = {
-  filesApiClient: IFilesApiClient
+  storageApiClient: IFilesApiClient
   isLoggedIn: boolean | undefined
   secured: boolean | undefined
   isReturningUser: boolean
@@ -44,7 +44,7 @@ const StorageApiProvider = ({ apiUrl, withLocalStorage = true, children }: Stora
   const maintenanceMode = process.env.REACT_APP_MAINTENANCE_MODE === "true"
 
   const { wallet, onboard, checkIsReady, isReady, provider } = useWeb3()
-  const { localStorageRemove, localStorageGet, localStorageSet } = useLocalStorage()
+  const { canUseLocalStorage, localStorageRemove, localStorageGet, localStorageSet } = useLocalStorage()
   const { sessionStorageRemove, sessionStorageGet, sessionStorageSet } = useSessionStorage()
 
   // initializing api
@@ -58,7 +58,7 @@ const StorageApiProvider = ({ apiUrl, withLocalStorage = true, children }: Stora
   }, [apiUrl, initialAxiosInstance]
   )
 
-  const [filesApiClient, setFilesApiClient] = useState<FilesApiClient>(initialApiClient)
+  const [storageApiClient, setStorageApiClient] = useState<FilesApiClient>(initialApiClient)
   const [isLoadingUser, setIsLoadingUser] = useState(true)
 
   // access tokens
@@ -78,8 +78,8 @@ const StorageApiProvider = ({ apiUrl, withLocalStorage = true, children }: Stora
     setRefreshToken(refreshToken)
     refreshToken.token && withLocalStorage && localStorageSet(tokenStorageKey, refreshToken.token)
     !withLocalStorage && sessionStorageSet(tokenStorageKey, refreshToken.token)
-    accessToken.token && filesApiClient.setToken(accessToken.token)
-  }, [filesApiClient, localStorageSet, sessionStorageSet, withLocalStorage])
+    accessToken.token && storageApiClient.setToken(accessToken.token)
+  }, [storageApiClient, localStorageSet, sessionStorageSet, withLocalStorage])
 
   const setReturningUser = () => {
     // set returning user
@@ -141,7 +141,7 @@ const StorageApiProvider = ({ apiUrl, withLocalStorage = true, children }: Stora
 
       const apiClient = new FilesApiClient({}, apiUrl, axiosInstance)
       const savedRefreshToken = localStorageGet(tokenStorageKey)
-      setFilesApiClient(apiClient)
+      setStorageApiClient(apiClient)
       if (!maintenanceMode && savedRefreshToken) {
         try {
           const {
@@ -160,7 +160,7 @@ const StorageApiProvider = ({ apiUrl, withLocalStorage = true, children }: Stora
 
     initializeApiClient()
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [canUseLocalStorage])
 
   const selectWallet = async () => {
     if (onboard && !isReady) {
@@ -194,8 +194,8 @@ const StorageApiProvider = ({ apiUrl, withLocalStorage = true, children }: Stora
   }, [refreshToken])
 
   useEffect(() => {
-    if (accessToken && accessToken.token && filesApiClient) {
-      filesApiClient?.setToken(accessToken.token)
+    if (accessToken && accessToken.token && storageApiClient) {
+      storageApiClient?.setToken(accessToken.token)
       const decodedAccessToken = jwtDecode<{ perm: { secured?: string } }>(
         accessToken.token
       )
@@ -205,7 +205,7 @@ const StorageApiProvider = ({ apiUrl, withLocalStorage = true, children }: Stora
         setSecured(false)
       }
     }
-  }, [accessToken, filesApiClient])
+  }, [accessToken, storageApiClient])
 
   const isLoggedIn = () => {
     if (isLoadingUser) {
@@ -225,7 +225,7 @@ const StorageApiProvider = ({ apiUrl, withLocalStorage = true, children }: Stora
 
   const getProviderUrl = async (provider: OAuthIdentityToken) => {
     try {
-      const { url } = await filesApiClient.getOauth2Provider(provider)
+      const { url } = await storageApiClient.getOauth2Provider(provider)
       return Promise.resolve(url)
     } catch {
       return Promise.reject("There was an error logging in")
@@ -237,7 +237,7 @@ const StorageApiProvider = ({ apiUrl, withLocalStorage = true, children }: Stora
       const {
         access_token,
         refresh_token
-      } = await filesApiClient.postOauth2CodeGithub(code, state)
+      } = await storageApiClient.postOauth2CodeGithub(code, state)
       setTokensAndSave(access_token, refresh_token)
       setReturningUser()
       return Promise.resolve()
@@ -258,7 +258,7 @@ const StorageApiProvider = ({ apiUrl, withLocalStorage = true, children }: Stora
       const {
         access_token,
         refresh_token
-      } = await filesApiClient.postOauth2CodeGoogle(
+      } = await storageApiClient.postOauth2CodeGoogle(
         code,
         state,
         scope,
@@ -280,7 +280,7 @@ const StorageApiProvider = ({ apiUrl, withLocalStorage = true, children }: Stora
       const {
         access_token,
         refresh_token
-      } = await filesApiClient.postOauth2CodeFacebook(code, state)
+      } = await storageApiClient.postOauth2CodeFacebook(code, state)
 
       setTokensAndSave(access_token, refresh_token)
       setReturningUser()
@@ -299,7 +299,7 @@ const StorageApiProvider = ({ apiUrl, withLocalStorage = true, children }: Stora
     }
     const signer = provider.getSigner()
     try {
-      const { token } = await filesApiClient.getWeb3Token()
+      const { token } = await storageApiClient.getWeb3Token()
 
       if (token) {
         const signature = await signer.signMessage(token)
@@ -307,7 +307,7 @@ const StorageApiProvider = ({ apiUrl, withLocalStorage = true, children }: Stora
         const {
           access_token,
           refresh_token
-        } = await filesApiClient.postWeb3Token({
+        } = await storageApiClient.postWeb3Token({
           signature: signature,
           token: token,
           public_address: address
@@ -325,7 +325,7 @@ const StorageApiProvider = ({ apiUrl, withLocalStorage = true, children }: Stora
     setAccessToken(undefined)
     setRefreshToken(undefined)
     setDecodedRefreshToken(undefined)
-    filesApiClient.setToken("")
+    storageApiClient.setToken("")
     localStorageRemove(tokenStorageKey)
     !withLocalStorage && sessionStorageRemove(tokenStorageKey)
   }
@@ -333,7 +333,7 @@ const StorageApiProvider = ({ apiUrl, withLocalStorage = true, children }: Stora
   return (
     <StorageApiContext.Provider
       value={{
-        filesApiClient,
+        storageApiClient,
         isLoggedIn: isLoggedIn(),
         secured,
         isReturningUser: isReturningUser,
@@ -355,7 +355,7 @@ const StorageApiProvider = ({ apiUrl, withLocalStorage = true, children }: Stora
 const useStorageApi = () => {
   const context = React.useContext(StorageApiContext)
   if (context === undefined) {
-    throw new Error("useAuth must be used within a AuthProvider")
+    throw new Error("useStorage must be used within a StorageProvider")
   }
   return context
 }
