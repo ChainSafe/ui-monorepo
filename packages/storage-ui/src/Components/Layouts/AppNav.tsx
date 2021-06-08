@@ -235,7 +235,7 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
             <div>
               <Link
                 className={classes.logo}
-                to={ROUTE_LINKS.Pins}
+                to={ROUTE_LINKS.Cids}
               >
                 <ChainsafeLogo />
                 <Typography variant="body1">
@@ -251,7 +251,7 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
                   handleOnClick()
                 }}
                 className={classes.navItem}
-                to={ROUTE_LINKS.Pins}
+                to={ROUTE_LINKS.Cids}
               >
                 <DatabaseSvg />
                 <Typography

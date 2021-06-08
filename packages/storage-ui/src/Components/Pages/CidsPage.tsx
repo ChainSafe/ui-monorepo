@@ -18,7 +18,7 @@ const useStyles = makeStyles(() =>
   })
 )
 
-const PinsPage = () => {
+const CidsPage = () => {
   const classes = useStyles()
   const { pins, addPin } = useStorage()
 
@@ -76,4 +76,4 @@ const PinsPage = () => {
   )
 }
 
-export default PinsPage
+export default CidsPage

@@ -205,7 +205,7 @@ const AppHeader = ({ navOpen, setNavOpen }: IAppHeader) => {
               />
               <Link
                 className={classes.logo}
-                to={ROUTE_LINKS.Pins}
+                to={ROUTE_LINKS.Cids}
               >
                 <ChainsafeLogo />
                 <Typography
