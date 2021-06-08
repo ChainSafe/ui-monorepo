@@ -140,7 +140,10 @@ const StorageApiProvider = ({ apiUrl, withLocalStorage = true, children }: Stora
       )
 
       const apiClient = new FilesApiClient({}, apiUrl, axiosInstance)
-      const savedRefreshToken = localStorageGet(tokenStorageKey)
+      const savedRefreshToken = withLocalStorage
+        ? localStorageGet(tokenStorageKey)
+        : sessionStorageGet(tokenStorageKey)
+
       setStorageApiClient(apiClient)
       if (!maintenanceMode && savedRefreshToken) {
         try {
