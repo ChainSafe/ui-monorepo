@@ -1,9 +1,6 @@
-import React, { useCallback } from "react"
+import React from "react"
 import { makeStyles, createStyles } from "@chainsafe/common-theme"
-import { Table, TableBody, TableHead, TableHeadCell, TableRow, Typography } from "@chainsafe/common-components"
-import { useStorage } from "../../Contexts/StorageContext"
-import { Trans } from "@lingui/macro"
-import PinRow from "../Elements/PinRow"
+import { Typography } from "@chainsafe/common-components"
 
 const useStyles = makeStyles(() =>
   createStyles({

@@ -12,7 +12,6 @@ import {
   PowerDownSvg,
   ProgressBar,
   formatBytes,
-  DeleteSvg,
   ChainsafeLogo,
   FolderSvg
 } from "@chainsafe/common-components"

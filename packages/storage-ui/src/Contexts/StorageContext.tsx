@@ -2,7 +2,6 @@ import {
   FileContentResponse,
   DirectoryContentResponse,
   BucketType,
-  Bucket as FilesBucket,
   SearchEntry,
   PinObject
 } from "@chainsafe/files-api-client"
@@ -10,7 +9,6 @@ import React, { useCallback, useEffect, useReducer } from "react"
 import { useState } from "react"
 import { v4 as uuidv4 } from "uuid"
 import { downloadsInProgressReducer, uploadsInProgressReducer } from "./FilesReducers"
-import { CancelToken } from "axios"
 import { t } from "@lingui/macro"
 import { useBeforeunload } from "react-beforeunload"
 import { useStorageApi } from "./StorageApiContext"
@@ -38,16 +36,6 @@ export type DownloadProgress = {
   errorMessage?: string
   complete: boolean
 }
-
-interface GetFileContentParams {
-  cid: string
-  cancelToken?: CancelToken
-  onDownloadProgress?: (progressEvent: ProgressEvent<EventTarget>) => void
-  file: FileSystemItem
-  path: string
-}
-
-type Bucket = FilesBucket
 
 type StorageContext = {
   pins: PinObject[]
@@ -141,7 +129,8 @@ const StorageProvider = ({ children }: StorageContextProps) => {
   })
 
   const addPin = useCallback((cid: string) => {
-    filesApiClient.addPin({ cid })
+    // Remove the as any once the api specs will be updated
+    filesApiClient.addPin(({ cid }) as any)
       .then(res => console.log(res))
       .catch(console.error)
   }, [filesApiClient])
