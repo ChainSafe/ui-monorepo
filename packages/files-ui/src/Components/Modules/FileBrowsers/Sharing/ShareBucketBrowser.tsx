@@ -1,19 +1,19 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react"
-import { Crumb, useToaster, useHistory, useLocation } from "@chainsafe/common-components"
+import { useToaster, useHistory, useLocation } from "@chainsafe/common-components"
 import { getArrayOfPaths, getURISafePathFromArray, getPathWithFile, extractFileBrowserPathFromURL } from "../../../../Utils/pathUtils"
-import { IBulkOperations, IFileBrowserModuleProps, IFilesTableBrowserProps } from "../types"
+import { IBulkOperations, IFilesTableBrowserProps } from "../types"
 import FilesList from "../views/FilesList"
 import { CONTENT_TYPES } from "../../../../Utils/Constants"
-import DragAndDrop from "../../../../Contexts/DnDContext"
 import { t } from "@lingui/macro"
 import { ROUTE_LINKS } from "../../../FilesRoutes"
 import dayjs from "dayjs"
-import { useUser, useFilesApi } from "@chainsafe/common-contexts"
 import { useLocalStorage } from "@chainsafe/browser-storage-hooks"
 import { DISMISSED_SURVEY_KEY } from "../../../SurveyBanner"
 import { FileBrowserContext } from "../../../../Contexts/FileBrowserContext"
 import { parseFileContentResponse } from "../../../../Utils/Helpers"
 import { FileSystemItem, useFiles } from "../../../../Contexts/FilesContext"
+import { useFilesApi } from "../../../../Contexts/FilesApiContext"
+import { useUser } from "../../../../Contexts/UserContext"
 
 
 const ShareBucketBrowser = () => {
@@ -32,7 +32,7 @@ const ShareBucketBrowser = () => {
     extractFileBrowserPathFromURL(pathname, ROUTE_LINKS.Share("")),
   [pathname]
   )
-  const bucket = useMemo(() => buckets.find(b => b.type === "sharing"), [buckets])
+  const bucket = useMemo(() => buckets.find(b => b.type === "share"), [buckets])
 
   const refreshContents = useCallback((showLoading?: boolean) => {
     if (!bucket) return
