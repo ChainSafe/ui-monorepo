@@ -28,7 +28,7 @@ const CidsPage = () => {
 
   return (
     <div className={classes.root}>
-      <Typography variant='h1'>Pins</Typography>
+      <Typography variant='h1'>Cids</Typography>
       <button onClick={onCreateHardcodedPin}>create pin with hardcoded cid</button>
       <Table
         fullWidth={true}

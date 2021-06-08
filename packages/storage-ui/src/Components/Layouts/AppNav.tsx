@@ -258,7 +258,7 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
                   variant="h5"
                   className={classes.navItemText}
                 >
-                  <Trans>Pins</Trans>
+                  <Trans>Cids</Trans>
                 </Typography>
               </Link>
               <Link
