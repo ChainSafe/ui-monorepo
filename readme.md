@@ -5,7 +5,9 @@
 
 ![full-word-stacked](https://user-images.githubusercontent.com/47398578/120363393-1b343f00-c2da-11eb-8578-130f88a0b75b.png)
 
-[ChainSafe Files](https://files.chainsafe.io) is an end-to-end encrypted file storage app that utilizes the [IPFS](https://ipfs.io) and [Filecoin network](https://filecoin.io) to store user data. 
+> [ChainSafe Files](https://files.chainsafe.io) is an end-to-end encrypted file storage app that utilizes the [IPFS](https://ipfs.io) and [Filecoin](https://filecoin.io) to store user data. 
+
+> Visit app at https://app.files.chainsafe.io
 
 ## Requirements
 
@@ -37,7 +39,6 @@ Complex Modules such as Billing, Login modules, basically shared wide scope/opin
 The UI for Chainsafe Files
 
 ## Development
-
 You will need a Github Personal Access token with `read:package` permissions. This can be obtained [here](https://github.com/settings/tokens)
 
 You then need to add it as environment variable, depending on your OS and shell:
@@ -56,4 +57,9 @@ Our tests use Cypress running against the local instance of the Files UI. The fi
 By default the tests are run against `localhost:3000`
 
 - To start the tests UI run `yarn test:files-ui`
-- To start all the tests like in CI run `yarn test:ci:files-ui`
+- To start all the tests like in CI run `yarn test:ci:files-ui` 
+
+## License
+All `files-ui` code are licensed under the [GNU Lesser General Public License v3.0](https://www.gnu.org/licenses/lgpl-3.0.en.html) also included in our repository in the [LICENSE.md](https://github.com/ChainSafe/files-ui/blob/dev/LICENSE.md) file
+
+© Copyright Protected & All Rights Reserved by [ChainSafe Systems](https://chainsafe.io)
