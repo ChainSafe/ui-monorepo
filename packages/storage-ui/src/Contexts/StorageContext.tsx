@@ -73,10 +73,7 @@ const REMOVE_UPLOAD_PROGRESS_DELAY = 5000
 const StorageContext = React.createContext<StorageContext | undefined>(undefined)
 
 const StorageProvider = ({ children }: StorageContextProps) => {
-  const {
-    filesApiClient,
-    isLoggedIn
-  } = useStorageApi()
+  const { filesApiClient, isLoggedIn } = useStorageApi()
   const [spaceUsed, setSpaceUsed] = useState(0)
   const [pins, setPins] = useState<PinObject[]>([])
 
@@ -144,7 +141,7 @@ const StorageProvider = ({ children }: StorageContextProps) => {
   })
 
   const addPin = useCallback((cid: string) => {
-    filesApiClient.addPin({ pins: [{ cid }] })
+    filesApiClient.addPin({ cid })
       .then(res => console.log(res))
       .catch(console.error)
   }, [filesApiClient])

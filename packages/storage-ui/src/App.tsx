@@ -26,8 +26,7 @@ if (
 }
 
 const availableLanguages = [
-  { id: "en", label: "English" },
-  { id: "fr", label: "Français" }
+  { id: "en", label: "English" }
 ]
 
 const onboardConfig = {
@@ -55,7 +54,7 @@ const onboardConfig = {
   }
 }
 
-const App: React.FC<{}> = () => {
+const App = () => {
   const { initHotjar } = useHotjar()
   const { canUseLocalStorage } = useLocalStorage()
   const hotjarId = process.env.REACT_APP_HOTJAR_ID
