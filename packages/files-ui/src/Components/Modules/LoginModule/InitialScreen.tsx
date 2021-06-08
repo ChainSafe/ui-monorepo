@@ -416,16 +416,17 @@ const InitialScreen = ({ className }: IInitialScreen) => {
           <Trans>Get Started</Trans>
         </Typography>
       )}
-      { !error && loginMode !== "web3" && loginMode !== "email"
-        ? <LoginButtons />
-        : loginMode === "email"
-          ? <PasswordlessEmail resetLogin={resetLogin} />
-          : wallet
-            ? !isConnecting
-              ? <ConnectWallet />
-              : <WalletConnection />
-            : <WalletSelection />
-      }
+      {!error && (
+        loginMode !== "web3" && loginMode !== "email"
+          ? <LoginButtons />
+          : loginMode === "email"
+            ? <PasswordlessEmail resetLogin={resetLogin} />
+            : wallet
+              ? !isConnecting
+                ? <ConnectWallet />
+                : <WalletConnection />
+              : <WalletSelection />
+      )}
       {!!error && (
         <>
           <section className={classes.connectingWallet}>
