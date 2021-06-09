@@ -63,13 +63,13 @@ Cypress.Commands.add("clearCsfBucket", (apiUrlBase: string) => {
         apiClient.setToken(tokens.access_token.token)
         apiClient.listBuckets("csf").then((buckets) => {
           apiClient
-            .getFPSChildList(buckets[0].id, { path: "/" })
+            .getBucketObjectChildrenList(buckets[0].id, { path: "/" })
             .then((items) => {
               const toDelete = items.map(
                 ({ name }: { name: string }) => `/${name}`
               )
-              cy.log(`clearCsfBucket - Deleting ${JSON.stringify(toDelete)}`)
-              apiClient.removeFPSObjects(buckets[0].id, { paths: toDelete }).catch()
+              console.log(`clearCsfBucket - Deleting ${JSON.stringify(toDelete)}`)
+              apiClient.removeBucketObject(buckets[0].id, { paths: toDelete }).catch()
             })
         })
       })
