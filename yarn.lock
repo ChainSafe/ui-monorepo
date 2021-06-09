@@ -1669,10 +1669,10 @@
   resolved "https://npm.pkg.github.com/download/@chainsafe/files-api-client/1.14.4-rc1/d817fdd4af005c219f6836687e374a70ebc1a882426fab32cf7f2248a478a20f#f2f79b098853c844ac6fa3caecb0db4e7ece4b08"
   integrity sha512-p2NhMRWMqadj0uMHyUskhMnroC1ZUZSUUFB4Z8TIFrEPbqZdEfnHTaI9/vwJqaU9VLqMRoJCFxG4JZ0e76VGLQ==
 
-"@chainsafe/files-api-client@1.15.0-rc1":
-  version "1.15.0-rc1"
-  resolved "https://npm.pkg.github.com/download/@chainsafe/files-api-client/1.15.0-rc1/5bc22c32c65bc7a434ba29038a9813d9c551d46f25a61dd5f7012c4d4d7717ba#605202cdb6aaaae354638dc66a206df13fb56084"
-  integrity sha512-tkew3fr9Mvd7OmMJSkT5fSEdm0GH/UQ/4XuaBJJeX3SkpRp+ig9o70ltDymqM+0fgKLR6fr3kpwR4FQjO/hu+w==
+"@chainsafe/files-api-client@2.0.0":
+  version "2.0.0"
+  resolved "https://npm.pkg.github.com/download/@chainsafe/files-api-client/2.0.0/59fcd2bbb4c64e37edae6b31b05ab5e46e2d24bec5424afbe2eb7c2eaa8b9ea0#f2a93ee7a605eccf2ed64ca7c731a1de79f3e001"
+  integrity sha512-28zvyqB8D8Itmsc31xy7gZHFcOg9J2b3BMZWgHNLQLtfJBfLWlE0gHS+CVPUrrPERf02Bbm79Z57qP96YJYOoA==
 
 "@chainsafe/web3-context@1.1.4":
   version "1.1.4"
