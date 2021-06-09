@@ -47,6 +47,7 @@ type StorageContext = {
   // downloadPin: (bucketId: string, itemToDownload: FileSystemItem, path: string) => void
   // getPinContent: (bucketId: string, params: GetFileContentParams) => Promise<Blob | undefined>
   refreshPins: () => void
+  unpin: (requestId: string) => void
 }
 
 // This represents a File or Folder on the
@@ -75,6 +76,11 @@ const StorageProvider = ({ children }: StorageContextProps) => {
     isLoggedIn && refreshPins()
   }, [isLoggedIn, refreshPins])
 
+  const unpin = useCallback((requestId: string) => {
+    filesApiClient.deletePinByID(requestId)
+      .then(() => refreshPins())
+      .catch(console.error)
+  }, [filesApiClient, refreshPins])
   // // Space used counter
   // useEffect(() => {
   //   const getSpaceUsage = async () => {
@@ -278,7 +284,8 @@ const StorageProvider = ({ children }: StorageContextProps) => {
         spaceUsed,
         downloadsInProgress,
         pins,
-        refreshPins
+        refreshPins,
+        unpin
       }}
     >
       {children}

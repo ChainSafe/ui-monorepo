@@ -3,9 +3,13 @@ import { makeStyles, createStyles } from "@chainsafe/common-theme"
 import { Table, TableBody, TableHead, TableHeadCell, TableRow, Typography } from "@chainsafe/common-components"
 import { useStorage } from "../../Contexts/StorageContext"
 import { Trans } from "@lingui/macro"
-import PinRow from "../Elements/PinRow"
+import CidRow from "../Elements/CidRow"
+import { CSFTheme } from "../../Themes/types"
 
-const useStyles = makeStyles(() =>
+export const desktopGridSettings = "3fr 190px 190px 190px 70px !important"
+export const mobileGridSettings = "3fr 190px 190px 190px 70px !important"
+
+const useStyles = makeStyles(({ animation, breakpoints }: CSFTheme) =>
   createStyles({
     root: {
       position: "relative",
@@ -14,6 +18,16 @@ const useStyles = makeStyles(() =>
     },
     tableHead: {
       marginTop: 24
+    },
+    tableRow: {
+      border: "2px solid transparent",
+      transitionDuration: `${animation.transform}ms`,
+      [breakpoints.up("md")]: {
+        gridTemplateColumns: desktopGridSettings
+      },
+      [breakpoints.down("md")]: {
+        gridTemplateColumns: mobileGridSettings
+      }
     }
   })
 )
@@ -39,7 +53,7 @@ const CidsPage = () => {
         <TableHead className={classes.tableHead}>
           <TableRow
             type="grid"
-            className=""
+            className={classes.tableRow}
           >
             <TableHeadCell
               sortButtons={false}
@@ -65,7 +79,7 @@ const CidsPage = () => {
         </TableHead>
         <TableBody>
           {pins.map((pinObject, index) =>
-            <PinRow
+            <CidRow
               pinObject={pinObject}
               key={index}
             />
