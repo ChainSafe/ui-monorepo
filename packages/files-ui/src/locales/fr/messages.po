@@ -678,7 +678,7 @@ msgid "folder"
 msgstr "dossier"
 
 msgid "moved successfully"
-msgstr ""
+msgstr "Déplacé avec succès"
 
 msgid "on"
 msgstr "le"
