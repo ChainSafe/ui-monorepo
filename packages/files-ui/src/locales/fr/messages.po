@@ -594,7 +594,7 @@ msgid "There was an error getting the preview."
 msgstr "Une erreur s'est produite lors de la génération de l’aperçu."
 
 msgid "There was an error moving this"
-msgstr ""
+msgstr "Une erreur s'est produite lors du déplacement"
 
 msgid "There was an error recovering this"
 msgstr "Une erreur s'est produite lors de la récupération"
