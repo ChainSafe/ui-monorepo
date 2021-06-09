@@ -221,6 +221,9 @@ msgstr "Taille"
 msgid "Files"
 msgstr "Fichiers"
 
+msgid "Files address"
+msgstr ""
+
 msgid "Files uses device backups to save your browser."
 msgstr "Files enregistre ce navigateur."
 
