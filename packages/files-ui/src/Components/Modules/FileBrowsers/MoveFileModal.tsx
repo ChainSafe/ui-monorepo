@@ -70,7 +70,7 @@ interface IMoveFileModuleProps {
   modalOpen: boolean
   onClose: () => void
   onCancel: () => void
-  mode: MoveModalMode | undefined
+  mode?: MoveModalMode
 }
 
 const MoveFileModule = ({ filesToMove, modalOpen, onClose, onCancel, mode }: IMoveFileModuleProps) => {
