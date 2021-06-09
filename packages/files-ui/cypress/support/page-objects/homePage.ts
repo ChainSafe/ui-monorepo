@@ -8,7 +8,7 @@ export const homePage = {
   uploadFileForm: () => cy.get("[data-cy=upload-file-form] input"),
 
   // file browser row elements
-  fileItemRow: () => cy.get("[data-cy=file-item-row]"),
+  fileItemRow: () => cy.get("[data-cy=file-item-row]", { timeout: 20000 }),
   fileItemName: () => cy.get("[data-cy=file-item-name]"),
   fileRenameInput: () => cy.get("[data-cy=rename-form] input"),
   fileRenameSubmitButton: () => cy.get("[data-cy=rename-submit-button]"),
@@ -18,7 +18,7 @@ export const homePage = {
   // upload modal elements
   startUploadButton: () => cy.get("[data-cy=upload-ok-button]"),
   uploadCancelButton: () => cy.get("[data-cy=upload-cancel-button"),
-  fileListCloseButton: () => cy.get("[data-testid=file-list-close-button-fileUpload]"),
+  fileListRemoveButton: () => cy.get("[data-testid=file-list-remove-button-fileUpload]"),
   fileUploadList: () => cy.get("[data-testid=file-list-fileUpload] li"),
   fileUploadDropzone : () => cy.get("[data-testid=file-input-dropzone-fileUpload]"),
 
@@ -34,6 +34,7 @@ export const homePage = {
   uploadFile(filePath: string) {
     this.uploadButton().click()
     this.uploadFileForm().attachFile(filePath)
+    this.fileUploadList().should("have.length", 1)
     this.startUploadButton().click()
     this.uploadFileForm().should("not.exist")
   }
