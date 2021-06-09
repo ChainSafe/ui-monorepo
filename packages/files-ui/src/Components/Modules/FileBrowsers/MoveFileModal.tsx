@@ -70,7 +70,7 @@ interface IMoveFileModuleProps {
   modalOpen: boolean
   onClose: () => void
   onCancel: () => void
-  mode: MoveModalMode | undefined
+  mode?: MoveModalMode
 }
 
 const MoveFileModule = ({ filesToMove, modalOpen, onClose, onCancel, mode }: IMoveFileModuleProps) => {
@@ -124,11 +124,11 @@ const MoveFileModule = ({ filesToMove, modalOpen, onClose, onCancel, mode }: IMo
   }, [modalOpen, getFolderTreeData])
 
   const onMoveFile = () => {
-    const moveFn = mode && mode === "move" ? moveItems : recoverItems
+    const moveFn = mode === "move" ? moveItems : recoverItems
     if (!movePath || !moveFn) return
 
     setMovingFile(true)
-    moveFn && moveFn(filesToMove.map(f => f.cid), movePath)
+    moveFn(filesToMove.map(f => f.cid), movePath)
       .then(onClose)
       .catch(console.error)
       .finally(() => setMovingFile(false))
