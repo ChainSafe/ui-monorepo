@@ -4,7 +4,7 @@ import { Web3Provider } from "@chainsafe/web3-context"
 import { ThemeSwitcher } from "@chainsafe/common-theme"
 import "@chainsafe/common-theme/dist/font-faces.css"
 import { Button, CssBaseline, Modal, Router, ToasterProvider, Typography } from "@chainsafe/common-components"
-import FilesRoutes from "./Components/StorageRoutes"
+import StorageRoutes from "./Components/StorageRoutes"
 import AppWrapper from "./Components/Layouts/AppWrapper"
 import { useHotjar } from "react-use-hotjar"
 import { LanguageProvider } from "./Contexts/LanguageContext"
@@ -92,7 +92,7 @@ const App = () => {
 
   return (
     <ThemeSwitcher
-      storageKey="csf.themeKey"
+      storageKey="css.themeKey"
       themes={{ light: lightTheme, dark: darkTheme }}
     >
       <ErrorBoundary
@@ -109,12 +109,12 @@ const App = () => {
             >
               <StorageApiProvider
                 apiUrl={apiUrl}
-                withLocalStorage={false}
+                withLocalStorage={true}
               >
                 <StorageProvider>
                   <Router>
                     <AppWrapper>
-                      <FilesRoutes />
+                      <StorageRoutes />
                     </AppWrapper>
                   </Router>
                 </StorageProvider>
