@@ -124,7 +124,7 @@ const MoveFileModule = ({ filesToMove, modalOpen, onClose, onCancel, mode }: IMo
   }, [modalOpen, getFolderTreeData])
 
   const onMoveFile = () => {
-    const moveFn = mode && mode === "move" ? moveItems : recoverItems
+    const moveFn = mode === "move" ? moveItems : recoverItems
     if (!movePath || !moveFn) return
 
     setMovingFile(true)
