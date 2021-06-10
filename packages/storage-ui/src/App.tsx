@@ -4,7 +4,7 @@ import { Web3Provider } from "@chainsafe/web3-context"
 import { ThemeSwitcher } from "@chainsafe/common-theme"
 import "@chainsafe/common-theme/dist/font-faces.css"
 import { Button, CssBaseline, Modal, Router, ToasterProvider, Typography } from "@chainsafe/common-components"
-import FilesRoutes from "./Components/StorageRoutes"
+import StorageRoutes from "./Components/StorageRoutes"
 import AppWrapper from "./Components/Layouts/AppWrapper"
 import { useHotjar } from "react-use-hotjar"
 import { LanguageProvider } from "./Contexts/LanguageContext"
@@ -26,8 +26,7 @@ if (
 }
 
 const availableLanguages = [
-  { id: "en", label: "English" },
-  { id: "fr", label: "Français" }
+  { id: "en", label: "English" }
 ]
 
 const onboardConfig = {
@@ -55,7 +54,7 @@ const onboardConfig = {
   }
 }
 
-const App: React.FC<{}> = () => {
+const App = () => {
   const { initHotjar } = useHotjar()
   const { canUseLocalStorage } = useLocalStorage()
   const hotjarId = process.env.REACT_APP_HOTJAR_ID
@@ -93,7 +92,7 @@ const App: React.FC<{}> = () => {
 
   return (
     <ThemeSwitcher
-      storageKey="csf.themeKey"
+      storageKey="css.themeKey"
       themes={{ light: lightTheme, dark: darkTheme }}
     >
       <ErrorBoundary
@@ -110,12 +109,12 @@ const App: React.FC<{}> = () => {
             >
               <StorageApiProvider
                 apiUrl={apiUrl}
-                withLocalStorage={false}
+                withLocalStorage={true}
               >
                 <StorageProvider>
                   <Router>
                     <AppWrapper>
-                      <FilesRoutes />
+                      <StorageRoutes />
                     </AppWrapper>
                   </Router>
                 </StorageProvider>
