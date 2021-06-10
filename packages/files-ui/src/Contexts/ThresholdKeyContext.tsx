@@ -124,7 +124,7 @@ const getProviderSpecificParams = (loginType: LOGIN_TYPE):
 
 const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = false, apiKey }: ThresholdKeyProviderProps) => {
   const { filesApiClient, thresholdKeyLogin, logout } = useFilesApi()
-  const { provider, isReady, checkIsReady, address } = useWeb3()
+  const { provider, isReady, checkIsReady, address, wallet } = useWeb3()
   const [userInfo, setUserInfo] = useState<TorusLoginResponse | undefined>()
   const [TKeySdk, setTKeySdk] = useState<ThresholdKey | undefined>()
   const [keyDetails, setKeyDetails] = useState<KeyDetails | undefined>()
@@ -524,7 +524,11 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
       if (!token) throw new Error("Token undefined")
 
       setStatus("awaiting confirmation")
-      const signature = await signer.signMessage(token)
+      const signature = (wallet?.name === "WalletConnect")
+      ? await signer.provider.send("personal_sign", [token, addressToUse])
+      : await signer.signMessage(token)
+      
+      debugger
       setStatus("logging in")
       const web3IdentityToken = await filesApiClient.postIdentityWeb3Token({
         signature: signature,
