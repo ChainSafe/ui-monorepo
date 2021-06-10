@@ -71,12 +71,12 @@ const SaveBackupPhrase = ({ className, complete, cancel }: ISaveBackupPhrase) =>
         variant={desktop ? "h2" : "h4"}
       >
         <Trans>
-          Generate backup phrase
+          Generate backup secret phrase
         </Trans>
       </Typography>
       <Typography component="p">
         <Trans>
-          A backup phrase will be generated and used for your account.<br/>
+          A backup secret phrase will be generated and used for your account.<br/>
           We do not store it and <b>it can only be displayed once</b>. Save it somewhere safe!
         </Trans>
       </Typography>

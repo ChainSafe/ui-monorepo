@@ -2,12 +2,13 @@ import { createStyles, makeStyles, useMediaQuery } from "@chainsafe/common-theme
 import React, { useState, useEffect, useCallback } from "react"
 import CustomModal from "../../Elements/CustomModal"
 import CustomButton from "../../Elements/CustomButton"
-import { Trans } from "@lingui/macro"
-import { DirectoryContentResponse, FileSystemItem } from "../../../Contexts/FilesContext"
+import { t, Trans } from "@lingui/macro"
+import { DirectoryContentResponse, FileSystemItem, useFiles } from "../../../Contexts/FilesContext"
 import { Button, FolderIcon, Grid, ITreeNodeProps, ScrollbarWrapper, TreeView, Typography } from "@chainsafe/common-components"
 import { CSFTheme } from "../../../Themes/types"
 import { useFileBrowser } from "../../../Contexts/FileBrowserContext"
 import { useFilesApi } from "../../../Contexts/FilesApiContext"
+import { MoveModalMode } from "./types"
 
 
 const useStyles = makeStyles(
@@ -69,16 +70,17 @@ interface IMoveFileModuleProps {
   modalOpen: boolean
   onClose: () => void
   onCancel: () => void
+  mode?: MoveModalMode
 }
 
-const MoveFileModule = ({ filesToMove, modalOpen, onClose, onCancel }: IMoveFileModuleProps) => {
+const MoveFileModule = ({ filesToMove, modalOpen, onClose, onCancel, mode }: IMoveFileModuleProps) => {
   const classes = useStyles()
   const { filesApiClient } = useFilesApi()
-  const { moveItems, bucket } = useFileBrowser()
+  const { buckets } = useFiles()
+  const { moveItems, recoverItems } = useFileBrowser()
   const [movingFile, setMovingFile] = useState(false)
   const [movePath, setMovePath] = useState<undefined | string>(undefined)
   const [folderTree, setFolderTree] = useState<ITreeNodeProps[]>([])
-  const { refreshContents } = useFileBrowser()
 
   const mapFolderTree = useCallback(
     (folderTreeEntries: DirectoryContentResponse[]): ITreeNodeProps[] => {
@@ -93,6 +95,7 @@ const MoveFileModule = ({ filesToMove, modalOpen, onClose, onCancel }: IMoveFile
   )
 
   const getFolderTreeData = useCallback(async () => {
+    const bucket = buckets.find((bucket) => bucket.type === "csf")
     if (!bucket) return
     filesApiClient.getBucketDirectoriesTree(bucket.id).then((newFolderTree) => {
       if (newFolderTree.entries) {
@@ -110,7 +113,7 @@ const MoveFileModule = ({ filesToMove, modalOpen, onClose, onCancel }: IMoveFile
         setFolderTree([])
       }
     }).catch(console.error)
-  }, [filesApiClient, mapFolderTree, bucket])
+  }, [filesApiClient, mapFolderTree, buckets])
 
   useEffect(() => {
     if (modalOpen) {
@@ -121,17 +124,15 @@ const MoveFileModule = ({ filesToMove, modalOpen, onClose, onCancel }: IMoveFile
   }, [modalOpen, getFolderTreeData])
 
   const onMoveFile = () => {
-    if (movePath) {
-      setMovingFile(true)
+    const moveFn = mode === "move" ? moveItems : recoverItems
+    if (!movePath || !moveFn) return
 
-      moveItems && moveItems(filesToMove.map(f => f.cid), movePath)
-        .then(() => {
-          refreshContents && refreshContents()
-        })
-        .then(onClose)
-        .catch(console.error)
-        .finally(() => setMovingFile(false))
-    }
+    setMovingFile(true)
+    moveFn(filesToMove.map(f => f.cid), movePath)
+      .then(onClose)
+      .catch(console.error)
+      .finally(() => setMovingFile(false))
+
   }
 
   const desktop = useMediaQuery("md")
@@ -209,7 +210,7 @@ const MoveFileModule = ({ filesToMove, modalOpen, onClose, onCancel }: IMoveFile
           disabled={!movePath}
           onClick={onMoveFile}
         >
-          <Trans>Move</Trans>
+          {mode === "move" ? t`Move` : t`Recover`}
         </Button>
       </Grid>
     </CustomModal>
