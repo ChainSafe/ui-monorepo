@@ -142,7 +142,7 @@ const MissingShares = ({ className }: IMissingShares) => {
     inputMnemonicShare(mnemonic)
       .catch(() => {
         setIsLoading(false)
-        setError(t`Backup phrase does not match user account, please double-check and try again.`)
+        setError(t`Backup secret phrase does not match user account, please double-check and try again.`)
       })
   }
 
@@ -200,7 +200,7 @@ const MissingShares = ({ className }: IMissingShares) => {
                 size="large"
                 onClick={() => setWithMnemonic(true)}
               >
-                <Trans>Restore with backup phrase</Trans>
+                <Trans>Restore with backup secret phrase</Trans>
               </Button>
             </div>
             <Typography className={classes.text}>
@@ -242,7 +242,7 @@ const MissingShares = ({ className }: IMissingShares) => {
         {withMnemonic && (
           <form onSubmit={handleSubmitMnemonicShare}>
             <Typography className={clsx(classes.text, "label")}>
-              <Trans>Enter backup phrase:</Trans>
+              <Trans>Enter backup secret phrase:</Trans>
             </Typography>
             <div className={classes.textAreaContainer}>
               <textarea
