@@ -47,6 +47,7 @@ type StorageContext = {
   // downloadPin: (bucketId: string, itemToDownload: FileSystemItem, path: string) => void
   // getPinContent: (bucketId: string, params: GetFileContentParams) => Promise<Blob | undefined>
   refreshPins: () => void
+  unpin: (requestId: string) => void
 }
 
 // This represents a File or Folder on the
@@ -62,7 +63,7 @@ const StorageContext = React.createContext<StorageContext | undefined>(undefined
 
 const StorageProvider = ({ children }: StorageContextProps) => {
   const { storageApiClient, isLoggedIn } = useStorageApi()
-  const [spaceUsed] = useState(0)
+  const [spaceUsed, setSpaceUsed] = useState(0)
   const [pins, setPins] = useState<PinObject[]>([])
 
   const refreshPins = useCallback(() => {
@@ -74,6 +75,12 @@ const StorageProvider = ({ children }: StorageContextProps) => {
   useEffect(() => {
     isLoggedIn && refreshPins()
   }, [isLoggedIn, refreshPins])
+
+  const unpin = useCallback((requestId: string) => {
+    storageApiClient.deletePin(requestId)
+      .then(() => refreshPins())
+      .catch(console.error)
+  }, [storageApiClient, refreshPins])
 
   // // Space used counter
   // useEffect(() => {
@@ -129,8 +136,7 @@ const StorageProvider = ({ children }: StorageContextProps) => {
   })
 
   const addPin = useCallback((cid: string) => {
-    // Remove the as any once the api specs will be updated
-    storageApiClient.addPin(({ cid }) as any)
+    storageApiClient.addPin(({ cid }))
       .then(res => console.log(res))
       .catch(console.error)
   }, [storageApiClient])
@@ -278,7 +284,8 @@ const StorageProvider = ({ children }: StorageContextProps) => {
         spaceUsed,
         downloadsInProgress,
         pins,
-        refreshPins
+        refreshPins,
+        unpin
       }}
     >
       {children}
