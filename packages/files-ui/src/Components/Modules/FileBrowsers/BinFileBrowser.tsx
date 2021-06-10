@@ -35,7 +35,7 @@ const BinFileBrowser: React.FC<IFileBrowserModuleProps> = ({ controls = false }:
       if (!bucket) return
       try {
         showLoading && setLoadingCurrentPath(true)
-        filesApiClient.getFPSChildList(bucket.id, { path: currentPath })
+        filesApiClient.getBucketObjectChildrenList(bucket.id, { path: currentPath })
           .then((newContents) => {
             showLoading && setLoadingCurrentPath(false)
             setPathContents(
@@ -64,12 +64,11 @@ const BinFileBrowser: React.FC<IFileBrowserModuleProps> = ({ controls = false }:
     }
 
     try {
-      await filesApiClient.removeFPSObjects(bucket.id, {
-        paths: [`${currentPath}${itemToDelete.name}`],
-        source: {
-          type: bucket.type
-        }
-      })
+      await filesApiClient.removeBucketObject(
+        bucket.id,
+        { paths: [getPathWithFile(currentPath, itemToDelete.name)] }
+      )
+
       refreshContents()
       const message = `${
         itemToDelete.isFolder ? t`Folder` : t`File`
@@ -106,13 +105,13 @@ const BinFileBrowser: React.FC<IFileBrowserModuleProps> = ({ controls = false }:
         const itemToRestore = pathContents.find((i) => i.cid === cid)
         if (!itemToRestore) throw new Error("Item to restore not found")
         try {
-          await filesApiClient.moveFPSObject(bucket.id, {
-            path: getPathWithFile(currentPath, itemToRestore.name),
-            new_path: getPathWithFile("/", itemToRestore.name),
-            destination: {
-              type: "csf"
+          await filesApiClient.moveBucketObjects(
+            bucket.id,
+            { path: getPathWithFile(currentPath, itemToRestore.name),
+              new_path: getPathWithFile("/", itemToRestore.name),
+              destination: buckets.find(b => b.type === "csf")?.id
             }
-          })
+          )
           refreshContents()
 
           const message = `${
@@ -135,7 +134,7 @@ const BinFileBrowser: React.FC<IFileBrowserModuleProps> = ({ controls = false }:
           return Promise.resolve()
         }
       }))
-  }, [addToastMessage, pathContents, refreshContents, filesApiClient, bucket, currentPath])
+  }, [addToastMessage, pathContents, refreshContents, filesApiClient, bucket, currentPath, buckets])
 
   const viewFolder = useCallback((cid: string) => {
     const fileSystemItem = pathContents.find(f => f.cid === cid)
