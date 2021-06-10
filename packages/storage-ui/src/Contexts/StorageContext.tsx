@@ -81,7 +81,7 @@ const StorageProvider = ({ children }: StorageContextProps) => {
       .then(() => refreshPins())
       .catch(console.error)
   }, [storageApiClient, refreshPins])
-  
+
   // // Space used counter
   // useEffect(() => {
   //   const getSpaceUsage = async () => {
