@@ -32,7 +32,7 @@ import clsx from "clsx"
 import { plural, t, Trans } from "@lingui/macro"
 import { NativeTypes } from "react-dnd-html5-backend"
 import { useDrop } from "react-dnd"
-import { BrowserView, FileOperation } from "../types"
+import { BrowserView, FileOperation, MoveModalMode } from "../types"
 import { FileSystemItem as FileSystemItemType } from "../../../../Contexts/FilesContext"
 import FileSystemItem from "./FileSystemItem/FileSystemItem"
 import FilePreviewModal from "../../FilePreviewModal"
@@ -289,7 +289,6 @@ const FilesList = () => {
     crumbs,
     renameItem: handleRename,
     deleteItems: deleteFiles,
-    recoverItems,
     viewFolder,
     currentPath,
     refreshContents,
@@ -458,10 +457,10 @@ const FilesList = () => {
   const [isMoveFileModalOpen, setIsMoveFileModalOpen] = useState(false)
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
   const [isDeletingFiles, setIsDeletingFiles] = useState(false)
-  const [isRecoveringFiles, setIsRecoveringFiles] = useState(false)
   const [fileInfoPath, setFileInfoPath] = useState<string | undefined>(
     undefined
   )
+  const [moveModalMode, setMoveModalMode] = useState<MoveModalMode | undefined>()
 
   const [browserView, setBrowserView] = useState<BrowserView>("table")
 
@@ -536,20 +535,6 @@ const FilesList = () => {
         setIsDeleteModalOpen(false)
       })
   }, [deleteFiles, selectedCids])
-
-  const handleRecoverFiles = useCallback((e: React.MouseEvent) => {
-    e.preventDefault()
-    e.stopPropagation()
-    if (!recoverItems) return
-
-    setIsRecoveringFiles(true)
-    recoverItems(selectedCids)
-      .catch(console.error)
-      .finally(() => {
-        setIsRecoveringFiles(false)
-        setSelectedCids([])
-      })
-  }, [recoverItems, selectedCids])
 
   const getItemOperations = useCallback(
     (contentType: string) => {
@@ -745,7 +730,10 @@ const FilesList = () => {
           <>
             {validBulkOps.indexOf("move") >= 0 && (
               <Button
-                onClick={handleOpenMoveFileDialog}
+                onClick={(e) => {
+                  handleOpenMoveFileDialog(e)
+                  setMoveModalMode("move")
+                }}
                 variant="outline"
               >
                 <Trans>Move selected</Trans>
@@ -753,9 +741,11 @@ const FilesList = () => {
             )}
             {validBulkOps.indexOf("recover") >= 0 && (
               <Button
-                onClick={handleRecoverFiles}
+                onClick={(e) => {
+                  handleOpenMoveFileDialog(e)
+                  setMoveModalMode("recover")
+                }}
                 variant="outline"
-                loading={isRecoveringFiles}
               >
                 <Trans>Recover selected</Trans>
               </Button>
@@ -909,12 +899,17 @@ const FilesList = () => {
                   moveFile={() => {
                     setSelectedCids([file.cid])
                     setIsMoveFileModalOpen(true)
+                    setMoveModalMode("move")
                   }}
                   setFileInfoPath={setFileInfoPath}
                   itemOperations={getItemOperations(file.content_type)}
                   resetSelectedFiles={resetSelectedCids}
                   browserView="table"
-                  recoverFile={() => recoverItems && recoverItems([file.cid])}
+                  recoverFile={() => {
+                    setSelectedCids([file.cid])
+                    setIsMoveFileModalOpen(true)
+                    setMoveModalMode("recover")
+                  }}
                 />
               ))}
             </TableBody>
@@ -951,10 +946,16 @@ const FilesList = () => {
                 moveFile={() => {
                   setSelectedCids([file.cid])
                   setIsMoveFileModalOpen(true)
+                  setMoveModalMode("move")
                 }}
                 setFileInfoPath={setFileInfoPath}
                 itemOperations={getItemOperations(file.content_type)}
                 resetSelectedFiles={resetSelectedCids}
+                recoverFile={() => {
+                  setSelectedCids([file.cid])
+                  setIsMoveFileModalOpen(true)
+                  setMoveModalMode("recover")
+                }}
                 browserView="grid"
               />
             ))}
@@ -1010,8 +1011,13 @@ const FilesList = () => {
               onClose={() => {
                 setIsMoveFileModalOpen(false)
                 setSelectedCids([])
+                setMoveModalMode(undefined)
               }}
-              onCancel={() => setIsMoveFileModalOpen(false)}
+              onCancel={() => {
+                setIsMoveFileModalOpen(false)
+                setMoveModalMode(undefined)
+              }}
+              mode={moveModalMode}
             />
           </>
         )
