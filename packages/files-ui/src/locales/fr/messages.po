@@ -174,7 +174,7 @@ msgid "Email is required"
 msgstr "Un e-mail est requis"
 
 msgid "Enter backup secret phrase:"
-msgstr ""
+msgstr "Phrase de sauvegarde secrète:"
 
 msgid "Enter password"
 msgstr "Mot de passe"
