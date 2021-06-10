@@ -13,7 +13,7 @@
     "build:storybook": "build-storybook",
     "build": "rollup -c",
     "start": "rollup -c -w",
-    "lint": "eslint './{src, cypress}/**/*.{js,jsx,ts,tsx}'"
+    "lint": "eslint 'src/**/*.{js,ts,tsx}' --quiet --fix"
   },
   "dependencies": {
     "@material-ui/styles": "^4.11.2",
@@ -57,7 +57,11 @@
     "@types/react-blockies": "^1.4.0",
     "@types/react-router-dom": "^5.1.6",
     "@types/react-toast-notifications": "^2.4.0",
+    "@typescript-eslint/eslint-plugin": "^4.15.2",
+    "@typescript-eslint/parser": "^4.15.2",
     "babel-loader": "8.1.0",
+    "eslint": "^7.20.0",
+    "eslint-plugin-react": "^7.22.0",
     "fork-ts-checker-webpack-plugin": "^6.0.5",
     "formik": "^2.2.5",
     "react": "16.14.0",

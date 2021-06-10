@@ -57,7 +57,7 @@ const getLanguages = (preferred = ""): string[] => {
 }
 
 const getLocales = (): string[] => {
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
   // @ts-ignore
   const { languages, language, userLanguage } = window.navigator
   const localeRegex = new RegExp("[a-z]{2,3}-[A-Z]{2}")

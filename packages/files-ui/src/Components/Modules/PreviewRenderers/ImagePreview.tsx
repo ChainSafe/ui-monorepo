@@ -65,7 +65,7 @@ const ImagePreview: React.FC<IPreviewRendererProps> = ({ contents }) => {
         }}
       >
         {
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
           // @ts-ignore
           ({ zoomIn, zoomOut, resetTransform }) => (
             <>

@@ -58,7 +58,7 @@ const onboardConfig = {
   }
 }
 
-const App = () => {
+const App: React.FC<{}> = () => {
   const { initHotjar } = useHotjar()
   const { canUseLocalStorage } = useLocalStorage()
   const hotjarId = process.env.REACT_APP_HOTJAR_ID

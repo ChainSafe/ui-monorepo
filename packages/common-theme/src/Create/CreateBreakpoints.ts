@@ -21,7 +21,7 @@ type GenerateStringUnion<T> = Extract<
  *
  * @internal
  */
-export type OverridableStringUnion<T, U = Record<any, any>> = GenerateStringUnion<
+export type OverridableStringUnion<T, U = {}> = GenerateStringUnion<
   Overwrite<T, U>
 >
 

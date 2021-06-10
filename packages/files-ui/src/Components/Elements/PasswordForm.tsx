@@ -48,7 +48,7 @@ const PasswordForm = ({ buttonLabel, setPassword }: Props) => {
       .test(
         "Complexity",
         t`Password needs to be more complex`,
-        async (val: string | null | undefined | Record<any, any>) => {
+        async (val: string | null | undefined | object) => {
           if (val === undefined) {
             return false
           }
