@@ -43,7 +43,7 @@ type StorageContext = {
   downloadsInProgress: DownloadProgress[]
   spaceUsed: number
   addPin: (cid: string) => void
-  createPin: (bucketId: string, files: File[], path: string) => Promise<void>
+  // createPin: (bucketId: string, files: File[], path: string) => Promise<void>
   // downloadPin: (bucketId: string, itemToDownload: FileSystemItem, path: string) => void
   // getPinContent: (bucketId: string, params: GetFileContentParams) => Promise<Blob | undefined>
   refreshPins: () => void
@@ -66,7 +66,7 @@ const StorageProvider = ({ children }: StorageContextProps) => {
   const [pins, setPins] = useState<PinObject[]>([])
 
   const refreshPins = useCallback(() => {
-    filesApiClient.getAllPins()
+    filesApiClient.listPins()
       .then((pins) =>  setPins(pins.results || []))
       .catch(console.error)
   }, [filesApiClient])
@@ -135,53 +135,53 @@ const StorageProvider = ({ children }: StorageContextProps) => {
       .catch(console.error)
   }, [filesApiClient])
 
-  const createPin = useCallback(async (bucketId: string, files: File[], path: string) => {
-    const bucket = pins.find(b => b.id === bucketId)
+  // const createPin = useCallback(async (bucketId: string, files: File[], path: string) => {
+  //   const bucket = pins.find(b => b.id === bucketId)
 
-    if (!bucket) {
-      console.error("No encryption key for this bucket is available.")
-      return
-    }
+  //   if (!bucket) {
+  //     console.error("No encryption key for this bucket is available.")
+  //     return
+  //   }
 
-    const id = uuidv4()
-    const uploadProgress: UploadProgress = {
-      id,
-      fileName: files[0].name, // TODO: Do we need this?
-      complete: false,
-      error: false,
-      noOfFiles: files.length,
-      progress: 0,
-      path
-    }
-    dispatchUploadsInProgress({ type: "add", payload: uploadProgress })
-    try {
-      // TODO: Make API Request to upload here
+  //   const id = uuidv4()
+  //   const uploadProgress: UploadProgress = {
+  //     id,
+  //     fileName: files[0].name, // TODO: Do we need this?
+  //     complete: false,
+  //     error: false,
+  //     noOfFiles: files.length,
+  //     progress: 0,
+  //     path
+  //   }
+  //   dispatchUploadsInProgress({ type: "add", payload: uploadProgress })
+  //   try {
+  //     // TODO: Make API Request to upload here
 
-      // setting complete
-      dispatchUploadsInProgress({ type: "complete", payload: { id } })
-      setTimeout(() => {
-        dispatchUploadsInProgress({ type: "remove", payload: { id } })
-      }, REMOVE_UPLOAD_PROGRESS_DELAY)
+  //     // setting complete
+  //     dispatchUploadsInProgress({ type: "complete", payload: { id } })
+  //     setTimeout(() => {
+  //       dispatchUploadsInProgress({ type: "remove", payload: { id } })
+  //     }, REMOVE_UPLOAD_PROGRESS_DELAY)
 
-      return Promise.resolve()
-    } catch (error) {
-      console.error(error)
-      // setting error
-      let errorMessage = t`Something went wrong. We couldn't upload your file`
+  //     return Promise.resolve()
+  //   } catch (error) {
+  //     console.error(error)
+  //     // setting error
+  //     let errorMessage = t`Something went wrong. We couldn't upload your file`
 
-      // we will need a method to parse server errors
-      if (Array.isArray(error) && error[0].message.includes("conflict")) {
-        errorMessage = t`A file with the same name already exists`
-      }
-      dispatchUploadsInProgress({
-        type: "error",
-        payload: { id, errorMessage }
-      })
-      setTimeout(() => {
-        dispatchUploadsInProgress({ type: "remove", payload: { id } })
-      }, REMOVE_UPLOAD_PROGRESS_DELAY)
-    }
-  }, [pins])
+  //     // we will need a method to parse server errors
+  //     if (Array.isArray(error) && error[0].message.includes("conflict")) {
+  //       errorMessage = t`A file with the same name already exists`
+  //     }
+  //     dispatchUploadsInProgress({
+  //       type: "error",
+  //       payload: { id, errorMessage }
+  //     })
+  //     setTimeout(() => {
+  //       dispatchUploadsInProgress({ type: "remove", payload: { id } })
+  //     }, REMOVE_UPLOAD_PROGRESS_DELAY)
+  //   }
+  // }, [pins])
 
   // const getPinContent = useCallback(async (
   //   bucketId: string,
@@ -271,7 +271,7 @@ const StorageProvider = ({ children }: StorageContextProps) => {
     <StorageContext.Provider
       value={{
         addPin,
-        createPin,
+        // createPin,
         // downloadPin,
         // getPinContent,
         uploadsInProgress,
