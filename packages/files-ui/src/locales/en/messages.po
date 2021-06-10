@@ -595,6 +595,9 @@ msgstr "There was an error getting search results"
 msgid "There was an error getting the preview."
 msgstr "There was an error getting the preview."
 
+msgid "There was an error moving this"
+msgstr "There was an error moving this"
+
 msgid "There was an error recovering this"
 msgstr "There was an error recovering this"
 
@@ -675,6 +678,9 @@ msgstr "file"
 
 msgid "folder"
 msgstr "folder"
+
+msgid "moved successfully"
+msgstr "moved successfully"
 
 msgid "on"
 msgstr "on"
