@@ -1,5 +1,4 @@
 {
     "integrationFolder": "cypress/tests",
-    "pageLoadTimeout": 10000,
     "video": false
 }
