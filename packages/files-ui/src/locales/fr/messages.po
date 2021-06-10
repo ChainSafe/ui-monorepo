@@ -590,6 +590,9 @@ msgstr "Une erreur s'est produite lors de l'obtention des résultats de recherch
 msgid "There was an error getting the preview."
 msgstr "Une erreur s'est produite lors de la génération de l’aperçu."
 
+msgid "There was an error moving this"
+msgstr "Une erreur s'est produite lors du déplacement"
+
 msgid "There was an error recovering this"
 msgstr "Une erreur s'est produite lors de la récupération"
 
@@ -670,6 +673,9 @@ msgstr "fichier"
 
 msgid "folder"
 msgstr "dossier"
+
+msgid "moved successfully"
+msgstr "Déplacé avec succès"
 
 msgid "on"
 msgstr "le"
