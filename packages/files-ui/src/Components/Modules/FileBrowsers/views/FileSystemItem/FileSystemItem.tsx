@@ -291,7 +291,7 @@ const FileSystemItem = ({
     accept: DragTypes.MOVABLE_FILE,
     canDrop: () => isFolder,
     drop: (item: {ids: string[]}) => {
-      moveItems && moveItems(item.ids, `${currentPath}${name}/`)
+      moveItems && moveItems(item.ids, `${currentPath}/${name}/`)
     },
     collect: (monitor) => ({
       isOverMove: monitor.isOver()
