@@ -8,6 +8,7 @@ export const homePage = {
   uploadFileForm: () => cy.get("[data-cy=upload-file-form] input"),
   moveSelectedButton: () => cy.get("[data-cy=move_selected_file_button]"),
   deleteSelectedButton: () => cy.get("[data-cy=delete_selected_file_button]"),
+  uploadStatusToast: () => cy.get("[data-cy=upload_status_toast_message]", { timeout: 10000 }),
 
   // file browser row elements
   fileItemRow: () => cy.get("[data-cy=file-item-row]", { timeout: 20000 }),
@@ -38,7 +39,9 @@ export const homePage = {
     this.uploadFileForm().attachFile(filePath)
     this.fileUploadList().should("have.length", 1)
     this.startUploadButton().click()
+    // ensure upload is complete before proceeding
     this.uploadFileForm().should("not.exist")
+    this.uploadStatusToast().should("not.exist")
   }
 }
 
