@@ -3,9 +3,11 @@ import { basePage } from "./basePage"
 export const homePage = {
   ...basePage,
 
-  // main browser elements
+  // main file browser elements
   uploadButton: () => cy.get("[data-cy=upload-modal-button]"),
   uploadFileForm: () => cy.get("[data-cy=upload-file-form] input"),
+  moveSelectedButton: () => cy.get("[data-cy=move_selected_file_button]"),
+  deleteSelectedButton: () => cy.get("[data-cy=delete_selected_file_button]"),
 
   // file browser row elements
   fileItemRow: () => cy.get("[data-cy=file-item-row]", { timeout: 20000 }),
