@@ -181,7 +181,7 @@ const BrowserPanel = ({ dateAdded, shareIndex, browser, os }: BrowserShare) => {
               component="p"
               className={classes.lightSubtitle}
             >
-              <Trans>Your recovery key can be used to restore your account in place of your backup phrase.</Trans>
+              <Trans>Your recovery key can be used to restore your account in place of your backup secret phrase.</Trans>
             </Typography>
             <Button
               variant="primary"

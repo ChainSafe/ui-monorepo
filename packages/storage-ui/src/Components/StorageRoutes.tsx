@@ -17,7 +17,7 @@ export const ROUTE_LINKS = {
 export const SETTINGS_PATHS = ["profile", "plan", "security"] as const
 export type SettingsPath = typeof SETTINGS_PATHS[number]
 
-const FilesRoutes = () => {
+const StorageRoutes = () => {
   const { isLoggedIn } = useStorageApi()
 
   return (
@@ -47,4 +47,4 @@ const FilesRoutes = () => {
   )
 }
 
-export default FilesRoutes
+export default StorageRoutes

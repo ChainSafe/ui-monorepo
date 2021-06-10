@@ -35,7 +35,7 @@ const BinFileBrowser: React.FC<IFileBrowserModuleProps> = ({ controls = false }:
       if (!bucket) return
       try {
         showLoading && setLoadingCurrentPath(true)
-        filesApiClient.getFPSChildList(bucket.id, { path: currentPath })
+        filesApiClient.getBucketObjectChildrenList(bucket.id, { path: currentPath })
           .then((newContents) => {
             showLoading && setLoadingCurrentPath(false)
             setPathContents(
@@ -64,12 +64,11 @@ const BinFileBrowser: React.FC<IFileBrowserModuleProps> = ({ controls = false }:
     }
 
     try {
-      await filesApiClient.removeFPSObjects(bucket.id, {
-        paths: [`${currentPath}${itemToDelete.name}`],
-        source: {
-          type: bucket.type
-        }
-      })
+      await filesApiClient.removeBucketObject(
+        bucket.id,
+        { paths: [getPathWithFile(currentPath, itemToDelete.name)] }
+      )
+
       refreshContents()
       const message = `${
         itemToDelete.isFolder ? t`Folder` : t`File`
@@ -99,21 +98,20 @@ const BinFileBrowser: React.FC<IFileBrowserModuleProps> = ({ controls = false }:
     refreshContents()
   }, [deleteFile, refreshContents])
 
-  const recoverItems = useCallback(async (cids: string[]) => {
-    if (!bucket) return Promise.reject()
-    return Promise.all(
+  const recoverItems = useCallback(async (cids: string[], newPath: string) => {
+    if (!bucket) return
+    await Promise.all(
       cids.map(async (cid: string) => {
         const itemToRestore = pathContents.find((i) => i.cid === cid)
-        if (!itemToRestore) throw new Error("Item to restore not found")
+        if (!itemToRestore) return
         try {
-          await filesApiClient.moveFPSObject(bucket.id, {
-            path: getPathWithFile(currentPath, itemToRestore.name),
-            new_path: getPathWithFile("/", itemToRestore.name),
-            destination: {
-              type: "csf"
+          await filesApiClient.moveBucketObjects(
+            bucket.id,
+            { path: getPathWithFile(currentPath, itemToRestore.name),
+              new_path: getPathWithFile(newPath, itemToRestore.name),
+              destination: buckets.find(b => b.type === "csf")?.id
             }
-          })
-          refreshContents()
+          )
 
           const message = `${
             itemToRestore.isFolder ? t`Folder` : t`File`
@@ -123,7 +121,6 @@ const BinFileBrowser: React.FC<IFileBrowserModuleProps> = ({ controls = false }:
             message: message,
             appearance: "success"
           })
-          return Promise.resolve()
         } catch (error) {
           const message = `${t`There was an error recovering this`} ${
             itemToRestore.isFolder ? t`folder` : t`file`
@@ -132,10 +129,9 @@ const BinFileBrowser: React.FC<IFileBrowserModuleProps> = ({ controls = false }:
             message: message,
             appearance: "error"
           })
-          return Promise.resolve()
         }
-      }))
-  }, [addToastMessage, pathContents, refreshContents, filesApiClient, bucket, currentPath])
+      })).finally(refreshContents)
+  }, [addToastMessage, pathContents, refreshContents, filesApiClient, bucket, buckets, currentPath])
 
   const viewFolder = useCallback((cid: string) => {
     const fileSystemItem = pathContents.find(f => f.cid === cid)

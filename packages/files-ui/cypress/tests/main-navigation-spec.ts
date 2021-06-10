@@ -21,7 +21,7 @@ describe("Main Navigation", () => {
 
     it("can see data storage summary info", () => {
       navigationMenu.spaceUsedLabel().should("contain.text", "of 20 GB used")
-      navigationMenu.spaceUsedProgressBar().should("be.visible").should
+      navigationMenu.spaceUsedProgressBar().should("be.visible")
     })
 
     it.skip("can navigate to block survey via send feedback button", () => {

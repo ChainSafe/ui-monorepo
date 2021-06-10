@@ -20,8 +20,8 @@ msgstr "(Changer)"
 msgid "<0>You’re at risk of getting locked out of your account because you only have two auth factors set up.</0> Add at least one more to ensure account recovery."
 msgstr "<0> Vous risquez d'être bloqué sur votre compte car vous n'avez configuré que deux facteurs d'authentification.</0> Ajoutez-en au moins un autre pour garantir la récupération du compte."
 
-msgid "A backup phrase will be generated and used for your account.<0/>We do not store it and <1>it can only be displayed once</1>. Save it somewhere safe!"
-msgstr "Une phrase de backup sera générée et utilisé pour ce comte.<0/>Nous ne la sauvergardons pas <1>elle ne peut être montrée qu'une seule fois</1>. Garde la dans un endroit sûr!"
+msgid "A backup secret phrase will be generated and used for your account.<0/>We do not store it and <1>it can only be displayed once</1>. Save it somewhere safe!"
+msgstr "Une phrase de sauvegarde secrète sera générée et utilisé pour ce comte.<0/>Nous ne la sauvergardons pas <1>elle ne peut être montrée qu'une seule fois</1>. Garde la dans un endroit sûr!"
 
 msgid "A file with the same name already exists"
 msgstr "Un fichier avec ce nom existe déjà"
@@ -44,11 +44,11 @@ msgstr "Accepter"
 msgid "Are we on the right track? Let us know in less than 1 minute."
 msgstr "Sommes nous sur les bons rails ? Dites le nous en moins d'1 minute (en anglais)."
 
-msgid "Backup phrase"
-msgstr "Phrase de secours"
+msgid "Backup secret phrase"
+msgstr "Phrase de sauvegarde secrète"
 
-msgid "Backup phrase does not match user account, please double-check and try again."
-msgstr "La phrase de secours est incorrecte, merci de vérifier et réessayer."
+msgid "Backup secret phrase does not match user account, please double-check and try again."
+msgstr "La phrase de sauvegarde secrète est incorrecte, merci de vérifier et réessayer."
 
 msgid "Bin"
 msgstr "Corbeille"
@@ -173,8 +173,8 @@ msgstr "Faire glisser pour uploader un fichier"
 msgid "Email is required"
 msgstr "Un e-mail est requis"
 
-msgid "Enter backup phrase:"
-msgstr "Phrase de sauvegarder:"
+msgid "Enter backup secret phrase:"
+msgstr "Phrase de sauvegarde secrète:"
 
 msgid "Enter password"
 msgstr "Mot de passe"
@@ -242,11 +242,8 @@ msgstr "Oublier ce navigateur"
 msgid "General"
 msgstr "Info"
 
-msgid "Generate backup phrase"
-msgstr "Créer une phrase de sauvegarde"
-
-msgid "Generate phrase"
-msgstr "Créer une phrase de sauvegarde"
+msgid "Generate backup secret phrase"
+msgstr "Créer une phrase de sauvegarde secrète"
 
 msgid "Generating..."
 msgstr "Création..."
@@ -281,8 +278,8 @@ msgstr "Info"
 msgid "Invalid name"
 msgstr "Nom invalide"
 
-msgid "I’m done saving my backup phrase"
-msgstr "Phrase de sauvegarde enregistrée"
+msgid "I’m done saving my backup secret phrase"
+msgstr "Phrase de sauvegarde secrète enregistrée"
 
 msgid "Language"
 msgstr "Langue de l'interface"
@@ -449,8 +446,8 @@ msgstr "Envoyé par"
 msgid "Resources"
 msgstr "Ressources"
 
-msgid "Restore with backup phrase"
-msgstr "Récupérer avec la phrase de sauvegarde"
+msgid "Restore with backup secret phrase"
+msgstr "Récupérer avec la phrase de sauvegarde secrète"
 
 msgid "Save changes"
 msgstr "Enregistrer"
@@ -593,6 +590,9 @@ msgstr "Une erreur s'est produite lors de l'obtention des résultats de recherch
 msgid "There was an error getting the preview."
 msgstr "Une erreur s'est produite lors de la génération de l’aperçu."
 
+msgid "There was an error moving this"
+msgstr "Une erreur s'est produite lors du déplacement"
+
 msgid "There was an error recovering this"
 msgstr "Une erreur s'est produite lors de la récupération"
 
@@ -662,8 +662,8 @@ msgstr "Vous devrez signer un message avec votre wallet pour terminer la procéd
 msgid "Your Authentication Factors"
 msgstr "Vos Facteurs d'Authentification"
 
-msgid "Your recovery key can be used to restore your account in place of your backup phrase."
-msgstr "Votre clé de récupération peut être utilisée pour restaurer votre compte à la place de votre phrase de sauvegarde."
+msgid "Your recovery key can be used to restore your account in place of your backup secret phrase."
+msgstr "Votre clé de récupération peut être utilisée pour restaurer votre compte à la place de votre phrase de sauvegarde secrète."
 
 msgid "deleted successfully"
 msgstr "supprimé avec succès"
@@ -673,6 +673,9 @@ msgstr "fichier"
 
 msgid "folder"
 msgstr "dossier"
+
+msgid "moved successfully"
+msgstr "Déplacé avec succès"
 
 msgid "on"
 msgstr "le"
