@@ -172,8 +172,8 @@ msgstr "Drop to upload files"
 msgid "Email is required"
 msgstr "Email is required"
 
-msgid "Enter backup phrase:"
-msgstr "Enter backup phrase:"
+msgid "Enter backup secret phrase:"
+msgstr "Enter backup secret phrase:"
 
 msgid "Enter password"
 msgstr "Enter password"
@@ -244,9 +244,6 @@ msgstr "General"
 msgid "Generate backup secret phrase"
 msgstr "Generate backup secret phrase"
 
-msgid "Generate backup secret phrase"
-msgstr "Generate backup secret phrase"
-
 msgid "Generating..."
 msgstr "Generating..."
 
@@ -280,8 +277,8 @@ msgstr "Info"
 msgid "Invalid name"
 msgstr "Invalid name"
 
-msgid "I’m done saving my backup phrase"
-msgstr "I’m done saving my backup phrase"
+msgid "I’m done saving my backup secret phrase"
+msgstr "I’m done saving my backup secret phrase"
 
 msgid "Language"
 msgstr "Language"
@@ -448,8 +445,8 @@ msgstr "Requested from"
 msgid "Resources"
 msgstr "Resources"
 
-msgid "Restore with backup phrase"
-msgstr "Restore with backup phrase"
+msgid "Restore with backup secret phrase"
+msgstr "Restore with backup secret phrase"
 
 msgid "Save changes"
 msgstr "Save changes"
@@ -661,8 +658,8 @@ msgstr "You will need to sign a message in your wallet to complete sign in."
 msgid "Your Authentication Factors"
 msgstr "Your Authentication Factors"
 
-msgid "Your recovery key can be used to restore your account in place of your backup phrase."
-msgstr "Your recovery key can be used to restore your account in place of your backup phrase."
+msgid "Your recovery key can be used to restore your account in place of your backup secret phrase."
+msgstr "Your recovery key can be used to restore your account in place of your backup secret phrase."
 
 msgid "deleted successfully"
 msgstr "deleted successfully"

@@ -173,8 +173,8 @@ msgstr "Faire glisser pour uploader un fichier"
 msgid "Email is required"
 msgstr "Un e-mail est requis"
 
-msgid "Enter secret backup secret phrase:"
-msgstr "Phrase de sauvegarde secrète:"
+msgid "Enter backup secret phrase:"
+msgstr ""
 
 msgid "Enter password"
 msgstr "Mot de passe"
@@ -244,9 +244,6 @@ msgstr "Info"
 
 msgid "Generate backup secret phrase"
 msgstr "Créer une phrase de sauvegarde secrète"
-
-msgid "Generate phrase"
-msgstr "Créer une phrase de sauvegarde"
 
 msgid "Generating..."
 msgstr "Création..."
