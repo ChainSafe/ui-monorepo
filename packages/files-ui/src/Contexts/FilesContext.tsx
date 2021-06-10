@@ -1,14 +1,14 @@
 import {
-  CSFFilesFullInfoResponse,
   FileContentResponse,
   DirectoryContentResponse,
   BucketType,
   Bucket as FilesBucket,
-  SearchEntry
+  SearchEntry,
+  BucketFileFullInfoResponse
 } from "@chainsafe/files-api-client"
 import React, { useCallback, useEffect, useReducer } from "react"
 import { useState } from "react"
-import { decryptFile, encryptFile, useFilesApi, useUser } from "@chainsafe/common-contexts"
+import { decryptFile, encryptFile  } from "../Utils/encryption"
 import { v4 as uuidv4 } from "uuid"
 import { useToaster } from "@chainsafe/common-components"
 import { downloadsInProgressReducer, uploadsInProgressReducer } from "./FilesReducers"
@@ -17,6 +17,8 @@ import { t } from "@lingui/macro"
 import { readFileAsync } from "../Utils/Helpers"
 import { useBeforeunload } from "react-beforeunload"
 import { useThresholdKey } from "./ThresholdKeyContext"
+import { useFilesApi } from "./FilesApiContext"
+import { useUser } from "./UserContext"
 
 type FilesContextProps = {
   children: React.ReactNode | React.ReactNode[]
@@ -144,9 +146,10 @@ const FilesProvider = ({ children }: FilesContextProps) => {
   useEffect(() => {
     const getSpaceUsage = async () => {
       try {
-        // TODO: Update this to include Share buckets where the current user is the owner
-        const totalSize = buckets.filter(b => b.type === "csf" || b.type === "trash")
-          .reduce((totalSize, bucket) => { return totalSize += (bucket as any).size}, 0)
+        const totalSize = buckets.filter(b => b.type === "csf" ||
+          b.type === "trash" ||
+          (b.type === "share" && !!b.owners.find(u => u.uuid === profile?.userId)))
+          .reduce((totalSize, bucket) => totalSize += bucket.size, 0)
 
         setSpaceUsed(totalSize)
       } catch (error) {
@@ -156,7 +159,7 @@ const FilesProvider = ({ children }: FilesContextProps) => {
     if (isLoggedIn) {
       getSpaceUsage()
     }
-  }, [filesApiClient, isLoggedIn, buckets])
+  }, [filesApiClient, isLoggedIn, buckets, profile])
 
   // Reset encryption keys on log out
   useEffect(() => {
@@ -293,15 +296,13 @@ const FilesProvider = ({ children }: FilesContextProps) => {
         })
       }
 
-      // TODO: Update this once API support for FPS is working
-      await filesApiClient.addCSFFiles(
-        // bucketId,
+      await filesApiClient.uploadBucketObjects(
+        bucketId,
         filesParam,
         path,
-        "csf",
         undefined,
+        1,
         undefined,
-        // undefined,
         (progressEvent: { loaded: number; total: number }) => {
           dispatchUploadsInProgress({
             type: "progress",
@@ -363,13 +364,9 @@ const FilesProvider = ({ children }: FilesContextProps) => {
     }
 
     try {
-      const result = await filesApiClient.getFileContent(
-        {
-          path: path,
-          source: {
-            id: bucket.id
-          }
-        },
+      const result = await filesApiClient.getBucketObjectContent(
+        bucket.id,
+        { path: path },
         cancelToken,
         onDownloadProgress
       )
@@ -475,7 +472,7 @@ export { FilesProvider, useFiles }
 export type {
   FileSystemItem,
   DirectoryContentResponse,
-  CSFFilesFullInfoResponse as FileFullInfo,
+  BucketFileFullInfoResponse as FileFullInfo,
   BucketType,
   SearchEntry
 }

@@ -2,7 +2,7 @@ import React, { useMemo } from "react"
 import { Switch, ConditionalRoute } from "@chainsafe/common-components"
 import LoginPage from "./Pages/LoginPage"
 import SettingsPage from "./Pages/SettingsPage"
-import { useFilesApi } from "@chainsafe/common-contexts"
+import { useFilesApi }  from "../Contexts/FilesApiContext"
 import DrivePage from "./Pages/DrivePage"
 import SearchPage from "./Pages/SearchPage"
 import BinPage from "./Pages/BinPage"
@@ -23,7 +23,7 @@ export const ROUTE_LINKS = {
   Settings: `${SETTINGS_BASE}/:path`,
   SettingsDefault: `${SETTINGS_BASE}`,
   PurchasePlan: "/purchase",
-  UserSurvey: "https://shrl.ink/8eeP",
+  UserSurvey: "https://shrl.ink/kmAL",
   GeneralFeedbackForm: "https://shrl.ink/gvVJ",
   SharedFolders: "/shared"
 }

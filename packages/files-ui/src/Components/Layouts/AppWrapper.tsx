@@ -1,4 +1,4 @@
-import { useFilesApi } from "@chainsafe/common-contexts"
+import { useFilesApi } from "../../Contexts/FilesApiContext"
 import { createStyles, ITheme, makeStyles } from "@chainsafe/common-theme"
 import React, { useState } from "react"
 import { ReactNode } from "react"

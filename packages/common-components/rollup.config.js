@@ -18,8 +18,8 @@ export default {
     strict: true
   },
   plugins: [
-    image(),
     peerDepsExternal(),
+    image(),
     resolve(),
     commonjs(),
     typescript(),
