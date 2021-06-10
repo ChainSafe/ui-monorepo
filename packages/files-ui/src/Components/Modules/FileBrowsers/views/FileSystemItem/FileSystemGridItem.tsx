@@ -158,7 +158,7 @@ const FileSystemGridItem = React.forwardRef(
     const { name, cid } = file
     const { desktop } = useThemeSwitcher()
     const { viewFolder } = useFileBrowser()
-    
+
     const handleClickOutside = useCallback(
       (e) => {
         if (forwardedRef.current && forwardedRef.current.contains(e.target)) {
