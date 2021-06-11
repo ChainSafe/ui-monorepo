@@ -90,7 +90,7 @@ const BinFileBrowser: React.FC<IFileBrowserModuleProps> = ({ controls = false }:
       })
       return Promise.reject()
     }
-}, [addToastMessage, bucket, currentPath, pathContents, refreshContents, refreshBuckets, filesApiClient])
+  }, [addToastMessage, bucket, currentPath, pathContents, refreshContents, refreshBuckets, filesApiClient])
 
   const deleteItems = useCallback(async (cids: string[]) => {
     await Promise.all(
