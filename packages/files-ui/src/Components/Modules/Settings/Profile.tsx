@@ -266,7 +266,7 @@ const ProfileView = () => {
                           variant="body1"
                           className={classes.label}
                         >
-                          <Trans>Files address</Trans>
+                          <Trans>Files sharing key</Trans>
                         </Typography>
                         {copiedTkeyAddress && (
                           <Typography>
