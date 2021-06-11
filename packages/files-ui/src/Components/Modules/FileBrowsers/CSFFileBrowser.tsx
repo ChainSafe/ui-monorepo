@@ -123,14 +123,32 @@ const CSFFileBrowser: React.FC<IFileBrowserModuleProps> = () => {
     if (!bucket) return
     await Promise.all(
       cids.map(async (cid: string) => {
-        const itemToMove = pathContents.find(i => i.cid === cid)
-        if (!bucket || !itemToMove) return
-        await filesApiClient.moveBucketObjects(bucket.id, {
-          path: getPathWithFile(currentPath, itemToMove.name),
-          new_path: getPathWithFile(newPath, itemToMove.name)
-        })
+        const itemToMove = pathContents.find((i) => i.cid === cid)
+        if (!itemToMove) return
+        try {
+          await filesApiClient.moveBucketObjects(bucket.id, {
+            path: getPathWithFile(currentPath, itemToMove.name),
+            new_path: getPathWithFile(newPath, itemToMove.name)
+          })
+          const message = `${
+            itemToMove.isFolder ? t`Folder` : t`File`
+          } ${t`moved successfully`}`
+
+          addToastMessage({
+            message: message,
+            appearance: "success"
+          })
+        } catch (error) {
+          const message = `${t`There was an error moving this`} ${
+            itemToMove.isFolder ? t`folder` : t`file`
+          }`
+          addToastMessage({
+            message: message,
+            appearance: "error"
+          })
+        }
       })).finally(refreshContents)
-  }, [refreshContents, filesApiClient, bucket, currentPath, pathContents])
+  }, [addToastMessage, pathContents, refreshContents, filesApiClient, bucket, currentPath])
 
   const handleDownload = useCallback(async (cid: string) => {
     const itemToDownload = pathContents.find(item => item.cid === cid)
@@ -149,7 +167,6 @@ const CSFFileBrowser: React.FC<IFileBrowserModuleProps> = () => {
       )
     }
   })), [arrayOfPaths, redirect])
-
 
   const handleUploadOnDrop = useCallback(async (files: File[], fileItems: DataTransferItemList, path: string) => {
     if (!bucket) return

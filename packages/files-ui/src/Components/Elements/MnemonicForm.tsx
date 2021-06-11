@@ -151,7 +151,7 @@ const MnemonicForm = ({ buttonLabel, onComplete }: Props) => {
                   component="p"
                 >
                   <Trans>
-                    Generate phrase
+                    Generate backup secret phrase
                   </Trans>
                 </Typography>
               )
