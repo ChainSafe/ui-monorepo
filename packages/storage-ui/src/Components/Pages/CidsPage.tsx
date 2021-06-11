@@ -1,20 +1,38 @@
 import React, { useCallback } from "react"
 import { makeStyles, createStyles } from "@chainsafe/common-theme"
-import { Table, TableBody, TableHead, TableHeadCell, TableRow, Typography } from "@chainsafe/common-components"
+import { Button, PlusIcon, Table, TableBody, TableHead, TableHeadCell, TableRow, Typography } from "@chainsafe/common-components"
 import { useStorage } from "../../Contexts/StorageContext"
 import { Trans } from "@lingui/macro"
 import CidRow from "../Elements/CidRow"
-import { CSFTheme } from "../../Themes/types"
+import { CSSTheme } from "../../Themes/types"
 
 export const desktopGridSettings = "3fr 190px 190px 190px 70px !important"
 export const mobileGridSettings = "3fr 190px 190px 190px 70px !important"
 
-const useStyles = makeStyles(({ animation, breakpoints }: CSFTheme) =>
+const useStyles = makeStyles(({ animation, breakpoints, constants }: CSSTheme) =>
   createStyles({
     root: {
       position: "relative",
       minHeight: "100vh",
       overflow: "hidden"
+    },
+    header: {
+      display: "flex",
+      flexDirection: "row",
+      justifyContent: "space-between",
+      alignItems: "center",
+      [breakpoints.down("md")]: {
+        marginTop: constants.generalUnit
+      }
+    },
+    controls: {
+      display: "flex",
+      flexDirection: "row",
+      justifyContent: "space-between",
+      alignItems: "center",
+      "& > button": {
+        marginLeft: constants.generalUnit
+      }
     },
     tableHead: {
       marginTop: 24
@@ -42,8 +60,41 @@ const CidsPage = () => {
 
   return (
     <div className={classes.root}>
-      <Typography variant='h1'>Cids</Typography>
-      <button onClick={onCreateHardcodedPin}>create pin with hardcoded cid</button>
+      <header className={classes.header}>
+        <Typography
+          variant="h1"
+          component="h1"
+          data-cy="storage-cids-header"
+        >
+          <Trans>
+            Cids
+          </Trans>
+        </Typography>
+        <div className={classes.controls}>
+          <>
+            <Button
+              onClick={onCreateHardcodedPin}
+              variant="outline"
+              size="large"
+            >
+              <span>
+                create pin with hardcoded cid
+              </span>
+            </Button>
+            <Button
+              data-cy="add-cid-modal-button"
+              onClick={() => (true)}
+              variant="outline"
+              size="large"
+            >
+              <PlusIcon />
+              <span>
+                <Trans>Add CID</Trans>
+              </span>
+            </Button>
+          </>
+        </div>
+      </header>
       <Table
         fullWidth={true}
         striped={true}

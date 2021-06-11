@@ -4,11 +4,11 @@ import { DeleteSvg, formatBytes, MenuDropdown, MoreIcon, TableCell, TableRow  } 
 import { Trans } from "@lingui/macro"
 import dayjs from "dayjs"
 import { PinObject } from "@chainsafe/files-api-client"
-import { CSFTheme } from "../../Themes/types"
+import { CSSTheme } from "../../Themes/types"
 import { useStorage } from "../../Contexts/StorageContext"
 import { desktopGridSettings, mobileGridSettings } from "../Pages/CidsPage"
 
-const useStyles = makeStyles(({ animation, constants, breakpoints }: CSFTheme) =>
+const useStyles = makeStyles(({ animation, constants, breakpoints }: CSSTheme) =>
   createStyles({
     dropdownIcon: {
       "& svg": {
