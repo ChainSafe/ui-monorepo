@@ -220,6 +220,9 @@ msgstr "File size"
 msgid "Files"
 msgstr "Files"
 
+msgid "Files sharing key"
+msgstr "Files sharing key"
+
 msgid "Files uses device backups to save your browser."
 msgstr "Files uses device backups to save your browser."
 
