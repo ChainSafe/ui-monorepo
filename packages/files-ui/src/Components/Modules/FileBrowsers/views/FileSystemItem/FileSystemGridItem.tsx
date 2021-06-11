@@ -12,7 +12,6 @@ import { CSFTheme } from "../../../../../Themes/types"
 import { FileSystemItem } from "../../../../../Contexts/FilesContext"
 import { ConnectDragPreview } from "react-dnd"
 import { Form, Formik } from "formik"
-import { useFileBrowser } from "../../../../../Contexts/FileBrowserContext"
 
 const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => {
   return createStyles({
@@ -157,7 +156,6 @@ const FileSystemGridItem = React.forwardRef(
     const classes = useStyles()
     const { name, cid } = file
     const { desktop } = useThemeSwitcher()
-    const { viewFolder } = useFileBrowser()
 
     const handleClickOutside = useCallback(
       (e) => {

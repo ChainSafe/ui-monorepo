@@ -101,42 +101,59 @@ const FilesProvider = ({ children }: FilesContextProps) => {
   const { profile } = useUser()
   const { userId } = profile || {}
 
-  const getKeyForBucket = useCallback(async (bucket: FilesBucket) => {
-    // todo remove the "|| []" once this is set in the api.
-    const bucketUsers = [...bucket.readers || [], ...bucket.writers || [], ...bucket.owners || []]
+  const getKeyForSharedBucket = useCallback(async (bucket: FilesBucket) => {
+    const bucketUsers = [...bucket.readers, ...bucket.writers, ...bucket.owners]
     const bucketUser = bucketUsers.find(bu => bu.uuid === userId)
-    if (!bucketUser || !bucketUser.encryption_key) {
+
+    if (!bucketUser?.encryption_key) {
       console.error(`Unable to retrieve encryption key for ${bucket.id}`)
       return ""
     }
+
     const decrypted = await decryptMessageWithThresholdKey(bucketUser.encryption_key)
+
     return decrypted || ""
   }, [decryptMessageWithThresholdKey, userId])
 
   const refreshBuckets = useCallback(async () => {
-    if (!personalEncryptionKey) return
+    if (!personalEncryptionKey || !userId) return
+
     const result = await filesApiClient.listBuckets()
 
     const bucketsWithKeys: Bucket[] = await Promise.all(
       result.map(async (b) => {
 
-        //todo remove the ? once the writers and readers are non null
         const permission = b.owners.find(owner => owner === profile?.userId)
           ? "owner" as BucketPermission
-          : b.writers?.find(writer => writer === profile?.userId)
+          : b.writers.find(writer => writer === profile?.userId)
             ? "writer" as BucketPermission
-            : b.readers?.find(reader => reader === profile?.userId)
+            : b.readers.find(reader => reader === profile?.userId)
               ? "reader" as BucketPermission
               : undefined
 
+        let encryptionKey = ""
+
+        switch(b.type) {
+        case "csf":
+        case "trash": {
+          encryptionKey = personalEncryptionKey
+          break
+        }
+        case "share": {
+          encryptionKey = await getKeyForSharedBucket(b)
+          break
+        }}
+
         return {
           ...b,
-          encryptionKey: (b.type === "csf" || b.type === "trash") ? personalEncryptionKey : await getKeyForBucket(b),
+          encryptionKey,
           permission
-        }}))
+        }
+      })
+    )
     setBuckets(bucketsWithKeys)
     return Promise.resolve()
-  }, [personalEncryptionKey, filesApiClient, getKeyForBucket, profile?.userId])
+  }, [personalEncryptionKey, userId, filesApiClient, profile, getKeyForSharedBucket])
 
   useEffect(() => {
     refreshBuckets()
@@ -169,40 +186,44 @@ const FilesProvider = ({ children }: FilesContextProps) => {
     }
   }, [isLoggedIn])
 
+  const secureAccount = useCallback(() => {
+    if (!publicKey) return
+
+    const key = Buffer.from(
+      window.crypto.getRandomValues(new Uint8Array(32))
+    ).toString("base64")
+    console.log("New key", key)
+    setPersonalEncryptionKey(key)
+    encryptForPublicKey(publicKey, key)
+      .then((encryptedKey) => {
+        console.log("Encrypted encryption key", encryptedKey)
+        secureThresholdKeyAccount(encryptedKey)
+      })
+      .catch(console.error)
+  }, [encryptForPublicKey, publicKey, secureThresholdKeyAccount])
+
+  const decryptKey = useCallback((encryptedKey: string) => {
+    console.log("Decrypting retrieved key")
+
+    decryptMessageWithThresholdKey(encryptedKey)
+      .then((decryptedKey) => {
+        console.log("Decrypted key: ", decryptedKey)
+        setPersonalEncryptionKey(decryptedKey)
+      })
+      .catch(console.error)
+  }, [decryptMessageWithThresholdKey])
+
   // Drive encryption handler
   useEffect(() => {
-    const secureAccount = async () => {
-      if (!publicKey) return
-      const key = Buffer.from(
-        window.crypto.getRandomValues(new Uint8Array(32))
-      ).toString("base64")
-      console.log("New key", key)
-      setPersonalEncryptionKey(key)
-      const encryptedKey = await encryptForPublicKey(publicKey, key)
-      console.log("Encrypted encryption key", encryptedKey)
-      secureThresholdKeyAccount(encryptedKey)
-    }
-
-    const decryptKey = async (encryptedKey: string) => {
-      console.log("Decrypting retrieved key")
-      try {
-        const decryptedKey = await decryptMessageWithThresholdKey(encryptedKey)
-        if (decryptedKey) {
-          console.log("Decrypted key: ", decryptedKey)
-          setPersonalEncryptionKey(decryptedKey)
-        }
-      } catch (error) {
-        console.error("Error decrypting key: ", encryptedKey)
-      }
-    }
-
     if (isLoggedIn && publicKey && !personalEncryptionKey) {
       console.log("Checking whether account is secured ", secured)
+
       if (!secured && !isMasterPasswordSet) {
         console.log("Generating key and securing account")
         secureAccount()
       } else {
         console.log("decrypting key")
+        console.log("encryptedEncryptionKey", encryptedEncryptionKey)
         if (encryptedEncryptionKey) {
           decryptKey(encryptedEncryptionKey)
         }
@@ -217,7 +238,9 @@ const FilesProvider = ({ children }: FilesContextProps) => {
     secureThresholdKeyAccount,
     decryptMessageWithThresholdKey,
     personalEncryptionKey,
-    isMasterPasswordSet
+    isMasterPasswordSet,
+    secureAccount,
+    decryptKey
   ])
 
   const secureAccountWithMasterPassword = async (candidatePassword: string) => {
