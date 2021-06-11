@@ -276,7 +276,7 @@ const ProfileView = () => {
                       </div>
                       <div
                         className={classes.copyBox}
-                        onClick={copyTkeyAddress}
+                        onClick={copyTkeyPubKey}
                       >
                         <Typography
                           variant="body1"
