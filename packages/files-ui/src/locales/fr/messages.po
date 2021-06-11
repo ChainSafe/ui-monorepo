@@ -221,7 +221,7 @@ msgstr "Taille"
 msgid "Files"
 msgstr "Fichiers"
 
-msgid "Files address"
+msgid "Files sharing key"
 msgstr ""
 
 msgid "Files uses device backups to save your browser."
