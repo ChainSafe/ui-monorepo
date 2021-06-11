@@ -176,7 +176,7 @@ const ProfileView = () => {
     }
   }
 
-  const copyTkeyAddress = async () => {
+  const copyTkeyPubKey = async () => {
     if (publicKey) {
       try {
         await navigator.clipboard.writeText(publicKey)
