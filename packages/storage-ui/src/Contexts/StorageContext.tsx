@@ -138,7 +138,7 @@ const StorageProvider = ({ children }: StorageContextProps) => {
   })
 
   const addPin = useCallback((cid: string) => {
-    storageApiClient.addPin(({ cid }))
+    return storageApiClient.addPin(({ cid }))
       .then(res => console.log(res))
       .catch(console.error)
   }, [storageApiClient])

@@ -1,8 +1,14 @@
-import React from "react"
+import React, { useRef, useState } from "react"
 import { makeStyles, createStyles } from "@chainsafe/common-theme"
-import { Modal, Typography } from "@chainsafe/common-components"
+import { Button, FormikTextInput, Grid, Typography } from "@chainsafe/common-components"
 import CustomModal from "../Elements/CustomModal"
 import { CSSTheme } from "../../Themes/types"
+import CustomButton from "../Elements/CustomButton"
+import { Trans } from "@lingui/macro"
+import * as yup from "yup"
+import { Formik, Form } from "formik"
+import CID, { isCID,  } from "cids"
+import { useStorage } from "../../Contexts/StorageContext"
 
 const useStyles = makeStyles(({ constants, breakpoints, zIndex, typography }: CSSTheme) =>
   createStyles({
@@ -46,9 +52,7 @@ const useStyles = makeStyles(({ constants, breakpoints, zIndex, typography }: CS
     },
     heading: {
       color: constants.createFolder.color,
-      fontWeight: typography.fontWeight.semibold,
-      textAlign: "center",
-      marginBottom: constants.generalUnit * 4
+      marginBottom: constants.generalUnit
     }
   })
 )
@@ -58,11 +62,35 @@ interface IAddCIDModuleProps {
   close: () => void
 }
 
-
 const AddCIDModule = ({
-  modalOpen = false
+  modalOpen = false,
+  close
 }: IAddCIDModuleProps) => {
   const classes = useStyles()
+
+  const { addPin } = useStorage()
+
+  const cidValidator = yup.object().shape({
+    cid: yup
+      .string()
+      .required("CID is required")
+      .test(
+        "IsValidCID",
+        "CID invalid",
+        value => {
+          try {
+            return isCID(new CID(`${value}`))
+          }
+          catch (error) {
+            debugger
+            return false
+          }
+         
+        }
+      )
+  })
+  const inputRef = useRef<any>(null)
+  const [accessingCID, setAccessingCID] = useState(false)
 
   return (
     <CustomModal
@@ -74,7 +102,84 @@ const AddCIDModule = ({
       closePosition="none"
       maxWidth="sm"
     >
-
+      <Formik
+        initialValues={{
+          cid: ""
+        }}
+        validationSchema={cidValidator}
+        validateOnChange={false}
+        onSubmit={async (values, helpers) => {
+          helpers.setSubmitting(true)
+          try {
+            setAccessingCID(true)
+            await addPin(values.cid)
+            setAccessingCID(false)
+            helpers.resetForm()
+            close()
+          } catch (errors) {
+            setAccessingCID(false)
+            helpers.setFieldError("cid", errors[0].message)
+          }
+          helpers.setSubmitting(false)
+        }}
+      >
+        <Form>
+          <div className={classes.root}>
+            <Grid
+              item
+              xs={12}
+              sm={12}
+            >
+              <Typography
+                className={classes.heading}
+                variant="h5"
+                component="h5"
+              >
+                <Trans>Paste the CID to host a file with ChainSafe Storage</Trans>
+              </Typography>
+            </Grid>
+            <Grid
+              item
+              xs={12}
+              sm={12}
+              className={classes.input}
+            >
+              <FormikTextInput
+                name="cid"
+                size="large"
+                placeholder="QmNbbf...dps2Xw"
+                labelClassName={classes.label}
+                label="CID"
+                ref={inputRef}
+              />
+            </Grid>
+            <Grid
+              item
+              flexDirection="row"
+              justifyContent="flex-end"
+            >
+              <CustomButton
+                onClick={() => close()}
+                size="medium"
+                className={classes.cancelButton}
+                variant={"outline"}
+                type="button"
+              >
+                <Trans>Cancel</Trans>
+              </CustomButton>
+              <Button
+                size={"medium"}
+                variant="primary"
+                type="submit"
+                className={classes.okButton}
+                loading={accessingCID}
+              >
+                <Trans>Start Upload</Trans>
+              </Button>
+            </Grid>
+          </div>
+        </Form>
+      </Formik>
     </CustomModal>
   )
 }

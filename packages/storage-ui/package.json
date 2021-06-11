@@ -21,6 +21,7 @@
     "babel-preset-env": "^1.7.0",
     "babel-preset-react": "^6.24.1",
     "bnc-onboard": "1.19.1",
+    "cids": "^1.1.6",
     "clsx": "^1.1.1",
     "dayjs": "^1.9.7",
     "eth-crypto": "^1.8.0",

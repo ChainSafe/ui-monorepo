@@ -1,10 +1,11 @@
-import React, { useCallback } from "react"
+import React, { useCallback, useState } from "react"
 import { makeStyles, createStyles } from "@chainsafe/common-theme"
 import { Button, PlusIcon, Table, TableBody, TableHead, TableHeadCell, TableRow, Typography } from "@chainsafe/common-components"
 import { useStorage } from "../../Contexts/StorageContext"
 import { Trans } from "@lingui/macro"
 import CidRow from "../Elements/CidRow"
 import { CSSTheme } from "../../Themes/types"
+import AddCIDModule from "../Modules/AddCIDModule"
 
 export const desktopGridSettings = "3fr 190px 190px 190px 70px !important"
 export const mobileGridSettings = "3fr 190px 190px 190px 70px !important"
@@ -58,86 +59,94 @@ const CidsPage = () => {
     addPin("QmNbbff884cwp1pvH8muod4pNaUqHA2ph77nYXP7dps2Xw")
   }, [addPin])
 
+  const [addCIDOpen, setAddCIDOpen] = useState(false)
+
   return (
-    <div className={classes.root}>
-      <header className={classes.header}>
-        <Typography
-          variant="h1"
-          component="h1"
-          data-cy="storage-cids-header"
-        >
-          <Trans>
-            Cids
-          </Trans>
-        </Typography>
-        <div className={classes.controls}>
-          <>
-            <Button
-              onClick={onCreateHardcodedPin}
-              variant="outline"
-              size="large"
-            >
-              <span>
-                create pin with hardcoded cid
-              </span>
-            </Button>
-            <Button
-              data-cy="add-cid-modal-button"
-              onClick={() => (true)}
-              variant="outline"
-              size="large"
-            >
-              <PlusIcon />
-              <span>
-                <Trans>Add CID</Trans>
-              </span>
-            </Button>
-          </>
-        </div>
-      </header>
-      <Table
-        fullWidth={true}
-        striped={true}
-        hover={true}
-        className=""
-      >
-        <TableHead className={classes.tableHead}>
-          <TableRow
-            type="grid"
-            className={classes.tableRow}
+    <>
+      <div className={classes.root}>
+        <header className={classes.header}>
+          <Typography
+            variant="h1"
+            component="h1"
+            data-cy="storage-cids-header"
           >
-            <TableHeadCell
-              sortButtons={false}
-              align="center"
+            <Trans>
+              Cids
+            </Trans>
+          </Typography>
+          <div className={classes.controls}>
+            <>
+              <Button
+                onClick={onCreateHardcodedPin}
+                variant="outline"
+                size="large"
+              >
+                <span>
+                  create pin with hardcoded cid
+                </span>
+              </Button>
+              <Button
+                data-cy="add-cid-modal-button"
+                onClick={() => setAddCIDOpen(true)}
+                variant="outline"
+                size="large"
+              >
+                <PlusIcon />
+                <span>
+                  <Trans>Add CID</Trans>
+                </span>
+              </Button>
+            </>
+          </div>
+        </header>
+        <Table
+          fullWidth={true}
+          striped={true}
+          hover={true}
+          className=""
+        >
+          <TableHead className={classes.tableHead}>
+            <TableRow
+              type="grid"
+              className={classes.tableRow}
             >
-              <Trans>Cid</Trans>
-            </TableHeadCell>
-            <TableHeadCell
-              sortButtons={false}
-              align="center"
-            >
-              <Trans>Created</Trans>
-            </TableHeadCell>
-            <TableHeadCell
-              sortButtons={false}
-              align="center"
-            >
-              <Trans>Size</Trans>
-            </TableHeadCell>
-            <TableHeadCell>{/* IPFS Gateway */}</TableHeadCell>
-            <TableHeadCell>{/* Menu */}</TableHeadCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {pins.map((pinObject, index) =>
-            <CidRow
-              pinObject={pinObject}
-              key={index}
-            />
-          )}
-        </TableBody>
-      </Table>
-    </div>
+              <TableHeadCell
+                sortButtons={false}
+                align="center"
+              >
+                <Trans>Cid</Trans>
+              </TableHeadCell>
+              <TableHeadCell
+                sortButtons={false}
+                align="center"
+              >
+                <Trans>Created</Trans>
+              </TableHeadCell>
+              <TableHeadCell
+                sortButtons={false}
+                align="center"
+              >
+                <Trans>Size</Trans>
+              </TableHeadCell>
+              <TableHeadCell>{/* IPFS Gateway */}</TableHeadCell>
+              <TableHeadCell>{/* Menu */}</TableHeadCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {pins.map((pinObject, index) =>
+              <CidRow
+                pinObject={pinObject}
+                key={index}
+              />
+            )}
+          </TableBody>
+        </Table>
+      </div>
+      <AddCIDModule 
+        close={() => setAddCIDOpen(false)}
+        modalOpen={addCIDOpen}
+      />
+    </>
   )
 }
 
