@@ -156,13 +156,13 @@ const ProfileView = () => {
   const classes = useStyles()
 
   const [copiedWalletAddress, setCopiedWalletAddress] = useState(false)
-  const [copiedTkeyAddress, setCopiedTkeyAddress] = useState(false)
+  const [copiedTkeyPublicKey, setCopiedTkeyPublicKey] = useState(false)
 
   const debouncedCopiedWalletAddress =
     debounce(() => setCopiedWalletAddress(false), 3000)
 
-  const debouncedCopiedTkeyAddress =
-    debounce(() => setCopiedTkeyAddress(false), 3000)
+  const debouncedCopiedTkeyPublicKey =
+    debounce(() => setCopiedTkeyPublicKey(false), 3000)
 
   const copyWalletAddress = async () => {
     if (profile?.publicAddress) {
@@ -180,8 +180,8 @@ const ProfileView = () => {
     if (publicKey) {
       try {
         await navigator.clipboard.writeText(publicKey)
-        setCopiedTkeyAddress(true)
-        debouncedCopiedTkeyAddress()
+        setCopiedTkeyPublicKey(true)
+        debouncedCopiedTkeyPublicKey()
       } catch (err) {
         console.error(err)
       }
@@ -268,7 +268,7 @@ const ProfileView = () => {
                         >
                           <Trans>Files sharing key</Trans>
                         </Typography>
-                        {copiedTkeyAddress && (
+                        {copiedTkeyPublicKey && (
                           <Typography>
                             <Trans>Copied!</Trans>
                           </Typography>
