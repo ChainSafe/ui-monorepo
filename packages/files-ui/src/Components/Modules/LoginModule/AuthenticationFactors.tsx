@@ -235,7 +235,7 @@ const AuthenticationFactors = ({ goToComplete, goToMnemonic, goToPassword, goToS
         <div>
           <Typography variant="h5">
             <Trans>
-              Backup phrase
+              Backup secret phrase
             </Trans>
           </Typography>
           {

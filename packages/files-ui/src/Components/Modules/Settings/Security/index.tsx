@@ -323,17 +323,17 @@ const Security = ({ className }: SecurityProps) => {
                 component="h2"
               >
                 <Trans>
-                  Generate backup phrase
+                  Generate backup secret phrase
                 </Trans>
               </Typography>
               <Typography component="p">
                 <Trans>
-                  A backup phrase will be generated and used for your account.<br/>
+                  A backup secret phrase will be generated and used for your account.<br/>
                   We do not store it and <b>it can only be displayed once</b>. Save it somewhere safe!
                 </Trans>
               </Typography>
               <MnemonicForm
-                buttonLabel={t`I’m done saving my backup phrase`}
+                buttonLabel={t`I’m done saving my backup secret phrase`}
                 onComplete={() => setIsSettingBackupPhrase(false)}
               />
             </section>
@@ -342,7 +342,7 @@ const Security = ({ className }: SecurityProps) => {
             <div>
               <Typography variant="h5">
                 <Trans>
-                  Backup phrase
+                  Backup secret phrase
                 </Trans>
               </Typography>
               <Typography variant="h5">
@@ -353,7 +353,7 @@ const Security = ({ className }: SecurityProps) => {
                         className={classes.buttonLink}
                         onClick={() => {setIsSettingBackupPhrase(true)}}
                       >
-                        <Trans>Generate backup phrase</Trans>
+                        <Trans>Generate backup secret phrase</Trans>
                       </span>
                       <CrossOutlinedSvg className={clsx(classes.icon, classes.red)}/>
                     </span>

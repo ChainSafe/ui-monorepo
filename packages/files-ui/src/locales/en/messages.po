@@ -19,8 +19,8 @@ msgstr "(Change)"
 msgid "<0>You’re at risk of getting locked out of your account because you only have two auth factors set up.</0> Add at least one more to ensure account recovery."
 msgstr "<0>You’re at risk of getting locked out of your account because you only have two auth factors set up.</0> Add at least one more to ensure account recovery."
 
-msgid "A backup phrase will be generated and used for your account.<0/>We do not store it and <1>it can only be displayed once</1>. Save it somewhere safe!"
-msgstr "A backup phrase will be generated and used for your account.<0/>We do not store it and <1>it can only be displayed once</1>. Save it somewhere safe!"
+msgid "A backup secret phrase will be generated and used for your account.<0/>We do not store it and <1>it can only be displayed once</1>. Save it somewhere safe!"
+msgstr "A backup secret phrase will be generated and used for your account.<0/>We do not store it and <1>it can only be displayed once</1>. Save it somewhere safe!"
 
 msgid "A file with the same name already exists"
 msgstr "A file with the same name already exists"
@@ -43,11 +43,11 @@ msgstr "Approve"
 msgid "Are we on the right track? Let us know in less than 1 minute."
 msgstr "Are we on the right track? Let us know in less than 1 minute."
 
-msgid "Backup phrase"
-msgstr "Backup phrase"
+msgid "Backup secret phrase"
+msgstr "Backup secret phrase"
 
-msgid "Backup phrase does not match user account, please double-check and try again."
-msgstr "Backup phrase does not match user account, please double-check and try again."
+msgid "Backup secret phrase does not match user account, please double-check and try again."
+msgstr "Backup secret phrase does not match user account, please double-check and try again."
 
 msgid "Bin"
 msgstr "Bin"
@@ -172,8 +172,8 @@ msgstr "Drop to upload files"
 msgid "Email is required"
 msgstr "Email is required"
 
-msgid "Enter backup phrase:"
-msgstr "Enter backup phrase:"
+msgid "Enter backup secret phrase:"
+msgstr "Enter backup secret phrase:"
 
 msgid "Enter password"
 msgstr "Enter password"
@@ -220,6 +220,9 @@ msgstr "File size"
 msgid "Files"
 msgstr "Files"
 
+msgid "Files sharing key"
+msgstr "Files sharing key"
+
 msgid "Files uses device backups to save your browser."
 msgstr "Files uses device backups to save your browser."
 
@@ -241,11 +244,8 @@ msgstr "Forget this browser"
 msgid "General"
 msgstr "General"
 
-msgid "Generate backup phrase"
-msgstr "Generate backup phrase"
-
-msgid "Generate phrase"
-msgstr "Generate phrase"
+msgid "Generate backup secret phrase"
+msgstr "Generate backup secret phrase"
 
 msgid "Generating..."
 msgstr "Generating..."
@@ -280,8 +280,8 @@ msgstr "Info"
 msgid "Invalid name"
 msgstr "Invalid name"
 
-msgid "I’m done saving my backup phrase"
-msgstr "I’m done saving my backup phrase"
+msgid "I’m done saving my backup secret phrase"
+msgstr "I’m done saving my backup secret phrase"
 
 msgid "Language"
 msgstr "Language"
@@ -448,8 +448,8 @@ msgstr "Requested from"
 msgid "Resources"
 msgstr "Resources"
 
-msgid "Restore with backup phrase"
-msgstr "Restore with backup phrase"
+msgid "Restore with backup secret phrase"
+msgstr "Restore with backup secret phrase"
 
 msgid "Save changes"
 msgstr "Save changes"
@@ -592,6 +592,9 @@ msgstr "There was an error getting search results"
 msgid "There was an error getting the preview."
 msgstr "There was an error getting the preview."
 
+msgid "There was an error moving this"
+msgstr "There was an error moving this"
+
 msgid "There was an error recovering this"
 msgstr "There was an error recovering this"
 
@@ -661,8 +664,8 @@ msgstr "You will need to sign a message in your wallet to complete sign in."
 msgid "Your Authentication Factors"
 msgstr "Your Authentication Factors"
 
-msgid "Your recovery key can be used to restore your account in place of your backup phrase."
-msgstr "Your recovery key can be used to restore your account in place of your backup phrase."
+msgid "Your recovery key can be used to restore your account in place of your backup secret phrase."
+msgstr "Your recovery key can be used to restore your account in place of your backup secret phrase."
 
 msgid "deleted successfully"
 msgstr "deleted successfully"
@@ -672,6 +675,9 @@ msgstr "file"
 
 msgid "folder"
 msgstr "folder"
+
+msgid "moved successfully"
+msgstr "moved successfully"
 
 msgid "on"
 msgstr "on"
