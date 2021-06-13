@@ -39,8 +39,16 @@ const useStyles = makeStyles(({ constants, breakpoints, palette, typography }: C
         borderBottom: "none"
       }
     },
+    header: {
+      fontSize: 28,
+      lineHeight: "32px",
+      marginBottom: constants.generalUnit * 5
+    },
     boxContainer: {
       marginBottom: constants.generalUnit * 4
+    },
+    inputBoxContainer: {
+      marginBottom: constants.generalUnit * 3
     },
     labelContainer: {
       marginBottom: constants.generalUnit
@@ -48,7 +56,7 @@ const useStyles = makeStyles(({ constants, breakpoints, palette, typography }: C
     walletAddressContainer: {
       display: "flex",
       justifyContent: "space-between",
-      marginBottom: constants.generalUnit
+      marginBottom: constants.generalUnit * 0.5
     },
     input: {
       width: "100%",
@@ -58,6 +66,11 @@ const useStyles = makeStyles(({ constants, breakpoints, palette, typography }: C
     label: {
       marginBottom: constants.generalUnit * 1,
       fontSize: 20
+    },
+    subLabel: {
+      marginBottom: constants.generalUnit * 1,
+      color: palette.additional["gray"][8],
+      fontSize: 14
     },
     profileBox: {
       maxWidth: 420
@@ -78,7 +91,7 @@ const useStyles = makeStyles(({ constants, breakpoints, palette, typography }: C
     button: {
       width: 200,
       margin: `0px ${constants.generalUnit * 0.5}px ${
-        constants.generalUnit * 1
+        constants.generalUnit * 4
       }px`
     },
     icon: {
@@ -191,7 +204,8 @@ const ProfileView = () => {
   const profileValidation = yup.object().shape({
     // email: yup.string().email("Email is invalid").required("Email is required"),
     firstName: yup.string(),
-    lastName: yup.string()
+    lastName: yup.string(),
+    username: yup.string()
   })
 
   return (
@@ -206,10 +220,18 @@ const ProfileView = () => {
             className={classes.sectionContainer}
           >
             <div className={classes.profileBox}>
+              <Typography
+                variant="h3"
+                component="h3"
+                className={classes.header}
+              >
+                Profile settings
+              </Typography>
               <Formik
                 initialValues={{
                   firstName: profile?.firstName || "",
                   lastName: profile?.lastName || ""
+                  // username: profile?.username || ""
                   // email: profile?.email || ""
                 }}
                 onSubmit={(values) => {
@@ -289,25 +311,64 @@ const ProfileView = () => {
                       </div>
                     </div>
                   ) : null}
-                  <div className={classes.boxContainer}>
+                  <div className={classes.inputBoxContainer}>
+                    <Typography
+                      component="p"
+                      className={classes.label}
+                    >
+                      <Trans>Username</Trans>
+                    </Typography>
+                    <Typography
+                      component="p"
+                      className={classes.subLabel}
+                    >
+                      <Trans>This username is public.</Trans>
+                    </Typography>
+                    <FormikTextInput
+                      placeholder={t`Username`}
+                      hideLabel={true}
+                      name="Username"
+                      size="medium"
+                      className={classes.input}
+                      data-cy="profile-firstname-input"
+                    />
+                  </div>
+                  <div className={classes.inputBoxContainer}>
+                    <Typography
+                      component="p"
+                      className={classes.label}
+                    >
+                      <Trans>First name</Trans>
+                    </Typography>
+                    <Typography
+                      component="p"
+                      className={classes.subLabel}
+                    >
+                      <Trans>Only you can see this.</Trans>
+                    </Typography>
                     <FormikTextInput
                       placeholder={t`First name`}
                       name="firstName"
                       size="medium"
+                      hideLabel={true}
                       className={classes.input}
-                      labelClassName={classes.label}
-                      label={t`First name`}
                       data-cy="profile-firstname-input"
                     />
                   </div>
-                  <div className={classes.boxContainer}>
+                  <div className={classes.inputBoxContainer}>
+                    <Typography
+                      variant="body1"
+                      component="p"
+                      className={classes.label}
+                    >
+                      <Trans>Last name</Trans>
+                    </Typography>
                     <FormikTextInput
                       placeholder={t`Last name`}
                       name="lastName"
                       size="medium"
+                      hideLabel={true}
                       className={classes.input}
-                      labelClassName={classes.label}
-                      label={t`Last name`}
                       data-cy="profile-lastname-input"
                     />
                   </div>
