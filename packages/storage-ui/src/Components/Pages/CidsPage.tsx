@@ -119,7 +119,7 @@ const CidsPage = () => {
           <TableBody>
             {pins.map((pinObject, index) =>
               <CidRow
-                pinObject={pinObject}
+                pinStatus={pinObject}
                 key={index}
               />
             )}

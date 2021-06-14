@@ -3,7 +3,7 @@ import { makeStyles, createStyles } from "@chainsafe/common-theme"
 import { DeleteSvg, formatBytes, MenuDropdown, MoreIcon, TableCell, TableRow  } from "@chainsafe/common-components"
 import { Trans } from "@lingui/macro"
 import dayjs from "dayjs"
-import { PinObject } from "@chainsafe/files-api-client"
+import { PinStatus } from "@chainsafe/files-api-client"
 import { CSSTheme } from "../../Themes/types"
 import { useStorage } from "../../Contexts/StorageContext"
 import { desktopGridSettings, mobileGridSettings } from "../Pages/CidsPage"
@@ -55,34 +55,32 @@ const useStyles = makeStyles(({ animation, constants, breakpoints }: CSSTheme) =
   })
 )
 interface Props {
-    pinObject: PinObject
+    pinStatus: PinStatus
 }
 
 const IPFS_GATEWAY = "https://ipfs.infura.io:5001/api/v0/cat/"
 
-const CidRow = ({ pinObject }: Props) => {
+const CidRow = ({ pinStatus }: Props) => {
   const classes = useStyles()
   const { unpin } = useStorage()
 
-  console.log("pinObject", pinObject)
   return (
     <TableRow
       type="grid"
       className={classes.tableRow}
     >
       <TableCell className={classes.cid}>
-        {pinObject.pin?.cid}
+        {pinStatus.pin?.cid}
       </TableCell>
       <TableCell>
-        {dayjs(pinObject.created).format("DD MMM YYYY h:mm a")}
+        {dayjs(pinStatus.created).format("DD MMM YYYY h:mm a")}
       </TableCell>
       <TableCell>
-        {/** as any needs to be removed when the api spec will be up to date */}
-        {formatBytes((pinObject as any).info.size)}
+        {formatBytes(pinStatus.info?.size)}
       </TableCell>
       <TableCell>
         <a
-          href={`${IPFS_GATEWAY}${pinObject.pin?.cid}`}
+          href={`${IPFS_GATEWAY}${pinStatus.pin?.cid}`}
           target="_blank"
           rel="noopener noreferrer"
         >
@@ -103,8 +101,7 @@ const CidRow = ({ pinObject }: Props) => {
                 </span>
               </>
             ),
-            // todo remove when specs are updated
-            onClick: () => unpin((pinObject as any).requestid)
+            onClick: () => unpin(pinStatus.requestid)
           }]}
           classNames={{
             icon: classes.dropdownIcon,
