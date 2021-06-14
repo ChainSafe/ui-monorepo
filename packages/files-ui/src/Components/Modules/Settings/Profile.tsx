@@ -7,7 +7,8 @@ import {
   Typography,
   useToaster,
   RadioInput,
-  TextInput
+  TextInput,
+  CheckIcon
 } from "@chainsafe/common-components"
 import {
   makeStyles,
@@ -157,7 +158,10 @@ const useStyles = makeStyles(({ constants, breakpoints, palette, typography }: C
     },
     usernameForm: {
       display: "flex",
-      marginBottom: constants.generalUnit * 4
+      marginBottom: constants.generalUnit * 4,
+      "& svg": {
+        fill: palette.success.main
+      }
     },
     usernameInput: {
       flex: 1,
@@ -174,6 +178,11 @@ const ProfileView = () => {
   const { publicKey } = useThresholdKey()
   const [updatingProfile, setUpdatingProfile] = useState(false)
   const [showUsernameForm, setShowUsernameForm] = useState(false)
+  const [usernameData, setUsernameData] = useState({
+    username: "",
+    error: "",
+    isUsernameValid: false
+  })
 
   const onUpdateProfile = async (firstName: string, lastName: string) => {
     try {
@@ -229,8 +238,6 @@ const ProfileView = () => {
     username: yup.string()
   })
 
-  console.log(profile?.username, showUsernameForm)
-
   const onLookupUsername = debounce(async (username: string) => {
     try {
       return await lookupOnUsername(username)
@@ -239,6 +246,18 @@ const ProfileView = () => {
     }
   }, 400)
 
+  const onUsernameChange = (value: any) => {
+    setUsernameData({ ...usernameData, username: value })
+    onLookupUsername(value).then((doesUsernameExist) => {
+      if (doesUsernameExist) {
+        setUsernameData({ ...usernameData, error: "Username already exists", isUsernameValid: false })
+      } else {
+        setUsernameData({ ...usernameData, error: "", isUsernameValid: true })
+      }
+    }).catch(() => {
+      setUsernameData({ ...usernameData, error: "Username already exists", isUsernameValid: false })
+    })
+  }
 
   return (
     <Grid container>
@@ -326,7 +345,27 @@ const ProfileView = () => {
                 </div>
                 : null}
               {profile?.username
-                ? <div>{profile?.username}</div>
+                ? <div className={classes.inputBoxContainer}>
+                  <Typography
+                    component="p"
+                    className={classes.label}
+                  >
+                    <Trans>Username</Trans>
+                  </Typography>
+                  <Typography
+                    component="p"
+                    className={classes.subLabel}
+                  >
+                    <Trans>This username is public</Trans>
+                  </Typography>
+                  <div className={classes.usernameForm}>
+                    <TextInput
+                      disabled={true}
+                      value={profile.username}
+                      className={classes.usernameInput}
+                    />
+                  </div>
+                </div>
                 : <div className={classes.inputBoxContainer}>
                   <Typography
                     component="p"
@@ -340,12 +379,20 @@ const ProfileView = () => {
                         username: "",
                         isUsernameValid: false
                       }}
-                      onSubmit={(values) => {
-                        setUsername(values.username)
+                      onSubmit={(values, helpers) => {
+                        setUsername(values.username).catch((error) => {
+                          console.log(error)
+                          helpers.setErrors({
+                            username: error
+                          })
+                          helpers.setFieldValue("isUsernameValid", false)
+                          helpers.setSubmitting(false)
+                        }).finally(() => helpers.setSubmitting(false))
                       }}
                     >
-                      {({ values, errors, setFieldValue, setFieldError }) => (
-                        <Form>
+                      {({ values, errors, setFieldValue, setFieldError, isSubmitting }) => {
+                        console.log(errors)
+                        return <Form>
                           <Typography
                             component="p"
                             className={classes.subLabel}
@@ -359,27 +406,25 @@ const ProfileView = () => {
                               size="medium"
                               value={values.username}
                               className={classes.usernameInput}
-                              RightIcon={values.isUsernameValid ? CopyIcon : undefined}
-                              onChange={async (value) => {
-                                setFieldValue("username", value)
-                                const doesUsernameExist = await onLookupUsername(values.username)
-                                if (doesUsernameExist) {
-                                  setFieldError("username", "username already exists")
-                                  setFieldValue("isUsernameValid", false)
-                                } else {
-                                  setFieldValue("isUsernameValid", true)
-                                }
-                              }}
+                              RightIcon={values.isUsernameValid ? CheckIcon : undefined}
+                              onChange={onUsernameChange}
                               captionMessage={errors.username}
                               state={errors.username ? "error" : "normal"}
                               data-cy="profile-username-input"
                             />
-                            <Button type="submit">
-                              Set Username
-                            </Button>
+                            <div>
+
+                              <Button
+                                type="submit"
+                                disabled={isSubmitting || !values.isUsernameValid}
+                                loading={isSubmitting}
+                              >
+                                {isSubmitting ? t`Setting Username` : t`Set Username`}
+                              </Button>
+                            </div>
                           </div>
                         </Form>
-                      )
+                      }
                       }
                     </Formik>
                     : <div>

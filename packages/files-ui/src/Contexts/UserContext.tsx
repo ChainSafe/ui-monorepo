@@ -121,6 +121,7 @@ const UserProvider = ({ children }: UserContextProps) => {
     if (!profile) return
     try {
       await filesApiClient.lookupUser({ username })
+      console.log("found")
       return true
     } catch (error) {
       return false
