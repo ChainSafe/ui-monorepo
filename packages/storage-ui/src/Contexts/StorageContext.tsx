@@ -57,13 +57,10 @@ interface IFileSystemItem extends FileContentResponse {
 
 type FileSystemItem = IFileSystemItem
 
-// const REMOVE_UPLOAD_PROGRESS_DELAY = 5000
-
 const StorageContext = React.createContext<StorageContext | undefined>(undefined)
 
 const StorageProvider = ({ children }: StorageContextProps) => {
   const { storageApiClient, isLoggedIn } = useStorageApi()
-  // const [spaceUsed, setSpaceUsed] = useState(0)
   const [spaceUsed] = useState(0)
   const [pins, setPins] = useState<PinObject[]>([])
 
@@ -108,7 +105,6 @@ const StorageProvider = ({ children }: StorageContextProps) => {
     }
   }, [isLoggedIn])
 
-  // const [uploadsInProgress, dispatchUploadsInProgress] = useReducer(
   const [uploadsInProgress] = useReducer(
     uploadsInProgressReducer,
     []
