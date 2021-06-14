@@ -528,7 +528,6 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
       ? await signer.provider.send("personal_sign", [token, addressToUse])
       : await signer.signMessage(token)
       
-      debugger
       setStatus("logging in")
       const web3IdentityToken = await filesApiClient.postIdentityWeb3Token({
         signature: signature,
