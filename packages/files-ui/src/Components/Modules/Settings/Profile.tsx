@@ -119,6 +119,12 @@ const useStyles = makeStyles(({ constants, breakpoints, palette, typography }: C
         ...typography.body2
       }
     },
+    copyText: {
+      padding: `${constants.generalUnit / 2}px ${constants.generalUnit}px`,
+      backgroundColor: constants.loginModule.flagBg,
+      borderRadius: 2,
+      color: constants.loginModule.flagText
+    },
     themeBox: {
       height: 87,
       borderRadius: 4,
@@ -181,7 +187,7 @@ const ProfileView = () => {
   const [usernameData, setUsernameData] = useState({
     username: "",
     error: "",
-    isUsernameValid: false
+    loading: false
   })
 
   const onUpdateProfile = async (firstName: string, lastName: string) => {
@@ -250,13 +256,24 @@ const ProfileView = () => {
     setUsernameData({ ...usernameData, username: value })
     onLookupUsername(value).then((doesUsernameExist) => {
       if (doesUsernameExist) {
-        setUsernameData({ ...usernameData, error: "Username already exists", isUsernameValid: false })
+        setUsernameData({ ...usernameData, error: "Username already exists" })
       } else {
-        setUsernameData({ ...usernameData, error: "", isUsernameValid: true })
+        setUsernameData({ ...usernameData, error: "" })
       }
     }).catch(() => {
-      setUsernameData({ ...usernameData, error: "Username already exists", isUsernameValid: false })
+      setUsernameData({ ...usernameData, error: "Something went wrong!" })
     })
+  }
+
+  const onSubmitUsername = () => {
+    setUsernameData({ ...usernameData, loading: true })
+    setUsername(usernameData.username)
+      .then(() => {
+        setUsernameData({ ...usernameData, loading: false })
+        setShowUsernameForm(false)
+      }).catch((error) => {
+        setUsernameData({ ...usernameData, error: error, loading: false })
+      })
   }
 
   return (
@@ -374,59 +391,39 @@ const ProfileView = () => {
                     <Trans>Username</Trans>
                   </Typography>
                   {showUsernameForm
-                    ? <Formik
-                      initialValues={{
-                        username: "",
-                        isUsernameValid: false
-                      }}
-                      onSubmit={(values, helpers) => {
-                        setUsername(values.username).catch((error) => {
-                          console.log(error)
-                          helpers.setErrors({
-                            username: error
-                          })
-                          helpers.setFieldValue("isUsernameValid", false)
-                          helpers.setSubmitting(false)
-                        }).finally(() => helpers.setSubmitting(false))
-                      }}
-                    >
-                      {({ values, errors, setFieldValue, setFieldError, isSubmitting }) => {
-                        console.log(errors)
-                        return <Form>
-                          <Typography
-                            component="p"
-                            className={classes.subLabel}
+                    ?
+                    <div>
+                      <Typography
+                        component="p"
+                        className={classes.subLabel}
+                      >
+                        <Trans>Usernames are public and can&apos;t be changed after creation.</Trans>
+                      </Typography>
+                      <div className={classes.usernameForm}>
+                        <TextInput
+                          placeholder={t`Username`}
+                          name="username"
+                          size="medium"
+                          value={usernameData.username}
+                          className={classes.usernameInput}
+                          RightIcon={usernameData.username && !usernameData.error ? CheckIcon : undefined}
+                          onChange={onUsernameChange}
+                          captionMessage={usernameData.error}
+                          state={usernameData.error ? "error" : "normal"}
+                          data-cy="profile-username-input"
+                        />
+                        <div>
+                          <Button
+                            type="submit"
+                            onClick={onSubmitUsername}
+                            disabled={usernameData.loading || !!usernameData.error || !usernameData.username}
+                            loading={usernameData.loading}
                           >
-                            <Trans>Usernames are public and can&apos;t be changed after creation.</Trans>
-                          </Typography>
-                          <div className={classes.usernameForm}>
-                            <TextInput
-                              placeholder={t`Username`}
-                              name="username"
-                              size="medium"
-                              value={values.username}
-                              className={classes.usernameInput}
-                              RightIcon={values.isUsernameValid ? CheckIcon : undefined}
-                              onChange={onUsernameChange}
-                              captionMessage={errors.username}
-                              state={errors.username ? "error" : "normal"}
-                              data-cy="profile-username-input"
-                            />
-                            <div>
-
-                              <Button
-                                type="submit"
-                                disabled={isSubmitting || !values.isUsernameValid}
-                                loading={isSubmitting}
-                              >
-                                {isSubmitting ? t`Setting Username` : t`Set Username`}
-                              </Button>
-                            </div>
-                          </div>
-                        </Form>
-                      }
-                      }
-                    </Formik>
+                            {usernameData.loading ? t`Setting Username` : t`Set Username`}
+                          </Button>
+                        </div>
+                      </div>
+                    </div>
                     : <div>
                       <Typography
                         component="p"
