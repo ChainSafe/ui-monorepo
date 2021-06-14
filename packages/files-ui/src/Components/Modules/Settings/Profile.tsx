@@ -244,9 +244,9 @@ const ProfileView = () => {
     username: yup.string()
   })
 
-  const onLookupUsername = debounce(async (username: string) => {
+  const onLookupUsername = debounce(async function lookup(username: string) {
     try {
-      return await lookupOnUsername(username)
+      return lookupOnUsername(username)
     } catch (err) {
       //
     }
