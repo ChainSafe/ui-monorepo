@@ -30,6 +30,7 @@ import FileItemTableItem from "./FileSystemTableItem"
 import FileItemGridItem from "./FileSystemGridItem"
 import { FileSystemItem as FileSystemItemType } from "../../../../../Contexts/FilesContext"
 import { useFileBrowser } from "../../../../../Contexts/FileBrowserContext"
+import { getPathWithFile } from "../../../../../Utils/pathUtils"
 
 const useStyles = makeStyles(({ breakpoints, constants }: CSFTheme) => {
   return createStyles({
@@ -291,7 +292,7 @@ const FileSystemItem = ({
     accept: DragTypes.MOVABLE_FILE,
     canDrop: () => isFolder,
     drop: (item: {ids: string[]}) => {
-      moveItems && moveItems(item.ids, `${currentPath}/${name}/`)
+      moveItems && moveItems(item.ids, getPathWithFile(currentPath, name))
     },
     collect: (monitor) => ({
       isOverMove: monitor.isOver()
