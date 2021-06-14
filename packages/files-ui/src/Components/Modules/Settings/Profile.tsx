@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useCallback } from "react"
 import * as yup from "yup"
 import {
   FormikTextInput,
@@ -180,12 +180,12 @@ const useStyles = makeStyles(({ constants, breakpoints, palette, typography }: C
 const ProfileView = () => {
   const { themeKey, setTheme } = useThemeSwitcher()
   const { addToastMessage } = useToaster()
-  const { profile, updateProfile, setUsername, lookupOnUsername } = useUser()
+  const { profile, updateProfile, addUsername, lookupOnUsername } = useUser()
   const { publicKey } = useThresholdKey()
   const [updatingProfile, setUpdatingProfile] = useState(false)
   const [showUsernameForm, setShowUsernameForm] = useState(false)
+  const [username, setUsername] = useState("")
   const [usernameData, setUsernameData] = useState({
-    username: "",
     error: "",
     loading: false
   })
@@ -244,36 +244,41 @@ const ProfileView = () => {
     username: yup.string()
   })
 
-  const onLookupUsername = debounce(async function lookup(username: string) {
-    try {
-      return lookupOnUsername(username)
-    } catch (err) {
-      //
+  const onLookupUsername = async (username: string) => {
+    const doesUsernameExist = await lookupOnUsername(username)
+    if (doesUsernameExist) {
+      setUsernameData({
+        loading: false,
+        error: "Username already exists"
+      })
+    } else {
+      setUsernameData({
+        loading: false,
+        error: ""
+      })
     }
-  }, 400)
-
-  const onUsernameChange = (value: any) => {
-    setUsernameData({ ...usernameData, username: value })
-    onLookupUsername(value).then((doesUsernameExist) => {
-      if (doesUsernameExist) {
-        setUsernameData({ ...usernameData, error: "Username already exists" })
-      } else {
-        setUsernameData({ ...usernameData, error: "" })
-      }
-    }).catch(() => {
-      setUsernameData({ ...usernameData, error: "Something went wrong!" })
-    })
   }
 
-  const onSubmitUsername = () => {
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const debouncedOnLookupUsername = useCallback(debounce(onLookupUsername, 400), [lookupOnUsername])
+
+  const onUsernameChange = async (value: any) => {
+    setUsername(value)
+    debouncedOnLookupUsername(value)
+  }
+
+  const onSubmitUsername = (e: any) => {
+    e.preventDefault()
     setUsernameData({ ...usernameData, loading: true })
-    setUsername(usernameData.username)
-      .then(() => {
-        setUsernameData({ ...usernameData, loading: false })
-        setShowUsernameForm(false)
-      }).catch((error) => {
-        setUsernameData({ ...usernameData, error: error, loading: false })
+    addUsername(username).then(() => {
+      addToastMessage({ message: t`Username added` })
+    }).catch((error) => {
+      setUsernameData({
+        ...usernameData,
+        error: error,
+        loading: false
       })
+    })
   }
 
   return (
@@ -399,14 +404,17 @@ const ProfileView = () => {
                       >
                         <Trans>Usernames are public and can&apos;t be changed after creation.</Trans>
                       </Typography>
-                      <div className={classes.usernameForm}>
+                      <form
+                        onSubmit={onSubmitUsername}
+                        className={classes.usernameForm}
+                      >
                         <TextInput
                           placeholder={t`Username`}
                           name="username"
                           size="medium"
-                          value={usernameData.username}
+                          value={username}
                           className={classes.usernameInput}
-                          RightIcon={usernameData.username && !usernameData.error ? CheckIcon : undefined}
+                          RightIcon={username && !usernameData.error ? CheckIcon : undefined}
                           onChange={onUsernameChange}
                           captionMessage={usernameData.error}
                           state={usernameData.error ? "error" : "normal"}
@@ -415,14 +423,13 @@ const ProfileView = () => {
                         <div>
                           <Button
                             type="submit"
-                            onClick={onSubmitUsername}
-                            disabled={usernameData.loading || !!usernameData.error || !usernameData.username}
+                            disabled={usernameData.loading || !!usernameData.error || !username}
                             loading={usernameData.loading}
                           >
                             {usernameData.loading ? t`Setting Username` : t`Set Username`}
                           </Button>
                         </div>
-                      </div>
+                      </form>
                     </div>
                     : <div>
                       <Typography
