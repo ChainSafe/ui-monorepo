@@ -14,16 +14,19 @@ export type Profile = {
   publicAddress?: string
   email?: string
   createdAt?: Date
+  username?: string
 }
 
 interface IUserContext {
   profile: Profile | undefined
   refreshProfile(): Promise<void>
-  updateProfile(
+  updateProfile: (
     firstName: string,
     lastName: string,
     // email: string,
-  ): Promise<void>
+  ) => Promise<void>
+  lookupOnUsername: (username: string) => Promise<boolean>
+  setUsername: (username: string) => Promise<void>
   removeUser(): void
   getProfileTitle(): string
 }
@@ -45,7 +48,8 @@ const UserProvider = ({ children }: UserContextProps) => {
         lastName: profileApiData.last_name,
         email: profileApiData.email,
         publicAddress: profileApiData.public_address,
-        createdAt: profileApiData.created_at
+        createdAt: profileApiData.created_at,
+        username: profileApiData.username
       }
       setProfile(profileState)
       return Promise.resolve()
@@ -88,6 +92,50 @@ const UserProvider = ({ children }: UserContextProps) => {
     }
   }
 
+  const setUsername = async (username: string) => {
+    if (!profile) return Promise.reject("Profile not initialized")
+
+    try {
+      await filesApiClient.updateUser({
+        first_name: profile.firstName || "",
+        last_name: profile.lastName || "",
+        email: profile.email || "",
+        username
+      })
+
+      setProfile({
+        ...profile,
+        username
+      })
+      return Promise.resolve()
+    } catch (error) {
+      return Promise.reject(
+        error && error.length
+          ? error[0].message
+          : "There was an error setting username."
+      )
+    }
+  }
+
+  const lookupOnUsername = async (username: string) => {
+    if (!profile) return Promise.reject("Profile not initialized")
+
+    try {
+      const lookedUpUser = await filesApiClient.lookupUser({
+        username
+      })
+
+      console.log(lookedUpUser)
+      return Promise.resolve(true)
+    } catch (error) {
+      return Promise.reject(
+        error && error.length
+          ? error[0].message
+          : "There was an error setting username."
+      )
+    }
+  }
+
   const removeUser = useCallback(() => setProfile(undefined), [])
 
   const getProfileTitle = () => {
@@ -109,6 +157,8 @@ const UserProvider = ({ children }: UserContextProps) => {
         updateProfile,
         refreshProfile,
         removeUser,
+        setUsername,
+        lookupOnUsername,
         getProfileTitle
       }}
     >

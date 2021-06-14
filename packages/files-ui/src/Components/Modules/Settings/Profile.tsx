@@ -143,6 +143,25 @@ const useStyles = makeStyles(({ constants, breakpoints, palette, typography }: C
       fontWeight: 400,
       marginTop: 25,
       marginBottom: 14
+    },
+    buttonLink: {
+      color: palette.primary.main,
+      outline: "none",
+      textDecoration: "underline",
+      cursor: "pointer",
+      textAlign: "center",
+      "&.spaceLeft": {
+        marginLeft: constants.generalUnit * 0.5
+      }
+    },
+    usernameForm: {
+      display: "flex",
+      marginBottom: constants.generalUnit * 4
+    },
+    usernameInput: {
+      flex: 1,
+      margin: 0,
+      paddingRight: constants.generalUnit
     }
   })
 )
@@ -150,9 +169,10 @@ const useStyles = makeStyles(({ constants, breakpoints, palette, typography }: C
 const ProfileView = () => {
   const { themeKey, setTheme } = useThemeSwitcher()
   const { addToastMessage } = useToaster()
-  const { profile, updateProfile } = useUser()
+  const { profile, updateProfile, setUsername, lookupOnUsername } = useUser()
   const { publicKey } = useThresholdKey()
   const [updatingProfile, setUpdatingProfile] = useState(false)
+  const [showUsernameForm, setShowUsernameForm] = useState(false)
 
   const onUpdateProfile = async (firstName: string, lastName: string) => {
     try {
@@ -208,6 +228,8 @@ const ProfileView = () => {
     username: yup.string()
   })
 
+  console.log(profile?.username, showUsernameForm)
+
   return (
     <Grid container>
       <Grid
@@ -227,11 +249,138 @@ const ProfileView = () => {
               >
                 Profile settings
               </Typography>
+              {profile?.publicAddress
+                ? <div
+                  className={classes.boxContainer}
+                  data-cy="settings-profile-header"
+                >
+                  <div className={classes.walletAddressContainer}>
+                    <Typography
+                      variant="body1"
+                      className={classes.label}
+                    >
+                      <Trans>Wallet address</Trans>
+                    </Typography>
+                    {copiedWalletAddress && (
+                      <Typography>
+                        <Trans>Copied!</Trans>
+                      </Typography>
+                    )}
+                  </div>
+                  <div
+                    className={classes.copyBox}
+                    onClick={copyWalletAddress}
+                  >
+                    <Typography
+                      variant="body1"
+                      component="p"
+                      className={classes.publicAddress}
+                    >
+                      {centerEllipsis(profile.publicAddress, 16)}
+                    </Typography>
+                    <CopyIcon className={classes.copyIcon} />
+                  </div>
+                </div>
+                : null}
+              {publicKey
+                ? <div
+                  className={classes.boxContainer}
+                  data-cy="settings-profile-header"
+                >
+                  <div className={classes.walletAddressContainer}>
+                    <Typography
+                      variant="body1"
+                      className={classes.label}
+                    >
+                      <Trans>Files sharing key</Trans>
+                    </Typography>
+                    {copiedTkeyPublicKey && (
+                      <Typography>
+                        <Trans>Copied!</Trans>
+                      </Typography>
+                    )}
+                  </div>
+                  <div
+                    className={classes.copyBox}
+                    onClick={copyTkeyPubKey}
+                  >
+                    <Typography
+                      variant="body1"
+                      component="p"
+                      className={classes.publicAddress}
+                    >
+                      {centerEllipsis(publicKey, 16)}
+                    </Typography>
+                    <CopyIcon className={classes.copyIcon} />
+                  </div>
+                </div>
+                : null}
+              {profile?.username
+                ? <div>{profile?.username}</div>
+                : <div className={classes.inputBoxContainer}>
+                  <Typography
+                    component="p"
+                    className={classes.label}
+                  >
+                    <Trans>Username</Trans>
+                  </Typography>
+                  {showUsernameForm
+                    ? <Formik
+                      initialValues={{
+                        username: ""
+                      }}
+                      onSubmit={(values) => {
+                        setUsername(values.username)
+                      }}
+                      validationSchema={profileValidation}
+                      validateOnChange={false}
+                    >
+                      <Form>
+                        <Typography
+                          component="p"
+                          className={classes.subLabel}
+                        >
+                          <Trans>Usernames are public and can&apos;t be changed after creation.</Trans>
+                        </Typography>
+                        <div className={classes.usernameForm}>
+                          <FormikTextInput
+                            placeholder={t`Username`}
+                            hideLabel={true}
+                            name="Username"
+                            size="medium"
+                            className={classes.usernameInput}
+                            data-cy="profile-firstname-input"
+                          />
+                          <Button>
+                            Set Username
+                          </Button>
+                        </div>
+                      </Form>
+                    </Formik>
+                    : <div>
+                      <Typography
+                        component="p"
+                        className={classes.subLabel}
+                      >
+                        <span>
+                          <Trans>You haven&apos;t set a username yet.</Trans>
+                        </span>
+                        {" "}
+                        <span
+                          className={classes.buttonLink}
+                          onClick={() => setShowUsernameForm(true)}
+                        >
+                          <Trans>Add a username</Trans>
+                        </span>
+                      </Typography>
+                    </div>
+                  }
+                </div>
+              }
               <Formik
                 initialValues={{
                   firstName: profile?.firstName || "",
                   lastName: profile?.lastName || ""
-                  // username: profile?.username || ""
                   // email: profile?.email || ""
                 }}
                 onSubmit={(values) => {
@@ -245,94 +394,6 @@ const ProfileView = () => {
                 validateOnChange={false}
               >
                 <Form>
-                  {profile?.publicAddress ? (
-                    <div
-                      className={classes.boxContainer}
-                      data-cy="settings-profile-header"
-                    >
-                      <div className={classes.walletAddressContainer}>
-                        <Typography
-                          variant="body1"
-                          className={classes.label}
-                        >
-                          <Trans>Wallet address</Trans>
-                        </Typography>
-                        {copiedWalletAddress && (
-                          <Typography>
-                            <Trans>Copied!</Trans>
-                          </Typography>
-                        )}
-                      </div>
-                      <div
-                        className={classes.copyBox}
-                        onClick={copyWalletAddress}
-                      >
-                        <Typography
-                          variant="body1"
-                          component="p"
-                          className={classes.publicAddress}
-                        >
-                          {centerEllipsis(profile.publicAddress, 16)}
-                        </Typography>
-                        <CopyIcon className={classes.copyIcon} />
-                      </div>
-                    </div>
-                  ) : null}
-                  {publicKey ? (
-                    <div
-                      className={classes.boxContainer}
-                      data-cy="settings-profile-header"
-                    >
-                      <div className={classes.walletAddressContainer}>
-                        <Typography
-                          variant="body1"
-                          className={classes.label}
-                        >
-                          <Trans>Files sharing key</Trans>
-                        </Typography>
-                        {copiedTkeyPublicKey && (
-                          <Typography>
-                            <Trans>Copied!</Trans>
-                          </Typography>
-                        )}
-                      </div>
-                      <div
-                        className={classes.copyBox}
-                        onClick={copyTkeyPubKey}
-                      >
-                        <Typography
-                          variant="body1"
-                          component="p"
-                          className={classes.publicAddress}
-                        >
-                          {centerEllipsis(publicKey, 16)}
-                        </Typography>
-                        <CopyIcon className={classes.copyIcon} />
-                      </div>
-                    </div>
-                  ) : null}
-                  <div className={classes.inputBoxContainer}>
-                    <Typography
-                      component="p"
-                      className={classes.label}
-                    >
-                      <Trans>Username</Trans>
-                    </Typography>
-                    <Typography
-                      component="p"
-                      className={classes.subLabel}
-                    >
-                      <Trans>This username is public.</Trans>
-                    </Typography>
-                    <FormikTextInput
-                      placeholder={t`Username`}
-                      hideLabel={true}
-                      name="Username"
-                      size="medium"
-                      className={classes.input}
-                      data-cy="profile-firstname-input"
-                    />
-                  </div>
                   <div className={classes.inputBoxContainer}>
                     <Typography
                       component="p"
