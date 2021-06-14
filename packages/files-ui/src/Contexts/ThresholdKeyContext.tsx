@@ -525,9 +525,9 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
 
       setStatus("awaiting confirmation")
       const signature = (wallet?.name === "WalletConnect")
-      ? await signer.provider.send("personal_sign", [token, addressToUse])
-      : await signer.signMessage(token)
-      
+        ? await signer.provider.send("personal_sign", [token, addressToUse])
+        : await signer.signMessage(token)
+
       setStatus("logging in")
       const web3IdentityToken = await filesApiClient.postIdentityWeb3Token({
         signature: signature,
