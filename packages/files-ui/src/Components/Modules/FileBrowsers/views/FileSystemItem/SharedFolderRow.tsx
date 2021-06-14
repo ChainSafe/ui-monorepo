@@ -11,8 +11,9 @@ import {
   Typography
 } from "@chainsafe/common-components"
 import { CSFTheme } from "../../../../../Themes/types"
-import { Bucket } from "@chainsafe/files-api-client"
+import { Bucket, BucketUser } from "@chainsafe/files-api-client"
 import { desktopSharedGridSettings, mobileSharedGridSettings } from "../../SharedFoldersOverview"
+import SharedUsers from "../../../../Elements/SharedUser"
 
 const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => {
 
@@ -102,6 +103,14 @@ const SharedFolderRow = ({ bucket, onFolderClick, menuItems }: Props) => {
   const { name, size } = bucket
   const { desktop } = useThemeSwitcher()
 
+  const getUserIds = (users: BucketUser[]): string[] => {
+    return users.reduce((acc: string[], user): string[] => {
+      return user.uuid ? [...acc, user.uuid] :  acc
+    }, [] as string[])
+  }
+
+  const userIds = [...getUserIds(bucket.owners), ...getUserIds(bucket.readers), ...getUserIds(bucket.writers)]
+
   return  (
     <TableRow
       data-cy="shared-folder-item-row"
@@ -128,7 +137,7 @@ const SharedFolderRow = ({ bucket, onFolderClick, menuItems }: Props) => {
         className={classes.filename}
         onClick={(e) => onFolderClick(e)}
       >
-        <Typography>{bucket.readers[0]}</Typography>
+        <SharedUsers sharedUsers={userIds}/>
       </TableCell>
       {desktop && (
         <>
