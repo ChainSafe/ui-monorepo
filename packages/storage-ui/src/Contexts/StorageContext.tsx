@@ -42,7 +42,7 @@ type StorageContext = {
   uploadsInProgress: UploadProgress[]
   downloadsInProgress: DownloadProgress[]
   spaceUsed: number
-  addPin: (cid: string) => void
+  addPin: (cid: string) => Promise<PinObject>
   // createPin: (bucketId: string, files: File[], path: string) => Promise<void>
   // downloadPin: (bucketId: string, itemToDownload: FileSystemItem, path: string) => void
   // getPinContent: (bucketId: string, params: GetFileContentParams) => Promise<Blob | undefined>
@@ -139,8 +139,6 @@ const StorageProvider = ({ children }: StorageContextProps) => {
 
   const addPin = useCallback((cid: string) => {
     return storageApiClient.addPin(({ cid }))
-      .then(res => console.log(res))
-      .catch(console.error)
   }, [storageApiClient])
 
   // const createPin = useCallback(async (bucketId: string, files: File[], path: string) => {

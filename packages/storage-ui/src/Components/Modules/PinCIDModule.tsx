@@ -1,16 +1,16 @@
-import React, { useRef, useState } from "react"
+import React, { useCallback, useMemo, useRef, useState } from "react"
 import { makeStyles, createStyles } from "@chainsafe/common-theme"
 import { Button, FormikTextInput, Grid, Typography } from "@chainsafe/common-components"
 import CustomModal from "../Elements/CustomModal"
 import { CSSTheme } from "../../Themes/types"
 import CustomButton from "../Elements/CustomButton"
-import { Trans } from "@lingui/macro"
+import { t, Trans } from "@lingui/macro"
 import * as yup from "yup"
 import { Formik, Form } from "formik"
-import CID, { isCID,  } from "cids"
+import CID, { isCID  } from "cids"
 import { useStorage } from "../../Contexts/StorageContext"
 
-const useStyles = makeStyles(({ constants, breakpoints, zIndex, typography }: CSSTheme) =>
+const useStyles = makeStyles(({ constants, breakpoints, zIndex }: CSSTheme) =>
   createStyles({
     root: {
       padding: constants.generalUnit * 4,
@@ -62,35 +62,51 @@ interface IAddCIDModuleProps {
   close: () => void
 }
 
-const AddCIDModule = ({
-  modalOpen = false,
-  close
-}: IAddCIDModuleProps) => {
+const AddCIDModule = ({ modalOpen = false, close }: IAddCIDModuleProps) => {
   const classes = useStyles()
+  const { addPin, refreshPins } = useStorage()
 
-  const { addPin } = useStorage()
-
-  const cidValidator = yup.object().shape({
+  const cidValidator = useMemo(() =>  yup.object().shape({
     cid: yup
       .string()
-      .required("CID is required")
+      .required(t`CID is required`)
       .test(
         "IsValidCID",
-        "CID invalid",
+        t`CID invalid`,
         value => {
           try {
             return isCID(new CID(`${value}`))
           }
           catch (error) {
-            debugger
+            console.error(error)
             return false
           }
-         
         }
       )
   })
+  , [])
+
   const inputRef = useRef<any>(null)
   const [accessingCID, setAccessingCID] = useState(false)
+
+  const onSubmit = useCallback((values, helpers) => {
+    helpers.setSubmitting(true)
+    setAccessingCID(true)
+    addPin(values.cid)
+      .then(() => {
+        helpers.resetForm()
+        close()
+      })
+      .catch((e) => {
+        helpers.setFieldError("cid", e.message)
+        console.error(e)
+      })
+      .finally(() => {
+        refreshPins()
+        setAccessingCID(false)
+        helpers.setSubmitting(false)
+      })
+  }, [addPin, close, refreshPins])
 
   return (
     <CustomModal
@@ -108,20 +124,7 @@ const AddCIDModule = ({
         }}
         validationSchema={cidValidator}
         validateOnChange={false}
-        onSubmit={async (values, helpers) => {
-          helpers.setSubmitting(true)
-          try {
-            setAccessingCID(true)
-            await addPin(values.cid)
-            setAccessingCID(false)
-            helpers.resetForm()
-            close()
-          } catch (errors) {
-            setAccessingCID(false)
-            helpers.setFieldError("cid", errors[0].message)
-          }
-          helpers.setSubmitting(false)
-        }}
+        onSubmit={onSubmit}
       >
         <Form>
           <div className={classes.root}>
@@ -135,7 +138,7 @@ const AddCIDModule = ({
                 variant="h5"
                 component="h5"
               >
-                <Trans>Paste the CID to host a file with ChainSafe Storage</Trans>
+                <Trans>Paste the CID to pin it with ChainSafe Storage</Trans>
               </Typography>
             </Grid>
             <Grid
@@ -174,7 +177,7 @@ const AddCIDModule = ({
                 className={classes.okButton}
                 loading={accessingCID}
               >
-                <Trans>Start Upload</Trans>
+                <Trans>Pin</Trans>
               </Button>
             </Grid>
           </div>

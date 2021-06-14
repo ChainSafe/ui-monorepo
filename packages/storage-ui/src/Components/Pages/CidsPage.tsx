@@ -1,11 +1,11 @@
-import React, { useCallback, useState } from "react"
+import React, { useState } from "react"
 import { makeStyles, createStyles } from "@chainsafe/common-theme"
 import { Button, PlusIcon, Table, TableBody, TableHead, TableHeadCell, TableRow, Typography } from "@chainsafe/common-components"
 import { useStorage } from "../../Contexts/StorageContext"
 import { Trans } from "@lingui/macro"
 import CidRow from "../Elements/CidRow"
 import { CSSTheme } from "../../Themes/types"
-import AddCIDModule from "../Modules/AddCIDModule"
+import AddCIDModule from "../Modules/PinCIDModule"
 
 export const desktopGridSettings = "3fr 190px 190px 190px 70px !important"
 export const mobileGridSettings = "3fr 190px 190px 190px 70px !important"
@@ -53,12 +53,7 @@ const useStyles = makeStyles(({ animation, breakpoints, constants }: CSSTheme) =
 
 const CidsPage = () => {
   const classes = useStyles()
-  const { pins, addPin } = useStorage()
-
-  const onCreateHardcodedPin = useCallback(() => {
-    addPin("QmNbbff884cwp1pvH8muod4pNaUqHA2ph77nYXP7dps2Xw")
-  }, [addPin])
-
+  const { pins } = useStorage()
   const [addCIDOpen, setAddCIDOpen] = useState(false)
 
   return (
@@ -75,28 +70,17 @@ const CidsPage = () => {
             </Trans>
           </Typography>
           <div className={classes.controls}>
-            <>
-              <Button
-                onClick={onCreateHardcodedPin}
-                variant="outline"
-                size="large"
-              >
-                <span>
-                  create pin with hardcoded cid
-                </span>
-              </Button>
-              <Button
-                data-cy="add-cid-modal-button"
-                onClick={() => setAddCIDOpen(true)}
-                variant="outline"
-                size="large"
-              >
-                <PlusIcon />
-                <span>
-                  <Trans>Add CID</Trans>
-                </span>
-              </Button>
-            </>
+            <Button
+              data-cy="add-cid-modal-button"
+              onClick={() => setAddCIDOpen(true)}
+              variant="outline"
+              size="large"
+            >
+              <PlusIcon />
+              <span>
+                <Trans>Pin CID</Trans>
+              </span>
+            </Button>
           </div>
         </header>
         <Table
@@ -142,7 +126,7 @@ const CidsPage = () => {
           </TableBody>
         </Table>
       </div>
-      <AddCIDModule 
+      <AddCIDModule
         close={() => setAddCIDOpen(false)}
         modalOpen={addCIDOpen}
       />
