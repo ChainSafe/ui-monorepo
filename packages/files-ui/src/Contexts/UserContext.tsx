@@ -25,7 +25,7 @@ interface IUserContext {
     lastName: string,
     // email: string,
   ) => Promise<void>
-  lookupOnUsername: (username: string) => Promise<boolean>
+  lookupOnUsername: (username: string) => Promise<boolean | undefined>
   setUsername: (username: string) => Promise<void>
   removeUser(): void
   getProfileTitle(): string
@@ -118,21 +118,12 @@ const UserProvider = ({ children }: UserContextProps) => {
   }
 
   const lookupOnUsername = async (username: string) => {
-    if (!profile) return Promise.reject("Profile not initialized")
-
+    if (!profile) return
     try {
-      const lookedUpUser = await filesApiClient.lookupUser({
-        username
-      })
-
-      console.log(lookedUpUser)
-      return Promise.resolve(true)
+      await filesApiClient.lookupUser({ username })
+      return true
     } catch (error) {
-      return Promise.reject(
-        error && error.length
-          ? error[0].message
-          : "There was an error setting username."
-      )
+      return false
     }
   }
 

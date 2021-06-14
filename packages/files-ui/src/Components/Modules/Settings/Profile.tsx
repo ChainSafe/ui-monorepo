@@ -6,7 +6,8 @@ import {
   Button,
   Typography,
   useToaster,
-  RadioInput
+  RadioInput,
+  TextInput
 } from "@chainsafe/common-components"
 import {
   makeStyles,
@@ -230,6 +231,15 @@ const ProfileView = () => {
 
   console.log(profile?.username, showUsernameForm)
 
+  const onLookupUsername = debounce(async (username: string) => {
+    try {
+      return await lookupOnUsername(username)
+    } catch (err) {
+      //
+    }
+  }, 400)
+
+
   return (
     <Grid container>
       <Grid
@@ -327,35 +337,50 @@ const ProfileView = () => {
                   {showUsernameForm
                     ? <Formik
                       initialValues={{
-                        username: ""
+                        username: "",
+                        isUsernameValid: false
                       }}
                       onSubmit={(values) => {
                         setUsername(values.username)
                       }}
-                      validationSchema={profileValidation}
-                      validateOnChange={false}
                     >
-                      <Form>
-                        <Typography
-                          component="p"
-                          className={classes.subLabel}
-                        >
-                          <Trans>Usernames are public and can&apos;t be changed after creation.</Trans>
-                        </Typography>
-                        <div className={classes.usernameForm}>
-                          <FormikTextInput
-                            placeholder={t`Username`}
-                            hideLabel={true}
-                            name="Username"
-                            size="medium"
-                            className={classes.usernameInput}
-                            data-cy="profile-firstname-input"
-                          />
-                          <Button>
-                            Set Username
-                          </Button>
-                        </div>
-                      </Form>
+                      {({ values, errors, setFieldValue, setFieldError }) => (
+                        <Form>
+                          <Typography
+                            component="p"
+                            className={classes.subLabel}
+                          >
+                            <Trans>Usernames are public and can&apos;t be changed after creation.</Trans>
+                          </Typography>
+                          <div className={classes.usernameForm}>
+                            <TextInput
+                              placeholder={t`Username`}
+                              name="username"
+                              size="medium"
+                              value={values.username}
+                              className={classes.usernameInput}
+                              RightIcon={values.isUsernameValid ? CopyIcon : undefined}
+                              onChange={async (value) => {
+                                setFieldValue("username", value)
+                                const doesUsernameExist = await onLookupUsername(values.username)
+                                if (doesUsernameExist) {
+                                  setFieldError("username", "username already exists")
+                                  setFieldValue("isUsernameValid", false)
+                                } else {
+                                  setFieldValue("isUsernameValid", true)
+                                }
+                              }}
+                              captionMessage={errors.username}
+                              state={errors.username ? "error" : "normal"}
+                              data-cy="profile-username-input"
+                            />
+                            <Button type="submit">
+                              Set Username
+                            </Button>
+                          </div>
+                        </Form>
+                      )
+                      }
                     </Formik>
                     : <div>
                       <Typography
