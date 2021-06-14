@@ -295,7 +295,7 @@ const FilesProvider = ({ children }: FilesContextProps) => {
           })
         }
       )
-
+      refreshBuckets()
       // setting complete
       dispatchUploadsInProgress({ type: "complete", payload: { id } })
       setTimeout(() => {
