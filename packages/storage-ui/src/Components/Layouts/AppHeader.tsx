@@ -4,7 +4,7 @@ import clsx from "clsx"
 import {
   Link,
   Typography,
-  ChainsafeFilesLogo,
+  ChainsafeLogo,
   HamburgerMenu,
   MenuDropdown,
   PowerDownSvg,
@@ -205,9 +205,9 @@ const AppHeader = ({ navOpen, setNavOpen }: IAppHeader) => {
               />
               <Link
                 className={classes.logo}
-                to={ROUTE_LINKS.Pins}
+                to={ROUTE_LINKS.Cids}
               >
-                <ChainsafeFilesLogo />
+                <ChainsafeLogo />
                 <Typography
                   variant="h5"
                   className={classes.title}

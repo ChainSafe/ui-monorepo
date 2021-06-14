@@ -8,18 +8,21 @@ const useStyles = makeStyles(() =>
       position: "relative",
       minHeight: "100vh",
       overflow: "hidden"
+    },
+    tableHead: {
+      marginTop: 24
     }
   })
 )
 
-const PinsPage = () => {
+const BucketsPage = () => {
   const classes = useStyles()
 
   return (
     <div className={classes.root}>
-      <Typography variant='h1'>Pins</Typography>
+      <Typography variant='h1'>Buckets</Typography>
     </div>
   )
 }
 
-export default PinsPage
+export default BucketsPage
