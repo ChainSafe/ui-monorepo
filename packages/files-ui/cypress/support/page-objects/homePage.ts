@@ -8,7 +8,7 @@ export const homePage = {
   uploadFileForm: () => cy.get("[data-cy=upload-file-form] input"),
   moveSelectedButton: () => cy.get("[data-cy=move_selected_file_button]"),
   deleteSelectedButton: () => cy.get("[data-cy=delete_selected_file_button]"),
-  deleteFileDialog: () => cy.get(".makeStyles-inner-186 > .makeStyles-root-35"),
+  deleteFileDialog: () => cy.get("[data-testid=file-deletion-modal]"),
   deleteFileCancelButton: () => cy.get(".makeStyles-dashed-97"),
   deleteFileConfirmButton: () => cy.contains("Confirm"),
   uploadStatusToast: () => cy.get("[data-cy=upload_status_toast_message]", { timeout: 10000 }),
