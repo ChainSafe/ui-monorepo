@@ -176,7 +176,7 @@ const Modal: React.FC<IModalProps> = ({
       onClick={onModalBodyClick}
     >
       <section
-        data-testid={testId}
+        data-testid={`modal-container-${testId}`}
         ref={ref}
         style={
           maxWidth && typeof maxWidth == "number"

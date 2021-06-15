@@ -987,14 +987,14 @@ const FilesList = () => {
         }
         rejectText = {t`Cancel`}
         acceptText = {t`Confirm`}
-        acceptButtonProps={{ loading: isDeletingFiles, disabled: isDeletingFiles }}
-        rejectButtonProps={{ disabled: isDeletingFiles }}
+        acceptButtonProps={{ loading: isDeletingFiles, disabled: isDeletingFiles, testId: "confirm-deletion" }}
+        rejectButtonProps={{ disabled: isDeletingFiles, testId: "cancel-deletion" }}
         injectedClass={{ inner: classes.confirmDeletionDialog }}
         onModalBodyClick={(e) => {
           e.preventDefault()
           e.stopPropagation()
         }}
-        testId="file-deletion-modal"
+        testId="file-deletion"
       />
       <UploadProgressModals />
       <DownloadProgressModals />
