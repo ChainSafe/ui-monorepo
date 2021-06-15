@@ -352,6 +352,7 @@ const InitialScreen = ({ className }: IInitialScreen) => {
                 onClick={() => {
                   setLoginMode("email")
                 }}
+                disabled={maintenanceMode || isConnecting || status !== "initialized"}
                 variant="secondary"
               >
                 <MailIcon className="icon"/>
