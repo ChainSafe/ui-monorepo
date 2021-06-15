@@ -260,7 +260,7 @@ const ProfileView = () => {
   }
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  const debouncedOnLookupUsername = useCallback(debounce(onLookupUsername, 400), [lookupOnUsername])
+  const debouncedOnLookupUsername = useCallback(debounce(onLookupUsername, 200), [lookupOnUsername])
 
   const onUsernameChange = async (value: any) => {
     setUsername(value)

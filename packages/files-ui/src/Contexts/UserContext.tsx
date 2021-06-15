@@ -72,7 +72,8 @@ const UserProvider = ({ children }: UserContextProps) => {
       const profileData = await filesApiClient.updateUser({
         first_name: firstName || "",
         last_name: lastName || "",
-        email: profile.email || ""
+        email: profile.email || "",
+        username: profile.username
       })
 
       setProfile({
