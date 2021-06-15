@@ -2,9 +2,9 @@ import { IModalProps, Modal } from "@chainsafe/common-components"
 import { createStyles, makeStyles } from "@chainsafe/common-theme"
 import React, { ReactNode } from "react"
 import clsx from "clsx"
-import { CSFTheme } from "../../Themes/types"
+import { CSSTheme } from "../../Themes/types"
 
-const useStyles = makeStyles(({ constants, breakpoints }: CSFTheme) =>
+const useStyles = makeStyles(({ constants, breakpoints }: CSSTheme) =>
   createStyles({
     root: {
       "&:before": {
