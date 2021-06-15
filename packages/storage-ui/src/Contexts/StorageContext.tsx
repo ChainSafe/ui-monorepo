@@ -3,15 +3,18 @@ import {
   DirectoryContentResponse,
   BucketType,
   SearchEntry,
-  PinObject
+  PinObject,
+  Bucket
 } from "@chainsafe/files-api-client"
 import React, { useCallback, useEffect, useReducer } from "react"
 import { useState } from "react"
 // import { v4 as uuidv4 } from "uuid"
-import { downloadsInProgressReducer, uploadsInProgressReducer } from "./FilesReducers"
+import { downloadsInProgressReducer, uploadsInProgressReducer } from "./FileOperationsReducers"
 // import { t } from "@lingui/macro"
 import { useBeforeunload } from "react-beforeunload"
 import { useStorageApi } from "./StorageApiContext"
+import { v4 as uuidv4 } from "uuid"
+import { t } from "@lingui/macro"
 
 type StorageContextProps = {
   children: React.ReactNode | React.ReactNode[]
@@ -43,11 +46,14 @@ type StorageContext = {
   downloadsInProgress: DownloadProgress[]
   spaceUsed: number
   addPin: (cid: string) => void
-  // createPin: (bucketId: string, files: File[], path: string) => Promise<void>
+  uploadFiles: (bucketId: string, files: File[], path: string) => Promise<void>
   // downloadPin: (bucketId: string, itemToDownload: FileSystemItem, path: string) => void
   // getPinContent: (bucketId: string, params: GetFileContentParams) => Promise<Blob | undefined>
   refreshPins: () => void
   unpin: (requestId: string) => void
+  storageBuckets: Bucket[]
+  createBucket: (name: string) => void
+  removeBucket: (id: string) => void
 }
 
 // This represents a File or Folder on the
@@ -65,6 +71,7 @@ const StorageProvider = ({ children }: StorageContextProps) => {
   const { storageApiClient, isLoggedIn } = useStorageApi()
   const [spaceUsed, setSpaceUsed] = useState(0)
   const [pins, setPins] = useState<PinObject[]>([])
+  const [storageBuckets, setStorageBuckets] = useState<Bucket[]>([])
 
   const refreshPins = useCallback(() => {
     storageApiClient.listPins()
@@ -72,9 +79,16 @@ const StorageProvider = ({ children }: StorageContextProps) => {
       .catch(console.error)
   }, [storageApiClient])
 
+  const refreshBuckets = useCallback(() => {
+    storageApiClient.listBuckets()
+      .then((buckets) => setStorageBuckets(buckets.filter(b => b.type === "fps")))
+      .catch(console.error)
+  }, [storageApiClient])
+
   useEffect(() => {
     isLoggedIn && refreshPins()
-  }, [isLoggedIn, refreshPins])
+    isLoggedIn && refreshBuckets()
+  }, [isLoggedIn, refreshPins, refreshBuckets])
 
   const unpin = useCallback((requestId: string) => {
     storageApiClient.deletePin(requestId)
@@ -82,23 +96,22 @@ const StorageProvider = ({ children }: StorageContextProps) => {
       .catch(console.error)
   }, [storageApiClient, refreshPins])
 
-  // // Space used counter
-  // useEffect(() => {
-  //   const getSpaceUsage = async () => {
-  //     try {
-  //       // TODO: Update this to include Share buckets where the current user is the owner
-  //       const totalSize = pins.filter(p => p.pin === "pinning")
-  //         .reduce((totalSize, bucket) => { return totalSize += (bucket as any).size}, 0)
+  // Space used counter
+  useEffect(() => {
+    const getSpaceUsage = async () => {
+      try {
+        // TODO: Update this to include Share buckets where the current user is the owner
+        const totalSize = storageBuckets.reduce((totalSize, bucket) => { return totalSize += (bucket as any).size}, 0)
 
-  //       setSpaceUsed(totalSize)
-  //     } catch (error) {
-  //       console.error(error)
-  //     }
-  //   }
-  //   if (isLoggedIn) {
-  //     getSpaceUsage()
-  //   }
-  // }, [storageApiClient, isLoggedIn, pins])
+        setSpaceUsed(totalSize)
+      } catch (error) {
+        console.error(error)
+      }
+    }
+    if (isLoggedIn) {
+      getSpaceUsage()
+    }
+  }, [isLoggedIn, storageBuckets])
 
   // Reset encryption keys on log out
   useEffect(() => {
@@ -112,7 +125,7 @@ const StorageProvider = ({ children }: StorageContextProps) => {
     []
   )
 
-  const [downloadsInProgress] = useReducer(
+  const [downloadsInProgress, dispatchDownloadsInProgess] = useReducer(
     downloadsInProgressReducer,
     []
   )
@@ -141,53 +154,70 @@ const StorageProvider = ({ children }: StorageContextProps) => {
       .catch(console.error)
   }, [storageApiClient])
 
-  // const createPin = useCallback(async (bucketId: string, files: File[], path: string) => {
-  //   const bucket = pins.find(b => b.id === bucketId)
+  const createBucket = useCallback((name: string) => {
+    storageApiClient.createBucket({
+      name,
+      type: "fps",
+      public: "read",
+      encryption_key:""
+    }).then(() =>
+      refreshBuckets()
+    ).catch(console.error)
+  }, [storageApiClient, refreshBuckets])
 
-  //   if (!bucket) {
-  //     console.error("No encryption key for this bucket is available.")
-  //     return
-  //   }
+  const removeBucket = useCallback((id: string) => {
+    storageApiClient.removeBucket(id)
+      .then(() => Promise.resolve())
+      .catch(console.error)
+  }, [storageApiClient])
 
-  //   const id = uuidv4()
-  //   const uploadProgress: UploadProgress = {
-  //     id,
-  //     fileName: files[0].name, // TODO: Do we need this?
-  //     complete: false,
-  //     error: false,
-  //     noOfFiles: files.length,
-  //     progress: 0,
-  //     path
-  //   }
-  //   dispatchUploadsInProgress({ type: "add", payload: uploadProgress })
-  //   try {
-  //     // TODO: Make API Request to upload here
+  const uploadFiles = useCallback(async (bucketId: string, files: File[], path: string) => {
+    const bucket = storageBuckets.find(b => b.id === bucketId)
 
-  //     // setting complete
-  //     dispatchUploadsInProgress({ type: "complete", payload: { id } })
-  //     setTimeout(() => {
-  //       dispatchUploadsInProgress({ type: "remove", payload: { id } })
-  //     }, REMOVE_UPLOAD_PROGRESS_DELAY)
+    if (!bucket) {
+      console.error("No encryption key for this bucket is available.")
+      return
+    }
 
-  //     return Promise.resolve()
-  //   } catch (error) {
-  //     console.error(error)
-  //     // setting error
-  //     let errorMessage = t`Something went wrong. We couldn't upload your file`
+    const id = uuidv4()
+    const uploadProgress: UploadProgress = {
+      id,
+      fileName: files[0].name, // TODO: Do we need this?
+      complete: false,
+      error: false,
+      noOfFiles: files.length,
+      progress: 0,
+      path
+    }
+    dispatchUploadsInProgress({ type: "add", payload: uploadProgress })
+    try {
+      // TODO: Make API Request to upload here
 
-  //     // we will need a method to parse server errors
-  //     if (Array.isArray(error) && error[0].message.includes("conflict")) {
-  //       errorMessage = t`A file with the same name already exists`
-  //     }
-  //     dispatchUploadsInProgress({
-  //       type: "error",
-  //       payload: { id, errorMessage }
-  //     })
-  //     setTimeout(() => {
-  //       dispatchUploadsInProgress({ type: "remove", payload: { id } })
-  //     }, REMOVE_UPLOAD_PROGRESS_DELAY)
-  //   }
-  // }, [pins])
+      // setting complete
+      dispatchUploadsInProgress({ type: "complete", payload: { id } })
+      setTimeout(() => {
+        dispatchUploadsInProgress({ type: "remove", payload: { id } })
+      }, REMOVE_UPLOAD_PROGRESS_DELAY)
+
+      return Promise.resolve()
+    } catch (error) {
+      console.error(error)
+      // setting error
+      let errorMessage = t`Something went wrong. We couldn't upload your file`
+
+      // we will need a method to parse server errors
+      if (Array.isArray(error) && error[0].message.includes("conflict")) {
+        errorMessage = t`A file with the same name already exists`
+      }
+      dispatchUploadsInProgress({
+        type: "error",
+        payload: { id, errorMessage }
+      })
+      setTimeout(() => {
+        dispatchUploadsInProgress({ type: "remove", payload: { id } })
+      }, REMOVE_UPLOAD_PROGRESS_DELAY)
+    }
+  }, [storageBuckets])
 
   // const getPinContent = useCallback(async (
   //   bucketId: string,
@@ -285,7 +315,11 @@ const StorageProvider = ({ children }: StorageContextProps) => {
         downloadsInProgress,
         pins,
         refreshPins,
-        unpin
+        unpin,
+        storageBuckets,
+        createBucket,
+        removeBucket,
+        uploadFiles
       }}
     >
       {children}

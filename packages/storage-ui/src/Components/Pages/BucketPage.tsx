@@ -1,0 +1,239 @@
+import React, { useCallback, useEffect, useMemo, useState } from "react"
+import { Crumb, useToaster, useHistory, useLocation, Typography } from "@chainsafe/common-components"
+import { useStorage, FileSystemItem } from "../../Contexts/StorageContext"
+import { getArrayOfPaths, getURISafePathFromArray, getPathWithFile, extractFileBrowserPathFromURL } from "../../Utils/pathUtils"
+import { IBulkOperations, IFileBrowserModuleProps, IFilesTableBrowserProps } from "../../Contexts/types"
+import FilesList from "../Modules/FilesList/FilesList"
+import { CONTENT_TYPES } from "../../Utils/Constants"
+import DragAndDrop from "../../Contexts/DnDContext"
+import { t } from "@lingui/macro"
+import { ROUTE_LINKS } from "../../Components/StorageRoutes"
+import { useStorageApi } from "../../Contexts/StorageApiContext"
+import { FileBrowserContext } from "../../Contexts/FileBrowserContext"
+import { parseFileContentResponse } from "../../Utils/Helpers"
+import { makeStyles, createStyles } from "@chainsafe/common-theme"
+import { CSFTheme } from "../../Themes/types"
+
+const useStyles = makeStyles(({ breakpoints, animation, constants }: CSFTheme) =>
+  createStyles({
+    root: {
+      position: "relative",
+      minHeight: "100vh",
+      overflow: "hidden"
+    }
+  })
+)
+
+const BucketPage: React.FC<IFileBrowserModuleProps> = () => {
+  const classes = useStyles()
+  const { storageBuckets, uploadFiles, uploadsInProgress } = useStorage()
+  const { storageApiClient } = useStorageApi()
+  const { addToastMessage } = useToaster()
+  const [loadingCurrentPath, setLoadingCurrentPath] = useState(false)
+  const [pathContents, setPathContents] = useState<FileSystemItem[]>([])
+  const { redirect } = useHistory()
+
+  const { pathname } = useLocation()
+  const bucketId = useMemo(() =>
+    pathname.split("/")[2]
+  , [pathname])
+
+  const currentPath = useMemo(() => {
+    return extractFileBrowserPathFromURL(pathname, ROUTE_LINKS.Bucket(bucketId, "/"))},
+  [pathname, bucketId]
+  )
+  const bucket = useMemo(() => storageBuckets.find(b => b.id === bucketId), [storageBuckets, bucketId])
+
+  const refreshContents = useCallback((showLoading?: boolean) => {
+    if (!bucket) return
+    showLoading && setLoadingCurrentPath(true)
+    storageApiClient.getBucketObjectChildrenList(bucket.id, { path: currentPath })
+      .then((newContents) => {
+        showLoading && setLoadingCurrentPath(false)
+
+        setPathContents(
+          newContents.map((fcr) => parseFileContentResponse(fcr))
+        )
+      }).catch(error => {
+        console.error(error)
+      }).finally(() => showLoading && setLoadingCurrentPath(false))
+  }, [bucket, storageApiClient, currentPath])
+
+  useEffect(() => {
+    refreshContents(true)
+  }, [bucket, refreshContents])
+
+  const moveItemsToBin = useCallback(async (cids: string[]) => {
+    throw new Error("Not implemented")
+    // if (!bucket) return
+    // await Promise.all(
+    //   cids.map(async (cid: string) => {
+    //     const itemToDelete = pathContents.find((i) => i.cid === cid)
+    //     if (!itemToDelete) {
+    //       console.error("No item found to move to the trash")
+    //       return
+    //     }
+
+    //     try {
+    //       await filesApiClient.moveBucketObjects(bucket.id, {
+    //         path: getPathWithFile(currentPath, itemToDelete.name),
+    //         new_path: getPathWithFile("/", itemToDelete.name),
+    //         destination: buckets.find(b => b.type === "trash")?.id
+    //       })
+    //       const message = `${
+    //         itemToDelete.isFolder ? t`Folder` : t`File`
+    //       } ${t`deleted successfully`}`
+    //       addToastMessage({
+    //         message: message,
+    //         appearance: "success"
+    //       })
+    //       return Promise.resolve()
+    //     } catch (error) {
+    //       const message = `${t`There was an error deleting this`} ${
+    //         itemToDelete.isFolder ? t`folder` : t`file`
+    //       }`
+    //       addToastMessage({
+    //         message: message,
+    //         appearance: "error"
+    //       })
+    //       return Promise.reject()
+    //     }}
+    //   )).finally(refreshContents)
+  }, [addToastMessage, currentPath, pathContents, refreshContents, storageApiClient, bucket])
+
+  const renameItem = useCallback(async (cid: string, newName: string) => {
+    const itemToRename = pathContents.find(i => i.cid === cid)
+    if (!bucket || !itemToRename) return
+
+    storageApiClient.moveBucketObjects(bucket.id, {
+      path: getPathWithFile(currentPath, itemToRename.name),
+      new_path: getPathWithFile(currentPath, newName) })
+      .then(() => refreshContents())
+      .catch(console.error)
+  }, [refreshContents, storageApiClient, bucket, currentPath, pathContents])
+
+  const moveItems = useCallback(async (cids: string[], newPath: string) => {
+    if (!bucket) return
+    await Promise.all(
+      cids.map(async (cid: string) => {
+        const itemToMove = pathContents.find((i) => i.cid === cid)
+        if (!itemToMove) return
+        try {
+          await storageApiClient.moveBucketObjects(bucket.id, {
+            path: getPathWithFile(currentPath, itemToMove.name),
+            new_path: getPathWithFile(newPath, itemToMove.name)
+          })
+          const message = `${
+            itemToMove.isFolder ? t`Folder` : t`File`
+          } ${t`moved successfully`}`
+
+          addToastMessage({
+            message: message,
+            appearance: "success"
+          })
+        } catch (error) {
+          const message = `${t`There was an error moving this`} ${
+            itemToMove.isFolder ? t`folder` : t`file`
+          }`
+          addToastMessage({
+            message: message,
+            appearance: "error"
+          })
+        }
+      })).finally(refreshContents)
+  }, [addToastMessage, pathContents, refreshContents, storageApiClient, bucket, currentPath])
+
+  const handleDownload = useCallback(async (cid: string) => {
+    throw new Error("Not implemented")
+    // const itemToDownload = pathContents.find(item => item.cid === cid)
+    // if (!itemToDownload || !bucket) return
+
+    // downloadFile(bucket.id, itemToDownload, currentPath)
+  }, [pathContents, currentPath, bucket])
+
+  // Breadcrumbs/paths
+  const arrayOfPaths = useMemo(() => getArrayOfPaths(currentPath), [currentPath])
+  const crumbs: Crumb[] = useMemo(() => arrayOfPaths.map((path, index) => ({
+    text: decodeURIComponent(path),
+    onClick: () => {
+      redirect(
+        ROUTE_LINKS.Bucket(bucketId, getURISafePathFromArray(arrayOfPaths.slice(0, index + 1)))
+      )
+    }
+  })), [arrayOfPaths, bucketId, redirect])
+
+  const handleUploadOnDrop = useCallback(async (files: File[], fileItems: DataTransferItemList, path: string) => {
+    if (!bucket) return
+    let hasFolder = false
+    for (let i = 0; i < files.length; i++) {
+      if (fileItems[i].webkitGetAsEntry().isDirectory) {
+        hasFolder = true
+      }
+    }
+    if (hasFolder) {
+      addToastMessage({
+        message: "Folder uploads are not supported currently",
+        appearance: "error"
+      })
+    } else {
+      uploadFiles(bucket.id, files, path).then(() => refreshContents()).catch(console.error)
+    }
+  }, [addToastMessage, uploadFiles, bucket, refreshContents])
+
+  const viewFolder = useCallback((cid: string) => {
+    const fileSystemItem = pathContents.find(f => f.cid === cid)
+    if (fileSystemItem && fileSystemItem.content_type === CONTENT_TYPES.Directory) {
+      let urlSafePath =  getURISafePathFromArray(getArrayOfPaths(currentPath))
+      if (urlSafePath === "/") {
+        urlSafePath = ""
+      }
+      redirect(ROUTE_LINKS.Bucket(bucketId, `${urlSafePath}/${encodeURIComponent(`${fileSystemItem.name}`)}`))
+    }
+  }, [currentPath, pathContents, redirect, bucketId])
+
+  const bulkOperations: IBulkOperations = useMemo(() => ({
+    // [CONTENT_TYPES.Directory]: ["move"],
+    // [CONTENT_TYPES.File]: ["delete", "move"]
+  }), [])
+
+  const itemOperations: IFilesTableBrowserProps["itemOperations"] = useMemo(() => ({
+    [CONTENT_TYPES.Audio]: ["preview"],
+    [CONTENT_TYPES.MP4]: ["preview"],
+    [CONTENT_TYPES.Image]: ["preview"],
+    [CONTENT_TYPES.Pdf]: ["preview"],
+    [CONTENT_TYPES.Text]: ["preview"],
+    [CONTENT_TYPES.File]: ["download", "info", "rename", "move", "delete"],
+    [CONTENT_TYPES.Directory]: ["rename", "move", "delete"]
+  }), [])
+
+  return (
+    <FileBrowserContext.Provider value={{
+      bucket,
+      bulkOperations,
+      crumbs,
+      moduleRootPath: ROUTE_LINKS.Bucket(bucketId, "/"),
+      currentPath,
+      refreshContents,
+      deleteItems: moveItemsToBin,
+      downloadFile: handleDownload,
+      moveItems,
+      renameItem: renameItem,
+      viewFolder,
+      handleUploadOnDrop,
+      uploadsInProgress,
+      loadingCurrentPath,
+      showUploadsInTable: true,
+      sourceFiles: pathContents,
+      heading: bucket?.name,
+      controls: true,
+      allowDropUpload: true,
+      itemOperations
+    }}>
+      <DragAndDrop>
+        <FilesList />
+      </DragAndDrop>
+    </FileBrowserContext.Provider>
+  )
+}
+
+export default BucketPage
