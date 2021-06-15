@@ -18,10 +18,10 @@ import {
 import dayjs from "dayjs"
 import { ConnectDragPreview } from "react-dnd"
 import { Form, Formik } from "formik"
-import { CSFTheme } from "../../../Themes/types"
+import { CSSTheme } from "../../../Themes/types"
 import { FileSystemItem } from "../../../Contexts/StorageContext"
 
-const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => {
+const useStyles = makeStyles(({ breakpoints, constants, palette }: CSSTheme) => {
   const desktopGridSettings = "50px 69px 3fr 190px 100px 45px !important"
   const mobileGridSettings = "69px 3fr 45px !important"
 

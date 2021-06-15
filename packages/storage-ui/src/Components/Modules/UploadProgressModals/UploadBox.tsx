@@ -4,10 +4,10 @@ import { UploadProgress } from "../../../Contexts/StorageContext"
 import { ProgressBar, Typography, CheckCircleIcon, CloseCircleIcon } from "@chainsafe/common-components"
 import clsx from "clsx"
 import { plural, Trans } from "@lingui/macro"
-import { CSFTheme } from "../../../Themes/types"
+import { CSSTheme } from "../../../Themes/types"
 
 const useStyles = makeStyles(
-  ({ constants, palette, animation, breakpoints }: CSFTheme) => {
+  ({ constants, palette, animation, breakpoints }: CSSTheme) => {
     return createStyles({
       boxContainer: {
         backgroundColor: palette.additional["gray"][3],

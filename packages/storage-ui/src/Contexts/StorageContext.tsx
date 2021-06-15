@@ -3,8 +3,7 @@ import {
   DirectoryContentResponse,
   BucketType,
   SearchEntry,
-  PinObject,
-  Bucket
+  Bucket,
   PinStatus
 } from "@chainsafe/files-api-client"
 import React, { useCallback, useEffect, useReducer } from "react"
@@ -17,7 +16,7 @@ import { useStorageApi } from "./StorageApiContext"
 import { v4 as uuidv4 } from "uuid"
 import { t } from "@lingui/macro"
 import { readFileAsync } from "../Utils/Helpers"
-import { useToaster } from "../../../common-components/dist"
+import { useToaster } from "@chainsafe/common-components"
 
 type StorageContextProps = {
   children: React.ReactNode | React.ReactNode[]
@@ -74,10 +73,8 @@ const StorageContext = React.createContext<StorageContext | undefined>(undefined
 const StorageProvider = ({ children }: StorageContextProps) => {
   const { storageApiClient, isLoggedIn } = useStorageApi()
   const [spaceUsed, setSpaceUsed] = useState(0)
-  const [pins, setPins] = useState<PinObject[]>([])
   const [storageBuckets, setStorageBuckets] = useState<Bucket[]>([])
   const { addToastMessage } = useToaster()
-  const [spaceUsed] = useState(0)
   const [pins, setPins] = useState<PinStatus[]>([])
 
   const refreshPins = useCallback(() => {

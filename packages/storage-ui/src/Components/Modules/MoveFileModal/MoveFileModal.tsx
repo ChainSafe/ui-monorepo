@@ -5,14 +5,14 @@ import CustomButton from "../../Elements/CustomButton"
 import { t, Trans } from "@lingui/macro"
 import { DirectoryContentResponse, FileSystemItem } from "../../../Contexts/StorageContext"
 import { Button, FolderIcon, Grid, ITreeNodeProps, ScrollbarWrapper, TreeView, Typography } from "@chainsafe/common-components"
-import { CSFTheme } from "../../../Themes/types"
+import { CSSTheme } from "../../../Themes/types"
 import { useFileBrowser } from "../../../Contexts/FileBrowserContext"
 import { useStorageApi } from "../../../Contexts/StorageApiContext"
 import { MoveModalMode } from "../../../Contexts/types"
 
 
 const useStyles = makeStyles(
-  ({ breakpoints, constants, palette, typography, zIndex }: CSFTheme) => {
+  ({ breakpoints, constants, palette, typography, zIndex }: CSSTheme) => {
     return createStyles({
       modalRoot: {
         zIndex: zIndex?.blocker,

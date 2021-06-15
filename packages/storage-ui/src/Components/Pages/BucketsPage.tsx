@@ -1,7 +1,7 @@
 import React, { useState } from "react"
 import { makeStyles, createStyles } from "@chainsafe/common-theme"
 import { Button, Table, TableBody, TableHead, TableHeadCell, TableRow, TextInput, Typography } from "@chainsafe/common-components"
-import { CSFTheme } from "../../Themes/types"
+import { CSSTheme } from "../../Themes/types"
 import { useStorage } from "../../Contexts/StorageContext"
 import { Trans } from "@lingui/macro"
 import BucketRow from "../Elements/BucketRow"
@@ -10,7 +10,7 @@ import CustomModal from "../Elements/CustomModal"
 export const desktopGridSettings = "3fr 190px 190px 190px 70px !important"
 export const mobileGridSettings = "3fr 190px 190px 190px 70px !important"
 
-const useStyles = makeStyles(({ breakpoints, animation, constants }: CSFTheme) =>
+const useStyles = makeStyles(({ breakpoints, animation, constants }: CSSTheme) =>
   createStyles({
     root: {
       position: "relative",

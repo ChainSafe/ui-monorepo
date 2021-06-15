@@ -43,7 +43,7 @@ import UploadFileModule from "../UploadFileModal/UploadFileModal"
 import MoveFileModule from "../MoveFileModal/MoveFileModal"
 // import FileInfoModal from "../FileInfoModal"
 import { CONTENT_TYPES } from "../../../Utils/Constants"
-import { CSFTheme } from "../../../Themes/types"
+import { CSSTheme } from "../../../Themes/types"
 import MimeMatcher from "../../../Utils/MimeMatcher"
 import { useLanguageContext } from "../../../Contexts/LanguageContext"
 import { useFileBrowser } from "../../../Contexts/FileBrowserContext"
@@ -53,7 +53,7 @@ interface IStyleProps {
 }
 
 const useStyles = makeStyles(
-  ({ animation, breakpoints, constants, palette, zIndex }: CSFTheme) => {
+  ({ animation, breakpoints, constants, palette, zIndex }: CSSTheme) => {
     const desktopGridSettings = "50px 69px 3fr 190px 100px 45px !important"
     const mobileGridSettings = "69px 3fr 45px !important"
     return createStyles({

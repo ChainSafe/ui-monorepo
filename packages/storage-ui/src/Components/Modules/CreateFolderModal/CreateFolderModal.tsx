@@ -15,13 +15,13 @@ import { Formik, Form } from "formik"
 import CustomModal from "../../Elements/CustomModal"
 import CustomButton from "../../Elements/CustomButton"
 import { Trans } from "@lingui/macro"
-import { CSFTheme } from "../../../Themes/types"
+import { CSSTheme } from "../../../Themes/types"
 import { useFileBrowser } from "../../../Contexts/FileBrowserContext"
 import { useStorageApi } from "../../../Contexts/StorageApiContext"
 
 
 const useStyles = makeStyles(
-  ({ breakpoints, constants, typography, zIndex }: CSFTheme) => {
+  ({ breakpoints, constants, typography, zIndex }: CSSTheme) => {
     return createStyles({
       root: {
         padding: constants.generalUnit * 4,

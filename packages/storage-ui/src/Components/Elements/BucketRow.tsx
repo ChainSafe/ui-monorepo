@@ -3,12 +3,12 @@ import { makeStyles, createStyles } from "@chainsafe/common-theme"
 import { DeleteSvg, formatBytes, MenuDropdown, MoreIcon, TableCell, TableRow, useHistory  } from "@chainsafe/common-components"
 import { Trans } from "@lingui/macro"
 import { Bucket } from "@chainsafe/files-api-client"
-import { CSFTheme } from "../../Themes/types"
+import { CSSTheme } from "../../Themes/types"
 import { useStorage } from "../../Contexts/StorageContext"
 import { desktopGridSettings, mobileGridSettings } from "../Pages/CidsPage"
 import { ROUTE_LINKS } from "../StorageRoutes"
 
-const useStyles = makeStyles(({ animation, constants, breakpoints }: CSFTheme) =>
+const useStyles = makeStyles(({ animation, constants, breakpoints }: CSSTheme) =>
   createStyles({
     dropdownIcon: {
       "& svg": {

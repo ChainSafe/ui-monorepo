@@ -8,12 +8,12 @@ import {
   MenuDropdown,
   MoreIcon
 } from "@chainsafe/common-components"
-import { CSFTheme } from "../../../Themes/types"
+import { CSSTheme } from "../../../Themes/types"
 import { FileSystemItem } from "../../../Contexts/StorageContext"
 import { ConnectDragPreview } from "react-dnd"
 import { Form, Formik } from "formik"
 
-const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => {
+const useStyles = makeStyles(({ breakpoints, constants, palette }: CSSTheme) => {
   return createStyles({
     fileIcon: {
       display: "flex",

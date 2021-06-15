@@ -23,7 +23,7 @@ import CustomModal from "../../Elements/CustomModal"
 import { Trans } from "@lingui/macro"
 import { useDrag, useDrop } from "react-dnd"
 import { getEmptyImage, NativeTypes } from "react-dnd-html5-backend"
-import { CSFTheme } from "../../../Themes/types"
+import { CSSTheme } from "../../../Themes/types"
 import FileItemTableItem from "./FileSystemTableItem"
 import FileItemGridItem from "./FileSystemGridItem"
 import { FileSystemItem as FileSystemItemType } from "../../../Contexts/StorageContext"
@@ -31,7 +31,7 @@ import { useFileBrowser } from "../../../Contexts/FileBrowserContext"
 import { BrowserView, FileOperation } from "../../../Contexts/types"
 import { DragTypes } from "../FilesList/DragConstants"
 
-const useStyles = makeStyles(({ breakpoints, constants }: CSFTheme) => {
+const useStyles = makeStyles(({ breakpoints, constants }: CSSTheme) => {
   return createStyles({
     renameInput: {
       width: "100%",

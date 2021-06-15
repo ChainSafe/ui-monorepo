@@ -7,10 +7,10 @@ import { array, object } from "yup"
 import CustomModal from "../../Elements/CustomModal"
 import { Trans, t } from "@lingui/macro"
 import clsx from "clsx"
-import { CSFTheme } from "../../../Themes/types"
+import { CSSTheme } from "../../../Themes/types"
 import { useFileBrowser } from "../../../Contexts/FileBrowserContext"
 
-const useStyles = makeStyles(({ constants, breakpoints }: CSFTheme) =>
+const useStyles = makeStyles(({ constants, breakpoints }: CSSTheme) =>
   createStyles({
     root: {
     },
