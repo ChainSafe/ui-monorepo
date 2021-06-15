@@ -2,8 +2,7 @@ import React from "react"
 import { makeStyles, createStyles } from "@chainsafe/common-theme"
 import { DeleteSvg, formatBytes, MenuDropdown, MoreIcon, TableCell, TableRow, useHistory  } from "@chainsafe/common-components"
 import { Trans } from "@lingui/macro"
-import dayjs from "dayjs"
-import { Bucket, PinObject } from "@chainsafe/files-api-client"
+import { Bucket } from "@chainsafe/files-api-client"
 import { CSFTheme } from "../../Themes/types"
 import { useStorage } from "../../Contexts/StorageContext"
 import { desktopGridSettings, mobileGridSettings } from "../Pages/CidsPage"
@@ -56,10 +55,8 @@ const useStyles = makeStyles(({ animation, constants, breakpoints }: CSFTheme) =
   })
 )
 interface Props {
-    bucket: Bucket
+  bucket: Bucket
 }
-
-const IPFS_GATEWAY = "https://ipfs.infura.io:5001/api/v0/cat/"
 
 const BucketRow = ({ bucket }: Props) => {
   const classes = useStyles()

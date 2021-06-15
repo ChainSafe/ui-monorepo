@@ -301,7 +301,7 @@ const FilesList = () => {
   const [direction, setDirection] = useState<SortDirection>("ascend")
   const [column, setColumn] = useState<"name" | "size" | "date_uploaded">("name")
   const [selectedCids, setSelectedCids] = useState<string[]>([])
-  const [previewFileIndex, setPreviewFileIndex] = useState<number | undefined>()
+  const [, setPreviewFileIndex] = useState<number | undefined>()
   const { selectedLocale } = useLanguageContext()
   const { redirect } = useHistory()
 
@@ -359,25 +359,25 @@ const FilesList = () => {
   }
 
   // Previews
-  const setNextPreview = () => {
-    if (
-      files &&
-      previewFileIndex !== undefined &&
-      previewFileIndex < files.length - 1
-    ) {
-      setPreviewFileIndex(previewFileIndex + 1)
-    }
-  }
+  // const setNextPreview = () => {
+  //   if (
+  //     files &&
+  //     previewFileIndex !== undefined &&
+  //     previewFileIndex < files.length - 1
+  //   ) {
+  //     setPreviewFileIndex(previewFileIndex + 1)
+  //   }
+  // }
 
-  const setPreviousPreview = () => {
-    if (files && previewFileIndex !== undefined && previewFileIndex > 0) {
-      setPreviewFileIndex(previewFileIndex - 1)
-    }
-  }
+  // const setPreviousPreview = () => {
+  //   if (files && previewFileIndex !== undefined && previewFileIndex > 0) {
+  //     setPreviewFileIndex(previewFileIndex - 1)
+  //   }
+  // }
 
-  const clearPreview = () => {
-    setPreviewFileIndex(undefined)
-  }
+  // const clearPreview = () => {
+  //   setPreviewFileIndex(undefined)
+  // }
 
   // Selection logic
   const handleSelectCid = useCallback(
@@ -449,7 +449,7 @@ const FilesList = () => {
   const [isMoveFileModalOpen, setIsMoveFileModalOpen] = useState(false)
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
   const [isDeletingFiles, setIsDeletingFiles] = useState(false)
-  const [fileInfoPath, setFileInfoPath] = useState<string | undefined>(
+  const [, setFileInfoPath] = useState<string | undefined>(
     undefined
   )
   const [moveModalMode, setMoveModalMode] = useState<MoveModalMode | undefined>()

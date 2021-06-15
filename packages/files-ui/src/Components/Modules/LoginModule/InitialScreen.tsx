@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { Button, FacebookLogoIcon, GithubLogoIcon, MailIcon, GoogleLogoIcon, Loading, Typography } from "@chainsafe/common-components"
+import { Button, GithubLogoIcon, MailIcon, GoogleLogoIcon, Loading, Typography } from "@chainsafe/common-components"
 import { createStyles, makeStyles, useThemeSwitcher } from "@chainsafe/common-theme"
 import { CSFTheme } from "../../../Themes/types"
 import { t, Trans } from "@lingui/macro"

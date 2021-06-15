@@ -15,6 +15,8 @@ import { useBeforeunload } from "react-beforeunload"
 import { useStorageApi } from "./StorageApiContext"
 import { v4 as uuidv4 } from "uuid"
 import { t } from "@lingui/macro"
+import { readFileAsync } from "../Utils/Helpers"
+import { useToaster } from "../../../common-components/dist"
 
 type StorageContextProps = {
   children: React.ReactNode | React.ReactNode[]
@@ -63,6 +65,7 @@ interface IFileSystemItem extends FileContentResponse {
 
 type FileSystemItem = IFileSystemItem
 const REMOVE_UPLOAD_PROGRESS_DELAY = 5000
+const MAX_FILE_SIZE = 2 * 1024 ** 3
 
 const StorageContext = React.createContext<StorageContext | undefined>(undefined)
 
@@ -71,7 +74,7 @@ const StorageProvider = ({ children }: StorageContextProps) => {
   const [spaceUsed, setSpaceUsed] = useState(0)
   const [pins, setPins] = useState<PinObject[]>([])
   const [storageBuckets, setStorageBuckets] = useState<Bucket[]>([])
-
+  const { addToastMessage } = useToaster()
   const refreshPins = useCallback(() => {
     storageApiClient.listPins()
       .then((pins) =>  setPins(pins.results || []))
@@ -124,7 +127,7 @@ const StorageProvider = ({ children }: StorageContextProps) => {
     []
   )
 
-  const [downloadsInProgress, dispatchDownloadsInProgess] = useReducer(
+  const [downloadsInProgress] = useReducer(
     downloadsInProgressReducer,
     []
   )
@@ -174,14 +177,14 @@ const StorageProvider = ({ children }: StorageContextProps) => {
     const bucket = storageBuckets.find(b => b.id === bucketId)
 
     if (!bucket) {
-      console.error("No encryption key for this bucket is available.")
+      console.error("Destination bucket does not exist.")
       return
     }
 
     const id = uuidv4()
     const uploadProgress: UploadProgress = {
       id,
-      fileName: files[0].name, // TODO: Do we need this?
+      fileName: files[0].name,
       complete: false,
       error: false,
       noOfFiles: files.length,
@@ -189,9 +192,45 @@ const StorageProvider = ({ children }: StorageContextProps) => {
       path
     }
     dispatchUploadsInProgress({ type: "add", payload: uploadProgress })
-    try {
-      // TODO: Make API Request to upload here
 
+    try {
+      const filesParam = await Promise.all(
+        files
+          .filter((f) => f.size <= MAX_FILE_SIZE)
+          .map(async (f) => {
+            const fileData = await readFileAsync(f)
+            return {
+              data: new Blob([fileData], { type: f.type }),
+              fileName: f.name
+            }
+          })
+      )
+      if (filesParam.length !== files.length) {
+        addToastMessage({
+          message:
+              "We can't encrypt files larger than 2GB. Some items will not be uploaded",
+          appearance: "error"
+        })
+      }
+      await storageApiClient.uploadBucketObjects(
+        bucketId,
+        filesParam,
+        path,
+        undefined,
+        1,
+        undefined,
+        (progressEvent: { loaded: number; total: number }) => {
+          dispatchUploadsInProgress({
+            type: "progress",
+            payload: {
+              id,
+              progress: Math.ceil(
+                (progressEvent.loaded / progressEvent.total) * 100
+              )
+            }
+          })
+        }
+      )
       // setting complete
       dispatchUploadsInProgress({ type: "complete", payload: { id } })
       setTimeout(() => {
@@ -216,7 +255,7 @@ const StorageProvider = ({ children }: StorageContextProps) => {
         dispatchUploadsInProgress({ type: "remove", payload: { id } })
       }, REMOVE_UPLOAD_PROGRESS_DELAY)
     }
-  }, [storageBuckets])
+  }, [storageBuckets, addToastMessage, storageApiClient])
 
   // const getPinContent = useCallback(async (
   //   bucketId: string,

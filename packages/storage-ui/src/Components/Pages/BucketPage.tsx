@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react"
-import { Crumb, useToaster, useHistory, useLocation, Typography } from "@chainsafe/common-components"
+import { Crumb, useToaster, useHistory, useLocation } from "@chainsafe/common-components"
 import { useStorage, FileSystemItem } from "../../Contexts/StorageContext"
 import { getArrayOfPaths, getURISafePathFromArray, getPathWithFile, extractFileBrowserPathFromURL } from "../../Utils/pathUtils"
 import { IBulkOperations, IFileBrowserModuleProps, IFilesTableBrowserProps } from "../../Contexts/types"
@@ -11,21 +11,19 @@ import { ROUTE_LINKS } from "../../Components/StorageRoutes"
 import { useStorageApi } from "../../Contexts/StorageApiContext"
 import { FileBrowserContext } from "../../Contexts/FileBrowserContext"
 import { parseFileContentResponse } from "../../Utils/Helpers"
-import { makeStyles, createStyles } from "@chainsafe/common-theme"
-import { CSFTheme } from "../../Themes/types"
+// import { makeStyles, createStyles } from "@chainsafe/common-theme"
 
-const useStyles = makeStyles(({ breakpoints, animation, constants }: CSFTheme) =>
-  createStyles({
-    root: {
-      position: "relative",
-      minHeight: "100vh",
-      overflow: "hidden"
-    }
-  })
-)
+// const useStyles = makeStyles(() =>
+//   createStyles({
+//     root: {
+//       position: "relative",
+//       minHeight: "100vh",
+//       overflow: "hidden"
+//     }
+//   })
+// )
 
 const BucketPage: React.FC<IFileBrowserModuleProps> = () => {
-  const classes = useStyles()
   const { storageBuckets, uploadFiles, uploadsInProgress } = useStorage()
   const { storageApiClient } = useStorageApi()
   const { addToastMessage } = useToaster()
@@ -63,7 +61,9 @@ const BucketPage: React.FC<IFileBrowserModuleProps> = () => {
     refreshContents(true)
   }, [bucket, refreshContents])
 
-  const moveItemsToBin = useCallback(async (cids: string[]) => {
+  const moveItemsToBin = useCallback(async (
+  //cids: string[]
+  ) => {
     throw new Error("Not implemented")
     // if (!bucket) return
     // await Promise.all(
@@ -99,7 +99,9 @@ const BucketPage: React.FC<IFileBrowserModuleProps> = () => {
     //       return Promise.reject()
     //     }}
     //   )).finally(refreshContents)
-  }, [addToastMessage, currentPath, pathContents, refreshContents, storageApiClient, bucket])
+  }, [
+    //addToastMessage, currentPath, pathContents, refreshContents, storageApiClient, bucket
+  ])
 
   const renameItem = useCallback(async (cid: string, newName: string) => {
     const itemToRename = pathContents.find(i => i.cid === cid)
@@ -143,13 +145,17 @@ const BucketPage: React.FC<IFileBrowserModuleProps> = () => {
       })).finally(refreshContents)
   }, [addToastMessage, pathContents, refreshContents, storageApiClient, bucket, currentPath])
 
-  const handleDownload = useCallback(async (cid: string) => {
+  const handleDownload = useCallback(async (
+  //cid: string
+  ) => {
     throw new Error("Not implemented")
     // const itemToDownload = pathContents.find(item => item.cid === cid)
     // if (!itemToDownload || !bucket) return
 
     // downloadFile(bucket.id, itemToDownload, currentPath)
-  }, [pathContents, currentPath, bucket])
+  }, [
+    //pathContents, currentPath, bucket
+  ])
 
   // Breadcrumbs/paths
   const arrayOfPaths = useMemo(() => getArrayOfPaths(currentPath), [currentPath])
