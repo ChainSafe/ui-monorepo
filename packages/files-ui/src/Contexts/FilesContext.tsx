@@ -322,8 +322,6 @@ const FilesProvider = ({ children }: FilesContextProps) => {
     }
   }, [addToastMessage, filesApiClient, buckets, refreshBuckets])
 
-
-
   const getFileContent = useCallback(async (
     bucketId: string,
     { cid, cancelToken, onDownloadProgress, file, path }: GetFileContentParams
