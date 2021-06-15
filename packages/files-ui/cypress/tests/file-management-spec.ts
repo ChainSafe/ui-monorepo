@@ -1,4 +1,7 @@
+import { binPage } from "../support/page-objects/binPage"
 import { homePage } from "../support/page-objects/homePage"
+import { navigationMenu } from "../support/page-objects/navigationMenu"
+
 
 describe("File management", () => {
 
@@ -66,5 +69,41 @@ describe("File management", () => {
       homePage.fileRenameInput().should("not.exist")
       homePage.fileItemName().contains(newName)
     })
+
+    it.only("can delete and recover a single file", () => {
+      cy.web3Login({ clearCSFBucket: true })
+
+      // upload a file 
+      homePage.uploadFile("../fixtures/uploadedFiles/text-file.txt")
+      homePage.fileItemRow().should("have.length", 1)
+
+      // retrieve the file's name, store as cypress alias
+      homePage.fileItemName().invoke("text").as("originalFile")
+
+      // delete file via menu option 
+      homePage.fileItemKebabButton().first().click()
+      homePage.deleteMenuOption().click()
+      homePage.deleteFileDialog().should("be.visible")
+      homePage.deleteFileConfirmButton().click()
+      homePage.deleteFileDialog().should("not.exist")
+      homePage.fileItemRow().should("not.exist")
+
+      // confirm the deleted file is moved to the bin
+      navigationMenu.binNavButton().click()
+      homePage.fileItemRow().should("have.length", 1)
+
+      // retrieve the deleted file's name, store as cypress alias
+      binPage.fileItemName().invoke("text").as("deletedFile")
+
+      // ensure file in bin matches the name of the deleted file
+      cy.get("@originalFile").then(($originalFile) => {
+        cy.get("@deletedFile").should("equal", $originalFile)
+      })
+
+      // ensure user can recover a file
+
+      // ensure a user can permanently delete a file
+    })
   })
 })
+
