@@ -36,17 +36,16 @@ import { BrowserView, FileOperation, MoveModalMode } from "../../../Contexts/typ
 import { FileSystemItem as FileSystemItemType } from "../../../Contexts/StorageContext"
 import FileSystemItem from "../FileSystemItem/FileSystemItem"
 // import FilePreviewModal from "../../FilePreviewModal"
-// import UploadProgressModals from "../../UploadProgressModals"
-// import DownloadProgressModals from "../../DownloadProgressModals"
-// import CreateFolderModal from "../CreateFolderModal"
-// import UploadFileModule from "../../UploadFileModule"
-// import MoveFileModule from "../MoveFileModal"
+import UploadProgressModals from "../UploadProgressModals"
+import DownloadProgressModals from "../DownloadProgressModals"
+import CreateFolderModal from "../CreateFolderModal/CreateFolderModal"
+import UploadFileModule from "../UploadFileModal/UploadFileModal"
+import MoveFileModule from "../MoveFileModal/MoveFileModal"
 // import FileInfoModal from "../FileInfoModal"
 import { CONTENT_TYPES } from "../../../Utils/Constants"
 import { CSFTheme } from "../../../Themes/types"
 import MimeMatcher from "../../../Utils/MimeMatcher"
 import { useLanguageContext } from "../../../Contexts/LanguageContext"
-import { getPathWithFile } from "../../../Utils/pathUtils"
 import { useFileBrowser } from "../../../Contexts/FileBrowserContext"
 
 interface IStyleProps {
@@ -978,9 +977,9 @@ const FilesList = () => {
           e.stopPropagation()
         }}
       />
-      {/* <UploadProgressModals />
-      <DownloadProgressModals /> */}
-      {/* {
+      <UploadProgressModals />
+      <DownloadProgressModals />
+      {
         refreshContents && (
           <>
             <CreateFolderModal
@@ -1007,7 +1006,7 @@ const FilesList = () => {
             />
           </>
         )
-      } */}
+      }
       {/* 
       <FileInfoModal
         fileInfoPath={fileInfoPath}
