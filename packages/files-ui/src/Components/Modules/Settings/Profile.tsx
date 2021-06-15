@@ -274,7 +274,6 @@ const ProfileView = () => {
       addToastMessage({ message: t`Username added` })
     }).catch((error) => {
       setUsernameData({
-        ...usernameData,
         error: error,
         loading: false
       })
@@ -396,8 +395,7 @@ const ProfileView = () => {
                     <Trans>Username</Trans>
                   </Typography>
                   {showUsernameForm
-                    ?
-                    <div>
+                    ? <div>
                       <Typography
                         component="p"
                         className={classes.subLabel}

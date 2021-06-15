@@ -92,6 +92,8 @@ const UserProvider = ({ children }: UserContextProps) => {
     }
   }
 
+  // separate function to set username
+  // using the same update profile API
   const addUsername = async (username: string) => {
     if (!profile) return Promise.reject("Profile not initialized")
 
