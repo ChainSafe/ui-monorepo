@@ -3,13 +3,6 @@
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/700aaf66f15641be8db21e180064e252)](https://www.codacy.com?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=ChainSafe/files-ui&amp;utm_campaign=Badge_Grade)
 [![Lint](https://github.com/ChainSafe/files-ui/actions/workflows/lint.yml/badge.svg?branch=dev)](https://github.com/ChainSafe/files-ui/actions/workflows/lint.yml)
 
-![full-word-stacked](https://user-images.githubusercontent.com/47398578/120363393-1b343f00-c2da-11eb-8578-130f88a0b75b.png)
-
-## Requirements
-
-- Node > 12
-- Yarn > 1
-
 ## Mono Repo Structure 🏗
 
 The repository is broken up into packages, managed using yarn workspaces. You can find these in the `packages` directory. These packages are as follows:
@@ -32,7 +25,14 @@ The UI for Chainsafe Files
 The UI for Chainsafe Storage
 
 ## Development
-You will need a Github Personal Access token with `read:package` permissions. This can be obtained [here](https://github.com/settings/tokens)
+
+Requirements: 
+- Node > 12
+- Yarn > 1
+- A Github Personal Access token with `read:package` permissions. 
+
+
+The Github Personal Access token can be obtained [here](https://github.com/settings/tokens)
 
 You then need to add it as environment variable, depending on your OS and shell:
 

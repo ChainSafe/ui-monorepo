@@ -5,6 +5,7 @@
 [![Maintainability](https://api.codeclimate.com/v1/badges/6a9b1984bc9622792d3e/maintainability)](https://codeclimate.com/repos/5f0224802dfa0b018f0021b0/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/6a9b1984bc9622792d3e/test_coverage)](https://codeclimate.com/repos/5f0224802dfa0b018f0021b0/test_coverage)
 
+![ChainSafe-Files-logo](https://user-images.githubusercontent.com/47398578/120363393-1b343f00-c2da-11eb-8578-130f88a0b75b.png)
 
 > [ChainSafe Files](https://files.chainsafe.io) is an end-to-end encrypted file storage app that utilizes the [IPFS](https://ipfs.io) and [Filecoin](https://filecoin.io) to store user data. 
 
