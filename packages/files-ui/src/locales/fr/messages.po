@@ -20,8 +20,8 @@ msgstr "(Changer)"
 msgid "<0>You’re at risk of getting locked out of your account because you only have two auth factors set up.</0> Add at least one more to ensure account recovery."
 msgstr "<0> Vous risquez d'être bloqué sur votre compte car vous n'avez configuré que deux facteurs d'authentification.</0> Ajoutez-en au moins un autre pour garantir la récupération du compte."
 
-msgid "A backup phrase will be generated and used for your account.<0/>We do not store it and <1>it can only be displayed once</1>. Save it somewhere safe!"
-msgstr "Une phrase de backup sera générée et utilisé pour ce comte.<0/>Nous ne la sauvergardons pas <1>elle ne peut être montrée qu'une seule fois</1>. Garde la dans un endroit sûr!"
+msgid "A backup secret phrase will be generated and used for your account.<0/>We do not store it and <1>it can only be displayed once</1>. Save it somewhere safe!"
+msgstr "Une phrase de sauvegarde secrète sera générée et utilisé pour ce comte.<0/>Nous ne la sauvergardons pas <1>elle ne peut être montrée qu'une seule fois</1>. Garde la dans un endroit sûr!"
 
 msgid "A file with the same name already exists"
 msgstr "Un fichier avec ce nom existe déjà"
@@ -41,11 +41,14 @@ msgstr "Ajoute d'autres fichiers"
 msgid "Approve"
 msgstr "Accepter"
 
-msgid "Backup phrase"
-msgstr "Phrase de secours"
+msgid "Are we on the right track? Let us know in less than 1 minute."
+msgstr "Sommes nous sur les bons rails ? Dites le nous en moins d'1 minute (en anglais)."
 
-msgid "Backup phrase does not match user account, please double-check and try again."
-msgstr "La phrase de secours est incorrecte, merci de vérifier et réessayer."
+msgid "Backup secret phrase"
+msgstr "Phrase de sauvegarde secrète"
+
+msgid "Backup secret phrase does not match user account, please double-check and try again."
+msgstr "La phrase de sauvegarde secrète est incorrecte, merci de vérifier et réessayer."
 
 msgid "Bin"
 msgstr "Corbeille"
@@ -70,6 +73,9 @@ msgstr "Modifier"
 
 msgid "Change password"
 msgstr "Modifier"
+
+msgid "Check your inbox! We've sent another email."
+msgstr "Email envoyé à nouveau."
 
 msgid "Click or drag to upload files"
 msgstr "Cliquer ou faire glisser un ficher pour uploader"
@@ -98,8 +104,8 @@ msgstr "La connexion a échouée"
 msgid "Continue"
 msgstr "Continuer"
 
-msgid "Continue with Facebook"
-msgstr "Continuer avec Facebook"
+msgid "Continue with Email"
+msgstr "Continuer avec un e-mail"
 
 msgid "Continue with Github"
 msgstr "Continuer avec GitHub"
@@ -143,6 +149,9 @@ msgstr "Supprimer selection"
 msgid "Device awaiting confirmation"
 msgstr "Appareil en attente de confirmation"
 
+msgid "Didn't receive the email ?"
+msgstr "E-mail non reçu ?"
+
 msgid "Display Settings"
 msgstr "Paramètres d'affichage"
 
@@ -158,14 +167,23 @@ msgstr "Télécharger la clé de sauvegarde"
 msgid "Drop to upload files"
 msgstr "Faire glisser pour uploader un fichier"
 
-msgid "Enter backup phrase:"
-msgstr "Phrase de sauvegarder:"
+msgid "Email is required"
+msgstr "Un e-mail est requis"
+
+msgid "Enter backup secret phrase:"
+msgstr "Phrase de sauvegarde secrète:"
 
 msgid "Enter password"
 msgstr "Mot de passe"
 
 msgid "Enter password:"
 msgstr "Mot de passe:"
+
+msgid "Enter the verification code:"
+msgstr "Entrer le code de vérification:"
+
+msgid "Enter your email:"
+msgstr "Enter votre e-mail:"
 
 msgid "Essentials - Free"
 msgstr "Essentials - Gratuit"
@@ -200,6 +218,9 @@ msgstr "Taille"
 msgid "Files"
 msgstr "Fichiers"
 
+msgid "Files sharing key"
+msgstr ""
+
 msgid "Files uses device backups to save your browser."
 msgstr "Files enregistre ce navigateur."
 
@@ -221,11 +242,8 @@ msgstr "Oublier ce navigateur"
 msgid "General"
 msgstr "Info"
 
-msgid "Generate backup phrase"
-msgstr "Créer une phrase de sauvegarde"
-
-msgid "Generate phrase"
-msgstr "Créer une phrase de sauvegarde"
+msgid "Generate backup secret phrase"
+msgstr "Créer une phrase de sauvegarde secrète"
 
 msgid "Generating..."
 msgstr "Création..."
@@ -241,9 +259,6 @@ msgstr "Génial! Vous avez terminé."
 
 msgid "Hello again!"
 msgstr "Ravis de vous revoir!"
-
-msgid "Help us make Files better in under 30 seconds."
-msgstr ""
 
 msgid "Hey! You only have two sign-in methods. If you lose that and have only one left, you will be locked out of your account forever."
 msgstr "Hey! Tu ne disposes que de deux méthodes d'authentification. Si tu en perds une, tu seras bloqué pour toujours et ne pourras plus te connecter à ton compte Files."
@@ -263,8 +278,8 @@ msgstr "Info"
 msgid "Invalid name"
 msgstr "Nom invalide"
 
-msgid "I’m done saving my backup phrase"
-msgstr "Phrase de sauvegarde enregistrée"
+msgid "I’m done saving my backup secret phrase"
+msgstr "Phrase de sauvegarde secrète enregistrée"
 
 msgid "Language"
 msgstr "Langue de l'interface"
@@ -384,7 +399,7 @@ msgid "Please provide a password"
 msgstr "Merci de donner un mot de passe"
 
 msgid "Please select a file to upload"
-msgstr ""
+msgstr "Merci de sélectionner un fichier à uploader"
 
 msgid "Preview"
 msgstr "Aperçu"
@@ -431,8 +446,8 @@ msgstr "Envoyé par"
 msgid "Resources"
 msgstr "Ressources"
 
-msgid "Restore with backup phrase"
-msgstr "Récupérer avec la phrase de sauvegarde"
+msgid "Restore with backup secret phrase"
+msgstr "Récupérer avec la phrase de sauvegarde secrète"
 
 msgid "Save changes"
 msgstr "Enregistrer"
@@ -469,6 +484,9 @@ msgstr "Sélectionner un wallet"
 
 msgid "Send Feedback"
 msgstr "Donner son avis"
+
+msgid "Send another email"
+msgstr "Envoyer un nouvel e-mail"
 
 msgid "Set Password"
 msgstr "Définir un mot de passe"
@@ -524,6 +542,9 @@ msgstr "Connecté avec un réseau social ou wallet"
 msgid "Social sign in or wallet"
 msgstr "Connecté avec un réseau social ou wallet"
 
+msgid "Something went wrong!"
+msgstr "Oups! Il y a eu une erreur, merci de ré-essayer."
+
 msgid "Something went wrong. We couldn't upload your file"
 msgstr "Un problème est survenu. Nous n'avons pas pu uploader votre fichier"
 
@@ -569,6 +590,9 @@ msgstr "Une erreur s'est produite lors de l'obtention des résultats de recherch
 msgid "There was an error getting the preview."
 msgstr "Une erreur s'est produite lors de la génération de l’aperçu."
 
+msgid "There was an error moving this"
+msgstr "Une erreur s'est produite lors du déplacement"
+
 msgid "There was an error recovering this"
 msgstr "Une erreur s'est produite lors de la récupération"
 
@@ -596,6 +620,15 @@ msgstr "Utilisez une méthode de connexion différente"
 msgid "Use a saved browser"
 msgstr "Utiliser un navigateur enregistré"
 
+msgid "Verification code is required"
+msgstr "Code de vérification requis"
+
+msgid "Verification code not correct!"
+msgstr "Code de vérification incorrecte!"
+
+msgid "Verification code sent!"
+msgstr "Code de vérification envoyé!"
+
 msgid "View folder"
 msgstr "Voir le dossier"
 
@@ -607,6 +640,9 @@ msgstr "Web3: {0}"
 
 msgid "We’ve got a new authentication system in place. All you need to do is enter your password again to migrate your credentials over to the new system."
 msgstr "Nous avons mis en place un nouveau système d’authentification. Tout ce que vous avez à faire est de saisir à nouveau votre mot de passe pour migrer vos informations d'identification vers le nouveau système."
+
+msgid "We’ve sent an email to {email}. It contains a verification code that’ll sign you in super quickly!"
+msgstr "Nous avons envoyé un e-mail à {email}. Il contient un code de vérification pour vous connecter!"
 
 msgid "What a fine day it is."
 msgstr "Une belle journée."
@@ -626,8 +662,8 @@ msgstr "Vous devrez signer un message avec votre wallet pour terminer la procéd
 msgid "Your Authentication Factors"
 msgstr "Vos Facteurs d'Authentification"
 
-msgid "Your recovery key can be used to restore your account in place of your backup phrase."
-msgstr "Votre clé de récupération peut être utilisée pour restaurer votre compte à la place de votre phrase de sauvegarde."
+msgid "Your recovery key can be used to restore your account in place of your backup secret phrase."
+msgstr "Votre clé de récupération peut être utilisée pour restaurer votre compte à la place de votre phrase de sauvegarde secrète."
 
 msgid "deleted successfully"
 msgstr "supprimé avec succès"
@@ -637,6 +673,9 @@ msgstr "fichier"
 
 msgid "folder"
 msgstr "dossier"
+
+msgid "moved successfully"
+msgstr "Déplacé avec succès"
 
 msgid "on"
 msgstr "le"

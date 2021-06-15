@@ -9,7 +9,7 @@ import ShareSerializationModule, { SHARE_SERIALIZATION_MODULE_NAME } from "@tkey
 import { ServiceProviderBase } from "@tkey/service-provider-base"
 import { TorusStorageLayer } from "@tkey/storage-layer-torus"
 import bowser from "bowser"
-import { useFilesApi } from "@chainsafe/common-contexts"
+import { useFilesApi } from "../Contexts/FilesApiContext"
 import { utils, Wallet } from "ethers"
 import EthCrypto from "eth-crypto"
 import { useWeb3 } from "@chainsafe/web3-context"
@@ -46,7 +46,7 @@ export type TThresholdKeyContext = {
   hasPasswordShare: boolean
   shouldInitializeAccount: boolean
   pendingShareTransferRequests: ShareTransferRequest[]
-  login(loginType: IdentityProvider): Promise<void>
+  login(loginType: IdentityProvider, tokenInfo?: {token: string; email: string}): Promise<void>
   resetIsNewDevice(): void
   resetShouldInitialize(): void
   addPasswordShare(password: string): Promise<void>
@@ -124,7 +124,7 @@ const getProviderSpecificParams = (loginType: LOGIN_TYPE):
 
 const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = false, apiKey }: ThresholdKeyProviderProps) => {
   const { filesApiClient, thresholdKeyLogin, logout } = useFilesApi()
-  const { provider, isReady, checkIsReady, address } = useWeb3()
+  const { provider, isReady, checkIsReady, address, wallet } = useWeb3()
   const [userInfo, setUserInfo] = useState<TorusLoginResponse | undefined>()
   const [TKeySdk, setTKeySdk] = useState<ThresholdKey | undefined>()
   const [keyDetails, setKeyDetails] = useState<KeyDetails | undefined>()
@@ -342,7 +342,7 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
       }
     }
 
-    let poller: number
+    let poller: NodeJS.Timeout
     if (TKeySdk && keyDetails && keyDetails.requiredShares <= 0) {
       handler()
       poller = setInterval(handler, 5000)
@@ -404,11 +404,11 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
     }
   }, [userInfo, address])
 
-  const login = async (loginType: IdentityProvider) => {
+  const login = async (loginType: IdentityProvider, tokenInfo?: {token: string; email: string}) => {
     if (!TKeySdk || maintenanceMode) return
     try {
       setStatus("awaiting confirmation")
-      const { identityToken, userInfo } = await getIdentityToken(loginType)
+      const { identityToken, userInfo } = await getIdentityToken(loginType, tokenInfo)
       const decodedToken = jwtDecode<{ uuid: string; address: string }>(identityToken.token || "")
       const directAuthSdk = (TKeySdk.serviceProvider as any).directWeb as DirectAuthSdk
       const torusKey = await directAuthSdk.getTorusKey(
@@ -430,7 +430,7 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
           profileImage: userInfo?.profileImage,
           verifier: "",
           verifierId: (loginType === "web3") ? address || "" : decodedToken.uuid,
-          typeOfLogin: loginType !== "web3" ? loginType : "jwt",
+          typeOfLogin: loginType !== "web3" && loginType !== "email" ? loginType : "jwt",
           accessToken: userInfo?.accessToken,
           state: { }
         }
@@ -483,7 +483,20 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
     }
   }
 
-  const getIdentityToken = async (loginType: IdentityProvider): Promise<{identityToken: IdentityToken; userInfo: any}> => {
+  const getIdentityToken = async (
+    loginType: IdentityProvider,
+    tokenInfo?: {token: string; email: string}
+  ): Promise<{identityToken: IdentityToken; userInfo: any}> => {
+    if (loginType === "email") {
+      const uuidToken = await filesApiClient.generateServiceIdentityToken({
+        identity_provider: loginType,
+        identity_token: tokenInfo?.token || ""
+      })
+      return {
+        identityToken: uuidToken,
+        userInfo: { email: tokenInfo?.email }
+      }
+    }
     if (loginType === "web3") {
 
       let addressToUse = address
@@ -511,7 +524,10 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
       if (!token) throw new Error("Token undefined")
 
       setStatus("awaiting confirmation")
-      const signature = await signer.signMessage(token)
+      const signature = (wallet?.name === "WalletConnect")
+        ? await signer.provider.send("personal_sign", [token, addressToUse])
+        : await signer.signMessage(token)
+
       setStatus("logging in")
       const web3IdentityToken = await filesApiClient.postIdentityWeb3Token({
         signature: signature,

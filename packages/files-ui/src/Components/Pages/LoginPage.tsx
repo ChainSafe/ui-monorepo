@@ -13,9 +13,9 @@ import TopDarkSVG from "../../Media/landing/layers/dark/Top.dark.svg"
 import BottomLightSVG from "../../Media/landing/layers/light/Bottom.light.svg"
 import TopLightSVG from "../../Media/landing/layers/light/Top.light.svg"
 // import { ForegroundSVG } from "../../Media/landing/layers/ForegroundSVG"
-import { useFilesApi } from "@chainsafe/common-contexts"
 import MigrateAccount from "../Modules/LoginModule/MigrateAccount"
 import InitializeAccount from "../Modules/LoginModule/InitializeAccount"
+import { useFilesApi } from "../../Contexts/FilesApiContext"
 
 const useStyles = makeStyles(
   ({ constants, breakpoints, typography, zIndex }: CSFTheme) =>

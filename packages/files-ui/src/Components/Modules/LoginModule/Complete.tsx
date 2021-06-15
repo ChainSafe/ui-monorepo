@@ -154,7 +154,7 @@ const Complete = ({ className }: IComplete) => {
         {hasMnemonicShare && <div className={clsx(classes.option, "active")}>
           <Typography>
             <Trans>
-              Backup phrase
+              Backup secret phrase
             </Trans>
           </Typography>
           <CheckSvg />

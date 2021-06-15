@@ -18,7 +18,7 @@ import {
 import clsx from "clsx"
 import { CSFTheme } from "../../../Themes/types"
 import dayjs from "dayjs"
-import { useFilesApi } from "@chainsafe/common-contexts"
+import { useFilesApi } from "../../../Contexts/FilesApiContext"
 import { useFileBrowser } from "../../../Contexts/FileBrowserContext"
 
 const useStyles = makeStyles(
@@ -174,7 +174,7 @@ const FileInfoModal: React.FC<IFileInfoModuleProps> = ({
       if (fileInfoPath && bucket) {
         try {
           setLoadingInfo(true)
-          const fullFileResponse = await filesApiClient.getFPSFileInfo(bucket.id, { path: fileInfoPath })
+          const fullFileResponse = await filesApiClient.getBucketObjectInfo(bucket.id, { path: fileInfoPath })
           setFullFullInfo(fullFileResponse)
           setLoadingInfo(false)
         } catch (e){

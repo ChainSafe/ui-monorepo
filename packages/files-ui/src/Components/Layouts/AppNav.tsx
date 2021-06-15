@@ -1,4 +1,3 @@
-import { useFilesApi, useUser } from "@chainsafe/common-contexts"
 import { useFiles } from "../../Contexts/FilesContext"
 import {
   createStyles,
@@ -23,7 +22,8 @@ import { FREE_PLAN_LIMIT } from "../../Utils/Constants"
 import { Trans } from "@lingui/macro"
 import { useThresholdKey } from "../../Contexts/ThresholdKeyContext"
 import { CSFTheme } from "../../Themes/types"
-
+import { useUser } from "../../Contexts/UserContext"
+import { useFilesApi } from "../../Contexts/FilesApiContext"
 const useStyles = makeStyles(
   ({ palette, animation, breakpoints, constants, zIndex }: CSFTheme) => {
     return createStyles({
@@ -286,6 +286,7 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
               >
                 <DatabaseSvg />
                 <Typography
+                  data-cy="home-nav"
                   variant="h5"
                   className={classes.navItemText}
                 >
@@ -299,6 +300,7 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
               >
                 <DeleteSvg />
                 <Typography
+                  data-cy="bin-nav"
                   variant="h5"
                   className={classes.navItemText}
                 >
@@ -330,6 +332,7 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
             {desktop && (
               <div>
                 <Typography
+                  data-cy="space-used-label"
                   variant="body2"
                   className={classes.spaceUsedMargin}
                   component="p"
@@ -337,6 +340,7 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
                     FREE_PLAN_LIMIT
                   )} used`}</Typography>
                 <ProgressBar
+                  data-cy="space-used-progress-bar"
                   className={classes.spaceUsedMargin}
                   progress={(spaceUsed / FREE_PLAN_LIMIT) * 100}
                   size="small"
@@ -345,6 +349,7 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
                   <Trans>UPGRADE</Trans>
                 </Button> */}
                 <Button
+                  data-cy="send-feedback-nav"
                   variant="outline"
                   size="small"
                   onClick={() => collectFeedback()}
@@ -355,6 +360,7 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
             )}
             {!desktop && (
               <div
+                data-cy="signout-nav"
                 className={classes.navItem}
                 onClick={() => {
                   handleOnClick()

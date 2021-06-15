@@ -67,7 +67,8 @@ const UploadBox: React.FC<IUploadBox> = (props) => {
 
   return (
     <>
-      <div className={clsx(classes.appearBox, classes.boxContainer)}>
+      <div className={clsx(classes.appearBox, classes.boxContainer)}
+        data-cy="upload_status_toast_message" >
         {complete ? (
           <div className={classes.contentContainer}>
             <CheckCircleIcon className={classes.marginRight} />

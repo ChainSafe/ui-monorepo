@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react"
+import React, { useState } from "react"
 import * as yup from "yup"
 import {
   FormikTextInput,
@@ -16,12 +16,13 @@ import {
 } from "@chainsafe/common-theme"
 import { LockIcon, CopyIcon } from "@chainsafe/common-components"
 import { Formik, Form } from "formik"
-import { useUser } from "@chainsafe/common-contexts"
+import { useUser } from "../../../Contexts/UserContext"
 import { t, Trans } from "@lingui/macro"
 import { centerEllipsis } from "../../../Utils/Helpers"
 import { CSFTheme } from "../../../Themes/types"
 import clsx from "clsx"
 import LanguageSelection from "./LanguageSelection"
+import { useThresholdKey } from "../../../Contexts/ThresholdKeyContext"
 
 const useStyles = makeStyles(({ constants, breakpoints, palette, typography }: CSFTheme) =>
   createStyles({
@@ -103,6 +104,12 @@ const useStyles = makeStyles(({ constants, breakpoints, palette, typography }: C
         ...typography.body2
       }
     },
+    copyText: {
+      padding: `${constants.generalUnit / 2}px ${constants.generalUnit}px`,
+      backgroundColor: constants.loginModule.flagBg,
+      borderRadius: 2,
+      color: constants.loginModule.flagText
+    },
     themeBox: {
       height: 87,
       borderRadius: 4,
@@ -137,6 +144,7 @@ const ProfileView = () => {
   const { themeKey, setTheme } = useThemeSwitcher()
   const { addToastMessage } = useToaster()
   const { profile, updateProfile } = useUser()
+  const { publicKey } = useThresholdKey()
   const [updatingProfile, setUpdatingProfile] = useState(false)
 
   const onUpdateProfile = async (firstName: string, lastName: string) => {
@@ -153,21 +161,33 @@ const ProfileView = () => {
 
   const classes = useStyles()
 
-  const [copied, setCopied] = useState(false)
+  const [copiedWalletAddress, setCopiedWalletAddress] = useState(false)
+  const [copiedTkeyPublicKey, setCopiedTkeyPublicKey] = useState(false)
 
-  // TODO useCallback is maybe not needed here
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const debouncedSwitchCopied = useCallback(
-    debounce(() => setCopied(false), 3000),
-    []
-  )
+  const debouncedCopiedWalletAddress =
+    debounce(() => setCopiedWalletAddress(false), 3000)
 
-  const copyAddress = async () => {
+  const debouncedCopiedTkeyPublicKey =
+    debounce(() => setCopiedTkeyPublicKey(false), 3000)
+
+  const copyWalletAddress = async () => {
     if (profile?.publicAddress) {
       try {
         await navigator.clipboard.writeText(profile.publicAddress)
-        setCopied(true)
-        debouncedSwitchCopied()
+        setCopiedWalletAddress(true)
+        debouncedCopiedWalletAddress()
+      } catch (err) {
+        console.error(err)
+      }
+    }
+  }
+
+  const copyTkeyPubKey = async () => {
+    if (publicKey) {
+      try {
+        await navigator.clipboard.writeText(publicKey)
+        setCopiedTkeyPublicKey(true)
+        debouncedCopiedTkeyPublicKey()
       } catch (err) {
         console.error(err)
       }
@@ -221,15 +241,15 @@ const ProfileView = () => {
                         >
                           <Trans>Wallet address</Trans>
                         </Typography>
-                        {copied && (
-                          <Typography>
+                        {copiedWalletAddress && (
+                          <Typography className={classes.copyText}>
                             <Trans>Copied!</Trans>
                           </Typography>
                         )}
                       </div>
                       <div
                         className={classes.copyBox}
-                        onClick={copyAddress}
+                        onClick={copyWalletAddress}
                       >
                         <Typography
                           variant="body1"
@@ -237,6 +257,39 @@ const ProfileView = () => {
                           className={classes.publicAddress}
                         >
                           {centerEllipsis(profile.publicAddress, 16)}
+                        </Typography>
+                        <CopyIcon className={classes.copyIcon} />
+                      </div>
+                    </div>
+                  ) : null}
+                  {publicKey ? (
+                    <div
+                      className={classes.boxContainer}
+                      data-cy="settings-profile-header"
+                    >
+                      <div className={classes.walletAddressContainer}>
+                        <Typography
+                          variant="body1"
+                          className={classes.label}
+                        >
+                          <Trans>Files sharing key</Trans>
+                        </Typography>
+                        {copiedTkeyPublicKey && (
+                          <Typography className={classes.copyText}>
+                            <Trans>Copied!</Trans>
+                          </Typography>
+                        )}
+                      </div>
+                      <div
+                        className={classes.copyBox}
+                        onClick={copyTkeyPubKey}
+                      >
+                        <Typography
+                          variant="body1"
+                          component="p"
+                          className={classes.publicAddress}
+                        >
+                          {centerEllipsis(publicKey, 16)}
                         </Typography>
                         <CopyIcon className={classes.copyIcon} />
                       </div>
@@ -250,6 +303,7 @@ const ProfileView = () => {
                       className={classes.input}
                       labelClassName={classes.label}
                       label={t`First name`}
+                      data-cy="profile-firstname-input"
                     />
                   </div>
                   <div className={classes.boxContainer}>
@@ -260,6 +314,7 @@ const ProfileView = () => {
                       className={classes.input}
                       labelClassName={classes.label}
                       label={t`Last name`}
+                      data-cy="profile-lastname-input"
                     />
                   </div>
                   {/* <div className={classes.boxContainer}>
@@ -281,6 +336,7 @@ const ProfileView = () => {
                     loading={updatingProfile}
                     variant={themeKey === "dark" ? "outline" : "primary"}
                     loadingText="Saving"
+                    data-cy="profile-save-button"
                   >
                     <LockIcon className={classes.icon} />
                     {"  "}
