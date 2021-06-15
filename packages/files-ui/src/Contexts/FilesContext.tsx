@@ -338,7 +338,7 @@ const FilesProvider = ({ children }: FilesContextProps) => {
           })
         }
       )
-
+      refreshBuckets()
       // setting complete
       dispatchUploadsInProgress({ type: "complete", payload: { id } })
       setTimeout(() => {
@@ -363,9 +363,7 @@ const FilesProvider = ({ children }: FilesContextProps) => {
         dispatchUploadsInProgress({ type: "remove", payload: { id } })
       }, REMOVE_UPLOAD_PROGRESS_DELAY)
     }
-  }, [addToastMessage, filesApiClient, buckets])
-
-
+  }, [addToastMessage, filesApiClient, buckets, refreshBuckets])
 
   const getFileContent = useCallback(async (
     bucketId: string,

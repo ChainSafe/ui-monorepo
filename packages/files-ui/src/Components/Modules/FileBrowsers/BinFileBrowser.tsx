@@ -14,7 +14,7 @@ import { useFilesApi } from "../../../Contexts/FilesApiContext"
 import { parseFileContentResponse } from "../../../Utils/Helpers"
 
 const BinFileBrowser: React.FC<IFileBrowserModuleProps> = ({ controls = false }: IFileBrowserModuleProps) => {
-  const { buckets } = useFiles()
+  const { buckets, refreshBuckets } = useFiles()
   const { filesApiClient } = useFilesApi()
   const { addToastMessage } = useToaster()
   const [loadingCurrentPath, setLoadingCurrentPath] = useState(false)
@@ -67,6 +67,7 @@ const BinFileBrowser: React.FC<IFileBrowserModuleProps> = ({ controls = false }:
       )
 
       refreshContents()
+      refreshBuckets()
       const message = `${
         itemToDelete.isFolder ? t`Folder` : t`File`
       } ${t`deleted successfully`}`
@@ -85,7 +86,7 @@ const BinFileBrowser: React.FC<IFileBrowserModuleProps> = ({ controls = false }:
       })
       return Promise.reject()
     }
-  }, [addToastMessage, bucket, currentPath, pathContents, refreshContents, filesApiClient])
+  }, [addToastMessage, bucket, currentPath, pathContents, refreshContents, refreshBuckets, filesApiClient])
 
   const deleteItems = useCallback(async (cids: string[]) => {
     await Promise.all(
