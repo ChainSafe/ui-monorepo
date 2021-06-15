@@ -353,6 +353,7 @@ const InitialScreen = ({ className }: IInitialScreen) => {
                   setLoginMode("email")
                 }}
                 variant="secondary"
+                disabled={maintenanceMode || isConnecting || status !== "initialized"}
               >
                 <MailIcon className="icon"/>
                 <Trans>Continue with Email</Trans>
