@@ -31,6 +31,9 @@ msgstr "A name is required"
 msgid "Account"
 msgstr "Account"
 
+msgid "Add a username"
+msgstr "Add a username"
+
 msgid "Add at least one more authentication method to protect your account. You’d only need any two to sign in to Files from any device."
 msgstr "Add at least one more authentication method to protect your account. You’d only need any two to sign in to Files from any device."
 
@@ -358,6 +361,9 @@ msgstr "OK"
 msgid "One sec, getting files ready..."
 msgstr "One sec, getting files ready..."
 
+msgid "Only you can see this."
+msgstr "Only you can see this."
+
 msgid "Operating system:"
 msgstr "Operating system:"
 
@@ -490,6 +496,9 @@ msgstr "Send another email"
 msgid "Set Password"
 msgstr "Set Password"
 
+msgid "Set Username"
+msgstr "Set Username"
+
 msgid "Set it up now"
 msgstr "Set it up now"
 
@@ -504,6 +513,9 @@ msgstr "Set up auth factors"
 
 msgid "Set up password"
 msgstr "Set up password"
+
+msgid "Setting Username"
+msgstr "Setting Username"
 
 msgid "Settings"
 msgstr "Settings"
@@ -595,6 +607,9 @@ msgstr "There was an error moving this"
 msgid "There was an error recovering this"
 msgstr "There was an error recovering this"
 
+msgid "This username is public"
+msgstr "This username is public"
+
 msgid "Try again"
 msgstr "Try again"
 
@@ -618,6 +633,15 @@ msgstr "Use a different login method"
 
 msgid "Use a saved browser"
 msgstr "Use a saved browser"
+
+msgid "Username"
+msgstr "Username"
+
+msgid "Username added"
+msgstr "Username added"
+
+msgid "Usernames are public and can't be changed after creation."
+msgstr "Usernames are public and can't be changed after creation."
 
 msgid "Verification code is required"
 msgstr "Verification code is required"
@@ -654,6 +678,9 @@ msgstr "Yes, save it"
 
 msgid "You can change this later."
 msgstr "You can change this later."
+
+msgid "You haven't set a username yet."
+msgstr "You haven't set a username yet."
 
 msgid "You will need to sign a message in your wallet to complete sign in."
 msgstr "You will need to sign a message in your wallet to complete sign in."
