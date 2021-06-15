@@ -1,6 +1,6 @@
 import React, { useCallback, useMemo, useRef, useState } from "react"
 import { makeStyles, createStyles } from "@chainsafe/common-theme"
-import { Button, FormikTextInput, Grid, Typography } from "@chainsafe/common-components"
+import { Button, FormikTextInput, Grid } from "@chainsafe/common-components"
 import CustomModal from "../Elements/CustomModal"
 import { CSSTheme } from "../../Themes/types"
 import CustomButton from "../Elements/CustomButton"
@@ -132,19 +132,6 @@ const AddCIDModule = ({ modalOpen = false, close }: IAddCIDModuleProps) => {
               item
               xs={12}
               sm={12}
-            >
-              <Typography
-                className={classes.heading}
-                variant="h5"
-                component="h5"
-              >
-                <Trans>Paste the CID to pin it with ChainSafe Storage</Trans>
-              </Typography>
-            </Grid>
-            <Grid
-              item
-              xs={12}
-              sm={12}
               className={classes.input}
             >
               <FormikTextInput
@@ -152,7 +139,7 @@ const AddCIDModule = ({ modalOpen = false, close }: IAddCIDModuleProps) => {
                 size="large"
                 placeholder="QmNbbf...dps2Xw"
                 labelClassName={classes.label}
-                label="CID"
+                label={t`Paste the CID to pin it with ChainSafe Storage`}
                 ref={inputRef}
               />
             </Grid>

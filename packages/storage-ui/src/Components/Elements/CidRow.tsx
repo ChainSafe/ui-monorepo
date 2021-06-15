@@ -76,7 +76,10 @@ const CidRow = ({ pinStatus }: Props) => {
         {dayjs(pinStatus.created).format("DD MMM YYYY h:mm a")}
       </TableCell>
       <TableCell>
-        {formatBytes(pinStatus.info?.size)}
+        {pinStatus.info?.size ? formatBytes(pinStatus.info?.size) : "-"}
+      </TableCell>
+      <TableCell>
+        {pinStatus.status}
       </TableCell>
       <TableCell>
         <a

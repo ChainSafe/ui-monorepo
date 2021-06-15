@@ -7,8 +7,8 @@ import CidRow from "../Elements/CidRow"
 import { CSSTheme } from "../../Themes/types"
 import AddCIDModule from "../Modules/PinCIDModule"
 
-export const desktopGridSettings = "3fr 190px 190px 190px 70px !important"
-export const mobileGridSettings = "3fr 190px 190px 190px 70px !important"
+export const desktopGridSettings = "3fr 190px 190px 190px 190px 70px !important"
+export const mobileGridSettings = "3fr 190px 190px 190px 190px 70px !important"
 
 const useStyles = makeStyles(({ animation, breakpoints, constants }: CSSTheme) =>
   createStyles({
@@ -112,14 +112,20 @@ const CidsPage = () => {
               >
                 <Trans>Size</Trans>
               </TableHeadCell>
+              <TableHeadCell
+                sortButtons={false}
+                align="center"
+              >
+                <Trans>Status</Trans>
+              </TableHeadCell>
               <TableHeadCell>{/* IPFS Gateway */}</TableHeadCell>
               <TableHeadCell>{/* Menu */}</TableHeadCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {pins.map((pinObject, index) =>
+            {pins.map((pinStatus, index) =>
               <CidRow
-                pinStatus={pinObject}
+                pinStatus={pinStatus}
                 key={index}
               />
             )}
