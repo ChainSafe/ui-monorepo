@@ -11,7 +11,7 @@ interface FileBrowserContext extends IFileBrowserModuleProps {
   moveItems?: (cids: string[], newPath: string) => Promise<void>
   downloadFile?: (cid: string) => Promise<void>
   deleteItems?: (cid: string[]) => Promise<void>
-  recoverItems?: (cid: string[]) => Promise<void[]>
+  recoverItems?: (cid: string[], newPath: string) => Promise<void>
   viewFolder?: (cid: string) => void
   allowDropUpload?: boolean
 

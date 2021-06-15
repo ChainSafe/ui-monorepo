@@ -1,0 +1,3 @@
+"Type: Feature": ['feature/*', 'feat/*']
+"Type: Bug Fix": fix/*
+"Type: Maintenance": ['chore/*', 'mnt/*']

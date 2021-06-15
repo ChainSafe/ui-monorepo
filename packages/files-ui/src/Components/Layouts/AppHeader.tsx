@@ -1,5 +1,4 @@
 import React, { useCallback, useState } from "react"
-import { useFilesApi, useUser } from "@chainsafe/common-contexts"
 import { createStyles, makeStyles, useThemeSwitcher } from "@chainsafe/common-theme"
 import clsx from "clsx"
 import {
@@ -16,6 +15,8 @@ import SearchModule from "../Modules/SearchModule"
 import { Trans } from "@lingui/macro"
 import { useThresholdKey } from "../../Contexts/ThresholdKeyContext"
 import { CSFTheme } from "../../Themes/types"
+import { useUser } from "../../Contexts/UserContext"
+import { useFilesApi } from "../../Contexts/FilesApiContext"
 
 const useStyles = makeStyles(
   ({ palette, animation, breakpoints, constants, zIndex }: CSFTheme) => {

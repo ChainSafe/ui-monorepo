@@ -22,7 +22,8 @@ import { CONTENT_TYPES } from "../../Utils/Constants"
 import { getArrayOfPaths, getParentPathFromFilePath, getURISafePathFromArray } from "../../Utils/pathUtils"
 import { t, Trans } from "@lingui/macro"
 import { CSFTheme } from "../../Themes/types"
-import { useFilesApi } from "@chainsafe/common-contexts"
+import { useFilesApi } from "../../Contexts/FilesApiContext"
+
 
 export interface SearchParams {
   bucketType: BucketType

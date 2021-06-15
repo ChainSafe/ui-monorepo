@@ -3,7 +3,7 @@
 import { useEffect, MutableRefObject } from "react"
 
 // Hook
-export const useOnClickOutside = (ref: MutableRefObject<any>, handler?: Function): void => {
+export const useOnClickOutside = (ref: MutableRefObject<any>, handler?: (event: any) => void): void => {
   useEffect(
     () => {
       const listener = (event: Event) => {

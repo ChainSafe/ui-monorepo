@@ -17,7 +17,8 @@ import CustomButton from "../../Elements/CustomButton"
 import { Trans } from "@lingui/macro"
 import { CSFTheme } from "../../../Themes/types"
 import { useFileBrowser } from "../../../Contexts/FileBrowserContext"
-import { useFilesApi } from "@chainsafe/common-contexts"
+import { useFilesApi } from "../../../Contexts/FilesApiContext"
+
 
 const useStyles = makeStyles(
   ({ breakpoints, constants, typography, zIndex }: CSFTheme) => {
@@ -124,7 +125,7 @@ const CreateFolderModal: React.FC<ICreateFolderModalProps> = ({
           helpers.setSubmitting(true)
           try {
             setCreatingFolder(true)
-            await filesApiClient.addFPSDirectory(bucket.id, { path: `${currentPath}/${values.name}` })
+            await filesApiClient.addBucketDirectory(bucket.id, { path: `${currentPath}/${values.name}` })
             refreshContents && await refreshContents()
             setCreatingFolder(false)
             helpers.resetForm()
