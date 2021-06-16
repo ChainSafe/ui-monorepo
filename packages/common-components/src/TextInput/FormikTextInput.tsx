@@ -30,7 +30,7 @@ const FormikTextInput = React.forwardRef(
     const [field, meta, helpers] = useField(name)
     return (
       <TextInput
-        label={label ? label : hideLabel ? undefined : field.name}
+        label={hideLabel ? undefined : label || field.name}
         inputVariant={inputVariant}
         disabled={disabled}
         type={type}
