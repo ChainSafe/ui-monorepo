@@ -13,6 +13,6 @@ export const binPage = {
   fileItemKebabButton: () => cy.get("[data-testid=dropdown-title-fileDropdown]"),
 
   // menu elements (bin view only)
-  recoverMenuOption: () => cy.get("[data-cy=menu-move]"),
+  recoverMenuOption: () => cy.get("[data-cy=menu-recover]"),
   deleteMenuOption: () => cy.get("[data-cy=menu-delete]")
 }
