@@ -40,12 +40,8 @@ export const homePage = {
   uploadFile(filePath: string) {
     this.uploadButton().click()
     this.uploadFileForm().attachFile(filePath)
-    this.fileUploadList().should("have.length", 1).pause()
-
-    this.startUploadButton()
-      .should("be.visible")
-      .should("not.be.disabled")
-      .click()
+    this.fileUploadList().should("have.length", 1)
+    this.startUploadButton().click()
     // ensure upload is complete before proceeding
     this.uploadFileForm().should("not.exist")
     this.uploadStatusToast().should("not.exist")
