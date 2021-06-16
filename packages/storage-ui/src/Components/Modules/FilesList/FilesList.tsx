@@ -511,7 +511,7 @@ const FilesList = () => {
           }
         }
       }
-      setValidBulkOps(filteredList)
+      setValidBulkOps([])
     }
   }, [selectedCids, items, bulkOperations])
 
