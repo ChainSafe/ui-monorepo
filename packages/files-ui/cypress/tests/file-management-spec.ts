@@ -70,17 +70,17 @@ describe("File management", () => {
       homePage.fileItemName().contains(newName)
     })
 
-    it.only("can delete a single file", () => {
+    it("can delete a single file", () => {
       cy.web3Login({ clearCSFBucket: true })
 
       // upload a file 
       homePage.uploadFile("../fixtures/uploadedFiles/text-file.txt")
       homePage.fileItemRow().should("have.length", 1)
 
-      // retrieve the file's name, store as cypress alias
+      // retrieve the file's name, store as a cypress alias
       homePage.fileItemName().invoke("text").as("originalFile")
 
-      // delete file via menu option 
+      // delete a file via the menu option 
       homePage.fileItemKebabButton().first().click()
       homePage.deleteMenuOption().click()
       homePage.deleteFileDialog().should("be.visible")
@@ -92,7 +92,7 @@ describe("File management", () => {
       navigationMenu.binNavButton().click()
       homePage.fileItemRow().should("have.length", 1)
 
-      // retrieve the deleted file's name, store as cypress alias
+      // retrieve the deleted file's name, store as a cypress alias
       binPage.fileItemName().invoke("text").as("deletedFile")
 
       // ensure file in bin matches the name of the deleted file

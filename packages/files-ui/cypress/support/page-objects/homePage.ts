@@ -9,9 +9,9 @@ export const homePage = {
   moveSelectedButton: () => cy.get("[data-cy=move_selected_file_button]"),
   deleteSelectedButton: () => cy.get("[data-cy=delete_selected_file_button]"),
   deleteFileDialog: () => cy.get("[data-testid=modal-container-file-deletion]"),
-  deleteFileCancelButton: () => cy.get("[data-testid=cancel-deletion-button]"),
-  deleteFileConfirmButton: () => cy.get("[data-testid=confirm-deletion-button]"),
-  uploadStatusToast: () => cy.get("[data-cy=upload_status_toast_message]", { timeout: 10000 }),
+  deleteFileCancelButton: () => cy.get("[data-testid=button-cancel-deletion]"),
+  deleteFileConfirmButton: () => cy.get("[data-testid=button-confirm-deletion]"),
+  uploadStatusToast: () => cy.get("[data-cy=upload-status-toast-message]", { timeout: 10000 }),
 
   // file browser row elements
   fileItemRow: () => cy.get("[data-cy=file-item-row]", { timeout: 20000 }),
@@ -24,7 +24,7 @@ export const homePage = {
   // upload modal elements
   startUploadButton: () => cy.get("[data-cy=upload-ok-button]"),
   uploadCancelButton: () => cy.get("[data-cy=upload-cancel-button"),
-  fileListRemoveButton: () => cy.get("[data-testid=file-list-remove-button-fileUpload]"),
+  fileListRemoveButton: () => cy.get("[data-testid=button-remove-from-file-list]"),
   fileUploadList: () => cy.get("[data-testid=file-list-fileUpload] li"),
   fileUploadDropzone : () => cy.get("[data-testid=file-input-dropzone-fileUpload]"),
 
@@ -41,8 +41,11 @@ export const homePage = {
     this.uploadButton().click()
     this.uploadFileForm().attachFile(filePath)
     this.fileUploadList().should("have.length", 1)
-    this.startUploadButton().should("not.be.empty")
-    this.startUploadButton().should("not.be.disabled").click()
+
+    this.startUploadButton()
+      .should("be.visible")
+      .should("not.be.disabled")
+      .click()
     // ensure upload is complete before proceeding
     this.uploadFileForm().should("not.exist")
     this.uploadStatusToast().should("not.exist")
