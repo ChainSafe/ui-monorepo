@@ -71,7 +71,7 @@ describe("File management", () => {
     })
 
     it("can delete a single file", () => {
-      cy.web3Login({ clearCSFBucket: true })
+      cy.web3Login({ clearCSFBucket: true, clearTrashBucket: true })
 
       // upload a file 
       homePage.uploadFile("../fixtures/uploadedFiles/text-file.txt")

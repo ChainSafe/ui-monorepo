@@ -25,12 +25,11 @@
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
 
+import { apiTestHelper } from "./utils/apiTestHelper"
 import { ethers, Wallet } from "ethers"
 import { testPrivateKey, testAccountPassword, localHost } from "../fixtures/loginData"
 import { CustomizedBridge } from "./utils/CustomBridge"
-import { FilesApiClient } from "@chainsafe/files-api-client"
 import "cypress-file-upload"
-import axios from "axios"
 
 export type Storage = Record<string, string>[];
 
@@ -40,40 +39,18 @@ export interface Web3LoginOptions {
   saveBrowser?: boolean
   useLocalAndSessionStorage?: boolean
   clearCSFBucket?: boolean
+  clearTrashBucket?: boolean
 }
 
 const SESSION_FILE = "cypress/fixtures/storage/sessionStorage.json"
 const LOCAL_FILE = "cypress/fixtures/storage/localStorage.json"
-const REFRESH_TOKEN_KEY = "csf.refreshToken"
 
 Cypress.Commands.add("clearCsfBucket", (apiUrlBase: string) => {
-  const axiosInstance = axios.create({
-    // Disable the internal Axios JSON de serialization as this is handled by the client
-    transformResponse: []
-  })
+  apiTestHelper.clearBucket(apiUrlBase, "csf")
+})
 
-  const apiClient = new FilesApiClient({}, apiUrlBase, axiosInstance)
-
-  cy.window().then((win) => {
-    apiClient
-      .getRefreshToken({
-        refresh: win.sessionStorage.getItem(REFRESH_TOKEN_KEY) || ""
-      })
-      .then((tokens) => {
-        apiClient.setToken(tokens.access_token.token)
-        apiClient.listBuckets("csf").then((buckets) => {
-          apiClient
-            .getBucketObjectChildrenList(buckets[0].id, { path: "/" })
-            .then((items) => {
-              const toDelete = items.map(
-                ({ name }: { name: string }) => `/${name}`
-              )
-              console.log(`clearCsfBucket - Deleting ${JSON.stringify(toDelete)}`)
-              apiClient.removeBucketObject(buckets[0].id, { paths: toDelete }).catch()
-            })
-        })
-      })
-  })
+Cypress.Commands.add("clearTrashBucket", (apiUrlBase: string) => {
+  apiTestHelper.clearBucket(apiUrlBase, "trash")
 })
 
 Cypress.Commands.add("saveLocalAndSession", () => {
@@ -105,7 +82,8 @@ Cypress.Commands.add(
     url = localHost,
     apiUrlBase = "https://stage.imploy.site/api/v1",
     useLocalAndSessionStorage = true,
-    clearCSFBucket = false
+    clearCSFBucket = false,
+    clearTrashBucket = false
   }: Web3LoginOptions = {}) => {
     let session: Storage = []
     let local: Storage = []
@@ -195,6 +173,14 @@ Cypress.Commands.add(
         "be.visible"
       )
     }
+
+    if (clearTrashBucket) {
+      cy.clearTrashBucket(apiUrlBase)
+      cy.reload()
+      cy.get("[data-cy=files-app-header]", { timeout: 20000 }).should(
+        "be.visible"
+      )
+    }
   }
 )
 
@@ -215,11 +201,12 @@ declare global {
       web3Login: (options?: Web3LoginOptions) => Chainable
 
       /**
-       * Removed any file or folder at the root
+       * Removed any file or folder at the root of specifed bucket
        * @param {String} apiUrlBase - what url to call for the api.
        * @example cy.clearCsfBucket("https://stage.imploy.site/api/v1")
        */
       clearCsfBucket: (apiUrlBase: string) => Chainable
+      clearTrashBucket: (apiUrlBase: string) => Chainable
 
       /**
        * Save local and session storage to local files
