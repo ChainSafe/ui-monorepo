@@ -170,9 +170,10 @@ const StorageProvider = ({ children }: StorageContextProps) => {
 
   const removeBucket = useCallback((id: string) => {
     storageApiClient.removeBucket(id)
-      .then(() => Promise.resolve())
+      .then(refreshBuckets)
+      .then(Promise.resolve)
       .catch(console.error)
-  }, [storageApiClient])
+  }, [storageApiClient, refreshBuckets])
 
   const uploadFiles = useCallback(async (bucketId: string, files: File[], path: string) => {
     const bucket = storageBuckets.find(b => b.id === bucketId)
