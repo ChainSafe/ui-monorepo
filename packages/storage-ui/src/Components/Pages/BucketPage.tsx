@@ -11,17 +11,6 @@ import { ROUTE_LINKS } from "../../Components/StorageRoutes"
 import { useStorageApi } from "../../Contexts/StorageApiContext"
 import { FileBrowserContext } from "../../Contexts/FileBrowserContext"
 import { parseFileContentResponse } from "../../Utils/Helpers"
-// import { makeStyles, createStyles } from "@chainsafe/common-theme"
-
-// const useStyles = makeStyles(() =>
-//   createStyles({
-//     root: {
-//       position: "relative",
-//       minHeight: "100vh",
-//       overflow: "hidden"
-//     }
-//   })
-// )
 
 const BucketPage: React.FC<IFileBrowserModuleProps> = () => {
   const { storageBuckets, uploadFiles, uploadsInProgress } = useStorage()
@@ -198,18 +187,18 @@ const BucketPage: React.FC<IFileBrowserModuleProps> = () => {
   }, [currentPath, pathContents, redirect, bucketId])
 
   const bulkOperations: IBulkOperations = useMemo(() => ({
-    // [CONTENT_TYPES.Directory]: ["move"],
-    // [CONTENT_TYPES.File]: ["delete", "move"]
+    [CONTENT_TYPES.Directory]: [],
+    [CONTENT_TYPES.File]: []
   }), [])
 
   const itemOperations: IFilesTableBrowserProps["itemOperations"] = useMemo(() => ({
-    [CONTENT_TYPES.Audio]: ["preview"],
-    [CONTENT_TYPES.MP4]: ["preview"],
-    [CONTENT_TYPES.Image]: ["preview"],
-    [CONTENT_TYPES.Pdf]: ["preview"],
-    [CONTENT_TYPES.Text]: ["preview"],
-    [CONTENT_TYPES.File]: ["download", "info", "rename", "move", "delete"],
-    [CONTENT_TYPES.Directory]: ["rename", "move", "delete"]
+    [CONTENT_TYPES.Audio]: [],
+    [CONTENT_TYPES.MP4]: [],
+    [CONTENT_TYPES.Image]: [],
+    [CONTENT_TYPES.Pdf]: [],
+    [CONTENT_TYPES.Text]: [],
+    [CONTENT_TYPES.File]: [],
+    [CONTENT_TYPES.Directory]: []
   }), [])
 
   return (
