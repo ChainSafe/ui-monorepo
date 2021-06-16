@@ -396,7 +396,7 @@ export interface ITextInputProps
   inputVariant?: "default" | "minimal"
   size?: "large" | "medium" | "small"
   captionMessage?: string | ReactNode
-  onChange?: (value: string | number | undefined) => void
+  onChange?: (value?: string | number) => void
   type?: "text" | "email" | "password" | "url" | "search"
   autoFocus?: boolean
 }
