@@ -297,7 +297,7 @@ const ProfileView = () => {
                 component="h3"
                 className={classes.header}
               >
-                Profile settings
+                <Trans>Profile settings</Trans>
               </Typography>
               {profile?.publicAddress
                 ? <div
