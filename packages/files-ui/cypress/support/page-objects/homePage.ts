@@ -11,7 +11,7 @@ export const homePage = {
   deleteFileDialog: () => cy.get("[data-testid=modal-container-file-deletion]"),
   deleteFileCancelButton: () => cy.get("[data-testid=cancel-deletion-button]"),
   deleteFileConfirmButton: () => cy.get("[data-testid=confirm-deletion-button]"),
-  uploadStatusToast: () => cy.get("[data-cy=upload_status_toast_message]", { timeout: 10000 }),
+  uploadStatusToast: () => cy.get("[data-cy=upload-status-toast-message]", { timeout: 10000 }),
 
   // file browser row elements
   fileItemRow: () => cy.get("[data-cy=file-item-row]", { timeout: 20000 }),
@@ -47,4 +47,3 @@ export const homePage = {
     this.uploadStatusToast().should("not.exist")
   }
 }
-
