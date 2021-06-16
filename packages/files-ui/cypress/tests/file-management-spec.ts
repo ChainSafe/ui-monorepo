@@ -70,7 +70,7 @@ describe("File management", () => {
       homePage.fileItemName().contains(newName)
     })
 
-    it.only("can delete and recover a single file", () => {
+    it.only("can delete a single file", () => {
       cy.web3Login({ clearCSFBucket: true })
 
       // upload a file 
@@ -97,12 +97,8 @@ describe("File management", () => {
 
       // ensure file in bin matches the name of the deleted file
       cy.get("@originalFile").then(($originalFile) => {
-        cy.get("@deletedFile").should("equal", $originalFile)
+        cy.get("@deletedFile").should("equals", $originalFile)
       })
-
-      // ensure user can recover a file
-
-      // ensure a user can permanently delete a file
     })
   })
 })
