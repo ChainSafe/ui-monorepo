@@ -1,7 +1,7 @@
 import React, { useState } from "react"
 import { Button, FacebookLogoIcon, GithubLogoIcon, GoogleLogoIcon, Typography } from "@chainsafe/common-components"
 import { createStyles, makeStyles, useThemeSwitcher } from "@chainsafe/common-theme"
-import { CSFTheme } from "../../../Themes/types"
+import { CSSTheme } from "../../../Themes/types"
 import { t, Trans } from "@lingui/macro"
 import { useStorageApi } from "../../../Contexts/StorageApiContext"
 import { useWeb3 } from "@chainsafe/web3-context"
@@ -10,7 +10,7 @@ import clsx from "clsx"
 import { IdentityProvider } from "@chainsafe/files-api-client"
 
 const useStyles = makeStyles(
-  ({ constants, palette, breakpoints, typography }: CSFTheme) =>
+  ({ constants, palette, breakpoints, typography }: CSSTheme) =>
     createStyles({
       root: {
         backgroundColor: constants.loginModule.background,

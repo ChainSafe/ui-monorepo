@@ -14,7 +14,7 @@ export const UI_CONSTANTS = {
   accountControlsPadding: 8 * 7
 }
 
-export interface CsfColors extends IConstants {
+export interface CsSColors extends IConstants {
   landing: {
     background: string
     border: string
