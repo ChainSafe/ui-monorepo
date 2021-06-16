@@ -418,6 +418,9 @@ msgstr "Privacy Policy"
 msgid "Profile and Display"
 msgstr "Profile and Display"
 
+msgid "Profile settings"
+msgstr "Profile settings"
+
 msgid "Profile updated"
 msgstr "Profile updated"
 

@@ -419,6 +419,9 @@ msgstr "Politique de Confidentialité"
 msgid "Profile and Display"
 msgstr "Profil et Affichage"
 
+msgid "Profile settings"
+msgstr ""
+
 msgid "Profile updated"
 msgstr "Profile mis à jour"
 
