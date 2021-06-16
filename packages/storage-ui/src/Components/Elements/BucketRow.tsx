@@ -5,7 +5,7 @@ import { Trans } from "@lingui/macro"
 import { Bucket } from "@chainsafe/files-api-client"
 import { CSSTheme } from "../../Themes/types"
 import { useStorage } from "../../Contexts/StorageContext"
-import { desktopGridSettings, mobileGridSettings } from "../Pages/CidsPage"
+import { desktopGridSettings, mobileGridSettings } from "../Pages/BucketsPage"
 import { ROUTE_LINKS } from "../StorageRoutes"
 
 const useStyles = makeStyles(({ animation, constants, breakpoints }: CSSTheme) =>
@@ -34,7 +34,8 @@ const useStyles = makeStyles(({ animation, constants, breakpoints }: CSSTheme) =
         fill: constants.fileSystemItemRow.menuIcon
       }
     },
-    cid: {
+    name: {
+      textAlign: "left",
       whiteSpace: "nowrap",
       textOverflow: "ellipsis",
       overflow: "hidden",
@@ -67,7 +68,7 @@ const BucketRow = ({ bucket }: Props) => {
       type="grid"
       className={classes.tableRow}
     >
-      <TableCell className={classes.cid}
+      <TableCell className={classes.name}
         onClick={() => redirect(ROUTE_LINKS.Bucket(bucket.id, "/"))}>
         {bucket.name}
       </TableCell>

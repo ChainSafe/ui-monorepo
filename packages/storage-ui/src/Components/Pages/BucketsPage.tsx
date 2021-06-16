@@ -7,8 +7,8 @@ import { Trans } from "@lingui/macro"
 import BucketRow from "../Elements/BucketRow"
 import CustomModal from "../Elements/CustomModal"
 
-export const desktopGridSettings = "3fr 190px 190px 190px 70px !important"
-export const mobileGridSettings = "3fr 190px 190px 190px 70px !important"
+export const desktopGridSettings = "3fr 190px 70px !important"
+export const mobileGridSettings = "3fr 190px 70px !important"
 
 const useStyles = makeStyles(({ breakpoints, animation, constants }: CSSTheme) =>
   createStyles({
@@ -61,6 +61,24 @@ const useStyles = makeStyles(({ breakpoints, animation, constants }: CSSTheme) =
         width: "100%",
         height: constants?.mobileButtonHeight
       }
+    },
+    controls: {
+      display: "flex",
+      flexDirection: "row",
+      justifyContent: "space-between",
+      alignItems: "center",
+      "& > button": {
+        marginLeft: constants.generalUnit
+      }
+    },
+    header: {
+      display: "flex",
+      flexDirection: "row",
+      justifyContent: "space-between",
+      alignItems: "center",
+      [breakpoints.down("md")]: {
+        marginTop: constants.generalUnit
+      }
     }
   })
 )
@@ -73,8 +91,16 @@ const BucketsPage = () => {
 
   return (
     <div className={classes.root}>
-      <Typography variant='h1'>Buckets</Typography>
-      <Button onClick={() => setCreateBucketOpen(true)}>Create Bucket</Button>
+      <header className={classes.header}>
+        <Typography variant='h1'>
+          <Trans>
+          Buckets
+          </Trans>
+        </Typography>
+        <div className={classes.controls}>
+          <Button onClick={() => setCreateBucketOpen(true)}>Create Bucket</Button>
+        </div>
+      </header>
       <Table
         fullWidth={true}
         striped={true}
@@ -88,15 +114,9 @@ const BucketsPage = () => {
           >
             <TableHeadCell
               sortButtons={false}
-              align="center"
+              align="left"
             >
               <Trans>Name</Trans>
-            </TableHeadCell>
-            <TableHeadCell
-              sortButtons={false}
-              align="center"
-            >
-              <Trans>Created</Trans>
             </TableHeadCell>
             <TableHeadCell
               sortButtons={false}
