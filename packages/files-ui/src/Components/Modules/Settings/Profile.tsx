@@ -185,10 +185,7 @@ const ProfileView = () => {
   const [updatingProfile, setUpdatingProfile] = useState(false)
   const [showUsernameForm, setShowUsernameForm] = useState(false)
   const [username, setUsername] = useState("")
-  const [usernameData, setUsernameData] = useState({
-    error: "",
-    loading: false
-  })
+  const [usernameData, setUsernameData] = useState({error: "", loading: false})
 
   const onUpdateProfile = async (firstName: string, lastName: string) => {
     try {
@@ -274,7 +271,7 @@ const ProfileView = () => {
     e.preventDefault()
     setUsernameData({ ...usernameData, loading: true })
     addUsername(username).then(() => {
-      addToastMessage({ message: t`Username added` })
+      addToastMessage({ message: t`Username set successfully` })
     }).catch((error) => {
       setUsernameData({
         error: error,
