@@ -185,7 +185,7 @@ const ProfileView = () => {
   const [updatingProfile, setUpdatingProfile] = useState(false)
   const [showUsernameForm, setShowUsernameForm] = useState(false)
   const [username, setUsername] = useState("")
-  const [usernameData, setUsernameData] = useState({error: "", loading: false})
+  const [usernameData, setUsernameData] = useState({ error: "", loading: false })
 
   const onUpdateProfile = async (firstName: string, lastName: string) => {
     try {
@@ -258,7 +258,7 @@ const ProfileView = () => {
   }, [lookupOnUsername])
 
   const debouncedOnLookupUsername = useMemo(
-    () => debounce(onLookupUsername, 200),
+    () => debounce(onLookupUsername, 300),
     [onLookupUsername]
   )
 

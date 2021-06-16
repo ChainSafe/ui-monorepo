@@ -2,6 +2,7 @@ import * as React from "react"
 import { useCallback, useEffect } from "react"
 import { useFilesApi } from "./FilesApiContext"
 import { useState } from "react"
+import { t } from "@lingui/macro"
 
 type UserContextProps = {
   children: React.ReactNode | React.ReactNode[]
