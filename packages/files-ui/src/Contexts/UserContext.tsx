@@ -25,7 +25,7 @@ interface IUserContext {
     lastName: string,
     // email: string,
   ) => Promise<void>
-  lookupOnUsername: (username: string) => Promise<boolean | undefined>
+  lookupOnUsername: (username: string) => Promise<boolean>
   addUsername: (username: string) => Promise<void>
   removeUser(): void
   getProfileTitle(): string
