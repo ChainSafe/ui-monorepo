@@ -40,7 +40,7 @@ export const homePage = {
   uploadFile(filePath: string) {
     this.uploadButton().click()
     this.uploadFileForm().attachFile(filePath)
-    this.fileUploadList().should("have.length", 1)
+    this.fileUploadList().should("have.length", 1).pause()
 
     this.startUploadButton()
       .should("be.visible")
