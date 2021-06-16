@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react"
+import React, { useState, useCallback, useMemo } from "react"
 import * as yup from "yup"
 import {
   FormikTextInput,
@@ -153,7 +153,7 @@ const useStyles = makeStyles(({ constants, breakpoints, palette, typography }: C
       marginBottom: 14
     },
     buttonLink: {
-      color: palette.primary.main,
+      color: palette.additional["gray"][10],
       outline: "none",
       textDecoration: "underline",
       cursor: "pointer",
@@ -244,30 +244,33 @@ const ProfileView = () => {
     username: yup.string()
   })
 
-  const onLookupUsername = async (username: string) => {
-    const doesUsernameExist = await lookupOnUsername(username)
-    if (doesUsernameExist) {
-      setUsernameData({
-        loading: false,
-        error: "Username already exists"
-      })
-    } else {
-      setUsernameData({
-        loading: false,
-        error: ""
-      })
-    }
-  }
+  const onLookupUsername = useCallback((username: string) => {
+    lookupOnUsername(username).then((doesUsernameExist) => {
+      if (doesUsernameExist) {
+        setUsernameData({
+          loading: false,
+          error: "Username already exists"
+        })
+      } else {
+        setUsernameData({
+          loading: false,
+          error: ""
+        })
+      }
+    }).catch(console.error)
+  }, [lookupOnUsername])
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const debouncedOnLookupUsername = useCallback(debounce(onLookupUsername, 200), [lookupOnUsername])
+  const debouncedOnLookupUsername = useMemo(
+    () => debounce(onLookupUsername, 200),
+    [onLookupUsername]
+  )
 
-  const onUsernameChange = async (value: any) => {
+  const onUsernameChange = (value: string) => {
     setUsername(value)
     debouncedOnLookupUsername(value)
   }
 
-  const onSubmitUsername = (e: any) => {
+  const onSubmitUsername = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setUsernameData({ ...usernameData, loading: true })
     addUsername(username).then(() => {
@@ -300,7 +303,7 @@ const ProfileView = () => {
                 <Trans>Profile settings</Trans>
               </Typography>
               {profile?.publicAddress
-                ? <div
+                && <div
                   className={classes.boxContainer}
                   data-cy="settings-profile-header"
                 >
@@ -331,9 +334,9 @@ const ProfileView = () => {
                     <CopyIcon className={classes.copyIcon} />
                   </div>
                 </div>
-                : null}
+              }
               {publicKey
-                ? <div
+                && <div
                   className={classes.boxContainer}
                   data-cy="settings-profile-header"
                 >
@@ -364,7 +367,7 @@ const ProfileView = () => {
                     <CopyIcon className={classes.copyIcon} />
                   </div>
                 </div>
-                : null}
+              }
               {profile?.username
                 ? <div className={classes.inputBoxContainer}>
                   <Typography
@@ -413,7 +416,7 @@ const ProfileView = () => {
                           value={username}
                           className={classes.usernameInput}
                           RightIcon={username && !usernameData.error ? CheckIcon : undefined}
-                          onChange={onUsernameChange}
+                          onChange={(value) => value && onUsernameChange(value.toString())}
                           captionMessage={usernameData.error}
                           state={usernameData.error ? "error" : "normal"}
                           data-cy="profile-username-input"
