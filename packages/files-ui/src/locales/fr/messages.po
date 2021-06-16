@@ -641,7 +641,7 @@ msgstr "Utiliser un navigateur enregistré"
 msgid "Username"
 msgstr ""
 
-msgid "Username added"
+msgid "Username set successfully"
 msgstr ""
 
 msgid "Usernames are public and can't be changed after creation."
