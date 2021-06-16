@@ -126,6 +126,7 @@ const UserProvider = ({ children }: UserContextProps) => {
       await filesApiClient.lookupUser({ username })
       return true
     } catch (error) {
+      console.error(error)
       return false
     }
   }
