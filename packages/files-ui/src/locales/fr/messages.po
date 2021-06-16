@@ -107,9 +107,6 @@ msgstr "Continuer"
 msgid "Continue with Email"
 msgstr "Continuer avec un e-mail"
 
-msgid "Continue with Facebook"
-msgstr "Continuer avec Facebook"
-
 msgid "Continue with Github"
 msgstr "Continuer avec GitHub"
 

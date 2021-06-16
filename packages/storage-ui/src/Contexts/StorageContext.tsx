@@ -3,7 +3,7 @@ import {
   DirectoryContentResponse,
   BucketType,
   SearchEntry,
-  PinObject
+  PinStatus
 } from "@chainsafe/files-api-client"
 import React, { useCallback, useEffect, useReducer } from "react"
 import { useState } from "react"
@@ -38,11 +38,11 @@ export type DownloadProgress = {
 }
 
 type StorageContext = {
-  pins: PinObject[]
+  pins: PinStatus[]
   uploadsInProgress: UploadProgress[]
   downloadsInProgress: DownloadProgress[]
   spaceUsed: number
-  addPin: (cid: string) => void
+  addPin: (cid: string) => Promise<PinStatus>
   // createPin: (bucketId: string, files: File[], path: string) => Promise<void>
   // downloadPin: (bucketId: string, itemToDownload: FileSystemItem, path: string) => void
   // getPinContent: (bucketId: string, params: GetFileContentParams) => Promise<Blob | undefined>
@@ -57,17 +57,15 @@ interface IFileSystemItem extends FileContentResponse {
 
 type FileSystemItem = IFileSystemItem
 
-const REMOVE_UPLOAD_PROGRESS_DELAY = 5000
-
 const StorageContext = React.createContext<StorageContext | undefined>(undefined)
 
 const StorageProvider = ({ children }: StorageContextProps) => {
   const { storageApiClient, isLoggedIn } = useStorageApi()
-  const [spaceUsed, setSpaceUsed] = useState(0)
-  const [pins, setPins] = useState<PinObject[]>([])
+  const [spaceUsed] = useState(0)
+  const [pins, setPins] = useState<PinStatus[]>([])
 
   const refreshPins = useCallback(() => {
-    storageApiClient.listPins()
+    storageApiClient.listPins(undefined, undefined, ["queued", "pinning", "pinned"])
       .then((pins) =>  setPins(pins.results || []))
       .catch(console.error)
   }, [storageApiClient])
@@ -88,7 +86,7 @@ const StorageProvider = ({ children }: StorageContextProps) => {
   //     try {
   //       // TODO: Update this to include Share buckets where the current user is the owner
   //       const totalSize = pins.filter(p => p.pin === "pinning")
-  //         .reduce((totalSize, bucket) => { return totalSize += (bucket as any).size}, 0)
+  //         .reduce((totalSize, bucket) => { return totalSize += bucket.size}, 0)
 
   //       setSpaceUsed(totalSize)
   //     } catch (error) {
@@ -107,7 +105,7 @@ const StorageProvider = ({ children }: StorageContextProps) => {
     }
   }, [isLoggedIn])
 
-  const [uploadsInProgress, dispatchUploadsInProgress] = useReducer(
+  const [uploadsInProgress] = useReducer(
     uploadsInProgressReducer,
     []
   )
@@ -136,9 +134,7 @@ const StorageProvider = ({ children }: StorageContextProps) => {
   })
 
   const addPin = useCallback((cid: string) => {
-    storageApiClient.addPin(({ cid }))
-      .then(res => console.log(res))
-      .catch(console.error)
+    return storageApiClient.addPin(({ cid }))
   }, [storageApiClient])
 
   // const createPin = useCallback(async (bucketId: string, files: File[], path: string) => {

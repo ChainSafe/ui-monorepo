@@ -18,12 +18,12 @@ import {
 import { ROUTE_LINKS } from "../StorageRoutes"
 import { FREE_PLAN_LIMIT } from "../../Utils/Constants"
 import { Trans } from "@lingui/macro"
-import { CSFTheme } from "../../Themes/types"
+import { CSSTheme } from "../../Themes/types"
 import { useStorageApi } from "../../Contexts/StorageApiContext"
 import { useStorage } from "../../Contexts/StorageContext"
 
 const useStyles = makeStyles(
-  ({ palette, animation, breakpoints, constants, zIndex }: CSFTheme) => {
+  ({ palette, animation, breakpoints, constants, zIndex }: CSSTheme) => {
     return createStyles({
       root: {
         width: 0,

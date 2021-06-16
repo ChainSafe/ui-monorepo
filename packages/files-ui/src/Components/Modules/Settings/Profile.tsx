@@ -104,6 +104,12 @@ const useStyles = makeStyles(({ constants, breakpoints, palette, typography }: C
         ...typography.body2
       }
     },
+    copyText: {
+      padding: `${constants.generalUnit / 2}px ${constants.generalUnit}px`,
+      backgroundColor: constants.loginModule.flagBg,
+      borderRadius: 2,
+      color: constants.loginModule.flagText
+    },
     themeBox: {
       height: 87,
       borderRadius: 4,
@@ -236,7 +242,7 @@ const ProfileView = () => {
                           <Trans>Wallet address</Trans>
                         </Typography>
                         {copiedWalletAddress && (
-                          <Typography>
+                          <Typography className={classes.copyText}>
                             <Trans>Copied!</Trans>
                           </Typography>
                         )}
@@ -269,7 +275,7 @@ const ProfileView = () => {
                           <Trans>Files sharing key</Trans>
                         </Typography>
                         {copiedTkeyPublicKey && (
-                          <Typography>
+                          <Typography className={classes.copyText}>
                             <Trans>Copied!</Trans>
                           </Typography>
                         )}

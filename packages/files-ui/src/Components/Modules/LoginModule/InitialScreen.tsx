@@ -353,6 +353,7 @@ const InitialScreen = ({ className }: IInitialScreen) => {
                   setLoginMode("email")
                 }}
                 variant="secondary"
+                disabled={maintenanceMode || isConnecting || status !== "initialized"}
               >
                 <MailIcon className="icon"/>
                 <Trans>Continue with Email</Trans>
@@ -378,17 +379,6 @@ const InitialScreen = ({ className }: IInitialScreen) => {
               >
                 <GoogleLogoIcon className="icon"/>
                 <Trans>Continue with Google</Trans>
-              </Button>
-              <Button
-                className={classes.button}
-                size="large"
-                onClick={() => handleLogin("facebook")}
-                disabled={maintenanceMode || isConnecting || status !== "initialized"}
-                loading={isConnecting && loginMode === "facebook"}
-                variant="secondary"
-              >
-                <FacebookLogoIcon className="icon"/>
-                <Trans>Continue with Facebook</Trans>
               </Button>
             </section>
             <footer className={classes.footer}>

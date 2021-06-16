@@ -3,7 +3,7 @@ import { makeStyles, createStyles } from "@chainsafe/common-theme"
 import { formatBytes, TableCell, TableRow  } from "@chainsafe/common-components"
 import { Trans } from "@lingui/macro"
 import dayjs from "dayjs"
-import { PinObject } from "@chainsafe/files-api-client"
+import { PinStatus } from "@chainsafe/files-api-client"
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -12,12 +12,12 @@ const useStyles = makeStyles(() =>
   })
 )
 interface Props {
-    pinObject: PinObject
+    pinStatus: PinStatus
 }
 
 const IPFS_GATEWAY = "https://ipfs.infura.io:5001/api/v0/cat/"
 
-const PinRow = ({ pinObject }: Props) => {
+const PinRow = ({ pinStatus }: Props) => {
   const classes = useStyles()
 
   return (
@@ -26,18 +26,17 @@ const PinRow = ({ pinObject }: Props) => {
       className={classes.root}
     >
       <TableCell>
-        {pinObject.pin?.cid}
+        {pinStatus.pin?.cid}
       </TableCell>
       <TableCell>
-        {dayjs(pinObject.created).format("DD MMM YYYY h:mm a")}
+        {dayjs(pinStatus.created).format("DD MMM YYYY h:mm a")}
       </TableCell>
       <TableCell>
-        {/** as any needs to be removed when the api spec will be up to date */}
-        {formatBytes((pinObject as any).info.size)}
+        {formatBytes(pinStatus.info?.size)}
       </TableCell>
       <TableCell>
         <a
-          href={`${IPFS_GATEWAY}${pinObject.pin?.cid}`}
+          href={`${IPFS_GATEWAY}${pinStatus.pin?.cid}`}
           target="_blank"
           rel="noopener noreferrer"
         >
