@@ -113,7 +113,7 @@ const SharedFolderOverview = () => {
           filesApiClient.createBucket({
             name: "Cat Bucket",
             // eslint-disable-next-line max-len
-            encryption_key:"dc19f9579902e949fd5d517951d6cf2203526b233dc25ca7323e5d56932237e5ed4369871f81015f921decc6d5b5e1b5cf60af9ffaeba4fde2d2969b5dfa131a195bb7b828c6dc2a8434e43f497ce6529d897f09f812f53d4e9f9f3c0f6bce31afd390943e6ae189c820783698521ce2b8f446f557e1c78185c8e8a0ae54370b88",
+            encryption_key:"51f27f1f1b7f342299e643eaf437ac80022b162728144ab79f3c0e966306b8d01da374c427d7614bcf8a67a2317e6748258dd8367499838316a0a63cdcbe0ff624e1c5284f70279b7d87d2d7a42d09e032f98adbbbe488abf74001f0dfb549fc2d4e8b11ccb082eab47fbef1d0012e81fdf12748e9355bbf1996a473b3ef1b2682",
             type: "share"
           }).then(console.log)
             .catch(console.error)
