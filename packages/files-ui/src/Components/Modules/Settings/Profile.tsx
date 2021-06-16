@@ -271,7 +271,7 @@ const ProfileView = () => {
     e.preventDefault()
     setUsernameData({ ...usernameData, loading: true })
     addUsername(username).then(() => {
-      addToastMessage({ message: t`Username added` })
+      addToastMessage({ message: t`Username set successfully` })
     }).catch((error) => {
       setUsernameData({
         error: error,
