@@ -302,6 +302,9 @@ msgstr "Thème clair"
 msgid "Loading preview"
 msgstr "Chargement de l’aperçu"
 
+msgid "Loading your shared folders..."
+msgstr ""
+
 msgid "Looks like you’re signing in from a new browser. Please choose one of the following to continue:"
 msgstr "Connectez à partir d'un nouveau navigateur. Choisis une des options suivantes pour continuer:"
 
