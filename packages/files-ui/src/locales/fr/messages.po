@@ -32,6 +32,9 @@ msgstr "Le nom ne peut être vide"
 msgid "Account"
 msgstr "Compte"
 
+msgid "Add a username"
+msgstr ""
+
 msgid "Add at least one more authentication method to protect your account. You’d only need any two to sign in to Files from any device."
 msgstr "Ajoute au moins une méthode d’authentification pour protéger ce compte. Tu as besoin de 2 méthode pour accéder à Files depuis n'importe quel appareil."
 
@@ -302,6 +305,9 @@ msgstr "Thème clair"
 msgid "Loading preview"
 msgstr "Chargement de l’aperçu"
 
+msgid "Loading your shared folders..."
+msgstr ""
+
 msgid "Looks like you’re signing in from a new browser. Please choose one of the following to continue:"
 msgstr "Connectez à partir d'un nouveau navigateur. Choisis une des options suivantes pour continuer:"
 
@@ -359,6 +365,9 @@ msgstr "OK"
 msgid "One sec, getting files ready..."
 msgstr "Un instant, nous préparons vos fichiers..."
 
+msgid "Only you can see this."
+msgstr ""
+
 msgid "Operating system:"
 msgstr "Système d'exploitation:"
 
@@ -412,6 +421,9 @@ msgstr "Politique de Confidentialité"
 
 msgid "Profile and Display"
 msgstr "Profil et Affichage"
+
+msgid "Profile settings"
+msgstr ""
 
 msgid "Profile updated"
 msgstr "Profile mis à jour"
@@ -491,6 +503,9 @@ msgstr "Envoyer un nouvel e-mail"
 msgid "Set Password"
 msgstr "Définir un mot de passe"
 
+msgid "Set Username"
+msgstr ""
+
 msgid "Set it up now"
 msgstr "Définir"
 
@@ -505,6 +520,9 @@ msgstr "Configurer"
 
 msgid "Set up password"
 msgstr "Définir un mot de passe"
+
+msgid "Setting Username"
+msgstr ""
 
 msgid "Settings"
 msgstr "Paramètres"
@@ -605,6 +623,12 @@ msgstr "Une erreur s'est produite lors du déplacement"
 msgid "There was an error recovering this"
 msgstr "Une erreur s'est produite lors de la récupération"
 
+msgid "There was an error setting username."
+msgstr ""
+
+msgid "This username is public"
+msgstr ""
+
 msgid "Try again"
 msgstr "Essayer de nouveau"
 
@@ -628,6 +652,15 @@ msgstr "Utilisez une méthode de connexion différente"
 
 msgid "Use a saved browser"
 msgstr "Utiliser un navigateur enregistré"
+
+msgid "Username"
+msgstr ""
+
+msgid "Username set successfully"
+msgstr ""
+
+msgid "Usernames are public and can't be changed after creation."
+msgstr ""
 
 msgid "Verification code is required"
 msgstr "Code de vérification requis"
@@ -664,6 +697,9 @@ msgstr "Oui, l'enregistrer"
 
 msgid "You can change this later."
 msgstr "Vous pouvez en changer plus tard."
+
+msgid "You haven't set a username yet."
+msgstr ""
 
 msgid "You will need to sign a message in your wallet to complete sign in."
 msgstr "Vous devrez signer un message avec votre wallet pour terminer la procédure connexion."
