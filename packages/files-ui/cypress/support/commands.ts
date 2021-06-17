@@ -166,12 +166,13 @@ Cypress.Commands.add(
 
     if (clearCSFBucket) {
       cy.clearCsfBucket(apiUrlBase)
-      cy.reload()
-      cy.get("[data-cy=files-app-header]", { timeout: 20000 }).should("be.visible")
     }
 
     if (clearTrashBucket) {
       cy.clearTrashBucket(apiUrlBase)
+    }
+
+    if(clearTrashBucket || clearCSFBucket){
       cy.reload()
       cy.get("[data-cy=files-app-header]", { timeout: 20000 }).should("be.visible")
     }
