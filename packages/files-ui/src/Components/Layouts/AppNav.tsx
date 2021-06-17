@@ -156,9 +156,6 @@ const useStyles = makeStyles(
           }
         },
         "& svg": {
-          "& path" : {
-            fill: constants.nav.headingColor
-          },
           transitionDuration: `${animation.transform}ms`,
           width: Number(constants.svgWidth),
           marginRight: constants.generalUnit * 2,
