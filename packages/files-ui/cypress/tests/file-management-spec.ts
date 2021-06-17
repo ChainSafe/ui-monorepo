@@ -1,4 +1,7 @@
+import { binPage } from "../support/page-objects/binPage"
 import { homePage } from "../support/page-objects/homePage"
+import { navigationMenu } from "../support/page-objects/navigationMenu"
+
 
 describe("File management", () => {
 
@@ -35,7 +38,10 @@ describe("File management", () => {
       // attach an additional file to the file list and upload
       homePage.uploadFileForm().attachFile("../fixtures/uploadedFiles/text-file.txt")
       homePage.fileUploadList().should("have.length", 2)
-      homePage.startUploadButton().click()
+      homePage.fileListRemoveButton().should("be.visible")
+      // eslint-disable-next-line cypress/no-unnecessary-waiting
+      cy.wait(2000)
+      homePage.startUploadButton().should("not.be.disabled").click()
       homePage.uploadFileForm().should("not.exist")
       homePage.fileItemRow().should("have.length", 2)
     })
@@ -66,5 +72,37 @@ describe("File management", () => {
       homePage.fileRenameInput().should("not.exist")
       homePage.fileItemName().contains(newName)
     })
+
+    it("can delete a single file", () => {
+      cy.web3Login({ clearCSFBucket: true, clearTrashBucket: true })
+
+      // upload a file 
+      homePage.uploadFile("../fixtures/uploadedFiles/text-file.txt")
+      homePage.fileItemRow().should("have.length", 1)
+
+      // retrieve the file's name, store as a cypress alias
+      homePage.fileItemName().invoke("text").as("originalFile")
+
+      // delete a file via the menu option 
+      homePage.fileItemKebabButton().first().click()
+      homePage.deleteMenuOption().click()
+      homePage.deleteFileDialog().should("be.visible")
+      homePage.deleteFileConfirmButton().click()
+      homePage.deleteFileDialog().should("not.exist")
+      homePage.fileItemRow().should("not.exist")
+
+      // confirm the deleted file is moved to the bin
+      navigationMenu.binNavButton().click()
+      homePage.fileItemRow().should("have.length", 1)
+
+      // retrieve the deleted file's name, store as a cypress alias
+      binPage.fileItemName().invoke("text").as("deletedFile")
+
+      // ensure file in bin matches the name of the deleted file
+      cy.get("@originalFile").then(($originalFile) => {
+        cy.get("@deletedFile").should("equals", $originalFile)
+      })
+    })
   })
 })
+

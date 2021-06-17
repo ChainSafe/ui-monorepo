@@ -735,6 +735,7 @@ const FilesList = () => {
                   setMoveModalMode("move")
                 }}
                 variant="outline"
+                testId="move-selected-file"
               >
                 <Trans>Move selected</Trans>
               </Button>
@@ -746,6 +747,7 @@ const FilesList = () => {
                   setMoveModalMode("recover")
                 }}
                 variant="outline"
+                testId="recover-selected-file"
               >
                 <Trans>Recover selected</Trans>
               </Button>
@@ -754,6 +756,7 @@ const FilesList = () => {
               <Button
                 onClick={handleOpenDeleteDialog}
                 variant="outline"
+                testId="delete-selected-file"
               >
                 <Trans>Delete selected</Trans>
               </Button>
@@ -984,13 +987,14 @@ const FilesList = () => {
         }
         rejectText = {t`Cancel`}
         acceptText = {t`Confirm`}
-        acceptButtonProps={{ loading: isDeletingFiles, disabled: isDeletingFiles }}
-        rejectButtonProps={{ disabled: isDeletingFiles }}
+        acceptButtonProps={{ loading: isDeletingFiles, disabled: isDeletingFiles, testId: "confirm-deletion" }}
+        rejectButtonProps={{ disabled: isDeletingFiles, testId: "cancel-deletion" }}
         injectedClass={{ inner: classes.confirmDeletionDialog }}
         onModalBodyClick={(e) => {
           e.preventDefault()
           e.stopPropagation()
         }}
+        testId="file-deletion"
       />
       <UploadProgressModals />
       <DownloadProgressModals />
