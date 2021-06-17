@@ -51,7 +51,7 @@ const useStyles = makeStyles(
           fontWeight: 400
         },
         [breakpoints.up("md")]: {
-          padding: `${constants.generalUnit * 30}px ${constants.generalUnit * 8}px`,
+          padding: `${constants.generalUnit * 24}px ${constants.generalUnit * 8}px`,
           "& > *": {
             paddingBottom: `${constants.generalUnit * 5}px`
           }
@@ -212,7 +212,6 @@ const InitialScreen = ({ className }: IInitialScreen) => {
     <footer className={classes.connectWalletFooter}>
       <Typography variant='h5'>
         <Trans>
-
           By connecting your wallet, you agree to our <a
             href={ROUTE_LINKS.Terms}
             target="_blank"
@@ -332,8 +331,8 @@ const InitialScreen = ({ className }: IInitialScreen) => {
             </>
           ) : (
             wallet ?
-              !isConnecting ? (
-                <>
+              !isConnecting
+                ? <>
                   <section className={classes.buttonSection}>
                     <Button
                       data-cy="sign-in-with-web3-button"
@@ -363,27 +362,14 @@ const InitialScreen = ({ className }: IInitialScreen) => {
                   </section>
                   <Footer/>
                 </>
-              ) : (
-                <>
-                  {/* <section className={classes.connectingWallet}>
-                    <Typography variant='h2'><Trans>Connect Wallet to Files</Trans></Typography>
-                    {status === "awaiting confirmation" &&
-                      <Typography variant='h5'>
-                        <Trans>You will need to sign a message in your wallet to complete sign in.</Trans>
-                      </Typography>}
-                    {status === "logging in" && <>
-                      <Typography variant='h5'>
-                        <Trans>Hold on, we are logging you in...</Trans>
-                      </Typography>
-                      <Loading
-                        className={classes.loader}
-                        size={50}
-                        type='inherit'
-                      />
-                    </>}
-                  </section> */}
+                : <>
+                  <section className={classes.connectingWallet}>
+                    <Typography variant='h2'><Trans>Connect Wallet to Storage</Trans></Typography>
+                    <Typography variant='h5'>
+                      <Trans>You will need to sign a message in your wallet to complete sign in.</Trans>
+                    </Typography>
+                  </section>
                 </>
-              )
               : <>
                 <section className={classes.buttonSection}>
                   <Button
