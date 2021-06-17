@@ -1,4 +1,12 @@
-# ChainSafe Files UI Repo
+<p align="center" style="margin-bottom: 0px !important;">
+    <img src="../common-components/src/Logos/ChainSafe-Files-logo.png" alt="Chainsafe Files logo"/>
+</p>
+
+# ChainSafe Files
+[ChainSafe Files](https://files.chainsafe.io) is an end-to-end encrypted file storage app that utilizes the [IPFS](https://ipfs.io) and [Filecoin](https://filecoin.io) to store user data. 
+
+### Visit the app at https://app.files.chainsafe.io
+
 
 ![Dev](https://github.com/imploy/files-ui/workflows/Dev/badge.svg?branch=dev)
 [![Netlify Status](https://api.netlify.com/api/v1/badges/cb6afc46-ec5d-4cac-91c2-dbd0d866b89a/deploy-status)](https://app.netlify.com/sites/angry-lewin-719dd6/deploys)
