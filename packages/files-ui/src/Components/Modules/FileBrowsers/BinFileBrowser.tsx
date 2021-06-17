@@ -20,10 +20,7 @@ const BinFileBrowser: React.FC<IFileBrowserModuleProps> = ({ controls = false }:
   const [loadingCurrentPath, setLoadingCurrentPath] = useState(false)
   const [pathContents, setPathContents] = useState<FileSystemItem[]>([])
   const { pathname } = useLocation()
-  const currentPath = useMemo(() =>
-    extractFileBrowserPathFromURL(pathname, ROUTE_LINKS.Bin("")),
-  [pathname]
-  )
+  const currentPath = useMemo(() => extractFileBrowserPathFromURL(pathname, ROUTE_LINKS.Bin("")), [pathname])
   const { redirect } = useHistory()
 
   const bucket = useMemo(() => buckets.find(b => b.type === "trash"), [buckets])
@@ -159,7 +156,7 @@ const BinFileBrowser: React.FC<IFileBrowserModuleProps> = ({ controls = false }:
     <FileBrowserContext.Provider value={{
       bucket: bucket,
       crumbs: undefined,
-      deleteItems: deleteItems,
+      deleteItems,
       recoverItems,
       currentPath,
       moduleRootPath: ROUTE_LINKS.Bin("/"),
