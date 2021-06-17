@@ -97,6 +97,11 @@ const ApiKeys = () => {
     setKeys(result)
   }, [storageApiClient])
 
+  const createAccessKey = useCallback(async () => {
+    storageApiClient.createAccessKey()
+    fetchAccessKeys()
+  }, [fetchAccessKeys, storageApiClient])
+
   useEffect(() => {
     fetchAccessKeys()
   }, [fetchAccessKeys])
@@ -116,10 +121,7 @@ const ApiKeys = () => {
         <div className={classes.controls}>
           <Button
             data-cy="add-api key-modal-button"
-            onClick={() => {
-              storageApiClient.createAccessKey()
-              fetchAccessKeys()
-            }}
+            onClick={createAccessKey}
             variant="outline"
             size="large"
           >
