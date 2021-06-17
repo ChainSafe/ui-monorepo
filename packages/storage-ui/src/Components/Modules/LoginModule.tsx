@@ -1,11 +1,11 @@
 import React, { useState } from "react"
 import { Button, FacebookLogoIcon, GithubLogoIcon, GoogleLogoIcon, Typography } from "@chainsafe/common-components"
 import { createStyles, makeStyles, useThemeSwitcher } from "@chainsafe/common-theme"
-import { CSSTheme } from "../../../Themes/types"
+import { CSSTheme } from "../../Themes/types"
 import { t, Trans } from "@lingui/macro"
-import { useStorageApi } from "../../../Contexts/StorageApiContext"
+import { useStorageApi } from "../../Contexts/StorageApiContext"
 import { useWeb3 } from "@chainsafe/web3-context"
-import { ROUTE_LINKS } from "../../StorageRoutes"
+import { ROUTE_LINKS } from "../StorageRoutes"
 import clsx from "clsx"
 import { IdentityProvider } from "@chainsafe/files-api-client"
 
@@ -51,7 +51,7 @@ const useStyles = makeStyles(
           fontWeight: 400
         },
         [breakpoints.up("md")]: {
-          padding: `${constants.generalUnit * 24}px ${constants.generalUnit * 8}px`,
+          padding: `${constants.generalUnit * 30}px ${constants.generalUnit * 8}px`,
           "& > *": {
             paddingBottom: `${constants.generalUnit * 5}px`
           }
@@ -133,7 +133,7 @@ interface IInitialScreen {
   className?: string
 }
 
-const InitialScreen = ({ className }: IInitialScreen) => {
+const LoginModule = ({ className }: IInitialScreen) => {
   const { selectWallet, resetAndSelectWallet, getProviderUrl, web3Login } = useStorageApi()
   const { desktop } = useThemeSwitcher()
   const { wallet } = useWeb3()
@@ -212,6 +212,7 @@ const InitialScreen = ({ className }: IInitialScreen) => {
     <footer className={classes.connectWalletFooter}>
       <Typography variant='h5'>
         <Trans>
+
           By connecting your wallet, you agree to our <a
             href={ROUTE_LINKS.Terms}
             target="_blank"
@@ -331,8 +332,8 @@ const InitialScreen = ({ className }: IInitialScreen) => {
             </>
           ) : (
             wallet ?
-              !isConnecting
-                ? <>
+              !isConnecting ? (
+                <>
                   <section className={classes.buttonSection}>
                     <Button
                       data-cy="sign-in-with-web3-button"
@@ -362,14 +363,27 @@ const InitialScreen = ({ className }: IInitialScreen) => {
                   </section>
                   <Footer/>
                 </>
-                : <>
-                  <section className={classes.connectingWallet}>
-                    <Typography variant='h2'><Trans>Connect Wallet to Storage</Trans></Typography>
-                    <Typography variant='h5'>
-                      <Trans>You will need to sign a message in your wallet to complete sign in.</Trans>
-                    </Typography>
-                  </section>
+              ) : (
+                <>
+                  {/* <section className={classes.connectingWallet}>
+                    <Typography variant='h2'><Trans>Connect Wallet to Files</Trans></Typography>
+                    {status === "awaiting confirmation" &&
+                      <Typography variant='h5'>
+                        <Trans>You will need to sign a message in your wallet to complete sign in.</Trans>
+                      </Typography>}
+                    {status === "logging in" && <>
+                      <Typography variant='h5'>
+                        <Trans>Hold on, we are logging you in...</Trans>
+                      </Typography>
+                      <Loading
+                        className={classes.loader}
+                        size={50}
+                        type='inherit'
+                      />
+                    </>}
+                  </section> */}
                 </>
+              )
               : <>
                 <section className={classes.buttonSection}>
                   <Button
@@ -414,4 +428,4 @@ const InitialScreen = ({ className }: IInitialScreen) => {
   )
 }
 
-export default InitialScreen
+export default LoginModule
