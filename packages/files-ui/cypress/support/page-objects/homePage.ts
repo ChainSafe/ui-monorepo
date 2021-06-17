@@ -6,8 +6,8 @@ export const homePage = {
   // main file browser elements
   uploadButton: () => cy.get("[data-cy=upload-modal-button]"),
   uploadFileForm: () => cy.get("[data-cy=upload-file-form] input"),
-  moveSelectedButton: () => cy.get("[data-cy=move_selected_file_button]"),
-  deleteSelectedButton: () => cy.get("[data-cy=delete_selected_file_button]"),
+  moveSelectedButton: () => cy.get("[data-testId=button-move-selected-file]"),
+  deleteSelectedButton: () => cy.get("[data-testId=button-delete-selected-file]"),
   deleteFileDialog: () => cy.get("[data-testid=modal-container-file-deletion]"),
   deleteFileCancelButton: () => cy.get("[data-testid=button-cancel-deletion]"),
   deleteFileConfirmButton: () => cy.get("[data-testid=button-confirm-deletion]"),
@@ -22,8 +22,8 @@ export const homePage = {
   fileItemKebabButton: () => cy.get("[data-testid=dropdown-title-fileDropdown]"),
 
   // upload modal elements
-  startUploadButton: () => cy.get("[data-cy=upload-ok-button]"),
-  uploadCancelButton: () => cy.get("[data-cy=upload-cancel-button"),
+  startUploadButton: () => cy.get("[data-testId=button-start-upload]"),
+  uploadCancelButton: () => cy.get("[data-testId=button-cancel-upload]"),
   fileListRemoveButton: () => cy.get("[data-testid=button-remove-from-file-list]"),
   fileUploadList: () => cy.get("[data-testid=file-list-fileUpload] li"),
   fileUploadDropzone : () => cy.get("[data-testid=file-input-dropzone-fileUpload]"),

@@ -735,7 +735,7 @@ const FilesList = () => {
                   setMoveModalMode("move")
                 }}
                 variant="outline"
-                data-cy="move_selected_file_button"
+                testId="move-selected-file"
               >
                 <Trans>Move selected</Trans>
               </Button>
@@ -747,7 +747,7 @@ const FilesList = () => {
                   setMoveModalMode("recover")
                 }}
                 variant="outline"
-                data-cy="recover_selected_file_button"
+                testId="recover-selected-file"
               >
                 <Trans>Recover selected</Trans>
               </Button>
@@ -756,7 +756,7 @@ const FilesList = () => {
               <Button
                 onClick={handleOpenDeleteDialog}
                 variant="outline"
-                data-cy="delete_selected_file_button"
+                testId="delete-selected-file"
               >
                 <Trans>Delete selected</Trans>
               </Button>

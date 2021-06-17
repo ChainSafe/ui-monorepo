@@ -4,8 +4,8 @@ export const binPage = {
   ...basePage,
 
   // main file browser elements (bin view only)
-  recoverSelectedButton: () => cy.get("[data-cy=recover_selected_file_button]"),
-  deleteSelectedButton: () => cy.get("[data-cy=delete_selected_file_button]"),
+  recoverSelectedButton: () => cy.get("[data-testId=button-recover-selected-file]"),
+  deleteSelectedButton: () => cy.get("[data-testId=button-delete-selected-file]"),
 
   // file browser row elements
   fileItemRow: () => cy.get("[data-cy=file-item-row]", { timeout: 20000 }),
