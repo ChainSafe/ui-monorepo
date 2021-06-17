@@ -42,6 +42,8 @@ export const homePage = {
     this.uploadFileForm().attachFile(filePath)
     this.fileUploadList().should("have.length", 1)
     this.fileListRemoveButton().should("be.visible")
+    // eslint-disable-next-line cypress/no-unnecessary-waiting
+    cy.wait(2000)
     this.startUploadButton().should("not.be.disabled").click()
     // ensure upload is complete before proceeding
     this.uploadFileForm().should("not.exist")

@@ -39,6 +39,8 @@ describe("File management", () => {
       homePage.uploadFileForm().attachFile("../fixtures/uploadedFiles/text-file.txt")
       homePage.fileUploadList().should("have.length", 2)
       homePage.fileListRemoveButton().should("be.visible")
+      // eslint-disable-next-line cypress/no-unnecessary-waiting
+      cy.wait(2000)
       homePage.startUploadButton().should("not.be.disabled").click()
       homePage.uploadFileForm().should("not.exist")
       homePage.fileItemRow().should("have.length", 2)
