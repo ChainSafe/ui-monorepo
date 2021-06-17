@@ -5,7 +5,6 @@ import { BucketType } from "@chainsafe/files-api-client"
 const REFRESH_TOKEN_KEY = "csf.refreshToken"
 
 export const apiTestHelper = {
-
   clearBucket(apiUrlBase: string, bucketType: BucketType) {
     const axiosInstance = axios.create({
       // Disable the internal Axios JSON de serialization as this is handled by the client

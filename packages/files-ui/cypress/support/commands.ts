@@ -160,26 +160,20 @@ Cypress.Commands.add(
       }
     })
 
-    cy.get("[data-cy=files-app-header]", { timeout: 20000 }).should(
-      "be.visible"
-    )
+    cy.get("[data-cy=files-app-header]", { timeout: 20000 }).should("be.visible")
 
     cy.saveLocalAndSession()
 
     if (clearCSFBucket) {
       cy.clearCsfBucket(apiUrlBase)
       cy.reload()
-      cy.get("[data-cy=files-app-header]", { timeout: 20000 }).should(
-        "be.visible"
-      )
+      cy.get("[data-cy=files-app-header]", { timeout: 20000 }).should("be.visible")
     }
 
     if (clearTrashBucket) {
       cy.clearTrashBucket(apiUrlBase)
       cy.reload()
-      cy.get("[data-cy=files-app-header]", { timeout: 20000 }).should(
-        "be.visible"
-      )
+      cy.get("[data-cy=files-app-header]", { timeout: 20000 }).should("be.visible")
     }
   }
 )
