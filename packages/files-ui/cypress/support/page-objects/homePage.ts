@@ -5,7 +5,7 @@ export const homePage = {
 
   // main file browser elements
   uploadButton: () => cy.get("[data-cy=upload-modal-button]"),
-  uploadFileForm: () => cy.get("[data-cy=upload-file-form] input"),
+  uploadFileForm: () => cy.get("[data-cy=upload-file-form] input", { timeout: 20000 }),
   moveSelectedButton: () => cy.get("[data-testId=button-move-selected-file]"),
   deleteSelectedButton: () => cy.get("[data-testId=button-delete-selected-file]"),
   deleteFileDialog: () => cy.get("[data-testid=modal-container-file-deletion]"),
@@ -41,7 +41,8 @@ export const homePage = {
     this.uploadButton().click()
     this.uploadFileForm().attachFile(filePath)
     this.fileUploadList().should("have.length", 1)
-    this.startUploadButton().click()
+    this.fileListRemoveButton().should("be.visible")
+    this.startUploadButton().should("not.be.disabled").click()
     // ensure upload is complete before proceeding
     this.uploadFileForm().should("not.exist")
     this.uploadStatusToast().should("not.exist")

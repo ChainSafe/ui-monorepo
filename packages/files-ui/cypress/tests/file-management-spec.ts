@@ -38,7 +38,8 @@ describe("File management", () => {
       // attach an additional file to the file list and upload
       homePage.uploadFileForm().attachFile("../fixtures/uploadedFiles/text-file.txt")
       homePage.fileUploadList().should("have.length", 2)
-      homePage.startUploadButton().click()
+      homePage.fileListRemoveButton().should("be.visible")
+      homePage.startUploadButton().should("not.be.disabled").click()
       homePage.uploadFileForm().should("not.exist")
       homePage.fileItemRow().should("have.length", 2)
     })
