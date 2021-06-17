@@ -69,6 +69,7 @@ type FilesContext = {
   getFileContent: (bucketId: string, params: GetFileContentParams) => Promise<Blob | undefined>
   refreshBuckets: () => Promise<void>
   secureAccountWithMasterPassword: (candidatePassword: string) => Promise<void>
+  isLoadingBuckets?: boolean
 }
 
 // This represents a File or Folder on the
@@ -100,6 +101,7 @@ const FilesProvider = ({ children }: FilesContextProps) => {
   const [buckets, setBuckets] = useState<Bucket[]>([])
   const { profile } = useUser()
   const { userId } = profile || {}
+  const [isLoadingBuckets, setIsLoadingBuckets] = useState(false)
 
   const getKeyForSharedBucket = useCallback(async (bucket: FilesBucket) => {
     const bucketUsers = [...bucket.readers, ...bucket.writers, ...bucket.owners]
@@ -118,6 +120,7 @@ const FilesProvider = ({ children }: FilesContextProps) => {
   const refreshBuckets = useCallback(async () => {
     if (!personalEncryptionKey || !userId) return
 
+    setIsLoadingBuckets(true)
     const result = await filesApiClient.listBuckets()
 
     const bucketsWithKeys: Bucket[] = await Promise.all(
@@ -152,6 +155,7 @@ const FilesProvider = ({ children }: FilesContextProps) => {
       })
     )
     setBuckets(bucketsWithKeys)
+    setIsLoadingBuckets(false)
     return Promise.resolve()
   }, [personalEncryptionKey, userId, filesApiClient, profile, getKeyForSharedBucket])
 
@@ -223,7 +227,6 @@ const FilesProvider = ({ children }: FilesContextProps) => {
         secureAccount()
       } else {
         console.log("decrypting key")
-        console.log("encryptedEncryptionKey", encryptedEncryptionKey)
         if (encryptedEncryptionKey) {
           decryptKey(encryptedEncryptionKey)
         }
@@ -240,7 +243,8 @@ const FilesProvider = ({ children }: FilesContextProps) => {
     personalEncryptionKey,
     isMasterPasswordSet,
     secureAccount,
-    decryptKey
+    decryptKey,
+    isLoadingBuckets
   ])
 
   const secureAccountWithMasterPassword = async (candidatePassword: string) => {
@@ -472,8 +476,8 @@ const FilesProvider = ({ children }: FilesContextProps) => {
         downloadsInProgress,
         secureAccountWithMasterPassword,
         buckets,
-        refreshBuckets
-
+        refreshBuckets,
+        isLoadingBuckets
       }}
     >
       {children}

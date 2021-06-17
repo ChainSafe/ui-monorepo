@@ -16,7 +16,8 @@ import {
   ProgressBar,
   Button,
   formatBytes,
-  DeleteSvg } from "@chainsafe/common-components"
+  DeleteSvg,
+  UserShareSvg } from "@chainsafe/common-components"
 import { ROUTE_LINKS } from "../FilesRoutes"
 import { FREE_PLAN_LIMIT } from "../../Utils/Constants"
 import { Trans } from "@lingui/macro"
@@ -298,7 +299,7 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
                 className={classes.navItem}
                 to={ROUTE_LINKS.SharedFolders}
               >
-                <DeleteSvg />
+                <UserShareSvg />
                 <Typography
                   variant="h5"
                   className={classes.navItemText}
