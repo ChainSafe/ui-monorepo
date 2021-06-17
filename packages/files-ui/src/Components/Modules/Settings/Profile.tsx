@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useCallback, useMemo } from "react"
 import * as yup from "yup"
 import {
   FormikTextInput,
@@ -6,7 +6,9 @@ import {
   Button,
   Typography,
   useToaster,
-  RadioInput
+  RadioInput,
+  TextInput,
+  CheckIcon
 } from "@chainsafe/common-components"
 import {
   makeStyles,
@@ -39,8 +41,16 @@ const useStyles = makeStyles(({ constants, breakpoints, palette, typography }: C
         borderBottom: "none"
       }
     },
+    header: {
+      fontSize: 28,
+      lineHeight: "32px",
+      marginBottom: constants.generalUnit * 5
+    },
     boxContainer: {
       marginBottom: constants.generalUnit * 4
+    },
+    inputBoxContainer: {
+      marginBottom: constants.generalUnit * 3
     },
     labelContainer: {
       marginBottom: constants.generalUnit
@@ -48,7 +58,7 @@ const useStyles = makeStyles(({ constants, breakpoints, palette, typography }: C
     walletAddressContainer: {
       display: "flex",
       justifyContent: "space-between",
-      marginBottom: constants.generalUnit
+      marginBottom: constants.generalUnit * 0.5
     },
     input: {
       width: "100%",
@@ -58,6 +68,11 @@ const useStyles = makeStyles(({ constants, breakpoints, palette, typography }: C
     label: {
       marginBottom: constants.generalUnit * 1,
       fontSize: 20
+    },
+    subLabel: {
+      marginBottom: constants.generalUnit * 1,
+      color: palette.additional["gray"][8],
+      fontSize: 14
     },
     profileBox: {
       maxWidth: 420
@@ -78,7 +93,7 @@ const useStyles = makeStyles(({ constants, breakpoints, palette, typography }: C
     button: {
       width: 200,
       margin: `0px ${constants.generalUnit * 0.5}px ${
-        constants.generalUnit * 1
+        constants.generalUnit * 4
       }px`
     },
     icon: {
@@ -136,6 +151,28 @@ const useStyles = makeStyles(({ constants, breakpoints, palette, typography }: C
       fontWeight: 400,
       marginTop: 25,
       marginBottom: 14
+    },
+    buttonLink: {
+      color: palette.additional["gray"][10],
+      outline: "none",
+      textDecoration: "underline",
+      cursor: "pointer",
+      textAlign: "center",
+      "&.spaceLeft": {
+        marginLeft: constants.generalUnit * 0.5
+      }
+    },
+    usernameForm: {
+      display: "flex",
+      marginBottom: constants.generalUnit * 4,
+      "& svg": {
+        fill: palette.success.main
+      }
+    },
+    usernameInput: {
+      flex: 1,
+      margin: 0,
+      paddingRight: constants.generalUnit
     }
   })
 )
@@ -143,9 +180,12 @@ const useStyles = makeStyles(({ constants, breakpoints, palette, typography }: C
 const ProfileView = () => {
   const { themeKey, setTheme } = useThemeSwitcher()
   const { addToastMessage } = useToaster()
-  const { profile, updateProfile } = useUser()
+  const { profile, updateProfile, addUsername, lookupOnUsername } = useUser()
   const { publicKey } = useThresholdKey()
   const [updatingProfile, setUpdatingProfile] = useState(false)
+  const [showUsernameForm, setShowUsernameForm] = useState(false)
+  const [username, setUsername] = useState("")
+  const [usernameData, setUsernameData] = useState({ error: "", loading: false })
 
   const onUpdateProfile = async (firstName: string, lastName: string) => {
     try {
@@ -197,8 +237,48 @@ const ProfileView = () => {
   const profileValidation = yup.object().shape({
     // email: yup.string().email("Email is invalid").required("Email is required"),
     firstName: yup.string(),
-    lastName: yup.string()
+    lastName: yup.string(),
+    username: yup.string()
   })
+
+  const onLookupUsername = useCallback((username: string) => {
+    lookupOnUsername(username).then((doesUsernameExist) => {
+      if (doesUsernameExist) {
+        setUsernameData({
+          loading: false,
+          error: "Username already exists"
+        })
+      } else {
+        setUsernameData({
+          loading: false,
+          error: ""
+        })
+      }
+    }).catch(console.error)
+  }, [lookupOnUsername])
+
+  const debouncedOnLookupUsername = useMemo(
+    () => debounce(onLookupUsername, 300),
+    [onLookupUsername]
+  )
+
+  const onUsernameChange = (value: string) => {
+    setUsername(value)
+    debouncedOnLookupUsername(value)
+  }
+
+  const onSubmitUsername = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    setUsernameData({ ...usernameData, loading: true })
+    addUsername(username).then(() => {
+      addToastMessage({ message: t`Username set successfully` })
+    }).catch((error) => {
+      setUsernameData({
+        error: error,
+        loading: false
+      })
+    })
+  }
 
   return (
     <Grid container>
@@ -212,6 +292,163 @@ const ProfileView = () => {
             className={classes.sectionContainer}
           >
             <div className={classes.profileBox}>
+              <Typography
+                variant="h3"
+                component="h3"
+                className={classes.header}
+              >
+                <Trans>Profile settings</Trans>
+              </Typography>
+              {profile?.publicAddress
+                && <div
+                  className={classes.boxContainer}
+                  data-cy="settings-profile-header"
+                >
+                  <div className={classes.walletAddressContainer}>
+                    <Typography
+                      variant="body1"
+                      className={classes.label}
+                    >
+                      <Trans>Wallet address</Trans>
+                    </Typography>
+                    {copiedWalletAddress && (
+                      <Typography>
+                        <Trans>Copied!</Trans>
+                      </Typography>
+                    )}
+                  </div>
+                  <div
+                    className={classes.copyBox}
+                    onClick={copyWalletAddress}
+                  >
+                    <Typography
+                      variant="body1"
+                      component="p"
+                      className={classes.publicAddress}
+                    >
+                      {centerEllipsis(profile.publicAddress, 16)}
+                    </Typography>
+                    <CopyIcon className={classes.copyIcon} />
+                  </div>
+                </div>
+              }
+              {publicKey
+                && <div
+                  className={classes.boxContainer}
+                  data-cy="settings-profile-header"
+                >
+                  <div className={classes.walletAddressContainer}>
+                    <Typography
+                      variant="body1"
+                      className={classes.label}
+                    >
+                      <Trans>Files sharing key</Trans>
+                    </Typography>
+                    {copiedTkeyPublicKey && (
+                      <Typography>
+                        <Trans>Copied!</Trans>
+                      </Typography>
+                    )}
+                  </div>
+                  <div
+                    className={classes.copyBox}
+                    onClick={copyTkeyPubKey}
+                  >
+                    <Typography
+                      variant="body1"
+                      component="p"
+                      className={classes.publicAddress}
+                    >
+                      {centerEllipsis(publicKey, 16)}
+                    </Typography>
+                    <CopyIcon className={classes.copyIcon} />
+                  </div>
+                </div>
+              }
+              {profile?.username
+                ? <div className={classes.inputBoxContainer}>
+                  <Typography
+                    component="p"
+                    className={classes.label}
+                  >
+                    <Trans>Username</Trans>
+                  </Typography>
+                  <Typography
+                    component="p"
+                    className={classes.subLabel}
+                  >
+                    <Trans>This username is public</Trans>
+                  </Typography>
+                  <div className={classes.usernameForm}>
+                    <TextInput
+                      disabled={true}
+                      value={profile.username}
+                      className={classes.usernameInput}
+                    />
+                  </div>
+                </div>
+                : <div className={classes.inputBoxContainer}>
+                  <Typography
+                    component="p"
+                    className={classes.label}
+                  >
+                    <Trans>Username</Trans>
+                  </Typography>
+                  {showUsernameForm
+                    ? <div>
+                      <Typography
+                        component="p"
+                        className={classes.subLabel}
+                      >
+                        <Trans>Usernames are public and can&apos;t be changed after creation.</Trans>
+                      </Typography>
+                      <form
+                        onSubmit={onSubmitUsername}
+                        className={classes.usernameForm}
+                      >
+                        <TextInput
+                          placeholder={t`Username`}
+                          name="username"
+                          size="medium"
+                          value={username}
+                          className={classes.usernameInput}
+                          RightIcon={username && !usernameData.error ? CheckIcon : undefined}
+                          onChange={(value) => value && onUsernameChange(value.toString())}
+                          captionMessage={usernameData.error}
+                          state={usernameData.error ? "error" : "normal"}
+                          data-cy="profile-username-input"
+                        />
+                        <div>
+                          <Button
+                            type="submit"
+                            disabled={usernameData.loading || !!usernameData.error || !username}
+                            loading={usernameData.loading}
+                          >
+                            {usernameData.loading ? t`Setting Username` : t`Set Username`}
+                          </Button>
+                        </div>
+                      </form>
+                    </div>
+                    : <div>
+                      <Typography
+                        component="p"
+                        className={classes.subLabel}
+                      >
+                        <span>
+                          <Trans>You haven&apos;t set a username yet.</Trans>
+                        </span>
+                        {" "}
+                        <span
+                          className={classes.buttonLink}
+                          onClick={() => setShowUsernameForm(true)}
+                        >
+                          <Trans>Add a username</Trans>
+                        </span>
+                      </Typography>
+                    </div>
+                  }
+                </div>
+              }
               <Formik
                 initialValues={{
                   firstName: profile?.firstName || "",
@@ -229,91 +466,42 @@ const ProfileView = () => {
                 validateOnChange={false}
               >
                 <Form>
-                  {profile?.publicAddress ? (
-                    <div
-                      className={classes.boxContainer}
-                      data-cy="settings-profile-header"
+                  <div className={classes.inputBoxContainer}>
+                    <Typography
+                      component="p"
+                      className={classes.label}
                     >
-                      <div className={classes.walletAddressContainer}>
-                        <Typography
-                          variant="body1"
-                          className={classes.label}
-                        >
-                          <Trans>Wallet address</Trans>
-                        </Typography>
-                        {copiedWalletAddress && (
-                          <Typography className={classes.copyText}>
-                            <Trans>Copied!</Trans>
-                          </Typography>
-                        )}
-                      </div>
-                      <div
-                        className={classes.copyBox}
-                        onClick={copyWalletAddress}
-                      >
-                        <Typography
-                          variant="body1"
-                          component="p"
-                          className={classes.publicAddress}
-                        >
-                          {centerEllipsis(profile.publicAddress, 16)}
-                        </Typography>
-                        <CopyIcon className={classes.copyIcon} />
-                      </div>
-                    </div>
-                  ) : null}
-                  {publicKey ? (
-                    <div
-                      className={classes.boxContainer}
-                      data-cy="settings-profile-header"
+                      <Trans>First name</Trans>
+                    </Typography>
+                    <Typography
+                      component="p"
+                      className={classes.subLabel}
                     >
-                      <div className={classes.walletAddressContainer}>
-                        <Typography
-                          variant="body1"
-                          className={classes.label}
-                        >
-                          <Trans>Files sharing key</Trans>
-                        </Typography>
-                        {copiedTkeyPublicKey && (
-                          <Typography className={classes.copyText}>
-                            <Trans>Copied!</Trans>
-                          </Typography>
-                        )}
-                      </div>
-                      <div
-                        className={classes.copyBox}
-                        onClick={copyTkeyPubKey}
-                      >
-                        <Typography
-                          variant="body1"
-                          component="p"
-                          className={classes.publicAddress}
-                        >
-                          {centerEllipsis(publicKey, 16)}
-                        </Typography>
-                        <CopyIcon className={classes.copyIcon} />
-                      </div>
-                    </div>
-                  ) : null}
-                  <div className={classes.boxContainer}>
+                      <Trans>Only you can see this.</Trans>
+                    </Typography>
                     <FormikTextInput
                       placeholder={t`First name`}
                       name="firstName"
                       size="medium"
+                      hideLabel={true}
                       className={classes.input}
-                      labelClassName={classes.label}
-                      label={t`First name`}
                       data-cy="profile-firstname-input"
                     />
                   </div>
-                  <div className={classes.boxContainer}>
+                  <div className={classes.inputBoxContainer}>
+                    <Typography
+                      variant="body1"
+                      component="p"
+                      className={classes.label}
+                    >
+                      <Trans>Last name</Trans>
+                    </Typography>
                     <FormikTextInput
                       placeholder={t`Last name`}
                       name="lastName"
                       size="medium"
+                      hideLabel={true}
                       className={classes.input}
-                      labelClassName={classes.label}
-                      label={t`Last name`}
                       data-cy="profile-lastname-input"
                     />
                   </div>
