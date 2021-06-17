@@ -106,7 +106,7 @@ const SharedFolderRowWrapper = ({ bucket }: Props) => {
   }]
 
   const onSingleClick = useCallback(
-    (e) => {
+    () => {
       if (desktop) {
         // on desktop 
       } else {
