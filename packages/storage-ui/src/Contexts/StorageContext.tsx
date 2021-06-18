@@ -104,7 +104,6 @@ const StorageProvider = ({ children }: StorageContextProps) => {
   useEffect(() => {
     const getSpaceUsage = async () => {
       try {
-        // TODO: Update this to include Share buckets where the current user is the owner
         const totalSize = storageBuckets.reduce((totalSize, bucket) => { return totalSize += (bucket as any).size}, 0)
 
         setSpaceUsed(totalSize)
@@ -210,7 +209,7 @@ const StorageProvider = ({ children }: StorageContextProps) => {
       if (filesParam.length !== files.length) {
         addToastMessage({
           message:
-              "We can't encrypt files larger than 2GB. Some items will not be uploaded",
+              "We can't upload files larger than 2GB. Some items will not be uploaded",
           appearance: "error"
         })
       }

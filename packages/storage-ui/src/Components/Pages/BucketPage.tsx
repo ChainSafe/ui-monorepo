@@ -26,9 +26,8 @@ const BucketPage: React.FC<IFileBrowserModuleProps> = () => {
   , [pathname])
 
   const currentPath = useMemo(() => {
-    return extractFileBrowserPathFromURL(pathname, ROUTE_LINKS.Bucket(bucketId, "/"))},
-  [pathname, bucketId]
-  )
+    return extractFileBrowserPathFromURL(pathname, ROUTE_LINKS.Bucket(bucketId, "/"))
+  }, [pathname, bucketId])
   const bucket = useMemo(() => storageBuckets.find(b => b.id === bucketId), [storageBuckets, bucketId])
 
   const refreshContents = useCallback((showLoading?: boolean) => {

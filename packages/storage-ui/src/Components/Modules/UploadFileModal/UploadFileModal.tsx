@@ -96,7 +96,7 @@ const UploadFileModule = ({ modalOpen, close }: IUploadFileModuleProps) => {
       helpers.resetForm()
     } catch (errors) {
       if (errors[0].message.includes("conflict with existing")) {
-        helpers.setFieldError("files", "File/Folder exists")
+        helpers.setFieldError("files", t`File/Folder already exists`)
       } else {
         helpers.setFieldError("files", errors[0].message)
       }

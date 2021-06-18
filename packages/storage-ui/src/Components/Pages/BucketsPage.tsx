@@ -98,7 +98,7 @@ const BucketsPage = () => {
           </Trans>
         </Typography>
         <div className={classes.controls}>
-          <Button onClick={() => setCreateBucketOpen(true)}>Create Bucket</Button>
+          <Button onClick={() => setCreateBucketOpen(true)}><Trans>Create Bucket</Trans></Button>
         </div>
       </header>
       <Table
@@ -144,7 +144,7 @@ const BucketsPage = () => {
         }}
         closePosition="none"
       >
-        <Typography>Bucket Name</Typography>
+        <Typography><Trans>Bucket Name</Trans></Typography>
         <TextInput
           value={newBucketName}
           onChange={(val) => setNewBucketName(String(val))} />
