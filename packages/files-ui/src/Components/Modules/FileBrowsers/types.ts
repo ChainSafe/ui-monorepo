@@ -12,10 +12,6 @@ export type FileOperation =
   | "preview"
   | "view_folder"
 
-export type BucketOperation =
-  | "rename"
-  | "delete"
-
 export type BrowserView = "grid" | "table"
 export type MoveModalMode = "move" | "recover"
 

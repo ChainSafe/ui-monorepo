@@ -529,15 +529,6 @@ msgstr "Setup incomplete"
 msgid "Share"
 msgstr "Share"
 
-msgid "Shared"
-msgstr "Shared"
-
-msgid "Shared folders"
-msgstr "Shared folders"
-
-msgid "Shared with"
-msgstr "Shared with"
-
 msgid "Sign Out"
 msgstr "Sign Out"
 

@@ -880,6 +880,7 @@ const FilesList = () => {
               {items.map((file, index) => (
                 <FileSystemItem
                   key={index}
+                  index={index}
                   file={file}
                   files={files}
                   selected={selectedCids}
@@ -926,6 +927,7 @@ const FilesList = () => {
             {items.map((file, index) => (
               <FileSystemItem
                 key={index}
+                index={index}
                 file={file}
                 files={files}
                 selected={selectedCids}

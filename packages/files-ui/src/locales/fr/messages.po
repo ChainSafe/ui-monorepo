@@ -530,15 +530,6 @@ msgstr "Configuration incomplète"
 msgid "Share"
 msgstr "Partager"
 
-msgid "Shared"
-msgstr ""
-
-msgid "Shared folders"
-msgstr ""
-
-msgid "Shared with"
-msgstr ""
-
 msgid "Sign Out"
 msgstr "Déconnexion"
 

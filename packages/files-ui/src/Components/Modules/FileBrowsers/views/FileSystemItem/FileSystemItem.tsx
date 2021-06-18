@@ -100,6 +100,7 @@ const useStyles = makeStyles(({ breakpoints, constants }: CSFTheme) => {
 })
 
 interface IFileSystemItemProps {
+  index: number
   file: FileSystemItemType
   files: FileSystemItemType[]
   selected: string[]
