@@ -240,7 +240,7 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
               >
                 <ChainsafeLogo />
                 <Typography variant="body1">
-                  ChainSafe Storage
+                  Storage
                 </Typography>
               </Link>
             </div>

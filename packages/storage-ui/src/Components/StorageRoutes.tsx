@@ -5,6 +5,7 @@ import { useStorageApi }  from "../Contexts/StorageApiContext"
 import CidsPage from "./Pages/CidsPage"
 import BucketsPage from "./Pages/BucketsPage"
 import SettingsPage from "./Pages/SettingsPage"
+import BucketPage from "./Pages/BucketPage"
 
 export const ROUTE_LINKS = {
   Landing: "/",
@@ -13,7 +14,9 @@ export const ROUTE_LINKS = {
   Settings: "/settings",
   PrivacyPolicy: "https://files.chainsafe.io/privacy-policy",
   Terms: "https://files.chainsafe.io/terms-of-service",
-  ChainSafe: "https://chainsafe.io/"
+  ChainSafe: "https://chainsafe.io/",
+  BucketRoot: "/bucket",
+  Bucket: (id: string, bucketPath: string) => `/bucket/${id}${bucketPath}`
 }
 
 export const SETTINGS_PATHS = ["apiKeys"] as const
@@ -43,7 +46,13 @@ const StorageRoutes = () => {
         path={ROUTE_LINKS.Buckets}
         isAuthorized={isLoggedIn}
         component={BucketsPage}
-        redirectPath={ROUTE_LINKS.Buckets}
+        redirectPath={ROUTE_LINKS.Landing}
+      />
+      <ConditionalRoute
+        path={ROUTE_LINKS.BucketRoot}
+        isAuthorized={isLoggedIn}
+        component={BucketPage}
+        redirectPath={ROUTE_LINKS.Landing}
       />
       <ConditionalRoute
         exact
