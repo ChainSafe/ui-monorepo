@@ -16,7 +16,6 @@ import { useStorageApi } from "./StorageApiContext"
 import { v4 as uuidv4 } from "uuid"
 import { t } from "@lingui/macro"
 import { readFileAsync } from "../Utils/Helpers"
-import { useToaster } from "@chainsafe/common-components"
 
 type StorageContextProps = {
   children: React.ReactNode | React.ReactNode[]
@@ -49,9 +48,6 @@ type StorageContext = {
   spaceUsed: number
   uploadFiles: (bucketId: string, files: File[], path: string) => Promise<void>
   addPin: (cid: string) => Promise<PinStatus>
-  // createPin: (bucketId: string, files: File[], path: string) => Promise<void>
-  // downloadPin: (bucketId: string, itemToDownload: FileSystemItem, path: string) => void
-  // getPinContent: (bucketId: string, params: GetFileContentParams) => Promise<Blob | undefined>
   refreshPins: () => void
   unpin: (requestId: string) => void
   storageBuckets: Bucket[]

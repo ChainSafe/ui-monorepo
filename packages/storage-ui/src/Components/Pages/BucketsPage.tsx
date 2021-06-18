@@ -1,6 +1,17 @@
 import React, { useState } from "react"
-import { makeStyles, createStyles, useThemeSwitcher } from "@chainsafe/common-theme"
-import { Button, Grid, PlusIcon, Table, TableBody, TableHead, TableHeadCell, TableRow, TextInput, Typography } from "@chainsafe/common-components"
+import { makeStyles, createStyles } from "@chainsafe/common-theme"
+import {
+  Button,
+  Grid,
+  PlusIcon,
+  Table,
+  TableBody,
+  TableHead,
+  TableHeadCell,
+  TableRow,
+  TextInput,
+  Typography
+} from "@chainsafe/common-components"
 import { CSSTheme } from "../../Themes/types"
 import { useStorage } from "../../Contexts/StorageContext"
 import { Trans } from "@lingui/macro"
@@ -101,7 +112,6 @@ const BucketsPage = () => {
   const { storageBuckets, createBucket } = useStorage()
   const [createBucketModalOpen, setCreateBucketOpen] = useState(false)
   const [newBucketName, setNewBucketName] = useState("")
-  const { desktop } = useThemeSwitcher()
 
   return (
     <div className={classes.root}>
