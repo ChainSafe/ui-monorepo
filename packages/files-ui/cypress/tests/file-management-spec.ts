@@ -1,7 +1,7 @@
 import { binPage } from "../support/page-objects/binPage"
 import { homePage } from "../support/page-objects/homePage"
 import { navigationMenu } from "../support/page-objects/navigationMenu"
-import 'cypress-pipe'
+import "cypress-pipe"
 
 const click = ($el: JQuery<HTMLElement>) => $el.trigger("click")
 
