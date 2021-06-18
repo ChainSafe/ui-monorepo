@@ -174,7 +174,7 @@ const AppHeader = ({ navOpen, setNavOpen }: IAppHeader) => {
 
               <section className={classes.accountControls}>
                 <MenuDropdown
-                  title='TBC'
+                  title=''
                   anchor="bottom-right"
                   classNames={{
                     icon: classes.icon,
