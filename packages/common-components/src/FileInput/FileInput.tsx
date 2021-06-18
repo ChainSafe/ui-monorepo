@@ -229,7 +229,7 @@ const FileInput = ({
                   >
                     <span className={classes.itemText}>{file.name}</span>
                     <Button
-                      data-testid={`file-list-remove-button-${testId}`}
+                      testId="remove-from-file-list"
                       className={clsx(classes.crossIcon, classNames?.closeIcon)}
                       type="button"
                       onClick={(e) => {
