@@ -78,7 +78,7 @@ const StorageProvider = ({ children }: StorageContextProps) => {
   const [pins, setPins] = useState<PinStatus[]>([])
 
   const refreshPins = useCallback(() => {
-    storageApiClient.listPins(undefined, undefined, ["queued", "pinning", "pinned"])
+    storageApiClient.listPins(undefined, undefined, ["queued", "pinning", "pinned", "failed"])
       .then((pins) =>  setPins(pins.results || []))
       .catch(console.error)
   }, [storageApiClient])
