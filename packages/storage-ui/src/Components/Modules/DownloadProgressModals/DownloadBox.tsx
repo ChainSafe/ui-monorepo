@@ -65,41 +65,43 @@ const DownloadBox: React.FC<IDownloadBox> = ({ downloadInProgress }) => {
   return (
     <>
       <div className={clsx(classes.appearBox, classes.boxContainer)}>
-        {complete ? (
-          <div className={classes.contentContainer}>
-            <CheckCircleIcon className={classes.marginRight} />
-            <Typography
-              variant="body1"
-              component="p"
-            >
-              <Trans>Download complete</Trans>
-            </Typography>
-          </div>
-        ) : error ? (
-          <div className={classes.contentContainer}>
-            <CloseCircleIcon className={classes.marginRight} />
-            <Typography
-              variant="body1"
-              component="p"
-            >
-              {errorMessage}
-            </Typography>
-          </div>
-        ) : (
-          <div>
-            <Typography
-              variant="body2"
-              component="p"
-              className={classes.marginBottom}
-            >
-              Downloading {fileName}...
-            </Typography>
-            <ProgressBar
-              progress={progress}
-              size="small"
-            />
-          </div>
-        )}
+        {complete
+          ? (
+            <div className={classes.contentContainer}>
+              <CheckCircleIcon className={classes.marginRight} />
+              <Typography
+                variant="body1"
+                component="p"
+              >
+                <Trans>Download complete</Trans>
+              </Typography>
+            </div>
+          ) : error
+            ? (
+              <div className={classes.contentContainer}>
+                <CloseCircleIcon className={classes.marginRight} />
+                <Typography
+                  variant="body1"
+                  component="p"
+                >
+                  {errorMessage}
+                </Typography>
+              </div>
+            ) : (
+              <div>
+                <Typography
+                  variant="body2"
+                  component="p"
+                  className={classes.marginBottom}
+                >
+                  Downloading {fileName}...
+                </Typography>
+                <ProgressBar
+                  progress={progress}
+                  size="small"
+                />
+              </div>
+            )}
       </div>
     </>
   )
