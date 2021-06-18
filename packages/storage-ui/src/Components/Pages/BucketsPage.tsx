@@ -1,6 +1,6 @@
 import React, { useState } from "react"
-import { makeStyles, createStyles } from "@chainsafe/common-theme"
-import { Button, Table, TableBody, TableHead, TableHeadCell, TableRow, TextInput, Typography } from "@chainsafe/common-components"
+import { makeStyles, createStyles, useThemeSwitcher } from "@chainsafe/common-theme"
+import { Button, Grid, PlusIcon, Table, TableBody, TableHead, TableHeadCell, TableRow, TextInput, Typography } from "@chainsafe/common-components"
 import { CSSTheme } from "../../Themes/types"
 import { useStorage } from "../../Contexts/StorageContext"
 import { Trans } from "@lingui/macro"
@@ -10,7 +10,7 @@ import CustomModal from "../Elements/CustomModal"
 export const desktopGridSettings = "3fr 190px 70px !important"
 export const mobileGridSettings = "3fr 190px 70px !important"
 
-const useStyles = makeStyles(({ breakpoints, animation, constants }: CSSTheme) =>
+const useStyles = makeStyles(({ breakpoints, animation, constants, typography }: CSSTheme) =>
   createStyles({
     root: {
       position: "relative",
@@ -79,6 +79,19 @@ const useStyles = makeStyles(({ breakpoints, animation, constants }: CSSTheme) =
       [breakpoints.down("md")]: {
         marginTop: constants.generalUnit
       }
+    },
+    modalRoot: {
+      padding: constants.generalUnit * 4,
+      flexDirection: "column"
+    },
+    input: {
+      marginBottom: constants.generalUnit * 2
+    },
+    heading: {
+      color: constants.createFolder.color,
+      fontWeight: typography.fontWeight.semibold,
+      textAlign: "center",
+      marginBottom: constants.generalUnit * 4
     }
   })
 )
@@ -88,6 +101,7 @@ const BucketsPage = () => {
   const { storageBuckets, createBucket } = useStorage()
   const [createBucketModalOpen, setCreateBucketOpen] = useState(false)
   const [newBucketName, setNewBucketName] = useState("")
+  const { desktop } = useThemeSwitcher()
 
   return (
     <div className={classes.root}>
@@ -98,14 +112,19 @@ const BucketsPage = () => {
           </Trans>
         </Typography>
         <div className={classes.controls}>
-          <Button onClick={() => setCreateBucketOpen(true)}><Trans>Create Bucket</Trans></Button>
+          <Button
+            onClick={() => setCreateBucketOpen(true)}
+            variant="outline"
+          >
+            <PlusIcon />
+            <Trans>Create Bucket</Trans>
+          </Button>
         </div>
       </header>
       <Table
         fullWidth={true}
         striped={true}
         hover={true}
-        className=""
       >
         <TableHead className={classes.tableHead}>
           <TableRow
@@ -144,32 +163,54 @@ const BucketsPage = () => {
         }}
         closePosition="none"
       >
-        <Typography><Trans>Bucket Name</Trans></Typography>
-        <TextInput
-          value={newBucketName}
-          onChange={(val) => setNewBucketName(String(val))} />
-        <footer className={classes.modalFooter}>
-          <Button
-            onClick={() => setCreateBucketOpen(false)}
-            size="medium"
-            className={classes.cancelButton}
-            variant="outline"
-            type="button"
+        <div className={classes.modalRoot}>
+          <Grid
+            item
+            xs={12}
+            sm={12}
           >
-            <Trans>Cancel</Trans>
-          </Button>
-          <Button
-            variant="primary"
-            size="medium"
-            className={classes.okButton}
-            onClick={() => {
-              createBucket(newBucketName)
-              setCreateBucketOpen(false)
-            }}
+            <Typography
+              className={classes.heading}
+              variant="h5"
+              component="h5"
+            >
+              <Trans>Create Bucket</Trans>
+            </Typography>
+          </Grid>
+          <Grid
+            item
+            xs={12}
+            sm={12}
+            className={classes.input}
           >
-            <Trans>Create</Trans>
-          </Button>
-        </footer>
+            <Typography><Trans>Bucket Name</Trans></Typography>
+            <TextInput
+              value={newBucketName}
+              onChange={(val) => setNewBucketName(String(val))} />
+          </Grid>
+          <footer className={classes.modalFooter}>
+            <Button
+              onClick={() => setCreateBucketOpen(false)}
+              size="medium"
+              className={classes.cancelButton}
+              variant="outline"
+              type="button"
+            >
+              <Trans>Cancel</Trans>
+            </Button>
+            <Button
+              variant="primary"
+              size="medium"
+              className={classes.okButton}
+              onClick={() => {
+                createBucket(newBucketName)
+                setCreateBucketOpen(false)
+              }}
+            >
+              <Trans>Create</Trans>
+            </Button>
+          </footer>
+        </div>
       </CustomModal>
     </div>
   )

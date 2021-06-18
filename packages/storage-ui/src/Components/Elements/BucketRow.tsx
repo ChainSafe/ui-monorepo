@@ -5,7 +5,8 @@ import { Trans } from "@lingui/macro"
 import { Bucket } from "@chainsafe/files-api-client"
 import { CSSTheme } from "../../Themes/types"
 import { useStorage } from "../../Contexts/StorageContext"
-import { desktopGridSettings, mobileGridSettings } from "../Pages/BucketsPage"
+import desktopGridSettings from "../Pages/BucketsPage"
+import mobileGridSettings from "../Pages/BucketsPage"
 import { ROUTE_LINKS } from "../StorageRoutes"
 
 const useStyles = makeStyles(({ animation, constants, breakpoints }: CSSTheme) =>
@@ -51,7 +52,8 @@ const useStyles = makeStyles(({ animation, constants, breakpoints }: CSSTheme) =
       },
       [breakpoints.down("md")]: {
         gridTemplateColumns: mobileGridSettings
-      }
+      },
+      cursor: "pointer"
     }
   })
 )

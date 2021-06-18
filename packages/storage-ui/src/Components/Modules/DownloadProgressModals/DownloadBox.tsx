@@ -65,9 +65,9 @@ const DownloadBox: React.FC<IDownloadBox> = ({ downloadInProgress }) => {
   return (
     <>
       <div className={clsx(classes.appearBox, classes.boxContainer)}>
-        {
-          complete
-            ? <div className={classes.contentContainer}>
+        {complete
+          ? (
+            <div className={classes.contentContainer}>
               <CheckCircleIcon className={classes.marginRight} />
               <Typography
                 variant="body1"
@@ -76,8 +76,9 @@ const DownloadBox: React.FC<IDownloadBox> = ({ downloadInProgress }) => {
                 <Trans>Download complete</Trans>
               </Typography>
             </div>
-            : error
-              ? <div className={classes.contentContainer}>
+          ) : error
+            ? (
+              <div className={classes.contentContainer}>
                 <CloseCircleIcon className={classes.marginRight} />
                 <Typography
                   variant="body1"
@@ -86,20 +87,24 @@ const DownloadBox: React.FC<IDownloadBox> = ({ downloadInProgress }) => {
                   {errorMessage}
                 </Typography>
               </div>
-              : <div>
+            ) : (
+              <div>
                 <Typography
                   variant="body2"
                   component="p"
                   className={classes.marginBottom}
                 >
-                  <Trans>Downloading {fileName}...</Trans>
+                  Downloading {fileName}...
                 </Typography>
                 <ProgressBar
                   progress={progress}
                   size="small"
                 />
               </div>
-        }
+            )}
+      </div>
+    </>
+  )
 }
 
 export default DownloadBox

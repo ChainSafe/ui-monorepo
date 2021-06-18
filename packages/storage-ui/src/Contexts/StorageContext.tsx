@@ -66,7 +66,6 @@ interface IFileSystemItem extends FileContentResponse {
 
 type FileSystemItem = IFileSystemItem
 const REMOVE_UPLOAD_PROGRESS_DELAY = 5000
-const MAX_FILE_SIZE = 2 * 1024 ** 3
 
 const StorageContext = React.createContext<StorageContext | undefined>(undefined)
 
@@ -74,7 +73,6 @@ const StorageProvider = ({ children }: StorageContextProps) => {
   const { storageApiClient, isLoggedIn } = useStorageApi()
   const [spaceUsed, setSpaceUsed] = useState(0)
   const [storageBuckets, setStorageBuckets] = useState<Bucket[]>([])
-  const { addToastMessage } = useToaster()
   const [pins, setPins] = useState<PinStatus[]>([])
 
   const refreshPins = useCallback(() => {
@@ -197,7 +195,6 @@ const StorageProvider = ({ children }: StorageContextProps) => {
     try {
       const filesParam = await Promise.all(
         files
-          .filter((f) => f.size <= MAX_FILE_SIZE)
           .map(async (f) => {
             const fileData = await readFileAsync(f)
             return {
@@ -206,13 +203,7 @@ const StorageProvider = ({ children }: StorageContextProps) => {
             }
           })
       )
-      if (filesParam.length !== files.length) {
-        addToastMessage({
-          message:
-              "We can't upload files larger than 2GB. Some items will not be uploaded",
-          appearance: "error"
-        })
-      }
+
       await storageApiClient.uploadBucketObjects(
         bucketId,
         filesParam,
@@ -256,99 +247,14 @@ const StorageProvider = ({ children }: StorageContextProps) => {
         dispatchUploadsInProgress({ type: "remove", payload: { id } })
       }, REMOVE_UPLOAD_PROGRESS_DELAY)
     }
-  }, [storageBuckets, addToastMessage, storageApiClient])
+  }, [storageBuckets, storageApiClient])
 
-  // const getPinContent = useCallback(async (
-  //   bucketId: string,
-  //   { cid, cancelToken, onDownloadProgress, file, path }: GetFileContentParams
-  // ) => {
-  //   const bucket = pins.find(b => b.id === bucketId)
 
-  //   if (!bucket) {
-  //     throw new Error("No encryption key for this bucket found")
-  //   }
-
-  //   if (!file) {
-  //     console.error("No file passed, and no file found for cid:", cid, "in pathContents:", path)
-  //     throw new Error("No file found.")
-  //   }
-
-  //   try {
-  //     const result = await storageApiClient.getFileContent(
-  //       {
-  //         path: path,
-  //         source: {
-  //           id: bucket.id
-  //         }
-  //       },
-  //       cancelToken,
-  //       onDownloadProgress
-  //     )
-
-  //     return result.data
-  //   } catch (error) {
-  //     console.error(error)
-  //     return Promise.reject()
-  //   }
-  // }, [pins, storageApiClient])
-
-  // const downloadPin = useCallback(async (bucketId: string, itemToDownload: FileSystemItem, path: string) => {
-  //   const toastId = uuidv4()
-  //   try {
-  //     const downloadProgress: DownloadProgress = {
-  //       id: toastId,
-  //       fileName: itemToDownload.name,
-  //       complete: false,
-  //       error: false,
-  //       progress: 0
-  //     }
-  //     dispatchDownloadsInProgress({ type: "add", payload: downloadProgress })
-  //     const result = await getPinContent(bucketId, {
-  //       cid: itemToDownload.cid,
-  //       file: itemToDownload,
-  //       path: `${path}/${itemToDownload.name}`,
-  //       onDownloadProgress: (progressEvent) => {
-  //         dispatchDownloadsInProgress({
-  //           type: "progress",
-  //           payload: {
-  //             id: toastId,
-  //             progress: Math.ceil(
-  //               (progressEvent.loaded / itemToDownload.size) * 100
-  //             )
-  //           }
-  //         })
-  //       }
-  //     })
-  //     if (!result) return
-  //     const link = document.createElement("a")
-  //     link.href = URL.createObjectURL(result)
-  //     link.download = itemToDownload?.name || "file"
-  //     link.click()
-  //     dispatchDownloadsInProgress({
-  //       type: "complete",
-  //       payload: { id: toastId }
-  //     })
-  //     URL.revokeObjectURL(link.href)
-  //     setTimeout(() => {
-  //       dispatchDownloadsInProgress({
-  //         type: "remove",
-  //         payload: { id: toastId }
-  //       })
-  //     }, REMOVE_UPLOAD_PROGRESS_DELAY)
-  //     return Promise.resolve()
-  //   } catch (error) {
-  //     dispatchDownloadsInProgress({ type: "error", payload: { id: toastId } })
-  //     return Promise.reject()
-  //   }
-  // }, [getPinContent])
 
   return (
     <StorageContext.Provider
       value={{
         addPin,
-        // createPin,
-        // downloadPin,
-        // getPinContent,
         uploadsInProgress,
         spaceUsed,
         downloadsInProgress,

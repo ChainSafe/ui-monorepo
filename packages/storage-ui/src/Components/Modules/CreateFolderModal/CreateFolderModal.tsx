@@ -14,7 +14,7 @@ import React, { useRef, useEffect, useState } from "react"
 import { Formik, Form } from "formik"
 import CustomModal from "../../Elements/CustomModal"
 import CustomButton from "../../Elements/CustomButton"
-import { Trans } from "@lingui/macro"
+import { t, Trans } from "@lingui/macro"
 import { CSSTheme } from "../../../Themes/types"
 import { useFileBrowser } from "../../../Contexts/FileBrowserContext"
 import { useStorageApi } from "../../../Contexts/StorageApiContext"
@@ -96,10 +96,10 @@ const CreateFolderModal: React.FC<ICreateFolderModalProps> = ({
   const folderNameValidator = yup.object().shape({
     name: yup
       .string()
-      .required("Folder name is required")
+      .required(t`Folder name is required`)
       .test(
         "Invalid name",
-        "Folder name cannot contain '/' character",
+        t`Folder name cannot contain '/' character`,
         (val: string | null | undefined) => !!val && !val.includes("/")
       )
   })
@@ -133,7 +133,7 @@ const CreateFolderModal: React.FC<ICreateFolderModalProps> = ({
           } catch (errors) {
             setCreatingFolder(false)
             if (errors[0].message.includes("Entry with such name can")) {
-              helpers.setFieldError("name", "Folder name is already in use")
+              helpers.setFieldError("name", t`Folder name is already in use`)
             } else {
               helpers.setFieldError("name", errors[0].message)
             }
@@ -167,9 +167,9 @@ const CreateFolderModal: React.FC<ICreateFolderModalProps> = ({
               <FormikTextInput
                 name="name"
                 size="large"
-                placeholder="Name"
+                placeholder={t`Name`}
                 labelClassName={classes.label}
-                label="Folder Name"
+                label={t`Folder Name`}
                 ref={inputRef}
               />
             </Grid>
