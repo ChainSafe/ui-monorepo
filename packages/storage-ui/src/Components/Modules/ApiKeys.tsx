@@ -18,9 +18,10 @@ import {
 import { CSSTheme } from "../../Themes/types"
 import { Trans } from "@lingui/macro"
 import dayjs from "dayjs"
+import SecretField from "../Elements/SecretField"
 
-export const desktopGridSettings = "3fr 170px 170px 170px 70px !important"
-export const mobileGridSettings = "3fr 170px 170px 170px 70px !important"
+export const desktopGridSettings = "3fr 400px 100px 200px 70px !important"
+export const mobileGridSettings = "3fr 400px 100px 200px 70px !important"
 
 const useStyles = makeStyles(({ constants, breakpoints, animation }: CSSTheme) =>
   createStyles({
@@ -98,9 +99,14 @@ const ApiKeys = () => {
   }, [storageApiClient])
 
   const createAccessKey = useCallback(async () => {
-    storageApiClient.createAccessKey()
+    await storageApiClient.createAccessKey()
     fetchAccessKeys()
   }, [fetchAccessKeys, storageApiClient])
+
+  const deleteAccessKey = useCallback(async (id: string) => {
+    await storageApiClient.deleteAccessKey(id)
+    fetchAccessKeys()
+  }, [storageApiClient, fetchAccessKeys])
 
   useEffect(() => {
     fetchAccessKeys()
@@ -120,10 +126,11 @@ const ApiKeys = () => {
         </Typography>
         <div className={classes.controls}>
           <Button
-            data-cy="add-api key-modal-button"
+            data-cy="add-api-key-button"
             onClick={createAccessKey}
             variant="outline"
             size="large"
+            disabled={keys.length > 0}
           >
             <PlusIcon />
             <span>
@@ -174,6 +181,7 @@ const ApiKeys = () => {
           {keys.map(k =>
             <TableRow
               key={k.id}
+              type='grid'
               className={classes.tableRow}>
               <TableCell>
                 <Typography>
@@ -181,9 +189,7 @@ const ApiKeys = () => {
                 </Typography>
               </TableCell>
               <TableCell>
-                <Typography>
-                  {k.secret}
-                </Typography>
+                <SecretField value={k.secret} />
               </TableCell>
               <TableCell>
                 <Typography>
@@ -209,7 +215,7 @@ const ApiKeys = () => {
                         </span>
                       </>
                     ),
-                    onClick: () => console.log("Not Implemented")
+                    onClick: () => deleteAccessKey(k.id)
                   }]}
                   classNames={{
                     icon: classes.dropdownIcon,

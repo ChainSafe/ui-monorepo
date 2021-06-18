@@ -4,7 +4,6 @@ import LoginPage from "./Pages/LoginPage"
 import { useStorageApi }  from "../Contexts/StorageApiContext"
 import CidsPage from "./Pages/CidsPage"
 import BucketsPage from "./Pages/BucketsPage"
-import ApiKeys from "./Modules/ApiKeys"
 import SettingsPage from "./Pages/SettingsPage"
 
 export const ROUTE_LINKS = {
