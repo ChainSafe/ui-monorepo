@@ -70,10 +70,7 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => 
     filename: {
       whiteSpace: "nowrap",
       textOverflow: "ellipsis",
-      overflow: "hidden",
-      "&.editing": {
-        overflow: "visible"
-      }
+      overflow: "visible"
     },
     dropdownIcon: {
       "& svg": {
