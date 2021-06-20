@@ -289,6 +289,7 @@ interface IButtonProps extends Omit<ReactButton, "size"> {
   type?: "button" | "submit" | "reset"
   loading?: boolean
   loadingText?: string
+  testId?: string
 }
 
 const Button: React.FC<IButtonProps> = ({
@@ -301,6 +302,7 @@ const Button: React.FC<IButtonProps> = ({
   size = "medium",
   loading,
   loadingText,
+  testId,
   ...rest
 }: IButtonProps) => {
   const classes = useStyles()
@@ -330,6 +332,7 @@ const Button: React.FC<IButtonProps> = ({
       )}
       disabled={disabled || loading}
       {...rest}
+      data-testid={`button-${testId}`}
     >
       {loading && (
         <>

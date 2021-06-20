@@ -12,11 +12,11 @@ import {
 } from "@chainsafe/common-components"
 import { ROUTE_LINKS } from "../StorageRoutes"
 import { Trans } from "@lingui/macro"
-import { CSFTheme } from "../../Themes/types"
+import { CSSTheme } from "../../Themes/types"
 import { useStorageApi } from "../../Contexts/StorageApiContext"
 
 const useStyles = makeStyles(
-  ({ palette, animation, breakpoints, constants, zIndex }: CSFTheme) => {
+  ({ palette, animation, breakpoints, constants, zIndex }: CSSTheme) => {
     return createStyles({
       root: {
         position: "fixed",
@@ -174,7 +174,7 @@ const AppHeader = ({ navOpen, setNavOpen }: IAppHeader) => {
 
               <section className={classes.accountControls}>
                 <MenuDropdown
-                  title='TBC'
+                  title=''
                   anchor="bottom-right"
                   classNames={{
                     icon: classes.icon,
