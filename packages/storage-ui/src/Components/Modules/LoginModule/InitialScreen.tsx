@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { Button, FacebookLogoIcon, GithubLogoIcon, GoogleLogoIcon, Typography } from "@chainsafe/common-components"
+import { Button, GithubLogoIcon, GoogleLogoIcon, Typography } from "@chainsafe/common-components"
 import { createStyles, makeStyles, useThemeSwitcher } from "@chainsafe/common-theme"
 import { CSSTheme } from "../../../Themes/types"
 import { t, Trans } from "@lingui/macro"
@@ -291,17 +291,6 @@ const InitialScreen = ({ className }: IInitialScreen) => {
                 >
                   <GoogleLogoIcon className="icon"/>
                   <Trans>Continue with Google</Trans>
-                </Button>
-                <Button
-                  className={classes.button}
-                  size="large"
-                  onClick={() => handleLogin("facebook")}
-                  disabled={maintenanceMode || isConnecting}
-                  loading={isConnecting && loginMode === "facebook"}
-                  variant="secondary"
-                >
-                  <FacebookLogoIcon className="icon"/>
-                  <Trans>Continue with Facebook</Trans>
                 </Button>
               </section>
               <footer className={classes.footer}>
