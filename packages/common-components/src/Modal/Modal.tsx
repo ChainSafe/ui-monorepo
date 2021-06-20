@@ -138,6 +138,8 @@ interface IModalProps {
   closePosition?: "left" | "right" | "none"
   children?: ReactNode | ReactNode[]
   maxWidth?: "xs" | "sm" | "md" | "lg" | "xl" | number
+  onModalBodyClick?: (e: React.MouseEvent) => void
+  testId?: string
 }
 
 const Modal: React.FC<IModalProps> = ({
@@ -147,7 +149,9 @@ const Modal: React.FC<IModalProps> = ({
   injectedClass,
   active = false,
   setActive,
-  maxWidth = "sm"
+  maxWidth = "sm",
+  onModalBodyClick,
+  testId
 }: IModalProps) => {
   const classes = useStyles()
 
@@ -169,8 +173,10 @@ const Modal: React.FC<IModalProps> = ({
         setActive ? "closable" : "",
         active ? "active" : "closed"
       )}
+      onClick={onModalBodyClick}
     >
       <section
+        data-testid={`modal-container-${testId}`}
         ref={ref}
         style={
           maxWidth && typeof maxWidth == "number"

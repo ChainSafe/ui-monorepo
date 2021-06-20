@@ -1,6 +1,6 @@
 import React from "react"
 import { createStyles, makeStyles } from "@chainsafe/common-theme"
-import { UploadProgress } from "../../../Contexts/DriveContext"
+import { UploadProgress } from "../../../Contexts/FilesContext"
 import { ProgressBar, Typography, CheckCircleIcon, CloseCircleIcon } from "@chainsafe/common-components"
 import clsx from "clsx"
 import { plural, Trans } from "@lingui/macro"
@@ -67,7 +67,8 @@ const UploadBox: React.FC<IUploadBox> = (props) => {
 
   return (
     <>
-      <div className={clsx(classes.appearBox, classes.boxContainer)}>
+      <div className={clsx(classes.appearBox, classes.boxContainer)}
+        data-cy="upload-status-toast-message" >
         {complete ? (
           <div className={classes.contentContainer}>
             <CheckCircleIcon className={classes.marginRight} />

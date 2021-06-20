@@ -13,9 +13,9 @@ import TopDarkSVG from "../../Media/landing/layers/dark/Top.dark.svg"
 import BottomLightSVG from "../../Media/landing/layers/light/Bottom.light.svg"
 import TopLightSVG from "../../Media/landing/layers/light/Top.light.svg"
 // import { ForegroundSVG } from "../../Media/landing/layers/ForegroundSVG"
-import { useImployApi } from "@chainsafe/common-contexts"
 import MigrateAccount from "../Modules/LoginModule/MigrateAccount"
 import InitializeAccount from "../Modules/LoginModule/InitializeAccount"
+import { useFilesApi } from "../../Contexts/FilesApiContext"
 
 const useStyles = makeStyles(
   ({ constants, breakpoints, typography, zIndex }: CSFTheme) =>
@@ -109,9 +109,6 @@ const useStyles = makeStyles(
         border: `1px solid ${constants.landing.border}`,
         boxShadow: constants.landing.boxShadow,
         borderRadius: 6,
-        [breakpoints.up("md")]:{
-          justifyContent: "space-between"
-        },
         [breakpoints.down("md")]: {
           justifyContent: "center",
           width: "100%"
@@ -130,7 +127,7 @@ const useStyles = makeStyles(
 )
 
 const Content = ({ className }: { className: string }) => {
-  const { isMasterPasswordSet } = useImployApi()
+  const { isMasterPasswordSet } = useFilesApi()
   const { keyDetails, isNewDevice, shouldInitializeAccount } = useThresholdKey()
   const shouldSaveNewDevice = !!keyDetails && isNewDevice && keyDetails.requiredShares <= 0
   const areSharesMissing = !!keyDetails && keyDetails.requiredShares > 0

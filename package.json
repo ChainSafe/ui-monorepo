@@ -14,14 +14,20 @@
   "dependencies": {},
   "devDependencies": {
     "@sentry/cli": "1.60.1",
+    "@typescript-eslint/eslint-plugin": "^4.15.2",
+    "@typescript-eslint/parser": "^4.15.2",
     "chalk": "^4.1.0",
+    "eslint": "^6.8.0",
+    "eslint-plugin-cypress": "^2.11.3",
+    "eslint-plugin-react": "^7.22.0",
     "eslint-plugin-react-hooks": "^4.2.0",
+    "npm-run-all": "^4.1.5",
     "typescript": "^4.0.5",
     "wsrun": "^5.2.4"
   },
   "scripts": {
     "postinstall": "yarn build:common && yarn wsrun -p files-ui -c compile",
-    "build:common": "yarn build:theme && yarn build:components && yarn build:contexts",
+    "build:common": "yarn build:theme && yarn build:components",
     "build:contexts": "yarn wsrun -t -p @chainsafe/common-contexts -c build",
     "build:components": "yarn wsrun -t -p @chainsafe/common-components -c build",
     "build:theme": "yarn wsrun -t -p @chainsafe/common-theme -c build",
@@ -30,14 +36,17 @@
     "build:files-ui": "yarn wsrun -p files-ui -c build",
     "release:files-ui": "yarn wsrun -p files-ui -c release",
     "start:files-ui": "yarn wsrun -p files-ui -c start",
-    "build:chainsafex": "yarn wsrun -p chainsafex -c build",
-    "release:chainsafex": "yarn wsrun -p chainsafex -c release",
-    "start:chainsafex": "yarn wsrun -p chainsafex -c start",
+    "build:storage-ui": "yarn wsrun -p storage-ui -c build",
+    "release:storage-ui": "yarn wsrun -p storage-ui -c release",
+    "start:storage-ui": "yarn wsrun -p storage-ui -c start",
     "clean:dependencies": "rm -rf ./node_modules && rm -rf ./*/**/node_modules",
     "clean:dist": "rm -rf ./*/**/dist && rm -rf ./*/**/build && rm -rf ./*/**/storybook-static",
     "clean": "yarn clean:dependencies && yarn clean:dist",
     "start:tunnel": "./ngrok http https://localhost:3000",
-    "lint": "eslint 'packages/**/src/**/*.{js,jsx,ts,tsx}'"
+    "lint": "eslint 'packages/**/{src, cypress}/**/*.{js,jsx,ts,tsx}'",
+    "serve:files-ui": "npx serve packages/files-ui/build -p 3000",
+    "test:files-ui": "yarn wsrun -p files-ui -c test",
+    "test:ci:files-ui": "yarn wsrun -p files-ui -c test:ci"
   },
   "workspaces": {
     "packages": [

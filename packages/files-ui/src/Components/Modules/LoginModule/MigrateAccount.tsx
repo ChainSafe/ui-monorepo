@@ -6,8 +6,8 @@ import {
   Typography
 } from "@chainsafe/common-components"
 import clsx from "clsx"
-import { useDrive } from "../../../Contexts/DriveContext"
-import { useImployApi } from "@chainsafe/common-contexts"
+import { useFiles } from "../../../Contexts/FilesContext"
+import { useFilesApi } from "../../../Contexts/FilesApiContext"
 import { useThresholdKey } from "../../../Contexts/ThresholdKeyContext"
 import ConciseExplainer from "./ConciseExplainer"
 import { CSFTheme } from "../../../Themes/types"
@@ -94,8 +94,8 @@ const MigrateAccount: React.FC<IMigrateAccount> = ({
   className
 }: IMigrateAccount) => {
   const classes = useStyles()
-  const { validateMasterPassword } = useImployApi()
-  const { secureAccountWithMasterPassword } = useDrive()
+  const { validateMasterPassword } = useFilesApi()
+  const { secureAccountWithMasterPassword } = useFiles()
   const { addPasswordShare, logout } = useThresholdKey()
   const [migrateState, setMigrateState] = useState<"migrate"|"explainer"|"complete">("migrate")
   const [masterPassword, setMasterPassword] = useState("")

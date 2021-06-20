@@ -2,11 +2,14 @@ import { createStyles, makeStyles, useMediaQuery } from "@chainsafe/common-theme
 import React, { useState, useEffect, useCallback } from "react"
 import CustomModal from "../../Elements/CustomModal"
 import CustomButton from "../../Elements/CustomButton"
-import { Trans } from "@lingui/macro"
-import { useDrive, DirectoryContentResponse, FileSystemItem } from "../../../Contexts/DriveContext"
+import { t, Trans } from "@lingui/macro"
+import { DirectoryContentResponse, FileSystemItem, useFiles } from "../../../Contexts/FilesContext"
 import { Button, FolderIcon, Grid, ITreeNodeProps, ScrollbarWrapper, TreeView, Typography } from "@chainsafe/common-components"
-import { getPathWithFile } from "../../../Utils/pathUtils"
 import { CSFTheme } from "../../../Themes/types"
+import { useFileBrowser } from "../../../Contexts/FileBrowserContext"
+import { useFilesApi } from "../../../Contexts/FilesApiContext"
+import { MoveModalMode } from "./types"
+
 
 const useStyles = makeStyles(
   ({ breakpoints, constants, palette, typography, zIndex }: CSFTheme) => {
@@ -63,16 +66,18 @@ const useStyles = makeStyles(
 )
 
 interface IMoveFileModuleProps {
-  currentPath?: string
   filesToMove: FileSystemItem[]
   modalOpen: boolean
   onClose: () => void
   onCancel: () => void
+  mode?: MoveModalMode
 }
 
-const MoveFileModule = ({ currentPath, filesToMove, modalOpen, onClose, onCancel }: IMoveFileModuleProps) => {
+const MoveFileModule = ({ filesToMove, modalOpen, onClose, onCancel, mode }: IMoveFileModuleProps) => {
   const classes = useStyles()
-  const { getFolderTree, moveFiles } = useDrive()
+  const { filesApiClient } = useFilesApi()
+  const { buckets } = useFiles()
+  const { moveItems, recoverItems } = useFileBrowser()
   const [movingFile, setMovingFile] = useState(false)
   const [movePath, setMovePath] = useState<undefined | string>(undefined)
   const [folderTree, setFolderTree] = useState<ITreeNodeProps[]>([])
@@ -90,7 +95,9 @@ const MoveFileModule = ({ currentPath, filesToMove, modalOpen, onClose, onCancel
   )
 
   const getFolderTreeData = useCallback(async () => {
-    getFolderTree().then((newFolderTree) => {
+    const bucket = buckets.find((bucket) => bucket.type === "csf")
+    if (!bucket) return
+    filesApiClient.getBucketDirectoriesTree(bucket.id).then((newFolderTree) => {
       if (newFolderTree.entries) {
         const folderTreeNodes = [
           {
@@ -106,7 +113,7 @@ const MoveFileModule = ({ currentPath, filesToMove, modalOpen, onClose, onCancel
         setFolderTree([])
       }
     }).catch(console.error)
-  }, [getFolderTree, mapFolderTree])
+  }, [filesApiClient, mapFolderTree, buckets])
 
   useEffect(() => {
     if (modalOpen) {
@@ -117,19 +124,15 @@ const MoveFileModule = ({ currentPath, filesToMove, modalOpen, onClose, onCancel
   }, [modalOpen, getFolderTreeData])
 
   const onMoveFile = () => {
-    if (movePath) {
-      setMovingFile(true)
+    const moveFn = mode === "move" ? moveItems : recoverItems
+    if (!movePath || !moveFn) return
 
-      moveFiles(
-        filesToMove.map((file) => ({
-          path: `${currentPath}${file.name}`,
-          new_path: getPathWithFile(movePath, file.name)
-        }))
-      )
-        .then(onClose)
-        .catch(console.error)
-        .finally(() => setMovingFile(false))
-    }
+    setMovingFile(true)
+    moveFn(filesToMove.map(f => f.cid), movePath)
+      .then(onClose)
+      .catch(console.error)
+      .finally(() => setMovingFile(false))
+
   }
 
   const desktop = useMediaQuery("md")
@@ -141,6 +144,10 @@ const MoveFileModule = ({ currentPath, filesToMove, modalOpen, onClose, onCancel
       active={modalOpen}
       closePosition="none"
       maxWidth="sm"
+      onModalBodyClick={(e) => {
+        e.preventDefault()
+        e.stopPropagation()
+      }}
     >
       <Grid
         item
@@ -164,7 +171,9 @@ const MoveFileModule = ({ currentPath, filesToMove, modalOpen, onClose, onCancel
           autoHide={true}
           maxHeight={200}
         >
-          <div className={classes.treeScrollView}>
+          <div
+            className={classes.treeScrollView}
+          >
             {folderTree.length
               ? <TreeView
                 treeData={folderTree}
@@ -201,7 +210,7 @@ const MoveFileModule = ({ currentPath, filesToMove, modalOpen, onClose, onCancel
           disabled={!movePath}
           onClick={onMoveFile}
         >
-          <Trans>Move</Trans>
+          {mode === "move" ? t`Move` : t`Recover`}
         </Button>
       </Grid>
     </CustomModal>

@@ -45,6 +45,7 @@ interface IDialogProps
   rejectText?: string
   rejectButtonProps?: IButtonProps
   acceptButtonProps?: IButtonProps
+  testId?: string
 }
 
 const Dialog: React.FC<IDialogProps> = ({
@@ -58,6 +59,7 @@ const Dialog: React.FC<IDialogProps> = ({
   rejectButtonProps,
   acceptButtonProps,
   maxWidth = 450,
+  testId,
   ...rest
 }: IDialogProps) => {
   const classes = useStyles()
@@ -71,6 +73,7 @@ const Dialog: React.FC<IDialogProps> = ({
       }}
       maxWidth={maxWidth}
       {...rest}
+      testId={testId}
     >
       <Typography
         className={classes.message}

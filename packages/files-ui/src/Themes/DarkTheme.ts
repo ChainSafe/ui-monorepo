@@ -462,11 +462,11 @@ export const darkTheme = createTheme<CsfColors>({
             backgroundColor: "var(--gray2)",
             color: "var(--gray9)",
             border: "1px solid",
-            borderColor: "var(--geekblue4)"
+            borderColor: "var(--csf-primary)"
           },
           lightSwitch: {
-            backgroundColor: "var(--gray4)",
-            color: "var(--gray7)"
+            backgroundColor: "var(--gray9)",
+            color: "var(--gray1)"
           }
         },
         surveyBanner: {
@@ -475,6 +475,16 @@ export const darkTheme = createTheme<CsfColors>({
       } as CsfColors)
     },
     overrides: {
+      RadioInput: {
+        radio: {
+          checked: {
+            borderColor: "var(--csf-primary)"
+          },
+          checkedBefore: {
+            backgroundColor: "var(--csf-primary)"
+          }
+        }
+      },
       SearchBar: {
         input: {
           root: {

@@ -1,9 +1,5 @@
 import { Crumb } from "@chainsafe/common-components"
-import {
-  FileSystemItem,
-  BucketType,
-  UploadProgress
-} from "../../../Contexts/DriveContext"
+import { BucketType, FileSystemItem, UploadProgress } from "../../../Contexts/FilesContext"
 
 export type FileOperation =
   | "rename"
@@ -17,8 +13,9 @@ export type FileOperation =
   | "view_folder"
 
 export type BrowserView = "grid" | "table"
+export type MoveModalMode = "move" | "recover"
 
-export interface IFilesBrowserModuleProps {
+export interface IFileBrowserModuleProps {
   heading?: string
   // TODO: once pagination & unique content requests are present, this might change to a passed in function
   controls?: boolean
@@ -29,15 +26,16 @@ export interface IBulkOperations {
 }
 
 export interface IFilesTableBrowserProps
-  extends Omit<IFilesBrowserModuleProps, "fileOperations" | "folderOperations"> {
+  extends Omit<IFileBrowserModuleProps, "fileOperations" | "folderOperations"> {
   itemOperations: {[contentType: string]: FileOperation[]}
 
   bulkOperations?: IBulkOperations
   handleRename?: (path: string, new_path: string) => Promise<void>
   handleMove?: (path: string, new_path: string) => Promise<void>
   downloadFile?: (cid: string) => Promise<void>
-  deleteFiles?: (cid: string[]) => Promise<void[]>
+  deleteFiles?: (cid: string[]) => Promise<void>
   recoverFile?: (cid: string) => Promise<void>
+  recoverFiles?: (cid: string[], newPath: string) => Promise<void>
   viewFolder?: (cid: string) => void
   allowDropUpload?: boolean
 
@@ -47,19 +45,16 @@ export interface IFilesTableBrowserProps
     path: string,
   ) => void
 
-  updateCurrentPath: (
-    newPath: string,
-    newBucketType?: BucketType,
-    showLoading?: boolean,
-  ) => void
+  refreshContents?: () => void
+  currentPath: string
+  bucketType: BucketType
   loadingCurrentPath: boolean
   uploadsInProgress?: UploadProgress[]
   showUploadsInTable: boolean
-
   sourceFiles: FileSystemItem[]
-  currentPath?: string
   crumbs: Crumb[] | undefined
-  getPath?: (cid: string) => string | undefined
+  moduleRootPath: string | undefined
+  getPath?: (cid: string) => string
   isSearch?: boolean
   withSurvey?: boolean
 }

@@ -7,7 +7,7 @@ import { createStyles, makeStyles } from "@chainsafe/common-theme"
 import { CSFTheme } from "../../Themes/types"
 import zxcvbn from "zxcvbn"
 import { t } from "@lingui/macro"
-import StrengthIndicator from "../Modules/MasterKeySequence/SequenceSlides/StrengthIndicator"
+import StrengthIndicator from "./StrengthIndicator"
 import clsx from "clsx"
 
 const useStyles = makeStyles(({  breakpoints, constants }: CSFTheme) =>
@@ -48,7 +48,7 @@ const PasswordForm = ({ buttonLabel, setPassword }: Props) => {
       .test(
         "Complexity",
         t`Password needs to be more complex`,
-        async (val: string | null | undefined | object) => {
+        async (val: string | null | undefined | Record<any, any>) => {
           if (val === undefined) {
             return false
           }

@@ -1,11 +1,10 @@
 import React, { useCallback, useEffect } from "react"
 import { init as initSentry, ErrorBoundary, showReportDialog } from "@sentry/react"
 import { Web3Provider } from "@chainsafe/web3-context"
-import { ImployApiProvider, UserProvider, BillingProvider } from "@chainsafe/common-contexts"
 import { ThemeSwitcher } from "@chainsafe/common-theme"
 import "@chainsafe/common-theme/dist/font-faces.css"
 import { Button, CssBaseline, Modal, Router, ToasterProvider, Typography } from "@chainsafe/common-components"
-import { DriveProvider } from "./Contexts/DriveContext"
+import { FilesProvider } from "./Contexts/FilesContext"
 import FilesRoutes from "./Components/FilesRoutes"
 import AppWrapper from "./Components/Layouts/AppWrapper"
 import { useHotjar } from "react-use-hotjar"
@@ -14,6 +13,9 @@ import { ThresholdKeyProvider } from "./Contexts/ThresholdKeyContext"
 import { lightTheme } from "./Themes/LightTheme"
 import { darkTheme } from "./Themes/DarkTheme"
 import { useLocalStorage } from "@chainsafe/browser-storage-hooks"
+import { FilesApiProvider }  from "./Contexts/FilesApiContext"
+import { UserProvider } from "./Contexts/UserContext"
+import { BillingProvider } from "./Contexts/BillingContext"
 
 if (
   process.env.NODE_ENV === "production" &&
@@ -56,7 +58,7 @@ const onboardConfig = {
   }
 }
 
-const App: React.FC<{}> = () => {
+const App = () => {
   const { initHotjar } = useHotjar()
   const { canUseLocalStorage } = useLocalStorage()
   const hotjarId = process.env.REACT_APP_HOTJAR_ID
@@ -110,16 +112,16 @@ const App: React.FC<{}> = () => {
               checkNetwork={false}
               cacheWalletSelection={canUseLocalStorage}
             >
-              <ImployApiProvider
+              <FilesApiProvider
                 apiUrl={apiUrl}
                 withLocalStorage={false}
               >
                 <ThresholdKeyProvider
-                  enableLogging
+                  enableLogging={directAuthNetwork !== "mainnet"}
                   network={directAuthNetwork}
                 >
                   <UserProvider>
-                    <DriveProvider>
+                    <FilesProvider>
                       <BillingProvider>
                         <Router>
                           <AppWrapper>
@@ -127,10 +129,10 @@ const App: React.FC<{}> = () => {
                           </AppWrapper>
                         </Router>
                       </BillingProvider>
-                    </DriveProvider>
+                    </FilesProvider>
                   </UserProvider>
                 </ThresholdKeyProvider>
-              </ImployApiProvider>
+              </FilesApiProvider>
             </Web3Provider>
           </ToasterProvider>
         </LanguageProvider>

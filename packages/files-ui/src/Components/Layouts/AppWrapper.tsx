@@ -1,4 +1,4 @@
-import { useImployApi } from "@chainsafe/common-contexts"
+import { useFilesApi } from "../../Contexts/FilesApiContext"
 import { createStyles, ITheme, makeStyles } from "@chainsafe/common-theme"
 import React, { useState } from "react"
 import { ReactNode } from "react"
@@ -59,7 +59,7 @@ const useStyles = makeStyles(
 const AppWrapper: React.FC<IAppWrapper> = ({ children }: IAppWrapper) => {
   const classes = useStyles()
   const [navOpen, setNavOpen] = useState<boolean>(false)
-  const { isLoggedIn, secured } = useImployApi()
+  const { isLoggedIn, secured } = useFilesApi()
   const { publicKey, isNewDevice, shouldInitializeAccount } = useThresholdKey()
 
   return (

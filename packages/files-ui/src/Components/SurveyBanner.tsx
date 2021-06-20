@@ -6,14 +6,14 @@ import React, { useCallback } from "react"
 import { CSFTheme } from "../Themes/types"
 import { ROUTE_LINKS } from "./FilesRoutes"
 
-const SURVEY_VERSION = 1
+const SURVEY_VERSION = 2
 export const DISMISSED_SURVEY_KEY = `csf.dismissedSurveyBannerV${SURVEY_VERSION}`
 
 const useStyles = makeStyles(
-  ({ constants, palette }: CSFTheme) => {
+  ({ constants }: CSFTheme) => {
     return createStyles({
       root: {
-        backgroundColor: palette.primary.main,
+        background: "linear-gradient(90deg, rgba(81,101,220,1) 0%, rgba(3,150,166,1) 68%, rgba(22,212,96,1) 100%);",
         padding: constants.generalUnit,
         paddingLeft: constants.generalUnit * 2,
         marginTop: constants.generalUnit,
@@ -21,7 +21,9 @@ const useStyles = makeStyles(
         display: "flex"
       },
       banner: {
-        color: constants.surveyBanner.color
+        color: constants.surveyBanner.color,
+        fontWeight: 600,
+        paddingRight: constants.generalUnit
       },
       link: {
         marginLeft: constants.generalUnit * 2,
@@ -75,7 +77,7 @@ const SurveyBanner = ({ onHide }: Props) => {
         variant="body1"
         className={classes.banner}>
         <Trans>
-            Help us make Files better in under 30 seconds.
+          Are we on the right track? Let us know in less than 1 minute.
         </Trans>
         <span
           className={classes.link}

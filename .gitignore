@@ -54,3 +54,8 @@ storybook-static
 .idea
 .env
 .DS_Store
+
+# test artifacts
+packages/files-ui/cypress/screenshots/*
+packages/files-ui/cypress/videos/*
+packages/files-ui/cypress/fixtures/storage

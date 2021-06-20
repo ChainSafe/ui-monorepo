@@ -1,5 +1,4 @@
-import { useImployApi, useUser } from "@chainsafe/common-contexts"
-import { useDrive } from "../../Contexts/DriveContext"
+import { useFiles } from "../../Contexts/FilesContext"
 import {
   createStyles,
   makeStyles,
@@ -23,7 +22,8 @@ import { FREE_PLAN_LIMIT } from "../../Utils/Constants"
 import { Trans } from "@lingui/macro"
 import { useThresholdKey } from "../../Contexts/ThresholdKeyContext"
 import { CSFTheme } from "../../Themes/types"
-
+import { useUser } from "../../Contexts/UserContext"
+import { useFilesApi } from "../../Contexts/FilesApiContext"
 const useStyles = makeStyles(
   ({ palette, animation, breakpoints, constants, zIndex }: CSFTheme) => {
     return createStyles({
@@ -212,9 +212,9 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
   const { desktop } = useThemeSwitcher()
   const classes = useStyles()
 
-  const { spaceUsed, updateCurrentPath } = useDrive()
+  const { spaceUsed } = useFiles()
 
-  const { isLoggedIn, secured } = useImployApi()
+  const { isLoggedIn, secured } = useFilesApi()
   const { publicKey, isNewDevice, shouldInitializeAccount, logout } = useThresholdKey()
 
   const { removeUser } = useUser()
@@ -256,7 +256,7 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
             <div>
               <Link
                 className={classes.logo}
-                to={ROUTE_LINKS.Home()}
+                to={ROUTE_LINKS.Drive("/")}
               >
                 <ChainsafeFilesLogo />
                 <Typography variant="h5">
@@ -280,13 +280,13 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
               <Link
                 onClick={() => {
                   handleOnClick()
-                  updateCurrentPath("/", "csf", true)
                 }}
                 className={classes.navItem}
-                to={ROUTE_LINKS.Home()}
+                to={ROUTE_LINKS.Drive("/")}
               >
                 <DatabaseSvg />
                 <Typography
+                  data-cy="home-nav"
                   variant="h5"
                   className={classes.navItemText}
                 >
@@ -296,10 +296,11 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
               <Link
                 onClick={handleOnClick}
                 className={classes.navItem}
-                to={ROUTE_LINKS.Bin}
+                to={ROUTE_LINKS.Bin("/")}
               >
                 <DeleteSvg />
                 <Typography
+                  data-cy="bin-nav"
                   variant="h5"
                   className={classes.navItemText}
                 >
@@ -318,6 +319,7 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
               >
                 <SettingSvg />
                 <Typography
+                  data-cy="settings-nav"
                   variant="h5"
                   className={classes.navItemText}
                 >
@@ -330,6 +332,7 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
             {desktop && (
               <div>
                 <Typography
+                  data-cy="space-used-label"
                   variant="body2"
                   className={classes.spaceUsedMargin}
                   component="p"
@@ -337,6 +340,7 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
                     FREE_PLAN_LIMIT
                   )} used`}</Typography>
                 <ProgressBar
+                  data-cy="space-used-progress-bar"
                   className={classes.spaceUsedMargin}
                   progress={(spaceUsed / FREE_PLAN_LIMIT) * 100}
                   size="small"
@@ -345,6 +349,7 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
                   <Trans>UPGRADE</Trans>
                 </Button> */}
                 <Button
+                  data-cy="send-feedback-nav"
                   variant="outline"
                   size="small"
                   onClick={() => collectFeedback()}
@@ -355,6 +360,7 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
             )}
             {!desktop && (
               <div
+                data-cy="signout-nav"
                 className={classes.navItem}
                 onClick={() => {
                   handleOnClick()

@@ -16,7 +16,6 @@ const useStyles = makeStyles(({ breakpoints, constants, typography, palette, zIn
       width: "100vw",
       [breakpoints.up("md")]: {
         maxWidth: 580,
-        minHeight: "64vh",
         padding: `${constants.generalUnit * 6.5}px ${constants.generalUnit * 5}px`
       },
       [breakpoints.down("md")]: {
@@ -236,7 +235,7 @@ const AuthenticationFactors = ({ goToComplete, goToMnemonic, goToPassword, goToS
         <div>
           <Typography variant="h5">
             <Trans>
-              Backup phrase
+              Backup secret phrase
             </Trans>
           </Typography>
           {
