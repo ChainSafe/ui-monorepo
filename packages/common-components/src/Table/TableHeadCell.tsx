@@ -12,7 +12,7 @@ import { SortDirection } from "./types"
 import { CaretDownSvg } from "../Icons"
 
 const useStyles = makeStyles(
-  ({ animation, palette, constants, overrides }: ITheme) =>
+  ({ animation, palette, constants, overrides, breakpoints }: ITheme) =>
     createStyles({
       root: {
         fontWeight: "bold",
@@ -36,9 +36,11 @@ const useStyles = makeStyles(
       },
       sortButtons: {
         cursor: "pointer",
-        "&:hover": {
-          backgroundColor: palette.additional["gray"][2],
-          ...overrides?.Table?.headCell?.sortButton?.hover
+        [breakpoints.up("sm")]: {
+          "&:hover": {
+            backgroundColor: palette.additional["gray"][2],
+            ...overrides?.Table?.headCell?.sortButton?.hover
+          }
         },
         ...overrides?.Table?.headCell?.sortButton?.root
       },

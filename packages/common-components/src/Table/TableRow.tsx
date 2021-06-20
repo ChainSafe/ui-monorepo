@@ -3,7 +3,7 @@ import { ITheme, makeStyles, createStyles } from "@chainsafe/common-theme"
 import clsx from "clsx"
 
 const useStyles = makeStyles(
-  ({ animation, palette, typography, overrides }: ITheme) =>
+  ({ animation, palette, typography, overrides, breakpoints }: ITheme) =>
     createStyles({
       root: {
         color: palette.additional["gray"][8],
@@ -14,8 +14,10 @@ const useStyles = makeStyles(
         lineHeight: "inherit",
         "&.selected": {
           backgroundColor: palette.additional["gray"][4],
-          "&:hover": {
-            backgroundColor: palette.additional["gray"][4]
+          [breakpoints.up("sm")]: {
+            "&:hover": {
+              backgroundColor: palette.additional["gray"][4]
+            }
           },
           ...overrides?.Table?.row?.selected
         },

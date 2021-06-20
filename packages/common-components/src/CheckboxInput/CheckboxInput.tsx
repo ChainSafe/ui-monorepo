@@ -5,7 +5,7 @@ import { Typography } from "../Typography"
 import { CheckIcon } from "../Icons"
 
 const useStyles = makeStyles(
-  ({ constants, palette, animation, typography, overrides }: ITheme) =>
+  ({ constants, palette, animation, typography, overrides, breakpoints }: ITheme) =>
     createStyles({
       root: {
         cursor: "pointer",
@@ -32,9 +32,11 @@ const useStyles = makeStyles(
           transform: "translate(-50%,-50%)",
           opacity: 0
         },
-        "&:hover": {
-          borderColor: palette.primary.main,
-          ...overrides?.CheckboxInput?.checkbox?.hover
+        [breakpoints.up("sm")]: {
+          "&:hover": {
+            borderColor: palette.primary.main,
+            ...overrides?.CheckboxInput?.checkbox?.hover
+          }
         },
         "&.checked": {
           borderColor: palette.primary.main,
@@ -53,8 +55,10 @@ const useStyles = makeStyles(
           "&:before": {
             backgroundColor: palette.additional["gray"][6]
           },
-          "&:hover": {
-            borderColor: palette.additional["gray"][5]
+          [breakpoints.up("sm")]: {
+            "&:hover": {
+              borderColor: palette.additional["gray"][5]
+            }
           },
           ...overrides?.CheckboxInput?.checkbox?.disabled
         },

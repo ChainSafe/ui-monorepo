@@ -11,7 +11,7 @@ import { DirectionalDownIcon, SvgIcon } from "../Icons"
 import { Paper } from "../Paper"
 
 const useStyles = makeStyles(
-  ({ constants, animation, typography, palette, overrides }: ITheme) =>
+  ({ constants, animation, typography, palette, overrides, breakpoints }: ITheme) =>
     createStyles({
       // JSS in CSS goes here
       root: {
@@ -140,9 +140,11 @@ const useStyles = makeStyles(
         color: palette.additional["gray"][7],
         transitionDuration: `${animation.transform}ms`,
         backgroundColor: "initial",
-        "&:hover": {
-          backgroundColor: palette.additional["gray"][3],
-          ...overrides?.MenuDropdown?.item?.hover
+        [breakpoints.up("sm")]: {
+          "&:hover": {
+            backgroundColor: palette.additional["gray"][3],
+            ...overrides?.MenuDropdown?.item?.hover
+          }
         },
         "& > *:first-child ~ *": {
           marginLeft: constants.generalUnit / 2

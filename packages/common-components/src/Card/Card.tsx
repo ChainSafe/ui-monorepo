@@ -4,7 +4,7 @@ import { ITheme, makeStyles, createStyles } from "@chainsafe/common-theme"
 import { Paper } from "../Paper"
 
 const useStyles = makeStyles(
-  ({ palette, shadows, animation, overrides }: ITheme) =>
+  ({ palette, shadows, animation, overrides, breakpoints }: ITheme) =>
     createStyles({
       root: {
         backgroundColor: palette.background.default,
@@ -13,8 +13,10 @@ const useStyles = makeStyles(
         ...overrides?.Card?.root
       },
       hoverable: {
-        "&:hover": {
-          boxShadow: shadows.shadow2
+        [breakpoints.up("sm")]: {
+          "&:hover": {
+            boxShadow: shadows.shadow2
+          }
         },
         ...overrides?.Card?.hoverable
       }

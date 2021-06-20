@@ -28,7 +28,7 @@ const iconSize = {
 }
 
 const useStyles = makeStyles(
-  ({ typography, constants, palette, animation, zIndex, overrides }: ITheme) =>
+  ({ typography, constants, palette, animation, zIndex, overrides, breakpoints }: ITheme) =>
     createStyles({
       // JSS in CSS goes here
       root: {
@@ -60,9 +60,11 @@ const useStyles = makeStyles(
           display: "block",
           color: palette.additional["gray"][8],
           borderRadius: 2,
-          "&:hover": {
-            borderColor: palette.primary.border,
-            ...overrides?.TextInput?.input?.hover
+          [breakpoints.up("sm")]: {
+            "&:hover": {
+              borderColor: palette.primary.border,
+              ...overrides?.TextInput?.input?.hover
+            }
           },
           "&:focus": {
             borderColor: palette.primary.border,
@@ -87,9 +89,11 @@ const useStyles = makeStyles(
         },
         "& input": {
           borderColor: palette.error.border,
-          "&:hover": {
-            borderColor: palette.error.border,
-            boxShadow: "0px 0px 4px rgba(245, 34, 45, 0.5)"
+          [breakpoints.up("sm")]: {
+            "&:hover": {
+              borderColor: palette.error.border,
+              boxShadow: "0px 0px 4px rgba(245, 34, 45, 0.5)"
+            }
           },
           "&:focus": {
             borderColor: palette.error.border,
@@ -103,9 +107,11 @@ const useStyles = makeStyles(
         },
         "& input": {
           borderColor: palette.warning.border,
-          "&:hover": {
-            borderColor: palette.warning.border,
-            boxShadow: "0px 0px 4px rgba(250, 173, 20, 0.5)"
+          [breakpoints.up("sm")]: {
+            "&:hover": {
+              borderColor: palette.warning.border,
+              boxShadow: "0px 0px 4px rgba(250, 173, 20, 0.5)"
+            }
           },
           "&:focus": {
             borderColor: palette.warning.border,

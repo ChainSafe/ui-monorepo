@@ -21,7 +21,7 @@ const iconSize = {
 }
 
 const useStyles = makeStyles(
-  ({ constants, palette, animation, overrides, typography }: ITheme) =>
+  ({ constants, palette, animation, overrides, typography, breakpoints }: ITheme) =>
     createStyles({
       // JSS in CSS goes here
       root: {
@@ -51,9 +51,11 @@ const useStyles = makeStyles(
           display: "block",
           color: palette.additional["gray"][8],
           borderRadius: 2,
-          "&:hover": {
-            borderColor: palette.primary.border,
-            ...overrides?.SearchBar?.input?.hover
+          [breakpoints.up("sm")]: {
+            "&:hover": {
+              borderColor: palette.primary.border,
+              ...overrides?.SearchBar?.input?.hover
+            }
           },
           "&:focus": {
             borderColor: palette.primary.border,

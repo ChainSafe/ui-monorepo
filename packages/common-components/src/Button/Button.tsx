@@ -80,12 +80,14 @@ const useStyles = makeStyles(
           color: palette.common.white.main,
           ...overrides?.Button?.variants?.primary?.focus
         },
-        "&:active": {
-          backgroundColor: palette.primary.hover
-            ? palette.primary.hover
-            : palette.primary.main,
-          color: palette.common.white.main,
-          ...overrides?.Button?.variants?.primary?.active
+        [breakpoints.up("sm")]: {
+          "&:active": {
+            backgroundColor: palette.primary.hover
+              ? palette.primary.hover
+              : palette.primary.main,
+            color: palette.common.white.main,
+            ...overrides?.Button?.variants?.primary?.active
+          }
         },
         ...overrides?.Button?.variants?.primary?.root
       },
@@ -107,10 +109,12 @@ const useStyles = makeStyles(
           color: palette.common.white.main,
           ...overrides?.Button?.variants?.secondary?.focus
         },
-        "&:active": {
-          backgroundColor: palette.primary.main,
-          color: palette.common.white.main,
-          ...overrides?.Button?.variants?.secondary?.active
+        [breakpoints.up("sm")]: {
+          "&:active": {
+            backgroundColor: palette.primary.main,
+            color: palette.common.white.main,
+            ...overrides?.Button?.variants?.secondary?.active
+          }
         },
         ...overrides?.Button?.variants?.secondary?.root
       },
@@ -139,11 +143,13 @@ const useStyles = makeStyles(
           },
           ...overrides?.Button?.variants?.outline?.focus
         },
-        "&:active": {
-          borderColor: palette.additional["blue"][7],
-          color: palette.additional["blue"][7],
-          "& svg": {
-            fill: palette.additional["blue"][7]
+        [breakpoints.up("sm")]: {
+          "&:active": {
+            borderColor: palette.additional["blue"][7],
+            color: palette.additional["blue"][7],
+            "& svg": {
+              fill: palette.additional["blue"][7]
+            }
           },
           ...overrides?.Button?.variants?.outline?.active
         },
@@ -174,13 +180,15 @@ const useStyles = makeStyles(
           },
           ...overrides?.Button?.variants?.dashed?.focus
         },
-        "&:active": {
-          borderColor: palette.additional["blue"][7],
-          color: palette.additional["blue"][7],
-          "& svg": {
-            fill: palette.additional["blue"][7]
-          },
-          ...overrides?.Button?.variants?.dashed?.active
+        [breakpoints.up("sm")]: {
+          "&:active": {
+            borderColor: palette.additional["blue"][7],
+            color: palette.additional["blue"][7],
+            "& svg": {
+              fill: palette.additional["blue"][7]
+            },
+            ...overrides?.Button?.variants?.dashed?.active
+          }
         },
         ...overrides?.Button?.variants?.dashed?.root
       },
@@ -201,9 +209,11 @@ const useStyles = makeStyles(
           backgroundColor: palette.additional["red"][4],
           ...overrides?.Button?.state?.danger?.focus
         },
-        "&:active": {
-          backgroundColor: palette.additional["red"][7],
-          ...overrides?.Button?.state?.danger?.active
+        [breakpoints.up("sm")]: {
+          "&:active": {
+            backgroundColor: palette.additional["red"][7],
+            ...overrides?.Button?.state?.danger?.active
+          }
         },
         ...overrides?.Button?.state?.danger?.root
       },
