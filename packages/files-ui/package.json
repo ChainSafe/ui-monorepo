@@ -66,7 +66,7 @@
     "@types/yup": "^0.29.9",
     "@types/zxcvbn": "^4.4.0",
     "babel-plugin-macros": "^2.8.0",
-    "cypress": "^7.4.0",
+    "cypress": "^7.5.0",
     "cypress-file-upload": "^5.0.7"
   },
   "scripts": {
