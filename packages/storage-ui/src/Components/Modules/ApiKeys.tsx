@@ -120,7 +120,7 @@ const ApiKeys = () => {
         <Typography
           variant="h1"
           component="h1"
-          data-cy="storage-cids-header"
+          data-cy="storage-api-keys-header"
         >
           <Trans>
               API Keys
