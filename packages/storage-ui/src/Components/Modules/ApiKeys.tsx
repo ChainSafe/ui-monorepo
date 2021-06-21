@@ -92,19 +92,22 @@ const ApiKeys = () => {
   const { storageApiClient } = useStorageApi()
   const [keys, setKeys] = useState<AccessKey[]>([])
 
-  const fetchAccessKeys = useCallback(async () => {
-    const result = await storageApiClient.listAccessKeys()
-    setKeys(result)
+  const fetchAccessKeys = useCallback(() => {
+    storageApiClient.listAccessKeys()
+      .then(result => setKeys(result))
+      .catch(console.error)
   }, [storageApiClient])
 
-  const createAccessKey = useCallback(async () => {
-    await storageApiClient.createAccessKey()
-    fetchAccessKeys()
+  const createAccessKey = useCallback(() => {
+    storageApiClient.createAccessKey()
+      .then(fetchAccessKeys)
+      .catch(console.error)
   }, [fetchAccessKeys, storageApiClient])
 
-  const deleteAccessKey = useCallback(async (id: string) => {
-    await storageApiClient.deleteAccessKey(id)
-    fetchAccessKeys()
+  const deleteAccessKey = useCallback((id: string) => {
+    storageApiClient.deleteAccessKey(id)
+      .then(fetchAccessKeys)
+      .catch(console.error)
   }, [storageApiClient, fetchAccessKeys])
 
   useEffect(() => {
