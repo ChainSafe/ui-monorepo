@@ -61,7 +61,7 @@ const ShareFileBrowser = () => {
     }
 
     showLoading && setLoadingCurrentPath(true)
-    filesApiClient.getFPSChildList(bucket.id, { path: currentPath })
+    filesApiClient.getBucketObjectChildrenList(bucket.id, { path: currentPath })
       .then((newContents) => {
         showLoading && setLoadingCurrentPath(false)
 
@@ -106,12 +106,10 @@ const ShareFileBrowser = () => {
         }
 
         try {
-          await filesApiClient.moveFPSObject(bucket.id, {
+          await filesApiClient.moveBucketObjects(bucket.id, {
             path: getPathWithFile(currentPath, itemToDelete.name),
             new_path: getPathWithFile("/", itemToDelete.name),
-            destination: {
-              type: "trash"
-            }
+            destination: buckets.find(b => b.type === "trash")?.id
           })
           const message = `${
             itemToDelete.isFolder ? t`Folder` : t`File`
@@ -132,14 +130,14 @@ const ShareFileBrowser = () => {
           return Promise.reject()
         }}
       )).finally(refreshContents)
-  }, [addToastMessage, currentPath, pathContents, refreshContents, filesApiClient, bucket])
+  }, [addToastMessage, buckets, currentPath, pathContents, refreshContents, filesApiClient, bucket])
 
   // Rename
   const renameItem = useCallback(async (cid: string, newName: string) => {
     const itemToRename = pathContents.find(i => i.cid === cid)
     if (!bucket || !itemToRename) return
 
-    filesApiClient.moveFPSObject(bucket.id, {
+    filesApiClient.moveBucketObjects(bucket.id, {
       path: getPathWithFile(currentPath, itemToRename.name),
       new_path: getPathWithFile(currentPath, newName) }).then(() => refreshContents())
       .catch(console.error)
@@ -151,7 +149,7 @@ const ShareFileBrowser = () => {
       cids.map(async (cid: string) => {
         const itemToMove = pathContents.find(i => i.cid === cid)
         if (!bucket || !itemToMove) return
-        await filesApiClient.moveFPSObject(bucket.id, {
+        await filesApiClient.moveBucketObjects(bucket.id, {
           path: getPathWithFile(currentPath, itemToMove.name),
           new_path: getPathWithFile(newPath, itemToMove.name)
         })
