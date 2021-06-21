@@ -353,25 +353,12 @@ const LoginModule = ({ className }: IInitialScreen) => {
                   <Footer/>
                 </>
               ) : (
-                <>
-                  {/* <section className={classes.connectingWallet}>
-                    <Typography variant='h2'><Trans>Connect Wallet to Files</Trans></Typography>
-                    {status === "awaiting confirmation" &&
-                      <Typography variant='h5'>
-                        <Trans>You will need to sign a message in your wallet to complete sign in.</Trans>
-                      </Typography>}
-                    {status === "logging in" && <>
-                      <Typography variant='h5'>
-                        <Trans>Hold on, we are logging you in...</Trans>
-                      </Typography>
-                      <Loading
-                        className={classes.loader}
-                        size={50}
-                        type='inherit'
-                      />
-                    </>}
-                  </section> */}
-                </>
+                <section className={classes.connectingWallet}>
+                  <Typography variant='h2'><Trans>Connect Wallet to Storage</Trans></Typography>
+                  <Typography variant='h5'>
+                    <Trans>You will need to sign a message in your wallet to complete sign in.</Trans>
+                  </Typography>
+                </section>
               )
               : <>
                 <section className={classes.buttonSection}>
