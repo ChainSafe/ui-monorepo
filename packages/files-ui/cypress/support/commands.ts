@@ -145,7 +145,7 @@ Cypress.Commands.add(
         cy.log("nothing in session storage, --> click on web3 button")
         authenticationPage.web3Button().click()
         authenticationPage.metaMaskButton().click()
-        authenticationPage.web3SignInButton()
+        authenticationPage.web3SignInButton().click()
         authenticationPage.loginPasswordButton().click()
         authenticationPage.loginPasswordInput().type(`${testAccountPassword}{enter}`)
 
