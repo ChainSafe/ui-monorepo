@@ -28,12 +28,8 @@ const CSFFileBrowser: React.FC<IFileBrowserModuleProps> = () => {
   const [loadingCurrentPath, setLoadingCurrentPath] = useState(false)
   const [pathContents, setPathContents] = useState<FileSystemItem[]>([])
   const { redirect } = useHistory()
-
   const { pathname } = useLocation()
-  const currentPath = useMemo(() =>
-    extractFileBrowserPathFromURL(pathname, ROUTE_LINKS.Drive("")),
-  [pathname]
-  )
+  const currentPath = useMemo(() => extractFileBrowserPathFromURL(pathname, ROUTE_LINKS.Drive("")), [pathname])
   const bucket = useMemo(() => buckets.find(b => b.type === "csf"), [buckets])
 
   const refreshContents = useCallback((showLoading?: boolean) => {
@@ -186,7 +182,9 @@ const CSFFileBrowser: React.FC<IFileBrowserModuleProps> = () => {
         appearance: "error"
       })
     } else {
-      uploadFiles(bucket.id, files, path).then(() => refreshContents()).catch(console.error)
+      uploadFiles(bucket.id, files, path)
+        .then(() => refreshContents())
+        .catch(console.error)
     }
   }, [addToastMessage, uploadFiles, bucket, refreshContents])
 

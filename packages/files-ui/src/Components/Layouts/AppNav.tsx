@@ -16,7 +16,8 @@ import {
   ProgressBar,
   Button,
   formatBytes,
-  DeleteSvg } from "@chainsafe/common-components"
+  DeleteSvg,
+  UserShareSvg } from "@chainsafe/common-components"
 import { ROUTE_LINKS } from "../FilesRoutes"
 import { FREE_PLAN_LIMIT } from "../../Utils/Constants"
 import { Trans } from "@lingui/macro"
@@ -155,6 +156,9 @@ const useStyles = makeStyles(
           }
         },
         "& svg": {
+          "& path" : {
+            fill: constants.nav.headingColor
+          },
           transitionDuration: `${animation.transform}ms`,
           width: Number(constants.svgWidth),
           marginRight: constants.generalUnit * 2,
@@ -291,6 +295,19 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
                   className={classes.navItemText}
                 >
                   <Trans>Home</Trans>
+                </Typography>
+              </Link>
+              <Link
+                onClick={handleOnClick}
+                className={classes.navItem}
+                to={ROUTE_LINKS.SharedFolders}
+              >
+                <UserShareSvg />
+                <Typography
+                  variant="h5"
+                  className={classes.navItemText}
+                >
+                  <Trans>Shared</Trans>
                 </Typography>
               </Link>
               <Link
