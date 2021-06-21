@@ -14,7 +14,6 @@ const useStyles = makeStyles(({ animation, breakpoints, constants }: CSSTheme) =
   createStyles({
     root: {
       position: "relative",
-      minHeight: "100vh",
       overflow: "hidden"
     },
     header: {

@@ -1657,10 +1657,10 @@
   resolved "https://registry.yarnpkg.com/@chainsafe/browser-storage-hooks/-/browser-storage-hooks-1.0.1.tgz#26d32cde1999914db755a631e2643823c54959f7"
   integrity sha512-Q4b5gQAZnsRXKeADspd5isqfwwhhXjDk70y++YadufA6EZ3tf340oW0OVszp74KaGEw+CAYFGQR4X7bzpZ3x9Q==
 
-"@chainsafe/files-api-client@1.15.4":
-  version "1.15.4"
-  resolved "https://npm.pkg.github.com/download/@chainsafe/files-api-client/1.15.4/da09abf21bd8568c4b94bc963d6d7cf4fb4540ccde8224562b9246f2a07f5421#ea7d055ddb2a9f48701603b1d59938e91082e7a4"
-  integrity sha512-bYvpaKsZ9lyc0RzdcYO7RHGh7qVbDoUZM3NOPOgYnGxUsXAsThuaJ1srpbC85F28DDGkZ1U+R+2MnPr+jY3LRg==
+"@chainsafe/files-api-client@1.15.5":
+  version "1.15.5"
+  resolved "https://npm.pkg.github.com/download/@chainsafe/files-api-client/1.15.5/5831bab1d0c542ce519cc5f32aba2cd69c9bc9160a927c8b3d8c78ef33b3ae19#fd55aa623ac08e5a9b4cd1001ac8fc99a6f91109"
+  integrity sha512-pTHNSSyQIwgMFav1ahcfOiPvkFmW3r0YyV6et0zt8ZGVrP5nu8sgsARNqhFq738bU5LDRjAaW4Zr27LI4ZELRA==
 
 "@chainsafe/web3-context@1.1.4":
   version "1.1.4"

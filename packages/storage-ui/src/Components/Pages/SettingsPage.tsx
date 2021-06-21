@@ -11,13 +11,10 @@ import { Tabs,
   LockIcon
 } from "@chainsafe/common-components"
 import { makeStyles, ITheme, createStyles, useThemeSwitcher } from "@chainsafe/common-theme"
-import { ROUTE_LINKS } from "../StorageRoutes"
+import { ROUTE_LINKS, SettingsPath } from "../StorageRoutes"
 import { t, Trans } from "@lingui/macro"
 import clsx from "clsx"
 import ApiKeys from "../Modules/ApiKeys"
-
-export const SETTINGS_PATHS = ["apiKeys"] as const
-export type SettingsPath = typeof SETTINGS_PATHS[number]
 
 const TabPane = (props: ITabPaneProps<SettingsPath>) => TabPaneOrigin(props)
 const useStyles = makeStyles(({ constants, breakpoints, palette }: ITheme) =>
@@ -131,13 +128,13 @@ const useStyles = makeStyles(({ constants, breakpoints, palette }: ITheme) =>
 
 const SettingsPage: React.FC = () => {
   const { desktop } = useThemeSwitcher()
-  const { path = desktop ? "profile" : "" } = useParams<{path: SettingsPath}>()
+  const { path = desktop ? "apiKeys" : "" } = useParams<{path: SettingsPath}>()
   const classes = useStyles()
   const { redirect } = useHistory()
 
 
   const onSelectTab = useCallback(
-    (key: string) => redirect(`settings/${key}`)
+    (path: string) => redirect(ROUTE_LINKS.Settings(path as SettingsPath))
     , [redirect])
 
   const crumbs: Crumb[] = useMemo(() => [
