@@ -1,5 +1,5 @@
 import { binPage } from "../support/page-objects/binPage"
-import { click, homePage } from "../support/page-objects/homePage"
+import { homePage } from "../support/page-objects/homePage"
 import { navigationMenu } from "../support/page-objects/navigationMenu"
 import "cypress-pipe"
 
@@ -103,4 +103,3 @@ describe("File management", () => {
     })
   })
 })
-
