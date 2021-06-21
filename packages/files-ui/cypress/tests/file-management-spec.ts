@@ -1,53 +1,105 @@
+import { binPage } from "../support/page-objects/binPage"
+import { homePage } from "../support/page-objects/homePage"
+import { navigationMenu } from "../support/page-objects/navigationMenu"
+import "cypress-pipe"
+
 describe("File management", () => {
 
   context("desktop", () => {
 
     it("can add files and cancel", () => {
       cy.web3Login()
-      cy.get("[data-cy=upload-modal-button]").click()
-      cy.get("[data-cy=upload-file-form] input").attachFile("../fixtures/uploadedFiles/text-file.txt")
-      cy.get("[data-testid=file-list-fileUpload] li").should("have.length", 1)
-      cy.get("[data-cy=upload-cancel-button").click()
-      cy.get("[data-cy=files-app-header").should("be.visible")
+
+      // upload a file and see it in the file list
+      homePage.uploadButton().click()
+      homePage.uploadFileForm().attachFile("../fixtures/uploadedFiles/text-file.txt")
+      homePage.fileUploadList().should("have.length", 1)
+
+      // cancel and ensure that the upload modal is dismissed
+      homePage.uploadCancelButton().click()
+      homePage.uploadCancelButton().should("not.exist")
+      homePage.uploadFileForm().should("not.exist")
     })
 
-    it("can add/remove files and upload", () => {
+    it("can add/remove multiple files and upload", () => {
       cy.web3Login({ clearCSFBucket: true })
-      cy.get("[data-cy=upload-modal-button]").click()
-      cy.get("[data-cy=upload-file-form] input").attachFile("../fixtures/uploadedFiles/text-file.txt")
-      cy.get("[data-testid=file-list-fileUpload] li").should("have.length", 1)
-      cy.get("[data-cy=upload-file-form] input").attachFile("../fixtures/uploadedFiles/logo.png")
-      cy.get("[data-testid=file-list-fileUpload] li").should("have.length", 2)
-      cy.get("[data-testid=file-list-close-button-fileUpload]").first().click()
-      cy.get("[data-testid=file-list-fileUpload] li").should("have.length", 1)
-      cy.get("[data-cy=upload-file-form] input").attachFile("../fixtures/uploadedFiles/text-file.txt")
-      cy.get("[data-testid=file-list-fileUpload] li").should("have.length", 2)
-      cy.get("[data-cy=upload-ok-button]").click()
-      cy.get("[data-cy=files-app-header]").should("be.visible")
-      cy.get("[data-cy=file-item-row]").should("have.length", 2)
+
+      // attach 2 files to the file list
+      homePage.uploadButton().click()
+      homePage.uploadFileForm().attachFile("../fixtures/uploadedFiles/text-file.txt")
+      homePage.fileUploadList().should("have.length", 1)
+      homePage.uploadFileForm().attachFile("../fixtures/uploadedFiles/logo.png")
+      homePage.fileUploadList().should("have.length", 2)
+
+      // remove 1 file from the list and ensure 1 remains
+      homePage.fileListRemoveButton().first().click()
+      homePage.fileUploadList().should("have.length", 1)
+
+      // attach an additional file to the file list and upload
+      homePage.uploadFileForm().attachFile("../fixtures/uploadedFiles/text-file.txt")
+      homePage.fileUploadList().should("have.length", 2)
+      homePage.fileListRemoveButton().should("have.length", 2)
+      homePage.clickUploadButton()
+      homePage.uploadFileForm().should("not.exist")
+      homePage.fileItemRow().should("have.length", 2)
     })
 
     it("can rename a file with error handling", () => {
       const newName = "awesome new name"
 
       cy.web3Login({ clearCSFBucket: true })
-      cy.get("[data-cy=upload-modal-button]").click()
-      cy.get("[data-cy=upload-file-form] input").attachFile("../fixtures/uploadedFiles/text-file.txt")
-      cy.get("[data-cy=upload-ok-button]").click()
-      cy.get("[data-cy=files-app-header]").should("be.visible")
 
-      cy.get("[data-testid=drowpdown-title-fileDropdown]").first().click()
-      cy.get("[data-cy=menu-rename]").click()
-      cy.get("[data-cy=rename-form] input").type("{selectall}{del}")
-      cy.get("[data-cy=rename-form] span.minimal.error").should("be.visible")
-      cy.get("[data-cy=rename-form] input").type(`${newName}{enter}`)
-      cy.get("[data-cy=file-item-name]").contains(newName)
+      // upload a file 
+      homePage.uploadFile("../fixtures/uploadedFiles/text-file.txt")
+      homePage.fileItemRow().should("have.length", 1)
 
-      cy.get("[data-testid=drowpdown-title-fileDropdown]").first().click()
-      cy.get("[data-cy=menu-rename]").click()
-      cy.get("[data-cy=rename-form] input").type("{selectall}{del}{esc}")
-      cy.get("[data-cy=rename-form] input").should("not.exist")
-      cy.get("[data-cy=file-item-name]").contains(newName)
+      // ensure an error is displayed if the edited name is blank
+      homePage.fileItemKebabButton().first().click()
+      homePage.renameMenuOption().click()
+      homePage.fileRenameInput().type("{selectall}{del}")
+      homePage.fileRenameErrorLabel().should("be.visible")
+
+      // rename a file
+      homePage.fileRenameInput().type(`${newName}{enter}`)
+      homePage.fileItemName().contains(newName)
+
+      // ensure the original name persists if the rename submission is blank
+      homePage.fileItemKebabButton().first().click()
+      homePage.renameMenuOption().click()
+      homePage.fileRenameInput().type("{selectall}{del}{esc}")
+      homePage.fileRenameInput().should("not.exist")
+      homePage.fileItemName().contains(newName)
+    })
+
+    it("can delete a single file", () => {
+      cy.web3Login({ clearCSFBucket: true, clearTrashBucket: true })
+
+      // upload a file 
+      homePage.uploadFile("../fixtures/uploadedFiles/text-file.txt")
+      homePage.fileItemRow().should("have.length", 1)
+
+      // retrieve the file's name, store as a cypress alias
+      homePage.fileItemName().invoke("text").as("originalFile")
+
+      // delete a file via the menu option 
+      homePage.fileItemKebabButton().first().click()
+      homePage.deleteMenuOption().click()
+      homePage.deleteFileDialog().should("be.visible")
+      homePage.deleteFileConfirmButton().click()
+      homePage.deleteFileDialog().should("not.exist")
+      homePage.fileItemRow().should("not.exist")
+
+      // confirm the deleted file is moved to the bin
+      navigationMenu.binNavButton().click()
+      homePage.fileItemRow().should("have.length", 1)
+
+      // retrieve the deleted file's name, store as a cypress alias
+      binPage.fileItemName().invoke("text").as("deletedFile")
+
+      // ensure file in bin matches the name of the deleted file
+      cy.get("@originalFile").then(($originalFile) => {
+        cy.get("@deletedFile").should("equals", $originalFile)
+      })
     })
   })
 })

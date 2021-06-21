@@ -9,6 +9,7 @@ import BinPage from "./Pages/BinPage"
 import PurchasePlanPage from "./Pages/PurchasePlanPage"
 import { useThresholdKey } from "../Contexts/ThresholdKeyContext"
 import ShareFilesPage from "./Pages/ShareFilesPage"
+import SharedFoldersOverview from "./Modules/FileBrowsers/SharedFoldersOverview"
 
 export const SETTINGS_BASE = "/settings"
 export const ROUTE_LINKS = {
@@ -25,7 +26,8 @@ export const ROUTE_LINKS = {
   SettingsDefault: `${SETTINGS_BASE}`,
   PurchasePlan: "/purchase",
   UserSurvey: "https://shrl.ink/kmAL",
-  GeneralFeedbackForm: "https://shrl.ink/gvVJ"
+  GeneralFeedbackForm: "https://shrl.ink/gvVJ",
+  SharedFolders: "/shared"
 }
 
 export const SETTINGS_PATHS = ["profile", "plan", "security"] as const
@@ -50,6 +52,12 @@ const FilesRoutes = () => {
         path={ROUTE_LINKS.Bin("/")}
         isAuthorized={isAuthorized}
         component={BinPage}
+        redirectPath={ROUTE_LINKS.Landing}
+      />
+      <ConditionalRoute
+        path={ROUTE_LINKS.SharedFolders}
+        isAuthorized={isAuthorized}
+        component={SharedFoldersOverview}
         redirectPath={ROUTE_LINKS.Landing}
       />
       <ConditionalRoute

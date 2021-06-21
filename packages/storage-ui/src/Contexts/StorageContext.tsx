@@ -1,19 +1,21 @@
 import {
-  CSFFilesFullInfoResponse,
   FileContentResponse,
   DirectoryContentResponse,
   BucketType,
-  Bucket as FilesBucket,
-  SearchEntry
+  SearchEntry,
+  Bucket,
+  PinStatus
 } from "@chainsafe/files-api-client"
 import React, { useCallback, useEffect, useReducer } from "react"
 import { useState } from "react"
-import { v4 as uuidv4 } from "uuid"
-import { downloadsInProgressReducer, uploadsInProgressReducer } from "./FilesReducers"
-import { CancelToken } from "axios"
-import { t } from "@lingui/macro"
+// import { v4 as uuidv4 } from "uuid"
+import { downloadsInProgressReducer, uploadsInProgressReducer } from "./FileOperationsReducers"
+// import { t } from "@lingui/macro"
 import { useBeforeunload } from "react-beforeunload"
 import { useStorageApi } from "./StorageApiContext"
+import { v4 as uuidv4 } from "uuid"
+import { t } from "@lingui/macro"
+import { readFileAsync } from "../Utils/Helpers"
 
 type StorageContextProps = {
   children: React.ReactNode | React.ReactNode[]
@@ -39,25 +41,18 @@ export type DownloadProgress = {
   complete: boolean
 }
 
-interface GetFileContentParams {
-  cid: string
-  cancelToken?: CancelToken
-  onDownloadProgress?: (progressEvent: ProgressEvent<EventTarget>) => void
-  file: FileSystemItem
-  path: string
-}
-
-type Bucket = FilesBucket
-
 type StorageContext = {
-  pins: Bucket[]
+  pins: PinStatus[]
   uploadsInProgress: UploadProgress[]
   downloadsInProgress: DownloadProgress[]
   spaceUsed: number
-  createPin: (bucketId: string, files: File[], path: string) => Promise<void>
-  downloadPin: (bucketId: string, itemToDownload: FileSystemItem, path: string) => void
-  getPinContent: (bucketId: string, params: GetFileContentParams) => Promise<Blob | undefined>
-  refreshPins: () => Promise<void>
+  uploadFiles: (bucketId: string, files: File[], path: string) => Promise<void>
+  addPin: (cid: string) => Promise<PinStatus>
+  refreshPins: () => void
+  unpin: (requestId: string) => void
+  storageBuckets: Bucket[]
+  createBucket: (name: string) => void
+  removeBucket: (id: string) => void
 }
 
 // This represents a File or Folder on the
@@ -66,37 +61,44 @@ interface IFileSystemItem extends FileContentResponse {
 }
 
 type FileSystemItem = IFileSystemItem
-
 const REMOVE_UPLOAD_PROGRESS_DELAY = 5000
 
 const StorageContext = React.createContext<StorageContext | undefined>(undefined)
 
 const StorageProvider = ({ children }: StorageContextProps) => {
-  const {
-    filesApiClient,
-    isLoggedIn
-  } = useStorageApi()
+  const { storageApiClient, isLoggedIn } = useStorageApi()
   const [spaceUsed, setSpaceUsed] = useState(0)
-  const [pins, setPins] = useState<Bucket[]>([])
+  const [storageBuckets, setStorageBuckets] = useState<Bucket[]>([])
+  const [pins, setPins] = useState<PinStatus[]>([])
 
-  const refreshPins = useCallback(async () => {
-    const result = await filesApiClient.listBuckets()
+  const refreshPins = useCallback(() => {
+    storageApiClient.listPins(undefined, undefined, ["queued", "pinning", "pinned", "failed"])
+      .then((pins) =>  setPins(pins.results || []))
+      .catch(console.error)
+  }, [storageApiClient])
 
-    setPins(result.filter(b => b.type === "pinning"))
-    return Promise.resolve()
-  }, [filesApiClient])
+  const refreshBuckets = useCallback(() => {
+    storageApiClient.listBuckets()
+      .then((buckets) => setStorageBuckets(buckets.filter(b => b.type === "fps" || b.type === "pinning")))
+      .catch(console.error)
+  }, [storageApiClient])
 
   useEffect(() => {
     isLoggedIn && refreshPins()
-  }, [isLoggedIn, refreshPins])
+    isLoggedIn && refreshBuckets()
+  }, [isLoggedIn, refreshPins, refreshBuckets])
+
+  const unpin = useCallback((requestId: string) => {
+    storageApiClient.deletePin(requestId)
+      .then(() => refreshPins())
+      .catch(console.error)
+  }, [storageApiClient, refreshPins])
 
   // Space used counter
   useEffect(() => {
     const getSpaceUsage = async () => {
       try {
-        // TODO: Update this to include Share buckets where the current user is the owner
-        const totalSize = pins.filter(b => b.type === "pinning")
-          .reduce((totalSize, bucket) => { return totalSize += (bucket as any).size}, 0)
+        const totalSize = storageBuckets.reduce((totalSize, bucket) => { return totalSize += (bucket as any).size}, 0)
 
         setSpaceUsed(totalSize)
       } catch (error) {
@@ -106,7 +108,8 @@ const StorageProvider = ({ children }: StorageContextProps) => {
     if (isLoggedIn) {
       getSpaceUsage()
     }
-  }, [filesApiClient, isLoggedIn, pins])
+  }, [isLoggedIn, storageBuckets])
+
 
   // Reset encryption keys on log out
   useEffect(() => {
@@ -120,7 +123,7 @@ const StorageProvider = ({ children }: StorageContextProps) => {
     []
   )
 
-  const [downloadsInProgress, dispatchDownloadsInProgress] = useReducer(
+  const [downloadsInProgress] = useReducer(
     downloadsInProgressReducer,
     []
   )
@@ -143,18 +146,40 @@ const StorageProvider = ({ children }: StorageContextProps) => {
     }
   })
 
-  const createPin = useCallback(async (bucketId: string, files: File[], path: string) => {
-    const bucket = pins.find(b => b.id === bucketId)
+  const addPin = useCallback((cid: string) => {
+    return storageApiClient.addPin(({ cid }))
+  }, [storageApiClient])
+
+  const createBucket = useCallback((name: string) => {
+    storageApiClient.createBucket({
+      name,
+      type: "fps",
+      public: "read",
+      encryption_key:""
+    }).then(() =>
+      refreshBuckets()
+    ).catch(console.error)
+  }, [storageApiClient, refreshBuckets])
+
+  const removeBucket = useCallback((id: string) => {
+    storageApiClient.removeBucket(id)
+      .then(refreshBuckets)
+      .then(Promise.resolve)
+      .catch(console.error)
+  }, [storageApiClient, refreshBuckets])
+
+  const uploadFiles = useCallback(async (bucketId: string, files: File[], path: string) => {
+    const bucket = storageBuckets.find(b => b.id === bucketId)
 
     if (!bucket) {
-      console.error("No encryption key for this bucket is available.")
+      console.error("Destination bucket does not exist.")
       return
     }
 
     const id = uuidv4()
     const uploadProgress: UploadProgress = {
       id,
-      fileName: files[0].name, // TODO: Do we need this?
+      fileName: files[0].name,
       complete: false,
       error: false,
       noOfFiles: files.length,
@@ -162,9 +187,38 @@ const StorageProvider = ({ children }: StorageContextProps) => {
       path
     }
     dispatchUploadsInProgress({ type: "add", payload: uploadProgress })
-    try {
-      // TODO: Make API Request to upload here
 
+    try {
+      const filesParam = await Promise.all(
+        files
+          .map(async (f) => {
+            const fileData = await readFileAsync(f)
+            return {
+              data: new Blob([fileData], { type: f.type }),
+              fileName: f.name
+            }
+          })
+      )
+
+      await storageApiClient.uploadBucketObjects(
+        bucketId,
+        filesParam,
+        path,
+        undefined,
+        1,
+        undefined,
+        (progressEvent: { loaded: number; total: number }) => {
+          dispatchUploadsInProgress({
+            type: "progress",
+            payload: {
+              id,
+              progress: Math.ceil(
+                (progressEvent.loaded / progressEvent.total) * 100
+              )
+            }
+          })
+        }
+      )
       // setting complete
       dispatchUploadsInProgress({ type: "complete", payload: { id } })
       setTimeout(() => {
@@ -189,104 +243,24 @@ const StorageProvider = ({ children }: StorageContextProps) => {
         dispatchUploadsInProgress({ type: "remove", payload: { id } })
       }, REMOVE_UPLOAD_PROGRESS_DELAY)
     }
-  }, [pins])
+  }, [storageBuckets, storageApiClient])
 
-  const getPinContent = useCallback(async (
-    bucketId: string,
-    { cid, cancelToken, onDownloadProgress, file, path }: GetFileContentParams
-  ) => {
-    const bucket = pins.find(b => b.id === bucketId)
 
-    if (!bucket) {
-      throw new Error("No encryption key for this bucket found")
-    }
-
-    if (!file) {
-      console.error("No file passed, and no file found for cid:", cid, "in pathContents:", path)
-      throw new Error("No file found.")
-    }
-
-    try {
-      const result = await filesApiClient.getFileContent(
-        {
-          path: path,
-          source: {
-            id: bucket.id
-          }
-        },
-        cancelToken,
-        onDownloadProgress
-      )
-
-      return result.data
-    } catch (error) {
-      console.error(error)
-      return Promise.reject()
-    }
-  }, [pins, filesApiClient])
-
-  const downloadPin = useCallback(async (bucketId: string, itemToDownload: FileSystemItem, path: string) => {
-    const toastId = uuidv4()
-    try {
-      const downloadProgress: DownloadProgress = {
-        id: toastId,
-        fileName: itemToDownload.name,
-        complete: false,
-        error: false,
-        progress: 0
-      }
-      dispatchDownloadsInProgress({ type: "add", payload: downloadProgress })
-      const result = await getPinContent(bucketId, {
-        cid: itemToDownload.cid,
-        file: itemToDownload,
-        path: `${path}/${itemToDownload.name}`,
-        onDownloadProgress: (progressEvent) => {
-          dispatchDownloadsInProgress({
-            type: "progress",
-            payload: {
-              id: toastId,
-              progress: Math.ceil(
-                (progressEvent.loaded / itemToDownload.size) * 100
-              )
-            }
-          })
-        }
-      })
-      if (!result) return
-      const link = document.createElement("a")
-      link.href = URL.createObjectURL(result)
-      link.download = itemToDownload?.name || "file"
-      link.click()
-      dispatchDownloadsInProgress({
-        type: "complete",
-        payload: { id: toastId }
-      })
-      URL.revokeObjectURL(link.href)
-      setTimeout(() => {
-        dispatchDownloadsInProgress({
-          type: "remove",
-          payload: { id: toastId }
-        })
-      }, REMOVE_UPLOAD_PROGRESS_DELAY)
-      return Promise.resolve()
-    } catch (error) {
-      dispatchDownloadsInProgress({ type: "error", payload: { id: toastId } })
-      return Promise.reject()
-    }
-  }, [getPinContent])
 
   return (
     <StorageContext.Provider
       value={{
-        createPin,
-        downloadPin,
-        getPinContent,
+        addPin,
         uploadsInProgress,
         spaceUsed,
         downloadsInProgress,
-        pins: pins,
-        refreshPins
-
+        pins,
+        refreshPins,
+        unpin,
+        storageBuckets,
+        createBucket,
+        removeBucket,
+        uploadFiles
       }}
     >
       {children}
@@ -306,7 +280,6 @@ export { StorageProvider, useStorage }
 export type {
   FileSystemItem,
   DirectoryContentResponse,
-  CSFFilesFullInfoResponse as FileFullInfo,
   BucketType,
   SearchEntry
 }

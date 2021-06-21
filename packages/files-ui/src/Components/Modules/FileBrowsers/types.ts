@@ -12,7 +12,12 @@ export type FileOperation =
   | "preview"
   | "view_folder"
 
+export type BucketOperation =
+  | "rename"
+  | "delete"
+
 export type BrowserView = "grid" | "table"
+export type MoveModalMode = "move" | "recover"
 
 export interface IFileBrowserModuleProps {
   heading?: string
@@ -34,7 +39,7 @@ export interface IFilesTableBrowserProps
   downloadFile?: (cid: string) => Promise<void>
   deleteFiles?: (cid: string[]) => Promise<void>
   recoverFile?: (cid: string) => Promise<void>
-  recoverFiles?: (cid: string[]) => Promise<void[]>
+  recoverFiles?: (cid: string[], newPath: string) => Promise<void>
   viewFolder?: (cid: string) => void
   allowDropUpload?: boolean
 

@@ -4,7 +4,7 @@ import clsx from "clsx"
 import {
   Link,
   Typography,
-  ChainsafeFilesLogo,
+  ChainsafeLogo,
   HamburgerMenu,
   MenuDropdown,
   PowerDownSvg,
@@ -12,11 +12,11 @@ import {
 } from "@chainsafe/common-components"
 import { ROUTE_LINKS } from "../StorageRoutes"
 import { Trans } from "@lingui/macro"
-import { CSFTheme } from "../../Themes/types"
+import { CSSTheme } from "../../Themes/types"
 import { useStorageApi } from "../../Contexts/StorageApiContext"
 
 const useStyles = makeStyles(
-  ({ palette, animation, breakpoints, constants, zIndex }: CSFTheme) => {
+  ({ palette, animation, breakpoints, constants, zIndex }: CSSTheme) => {
     return createStyles({
       root: {
         position: "fixed",
@@ -174,7 +174,7 @@ const AppHeader = ({ navOpen, setNavOpen }: IAppHeader) => {
 
               <section className={classes.accountControls}>
                 <MenuDropdown
-                  title='TBC'
+                  title=''
                   anchor="bottom-right"
                   classNames={{
                     icon: classes.icon,
@@ -205,9 +205,9 @@ const AppHeader = ({ navOpen, setNavOpen }: IAppHeader) => {
               />
               <Link
                 className={classes.logo}
-                to={ROUTE_LINKS.Pins}
+                to={ROUTE_LINKS.Cids}
               >
-                <ChainsafeFilesLogo />
+                <ChainsafeLogo />
                 <Typography
                   variant="h5"
                   className={classes.title}

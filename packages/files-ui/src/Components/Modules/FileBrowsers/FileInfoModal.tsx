@@ -174,7 +174,7 @@ const FileInfoModal: React.FC<IFileInfoModuleProps> = ({
       if (fileInfoPath && bucket) {
         try {
           setLoadingInfo(true)
-          const fullFileResponse = await filesApiClient.getFPSFileInfo(bucket.id, { path: fileInfoPath })
+          const fullFileResponse = await filesApiClient.getBucketObjectInfo(bucket.id, { path: fileInfoPath })
           setFullFullInfo(fullFileResponse)
           setLoadingInfo(false)
         } catch (e){

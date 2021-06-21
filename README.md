@@ -1,44 +1,38 @@
-# ChainSafe Files UI Monorepo
+# ChainSafe UI Monorepo
 
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/700aaf66f15641be8db21e180064e252)](https://www.codacy.com?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=ChainSafe/files-ui&amp;utm_campaign=Badge_Grade)
 [![Lint](https://github.com/ChainSafe/files-ui/actions/workflows/lint.yml/badge.svg?branch=dev)](https://github.com/ChainSafe/files-ui/actions/workflows/lint.yml)
 
-![full-word-stacked](https://user-images.githubusercontent.com/47398578/120363393-1b343f00-c2da-11eb-8578-130f88a0b75b.png)
-
-[ChainSafe Files](https://files.chainsafe.io) is an end-to-end encrypted file storage app that utilizes the [IPFS](https://ipfs.io) and [Filecoin network](https://filecoin.io) to store user data. 
-
-## Requirements
-
-- Node > 12
-- Yarn > 1
-
 ## Mono Repo Structure 🏗
 
-The repository is broken up into 4 main packages, managed using yarn workspaces. You can find these in the `packages` directory. These packages are as follows:
+The repository is broken up into packages, managed using yarn workspaces. You can find these in the `packages` directory. These packages are as follows:
 
-#### 1\) **`packages/common-components`**
+#### **`packages/common-components`**
 
 Various components (atoms/molecules) that are used in the development of UI's. This package forms the base of the UI providing composable components, form elements, icons, small scope elements.
 
-#### 2\) **`packages/common-contexts`**
 
-Various React Context API wrappers
+#### **`packages/common-theme`**
 
-#### 3\) **`packages/common-modules`**
+Theme context and other utilities for generating and using the theming capabilities
 
-Complex Modules such as Billing, Login modules, basically shared wide scope/opinionated components, that meet some cross-cutting business concern.
-
-#### 4\) **`packages/common-themes`**
-
-- Theme context and other utilities for generating and using the theming capabilities
-
-#### 5\) **`packages/files-ui`**
+#### **`packages/files-ui`**
 
 The UI for Chainsafe Files
 
+#### **`packages/storage-ui`**
+
+The UI for Chainsafe Storage
+
 ## Development
 
-You will need a Github Personal Access token with `read:package` permissions. This can be obtained [here](https://github.com/settings/tokens)
+Requirements: 
+- Node > 12
+- Yarn > 1
+- A Github Personal Access token with `read:package` permissions. 
+
+
+The Github Personal Access token can be obtained [here](https://github.com/settings/tokens)
 
 You then need to add it as environment variable, depending on your OS and shell:
 
@@ -56,4 +50,9 @@ Our tests use Cypress running against the local instance of the Files UI. The fi
 By default the tests are run against `localhost:3000`
 
 - To start the tests UI run `yarn test:files-ui`
-- To start all the tests like in CI run `yarn test:ci:files-ui`
+- To start all the tests like in CI run `yarn test:ci:files-ui` 
+
+## License
+All `files-ui` code are licensed under the [GNU Lesser General Public License v3.0](https://www.gnu.org/licenses/lgpl-3.0.en.html) also included in our repository in the [LICENSE.md](https://github.com/ChainSafe/files-ui/blob/dev/LICENSE.md) file
+
+© Copyright Protected & All Rights Reserved by [ChainSafe Systems](https://chainsafe.io)

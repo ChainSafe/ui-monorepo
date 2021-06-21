@@ -6,7 +6,7 @@
     "@babel/core": "^7.12.10",
     "@babel/runtime": "^7.0.0",
     "@chainsafe/browser-storage-hooks": "^1.0.1",
-    "@chainsafe/files-api-client": "1.14.6",
+    "@chainsafe/files-api-client": "^2.1.0-rc3",
     "@chainsafe/web3-context": "1.1.4",
     "@lingui/core": "^3.7.2",
     "@lingui/react": "^3.7.2",
@@ -21,7 +21,7 @@
     "babel-plugin-macros": "^2.8.0",
     "babel-preset-env": "^1.7.0",
     "babel-preset-react": "^6.24.1",
-    "bnc-onboard": "1.19.1",
+    "bnc-onboard": "1.27.0",
     "clsx": "^1.1.1",
     "dayjs": "^1.9.7",
     "eth-crypto": "^1.8.0",
@@ -66,9 +66,9 @@
     "@types/yup": "^0.29.9",
     "@types/zxcvbn": "^4.4.0",
     "babel-plugin-macros": "^2.8.0",
-    "cypress": "^7.4.0",
+    "cypress": "^7.5.0",
     "cypress-file-upload": "^5.0.7",
-    "eslint-plugin-cypress": "^2.11.3"
+    "cypress-pipe": "^2.0.0"
   },
   "scripts": {
     "postinstall": "yarn compile",
