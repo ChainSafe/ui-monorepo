@@ -202,7 +202,6 @@ const ApiKeys = () => {
               </TableCell>
               <TableCell align="right">
                 <MenuDropdown
-                  testId='fileDropdown'
                   animation="none"
                   anchor={"bottom-right"}
                   menuItems={[{
