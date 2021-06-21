@@ -25,8 +25,10 @@
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
 
+import { authenticationPage } from "./page-objects/authenticationPage"
 import { apiTestHelper } from "./utils/apiTestHelper"
 import { ethers, Wallet } from "ethers"
+import { homePage } from "./page-objects/homePage"
 import { testPrivateKey, testAccountPassword, localHost } from "../fixtures/loginData"
 import { CustomizedBridge } from "./utils/CustomBridge"
 import "cypress-file-upload"
@@ -141,26 +143,22 @@ Cypress.Commands.add(
 
       if (local.length === 0) {
         cy.log("nothing in session storage, --> click on web3 button")
-        cy.get("[data-cy=web3]").click()
-        cy.get(
-          ".bn-onboard-modal-select-wallets > :nth-child(1) > .bn-onboard-custom"
-        ).click()
-        cy.get("[data-cy=sign-in-with-web3-button]").click()
-        cy.get("[data-cy=login-password-button]", { timeout: 20000 }).click()
-        cy.get("[data-cy=login-password-input]").type(
-          `${testAccountPassword}{enter}`
-        )
+        authenticationPage.web3Button().click()
+        authenticationPage.metaMaskButton().click()
+        authenticationPage.web3SignInButton()
+        authenticationPage.loginPasswordButton().click()
+        authenticationPage.loginPasswordInput().type(`${testAccountPassword}{enter}`)
 
         if (saveBrowser) {
           // this is taking forever for test accounts
-          cy.get("[data-cy=save-browser-button]").click()
+          authenticationPage.saveBrowserButton().click()
         } else {
-          cy.get("[data-cy=do-not-save-browser-button]").click()
+          authenticationPage.doNotSaveBrowserButton().click()
         }
       }
     })
 
-    cy.get("[data-cy=files-app-header]", { timeout: 20000 }).should("be.visible")
+    homePage.appHeaderLabel().should("be.visible")
 
     cy.saveLocalAndSession()
 
@@ -174,7 +172,7 @@ Cypress.Commands.add(
 
     if(clearTrashBucket || clearCSFBucket){
       cy.reload()
-      cy.get("[data-cy=files-app-header]", { timeout: 20000 }).should("be.visible")
+      homePage.appHeaderLabel().should("be.visible")
     }
   }
 )
