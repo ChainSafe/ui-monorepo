@@ -1,9 +1,7 @@
 import { binPage } from "../support/page-objects/binPage"
-import { homePage } from "../support/page-objects/homePage"
+import { click, homePage } from "../support/page-objects/homePage"
 import { navigationMenu } from "../support/page-objects/navigationMenu"
 import "cypress-pipe"
-
-const click = ($el: JQuery<HTMLElement>) => $el.trigger("click")
 
 describe("File management", () => {
 
@@ -41,14 +39,7 @@ describe("File management", () => {
       homePage.uploadFileForm().attachFile("../fixtures/uploadedFiles/text-file.txt")
       homePage.fileUploadList().should("have.length", 2)
       homePage.fileListRemoveButton().should("have.length", 2)
-      homePage.startUploadButton()
-        .should("not.be.disabled")
-        // this pipe is needed to prevent https://github.com/ChainSafe/files-ui/issues/1146
-        // as described https://www.cypress.io/blog/2019/01/22/when-can-the-test-click/
-        .pipe(click)
-        .should(($el: JQuery<HTMLElement>) => {
-          expect($el).to.not.be.visible
-        })
+      homePage.clickUploadButton()
       homePage.uploadFileForm().should("not.exist")
       homePage.fileItemRow().should("have.length", 2)
     })
