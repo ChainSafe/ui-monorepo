@@ -56,6 +56,9 @@ const useStyles = makeStyles(({ constants, breakpoints }: CSFTheme) =>
       },
       "&:hover svg": {
         fill: constants.uploadModal.iconHover
+      },
+      "&:hover": {
+        backgroundColor: "transparent"
       }
     },
     footer: {

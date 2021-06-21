@@ -304,6 +304,9 @@ msgstr "Light Theme"
 msgid "Loading preview"
 msgstr "Loading preview"
 
+msgid "Loading your shared folders..."
+msgstr "Loading your shared folders..."
+
 msgid "Looks like you’re signing in from a new browser. Please choose one of the following to continue:"
 msgstr "Looks like you’re signing in from a new browser. Please choose one of the following to continue:"
 
@@ -528,6 +531,15 @@ msgstr "Setup incomplete"
 
 msgid "Share"
 msgstr "Share"
+
+msgid "Shared"
+msgstr "Shared"
+
+msgid "Shared folders"
+msgstr "Shared folders"
+
+msgid "Shared with"
+msgstr "Shared with"
 
 msgid "Sign Out"
 msgstr "Sign Out"
