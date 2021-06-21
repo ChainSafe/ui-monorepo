@@ -1,7 +1,7 @@
 import { binPage } from "../support/page-objects/binPage"
 import { homePage } from "../support/page-objects/homePage"
 import { navigationMenu } from "../support/page-objects/navigationMenu"
-
+import "cypress-pipe"
 
 describe("File management", () => {
 
@@ -38,10 +38,8 @@ describe("File management", () => {
       // attach an additional file to the file list and upload
       homePage.uploadFileForm().attachFile("../fixtures/uploadedFiles/text-file.txt")
       homePage.fileUploadList().should("have.length", 2)
-      homePage.fileListRemoveButton().should("be.visible")
-      // eslint-disable-next-line cypress/no-unnecessary-waiting
-      cy.wait(2000)
-      homePage.startUploadButton().should("not.be.disabled").click()
+      homePage.fileListRemoveButton().should("have.length", 2)
+      homePage.clickUploadButton()
       homePage.uploadFileForm().should("not.exist")
       homePage.fileItemRow().should("have.length", 2)
     })
@@ -105,4 +103,3 @@ describe("File management", () => {
     })
   })
 })
-
