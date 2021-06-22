@@ -305,6 +305,9 @@ msgstr "Tema Claro"
 msgid "Loading preview"
 msgstr "Cargando vista previa"
 
+msgid "Loading your shared folders..."
+msgstr ""
+
 msgid "Looks like you’re signing in from a new browser. Please choose one of the following to continue:"
 msgstr "Parece que está iniciando sesión desde un nuevo navegador. Elija una de las siguientes opciones para continuar:"
 
@@ -529,6 +532,15 @@ msgstr "Configuración incompleta"
 
 msgid "Share"
 msgstr "Compartir"
+
+msgid "Shared"
+msgstr ""
+
+msgid "Shared folders"
+msgstr ""
+
+msgid "Shared with"
+msgstr ""
 
 msgid "Sign Out"
 msgstr "Desconectar"
