@@ -198,8 +198,8 @@ const Modal = ({
           onClick={() => handleClose()}
           className={clsx(
             classes.closeIcon,
-              injectedClass?.close,
-              closePosition
+            injectedClass?.close,
+            closePosition
           )}
         >
           <CloseSvg />
