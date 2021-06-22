@@ -70,7 +70,13 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => 
     filename: {
       whiteSpace: "nowrap",
       textOverflow: "ellipsis",
-      overflow: "visible"
+      overflow: "hidden"
+    },
+    sharedUser: {
+      overflow: "visible",
+      [breakpoints.down("sm")]: {
+        padding: "0 !important"
+      }
     },
     dropdownIcon: {
       "& svg": {
@@ -130,16 +136,13 @@ const SharedFolderRow = ({ bucket, onFolderClick, menuItems }: Props) => {
       >
         <Typography>{name}</Typography>
       </TableCell>
-      {desktop &&
-        <TableCell
-          data-cy="shared-folder-item-shared-with"
-          align="left"
-          className={classes.filename}
-          onClick={(e) => onFolderClick(e)}
-        >
-          <SharedUsers sharedUsers={userIds}/>
-        </TableCell>
-      }
+      <TableCell
+        data-cy="shared-folder-item-shared-with"
+        align="left"
+        className={classes.sharedUser}
+      >
+        <SharedUsers sharedUsers={userIds}/>
+      </TableCell>
       {desktop &&
           <TableCell align="left">
             {formatBytes(size)}

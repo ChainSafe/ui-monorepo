@@ -9,7 +9,7 @@ import SharedFolderRowWrapper from "./SharedFolderRowWrapper"
 import clsx from "clsx"
 
 export const desktopSharedGridSettings = "69px 3fr 190px 150px 45px !important"
-export const mobileSharedGridSettings = "3fr 45px !important"
+export const mobileSharedGridSettings = "3fr 50px 45px !important"
 
 const useStyles = makeStyles(
   ({ animation, breakpoints, constants, palette }: CSFTheme) => {
@@ -171,11 +171,9 @@ const SharedFolderOverview = () => {
               >
                 <Trans>Name</Trans>
               </TableHeadCell>
-              {desktop &&
-                <TableHeadCell align="left">
-                  <Trans>Shared with</Trans>
-                </TableHeadCell>
-              }
+              <TableHeadCell align="left">
+                <Trans>Shared with</Trans>
+              </TableHeadCell>
               {desktop &&
                 <TableHeadCell
                   sortButtons={true}
