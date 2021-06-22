@@ -27,7 +27,8 @@ export const ROUTE_LINKS = {
   UserSurvey: "https://shrl.ink/kmAL",
   GeneralFeedbackForm: "https://shrl.ink/gvVJ",
   SharedFolders: "/shared",
-  ShareExplorer: (bucketId: string, rawCurrentPath: string) => `/shared/${bucketId}${rawCurrentPath}`,
+  ShareBrowserRoot: "/share",
+  ShareExplorer: (bucketId: string, rawCurrentPath: string) => `/share/${bucketId}${rawCurrentPath}`
 }
 
 export const SETTINGS_PATHS = ["profile", "plan", "security"] as const
@@ -39,19 +40,19 @@ const FilesRoutes = () => {
 
   const isAuthorized = useMemo(() => isLoggedIn && secured && !!publicKey && !isNewDevice && !shouldInitializeAccount,
     [isLoggedIn, isNewDevice, publicKey, secured, shouldInitializeAccount])
-
   return (
     <Switch>
       <ConditionalRoute
-        path={ROUTE_LINKS.ShareExplorer("/:bucket-id", "/")}
-        isAuthorized={isAuthorized}
-        component={ShareFilesPage}
-        redirectPath={ROUTE_LINKS.Landing}
-      />
-      <ConditionalRoute
+        exact
         path={ROUTE_LINKS.SharedFolders}
         isAuthorized={isAuthorized}
         component={SharedFoldersOverview}
+        redirectPath={ROUTE_LINKS.Landing}
+      />
+      <ConditionalRoute
+        path={ROUTE_LINKS.ShareBrowserRoot}
+        isAuthorized={isAuthorized}
+        component={ShareFilesPage}
         redirectPath={ROUTE_LINKS.Landing}
       />
       <ConditionalRoute
