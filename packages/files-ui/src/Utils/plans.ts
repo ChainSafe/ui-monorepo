@@ -1,7 +1,7 @@
 export const plans = [
   {
     title: "Plus",
-    for: "For individuals",
+    planFor: "For individuals",
     prices: {
       monthly: 8,
       yearly: 80
@@ -15,7 +15,7 @@ export const plans = [
   },
   {
     title: "Agile",
-    for: "For individuals",
+    planFor: "For individuals",
     prices: {
       monthly: 10,
       yearly: 100
@@ -29,7 +29,7 @@ export const plans = [
   },
   {
     title: "Enterprise",
-    for: "For individuals",
+    planFor: "For individuals",
     prices: {
       monthly: 30,
       yearly: 300

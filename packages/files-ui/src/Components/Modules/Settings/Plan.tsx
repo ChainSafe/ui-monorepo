@@ -127,7 +127,7 @@ const PlanView: React.FC = () => {
             </div>
             <Link
               className={classes.link}
-              to={ROUTE_LINKS.PurchasePlan}
+              to={ROUTE_LINKS.Plans}
             >
               <Button
                 variant="primary"
