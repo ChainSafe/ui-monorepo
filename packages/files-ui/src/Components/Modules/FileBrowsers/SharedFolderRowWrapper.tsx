@@ -6,55 +6,8 @@ import { CSFTheme } from "../../../Themes/types"
 import { Bucket } from "@chainsafe/files-api-client"
 import SharedFolderItem from "./views/FileSystemItem/SharedFolderRow"
 
-const useStyles = makeStyles(({ breakpoints, constants }: CSFTheme) => {
+const useStyles = makeStyles(({ constants }: CSFTheme) => {
   return createStyles({
-    renameInput: {
-      width: "100%",
-      [breakpoints.up("md")]: {
-        margin: 0
-      },
-      [breakpoints.down("md")]: {
-        margin: `${constants.generalUnit * 4.2}px 0`
-      }
-    },
-    modalRoot: {
-      [breakpoints.down("md")]: {}
-    },
-    modalInner: {
-      [breakpoints.down("md")]: {
-        bottom:
-          Number(constants?.mobileButtonHeight) + constants.generalUnit,
-        borderTopLeftRadius: `${constants.generalUnit * 1.5}px`,
-        borderTopRightRadius: `${constants.generalUnit * 1.5}px`,
-        borderBottomLeftRadius: `${constants.generalUnit * 1.5}px`,
-        borderBottomRightRadius: `${constants.generalUnit * 1.5}px`,
-        maxWidth: `${breakpoints.width("md")}px !important`
-      }
-    },
-    renameHeader: {
-      textAlign: "center"
-    },
-    renameFooter: {
-      display: "flex",
-      flexDirection: "row",
-      alignItems: "center",
-      justifyContent: "flex-end"
-    },
-    renameModal: {
-      padding: constants.generalUnit * 4
-    },
-    okButton: {
-      marginLeft: constants.generalUnit
-    },
-    cancelButton: {
-      [breakpoints.down("md")]: {
-        position: "fixed",
-        bottom: 0,
-        left: 0,
-        width: "100%",
-        height: constants?.mobileButtonHeight
-      }
-    },
     menuIcon: {
       display: "flex",
       justifyContent: "center",
@@ -64,23 +17,18 @@ const useStyles = makeStyles(({ breakpoints, constants }: CSFTheme) => {
       "& svg": {
         fill: constants.fileSystemItemRow.menuIcon
       }
-    },
-    dropdownIcon: {
-      "& svg": {
-        fill: constants.fileSystemItemRow.dropdownIcon
-      }
     }
   })
 })
 
 interface Props {
   bucket: Bucket
+  openShare: (bucketId: string) => void
 }
 
-const SharedFolderRowWrapper = ({ bucket }: Props) => {
+const SharedFolderRowWrapper = ({ bucket, openShare }: Props) => {
   const { desktop } = useThemeSwitcher()
   const classes = useStyles()
-
 
   const menuItems: IMenuItem[] = [{
     contents: (
@@ -111,21 +59,23 @@ const SharedFolderRowWrapper = ({ bucket }: Props) => {
         // on desktop 
       } else {
         // on mobile
+        openShare(bucket.id)
       }
     },
-    [desktop]
+    [desktop, openShare, bucket]
   )
 
   const onDoubleClick = useCallback(
     () => {
       if (desktop) {
         // on desktop
+        openShare(bucket.id)
       } else {
         // on mobile
         return
       }
     },
-    [desktop]
+    [desktop, openShare, bucket]
   )
 
   const { click } = useDoubleClick(onSingleClick, onDoubleClick)

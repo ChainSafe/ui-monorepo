@@ -16,6 +16,7 @@ import { useFilesApi } from "../../../../Contexts/FilesApiContext"
 import { useUser } from "../../../../Contexts/UserContext"
 
 const ShareFileBrowser = () => {
+  console.log("loaded share browser")
   const {
     downloadFile,
     buckets
@@ -71,7 +72,7 @@ const ShareFileBrowser = () => {
       }).catch(error => {
         console.error(error)
       }).finally(() => showLoading && setLoadingCurrentPath(false))
-  }, [bucket, filesApiClient, currentPath, profile?.userId])
+  }, [bucket, filesApiClient, currentPath, profile])
 
   const { localStorageGet, localStorageSet } = useLocalStorage()
 
@@ -231,7 +232,7 @@ const ShareFileBrowser = () => {
       bucket,
       bulkOperations,
       crumbs: undefined,
-      moduleRootPath: ROUTE_LINKS.Drive("/"),
+      moduleRootPath: ROUTE_LINKS.ShareExplorer(`${bucket?.id}`, "/"),
       currentPath,
       refreshContents,
       deleteItems: moveItemsToBin,

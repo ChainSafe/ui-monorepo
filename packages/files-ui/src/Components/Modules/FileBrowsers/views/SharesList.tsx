@@ -540,20 +540,6 @@ const SharesList = () => {
       })
   }, [deleteFiles, selectedCids])
 
-  const handleRecoverFiles = useCallback((e: React.MouseEvent) => {
-    e.preventDefault()
-    e.stopPropagation()
-    if (!recoverItems) return
-
-    setIsRecoveringFiles(true)
-    recoverItems(selectedCids)
-      .catch(console.error)
-      .finally(() => {
-        setIsRecoveringFiles(false)
-        setSelectedCids([])
-      })
-  }, [recoverItems, selectedCids])
-
   const getItemOperations = useCallback(
     (contentType: string) => {
       const result = Object.keys(itemOperations).reduce(
@@ -754,15 +740,6 @@ const SharesList = () => {
                 <Trans>Move selected</Trans>
               </Button>
             )}
-            {validBulkOps.indexOf("recover") >= 0 && (
-              <Button
-                onClick={handleRecoverFiles}
-                variant="outline"
-                loading={isRecoveringFiles}
-              >
-                <Trans>Recover selected</Trans>
-              </Button>
-            )}
             {validBulkOps.indexOf("delete") >= 0 && (
               <Button
                 onClick={handleOpenDeleteDialog}
@@ -890,7 +867,6 @@ const SharesList = () => {
               {items.map((file, index) => (
                 <FileSystemItem
                   key={index}
-                  index={index}
                   file={file}
                   files={files}
                   selected={selectedCids}
@@ -917,7 +893,6 @@ const SharesList = () => {
                   itemOperations={getItemOperations(file.content_type)}
                   resetSelectedFiles={resetSelectedCids}
                   browserView="table"
-                  recoverFile={() => recoverItems && recoverItems([file.cid])}
                 />
               ))}
             </TableBody>
@@ -932,7 +907,6 @@ const SharesList = () => {
             {items.map((file, index) => (
               <FileSystemItem
                 key={index}
-                index={index}
                 file={file}
                 files={files}
                 selected={selectedCids}

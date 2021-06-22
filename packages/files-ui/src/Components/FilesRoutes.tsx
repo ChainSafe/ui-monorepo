@@ -18,7 +18,6 @@ export const ROUTE_LINKS = {
   Terms: "https://files.chainsafe.io/terms-of-service",
   ChainSafe: "https://chainsafe.io/",
   Drive: (rawCurrentPath: string) => `/drive${rawCurrentPath}`,
-  ShareExplorer: (bucketId: string, rawCurrentPath: string) => `/share/${bucketId}${rawCurrentPath}`,
   Bin: (rawBinPath: string) => `/bin${rawBinPath}`,
   Search: (rawSearchTerm: string) => `/search/${rawSearchTerm}`,
   ApplyCryptography: "https://medium.com/chainsafe-systems/major-improvement-to-chainsafe-files-ab489d3e52a2",
@@ -27,7 +26,8 @@ export const ROUTE_LINKS = {
   PurchasePlan: "/purchase",
   UserSurvey: "https://shrl.ink/kmAL",
   GeneralFeedbackForm: "https://shrl.ink/gvVJ",
-  SharedFolders: "/shared"
+  SharedFolders: "/shared",
+  ShareExplorer: (bucketId: string, rawCurrentPath: string) => `/shared/${bucketId}${rawCurrentPath}`,
 }
 
 export const SETTINGS_PATHS = ["profile", "plan", "security"] as const
@@ -42,6 +42,13 @@ const FilesRoutes = () => {
 
   return (
     <Switch>
+      <ConditionalRoute
+        exact
+        path={ROUTE_LINKS.ShareExplorer("/:bucket-id", "/")}
+        isAuthorized={isAuthorized}
+        component={ShareFilesPage}
+        redirectPath={ROUTE_LINKS.Landing}
+      />
       <ConditionalRoute
         path={ROUTE_LINKS.Drive("/")}
         isAuthorized={isAuthorized}
@@ -58,13 +65,6 @@ const FilesRoutes = () => {
         path={ROUTE_LINKS.SharedFolders}
         isAuthorized={isAuthorized}
         component={SharedFoldersOverview}
-        redirectPath={ROUTE_LINKS.Landing}
-      />
-      <ConditionalRoute
-        exact
-        path={ROUTE_LINKS.ShareExplorer("/:bucket-id", "/")}
-        isAuthorized={isAuthorized}
-        component={ShareFilesPage}
         redirectPath={ROUTE_LINKS.Landing}
       />
       <ConditionalRoute
