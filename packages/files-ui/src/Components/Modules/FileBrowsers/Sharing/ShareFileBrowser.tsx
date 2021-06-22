@@ -14,9 +14,9 @@ import { parseFileContentResponse } from "../../../../Utils/Helpers"
 import { FileSystemItem, useFiles } from "../../../../Contexts/FilesContext"
 import { useFilesApi } from "../../../../Contexts/FilesApiContext"
 import { useUser } from "../../../../Contexts/UserContext"
+import DragAndDrop from "../../../../Contexts/DnDContext"
 
 const ShareFileBrowser = () => {
-  console.log("loaded share browser")
   const {
     downloadFile,
     buckets
@@ -26,8 +26,8 @@ const ShareFileBrowser = () => {
   const [loadingCurrentPath, setLoadingCurrentPath] = useState(false)
   const [pathContents, setPathContents] = useState<FileSystemItem[]>([])
   const { redirect } = useHistory()
-
   const { pathname } = useLocation()
+
   const currentPath = useMemo(() => {
     const moduleRemoved = extractFileBrowserPathFromURL(pathname, ROUTE_LINKS.ShareExplorer("", "/"))
     // TODO fetch contents for bucketId
@@ -35,8 +35,8 @@ const ShareFileBrowser = () => {
     // TODO: invalid data send back to share
     return extractFileBrowserPathFromURL(pathname, ROUTE_LINKS.ShareExplorer(`${bucketId}/`, "/"))
   },
-  [pathname]
-  )
+  [pathname])
+
   const bucket = useMemo(() => buckets.find(b => b.type === "share"), [buckets])
   const { profile } = useUser()
 
@@ -44,24 +44,28 @@ const ShareFileBrowser = () => {
 
   const refreshContents = useCallback((showLoading?: boolean) => {
     if (!bucket) return
-
+    console.log("refreshing")
     // Water fall to reduce map calls
     const isOwner = !!(bucket.owners.find(owner => owner.uuid === profile?.userId))
     if (isOwner) {
+      console.log("owner")
       setAccess("owner")
     } else {
       const isWriter = !!(bucket.writers.find(owner => owner.uuid === profile?.userId))
       if (isWriter) {
+        console.log("writer")
         setAccess("writer")
       } else {
         const isReader = !!(bucket.readers.find(owner => owner.uuid === profile?.userId))
         if (isReader) {
+          console.log("reader")
           setAccess("reader")
         }
       }
     }
 
     showLoading && setLoadingCurrentPath(true)
+    console.log("About to break physics")
     filesApiClient.getBucketObjectChildrenList(bucket.id, { path: currentPath })
       .then((newContents) => {
         showLoading && setLoadingCurrentPath(false)
@@ -252,7 +256,9 @@ const ShareFileBrowser = () => {
       itemOperations,
       withSurvey: showSurvey && olderThanOneWeek
     }}>
-      <FilesList />
+      <DragAndDrop>
+        <FilesList />
+      </DragAndDrop>
     </FileBrowserContext.Provider>
   )
 }
