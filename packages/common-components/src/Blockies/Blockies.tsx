@@ -43,9 +43,9 @@ const BlockiesComponent: React.FC<IBlockiesProps> = ({
       seed={seed}
       size={size}
       scale={scale}
-      color={color ? color : theme.palette.primary.main}
-      bgColor={bgColor ? bgColor : theme.palette.primary.background}
-      spotColor={spotColor ? spotColor : theme.palette.secondary.main}
+      color={color || theme.palette.primary.main}
+      bgColor={bgColor || theme.palette.primary.background}
+      spotColor={spotColor || theme.palette.secondary.main}
       className={clsx("identicon", classes.root, className)}
     />
   )

@@ -299,8 +299,8 @@ const ProfileView = () => {
               >
                 <Trans>Profile settings</Trans>
               </Typography>
-              {profile?.publicAddress
-                && <div
+              {profile?.publicAddress &&
+                <div
                   className={classes.boxContainer}
                   data-cy="settings-profile-header"
                 >
@@ -332,8 +332,8 @@ const ProfileView = () => {
                   </div>
                 </div>
               }
-              {publicKey
-                && <div
+              {publicKey &&
+                <div
                   className={classes.boxContainer}
                   data-cy="settings-profile-header"
                 >

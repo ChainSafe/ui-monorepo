@@ -133,13 +133,12 @@ const LoginPage = () => {
       <>
       </>
       {
-        themeKey === "dark" ?
-          <>
+        themeKey === "dark"
+          ? <>
             <BottomDarkSVG className={classes.bgBottom} />
             <TopDarkSVG className={classes.bgTop} />
           </>
-          :
-          <>
+          :          <>
             <BottomLightSVG className={classes.bgBottom} />
             <TopLightSVG className={classes.bgTop} />
           </>

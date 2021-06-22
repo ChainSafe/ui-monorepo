@@ -51,7 +51,7 @@ const FormikNumberInput: React.FC<FormikNumberInputProps> = ({
   const [field, meta, helpers] = useField(name)
   return (
     <NumberInput
-      label={label ? label : field.name}
+      label={label || field.name}
       inputVariant={inputVariant}
       disabled={disabled}
       size={size}
@@ -61,7 +61,7 @@ const FormikNumberInput: React.FC<FormikNumberInputProps> = ({
       value={field.value}
       placeholder={placeholder}
       captionMessage={
-        meta.error ? `${meta.error}` : captionMessage && captionMessage
+        meta.error ? meta.error : captionMessage && captionMessage
       }
       state={meta.error ? "error" : undefined}
       onChange={helpers.setValue}

@@ -246,8 +246,8 @@ const InitialScreen = ({ className }: IInitialScreen) => {
         )
       }
       {
-        !error ?
-          loginMode !== "web3" ? (
+        !error
+          ? loginMode !== "web3" ? (
             <>
               <section className={classes.buttonSection}>
                 {maintenanceMode && (
@@ -319,8 +319,8 @@ const InitialScreen = ({ className }: IInitialScreen) => {
               </footer>
             </>
           ) : (
-            wallet ?
-              !isConnecting
+            wallet
+              ? !isConnecting
                 ? <>
                   <section className={classes.buttonSection}>
                     <Button
