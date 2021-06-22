@@ -30,6 +30,7 @@ if (
 
 const availableLanguages = [
   { id: "en", label: "English" },
+  { id: "es", label: "Español" },
   { id: "fr", label: "Français" }
 ]
 
