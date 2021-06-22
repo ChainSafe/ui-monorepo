@@ -170,6 +170,9 @@ msgstr "Télécharger la clé de sauvegarde"
 msgid "Drop to upload files"
 msgstr "Faire glisser pour uploader un fichier"
 
+msgid "Early Adopter: Free up to {0}"
+msgstr ""
+
 msgid "Email is required"
 msgstr "Un e-mail est requis"
 
@@ -188,8 +191,8 @@ msgstr "Entrer le code de vérification:"
 msgid "Enter your email:"
 msgstr "Enter votre e-mail:"
 
-msgid "Essentials - Free"
-msgstr "Essentials - Gratuit"
+#~ msgid "Essentials - Free"
+#~ msgstr "Essentials - Gratuit"
 
 msgid "Failed to get signature"
 msgstr "Échec de l'obtention de la signature"
@@ -311,8 +314,8 @@ msgstr ""
 msgid "Looks like you’re signing in from a new browser. Please choose one of the following to continue:"
 msgstr "Connectez à partir d'un nouveau navigateur. Choisis une des options suivantes pour continuer:"
 
-msgid "Lorem ipsum aenean et rutrum magna. Morbi nec placerat erat. Nunc elementum sed libero sit amet convallis. Quisque non arcu vitae ex fringilla molestie."
-msgstr "Lorem ipsum aenean et rutrum magna. Morbi nec placerat erat. Nunc elementum sed libero sit amet convallis. Quisque non arcu vitae ex fringilla molestie."
+#~ msgid "Lorem ipsum aenean et rutrum magna. Morbi nec placerat erat. Nunc elementum sed libero sit amet convallis. Quisque non arcu vitae ex fringilla molestie."
+#~ msgstr "Lorem ipsum aenean et rutrum magna. Morbi nec placerat erat. Nunc elementum sed libero sit amet convallis. Quisque non arcu vitae ex fringilla molestie."
 
 msgid "Move"
 msgstr "Déplacer"
@@ -584,6 +587,9 @@ msgstr "Plan de stockage"
 msgid "Stored by miner"
 msgstr "Sauvegardé par le mineur"
 
+msgid "Subscription Plan"
+msgstr ""
+
 msgid "Technical"
 msgstr "Technique"
 
@@ -706,6 +712,12 @@ msgstr "Vous devrez signer un message avec votre wallet pour terminer la procéd
 
 msgid "Your Authentication Factors"
 msgstr "Vos Facteurs d'Authentification"
+
+#~ msgid "Your first 20GB are free, and you’ll get a discount on our monthly plan once you need more than that."
+#~ msgstr ""
+
+msgid "Your first {0} are free, and you’ll get a discount on our monthly plan once you need more than that"
+msgstr ""
 
 msgid "Your recovery key can be used to restore your account in place of your backup secret phrase."
 msgstr "Votre clé de récupération peut être utilisée pour restaurer votre compte à la place de votre phrase de sauvegarde secrète."
