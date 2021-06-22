@@ -43,10 +43,15 @@ const FilesRoutes = () => {
   return (
     <Switch>
       <ConditionalRoute
-        exact
         path={ROUTE_LINKS.ShareExplorer("/:bucket-id", "/")}
         isAuthorized={isAuthorized}
         component={ShareFilesPage}
+        redirectPath={ROUTE_LINKS.Landing}
+      />
+      <ConditionalRoute
+        path={ROUTE_LINKS.SharedFolders}
+        isAuthorized={isAuthorized}
+        component={SharedFoldersOverview}
         redirectPath={ROUTE_LINKS.Landing}
       />
       <ConditionalRoute
@@ -59,12 +64,6 @@ const FilesRoutes = () => {
         path={ROUTE_LINKS.Bin("/")}
         isAuthorized={isAuthorized}
         component={BinPage}
-        redirectPath={ROUTE_LINKS.Landing}
-      />
-      <ConditionalRoute
-        path={ROUTE_LINKS.SharedFolders}
-        isAuthorized={isAuthorized}
-        component={SharedFoldersOverview}
         redirectPath={ROUTE_LINKS.Landing}
       />
       <ConditionalRoute
