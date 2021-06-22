@@ -114,12 +114,14 @@ const SharedFolderRow = ({ bucket, onFolderClick, menuItems }: Props) => {
       className={classes.tableRow}
       type="grid"
     >
-      <TableCell
-        className={classes.folderIcon}
-        onClick={(e) => onFolderClick(e)}
-      >
-        <FolderFilledIcon/>
-      </TableCell>
+      {desktop &&
+        <TableCell
+          className={classes.folderIcon}
+          onClick={(e) => onFolderClick(e)}
+        >
+          <FolderFilledIcon/>
+        </TableCell>
+      }
       <TableCell
         data-cy="shared-folder-item-name"
         align="left"
@@ -128,26 +130,21 @@ const SharedFolderRow = ({ bucket, onFolderClick, menuItems }: Props) => {
       >
         <Typography>{name}</Typography>
       </TableCell>
-      <TableCell
-        data-cy="shared-folder-item-shared-with"
-        align="left"
-        className={classes.filename}
-        onClick={(e) => onFolderClick(e)}
-      >
-        <SharedUsers sharedUsers={userIds}/>
-      </TableCell>
-      {desktop && (
-        <>
-          {/* <TableCell align="left">
-              {
-                dayjs.unix(created_at).format("DD MMM YYYY h:mm a")
-              }
-            </TableCell> */}
+      {desktop &&
+        <TableCell
+          data-cy="shared-folder-item-shared-with"
+          align="left"
+          className={classes.filename}
+          onClick={(e) => onFolderClick(e)}
+        >
+          <SharedUsers sharedUsers={userIds}/>
+        </TableCell>
+      }
+      {desktop &&
           <TableCell align="left">
             {formatBytes(size)}
           </TableCell>
-        </>
-      )}
+      }
       <TableCell align="right">
         <MenuDropdown
           testId='sharedFolderDropdown'
