@@ -60,9 +60,7 @@ const FormikNumberInput: React.FC<FormikNumberInputProps> = ({
       name={field.name}
       value={field.value}
       placeholder={placeholder}
-      captionMessage={
-        meta.error ? meta.error : captionMessage && captionMessage
-      }
+      captionMessage={meta.error || captionMessage}
       state={meta.error ? "error" : undefined}
       onChange={helpers.setValue}
       {...rest}
