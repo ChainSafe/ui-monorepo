@@ -165,16 +165,19 @@ const ShareFileBrowser = () => {
   }, [pathContents, downloadFile, currentPath, bucket])
 
   const viewFolder = useCallback((cid: string) => {
+    if (!bucket) return
+
     const fileSystemItem = pathContents.find(f => f.cid === cid)
     if (fileSystemItem && fileSystemItem.content_type === CONTENT_TYPES.Directory) {
       let urlSafePath =  getURISafePathFromArray(getArrayOfPaths(currentPath))
       if (urlSafePath === "/") {
         urlSafePath = ""
       }
-      redirect(ROUTE_LINKS.Drive(`${urlSafePath}/${encodeURIComponent(`${fileSystemItem.name}`)}`))
+      redirect(ROUTE_LINKS.ShareExplorer(bucket.id, `${urlSafePath}/${encodeURIComponent(`${fileSystemItem.name}`)}`))
     }
-  }, [currentPath, pathContents, redirect])
+  }, [currentPath, pathContents, redirect, bucket])
 
+  // TODO: include in ownership considerations
   const bulkOperations: IBulkOperations = useMemo(() => ({
     [CONTENT_TYPES.Directory]: ["move"],
     [CONTENT_TYPES.File]: ["delete", "move"]
