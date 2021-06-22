@@ -23,7 +23,6 @@ const iconSize = {
 const useStyles = makeStyles(
   ({ constants, palette, animation, overrides, typography }: ITheme) =>
     createStyles({
-      // JSS in CSS goes here
       root: {
         ...typography.body2,
         display: "block",
@@ -100,9 +99,7 @@ const useStyles = makeStyles(
         },
         "&.small": {
           "& input": {
-            padding: `${constants.generalUnit / constants.generalUnit}px ${
-              constants.generalUnit
-            }px`
+            padding: `1px ${constants.generalUnit}px`
           }
         }
       },
