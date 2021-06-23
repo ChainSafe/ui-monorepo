@@ -628,6 +628,9 @@ msgstr "There was an error recovering this"
 msgid "There was an error when setting username."
 msgstr "There was an error when setting username."
 
+msgid "This username is already taken"
+msgstr "This username is already taken"
+
 msgid "This username is public"
 msgstr "This username is public"
 

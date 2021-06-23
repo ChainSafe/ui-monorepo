@@ -629,6 +629,9 @@ msgstr "Une erreur s'est produite lors de la récupération"
 msgid "There was an error when setting username."
 msgstr ""
 
+msgid "This username is already taken"
+msgstr ""
+
 msgid "This username is public"
 msgstr ""
 
