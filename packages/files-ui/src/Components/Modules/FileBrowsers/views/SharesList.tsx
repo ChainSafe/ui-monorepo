@@ -290,7 +290,6 @@ const SharesList = () => {
     crumbs,
     renameItem: handleRename,
     deleteItems: deleteFiles,
-    recoverItems,
     viewFolder,
     currentPath,
     refreshContents,
@@ -461,7 +460,6 @@ const SharesList = () => {
   const [isMoveFileModalOpen, setIsMoveFileModalOpen] = useState(false)
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
   const [isDeletingFiles, setIsDeletingFiles] = useState(false)
-  const [isRecoveringFiles, setIsRecoveringFiles] = useState(false)
   const [fileInfoPath, setFileInfoPath] = useState<string | undefined>(
     undefined
   )

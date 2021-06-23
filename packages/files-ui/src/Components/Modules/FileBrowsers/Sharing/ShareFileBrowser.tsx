@@ -1,8 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react"
-import { useToaster, useHistory, useLocation } from "@chainsafe/common-components"
+import { useToaster, useHistory, useLocation, Crumb } from "@chainsafe/common-components"
 import { getArrayOfPaths, getURISafePathFromArray, getPathWithFile, extractFileBrowserPathFromURL } from "../../../../Utils/pathUtils"
 import { IBulkOperations, IFilesTableBrowserProps } from "../types"
-import FilesList from "../views/FilesList"
 import { CONTENT_TYPES } from "../../../../Utils/Constants"
 import { t } from "@lingui/macro"
 import { ROUTE_LINKS } from "../../../FilesRoutes"
@@ -15,10 +14,12 @@ import { FileSystemItem, useFiles } from "../../../../Contexts/FilesContext"
 import { useFilesApi } from "../../../../Contexts/FilesApiContext"
 import { useUser } from "../../../../Contexts/UserContext"
 import DragAndDrop from "../../../../Contexts/DnDContext"
+import SharesList from "../views/SharesList"
 
 const ShareFileBrowser = () => {
   const {
     downloadFile,
+    uploadFiles,
     buckets
   } = useFiles()
   const { filesApiClient } = useFilesApi()
@@ -36,6 +37,16 @@ const ShareFileBrowser = () => {
     return extractFileBrowserPathFromURL(pathname, ROUTE_LINKS.ShareExplorer(`${bucketId}/`, "/"))
   },
   [pathname])
+  // Breadcrumbs/paths
+  const arrayOfPaths = useMemo(() => getArrayOfPaths(currentPath), [currentPath])
+  const crumbs: Crumb[] = useMemo(() => arrayOfPaths.map((path, index) => ({
+    text: decodeURIComponent(path),
+    onClick: () => {
+      redirect(
+        ROUTE_LINKS.Drive(getURISafePathFromArray(arrayOfPaths.slice(0, index + 1)))
+      )
+    }
+  })), [arrayOfPaths, redirect])
 
   const bucket = useMemo(() => buckets.find(b => b.type === "share"), [buckets])
   const { profile } = useUser()
@@ -181,6 +192,26 @@ const ShareFileBrowser = () => {
     }
   }, [currentPath, pathContents, redirect, bucket])
 
+  const handleUploadOnDrop = useCallback(async (files: File[], fileItems: DataTransferItemList, path: string) => {
+    if (!bucket) return
+    let hasFolder = false
+    for (let i = 0; i < files.length; i++) {
+      if (fileItems[i].webkitGetAsEntry().isDirectory) {
+        hasFolder = true
+      }
+    }
+    if (hasFolder) {
+      addToastMessage({
+        message: "Folder uploads are not supported currently",
+        appearance: "error"
+      })
+    } else {
+      uploadFiles(bucket.id, files, path)
+        .then(() => refreshContents())
+        .catch(console.error)
+    }
+  }, [addToastMessage, uploadFiles, bucket, refreshContents])
+
   // TODO: include in ownership considerations
   const bulkOperations: IBulkOperations = useMemo(() => ({
     [CONTENT_TYPES.Directory]: ["move"],
@@ -238,7 +269,8 @@ const ShareFileBrowser = () => {
     <FileBrowserContext.Provider value={{
       bucket,
       bulkOperations,
-      crumbs: undefined,
+      handleUploadOnDrop,
+      crumbs,
       moduleRootPath: ROUTE_LINKS.ShareExplorer(`${bucket?.id}`, "/"),
       currentPath,
       refreshContents,
@@ -257,7 +289,7 @@ const ShareFileBrowser = () => {
       withSurvey: showSurvey && olderThanOneWeek
     }}>
       <DragAndDrop>
-        <FilesList />
+        <SharesList />
       </DragAndDrop>
     </FileBrowserContext.Provider>
   )
