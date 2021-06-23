@@ -260,7 +260,6 @@ const FileSystemItem = ({
     }
   }
 
-  console.log("editing", editing)
   const menuItems: IMenuItem[] = itemOperations.map(
     (itemOperation) => allMenuItems[itemOperation]
   )
@@ -268,11 +267,6 @@ const FileSystemItem = ({
   const [, dragMoveRef, preview] = useDrag(() =>
     ({ type: DragTypes.MOVABLE_FILE,
       item: () => {
-        if(editing){
-          console.log("editing")
-          return {}
-        }
-
         if (selected.includes(file.cid)) {
           return { ids: selected }
         } else {
