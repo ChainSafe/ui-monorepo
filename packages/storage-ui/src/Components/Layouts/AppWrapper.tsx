@@ -33,9 +33,9 @@ const useStyles = makeStyles(
         [breakpoints.down("md")]: {}
       },
       content: {
+        minHeight: "100vh",
         [breakpoints.up("md")]: {
           height: "100%",
-          minHeight: "100vh",
           transitionDuration: `${animation.translate}ms`,
           padding: 0,
           "&.active": {
@@ -44,7 +44,6 @@ const useStyles = makeStyles(
           }
         },
         [breakpoints.down("md")]: {
-          minHeight: "100vh",
           "&.active": {
             height: "initial",
             padding: `${constants.mobileHeaderHeight}px 0 0`
