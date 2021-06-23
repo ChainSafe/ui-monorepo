@@ -62,7 +62,7 @@ interface IAddCIDModuleProps {
   close: () => void
 }
 
-const AddCIDModule = ({ modalOpen = false, close }: IAddCIDModuleProps) => {
+const AddCIDModal = ({ modalOpen = false, close }: IAddCIDModuleProps) => {
   const classes = useStyles()
   const { addPin, refreshPins } = useStorage()
 
@@ -174,4 +174,4 @@ const AddCIDModule = ({ modalOpen = false, close }: IAddCIDModuleProps) => {
   )
 }
 
-export default AddCIDModule
+export default AddCIDModal

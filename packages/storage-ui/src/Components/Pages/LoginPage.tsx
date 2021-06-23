@@ -1,7 +1,7 @@
 import React from "react"
 import { makeStyles, createStyles, useThemeSwitcher } from "@chainsafe/common-theme"
 import { CSSTheme } from "../../Themes/types"
-import InitialScreen from "../Modules/LoginModule/InitialScreen"
+import InitialScreen from "../Modules/LoginModule"
 import { ChainsafeLogo, Typography } from "@chainsafe/common-components"
 import { ROUTE_LINKS } from "../StorageRoutes"
 import { Trans } from "@lingui/macro"
