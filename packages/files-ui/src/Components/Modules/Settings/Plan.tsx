@@ -115,7 +115,7 @@ const PlanView: React.FC = () => {
                 variant="body1"
                 className={classes.spaceUsedMargin}
                 component="p"
-              >{`${formatBytes(spaceUsed)} of ${formatBytes(
+              >{t`${formatBytes(spaceUsed)} of ${formatBytes(
                   FREE_PLAN_LIMIT
                 )} used (${Math.ceil(spaceUsed / FREE_PLAN_LIMIT * 100)}%)`}
               </Typography>
@@ -133,7 +133,7 @@ const PlanView: React.FC = () => {
                 variant="primary"
                 className={classes.changePlanButton}
               >
-                Buy more storage
+                <Trans>Buy more storage</Trans>
               </Button>
             </Link>
           </div>

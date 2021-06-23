@@ -4,15 +4,28 @@ import { CSFTheme } from "../../../../Themes/types"
 import { plans } from "../../../../Utils/plans"
 import PlanBox from "./PlanBox"
 import { ArrowLeftIcon, Link, RadioInput, Typography } from "@chainsafe/common-components"
-import { Trans } from "@lingui/macro"
+import { t, Trans } from "@lingui/macro"
 import { ROUTE_LINKS } from "../../../FilesRoutes"
 
 const useStyles = makeStyles(({ constants, palette, breakpoints }: CSFTheme) =>
   createStyles({
+    root: {
+      [breakpoints.down("md")]: {
+        padding: `${constants.generalUnit * 4}px ${constants.generalUnit * 2}px`
+      }
+    },
     container: {
       display: "grid",
       gridColumnGap: constants.generalUnit * 2,
-      gridTemplateColumns: "1fr 1fr 1fr"
+      gridTemplateColumns: "1fr 1fr 1fr",
+      [breakpoints.down("md")]: {
+        gridTemplateColumns: "1fr 1fr",
+        gridRowGap: constants.generalUnit * 2
+      },
+      [breakpoints.down("sm")]: {
+        gridTemplateColumns: "1fr",
+        gridRowGap: constants.generalUnit * 2
+      }
     },
     heading: {
       marginBottom: constants.generalUnit * 4,
@@ -28,7 +41,12 @@ const useStyles = makeStyles(({ constants, palette, breakpoints }: CSFTheme) =>
       display: "flex",
       justifyContent: "space-between",
       margin: `${constants.generalUnit * 2}px 0px ${constants.generalUnit * 5}px`,
-      alignItems: "center"
+      alignItems: "center",
+      [breakpoints.down("sm")]: {
+        flexDirection: "column",
+        alignItems: "flex-start",
+        margin: `${constants.generalUnit * 2}px 0px ${constants.generalUnit * 2}px`
+      }
     },
     planRadios: {
       display: "flex",
@@ -54,7 +72,7 @@ const Plans = () => {
   const [billingPeriod, setBillingPeriod] = useState<"monthly" | "yearly">("monthly")
 
   return (
-    <div>
+    <div className={classes.root}>
       <Typography
         className={classes.heading}
         variant="h1"
@@ -65,17 +83,17 @@ const Plans = () => {
       <div className={classes.planSettings}>
         <Link to={ROUTE_LINKS.SettingsDefault}>
           <ArrowLeftIcon className={classes.backIcon} />
-          <Typography>Back to plan settings</Typography>
+          <Typography><Trans>Back to plan settings</Trans></Typography>
         </Link>
         <div className={classes.planRadios}>
           <RadioInput
-            label="Billed Monthly"
+            label={t`Billed Monthly`}
             value="monthly"
             onChange={() => setBillingPeriod("monthly")}
             checked={billingPeriod === "monthly"}
           />
           <RadioInput
-            label="Billed Yearly"
+            label={t`Billed Yearly`}
             value="yearly"
             onChange={() => setBillingPeriod("yearly")}
             checked={billingPeriod === "yearly"}

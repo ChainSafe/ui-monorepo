@@ -3,6 +3,7 @@ import { Divider, Typography } from "@chainsafe/common-components"
 import { makeStyles, createStyles } from "@chainsafe/common-theme"
 import { CSFTheme } from "../../../../Themes/types"
 import clsx from "clsx"
+import { t, Trans } from "@lingui/macro"
 
 const useStyles = makeStyles(({ constants, palette, typography }: CSFTheme) =>
   createStyles({
@@ -66,13 +67,14 @@ const PlanBox = ({ plan, billingPeriod, rootClass }: PlanBoxProps) => {
         component="h4"
         className={classes.planFor}
       >
-        {planFor}
+        <Trans>{planFor}</Trans>
       </Typography>
       <Typography
         variant="h3"
         component="h3"
         className={classes.title}
       >
+        {/* not adding translations to titles */}
         {title}
       </Typography>
       {features.map((feature, index) => (
@@ -82,7 +84,7 @@ const PlanBox = ({ plan, billingPeriod, rootClass }: PlanBoxProps) => {
           component="p"
           className={classes.feature}
         >
-          {feature}
+          <Trans>{feature}</Trans>
         </Typography>
       ))
       }
@@ -91,18 +93,18 @@ const PlanBox = ({ plan, billingPeriod, rootClass }: PlanBoxProps) => {
         component="h3"
         className={classes.price}
       >
-        {`$${billingPeriod === "monthly" ? monthly : yearly} USD/${billingPeriod === "monthly"  ? "month" : "year"}`}
+        {t`$${billingPeriod === "monthly" ? monthly : yearly} USD/${billingPeriod === "monthly"  ? "month" : "year"}`}
       </Typography>
       <div
         className={classes.buttonLink}
       >
-        Try for 7 days
+        <Trans>Try for 7 days</Trans>
       </div>
       <Divider className={classes.divider} />
       <div
         className={classes.buttonLink}
       >
-        Purchase with card
+        <Trans>Purchase with card</Trans>
       </div>
     </div>
   )

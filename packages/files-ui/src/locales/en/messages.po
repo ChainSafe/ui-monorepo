@@ -13,6 +13,9 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
+msgid "${0} USD/{1}"
+msgstr "${0} USD/{1}"
+
 msgid "(Change)"
 msgstr "(Change)"
 
@@ -46,17 +49,29 @@ msgstr "Approve"
 msgid "Are we on the right track? Let us know in less than 1 minute."
 msgstr "Are we on the right track? Let us know in less than 1 minute."
 
+msgid "Back to plan settings"
+msgstr "Back to plan settings"
+
 msgid "Backup secret phrase"
 msgstr "Backup secret phrase"
 
 msgid "Backup secret phrase does not match user account, please double-check and try again."
 msgstr "Backup secret phrase does not match user account, please double-check and try again."
 
+msgid "Billed Monthly"
+msgstr "Billed Monthly"
+
+msgid "Billed Yearly"
+msgstr "Billed Yearly"
+
 msgid "Bin"
 msgstr "Bin"
 
 msgid "Browser:"
 msgstr "Browser:"
+
+msgid "Buy more storage"
+msgstr "Buy more storage"
 
 msgid "By connecting your wallet, you agree to our <0>Terms of Service</0> and <1>Privacy Policy</1>"
 msgstr "By connecting your wallet, you agree to our <0>Terms of Service</0> and <1>Privacy Policy</1>"
@@ -430,6 +445,9 @@ msgstr "Profile settings"
 msgid "Profile updated"
 msgstr "Profile updated"
 
+msgid "Purchase with card"
+msgstr "Purchase with card"
+
 msgid "Recover"
 msgstr "Recover"
 
@@ -640,8 +658,14 @@ msgstr "Try again"
 msgid "Try another method"
 msgstr "Try another method"
 
+msgid "Try for 7 days"
+msgstr "Try for 7 days"
+
 msgid "Update"
 msgstr "Update"
+
+msgid "Upgrade your plan"
+msgstr "Upgrade your plan"
 
 msgid "Upload"
 msgstr "Upload"
@@ -742,5 +766,14 @@ msgstr "recovered successfully"
 msgid "{0, plural, one {You are about to delete {1} file.} other {You are about to delete {2} files.}}"
 msgstr "{0, plural, one {You are about to delete {1} file.} other {You are about to delete {2} files.}}"
 
+msgid "{0} of {1} used ({2}%)"
+msgstr "{0} of {1} used ({2}%)"
+
+msgid "{feature}"
+msgstr "{feature}"
+
 msgid "{noOfFiles, plural, one {Uploading and encrypting {noOfFiles} file} other {Uploading and encrypting {noOfFiles} files}}"
 msgstr "{noOfFiles, plural, one {Uploading and encrypting {noOfFiles} file} other {Uploading and encrypting {noOfFiles} files}}"
+
+msgid "{planFor}"
+msgstr "{planFor}"

@@ -1,3 +1,5 @@
+// dummy  data to generate plans view
+// this should be abstracted to API later
 export const plans = [
   {
     title: "Plus",

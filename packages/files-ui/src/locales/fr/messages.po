@@ -14,6 +14,9 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "Plural-Forms: \n"
 
+msgid "${0} USD/{1}"
+msgstr ""
+
 msgid "(Change)"
 msgstr "(Changer)"
 
@@ -47,17 +50,29 @@ msgstr "Accepter"
 msgid "Are we on the right track? Let us know in less than 1 minute."
 msgstr "Sommes nous sur les bons rails ? Dites le nous en moins d'1 minute (en anglais)."
 
+msgid "Back to plan settings"
+msgstr ""
+
 msgid "Backup secret phrase"
 msgstr "Phrase de sauvegarde secrète"
 
 msgid "Backup secret phrase does not match user account, please double-check and try again."
 msgstr "La phrase de sauvegarde secrète est incorrecte, merci de vérifier et réessayer."
 
+msgid "Billed Monthly"
+msgstr ""
+
+msgid "Billed Yearly"
+msgstr ""
+
 msgid "Bin"
 msgstr "Corbeille"
 
 msgid "Browser:"
 msgstr "Explorateur:"
+
+msgid "Buy more storage"
+msgstr ""
 
 msgid "By connecting your wallet, you agree to our <0>Terms of Service</0> and <1>Privacy Policy</1>"
 msgstr "En connectant ton portefeuille, tu acceptes nos <0>Terms of Service</0> et <1>Privacy Policy</1>"
@@ -431,6 +446,9 @@ msgstr ""
 msgid "Profile updated"
 msgstr "Profile mis à jour"
 
+msgid "Purchase with card"
+msgstr ""
+
 msgid "Recover"
 msgstr "Récupérer"
 
@@ -641,8 +659,14 @@ msgstr "Essayer de nouveau"
 msgid "Try another method"
 msgstr "Essayer une autre méthode"
 
+msgid "Try for 7 days"
+msgstr ""
+
 msgid "Update"
 msgstr "Mettre à jour"
+
+msgid "Upgrade your plan"
+msgstr ""
 
 msgid "Upload"
 msgstr "Uploader"
@@ -743,5 +767,14 @@ msgstr "récupéré avec succès"
 msgid "{0, plural, one {You are about to delete {1} file.} other {You are about to delete {2} files.}}"
 msgstr "{0, plural, one {Supprimer {1} fichier.} other {Supprimer {2} fichiers.}}"
 
+msgid "{0} of {1} used ({2}%)"
+msgstr ""
+
+msgid "{feature}"
+msgstr ""
+
 msgid "{noOfFiles, plural, one {Uploading and encrypting {noOfFiles} file} other {Uploading and encrypting {noOfFiles} files}}"
 msgstr "{noOfFiles, plural, one {Upload et chiffrage de {noOfFiles} fichier} other {Upload et chiffrage de {noOfFiles} fichiers}}"
+
+msgid "{planFor}"
+msgstr ""
