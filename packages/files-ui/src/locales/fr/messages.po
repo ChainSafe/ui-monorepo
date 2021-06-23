@@ -404,6 +404,9 @@ msgstr "Nom du dossier"
 msgid "Please enter a name"
 msgstr "Entrer un nom"
 
+msgid "Please enter a {0} name"
+msgstr ""
+
 msgid "Please provide a password"
 msgstr "Merci de donner un mot de passe"
 
@@ -449,8 +452,8 @@ msgstr "Plus tard"
 msgid "Rename"
 msgstr "Renommer"
 
-msgid "Rename File/Folder"
-msgstr "Renommer Ficher/Dossier"
+msgid "Rename ${0}"
+msgstr ""
 
 msgid "Requested from"
 msgstr "Envoyé par"
@@ -623,7 +626,7 @@ msgstr "Une erreur s'est produite lors du déplacement"
 msgid "There was an error recovering this"
 msgstr "Une erreur s'est produite lors de la récupération"
 
-msgid "There was an error setting username."
+msgid "There was an error when setting username."
 msgstr ""
 
 msgid "This username is public"
