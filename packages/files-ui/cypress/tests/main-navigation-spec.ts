@@ -1,6 +1,6 @@
+import { authenticationPage } from "../support/page-objects/authenticationPage"
 import { navigationMenu } from "../support/page-objects/navigationMenu"
 import { homePage } from "../support/page-objects/homePage"
-import { landingPage } from "../support/page-objects/landingPage"
 
 describe("Main Navigation", () => {
 
@@ -61,7 +61,7 @@ describe("Main Navigation", () => {
 
     it("can sign out from the navigation bar", () => {
       navigationMenu.signOutButton().click()
-      landingPage.web3Button().should("be.visible")
+      authenticationPage.web3Button().should("be.visible")
       cy.url().should("not.include", "/drive")
       cy.url().should("not.include", "/bin")
       cy.url().should("not.include", "/settings")
