@@ -247,7 +247,7 @@ const ProfileView = () => {
         if (doesUsernameExist) {
           setUsernameData({
             loading: false,
-            error: "This username is already taken"
+            error: t`This username is already taken`
           })
         } else {
           setUsernameData({
