@@ -244,11 +244,10 @@ const ProfileView = () => {
   const onLookupUsername = useCallback((username: string) => {
     lookupOnUsername(username)
       .then((doesUsernameExist) => {
-        console.log("doesUsernameExist", doesUsernameExist)
         if (doesUsernameExist) {
           setUsernameData({
             loading: false,
-            error: "Username already exists"
+            error: "This username is already taken"
           })
         } else {
           setUsernameData({

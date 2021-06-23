@@ -116,7 +116,7 @@ const UserProvider = ({ children }: UserContextProps) => {
       return Promise.reject(
         error && error.length
           ? error[0].message
-          : t`There was an error setting username.`
+          : t`There was an error when setting username.`
       )
     }
   }

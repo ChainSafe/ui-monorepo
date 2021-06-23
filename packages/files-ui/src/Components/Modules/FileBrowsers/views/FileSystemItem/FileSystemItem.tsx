@@ -20,7 +20,7 @@ import {
 import { makeStyles, createStyles, useDoubleClick, useThemeSwitcher } from "@chainsafe/common-theme"
 import { Formik, Form } from "formik"
 import CustomModal from "../../../../Elements/CustomModal"
-import { Trans } from "@lingui/macro"
+import { t, Trans } from "@lingui/macro"
 import { useDrag, useDrop } from "react-dnd"
 import { DragTypes } from "../../DragConstants"
 import { getEmptyImage, NativeTypes } from "react-dnd-html5-backend"
@@ -426,15 +426,13 @@ const FileSystemItem = ({
                     component="p"
                     variant="h5"
                   >
-                    <Trans>Rename File/Folder</Trans>
+                    <Trans>Rename ${isFolder ? "folder" : "file"}</Trans>
                   </Typography>
                   <FormikTextInput
                     label="Name"
                     className={classes.renameInput}
                     name="fileName"
-                    placeholder={`Please enter a ${
-                      isFolder ? "folder" : "file"
-                    } name`}
+                    placeholder={t`Please enter a ${isFolder ? "folder" : "file"} name`}
                     autoFocus={editing === cid}
                   />
                   <footer className={classes.renameFooter}>
