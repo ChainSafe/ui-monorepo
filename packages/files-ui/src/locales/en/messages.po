@@ -205,9 +205,6 @@ msgstr "Enter the verification code:"
 msgid "Enter your email:"
 msgstr "Enter your email:"
 
-#~ msgid "Essentials - Free"
-#~ msgstr "Essentials - Free"
-
 msgid "Failed to get signature"
 msgstr "Failed to get signature"
 
@@ -327,9 +324,6 @@ msgstr "Loading your shared folders..."
 
 msgid "Looks like you’re signing in from a new browser. Please choose one of the following to continue:"
 msgstr "Looks like you’re signing in from a new browser. Please choose one of the following to continue:"
-
-#~ msgid "Lorem ipsum aenean et rutrum magna. Morbi nec placerat erat. Nunc elementum sed libero sit amet convallis. Quisque non arcu vitae ex fringilla molestie."
-#~ msgstr "Lorem ipsum aenean et rutrum magna. Morbi nec placerat erat. Nunc elementum sed libero sit amet convallis. Quisque non arcu vitae ex fringilla molestie."
 
 msgid "Move"
 msgstr "Move"
@@ -735,9 +729,6 @@ msgstr "You will need to sign a message in your wallet to complete sign in."
 
 msgid "Your Authentication Factors"
 msgstr "Your Authentication Factors"
-
-#~ msgid "Your first 20GB are free, and you’ll get a discount on our monthly plan once you need more than that."
-#~ msgstr "Your first 20GB are free, and you’ll get a discount on our monthly plan once you need more than that."
 
 msgid "Your first {0} are free, and you’ll get a discount on our monthly plan once you need more than that"
 msgstr "Your first {0} are free, and you’ll get a discount on our monthly plan once you need more than that"
