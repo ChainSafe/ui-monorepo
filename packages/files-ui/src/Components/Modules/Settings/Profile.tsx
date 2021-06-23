@@ -242,19 +242,22 @@ const ProfileView = () => {
   })
 
   const onLookupUsername = useCallback((username: string) => {
-    lookupOnUsername(username).then((doesUsernameExist) => {
-      if (doesUsernameExist) {
-        setUsernameData({
-          loading: false,
-          error: "Username already exists"
-        })
-      } else {
-        setUsernameData({
-          loading: false,
-          error: ""
-        })
-      }
-    }).catch(console.error)
+    lookupOnUsername(username)
+      .then((doesUsernameExist) => {
+        console.log("doesUsernameExist", doesUsernameExist)
+        if (doesUsernameExist) {
+          setUsernameData({
+            loading: false,
+            error: "Username already exists"
+          })
+        } else {
+          setUsernameData({
+            loading: false,
+            error: ""
+          })
+        }
+      })
+      .catch(console.error)
   }, [lookupOnUsername])
 
   const debouncedOnLookupUsername = useMemo(
@@ -262,22 +265,26 @@ const ProfileView = () => {
     [onLookupUsername]
   )
 
-  const onUsernameChange = (value: string) => {
-    setUsername(value)
-    debouncedOnLookupUsername(value)
+  const onUsernameChange = (value: string | number | undefined) => {
+    const sanitizedValue = value?.toString() || ""
+
+    setUsername(sanitizedValue)
+    !!sanitizedValue && debouncedOnLookupUsername(sanitizedValue)
   }
 
   const onSubmitUsername = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setUsernameData({ ...usernameData, loading: true })
-    addUsername(username).then(() => {
-      addToastMessage({ message: t`Username set successfully` })
-    }).catch((error) => {
-      setUsernameData({
-        error: error,
-        loading: false
+    addUsername(username)
+      .then(() => {
+        addToastMessage({ message: t`Username set successfully` })
       })
-    })
+      .catch((error) => {
+        setUsernameData({
+          error: error,
+          loading: false
+        })
+      })
   }
 
   return (
@@ -413,7 +420,7 @@ const ProfileView = () => {
                           value={username}
                           className={classes.usernameInput}
                           RightIcon={username && !usernameData.error ? CheckIcon : undefined}
-                          onChange={(value) => value && onUsernameChange(value.toString())}
+                          onChange={onUsernameChange}
                           captionMessage={usernameData.error}
                           state={usernameData.error ? "error" : "normal"}
                           data-cy="profile-username-input"
