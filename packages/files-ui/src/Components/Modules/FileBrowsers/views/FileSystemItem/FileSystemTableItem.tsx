@@ -194,6 +194,7 @@ const FileSystemTableItem = React.forwardRef(
               <Form
                 className={classes.desktopRename}
                 data-cy='rename-form'
+                onBlur={() => setEditing(undefined)}
               >
                 <FormikTextInput
                   className={classes.renameInput}
