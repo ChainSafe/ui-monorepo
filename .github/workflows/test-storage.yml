@@ -56,7 +56,7 @@ jobs:
       # store the videos if the tests fail
       - name: Store videos 
         uses: actions/upload-artifact@v1
-        # if: failure()
+        if: failure()
         with:
           name: cypress-videos
           path: packages/storage-ui/cypress/videos
