@@ -38,9 +38,7 @@ const CustomButton: React.FC<ICustomButton> = ({
   const setVariant =
     variant && CUSTOM_VARIANTS.includes(variant)
       ? "primary"
-      : variant
-        ? variant
-        : "primary"
+      : variant || "primary"
 
   return (
     <Button

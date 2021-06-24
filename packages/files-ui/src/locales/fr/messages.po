@@ -452,8 +452,11 @@ msgstr "Plus tard"
 msgid "Rename"
 msgstr "Renommer"
 
-msgid "Rename File/Folder"
-msgstr "Renommer Ficher/Dossier"
+msgid "Rename file"
+msgstr "Renommer le fichier"
+
+msgid "Rename folder"
+msgstr "Renommer le dossier"
 
 msgid "Requested from"
 msgstr "Envoyé par"
@@ -626,7 +629,10 @@ msgstr "Une erreur s'est produite lors du déplacement"
 msgid "There was an error recovering this"
 msgstr "Une erreur s'est produite lors de la récupération"
 
-msgid "There was an error setting username."
+msgid "There was an error when setting username."
+msgstr ""
+
+msgid "This username is already taken"
 msgstr ""
 
 msgid "This username is public"

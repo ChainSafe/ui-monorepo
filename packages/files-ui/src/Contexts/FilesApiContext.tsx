@@ -69,7 +69,7 @@ const FilesApiProvider = ({ apiUrl, withLocalStorage = true, children }: FilesAp
 
   // returning user
   const isReturningUserLocal = localStorageGet(isReturningUserStorageKey)
-  const [isReturningUser, setIsReturningUser] = useState(isReturningUserLocal ? true : false)
+  const [isReturningUser, setIsReturningUser] = useState(!!isReturningUserLocal)
 
   const setTokensAndSave = useCallback((accessToken: Token, refreshToken: Token) => {
     setAccessToken(accessToken)
