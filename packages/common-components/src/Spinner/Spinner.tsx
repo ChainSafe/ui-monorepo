@@ -55,7 +55,7 @@ const Spinner: React.FC<SpinnerProps> = ({
   const theme: ITheme = useTheme()
   return (
     <Component
-      color={color ? color : theme.palette.secondary?.main}
+      color={color || theme.palette.secondary?.main}
       height={height}
       loading={loading}
       radius={radius}

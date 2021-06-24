@@ -247,9 +247,9 @@ const LoginModule = ({ className }: IInitialScreen) => {
         )
       }
       {
-        !error ?
-          loginMode !== "web3" ? (
-            <>
+        !error
+          ? loginMode !== "web3"
+            ? <>
               <section className={classes.buttonSection}>
                 {maintenanceMode && (
                   <Typography>
@@ -302,7 +302,7 @@ const LoginModule = ({ className }: IInitialScreen) => {
                 >
                   <Typography>
                     <Trans>
-                        Privacy Policy
+                      Privacy Policy
                     </Trans>
                   </Typography>
                 </a>
@@ -313,16 +313,15 @@ const LoginModule = ({ className }: IInitialScreen) => {
                 >
                   <Typography>
                     <Trans>
-                        Terms and Conditions
+                      Terms and Conditions
                     </Trans>
                   </Typography>
                 </a>
               </footer>
             </>
-          ) : (
-            wallet ?
-              !isConnecting ? (
-                <>
+            : wallet
+              ? !isConnecting
+                ? <>
                   <section className={classes.buttonSection}>
                     <Button
                       data-cy="sign-in-with-web3-button"
@@ -352,14 +351,12 @@ const LoginModule = ({ className }: IInitialScreen) => {
                   </section>
                   <Footer/>
                 </>
-              ) : (
-                <section className={classes.connectingWallet}>
+                : <section className={classes.connectingWallet}>
                   <Typography variant='h2'><Trans>Connect Wallet to Storage</Trans></Typography>
                   <Typography variant='h5'>
                     <Trans>You will need to sign a message in your wallet to complete sign in.</Trans>
                   </Typography>
                 </section>
-              )
               : <>
                 <section className={classes.buttonSection}>
                   <Button
@@ -383,22 +380,20 @@ const LoginModule = ({ className }: IInitialScreen) => {
                 </section>
                 <Footer/>
               </>
-          ) : (
-            <>
-              <section className={classes.connectingWallet}>
-                <Typography variant='h2'><Trans>Connection failed</Trans></Typography>
-                <Typography variant='h5'>
-                  {error}
-                </Typography>
-                <Button
-                  variant="primary"
-                  onClick={resetLogin}
-                >
-                  <Trans>Try again</Trans>
-                </Button>
-              </section>
-            </>
-          )
+          : <>
+            <section className={classes.connectingWallet}>
+              <Typography variant='h2'><Trans>Connection failed</Trans></Typography>
+              <Typography variant='h5'>
+                {error}
+              </Typography>
+              <Button
+                variant="primary"
+                onClick={resetLogin}
+              >
+                <Trans>Try again</Trans>
+              </Button>
+            </section>
+          </>
       }
     </div>
   )
