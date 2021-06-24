@@ -374,6 +374,9 @@ msgstr "Système d'exploitation:"
 msgid "Or confirm by signing into your Files on any browser you’ve used before."
 msgstr "Ou accepte la requête de connexion depuis n'importe quel appareil ou navigateur utilisé auparavant."
 
+msgid "Owner"
+msgstr ""
+
 msgid "Password"
 msgstr "Mot de passe"
 
