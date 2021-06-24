@@ -208,7 +208,7 @@ const FileInfoModal: React.FC<IFileInfoModuleProps> = ({
       injectedClass={{
         inner: classes.modalInner
       }}
-      active={fileInfoPath ? true : false}
+      active={!!fileInfoPath}
       closePosition="none"
       maxWidth="sm"
     >

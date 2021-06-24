@@ -135,8 +135,8 @@ const MigrateAccount: React.FC<IMigrateAccount> = ({
   }
 
   return (
-    (migrateState === "migrate") ?
-      <section className={clsx(classes.root, className)}>
+    (migrateState === "migrate")
+      ? <section className={clsx(classes.root, className)}>
         <form
           onSubmit={handleSecureAccountWithMasterPassword}
           className={classes.form}
@@ -194,13 +194,13 @@ const MigrateAccount: React.FC<IMigrateAccount> = ({
             </Typography>
           </div>
         </footer>
-      </section> :
-      (migrateState === "explainer") ?
-        <ConciseExplainer
+      </section>
+      : (migrateState === "explainer")
+        ? <ConciseExplainer
           className={className}
           onContinue={() => setMigrateState("complete")}
-        /> :
-        <Complete className={className} />
+        />
+        : <Complete className={className} />
   )
 }
 
