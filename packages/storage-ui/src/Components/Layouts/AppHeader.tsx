@@ -202,6 +202,7 @@ const AppHeader = ({ navOpen, setNavOpen }: IAppHeader) => {
                 onClick={() => setNavOpen(!navOpen)}
                 variant={navOpen ? "active" : "default"}
                 className={clsx(classes.hamburgerMenu, "hamburger-menu")}
+                testId="hamburger-menu"
               />
               <Link
                 className={classes.logo}

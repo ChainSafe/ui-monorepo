@@ -1,4 +1,4 @@
-name: Cypress tests
+name: Cypress tests - Files
 on: pull_request
 jobs:
   cypress-run:

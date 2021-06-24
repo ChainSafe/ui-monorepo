@@ -62,7 +62,7 @@ const CidsPage = () => {
           <Typography
             variant="h1"
             component="h1"
-            data-cy="storage-cids-header"
+            data-cy="cids-header"
           >
             <Trans>
               Cids
