@@ -18,7 +18,7 @@ import {
   ExclamationCircleInverseSvg,
   ZoomInSvg } from "@chainsafe/common-components"
 import { makeStyles, createStyles, useDoubleClick, useThemeSwitcher } from "@chainsafe/common-theme"
-import { Formik, Form } from "formik"
+import { Form, FormikProvider, useFormik } from "formik"
 import CustomModal from "../../../../Elements/CustomModal"
 import { Trans } from "@lingui/macro"
 import { useDrag, useDrop } from "react-dnd"
@@ -143,6 +143,19 @@ const FileSystemItem = ({
 }: IFileSystemItemProps) => {
   const { downloadFile, currentPath, handleUploadOnDrop, moveItems } = useFileBrowser()
   const { cid, name, isFolder, content_type } = file
+  const formik = useFormik({
+    initialValues:{
+      fileName: name
+    },
+    validationSchema:renameSchema,
+    onSubmit:(values) => {
+      handleRename &&
+      handleRename(
+        file.cid,
+        values.fileName
+      )
+    }
+  })
   let Icon
   if (isFolder) {
     Icon = FolderFilledSvg
@@ -408,19 +421,7 @@ const FileSystemItem = ({
               active={editing === cid}
               setActive={() => setEditing("")}
             >
-              <Formik
-                initialValues={{
-                  fileName: name
-                }}
-                validationSchema={renameSchema}
-                onSubmit={(values) => {
-                  handleRename &&
-                  handleRename(
-                    file.cid,
-                    values.fileName
-                  )
-                }}
-              >
+              <FormikProvider value={formik}>
                 <Form className={classes.renameModal}>
                   <Typography
                     className={classes.renameHeader}
@@ -453,12 +454,13 @@ const FileSystemItem = ({
                       size="medium"
                       type="submit"
                       className={classes.okButton}
+                      disabled={!formik.dirty}
                     >
                       <Trans>Update</Trans>
                     </Button>
                   </footer>
                 </Form>
-              </Formik>
+              </FormikProvider>
             </CustomModal>
             <Typography>{name}</Typography>
           </>
