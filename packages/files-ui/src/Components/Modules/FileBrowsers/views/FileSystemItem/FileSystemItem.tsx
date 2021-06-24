@@ -315,6 +315,7 @@ const FileSystemItem = ({
     dropMoveRef(fileOrFolderRef)
     dropUploadRef(fileOrFolderRef)
   }
+
   if (!editing && !isFolder) {
     dragMoveRef(fileOrFolderRef)
   }
