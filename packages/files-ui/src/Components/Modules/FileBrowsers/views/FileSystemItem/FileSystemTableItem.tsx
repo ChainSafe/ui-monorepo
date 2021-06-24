@@ -20,16 +20,22 @@ import dayjs from "dayjs"
 import { FileSystemItem } from "../../../../../Contexts/FilesContext"
 import { ConnectDragPreview } from "react-dnd"
 import { Form, Formik } from "formik"
+import { BucketUser } from "@chainsafe/files-api-client"
+import { centerEllipsis } from "../../../../../Utils/Helpers"
 
 const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => {
   const desktopGridSettings = "50px 69px 3fr 190px 100px 45px !important"
+  const desktopOwnersGridSettings = "50px 69px 3fr 190px 100px 100px 45px !important"
   const mobileGridSettings = "69px 3fr 45px !important"
 
   return createStyles({
     tableRow: {
       border: "2px solid transparent",
       [breakpoints.up("md")]: {
-        gridTemplateColumns: desktopGridSettings
+        gridTemplateColumns: desktopGridSettings,
+        "&.owners": {
+          gridTemplateColumns: desktopOwnersGridSettings
+        }
       },
       [breakpoints.down("md")]: {
         gridTemplateColumns: mobileGridSettings
@@ -109,6 +115,7 @@ interface IFileSystemTableItemProps {
   isFolder: boolean
   isOverMove: boolean
   isOverUpload: boolean
+  owners?: BucketUser[]
   selected: string[]
   file: FileSystemItem
   editing: string | undefined
@@ -129,6 +136,7 @@ const FileSystemTableItem = React.forwardRef(
     isOverMove,
     isOverUpload,
     selected,
+    owners,
     file,
     editing,
     handleAddToSelectedCids,
@@ -143,12 +151,12 @@ const FileSystemTableItem = React.forwardRef(
     const classes = useStyles()
     const { name, cid, created_at, size } = file
     const { desktop } = useThemeSwitcher()
-
     return  (
       <TableRow
         data-cy="file-item-row"
         className={clsx(classes.tableRow, {
-          droppable: isFolder && (isOverMove || isOverUpload)
+          droppable: isFolder && (isOverMove || isOverUpload),
+          owners: !!owners
         })}
         type="grid"
         rowSelectable={true}
@@ -233,6 +241,15 @@ const FileSystemTableItem = React.forwardRef(
             <TableCell align="left">
               {!isFolder && formatBytes(size)}
             </TableCell>
+            {
+              owners && (
+                <TableCell align="left">
+                  {
+                    owners.map(owner => (owner.uuid && <span>{centerEllipsis(owner.uuid, 2)}</span>))
+                  }
+                </TableCell>
+              )
+            }
           </>
         )}
         <TableCell align="right">

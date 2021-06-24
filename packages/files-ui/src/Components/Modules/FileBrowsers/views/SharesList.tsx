@@ -57,7 +57,7 @@ interface IStyleProps {
 
 const useStyles = makeStyles(
   ({ animation, breakpoints, constants, palette, zIndex }: CSFTheme) => {
-    const desktopGridSettings = "50px 69px 3fr 190px 100px 45px 45px !important"
+    const desktopGridSettings = "50px 69px 3fr 190px 100px 100px 45px !important"
     const mobileGridSettings = "69px 3fr 45px !important"
     return createStyles({
       root: {
@@ -817,61 +817,59 @@ const SharesList = () => {
             hover={true}
             className={clsx(loadingCurrentPath && classes.fadeOutLoading)}
           >
-            {desktop && (
-              <TableHead className={classes.tableHead}>
-                <TableRow type="grid"
-                  className={classes.tableRow}>
-                  <TableHeadCell>
-                    <CheckboxInput
-                      value={selectedCids.length === items.length}
-                      onChange={() => toggleAll()}
-                    />
-                  </TableHeadCell>
-                  <TableHeadCell>
-                    {/* 
-                        Icon
-                      */}
-                  </TableHeadCell>
-                  <TableHeadCell
-                    sortButtons={true}
-                    align="left"
-                    onSortChange={() => handleSortToggle("name")}
-                    sortDirection={column === "name" ? direction : undefined}
-                    sortActive={column === "name"}
-                  >
-                    <Trans>Name</Trans>
-                  </TableHeadCell>
-                  <TableHeadCell
-                    sortButtons={true}
-                    align="left"
-                    onSortChange={() => handleSortToggle("date_uploaded")}
-                    sortDirection={
-                      column === "date_uploaded" ? direction : undefined
-                    }
-                    sortActive={column === "date_uploaded"}
-                  >
-                    <Trans>Date uploaded</Trans>
-                  </TableHeadCell>
-                  <TableHeadCell
-                    sortButtons={true}
-                    align="left"
-                    onSortChange={() => handleSortToggle("shared_with")}
-                    sortDirection={column === "shared_with" ? direction : undefined}
-                    sortActive={column === "shared_with"}
-                  >
-                    <Trans>Size</Trans>
-                  </TableHeadCell>
-                  {
-                    desktop && (
-                      <TableHeadCell>
-                        <Trans>Owner</Trans>
-                      </TableHeadCell>
-                    )
+            <TableHead className={classes.tableHead}>
+              <TableRow type="grid"
+                className={classes.tableRow}>
+                <TableHeadCell>
+                  <CheckboxInput
+                    value={selectedCids.length === items.length}
+                    onChange={() => toggleAll()}
+                  />
+                </TableHeadCell>
+                <TableHeadCell>
+                  {/* 
+                      Icon
+                    */}
+                </TableHeadCell>
+                <TableHeadCell
+                  sortButtons={true}
+                  align="left"
+                  onSortChange={() => handleSortToggle("name")}
+                  sortDirection={column === "name" ? direction : undefined}
+                  sortActive={column === "name"}
+                >
+                  <Trans>Name</Trans>
+                </TableHeadCell>
+                <TableHeadCell
+                  sortButtons={true}
+                  align="left"
+                  onSortChange={() => handleSortToggle("date_uploaded")}
+                  sortDirection={
+                    column === "date_uploaded" ? direction : undefined
                   }
-                  <TableHeadCell>{/* Menu */}</TableHeadCell>
-                </TableRow>
-              </TableHead>
-            )}
+                  sortActive={column === "date_uploaded"}
+                >
+                  <Trans>Date uploaded</Trans>
+                </TableHeadCell>
+                <TableHeadCell
+                  sortButtons={true}
+                  align="left"
+                  onSortChange={() => handleSortToggle("shared_with")}
+                  sortDirection={column === "shared_with" ? direction : undefined}
+                  sortActive={column === "shared_with"}
+                >
+                  <Trans>Size</Trans>
+                </TableHeadCell>
+                {
+                  desktop && (
+                    <TableHeadCell>
+                      <Trans>Owner</Trans>
+                    </TableHeadCell>
+                  )
+                }
+                <TableHeadCell>{/* Menu */}</TableHeadCell>
+              </TableRow>
+            </TableHead>
             <TableBody>
               {!desktop &&
               showUploadsInTable &&
@@ -908,6 +906,7 @@ const SharesList = () => {
                   key={index}
                   file={file}
                   files={files}
+                  owners={bucket?.owners}
                   selected={selectedCids}
                   handleSelectCid={handleSelectCid}
                   handleAddToSelectedCids={handleAddToSelectedCids}
@@ -947,6 +946,7 @@ const SharesList = () => {
               <FileSystemItem
                 key={index}
                 file={file}
+                owners={bucket?.owners}
                 files={files}
                 selected={selectedCids}
                 handleSelectCid={handleSelectCid}

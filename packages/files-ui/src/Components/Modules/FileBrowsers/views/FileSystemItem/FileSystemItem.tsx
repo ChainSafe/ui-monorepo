@@ -31,6 +31,7 @@ import FileItemGridItem from "./FileSystemGridItem"
 import { FileSystemItem as FileSystemItemType } from "../../../../../Contexts/FilesContext"
 import { useFileBrowser } from "../../../../../Contexts/FileBrowserContext"
 import { getPathWithFile } from "../../../../../Utils/pathUtils"
+import { BucketUser } from "@chainsafe/files-api-client"
 
 const useStyles = makeStyles(({ breakpoints, constants }: CSFTheme) => {
   return createStyles({
@@ -103,6 +104,7 @@ interface IFileSystemItemProps {
   file: FileSystemItemType
   files: FileSystemItemType[]
   selected: string[]
+  owners?: BucketUser[]
   handleSelectCid(selectedCid: string): void
   handleAddToSelectedCids(selectedCid: string): void
   editing: string | undefined
@@ -125,6 +127,7 @@ const FileSystemItem = ({
   file,
   files,
   selected,
+  owners,
   editing,
   setEditing,
   renameSchema,
@@ -370,6 +373,7 @@ const FileSystemItem = ({
 
   const itemProps = {
     ref: fileOrFolderRef,
+    owners,
     currentPath,
     editing,
     file,
