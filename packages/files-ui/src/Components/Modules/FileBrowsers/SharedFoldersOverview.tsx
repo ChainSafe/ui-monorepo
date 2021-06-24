@@ -119,10 +119,8 @@ const SharedFolderOverview = () => {
   }
 
   const openShare = useCallback((bucketId: string) => {
-    console.log(ROUTE_LINKS.ShareExplorer(bucketId, "/"))
     redirect(ROUTE_LINKS.ShareExplorer(bucketId, "/"))
   }, [redirect])
-
 
   return (
     <article

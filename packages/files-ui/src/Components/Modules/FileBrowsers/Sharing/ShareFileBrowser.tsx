@@ -283,7 +283,7 @@ const ShareFileBrowser = () => {
       sourceFiles: pathContents,
       heading: t`Shared`,
       controls: true,
-      allowDropUpload: true,
+      allowDropUpload: access === "writer" || access === "owner",
       itemOperations,
       withSurvey: showSurvey && olderThanOneWeek
     }}>
