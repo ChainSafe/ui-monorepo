@@ -27,10 +27,10 @@
 
 import { authenticationPage } from "./page-objects/authenticationPage"
 import { ethers, Wallet } from "ethers"
-import { homePage } from "./page-objects/homePage"
 import { testPrivateKey, localHost } from "../fixtures/loginData"
 import { CustomizedBridge } from "./utils/CustomBridge"
 import "cypress-file-upload"
+import { cidsPage } from "./page-objects/cidsPage"
 
 export type Storage = Record<string, string>[];
 
@@ -137,7 +137,7 @@ Cypress.Commands.add(
       }
     })
 
-    homePage.cidsHeaderLabel().should("be.visible")
+    cidsPage.cidsHeaderLabel().should("be.visible")
 
     cy.saveLocalAndSession()
 
