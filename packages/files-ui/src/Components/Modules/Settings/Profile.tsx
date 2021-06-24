@@ -207,7 +207,7 @@ const ProfileView = () => {
       )
     },
     validationSchema: profileValidation,
-    validateOnChange:false
+    validateOnChange: false
   })
   const onUpdateProfile = async (firstName: string, lastName: string) => {
     try {
