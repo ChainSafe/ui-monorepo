@@ -302,7 +302,8 @@ const SharesList = () => {
     moduleRootPath,
     isSearch,
     withSurvey,
-    bucket
+    bucket,
+    accessRole
   } = useFileBrowser()
   const classes = useStyles({ themeKey })
   const [editing, setEditing] = useState<string | undefined>()
@@ -470,17 +471,44 @@ const SharesList = () => {
   const [validBulkOps, setValidBulkOps] = useState<FileOperation[]>([])
 
   useEffect(() => {
-    if (bulkOperations) {
-      let filteredList: FileOperation[] = [
-        "delete",
-        "download",
-        "info",
-        "move",
-        "preview",
-        "rename",
-        "share",
-        "recover"
-      ]
+    if (bulkOperations && accessRole) {
+      let filteredList: FileOperation[] = []
+
+      switch(accessRole) {
+      case "owner":
+        filteredList = [
+          "delete",
+          "download",
+          "info",
+          "move",
+          "preview",
+          "rename",
+          "share"
+        ]
+        break
+      case "writer":
+        filteredList = [
+          "delete",
+          "download",
+          "info",
+          "move",
+          "preview",
+          "rename",
+          "share"
+        ]
+        break
+      case "reader":
+        filteredList = [
+          "download",
+          "info",
+          "preview",
+          "share"
+        ]
+        break
+      case "none":
+        break
+      }
+
       for (let i = 0; i < selectedCids.length; i++) {
         const contentType = items.find((item) => item.cid === selectedCids[i])
           ?.content_type
@@ -523,7 +551,7 @@ const SharesList = () => {
       }
       setValidBulkOps(filteredList)
     }
-  }, [selectedCids, items, bulkOperations])
+  }, [selectedCids, items, bulkOperations, accessRole])
 
   const handleDeleteFiles = useCallback(() => {
     if (!deleteFiles) return
@@ -639,27 +667,33 @@ const SharesList = () => {
               >
                 {browserView === "table" ? <GridIcon /> : <TableIcon />}
               </Button>
-              <Button
-                onClick={() => setCreateFolderModalOpen(true)}
-                variant="outline"
-                size="large"
-              >
-                <PlusCircleIcon />
-                <span>
-                  <Trans>New folder</Trans>
-                </span>
-              </Button>
-              <Button
-                data-cy="upload-modal-button"
-                onClick={() => setIsUploadModalOpen(true)}
-                variant="outline"
-                size="large"
-              >
-                <UploadIcon />
-                <span>
-                  <Trans>Upload</Trans>
-                </span>
-              </Button>
+              {
+                accessRole !== "reader" && accessRole !== "none" && (
+                  <>
+                    <Button
+                      onClick={() => setCreateFolderModalOpen(true)}
+                      variant="outline"
+                      size="large"
+                    >
+                      <PlusCircleIcon />
+                      <span>
+                        <Trans>New folder</Trans>
+                      </span>
+                    </Button>
+                    <Button
+                      data-cy="upload-modal-button"
+                      onClick={() => setIsUploadModalOpen(true)}
+                      variant="outline"
+                      size="large"
+                    >
+                      <UploadIcon />
+                      <span>
+                        <Trans>Upload</Trans>
+                      </span>
+                    </Button>
+                  </>
+                )
+              }
             </>
           ) : (
             controls && !desktop && (

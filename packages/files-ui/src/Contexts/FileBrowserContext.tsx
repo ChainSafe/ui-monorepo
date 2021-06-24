@@ -3,8 +3,12 @@ import React, { useContext } from "react"
 import { FileOperation, IBulkOperations, IFileBrowserModuleProps } from "../Components/Modules/FileBrowsers/types"
 import { FileSystemItem, UploadProgress } from "./FilesContext"
 import { Bucket } from "@chainsafe/files-api-client"
+
+export type AccessRole = "reader" | "owner" | "writer" | "none"
+
 interface FileBrowserContext extends IFileBrowserModuleProps {
   bucket?: Bucket
+  accessRole?: AccessRole
   itemOperations: {[contentType: string]: FileOperation[]}
   bulkOperations?: IBulkOperations
   renameItem?: (cid: string, newName: string) => Promise<void>

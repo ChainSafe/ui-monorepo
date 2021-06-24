@@ -8,7 +8,7 @@ import { ROUTE_LINKS } from "../../../FilesRoutes"
 import dayjs from "dayjs"
 import { useLocalStorage } from "@chainsafe/browser-storage-hooks"
 import { DISMISSED_SURVEY_KEY } from "../../../SurveyBanner"
-import { FileBrowserContext } from "../../../../Contexts/FileBrowserContext"
+import { AccessRole, FileBrowserContext } from "../../../../Contexts/FileBrowserContext"
 import { parseFileContentResponse } from "../../../../Utils/Helpers"
 import { FileSystemItem, useFiles } from "../../../../Contexts/FilesContext"
 import { useFilesApi } from "../../../../Contexts/FilesApiContext"
@@ -41,7 +41,7 @@ const ShareFileBrowser = () => {
   const bucket = useMemo(() => buckets.find(b => b.type === "share"), [buckets])
   const { profile } = useUser()
 
-  const [access, setAccess] = useState<"reader" | "owner" | "writer" | "none">("none")
+  const [access, setAccess] = useState<AccessRole>("none")
 
   // Breadcrumbs/paths
   const arrayOfPaths = useMemo(() => getArrayOfPaths(currentPath).splice(2), [currentPath])
@@ -266,6 +266,7 @@ const ShareFileBrowser = () => {
   return (
     <FileBrowserContext.Provider value={{
       bucket,
+      accessRole: access,
       bulkOperations,
       handleUploadOnDrop,
       crumbs,
