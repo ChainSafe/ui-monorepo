@@ -37,46 +37,44 @@ const ShareFileBrowser = () => {
     return extractFileBrowserPathFromURL(pathname, ROUTE_LINKS.ShareExplorer(`${bucketId}/`, "/"))
   },
   [pathname])
-  // Breadcrumbs/paths
-  const arrayOfPaths = useMemo(() => getArrayOfPaths(currentPath), [currentPath])
-  const crumbs: Crumb[] = useMemo(() => arrayOfPaths.map((path, index) => ({
-    text: decodeURIComponent(path),
-    onClick: () => {
-      redirect(
-        ROUTE_LINKS.Drive(getURISafePathFromArray(arrayOfPaths.slice(0, index + 1)))
-      )
-    }
-  })), [arrayOfPaths, redirect])
 
   const bucket = useMemo(() => buckets.find(b => b.type === "share"), [buckets])
   const { profile } = useUser()
 
   const [access, setAccess] = useState<"reader" | "owner" | "writer" | "none">("none")
 
+  // Breadcrumbs/paths
+  const arrayOfPaths = useMemo(() => getArrayOfPaths(currentPath).splice(2), [currentPath])
+  const crumbs: Crumb[] = useMemo(() => arrayOfPaths.map((path, index) => {
+    return ({
+      text: decodeURIComponent(path),
+      onClick: () => {
+        redirect(
+          ROUTE_LINKS.ShareExplorer(`${bucket?.id}`, getURISafePathFromArray(arrayOfPaths.slice(0, index + 1)))
+        )
+      }
+    })
+  }), [arrayOfPaths, bucket, redirect])
+
   const refreshContents = useCallback((showLoading?: boolean) => {
     if (!bucket) return
-    console.log("refreshing")
     // Water fall to reduce map calls
     const isOwner = !!(bucket.owners.find(owner => owner.uuid === profile?.userId))
     if (isOwner) {
-      console.log("owner")
       setAccess("owner")
     } else {
       const isWriter = !!(bucket.writers.find(owner => owner.uuid === profile?.userId))
       if (isWriter) {
-        console.log("writer")
         setAccess("writer")
       } else {
         const isReader = !!(bucket.readers.find(owner => owner.uuid === profile?.userId))
         if (isReader) {
-          console.log("reader")
           setAccess("reader")
         }
       }
     }
 
     showLoading && setLoadingCurrentPath(true)
-    console.log("About to break physics")
     filesApiClient.getBucketObjectChildrenList(bucket.id, { path: currentPath })
       .then((newContents) => {
         showLoading && setLoadingCurrentPath(false)
@@ -184,7 +182,7 @@ const ShareFileBrowser = () => {
 
     const fileSystemItem = pathContents.find(f => f.cid === cid)
     if (fileSystemItem && fileSystemItem.content_type === CONTENT_TYPES.Directory) {
-      let urlSafePath =  getURISafePathFromArray(getArrayOfPaths(currentPath))
+      let urlSafePath =  getURISafePathFromArray(getArrayOfPaths(currentPath).splice(2))
       if (urlSafePath === "/") {
         urlSafePath = ""
       }
