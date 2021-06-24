@@ -1,10 +1,11 @@
 name: Cypress tests - Storage
-on: pull_request
-  paths:
-  - "packages/storage-ui/**/*"
-  - package.json
-  - eslintrc.json
-  - tsconfig.json
+on: 
+  pull_request:
+    paths:
+    - "packages/storage-ui/**/*"
+    - package.json
+    - eslintrc.json
+    - tsconfig.json
 jobs:
   cypress-run:
     runs-on: ubuntu-latest
