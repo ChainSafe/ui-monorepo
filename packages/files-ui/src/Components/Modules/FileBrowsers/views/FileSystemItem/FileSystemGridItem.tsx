@@ -217,7 +217,10 @@ const FileSystemGridItem = React.forwardRef(
                   )
               }}
             >
-              <Form className={classes.desktopRename}>
+              <Form
+                className={classes.desktopRename}
+                onBlur={() => setEditing(undefined)}
+              >
                 <FormikTextInput
                   className={classes.renameInput}
                   name="fileName"

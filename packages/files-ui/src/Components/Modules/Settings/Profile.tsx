@@ -17,7 +17,7 @@ import {
   useThemeSwitcher
 } from "@chainsafe/common-theme"
 import { LockIcon, CopyIcon } from "@chainsafe/common-components"
-import { Formik, Form } from "formik"
+import { Form, useFormik, FormikProvider } from "formik"
 import { useUser } from "../../../Contexts/UserContext"
 import { t, Trans } from "@lingui/macro"
 import { centerEllipsis } from "../../../Utils/Helpers"
@@ -177,6 +177,13 @@ const useStyles = makeStyles(({ constants, breakpoints, palette, typography }: C
   })
 )
 
+const profileValidation = yup.object().shape({
+  // email: yup.string().email("Email is invalid").required("Email is required"),
+  firstName: yup.string(),
+  lastName: yup.string(),
+  username: yup.string()
+})
+
 const ProfileView = () => {
   const { themeKey, setTheme } = useThemeSwitcher()
   const { addToastMessage } = useToaster()
@@ -186,7 +193,22 @@ const ProfileView = () => {
   const [showUsernameForm, setShowUsernameForm] = useState(false)
   const [username, setUsername] = useState("")
   const [usernameData, setUsernameData] = useState({ error: "", loading: false })
-
+  const formik = useFormik({
+    initialValues:{
+      firstName: profile?.firstName || "",
+      lastName: profile?.lastName || ""
+      // email: profile?.email || ""
+    },
+    onSubmit: (values) => {
+      onUpdateProfile(
+        values.firstName || "",
+        values.lastName || ""
+        // values.email || ""
+      )
+    },
+    validationSchema: profileValidation,
+    validateOnChange: false
+  })
   const onUpdateProfile = async (firstName: string, lastName: string) => {
     try {
       setUpdatingProfile(true)
@@ -233,13 +255,6 @@ const ProfileView = () => {
       }
     }
   }
-
-  const profileValidation = yup.object().shape({
-    // email: yup.string().email("Email is invalid").required("Email is required"),
-    firstName: yup.string(),
-    lastName: yup.string(),
-    username: yup.string()
-  })
 
   const onLookupUsername = useCallback((username: string) => {
     lookupOnUsername(username)
@@ -455,22 +470,7 @@ const ProfileView = () => {
                   }
                 </div>
               }
-              <Formik
-                initialValues={{
-                  firstName: profile?.firstName || "",
-                  lastName: profile?.lastName || ""
-                  // email: profile?.email || ""
-                }}
-                onSubmit={(values) => {
-                  onUpdateProfile(
-                    values.firstName || "",
-                    values.lastName || ""
-                    // values.email || ""
-                  )
-                }}
-                validationSchema={profileValidation}
-                validateOnChange={false}
-              >
+              <FormikProvider value={formik}>
                 <Form>
                   <div className={classes.inputBoxContainer}>
                     <Typography
@@ -531,6 +531,7 @@ const ProfileView = () => {
                     variant={themeKey === "dark" ? "outline" : "primary"}
                     loadingText="Saving"
                     data-cy="profile-save-button"
+                    disabled={!formik.dirty}
                   >
                     <LockIcon className={classes.icon} />
                     {"  "}
@@ -539,7 +540,7 @@ const ProfileView = () => {
                     </Typography>
                   </Button>
                 </Form>
-              </Formik>
+              </FormikProvider>
             </div>
           </div>
           {/* <div id="deletion" className={classes.sectionContainer}>
