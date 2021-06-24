@@ -31,9 +31,7 @@ const ShareFileBrowser = () => {
 
   const currentPath = useMemo(() => {
     const moduleRemoved = extractFileBrowserPathFromURL(pathname, ROUTE_LINKS.ShareExplorer("", "/"))
-    // TODO fetch contents for bucketId
     const bucketId = moduleRemoved.split("/")[0]
-    // TODO: invalid data send back to share
     return extractFileBrowserPathFromURL(pathname, ROUTE_LINKS.ShareExplorer(`${bucketId}/`, "/"))
   },
   [pathname])
