@@ -448,8 +448,11 @@ msgstr "Remind me later"
 msgid "Rename"
 msgstr "Rename"
 
-msgid "Rename File/Folder"
-msgstr "Rename File/Folder"
+msgid "Rename file"
+msgstr "Rename file"
+
+msgid "Rename folder"
+msgstr "Rename folder"
 
 msgid "Requested from"
 msgstr "Requested from"
@@ -622,8 +625,11 @@ msgstr "There was an error moving this"
 msgid "There was an error recovering this"
 msgstr "There was an error recovering this"
 
-msgid "There was an error setting username."
-msgstr "There was an error setting username."
+msgid "There was an error when setting username."
+msgstr "There was an error when setting username."
+
+msgid "This username is already taken"
+msgstr "This username is already taken"
 
 msgid "This username is public"
 msgstr "This username is public"
