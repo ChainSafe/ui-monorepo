@@ -25,7 +25,6 @@ const useStyles = makeStyles(({ breakpoints, animation, constants, typography }:
   createStyles({
     root: {
       position: "relative",
-      minHeight: "100vh",
       overflow: "hidden"
     },
     tableHead: {
