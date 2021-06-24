@@ -3,8 +3,10 @@ on:
   pull_request:
     paths:
     - "packages/storage-ui/**/*"
+    - "packages/common-components/**/*"
+    - "packages/common-theme/**/*"
     - package.json
-    - eslintrc.json
+    - .eslintrc.json
     - tsconfig.json
 jobs:
   cypress-run:
@@ -40,7 +42,7 @@ jobs:
           start: yarn start:storage-ui
           # quote the url to be safe against YML parsing surprises
           wait-on: 'http://localhost:3000'
-          # wait for max 2 minutes for the files-ui to respond
+          # wait for max 2 minutes for the storage-ui to respond
           wait-on-timeout: 120
           # custom test command to run
           command: yarn test:ci:storage-ui
