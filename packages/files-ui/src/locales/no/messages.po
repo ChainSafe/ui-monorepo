@@ -1,10 +1,11 @@
+msgid ""
+msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-04-20 00:28+0200\n"
 "PO-Revision-Date: 2021-06-23 09:07+0000\n"
 "Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
-"Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/"
-"chainsafe-files/chainsafe-files-user-interface/nb_NO/>\n"
+"Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/chainsafe-files/chainsafe-files-user-interface/nb_NO/>\n"
 "Language: nb_NO\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -108,7 +109,6 @@ msgstr "Fortsett"
 msgid "Continue with Email"
 msgstr "Fortsett med e-post"
 
-#, fuzzy
 msgid "Continue with Github"
 msgstr "Fortsett med GitHub"
 
@@ -373,7 +373,6 @@ msgstr ""
 msgid "Password"
 msgstr "Passord"
 
-#, fuzzy
 msgid "Password confirmation is required"
 msgstr "Passord må bekreftes"
 
@@ -392,7 +391,6 @@ msgstr "Passord:"
 msgid "Passwords must match"
 msgstr "Passordene må samsvare"
 
-#, fuzzy
 msgid "Please enter a file name"
 msgstr "Skriv inn et filnavn"
 
@@ -408,7 +406,6 @@ msgstr "Angi et passord"
 msgid "Please select a file to upload"
 msgstr "Velg en fil å laste opp"
 
-#, fuzzy
 msgid "Preview"
 msgstr "Forhåndsvis"
 
@@ -427,14 +424,12 @@ msgstr "Profilinnstillinger"
 msgid "Profile updated"
 msgstr "Profil oppdatert"
 
-#, fuzzy
 msgid "Recover"
 msgstr "Gjenopprett"
 
 msgid "Recover selected"
 msgstr "Gjenoppretting valgt"
 
-#, fuzzy
 msgid "Recover with passphrase"
 msgstr "Gjenopprett med passord"
 
@@ -450,8 +445,11 @@ msgstr "Minn meg på dette senere"
 msgid "Rename"
 msgstr "Gi nytt navn"
 
-msgid "Rename File/Folder"
-msgstr "Gi fil/mappe nytt navn"
+msgid "Rename file"
+msgstr ""
+
+msgid "Rename folder"
+msgstr ""
 
 msgid "Requested from"
 msgstr "Forespurt fra"
@@ -531,7 +529,6 @@ msgstr "Innstillinger"
 msgid "Setup incomplete"
 msgstr ""
 
-#, fuzzy
 msgid "Share"
 msgstr "Del"
 
@@ -625,7 +622,10 @@ msgstr ""
 msgid "There was an error recovering this"
 msgstr ""
 
-msgid "There was an error setting username."
+msgid "There was an error when setting username."
+msgstr ""
+
+msgid "This username is already taken"
 msgstr ""
 
 msgid "This username is public"
@@ -637,18 +637,15 @@ msgstr "Prøv igjen"
 msgid "Try another method"
 msgstr "Prøv annen metode"
 
-#, fuzzy
 msgid "Update"
 msgstr "Oppdater"
 
 msgid "Upload"
 msgstr "Last opp"
 
-#, fuzzy
 msgid "Upload complete"
 msgstr "Opplastet"
 
-#, fuzzy
 msgid "Uploading {0} files"
 msgstr "Laster opp {0} filer"
 
@@ -661,7 +658,6 @@ msgstr ""
 msgid "Username"
 msgstr "Brukernavn"
 
-#, fuzzy
 msgid "Username set successfully"
 msgstr "Brukernavn satt"
 
@@ -698,7 +694,6 @@ msgstr ""
 msgid "What a fine night it is."
 msgstr ""
 
-#, fuzzy
 msgid "Yes, save it"
 msgstr "Ja, lagre"
 
@@ -726,14 +721,12 @@ msgstr "fil"
 msgid "folder"
 msgstr "mappe"
 
-#, fuzzy
 msgid "moved successfully"
 msgstr "flyttet"
 
 msgid "on"
 msgstr ""
 
-#, fuzzy
 msgid "recovered successfully"
 msgstr "gjenopprettet"
 
