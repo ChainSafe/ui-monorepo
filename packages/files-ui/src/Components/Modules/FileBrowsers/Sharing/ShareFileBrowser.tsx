@@ -208,13 +208,11 @@ const ShareFileBrowser = () => {
     }
   }, [addToastMessage, uploadFiles, bucket, refreshContents])
 
-  // TODO: include in ownership considerations
   const bulkOperations: IBulkOperations = useMemo(() => ({
     [CONTENT_TYPES.Directory]: ["move"],
     [CONTENT_TYPES.File]: ["delete", "move"]
   }), [])
 
-  // TODO access control filtering
   const itemOperations: IFilesTableBrowserProps["itemOperations"] = useMemo(() => {
     switch (access) {
     case "owner":

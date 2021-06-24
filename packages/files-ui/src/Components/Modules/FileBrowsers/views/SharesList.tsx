@@ -57,7 +57,7 @@ interface IStyleProps {
 
 const useStyles = makeStyles(
   ({ animation, breakpoints, constants, palette, zIndex }: CSFTheme) => {
-    const desktopGridSettings = "50px 69px 3fr 190px 100px 100px 45px !important"
+    const desktopGridSettings = "50px 69px 3fr 190px 100px 45px !important"
     const mobileGridSettings = "69px 3fr 45px !important"
     return createStyles({
       root: {
@@ -326,13 +326,6 @@ const SharesList = () => {
           sensitivity: "base"
         })
       })
-      break
-    }
-    case "shared_with": {
-      temp = sourceFiles
-        // .sort((a, b) => (a.size < b.size ? -1 : 1))
-        // TODO: Sort by owner name
-        .sort(sortFoldersFirst)
       break
     }
     case "date_uploaded": {
@@ -860,13 +853,6 @@ const SharesList = () => {
                 >
                   <Trans>Size</Trans>
                 </TableHeadCell>
-                {
-                  desktop && (
-                    <TableHeadCell>
-                      <Trans>Owner</Trans>
-                    </TableHeadCell>
-                  )
-                }
                 <TableHeadCell>{/* Menu */}</TableHeadCell>
               </TableRow>
             </TableHead>
@@ -906,7 +892,6 @@ const SharesList = () => {
                   key={index}
                   file={file}
                   files={files}
-                  owners={bucket?.owners}
                   selected={selectedCids}
                   handleSelectCid={handleSelectCid}
                   handleAddToSelectedCids={handleAddToSelectedCids}
@@ -946,7 +931,6 @@ const SharesList = () => {
               <FileSystemItem
                 key={index}
                 file={file}
-                owners={bucket?.owners}
                 files={files}
                 selected={selectedCids}
                 handleSelectCid={handleSelectCid}
