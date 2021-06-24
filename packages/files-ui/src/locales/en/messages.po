@@ -403,9 +403,6 @@ msgstr "Please enter a folder name"
 msgid "Please enter a name"
 msgstr "Please enter a name"
 
-msgid "Please enter a {0} name"
-msgstr "Please enter a {0} name"
-
 msgid "Please provide a password"
 msgstr "Please provide a password"
 
@@ -451,8 +448,11 @@ msgstr "Remind me later"
 msgid "Rename"
 msgstr "Rename"
 
-msgid "Rename ${0}"
-msgstr "Rename ${0}"
+msgid "Rename file"
+msgstr "Rename file"
+
+msgid "Rename folder"
+msgstr "Rename folder"
 
 msgid "Requested from"
 msgstr "Requested from"

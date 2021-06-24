@@ -404,9 +404,6 @@ msgstr "Nom du dossier"
 msgid "Please enter a name"
 msgstr "Entrer un nom"
 
-msgid "Please enter a {0} name"
-msgstr ""
-
 msgid "Please provide a password"
 msgstr "Merci de donner un mot de passe"
 
@@ -452,8 +449,11 @@ msgstr "Plus tard"
 msgid "Rename"
 msgstr "Renommer"
 
-msgid "Rename ${0}"
-msgstr ""
+msgid "Rename file"
+msgstr "Renommer le fichier"
+
+msgid "Rename folder"
+msgstr "Renommer le dossier"
 
 msgid "Requested from"
 msgstr "Envoyé par"
