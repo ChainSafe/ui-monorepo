@@ -1,0 +1,744 @@
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-04-20 00:28+0200\n"
+"PO-Revision-Date: 2021-06-23 09:07+0000\n"
+"Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
+"Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/"
+"chainsafe-files/chainsafe-files-user-interface/nb_NO/>\n"
+"Language: nb_NO\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 4.7.1-dev\n"
+"Mime-Version: 1.0\n"
+
+msgid "(Change)"
+msgstr ""
+
+msgid "<0>You’re at risk of getting locked out of your account because you only have two auth factors set up.</0> Add at least one more to ensure account recovery."
+msgstr ""
+
+msgid "A backup secret phrase will be generated and used for your account.<0/>We do not store it and <1>it can only be displayed once</1>. Save it somewhere safe!"
+msgstr ""
+
+msgid "A file with the same name already exists"
+msgstr ""
+
+msgid "A name is required"
+msgstr "Navn kreves"
+
+msgid "Account"
+msgstr "Konto"
+
+msgid "Add a username"
+msgstr "Legg til et brukernavn"
+
+msgid "Add at least one more authentication method to protect your account. You’d only need any two to sign in to Files from any device."
+msgstr ""
+
+msgid "Add more files"
+msgstr "Legg til flere filer"
+
+msgid "Approve"
+msgstr "Godkjenn"
+
+msgid "Are we on the right track? Let us know in less than 1 minute."
+msgstr ""
+
+msgid "Backup secret phrase"
+msgstr ""
+
+msgid "Backup secret phrase does not match user account, please double-check and try again."
+msgstr ""
+
+msgid "Bin"
+msgstr ""
+
+msgid "Browser:"
+msgstr ""
+
+msgid "By connecting your wallet, you agree to our <0>Terms of Service</0> and <1>Privacy Policy</1>"
+msgstr ""
+
+msgid "By forgetting this browser, you will not be able to use its associated recovery key to sign-in."
+msgstr ""
+
+msgid "CID (Content Identifier)"
+msgstr ""
+
+msgid "Cancel"
+msgstr "Avbryt"
+
+msgid "Change Password"
+msgstr "Endre passord"
+
+msgid "Change password"
+msgstr "Endre passord"
+
+msgid "Check your inbox! We've sent another email."
+msgstr ""
+
+msgid "Click or drag to upload files"
+msgstr ""
+
+msgid "Close"
+msgstr "Lukk"
+
+msgid "Complete"
+msgstr ""
+
+msgid "Confirm"
+msgstr "Bekreft"
+
+msgid "Confirm Password:"
+msgstr "Bekreft passord:"
+
+msgid "Connect Wallet to Files"
+msgstr ""
+
+msgid "Connect a new wallet"
+msgstr ""
+
+msgid "Connection failed"
+msgstr ""
+
+msgid "Continue"
+msgstr "Fortsett"
+
+msgid "Continue with Email"
+msgstr "Fortsett med e-post"
+
+#, fuzzy
+msgid "Continue with Github"
+msgstr "Fortsett med GitHub"
+
+msgid "Continue with Google"
+msgstr "Fortsett med Google"
+
+msgid "Continue with Web3 Wallet"
+msgstr "Fortsett med Web3-lommebok"
+
+msgid "Copied!"
+msgstr "Kopiert!"
+
+msgid "Copy CID"
+msgstr "Kopier CID"
+
+msgid "Create"
+msgstr "Opprett"
+
+msgid "Create Folder"
+msgstr "Opprett mappe"
+
+msgid "Create folder"
+msgstr "Opprett mappe"
+
+msgid "Dark Theme"
+msgstr "Mørk drakt"
+
+msgid "Date uploaded"
+msgstr "Dato opplastet"
+
+msgid "Decryption failed"
+msgstr "Kunne ikke dekryptere"
+
+msgid "Delete"
+msgstr "Slett"
+
+msgid "Delete selected"
+msgstr "Slett valgte"
+
+msgid "Device awaiting confirmation"
+msgstr ""
+
+msgid "Didn't receive the email ?"
+msgstr "Fikk du ikke e-posten?"
+
+msgid "Display Settings"
+msgstr ""
+
+msgid "Download"
+msgstr ""
+
+msgid "Download complete"
+msgstr ""
+
+msgid "Download recovery key"
+msgstr ""
+
+msgid "Drop to upload files"
+msgstr "Dra for å laste opp filer"
+
+msgid "Email is required"
+msgstr "E-post kreves"
+
+msgid "Enter backup secret phrase:"
+msgstr ""
+
+msgid "Enter password"
+msgstr "Skriv inn passord"
+
+msgid "Enter password:"
+msgstr "Skriv inn passord:"
+
+msgid "Enter the verification code:"
+msgstr "Skriv inn bekreftelseskoden:"
+
+msgid "Enter your email:"
+msgstr "Skriv inn e-posten din:"
+
+msgid "Essentials - Free"
+msgstr ""
+
+msgid "Failed to get signature"
+msgstr ""
+
+msgid "Failed to migrate account, please try again."
+msgstr ""
+
+msgid ""
+"Failed to validate signature.\n"
+"If you are using a contract wallet, please make \n"
+"sure you have activated your wallet."
+msgstr ""
+
+msgid "File"
+msgstr "Fil"
+
+msgid "File Info"
+msgstr "Filinfo"
+
+msgid "File format not supported."
+msgstr ""
+
+msgid "File size"
+msgstr "Filstørrelse"
+
+msgid "Files"
+msgstr "Filer"
+
+msgid "Files sharing key"
+msgstr ""
+
+msgid "Files uses device backups to save your browser."
+msgstr ""
+
+msgid "First name"
+msgstr "Fornavn"
+
+msgid "Folder"
+msgstr "Mappe"
+
+msgid "Folders"
+msgstr "Mapper"
+
+msgid "For security reasons, each time you sign in we’ll ask you for one of the following to confirm your identity."
+msgstr ""
+
+msgid "Forget this browser"
+msgstr ""
+
+msgid "General"
+msgstr ""
+
+msgid "Generate backup secret phrase"
+msgstr ""
+
+msgid "Generating…"
+msgstr ""
+
+msgid "Get Started"
+msgstr "Begynn"
+
+msgid "Go back"
+msgstr "Tilbake"
+
+msgid "Great! You’re all done."
+msgstr ""
+
+msgid "Hello again!"
+msgstr "Hei igjen."
+
+msgid "Hey! You only have two sign-in methods. If you lose that and have only one left, you will be locked out of your account forever."
+msgstr ""
+
+msgid "Hold on, we are logging you in…"
+msgstr ""
+
+msgid "Home"
+msgstr "Hjem"
+
+msgid "I understand the risk"
+msgstr "Jeg forstår risikoen"
+
+msgid "Info"
+msgstr "Info"
+
+msgid "Invalid name"
+msgstr "Ugyldig navn"
+
+msgid "I’m done saving my backup secret phrase"
+msgstr ""
+
+msgid "Language"
+msgstr "Språk"
+
+msgid "Last name"
+msgstr "Etternavn"
+
+msgid "Learn more"
+msgstr "Lær mer"
+
+msgid "Learn more about ChainSafe"
+msgstr "Lær mer om ChainSafe"
+
+msgid "Let's get you set up."
+msgstr ""
+
+msgid "Light Theme"
+msgstr "Lys drakt"
+
+msgid "Loading preview"
+msgstr ""
+
+msgid "Loading your shared folders…"
+msgstr ""
+
+msgid "Looks like you’re signing in from a new browser. Please choose one of the following to continue:"
+msgstr ""
+
+msgid "Lorem ipsum aenean et rutrum magna. Morbi nec placerat erat. Nunc elementum sed libero sit amet convallis. Quisque non arcu vitae ex fringilla molestie."
+msgstr ""
+
+msgid "Move"
+msgstr "Flytt"
+
+msgid "Move selected"
+msgstr "Flytt valgte"
+
+msgid "Move to…"
+msgstr "Flytt til …"
+
+msgid "My Files"
+msgstr "Mine filer"
+
+msgid "Name"
+msgstr "Navn"
+
+msgid "Name cannot contain '/' character"
+msgstr ""
+
+msgid "Name too long"
+msgstr "Navnet er for langt"
+
+msgid "New folder"
+msgstr "Ny mappe"
+
+msgid "Next"
+msgstr "Neste"
+
+msgid "Nice to see you again!"
+msgstr ""
+
+msgid "No files to show"
+msgstr "Ingen filer å vise"
+
+msgid "No folders"
+msgstr "Ingen mapper"
+
+msgid "No search results for"
+msgstr ""
+
+msgid "No thanks"
+msgstr "Nei takk"
+
+msgid "Number of copies (Replication Factor)"
+msgstr ""
+
+msgid "OK"
+msgstr "OK"
+
+msgid "One sec, getting files ready…"
+msgstr ""
+
+msgid "Only you can see this."
+msgstr "Kun du kan se dette."
+
+msgid "Operating system:"
+msgstr "Operativsystem:"
+
+msgid "Or confirm by signing into your Files on any browser you’ve used before."
+msgstr ""
+
+msgid "Password"
+msgstr "Passord"
+
+#, fuzzy
+msgid "Password confirmation is required"
+msgstr "Passord må bekreftes"
+
+msgid "Password does not match user account, please double-check and try again."
+msgstr ""
+
+msgid "Password needs to be more complex"
+msgstr ""
+
+msgid "Password setup"
+msgstr "Passord-oppsett"
+
+msgid "Password:"
+msgstr "Passord:"
+
+msgid "Passwords must match"
+msgstr "Passordene må samsvare"
+
+#, fuzzy
+msgid "Please enter a file name"
+msgstr "Skriv inn et filnavn"
+
+msgid "Please enter a folder name"
+msgstr "Skriv inn et mappenavn"
+
+msgid "Please enter a name"
+msgstr "Skriv inn et navn"
+
+msgid "Please provide a password"
+msgstr "Angi et passord"
+
+msgid "Please select a file to upload"
+msgstr "Velg en fil å laste opp"
+
+#, fuzzy
+msgid "Preview"
+msgstr "Forhåndsvis"
+
+msgid "Previous"
+msgstr "Forrige"
+
+msgid "Privacy Policy"
+msgstr "Personvernspraksis"
+
+msgid "Profile and Display"
+msgstr "Profil og visning"
+
+msgid "Profile settings"
+msgstr "Profilinnstillinger"
+
+msgid "Profile updated"
+msgstr "Profil oppdatert"
+
+#, fuzzy
+msgid "Recover"
+msgstr "Gjenopprett"
+
+msgid "Recover selected"
+msgstr "Gjenoppretting valgt"
+
+#, fuzzy
+msgid "Recover with passphrase"
+msgstr "Gjenopprett med passord"
+
+msgid "Reject"
+msgstr "Avslå"
+
+msgid "Reject all"
+msgstr "Avslå alle"
+
+msgid "Remind me later"
+msgstr "Minn meg på dette senere"
+
+msgid "Rename"
+msgstr "Gi nytt navn"
+
+msgid "Rename File/Folder"
+msgstr "Gi fil/mappe nytt navn"
+
+msgid "Requested from"
+msgstr "Forespurt fra"
+
+msgid "Resources"
+msgstr "Ressurser"
+
+msgid "Restore with backup secret phrase"
+msgstr ""
+
+msgid "Save changes"
+msgstr "Lagre endringer"
+
+msgid "Save this browser for next time?"
+msgstr ""
+
+msgid "Saved"
+msgstr "Lagret"
+
+msgid "Saved Browser"
+msgstr ""
+
+msgid "Saved Browsers"
+msgstr ""
+
+msgid "Saved browser"
+msgstr ""
+
+msgid "Saved on:"
+msgstr ""
+
+msgid "Search results"
+msgstr ""
+
+msgid "Search…"
+msgstr ""
+
+msgid "Security"
+msgstr ""
+
+msgid "Select a wallet"
+msgstr ""
+
+msgid "Send Feedback"
+msgstr "Send tilbakemelding"
+
+msgid "Send another email"
+msgstr "Send en ny e-post"
+
+msgid "Set Password"
+msgstr "Sett passord"
+
+msgid "Set Username"
+msgstr "Sett brukernavn"
+
+msgid "Set it up now"
+msgstr ""
+
+msgid "Set up"
+msgstr "Sett opp"
+
+msgid "Set up a password"
+msgstr "Sett opp et passord"
+
+msgid "Set up auth factors"
+msgstr ""
+
+msgid "Set up password"
+msgstr "Sett opp passord"
+
+msgid "Setting Username"
+msgstr ""
+
+msgid "Settings"
+msgstr "Innstillinger"
+
+msgid "Setup incomplete"
+msgstr ""
+
+#, fuzzy
+msgid "Share"
+msgstr "Del"
+
+msgid "Shared"
+msgstr "Delt"
+
+msgid "Shared folders"
+msgstr "Delte mapper"
+
+msgid "Shared with"
+msgstr "Delt med"
+
+msgid "Sign Out"
+msgstr "Logg ut"
+
+msgid "Sign in"
+msgstr "Logg inn"
+
+msgid "Sign in with a different account"
+msgstr "Logg inn med en annen konto"
+
+msgid "Sign-in methods"
+msgstr "Innloggingsmetoder"
+
+msgid "Sign-in with {0}"
+msgstr ""
+
+msgid "Size"
+msgstr "Størrelse"
+
+msgid "Social Sign-in Wallet"
+msgstr ""
+
+msgid "Social Sign-in or Wallet"
+msgstr ""
+
+msgid "Social sign in or wallet"
+msgstr ""
+
+msgid "Something went wrong!"
+msgstr "Noe gikk galt."
+
+msgid "Something went wrong. We couldn't upload your file"
+msgstr ""
+
+msgid "Start Upload"
+msgstr ""
+
+msgid "Storage Plan"
+msgstr ""
+
+msgid "Stored by miner"
+msgstr ""
+
+msgid "Technical"
+msgstr "Teknisk"
+
+msgid "Terms and Conditions"
+msgstr "Vilkår og betingelser"
+
+msgid "Thanks for taking care of that. You can adjust these anytime in security settings."
+msgstr ""
+
+msgid "The authentication popup was closed"
+msgstr ""
+
+msgid "The system is undergoing maintenance, thank you for being patient."
+msgstr ""
+
+msgid "Theme"
+msgstr "Drakt"
+
+msgid "There was an error authenticating"
+msgstr ""
+
+msgid "There was an error connecting your wallet"
+msgstr ""
+
+msgid "There was an error deleting this"
+msgstr ""
+
+msgid "There was an error getting search results"
+msgstr ""
+
+msgid "There was an error getting the preview."
+msgstr ""
+
+msgid "There was an error moving this"
+msgstr ""
+
+msgid "There was an error recovering this"
+msgstr ""
+
+msgid "There was an error setting username."
+msgstr ""
+
+msgid "This username is public"
+msgstr "Dette brukernavnet er offentlig"
+
+msgid "Try again"
+msgstr "Prøv igjen"
+
+msgid "Try another method"
+msgstr "Prøv annen metode"
+
+#, fuzzy
+msgid "Update"
+msgstr "Oppdater"
+
+msgid "Upload"
+msgstr "Last opp"
+
+#, fuzzy
+msgid "Upload complete"
+msgstr "Opplastet"
+
+#, fuzzy
+msgid "Uploading {0} files"
+msgstr "Laster opp {0} filer"
+
+msgid "Use a different login method"
+msgstr "Bruk en annen innloggingsmetode"
+
+msgid "Use a saved browser"
+msgstr ""
+
+msgid "Username"
+msgstr "Brukernavn"
+
+#, fuzzy
+msgid "Username set successfully"
+msgstr "Brukernavn satt"
+
+msgid "Usernames are public and can't be changed after creation."
+msgstr ""
+
+msgid "Verification code is required"
+msgstr ""
+
+msgid "Verification code not correct!"
+msgstr ""
+
+msgid "Verification code sent!"
+msgstr ""
+
+msgid "View folder"
+msgstr "Vis mappe"
+
+msgid "Wallet address"
+msgstr ""
+
+msgid "Web3: {0}"
+msgstr ""
+
+msgid "We’ve got a new authentication system in place. All you need to do is enter your password again to migrate your credentials over to the new system."
+msgstr ""
+
+msgid "We’ve sent an email to {email}. It contains a verification code that’ll sign you in super quickly!"
+msgstr ""
+
+msgid "What a fine day it is."
+msgstr ""
+
+msgid "What a fine night it is."
+msgstr ""
+
+#, fuzzy
+msgid "Yes, save it"
+msgstr "Ja, lagre"
+
+msgid "You can change this later."
+msgstr "Du kan endre dette senere."
+
+msgid "You haven't set a username yet."
+msgstr "Du har ikke satt noe brukernavn enda."
+
+msgid "You will need to sign a message in your wallet to complete sign in."
+msgstr ""
+
+msgid "Your Authentication Factors"
+msgstr ""
+
+msgid "Your recovery key can be used to restore your account in place of your backup secret phrase."
+msgstr ""
+
+msgid "deleted successfully"
+msgstr "slettet"
+
+msgid "file"
+msgstr "fil"
+
+msgid "folder"
+msgstr "mappe"
+
+#, fuzzy
+msgid "moved successfully"
+msgstr "flyttet"
+
+msgid "on"
+msgstr ""
+
+#, fuzzy
+msgid "recovered successfully"
+msgstr "gjenopprettet"
+
+msgid "{0, plural, one {You are about to delete {1} file.} other {You are about to delete {2} files.}}"
+msgstr ""
+
+msgid "{noOfFiles, plural, one {Uploading and encrypting {noOfFiles} file} other {Uploading and encrypting {noOfFiles} files}}"
+msgstr ""
