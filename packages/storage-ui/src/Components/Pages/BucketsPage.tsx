@@ -24,8 +24,7 @@ export const mobileGridSettings = "3fr 190px 70px !important"
 const useStyles = makeStyles(({ breakpoints, animation, constants, typography }: CSSTheme) =>
   createStyles({
     root: {
-      position: "relative",
-      overflow: "hidden"
+      position: "relative"
     },
     tableHead: {
       marginTop: 24
