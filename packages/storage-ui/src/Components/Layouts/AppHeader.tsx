@@ -212,10 +212,8 @@ const AppHeader = ({ navOpen, setNavOpen }: IAppHeader) => {
                   variant="h5"
                   className={classes.title}
                 >
-                      Files
+                  Storage
                 </Typography>
-                    &nbsp;
-                <Typography variant="caption">beta</Typography>
               </Link>
             </>
           )}
