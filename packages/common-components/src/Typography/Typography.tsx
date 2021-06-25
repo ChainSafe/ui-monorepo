@@ -101,11 +101,9 @@ const Typography: React.FC<OwnProps> = ({
   ...rest
 }: OwnProps) => {
   const classes = useStyles()
-  const Component = component
-    ? component
-    : variant
-      ? VariantMapping[variant]
-      : "span"
+  const Component = component || (variant
+    ? VariantMapping[variant]
+    : "span")
   return (
     <Component
       className={clsx(classes.root, className, classes[variant])}

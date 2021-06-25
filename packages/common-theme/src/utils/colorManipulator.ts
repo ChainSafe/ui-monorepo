@@ -132,7 +132,7 @@ export function recomposeColor(color: IColorObject) {
 
   if (type.indexOf("rgb") !== -1) {
     // Only convert the first 3 values to int (i.e. not alpha)
-    valuesArray = values.map((n, i) => (i < 3 ? n : n)) as ColorValues
+    valuesArray = values.map((n, i) => (i < 3 && n)) as ColorValues
   } else if (type.indexOf("hsl") !== -1) {
     valuesArray[1] = `${values[1]}%`
     valuesArray[2] = `${values[2]}%`
