@@ -4,15 +4,11 @@ import { homePage } from "../support/page-objects/homePage"
 describe("Main Navigation", () => {
 
   context("desktop", () => {
-    before(() => {
-      cy.web3Login()
-    })
-
     it("can navigate to the cids page", () => {
+      cy.web3Login()
       navigationMenu.cidsNavButton().click()
       cy.url().should("include", "/cids")
     })
-
   })
 
   context("mobile", () => {

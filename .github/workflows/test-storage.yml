@@ -42,7 +42,7 @@ jobs:
           # quote the url to be safe against YML parsing surprises
           wait-on: 'http://localhost:3000'
           # wait for max 2 minutes for the storage-ui to respond
-          wait-on-timeout: 120
+          wait-on-timeout: 1200
           # custom test command to run
           command: yarn test:ci:storage-ui
       # store the screenshots if the tests fail
@@ -53,9 +53,9 @@ jobs:
           name: cypress-screenshots
           path: packages/storage-ui/cypress/screenshots
       # store the videos if the tests fail
-      - name: Store videos 
-        uses: actions/upload-artifact@v1
-        if: failure()
-        with:
-          name: cypress-videos
-          path: packages/storage-ui/cypress/videos
+      # - name: Store videos 
+      #   uses: actions/upload-artifact@v1
+      #   if: failure()
+      #   with:
+      #     name: cypress-videos
+      #     path: packages/storage-ui/cypress/videos
