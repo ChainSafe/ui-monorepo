@@ -235,7 +235,8 @@ const ShareFileBrowser = () => {
         [CONTENT_TYPES.File]: ["download", "info", "rename", "move", "delete"],
         [CONTENT_TYPES.Directory]: ["rename", "move", "delete"]
       }
-    case "reader":
+    // case "reader":
+    default:
       return {
         [CONTENT_TYPES.Audio]: ["preview"],
         [CONTENT_TYPES.MP4]: ["preview"],
