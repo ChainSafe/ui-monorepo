@@ -40,7 +40,7 @@ jobs:
         with:
           start: yarn start:storage-ui
           # quote the url to be safe against YML parsing surprises
-          wait-on: 'http://localhost:3000'
+          wait-on: 'http://host.docker.internal:3000'
           # wait for max 2 minutes for the storage-ui to respond
           wait-on-timeout: 120
           # custom test command to run
