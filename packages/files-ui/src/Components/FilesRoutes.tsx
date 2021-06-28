@@ -7,8 +7,8 @@ import DrivePage from "./Pages/DrivePage"
 import SearchPage from "./Pages/SearchPage"
 import BinPage from "./Pages/BinPage"
 import PurchasePlanPage from "./Pages/PurchasePlanPage"
-import SharedFoldersPage from "./Pages/SharedFoldersPage"
 import { useThresholdKey } from "../Contexts/ThresholdKeyContext"
+import SharedFoldersOverview from "./Modules/FileBrowsers/SharedFoldersOverview"
 
 export const SETTINGS_BASE = "/settings"
 export const ROUTE_LINKS = {
@@ -55,7 +55,7 @@ const FilesRoutes = () => {
       <ConditionalRoute
         path={ROUTE_LINKS.SharedFolders}
         isAuthorized={isAuthorized}
-        component={SharedFoldersPage}
+        component={SharedFoldersOverview}
         redirectPath={ROUTE_LINKS.Landing}
       />
       <ConditionalRoute
