@@ -8,7 +8,7 @@ import { ROUTE_LINKS } from "../../../FilesRoutes"
 import dayjs from "dayjs"
 import { useLocalStorage } from "@chainsafe/browser-storage-hooks"
 import { DISMISSED_SURVEY_KEY } from "../../../SurveyBanner"
-import { AccessRole, FileBrowserContext } from "../../../../Contexts/FileBrowserContext"
+import { BucketPermission, FileBrowserContext } from "../../../../Contexts/FileBrowserContext"
 import { parseFileContentResponse } from "../../../../Utils/Helpers"
 import { FileSystemItem, useFiles } from "../../../../Contexts/FilesContext"
 import { useFilesApi } from "../../../../Contexts/FilesApiContext"
@@ -39,7 +39,7 @@ const ShareFileBrowser = () => {
   const bucket = useMemo(() => buckets.find(b => b.type === "share"), [buckets])
   const { profile } = useUser()
 
-  const [access, setAccess] = useState<AccessRole>("none")
+  const [access, setAccess] = useState<BucketPermission>("reader")
 
   // Breadcrumbs/paths
   const arrayOfPaths = useMemo(() => getArrayOfPaths(currentPath).splice(2), [currentPath])
@@ -244,16 +244,6 @@ const ShareFileBrowser = () => {
         [CONTENT_TYPES.Text]: ["preview"],
         [CONTENT_TYPES.File]: ["download", "info"],
         [CONTENT_TYPES.Directory]: ["rename"]
-      }
-    case "none":
-      return {
-        [CONTENT_TYPES.Audio]: [],
-        [CONTENT_TYPES.MP4]: [],
-        [CONTENT_TYPES.Image]: [],
-        [CONTENT_TYPES.Pdf]: [],
-        [CONTENT_TYPES.Text]: [],
-        [CONTENT_TYPES.File]: [],
-        [CONTENT_TYPES.Directory]: []
       }
     }
   }, [access])
