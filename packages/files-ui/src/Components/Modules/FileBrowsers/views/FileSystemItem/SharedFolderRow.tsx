@@ -1,8 +1,11 @@
 import React from "react"
 import { makeStyles, createStyles, useThemeSwitcher } from "@chainsafe/common-theme"
 import {
+  Button,
+  CheckSvg,
   FolderFilledIcon,
   formatBytes,
+  FormikTextInput,
   IMenuItem,
   MenuDropdown,
   MoreIcon,
@@ -14,6 +17,9 @@ import { CSFTheme } from "../../../../../Themes/types"
 import { Bucket, BucketUser } from "@chainsafe/files-api-client"
 import { desktopSharedGridSettings, mobileSharedGridSettings } from "../../SharedFoldersOverview"
 import SharedUsers from "../../../../Elements/SharedUser"
+import { t } from "@lingui/macro"
+import { Form, FormikProvider, useFormik } from "formik"
+import { object, string } from "yup"
 
 const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => {
 
@@ -99,9 +105,12 @@ interface Props {
   bucket: Bucket
   onFolderClick: (e?: React.MouseEvent) => void
   menuItems: IMenuItem[]
+  editing: boolean
+  setEditing: (editing: boolean) => void
+  handleRename: (bucket: Bucket, newName: string) => void
 }
 
-const SharedFolderRow = ({ bucket, onFolderClick, menuItems }: Props) => {
+const SharedFolderRow = ({ bucket, onFolderClick, menuItems, editing, setEditing, handleRename }: Props) => {
   const classes = useStyles()
   const { name, size } = bucket
   const { desktop } = useThemeSwitcher()
@@ -113,6 +122,36 @@ const SharedFolderRow = ({ bucket, onFolderClick, menuItems }: Props) => {
   }
 
   const userIds = [...getUserIds(bucket.owners), ...getUserIds(bucket.readers), ...getUserIds(bucket.writers)]
+
+  const invalidFilenameRegex = new RegExp("/")
+  const renameSchema = object().shape({
+    fileName: string()
+      .min(1, t`Please enter a name`)
+      .max(65, t`Name too long`)
+      .test(
+        t`Invalid name`,
+        t`Name cannot contain '/' character`,
+        (val: string | null | undefined) =>
+          !invalidFilenameRegex.test(val || "")
+      )
+      .required(t`A name is required`)
+  })
+
+  const formik = useFormik({
+    initialValues:{
+      fileName: name
+    },
+    validationSchema:renameSchema,
+    onSubmit:(values, { resetForm }) => {
+      handleRename && values.fileName &&
+        handleRename(
+          bucket,
+          values.fileName
+        )
+      setEditing(false)
+      resetForm()
+    }
+  })
 
   return  (
     <TableRow
@@ -134,7 +173,38 @@ const SharedFolderRow = ({ bucket, onFolderClick, menuItems }: Props) => {
         className={classes.filename}
         onClick={(e) => onFolderClick(e)}
       >
-        <Typography>{name}</Typography>
+        {!editing
+          ? <Typography>{name}</Typography>
+          : <FormikProvider value={formik}>
+            <Form
+              className={classes.desktopRename}
+              data-cy='rename-form'
+              onBlur={() => setEditing(false)}
+            >
+              <FormikTextInput
+                className={classes.renameInput}
+                name="fileName"
+                inputVariant="minimal"
+                onKeyDown={(event) => {
+                  if (event.key === "Escape") {
+                    setEditing(false)
+                  }
+                }}
+                placeholder = {t`Please enter a folder name`}
+                autoFocus={editing}
+              />
+              <Button
+                data-cy='rename-submit-button'
+                variant="dashed"
+                size="small"
+                type="submit"
+                disabled={!formik.dirty}
+              >
+                <CheckSvg />
+              </Button>
+            </Form>
+          </FormikProvider>
+        }
       </TableCell>
       <TableCell
         data-cy="shared-folder-item-shared-with"
@@ -144,9 +214,9 @@ const SharedFolderRow = ({ bucket, onFolderClick, menuItems }: Props) => {
         <SharedUsers sharedUsers={userIds}/>
       </TableCell>
       {desktop &&
-          <TableCell align="left">
-            {formatBytes(size)}
-          </TableCell>
+        <TableCell align="left">
+          {formatBytes(size)}
+        </TableCell>
       }
       <TableCell align="right">
         <MenuDropdown

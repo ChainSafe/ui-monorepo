@@ -7,6 +7,8 @@ import { CSFTheme } from "../../../Themes/types"
 import { useFilesApi } from "../../../Contexts/FilesApiContext"
 import SharedFolderRowWrapper from "./SharedFolderRowWrapper"
 import clsx from "clsx"
+import { useCallback } from "react"
+import { Bucket } from "@chainsafe/files-api-client"
 
 export const desktopSharedGridSettings = "69px 3fr 190px 150px 45px !important"
 export const mobileSharedGridSettings = "3fr 50px 45px !important"
@@ -107,6 +109,13 @@ const SharedFolderOverview = () => {
     }
   }
 
+  const handleRename = useCallback((bucket: Bucket, newName: string) => {
+    filesApiClient.updateBucket(bucket.id, {
+      name: newName
+    }).then(() => refreshBuckets())
+      .catch(console.error)
+  }, [filesApiClient, refreshBuckets])
+
   return (
     <article
       className={classes.root}
@@ -128,8 +137,7 @@ const SharedFolderOverview = () => {
             name: `Cat Bucket ${Date.now()}`,
             encryption_key: encryptedEncryptionKey,
             type: "share"
-          }).then((res) => {
-            console.log(res)
+          }).then(() => {
             refreshBuckets()
           })
             .catch(console.error)
@@ -193,6 +201,7 @@ const SharedFolderOverview = () => {
               <SharedFolderRowWrapper
                 key={bucket.id}
                 bucket={bucket}
+                handleRename={handleRename}
               />
             )}
           </TableBody>

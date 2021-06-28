@@ -1,4 +1,4 @@
-import React, { useCallback } from "react"
+import React, { useCallback, useState } from "react"
 import { DeleteSvg, EditSvg, IMenuItem } from "@chainsafe/common-components"
 import { makeStyles, createStyles, useDoubleClick, useThemeSwitcher } from "@chainsafe/common-theme"
 import { Trans } from "@lingui/macro"
@@ -75,12 +75,13 @@ const useStyles = makeStyles(({ breakpoints, constants }: CSFTheme) => {
 
 interface Props {
   bucket: Bucket
+  handleRename: (bucket: Bucket, newName: string) => void
 }
 
-const SharedFolderRowWrapper = ({ bucket }: Props) => {
+const SharedFolderRowWrapper = ({ bucket, handleRename }: Props) => {
   const { desktop } = useThemeSwitcher()
   const classes = useStyles()
-
+  const [editing, setEditing] = useState(false)
 
   const menuItems: IMenuItem[] = [{
     contents: (
@@ -91,7 +92,7 @@ const SharedFolderRowWrapper = ({ bucket }: Props) => {
         </span>
       </>
     ),
-    onClick: () => console.log("not implemented")
+    onClick: () => setEditing(true)
   },
   {
     contents: (
@@ -141,6 +142,9 @@ const SharedFolderRowWrapper = ({ bucket }: Props) => {
         menuItems={menuItems}
         onFolderClick={onFolderClick}
         bucket={bucket}
+        editing={editing}
+        setEditing={setEditing}
+        handleRename={handleRename}
       />
     </>
   )
