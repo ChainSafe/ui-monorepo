@@ -38,12 +38,7 @@ jobs:
           REACT_APP_FILES_VERIFIER_NAME: ${{ secrets.GH_REACT_APP_FILES_VERIFIER_NAME }}
           REACT_APP_FILES_UUID_VERIFIER_NAME: 'chainsafe-uuid-testnet'
         with:
-          start: yarn start:storage-ui
-          # quote the url to be safe against YML parsing surprises
-          wait-on: 'http://host.docker.internal:3000'
-          # wait for max 2 minutes for the storage-ui to respond
-          wait-on-timeout: 120
-          # custom test command to run
+          start: yarn start:storage-ui &
           command: yarn test:ci:storage-ui
       # store the screenshots if the tests fail
       - name: Store screenshots 
