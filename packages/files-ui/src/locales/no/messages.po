@@ -1,740 +1,737 @@
 msgid ""
 msgstr ""
-"POT-Creation-Date: 2021-04-20 00:28+0200\n"
-"Mime-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"X-Generator: @lingui/cli\n"
-"Language: en\n"
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: \n"
-"Last-Translator: \n"
-"Language-Team: \n"
-"Plural-Forms: \n"
+"POT-Creation-Date: 2021-04-20 00:28+0200\n"
+"PO-Revision-Date: 2021-06-23 09:07+0000\n"
+"Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
+"Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/chainsafe-files/chainsafe-files-user-interface/nb_NO/>\n"
+"Language: nb_NO\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 4.7.1-dev\n"
+"Mime-Version: 1.0\n"
 
 msgid "(Change)"
-msgstr "(Change)"
+msgstr ""
 
 msgid "<0>You’re at risk of getting locked out of your account because you only have two auth factors set up.</0> Add at least one more to ensure account recovery."
-msgstr "<0>You’re at risk of getting locked out of your account because you only have two auth factors set up.</0> Add at least one more to ensure account recovery."
+msgstr ""
 
 msgid "A backup secret phrase will be generated and used for your account.<0/>We do not store it and <1>it can only be displayed once</1>. Save it somewhere safe!"
-msgstr "A backup secret phrase will be generated and used for your account.<0/>We do not store it and <1>it can only be displayed once</1>. Save it somewhere safe!"
+msgstr ""
 
 msgid "A file with the same name already exists"
-msgstr "A file with the same name already exists"
+msgstr ""
 
 msgid "A name is required"
-msgstr "A name is required"
+msgstr "Navn kreves"
 
 msgid "Account"
-msgstr "Account"
+msgstr "Konto"
 
 msgid "Add a username"
-msgstr "Add a username"
+msgstr "Legg til et brukernavn"
 
 msgid "Add at least one more authentication method to protect your account. You’d only need any two to sign in to Files from any device."
-msgstr "Add at least one more authentication method to protect your account. You’d only need any two to sign in to Files from any device."
+msgstr ""
 
 msgid "Add more files"
-msgstr "Add more files"
+msgstr "Legg til flere filer"
 
 msgid "Approve"
-msgstr "Approve"
+msgstr "Godkjenn"
 
 msgid "Are we on the right track? Let us know in less than 1 minute."
-msgstr "Are we on the right track? Let us know in less than 1 minute."
+msgstr ""
 
 msgid "Backup secret phrase"
-msgstr "Backup secret phrase"
+msgstr ""
 
 msgid "Backup secret phrase does not match user account, please double-check and try again."
-msgstr "Backup secret phrase does not match user account, please double-check and try again."
+msgstr ""
 
 msgid "Bin"
-msgstr "Bin"
+msgstr ""
 
 msgid "Browser:"
-msgstr "Browser:"
+msgstr ""
 
 msgid "By connecting your wallet, you agree to our <0>Terms of Service</0> and <1>Privacy Policy</1>"
-msgstr "By connecting your wallet, you agree to our <0>Terms of Service</0> and <1>Privacy Policy</1>"
+msgstr ""
 
 msgid "By forgetting this browser, you will not be able to use its associated recovery key to sign-in."
-msgstr "By forgetting this browser, you will not be able to use its associated recovery key to sign-in."
+msgstr ""
 
 msgid "CID (Content Identifier)"
-msgstr "CID (Content Identifier)"
+msgstr ""
 
 msgid "Cancel"
-msgstr "Cancel"
+msgstr "Avbryt"
 
 msgid "Change Password"
-msgstr "Change Password"
+msgstr "Endre passord"
 
 msgid "Change password"
-msgstr "Change password"
+msgstr "Endre passord"
 
 msgid "Check your inbox! We've sent another email."
-msgstr "Check your inbox! We've sent another email."
+msgstr ""
 
 msgid "Click or drag to upload files"
-msgstr "Click or drag to upload files"
+msgstr ""
 
 msgid "Close"
-msgstr "Close"
+msgstr "Lukk"
 
 msgid "Complete"
-msgstr "Complete"
+msgstr ""
 
 msgid "Confirm"
-msgstr "Confirm"
+msgstr "Bekreft"
 
 msgid "Confirm Password:"
-msgstr "Confirm Password:"
+msgstr "Bekreft passord:"
 
 msgid "Connect Wallet to Files"
-msgstr "Connect Wallet to Files"
+msgstr ""
 
 msgid "Connect a new wallet"
-msgstr "Connect a new wallet"
+msgstr ""
 
 msgid "Connection failed"
-msgstr "Connection failed"
+msgstr ""
 
 msgid "Continue"
-msgstr "Continue"
+msgstr "Fortsett"
 
 msgid "Continue with Email"
-msgstr "Continue with Email"
+msgstr "Fortsett med e-post"
 
 msgid "Continue with Github"
-msgstr "Continue with Github"
+msgstr "Fortsett med GitHub"
 
 msgid "Continue with Google"
-msgstr "Continue with Google"
+msgstr "Fortsett med Google"
 
 msgid "Continue with Web3 Wallet"
-msgstr "Continue with Web3 Wallet"
+msgstr "Fortsett med Web3-lommebok"
 
 msgid "Copied!"
-msgstr "Copied!"
+msgstr "Kopiert!"
 
 msgid "Copy CID"
-msgstr "Copy CID"
+msgstr "Kopier CID"
 
 msgid "Create"
-msgstr "Create"
+msgstr "Opprett"
 
 msgid "Create Folder"
-msgstr "Create Folder"
+msgstr "Opprett mappe"
 
 msgid "Create folder"
-msgstr "Create folder"
+msgstr "Opprett mappe"
 
 msgid "Dark Theme"
-msgstr "Dark Theme"
+msgstr "Mørk drakt"
 
 msgid "Date uploaded"
-msgstr "Date uploaded"
+msgstr "Dato opplastet"
 
 msgid "Decryption failed"
-msgstr "Decryption failed"
+msgstr "Kunne ikke dekryptere"
 
 msgid "Delete"
-msgstr "Delete"
+msgstr "Slett"
 
 msgid "Delete selected"
-msgstr "Delete selected"
+msgstr "Slett valgte"
 
 msgid "Device awaiting confirmation"
-msgstr "Device awaiting confirmation"
+msgstr ""
 
 msgid "Didn't receive the email ?"
-msgstr "Didn't receive the email ?"
+msgstr "Fikk du ikke e-posten?"
 
 msgid "Display Settings"
-msgstr "Display Settings"
+msgstr ""
 
 msgid "Download"
-msgstr "Download"
+msgstr ""
 
 msgid "Download complete"
-msgstr "Download complete"
+msgstr ""
 
 msgid "Download recovery key"
-msgstr "Download recovery key"
+msgstr ""
 
 msgid "Drop to upload files"
-msgstr "Drop to upload files"
+msgstr "Dra for å laste opp filer"
 
 msgid "Email is required"
-msgstr "Email is required"
+msgstr "E-post kreves"
 
 msgid "Enter backup secret phrase:"
-msgstr "Enter backup secret phrase:"
+msgstr ""
 
 msgid "Enter password"
-msgstr "Enter password"
+msgstr "Skriv inn passord"
 
 msgid "Enter password:"
-msgstr "Enter password:"
+msgstr "Skriv inn passord:"
 
 msgid "Enter the verification code:"
-msgstr "Enter the verification code:"
+msgstr "Skriv inn bekreftelseskoden:"
 
 msgid "Enter your email:"
-msgstr "Enter your email:"
+msgstr "Skriv inn e-posten din:"
 
 msgid "Essentials - Free"
-msgstr "Essentials - Free"
+msgstr ""
 
 msgid "Failed to get signature"
-msgstr "Failed to get signature"
+msgstr ""
 
 msgid "Failed to migrate account, please try again."
-msgstr "Failed to migrate account, please try again."
+msgstr ""
 
 msgid ""
 "Failed to validate signature.\n"
 "If you are using a contract wallet, please make \n"
 "sure you have activated your wallet."
 msgstr ""
-"Failed to validate signature.\n"
-"If you are using a contract wallet, please make \n"
-"sure you have activated your wallet."
 
 msgid "File"
-msgstr "File"
+msgstr "Fil"
 
 msgid "File Info"
-msgstr "File Info"
+msgstr "Filinfo"
 
 msgid "File format not supported."
-msgstr "File format not supported."
+msgstr ""
 
 msgid "File size"
-msgstr "File size"
+msgstr "Filstørrelse"
 
 msgid "Files"
-msgstr "Files"
+msgstr "Filer"
 
 msgid "Files sharing key"
-msgstr "Files sharing key"
+msgstr ""
 
 msgid "Files uses device backups to save your browser."
-msgstr "Files uses device backups to save your browser."
+msgstr ""
 
 msgid "First name"
-msgstr "First name"
+msgstr "Fornavn"
 
 msgid "Folder"
-msgstr "Folder"
+msgstr "Mappe"
 
 msgid "Folders"
-msgstr "Folders"
+msgstr "Mapper"
 
 msgid "For security reasons, each time you sign in we’ll ask you for one of the following to confirm your identity."
-msgstr "For security reasons, each time you sign in we’ll ask you for one of the following to confirm your identity."
+msgstr ""
 
 msgid "Forget this browser"
-msgstr "Forget this browser"
+msgstr ""
 
 msgid "General"
-msgstr "General"
+msgstr ""
 
 msgid "Generate backup secret phrase"
-msgstr "Generate backup secret phrase"
+msgstr ""
 
 msgid "Generating…"
-msgstr "Generating…"
+msgstr ""
 
 msgid "Get Started"
-msgstr "Get Started"
+msgstr "Begynn"
 
 msgid "Go back"
-msgstr "Go back"
+msgstr "Tilbake"
 
 msgid "Great! You’re all done."
-msgstr "Great! You’re all done."
+msgstr ""
 
 msgid "Hello again!"
-msgstr "Hello again!"
+msgstr "Hei igjen."
 
 msgid "Hey! You only have two sign-in methods. If you lose that and have only one left, you will be locked out of your account forever."
-msgstr "Hey! You only have two sign-in methods. If you lose that and have only one left, you will be locked out of your account forever."
+msgstr ""
 
 msgid "Hold on, we are logging you in…"
-msgstr "Hold on, we are logging you in…"
+msgstr ""
 
 msgid "Home"
-msgstr "Home"
+msgstr "Hjem"
 
 msgid "I understand the risk"
-msgstr "I understand the risk"
+msgstr "Jeg forstår risikoen"
 
 msgid "Info"
 msgstr "Info"
 
 msgid "Invalid name"
-msgstr "Invalid name"
+msgstr "Ugyldig navn"
 
 msgid "I’m done saving my backup secret phrase"
-msgstr "I’m done saving my backup secret phrase"
+msgstr ""
 
 msgid "Language"
-msgstr "Language"
+msgstr "Språk"
 
 msgid "Last name"
-msgstr "Last name"
+msgstr "Etternavn"
 
 msgid "Learn more"
-msgstr "Learn more"
+msgstr "Lær mer"
 
 msgid "Learn more about ChainSafe"
-msgstr "Learn more about ChainSafe"
+msgstr "Lær mer om ChainSafe"
 
 msgid "Let's get you set up."
-msgstr "Let's get you set up."
+msgstr ""
 
 msgid "Light Theme"
-msgstr "Light Theme"
+msgstr "Lys drakt"
 
 msgid "Loading preview"
-msgstr "Loading preview"
+msgstr ""
 
 msgid "Loading your shared folders…"
-msgstr "Loading your shared folders…"
+msgstr ""
 
 msgid "Looks like you’re signing in from a new browser. Please choose one of the following to continue:"
-msgstr "Looks like you’re signing in from a new browser. Please choose one of the following to continue:"
+msgstr ""
 
 msgid "Lorem ipsum aenean et rutrum magna. Morbi nec placerat erat. Nunc elementum sed libero sit amet convallis. Quisque non arcu vitae ex fringilla molestie."
-msgstr "Lorem ipsum aenean et rutrum magna. Morbi nec placerat erat. Nunc elementum sed libero sit amet convallis. Quisque non arcu vitae ex fringilla molestie."
+msgstr ""
 
 msgid "Move"
-msgstr "Move"
+msgstr "Flytt"
 
 msgid "Move selected"
-msgstr "Move selected"
+msgstr "Flytt valgte"
 
 msgid "Move to…"
-msgstr "Move to…"
+msgstr "Flytt til …"
 
 msgid "My Files"
-msgstr "My Files"
+msgstr "Mine filer"
 
 msgid "Name"
-msgstr "Name"
+msgstr "Navn"
 
 msgid "Name cannot contain '/' character"
-msgstr "Name cannot contain '/' character"
+msgstr ""
 
 msgid "Name too long"
-msgstr "Name too long"
+msgstr "Navnet er for langt"
 
 msgid "New folder"
-msgstr "New folder"
+msgstr "Ny mappe"
 
 msgid "Next"
-msgstr "Next"
+msgstr "Neste"
 
 msgid "Nice to see you again!"
-msgstr "Nice to see you again!"
+msgstr ""
 
 msgid "No files to show"
-msgstr "No files to show"
+msgstr "Ingen filer å vise"
 
 msgid "No folders"
-msgstr "No folders"
+msgstr "Ingen mapper"
 
 msgid "No search results for"
-msgstr "No search results for"
+msgstr ""
 
 msgid "No thanks"
-msgstr "No thanks"
+msgstr "Nei takk"
 
 msgid "Number of copies (Replication Factor)"
-msgstr "Number of copies (Replication Factor)"
+msgstr ""
 
 msgid "OK"
 msgstr "OK"
 
 msgid "One sec, getting files ready…"
-msgstr "One sec, getting files ready…"
+msgstr ""
 
 msgid "Only you can see this."
-msgstr "Only you can see this."
+msgstr "Kun du kan se dette."
 
 msgid "Operating system:"
-msgstr "Operating system:"
+msgstr "Operativsystem:"
 
 msgid "Or confirm by signing into your Files on any browser you’ve used before."
-msgstr "Or confirm by signing into your Files on any browser you’ve used before."
+msgstr ""
 
 msgid "Password"
-msgstr "Password"
+msgstr "Passord"
 
 msgid "Password confirmation is required"
-msgstr "Password confirmation is required"
+msgstr "Passord må bekreftes"
 
 msgid "Password does not match user account, please double-check and try again."
-msgstr "Password does not match user account, please double-check and try again."
+msgstr ""
 
 msgid "Password needs to be more complex"
-msgstr "Password needs to be more complex"
+msgstr ""
 
 msgid "Password setup"
-msgstr "Password setup"
+msgstr "Passord-oppsett"
 
 msgid "Password:"
-msgstr "Password:"
+msgstr "Passord:"
 
 msgid "Passwords must match"
-msgstr "Passwords must match"
+msgstr "Passordene må samsvare"
 
 msgid "Please enter a file name"
-msgstr "Please enter a file name"
+msgstr "Skriv inn et filnavn"
 
 msgid "Please enter a folder name"
-msgstr "Please enter a folder name"
+msgstr "Skriv inn et mappenavn"
 
 msgid "Please enter a name"
-msgstr "Please enter a name"
+msgstr "Skriv inn et navn"
 
 msgid "Please provide a password"
-msgstr "Please provide a password"
+msgstr "Angi et passord"
 
 msgid "Please select a file to upload"
-msgstr "Please select a file to upload"
+msgstr "Velg en fil å laste opp"
 
 msgid "Preview"
-msgstr "Preview"
+msgstr "Forhåndsvis"
 
 msgid "Previous"
-msgstr "Previous"
+msgstr "Forrige"
 
 msgid "Privacy Policy"
-msgstr "Privacy Policy"
+msgstr "Personvernspraksis"
 
 msgid "Profile and Display"
-msgstr "Profile and Display"
+msgstr "Profil og visning"
 
 msgid "Profile settings"
-msgstr "Profile settings"
+msgstr "Profilinnstillinger"
 
 msgid "Profile updated"
-msgstr "Profile updated"
+msgstr "Profil oppdatert"
 
 msgid "Recover"
-msgstr "Recover"
+msgstr "Gjenopprett"
 
 msgid "Recover selected"
-msgstr "Recover selected"
+msgstr "Gjenoppretting valgt"
 
 msgid "Recover with passphrase"
-msgstr "Recover with passphrase"
+msgstr "Gjenopprett med passord"
 
 msgid "Reject"
-msgstr "Reject"
+msgstr "Avslå"
 
 msgid "Reject all"
-msgstr "Reject all"
+msgstr "Avslå alle"
 
 msgid "Remind me later"
-msgstr "Remind me later"
+msgstr "Minn meg på dette senere"
 
 msgid "Rename"
-msgstr "Rename"
+msgstr "Gi nytt navn"
 
 msgid "Rename file"
-msgstr "Rename file"
+msgstr ""
 
 msgid "Rename folder"
-msgstr "Rename folder"
+msgstr ""
 
 msgid "Requested from"
-msgstr "Requested from"
+msgstr "Forespurt fra"
 
 msgid "Resources"
-msgstr "Resources"
+msgstr "Ressurser"
 
 msgid "Restore with backup secret phrase"
-msgstr "Restore with backup secret phrase"
+msgstr ""
 
 msgid "Save changes"
-msgstr "Save changes"
+msgstr "Lagre endringer"
 
 msgid "Save this browser for next time?"
-msgstr "Save this browser for next time?"
+msgstr ""
 
 msgid "Saved"
-msgstr "Saved"
+msgstr "Lagret"
 
 msgid "Saved Browser"
-msgstr "Saved Browser"
+msgstr ""
 
 msgid "Saved Browsers"
-msgstr "Saved Browsers"
+msgstr ""
 
 msgid "Saved browser"
-msgstr "Saved browser"
+msgstr ""
 
 msgid "Saved on:"
-msgstr "Saved on:"
+msgstr ""
 
 msgid "Search results"
-msgstr "Search results"
+msgstr ""
 
 msgid "Search…"
-msgstr "Search…"
+msgstr ""
 
 msgid "Security"
-msgstr "Security"
+msgstr ""
 
 msgid "Select a wallet"
-msgstr "Select a wallet"
+msgstr ""
 
 msgid "Send Feedback"
-msgstr "Send Feedback"
+msgstr "Send tilbakemelding"
 
 msgid "Send another email"
-msgstr "Send another email"
+msgstr "Send en ny e-post"
 
 msgid "Set Password"
-msgstr "Set Password"
+msgstr "Sett passord"
 
 msgid "Set Username"
-msgstr "Set Username"
+msgstr "Sett brukernavn"
 
 msgid "Set it up now"
-msgstr "Set it up now"
+msgstr ""
 
 msgid "Set up"
-msgstr "Set up"
+msgstr "Sett opp"
 
 msgid "Set up a password"
-msgstr "Set up a password"
+msgstr "Sett opp et passord"
 
 msgid "Set up auth factors"
-msgstr "Set up auth factors"
+msgstr ""
 
 msgid "Set up password"
-msgstr "Set up password"
+msgstr "Sett opp passord"
 
 msgid "Setting Username"
-msgstr "Setting Username"
+msgstr ""
 
 msgid "Settings"
-msgstr "Settings"
+msgstr "Innstillinger"
 
 msgid "Setup incomplete"
-msgstr "Setup incomplete"
+msgstr ""
 
 msgid "Share"
-msgstr "Share"
+msgstr "Del"
 
 msgid "Shared"
-msgstr "Shared"
+msgstr "Delt"
 
 msgid "Shared folders"
-msgstr "Shared folders"
+msgstr "Delte mapper"
 
 msgid "Shared with"
-msgstr "Shared with"
+msgstr "Delt med"
 
 msgid "Sign Out"
-msgstr "Sign Out"
+msgstr "Logg ut"
 
 msgid "Sign in"
-msgstr "Sign in"
+msgstr "Logg inn"
 
 msgid "Sign in with a different account"
-msgstr "Sign in with a different account"
+msgstr "Logg inn med en annen konto"
 
 msgid "Sign-in methods"
-msgstr "Sign-in methods"
+msgstr "Innloggingsmetoder"
 
 msgid "Sign-in with {0}"
-msgstr "Sign-in with {0}"
+msgstr ""
 
 msgid "Size"
-msgstr "Size"
+msgstr "Størrelse"
 
 msgid "Social Sign-in Wallet"
-msgstr "Social Sign-in Wallet"
+msgstr ""
 
 msgid "Social Sign-in or Wallet"
-msgstr "Social Sign-in or Wallet"
+msgstr ""
 
 msgid "Social sign in or wallet"
-msgstr "Social sign in or wallet"
+msgstr ""
 
 msgid "Something went wrong!"
-msgstr "Something went wrong!"
+msgstr "Noe gikk galt."
 
 msgid "Something went wrong. We couldn't upload your file"
-msgstr "Something went wrong. We couldn't upload your file"
+msgstr ""
 
 msgid "Start Upload"
-msgstr "Start Upload"
+msgstr ""
 
 msgid "Storage Plan"
-msgstr "Storage Plan"
+msgstr ""
 
 msgid "Stored by miner"
-msgstr "Stored by miner"
+msgstr ""
 
 msgid "Technical"
-msgstr "Technical"
+msgstr "Teknisk"
 
 msgid "Terms and Conditions"
-msgstr "Terms and Conditions"
+msgstr "Vilkår og betingelser"
 
 msgid "Thanks for taking care of that. You can adjust these anytime in security settings."
-msgstr "Thanks for taking care of that. You can adjust these anytime in security settings."
+msgstr ""
 
 msgid "The authentication popup was closed"
-msgstr "The authentication popup was closed"
+msgstr ""
 
 msgid "The system is undergoing maintenance, thank you for being patient."
-msgstr "The system is undergoing maintenance, thank you for being patient."
+msgstr ""
 
 msgid "Theme"
-msgstr "Theme"
+msgstr "Drakt"
 
 msgid "There was an error authenticating"
-msgstr "There was an error authenticating"
+msgstr ""
 
 msgid "There was an error connecting your wallet"
-msgstr "There was an error connecting your wallet"
+msgstr ""
 
 msgid "There was an error deleting this"
-msgstr "There was an error deleting this"
+msgstr ""
 
 msgid "There was an error getting search results"
-msgstr "There was an error getting search results"
+msgstr ""
 
 msgid "There was an error getting the preview."
-msgstr "There was an error getting the preview."
+msgstr ""
 
 msgid "There was an error moving this"
-msgstr "There was an error moving this"
+msgstr ""
 
 msgid "There was an error recovering this"
-msgstr "There was an error recovering this"
+msgstr ""
 
 msgid "There was an error when setting username."
-msgstr "There was an error when setting username."
+msgstr ""
 
 msgid "This username is already taken"
-msgstr "This username is already taken"
+msgstr ""
 
 msgid "This username is public"
-msgstr "This username is public"
+msgstr "Dette brukernavnet er offentlig"
 
 msgid "Try again"
-msgstr "Try again"
+msgstr "Prøv igjen"
 
 msgid "Try another method"
-msgstr "Try another method"
+msgstr "Prøv annen metode"
 
 msgid "Update"
-msgstr "Update"
+msgstr "Oppdater"
 
 msgid "Upload"
-msgstr "Upload"
+msgstr "Last opp"
 
 msgid "Upload complete"
-msgstr "Upload complete"
+msgstr "Opplastet"
 
 msgid "Uploading {0} files"
-msgstr "Uploading {0} files"
+msgstr "Laster opp {0} filer"
 
 msgid "Use a different login method"
-msgstr "Use a different login method"
+msgstr "Bruk en annen innloggingsmetode"
 
 msgid "Use a saved browser"
-msgstr "Use a saved browser"
+msgstr ""
 
 msgid "Username"
-msgstr "Username"
+msgstr "Brukernavn"
 
 msgid "Username set successfully"
-msgstr "Username set successfully"
+msgstr "Brukernavn satt"
 
 msgid "Usernames are public and can't be changed after creation."
-msgstr "Usernames are public and can't be changed after creation."
+msgstr ""
 
 msgid "Verification code is required"
-msgstr "Verification code is required"
+msgstr ""
 
 msgid "Verification code not correct!"
-msgstr "Verification code not correct!"
+msgstr ""
 
 msgid "Verification code sent!"
-msgstr "Verification code sent!"
+msgstr ""
 
 msgid "View folder"
-msgstr "View folder"
+msgstr "Vis mappe"
 
 msgid "Wallet address"
-msgstr "Wallet address"
+msgstr ""
 
 msgid "Web3: {0}"
-msgstr "Web3: {0}"
+msgstr ""
 
 msgid "We’ve got a new authentication system in place. All you need to do is enter your password again to migrate your credentials over to the new system."
-msgstr "We’ve got a new authentication system in place. All you need to do is enter your password again to migrate your credentials over to the new system."
+msgstr ""
 
 msgid "We’ve sent an email to {email}. It contains a verification code that’ll sign you in super quickly!"
-msgstr "We’ve sent an email to {email}. It contains a verification code that’ll sign you in super quickly!"
+msgstr ""
 
 msgid "What a fine day it is."
-msgstr "What a fine day it is."
+msgstr ""
 
 msgid "What a fine night it is."
-msgstr "What a fine night it is."
+msgstr ""
 
 msgid "Yes, save it"
-msgstr "Yes, save it"
+msgstr "Ja, lagre"
 
 msgid "You can change this later."
-msgstr "You can change this later."
+msgstr "Du kan endre dette senere."
 
 msgid "You haven't set a username yet."
-msgstr "You haven't set a username yet."
+msgstr "Du har ikke satt noe brukernavn enda."
 
 msgid "You will need to sign a message in your wallet to complete sign in."
-msgstr "You will need to sign a message in your wallet to complete sign in."
+msgstr ""
 
 msgid "Your Authentication Factors"
-msgstr "Your Authentication Factors"
+msgstr ""
 
 msgid "Your recovery key can be used to restore your account in place of your backup secret phrase."
-msgstr "Your recovery key can be used to restore your account in place of your backup secret phrase."
+msgstr ""
 
 msgid "deleted successfully"
-msgstr "deleted successfully"
+msgstr "slettet"
 
 msgid "file"
-msgstr "file"
+msgstr "fil"
 
 msgid "folder"
-msgstr "folder"
+msgstr "mappe"
 
 msgid "moved successfully"
-msgstr "moved successfully"
+msgstr "flyttet"
 
 msgid "on"
-msgstr "on"
+msgstr ""
 
 msgid "recovered successfully"
-msgstr "recovered successfully"
+msgstr "gjenopprettet"
 
 msgid "{0, plural, one {You are about to delete {1} file.} other {You are about to delete {2} files.}}"
-msgstr "{0, plural, one {You are about to delete {1} file.} other {You are about to delete {2} files.}}"
+msgstr ""
 
 msgid "{noOfFiles, plural, one {Uploading and encrypting {noOfFiles} file} other {Uploading and encrypting {noOfFiles} files}}"
-msgstr "{noOfFiles, plural, one {Uploading and encrypting {noOfFiles} file} other {Uploading and encrypting {noOfFiles} files}}"
+msgstr ""
