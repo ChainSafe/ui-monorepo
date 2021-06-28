@@ -23,10 +23,10 @@ const useStyles = makeStyles(({ constants }: CSFTheme) => {
 
 interface Props {
   bucket: Bucket
-  openShare: (bucketId: string) => void
+  openSharedFolder: (bucketId: string) => void
 }
 
-const SharedFolderRowWrapper = ({ bucket, openShare }: Props) => {
+const SharedFolderRowWrapper = ({ bucket, openSharedFolder }: Props) => {
   const { desktop } = useThemeSwitcher()
   const classes = useStyles()
 
@@ -59,23 +59,23 @@ const SharedFolderRowWrapper = ({ bucket, openShare }: Props) => {
         // on desktop 
       } else {
         // on mobile
-        openShare(bucket.id)
+        openSharedFolder(bucket.id)
       }
     },
-    [desktop, openShare, bucket]
+    [desktop, openSharedFolder, bucket]
   )
 
   const onDoubleClick = useCallback(
     () => {
       if (desktop) {
         // on desktop
-        openShare(bucket.id)
+        openSharedFolder(bucket.id)
       } else {
         // on mobile
         return
       }
     },
-    [desktop, openShare, bucket]
+    [desktop, openSharedFolder, bucket]
   )
 
   const { click } = useDoubleClick(onSingleClick, onDoubleClick)

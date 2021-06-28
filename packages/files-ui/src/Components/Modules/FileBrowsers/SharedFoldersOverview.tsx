@@ -118,7 +118,7 @@ const SharedFolderOverview = () => {
     }
   }
 
-  const openShare = useCallback((bucketId: string) => {
+  const openSharedFolder = useCallback((bucketId: string) => {
     redirect(ROUTE_LINKS.ShareExplorer(bucketId, "/"))
   }, [redirect])
 
@@ -206,7 +206,7 @@ const SharedFolderOverview = () => {
               <SharedFolderRowWrapper
                 key={bucket.id}
                 bucket={bucket}
-                openShare={openShare}
+                openSharedFolder={openSharedFolder}
               />
             )}
           </TableBody>
