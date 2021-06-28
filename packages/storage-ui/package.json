@@ -76,7 +76,7 @@
     "sentry": "(export REACT_APP_SENTRY_RELEASE=$(sentry-cli releases propose-version); node scripts/sentry.js)",
     "release": "(export REACT_APP_SENTRY_RELEASE=$(sentry-cli releases propose-version); yarn compile && yarn build && node scripts/sentry.js)",
     "test": "cypress open",
-    "test:ci": "cypress run --browser chrome",
+    "test:ci": "cypress run",
     "analyze": "source-map-explorer 'build/static/js/*.js'",
     "extract": "lingui extract",
     "compile": "lingui compile",
