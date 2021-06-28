@@ -22,6 +22,7 @@ import SharedUsers from "../../../../Elements/SharedUser"
 import { t, Trans } from "@lingui/macro"
 import { FormikProvider, Form, useFormik } from "formik"
 import { object, string } from "yup"
+import clsx from "clsx"
 
 const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => {
 
@@ -78,7 +79,10 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => 
     filename: {
       whiteSpace: "nowrap",
       textOverflow: "ellipsis",
-      overflow: "hidden"
+      overflow: "hidden",
+      "&.editing": {
+        overflow: "visible"
+      }
     },
     sharedUser: {
       overflow: "visible",
@@ -105,36 +109,39 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => 
 
 interface Props {
   bucket: Bucket
+  handleRename: (bucket: Bucket, newName: string) => void
 }
 
-const SharedFolderItem = ({ bucket }: Props) => {
+const SharedFolderItem = ({ bucket, handleRename }: Props) => {
   const classes = useStyles()
   const { name, size } = bucket
   const { desktop } = useThemeSwitcher()
   const [editing, setEditing] = useState(false)
 
-  const menuItems: IMenuItem[] = [{
-    contents: (
-      <>
-        <EditSvg className={classes.menuIcon} />
-        <span data-cy="menu-rename">
-          <Trans>Rename</Trans>
-        </span>
-      </>
-    ),
-    onClick: () => console.log("not implemented")
-  },
-  {
-    contents: (
-      <>
-        <DeleteSvg className={classes.menuIcon} />
-        <span data-cy="menu-delete">
-          <Trans>Delete</Trans>
-        </span>
-      </>
-    ),
-    onClick: () => console.log("not implemented")
-  }]
+  const menuItems: IMenuItem[] = [
+    {
+      contents: (
+        <>
+          <EditSvg className={classes.menuIcon} />
+          <span data-cy="menu-rename">
+            <Trans>Rename</Trans>
+          </span>
+        </>
+      ),
+      onClick: () => setEditing(true)
+    },
+    {
+      contents: (
+        <>
+          <DeleteSvg className={classes.menuIcon} />
+          <span data-cy="menu-delete">
+            <Trans>Delete</Trans>
+          </span>
+        </>
+      ),
+      onClick: () => console.log("not implemented")
+    }
+  ]
 
   const onSingleClick = useCallback(
     () => {
@@ -193,12 +200,14 @@ const SharedFolderItem = ({ bucket }: Props) => {
       fileName: name
     },
     validationSchema:renameSchema,
-    onSubmit:() => {
-      // handleRename &&
-      //   handleRename(
-      //     file.cid,
-      //     values.fileName
-      //   )
+    onSubmit:(values, { resetForm }) => {
+      handleRename && values.fileName &&
+        handleRename(
+          bucket,
+          values.fileName
+        )
+      setEditing(false)
+      resetForm()
     }
   })
 
@@ -219,7 +228,7 @@ const SharedFolderItem = ({ bucket }: Props) => {
       <TableCell
         data-cy="shared-folder-item-name"
         align="left"
-        className={classes.filename}
+        className={clsx(classes.filename, desktop && editing && "editing")}
         onClick={(e) => onFolderClick(e)}
       >
         {!editing

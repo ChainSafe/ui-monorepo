@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react"
+import React, { useCallback, useMemo, useState } from "react"
 import { Typography, Table, TableHead, TableRow, TableHeadCell, TableBody, SortDirection, Loading } from "@chainsafe/common-components"
 import { useFiles } from "../../../Contexts/FilesContext"
 import { Trans } from "@lingui/macro"
@@ -7,6 +7,7 @@ import { CSFTheme } from "../../../Themes/types"
 import { useFilesApi } from "../../../Contexts/FilesApiContext"
 import SharedFoldersItem from "./views/SharedFolderItem/SharedFolderItem"
 import clsx from "clsx"
+import { Bucket } from "@chainsafe/files-api-client"
 
 export const desktopSharedGridSettings = "69px 3fr 190px 150px 45px !important"
 export const mobileSharedGridSettings = "3fr 50px 45px !important"
@@ -107,6 +108,15 @@ const SharedFolderOverview = () => {
     }
   }
 
+  // Rename
+  const renameItem = useCallback((bucket: Bucket, newName: string) => {
+    filesApiClient.updateBucket(bucket.id, {
+      name: newName,
+      ...bucket
+    }).then(() => refreshBuckets())
+      .catch(console.error)
+  }, [filesApiClient, refreshBuckets])
+
   return (
     <article
       className={classes.root}
@@ -193,6 +203,7 @@ const SharedFolderOverview = () => {
               <SharedFoldersItem
                 key={bucket.id}
                 bucket={bucket}
+                handleRename={renameItem}
               />
             )}
           </TableBody>
