@@ -67,7 +67,7 @@ type FilesContext = {
   uploadFiles: (bucketId: string, files: File[], path: string) => Promise<void>
   downloadFile: (bucketId: string, itemToDownload: FileSystemItem, path: string) => void
   getFileContent: (bucketId: string, params: GetFileContentParams) => Promise<Blob | undefined>
-  refreshBuckets: () => Promise<void>
+  refreshBuckets: (showLoading?: boolean) => Promise<void>
   secureAccountWithMasterPassword: (candidatePassword: string) => Promise<void>
   isLoadingBuckets?: boolean
 }
@@ -117,10 +117,10 @@ const FilesProvider = ({ children }: FilesContextProps) => {
     return decrypted || ""
   }, [decryptMessageWithThresholdKey, userId])
 
-  const refreshBuckets = useCallback(async () => {
+  const refreshBuckets = useCallback(async (showLoading?: boolean) => {
     if (!personalEncryptionKey || !userId) return
 
-    setIsLoadingBuckets(true)
+    if (showLoading) setIsLoadingBuckets(true)
     const result = await filesApiClient.listBuckets()
 
     const bucketsWithKeys: Bucket[] = await Promise.all(
@@ -160,7 +160,7 @@ const FilesProvider = ({ children }: FilesContextProps) => {
   }, [personalEncryptionKey, userId, filesApiClient, profile, getKeyForSharedBucket])
 
   useEffect(() => {
-    refreshBuckets()
+    refreshBuckets(true)
   }, [refreshBuckets])
 
   // Space used counter
