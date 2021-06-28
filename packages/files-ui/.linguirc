@@ -9,6 +9,6 @@
    "formatOptions": { 
       "origins": false
    },
-   "locales": ["en", "fr"],
+   "locales": ["de", "en", "fr", "no"],
    "sourceLocale": "en"
 } 

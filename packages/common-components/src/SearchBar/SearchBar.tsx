@@ -202,7 +202,7 @@ export interface SearchBarProps {
 const SearchBar: React.FC<SearchBarProps> = ({
   className,
   value,
-  placeholder = "Search...",
+  placeholder = "Search…",
   disabled = false,
   isLoading = false,
   loaderType = LOADER.PulseLoader,

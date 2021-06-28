@@ -263,7 +263,7 @@ const SearchModule: React.FC<ISearchModule> = ({
           onChange={(e: ChangeEvent<HTMLInputElement>) =>
             onSearchChange(e.target.value)
           }
-          placeholder={t`Search...`}
+          placeholder={t`Search…`}
         />
       </form>
       {searchQuery && searchResults?.query ? (

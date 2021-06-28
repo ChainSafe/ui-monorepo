@@ -24,6 +24,6 @@ export const DefaultStory = (): React.ReactNode => (
     size={select("Size", sizeOptions, "large")}
     disabled={boolean("Disabled", false)}
     isLoading={boolean("Loading", false)}
-    placeholder={text("Placeholder", "Search...")}
+    placeholder={text("Placeholder", "Search…")}
   />
 )
