@@ -253,7 +253,7 @@ const InitialScreen = ({ className }: IInitialScreen) => {
           </Typography>}
         {status === "logging in" && <>
           <Typography variant='h5'>
-            <Trans>Hold on, we are logging you in...</Trans>
+            <Trans>Hold on, we are logging you in…</Trans>
           </Typography>
           <Loading
             className={classes.loader}

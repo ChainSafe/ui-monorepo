@@ -774,7 +774,7 @@ const FilesList = () => {
           type="light" />
         <Typography variant="body2"
           component="p">
-          <Trans>One sec, getting files ready...</Trans>
+          <Trans>One sec, getting files ready…</Trans>
         </Typography>
       </div>
       {(desktop && items.length === 0) ||
