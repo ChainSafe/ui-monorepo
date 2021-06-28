@@ -70,7 +70,13 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => 
     filename: {
       whiteSpace: "nowrap",
       textOverflow: "ellipsis",
-      overflow: "visible"
+      overflow: "hidden"
+    },
+    sharedUser: {
+      overflow: "visible",
+      [breakpoints.down("sm")]: {
+        padding: "0 !important"
+      }
     },
     dropdownIcon: {
       "& svg": {
@@ -114,12 +120,14 @@ const SharedFolderRow = ({ bucket, onFolderClick, menuItems }: Props) => {
       className={classes.tableRow}
       type="grid"
     >
-      <TableCell
-        className={classes.folderIcon}
-        onClick={(e) => onFolderClick(e)}
-      >
-        <FolderFilledIcon/>
-      </TableCell>
+      {desktop &&
+        <TableCell
+          className={classes.folderIcon}
+          onClick={(e) => onFolderClick(e)}
+        >
+          <FolderFilledIcon/>
+        </TableCell>
+      }
       <TableCell
         data-cy="shared-folder-item-name"
         align="left"
@@ -131,23 +139,15 @@ const SharedFolderRow = ({ bucket, onFolderClick, menuItems }: Props) => {
       <TableCell
         data-cy="shared-folder-item-shared-with"
         align="left"
-        className={classes.filename}
-        onClick={(e) => onFolderClick(e)}
+        className={classes.sharedUser}
       >
         <SharedUsers sharedUsers={userIds}/>
       </TableCell>
-      {desktop && (
-        <>
-          {/* <TableCell align="left">
-              {
-                dayjs.unix(created_at).format("DD MMM YYYY h:mm a")
-              }
-            </TableCell> */}
+      {desktop &&
           <TableCell align="left">
             {formatBytes(size)}
           </TableCell>
-        </>
-      )}
+      }
       <TableCell align="right">
         <MenuDropdown
           testId='sharedFolderDropdown'
