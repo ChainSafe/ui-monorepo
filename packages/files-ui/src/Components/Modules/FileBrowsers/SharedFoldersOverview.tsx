@@ -159,7 +159,7 @@ const SharedFolderOverview = () => {
             type="light" />
           <Typography variant="body2"
             component="p">
-            <Trans>Loading your shared folders...</Trans>
+            <Trans>Loading your shared folders…</Trans>
           </Typography>
         </div>
       )}
