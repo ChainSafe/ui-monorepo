@@ -4,7 +4,7 @@ import { makeStyles, createStyles, useDoubleClick, useThemeSwitcher } from "@cha
 import { Trans } from "@lingui/macro"
 import { CSFTheme } from "../../../Themes/types"
 import { Bucket } from "@chainsafe/files-api-client"
-import SharedFolderItem from "./views/FileSystemItem/SharedFolderRow"
+import SharedFolderRow from "./views/FileSystemItem/SharedFolderRow"
 
 const useStyles = makeStyles(({ breakpoints, constants }: CSFTheme) => {
   return createStyles({
@@ -137,16 +137,14 @@ const SharedFolderRowWrapper = ({ bucket, handleRename }: Props) => {
   }
 
   return (
-    <>
-      <SharedFolderItem
-        menuItems={menuItems}
-        onFolderClick={onFolderClick}
-        bucket={bucket}
-        editing={editing}
-        setEditing={setEditing}
-        handleRename={handleRename}
-      />
-    </>
+    <SharedFolderRow
+      menuItems={menuItems}
+      onFolderClick={onFolderClick}
+      bucket={bucket}
+      editing={editing}
+      setEditing={setEditing}
+      handleRename={handleRename}
+    />
   )
 }
 

@@ -20,6 +20,7 @@ import SharedUsers from "../../../../Elements/SharedUser"
 import { t } from "@lingui/macro"
 import { Form, FormikProvider, useFormik } from "formik"
 import { object, string } from "yup"
+import clsx from "clsx"
 
 const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => {
 
@@ -76,7 +77,10 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => 
     filename: {
       whiteSpace: "nowrap",
       textOverflow: "ellipsis",
-      overflow: "hidden"
+      overflow: "hidden",
+      "&.editing": {
+        overflow: "visible"
+      }
     },
     sharedUser: {
       overflow: "visible",
@@ -170,7 +174,7 @@ const SharedFolderRow = ({ bucket, onFolderClick, menuItems, editing, setEditing
       <TableCell
         data-cy="shared-folder-item-name"
         align="left"
-        className={classes.filename}
+        className={clsx(classes.filename, desktop && editing && "editing")}
         onClick={(e) => onFolderClick(e)}
       >
         {!editing

@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react"
+import React, { useCallback, useMemo, useState } from "react"
 import { Typography, Table, TableHead, TableRow, TableHeadCell, TableBody, SortDirection, Loading } from "@chainsafe/common-components"
 import { useFiles } from "../../../Contexts/FilesContext"
 import { Trans } from "@lingui/macro"
@@ -7,7 +7,6 @@ import { CSFTheme } from "../../../Themes/types"
 import { useFilesApi } from "../../../Contexts/FilesApiContext"
 import SharedFolderRowWrapper from "./SharedFolderRowWrapper"
 import clsx from "clsx"
-import { useCallback } from "react"
 import { Bucket } from "@chainsafe/files-api-client"
 
 export const desktopSharedGridSettings = "69px 3fr 190px 150px 45px !important"
