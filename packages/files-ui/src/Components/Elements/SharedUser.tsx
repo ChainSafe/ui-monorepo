@@ -1,8 +1,9 @@
 import React, { useState } from "react"
-import { makeStyles, createStyles } from "@chainsafe/common-theme"
+import { makeStyles, createStyles, useThemeSwitcher } from "@chainsafe/common-theme"
 import { CSFTheme } from "../../Themes/types"
 import { Typography, UserIcon } from "@chainsafe/common-components"
 import clsx from "clsx"
+import { useCallback } from "react"
 
 const useStyles = makeStyles(({ zIndex, animation, constants, palette }: CSFTheme) => {
   return createStyles({
@@ -74,25 +75,31 @@ interface Props {
 
 const SharedUsers = ({ sharedUsers }: Props) => {
   const classes = useStyles()
+  const { desktop } = useThemeSwitcher()
 
   if (!sharedUsers.length) {
     return null
   }
 
-  const UserBubble = ({ text, hover }: {text?: string; hover: string | string[]}) => {
-    const [isHover, setIsHover] = useState(false)
+  const UserBubble = ({ text, tooltip }: {text?: string; tooltip: string | string[]}) => {
+    const [showTooltip, setShowTooltip] = useState(false)
+
+    const toggleTooltip = useCallback(() => {
+      setShowTooltip(!showTooltip)
+    }, [showTooltip])
 
     return (
       <div
-        onMouseEnter={() => setIsHover(true)}
-        onMouseLeave={() => setIsHover(false)}
+        onMouseEnter={() => setShowTooltip(true)}
+        onMouseLeave={() => setShowTooltip(false)}
         className={classes.bubble}
+        onClick={toggleTooltip}
       >
-        <div className={clsx(classes.tooltip, { "active": isHover })}>
+        <div className={clsx(classes.tooltip, { "active": showTooltip })}>
           {
-            Array.isArray(hover)
-              ? hover.map((user) => <div key={user}>{user}</div>)
-              : hover
+            Array.isArray(tooltip)
+              ? tooltip.map((user) => <div key={user}>{user}</div>)
+              : tooltip
           }
         </div>
         {text
@@ -108,20 +115,29 @@ const SharedUsers = ({ sharedUsers }: Props) => {
     )
   }
 
+  if (!desktop) {
+    return <div className={classes.root}>
+      <UserBubble
+        text={`+${sharedUsers.length}`}
+        tooltip={sharedUsers}
+      />
+    </div>
+  }
+
   return (
     <div className={classes.root}>
       <UserBubble
-        hover={sharedUsers[0]}
+        tooltip={sharedUsers[0]}
       />
       {sharedUsers.length > 2 && (
         <UserBubble
           text={`+${sharedUsers.length - 1}`}
-          hover={sharedUsers.slice(0, -1)}
+          tooltip={sharedUsers.slice(0, -1)}
         />
       )}
       {sharedUsers.length === 2 && (
         <UserBubble
-          hover={sharedUsers[1]}
+          tooltip={sharedUsers[1]}
         />
       )}
     </div>
