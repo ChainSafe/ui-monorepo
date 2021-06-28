@@ -5,7 +5,7 @@ import { Trans } from "@lingui/macro"
 import { createStyles, makeStyles, useThemeSwitcher } from "@chainsafe/common-theme"
 import { CSFTheme } from "../../../Themes/types"
 import { useFilesApi } from "../../../Contexts/FilesApiContext"
-import SharedFolderRowWrapper from "./SharedFolderRowWrapper"
+import SharedFoldersItem from "./views/SharedFolderItem/SharedFolderItem"
 import clsx from "clsx"
 
 export const desktopSharedGridSettings = "69px 3fr 190px 150px 45px !important"
@@ -190,7 +190,7 @@ const SharedFolderOverview = () => {
           </TableHead>
           <TableBody>
             {bucketsToShow.map((bucket) =>
-              <SharedFolderRowWrapper
+              <SharedFoldersItem
                 key={bucket.id}
                 bucket={bucket}
               />
