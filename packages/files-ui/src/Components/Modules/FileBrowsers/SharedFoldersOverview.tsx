@@ -13,14 +13,14 @@ import {
 } from "@chainsafe/common-components"
 import { useFiles } from "../../../Contexts/FilesContext"
 import { Trans } from "@lingui/macro"
-import { createStyles, makeStyles } from "@chainsafe/common-theme"
+import { createStyles, makeStyles, useThemeSwitcher } from "@chainsafe/common-theme"
 import { CSFTheme } from "../../../Themes/types"
 import SharedFolderRowWrapper from "./SharedFolderRowWrapper"
 import clsx from "clsx"
 import CreateShareModal from "./CreateShareModal"
 
-export const desktopSharedGridSettings = "69px 3fr 190px 150px 69px !important"
-export const mobileSharedGridSettings = "69px 3fr 45px !important"
+export const desktopSharedGridSettings = "69px 3fr 190px 150px 45px !important"
+export const mobileSharedGridSettings = "3fr 50px 45px !important"
 
 const useStyles = makeStyles(
   ({ animation, breakpoints, constants, palette }: CSFTheme) => {
@@ -99,6 +99,7 @@ const SharedFolderOverview = () => {
   const [createShareModalOpen, setCreateShareModalOpen] = useState(false)
   const [direction, setDirection] = useState<SortDirection>("ascend")
   const [column, setColumn] = useState<"name" | "size" | "date_uploaded">("name")
+  const { desktop } = useThemeSwitcher()
 
   const bucketsToShow = useMemo(() => buckets.filter(b => b.type === "share"), [buckets])
 
@@ -138,66 +139,68 @@ const SharedFolderOverview = () => {
             </Button>
           </div>
         </header>
-        {isLoadingBuckets && (
-          <div
-            className={clsx(classes.loadingContainer)}
-          >
-            <Loading size={24}
-              type="light" />
-            <Typography variant="body2"
-              component="p">
-              <Trans>Loading your shared folders...</Trans>
-            </Typography>
-          </div>
-        )}
-        {!isLoadingBuckets && (
-          <Table
-            fullWidth={true}
-            striped={true}
-            hover={true}
-          >
-            <TableHead className={classes.tableHead}>
-              <TableRow type="grid"
-                className={classes.tableRow}>
+      {isLoadingBuckets && (
+        <div
+          className={clsx(classes.loadingContainer)}
+        >
+          <Loading size={24}
+            type="light" />
+          <Typography variant="body2"
+            component="p">
+            <Trans>Loading your shared folders…</Trans>
+          </Typography>
+        </div>
+      )}
+      {!isLoadingBuckets && (
+        <Table
+          fullWidth={true}
+          striped={true}
+          hover={true}
+        >
+          <TableHead className={classes.tableHead}>
+            <TableRow type="grid"
+              className={classes.tableRow}>
+              {desktop &&
                 <TableHeadCell>
                   {/* Icon */}
                 </TableHeadCell>
+              }
+              <TableHeadCell
+                sortButtons={true}
+                align="left"
+                onSortChange={() => handleSortToggle("name")}
+                sortDirection={column === "name" ? direction : undefined}
+                sortActive={column === "name"}
+              >
+                <Trans>Name</Trans>
+              </TableHeadCell>
+              <TableHeadCell align="left">
+                <Trans>Shared with</Trans>
+              </TableHeadCell>
+              {desktop &&
                 <TableHeadCell
                   sortButtons={true}
                   align="left"
-                  onSortChange={() => handleSortToggle("name")}
-                  sortDirection={column === "name" ? direction : undefined}
-                  sortActive={column === "name"}
-                >
-                  <Trans>Name</Trans>
-                </TableHeadCell>
-                <TableHeadCell align="left">
-                  <Trans>Shared with</Trans>
-                </TableHeadCell>
-                <TableHeadCell
-                  sortButtons={true}
-                  align="left"
-                  onSortChange={() => handleSortToggle("date_uploaded")}
-                  sortDirection={
-                    column === "date_uploaded" ? direction : undefined
-                  }
-                  sortActive={column === "date_uploaded"}
+                  onSortChange={() => handleSortToggle("size")}
+                  sortDirection={column === "size" ? direction : undefined}
+                  sortActive={column === "size"}
                 >
                   <Trans>Size</Trans>
                 </TableHeadCell>
-                <TableHeadCell>{/* Menu */}</TableHeadCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {bucketsToShow.map((bucket) =>
-                <SharedFolderRowWrapper
-                  key={bucket.id}
-                  bucket={bucket}
-                />
-              )}
-            </TableBody>
-          </Table>
-        )}
+              }
+              <TableHeadCell>{/* Menu */}</TableHeadCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {bucketsToShow.map((bucket) =>
+              <SharedFolderRowWrapper
+                key={bucket.id}
+                bucket={bucket}
+              />
+            )}
+          </TableBody>
+        </Table>
+      )}
       </article>
       <CreateShareModal
         modalOpen={createShareModalOpen}

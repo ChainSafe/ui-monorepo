@@ -255,9 +255,7 @@ const useStyles = makeStyles(
         },
         "&.small": {
           "& input": {
-            padding: `${constants.generalUnit / constants.generalUnit}px ${
-              constants.generalUnit
-            }px`
+            padding: `1px ${constants.generalUnit}px`
           },
           "&.iconLeft input": {
             paddingLeft:

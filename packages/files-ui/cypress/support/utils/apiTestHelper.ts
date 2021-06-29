@@ -20,7 +20,7 @@ export const apiTestHelper = {
         })
         .then((tokens) => {
           apiClient.setToken(tokens.access_token.token)
-          apiClient.listBuckets(bucketType).then((buckets) => {
+          apiClient.listBuckets([bucketType]).then((buckets) => {
             apiClient
               .getBucketObjectChildrenList(buckets[0].id, { path: "/" })
               .then((items) => {

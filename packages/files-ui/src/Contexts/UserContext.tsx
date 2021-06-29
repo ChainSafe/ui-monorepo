@@ -116,7 +116,7 @@ const UserProvider = ({ children }: UserContextProps) => {
       return Promise.reject(
         error && error.length
           ? error[0].message
-          : t`There was an error setting username.`
+          : t`There was an error when setting username.`
       )
     }
   }
@@ -124,9 +124,8 @@ const UserProvider = ({ children }: UserContextProps) => {
   const lookupOnUsername = async (username: string) => {
     if (!profile) return false
     try {
-      const result = await filesApiClient.lookupUser({ username })
-      if (result === null) return false
-      return true
+      const alreadyExists = await filesApiClient.lookupUser({ username })
+      return !!alreadyExists
     } catch (error) {
       console.error(error)
       return false

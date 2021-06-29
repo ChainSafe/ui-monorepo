@@ -5,7 +5,7 @@ import { useStorage } from "../../Contexts/StorageContext"
 import { Trans } from "@lingui/macro"
 import CidRow from "../Elements/CidRow"
 import { CSSTheme } from "../../Themes/types"
-import AddCIDModule from "../Modules/PinCIDModule"
+import AddCIDModal from "../Modules/AddCIDModal"
 
 export const desktopGridSettings = "3fr 190px 190px 190px 190px 70px !important"
 export const mobileGridSettings = "3fr 190px 190px 190px 190px 70px !important"
@@ -13,9 +13,7 @@ export const mobileGridSettings = "3fr 190px 190px 190px 190px 70px !important"
 const useStyles = makeStyles(({ animation, breakpoints, constants }: CSSTheme) =>
   createStyles({
     root: {
-      position: "relative",
-      minHeight: "100vh",
-      overflow: "hidden"
+      position: "relative"
     },
     header: {
       display: "flex",
@@ -132,7 +130,7 @@ const CidsPage = () => {
           </TableBody>
         </Table>
       </div>
-      <AddCIDModule
+      <AddCIDModal
         close={() => setAddCIDOpen(false)}
         modalOpen={addCIDOpen}
       />

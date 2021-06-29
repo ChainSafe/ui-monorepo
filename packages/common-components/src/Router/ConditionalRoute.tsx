@@ -28,17 +28,17 @@ const ConditionalRoute: React.FC<IConditionalRouteProps> = ({
     path={path}
     exact={exact}
     render={() => {
-      return isAuthorized === true ? (
-        <Component {...rest} />
-      ) : isAuthorized === false ? (
-        <Redirect
-          to={{
-            pathname: redirectToSource && from ? from : redirectPath,
-            state: { from: pathname }
-          }}
-        />
-      ) : // this may be converted into loading
-        null
+      return isAuthorized === true
+        ? <Component {...rest} />
+        : isAuthorized === false
+          ? <Redirect
+            to={{
+              pathname: redirectToSource && from ? from : redirectPath,
+              state: { from: pathname }
+            }}
+          />
+          // this may be converted into loading
+          : null
     }}
   />
 }
