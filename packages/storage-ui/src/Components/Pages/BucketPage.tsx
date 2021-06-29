@@ -49,47 +49,31 @@ const BucketPage: React.FC<IFileBrowserModuleProps> = () => {
     refreshContents(true)
   }, [bucket, refreshContents])
 
-  const moveItemsToBin = useCallback(async (
-  //cids: string[]
-  ) => {
-    throw new Error("Not implemented")
-    // if (!bucket) return
-    // await Promise.all(
-    //   cids.map(async (cid: string) => {
-    //     const itemToDelete = pathContents.find((i) => i.cid === cid)
-    //     if (!itemToDelete) {
-    //       console.error("No item found to move to the trash")
-    //       return
-    //     }
 
-    //     try {
-    //       await filesApiClient.moveBucketObjects(bucket.id, {
-    //         path: getPathWithFile(currentPath, itemToDelete.name),
-    //         new_path: getPathWithFile("/", itemToDelete.name),
-    //         destination: buckets.find(b => b.type === "trash")?.id
-    //       })
-    //       const message = `${
-    //         itemToDelete.isFolder ? t`Folder` : t`File`
-    //       } ${t`deleted successfully`}`
-    //       addToastMessage({
-    //         message: message,
-    //         appearance: "success"
-    //       })
-    //       return Promise.resolve()
-    //     } catch (error) {
-    //       const message = `${t`There was an error deleting this`} ${
-    //         itemToDelete.isFolder ? t`folder` : t`file`
-    //       }`
-    //       addToastMessage({
-    //         message: message,
-    //         appearance: "error"
-    //       })
-    //       return Promise.reject()
-    //     }}
-    //   )).finally(refreshContents)
-  }, [
-    //addToastMessage, currentPath, pathContents, refreshContents, storageApiClient, bucket
-  ])
+  const deleteItems = useCallback((cids: string[]) => {
+    if (!bucket) throw new Error("no bucket found")
+
+    const itemsToDelete = cids.map((cid: string) => pathContents.find((i) => i.cid === cid))
+
+    return storageApiClient.removeBucketObject(bucket.id, {
+      paths: itemsToDelete.map((item) => (getPathWithFile(currentPath, item?.name)))
+    }).then(() => {
+      const message = t`Deletion successful`
+      addToastMessage({
+        message: message,
+        appearance: "success"
+      })
+    })
+      .catch((e) => {
+        console.error(e)
+        const message = t`There was an error deleting this item`
+        addToastMessage({
+          message: message,
+          appearance: "error"
+        })
+      })
+      .finally(refreshContents)
+  }, [bucket, storageApiClient, refreshContents, pathContents, currentPath, addToastMessage])
 
   const renameItem = useCallback(async (cid: string, newName: string) => {
     const itemToRename = pathContents.find(i => i.cid === cid)
@@ -166,11 +150,13 @@ const BucketPage: React.FC<IFileBrowserModuleProps> = () => {
     }
     if (hasFolder) {
       addToastMessage({
-        message: "Folder uploads are not supported currently",
+        message: t`Folder uploads are currently not supported`,
         appearance: "error"
       })
     } else {
-      uploadFiles(bucket.id, files, path).then(() => refreshContents()).catch(console.error)
+      uploadFiles(bucket.id, files, path)
+        .then(() => refreshContents())
+        .catch(console.error)
     }
   }, [addToastMessage, uploadFiles, bucket, refreshContents])
 
@@ -196,8 +182,8 @@ const BucketPage: React.FC<IFileBrowserModuleProps> = () => {
     [CONTENT_TYPES.Image]: [],
     [CONTENT_TYPES.Pdf]: [],
     [CONTENT_TYPES.Text]: [],
-    [CONTENT_TYPES.File]: [],
-    [CONTENT_TYPES.Directory]: []
+    [CONTENT_TYPES.File]: ["delete"],
+    [CONTENT_TYPES.Directory]: ["delete"]
   }), [])
 
   return (
@@ -208,7 +194,7 @@ const BucketPage: React.FC<IFileBrowserModuleProps> = () => {
       moduleRootPath: ROUTE_LINKS.Bucket(bucketId, "/"),
       currentPath,
       refreshContents,
-      deleteItems: moveItemsToBin,
+      deleteItems,
       downloadFile: handleDownload,
       moveItems,
       renameItem: renameItem,

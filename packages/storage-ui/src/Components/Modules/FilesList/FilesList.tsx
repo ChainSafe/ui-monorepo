@@ -284,7 +284,7 @@ const FilesList = () => {
     bulkOperations,
     crumbs,
     renameItem: handleRename,
-    deleteItems: deleteFiles,
+    deleteItems,
     viewFolder,
     currentPath,
     refreshContents,
@@ -494,17 +494,17 @@ const FilesList = () => {
   }, [selectedCids, items, bulkOperations])
 
   const handleDeleteFiles = useCallback(() => {
-    if (!deleteFiles) return
+    if (!deleteItems) return
 
     setIsDeletingFiles(true)
-    deleteFiles(selectedCids)
+    deleteItems(selectedCids)
       .catch(console.error)
       .finally(() => {
         setIsDeletingFiles(false)
         setSelectedCids([])
         setIsDeleteModalOpen(false)
       })
-  }, [deleteFiles, selectedCids])
+  }, [deleteItems, selectedCids])
 
   const getItemOperations = useCallback(
     (contentType: string) => {
