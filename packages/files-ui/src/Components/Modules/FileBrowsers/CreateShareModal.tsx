@@ -21,6 +21,7 @@ import CustomButton from "../../Elements/CustomButton"
 import { t, Trans } from "@lingui/macro"
 import { LookupUser, LookupUserRequest } from "@chainsafe/files-api-client"
 import EthCrypto from "eth-crypto"
+import clsx from "clsx"
 
 const useStyles = makeStyles(
   ({ breakpoints, constants, typography, zIndex, palette }: CSFTheme) => {
@@ -84,9 +85,13 @@ const useStyles = makeStyles(
           left: "50%"
         }
       },
-      shareUsers: {
+      modalFlexItem: {
         width: "100%",
         margin: 5
+      },
+      buttons: {
+        justifyContent: 'flex-end',
+        display: 'flex'
       }
     })
   }
@@ -170,20 +175,20 @@ const CreateShareModal: React.FC<ICreateShareModalProps> = ({
             Share
             </Trans></Typography>
         </div>
-        <div className={classes.shareUsers}>
+        <div className={classes.modalFlexItem}>
           <TextInput
             label='Name'
             value={shareName}
             onChange={(value) => {setShareName(value as string)}} />
         </div>
-        <div className={classes.shareUsers}>
+        <div className={classes.modalFlexItem}>
           <TagsInput onChange={setShareUsers}
             label={t`Invite others`}
             value={shareUsers}
             fetchTag={handleLookupUser}
             placeholder={t`Add by sharing address, username or wallet address`} />
         </div>
-        <div className={classes.shareUsers}>
+        <div className={classes.modalFlexItem}>
           <SelectInput
             label={t`Allow them to`}
             options={[
@@ -193,11 +198,7 @@ const CreateShareModal: React.FC<ICreateShareModalProps> = ({
             value={permissions}
             onChange={(val) => setPermissions(val)} />
         </div>
-        <Grid
-          item
-          flexDirection="row"
-          justifyContent="flex-end"
-        >
+        <div className={clsx(classes.modalFlexItem, classes.buttons)}>
           <CustomButton
             onClick={() => close()}
             size="medium"
@@ -210,14 +211,13 @@ const CreateShareModal: React.FC<ICreateShareModalProps> = ({
           <Button
             size={desktop ? "medium" : "large"}
             variant="primary"
-            type="submit"
             className={classes.okButton}
             loading={creatingShare}
             onClick={handleCreateShare}
           >
             {desktop ? <Trans>OK</Trans> : <Trans>Create</Trans>}
           </Button>
-        </Grid>
+        </div>
       </div>
     </CustomModal>
   )
