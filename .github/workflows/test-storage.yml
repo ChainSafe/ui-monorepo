@@ -10,7 +10,7 @@ on:
     - tsconfig.json
 jobs:
   cypress-run:
-    runs-on: macos-10.15
+    runs-on: ubuntu-latest
     container: cypress/browsers:node14.16.0-chrome90-ff88
     steps:
       - name: Checkout
