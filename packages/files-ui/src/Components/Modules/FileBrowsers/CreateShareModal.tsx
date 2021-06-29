@@ -18,7 +18,7 @@ import { CSFTheme } from "../../../Themes/types"
 import { useFiles } from "../../../Contexts/FilesContext"
 import { useFilesApi } from "../../../Contexts/FilesApiContext"
 import CustomButton from "../../Elements/CustomButton"
-import { Trans } from "@lingui/macro"
+import { t, Trans } from "@lingui/macro"
 import { LookupUser, LookupUserRequest } from "@chainsafe/files-api-client"
 import EthCrypto from "eth-crypto"
 
@@ -166,7 +166,9 @@ const CreateShareModal: React.FC<ICreateShareModalProps> = ({
           <ShareAltSvg />
         </div>
         <div className={classes.heading}>
-          <Typography variant='body1'>Share</Typography>
+          <Typography variant='body1'><Trans>
+            Share
+            </Trans></Typography>
         </div>
         <div className={classes.shareUsers}>
           <TextInput
@@ -176,17 +178,17 @@ const CreateShareModal: React.FC<ICreateShareModalProps> = ({
         </div>
         <div className={classes.shareUsers}>
           <TagsInput onChange={setShareUsers}
-            label="Invite others"
+            label={t`Invite others`}
             value={shareUsers}
             fetchTag={handleLookupUser}
-            placeholder='Add by sharing address, username or wallet address' />
+            placeholder={t`Add by sharing address, username or wallet address`} />
         </div>
         <div className={classes.shareUsers}>
           <SelectInput
-            label='Allow them to'
+            label={t`Allow them to`}
             options={[
-              { label: "Can add/remove content", value: "write" },
-              { label: "Can read content", value: "read" }
+              { label: t`Can add/remove content`, value: "write" },
+              { label: t`Can read content`, value: "read" }
             ]}
             value={permissions}
             onChange={(val) => setPermissions(val)} />
