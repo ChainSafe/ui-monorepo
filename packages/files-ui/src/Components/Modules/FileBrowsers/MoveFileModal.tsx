@@ -158,7 +158,7 @@ const MoveFileModule = ({ filesToMove, modalOpen, onClose, onCancel, mode }: IMo
         <Typography className={classes.heading}
           variant="h5"
           component="h5">
-          <Trans>Move to...</Trans>
+          <Trans>Move to…</Trans>
         </Typography>
       </Grid>
       <Grid

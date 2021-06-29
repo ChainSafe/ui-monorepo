@@ -165,9 +165,10 @@ const AuthenticationFactors = ({ goToComplete, goToMnemonic, goToPassword, goToS
               </Typography>
             )
           }
-          {browserShares.length > 0 ?
-            <CheckCircleSvg className={classes.checkIcon} /> :
-            <CrossOutlinedSvg className={classes.errorIcon} />
+          {
+            browserShares.length > 0
+              ? <CheckCircleSvg className={classes.checkIcon} />
+              : <CrossOutlinedSvg className={classes.errorIcon} />
           }
         </div>
         {

@@ -92,7 +92,7 @@ const DownloadBox: React.FC<IDownloadBox> = ({ downloadInProgress }) => {
               component="p"
               className={classes.marginBottom}
             >
-              Downloading {fileName}...
+              Downloading {fileName}…
             </Typography>
             <ProgressBar
               progress={progress}
