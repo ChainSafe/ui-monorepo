@@ -120,7 +120,7 @@ const FilesProvider = ({ children }: FilesContextProps) => {
   const refreshBuckets = useCallback(async (showLoading?: boolean) => {
     if (!personalEncryptionKey || !userId) return
 
-    if (showLoading) setIsLoadingBuckets(true)
+    showLoading && setIsLoadingBuckets(true)
     const result = await filesApiClient.listBuckets()
 
     const bucketsWithKeys: Bucket[] = await Promise.all(
