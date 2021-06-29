@@ -23,6 +23,7 @@ import { ITabsOverride } from "./Tabs"
 import { ITextInputOverride } from "./TextInput"
 import { IToasterOverride } from "./Toaster"
 import { ITypographyOverride } from "./Typography"
+import { ITagsInputOverride } from "./TagsInput"
 
 export interface IComponentOverrides {
   Avatar?: IAvatarOverride
@@ -50,4 +51,5 @@ export interface IComponentOverrides {
   TextInput?: ITextInputOverride
   Toaster?: IToasterOverride
   Typography?: ITypographyOverride
+  TagsInput?: ITagsInputOverride
 }

@@ -1,40 +1,43 @@
 import {
   Button,
-  FormikTextInput,
   Grid,
+  SelectInput,
+  ShareAltSvg,
+  TagsInput,
+  TextInput,
   Typography
 } from "@chainsafe/common-components"
-import * as yup from "yup"
 import {
   createStyles,
   makeStyles,
-  useMediaQuery,
   useThemeSwitcher
 } from "@chainsafe/common-theme"
-import React, { useRef, useEffect, useState } from "react"
-import { Formik, Form } from "formik"
+import React, { useRef, useEffect, useState, useCallback } from "react"
 import CustomModal from "../../Elements/CustomModal"
+import { CSFTheme } from "../../../Themes/types"
+import { useFiles } from "../../../Contexts/FilesContext"
+import { useFilesApi } from "../../../Contexts/FilesApiContext"
 import CustomButton from "../../Elements/CustomButton"
 import { Trans } from "@lingui/macro"
-import { CSFTheme } from "../../../Themes/types"
-import { useFileBrowser } from "../../../Contexts/FileBrowserContext"
-import { useFilesApi } from "../../../Contexts/FilesApiContext"
-
+import { LookupUser, LookupUserRequest } from "@chainsafe/files-api-client"
+import EthCrypto from "eth-crypto"
 
 const useStyles = makeStyles(
-  ({ breakpoints, constants, typography, zIndex }: CSFTheme) => {
+  ({ breakpoints, constants, typography, zIndex, palette }: CSFTheme) => {
     return createStyles({
       root: {
         padding: constants.generalUnit * 4,
-        flexDirection: "column"
+        flexDirection: "column",
+        display: "flex",
+        alignItems: "center"
       },
       modalRoot: {
         zIndex: zIndex?.blocker,
         [breakpoints.down("md")]: {}
       },
       modalInner: {
-        backgroundColor: constants.createFolder.backgroundColor,
-        color: constants.createFolder.color,
+        backgroundColor: constants.createShareModal.backgroundColor,
+        color: constants.createShareModal.color,
         [breakpoints.down("md")]: {
           bottom:
           Number(constants?.mobileButtonHeight) + constants.generalUnit,
@@ -42,9 +45,6 @@ const useStyles = makeStyles(
           borderTopRightRadius: `${constants.generalUnit * 1.5}px`,
           maxWidth: `${breakpoints.width("md")}px !important`
         }
-      },
-      input: {
-        marginBottom: constants.generalUnit * 2
       },
       okButton: {
         marginLeft: constants.generalUnit
@@ -63,10 +63,30 @@ const useStyles = makeStyles(
         lineHeight: "22px"
       },
       heading: {
-        color: constants.createFolder.color,
+        color: constants.createShareModal.color,
         fontWeight: typography.fontWeight.semibold,
-        textAlign: "center",
-        marginBottom: constants.generalUnit * 4
+        marginBottom: 10
+      },
+      iconBacking: {
+        backgroundColor: constants.createShareModal.iconBackingColor,
+        width: 48,
+        height: 48,
+        borderRadius: 24,
+        marginBottom: 16,
+        "& > svg": {
+          width: 16,
+          height: 16,
+          fill: palette.primary.main,
+          position: "relative",
+          display: "block",
+          transform: "translate(-50%, -50%)",
+          top: "50%",
+          left: "50%"
+        }
+      },
+      shareUsers: {
+        width: "100%",
+        margin: 5
       }
     })
   }
@@ -82,9 +102,12 @@ const CreateShareModal: React.FC<ICreateShareModalProps> = ({
   close
 }: ICreateShareModalProps) => {
   const classes = useStyles()
+  const { createShare } = useFiles()
   const { filesApiClient } = useFilesApi()
-  const { currentPath, refreshContents, bucket } = useFileBrowser()
-  const [creatingFolder, setCreatingFolder] = useState(false)
+  const [creatingShare, setCreatingShare] = useState(false)
+  const [shareName, setShareName] = useState("")
+  const [shareUsers, setShareUsers] = useState<Array<{label: string; value: LookupUser}>>([])
+  const [permissions, setPermissions] = useState<"read" | "write" | undefined>(undefined)
   const { desktop } = useThemeSwitcher()
   const inputRef = useRef<any>(null)
 
@@ -94,16 +117,39 @@ const CreateShareModal: React.FC<ICreateShareModalProps> = ({
     }
   }, [modalOpen])
 
-  const folderNameValidator = yup.object().shape({
-    name: yup
-      .string()
-      .required("Folder name is required")
-      .test(
-        "Invalid name",
-        "Folder name cannot contain '/' character",
-        (val: string | null | undefined) => !!val && !val.includes("/")
-      )
-  })
+  const handleLookupUser = useCallback(async (inputVal: string) => {
+    if (inputVal === "") return []
+    const lookupBody: LookupUserRequest = {}
+    const ethAddressRegex = new RegExp("^0x[a-fA-F0-9]{40}$") // Eth Address Starting with 0x and 40 HEX chars
+    const pubKeyRegex = new RegExp("^0x[a-fA-F0-9]{66}$") // Compressed public key, 66 chars long
+
+    if (ethAddressRegex.test(inputVal)) {
+      lookupBody.public_address = inputVal
+    } else if (pubKeyRegex.test(inputVal)) {
+      lookupBody.identity_public_key = inputVal
+    } else {
+      lookupBody.username = inputVal
+    }
+
+    const result = await filesApiClient.lookupUser(lookupBody)
+
+    if (!result) return []
+    const currentUsers = shareUsers.map(su => su.value.uuid)
+    if (currentUsers.includes(result.uuid)) return []
+
+    return [{ label: inputVal, value: result }]
+  }, [filesApiClient, shareUsers])
+
+  const handleCreateShare = useCallback(async () => {
+    const users = shareUsers.map(su => ({ uuid: su.value.uuid, pubKey: EthCrypto.publicKey.decompress(su.value.identity_pubkey.slice(2)) }))
+    const readers = (permissions === "read") ? users : []
+    const writers = (permissions === "write") ? users : []
+    setCreatingShare(true)
+    createShare(shareName, writers, readers).then(() => close)
+      .catch((e) => {console.error(e)
+        setCreatingShare(false)
+      })
+  }, [shareUsers, createShare, permissions, shareName, close])
 
   return (
     <CustomModal
@@ -115,92 +161,62 @@ const CreateShareModal: React.FC<ICreateShareModalProps> = ({
       closePosition="none"
       maxWidth="sm"
     >
-      <Formik
-        initialValues={{
-          name: ""
-        }}
-        validationSchema={folderNameValidator}
-        validateOnChange={false}
-        onSubmit={async (values, helpers) => {
-          if (!bucket) return
-          helpers.setSubmitting(true)
-          try {
-            setCreatingFolder(true)
-            await filesApiClient.addBucketDirectory(bucket.id, { path: `${currentPath}/${values.name}` })
-            refreshContents && await refreshContents()
-            setCreatingFolder(false)
-            helpers.resetForm()
-            close()
-          } catch (errors) {
-            setCreatingFolder(false)
-            if (errors[0].message.includes("Entry with such name can")) {
-              helpers.setFieldError("name", "Folder name is already in use")
-            } else {
-              helpers.setFieldError("name", errors[0].message)
-            }
-          }
-          helpers.setSubmitting(false)
-        }}
-      >
-        <Form>
-          <div className={classes.root}>
-            {!desktop && (
-              <Grid
-                item
-                xs={12}
-                sm={12}
-              >
-                <Typography
-                  className={classes.heading}
-                  variant="h5"
-                  component="h5"
-                >
-                  <Trans>Create Folder</Trans>
-                </Typography>
-              </Grid>
-            )}
-            <Grid
-              item
-              xs={12}
-              sm={12}
-              className={classes.input}
-            >
-              <FormikTextInput
-                name="name"
-                size="large"
-                placeholder="Name"
-                labelClassName={classes.label}
-                label="Folder Name"
-                ref={inputRef}
-              />
-            </Grid>
-            <Grid
-              item
-              flexDirection="row"
-              justifyContent="flex-end"
-            >
-              <CustomButton
-                onClick={() => close()}
-                size="medium"
-                className={classes.cancelButton}
-                variant={desktop ? "outline" : "gray"}
-                type="button"
-              >
-                <Trans>Cancel</Trans>
-              </CustomButton>
-              <Button
-                size={desktop ? "medium" : "large"}
-                variant="primary"
-                type="submit"
-                className={classes.okButton}
-                loading={creatingFolder}
-              >
-                {desktop ? <Trans>OK</Trans> : <Trans>Create</Trans>}
-              </Button>
-            </Grid>
-          </div>
-        </Form>
-      </Formik>
+      <div className={classes.root}>
+        <div className={classes.iconBacking}>
+          <ShareAltSvg />
+        </div>
+        <div className={classes.heading}>
+          <Typography variant='body1'>Share</Typography>
+        </div>
+        <div className={classes.shareUsers}>
+          <TextInput
+            label='Name'
+            value={shareName}
+            onChange={(value) => {setShareName(value as string)}} />
+        </div>
+        <div className={classes.shareUsers}>
+          <TagsInput onChange={setShareUsers}
+            label="Invite others"
+            value={shareUsers}
+            fetchTag={handleLookupUser}
+            placeholder='Add by sharing address, username or wallet address' />
+        </div>
+        <div className={classes.shareUsers}>
+          <SelectInput
+            label='Allow them to'
+            options={[
+              { label: "Can add/remove content", value: "write" },
+              { label: "Can read content", value: "read" }
+            ]}
+            value={permissions}
+            onChange={(val) => setPermissions(val)} />
+        </div>
+        <Grid
+          item
+          flexDirection="row"
+          justifyContent="flex-end"
+        >
+          <CustomButton
+            onClick={() => close()}
+            size="medium"
+            className={classes.cancelButton}
+            variant={desktop ? "outline" : "gray"}
+            type="button"
+          >
+            <Trans>Cancel</Trans>
+          </CustomButton>
+          <Button
+            size={desktop ? "medium" : "large"}
+            variant="primary"
+            type="submit"
+            className={classes.okButton}
+            loading={creatingShare}
+            onClick={handleCreateShare}
+          >
+            {desktop ? <Trans>OK</Trans> : <Trans>Create</Trans>}
+          </Button>
+        </Grid>
+      </div>
     </CustomModal>
   )
 }

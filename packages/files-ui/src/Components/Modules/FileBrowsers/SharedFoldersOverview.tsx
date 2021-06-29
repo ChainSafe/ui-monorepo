@@ -15,7 +15,6 @@ import { useFiles } from "../../../Contexts/FilesContext"
 import { Trans } from "@lingui/macro"
 import { createStyles, makeStyles } from "@chainsafe/common-theme"
 import { CSFTheme } from "../../../Themes/types"
-import { useFilesApi } from "../../../Contexts/FilesApiContext"
 import SharedFolderRowWrapper from "./SharedFolderRowWrapper"
 import clsx from "clsx"
 import CreateShareModal from "./CreateShareModal"
@@ -132,7 +131,8 @@ const SharedFolderOverview = () => {
             <Trans>Shared folders</Trans>
           </Typography>
           <div className={classes.controls}>
-            <Button variant='outline'>
+            <Button variant='outline'
+              onClick={() => setCreateShareModalOpen(true)}>
               <PlusIcon />
               Create a Share
             </Button>

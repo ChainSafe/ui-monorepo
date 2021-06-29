@@ -25,6 +25,7 @@ import { CSFTheme } from "../../../Themes/types"
 import clsx from "clsx"
 import LanguageSelection from "./LanguageSelection"
 import { useThresholdKey } from "../../../Contexts/ThresholdKeyContext"
+import EthCrypto from "eth-crypto"
 
 const useStyles = makeStyles(({ constants, breakpoints, palette, typography }: CSFTheme) =>
   createStyles({
@@ -204,6 +205,8 @@ const ProfileView = () => {
   const [copiedWalletAddress, setCopiedWalletAddress] = useState(false)
   const [copiedTkeyPublicKey, setCopiedTkeyPublicKey] = useState(false)
 
+  const compressedPubKey = useMemo(() => publicKey && `0x${EthCrypto.publicKey.compress(publicKey)}`, [publicKey])
+
   const debouncedCopiedWalletAddress =
     debounce(() => setCopiedWalletAddress(false), 3000)
 
@@ -223,9 +226,9 @@ const ProfileView = () => {
   }
 
   const copyTkeyPubKey = async () => {
-    if (publicKey) {
+    if (compressedPubKey) {
       try {
-        await navigator.clipboard.writeText(publicKey)
+        await navigator.clipboard.writeText(compressedPubKey)
         setCopiedTkeyPublicKey(true)
         debouncedCopiedTkeyPublicKey()
       } catch (err) {
@@ -332,7 +335,7 @@ const ProfileView = () => {
                   </div>
                 </div>
               }
-              {publicKey
+              {compressedPubKey
                 && <div
                   className={classes.boxContainer}
                   data-cy="settings-profile-header"
@@ -359,7 +362,7 @@ const ProfileView = () => {
                       component="p"
                       className={classes.publicAddress}
                     >
-                      {centerEllipsis(publicKey, 16)}
+                      {centerEllipsis(compressedPubKey, 16)}
                     </Typography>
                     <CopyIcon className={classes.copyIcon} />
                   </div>
