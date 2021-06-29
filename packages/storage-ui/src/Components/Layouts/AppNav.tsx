@@ -256,6 +256,7 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
               >
                 <DatabaseSvg />
                 <Typography
+                  data-cy="cids-nav"
                   variant="h5"
                   className={classes.navItemText}
                 >
@@ -269,6 +270,7 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
               >
                 <FolderSvg />
                 <Typography
+                  data-cy="buckets-nav"
                   variant="h5"
                   className={classes.navItemText}
                 >
