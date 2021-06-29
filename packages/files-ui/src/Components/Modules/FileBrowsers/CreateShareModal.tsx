@@ -145,10 +145,10 @@ const CreateShareModal: React.FC<ICreateShareModalProps> = ({
     const readers = (permissions === "read") ? users : []
     const writers = (permissions === "write") ? users : []
     setCreatingShare(true)
-    createShare(shareName, writers, readers).then(() => close)
-      .catch((e) => {console.error(e)
-        setCreatingShare(false)
-      })
+    createShare(shareName, writers, readers)
+      .then(close)
+      .catch(console.error)
+      .finally(() => setCreatingShare(false))
   }, [shareUsers, createShare, permissions, shareName, close])
 
   return (
