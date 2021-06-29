@@ -81,7 +81,7 @@ interface Props {
 const SharedFolderRowWrapper = ({ bucket, handleRename }: Props) => {
   const { desktop } = useThemeSwitcher()
   const classes = useStyles()
-  const [editing, setEditing] = useState(false)
+  const [isEditing, setIsEditing] = useState(false)
 
   const menuItems: IMenuItem[] = [{
     contents: (
@@ -92,7 +92,7 @@ const SharedFolderRowWrapper = ({ bucket, handleRename }: Props) => {
         </span>
       </>
     ),
-    onClick: () => setEditing(true)
+    onClick: () => setIsEditing(true)
   },
   {
     contents: (
@@ -141,8 +141,8 @@ const SharedFolderRowWrapper = ({ bucket, handleRename }: Props) => {
       menuItems={menuItems}
       onFolderClick={onFolderClick}
       bucket={bucket}
-      editing={editing}
-      setEditing={setEditing}
+      editing={isEditing}
+      setEditing={setIsEditing}
       handleRename={handleRename}
     />
   )
