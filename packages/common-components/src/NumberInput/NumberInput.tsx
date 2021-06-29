@@ -199,9 +199,7 @@ const useStyles = makeStyles(
           "& input": {
             fontSize: 16,
             lineHeight: "24px",
-            padding: `${constants.generalUnit}px ${
-              constants.generalUnit * 1.5
-            }px`
+            padding: `${constants.generalUnit}px ${constants.generalUnit * 1.5}px`
           },
           "&.iconLeft input": {
             paddingLeft:
@@ -227,9 +225,7 @@ const useStyles = makeStyles(
         },
         "&.medium": {
           "& input": {
-            padding: `${constants.generalUnit * 0.625}px ${
-              constants.generalUnit * 1.5
-            }px`,
+            padding: `${constants.generalUnit * 0.625}px ${constants.generalUnit * 1.5}px`,
             fontSize: 16,
             lineHeight: "20px"
           },
@@ -257,9 +253,7 @@ const useStyles = makeStyles(
         },
         "&.small": {
           "& input": {
-            padding: `${constants.generalUnit / constants.generalUnit}px ${
-              constants.generalUnit
-            }px`
+            padding: `1px ${constants.generalUnit}px`
           },
           "&.iconLeft input": {
             paddingLeft:
