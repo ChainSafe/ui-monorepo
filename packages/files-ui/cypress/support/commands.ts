@@ -143,13 +143,6 @@ Cypress.Commands.add(
 
       if (local.length === 0) {
         cy.log("nothing in session storage, --> click on web3 button")
-        // Temp change for testing in CI
-        // eslint-disable-next-line cypress/no-unnecessary-waiting
-        cy.wait(60000)
-        cy.reload
-        // eslint-disable-next-line cypress/no-unnecessary-waiting
-        cy.wait(60000)
-
         authenticationPage.web3Button().click()
         authenticationPage.metaMaskButton().click()
         authenticationPage.web3SignInButton().click()
