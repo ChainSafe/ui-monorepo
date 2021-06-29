@@ -139,45 +139,45 @@ const SharedFolderOverview = () => {
             </Button>
           </div>
         </header>
-      {isLoadingBuckets && (
-        <div
-          className={clsx(classes.loadingContainer)}
-        >
-          <Loading size={24}
-            type="light" />
-          <Typography variant="body2"
-            component="p">
-            <Trans>Loading your shared folders…</Trans>
-          </Typography>
-        </div>
-      )}
-      {!isLoadingBuckets && (
-        <Table
-          fullWidth={true}
-          striped={true}
-          hover={true}
-        >
-          <TableHead className={classes.tableHead}>
-            <TableRow type="grid"
-              className={classes.tableRow}>
-              {desktop &&
+        {isLoadingBuckets && (
+          <div
+            className={clsx(classes.loadingContainer)}
+          >
+            <Loading size={24}
+              type="light" />
+            <Typography variant="body2"
+              component="p">
+              <Trans>Loading your shared folders…</Trans>
+            </Typography>
+          </div>
+        )}
+        {!isLoadingBuckets && (
+          <Table
+            fullWidth={true}
+            striped={true}
+            hover={true}
+          >
+            <TableHead className={classes.tableHead}>
+              <TableRow type="grid"
+                className={classes.tableRow}>
+                {desktop &&
                 <TableHeadCell>
                   {/* Icon */}
                 </TableHeadCell>
-              }
-              <TableHeadCell
-                sortButtons={true}
-                align="left"
-                onSortChange={() => handleSortToggle("name")}
-                sortDirection={column === "name" ? direction : undefined}
-                sortActive={column === "name"}
-              >
-                <Trans>Name</Trans>
-              </TableHeadCell>
-              <TableHeadCell align="left">
-                <Trans>Shared with</Trans>
-              </TableHeadCell>
-              {desktop &&
+                }
+                <TableHeadCell
+                  sortButtons={true}
+                  align="left"
+                  onSortChange={() => handleSortToggle("name")}
+                  sortDirection={column === "name" ? direction : undefined}
+                  sortActive={column === "name"}
+                >
+                  <Trans>Name</Trans>
+                </TableHeadCell>
+                <TableHeadCell align="left">
+                  <Trans>Shared with</Trans>
+                </TableHeadCell>
+                {desktop &&
                 <TableHeadCell
                   sortButtons={true}
                   align="left"
@@ -187,20 +187,20 @@ const SharedFolderOverview = () => {
                 >
                   <Trans>Size</Trans>
                 </TableHeadCell>
-              }
-              <TableHeadCell>{/* Menu */}</TableHeadCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {bucketsToShow.map((bucket) =>
-              <SharedFolderRowWrapper
-                key={bucket.id}
-                bucket={bucket}
-              />
-            )}
-          </TableBody>
-        </Table>
-      )}
+                }
+                <TableHeadCell>{/* Menu */}</TableHeadCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {bucketsToShow.map((bucket) =>
+                <SharedFolderRowWrapper
+                  key={bucket.id}
+                  bucket={bucket}
+                />
+              )}
+            </TableBody>
+          </Table>
+        )}
       </article>
       <CreateShareModal
         modalOpen={createShareModalOpen}

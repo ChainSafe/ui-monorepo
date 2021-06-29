@@ -356,8 +356,8 @@ const ProfileView = () => {
                   </div>
                 </div>
               }
-              {compressedPubKey
-                && <div
+              {compressedPubKey &&
+                <div
                   className={classes.boxContainer}
                   data-cy="settings-profile-header"
                 >
