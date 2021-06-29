@@ -58,9 +58,8 @@ const BucketPage: React.FC<IFileBrowserModuleProps> = () => {
     return storageApiClient.removeBucketObject(bucket.id, {
       paths: itemsToDelete.map((item) => (getPathWithFile(currentPath, item?.name)))
     }).then(() => {
-      const message = t`Deletion successful`
       addToastMessage({
-        message: message,
+        message: t`Deletion successful`,
         appearance: "success"
       })
     })
