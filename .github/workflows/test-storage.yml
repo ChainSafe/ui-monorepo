@@ -38,6 +38,8 @@ jobs:
           REACT_APP_FILES_VERIFIER_NAME: ${{ secrets.GH_REACT_APP_FILES_VERIFIER_NAME }}
           REACT_APP_FILES_UUID_VERIFIER_NAME: 'chainsafe-uuid-testnet'
           REACT_APP_TEST: 'true'
+          # prevent browser launching automatcally after starting server
+          BROWSER: 'none'
         with:
           start: yarn start:storage-ui 
           # quote the url to be safe against YML parsing surprises
