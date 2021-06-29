@@ -1,6 +1,5 @@
 import {
   Button,
-  Grid,
   SelectInput,
   ShareAltSvg,
   TagsInput,
