@@ -141,8 +141,8 @@ const SharedFolderRowWrapper = ({ bucket, handleRename }: Props) => {
       menuItems={menuItems}
       onFolderClick={onFolderClick}
       bucket={bucket}
-      editing={isEditing}
-      setEditing={setIsEditing}
+      isEditing={isEditing}
+      setIsEditing={setIsEditing}
       handleRename={handleRename}
     />
   )

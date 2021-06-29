@@ -109,12 +109,12 @@ interface Props {
   bucket: Bucket
   onFolderClick: (e?: React.MouseEvent) => void
   menuItems: IMenuItem[]
-  editing: boolean
-  setEditing: (editing: boolean) => void
+  isEditing: boolean
+  setIsEditing: (isEditing: boolean) => void
   handleRename: (bucket: Bucket, newName: string) => void
 }
 
-const SharedFolderRow = ({ bucket, onFolderClick, menuItems, editing, setEditing, handleRename }: Props) => {
+const SharedFolderRow = ({ bucket, onFolderClick, menuItems, isEditing, setIsEditing, handleRename }: Props) => {
   const classes = useStyles()
   const { name, size } = bucket
   const { desktop } = useThemeSwitcher()
@@ -145,14 +145,15 @@ const SharedFolderRow = ({ bucket, onFolderClick, menuItems, editing, setEditing
     initialValues:{
       fileName: name
     },
-    validationSchema:renameSchema,
+    enableReinitialize: true,
+    validationSchema: renameSchema,
     onSubmit:(values, { resetForm }) => {
       handleRename && values.fileName &&
         handleRename(
           bucket,
           values.fileName
         )
-      setEditing(false)
+      setIsEditing(false)
       resetForm()
     }
   })
@@ -174,16 +175,19 @@ const SharedFolderRow = ({ bucket, onFolderClick, menuItems, editing, setEditing
       <TableCell
         data-cy="shared-folder-item-name"
         align="left"
-        className={clsx(classes.filename, desktop && editing && "editing")}
+        className={clsx(classes.filename, desktop && isEditing && "editing")}
         onClick={(e) => onFolderClick(e)}
       >
-        {!editing
+        {!isEditing
           ? <Typography>{name}</Typography>
           : <FormikProvider value={formik}>
             <Form
               className={classes.desktopRename}
               data-cy='rename-form'
-              onBlur={() => setEditing(false)}
+              onBlur={() => {
+                setIsEditing(false)
+                formik.resetForm()
+              }}
             >
               <FormikTextInput
                 className={classes.renameInput}
@@ -191,11 +195,12 @@ const SharedFolderRow = ({ bucket, onFolderClick, menuItems, editing, setEditing
                 inputVariant="minimal"
                 onKeyDown={(event) => {
                   if (event.key === "Escape") {
-                    setEditing(false)
+                    setIsEditing(false)
+                    formik.resetForm()
                   }
                 }}
                 placeholder = {t`Please enter a folder name`}
-                autoFocus={editing}
+                autoFocus={isEditing}
               />
               <Button
                 data-cy='rename-submit-button'
