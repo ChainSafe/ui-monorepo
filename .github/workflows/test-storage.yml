@@ -10,7 +10,7 @@ on:
     - tsconfig.json
 jobs:
   cypress-run:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-18.04
     container: cypress/browsers:node14.16.0-chrome90-ff88
     steps:
       - name: Checkout
@@ -37,6 +37,7 @@ jobs:
           REACT_APP_BLOCKNATIVE_ID: ${{ secrets.GH_REACT_APP_BLOCKNATIVE_ID }}
           REACT_APP_FILES_VERIFIER_NAME: ${{ secrets.GH_REACT_APP_FILES_VERIFIER_NAME }}
           REACT_APP_FILES_UUID_VERIFIER_NAME: 'chainsafe-uuid-testnet'
+          REACT_APP_TEST: 'true'
         with:
           start: yarn start:storage-ui 
           # quote the url to be safe against YML parsing surprises
