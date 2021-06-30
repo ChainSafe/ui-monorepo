@@ -14,6 +14,7 @@ const useStyles = makeStyles(
     createStyles({
       root: {
         margin: 5,
+        cursor: "text",
         ...overrides?.TagsInput?.root
       },
       label: {
@@ -49,9 +50,9 @@ interface ITagsInputProps {
   placeholder?: string
   label?: string
   caption?: string
-  disabled?:boolean
+  disabled?: boolean
   fetchTag: (searchValue: string) => Promise<Array<ITagOption>>
-  onChange(value: ValueType<ITagOption, true>): void
+  onChange: (value: ValueType<ITagOption, true>) => void
 }
 
 const TagsInput = ({

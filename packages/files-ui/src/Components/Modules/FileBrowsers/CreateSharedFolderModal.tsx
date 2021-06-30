@@ -185,7 +185,7 @@ const CreateSharedFolderModal = ({
             ref={inputRef}
             label={t`Shared Folder Name`}
             value={sharedFolderName}
-            onChange={(value) => {value && setSharedFolderName(value.toString())}} />
+            onChange={(value) => {setSharedFolderName(value?.toString() || "")}} />
         </div>
         <div className={classes.modalFlexItem}>
           <TagsInput
