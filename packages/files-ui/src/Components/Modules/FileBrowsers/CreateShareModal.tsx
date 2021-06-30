@@ -91,29 +91,32 @@ const useStyles = makeStyles(
       buttons: {
         justifyContent: "flex-end",
         display: "flex"
+      },
+      usersTagsInput: {
+        minHeight: 104
       }
     })
   }
 )
 
-interface ICreateShareModalProps {
+interface ICreateSharedFolderModalProps {
   modalOpen: boolean
   close: () => void
 }
 
-const CreateShareModal: React.FC<ICreateShareModalProps> = ({
+const CreateSharedFolderModal = ({
   modalOpen,
   close
-}: ICreateShareModalProps) => {
+}: ICreateSharedFolderModalProps) => {
   const classes = useStyles()
-  const { createShare } = useFiles()
+  const { createSharedFolder } = useFiles()
   const { filesApiClient } = useFilesApi()
-  const [creatingShare, setCreatingShare] = useState(false)
-  const [shareName, setShareName] = useState("")
-  const [shareUsers, setShareUsers] = useState<Array<{label: string; value: LookupUser}>>([])
+  const [isCreatingSharedFolder, setIsCreatingSharedFolder] = useState(false)
+  const [sharedFolderName, setSharedFolderName] = useState("")
+  const [sharedFolderUsers, setSharedFolderUsers] = useState<Array<{label: string; value: LookupUser}>>([])
   const [permissions, setPermissions] = useState<"read" | "write" | undefined>(undefined)
   const { desktop } = useThemeSwitcher()
-  const inputRef = useRef<any>(null)
+  const inputRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
     if (modalOpen) {
@@ -138,22 +141,25 @@ const CreateShareModal: React.FC<ICreateShareModalProps> = ({
     const result = await filesApiClient.lookupUser(lookupBody)
 
     if (!result) return []
-    const currentUsers = shareUsers.map(su => su.value.uuid)
+    const currentUsers = sharedFolderUsers.map(su => su.value.uuid)
     if (currentUsers.includes(result.uuid)) return []
 
     return [{ label: inputVal, value: result }]
-  }, [filesApiClient, shareUsers])
+  }, [filesApiClient, sharedFolderUsers])
 
-  const handleCreateShare = useCallback(async () => {
-    const users = shareUsers.map(su => ({ uuid: su.value.uuid, pubKey: EthCrypto.publicKey.decompress(su.value.identity_pubkey.slice(2)) }))
+  const handleCreateSharedFolder = useCallback(async () => {
+    const users = sharedFolderUsers.map(su => ({
+      uuid: su.value.uuid,
+      pubKey: EthCrypto.publicKey.decompress(su.value.identity_pubkey.slice(2))
+    }))
     const readers = (permissions === "read") ? users : []
     const writers = (permissions === "write") ? users : []
-    setCreatingShare(true)
-    createShare(shareName, writers, readers)
+    setIsCreatingSharedFolder(true)
+    createSharedFolder(sharedFolderName, writers, readers)
       .then(close)
       .catch(console.error)
-      .finally(() => setCreatingShare(false))
-  }, [shareUsers, createShare, permissions, shareName, close])
+      .finally(() => setIsCreatingSharedFolder(false))
+  }, [sharedFolderUsers, createSharedFolder, permissions, sharedFolderName, close])
 
   return (
     <CustomModal
@@ -176,14 +182,21 @@ const CreateShareModal: React.FC<ICreateShareModalProps> = ({
         </div>
         <div className={classes.modalFlexItem}>
           <TextInput
-            label={t'Shared Folder Name'}
-            value={shareName}
-            onChange={(value) => {setShareName(value.toString())}} />
+            ref={inputRef}
+            label={t`Shared Folder Name`}
+            value={sharedFolderName}
+            onChange={(value) => {value && setSharedFolderName(value.toString())}} />
         </div>
         <div className={classes.modalFlexItem}>
-          <TagsInput onChange={setShareUsers}
+          <TagsInput
+            className={classes.usersTagsInput}
+            onChange={(val) => {
+              (val && val.length > 0)
+                ? setSharedFolderUsers(val?.map(v => ({ label: v.label, value: v.value as LookupUser })))
+                : setSharedFolderUsers([])
+            }}
             label={t`Share with`}
-            value={shareUsers}
+            value={sharedFolderUsers}
             fetchTag={handleLookupUser}
             placeholder={t`Add by sharing address, username or wallet address`} />
         </div>
@@ -211,10 +224,10 @@ const CreateShareModal: React.FC<ICreateShareModalProps> = ({
             size={desktop ? "medium" : "large"}
             variant="primary"
             className={classes.okButton}
-            loading={creatingShare}
-            onClick={handleCreateShare}
+            loading={isCreatingSharedFolder}
+            onClick={handleCreateSharedFolder}
           >
-            {desktop ? <Trans>OK</Trans> : <Trans>Create</Trans>}
+            <Trans>Create</Trans>
           </Button>
         </div>
       </div>
@@ -222,4 +235,4 @@ const CreateShareModal: React.FC<ICreateShareModalProps> = ({
   )
 }
 
-export default CreateShareModal
+export default CreateSharedFolderModal

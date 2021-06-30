@@ -75,7 +75,7 @@ type FilesContext = {
   refreshBuckets: () => Promise<void>
   secureAccountWithMasterPassword: (candidatePassword: string) => Promise<void>
   isLoadingBuckets?: boolean
-  createShare: (name: string,  writers?: ShareUser[], readers?: ShareUser[]) => Promise<void>
+  createSharedFolder: (name: string,  writers?: ShareUser[], readers?: ShareUser[]) => Promise<void>
 }
 
 // This represents a File or Folder on the
@@ -471,7 +471,7 @@ const FilesProvider = ({ children }: FilesContextProps) => {
     }
   }, [getFileContent])
 
-  const createShare = useCallback(async (name: string, writerUsers?: ShareUser[], readerUsers?: ShareUser[]) =>  {
+  const createSharedFolder = useCallback(async (name: string, writerUsers?: ShareUser[], readerUsers?: ShareUser[]) =>  {
     if (!publicKey) return
 
     const bucketEncryptionKey = Buffer.from(
@@ -513,7 +513,7 @@ const FilesProvider = ({ children }: FilesContextProps) => {
         buckets,
         refreshBuckets,
         isLoadingBuckets,
-        createShare
+        createSharedFolder
       }}
     >
       {children}

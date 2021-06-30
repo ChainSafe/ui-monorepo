@@ -7,6 +7,7 @@ import {
 import clsx from "clsx"
 import AsyncSelect from "react-select/async"
 import { Typography } from ".."
+import { ValueType } from "react-select"
 
 const useStyles = makeStyles(
   ({ palette, animation, constants, overrides }: ITheme) =>
@@ -37,15 +38,20 @@ const useStyles = makeStyles(
     })
 )
 
+interface ITagOption {
+  label: string
+  value: any
+}
+
 interface ITagsInputProps {
   className?: string
-  value: Array<any>
+  value: Array<ITagOption>
   placeholder?: string
   label?: string
   caption?: string
   disabled?:boolean
-  fetchTag: (searchValue: string) => Promise<Array<any>>
-  onChange(value: any): void
+  fetchTag: (searchValue: string) => Promise<Array<ITagOption>>
+  onChange(value: ValueType<ITagOption, true>): void
 }
 
 const TagsInput = ({

@@ -17,7 +17,7 @@ import { createStyles, makeStyles, useThemeSwitcher } from "@chainsafe/common-th
 import { CSFTheme } from "../../../Themes/types"
 import SharedFolderRowWrapper from "./SharedFolderRowWrapper"
 import clsx from "clsx"
-import CreateShareModal from "./CreateShareModal"
+import CreateSharedFolderModal from "./CreateShareModal"
 
 export const desktopSharedGridSettings = "69px 3fr 190px 150px 45px !important"
 export const mobileSharedGridSettings = "3fr 50px 45px !important"
@@ -96,7 +96,7 @@ const useStyles = makeStyles(
 const SharedFolderOverview = () => {
   const classes = useStyles()
   const { buckets, isLoadingBuckets } = useFiles()
-  const [createShareModalOpen, setCreateShareModalOpen] = useState(false)
+  const [createSharedFolderModalOpen, setCreateSharedFolderModalOpen] = useState(false)
   const [direction, setDirection] = useState<SortDirection>("ascend")
   const [column, setColumn] = useState<"name" | "size" | "date_uploaded">("name")
   const { desktop } = useThemeSwitcher()
@@ -133,7 +133,7 @@ const SharedFolderOverview = () => {
           </Typography>
           <div className={classes.controls}>
             <Button variant='outline'
-              onClick={() => setCreateShareModalOpen(true)}>
+              onClick={() => setCreateSharedFolderModalOpen(true)}>
               <PlusIcon />
               <Trans>Create a Shared Folder</Trans>
             </Button>
@@ -202,9 +202,9 @@ const SharedFolderOverview = () => {
           </Table>
         )}
       </article>
-      <CreateShareModal
-        modalOpen={createShareModalOpen}
-        close={() => setCreateShareModalOpen(false)}/>
+      <CreateSharedFolderModal
+        modalOpen={createSharedFolderModalOpen}
+        close={() => setCreateSharedFolderModalOpen(false)}/>
     </>
   )
 }
