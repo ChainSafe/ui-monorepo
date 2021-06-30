@@ -17,7 +17,7 @@ import { createStyles, makeStyles, useThemeSwitcher } from "@chainsafe/common-th
 import { CSFTheme } from "../../../Themes/types"
 import SharedFolderRowWrapper from "./SharedFolderRowWrapper"
 import clsx from "clsx"
-import CreateSharedFolderModal from "./CreateShareModal"
+import CreateSharedFolderModal from "./CreateSharedFolderModal"
 
 export const desktopSharedGridSettings = "69px 3fr 190px 150px 45px !important"
 export const mobileSharedGridSettings = "3fr 50px 45px !important"
