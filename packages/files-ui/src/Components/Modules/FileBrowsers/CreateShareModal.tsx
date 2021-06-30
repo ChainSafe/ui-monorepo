@@ -171,18 +171,18 @@ const CreateShareModal: React.FC<ICreateShareModalProps> = ({
         </div>
         <div className={classes.heading}>
           <Typography variant='body1'>
-            <Trans>Share</Trans>
+            <Trans>Create Shared Folder</Trans>
           </Typography>
         </div>
         <div className={classes.modalFlexItem}>
           <TextInput
-            label='Name'
+            label={t'Shared Folder Name'}
             value={shareName}
-            onChange={(value) => {setShareName(value as string)}} />
+            onChange={(value) => {setShareName(value.toString())}} />
         </div>
         <div className={classes.modalFlexItem}>
           <TagsInput onChange={setShareUsers}
-            label={t`Invite others`}
+            label={t`Share with`}
             value={shareUsers}
             fetchTag={handleLookupUser}
             placeholder={t`Add by sharing address, username or wallet address`} />
@@ -191,8 +191,8 @@ const CreateShareModal: React.FC<ICreateShareModalProps> = ({
           <SelectInput
             label={t`Allow them to`}
             options={[
-              { label: t`Can add/remove content`, value: "write" },
-              { label: t`Can read content`, value: "read" }
+              { label: t`Add/remove content`, value: "write" },
+              { label: t`Read content`, value: "read" }
             ]}
             value={permissions}
             onChange={(val) => setPermissions(val)} />

@@ -135,7 +135,7 @@ const SharedFolderOverview = () => {
             <Button variant='outline'
               onClick={() => setCreateShareModalOpen(true)}>
               <PlusIcon />
-              Create a Share
+              <Trans>Create a Shared Folder</Trans>
             </Button>
           </div>
         </header>
