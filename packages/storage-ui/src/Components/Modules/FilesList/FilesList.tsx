@@ -570,19 +570,19 @@ const FilesList = () => {
         </Typography>
       </div>
       <div className={classes.breadCrumbContainer}>
-        {crumbs && moduleRootPath ? (
+        {crumbs && moduleRootPath && (
           <Breadcrumb
             crumbs={crumbs}
             homeOnClick={() => redirect(moduleRootPath)}
             showDropDown={!desktop}
           />
-        ) : null}
+        )}
       </div>
       <header className={classes.header}>
         <Typography
           variant="h1"
           component="h1"
-          data-cy="files-app-header"
+          data-cy="buckets-header"
         >
           {heading}
         </Typography>

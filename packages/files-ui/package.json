@@ -72,7 +72,7 @@
   },
   "scripts": {
     "postinstall": "yarn compile",
-    "start": "craco --max_old_space_size=4096 start",
+    "start": "yarn compile && craco --max_old_space_size=4096 start",
     "build": "craco --max_old_space_size=4096 build",
     "sentry": "(export REACT_APP_SENTRY_RELEASE=$(sentry-cli releases propose-version); node scripts/sentry.js)",
     "release": "(export REACT_APP_SENTRY_RELEASE=$(sentry-cli releases propose-version); yarn compile && yarn build && node scripts/sentry.js)",
