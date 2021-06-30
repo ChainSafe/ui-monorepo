@@ -127,8 +127,8 @@ const CreateSharedFolderModal = ({
   const handleLookupUser = useCallback(async (inputVal: string) => {
     if (inputVal === "") return []
     const lookupBody: LookupUserRequest = {}
-    const ethAddressRegex = new RegExp("^0x[a-fA-F0-9]{40}$") // Eth Address Starting with 0x and 40 HEX chars
-    const pubKeyRegex = new RegExp("^0x[a-fA-F0-9]{66}$") // Compressed public key, 66 chars long
+    const ethAddressRegex = new RegExp("^0(x|X)[a-fA-F0-9]{40}$") // Eth Address Starting with 0x and 40 HEX chars
+    const pubKeyRegex = new RegExp("^0(x|X)[a-fA-F0-9]{66}$") // Compressed public key, 66 chars long
 
     if (ethAddressRegex.test(inputVal)) {
       lookupBody.public_address = inputVal

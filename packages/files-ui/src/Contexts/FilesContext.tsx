@@ -44,7 +44,7 @@ export type DownloadProgress = {
   complete: boolean
 }
 
-export type ShareUser = {
+export type SharedFolderUser = {
   uuid: string
   pubKey: string
 }
@@ -75,7 +75,7 @@ type FilesContext = {
   refreshBuckets: () => Promise<void>
   secureAccountWithMasterPassword: (candidatePassword: string) => Promise<void>
   isLoadingBuckets?: boolean
-  createSharedFolder: (name: string,  writers?: ShareUser[], readers?: ShareUser[]) => Promise<void>
+  createSharedFolder: (name: string,  writers?: SharedFolderUser[], readers?: SharedFolderUser[]) => Promise<void>
 }
 
 // This represents a File or Folder on the
@@ -471,7 +471,7 @@ const FilesProvider = ({ children }: FilesContextProps) => {
     }
   }, [getFileContent])
 
-  const createSharedFolder = useCallback(async (name: string, writerUsers?: ShareUser[], readerUsers?: ShareUser[]) =>  {
+  const createSharedFolder = useCallback(async (name: string, writerUsers?: SharedFolderUser[], readerUsers?: SharedFolderUser[]) =>  {
     if (!publicKey) return
 
     const bucketEncryptionKey = Buffer.from(
