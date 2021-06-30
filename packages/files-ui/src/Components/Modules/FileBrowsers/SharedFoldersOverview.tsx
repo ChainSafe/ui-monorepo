@@ -123,8 +123,8 @@ const SharedFolderOverview = () => {
 
   const handleRename = useCallback((bucket: Bucket, newName: string) => {
     filesApiClient.updateBucket(bucket.id, {
-      name: newName,
-      ...bucket
+      ...bucket,
+      name: newName
     }).then(() => refreshBuckets(false))
       .catch(console.error)
   }, [filesApiClient, refreshBuckets])

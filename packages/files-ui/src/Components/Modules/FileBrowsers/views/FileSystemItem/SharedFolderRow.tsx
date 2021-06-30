@@ -21,6 +21,7 @@ import { t } from "@lingui/macro"
 import { Form, FormikProvider, useFormik } from "formik"
 import { object, string } from "yup"
 import clsx from "clsx"
+import { useUser } from "../../../../../Contexts/UserContext"
 
 const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => {
 
@@ -118,6 +119,7 @@ const SharedFolderRow = ({ bucket, onFolderClick, menuItems, isEditing, setIsEdi
   const classes = useStyles()
   const { name, size } = bucket
   const { desktop } = useThemeSwitcher()
+  const { profile } = useUser()
 
   const getUserIds = (users: BucketUser[]): string[] => {
     return users.reduce((acc: string[], user): string[] => {
@@ -126,6 +128,8 @@ const SharedFolderRow = ({ bucket, onFolderClick, menuItems, isEditing, setIsEdi
   }
 
   const userIds = [...getUserIds(bucket.owners), ...getUserIds(bucket.readers), ...getUserIds(bucket.writers)]
+
+  const isOwner = bucket.owners.find((owner) => owner.uuid === profile?.userId) !== undefined
 
   const invalidFilenameRegex = new RegExp("/")
   const renameSchema = object().shape({
@@ -228,18 +232,20 @@ const SharedFolderRow = ({ bucket, onFolderClick, menuItems, isEditing, setIsEdi
         </TableCell>
       }
       <TableCell align="right">
-        <MenuDropdown
-          testId='sharedFolderDropdown'
-          animation="none"
-          anchor={desktop ? "bottom-center" : "bottom-right"}
-          menuItems={menuItems}
-          classNames={{
-            icon: classes.dropdownIcon,
-            options: classes.dropdownOptions,
-            item: classes.dropdownItem
-          }}
-          indicator={MoreIcon}
-        />
+        {isOwner &&
+          <MenuDropdown
+            testId='sharedFolderDropdown'
+            animation="none"
+            anchor={desktop ? "bottom-center" : "bottom-right"}
+            menuItems={menuItems}
+            classNames={{
+              icon: classes.dropdownIcon,
+              options: classes.dropdownOptions,
+              item: classes.dropdownItem
+            }}
+            indicator={MoreIcon}
+          />
+        }
       </TableCell>
     </TableRow>
   )

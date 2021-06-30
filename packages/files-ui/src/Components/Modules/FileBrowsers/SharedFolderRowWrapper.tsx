@@ -1,5 +1,9 @@
 import React, { useCallback, useState } from "react"
-import { DeleteSvg, EditSvg, IMenuItem } from "@chainsafe/common-components"
+import {
+  // DeleteSvg,
+  EditSvg,
+  IMenuItem
+} from "@chainsafe/common-components"
 import { makeStyles, createStyles, useDoubleClick, useThemeSwitcher } from "@chainsafe/common-theme"
 import { Trans } from "@lingui/macro"
 import { CSFTheme } from "../../../Themes/types"
@@ -83,28 +87,30 @@ const SharedFolderRowWrapper = ({ bucket, handleRename }: Props) => {
   const classes = useStyles()
   const [isEditing, setIsEditing] = useState(false)
 
-  const menuItems: IMenuItem[] = [{
-    contents: (
-      <>
-        <EditSvg className={classes.menuIcon} />
-        <span data-cy="menu-rename">
-          <Trans>Rename</Trans>
-        </span>
-      </>
-    ),
-    onClick: () => setIsEditing(true)
-  },
-  {
-    contents: (
-      <>
-        <DeleteSvg className={classes.menuIcon} />
-        <span data-cy="menu-delete">
-          <Trans>Delete</Trans>
-        </span>
-      </>
-    ),
-    onClick: () => console.log("not implemented")
-  }]
+  const menuItems: IMenuItem[] = [
+    {
+      contents: (
+        <>
+          <EditSvg className={classes.menuIcon} />
+          <span data-cy="menu-rename">
+            <Trans>Rename</Trans>
+          </span>
+        </>
+      ),
+      onClick: () => setIsEditing(true)
+    }
+    // {
+    //   contents: (
+    //     <>
+    //       <DeleteSvg className={classes.menuIcon} />
+    //       <span data-cy="menu-delete">
+    //         <Trans>Delete</Trans>
+    //       </span>
+    //     </>
+    //   ),
+    //   onClick: () => console.log("not implemented")
+    // }
+  ]
 
   const onSingleClick = useCallback(
     () => {
