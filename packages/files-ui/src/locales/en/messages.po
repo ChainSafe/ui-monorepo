@@ -37,14 +37,8 @@ msgstr "Add a username"
 msgid "Add at least one more authentication method to protect your account. You’d only need any two to sign in to Files from any device."
 msgstr "Add at least one more authentication method to protect your account. You’d only need any two to sign in to Files from any device."
 
-msgid "Add by sharing address, username or wallet address"
-msgstr "Add by sharing address, username or wallet address"
-
 msgid "Add more files"
 msgstr "Add more files"
-
-msgid "Allow them to"
-msgstr "Allow them to"
 
 msgid "Approve"
 msgstr "Approve"
@@ -72,12 +66,6 @@ msgstr "By forgetting this browser, you will not be able to use its associated r
 
 msgid "CID (Content Identifier)"
 msgstr "CID (Content Identifier)"
-
-msgid "Can add/remove content"
-msgstr "Can add/remove content"
-
-msgid "Can read content"
-msgstr "Can read content"
 
 msgid "Cancel"
 msgstr "Cancel"
@@ -141,6 +129,9 @@ msgstr "Create"
 
 msgid "Create Folder"
 msgstr "Create Folder"
+
+msgid "Create a Shared Folder"
+msgstr "Create a Shared Folder"
 
 msgid "Create folder"
 msgstr "Create folder"
@@ -291,9 +282,6 @@ msgstr "Info"
 
 msgid "Invalid name"
 msgstr "Invalid name"
-
-msgid "Invite others"
-msgstr "Invite others"
 
 msgid "I’m done saving my backup secret phrase"
 msgstr "I’m done saving my backup secret phrase"

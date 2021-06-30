@@ -37,14 +37,8 @@ msgstr "Einen Benutzernamen hinzufügen"
 msgid "Add at least one more authentication method to protect your account. You’d only need any two to sign in to Files from any device."
 msgstr "Fügen Sie mindestens eine weitere Authentifizierungsmethode hinzu, um Ihr Konto zu schützen. Sie bräuchten nur zwei, um sich von jedem Gerät aus bei Files anzumelden."
 
-msgid "Add by sharing address, username or wallet address"
-msgstr ""
-
 msgid "Add more files"
 msgstr "Weitere Dateien hinzufügen"
-
-msgid "Allow them to"
-msgstr ""
 
 msgid "Approve"
 msgstr "Genehmigen"
@@ -71,12 +65,6 @@ msgid "By forgetting this browser, you will not be able to use its associated re
 msgstr ""
 
 msgid "CID (Content Identifier)"
-msgstr ""
-
-msgid "Can add/remove content"
-msgstr ""
-
-msgid "Can read content"
 msgstr ""
 
 msgid "Cancel"
@@ -141,6 +129,9 @@ msgstr "Erstellen"
 
 msgid "Create Folder"
 msgstr "Ordner erstellen"
+
+msgid "Create a Shared Folder"
+msgstr ""
 
 msgid "Create folder"
 msgstr "Ordner erstellen"
@@ -288,9 +279,6 @@ msgstr "Infos"
 
 msgid "Invalid name"
 msgstr "Ungültiger Name"
-
-msgid "Invite others"
-msgstr ""
 
 msgid "I’m done saving my backup secret phrase"
 msgstr "Ich bin fertig mit dem Speichern meines Sixherungsgeheimsatzes"
