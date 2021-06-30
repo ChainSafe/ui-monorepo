@@ -1,5 +1,13 @@
-name: Cypress tests
-on: pull_request
+name: Cypress tests - Files
+on:
+  pull_request:
+    paths:
+    - "packages/files-ui/**/*"
+    - "packages/common-components/**/*"
+    - "packages/common-theme/**/*"
+    - package.json
+    - .eslintrc.json
+    - tsconfig.json
 jobs:
   cypress-run:
     runs-on: ubuntu-latest
@@ -15,7 +23,7 @@ jobs:
             **/node_modules
             ~/.cache/Cypress
             **/build
-          key: ${{ runner.os }}-node_modules-build-${{ hashFiles('**/yarn.lock') }}
+          key: ${{ runner.os }}-node_modules-files-build-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
             ${{ runner.os }}-node_modules-build-
 
