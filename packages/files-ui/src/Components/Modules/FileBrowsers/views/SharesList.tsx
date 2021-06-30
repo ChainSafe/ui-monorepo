@@ -498,8 +498,6 @@ const SharesList = () => {
           "share"
         ]
         break
-      case "none":
-        break
       }
 
       for (let i = 0; i < selectedCids.length; i++) {
@@ -661,7 +659,7 @@ const SharesList = () => {
                 {browserView === "table" ? <GridIcon /> : <TableIcon />}
               </Button>
               {
-                accessRole !== "reader" && accessRole !== "none" && (
+                accessRole !== "reader" && (
                   <>
                     <Button
                       onClick={() => setCreateFolderModalOpen(true)}
