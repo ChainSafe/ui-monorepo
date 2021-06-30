@@ -12,15 +12,15 @@ import {
 } from "@chainsafe/common-components"
 import { useFiles } from "../../../Contexts/FilesContext"
 import { Trans } from "@lingui/macro"
-import { createStyles, makeStyles } from "@chainsafe/common-theme"
+import { createStyles, makeStyles, useThemeSwitcher } from "@chainsafe/common-theme"
 import { CSFTheme } from "../../../Themes/types"
 import { useFilesApi } from "../../../Contexts/FilesApiContext"
 import SharedFolderRowWrapper from "./SharedFolderRowWrapper"
 import clsx from "clsx"
 import { ROUTE_LINKS } from "../../FilesRoutes"
 
-export const desktopSharedGridSettings = "69px 3fr 190px 150px 69px !important"
-export const mobileSharedGridSettings = "69px 3fr 45px !important"
+export const desktopSharedGridSettings = "69px 3fr 190px 150px 45px !important"
+export const mobileSharedGridSettings = "3fr 50px 45px !important"
 
 const useStyles = makeStyles(
   ({ animation, breakpoints, constants, palette }: CSFTheme) => {
@@ -100,6 +100,7 @@ const SharedFolderOverview = () => {
   const [direction, setDirection] = useState<SortDirection>("ascend")
   const [column, setColumn] = useState<"name" | "size" | "date_uploaded">("name")
   const { redirect } = useHistory()
+  const { desktop } = useThemeSwitcher()
 
   const bucketsToShow = useMemo(() => buckets.filter(b => b.type === "share"), [buckets])
 
@@ -172,9 +173,11 @@ const SharedFolderOverview = () => {
           <TableHead className={classes.tableHead}>
             <TableRow type="grid"
               className={classes.tableRow}>
-              <TableHeadCell>
-                {/* Icon */}
-              </TableHeadCell>
+              {desktop &&
+                <TableHeadCell>
+                  {/* Icon */}
+                </TableHeadCell>
+              }
               <TableHeadCell
                 sortButtons={true}
                 align="left"
@@ -187,17 +190,17 @@ const SharedFolderOverview = () => {
               <TableHeadCell align="left">
                 <Trans>Shared with</Trans>
               </TableHeadCell>
-              <TableHeadCell
-                sortButtons={true}
-                align="left"
-                onSortChange={() => handleSortToggle("date_uploaded")}
-                sortDirection={
-                  column === "date_uploaded" ? direction : undefined
-                }
-                sortActive={column === "date_uploaded"}
-              >
-                <Trans>Size</Trans>
-              </TableHeadCell>
+              {desktop &&
+                <TableHeadCell
+                  sortButtons={true}
+                  align="left"
+                  onSortChange={() => handleSortToggle("size")}
+                  sortDirection={column === "size" ? direction : undefined}
+                  sortActive={column === "size"}
+                >
+                  <Trans>Size</Trans>
+                </TableHeadCell>
+              }
               <TableHeadCell>{/* Menu */}</TableHeadCell>
             </TableRow>
           </TableHead>
