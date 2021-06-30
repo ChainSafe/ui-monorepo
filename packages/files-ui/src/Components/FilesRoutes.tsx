@@ -26,9 +26,9 @@ export const ROUTE_LINKS = {
   PurchasePlan: "/purchase",
   UserSurvey: "https://shrl.ink/kmAL",
   GeneralFeedbackForm: "https://shrl.ink/gvVJ",
-  SharedFolders: "/shared",
-  ShareBrowserRoot: "/share",
-  ShareExplorer: (bucketId: string, rawCurrentPath: string) => `/share/${bucketId}${rawCurrentPath}`
+  SharedFolders: "/shared-overview",
+  ShareBrowserRoot: "/shared",
+  ShareExplorer: (bucketId: string, rawCurrentPath: string) => `/shared/${bucketId}${rawCurrentPath}`
 }
 
 export const SETTINGS_PATHS = ["profile", "plan", "security"] as const
