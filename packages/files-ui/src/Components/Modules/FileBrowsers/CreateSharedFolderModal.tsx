@@ -141,7 +141,7 @@ const CreateSharedFolderModal = ({
     const result = await filesApiClient.lookupUser(lookupBody)
 
     if (!result) return []
-    const currentUsers = sharedFolderUsers.map(su => su.value.uuid)
+    const currentUsers = Array.isArray(sharedFolderUsers) ? sharedFolderUsers.map(su => su.value.uuid) : []
     if (currentUsers.includes(result.uuid)) return []
 
     return [{ label: inputVal, value: result }]
