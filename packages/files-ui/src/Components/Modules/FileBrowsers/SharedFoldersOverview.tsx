@@ -1,12 +1,24 @@
 import React, { useCallback, useMemo, useState } from "react"
-import { Typography, Table, TableHead, TableRow, TableHeadCell, TableBody, SortDirection, Loading } from "@chainsafe/common-components"
+import {
+  Typography,
+  Table,
+  TableHead,
+  TableRow,
+  TableHeadCell,
+  TableBody,
+  SortDirection,
+  Loading,
+  Button,
+  PlusIcon
+} from "@chainsafe/common-components"
 import { useFiles } from "../../../Contexts/FilesContext"
 import { Trans } from "@lingui/macro"
 import { createStyles, makeStyles, useThemeSwitcher } from "@chainsafe/common-theme"
 import { CSFTheme } from "../../../Themes/types"
-import { useFilesApi } from "../../../Contexts/FilesApiContext"
 import SharedFolderRowWrapper from "./SharedFolderRowWrapper"
 import clsx from "clsx"
+import CreateSharedFolderModal from "./CreateSharedFolderModal"
+import { useFilesApi } from "../../../Contexts/FilesApiContext"
 import { Bucket } from "@chainsafe/files-api-client"
 
 export const desktopSharedGridSettings = "69px 3fr 190px 150px 45px !important"
@@ -85,8 +97,9 @@ const useStyles = makeStyles(
 
 const SharedFolderOverview = () => {
   const classes = useStyles()
-  const { buckets, refreshBuckets, isLoadingBuckets } = useFiles()
-  const { filesApiClient, encryptedEncryptionKey } = useFilesApi()
+  const { filesApiClient } = useFilesApi()
+  const { buckets, isLoadingBuckets, refreshBuckets } = useFiles()
+  const [createSharedFolderModalOpen, setCreateSharedFolderModalOpen] = useState(false)
   const [direction, setDirection] = useState<SortDirection>("ascend")
   const [column, setColumn] = useState<"name" | "size" | "date_uploaded">("name")
   const { desktop } = useThemeSwitcher()
@@ -110,78 +123,72 @@ const SharedFolderOverview = () => {
 
   const handleRename = useCallback((bucket: Bucket, newName: string) => {
     filesApiClient.updateBucket(bucket.id, {
-      name: newName
+      name: newName,
+      ...bucket
     }).then(() => refreshBuckets(false))
       .catch(console.error)
   }, [filesApiClient, refreshBuckets])
 
   return (
-    <article
-      className={classes.root}
-    >
-      <header className={classes.header}>
-        <Typography
-          variant="h1"
-          component="h1"
-          data-cy="shared-overview-header"
-        >
-          <Trans>Shared folders</Trans>
-        </Typography>
-        <div className={classes.controls}>
-        </div>
-      </header>
-      <button
-        onClick={() => {
-          !!encryptedEncryptionKey && filesApiClient.createBucket({
-            name: `Cat Bucket ${Date.now()}`,
-            encryption_key: encryptedEncryptionKey,
-            type: "share"
-          }).then(() => {
-            refreshBuckets()
-          })
-            .catch(console.error)
-        }}>
-        Create a shared &quot;Cat Bucket&quot;
-      </button>
-      {isLoadingBuckets && (
-        <div
-          className={clsx(classes.loadingContainer)}
-        >
-          <Loading size={24}
-            type="light" />
-          <Typography variant="body2"
-            component="p">
-            <Trans>Loading your shared folders…</Trans>
+    <>
+      <article
+        className={classes.root}
+      >
+        <header className={classes.header}>
+          <Typography
+            variant="h1"
+            component="h1"
+            data-cy="shared-overview-header"
+          >
+            <Trans>Shared folders</Trans>
           </Typography>
-        </div>
-      )}
-      {!isLoadingBuckets && (
-        <Table
-          fullWidth={true}
-          striped={true}
-          hover={true}
-        >
-          <TableHead className={classes.tableHead}>
-            <TableRow type="grid"
-              className={classes.tableRow}>
-              {desktop &&
+          <div className={classes.controls}>
+            <Button variant='outline'
+              onClick={() => setCreateSharedFolderModalOpen(true)}>
+              <PlusIcon />
+              <Trans>Create a Shared Folder</Trans>
+            </Button>
+          </div>
+        </header>
+        {isLoadingBuckets && (
+          <div
+            className={clsx(classes.loadingContainer)}
+          >
+            <Loading size={24}
+              type="light" />
+            <Typography variant="body2"
+              component="p">
+              <Trans>Loading your shared folders…</Trans>
+            </Typography>
+          </div>
+        )}
+        {!isLoadingBuckets && (
+          <Table
+            fullWidth={true}
+            striped={true}
+            hover={true}
+          >
+            <TableHead className={classes.tableHead}>
+              <TableRow type="grid"
+                className={classes.tableRow}>
+                {desktop &&
                 <TableHeadCell>
                   {/* Icon */}
                 </TableHeadCell>
-              }
-              <TableHeadCell
-                sortButtons={true}
-                align="left"
-                onSortChange={() => handleSortToggle("name")}
-                sortDirection={column === "name" ? direction : undefined}
-                sortActive={column === "name"}
-              >
-                <Trans>Name</Trans>
-              </TableHeadCell>
-              <TableHeadCell align="left">
-                <Trans>Shared with</Trans>
-              </TableHeadCell>
-              {desktop &&
+                }
+                <TableHeadCell
+                  sortButtons={true}
+                  align="left"
+                  onSortChange={() => handleSortToggle("name")}
+                  sortDirection={column === "name" ? direction : undefined}
+                  sortActive={column === "name"}
+                >
+                  <Trans>Name</Trans>
+                </TableHeadCell>
+                <TableHeadCell align="left">
+                  <Trans>Shared with</Trans>
+                </TableHeadCell>
+                {desktop &&
                 <TableHeadCell
                   sortButtons={true}
                   align="left"
@@ -191,22 +198,26 @@ const SharedFolderOverview = () => {
                 >
                   <Trans>Size</Trans>
                 </TableHeadCell>
-              }
-              <TableHeadCell>{/* Menu */}</TableHeadCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {bucketsToShow.map((bucket) =>
-              <SharedFolderRowWrapper
-                key={bucket.id}
-                bucket={bucket}
-                handleRename={handleRename}
-              />
-            )}
-          </TableBody>
-        </Table>
-      )}
-    </article>
+                }
+                <TableHeadCell>{/* Menu */}</TableHeadCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {bucketsToShow.map((bucket) =>
+                <SharedFolderRowWrapper
+                  key={bucket.id}
+                  bucket={bucket}
+                  handleRename={handleRename}
+                />
+              )}
+            </TableBody>
+          </Table>
+        )}
+      </article>
+      <CreateSharedFolderModal
+        modalOpen={createSharedFolderModalOpen}
+        close={() => setCreateSharedFolderModalOpen(false)}/>
+    </>
   )
 }
 

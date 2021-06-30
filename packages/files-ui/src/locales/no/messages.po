@@ -37,8 +37,17 @@ msgstr "Legg til et brukernavn"
 msgid "Add at least one more authentication method to protect your account. You’d only need any two to sign in to Files from any device."
 msgstr ""
 
+msgid "Add by sharing address, username or wallet address"
+msgstr ""
+
 msgid "Add more files"
 msgstr "Legg til flere filer"
+
+msgid "Add/remove content"
+msgstr ""
+
+msgid "Allow them to"
+msgstr ""
 
 msgid "Approve"
 msgstr "Godkjenn"
@@ -129,6 +138,12 @@ msgstr "Opprett"
 
 msgid "Create Folder"
 msgstr "Opprett mappe"
+
+msgid "Create Shared Folder"
+msgstr ""
+
+msgid "Create a Shared Folder"
+msgstr ""
 
 msgid "Create folder"
 msgstr "Opprett mappe"
@@ -424,6 +439,9 @@ msgstr "Profilinnstillinger"
 msgid "Profile updated"
 msgstr "Profil oppdatert"
 
+msgid "Read content"
+msgstr ""
+
 msgid "Recover"
 msgstr "Gjenopprett"
 
@@ -532,8 +550,14 @@ msgstr ""
 msgid "Share"
 msgstr "Del"
 
+msgid "Share with"
+msgstr ""
+
 msgid "Shared"
 msgstr "Delt"
+
+msgid "Shared Folder Name"
+msgstr ""
 
 msgid "Shared folders"
 msgstr "Delte mapper"

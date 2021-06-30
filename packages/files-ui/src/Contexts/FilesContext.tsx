@@ -44,6 +44,11 @@ export type DownloadProgress = {
   complete: boolean
 }
 
+export type SharedFolderUser = {
+  uuid: string
+  pubKey: string
+}
+
 interface GetFileContentParams {
   cid: string
   cancelToken?: CancelToken
@@ -70,6 +75,7 @@ type FilesContext = {
   refreshBuckets: (showLoading?: boolean) => Promise<void>
   secureAccountWithMasterPassword: (candidatePassword: string) => Promise<void>
   isLoadingBuckets?: boolean
+  createSharedFolder: (name: string,  writers?: SharedFolderUser[], readers?: SharedFolderUser[]) => Promise<void>
 }
 
 // This represents a File or Folder on the
@@ -465,6 +471,35 @@ const FilesProvider = ({ children }: FilesContextProps) => {
     }
   }, [getFileContent])
 
+  const createSharedFolder = useCallback(async (name: string, writerUsers?: SharedFolderUser[], readerUsers?: SharedFolderUser[]) =>  {
+    if (!publicKey) return
+
+    const bucketEncryptionKey = Buffer.from(
+      window.crypto.getRandomValues(new Uint8Array(32))
+    ).toString("base64")
+
+    const ownerEncryptedEncryptionKey = await encryptForPublicKey(publicKey, bucketEncryptionKey)
+
+    const readers = readerUsers ? await Promise.all(readerUsers?.map(async u => ({
+      uuid: u.uuid,
+      encryption_key: await encryptForPublicKey(u.pubKey, bucketEncryptionKey)
+    }))) : []
+
+    const writers = writerUsers ? await Promise.all(writerUsers?.map(async u => ({
+      uuid: u.uuid,
+      encryption_key: await encryptForPublicKey(u.pubKey, bucketEncryptionKey)
+    }))) : []
+
+    filesApiClient.createBucket({
+      name,
+      encryption_key: ownerEncryptedEncryptionKey,
+      type: "share",
+      readers,
+      writers
+    }).then(() => refreshBuckets(false))
+      .catch(console.error)
+  }, [filesApiClient, encryptForPublicKey, publicKey, refreshBuckets])
+
   return (
     <FilesContext.Provider
       value={{
@@ -477,7 +512,8 @@ const FilesProvider = ({ children }: FilesContextProps) => {
         secureAccountWithMasterPassword,
         buckets,
         refreshBuckets,
-        isLoadingBuckets
+        isLoadingBuckets,
+        createSharedFolder
       }}
     >
       {children}

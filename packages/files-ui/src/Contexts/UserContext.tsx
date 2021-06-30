@@ -48,7 +48,7 @@ const UserProvider = ({ children }: UserContextProps) => {
         firstName: profileApiData.first_name,
         lastName: profileApiData.last_name,
         email: profileApiData.email,
-        publicAddress: profileApiData.public_address,
+        publicAddress: profileApiData.public_address?.toLowerCase(),
         createdAt: profileApiData.created_at,
         username: profileApiData.username
       }

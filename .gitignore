@@ -59,3 +59,6 @@ storybook-static
 packages/files-ui/cypress/screenshots/*
 packages/files-ui/cypress/videos/*
 packages/files-ui/cypress/fixtures/storage
+packages/storage-ui/cypress/screenshots/*
+packages/storage-ui/cypress/videos/*
+packages/storage-ui/cypress/fixtures/storage

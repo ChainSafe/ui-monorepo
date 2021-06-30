@@ -27,7 +27,7 @@
     "wsrun": "^5.2.4"
   },
   "scripts": {
-    "postinstall": "yarn build:common && yarn wsrun -p files-ui -c compile",
+    "postinstall": "yarn build:common",
     "build:common": "yarn build:theme && yarn build:components",
     "build:contexts": "yarn wsrun -t -p @chainsafe/common-contexts -c build",
     "build:components": "yarn wsrun -t -p @chainsafe/common-components -c build",
@@ -47,7 +47,9 @@
     "lint": "eslint 'packages/**/{src, cypress}/**/*.{js,jsx,ts,tsx}'",
     "serve:files-ui": "npx serve packages/files-ui/build -p 3000",
     "test:files-ui": "yarn wsrun -p files-ui -c test",
-    "test:ci:files-ui": "yarn wsrun -p files-ui -c test:ci"
+    "test:ci:files-ui": "yarn wsrun -p files-ui -c test:ci",
+    "test:storage-ui": "yarn wsrun -p storage-ui -c test",
+    "test:ci:storage-ui": "yarn wsrun -p storage-ui -c test:ci"
   },
   "workspaces": {
     "packages": [
