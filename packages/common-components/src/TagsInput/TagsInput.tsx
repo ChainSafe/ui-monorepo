@@ -85,6 +85,7 @@ const TagsInput = ({
         openMenuOnFocus={false}
         placeholder={placeholder}
         isDisabled={disabled}
+        components={{ DropdownIndicator:() => null, IndicatorSeparator:() => null }}
       />
       {caption && (
         <Typography
