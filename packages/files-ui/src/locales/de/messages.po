@@ -37,8 +37,17 @@ msgstr "Einen Benutzernamen hinzufügen"
 msgid "Add at least one more authentication method to protect your account. You’d only need any two to sign in to Files from any device."
 msgstr "Fügen Sie mindestens eine weitere Authentifizierungsmethode hinzu, um Ihr Konto zu schützen. Sie bräuchten nur zwei, um sich von jedem Gerät aus bei Files anzumelden."
 
+msgid "Add by sharing address, username or wallet address"
+msgstr ""
+
 msgid "Add more files"
 msgstr "Weitere Dateien hinzufügen"
+
+msgid "Add/remove content"
+msgstr ""
+
+msgid "Allow them to"
+msgstr ""
 
 msgid "Approve"
 msgstr "Genehmigen"
@@ -129,6 +138,9 @@ msgstr "Erstellen"
 
 msgid "Create Folder"
 msgstr "Ordner erstellen"
+
+msgid "Create Shared Folder"
+msgstr ""
 
 msgid "Create a Shared Folder"
 msgstr ""
@@ -427,6 +439,9 @@ msgstr "Profileinstellungen"
 msgid "Profile updated"
 msgstr "Profil aktualisiert"
 
+msgid "Read content"
+msgstr ""
+
 msgid "Recover"
 msgstr "Wiederherstellen"
 
@@ -535,8 +550,14 @@ msgstr "Einrichtung unvollständig"
 msgid "Share"
 msgstr "Teilen"
 
+msgid "Share with"
+msgstr ""
+
 msgid "Shared"
 msgstr "Geteilt"
+
+msgid "Shared Folder Name"
+msgstr ""
 
 msgid "Shared folders"
 msgstr "Geteilte Ordner"
