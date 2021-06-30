@@ -89,8 +89,8 @@ const useStyles = makeStyles(
         margin: 5
       },
       buttons: {
-        justifyContent: 'flex-end',
-        display: 'flex'
+        justifyContent: "flex-end",
+        display: "flex"
       }
     })
   }
@@ -170,9 +170,9 @@ const CreateShareModal: React.FC<ICreateShareModalProps> = ({
           <ShareAltSvg />
         </div>
         <div className={classes.heading}>
-          <Typography variant='body1'><Trans>
-            Share
-            </Trans></Typography>
+          <Typography variant='body1'>
+            <Trans>Share</Trans>
+          </Typography>
         </div>
         <div className={classes.modalFlexItem}>
           <TextInput
