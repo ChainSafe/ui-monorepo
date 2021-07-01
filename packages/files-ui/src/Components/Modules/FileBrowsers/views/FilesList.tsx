@@ -50,7 +50,6 @@ import { getPathWithFile } from "../../../../Utils/pathUtils"
 import SurveyBanner from "../../../SurveyBanner"
 import { DragPreviewLayer } from "./DragPreviewLayer"
 import { useFileBrowser } from "../../../../Contexts/FileBrowserContext"
-// import ReportFileModal from "../ReportFileModal"
 
 interface IStyleProps {
   themeKey: string
