@@ -158,4 +158,9 @@ export interface CsfColors extends IConstants {
   surveyBanner: {
    color: string
   }
+  createShareModal: {
+    color: string
+    backgroundColor: string
+    iconBackingColor: string
+  }
 }
