@@ -42,7 +42,8 @@ const useStyles = makeStyles(
 
 interface ITagOption {
   label: string
-  value: any
+  value: string
+  data: any
 }
 
 interface ITagsInputProps {

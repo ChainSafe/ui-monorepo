@@ -121,7 +121,7 @@ const CreateSharedFolderModal = ({
   const { profile } = useUser()
   const [isCreatingSharedFolder, setIsCreatingSharedFolder] = useState(false)
   const [sharedFolderName, setSharedFolderName] = useState("")
-  const [sharedFolderUsers, setSharedFolderUsers] = useState<Array<{label: string; value: LookupUser}>>([])
+  const [sharedFolderUsers, setSharedFolderUsers] = useState<Array<{label: string; value: string; data: LookupUser}>>([])
   const [permissions, setPermissions] = useState<"read" | "write" | undefined>(undefined)
   const { desktop } = useThemeSwitcher()
   const inputRef = useRef<HTMLInputElement>(null)
@@ -149,16 +149,16 @@ const CreateSharedFolderModal = ({
     const result = await filesApiClient.lookupUser(lookupBody)
 
     if (!result) return []
-    const currentUsers = Array.isArray(sharedFolderUsers) ? sharedFolderUsers.map(su => su.value.uuid) : []
+    const currentUsers = Array.isArray(sharedFolderUsers) ? sharedFolderUsers.map(su => su.value) : []
     if (currentUsers.includes(result.uuid) || result.uuid === profile?.userId) return []
 
-    return [{ label: inputVal, value: result }]
+    return [{ label: inputVal, value: result.uuid, data: result }]
   }, [filesApiClient, sharedFolderUsers, profile])
 
   const handleCreateSharedFolder = useCallback(async () => {
     const users = sharedFolderUsers.map(su => ({
-      uuid: su.value.uuid,
-      pubKey: EthCrypto.publicKey.decompress(su.value.identity_pubkey.slice(2))
+      uuid: su.value,
+      pubKey: EthCrypto.publicKey.decompress(su.data.identity_pubkey.slice(2))
     }))
     const readers = (permissions === "read") ? users : []
     const writers = (permissions === "write") ? users : []
@@ -201,7 +201,7 @@ const CreateSharedFolderModal = ({
           <TagsInput
             onChange={(val) => {
               (val && val.length > 0)
-                ? setSharedFolderUsers(val?.map(v => ({ label: v.label, value: v.value as LookupUser })))
+                ? setSharedFolderUsers(val?.map(v => ({ label: v.label, value: v.value, data: v.data })))
                 : setSharedFolderUsers([])
             }}
             label={t`Share with`}
