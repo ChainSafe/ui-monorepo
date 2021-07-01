@@ -11,7 +11,7 @@ import {
   makeStyles,
   useThemeSwitcher
 } from "@chainsafe/common-theme"
-import React, { useRef, useEffect, useState, useCallback } from "react"
+import React, { useRef, useEffect, useState, useCallback, useMemo } from "react"
 import CustomModal from "../../Elements/CustomModal"
 import { CSFTheme } from "../../../Themes/types"
 import { useFiles } from "../../../Contexts/FilesContext"
@@ -169,6 +169,10 @@ const CreateSharedFolderModal = ({
       .finally(() => setIsCreatingSharedFolder(false))
   }, [sharedFolderUsers, createSharedFolder, permissions, sharedFolderName, close])
 
+  const isValid = useMemo(() => {
+    return !!((sharedFolderUsers.length > 0 && sharedFolderName !== "" && permissions))
+  }, [permissions, sharedFolderName, sharedFolderUsers])
+
   return (
     <CustomModal
       className={classes.modalRoot}
@@ -244,6 +248,7 @@ const CreateSharedFolderModal = ({
             className={classes.okButton}
             loading={isCreatingSharedFolder}
             onClick={handleCreateSharedFolder}
+            disabled={!isValid}
           >
             <Trans>Create</Trans>
           </Button>
