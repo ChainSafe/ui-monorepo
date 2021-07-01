@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from "react"
+import React, { useMemo } from "react"
 import { makeStyles, createStyles, useThemeSwitcher } from "@chainsafe/common-theme"
 import {
   Button,
@@ -21,9 +21,7 @@ import { t } from "@lingui/macro"
 import { Form, FormikProvider, useFormik } from "formik"
 import { object, string } from "yup"
 import clsx from "clsx"
-import { BucketKeyPermission, useFiles } from "../../../../../Contexts/FilesContext"
-import { useFileBrowser } from "../../../../../Contexts/FileBrowserContext"
-import { useFilesApi } from "../../../../../Contexts/FilesApiContext"
+import { BucketKeyPermission } from "../../../../../Contexts/FilesContext"
 
 const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => {
 
@@ -109,10 +107,12 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => 
 })
 
 interface Props {
+  bucket: BucketKeyPermission
   onFolderClick: (e?: React.MouseEvent) => void
   menuItems: IMenuItem[]
   isEditing: boolean
   setIsEditing: (isEditing: boolean) => void
+  handleRename: (bucket: BucketKeyPermission, newName: string) => void
 }
 
 const renameSchema = object().shape({
@@ -127,14 +127,11 @@ const renameSchema = object().shape({
     .required(t`A name is required`)
 })
 
-const SharedFolderRow = ({ onFolderClick, menuItems, isEditing, setIsEditing }: Props) => {
+const SharedFolderRow = ({ bucket, onFolderClick, menuItems, isEditing, setIsEditing, handleRename }: Props) => {
   const classes = useStyles()
-  const { bucket } = useFileBrowser()
-  const { name = "", size = 0, owners = [], readers = [], writers = [] } = bucket || {} as BucketKeyPermission
+  const { name, size } = bucket
   const { desktop } = useThemeSwitcher()
-  const isOwner = useMemo(() => bucket?.permission === "owner", [bucket?.permission])
-  const { filesApiClient } = useFilesApi()
-  const { refreshBuckets } = useFiles()
+  const isOwner = useMemo(() => bucket.permission === "owner", [bucket.permission])
 
   const getUserIds = (users: BucketUser[]): string[] => {
     return users.reduce((acc: string[], user): string[] => {
@@ -142,17 +139,7 @@ const SharedFolderRow = ({ onFolderClick, menuItems, isEditing, setIsEditing }: 
     }, [] as string[])
   }
 
-  const userIds = useMemo(
-    () => [...getUserIds(owners), ...getUserIds(readers), ...getUserIds(writers)]
-    , [owners, readers, writers])
-
-  const handleRename = useCallback((bucket: BucketKeyPermission, newName: string) => {
-    filesApiClient.updateBucket(bucket.id, {
-      ...bucket,
-      name: newName
-    }).then(() => refreshBuckets(false))
-      .catch(console.error)
-  }, [filesApiClient, refreshBuckets])
+  const userIds = [...getUserIds(bucket.owners), ...getUserIds(bucket.readers), ...getUserIds(bucket.writers)]
 
   const formik = useFormik({
     initialValues:{
@@ -161,7 +148,7 @@ const SharedFolderRow = ({ onFolderClick, menuItems, isEditing, setIsEditing }: 
     enableReinitialize: true,
     validationSchema: renameSchema,
     onSubmit:(values, { resetForm }) => {
-      values.fileName && bucket &&
+      handleRename && values.fileName &&
         handleRename(
           bucket,
           values.fileName

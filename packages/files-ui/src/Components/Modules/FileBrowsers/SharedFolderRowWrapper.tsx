@@ -8,6 +8,7 @@ import { makeStyles, createStyles, useDoubleClick, useThemeSwitcher } from "@cha
 import { Trans } from "@lingui/macro"
 import { CSFTheme } from "../../../Themes/types"
 import SharedFolderRow from "./views/FileSystemItem/SharedFolderRow"
+import { BucketKeyPermission } from "../../../Contexts/FilesContext"
 
 const useStyles = makeStyles(({ breakpoints, constants }: CSFTheme) => {
   return createStyles({
@@ -76,7 +77,12 @@ const useStyles = makeStyles(({ breakpoints, constants }: CSFTheme) => {
   })
 })
 
-const SharedFolderRowWrapper = () => {
+interface Props {
+  bucket: BucketKeyPermission
+  handleRename: (bucket: BucketKeyPermission, newName: string) => void
+}
+
+const SharedFolderRowWrapper = ({ bucket, handleRename }: Props) => {
   const { desktop } = useThemeSwitcher()
   const classes = useStyles()
   const [isEditing, setIsEditing] = useState(false)
@@ -140,8 +146,10 @@ const SharedFolderRowWrapper = () => {
     <SharedFolderRow
       menuItems={menuItems}
       onFolderClick={onFolderClick}
+      bucket={bucket}
       isEditing={isEditing}
       setIsEditing={setIsEditing}
+      handleRename={handleRename}
     />
   )
 }
