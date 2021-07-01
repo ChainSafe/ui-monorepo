@@ -11,7 +11,7 @@ import {
   Button,
   PlusIcon
 } from "@chainsafe/common-components"
-import { useFiles } from "../../../Contexts/FilesContext"
+import { BucketKeyPermission, useFiles } from "../../../Contexts/FilesContext"
 import { Trans } from "@lingui/macro"
 import { createStyles, makeStyles, useThemeSwitcher } from "@chainsafe/common-theme"
 import { CSFTheme } from "../../../Themes/types"
@@ -19,7 +19,6 @@ import SharedFolderRowWrapper from "./SharedFolderRowWrapper"
 import clsx from "clsx"
 import CreateSharedFolderModal from "./CreateSharedFolderModal"
 import { useFilesApi } from "../../../Contexts/FilesApiContext"
-import { Bucket } from "@chainsafe/files-api-client"
 
 export const desktopSharedGridSettings = "69px 3fr 190px 150px 45px !important"
 export const mobileSharedGridSettings = "3fr 50px 45px !important"
@@ -121,7 +120,7 @@ const SharedFolderOverview = () => {
     }
   }
 
-  const handleRename = useCallback((bucket: Bucket, newName: string) => {
+  const handleRename = useCallback((bucket: BucketKeyPermission, newName: string) => {
     filesApiClient.updateBucket(bucket.id, {
       ...bucket,
       name: newName

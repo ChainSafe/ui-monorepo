@@ -7,8 +7,8 @@ import {
 import { makeStyles, createStyles, useDoubleClick, useThemeSwitcher } from "@chainsafe/common-theme"
 import { Trans } from "@lingui/macro"
 import { CSFTheme } from "../../../Themes/types"
-import { Bucket } from "@chainsafe/files-api-client"
 import SharedFolderRow from "./views/FileSystemItem/SharedFolderRow"
+import { BucketKeyPermission } from "../../../Contexts/FilesContext"
 
 const useStyles = makeStyles(({ breakpoints, constants }: CSFTheme) => {
   return createStyles({
@@ -78,8 +78,8 @@ const useStyles = makeStyles(({ breakpoints, constants }: CSFTheme) => {
 })
 
 interface Props {
-  bucket: Bucket
-  handleRename: (bucket: Bucket, newName: string) => void
+  bucket: BucketKeyPermission
+  handleRename: (bucket: BucketKeyPermission, newName: string) => void
 }
 
 const SharedFolderRowWrapper = ({ bucket, handleRename }: Props) => {

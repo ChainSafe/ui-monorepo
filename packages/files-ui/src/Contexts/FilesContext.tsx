@@ -59,13 +59,13 @@ interface GetFileContentParams {
 
 type BucketPermission = "writer" | "owner" | "reader"
 
-type Bucket = FilesBucket & {
+export type BucketKeyPermission = FilesBucket & {
   encryptionKey: string
   permission?: BucketPermission
 }
 
 type FilesContext = {
-  buckets: Bucket[]
+  buckets: BucketKeyPermission[]
   uploadsInProgress: UploadProgress[]
   downloadsInProgress: DownloadProgress[]
   spaceUsed: number
@@ -104,7 +104,7 @@ const FilesProvider = ({ children }: FilesContextProps) => {
   const { addToastMessage } = useToaster()
   const [spaceUsed, setSpaceUsed] = useState(0)
   const [personalEncryptionKey, setPersonalEncryptionKey] = useState<string | undefined>()
-  const [buckets, setBuckets] = useState<Bucket[]>([])
+  const [buckets, setBuckets] = useState<BucketKeyPermission[]>([])
   const { profile } = useUser()
   const { userId } = profile || {}
   const [isLoadingBuckets, setIsLoadingBuckets] = useState(false)
@@ -129,7 +129,7 @@ const FilesProvider = ({ children }: FilesContextProps) => {
     showLoading && setIsLoadingBuckets(true)
     const result = await filesApiClient.listBuckets()
 
-    const bucketsWithKeys: Bucket[] = await Promise.all(
+    const bucketsWithKeys: BucketKeyPermission[] = await Promise.all(
       result.map(async (b) => {
 
         const permission = b.owners.find(owner => owner === profile?.userId)

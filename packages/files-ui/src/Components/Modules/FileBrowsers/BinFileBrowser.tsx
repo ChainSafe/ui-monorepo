@@ -154,7 +154,7 @@ const BinFileBrowser: React.FC<IFileBrowserModuleProps> = ({ controls = false }:
 
   return (
     <FileBrowserContext.Provider value={{
-      bucket: bucket,
+      bucket,
       crumbs: undefined,
       deleteItems,
       recoverItems,

@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useMemo } from "react"
 import { makeStyles, createStyles, useThemeSwitcher } from "@chainsafe/common-theme"
 import {
   Button,
@@ -14,14 +14,14 @@ import {
   Typography
 } from "@chainsafe/common-components"
 import { CSFTheme } from "../../../../../Themes/types"
-import { Bucket, BucketUser } from "@chainsafe/files-api-client"
+import { BucketUser } from "@chainsafe/files-api-client"
 import { desktopSharedGridSettings, mobileSharedGridSettings } from "../../SharedFoldersOverview"
 import SharedUsers from "../../../../Elements/SharedUser"
 import { t } from "@lingui/macro"
 import { Form, FormikProvider, useFormik } from "formik"
 import { object, string } from "yup"
 import clsx from "clsx"
-import { useUser } from "../../../../../Contexts/UserContext"
+import { BucketKeyPermission } from "../../../../../Contexts/FilesContext"
 
 const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => {
 
@@ -107,19 +107,31 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => 
 })
 
 interface Props {
-  bucket: Bucket
+  bucket: BucketKeyPermission
   onFolderClick: (e?: React.MouseEvent) => void
   menuItems: IMenuItem[]
   isEditing: boolean
   setIsEditing: (isEditing: boolean) => void
-  handleRename: (bucket: Bucket, newName: string) => void
+  handleRename: (bucket: BucketKeyPermission, newName: string) => void
 }
+
+const renameSchema = object().shape({
+  fileName: string()
+    .min(1, t`Please enter a name`)
+    .max(65, t`Name too long`)
+    .test(
+      t`Invalid name`,
+      t`Name cannot contain '/' character`,
+      (val: string | null | undefined) => !!val && !val?.includes("/")
+    )
+    .required(t`A name is required`)
+})
 
 const SharedFolderRow = ({ bucket, onFolderClick, menuItems, isEditing, setIsEditing, handleRename }: Props) => {
   const classes = useStyles()
   const { name, size } = bucket
   const { desktop } = useThemeSwitcher()
-  const { profile } = useUser()
+  const isOwner = useMemo(() => bucket.permission === "owner", [bucket.permission])
 
   const getUserIds = (users: BucketUser[]): string[] => {
     return users.reduce((acc: string[], user): string[] => {
@@ -128,22 +140,6 @@ const SharedFolderRow = ({ bucket, onFolderClick, menuItems, isEditing, setIsEdi
   }
 
   const userIds = [...getUserIds(bucket.owners), ...getUserIds(bucket.readers), ...getUserIds(bucket.writers)]
-
-  const isOwner = bucket.owners.find((owner) => owner.uuid === profile?.userId) !== undefined
-
-  const invalidFilenameRegex = new RegExp("/")
-  const renameSchema = object().shape({
-    fileName: string()
-      .min(1, t`Please enter a name`)
-      .max(65, t`Name too long`)
-      .test(
-        t`Invalid name`,
-        t`Name cannot contain '/' character`,
-        (val: string | null | undefined) =>
-          !invalidFilenameRegex.test(val || "")
-      )
-      .required(t`A name is required`)
-  })
 
   const formik = useFormik({
     initialValues:{
