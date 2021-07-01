@@ -32,7 +32,10 @@ export function getURISafePathFromArray(arrayOfPaths: string[]): string {
 // Safe append path to file name
 // /path/to/somewhere + 1.txt -> /path/to/somewhere/1.txt
 // /path/to/somewhere/ + 1.txt -> /path/to/somewhere/1.txt
-export function getPathWithFile(path: string, fileName: string) {
+export function getPathWithFile(path?: string, fileName?: string) {
+  if (!path || !fileName)
+    throw new Error(`The path and filename must be defined, got path: ${path}, filename: ${fileName}`)
+
   return path === "/"
     ? `/${fileName}`
     : path[path.length - 1] === "/"
