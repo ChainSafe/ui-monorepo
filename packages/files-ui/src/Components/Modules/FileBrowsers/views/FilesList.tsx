@@ -277,7 +277,10 @@ const useStyles = makeStyles(
 const sortFoldersFirst = (a: FileSystemItemType, b: FileSystemItemType) =>
   a.isFolder && a.content_type !== b.content_type ? -1 : 1
 
-const FilesList = () => {
+  interface Props {
+    isShared?: boolean
+  }
+const FilesList = ({ isShared = false }: Props) => {
   const { themeKey, desktop } = useThemeSwitcher()
 
   const {
@@ -301,7 +304,8 @@ const FilesList = () => {
     moduleRootPath,
     isSearch,
     withSurvey,
-    bucket
+    bucket,
+    accessRole
   } = useFileBrowser()
   const classes = useStyles({ themeKey })
   const [editing, setEditing] = useState<string | undefined>()
@@ -466,17 +470,52 @@ const FilesList = () => {
   const [validBulkOps, setValidBulkOps] = useState<FileOperation[]>([])
 
   useEffect(() => {
-    if (bulkOperations) {
-      let filteredList: FileOperation[] = [
-        "delete",
-        "download",
-        "info",
-        "move",
-        "preview",
-        "rename",
-        "share",
-        "recover"
-      ]
+    if (!bulkOperations) return
+
+    let filteredList: FileOperation[] = [
+      "delete",
+      "download",
+      "info",
+      "move",
+      "preview",
+      "rename"
+    ]
+
+    if (!!accessRole && isShared) {
+
+      switch(accessRole) {
+      case "owner":
+        filteredList = [
+          "delete",
+          "download",
+          "info",
+          "move",
+          "preview",
+          "rename",
+          "share"
+        ]
+        break
+      case "writer":
+        filteredList = [
+          "delete",
+          "download",
+          "info",
+          "move",
+          "preview",
+          "rename",
+          "share"
+        ]
+        break
+      case "reader":
+        filteredList = [
+          "download",
+          "info",
+          "preview",
+          "share"
+        ]
+        break
+      }
+
       for (let i = 0; i < selectedCids.length; i++) {
         const contentType = items.find((item) => item.cid === selectedCids[i])
           ?.content_type
@@ -519,7 +558,7 @@ const FilesList = () => {
       }
       setValidBulkOps(filteredList)
     }
-  }, [selectedCids, items, bulkOperations])
+  }, [selectedCids, items, bulkOperations, accessRole, isShared])
 
   const handleDeleteFiles = useCallback(() => {
     if (!deleteFiles) return
@@ -635,27 +674,33 @@ const FilesList = () => {
               >
                 {browserView === "table" ? <GridIcon /> : <TableIcon />}
               </Button>
-              <Button
-                onClick={() => setCreateFolderModalOpen(true)}
-                variant="outline"
-                size="large"
-              >
-                <PlusCircleIcon />
-                <span>
-                  <Trans>New folder</Trans>
-                </span>
-              </Button>
-              <Button
-                data-cy="upload-modal-button"
-                onClick={() => setIsUploadModalOpen(true)}
-                variant="outline"
-                size="large"
-              >
-                <UploadIcon />
-                <span>
-                  <Trans>Upload</Trans>
-                </span>
-              </Button>
+              {
+                accessRole !== "reader" && (
+                  <>
+                    <Button
+                      onClick={() => setCreateFolderModalOpen(true)}
+                      variant="outline"
+                      size="large"
+                    >
+                      <PlusCircleIcon />
+                      <span>
+                        <Trans>New folder</Trans>
+                      </span>
+                    </Button>
+                    <Button
+                      data-cy="upload-modal-button"
+                      onClick={() => setIsUploadModalOpen(true)}
+                      variant="outline"
+                      size="large"
+                    >
+                      <UploadIcon />
+                      <span>
+                        <Trans>Upload</Trans>
+                      </span>
+                    </Button>
+                  </>
+                )
+              }
             </>
           ) : (
             controls && !desktop && (
@@ -718,7 +763,7 @@ const FilesList = () => {
           )}
         </div>
       </header>
-      { withSurvey && isSurveyBannerVisible
+      { withSurvey && !isShared && isSurveyBannerVisible
         ? <SurveyBanner onHide={onHideSurveyBanner}/>
         : <Divider className={classes.divider} />
       }
@@ -768,10 +813,14 @@ const FilesList = () => {
           loadingCurrentPath && classes.showLoadingContainer
         )}
       >
-        <Loading size={24}
-          type="light" />
-        <Typography variant="body2"
-          component="p">
+        <Loading
+          size={24}
+          type="light"
+        />
+        <Typography
+          variant="body2"
+          component="p"
+        >
           <Trans>One sec, getting files ready…</Trans>
         </Typography>
       </div>
