@@ -155,6 +155,13 @@ const CreateSharedFolderModal = ({
     return [{ label: inputVal, value: result.uuid, data: result }]
   }, [filesApiClient, sharedFolderUsers, profile])
 
+  const handleClose = useCallback(() => {
+    setSharedFolderName("")
+    setSharedFolderUsers([])
+    setPermissions(undefined)
+    close()
+  }, [close])
+
   const handleCreateSharedFolder = useCallback(async () => {
     const users = sharedFolderUsers.map(su => ({
       uuid: su.value,
@@ -172,13 +179,6 @@ const CreateSharedFolderModal = ({
   const isValid = useMemo(() => {
     return !!((sharedFolderUsers.length > 0 && sharedFolderName !== "" && permissions))
   }, [permissions, sharedFolderName, sharedFolderUsers])
-
-  const handleClose = useCallback(() => {
-    setSharedFolderName("")
-    setSharedFolderUsers([])
-    setPermissions(undefined)
-    close()
-  }, [close])
 
   return (
     <CustomModal
