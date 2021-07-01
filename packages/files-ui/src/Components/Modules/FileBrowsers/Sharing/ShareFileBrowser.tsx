@@ -5,9 +5,6 @@ import { IBulkOperations, IFilesTableBrowserProps } from "../types"
 import { CONTENT_TYPES } from "../../../../Utils/Constants"
 import { t } from "@lingui/macro"
 import { ROUTE_LINKS } from "../../../FilesRoutes"
-import dayjs from "dayjs"
-import { useLocalStorage } from "@chainsafe/browser-storage-hooks"
-import { DISMISSED_SURVEY_KEY } from "../../../SurveyBanner"
 import { FileBrowserContext } from "../../../../Contexts/FileBrowserContext"
 import { parseFileContentResponse } from "../../../../Utils/Helpers"
 import { BucketPermission, FileSystemItem, useFiles } from "../../../../Contexts/FilesContext"
@@ -84,24 +81,6 @@ const ShareFileBrowser = () => {
         console.error(error)
       }).finally(() => showLoading && setLoadingCurrentPath(false))
   }, [bucket, filesApiClient, currentPath, profile])
-
-  const { localStorageGet, localStorageSet } = useLocalStorage()
-
-  const showSurvey = localStorageGet(DISMISSED_SURVEY_KEY) === "false"
-
-  const olderThanOneWeek = useMemo(
-    () => profile?.createdAt
-      ? dayjs(Date.now()).diff(profile.createdAt, "day") > 7
-      : false
-    , [profile]
-  )
-
-  useEffect(() => {
-    const dismissedFlag = localStorageGet(DISMISSED_SURVEY_KEY)
-    if (dismissedFlag === undefined || dismissedFlag === null) {
-      localStorageSet(DISMISSED_SURVEY_KEY, "false")
-    }
-  }, [localStorageGet, localStorageSet])
 
   useEffect(() => {
     refreshContents(true)
@@ -268,11 +247,11 @@ const ShareFileBrowser = () => {
       loadingCurrentPath,
       showUploadsInTable: false,
       sourceFiles: pathContents,
-      heading: t`Shared`,
+      heading: bucket?.name || t`Shared`,
       controls: true,
       allowDropUpload: access === "writer" || access === "owner",
       itemOperations,
-      withSurvey: showSurvey && olderThanOneWeek
+      withSurvey: false
     }}>
       <DragAndDrop>
         <SharesList />
