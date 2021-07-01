@@ -14,6 +14,7 @@ const useStyles = makeStyles(
     createStyles({
       root: {
         margin: 5,
+        display: "block",
         ...overrides?.SelectInput?.root
       },
       label: {
@@ -89,7 +90,7 @@ const SelectInput: React.FC<ISelectInputProps> = ({
     : options.find((o) => o.value === value)
 
   return (
-    <div className={clsx(classes.root, className)}>
+    <label className={clsx(classes.root, className)}>
       {label && label.length > 0 && (
         <Typography
           variant="body2"
@@ -201,7 +202,7 @@ const SelectInput: React.FC<ISelectInputProps> = ({
           {captionMessage}
         </Typography>
       )}
-    </div>
+    </label>
   )
 }
 

@@ -14,6 +14,7 @@ const useStyles = makeStyles(
     createStyles({
       root: {
         margin: 5,
+        display: "block",
         cursor: "text",
         ...overrides?.TagsInput?.root
       },
@@ -72,7 +73,7 @@ const TagsInput = ({
   const classes = useStyles()
 
   return (
-    <div className={clsx(classes.root, className)}>
+    <label className={clsx(classes.root, className)}>
       {label && label.length > 0 && (
         <Typography
           variant="body2"
@@ -108,7 +109,7 @@ const TagsInput = ({
           {caption}
         </Typography>
       )}
-    </div>)
+    </label>)
 }
 
 export default TagsInput

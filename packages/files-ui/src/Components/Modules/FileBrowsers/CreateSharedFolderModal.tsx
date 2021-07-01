@@ -98,7 +98,8 @@ const useStyles = makeStyles(
       shareNameInput: {
         display: "block"
       },
-      inputLabel:{
+      inputLabel: {
+        fontSize: 16,
         fontWeight: 600
       }
     })
