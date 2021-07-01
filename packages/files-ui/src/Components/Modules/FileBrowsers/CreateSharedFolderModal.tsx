@@ -164,14 +164,21 @@ const CreateSharedFolderModal = ({
     const writers = (permissions === "write") ? users : []
     setIsCreatingSharedFolder(true)
     createSharedFolder(sharedFolderName, writers, readers)
-      .then(close)
+      .then(handleClose)
       .catch(console.error)
       .finally(() => setIsCreatingSharedFolder(false))
-  }, [sharedFolderUsers, createSharedFolder, permissions, sharedFolderName, close])
+  }, [sharedFolderUsers, createSharedFolder, permissions, sharedFolderName, handleClose])
 
   const isValid = useMemo(() => {
     return !!((sharedFolderUsers.length > 0 && sharedFolderName !== "" && permissions))
   }, [permissions, sharedFolderName, sharedFolderUsers])
+
+  const handleClose = useCallback(() => {
+    setSharedFolderName("")
+    setSharedFolderUsers([])
+    setPermissions(undefined)
+    close()
+  }, [close])
 
   return (
     <CustomModal
@@ -234,7 +241,7 @@ const CreateSharedFolderModal = ({
         </div>
         <div className={clsx(classes.modalFlexItem, classes.buttons)}>
           <CustomButton
-            onClick={() => close()}
+            onClick={handleClose}
             size="medium"
             className={classes.cancelButton}
             variant={desktop ? "outline" : "gray"}
