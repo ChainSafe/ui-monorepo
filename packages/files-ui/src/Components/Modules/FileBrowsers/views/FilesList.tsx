@@ -50,6 +50,7 @@ import { getPathWithFile } from "../../../../Utils/pathUtils"
 import SurveyBanner from "../../../SurveyBanner"
 import { DragPreviewLayer } from "./DragPreviewLayer"
 import { useFileBrowser } from "../../../../Contexts/FileBrowserContext"
+// import ReportFileModal from "../ReportFileModal"
 
 interface IStyleProps {
   themeKey: string
@@ -457,9 +458,7 @@ const FilesList = () => {
   const [isMoveFileModalOpen, setIsMoveFileModalOpen] = useState(false)
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
   const [isDeletingFiles, setIsDeletingFiles] = useState(false)
-  const [fileInfoPath, setFileInfoPath] = useState<string | undefined>(
-    undefined
-  )
+  const [fileInfoPath, setFileInfoPath] = useState<string | undefined>()
   const [moveModalMode, setMoveModalMode] = useState<MoveModalMode | undefined>()
 
   const [browserView, setBrowserView] = useState<BrowserView>("table")
@@ -1024,11 +1023,12 @@ const FilesList = () => {
           </>
         )
       }
-
-      <FileInfoModal
-        fileInfoPath={fileInfoPath}
-        close={() => setFileInfoPath(undefined)}
-      />
+      { fileInfoPath &&
+        <FileInfoModal
+          fileInfoPath={fileInfoPath}
+          close={() => setFileInfoPath(undefined)}
+        />
+      }
     </article>
   )
 }
