@@ -52,7 +52,7 @@ interface GetFileContentParams {
   path: string
 }
 
-type BucketPermission = "writer" | "owner" | "reader"
+export type BucketPermission = "writer" | "owner" | "reader"
 
 type Bucket = FilesBucket & {
   encryptionKey: string
