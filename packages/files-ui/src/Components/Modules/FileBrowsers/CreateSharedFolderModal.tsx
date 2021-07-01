@@ -21,6 +21,7 @@ import { t, Trans } from "@lingui/macro"
 import { LookupUser, LookupUserRequest } from "@chainsafe/files-api-client"
 import EthCrypto from "eth-crypto"
 import clsx from "clsx"
+import { useUser } from "../../../Contexts/UserContext"
 
 const useStyles = makeStyles(
   ({ breakpoints, constants, typography, zIndex, palette }: CSFTheme) => {
@@ -116,6 +117,7 @@ const CreateSharedFolderModal = ({
   const classes = useStyles()
   const { createSharedFolder } = useFiles()
   const { filesApiClient } = useFilesApi()
+  const { profile } = useUser()
   const [isCreatingSharedFolder, setIsCreatingSharedFolder] = useState(false)
   const [sharedFolderName, setSharedFolderName] = useState("")
   const [sharedFolderUsers, setSharedFolderUsers] = useState<Array<{label: string; value: LookupUser}>>([])
@@ -147,10 +149,10 @@ const CreateSharedFolderModal = ({
 
     if (!result) return []
     const currentUsers = Array.isArray(sharedFolderUsers) ? sharedFolderUsers.map(su => su.value.uuid) : []
-    if (currentUsers.includes(result.uuid)) return []
+    if (currentUsers.includes(result.uuid) || result.uuid === profile?.userId) return []
 
     return [{ label: inputVal, value: result }]
-  }, [filesApiClient, sharedFolderUsers])
+  }, [filesApiClient, sharedFolderUsers, profile])
 
   const handleCreateSharedFolder = useCallback(async () => {
     const users = sharedFolderUsers.map(su => ({
@@ -218,7 +220,6 @@ const CreateSharedFolderModal = ({
           <SelectInput
             label={t`Allow them to`}
             labelClassName={classes.inputLabel}
-
             options={[
               { label: t`Add/remove content`, value: "write" },
               { label: t`Read content`, value: "read" }
