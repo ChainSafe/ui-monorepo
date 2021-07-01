@@ -471,6 +471,11 @@ export const darkTheme = createTheme<CsfColors>({
         },
         surveyBanner: {
           color: "var(--gray9)"
+        },
+        createShareModal: {
+          backgroundColor: "var(--gray1)",
+          color: "var(--gray10)",
+          iconBackingColor: "#EBEEFF"
         }
       } as CsfColors)
     },

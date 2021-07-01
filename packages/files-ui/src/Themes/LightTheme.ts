@@ -158,6 +158,11 @@ export const lightTheme = createTheme<CsfColors>({
         },
         surveyBanner: {
           color: "var(--gray1)"
+        },
+        createShareModal: {
+          backgroundColor: "var(--gray1)",
+          color: "var(--gray10)",
+          iconBackingColor: "#EBEEFF"
         }
       } as CsfColors)
     },
