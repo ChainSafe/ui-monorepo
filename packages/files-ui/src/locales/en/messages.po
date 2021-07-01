@@ -376,6 +376,9 @@ msgstr "Number of copies (Replication Factor)"
 msgid "OK"
 msgstr "OK"
 
+msgid "One sec, getting files ready..."
+msgstr "One sec, getting files ready..."
+
 msgid "One sec, getting files ready…"
 msgstr "One sec, getting files ready…"
 

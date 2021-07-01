@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react"
+import React, { useCallback, useMemo, useState } from "react"
 import {
   Typography,
   Table,
@@ -9,7 +9,8 @@ import {
   SortDirection,
   Loading,
   Button,
-  PlusIcon
+  PlusIcon,
+  useHistory
 } from "@chainsafe/common-components"
 import { useFiles } from "../../../Contexts/FilesContext"
 import { Trans } from "@lingui/macro"
@@ -18,6 +19,7 @@ import { CSFTheme } from "../../../Themes/types"
 import SharedFolderRowWrapper from "./SharedFolderRowWrapper"
 import clsx from "clsx"
 import CreateSharedFolderModal from "./CreateSharedFolderModal"
+import { ROUTE_LINKS } from "../../FilesRoutes"
 
 export const desktopSharedGridSettings = "69px 3fr 190px 150px 45px !important"
 export const mobileSharedGridSettings = "3fr 50px 45px !important"
@@ -99,6 +101,7 @@ const SharedFolderOverview = () => {
   const [createSharedFolderModalOpen, setCreateSharedFolderModalOpen] = useState(false)
   const [direction, setDirection] = useState<SortDirection>("ascend")
   const [column, setColumn] = useState<"name" | "size" | "date_uploaded">("name")
+  const { redirect } = useHistory()
   const { desktop } = useThemeSwitcher()
 
   const bucketsToShow = useMemo(() => buckets.filter(b => b.type === "share"), [buckets])
@@ -117,6 +120,10 @@ const SharedFolderOverview = () => {
       }
     }
   }
+
+  const openSharedFolder = useCallback((bucketId: string) => {
+    redirect(ROUTE_LINKS.ShareExplorer(bucketId, "/"))
+  }, [redirect])
 
   return (
     <>
@@ -196,6 +203,7 @@ const SharedFolderOverview = () => {
                 <SharedFolderRowWrapper
                   key={bucket.id}
                   bucket={bucket}
+                  openSharedFolder={openSharedFolder}
                 />
               )}
             </TableBody>
