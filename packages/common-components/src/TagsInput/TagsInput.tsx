@@ -7,7 +7,7 @@ import {
 import clsx from "clsx"
 import AsyncSelect from "react-select/async"
 import { Typography } from ".."
-import { ValueType } from "react-select"
+import { Styles, ValueType } from "react-select"
 
 const useStyles = makeStyles(
   ({ palette, animation, constants, overrides }: ITheme) =>
@@ -49,10 +49,12 @@ interface ITagsInputProps {
   value: Array<ITagOption>
   placeholder?: string
   label?: string
+  labelClassName?: string
   caption?: string
   disabled?: boolean
-  fetchTag: (searchValue: string) => Promise<Array<ITagOption>>
+  fetchTags: (searchValue: string) => Promise<Array<ITagOption>>
   onChange: (value: ValueType<ITagOption, true>) => void
+  styles?: Partial<Styles>
 }
 
 const TagsInput = ({
@@ -60,10 +62,12 @@ const TagsInput = ({
   value,
   placeholder,
   label,
+  labelClassName,
   caption,
-  fetchTag,
+  fetchTags,
   disabled = false,
-  onChange
+  onChange,
+  styles
 }: ITagsInputProps) => {
   const classes = useStyles()
 
@@ -73,7 +77,7 @@ const TagsInput = ({
         <Typography
           variant="body2"
           component="span"
-          className={clsx(classes.label)}
+          className={clsx(classes.label, labelClassName)}
         >
           {label}
         </Typography>
@@ -82,8 +86,8 @@ const TagsInput = ({
         isMulti
         cacheOptions={false}
         value={value}
-        loadOptions={fetchTag}
-        onInputChange={(inputVal) => fetchTag(inputVal)}
+        loadOptions={fetchTags}
+        onInputChange={(inputVal) => fetchTags(inputVal)}
         isClearable={false}
         getOptionLabel={(option) => option.label}
         getOptionValue={(option) => option.value}
@@ -93,6 +97,7 @@ const TagsInput = ({
         placeholder={placeholder}
         isDisabled={disabled}
         components={{ DropdownIndicator:() => null, IndicatorSeparator:() => null }}
+        styles={styles}
       />
       {caption && (
         <Typography

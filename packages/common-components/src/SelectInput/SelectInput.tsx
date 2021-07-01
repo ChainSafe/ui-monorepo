@@ -47,6 +47,7 @@ interface ISelectInputProps {
   className?: string
   size?: "large" | "medium" | "small"
   label?: string
+  labelClassName?: string
   error?: string
   captionMessage?: string
   placeholder?: string
@@ -65,6 +66,7 @@ const SelectInput: React.FC<ISelectInputProps> = ({
   disabled = false,
   onChange,
   label,
+  labelClassName,
   placeholder = "Please select",
   options,
   captionMessage,
@@ -92,7 +94,7 @@ const SelectInput: React.FC<ISelectInputProps> = ({
         <Typography
           variant="body2"
           component="span"
-          className={clsx(classes.label)}
+          className={clsx(classes.label, labelClassName)}
         >
           {label}
         </Typography>

@@ -90,10 +90,15 @@ const useStyles = makeStyles(
       },
       buttons: {
         justifyContent: "flex-end",
-        display: "flex"
+        display: "flex",
+        paddingRight: 5,
+        marginTop: 10
       },
-      usersTagsInput: {
-        minHeight: 104
+      shareNameInput: {
+        display: "block"
+      },
+      inputLabel:{
+        fontWeight: 600
       }
     })
   }
@@ -176,33 +181,44 @@ const CreateSharedFolderModal = ({
           <ShareAltSvg />
         </div>
         <div className={classes.heading}>
-          <Typography variant='body1'>
+          <Typography className={classes.inputLabel}>
             <Trans>Create Shared Folder</Trans>
           </Typography>
         </div>
         <div className={classes.modalFlexItem}>
           <TextInput
             ref={inputRef}
+            className={classes.shareNameInput}
+            labelClassName={classes.inputLabel}
             label={t`Shared Folder Name`}
             value={sharedFolderName}
             onChange={(value) => {setSharedFolderName(value?.toString() || "")}} />
         </div>
         <div className={classes.modalFlexItem}>
           <TagsInput
-            className={classes.usersTagsInput}
             onChange={(val) => {
               (val && val.length > 0)
                 ? setSharedFolderUsers(val?.map(v => ({ label: v.label, value: v.value as LookupUser })))
                 : setSharedFolderUsers([])
             }}
             label={t`Share with`}
+            labelClassName={classes.inputLabel}
             value={sharedFolderUsers}
-            fetchTag={handleLookupUser}
-            placeholder={t`Add by sharing address, username or wallet address`} />
+            fetchTags={handleLookupUser}
+            placeholder={t`Add by sharing address, username or wallet address`}
+            styles={{
+              control: (provided) => ({
+                ...provided,
+                minHeight: 90,
+                alignContent: "start"
+              })
+            }}/>
         </div>
         <div className={classes.modalFlexItem}>
           <SelectInput
             label={t`Allow them to`}
+            labelClassName={classes.inputLabel}
+
             options={[
               { label: t`Add/remove content`, value: "write" },
               { label: t`Read content`, value: "read" }
