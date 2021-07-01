@@ -1014,11 +1014,12 @@ const SharesList = () => {
           </>
         )
       }
-
-      <FileInfoModal
-        fileInfoPath={fileInfoPath}
-        close={() => setFileInfoPath(undefined)}
-      />
+      { fileInfoPath &&
+        <FileInfoModal
+          fileInfoPath={fileInfoPath}
+          close={() => setFileInfoPath(undefined)}
+        />
+      }
     </article>
   )
 }
