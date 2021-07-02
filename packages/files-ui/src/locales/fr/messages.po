@@ -623,6 +623,9 @@ msgstr "Vous pouvez les changer à tout moment dans les paramètres de sécurit�
 msgid "The authentication popup was closed"
 msgstr "Le popup d’authentification a été fermé"
 
+msgid "The files are already in this folder"
+msgstr ""
+
 msgid "The system is undergoing maintenance, thank you for being patient."
 msgstr "Le système est en cours de maintenance, merci d’être patient."
 

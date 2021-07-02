@@ -619,6 +619,9 @@ msgstr ""
 msgid "The authentication popup was closed"
 msgstr ""
 
+msgid "The files are already in this folder"
+msgstr ""
+
 msgid "The system is undergoing maintenance, thank you for being patient."
 msgstr ""
 
