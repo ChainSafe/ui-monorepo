@@ -52,6 +52,12 @@ import { DragPreviewLayer } from "./DragPreviewLayer"
 import { useFileBrowser } from "../../../../Contexts/FileBrowserContext"
 import ReportFileModal from "../ReportFileModal"
 
+const baseOperations:  FileOperation[] = ["download", "info", "preview"]
+const readerOperations: FileOperation[] = [...baseOperations, "report"]
+const ownerOperations: FileOperation[] = [...baseOperations, "delete", "move", "rename"]
+const csfOperations:  FileOperation[] = [...ownerOperations, "share"]
+const writerOperations: FileOperation[] = [...baseOperations, ...ownerOperations]
+
 interface IStyleProps {
   themeKey: string
 }
@@ -308,8 +314,7 @@ const FilesList = ({ isShared = false }: Props) => {
     moduleRootPath,
     isSearch,
     withSurvey,
-    bucket,
-    accessRole
+    bucket
   } = useFileBrowser()
   const classes = useStyles({ themeKey })
   const [editing, setEditing] = useState<string | undefined>()
@@ -320,7 +325,7 @@ const FilesList = ({ isShared = false }: Props) => {
   const [previewFileIndex, setPreviewFileIndex] = useState<number | undefined>()
   const { selectedLocale } = useLanguageContext()
   const { redirect } = useHistory()
-
+  const { permission } = bucket || {}
   const items: FileSystemItemType[] = useMemo(() => {
     let temp = []
 
@@ -475,47 +480,19 @@ const FilesList = ({ isShared = false }: Props) => {
 
   useEffect(() => {
     if (!bulkOperations) return
+    let fileOperations: FileOperation[] = csfOperations
 
-    let filteredList: FileOperation[] = [
-      "delete",
-      "download",
-      "info",
-      "move",
-      "preview",
-      "rename"
-    ]
+    if (!!permission && isShared) {
 
-    if (!!accessRole && isShared) {
-
-      switch(accessRole) {
+      switch(permission) {
       case "owner":
-        filteredList = [
-          "delete",
-          "download",
-          "info",
-          "move",
-          "preview",
-          "rename"
-        ]
+        fileOperations = ownerOperations
         break
       case "writer":
-        filteredList = [
-          "delete",
-          "download",
-          "info",
-          "move",
-          "preview",
-          "rename",
-          "report"
-        ]
+        fileOperations = writerOperations
         break
       case "reader":
-        filteredList = [
-          "download",
-          "info",
-          "preview",
-          "report"
-        ]
+        fileOperations = readerOperations
         break
       }
 
@@ -525,43 +502,43 @@ const FilesList = ({ isShared = false }: Props) => {
 
         if (contentType) {
           if (contentType === CONTENT_TYPES.Directory) {
-            const validList = filteredList.filter(
+            const validList = fileOperations.filter(
               (op: FileOperation) =>
                 bulkOperations[contentType].indexOf(op) >= 0
             )
             if (validList.length > 0) {
-              filteredList = filteredList.filter(
+              fileOperations = fileOperations.filter(
                 (existingOp: FileOperation) =>
                   validList.indexOf(existingOp) >= 0
               )
             }
           } else {
-            const validList = filteredList.filter(
+            const validList = fileOperations.filter(
               (op: FileOperation) =>
                 bulkOperations[CONTENT_TYPES.File].indexOf(op) >= 0
             )
             if (validList.length > 0) {
-              filteredList = filteredList.filter(
+              fileOperations = fileOperations.filter(
                 (existingOp: FileOperation) =>
                   validList.indexOf(existingOp) >= 0
               )
             }
           }
         } else {
-          const validList = filteredList.filter(
+          const validList = fileOperations.filter(
             (op: FileOperation) =>
               bulkOperations[CONTENT_TYPES.File].indexOf(op) >= 0
           )
           if (validList.length > 0) {
-            filteredList = filteredList.filter(
+            fileOperations = fileOperations.filter(
               (existingOp: FileOperation) => validList.indexOf(existingOp) >= 0
             )
           }
         }
       }
-      setValidBulkOps(filteredList)
+      setValidBulkOps(fileOperations)
     }
-  }, [selectedCids, items, bulkOperations, accessRole, isShared])
+  }, [selectedCids, items, bulkOperations, isShared, permission])
 
   const handleDeleteFiles = useCallback(() => {
     if (!deleteFiles) return
@@ -680,7 +657,7 @@ const FilesList = ({ isShared = false }: Props) => {
                 {browserView === "table" ? <GridIcon /> : <TableIcon />}
               </Button>
               {
-                accessRole !== "reader" && (
+                permission !== "reader" && (
                   <>
                     <Button
                       onClick={() => setCreateFolderModalOpen(true)}
@@ -1022,9 +999,8 @@ const FilesList = ({ isShared = false }: Props) => {
                 />
               ))}
             </section>
-          )
-      }
-      {files && previewFileIndex !== undefined && bucket && (
+          )}
+      {files && previewFileIndex !== undefined && (
         <FilePreviewModal
           file={files[previewFileIndex]}
           closePreview={clearPreview}
