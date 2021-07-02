@@ -619,6 +619,9 @@ msgstr "Danke, dass Sie sich darum gekümmert haben. Sie können diese jederzeit
 msgid "The authentication popup was closed"
 msgstr ""
 
+msgid "The files are already in this folder"
+msgstr ""
+
 msgid "The system is undergoing maintenance, thank you for being patient."
 msgstr "Das System wird gerade gewartet, wir danken Ihnen für Ihre Geduld."
 
