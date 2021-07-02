@@ -11,7 +11,7 @@ import {
   makeStyles,
   useThemeSwitcher
 } from "@chainsafe/common-theme"
-import React, { useRef, useEffect, useState, useCallback } from "react"
+import React, { useRef, useEffect, useState, useCallback, useMemo } from "react"
 import CustomModal from "../../Elements/CustomModal"
 import { CSFTheme } from "../../../Themes/types"
 import { useFiles } from "../../../Contexts/FilesContext"
@@ -21,6 +21,7 @@ import { t, Trans } from "@lingui/macro"
 import { LookupUser, LookupUserRequest } from "@chainsafe/files-api-client"
 import EthCrypto from "eth-crypto"
 import clsx from "clsx"
+import { useUser } from "../../../Contexts/UserContext"
 
 const useStyles = makeStyles(
   ({ breakpoints, constants, typography, zIndex, palette }: CSFTheme) => {
@@ -90,10 +91,16 @@ const useStyles = makeStyles(
       },
       buttons: {
         justifyContent: "flex-end",
-        display: "flex"
+        display: "flex",
+        paddingRight: 5,
+        marginTop: 10
       },
-      usersTagsInput: {
-        minHeight: 104
+      shareNameInput: {
+        display: "block"
+      },
+      inputLabel: {
+        fontSize: 16,
+        fontWeight: 600
       }
     })
   }
@@ -111,9 +118,10 @@ const CreateSharedFolderModal = ({
   const classes = useStyles()
   const { createSharedFolder } = useFiles()
   const { filesApiClient } = useFilesApi()
+  const { profile } = useUser()
   const [isCreatingSharedFolder, setIsCreatingSharedFolder] = useState(false)
   const [sharedFolderName, setSharedFolderName] = useState("")
-  const [sharedFolderUsers, setSharedFolderUsers] = useState<Array<{label: string; value: LookupUser}>>([])
+  const [sharedFolderUsers, setSharedFolderUsers] = useState<Array<{label: string; value: string; data: LookupUser}>>([])
   const [permissions, setPermissions] = useState<"read" | "write" | undefined>(undefined)
   const { desktop } = useThemeSwitcher()
   const inputRef = useRef<HTMLInputElement>(null)
@@ -141,25 +149,36 @@ const CreateSharedFolderModal = ({
     const result = await filesApiClient.lookupUser(lookupBody)
 
     if (!result) return []
-    const currentUsers = Array.isArray(sharedFolderUsers) ? sharedFolderUsers.map(su => su.value.uuid) : []
-    if (currentUsers.includes(result.uuid)) return []
+    const currentUsers = Array.isArray(sharedFolderUsers) ? sharedFolderUsers.map(su => su.value) : []
+    if (currentUsers.includes(result.uuid) || result.uuid === profile?.userId) return []
 
-    return [{ label: inputVal, value: result }]
-  }, [filesApiClient, sharedFolderUsers])
+    return [{ label: inputVal, value: result.uuid, data: result }]
+  }, [filesApiClient, sharedFolderUsers, profile])
+
+  const handleClose = useCallback(() => {
+    setSharedFolderName("")
+    setSharedFolderUsers([])
+    setPermissions(undefined)
+    close()
+  }, [close])
 
   const handleCreateSharedFolder = useCallback(async () => {
     const users = sharedFolderUsers.map(su => ({
-      uuid: su.value.uuid,
-      pubKey: EthCrypto.publicKey.decompress(su.value.identity_pubkey.slice(2))
+      uuid: su.value,
+      pubKey: EthCrypto.publicKey.decompress(su.data.identity_pubkey.slice(2))
     }))
     const readers = (permissions === "read") ? users : []
     const writers = (permissions === "write") ? users : []
     setIsCreatingSharedFolder(true)
     createSharedFolder(sharedFolderName, writers, readers)
-      .then(close)
+      .then(handleClose)
       .catch(console.error)
       .finally(() => setIsCreatingSharedFolder(false))
-  }, [sharedFolderUsers, createSharedFolder, permissions, sharedFolderName, close])
+  }, [sharedFolderUsers, createSharedFolder, permissions, sharedFolderName, handleClose])
+
+  const isValid = useMemo(() => {
+    return !!((sharedFolderUsers.length > 0 && sharedFolderName !== "" && permissions))
+  }, [permissions, sharedFolderName, sharedFolderUsers])
 
   return (
     <CustomModal
@@ -176,33 +195,43 @@ const CreateSharedFolderModal = ({
           <ShareAltSvg />
         </div>
         <div className={classes.heading}>
-          <Typography variant='body1'>
+          <Typography className={classes.inputLabel}>
             <Trans>Create Shared Folder</Trans>
           </Typography>
         </div>
         <div className={classes.modalFlexItem}>
           <TextInput
             ref={inputRef}
+            className={classes.shareNameInput}
+            labelClassName={classes.inputLabel}
             label={t`Shared Folder Name`}
             value={sharedFolderName}
-            onChange={(value) => {value && setSharedFolderName(value.toString())}} />
+            onChange={(value) => {setSharedFolderName(value?.toString() || "")}} />
         </div>
         <div className={classes.modalFlexItem}>
           <TagsInput
-            className={classes.usersTagsInput}
             onChange={(val) => {
               (val && val.length > 0)
-                ? setSharedFolderUsers(val?.map(v => ({ label: v.label, value: v.value as LookupUser })))
+                ? setSharedFolderUsers(val?.map(v => ({ label: v.label, value: v.value, data: v.data })))
                 : setSharedFolderUsers([])
             }}
             label={t`Share with`}
+            labelClassName={classes.inputLabel}
             value={sharedFolderUsers}
-            fetchTag={handleLookupUser}
-            placeholder={t`Add by sharing address, username or wallet address`} />
+            fetchTags={handleLookupUser}
+            placeholder={t`Add by sharing address, username or wallet address`}
+            styles={{
+              control: (provided) => ({
+                ...provided,
+                minHeight: 90,
+                alignContent: "start"
+              })
+            }}/>
         </div>
         <div className={classes.modalFlexItem}>
           <SelectInput
             label={t`Allow them to`}
+            labelClassName={classes.inputLabel}
             options={[
               { label: t`Add/remove content`, value: "write" },
               { label: t`Read content`, value: "read" }
@@ -212,7 +241,7 @@ const CreateSharedFolderModal = ({
         </div>
         <div className={clsx(classes.modalFlexItem, classes.buttons)}>
           <CustomButton
-            onClick={() => close()}
+            onClick={handleClose}
             size="medium"
             className={classes.cancelButton}
             variant={desktop ? "outline" : "gray"}
@@ -226,6 +255,7 @@ const CreateSharedFolderModal = ({
             className={classes.okButton}
             loading={isCreatingSharedFolder}
             onClick={handleCreateSharedFolder}
+            disabled={!isValid}
           >
             <Trans>Create</Trans>
           </Button>
