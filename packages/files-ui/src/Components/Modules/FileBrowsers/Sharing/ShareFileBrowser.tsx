@@ -232,7 +232,6 @@ const ShareFileBrowser = () => {
   return (
     <FileBrowserContext.Provider value={{
       bucket,
-      accessRole: access,
       bulkOperations,
       handleUploadOnDrop,
       crumbs,

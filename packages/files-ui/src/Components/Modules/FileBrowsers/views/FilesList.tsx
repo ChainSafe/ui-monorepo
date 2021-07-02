@@ -304,8 +304,7 @@ const FilesList = ({ isShared = false }: Props) => {
     moduleRootPath,
     isSearch,
     withSurvey,
-    bucket,
-    accessRole
+    bucket
   } = useFileBrowser()
   const classes = useStyles({ themeKey })
   const [editing, setEditing] = useState<string | undefined>()
@@ -316,7 +315,7 @@ const FilesList = ({ isShared = false }: Props) => {
   const [previewFileIndex, setPreviewFileIndex] = useState<number | undefined>()
   const { selectedLocale } = useLanguageContext()
   const { redirect } = useHistory()
-
+  const { permission } = bucket || {}
   const items: FileSystemItemType[] = useMemo(() => {
     let temp = []
 
@@ -481,9 +480,9 @@ const FilesList = ({ isShared = false }: Props) => {
       "rename"
     ]
 
-    if (!!accessRole && isShared) {
+    if (!!permission && isShared) {
 
-      switch(accessRole) {
+      switch(permission) {
       case "owner":
         filteredList = [
           "delete",
@@ -558,7 +557,7 @@ const FilesList = ({ isShared = false }: Props) => {
       }
       setValidBulkOps(filteredList)
     }
-  }, [selectedCids, items, bulkOperations, accessRole, isShared])
+  }, [selectedCids, items, bulkOperations, isShared, permission])
 
   const handleDeleteFiles = useCallback(() => {
     if (!deleteFiles) return
@@ -675,7 +674,7 @@ const FilesList = ({ isShared = false }: Props) => {
                 {browserView === "table" ? <GridIcon /> : <TableIcon />}
               </Button>
               {
-                accessRole !== "reader" && (
+                permission !== "reader" && (
                   <>
                     <Button
                       onClick={() => setCreateFolderModalOpen(true)}
@@ -1009,7 +1008,7 @@ const FilesList = ({ isShared = false }: Props) => {
             ))}
           </section>
         )}
-      {files && previewFileIndex !== undefined && bucket && (
+      {files && previewFileIndex !== undefined && (
         <FilePreviewModal
           file={files[previewFileIndex]}
           closePreview={clearPreview}
