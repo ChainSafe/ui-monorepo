@@ -299,6 +299,7 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
             {desktop && (
               <div>
                 <Typography
+                  data-cy="label-space-used"
                   variant="body2"
                   className={classes.spaceUsedMargin}
                   component="p"
@@ -306,6 +307,7 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
                     FREE_PLAN_LIMIT
                   )} used`}</Typography>
                 <ProgressBar
+                  data-cy="progress-bar-space-used"
                   className={classes.spaceUsedMargin}
                   progress={(spaceUsed / FREE_PLAN_LIMIT) * 100}
                   size="small"
