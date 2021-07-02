@@ -59,20 +59,20 @@ interface GetFileContentParams {
 
 export type BucketPermission = "writer" | "owner" | "reader"
 
-type Bucket = FilesBucket & {
+export type BucketKeyPermission = FilesBucket & {
   encryptionKey: string
   permission?: BucketPermission
 }
 
 type FilesContext = {
-  buckets: Bucket[]
+  buckets: BucketKeyPermission[]
   uploadsInProgress: UploadProgress[]
   downloadsInProgress: DownloadProgress[]
   spaceUsed: number
   uploadFiles: (bucketId: string, files: File[], path: string) => Promise<void>
   downloadFile: (bucketId: string, itemToDownload: FileSystemItem, path: string) => void
   getFileContent: (bucketId: string, params: GetFileContentParams) => Promise<Blob | undefined>
-  refreshBuckets: () => Promise<void>
+  refreshBuckets: (showLoading?: boolean) => Promise<void>
   secureAccountWithMasterPassword: (candidatePassword: string) => Promise<void>
   isLoadingBuckets?: boolean
   createSharedFolder: (name: string,  writers?: SharedFolderUser[], readers?: SharedFolderUser[]) => Promise<void>
@@ -104,7 +104,7 @@ const FilesProvider = ({ children }: FilesContextProps) => {
   const { addToastMessage } = useToaster()
   const [spaceUsed, setSpaceUsed] = useState(0)
   const [personalEncryptionKey, setPersonalEncryptionKey] = useState<string | undefined>()
-  const [buckets, setBuckets] = useState<Bucket[]>([])
+  const [buckets, setBuckets] = useState<BucketKeyPermission[]>([])
   const { profile } = useUser()
   const { userId } = profile || {}
   const [isLoadingBuckets, setIsLoadingBuckets] = useState(false)
@@ -123,20 +123,20 @@ const FilesProvider = ({ children }: FilesContextProps) => {
     return decrypted || ""
   }, [decryptMessageWithThresholdKey, userId])
 
-  const refreshBuckets = useCallback(async () => {
+  const refreshBuckets = useCallback(async (showLoading?: boolean) => {
     if (!personalEncryptionKey || !userId) return
 
-    setIsLoadingBuckets(true)
+    showLoading && setIsLoadingBuckets(true)
     const result = await filesApiClient.listBuckets()
 
-    const bucketsWithKeys: Bucket[] = await Promise.all(
+    const bucketsWithKeys: BucketKeyPermission[] = await Promise.all(
       result.map(async (b) => {
 
-        const permission = b.owners.find(owner => owner === profile?.userId)
+        const permission = b.owners.find(owner => owner.uuid === profile?.userId)
           ? "owner" as BucketPermission
-          : b.writers.find(writer => writer === profile?.userId)
+          : b.writers.find(writer => writer.uuid === profile?.userId)
             ? "writer" as BucketPermission
-            : b.readers.find(reader => reader === profile?.userId)
+            : b.readers.find(reader => reader.uuid === profile?.userId)
               ? "reader" as BucketPermission
               : undefined
 
@@ -160,13 +160,14 @@ const FilesProvider = ({ children }: FilesContextProps) => {
         }
       })
     )
+    console.log(bucketsWithKeys)
     setBuckets(bucketsWithKeys)
     setIsLoadingBuckets(false)
     return Promise.resolve()
   }, [personalEncryptionKey, userId, filesApiClient, profile, getKeyForSharedBucket])
 
   useEffect(() => {
-    refreshBuckets()
+    refreshBuckets(true)
   }, [refreshBuckets])
 
   // Space used counter
@@ -496,7 +497,7 @@ const FilesProvider = ({ children }: FilesContextProps) => {
       type: "share",
       readers,
       writers
-    }).then(refreshBuckets)
+    }).then(() => refreshBuckets(false))
       .catch(console.error)
   }, [filesApiClient, encryptForPublicKey, publicKey, refreshBuckets])
 
