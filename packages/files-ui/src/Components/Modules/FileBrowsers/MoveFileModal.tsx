@@ -81,8 +81,6 @@ const MoveFileModule = ({ filesToMove, modalOpen, onClose, onCancel, mode }: IMo
   const [movePath, setMovePath] = useState<undefined | string>(undefined)
   const [folderTree, setFolderTree] = useState<ITreeNodeProps[]>([])
 
-  console.log(currentPath)
-
   const mapFolderTree = useCallback(
     (folderTreeEntries: DirectoryContentResponse[]): ITreeNodeProps[] => {
       return folderTreeEntries.map((entry) => ({
