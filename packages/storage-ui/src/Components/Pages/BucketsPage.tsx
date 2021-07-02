@@ -121,6 +121,7 @@ const BucketsPage = () => {
         </Typography>
         <div className={classes.controls}>
           <Button
+            data-cy="button-create-bucket"
             onClick={() => setCreateBucketOpen(true)}
             variant="outline"
           >
@@ -140,12 +141,14 @@ const BucketsPage = () => {
             className={classes.tableRow}
           >
             <TableHeadCell
+              data-cy="table-header-name"
               sortButtons={false}
               align="left"
             >
               <Trans>Name</Trans>
             </TableHeadCell>
             <TableHeadCell
+              data-cy="table-header-size"
               sortButtons={false}
               align="center"
             >
@@ -193,11 +196,13 @@ const BucketsPage = () => {
           >
             <Typography><Trans>Bucket Name</Trans></Typography>
             <TextInput
+              data-cy="input-bucket-name"
               value={newBucketName}
               onChange={(val) => setNewBucketName(String(val))} />
           </Grid>
           <footer className={classes.modalFooter}>
             <Button
+              data-cy="button-cancel-create"
               onClick={() => setCreateBucketOpen(false)}
               size="medium"
               className={classes.cancelButton}
@@ -207,6 +212,7 @@ const BucketsPage = () => {
               <Trans>Cancel</Trans>
             </Button>
             <Button
+              data-cy="button-submit-create"
               variant="primary"
               size="medium"
               className={classes.okButton}

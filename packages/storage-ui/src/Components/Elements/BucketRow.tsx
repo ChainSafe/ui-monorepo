@@ -78,14 +78,14 @@ const BucketRow = ({ bucket }: Props) => {
       </TableCell>
       <TableCell align="right">
         <MenuDropdown
-          testId='bucketDropdown'
+          testId='bucket-kebab'
           animation="none"
           anchor={"bottom-right"}
           menuItems={[{
             contents: (
               <>
                 <DeleteSvg className={classes.menuIcon} />
-                <span data-cy="menu-share">
+                <span data-cy="menu-delete-bucket">
                   <Trans>Delete bucket</Trans>
                 </span>
               </>

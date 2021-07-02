@@ -92,14 +92,14 @@ const CidRow = ({ pinStatus }: Props) => {
       </TableCell>
       <TableCell align="right">
         <MenuDropdown
-          testId='fileDropdown'
+          testId='cid-kebab'
           animation="none"
           anchor={"bottom-right"}
           menuItems={[{
             contents: (
               <>
                 <DeleteSvg className={classes.menuIcon} />
-                <span data-cy="menu-share">
+                <span data-cy="menu-unpin">
                   <Trans>Unpin</Trans>
                 </span>
               </>

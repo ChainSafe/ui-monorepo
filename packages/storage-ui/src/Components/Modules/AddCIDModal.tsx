@@ -141,6 +141,7 @@ const AddCIDModal = ({ modalOpen = false, close }: IAddCIDModuleProps) => {
                 labelClassName={classes.label}
                 label={t`Paste the CID to pin it with ChainSafe Storage`}
                 ref={inputRef}
+                data-cy="input-cid"
               />
             </Grid>
             <Grid
@@ -154,6 +155,7 @@ const AddCIDModal = ({ modalOpen = false, close }: IAddCIDModuleProps) => {
                 className={classes.cancelButton}
                 variant={"outline"}
                 type="button"
+                data-cy="button-cancel-add-pin"
               >
                 <Trans>Cancel</Trans>
               </CustomButton>
@@ -163,6 +165,7 @@ const AddCIDModal = ({ modalOpen = false, close }: IAddCIDModuleProps) => {
                 type="submit"
                 className={classes.okButton}
                 loading={accessingCID}
+                data-cy="button-submit-pin"
               >
                 <Trans>Pin</Trans>
               </Button>

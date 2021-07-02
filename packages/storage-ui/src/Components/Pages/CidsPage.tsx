@@ -69,7 +69,7 @@ const CidsPage = () => {
           </Typography>
           <div className={classes.controls}>
             <Button
-              data-cy="add-cid-modal-button"
+              data-cy="button-pin-cid"
               onClick={() => setAddCIDOpen(true)}
               variant="outline"
               size="large"
@@ -93,24 +93,28 @@ const CidsPage = () => {
               className={classes.tableRow}
             >
               <TableHeadCell
+                data-cy="table-header-cid"
                 sortButtons={false}
                 align="center"
               >
                 <Trans>Cid</Trans>
               </TableHeadCell>
               <TableHeadCell
+                data-cy="table-header-created"
                 sortButtons={false}
                 align="center"
               >
                 <Trans>Created</Trans>
               </TableHeadCell>
               <TableHeadCell
+                data-cy="table-header-size"
                 sortButtons={false}
                 align="center"
               >
                 <Trans>Size</Trans>
               </TableHeadCell>
               <TableHeadCell
+                data-cy="table-header-status"
                 sortButtons={false}
                 align="center"
               >
@@ -123,6 +127,7 @@ const CidsPage = () => {
           <TableBody>
             {pins.map((pinStatus, index) =>
               <CidRow
+                data-cy="row-pin-status"
                 pinStatus={pinStatus}
                 key={index}
               />
