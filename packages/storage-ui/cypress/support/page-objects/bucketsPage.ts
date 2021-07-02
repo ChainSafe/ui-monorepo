@@ -15,6 +15,7 @@ export const bucketsPage = {
   bucketRowKebabButton: () => cy.get("[data-testid=dropdown-title-bucket-kebab]"),
 
   // create bucket modal elements
+  createBucketForm: () => cy.get("[data-testid=form-create-bucket]"),
   bucketNameInput: () => cy.get("[data-cy=input-bucket-name]"),
   createBucketCancelButton: () => cy.get("[data-cy=button-cancel-create]"),
   createBucketSubmitButton: () => cy.get("[data-cy=button-submit-create]"),

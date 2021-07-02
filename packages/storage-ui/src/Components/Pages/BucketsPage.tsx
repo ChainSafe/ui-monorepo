@@ -174,7 +174,9 @@ const BucketsPage = () => {
         }}
         closePosition="none"
       >
-        <div className={classes.modalRoot}>
+        <div className={classes.modalRoot}
+          data-cy="form-create-bucket"
+        >
           <Grid
             item
             xs={12}

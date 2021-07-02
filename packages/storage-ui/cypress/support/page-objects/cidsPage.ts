@@ -16,7 +16,8 @@ export const cidsPage = {
   statusTableHeader: () => cy.get("[data-cy=table-header-status]"),
   cidRowKebabButton: () => cy.get("[data-testid=dropdown-title-cid-kebab]"),
 
-  // pin modal elements
+  // pin cid modal elements
+  pinCidForm: () => cy.get("[data-testid=form-create-bucket]"),
   cidInput: () => cy.get("[data-cy=input-cid]"),
   pinCancelButton: () => cy.get("[data-cy=button-cancel-add-pin]"),
   pinSubmitButton: () => cy.get("[data-cy=button-submit-pin]"),
