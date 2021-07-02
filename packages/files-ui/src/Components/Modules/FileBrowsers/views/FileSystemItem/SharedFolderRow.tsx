@@ -137,6 +137,11 @@ const SharedFolderRow = ({ bucket, onFolderClick, menuItems }: Props) => {
       >
         <Typography>{name}</Typography>
       </TableCell>
+      {desktop &&
+        <TableCell align="left">
+
+        </TableCell>
+      }
       <TableCell
         data-cy="shared-folder-item-shared-with"
         align="left"
@@ -145,9 +150,9 @@ const SharedFolderRow = ({ bucket, onFolderClick, menuItems }: Props) => {
         <SharedUsers sharedUsers={userIds}/>
       </TableCell>
       {desktop &&
-          <TableCell align="left">
-            {formatBytes(size)}
-          </TableCell>
+        <TableCell align="left">
+          {formatBytes(size)}
+        </TableCell>
       }
       <TableCell align="right">
         <MenuDropdown

@@ -21,7 +21,7 @@ import clsx from "clsx"
 import CreateSharedFolderModal from "./CreateSharedFolderModal"
 import { ROUTE_LINKS } from "../../FilesRoutes"
 
-export const desktopSharedGridSettings = "69px 3fr 190px 150px 45px !important"
+export const desktopSharedGridSettings = "69px 3fr 120px 190px 150px 45px !important"
 export const mobileSharedGridSettings = "3fr 50px 45px !important"
 
 const useStyles = makeStyles(
@@ -180,6 +180,9 @@ const SharedFolderOverview = () => {
                   sortActive={column === "name"}
                 >
                   <Trans>Name</Trans>
+                </TableHeadCell>
+                <TableHeadCell align="left">
+                  <Trans>Owner</Trans>
                 </TableHeadCell>
                 <TableHeadCell align="left">
                   <Trans>Shared with</Trans>
