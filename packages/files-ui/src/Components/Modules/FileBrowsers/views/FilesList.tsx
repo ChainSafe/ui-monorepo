@@ -51,6 +51,10 @@ import SurveyBanner from "../../../SurveyBanner"
 import { DragPreviewLayer } from "./DragPreviewLayer"
 import { useFileBrowser } from "../../../../Contexts/FileBrowserContext"
 
+const baseOperations:  FileOperation[] = ["download", "info", "preview"]
+const writerOperations: FileOperation[] = [...baseOperations, "delete", "move", "rename"]
+const csfOperations:  FileOperation[] = [...writerOperations, "share"]
+
 interface IStyleProps {
   themeKey: string
 }
@@ -470,48 +474,17 @@ const FilesList = ({ isShared = false }: Props) => {
 
   useEffect(() => {
     if (!bulkOperations) return
-
-    let filteredList: FileOperation[] = [
-      "delete",
-      "download",
-      "info",
-      "move",
-      "preview",
-      "rename"
-    ]
+    let filteredList: FileOperation[] = csfOperations
 
     if (!!permission && isShared) {
 
       switch(permission) {
       case "owner":
-        filteredList = [
-          "delete",
-          "download",
-          "info",
-          "move",
-          "preview",
-          "rename",
-          "share"
-        ]
-        break
       case "writer":
-        filteredList = [
-          "delete",
-          "download",
-          "info",
-          "move",
-          "preview",
-          "rename",
-          "share"
-        ]
+        filteredList = writerOperations
         break
       case "reader":
-        filteredList = [
-          "download",
-          "info",
-          "preview",
-          "share"
-        ]
+        filteredList = baseOperations
         break
       }
 
