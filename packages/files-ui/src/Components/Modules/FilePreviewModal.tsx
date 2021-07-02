@@ -219,8 +219,10 @@ const FilePreviewModal = ({ file, nextFile, previousFile, closePreview, path }: 
         setLoadingProgress(0)
 
       } catch (error) {
-        console.error(error)
-        setError(t`There was an error getting the preview.`)
+        if (error) {
+          console.error(error)
+          setError(t`There was an error getting the preview.`)
+        }
       }
 
       setIsLoading(false)
