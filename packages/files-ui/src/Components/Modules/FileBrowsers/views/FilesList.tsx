@@ -474,17 +474,17 @@ const FilesList = ({ isShared = false }: Props) => {
 
   useEffect(() => {
     if (!bulkOperations) return
-    let filteredList: FileOperation[] = csfOperations
+    let fileOperations: FileOperation[] = csfOperations
 
     if (!!permission && isShared) {
 
       switch(permission) {
       case "owner":
       case "writer":
-        filteredList = writerOperations
+        fileOperations = writerOperations
         break
       case "reader":
-        filteredList = baseOperations
+        fileOperations = baseOperations
         break
       }
 
@@ -494,41 +494,41 @@ const FilesList = ({ isShared = false }: Props) => {
 
         if (contentType) {
           if (contentType === CONTENT_TYPES.Directory) {
-            const validList = filteredList.filter(
+            const validList = fileOperations.filter(
               (op: FileOperation) =>
                 bulkOperations[contentType].indexOf(op) >= 0
             )
             if (validList.length > 0) {
-              filteredList = filteredList.filter(
+              fileOperations = fileOperations.filter(
                 (existingOp: FileOperation) =>
                   validList.indexOf(existingOp) >= 0
               )
             }
           } else {
-            const validList = filteredList.filter(
+            const validList = fileOperations.filter(
               (op: FileOperation) =>
                 bulkOperations[CONTENT_TYPES.File].indexOf(op) >= 0
             )
             if (validList.length > 0) {
-              filteredList = filteredList.filter(
+              fileOperations = fileOperations.filter(
                 (existingOp: FileOperation) =>
                   validList.indexOf(existingOp) >= 0
               )
             }
           }
         } else {
-          const validList = filteredList.filter(
+          const validList = fileOperations.filter(
             (op: FileOperation) =>
               bulkOperations[CONTENT_TYPES.File].indexOf(op) >= 0
           )
           if (validList.length > 0) {
-            filteredList = filteredList.filter(
+            fileOperations = fileOperations.filter(
               (existingOp: FileOperation) => validList.indexOf(existingOp) >= 0
             )
           }
         }
       }
-      setValidBulkOps(filteredList)
+      setValidBulkOps(fileOperations)
     }
   }, [selectedCids, items, bulkOperations, isShared, permission])
 
