@@ -56,10 +56,6 @@ const useStyles = makeStyles(
       treeScrollView: {
         paddingLeft: constants.generalUnit * 4
       },
-      buttonContainer: {
-        display: "flex",
-        flex: 0
-      },
       paddedContainer: {
         padding: `${constants.generalUnit * 2}px ${
           constants.generalUnit * 3
