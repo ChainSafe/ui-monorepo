@@ -1,8 +1,11 @@
-import React from "react"
+import React, { useMemo } from "react"
 import { makeStyles, createStyles, useThemeSwitcher } from "@chainsafe/common-theme"
 import {
+  Button,
+  CheckSvg,
   FolderFilledIcon,
   formatBytes,
+  FormikTextInput,
   IMenuItem,
   MenuDropdown,
   MoreIcon,
@@ -11,9 +14,14 @@ import {
   Typography
 } from "@chainsafe/common-components"
 import { CSFTheme } from "../../../../../Themes/types"
-import { Bucket, BucketUser } from "@chainsafe/files-api-client"
+import { BucketUser } from "@chainsafe/files-api-client"
 import { desktopSharedGridSettings, mobileSharedGridSettings } from "../../SharedFoldersOverview"
 import SharedUsers from "../../../../Elements/SharedUser"
+import { t } from "@lingui/macro"
+import { Form, FormikProvider, useFormik } from "formik"
+import { object, string } from "yup"
+import clsx from "clsx"
+import { BucketKeyPermission } from "../../../../../Contexts/FilesContext"
 
 const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => {
 
@@ -71,7 +79,10 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => 
     filename: {
       whiteSpace: "nowrap",
       textOverflow: "ellipsis",
-      overflow: "hidden"
+      overflow: "hidden",
+      "&.editing": {
+        overflow: "visible"
+      }
     },
     sharedUser: {
       overflow: "visible",
@@ -97,15 +108,31 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => 
 })
 
 interface Props {
-  bucket: Bucket
+  bucket: BucketKeyPermission
   onFolderClick: (e?: React.MouseEvent) => void
   menuItems: IMenuItem[]
+  isEditing: boolean
+  setIsEditing: (isEditing: boolean) => void
+  handleRename: (bucket: BucketKeyPermission, newName: string) => void
 }
 
-const SharedFolderRow = ({ bucket, onFolderClick, menuItems }: Props) => {
+const renameSchema = object().shape({
+  fileName: string()
+    .min(1, t`Please enter a name`)
+    .max(65, t`Name too long`)
+    .test(
+      t`Invalid name`,
+      t`Name cannot contain '/' character`,
+      (val: string | null | undefined) => !!val && !val?.includes("/")
+    )
+    .required(t`A name is required`)
+})
+
+const SharedFolderRow = ({ bucket, onFolderClick, menuItems, isEditing, setIsEditing, handleRename }: Props) => {
   const classes = useStyles()
   const { name, size } = bucket
   const { desktop } = useThemeSwitcher()
+  const isOwner = useMemo(() => bucket.permission === "owner", [bucket.permission])
 
   const getUserIds = (users: BucketUser[]): string[] => {
     return users.reduce((acc: string[], user): string[] => {
@@ -114,6 +141,23 @@ const SharedFolderRow = ({ bucket, onFolderClick, menuItems }: Props) => {
   }
 
   const userIds = [...getUserIds(bucket.owners), ...getUserIds(bucket.readers), ...getUserIds(bucket.writers)]
+
+  const formik = useFormik({
+    initialValues:{
+      fileName: name
+    },
+    enableReinitialize: true,
+    validationSchema: renameSchema,
+    onSubmit:(values, { resetForm }) => {
+      handleRename && values.fileName &&
+        handleRename(
+          bucket,
+          values.fileName
+        )
+      setIsEditing(false)
+      resetForm()
+    }
+  })
 
   return  (
     <TableRow
@@ -132,10 +176,45 @@ const SharedFolderRow = ({ bucket, onFolderClick, menuItems }: Props) => {
       <TableCell
         data-cy="shared-folder-item-name"
         align="left"
-        className={classes.filename}
+        className={clsx(classes.filename, desktop && isEditing && "editing")}
         onClick={(e) => onFolderClick(e)}
       >
-        <Typography>{name}</Typography>
+        {!isEditing
+          ? <Typography>{name}</Typography>
+          : <FormikProvider value={formik}>
+            <Form
+              className={classes.desktopRename}
+              data-cy='rename-form'
+              onBlur={() => {
+                setIsEditing(false)
+                formik.resetForm()
+              }}
+            >
+              <FormikTextInput
+                className={classes.renameInput}
+                name="fileName"
+                inputVariant="minimal"
+                onKeyDown={(event) => {
+                  if (event.key === "Escape") {
+                    setIsEditing(false)
+                    formik.resetForm()
+                  }
+                }}
+                placeholder = {t`Please enter a folder name`}
+                autoFocus={isEditing}
+              />
+              <Button
+                data-cy='rename-submit-button'
+                variant="dashed"
+                size="small"
+                type="submit"
+                disabled={!formik.dirty}
+              >
+                <CheckSvg />
+              </Button>
+            </Form>
+          </FormikProvider>
+        }
       </TableCell>
       {desktop &&
         <TableCell align="left">
@@ -155,18 +234,20 @@ const SharedFolderRow = ({ bucket, onFolderClick, menuItems }: Props) => {
         </TableCell>
       }
       <TableCell align="right">
-        <MenuDropdown
-          testId='sharedFolderDropdown'
-          animation="none"
-          anchor={desktop ? "bottom-center" : "bottom-right"}
-          menuItems={menuItems}
-          classNames={{
-            icon: classes.dropdownIcon,
-            options: classes.dropdownOptions,
-            item: classes.dropdownItem
-          }}
-          indicator={MoreIcon}
-        />
+        {isOwner &&
+          <MenuDropdown
+            testId='sharedFolderDropdown'
+            animation="none"
+            anchor={desktop ? "bottom-center" : "bottom-right"}
+            menuItems={menuItems}
+            classNames={{
+              icon: classes.dropdownIcon,
+              options: classes.dropdownOptions,
+              item: classes.dropdownItem
+            }}
+            indicator={MoreIcon}
+          />
+        }
       </TableCell>
     </TableRow>
   )

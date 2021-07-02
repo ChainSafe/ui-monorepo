@@ -12,13 +12,14 @@ import {
   PlusIcon,
   useHistory
 } from "@chainsafe/common-components"
-import { useFiles } from "../../../Contexts/FilesContext"
+import { BucketKeyPermission, useFiles } from "../../../Contexts/FilesContext"
 import { Trans } from "@lingui/macro"
 import { createStyles, makeStyles, useThemeSwitcher } from "@chainsafe/common-theme"
 import { CSFTheme } from "../../../Themes/types"
 import SharedFolderRowWrapper from "./SharedFolderRowWrapper"
 import clsx from "clsx"
 import CreateSharedFolderModal from "./CreateSharedFolderModal"
+import { useFilesApi } from "../../../Contexts/FilesApiContext"
 import { ROUTE_LINKS } from "../../FilesRoutes"
 
 export const desktopSharedGridSettings = "69px 3fr 120px 190px 150px 45px !important"
@@ -97,7 +98,8 @@ const useStyles = makeStyles(
 
 const SharedFolderOverview = () => {
   const classes = useStyles()
-  const { buckets, isLoadingBuckets } = useFiles()
+  const { filesApiClient } = useFilesApi()
+  const { buckets, isLoadingBuckets, refreshBuckets } = useFiles()
   const [createSharedFolderModalOpen, setCreateSharedFolderModalOpen] = useState(false)
   const [direction, setDirection] = useState<SortDirection>("ascend")
   const [column, setColumn] = useState<"name" | "size" | "date_uploaded">("name")
@@ -120,6 +122,14 @@ const SharedFolderOverview = () => {
       }
     }
   }
+
+  const handleRename = useCallback((bucket: BucketKeyPermission, newName: string) => {
+    filesApiClient.updateBucket(bucket.id, {
+      ...bucket,
+      name: newName
+    }).then(() => refreshBuckets(false))
+      .catch(console.error)
+  }, [filesApiClient, refreshBuckets])
 
   const openSharedFolder = useCallback((bucketId: string) => {
     redirect(ROUTE_LINKS.ShareExplorer(bucketId, "/"))
@@ -206,6 +216,7 @@ const SharedFolderOverview = () => {
                 <SharedFolderRowWrapper
                   key={bucket.id}
                   bucket={bucket}
+                  handleRename={handleRename}
                   openSharedFolder={openSharedFolder}
                 />
               )}
