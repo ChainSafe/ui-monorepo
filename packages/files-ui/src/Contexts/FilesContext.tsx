@@ -132,11 +132,11 @@ const FilesProvider = ({ children }: FilesContextProps) => {
     const bucketsWithKeys: BucketKeyPermission[] = await Promise.all(
       result.map(async (b) => {
 
-        const permission = b.owners.find(owner => owner === profile?.userId)
+        const permission = b.owners.find(owner => owner.uuid === profile?.userId)
           ? "owner" as BucketPermission
-          : b.writers.find(writer => writer === profile?.userId)
+          : b.writers.find(writer => writer.uuid === profile?.userId)
             ? "writer" as BucketPermission
-            : b.readers.find(reader => reader === profile?.userId)
+            : b.readers.find(reader => reader.uuid === profile?.userId)
               ? "reader" as BucketPermission
               : undefined
 
@@ -160,6 +160,7 @@ const FilesProvider = ({ children }: FilesContextProps) => {
         }
       })
     )
+    console.log(bucketsWithKeys)
     setBuckets(bucketsWithKeys)
     setIsLoadingBuckets(false)
     return Promise.resolve()
