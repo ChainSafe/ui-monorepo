@@ -376,9 +376,6 @@ msgstr "Number of copies (Replication Factor)"
 msgid "OK"
 msgstr "OK"
 
-msgid "One sec, getting files ready..."
-msgstr "One sec, getting files ready..."
-
 msgid "One sec, getting files ready…"
 msgstr "One sec, getting files ready…"
 
@@ -474,6 +471,12 @@ msgstr "Rename file"
 
 msgid "Rename folder"
 msgstr "Rename folder"
+
+msgid "Report"
+msgstr "Report"
+
+msgid "Report a File"
+msgstr "Report a File"
 
 msgid "Requested from"
 msgstr "Requested from"
