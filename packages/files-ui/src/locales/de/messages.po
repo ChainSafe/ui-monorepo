@@ -469,6 +469,12 @@ msgstr ""
 msgid "Rename folder"
 msgstr ""
 
+msgid "Report"
+msgstr ""
+
+msgid "Report a File"
+msgstr ""
+
 msgid "Requested from"
 msgstr "Angefordert von"
 

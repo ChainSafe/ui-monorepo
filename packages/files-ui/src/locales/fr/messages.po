@@ -473,6 +473,12 @@ msgstr "Renommer le fichier"
 msgid "Rename folder"
 msgstr "Renommer le dossier"
 
+msgid "Report"
+msgstr ""
+
+msgid "Report a File"
+msgstr ""
+
 msgid "Requested from"
 msgstr "Envoyé par"
 
