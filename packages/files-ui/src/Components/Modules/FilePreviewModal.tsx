@@ -219,6 +219,7 @@ const FilePreviewModal = ({ file, nextFile, previousFile, closePreview, path }: 
         setLoadingProgress(0)
 
       } catch (error) {
+        // If no error is thrown, this was due to a cancellation by the user.
         if (error) {
           console.error(error)
           setError(t`There was an error getting the preview.`)
