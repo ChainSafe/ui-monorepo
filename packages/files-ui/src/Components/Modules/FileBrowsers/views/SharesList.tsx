@@ -32,9 +32,9 @@ import clsx from "clsx"
 import { plural, t, Trans } from "@lingui/macro"
 import { NativeTypes } from "react-dnd-html5-backend"
 import { useDrop } from "react-dnd"
-import { BrowserView, FileOperation, MoveModalMode } from "../types"
+import { BrowserView, FileOperation } from "../types"
 import { FileSystemItem as FileSystemItemType } from "../../../../Contexts/FilesContext"
-import FileSystemItem from "./FileSystemItem/FileSystemItem"
+import FileSystemItem from "../views/FileSystemItem/FileSystemItem"
 import FilePreviewModal from "../../FilePreviewModal"
 import UploadProgressModals from "../../UploadProgressModals"
 import DownloadProgressModals from "../../DownloadProgressModals"
@@ -48,7 +48,7 @@ import MimeMatcher from "../../../../Utils/MimeMatcher"
 import { useLanguageContext } from "../../../../Contexts/LanguageContext"
 import { getPathWithFile } from "../../../../Utils/pathUtils"
 import SurveyBanner from "../../../SurveyBanner"
-import { DragPreviewLayer } from "./DragPreviewLayer"
+import { DragPreviewLayer } from "../views/DragPreviewLayer"
 import { useFileBrowser } from "../../../../Contexts/FileBrowserContext"
 
 interface IStyleProps {
@@ -277,7 +277,8 @@ const useStyles = makeStyles(
 const sortFoldersFirst = (a: FileSystemItemType, b: FileSystemItemType) =>
   a.isFolder && a.content_type !== b.content_type ? -1 : 1
 
-const FilesList = () => {
+
+const SharesList = () => {
   const { themeKey, desktop } = useThemeSwitcher()
 
   const {
@@ -301,13 +302,14 @@ const FilesList = () => {
     moduleRootPath,
     isSearch,
     withSurvey,
-    bucket
+    bucket,
+    accessRole
   } = useFileBrowser()
   const classes = useStyles({ themeKey })
   const [editing, setEditing] = useState<string | undefined>()
   const [direction, setDirection] = useState<SortDirection>("ascend")
   const [isSurveyBannerVisible, setIsSurveyBannerVisible] = useState(true)
-  const [column, setColumn] = useState<"name" | "size" | "date_uploaded">("name")
+  const [column, setColumn] = useState<"name" | "shared_with" | "date_uploaded">("name")
   const [selectedCids, setSelectedCids] = useState<string[]>([])
   const [previewFileIndex, setPreviewFileIndex] = useState<number | undefined>()
   const { selectedLocale } = useLanguageContext()
@@ -324,12 +326,6 @@ const FilesList = () => {
           sensitivity: "base"
         })
       })
-      break
-    }
-    case "size": {
-      temp = sourceFiles
-        .sort((a, b) => (a.size < b.size ? -1 : 1))
-        .sort(sortFoldersFirst)
       break
     }
     case "date_uploaded": {
@@ -352,7 +348,8 @@ const FilesList = () => {
   )
 
   const handleSortToggle = (
-    targetColumn: "name" | "size" | "date_uploaded"
+    // targetColumn: "name" | "size" | "date_uploaded"
+    targetColumn: "name" | "shared_with" | "date_uploaded"
   ) => {
     if (column !== targetColumn) {
       setColumn(targetColumn)
@@ -457,8 +454,9 @@ const FilesList = () => {
   const [isMoveFileModalOpen, setIsMoveFileModalOpen] = useState(false)
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
   const [isDeletingFiles, setIsDeletingFiles] = useState(false)
-  const [fileInfoPath, setFileInfoPath] = useState<string | undefined>()
-  const [moveModalMode, setMoveModalMode] = useState<MoveModalMode | undefined>()
+  const [fileInfoPath, setFileInfoPath] = useState<string | undefined>(
+    undefined
+  )
 
   const [browserView, setBrowserView] = useState<BrowserView>("table")
 
@@ -466,17 +464,42 @@ const FilesList = () => {
   const [validBulkOps, setValidBulkOps] = useState<FileOperation[]>([])
 
   useEffect(() => {
-    if (bulkOperations) {
-      let filteredList: FileOperation[] = [
-        "delete",
-        "download",
-        "info",
-        "move",
-        "preview",
-        "rename",
-        "share",
-        "recover"
-      ]
+    if (bulkOperations && accessRole) {
+      let filteredList: FileOperation[] = []
+
+      switch(accessRole) {
+      case "owner":
+        filteredList = [
+          "delete",
+          "download",
+          "info",
+          "move",
+          "preview",
+          "rename",
+          "share"
+        ]
+        break
+      case "writer":
+        filteredList = [
+          "delete",
+          "download",
+          "info",
+          "move",
+          "preview",
+          "rename",
+          "share"
+        ]
+        break
+      case "reader":
+        filteredList = [
+          "download",
+          "info",
+          "preview",
+          "share"
+        ]
+        break
+      }
+
       for (let i = 0; i < selectedCids.length; i++) {
         const contentType = items.find((item) => item.cid === selectedCids[i])
           ?.content_type
@@ -519,7 +542,7 @@ const FilesList = () => {
       }
       setValidBulkOps(filteredList)
     }
-  }, [selectedCids, items, bulkOperations])
+  }, [selectedCids, items, bulkOperations, accessRole])
 
   const handleDeleteFiles = useCallback(() => {
     if (!deleteFiles) return
@@ -635,27 +658,33 @@ const FilesList = () => {
               >
                 {browserView === "table" ? <GridIcon /> : <TableIcon />}
               </Button>
-              <Button
-                onClick={() => setCreateFolderModalOpen(true)}
-                variant="outline"
-                size="large"
-              >
-                <PlusCircleIcon />
-                <span>
-                  <Trans>New folder</Trans>
-                </span>
-              </Button>
-              <Button
-                data-cy="upload-modal-button"
-                onClick={() => setIsUploadModalOpen(true)}
-                variant="outline"
-                size="large"
-              >
-                <UploadIcon />
-                <span>
-                  <Trans>Upload</Trans>
-                </span>
-              </Button>
+              {
+                accessRole !== "reader" && (
+                  <>
+                    <Button
+                      onClick={() => setCreateFolderModalOpen(true)}
+                      variant="outline"
+                      size="large"
+                    >
+                      <PlusCircleIcon />
+                      <span>
+                        <Trans>New folder</Trans>
+                      </span>
+                    </Button>
+                    <Button
+                      data-cy="upload-modal-button"
+                      onClick={() => setIsUploadModalOpen(true)}
+                      variant="outline"
+                      size="large"
+                    >
+                      <UploadIcon />
+                      <span>
+                        <Trans>Upload</Trans>
+                      </span>
+                    </Button>
+                  </>
+                )
+              }
             </>
           ) : (
             controls && !desktop && (
@@ -728,33 +757,16 @@ const FilesList = () => {
           <>
             {validBulkOps.indexOf("move") >= 0 && (
               <Button
-                onClick={(e) => {
-                  handleOpenMoveFileDialog(e)
-                  setMoveModalMode("move")
-                }}
+                onClick={handleOpenMoveFileDialog}
                 variant="outline"
-                testId="move-selected-file"
               >
                 <Trans>Move selected</Trans>
-              </Button>
-            )}
-            {validBulkOps.indexOf("recover") >= 0 && (
-              <Button
-                onClick={(e) => {
-                  handleOpenMoveFileDialog(e)
-                  setMoveModalMode("recover")
-                }}
-                variant="outline"
-                testId="recover-selected-file"
-              >
-                <Trans>Recover selected</Trans>
               </Button>
             )}
             {validBulkOps.indexOf("delete") >= 0 && (
               <Button
                 onClick={handleOpenDeleteDialog}
                 variant="outline"
-                testId="delete-selected-file"
               >
                 <Trans>Delete selected</Trans>
               </Button>
@@ -772,7 +784,7 @@ const FilesList = () => {
           type="light" />
         <Typography variant="body2"
           component="p">
-          <Trans>One sec, getting files ready…</Trans>
+          <Trans>One sec, getting files ready...</Trans>
         </Typography>
       </div>
       {(desktop && items.length === 0) ||
@@ -796,54 +808,52 @@ const FilesList = () => {
             hover={true}
             className={clsx(loadingCurrentPath && classes.fadeOutLoading)}
           >
-            {desktop && (
-              <TableHead className={classes.tableHead}>
-                <TableRow type="grid"
-                  className={classes.tableRow}>
-                  <TableHeadCell>
-                    <CheckboxInput
-                      value={selectedCids.length === items.length}
-                      onChange={() => toggleAll()}
-                    />
-                  </TableHeadCell>
-                  <TableHeadCell>
-                    {/* 
-                        Icon
-                      */}
-                  </TableHeadCell>
-                  <TableHeadCell
-                    sortButtons={true}
-                    align="left"
-                    onSortChange={() => handleSortToggle("name")}
-                    sortDirection={column === "name" ? direction : undefined}
-                    sortActive={column === "name"}
-                  >
-                    <Trans>Name</Trans>
-                  </TableHeadCell>
-                  <TableHeadCell
-                    sortButtons={true}
-                    align="left"
-                    onSortChange={() => handleSortToggle("date_uploaded")}
-                    sortDirection={
-                      column === "date_uploaded" ? direction : undefined
-                    }
-                    sortActive={column === "date_uploaded"}
-                  >
-                    <Trans>Date uploaded</Trans>
-                  </TableHeadCell>
-                  <TableHeadCell
-                    sortButtons={true}
-                    align="left"
-                    onSortChange={() => handleSortToggle("size")}
-                    sortDirection={column === "size" ? direction : undefined}
-                    sortActive={column === "size"}
-                  >
-                    <Trans>Size</Trans>
-                  </TableHeadCell>
-                  <TableHeadCell>{/* Menu */}</TableHeadCell>
-                </TableRow>
-              </TableHead>
-            )}
+            <TableHead className={classes.tableHead}>
+              <TableRow type="grid"
+                className={classes.tableRow}>
+                <TableHeadCell>
+                  <CheckboxInput
+                    value={selectedCids.length === items.length}
+                    onChange={() => toggleAll()}
+                  />
+                </TableHeadCell>
+                <TableHeadCell>
+                  {/* 
+                      Icon
+                    */}
+                </TableHeadCell>
+                <TableHeadCell
+                  sortButtons={true}
+                  align="left"
+                  onSortChange={() => handleSortToggle("name")}
+                  sortDirection={column === "name" ? direction : undefined}
+                  sortActive={column === "name"}
+                >
+                  <Trans>Name</Trans>
+                </TableHeadCell>
+                <TableHeadCell
+                  sortButtons={true}
+                  align="left"
+                  onSortChange={() => handleSortToggle("date_uploaded")}
+                  sortDirection={
+                    column === "date_uploaded" ? direction : undefined
+                  }
+                  sortActive={column === "date_uploaded"}
+                >
+                  <Trans>Date uploaded</Trans>
+                </TableHeadCell>
+                <TableHeadCell
+                  sortButtons={true}
+                  align="left"
+                  onSortChange={() => handleSortToggle("shared_with")}
+                  sortDirection={column === "shared_with" ? direction : undefined}
+                  sortActive={column === "shared_with"}
+                >
+                  <Trans>Size</Trans>
+                </TableHeadCell>
+                <TableHeadCell>{/* Menu */}</TableHeadCell>
+              </TableRow>
+            </TableHead>
             <TableBody>
               {!desktop &&
               showUploadsInTable &&
@@ -899,17 +909,11 @@ const FilesList = () => {
                   moveFile={() => {
                     setSelectedCids([file.cid])
                     setIsMoveFileModalOpen(true)
-                    setMoveModalMode("move")
                   }}
                   setFileInfoPath={setFileInfoPath}
                   itemOperations={getItemOperations(file.content_type)}
                   resetSelectedFiles={resetSelectedCids}
                   browserView="table"
-                  recoverFile={() => {
-                    setSelectedCids([file.cid])
-                    setIsMoveFileModalOpen(true)
-                    setMoveModalMode("recover")
-                  }}
                 />
               ))}
             </TableBody>
@@ -945,16 +949,10 @@ const FilesList = () => {
                 moveFile={() => {
                   setSelectedCids([file.cid])
                   setIsMoveFileModalOpen(true)
-                  setMoveModalMode("move")
                 }}
                 setFileInfoPath={setFileInfoPath}
                 itemOperations={getItemOperations(file.content_type)}
                 resetSelectedFiles={resetSelectedCids}
-                recoverFile={() => {
-                  setSelectedCids([file.cid])
-                  setIsMoveFileModalOpen(true)
-                  setMoveModalMode("recover")
-                }}
                 browserView="grid"
               />
             ))}
@@ -983,14 +981,13 @@ const FilesList = () => {
         }
         rejectText = {t`Cancel`}
         acceptText = {t`Confirm`}
-        acceptButtonProps={{ loading: isDeletingFiles, disabled: isDeletingFiles, testId: "confirm-deletion" }}
-        rejectButtonProps={{ disabled: isDeletingFiles, testId: "cancel-deletion" }}
+        acceptButtonProps={{ loading: isDeletingFiles, disabled: isDeletingFiles }}
+        rejectButtonProps={{ disabled: isDeletingFiles }}
         injectedClass={{ inner: classes.confirmDeletionDialog }}
         onModalBodyClick={(e) => {
           e.preventDefault()
           e.stopPropagation()
         }}
-        testId="file-deletion"
       />
       <UploadProgressModals />
       <DownloadProgressModals />
@@ -1011,13 +1008,8 @@ const FilesList = () => {
               onClose={() => {
                 setIsMoveFileModalOpen(false)
                 setSelectedCids([])
-                setMoveModalMode(undefined)
               }}
-              onCancel={() => {
-                setIsMoveFileModalOpen(false)
-                setMoveModalMode(undefined)
-              }}
-              mode={moveModalMode}
+              onCancel={() => setIsMoveFileModalOpen(false)}
             />
           </>
         )
@@ -1032,4 +1024,4 @@ const FilesList = () => {
   )
 }
 
-export default FilesList
+export default SharesList

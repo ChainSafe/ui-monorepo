@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-04-20 00:28+0200\n"
-"PO-Revision-Date: 2021-06-23 09:07+0000\n"
+"PO-Revision-Date: 2021-06-28 07:32+0000\n"
 "Last-Translator: J. Lavoie <j.lavoie@net-c.ca>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/chainsafe-files/chainsafe-files-user-interface/de/>\n"
 "Language: de\n"
@@ -71,10 +71,10 @@ msgid "By connecting your wallet, you agree to our <0>Terms of Service</0> and <
 msgstr ""
 
 msgid "By forgetting this browser, you will not be able to use its associated recovery key to sign-in."
-msgstr ""
+msgstr "Wenn Sie diesen Browser vergessen haben, können Sie den zugehörigen Wiederherstellungsschlüssel nicht mehr zur Anmeldung verwenden."
 
 msgid "CID (Content Identifier)"
-msgstr ""
+msgstr "IID (Inhaltsidentifikator)"
 
 msgid "Cancel"
 msgstr "Abbrechen"
@@ -320,7 +320,7 @@ msgid "Loading your shared folders…"
 msgstr "Ihre freigegebenen Ordner werden geladen …"
 
 msgid "Looks like you’re signing in from a new browser. Please choose one of the following to continue:"
-msgstr ""
+msgstr "Sieht aus, als würden Sie sich über einen neuen Browser anmelden. Bitte wählen Sie eine der folgenden Möglichkeiten, um fortzufahren:"
 
 msgid "Lorem ipsum aenean et rutrum magna. Morbi nec placerat erat. Nunc elementum sed libero sit amet convallis. Quisque non arcu vitae ex fringilla molestie."
 msgstr "Lorem ipsum aenean et rutrum magna. Morbi nec placerat erat. Nunc elementum sed libero sit amet convallis. Quisque non arcu vitae ex fringilla molestie."
@@ -372,6 +372,9 @@ msgstr "Anzahl der Kopien (Replikationsfaktor)"
 
 msgid "OK"
 msgstr "OK"
+
+msgid "One sec, getting files ready..."
+msgstr ""
 
 msgid "One sec, getting files ready…"
 msgstr "Eine Sekunde, die Dateien werden vorbereitet …"

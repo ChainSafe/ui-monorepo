@@ -33,7 +33,7 @@ export const TagsInputStory = (): React.ReactNode => {
         setValue(value)
       }}
       value={value}
-      fetchTag={handleFetchTags}
+      fetchTags={handleFetchTags}
       disabled={boolean("Disabled", false)}
       label={text("Label", "Testing Label")}
       caption={text("Caption", "Testing caption")}
