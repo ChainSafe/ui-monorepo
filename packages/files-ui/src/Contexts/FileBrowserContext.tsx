@@ -1,12 +1,11 @@
 import { Crumb } from "@chainsafe/common-components"
 import React, { useContext } from "react"
 import { FileOperation, IBulkOperations, IFileBrowserModuleProps } from "../Components/Modules/FileBrowsers/types"
-import { BucketKeyPermission, FileSystemItem, UploadProgress, BucketPermission } from "./FilesContext"
+import { BucketKeyPermission, FileSystemItem, UploadProgress } from "./FilesContext"
 
 
 interface FileBrowserContext extends IFileBrowserModuleProps {
   bucket?: BucketKeyPermission
-  accessRole?: BucketPermission
   itemOperations: {[contentType: string]: FileOperation[]}
   bulkOperations?: IBulkOperations
   renameItem?: (cid: string, newName: string) => Promise<void>
