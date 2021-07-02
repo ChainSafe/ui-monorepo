@@ -180,6 +180,7 @@ const AppHeader = ({ navOpen, setNavOpen }: IAppHeader) => {
                     icon: classes.icon,
                     options: classes.options
                   }}
+                  testId="sign-out"
                   menuItems={[
                     {
                       onClick: () => signOut(),
@@ -187,7 +188,9 @@ const AppHeader = ({ navOpen, setNavOpen }: IAppHeader) => {
                         <div className={classes.menuItem}>
                           <PowerDownSvg />
                           <Typography>
-                            <Trans>Sign Out</Trans>
+                            <span data-cy="menu-sign-out">
+                              <Trans>Sign Out</Trans>
+                            </span>
                           </Typography>
                         </div>
                       )
