@@ -1,10 +1,14 @@
-import React, { useCallback } from "react"
-import { DeleteSvg, EditSvg, IMenuItem } from "@chainsafe/common-components"
+import React, { useCallback, useState } from "react"
+import {
+  // DeleteSvg,
+  EditSvg,
+  IMenuItem
+} from "@chainsafe/common-components"
 import { makeStyles, createStyles, useDoubleClick, useThemeSwitcher } from "@chainsafe/common-theme"
 import { Trans } from "@lingui/macro"
 import { CSFTheme } from "../../../Themes/types"
-import { Bucket } from "@chainsafe/files-api-client"
-import SharedFolderItem from "./views/FileSystemItem/SharedFolderRow"
+import SharedFolderRow from "./views/FileSystemItem/SharedFolderRow"
+import { BucketKeyPermission } from "../../../Contexts/FilesContext"
 
 const useStyles = makeStyles(({ constants }: CSFTheme) => {
   return createStyles({
@@ -22,36 +26,40 @@ const useStyles = makeStyles(({ constants }: CSFTheme) => {
 })
 
 interface Props {
-  bucket: Bucket
+  bucket: BucketKeyPermission
+  handleRename: (bucket: BucketKeyPermission, newName: string) => void
   openSharedFolder: (bucketId: string) => void
 }
 
-const SharedFolderRowWrapper = ({ bucket, openSharedFolder }: Props) => {
+const SharedFolderRowWrapper = ({ bucket, handleRename, openSharedFolder }: Props) => {
   const { desktop } = useThemeSwitcher()
   const classes = useStyles()
+  const [isEditing, setIsEditing] = useState(false)
 
-  const menuItems: IMenuItem[] = [{
-    contents: (
-      <>
-        <EditSvg className={classes.menuIcon} />
-        <span data-cy="menu-rename">
-          <Trans>Rename</Trans>
-        </span>
-      </>
-    ),
-    onClick: () => console.log("not implemented")
-  },
-  {
-    contents: (
-      <>
-        <DeleteSvg className={classes.menuIcon} />
-        <span data-cy="menu-delete">
-          <Trans>Delete</Trans>
-        </span>
-      </>
-    ),
-    onClick: () => console.log("not implemented")
-  }]
+  const menuItems: IMenuItem[] = [
+    {
+      contents: (
+        <>
+          <EditSvg className={classes.menuIcon} />
+          <span data-cy="menu-rename">
+            <Trans>Rename</Trans>
+          </span>
+        </>
+      ),
+      onClick: () => setIsEditing(true)
+    }
+    // {
+    //   contents: (
+    //     <>
+    //       <DeleteSvg className={classes.menuIcon} />
+    //       <span data-cy="menu-delete">
+    //         <Trans>Delete</Trans>
+    //       </span>
+    //     </>
+    //   ),
+    //   onClick: () => console.log("not implemented")
+    // }
+  ]
 
   const onSingleClick = useCallback(
     () => {
@@ -86,13 +94,14 @@ const SharedFolderRowWrapper = ({ bucket, openSharedFolder }: Props) => {
   }
 
   return (
-    <>
-      <SharedFolderItem
-        menuItems={menuItems}
-        onFolderClick={onFolderClick}
-        bucket={bucket}
-      />
-    </>
+    <SharedFolderRow
+      menuItems={menuItems}
+      onFolderClick={onFolderClick}
+      bucket={bucket}
+      isEditing={isEditing}
+      setIsEditing={setIsEditing}
+      handleRename={handleRename}
+    />
   )
 }
 

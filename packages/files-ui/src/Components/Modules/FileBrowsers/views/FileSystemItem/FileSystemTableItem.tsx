@@ -143,6 +143,7 @@ const FileSystemTableItem = React.forwardRef(
     const classes = useStyles()
     const { name, cid, created_at, size } = file
     const { desktop } = useThemeSwitcher()
+
     const formik = useFormik({
       initialValues:{
         fileName: name
