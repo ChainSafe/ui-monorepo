@@ -11,7 +11,7 @@ import { BucketPermission, FileSystemItem, useFiles } from "../../../../Contexts
 import { useFilesApi } from "../../../../Contexts/FilesApiContext"
 import { useUser } from "../../../../Contexts/UserContext"
 import DragAndDrop from "../../../../Contexts/DnDContext"
-import SharesList from "../views/SharesList"
+import FilesList from "../views/FilesList"
 
 const ShareFileBrowser = () => {
   const {
@@ -232,7 +232,6 @@ const ShareFileBrowser = () => {
   return (
     <FileBrowserContext.Provider value={{
       bucket,
-      accessRole: access,
       bulkOperations,
       handleUploadOnDrop,
       crumbs,
@@ -254,7 +253,7 @@ const ShareFileBrowser = () => {
       withSurvey: false
     }}>
       <DragAndDrop>
-        <SharesList />
+        <FilesList isShared/>
       </DragAndDrop>
     </FileBrowserContext.Provider>
   )
