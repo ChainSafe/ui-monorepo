@@ -218,7 +218,7 @@ const SharedFolderRow = ({ bucket, onFolderClick, menuItems, isEditing, setIsEdi
       </TableCell>
       {desktop &&
         <TableCell align="left">
-
+          {isOwner && t`me`}
         </TableCell>
       }
       <TableCell
