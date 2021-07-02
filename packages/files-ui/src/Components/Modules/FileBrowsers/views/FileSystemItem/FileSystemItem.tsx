@@ -113,7 +113,7 @@ interface IFileSystemItemProps {
   handleRename?: (cid: string, newName: string) => Promise<void>
   handleMove?: (cid: string, newPath: string) => Promise<void>
   deleteFile?: () => void
-  recoverFile?: (cid: string) => void
+  recoverFile?: () => void
   viewFolder?: (cid: string) => void
   setPreviewFileIndex: (fileIndex: number | undefined) => void
   moveFile?: () => void
@@ -121,6 +121,7 @@ interface IFileSystemItemProps {
   itemOperations: FileOperation[]
   resetSelectedFiles: () => void
   browserView: BrowserView
+  reportFile?: () => void
 }
 
 const FileSystemItem = ({
@@ -142,7 +143,8 @@ const FileSystemItem = ({
   handleAddToSelectedCids,
   itemOperations,
   browserView,
-  resetSelectedFiles
+  resetSelectedFiles,
+  reportFile
 }: IFileSystemItemProps) => {
   const { downloadFile, currentPath, handleUploadOnDrop, moveItems } = useFileBrowser()
   const { cid, name, isFolder, content_type } = file
@@ -250,7 +252,7 @@ const FileSystemItem = ({
           </span>
         </>
       ),
-      onClick: () => recoverFile && recoverFile(cid)
+      onClick: () => recoverFile && recoverFile()
     },
     preview: {
       contents: (
@@ -273,6 +275,17 @@ const FileSystemItem = ({
         </>
       ),
       onClick: () => viewFolder && viewFolder(cid)
+    },
+    report: {
+      contents: (
+        <>
+          <RecoverSvg className={classes.menuIcon} />
+          <span data-cy="menu-recover">
+            <Trans>Report</Trans>
+          </span>
+        </>
+      ),
+      onClick: () => reportFile && reportFile()
     }
   }
 

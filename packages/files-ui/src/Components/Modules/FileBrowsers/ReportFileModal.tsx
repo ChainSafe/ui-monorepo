@@ -152,32 +152,17 @@ const useStyles = makeStyles(
   }
 )
 
-interface IFileInfoModuleProps {
+interface IReportFileModalProps {
+  cid: string
   fileInfoPath: string
   close: () => void
 }
 
-const FileInfoModal = ({ fileInfoPath, close }: IFileInfoModuleProps) => {
+const ReportFileModal = ({ fileInfoPath, cid, close }: IReportFileModalProps) => {
   const classes = useStyles()
-  const { filesApiClient } = useFilesApi()
-  const [loadingFileInfo, setLoadingInfo] = useState(false)
   const [fullFileInfo, setFullFullInfo] = useState<FileFullInfo | undefined>()
   const { bucket } = useFileBrowser()
-
-  useEffect(() => {
-
-    if (!bucket) return
-
-    setLoadingInfo(true)
-    filesApiClient.getBucketObjectInfo(bucket.id, { path: fileInfoPath })
-      .then((fullFileResponse) => {
-        setFullFullInfo(fullFileResponse)
-        setLoadingInfo(false)
-      })
-      .catch(console.error)
-      .finally(() => setLoadingInfo(false))
-  }
-  , [bucket, fileInfoPath, filesApiClient])
+  const [isLoadingFileInfo, setIsloadingFileInfo] = useState(false)
 
   const [copied, setCopied] = useState(false)
   const debouncedSwitchCopied = debounce(() => setCopied(false), 3000)
@@ -215,10 +200,10 @@ const FileInfoModal = ({ fileInfoPath, close }: IFileInfoModuleProps) => {
           variant="h5"
           component="h5"
         >
-          <Trans>File Info</Trans>
+          <Trans>Report a File</Trans>
         </Typography>
       </Grid>
-      { loadingFileInfo && (
+      { isLoadingFileInfo && (
         <Grid
           item
           flexDirection="row"
@@ -232,7 +217,7 @@ const FileInfoModal = ({ fileInfoPath, close }: IFileInfoModuleProps) => {
           </div>
         </Grid>
       )}
-      {fullFileInfo && !loadingFileInfo && (
+      {fullFileInfo && !isLoadingFileInfo && (
         <>
           <Grid
             item
@@ -405,4 +390,4 @@ const FileInfoModal = ({ fileInfoPath, close }: IFileInfoModuleProps) => {
   )
 }
 
-export default FileInfoModal
+export default ReportFileModal
