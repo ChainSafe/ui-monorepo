@@ -3,7 +3,7 @@ import React, { useState, useEffect, useCallback } from "react"
 import CustomModal from "../../Elements/CustomModal"
 import CustomButton from "../../Elements/CustomButton"
 import { t, Trans } from "@lingui/macro"
-import { DirectoryContentResponse, FileSystemItem, useFiles } from "../../../Contexts/FilesContext"
+import { DirectoryContentResponse, FileSystemItem } from "../../../Contexts/FilesContext"
 import { Button, FolderIcon, Grid, ITreeNodeProps, ScrollbarWrapper, TreeView, Typography } from "@chainsafe/common-components"
 import { CSFTheme } from "../../../Themes/types"
 import { useFileBrowser } from "../../../Contexts/FileBrowserContext"
@@ -76,8 +76,7 @@ interface IMoveFileModuleProps {
 const MoveFileModule = ({ filesToMove, modalOpen, onClose, onCancel, mode }: IMoveFileModuleProps) => {
   const classes = useStyles()
   const { filesApiClient } = useFilesApi()
-  const { buckets } = useFiles()
-  const { moveItems, recoverItems } = useFileBrowser()
+  const { bucket, moveItems, recoverItems } = useFileBrowser()
   const [movingFile, setMovingFile] = useState(false)
   const [movePath, setMovePath] = useState<undefined | string>(undefined)
   const [folderTree, setFolderTree] = useState<ITreeNodeProps[]>([])
@@ -94,26 +93,44 @@ const MoveFileModule = ({ filesToMove, modalOpen, onClose, onCancel, mode }: IMo
     []
   )
 
+  console.log(bucket)
+
   const getFolderTreeData = useCallback(async () => {
-    const bucket = buckets.find((bucket) => bucket.type === "csf")
     if (!bucket) return
     filesApiClient.getBucketDirectoriesTree(bucket.id).then((newFolderTree) => {
+      console.log(newFolderTree)
       if (newFolderTree.entries) {
-        const folderTreeNodes = [
-          {
-            id: "/",
-            title: "Home",
-            isExpanded: true,
-            expandable: true,
-            tree: mapFolderTree(newFolderTree.entries)
-          }
-        ]
-        setFolderTree(folderTreeNodes)
+        if (bucket.type === "share") {
+          // share folder tree
+          const shareFolderTreeRoot = newFolderTree.entries[0].entries[0]
+          const folderTreeNodes = [
+            {
+              id: "/",
+              title: bucket.name || "Home",
+              isExpanded: true,
+              expandable: true,
+              tree: mapFolderTree(shareFolderTreeRoot.entries)
+            }
+          ]
+          setFolderTree(folderTreeNodes)
+        } else {
+          // others folder tree
+          const folderTreeNodes = [
+            {
+              id: "/",
+              title: "Home",
+              isExpanded: true,
+              expandable: true,
+              tree: mapFolderTree(newFolderTree.entries)
+            }
+          ]
+          setFolderTree(folderTreeNodes)
+        }
       } else {
         setFolderTree([])
       }
     }).catch(console.error)
-  }, [filesApiClient, mapFolderTree, buckets])
+  }, [filesApiClient, mapFolderTree, bucket])
 
   useEffect(() => {
     if (modalOpen) {
