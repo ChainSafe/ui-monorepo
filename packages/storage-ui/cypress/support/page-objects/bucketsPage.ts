@@ -8,6 +8,7 @@ export const bucketsPage = {
   // main bucket browser elements
   bucketsHeaderLabel: () => cy.get("[data-cy=buckets-header]", { timeout: 20000 }),
   createBucketButton: () => cy.get("[data-cy=button-create-bucket]"),
+  bucketItemRow: () => cy.get("[data-cy=file-item-row]", { timeout: 20000 }),
 
   // bucket browser row elements
   nameTableHeader: () => cy.get("[data-cy=table-header-name]"),
