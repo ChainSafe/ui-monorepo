@@ -98,7 +98,7 @@ const MoveFileModule = ({ filesToMove, modalOpen, onClose, onCancel, mode }: IMo
     filesApiClient.getBucketDirectoriesTree(bucket.id).then((newFolderTree) => {
       if (newFolderTree.entries) {
         if (bucket.type === "share") {
-          // share folder tree
+          // shared folder tree
           const shareFolderTreeRoot = newFolderTree.entries[0].entries[0]
           const folderTreeNodes = [
             {
