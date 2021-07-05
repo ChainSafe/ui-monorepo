@@ -754,6 +754,9 @@ msgstr ""
 msgid "recovered successfully"
 msgstr "gjenopprettet"
 
+msgid "{0, plural, one {The file is already in this folder} other {The files are already in this folder}}"
+msgstr ""
+
 msgid "{0, plural, one {You are about to delete {1} file.} other {You are about to delete {2} files.}}"
 msgstr ""
 
