@@ -212,7 +212,12 @@ const MoveFileModule = ({ filesToMove, modalOpen, onClose, onCancel, mode }: IMo
             component="p"
             variant="body1"
           >
-            <Trans>The files are already in this folder</Trans>
+            <Trans>
+              {plural(filesToMove.length, {
+                one: `The file is already in this folder`,
+                other: `The files are already in this folder`
+              })}
+            </Trans>
           </Typography>
         )}
         <Grid
