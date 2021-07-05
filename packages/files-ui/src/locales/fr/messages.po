@@ -623,9 +623,6 @@ msgstr "Vous pouvez les changer à tout moment dans les paramètres de sécurit�
 msgid "The authentication popup was closed"
 msgstr "Le popup d’authentification a été fermé"
 
-msgid "The files are already in this folder"
-msgstr ""
-
 msgid "The system is undergoing maintenance, thank you for being patient."
 msgstr "Le système est en cours de maintenance, merci d’être patient."
 
@@ -763,6 +760,9 @@ msgstr "récupéré avec succès"
 
 msgid "{0, plural, one {You are about to delete {1} file.} other {You are about to delete {2} files.}}"
 msgstr "{0, plural, one {Supprimer {1} fichier.} other {Supprimer {2} fichiers.}}"
+
+msgid "{0}"
+msgstr ""
 
 msgid "{noOfFiles, plural, one {Uploading and encrypting {noOfFiles} file} other {Uploading and encrypting {noOfFiles} files}}"
 msgstr "{noOfFiles, plural, one {Téléversement et chiffrement de {noOfFiles} fichier} other {Téléversement et chiffrement de {noOfFiles} fichiers}}"
