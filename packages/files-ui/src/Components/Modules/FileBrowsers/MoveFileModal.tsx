@@ -100,7 +100,7 @@ const MoveFileModule = ({ filesToMove, modalOpen, onClose, onCancel, mode }: IMo
         const folderTreeNodes = [
           {
             id: "/",
-            title: "Home",
+            title: bucket.name || "Home",
             isExpanded: true,
             expandable: true,
             tree: mapFolderTree(newFolderTree.entries)
