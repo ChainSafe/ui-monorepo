@@ -97,32 +97,16 @@ const MoveFileModule = ({ filesToMove, modalOpen, onClose, onCancel, mode }: IMo
     if (!bucket) return
     filesApiClient.getBucketDirectoriesTree(bucket.id).then((newFolderTree) => {
       if (newFolderTree.entries) {
-        if (bucket.type === "share") {
-          // shared folder tree
-          const shareFolderTreeRoot = newFolderTree.entries[0].entries[0]
-          const folderTreeNodes = [
-            {
-              id: "/",
-              title: bucket.name || "Root",
-              isExpanded: true,
-              expandable: true,
-              tree: mapFolderTree(shareFolderTreeRoot.entries)
-            }
-          ]
-          setFolderTree(folderTreeNodes)
-        } else {
-          // others folder tree
-          const folderTreeNodes = [
-            {
-              id: "/",
-              title: "Home",
-              isExpanded: true,
-              expandable: true,
-              tree: mapFolderTree(newFolderTree.entries)
-            }
-          ]
-          setFolderTree(folderTreeNodes)
-        }
+        const folderTreeNodes = [
+          {
+            id: "/",
+            title: "Home",
+            isExpanded: true,
+            expandable: true,
+            tree: mapFolderTree(newFolderTree.entries)
+          }
+        ]
+        setFolderTree(folderTreeNodes)
       } else {
         setFolderTree([])
       }
