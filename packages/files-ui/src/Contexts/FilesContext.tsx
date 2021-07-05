@@ -160,7 +160,6 @@ const FilesProvider = ({ children }: FilesContextProps) => {
         }
       })
     )
-    console.log(bucketsWithKeys)
     setBuckets(bucketsWithKeys)
     setIsLoadingBuckets(false)
     return Promise.resolve()
