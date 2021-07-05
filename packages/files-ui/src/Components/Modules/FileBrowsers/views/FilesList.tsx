@@ -597,7 +597,6 @@ const FilesList = ({ isShared = false }: Props) => {
     setIsDeleteModalOpen(true)
   }, [])
 
-  console.log("validBulkOps.indexOf(move)", validBulkOps.indexOf("move"))
   return (
     <article
       className={clsx(classes.root, {
