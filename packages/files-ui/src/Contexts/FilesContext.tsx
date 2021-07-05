@@ -12,7 +12,7 @@ import { decryptFile, encryptFile  } from "../Utils/encryption"
 import { v4 as uuidv4 } from "uuid"
 import { useToaster } from "@chainsafe/common-components"
 import { downloadsInProgressReducer, uploadsInProgressReducer } from "./FilesReducers"
-import { CancelToken } from "axios"
+import axios, { CancelToken } from "axios"
 import { t } from "@lingui/macro"
 import { readFileAsync } from "../Utils/Helpers"
 import { useBeforeunload } from "react-beforeunload"
@@ -417,8 +417,12 @@ const FilesProvider = ({ children }: FilesContextProps) => {
         }
       }
     } catch (error) {
-      console.error(error)
-      return Promise.reject()
+      if (axios.isCancel(error)) {
+        return Promise.reject()
+      } else {
+        console.error(error)
+        return Promise.reject(error)
+      }
     }
   }, [buckets, filesApiClient])
 

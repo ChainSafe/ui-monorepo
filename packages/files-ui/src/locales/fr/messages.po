@@ -377,9 +377,6 @@ msgstr "Nombre de copies (facteur de réplication)"
 msgid "OK"
 msgstr "OK"
 
-msgid "One sec, getting files ready..."
-msgstr ""
-
 msgid "One sec, getting files ready…"
 msgstr "Un instant, nous préparons les fichiers…"
 
@@ -761,8 +758,14 @@ msgstr "le"
 msgid "recovered successfully"
 msgstr "récupéré avec succès"
 
+msgid "{0, plural, one {The file is already in this folder} other {The files are already in this folder}}"
+msgstr ""
+
 msgid "{0, plural, one {You are about to delete {1} file.} other {You are about to delete {2} files.}}"
 msgstr "{0, plural, one {Supprimer {1} fichier.} other {Supprimer {2} fichiers.}}"
+
+msgid "{0}"
+msgstr ""
 
 msgid "{noOfFiles, plural, one {Uploading and encrypting {noOfFiles} file} other {Uploading and encrypting {noOfFiles} files}}"
 msgstr "{noOfFiles, plural, one {Téléversement et chiffrement de {noOfFiles} fichier} other {Téléversement et chiffrement de {noOfFiles} fichiers}}"
