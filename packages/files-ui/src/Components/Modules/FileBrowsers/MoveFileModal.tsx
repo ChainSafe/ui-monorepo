@@ -2,7 +2,7 @@ import { createStyles, makeStyles, useMediaQuery } from "@chainsafe/common-theme
 import React, { useState, useEffect, useCallback } from "react"
 import CustomModal from "../../Elements/CustomModal"
 import CustomButton from "../../Elements/CustomButton"
-import { t, Trans } from "@lingui/macro"
+import { plural, t, Trans } from "@lingui/macro"
 import { DirectoryContentResponse, FileSystemItem } from "../../../Contexts/FilesContext"
 import { Button, FolderIcon, Grid, ITreeNodeProps, ScrollbarWrapper, TreeView, Typography } from "@chainsafe/common-components"
 import { CSFTheme } from "../../../Themes/types"
@@ -214,8 +214,8 @@ const MoveFileModule = ({ filesToMove, modalOpen, onClose, onCancel, mode }: IMo
           >
             <Trans>
               {plural(filesToMove.length, {
-                one: `The file is already in this folder`,
-                other: `The files are already in this folder`
+                one: "The file is already in this folder",
+                other: "The files are already in this folder"
               })}
             </Trans>
           </Typography>
