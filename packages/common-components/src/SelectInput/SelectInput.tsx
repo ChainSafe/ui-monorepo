@@ -13,6 +13,8 @@ const useStyles = makeStyles(
   ({ animation, constants, palette, overrides }: ITheme) =>
     createStyles({
       root: {
+        margin: 5,
+        display: "block",
         ...overrides?.SelectInput?.root
       },
       label: {
@@ -46,6 +48,7 @@ interface ISelectInputProps {
   className?: string
   size?: "large" | "medium" | "small"
   label?: string
+  labelClassName?: string
   error?: string
   captionMessage?: string
   placeholder?: string
@@ -64,6 +67,7 @@ const SelectInput: React.FC<ISelectInputProps> = ({
   disabled = false,
   onChange,
   label,
+  labelClassName,
   placeholder = "Please select",
   options,
   captionMessage,
@@ -86,12 +90,12 @@ const SelectInput: React.FC<ISelectInputProps> = ({
     : options.find((o) => o.value === value)
 
   return (
-    <label className={clsx(classes.root, className)}>
+    <div className={clsx(classes.root, className)}>
       {label && label.length > 0 && (
         <Typography
           variant="body2"
           component="span"
-          className={clsx(classes.label)}
+          className={clsx(classes.label, labelClassName)}
         >
           {label}
         </Typography>
@@ -198,7 +202,7 @@ const SelectInput: React.FC<ISelectInputProps> = ({
           {captionMessage}
         </Typography>
       )}
-    </label>
+    </div>
   )
 }
 
