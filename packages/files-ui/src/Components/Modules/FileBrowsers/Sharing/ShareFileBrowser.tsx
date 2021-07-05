@@ -26,14 +26,17 @@ const ShareFileBrowser = () => {
   const { redirect } = useHistory()
   const { pathname } = useLocation()
 
+  const bucketId = useMemo(() =>
+    pathname.split("/")[2]
+  , [pathname])
+
+  const bucket = useMemo(() => buckets.find(b => b.id === bucketId), [buckets, bucketId])
+
   const currentPath = useMemo(() => {
-    const moduleRemoved = extractFileBrowserPathFromURL(pathname, ROUTE_LINKS.ShareExplorer("", "/"))
-    const bucketId = moduleRemoved.split("/")[0]
     return extractFileBrowserPathFromURL(pathname, ROUTE_LINKS.ShareExplorer(`${bucketId}/`, "/"))
   },
-  [pathname])
+  [bucketId, pathname])
 
-  const bucket = useMemo(() => buckets.find(b => b.type === "share"), [buckets])
   const { profile } = useUser()
 
   const [access, setAccess] = useState<BucketPermission>("reader")
