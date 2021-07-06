@@ -51,6 +51,10 @@ import SurveyBanner from "../../../SurveyBanner"
 import { DragPreviewLayer } from "./DragPreviewLayer"
 import { useFileBrowser } from "../../../../Contexts/FileBrowserContext"
 
+const baseOperations:  FileOperation[] = ["download", "info", "preview"]
+const writerOperations: FileOperation[] = [...baseOperations, "delete", "move", "rename"]
+const csfOperations:  FileOperation[] = [...writerOperations, "share"]
+
 interface IStyleProps {
   themeKey: string
 }
@@ -277,7 +281,10 @@ const useStyles = makeStyles(
 const sortFoldersFirst = (a: FileSystemItemType, b: FileSystemItemType) =>
   a.isFolder && a.content_type !== b.content_type ? -1 : 1
 
-const FilesList = () => {
+  interface Props {
+    isShared?: boolean
+  }
+const FilesList = ({ isShared = false }: Props) => {
   const { themeKey, desktop } = useThemeSwitcher()
 
   const {
@@ -312,7 +319,7 @@ const FilesList = () => {
   const [previewFileIndex, setPreviewFileIndex] = useState<number | undefined>()
   const { selectedLocale } = useLanguageContext()
   const { redirect } = useHistory()
-
+  const { permission } = bucket || {}
   const items: FileSystemItemType[] = useMemo(() => {
     let temp = []
 
@@ -457,9 +464,7 @@ const FilesList = () => {
   const [isMoveFileModalOpen, setIsMoveFileModalOpen] = useState(false)
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
   const [isDeletingFiles, setIsDeletingFiles] = useState(false)
-  const [fileInfoPath, setFileInfoPath] = useState<string | undefined>(
-    undefined
-  )
+  const [fileInfoPath, setFileInfoPath] = useState<string | undefined>()
   const [moveModalMode, setMoveModalMode] = useState<MoveModalMode | undefined>()
 
   const [browserView, setBrowserView] = useState<BrowserView>("table")
@@ -468,60 +473,64 @@ const FilesList = () => {
   const [validBulkOps, setValidBulkOps] = useState<FileOperation[]>([])
 
   useEffect(() => {
-    if (bulkOperations) {
-      let filteredList: FileOperation[] = [
-        "delete",
-        "download",
-        "info",
-        "move",
-        "preview",
-        "rename",
-        "share",
-        "recover"
-      ]
-      for (let i = 0; i < selectedCids.length; i++) {
-        const contentType = items.find((item) => item.cid === selectedCids[i])
-          ?.content_type
+    if (!bulkOperations) return
+    let fileOperations: FileOperation[] = csfOperations
 
-        if (contentType) {
-          if (contentType === CONTENT_TYPES.Directory) {
-            const validList = filteredList.filter(
-              (op: FileOperation) =>
-                bulkOperations[contentType].indexOf(op) >= 0
+    if (!!permission && isShared) {
+
+      switch(permission) {
+      case "owner":
+      case "writer":
+        fileOperations = writerOperations
+        break
+      case "reader":
+        fileOperations = baseOperations
+        break
+      }
+    }
+
+    for (let i = 0; i < selectedCids.length; i++) {
+      const contentType = items.find((item) => item.cid === selectedCids[i])
+        ?.content_type
+
+      if (contentType) {
+        if (contentType === CONTENT_TYPES.Directory) {
+          const validList = fileOperations.filter(
+            (op: FileOperation) =>
+              bulkOperations[contentType].indexOf(op) >= 0
+          )
+          if (validList.length > 0) {
+            fileOperations = fileOperations.filter(
+              (existingOp: FileOperation) =>
+                validList.indexOf(existingOp) >= 0
             )
-            if (validList.length > 0) {
-              filteredList = filteredList.filter(
-                (existingOp: FileOperation) =>
-                  validList.indexOf(existingOp) >= 0
-              )
-            }
-          } else {
-            const validList = filteredList.filter(
-              (op: FileOperation) =>
-                bulkOperations[CONTENT_TYPES.File].indexOf(op) >= 0
-            )
-            if (validList.length > 0) {
-              filteredList = filteredList.filter(
-                (existingOp: FileOperation) =>
-                  validList.indexOf(existingOp) >= 0
-              )
-            }
           }
         } else {
-          const validList = filteredList.filter(
+          const validList = fileOperations.filter(
             (op: FileOperation) =>
               bulkOperations[CONTENT_TYPES.File].indexOf(op) >= 0
           )
           if (validList.length > 0) {
-            filteredList = filteredList.filter(
-              (existingOp: FileOperation) => validList.indexOf(existingOp) >= 0
+            fileOperations = fileOperations.filter(
+              (existingOp: FileOperation) =>
+                validList.indexOf(existingOp) >= 0
             )
           }
         }
+      } else {
+        const validList = fileOperations.filter(
+          (op: FileOperation) =>
+            bulkOperations[CONTENT_TYPES.File].indexOf(op) >= 0
+        )
+        if (validList.length > 0) {
+          fileOperations = fileOperations.filter(
+            (existingOp: FileOperation) => validList.indexOf(existingOp) >= 0
+          )
+        }
       }
-      setValidBulkOps(filteredList)
     }
-  }, [selectedCids, items, bulkOperations])
+    setValidBulkOps(fileOperations)
+  }, [selectedCids, items, bulkOperations, isShared, permission])
 
   const handleDeleteFiles = useCallback(() => {
     if (!deleteFiles) return
@@ -637,27 +646,33 @@ const FilesList = () => {
               >
                 {browserView === "table" ? <GridIcon /> : <TableIcon />}
               </Button>
-              <Button
-                onClick={() => setCreateFolderModalOpen(true)}
-                variant="outline"
-                size="large"
-              >
-                <PlusCircleIcon />
-                <span>
-                  <Trans>New folder</Trans>
-                </span>
-              </Button>
-              <Button
-                data-cy="upload-modal-button"
-                onClick={() => setIsUploadModalOpen(true)}
-                variant="outline"
-                size="large"
-              >
-                <UploadIcon />
-                <span>
-                  <Trans>Upload</Trans>
-                </span>
-              </Button>
+              {
+                permission !== "reader" && (
+                  <>
+                    <Button
+                      onClick={() => setCreateFolderModalOpen(true)}
+                      variant="outline"
+                      size="large"
+                    >
+                      <PlusCircleIcon />
+                      <span>
+                        <Trans>New folder</Trans>
+                      </span>
+                    </Button>
+                    <Button
+                      data-cy="upload-modal-button"
+                      onClick={() => setIsUploadModalOpen(true)}
+                      variant="outline"
+                      size="large"
+                    >
+                      <UploadIcon />
+                      <span>
+                        <Trans>Upload</Trans>
+                      </span>
+                    </Button>
+                  </>
+                )
+              }
             </>
           ) : (
             controls && !desktop && (
@@ -720,7 +735,7 @@ const FilesList = () => {
           )}
         </div>
       </header>
-      { withSurvey && isSurveyBannerVisible
+      { withSurvey && !isShared && isSurveyBannerVisible
         ? <SurveyBanner onHide={onHideSurveyBanner}/>
         : <Divider className={classes.divider} />
       }
@@ -770,11 +785,15 @@ const FilesList = () => {
           loadingCurrentPath && classes.showLoadingContainer
         )}
       >
-        <Loading size={24}
-          type="light" />
-        <Typography variant="body2"
-          component="p">
-          <Trans>One sec, getting files ready...</Trans>
+        <Loading
+          size={24}
+          type="light"
+        />
+        <Typography
+          variant="body2"
+          component="p"
+        >
+          <Trans>One sec, getting files ready…</Trans>
         </Typography>
       </div>
       {(desktop && items.length === 0) ||
@@ -962,7 +981,7 @@ const FilesList = () => {
             ))}
           </section>
         )}
-      {files && previewFileIndex !== undefined && bucket && (
+      {files && previewFileIndex !== undefined && (
         <FilePreviewModal
           file={files[previewFileIndex]}
           closePreview={clearPreview}
@@ -1024,11 +1043,12 @@ const FilesList = () => {
           </>
         )
       }
-
-      <FileInfoModal
-        fileInfoPath={fileInfoPath}
-        close={() => setFileInfoPath(undefined)}
-      />
+      { fileInfoPath &&
+        <FileInfoModal
+          fileInfoPath={fileInfoPath}
+          close={() => setFileInfoPath(undefined)}
+        />
+      }
     </article>
   )
 }

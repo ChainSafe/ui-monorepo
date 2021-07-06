@@ -202,6 +202,7 @@ const AppHeader = ({ navOpen, setNavOpen }: IAppHeader) => {
                 onClick={() => setNavOpen(!navOpen)}
                 variant={navOpen ? "active" : "default"}
                 className={clsx(classes.hamburgerMenu, "hamburger-menu")}
+                testId="hamburger-menu"
               />
               <Link
                 className={classes.logo}
@@ -212,10 +213,8 @@ const AppHeader = ({ navOpen, setNavOpen }: IAppHeader) => {
                   variant="h5"
                   className={classes.title}
                 >
-                      Files
+                  Storage
                 </Typography>
-                    &nbsp;
-                <Typography variant="caption">beta</Typography>
               </Link>
             </>
           )}

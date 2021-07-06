@@ -13,8 +13,7 @@ export const mobileGridSettings = "3fr 190px 190px 190px 190px 70px !important"
 const useStyles = makeStyles(({ animation, breakpoints, constants }: CSSTheme) =>
   createStyles({
     root: {
-      position: "relative",
-      overflow: "hidden"
+      position: "relative"
     },
     header: {
       display: "flex",
@@ -62,7 +61,7 @@ const CidsPage = () => {
           <Typography
             variant="h1"
             component="h1"
-            data-cy="storage-cids-header"
+            data-cy="cids-header"
           >
             <Trans>
               Cids

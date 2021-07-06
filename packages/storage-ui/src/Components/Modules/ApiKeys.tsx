@@ -26,8 +26,7 @@ export const mobileGridSettings = "3fr 400px 100px 200px 70px !important"
 const useStyles = makeStyles(({ constants, breakpoints, animation }: CSSTheme) =>
   createStyles({
     root: {
-      position: "relative",
-      overflow: "hidden"
+      position: "relative"
     },
     header: {
       display: "flex",
@@ -120,7 +119,7 @@ const ApiKeys = () => {
         <Typography
           variant="h1"
           component="h1"
-          data-cy="storage-api-keys-header"
+          data-cy="api-keys-header"
         >
           <Trans>
               API Keys

@@ -203,9 +203,7 @@ const FileInput = ({
       {variant === "dropzone" ? (
         value?.length === 0 ? (
           <div className={clsx(classes.pending, classNames?.pending)}>
-            {pending ? (
-              pending
-            ) : (
+            {pending || (
               <>
                 <PlusIcon
                   fontSize="large"

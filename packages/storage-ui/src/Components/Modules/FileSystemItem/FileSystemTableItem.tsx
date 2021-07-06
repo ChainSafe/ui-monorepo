@@ -17,7 +17,7 @@ import {
 } from "@chainsafe/common-components"
 import dayjs from "dayjs"
 import { ConnectDragPreview } from "react-dnd"
-import { Form, Formik } from "formik"
+import { Form, FormikProvider, useFormik } from "formik"
 import { CSSTheme } from "../../../Themes/types"
 import { FileSystemItem } from "../../../Contexts/StorageContext"
 
@@ -143,6 +143,19 @@ const FileSystemTableItem = React.forwardRef(
     const classes = useStyles()
     const { name, cid, created_at, size } = file
     const { desktop } = useThemeSwitcher()
+    const formik = useFormik({
+      initialValues: {
+        fileName: name
+      },
+      validationSchema: renameSchema,
+      onSubmit: (values) => {
+        handleRename &&
+          handleRename(
+            file.cid,
+            values.fileName
+          )
+      }
+    })
 
     return  (
       <TableRow
@@ -177,19 +190,7 @@ const FileSystemTableItem = React.forwardRef(
           onClick={(e) => !editing && onFolderOrFileClicks(e)}
         >
           {editing === cid && desktop ? (
-            <Formik
-              initialValues={{
-                fileName: name
-              }}
-              validationSchema={renameSchema}
-              onSubmit={(values) => {
-                handleRename &&
-                  handleRename(
-                    file.cid,
-                    values.fileName
-                  )
-              }}
-            >
+            <FormikProvider value={formik}>
               <Form
                 className={classes.desktopRename}
                 data-cy='rename-form'
@@ -214,11 +215,12 @@ const FileSystemTableItem = React.forwardRef(
                   variant="dashed"
                   size="small"
                   type="submit"
+                  disabled={!formik.dirty}
                 >
                   <CheckSvg />
                 </Button>
               </Form>
-            </Formik>
+            </FormikProvider>
           ) : (
             <Typography>{name}</Typography>
           )}

@@ -40,8 +40,17 @@ msgstr "Add a username"
 msgid "Add at least one more authentication method to protect your account. You’d only need any two to sign in to Files from any device."
 msgstr "Add at least one more authentication method to protect your account. You’d only need any two to sign in to Files from any device."
 
+msgid "Add by sharing address, username or wallet address"
+msgstr "Add by sharing address, username or wallet address"
+
 msgid "Add more files"
 msgstr "Add more files"
+
+msgid "Add/remove content"
+msgstr "Add/remove content"
+
+msgid "Allow them to"
+msgstr "Allow them to"
 
 msgid "Approve"
 msgstr "Approve"
@@ -144,6 +153,12 @@ msgstr "Create"
 
 msgid "Create Folder"
 msgstr "Create Folder"
+
+msgid "Create Shared Folder"
+msgstr "Create Shared Folder"
+
+msgid "Create a Shared Folder"
+msgstr "Create a Shared Folder"
 
 msgid "Create folder"
 msgstr "Create folder"
@@ -262,8 +277,8 @@ msgstr "General"
 msgid "Generate backup secret phrase"
 msgstr "Generate backup secret phrase"
 
-msgid "Generating..."
-msgstr "Generating..."
+msgid "Generating…"
+msgstr "Generating…"
 
 msgid "Get Started"
 msgstr "Get Started"
@@ -280,8 +295,8 @@ msgstr "Hello again!"
 msgid "Hey! You only have two sign-in methods. If you lose that and have only one left, you will be locked out of your account forever."
 msgstr "Hey! You only have two sign-in methods. If you lose that and have only one left, you will be locked out of your account forever."
 
-msgid "Hold on, we are logging you in..."
-msgstr "Hold on, we are logging you in..."
+msgid "Hold on, we are logging you in…"
+msgstr "Hold on, we are logging you in…"
 
 msgid "Home"
 msgstr "Home"
@@ -319,8 +334,8 @@ msgstr "Light Theme"
 msgid "Loading preview"
 msgstr "Loading preview"
 
-msgid "Loading your shared folders..."
-msgstr "Loading your shared folders..."
+msgid "Loading your shared folders…"
+msgstr "Loading your shared folders…"
 
 msgid "Looks like you’re signing in from a new browser. Please choose one of the following to continue:"
 msgstr "Looks like you’re signing in from a new browser. Please choose one of the following to continue:"
@@ -331,8 +346,8 @@ msgstr "Move"
 msgid "Move selected"
 msgstr "Move selected"
 
-msgid "Move to..."
-msgstr "Move to..."
+msgid "Move to…"
+msgstr "Move to…"
 
 msgid "My Files"
 msgstr "My Files"
@@ -373,8 +388,8 @@ msgstr "Number of copies (Replication Factor)"
 msgid "OK"
 msgstr "OK"
 
-msgid "One sec, getting files ready..."
-msgstr "One sec, getting files ready..."
+msgid "One sec, getting files ready…"
+msgstr "One sec, getting files ready…"
 
 msgid "Only you can see this."
 msgstr "Only you can see this."
@@ -384,6 +399,9 @@ msgstr "Operating system:"
 
 msgid "Or confirm by signing into your Files on any browser you’ve used before."
 msgstr "Or confirm by signing into your Files on any browser you’ve used before."
+
+msgid "Owner"
+msgstr "Owner"
 
 msgid "Password"
 msgstr "Password"
@@ -442,6 +460,9 @@ msgstr "Profile updated"
 msgid "Purchase with card"
 msgstr "Purchase with card"
 
+msgid "Read content"
+msgstr "Read content"
+
 msgid "Recover"
 msgstr "Recover"
 
@@ -463,8 +484,11 @@ msgstr "Remind me later"
 msgid "Rename"
 msgstr "Rename"
 
-msgid "Rename File/Folder"
-msgstr "Rename File/Folder"
+msgid "Rename file"
+msgstr "Rename file"
+
+msgid "Rename folder"
+msgstr "Rename folder"
 
 msgid "Requested from"
 msgstr "Requested from"
@@ -499,8 +523,8 @@ msgstr "Saved on:"
 msgid "Search results"
 msgstr "Search results"
 
-msgid "Search..."
-msgstr "Search..."
+msgid "Search…"
+msgstr "Search…"
 
 msgid "Security"
 msgstr "Security"
@@ -547,8 +571,14 @@ msgstr "Setup incomplete"
 msgid "Share"
 msgstr "Share"
 
+msgid "Share with"
+msgstr "Share with"
+
 msgid "Shared"
 msgstr "Shared"
+
+msgid "Shared Folder Name"
+msgstr "Shared Folder Name"
 
 msgid "Shared folders"
 msgstr "Shared folders"
@@ -640,8 +670,11 @@ msgstr "There was an error moving this"
 msgid "There was an error recovering this"
 msgstr "There was an error recovering this"
 
-msgid "There was an error setting username."
-msgstr "There was an error setting username."
+msgid "There was an error when setting username."
+msgstr "There was an error when setting username."
+
+msgid "This username is already taken"
+msgstr "This username is already taken"
 
 msgid "This username is public"
 msgstr "This username is public"
@@ -745,6 +778,9 @@ msgstr "file"
 msgid "folder"
 msgstr "folder"
 
+msgid "me"
+msgstr "me"
+
 msgid "moved successfully"
 msgstr "moved successfully"
 
@@ -754,6 +790,9 @@ msgstr "on"
 msgid "recovered successfully"
 msgstr "recovered successfully"
 
+msgid "{0, plural, one {The file is already in this folder} other {The files are already in this folder}}"
+msgstr "{0, plural, one {The file is already in this folder} other {The files are already in this folder}}"
+
 msgid "{0, plural, one {You are about to delete {1} file.} other {You are about to delete {2} files.}}"
 msgstr "{0, plural, one {You are about to delete {1} file.} other {You are about to delete {2} files.}}"
 
@@ -762,6 +801,9 @@ msgstr "{0} of {1} used ({2}%)"
 
 msgid "{feature}"
 msgstr "{feature}"
+
+msgid "{0}"
+msgstr "{0}"
 
 msgid "{noOfFiles, plural, one {Uploading and encrypting {noOfFiles} file} other {Uploading and encrypting {noOfFiles} files}}"
 msgstr "{noOfFiles, plural, one {Uploading and encrypting {noOfFiles} file} other {Uploading and encrypting {noOfFiles} files}}"

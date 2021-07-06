@@ -43,7 +43,7 @@ const FilesApiProvider = ({ apiUrl, withLocalStorage = true, children }: FilesAp
 
   const { wallet, onboard, checkIsReady, isReady } = useWeb3()
   const { localStorageRemove, localStorageGet, localStorageSet } = useLocalStorage()
-  const { sessionStorageRemove, sessionStorageGet, sessionStorageSet } = useSessionStorage()
+  const { sessionStorageRemove, sessionStorageSet } = useSessionStorage()
 
   // initializing api
   const initialAxiosInstance = useMemo(() => axios.create({
@@ -69,7 +69,7 @@ const FilesApiProvider = ({ apiUrl, withLocalStorage = true, children }: FilesAp
 
   // returning user
   const isReturningUserLocal = localStorageGet(isReturningUserStorageKey)
-  const [isReturningUser, setIsReturningUser] = useState(isReturningUserLocal ? true : false)
+  const [isReturningUser, setIsReturningUser] = useState(!!isReturningUserLocal)
 
   const setTokensAndSave = useCallback((accessToken: Token, refreshToken: Token) => {
     setAccessToken(accessToken)
@@ -99,10 +99,7 @@ const FilesApiProvider = ({ apiUrl, withLocalStorage = true, children }: FilesAp
         async (error) => {
           if (!error?.config?._retry && error?.response?.status === 401 && !maintenanceMode) {
             error.config._retry = true
-            const refreshTokenLocal =
-              (withLocalStorage)
-                ? localStorageGet(tokenStorageKey)
-                : sessionStorageGet(tokenStorageKey)
+            const refreshTokenLocal = sessionStorage.getItem(tokenStorageKey)
             if (refreshTokenLocal) {
               const refreshTokenApiClient = new FilesApiClient(
                 {},

@@ -18,9 +18,9 @@ import {
   ExclamationCircleInverseSvg,
   ZoomInSvg } from "@chainsafe/common-components"
 import { makeStyles, createStyles, useDoubleClick, useThemeSwitcher } from "@chainsafe/common-theme"
-import { Formik, Form } from "formik"
+import { Form, FormikProvider, useFormik } from "formik"
 import CustomModal from "../../../../Elements/CustomModal"
-import { Trans } from "@lingui/macro"
+import { t, Trans } from "@lingui/macro"
 import { useDrag, useDrop } from "react-dnd"
 import { DragTypes } from "../../DragConstants"
 import { getEmptyImage, NativeTypes } from "react-dnd-html5-backend"
@@ -31,6 +31,7 @@ import FileItemGridItem from "./FileSystemGridItem"
 import { FileSystemItem as FileSystemItemType } from "../../../../../Contexts/FilesContext"
 import { useFileBrowser } from "../../../../../Contexts/FileBrowserContext"
 import { getPathWithFile } from "../../../../../Utils/pathUtils"
+import { BucketUser } from "@chainsafe/files-api-client"
 
 const useStyles = makeStyles(({ breakpoints, constants }: CSFTheme) => {
   return createStyles({
@@ -103,6 +104,7 @@ interface IFileSystemItemProps {
   file: FileSystemItemType
   files: FileSystemItemType[]
   selected: string[]
+  owners?: BucketUser[]
   handleSelectCid(selectedCid: string): void
   handleAddToSelectedCids(selectedCid: string): void
   editing: string | undefined
@@ -125,6 +127,7 @@ const FileSystemItem = ({
   file,
   files,
   selected,
+  owners,
   editing,
   setEditing,
   renameSchema,
@@ -143,6 +146,19 @@ const FileSystemItem = ({
 }: IFileSystemItemProps) => {
   const { downloadFile, currentPath, handleUploadOnDrop, moveItems } = useFileBrowser()
   const { cid, name, isFolder, content_type } = file
+  const formik = useFormik({
+    initialValues:{
+      fileName: name
+    },
+    validationSchema:renameSchema,
+    onSubmit:(values) => {
+      handleRename &&
+      handleRename(
+        file.cid,
+        values.fileName
+      )
+    }
+  })
   let Icon
   if (isFolder) {
     Icon = FolderFilledSvg
@@ -315,6 +331,7 @@ const FileSystemItem = ({
     dropMoveRef(fileOrFolderRef)
     dropUploadRef(fileOrFolderRef)
   }
+
   if (!editing && !isFolder) {
     dragMoveRef(fileOrFolderRef)
   }
@@ -370,6 +387,7 @@ const FileSystemItem = ({
 
   const itemProps = {
     ref: fileOrFolderRef,
+    owners,
     currentPath,
     editing,
     file,
@@ -407,34 +425,23 @@ const FileSystemItem = ({
               active={editing === cid}
               setActive={() => setEditing("")}
             >
-              <Formik
-                initialValues={{
-                  fileName: name
-                }}
-                validationSchema={renameSchema}
-                onSubmit={(values) => {
-                  handleRename &&
-                  handleRename(
-                    file.cid,
-                    values.fileName
-                  )
-                }}
-              >
+              <FormikProvider value={formik}>
                 <Form className={classes.renameModal}>
                   <Typography
                     className={classes.renameHeader}
                     component="p"
                     variant="h5"
-                  >
-                    <Trans>Rename File/Folder</Trans>
+                  >{
+                      isFolder
+                        ? <Trans>Rename folder</Trans>
+                        : <Trans>Rename file</Trans>
+                    }
                   </Typography>
                   <FormikTextInput
                     label="Name"
                     className={classes.renameInput}
                     name="fileName"
-                    placeholder={`Please enter a ${
-                      isFolder ? "folder" : "file"
-                    } name`}
+                    placeholder={isFolder ? t`Please enter a folder name` : t`Please enter a file name`}
                     autoFocus={editing === cid}
                   />
                   <footer className={classes.renameFooter}>
@@ -452,12 +459,13 @@ const FileSystemItem = ({
                       size="medium"
                       type="submit"
                       className={classes.okButton}
+                      disabled={!formik.dirty}
                     >
                       <Trans>Update</Trans>
                     </Button>
                   </footer>
                 </Form>
-              </Formik>
+              </FormikProvider>
             </CustomModal>
             <Typography>{name}</Typography>
           </>

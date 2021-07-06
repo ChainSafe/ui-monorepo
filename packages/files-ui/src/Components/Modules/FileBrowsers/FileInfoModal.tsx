@@ -153,39 +153,31 @@ const useStyles = makeStyles(
 )
 
 interface IFileInfoModuleProps {
-  fileInfoPath: string | undefined
+  fileInfoPath: string
   close: () => void
 }
 
-const FileInfoModal: React.FC<IFileInfoModuleProps> = ({
-  fileInfoPath,
-  close
-}: IFileInfoModuleProps) => {
+const FileInfoModal = ({ fileInfoPath, close }: IFileInfoModuleProps) => {
   const classes = useStyles()
   const { filesApiClient } = useFilesApi()
   const [loadingFileInfo, setLoadingInfo] = useState(false)
-  const [fullFileInfo, setFullFullInfo] = useState<FileFullInfo | undefined>(
-    undefined
-  )
+  const [fullFileInfo, setFullFullInfo] = useState<FileFullInfo | undefined>()
   const { bucket } = useFileBrowser()
 
   useEffect(() => {
-    const getFullFileInfo = async () => {
-      if (fileInfoPath && bucket) {
-        try {
-          setLoadingInfo(true)
-          const fullFileResponse = await filesApiClient.getBucketObjectInfo(bucket.id, { path: fileInfoPath })
-          setFullFullInfo(fullFileResponse)
-          setLoadingInfo(false)
-        } catch (e){
-          console.error(e)
-          setLoadingInfo(false)
-        }
-      }
-    }
-    getFullFileInfo()
-    // eslint-disable-next-line
-  }, [fileInfoPath])
+
+    if (!bucket) return
+
+    setLoadingInfo(true)
+    filesApiClient.getBucketObjectInfo(bucket.id, { path: fileInfoPath })
+      .then((fullFileResponse) => {
+        setFullFullInfo(fullFileResponse)
+        setLoadingInfo(false)
+      })
+      .catch(console.error)
+      .finally(() => setLoadingInfo(false))
+  }
+  , [bucket, fileInfoPath, filesApiClient])
 
   const [copied, setCopied] = useState(false)
   const debouncedSwitchCopied = debounce(() => setCopied(false), 3000)
@@ -208,7 +200,7 @@ const FileInfoModal: React.FC<IFileInfoModuleProps> = ({
       injectedClass={{
         inner: classes.modalInner
       }}
-      active={fileInfoPath ? true : false}
+      active={!!fileInfoPath}
       closePosition="none"
       maxWidth="sm"
     >
@@ -226,7 +218,21 @@ const FileInfoModal: React.FC<IFileInfoModuleProps> = ({
           <Trans>File Info</Trans>
         </Typography>
       </Grid>
-      {fullFileInfo && !loadingFileInfo ? (
+      { loadingFileInfo && (
+        <Grid
+          item
+          flexDirection="row"
+          justifyContent="center"
+        >
+          <div className={classes.loadingContainer}>
+            <Loading
+              size={32}
+              type="inherit"
+            />
+          </div>
+        </Grid>
+      )}
+      {fullFileInfo && !loadingFileInfo && (
         <>
           <Grid
             item
@@ -243,7 +249,24 @@ const FileInfoModal: React.FC<IFileInfoModuleProps> = ({
                 >
                   <Trans>General</Trans>
                 </Typography>
-                {fullFileInfo.content?.created_at ? (
+                {fullFileInfo.content?.name && (
+                  <div className={classes.subInfoBox}>
+                    <Typography
+                      variant="body1"
+                      component="p"
+                    >
+                      <Trans>Name</Trans>
+                    </Typography>
+                    <Typography
+                      className={classes.subSubtitle}
+                      variant="body2"
+                      component="p"
+                    >
+                      {fullFileInfo.content.name}
+                    </Typography>
+                  </div>
+                )}
+                {fullFileInfo.content?.created_at && (
                   <div className={classes.subInfoBox}>
                     <Typography
                       variant="body1"
@@ -259,7 +282,7 @@ const FileInfoModal: React.FC<IFileInfoModuleProps> = ({
                       {fullFileInfo.content.created_at && dayjs.unix(fullFileInfo.content.created_at).format("DD MMM YYYY h:mm a")}
                     </Typography>
                   </div>
-                ) : null}
+                )}
                 {fullFileInfo.content?.size !== undefined && (
                   <div className={classes.subInfoBox}>
                     <Typography
@@ -377,19 +400,6 @@ const FileInfoModal: React.FC<IFileInfoModuleProps> = ({
             </CustomButton>
           </Grid>
         </>
-      ) : (
-        <Grid
-          item
-          flexDirection="row"
-          justifyContent="center"
-        >
-          <div className={classes.loadingContainer}>
-            <Loading
-              size={32}
-              type="inherit"
-            />
-          </div>
-        </Grid>
       )}
     </CustomModal>
   )
