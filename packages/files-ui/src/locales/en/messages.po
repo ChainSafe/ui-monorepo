@@ -796,14 +796,14 @@ msgstr "{0, plural, one {The file is already in this folder} other {The files ar
 msgid "{0, plural, one {You are about to delete {1} file.} other {You are about to delete {2} files.}}"
 msgstr "{0, plural, one {You are about to delete {1} file.} other {You are about to delete {2} files.}}"
 
+msgid "{0}"
+msgstr "{0}"
+
 msgid "{0} of {1} used ({2}%)"
 msgstr "{0} of {1} used ({2}%)"
 
 msgid "{feature}"
 msgstr "{feature}"
-
-msgid "{0}"
-msgstr "{0}"
 
 msgid "{noOfFiles, plural, one {Uploading and encrypting {noOfFiles} file} other {Uploading and encrypting {noOfFiles} files}}"
 msgstr "{noOfFiles, plural, one {Uploading and encrypting {noOfFiles} file} other {Uploading and encrypting {noOfFiles} files}}"

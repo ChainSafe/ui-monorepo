@@ -13,6 +13,9 @@ msgstr ""
 "X-Generator: Weblate 4.7.1-dev\n"
 "Mime-Version: 1.0\n"
 
+msgid "${0} USD/{1}"
+msgstr ""
+
 msgid "(Change)"
 msgstr ""
 
@@ -55,16 +58,28 @@ msgstr "Godkjenn"
 msgid "Are we on the right track? Let us know in less than 1 minute."
 msgstr ""
 
+msgid "Back to plan settings"
+msgstr ""
+
 msgid "Backup secret phrase"
 msgstr ""
 
 msgid "Backup secret phrase does not match user account, please double-check and try again."
 msgstr ""
 
+msgid "Billed Monthly"
+msgstr ""
+
+msgid "Billed Yearly"
+msgstr ""
+
 msgid "Bin"
 msgstr ""
 
 msgid "Browser:"
+msgstr ""
+
+msgid "Buy more storage"
 msgstr ""
 
 msgid "By connecting your wallet, you agree to our <0>Terms of Service</0> and <1>Privacy Policy</1>"
@@ -184,6 +199,9 @@ msgstr ""
 msgid "Drop to upload files"
 msgstr "Dra for å laste opp filer"
 
+msgid "Early Adopter: Free up to {0}"
+msgstr ""
+
 msgid "Email is required"
 msgstr "E-post kreves"
 
@@ -201,9 +219,6 @@ msgstr "Skriv inn bekreftelseskoden:"
 
 msgid "Enter your email:"
 msgstr "Skriv inn e-posten din:"
-
-msgid "Essentials - Free"
-msgstr ""
 
 msgid "Failed to get signature"
 msgstr ""
@@ -322,9 +337,6 @@ msgstr ""
 msgid "Looks like you’re signing in from a new browser. Please choose one of the following to continue:"
 msgstr ""
 
-msgid "Lorem ipsum aenean et rutrum magna. Morbi nec placerat erat. Nunc elementum sed libero sit amet convallis. Quisque non arcu vitae ex fringilla molestie."
-msgstr ""
-
 msgid "Move"
 msgstr "Flytt"
 
@@ -441,6 +453,9 @@ msgstr "Profilinnstillinger"
 
 msgid "Profile updated"
 msgstr "Profil oppdatert"
+
+msgid "Purchase with card"
+msgstr ""
 
 msgid "Read content"
 msgstr ""
@@ -610,6 +625,9 @@ msgstr ""
 msgid "Stored by miner"
 msgstr ""
 
+msgid "Subscription Plan"
+msgstr ""
+
 msgid "Technical"
 msgstr "Teknisk"
 
@@ -664,8 +682,14 @@ msgstr "Prøv igjen"
 msgid "Try another method"
 msgstr "Prøv annen metode"
 
+msgid "Try for 7 days"
+msgstr ""
+
 msgid "Update"
 msgstr "Oppdater"
+
+msgid "Upgrade your plan"
+msgstr ""
 
 msgid "Upload"
 msgstr "Last opp"
@@ -736,6 +760,9 @@ msgstr ""
 msgid "Your Authentication Factors"
 msgstr ""
 
+msgid "Your first {0} are free, and you’ll get a discount on our monthly plan once you need more than that"
+msgstr ""
+
 msgid "Your recovery key can be used to restore your account in place of your backup secret phrase."
 msgstr ""
 
@@ -769,5 +796,14 @@ msgstr ""
 msgid "{0}"
 msgstr ""
 
+msgid "{0} of {1} used ({2}%)"
+msgstr ""
+
+msgid "{feature}"
+msgstr ""
+
 msgid "{noOfFiles, plural, one {Uploading and encrypting {noOfFiles} file} other {Uploading and encrypting {noOfFiles} files}}"
+msgstr ""
+
+msgid "{planFor}"
 msgstr ""

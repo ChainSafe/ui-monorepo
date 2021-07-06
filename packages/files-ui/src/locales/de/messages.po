@@ -13,6 +13,9 @@ msgstr ""
 "X-Generator: Weblate 4.7.1-dev\n"
 "Mime-Version: 1.0\n"
 
+msgid "${0} USD/{1}"
+msgstr ""
+
 msgid "(Change)"
 msgstr "(Ändern)"
 
@@ -55,17 +58,29 @@ msgstr "Genehmigen"
 msgid "Are we on the right track? Let us know in less than 1 minute."
 msgstr "Sind wir auf dem richtigen Weg? Sagen Sie es uns in weniger als 1 Minute."
 
+msgid "Back to plan settings"
+msgstr ""
+
 msgid "Backup secret phrase"
 msgstr "Sicherungsgeheimsatz"
 
 msgid "Backup secret phrase does not match user account, please double-check and try again."
 msgstr "Der Sicherungsgeheimsatz stimmt nicht mit dem Benutzerkonto überein, bitte überprüfen Sie dies und versuchen Sie es erneut."
 
+msgid "Billed Monthly"
+msgstr ""
+
+msgid "Billed Yearly"
+msgstr ""
+
 msgid "Bin"
 msgstr "Papierkorb"
 
 msgid "Browser:"
 msgstr "Browser:"
+
+msgid "Buy more storage"
+msgstr ""
 
 msgid "By connecting your wallet, you agree to our <0>Terms of Service</0> and <1>Privacy Policy</1>"
 msgstr ""
@@ -184,6 +199,9 @@ msgstr "Wiederherstellungsschlüssel herunterladen"
 msgid "Drop to upload files"
 msgstr "Zum Hochladen von Dateien ablegen"
 
+msgid "Early Adopter: Free up to {0}"
+msgstr ""
+
 msgid "Email is required"
 msgstr "E-Mail ist erforderlich"
 
@@ -201,9 +219,6 @@ msgstr "Geben Sie den Verifizierungscode ein:"
 
 msgid "Enter your email:"
 msgstr "Geben Sie Ihre E-Mail-Adresse ein:"
-
-msgid "Essentials - Free"
-msgstr "Essentials - Kostenlos"
 
 msgid "Failed to get signature"
 msgstr "Signatur kann nicht abgerufen werden"
@@ -322,9 +337,6 @@ msgstr "Ihre freigegebenen Ordner werden geladen …"
 msgid "Looks like you’re signing in from a new browser. Please choose one of the following to continue:"
 msgstr "Sieht aus, als würden Sie sich über einen neuen Browser anmelden. Bitte wählen Sie eine der folgenden Möglichkeiten, um fortzufahren:"
 
-msgid "Lorem ipsum aenean et rutrum magna. Morbi nec placerat erat. Nunc elementum sed libero sit amet convallis. Quisque non arcu vitae ex fringilla molestie."
-msgstr "Lorem ipsum aenean et rutrum magna. Morbi nec placerat erat. Nunc elementum sed libero sit amet convallis. Quisque non arcu vitae ex fringilla molestie."
-
 msgid "Move"
 msgstr "Verschieben"
 
@@ -441,6 +453,9 @@ msgstr "Profileinstellungen"
 
 msgid "Profile updated"
 msgstr "Profil aktualisiert"
+
+msgid "Purchase with card"
+msgstr ""
 
 msgid "Read content"
 msgstr ""
@@ -610,6 +625,9 @@ msgstr "Speicherplan"
 msgid "Stored by miner"
 msgstr ""
 
+msgid "Subscription Plan"
+msgstr ""
+
 msgid "Technical"
 msgstr "Technisch"
 
@@ -664,8 +682,14 @@ msgstr "Erneut versuchen"
 msgid "Try another method"
 msgstr "Eine andere Methode versuchen"
 
+msgid "Try for 7 days"
+msgstr ""
+
 msgid "Update"
 msgstr "Aktualisieren"
+
+msgid "Upgrade your plan"
+msgstr ""
 
 msgid "Upload"
 msgstr "Hochladen"
@@ -736,6 +760,9 @@ msgstr ""
 msgid "Your Authentication Factors"
 msgstr "Ihre Authentifizierungsfaktoren"
 
+msgid "Your first {0} are free, and you’ll get a discount on our monthly plan once you need more than that"
+msgstr ""
+
 msgid "Your recovery key can be used to restore your account in place of your backup secret phrase."
 msgstr "Ihr Wiederherstellungsschlüssel kann zur Wiederherstellung Ihres Kontos anstelle Ihres Sicherungsgeheimsatz verwendet werden."
 
@@ -769,5 +796,14 @@ msgstr "{0, plural, one {Sie sind dabei {1} Datei zu löschen.} other {Sie sind 
 msgid "{0}"
 msgstr ""
 
+msgid "{0} of {1} used ({2}%)"
+msgstr ""
+
+msgid "{feature}"
+msgstr ""
+
 msgid "{noOfFiles, plural, one {Uploading and encrypting {noOfFiles} file} other {Uploading and encrypting {noOfFiles} files}}"
 msgstr "{noOfFiles, plural, one {{noOfFiles} Datei wird hochgeladen und verschlüsselt} other {{noOfFiles} Datein werden hochgeladen und verschlüsselt}}"
+
+msgid "{planFor}"
+msgstr ""
