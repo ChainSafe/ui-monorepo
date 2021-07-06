@@ -3,7 +3,7 @@ import React, { useState, useEffect, useCallback } from "react"
 import CustomModal from "../../Elements/CustomModal"
 import CustomButton from "../../Elements/CustomButton"
 import { plural, t, Trans } from "@lingui/macro"
-import { DirectoryContentResponse, FileSystemItem } from "../../../Contexts/FilesContext"
+import { DirectoryContentResponse, FileSystemItem, useFiles } from "../../../Contexts/FilesContext"
 import { Button, FolderIcon, Grid, ITreeNodeProps, ScrollbarWrapper, TreeView, Typography } from "@chainsafe/common-components"
 import { CSFTheme } from "../../../Themes/types"
 import { useFileBrowser } from "../../../Contexts/FileBrowserContext"
@@ -76,6 +76,7 @@ interface IMoveFileModuleProps {
 const MoveFileModule = ({ filesToMove, modalOpen, onClose, onCancel, mode }: IMoveFileModuleProps) => {
   const classes = useStyles()
   const { filesApiClient } = useFilesApi()
+  const { buckets } = useFiles()
   const { bucket, moveItems, recoverItems, currentPath } = useFileBrowser()
   const [isMovingFile, setIsMovingFile] = useState(false)
   const [movePath, setMovePath] = useState<undefined | string>(undefined)
@@ -94,13 +95,17 @@ const MoveFileModule = ({ filesToMove, modalOpen, onClose, onCancel, mode }: IMo
   )
 
   const getFolderTreeData = useCallback(async () => {
-    if (!bucket) return
-    filesApiClient.getBucketDirectoriesTree(bucket.id).then((newFolderTree) => {
+    let bucketForFolderTree = bucket
+    if (bucket?.type === "trash" && mode === "recover") {
+      bucketForFolderTree = buckets.find((bucket) => bucket.type === "csf")
+    }
+    if (!bucketForFolderTree) return
+    filesApiClient.getBucketDirectoriesTree(bucketForFolderTree.id).then((newFolderTree) => {
       if (newFolderTree.entries) {
         const folderTreeNodes = [
           {
             id: "/",
-            title: bucket.name || "Home",
+            title: bucketForFolderTree?.name || "Home",
             isExpanded: true,
             expandable: true,
             tree: mapFolderTree(newFolderTree.entries)
@@ -111,7 +116,7 @@ const MoveFileModule = ({ filesToMove, modalOpen, onClose, onCancel, mode }: IMo
         setFolderTree([])
       }
     }).catch(console.error)
-  }, [filesApiClient, mapFolderTree, bucket])
+  }, [filesApiClient, mapFolderTree, bucket, buckets, mode])
 
   useEffect(() => {
     if (modalOpen) {
@@ -191,7 +196,7 @@ const MoveFileModule = ({ filesToMove, modalOpen, onClose, onCancel, mode }: IMo
         alignItems="center"
         className={classes.paddedContainer}
       >
-        {movePath === currentPath && (
+        {mode === "move" && movePath === currentPath && (
           <Typography
             component="p"
             variant="body1"
@@ -224,7 +229,7 @@ const MoveFileModule = ({ filesToMove, modalOpen, onClose, onCancel, mode }: IMo
             type="submit"
             className={classes.okButton}
             loading={isMovingFile}
-            disabled={!movePath || movePath === currentPath}
+            disabled={!movePath || (mode === "move" && movePath === currentPath)}
             onClick={onMoveFile}
           >
             {mode === "move" ? t`Move` : t`Recover`}
