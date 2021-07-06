@@ -388,6 +388,9 @@ msgstr "Operating system:"
 msgid "Or confirm by signing into your Files on any browser you’ve used before."
 msgstr "Or confirm by signing into your Files on any browser you’ve used before."
 
+msgid "Owner"
+msgstr "Owner"
+
 msgid "Password"
 msgstr "Password"
 
@@ -747,6 +750,9 @@ msgstr "file"
 
 msgid "folder"
 msgstr "folder"
+
+msgid "me"
+msgstr "me"
 
 msgid "moved successfully"
 msgstr "moved successfully"

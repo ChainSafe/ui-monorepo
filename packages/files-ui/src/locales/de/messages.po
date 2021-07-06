@@ -385,6 +385,9 @@ msgstr "Betriebssystem:"
 msgid "Or confirm by signing into your Files on any browser you’ve used before."
 msgstr ""
 
+msgid "Owner"
+msgstr ""
+
 msgid "Password"
 msgstr "Passwort"
 
@@ -744,6 +747,9 @@ msgstr "Datei"
 
 msgid "folder"
 msgstr "Ordner"
+
+msgid "me"
+msgstr ""
 
 msgid "moved successfully"
 msgstr "erfolgreich verschoben"

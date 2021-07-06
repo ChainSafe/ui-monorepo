@@ -1,8 +1,10 @@
-name: Lingui extract
+name: Lingui extract - Storage
 on:
   pull_request:
     branches:
       - "dev"
+    paths:
+    - "packages/storage-ui/**/*"
 jobs:
   # extract any new translatable string
   # and commit if there are new ones
@@ -26,10 +28,14 @@ jobs:
         key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
 
     - name: install packages
+      env:
+        GITHUB_PACKAGES_AUTH_TOKEN: ${{ secrets.GH_PKG_AUTH_TOKEN }}
       run: yarn install --immutable
 
     - name: lingui-extract
+      env:
+        GITHUB_PACKAGES_AUTH_TOKEN: ${{ secrets.GH_PKG_AUTH_TOKEN }}
       run: |
-        (cd packages/files-ui && yarn extract --clean)
-        git add packages/files-ui/src/locales/*
+        (cd packages/storage-ui && yarn extract --clean)
+        git add packages/storage-ui/src/locales/*
         if git commit -m "lingui extract"; then git push --no-verify; else echo 'exiting successfully without commit'; fi
