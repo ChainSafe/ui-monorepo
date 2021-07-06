@@ -22,8 +22,8 @@ import CreateSharedFolderModal from "./CreateSharedFolderModal"
 import { useFilesApi } from "../../../Contexts/FilesApiContext"
 import { ROUTE_LINKS } from "../../FilesRoutes"
 
-export const desktopSharedGridSettings = "69px 3fr 190px 150px 45px !important"
-export const mobileSharedGridSettings = "3fr 50px 45px !important"
+export const desktopSharedGridSettings = "69px 3fr 120px 190px 150px 45px !important"
+export const mobileSharedGridSettings = "3fr 80px 45px !important"
 
 const useStyles = makeStyles(
   ({ animation, breakpoints, constants, palette }: CSFTheme) => {
@@ -132,7 +132,7 @@ const SharedFolderOverview = () => {
   }, [filesApiClient, refreshBuckets])
 
   const openSharedFolder = useCallback((bucketId: string) => {
-    redirect(ROUTE_LINKS.ShareExplorer(bucketId, "/"))
+    redirect(ROUTE_LINKS.SharedFolderExplorer(bucketId, "/"))
   }, [redirect])
 
   return (
@@ -191,19 +191,24 @@ const SharedFolderOverview = () => {
                 >
                   <Trans>Name</Trans>
                 </TableHeadCell>
+                {desktop &&
+                  <TableHeadCell align="left">
+                    <Trans>Owner</Trans>
+                  </TableHeadCell>
+                }
                 <TableHeadCell align="left">
                   <Trans>Shared with</Trans>
                 </TableHeadCell>
                 {desktop &&
-                <TableHeadCell
-                  sortButtons={true}
-                  align="left"
-                  onSortChange={() => handleSortToggle("size")}
-                  sortDirection={column === "size" ? direction : undefined}
-                  sortActive={column === "size"}
-                >
-                  <Trans>Size</Trans>
-                </TableHeadCell>
+                  <TableHeadCell
+                    sortButtons={true}
+                    align="left"
+                    onSortChange={() => handleSortToggle("size")}
+                    sortDirection={column === "size" ? direction : undefined}
+                    sortActive={column === "size"}
+                  >
+                    <Trans>Size</Trans>
+                  </TableHeadCell>
                 }
                 <TableHeadCell>{/* Menu */}</TableHeadCell>
               </TableRow>
