@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react"
 import { useToaster, useHistory, useLocation, Crumb } from "@chainsafe/common-components"
-import { getArrayOfPaths, getURISafePathFromArray, getPathWithFile, extractFileBrowserPathFromURL } from "../../../../Utils/pathUtils"
+import { getArrayOfPaths, getURISafePathFromArray, getPathWithFile, extractSharedFileBrowserPathFromURL } from "../../../../Utils/pathUtils"
 import { IBulkOperations, IFilesTableBrowserProps } from "../types"
 import { CONTENT_TYPES } from "../../../../Utils/Constants"
 import { t } from "@lingui/macro"
@@ -14,11 +14,7 @@ import DragAndDrop from "../../../../Contexts/DnDContext"
 import FilesList from "../views/FilesList"
 
 const ShareFileBrowser = () => {
-  const {
-    downloadFile,
-    uploadFiles,
-    buckets
-  } = useFiles()
+  const { downloadFile, uploadFiles, buckets } = useFiles()
   const { filesApiClient } = useFilesApi()
   const { addToastMessage } = useToaster()
   const [loadingCurrentPath, setLoadingCurrentPath] = useState(false)
@@ -26,26 +22,29 @@ const ShareFileBrowser = () => {
   const { redirect } = useHistory()
   const { pathname } = useLocation()
 
-  const currentPath = useMemo(() => {
-    const moduleRemoved = extractFileBrowserPathFromURL(pathname, ROUTE_LINKS.ShareExplorer("", "/"))
-    const bucketId = moduleRemoved.split("/")[0]
-    return extractFileBrowserPathFromURL(pathname, ROUTE_LINKS.ShareExplorer(`${bucketId}/`, "/"))
-  },
-  [pathname])
+  const bucketId = useMemo(() =>
+    pathname.split("/")[2]
+  , [pathname])
 
-  const bucket = useMemo(() => buckets.find(b => b.type === "share"), [buckets])
+  const bucket = useMemo(() => buckets.find(b => b.id === bucketId), [buckets, bucketId])
+
+  const currentPath = useMemo(() => {
+    return extractSharedFileBrowserPathFromURL(pathname, ROUTE_LINKS.SharedFolderExplorer(bucketId, ""))
+  },
+  [bucketId, pathname])
+
   const { profile } = useUser()
 
   const [access, setAccess] = useState<BucketPermission>("reader")
 
   // Breadcrumbs/paths
-  const arrayOfPaths = useMemo(() => getArrayOfPaths(currentPath).splice(2), [currentPath])
+  const arrayOfPaths = useMemo(() => getArrayOfPaths(currentPath), [currentPath])
   const crumbs: Crumb[] = useMemo(() => arrayOfPaths.map((path, index) => {
     return ({
       text: decodeURIComponent(path),
       onClick: () => {
         redirect(
-          ROUTE_LINKS.ShareExplorer(`${bucket?.id}`, getURISafePathFromArray(arrayOfPaths.slice(0, index + 1)))
+          ROUTE_LINKS.SharedFolderExplorer(bucket?.id || "", getURISafePathFromArray(arrayOfPaths.slice(0, index + 1)))
         )
       }
     })
@@ -159,11 +158,11 @@ const ShareFileBrowser = () => {
 
     const fileSystemItem = pathContents.find(f => f.cid === cid)
     if (fileSystemItem && fileSystemItem.content_type === CONTENT_TYPES.Directory) {
-      let urlSafePath =  getURISafePathFromArray(getArrayOfPaths(currentPath).splice(2))
+      let urlSafePath =  getURISafePathFromArray(getArrayOfPaths(currentPath))
       if (urlSafePath === "/") {
         urlSafePath = ""
       }
-      redirect(ROUTE_LINKS.ShareExplorer(bucket.id, `${urlSafePath}/${encodeURIComponent(`${fileSystemItem.name}`)}`))
+      redirect(ROUTE_LINKS.SharedFolderExplorer(bucket.id, `${urlSafePath}/${encodeURIComponent(`${fileSystemItem.name}`)}`))
     }
   }, [currentPath, pathContents, redirect, bucket])
 
@@ -235,7 +234,7 @@ const ShareFileBrowser = () => {
       bulkOperations,
       handleUploadOnDrop,
       crumbs,
-      moduleRootPath: ROUTE_LINKS.ShareExplorer(`${bucket?.id}`, "/"),
+      moduleRootPath: ROUTE_LINKS.SharedFolderExplorer(bucket?.id || "", "/"),
       currentPath,
       refreshContents,
       deleteItems: moveItemsToBin,

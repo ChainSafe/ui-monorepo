@@ -132,7 +132,7 @@ const SharedFolderOverview = () => {
   }, [filesApiClient, refreshBuckets])
 
   const openSharedFolder = useCallback((bucketId: string) => {
-    redirect(ROUTE_LINKS.ShareExplorer(bucketId, "/"))
+    redirect(ROUTE_LINKS.SharedFolderExplorer(bucketId, "/"))
   }, [redirect])
 
   return (

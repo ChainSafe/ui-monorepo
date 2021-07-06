@@ -495,34 +495,23 @@ const FilesList = ({ isShared = false }: Props) => {
         fileOperations = readerOperations
         break
       }
+    }
 
-      for (let i = 0; i < selectedCids.length; i++) {
-        const contentType = items.find((item) => item.cid === selectedCids[i])
-          ?.content_type
+    for (let i = 0; i < selectedCids.length; i++) {
+      const contentType = items.find((item) => item.cid === selectedCids[i])
+        ?.content_type
 
-        if (contentType) {
-          if (contentType === CONTENT_TYPES.Directory) {
-            const validList = fileOperations.filter(
-              (op: FileOperation) =>
-                bulkOperations[contentType].indexOf(op) >= 0
+      if (contentType) {
+        if (contentType === CONTENT_TYPES.Directory) {
+          const validList = fileOperations.filter(
+            (op: FileOperation) =>
+              bulkOperations[contentType].indexOf(op) >= 0
+          )
+          if (validList.length > 0) {
+            fileOperations = fileOperations.filter(
+              (existingOp: FileOperation) =>
+                validList.indexOf(existingOp) >= 0
             )
-            if (validList.length > 0) {
-              fileOperations = fileOperations.filter(
-                (existingOp: FileOperation) =>
-                  validList.indexOf(existingOp) >= 0
-              )
-            }
-          } else {
-            const validList = fileOperations.filter(
-              (op: FileOperation) =>
-                bulkOperations[CONTENT_TYPES.File].indexOf(op) >= 0
-            )
-            if (validList.length > 0) {
-              fileOperations = fileOperations.filter(
-                (existingOp: FileOperation) =>
-                  validList.indexOf(existingOp) >= 0
-              )
-            }
           }
         } else {
           const validList = fileOperations.filter(
@@ -531,13 +520,24 @@ const FilesList = ({ isShared = false }: Props) => {
           )
           if (validList.length > 0) {
             fileOperations = fileOperations.filter(
-              (existingOp: FileOperation) => validList.indexOf(existingOp) >= 0
+              (existingOp: FileOperation) =>
+                validList.indexOf(existingOp) >= 0
             )
           }
         }
+      } else {
+        const validList = fileOperations.filter(
+          (op: FileOperation) =>
+            bulkOperations[CONTENT_TYPES.File].indexOf(op) >= 0
+        )
+        if (validList.length > 0) {
+          fileOperations = fileOperations.filter(
+            (existingOp: FileOperation) => validList.indexOf(existingOp) >= 0
+          )
+        }
       }
-      setValidBulkOps(fileOperations)
     }
+    setValidBulkOps(fileOperations)
   }, [selectedCids, items, bulkOperations, isShared, permission])
 
   const handleDeleteFiles = useCallback(() => {
