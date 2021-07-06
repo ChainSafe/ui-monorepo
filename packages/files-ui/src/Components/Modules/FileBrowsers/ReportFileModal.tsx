@@ -17,6 +17,7 @@ import clsx from "clsx"
 import { CSFTheme } from "../../../Themes/types"
 import { useFileBrowser } from "../../../Contexts/FileBrowserContext"
 import { useThresholdKey } from "../../../Contexts/ThresholdKeyContext"
+import EthCrypto from "eth-crypto"
 
 const useStyles = makeStyles(
   ({ breakpoints, constants, palette, typography, zIndex, animation }: CSFTheme) => {
@@ -144,6 +145,10 @@ const useStyles = makeStyles(
           flexBasis: "100%",
           margin: `${constants.generalUnit * 2}px`
         }
+      },
+      decryptionKey: {
+        width: "100%",
+        wordBreak: "break-all"
       }
     })
   }
@@ -175,7 +180,7 @@ const ReportFileModal = ({ fileInfoPath, close }: IReportFileModalProps) => {
   useEffect(() => {
     if(!adminPubKey || !encryptionKey) return
 
-    encryptForPublicKey(adminPubKey, encryptionKey)
+    encryptForPublicKey(EthCrypto.publicKey.decompress(adminPubKey.slice(2)), encryptionKey)
       .then(setEncryptedDecryptionKey)
       .catch(console.error)
       .finally(() => setIsloadingAdminKey(false))
@@ -250,7 +255,10 @@ const ReportFileModal = ({ fileInfoPath, close }: IReportFileModalProps) => {
                   variant="h5"
                   component="h5"
                 >
-                  <Trans>General</Trans>
+                  <Trans>
+                    These info should be sent to report@files.chainsafe.io.\
+                    Beware that you would send the decryption key along which would alow an
+                    admin to decrypt any file in this shared folder.</Trans>
                 </Typography>
                 <div className={classes.subInfoBox}>
                   <Typography
@@ -290,7 +298,7 @@ const ReportFileModal = ({ fileInfoPath, close }: IReportFileModalProps) => {
                     <Trans>Decryption key</Trans>
                   </Typography>
                   <Typography
-                    className={classes.subSubtitle}
+                    className={clsx(classes.decryptionKey, classes.subSubtitle)}
                     variant="body2"
                     component="p"
                   >
