@@ -8,7 +8,7 @@ import SearchPage from "./Pages/SearchPage"
 import BinPage from "./Pages/BinPage"
 import PurchasePlanPage from "./Pages/PurchasePlanPage"
 import { useThresholdKey } from "../Contexts/ThresholdKeyContext"
-import ShareFilesPage from "./Pages/ShareFilesPage"
+import ShareFilesPage from "./Pages/SharedFilesPage"
 import SharedFoldersOverview from "./Modules/FileBrowsers/SharedFoldersOverview"
 
 export const SETTINGS_BASE = "/settings"

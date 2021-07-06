@@ -13,7 +13,7 @@ import { useUser } from "../../../../Contexts/UserContext"
 import DragAndDrop from "../../../../Contexts/DnDContext"
 import FilesList from "../views/FilesList"
 
-const ShareFileBrowser = () => {
+const SharedFileBrowser = () => {
   const { downloadFile, uploadFiles, buckets } = useFiles()
   const { filesApiClient } = useFilesApi()
   const { addToastMessage } = useToaster()
@@ -210,7 +210,7 @@ const ShareFileBrowser = () => {
         [CONTENT_TYPES.Image]: ["preview"],
         [CONTENT_TYPES.Pdf]: ["preview"],
         [CONTENT_TYPES.Text]: ["preview"],
-        [CONTENT_TYPES.File]: ["download", "info", "rename", "move", "delete"],
+        [CONTENT_TYPES.File]: ["download", "info", "rename", "move", "delete", "report"],
         [CONTENT_TYPES.Directory]: ["rename", "move", "delete"]
       }
     // case "reader":
@@ -221,7 +221,7 @@ const ShareFileBrowser = () => {
         [CONTENT_TYPES.Image]: ["preview"],
         [CONTENT_TYPES.Pdf]: ["preview"],
         [CONTENT_TYPES.Text]: ["preview"],
-        [CONTENT_TYPES.File]: ["download", "info"],
+        [CONTENT_TYPES.File]: ["download", "info", "report"],
         [CONTENT_TYPES.Directory]: ["rename"]
       }
     }
@@ -258,4 +258,4 @@ const ShareFileBrowser = () => {
   )
 }
 
-export default ShareFileBrowser
+export default SharedFileBrowser

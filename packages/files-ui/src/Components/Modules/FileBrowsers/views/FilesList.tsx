@@ -56,7 +56,7 @@ const baseOperations:  FileOperation[] = ["download", "info", "preview"]
 const readerOperations: FileOperation[] = [...baseOperations, "report"]
 const ownerOperations: FileOperation[] = [...baseOperations, "delete", "move", "rename"]
 const csfOperations:  FileOperation[] = [...ownerOperations, "share"]
-const writerOperations: FileOperation[] = [...baseOperations, ...ownerOperations]
+const writerOperations: FileOperation[] = [...ownerOperations, "report"]
 
 interface IStyleProps {
   themeKey: string
@@ -941,10 +941,8 @@ const FilesList = ({ isShared = false }: Props) => {
                       setIsMoveFileModalOpen(true)
                       setMoveModalMode("recover")
                     }}
-                    reportFile={() => {
-                      setSelectedCids([file.cid])
-                      setIsReportFileModalOpen(true)
-                    }}
+                    reportFile={() => setIsReportFileModalOpen(true)}
+                    showFileInfo={() => setIsFileInfoModalOpen(true)}
                   />
                 ))}
               </TableBody>
@@ -992,10 +990,8 @@ const FilesList = ({ isShared = false }: Props) => {
                     setMoveModalMode("recover")
                   }}
                   browserView="grid"
-                  reportFile={() => {
-                    setSelectedCids([file.cid])
-                    setIsReportFileModalOpen(true)
-                  }}
+                  reportFile={() => setIsReportFileModalOpen(true)}
+                  showFileInfo={() => setIsFileInfoModalOpen(true)}
                 />
               ))}
             </section>
@@ -1063,11 +1059,8 @@ const FilesList = ({ isShared = false }: Props) => {
       { fileInfoPath && isReportFileModalOpen &&
         <ReportFileModal
           fileInfoPath={fileInfoPath}
-          cid={selectedCids[0]}
           close={() => {
             setIsReportFileModalOpen(false)
-            setFileInfoPath(undefined)
-            setSelectedCids([])
           }}
         />
       }

@@ -7,19 +7,16 @@ import React, { useState, useEffect } from "react"
 import CustomModal from "../../Elements/CustomModal"
 import CustomButton from "../../Elements/CustomButton"
 import { Trans } from "@lingui/macro"
-import { FileFullInfo } from "../../../Contexts/FilesContext"
 import {
   Button,
-  formatBytes,
   Grid,
   Loading,
   Typography
 } from "@chainsafe/common-components"
 import clsx from "clsx"
 import { CSFTheme } from "../../../Themes/types"
-import dayjs from "dayjs"
-import { useFilesApi } from "../../../Contexts/FilesApiContext"
 import { useFileBrowser } from "../../../Contexts/FileBrowserContext"
+import { useThresholdKey } from "../../../Contexts/ThresholdKeyContext"
 
 const useStyles = makeStyles(
   ({ breakpoints, constants, palette, typography, zIndex, animation }: CSFTheme) => {
@@ -153,30 +150,51 @@ const useStyles = makeStyles(
 )
 
 interface IReportFileModalProps {
-  cid: string
   fileInfoPath: string
   close: () => void
 }
 
-const ReportFileModal = ({ fileInfoPath, cid, close }: IReportFileModalProps) => {
+// const TEMP_PRIVATE_KEY = "0x7d0a2192d5d19dec42fb9aabd28e3f00c6eb5fba7c7ad4cd1e951e726efc7653"
+const TEMP_PUBLIC_KEY = "0x023c14caf314aa61fed377588290ff52391deecc7b036edd6ac4830ed7e0e77b88"
+
+const ReportFileModal = ({ fileInfoPath, close }: IReportFileModalProps) => {
   const classes = useStyles()
-  const [fullFileInfo, setFullFullInfo] = useState<FileFullInfo | undefined>()
   const { bucket } = useFileBrowser()
-  const [isLoadingFileInfo, setIsloadingFileInfo] = useState(false)
+  const { encryptionKey, id } = bucket || {}
+  const [isLoadingAdminKey, setIsloadingAdminKey] = useState(true)
+  const [adminPubKey, setAdminPubkey] = useState("")
+  const [encryptedDecryptionKey, setEncryptedDecryptionKey] = useState("")
+  const { encryptForPublicKey } = useThresholdKey()
+
+
+  useEffect(() => {
+    // fetch admin public key from api
+    setAdminPubkey(TEMP_PUBLIC_KEY)
+
+  }, [])
+  useEffect(() => {
+    if(!adminPubKey || !encryptionKey) return
+
+    encryptForPublicKey(adminPubKey, encryptionKey)
+      .then(setEncryptedDecryptionKey)
+      .catch(console.error)
+      .finally(() => setIsloadingAdminKey(false))
+  }, [adminPubKey, encryptForPublicKey, encryptionKey])
 
   const [copied, setCopied] = useState(false)
   const debouncedSwitchCopied = debounce(() => setCopied(false), 3000)
 
-  const onCopyCID = async () => {
-    if (fullFileInfo?.content?.cid) {
-      try {
-        await navigator.clipboard.writeText(fullFileInfo?.content?.cid)
-        setCopied(true)
-        debouncedSwitchCopied()
-      } catch (err) {
-        console.error(err)
-      }
+  const onCopyInfo = async () => {
+
+    //todo copy the whole text
+    try {
+      await navigator.clipboard.writeText("")
+      setCopied(true)
+      debouncedSwitchCopied()
+    } catch (err) {
+      console.error(err)
     }
+
   }
 
   return (
@@ -203,7 +221,7 @@ const ReportFileModal = ({ fileInfoPath, cid, close }: IReportFileModalProps) =>
           <Trans>Report a File</Trans>
         </Typography>
       </Grid>
-      { isLoadingFileInfo && (
+      { isLoadingAdminKey && (
         <Grid
           item
           flexDirection="row"
@@ -217,14 +235,14 @@ const ReportFileModal = ({ fileInfoPath, cid, close }: IReportFileModalProps) =>
           </div>
         </Grid>
       )}
-      {fullFileInfo && !isLoadingFileInfo && (
-        <>
-          <Grid
-            item
-            xs={12}
-            sm={12}
-            className={classes.infoContainer}
-          >
+      <>
+        <Grid
+          item
+          xs={12}
+          sm={12}
+          className={classes.infoContainer}
+        >
+          {!isLoadingAdminKey && (
             <div className={classes.infoBox}>
               <div>
                 <Typography
@@ -234,158 +252,89 @@ const ReportFileModal = ({ fileInfoPath, cid, close }: IReportFileModalProps) =>
                 >
                   <Trans>General</Trans>
                 </Typography>
-                {fullFileInfo.content?.name && (
-                  <div className={classes.subInfoBox}>
-                    <Typography
-                      variant="body1"
-                      component="p"
-                    >
-                      <Trans>Name</Trans>
-                    </Typography>
-                    <Typography
-                      className={classes.subSubtitle}
-                      variant="body2"
-                      component="p"
-                    >
-                      {fullFileInfo.content.name}
-                    </Typography>
-                  </div>
-                )}
-                {fullFileInfo.content?.created_at && (
-                  <div className={classes.subInfoBox}>
-                    <Typography
-                      variant="body1"
-                      component="p"
-                    >
-                      <Trans>Date uploaded</Trans>
-                    </Typography>
-                    <Typography
-                      className={classes.subSubtitle}
-                      variant="body2"
-                      component="p"
-                    >
-                      {fullFileInfo.content.created_at && dayjs.unix(fullFileInfo.content.created_at).format("DD MMM YYYY h:mm a")}
-                    </Typography>
-                  </div>
-                )}
-                {fullFileInfo.content?.size !== undefined && (
-                  <div className={classes.subInfoBox}>
-                    <Typography
-                      variant="body1"
-                      component="p"
-                    >
-                      <Trans>File size</Trans>
-                    </Typography>
-                    <Typography
-                      className={classes.subSubtitle}
-                      variant="body2"
-                      component="p"
-                    >
-                      {formatBytes(fullFileInfo.content?.size)}
-                    </Typography>
-                  </div>
-                )}
-              </div>
-              <div className={classes.technicalContainer}>
-                <Typography
-                  className={classes.infoHeading}
-                  variant="h5"
-                  component="h5"
-                >
-                  <Trans>Technical</Trans>
-                </Typography>
-                {fullFileInfo.persistent?.stored_cid !== undefined && (
-                  <div className={classes.subInfoBox}>
-                    <Typography
-                      variant="body1"
-                      component="p"
-                    >
-                      <Trans>Stored by miner</Trans>
-                    </Typography>
-                    <Typography
-                      className={classes.subSubtitle}
-                      variant="body2"
-                      component="p"
-                    >
-                      {fullFileInfo.persistent?.stored_cid}
-                    </Typography>
-                  </div>
-                )}
-                {fullFileInfo.persistent?.stored_cid !== undefined && (
-                  <div className={classes.subInfoBox}>
-                    <Typography
-                      variant="body1"
-                      component="p"
-                    >
-                      <Trans>Number of copies (Replication Factor)</Trans>
-                    </Typography>
-                    <Typography
-                      className={classes.subSubtitle}
-                      variant="body2"
-                      component="p"
-                    >
-                      {fullFileInfo.persistent?.stored_cid}
-                    </Typography>
-                  </div>
-                )}
                 <div className={classes.subInfoBox}>
-                  <Grid
-                    item
-                    flexDirection="row"
+                  <Typography
+                    variant="body1"
+                    component="p"
                   >
-                    <Typography
-                      variant="body1"
-                      component="p"
-                    >
-                      <Trans>CID (Content Identifier)</Trans>
-                    </Typography>
-                  </Grid>
+                    <Trans>Bucket id</Trans>
+                  </Typography>
                   <Typography
                     className={classes.subSubtitle}
                     variant="body2"
                     component="p"
                   >
-                    {fullFileInfo.content?.cid}
+                    {id}
+                  </Typography>
+                </div>
+                <div className={classes.subInfoBox}>
+                  <Typography
+                    variant="body1"
+                    component="p"
+                  >
+                    <Trans>File path</Trans>
+                  </Typography>
+                  <Typography
+                    className={classes.subSubtitle}
+                    variant="body2"
+                    component="p"
+                  >
+                    {fileInfoPath}
+                  </Typography>
+                </div>
+                <div className={classes.subInfoBox}>
+                  <Typography
+                    variant="body1"
+                    component="p"
+                  >
+                    <Trans>Decryption key</Trans>
+                  </Typography>
+                  <Typography
+                    className={classes.subSubtitle}
+                    variant="body2"
+                    component="p"
+                  >
+                    {encryptedDecryptionKey}
                   </Typography>
                 </div>
               </div>
             </div>
-          </Grid>
-          <Grid
-            item
-            flexDirection="row"
-            className={classes.buttonsContainer}
-          >
-            <div className={classes.copyContainer}>
-              <Button
-                type="submit"
-                size="large"
-                variant="primary"
-                className={classes.copyButton}
-                onClick={onCopyCID}
-              >
-                <Trans>Copy CID</Trans>
-              </Button>
-              <div className={clsx(classes.copiedFlag, { "active": copied })}>
-                <span>
-                  <Trans>
-                      Copied!
-                  </Trans>
-                </span>
-              </div>
-            </div>
-            <CustomButton
-              onClick={() => close()}
+          )}
+        </Grid>
+        <Grid
+          item
+          flexDirection="row"
+          className={classes.buttonsContainer}
+        >
+          <div className={classes.copyContainer}>
+            <Button
+              type="submit"
               size="large"
-              className={classes.closeButton}
-              variant="outline"
-              type="button"
+              variant="primary"
+              className={classes.copyButton}
+              onClick={onCopyInfo}
             >
-              <Trans>Close</Trans>
-            </CustomButton>
-          </Grid>
-        </>
-      )}
+              <Trans>Copy info</Trans>
+            </Button>
+            <div className={clsx(classes.copiedFlag, { "active": copied })}>
+              <span>
+                <Trans>
+                      Copied!
+                </Trans>
+              </span>
+            </div>
+          </div>
+          <CustomButton
+            onClick={() => close()}
+            size="large"
+            className={classes.closeButton}
+            variant="outline"
+            type="button"
+          >
+            <Trans>Close</Trans>
+          </CustomButton>
+        </Grid>
+      </>
     </CustomModal>
   )
 }

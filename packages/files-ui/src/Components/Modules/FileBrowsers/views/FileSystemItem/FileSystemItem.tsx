@@ -16,7 +16,8 @@ import {
   ExportSvg,
   ShareAltSvg,
   ExclamationCircleInverseSvg,
-  ZoomInSvg } from "@chainsafe/common-components"
+  ZoomInSvg,
+  InfoCircleSvg } from "@chainsafe/common-components"
 import { makeStyles, createStyles, useDoubleClick, useThemeSwitcher } from "@chainsafe/common-theme"
 import { Form, FormikProvider, useFormik } from "formik"
 import CustomModal from "../../../../Elements/CustomModal"
@@ -122,6 +123,7 @@ interface IFileSystemItemProps {
   resetSelectedFiles: () => void
   browserView: BrowserView
   reportFile?: () => void
+  showFileInfo?: () => void
 }
 
 const FileSystemItem = ({
@@ -144,7 +146,8 @@ const FileSystemItem = ({
   itemOperations,
   browserView,
   resetSelectedFiles,
-  reportFile
+  reportFile,
+  showFileInfo
 }: IFileSystemItemProps) => {
   const { downloadFile, currentPath, handleUploadOnDrop, moveItems } = useFileBrowser()
   const { cid, name, isFolder, content_type } = file
@@ -235,13 +238,16 @@ const FileSystemItem = ({
     info: {
       contents: (
         <>
-          <ExclamationCircleInverseSvg className={classes.menuIcon} />
+          <InfoCircleSvg className={classes.menuIcon} />
           <span data-cy="menu-info">
             <Trans>Info</Trans>
           </span>
         </>
       ),
-      onClick: () => setFileInfoPath(`${currentPath}${name}`)
+      onClick: () => {
+        setFileInfoPath(`${currentPath}${name}`)
+        showFileInfo && showFileInfo()
+      }
     },
     recover: {
       contents: (
@@ -279,13 +285,16 @@ const FileSystemItem = ({
     report: {
       contents: (
         <>
-          <RecoverSvg className={classes.menuIcon} />
-          <span data-cy="menu-recover">
+          <ExclamationCircleInverseSvg className={classes.menuIcon} />
+          <span data-cy="menu-report">
             <Trans>Report</Trans>
           </span>
         </>
       ),
-      onClick: () => reportFile && reportFile()
+      onClick: () => {
+        setFileInfoPath(`${currentPath}${name}`)
+        reportFile && reportFile()
+      }
     }
   }
 
