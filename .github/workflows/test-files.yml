@@ -32,7 +32,6 @@ jobs:
       - name: Cypress run
         uses: cypress-io/github-action@v2
         env:
-          GITHUB_PACKAGES_AUTH_TOKEN: ${{ secrets.GH_PKG_AUTH_TOKEN }}
           REACT_APP_API_URL: ${{ secrets.GH_REACT_APP_API_URL }}
           REACT_APP_BLOCKNATIVE_ID: ${{ secrets.GH_REACT_APP_BLOCKNATIVE_ID }}
           REACT_APP_FILES_VERIFIER_NAME: ${{ secrets.GH_REACT_APP_FILES_VERIFIER_NAME }}
