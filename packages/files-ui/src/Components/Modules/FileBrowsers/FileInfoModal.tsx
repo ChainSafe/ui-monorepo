@@ -182,15 +182,13 @@ const FileInfoModal = ({ fileInfoPath, close }: IFileInfoModuleProps) => {
   const [copied, setCopied] = useState(false)
   const debouncedSwitchCopied = debounce(() => setCopied(false), 3000)
 
-  const onCopyCID = async () => {
+  const onCopyCID = () => {
     if (fullFileInfo?.content?.cid) {
-      try {
-        await navigator.clipboard.writeText(fullFileInfo?.content?.cid)
-        setCopied(true)
-        debouncedSwitchCopied()
-      } catch (err) {
-        console.error(err)
-      }
+      navigator.clipboard.writeText(fullFileInfo?.content?.cid)
+        .then(() => {
+          setCopied(true)
+          debouncedSwitchCopied()
+        }).catch(console.error)
     }
   }
 

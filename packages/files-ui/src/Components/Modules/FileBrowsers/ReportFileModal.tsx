@@ -17,7 +17,6 @@ import clsx from "clsx"
 import { CSFTheme } from "../../../Themes/types"
 import { useFileBrowser } from "../../../Contexts/FileBrowserContext"
 import { useThresholdKey } from "../../../Contexts/ThresholdKeyContext"
-import EthCrypto from "eth-crypto"
 
 const useStyles = makeStyles(
   ({ breakpoints, constants, palette, typography, zIndex, animation }: CSFTheme) => {
@@ -180,7 +179,7 @@ const ReportFileModal = ({ fileInfoPath, close }: IReportFileModalProps) => {
   useEffect(() => {
     if(!adminPubKey || !encryptionKey) return
 
-    encryptForPublicKey(EthCrypto.publicKey.decompress(adminPubKey.slice(2)), encryptionKey)
+    encryptForPublicKey(adminPubKey.slice(2), encryptionKey)
       .then(setEncryptedDecryptionKey)
       .catch(console.error)
       .finally(() => setIsloadingAdminKey(false))
@@ -189,17 +188,15 @@ const ReportFileModal = ({ fileInfoPath, close }: IReportFileModalProps) => {
   const [copied, setCopied] = useState(false)
   const debouncedSwitchCopied = debounce(() => setCopied(false), 3000)
 
-  const onCopyInfo = async () => {
-
-    //todo copy the whole text
-    try {
-      await navigator.clipboard.writeText("")
+  const onCopyInfo = () => {
+    navigator.clipboard.writeText(`{
+  bucketId: "${id}",
+  path: "${fileInfoPath}",
+  encryptedDecryptionKey: "${encryptedDecryptionKey}"
+}`).then(() => {
       setCopied(true)
       debouncedSwitchCopied()
-    } catch (err) {
-      console.error(err)
-    }
-
+    }).catch(console.error)
   }
 
   return (
@@ -256,9 +253,11 @@ const ReportFileModal = ({ fileInfoPath, close }: IReportFileModalProps) => {
                   component="h5"
                 >
                   <Trans>
-                    These info should be sent to report@files.chainsafe.io.\
-                    Beware that you would send the decryption key along which would alow an
-                    admin to decrypt any file in this shared folder.</Trans>
+                    If you think this file is against our privacy policies,
+                    you can send the following info to report@files.chainsafe.io
+                    Beware that you would send the decryption key along which would allow an
+                    admin to decrypt any file in this shared folder.
+                  </Trans>
                 </Typography>
                 <div className={classes.subInfoBox}>
                   <Typography
