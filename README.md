@@ -29,15 +29,8 @@ The UI for Chainsafe Storage
 Requirements: 
 - Node > 12
 - Yarn > 1
-- A Github Personal Access token with `read:package` permissions. 
 
-
-The Github Personal Access token can be obtained [here](https://github.com/settings/tokens)
-
-You then need to add it as environment variable, depending on your OS and shell:
-
-- Edit `~/.bash_profile`, or for zsh `~/.zshenv` and add the following line `export GITHUB_PACKAGES_AUTH_TOKEN="YOUR_TOKEN_HERE"`
-- Restart your shell and make sure the new variable is loaded, `echo $GITHUB_PACKAGES_AUTH_TOKEN` should print it.
+## Run
 - Run `yarn` at the root to install all project dependencies
 - Run `yarn start:storybook` to start the component storybook  
   OR
