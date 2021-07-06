@@ -27,8 +27,13 @@ export const ROUTE_LINKS = {
   UserSurvey: "https://shrl.ink/kmAL",
   GeneralFeedbackForm: "https://shrl.ink/gvVJ",
   SharedFolders: "/shared-overview",
-  ShareBrowserRoot: "/shared",
-  ShareExplorer: (bucketId: string, rawCurrentPath: string) => `/shared/${bucketId}${rawCurrentPath}`
+  SharedFolderBrowserRoot: "/shared",
+  SharedFolderExplorer: (bucketId: string, rawCurrentPath: string) => {
+    // bucketId should not have a / at the end
+    // rawCurrentPath can be empty, or /
+    const adjustedRawCurrentPath = !rawCurrentPath ? "/" : rawCurrentPath
+    return `/shared/${bucketId}${adjustedRawCurrentPath}`
+  }
 }
 
 export const SETTINGS_PATHS = ["profile", "plan", "security"] as const
@@ -50,7 +55,7 @@ const FilesRoutes = () => {
         redirectPath={ROUTE_LINKS.Landing}
       />
       <ConditionalRoute
-        path={ROUTE_LINKS.ShareBrowserRoot}
+        path={ROUTE_LINKS.SharedFolderBrowserRoot}
         isAuthorized={isAuthorized}
         component={ShareFilesPage}
         redirectPath={ROUTE_LINKS.Landing}
