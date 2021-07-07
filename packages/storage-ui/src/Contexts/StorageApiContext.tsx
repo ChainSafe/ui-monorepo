@@ -222,10 +222,10 @@ const StorageApiProvider = ({ apiUrl, withLocalStorage = true, children }: Stora
       const connected = await checkIsReady()
       if (!connected) return Promise.reject("You need to allow the connection")
     }
-    const signer = provider.getSigner()
-    const address = await signer.getAddress()
 
     try {
+      const signer = provider.getSigner()
+      const address = await signer.getAddress()
       const { token: welcomeMessage } = await storageApiClient.getIdentityWeb3Token(address)
 
       const signature = await signer.signMessage(welcomeMessage)
