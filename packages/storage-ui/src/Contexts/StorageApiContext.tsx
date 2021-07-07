@@ -304,7 +304,6 @@ const StorageApiProvider = ({ apiUrl, withLocalStorage = true, children }: Stora
       }
     }
     if (loginType === "web3") {
-      debugger
       let addressToUse = address
 
       if (!isReady  || !provider) {
@@ -322,7 +321,6 @@ const StorageApiProvider = ({ apiUrl, withLocalStorage = true, children }: Stora
         // we pull the address here to have it defined for sure
         addressToUse = await signer.getAddress()
       }
-      debugger
 
       const { token } = await storageApiClient.getIdentityWeb3Token(addressToUse)
 
@@ -332,7 +330,6 @@ const StorageApiProvider = ({ apiUrl, withLocalStorage = true, children }: Stora
       const signature = (wallet?.name === "WalletConnect")
         ? await signer.provider.send("personal_sign", [token, addressToUse])
         : await signer.signMessage(token)
-      debugger
 
       setStatus("logging in")
       const web3IdentityToken = await storageApiClient.postIdentityWeb3Token({
@@ -340,12 +337,10 @@ const StorageApiProvider = ({ apiUrl, withLocalStorage = true, children }: Stora
         token: token,
         public_address: addressToUse
       })
-      debugger
       const uuidToken = await storageApiClient.generateServiceIdentityToken({
         identity_provider: loginType,
         identity_token: web3IdentityToken.token || ""
       })
-      debugger
       return {
         identityToken: uuidToken,
         userInfo: { address: addressToUse }
@@ -379,6 +374,7 @@ const StorageApiProvider = ({ apiUrl, withLocalStorage = true, children }: Stora
     try {
       setStatus("awaiting confirmation")
       const { identityToken, userInfo } = await getIdentityToken(loginType, tokenInfo)
+      debugger
       const { access_token, refresh_token } = await storageApiClient.loginUser({
         provider: loginType,
         service: "storage",
