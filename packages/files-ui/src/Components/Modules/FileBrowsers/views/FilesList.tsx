@@ -470,7 +470,7 @@ const FilesList = ({ isShared = false }: Props) => {
   const [isMoveFileModalOpen, setIsMoveFileModalOpen] = useState(false)
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
   const [isDeletingFiles, setIsDeletingFiles] = useState(false)
-  const [fileInfoPath, setFileInfoPath] = useState<string | undefined>()
+  const [filePath, setFilePath] = useState<string | undefined>()
   const [moveModalMode, setMoveModalMode] = useState<MoveModalMode | undefined>()
 
   const [browserView, setBrowserView] = useState<BrowserView>("table")
@@ -840,9 +840,7 @@ const FilesList = ({ isShared = false }: Props) => {
                       />
                     </TableHeadCell>
                     <TableHeadCell>
-                      {/* 
-                        Icon
-                      */}
+                      {/* Icon */}
                     </TableHeadCell>
                     <TableHeadCell
                       sortButtons={true}
@@ -932,7 +930,6 @@ const FilesList = ({ isShared = false }: Props) => {
                       setIsMoveFileModalOpen(true)
                       setMoveModalMode("move")
                     }}
-                    setFileInfoPath={setFileInfoPath}
                     itemOperations={getItemOperations(file.content_type)}
                     resetSelectedFiles={resetSelectedCids}
                     browserView="table"
@@ -941,8 +938,14 @@ const FilesList = ({ isShared = false }: Props) => {
                       setIsMoveFileModalOpen(true)
                       setMoveModalMode("recover")
                     }}
-                    reportFile={() => setIsReportFileModalOpen(true)}
-                    showFileInfo={() => setIsFileInfoModalOpen(true)}
+                    reportFile={(fileInfoPath: string) => {
+                      setFilePath(fileInfoPath)
+                      setIsReportFileModalOpen(true)}
+                    }
+                    showFileInfo={(fileInfoPath: string) => {
+                      setFilePath(fileInfoPath)
+                      setIsFileInfoModalOpen(true)
+                    }}
                   />
                 ))}
               </TableBody>
@@ -981,7 +984,6 @@ const FilesList = ({ isShared = false }: Props) => {
                     setIsMoveFileModalOpen(true)
                     setMoveModalMode("move")
                   }}
-                  setFileInfoPath={setFileInfoPath}
                   itemOperations={getItemOperations(file.content_type)}
                   resetSelectedFiles={resetSelectedCids}
                   recoverFile={() => {
@@ -990,8 +992,14 @@ const FilesList = ({ isShared = false }: Props) => {
                     setMoveModalMode("recover")
                   }}
                   browserView="grid"
-                  reportFile={() => setIsReportFileModalOpen(true)}
-                  showFileInfo={() => setIsFileInfoModalOpen(true)}
+                  reportFile={(fileInfoPath: string) => {
+                    setFilePath(fileInfoPath)
+                    setIsReportFileModalOpen(true)}
+                  }
+                  showFileInfo={(fileInfoPath: string) => {
+                    setFilePath(fileInfoPath)
+                    setIsFileInfoModalOpen(true)
+                  }}
                 />
               ))}
             </section>
@@ -1056,20 +1064,21 @@ const FilesList = ({ isShared = false }: Props) => {
           </>
         )
       }
-      { fileInfoPath && isReportFileModalOpen &&
+      { filePath && isReportFileModalOpen &&
         <ReportFileModal
-          fileInfoPath={fileInfoPath}
+          filePath={filePath}
           close={() => {
             setIsReportFileModalOpen(false)
+            setFilePath(undefined)
           }}
         />
       }
-      { fileInfoPath && isFileInfoModalOpen &&
+      { filePath && isFileInfoModalOpen &&
         <FileInfoModal
-          fileInfoPath={fileInfoPath}
+          filePath={filePath}
           close={() => {
             setIsFileInfoModalOpen(false)
-            setFileInfoPath(undefined)
+            setFilePath(undefined)
           }}
         />
       }

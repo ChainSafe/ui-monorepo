@@ -33,6 +33,7 @@ import { FileSystemItem as FileSystemItemType } from "../../../../../Contexts/Fi
 import { useFileBrowser } from "../../../../../Contexts/FileBrowserContext"
 import { getPathWithFile } from "../../../../../Utils/pathUtils"
 import { BucketUser } from "@chainsafe/files-api-client"
+import { useMemo } from "react"
 
 const useStyles = makeStyles(({ breakpoints, constants }: CSFTheme) => {
   return createStyles({
@@ -118,12 +119,11 @@ interface IFileSystemItemProps {
   viewFolder?: (cid: string) => void
   setPreviewFileIndex: (fileIndex: number | undefined) => void
   moveFile?: () => void
-  setFileInfoPath: (path: string) => void
   itemOperations: FileOperation[]
   resetSelectedFiles: () => void
   browserView: BrowserView
-  reportFile?: () => void
-  showFileInfo?: () => void
+  reportFile?: (path: string) => void
+  showFileInfo?: (path: string) => void
 }
 
 const FileSystemItem = ({
@@ -140,7 +140,6 @@ const FileSystemItem = ({
   viewFolder,
   setPreviewFileIndex,
   moveFile,
-  setFileInfoPath,
   handleSelectCid,
   handleAddToSelectedCids,
   itemOperations,
@@ -177,9 +176,10 @@ const FileSystemItem = ({
 
   const { desktop } = useThemeSwitcher()
   const classes = useStyles()
+  const filePath = useMemo(() => `${currentPath}${name}`, [currentPath, name])
 
 
-  const allMenuItems: Record<FileOperation, IMenuItem> = {
+  const allMenuItems: Record<FileOperation, IMenuItem> = useMemo(() => ({
     rename: {
       contents: (
         <>
@@ -244,10 +244,7 @@ const FileSystemItem = ({
           </span>
         </>
       ),
-      onClick: () => {
-        setFileInfoPath(`${currentPath}${name}`)
-        showFileInfo && showFileInfo()
-      }
+      onClick: () => showFileInfo && showFileInfo(filePath)
     },
     recover: {
       contents: (
@@ -291,12 +288,24 @@ const FileSystemItem = ({
           </span>
         </>
       ),
-      onClick: () => {
-        setFileInfoPath(`${currentPath}${name}`)
-        reportFile && reportFile()
-      }
+      onClick: () => reportFile && reportFile(filePath)
     }
-  }
+  }),
+  [cid,
+    classes.menuIcon,
+    deleteFile,
+    downloadFile,
+    file,
+    filePath,
+    files,
+    moveFile,
+    recoverFile,
+    reportFile,
+    setEditing,
+    setPreviewFileIndex,
+    showFileInfo,
+    viewFolder
+  ])
 
   const menuItems: IMenuItem[] = itemOperations.map(
     (itemOperation) => allMenuItems[itemOperation]

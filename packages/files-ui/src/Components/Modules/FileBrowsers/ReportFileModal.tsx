@@ -144,13 +144,13 @@ const useStyles = makeStyles(
 )
 
 interface IReportFileModalProps {
-  fileInfoPath: string
+  filePath: string
   close: () => void
 }
 
 const TEMP_PUBLIC_KEY = "0x03e8cab05fc70bbc3cb829af9718feb0bfa626209594f64da6685ed13ce4437e19"
 
-const ReportFileModal = ({ fileInfoPath, close }: IReportFileModalProps) => {
+const ReportFileModal = ({ filePath, close }: IReportFileModalProps) => {
   const classes = useStyles()
   const { bucket } = useFileBrowser()
   const { encryptionKey, id } = bucket || {}
@@ -182,7 +182,7 @@ const ReportFileModal = ({ fileInfoPath, close }: IReportFileModalProps) => {
   const onCopyInfo = useCallback(() => {
     navigator.clipboard.writeText(`{
   bucketId: "${id}",
-  path: "${fileInfoPath}",
+  path: "${filePath}",
   encryptedDecryptionKey: "${encryptedDecryptionKey}"
 }`)
       .then(() => {
@@ -190,7 +190,7 @@ const ReportFileModal = ({ fileInfoPath, close }: IReportFileModalProps) => {
         debouncedSwitchCopied()
       })
       .catch(console.error)
-  }, [debouncedSwitchCopied, encryptedDecryptionKey, fileInfoPath, id])
+  }, [debouncedSwitchCopied, encryptedDecryptionKey, filePath, id])
 
   return (
     <CustomModal
@@ -284,7 +284,7 @@ const ReportFileModal = ({ fileInfoPath, close }: IReportFileModalProps) => {
                     variant="body2"
                     component="p"
                   >
-                    {fileInfoPath}
+                    {filePath}
                   </Typography>
                 </div>
                 <div className={classes.subInfoBox}>
