@@ -325,6 +325,9 @@ msgstr "Use a different login method"
 msgid "View folder"
 msgstr "View folder"
 
+msgid "Web3: {0}"
+msgstr "Web3: {0}"
+
 msgid "You will need to sign a message in your wallet to complete sign in."
 msgstr "You will need to sign a message in your wallet to complete sign in."
 
