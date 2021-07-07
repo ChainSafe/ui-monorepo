@@ -1,14 +1,51 @@
 import { useWeb3 } from "@chainsafe/web3-context"
 import * as React from "react"
 import { useState, useEffect, useMemo, useCallback } from "react"
-import { IFilesApiClient, FilesApiClient, Token, IdentityProvider } from "@chainsafe/files-api-client"
+import { IFilesApiClient, FilesApiClient, Token, IdentityProvider, IdentityToken } from "@chainsafe/files-api-client"
 import jwtDecode from "jwt-decode"
 import axios from "axios"
 import { useLocalStorage, useSessionStorage } from "@chainsafe/browser-storage-hooks"
+import { createHandler, ILoginHandler, LOGIN_TYPE, TorusLoginResponse } from "@toruslabs/torus-direct-web-sdk"
+import { capitalize, centerEllipsis } from "../Utils/Helpers"
+import { t } from "@lingui/macro"
 export type { IdentityProvider as OAuthProvider }
 
 const tokenStorageKey = "css.refreshToken"
 const isReturningUserStorageKey = "css.isReturningUser"
+
+const getProviderSpecificParams = (loginType: LOGIN_TYPE):
+  {typeOfLogin: LOGIN_TYPE; clientId: string; verifier: string; jwtParams?: any} => {
+  switch (loginType) {
+  case "google": {
+    return {
+      typeOfLogin: loginType,
+      clientId: process.env.REACT_APP_GOOGLE_CLIENT_ID || "",
+      verifier: "chainsafe-uuid-testnet"
+    }
+  }
+  case "facebook": {
+    return {
+      typeOfLogin: loginType,
+      clientId: process.env.REACT_APP_FACEBOOK_CLIENT_ID || "",
+      verifier: "chainsafe-uuid-testnet"
+    }
+  }
+  case "github":{
+    return {
+      typeOfLogin: loginType,
+      clientId: process.env.REACT_APP_AUTH0_CLIENT_ID || "",
+      verifier: "chainsafe-uuid-testnet",
+      jwtParams: {
+        domain: process.env.REACT_APP_AUTH0_DOMAIN || ""
+      }
+    }
+  }
+  default:{
+    throw new Error(`${loginType} is unsupported`)
+  }
+  }
+}
+
 
 type StorageApiContextProps = {
   apiUrl?: string
@@ -17,13 +54,15 @@ type StorageApiContextProps = {
 }
 
 type StorageApiContext = {
+  userInfo?: TorusLoginResponse
   storageApiClient: IFilesApiClient
   isLoggedIn: boolean | undefined
   secured: boolean | undefined
   isReturningUser: boolean
   selectWallet: () => Promise<void>
   resetAndSelectWallet: () => Promise<void>
-  web3Login(): Promise<void>
+  login(loginType: IdentityProvider, tokenInfo?: {token: string; email: string}): Promise<void>
+  loggedinAs: string
   logout: () => void
 }
 
@@ -32,7 +71,7 @@ const StorageApiContext = React.createContext<StorageApiContext | undefined>(und
 const StorageApiProvider = ({ apiUrl, withLocalStorage = true, children }: StorageApiContextProps) => {
   const maintenanceMode = process.env.REACT_APP_MAINTENANCE_MODE === "true"
 
-  const { wallet, onboard, checkIsReady, isReady, provider } = useWeb3()
+  const { wallet, onboard, checkIsReady, isReady, provider, address } = useWeb3()
   const { canUseLocalStorage, localStorageRemove, localStorageGet, localStorageSet } = useLocalStorage()
   const { sessionStorageRemove, sessionStorageGet, sessionStorageSet } = useSessionStorage()
 
@@ -49,6 +88,8 @@ const StorageApiProvider = ({ apiUrl, withLocalStorage = true, children }: Stora
 
   const [storageApiClient, setStorageApiClient] = useState<FilesApiClient>(initialApiClient)
   const [isLoadingUser, setIsLoadingUser] = useState(true)
+  const [loggedinAs, setLoggedinAs] = useState("")
+  const [userInfo, setUserInfo] = useState<TorusLoginResponse | undefined>()
 
   // access tokens
   const [accessToken, setAccessToken] = useState<Token | undefined>(undefined)
@@ -75,6 +116,28 @@ const StorageApiProvider = ({ apiUrl, withLocalStorage = true, children }: Stora
     localStorageSet(isReturningUserStorageKey, "returning")
     setIsReturningUser(true)
   }
+
+
+  useEffect(() => {
+    const loginType = userInfo?.userInfo.typeOfLogin
+
+    if (userInfo && loginType) {
+      switch (loginType) {
+      case "jwt":
+        setLoggedinAs(t`Web3: ${centerEllipsis(String(address), 4)}`)
+        break
+      case "facebook":
+      case "google":
+      case "github":
+        setLoggedinAs(`${capitalize(loginType)}: ${centerEllipsis(userInfo.userInfo.email, 4)}`)
+        break
+      default:
+        setLoggedinAs(`${centerEllipsis(userInfo.publicAddress, 4)}`)
+        break
+      }
+    }
+  }, [userInfo, address])
+
 
   useEffect(() => {
     const initializeApiClient = async () => {
@@ -215,40 +278,98 @@ const StorageApiProvider = ({ apiUrl, withLocalStorage = true, children }: Stora
     }
   }
 
-  const web3Login = async () => {
-    if (!provider) return Promise.reject("No wallet is selected")
-
-    if (!isReady) {
-      const connected = await checkIsReady()
-      if (!connected) return Promise.reject("You need to allow the connection")
+  const getIdentityToken = async (
+    loginType: IdentityProvider,
+    tokenInfo?: {token: string; email: string}
+  ): Promise<{identityToken: IdentityToken; userInfo: any}> => {
+    if (loginType === "email") {
+      const uuidToken = await storageApiClient.generateServiceIdentityToken({
+        identity_provider: loginType,
+        identity_token: tokenInfo?.token || ""
+      })
+      return {
+        identityToken: uuidToken,
+        userInfo: { email: tokenInfo?.email }
+      }
     }
+    if (loginType === "web3") {
+
+      let addressToUse = address
+
+      if (!isReady  || !provider) {
+        const connected = await checkIsReady()
+
+        if (!connected || !provider) throw new Error("Unable to connect to wallet.")
+      }
+
+
+      const signer = provider.getSigner()
+      if (!signer) throw new Error("Signer undefined")
+
+      if(!addressToUse){
+        // checkIsReady above doesn't make sure that the address is defined
+        // we pull the address here to have it defined for sure
+        addressToUse = await signer.getAddress()
+      }
+
+      const { token } = await storageApiClient.getIdentityWeb3Token(addressToUse)
+
+      if (!token) throw new Error("Token undefined")
+
+      const signature = (wallet?.name === "WalletConnect")
+        ? await signer.provider.send("personal_sign", [token, addressToUse])
+        : await signer.signMessage(token)
+
+      const web3IdentityToken = await storageApiClient.postIdentityWeb3Token({
+        signature: signature,
+        token: token,
+        public_address: addressToUse
+      })
+      const uuidToken = await storageApiClient.generateServiceIdentityToken({
+        identity_provider: loginType,
+        identity_token: web3IdentityToken.token || ""
+      })
+      return {
+        identityToken: uuidToken,
+        userInfo: { address: addressToUse }
+      }
+
+    } else {
+      const providerSpecificHandlerProps = getProviderSpecificParams(loginType)
+
+      const loginHandler: ILoginHandler = createHandler({
+        ...providerSpecificHandlerProps,
+        redirect_uri: `${window.location.origin}/serviceworker/redirect`,
+        redirectToOpener: false,
+        uxMode: "popup",
+        customState: {}
+      })
+      const oauthIdToken = await loginHandler.handleLoginWindow({})
+      const userInfo = await loginHandler.getUserInfo(oauthIdToken)
+      const uuidToken = await storageApiClient.generateServiceIdentityToken({
+        identity_provider: loginType,
+        identity_token: oauthIdToken.idToken || oauthIdToken.accessToken
+      })
+      return { identityToken: uuidToken, userInfo: userInfo }
+    }
+  }
+
+  const login = async (loginType: IdentityProvider, tokenInfo?: {token: string; email: string}) => {
+    if (!storageApiClient || maintenanceMode) return
 
     try {
-      const signer = provider.getSigner()
-      const address = await signer.getAddress()
-      const { token: welcomeMessage } = await storageApiClient.getIdentityWeb3Token(address)
-
-      if (!welcomeMessage) throw "Welcome message undefined"
-
-      const signature = await signer.signMessage(welcomeMessage)
-      const { token: providerIdentityToken } = await storageApiClient.postIdentityWeb3Token({
-        signature: signature,
-        token: welcomeMessage,
-        public_address: address
-      })
-
+      const { identityToken, userInfo } = await getIdentityToken(loginType, tokenInfo)
       const { access_token, refresh_token } = await storageApiClient.loginUser({
-        provider: "web3",
+        provider: loginType,
         service: "storage",
-        token: providerIdentityToken
+        token: identityToken.token
       })
-
       setTokensAndSave(access_token, refresh_token)
+      setUserInfo(userInfo)
       setReturningUser()
-      return Promise.resolve()
-    } catch (error) {
+    } catch(error) {
       console.error(error)
-      return Promise.reject("There was an error logging in.")
+      throw new Error("Login Error")
     }
   }
 
@@ -268,7 +389,9 @@ const StorageApiProvider = ({ apiUrl, withLocalStorage = true, children }: Stora
         isLoggedIn: isLoggedIn(),
         secured,
         isReturningUser: isReturningUser,
-        web3Login,
+        login,
+        loggedinAs,
+        userInfo,
         selectWallet,
         resetAndSelectWallet,
         logout
