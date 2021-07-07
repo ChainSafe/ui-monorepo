@@ -22,6 +22,7 @@ import { Form, FormikProvider, useFormik } from "formik"
 import { object, string } from "yup"
 import clsx from "clsx"
 import { BucketKeyPermission } from "../../../../../Contexts/FilesContext"
+import UserBubble from "../../../../Elements/UserBubble"
 
 const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => {
 
@@ -216,6 +217,13 @@ const SharedFolderRow = ({ bucket, onFolderClick, menuItems, isEditing, setIsEdi
           </FormikProvider>
         }
       </TableCell>
+      {desktop &&
+        <TableCell align="left">
+          {isOwner
+            ? t`me`
+            : <UserBubble tooltip={bucket.owners[0].uuid || ""} />}
+        </TableCell>
+      }
       <TableCell
         data-cy="shared-folder-item-shared-with"
         align="left"

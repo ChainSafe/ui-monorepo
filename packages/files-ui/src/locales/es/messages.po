@@ -1,782 +1,777 @@
 msgid ""
 msgstr ""
-"POT-Creation-Date: 2021-04-20 00:28+0200\n"
+"POT-Creation-Date: 2021-05-06 20:51+0200\n"
 "Mime-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: @lingui/cli\n"
-"Language: en\n"
+"X-Generator: Poedit 2.4.3\n"
+"Language: es\n"
 "Project-Id-Version: \n"
-"Report-Msgid-Bugs-To: \n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Report-Msgid-Bugs-To: \n"
 "Plural-Forms: \n"
 
 msgid "(Change)"
-msgstr "(Change)"
+msgstr ""
 
 msgid "<0>You’re at risk of getting locked out of your account because you only have two auth factors set up.</0> Add at least one more to ensure account recovery."
-msgstr "<0>You’re at risk of getting locked out of your account because you only have two auth factors set up.</0> Add at least one more to ensure account recovery."
+msgstr "<0>Corres el riesgo de quedar bloqueado fuera de tu cuenta porque solo tienes dos factores de autenticación configurados.</0> Agregue al menos uno más para garantizar la recuperación de la cuenta."
 
 msgid "A backup secret phrase will be generated and used for your account.<0/>We do not store it and <1>it can only be displayed once</1>. Save it somewhere safe!"
-msgstr "A backup secret phrase will be generated and used for your account.<0/>We do not store it and <1>it can only be displayed once</1>. Save it somewhere safe!"
+msgstr ""
 
 msgid "A file with the same name already exists"
-msgstr "A file with the same name already exists"
+msgstr "Ya existe un archivo con el mismo nombre"
 
 msgid "A name is required"
-msgstr "A name is required"
+msgstr ""
 
 msgid "Account"
-msgstr "Account"
+msgstr "Cuenta"
 
 msgid "Add a username"
-msgstr "Add a username"
+msgstr ""
 
 msgid "Add at least one more authentication method to protect your account. You’d only need any two to sign in to Files from any device."
-msgstr "Add at least one more authentication method to protect your account. You’d only need any two to sign in to Files from any device."
+msgstr "Agregue al menos un método de autenticación más para proteger su cuenta. Solo necesitaría dos para iniciar sesión en Archivos desde cualquier dispositivo."
 
 msgid "Add by sharing address, username or wallet address"
-msgstr "Add by sharing address, username or wallet address"
+msgstr ""
 
 msgid "Add more files"
-msgstr "Add more files"
+msgstr "Agrega mas archivos"
 
 msgid "Add/remove content"
-msgstr "Add/remove content"
+msgstr ""
 
 msgid "Allow them to"
-msgstr "Allow them to"
+msgstr ""
 
 msgid "Approve"
-msgstr "Approve"
+msgstr "Aprobar"
 
 msgid "Are we on the right track? Let us know in less than 1 minute."
-msgstr "Are we on the right track? Let us know in less than 1 minute."
+msgstr ""
 
 msgid "Backup secret phrase"
-msgstr "Backup secret phrase"
+msgstr ""
 
 msgid "Backup secret phrase does not match user account, please double-check and try again."
-msgstr "Backup secret phrase does not match user account, please double-check and try again."
+msgstr ""
 
 msgid "Bin"
-msgstr "Bin"
+msgstr "Papelera"
 
 msgid "Browser:"
-msgstr "Browser:"
+msgstr "Navegador:"
 
 msgid "By connecting your wallet, you agree to our <0>Terms of Service</0> and <1>Privacy Policy</1>"
-msgstr "By connecting your wallet, you agree to our <0>Terms of Service</0> and <1>Privacy Policy</1>"
+msgstr "Al conectar su billetera, acepta nuestras <0> Condiciones de servicio </0> y <1> Política de privacidad </1>"
 
 msgid "By forgetting this browser, you will not be able to use its associated recovery key to sign-in."
-msgstr "By forgetting this browser, you will not be able to use its associated recovery key to sign-in."
+msgstr "Si olvida este navegador, no podrá utilizar su clave de recuperación asociada para iniciar sesión."
 
 msgid "CID (Content Identifier)"
-msgstr "CID (Content Identifier)"
+msgstr "CID (Identificador de contenido)"
 
 msgid "Cancel"
-msgstr "Cancel"
+msgstr "Cancelar"
 
 msgid "Change Password"
-msgstr "Change Password"
+msgstr "Cambiar la contraseña"
 
 msgid "Change password"
-msgstr "Change password"
+msgstr "Cambiar la contraseña"
 
 msgid "Check your inbox! We've sent another email."
-msgstr "Check your inbox! We've sent another email."
+msgstr ""
 
 msgid "Click or drag to upload files"
-msgstr "Click or drag to upload files"
+msgstr "Haga clic o arrastre para cargar archivos"
 
 msgid "Close"
-msgstr "Close"
+msgstr "Cerrar"
 
 msgid "Complete"
-msgstr "Complete"
+msgstr "Completar"
 
 msgid "Confirm"
-msgstr "Confirm"
+msgstr "Confirmar"
 
 msgid "Confirm Password:"
-msgstr "Confirm Password:"
+msgstr "Confirmar Contraseña:"
 
 msgid "Connect Wallet to Files"
-msgstr "Connect Wallet to Files"
+msgstr "Conectar monedero a archivos"
 
 msgid "Connect a new wallet"
-msgstr "Connect a new wallet"
+msgstr "Conectar un nuevo monedero "
 
 msgid "Connection failed"
-msgstr "Connection failed"
+msgstr "La conexión falló"
 
 msgid "Continue"
-msgstr "Continue"
+msgstr "Continuar"
 
 msgid "Continue with Email"
-msgstr "Continue with Email"
+msgstr ""
 
 msgid "Continue with Github"
-msgstr "Continue with Github"
+msgstr "Continuar con Github"
 
 msgid "Continue with Google"
-msgstr "Continue with Google"
+msgstr "Continuar con Google"
 
 msgid "Continue with Web3 Wallet"
-msgstr "Continue with Web3 Wallet"
+msgstr "Continuar con Monedero Web3 "
 
 msgid "Copied!"
-msgstr "Copied!"
+msgstr "Copiado!"
 
 msgid "Copy CID"
-msgstr "Copy CID"
+msgstr "Copiar CID"
 
 msgid "Create"
-msgstr "Create"
+msgstr "Crear"
 
 msgid "Create Folder"
-msgstr "Create Folder"
+msgstr "Crear Carpeta"
 
 msgid "Create Shared Folder"
-msgstr "Create Shared Folder"
+msgstr ""
 
 msgid "Create a Shared Folder"
-msgstr "Create a Shared Folder"
+msgstr ""
 
 msgid "Create folder"
-msgstr "Create folder"
+msgstr "Crear Carpeta"
 
 msgid "Dark Theme"
-msgstr "Dark Theme"
+msgstr "Tema oscuro"
 
 msgid "Date uploaded"
-msgstr "Date uploaded"
+msgstr "Fecha de subida"
 
 msgid "Decryption failed"
-msgstr "Decryption failed"
+msgstr "Falló el descifrado"
 
 msgid "Delete"
-msgstr "Delete"
+msgstr "Borrar"
 
 msgid "Delete selected"
-msgstr "Delete selected"
+msgstr "Eliminar seleccionado"
 
 msgid "Device awaiting confirmation"
-msgstr "Device awaiting confirmation"
+msgstr "Dispositivo pendiente de confirmación"
 
 msgid "Didn't receive the email ?"
-msgstr "Didn't receive the email ?"
+msgstr ""
 
 msgid "Display Settings"
-msgstr "Display Settings"
+msgstr "Configuración de pantalla"
 
 msgid "Download"
-msgstr "Download"
+msgstr "Descargar"
 
 msgid "Download complete"
-msgstr "Download complete"
+msgstr "Descarga completa"
 
 msgid "Download recovery key"
-msgstr "Download recovery key"
+msgstr "Descargar la clave de recuperación"
 
 msgid "Drop to upload files"
-msgstr "Drop to upload files"
+msgstr "Suelta para subir archivos"
 
 msgid "Email is required"
-msgstr "Email is required"
+msgstr ""
 
 msgid "Enter backup secret phrase:"
-msgstr "Enter backup secret phrase:"
+msgstr ""
 
 msgid "Enter password"
-msgstr "Enter password"
+msgstr "Introducir la contraseña"
 
 msgid "Enter password:"
-msgstr "Enter password:"
+msgstr "Introducir la contraseña:"
 
 msgid "Enter the verification code:"
-msgstr "Enter the verification code:"
+msgstr ""
 
 msgid "Enter your email:"
-msgstr "Enter your email:"
+msgstr ""
 
 msgid "Essentials - Free"
-msgstr "Essentials - Free"
+msgstr "Esenciales - Gratis"
 
 msgid "Failed to get signature"
-msgstr "Failed to get signature"
+msgstr "No se pudo obtener la firma"
 
 msgid "Failed to migrate account, please try again."
-msgstr "Failed to migrate account, please try again."
+msgstr "No se pudo migrar la cuenta. Vuelve a intentarlo."
 
 msgid ""
 "Failed to validate signature.\n"
 "If you are using a contract wallet, please make \n"
 "sure you have activated your wallet."
 msgstr ""
-"Failed to validate signature.\n"
-"If you are using a contract wallet, please make \n"
-"sure you have activated your wallet."
+"No se pudo validar la firma.\n"
+"Si está utilizando una billetera de contrato, haga\n"
+"seguro que has activado tu billetera."
 
 msgid "File"
-msgstr "File"
+msgstr "Archivo"
 
 msgid "File Info"
-msgstr "File Info"
+msgstr "Información del archivo"
 
 msgid "File format not supported."
-msgstr "File format not supported."
+msgstr "Formato de archivo no soportado."
 
 msgid "File size"
-msgstr "File size"
+msgstr "Tamaño del archivo"
 
 msgid "Files"
-msgstr "Files"
+msgstr "Archivos"
 
 msgid "Files sharing key"
-msgstr "Files sharing key"
+msgstr ""
 
 msgid "Files uses device backups to save your browser."
-msgstr "Files uses device backups to save your browser."
+msgstr "Archivos utiliza copias de seguridad del dispositivo para guardar su navegador."
 
 msgid "First name"
-msgstr "First name"
+msgstr "Primer Nombre"
 
 msgid "Folder"
-msgstr "Folder"
+msgstr "Archivo"
 
 msgid "Folders"
-msgstr "Folders"
+msgstr "Archivos"
 
 msgid "For security reasons, each time you sign in we’ll ask you for one of the following to confirm your identity."
-msgstr "For security reasons, each time you sign in we’ll ask you for one of the following to confirm your identity."
+msgstr "Por motivos de seguridad, cada vez que inicie sesión le pediremos uno de los siguientes para confirmar su identidad."
 
 msgid "Forget this browser"
-msgstr "Forget this browser"
+msgstr "Olvida este navegador"
 
 msgid "General"
 msgstr "General"
 
 msgid "Generate backup secret phrase"
-msgstr "Generate backup secret phrase"
+msgstr ""
 
 msgid "Generating…"
-msgstr "Generating…"
+msgstr ""
 
 msgid "Get Started"
-msgstr "Get Started"
+msgstr "Empezar"
 
 msgid "Go back"
-msgstr "Go back"
+msgstr "Regresar"
 
 msgid "Great! You’re all done."
-msgstr "Great! You’re all done."
+msgstr "Estupendo! Todo ha terminado."
 
 msgid "Hello again!"
-msgstr "Hello again!"
+msgstr "Hola de nuevo!"
 
 msgid "Hey! You only have two sign-in methods. If you lose that and have only one left, you will be locked out of your account forever."
-msgstr "Hey! You only have two sign-in methods. If you lose that and have only one left, you will be locked out of your account forever."
+msgstr "Oye! Solo tiene dos métodos de inicio de sesión. Si lo pierde y solo le queda uno, se le bloqueará su cuenta para siempre."
 
 msgid "Hold on, we are logging you in…"
-msgstr "Hold on, we are logging you in…"
+msgstr ""
 
 msgid "Home"
-msgstr "Home"
+msgstr "Casa"
 
 msgid "I understand the risk"
-msgstr "I understand the risk"
+msgstr "Entiendo el riesgo"
 
 msgid "Info"
 msgstr "Info"
 
 msgid "Invalid name"
-msgstr "Invalid name"
+msgstr ""
 
 msgid "I’m done saving my backup secret phrase"
-msgstr "I’m done saving my backup secret phrase"
+msgstr ""
 
 msgid "Language"
-msgstr "Language"
+msgstr "Idioma"
 
 msgid "Last name"
-msgstr "Last name"
+msgstr "Apellido"
 
 msgid "Learn more"
-msgstr "Learn more"
+msgstr "Aprende Mas"
 
 msgid "Learn more about ChainSafe"
-msgstr "Learn more about ChainSafe"
+msgstr "Más información sobre ChainSafe"
 
 msgid "Let's get you set up."
-msgstr "Let's get you set up."
+msgstr "Vamos a configurarlo."
 
 msgid "Light Theme"
-msgstr "Light Theme"
+msgstr "Tema Claro"
 
 msgid "Loading preview"
-msgstr "Loading preview"
+msgstr "Cargando vista previa"
 
 msgid "Loading your shared folders…"
-msgstr "Loading your shared folders…"
+msgstr ""
 
 msgid "Looks like you’re signing in from a new browser. Please choose one of the following to continue:"
-msgstr "Looks like you’re signing in from a new browser. Please choose one of the following to continue:"
+msgstr "Parece que está iniciando sesión desde un nuevo navegador. Elija una de las siguientes opciones para continuar:"
 
 msgid "Lorem ipsum aenean et rutrum magna. Morbi nec placerat erat. Nunc elementum sed libero sit amet convallis. Quisque non arcu vitae ex fringilla molestie."
-msgstr "Lorem ipsum aenean et rutrum magna. Morbi nec placerat erat. Nunc elementum sed libero sit amet convallis. Quisque non arcu vitae ex fringilla molestie."
+msgstr "Lorem ipsum Aenean, y un gran maquillaje. Usamos más y colocamos en ratas. Ahora elemento libre, pero mucho del valle. , Quien no se doblegue, de la vida de una fringilla molestie."
 
 msgid "Move"
-msgstr "Move"
+msgstr "Moverse"
 
 msgid "Move selected"
-msgstr "Move selected"
+msgstr "Mover seleccionado"
 
 msgid "Move to…"
-msgstr "Move to…"
+msgstr ""
 
 msgid "My Files"
-msgstr "My Files"
+msgstr "Mis Archivos"
 
 msgid "Name"
-msgstr "Name"
+msgstr "Nombre"
 
 msgid "Name cannot contain '/' character"
-msgstr "Name cannot contain '/' character"
+msgstr ""
 
 msgid "Name too long"
-msgstr "Name too long"
+msgstr ""
 
 msgid "New folder"
-msgstr "New folder"
+msgstr "Nuevo Folder"
 
 msgid "Next"
-msgstr "Next"
+msgstr "Próximo"
 
 msgid "Nice to see you again!"
-msgstr "Nice to see you again!"
+msgstr "Encantado de verte de nuevo!"
 
 msgid "No files to show"
-msgstr "No files to show"
+msgstr "No hay archivos para mostrar"
 
 msgid "No folders"
-msgstr "No folders"
+msgstr "Sin carpetas"
 
 msgid "No search results for"
-msgstr "No search results for"
+msgstr "No hay resultados de búsqueda para"
 
 msgid "No thanks"
-msgstr "No thanks"
+msgstr "No gracias"
 
 msgid "Number of copies (Replication Factor)"
-msgstr "Number of copies (Replication Factor)"
+msgstr "Número de copias (factor de replicación)"
 
 msgid "OK"
 msgstr "OK"
 
 msgid "One sec, getting files ready…"
-msgstr "One sec, getting files ready…"
+msgstr ""
 
 msgid "Only you can see this."
-msgstr "Only you can see this."
+msgstr ""
 
 msgid "Operating system:"
-msgstr "Operating system:"
+msgstr "Sistema operativo:"
 
 msgid "Or confirm by signing into your Files on any browser you’ve used before."
-msgstr "Or confirm by signing into your Files on any browser you’ve used before."
+msgstr "O confirme iniciando sesión en sus Archivos en cualquier navegador que haya usado antes."
 
 msgid "Owner"
-msgstr "Owner"
+msgstr ""
 
 msgid "Password"
-msgstr "Password"
+msgstr "Contraseña"
 
 msgid "Password confirmation is required"
-msgstr "Password confirmation is required"
+msgstr "Se requiere confirmación de contraseña"
 
 msgid "Password does not match user account, please double-check and try again."
-msgstr "Password does not match user account, please double-check and try again."
+msgstr "La contraseña no coincide con la cuenta de usuario, vuelva a verificar e inténtelo de nuevo."
 
 msgid "Password needs to be more complex"
-msgstr "Password needs to be more complex"
+msgstr "La contraseña debe ser más compleja"
 
 msgid "Password setup"
-msgstr "Password setup"
+msgstr "Configuración de contraseña"
 
 msgid "Password:"
-msgstr "Password:"
+msgstr "Contraseña:"
 
 msgid "Passwords must match"
-msgstr "Passwords must match"
+msgstr "Las contraseñas deben coincidir"
 
 msgid "Please enter a file name"
-msgstr "Please enter a file name"
+msgstr "Ingrese un nombre de archivo"
 
 msgid "Please enter a folder name"
-msgstr "Please enter a folder name"
+msgstr "Ingrese un nombre de carpeta"
 
 msgid "Please enter a name"
-msgstr "Please enter a name"
+msgstr ""
 
 msgid "Please provide a password"
-msgstr "Please provide a password"
+msgstr "Por favor ingrese una contraseña"
 
 msgid "Please select a file to upload"
-msgstr "Please select a file to upload"
+msgstr ""
 
 msgid "Preview"
-msgstr "Preview"
+msgstr "Avance"
 
 msgid "Previous"
-msgstr "Previous"
+msgstr "Anterior"
 
 msgid "Privacy Policy"
-msgstr "Privacy Policy"
+msgstr "Política de privacidad"
 
 msgid "Profile and Display"
-msgstr "Profile and Display"
+msgstr "Perfil y pantalla"
 
 msgid "Profile settings"
-msgstr "Profile settings"
+msgstr ""
 
 msgid "Profile updated"
-msgstr "Profile updated"
+msgstr "Perfil actualizado"
 
 msgid "Read content"
-msgstr "Read content"
+msgstr ""
 
 msgid "Recover"
-msgstr "Recover"
+msgstr "Recuperar"
 
 msgid "Recover selected"
-msgstr "Recover selected"
+msgstr ""
 
 msgid "Recover with passphrase"
-msgstr "Recover with passphrase"
+msgstr "Recuperar con contraseña"
 
 msgid "Reject"
-msgstr "Reject"
+msgstr "Rechazar"
 
 msgid "Reject all"
-msgstr "Reject all"
+msgstr "Rechazar todo"
 
 msgid "Remind me later"
-msgstr "Remind me later"
+msgstr "Recuérdame más tarde"
 
 msgid "Rename"
-msgstr "Rename"
+msgstr "Renombrar"
 
 msgid "Rename file"
-msgstr "Rename file"
+msgstr ""
 
 msgid "Rename folder"
-msgstr "Rename folder"
-
-msgid "Report"
-msgstr "Report"
-
-msgid "Report a File"
-msgstr "Report a File"
+msgstr ""
 
 msgid "Requested from"
-msgstr "Requested from"
+msgstr "Solicitado a"
 
 msgid "Resources"
-msgstr "Resources"
+msgstr "Recursos"
 
 msgid "Restore with backup secret phrase"
-msgstr "Restore with backup secret phrase"
+msgstr ""
 
 msgid "Save changes"
-msgstr "Save changes"
+msgstr "Guardar cambios"
 
 msgid "Save this browser for next time?"
-msgstr "Save this browser for next time?"
+msgstr "Guardar este navegador para la próxima vez?"
 
 msgid "Saved"
-msgstr "Saved"
+msgstr "Salvado"
 
 msgid "Saved Browser"
-msgstr "Saved Browser"
+msgstr "Navegador guardado"
 
 msgid "Saved Browsers"
-msgstr "Saved Browsers"
+msgstr "Navegadores guardados"
 
 msgid "Saved browser"
-msgstr "Saved browser"
+msgstr "Navegador guardado"
 
 msgid "Saved on:"
-msgstr "Saved on:"
+msgstr "Guardado el:"
 
 msgid "Search results"
-msgstr "Search results"
+msgstr "Resultados de la búsqueda"
 
 msgid "Search…"
-msgstr "Search…"
+msgstr ""
 
 msgid "Security"
-msgstr "Security"
+msgstr "Seguridad"
 
 msgid "Select a wallet"
-msgstr "Select a wallet"
+msgstr "Seleccione una billetera"
 
 msgid "Send Feedback"
-msgstr "Send Feedback"
+msgstr "Enviar comentarios"
 
 msgid "Send another email"
-msgstr "Send another email"
+msgstr ""
 
 msgid "Set Password"
-msgstr "Set Password"
+msgstr "Configurar la clave"
 
 msgid "Set Username"
-msgstr "Set Username"
+msgstr ""
 
 msgid "Set it up now"
-msgstr "Set it up now"
+msgstr "Configúralo ahora"
 
 msgid "Set up"
-msgstr "Set up"
+msgstr "Configurar"
 
 msgid "Set up a password"
-msgstr "Set up a password"
+msgstr "Configurar una contraseña"
 
 msgid "Set up auth factors"
-msgstr "Set up auth factors"
+msgstr "Configurar factores de autenticación"
 
 msgid "Set up password"
-msgstr "Set up password"
+msgstr "Configurar contraseña"
 
 msgid "Setting Username"
-msgstr "Setting Username"
+msgstr ""
 
 msgid "Settings"
-msgstr "Settings"
+msgstr "Ajustes"
 
 msgid "Setup incomplete"
-msgstr "Setup incomplete"
+msgstr "Configuración incompleta"
 
 msgid "Share"
-msgstr "Share"
+msgstr "Compartir"
 
 msgid "Share with"
-msgstr "Share with"
+msgstr ""
 
 msgid "Shared"
-msgstr "Shared"
+msgstr ""
 
 msgid "Shared Folder Name"
-msgstr "Shared Folder Name"
+msgstr ""
 
 msgid "Shared folders"
-msgstr "Shared folders"
+msgstr ""
 
 msgid "Shared with"
-msgstr "Shared with"
+msgstr ""
 
 msgid "Sign Out"
-msgstr "Sign Out"
+msgstr "Desconectar"
 
 msgid "Sign in"
-msgstr "Sign in"
+msgstr "Registrarse"
 
 msgid "Sign in with a different account"
-msgstr "Sign in with a different account"
+msgstr "Inicie sesión con una cuenta diferente"
 
 msgid "Sign-in methods"
-msgstr "Sign-in methods"
+msgstr "Métodos de inicio de sesión"
 
 msgid "Sign-in with {0}"
-msgstr "Sign-in with {0}"
+msgstr "Iniciar sesión con {0}"
 
 msgid "Size"
-msgstr "Size"
+msgstr "Tamaño"
 
 msgid "Social Sign-in Wallet"
-msgstr "Social Sign-in Wallet"
+msgstr "Cartera de inicio de sesión social"
 
 msgid "Social Sign-in or Wallet"
-msgstr "Social Sign-in or Wallet"
+msgstr "Inicio de sesión social o billetera"
 
 msgid "Social sign in or wallet"
-msgstr "Social sign in or wallet"
+msgstr "Inicio de sesión social o billetera"
 
 msgid "Something went wrong!"
-msgstr "Something went wrong!"
+msgstr ""
 
 msgid "Something went wrong. We couldn't upload your file"
-msgstr "Something went wrong. We couldn't upload your file"
+msgstr "Algo salió mal. No pudimos subir tu archivo"
 
 msgid "Start Upload"
-msgstr "Start Upload"
+msgstr "Iniciar la subida"
 
 msgid "Storage Plan"
-msgstr "Storage Plan"
+msgstr "Plan de almacenamiento"
 
 msgid "Stored by miner"
-msgstr "Stored by miner"
+msgstr "Almacenado por el minero"
 
 msgid "Technical"
-msgstr "Technical"
+msgstr "Técnico"
 
 msgid "Terms and Conditions"
-msgstr "Terms and Conditions"
+msgstr "Términos y condiciones"
 
 msgid "Thanks for taking care of that. You can adjust these anytime in security settings."
-msgstr "Thanks for taking care of that. You can adjust these anytime in security settings."
+msgstr "Gracias por encargarte de eso. Puede ajustarlos en cualquier momento en la configuración de seguridad."
 
 msgid "The authentication popup was closed"
-msgstr "The authentication popup was closed"
+msgstr "Se cerró la ventana emergente de autenticación"
 
 msgid "The system is undergoing maintenance, thank you for being patient."
-msgstr "The system is undergoing maintenance, thank you for being patient."
+msgstr "El sistema está en mantenimiento, gracias por su paciencia."
 
 msgid "Theme"
-msgstr "Theme"
+msgstr "Tema"
 
 msgid "There was an error authenticating"
-msgstr "There was an error authenticating"
+msgstr "Hubo un error de autenticación."
 
 msgid "There was an error connecting your wallet"
-msgstr "There was an error connecting your wallet"
+msgstr "Hubo un error al conectar su billetera"
 
 msgid "There was an error deleting this"
-msgstr "There was an error deleting this"
+msgstr "Hubo un error al eliminar esto."
 
 msgid "There was an error getting search results"
-msgstr "There was an error getting search results"
+msgstr "Se produjo un error al obtener los resultados de la búsqueda."
 
 msgid "There was an error getting the preview."
-msgstr "There was an error getting the preview."
+msgstr "Hubo un error al obtener la vista previa."
 
 msgid "There was an error moving this"
-msgstr "There was an error moving this"
+msgstr ""
 
 msgid "There was an error recovering this"
-msgstr "There was an error recovering this"
+msgstr "Hubo un error al recuperar esto."
 
 msgid "There was an error when setting username."
-msgstr "There was an error when setting username."
+msgstr ""
 
 msgid "This username is already taken"
-msgstr "This username is already taken"
+msgstr ""
 
 msgid "This username is public"
-msgstr "This username is public"
+msgstr ""
 
 msgid "Try again"
-msgstr "Try again"
+msgstr "Intentar otra vez"
 
 msgid "Try another method"
-msgstr "Try another method"
+msgstr "Prueba con otro método"
 
 msgid "Update"
-msgstr "Update"
+msgstr "Actualizar"
 
 msgid "Upload"
-msgstr "Upload"
+msgstr "Subir"
 
 msgid "Upload complete"
-msgstr "Upload complete"
+msgstr "Carga completa"
 
 msgid "Uploading {0} files"
-msgstr "Uploading {0} files"
+msgstr "Subiendo {0} archivos"
 
 msgid "Use a different login method"
-msgstr "Use a different login method"
+msgstr "Utilice un método de inicio de sesión diferente"
 
 msgid "Use a saved browser"
-msgstr "Use a saved browser"
+msgstr "Utilice un navegador guardado"
 
 msgid "Username"
-msgstr "Username"
+msgstr ""
 
 msgid "Username set successfully"
-msgstr "Username set successfully"
+msgstr ""
 
 msgid "Usernames are public and can't be changed after creation."
-msgstr "Usernames are public and can't be changed after creation."
+msgstr ""
 
 msgid "Verification code is required"
-msgstr "Verification code is required"
+msgstr ""
 
 msgid "Verification code not correct!"
-msgstr "Verification code not correct!"
+msgstr ""
 
 msgid "Verification code sent!"
-msgstr "Verification code sent!"
+msgstr ""
 
 msgid "View folder"
-msgstr "View folder"
+msgstr "Utilice un navegador guardado"
 
 msgid "Wallet address"
-msgstr "Wallet address"
+msgstr "Utilice un navegador guardado"
 
 msgid "Web3: {0}"
-msgstr "Web3: {0}"
+msgstr "Vender: {0}"
 
 msgid "We’ve got a new authentication system in place. All you need to do is enter your password again to migrate your credentials over to the new system."
-msgstr "We’ve got a new authentication system in place. All you need to do is enter your password again to migrate your credentials over to the new system."
+msgstr "Contamos con un nuevo sistema de autenticación. Todo lo que necesita hacer es ingresar su contraseña nuevamente para migrar sus credenciales al nuevo sistema."
 
 msgid "We’ve sent an email to {email}. It contains a verification code that’ll sign you in super quickly!"
-msgstr "We’ve sent an email to {email}. It contains a verification code that’ll sign you in super quickly!"
+msgstr ""
 
 msgid "What a fine day it is."
-msgstr "What a fine day it is."
+msgstr "Qué buen día es."
 
 msgid "What a fine night it is."
-msgstr "What a fine night it is."
+msgstr "Qué hermosa noche es."
 
 msgid "Yes, save it"
-msgstr "Yes, save it"
+msgstr "Si guárdalo"
 
 msgid "You can change this later."
-msgstr "You can change this later."
+msgstr "Puedes cambiar esto más tarde."
 
 msgid "You haven't set a username yet."
-msgstr "You haven't set a username yet."
+msgstr ""
 
 msgid "You will need to sign a message in your wallet to complete sign in."
-msgstr "You will need to sign a message in your wallet to complete sign in."
+msgstr "Deberá firmar un mensaje en su billetera para completar el inicio de sesión."
 
 msgid "Your Authentication Factors"
-msgstr "Your Authentication Factors"
+msgstr "Sus factores de autenticación"
 
 msgid "Your recovery key can be used to restore your account in place of your backup secret phrase."
-msgstr "Your recovery key can be used to restore your account in place of your backup secret phrase."
+msgstr ""
 
 msgid "deleted successfully"
-msgstr "deleted successfully"
+msgstr "borrado exitosamente"
 
 msgid "file"
-msgstr "file"
+msgstr "archivo"
 
 msgid "folder"
-msgstr "folder"
+msgstr "carpeta"
 
 msgid "me"
-msgstr "me"
+msgstr ""
 
 msgid "moved successfully"
-msgstr "moved successfully"
+msgstr ""
 
 msgid "on"
-msgstr "on"
+msgstr "en"
 
 msgid "recovered successfully"
-msgstr "recovered successfully"
+msgstr "recuperado con éxito"
 
 msgid "{0, plural, one {The file is already in this folder} other {The files are already in this folder}}"
-msgstr "{0, plural, one {The file is already in this folder} other {The files are already in this folder}}"
+msgstr ""
 
 msgid "{0, plural, one {You are about to delete {1} file.} other {You are about to delete {2} files.}}"
-msgstr "{0, plural, one {You are about to delete {1} file.} other {You are about to delete {2} files.}}"
+msgstr "{0, plural, one {Está a punto de eliminar {1} archivo.} other {Está a punto de eliminar {2} archivos.}}"
 
 msgid "{0}"
-msgstr "{0}"
+msgstr ""
 
 msgid "{noOfFiles, plural, one {Uploading and encrypting {noOfFiles} file} other {Uploading and encrypting {noOfFiles} files}}"
-msgstr "{noOfFiles, plural, one {Uploading and encrypting {noOfFiles} file} other {Uploading and encrypting {noOfFiles} files}}"
+msgstr "{noOfFiles, plural, one {Carga y encriptación del archivo {noOfFiles}} other {Carga y encriptación de archivos {noOfFiles}}}"
