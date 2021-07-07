@@ -93,7 +93,7 @@ const StorageApiProvider = ({ apiUrl, withLocalStorage = true, children }: Stora
   const [isLoadingUser, setIsLoadingUser] = useState(true)
   const [loggedinAs, setLoggedinAs] = useState("")
   const [userInfo, setUserInfo] = useState<TorusLoginResponse | undefined>()
-  const [status, setStatus] = useState<DirectAuthContextStatus>("initializing")
+  const [status, setStatus] = useState<DirectAuthContextStatus>("initialized")
 
   // access tokens
   const [accessToken, setAccessToken] = useState<Token | undefined>(undefined)
@@ -304,7 +304,7 @@ const StorageApiProvider = ({ apiUrl, withLocalStorage = true, children }: Stora
       }
     }
     if (loginType === "web3") {
-
+      debugger
       let addressToUse = address
 
       if (!isReady  || !provider) {
@@ -322,6 +322,7 @@ const StorageApiProvider = ({ apiUrl, withLocalStorage = true, children }: Stora
         // we pull the address here to have it defined for sure
         addressToUse = await signer.getAddress()
       }
+      debugger
 
       const { token } = await storageApiClient.getIdentityWeb3Token(addressToUse)
 
@@ -331,6 +332,7 @@ const StorageApiProvider = ({ apiUrl, withLocalStorage = true, children }: Stora
       const signature = (wallet?.name === "WalletConnect")
         ? await signer.provider.send("personal_sign", [token, addressToUse])
         : await signer.signMessage(token)
+      debugger
 
       setStatus("logging in")
       const web3IdentityToken = await storageApiClient.postIdentityWeb3Token({
@@ -338,10 +340,12 @@ const StorageApiProvider = ({ apiUrl, withLocalStorage = true, children }: Stora
         token: token,
         public_address: addressToUse
       })
+      debugger
       const uuidToken = await storageApiClient.generateServiceIdentityToken({
         identity_provider: loginType,
         identity_token: web3IdentityToken.token || ""
       })
+      debugger
       return {
         identityToken: uuidToken,
         userInfo: { address: addressToUse }
