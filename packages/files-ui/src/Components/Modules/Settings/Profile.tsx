@@ -17,7 +17,7 @@ import {
   useThemeSwitcher
 } from "@chainsafe/common-theme"
 import { LockIcon, CopyIcon } from "@chainsafe/common-components"
-import { Formik, Form } from "formik"
+import { Form, useFormik, FormikProvider } from "formik"
 import { useUser } from "../../../Contexts/UserContext"
 import { t, Trans } from "@lingui/macro"
 import { centerEllipsis } from "../../../Utils/Helpers"
@@ -25,6 +25,7 @@ import { CSFTheme } from "../../../Themes/types"
 import clsx from "clsx"
 import LanguageSelection from "./LanguageSelection"
 import { useThresholdKey } from "../../../Contexts/ThresholdKeyContext"
+import EthCrypto from "eth-crypto"
 
 const useStyles = makeStyles(({ constants, breakpoints, palette, typography }: CSFTheme) =>
   createStyles({
@@ -177,6 +178,13 @@ const useStyles = makeStyles(({ constants, breakpoints, palette, typography }: C
   })
 )
 
+const profileValidation = yup.object().shape({
+  // email: yup.string().email("Email is invalid").required("Email is required"),
+  firstName: yup.string(),
+  lastName: yup.string(),
+  username: yup.string()
+})
+
 const ProfileView = () => {
   const { themeKey, setTheme } = useThemeSwitcher()
   const { addToastMessage } = useToaster()
@@ -186,7 +194,22 @@ const ProfileView = () => {
   const [showUsernameForm, setShowUsernameForm] = useState(false)
   const [username, setUsername] = useState("")
   const [usernameData, setUsernameData] = useState({ error: "", loading: false })
-
+  const formik = useFormik({
+    initialValues:{
+      firstName: profile?.firstName || "",
+      lastName: profile?.lastName || ""
+      // email: profile?.email || ""
+    },
+    onSubmit: (values) => {
+      onUpdateProfile(
+        values.firstName || "",
+        values.lastName || ""
+        // values.email || ""
+      )
+    },
+    validationSchema: profileValidation,
+    validateOnChange: false
+  })
   const onUpdateProfile = async (firstName: string, lastName: string) => {
     try {
       setUpdatingProfile(true)
@@ -203,6 +226,8 @@ const ProfileView = () => {
 
   const [copiedWalletAddress, setCopiedWalletAddress] = useState(false)
   const [copiedTkeyPublicKey, setCopiedTkeyPublicKey] = useState(false)
+
+  const compressedPubKey = useMemo(() => publicKey && `0x${EthCrypto.publicKey.compress(publicKey)}`, [publicKey])
 
   const debouncedCopiedWalletAddress =
     debounce(() => setCopiedWalletAddress(false), 3000)
@@ -223,9 +248,9 @@ const ProfileView = () => {
   }
 
   const copyTkeyPubKey = async () => {
-    if (publicKey) {
+    if (compressedPubKey) {
       try {
-        await navigator.clipboard.writeText(publicKey)
+        await navigator.clipboard.writeText(compressedPubKey)
         setCopiedTkeyPublicKey(true)
         debouncedCopiedTkeyPublicKey()
       } catch (err) {
@@ -234,27 +259,22 @@ const ProfileView = () => {
     }
   }
 
-  const profileValidation = yup.object().shape({
-    // email: yup.string().email("Email is invalid").required("Email is required"),
-    firstName: yup.string(),
-    lastName: yup.string(),
-    username: yup.string()
-  })
-
   const onLookupUsername = useCallback((username: string) => {
-    lookupOnUsername(username).then((doesUsernameExist) => {
-      if (doesUsernameExist) {
-        setUsernameData({
-          loading: false,
-          error: "Username already exists"
-        })
-      } else {
-        setUsernameData({
-          loading: false,
-          error: ""
-        })
-      }
-    }).catch(console.error)
+    lookupOnUsername(username)
+      .then((doesUsernameExist) => {
+        if (doesUsernameExist) {
+          setUsernameData({
+            loading: false,
+            error: t`This username is already taken`
+          })
+        } else {
+          setUsernameData({
+            loading: false,
+            error: ""
+          })
+        }
+      })
+      .catch(console.error)
   }, [lookupOnUsername])
 
   const debouncedOnLookupUsername = useMemo(
@@ -262,22 +282,26 @@ const ProfileView = () => {
     [onLookupUsername]
   )
 
-  const onUsernameChange = (value: string) => {
-    setUsername(value)
-    debouncedOnLookupUsername(value)
+  const onUsernameChange = (value: string | number | undefined) => {
+    const sanitizedValue = value?.toString() || ""
+
+    setUsername(sanitizedValue)
+    !!sanitizedValue && debouncedOnLookupUsername(sanitizedValue)
   }
 
   const onSubmitUsername = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setUsernameData({ ...usernameData, loading: true })
-    addUsername(username).then(() => {
-      addToastMessage({ message: t`Username set successfully` })
-    }).catch((error) => {
-      setUsernameData({
-        error: error,
-        loading: false
+    addUsername(username)
+      .then(() => {
+        addToastMessage({ message: t`Username set successfully` })
       })
-    })
+      .catch((error) => {
+        setUsernameData({
+          error: error,
+          loading: false
+        })
+      })
   }
 
   return (
@@ -299,8 +323,8 @@ const ProfileView = () => {
               >
                 <Trans>Profile settings</Trans>
               </Typography>
-              {profile?.publicAddress
-                && <div
+              {profile?.publicAddress &&
+                <div
                   className={classes.boxContainer}
                   data-cy="settings-profile-header"
                 >
@@ -332,8 +356,8 @@ const ProfileView = () => {
                   </div>
                 </div>
               }
-              {publicKey
-                && <div
+              {compressedPubKey &&
+                <div
                   className={classes.boxContainer}
                   data-cy="settings-profile-header"
                 >
@@ -359,7 +383,7 @@ const ProfileView = () => {
                       component="p"
                       className={classes.publicAddress}
                     >
-                      {centerEllipsis(publicKey, 16)}
+                      {centerEllipsis(compressedPubKey, 16)}
                     </Typography>
                     <CopyIcon className={classes.copyIcon} />
                   </div>
@@ -413,7 +437,7 @@ const ProfileView = () => {
                           value={username}
                           className={classes.usernameInput}
                           RightIcon={username && !usernameData.error ? CheckIcon : undefined}
-                          onChange={(value) => value && onUsernameChange(value.toString())}
+                          onChange={onUsernameChange}
                           captionMessage={usernameData.error}
                           state={usernameData.error ? "error" : "normal"}
                           data-cy="profile-username-input"
@@ -449,22 +473,7 @@ const ProfileView = () => {
                   }
                 </div>
               }
-              <Formik
-                initialValues={{
-                  firstName: profile?.firstName || "",
-                  lastName: profile?.lastName || ""
-                  // email: profile?.email || ""
-                }}
-                onSubmit={(values) => {
-                  onUpdateProfile(
-                    values.firstName || "",
-                    values.lastName || ""
-                    // values.email || ""
-                  )
-                }}
-                validationSchema={profileValidation}
-                validateOnChange={false}
-              >
+              <FormikProvider value={formik}>
                 <Form>
                   <div className={classes.inputBoxContainer}>
                     <Typography
@@ -525,6 +534,7 @@ const ProfileView = () => {
                     variant={themeKey === "dark" ? "outline" : "primary"}
                     loadingText="Saving"
                     data-cy="profile-save-button"
+                    disabled={!formik.dirty}
                   >
                     <LockIcon className={classes.icon} />
                     {"  "}
@@ -533,7 +543,7 @@ const ProfileView = () => {
                     </Typography>
                   </Button>
                 </Form>
-              </Formik>
+              </FormikProvider>
             </div>
           </div>
           {/* <div id="deletion" className={classes.sectionContainer}>

@@ -13,7 +13,8 @@ import {
   ProgressBar,
   formatBytes,
   ChainsafeLogo,
-  FolderSvg
+  FolderSvg,
+  SettingSvg
 } from "@chainsafe/common-components"
 import { ROUTE_LINKS } from "../StorageRoutes"
 import { FREE_PLAN_LIMIT } from "../../Utils/Constants"
@@ -255,6 +256,7 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
               >
                 <DatabaseSvg />
                 <Typography
+                  data-cy="cids-nav"
                   variant="h5"
                   className={classes.navItemText}
                 >
@@ -268,6 +270,7 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
               >
                 <FolderSvg />
                 <Typography
+                  data-cy="buckets-nav"
                   variant="h5"
                   className={classes.navItemText}
                 >
@@ -276,7 +279,20 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
               </Link>
             </nav>
             <nav className={classes.navMenu}>
-
+              <Link
+                onClick={handleOnClick}
+                className={classes.navItem}
+                to={ROUTE_LINKS.SettingsRoot}
+              >
+                <SettingSvg />
+                <Typography
+                  data-cy="settings-nav"
+                  variant="h5"
+                  className={classes.navItemText}
+                >
+                  <Trans>Settings</Trans>
+                </Typography>
+              </Link>
             </nav>
           </div>
           <section>

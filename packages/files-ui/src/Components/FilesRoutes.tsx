@@ -8,6 +8,7 @@ import SearchPage from "./Pages/SearchPage"
 import BinPage from "./Pages/BinPage"
 import PurchasePlanPage from "./Pages/PurchasePlanPage"
 import { useThresholdKey } from "../Contexts/ThresholdKeyContext"
+import ShareFilesPage from "./Pages/ShareFilesPage"
 import SharedFoldersOverview from "./Modules/FileBrowsers/SharedFoldersOverview"
 
 export const SETTINGS_BASE = "/settings"
@@ -17,15 +18,22 @@ export const ROUTE_LINKS = {
   Terms: "https://files.chainsafe.io/terms-of-service",
   ChainSafe: "https://chainsafe.io/",
   Drive: (rawCurrentPath: string) => `/drive${rawCurrentPath}`,
-  Search: (rawSearchTerm: string) => `/search/${rawSearchTerm}`,
   Bin: (rawBinPath: string) => `/bin${rawBinPath}`,
+  Search: (rawSearchTerm: string) => `/search/${rawSearchTerm}`,
   ApplyCryptography: "https://medium.com/chainsafe-systems/major-improvement-to-chainsafe-files-ab489d3e52a2",
   Settings: `${SETTINGS_BASE}/:path`,
   SettingsDefault: `${SETTINGS_BASE}`,
   PurchasePlan: "/purchase",
   UserSurvey: "https://shrl.ink/kmAL",
   GeneralFeedbackForm: "https://shrl.ink/gvVJ",
-  SharedFolders: "/shared"
+  SharedFolders: "/shared-overview",
+  SharedFolderBrowserRoot: "/shared",
+  SharedFolderExplorer: (bucketId: string, rawCurrentPath: string) => {
+    // bucketId should not have a / at the end
+    // rawCurrentPath can be empty, or /
+    const adjustedRawCurrentPath = !rawCurrentPath ? "/" : rawCurrentPath
+    return `/shared/${bucketId}${adjustedRawCurrentPath}`
+  }
 }
 
 export const SETTINGS_PATHS = ["profile", "plan", "security"] as const
@@ -37,9 +45,21 @@ const FilesRoutes = () => {
 
   const isAuthorized = useMemo(() => isLoggedIn && secured && !!publicKey && !isNewDevice && !shouldInitializeAccount,
     [isLoggedIn, isNewDevice, publicKey, secured, shouldInitializeAccount])
-
   return (
     <Switch>
+      <ConditionalRoute
+        exact
+        path={ROUTE_LINKS.SharedFolders}
+        isAuthorized={isAuthorized}
+        component={SharedFoldersOverview}
+        redirectPath={ROUTE_LINKS.Landing}
+      />
+      <ConditionalRoute
+        path={ROUTE_LINKS.SharedFolderBrowserRoot}
+        isAuthorized={isAuthorized}
+        component={ShareFilesPage}
+        redirectPath={ROUTE_LINKS.Landing}
+      />
       <ConditionalRoute
         path={ROUTE_LINKS.Drive("/")}
         isAuthorized={isAuthorized}
@@ -53,26 +73,12 @@ const FilesRoutes = () => {
         redirectPath={ROUTE_LINKS.Landing}
       />
       <ConditionalRoute
-        path={ROUTE_LINKS.SharedFolders}
-        isAuthorized={isAuthorized}
-        component={SharedFoldersOverview}
-        redirectPath={ROUTE_LINKS.Landing}
-      />
-      <ConditionalRoute
-        exact
-        path={ROUTE_LINKS.Search("")}
-        isAuthorized={isAuthorized}
-        component={SearchPage}
-        redirectPath={ROUTE_LINKS.Landing}
-      />
-      <ConditionalRoute
         exact
         path={ROUTE_LINKS.Search(":searchTerm")}
         isAuthorized={isAuthorized}
         component={SearchPage}
         redirectPath={ROUTE_LINKS.Landing}
       />
-
       <ConditionalRoute
         exact
         path={ROUTE_LINKS.SettingsDefault}

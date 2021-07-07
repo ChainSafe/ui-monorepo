@@ -19,7 +19,7 @@ import { CSFTheme } from "../../../../../Themes/types"
 import dayjs from "dayjs"
 import { FileSystemItem } from "../../../../../Contexts/FilesContext"
 import { ConnectDragPreview } from "react-dnd"
-import { Form, Formik } from "formik"
+import { Form, FormikProvider, useFormik } from "formik"
 
 const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => {
   const desktopGridSettings = "50px 69px 3fr 190px 100px 45px !important"
@@ -144,6 +144,20 @@ const FileSystemTableItem = React.forwardRef(
     const { name, cid, created_at, size } = file
     const { desktop } = useThemeSwitcher()
 
+    const formik = useFormik({
+      initialValues:{
+        fileName: name
+      },
+      validationSchema:renameSchema,
+      onSubmit:(values) => {
+        handleRename &&
+          handleRename(
+            file.cid,
+            values.fileName
+          )
+      }
+    })
+
     return  (
       <TableRow
         data-cy="file-item-row"
@@ -177,22 +191,11 @@ const FileSystemTableItem = React.forwardRef(
           onClick={(e) => !editing && onFolderOrFileClicks(e)}
         >
           {editing === cid && desktop ? (
-            <Formik
-              initialValues={{
-                fileName: name
-              }}
-              validationSchema={renameSchema}
-              onSubmit={(values) => {
-                handleRename &&
-                  handleRename(
-                    file.cid,
-                    values.fileName
-                  )
-              }}
-            >
+            <FormikProvider value={formik}>
               <Form
                 className={classes.desktopRename}
                 data-cy='rename-form'
+                onBlur={() => setEditing(undefined)}
               >
                 <FormikTextInput
                   className={classes.renameInput}
@@ -214,11 +217,12 @@ const FileSystemTableItem = React.forwardRef(
                   variant="dashed"
                   size="small"
                   type="submit"
+                  disabled={!formik.dirty}
                 >
                   <CheckSvg />
                 </Button>
               </Form>
-            </Formik>
+            </FormikProvider>
           ) : (
             <Typography>{name}</Typography>
           )}

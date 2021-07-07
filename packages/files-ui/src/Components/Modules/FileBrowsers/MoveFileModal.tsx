@@ -2,7 +2,7 @@ import { createStyles, makeStyles, useMediaQuery } from "@chainsafe/common-theme
 import React, { useState, useEffect, useCallback } from "react"
 import CustomModal from "../../Elements/CustomModal"
 import CustomButton from "../../Elements/CustomButton"
-import { t, Trans } from "@lingui/macro"
+import { plural, t, Trans } from "@lingui/macro"
 import { DirectoryContentResponse, FileSystemItem, useFiles } from "../../../Contexts/FilesContext"
 import { Button, FolderIcon, Grid, ITreeNodeProps, ScrollbarWrapper, TreeView, Typography } from "@chainsafe/common-components"
 import { CSFTheme } from "../../../Themes/types"
@@ -77,8 +77,8 @@ const MoveFileModule = ({ filesToMove, modalOpen, onClose, onCancel, mode }: IMo
   const classes = useStyles()
   const { filesApiClient } = useFilesApi()
   const { buckets } = useFiles()
-  const { moveItems, recoverItems } = useFileBrowser()
-  const [movingFile, setMovingFile] = useState(false)
+  const { bucket, moveItems, recoverItems, currentPath } = useFileBrowser()
+  const [isMovingFile, setIsMovingFile] = useState(false)
   const [movePath, setMovePath] = useState<undefined | string>(undefined)
   const [folderTree, setFolderTree] = useState<ITreeNodeProps[]>([])
 
@@ -95,14 +95,17 @@ const MoveFileModule = ({ filesToMove, modalOpen, onClose, onCancel, mode }: IMo
   )
 
   const getFolderTreeData = useCallback(async () => {
-    const bucket = buckets.find((bucket) => bucket.type === "csf")
-    if (!bucket) return
-    filesApiClient.getBucketDirectoriesTree(bucket.id).then((newFolderTree) => {
+    let bucketForFolderTree = bucket
+    if (bucket?.type === "trash" && mode === "recover") {
+      bucketForFolderTree = buckets.find((bucket) => bucket.type === "csf")
+    }
+    if (!bucketForFolderTree) return
+    filesApiClient.getBucketDirectoriesTree(bucketForFolderTree.id).then((newFolderTree) => {
       if (newFolderTree.entries) {
         const folderTreeNodes = [
           {
             id: "/",
-            title: "Home",
+            title: bucketForFolderTree?.name || "Home",
             isExpanded: true,
             expandable: true,
             tree: mapFolderTree(newFolderTree.entries)
@@ -113,7 +116,7 @@ const MoveFileModule = ({ filesToMove, modalOpen, onClose, onCancel, mode }: IMo
         setFolderTree([])
       }
     }).catch(console.error)
-  }, [filesApiClient, mapFolderTree, buckets])
+  }, [filesApiClient, mapFolderTree, bucket, buckets, mode])
 
   useEffect(() => {
     if (modalOpen) {
@@ -127,11 +130,11 @@ const MoveFileModule = ({ filesToMove, modalOpen, onClose, onCancel, mode }: IMo
     const moveFn = mode === "move" ? moveItems : recoverItems
     if (!movePath || !moveFn) return
 
-    setMovingFile(true)
+    setIsMovingFile(true)
     moveFn(filesToMove.map(f => f.cid), movePath)
       .then(onClose)
       .catch(console.error)
-      .finally(() => setMovingFile(false))
+      .finally(() => setIsMovingFile(false))
 
   }
 
@@ -158,7 +161,7 @@ const MoveFileModule = ({ filesToMove, modalOpen, onClose, onCancel, mode }: IMo
         <Typography className={classes.heading}
           variant="h5"
           component="h5">
-          <Trans>Move to...</Trans>
+          <Trans>Move to…</Trans>
         </Typography>
       </Grid>
       <Grid
@@ -189,29 +192,49 @@ const MoveFileModule = ({ filesToMove, modalOpen, onClose, onCancel, mode }: IMo
       <Grid
         item
         flexDirection="row"
-        justifyContent="flex-end"
+        justifyContent="space-between"
+        alignItems="center"
         className={classes.paddedContainer}
       >
-        <CustomButton
-          onClick={onCancel}
-          size="medium"
-          className={classes.cancelButton}
-          variant={desktop ? "outline" : "gray"}
-          type="button"
+        {mode === "move" && movePath === currentPath && (
+          <Typography
+            component="p"
+            variant="body1"
+          >
+            <Trans>
+              {plural(filesToMove.length, {
+                one: "The file is already in this folder",
+                other: "The files are already in this folder"
+              })}
+            </Trans>
+          </Typography>
+        )}
+        <Grid
+          item
+          flexDirection="row"
+          justifyContent="flex-end"
         >
-          <Trans>Cancel</Trans>
-        </CustomButton>
-        <Button
-          variant="primary"
-          size={desktop ? "medium" : "large"}
-          type="submit"
-          className={classes.okButton}
-          loading={movingFile}
-          disabled={!movePath}
-          onClick={onMoveFile}
-        >
-          {mode === "move" ? t`Move` : t`Recover`}
-        </Button>
+          <CustomButton
+            onClick={onCancel}
+            size="medium"
+            className={classes.cancelButton}
+            variant={desktop ? "outline" : "gray"}
+            type="button"
+          >
+            <Trans>Cancel</Trans>
+          </CustomButton>
+          <Button
+            variant="primary"
+            size={desktop ? "medium" : "large"}
+            type="submit"
+            className={classes.okButton}
+            loading={isMovingFile}
+            disabled={!movePath || (mode === "move" && movePath === currentPath)}
+            onClick={onMoveFile}
+          >
+            {mode === "move" ? t`Move` : t`Recover`}
+          </Button>
+        </Grid>
       </Grid>
     </CustomModal>
   )

@@ -51,3 +51,10 @@ export function getParentPathFromFilePath(filePath: string) {
 export function extractFileBrowserPathFromURL(browserUrl: string, modulePath: string) {
   return browserUrl.replace(modulePath, "").split("/").map(decodeURIComponent).join("/")
 }
+
+// /shared/{bucket-id}/path/to/somewhere -> /path/to/somewhere
+export function extractSharedFileBrowserPathFromURL(browserUrl: string, modulePath: string) {
+  const res = extractFileBrowserPathFromURL(browserUrl, modulePath)
+  // this path must start by a /
+  return res[0] === "/" ? res : `/${res}`
+}

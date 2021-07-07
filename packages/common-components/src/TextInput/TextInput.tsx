@@ -64,7 +64,6 @@ const useStyles = makeStyles(
           },
           "&:focus": {
             borderColor: palette.primary.border,
-            // borderColor: palette
             boxShadow: "0px 0px 4px rgba(24, 144, 255, 0.5)",
             ...overrides?.TextInput?.input?.focus
           },
@@ -256,9 +255,7 @@ const useStyles = makeStyles(
         },
         "&.small": {
           "& input": {
-            padding: `${constants.generalUnit / constants.generalUnit}px ${
-              constants.generalUnit
-            }px`
+            padding: `1px ${constants.generalUnit}px`
           },
           "&.iconLeft input": {
             paddingLeft:

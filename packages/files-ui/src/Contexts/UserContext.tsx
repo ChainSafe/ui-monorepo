@@ -48,7 +48,7 @@ const UserProvider = ({ children }: UserContextProps) => {
         firstName: profileApiData.first_name,
         lastName: profileApiData.last_name,
         email: profileApiData.email,
-        publicAddress: profileApiData.public_address,
+        publicAddress: profileApiData.public_address?.toLowerCase(),
         createdAt: profileApiData.created_at,
         username: profileApiData.username
       }
@@ -116,7 +116,7 @@ const UserProvider = ({ children }: UserContextProps) => {
       return Promise.reject(
         error && error.length
           ? error[0].message
-          : t`There was an error setting username.`
+          : t`There was an error when setting username.`
       )
     }
   }
@@ -124,8 +124,8 @@ const UserProvider = ({ children }: UserContextProps) => {
   const lookupOnUsername = async (username: string) => {
     if (!profile) return false
     try {
-      await filesApiClient.lookupUser({ username })
-      return true
+      const alreadyExists = await filesApiClient.lookupUser({ username })
+      return !!alreadyExists
     } catch (error) {
       console.error(error)
       return false

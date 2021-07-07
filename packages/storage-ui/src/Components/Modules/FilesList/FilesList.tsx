@@ -284,7 +284,7 @@ const FilesList = () => {
     bulkOperations,
     crumbs,
     renameItem: handleRename,
-    deleteItems: deleteFiles,
+    deleteItems,
     viewFolder,
     currentPath,
     refreshContents,
@@ -494,17 +494,17 @@ const FilesList = () => {
   }, [selectedCids, items, bulkOperations])
 
   const handleDeleteFiles = useCallback(() => {
-    if (!deleteFiles) return
+    if (!deleteItems) return
 
     setIsDeletingFiles(true)
-    deleteFiles(selectedCids)
+    deleteItems(selectedCids)
       .catch(console.error)
       .finally(() => {
         setIsDeletingFiles(false)
         setSelectedCids([])
         setIsDeleteModalOpen(false)
       })
-  }, [deleteFiles, selectedCids])
+  }, [deleteItems, selectedCids])
 
   const getItemOperations = useCallback(
     (contentType: string) => {
@@ -570,19 +570,19 @@ const FilesList = () => {
         </Typography>
       </div>
       <div className={classes.breadCrumbContainer}>
-        {crumbs && moduleRootPath ? (
+        {crumbs && moduleRootPath && (
           <Breadcrumb
             crumbs={crumbs}
             homeOnClick={() => redirect(moduleRootPath)}
             showDropDown={!desktop}
           />
-        ) : null}
+        )}
       </div>
       <header className={classes.header}>
         <Typography
           variant="h1"
           component="h1"
-          data-cy="files-app-header"
+          data-cy="buckets-header"
         >
           {heading}
         </Typography>

@@ -29,9 +29,11 @@ if (
 }
 
 const availableLanguages = [
+  { id: "de", label: "Deutsch" },
   { id: "en", label: "English" },
   { id: "es", label: "Español" },
-  { id: "fr", label: "Français" }
+  { id: "fr", label: "Français" },
+  { id: "no", label: "Norsk" }
 ]
 
 const onboardConfig = {
