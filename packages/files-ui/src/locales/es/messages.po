@@ -38,8 +38,17 @@ msgstr ""
 msgid "Add at least one more authentication method to protect your account. You’d only need any two to sign in to Files from any device."
 msgstr "Agregue al menos un método de autenticación más para proteger su cuenta. Solo necesitaría dos para iniciar sesión en Archivos desde cualquier dispositivo."
 
+msgid "Add by sharing address, username or wallet address"
+msgstr ""
+
 msgid "Add more files"
 msgstr "Agrega mas archivos"
+
+msgid "Add/remove content"
+msgstr ""
+
+msgid "Allow them to"
+msgstr ""
 
 msgid "Approve"
 msgstr "Aprobar"
@@ -130,6 +139,12 @@ msgstr "Crear"
 
 msgid "Create Folder"
 msgstr "Crear Carpeta"
+
+msgid "Create Shared Folder"
+msgstr ""
+
+msgid "Create a Shared Folder"
+msgstr ""
 
 msgid "Create folder"
 msgstr "Crear Carpeta"
@@ -248,8 +263,8 @@ msgstr "General"
 msgid "Generate backup secret phrase"
 msgstr ""
 
-msgid "Generating..."
-msgstr "Generando"
+msgid "Generating…"
+msgstr ""
 
 msgid "Get Started"
 msgstr "Empezar"
@@ -266,8 +281,8 @@ msgstr "Hola de nuevo!"
 msgid "Hey! You only have two sign-in methods. If you lose that and have only one left, you will be locked out of your account forever."
 msgstr "Oye! Solo tiene dos métodos de inicio de sesión. Si lo pierde y solo le queda uno, se le bloqueará su cuenta para siempre."
 
-msgid "Hold on, we are logging you in..."
-msgstr "Espera, te estamos registrando .."
+msgid "Hold on, we are logging you in…"
+msgstr ""
 
 msgid "Home"
 msgstr "Casa"
@@ -305,7 +320,7 @@ msgstr "Tema Claro"
 msgid "Loading preview"
 msgstr "Cargando vista previa"
 
-msgid "Loading your shared folders..."
+msgid "Loading your shared folders…"
 msgstr ""
 
 msgid "Looks like you’re signing in from a new browser. Please choose one of the following to continue:"
@@ -320,8 +335,8 @@ msgstr "Moverse"
 msgid "Move selected"
 msgstr "Mover seleccionado"
 
-msgid "Move to..."
-msgstr "Mover a..."
+msgid "Move to…"
+msgstr ""
 
 msgid "My Files"
 msgstr "Mis Archivos"
@@ -362,8 +377,8 @@ msgstr "Número de copias (factor de replicación)"
 msgid "OK"
 msgstr "OK"
 
-msgid "One sec, getting files ready..."
-msgstr "Un segundo, preparando los archivos .."
+msgid "One sec, getting files ready…"
+msgstr ""
 
 msgid "Only you can see this."
 msgstr ""
@@ -373,6 +388,9 @@ msgstr "Sistema operativo:"
 
 msgid "Or confirm by signing into your Files on any browser you’ve used before."
 msgstr "O confirme iniciando sesión en sus Archivos en cualquier navegador que haya usado antes."
+
+msgid "Owner"
+msgstr ""
 
 msgid "Password"
 msgstr "Contraseña"
@@ -428,6 +446,9 @@ msgstr ""
 msgid "Profile updated"
 msgstr "Perfil actualizado"
 
+msgid "Read content"
+msgstr ""
+
 msgid "Recover"
 msgstr "Recuperar"
 
@@ -449,8 +470,11 @@ msgstr "Recuérdame más tarde"
 msgid "Rename"
 msgstr "Renombrar"
 
-msgid "Rename File/Folder"
-msgstr "Cambiar nombre de archivo / carpeta"
+msgid "Rename file"
+msgstr ""
+
+msgid "Rename folder"
+msgstr ""
 
 msgid "Requested from"
 msgstr "Solicitado a"
@@ -485,8 +509,8 @@ msgstr "Guardado el:"
 msgid "Search results"
 msgstr "Resultados de la búsqueda"
 
-msgid "Search..."
-msgstr "Buscar.."
+msgid "Search…"
+msgstr ""
 
 msgid "Security"
 msgstr "Seguridad"
@@ -533,7 +557,13 @@ msgstr "Configuración incompleta"
 msgid "Share"
 msgstr "Compartir"
 
+msgid "Share with"
+msgstr ""
+
 msgid "Shared"
+msgstr ""
+
+msgid "Shared Folder Name"
 msgstr ""
 
 msgid "Shared folders"
@@ -623,7 +653,10 @@ msgstr ""
 msgid "There was an error recovering this"
 msgstr "Hubo un error al recuperar esto."
 
-msgid "There was an error setting username."
+msgid "There was an error when setting username."
+msgstr ""
+
+msgid "This username is already taken"
 msgstr ""
 
 msgid "This username is public"
@@ -719,6 +752,9 @@ msgstr "archivo"
 msgid "folder"
 msgstr "carpeta"
 
+msgid "me"
+msgstr ""
+
 msgid "moved successfully"
 msgstr ""
 
@@ -728,8 +764,14 @@ msgstr "en"
 msgid "recovered successfully"
 msgstr "recuperado con éxito"
 
+msgid "{0, plural, one {The file is already in this folder} other {The files are already in this folder}}"
+msgstr ""
+
 msgid "{0, plural, one {You are about to delete {1} file.} other {You are about to delete {2} files.}}"
 msgstr "{0, plural, one {Está a punto de eliminar {1} archivo.} other {Está a punto de eliminar {2} archivos.}}"
+
+msgid "{0}"
+msgstr ""
 
 msgid "{noOfFiles, plural, one {Uploading and encrypting {noOfFiles} file} other {Uploading and encrypting {noOfFiles} files}}"
 msgstr "{noOfFiles, plural, one {Carga y encriptación del archivo {noOfFiles}} other {Carga y encriptación de archivos {noOfFiles}}}"
