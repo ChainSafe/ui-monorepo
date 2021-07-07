@@ -160,7 +160,6 @@ const ReportFileModal = ({ filePath, close }: IReportFileModalProps) => {
   const { encryptForPublicKey } = useThresholdKey()
   const [copied, setCopied] = useState(false)
 
-
   useEffect(() => {
     // todo fetch admin public key from api instead of this hardcoded one
     // https://github.com/ChainSafe/files-ui/issues/1244
