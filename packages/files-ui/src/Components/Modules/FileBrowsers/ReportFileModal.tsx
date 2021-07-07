@@ -17,6 +17,7 @@ import clsx from "clsx"
 import { CSFTheme } from "../../../Themes/types"
 import { useFileBrowser } from "../../../Contexts/FileBrowserContext"
 import { useThresholdKey } from "../../../Contexts/ThresholdKeyContext"
+import { useCallback } from "react"
 
 const useStyles = makeStyles(
   ({ breakpoints, constants, palette, typography, zIndex, animation }: CSFTheme) => {
@@ -158,8 +159,7 @@ interface IReportFileModalProps {
   close: () => void
 }
 
-// const TEMP_PRIVATE_KEY = "0x7d0a2192d5d19dec42fb9aabd28e3f00c6eb5fba7c7ad4cd1e951e726efc7653"
-const TEMP_PUBLIC_KEY = "0x023c14caf314aa61fed377588290ff52391deecc7b036edd6ac4830ed7e0e77b88"
+const TEMP_PUBLIC_KEY = "0x03e8cab05fc70bbc3cb829af9718feb0bfa626209594f64da6685ed13ce4437e19"
 
 const ReportFileModal = ({ fileInfoPath, close }: IReportFileModalProps) => {
   const classes = useStyles()
@@ -169,35 +169,39 @@ const ReportFileModal = ({ fileInfoPath, close }: IReportFileModalProps) => {
   const [adminPubKey, setAdminPubkey] = useState("")
   const [encryptedDecryptionKey, setEncryptedDecryptionKey] = useState("")
   const { encryptForPublicKey } = useThresholdKey()
+  const [copied, setCopied] = useState(false)
 
 
   useEffect(() => {
-    // fetch admin public key from api
+    // todo fetch admin public key from api instead of this hardcoded one
+    // https://github.com/ChainSafe/files-ui/issues/1244
     setAdminPubkey(TEMP_PUBLIC_KEY)
-
   }, [])
+
   useEffect(() => {
     if(!adminPubKey || !encryptionKey) return
 
+    // we need to remove the 0x
     encryptForPublicKey(adminPubKey.slice(2), encryptionKey)
       .then(setEncryptedDecryptionKey)
       .catch(console.error)
       .finally(() => setIsloadingAdminKey(false))
   }, [adminPubKey, encryptForPublicKey, encryptionKey])
 
-  const [copied, setCopied] = useState(false)
   const debouncedSwitchCopied = debounce(() => setCopied(false), 3000)
 
-  const onCopyInfo = () => {
+  const onCopyInfo = useCallback(() => {
     navigator.clipboard.writeText(`{
   bucketId: "${id}",
   path: "${fileInfoPath}",
   encryptedDecryptionKey: "${encryptedDecryptionKey}"
-}`).then(() => {
-      setCopied(true)
-      debouncedSwitchCopied()
-    }).catch(console.error)
-  }
+}`)
+      .then(() => {
+        setCopied(true)
+        debouncedSwitchCopied()
+      })
+      .catch(console.error)
+  }, [debouncedSwitchCopied, encryptedDecryptionKey, fileInfoPath, id])
 
   return (
     <CustomModal
