@@ -374,6 +374,7 @@ const StorageApiProvider = ({ apiUrl, withLocalStorage = true, children }: Stora
     try {
       setStatus("awaiting confirmation")
       const { identityToken, userInfo } = await getIdentityToken(loginType, tokenInfo)
+      // token:invalid token error next
       debugger
       const { access_token, refresh_token } = await storageApiClient.loginUser({
         provider: loginType,
