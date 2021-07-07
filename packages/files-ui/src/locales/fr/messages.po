@@ -3,15 +3,15 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-04-23 11:05+0200\n"
-"PO-Revision-Date: 2021-06-23 09:07+0000\n"
-"Last-Translator: J. Lavoie <j.lavoie@net-c.ca> T. Sardan\n"
+"PO-Revision-Date: 2021-07-03 16:33+0000\n"
+"Last-Translator: J. Lavoie <j.lavoie@net-c.ca>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/chainsafe-files/chainsafe-files-user-interface/fr/>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 4.7.1-dev\n"
+"X-Generator: Weblate 4.8-dev\n"
 "Mime-Version: 1.0\n"
 
 msgid "(Change)"
@@ -39,16 +39,16 @@ msgid "Add at least one more authentication method to protect your account. You�
 msgstr "Ajoutez au moins une méthode d’authentification pour protéger ce compte. Vous avez besoin de deux méthode pour accéder à Files depuis n’importe quel appareil."
 
 msgid "Add by sharing address, username or wallet address"
-msgstr ""
+msgstr "Ajouter par adresse de partage, nom d'utilisateur ou adresse de portefeuille"
 
 msgid "Add more files"
 msgstr "Ajouter d’autres fichiers"
 
 msgid "Add/remove content"
-msgstr ""
+msgstr "Ajouter/supprimer du contenu"
 
 msgid "Allow them to"
-msgstr ""
+msgstr "Permettez-leur de"
 
 msgid "Approve"
 msgstr "Accepter"
@@ -141,10 +141,10 @@ msgid "Create Folder"
 msgstr "Créer un dossier"
 
 msgid "Create Shared Folder"
-msgstr ""
+msgstr "Créer un dossier partagé"
 
 msgid "Create a Shared Folder"
-msgstr ""
+msgstr "Créer un dossier partagé"
 
 msgid "Create folder"
 msgstr "Créer un dossier"
@@ -447,7 +447,7 @@ msgid "Profile updated"
 msgstr "Profile mis à jour"
 
 msgid "Read content"
-msgstr ""
+msgstr "Lire le contenu"
 
 msgid "Recover"
 msgstr "Récupérer"
@@ -558,13 +558,13 @@ msgid "Share"
 msgstr "Partager"
 
 msgid "Share with"
-msgstr ""
+msgstr "Partager avec"
 
 msgid "Shared"
 msgstr "Partagé"
 
 msgid "Shared Folder Name"
-msgstr ""
+msgstr "Nom du dossier partagé"
 
 msgid "Shared folders"
 msgstr "Dossiers partagés"
