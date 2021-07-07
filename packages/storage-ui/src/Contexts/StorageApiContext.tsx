@@ -12,6 +12,7 @@ export type { IdentityProvider as OAuthProvider }
 
 const tokenStorageKey = "css.refreshToken"
 const isReturningUserStorageKey = "css.isReturningUser"
+// const TORUS_USERINFO_KEY = "css.userInfo"
 
 const getProviderSpecificParams = (loginType: LOGIN_TYPE):
   {typeOfLogin: LOGIN_TYPE; clientId: string; verifier: string; jwtParams?: any} => {
@@ -46,7 +47,7 @@ const getProviderSpecificParams = (loginType: LOGIN_TYPE):
   }
 }
 
-
+export type DirectAuthContextStatus = "initializing"|"initialized"|"awaiting confirmation"|"logging in"|"done"
 type StorageApiContextProps = {
   apiUrl?: string
   withLocalStorage?: boolean
@@ -64,6 +65,8 @@ type StorageApiContext = {
   login(loginType: IdentityProvider, tokenInfo?: {token: string; email: string}): Promise<void>
   loggedinAs: string
   logout: () => void
+  status: DirectAuthContextStatus
+  resetStatus(): void
 }
 
 const StorageApiContext = React.createContext<StorageApiContext | undefined>(undefined)
@@ -90,6 +93,7 @@ const StorageApiProvider = ({ apiUrl, withLocalStorage = true, children }: Stora
   const [isLoadingUser, setIsLoadingUser] = useState(true)
   const [loggedinAs, setLoggedinAs] = useState("")
   const [userInfo, setUserInfo] = useState<TorusLoginResponse | undefined>()
+  const [status, setStatus] = useState<DirectAuthContextStatus>("initializing")
 
   // access tokens
   const [accessToken, setAccessToken] = useState<Token | undefined>(undefined)
@@ -117,6 +121,11 @@ const StorageApiProvider = ({ apiUrl, withLocalStorage = true, children }: Stora
     setIsReturningUser(true)
   }
 
+  // useEffect(() => {
+  //   if (userInfo) {
+  //     sessionStorage.setItem(TORUS_USERINFO_KEY, JSON.stringify(userInfo))
+  //   }
+  // }, [userInfo])
 
   useEffect(() => {
     const loginType = userInfo?.userInfo.typeOfLogin
@@ -128,6 +137,8 @@ const StorageApiProvider = ({ apiUrl, withLocalStorage = true, children }: Stora
         break
       case "facebook":
       case "google":
+        setLoggedinAs(`${capitalize(loginType)}: ${centerEllipsis(userInfo.userInfo.email, 4)}`)
+        break
       case "github":
         setLoggedinAs(`${capitalize(loginType)}: ${centerEllipsis(userInfo.userInfo.email, 4)}`)
         break
@@ -316,10 +327,12 @@ const StorageApiProvider = ({ apiUrl, withLocalStorage = true, children }: Stora
 
       if (!token) throw new Error("Token undefined")
 
+      setStatus("awaiting confirmation")
       const signature = (wallet?.name === "WalletConnect")
         ? await signer.provider.send("personal_sign", [token, addressToUse])
         : await signer.signMessage(token)
 
+      setStatus("logging in")
       const web3IdentityToken = await storageApiClient.postIdentityWeb3Token({
         signature: signature,
         token: token,
@@ -344,7 +357,9 @@ const StorageApiProvider = ({ apiUrl, withLocalStorage = true, children }: Stora
         uxMode: "popup",
         customState: {}
       })
+      setStatus("awaiting confirmation")
       const oauthIdToken = await loginHandler.handleLoginWindow({})
+      setStatus("logging in")
       const userInfo = await loginHandler.getUserInfo(oauthIdToken)
       const uuidToken = await storageApiClient.generateServiceIdentityToken({
         identity_provider: loginType,
@@ -358,12 +373,14 @@ const StorageApiProvider = ({ apiUrl, withLocalStorage = true, children }: Stora
     if (!storageApiClient || maintenanceMode) return
 
     try {
+      setStatus("awaiting confirmation")
       const { identityToken, userInfo } = await getIdentityToken(loginType, tokenInfo)
       const { access_token, refresh_token } = await storageApiClient.loginUser({
         provider: loginType,
         service: "storage",
         token: identityToken.token
       })
+      setStatus("logging in")
       setTokensAndSave(access_token, refresh_token)
       setUserInfo(userInfo)
       setReturningUser()
@@ -390,6 +407,8 @@ const StorageApiProvider = ({ apiUrl, withLocalStorage = true, children }: Stora
         secured,
         isReturningUser: isReturningUser,
         login,
+        resetStatus: () => setStatus("initialized"),
+        status,
         loggedinAs,
         userInfo,
         selectWallet,
