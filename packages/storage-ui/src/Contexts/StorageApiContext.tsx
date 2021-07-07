@@ -228,6 +228,8 @@ const StorageApiProvider = ({ apiUrl, withLocalStorage = true, children }: Stora
       const address = await signer.getAddress()
       const { token: welcomeMessage } = await storageApiClient.getIdentityWeb3Token(address)
 
+      if (!welcomeMessage) throw "Welcome message undefined"
+
       const signature = await signer.signMessage(welcomeMessage)
       const { token: providerIdentityToken } = await storageApiClient.postIdentityWeb3Token({
         signature: signature,
