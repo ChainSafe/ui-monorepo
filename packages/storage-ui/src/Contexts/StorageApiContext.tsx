@@ -245,6 +245,7 @@ const StorageApiProvider = ({ apiUrl, withLocalStorage = true, children }: Stora
       setReturningUser()
       return Promise.resolve()
     } catch (error) {
+      console.error(error)
       return Promise.reject("There was an error logging in.")
     }
   }
