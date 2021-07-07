@@ -18,6 +18,7 @@ import { CSFTheme } from "../../../Themes/types"
 import { useFileBrowser } from "../../../Contexts/FileBrowserContext"
 import { useThresholdKey } from "../../../Contexts/ThresholdKeyContext"
 import { useCallback } from "react"
+import { ROUTE_LINKS } from "../../FilesRoutes"
 
 const useStyles = makeStyles(
   ({ breakpoints, constants, palette, typography, zIndex, animation }: CSFTheme) => {
@@ -56,17 +57,6 @@ const useStyles = makeStyles(
           textAlign: "center"
         }
       },
-      heading: {
-        fontWeight: typography.fontWeight.semibold,
-        textAlign: "left",
-        [breakpoints.down("md")]: {
-          textAlign: "center"
-        }
-      },
-      infoHeading: {
-        fontWeight: typography.fontWeight.semibold,
-        textAlign: "left"
-      },
       infoContainer: {
         borderTop: constants.fileInfoModal.infoContainerBorderTop,
         padding: `${constants.generalUnit * 2}px ${
@@ -81,10 +71,6 @@ const useStyles = makeStyles(
       },
       subSubtitle: {
         color: palette.additional["gray"][8]
-      },
-      technicalContainer: {
-        paddingTop: constants.generalUnit,
-        paddingBottom: constants.generalUnit
       },
       paddedContainer: {
         padding: `${constants.generalUnit * 2}px ${
@@ -149,6 +135,9 @@ const useStyles = makeStyles(
       decryptionKey: {
         width: "100%",
         wordBreak: "break-all"
+      },
+      infoText: {
+        marginBottom: `${constants.generalUnit * 2}px`
       }
     })
   }
@@ -252,15 +241,20 @@ const ReportFileModal = ({ fileInfoPath, close }: IReportFileModalProps) => {
             <div className={classes.infoBox}>
               <div>
                 <Typography
-                  className={classes.infoHeading}
-                  variant="h5"
-                  component="h5"
+                  className={classes.infoText}
+                  variant="body1"
+                  component="p"
                 >
                   <Trans>
-                    If you think this file is against our privacy policies,
-                    you can send the following info to report@files.chainsafe.io
-                    Beware that you would send the decryption key along which would allow an
-                    admin to decrypt any file in this shared folder.
+                    If you think this file does not comply with our <a
+                      href={ROUTE_LINKS.PrivacyPolicy}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      Privacy Policy
+                    </a>, please send the following information to report@files.chainsafe.io.
+                    Beware that by sending the file&apos;s decryption key, an admin can then decrypt
+                    any file in this shared folder.
                   </Trans>
                 </Typography>
                 <div className={classes.subInfoBox}>
