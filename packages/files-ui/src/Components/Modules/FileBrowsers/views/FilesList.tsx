@@ -51,6 +51,7 @@ import SurveyBanner from "../../../SurveyBanner"
 import { DragPreviewLayer } from "./DragPreviewLayer"
 import { useFileBrowser } from "../../../../Contexts/FileBrowserContext"
 import ReportFileModal from "../ReportFileModal"
+import ShareFileModal from "../ShareFileModal"
 
 const baseOperations:  FileOperation[] = ["download", "info", "preview"]
 const readerOperations: FileOperation[] = [...baseOperations, "report"]
@@ -291,7 +292,7 @@ const FilesList = ({ isShared = false }: Props) => {
   const { themeKey, desktop } = useThemeSwitcher()
   const [isReportFileModalOpen, setIsReportFileModalOpen] = useState(false)
   const [isFileInfoModalOpen, setIsFileInfoModalOpen] = useState(false)
-
+  const [isShareFileModalOpen, setIsShareFileModalOpen] = useState(false)
 
   const {
     heading,
@@ -938,13 +939,17 @@ const FilesList = ({ isShared = false }: Props) => {
                       setIsMoveFileModalOpen(true)
                       setMoveModalMode("recover")
                     }}
-                    reportFile={(fileInfoPath: string) => {
-                      setFilePath(fileInfoPath)
+                    reportFile={(filePath: string) => {
+                      setFilePath(filePath)
                       setIsReportFileModalOpen(true)}
                     }
-                    showFileInfo={(fileInfoPath: string) => {
-                      setFilePath(fileInfoPath)
+                    showFileInfo={(filePath: string) => {
+                      setFilePath(filePath)
                       setIsFileInfoModalOpen(true)
+                    }}
+                    share={(filePath: string) => {
+                      setFilePath(filePath)
+                      setIsShareFileModalOpen(true)
                     }}
                   />
                 ))}
@@ -999,6 +1004,10 @@ const FilesList = ({ isShared = false }: Props) => {
                   showFileInfo={(fileInfoPath: string) => {
                     setFilePath(fileInfoPath)
                     setIsFileInfoModalOpen(true)
+                  }}
+                  share={(fileInfoPath: string) => {
+                    setFilePath(fileInfoPath)
+                    setIsShareFileModalOpen(true)
                   }}
                 />
               ))}
@@ -1078,6 +1087,15 @@ const FilesList = ({ isShared = false }: Props) => {
           filePath={filePath}
           close={() => {
             setIsFileInfoModalOpen(false)
+            setFilePath(undefined)
+          }}
+        />
+      }
+      { filePath && isShareFileModalOpen &&
+        <ShareFileModal
+          filePath={filePath}
+          close={() => {
+            setIsShareFileModalOpen(false)
             setFilePath(undefined)
           }}
         />

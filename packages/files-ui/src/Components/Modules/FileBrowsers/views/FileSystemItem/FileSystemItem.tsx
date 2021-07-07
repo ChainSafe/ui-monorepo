@@ -124,6 +124,7 @@ interface IFileSystemItemProps {
   browserView: BrowserView
   reportFile?: (path: string) => void
   showFileInfo?: (path: string) => void
+  share?: (path: string) => void
 }
 
 const FileSystemItem = ({
@@ -146,7 +147,8 @@ const FileSystemItem = ({
   browserView,
   resetSelectedFiles,
   reportFile,
-  showFileInfo
+  showFileInfo,
+  share
 }: IFileSystemItemProps) => {
   const { downloadFile, currentPath, handleUploadOnDrop, moveItems } = useFileBrowser()
   const { cid, name, isFolder, content_type } = file
@@ -233,7 +235,7 @@ const FileSystemItem = ({
           </span>
         </>
       ),
-      onClick: () => console.log
+      onClick: () => share && share(filePath)
     },
     info: {
       contents: (
@@ -304,7 +306,8 @@ const FileSystemItem = ({
     setEditing,
     setPreviewFileIndex,
     showFileInfo,
-    viewFolder
+    viewFolder,
+    share
   ])
 
   const menuItems: IMenuItem[] = itemOperations.map(
