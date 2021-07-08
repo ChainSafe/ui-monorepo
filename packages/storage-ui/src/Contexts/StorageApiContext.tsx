@@ -5,14 +5,14 @@ import { IFilesApiClient, FilesApiClient, Token, IdentityProvider, IdentityToken
 import jwtDecode from "jwt-decode"
 import axios from "axios"
 import { useLocalStorage, useSessionStorage } from "@chainsafe/browser-storage-hooks"
-import { createHandler, ILoginHandler, LOGIN_TYPE, TorusLoginResponse } from "@toruslabs/torus-direct-web-sdk"
-import { capitalize, centerEllipsis } from "../Utils/Helpers"
+import { createHandler, ILoginHandler, LOGIN_TYPE } from "@toruslabs/torus-direct-web-sdk"
 import { t } from "@lingui/macro"
+import { capitalize, centerEllipsis } from "../Utils/Helpers"
 export type { IdentityProvider as OAuthProvider }
 
 const tokenStorageKey = "css.refreshToken"
 const isReturningUserStorageKey = "css.isReturningUser"
-// const TORUS_USERINFO_KEY = "css.userInfo"
+const TORUS_USERINFO_KEY = "css.userInfo"
 
 const getProviderSpecificParams = (loginType: LOGIN_TYPE):
   {typeOfLogin: LOGIN_TYPE; clientId: string; verifier: string; jwtParams?: any} => {
@@ -47,6 +47,12 @@ const getProviderSpecificParams = (loginType: LOGIN_TYPE):
   }
 }
 
+export type StorageUserInfo = {
+  typeOfLogin: IdentityProvider
+  email?: string
+  publicAddress?: string
+}
+
 export type DirectAuthContextStatus = "initializing"|"initialized"|"awaiting confirmation"|"logging in"|"done"
 type StorageApiContextProps = {
   apiUrl?: string
@@ -55,7 +61,7 @@ type StorageApiContextProps = {
 }
 
 type StorageApiContext = {
-  userInfo?: TorusLoginResponse
+  userInfo?: StorageUserInfo
   storageApiClient: IFilesApiClient
   isLoggedIn: boolean | undefined
   secured: boolean | undefined
@@ -92,7 +98,7 @@ const StorageApiProvider = ({ apiUrl, withLocalStorage = true, children }: Stora
   const [storageApiClient, setStorageApiClient] = useState<FilesApiClient>(initialApiClient)
   const [isLoadingUser, setIsLoadingUser] = useState(true)
   const [loggedinAs, setLoggedinAs] = useState("")
-  const [userInfo, setUserInfo] = useState<TorusLoginResponse | undefined>()
+  const [userInfo, setUserInfo] = useState<StorageUserInfo | undefined>()
   const [status, setStatus] = useState<DirectAuthContextStatus>("initialized")
 
   // access tokens
@@ -121,14 +127,14 @@ const StorageApiProvider = ({ apiUrl, withLocalStorage = true, children }: Stora
     setIsReturningUser(true)
   }
 
-  // useEffect(() => {
-  //   if (userInfo) {
-  //     sessionStorage.setItem(TORUS_USERINFO_KEY, JSON.stringify(userInfo))
-  //   }
-  // }, [userInfo])
+  useEffect(() => {
+    if (userInfo) {
+      sessionStorage.setItem(TORUS_USERINFO_KEY, JSON.stringify(userInfo))
+    }
+  }, [userInfo])
 
   useEffect(() => {
-    const loginType = userInfo?.userInfo.typeOfLogin
+    const loginType = userInfo?.typeOfLogin as LOGIN_TYPE
 
     if (userInfo && loginType) {
       switch (loginType) {
@@ -137,13 +143,13 @@ const StorageApiProvider = ({ apiUrl, withLocalStorage = true, children }: Stora
         break
       case "facebook":
       case "google":
-        setLoggedinAs(`${capitalize(loginType)}: ${centerEllipsis(userInfo.userInfo.email, 4)}`)
+        setLoggedinAs(`${capitalize(loginType)}: ${centerEllipsis(`${userInfo.email}`, 4)}`)
         break
       case "github":
-        setLoggedinAs(`${capitalize(loginType)}: ${centerEllipsis(userInfo.userInfo.email, 4)}`)
+        setLoggedinAs(`${capitalize(loginType)}: ${centerEllipsis(`${userInfo.email}`, 4)}`)
         break
       default:
-        setLoggedinAs(`${centerEllipsis(userInfo.publicAddress, 4)}`)
+        setLoggedinAs(`${centerEllipsis(`${userInfo.publicAddress}`, 4)}`)
         break
       }
     }
@@ -312,7 +318,6 @@ const StorageApiProvider = ({ apiUrl, withLocalStorage = true, children }: Stora
         if (!connected || !provider) throw new Error("Unable to connect to wallet.")
       }
 
-
       const signer = provider.getSigner()
       if (!signer) throw new Error("Signer undefined")
 
@@ -337,12 +342,9 @@ const StorageApiProvider = ({ apiUrl, withLocalStorage = true, children }: Stora
         token: token,
         public_address: addressToUse
       })
-      const uuidToken = await storageApiClient.generateServiceIdentityToken({
-        identity_provider: loginType,
-        identity_token: web3IdentityToken.token || ""
-      })
+
       return {
-        identityToken: uuidToken,
+        identityToken: web3IdentityToken,
         userInfo: { address: addressToUse }
       }
 
@@ -374,16 +376,19 @@ const StorageApiProvider = ({ apiUrl, withLocalStorage = true, children }: Stora
     try {
       setStatus("awaiting confirmation")
       const { identityToken, userInfo } = await getIdentityToken(loginType, tokenInfo)
-      // token:invalid token error next
-      debugger
       const { access_token, refresh_token } = await storageApiClient.loginUser({
         provider: loginType,
         service: "storage",
         token: identityToken.token
       })
       setStatus("logging in")
+
+      setUserInfo({
+        typeOfLogin: loginType,
+        email: userInfo.email,
+        publicAddress: userInfo.address
+      })
       setTokensAndSave(access_token, refresh_token)
-      setUserInfo(userInfo)
       setReturningUser()
     } catch(error) {
       console.error(error)
@@ -397,6 +402,8 @@ const StorageApiProvider = ({ apiUrl, withLocalStorage = true, children }: Stora
     setDecodedRefreshToken(undefined)
     storageApiClient.setToken("")
     localStorageRemove(tokenStorageKey)
+    setLoggedinAs("")
+    setStatus("initialized")
     !withLocalStorage && sessionStorageRemove(tokenStorageKey)
   }
 

@@ -243,7 +243,7 @@ const LoginModule = ({ className }: IInitialScreen) => {
   const WalletConnection = () => {
     return (
       <section className={classes.connectingWallet}>
-        <Typography variant='h2'><Trans>Connect Wallet to Files</Trans></Typography>
+        <Typography variant='h2'><Trans>Connect Wallet to Storage</Trans></Typography>
         {status === "awaiting confirmation" &&
           <Typography variant='h5'>
             <Trans>You will need to sign a message in your wallet to complete sign in.</Trans>
