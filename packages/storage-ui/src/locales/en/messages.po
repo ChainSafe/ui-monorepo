@@ -64,8 +64,8 @@ msgstr "Click or drag to upload files"
 msgid "Confirm"
 msgstr "Confirm"
 
-msgid "Connect Wallet to Files"
-msgstr "Connect Wallet to Files"
+msgid "Connect Wallet to Storage"
+msgstr "Connect Wallet to Storage"
 
 msgid "Connect a new wallet"
 msgstr "Connect a new wallet"
