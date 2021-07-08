@@ -134,7 +134,7 @@ interface IInitialScreen {
 }
 
 const LoginModule = ({ className }: IInitialScreen) => {
-  const { selectWallet, resetAndSelectWallet, getProviderUrl, web3Login } = useStorageApi()
+  const { selectWallet, resetAndSelectWallet, web3Login } = useStorageApi()
   const { desktop } = useThemeSwitcher()
   const { wallet } = useWeb3()
   const classes = useStyles()
@@ -172,13 +172,12 @@ const LoginModule = ({ className }: IInitialScreen) => {
     setLoginMode(loginType)
     try {
       switch(loginType) {
-      case "facebook":
-      case "github":
-      case "google": {
-        const oauthUrl = await getProviderUrl(loginType)
-        window.location.href = oauthUrl
-        break
-      }
+      // case "github":
+      // case "google": {
+      //   const oauthUrl = await getProviderUrl(loginType)
+      //   window.location.href = oauthUrl
+      //   break
+      // }
       case "web3":{
         await web3Login()
       }
