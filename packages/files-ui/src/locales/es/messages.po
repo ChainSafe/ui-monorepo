@@ -14,6 +14,9 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "Plural-Forms: \n"
 
+msgid "${0} USD/{1}"
+msgstr ""
+
 msgid "(Change)"
 msgstr ""
 
@@ -56,10 +59,19 @@ msgstr "Aprobar"
 msgid "Are we on the right track? Let us know in less than 1 minute."
 msgstr ""
 
+msgid "Back to plan settings"
+msgstr ""
+
 msgid "Backup secret phrase"
 msgstr ""
 
 msgid "Backup secret phrase does not match user account, please double-check and try again."
+msgstr ""
+
+msgid "Billed Monthly"
+msgstr ""
+
+msgid "Billed Yearly"
 msgstr ""
 
 msgid "Bin"
@@ -67,6 +79,9 @@ msgstr "Papelera"
 
 msgid "Browser:"
 msgstr "Navegador:"
+
+msgid "Buy more storage"
+msgstr ""
 
 msgid "By connecting your wallet, you agree to our <0>Terms of Service</0> and <1>Privacy Policy</1>"
 msgstr "Al conectar su billetera, acepta nuestras <0> Condiciones de servicio </0> y <1> Política de privacidad </1>"
@@ -185,6 +200,9 @@ msgstr "Descargar la clave de recuperación"
 msgid "Drop to upload files"
 msgstr "Suelta para subir archivos"
 
+msgid "Early Adopter: Free up to {0}"
+msgstr ""
+
 msgid "Email is required"
 msgstr ""
 
@@ -202,9 +220,6 @@ msgstr ""
 
 msgid "Enter your email:"
 msgstr ""
-
-msgid "Essentials - Free"
-msgstr "Esenciales - Gratis"
 
 msgid "Failed to get signature"
 msgstr "No se pudo obtener la firma"
@@ -326,9 +341,6 @@ msgstr ""
 msgid "Looks like you’re signing in from a new browser. Please choose one of the following to continue:"
 msgstr "Parece que está iniciando sesión desde un nuevo navegador. Elija una de las siguientes opciones para continuar:"
 
-msgid "Lorem ipsum aenean et rutrum magna. Morbi nec placerat erat. Nunc elementum sed libero sit amet convallis. Quisque non arcu vitae ex fringilla molestie."
-msgstr "Lorem ipsum Aenean, y un gran maquillaje. Usamos más y colocamos en ratas. Ahora elemento libre, pero mucho del valle. , Quien no se doblegue, de la vida de una fringilla molestie."
-
 msgid "Move"
 msgstr "Moverse"
 
@@ -445,6 +457,9 @@ msgstr ""
 
 msgid "Profile updated"
 msgstr "Perfil actualizado"
+
+msgid "Purchase with card"
+msgstr ""
 
 msgid "Read content"
 msgstr ""
@@ -614,6 +629,9 @@ msgstr "Plan de almacenamiento"
 msgid "Stored by miner"
 msgstr "Almacenado por el minero"
 
+msgid "Subscription Plan"
+msgstr ""
+
 msgid "Technical"
 msgstr "Técnico"
 
@@ -668,8 +686,14 @@ msgstr "Intentar otra vez"
 msgid "Try another method"
 msgstr "Prueba con otro método"
 
+msgid "Try for 7 days"
+msgstr ""
+
 msgid "Update"
 msgstr "Actualizar"
+
+msgid "Upgrade your plan"
+msgstr ""
 
 msgid "Upload"
 msgstr "Subir"
@@ -740,6 +764,9 @@ msgstr "Deberá firmar un mensaje en su billetera para completar el inicio de se
 msgid "Your Authentication Factors"
 msgstr "Sus factores de autenticación"
 
+msgid "Your first {0} are free, and you’ll get a discount on our monthly plan once you need more than that"
+msgstr ""
+
 msgid "Your recovery key can be used to restore your account in place of your backup secret phrase."
 msgstr ""
 
@@ -773,5 +800,14 @@ msgstr "{0, plural, one {Está a punto de eliminar {1} archivo.} other {Está a 
 msgid "{0}"
 msgstr ""
 
+msgid "{0} of {1} used ({2}%)"
+msgstr ""
+
+msgid "{feature}"
+msgstr ""
+
 msgid "{noOfFiles, plural, one {Uploading and encrypting {noOfFiles} file} other {Uploading and encrypting {noOfFiles} files}}"
 msgstr "{noOfFiles, plural, one {Carga y encriptación del archivo {noOfFiles}} other {Carga y encriptación de archivos {noOfFiles}}}"
+
+msgid "{planFor}"
+msgstr ""
