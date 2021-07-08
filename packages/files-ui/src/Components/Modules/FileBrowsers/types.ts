@@ -1,5 +1,14 @@
 import { Crumb } from "@chainsafe/common-components"
+import { LookupUser } from "@chainsafe/files-api-client"
 import { BucketType, FileSystemItem, UploadProgress } from "../../../Contexts/FilesContext"
+
+export type SharedFolderCreationPermission = "read" | "write" | undefined
+
+export interface SharedFolderCreationUser {
+  label: string
+  value: string
+  data: LookupUser
+}
 
 export type FileOperation =
   | "rename"

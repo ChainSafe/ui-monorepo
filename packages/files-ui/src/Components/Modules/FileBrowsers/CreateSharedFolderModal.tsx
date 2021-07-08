@@ -1,27 +1,14 @@
-import {
-  Button,
-  SelectInput,
-  ShareAltSvg,
-  TagsInput,
-  TextInput,
-  Typography
-} from "@chainsafe/common-components"
-import {
-  createStyles,
-  makeStyles,
-  useThemeSwitcher
-} from "@chainsafe/common-theme"
-import React, { useRef, useEffect, useState, useCallback, useMemo } from "react"
+import { Button, SelectInput, ShareAltSvg, TagsInput, TextInput, Typography } from "@chainsafe/common-components"
+import { createStyles, makeStyles, useThemeSwitcher } from "@chainsafe/common-theme"
+import React, { useState, useCallback, useMemo } from "react"
 import CustomModal from "../../Elements/CustomModal"
 import { CSFTheme } from "../../../Themes/types"
-import { useFiles } from "../../../Contexts/FilesContext"
-import { useFilesApi } from "../../../Contexts/FilesApiContext"
 import CustomButton from "../../Elements/CustomButton"
 import { t, Trans } from "@lingui/macro"
-import { LookupUser, LookupUserRequest } from "@chainsafe/files-api-client"
-import EthCrypto from "eth-crypto"
 import clsx from "clsx"
-import { useUser } from "../../../Contexts/UserContext"
+import { useLookupSharedFolderUser } from "./hooks/useLookupUser"
+import { useCreateSharedFolder } from "./hooks/useCreateSharedFolder"
+import { SharedFolderCreationPermission } from "./types"
 
 const useStyles = makeStyles(
   ({ breakpoints, constants, typography, zIndex, palette }: CSFTheme) => {
@@ -111,70 +98,26 @@ interface ICreateSharedFolderModalProps {
   close: () => void
 }
 
-const CreateSharedFolderModal = ({
-  modalOpen,
-  close
-}: ICreateSharedFolderModalProps) => {
+const CreateSharedFolderModal = ({ modalOpen, close }: ICreateSharedFolderModalProps) => {
   const classes = useStyles()
-  const { createSharedFolder } = useFiles()
-  const { filesApiClient } = useFilesApi()
-  const { profile } = useUser()
-  const [isCreatingSharedFolder, setIsCreatingSharedFolder] = useState(false)
+  const { handleCreateSharedFolder, isCreatingSharedFolder } = useCreateSharedFolder()
   const [sharedFolderName, setSharedFolderName] = useState("")
-  const [sharedFolderUsers, setSharedFolderUsers] = useState<Array<{label: string; value: string; data: LookupUser}>>([])
-  const [permissions, setPermissions] = useState<"read" | "write" | undefined>(undefined)
+  const { sharedFolderUsers, setSharedFolderUsers, handleLookupUser } = useLookupSharedFolderUser()
+  const [permissions, setPermissions] = useState<SharedFolderCreationPermission>(undefined)
   const { desktop } = useThemeSwitcher()
-  const inputRef = useRef<HTMLInputElement>(null)
-
-  useEffect(() => {
-    if (modalOpen) {
-      setTimeout(() => inputRef.current?.focus(), 100)
-    }
-  }, [modalOpen])
-
-  const handleLookupUser = useCallback(async (inputVal: string) => {
-    if (inputVal === "") return []
-    const lookupBody: LookupUserRequest = {}
-    const ethAddressRegex = new RegExp("^0(x|X)[a-fA-F0-9]{40}$") // Eth Address Starting with 0x and 40 HEX chars
-    const pubKeyRegex = new RegExp("^0(x|X)[a-fA-F0-9]{66}$") // Compressed public key, 66 chars long
-
-    if (ethAddressRegex.test(inputVal)) {
-      lookupBody.public_address = inputVal
-    } else if (pubKeyRegex.test(inputVal)) {
-      lookupBody.identity_public_key = inputVal
-    } else {
-      lookupBody.username = inputVal
-    }
-
-    const result = await filesApiClient.lookupUser(lookupBody)
-
-    if (!result) return []
-    const currentUsers = Array.isArray(sharedFolderUsers) ? sharedFolderUsers.map(su => su.value) : []
-    if (currentUsers.includes(result.uuid) || result.uuid === profile?.userId) return []
-
-    return [{ label: inputVal, value: result.uuid, data: result }]
-  }, [filesApiClient, sharedFolderUsers, profile])
 
   const handleClose = useCallback(() => {
     setSharedFolderName("")
     setSharedFolderUsers([])
     setPermissions(undefined)
     close()
-  }, [close])
+  }, [close, setSharedFolderUsers])
 
-  const handleCreateSharedFolder = useCallback(async () => {
-    const users = sharedFolderUsers.map(su => ({
-      uuid: su.value,
-      pubKey: EthCrypto.publicKey.decompress(su.data.identity_pubkey.slice(2))
-    }))
-    const readers = (permissions === "read") ? users : []
-    const writers = (permissions === "write") ? users : []
-    setIsCreatingSharedFolder(true)
-    createSharedFolder(sharedFolderName, writers, readers)
+  const onCreate = useCallback(() =>
+    handleCreateSharedFolder(sharedFolderName, sharedFolderUsers, permissions)
       .then(handleClose)
       .catch(console.error)
-      .finally(() => setIsCreatingSharedFolder(false))
-  }, [sharedFolderUsers, createSharedFolder, permissions, sharedFolderName, handleClose])
+  , [handleClose, handleCreateSharedFolder, permissions, sharedFolderName, sharedFolderUsers])
 
   const isValid = useMemo(() => {
     return !!((sharedFolderUsers.length > 0 && sharedFolderName !== "" && permissions))
@@ -201,12 +144,13 @@ const CreateSharedFolderModal = ({
         </div>
         <div className={classes.modalFlexItem}>
           <TextInput
-            ref={inputRef}
             className={classes.shareNameInput}
             labelClassName={classes.inputLabel}
             label={t`Shared Folder Name`}
             value={sharedFolderName}
-            onChange={(value) => {setSharedFolderName(value?.toString() || "")}} />
+            onChange={(value) => {setSharedFolderName(value?.toString() || "")}}
+            autoFocus
+          />
         </div>
         <div className={classes.modalFlexItem}>
           <TagsInput
@@ -254,7 +198,7 @@ const CreateSharedFolderModal = ({
             variant="primary"
             className={classes.okButton}
             loading={isCreatingSharedFolder}
-            onClick={handleCreateSharedFolder}
+            onClick={onCreate}
             disabled={!isValid}
           >
             <Trans>Create</Trans>
