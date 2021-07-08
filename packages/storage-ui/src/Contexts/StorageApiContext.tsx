@@ -5,7 +5,7 @@ import { IFilesApiClient, FilesApiClient, Token, IdentityProvider, IdentityToken
 import jwtDecode from "jwt-decode"
 import axios from "axios"
 import { useLocalStorage, useSessionStorage } from "@chainsafe/browser-storage-hooks"
-import { createHandler, ILoginHandler, LOGIN_TYPE } from "@toruslabs/torus-direct-web-sdk"
+import { createHandler, ILoginHandler, LoginWindowResponse, LOGIN_TYPE } from "@toruslabs/torus-direct-web-sdk"
 import { t } from "@lingui/macro"
 import { capitalize, centerEllipsis } from "../Utils/Helpers"
 export type { IdentityProvider as OAuthProvider }
@@ -60,6 +60,10 @@ type StorageApiContextProps = {
   children: React.ReactNode | React.ReactNode[]
 }
 
+interface ExtendedTorusResponse extends LoginWindowResponse {
+  expires_in: string
+}
+
 type StorageApiContext = {
   userInfo?: StorageUserInfo
   storageApiClient: IFilesApiClient
@@ -68,7 +72,7 @@ type StorageApiContext = {
   isReturningUser: boolean
   selectWallet: () => Promise<void>
   resetAndSelectWallet: () => Promise<void>
-  login(loginType: IdentityProvider, tokenInfo?: {token: string; email: string}): Promise<void>
+  login(loginType: IdentityProvider, tokenInfo?: {token: IdentityToken; email: string}): Promise<void>
   loggedinAs: string
   logout: () => void
   status: DirectAuthContextStatus
@@ -297,16 +301,16 @@ const StorageApiProvider = ({ apiUrl, withLocalStorage = true, children }: Stora
 
   const getIdentityToken = async (
     loginType: IdentityProvider,
-    tokenInfo?: {token: string; email: string}
+    tokenInfo?: {token: IdentityToken; email: string}
   ): Promise<{identityToken: IdentityToken; userInfo: any}> => {
     if (loginType === "email") {
-      const uuidToken = await storageApiClient.generateServiceIdentityToken({
-        identity_provider: loginType,
-        identity_token: tokenInfo?.token || ""
-      })
-      return {
-        identityToken: uuidToken,
-        userInfo: { email: tokenInfo?.email }
+      if (!tokenInfo) {
+        throw new Error("token not provided")
+      } else {
+        return {
+          identityToken: tokenInfo.token,
+          userInfo: { email: tokenInfo?.email }
+        }
       }
     }
     if (loginType === "web3") {
@@ -362,15 +366,15 @@ const StorageApiProvider = ({ apiUrl, withLocalStorage = true, children }: Stora
       const oauthIdToken = await loginHandler.handleLoginWindow({})
       setStatus("logging in")
       const userInfo = await loginHandler.getUserInfo(oauthIdToken)
-      const uuidToken = await storageApiClient.generateServiceIdentityToken({
-        identity_provider: loginType,
-        identity_token: oauthIdToken.idToken || oauthIdToken.accessToken
-      })
-      return { identityToken: uuidToken, userInfo: userInfo }
+
+      return { identityToken: {
+        expires: (oauthIdToken as ExtendedTorusResponse).expires_in,
+        token:  oauthIdToken.idToken || oauthIdToken.accessToken
+      }, userInfo: userInfo }
     }
   }
 
-  const login = async (loginType: IdentityProvider, tokenInfo?: {token: string; email: string}) => {
+  const login = async (loginType: IdentityProvider, tokenInfo?: {token: IdentityToken; email: string}) => {
     if (!storageApiClient || maintenanceMode) return
 
     try {

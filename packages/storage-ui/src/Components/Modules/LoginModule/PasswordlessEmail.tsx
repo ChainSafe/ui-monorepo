@@ -133,7 +133,7 @@ const PasswordlessEmail = ({ resetLogin }: IPasswordlessEmail) => {
       email: email,
       nonce: values.nonce
     }).then(async (data) => {
-      await login("email", { token: data.token || "", email })
+      await login("email", { token: data || "", email })
       setIsSubmitNonceLoading(false)
     }).catch ((e) => {
       if (e && e[0] && e[0].type === "nonce") {
