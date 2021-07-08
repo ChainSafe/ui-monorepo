@@ -24,13 +24,6 @@ const getProviderSpecificParams = (loginType: LOGIN_TYPE):
       verifier: "chainsafe-uuid-testnet"
     }
   }
-  case "facebook": {
-    return {
-      typeOfLogin: loginType,
-      clientId: process.env.REACT_APP_FACEBOOK_CLIENT_ID || "",
-      verifier: "chainsafe-uuid-testnet"
-    }
-  }
   case "github":{
     return {
       typeOfLogin: loginType,
@@ -145,7 +138,6 @@ const StorageApiProvider = ({ apiUrl, withLocalStorage = true, children }: Stora
       case "jwt":
         setLoggedinAs(t`Web3: ${centerEllipsis(String(address), 4)}`)
         break
-      case "facebook":
       case "google":
         setLoggedinAs(`${capitalize(loginType)}: ${centerEllipsis(`${userInfo.email}`, 4)}`)
         break
