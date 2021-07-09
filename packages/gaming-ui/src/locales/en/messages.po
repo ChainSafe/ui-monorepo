@@ -1,0 +1,173 @@
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2021-07-09 16:45+0300\n"
+"Mime-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: en\n"
+
+msgid "API Keys"
+msgstr "API Keys"
+
+msgid "Add API Key"
+msgstr "Add API Key"
+
+msgid "Api Keys"
+msgstr "Api Keys"
+
+msgid "Buckets"
+msgstr "Buckets"
+
+msgid "By connecting your wallet, you agree to our <0>Terms of Service</0> and <1>Privacy Policy</1>"
+msgstr "By connecting your wallet, you agree to our <0>Terms of Service</0> and <1>Privacy Policy</1>"
+
+msgid "Check your inbox! We've sent another email."
+msgstr "Check your inbox! We've sent another email."
+
+msgid "Cids"
+msgstr "Cids"
+
+msgid "Connect Wallet to Storage"
+msgstr "Connect Wallet to Storage"
+
+msgid "Connect a new wallet"
+msgstr "Connect a new wallet"
+
+msgid "Connection failed"
+msgstr "Connection failed"
+
+msgid "Continue"
+msgstr "Continue"
+
+msgid "Continue with Email"
+msgstr "Continue with Email"
+
+msgid "Continue with Github"
+msgstr "Continue with Github"
+
+msgid "Continue with Google"
+msgstr "Continue with Google"
+
+msgid "Continue with Web3 Wallet"
+msgstr "Continue with Web3 Wallet"
+
+msgid "Created At"
+msgstr "Created At"
+
+msgid "Delete Key"
+msgstr "Delete Key"
+
+msgid "Didn't receive the email ?"
+msgstr "Didn't receive the email ?"
+
+msgid "Email is required"
+msgstr "Email is required"
+
+msgid "Enter the verification code:"
+msgstr "Enter the verification code:"
+
+msgid "Enter your email:"
+msgstr "Enter your email:"
+
+msgid "Failed to get signature"
+msgstr "Failed to get signature"
+
+msgid ""
+"Failed to validate signature.\n"
+"If you are using a contract wallet, please make \n"
+"sure you have activated your wallet."
+msgstr ""
+"Failed to validate signature.\n"
+"If you are using a contract wallet, please make \n"
+"sure you have activated your wallet."
+
+msgid "Get Started"
+msgstr "Get Started"
+
+msgid "Go back"
+msgstr "Go back"
+
+msgid "Hold on, we are logging you in…"
+msgstr "Hold on, we are logging you in…"
+
+msgid "Id"
+msgstr "Id"
+
+msgid "Learn more about ChainSafe"
+msgstr "Learn more about ChainSafe"
+
+msgid "Please enter a valid email"
+msgstr "Please enter a valid email"
+
+msgid "Privacy Policy"
+msgstr "Privacy Policy"
+
+msgid "Secret"
+msgstr "Secret"
+
+msgid "Select a wallet"
+msgstr "Select a wallet"
+
+msgid "Send another email"
+msgstr "Send another email"
+
+msgid "Settings"
+msgstr "Settings"
+
+msgid "Sign Out"
+msgstr "Sign Out"
+
+msgid "Sign in"
+msgstr "Sign in"
+
+msgid "Sign-in with {0}"
+msgstr "Sign-in with {0}"
+
+msgid "Something went wrong!"
+msgstr "Something went wrong!"
+
+msgid "Something went wrong! Please try again."
+msgstr "Something went wrong! Please try again."
+
+msgid "Status"
+msgstr "Status"
+
+msgid "Terms and Conditions"
+msgstr "Terms and Conditions"
+
+msgid "The authentication popup was closed"
+msgstr "The authentication popup was closed"
+
+msgid "The system is undergoing maintenance, thank you for being patient."
+msgstr "The system is undergoing maintenance, thank you for being patient."
+
+msgid "There was an error authenticating"
+msgstr "There was an error authenticating"
+
+msgid "There was an error connecting your wallet"
+msgstr "There was an error connecting your wallet"
+
+msgid "Try again"
+msgstr "Try again"
+
+msgid "Use a different login method"
+msgstr "Use a different login method"
+
+msgid "Verification code is required"
+msgstr "Verification code is required"
+
+msgid "Verification code not correct!"
+msgstr "Verification code not correct!"
+
+msgid "Verification code sent!"
+msgstr "Verification code sent!"
+
+msgid "Web3: {0}"
+msgstr "Web3: {0}"
+
+msgid "We’ve sent an email to {email}. It contains a verification code that’ll sign you in super quickly!"
+msgstr "We’ve sent an email to {email}. It contains a verification code that’ll sign you in super quickly!"
+
+msgid "You will need to sign a message in your wallet to complete sign in."
+msgstr "You will need to sign a message in your wallet to complete sign in."
