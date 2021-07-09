@@ -49,6 +49,9 @@ msgstr "CID is required"
 msgid "Cancel"
 msgstr "Cancel"
 
+msgid "Check your inbox! We've sent another email."
+msgstr "Check your inbox! We've sent another email."
+
 msgid "Cid"
 msgstr "Cid"
 
@@ -69,6 +72,12 @@ msgstr "Connect a new wallet"
 
 msgid "Connection failed"
 msgstr "Connection failed"
+
+msgid "Continue"
+msgstr "Continue"
+
+msgid "Continue with Email"
+msgstr "Continue with Email"
 
 msgid "Continue with Github"
 msgstr "Continue with Github"
@@ -115,6 +124,9 @@ msgstr "Delete selected"
 msgid "Deletion successful"
 msgstr "Deletion successful"
 
+msgid "Didn't receive the email ?"
+msgstr "Didn't receive the email ?"
+
 msgid "Download"
 msgstr "Download"
 
@@ -123,6 +135,15 @@ msgstr "Download complete"
 
 msgid "Drop to upload files"
 msgstr "Drop to upload files"
+
+msgid "Email is required"
+msgstr "Email is required"
+
+msgid "Enter the verification code:"
+msgstr "Enter the verification code:"
+
+msgid "Enter your email:"
+msgstr "Enter your email:"
 
 msgid "Failed to get signature"
 msgstr "Failed to get signature"
@@ -165,6 +186,9 @@ msgstr "Get Started"
 
 msgid "Go back"
 msgstr "Go back"
+
+msgid "Hold on, we are logging you in…"
+msgstr "Hold on, we are logging you in…"
 
 msgid "Id"
 msgstr "Id"
@@ -229,6 +253,9 @@ msgstr "Please enter a folder name"
 msgid "Please enter a name"
 msgstr "Please enter a name"
 
+msgid "Please enter a valid email"
+msgstr "Please enter a valid email"
+
 msgid "Please select a file to upload"
 msgstr "Please select a file to upload"
 
@@ -256,6 +283,9 @@ msgstr "Secret"
 msgid "Select a wallet"
 msgstr "Select a wallet"
 
+msgid "Send another email"
+msgstr "Send another email"
+
 msgid "Settings"
 msgstr "Settings"
 
@@ -265,11 +295,20 @@ msgstr "Share"
 msgid "Sign Out"
 msgstr "Sign Out"
 
+msgid "Sign in"
+msgstr "Sign in"
+
 msgid "Sign-in with {0}"
 msgstr "Sign-in with {0}"
 
 msgid "Size"
 msgstr "Size"
+
+msgid "Something went wrong!"
+msgstr "Something went wrong!"
+
+msgid "Something went wrong! Please try again."
+msgstr "Something went wrong! Please try again."
 
 msgid "Something went wrong. We couldn't upload your file"
 msgstr "Something went wrong. We couldn't upload your file"
@@ -322,8 +361,23 @@ msgstr "Uploading {0} files"
 msgid "Use a different login method"
 msgstr "Use a different login method"
 
+msgid "Verification code is required"
+msgstr "Verification code is required"
+
+msgid "Verification code not correct!"
+msgstr "Verification code not correct!"
+
+msgid "Verification code sent!"
+msgstr "Verification code sent!"
+
 msgid "View folder"
 msgstr "View folder"
+
+msgid "Web3: {0}"
+msgstr "Web3: {0}"
+
+msgid "We’ve sent an email to {email}. It contains a verification code that’ll sign you in super quickly!"
+msgstr "We’ve sent an email to {email}. It contains a verification code that’ll sign you in super quickly!"
 
 msgid "You will need to sign a message in your wallet to complete sign in."
 msgstr "You will need to sign a message in your wallet to complete sign in."
