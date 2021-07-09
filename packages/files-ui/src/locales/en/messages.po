@@ -43,6 +43,9 @@ msgstr "Add by sharing address, username or wallet address"
 msgid "Add more files"
 msgstr "Add more files"
 
+msgid "Add to share folder"
+msgstr "Add to share folder"
+
 msgid "Add/remove content"
 msgstr "Add/remove content"
 
@@ -535,6 +538,9 @@ msgstr "Search…"
 msgid "Security"
 msgstr "Security"
 
+msgid "Select a shared folder. Only the ones with the currently selected users will be displayed"
+msgstr "Select a shared folder. Only the ones with the currently selected users will be displayed"
+
 msgid "Select a wallet"
 msgstr "Select a wallet"
 
@@ -577,6 +583,9 @@ msgstr "Setup incomplete"
 msgid "Share"
 msgstr "Share"
 
+msgid "Share File"
+msgstr "Share File"
+
 msgid "Share with"
 msgstr "Share with"
 
@@ -591,6 +600,9 @@ msgstr "Shared folders"
 
 msgid "Shared with"
 msgstr "Shared with"
+
+msgid "Sharing your file, this may take some time depending on the file size…"
+msgstr "Sharing your file, this may take some time depending on the file size…"
 
 msgid "Sign Out"
 msgstr "Sign Out"
