@@ -14,9 +14,6 @@ msgstr ""
 "X-Generator: Weblate 4.8-dev\n"
 "Mime-Version: 1.0\n"
 
-msgid "${0} USD/{1}"
-msgstr ""
-
 msgid "(Change)"
 msgstr "(Changer)"
 
@@ -803,11 +800,5 @@ msgstr ""
 msgid "{0} of {1} used ({2}%)"
 msgstr ""
 
-msgid "{feature}"
-msgstr ""
-
 msgid "{noOfFiles, plural, one {Uploading and encrypting {noOfFiles} file} other {Uploading and encrypting {noOfFiles} files}}"
 msgstr "{noOfFiles, plural, one {Upload et chiffrage de {noOfFiles} fichier} other {Upload et chiffrage de {noOfFiles} fichiers}}"
-
-msgid "{planFor}"
-msgstr ""

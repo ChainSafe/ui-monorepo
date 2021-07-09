@@ -14,9 +14,6 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "Plural-Forms: \n"
 
-msgid "${0} USD/{1}"
-msgstr ""
-
 msgid "(Change)"
 msgstr ""
 
@@ -803,11 +800,5 @@ msgstr ""
 msgid "{0} of {1} used ({2}%)"
 msgstr ""
 
-msgid "{feature}"
-msgstr ""
-
 msgid "{noOfFiles, plural, one {Uploading and encrypting {noOfFiles} file} other {Uploading and encrypting {noOfFiles} files}}"
 msgstr "{noOfFiles, plural, one {Carga y encriptación del archivo {noOfFiles}} other {Carga y encriptación de archivos {noOfFiles}}}"
-
-msgid "{planFor}"
-msgstr ""

@@ -13,9 +13,6 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
-msgid "${0} USD/{1}"
-msgstr "${0} USD/{1}"
-
 msgid "(Change)"
 msgstr "(Change)"
 
@@ -802,11 +799,5 @@ msgstr "{0}"
 msgid "{0} of {1} used ({2}%)"
 msgstr "{0} of {1} used ({2}%)"
 
-msgid "{feature}"
-msgstr "{feature}"
-
 msgid "{noOfFiles, plural, one {Uploading and encrypting {noOfFiles} file} other {Uploading and encrypting {noOfFiles} files}}"
 msgstr "{noOfFiles, plural, one {Uploading and encrypting {noOfFiles} file} other {Uploading and encrypting {noOfFiles} files}}"
-
-msgid "{planFor}"
-msgstr "{planFor}"
