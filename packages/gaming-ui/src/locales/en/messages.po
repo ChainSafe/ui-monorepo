@@ -6,6 +6,12 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: @lingui/cli\n"
 "Language: en\n"
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Plural-Forms: \n"
 
 msgid "API Keys"
 msgstr "API Keys"
@@ -16,17 +22,11 @@ msgstr "Add API Key"
 msgid "Api Keys"
 msgstr "Api Keys"
 
-msgid "Buckets"
-msgstr "Buckets"
-
 msgid "By connecting your wallet, you agree to our <0>Terms of Service</0> and <1>Privacy Policy</1>"
 msgstr "By connecting your wallet, you agree to our <0>Terms of Service</0> and <1>Privacy Policy</1>"
 
 msgid "Check your inbox! We've sent another email."
 msgstr "Check your inbox! We've sent another email."
-
-msgid "Cids"
-msgstr "Cids"
 
 msgid "Connect Wallet to Storage"
 msgstr "Connect Wallet to Storage"
