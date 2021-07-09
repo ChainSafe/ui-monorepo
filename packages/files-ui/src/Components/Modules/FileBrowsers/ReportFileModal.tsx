@@ -250,9 +250,7 @@ const ReportFileModal = ({ filePath, close }: IReportFileModalProps) => {
                       target="_blank"
                       rel="noopener noreferrer"
                     >
-                      <Typography>
-                        <Trans>Terms of Service</Trans>
-                      </Typography>
+                      <Trans>Terms of Service</Trans>
                     </a>, please send the following information to report@files.chainsafe.io.
                     Beware that by sending the file&apos;s decryption key, an admin can then decrypt
                     any file in this shared folder.
