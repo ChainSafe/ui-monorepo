@@ -253,6 +253,9 @@ msgstr "Please enter a folder name"
 msgid "Please enter a name"
 msgstr "Please enter a name"
 
+msgid "Please enter a valid email"
+msgstr "Please enter a valid email"
+
 msgid "Please select a file to upload"
 msgstr "Please select a file to upload"
 
@@ -303,6 +306,9 @@ msgstr "Size"
 
 msgid "Something went wrong!"
 msgstr "Something went wrong!"
+
+msgid "Something went wrong! Please try again."
+msgstr "Something went wrong! Please try again."
 
 msgid "Something went wrong. We couldn't upload your file"
 msgstr "Something went wrong. We couldn't upload your file"
