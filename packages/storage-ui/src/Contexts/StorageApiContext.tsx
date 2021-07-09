@@ -40,7 +40,7 @@ const getProviderSpecificParams = (loginType: LOGIN_TYPE):
   }
 }
 
-export type StorageUserInfo = {
+export interface StorageUserInfo {
   typeOfLogin: IdentityProvider
   email?: string
   publicAddress?: string
@@ -359,10 +359,13 @@ const StorageApiProvider = ({ apiUrl, withLocalStorage = true, children }: Stora
       setStatus("logging in")
       const userInfo = await loginHandler.getUserInfo(oauthIdToken)
 
-      return { identityToken: {
-        expires: (oauthIdToken as ExtendedTorusResponse).expires_in,
-        token:  oauthIdToken.idToken || oauthIdToken.accessToken
-      }, userInfo: userInfo }
+      return {
+        identityToken: {
+          expires: (oauthIdToken as ExtendedTorusResponse).expires_in,
+          token:  oauthIdToken.idToken || oauthIdToken.accessToken
+        },
+        userInfo
+      }
     }
   }
 

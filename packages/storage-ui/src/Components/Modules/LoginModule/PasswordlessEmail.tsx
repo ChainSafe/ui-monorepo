@@ -98,7 +98,7 @@ const PasswordlessEmail = ({ resetLogin }: IPasswordlessEmail) => {
   const emailValidation = useMemo(() => yup.object().shape({
     email: yup
       .string()
-      .email("Please enter a valid email")
+      .email(t`Please enter a valid email`)
       .required(t`Email is required`)
   })
   , [])
@@ -117,12 +117,10 @@ const PasswordlessEmail = ({ resetLogin }: IPasswordlessEmail) => {
       .then(() => {
         setEmail(values.email)
         setPage("confirmVerificationCode")
-        setIsSubmitEmailLoading(false)
       }).catch ((e) => {
-        setError(t`Something went wrong!`)
-        setIsSubmitEmailLoading(false)
+        setError(t`Something went wrong! Please try again.`)
         console.error(e)
-      })
+      }).finally (() => setIsSubmitEmailLoading(false))
   }, [storageApiClient])
 
   const onSubmitNonce = useCallback((values) => {
@@ -134,28 +132,23 @@ const PasswordlessEmail = ({ resetLogin }: IPasswordlessEmail) => {
       nonce: values.nonce
     }).then(async (data) => {
       await login("email", { token: data || "", email })
-      setIsSubmitNonceLoading(false)
     }).catch ((e) => {
       if (e && e[0] && e[0].type === "nonce") {
         setError(t`Verification code not correct!`)
       } else {
         setError(t`Something went wrong!`)
       }
-      setIsSubmitNonceLoading(false)
       console.error(e)
-    })
+    }).finally(() => setIsSubmitNonceLoading(false))
   }, [storageApiClient, email, login])
 
   const onResendEmail = useCallback(() => {
     if (!email) return
     setIsSubmitResendEmailLoading(true)
-    storageApiClient.getIdentityEmailToken({ email }).then(() => {
-      setHasEmailResent(true)
-      setIsSubmitResendEmailLoading(false)
-    }).catch ((e) => {
-      setIsSubmitResendEmailLoading(false)
-      console.error(e)
-    })
+    storageApiClient.getIdentityEmailToken({ email })
+      .then(() => setHasEmailResent(true))
+      .catch(console.error)
+      .finally(() => setIsSubmitResendEmailLoading(false))
   }, [storageApiClient, email])
 
   return (
@@ -185,9 +178,13 @@ const PasswordlessEmail = ({ resetLogin }: IPasswordlessEmail) => {
               labelClassName={classes.inputLabel}
             />
             {error && (
-              <Typography component="p"
+              <Typography
+                component="p"
                 variant="body1"
-                className={classes.errorText}>{error}</Typography>
+                className={classes.errorText}
+              >
+                {error}
+              </Typography>
             )}
             <Button
               className={clsx(classes.button)}
