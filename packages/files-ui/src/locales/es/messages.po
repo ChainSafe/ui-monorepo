@@ -302,7 +302,7 @@ msgstr "Casa"
 msgid "I understand the risk"
 msgstr "Entiendo el riesgo"
 
-msgid "If you think this file does not comply with our <0>Privacy Policy</0>, please send the following information to report@files.chainsafe.io. Beware that by sending the file's decryption key, an admin can then decrypt any file in this shared folder."
+msgid "If you think this file does not comply with our <0>Terms of Service</0>, please send the following information to report@files.chainsafe.io. Beware that by sending the file's decryption key, an admin can then decrypt any file in this shared folder."
 msgstr ""
 
 msgid "Info"
