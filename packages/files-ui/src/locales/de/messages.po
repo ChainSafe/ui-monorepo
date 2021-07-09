@@ -67,6 +67,9 @@ msgstr "Papierkorb"
 msgid "Browser:"
 msgstr "Browser:"
 
+msgid "Bucket id"
+msgstr ""
+
 msgid "By connecting your wallet, you agree to our <0>Terms of Service</0> and <1>Privacy Policy</1>"
 msgstr ""
 
@@ -133,6 +136,9 @@ msgstr "Kopiert!"
 msgid "Copy CID"
 msgstr "IID kopieren"
 
+msgid "Copy info"
+msgstr ""
+
 msgid "Create"
 msgstr "Erstellen"
 
@@ -156,6 +162,9 @@ msgstr "Hochgeladen am"
 
 msgid "Decryption failed"
 msgstr "Entschlüsselung fehlgeschlagen"
+
+msgid "Decryption key"
+msgstr ""
 
 msgid "Delete"
 msgstr "Löschen"
@@ -226,6 +235,9 @@ msgstr "Dateiinfos"
 msgid "File format not supported."
 msgstr "Dateiformat wird nicht unterstützt."
 
+msgid "File path"
+msgstr ""
+
 msgid "File size"
 msgstr "Dateigröße"
 
@@ -285,6 +297,9 @@ msgstr "Startseite"
 
 msgid "I understand the risk"
 msgstr "Ich gehe das Risiko ein"
+
+msgid "If you think this file does not comply with our <0>Terms of Service</0>, please send the following information to report@files.chainsafe.io. Beware that by sending the file's decryption key, an admin can then decrypt any file in this shared folder."
+msgstr ""
 
 msgid "Info"
 msgstr "Infos"
@@ -470,6 +485,12 @@ msgid "Rename file"
 msgstr ""
 
 msgid "Rename folder"
+msgstr ""
+
+msgid "Report"
+msgstr ""
+
+msgid "Report a File"
 msgstr ""
 
 msgid "Requested from"

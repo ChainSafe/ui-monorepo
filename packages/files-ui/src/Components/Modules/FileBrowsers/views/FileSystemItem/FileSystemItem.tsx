@@ -16,7 +16,8 @@ import {
   ExportSvg,
   ShareAltSvg,
   ExclamationCircleInverseSvg,
-  ZoomInSvg } from "@chainsafe/common-components"
+  ZoomInSvg,
+  InfoCircleSvg } from "@chainsafe/common-components"
 import { makeStyles, createStyles, useDoubleClick, useThemeSwitcher } from "@chainsafe/common-theme"
 import { Form, FormikProvider, useFormik } from "formik"
 import CustomModal from "../../../../Elements/CustomModal"
@@ -32,6 +33,7 @@ import { FileSystemItem as FileSystemItemType } from "../../../../../Contexts/Fi
 import { useFileBrowser } from "../../../../../Contexts/FileBrowserContext"
 import { getPathWithFile } from "../../../../../Utils/pathUtils"
 import { BucketUser } from "@chainsafe/files-api-client"
+import { useMemo } from "react"
 
 const useStyles = makeStyles(({ breakpoints, constants }: CSFTheme) => {
   return createStyles({
@@ -113,14 +115,15 @@ interface IFileSystemItemProps {
   handleRename?: (cid: string, newName: string) => Promise<void>
   handleMove?: (cid: string, newPath: string) => Promise<void>
   deleteFile?: () => void
-  recoverFile?: (cid: string) => void
+  recoverFile?: () => void
   viewFolder?: (cid: string) => void
   setPreviewFileIndex: (fileIndex: number | undefined) => void
   moveFile?: () => void
-  setFileInfoPath: (path: string) => void
   itemOperations: FileOperation[]
   resetSelectedFiles: () => void
   browserView: BrowserView
+  reportFile?: (path: string) => void
+  showFileInfo?: (path: string) => void
 }
 
 const FileSystemItem = ({
@@ -137,12 +140,13 @@ const FileSystemItem = ({
   viewFolder,
   setPreviewFileIndex,
   moveFile,
-  setFileInfoPath,
   handleSelectCid,
   handleAddToSelectedCids,
   itemOperations,
   browserView,
-  resetSelectedFiles
+  resetSelectedFiles,
+  reportFile,
+  showFileInfo
 }: IFileSystemItemProps) => {
   const { downloadFile, currentPath, handleUploadOnDrop, moveItems } = useFileBrowser()
   const { cid, name, isFolder, content_type } = file
@@ -172,9 +176,10 @@ const FileSystemItem = ({
 
   const { desktop } = useThemeSwitcher()
   const classes = useStyles()
+  const filePath = useMemo(() => `${currentPath}${name}`, [currentPath, name])
 
 
-  const allMenuItems: Record<FileOperation, IMenuItem> = {
+  const allMenuItems: Record<FileOperation, IMenuItem> = useMemo(() => ({
     rename: {
       contents: (
         <>
@@ -233,13 +238,13 @@ const FileSystemItem = ({
     info: {
       contents: (
         <>
-          <ExclamationCircleInverseSvg className={classes.menuIcon} />
+          <InfoCircleSvg className={classes.menuIcon} />
           <span data-cy="menu-info">
             <Trans>Info</Trans>
           </span>
         </>
       ),
-      onClick: () => setFileInfoPath(`${currentPath}${name}`)
+      onClick: () => showFileInfo && showFileInfo(filePath)
     },
     recover: {
       contents: (
@@ -250,7 +255,7 @@ const FileSystemItem = ({
           </span>
         </>
       ),
-      onClick: () => recoverFile && recoverFile(cid)
+      onClick: () => recoverFile && recoverFile()
     },
     preview: {
       contents: (
@@ -273,8 +278,34 @@ const FileSystemItem = ({
         </>
       ),
       onClick: () => viewFolder && viewFolder(cid)
+    },
+    report: {
+      contents: (
+        <>
+          <ExclamationCircleInverseSvg className={classes.menuIcon} />
+          <span data-cy="menu-report">
+            <Trans>Report</Trans>
+          </span>
+        </>
+      ),
+      onClick: () => reportFile && reportFile(filePath)
     }
-  }
+  }),
+  [cid,
+    classes.menuIcon,
+    deleteFile,
+    downloadFile,
+    file,
+    filePath,
+    files,
+    moveFile,
+    recoverFile,
+    reportFile,
+    setEditing,
+    setPreviewFileIndex,
+    showFileInfo,
+    viewFolder
+  ])
 
   const menuItems: IMenuItem[] = itemOperations.map(
     (itemOperation) => allMenuItems[itemOperation]
