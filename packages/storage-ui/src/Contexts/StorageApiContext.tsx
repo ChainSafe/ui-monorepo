@@ -1,7 +1,7 @@
 import { useWeb3 } from "@chainsafe/web3-context"
 import * as React from "react"
 import { useState, useEffect, useMemo, useCallback } from "react"
-import { IFilesApiClient, FilesApiClient, Token, IdentityProvider, OAuthIdentityToken } from "@chainsafe/files-api-client"
+import { IFilesApiClient, FilesApiClient, Token, IdentityProvider } from "@chainsafe/files-api-client"
 import jwtDecode from "jwt-decode"
 import axios from "axios"
 import { useLocalStorage, useSessionStorage } from "@chainsafe/browser-storage-hooks"
@@ -23,17 +23,6 @@ type StorageApiContext = {
   isReturningUser: boolean
   selectWallet: () => Promise<void>
   resetAndSelectWallet: () => Promise<void>
-  getProviderUrl: (provider: OAuthIdentityToken) => Promise<string>
-  loginWithGithub: (code: string, state: string) => Promise<void>
-  loginWithGoogle: (
-    code: string,
-    state: string,
-    scope: string | undefined,
-    authUser: string | undefined,
-    hd: string | undefined,
-    prompt: string | undefined,
-  ) => Promise<void>
-  loginWithFacebook: (code: string, state: string) => Promise<void>
   web3Login(): Promise<void>
   logout: () => void
 }
@@ -226,73 +215,6 @@ const StorageApiProvider = ({ apiUrl, withLocalStorage = true, children }: Stora
     }
   }
 
-  const getProviderUrl = async (provider: OAuthIdentityToken) => {
-    try {
-      const { url } = await storageApiClient.getOauth2Provider(provider)
-      return Promise.resolve(url)
-    } catch {
-      return Promise.reject("There was an error logging in")
-    }
-  }
-
-  const loginWithGithub = async (code: string, state: string) => {
-    try {
-      const {
-        access_token,
-        refresh_token
-      } = await storageApiClient.postOauth2CodeGithub(code, state)
-      setTokensAndSave(access_token, refresh_token)
-      setReturningUser()
-      return Promise.resolve()
-    } catch {
-      return Promise.reject("There was an error logging in")
-    }
-  }
-
-  const loginWithGoogle = async (
-    code: string,
-    state: string,
-    scope: string | undefined,
-    authUser: string | undefined,
-    hd: string | undefined,
-    prompt: string | undefined
-  ) => {
-    try {
-      const {
-        access_token,
-        refresh_token
-      } = await storageApiClient.postOauth2CodeGoogle(
-        code,
-        state,
-        scope,
-        authUser,
-        hd,
-        prompt
-      )
-
-      setTokensAndSave(access_token, refresh_token)
-      setReturningUser()
-      return Promise.resolve()
-    } catch (err) {
-      return Promise.reject("There was an error logging in")
-    }
-  }
-
-  const loginWithFacebook = async (code: string, state: string) => {
-    try {
-      const {
-        access_token,
-        refresh_token
-      } = await storageApiClient.postOauth2CodeFacebook(code, state)
-
-      setTokensAndSave(access_token, refresh_token)
-      setReturningUser()
-      return Promise.resolve()
-    } catch (err) {
-      return Promise.reject("There was an error logging in")
-    }
-  }
-
   const web3Login = async () => {
     if (!provider) return Promise.reject("No wallet is selected")
 
@@ -300,26 +222,30 @@ const StorageApiProvider = ({ apiUrl, withLocalStorage = true, children }: Stora
       const connected = await checkIsReady()
       if (!connected) return Promise.reject("You need to allow the connection")
     }
-    const signer = provider.getSigner()
-    try {
-      const { token } = await storageApiClient.getWeb3Token()
 
-      if (token) {
-        const signature = await signer.signMessage(token)
-        const address = await signer.getAddress()
-        const {
-          access_token,
-          refresh_token
-        } = await storageApiClient.postWeb3Token({
-          signature: signature,
-          token: token,
-          public_address: address
-        })
-        setTokensAndSave(access_token, refresh_token)
-        setReturningUser()
-        return Promise.resolve()
-      }
+    try {
+      const signer = provider.getSigner()
+      const address = await signer.getAddress()
+      const { token: welcomeMessage } = await storageApiClient.getIdentityWeb3Token(address)
+
+      const signature = await signer.signMessage(welcomeMessage)
+      const { token: providerIdentityToken } = await storageApiClient.postIdentityWeb3Token({
+        signature: signature,
+        token: welcomeMessage,
+        public_address: address
+      })
+
+      const { access_token, refresh_token } = await storageApiClient.loginUser({
+        provider: "web3",
+        service: "storage",
+        token: providerIdentityToken
+      })
+
+      setTokensAndSave(access_token, refresh_token)
+      setReturningUser()
+      return Promise.resolve()
     } catch (error) {
+      console.error(error)
       return Promise.reject("There was an error logging in.")
     }
   }
@@ -340,13 +266,9 @@ const StorageApiProvider = ({ apiUrl, withLocalStorage = true, children }: Stora
         isLoggedIn: isLoggedIn(),
         secured,
         isReturningUser: isReturningUser,
-        loginWithGithub,
-        loginWithGoogle,
-        loginWithFacebook,
         web3Login,
         selectWallet,
         resetAndSelectWallet,
-        getProviderUrl,
         logout
       }}
     >

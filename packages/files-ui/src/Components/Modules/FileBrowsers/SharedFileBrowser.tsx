@@ -14,7 +14,7 @@ import DragAndDrop from "../../../Contexts/DnDContext"
 import FilesList from "./views/FilesList"
 
 const SharedFileBrowser = () => {
-  const { downloadFile, uploadFiles, buckets } = useFiles()
+  const { downloadFile, uploadFiles, buckets, refreshBuckets } = useFiles()
   const { filesApiClient } = useFilesApi()
   const { addToastMessage } = useToaster()
   const [loadingCurrentPath, setLoadingCurrentPath] = useState(false)
@@ -85,42 +85,48 @@ const SharedFileBrowser = () => {
     refreshContents(true)
   }, [bucket, refreshContents])
 
-  const moveItemsToBin = useCallback(async (cids: string[]) => {
-    if (!bucket) return
-    await Promise.all(
-      cids.map(async (cid: string) => {
-        const itemToDelete = pathContents.find((i) => i.cid === cid)
-        if (!itemToDelete) {
-          console.error("No item found to move to the trash")
-          return
-        }
+  const deleteFile = useCallback(async (cid: string) => {
+    const itemToDelete = pathContents.find((i) => i.cid === cid)
 
-        try {
-          await filesApiClient.moveBucketObjects(bucket.id, {
-            path: getPathWithFile(currentPath, itemToDelete.name),
-            new_path: getPathWithFile("/", itemToDelete.name),
-            destination: buckets.find(b => b.type === "trash")?.id
-          })
-          const message = `${
-            itemToDelete.isFolder ? t`Folder` : t`File`
-          } ${t`deleted successfully`}`
-          addToastMessage({
-            message: message,
-            appearance: "success"
-          })
-          return Promise.resolve()
-        } catch (error) {
-          const message = `${t`There was an error deleting this`} ${
-            itemToDelete.isFolder ? t`folder` : t`file`
-          }`
-          addToastMessage({
-            message: message,
-            appearance: "error"
-          })
-          return Promise.reject()
-        }}
-      )).finally(refreshContents)
-  }, [addToastMessage, buckets, currentPath, pathContents, refreshContents, filesApiClient, bucket])
+    if (!itemToDelete || !bucket) {
+      console.error("Bucket not set or no item found to delete")
+      return
+    }
+
+    try {
+      await filesApiClient.removeBucketObject(
+        bucket.id,
+        { paths: [getPathWithFile(currentPath, itemToDelete.name)] }
+      )
+
+      refreshContents(false)
+      refreshBuckets(false)
+      const message = `${
+        itemToDelete.isFolder ? t`Folder` : t`File`
+      } ${t`deleted successfully`}`
+      addToastMessage({
+        message: message,
+        appearance: "success"
+      })
+      return Promise.resolve()
+    } catch (error) {
+      const message = `${t`There was an error deleting this`} ${
+        itemToDelete.isFolder ? t`folder` : t`file`
+      }`
+      addToastMessage({
+        message: message,
+        appearance: "error"
+      })
+      return Promise.reject()
+    }
+  }, [addToastMessage, bucket, currentPath, pathContents, refreshContents, refreshBuckets, filesApiClient])
+
+  const deleteItems = useCallback(async (cids: string[]) => {
+    await Promise.all(
+      cids.map((cid: string) =>
+        deleteFile(cid)
+      ))
+  }, [deleteFile])
 
   // Rename
   const renameItem = useCallback(async (cid: string, newName: string) => {
@@ -237,7 +243,7 @@ const SharedFileBrowser = () => {
       moduleRootPath: ROUTE_LINKS.SharedFolderExplorer(bucket?.id || "", "/"),
       currentPath,
       refreshContents,
-      deleteItems: moveItemsToBin,
+      deleteItems,
       downloadFile: handleDownload,
       moveItems,
       renameItem: renameItem,
