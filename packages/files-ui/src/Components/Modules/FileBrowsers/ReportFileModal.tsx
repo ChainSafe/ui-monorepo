@@ -246,11 +246,13 @@ const ReportFileModal = ({ filePath, close }: IReportFileModalProps) => {
                 >
                   <Trans>
                     If you think this file does not comply with our <a
-                      href={ROUTE_LINKS.PrivacyPolicy}
+                      href={ROUTE_LINKS.Terms}
                       target="_blank"
                       rel="noopener noreferrer"
                     >
-                      Privacy Policy
+                      <Typography>
+                        <Trans>Terms of Service</Trans>
+                      </Typography>
                     </a>, please send the following information to report@files.chainsafe.io.
                     Beware that by sending the file&apos;s decryption key, an admin can then decrypt
                     any file in this shared folder.
