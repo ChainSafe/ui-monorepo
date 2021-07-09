@@ -1,25 +1,14 @@
 import {
   createStyles,
-  debounce,
   makeStyles
 } from "@chainsafe/common-theme"
-import React, { useState, useEffect } from "react"
+import React from "react"
 import CustomModal from "../../Elements/CustomModal"
 import CustomButton from "../../Elements/CustomButton"
 import { Trans } from "@lingui/macro"
-import { FileFullInfo } from "../../../Contexts/FilesContext"
-import {
-  Button,
-  formatBytes,
-  Grid,
-  Loading,
-  Typography
-} from "@chainsafe/common-components"
-import clsx from "clsx"
+import { Button, Grid, Typography } from "@chainsafe/common-components"
 import { CSFTheme } from "../../../Themes/types"
-import dayjs from "dayjs"
-import { useFilesApi } from "../../../Contexts/FilesApiContext"
-import { useFileBrowser } from "../../../Contexts/FileBrowserContext"
+import { useCallback } from "react"
 
 const useStyles = makeStyles(
   ({ breakpoints, constants, palette, typography, zIndex, animation }: CSFTheme) => {
@@ -84,10 +73,6 @@ const useStyles = makeStyles(
       subSubtitle: {
         color: palette.additional["gray"][8]
       },
-      technicalContainer: {
-        paddingTop: constants.generalUnit,
-        paddingBottom: constants.generalUnit
-      },
       paddedContainer: {
         padding: `${constants.generalUnit * 2}px ${
           constants.generalUnit * 4
@@ -136,7 +121,7 @@ const useStyles = makeStyles(
           visibility: "visible"
         }
       },
-      copyButton: {
+      mainButton: {
         width: "100%"
       },
       copyContainer: {
@@ -153,51 +138,20 @@ const useStyles = makeStyles(
 )
 
 interface IShareFileProps {
-  filePath: string
   close: () => void
 }
 
-const ShareFileModal = ({ filePath, close }: IShareFileProps) => {
+const ShareFileModal = ({ close }: IShareFileProps) => {
   const classes = useStyles()
-  const { filesApiClient } = useFilesApi()
-  const [loadingFileInfo, setLoadingInfo] = useState(false)
-  const [fullFileInfo, setFullFullInfo] = useState<FileFullInfo | undefined>()
-  const { bucket } = useFileBrowser()
 
-  useEffect(() => {
-
-    if (!bucket) return
-
-    setLoadingInfo(true)
-    filesApiClient.getBucketObjectInfo(bucket.id, { path: filePath })
-      .then((fullFileResponse) => {
-        setFullFullInfo(fullFileResponse)
-        setLoadingInfo(false)
-      })
-      .catch(console.error)
-      .finally(() => setLoadingInfo(false))
-  }
-  , [bucket, filePath, filesApiClient])
-
-  const [copied, setCopied] = useState(false)
-  const debouncedSwitchCopied = debounce(() => setCopied(false), 3000)
-
-  const onCopyCID = () => {
-    if (fullFileInfo?.content?.cid) {
-      navigator.clipboard.writeText(fullFileInfo?.content?.cid)
-        .then(() => {
-          setCopied(true)
-          debouncedSwitchCopied()
-        }).catch(console.error)
-    }
-  }
+  const onNextStep = useCallback(() => {
+    console.log("next")
+  }, [])
 
   return (
     <CustomModal
       className={classes.modalRoot}
-      injectedClass={{
-        inner: classes.modalInner
-      }}
+      injectedClass={{ inner: classes.modalInner }}
       active={true}
       closePosition="none"
       maxWidth="sm"
@@ -216,189 +170,50 @@ const ShareFileModal = ({ filePath, close }: IShareFileProps) => {
           <Trans>Share a File</Trans>
         </Typography>
       </Grid>
-      { loadingFileInfo && (
-        <Grid
-          item
-          flexDirection="row"
-          justifyContent="center"
-        >
-          <div className={classes.loadingContainer}>
-            <Loading
-              size={32}
-              type="inherit"
-            />
-          </div>
-        </Grid>
-      )}
-      {fullFileInfo && !loadingFileInfo && (
-        <>
-          <Grid
-            item
-            xs={12}
-            sm={12}
-            className={classes.infoContainer}
-          >
-            <div className={classes.infoBox}>
-              <div>
-                <Typography
-                  className={classes.infoHeading}
-                  variant="h5"
-                  component="h5"
-                >
-                  <Trans>General</Trans>
-                </Typography>
-                {fullFileInfo.content?.name && (
-                  <div className={classes.subInfoBox}>
-                    <Typography
-                      variant="body1"
-                      component="p"
-                    >
-                      <Trans>Name</Trans>
-                    </Typography>
-                    <Typography
-                      className={classes.subSubtitle}
-                      variant="body2"
-                      component="p"
-                    >
-                      {fullFileInfo.content.name}
-                    </Typography>
-                  </div>
-                )}
-                {fullFileInfo.content?.created_at && (
-                  <div className={classes.subInfoBox}>
-                    <Typography
-                      variant="body1"
-                      component="p"
-                    >
-                      <Trans>Date uploaded</Trans>
-                    </Typography>
-                    <Typography
-                      className={classes.subSubtitle}
-                      variant="body2"
-                      component="p"
-                    >
-                      {fullFileInfo.content.created_at && dayjs.unix(fullFileInfo.content.created_at).format("DD MMM YYYY h:mm a")}
-                    </Typography>
-                  </div>
-                )}
-                {fullFileInfo.content?.size !== undefined && (
-                  <div className={classes.subInfoBox}>
-                    <Typography
-                      variant="body1"
-                      component="p"
-                    >
-                      <Trans>File size</Trans>
-                    </Typography>
-                    <Typography
-                      className={classes.subSubtitle}
-                      variant="body2"
-                      component="p"
-                    >
-                      {formatBytes(fullFileInfo.content?.size)}
-                    </Typography>
-                  </div>
-                )}
-              </div>
-              <div className={classes.technicalContainer}>
-                <Typography
-                  className={classes.infoHeading}
-                  variant="h5"
-                  component="h5"
-                >
-                  <Trans>Technical</Trans>
-                </Typography>
-                {fullFileInfo.persistent?.stored_cid !== undefined && (
-                  <div className={classes.subInfoBox}>
-                    <Typography
-                      variant="body1"
-                      component="p"
-                    >
-                      <Trans>Stored by miner</Trans>
-                    </Typography>
-                    <Typography
-                      className={classes.subSubtitle}
-                      variant="body2"
-                      component="p"
-                    >
-                      {fullFileInfo.persistent?.stored_cid}
-                    </Typography>
-                  </div>
-                )}
-                {fullFileInfo.persistent?.stored_cid !== undefined && (
-                  <div className={classes.subInfoBox}>
-                    <Typography
-                      variant="body1"
-                      component="p"
-                    >
-                      <Trans>Number of copies (Replication Factor)</Trans>
-                    </Typography>
-                    <Typography
-                      className={classes.subSubtitle}
-                      variant="body2"
-                      component="p"
-                    >
-                      {fullFileInfo.persistent?.stored_cid}
-                    </Typography>
-                  </div>
-                )}
-                <div className={classes.subInfoBox}>
-                  <Grid
-                    item
-                    flexDirection="row"
-                  >
-                    <Typography
-                      variant="body1"
-                      component="p"
-                    >
-                      <Trans>CID (Content Identifier)</Trans>
-                    </Typography>
-                  </Grid>
-                  <Typography
-                    className={classes.subSubtitle}
-                    variant="body2"
-                    component="p"
-                  >
-                    {fullFileInfo.content?.cid}
-                  </Typography>
-                </div>
-              </div>
-            </div>
-          </Grid>
-          <Grid
-            item
-            flexDirection="row"
-            className={classes.buttonsContainer}
-          >
-            <div className={classes.copyContainer}>
-              <Button
-                type="submit"
-                size="large"
-                variant="primary"
-                className={classes.copyButton}
-                onClick={onCopyCID}
-              >
-                <Trans>Copy CID</Trans>
-              </Button>
-              <div className={clsx(classes.copiedFlag, { "active": copied })}>
-                <span>
-                  <Trans>
-                      Copied!
-                  </Trans>
-                </span>
-              </div>
-            </div>
-            <CustomButton
-              onClick={() => close()}
-              size="large"
-              className={classes.closeButton}
-              variant="outline"
-              type="button"
+      <Grid
+        item
+        xs={12}
+        sm={12}
+        className={classes.infoContainer}
+      >
+        <div className={classes.infoBox}>
+          <div>
+            <Typography
+              className={classes.infoHeading}
+              variant="h5"
+              component="h5"
             >
-              <Trans>Close</Trans>
-            </CustomButton>
-          </Grid>
-        </>
-      )}
+              <Trans>General</Trans>
+            </Typography>
+          </div>
+        </div>
+      </Grid>
+      <Grid
+        item
+        flexDirection="row"
+        className={classes.buttonsContainer}
+      >
+        <CustomButton
+          onClick={() => close()}
+          size="large"
+          className={classes.closeButton}
+          variant="outline"
+          type="button"
+        >
+          <Trans>Cancel</Trans>
+        </CustomButton>
+        <div className={classes.copyContainer}>
+          <Button
+            type="submit"
+            size="large"
+            variant="primary"
+            className={classes.mainButton}
+            onClick={onNextStep}
+          >
+            <Trans>Next</Trans>
+          </Button>
+        </div>
+      </Grid>
     </CustomModal>
   )
 }

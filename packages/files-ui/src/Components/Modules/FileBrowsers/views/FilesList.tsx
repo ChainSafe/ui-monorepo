@@ -1093,11 +1093,7 @@ const FilesList = ({ isShared = false }: Props) => {
       }
       { filePath && isShareFileModalOpen &&
         <ShareFileModal
-          filePath={filePath}
-          close={() => {
-            setIsShareFileModalOpen(false)
-            setFilePath(undefined)
-          }}
+          close={() => setIsShareFileModalOpen(false)}
         />
       }
     </article>
