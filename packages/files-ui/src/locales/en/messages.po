@@ -67,6 +67,9 @@ msgstr "Bin"
 msgid "Browser:"
 msgstr "Browser:"
 
+msgid "Bucket id"
+msgstr "Bucket id"
+
 msgid "By connecting your wallet, you agree to our <0>Terms of Service</0> and <1>Privacy Policy</1>"
 msgstr "By connecting your wallet, you agree to our <0>Terms of Service</0> and <1>Privacy Policy</1>"
 
@@ -133,6 +136,9 @@ msgstr "Copied!"
 msgid "Copy CID"
 msgstr "Copy CID"
 
+msgid "Copy info"
+msgstr "Copy info"
+
 msgid "Create"
 msgstr "Create"
 
@@ -156,6 +162,9 @@ msgstr "Date uploaded"
 
 msgid "Decryption failed"
 msgstr "Decryption failed"
+
+msgid "Decryption key"
+msgstr "Decryption key"
 
 msgid "Delete"
 msgstr "Delete"
@@ -229,6 +238,9 @@ msgstr "File Info"
 msgid "File format not supported."
 msgstr "File format not supported."
 
+msgid "File path"
+msgstr "File path"
+
 msgid "File size"
 msgstr "File size"
 
@@ -288,6 +300,9 @@ msgstr "Home"
 
 msgid "I understand the risk"
 msgstr "I understand the risk"
+
+msgid "If you think this file does not comply with our <0>Terms of Service</0>, please send the following information to report@files.chainsafe.io. Beware that by sending the file's decryption key, an admin can then decrypt any file in this shared folder."
+msgstr "If you think this file does not comply with our <0>Terms of Service</0>, please send the following information to report@files.chainsafe.io. Beware that by sending the file's decryption key, an admin can then decrypt any file in this shared folder."
 
 msgid "Info"
 msgstr "Info"
@@ -474,6 +489,12 @@ msgstr "Rename file"
 
 msgid "Rename folder"
 msgstr "Rename folder"
+
+msgid "Report"
+msgstr "Report"
+
+msgid "Report a File"
+msgstr "Report a File"
 
 msgid "Requested from"
 msgstr "Requested from"
