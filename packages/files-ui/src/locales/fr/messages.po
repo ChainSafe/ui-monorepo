@@ -68,6 +68,9 @@ msgstr "Corbeille"
 msgid "Browser:"
 msgstr "Explorateur :"
 
+msgid "Bucket id"
+msgstr ""
+
 msgid "By connecting your wallet, you agree to our <0>Terms of Service</0> and <1>Privacy Policy</1>"
 msgstr "En connectant votre portefeuille, vous acceptez nos <0>conditions de service</0> et notre <1>politique de confidentialité</1>"
 
@@ -134,6 +137,9 @@ msgstr "Copié !"
 msgid "Copy CID"
 msgstr "Copier le CID"
 
+msgid "Copy info"
+msgstr ""
+
 msgid "Create"
 msgstr "Créer"
 
@@ -157,6 +163,9 @@ msgstr "Téléversé le"
 
 msgid "Decryption failed"
 msgstr "Le déchiffrement a échoué"
+
+msgid "Decryption key"
+msgstr ""
 
 msgid "Delete"
 msgstr "Supprimer"
@@ -230,6 +239,9 @@ msgstr "Infos du fichier"
 msgid "File format not supported."
 msgstr "Format de fichier non pris en charge."
 
+msgid "File path"
+msgstr ""
+
 msgid "File size"
 msgstr "Taille"
 
@@ -289,6 +301,9 @@ msgstr "Accueil"
 
 msgid "I understand the risk"
 msgstr "Je prends le risque"
+
+msgid "If you think this file does not comply with our <0>Terms of Service</0>, please send the following information to report@files.chainsafe.io. Beware that by sending the file's decryption key, an admin can then decrypt any file in this shared folder."
+msgstr ""
 
 msgid "Info"
 msgstr "Infos"
@@ -475,6 +490,12 @@ msgstr "Renommer le fichier"
 
 msgid "Rename folder"
 msgstr "Renommer le dossier"
+
+msgid "Report"
+msgstr ""
+
+msgid "Report a File"
+msgstr ""
 
 msgid "Requested from"
 msgstr "Envoyé par"
