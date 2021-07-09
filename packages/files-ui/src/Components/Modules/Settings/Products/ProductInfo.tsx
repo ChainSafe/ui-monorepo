@@ -4,6 +4,7 @@ import { makeStyles, createStyles } from "@chainsafe/common-theme"
 import { CSFTheme } from "../../../../Themes/types"
 import clsx from "clsx"
 import { t, Trans } from "@lingui/macro"
+import { Product } from "@chainsafe/files-api-client"
 
 const useStyles = makeStyles(({ constants, palette, typography }: CSFTheme) =>
   createStyles({
@@ -42,32 +43,23 @@ const useStyles = makeStyles(({ constants, palette, typography }: CSFTheme) =>
   })
 )
 
-interface PlanBoxProps {
-  plan: {
-    title: string
-    planFor: string
-    prices: {
-      monthly: number
-      yearly: number
-    }
-    features: string[]
-  }
-  billingPeriod: "monthly" | "yearly"
-  rootClass: string
+interface ProductInfoProps {
+  product: Product
+  className: string
 }
 
-const PlanBox = ({ plan, billingPeriod, rootClass }: PlanBoxProps) => {
+const ProductInfo = ({ product, className }: ProductInfoProps) => {
   const classes = useStyles()
-  const { title, planFor, prices: { monthly, yearly }, features } = plan
-
+  const { description, name, prices } = product
+  const { tax_behavior, recurring, type, currency, unit_amount } = prices
   return (
-    <div className={clsx(classes.container, rootClass)}>
+    <div className={clsx(classes.container, className)}>
       <Typography
         variant="h4"
         component="h4"
         className={classes.planFor}
       >
-        <Trans>{planFor}</Trans>
+        <Trans></Trans>
       </Typography>
       <Typography
         variant="h3"
@@ -75,26 +67,22 @@ const PlanBox = ({ plan, billingPeriod, rootClass }: PlanBoxProps) => {
         className={classes.title}
       >
         {/* not adding translations to titles */}
-        {title}
+        {name}
       </Typography>
-      {features.map((feature, index) => (
-        <Typography
-          key={index}
-          variant="body1"
-          component="p"
-          className={classes.feature}
-        >
-          <Trans>{feature}</Trans>
-        </Typography>
-      ))
-      }
       <Typography
+        variant="body1"
+        component="p"
+        className={classes.feature}
+      >
+        {description}
+      </Typography>
+      {/* <Typography
         variant="h3"
         component="h3"
         className={classes.price}
       >
         {t`$${billingPeriod === "monthly" ? monthly : yearly} USD/${billingPeriod === "monthly"  ? "month" : "year"}`}
-      </Typography>
+      </Typography> */}
       <div
         className={classes.buttonLink}
       >
@@ -110,4 +98,4 @@ const PlanBox = ({ plan, billingPeriod, rootClass }: PlanBoxProps) => {
   )
 }
 
-export default PlanBox
+export default ProductInfo

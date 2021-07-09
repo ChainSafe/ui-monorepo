@@ -1,5 +1,4 @@
 import * as React from "react"
-import { useFilesApi } from "./FilesApiContext"
 import axios, { AxiosResponse } from "axios"
 
 type BillingContextProps = {
@@ -31,11 +30,9 @@ interface IStripeResponse {
 }
 
 const BillingProvider = ({ children }: BillingContextProps) => {
-  const { filesApiClient } = useFilesApi()
-
-  const addCard = async (cardToken: string) => {
+  const addCard = async () => {
     try {
-      await filesApiClient.addCard({ token: cardToken })
+      // await filesApiClient.addCard({ token: cardToken })
       return Promise.resolve()
     } catch (error) {
       return Promise.reject("There was an error adding card.")

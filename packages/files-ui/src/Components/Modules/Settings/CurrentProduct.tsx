@@ -62,7 +62,7 @@ const useStyles = makeStyles(({ constants, palette, breakpoints }: ITheme) =>
   })
 )
 
-const PlanView: React.FC = () => {
+const CurrentProduct: React.FC = () => {
   const classes = useStyles()
   const { spaceUsed } = useFiles()
 
@@ -143,4 +143,4 @@ const PlanView: React.FC = () => {
   )
 }
 
-export default PlanView
+export default CurrentProduct

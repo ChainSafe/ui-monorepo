@@ -1,11 +1,13 @@
 import React, { useState } from "react"
 import { makeStyles, createStyles } from "@chainsafe/common-theme"
 import { CSFTheme } from "../../../../Themes/types"
-import { plans } from "../../../../Utils/plans"
-import PlanBox from "./PlanBox"
+import ProductInfo from "./ProductInfo"
 import { ArrowLeftIcon, Link, RadioInput, Typography } from "@chainsafe/common-components"
 import { t, Trans } from "@lingui/macro"
 import { ROUTE_LINKS } from "../../../FilesRoutes"
+import { useFilesApi } from "../../../../Contexts/FilesApiContext"
+import { Product } from "@chainsafe/files-api-client"
+import { useEffect } from "react"
 
 const useStyles = makeStyles(({ constants, palette, breakpoints }: CSFTheme) =>
   createStyles({
@@ -67,9 +69,18 @@ const useStyles = makeStyles(({ constants, palette, breakpoints }: CSFTheme) =>
   })
 )
 
-const Plans = () => {
+const Products = () => {
   const classes = useStyles()
   const [billingPeriod, setBillingPeriod] = useState<"monthly" | "yearly">("monthly")
+  const { filesApiClient } = useFilesApi()
+  const [products, setProducts] = useState<Product[]>([])
+
+  useEffect(() => {
+    filesApiClient.getAllProducts().then(prods => {
+      console.log(prods)
+      // setProducts(prods)
+    }).catch(console.error)
+  }, [filesApiClient])
 
   return (
     <div className={classes.root}>
@@ -101,25 +112,15 @@ const Plans = () => {
         </div>
       </div>
       <div className={classes.container}>
-        <PlanBox
-          plan={plans[0]}
-          rootClass={classes.plan1}
-          billingPeriod={billingPeriod}
-        />
-        <PlanBox
-          plan={plans[1]}
-          rootClass={classes.plan2}
-          billingPeriod={billingPeriod}
-        />
-        <PlanBox
-          plan={plans[2]}
-          rootClass={classes.plan3}
-          billingPeriod={billingPeriod}
-        />
+        {products.map(p => <ProductInfo
+          product={p}
+          className={classes.plan1}
+          key={p.id}
+        />)}
       </div>
     </div>
 
   )
 }
 
-export default Plans
+export default Products

@@ -1,8 +1,8 @@
 import React from "react"
-import Plans from "../Modules/Settings/Plans"
+import Products from "../Modules/Settings/Products/Products"
 
 const PlansPage = () => {
-  return <Plans />
+  return <Products />
 }
 
 export default PlansPage

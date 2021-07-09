@@ -15,7 +15,7 @@ import { Tabs,
 import { makeStyles, ITheme, createStyles, useThemeSwitcher } from "@chainsafe/common-theme"
 import { ROUTE_LINKS, SettingsPath, SETTINGS_BASE } from "../../FilesRoutes"
 import { t, Trans } from "@lingui/macro"
-import Plan from "./Plan"
+import Plan from "./CurrentProduct"
 import { ProfileIcon } from "@chainsafe/common-components"
 import clsx from "clsx"
 import Security from "./Security"
