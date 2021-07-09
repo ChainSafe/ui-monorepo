@@ -82,7 +82,7 @@ const useStyles = makeStyles(
         paddingRight: 5,
         marginTop: 10
       },
-      shareNameInput: {
+      shareFolderNameInput: {
         display: "block"
       },
       inputLabel: {
@@ -144,7 +144,7 @@ const CreateSharedFolderModal = ({ modalOpen, close }: ICreateSharedFolderModalP
         </div>
         <div className={classes.modalFlexItem}>
           <TextInput
-            className={classes.shareNameInput}
+            className={classes.shareFolderNameInput}
             labelClassName={classes.inputLabel}
             label={t`Shared Folder Name`}
             value={sharedFolderName}
@@ -181,7 +181,8 @@ const CreateSharedFolderModal = ({ modalOpen, close }: ICreateSharedFolderModalP
               { label: t`Read content`, value: "read" }
             ]}
             value={permissions}
-            onChange={(val) => setPermissions(val)} />
+            onChange={(val) => setPermissions(val)}
+          />
         </div>
         <div className={clsx(classes.modalFlexItem, classes.buttons)}>
           <CustomButton

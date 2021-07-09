@@ -1,17 +1,16 @@
-import {
-  createStyles,
-  makeStyles
-} from "@chainsafe/common-theme"
-import React from "react"
+import { createStyles, makeStyles } from "@chainsafe/common-theme"
+import React, { useState } from "react"
 import CustomModal from "../../Elements/CustomModal"
-import CustomButton from "../../Elements/CustomButton"
-import { Trans } from "@lingui/macro"
-import { Button, Grid, Typography } from "@chainsafe/common-components"
+import { t, Trans } from "@lingui/macro"
+import { Button, Loading, SelectInput, ShareAltSvg, TagsInput, TextInput, Typography } from "@chainsafe/common-components"
 import { CSFTheme } from "../../../Themes/types"
 import { useCallback } from "react"
+import { useCreateSharedFolder } from "./hooks/useCreateSharedFolder"
+import { useLookupSharedFolderUser } from "./hooks/useLookupUser"
+import { SharedFolderCreationPermission } from "./types"
 
 const useStyles = makeStyles(
-  ({ breakpoints, constants, palette, typography, zIndex, animation }: CSFTheme) => {
+  ({ breakpoints, constants, palette, typography, zIndex }: CSFTheme) => {
     return createStyles({
       modalRoot: {
         zIndex: zIndex?.blocker,
@@ -21,12 +20,17 @@ const useStyles = makeStyles(
         backgroundColor: constants.fileInfoModal.background,
         color: constants.fileInfoModal.color,
         [breakpoints.down("md")]: {
-          bottom:
-            Number(constants?.mobileButtonHeight) + constants.generalUnit,
+          bottom: Number(constants?.mobileButtonHeight) + constants.generalUnit,
           borderTopLeftRadius: `${constants.generalUnit * 1.5}px`,
           borderTopRightRadius: `${constants.generalUnit * 1.5}px`,
           maxWidth: `${breakpoints.width("md")}px !important`
         }
+      },
+      root: {
+        padding: constants.generalUnit * 4,
+        flexDirection: "column",
+        display: "flex",
+        alignItems: "center"
       },
       closeButton: {
         flex: 1,
@@ -47,22 +51,13 @@ const useStyles = makeStyles(
           textAlign: "center"
         }
       },
-      heading: {
-        fontWeight: typography.fontWeight.semibold,
-        textAlign: "left",
-        [breakpoints.down("md")]: {
-          textAlign: "center"
-        }
-      },
       infoHeading: {
         fontWeight: typography.fontWeight.semibold,
         textAlign: "left"
       },
       infoContainer: {
         borderTop: constants.fileInfoModal.infoContainerBorderTop,
-        padding: `${constants.generalUnit * 2}px ${
-          constants.generalUnit * 3
-        }px`
+        padding: `${constants.generalUnit * 2}px ${constants.generalUnit * 3}px`
       },
       infoBox: {
         paddingLeft: constants.generalUnit
@@ -79,52 +74,14 @@ const useStyles = makeStyles(
         }px`,
         borderBottom: `1px solid ${palette.additional["gray"][3]}`
       },
-      loadingContainer: {
-        margin: constants.generalUnit * 2
-      },
       buttonsContainer: {
         display: "flex",
         padding: `0 ${constants.generalUnit * 4}px ${constants.generalUnit * 4}px`
       },
-      copiedFlag: {
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
-        left: "50%",
-        bottom: "calc(100% + 5px)",
-        position: "absolute",
-        transform: "translate(-50%, 0%)",
-        zIndex: zIndex?.layer1,
-        transitionDuration: `${animation.transform}ms`,
-        opacity: 0,
-        visibility: "hidden",
-        backgroundColor: palette.additional["gray"][9],
-        color: palette.additional["gray"][1],
-        padding: `${constants.generalUnit / 2}px ${constants.generalUnit}px`,
-        borderRadius: 2,
-        "&:after": {
-          transitionDuration: `${animation.transform}ms`,
-          content: "''",
-          position: "absolute",
-          top: "100%",
-          left: "50%",
-          transform: "translate(-50%,0)",
-          width: 0,
-          height: 0,
-          borderLeft: "5px solid transparent",
-          borderRight: "5px solid transparent",
-          borderTop: `5px solid ${ palette.additional["gray"][9]}`
-        },
-        "&.active": {
-          opacity: 1,
-          visibility: "visible"
-        }
-      },
       mainButton: {
         width: "100%"
       },
-      copyContainer: {
+      mainButtonContainer: {
         position: "relative",
         flexBasis: "75%",
         color: palette.additional["gray"][9],
@@ -132,6 +89,49 @@ const useStyles = makeStyles(
           flexBasis: "100%",
           margin: `${constants.generalUnit * 2}px`
         }
+      },
+      heading: {
+        color: constants.createShareModal.color,
+        fontWeight: typography.fontWeight.semibold,
+        marginBottom: 10
+      },
+      iconBacking: {
+        backgroundColor: constants.createShareModal.iconBackingColor,
+        width: 48,
+        height: 48,
+        borderRadius: 24,
+        marginBottom: 16,
+        "& > svg": {
+          width: 16,
+          height: 16,
+          fill: palette.primary.main,
+          position: "relative",
+          display: "block",
+          transform: "translate(-50%, -50%)",
+          top: "50%",
+          left: "50%"
+        }
+      },
+      inputLabel: {
+        fontSize: 16,
+        fontWeight: 600
+      },
+      modalFlexItem: {
+        width: "100%",
+        margin: 5
+      },
+      loadingContainer: {
+        width: "100%",
+        paddingTop: constants.generalUnit * 6,
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        "& svg": {
+          marginBottom: constants.generalUnit * 2
+        }
+      },
+      shareFolderNameInput: {
+        display: "block"
       }
     })
   }
@@ -141,12 +141,110 @@ interface IShareFileProps {
   close: () => void
 }
 
+type Step = "1_USERS" | "2_SHARED_FOLDER"
+
 const ShareFileModal = ({ close }: IShareFileProps) => {
   const classes = useStyles()
+  const { handleCreateSharedFolder, isCreatingSharedFolder } = useCreateSharedFolder()
+  const [sharedFolderName, setSharedFolderName] = useState("")
+  const { sharedFolderUsers, setSharedFolderUsers, handleLookupUser } = useLookupSharedFolderUser()
+  const [permissions, setPermissions] = useState<SharedFolderCreationPermission>(undefined)
+  const [ currentStep, setCurrentStep ] = useState<Step>("1_USERS")
+  const [createNewSharedFolder, setCreateNewSharedFolder] = useState(false)
+  const [bucketIdSelected, setBucketIdSelected] = useState("")
 
   const onNextStep = useCallback(() => {
-    console.log("next")
-  }, [])
+    if(currentStep === "1_USERS") {
+      setCurrentStep("2_SHARED_FOLDER")
+    } else {
+      handleCreateSharedFolder(sharedFolderName, sharedFolderUsers, permissions)
+    }
+  }, [handleCreateSharedFolder, permissions, sharedFolderName, sharedFolderUsers, currentStep])
+
+
+  const Loader = () => (
+    <div className={classes.loadingContainer}>
+      <Loading
+        size={24}
+        type="light"
+      />
+      <Typography
+        variant="body2"
+        component="p"
+      >
+        <Trans>Sharing your file, this may take some time depending on the file size…</Trans>
+      </Typography>
+    </div>
+  )
+
+  const Step1 = () => <>
+    <TagsInput
+      onChange={(val) => {
+        (val && val.length > 0)
+          ? setSharedFolderUsers(val?.map(v => ({ label: v.label, value: v.value, data: v.data })))
+          : setSharedFolderUsers([])
+      }}
+      label={t`Share with`}
+      labelClassName={classes.inputLabel}
+      value={sharedFolderUsers}
+      fetchTags={handleLookupUser}
+      placeholder={t`Add by sharing address, username or wallet address`}
+      styles={{
+        control: (provided) => ({
+          ...provided,
+          minHeight: 90,
+          alignContent: "start"
+        })
+      }}/>
+    <div className={classes.modalFlexItem}>
+      <SelectInput
+        label={t`Allow them to`}
+        labelClassName={classes.inputLabel}
+        options={[
+          { label: t`Add/remove content`, value: "write" },
+          { label: t`Read content`, value: "read" }
+        ]}
+        value={permissions}
+        onChange={(val) => setPermissions(val)} />
+    </div>
+  </>
+
+  const Step2 = () => {
+    if (createNewSharedFolder) {
+      return (
+        <div className={classes.modalFlexItem}>
+          <TextInput
+            className={classes.shareFolderNameInput}
+            labelClassName={classes.inputLabel}
+            label={t`Shared Folder Name`}
+            value={sharedFolderName}
+            onChange={(value) => {setSharedFolderName(value?.toString() || "")}}
+            autoFocus
+          />
+        </div>
+      )
+    }
+
+    return (
+      <div className={classes.modalFlexItem}>
+        <Typography
+          variant="body2"
+          component="p"
+        >
+          <Trans>Select a shared folder. Only the ones with the currently selected users will be displayed</Trans>
+        </Typography>
+        <SelectInput
+          label={t`Add to share folder`}
+          labelClassName={classes.inputLabel}
+          options={[
+            { label: "some name", value: "some-bucket-id" }
+          ]}
+          value={bucketIdSelected}
+          onChange={(val: string) => setBucketIdSelected(val)}
+        />
+      </div>
+    )
+  }
 
   return (
     <CustomModal
@@ -156,64 +254,47 @@ const ShareFileModal = ({ close }: IShareFileProps) => {
       closePosition="none"
       maxWidth="sm"
     >
-      <Grid
-        item
-        xs={12}
-        sm={12}
-        className={classes.paddedContainer}
-      >
-        <Typography
-          className={classes.title}
-          variant="h5"
-          component="h5"
-        >
-          <Trans>Share a File</Trans>
-        </Typography>
-      </Grid>
-      <Grid
-        item
-        xs={12}
-        sm={12}
-        className={classes.infoContainer}
-      >
-        <div className={classes.infoBox}>
-          <div>
-            <Typography
-              className={classes.infoHeading}
-              variant="h5"
-              component="h5"
+      <div className={classes.root}>
+
+        <div className={classes.iconBacking}>
+          <ShareAltSvg />
+        </div>
+        <div className={classes.heading}>
+          <Typography className={classes.inputLabel}>
+            <Trans>Share File</Trans>
+          </Typography>
+        </div>
+        <div className={classes.modalFlexItem}>
+          {isCreatingSharedFolder && <Loader />}
+          {currentStep === "1_USERS" && <Step1 />}
+          {currentStep === "2_SHARED_FOLDER" && <Step2 />}
+        </div>
+        <div className={classes.buttonsContainer}>
+          <div className={classes.mainButtonContainer}>
+            <Button
+              type="submit"
+              size="large"
+              variant="primary"
+              className={classes.mainButton}
+              onClick={onNextStep}
             >
-              <Trans>General</Trans>
-            </Typography>
+              {
+                currentStep === "1_USERS"
+                  ? <Trans>Next</Trans>
+                  : <Trans>Share</Trans>
+              }
+            </Button>
+            <Button
+              size="large"
+              variant="secondary"
+              className={classes.mainButton}
+              onClick={close}
+            >
+              <Trans>Cancel</Trans>
+            </Button>
           </div>
         </div>
-      </Grid>
-      <Grid
-        item
-        flexDirection="row"
-        className={classes.buttonsContainer}
-      >
-        <CustomButton
-          onClick={() => close()}
-          size="large"
-          className={classes.closeButton}
-          variant="outline"
-          type="button"
-        >
-          <Trans>Cancel</Trans>
-        </CustomButton>
-        <div className={classes.copyContainer}>
-          <Button
-            type="submit"
-            size="large"
-            variant="primary"
-            className={classes.mainButton}
-            onClick={onNextStep}
-          >
-            <Trans>Next</Trans>
-          </Button>
-        </div>
-      </Grid>
+      </div>
     </CustomModal>
   )
 }
