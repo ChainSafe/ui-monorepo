@@ -8,7 +8,7 @@ describe("Bucket management", () => {
     it("can create a bucket", () => {
       cy.web3Login({ clearPins: true })
 
-      // create a bucket and see it in the bucket list
+      // create a bucket and see it in the bucket table
       navigationMenu.bucketsNavButton().click()
       bucketsPage.createBucketButton().click()
       bucketsPage.bucketNameInput().type("Awesome Bucket")
@@ -21,7 +21,7 @@ describe("Bucket management", () => {
       bucketsPage.createBucketForm().should("not.exist")
     })
 
-    it.only("can delete a bucket", () => {
+    it("can delete a bucket", () => {
       cy.web3Login({ clearPins: true })
 
       // delete a bucket ensure it's row is removed

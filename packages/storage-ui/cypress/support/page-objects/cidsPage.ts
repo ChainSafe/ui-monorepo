@@ -24,5 +24,13 @@ export const cidsPage = {
   pinSubmitButton: () => cy.get("[data-cy=button-submit-pin]"),
 
   // menu elements
-  unpinMenuOption: () => cy.get("[data-cy=menu-unpin]")
+  unpinMenuOption: () => cy.get("[data-cy=menu-unpin]"),
+
+  // helpers and convenience functions
+  addPinnedCid() {
+    this.pinButton().click()
+    this.cidInput().type("QmUxmKgVh6XGP9s63U1q41LG9oXDkihZPKSAoQMbeEAEA8")
+    this.pinSubmitButton().click()
+    this.cidItemRow().should("have.length", 1)
+  }
 }
