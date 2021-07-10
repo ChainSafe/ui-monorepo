@@ -14,6 +14,8 @@ export const cidsPage = {
   createdTableHeader: () => cy.get("[data-cy=table-header-created]"),
   sizeTableHeader: () => cy.get("[data-cy=table-header-size]"),
   statusTableHeader: () => cy.get("[data-cy=table-header-status]"),
+  cidItemRow: () => cy.get("[data-cy=row-bucket-item]", { timeout: 20000 }),
+  cidRowKebabButton: () => cy.get("[data-testid=dropdown-title-cid-kebab]"),
   cidRowKebabButton: () => cy.get("[data-testid=dropdown-title-cid-kebab]"),
 
   // pin cid modal elements

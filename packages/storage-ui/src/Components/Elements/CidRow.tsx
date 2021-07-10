@@ -68,6 +68,7 @@ const CidRow = ({ pinStatus }: Props) => {
     <TableRow
       type="grid"
       className={classes.tableRow}
+      data-cy="row-cid-item"
     >
       <TableCell className={classes.cid}>
         {pinStatus.pin?.cid}
