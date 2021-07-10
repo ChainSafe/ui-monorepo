@@ -5,7 +5,7 @@ describe("Bucket management", () => {
 
   context("desktop", () => {
 
-    it("can add files and cancel", () => {
+    it("can create a bucket", () => {
       cy.web3Login({ clearPins: true })
 
       // create a bucket and see it in the bucket list
@@ -14,6 +14,22 @@ describe("Bucket management", () => {
       bucketsPage.bucketNameInput().type("Awesome Bucket")
       bucketsPage.createBucketSubmitButton().click()
       bucketsPage.bucketItemRow().should("have.length", 1)
+
+      // open create bucket modal and cancel it
+      bucketsPage.createBucketButton().click()
+      bucketsPage.createBucketCancelButton().click()
+      bucketsPage.createBucketForm().should("not.exist")
+    })
+
+    it.only("can delete a bucket", () => {
+      cy.web3Login({ clearPins: true })
+
+      // delete a bucket ensure it's row is removed
+      navigationMenu.bucketsNavButton().click()
+      bucketsPage.createBucket("Delete Me")
+      bucketsPage.bucketRowKebabButton().first().click()
+      bucketsPage.deleteBucketMenuOption().first().click()
+      bucketsPage.bucketItemRow().should("not.exist")
     })
   })
 })
