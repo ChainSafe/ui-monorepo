@@ -18,7 +18,7 @@ export const ROUTE_LINKS = {
 
 
 
-const StorageRoutes = () => {
+const GamingRoutes = () => {
   const { isLoggedIn } = useGamingApi()
 
   return (
@@ -40,4 +40,4 @@ const StorageRoutes = () => {
   )
 }
 
-export default StorageRoutes
+export default GamingRoutes
