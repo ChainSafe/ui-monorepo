@@ -51,7 +51,7 @@ type StorageContext = {
   refreshPins: () => void
   unpin: (requestId: string) => void
   storageBuckets: Bucket[]
-  createBucket: (name: string) => void
+  createBucket: (name: string) => Promise<void>
   removeBucket: (id: string) => void
 }
 
@@ -150,15 +150,18 @@ const StorageProvider = ({ children }: StorageContextProps) => {
     return storageApiClient.addPin(({ cid }))
   }, [storageApiClient])
 
-  const createBucket = useCallback((name: string) => {
-    storageApiClient.createBucket({
-      name,
-      type: "fps",
-      public: "read",
-      encryption_key:""
-    }).then(() =>
+  const createBucket = useCallback(async (name: string) => {
+    try {
+      await storageApiClient.createBucket({
+        name,
+        type: "fps",
+        public: "read",
+        encryption_key:""
+      })
       refreshBuckets()
-    ).catch(console.error)
+    } catch (error) {
+      console.error(error)
+    }
   }, [storageApiClient, refreshBuckets])
 
   const removeBucket = useCallback((id: string) => {
