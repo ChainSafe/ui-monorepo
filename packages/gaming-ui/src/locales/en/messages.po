@@ -28,8 +28,8 @@ msgstr "By connecting your wallet, you agree to our <0>Terms of Service</0> and 
 msgid "Check your inbox! We've sent another email."
 msgstr "Check your inbox! We've sent another email."
 
-msgid "Connect Wallet to Storage"
-msgstr "Connect Wallet to Storage"
+msgid "Connect Wallet to Gaming"
+msgstr "Connect Wallet to Gaming"
 
 msgid "Connect a new wallet"
 msgstr "Connect a new wallet"
