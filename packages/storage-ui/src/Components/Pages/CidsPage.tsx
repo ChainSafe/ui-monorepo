@@ -62,7 +62,6 @@ const CidsPage = () => {
 
     switch (column) {
     default: {
-      // case "name": {
       temp = pins.sort((a, b) => (a.created < b.created ? -1 : 1))
       break
     }
