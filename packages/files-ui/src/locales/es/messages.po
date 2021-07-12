@@ -59,6 +59,9 @@ msgstr "Aprobar"
 msgid "Are we on the right track? Let us know in less than 1 minute."
 msgstr ""
 
+msgid "Back"
+msgstr ""
+
 msgid "Backup secret phrase"
 msgstr ""
 
@@ -153,6 +156,9 @@ msgid "Create Shared Folder"
 msgstr ""
 
 msgid "Create a Shared Folder"
+msgstr ""
+
+msgid "Create a new shared folder"
 msgstr ""
 
 msgid "Create folder"
@@ -539,7 +545,7 @@ msgstr ""
 msgid "Security"
 msgstr "Seguridad"
 
-msgid "Select a shared folder. Only the ones with the currently selected users will be displayed"
+msgid "Select a shared folder. Only the ones your are owner or writer are displayed"
 msgstr ""
 
 msgid "Select a wallet"
@@ -718,6 +724,9 @@ msgstr "Utilice un método de inicio de sesión diferente"
 
 msgid "Use a saved browser"
 msgstr "Utilice un navegador guardado"
+
+msgid "Use an existing shared folder"
+msgstr ""
 
 msgid "Username"
 msgstr ""
