@@ -1,14 +1,14 @@
 import React, { useState } from "react"
 import { Button, GithubLogoIcon, GoogleLogoIcon, Loading, MailIcon, Typography } from "@chainsafe/common-components"
 import { createStyles, makeStyles, useThemeSwitcher } from "@chainsafe/common-theme"
-import { CSGTheme } from "../../Themes/types"
+import { CSGTheme } from "../../../Themes/types"
 import { t, Trans } from "@lingui/macro"
-import { useGamingApi } from "../../Contexts/GamingApiContext"
+import { useGamingApi } from "../../../Contexts/GamingApiContext"
 import { useWeb3 } from "@chainsafe/web3-context"
-import { ROUTE_LINKS } from "../GamingRoutes"
+import { ROUTE_LINKS } from "../../GamingRoutes"
 import clsx from "clsx"
 import { IdentityProvider } from "@chainsafe/files-api-client"
-import PasswordlessEmail from "./LoginModule/PasswordlessEmail"
+import PasswordlessEmail from "./PasswordlessEmail"
 
 const useStyles = makeStyles(
   ({ constants, palette, breakpoints, typography }: CSGTheme) =>
