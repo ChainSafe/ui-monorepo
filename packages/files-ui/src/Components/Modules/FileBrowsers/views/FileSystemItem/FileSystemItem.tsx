@@ -117,14 +117,14 @@ interface IFileSystemItemProps {
   deleteFile?: () => void
   recoverFile?: () => void
   viewFolder?: (cid: string) => void
-  setPreviewFileIndex: (fileIndex: number | undefined) => void
   moveFile?: () => void
   itemOperations: FileOperation[]
   resetSelectedFiles: () => void
   browserView: BrowserView
   reportFile?: (path: string) => void
   showFileInfo?: (path: string) => void
-  share?: (path: string) => void
+  share?: (path: string, fileIndex: number) => void
+  showPreview?: (fileIndex: number) => void
 }
 
 const FileSystemItem = ({
@@ -139,7 +139,6 @@ const FileSystemItem = ({
   deleteFile,
   recoverFile,
   viewFolder,
-  setPreviewFileIndex,
   moveFile,
   handleSelectCid,
   handleAddToSelectedCids,
@@ -148,7 +147,8 @@ const FileSystemItem = ({
   resetSelectedFiles,
   reportFile,
   showFileInfo,
-  share
+  share,
+  showPreview
 }: IFileSystemItemProps) => {
   const { downloadFile, currentPath, handleUploadOnDrop, moveItems } = useFileBrowser()
   const { cid, name, isFolder, content_type } = file
@@ -180,6 +180,9 @@ const FileSystemItem = ({
   const classes = useStyles()
   const filePath = useMemo(() => `${currentPath}${name}`, [currentPath, name])
 
+  const onFilePreview = useCallback(() => {
+    showPreview && showPreview(files.indexOf(file))
+  }, [file, files, showPreview])
 
   const allMenuItems: Record<FileOperation, IMenuItem> = useMemo(() => ({
     rename: {
@@ -235,7 +238,7 @@ const FileSystemItem = ({
           </span>
         </>
       ),
-      onClick: () => share && share(filePath)
+      onClick: () => share && share(filePath, files?.indexOf(file))
     },
     info: {
       contents: (
@@ -268,7 +271,7 @@ const FileSystemItem = ({
           </span>
         </>
       ),
-      onClick: () => setPreviewFileIndex(files?.indexOf(file))
+      onClick: () => onFilePreview()
     },
     view_folder: {
       contents: (
@@ -293,7 +296,8 @@ const FileSystemItem = ({
       onClick: () => reportFile && reportFile(filePath)
     }
   }),
-  [cid,
+  [
+    cid,
     classes.menuIcon,
     deleteFile,
     downloadFile,
@@ -304,10 +308,10 @@ const FileSystemItem = ({
     recoverFile,
     reportFile,
     setEditing,
-    setPreviewFileIndex,
     showFileInfo,
     viewFolder,
-    share
+    share,
+    onFilePreview
   ])
 
   const menuItems: IMenuItem[] = itemOperations.map(
@@ -369,10 +373,6 @@ const FileSystemItem = ({
   if (!editing && !isFolder) {
     dragMoveRef(fileOrFolderRef)
   }
-
-  const onFilePreview = useCallback(() => {
-    setPreviewFileIndex(files?.indexOf(file))
-  }, [file, files, setPreviewFileIndex])
 
   const onSingleClick = useCallback(
     (e) => {

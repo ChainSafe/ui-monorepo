@@ -79,7 +79,7 @@ type FilesContext = {
 }
 
 // This represents a File or Folder on the
-interface IFileSystemItem extends FileContentResponse {
+export interface IFileSystemItem extends FileContentResponse {
   isFolder: boolean
 }
 
