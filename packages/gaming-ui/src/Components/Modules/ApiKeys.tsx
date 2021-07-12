@@ -88,26 +88,26 @@ const useStyles = makeStyles(({ constants, breakpoints, animation }: CSGTheme) =
 
 const ApiKeys = () => {
   const classes = useStyles()
-  const { gamingApiClient: storageApiClient } = useGamingApi()
+  const { gamingApiClient } = useGamingApi()
   const [keys, setKeys] = useState<AccessKey[]>([])
 
   const fetchAccessKeys = useCallback(() => {
-    storageApiClient.listAccessKeys()
+    gamingApiClient.listAccessKeys()
       .then(result => setKeys(result))
       .catch(console.error)
-  }, [storageApiClient])
+  }, [gamingApiClient])
 
   const createAccessKey = useCallback(() => {
-    storageApiClient.createAccessKey()
+    gamingApiClient.createAccessKey()
       .then(fetchAccessKeys)
       .catch(console.error)
-  }, [fetchAccessKeys, storageApiClient])
+  }, [fetchAccessKeys, gamingApiClient])
 
   const deleteAccessKey = useCallback((id: string) => {
-    storageApiClient.deleteAccessKey(id)
+    gamingApiClient.deleteAccessKey(id)
       .then(fetchAccessKeys)
       .catch(console.error)
-  }, [storageApiClient, fetchAccessKeys])
+  }, [gamingApiClient, fetchAccessKeys])
 
   useEffect(() => {
     fetchAccessKeys()
