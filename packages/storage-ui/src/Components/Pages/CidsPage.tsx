@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useMemo, useState } from "react"
 import { makeStyles, createStyles } from "@chainsafe/common-theme"
 import { Button, PlusIcon, Table, TableBody, TableHead, TableHeadCell, TableRow, Typography } from "@chainsafe/common-components"
 import { useStorage } from "../../Contexts/StorageContext"
@@ -6,9 +6,10 @@ import { Trans } from "@lingui/macro"
 import CidRow from "../Elements/CidRow"
 import { CSSTheme } from "../../Themes/types"
 import AddCIDModal from "../Modules/AddCIDModal"
+import { PinStatus } from "@chainsafe/files-api-client"
 
-export const desktopGridSettings = "3fr 190px 190px 190px 190px 70px !important"
-export const mobileGridSettings = "3fr 190px 190px 190px 190px 70px !important"
+export const desktopGridSettings = "3fr 160px 120px 120px 140px 70px !important"
+export const mobileGridSettings = "3fr 160px 120px 120px 140px 70px !important"
 
 const useStyles = makeStyles(({ animation, breakpoints, constants }: CSSTheme) =>
   createStyles({
@@ -53,6 +54,29 @@ const CidsPage = () => {
   const classes = useStyles()
   const { pins } = useStorage()
   const [addCIDOpen, setAddCIDOpen] = useState(false)
+  const [column] = useState<"size" | "date_uploaded">("date_uploaded")
+  const [direction] = useState<"ascend" | "descend" | undefined>("descend")
+
+  const sortedPins: PinStatus[] = useMemo(() => {
+    let temp = []
+
+    switch (column) {
+    default: {
+      // case "name": {
+      temp = pins.sort((a, b) => (a.created < b.created ? -1 : 1))
+      break
+    }
+    case "size": {
+      temp = pins.sort((a, b) => (a.info?.size < b.info?.size ? -1 : 1))
+      break
+    }
+    case "date_uploaded": {
+      temp = pins.sort((a, b) => (a.created < b.created ? -1 : 1))
+      break
+    }
+    }
+    return direction === "descend" ? temp.reverse() : temp
+  }, [pins, direction, column])
 
   return (
     <>
@@ -121,7 +145,7 @@ const CidsPage = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {pins.map((pinStatus, index) =>
+            {sortedPins.map((pinStatus, index) =>
               <CidRow
                 pinStatus={pinStatus}
                 key={index}
