@@ -22,6 +22,15 @@ msgstr "Add API Key"
 msgid "Api Keys"
 msgstr "Api Keys"
 
+msgid "Back to plan settings"
+msgstr "Back to plan settings"
+
+msgid "Billed Monthly"
+msgstr "Billed Monthly"
+
+msgid "Billed Yearly"
+msgstr "Billed Yearly"
+
 msgid "By connecting your wallet, you agree to our <0>Terms of Service</0> and <1>Privacy Policy</1>"
 msgstr "By connecting your wallet, you agree to our <0>Terms of Service</0> and <1>Privacy Policy</1>"
 
@@ -103,6 +112,9 @@ msgstr "Please enter a valid email"
 msgid "Privacy Policy"
 msgstr "Privacy Policy"
 
+msgid "Purchase with card"
+msgstr "Purchase with card"
+
 msgid "Secret"
 msgstr "Secret"
 
@@ -150,6 +162,12 @@ msgstr "There was an error connecting your wallet"
 
 msgid "Try again"
 msgstr "Try again"
+
+msgid "Try for 7 days"
+msgstr "Try for 7 days"
+
+msgid "Upgrade your plan"
+msgstr "Upgrade your plan"
 
 msgid "Use a different login method"
 msgstr "Use a different login method"
