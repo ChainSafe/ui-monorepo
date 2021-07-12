@@ -43,6 +43,9 @@ msgstr ""
 msgid "Add more files"
 msgstr "Legg til flere filer"
 
+msgid "Add to share folder"
+msgstr ""
+
 msgid "Add/remove content"
 msgstr ""
 
@@ -532,6 +535,9 @@ msgstr ""
 msgid "Security"
 msgstr ""
 
+msgid "Select a shared folder. Only the ones with the currently selected users will be displayed"
+msgstr ""
+
 msgid "Select a wallet"
 msgstr ""
 
@@ -574,6 +580,9 @@ msgstr ""
 msgid "Share"
 msgstr "Del"
 
+msgid "Share File"
+msgstr ""
+
 msgid "Share with"
 msgstr ""
 
@@ -588,6 +597,9 @@ msgstr "Delte mapper"
 
 msgid "Shared with"
 msgstr "Delt med"
+
+msgid "Sharing your file, this may take some time depending on the file size…"
+msgstr ""
 
 msgid "Sign Out"
 msgstr "Logg ut"
