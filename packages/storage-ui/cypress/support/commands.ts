@@ -147,12 +147,11 @@ Cypress.Commands.add(
     cy.saveLocalAndSession()
 
     if(clearPins){
-      cy.clearPins(apiUrlBase)
-      cy.reload().then(() => {
+      cy.clearPins(apiUrlBase).then(() => {
+        cy.reload()
         cidsPage.cidsHeaderLabel().should("be.visible")
       })
     }
-
   }
 )
 
