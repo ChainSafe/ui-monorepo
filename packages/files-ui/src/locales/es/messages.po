@@ -80,6 +80,9 @@ msgstr "Navegador:"
 msgid "Buy more storage"
 msgstr ""
 
+msgid "Bucket id"
+msgstr ""
+
 msgid "By connecting your wallet, you agree to our <0>Terms of Service</0> and <1>Privacy Policy</1>"
 msgstr "Al conectar su billetera, acepta nuestras <0> Condiciones de servicio </0> y <1> Política de privacidad </1>"
 
@@ -146,6 +149,9 @@ msgstr "Copiado!"
 msgid "Copy CID"
 msgstr "Copiar CID"
 
+msgid "Copy info"
+msgstr ""
+
 msgid "Create"
 msgstr "Crear"
 
@@ -169,6 +175,9 @@ msgstr "Fecha de subida"
 
 msgid "Decryption failed"
 msgstr "Falló el descifrado"
+
+msgid "Decryption key"
+msgstr ""
 
 msgid "Delete"
 msgstr "Borrar"
@@ -242,6 +251,9 @@ msgstr "Información del archivo"
 msgid "File format not supported."
 msgstr "Formato de archivo no soportado."
 
+msgid "File path"
+msgstr ""
+
 msgid "File size"
 msgstr "Tamaño del archivo"
 
@@ -301,6 +313,9 @@ msgstr "Casa"
 
 msgid "I understand the risk"
 msgstr "Entiendo el riesgo"
+
+msgid "If you think this file does not comply with our <0>Terms of Service</0>, please send the following information to report@files.chainsafe.io. Beware that by sending the file's decryption key, an admin can then decrypt any file in this shared folder."
+msgstr ""
 
 msgid "Info"
 msgstr "Info"
@@ -486,6 +501,12 @@ msgid "Rename file"
 msgstr ""
 
 msgid "Rename folder"
+msgstr ""
+
+msgid "Report"
+msgstr ""
+
+msgid "Report a File"
 msgstr ""
 
 msgid "Requested from"
