@@ -11,6 +11,7 @@ export type FileOperation =
   | "recover"
   | "preview"
   | "view_folder"
+  | "report"
 
 export type BucketOperation =
   | "rename"

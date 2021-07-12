@@ -99,13 +99,6 @@ const getProviderSpecificParams = (loginType: LOGIN_TYPE):
       verifier: "chainsafe-uuid-testnet"
     }
   }
-  case "facebook": {
-    return {
-      typeOfLogin: loginType,
-      clientId: process.env.REACT_APP_FACEBOOK_CLIENT_ID || "",
-      verifier: "chainsafe-uuid-testnet"
-    }
-  }
   case "github":{
     return {
       typeOfLogin: loginType,
@@ -392,7 +385,6 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
       case "jwt":
         setLoggedinAs(t`Web3: ${centerEllipsis(String(address), 4)}`)
         break
-      case "facebook":
       case "google":
       case "github":
         setLoggedinAs(`${capitalize(loginType)}: ${centerEllipsis(userInfo.userInfo.email, 4)}`)

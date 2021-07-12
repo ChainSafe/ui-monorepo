@@ -153,11 +153,11 @@ const useStyles = makeStyles(
 )
 
 interface IFileInfoModuleProps {
-  fileInfoPath: string
+  filePath: string
   close: () => void
 }
 
-const FileInfoModal = ({ fileInfoPath, close }: IFileInfoModuleProps) => {
+const FileInfoModal = ({ filePath, close }: IFileInfoModuleProps) => {
   const classes = useStyles()
   const { filesApiClient } = useFilesApi()
   const [loadingFileInfo, setLoadingInfo] = useState(false)
@@ -169,7 +169,7 @@ const FileInfoModal = ({ fileInfoPath, close }: IFileInfoModuleProps) => {
     if (!bucket) return
 
     setLoadingInfo(true)
-    filesApiClient.getBucketObjectInfo(bucket.id, { path: fileInfoPath })
+    filesApiClient.getBucketObjectInfo(bucket.id, { path: filePath })
       .then((fullFileResponse) => {
         setFullFullInfo(fullFileResponse)
         setLoadingInfo(false)
@@ -177,20 +177,18 @@ const FileInfoModal = ({ fileInfoPath, close }: IFileInfoModuleProps) => {
       .catch(console.error)
       .finally(() => setLoadingInfo(false))
   }
-  , [bucket, fileInfoPath, filesApiClient])
+  , [bucket, filePath, filesApiClient])
 
   const [copied, setCopied] = useState(false)
   const debouncedSwitchCopied = debounce(() => setCopied(false), 3000)
 
-  const onCopyCID = async () => {
+  const onCopyCID = () => {
     if (fullFileInfo?.content?.cid) {
-      try {
-        await navigator.clipboard.writeText(fullFileInfo?.content?.cid)
-        setCopied(true)
-        debouncedSwitchCopied()
-      } catch (err) {
-        console.error(err)
-      }
+      navigator.clipboard.writeText(fullFileInfo?.content?.cid)
+        .then(() => {
+          setCopied(true)
+          debouncedSwitchCopied()
+        }).catch(console.error)
     }
   }
 
@@ -200,7 +198,7 @@ const FileInfoModal = ({ fileInfoPath, close }: IFileInfoModuleProps) => {
       injectedClass={{
         inner: classes.modalInner
       }}
-      active={!!fileInfoPath}
+      active={true}
       closePosition="none"
       maxWidth="sm"
     >
