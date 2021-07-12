@@ -77,10 +77,10 @@ msgstr "Corbeille"
 msgid "Browser:"
 msgstr "Explorateur :"
 
-msgid "Buy more storage"
-msgstr: ""
-
 msgid "Bucket id"
+msgstr ""
+
+msgid "Buy more storage"
 msgstr ""
 
 msgid "By connecting your wallet, you agree to our <0>Terms of Service</0> and <1>Privacy Policy</1>"

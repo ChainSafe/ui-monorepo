@@ -77,10 +77,10 @@ msgstr "Papelera"
 msgid "Browser:"
 msgstr "Navegador:"
 
-msgid "Buy more storage"
+msgid "Bucket id"
 msgstr ""
 
-msgid "Bucket id"
+msgid "Buy more storage"
 msgstr ""
 
 msgid "By connecting your wallet, you agree to our <0>Terms of Service</0> and <1>Privacy Policy</1>"

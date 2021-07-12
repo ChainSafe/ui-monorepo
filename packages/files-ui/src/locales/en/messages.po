@@ -76,11 +76,11 @@ msgstr "Bin"
 msgid "Browser:"
 msgstr "Browser:"
 
-msgid "Buy more storage"
-msgstr "Buy more storage"
-
 msgid "Bucket id"
 msgstr "Bucket id"
+
+msgid "Buy more storage"
+msgstr "Buy more storage"
 
 msgid "By connecting your wallet, you agree to our <0>Terms of Service</0> and <1>Privacy Policy</1>"
 msgstr "By connecting your wallet, you agree to our <0>Terms of Service</0> and <1>Privacy Policy</1>"
