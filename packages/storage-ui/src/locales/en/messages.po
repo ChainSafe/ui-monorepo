@@ -31,8 +31,8 @@ msgstr "Add more files"
 msgid "Api Keys"
 msgstr "Api Keys"
 
-msgid "Bucket Name"
-msgstr "Bucket Name"
+msgid "Bucket name"
+msgstr "Bucket name"
 
 msgid "Buckets"
 msgstr "Buckets"
