@@ -189,8 +189,8 @@ const GamingApiProvider = ({ apiUrl, withLocalStorage = true, children }: Gaming
 
       const apiClient = new FilesApiClient({}, apiUrl, axiosInstance)
       const savedRefreshToken = withLocalStorage
-        ? localStorageGet(tokenStorageKey)
-        : sessionStorageGet(tokenStorageKey)
+        ? localStorage.getItem(tokenStorageKey)
+        : sessionStorage.getItem(tokenStorageKey)
 
       setGamingApiClient(apiClient)
       if (!maintenanceMode && savedRefreshToken) {

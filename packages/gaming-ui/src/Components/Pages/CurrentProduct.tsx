@@ -124,7 +124,7 @@ const CurrentProduct: React.FC = () => {
             </div>
             <Link
               className={classes.link}
-              to={ROUTE_LINKS.}
+              to={ROUTE_LINKS.Products}
             >
               <Button
                 variant="primary"

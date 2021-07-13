@@ -1,12 +1,12 @@
 import React from "react"
 import { Divider, Typography } from "@chainsafe/common-components"
 import { makeStyles, createStyles } from "@chainsafe/common-theme"
-import { CSFTheme } from "../../../../Themes/types"
+import { CSGTheme } from "../../../Themes/types"
 import clsx from "clsx"
 import { t, Trans } from "@lingui/macro"
 import { Product } from "@chainsafe/files-api-client"
 
-const useStyles = makeStyles(({ constants, palette, typography }: CSFTheme) =>
+const useStyles = makeStyles(({ constants, palette, typography }: CSGTheme) =>
   createStyles({
     container: {
       border: "1px solid",
@@ -45,13 +45,16 @@ const useStyles = makeStyles(({ constants, palette, typography }: CSFTheme) =>
 
 interface ProductInfoProps {
   product: Product
-  className: string
+  billingPeriod: "month" | "year"
+  className?: string
 }
 
-const ProductInfo = ({ product, className }: ProductInfoProps) => {
+const ProductInfo = ({ product, billingPeriod, className }: ProductInfoProps) => {
   const classes = useStyles()
   const { description, name, prices } = product
-  const { tax_behavior, recurring, type, currency, unit_amount } = prices
+
+  const price = prices.find(p => p.recurring.interval === billingPeriod && p.recurring.interval_count === 1)
+
   return (
     <div className={clsx(classes.container, className)}>
       <Typography
@@ -59,7 +62,7 @@ const ProductInfo = ({ product, className }: ProductInfoProps) => {
         component="h4"
         className={classes.planFor}
       >
-        <Trans></Trans>
+        Chainsafe Gaming
       </Typography>
       <Typography
         variant="h3"
@@ -76,13 +79,13 @@ const ProductInfo = ({ product, className }: ProductInfoProps) => {
       >
         {description}
       </Typography>
-      {/* <Typography
+      <Typography
         variant="h3"
         component="h3"
         className={classes.price}
       >
-        {t`$${billingPeriod === "monthly" ? monthly : yearly} USD/${billingPeriod === "monthly"  ? "month" : "year"}`}
-      </Typography> */}
+        $ {price?.unit_amount} {price?.currency}/{price?.recurring.interval}
+      </Typography>
       <div
         className={classes.buttonLink}
       >

@@ -15,6 +15,7 @@ import { ROUTE_LINKS, SettingsPath } from "../GamingRoutes"
 import { t, Trans } from "@lingui/macro"
 import clsx from "clsx"
 import ApiKeys from "../Modules/ApiKeys"
+import CurrentProduct from "./CurrentProduct"
 
 const TabPane = (props: ITabPaneProps<SettingsPath>) => TabPaneOrigin(props)
 const useStyles = makeStyles(({ constants, breakpoints, palette }: ITheme) =>
@@ -185,6 +186,16 @@ const SettingsPage: React.FC = () => {
               testId="apiKeys-tab"
             >
               <ApiKeys />
+            </TabPane>
+            <TabPane
+              className={clsx(classes.tabPane, "billingPane", (!desktop && !path) ? classes.hideTabPane : "")}
+              icon={<LockIcon className={classes.lockIcon}/>}
+              iconRight={<CaretRightIcon/>}
+              title={t`Billing`}
+              tabKey="billing"
+              testId="billing-tab"
+            >
+              <CurrentProduct />
             </TabPane>
           </Tabs>
         </div>

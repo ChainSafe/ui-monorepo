@@ -1,15 +1,15 @@
 import React, { useState } from "react"
 import { makeStyles, createStyles } from "@chainsafe/common-theme"
-import { CSFTheme } from "../../../../Themes/types"
+import { CSGTheme } from "../../../Themes/types"
 import ProductInfo from "./ProductInfo"
 import { ArrowLeftIcon, Link, RadioInput, Typography } from "@chainsafe/common-components"
 import { t, Trans } from "@lingui/macro"
-import { ROUTE_LINKS } from "../../../FilesRoutes"
-import { useFilesApi } from "../../../../Contexts/FilesApiContext"
+import { ROUTE_LINKS } from "../../GamingRoutes"
+import { useGamingApi } from "../../../Contexts/GamingApiContext"
 import { Product } from "@chainsafe/files-api-client"
 import { useEffect } from "react"
 
-const useStyles = makeStyles(({ constants, palette, breakpoints }: CSFTheme) =>
+const useStyles = makeStyles(({ constants, palette, breakpoints }: CSGTheme) =>
   createStyles({
     root: {
       [breakpoints.down("md")]: {
@@ -71,16 +71,16 @@ const useStyles = makeStyles(({ constants, palette, breakpoints }: CSFTheme) =>
 
 const Products = () => {
   const classes = useStyles()
-  const [billingPeriod, setBillingPeriod] = useState<"monthly" | "yearly">("monthly")
-  const { filesApiClient } = useFilesApi()
+  const [billingPeriod, setBillingPeriod] = useState<"month" | "year">("month")
+  const { gamingApiClient } = useGamingApi()
   const [products, setProducts] = useState<Product[]>([])
 
   useEffect(() => {
-    filesApiClient.getAllProducts().then(prods => {
+    gamingApiClient.getAllProducts().then(prods => {
       console.log(prods)
-      // setProducts(prods)
+      setProducts(prods)
     }).catch(console.error)
-  }, [filesApiClient])
+  }, [gamingApiClient])
 
   return (
     <div className={classes.root}>
@@ -92,7 +92,7 @@ const Products = () => {
         <Trans>Upgrade your plan</Trans>
       </Typography>
       <div className={classes.planSettings}>
-        <Link to={ROUTE_LINKS.SettingsDefault}>
+        <Link to={ROUTE_LINKS.SettingsRoot}>
           <ArrowLeftIcon className={classes.backIcon} />
           <Typography><Trans>Back to plan settings</Trans></Typography>
         </Link>
@@ -100,23 +100,24 @@ const Products = () => {
           <RadioInput
             label={t`Billed Monthly`}
             value="monthly"
-            onChange={() => setBillingPeriod("monthly")}
-            checked={billingPeriod === "monthly"}
+            onChange={() => setBillingPeriod("month")}
+            checked={billingPeriod === "month"}
           />
           <RadioInput
             label={t`Billed Yearly`}
             value="yearly"
-            onChange={() => setBillingPeriod("yearly")}
-            checked={billingPeriod === "yearly"}
+            onChange={() => setBillingPeriod("year")}
+            checked={billingPeriod === "year"}
           />
         </div>
       </div>
       <div className={classes.container}>
-        {products.map(p => <ProductInfo
-          product={p}
-          className={classes.plan1}
-          key={p.id}
-        />)}
+        {products.map(p =>
+          <ProductInfo
+            key={p.id}
+            product={p}
+            billingPeriod={billingPeriod} />
+        )}
       </div>
     </div>
 

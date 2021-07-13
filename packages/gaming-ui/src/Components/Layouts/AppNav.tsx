@@ -254,6 +254,20 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
                   <Trans>Settings</Trans>
                 </Typography>
               </Link>
+              <Link
+                onClick={handleOnClick}
+                className={classes.navItem}
+                to={ROUTE_LINKS.Billing}
+              >
+                <SettingSvg />
+                <Typography
+                  data-cy="settings-nav"
+                  variant="h5"
+                  className={classes.navItemText}
+                >
+                  <Trans>Billing</Trans>
+                </Typography>
+              </Link>
             </nav>
           </div>
           <section>
