@@ -43,9 +43,6 @@ msgstr "Add by sharing address, username or wallet address"
 msgid "Add more files"
 msgstr "Add more files"
 
-msgid "Add to share folder"
-msgstr "Add to share folder"
-
 msgid "Add/remove content"
 msgstr "Add/remove content"
 
@@ -169,9 +166,6 @@ msgstr "Dark Theme"
 msgid "Date uploaded"
 msgstr "Date uploaded"
 
-msgid "Decryption failed"
-msgstr "Decryption failed"
-
 msgid "Decryption key"
 msgstr "Decryption key"
 
@@ -180,6 +174,9 @@ msgstr "Delete"
 
 msgid "Delete selected"
 msgstr "Delete selected"
+
+msgid "Destination shared folder not selected"
+msgstr "Destination shared folder not selected"
 
 msgid "Device awaiting confirmation"
 msgstr "Device awaiting confirmation"
@@ -199,11 +196,17 @@ msgstr "Download complete"
 msgid "Download recovery key"
 msgstr "Download recovery key"
 
+msgid "Downloading…"
+msgstr "Downloading…"
+
 msgid "Drop to upload files"
 msgstr "Drop to upload files"
 
 msgid "Email is required"
 msgstr "Email is required"
+
+msgid "Encrypting and uploading…"
+msgstr "Encrypting and uploading…"
 
 msgid "Enter backup secret phrase:"
 msgstr "Enter backup secret phrase:"
@@ -219,6 +222,15 @@ msgstr "Enter the verification code:"
 
 msgid "Enter your email:"
 msgstr "Enter your email:"
+
+msgid "Error while creating new shared folder"
+msgstr "Error while creating new shared folder"
+
+msgid "Error while downloading {0}"
+msgstr "Error while downloading {0}"
+
+msgid "Error while uploading {0}"
+msgstr "Error while uploading {0}"
 
 msgid "Essentials - Free"
 msgstr "Essentials - Free"
@@ -243,6 +255,9 @@ msgstr "File"
 
 msgid "File Info"
 msgstr "File Info"
+
+msgid "File added successfully!"
+msgstr "File added successfully!"
 
 msgid "File format not supported."
 msgstr "File format not supported."
@@ -544,11 +559,14 @@ msgstr "Search…"
 msgid "Security"
 msgstr "Security"
 
-msgid "Select a shared folder. Only the ones your are owner or writer are displayed"
-msgstr "Select a shared folder. Only the ones your are owner or writer are displayed"
+msgid "Select a shared folder. Only the ones your are owner or writer of are displayed"
+msgstr "Select a shared folder. Only the ones your are owner or writer of are displayed"
 
 msgid "Select a wallet"
 msgstr "Select a wallet"
+
+msgid "Select an existing shared folder"
+msgstr "Select an existing shared folder"
 
 msgid "Send Feedback"
 msgstr "Send Feedback"
@@ -601,14 +619,14 @@ msgstr "Shared"
 msgid "Shared Folder Name"
 msgstr "Shared Folder Name"
 
+msgid "Shared folder is undefined"
+msgstr "Shared folder is undefined"
+
 msgid "Shared folders"
 msgstr "Shared folders"
 
 msgid "Shared with"
 msgstr "Shared with"
-
-msgid "Sharing your file, this may take some time depending on the file size…"
-msgstr "Sharing your file, this may take some time depending on the file size…"
 
 msgid "Sign Out"
 msgstr "Sign Out"
@@ -694,6 +712,9 @@ msgstr "There was an error recovering this"
 msgid "There was an error when setting username."
 msgstr "There was an error when setting username."
 
+msgid "This may take some time depending on the file size"
+msgstr "This may take some time depending on the file size"
+
 msgid "This username is already taken"
 msgstr "This username is already taken"
 
@@ -748,8 +769,14 @@ msgstr "Verification code sent!"
 msgid "View folder"
 msgstr "View folder"
 
+msgid "View shared folder"
+msgstr "View shared folder"
+
 msgid "Wallet address"
 msgstr "Wallet address"
+
+msgid "We can't encrypt files larger than 2GB. Some items will not be uploaded"
+msgstr "We can't encrypt files larger than 2GB. Some items will not be uploaded"
 
 msgid "Web3: {0}"
 msgstr "Web3: {0}"

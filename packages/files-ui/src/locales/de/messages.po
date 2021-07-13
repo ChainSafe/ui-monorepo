@@ -43,9 +43,6 @@ msgstr ""
 msgid "Add more files"
 msgstr "Weitere Dateien hinzufügen"
 
-msgid "Add to share folder"
-msgstr ""
-
 msgid "Add/remove content"
 msgstr ""
 
@@ -169,9 +166,6 @@ msgstr "Dunkles Farbschema"
 msgid "Date uploaded"
 msgstr "Hochgeladen am"
 
-msgid "Decryption failed"
-msgstr "Entschlüsselung fehlgeschlagen"
-
 msgid "Decryption key"
 msgstr ""
 
@@ -180,6 +174,9 @@ msgstr "Löschen"
 
 msgid "Delete selected"
 msgstr "Ausgewählte löschen"
+
+msgid "Destination shared folder not selected"
+msgstr ""
 
 msgid "Device awaiting confirmation"
 msgstr "Gerät wartet auf Bestätigung"
@@ -199,11 +196,17 @@ msgstr "Komplett heruntergeladen"
 msgid "Download recovery key"
 msgstr "Wiederherstellungsschlüssel herunterladen"
 
+msgid "Downloading…"
+msgstr ""
+
 msgid "Drop to upload files"
 msgstr "Zum Hochladen von Dateien ablegen"
 
 msgid "Email is required"
 msgstr "E-Mail ist erforderlich"
+
+msgid "Encrypting and uploading…"
+msgstr ""
 
 msgid "Enter backup secret phrase:"
 msgstr "Geben Sie den Sicherungsgeheimsatz ein:"
@@ -219,6 +222,15 @@ msgstr "Geben Sie den Verifizierungscode ein:"
 
 msgid "Enter your email:"
 msgstr "Geben Sie Ihre E-Mail-Adresse ein:"
+
+msgid "Error while creating new shared folder"
+msgstr ""
+
+msgid "Error while downloading {0}"
+msgstr ""
+
+msgid "Error while uploading {0}"
+msgstr ""
 
 msgid "Essentials - Free"
 msgstr "Essentials - Kostenlos"
@@ -240,6 +252,9 @@ msgstr "Datei"
 
 msgid "File Info"
 msgstr "Dateiinfos"
+
+msgid "File added successfully!"
+msgstr ""
 
 msgid "File format not supported."
 msgstr "Dateiformat wird nicht unterstützt."
@@ -541,10 +556,13 @@ msgstr "Suchen …"
 msgid "Security"
 msgstr "Sicherheit"
 
-msgid "Select a shared folder. Only the ones your are owner or writer are displayed"
+msgid "Select a shared folder. Only the ones your are owner or writer of are displayed"
 msgstr ""
 
 msgid "Select a wallet"
+msgstr ""
+
+msgid "Select an existing shared folder"
 msgstr ""
 
 msgid "Send Feedback"
@@ -598,14 +616,14 @@ msgstr "Geteilt"
 msgid "Shared Folder Name"
 msgstr ""
 
+msgid "Shared folder is undefined"
+msgstr ""
+
 msgid "Shared folders"
 msgstr "Geteilte Ordner"
 
 msgid "Shared with"
 msgstr "Geteilt mit"
-
-msgid "Sharing your file, this may take some time depending on the file size…"
-msgstr ""
 
 msgid "Sign Out"
 msgstr "Abmelden"
@@ -691,6 +709,9 @@ msgstr "Es gab einen Fehler bei der Wiederherstellung dieses"
 msgid "There was an error when setting username."
 msgstr ""
 
+msgid "This may take some time depending on the file size"
+msgstr ""
+
 msgid "This username is already taken"
 msgstr ""
 
@@ -745,7 +766,13 @@ msgstr "Verifizierungscode gesendet!"
 msgid "View folder"
 msgstr "Ordner anzeigen"
 
+msgid "View shared folder"
+msgstr ""
+
 msgid "Wallet address"
+msgstr ""
+
+msgid "We can't encrypt files larger than 2GB. Some items will not be uploaded"
 msgstr ""
 
 msgid "Web3: {0}"
