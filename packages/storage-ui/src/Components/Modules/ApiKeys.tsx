@@ -20,8 +20,8 @@ import { Trans } from "@lingui/macro"
 import dayjs from "dayjs"
 import SecretField from "../Elements/SecretField"
 
-export const desktopGridSettings = "3fr 400px 100px 200px 70px !important"
-export const mobileGridSettings = "3fr 400px 100px 200px 70px !important"
+export const desktopGridSettings = "2fr 3fr 1fr 1.5fr 30px !important"
+export const mobileGridSettings = "2fr 3fr 1fr 1.5fr 30px !important"
 
 const useStyles = makeStyles(({ constants, breakpoints, animation }: CSSTheme) =>
   createStyles({
@@ -122,7 +122,7 @@ const ApiKeys = () => {
           data-cy="api-keys-header"
         >
           <Trans>
-              API Keys
+            API Keys
           </Trans>
         </Typography>
         <div className={classes.controls}>

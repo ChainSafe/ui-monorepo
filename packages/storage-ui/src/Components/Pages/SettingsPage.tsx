@@ -90,7 +90,7 @@ const useStyles = makeStyles(({ constants, breakpoints, palette }: ITheme) =>
       marginBottom: 0,
       display: "flex",
       flexDirection: "column",
-      width: 226,
+      width: 200,
       borderRightColor: palette.additional["gray"][4],
       borderRightWidth: 1,
       borderRightStyle: "solid",

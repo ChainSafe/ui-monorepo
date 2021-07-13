@@ -24,8 +24,6 @@ export const ROUTE_LINKS = {
   Bucket: (id: string, bucketPath: string) => `/bucket/${id}${bucketPath}`
 }
 
-
-
 const StorageRoutes = () => {
   const { isLoggedIn } = useStorageApi()
 
@@ -62,7 +60,7 @@ const StorageRoutes = () => {
         path={ROUTE_LINKS.SettingsRoot}
         isAuthorized={isLoggedIn}
         component={SettingsPage}
-        redirectPath={ROUTE_LINKS.Buckets}
+        redirectPath={ROUTE_LINKS.Landing}
       />
       <ConditionalRoute
         path={ROUTE_LINKS.Landing}
