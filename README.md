@@ -20,6 +20,10 @@ Theme context and other utilities for generating and using the theming capabilit
 
 The UI for Chainsafe Files
 
+#### **`packages/gaming-ui`**
+
+The UI for Chainsafe Gaming
+
 #### **`packages/storage-ui`**
 
 The UI for Chainsafe Storage
