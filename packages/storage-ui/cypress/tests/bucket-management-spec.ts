@@ -24,7 +24,7 @@ describe("Bucket management", () => {
     it("can delete a bucket", () => {
       cy.web3Login({ clearPins: true })
 
-      // delete a bucket ensure it's row is removed
+      // delete a bucket and ensure it's row is removed
       navigationMenu.bucketsNavButton().click()
       bucketsPage.createBucket("Delete Me")
       bucketsPage.bucketRowKebabButton().first().click()

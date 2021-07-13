@@ -19,7 +19,7 @@ describe("CID management", () => {
       cidsPage.pinCidForm().should("not.exist")
     })
 
-    it("can unpin a cid", () => {
+    it.only("can unpin a cid", () => {
       cy.web3Login({ clearPins: true })
 
       // pin and then unpin a CID
