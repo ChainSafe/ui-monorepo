@@ -61,15 +61,11 @@ const CidsPage = () => {
     let temp = []
 
     switch (column) {
-    default: {
-      temp = pins.sort((a, b) => (a.created < b.created ? -1 : 1))
-      break
-    }
     case "size": {
       temp = pins.sort((a, b) => (a.info?.size < b.info?.size ? -1 : 1))
       break
     }
-    case "date_uploaded": {
+    default: {
       temp = pins.sort((a, b) => (a.created < b.created ? -1 : 1))
       break
     }
