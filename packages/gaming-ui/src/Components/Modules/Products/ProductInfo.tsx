@@ -84,7 +84,7 @@ const ProductInfo = ({ product, billingPeriod, className }: ProductInfoProps) =>
         component="h3"
         className={classes.price}
       >
-        $ {price?.unit_amount} {price?.currency}/{price?.recurring.interval}
+        $ {price?.unit_amount} {price?.currency.toUpperCase()} / {price?.recurring.interval}
       </Typography>
       <div
         className={classes.buttonLink}
