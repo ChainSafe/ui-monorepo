@@ -171,7 +171,7 @@ const BucketPage: React.FC<IFileBrowserModuleProps> = () => {
   }, [currentPath, pathContents, redirect, bucketId])
 
   const bulkOperations: IBulkOperations = useMemo(() => ({
-    [CONTENT_TYPES.Directory]: ["delete"],
+    [CONTENT_TYPES.Directory]: [],
     [CONTENT_TYPES.File]: ["delete"]
   }), [])
 
