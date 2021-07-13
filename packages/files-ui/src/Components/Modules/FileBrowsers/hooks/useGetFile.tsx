@@ -4,6 +4,10 @@ import { IFileSystemItem, useFiles } from "../../../../Contexts/FilesContext"
 import axios, { CancelTokenSource } from "axios"
 import { useFileBrowser } from "../../../../Contexts/FileBrowserContext"
 
+interface getFilesParams {
+  file: IFileSystemItem
+  filePath: string
+}
 export const useGetFile = () => {
   const [isDownloading, setIsDownloading] = useState(false)
   const [downloadProgress, setDownloadProgress] = useState(0)
@@ -12,7 +16,7 @@ export const useGetFile = () => {
   const source = useRef<CancelTokenSource | null>(null)
   const { bucket } = useFileBrowser()
 
-  const getFile = useCallback(async ({ file, filePath }: {file: IFileSystemItem; filePath: string}) => {
+  const getFile = useCallback(async ({ file, filePath }: getFilesParams) => {
     const { cid, size } = file
     if(!bucket) return
 
@@ -43,7 +47,8 @@ export const useGetFile = () => {
           },
           file,
           path: filePath
-        })
+        }
+      )
 
       source.current = null
       setDownloadProgress(0)

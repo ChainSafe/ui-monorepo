@@ -1101,7 +1101,7 @@ const FilesList = ({ isShared = false }: Props) => {
           }}
         />
       }
-      { isShareFileModalOpen && filePath && fileIndex && files.length &&
+      { isShareFileModalOpen && filePath && fileIndex !== undefined &&
         <ShareFileModal
           file={files[fileIndex]}
           close={() => {

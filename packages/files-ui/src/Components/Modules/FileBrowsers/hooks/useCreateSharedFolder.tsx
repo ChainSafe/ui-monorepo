@@ -8,7 +8,7 @@ export const useCreateSharedFolder = () => {
   const { createSharedFolder } = useFiles()
 
 
-  const handleCreateSharedFolder = useCallback(async (
+  const handleCreateSharedFolder = useCallback((
     sharedFolderName: string,
     sharedFolderUsers: SharedFolderCreationUser[],
     permissions: SharedFolderCreationPermission
@@ -20,8 +20,12 @@ export const useCreateSharedFolder = () => {
     const readers = (permissions === "read") ? users : []
     const writers = (permissions === "write") ? users : []
     setIsCreatingSharedFolder(true)
-    createSharedFolder(sharedFolderName, writers, readers)
-      .then(() => setIsCreatingSharedFolder(false))
+    return createSharedFolder(sharedFolderName, writers, readers)
+      .then((bucket) => {
+        setIsCreatingSharedFolder(false)
+        console.log("handleCreateSharedFolder bucket", bucket)
+        return bucket
+      })
       .catch(console.error)
   }, [createSharedFolder])
 
