@@ -31,6 +31,9 @@ msgstr "Add more files"
 msgid "Api Keys"
 msgstr "Api Keys"
 
+msgid "Are we on the right track? Let us know in less than 1 minute."
+msgstr "Are we on the right track? Let us know in less than 1 minute."
+
 msgid "Bucket Name"
 msgstr "Bucket Name"
 
