@@ -489,7 +489,7 @@ const FilesList = () => {
           }
         }
       }
-      setValidBulkOps([])
+      setValidBulkOps(filteredList)
     }
   }, [selectedCids, items, bulkOperations])
 
