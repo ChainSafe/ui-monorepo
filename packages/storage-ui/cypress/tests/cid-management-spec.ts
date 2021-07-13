@@ -4,7 +4,7 @@ describe("CID management", () => {
 
   context("desktop", () => {
 
-    it("can pin a CID", () => {
+    it.skip("can pin a CID", () => {
       cy.web3Login({ clearPins: true })
 
       // pin a cid and see it in the pinned items table
@@ -19,7 +19,7 @@ describe("CID management", () => {
       cidsPage.pinCidForm().should("not.exist")
     })
 
-    it.only("can unpin a cid", () => {
+    it.skip("can unpin a cid", () => {
       cy.web3Login({ clearPins: true })
 
       // pin and then unpin a CID

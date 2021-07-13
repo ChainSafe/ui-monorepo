@@ -5,7 +5,7 @@ describe("Bucket management", () => {
 
   context("desktop", () => {
 
-    it("can create a bucket", () => {
+    it.skip("can create a bucket", () => {
       cy.web3Login({ clearPins: true })
 
       // create a bucket and see it in the bucket table
@@ -21,7 +21,7 @@ describe("Bucket management", () => {
       bucketsPage.createBucketForm().should("not.exist")
     })
 
-    it("can delete a bucket", () => {
+    it.skip("can delete a bucket", () => {
       cy.web3Login({ clearPins: true })
 
       // delete a bucket and ensure it's row is removed
