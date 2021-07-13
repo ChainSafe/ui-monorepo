@@ -3,13 +3,11 @@ import {
   Grid,
   Button,
   Typography,
-  ProgressBar,
-  formatBytes,
   Link
 } from "@chainsafe/common-components"
 import { makeStyles, ITheme, createStyles } from "@chainsafe/common-theme"
 import clsx from "clsx"
-import { t, Trans } from "@lingui/macro"
+import { Trans } from "@lingui/macro"
 import { ROUTE_LINKS } from "../GamingRoutes"
 
 const useStyles = makeStyles(({ constants, palette, breakpoints }: ITheme) =>

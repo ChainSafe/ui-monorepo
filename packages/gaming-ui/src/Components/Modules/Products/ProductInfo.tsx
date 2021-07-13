@@ -3,7 +3,7 @@ import { Divider, Typography } from "@chainsafe/common-components"
 import { makeStyles, createStyles } from "@chainsafe/common-theme"
 import { CSGTheme } from "../../../Themes/types"
 import clsx from "clsx"
-import { t, Trans } from "@lingui/macro"
+import { Trans } from "@lingui/macro"
 import { Product } from "@chainsafe/files-api-client"
 
 const useStyles = makeStyles(({ constants, palette, typography }: CSGTheme) =>

@@ -112,7 +112,7 @@ const Products = () => {
         </div>
       </div>
       <div className={classes.container}>
-        {products.map(p =>
+        {products.sort((a, b) => a.prices[0].unit_amount < b.prices[0].unit_amount ? -1 : 1).map(p =>
           <ProductInfo
             key={p.id}
             product={p}
