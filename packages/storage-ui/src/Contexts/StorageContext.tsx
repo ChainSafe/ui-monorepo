@@ -151,17 +151,12 @@ const StorageProvider = ({ children }: StorageContextProps) => {
   }, [storageApiClient])
 
   const createBucket = useCallback(async (name: string) => {
-    try {
-      await storageApiClient.createBucket({
-        name,
-        type: "fps",
-        public: "read",
-        encryption_key:""
-      })
-      refreshBuckets()
-    } catch (error) {
-      console.error(error)
-    }
+    return storageApiClient.createBucket({
+      name,
+      type: "fps",
+      public: "read",
+      encryption_key:""
+    }).then(refreshBuckets).catch(console.error)
   }, [storageApiClient, refreshBuckets])
 
   const removeBucket = useCallback((id: string) => {
