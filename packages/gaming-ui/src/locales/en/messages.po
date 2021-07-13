@@ -31,6 +31,12 @@ msgstr "Billed Monthly"
 msgid "Billed Yearly"
 msgstr "Billed Yearly"
 
+msgid "Billing"
+msgstr "Billing"
+
+msgid "Buy more storage"
+msgstr "Buy more storage"
+
 msgid "By connecting your wallet, you agree to our <0>Terms of Service</0> and <1>Privacy Policy</1>"
 msgstr "By connecting your wallet, you agree to our <0>Terms of Service</0> and <1>Privacy Policy</1>"
 
@@ -144,6 +150,12 @@ msgstr "Something went wrong! Please try again."
 
 msgid "Status"
 msgstr "Status"
+
+msgid "Storage Plan"
+msgstr "Storage Plan"
+
+msgid "Subscription Plan"
+msgstr "Subscription Plan"
 
 msgid "Terms and Conditions"
 msgstr "Terms and Conditions"
