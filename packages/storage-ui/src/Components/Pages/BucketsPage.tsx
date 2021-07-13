@@ -135,13 +135,15 @@ const BucketsPage = () => {
     validationSchema: bucketNameValidator,
     onSubmit:(values, helpers) => {
       helpers.setSubmitting(true)
-      createBucket(values.name).then(() => {
-        helpers.setSubmitting(false)
-        setIsCreateBucketModalOpen(false)
-      }).catch((err) => {
-        console.error(err)
-        helpers.setSubmitting(false)
-      })
+      createBucket(values.name)
+        .then(() => {
+          setIsCreateBucketModalOpen(false)
+        })
+        .catch(console.error)
+        .finally(() => {
+          helpers.setSubmitting(false)
+          helpers.resetForm()
+        })
     }
   })
 
