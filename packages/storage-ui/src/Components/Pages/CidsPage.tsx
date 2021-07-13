@@ -50,17 +50,35 @@ const useStyles = makeStyles(({ animation, breakpoints, constants }: CSSTheme) =
   })
 )
 
+type SortColumn = "size" | "date_uploaded"
+type SortDirection = "ascend" | "descend"
+
 const CidsPage = () => {
   const classes = useStyles()
   const { pins } = useStorage()
   const [addCIDOpen, setAddCIDOpen] = useState(false)
-  const [column] = useState<"size" | "date_uploaded">("date_uploaded")
-  const [direction] = useState<"ascend" | "descend" | undefined>("descend")
+  const [sortColumn, setSortColumn] = useState<SortColumn>("date_uploaded")
+  const [sortDirection, setSortDirection] = useState<SortDirection>("descend")
+
+  const handleSortToggle = (
+    targetColumn: SortColumn
+  ) => {
+    if (sortColumn !== targetColumn) {
+      setSortColumn(targetColumn)
+      setSortDirection("descend")
+    } else {
+      if (sortDirection === "ascend") {
+        setSortDirection("descend")
+      } else {
+        setSortDirection("ascend")
+      }
+    }
+  }
 
   const sortedPins: PinStatus[] = useMemo(() => {
     let temp = []
 
-    switch (column) {
+    switch (sortColumn) {
     case "size": {
       temp = pins.sort((a, b) => (a.info?.size < b.info?.size ? -1 : 1))
       break
@@ -70,8 +88,8 @@ const CidsPage = () => {
       break
     }
     }
-    return direction === "descend" ? temp.reverse() : temp
-  }, [pins, direction, column])
+    return sortDirection === "descend" ? temp.reverse() : temp
+  }, [pins, sortDirection, sortColumn])
 
   return (
     <>
@@ -118,13 +136,19 @@ const CidsPage = () => {
                 <Trans>Cid</Trans>
               </TableHeadCell>
               <TableHeadCell
-                sortButtons={false}
+                sortButtons={true}
+                onSortChange={() => handleSortToggle("date_uploaded")}
+                sortDirection={sortColumn === "date_uploaded" ? sortDirection : undefined}
+                sortActive={sortColumn === "date_uploaded"}
                 align="center"
               >
                 <Trans>Created</Trans>
               </TableHeadCell>
               <TableHeadCell
-                sortButtons={false}
+                sortButtons={true}
+                onSortChange={() => handleSortToggle("size")}
+                sortDirection={sortColumn === "size" ? sortDirection : undefined}
+                sortActive={sortColumn === "size"}
                 align="center"
               >
                 <Trans>Size</Trans>
