@@ -131,13 +131,15 @@ Cypress.Commands.add(
       cy.log(
         "Logging in",
         local.length > 0 &&
-          "there is something in session storage ---> direct login"
+          "there is something in local storage ---> direct login"
       )
 
       if (local.length === 0) {
-        cy.log("nothing in session storage, --> click on web3 button")
+        cy.log("nothing in local storage, --> click on web3 button")
         authenticationPage.web3Button().click()
         authenticationPage.metaMaskButton().click()
+        // eslint-disable-next-line cypress/no-unnecessary-waiting
+        cy.wait(1000)
         authenticationPage.web3SignInButton().click()
       }
     })
@@ -148,7 +150,19 @@ Cypress.Commands.add(
 
     if(clearPins){
       cy.clearPins(apiUrlBase)
-      cy.reload()
+
+      cy.reload({ timeout: 50000 }).then(() => {
+        if (local.length === 0) {
+          // Temp work around for local storage being cleared after the reload          
+          cy.log("nothing in local storage after reload, --> click on web3 button")
+          authenticationPage.web3Button().click()
+          authenticationPage.metaMaskButton().click()
+          // eslint-disable-next-line cypress/no-unnecessary-waiting
+          cy.wait(1000)
+          authenticationPage.web3SignInButton().click()
+        }
+      })
+
       cidsPage.cidsHeaderLabel().should("be.visible")
     }
   }
@@ -160,11 +174,10 @@ declare global {
   namespace Cypress {
     interface Chainable {
       /**
-       * Login using Metamask to an instance of Files.
+       * Login using Metamask to an instance of Storage.
        * @param {String} options.url - (default: "http://localhost:3000") - what url to visit.
        * @param {String} apiUrlBase - (default: "https://stage.imploy.site/api/v1") - what url to call for the api.
        * @param {Boolean} options.useLocalAndSessionStorage - (default: true) - use what could have been stored before to speedup login
-       * @example cy.web3Login({saveBrowser: true, url: 'http://localhost:8080'})
        */
       web3Login: (options?: Web3LoginOptions) => Chainable
 
