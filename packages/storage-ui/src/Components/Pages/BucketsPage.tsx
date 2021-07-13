@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react"
+import React, { useState } from "react"
 import { makeStyles, createStyles } from "@chainsafe/common-theme"
 import {
   Button,
@@ -17,7 +17,7 @@ import { useStorage } from "../../Contexts/StorageContext"
 import { t, Trans } from "@lingui/macro"
 import BucketRow from "../Elements/BucketRow"
 import CustomModal from "../Elements/CustomModal"
-import { Form, Formik } from "formik"
+import { Form, FormikProvider, useFormik } from "formik"
 import * as yup from "yup"
 
 export const desktopGridSettings = "3fr 190px 70px !important"
@@ -111,27 +111,38 @@ const useStyles = makeStyles(({ breakpoints, animation, constants, typography }:
   })
 )
 
+const bucketNameValidator = yup.object().shape({
+  name: yup
+    .string()
+    .required(t`Folder name is required`)
+    .test(
+      "Invalid name",
+      t`Folder name cannot contain '/' character`,
+      (val: string | null | undefined) => !!val && !val.includes("/")
+    )
+})
+
 const BucketsPage = () => {
   const classes = useStyles()
   const { storageBuckets, createBucket } = useStorage()
-  const [createBucketModalOpen, setCreateBucketModalOpen] = useState(false)
-  const inputRef = useRef<any>(null)
+  const [isCreateBucketModalOpen, setIsCreateBucketModalOpen] = useState(false)
 
-  useEffect(() => {
-    if (createBucketModalOpen) {
-      setTimeout(() => inputRef.current?.focus(), 100)
+  const formik = useFormik({
+    initialValues:{
+      name: ""
+    },
+    enableReinitialize: true,
+    validationSchema: bucketNameValidator,
+    onSubmit:(values, helpers) => {
+      helpers.setSubmitting(true)
+      createBucket(values.name).then(() => {
+        helpers.setSubmitting(false)
+        setIsCreateBucketModalOpen(false)
+      }).catch((err) => {
+        console.error(err)
+        helpers.setSubmitting(false)
+      })
     }
-  }, [createBucketModalOpen])
-
-  const folderNameValidator = yup.object().shape({
-    name: yup
-      .string()
-      .required(t`Folder name is required`)
-      .test(
-        "Invalid name",
-        t`Folder name cannot contain '/' character`,
-        (val: string | null | undefined) => !!val && !val.includes("/")
-      )
   })
 
   return (
@@ -144,7 +155,7 @@ const BucketsPage = () => {
         </Typography>
         <div className={classes.controls}>
           <Button
-            onClick={() => setCreateBucketModalOpen(true)}
+            onClick={() => setIsCreateBucketModalOpen(true)}
             variant="outline"
           >
             <PlusIcon />
@@ -187,7 +198,7 @@ const BucketsPage = () => {
         </TableBody>
       </Table>
       <CustomModal
-        active={createBucketModalOpen}
+        active={isCreateBucketModalOpen}
         className={classes.createBucketModal}
         injectedClass={{
           inner: classes.modalInner
@@ -195,72 +206,56 @@ const BucketsPage = () => {
         closePosition="none"
       >
         <div className={classes.modalRoot}>
-          <Formik
-            initialValues={{
-              name: ""
-            }}
-            validationSchema={folderNameValidator}
-            validateOnChange={false}
-            onSubmit={async (values) => {
-              try {
-                await createBucket(values.name)
-                setCreateBucketModalOpen(false)
-              } catch {
-                // 
-              }
-            }}
-          >
-            {({ isSubmitting }) => (
-              <Form>
-                <Grid item
-                  xs={12}
-                  sm={12}
+          <FormikProvider value={formik}>
+            <Form>
+              <Grid item
+                xs={12}
+                sm={12}
+              >
+                <Typography
+                  className={classes.heading}
+                  variant="h5"
+                  component="h5"
                 >
-                  <Typography
-                    className={classes.heading}
-                    variant="h5"
-                    component="h5"
-                  >
-                    <Trans>Create Bucket</Trans>
-                  </Typography>
-                </Grid>
-                <Grid item
-                  xs={12}
-                  sm={12}
-                  className={classes.input}
+                  <Trans>Create Bucket</Trans>
+                </Typography>
+              </Grid>
+              <Grid item
+                xs={12}
+                sm={12}
+                className={classes.input}
+              >
+                <FormikTextInput
+                  name="name"
+                  size="large"
+                  placeholder={t`Bucket name`}
+                  label={t`Bucket name`}
+                  labelClassName={classes.label}
+                  autoFocus={true}
+                />
+              </Grid>
+              <footer className={classes.modalFooter}>
+                <Button
+                  onClick={() => setIsCreateBucketModalOpen(false)}
+                  size="medium"
+                  className={classes.cancelButton}
+                  variant="outline"
+                  type="button"
                 >
-                  <FormikTextInput
-                    name="name"
-                    size="large"
-                    placeholder={t`Bucket name`}
-                    label={t`Bucket name`}
-                    labelClassName={classes.label}
-                    ref={inputRef}
-                  />
-                </Grid>
-                <footer className={classes.modalFooter}>
-                  <Button
-                    onClick={() => setCreateBucketModalOpen(false)}
-                    size="medium"
-                    className={classes.cancelButton}
-                    variant="outline"
-                    type="button"
-                  >
-                    <Trans>Cancel</Trans>
-                  </Button>
-                  <Button
-                    variant="primary"
-                    size="medium"
-                    className={classes.okButton}
-                    type="submit"
-                    loading={isSubmitting}
-                  >
-                    <Trans>Create</Trans>
-                  </Button>
-                </footer>
-              </Form>
-            )}
-          </Formik>
+                  <Trans>Cancel</Trans>
+                </Button>
+                <Button
+                  variant="primary"
+                  size="medium"
+                  className={classes.okButton}
+                  type="submit"
+                  loading={formik.isSubmitting}
+                >
+                  <Trans>Create</Trans>
+                </Button>
+              </footer>
+            </Form>
+          </FormikProvider>
         </div>
       </CustomModal>
     </div>
