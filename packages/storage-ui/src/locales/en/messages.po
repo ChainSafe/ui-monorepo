@@ -31,8 +31,14 @@ msgstr "Add more files"
 msgid "Api Keys"
 msgstr "Api Keys"
 
-msgid "Bucket Name"
-msgstr "Bucket Name"
+msgid "Bucket name"
+msgstr "Bucket name"
+
+msgid "Bucket name cannot contain '/' character"
+msgstr "Bucket name cannot contain '/' character"
+
+msgid "Bucket name is required"
+msgstr "Bucket name is required"
 
 msgid "Buckets"
 msgstr "Buckets"
