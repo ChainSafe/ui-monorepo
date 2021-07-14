@@ -17,6 +17,7 @@ import { Trans } from "@lingui/macro"
 import { createStyles, makeStyles, useThemeSwitcher } from "@chainsafe/common-theme"
 import { CSFTheme } from "../../../Themes/types"
 import SharedFolderRowWrapper from "./SharedFolderRowWrapper"
+import UpdateSharedFolderModal from "./UpdateSharedFolderModal"
 import clsx from "clsx"
 import CreateSharedFolderModal from "./CreateSharedFolderModal"
 import { useFilesApi } from "../../../Contexts/FilesApiContext"
@@ -101,6 +102,7 @@ const SharedFolderOverview = () => {
   const { filesApiClient } = useFilesApi()
   const { buckets, isLoadingBuckets, refreshBuckets } = useFiles()
   const [createSharedFolderModalOpen, setCreateSharedFolderModalOpen] = useState(false)
+  const [bucketToUpdate, setBucketToUpdate] = useState<BucketKeyPermission | undefined>(undefined)
   const [direction, setDirection] = useState<SortDirection>("ascend")
   const [column, setColumn] = useState<"name" | "size" | "date_uploaded">("name")
   const { redirect } = useHistory()
@@ -220,6 +222,7 @@ const SharedFolderOverview = () => {
                   bucket={bucket}
                   handleRename={handleRename}
                   openSharedFolder={openSharedFolder}
+                  onUpdateSharedFolder={() => setBucketToUpdate(bucket)}
                 />
               )}
             </TableBody>
@@ -228,7 +231,13 @@ const SharedFolderOverview = () => {
       </article>
       <CreateSharedFolderModal
         modalOpen={createSharedFolderModalOpen}
-        close={() => setCreateSharedFolderModalOpen(false)}/>
+        close={() => setCreateSharedFolderModalOpen(false)}
+      />
+      <UpdateSharedFolderModal
+        isModalOpen={!!bucketToUpdate}
+        onClose={() => setBucketToUpdate(undefined)}
+        bucket={bucketToUpdate}
+      />
     </>
   )
 }

@@ -29,9 +29,10 @@ interface Props {
   bucket: BucketKeyPermission
   handleRename: (bucket: BucketKeyPermission, newName: string) => void
   openSharedFolder: (bucketId: string) => void
+  onUpdateSharedFolder: () => void
 }
 
-const SharedFolderRowWrapper = ({ bucket, handleRename, openSharedFolder }: Props) => {
+const SharedFolderRowWrapper = ({ bucket, handleRename, openSharedFolder, onUpdateSharedFolder }: Props) => {
   const { desktop } = useThemeSwitcher()
   const classes = useStyles()
   const [isEditing, setIsEditing] = useState(false)
@@ -47,6 +48,17 @@ const SharedFolderRowWrapper = ({ bucket, handleRename, openSharedFolder }: Prop
         </>
       ),
       onClick: () => setIsEditing(true)
+    },
+    {
+      contents: (
+        <>
+          <EditSvg className={classes.menuIcon} />
+          <span data-cy="menu-update">
+            <Trans>Update</Trans>
+          </span>
+        </>
+      ),
+      onClick: () => onUpdateSharedFolder()
     }
     // {
     //   contents: (

@@ -49,6 +49,12 @@ export type SharedFolderUser = {
   pubKey: string
 }
 
+export type UpdateSharedFolderUser = {
+  uuid: string
+  pubKey?: string
+  encryption_key?: string
+}
+
 interface GetFileContentParams {
   cid: string
   cancelToken?: CancelToken
@@ -76,6 +82,12 @@ type FilesContext = {
   secureAccountWithMasterPassword: (candidatePassword: string) => Promise<void>
   isLoadingBuckets?: boolean
   createSharedFolder: (name: string,  writers?: SharedFolderUser[], readers?: SharedFolderUser[]) => Promise<void>
+  updateSharedFolder: (
+    bucket: BucketKeyPermission,
+    name: string,
+    writers?: UpdateSharedFolderUser[],
+    readers?: UpdateSharedFolderUser[]
+  ) => Promise<void>
 }
 
 // This represents a File or Folder on the
@@ -504,6 +516,38 @@ const FilesProvider = ({ children }: FilesContextProps) => {
       .catch(console.error)
   }, [filesApiClient, encryptForPublicKey, publicKey, refreshBuckets])
 
+  const updateSharedFolder = useCallback(
+    async (bucket: BucketKeyPermission, name: string, writerUsers?: UpdateSharedFolderUser[], readerUsers?: UpdateSharedFolderUser[]) => {
+      if (!publicKey) return
+
+      const readers = readerUsers ? await Promise.all(readerUsers?.map(async u => {
+        return u.pubKey ? {
+          uuid: u.uuid,
+          encryption_key: await encryptForPublicKey(u.pubKey, bucket.encryptionKey)
+        } : {
+          uuid: u.uuid,
+          encryption_key: u.encryption_key
+        }
+      })) : []
+
+      const writers = writerUsers ? await Promise.all(writerUsers?.map(async u => {
+        return u.pubKey ? {
+          uuid: u.uuid,
+          encryption_key: await encryptForPublicKey(u.pubKey, bucket.encryptionKey)
+        } : {
+          uuid: u.uuid,
+          encryption_key: u.encryption_key
+        }
+      })) : []
+
+      return filesApiClient.updateBucket(bucket.id, {
+        name,
+        readers,
+        writers
+      }).then(() => refreshBuckets(false))
+        .catch(console.error)
+    }, [filesApiClient, encryptForPublicKey, publicKey, refreshBuckets])
+
   return (
     <FilesContext.Provider
       value={{
@@ -517,7 +561,8 @@ const FilesProvider = ({ children }: FilesContextProps) => {
         buckets,
         refreshBuckets,
         isLoadingBuckets,
-        createSharedFolder
+        createSharedFolder,
+        updateSharedFolder
       }}
     >
       {children}
