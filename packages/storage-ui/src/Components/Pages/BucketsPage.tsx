@@ -2,6 +2,7 @@ import React, { useState } from "react"
 import { makeStyles, createStyles } from "@chainsafe/common-theme"
 import {
   Button,
+  FormikTextInput,
   Grid,
   PlusIcon,
   Table,
@@ -9,14 +10,15 @@ import {
   TableHead,
   TableHeadCell,
   TableRow,
-  TextInput,
   Typography
 } from "@chainsafe/common-components"
 import { CSSTheme } from "../../Themes/types"
 import { useStorage } from "../../Contexts/StorageContext"
-import { Trans } from "@lingui/macro"
+import { t, Trans } from "@lingui/macro"
 import BucketRow from "../Elements/BucketRow"
 import CustomModal from "../Elements/CustomModal"
+import { Form, FormikProvider, useFormik } from "formik"
+import * as yup from "yup"
 
 export const desktopGridSettings = "3fr 190px 70px !important"
 export const mobileGridSettings = "3fr 190px 70px !important"
@@ -101,27 +103,61 @@ const useStyles = makeStyles(({ breakpoints, animation, constants, typography }:
       fontWeight: typography.fontWeight.semibold,
       textAlign: "center",
       marginBottom: constants.generalUnit * 4
+    },
+    label: {
+      fontSize: 14,
+      lineHeight: "22px"
     }
   })
 )
 
+const bucketNameValidator = yup.object().shape({
+  name: yup
+    .string()
+    .required(t`Bucket name is required`)
+    .test(
+      "Invalid name",
+      t`Bucket name cannot contain '/' character`,
+      (val: string | null | undefined) => !!val && !val.includes("/")
+    )
+})
+
 const BucketsPage = () => {
   const classes = useStyles()
   const { storageBuckets, createBucket } = useStorage()
-  const [createBucketModalOpen, setCreateBucketOpen] = useState(false)
-  const [newBucketName, setNewBucketName] = useState("")
+  const [isCreateBucketModalOpen, setIsCreateBucketModalOpen] = useState(false)
+
+  const formik = useFormik({
+    initialValues:{
+      name: ""
+    },
+    enableReinitialize: true,
+    validationSchema: bucketNameValidator,
+    onSubmit:(values, helpers) => {
+      helpers.setSubmitting(true)
+      createBucket(values.name)
+        .then(() => {
+          setIsCreateBucketModalOpen(false)
+        })
+        .catch(console.error)
+        .finally(() => {
+          helpers.setSubmitting(false)
+          helpers.resetForm()
+        })
+    }
+  })
 
   return (
     <div className={classes.root}>
       <header className={classes.header}>
         <Typography variant='h1'>
           <Trans>
-          Buckets
+            Buckets
           </Trans>
         </Typography>
         <div className={classes.controls}>
           <Button
-            onClick={() => setCreateBucketOpen(true)}
+            onClick={() => setIsCreateBucketModalOpen(true)}
             variant="outline"
           >
             <PlusIcon />
@@ -164,7 +200,7 @@ const BucketsPage = () => {
         </TableBody>
       </Table>
       <CustomModal
-        active={createBucketModalOpen}
+        active={isCreateBucketModalOpen}
         className={classes.createBucketModal}
         injectedClass={{
           inner: classes.modalInner
@@ -172,52 +208,56 @@ const BucketsPage = () => {
         closePosition="none"
       >
         <div className={classes.modalRoot}>
-          <Grid
-            item
-            xs={12}
-            sm={12}
-          >
-            <Typography
-              className={classes.heading}
-              variant="h5"
-              component="h5"
-            >
-              <Trans>Create Bucket</Trans>
-            </Typography>
-          </Grid>
-          <Grid
-            item
-            xs={12}
-            sm={12}
-            className={classes.input}
-          >
-            <Typography><Trans>Bucket Name</Trans></Typography>
-            <TextInput
-              value={newBucketName}
-              onChange={(val) => setNewBucketName(String(val))} />
-          </Grid>
-          <footer className={classes.modalFooter}>
-            <Button
-              onClick={() => setCreateBucketOpen(false)}
-              size="medium"
-              className={classes.cancelButton}
-              variant="outline"
-              type="button"
-            >
-              <Trans>Cancel</Trans>
-            </Button>
-            <Button
-              variant="primary"
-              size="medium"
-              className={classes.okButton}
-              onClick={() => {
-                createBucket(newBucketName)
-                setCreateBucketOpen(false)
-              }}
-            >
-              <Trans>Create</Trans>
-            </Button>
-          </footer>
+          <FormikProvider value={formik}>
+            <Form>
+              <Grid item
+                xs={12}
+                sm={12}
+              >
+                <Typography
+                  className={classes.heading}
+                  variant="h5"
+                  component="h5"
+                >
+                  <Trans>Create Bucket</Trans>
+                </Typography>
+              </Grid>
+              <Grid item
+                xs={12}
+                sm={12}
+                className={classes.input}
+              >
+                <FormikTextInput
+                  name="name"
+                  size="large"
+                  placeholder={t`Bucket name`}
+                  label={t`Bucket name`}
+                  labelClassName={classes.label}
+                  autoFocus={true}
+                />
+              </Grid>
+              <footer className={classes.modalFooter}>
+                <Button
+                  onClick={() => setIsCreateBucketModalOpen(false)}
+                  size="medium"
+                  className={classes.cancelButton}
+                  variant="outline"
+                  type="button"
+                >
+                  <Trans>Cancel</Trans>
+                </Button>
+                <Button
+                  variant="primary"
+                  size="medium"
+                  className={classes.okButton}
+                  type="submit"
+                  loading={formik.isSubmitting}
+                >
+                  <Trans>Create</Trans>
+                </Button>
+              </footer>
+            </Form>
+          </FormikProvider>
         </div>
       </CustomModal>
     </div>
