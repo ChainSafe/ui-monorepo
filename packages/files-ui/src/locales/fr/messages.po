@@ -281,6 +281,12 @@ msgstr "Génération…"
 msgid "Get Started"
 msgstr "Commencer"
 
+msgid "Give edit permission to:"
+msgstr ""
+
+msgid "Give view-only permission to:"
+msgstr ""
+
 msgid "Go back"
 msgstr "Retour"
 
@@ -691,6 +697,9 @@ msgstr "Essayer une autre méthode"
 
 msgid "Update"
 msgstr "Mettre à jour"
+
+msgid "Update Shared Folder"
+msgstr ""
 
 msgid "Upload"
 msgstr "Téléverser"

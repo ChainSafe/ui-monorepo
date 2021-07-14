@@ -277,6 +277,12 @@ msgstr ""
 msgid "Get Started"
 msgstr "Begynn"
 
+msgid "Give edit permission to:"
+msgstr ""
+
+msgid "Give view-only permission to:"
+msgstr ""
+
 msgid "Go back"
 msgstr "Tilbake"
 
@@ -687,6 +693,9 @@ msgstr "Prøv annen metode"
 
 msgid "Update"
 msgstr "Oppdater"
+
+msgid "Update Shared Folder"
+msgstr ""
 
 msgid "Upload"
 msgstr "Last opp"
