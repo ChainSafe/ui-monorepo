@@ -117,7 +117,7 @@ const bucketNameValidator = yup.object().shape({
     .required(t`Bucket name is required`)
     .test(
       "Invalid name",
-      t`Folder name cannot contain '/' character`,
+      t`Bucket name cannot contain '/' character`,
       (val: string | null | undefined) => !!val && !val.includes("/")
     )
 })
