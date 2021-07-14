@@ -559,9 +559,6 @@ msgstr "Search…"
 msgid "Security"
 msgstr "Security"
 
-msgid "Select a shared folder. Only the ones your are owner or writer of are displayed"
-msgstr "Select a shared folder. Only the ones your are owner or writer of are displayed"
-
 msgid "Select a wallet"
 msgstr "Select a wallet"
 
