@@ -162,7 +162,7 @@ const ReportFileModal = ({ filePath, close }: IReportFileModalProps) => {
 
   useEffect(() => {
     // todo fetch admin public key from api instead of this hardcoded one
-    // https://github.com/ChainSafe/files-ui/issues/1244
+    // https://github.com/ChainSafe/ui-monorepo/issues/1244
     setAdminPubkey(TEMP_PUBLIC_KEY)
   }, [])
 
