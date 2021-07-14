@@ -23,7 +23,6 @@ export const useCreateSharedFolder = () => {
     return createSharedFolder(sharedFolderName, writers, readers)
       .then((bucket) => {
         setIsCreatingSharedFolder(false)
-        console.log("handleCreateSharedFolder bucket", bucket)
         return bucket
       })
       .catch(console.error)

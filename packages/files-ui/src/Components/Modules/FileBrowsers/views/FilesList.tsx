@@ -51,7 +51,7 @@ import SurveyBanner from "../../../SurveyBanner"
 import { DragPreviewLayer } from "./DragPreviewLayer"
 import { useFileBrowser } from "../../../../Contexts/FileBrowserContext"
 import ReportFileModal from "../ReportFileModal"
-import CopyeToSharedFolderModal from "../CopyToSharedFolderModal"
+import CopyToSharedFolderModal from "../CopyToSharedFolderModal"
 
 const baseOperations:  FileOperation[] = ["download", "info", "preview"]
 const readerOperations: FileOperation[] = [...baseOperations, "report"]
@@ -1102,7 +1102,7 @@ const FilesList = ({ isShared = false }: Props) => {
         />
       }
       { isCopyToSharedFolerModalOpen && filePath && fileIndex !== undefined &&
-        <CopyeToSharedFolderModal
+        <CopyToSharedFolderModal
           file={files[fileIndex]}
           close={() => {
             setIsCopyToSharedFolerModalOpen(false)

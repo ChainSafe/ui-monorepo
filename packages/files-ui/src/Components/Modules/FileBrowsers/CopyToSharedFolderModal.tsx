@@ -193,7 +193,7 @@ interface IShareFileProps {
   filePath: string
 }
 
-const ShareFileModal = ({ close, file, filePath }: IShareFileProps) => {
+const CopyToSharedFolderModal = ({ close, file, filePath }: IShareFileProps) => {
   const classes = useStyles()
   const { isCreatingSharedFolder, handleCreateSharedFolder } = useCreateSharedFolder()
   const [sharedFolderName, setSharedFolderName] = useState("")
@@ -279,6 +279,7 @@ const ShareFileModal = ({ close, file, filePath }: IShareFileProps) => {
       let fileContent: Blob | undefined
 
       try {
+        console.log("filePath", filePath)
         fileContent = await getFile({ file, filePath })
       } catch(e) {
         setError(t`Error while downloading ${file.name}`)
@@ -516,4 +517,4 @@ const ShareFileModal = ({ close, file, filePath }: IShareFileProps) => {
   )
 }
 
-export default ShareFileModal
+export default CopyToSharedFolderModal

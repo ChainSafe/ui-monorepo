@@ -178,7 +178,7 @@ const FileSystemItem = ({
 
   const { desktop } = useThemeSwitcher()
   const classes = useStyles()
-  const filePath = useMemo(() => `${currentPath}${name}`, [currentPath, name])
+  const filePath = useMemo(() => `${currentPath}/${name}`, [currentPath, name])
 
   const onFilePreview = useCallback(() => {
     showPreview && showPreview(files.indexOf(file))
