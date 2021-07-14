@@ -24,6 +24,7 @@ import { useUser } from "../../../Contexts/UserContext"
 import { useGetFile } from "./hooks/useGetFile"
 import { useFileBrowser } from "../../../Contexts/FileBrowserContext"
 import { ROUTE_LINKS } from "../../FilesRoutes"
+import clsx from "clsx"
 
 const useStyles = makeStyles(
   ({ breakpoints, constants, palette, typography, zIndex }: CSFTheme) => {
@@ -93,12 +94,12 @@ const useStyles = makeStyles(
       buttonsArea: {
         display: "flex",
         justifyContent: "center",
-        flexDirection: "column",
-        padding: `0 ${constants.generalUnit * 4}px ${constants.generalUnit * 4}px`
+        flexDirection: "column"
       },
       buttonsContainer: {
         display: "flex",
-        justifyContent: "center"
+        justifyContent: "center",
+        marginTop: constants.generalUnit * 4
       },
       mainButton: {
         width: "100%"
@@ -174,6 +175,9 @@ const useStyles = makeStyles(
       },
       successText: {
         display: "flex"
+      },
+      inputWrapper: {
+        marginBottom: 0
       }
     })
   }
@@ -374,13 +378,7 @@ const ShareFileModal = ({ close, file, filePath }: IShareFileProps) => {
   )
 
   const Step1ExistingSharedFolder = () => (
-    <div className={classes.modalFlexItem}>
-      <Typography
-        variant="body1"
-        component="p"
-      >
-        <Trans>Select a shared folder. Only the ones your are owner or writer of are displayed</Trans>
-      </Typography>
+    <div className={clsx(classes.modalFlexItem, classes.inputWrapper)}>
       <SelectInput
         label={t`Select an existing shared folder`}
         labelClassName={classes.inputLabel}
