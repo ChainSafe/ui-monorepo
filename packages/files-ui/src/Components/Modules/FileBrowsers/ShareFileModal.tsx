@@ -90,24 +90,25 @@ const useStyles = makeStyles(
         }px`,
         borderBottom: `1px solid ${palette.additional["gray"][3]}`
       },
-      buttonsContainer: {
+      buttonsArea: {
         display: "flex",
         justifyContent: "center",
         flexDirection: "column",
         padding: `0 ${constants.generalUnit * 4}px ${constants.generalUnit * 4}px`
       },
+      buttonsContainer: {
+        display: "flex",
+        justifyContent: "center"
+      },
       mainButton: {
         width: "100%"
       },
-      // mainButtonContainer: {
-      //   position: "relative",
-      //   flexBasis: "75%",
-      //   color: palette.additional["gray"][9],
-      //   [breakpoints.down("md")]: {
-      //     flexBasis: "100%",
-      //     margin: `${constants.generalUnit * 2}px`
-      //   }
-      // },
+      sideBySideButton: {
+        minWidth: constants.generalUnit * 12,
+        "&:first-child": {
+          marginRight: constants.generalUnit * 2
+        }
+      },
       heading: {
         color: constants.createShareModal.color,
         fontWeight: typography.fontWeight.semibold,
@@ -427,7 +428,7 @@ const ShareFileModal = ({ close, file, filePath }: IShareFileProps) => {
           )}
         </div>
         {currentStep === "1_SHARED_FOLDER_SELECTION_CREATION" && (
-          <div className={classes.buttonsContainer}>
+          <div className={classes.buttonsArea}>
             <div
               className={classes.buttonLink}
               onClick={() => setIsUsingCurrentBucket(!isUsingCurrentBucket)}
@@ -440,27 +441,29 @@ const ShareFileModal = ({ close, file, filePath }: IShareFileProps) => {
                 }
               </Typography>
             </div>
-            <Button
-              type="submit"
-              size="large"
-              variant="primary"
-              className={classes.mainButton}
-              onClick={onShare}
-            >
-              <Trans>Share</Trans>
-            </Button>
-            <Button
-              size="large"
-              variant="outline"
-              className={classes.mainButton}
-              onClick={onBackClick}
-            >
-              {
-                currentStep === "1_SHARED_FOLDER_SELECTION_CREATION"
-                  ? <Trans>Cancel</Trans>
-                  : <Trans>Back</Trans>
-              }
-            </Button>
+            <div className={classes.buttonsContainer}>
+              <Button
+                size="large"
+                variant="outline"
+                onClick={onBackClick}
+                className={classes.sideBySideButton}
+              >
+                {
+                  currentStep === "1_SHARED_FOLDER_SELECTION_CREATION"
+                    ? <Trans>Cancel</Trans>
+                    : <Trans>Back</Trans>
+                }
+              </Button>
+              <Button
+                type="submit"
+                size="large"
+                variant="primary"
+                onClick={onShare}
+                className={classes.sideBySideButton}
+              >
+                <Trans>Share</Trans>
+              </Button>
+            </div>
           </div>
         )}
 
