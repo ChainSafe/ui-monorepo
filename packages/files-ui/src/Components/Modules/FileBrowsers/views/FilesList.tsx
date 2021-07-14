@@ -51,7 +51,7 @@ import SurveyBanner from "../../../SurveyBanner"
 import { DragPreviewLayer } from "./DragPreviewLayer"
 import { useFileBrowser } from "../../../../Contexts/FileBrowserContext"
 import ReportFileModal from "../ReportFileModal"
-import ShareFileModal from "../ShareFileModal"
+import CopyeToSharedFolderModal from "../CopyToSharedFolderModal"
 
 const baseOperations:  FileOperation[] = ["download", "info", "preview"]
 const readerOperations: FileOperation[] = [...baseOperations, "report"]
@@ -292,7 +292,7 @@ const FilesList = ({ isShared = false }: Props) => {
   const { themeKey, desktop } = useThemeSwitcher()
   const [isReportFileModalOpen, setIsReportFileModalOpen] = useState(false)
   const [isFileInfoModalOpen, setIsFileInfoModalOpen] = useState(false)
-  const [isShareFileModalOpen, setIsShareFileModalOpen] = useState(false)
+  const [isCopyToSharedFolerModalOpen, setIsCopyToSharedFolerModalOpen] = useState(false)
 
   const {
     heading,
@@ -955,7 +955,7 @@ const FilesList = ({ isShared = false }: Props) => {
                     share={(filePath: string, fileIndex: number) => {
                       setFilePath(filePath)
                       setFileIndex(fileIndex)
-                      setIsShareFileModalOpen(true)
+                      setIsCopyToSharedFolerModalOpen(true)
                     }}
                   />
                 ))}
@@ -1013,7 +1013,7 @@ const FilesList = ({ isShared = false }: Props) => {
                   share={(fileInfoPath: string, fileIndex: number) => {
                     setFilePath(fileInfoPath)
                     setFileIndex(fileIndex)
-                    setIsShareFileModalOpen(true)
+                    setIsCopyToSharedFolerModalOpen(true)
                   }}
                   showPreview={(fileIndex: number) => {
                     setFileIndex(fileIndex)
@@ -1101,11 +1101,11 @@ const FilesList = ({ isShared = false }: Props) => {
           }}
         />
       }
-      { isShareFileModalOpen && filePath && fileIndex !== undefined &&
-        <ShareFileModal
+      { isCopyToSharedFolerModalOpen && filePath && fileIndex !== undefined &&
+        <CopyeToSharedFolderModal
           file={files[fileIndex]}
           close={() => {
-            setIsShareFileModalOpen(false)
+            setIsCopyToSharedFolerModalOpen(false)
             setFilePath(undefined)
           }}
           filePath={filePath}

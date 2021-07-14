@@ -25,6 +25,7 @@ import { useGetFile } from "./hooks/useGetFile"
 import { useFileBrowser } from "../../../Contexts/FileBrowserContext"
 import { ROUTE_LINKS } from "../../FilesRoutes"
 import clsx from "clsx"
+import { useEffect } from "react"
 
 const useStyles = makeStyles(
   ({ breakpoints, constants, palette, typography, zIndex }: CSFTheme) => {
@@ -198,7 +199,7 @@ const ShareFileModal = ({ close, file, filePath }: IShareFileProps) => {
   const [sharedFolderName, setSharedFolderName] = useState("")
   const { sharedFolderUsers, setSharedFolderUsers, handleLookupUser } = useLookupSharedFolderUser()
   const [permissions, setPermissions] = useState<SharedFolderCreationPermission>(undefined)
-  const [ isUsingCurrentBucket, setIsUsingCurrentBucket ] = useState(true)
+  const [isUsingCurrentBucket, setIsUsingCurrentBucket] = useState(true)
   const [currentStep, setCurrentStep] = useState<Step>("1_SHARED_FOLDER_SELECTION_CREATION")
   const [destinationBucket, setDestinationBucket] = useState<BucketKeyPermission | undefined>()
   const { buckets, uploadFiles } = useFiles()
@@ -227,6 +228,15 @@ const ShareFileModal = ({ close, file, filePath }: IShareFileProps) => {
       }))
   }
   , [buckets, profile])
+
+  const hasNoSharedBucket = useMemo(() => bucketsOptions.length === 0, [bucketsOptions.length])
+
+  // if the user has no shared bucket, we default to new folder creation
+  useEffect(() => {
+    if(hasNoSharedBucket) {
+      setIsUsingCurrentBucket(false)
+    }
+  }, [hasNoSharedBucket])
 
   const onShare = useCallback(async () => {
     if(!bucket) {
@@ -404,7 +414,7 @@ const ShareFileModal = ({ close, file, filePath }: IShareFileProps) => {
         </div>
         <div className={classes.heading}>
           <Typography className={classes.inputLabel}>
-            <Trans>Share File</Trans>
+            <Trans>Copy to shared folder</Trans>
           </Typography>
         </div>
         {(error || downloadError) && (
@@ -427,18 +437,20 @@ const ShareFileModal = ({ close, file, filePath }: IShareFileProps) => {
         </div>
         {currentStep === "1_SHARED_FOLDER_SELECTION_CREATION" && (
           <div className={classes.buttonsArea}>
-            <div
-              className={classes.buttonLink}
-              onClick={() => setIsUsingCurrentBucket(!isUsingCurrentBucket)}
-            >
-              <Typography>
-                {
-                  isUsingCurrentBucket
-                    ? <Trans>Create a new shared folder</Trans>
-                    : <Trans>Use an existing shared folder</Trans>
-                }
-              </Typography>
-            </div>
+            {!hasNoSharedBucket && (
+              <div
+                className={classes.buttonLink}
+                onClick={() => setIsUsingCurrentBucket(!isUsingCurrentBucket)}
+              >
+                <Typography>
+                  {
+                    isUsingCurrentBucket
+                      ? <Trans>Create a new shared folder</Trans>
+                      : <Trans>Use an existing shared folder</Trans>
+                  }
+                </Typography>
+              </div>
+            )}
             <div className={classes.buttonsContainer}>
               <Button
                 size="large"
@@ -459,7 +471,7 @@ const ShareFileModal = ({ close, file, filePath }: IShareFileProps) => {
                 onClick={onShare}
                 className={classes.sideBySideButton}
               >
-                <Trans>Share</Trans>
+                <Trans>Copy over</Trans>
               </Button>
             </div>
           </div>

@@ -234,7 +234,7 @@ const FileSystemItem = ({
         <>
           <ShareAltSvg className={classes.menuIcon} />
           <span data-cy="menu-share">
-            <Trans>Share</Trans>
+            <Trans>Copy to shared folder</Trans>
           </span>
         </>
       ),
