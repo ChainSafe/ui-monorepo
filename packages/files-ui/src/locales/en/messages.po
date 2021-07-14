@@ -142,6 +142,12 @@ msgstr "Copy CID"
 msgid "Copy info"
 msgstr "Copy info"
 
+msgid "Copy over"
+msgstr "Copy over"
+
+msgid "Copy to shared folder"
+msgstr "Copy to shared folder"
+
 msgid "Create"
 msgstr "Create"
 
@@ -600,12 +606,6 @@ msgstr "Settings"
 
 msgid "Setup incomplete"
 msgstr "Setup incomplete"
-
-msgid "Share"
-msgstr "Share"
-
-msgid "Share File"
-msgstr "Share File"
 
 msgid "Share with"
 msgstr "Share with"
