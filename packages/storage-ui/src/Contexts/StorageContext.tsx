@@ -157,8 +157,8 @@ const StorageProvider = ({ children }: StorageContextProps) => {
       public: "read",
       encryption_key:""
     })
-    .then(refreshBuckets)
-    .catch(console.error)
+      .then(refreshBuckets)
+      .catch(console.error)
   }, [storageApiClient, refreshBuckets])
 
   const removeBucket = useCallback((id: string) => {
