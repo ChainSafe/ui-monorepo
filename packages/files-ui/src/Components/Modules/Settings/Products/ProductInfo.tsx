@@ -3,7 +3,7 @@ import { Divider, Typography } from "@chainsafe/common-components"
 import { makeStyles, createStyles } from "@chainsafe/common-theme"
 import { CSFTheme } from "../../../../Themes/types"
 import clsx from "clsx"
-import { t, Trans } from "@lingui/macro"
+import { Trans } from "@lingui/macro"
 import { Product } from "@chainsafe/files-api-client"
 
 const useStyles = makeStyles(({ constants, palette, typography }: CSFTheme) =>
@@ -50,8 +50,8 @@ interface ProductInfoProps {
 
 const ProductInfo = ({ product, className }: ProductInfoProps) => {
   const classes = useStyles()
-  const { description, name, prices } = product
-  const { tax_behavior, recurring, type, currency, unit_amount } = prices
+  const { description, name } = product
+  // const { tax_behavior, recurring, type, currency, unit_amount } = prices
   return (
     <div className={clsx(classes.container, className)}>
       <Typography

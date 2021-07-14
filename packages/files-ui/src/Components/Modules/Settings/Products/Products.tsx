@@ -73,7 +73,7 @@ const Products = () => {
   const classes = useStyles()
   const [billingPeriod, setBillingPeriod] = useState<"monthly" | "yearly">("monthly")
   const { filesApiClient } = useFilesApi()
-  const [products, setProducts] = useState<Product[]>([])
+  const [products] = useState<Product[]>([])
 
   useEffect(() => {
     filesApiClient.getAllProducts().then(prods => {
