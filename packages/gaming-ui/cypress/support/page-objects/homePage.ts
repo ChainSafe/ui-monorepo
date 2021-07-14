@@ -40,7 +40,7 @@ export const homePage = {
 
   // clickUploadButton: () => homePage.startUploadButton()
   //   .should("not.be.disabled")
-  // // this pipe is needed to prevent https://github.com/ChainSafe/files-ui/issues/1146
+  // // this pipe is needed to prevent https://github.com/ChainSafe/ui-monorepo/issues/1146
   // // as described https://www.cypress.io/blog/2019/01/22/when-can-the-test-click/
   //   .pipe(click)
   //   .should(($el: JQuery<HTMLElement>) => {

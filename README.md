@@ -1,7 +1,7 @@
 # ChainSafe UI Monorepo
 
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/700aaf66f15641be8db21e180064e252)](https://www.codacy.com?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=ChainSafe/files-ui&amp;utm_campaign=Badge_Grade)
-[![Lint](https://github.com/ChainSafe/files-ui/actions/workflows/lint.yml/badge.svg?branch=dev)](https://github.com/ChainSafe/files-ui/actions/workflows/lint.yml)
+[![Lint](https://github.com/ChainSafe/ui-monorepo/actions/workflows/lint.yml/badge.svg?branch=dev)](https://github.com/ChainSafe/ui-monorepo/actions/workflows/lint.yml)
 
 ## Mono Repo Structure 🏗
 
@@ -50,6 +50,6 @@ By default the tests are run against `localhost:3000`
 - To start all the tests like in CI run `yarn test:ci:files-ui` 
 
 ## License
-All `files-ui` code are licensed under the [GNU Lesser General Public License v3.0](https://www.gnu.org/licenses/lgpl-3.0.en.html) also included in our repository in the [LICENSE.md](https://github.com/ChainSafe/files-ui/blob/dev/LICENSE.md) file
+All `files-ui` code are licensed under the [GNU Lesser General Public License v3.0](https://www.gnu.org/licenses/lgpl-3.0.en.html) also included in our repository in the [LICENSE.md](https://github.com/ChainSafe/ui-monorepo/blob/dev/LICENSE.md) file
 
 © Copyright Protected & All Rights Reserved by [ChainSafe Systems](https://chainsafe.io)
