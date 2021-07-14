@@ -79,7 +79,7 @@ const StorageProvider = ({ children }: StorageContextProps) => {
 
   const refreshBuckets = useCallback(() => {
     storageApiClient.listBuckets()
-      .then((buckets) => setStorageBuckets(buckets.filter(b => b.type === "fps" || b.type === "pinning")))
+      .then((buckets) => setStorageBuckets(buckets.filter(b => b.type === "fps")))
       .catch(console.error)
   }, [storageApiClient])
 
