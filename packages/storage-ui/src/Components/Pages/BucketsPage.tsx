@@ -114,7 +114,7 @@ const useStyles = makeStyles(({ breakpoints, animation, constants, typography }:
 const bucketNameValidator = yup.object().shape({
   name: yup
     .string()
-    .required(t`Folder name is required`)
+    .required(t`Bucket name is required`)
     .test(
       "Invalid name",
       t`Folder name cannot contain '/' character`,
