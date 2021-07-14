@@ -12,7 +12,8 @@ import {
   // ProgressBar,
   // formatBytes,
   ChainsafeLogo,
-  SettingSvg
+  SettingSvg,
+  SubscriptionSvg
 } from "@chainsafe/common-components"
 import { ROUTE_LINKS } from "../GamingRoutes"
 import { Trans } from "@lingui/macro"
@@ -229,7 +230,7 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
             <div>
               <Link
                 className={classes.logo}
-                to={ROUTE_LINKS.SettingsRoot}
+                to={ROUTE_LINKS.APIKeys}
               >
                 <ChainsafeLogo />
                 <Typography variant="body1">
@@ -243,15 +244,15 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
               <Link
                 onClick={handleOnClick}
                 className={classes.navItem}
-                to={ROUTE_LINKS.SettingsRoot}
+                to={ROUTE_LINKS.APIKeys}
               >
                 <SettingSvg />
                 <Typography
-                  data-cy="settings-nav"
+                  data-cy="apikeys-nav"
                   variant="h5"
                   className={classes.navItemText}
                 >
-                  <Trans>Settings</Trans>
+                  <Trans>API Keys</Trans>
                 </Typography>
               </Link>
               <Link
@@ -259,9 +260,9 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
                 className={classes.navItem}
                 to={ROUTE_LINKS.Billing}
               >
-                <SettingSvg />
+                <SubscriptionSvg />
                 <Typography
-                  data-cy="settings-nav"
+                  data-cy="billing-nav"
                   variant="h5"
                   className={classes.navItemText}
                 >

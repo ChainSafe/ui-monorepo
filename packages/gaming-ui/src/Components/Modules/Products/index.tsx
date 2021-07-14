@@ -92,7 +92,7 @@ const Products = () => {
         <Trans>Upgrade your plan</Trans>
       </Typography>
       <div className={classes.planSettings}>
-        <Link to={ROUTE_LINKS.SettingsRoot}>
+        <Link to={ROUTE_LINKS.Billing}>
           <ArrowLeftIcon className={classes.backIcon} />
           <Typography><Trans>Back to plan settings</Trans></Typography>
         </Link>

@@ -58,7 +58,7 @@ const useStyles = makeStyles(({ constants, palette, breakpoints }: ITheme) =>
   })
 )
 
-const CurrentProduct: React.FC = () => {
+const BillingPage: React.FC = () => {
   const classes = useStyles()
 
   return (
@@ -83,7 +83,7 @@ const CurrentProduct: React.FC = () => {
               component="h4"
               className={clsx(classes.margins, classes.storagePlan)}
             >
-              <Trans>Storage Plan</Trans>
+              <Trans>Gaming Plan</Trans>
             </Typography>
             {/* <Typography
               variant="h5"
@@ -128,7 +128,7 @@ const CurrentProduct: React.FC = () => {
                 variant="primary"
                 className={classes.changePlanButton}
               >
-                <Trans>Buy more storage</Trans>
+                <Trans>Upgrade Plan</Trans>
               </Button>
             </Link>
           </div>
@@ -138,4 +138,4 @@ const CurrentProduct: React.FC = () => {
   )
 }
 
-export default CurrentProduct
+export default BillingPage
