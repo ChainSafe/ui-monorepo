@@ -144,7 +144,7 @@ const useStyles = makeStyles(
       },
       loadingContainer: {
         width: "100%",
-        paddingTop: constants.generalUnit * 6,
+        paddingBottom: constants.generalUnit * 6,
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
@@ -175,7 +175,8 @@ const useStyles = makeStyles(
         marginBottom: constants.generalUnit * 4
       },
       successText: {
-        display: "flex"
+        display: "flex",
+        marginBottom: constants.generalUnit * 2
       },
       inputWrapper: {
         marginBottom: 0
@@ -330,14 +331,19 @@ const CopyToSharedFolderModal = ({ close, file, filePath }: IShareFileProps) => 
   const Loader = () => (
     <div className={classes.loadingContainer}>
       <Loading
-        size={24}
+        size={48}
         type="light"
       />
       <Typography
-        variant="body2"
+        variant="body1"
         component="p"
       >
-        <Trans>This may take some time depending on the file size</Trans><br/>
+        <Trans>This may take some time depending on the file size</Trans>
+      </Typography>
+      <Typography
+        variant="body1"
+        component="p"
+      >
         {isDownloading && <Trans>Downloading…</Trans>}
         {isUploading && <Trans>Encrypting and uploading…</Trans>}
       </Typography>
@@ -493,9 +499,7 @@ const CopyToSharedFolderModal = ({ close, file, filePath }: IShareFileProps) => 
                   </Typography>
                 </div>
                 <Typography>
-                  <Link
-                    to={ROUTE_LINKS.SharedFolderExplorer(destinationBucket.id, UPLOAD_PATH)}
-                  >
+                  <Link to={ROUTE_LINKS.SharedFolderExplorer(destinationBucket.id, UPLOAD_PATH)}>
                     <Trans>View shared folder</Trans>
                   </Link>
                 </Typography>
