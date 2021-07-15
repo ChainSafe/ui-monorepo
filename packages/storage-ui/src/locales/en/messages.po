@@ -334,6 +334,9 @@ msgstr "Terms and Conditions"
 msgid "The authentication popup was closed"
 msgstr "The authentication popup was closed"
 
+msgid "The files are already in this folder"
+msgstr "The files are already in this folder"
+
 msgid "The system is undergoing maintenance, thank you for being patient."
 msgstr "The system is undergoing maintenance, thank you for being patient."
 
@@ -387,6 +390,9 @@ msgstr "Web3: {0}"
 
 msgid "We’ve sent an email to {email}. It contains a verification code that’ll sign you in super quickly!"
 msgstr "We’ve sent an email to {email}. It contains a verification code that’ll sign you in super quickly!"
+
+msgid "You can't move folders to this path"
+msgstr "You can't move folders to this path"
 
 msgid "You will need to sign a message in your wallet to complete sign in."
 msgstr "You will need to sign a message in your wallet to complete sign in."
