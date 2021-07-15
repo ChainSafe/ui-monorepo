@@ -1,6 +1,7 @@
 import React, { useCallback, useState } from "react"
 import {
   // DeleteSvg,
+  UpdateSvg,
   EditSvg,
   IMenuItem
 } from "@chainsafe/common-components"
@@ -52,7 +53,7 @@ const SharedFolderRowWrapper = ({ bucket, handleRename, openSharedFolder, onUpda
     {
       contents: (
         <>
-          <EditSvg className={classes.menuIcon} />
+          <UpdateSvg className={classes.menuIcon} />
           <span data-cy="menu-update">
             <Trans>Update</Trans>
           </span>
