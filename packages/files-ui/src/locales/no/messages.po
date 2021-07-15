@@ -55,6 +55,9 @@ msgstr "Godkjenn"
 msgid "Are we on the right track? Let us know in less than 1 minute."
 msgstr ""
 
+msgid "Back"
+msgstr ""
+
 msgid "Backup secret phrase"
 msgstr ""
 
@@ -139,6 +142,12 @@ msgstr "Kopier CID"
 msgid "Copy info"
 msgstr ""
 
+msgid "Copy over"
+msgstr ""
+
+msgid "Copy to shared folder"
+msgstr ""
+
 msgid "Create"
 msgstr "Opprett"
 
@@ -151,6 +160,9 @@ msgstr ""
 msgid "Create a Shared Folder"
 msgstr ""
 
+msgid "Create a new shared folder"
+msgstr ""
+
 msgid "Create folder"
 msgstr "Opprett mappe"
 
@@ -160,9 +172,6 @@ msgstr "Mørk drakt"
 msgid "Date uploaded"
 msgstr "Dato opplastet"
 
-msgid "Decryption failed"
-msgstr "Kunne ikke dekryptere"
-
 msgid "Decryption key"
 msgstr ""
 
@@ -171,6 +180,9 @@ msgstr "Slett"
 
 msgid "Delete selected"
 msgstr "Slett valgte"
+
+msgid "Destination shared folder not selected"
+msgstr ""
 
 msgid "Device awaiting confirmation"
 msgstr ""
@@ -190,11 +202,17 @@ msgstr ""
 msgid "Download recovery key"
 msgstr ""
 
+msgid "Downloading…"
+msgstr ""
+
 msgid "Drop to upload files"
 msgstr "Dra for å laste opp filer"
 
 msgid "Email is required"
 msgstr "E-post kreves"
+
+msgid "Encrypting and uploading…"
+msgstr ""
 
 msgid "Enter backup secret phrase:"
 msgstr ""
@@ -210,6 +228,15 @@ msgstr "Skriv inn bekreftelseskoden:"
 
 msgid "Enter your email:"
 msgstr "Skriv inn e-posten din:"
+
+msgid "Error while creating new shared folder"
+msgstr ""
+
+msgid "Error while downloading {0}"
+msgstr ""
+
+msgid "Error while uploading {0}"
+msgstr ""
 
 msgid "Essentials - Free"
 msgstr ""
@@ -231,6 +258,9 @@ msgstr "Fil"
 
 msgid "File Info"
 msgstr "Filinfo"
+
+msgid "File added successfully!"
+msgstr ""
 
 msgid "File format not supported."
 msgstr ""
@@ -535,6 +565,9 @@ msgstr ""
 msgid "Select a wallet"
 msgstr ""
 
+msgid "Select an existing shared folder"
+msgstr ""
+
 msgid "Send Feedback"
 msgstr "Send tilbakemelding"
 
@@ -571,9 +604,6 @@ msgstr "Innstillinger"
 msgid "Setup incomplete"
 msgstr ""
 
-msgid "Share"
-msgstr "Del"
-
 msgid "Share with"
 msgstr ""
 
@@ -581,6 +611,9 @@ msgid "Shared"
 msgstr "Delt"
 
 msgid "Shared Folder Name"
+msgstr ""
+
+msgid "Shared folder is undefined"
 msgstr ""
 
 msgid "Shared folders"
@@ -673,6 +706,9 @@ msgstr ""
 msgid "There was an error when setting username."
 msgstr ""
 
+msgid "This may take some time depending on the file size"
+msgstr ""
+
 msgid "This username is already taken"
 msgstr ""
 
@@ -703,6 +739,9 @@ msgstr "Bruk en annen innloggingsmetode"
 msgid "Use a saved browser"
 msgstr ""
 
+msgid "Use an existing shared folder"
+msgstr ""
+
 msgid "Username"
 msgstr "Brukernavn"
 
@@ -724,7 +763,13 @@ msgstr ""
 msgid "View folder"
 msgstr "Vis mappe"
 
+msgid "View shared folder"
+msgstr ""
+
 msgid "Wallet address"
+msgstr ""
+
+msgid "We can't encrypt files larger than 2GB. Some items will not be uploaded"
 msgstr ""
 
 msgid "Web3: {0}"
