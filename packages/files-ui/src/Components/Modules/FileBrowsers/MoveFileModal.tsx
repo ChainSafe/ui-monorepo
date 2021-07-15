@@ -2,13 +2,15 @@ import { createStyles, makeStyles, useMediaQuery } from "@chainsafe/common-theme
 import React, { useState, useEffect, useCallback } from "react"
 import CustomModal from "../../Elements/CustomModal"
 import CustomButton from "../../Elements/CustomButton"
-import { plural, t, Trans } from "@lingui/macro"
+import { t, Trans } from "@lingui/macro"
 import { DirectoryContentResponse, FileSystemItem, useFiles } from "../../../Contexts/FilesContext"
 import { Button, FolderIcon, Grid, ITreeNodeProps, ScrollbarWrapper, TreeView, Typography } from "@chainsafe/common-components"
 import { CSFTheme } from "../../../Themes/types"
 import { useFileBrowser } from "../../../Contexts/FileBrowserContext"
 import { useFilesApi } from "../../../Contexts/FilesApiContext"
 import { MoveModalMode } from "./types"
+import { useMemo } from "react"
+import { isSubFolder } from "../../../Utils/pathUtils"
 
 
 const useStyles = makeStyles(
@@ -135,10 +137,20 @@ const MoveFileModule = ({ filesToMove, modalOpen, onClose, onCancel, mode }: IMo
       .then(onClose)
       .catch(console.error)
       .finally(() => setIsMovingFile(false))
-
   }
 
   const desktop = useMediaQuery("md")
+
+  const containsFolder = useMemo(() =>
+    filesToMove.some((f) => f.isFolder)
+  , [filesToMove])
+
+  const isAllowedToMove = useMemo(() =>
+    !!movePath && // the move path should be set
+    mode === "move" && // we're moving and not recovering
+    movePath !== currentPath && // can't be the same path
+    (!containsFolder || !isSubFolder(movePath, currentPath)) // if it has folders it can't be moved to a subfolder
+  , [containsFolder, currentPath, mode, movePath])
 
   return (
     <CustomModal
@@ -196,17 +208,16 @@ const MoveFileModule = ({ filesToMove, modalOpen, onClose, onCancel, mode }: IMo
         alignItems="center"
         className={classes.paddedContainer}
       >
-        {mode === "move" && movePath === currentPath && (
+        {!!movePath && !isAllowedToMove && (
           <Typography
             component="p"
             variant="body1"
           >
-            <Trans>
-              {plural(filesToMove.length, {
-                one: "The file is already in this folder",
-                other: "The files are already in this folder"
-              })}
-            </Trans>
+            {
+              containsFolder
+                ? t`You can't move folders to this path`
+                : t`The files are already in this folder`
+            }
           </Typography>
         )}
         <Grid
@@ -229,7 +240,7 @@ const MoveFileModule = ({ filesToMove, modalOpen, onClose, onCancel, mode }: IMo
             type="submit"
             className={classes.okButton}
             loading={isMovingFile}
-            disabled={!movePath || (mode === "move" && movePath === currentPath)}
+            disabled={!isAllowedToMove}
             onClick={onMoveFile}
           >
             {mode === "move" ? t`Move` : t`Recover`}
