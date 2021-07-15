@@ -78,7 +78,7 @@ export const isSubFolder = (fold1: string, fold2: string) => {
     // if paths1 is longer than paths2
     if (index === path2.length){
       result = true
-      //break out of the every look
+      //break out of the loop
       return false
     }
 
