@@ -210,12 +210,13 @@ const AppHeader = ({ navOpen, setNavOpen }: IAppHeader) => {
                     {
                       onClick: () => signOut(),
                       contents: (
-                        <div className={classes.menuItem}>
+                        <div
+                          data-cy="menu-sign-out"
+                          className={classes.menuItem}
+                        >
                           <PowerDownSvg />
                           <Typography>
-                            <span data-cy="menu-sign-out">
-                              <Trans>Sign Out</Trans>
-                            </span>
+                            <Trans>Sign Out</Trans>
                           </Typography>
                         </div>
                       )

@@ -282,6 +282,7 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
             </Typography>
             <nav className={classes.navMenu}>
               <Link
+                data-cy="home-nav"
                 onClick={() => {
                   handleOnClick()
                 }}
@@ -290,7 +291,6 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
               >
                 <DatabaseSvg />
                 <Typography
-                  data-cy="home-nav"
                   variant="h5"
                   className={classes.navItemText}
                 >
@@ -311,13 +311,13 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
                 </Typography>
               </Link>
               <Link
+                data-cy="bin-nav"
                 onClick={handleOnClick}
                 className={classes.navItem}
                 to={ROUTE_LINKS.Bin("/")}
               >
                 <DeleteSvg />
                 <Typography
-                  data-cy="bin-nav"
                   variant="h5"
                   className={classes.navItemText}
                 >
@@ -330,13 +330,13 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
             </Typography>
             <nav className={classes.navMenu}>
               <Link
+                data-cy="settings-nav"
                 onClick={handleOnClick}
                 className={classes.navItem}
                 to={ROUTE_LINKS.SettingsDefault}
               >
                 <SettingSvg />
                 <Typography
-                  data-cy="settings-nav"
                   variant="h5"
                   className={classes.navItemText}
                 >
@@ -347,9 +347,10 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
           </div>
           <section>
             {desktop && (
-              <div>
+              <div
+                data-cy="label-space-used"
+              >
                 <Typography
-                  data-cy="label-space-used"
                   variant="body2"
                   className={classes.spaceUsedMargin}
                   component="p"
