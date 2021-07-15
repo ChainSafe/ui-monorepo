@@ -129,12 +129,10 @@ const UpdateSharedFolderModal = ({
   const { filesApiClient } = useFilesApi()
   const { profile } = useUser()
   const [isUpdatingSharedFolder, setIsUpdatingSharedFolder] = useState(false)
-  const [sharedFolderName, setSharedFolderName] = useState(bucket?.name || "")
   const [sharedFolderWriters, setSharedFolderWriters] = useState<{label: string; value: string; data: SharedUser}[]>([])
   const [sharedFolderReaders, setSharedFolderReaders] = useState<{label: string; value: string; data: SharedUser}[]>([])
 
   useEffect(() => {
-    setSharedFolderName(bucket?.name || "")
     setSharedFolderWriters(
       bucket?.writers.map((writer) => ({
         label: writer.uuid || "",
@@ -182,7 +180,6 @@ const UpdateSharedFolderModal = ({
   }, [filesApiClient, sharedFolderReaders, sharedFolderWriters, profile])
 
   const handleClose = useCallback(() => {
-    setSharedFolderName("")
     setSharedFolderReaders([])
     setSharedFolderWriters([])
     onClose()
@@ -201,15 +198,15 @@ const UpdateSharedFolderModal = ({
       encryption_key: su.data.encryption_key
     }))
     setIsUpdatingSharedFolder(true)
-    updateSharedFolder(bucket, sharedFolderName, writers, readers)
+    updateSharedFolder(bucket, writers, readers)
       .then(handleClose)
       .catch(console.error)
       .finally(() => setIsUpdatingSharedFolder(false))
-  }, [sharedFolderWriters, sharedFolderReaders, updateSharedFolder, sharedFolderName, handleClose, bucket])
+  }, [sharedFolderWriters, sharedFolderReaders, updateSharedFolder, handleClose, bucket])
 
   const isValid = useMemo(() => {
-    return !!(((sharedFolderReaders.length + sharedFolderWriters.length) > 0 && sharedFolderName))
-  }, [sharedFolderName, sharedFolderReaders, sharedFolderWriters])
+    return !!(((sharedFolderReaders.length + sharedFolderWriters.length) > 0))
+  }, [sharedFolderReaders, sharedFolderWriters])
 
   return (
     <CustomModal

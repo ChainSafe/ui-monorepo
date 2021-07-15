@@ -88,7 +88,6 @@ type FilesContext = {
   ) => Promise<BucketKeyPermission | void>
   updateSharedFolder: (
     bucket: BucketKeyPermission,
-    name: string,
     writers?: UpdateSharedFolderUser[],
     readers?: UpdateSharedFolderUser[]
   ) => Promise<void>
@@ -540,7 +539,7 @@ const FilesProvider = ({ children }: FilesContextProps) => {
   }, [publicKey, encryptForPublicKey, filesApiClient, refreshBuckets, getKeyForBucket, getPermissionForBucket])
 
   const updateSharedFolder = useCallback(
-    async (bucket: BucketKeyPermission, name: string, writerUsers?: UpdateSharedFolderUser[], readerUsers?: UpdateSharedFolderUser[]) => {
+    async (bucket: BucketKeyPermission, writerUsers?: UpdateSharedFolderUser[], readerUsers?: UpdateSharedFolderUser[]) => {
       if (!publicKey) return
 
       const readers = readerUsers ? await Promise.all(readerUsers?.map(async u => {
@@ -564,7 +563,7 @@ const FilesProvider = ({ children }: FilesContextProps) => {
       })) : []
 
       return filesApiClient.updateBucket(bucket.id, {
-        name,
+        name: bucket.name,
         readers,
         writers
       }).then(() => refreshBuckets(false))
