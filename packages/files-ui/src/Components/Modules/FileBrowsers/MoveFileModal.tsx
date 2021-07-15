@@ -10,7 +10,7 @@ import { useFileBrowser } from "../../../Contexts/FileBrowserContext"
 import { useFilesApi } from "../../../Contexts/FilesApiContext"
 import { MoveModalMode } from "./types"
 import { useMemo } from "react"
-import { isSubFolder } from "../../../Utils/pathUtils"
+import { getPathWithFile, isSubFolder } from "../../../Utils/pathUtils"
 
 
 const useStyles = makeStyles(
@@ -151,7 +151,7 @@ const MoveFileModule = ({ filesToMove, modalOpen, onClose, onCancel, mode }: IMo
     }
 
     return folders.some((folder) => {
-      const currentPathWithFolder = `${currentPath}/${folder.name}`
+      const currentPathWithFolder = getPathWithFile(currentPath, folder.name)
 
       return movePath === currentPathWithFolder || // don't allow a move from a folder in itself
       isSubFolder(movePath, currentPathWithFolder)
