@@ -183,8 +183,8 @@ const BucketPage: React.FC<IFileBrowserModuleProps> = () => {
   }, [currentPath, pathContents, redirect, bucketId])
 
   const bulkOperations: IBulkOperations = useMemo(() => ({
-    [CONTENT_TYPES.Directory]: [],
-    [CONTENT_TYPES.File]: ["delete"]
+    [CONTENT_TYPES.Directory]: ["delete", "move"],
+    [CONTENT_TYPES.File]: ["delete", "move"]
   }), [])
 
   const itemOperations: IFilesTableBrowserProps["itemOperations"] = useMemo(() => ({
@@ -193,8 +193,8 @@ const BucketPage: React.FC<IFileBrowserModuleProps> = () => {
     [CONTENT_TYPES.Image]: [],
     [CONTENT_TYPES.Pdf]: [],
     [CONTENT_TYPES.Text]: [],
-    [CONTENT_TYPES.File]: ["delete"],
-    [CONTENT_TYPES.Directory]: ["delete"]
+    [CONTENT_TYPES.File]: ["delete", "move"],
+    [CONTENT_TYPES.Directory]: ["delete", "move"]
   }), [])
 
   return (
