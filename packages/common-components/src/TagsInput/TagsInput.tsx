@@ -19,6 +19,7 @@ const useStyles = makeStyles(
         ...overrides?.TagsInput?.root
       },
       label: {
+        margin: 5,
         transitionDuration: `${animation.transform}ms`,
         display: "block",
         marginBottom: constants.generalUnit / 4,
@@ -36,6 +37,9 @@ const useStyles = makeStyles(
           color: palette.warning.main
         },
         ...overrides?.SelectInput?.caption
+      },
+      asyncSelect:{
+        margin: 5
       }
     })
 )
@@ -85,6 +89,7 @@ const TagsInput = ({
         </Typography>
       )}
       <AsyncSelect
+        className={classes.asyncSelect}
         isMulti
         cacheOptions={false}
         value={value}

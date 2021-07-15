@@ -56,6 +56,9 @@ msgstr "Accepter"
 msgid "Are we on the right track? Let us know in less than 1 minute."
 msgstr "Sommes-nous sur les bons rails ? Dites-le-nous en moins d’1 minute (en anglais)."
 
+msgid "Back"
+msgstr ""
+
 msgid "Backup secret phrase"
 msgstr "Phrase secrète de sauvegarde"
 
@@ -140,6 +143,12 @@ msgstr "Copier le CID"
 msgid "Copy info"
 msgstr ""
 
+msgid "Copy over"
+msgstr ""
+
+msgid "Copy to shared folder"
+msgstr ""
+
 msgid "Create"
 msgstr "Créer"
 
@@ -152,6 +161,9 @@ msgstr "Créer un dossier partagé"
 msgid "Create a Shared Folder"
 msgstr "Créer un dossier partagé"
 
+msgid "Create a new shared folder"
+msgstr ""
+
 msgid "Create folder"
 msgstr "Créer un dossier"
 
@@ -161,9 +173,6 @@ msgstr "Thème sombre"
 msgid "Date uploaded"
 msgstr "Téléversé le"
 
-msgid "Decryption failed"
-msgstr "Le déchiffrement a échoué"
-
 msgid "Decryption key"
 msgstr ""
 
@@ -172,6 +181,9 @@ msgstr "Supprimer"
 
 msgid "Delete selected"
 msgstr "Supprimer la sélection"
+
+msgid "Destination shared folder not selected"
+msgstr ""
 
 msgid "Device awaiting confirmation"
 msgstr "Appareil en attente de confirmation"
@@ -191,11 +203,17 @@ msgstr "Téléchargement terminé"
 msgid "Download recovery key"
 msgstr "Télécharger la clé de sauvegarde"
 
+msgid "Downloading…"
+msgstr ""
+
 msgid "Drop to upload files"
 msgstr "Faire glisser pour téléverser un fichier"
 
 msgid "Email is required"
 msgstr "Un courriel est requis"
+
+msgid "Encrypting and uploading…"
+msgstr ""
 
 msgid "Enter backup secret phrase:"
 msgstr "Phrase secrète de sauvegarde :"
@@ -211,6 +229,15 @@ msgstr "Entrez le code de vérification :"
 
 msgid "Enter your email:"
 msgstr "Entrez votre courriel :"
+
+msgid "Error while creating new shared folder"
+msgstr ""
+
+msgid "Error while downloading {0}"
+msgstr ""
+
+msgid "Error while uploading {0}"
+msgstr ""
 
 msgid "Essentials - Free"
 msgstr "Essentials - Gratuit"
@@ -235,6 +262,9 @@ msgstr "Fichier"
 
 msgid "File Info"
 msgstr "Infos du fichier"
+
+msgid "File added successfully!"
+msgstr ""
 
 msgid "File format not supported."
 msgstr "Format de fichier non pris en charge."
@@ -545,6 +575,9 @@ msgstr "Sécurité"
 msgid "Select a wallet"
 msgstr "Sélectionner un wallet"
 
+msgid "Select an existing shared folder"
+msgstr ""
+
 msgid "Send Feedback"
 msgstr "Donner son avis"
 
@@ -581,9 +614,6 @@ msgstr "Paramètres"
 msgid "Setup incomplete"
 msgstr "Configuration incomplète"
 
-msgid "Share"
-msgstr "Partager"
-
 msgid "Share with"
 msgstr "Partager avec"
 
@@ -592,6 +622,9 @@ msgstr "Partagé"
 
 msgid "Shared Folder Name"
 msgstr "Nom du dossier partagé"
+
+msgid "Shared folder is undefined"
+msgstr ""
 
 msgid "Shared folders"
 msgstr "Dossiers partagés"
@@ -683,6 +716,9 @@ msgstr "Une erreur s’est produite lors de la récupération"
 msgid "There was an error when setting username."
 msgstr "Il y a eu une erreur dans le paramétrage du nom d’utilisateur."
 
+msgid "This may take some time depending on the file size"
+msgstr ""
+
 msgid "This username is already taken"
 msgstr "Ce nom d’utilisateur est déjà pris"
 
@@ -716,6 +752,9 @@ msgstr "Utilisez une méthode de connexion différente"
 msgid "Use a saved browser"
 msgstr "Utiliser un navigateur enregistré"
 
+msgid "Use an existing shared folder"
+msgstr ""
+
 msgid "Username"
 msgstr "Nom d’utilisateur"
 
@@ -737,8 +776,14 @@ msgstr "Code de vérification envoyé !"
 msgid "View folder"
 msgstr "Voir le dossier"
 
+msgid "View shared folder"
+msgstr ""
+
 msgid "Wallet address"
 msgstr "Addresse du wallet"
+
+msgid "We can't encrypt files larger than 2GB. Some items will not be uploaded"
+msgstr ""
 
 msgid "Web3: {0}"
 msgstr "Web3 : {0}"

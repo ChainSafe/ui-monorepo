@@ -75,13 +75,17 @@ type FilesContext = {
   uploadsInProgress: UploadProgress[]
   downloadsInProgress: DownloadProgress[]
   spaceUsed: number
-  uploadFiles: (bucketId: string, files: File[], path: string) => Promise<void>
+  uploadFiles: (bucketId: string, files: File[], path: string, encryptionKey?: string) => Promise<void>
   downloadFile: (bucketId: string, itemToDownload: FileSystemItem, path: string) => void
   getFileContent: (bucketId: string, params: GetFileContentParams) => Promise<Blob | undefined>
   refreshBuckets: (showLoading?: boolean) => Promise<void>
   secureAccountWithMasterPassword: (candidatePassword: string) => Promise<void>
   isLoadingBuckets?: boolean
-  createSharedFolder: (name: string,  writers?: SharedFolderUser[], readers?: SharedFolderUser[]) => Promise<void>
+  createSharedFolder: (
+    name: string,
+    writers?: SharedFolderUser[],
+    readers?: SharedFolderUser[]
+  ) => Promise<BucketKeyPermission | void>
   updateSharedFolder: (
     bucket: BucketKeyPermission,
     name: string,
@@ -91,7 +95,7 @@ type FilesContext = {
 }
 
 // This represents a File or Folder on the
-interface IFileSystemItem extends FileContentResponse {
+export interface IFileSystemItem extends FileContentResponse {
   isFolder: boolean
 }
 
@@ -121,6 +125,16 @@ const FilesProvider = ({ children }: FilesContextProps) => {
   const { userId } = profile || {}
   const [isLoadingBuckets, setIsLoadingBuckets] = useState(false)
 
+  const getPermissionForBucket = useCallback((bucket: FilesBucket) => {
+    return bucket.owners.find(owner => owner.uuid === userId)
+      ? "owner" as BucketPermission
+      : bucket.writers.find(writer => writer.uuid === userId)
+        ? "writer" as BucketPermission
+        : bucket.readers.find(reader => reader.uuid === userId)
+          ? "reader" as BucketPermission
+          : undefined
+  }, [userId])
+
   const getKeyForSharedBucket = useCallback(async (bucket: FilesBucket) => {
     const bucketUsers = [...bucket.readers, ...bucket.writers, ...bucket.owners]
     const bucketUser = bucketUsers.find(bu => bu.uuid === userId)
@@ -135,6 +149,25 @@ const FilesProvider = ({ children }: FilesContextProps) => {
     return decrypted || ""
   }, [decryptMessageWithThresholdKey, userId])
 
+  const getKeyForBucket = useCallback(async (bucket: FilesBucket) => {
+    if (!personalEncryptionKey || !userId) return
+
+    let encryptionKey = ""
+
+    switch(bucket.type) {
+    case "csf":
+    case "trash": {
+      encryptionKey = personalEncryptionKey
+      break
+    }
+    case "share": {
+      encryptionKey = await getKeyForSharedBucket(bucket)
+      break
+    }}
+
+    return encryptionKey
+  }, [getKeyForSharedBucket, personalEncryptionKey, userId])
+
   const refreshBuckets = useCallback(async (showLoading?: boolean) => {
     if (!personalEncryptionKey || !userId) return
 
@@ -143,39 +176,17 @@ const FilesProvider = ({ children }: FilesContextProps) => {
 
     const bucketsWithKeys: BucketKeyPermission[] = await Promise.all(
       result.map(async (b) => {
-
-        const permission = b.owners.find(owner => owner.uuid === profile?.userId)
-          ? "owner" as BucketPermission
-          : b.writers.find(writer => writer.uuid === profile?.userId)
-            ? "writer" as BucketPermission
-            : b.readers.find(reader => reader.uuid === profile?.userId)
-              ? "reader" as BucketPermission
-              : undefined
-
-        let encryptionKey = ""
-
-        switch(b.type) {
-        case "csf":
-        case "trash": {
-          encryptionKey = personalEncryptionKey
-          break
-        }
-        case "share": {
-          encryptionKey = await getKeyForSharedBucket(b)
-          break
-        }}
-
         return {
           ...b,
-          encryptionKey,
-          permission
+          encryptionKey: await getKeyForBucket(b) || "",
+          permission: getPermissionForBucket(b)
         }
       })
     )
     setBuckets(bucketsWithKeys)
     setIsLoadingBuckets(false)
     return Promise.resolve()
-  }, [personalEncryptionKey, userId, filesApiClient, profile, getKeyForSharedBucket])
+  }, [personalEncryptionKey, userId, filesApiClient, getKeyForBucket, getPermissionForBucket])
 
   useEffect(() => {
     refreshBuckets(true)
@@ -301,11 +312,11 @@ const FilesProvider = ({ children }: FilesContextProps) => {
     }
   })
 
-  const uploadFiles = useCallback(async (bucketId: string, files: File[], path: string) => {
-    const bucket = buckets.find(b => b.id === bucketId)
+  const uploadFiles = useCallback(async (bucketId: string, files: File[], path: string, encryptionKey?: string) => {
+    const key = encryptionKey || buckets.find(b => b.id === bucketId)?.encryptionKey
 
-    if (!bucket || !bucket.encryptionKey) {
-      console.error("No encryption key for this bucket is available.")
+    if (!key) {
+      console.error("No encryption key for this bucket available.")
       return
     }
 
@@ -320,26 +331,29 @@ const FilesProvider = ({ children }: FilesContextProps) => {
       path
     }
     dispatchUploadsInProgress({ type: "add", payload: uploadProgress })
+    const hasOversizedFile = files.some(file => file.size > MAX_FILE_SIZE)
+
+    if (hasOversizedFile) {
+      addToastMessage({
+        message:
+            t`We can't encrypt files larger than 2GB. Some items will not be uploaded`,
+        appearance: "error"
+      })
+    }
+
     try {
       const filesParam = await Promise.all(
         files
           .filter((f) => f.size <= MAX_FILE_SIZE)
           .map(async (f) => {
             const fileData = await readFileAsync(f)
-            const encryptedData = await encryptFile(fileData, bucket.encryptionKey)
+            const encryptedData = await encryptFile(fileData, key)
             return {
               data: new Blob([encryptedData], { type: f.type }),
               fileName: f.name
             }
           })
       )
-      if (filesParam.length !== files.length) {
-        addToastMessage({
-          message:
-              "We can't encrypt files larger than 2GB. Some items will not be uploaded",
-          appearance: "error"
-        })
-      }
 
       await filesApiClient.uploadBucketObjects(
         bucketId,
@@ -391,9 +405,10 @@ const FilesProvider = ({ children }: FilesContextProps) => {
     bucketId: string,
     { cid, cancelToken, onDownloadProgress, file, path }: GetFileContentParams
   ) => {
-    const bucket = buckets.find(b => b.id === bucketId)
 
-    if (!bucket || !bucket.encryptionKey) {
+    const key = buckets.find(b => b.id === bucketId)?.encryptionKey
+
+    if (!key) {
       throw new Error("No encryption key for this bucket found")
     }
 
@@ -408,7 +423,7 @@ const FilesProvider = ({ children }: FilesContextProps) => {
 
     try {
       const result = await filesApiClient.getBucketObjectContent(
-        bucket.id,
+        bucketId,
         { path: path },
         cancelToken,
         onDownloadProgress
@@ -419,7 +434,7 @@ const FilesProvider = ({ children }: FilesContextProps) => {
       } else {
         const decrypted = await decryptFile(
           await result.data.arrayBuffer(),
-          bucket.encryptionKey
+          key
         )
         if (decrypted) {
           return new Blob([decrypted], {
@@ -506,15 +521,23 @@ const FilesProvider = ({ children }: FilesContextProps) => {
       encryption_key: await encryptForPublicKey(u.pubKey, bucketEncryptionKey)
     }))) : []
 
-    filesApiClient.createBucket({
+    return filesApiClient.createBucket({
       name,
       encryption_key: ownerEncryptedEncryptionKey,
       type: "share",
       readers,
       writers
-    }).then(() => refreshBuckets(false))
+    }).then(async (bucket) => {
+      refreshBuckets(false)
+
+      return {
+        ...bucket,
+        encryptionKey: await getKeyForBucket(bucket) || "",
+        permission: getPermissionForBucket(bucket)
+      } as BucketKeyPermission
+    })
       .catch(console.error)
-  }, [filesApiClient, encryptForPublicKey, publicKey, refreshBuckets])
+  }, [publicKey, encryptForPublicKey, filesApiClient, refreshBuckets, getKeyForBucket, getPermissionForBucket])
 
   const updateSharedFolder = useCallback(
     async (bucket: BucketKeyPermission, name: string, writerUsers?: UpdateSharedFolderUser[], readerUsers?: UpdateSharedFolderUser[]) => {
