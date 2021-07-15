@@ -1,9 +1,7 @@
-import React, { useEffect, useRef } from "react"
-import { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { createStyles, makeStyles, useThemeSwitcher } from "@chainsafe/common-theme"
 import { FileSystemItem, useFiles } from "../../Contexts/FilesContext"
 import MimeMatcher from "./../../Utils/MimeMatcher"
-import axios, { CancelTokenSource } from "axios"
 import {
   Button,
   Grid,
@@ -15,10 +13,6 @@ import {
   MoreIcon,
   CloseCircleIcon,
   ProgressBar
-  // ExportIcon,
-  // DeleteIcon,
-  // EditIcon,
-  // ShareAltIcon,
 } from "@chainsafe/common-components"
 import ImagePreview from "./PreviewRenderers/ImagePreview"
 import { useSwipeable } from "react-swipeable"
@@ -28,9 +22,10 @@ import AudioPreview from "./PreviewRenderers/AudioPreview"
 import TextPreview from "./PreviewRenderers/TextPreview"
 import MarkdownPreview from "./PreviewRenderers/MarkdownPreview"
 import { useHotkeys } from "react-hotkeys-hook"
-import { t, Trans } from "@lingui/macro"
+import { Trans } from "@lingui/macro"
 import { CSFTheme } from "../../Themes/types"
 import { useFileBrowser } from "../../Contexts/FileBrowserContext"
+import { useGetFile } from "./FileBrowsers/hooks/useGetFile"
 
 export interface IPreviewRendererProps {
   contents: Blob
@@ -157,82 +152,30 @@ interface Props {
   nextFile?: () => void
   previousFile?: () => void
   closePreview: () => void
-  path: string
+  filePath: string
 }
 
-const FilePreviewModal = ({ file, nextFile, previousFile, closePreview, path }: Props) => {
+const FilePreviewModal = ({ file, nextFile, previousFile, closePreview, filePath }: Props) => {
   const classes = useStyles()
-  const { getFileContent, downloadFile } = useFiles()
+  const { downloadFile } = useFiles()
+  const [fileContent, setFileContent] = useState<Blob |undefined>()
   const { bucket } = useFileBrowser()
   const { desktop } = useThemeSwitcher()
-  const [isLoading, setIsLoading] = useState(false)
-  const [loadingProgress, setLoadingProgress] = useState(0)
-  const [error, setError] = useState<string | undefined>(undefined)
-  const [fileContent, setFileContent] = useState<Blob | undefined>(undefined)
-  const source = useRef<CancelTokenSource | null>(null)
-  const { cid, content_type, name, size } = file || {}
+  const { cid, content_type, name } = file || {}
+  const { isDownloading, downloadProgress, getFile, error } = useGetFile()
 
   const handlers = useSwipeable({
-    onSwipedLeft: () => previousFile && !isLoading && previousFile(),
-    onSwipedRight: () => nextFile && !isLoading && nextFile(),
+    onSwipedLeft: () => previousFile && !isDownloading && previousFile(),
+    onSwipedRight: () => nextFile && !isDownloading && nextFile(),
     delta: 20
   })
 
-  function getSource() {
-    if (source.current === null) {
-      source.current = axios.CancelToken.source()
-    }
-    return source.current
-  }
-
   useEffect(() => {
-    const getContents = async () => {
-      if (!cid || !size || !bucket) return
 
-      if (source.current) {
-        source.current.cancel("Cancelling previous request")
-        source.current = null
-      }
-
-      const token = getSource().token
-      setIsLoading(true)
-      setError(undefined)
-
-      try {
-        const content = await getFileContent(bucket.id, {
-          cid,
-          cancelToken: token,
-          onDownloadProgress: (evt) => {
-            setLoadingProgress((evt.loaded / size) * 100)
-          },
-          file,
-          path
-        })
-
-        if (content) {
-          setFileContent(content)
-        } else {
-          setError(t`Decryption failed`)
-        }
-
-        source.current = null
-        setLoadingProgress(0)
-
-      } catch (error) {
-        // If no error is thrown, this was due to a cancellation by the user.
-        if (error) {
-          console.error(error)
-          setError(t`There was an error getting the preview.`)
-        }
-      }
-
-      setIsLoading(false)
-    }
-
-    if (content_type && compatibleFilesMatcher.match(content_type)) {
-      getContents()
-    }
-  }, [cid, size, content_type, getFileContent, file, path, bucket])
+    getFile({ file, filePath })
+      .then(setFileContent)
+      .catch(console.error)
+  }, [file, filePath, getFile])
 
   const validRendererMimeType =
     content_type &&
@@ -275,7 +218,7 @@ const FilePreviewModal = ({ file, nextFile, previousFile, closePreview, path }: 
       link.click()
       URL.revokeObjectURL(link.href)
     } else {
-      downloadFile(bucket.id, file, path)
+      downloadFile(bucket.id, file, filePath)
     }
   }
 
@@ -306,42 +249,6 @@ const FilePreviewModal = ({ file, nextFile, previousFile, closePreview, path }: 
             item: classes.item
           }}
           menuItems={[
-            // {
-            //   contents: (
-            //     <>
-            //       <ExportIcon className={classes.menuIcon} />
-            //       <span>Move</span>
-            //     </>
-            //   ),
-            //   onClick: () => console.log,
-            // },
-            // {
-            //   contents: (
-            //     <>
-            //       <ShareAltIcon className={classes.menuIcon} />
-            //       <span>Share</span>
-            //     </>
-            //   ),
-            //   onClick: () => console.log,
-            // },
-            // {
-            //   contents: (
-            //     <>
-            //       <EditIcon className={classes.menuIcon} />
-            //       <span>Rename</span>
-            //     </>
-            //   ),
-            //   onClick: () => console.log,
-            // },
-            // {
-            //   contents: (
-            //     <>
-            //       <DeleteIcon className={classes.menuIcon} />
-            //       <span>Delete</span>
-            //     </>
-            //   ),
-            //   onClick: () => console.log,
-            // },
             {
               contents: (
                 <>
@@ -393,13 +300,13 @@ const FilePreviewModal = ({ file, nextFile, previousFile, closePreview, path }: 
             {...handlers}
             className={classes.swipeContainer}
           >
-            {isLoading && (
+            {isDownloading && (
               <div className={classes.previewContent}>
                 <Typography variant="h1">
                   <Trans>Loading preview</Trans>
                 </Typography>
                 <ProgressBar
-                  progress={loadingProgress}
+                  progress={downloadProgress}
                   className={classes.loadingBar}
                 />
               </div>
@@ -415,7 +322,7 @@ const FilePreviewModal = ({ file, nextFile, previousFile, closePreview, path }: 
                 </Typography>
               </div>
             )}
-            {!isLoading &&
+            {!isDownloading &&
               !error &&
               !compatibleFilesMatcher.match(content_type) && (
               <div className={classes.previewContent}>
@@ -437,7 +344,7 @@ const FilePreviewModal = ({ file, nextFile, previousFile, closePreview, path }: 
                 </Button>
               </div>
             )}
-            {!isLoading &&
+            {!isDownloading &&
               !error &&
               compatibleFilesMatcher.match(content_type) &&
               fileContent &&
