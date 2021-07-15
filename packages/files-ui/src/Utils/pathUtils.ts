@@ -59,7 +59,7 @@ export function extractSharedFileBrowserPathFromURL(browserUrl: string, modulePa
   return res[0] === "/" ? res : `/${res}`
 }
 
-// is fold1 subfolder of fold2
+// is fold1 a subfolder of fold2
 export const isSubFolder = (fold1: string, fold2: string) => {
   const path1 = fold1.split("/").filter(p => p !== "")
   const path2 = fold2.split("/").filter(p => p !== "")
