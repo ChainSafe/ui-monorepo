@@ -47,6 +47,7 @@ import { CSSTheme } from "../../../Themes/types"
 import MimeMatcher from "../../../Utils/MimeMatcher"
 import { useLanguageContext } from "../../../Contexts/LanguageContext"
 import { useFileBrowser } from "../../../Contexts/FileBrowserContext"
+import SurveyBanner from "../SurveyBanner"
 
 interface IStyleProps {
   themeKey: string
@@ -293,7 +294,8 @@ const FilesList = () => {
     showUploadsInTable,
     allowDropUpload,
     itemOperations,
-    moduleRootPath
+    moduleRootPath,
+    withSurvey
   } = useFileBrowser()
   const classes = useStyles({ themeKey })
   const [editing, setEditing] = useState<string | undefined>()
@@ -303,6 +305,7 @@ const FilesList = () => {
   const [, setPreviewFileIndex] = useState<number | undefined>()
   const { selectedLocale } = useLanguageContext()
   const { redirect } = useHistory()
+  const [isSurveyBannerVisible, setIsSurveyBannerVisible] = useState(true)
 
   const items: FileSystemItemType[] = useMemo(() => {
     let temp = []
@@ -356,6 +359,10 @@ const FilesList = () => {
       }
     }
   }
+
+  const onHideSurveyBanner = useCallback(() => {
+    setIsSurveyBannerVisible(false)
+  }, [setIsSurveyBannerVisible])
 
   // Selection logic
   const handleSelectCid = useCallback(
@@ -673,7 +680,10 @@ const FilesList = () => {
           )}
         </div>
       </header>
-      <Divider className={classes.divider} />
+      { withSurvey && isSurveyBannerVisible
+        ? <SurveyBanner onHide={onHideSurveyBanner}/>
+        : <Divider className={classes.divider} />
+      }
       <section className={classes.bulkOperations}>
         {selectedCids.length > 0 && (
           <>
