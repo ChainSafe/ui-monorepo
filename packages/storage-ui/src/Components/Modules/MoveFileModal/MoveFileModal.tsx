@@ -222,7 +222,7 @@ const MoveFileModule = ({ filesToMove, modalOpen, onClose, onCancel, mode }: IMo
             variant="body1"
           >
             {
-              containsFolder
+              folders.length
                 ? t`You can't move folders to this path`
                 : t`The files are already in this folder`
             }
