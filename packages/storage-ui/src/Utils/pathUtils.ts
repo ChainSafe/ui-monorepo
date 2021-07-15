@@ -71,7 +71,7 @@ export const isSubFolder = (fold1: string, fold2: string) => {
   // we loop over every section of path1
   path1.every((section, index) => {
     // so far every paths were identical
-    // if paths1 is longer than paths2
+    // if we reach the end of paths2, then paths1 is a subfolder of paths2
     if (index === path2.length){
       result = true
       //break out of the loop
