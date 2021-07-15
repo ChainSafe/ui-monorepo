@@ -64,13 +64,12 @@ export const isSubFolder = (fold1: string, fold2: string) => {
 
   // the path1 can only be a subfolder
   // if it's longer than path2
-  if (path1.length <= path2.length){
+  if (path1.length < path2.length){
     return result
   }
 
   // we loop over every section of path1
   path1.every((section, index) => {
-
     // so far every paths were identical
     // if paths1 is longer than paths2
     if (index === path2.length){

@@ -141,16 +141,29 @@ const MoveFileModule = ({ filesToMove, modalOpen, onClose, onCancel, mode }: IMo
 
   const desktop = useMediaQuery("md")
 
-  const containsFolder = useMemo(() =>
-    filesToMove.some((f) => f.isFolder)
+  const folders = useMemo(() =>
+    filesToMove.filter((f) => f.isFolder)
   , [filesToMove])
+
+  const isSubFolderOfAnySelectedFolder = useMemo(() => {
+    if(!movePath){
+      return false
+    }
+
+    return folders.some((folder) => {
+      const currentPathWithFolder = `${currentPath}/${folder.name}`
+
+      return movePath === currentPathWithFolder || // don't allow a move from a folder in itself
+      isSubFolder(movePath, currentPathWithFolder)
+    })
+  }, [currentPath, folders, movePath])
 
   const isAllowedToMove = useMemo(() =>
     !!movePath && // the move path should be set
     mode === "move" && // we're moving and not recovering
-    movePath !== currentPath && // can't be the same path
-    (!containsFolder || !isSubFolder(movePath, currentPath)) // if it has folders it can't be moved to a subfolder
-  , [containsFolder, currentPath, mode, movePath])
+    movePath !== currentPath && // can't be the same parent
+    (!folders.length || !isSubFolderOfAnySelectedFolder) // if it has folders and the move isn't into one of them
+  , [movePath, mode, currentPath, folders.length, isSubFolderOfAnySelectedFolder])
 
   return (
     <CustomModal
@@ -214,7 +227,7 @@ const MoveFileModule = ({ filesToMove, modalOpen, onClose, onCancel, mode }: IMo
             variant="body1"
           >
             {
-              containsFolder
+              folders.length
                 ? t`You can't move folders to this path`
                 : t`The files are already in this folder`
             }
