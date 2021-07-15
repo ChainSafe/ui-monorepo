@@ -2,7 +2,6 @@ import {
   Button,
   ShareAltSvg,
   TagsInput,
-  TextInput,
   Typography
 } from "@chainsafe/common-components"
 import {
@@ -230,14 +229,6 @@ const UpdateSharedFolderModal = ({
           <Typography className={classes.inputLabel}>
             <Trans>Update Shared Folder</Trans>
           </Typography>
-        </div>
-        <div className={classes.modalFlexItem}>
-          <TextInput
-            className={classes.shareNameInput}
-            labelClassName={classes.inputLabel}
-            label={t`Shared Folder Name`}
-            value={sharedFolderName}
-            onChange={(value) => {setSharedFolderName(value?.toString() || "")}} />
         </div>
         <div className={classes.modalFlexItem}>
           <TagsInput
