@@ -127,7 +127,8 @@ const AddCIDModal = ({ modalOpen = false, close }: IAddCIDModuleProps) => {
         onSubmit={onSubmit}
       >
         <Form>
-          <div className={classes.root}
+          <div
+            className={classes.root}
             data-cy="form-pin-cid"
           >
             <Grid
