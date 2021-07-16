@@ -328,20 +328,24 @@ const FileSystemItem = ({
       if (desktop) {
         // on desktop 
         if (e && (e.ctrlKey || e.metaKey)) {
+          setEditing(undefined)
           handleAddToSelectedCids(cid)
         } else {
+          setEditing(undefined)
           handleSelectCid(cid)
         }
       } else {
         // on mobile
         if (isFolder) {
+          setEditing(undefined)
           viewFolder && viewFolder(file.cid)
         } else {
+          setEditing(undefined)
           onFilePreview()
         }
       }
     },
-    [cid, handleSelectCid, handleAddToSelectedCids, desktop, isFolder, viewFolder, file, onFilePreview]
+    [cid, handleSelectCid, setEditing, handleAddToSelectedCids, desktop, isFolder, viewFolder, file, onFilePreview]
   )
 
   const onDoubleClick = useCallback(
@@ -349,8 +353,10 @@ const FileSystemItem = ({
       if (desktop) {
         // on desktop
         if (isFolder) {
+          setEditing(undefined)
           viewFolder && viewFolder(file.cid)
         } else {
+          setEditing(undefined)
           onFilePreview()
         }
       } else {
@@ -358,7 +364,7 @@ const FileSystemItem = ({
         return
       }
     },
-    [desktop, viewFolder, file, onFilePreview, isFolder]
+    [desktop, viewFolder, setEditing, file, onFilePreview, isFolder]
   )
 
   const { click } = useDoubleClick(onSingleClick, onDoubleClick)
