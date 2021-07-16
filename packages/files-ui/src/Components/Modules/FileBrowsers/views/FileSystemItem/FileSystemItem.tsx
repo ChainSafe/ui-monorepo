@@ -151,6 +151,7 @@ const FileSystemItem = ({
 }: IFileSystemItemProps) => {
   const { downloadFile, currentPath, handleUploadOnDrop, moveItems } = useFileBrowser()
   const { cid, name, isFolder, content_type } = file
+
   const formik = useFormik({
     initialValues:{
       fileName: name
@@ -162,7 +163,8 @@ const FileSystemItem = ({
         file.cid,
         values.fileName
       )
-    }
+    },
+    enableReinitialize: true
   })
   let Icon
   if (isFolder) {

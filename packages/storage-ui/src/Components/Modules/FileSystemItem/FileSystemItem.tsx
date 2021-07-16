@@ -417,6 +417,7 @@ const FileSystemItem = ({
                     values.fileName
                   )
                 }}
+                enableReinitialize={true}
               >
                 <Form className={classes.renameModal}>
                   <Typography

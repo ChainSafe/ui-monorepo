@@ -215,6 +215,7 @@ const FileSystemGridItem = React.forwardRef(
                     values.fileName
                   )
               }}
+              enableReinitialize= {true}
             >
               <Form className={classes.desktopRename}>
                 <FormikTextInput

@@ -154,7 +154,8 @@ const FileSystemTableItem = React.forwardRef(
             file.cid,
             values.fileName
           )
-      }
+      },
+      enableReinitialize: true
     })
 
     return  (
