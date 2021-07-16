@@ -191,7 +191,6 @@ const SharedFolderRow = ({ bucket, onFolderClick, menuItems, isEditing, setIsEdi
                 }}
                 placeholder = {t`Please enter a folder name`}
                 autoFocus={isEditing}
-                defaultValue={name}
               />
               <Button
                 data-cy='rename-submit-button'

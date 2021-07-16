@@ -235,7 +235,6 @@ const FileSystemGridItem = React.forwardRef(
                     : t`Please enter a file name`
                   }
                   autoFocus={editing === cid}
-                  defaultValue={name}
                 />
               </Form>
             </Formik>
