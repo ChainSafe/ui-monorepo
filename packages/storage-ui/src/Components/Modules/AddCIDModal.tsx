@@ -127,7 +127,10 @@ const AddCIDModal = ({ modalOpen = false, close }: IAddCIDModuleProps) => {
         onSubmit={onSubmit}
       >
         <Form>
-          <div className={classes.root}>
+          <div
+            className={classes.root}
+            data-cy="form-pin-cid"
+          >
             <Grid
               item
               xs={12}
@@ -141,6 +144,7 @@ const AddCIDModal = ({ modalOpen = false, close }: IAddCIDModuleProps) => {
                 labelClassName={classes.label}
                 label={t`Paste the CID to pin it with ChainSafe Storage`}
                 ref={inputRef}
+                data-cy="input-cid"
               />
             </Grid>
             <Grid
@@ -154,6 +158,7 @@ const AddCIDModal = ({ modalOpen = false, close }: IAddCIDModuleProps) => {
                 className={classes.cancelButton}
                 variant={"outline"}
                 type="button"
+                data-cy="button-cancel-add-pin"
               >
                 <Trans>Cancel</Trans>
               </CustomButton>
@@ -163,6 +168,7 @@ const AddCIDModal = ({ modalOpen = false, close }: IAddCIDModuleProps) => {
                 type="submit"
                 className={classes.okButton}
                 loading={accessingCID}
+                data-cy="button-submit-pin"
               >
                 <Trans>Pin</Trans>
               </Button>
