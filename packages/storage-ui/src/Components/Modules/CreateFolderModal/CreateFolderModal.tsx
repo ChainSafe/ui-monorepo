@@ -114,7 +114,7 @@ const CreateFolderModal: React.FC<ICreateFolderModalProps> = ({
           helpers.setSubmitting(true)
           try {
             setCreatingFolder(true)
-            await storageApiClient.addBucketDirectory(bucket.id, { path: `${currentPath}/${values.name}` })
+            await storageApiClient.addBucketDirectory(bucket.id, { path: `${currentPath}/${values.name.trim()}` })
             refreshContents && await refreshContents()
             setCreatingFolder(false)
             helpers.resetForm()

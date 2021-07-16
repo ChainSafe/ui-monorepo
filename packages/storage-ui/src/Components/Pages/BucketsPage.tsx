@@ -18,7 +18,7 @@ import { t, Trans } from "@lingui/macro"
 import BucketRow from "../Elements/BucketRow"
 import CustomModal from "../Elements/CustomModal"
 import { Form, FormikProvider, useFormik } from "formik"
-import * as yup from "yup"
+import { bucketNameValidator } from "../../Utils/validationSchema"
 
 export const desktopGridSettings = "3fr 190px 70px !important"
 export const mobileGridSettings = "3fr 190px 70px !important"
@@ -111,17 +111,6 @@ const useStyles = makeStyles(({ breakpoints, animation, constants, typography }:
   })
 )
 
-const bucketNameValidator = yup.object().shape({
-  name: yup
-    .string()
-    .required(t`Bucket name is required`)
-    .test(
-      "Invalid name",
-      t`Bucket name cannot contain '/' character`,
-      (val: string | null | undefined) => !!val && !val.includes("/")
-    )
-})
-
 const BucketsPage = () => {
   const classes = useStyles()
   const { storageBuckets, createBucket } = useStorage()
@@ -135,7 +124,7 @@ const BucketsPage = () => {
     validationSchema: bucketNameValidator,
     onSubmit:(values, helpers) => {
       helpers.setSubmitting(true)
-      createBucket(values.name)
+      createBucket(values.name.trim())
         .then(() => {
           setIsCreateBucketModalOpen(false)
         })
