@@ -68,6 +68,7 @@ const BucketRow = ({ bucket }: Props) => {
     <TableRow
       type="grid"
       className={classes.tableRow}
+      data-cy="row-bucket-item"
     >
       <TableCell className={classes.name}
         onClick={() => redirect(ROUTE_LINKS.Bucket(bucket.id, "/"))}>
@@ -78,14 +79,14 @@ const BucketRow = ({ bucket }: Props) => {
       </TableCell>
       <TableCell align="right">
         <MenuDropdown
-          testId='bucketDropdown'
+          testId='bucket-kebab'
           animation="none"
           anchor={"bottom-right"}
           menuItems={[{
             contents: (
               <>
                 <DeleteSvg className={classes.menuIcon} />
-                <span data-cy="menu-share">
+                <span data-cy="menu-delete-bucket">
                   <Trans>Delete bucket</Trans>
                 </span>
               </>
