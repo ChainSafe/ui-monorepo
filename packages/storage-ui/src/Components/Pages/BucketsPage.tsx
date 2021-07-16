@@ -157,6 +157,7 @@ const BucketsPage = () => {
         </Typography>
         <div className={classes.controls}>
           <Button
+            data-cy="button-create-bucket"
             onClick={() => setIsCreateBucketModalOpen(true)}
             variant="outline"
           >
@@ -176,12 +177,14 @@ const BucketsPage = () => {
             className={classes.tableRow}
           >
             <TableHeadCell
+              data-cy="table-header-name"
               sortButtons={false}
               align="left"
             >
               <Trans>Name</Trans>
             </TableHeadCell>
             <TableHeadCell
+              data-cy="table-header-size"
               sortButtons={false}
               align="center"
             >
@@ -207,7 +210,10 @@ const BucketsPage = () => {
         }}
         closePosition="none"
       >
-        <div className={classes.modalRoot}>
+        <div
+          className={classes.modalRoot}
+          data-cy="form-create-bucket"
+        >
           <FormikProvider value={formik}>
             <Form>
               <Grid item
@@ -228,6 +234,7 @@ const BucketsPage = () => {
                 className={classes.input}
               >
                 <FormikTextInput
+                  data-cy="input-bucket-name"
                   name="name"
                   size="large"
                   placeholder={t`Bucket name`}
@@ -238,6 +245,7 @@ const BucketsPage = () => {
               </Grid>
               <footer className={classes.modalFooter}>
                 <Button
+                  data-cy="button-cancel-create"
                   onClick={() => setIsCreateBucketModalOpen(false)}
                   size="medium"
                   className={classes.cancelButton}
@@ -247,6 +255,7 @@ const BucketsPage = () => {
                   <Trans>Cancel</Trans>
                 </Button>
                 <Button
+                  data-cy="button-submit-create"
                   variant="primary"
                   size="medium"
                   className={classes.okButton}

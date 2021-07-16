@@ -26,6 +26,7 @@
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
 
 import { authenticationPage } from "./page-objects/authenticationPage"
+import { apiTestHelper } from "./utils/apiTestHelper"
 import { ethers, Wallet } from "ethers"
 import { testPrivateKey, localHost } from "../fixtures/loginData"
 import { CustomizedBridge } from "./utils/CustomBridge"
@@ -39,12 +40,15 @@ export interface Web3LoginOptions {
   apiUrlBase?: string
   saveBrowser?: boolean
   useLocalAndSessionStorage?: boolean
-  clearCSFBucket?: boolean
-  clearTrashBucket?: boolean
+  clearPins?: boolean
 }
 
 const SESSION_FILE = "cypress/fixtures/storage/sessionStorage.json"
 const LOCAL_FILE = "cypress/fixtures/storage/localStorage.json"
+
+Cypress.Commands.add("clearPins", (apiUrlBase: string) => {
+  apiTestHelper.clearPins(apiUrlBase)
+})
 
 Cypress.Commands.add("saveLocalAndSession", () => {
   // save local and session storage in files
@@ -72,8 +76,9 @@ Cypress.Commands.add(
   "web3Login",
   ({
     url = localHost,
-    // apiUrlBase = "https://stage.imploy.site/api/v1",
-    useLocalAndSessionStorage = true
+    apiUrlBase = "https://stage.imploy.site/api/v1",
+    useLocalAndSessionStorage = true,
+    clearPins = false
   }: Web3LoginOptions = {}) => {
     let session: Storage = []
     let local: Storage = []
@@ -126,13 +131,15 @@ Cypress.Commands.add(
       cy.log(
         "Logging in",
         local.length > 0 &&
-          "there is something in session storage ---> direct login"
+          "there is something in local storage ---> direct login"
       )
 
       if (local.length === 0) {
-        cy.log("nothing in session storage, --> click on web3 button")
+        cy.log("nothing in local storage, --> click on web3 button")
         authenticationPage.web3Button().click()
         authenticationPage.metaMaskButton().click()
+        // eslint-disable-next-line cypress/no-unnecessary-waiting
+        cy.wait(1000)
         authenticationPage.web3SignInButton().click()
       }
     })
@@ -141,6 +148,23 @@ Cypress.Commands.add(
 
     cy.saveLocalAndSession()
 
+    if(clearPins){
+      cy.clearPins(apiUrlBase)
+
+      cy.reload({ timeout: 50000 }).then(() => {
+        if (local.length === 0) {
+          // Temp work around for local storage being cleared after the reload          
+          cy.log("nothing in local storage after reload, --> click on web3 button")
+          authenticationPage.web3Button().click()
+          authenticationPage.metaMaskButton().click()
+          // eslint-disable-next-line cypress/no-unnecessary-waiting
+          cy.wait(1000)
+          authenticationPage.web3SignInButton().click()
+        }
+      })
+
+      cidsPage.cidsHeaderLabel().should("be.visible")
+    }
   }
 )
 
@@ -150,13 +174,19 @@ declare global {
   namespace Cypress {
     interface Chainable {
       /**
-       * Login using Metamask to an instance of Files.
+       * Login using Metamask to an instance of Storage.
        * @param {String} options.url - (default: "http://localhost:3000") - what url to visit.
        * @param {String} apiUrlBase - (default: "https://stage.imploy.site/api/v1") - what url to call for the api.
        * @param {Boolean} options.useLocalAndSessionStorage - (default: true) - use what could have been stored before to speedup login
-       * @example cy.web3Login({saveBrowser: true, url: 'http://localhost:8080'})
        */
       web3Login: (options?: Web3LoginOptions) => Chainable
+
+      /**
+       * Remove all "queued", "pinning", "pinned", "failed" pins
+       * @param {String} apiUrlBase - what url to call for the api.
+       * @example cy.clearPins("https://stage.imploy.site/api/v1")
+       */
+      clearPins: (apiUrlBase: string) => Chainable
 
       /**
        * Save local and session storage to local files
