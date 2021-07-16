@@ -178,14 +178,8 @@ msgstr "Folder"
 msgid "Folder Name"
 msgstr "Folder Name"
 
-msgid "Folder name cannot contain '/' character"
-msgstr "Folder name cannot contain '/' character"
-
 msgid "Folder name is already in use"
 msgstr "Folder name is already in use"
-
-msgid "Folder name is required"
-msgstr "Folder name is required"
 
 msgid "Folder uploads are currently not supported"
 msgstr "Folder uploads are currently not supported"
