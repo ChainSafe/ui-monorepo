@@ -26,7 +26,6 @@ import {
 } from "@chainsafe/common-components"
 import { useState } from "react"
 import { useMemo } from "react"
-import { object, string } from "yup"
 import EmptySvg from "../../../Media/Empty.svg"
 import clsx from "clsx"
 import { plural, t, Trans } from "@lingui/macro"
@@ -35,13 +34,11 @@ import { useDrop } from "react-dnd"
 import { BrowserView, FileOperation, MoveModalMode } from "../../../Contexts/types"
 import { FileSystemItem as FileSystemItemType } from "../../../Contexts/StorageContext"
 import FileSystemItem from "../FileSystemItem/FileSystemItem"
-// import FilePreviewModal from "../../FilePreviewModal"
 import UploadProgressModals from "../UploadProgressModals"
 import DownloadProgressModals from "../DownloadProgressModals"
 import CreateFolderModal from "../CreateFolderModal/CreateFolderModal"
 import UploadFileModule from "../UploadFileModal/UploadFileModal"
 import MoveFileModule from "../MoveFileModal/MoveFileModal"
-// import FileInfoModal from "../FileInfoModal"
 import { CONTENT_TYPES } from "../../../Utils/Constants"
 import { CSSTheme } from "../../../Themes/types"
 import MimeMatcher from "../../../Utils/MimeMatcher"
@@ -396,20 +393,6 @@ const FilesList = () => {
       setSelectedCids([...items.map((file: FileSystemItemType) => file.cid)])
     }
   }, [setSelectedCids, items, selectedCids])
-
-  const invalidFilenameRegex = new RegExp("/")
-  const renameSchema = object().shape({
-    fileName: string()
-      .min(1, t`Please enter a name`)
-      .max(65, t`Name too long`)
-      .test(
-        "Invalid name",
-        t`Name cannot contain '/' character`,
-        (val: string | null | undefined) =>
-          !invalidFilenameRegex.test(val || "")
-      )
-      .required(t`A name is required`)
-  })
 
   const [{ isOverUploadable, isOverBrowser }, dropBrowserRef] = useDrop({
     accept: [NativeTypes.FILE],
@@ -843,7 +826,6 @@ const FilesList = () => {
                 handleAddToSelectedCids={handleAddToSelectedCids}
                 editing={editing}
                 setEditing={setEditing}
-                renameSchema={renameSchema}
                 handleRename={async (cid: string, newName: string) => {
                   handleRename && (await handleRename(cid, newName))
                   setEditing(undefined)
@@ -891,7 +873,6 @@ const FilesList = () => {
               handleAddToSelectedCids={handleAddToSelectedCids}
               editing={editing}
               setEditing={setEditing}
-              renameSchema={renameSchema}
               handleRename={async (path: string, newPath: string) => {
                 handleRename && (await handleRename(path, newPath))
                 setEditing(undefined)
