@@ -1,5 +1,5 @@
 import { createStyles, makeStyles, useMediaQuery } from "@chainsafe/common-theme"
-import React, { useState, useEffect, useCallback } from "react"
+import React, { useState, useEffect, useCallback, useMemo } from "react"
 import CustomModal from "../../Elements/CustomModal"
 import CustomButton from "../../Elements/CustomButton"
 import { t, Trans } from "@lingui/macro"
@@ -9,6 +9,7 @@ import { CSSTheme } from "../../../Themes/types"
 import { useFileBrowser } from "../../../Contexts/FileBrowserContext"
 import { useStorageApi } from "../../../Contexts/StorageApiContext"
 import { MoveModalMode } from "../../../Contexts/types"
+import { getPathWithFile, isSubFolder } from "../../../Utils/pathUtils"
 
 
 const useStyles = makeStyles(
@@ -76,7 +77,7 @@ interface IMoveFileModuleProps {
 const MoveFileModule = ({ filesToMove, modalOpen, onClose, onCancel, mode }: IMoveFileModuleProps) => {
   const classes = useStyles()
   const { storageApiClient } = useStorageApi()
-  const { moveItems, recoverItems, bucket } = useFileBrowser()
+  const { moveItems, recoverItems, bucket, currentPath } = useFileBrowser()
   const [movingFile, setMovingFile] = useState(false)
   const [movePath, setMovePath] = useState<undefined | string>(undefined)
   const [folderTree, setFolderTree] = useState<ITreeNodeProps[]>([])
@@ -135,6 +136,30 @@ const MoveFileModule = ({ filesToMove, modalOpen, onClose, onCancel, mode }: IMo
 
   const desktop = useMediaQuery("md")
 
+  const folders = useMemo(() =>
+    filesToMove.filter((f) => f.isFolder)
+  , [filesToMove])
+
+  const isSubFolderOfAnySelectedFolder = useMemo(() => {
+    if(!movePath){
+      return false
+    }
+
+    return folders.some((folder) => {
+      const currentPathWithFolder = getPathWithFile(currentPath, folder.name)
+
+      return movePath === currentPathWithFolder || // don't allow a move from a folder in itself
+      isSubFolder(movePath, currentPathWithFolder)
+    })
+  }, [currentPath, folders, movePath])
+
+  const isAllowedToMove = useMemo(() =>
+    !!movePath && // the move path should be set
+    mode === "move" && // we're moving and not recovering
+    movePath !== currentPath && // can't be the same parent
+    (!folders.length || !isSubFolderOfAnySelectedFolder) // if it has folders and the move isn't into one of them
+  , [movePath, mode, currentPath, folders.length, isSubFolderOfAnySelectedFolder])
+
   return (
     <CustomModal
       className={classes.modalRoot}
@@ -187,29 +212,48 @@ const MoveFileModule = ({ filesToMove, modalOpen, onClose, onCancel, mode }: IMo
       <Grid
         item
         flexDirection="row"
-        justifyContent="flex-end"
+        justifyContent="space-between"
+        alignItems="center"
         className={classes.paddedContainer}
       >
-        <CustomButton
-          onClick={onCancel}
-          size="medium"
-          className={classes.cancelButton}
-          variant={desktop ? "outline" : "gray"}
-          type="button"
+        {!!movePath && !isAllowedToMove && (
+          <Typography
+            component="p"
+            variant="body1"
+          >
+            {
+              folders.length
+                ? t`You can't move folders to this path`
+                : t`The files are already in this folder`
+            }
+          </Typography>
+        )}
+        <Grid
+          item
+          flexDirection="row"
+          justifyContent="flex-end"
         >
-          <Trans>Cancel</Trans>
-        </CustomButton>
-        <Button
-          variant="primary"
-          size={desktop ? "medium" : "large"}
-          type="submit"
-          className={classes.okButton}
-          loading={movingFile}
-          disabled={!movePath}
-          onClick={onMoveFile}
-        >
-          {mode === "move" ? t`Move` : t`Recover`}
-        </Button>
+          <CustomButton
+            onClick={onCancel}
+            size="medium"
+            className={classes.cancelButton}
+            variant={desktop ? "outline" : "gray"}
+            type="button"
+          >
+            <Trans>Cancel</Trans>
+          </CustomButton>
+          <Button
+            variant="primary"
+            size={desktop ? "medium" : "large"}
+            type="submit"
+            className={classes.okButton}
+            loading={movingFile}
+            disabled={!isAllowedToMove}
+            onClick={onMoveFile}
+          >
+            {mode === "move" ? t`Move` : t`Recover`}
+          </Button>
+        </Grid>
       </Grid>
     </CustomModal>
   )
