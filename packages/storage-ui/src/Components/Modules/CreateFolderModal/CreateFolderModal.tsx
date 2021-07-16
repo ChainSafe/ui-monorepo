@@ -4,7 +4,6 @@ import {
   Grid,
   Typography
 } from "@chainsafe/common-components"
-import * as yup from "yup"
 import {
   createStyles,
   makeStyles,
@@ -18,6 +17,7 @@ import { t, Trans } from "@lingui/macro"
 import { CSSTheme } from "../../../Themes/types"
 import { useFileBrowser } from "../../../Contexts/FileBrowserContext"
 import { useStorageApi } from "../../../Contexts/StorageApiContext"
+import { folderNameValidator } from "../../../Utils/validationSchema"
 
 
 const useStyles = makeStyles(
@@ -92,17 +92,6 @@ const CreateFolderModal: React.FC<ICreateFolderModalProps> = ({
       setTimeout(() => inputRef.current?.focus(), 100)
     }
   }, [modalOpen])
-
-  const folderNameValidator = yup.object().shape({
-    name: yup
-      .string()
-      .required(t`Folder name is required`)
-      .test(
-        "Invalid name",
-        t`Folder name cannot contain '/' character`,
-        (val: string | null | undefined) => !!val && !val.includes("/")
-      )
-  })
 
   return (
     <CustomModal
