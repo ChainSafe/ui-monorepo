@@ -205,6 +205,9 @@ msgstr "Id"
 msgid "Info"
 msgstr "Info"
 
+msgid "Invalid name"
+msgstr "Invalid name"
+
 msgid "Learn more about ChainSafe"
 msgstr "Learn more about ChainSafe"
 
