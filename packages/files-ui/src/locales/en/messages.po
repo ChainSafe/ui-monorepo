@@ -685,6 +685,9 @@ msgstr "Thanks for taking care of that. You can adjust these anytime in security
 msgid "The authentication popup was closed"
 msgstr "The authentication popup was closed"
 
+msgid "The files are already in this folder"
+msgstr "The files are already in this folder"
+
 msgid "The system is undergoing maintenance, thank you for being patient."
 msgstr "The system is undergoing maintenance, thank you for being patient."
 
@@ -805,6 +808,9 @@ msgstr "Yes, save it"
 msgid "You can change this later."
 msgstr "You can change this later."
 
+msgid "You can't move folders to this path"
+msgstr "You can't move folders to this path"
+
 msgid "You haven't set a username yet."
 msgstr "You haven't set a username yet."
 
@@ -838,14 +844,8 @@ msgstr "on"
 msgid "recovered successfully"
 msgstr "recovered successfully"
 
-msgid "{0, plural, one {The file is already in this folder} other {The files are already in this folder}}"
-msgstr "{0, plural, one {The file is already in this folder} other {The files are already in this folder}}"
-
 msgid "{0, plural, one {You are about to delete {1} file.} other {You are about to delete {2} files.}}"
 msgstr "{0, plural, one {You are about to delete {1} file.} other {You are about to delete {2} files.}}"
-
-msgid "{0}"
-msgstr "{0}"
 
 msgid "{noOfFiles, plural, one {Uploading and encrypting {noOfFiles} file} other {Uploading and encrypting {noOfFiles} files}}"
 msgstr "{noOfFiles, plural, one {Uploading and encrypting {noOfFiles} file} other {Uploading and encrypting {noOfFiles} files}}"

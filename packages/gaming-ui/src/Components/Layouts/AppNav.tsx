@@ -241,13 +241,13 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
           <div className={classes.linksArea}>
             <nav className={classes.navMenu}>
               <Link
+                data-cy="settings-nav"
                 onClick={handleOnClick}
                 className={classes.navItem}
                 to={ROUTE_LINKS.SettingsRoot}
               >
                 <SettingSvg />
                 <Typography
-                  data-cy="settings-nav"
                   variant="h5"
                   className={classes.navItemText}
                 >

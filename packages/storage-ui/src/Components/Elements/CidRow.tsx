@@ -68,6 +68,7 @@ const CidRow = ({ pinStatus }: Props) => {
     <TableRow
       type="grid"
       className={classes.tableRow}
+      data-cy="row-cid-item"
     >
       <TableCell className={classes.cid}>
         {pinStatus.pin?.cid}
@@ -92,14 +93,14 @@ const CidRow = ({ pinStatus }: Props) => {
       </TableCell>
       <TableCell align="right">
         <MenuDropdown
-          testId='fileDropdown'
+          testId='cid-kebab'
           animation="none"
           anchor={"bottom-right"}
           menuItems={[{
             contents: (
               <>
                 <DeleteSvg className={classes.menuIcon} />
-                <span data-cy="menu-share">
+                <span data-cy="menu-unpin">
                   <Trans>Unpin</Trans>
                 </span>
               </>
