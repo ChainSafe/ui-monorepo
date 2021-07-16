@@ -676,6 +676,9 @@ msgstr ""
 msgid "The authentication popup was closed"
 msgstr ""
 
+msgid "The files are already in this folder"
+msgstr ""
+
 msgid "The system is undergoing maintenance, thank you for being patient."
 msgstr ""
 
@@ -793,6 +796,9 @@ msgstr "Ja, lagre"
 msgid "You can change this later."
 msgstr "Du kan endre dette senere."
 
+msgid "You can't move folders to this path"
+msgstr ""
+
 msgid "You haven't set a username yet."
 msgstr "Du har ikke satt noe brukernavn enda."
 
@@ -826,13 +832,7 @@ msgstr ""
 msgid "recovered successfully"
 msgstr "gjenopprettet"
 
-msgid "{0, plural, one {The file is already in this folder} other {The files are already in this folder}}"
-msgstr ""
-
 msgid "{0, plural, one {You are about to delete {1} file.} other {You are about to delete {2} files.}}"
-msgstr ""
-
-msgid "{0}"
 msgstr ""
 
 msgid "{noOfFiles, plural, one {Uploading and encrypting {noOfFiles} file} other {Uploading and encrypting {noOfFiles} files}}"
