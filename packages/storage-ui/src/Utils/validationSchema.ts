@@ -3,6 +3,7 @@ import { object, string } from "yup"
 
 export const renameSchema = object().shape({
   fileName: string()
+    .trim()
     .min(1, t`Please enter a name`)
     .max(65, t`Name too long`)
     .test(
