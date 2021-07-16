@@ -1,4 +1,5 @@
 import { cidsPage } from "../support/page-objects/cidsPage"
+import { testCid } from "../fixtures/storageTestData"
 
 describe("CID management", () => {
 
@@ -9,7 +10,7 @@ describe("CID management", () => {
 
       // pin a cid and see it in the pinned items table
       cidsPage.pinButton().click()
-      cidsPage.cidInput().type("QmZEE7Ymh2mRMURLnFLipJTovb44AoUYDzx7aipYZwvxX5")
+      cidsPage.cidInput().type(testCid)
       cidsPage.pinSubmitButton().click()
       cidsPage.cidItemRow().should("have.length", 1)
 

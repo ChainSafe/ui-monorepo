@@ -1,4 +1,6 @@
 import { bucketsPage } from "../support/page-objects/bucketsPage"
+import { bucketName } from "../fixtures/storageTestData"
+
 import { navigationMenu } from "../support/page-objects/navigationMenu"
 
 describe("Bucket management", () => {
@@ -11,7 +13,7 @@ describe("Bucket management", () => {
       // create a bucket and see it in the bucket table
       navigationMenu.bucketsNavButton().click()
       bucketsPage.createBucketButton().click()
-      bucketsPage.bucketNameInput().type("Awesome Bucket")
+      bucketsPage.bucketNameInput().type(bucketName)
       bucketsPage.createBucketSubmitButton().click()
       bucketsPage.bucketItemRow().should("have.length", 1)
 
@@ -26,7 +28,7 @@ describe("Bucket management", () => {
 
       // delete a bucket and ensure it's row is removed
       navigationMenu.bucketsNavButton().click()
-      bucketsPage.createBucket("Delete Me")
+      bucketsPage.createBucket(bucketName)
       bucketsPage.bucketRowKebabButton().first().click()
       bucketsPage.deleteBucketMenuOption().first().click()
       bucketsPage.bucketItemRow().should("not.exist")

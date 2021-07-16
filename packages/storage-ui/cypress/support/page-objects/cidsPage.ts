@@ -1,6 +1,7 @@
 // Only add things here that could be applicable to the cids page
 
 import { basePage } from "./basePage"
+import { testCid } from "../../fixtures/storageTestData"
 
 export const cidsPage = {
   ...basePage,
@@ -29,7 +30,7 @@ export const cidsPage = {
   // helpers and convenience functions
   addPinnedCid() {
     this.pinButton().click()
-    this.cidInput().type("QmUxmKgVh6XGP9s63U1q41LG9oXDkihZPKSAoQMbeEAEA8")
+    this.cidInput().type(testCid)
     this.pinSubmitButton().click()
     this.cidItemRow().should("have.length", 1)
   }
