@@ -208,6 +208,9 @@ msgstr ""
 msgid "Drop to upload files"
 msgstr "Dra for å laste opp filer"
 
+msgid "Edit"
+msgstr ""
+
 msgid "Email is required"
 msgstr "E-post kreves"
 
