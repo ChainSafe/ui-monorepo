@@ -30,6 +30,7 @@ import { FileSystemItem as FileSystemItemType } from "../../../Contexts/StorageC
 import { useFileBrowser } from "../../../Contexts/FileBrowserContext"
 import { BrowserView, FileOperation } from "../../../Contexts/types"
 import { DragTypes } from "../FilesList/DragConstants"
+import { renameSchema } from "../../../Utils/validationSchema"
 
 const useStyles = makeStyles(({ breakpoints, constants }: CSSTheme) => {
   return createStyles({
@@ -107,7 +108,6 @@ interface IFileSystemItemProps {
   handleAddToSelectedCids(selectedCid: string): void
   editing: string | undefined
   setEditing(editing: string | undefined): void
-  renameSchema: any
   handleRename?: (cid: string, newName: string) => Promise<void>
   handleMove?: (cid: string, newPath: string) => Promise<void>
   deleteFile?: () => void
@@ -127,7 +127,6 @@ const FileSystemItem = ({
   selected,
   editing,
   setEditing,
-  renameSchema,
   handleRename,
   deleteFile,
   recoverFile,
@@ -382,7 +381,6 @@ const FileSystemItem = ({
     menuItems,
     onFolderOrFileClicks,
     preview,
-    renameSchema,
     selected,
     setEditing,
     resetSelectedFiles
@@ -419,6 +417,7 @@ const FileSystemItem = ({
                     values.fileName
                   )
                 }}
+                enableReinitialize={true}
               >
                 <Form className={classes.renameModal}>
                   <Typography

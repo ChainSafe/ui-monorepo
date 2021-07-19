@@ -34,6 +34,7 @@ import { useFileBrowser } from "../../../../../Contexts/FileBrowserContext"
 import { getPathWithFile } from "../../../../../Utils/pathUtils"
 import { BucketUser } from "@chainsafe/files-api-client"
 import { useMemo } from "react"
+import { renameSchema } from "../../../../../Utils/validationSchema"
 
 const useStyles = makeStyles(({ breakpoints, constants }: CSFTheme) => {
   return createStyles({
@@ -111,7 +112,6 @@ interface IFileSystemItemProps {
   handleAddToSelectedCids(selectedCid: string): void
   editing: string | undefined
   setEditing(editing: string | undefined): void
-  renameSchema: any
   handleRename?: (cid: string, newName: string) => Promise<void>
   handleMove?: (cid: string, newPath: string) => Promise<void>
   deleteFile?: () => void
@@ -134,7 +134,6 @@ const FileSystemItem = ({
   owners,
   editing,
   setEditing,
-  renameSchema,
   handleRename,
   deleteFile,
   recoverFile,
@@ -152,6 +151,7 @@ const FileSystemItem = ({
 }: IFileSystemItemProps) => {
   const { downloadFile, currentPath, handleUploadOnDrop, moveItems } = useFileBrowser()
   const { cid, name, isFolder, content_type } = file
+
   const formik = useFormik({
     initialValues:{
       fileName: name
@@ -163,7 +163,8 @@ const FileSystemItem = ({
         file.cid,
         values.fileName
       )
-    }
+    },
+    enableReinitialize: true
   })
   let Icon
   if (isFolder) {
