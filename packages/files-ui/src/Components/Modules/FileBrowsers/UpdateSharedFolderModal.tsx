@@ -17,7 +17,6 @@ import { useFilesApi } from "../../../Contexts/FilesApiContext"
 import CustomButton from "../../Elements/CustomButton"
 import { t, Trans } from "@lingui/macro"
 import { LookupUserRequest } from "@chainsafe/files-api-client"
-import EthCrypto from "eth-crypto"
 import clsx from "clsx"
 import { useUser } from "../../../Contexts/UserContext"
 import { useEffect } from "react"
@@ -119,6 +118,12 @@ interface SharedUser {
   encryption_key?: string
 }
 
+interface UserPermission {
+  label: string
+  value: string
+  data: SharedUser
+}
+
 const UpdateSharedFolderModal = ({
   isModalOpen,
   onClose,
@@ -129,8 +134,8 @@ const UpdateSharedFolderModal = ({
   const { filesApiClient } = useFilesApi()
   const { profile } = useUser()
   const [isUpdatingSharedFolder, setIsUpdatingSharedFolder] = useState(false)
-  const [sharedFolderWriters, setSharedFolderWriters] = useState<{label: string; value: string; data: SharedUser}[]>([])
-  const [sharedFolderReaders, setSharedFolderReaders] = useState<{label: string; value: string; data: SharedUser}[]>([])
+  const [sharedFolderWriters, setSharedFolderWriters] = useState<UserPermission[]>([])
+  const [sharedFolderReaders, setSharedFolderReaders] = useState<UserPermission[]>([])
 
   useEffect(() => {
     setSharedFolderWriters(
@@ -152,8 +157,6 @@ const UpdateSharedFolderModal = ({
   }, [bucket])
 
   const { desktop } = useThemeSwitcher()
-
-  console.log(bucket)
 
   const handleLookupUser = useCallback(async (inputVal: string, permission: "reader" | "writer") => {
     if (inputVal === "") return []
@@ -185,18 +188,18 @@ const UpdateSharedFolderModal = ({
     onClose()
   }, [onClose])
 
-  const handleUpdateSharedFolder = useCallback(async () => {
+  const getUserPermission = (userPermissions: UserPermission[]) => userPermissions.map(su => ({
+    uuid: su.value,
+    pubKey: su.data.identity_pubkey?.slice(2),
+    encryption_key: su.data.encryption_key
+  }))
+
+  const handleUpdateSharedFolder = useCallback(() => {
     if (!bucket) return
-    const readers = sharedFolderReaders.map(su => ({
-      uuid: su.value,
-      pubKey: su.data.identity_pubkey ? EthCrypto.publicKey.decompress(su.data.identity_pubkey.slice(2)) : undefined,
-      encryption_key: su.data.encryption_key
-    }))
-    const writers = sharedFolderWriters.map(su => ({
-      uuid: su.value,
-      pubKey: su.data.identity_pubkey ? EthCrypto.publicKey.decompress(su.data.identity_pubkey.slice(2)) : undefined,
-      encryption_key: su.data.encryption_key
-    }))
+
+    const readers = getUserPermission(sharedFolderReaders)
+    const writers = getUserPermission(sharedFolderWriters)
+
     setIsUpdatingSharedFolder(true)
     updateSharedFolder(bucket, writers, readers)
       .then(handleClose)
