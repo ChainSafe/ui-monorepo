@@ -133,7 +133,7 @@ const UpdateSharedFolderModal = ({
   const { updateSharedFolder } = useFiles()
   const { filesApiClient } = useFilesApi()
   const { profile } = useUser()
-  const [isUpdatingSharedFolder, setIsUpdatingSharedFolder] = useState(false)
+  const [isEditingSharedFolder, setIsEditingSharedFolder] = useState(false)
   const [sharedFolderWriters, setSharedFolderWriters] = useState<UserPermission[]>([])
   const [sharedFolderReaders, setSharedFolderReaders] = useState<UserPermission[]>([])
 
@@ -200,11 +200,11 @@ const UpdateSharedFolderModal = ({
     const readers = getUserPermission(sharedFolderReaders)
     const writers = getUserPermission(sharedFolderWriters)
 
-    setIsUpdatingSharedFolder(true)
+    setIsEditingSharedFolder(true)
     updateSharedFolder(bucket, writers, readers)
       .then(handleClose)
       .catch(console.error)
-      .finally(() => setIsUpdatingSharedFolder(false))
+      .finally(() => setIsEditingSharedFolder(false))
   }, [sharedFolderWriters, sharedFolderReaders, updateSharedFolder, handleClose, bucket])
 
   const isValid = useMemo(() => {
@@ -284,7 +284,7 @@ const UpdateSharedFolderModal = ({
             size={desktop ? "medium" : "large"}
             variant="primary"
             className={classes.okButton}
-            loading={isUpdatingSharedFolder}
+            loading={isEditingSharedFolder}
             onClick={handleUpdateSharedFolder}
             disabled={!isValid}
           >

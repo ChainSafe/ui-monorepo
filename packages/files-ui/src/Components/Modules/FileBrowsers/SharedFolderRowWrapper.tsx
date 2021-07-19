@@ -54,8 +54,8 @@ const SharedFolderRowWrapper = ({ bucket, handleRename, openSharedFolder, onUpda
       contents: (
         <>
           <UpdateSvg className={classes.menuIcon} />
-          <span data-cy="menu-update">
-            <Trans>Update</Trans>
+          <span data-cy="menu-edit">
+            <Trans>Edit</Trans>
           </span>
         </>
       ),

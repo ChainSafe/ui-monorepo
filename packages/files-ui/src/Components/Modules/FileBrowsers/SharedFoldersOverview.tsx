@@ -102,7 +102,8 @@ const SharedFolderOverview = () => {
   const { filesApiClient } = useFilesApi()
   const { buckets, isLoadingBuckets, refreshBuckets } = useFiles()
   const [createSharedFolderModalOpen, setCreateSharedFolderModalOpen] = useState(false)
-  const [bucketToUpdate, setBucketToUpdate] = useState<BucketKeyPermission | undefined>(undefined)
+  const [isEditBucketModalOpen, setIsBucketModalOpen] = useState(false)
+  const [bucketToEdit, setBucketToEdit] = useState<BucketKeyPermission | undefined>(undefined)
   const [direction, setDirection] = useState<SortDirection>("ascend")
   const [column, setColumn] = useState<"name" | "size" | "date_uploaded">("name")
   const { redirect } = useHistory()
@@ -222,7 +223,7 @@ const SharedFolderOverview = () => {
                   bucket={bucket}
                   handleRename={handleRename}
                   openSharedFolder={openSharedFolder}
-                  onUpdateSharedFolder={() => setBucketToUpdate(bucket)}
+                  onUpdateSharedFolder={() => setBucketToEdit(bucket)}
                 />
               )}
             </TableBody>
@@ -234,9 +235,12 @@ const SharedFolderOverview = () => {
         close={() => setCreateSharedFolderModalOpen(false)}
       />
       <UpdateSharedFolderModal
-        isModalOpen={!!bucketToUpdate}
-        onClose={() => setBucketToUpdate(undefined)}
-        bucket={bucketToUpdate}
+        isModalOpen={isEditBucketModalOpen}
+        onClose={() => {
+          setIsBucketModalOpen(false)
+          setBucketToEdit(undefined)
+        }}
+        bucket={bucketToEdit}
       />
     </>
   )
