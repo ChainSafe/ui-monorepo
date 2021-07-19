@@ -138,8 +138,9 @@ const UpdateSharedFolderModal = ({
   const [sharedFolderReaders, setSharedFolderReaders] = useState<UserPermission[]>([])
 
   useEffect(() => {
+    if (!bucket) return
     setSharedFolderWriters(
-      bucket?.writers.map((writer) => ({
+      bucket.writers.map((writer) => ({
         label: writer.uuid || "",
         value: writer.uuid || "",
         data: writer
@@ -147,7 +148,7 @@ const UpdateSharedFolderModal = ({
       ) || []
     )
     setSharedFolderReaders(
-      bucket?.readers.map((reader) => ({
+      bucket.readers.map((reader) => ({
         label: reader.uuid || "",
         value: reader.uuid || "",
         data: reader
