@@ -209,6 +209,9 @@ msgstr ""
 msgid "Drop to upload files"
 msgstr "Faire glisser pour téléverser un fichier"
 
+msgid "Edit"
+msgstr ""
+
 msgid "Email is required"
 msgstr "Un courriel est requis"
 

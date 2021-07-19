@@ -208,6 +208,9 @@ msgstr "Downloading…"
 msgid "Drop to upload files"
 msgstr "Drop to upload files"
 
+msgid "Edit"
+msgstr "Edit"
+
 msgid "Email is required"
 msgstr "Email is required"
 

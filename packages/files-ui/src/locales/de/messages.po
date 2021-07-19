@@ -208,6 +208,9 @@ msgstr ""
 msgid "Drop to upload files"
 msgstr "Zum Hochladen von Dateien ablegen"
 
+msgid "Edit"
+msgstr ""
+
 msgid "Email is required"
 msgstr "E-Mail ist erforderlich"
 

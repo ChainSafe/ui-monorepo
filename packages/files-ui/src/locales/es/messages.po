@@ -209,6 +209,9 @@ msgstr ""
 msgid "Drop to upload files"
 msgstr "Suelta para subir archivos"
 
+msgid "Edit"
+msgstr ""
+
 msgid "Email is required"
 msgstr ""
 
