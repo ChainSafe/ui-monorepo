@@ -17,7 +17,7 @@ import { Trans } from "@lingui/macro"
 import { createStyles, makeStyles, useThemeSwitcher } from "@chainsafe/common-theme"
 import { CSFTheme } from "../../../Themes/types"
 import SharedFolderRowWrapper from "./SharedFolderRowWrapper"
-import UpdateSharedFolderModal from "./UpdateSharedFolderModal"
+import UpdateSharedFolderModal from "./EditSharedFolderModal"
 import clsx from "clsx"
 import CreateSharedFolderModal from "./CreateSharedFolderModal"
 import { useFilesApi } from "../../../Contexts/FilesApiContext"
@@ -223,7 +223,7 @@ const SharedFolderOverview = () => {
                   bucket={bucket}
                   handleRename={handleRename}
                   openSharedFolder={openSharedFolder}
-                  onUpdateSharedFolder={() => setBucketToEdit(bucket)}
+                  onEditSharedFolder={() => setBucketToEdit(bucket)}
                 />
               )}
             </TableBody>

@@ -130,7 +130,7 @@ const UpdateSharedFolderModal = ({
   bucket
 }: IUpdateSharedFolderModalProps) => {
   const classes = useStyles()
-  const { updateSharedFolder } = useFiles()
+  const { editSharedFolder } = useFiles()
   const { filesApiClient } = useFilesApi()
   const { profile } = useUser()
   const [isEditingSharedFolder, setIsEditingSharedFolder] = useState(false)
@@ -201,11 +201,11 @@ const UpdateSharedFolderModal = ({
     const writers = getUserPermission(sharedFolderWriters)
 
     setIsEditingSharedFolder(true)
-    updateSharedFolder(bucket, writers, readers)
+    editSharedFolder(bucket, writers, readers)
       .then(handleClose)
       .catch(console.error)
       .finally(() => setIsEditingSharedFolder(false))
-  }, [sharedFolderWriters, sharedFolderReaders, updateSharedFolder, handleClose, bucket])
+  }, [sharedFolderWriters, sharedFolderReaders, editSharedFolder, handleClose, bucket])
 
   const isValid = useMemo(() => {
     return !!(((sharedFolderReaders.length + sharedFolderWriters.length) > 0))
