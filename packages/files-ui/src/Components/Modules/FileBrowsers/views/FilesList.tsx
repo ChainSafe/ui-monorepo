@@ -26,7 +26,6 @@ import {
 } from "@chainsafe/common-components"
 import { useState } from "react"
 import { useMemo } from "react"
-import { object, string } from "yup"
 import EmptySvg from "../../../../Media/Empty.svg"
 import clsx from "clsx"
 import { plural, t, Trans } from "@lingui/macro"
@@ -434,20 +433,6 @@ const FilesList = ({ isShared = false }: Props) => {
       setSelectedCids([...items.map((file: FileSystemItemType) => file.cid)])
     }
   }, [setSelectedCids, items, selectedCids])
-
-  const invalidFilenameRegex = new RegExp("/")
-  const renameSchema = object().shape({
-    fileName: string()
-      .min(1, t`Please enter a name`)
-      .max(65, t`Name too long`)
-      .test(
-        t`Invalid name`,
-        t`Name cannot contain '/' character`,
-        (val: string | null | undefined) =>
-          !invalidFilenameRegex.test(val || "")
-      )
-      .required(t`A name is required`)
-  })
 
   const [{ isOverUploadable, isOverBrowser }, dropBrowserRef] = useDrop({
     accept: [NativeTypes.FILE],
@@ -917,7 +902,6 @@ const FilesList = ({ isShared = false }: Props) => {
                     handleAddToSelectedCids={handleAddToSelectedCids}
                     editing={editing}
                     setEditing={setEditing}
-                    renameSchema={renameSchema}
                     handleRename={async (cid: string, newName: string) => {
                       handleRename && (await handleRename(cid, newName))
                       setEditing(undefined)
@@ -980,7 +964,6 @@ const FilesList = ({ isShared = false }: Props) => {
                   handleAddToSelectedCids={handleAddToSelectedCids}
                   editing={editing}
                   setEditing={setEditing}
-                  renameSchema={renameSchema}
                   handleRename={async (path: string, newPath: string) => {
                     handleRename && (await handleRename(path, newPath))
                     setEditing(undefined)

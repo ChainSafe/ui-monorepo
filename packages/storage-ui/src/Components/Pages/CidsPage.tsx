@@ -106,7 +106,7 @@ const CidsPage = () => {
           </Typography>
           <div className={classes.controls}>
             <Button
-              data-cy="add-cid-modal-button"
+              data-cy="button-pin-cid"
               onClick={() => setAddCIDOpen(true)}
               variant="outline"
               size="large"
@@ -130,12 +130,14 @@ const CidsPage = () => {
               className={classes.tableRow}
             >
               <TableHeadCell
+                data-cy="table-header-cid"
                 sortButtons={false}
                 align="center"
               >
                 <Trans>Cid</Trans>
               </TableHeadCell>
               <TableHeadCell
+                data-cy="table-header-created"
                 sortButtons={true}
                 onSortChange={() => handleSortToggle("date_uploaded")}
                 sortDirection={sortColumn === "date_uploaded" ? sortDirection : undefined}
@@ -145,6 +147,7 @@ const CidsPage = () => {
                 <Trans>Created</Trans>
               </TableHeadCell>
               <TableHeadCell
+                data-cy="table-header-size"
                 sortButtons={true}
                 onSortChange={() => handleSortToggle("size")}
                 sortDirection={sortColumn === "size" ? sortDirection : undefined}
@@ -154,6 +157,7 @@ const CidsPage = () => {
                 <Trans>Size</Trans>
               </TableHeadCell>
               <TableHeadCell
+                data-cy="table-header-status"
                 sortButtons={false}
                 align="center"
               >
@@ -166,6 +170,7 @@ const CidsPage = () => {
           <TableBody>
             {sortedPins.map((pinStatus, index) =>
               <CidRow
+                data-cy="row-pin-status"
                 pinStatus={pinStatus}
                 key={index}
               />
