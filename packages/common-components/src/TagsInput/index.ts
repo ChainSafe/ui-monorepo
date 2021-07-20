@@ -1,4 +1,8 @@
 export {
   default as TagsInput,
-  ITagsInputProps
+  ITagsInputProps,
+  ITagOption,
+  ITagValueType,
+  ITagActionMeta,
+  ITagActionTypes
 } from "./TagsInput"

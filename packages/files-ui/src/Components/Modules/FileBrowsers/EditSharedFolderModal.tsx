@@ -2,14 +2,18 @@ import {
   Button,
   ShareAltSvg,
   TagsInput,
-  Typography
+  ITagOption,
+  ITagValueType,
+  ITagActionMeta,
+  Typography,
+  Grid
 } from "@chainsafe/common-components"
 import {
   createStyles,
   makeStyles,
   useThemeSwitcher
 } from "@chainsafe/common-theme"
-import React, { useState, useCallback, useMemo } from "react"
+import React, { useState, useCallback } from "react"
 import CustomModal from "../../Elements/CustomModal"
 import { CSFTheme } from "../../../Themes/types"
 import { BucketKeyPermission, useFiles } from "../../../Contexts/FilesContext"
@@ -17,7 +21,6 @@ import { useFilesApi } from "../../../Contexts/FilesApiContext"
 import CustomButton from "../../Elements/CustomButton"
 import { t, Trans } from "@lingui/macro"
 import { LookupUserRequest } from "@chainsafe/files-api-client"
-import clsx from "clsx"
 import { useUser } from "../../../Contexts/UserContext"
 import { useEffect } from "react"
 
@@ -99,6 +102,10 @@ const useStyles = makeStyles(
       inputLabel: {
         fontSize: 16,
         fontWeight: 600
+      },
+      footer: {
+        width: "100%",
+        padding: `${constants.generalUnit * 2}px ${constants.generalUnit}px`
       }
     })
   }
@@ -134,6 +141,8 @@ const UpdateSharedFolderModal = ({
   const { filesApiClient } = useFilesApi()
   const { profile } = useUser()
   const [isEditingSharedFolder, setIsEditingSharedFolder] = useState(false)
+  const [hasPermissionsChanged, setHasPermissionsChanged] = useState(false)
+  const [error, setError] = useState("")
   const [sharedFolderWriters, setSharedFolderWriters] = useState<UserPermission[]>([])
   const [sharedFolderReaders, setSharedFolderReaders] = useState<UserPermission[]>([])
 
@@ -155,12 +164,14 @@ const UpdateSharedFolderModal = ({
       })
       ) || []
     )
+    setHasPermissionsChanged(false)
   }, [bucket])
 
   const { desktop } = useThemeSwitcher()
 
   const handleLookupUser = useCallback(async (inputVal: string, permission: "reader" | "writer") => {
     if (inputVal === "") return []
+    setError("")
     const lookupBody: LookupUserRequest = {}
     const ethAddressRegex = new RegExp("^0(x|X)[a-fA-F0-9]{40}$") // Eth Address Starting with 0x and 40 HEX chars
     const pubKeyRegex = new RegExp("^0(x|X)[a-fA-F0-9]{66}$") // Compressed public key, 66 chars long
@@ -208,9 +219,35 @@ const UpdateSharedFolderModal = ({
       .finally(() => setIsEditingSharedFolder(false))
   }, [sharedFolderWriters, sharedFolderReaders, editSharedFolder, handleClose, bucket])
 
-  const isValid = useMemo(() => {
-    return !!(((sharedFolderReaders.length + sharedFolderWriters.length) > 0))
-  }, [sharedFolderReaders, sharedFolderWriters])
+  const onNewReaders = (val: ITagValueType<ITagOption, true>, action: ITagActionMeta<ITagOption>) => {
+    if (action.action === "select-option") {
+      // new reader inserted
+      const foundWriter = sharedFolderWriters.find((writer) => writer.data.uuid === action.option?.data.uuid)
+      if (foundWriter) {
+        setError(t`User already included in writers`)
+        return
+      }
+    }
+    setHasPermissionsChanged(true)
+    val && val.length > 0
+      ? setSharedFolderReaders(val?.map(v => ({ label: v.label, value: v.value, data: v.data })))
+      : setSharedFolderReaders([])
+  }
+
+  const onNewWriters = (val: ITagValueType<ITagOption, true>, action: ITagActionMeta<ITagOption>) => {
+    if (action.action === "select-option") {
+      // new reader inserted
+      const foundReader = sharedFolderReaders.find((reader) => reader.data.uuid === action.option?.data.uuid)
+      if (foundReader) {
+        setError(t`User already included in readers`)
+        return
+      }
+    }
+    setHasPermissionsChanged(true)
+    val && val.length > 0
+      ? setSharedFolderWriters(val?.map(v => ({ label: v.label, value: v.value, data: v.data })))
+      : setSharedFolderWriters([])
+  }
 
   return (
     <CustomModal
@@ -233,11 +270,7 @@ const UpdateSharedFolderModal = ({
         </div>
         <div className={classes.modalFlexItem}>
           <TagsInput
-            onChange={(val) => {
-              (val && val.length > 0)
-                ? setSharedFolderReaders(val?.map(v => ({ label: v.label, value: v.value, data: v.data })))
-                : setSharedFolderReaders([])
-            }}
+            onChange={onNewReaders}
             label={t`Give view-only permission to:`}
             labelClassName={classes.inputLabel}
             value={sharedFolderReaders}
@@ -253,11 +286,7 @@ const UpdateSharedFolderModal = ({
         </div>
         <div className={classes.modalFlexItem}>
           <TagsInput
-            onChange={(val) => {
-              (val && val.length > 0)
-                ? setSharedFolderWriters(val?.map(v => ({ label: v.label, value: v.value, data: v.data })))
-                : setSharedFolderWriters([])
-            }}
+            onChange={onNewWriters}
             label={t`Give edit permission to:`}
             labelClassName={classes.inputLabel}
             value={sharedFolderWriters}
@@ -271,27 +300,48 @@ const UpdateSharedFolderModal = ({
               })
             }}/>
         </div>
-        <div className={clsx(classes.modalFlexItem, classes.buttons)}>
-          <CustomButton
-            onClick={handleClose}
-            size="medium"
-            className={classes.cancelButton}
-            variant={desktop ? "outline" : "gray"}
-            type="button"
+        <Grid
+          item
+          flexDirection="row"
+          justifyContent="space-between"
+          alignItems="center"
+          className={classes.footer}
+        >
+          {!!error && (
+            <Typography
+              component="p"
+              variant="body1"
+            >
+              {error}
+            </Typography>
+          )}
+          <Grid
+            item
+            flexDirection="row"
+            justifyContent="flex-end"
           >
-            <Trans>Cancel</Trans>
-          </CustomButton>
-          <Button
-            size={desktop ? "medium" : "large"}
-            variant="primary"
-            className={classes.okButton}
-            loading={isEditingSharedFolder}
-            onClick={handleUpdateSharedFolder}
-            disabled={!isValid}
-          >
-            <Trans>Update</Trans>
-          </Button>
-        </div>
+            <CustomButton
+              onClick={handleClose}
+              size="medium"
+              className={classes.cancelButton}
+              variant={desktop ? "outline" : "gray"}
+              type="button"
+            >
+              <Trans>Cancel</Trans>
+            </CustomButton>
+            <Button
+              variant="primary"
+              size={desktop ? "medium" : "large"}
+              type="submit"
+              className={classes.okButton}
+              loading={isEditingSharedFolder}
+              onClick={handleUpdateSharedFolder}
+              disabled={!hasPermissionsChanged}
+            >
+              <Trans>Update</Trans>
+            </Button>
+          </Grid>
+        </Grid>
       </div>
     </CustomModal>
   )

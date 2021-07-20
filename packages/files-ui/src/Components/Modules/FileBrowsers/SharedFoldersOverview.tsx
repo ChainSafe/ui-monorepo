@@ -223,7 +223,10 @@ const SharedFolderOverview = () => {
                   bucket={bucket}
                   handleRename={handleRename}
                   openSharedFolder={openSharedFolder}
-                  onEditSharedFolder={() => setBucketToEdit(bucket)}
+                  onEditSharedFolder={() => {
+                    setIsBucketModalOpen(true)
+                    setBucketToEdit(bucket)
+                  }}
                 />
               )}
             </TableBody>
