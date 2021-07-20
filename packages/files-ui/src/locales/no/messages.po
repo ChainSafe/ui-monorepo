@@ -757,6 +757,12 @@ msgstr ""
 msgid "Use an existing shared folder"
 msgstr ""
 
+msgid "User already included in readers"
+msgstr ""
+
+msgid "User already included in writers"
+msgstr ""
+
 msgid "Username"
 msgstr "Brukernavn"
 
