@@ -208,6 +208,9 @@ msgstr ""
 msgid "Drop to upload files"
 msgstr "Dra for å laste opp filer"
 
+msgid "Edit"
+msgstr ""
+
 msgid "Email is required"
 msgstr "E-post kreves"
 
@@ -306,6 +309,12 @@ msgstr ""
 
 msgid "Get Started"
 msgstr "Begynn"
+
+msgid "Give edit permission to:"
+msgstr ""
+
+msgid "Give view-only permission to:"
+msgstr ""
 
 msgid "Go back"
 msgstr "Tilbake"
@@ -727,6 +736,9 @@ msgstr "Prøv annen metode"
 msgid "Update"
 msgstr "Oppdater"
 
+msgid "Update Shared Folder"
+msgstr ""
+
 msgid "Upload"
 msgstr "Last opp"
 
@@ -743,6 +755,12 @@ msgid "Use a saved browser"
 msgstr ""
 
 msgid "Use an existing shared folder"
+msgstr ""
+
+msgid "User already included in readers"
+msgstr ""
+
+msgid "User already included in writers"
 msgstr ""
 
 msgid "Username"

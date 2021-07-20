@@ -209,6 +209,9 @@ msgstr ""
 msgid "Drop to upload files"
 msgstr "Suelta para subir archivos"
 
+msgid "Edit"
+msgstr ""
+
 msgid "Email is required"
 msgstr ""
 
@@ -310,6 +313,12 @@ msgstr ""
 
 msgid "Get Started"
 msgstr "Empezar"
+
+msgid "Give edit permission to:"
+msgstr ""
+
+msgid "Give view-only permission to:"
+msgstr ""
 
 msgid "Go back"
 msgstr "Regresar"
@@ -731,6 +740,9 @@ msgstr "Prueba con otro método"
 msgid "Update"
 msgstr "Actualizar"
 
+msgid "Update Shared Folder"
+msgstr ""
+
 msgid "Upload"
 msgstr "Subir"
 
@@ -747,6 +759,12 @@ msgid "Use a saved browser"
 msgstr "Utilice un navegador guardado"
 
 msgid "Use an existing shared folder"
+msgstr ""
+
+msgid "User already included in readers"
+msgstr ""
+
+msgid "User already included in writers"
 msgstr ""
 
 msgid "Username"

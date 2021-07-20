@@ -208,6 +208,9 @@ msgstr "Downloading…"
 msgid "Drop to upload files"
 msgstr "Drop to upload files"
 
+msgid "Edit"
+msgstr "Edit"
+
 msgid "Email is required"
 msgstr "Email is required"
 
@@ -309,6 +312,12 @@ msgstr "Generating…"
 
 msgid "Get Started"
 msgstr "Get Started"
+
+msgid "Give edit permission to:"
+msgstr "Give edit permission to:"
+
+msgid "Give view-only permission to:"
+msgstr "Give view-only permission to:"
 
 msgid "Go back"
 msgstr "Go back"
@@ -730,6 +739,9 @@ msgstr "Try another method"
 msgid "Update"
 msgstr "Update"
 
+msgid "Update Shared Folder"
+msgstr "Update Shared Folder"
+
 msgid "Upload"
 msgstr "Upload"
 
@@ -747,6 +759,12 @@ msgstr "Use a saved browser"
 
 msgid "Use an existing shared folder"
 msgstr "Use an existing shared folder"
+
+msgid "User already included in readers"
+msgstr "User already included in readers"
+
+msgid "User already included in writers"
+msgstr "User already included in writers"
 
 msgid "Username"
 msgstr "Username"
