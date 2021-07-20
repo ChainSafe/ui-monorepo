@@ -13,6 +13,9 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
+msgid "A bucket with this name already exists"
+msgstr "A bucket with this name already exists"
+
 msgid "A file with the same name already exists"
 msgstr "A file with the same name already exists"
 
