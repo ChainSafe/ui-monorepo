@@ -20,8 +20,8 @@ import { Trans } from "@lingui/macro"
 import dayjs from "dayjs"
 import SecretField from "../Elements/SecretField"
 
-export const desktopGridSettings = "2fr 3fr 1fr 1.5fr 30px !important"
-export const mobileGridSettings = "2fr 3fr 1fr 1.5fr 30px !important"
+export const desktopGridSettings = "2fr 2fr 1fr 1.5fr 30px !important"
+export const mobileGridSettings = "2fr 2fr 1fr 1.5fr 30px !important"
 
 const useStyles = makeStyles(({ constants, breakpoints, animation }: CSSTheme) =>
   createStyles({
@@ -97,8 +97,14 @@ const ApiKeys = () => {
       .catch(console.error)
   }, [storageApiClient])
 
-  const createAccessKey = useCallback(() => {
-    storageApiClient.createAccessKey()
+  const createStorageAccessKey = useCallback(() => {
+    storageApiClient.createAccessKey({ type: "storage" })
+      .then(fetchAccessKeys)
+      .catch(console.error)
+  }, [fetchAccessKeys, storageApiClient])
+
+  const createS3AccessKey = useCallback(() => {
+    storageApiClient.createAccessKey({ type: "s3" })
       .then(fetchAccessKeys)
       .catch(console.error)
   }, [fetchAccessKeys, storageApiClient])
@@ -127,11 +133,23 @@ const ApiKeys = () => {
         </Typography>
         <div className={classes.controls}>
           <Button
-            data-cy="add-api-key-button"
-            onClick={createAccessKey}
+            data-cy="add-s3-api-key-button"
+            onClick={createS3AccessKey}
             variant="outline"
             size="large"
-            disabled={keys.length > 0}
+            // disabled={keys.length > 0}
+          >
+            <PlusIcon />
+            <span>
+              <Trans>Add S3 Key</Trans>
+            </span>
+          </Button>
+          <Button
+            data-cy="add-storage-api-key-button"
+            onClick={createStorageAccessKey}
+            variant="outline"
+            size="large"
+            disabled={keys.filter(k => k.type === "storage").length > 0}
           >
             <PlusIcon />
             <span>
@@ -161,7 +179,7 @@ const ApiKeys = () => {
               sortButtons={false}
               align="center"
             >
-              <Trans>Secret</Trans>
+              <Trans>Type</Trans>
             </TableHeadCell>
             <TableHeadCell
               sortButtons={false}
@@ -184,13 +202,15 @@ const ApiKeys = () => {
               key={k.id}
               type='grid'
               className={classes.tableRow}>
-              <TableCell>
+              <TableCell align='left'>
                 <Typography>
                   {k.id}
                 </Typography>
               </TableCell>
               <TableCell>
-                <SecretField value={k.secret} />
+                <Typography>
+                  {k.type}
+                </Typography>
               </TableCell>
               <TableCell>
                 <Typography>
