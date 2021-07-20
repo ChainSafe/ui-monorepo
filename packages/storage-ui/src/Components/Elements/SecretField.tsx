@@ -2,14 +2,13 @@ import React, { useCallback, useState } from "react"
 import { EyeOpenIcon, EyeClosedIcon, Typography } from "@chainsafe/common-components"
 import { makeStyles, createStyles } from "@chainsafe/common-theme"
 import clsx from "clsx"
-import { CSSTheme } from "../../Themes/types"
 
 interface Props {
     value: string
     className?: string
 }
 
-const useStyles = makeStyles(({ typography }: CSSTheme) =>
+const useStyles = makeStyles(() =>
   createStyles({
     root: {
       display: "flex",
