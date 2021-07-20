@@ -7,7 +7,7 @@ import {
 import clsx from "clsx"
 import AsyncSelect from "react-select/async"
 import { Typography } from ".."
-import { Styles, ValueType } from "react-select"
+import { Styles, ValueType, ActionMeta, ActionTypes } from "react-select"
 
 const useStyles = makeStyles(
   ({ palette, animation, constants, overrides }: ITheme) =>
@@ -59,7 +59,7 @@ interface ITagsInputProps {
   caption?: string
   disabled?: boolean
   fetchTags: (searchValue: string) => Promise<Array<ITagOption>>
-  onChange: (value: ValueType<ITagOption, true>) => void
+  onChange: (value: ValueType<ITagOption, true>, action: ActionMeta<ITagOption>) => void
   styles?: Partial<Styles>
 }
 
@@ -119,4 +119,10 @@ const TagsInput = ({
 }
 
 export default TagsInput
-export { ITagsInputProps }
+export {
+  ITagsInputProps,
+  ITagOption,
+  ValueType as ITagValueType,
+  ActionMeta as ITagActionMeta,
+  ActionTypes as ITagActionTypes
+}
