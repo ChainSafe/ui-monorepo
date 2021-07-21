@@ -293,6 +293,9 @@ msgstr "Primer Nombre"
 msgid "Folder"
 msgstr "Archivo"
 
+msgid "Folder name cannot only contain whitepsace characters"
+msgstr ""
+
 msgid "Folders"
 msgstr "Archivos"
 
@@ -347,9 +350,6 @@ msgstr ""
 msgid "Info"
 msgstr "Info"
 
-msgid "Invalid name"
-msgstr ""
-
 msgid "I’m done saving my backup secret phrase"
 msgstr ""
 
@@ -399,6 +399,9 @@ msgid "Name"
 msgstr "Nombre"
 
 msgid "Name cannot contain '/' character"
+msgstr ""
+
+msgid "Name cannot only contain whitepsace characters"
 msgstr ""
 
 msgid "Name too long"

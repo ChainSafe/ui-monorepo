@@ -158,11 +158,9 @@ const FileSystemItem = ({
     },
     validationSchema:renameSchema,
     onSubmit:(values) => {
-      handleRename &&
-      handleRename(
-        file.cid,
-        values.fileName
-      )
+      const newName = values.fileName?.trim()
+
+      newName && handleRename && handleRename(file.cid, newName)
     },
     enableReinitialize: true
   })

@@ -43,6 +43,9 @@ msgstr "Bucket name"
 msgid "Bucket name cannot contain '/' character"
 msgstr "Bucket name cannot contain '/' character"
 
+msgid "Bucket name cannot only contain whitepsace characters"
+msgstr "Bucket name cannot only contain whitepsace characters"
+
 msgid "Bucket name is required"
 msgstr "Bucket name is required"
 
@@ -181,14 +184,11 @@ msgstr "Folder"
 msgid "Folder Name"
 msgstr "Folder Name"
 
-msgid "Folder name cannot contain '/' character"
-msgstr "Folder name cannot contain '/' character"
+msgid "Folder name cannot only contain whitepsace characters"
+msgstr "Folder name cannot only contain whitepsace characters"
 
 msgid "Folder name is already in use"
 msgstr "Folder name is already in use"
-
-msgid "Folder name is required"
-msgstr "Folder name is required"
 
 msgid "Folder uploads are currently not supported"
 msgstr "Folder uploads are currently not supported"
@@ -208,9 +208,6 @@ msgstr "Id"
 msgid "Info"
 msgstr "Info"
 
-msgid "Invalid name"
-msgstr "Invalid name"
-
 msgid "Learn more about ChainSafe"
 msgstr "Learn more about ChainSafe"
 
@@ -228,6 +225,9 @@ msgstr "Name"
 
 msgid "Name cannot contain '/' character"
 msgstr "Name cannot contain '/' character"
+
+msgid "Name cannot only contain whitepsace characters"
+msgstr "Name cannot only contain whitepsace characters"
 
 msgid "Name too long"
 msgstr "Name too long"
