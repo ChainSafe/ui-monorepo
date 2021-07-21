@@ -72,7 +72,7 @@ const BucketRow = ({ bucket }: Props) => {
     >
       <TableCell className={classes.name}
         onClick={() => redirect(ROUTE_LINKS.Bucket(bucket.id, "/"))}>
-        {bucket.name}
+        {bucket.name || bucket.id}
       </TableCell>
       <TableCell>
         {formatBytes(bucket.size)}

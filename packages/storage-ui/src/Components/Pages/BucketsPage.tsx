@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useMemo, useState } from "react"
 import { makeStyles, createStyles } from "@chainsafe/common-theme"
 import {
   Button,
@@ -18,7 +18,8 @@ import { t, Trans } from "@lingui/macro"
 import BucketRow from "../Elements/BucketRow"
 import CustomModal from "../Elements/CustomModal"
 import { Form, FormikProvider, useFormik } from "formik"
-import * as yup from "yup"
+import { bucketNameValidator } from "../../Utils/validationSchema"
+import { useCallback } from "react"
 
 export const desktopGridSettings = "3fr 190px 70px !important"
 export const mobileGridSettings = "3fr 190px 70px !important"
@@ -111,31 +112,22 @@ const useStyles = makeStyles(({ breakpoints, animation, constants, typography }:
   })
 )
 
-const bucketNameValidator = yup.object().shape({
-  name: yup
-    .string()
-    .required(t`Bucket name is required`)
-    .test(
-      "Invalid name",
-      t`Bucket name cannot contain '/' character`,
-      (val: string | null | undefined) => !!val && !val.includes("/")
-    )
-})
-
 const BucketsPage = () => {
   const classes = useStyles()
   const { storageBuckets, createBucket } = useStorage()
   const [isCreateBucketModalOpen, setIsCreateBucketModalOpen] = useState(false)
+
+  const bucketNameValidationSchema = useMemo(() => bucketNameValidator(storageBuckets.map(b => b.name)), [storageBuckets])
 
   const formik = useFormik({
     initialValues:{
       name: ""
     },
     enableReinitialize: true,
-    validationSchema: bucketNameValidator,
+    validationSchema: bucketNameValidationSchema,
     onSubmit:(values, helpers) => {
       helpers.setSubmitting(true)
-      createBucket(values.name)
+      createBucket(values.name.trim())
         .then(() => {
           setIsCreateBucketModalOpen(false)
         })
@@ -146,6 +138,11 @@ const BucketsPage = () => {
         })
     }
   })
+
+  const closeCreateModal = useCallback(() => {
+    formik.resetForm()
+    setIsCreateBucketModalOpen(false)
+  }, [formik])
 
   return (
     <div className={classes.root}>
@@ -246,7 +243,7 @@ const BucketsPage = () => {
               <footer className={classes.modalFooter}>
                 <Button
                   data-cy="button-cancel-create"
-                  onClick={() => setIsCreateBucketModalOpen(false)}
+                  onClick={closeCreateModal}
                   size="medium"
                   className={classes.cancelButton}
                   variant="outline"
