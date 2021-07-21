@@ -1,7 +1,6 @@
 import { t } from "@lingui/macro"
 import { object, string } from "yup"
-import CID, { isCID  } from "cids"
-
+import { cid as isCid } from 'is-ipfs'
 // eslint-disable-next-line 
 const spacesOnlyRegex = new RegExp(`^\s+$`)
 
@@ -67,14 +66,6 @@ export const cidValidator = object().shape({
     .test(
       "Valid CID",
       t`CID invalid`,
-      value => {
-        try {
-          return isCID(new CID(`${value}`))
-        }
-        catch (error) {
-          console.error(error)
-          return false
-        }
-      }
+      value => isCid(value)
     )
 })
