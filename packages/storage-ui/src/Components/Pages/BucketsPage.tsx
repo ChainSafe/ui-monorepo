@@ -19,6 +19,7 @@ import BucketRow from "../Elements/BucketRow"
 import CustomModal from "../Elements/CustomModal"
 import { Form, FormikProvider, useFormik } from "formik"
 import { bucketNameValidator } from "../../Utils/validationSchema"
+import { useCallback } from "react"
 
 export const desktopGridSettings = "3fr 190px 70px !important"
 export const mobileGridSettings = "3fr 190px 70px !important"
@@ -138,6 +139,11 @@ const BucketsPage = () => {
     }
   })
 
+  const closeCreateModal = useCallback(() => {
+    formik.resetForm()
+    setIsCreateBucketModalOpen(false)
+  }, [formik])
+
   return (
     <div className={classes.root}>
       <header className={classes.header}>
@@ -237,7 +243,7 @@ const BucketsPage = () => {
               <footer className={classes.modalFooter}>
                 <Button
                   data-cy="button-cancel-create"
-                  onClick={() => setIsCreateBucketModalOpen(false)}
+                  onClick={closeCreateModal}
                   size="medium"
                   className={classes.cancelButton}
                   variant="outline"
