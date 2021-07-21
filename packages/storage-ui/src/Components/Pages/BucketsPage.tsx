@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useMemo, useState } from "react"
 import { makeStyles, createStyles } from "@chainsafe/common-theme"
 import {
   Button,
@@ -115,6 +115,22 @@ const BucketsPage = () => {
   const classes = useStyles()
   const { storageBuckets, createBucket } = useStorage()
   const [isCreateBucketModalOpen, setIsCreateBucketModalOpen] = useState(false)
+
+  const bucketNameValidator = useMemo(() => yup.object().shape({
+    name: yup
+      .string()
+      .required(t`Bucket name is required`)
+      .test(
+        "Invalid name",
+        t`Bucket name cannot contain '/' character`,
+        (val: string | null | undefined) => !!val && !val.includes("/")
+      )
+      .test(
+        "Unique name",
+        t`A bucket with this name already exists`,
+        (val: string | null | undefined) => !!val && !storageBuckets.map(b => b.name).includes(val)
+      )
+  }), [storageBuckets])
 
   const formik = useFormik({
     initialValues:{
