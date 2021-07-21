@@ -29,6 +29,7 @@ const BucketPage: React.FC<IFileBrowserModuleProps> = () => {
     pathname.split("/")[2]
   , [pathname])
 
+
   useEffect(() => {
     const dismissedFlag = localStorageGet(DISMISSED_SURVEY_KEY)
 
