@@ -248,6 +248,20 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
           <div className={classes.linksArea}>
             <nav className={classes.navMenu}>
               <Link
+                data-cy="buckets-nav"
+                onClick={handleOnClick}
+                className={classes.navItem}
+                to={ROUTE_LINKS.Buckets}
+              >
+                <FolderSvg />
+                <Typography
+                  variant="h5"
+                  className={classes.navItemText}
+                >
+                  <Trans>Buckets</Trans>
+                </Typography>
+              </Link>
+              <Link
                 data-cy="cids-nav"
                 onClick={() => {
                   handleOnClick()
@@ -260,21 +274,7 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
                   variant="h5"
                   className={classes.navItemText}
                 >
-                  <Trans>Cids</Trans>
-                </Typography>
-              </Link>
-              <Link
-                data-cy="buckets-nav"
-                onClick={handleOnClick}
-                className={classes.navItem}
-                to={ROUTE_LINKS.Buckets}
-              >
-                <FolderSvg />
-                <Typography
-                  variant="h5"
-                  className={classes.navItemText}
-                >
-                  <Trans>Buckets</Trans>
+                  <Trans>CIDs</Trans>
                 </Typography>
               </Link>
             </nav>
