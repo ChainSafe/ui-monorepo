@@ -3,7 +3,7 @@ import { object, string } from "yup"
 import { cid as isCid } from "is-ipfs"
 
 // eslint-disable-next-line 
-const spacesOnlyRegex = new RegExp(`^\s+$`)
+const spacesOnlyRegex = new RegExp(`^\\s+$`)
 
 export const renameSchema = object().shape({
   fileName: string()
