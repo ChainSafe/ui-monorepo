@@ -1,6 +1,7 @@
 import { t } from "@lingui/macro"
 import { object, string } from "yup"
-import { cid as isCid } from 'is-ipfs'
+import { cid as isCid } from "is-ipfs"
+
 // eslint-disable-next-line 
 const spacesOnlyRegex = new RegExp(`^\s+$`)
 
