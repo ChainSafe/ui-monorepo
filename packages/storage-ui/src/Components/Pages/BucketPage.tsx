@@ -11,6 +11,8 @@ import { ROUTE_LINKS } from "../../Components/StorageRoutes"
 import { useStorageApi } from "../../Contexts/StorageApiContext"
 import { FileBrowserContext } from "../../Contexts/FileBrowserContext"
 import { parseFileContentResponse } from "../../Utils/Helpers"
+import { useLocalStorage } from "@chainsafe/browser-storage-hooks"
+import { DISMISSED_SURVEY_KEY } from "../Modules/SurveyBanner"
 
 const BucketPage: React.FC<IFileBrowserModuleProps> = () => {
   const { storageBuckets, uploadFiles, uploadsInProgress } = useStorage()
@@ -19,11 +21,21 @@ const BucketPage: React.FC<IFileBrowserModuleProps> = () => {
   const [loadingCurrentPath, setLoadingCurrentPath] = useState(false)
   const [pathContents, setPathContents] = useState<FileSystemItem[]>([])
   const { redirect } = useHistory()
-
+  const { localStorageGet, localStorageSet } = useLocalStorage()
+  const showSurvey = localStorageGet(DISMISSED_SURVEY_KEY) === "false"
   const { pathname } = useLocation()
+
   const bucketId = useMemo(() =>
     pathname.split("/")[2]
   , [pathname])
+
+  useEffect(() => {
+    const dismissedFlag = localStorageGet(DISMISSED_SURVEY_KEY)
+
+    if (dismissedFlag === undefined || dismissedFlag === null) {
+      localStorageSet(DISMISSED_SURVEY_KEY, "false")
+    }
+  }, [localStorageGet, localStorageSet])
 
   const currentPath = useMemo(() => {
     return extractFileBrowserPathFromURL(pathname, ROUTE_LINKS.Bucket(bucketId, "/"))
@@ -171,8 +183,8 @@ const BucketPage: React.FC<IFileBrowserModuleProps> = () => {
   }, [currentPath, pathContents, redirect, bucketId])
 
   const bulkOperations: IBulkOperations = useMemo(() => ({
-    [CONTENT_TYPES.Directory]: [],
-    [CONTENT_TYPES.File]: []
+    [CONTENT_TYPES.Directory]: ["delete", "move"],
+    [CONTENT_TYPES.File]: ["delete", "move"]
   }), [])
 
   const itemOperations: IFilesTableBrowserProps["itemOperations"] = useMemo(() => ({
@@ -181,8 +193,8 @@ const BucketPage: React.FC<IFileBrowserModuleProps> = () => {
     [CONTENT_TYPES.Image]: [],
     [CONTENT_TYPES.Pdf]: [],
     [CONTENT_TYPES.Text]: [],
-    [CONTENT_TYPES.File]: ["delete"],
-    [CONTENT_TYPES.Directory]: ["delete"]
+    [CONTENT_TYPES.File]: ["delete", "move"],
+    [CONTENT_TYPES.Directory]: ["delete", "move"]
   }), [])
 
   return (
@@ -206,7 +218,8 @@ const BucketPage: React.FC<IFileBrowserModuleProps> = () => {
       heading: bucket?.name,
       controls: true,
       allowDropUpload: true,
-      itemOperations
+      itemOperations,
+      withSurvey: showSurvey
     }}>
       <DragAndDrop>
         <FilesList />

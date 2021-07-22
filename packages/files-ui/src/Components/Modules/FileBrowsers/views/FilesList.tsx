@@ -26,7 +26,6 @@ import {
 } from "@chainsafe/common-components"
 import { useState } from "react"
 import { useMemo } from "react"
-import { object, string } from "yup"
 import EmptySvg from "../../../../Media/Empty.svg"
 import clsx from "clsx"
 import { plural, t, Trans } from "@lingui/macro"
@@ -51,6 +50,7 @@ import SurveyBanner from "../../../SurveyBanner"
 import { DragPreviewLayer } from "./DragPreviewLayer"
 import { useFileBrowser } from "../../../../Contexts/FileBrowserContext"
 import ReportFileModal from "../ReportFileModal"
+import CopyToSharedFolderModal from "../CopyToSharedFolderModal"
 
 const baseOperations:  FileOperation[] = ["download", "info", "preview"]
 const readerOperations: FileOperation[] = [...baseOperations, "report"]
@@ -291,7 +291,7 @@ const FilesList = ({ isShared = false }: Props) => {
   const { themeKey, desktop } = useThemeSwitcher()
   const [isReportFileModalOpen, setIsReportFileModalOpen] = useState(false)
   const [isFileInfoModalOpen, setIsFileInfoModalOpen] = useState(false)
-
+  const [isCopyToSharedFolerModalOpen, setIsCopyToSharedFolerModalOpen] = useState(false)
 
   const {
     heading,
@@ -322,7 +322,7 @@ const FilesList = ({ isShared = false }: Props) => {
   const [isSurveyBannerVisible, setIsSurveyBannerVisible] = useState(true)
   const [column, setColumn] = useState<"name" | "size" | "date_uploaded">("name")
   const [selectedCids, setSelectedCids] = useState<string[]>([])
-  const [previewFileIndex, setPreviewFileIndex] = useState<number | undefined>()
+  const [fileIndex, setFileIndex] = useState<number | undefined>()
   const { selectedLocale } = useLanguageContext()
   const { redirect } = useHistory()
   const { permission } = bucket || {}
@@ -383,21 +383,22 @@ const FilesList = ({ isShared = false }: Props) => {
   const setNextPreview = () => {
     if (
       files &&
-      previewFileIndex !== undefined &&
-      previewFileIndex < files.length - 1
+      fileIndex !== undefined &&
+      fileIndex < files.length - 1
     ) {
-      setPreviewFileIndex(previewFileIndex + 1)
+      setFileIndex(fileIndex + 1)
     }
   }
 
   const setPreviousPreview = () => {
-    if (files && previewFileIndex !== undefined && previewFileIndex > 0) {
-      setPreviewFileIndex(previewFileIndex - 1)
+    if (files && fileIndex !== undefined && fileIndex > 0) {
+      setFileIndex(fileIndex - 1)
     }
   }
 
-  const clearPreview = () => {
-    setPreviewFileIndex(undefined)
+  const closePreview = () => {
+    setFileIndex(undefined)
+    setIsPreviewOpen(false)
   }
 
   // Selection logic
@@ -433,20 +434,6 @@ const FilesList = ({ isShared = false }: Props) => {
     }
   }, [setSelectedCids, items, selectedCids])
 
-  const invalidFilenameRegex = new RegExp("/")
-  const renameSchema = object().shape({
-    fileName: string()
-      .min(1, t`Please enter a name`)
-      .max(65, t`Name too long`)
-      .test(
-        t`Invalid name`,
-        t`Name cannot contain '/' character`,
-        (val: string | null | undefined) =>
-          !invalidFilenameRegex.test(val || "")
-      )
-      .required(t`A name is required`)
-  })
-
   const [{ isOverUploadable, isOverBrowser }, dropBrowserRef] = useDrop({
     accept: [NativeTypes.FILE],
     drop: (item: any, monitor) => {
@@ -466,6 +453,7 @@ const FilesList = ({ isShared = false }: Props) => {
 
   // Modals
   const [createFolderModalOpen, setCreateFolderModalOpen] = useState(false)
+  const [isPreviewOpen, setIsPreviewOpen] = useState(false)
   const [isUploadModalOpen, setIsUploadModalOpen] = useState(false)
   const [isMoveFileModalOpen, setIsMoveFileModalOpen] = useState(false)
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
@@ -914,7 +902,6 @@ const FilesList = ({ isShared = false }: Props) => {
                     handleAddToSelectedCids={handleAddToSelectedCids}
                     editing={editing}
                     setEditing={setEditing}
-                    renameSchema={renameSchema}
                     handleRename={async (cid: string, newName: string) => {
                       handleRename && (await handleRename(cid, newName))
                       setEditing(undefined)
@@ -924,7 +911,6 @@ const FilesList = ({ isShared = false }: Props) => {
                       setIsDeleteModalOpen(true)
                     }}
                     viewFolder={handleViewFolder}
-                    setPreviewFileIndex={setPreviewFileIndex}
                     moveFile={() => {
                       setSelectedCids([file.cid])
                       setIsMoveFileModalOpen(true)
@@ -938,13 +924,22 @@ const FilesList = ({ isShared = false }: Props) => {
                       setIsMoveFileModalOpen(true)
                       setMoveModalMode("recover")
                     }}
-                    reportFile={(fileInfoPath: string) => {
-                      setFilePath(fileInfoPath)
+                    reportFile={(filePath: string) => {
+                      setFilePath(filePath)
                       setIsReportFileModalOpen(true)}
                     }
-                    showFileInfo={(fileInfoPath: string) => {
-                      setFilePath(fileInfoPath)
+                    showFileInfo={(filePath: string) => {
+                      setFilePath(filePath)
                       setIsFileInfoModalOpen(true)
+                    }}
+                    showPreview={(fileIndex: number) => {
+                      setFileIndex(fileIndex)
+                      setIsPreviewOpen(true)
+                    }}
+                    share={(filePath: string, fileIndex: number) => {
+                      setFilePath(filePath)
+                      setFileIndex(fileIndex)
+                      setIsCopyToSharedFolerModalOpen(true)
                     }}
                   />
                 ))}
@@ -969,7 +964,6 @@ const FilesList = ({ isShared = false }: Props) => {
                   handleAddToSelectedCids={handleAddToSelectedCids}
                   editing={editing}
                   setEditing={setEditing}
-                  renameSchema={renameSchema}
                   handleRename={async (path: string, newPath: string) => {
                     handleRename && (await handleRename(path, newPath))
                     setEditing(undefined)
@@ -978,7 +972,6 @@ const FilesList = ({ isShared = false }: Props) => {
                     setSelectedCids([file.cid])
                     setIsDeleteModalOpen(true)
                   }}
-                  setPreviewFileIndex={setPreviewFileIndex}
                   moveFile={() => {
                     setSelectedCids([file.cid])
                     setIsMoveFileModalOpen(true)
@@ -1000,19 +993,19 @@ const FilesList = ({ isShared = false }: Props) => {
                     setFilePath(fileInfoPath)
                     setIsFileInfoModalOpen(true)
                   }}
+                  share={(fileInfoPath: string, fileIndex: number) => {
+                    setFilePath(fileInfoPath)
+                    setFileIndex(fileIndex)
+                    setIsCopyToSharedFolerModalOpen(true)
+                  }}
+                  showPreview={(fileIndex: number) => {
+                    setFileIndex(fileIndex)
+                    setIsPreviewOpen(true)
+                  }}
                 />
               ))}
             </section>
           )}
-      {files && previewFileIndex !== undefined && (
-        <FilePreviewModal
-          file={files[previewFileIndex]}
-          closePreview={clearPreview}
-          nextFile={previewFileIndex < files.length - 1 ? setNextPreview : undefined}
-          previousFile={previewFileIndex > 0 ? setPreviousPreview : undefined}
-          path={isSearch && getPath ? getPath(files[previewFileIndex].cid) : getPathWithFile(currentPath, files[previewFileIndex].name)}
-        />
-      )}
       <Dialog
         active={isDeleteModalOpen}
         reject={() => setIsDeleteModalOpen(false)}
@@ -1064,6 +1057,15 @@ const FilesList = ({ isShared = false }: Props) => {
           </>
         )
       }
+      {isPreviewOpen && files.length && fileIndex !== undefined && (
+        <FilePreviewModal
+          file={files[fileIndex]}
+          closePreview={closePreview}
+          nextFile={fileIndex < files.length - 1 ? setNextPreview : undefined}
+          previousFile={fileIndex > 0 ? setPreviousPreview : undefined}
+          filePath={isSearch && getPath ? getPath(files[fileIndex].cid) : getPathWithFile(currentPath, files[fileIndex].name)}
+        />
+      )}
       { filePath && isReportFileModalOpen &&
         <ReportFileModal
           filePath={filePath}
@@ -1080,6 +1082,16 @@ const FilesList = ({ isShared = false }: Props) => {
             setIsFileInfoModalOpen(false)
             setFilePath(undefined)
           }}
+        />
+      }
+      { isCopyToSharedFolerModalOpen && filePath && fileIndex !== undefined &&
+        <CopyToSharedFolderModal
+          file={files[fileIndex]}
+          close={() => {
+            setIsCopyToSharedFolerModalOpen(false)
+            setFilePath(undefined)
+          }}
+          filePath={filePath}
         />
       }
     </article>

@@ -7,7 +7,7 @@ import {
 import clsx from "clsx"
 import AsyncSelect from "react-select/async"
 import { Typography } from ".."
-import { Styles, ValueType } from "react-select"
+import { Styles, ValueType, ActionMeta, ActionTypes } from "react-select"
 
 const useStyles = makeStyles(
   ({ palette, animation, constants, overrides }: ITheme) =>
@@ -19,6 +19,7 @@ const useStyles = makeStyles(
         ...overrides?.TagsInput?.root
       },
       label: {
+        margin: 5,
         transitionDuration: `${animation.transform}ms`,
         display: "block",
         marginBottom: constants.generalUnit / 4,
@@ -36,6 +37,9 @@ const useStyles = makeStyles(
           color: palette.warning.main
         },
         ...overrides?.SelectInput?.caption
+      },
+      asyncSelect:{
+        margin: 5
       }
     })
 )
@@ -55,7 +59,7 @@ interface ITagsInputProps {
   caption?: string
   disabled?: boolean
   fetchTags: (searchValue: string) => Promise<Array<ITagOption>>
-  onChange: (value: ValueType<ITagOption, true>) => void
+  onChange: (value: ValueType<ITagOption, true>, action: ActionMeta<ITagOption>) => void
   styles?: Partial<Styles>
 }
 
@@ -85,6 +89,7 @@ const TagsInput = ({
         </Typography>
       )}
       <AsyncSelect
+        className={classes.asyncSelect}
         isMulti
         cacheOptions={false}
         value={value}
@@ -114,4 +119,10 @@ const TagsInput = ({
 }
 
 export default TagsInput
-export { ITagsInputProps }
+export {
+  ITagsInputProps,
+  ITagOption,
+  ValueType as ITagValueType,
+  ActionMeta as ITagActionMeta,
+  ActionTypes as ITagActionTypes
+}

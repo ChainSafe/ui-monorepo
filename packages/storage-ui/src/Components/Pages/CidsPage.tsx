@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useMemo, useState } from "react"
 import { makeStyles, createStyles } from "@chainsafe/common-theme"
 import { Button, PlusIcon, Table, TableBody, TableHead, TableHeadCell, TableRow, Typography } from "@chainsafe/common-components"
 import { useStorage } from "../../Contexts/StorageContext"
@@ -6,9 +6,10 @@ import { Trans } from "@lingui/macro"
 import CidRow from "../Elements/CidRow"
 import { CSSTheme } from "../../Themes/types"
 import AddCIDModal from "../Modules/AddCIDModal"
+import { PinStatus } from "@chainsafe/files-api-client"
 
-export const desktopGridSettings = "3fr 190px 190px 190px 190px 70px !important"
-export const mobileGridSettings = "3fr 190px 190px 190px 190px 70px !important"
+export const desktopGridSettings = "3fr 160px 120px 120px 140px 70px !important"
+export const mobileGridSettings = "3fr 160px 120px 120px 140px 70px !important"
 
 const useStyles = makeStyles(({ animation, breakpoints, constants }: CSSTheme) =>
   createStyles({
@@ -49,10 +50,46 @@ const useStyles = makeStyles(({ animation, breakpoints, constants }: CSSTheme) =
   })
 )
 
+type SortColumn = "size" | "date_uploaded"
+type SortDirection = "ascend" | "descend"
+
 const CidsPage = () => {
   const classes = useStyles()
   const { pins } = useStorage()
   const [addCIDOpen, setAddCIDOpen] = useState(false)
+  const [sortColumn, setSortColumn] = useState<SortColumn>("date_uploaded")
+  const [sortDirection, setSortDirection] = useState<SortDirection>("descend")
+
+  const handleSortToggle = (
+    targetColumn: SortColumn
+  ) => {
+    if (sortColumn !== targetColumn) {
+      setSortColumn(targetColumn)
+      setSortDirection("descend")
+    } else {
+      if (sortDirection === "ascend") {
+        setSortDirection("descend")
+      } else {
+        setSortDirection("ascend")
+      }
+    }
+  }
+
+  const sortedPins: PinStatus[] = useMemo(() => {
+    let temp = []
+
+    switch (sortColumn) {
+    case "size": {
+      temp = pins.sort((a, b) => (a.info?.size < b.info?.size ? -1 : 1))
+      break
+    }
+    default: {
+      temp = pins.sort((a, b) => (a.created < b.created ? -1 : 1))
+      break
+    }
+    }
+    return sortDirection === "descend" ? temp.reverse() : temp
+  }, [pins, sortDirection, sortColumn])
 
   return (
     <>
@@ -69,7 +106,7 @@ const CidsPage = () => {
           </Typography>
           <div className={classes.controls}>
             <Button
-              data-cy="add-cid-modal-button"
+              data-cy="button-pin-cid"
               onClick={() => setAddCIDOpen(true)}
               variant="outline"
               size="large"
@@ -93,24 +130,34 @@ const CidsPage = () => {
               className={classes.tableRow}
             >
               <TableHeadCell
+                data-cy="table-header-cid"
                 sortButtons={false}
                 align="center"
               >
                 <Trans>Cid</Trans>
               </TableHeadCell>
               <TableHeadCell
-                sortButtons={false}
+                data-cy="table-header-created"
+                sortButtons={true}
+                onSortChange={() => handleSortToggle("date_uploaded")}
+                sortDirection={sortColumn === "date_uploaded" ? sortDirection : undefined}
+                sortActive={sortColumn === "date_uploaded"}
                 align="center"
               >
                 <Trans>Created</Trans>
               </TableHeadCell>
               <TableHeadCell
-                sortButtons={false}
+                data-cy="table-header-size"
+                sortButtons={true}
+                onSortChange={() => handleSortToggle("size")}
+                sortDirection={sortColumn === "size" ? sortDirection : undefined}
+                sortActive={sortColumn === "size"}
                 align="center"
               >
                 <Trans>Size</Trans>
               </TableHeadCell>
               <TableHeadCell
+                data-cy="table-header-status"
                 sortButtons={false}
                 align="center"
               >
@@ -121,8 +168,9 @@ const CidsPage = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {pins.map((pinStatus, index) =>
+            {sortedPins.map((pinStatus, index) =>
               <CidRow
+                data-cy="row-pin-status"
                 pinStatus={pinStatus}
                 key={index}
               />

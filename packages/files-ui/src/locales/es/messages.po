@@ -56,7 +56,7 @@ msgstr "Aprobar"
 msgid "Are we on the right track? Let us know in less than 1 minute."
 msgstr ""
 
-msgid "Back to plan settings"
+msgid "Back"
 msgstr ""
 
 msgid "Backup secret phrase"
@@ -152,6 +152,12 @@ msgstr "Copiar CID"
 msgid "Copy info"
 msgstr ""
 
+msgid "Copy over"
+msgstr ""
+
+msgid "Copy to shared folder"
+msgstr ""
+
 msgid "Create"
 msgstr "Crear"
 
@@ -164,6 +170,9 @@ msgstr ""
 msgid "Create a Shared Folder"
 msgstr ""
 
+msgid "Create a new shared folder"
+msgstr ""
+
 msgid "Create folder"
 msgstr "Crear Carpeta"
 
@@ -173,9 +182,6 @@ msgstr "Tema oscuro"
 msgid "Date uploaded"
 msgstr "Fecha de subida"
 
-msgid "Decryption failed"
-msgstr "Falló el descifrado"
-
 msgid "Decryption key"
 msgstr ""
 
@@ -184,6 +190,9 @@ msgstr "Borrar"
 
 msgid "Delete selected"
 msgstr "Eliminar seleccionado"
+
+msgid "Destination shared folder not selected"
+msgstr ""
 
 msgid "Device awaiting confirmation"
 msgstr "Dispositivo pendiente de confirmación"
@@ -203,13 +212,19 @@ msgstr "Descarga completa"
 msgid "Download recovery key"
 msgstr "Descargar la clave de recuperación"
 
+msgid "Downloading…"
+msgstr ""
+
 msgid "Drop to upload files"
 msgstr "Suelta para subir archivos"
 
-msgid "Early Adopter: Free up to {0}"
+msgid "Edit"
 msgstr ""
 
 msgid "Email is required"
+msgstr ""
+
+msgid "Encrypting and uploading…"
 msgstr ""
 
 msgid "Enter backup secret phrase:"
@@ -226,6 +241,18 @@ msgstr ""
 
 msgid "Enter your email:"
 msgstr ""
+
+msgid "Error while creating new shared folder"
+msgstr ""
+
+msgid "Error while downloading {0}"
+msgstr ""
+
+msgid "Error while uploading {0}"
+msgstr ""
+
+msgid "Essentials - Free"
+msgstr "Esenciales - Gratis"
 
 msgid "Failed to get signature"
 msgstr "No se pudo obtener la firma"
@@ -247,6 +274,9 @@ msgstr "Archivo"
 
 msgid "File Info"
 msgstr "Información del archivo"
+
+msgid "File added successfully!"
+msgstr ""
 
 msgid "File format not supported."
 msgstr "Formato de archivo no soportado."
@@ -272,6 +302,9 @@ msgstr "Primer Nombre"
 msgid "Folder"
 msgstr "Archivo"
 
+msgid "Folder name cannot only contain whitepsace characters"
+msgstr ""
+
 msgid "Folders"
 msgstr "Archivos"
 
@@ -292,6 +325,12 @@ msgstr ""
 
 msgid "Get Started"
 msgstr "Empezar"
+
+msgid "Give edit permission to:"
+msgstr ""
+
+msgid "Give view-only permission to:"
+msgstr ""
 
 msgid "Go back"
 msgstr "Regresar"
@@ -319,9 +358,6 @@ msgstr ""
 
 msgid "Info"
 msgstr "Info"
-
-msgid "Invalid name"
-msgstr ""
 
 msgid "I’m done saving my backup secret phrase"
 msgstr ""
@@ -369,6 +405,9 @@ msgid "Name"
 msgstr "Nombre"
 
 msgid "Name cannot contain '/' character"
+msgstr ""
+
+msgid "Name cannot only contain whitepsace characters"
 msgstr ""
 
 msgid "Name too long"
@@ -551,6 +590,9 @@ msgstr "Seguridad"
 msgid "Select a wallet"
 msgstr "Seleccione una billetera"
 
+msgid "Select an existing shared folder"
+msgstr ""
+
 msgid "Send Feedback"
 msgstr "Enviar comentarios"
 
@@ -587,9 +629,6 @@ msgstr "Ajustes"
 msgid "Setup incomplete"
 msgstr "Configuración incompleta"
 
-msgid "Share"
-msgstr "Compartir"
-
 msgid "Share with"
 msgstr ""
 
@@ -597,6 +636,9 @@ msgid "Shared"
 msgstr ""
 
 msgid "Shared Folder Name"
+msgstr ""
+
+msgid "Shared folder is undefined"
 msgstr ""
 
 msgid "Shared folders"
@@ -662,6 +704,9 @@ msgstr "Gracias por encargarte de eso. Puede ajustarlos en cualquier momento en 
 msgid "The authentication popup was closed"
 msgstr "Se cerró la ventana emergente de autenticación"
 
+msgid "The files are already in this folder"
+msgstr ""
+
 msgid "The system is undergoing maintenance, thank you for being patient."
 msgstr "El sistema está en mantenimiento, gracias por su paciencia."
 
@@ -692,6 +737,9 @@ msgstr "Hubo un error al recuperar esto."
 msgid "There was an error when setting username."
 msgstr ""
 
+msgid "This may take some time depending on the file size"
+msgstr ""
+
 msgid "This username is already taken"
 msgstr ""
 
@@ -710,7 +758,7 @@ msgstr ""
 msgid "Update"
 msgstr "Actualizar"
 
-msgid "Upgrade your plan"
+msgid "Update Shared Folder"
 msgstr ""
 
 msgid "Upload"
@@ -727,6 +775,15 @@ msgstr "Utilice un método de inicio de sesión diferente"
 
 msgid "Use a saved browser"
 msgstr "Utilice un navegador guardado"
+
+msgid "Use an existing shared folder"
+msgstr ""
+
+msgid "User already included in readers"
+msgstr ""
+
+msgid "User already included in writers"
+msgstr ""
 
 msgid "Username"
 msgstr ""
@@ -749,8 +806,14 @@ msgstr ""
 msgid "View folder"
 msgstr "Utilice un navegador guardado"
 
+msgid "View shared folder"
+msgstr ""
+
 msgid "Wallet address"
 msgstr "Utilice un navegador guardado"
+
+msgid "We can't encrypt files larger than 2GB. Some items will not be uploaded"
+msgstr ""
 
 msgid "Web3: {0}"
 msgstr "Vender: {0}"
@@ -772,6 +835,9 @@ msgstr "Si guárdalo"
 
 msgid "You can change this later."
 msgstr "Puedes cambiar esto más tarde."
+
+msgid "You can't move folders to this path"
+msgstr ""
 
 msgid "You haven't set a username yet."
 msgstr ""
@@ -809,17 +875,8 @@ msgstr "en"
 msgid "recovered successfully"
 msgstr "recuperado con éxito"
 
-msgid "{0, plural, one {The file is already in this folder} other {The files are already in this folder}}"
-msgstr ""
-
 msgid "{0, plural, one {You are about to delete {1} file.} other {You are about to delete {2} files.}}"
 msgstr "{0, plural, one {Está a punto de eliminar {1} archivo.} other {Está a punto de eliminar {2} archivos.}}"
-
-msgid "{0}"
-msgstr ""
-
-msgid "{0} of {1} used ({2}%)"
-msgstr ""
 
 msgid "{noOfFiles, plural, one {Uploading and encrypting {noOfFiles} file} other {Uploading and encrypting {noOfFiles} files}}"
 msgstr "{noOfFiles, plural, one {Carga y encriptación del archivo {noOfFiles}} other {Carga y encriptación de archivos {noOfFiles}}}"

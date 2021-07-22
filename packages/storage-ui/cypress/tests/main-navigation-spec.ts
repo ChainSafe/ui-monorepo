@@ -1,5 +1,5 @@
 import { navigationMenu } from "../support/page-objects/navigationMenu"
-import { homePage } from "../support/page-objects/homePage"
+import { cidsPage } from "../support/page-objects/cidsPage"
 
 describe("Main Navigation", () => {
 
@@ -21,7 +21,7 @@ describe("Main Navigation", () => {
 
     beforeEach(() => {
       cy.viewport("iphone-6")
-      homePage.hamburgerMenuButton().click()
+      cidsPage.hamburgerMenuButton().click()
     })
 
     it("can navigate to the cids page", () => {

@@ -12,6 +12,7 @@ import { CSSTheme } from "../../../Themes/types"
 import { FileSystemItem } from "../../../Contexts/StorageContext"
 import { ConnectDragPreview } from "react-dnd"
 import { Form, Formik } from "formik"
+import { renameSchema } from "../../../Utils/validationSchema"
 
 const useStyles = makeStyles(({ breakpoints, constants, palette }: CSSTheme) => {
   return createStyles({
@@ -128,7 +129,6 @@ interface IFileSystemTableItemProps {
   onFolderOrFileClicks: (e?: React.MouseEvent) => void
   icon: React.ReactNode
   preview: ConnectDragPreview
-  renameSchema: any
   setEditing: (editing: string |  undefined) => void
   handleRename?: (path: string, newPath: string) => Promise<void>
   currentPath: string | undefined
@@ -146,7 +146,6 @@ const FileSystemGridItem = React.forwardRef(
     editing,
     onFolderOrFileClicks,
     icon,
-    renameSchema,
     setEditing,
     handleRename,
     menuItems,
@@ -210,12 +209,11 @@ const FileSystemGridItem = React.forwardRef(
               }}
               validationSchema={renameSchema}
               onSubmit={(values) => {
-                handleRename &&
-                  handleRename(
-                    file.cid,
-                    values.fileName
-                  )
+                const newName = values.fileName?.trim()
+
+                newName && handleRename && handleRename(file.cid, newName)
               }}
+              enableReinitialize= {true}
             >
               <Form className={classes.desktopRename}>
                 <FormikTextInput

@@ -1,14 +1,13 @@
-import React, { useCallback, useMemo, useRef, useState } from "react"
+import React, { useCallback, useRef, useState } from "react"
 import { makeStyles, createStyles } from "@chainsafe/common-theme"
 import { Button, FormikTextInput, Grid } from "@chainsafe/common-components"
 import CustomModal from "../Elements/CustomModal"
 import { CSSTheme } from "../../Themes/types"
 import CustomButton from "../Elements/CustomButton"
 import { t, Trans } from "@lingui/macro"
-import * as yup from "yup"
 import { Formik, Form } from "formik"
-import CID, { isCID  } from "cids"
 import { useStorage } from "../../Contexts/StorageContext"
+import { cidValidator } from "../../Utils/validationSchema"
 
 const useStyles = makeStyles(({ constants, breakpoints, zIndex }: CSSTheme) =>
   createStyles({
@@ -65,27 +64,6 @@ interface IAddCIDModuleProps {
 const AddCIDModal = ({ modalOpen = false, close }: IAddCIDModuleProps) => {
   const classes = useStyles()
   const { addPin, refreshPins } = useStorage()
-
-  const cidValidator = useMemo(() =>  yup.object().shape({
-    cid: yup
-      .string()
-      .required(t`CID is required`)
-      .test(
-        "IsValidCID",
-        t`CID invalid`,
-        value => {
-          try {
-            return isCID(new CID(`${value}`))
-          }
-          catch (error) {
-            console.error(error)
-            return false
-          }
-        }
-      )
-  })
-  , [])
-
   const inputRef = useRef<any>(null)
   const [accessingCID, setAccessingCID] = useState(false)
 
@@ -127,7 +105,10 @@ const AddCIDModal = ({ modalOpen = false, close }: IAddCIDModuleProps) => {
         onSubmit={onSubmit}
       >
         <Form>
-          <div className={classes.root}>
+          <div
+            className={classes.root}
+            data-cy="form-pin-cid"
+          >
             <Grid
               item
               xs={12}
@@ -141,6 +122,7 @@ const AddCIDModal = ({ modalOpen = false, close }: IAddCIDModuleProps) => {
                 labelClassName={classes.label}
                 label={t`Paste the CID to pin it with ChainSafe Storage`}
                 ref={inputRef}
+                data-cy="input-cid"
               />
             </Grid>
             <Grid
@@ -154,6 +136,7 @@ const AddCIDModal = ({ modalOpen = false, close }: IAddCIDModuleProps) => {
                 className={classes.cancelButton}
                 variant={"outline"}
                 type="button"
+                data-cy="button-cancel-add-pin"
               >
                 <Trans>Cancel</Trans>
               </CustomButton>
@@ -163,6 +146,7 @@ const AddCIDModal = ({ modalOpen = false, close }: IAddCIDModuleProps) => {
                 type="submit"
                 className={classes.okButton}
                 loading={accessingCID}
+                data-cy="button-submit-pin"
               >
                 <Trans>Pin</Trans>
               </Button>

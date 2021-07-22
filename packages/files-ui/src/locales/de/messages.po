@@ -55,7 +55,7 @@ msgstr "Genehmigen"
 msgid "Are we on the right track? Let us know in less than 1 minute."
 msgstr "Sind wir auf dem richtigen Weg? Sagen Sie es uns in weniger als 1 Minute."
 
-msgid "Back to plan settings"
+msgid "Back"
 msgstr ""
 
 msgid "Backup secret phrase"
@@ -151,6 +151,12 @@ msgstr "IID kopieren"
 msgid "Copy info"
 msgstr ""
 
+msgid "Copy over"
+msgstr ""
+
+msgid "Copy to shared folder"
+msgstr ""
+
 msgid "Create"
 msgstr "Erstellen"
 
@@ -163,6 +169,9 @@ msgstr ""
 msgid "Create a Shared Folder"
 msgstr ""
 
+msgid "Create a new shared folder"
+msgstr ""
+
 msgid "Create folder"
 msgstr "Ordner erstellen"
 
@@ -172,9 +181,6 @@ msgstr "Dunkles Farbschema"
 msgid "Date uploaded"
 msgstr "Hochgeladen am"
 
-msgid "Decryption failed"
-msgstr "Entschlüsselung fehlgeschlagen"
-
 msgid "Decryption key"
 msgstr ""
 
@@ -183,6 +189,9 @@ msgstr "Löschen"
 
 msgid "Delete selected"
 msgstr "Ausgewählte löschen"
+
+msgid "Destination shared folder not selected"
+msgstr ""
 
 msgid "Device awaiting confirmation"
 msgstr "Gerät wartet auf Bestätigung"
@@ -202,14 +211,20 @@ msgstr "Komplett heruntergeladen"
 msgid "Download recovery key"
 msgstr "Wiederherstellungsschlüssel herunterladen"
 
+msgid "Downloading…"
+msgstr ""
+
 msgid "Drop to upload files"
 msgstr "Zum Hochladen von Dateien ablegen"
 
-msgid "Early Adopter: Free up to {0}"
+msgid "Edit"
 msgstr ""
 
 msgid "Email is required"
 msgstr "E-Mail ist erforderlich"
+
+msgid "Encrypting and uploading…"
+msgstr ""
 
 msgid "Enter backup secret phrase:"
 msgstr "Geben Sie den Sicherungsgeheimsatz ein:"
@@ -225,6 +240,18 @@ msgstr "Geben Sie den Verifizierungscode ein:"
 
 msgid "Enter your email:"
 msgstr "Geben Sie Ihre E-Mail-Adresse ein:"
+
+msgid "Error while creating new shared folder"
+msgstr ""
+
+msgid "Error while downloading {0}"
+msgstr ""
+
+msgid "Error while uploading {0}"
+msgstr ""
+
+msgid "Essentials - Free"
+msgstr "Essentials - Kostenlos"
 
 msgid "Failed to get signature"
 msgstr "Signatur kann nicht abgerufen werden"
@@ -243,6 +270,9 @@ msgstr "Datei"
 
 msgid "File Info"
 msgstr "Dateiinfos"
+
+msgid "File added successfully!"
+msgstr ""
 
 msgid "File format not supported."
 msgstr "Dateiformat wird nicht unterstützt."
@@ -268,6 +298,9 @@ msgstr "Vorname"
 msgid "Folder"
 msgstr "Ordner"
 
+msgid "Folder name cannot only contain whitepsace characters"
+msgstr ""
+
 msgid "Folders"
 msgstr "Ordner"
 
@@ -288,6 +321,12 @@ msgstr "Wird generiert …"
 
 msgid "Get Started"
 msgstr "Anfangen"
+
+msgid "Give edit permission to:"
+msgstr ""
+
+msgid "Give view-only permission to:"
+msgstr ""
 
 msgid "Go back"
 msgstr "Zurück"
@@ -315,9 +354,6 @@ msgstr ""
 
 msgid "Info"
 msgstr "Infos"
-
-msgid "Invalid name"
-msgstr "Ungültiger Name"
 
 msgid "I’m done saving my backup secret phrase"
 msgstr "Ich bin fertig mit dem Speichern meines Sixherungsgeheimsatzes"
@@ -366,6 +402,9 @@ msgstr "Name"
 
 msgid "Name cannot contain '/' character"
 msgstr "Name darf kein /-Zeichen enthalten"
+
+msgid "Name cannot only contain whitepsace characters"
+msgstr ""
 
 msgid "Name too long"
 msgstr "Name zu lang"
@@ -547,6 +586,9 @@ msgstr "Sicherheit"
 msgid "Select a wallet"
 msgstr ""
 
+msgid "Select an existing shared folder"
+msgstr ""
+
 msgid "Send Feedback"
 msgstr "Kommentare versenden"
 
@@ -583,9 +625,6 @@ msgstr "Einstellungen"
 msgid "Setup incomplete"
 msgstr "Einrichtung unvollständig"
 
-msgid "Share"
-msgstr "Teilen"
-
 msgid "Share with"
 msgstr ""
 
@@ -593,6 +632,9 @@ msgid "Shared"
 msgstr "Geteilt"
 
 msgid "Shared Folder Name"
+msgstr ""
+
+msgid "Shared folder is undefined"
 msgstr ""
 
 msgid "Shared folders"
@@ -658,6 +700,9 @@ msgstr "Danke, dass Sie sich darum gekümmert haben. Sie können diese jederzeit
 msgid "The authentication popup was closed"
 msgstr ""
 
+msgid "The files are already in this folder"
+msgstr ""
+
 msgid "The system is undergoing maintenance, thank you for being patient."
 msgstr "Das System wird gerade gewartet, wir danken Ihnen für Ihre Geduld."
 
@@ -688,6 +733,9 @@ msgstr "Es gab einen Fehler bei der Wiederherstellung dieses"
 msgid "There was an error when setting username."
 msgstr ""
 
+msgid "This may take some time depending on the file size"
+msgstr ""
+
 msgid "This username is already taken"
 msgstr ""
 
@@ -706,7 +754,7 @@ msgstr ""
 msgid "Update"
 msgstr "Aktualisieren"
 
-msgid "Upgrade your plan"
+msgid "Update Shared Folder"
 msgstr ""
 
 msgid "Upload"
@@ -723,6 +771,15 @@ msgstr "Eine andere Anmeldemethode verwenden"
 
 msgid "Use a saved browser"
 msgstr "Einen gespeicherten Browser verwenden"
+
+msgid "Use an existing shared folder"
+msgstr ""
+
+msgid "User already included in readers"
+msgstr ""
+
+msgid "User already included in writers"
+msgstr ""
 
 msgid "Username"
 msgstr "Benutzername"
@@ -745,7 +802,13 @@ msgstr "Verifizierungscode gesendet!"
 msgid "View folder"
 msgstr "Ordner anzeigen"
 
+msgid "View shared folder"
+msgstr ""
+
 msgid "Wallet address"
+msgstr ""
+
+msgid "We can't encrypt files larger than 2GB. Some items will not be uploaded"
 msgstr ""
 
 msgid "Web3: {0}"
@@ -768,6 +831,9 @@ msgstr "Ja, es speichern"
 
 msgid "You can change this later."
 msgstr "Sie können dies später ändern."
+
+msgid "You can't move folders to this path"
+msgstr ""
 
 msgid "You haven't set a username yet."
 msgstr "Sie haben noch keinen Benutzernamen festgelegt."
@@ -805,17 +871,8 @@ msgstr "am"
 msgid "recovered successfully"
 msgstr "erfolgreich wiederhergestellt"
 
-msgid "{0, plural, one {The file is already in this folder} other {The files are already in this folder}}"
-msgstr ""
-
 msgid "{0, plural, one {You are about to delete {1} file.} other {You are about to delete {2} files.}}"
 msgstr "{0, plural, one {Sie sind dabei {1} Datei zu löschen.} other {Sie sind dabei {2} Dateien zu löschen.}}"
-
-msgid "{0}"
-msgstr ""
-
-msgid "{0} of {1} used ({2}%)"
-msgstr ""
 
 msgid "{noOfFiles, plural, one {Uploading and encrypting {noOfFiles} file} other {Uploading and encrypting {noOfFiles} files}}"
 msgstr "{noOfFiles, plural, one {{noOfFiles} Datei wird hochgeladen und verschlüsselt} other {{noOfFiles} Datein werden hochgeladen und verschlüsselt}}"

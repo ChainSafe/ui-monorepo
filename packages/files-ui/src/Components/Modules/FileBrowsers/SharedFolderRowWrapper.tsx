@@ -1,6 +1,7 @@
 import React, { useCallback, useState } from "react"
 import {
   // DeleteSvg,
+  UpdateSvg,
   EditSvg,
   IMenuItem
 } from "@chainsafe/common-components"
@@ -29,9 +30,10 @@ interface Props {
   bucket: BucketKeyPermission
   handleRename: (bucket: BucketKeyPermission, newName: string) => void
   openSharedFolder: (bucketId: string) => void
+  onEditSharedFolder: () => void
 }
 
-const SharedFolderRowWrapper = ({ bucket, handleRename, openSharedFolder }: Props) => {
+const SharedFolderRowWrapper = ({ bucket, handleRename, openSharedFolder, onEditSharedFolder }: Props) => {
   const { desktop } = useThemeSwitcher()
   const classes = useStyles()
   const [isEditing, setIsEditing] = useState(false)
@@ -47,6 +49,17 @@ const SharedFolderRowWrapper = ({ bucket, handleRename, openSharedFolder }: Prop
         </>
       ),
       onClick: () => setIsEditing(true)
+    },
+    {
+      contents: (
+        <>
+          <UpdateSvg className={classes.menuIcon} />
+          <span data-cy="menu-edit">
+            <Trans>Edit</Trans>
+          </span>
+        </>
+      ),
+      onClick: () => onEditSharedFolder()
     }
     // {
     //   contents: (

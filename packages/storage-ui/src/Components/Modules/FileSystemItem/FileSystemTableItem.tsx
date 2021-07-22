@@ -20,6 +20,7 @@ import { ConnectDragPreview } from "react-dnd"
 import { Form, FormikProvider, useFormik } from "formik"
 import { CSSTheme } from "../../../Themes/types"
 import { FileSystemItem } from "../../../Contexts/StorageContext"
+import { renameSchema } from "../../../Utils/validationSchema"
 
 const useStyles = makeStyles(({ breakpoints, constants, palette }: CSSTheme) => {
   const desktopGridSettings = "50px 69px 3fr 190px 100px 45px !important"
@@ -116,7 +117,6 @@ interface IFileSystemTableItemProps {
   onFolderOrFileClicks: (e?: React.MouseEvent) => void
   icon: React.ReactNode
   preview: ConnectDragPreview
-  renameSchema: any
   setEditing: (editing: string |  undefined) => void
   handleRename?: (path: string, newPath: string) => Promise<void>
   currentPath: string | undefined
@@ -135,7 +135,6 @@ const FileSystemTableItem = React.forwardRef(
     onFolderOrFileClicks,
     icon,
     preview,
-    renameSchema,
     setEditing,
     handleRename,
     menuItems
@@ -143,18 +142,18 @@ const FileSystemTableItem = React.forwardRef(
     const classes = useStyles()
     const { name, cid, created_at, size } = file
     const { desktop } = useThemeSwitcher()
+
     const formik = useFormik({
       initialValues: {
         fileName: name
       },
       validationSchema: renameSchema,
       onSubmit: (values) => {
-        handleRename &&
-          handleRename(
-            file.cid,
-            values.fileName
-          )
-      }
+        const newName = values.fileName?.trim()
+
+        newName && handleRename && handleRename(file.cid, newName)
+      },
+      enableReinitialize: true
     })
 
     return  (
@@ -189,48 +188,47 @@ const FileSystemTableItem = React.forwardRef(
           className={clsx(classes.filename, desktop && editing === cid && "editing")}
           onClick={(e) => !editing && onFolderOrFileClicks(e)}
         >
-          {editing === cid && desktop ? (
-            <FormikProvider value={formik}>
-              <Form
-                className={classes.desktopRename}
-                data-cy='rename-form'
-              >
-                <FormikTextInput
-                  className={classes.renameInput}
-                  name="fileName"
-                  inputVariant="minimal"
-                  onKeyDown={(event) => {
-                    if (event.key === "Escape") {
-                      setEditing(undefined)
-                    }
-                  }}
-                  placeholder = {isFolder
-                    ? t`Please enter a folder name`
-                    : t`Please enter a file name`
-                  }
-                  autoFocus={editing === cid}
-                />
-                <Button
-                  data-cy='rename-submit-button'
-                  variant="dashed"
-                  size="small"
-                  type="submit"
-                  disabled={!formik.dirty}
+          {editing === cid && desktop
+            ? (
+              <FormikProvider value={formik}>
+                <Form
+                  className={classes.desktopRename}
+                  data-cy='rename-form'
                 >
-                  <CheckSvg />
-                </Button>
-              </Form>
-            </FormikProvider>
-          ) : (
-            <Typography>{name}</Typography>
-          )}
+                  <FormikTextInput
+                    className={classes.renameInput}
+                    name="fileName"
+                    inputVariant="minimal"
+                    onKeyDown={(event) => {
+                      if (event.key === "Escape") {
+                        setEditing(undefined)
+                      }
+                    }}
+                    placeholder = {isFolder
+                      ? t`Please enter a folder name`
+                      : t`Please enter a file name`
+                    }
+                    autoFocus={editing === cid}
+                  />
+                  <Button
+                    data-cy='rename-submit-button'
+                    variant="dashed"
+                    size="small"
+                    type="submit"
+                    disabled={!formik.dirty}
+                  >
+                    <CheckSvg />
+                  </Button>
+                </Form>
+              </FormikProvider>
+            )
+            : <Typography>{name}</Typography>
+          }
         </TableCell>
         {desktop && (
           <>
             <TableCell align="left">
-              {
-                !isFolder && !!created_at && dayjs.unix(created_at).format("DD MMM YYYY h:mm a")
-              }
+              {!isFolder && !!created_at && dayjs.unix(created_at).format("DD MMM YYYY h:mm a")}
             </TableCell>
             <TableCell align="left">
               {!isFolder && formatBytes(size)}

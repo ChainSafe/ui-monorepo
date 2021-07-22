@@ -55,8 +55,8 @@ msgstr "Approve"
 msgid "Are we on the right track? Let us know in less than 1 minute."
 msgstr "Are we on the right track? Let us know in less than 1 minute."
 
-msgid "Back to plan settings"
-msgstr "Back to plan settings"
+msgid "Back"
+msgstr "Back"
 
 msgid "Backup secret phrase"
 msgstr "Backup secret phrase"
@@ -151,6 +151,12 @@ msgstr "Copy CID"
 msgid "Copy info"
 msgstr "Copy info"
 
+msgid "Copy over"
+msgstr "Copy over"
+
+msgid "Copy to shared folder"
+msgstr "Copy to shared folder"
+
 msgid "Create"
 msgstr "Create"
 
@@ -163,6 +169,9 @@ msgstr "Create Shared Folder"
 msgid "Create a Shared Folder"
 msgstr "Create a Shared Folder"
 
+msgid "Create a new shared folder"
+msgstr "Create a new shared folder"
+
 msgid "Create folder"
 msgstr "Create folder"
 
@@ -172,9 +181,6 @@ msgstr "Dark Theme"
 msgid "Date uploaded"
 msgstr "Date uploaded"
 
-msgid "Decryption failed"
-msgstr "Decryption failed"
-
 msgid "Decryption key"
 msgstr "Decryption key"
 
@@ -183,6 +189,9 @@ msgstr "Delete"
 
 msgid "Delete selected"
 msgstr "Delete selected"
+
+msgid "Destination shared folder not selected"
+msgstr "Destination shared folder not selected"
 
 msgid "Device awaiting confirmation"
 msgstr "Device awaiting confirmation"
@@ -202,14 +211,20 @@ msgstr "Download complete"
 msgid "Download recovery key"
 msgstr "Download recovery key"
 
+msgid "Downloading…"
+msgstr "Downloading…"
+
 msgid "Drop to upload files"
 msgstr "Drop to upload files"
 
-msgid "Early Adopter: Free up to {0}"
-msgstr "Early Adopter: Free up to {0}"
+msgid "Edit"
+msgstr "Edit"
 
 msgid "Email is required"
 msgstr "Email is required"
+
+msgid "Encrypting and uploading…"
+msgstr "Encrypting and uploading…"
 
 msgid "Enter backup secret phrase:"
 msgstr "Enter backup secret phrase:"
@@ -225,6 +240,18 @@ msgstr "Enter the verification code:"
 
 msgid "Enter your email:"
 msgstr "Enter your email:"
+
+msgid "Error while creating new shared folder"
+msgstr "Error while creating new shared folder"
+
+msgid "Error while downloading {0}"
+msgstr "Error while downloading {0}"
+
+msgid "Error while uploading {0}"
+msgstr "Error while uploading {0}"
+
+msgid "Essentials - Free"
+msgstr "Essentials - Free"
 
 msgid "Failed to get signature"
 msgstr "Failed to get signature"
@@ -246,6 +273,9 @@ msgstr "File"
 
 msgid "File Info"
 msgstr "File Info"
+
+msgid "File added successfully!"
+msgstr "File added successfully!"
 
 msgid "File format not supported."
 msgstr "File format not supported."
@@ -271,6 +301,9 @@ msgstr "First name"
 msgid "Folder"
 msgstr "Folder"
 
+msgid "Folder name cannot only contain whitepsace characters"
+msgstr "Folder name cannot only contain whitepsace characters"
+
 msgid "Folders"
 msgstr "Folders"
 
@@ -291,6 +324,12 @@ msgstr "Generating…"
 
 msgid "Get Started"
 msgstr "Get Started"
+
+msgid "Give edit permission to:"
+msgstr "Give edit permission to:"
+
+msgid "Give view-only permission to:"
+msgstr "Give view-only permission to:"
 
 msgid "Go back"
 msgstr "Go back"
@@ -318,9 +357,6 @@ msgstr "If you think this file does not comply with our <0>Terms of Service</0>,
 
 msgid "Info"
 msgstr "Info"
-
-msgid "Invalid name"
-msgstr "Invalid name"
 
 msgid "I’m done saving my backup secret phrase"
 msgstr "I’m done saving my backup secret phrase"
@@ -369,6 +405,9 @@ msgstr "Name"
 
 msgid "Name cannot contain '/' character"
 msgstr "Name cannot contain '/' character"
+
+msgid "Name cannot only contain whitepsace characters"
+msgstr "Name cannot only contain whitepsace characters"
 
 msgid "Name too long"
 msgstr "Name too long"
@@ -550,6 +589,9 @@ msgstr "Security"
 msgid "Select a wallet"
 msgstr "Select a wallet"
 
+msgid "Select an existing shared folder"
+msgstr "Select an existing shared folder"
+
 msgid "Send Feedback"
 msgstr "Send Feedback"
 
@@ -586,9 +628,6 @@ msgstr "Settings"
 msgid "Setup incomplete"
 msgstr "Setup incomplete"
 
-msgid "Share"
-msgstr "Share"
-
 msgid "Share with"
 msgstr "Share with"
 
@@ -597,6 +636,9 @@ msgstr "Shared"
 
 msgid "Shared Folder Name"
 msgstr "Shared Folder Name"
+
+msgid "Shared folder is undefined"
+msgstr "Shared folder is undefined"
 
 msgid "Shared folders"
 msgstr "Shared folders"
@@ -661,6 +703,9 @@ msgstr "Thanks for taking care of that. You can adjust these anytime in security
 msgid "The authentication popup was closed"
 msgstr "The authentication popup was closed"
 
+msgid "The files are already in this folder"
+msgstr "The files are already in this folder"
+
 msgid "The system is undergoing maintenance, thank you for being patient."
 msgstr "The system is undergoing maintenance, thank you for being patient."
 
@@ -691,6 +736,9 @@ msgstr "There was an error recovering this"
 msgid "There was an error when setting username."
 msgstr "There was an error when setting username."
 
+msgid "This may take some time depending on the file size"
+msgstr "This may take some time depending on the file size"
+
 msgid "This username is already taken"
 msgstr "This username is already taken"
 
@@ -709,8 +757,8 @@ msgstr "Try for 7 days"
 msgid "Update"
 msgstr "Update"
 
-msgid "Upgrade your plan"
-msgstr "Upgrade your plan"
+msgid "Update Shared Folder"
+msgstr "Update Shared Folder"
 
 msgid "Upload"
 msgstr "Upload"
@@ -726,6 +774,15 @@ msgstr "Use a different login method"
 
 msgid "Use a saved browser"
 msgstr "Use a saved browser"
+
+msgid "Use an existing shared folder"
+msgstr "Use an existing shared folder"
+
+msgid "User already included in readers"
+msgstr "User already included in readers"
+
+msgid "User already included in writers"
+msgstr "User already included in writers"
 
 msgid "Username"
 msgstr "Username"
@@ -748,8 +805,14 @@ msgstr "Verification code sent!"
 msgid "View folder"
 msgstr "View folder"
 
+msgid "View shared folder"
+msgstr "View shared folder"
+
 msgid "Wallet address"
 msgstr "Wallet address"
+
+msgid "We can't encrypt files larger than 2GB. Some items will not be uploaded"
+msgstr "We can't encrypt files larger than 2GB. Some items will not be uploaded"
 
 msgid "Web3: {0}"
 msgstr "Web3: {0}"
@@ -771,6 +834,9 @@ msgstr "Yes, save it"
 
 msgid "You can change this later."
 msgstr "You can change this later."
+
+msgid "You can't move folders to this path"
+msgstr "You can't move folders to this path"
 
 msgid "You haven't set a username yet."
 msgstr "You haven't set a username yet."
@@ -808,17 +874,8 @@ msgstr "on"
 msgid "recovered successfully"
 msgstr "recovered successfully"
 
-msgid "{0, plural, one {The file is already in this folder} other {The files are already in this folder}}"
-msgstr "{0, plural, one {The file is already in this folder} other {The files are already in this folder}}"
-
 msgid "{0, plural, one {You are about to delete {1} file.} other {You are about to delete {2} files.}}"
 msgstr "{0, plural, one {You are about to delete {1} file.} other {You are about to delete {2} files.}}"
-
-msgid "{0}"
-msgstr "{0}"
-
-msgid "{0} of {1} used ({2}%)"
-msgstr "{0} of {1} used ({2}%)"
 
 msgid "{noOfFiles, plural, one {Uploading and encrypting {noOfFiles} file} other {Uploading and encrypting {noOfFiles} files}}"
 msgstr "{noOfFiles, plural, one {Uploading and encrypting {noOfFiles} file} other {Uploading and encrypting {noOfFiles} files}}"

@@ -26,7 +26,6 @@ import {
 } from "@chainsafe/common-components"
 import { useState } from "react"
 import { useMemo } from "react"
-import { object, string } from "yup"
 import EmptySvg from "../../../Media/Empty.svg"
 import clsx from "clsx"
 import { plural, t, Trans } from "@lingui/macro"
@@ -35,18 +34,17 @@ import { useDrop } from "react-dnd"
 import { BrowserView, FileOperation, MoveModalMode } from "../../../Contexts/types"
 import { FileSystemItem as FileSystemItemType } from "../../../Contexts/StorageContext"
 import FileSystemItem from "../FileSystemItem/FileSystemItem"
-// import FilePreviewModal from "../../FilePreviewModal"
 import UploadProgressModals from "../UploadProgressModals"
 import DownloadProgressModals from "../DownloadProgressModals"
 import CreateFolderModal from "../CreateFolderModal/CreateFolderModal"
 import UploadFileModule from "../UploadFileModal/UploadFileModal"
 import MoveFileModule from "../MoveFileModal/MoveFileModal"
-// import FileInfoModal from "../FileInfoModal"
 import { CONTENT_TYPES } from "../../../Utils/Constants"
 import { CSSTheme } from "../../../Themes/types"
 import MimeMatcher from "../../../Utils/MimeMatcher"
 import { useLanguageContext } from "../../../Contexts/LanguageContext"
 import { useFileBrowser } from "../../../Contexts/FileBrowserContext"
+import SurveyBanner from "../SurveyBanner"
 
 interface IStyleProps {
   themeKey: string
@@ -293,7 +291,8 @@ const FilesList = () => {
     showUploadsInTable,
     allowDropUpload,
     itemOperations,
-    moduleRootPath
+    moduleRootPath,
+    withSurvey
   } = useFileBrowser()
   const classes = useStyles({ themeKey })
   const [editing, setEditing] = useState<string | undefined>()
@@ -303,6 +302,7 @@ const FilesList = () => {
   const [, setPreviewFileIndex] = useState<number | undefined>()
   const { selectedLocale } = useLanguageContext()
   const { redirect } = useHistory()
+  const [isSurveyBannerVisible, setIsSurveyBannerVisible] = useState(true)
 
   const items: FileSystemItemType[] = useMemo(() => {
     let temp = []
@@ -357,6 +357,10 @@ const FilesList = () => {
     }
   }
 
+  const onHideSurveyBanner = useCallback(() => {
+    setIsSurveyBannerVisible(false)
+  }, [setIsSurveyBannerVisible])
+
   // Selection logic
   const handleSelectCid = useCallback(
     (cid: string) => {
@@ -389,20 +393,6 @@ const FilesList = () => {
       setSelectedCids([...items.map((file: FileSystemItemType) => file.cid)])
     }
   }, [setSelectedCids, items, selectedCids])
-
-  const invalidFilenameRegex = new RegExp("/")
-  const renameSchema = object().shape({
-    fileName: string()
-      .min(1, t`Please enter a name`)
-      .max(65, t`Name too long`)
-      .test(
-        "Invalid name",
-        t`Name cannot contain '/' character`,
-        (val: string | null | undefined) =>
-          !invalidFilenameRegex.test(val || "")
-      )
-      .required(t`A name is required`)
-  })
 
   const [{ isOverUploadable, isOverBrowser }, dropBrowserRef] = useDrop({
     accept: [NativeTypes.FILE],
@@ -489,7 +479,7 @@ const FilesList = () => {
           }
         }
       }
-      setValidBulkOps([])
+      setValidBulkOps(filteredList)
     }
   }, [selectedCids, items, bulkOperations])
 
@@ -590,6 +580,7 @@ const FilesList = () => {
           {controls && desktop ? (
             <>
               <Button
+                data-cy="button-new-folder"
                 onClick={() => setCreateFolderModalOpen(true)}
                 variant="outline"
                 size="large"
@@ -600,7 +591,7 @@ const FilesList = () => {
                 </span>
               </Button>
               <Button
-                data-cy="upload-modal-button"
+                data-cy="button-bucket-upload"
                 onClick={() => setIsUploadModalOpen(true)}
                 variant="outline"
                 size="large"
@@ -672,7 +663,10 @@ const FilesList = () => {
           )}
         </div>
       </header>
-      <Divider className={classes.divider} />
+      { withSurvey && isSurveyBannerVisible
+        ? <SurveyBanner onHide={onHideSurveyBanner}/>
+        : <Divider className={classes.divider} />
+      }
       <section className={classes.bulkOperations}>
         {selectedCids.length > 0 && (
           <>
@@ -832,7 +826,6 @@ const FilesList = () => {
                 handleAddToSelectedCids={handleAddToSelectedCids}
                 editing={editing}
                 setEditing={setEditing}
-                renameSchema={renameSchema}
                 handleRename={async (cid: string, newName: string) => {
                   handleRename && (await handleRename(cid, newName))
                   setEditing(undefined)
@@ -880,7 +873,6 @@ const FilesList = () => {
               handleAddToSelectedCids={handleAddToSelectedCids}
               editing={editing}
               setEditing={setEditing}
-              renameSchema={renameSchema}
               handleRename={async (path: string, newPath: string) => {
                 handleRename && (await handleRename(path, newPath))
                 setEditing(undefined)

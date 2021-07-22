@@ -19,10 +19,10 @@ import { desktopSharedGridSettings, mobileSharedGridSettings } from "../../Share
 import SharedUsers from "../../../../Elements/SharedUser"
 import { t } from "@lingui/macro"
 import { Form, FormikProvider, useFormik } from "formik"
-import { object, string } from "yup"
 import clsx from "clsx"
 import { BucketKeyPermission } from "../../../../../Contexts/FilesContext"
 import UserBubble from "../../../../Elements/UserBubble"
+import { renameSchema } from "../../../../../Utils/validationSchema"
 
 const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => {
 
@@ -117,18 +117,6 @@ interface Props {
   handleRename: (bucket: BucketKeyPermission, newName: string) => void
 }
 
-const renameSchema = object().shape({
-  fileName: string()
-    .min(1, t`Please enter a name`)
-    .max(65, t`Name too long`)
-    .test(
-      t`Invalid name`,
-      t`Name cannot contain '/' character`,
-      (val: string | null | undefined) => !!val && !val?.includes("/")
-    )
-    .required(t`A name is required`)
-})
-
 const SharedFolderRow = ({ bucket, onFolderClick, menuItems, isEditing, setIsEditing, handleRename }: Props) => {
   const classes = useStyles()
   const { name, size } = bucket
@@ -150,11 +138,9 @@ const SharedFolderRow = ({ bucket, onFolderClick, menuItems, isEditing, setIsEdi
     enableReinitialize: true,
     validationSchema: renameSchema,
     onSubmit:(values, { resetForm }) => {
-      handleRename && values.fileName &&
-        handleRename(
-          bucket,
-          values.fileName
-        )
+      const newName = values.fileName?.trim()
+
+      newName && handleRename && handleRename(bucket, newName)
       setIsEditing(false)
       resetForm()
     }
