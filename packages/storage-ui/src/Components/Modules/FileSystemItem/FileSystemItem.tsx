@@ -279,9 +279,12 @@ const FileSystemItem = ({
     ({ type: DragTypes.MOVABLE_FILE,
       item: () => {
         if (selected.findIndex(item => item.cid === file.cid && item.name === file.name) >= 0) {
-          return { ids: selected }
+          return { selected: selected }
         } else {
-          return { ids: [...selected, file.cid] }
+          return { selected: [...selected, {
+            cid: file.cid,
+            name: file.name
+          }] }
         }
       }
     }), [selected])
@@ -301,10 +304,8 @@ const FileSystemItem = ({
   const [{ isOverMove }, dropMoveRef] = useDrop({
     accept: DragTypes.MOVABLE_FILE,
     canDrop: () => isFolder,
-    drop: (item: {ids: string[]}) => {
-      console.log(item)
-      debugger
-      // moveItems && moveItems(item.ids, `${currentPath}${name}/`)
+    drop: (item: {selected: ISelectedFile[]}) => {
+      moveItems && moveItems(item.selected, `${currentPath}${name}/`)
     },
     collect: (monitor) => ({
       isOverMove: monitor.isOver()
