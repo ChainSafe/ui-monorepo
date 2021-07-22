@@ -53,7 +53,7 @@ export function getParentPathFromFilePath(filePath: string) {
 // /drive/path/to/somewhere -> /path/to/somewhere
 export function extractFileBrowserPathFromURL(browserUrl: string, modulePath: string) {
   const result = browserUrl.replace(modulePath, "").split("/").map(decodeURIComponent).join("/")
-  return result === "" ? "/" : result
+  return result === "" ? "/" : `/${result}`
 }
 
 // is fold1 a subfolder of fold2

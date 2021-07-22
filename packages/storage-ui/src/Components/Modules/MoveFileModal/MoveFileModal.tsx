@@ -74,11 +74,11 @@ interface IMoveFileModuleProps {
   mode?: MoveModalMode
 }
 
-const MoveFileModule = ({ filesToMove, modalOpen, onClose, onCancel, mode }: IMoveFileModuleProps) => {
+const MoveFileModal = ({ filesToMove, modalOpen, onClose, onCancel, mode }: IMoveFileModuleProps) => {
   const classes = useStyles()
   const { storageApiClient } = useStorageApi()
   const { moveItems, recoverItems, bucket, currentPath } = useFileBrowser()
-  const [movingFile, setMovingFile] = useState(false)
+  const [isMovingFile, setIsMovingFile] = useState(false)
   const [movePath, setMovePath] = useState<undefined | string>(undefined)
   const [folderTree, setFolderTree] = useState<ITreeNodeProps[]>([])
 
@@ -133,8 +133,7 @@ const MoveFileModule = ({ filesToMove, modalOpen, onClose, onCancel, mode }: IMo
     })), movePath)
       .then(onClose)
       .catch(console.error)
-      .finally(() => setMovingFile(false))
-
+      .finally(() => setIsMovingFile(false))
   }
 
   const desktop = useMediaQuery("md")
@@ -250,7 +249,7 @@ const MoveFileModule = ({ filesToMove, modalOpen, onClose, onCancel, mode }: IMo
             size={desktop ? "medium" : "large"}
             type="submit"
             className={classes.okButton}
-            loading={movingFile}
+            loading={isMovingFile}
             disabled={!isAllowedToMove}
             onClick={onMoveFile}
           >
@@ -262,4 +261,4 @@ const MoveFileModule = ({ filesToMove, modalOpen, onClose, onCancel, mode }: IMo
   )
 }
 
-export default MoveFileModule
+export default MoveFileModal

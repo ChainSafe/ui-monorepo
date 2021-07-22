@@ -38,7 +38,7 @@ import UploadProgressModals from "../UploadProgressModals"
 import DownloadProgressModals from "../DownloadProgressModals"
 import CreateFolderModal from "../CreateFolderModal/CreateFolderModal"
 import UploadFileModule from "../UploadFileModal/UploadFileModal"
-import MoveFileModule from "../MoveFileModal/MoveFileModal"
+import MoveFileModal from "../MoveFileModal/MoveFileModal"
 import { CONTENT_TYPES } from "../../../Utils/Constants"
 import { CSSTheme } from "../../../Themes/types"
 import MimeMatcher from "../../../Utils/MimeMatcher"
@@ -965,7 +965,7 @@ const FilesList = () => {
               modalOpen={isUploadModalOpen}
               close={() => setIsUploadModalOpen(false)}
             />
-            <MoveFileModule
+            <MoveFileModal
               filesToMove={selectedItems}
               modalOpen={isMoveFileModalOpen}
               onClose={() => {
