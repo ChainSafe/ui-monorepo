@@ -64,6 +64,9 @@ msgstr "CID invalid"
 msgid "CID is required"
 msgstr "CID is required"
 
+msgid "CIDs"
+msgstr "CIDs"
+
 msgid "Cancel"
 msgstr "Cancel"
 

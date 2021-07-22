@@ -66,7 +66,7 @@ const StorageRoutes = () => {
         path={ROUTE_LINKS.Landing}
         isAuthorized={!isLoggedIn}
         component={LoginPage}
-        redirectPath={ROUTE_LINKS.Cids}
+        redirectPath={ROUTE_LINKS.Buckets}
         redirectToSource
       />
     </Switch>
