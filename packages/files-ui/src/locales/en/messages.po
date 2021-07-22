@@ -58,6 +58,9 @@ msgstr "Are we on the right track? Let us know in less than 1 minute."
 msgid "Back"
 msgstr "Back"
 
+msgid "Back to plan settings"
+msgstr "Back to plan settings"
+
 msgid "Backup secret phrase"
 msgstr "Backup secret phrase"
 
@@ -217,6 +220,9 @@ msgstr "Downloading…"
 msgid "Drop to upload files"
 msgstr "Drop to upload files"
 
+msgid "Early Adopter: Free up to {0}"
+msgstr "Early Adopter: Free up to {0}"
+
 msgid "Edit"
 msgstr "Edit"
 
@@ -249,9 +255,6 @@ msgstr "Error while downloading {0}"
 
 msgid "Error while uploading {0}"
 msgstr "Error while uploading {0}"
-
-msgid "Essentials - Free"
-msgstr "Essentials - Free"
 
 msgid "Failed to get signature"
 msgstr "Failed to get signature"
@@ -760,6 +763,9 @@ msgstr "Update"
 msgid "Update Shared Folder"
 msgstr "Update Shared Folder"
 
+msgid "Upgrade your plan"
+msgstr "Upgrade your plan"
+
 msgid "Upload"
 msgstr "Upload"
 
@@ -876,6 +882,9 @@ msgstr "recovered successfully"
 
 msgid "{0, plural, one {You are about to delete {1} file.} other {You are about to delete {2} files.}}"
 msgstr "{0, plural, one {You are about to delete {1} file.} other {You are about to delete {2} files.}}"
+
+msgid "{0} of {1} used ({2}%)"
+msgstr "{0} of {1} used ({2}%)"
 
 msgid "{noOfFiles, plural, one {Uploading and encrypting {noOfFiles} file} other {Uploading and encrypting {noOfFiles} files}}"
 msgstr "{noOfFiles, plural, one {Uploading and encrypting {noOfFiles} file} other {Uploading and encrypting {noOfFiles} files}}"

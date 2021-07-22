@@ -58,6 +58,9 @@ msgstr ""
 msgid "Back"
 msgstr ""
 
+msgid "Back to plan settings"
+msgstr ""
+
 msgid "Backup secret phrase"
 msgstr ""
 
@@ -217,6 +220,9 @@ msgstr ""
 msgid "Drop to upload files"
 msgstr "Dra for å laste opp filer"
 
+msgid "Early Adopter: Free up to {0}"
+msgstr ""
+
 msgid "Edit"
 msgstr ""
 
@@ -248,9 +254,6 @@ msgid "Error while downloading {0}"
 msgstr ""
 
 msgid "Error while uploading {0}"
-msgstr ""
-
-msgid "Essentials - Free"
 msgstr ""
 
 msgid "Failed to get signature"
@@ -757,6 +760,9 @@ msgstr "Oppdater"
 msgid "Update Shared Folder"
 msgstr ""
 
+msgid "Upgrade your plan"
+msgstr ""
+
 msgid "Upload"
 msgstr "Last opp"
 
@@ -872,6 +878,9 @@ msgid "recovered successfully"
 msgstr "gjenopprettet"
 
 msgid "{0, plural, one {You are about to delete {1} file.} other {You are about to delete {2} files.}}"
+msgstr ""
+
+msgid "{0} of {1} used ({2}%)"
 msgstr ""
 
 msgid "{noOfFiles, plural, one {Uploading and encrypting {noOfFiles} file} other {Uploading and encrypting {noOfFiles} files}}"

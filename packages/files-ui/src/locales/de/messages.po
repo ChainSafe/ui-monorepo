@@ -58,6 +58,9 @@ msgstr "Sind wir auf dem richtigen Weg? Sagen Sie es uns in weniger als 1 Minute
 msgid "Back"
 msgstr ""
 
+msgid "Back to plan settings"
+msgstr ""
+
 msgid "Backup secret phrase"
 msgstr "Sicherungsgeheimsatz"
 
@@ -217,6 +220,9 @@ msgstr ""
 msgid "Drop to upload files"
 msgstr "Zum Hochladen von Dateien ablegen"
 
+msgid "Early Adopter: Free up to {0}"
+msgstr ""
+
 msgid "Edit"
 msgstr ""
 
@@ -249,9 +255,6 @@ msgstr ""
 
 msgid "Error while uploading {0}"
 msgstr ""
-
-msgid "Essentials - Free"
-msgstr "Essentials - Kostenlos"
 
 msgid "Failed to get signature"
 msgstr "Signatur kann nicht abgerufen werden"
@@ -757,6 +760,9 @@ msgstr "Aktualisieren"
 msgid "Update Shared Folder"
 msgstr ""
 
+msgid "Upgrade your plan"
+msgstr ""
+
 msgid "Upload"
 msgstr "Hochladen"
 
@@ -873,6 +879,9 @@ msgstr "erfolgreich wiederhergestellt"
 
 msgid "{0, plural, one {You are about to delete {1} file.} other {You are about to delete {2} files.}}"
 msgstr "{0, plural, one {Sie sind dabei {1} Datei zu löschen.} other {Sie sind dabei {2} Dateien zu löschen.}}"
+
+msgid "{0} of {1} used ({2}%)"
+msgstr ""
 
 msgid "{noOfFiles, plural, one {Uploading and encrypting {noOfFiles} file} other {Uploading and encrypting {noOfFiles} files}}"
 msgstr "{noOfFiles, plural, one {{noOfFiles} Datei wird hochgeladen und verschlüsselt} other {{noOfFiles} Datein werden hochgeladen und verschlüsselt}}"

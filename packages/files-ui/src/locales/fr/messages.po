@@ -59,6 +59,9 @@ msgstr "Sommes-nous sur les bons rails ? Dites-le-nous en moins d’1 minute (en
 msgid "Back"
 msgstr ""
 
+msgid "Back to plan settings"
+msgstr ""
+
 msgid "Backup secret phrase"
 msgstr "Phrase secrète de sauvegarde"
 
@@ -218,6 +221,9 @@ msgstr ""
 msgid "Drop to upload files"
 msgstr "Faire glisser pour téléverser un fichier"
 
+msgid "Early Adopter: Free up to {0}"
+msgstr ""
+
 msgid "Edit"
 msgstr ""
 
@@ -250,9 +256,6 @@ msgstr ""
 
 msgid "Error while uploading {0}"
 msgstr ""
-
-msgid "Essentials - Free"
-msgstr "Essentials - Gratuit"
 
 msgid "Failed to get signature"
 msgstr "Échec de l’obtention de la signature"
@@ -761,6 +764,9 @@ msgstr "Mettre à jour"
 msgid "Update Shared Folder"
 msgstr ""
 
+msgid "Upgrade your plan"
+msgstr ""
+
 msgid "Upload"
 msgstr "Téléverser"
 
@@ -877,6 +883,9 @@ msgstr "récupéré avec succès"
 
 msgid "{0, plural, one {You are about to delete {1} file.} other {You are about to delete {2} files.}}"
 msgstr "{0, plural, one {Supprimer {1} fichier.} other {Supprimer {2} fichiers.}}"
+
+msgid "{0} of {1} used ({2}%)"
+msgstr ""
 
 msgid "{noOfFiles, plural, one {Uploading and encrypting {noOfFiles} file} other {Uploading and encrypting {noOfFiles} files}}"
 msgstr "{noOfFiles, plural, one {Upload et chiffrage de {noOfFiles} fichier} other {Upload et chiffrage de {noOfFiles} fichiers}}"
