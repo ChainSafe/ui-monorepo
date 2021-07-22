@@ -28,6 +28,9 @@ msgstr "API Keys"
 msgid "Add API Key"
 msgstr "Add API Key"
 
+msgid "Add S3 Key"
+msgstr "Add S3 Key"
+
 msgid "Add more files"
 msgstr "Add more files"
 
@@ -102,6 +105,9 @@ msgstr "Continue with Google"
 
 msgid "Continue with Web3 Wallet"
 msgstr "Continue with Web3 Wallet"
+
+msgid "Copied!"
+msgstr "Copied!"
 
 msgid "Create"
 msgstr "Create"
@@ -292,9 +298,6 @@ msgstr "Rename"
 msgid "Rename File/Folder"
 msgstr "Rename File/Folder"
 
-msgid "Secret"
-msgstr "Secret"
-
 msgid "Select a wallet"
 msgstr "Select a wallet"
 
@@ -360,6 +363,9 @@ msgstr "There was an error moving this"
 
 msgid "Try again"
 msgstr "Try again"
+
+msgid "Type"
+msgstr "Type"
 
 msgid "Unpin"
 msgstr "Unpin"
