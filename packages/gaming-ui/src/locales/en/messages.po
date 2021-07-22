@@ -34,9 +34,6 @@ msgstr "Billed Yearly"
 msgid "Billing"
 msgstr "Billing"
 
-msgid "Buy more storage"
-msgstr "Buy more storage"
-
 msgid "By connecting your wallet, you agree to our <0>Terms of Service</0> and <1>Privacy Policy</1>"
 msgstr "By connecting your wallet, you agree to our <0>Terms of Service</0> and <1>Privacy Policy</1>"
 
@@ -97,6 +94,9 @@ msgstr ""
 "If you are using a contract wallet, please make \n"
 "sure you have activated your wallet."
 
+msgid "Gaming Plan"
+msgstr "Gaming Plan"
+
 msgid "Get Started"
 msgstr "Get Started"
 
@@ -151,9 +151,6 @@ msgstr "Something went wrong! Please try again."
 msgid "Status"
 msgstr "Status"
 
-msgid "Storage Plan"
-msgstr "Storage Plan"
-
 msgid "Subscription Plan"
 msgstr "Subscription Plan"
 
@@ -177,6 +174,9 @@ msgstr "Try again"
 
 msgid "Try for 7 days"
 msgstr "Try for 7 days"
+
+msgid "Upgrade Plan"
+msgstr "Upgrade Plan"
 
 msgid "Upgrade your plan"
 msgstr "Upgrade your plan"
