@@ -289,6 +289,9 @@ msgstr "Fornavn"
 msgid "Folder"
 msgstr "Mappe"
 
+msgid "Folder name cannot only contain whitepsace characters"
+msgstr ""
+
 msgid "Folders"
 msgstr "Mapper"
 
@@ -343,9 +346,6 @@ msgstr ""
 msgid "Info"
 msgstr "Info"
 
-msgid "Invalid name"
-msgstr "Ugyldig navn"
-
 msgid "I’m done saving my backup secret phrase"
 msgstr ""
 
@@ -395,6 +395,9 @@ msgid "Name"
 msgstr "Navn"
 
 msgid "Name cannot contain '/' character"
+msgstr ""
+
+msgid "Name cannot only contain whitepsace characters"
 msgstr ""
 
 msgid "Name too long"

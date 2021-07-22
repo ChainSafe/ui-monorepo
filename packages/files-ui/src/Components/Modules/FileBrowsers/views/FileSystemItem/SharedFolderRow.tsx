@@ -138,11 +138,9 @@ const SharedFolderRow = ({ bucket, onFolderClick, menuItems, isEditing, setIsEdi
     enableReinitialize: true,
     validationSchema: renameSchema,
     onSubmit:(values, { resetForm }) => {
-      handleRename && values.fileName &&
-        handleRename(
-          bucket,
-          values.fileName
-        )
+      const newName = values.fileName?.trim()
+
+      newName && handleRename && handleRename(bucket, newName)
       setIsEditing(false)
       resetForm()
     }
