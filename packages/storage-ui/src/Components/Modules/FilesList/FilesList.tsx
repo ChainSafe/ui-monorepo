@@ -568,11 +568,13 @@ const FilesList = () => {
           />
         )}
       </div>
-      <header className={classes.header}>
+      <header
+        className={classes.header}
+        data-cy="header-bucket-item"
+      >
         <Typography
           variant="h1"
           component="h1"
-          data-cy="buckets-header"
         >
           {heading}
         </Typography>
