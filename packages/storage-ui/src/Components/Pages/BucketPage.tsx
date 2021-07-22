@@ -9,7 +9,7 @@ import DragAndDrop from "../../Contexts/DnDContext"
 import { t } from "@lingui/macro"
 import { ROUTE_LINKS } from "../../Components/StorageRoutes"
 import { useStorageApi } from "../../Contexts/StorageApiContext"
-import { FileBrowserContext } from "../../Contexts/FileBrowserContext"
+import { FileBrowserContext, ISelectedFile } from "../../Contexts/FileBrowserContext"
 import { parseFileContentResponse } from "../../Utils/Helpers"
 import { useLocalStorage } from "@chainsafe/browser-storage-hooks"
 import { DISMISSED_SURVEY_KEY } from "../Modules/SurveyBanner"
@@ -62,11 +62,10 @@ const BucketPage: React.FC<IFileBrowserModuleProps> = () => {
   }, [bucket, refreshContents])
 
 
-  const deleteItems = useCallback((cids: string[]) => {
+  const deleteItems = useCallback((toDelete: ISelectedFile[]) => {
     if (!bucket) throw new Error("no bucket found")
 
-    const itemsToDelete = cids.map((cid: string) => pathContents.find((i) => i.cid === cid))
-
+    const itemsToDelete = toDelete.map((item) => pathContents.find((i) => i.cid === item.cid && i.name === item.name))
     return storageApiClient.removeBucketObject(bucket.id, {
       paths: itemsToDelete.map((item) => (getPathWithFile(currentPath, item?.name)))
     }).then(() => {
@@ -86,8 +85,8 @@ const BucketPage: React.FC<IFileBrowserModuleProps> = () => {
       .finally(refreshContents)
   }, [bucket, storageApiClient, refreshContents, pathContents, currentPath, addToastMessage])
 
-  const renameItem = useCallback(async (cid: string, newName: string) => {
-    const itemToRename = pathContents.find(i => i.cid === cid)
+  const renameItem = useCallback(async (toRename: ISelectedFile, newName: string) => {
+    const itemToRename = pathContents.find(i => i.cid === toRename.cid && i.name === toRename.name)
     if (!bucket || !itemToRename) return
 
     storageApiClient.moveBucketObjects(bucket.id, {
@@ -97,11 +96,11 @@ const BucketPage: React.FC<IFileBrowserModuleProps> = () => {
       .catch(console.error)
   }, [refreshContents, storageApiClient, bucket, currentPath, pathContents])
 
-  const moveItems = useCallback(async (cids: string[], newPath: string) => {
+  const moveItems = useCallback(async (toMove: ISelectedFile[], newPath: string) => {
     if (!bucket) return
     await Promise.all(
-      cids.map(async (cid: string) => {
-        const itemToMove = pathContents.find((i) => i.cid === cid)
+      toMove.map(async (moveItem: ISelectedFile) => {
+        const itemToMove = pathContents.find((i) => i.cid === moveItem.cid && i.name === moveItem.name)
         if (!itemToMove) return
         try {
           await storageApiClient.moveBucketObjects(bucket.id, {
@@ -171,8 +170,8 @@ const BucketPage: React.FC<IFileBrowserModuleProps> = () => {
     }
   }, [addToastMessage, uploadFiles, bucket, refreshContents])
 
-  const viewFolder = useCallback((cid: string) => {
-    const fileSystemItem = pathContents.find(f => f.cid === cid)
+  const viewFolder = useCallback((toView: ISelectedFile) => {
+    const fileSystemItem = pathContents.find(f => f.cid === toView.cid && f.name === toView.name)
     if (fileSystemItem && fileSystemItem.content_type === CONTENT_TYPES.Directory) {
       let urlSafePath =  getURISafePathFromArray(getArrayOfPaths(currentPath))
       if (urlSafePath === "/") {
@@ -208,7 +207,7 @@ const BucketPage: React.FC<IFileBrowserModuleProps> = () => {
       deleteItems,
       downloadFile: handleDownload,
       moveItems,
-      renameItem: renameItem,
+      renameItem,
       viewFolder,
       handleUploadOnDrop,
       uploadsInProgress,

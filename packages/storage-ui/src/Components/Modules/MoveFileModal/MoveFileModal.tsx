@@ -127,7 +127,10 @@ const MoveFileModule = ({ filesToMove, modalOpen, onClose, onCancel, mode }: IMo
     if (!movePath || !moveFn) return
 
     setMovingFile(true)
-    moveFn(filesToMove.map(f => f.cid), movePath)
+    moveFn(filesToMove.map(f => ({
+      cid: f.cid,
+      name: f.name
+    })), movePath)
       .then(onClose)
       .catch(console.error)
       .finally(() => setMovingFile(false))

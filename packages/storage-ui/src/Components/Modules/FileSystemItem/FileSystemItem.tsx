@@ -27,7 +27,7 @@ import { CSSTheme } from "../../../Themes/types"
 import FileItemTableItem from "./FileSystemTableItem"
 import FileItemGridItem from "./FileSystemGridItem"
 import { FileSystemItem as FileSystemItemType } from "../../../Contexts/StorageContext"
-import { useFileBrowser } from "../../../Contexts/FileBrowserContext"
+import { ISelectedFile, useFileBrowser } from "../../../Contexts/FileBrowserContext"
 import { BrowserView, FileOperation } from "../../../Contexts/types"
 import { DragTypes } from "../FilesList/DragConstants"
 import { renameSchema } from "../../../Utils/validationSchema"
@@ -103,16 +103,16 @@ interface IFileSystemItemProps {
   index: number
   file: FileSystemItemType
   files: FileSystemItemType[]
-  selected: string[]
-  handleSelectCid(selectedCid: string): void
-  handleAddToSelectedCids(selectedCid: string): void
-  editing: string | undefined
-  setEditing(editing: string | undefined): void
-  handleRename?: (cid: string, newName: string) => Promise<void>
-  handleMove?: (cid: string, newPath: string) => Promise<void>
+  selected: ISelectedFile[]
+  handleSelectCid(selectedFile: ISelectedFile): void
+  handleAddToSelectedCids(selectedFile: ISelectedFile): void
+  editing: ISelectedFile | undefined
+  setEditing(editing: ISelectedFile | undefined): void
+  handleRename?: (toRename: ISelectedFile, newName: string) => Promise<void>
+  handleMove?: (toMove: ISelectedFile, newPath: string) => Promise<void>
   deleteFile?: () => void
-  recoverFile?: (cid: string) => void
-  viewFolder?: (cid: string) => void
+  recoverFile?: (toRecover: ISelectedFile) => void
+  viewFolder?: (toView: ISelectedFile) => void
   setPreviewFileIndex: (fileIndex: number | undefined) => void
   moveFile?: () => void
   setFileInfoPath: (path: string) => void
@@ -167,7 +167,10 @@ const FileSystemItem = ({
           </span>
         </>
       ),
-      onClick: () => setEditing(cid)
+      onClick: () => setEditing({
+        cid,
+        name
+      })
     },
     delete: {
       contents: (
@@ -189,7 +192,10 @@ const FileSystemItem = ({
           </span>
         </>
       ),
-      onClick: () => downloadFile && downloadFile(cid)
+      onClick: () => downloadFile && downloadFile({
+        cid,
+        name
+      })
     },
     move: {
       contents: (
@@ -233,7 +239,10 @@ const FileSystemItem = ({
           </span>
         </>
       ),
-      onClick: () => recoverFile && recoverFile(cid)
+      onClick: () => recoverFile && recoverFile({
+        cid,
+        name
+      })
     },
     preview: {
       contents: (
@@ -255,7 +264,10 @@ const FileSystemItem = ({
           </span>
         </>
       ),
-      onClick: () => viewFolder && viewFolder(cid)
+      onClick: () => viewFolder && viewFolder({
+        cid,
+        name
+      })
     }
   }
 
@@ -266,7 +278,7 @@ const FileSystemItem = ({
   const [, dragMoveRef, preview] = useDrag(() =>
     ({ type: DragTypes.MOVABLE_FILE,
       item: () => {
-        if (selected.includes(file.cid)) {
+        if (selected.findIndex(item => item.cid === file.cid && item.name === file.name) >= 0) {
           return { ids: selected }
         } else {
           return { ids: [...selected, file.cid] }
@@ -290,7 +302,9 @@ const FileSystemItem = ({
     accept: DragTypes.MOVABLE_FILE,
     canDrop: () => isFolder,
     drop: (item: {ids: string[]}) => {
-      moveItems && moveItems(item.ids, `${currentPath}${name}/`)
+      console.log(item)
+      debugger
+      // moveItems && moveItems(item.ids, `${currentPath}${name}/`)
     },
     collect: (monitor) => ({
       isOverMove: monitor.isOver()
@@ -327,20 +341,29 @@ const FileSystemItem = ({
       if (desktop) {
         // on desktop 
         if (e && (e.ctrlKey || e.metaKey)) {
-          handleAddToSelectedCids(cid)
+          handleAddToSelectedCids({
+            cid,
+            name
+          })
         } else {
-          handleSelectCid(cid)
+          handleSelectCid({
+            cid,
+            name
+          })
         }
       } else {
         // on mobile
         if (isFolder) {
-          viewFolder && viewFolder(file.cid)
+          viewFolder && viewFolder({
+            cid,
+            name
+          })
         } else {
           onFilePreview()
         }
       }
     },
-    [cid, handleSelectCid, handleAddToSelectedCids, desktop, isFolder, viewFolder, file, onFilePreview]
+    [cid, handleSelectCid, handleAddToSelectedCids, desktop, isFolder, viewFolder, name, onFilePreview]
   )
 
   const onDoubleClick = useCallback(
@@ -348,7 +371,10 @@ const FileSystemItem = ({
       if (desktop) {
         // on desktop
         if (isFolder) {
-          viewFolder && viewFolder(file.cid)
+          viewFolder && viewFolder({
+            cid,
+            name
+          })
         } else {
           onFilePreview()
         }
@@ -357,7 +383,7 @@ const FileSystemItem = ({
         return
       }
     },
-    [desktop, viewFolder, file, onFilePreview, isFolder]
+    [desktop, viewFolder, name, cid, onFilePreview, isFolder]
   )
 
   const { click } = useDoubleClick(onSingleClick, onDoubleClick)
@@ -394,7 +420,7 @@ const FileSystemItem = ({
           : <FileItemGridItem {...itemProps} />
       }
       {
-        editing === cid && !desktop && (
+        (editing?.cid === cid && editing.name === name) && !desktop && (
           <>
             <CustomModal
               className={classes.modalRoot}
@@ -402,8 +428,8 @@ const FileSystemItem = ({
                 inner: classes.modalInner
               }}
               closePosition="none"
-              active={editing === cid}
-              setActive={() => setEditing("")}
+              active={editing.cid === cid && editing.name === name}
+              setActive={() => setEditing(undefined)}
             >
               <Formik
                 initialValues={{
@@ -413,7 +439,10 @@ const FileSystemItem = ({
                 onSubmit={(values) => {
                   const newName = values.fileName?.trim()
 
-                  newName && handleRename && handleRename(file.cid, newName)
+                  newName && handleRename && handleRename({
+                    cid: file.cid,
+                    name: file.name
+                  }, newName)
                 }}
                 enableReinitialize={true}
               >
@@ -432,11 +461,11 @@ const FileSystemItem = ({
                     placeholder={`Please enter a ${
                       isFolder ? "folder" : "file"
                     } name`}
-                    autoFocus={editing === cid}
+                    autoFocus={editing.cid === cid && editing.name === name}
                   />
                   <footer className={classes.renameFooter}>
                     <Button
-                      onClick={() => setEditing("")}
+                      onClick={() => setEditing(undefined)}
                       size="medium"
                       className={classes.cancelButton}
                       variant="outline"
