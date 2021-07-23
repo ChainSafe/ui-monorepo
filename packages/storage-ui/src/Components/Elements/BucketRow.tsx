@@ -7,6 +7,7 @@ import { CSSTheme } from "../../Themes/types"
 import { useStorage } from "../../Contexts/StorageContext"
 import { desktopGridSettings, mobileGridSettings }  from "../Pages/BucketsPage"
 import { ROUTE_LINKS } from "../StorageRoutes"
+import clsx from "clsx"
 
 const useStyles = makeStyles(({ animation, constants, breakpoints }: CSSTheme) =>
   createStyles({
@@ -46,6 +47,10 @@ const useStyles = makeStyles(({ animation, constants, breakpoints }: CSSTheme) =
     tableRow: {
       border: "2px solid transparent",
       transitionDuration: `${animation.transform}ms`,
+      "&.deleting": {
+        // TODO: #1321
+        display: "none"
+      },
       [breakpoints.up("md")]: {
         gridTemplateColumns: desktopGridSettings
       },
@@ -67,7 +72,9 @@ const BucketRow = ({ bucket }: Props) => {
   return (
     <TableRow
       type="grid"
-      className={classes.tableRow}
+      className={clsx(classes.tableRow, {
+        deleting: bucket.status === "deleting"
+      })}
       data-cy="row-bucket-item"
     >
       <TableCell className={classes.name}

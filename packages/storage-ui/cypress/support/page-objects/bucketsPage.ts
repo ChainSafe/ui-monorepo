@@ -6,7 +6,7 @@ export const bucketsPage = {
   ...basePage,
 
   // main bucket browser elements
-  bucketsHeaderLabel: () => cy.get("[data-cy=buckets-header]", { timeout: 20000 }),
+  bucketsHeaderLabel: () => cy.get("[data-cy=header-buckets]", { timeout: 20000 }),
   createBucketButton: () => cy.get("[data-cy=button-create-bucket]"),
 
   // bucket browser row elements
