@@ -853,8 +853,8 @@ msgstr "am"
 msgid "recovered successfully"
 msgstr "erfolgreich wiederhergestellt"
 
-msgid "{0, plural, one {You are about to delete {1} file.} other {You are about to delete {2} files.}}"
-msgstr "{0, plural, one {Sie sind dabei {1} Datei zu löschen.} other {Sie sind dabei {2} Dateien zu löschen.}}"
+msgid "{0, plural, one {You are about to delete {1} item.} other {You are about to delete {2} items.}}"
+msgstr ""
 
 msgid "{noOfFiles, plural, one {Uploading and encrypting {noOfFiles} file} other {Uploading and encrypting {noOfFiles} files}}"
 msgstr "{noOfFiles, plural, one {{noOfFiles} Datei wird hochgeladen und verschlüsselt} other {{noOfFiles} Datein werden hochgeladen und verschlüsselt}}"
