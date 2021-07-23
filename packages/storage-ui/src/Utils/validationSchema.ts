@@ -15,7 +15,7 @@ export const renameSchema = object().shape({
     )
     .test(
       "Only whitespace",
-      t`Name cannot only contain whitepsace characters`,
+      t`Name cannot only contain whitespace characters`,
       (val) => !!val && !whitespaceOnlyRegex.test(val)
     )
     .required(t`A name is required`)
