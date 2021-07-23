@@ -235,8 +235,8 @@ msgstr "Name"
 msgid "Name cannot contain '/' character"
 msgstr "Name cannot contain '/' character"
 
-msgid "Name cannot only contain whitepsace characters"
-msgstr "Name cannot only contain whitepsace characters"
+msgid "Name cannot only contain whitespace characters"
+msgstr "Name cannot only contain whitespace characters"
 
 msgid "Name too long"
 msgstr "Name too long"

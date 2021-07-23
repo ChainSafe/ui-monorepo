@@ -397,7 +397,7 @@ msgstr "Navn"
 msgid "Name cannot contain '/' character"
 msgstr ""
 
-msgid "Name cannot only contain whitepsace characters"
+msgid "Name cannot only contain whitespace characters"
 msgstr ""
 
 msgid "Name too long"
