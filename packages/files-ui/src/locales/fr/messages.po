@@ -158,9 +158,6 @@ msgstr "Créer un dossier"
 msgid "Create Shared Folder"
 msgstr "Créer un dossier partagé"
 
-msgid "Create a Shared Folder"
-msgstr "Créer un dossier partagé"
-
 msgid "Create a new shared folder"
 msgstr ""
 
@@ -374,9 +371,6 @@ msgstr "Thème clair"
 msgid "Loading preview"
 msgstr "Chargement de l’aperçu"
 
-msgid "Loading your shared folders…"
-msgstr "Chargement de vos dossiers partagés…"
-
 msgid "Looks like you’re signing in from a new browser. Please choose one of the following to continue:"
 msgstr "Il semble que vous vous connectiez à partir d’un nouveau navigateur. Veuillez choisir une des options suivantes pour continuer :"
 
@@ -445,9 +439,6 @@ msgstr "Système d’exploitation :"
 
 msgid "Or confirm by signing into your Files on any browser you’ve used before."
 msgstr "Ou accepte la requête de connexion depuis n’importe quel appareil ou navigateur utilisé auparavant."
-
-msgid "Owner"
-msgstr ""
 
 msgid "Password"
 msgstr "Mot de passe"
@@ -523,6 +514,9 @@ msgstr "Refuser tous"
 
 msgid "Remind me later"
 msgstr "Plus tard"
+
+msgid "Remove from shares"
+msgstr ""
 
 msgid "Rename"
 msgstr "Renommer"
@@ -631,12 +625,6 @@ msgstr "Nom du dossier partagé"
 
 msgid "Shared folder is undefined"
 msgstr ""
-
-msgid "Shared folders"
-msgstr "Dossiers partagés"
-
-msgid "Shared with"
-msgstr "Partagé avec"
 
 msgid "Sign Out"
 msgstr "Se déconnecter"

@@ -157,9 +157,6 @@ msgstr "Create Folder"
 msgid "Create Shared Folder"
 msgstr "Create Shared Folder"
 
-msgid "Create a Shared Folder"
-msgstr "Create a Shared Folder"
-
 msgid "Create a new shared folder"
 msgstr "Create a new shared folder"
 
@@ -373,9 +370,6 @@ msgstr "Light Theme"
 msgid "Loading preview"
 msgstr "Loading preview"
 
-msgid "Loading your shared folders…"
-msgstr "Loading your shared folders…"
-
 msgid "Looks like you’re signing in from a new browser. Please choose one of the following to continue:"
 msgstr "Looks like you’re signing in from a new browser. Please choose one of the following to continue:"
 
@@ -444,9 +438,6 @@ msgstr "Operating system:"
 
 msgid "Or confirm by signing into your Files on any browser you’ve used before."
 msgstr "Or confirm by signing into your Files on any browser you’ve used before."
-
-msgid "Owner"
-msgstr "Owner"
 
 msgid "Password"
 msgstr "Password"
@@ -522,6 +513,9 @@ msgstr "Reject all"
 
 msgid "Remind me later"
 msgstr "Remind me later"
+
+msgid "Remove from shares"
+msgstr "Remove from shares"
 
 msgid "Rename"
 msgstr "Rename"
@@ -630,12 +624,6 @@ msgstr "Shared Folder Name"
 
 msgid "Shared folder is undefined"
 msgstr "Shared folder is undefined"
-
-msgid "Shared folders"
-msgstr "Shared folders"
-
-msgid "Shared with"
-msgstr "Shared with"
 
 msgid "Sign Out"
 msgstr "Sign Out"

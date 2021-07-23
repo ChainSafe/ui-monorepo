@@ -157,9 +157,6 @@ msgstr "Opprett mappe"
 msgid "Create Shared Folder"
 msgstr ""
 
-msgid "Create a Shared Folder"
-msgstr ""
-
 msgid "Create a new shared folder"
 msgstr ""
 
@@ -370,9 +367,6 @@ msgstr "Lys drakt"
 msgid "Loading preview"
 msgstr ""
 
-msgid "Loading your shared folders…"
-msgstr ""
-
 msgid "Looks like you’re signing in from a new browser. Please choose one of the following to continue:"
 msgstr ""
 
@@ -440,9 +434,6 @@ msgid "Operating system:"
 msgstr "Operativsystem:"
 
 msgid "Or confirm by signing into your Files on any browser you’ve used before."
-msgstr ""
-
-msgid "Owner"
 msgstr ""
 
 msgid "Password"
@@ -519,6 +510,9 @@ msgstr "Avslå alle"
 
 msgid "Remind me later"
 msgstr "Minn meg på dette senere"
+
+msgid "Remove from shares"
+msgstr ""
 
 msgid "Rename"
 msgstr "Gi nytt navn"
@@ -627,12 +621,6 @@ msgstr ""
 
 msgid "Shared folder is undefined"
 msgstr ""
-
-msgid "Shared folders"
-msgstr "Delte mapper"
-
-msgid "Shared with"
-msgstr "Delt med"
 
 msgid "Sign Out"
 msgstr "Logg ut"
