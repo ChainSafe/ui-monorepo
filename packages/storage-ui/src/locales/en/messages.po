@@ -235,8 +235,8 @@ msgstr "Name"
 msgid "Name cannot contain '/' character"
 msgstr "Name cannot contain '/' character"
 
-msgid "Name cannot only contain whitepsace characters"
-msgstr "Name cannot only contain whitepsace characters"
+msgid "Name cannot only contain whitespace characters"
+msgstr "Name cannot only contain whitespace characters"
 
 msgid "Name too long"
 msgstr "Name too long"
@@ -421,8 +421,8 @@ msgstr "folder"
 msgid "moved successfully"
 msgstr "moved successfully"
 
-msgid "{0, plural, one {You are about to delete {1} file.} other {You are about to delete {2} files.}}"
-msgstr "{0, plural, one {You are about to delete {1} file.} other {You are about to delete {2} files.}}"
+msgid "{0, plural, one {You are about to delete {1} item.} other {You are about to delete {2} items.}}"
+msgstr "{0, plural, one {You are about to delete {1} item.} other {You are about to delete {2} items.}}"
 
 msgid "{noOfFiles, plural, one {Uploading and encrypting {noOfFiles} file} other {Uploading and encrypting {noOfFiles} files}}"
 msgstr "{noOfFiles, plural, one {Uploading and encrypting {noOfFiles} file} other {Uploading and encrypting {noOfFiles} files}}"

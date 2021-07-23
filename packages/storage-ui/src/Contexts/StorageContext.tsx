@@ -207,6 +207,7 @@ const StorageProvider = ({ children }: StorageContextProps) => {
         undefined,
         1,
         undefined,
+        undefined,
         (progressEvent: { loaded: number; total: number }) => {
           dispatchUploadsInProgress({
             type: "progress",
