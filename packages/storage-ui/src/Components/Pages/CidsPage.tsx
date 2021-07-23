@@ -94,11 +94,13 @@ const CidsPage = () => {
   return (
     <>
       <div className={classes.root}>
-        <header className={classes.header}>
+        <header
+          className={classes.header}
+          data-cy="header-cids"
+        >
           <Typography
             variant="h1"
             component="h1"
-            data-cy="cids-header"
           >
             <Trans>
               Cids

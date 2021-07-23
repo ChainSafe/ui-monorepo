@@ -31,7 +31,7 @@ import { ethers, Wallet } from "ethers"
 import { testPrivateKey, localHost } from "../fixtures/loginData"
 import { CustomizedBridge } from "./utils/CustomBridge"
 import "cypress-file-upload"
-import { cidsPage } from "./page-objects/cidsPage"
+import { bucketsPage } from "./page-objects/bucketsPage"
 
 export type Storage = Record<string, string>[];
 
@@ -144,7 +144,7 @@ Cypress.Commands.add(
       }
     })
 
-    cidsPage.cidsHeaderLabel().should("be.visible")
+    bucketsPage.bucketsHeaderLabel().should("be.visible")
 
     cy.saveLocalAndSession()
 
@@ -163,7 +163,7 @@ Cypress.Commands.add(
         }
       })
 
-      cidsPage.cidsHeaderLabel().should("be.visible")
+      bucketsPage.bucketsHeaderLabel().should("be.visible")
     }
   }
 )
