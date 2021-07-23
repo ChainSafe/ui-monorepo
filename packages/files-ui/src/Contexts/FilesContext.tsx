@@ -363,7 +363,6 @@ const FilesProvider = ({ children }: FilesContextProps) => {
         undefined,
         undefined,
         (progressEvent: { loaded: number; total: number }) => {
-          console.log("upload in progress ", progressEvent.loaded)
           dispatchUploadsInProgress({
             type: "progress",
             payload: {
