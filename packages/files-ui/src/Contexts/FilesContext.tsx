@@ -361,6 +361,7 @@ const FilesProvider = ({ children }: FilesContextProps) => {
         undefined,
         1,
         undefined,
+        undefined,
         (progressEvent: { loaded: number; total: number }) => {
           dispatchUploadsInProgress({
             type: "progress",
