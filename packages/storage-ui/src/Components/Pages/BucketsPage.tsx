@@ -146,7 +146,10 @@ const BucketsPage = () => {
 
   return (
     <div className={classes.root}>
-      <header className={classes.header}>
+      <header
+        className={classes.header}
+        data-cy="header-buckets"
+      >
         <Typography variant='h1'>
           <Trans>
             Buckets
