@@ -2,8 +2,7 @@ import { t } from "@lingui/macro"
 import { object, string } from "yup"
 import { cid as isCid } from "is-ipfs"
 
-// eslint-disable-next-line 
-const spacesOnlyRegex = new RegExp(`^\s+$`)
+const whitespaceOnlyRegex = new RegExp("^\\s+$")
 
 export const renameSchema = object().shape({
   fileName: string()
@@ -16,8 +15,8 @@ export const renameSchema = object().shape({
     )
     .test(
       "Only whitespace",
-      t`Name cannot only contain whitepsace characters`,
-      (val) => !!val && !spacesOnlyRegex.test(val)
+      t`Name cannot only contain whitespace characters`,
+      (val) => !!val && !whitespaceOnlyRegex.test(val)
     )
     .required(t`A name is required`)
 })
@@ -35,7 +34,7 @@ export const folderNameValidator = object().shape({
     .test(
       "Only whitespace",
       t`Folder name cannot only contain whitepsace characters`,
-      (val) => !!val && !spacesOnlyRegex.test(val)
+      (val) => !!val && !whitespaceOnlyRegex.test(val)
     )
 })
 
@@ -52,7 +51,7 @@ export const bucketNameValidator = (bucketNames: Array<string | undefined>) => o
     .test(
       "Only whitespace",
       t`Bucket name cannot only contain whitepsace characters`,
-      (val) => !!val && !spacesOnlyRegex.test(val)
+      (val) => !!val && !whitespaceOnlyRegex.test(val)
     )
     .test(
       "Unique name",
