@@ -10,10 +10,11 @@ import {
   Loading,
   Button,
   PlusIcon,
-  useHistory
+  useHistory,
+  Dialog
 } from "@chainsafe/common-components"
 import { BucketKeyPermission, useFiles } from "../../../Contexts/FilesContext"
-import { Trans } from "@lingui/macro"
+import { t, Trans } from "@lingui/macro"
 import { createStyles, makeStyles, useThemeSwitcher } from "@chainsafe/common-theme"
 import { CSFTheme } from "../../../Themes/types"
 import SharedFolderRowWrapper from "./SharedFolderRowWrapper"
@@ -108,7 +109,8 @@ const SharedFolderOverview = () => {
   const [column, setColumn] = useState<"name" | "size" | "date_uploaded">("name")
   const { redirect } = useHistory()
   const { desktop } = useThemeSwitcher()
-
+  const [bucketToDelete, setBucketToDelete] = useState<BucketKeyPermission | undefined>(undefined)
+  const [isDeleteBucketModalOpen, setIsDeleteBucketModalOpen] = useState(false)
   const bucketsToShow = useMemo(() => buckets.filter(b => b.type === "share"), [buckets])
 
   const handleSortToggle = (
@@ -132,6 +134,10 @@ const SharedFolderOverview = () => {
       name: newName
     }).then(() => refreshBuckets(false))
       .catch(console.error)
+  }, [filesApiClient, refreshBuckets])
+
+  const handleDeleteBucket = useCallback((bucket: BucketKeyPermission) => {
+    filesApiClient.removeBucket(bucket.id)
   }, [filesApiClient, refreshBuckets])
 
   const openSharedFolder = useCallback((bucketId: string) => {
@@ -227,6 +233,10 @@ const SharedFolderOverview = () => {
                     setIsBucketModalOpen(true)
                     setBucketToEdit(bucket)
                   }}
+                  handleDeleteSharedFolder={() => {
+                    setBucketToDelete(bucket)
+                    setIsDeleteBucketModalOpen(true)
+                  }}
                 />
               )}
             </TableBody>
@@ -244,6 +254,22 @@ const SharedFolderOverview = () => {
           setBucketToEdit(undefined)
         }}
         bucket={bucketToEdit}
+      />
+      <Dialog
+        active={isDeleteBucketModalOpen}
+        reject={() => setIsDeleteBucketModalOpen(false)}
+        accept={handleDeleteBucket}
+        requestMessage={}
+        rejectText = {t`Cancel`}
+        acceptText = {t`Confirm`}
+        acceptButtonProps={{ loading: isDeletingFiles, disabled: isDeletingFiles, testId: "confirm-deletion" }}
+        rejectButtonProps={{ disabled: isDeletingFiles, testId: "cancel-deletion" }}
+        injectedClass={{ inner: classes.confirmDeletionDialog }}
+        onModalBodyClick={(e) => {
+          e.preventDefault()
+          e.stopPropagation()
+        }}
+        testId="file-deletion"
       />
     </>
   )

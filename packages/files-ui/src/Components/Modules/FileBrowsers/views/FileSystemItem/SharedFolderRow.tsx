@@ -121,7 +121,6 @@ const SharedFolderRow = ({ bucket, onFolderClick, menuItems, isEditing, setIsEdi
   const classes = useStyles()
   const { name, size } = bucket
   const { desktop } = useThemeSwitcher()
-  const isOwner = useMemo(() => bucket.permission === "owner", [bucket.permission])
 
   const getUserIds = (users: BucketUser[]): string[] => {
     return users.reduce((acc: string[], user): string[] => {
@@ -223,20 +222,18 @@ const SharedFolderRow = ({ bucket, onFolderClick, menuItems, isEditing, setIsEdi
         </TableCell>
       }
       <TableCell align="right">
-        {isOwner &&
-          <MenuDropdown
-            testId='sharedFolderDropdown'
-            animation="none"
-            anchor={desktop ? "bottom-center" : "bottom-right"}
-            menuItems={menuItems}
-            classNames={{
-              icon: classes.dropdownIcon,
-              options: classes.dropdownOptions,
-              item: classes.dropdownItem
-            }}
-            indicator={MoreIcon}
-          />
-        }
+        <MenuDropdown
+          testId='sharedFolderDropdown'
+          animation="none"
+          anchor={desktop ? "bottom-center" : "bottom-right"}
+          menuItems={menuItems}
+          classNames={{
+            icon: classes.dropdownIcon,
+            options: classes.dropdownOptions,
+            item: classes.dropdownItem
+          }}
+          indicator={MoreIcon}
+        />
       </TableCell>
     </TableRow>
   )
