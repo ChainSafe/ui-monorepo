@@ -4,7 +4,8 @@ import {
   BucketType,
   SearchEntry,
   Bucket,
-  PinStatus
+  PinStatus,
+  BucketSummaryResponse
 } from "@chainsafe/files-api-client"
 import React, { useCallback, useEffect, useReducer } from "react"
 import { useState } from "react"
@@ -45,7 +46,7 @@ type StorageContext = {
   pins: PinStatus[]
   uploadsInProgress: UploadProgress[]
   downloadsInProgress: DownloadProgress[]
-  spaceUsed: number
+  storageSummary: BucketSummaryResponse
   uploadFiles: (bucketId: string, files: File[], path: string) => Promise<void>
   addPin: (cid: string) => Promise<PinStatus>
   refreshPins: () => void
@@ -67,7 +68,12 @@ const StorageContext = React.createContext<StorageContext | undefined>(undefined
 
 const StorageProvider = ({ children }: StorageContextProps) => {
   const { storageApiClient, isLoggedIn } = useStorageApi()
-  const [spaceUsed, setSpaceUsed] = useState(0)
+  const [storageSummary, setBucketSummary] = useState<BucketSummaryResponse>({
+    available_storage: 0,
+    total_buckets: 0,
+    total_storage: 0,
+    used_storage:0
+  })
   const [storageBuckets, setStorageBuckets] = useState<Bucket[]>([])
   const [pins, setPins] = useState<PinStatus[]>([])
 
@@ -96,19 +102,18 @@ const StorageProvider = ({ children }: StorageContextProps) => {
 
   // Space used counter
   useEffect(() => {
-    const getSpaceUsage = async () => {
+    const getStorageSummary = async () => {
       try {
-        const totalSize = storageBuckets.reduce((totalSize, bucket) => { return totalSize += (bucket as any).size}, 0)
-
-        setSpaceUsed(totalSize)
+        const bucketSummaryData = await storageApiClient.bucketsSummary()
+        setBucketSummary(bucketSummaryData)
       } catch (error) {
         console.error(error)
       }
     }
     if (isLoggedIn) {
-      getSpaceUsage()
+      getStorageSummary()
     }
-  }, [isLoggedIn, storageBuckets])
+  }, [isLoggedIn, storageApiClient])
 
 
   // Reset encryption keys on log out
@@ -253,7 +258,7 @@ const StorageProvider = ({ children }: StorageContextProps) => {
       value={{
         addPin,
         uploadsInProgress,
-        spaceUsed,
+        storageSummary,
         downloadsInProgress,
         pins,
         refreshPins,

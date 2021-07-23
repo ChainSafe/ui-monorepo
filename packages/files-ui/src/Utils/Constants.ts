@@ -8,5 +8,3 @@ export enum CONTENT_TYPES {
   MP4 = "video/mp4",
   Audio = "audio/*"
 }
-
-export const FREE_PLAN_LIMIT = 20000000000
