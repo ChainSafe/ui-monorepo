@@ -126,12 +126,14 @@ const MoveFileModal = ({ filesToMove, modalOpen, onClose, onCancel, mode }: IMov
     const moveFn = mode === "move" ? moveItems : recoverItems
     if (!movePath || !moveFn) return
 
-    setIsMovingFile(true)
-    moveFn(filesToMove.map(f => f.cid), movePath)
+    setMovingFile(true)
+    moveFn(filesToMove.map(f => ({
+      cid: f.cid,
+      name: f.name
+    })), movePath)
       .then(onClose)
       .catch(console.error)
       .finally(() => setIsMovingFile(false))
-
   }
 
   const desktop = useMediaQuery("md")

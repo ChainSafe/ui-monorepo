@@ -43,7 +43,7 @@ import { CONTENT_TYPES } from "../../../Utils/Constants"
 import { CSSTheme } from "../../../Themes/types"
 import MimeMatcher from "../../../Utils/MimeMatcher"
 import { useLanguageContext } from "../../../Contexts/LanguageContext"
-import { useFileBrowser } from "../../../Contexts/FileBrowserContext"
+import { ISelectedFile, useFileBrowser } from "../../../Contexts/FileBrowserContext"
 import SurveyBanner from "../SurveyBanner"
 
 interface IStyleProps {
@@ -295,10 +295,10 @@ const FilesList = () => {
     withSurvey
   } = useFileBrowser()
   const classes = useStyles({ themeKey })
-  const [editing, setEditing] = useState<string | undefined>()
+  const [editing, setEditing] = useState<ISelectedFile | undefined>()
   const [direction, setDirection] = useState<SortDirection>("ascend")
   const [column, setColumn] = useState<"name" | "size" | "date_uploaded">("name")
-  const [selectedCids, setSelectedCids] = useState<string[]>([])
+  const [selectedCids, setSelectedCids] = useState<ISelectedFile[]>([])
   const [, setPreviewFileIndex] = useState<number | undefined>()
   const { selectedLocale } = useLanguageContext()
   const { redirect } = useHistory()
@@ -338,7 +338,7 @@ const FilesList = () => {
   const files = useMemo(() => items.filter((i) => !i.isFolder), [items])
 
   const selectedItems = useMemo(
-    () => items.filter((file) => selectedCids.includes(file.cid)),
+    () => items.filter((file) => selectedCids.findIndex(item => item.name === file.name && item.cid === file.cid) >= 0),
     [selectedCids, items]
   )
 
@@ -363,24 +363,24 @@ const FilesList = () => {
 
   // Selection logic
   const handleSelectCid = useCallback(
-    (cid: string) => {
-      if (selectedCids.includes(cid)) {
+    (toSelect: ISelectedFile) => {
+      if (selectedCids.findIndex(item => item.cid === toSelect.cid && item.name === toSelect.name) >= 0) {
         setSelectedCids([])
       } else {
-        setSelectedCids([cid])
+        setSelectedCids([toSelect])
       }
     },
     [selectedCids]
   )
 
   const handleAddToSelectedCids = useCallback(
-    (cid: string) => {
-      if (selectedCids.includes(cid)) {
+    (toSelect: ISelectedFile) => {
+      if (selectedCids.findIndex(item => item.cid === toSelect.cid && item.name === toSelect.name) >= 0) {
         setSelectedCids(
-          selectedCids.filter((selectedCid: string) => selectedCid !== cid)
+          selectedCids.filter((selected: ISelectedFile) => selected.name !== toSelect.name)
         )
       } else {
-        setSelectedCids([...selectedCids, cid])
+        setSelectedCids([...selectedCids, toSelect])
       }
     },
     [selectedCids]
@@ -390,7 +390,10 @@ const FilesList = () => {
     if (selectedCids.length === items.length) {
       setSelectedCids([])
     } else {
-      setSelectedCids([...items.map((file: FileSystemItemType) => file.cid)])
+      setSelectedCids([...items.map((file: FileSystemItemType) => ({
+        name: file.name,
+        cid: file.cid
+      }))])
     }
   }, [setSelectedCids, items, selectedCids])
 
@@ -440,7 +443,7 @@ const FilesList = () => {
         "recover"
       ]
       for (let i = 0; i < selectedCids.length; i++) {
-        const contentType = items.find((item) => item.cid === selectedCids[i])
+        const contentType = items.find((item) => item.cid === selectedCids[i].cid && item.name === selectedCids[i].name)
           ?.content_type
 
         if (contentType) {
@@ -528,8 +531,8 @@ const FilesList = () => {
     setSelectedCids([])
   }, [currentPath])
 
-  const handleViewFolder = useCallback((cid: string) => {
-    viewFolder && viewFolder(cid)
+  const handleViewFolder = useCallback((toView: ISelectedFile) => {
+    viewFolder && viewFolder(toView)
   }, [viewFolder])
 
   const handleOpenMoveFileDialog = useCallback((e: React.MouseEvent) => {
@@ -828,18 +831,24 @@ const FilesList = () => {
                 handleAddToSelectedCids={handleAddToSelectedCids}
                 editing={editing}
                 setEditing={setEditing}
-                handleRename={async (cid: string, newName: string) => {
-                  handleRename && (await handleRename(cid, newName))
+                handleRename={async (toRename: ISelectedFile, newName: string) => {
+                  handleRename && (await handleRename(toRename, newName))
                   setEditing(undefined)
                 }}
                 deleteFile={() => {
-                  setSelectedCids([file.cid])
+                  setSelectedCids([{
+                    cid: file.cid,
+                    name: file.name
+                  }])
                   setIsDeleteModalOpen(true)
                 }}
                 viewFolder={handleViewFolder}
                 setPreviewFileIndex={setPreviewFileIndex}
                 moveFile={() => {
-                  setSelectedCids([file.cid])
+                  setSelectedCids([{
+                    cid: file.cid,
+                    name: file.name
+                  }])
                   setIsMoveFileModalOpen(true)
                   setMoveModalMode("move")
                 }}
@@ -848,7 +857,10 @@ const FilesList = () => {
                 resetSelectedFiles={resetSelectedCids}
                 browserView="table"
                 recoverFile={() => {
-                  setSelectedCids([file.cid])
+                  setSelectedCids([{
+                    cid: file.cid,
+                    name: file.name
+                  }])
                   setIsMoveFileModalOpen(true)
                   setMoveModalMode("recover")
                 }}
@@ -875,17 +887,23 @@ const FilesList = () => {
               handleAddToSelectedCids={handleAddToSelectedCids}
               editing={editing}
               setEditing={setEditing}
-              handleRename={async (path: string, newPath: string) => {
-                handleRename && (await handleRename(path, newPath))
+              handleRename={async (toRename: ISelectedFile, newPath: string) => {
+                handleRename && (await handleRename(toRename, newPath))
                 setEditing(undefined)
               }}
               deleteFile={() => {
-                setSelectedCids([file.cid])
+                setSelectedCids([{
+                  cid: file.cid,
+                  name: file.name
+                }])
                 setIsDeleteModalOpen(true)
               }}
               setPreviewFileIndex={setPreviewFileIndex}
               moveFile={() => {
-                setSelectedCids([file.cid])
+                setSelectedCids([{
+                  cid: file.cid,
+                  name: file.name
+                }])
                 setIsMoveFileModalOpen(true)
                 setMoveModalMode("move")
               }}
@@ -893,7 +911,10 @@ const FilesList = () => {
               itemOperations={getItemOperations(file.content_type)}
               resetSelectedFiles={resetSelectedCids}
               recoverFile={() => {
-                setSelectedCids([file.cid])
+                setSelectedCids([{
+                  cid: file.cid,
+                  name: file.name
+                }])
                 setIsMoveFileModalOpen(true)
                 setMoveModalMode("recover")
               }}
