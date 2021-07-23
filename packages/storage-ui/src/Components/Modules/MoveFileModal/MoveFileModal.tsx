@@ -126,7 +126,7 @@ const MoveFileModal = ({ filesToMove, modalOpen, onClose, onCancel, mode }: IMov
     const moveFn = mode === "move" ? moveItems : recoverItems
     if (!movePath || !moveFn) return
 
-    setMovingFile(true)
+    setIsMovingFile(true)
     moveFn(filesToMove.map(f => ({
       cid: f.cid,
       name: f.name
