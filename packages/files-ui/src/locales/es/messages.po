@@ -401,7 +401,7 @@ msgstr "Nombre"
 msgid "Name cannot contain '/' character"
 msgstr ""
 
-msgid "Name cannot only contain whitepsace characters"
+msgid "Name cannot only contain whitespace characters"
 msgstr ""
 
 msgid "Name too long"
@@ -857,8 +857,8 @@ msgstr "en"
 msgid "recovered successfully"
 msgstr "recuperado con éxito"
 
-msgid "{0, plural, one {You are about to delete {1} file.} other {You are about to delete {2} files.}}"
-msgstr "{0, plural, one {Está a punto de eliminar {1} archivo.} other {Está a punto de eliminar {2} archivos.}}"
+msgid "{0, plural, one {You are about to delete {1} item.} other {You are about to delete {2} items.}}"
+msgstr ""
 
 msgid "{noOfFiles, plural, one {Uploading and encrypting {noOfFiles} file} other {Uploading and encrypting {noOfFiles} files}}"
 msgstr "{noOfFiles, plural, one {Carga y encriptación del archivo {noOfFiles}} other {Carga y encriptación de archivos {noOfFiles}}}"

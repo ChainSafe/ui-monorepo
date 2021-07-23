@@ -1012,8 +1012,8 @@ const FilesList = ({ isShared = false }: Props) => {
         accept={handleDeleteFiles}
         requestMessage={
           plural(selectedCids.length, {
-            one: `You are about to delete ${selectedCids.length} file.`,
-            other: `You are about to delete ${selectedCids.length} files.`
+            one: `You are about to delete ${selectedCids.length} item.`,
+            other: `You are about to delete ${selectedCids.length} items.`
           })
         }
         rejectText = {t`Cancel`}
