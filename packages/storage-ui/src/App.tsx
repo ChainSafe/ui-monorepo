@@ -13,6 +13,7 @@ import { darkTheme } from "./Themes/DarkTheme"
 import { useLocalStorage } from "@chainsafe/browser-storage-hooks"
 import { StorageApiProvider }  from "./Contexts/StorageApiContext"
 import { StorageProvider } from "./Contexts/StorageContext"
+import { UserProvider } from "./Contexts/UserContext"
 
 if (
   process.env.NODE_ENV === "production" &&
@@ -111,13 +112,15 @@ const App = () => {
                 apiUrl={apiUrl}
                 withLocalStorage={true}
               >
-                <StorageProvider>
-                  <Router>
-                    <AppWrapper>
-                      <StorageRoutes />
-                    </AppWrapper>
-                  </Router>
-                </StorageProvider>
+                <UserProvider>
+                  <StorageProvider>
+                    <Router>
+                      <AppWrapper>
+                        <StorageRoutes />
+                      </AppWrapper>
+                    </Router>
+                  </StorageProvider>
+                </UserProvider>
               </StorageApiProvider>
             </Web3Provider>
           </ToasterProvider>
