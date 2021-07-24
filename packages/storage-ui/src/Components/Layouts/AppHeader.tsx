@@ -14,6 +14,7 @@ import { ROUTE_LINKS } from "../StorageRoutes"
 import { Trans } from "@lingui/macro"
 import { CSSTheme } from "../../Themes/types"
 import { useStorageApi } from "../../Contexts/StorageApiContext"
+import { useUser } from "../../Contexts/UserContext"
 
 const useStyles = makeStyles(
   ({ palette, animation, breakpoints, constants, zIndex }: CSSTheme) => {
@@ -154,6 +155,7 @@ const AppHeader = ({ navOpen, setNavOpen }: IAppHeader) => {
   const classes = useStyles()
   const { isLoggedIn, logout } = useStorageApi()
   const { history } = useHistory()
+  const { getProfileTitle } = useUser()
 
   const signOut = useCallback(async () => {
     logout()
@@ -171,10 +173,9 @@ const AppHeader = ({ navOpen, setNavOpen }: IAppHeader) => {
         <>
           {desktop ? (
             <>
-
               <section className={classes.accountControls}>
                 <MenuDropdown
-                  title=''
+                  title={getProfileTitle()}
                   anchor="bottom-right"
                   classNames={{
                     icon: classes.icon,
