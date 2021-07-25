@@ -120,7 +120,7 @@ const FilesProvider = ({ children }: FilesContextProps) => {
   const { addToastMessage } = useToaster()
   const [personalEncryptionKey, setPersonalEncryptionKey] = useState<string | undefined>()
   const [buckets, setBuckets] = useState<BucketKeyPermission[]>([])
-  const [storageSummary, setBucketSummary] = useState<BucketSummaryResponse>({
+  const [storageSummary, setStorageSummary] = useState<BucketSummaryResponse>({
     available_storage: 0,
     total_buckets: 0,
     total_storage: 0,
