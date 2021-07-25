@@ -4,6 +4,7 @@ import { formatBytes, TableCell, TableRow  } from "@chainsafe/common-components"
 import { Trans } from "@lingui/macro"
 import dayjs from "dayjs"
 import { PinStatus } from "@chainsafe/files-api-client"
+import { trimChar } from "../../Utils/pathUtils"
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -15,7 +16,7 @@ interface Props {
     pinStatus: PinStatus
 }
 
-const IPFS_GATEWAY = "https://ipfs.infura.io:5001/api/v0/cat/"
+const IPFS_GATEWAY = process.env.REACT_APP_IPFS_GATEWAY || ""
 
 const PinRow = ({ pinStatus }: Props) => {
   const classes = useStyles()
@@ -36,7 +37,7 @@ const PinRow = ({ pinStatus }: Props) => {
       </TableCell>
       <TableCell>
         <a
-          href={`${IPFS_GATEWAY}${pinStatus.pin?.cid}`}
+          href={`${trimChar(IPFS_GATEWAY, "/")}/${pinStatus.pin?.cid}`}
           target="_blank"
           rel="noopener noreferrer"
         >
