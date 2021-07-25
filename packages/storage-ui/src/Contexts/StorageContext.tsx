@@ -46,7 +46,7 @@ type StorageContext = {
   pins: PinStatus[]
   uploadsInProgress: UploadProgress[]
   downloadsInProgress: DownloadProgress[]
-  storageSummary: BucketSummaryResponse
+  storageSummary: BucketSummaryResponse | undefined
   uploadFiles: (bucketId: string, files: File[], path: string) => Promise<void>
   addPin: (cid: string) => Promise<PinStatus>
   refreshPins: () => void
@@ -68,12 +68,7 @@ const StorageContext = React.createContext<StorageContext | undefined>(undefined
 
 const StorageProvider = ({ children }: StorageContextProps) => {
   const { storageApiClient, isLoggedIn } = useStorageApi()
-  const [storageSummary, setBucketSummary] = useState<BucketSummaryResponse>({
-    available_storage: 0,
-    total_buckets: 0,
-    total_storage: 0,
-    used_storage:0
-  })
+  const [storageSummary, setBucketSummary] = useState<BucketSummaryResponse | undefined>()
   const [storageBuckets, setStorageBuckets] = useState<Bucket[]>([])
   const [pins, setPins] = useState<PinStatus[]>([])
 
@@ -114,7 +109,6 @@ const StorageProvider = ({ children }: StorageContextProps) => {
       getStorageSummary()
     }
   }, [isLoggedIn, storageApiClient])
-
 
   // Reset encryption keys on log out
   useEffect(() => {
