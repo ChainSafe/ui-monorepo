@@ -203,7 +203,7 @@ const FilesProvider = ({ children }: FilesContextProps) => {
     const getStorageSummary = async () => {
       try {
         const bucketSummaryData = await filesApiClient.bucketsSummary()
-        setBucketSummary(bucketSummaryData)
+        setStorageSummary(bucketSummaryData)
       } catch (error) {
         console.error(error)
       }
