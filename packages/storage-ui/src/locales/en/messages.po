@@ -220,8 +220,14 @@ msgstr "Id"
 msgid "Info"
 msgstr "Info"
 
+msgid "Key ID"
+msgstr "Key ID"
+
 msgid "Learn more about ChainSafe"
 msgstr "Learn more about ChainSafe"
+
+msgid "Make sure to save the secret, as it can only be displayed once."
+msgstr "Make sure to save the secret, as it can only be displayed once."
 
 msgid "Move"
 msgstr "Move"
@@ -243,6 +249,9 @@ msgstr "Name cannot only contain whitespace characters"
 
 msgid "Name too long"
 msgstr "Name too long"
+
+msgid "New Key"
+msgstr "New Key"
 
 msgid "New folder"
 msgstr "New folder"
@@ -303,6 +312,9 @@ msgstr "Rename"
 
 msgid "Rename File/Folder"
 msgstr "Rename File/Folder"
+
+msgid "Secret"
+msgstr "Secret"
 
 msgid "Select a wallet"
 msgstr "Select a wallet"
