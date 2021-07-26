@@ -9,7 +9,6 @@ import {
 } from "@chainsafe/common-components"
 import { makeStyles, ITheme, createStyles } from "@chainsafe/common-theme"
 import clsx from "clsx"
-import { FREE_PLAN_LIMIT } from "../../../Utils/Constants"
 import { useFiles } from "../../../Contexts/FilesContext"
 import { Trans } from "@lingui/macro"
 import { ROUTE_LINKS } from "../../FilesRoutes"
@@ -74,7 +73,7 @@ const useStyles = makeStyles((theme: ITheme) =>
 
 const PlanView: React.FC = () => {
   const classes = useStyles()
-  const { spaceUsed } = useFiles()
+  const { storageSummary } = useFiles()
 
   return (
     <Grid container>
@@ -123,12 +122,12 @@ const PlanView: React.FC = () => {
                     variant="body2"
                     className={classes.spaceUsedMargin}
                     component="p"
-                  >{`${formatBytes(spaceUsed)} of ${formatBytes(
-                      FREE_PLAN_LIMIT
+                  >{`${formatBytes(storageSummary.used_storage)} of ${formatBytes(
+                      storageSummary.total_storage
                     )} used`}</Typography>
                   <ProgressBar
                     className={classes.spaceUsedMargin}
-                    progress={(spaceUsed / FREE_PLAN_LIMIT) * 100}
+                    progress={(storageSummary.used_storage / storageSummary.total_storage) * 100}
                     size="small"
                   />
                 </div>
