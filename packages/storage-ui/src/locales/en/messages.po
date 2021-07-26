@@ -70,6 +70,9 @@ msgstr "CIDs"
 msgid "Cancel"
 msgstr "Cancel"
 
+msgid "Chainsafe Storage Beta does not encrypt data. All data uploaded is publicly accessible."
+msgstr "Chainsafe Storage Beta does not encrypt data. All data uploaded is publicly accessible."
+
 msgid "Check your inbox! We've sent another email."
 msgstr "Check your inbox! We've sent another email."
 
