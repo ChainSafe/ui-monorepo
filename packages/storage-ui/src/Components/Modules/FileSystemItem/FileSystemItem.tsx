@@ -31,7 +31,7 @@ import { ISelectedFile, useFileBrowser } from "../../../Contexts/FileBrowserCont
 import { BrowserView, FileOperation } from "../../../Contexts/types"
 import { DragTypes } from "../FilesList/DragConstants"
 import { renameSchema } from "../../../Utils/validationSchema"
-import {getPathWithFile} from "../../../Utils/pathUtils"
+import { getPathWithFile } from "../../../Utils/pathUtils"
 
 const useStyles = makeStyles(({ breakpoints, constants }: CSSTheme) => {
   return createStyles({
@@ -306,7 +306,7 @@ const FileSystemItem = ({
     accept: DragTypes.MOVABLE_FILE,
     canDrop: () => isFolder,
     drop: (item: {selected: ISelectedFile[]}) => {
-      moveItems && moveItems(item.selected, getPathWithFile(currentPath,name)
+      moveItems && moveItems(item.selected, getPathWithFile(currentPath, name))
     },
     collect: (monitor) => ({
       isOverMove: monitor.isOver()
