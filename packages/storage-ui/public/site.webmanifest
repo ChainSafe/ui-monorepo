@@ -1,6 +1,6 @@
 {
-  "name": "",
-  "short_name": "",
+  "name": "chainsafe-storage",
+  "short_name": "ChainSafe Storage",
   "icons": [
     {
       "src": "/android-chrome-192x192.png",

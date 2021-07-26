@@ -96,8 +96,8 @@ const UploadBox: React.FC<IUploadBox> = (props) => {
               component="p"
               className={classes.marginBottom}
             >{plural(noOfFiles, {
-                one: `Uploading and encrypting ${noOfFiles} file`,
-                other: `Uploading and encrypting ${noOfFiles} files`
+                one: `Uploading ${noOfFiles} file`,
+                other: `Uploading ${noOfFiles} files`
               })}</Typography>
             <ProgressBar
               progress={progress}
