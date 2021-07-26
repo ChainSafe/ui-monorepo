@@ -19,10 +19,10 @@ describe("Main Navigation", () => {
       cy.url().should("include", "/settings")
     })
 
-    it("can see data storage summary info", () => {
-      navigationMenu.spaceUsedLabel().should("contain.text", "of 20 GB used")
-      navigationMenu.spaceUsedProgressBar().should("be.visible")
-    })
+    // it("can see data storage summary info", () => {
+    //   navigationMenu.spaceUsedLabel().should("contain.text", "of 20 GB used")
+    //   navigationMenu.spaceUsedProgressBar().should("be.visible")
+    // })
 
     it.skip("can navigate to block survey via send feedback button", () => {
       // TODO: Andrew - find a way to check the button link, cypress doesn't support tabs #1084
