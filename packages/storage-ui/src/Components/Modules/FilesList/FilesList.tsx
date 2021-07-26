@@ -1,7 +1,6 @@
 import { createStyles, makeStyles, useThemeSwitcher } from "@chainsafe/common-theme"
 import React, { useCallback, useEffect } from "react"
 import {
-  Divider,
   MenuDropdown,
   PlusIcon,
   SortDirection,
