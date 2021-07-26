@@ -7,7 +7,7 @@ import { t } from "@lingui/macro"
 import { CONTENT_TYPES } from "../../../Utils/Constants"
 import { IFilesTableBrowserProps } from "../../Modules/FileBrowsers/types"
 import { useHistory, useLocation, useToaster } from "@chainsafe/common-components"
-import { extractFileBrowserPathFromURL, getArrayOfPaths, getPathWithFile, getURISafePathFromArray } from "../../../Utils/pathUtils"
+import { extractFileBrowserPathFromURL, getPathWithFile, getUrlSafePathWithFile } from "../../../Utils/pathUtils"
 import { ROUTE_LINKS } from "../../FilesRoutes"
 import { FileBrowserContext } from "../../../Contexts/FileBrowserContext"
 import { useFilesApi } from "../../../Contexts/FilesApiContext"
@@ -134,11 +134,7 @@ const BinFileBrowser: React.FC<IFileBrowserModuleProps> = ({ controls = false }:
   const viewFolder = useCallback((cid: string) => {
     const fileSystemItem = pathContents.find(f => f.cid === cid)
     if (fileSystemItem && fileSystemItem.content_type === CONTENT_TYPES.Directory) {
-      let urlSafePath =  getURISafePathFromArray(getArrayOfPaths(currentPath))
-      if (urlSafePath === "/") {
-        urlSafePath = ""
-      }
-      redirect(ROUTE_LINKS.Bin(`${urlSafePath}/${encodeURIComponent(`${fileSystemItem.name}`)}`))
+      redirect(ROUTE_LINKS.Bin(getUrlSafePathWithFile(currentPath, fileSystemItem.name)))
     }
   }, [currentPath, pathContents, redirect])
 
