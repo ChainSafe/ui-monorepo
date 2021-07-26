@@ -355,7 +355,7 @@ const FileSystemItem = ({
     accept: [NativeTypes.FILE],
     drop: (item: any) => {
       handleUploadOnDrop &&
-        handleUploadOnDrop(item.files, item.items, `${currentPath}${name}`)
+        handleUploadOnDrop(item.files, item.items, getPathWithFile(currentPath, name))
     },
     collect: (monitor) => ({
       isOverUpload: monitor.isOver()
