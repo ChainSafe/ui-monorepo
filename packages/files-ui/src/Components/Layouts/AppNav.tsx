@@ -349,19 +349,25 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
               <div
                 data-cy="label-space-used"
               >
-                <Typography
-                  variant="body2"
-                  className={classes.spaceUsedMargin}
-                  component="p"
-                >{`${formatBytes(storageSummary.used_storage)} of ${formatBytes(
-                    storageSummary.total_storage
-                  )} used`}</Typography>
-                <ProgressBar
-                  data-cy="progress-bar-space-used"
-                  className={classes.spaceUsedMargin}
-                  progress={(storageSummary.used_storage / storageSummary.total_storage) * 100}
-                  size="small"
-                />
+                {
+                  storageSummary && (
+                    <>
+                      <Typography
+                        variant="body2"
+                        className={classes.spaceUsedMargin}
+                        component="p"
+                      >{`${formatBytes(storageSummary.used_storage)} of ${formatBytes(
+                          storageSummary.total_storage
+                        )} used`}</Typography>
+                      <ProgressBar
+                        data-cy="progress-bar-space-used"
+                        className={classes.spaceUsedMargin}
+                        progress={(storageSummary.used_storage / storageSummary.total_storage) * 100}
+                        size="small"
+                      />
+                    </>
+                  )
+                }
                 {/* <Button disabled variant="outline" size="small">
                   <Trans>UPGRADE</Trans>
                 </Button> */}

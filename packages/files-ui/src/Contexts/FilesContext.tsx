@@ -75,7 +75,7 @@ type FilesContext = {
   buckets: BucketKeyPermission[]
   uploadsInProgress: UploadProgress[]
   downloadsInProgress: DownloadProgress[]
-  storageSummary: BucketSummaryResponse
+  storageSummary: BucketSummaryResponse | undefined
   uploadFiles: (bucketId: string, files: File[], path: string, encryptionKey?: string) => Promise<void>
   downloadFile: (bucketId: string, itemToDownload: FileSystemItem, path: string) => void
   getFileContent: (bucketId: string, params: GetFileContentParams) => Promise<Blob | undefined>
@@ -120,12 +120,7 @@ const FilesProvider = ({ children }: FilesContextProps) => {
   const { addToastMessage } = useToaster()
   const [personalEncryptionKey, setPersonalEncryptionKey] = useState<string | undefined>()
   const [buckets, setBuckets] = useState<BucketKeyPermission[]>([])
-  const [storageSummary, setStorageSummary] = useState<BucketSummaryResponse>({
-    available_storage: 0,
-    total_buckets: 0,
-    total_storage: 0,
-    used_storage:0
-  })
+  const [storageSummary, setStorageSummary] = useState<BucketSummaryResponse | undefined>()
   const { profile } = useUser()
   const { userId } = profile || {}
   const [isLoadingBuckets, setIsLoadingBuckets] = useState(false)
