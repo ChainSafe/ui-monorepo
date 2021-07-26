@@ -685,7 +685,7 @@ const FilesList = () => {
           variant="body1"
           className={classes.banner}>
           <Trans>
-            Chainsafe Storage Beta does not encrypt data. All data uploaded is publicly accessible.
+            Chainsafe Storage Beta does not encrypt data. All data uploaded is publicly accessible on IPFS network.
           </Trans>
         </Typography>
       </div>
