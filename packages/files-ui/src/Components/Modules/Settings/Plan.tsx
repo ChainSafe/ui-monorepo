@@ -117,6 +117,7 @@ const PlanView: React.FC = () => {
                 <Trans>Essentials - Free</Trans>
               </Typography>
               <div className={classes.essentialContainer}>
+                {storageSummary &&
                 <div className={classes.spaceUsedBox}>
                   <Typography
                     variant="body2"
@@ -131,6 +132,7 @@ const PlanView: React.FC = () => {
                     size="small"
                   />
                 </div>
+                }
                 <Link
                   className={classes.link}
                   to={ROUTE_LINKS.PurchasePlan}
