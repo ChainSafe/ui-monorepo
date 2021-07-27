@@ -159,7 +159,7 @@ msgid "Create Shared Folder"
 msgstr "Créer un dossier partagé"
 
 msgid "Create a Shared Folder"
-msgstr "Créer un dossier partagé"
+msgstr ""
 
 msgid "Create a new shared folder"
 msgstr ""
@@ -229,9 +229,6 @@ msgstr "Entrez le mot de passe :"
 
 msgid "Enter the verification code:"
 msgstr "Entrez le code de vérification :"
-
-msgid "Enter your email:"
-msgstr "Entrez votre courriel :"
 
 msgid "Error while creating new shared folder"
 msgstr ""
@@ -368,6 +365,9 @@ msgstr "En savoir plus"
 msgid "Learn more about ChainSafe"
 msgstr "En apprendre plus sur ChainSafe"
 
+msgid "Leave"
+msgstr ""
+
 msgid "Let's get you set up."
 msgstr "C’est parti."
 
@@ -378,7 +378,7 @@ msgid "Loading preview"
 msgstr "Chargement de l’aperçu"
 
 msgid "Loading your shared folders…"
-msgstr "Chargement de vos dossiers partagés…"
+msgstr ""
 
 msgid "Looks like you’re signing in from a new browser. Please choose one of the following to continue:"
 msgstr "Il semble que vous vous connectiez à partir d’un nouveau navigateur. Veuillez choisir une des options suivantes pour continuer :"
@@ -448,6 +448,9 @@ msgstr "Système d’exploitation :"
 
 msgid "Or confirm by signing into your Files on any browser you’ve used before."
 msgstr "Ou accepte la requête de connexion depuis n’importe quel appareil ou navigateur utilisé auparavant."
+
+msgid "Or using one of the following:"
+msgstr ""
 
 msgid "Owner"
 msgstr ""
@@ -636,10 +639,10 @@ msgid "Shared folder is undefined"
 msgstr ""
 
 msgid "Shared folders"
-msgstr "Dossiers partagés"
+msgstr ""
 
 msgid "Shared with"
-msgstr "Partagé avec"
+msgstr ""
 
 msgid "Sign Out"
 msgstr "Se déconnecter"
@@ -667,6 +670,9 @@ msgstr "Connecté avec un réseau social ou wallet"
 
 msgid "Social sign in or wallet"
 msgstr "Connecté avec un réseau social ou wallet"
+
+msgid "Something went wrong with email login! Please try again."
+msgstr ""
 
 msgid "Something went wrong!"
 msgstr "Quelque chose a mal tourné !"
@@ -781,6 +787,9 @@ msgstr "Nom d’utilisateur défini avec succès"
 
 msgid "Usernames are public and can't be changed after creation."
 msgstr "Les noms d’utilisateur sont publics et ne peuvent pas être modifiés après leur création."
+
+msgid "Using an email:"
+msgstr ""
 
 msgid "Verification code is required"
 msgstr "Code de vérification requis"
