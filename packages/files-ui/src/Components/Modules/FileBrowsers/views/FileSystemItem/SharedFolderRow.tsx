@@ -3,6 +3,7 @@ import { makeStyles, createStyles, useThemeSwitcher, useDoubleClick } from "@cha
 import {
   Button,
   CheckSvg,
+  CloseCirceSvg,
   DeleteSvg,
   EditSvg,
   FolderFilledIcon,
@@ -164,7 +165,7 @@ const SharedFolderRow = ({ bucket, handleRename, openSharedFolder, handleDeleteS
     : [{
       contents: (
         <>
-          <DeleteSvg className={classes.menuIcon} />
+          <CloseCirceSvg className={classes.menuIcon} />
           <span data-cy="menu-delete">
             <Trans>Leave</Trans>
           </span>
