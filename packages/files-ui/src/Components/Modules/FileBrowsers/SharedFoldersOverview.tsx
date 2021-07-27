@@ -17,12 +17,12 @@ import { BucketKeyPermission, useFiles } from "../../../Contexts/FilesContext"
 import { t, Trans } from "@lingui/macro"
 import { createStyles, makeStyles, useThemeSwitcher } from "@chainsafe/common-theme"
 import { CSFTheme } from "../../../Themes/types"
-import SharedFolderRowWrapper from "./SharedFolderRowWrapper"
 import UpdateSharedFolderModal from "./EditSharedFolderModal"
 import clsx from "clsx"
 import CreateSharedFolderModal from "./CreateSharedFolderModal"
 import { useFilesApi } from "../../../Contexts/FilesApiContext"
 import { ROUTE_LINKS } from "../../FilesRoutes"
+import SharedFolderRow from "./views/FileSystemItem/SharedFolderRow"
 
 export const desktopSharedGridSettings = "69px 3fr 120px 190px 150px 45px !important"
 export const mobileSharedGridSettings = "3fr 80px 45px !important"
@@ -93,6 +93,9 @@ const useStyles = makeStyles(
         "& svg": {
           marginBottom: constants.generalUnit * 2
         }
+      },
+      confirmDeletionDialog: {
+        top: "50%"
       }
     })
   }
@@ -111,7 +114,8 @@ const SharedFolderOverview = () => {
   const { desktop } = useThemeSwitcher()
   const [bucketToDelete, setBucketToDelete] = useState<BucketKeyPermission | undefined>(undefined)
   const [isDeleteBucketModalOpen, setIsDeleteBucketModalOpen] = useState(false)
-  const bucketsToShow = useMemo(() => buckets.filter(b => b.type === "share"), [buckets])
+  const [isDeletingSharedFolder, setIsDeletingSharedFolder] = useState(false)
+  const bucketsToShow = useMemo(() => buckets.filter(b => b.type === "share" && b.status !== "deleting"), [buckets])
 
   const handleSortToggle = (
     targetColumn: "name" | "size" | "date_uploaded"
@@ -137,7 +141,15 @@ const SharedFolderOverview = () => {
   }, [filesApiClient, refreshBuckets])
 
   const handleDeleteBucket = useCallback((bucket: BucketKeyPermission) => {
+    setIsDeletingSharedFolder(true)
     filesApiClient.removeBucket(bucket.id)
+      .then(() => refreshBuckets(false))
+      .catch(console.error)
+      .finally(() => {
+        setIsDeletingSharedFolder(false)
+        setBucketToDelete(undefined)
+        setIsDeleteBucketModalOpen(false)
+      })
   }, [filesApiClient, refreshBuckets])
 
   const openSharedFolder = useCallback((bucketId: string) => {
@@ -224,7 +236,7 @@ const SharedFolderOverview = () => {
             </TableHead>
             <TableBody>
               {bucketsToShow.map((bucket) =>
-                <SharedFolderRowWrapper
+                <SharedFolderRow
                   key={bucket.id}
                   bucket={bucket}
                   handleRename={handleRename}
@@ -258,12 +270,15 @@ const SharedFolderOverview = () => {
       <Dialog
         active={isDeleteBucketModalOpen}
         reject={() => setIsDeleteBucketModalOpen(false)}
-        accept={handleDeleteBucket}
-        requestMessage={}
+        accept={() => bucketToDelete && handleDeleteBucket(bucketToDelete)}
+        requestMessage={bucketToDelete?.permission === "owner"
+          ? "You are about to delete a shared folder. Please make sure that you have backed up any necessary content"
+          : "You will be removed from the shared folder. Only the owner of the folder can add you back."
+        }
         rejectText = {t`Cancel`}
         acceptText = {t`Confirm`}
-        acceptButtonProps={{ loading: isDeletingFiles, disabled: isDeletingFiles, testId: "confirm-deletion" }}
-        rejectButtonProps={{ disabled: isDeletingFiles, testId: "cancel-deletion" }}
+        acceptButtonProps={{ loading: isDeletingSharedFolder, disabled: isDeletingSharedFolder, testId: "confirm-deletion" }}
+        rejectButtonProps={{ disabled: isDeletingSharedFolder, testId: "cancel-deletion" }}
         injectedClass={{ inner: classes.confirmDeletionDialog }}
         onModalBodyClick={(e) => {
           e.preventDefault()
