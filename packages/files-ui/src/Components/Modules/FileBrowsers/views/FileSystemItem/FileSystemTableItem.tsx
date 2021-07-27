@@ -3,9 +3,7 @@ import { makeStyles, createStyles, useThemeSwitcher } from "@chainsafe/common-th
 import { t } from "@lingui/macro"
 import clsx from "clsx"
 import {
-  Button,
   CheckboxInput,
-  CheckSvg,
   formatBytes,
   FormikTextInput,
   IMenuItem,
@@ -188,42 +186,33 @@ const FileSystemTableItem = React.forwardRef(
           className={clsx(classes.filename, desktop && editing === cid && "editing")}
           onClick={(e) => !editing && onFolderOrFileClicks(e)}
         >
-          {editing === cid && desktop ? (
-            <FormikProvider value={formik}>
-              <Form
-                className={classes.desktopRename}
-                data-cy='rename-form'
-                onBlur={() => setEditing(undefined)}
-              >
-                <FormikTextInput
-                  className={classes.renameInput}
-                  name="fileName"
-                  inputVariant="minimal"
-                  onKeyDown={(event) => {
-                    if (event.key === "Escape") {
-                      setEditing(undefined)
-                    }
-                  }}
-                  placeholder = {isFolder
-                    ? t`Please enter a folder name`
-                    : t`Please enter a file name`
-                  }
-                  autoFocus={editing === cid}
-                />
-                <Button
-                  data-cy='rename-submit-button'
-                  variant="dashed"
-                  size="small"
-                  type="submit"
-                  disabled={!formik.dirty}
+          {editing === cid && desktop
+            ? (
+              <FormikProvider value={formik}>
+                <Form
+                  className={classes.desktopRename}
+                  data-cy='rename-form'
+                  onBlur={() => setEditing(undefined)}
                 >
-                  <CheckSvg />
-                </Button>
-              </Form>
-            </FormikProvider>
-          ) : (
-            <Typography>{name}</Typography>
-          )}
+                  <FormikTextInput
+                    className={classes.renameInput}
+                    name="fileName"
+                    inputVariant="minimal"
+                    onKeyDown={(event) => {
+                      if (event.key === "Escape") {
+                        setEditing(undefined)
+                      }
+                    }}
+                    placeholder = {isFolder
+                      ? t`Please enter a folder name`
+                      : t`Please enter a file name`
+                    }
+                    autoFocus={editing === cid}
+                  />
+                </Form>
+              </FormikProvider>
+            )
+            : <Typography>{name}</Typography>}
         </TableCell>
         {desktop && (
           <>

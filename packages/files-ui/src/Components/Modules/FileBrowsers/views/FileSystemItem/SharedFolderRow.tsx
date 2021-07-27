@@ -1,8 +1,6 @@
 import React, { useMemo } from "react"
 import { makeStyles, createStyles, useThemeSwitcher } from "@chainsafe/common-theme"
 import {
-  Button,
-  CheckSvg,
   FolderFilledIcon,
   formatBytes,
   FormikTextInput,
@@ -190,15 +188,6 @@ const SharedFolderRow = ({ bucket, onFolderClick, menuItems, isEditing, setIsEdi
                 placeholder = {t`Please enter a folder name`}
                 autoFocus={isEditing}
               />
-              <Button
-                data-cy='rename-submit-button'
-                variant="dashed"
-                size="small"
-                type="submit"
-                disabled={!formik.dirty}
-              >
-                <CheckSvg />
-              </Button>
             </Form>
           </FormikProvider>
         }

@@ -3,9 +3,7 @@ import { makeStyles, createStyles, useThemeSwitcher } from "@chainsafe/common-th
 import { t } from "@lingui/macro"
 import clsx from "clsx"
 import {
-  Button,
   CheckboxInput,
-  CheckSvg,
   formatBytes,
   FormikTextInput,
   IMenuItem,
@@ -217,15 +215,6 @@ const FileSystemTableItem = React.forwardRef(
                     }
                     autoFocus={editing.cid === cid && editing.name === name}
                   />
-                  <Button
-                    data-cy='rename-submit-button'
-                    variant="dashed"
-                    size="small"
-                    type="submit"
-                    disabled={!formik.dirty}
-                  >
-                    <CheckSvg />
-                  </Button>
                 </Form>
               </FormikProvider>
             )
