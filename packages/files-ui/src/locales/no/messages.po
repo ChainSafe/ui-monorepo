@@ -229,9 +229,6 @@ msgstr "Skriv inn passord:"
 msgid "Enter the verification code:"
 msgstr "Skriv inn bekreftelseskoden:"
 
-msgid "Enter your email:"
-msgstr "Skriv inn e-posten din:"
-
 msgid "Error while creating new shared folder"
 msgstr ""
 
@@ -364,6 +361,9 @@ msgstr "Lær mer"
 msgid "Learn more about ChainSafe"
 msgstr "Lær mer om ChainSafe"
 
+msgid "Leave"
+msgstr ""
+
 msgid "Let's get you set up."
 msgstr ""
 
@@ -443,6 +443,9 @@ msgid "Operating system:"
 msgstr "Operativsystem:"
 
 msgid "Or confirm by signing into your Files on any browser you’ve used before."
+msgstr ""
+
+msgid "Or using one of the following:"
 msgstr ""
 
 msgid "Owner"
@@ -632,10 +635,10 @@ msgid "Shared folder is undefined"
 msgstr ""
 
 msgid "Shared folders"
-msgstr "Delte mapper"
+msgstr ""
 
 msgid "Shared with"
-msgstr "Delt med"
+msgstr ""
 
 msgid "Sign Out"
 msgstr "Logg ut"
@@ -662,6 +665,9 @@ msgid "Social Sign-in or Wallet"
 msgstr ""
 
 msgid "Social sign in or wallet"
+msgstr ""
+
+msgid "Something went wrong with email login! Please try again."
 msgstr ""
 
 msgid "Something went wrong!"
@@ -776,6 +782,9 @@ msgid "Username set successfully"
 msgstr "Brukernavn satt"
 
 msgid "Usernames are public and can't be changed after creation."
+msgstr ""
+
+msgid "Using an email:"
 msgstr ""
 
 msgid "Verification code is required"
