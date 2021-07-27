@@ -378,7 +378,6 @@ const CreateOrEditSharedFolderModal = ({
                 ? <Trans>Create</Trans>
                 : <Trans>Update</Trans>
               }
-
             </Button>
           </Grid>
         </Grid>
