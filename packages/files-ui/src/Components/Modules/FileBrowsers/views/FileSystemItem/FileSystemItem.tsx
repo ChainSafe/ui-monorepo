@@ -177,7 +177,7 @@ const FileSystemItem = ({
 
   const { desktop } = useThemeSwitcher()
   const classes = useStyles()
-  const filePath = useMemo(() => `${currentPath}/${name}`, [currentPath, name])
+  const filePath = useMemo(() => getPathWithFile(currentPath, name), [currentPath, name])
 
   const onFilePreview = useCallback(() => {
     showPreview && showPreview(files.indexOf(file))
@@ -355,7 +355,7 @@ const FileSystemItem = ({
     accept: [NativeTypes.FILE],
     drop: (item: any) => {
       handleUploadOnDrop &&
-        handleUploadOnDrop(item.files, item.items, `${currentPath}${name}`)
+        handleUploadOnDrop(item.files, item.items, getPathWithFile(currentPath, name))
     },
     collect: (monitor) => ({
       isOverUpload: monitor.isOver()

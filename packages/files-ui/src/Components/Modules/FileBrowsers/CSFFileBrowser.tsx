@@ -1,7 +1,13 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react"
 import { Crumb, useToaster, useHistory, useLocation } from "@chainsafe/common-components"
 import { useFiles, FileSystemItem } from "../../../Contexts/FilesContext"
-import { getArrayOfPaths, getURISafePathFromArray, getPathWithFile, extractFileBrowserPathFromURL } from "../../../Utils/pathUtils"
+import {
+  getArrayOfPaths,
+  getURISafePathFromArray,
+  getPathWithFile,
+  extractFileBrowserPathFromURL,
+  getUrlSafePathWithFile
+} from "../../../Utils/pathUtils"
 import { IBulkOperations, IFileBrowserModuleProps, IFilesTableBrowserProps } from "./types"
 import FilesList from "./views/FilesList"
 import { CONTENT_TYPES } from "../../../Utils/Constants"
@@ -191,11 +197,7 @@ const CSFFileBrowser: React.FC<IFileBrowserModuleProps> = () => {
   const viewFolder = useCallback((cid: string) => {
     const fileSystemItem = pathContents.find(f => f.cid === cid)
     if (fileSystemItem && fileSystemItem.content_type === CONTENT_TYPES.Directory) {
-      let urlSafePath =  getURISafePathFromArray(getArrayOfPaths(currentPath))
-      if (urlSafePath === "/") {
-        urlSafePath = ""
-      }
-      redirect(ROUTE_LINKS.Drive(`${urlSafePath}/${encodeURIComponent(`${fileSystemItem.name}`)}`))
+      redirect(ROUTE_LINKS.Drive(getUrlSafePathWithFile(currentPath, fileSystemItem.name)))
     }
   }, [currentPath, pathContents, redirect])
 

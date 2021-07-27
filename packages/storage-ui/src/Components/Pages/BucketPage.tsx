@@ -1,7 +1,13 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react"
 import { Crumb, useToaster, useHistory, useLocation } from "@chainsafe/common-components"
 import { useStorage, FileSystemItem } from "../../Contexts/StorageContext"
-import { getArrayOfPaths, getURISafePathFromArray, getPathWithFile, extractFileBrowserPathFromURL } from "../../Utils/pathUtils"
+import {
+  getArrayOfPaths,
+  getURISafePathFromArray,
+  getPathWithFile,
+  extractFileBrowserPathFromURL,
+  getUrlSafePathWithFile
+} from "../../Utils/pathUtils"
 import { IBulkOperations, IFileBrowserModuleProps, IFilesTableBrowserProps } from "../../Contexts/types"
 import FilesList from "../Modules/FilesList/FilesList"
 import { CONTENT_TYPES } from "../../Utils/Constants"
@@ -173,11 +179,8 @@ const BucketPage: React.FC<IFileBrowserModuleProps> = () => {
   const viewFolder = useCallback((toView: ISelectedFile) => {
     const fileSystemItem = pathContents.find(f => f.cid === toView.cid && f.name === toView.name)
     if (fileSystemItem && fileSystemItem.content_type === CONTENT_TYPES.Directory) {
-      let urlSafePath =  getURISafePathFromArray(getArrayOfPaths(currentPath))
-      if (urlSafePath === "/") {
-        urlSafePath = ""
-      }
-      redirect(ROUTE_LINKS.Bucket(bucketId, `${urlSafePath}/${encodeURIComponent(`${fileSystemItem.name}`)}`))
+
+      redirect(ROUTE_LINKS.Bucket(bucketId, getUrlSafePathWithFile(currentPath, fileSystemItem.name)))
     }
   }, [currentPath, pathContents, redirect, bucketId])
 
