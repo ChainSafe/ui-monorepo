@@ -292,6 +292,9 @@ msgstr "Ordner"
 msgid "Folder name cannot only contain whitepsace characters"
 msgstr ""
 
+msgid "Folder name is already in use"
+msgstr ""
+
 msgid "Folders"
 msgstr "Ordner"
 

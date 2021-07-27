@@ -20,6 +20,7 @@ import { useBeforeunload } from "react-beforeunload"
 import { useThresholdKey } from "./ThresholdKeyContext"
 import { useFilesApi } from "./FilesApiContext"
 import { useUser } from "./UserContext"
+import { getPathWithFile } from "../Utils/pathUtils"
 
 type FilesContextProps = {
   children: React.ReactNode | React.ReactNode[]
@@ -464,7 +465,7 @@ const FilesProvider = ({ children }: FilesContextProps) => {
       const result = await getFileContent(bucketId, {
         cid: itemToDownload.cid,
         file: itemToDownload,
-        path: `${path}/${itemToDownload.name}`,
+        path: getPathWithFile(path, itemToDownload.name),
         onDownloadProgress: (progressEvent) => {
           dispatchDownloadsInProgress({
             type: "progress",
