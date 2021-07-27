@@ -159,7 +159,7 @@ msgid "Create Shared Folder"
 msgstr "Créer un dossier partagé"
 
 msgid "Create a Shared Folder"
-msgstr "Créer un dossier partagé"
+msgstr ""
 
 msgid "Create a new shared folder"
 msgstr ""
@@ -368,6 +368,9 @@ msgstr "En savoir plus"
 msgid "Learn more about ChainSafe"
 msgstr "En apprendre plus sur ChainSafe"
 
+msgid "Leave"
+msgstr ""
+
 msgid "Let's get you set up."
 msgstr "C’est parti."
 
@@ -378,7 +381,7 @@ msgid "Loading preview"
 msgstr "Chargement de l’aperçu"
 
 msgid "Loading your shared folders…"
-msgstr "Chargement de vos dossiers partagés…"
+msgstr ""
 
 msgid "Looks like you’re signing in from a new browser. Please choose one of the following to continue:"
 msgstr "Il semble que vous vous connectiez à partir d’un nouveau navigateur. Veuillez choisir une des options suivantes pour continuer :"
@@ -636,10 +639,10 @@ msgid "Shared folder is undefined"
 msgstr ""
 
 msgid "Shared folders"
-msgstr "Dossiers partagés"
+msgstr ""
 
 msgid "Shared with"
-msgstr "Partagé avec"
+msgstr ""
 
 msgid "Sign Out"
 msgstr "Se déconnecter"

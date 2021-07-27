@@ -364,6 +364,9 @@ msgstr "Mehr erfahren"
 msgid "Learn more about ChainSafe"
 msgstr "Über ChainSafe mehr erfahren"
 
+msgid "Leave"
+msgstr ""
+
 msgid "Let's get you set up."
 msgstr "Los geht’s."
 
@@ -374,7 +377,7 @@ msgid "Loading preview"
 msgstr "Vorschau wird geladen"
 
 msgid "Loading your shared folders…"
-msgstr "Ihre freigegebenen Ordner werden geladen …"
+msgstr ""
 
 msgid "Looks like you’re signing in from a new browser. Please choose one of the following to continue:"
 msgstr "Sieht aus, als würden Sie sich über einen neuen Browser anmelden. Bitte wählen Sie eine der folgenden Möglichkeiten, um fortzufahren:"
@@ -632,10 +635,10 @@ msgid "Shared folder is undefined"
 msgstr ""
 
 msgid "Shared folders"
-msgstr "Geteilte Ordner"
+msgstr ""
 
 msgid "Shared with"
-msgstr "Geteilt mit"
+msgstr ""
 
 msgid "Sign Out"
 msgstr "Abmelden"
