@@ -70,6 +70,9 @@ msgstr "CIDs"
 msgid "Cancel"
 msgstr "Cancel"
 
+msgid "Chainsafe Storage Beta does not encrypt data. All data uploaded is publicly accessible on IPFS network."
+msgstr "Chainsafe Storage Beta does not encrypt data. All data uploaded is publicly accessible on IPFS network."
+
 msgid "Check your inbox! We've sent another email."
 msgstr "Check your inbox! We've sent another email."
 
@@ -217,8 +220,14 @@ msgstr "Id"
 msgid "Info"
 msgstr "Info"
 
+msgid "Key ID"
+msgstr "Key ID"
+
 msgid "Learn more about ChainSafe"
 msgstr "Learn more about ChainSafe"
+
+msgid "Make sure to save the secret, as it can only be displayed once."
+msgstr "Make sure to save the secret, as it can only be displayed once."
 
 msgid "Move"
 msgstr "Move"
@@ -240,6 +249,9 @@ msgstr "Name cannot only contain whitespace characters"
 
 msgid "Name too long"
 msgstr "Name too long"
+
+msgid "New Key"
+msgstr "New Key"
 
 msgid "New folder"
 msgstr "New folder"
@@ -300,6 +312,9 @@ msgstr "Rename"
 
 msgid "Rename File/Folder"
 msgstr "Rename File/Folder"
+
+msgid "Secret"
+msgstr "Secret"
 
 msgid "Select a wallet"
 msgstr "Select a wallet"
@@ -424,5 +439,5 @@ msgstr "moved successfully"
 msgid "{0, plural, one {You are about to delete {1} item.} other {You are about to delete {2} items.}}"
 msgstr "{0, plural, one {You are about to delete {1} item.} other {You are about to delete {2} items.}}"
 
-msgid "{noOfFiles, plural, one {Uploading and encrypting {noOfFiles} file} other {Uploading and encrypting {noOfFiles} files}}"
-msgstr "{noOfFiles, plural, one {Uploading and encrypting {noOfFiles} file} other {Uploading and encrypting {noOfFiles} files}}"
+msgid "{noOfFiles, plural, one {Uploading {noOfFiles} file} other {Uploading {noOfFiles} files}}"
+msgstr "{noOfFiles, plural, one {Uploading {noOfFiles} file} other {Uploading {noOfFiles} files}}"

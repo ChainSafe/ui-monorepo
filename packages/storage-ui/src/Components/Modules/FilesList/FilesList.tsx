@@ -1,7 +1,6 @@
 import { createStyles, makeStyles, useThemeSwitcher } from "@chainsafe/common-theme"
 import React, { useCallback, useEffect } from "react"
 import {
-  Divider,
   MenuDropdown,
   PlusIcon,
   SortDirection,
@@ -262,6 +261,19 @@ const useStyles = makeStyles(
           width: "20px",
           height: "20px"
         }
+      },
+      encryptionNotificationRoot: {
+        backgroundColor: palette.additional["gray"][9],
+        padding: constants.generalUnit,
+        paddingLeft: constants.generalUnit * 2,
+        marginTop: constants.generalUnit,
+        borderRadius: 2,
+        display: "flex"
+      },
+      banner: {
+        color: "#FFFF00",
+        fontWeight: 600,
+        paddingRight: constants.generalUnit
       }
     })
   }
@@ -668,9 +680,17 @@ const FilesList = () => {
           )}
         </div>
       </header>
-      { withSurvey && isSurveyBannerVisible
-        ? <SurveyBanner onHide={onHideSurveyBanner}/>
-        : <Divider className={classes.divider} />
+      <div className={classes.encryptionNotificationRoot}>
+        <Typography
+          variant="body1"
+          className={classes.banner}>
+          <Trans>
+            Chainsafe Storage Beta does not encrypt data. All data uploaded is publicly accessible on IPFS network.
+          </Trans>
+        </Typography>
+      </div>
+      { withSurvey && isSurveyBannerVisible &&
+        <SurveyBanner onHide={onHideSurveyBanner}/>
       }
       <section className={classes.bulkOperations}>
         {selectedCids.length > 0 && (
