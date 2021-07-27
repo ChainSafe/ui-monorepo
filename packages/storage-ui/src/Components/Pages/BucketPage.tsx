@@ -21,7 +21,7 @@ import { useLocalStorage } from "@chainsafe/browser-storage-hooks"
 import { DISMISSED_SURVEY_KEY } from "../Modules/SurveyBanner"
 
 const BucketPage: React.FC<IFileBrowserModuleProps> = () => {
-  const { storageBuckets, uploadFiles, uploadsInProgress } = useStorage()
+  const { storageBuckets, uploadFiles, uploadsInProgress, getStorageSummary } = useStorage()
   const { storageApiClient } = useStorageApi()
   const { addToastMessage } = useToaster()
   const [loadingCurrentPath, setLoadingCurrentPath] = useState(false)
@@ -60,8 +60,11 @@ const BucketPage: React.FC<IFileBrowserModuleProps> = () => {
         )
       }).catch(error => {
         console.error(error)
-      }).finally(() => showLoading && setLoadingCurrentPath(false))
-  }, [bucket, storageApiClient, currentPath])
+      }).finally(() =>  {
+        getStorageSummary()
+        showLoading && setLoadingCurrentPath(false)
+      })
+  }, [bucket, storageApiClient, currentPath, getStorageSummary])
 
   useEffect(() => {
     refreshContents(true)
