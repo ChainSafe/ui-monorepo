@@ -1,5 +1,14 @@
-import React, { useState } from "react"
-import { Button, GithubLogoIcon, MailIcon, GoogleLogoIcon, Loading, Typography } from "@chainsafe/common-components"
+import React, { useCallback, useState } from "react"
+import {
+  Button,
+  GithubLogoIcon,
+  MailIcon,
+  GoogleLogoIcon,
+  Loading,
+  Typography,
+  FormikTextInput,
+  EthereumLogoIcon
+} from "@chainsafe/common-components"
 import { createStyles, makeStyles, useThemeSwitcher } from "@chainsafe/common-theme"
 import { CSFTheme } from "../../../Themes/types"
 import { t, Trans } from "@lingui/macro"
@@ -11,6 +20,8 @@ import { ROUTE_LINKS } from "../../FilesRoutes"
 import clsx from "clsx"
 import { IdentityProvider } from "@chainsafe/files-api-client"
 import PasswordlessEmail from "./PasswordlessEmail"
+import { Form, Formik } from "formik"
+import { emailValidation } from "../../../Utils/validationSchema"
 
 const useStyles = makeStyles(
   ({ constants, palette, breakpoints, typography }: CSFTheme) =>
@@ -128,6 +139,20 @@ const useStyles = makeStyles(
       },
       web3Button: {
         minHeight: 41
+      },
+      input: {
+        margin: 0,
+        width: "100%",
+        marginBottom: constants.generalUnit
+      },
+      inputLabel: {
+        fontSize: "16px",
+        lineHeight: "24px",
+        marginBottom: constants.generalUnit
+      },
+      secondaryLoginText: {
+        paddingTop: constants.generalUnit * 2,
+        paddingBottom: constants.generalUnit
       }
     })
 )
@@ -144,8 +169,11 @@ const InitialScreen = ({ className }: IInitialScreen) => {
   const classes = useStyles()
   const [loginMode, setLoginMode] = useState<"web3" | "email" | LOGIN_TYPE | undefined>()
   const [error, setError] = useState<string | undefined>()
+  const [errorEmail, setErrorEmail] = useState<string>("")
   const maintenanceMode = process.env.REACT_APP_MAINTENANCE_MODE === "true"
   const [isConnecting, setIsConnecting] = useState(false)
+  const { filesApiClient } = useFilesApi()
+  const [email, setEmail] = useState("")
 
   const handleSelectWalletAndConnect = async () => {
     setError(undefined)
@@ -167,6 +195,7 @@ const InitialScreen = ({ className }: IInitialScreen) => {
 
   const resetLogin = async () => {
     setError(undefined)
+    setErrorEmail("")
     setLoginMode(undefined)
     resetStatus()
   }
@@ -201,6 +230,22 @@ const InitialScreen = ({ className }: IInitialScreen) => {
     }
     setIsConnecting(false)
   }
+
+  const onSubmitEmail = useCallback((values) => {
+    setIsConnecting(true)
+    setErrorEmail("")
+    filesApiClient
+      .getIdentityEmailToken({ email: values.email })
+      .then(() => {
+        setEmail(values.email)
+        setLoginMode("email")
+      })
+      .catch((e) => {
+        setErrorEmail(t`Something went wrong with email login! Please try again.`)
+        console.error(e)
+      })
+      .finally(() => setIsConnecting(false))
+  }, [filesApiClient])
 
   const ConnectWallet = () => {
     if (!wallet) {
@@ -333,6 +378,44 @@ const InitialScreen = ({ className }: IInitialScreen) => {
                   <Trans>The system is undergoing maintenance, thank you for being patient.</Trans>
                 </Typography>
               )}
+              <Formik
+                initialValues={{
+                  email: ""
+                }}
+                validationSchema={emailValidation}
+                onSubmit={onSubmitEmail}
+              >
+                <Form>
+                  <FormikTextInput
+                    className={classes.input}
+                    name="email"
+                    label={t`Using an email:`}
+                    labelClassName={classes.inputLabel}
+                  />
+                  {!!errorEmail && (
+                    <Typography component="p"
+                      variant="body1"
+                      className={classes.error}>{error}</Typography>
+                  )}
+                  <Button
+                    className={clsx(classes.button)}
+                    variant="primary"
+                    fullsize
+                    type="submit"
+                    disabled={maintenanceMode || isConnecting || status !== "initialized" || !!errorEmail}
+                  >
+                    <MailIcon className="icon"/>
+                    <Trans>Continue with Email</Trans>
+                  </Button>
+                </Form>
+              </Formik>
+              <Typography
+                variant="body1"
+                component="p"
+                className={clsx(classes.inputLabel, classes.secondaryLoginText)}
+              >
+                <Trans>Or using one of the following:</Trans>
+              </Typography>
               <Button
                 data-cy="web3"
                 onClick={() => {
@@ -340,23 +423,12 @@ const InitialScreen = ({ className }: IInitialScreen) => {
                   handleSelectWalletAndConnect()
                 }}
                 className={clsx(classes.button, classes.web3Button)}
-                variant="primary"
-                size="large"
-                disabled={maintenanceMode || isConnecting || status !== "initialized"}
-              >
-                <Trans>Continue with Web3 Wallet</Trans>
-              </Button>
-              <Button
-                className={classes.button}
-                size="large"
-                onClick={() => {
-                  setLoginMode("email")
-                }}
                 variant="secondary"
+                size="large"
                 disabled={maintenanceMode || isConnecting || status !== "initialized"}
               >
-                <MailIcon className="icon"/>
-                <Trans>Continue with Email</Trans>
+                <EthereumLogoIcon className="icon"/>
+                <Trans>Continue with Web3 Wallet</Trans>
               </Button>
               <Button
                 className={classes.button}
@@ -403,7 +475,10 @@ const InitialScreen = ({ className }: IInitialScreen) => {
             </footer>
           </>
           : loginMode === "email"
-            ? <PasswordlessEmail resetLogin={resetLogin} />
+            ? <PasswordlessEmail
+              resetLogin={resetLogin}
+              email={email}
+            />
             : wallet
               ? !isConnecting
                 ? <ConnectWallet />
