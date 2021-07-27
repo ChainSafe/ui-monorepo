@@ -1667,6 +1667,11 @@
   resolved "https://registry.yarnpkg.com/@chainsafe/files-api-client/-/files-api-client-1.17.7.tgz#aa8618eab659f9fc5baeef1134bdfcddba6dfc28"
   integrity sha512-xqqSNlFqhx1UkgxSKzwB9KKvWztI0+WlRgLw4vikwEjQojSbX4ygrq5QfkDovi+lGAPGpeNTKaHlDMZZPyjx2A==
 
+"@chainsafe/files-api-client@1.17.8":
+  version "1.17.8"
+  resolved "https://registry.yarnpkg.com/@chainsafe/files-api-client/-/files-api-client-1.17.8.tgz#0c52924cce276fc0e54b75c677e1d68e21d9cb5d"
+  integrity sha512-EJLGuDAPBsWfOe5CJ7SRpR2iywUEY0/iVO4tYvnWoT0j5ik100RNPQzVClD4B7yO8qPBneMtMBVldD0gNkqBWQ==
+
 "@chainsafe/web3-context@1.1.4":
   version "1.1.4"
   resolved "https://registry.yarnpkg.com/@chainsafe/web3-context/-/web3-context-1.1.4.tgz#ce0f140af8ccf93af1a189fbdbd6f018b9bf5fb7"

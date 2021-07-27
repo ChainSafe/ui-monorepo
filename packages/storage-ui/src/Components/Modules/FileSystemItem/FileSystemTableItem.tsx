@@ -22,6 +22,7 @@ import { CSSTheme } from "../../../Themes/types"
 import { FileSystemItem } from "../../../Contexts/StorageContext"
 import { renameSchema } from "../../../Utils/validationSchema"
 import { ISelectedFile } from "../../../Contexts/FileBrowserContext"
+import { FileSystemType } from "@chainsafe/files-api-client"
 
 const useStyles = makeStyles(({ breakpoints, constants, palette }: CSSTheme) => {
   const desktopGridSettings = "50px 69px 3fr 190px 100px 45px !important"
@@ -122,6 +123,7 @@ interface IFileSystemTableItemProps {
   handleRename?: (toRename: ISelectedFile, newPath: string) => Promise<void>
   currentPath: string | undefined
   menuItems: IMenuItem[]
+  fileSystemType: FileSystemType | undefined
 }
 
 const FileSystemTableItem = React.forwardRef(
@@ -138,7 +140,8 @@ const FileSystemTableItem = React.forwardRef(
     preview,
     setEditing,
     handleRename,
-    menuItems
+    menuItems,
+    fileSystemType
   }: IFileSystemTableItemProps, forwardedRef: any) => {
     const classes = useStyles()
     const { name, cid, created_at, size } = file
@@ -234,9 +237,12 @@ const FileSystemTableItem = React.forwardRef(
         </TableCell>
         {desktop && (
           <>
-            <TableCell align="left">
-              {!isFolder && !!created_at && dayjs.unix(created_at).format("DD MMM YYYY h:mm a")}
-            </TableCell>
+            {
+              fileSystemType && fileSystemType !== "ipfs" &&
+                <TableCell align="left">
+                  {!isFolder && !!created_at && dayjs.unix(created_at).format("DD MMM YYYY h:mm a")}
+                </TableCell>
+            }
             <TableCell align="left">
               {!isFolder && formatBytes(size)}
             </TableCell>

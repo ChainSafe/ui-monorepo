@@ -304,7 +304,8 @@ const FilesList = () => {
     allowDropUpload,
     itemOperations,
     moduleRootPath,
-    withSurvey
+    withSurvey,
+    fileSystemType
   } = useFileBrowser()
   const classes = useStyles({ themeKey })
   const [editing, setEditing] = useState<ISelectedFile | undefined>()
@@ -785,17 +786,19 @@ const FilesList = () => {
                 >
                   <Trans>Name</Trans>
                 </TableHeadCell>
-                <TableHeadCell
-                  sortButtons={true}
-                  align="left"
-                  onSortChange={() => handleSortToggle("date_uploaded")}
-                  sortDirection={
-                    column === "date_uploaded" ? direction : undefined
-                  }
-                  sortActive={column === "date_uploaded"}
-                >
-                  <Trans>Date uploaded</Trans>
-                </TableHeadCell>
+                {
+                  fileSystemType && fileSystemType !== "ipfs" && <TableHeadCell
+                    sortButtons={true}
+                    align="left"
+                    onSortChange={() => handleSortToggle("date_uploaded")}
+                    sortDirection={
+                      column === "date_uploaded" ? direction : undefined
+                    }
+                    sortActive={column === "date_uploaded"}
+                  >
+                    <Trans>Date uploaded</Trans>
+                  </TableHeadCell>
+                }
                 <TableHeadCell
                   sortButtons={true}
                   align="left"
@@ -884,6 +887,7 @@ const FilesList = () => {
                   setIsMoveFileModalOpen(true)
                   setMoveModalMode("recover")
                 }}
+                fileSystemType={fileSystemType}
               />
             ))}
           </TableBody>
@@ -939,6 +943,7 @@ const FilesList = () => {
                 setMoveModalMode("recover")
               }}
               browserView="grid"
+              fileSystemType={fileSystemType}
             />
           ))}
         </section>
