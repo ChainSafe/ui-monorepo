@@ -149,7 +149,7 @@ const SharedFolderRow = ({ bucket, handleRename, openSharedFolder, handleDeleteS
           </span>
         </>
       ),
-      onClick: () => onEditSharedFolder()
+      onClick: onEditSharedFolder
     }, {
       contents: (
         <>
@@ -159,7 +159,7 @@ const SharedFolderRow = ({ bucket, handleRename, openSharedFolder, handleDeleteS
           </span>
         </>
       ),
-      onClick: () => handleDeleteSharedFolder()
+      onClick: handleDeleteSharedFolder
     }]
     : [{
       contents: (
@@ -170,15 +170,13 @@ const SharedFolderRow = ({ bucket, handleRename, openSharedFolder, handleDeleteS
           </span>
         </>
       ),
-      onClick: () => handleDeleteSharedFolder()
+      onClick: handleDeleteSharedFolder
     }]
 
 
   const onSingleClick = useCallback(
     () => {
-      if (desktop) {
-        // on desktop 
-      } else {
+      if (!desktop) {
         // on mobile
         openSharedFolder(bucket.id)
       }
@@ -191,9 +189,6 @@ const SharedFolderRow = ({ bucket, handleRename, openSharedFolder, handleDeleteS
       if (desktop) {
         // on desktop
         openSharedFolder(bucket.id)
-      } else {
-        // on mobile
-        return
       }
     },
     [desktop, openSharedFolder, bucket]
@@ -288,7 +283,7 @@ const SharedFolderRow = ({ bucket, handleRename, openSharedFolder, handleDeleteS
       </TableCell>
       {desktop &&
         <TableCell align="left">
-          {bucket.permission === "owner"
+          {isOwner
             ? t`me`
             : <UserBubble tooltip={bucket.owners[0].uuid || ""} />}
         </TableCell>

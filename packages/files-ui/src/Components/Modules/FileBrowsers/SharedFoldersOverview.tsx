@@ -280,11 +280,7 @@ const SharedFolderOverview = () => {
         acceptButtonProps={{ loading: isDeletingSharedFolder, disabled: isDeletingSharedFolder, testId: "confirm-deletion" }}
         rejectButtonProps={{ disabled: isDeletingSharedFolder, testId: "cancel-deletion" }}
         injectedClass={{ inner: classes.confirmDeletionDialog }}
-        onModalBodyClick={(e) => {
-          e.preventDefault()
-          e.stopPropagation()
-        }}
-        testId="file-deletion"
+        testId="shared-folder-deletion"
       />
     </>
   )
