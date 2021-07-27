@@ -6,7 +6,8 @@ import {
   ITagValueType,
   ITagActionMeta,
   Typography,
-  Grid
+  Grid,
+  TextInput
 } from "@chainsafe/common-components"
 import {
   createStyles,
@@ -103,6 +104,10 @@ const useStyles = makeStyles(
         fontSize: 16,
         fontWeight: 600
       },
+      shareFolderNameInput: {
+        margin: `0 ${constants.generalUnit * 1.5}px ${constants.generalUnit}px`,
+        display: "block"
+      },
       footer: {
         width: "100%",
         padding: `${constants.generalUnit * 2}px ${constants.generalUnit}px`
@@ -111,7 +116,8 @@ const useStyles = makeStyles(
   }
 )
 
-interface IUpdateSharedFolderModalProps {
+interface ICreateOrEditSharedFolderModalProps {
+  mode?: "create" | "edit"
   isModalOpen: boolean
   onClose: () => void
   bucket?: BucketKeyPermission
@@ -131,18 +137,20 @@ interface UserPermission {
   data: SharedUser
 }
 
-const UpdateSharedFolderModal = ({
+const CreateOrEditSharedFolderModal = ({
+  mode,
   isModalOpen,
   onClose,
   bucket
-}: IUpdateSharedFolderModalProps) => {
+}: ICreateOrEditSharedFolderModalProps) => {
   const classes = useStyles()
-  const { editSharedFolder } = useFiles()
+  const { editSharedFolder, createSharedFolder } = useFiles()
   const { filesApiClient } = useFilesApi()
   const { profile } = useUser()
-  const [isEditingSharedFolder, setIsEditingSharedFolder] = useState(false)
+  const [isLoadingSharedFolder, setIsLoadingSharedFolder] = useState(false)
   const [hasPermissionsChanged, setHasPermissionsChanged] = useState(false)
   const [error, setError] = useState("")
+  const [sharedFolderName, setSharedFolderName] = useState("")
   const [sharedFolderWriters, setSharedFolderWriters] = useState<UserPermission[]>([])
   const [sharedFolderReaders, setSharedFolderReaders] = useState<UserPermission[]>([])
 
@@ -164,6 +172,7 @@ const UpdateSharedFolderModal = ({
       })
       ) || []
     )
+    setError("")
     setHasPermissionsChanged(false)
   }, [bucket])
 
@@ -202,9 +211,20 @@ const UpdateSharedFolderModal = ({
 
   const getUserPermission = (userPermissions: UserPermission[]) => userPermissions.map(su => ({
     uuid: su.value,
-    pubKey: su.data.identity_pubkey?.slice(2),
+    pubKey: su.data.identity_pubkey?.slice(2) || "",
     encryption_key: su.data.encryption_key
   }))
+
+  const handleCreateSharedFolder = useCallback(() => {
+    const readers = getUserPermission(sharedFolderReaders)
+    const writers = getUserPermission(sharedFolderWriters)
+
+    setIsLoadingSharedFolder(true)
+    createSharedFolder(sharedFolderName, writers, readers)
+      .then(handleClose)
+      .catch(console.error)
+      .finally(() => setIsLoadingSharedFolder(false))
+  }, [sharedFolderName, sharedFolderWriters, sharedFolderReaders, createSharedFolder, handleClose])
 
   const handleUpdateSharedFolder = useCallback(() => {
     if (!bucket) return
@@ -212,11 +232,11 @@ const UpdateSharedFolderModal = ({
     const readers = getUserPermission(sharedFolderReaders)
     const writers = getUserPermission(sharedFolderWriters)
 
-    setIsEditingSharedFolder(true)
+    setIsLoadingSharedFolder(true)
     editSharedFolder(bucket, writers, readers)
       .then(handleClose)
       .catch(console.error)
-      .finally(() => setIsEditingSharedFolder(false))
+      .finally(() => setIsLoadingSharedFolder(false))
   }, [sharedFolderWriters, sharedFolderReaders, editSharedFolder, handleClose, bucket])
 
   const onNewReaders = (val: ITagValueType<ITagOption, true>, action: ITagActionMeta<ITagOption>) => {
@@ -265,9 +285,25 @@ const UpdateSharedFolderModal = ({
         </div>
         <div className={classes.heading}>
           <Typography className={classes.inputLabel}>
-            <Trans>Update Shared Folder</Trans>
+            {mode === "create"
+              ? <Trans>Create Shared Folder</Trans>
+              : <Trans>Update Shared Folder</Trans>
+            }
+
           </Typography>
         </div>
+        {mode === "create" &&
+          <div className={classes.modalFlexItem}>
+            <TextInput
+              className={classes.shareFolderNameInput}
+              labelClassName={classes.inputLabel}
+              label={t`Shared Folder Name`}
+              value={sharedFolderName}
+              onChange={(value) => {setSharedFolderName(value?.toString() || "")}}
+              autoFocus
+            />
+          </div>
+        }
         <div className={classes.modalFlexItem}>
           <TagsInput
             onChange={onNewReaders}
@@ -334,11 +370,15 @@ const UpdateSharedFolderModal = ({
               size={desktop ? "medium" : "large"}
               type="submit"
               className={classes.okButton}
-              loading={isEditingSharedFolder}
-              onClick={handleUpdateSharedFolder}
+              loading={isLoadingSharedFolder}
+              onClick={mode === "create" ? handleCreateSharedFolder : handleUpdateSharedFolder}
               disabled={!hasPermissionsChanged}
             >
-              <Trans>Update</Trans>
+              {mode === "create"
+                ? <Trans>Create</Trans>
+                : <Trans>Update</Trans>
+              }
+
             </Button>
           </Grid>
         </Grid>
@@ -347,4 +387,4 @@ const UpdateSharedFolderModal = ({
   )
 }
 
-export default UpdateSharedFolderModal
+export default CreateOrEditSharedFolderModal
