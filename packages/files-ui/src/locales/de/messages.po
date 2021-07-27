@@ -229,9 +229,6 @@ msgstr "Geben Sie das Passwort ein:"
 msgid "Enter the verification code:"
 msgstr "Geben Sie den Verifizierungscode ein:"
 
-msgid "Enter your email:"
-msgstr "Geben Sie Ihre E-Mail-Adresse ein:"
-
 msgid "Error while creating new shared folder"
 msgstr ""
 
@@ -440,6 +437,9 @@ msgid "Operating system:"
 msgstr "Betriebssystem:"
 
 msgid "Or confirm by signing into your Files on any browser you’ve used before."
+msgstr ""
+
+msgid "Or using one of the following:"
 msgstr ""
 
 msgid "Owner"
@@ -661,6 +661,9 @@ msgstr ""
 msgid "Social sign in or wallet"
 msgstr ""
 
+msgid "Something went wrong with email login! Please try again."
+msgstr ""
+
 msgid "Something went wrong!"
 msgstr "Etwas ist schief gelaufen!"
 
@@ -774,6 +777,9 @@ msgstr "Benutzername erfolgreich gesetzt"
 
 msgid "Usernames are public and can't be changed after creation."
 msgstr "Benutzernamen sind öffentlich und können nach der Erstellung nicht mehr geändert werden."
+
+msgid "Using an email:"
+msgstr ""
 
 msgid "Verification code is required"
 msgstr "Verifizierungscode ist erforderlich"
