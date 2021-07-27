@@ -166,7 +166,7 @@ const SharedFolderRow = ({ bucket, handleRename, openSharedFolder, handleDeleteS
         <>
           <DeleteSvg className={classes.menuIcon} />
           <span data-cy="menu-delete">
-            <Trans>Remove from shares</Trans>
+            <Trans>Leave</Trans>
           </span>
         </>
       ),
