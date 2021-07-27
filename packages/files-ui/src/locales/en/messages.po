@@ -229,9 +229,6 @@ msgstr "Enter password:"
 msgid "Enter the verification code:"
 msgstr "Enter the verification code:"
 
-msgid "Enter your email:"
-msgstr "Enter your email:"
-
 msgid "Error while creating new shared folder"
 msgstr "Error while creating new shared folder"
 
@@ -367,6 +364,9 @@ msgstr "Learn more"
 msgid "Learn more about ChainSafe"
 msgstr "Learn more about ChainSafe"
 
+msgid "Leave"
+msgstr "Leave"
+
 msgid "Let's get you set up."
 msgstr "Let's get you set up."
 
@@ -447,6 +447,9 @@ msgstr "Operating system:"
 
 msgid "Or confirm by signing into your Files on any browser you’ve used before."
 msgstr "Or confirm by signing into your Files on any browser you’ve used before."
+
+msgid "Or using one of the following:"
+msgstr "Or using one of the following:"
 
 msgid "Owner"
 msgstr "Owner"
@@ -667,6 +670,9 @@ msgstr "Social Sign-in or Wallet"
 msgid "Social sign in or wallet"
 msgstr "Social sign in or wallet"
 
+msgid "Something went wrong with email login! Please try again."
+msgstr "Something went wrong with email login! Please try again."
+
 msgid "Something went wrong!"
 msgstr "Something went wrong!"
 
@@ -780,6 +786,9 @@ msgstr "Username set successfully"
 
 msgid "Usernames are public and can't be changed after creation."
 msgstr "Usernames are public and can't be changed after creation."
+
+msgid "Using an email:"
+msgstr "Using an email:"
 
 msgid "Verification code is required"
 msgstr "Verification code is required"
