@@ -20,7 +20,7 @@ import { ROUTE_LINKS } from "../../FilesRoutes"
 import clsx from "clsx"
 import { IdentityProvider } from "@chainsafe/files-api-client"
 import PasswordlessEmail from "./PasswordlessEmail"
-import { Form, Formik } from "formik"
+import { Form, FormikProvider, useFormik } from "formik"
 import { emailValidation } from "../../../Utils/validationSchema"
 
 const useStyles = makeStyles(
@@ -151,8 +151,7 @@ const useStyles = makeStyles(
         marginBottom: constants.generalUnit
       },
       secondaryLoginText: {
-        paddingTop: constants.generalUnit * 2,
-        paddingBottom: constants.generalUnit
+        paddingTop: constants.generalUnit * 2
       }
     })
 )
@@ -246,6 +245,14 @@ const InitialScreen = ({ className }: IInitialScreen) => {
       })
       .finally(() => setIsConnecting(false))
   }, [filesApiClient])
+
+  const formik = useFormik({
+    initialValues: {
+      email: ""
+    },
+    validationSchema: emailValidation,
+    onSubmit: onSubmitEmail
+  })
 
   const ConnectWallet = () => {
     if (!wallet) {
@@ -378,13 +385,7 @@ const InitialScreen = ({ className }: IInitialScreen) => {
                   <Trans>The system is undergoing maintenance, thank you for being patient.</Trans>
                 </Typography>
               )}
-              <Formik
-                initialValues={{
-                  email: ""
-                }}
-                validationSchema={emailValidation}
-                onSubmit={onSubmitEmail}
-              >
+              <FormikProvider value={formik}>
                 <Form>
                   <FormikTextInput
                     className={classes.input}
@@ -402,13 +403,13 @@ const InitialScreen = ({ className }: IInitialScreen) => {
                     variant="primary"
                     fullsize
                     type="submit"
-                    disabled={maintenanceMode || isConnecting || status !== "initialized" || !!errorEmail}
+                    disabled={maintenanceMode || isConnecting || status !== "initialized" || !formik.isValid}
                   >
                     <MailIcon className="icon"/>
                     <Trans>Continue with Email</Trans>
                   </Button>
                 </Form>
-              </Formik>
+              </FormikProvider>
               <Typography
                 variant="body1"
                 component="p"
