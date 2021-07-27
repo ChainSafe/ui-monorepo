@@ -365,6 +365,9 @@ msgstr "Aprende Mas"
 msgid "Learn more about ChainSafe"
 msgstr "Más información sobre ChainSafe"
 
+msgid "Leave"
+msgstr ""
+
 msgid "Let's get you set up."
 msgstr "Vamos a configurarlo."
 

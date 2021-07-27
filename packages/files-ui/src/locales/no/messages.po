@@ -361,6 +361,9 @@ msgstr "Lær mer"
 msgid "Learn more about ChainSafe"
 msgstr "Lær mer om ChainSafe"
 
+msgid "Leave"
+msgstr ""
+
 msgid "Let's get you set up."
 msgstr ""
 
@@ -632,10 +635,10 @@ msgid "Shared folder is undefined"
 msgstr ""
 
 msgid "Shared folders"
-msgstr "Delte mapper"
+msgstr ""
 
 msgid "Shared with"
-msgstr "Delt med"
+msgstr ""
 
 msgid "Sign Out"
 msgstr "Logg ut"
