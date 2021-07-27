@@ -86,3 +86,12 @@ export const isSubFolder = (fold1: string, fold2: string) => {
 
   return result
 }
+
+export const getUrlSafePathWithFile = (path: string, fileName: string) => {
+  let urlSafePath =  getURISafePathFromArray(getArrayOfPaths(path))
+  if (urlSafePath === "/") {
+    urlSafePath = ""
+  }
+
+  return `${urlSafePath}/${encodeURIComponent(fileName)}`
+}

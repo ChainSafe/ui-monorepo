@@ -18,6 +18,7 @@ import { CSSTheme } from "../../../Themes/types"
 import { useFileBrowser } from "../../../Contexts/FileBrowserContext"
 import { useStorageApi } from "../../../Contexts/StorageApiContext"
 import { folderNameValidator } from "../../../Utils/validationSchema"
+import { getPathWithFile } from "../../../Utils/pathUtils"
 
 
 const useStyles = makeStyles(
@@ -114,7 +115,7 @@ const CreateFolderModal: React.FC<ICreateFolderModalProps> = ({
           helpers.setSubmitting(true)
           try {
             setCreatingFolder(true)
-            await storageApiClient.addBucketDirectory(bucket.id, { path: `${currentPath}/${values.name.trim()}` })
+            await storageApiClient.addBucketDirectory(bucket.id, { path: getPathWithFile(currentPath, values.name.trim()) })
             refreshContents && await refreshContents()
             setCreatingFolder(false)
             helpers.resetForm()
