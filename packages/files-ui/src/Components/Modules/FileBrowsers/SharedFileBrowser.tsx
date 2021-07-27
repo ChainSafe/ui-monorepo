@@ -230,7 +230,7 @@ const SharedFileBrowser = () => {
         [CONTENT_TYPES.Pdf]: ["preview"],
         [CONTENT_TYPES.Text]: ["preview"],
         [CONTENT_TYPES.File]: ["download", "info", "report"],
-        [CONTENT_TYPES.Directory]: ["rename"]
+        [CONTENT_TYPES.Directory]: []
       }
     }
   }, [access])
