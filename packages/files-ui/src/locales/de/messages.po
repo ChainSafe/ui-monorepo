@@ -361,6 +361,9 @@ msgstr "Mehr erfahren"
 msgid "Learn more about ChainSafe"
 msgstr "Über ChainSafe mehr erfahren"
 
+msgid "Leave"
+msgstr ""
+
 msgid "Let's get you set up."
 msgstr "Los geht’s."
 
@@ -519,9 +522,6 @@ msgstr "Alle ablehnen"
 
 msgid "Remind me later"
 msgstr "Später erinnern"
-
-msgid "Remove from shares"
-msgstr ""
 
 msgid "Rename"
 msgstr "Umbenennen"
