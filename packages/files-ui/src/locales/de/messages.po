@@ -157,6 +157,9 @@ msgstr "Ordner erstellen"
 msgid "Create Shared Folder"
 msgstr ""
 
+msgid "Create a Shared Folder"
+msgstr ""
+
 msgid "Create a new shared folder"
 msgstr ""
 
@@ -367,6 +370,9 @@ msgstr "Helles Farbschema"
 msgid "Loading preview"
 msgstr "Vorschau wird geladen"
 
+msgid "Loading your shared folders…"
+msgstr ""
+
 msgid "Looks like you’re signing in from a new browser. Please choose one of the following to continue:"
 msgstr "Sieht aus, als würden Sie sich über einen neuen Browser anmelden. Bitte wählen Sie eine der folgenden Möglichkeiten, um fortzufahren:"
 
@@ -434,6 +440,9 @@ msgid "Operating system:"
 msgstr "Betriebssystem:"
 
 msgid "Or confirm by signing into your Files on any browser you’ve used before."
+msgstr ""
+
+msgid "Owner"
 msgstr ""
 
 msgid "Password"
@@ -620,6 +629,12 @@ msgid "Shared Folder Name"
 msgstr ""
 
 msgid "Shared folder is undefined"
+msgstr ""
+
+msgid "Shared folders"
+msgstr ""
+
+msgid "Shared with"
 msgstr ""
 
 msgid "Sign Out"
