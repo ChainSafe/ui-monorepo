@@ -4,7 +4,6 @@ import {
   TagsInput,
   ITagOption,
   ITagValueType,
-  ITagActionMeta,
   Typography,
   Grid,
   TextInput
@@ -25,6 +24,7 @@ import { LookupUserRequest } from "@chainsafe/files-api-client"
 import { useUser } from "../../../Contexts/UserContext"
 import { useEffect } from "react"
 import { SharedFolderModalMode } from "./types"
+import { centerEllipsis } from "../../../Utils/Helpers"
 
 const useStyles = makeStyles(
   ({ breakpoints, constants, typography, zIndex, palette }: CSFTheme) => {
@@ -156,6 +156,9 @@ const CreateOrEditSharedFolderModal = ({
   const [sharedFolderReaders, setSharedFolderReaders] = useState<UserPermission[]>([])
 
   useEffect(() => {
+    setSharedFolderName("")
+    setHasPermissionsChanged(false)
+    setError("")
     if (!bucketToEdit) return
     setSharedFolderWriters(
       bucketToEdit.writers.map((writer) => ({
@@ -173,8 +176,6 @@ const CreateOrEditSharedFolderModal = ({
       })
       ) || []
     )
-    setError("")
-    setHasPermissionsChanged(false)
   }, [bucketToEdit])
 
   const { desktop } = useThemeSwitcher()
@@ -227,7 +228,7 @@ const CreateOrEditSharedFolderModal = ({
       .finally(() => setIsLoadingSharedFolder(false))
   }, [sharedFolderName, sharedFolderWriters, sharedFolderReaders, createSharedFolder, handleClose])
 
-  const handleUpdateSharedFolder = useCallback(() => {
+  const handleEditSharedFolder = useCallback(() => {
     if (!bucketToEdit) return
 
     const readers = getUserPermission(sharedFolderReaders)
@@ -240,34 +241,38 @@ const CreateOrEditSharedFolderModal = ({
       .finally(() => setIsLoadingSharedFolder(false))
   }, [sharedFolderWriters, sharedFolderReaders, editSharedFolder, handleClose, bucketToEdit])
 
-  const onNewReaders = (val: ITagValueType<ITagOption, true>, action: ITagActionMeta<ITagOption>) => {
-    if (action.action === "select-option") {
-      // new reader inserted
-      const foundWriter = sharedFolderWriters.find((writer) => writer.data.uuid === action.option?.data.uuid)
-      if (foundWriter) {
-        setError(t`User already included in writers`)
-        return
-      }
-    }
+  const onNewReaders = (val: ITagValueType<ITagOption, true>) => {
+    // setting readers
+    const newSharedFolderReaders = val && val.length ? val?.map(v => ({ label: v.label, value: v.value, data: v.data })) : []
+    setSharedFolderReaders(newSharedFolderReaders)
     setHasPermissionsChanged(true)
-    val && val.length > 0
-      ? setSharedFolderReaders(val?.map(v => ({ label: v.label, value: v.value, data: v.data })))
-      : setSharedFolderReaders([])
+
+    // check intersecting users
+    const foundIntersectingUsers = newSharedFolderReaders.filter(
+      reader => sharedFolderWriters.some(writer => reader.data.uuid === writer.data.uuid)
+    )
+    if (foundIntersectingUsers.length) {
+      setError(t`User ${centerEllipsis(foundIntersectingUsers[0].label)} already included in writers`)
+    } else {
+      setError("")
+    }
   }
 
-  const onNewWriters = (val: ITagValueType<ITagOption, true>, action: ITagActionMeta<ITagOption>) => {
-    if (action.action === "select-option") {
-      // new reader inserted
-      const foundReader = sharedFolderReaders.find((reader) => reader.data.uuid === action.option?.data.uuid)
-      if (foundReader) {
-        setError(t`User already included in readers`)
-        return
-      }
-    }
+  const onNewWriters = (val: ITagValueType<ITagOption, true>) => {
+    // setting writers
+    const newSharedFolderWriters = val && val.length ? val?.map(v => ({ label: v.label, value: v.value, data: v.data })) : []
+    setSharedFolderWriters(newSharedFolderWriters)
     setHasPermissionsChanged(true)
-    val && val.length > 0
-      ? setSharedFolderWriters(val?.map(v => ({ label: v.label, value: v.value, data: v.data })))
-      : setSharedFolderWriters([])
+
+    // check intersecting users
+    const foundIntersectingUsers = newSharedFolderWriters.filter(
+      writer => sharedFolderReaders.some(reader => reader.data.uuid === writer.data.uuid)
+    )
+    if (foundIntersectingUsers.length) {
+      setError(t`User ${centerEllipsis(foundIntersectingUsers[0].label)} already included in readers`)
+    } else {
+      setError("")
+    }
   }
 
   return (
@@ -372,8 +377,8 @@ const CreateOrEditSharedFolderModal = ({
               type="submit"
               className={classes.okButton}
               loading={isLoadingSharedFolder}
-              onClick={mode === "create" ? handleCreateSharedFolder : handleUpdateSharedFolder}
-              disabled={!hasPermissionsChanged}
+              onClick={mode === "create" ? handleCreateSharedFolder : handleEditSharedFolder}
+              disabled={!hasPermissionsChanged || !!error}
             >
               {mode === "create"
                 ? <Trans>Create</Trans>
