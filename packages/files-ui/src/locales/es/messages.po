@@ -230,9 +230,6 @@ msgstr "Introducir la contraseña:"
 msgid "Enter the verification code:"
 msgstr ""
 
-msgid "Enter your email:"
-msgstr ""
-
 msgid "Error while creating new shared folder"
 msgstr ""
 
@@ -368,6 +365,9 @@ msgstr "Aprende Mas"
 msgid "Learn more about ChainSafe"
 msgstr "Más información sobre ChainSafe"
 
+msgid "Leave"
+msgstr ""
+
 msgid "Let's get you set up."
 msgstr "Vamos a configurarlo."
 
@@ -448,6 +448,9 @@ msgstr "Sistema operativo:"
 
 msgid "Or confirm by signing into your Files on any browser you’ve used before."
 msgstr "O confirme iniciando sesión en sus Archivos en cualquier navegador que haya usado antes."
+
+msgid "Or using one of the following:"
+msgstr ""
 
 msgid "Owner"
 msgstr ""
@@ -668,6 +671,9 @@ msgstr "Inicio de sesión social o billetera"
 msgid "Social sign in or wallet"
 msgstr "Inicio de sesión social o billetera"
 
+msgid "Something went wrong with email login! Please try again."
+msgstr ""
+
 msgid "Something went wrong!"
 msgstr ""
 
@@ -780,6 +786,9 @@ msgid "Username set successfully"
 msgstr ""
 
 msgid "Usernames are public and can't be changed after creation."
+msgstr ""
+
+msgid "Using an email:"
 msgstr ""
 
 msgid "Verification code is required"

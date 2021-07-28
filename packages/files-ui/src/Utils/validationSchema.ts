@@ -36,3 +36,14 @@ export const folderNameValidator = object().shape({
       (val) => !!val && !whitespaceOnlyRegex.test(val)
     )
 })
+
+export const emailValidation = object().shape({
+  email: string()
+    .email("Please enter a valid email")
+    .required(t`Email is required`)
+})
+
+export const nonceValidation = object().shape({
+  nonce: string()
+    .required(t`Verification code is required`)
+})

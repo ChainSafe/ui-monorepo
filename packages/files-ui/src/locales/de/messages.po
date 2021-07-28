@@ -229,9 +229,6 @@ msgstr "Geben Sie das Passwort ein:"
 msgid "Enter the verification code:"
 msgstr "Geben Sie den Verifizierungscode ein:"
 
-msgid "Enter your email:"
-msgstr "Geben Sie Ihre E-Mail-Adresse ein:"
-
 msgid "Error while creating new shared folder"
 msgstr ""
 
@@ -364,6 +361,9 @@ msgstr "Mehr erfahren"
 msgid "Learn more about ChainSafe"
 msgstr "Über ChainSafe mehr erfahren"
 
+msgid "Leave"
+msgstr ""
+
 msgid "Let's get you set up."
 msgstr "Los geht’s."
 
@@ -374,7 +374,7 @@ msgid "Loading preview"
 msgstr "Vorschau wird geladen"
 
 msgid "Loading your shared folders…"
-msgstr "Ihre freigegebenen Ordner werden geladen …"
+msgstr ""
 
 msgid "Looks like you’re signing in from a new browser. Please choose one of the following to continue:"
 msgstr "Sieht aus, als würden Sie sich über einen neuen Browser anmelden. Bitte wählen Sie eine der folgenden Möglichkeiten, um fortzufahren:"
@@ -443,6 +443,9 @@ msgid "Operating system:"
 msgstr "Betriebssystem:"
 
 msgid "Or confirm by signing into your Files on any browser you’ve used before."
+msgstr ""
+
+msgid "Or using one of the following:"
 msgstr ""
 
 msgid "Owner"
@@ -632,10 +635,10 @@ msgid "Shared folder is undefined"
 msgstr ""
 
 msgid "Shared folders"
-msgstr "Geteilte Ordner"
+msgstr ""
 
 msgid "Shared with"
-msgstr "Geteilt mit"
+msgstr ""
 
 msgid "Sign Out"
 msgstr "Abmelden"
@@ -662,6 +665,9 @@ msgid "Social Sign-in or Wallet"
 msgstr ""
 
 msgid "Social sign in or wallet"
+msgstr ""
+
+msgid "Something went wrong with email login! Please try again."
 msgstr ""
 
 msgid "Something went wrong!"
@@ -777,6 +783,9 @@ msgstr "Benutzername erfolgreich gesetzt"
 
 msgid "Usernames are public and can't be changed after creation."
 msgstr "Benutzernamen sind öffentlich und können nach der Erstellung nicht mehr geändert werden."
+
+msgid "Using an email:"
+msgstr ""
 
 msgid "Verification code is required"
 msgstr "Verifizierungscode ist erforderlich"
