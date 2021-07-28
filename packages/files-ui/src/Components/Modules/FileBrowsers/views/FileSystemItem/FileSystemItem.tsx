@@ -34,6 +34,7 @@ import { useFileBrowser } from "../../../../../Contexts/FileBrowserContext"
 import { getPathWithFile } from "../../../../../Utils/pathUtils"
 import { BucketUser } from "@chainsafe/files-api-client"
 import { useMemo } from "react"
+import { renameSchema } from "../../../../../Utils/validationSchema"
 
 const useStyles = makeStyles(({ breakpoints, constants }: CSFTheme) => {
   return createStyles({
@@ -111,7 +112,6 @@ interface IFileSystemItemProps {
   handleAddToSelectedCids(selectedCid: string): void
   editing: string | undefined
   setEditing(editing: string | undefined): void
-  renameSchema: any
   handleRename?: (cid: string, newName: string) => Promise<void>
   handleMove?: (cid: string, newPath: string) => Promise<void>
   deleteFile?: () => void
@@ -134,7 +134,6 @@ const FileSystemItem = ({
   owners,
   editing,
   setEditing,
-  renameSchema,
   handleRename,
   deleteFile,
   recoverFile,
@@ -152,18 +151,18 @@ const FileSystemItem = ({
 }: IFileSystemItemProps) => {
   const { downloadFile, currentPath, handleUploadOnDrop, moveItems } = useFileBrowser()
   const { cid, name, isFolder, content_type } = file
+
   const formik = useFormik({
     initialValues:{
       fileName: name
     },
     validationSchema:renameSchema,
     onSubmit:(values) => {
-      handleRename &&
-      handleRename(
-        file.cid,
-        values.fileName
-      )
-    }
+      const newName = values.fileName?.trim()
+
+      newName && handleRename && handleRename(file.cid, newName)
+    },
+    enableReinitialize: true
   })
   let Icon
   if (isFolder) {
@@ -178,7 +177,7 @@ const FileSystemItem = ({
 
   const { desktop } = useThemeSwitcher()
   const classes = useStyles()
-  const filePath = useMemo(() => `${currentPath}/${name}`, [currentPath, name])
+  const filePath = useMemo(() => getPathWithFile(currentPath, name), [currentPath, name])
 
   const onFilePreview = useCallback(() => {
     showPreview && showPreview(files.indexOf(file))
@@ -356,7 +355,7 @@ const FileSystemItem = ({
     accept: [NativeTypes.FILE],
     drop: (item: any) => {
       handleUploadOnDrop &&
-        handleUploadOnDrop(item.files, item.items, `${currentPath}${name}`)
+        handleUploadOnDrop(item.files, item.items, getPathWithFile(currentPath, name))
     },
     collect: (monitor) => ({
       isOverUpload: monitor.isOver()

@@ -4,7 +4,6 @@ import {
   Grid,
   Typography
 } from "@chainsafe/common-components"
-import * as yup from "yup"
 import {
   createStyles,
   makeStyles,
@@ -14,10 +13,12 @@ import React, { useRef, useEffect, useState } from "react"
 import { Formik, Form } from "formik"
 import CustomModal from "../../Elements/CustomModal"
 import CustomButton from "../../Elements/CustomButton"
-import { Trans } from "@lingui/macro"
+import { t, Trans } from "@lingui/macro"
 import { CSFTheme } from "../../../Themes/types"
 import { useFileBrowser } from "../../../Contexts/FileBrowserContext"
 import { useFilesApi } from "../../../Contexts/FilesApiContext"
+import { folderNameValidator } from "../../../Utils/validationSchema"
+import { getPathWithFile } from "../../../Utils/pathUtils"
 
 
 const useStyles = makeStyles(
@@ -93,17 +94,6 @@ const CreateFolderModal: React.FC<ICreateFolderModalProps> = ({
     }
   }, [modalOpen])
 
-  const folderNameValidator = yup.object().shape({
-    name: yup
-      .string()
-      .required("Folder name is required")
-      .test(
-        "Invalid name",
-        "Folder name cannot contain '/' character",
-        (val: string | null | undefined) => !!val && !val.includes("/")
-      )
-  })
-
   return (
     <CustomModal
       className={classes.modalRoot}
@@ -125,7 +115,7 @@ const CreateFolderModal: React.FC<ICreateFolderModalProps> = ({
           helpers.setSubmitting(true)
           try {
             setCreatingFolder(true)
-            await filesApiClient.addBucketDirectory(bucket.id, { path: `${currentPath}/${values.name}` })
+            await filesApiClient.addBucketDirectory(bucket.id, { path: getPathWithFile(currentPath, values.name.trim()) })
             refreshContents && await refreshContents()
             setCreatingFolder(false)
             helpers.resetForm()
@@ -133,7 +123,7 @@ const CreateFolderModal: React.FC<ICreateFolderModalProps> = ({
           } catch (errors) {
             setCreatingFolder(false)
             if (errors[0].message.includes("Entry with such name can")) {
-              helpers.setFieldError("name", "Folder name is already in use")
+              helpers.setFieldError("name", t`Folder name is already in use`)
             } else {
               helpers.setFieldError("name", errors[0].message)
             }

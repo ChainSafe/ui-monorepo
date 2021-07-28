@@ -165,19 +165,24 @@ const useStyles = makeStyles(
         fill: palette.warning.main,
         "& svg": {
           fill: `${palette.warning.main} !important`
-        }
+        },
+        cursor: "default"
+
       },
       errorIcon: {
         fill: palette.error.main,
         "& svg": {
           fill: `${palette.error.main} !important`
-        }
+        },
+        cursor: "default"
       },
       successIcon: {
         fill: palette.success.main,
         "& svg": {
           fill: `${palette.success.main} !important`
-        }
+        },
+        cursor: "default"
+
       },
       label: {
         transitionDuration: `${animation.transform}ms`,
@@ -422,6 +427,7 @@ const TextInput = React.forwardRef(
     forwardedRef: any
   ) => {
     const classes = useStyles()
+
     return (
       <label
         className={clsx(classes.root, className, size, {

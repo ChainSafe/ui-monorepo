@@ -17,8 +17,8 @@ export const ROUTE_LINKS = {
   SettingsRoot: "/settings",
   Settings: (path: SettingsPath) => `/settings/${path}`,
   UserSurvey: "https://blocksurvey.io/survey/1K4bjDmqwtyAsehm1r4KbsdzRRDVyRCDoe/1541a8c4-275a-4e22-9547-570e94c5a55f",
-  PrivacyPolicy: "https://files.chainsafe.io/privacy-policy",
-  Terms: "https://files.chainsafe.io/terms-of-service",
+  PrivacyPolicy: "https://storage.chainsafe.io/privacy-policy",
+  Terms: "https://storage.chainsafe.io/terms-of-service",
   ChainSafe: "https://chainsafe.io/",
   BucketRoot: "/bucket",
   Bucket: (id: string, bucketPath: string) => `/bucket/${id}${bucketPath}`
@@ -66,7 +66,7 @@ const StorageRoutes = () => {
         path={ROUTE_LINKS.Landing}
         isAuthorized={!isLoggedIn}
         component={LoginPage}
-        redirectPath={ROUTE_LINKS.Cids}
+        redirectPath={ROUTE_LINKS.Buckets}
         redirectToSource
       />
     </Switch>

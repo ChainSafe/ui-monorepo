@@ -208,6 +208,9 @@ msgstr ""
 msgid "Drop to upload files"
 msgstr "Dra for å laste opp filer"
 
+msgid "Edit"
+msgstr ""
+
 msgid "Email is required"
 msgstr "E-post kreves"
 
@@ -225,9 +228,6 @@ msgstr "Skriv inn passord:"
 
 msgid "Enter the verification code:"
 msgstr "Skriv inn bekreftelseskoden:"
-
-msgid "Enter your email:"
-msgstr "Skriv inn e-posten din:"
 
 msgid "Error while creating new shared folder"
 msgstr ""
@@ -286,6 +286,12 @@ msgstr "Fornavn"
 msgid "Folder"
 msgstr "Mappe"
 
+msgid "Folder name cannot only contain whitepsace characters"
+msgstr ""
+
+msgid "Folder name is already in use"
+msgstr ""
+
 msgid "Folders"
 msgstr "Mapper"
 
@@ -306,6 +312,12 @@ msgstr ""
 
 msgid "Get Started"
 msgstr "Begynn"
+
+msgid "Give edit permission to:"
+msgstr ""
+
+msgid "Give view-only permission to:"
+msgstr ""
 
 msgid "Go back"
 msgstr "Tilbake"
@@ -334,9 +346,6 @@ msgstr ""
 msgid "Info"
 msgstr "Info"
 
-msgid "Invalid name"
-msgstr "Ugyldig navn"
-
 msgid "I’m done saving my backup secret phrase"
 msgstr ""
 
@@ -351,6 +360,9 @@ msgstr "Lær mer"
 
 msgid "Learn more about ChainSafe"
 msgstr "Lær mer om ChainSafe"
+
+msgid "Leave"
+msgstr ""
 
 msgid "Let's get you set up."
 msgstr ""
@@ -386,6 +398,9 @@ msgid "Name"
 msgstr "Navn"
 
 msgid "Name cannot contain '/' character"
+msgstr ""
+
+msgid "Name cannot only contain whitespace characters"
 msgstr ""
 
 msgid "Name too long"
@@ -428,6 +443,9 @@ msgid "Operating system:"
 msgstr "Operativsystem:"
 
 msgid "Or confirm by signing into your Files on any browser you’ve used before."
+msgstr ""
+
+msgid "Or using one of the following:"
 msgstr ""
 
 msgid "Owner"
@@ -617,10 +635,10 @@ msgid "Shared folder is undefined"
 msgstr ""
 
 msgid "Shared folders"
-msgstr "Delte mapper"
+msgstr ""
 
 msgid "Shared with"
-msgstr "Delt med"
+msgstr ""
 
 msgid "Sign Out"
 msgstr "Logg ut"
@@ -649,6 +667,9 @@ msgstr ""
 msgid "Social sign in or wallet"
 msgstr ""
 
+msgid "Something went wrong with email login! Please try again."
+msgstr ""
+
 msgid "Something went wrong!"
 msgstr "Noe gikk galt."
 
@@ -674,6 +695,9 @@ msgid "Thanks for taking care of that. You can adjust these anytime in security 
 msgstr ""
 
 msgid "The authentication popup was closed"
+msgstr ""
+
+msgid "The files are already in this folder"
 msgstr ""
 
 msgid "The system is undergoing maintenance, thank you for being patient."
@@ -724,6 +748,9 @@ msgstr "Prøv annen metode"
 msgid "Update"
 msgstr "Oppdater"
 
+msgid "Update Shared Folder"
+msgstr ""
+
 msgid "Upload"
 msgstr "Last opp"
 
@@ -742,6 +769,12 @@ msgstr ""
 msgid "Use an existing shared folder"
 msgstr ""
 
+msgid "User already included in readers"
+msgstr ""
+
+msgid "User already included in writers"
+msgstr ""
+
 msgid "Username"
 msgstr "Brukernavn"
 
@@ -749,6 +782,9 @@ msgid "Username set successfully"
 msgstr "Brukernavn satt"
 
 msgid "Usernames are public and can't be changed after creation."
+msgstr ""
+
+msgid "Using an email:"
 msgstr ""
 
 msgid "Verification code is required"
@@ -793,6 +829,9 @@ msgstr "Ja, lagre"
 msgid "You can change this later."
 msgstr "Du kan endre dette senere."
 
+msgid "You can't move folders to this path"
+msgstr ""
+
 msgid "You haven't set a username yet."
 msgstr "Du har ikke satt noe brukernavn enda."
 
@@ -826,13 +865,7 @@ msgstr ""
 msgid "recovered successfully"
 msgstr "gjenopprettet"
 
-msgid "{0, plural, one {The file is already in this folder} other {The files are already in this folder}}"
-msgstr ""
-
-msgid "{0, plural, one {You are about to delete {1} file.} other {You are about to delete {2} files.}}"
-msgstr ""
-
-msgid "{0}"
+msgid "{0, plural, one {You are about to delete {1} item.} other {You are about to delete {2} items.}}"
 msgstr ""
 
 msgid "{noOfFiles, plural, one {Uploading and encrypting {noOfFiles} file} other {Uploading and encrypting {noOfFiles} files}}"

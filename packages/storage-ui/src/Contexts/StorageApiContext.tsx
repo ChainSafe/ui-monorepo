@@ -61,7 +61,6 @@ type StorageApiContext = {
   userInfo?: StorageUserInfo
   storageApiClient: IFilesApiClient
   isLoggedIn: boolean | undefined
-  secured: boolean | undefined
   isReturningUser: boolean
   selectWallet: () => Promise<void>
   resetAndSelectWallet: () => Promise<void>
@@ -100,7 +99,6 @@ const StorageApiProvider = ({ apiUrl, withLocalStorage = true, children }: Stora
 
   // access tokens
   const [accessToken, setAccessToken] = useState<Token | undefined>(undefined)
-  const [secured, setSecured] = useState<boolean | undefined>(undefined)
   const [refreshToken, setRefreshToken] = useState<Token | undefined>(undefined)
   const [decodedRefreshToken, setDecodedRefreshToken] = useState<
     { exp: number; enckey?: string; mps?: string; uuid: string } | undefined
@@ -264,14 +262,6 @@ const StorageApiProvider = ({ apiUrl, withLocalStorage = true, children }: Stora
   useEffect(() => {
     if (accessToken && accessToken.token && storageApiClient) {
       storageApiClient?.setToken(accessToken.token)
-      const decodedAccessToken = jwtDecode<{ perm: { secured?: string } }>(
-        accessToken.token
-      )
-      if (decodedAccessToken.perm.secured === "true") {
-        setSecured(true)
-      } else {
-        setSecured(false)
-      }
     }
   }, [accessToken, storageApiClient])
 
@@ -411,7 +401,6 @@ const StorageApiProvider = ({ apiUrl, withLocalStorage = true, children }: Stora
       value={{
         storageApiClient,
         isLoggedIn: isLoggedIn(),
-        secured,
         isReturningUser: isReturningUser,
         login,
         resetStatus: () => setStatus("initialized"),

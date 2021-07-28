@@ -1,9 +1,9 @@
 {
-  "name": "@chaisnafe/files-ui-monorepo",
+  "name": "@chainsafe/ui-monorepo",
   "version": "1.0.0",
   "description": "Chainsafe Files UI monorepo",
   "main": "index.js",
-  "repository": "https://github.com/chainsafe/files-ui.git",
+  "repository": "https://github.com/chainsafe/ui-monorepo.git",
   "author": "Chainsafe Products Team",
   "license": "MIT",
   "private": true,

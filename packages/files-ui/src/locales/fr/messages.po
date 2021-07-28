@@ -161,7 +161,7 @@ msgid "Create Shared Folder"
 msgstr "Créer un dossier partagé"
 
 msgid "Create a Shared Folder"
-msgstr "Créer un dossier partagé"
+msgstr ""
 
 msgid "Create a new shared folder"
 msgstr ""
@@ -211,6 +211,9 @@ msgstr ""
 msgid "Drop to upload files"
 msgstr "Faire glisser pour téléverser un fichier"
 
+msgid "Edit"
+msgstr ""
+
 msgid "Email is required"
 msgstr "Un courriel est requis"
 
@@ -228,9 +231,6 @@ msgstr "Entrez le mot de passe :"
 
 msgid "Enter the verification code:"
 msgstr "Entrez le code de vérification :"
-
-msgid "Enter your email:"
-msgstr "Entrez votre courriel :"
 
 msgid "Error while creating new shared folder"
 msgstr ""
@@ -292,6 +292,12 @@ msgstr "Prénom"
 msgid "Folder"
 msgstr "Dossier"
 
+msgid "Folder name cannot only contain whitepsace characters"
+msgstr ""
+
+msgid "Folder name is already in use"
+msgstr ""
+
 msgid "Folders"
 msgstr "Dossiers"
 
@@ -312,6 +318,12 @@ msgstr "Génération…"
 
 msgid "Get Started"
 msgstr "Commencer"
+
+msgid "Give edit permission to:"
+msgstr ""
+
+msgid "Give view-only permission to:"
+msgstr ""
 
 msgid "Go back"
 msgstr "Retour"
@@ -345,9 +357,6 @@ msgstr ""
 msgid "Info"
 msgstr "Infos"
 
-msgid "Invalid name"
-msgstr "Nom invalide"
-
 msgid "I’m done saving my backup secret phrase"
 msgstr "Phrase de sauvegarde secrète enregistrée"
 
@@ -363,6 +372,9 @@ msgstr "En savoir plus"
 msgid "Learn more about ChainSafe"
 msgstr "En apprendre plus sur ChainSafe"
 
+msgid "Leave"
+msgstr ""
+
 msgid "Let's get you set up."
 msgstr "C’est parti."
 
@@ -373,7 +385,7 @@ msgid "Loading preview"
 msgstr "Chargement de l’aperçu"
 
 msgid "Loading your shared folders…"
-msgstr "Chargement de vos dossiers partagés…"
+msgstr ""
 
 msgid "Looks like you’re signing in from a new browser. Please choose one of the following to continue:"
 msgstr "Il semble que vous vous connectiez à partir d’un nouveau navigateur. Veuillez choisir une des options suivantes pour continuer :"
@@ -398,6 +410,9 @@ msgstr "Nom"
 
 msgid "Name cannot contain '/' character"
 msgstr "Le nom ne peut pas contenir le caractère /"
+
+msgid "Name cannot only contain whitespace characters"
+msgstr ""
 
 msgid "Name too long"
 msgstr "Le nom est trop long"
@@ -440,6 +455,9 @@ msgstr "Système d’exploitation :"
 
 msgid "Or confirm by signing into your Files on any browser you’ve used before."
 msgstr "Ou accepte la requête de connexion depuis n’importe quel appareil ou navigateur utilisé auparavant."
+
+msgid "Or using one of the following:"
+msgstr ""
 
 msgid "Owner"
 msgstr "Propriétaire"
@@ -628,10 +646,10 @@ msgid "Shared folder is undefined"
 msgstr ""
 
 msgid "Shared folders"
-msgstr "Dossiers partagés"
+msgstr ""
 
 msgid "Shared with"
-msgstr "Partagé avec"
+msgstr ""
 
 msgid "Sign Out"
 msgstr "Se déconnecter"
@@ -660,6 +678,9 @@ msgstr "Connecté avec un réseau social ou wallet"
 msgid "Social sign in or wallet"
 msgstr "Connecté avec un réseau social ou wallet"
 
+msgid "Something went wrong with email login! Please try again."
+msgstr ""
+
 msgid "Something went wrong!"
 msgstr "Quelque chose a mal tourné !"
 
@@ -686,6 +707,9 @@ msgstr "Vous pouvez les changer à tout moment dans les paramètres de sécurit�
 
 msgid "The authentication popup was closed"
 msgstr "Le popup d’authentification a été fermé"
+
+msgid "The files are already in this folder"
+msgstr ""
 
 msgid "The system is undergoing maintenance, thank you for being patient."
 msgstr "Le système est en cours de maintenance, merci d’être patient."
@@ -735,6 +759,9 @@ msgstr "Essayer une autre méthode"
 msgid "Update"
 msgstr "Mettre à jour"
 
+msgid "Update Shared Folder"
+msgstr ""
+
 msgid "Upload"
 msgstr "Téléverser"
 
@@ -753,6 +780,12 @@ msgstr "Utiliser un navigateur enregistré"
 msgid "Use an existing shared folder"
 msgstr ""
 
+msgid "User already included in readers"
+msgstr ""
+
+msgid "User already included in writers"
+msgstr ""
+
 msgid "Username"
 msgstr "Nom d’utilisateur"
 
@@ -761,6 +794,9 @@ msgstr "Nom d’utilisateur défini avec succès"
 
 msgid "Usernames are public and can't be changed after creation."
 msgstr "Les noms d’utilisateur sont publics et ne peuvent pas être modifiés après leur création."
+
+msgid "Using an email:"
+msgstr ""
 
 msgid "Verification code is required"
 msgstr "Code de vérification requis"
@@ -804,6 +840,9 @@ msgstr "Oui, l’enregistrer"
 msgid "You can change this later."
 msgstr "Vous pouvez en changer plus tard."
 
+msgid "You can't move folders to this path"
+msgstr ""
+
 msgid "You haven't set a username yet."
 msgstr "Vous n’avez pas encore défini de nom d’utilisateur."
 
@@ -844,9 +883,6 @@ msgstr ""
 
 msgid "{0, plural, one {You are about to delete {1} file.} other {You are about to delete {2} files.}}"
 msgstr "{0, plural, one {Supprimer {1} fichier.} other {Supprimer {2} fichiers.}}"
-
-msgid "{0}"
-msgstr "{0}"
 
 msgid "{noOfFiles, plural, one {Uploading and encrypting {noOfFiles} file} other {Uploading and encrypting {noOfFiles} files}}"
 msgstr "{noOfFiles, plural, one {Téléversement et chiffrement de {noOfFiles} fichier} other {Téléversement et chiffrement de {noOfFiles} fichiers}}"

@@ -4,7 +4,8 @@ import {
   BucketType,
   Bucket as FilesBucket,
   SearchEntry,
-  BucketFileFullInfoResponse
+  BucketFileFullInfoResponse,
+  BucketSummaryResponse
 } from "@chainsafe/files-api-client"
 import React, { useCallback, useEffect, useReducer } from "react"
 import { useState } from "react"
@@ -19,6 +20,7 @@ import { useBeforeunload } from "react-beforeunload"
 import { useThresholdKey } from "./ThresholdKeyContext"
 import { useFilesApi } from "./FilesApiContext"
 import { useUser } from "./UserContext"
+import { getPathWithFile } from "../Utils/pathUtils"
 
 type FilesContextProps = {
   children: React.ReactNode | React.ReactNode[]
@@ -49,6 +51,12 @@ export type SharedFolderUser = {
   pubKey: string
 }
 
+export type UpdateSharedFolderUser = {
+  uuid: string
+  pubKey?: string
+  encryption_key?: string
+}
+
 interface GetFileContentParams {
   cid: string
   cancelToken?: CancelToken
@@ -68,14 +76,23 @@ type FilesContext = {
   buckets: BucketKeyPermission[]
   uploadsInProgress: UploadProgress[]
   downloadsInProgress: DownloadProgress[]
-  spaceUsed: number
+  storageSummary: BucketSummaryResponse | undefined
   uploadFiles: (bucketId: string, files: File[], path: string, encryptionKey?: string) => Promise<void>
   downloadFile: (bucketId: string, itemToDownload: FileSystemItem, path: string) => void
   getFileContent: (bucketId: string, params: GetFileContentParams) => Promise<Blob | undefined>
   refreshBuckets: (showLoading?: boolean) => Promise<void>
   secureAccountWithMasterPassword: (candidatePassword: string) => Promise<void>
   isLoadingBuckets?: boolean
-  createSharedFolder: (name: string,  writers?: SharedFolderUser[], readers?: SharedFolderUser[]) => Promise<BucketKeyPermission | void>
+  createSharedFolder: (
+    name: string,
+    writers?: SharedFolderUser[],
+    readers?: SharedFolderUser[]
+  ) => Promise<BucketKeyPermission | void>
+  editSharedFolder: (
+    bucket: BucketKeyPermission,
+    writers?: UpdateSharedFolderUser[],
+    readers?: UpdateSharedFolderUser[]
+  ) => Promise<void>
 }
 
 // This represents a File or Folder on the
@@ -102,9 +119,9 @@ const FilesProvider = ({ children }: FilesContextProps) => {
   } = useFilesApi()
   const { publicKey, encryptForPublicKey, decryptMessageWithThresholdKey } = useThresholdKey()
   const { addToastMessage } = useToaster()
-  const [spaceUsed, setSpaceUsed] = useState(0)
   const [personalEncryptionKey, setPersonalEncryptionKey] = useState<string | undefined>()
   const [buckets, setBuckets] = useState<BucketKeyPermission[]>([])
+  const [storageSummary, setStorageSummary] = useState<BucketSummaryResponse | undefined>()
   const { profile } = useUser()
   const { userId } = profile || {}
   const [isLoadingBuckets, setIsLoadingBuckets] = useState(false)
@@ -169,6 +186,7 @@ const FilesProvider = ({ children }: FilesContextProps) => {
     )
     setBuckets(bucketsWithKeys)
     setIsLoadingBuckets(false)
+
     return Promise.resolve()
   }, [personalEncryptionKey, userId, filesApiClient, getKeyForBucket, getPermissionForBucket])
 
@@ -178,20 +196,16 @@ const FilesProvider = ({ children }: FilesContextProps) => {
 
   // Space used counter
   useEffect(() => {
-    const getSpaceUsage = async () => {
+    const getStorageSummary = async () => {
       try {
-        const totalSize = buckets.filter(b => b.type === "csf" ||
-          b.type === "trash" ||
-          (b.type === "share" && !!b.owners.find(u => u.uuid === profile?.userId)))
-          .reduce((totalSize, bucket) => totalSize += bucket.size, 0)
-
-        setSpaceUsed(totalSize)
+        const bucketSummaryData = await filesApiClient.bucketsSummary()
+        setStorageSummary(bucketSummaryData)
       } catch (error) {
         console.error(error)
       }
     }
     if (isLoggedIn) {
-      getSpaceUsage()
+      getStorageSummary()
     }
   }, [filesApiClient, isLoggedIn, buckets, profile])
 
@@ -346,6 +360,7 @@ const FilesProvider = ({ children }: FilesContextProps) => {
         undefined,
         1,
         undefined,
+        undefined,
         (progressEvent: { loaded: number; total: number }) => {
           dispatchUploadsInProgress({
             type: "progress",
@@ -450,7 +465,7 @@ const FilesProvider = ({ children }: FilesContextProps) => {
       const result = await getFileContent(bucketId, {
         cid: itemToDownload.cid,
         file: itemToDownload,
-        path: `${path}/${itemToDownload.name}`,
+        path: getPathWithFile(path, itemToDownload.name),
         onDownloadProgress: (progressEvent) => {
           dispatchDownloadsInProgress({
             type: "progress",
@@ -523,6 +538,38 @@ const FilesProvider = ({ children }: FilesContextProps) => {
       .catch(console.error)
   }, [publicKey, encryptForPublicKey, filesApiClient, refreshBuckets, getKeyForBucket, getPermissionForBucket])
 
+  const editSharedFolder = useCallback(
+    async (bucket: BucketKeyPermission, writerUsers?: UpdateSharedFolderUser[], readerUsers?: UpdateSharedFolderUser[]) => {
+      if (!publicKey) return
+
+      const readers = readerUsers ? await Promise.all(readerUsers?.map(async u => {
+        return u.pubKey ? {
+          uuid: u.uuid,
+          encryption_key: await encryptForPublicKey(u.pubKey, bucket.encryptionKey)
+        } : {
+          uuid: u.uuid,
+          encryption_key: u.encryption_key
+        }
+      })) : []
+
+      const writers = writerUsers ? await Promise.all(writerUsers?.map(async u => {
+        return u.pubKey ? {
+          uuid: u.uuid,
+          encryption_key: await encryptForPublicKey(u.pubKey, bucket.encryptionKey)
+        } : {
+          uuid: u.uuid,
+          encryption_key: u.encryption_key
+        }
+      })) : []
+
+      return filesApiClient.updateBucket(bucket.id, {
+        name: bucket.name,
+        readers,
+        writers
+      }).then(() => refreshBuckets(false))
+        .catch(console.error)
+    }, [filesApiClient, encryptForPublicKey, publicKey, refreshBuckets])
+
   return (
     <FilesContext.Provider
       value={{
@@ -530,13 +577,14 @@ const FilesProvider = ({ children }: FilesContextProps) => {
         downloadFile,
         getFileContent,
         uploadsInProgress,
-        spaceUsed,
+        storageSummary,
         downloadsInProgress,
         secureAccountWithMasterPassword,
         buckets,
         refreshBuckets,
         isLoadingBuckets,
-        createSharedFolder
+        createSharedFolder,
+        editSharedFolder
       }}
     >
       {children}

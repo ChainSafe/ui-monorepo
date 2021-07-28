@@ -17,7 +17,6 @@ import {
   SettingSvg
 } from "@chainsafe/common-components"
 import { ROUTE_LINKS } from "../StorageRoutes"
-import { FREE_PLAN_LIMIT } from "../../Utils/Constants"
 import { Trans } from "@lingui/macro"
 import { CSSTheme } from "../../Themes/types"
 import { useStorageApi } from "../../Contexts/StorageApiContext"
@@ -207,7 +206,7 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
   const { desktop } = useThemeSwitcher()
   const classes = useStyles()
 
-  const { spaceUsed } = useStorage()
+  const { storageSummary } = useStorage()
 
   const { isLoggedIn, logout } = useStorageApi()
 
@@ -248,6 +247,20 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
           <div className={classes.linksArea}>
             <nav className={classes.navMenu}>
               <Link
+                data-cy="buckets-nav"
+                onClick={handleOnClick}
+                className={classes.navItem}
+                to={ROUTE_LINKS.Buckets}
+              >
+                <FolderSvg />
+                <Typography
+                  variant="h5"
+                  className={classes.navItemText}
+                >
+                  <Trans>Buckets</Trans>
+                </Typography>
+              </Link>
+              <Link
                 data-cy="cids-nav"
                 onClick={() => {
                   handleOnClick()
@@ -260,21 +273,7 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
                   variant="h5"
                   className={classes.navItemText}
                 >
-                  <Trans>Cids</Trans>
-                </Typography>
-              </Link>
-              <Link
-                data-cy="buckets-nav"
-                onClick={handleOnClick}
-                className={classes.navItem}
-                to={ROUTE_LINKS.Buckets}
-              >
-                <FolderSvg />
-                <Typography
-                  variant="h5"
-                  className={classes.navItemText}
-                >
-                  <Trans>Buckets</Trans>
+                  <Trans>CIDs</Trans>
                 </Typography>
               </Link>
             </nav>
@@ -300,19 +299,25 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
               <div
                 data-cy="label-space-used"
               >
-                <Typography
-                  variant="body2"
-                  className={classes.spaceUsedMargin}
-                  component="p"
-                >{`${formatBytes(spaceUsed)} of ${formatBytes(
-                    FREE_PLAN_LIMIT
-                  )} used`}</Typography>
-                <ProgressBar
-                  data-cy="progress-bar-space-used"
-                  className={classes.spaceUsedMargin}
-                  progress={(spaceUsed / FREE_PLAN_LIMIT) * 100}
-                  size="small"
-                />
+                {
+                  storageSummary && (
+                    <>
+                      <Typography
+                        variant="body2"
+                        className={classes.spaceUsedMargin}
+                        component="p"
+                      >{`${formatBytes(storageSummary.used_storage, 2)} of ${formatBytes(
+                          storageSummary.total_storage, 2
+                        )} used`}</Typography>
+                      <ProgressBar
+                        data-cy="progress-bar-space-used"
+                        className={classes.spaceUsedMargin}
+                        progress={(storageSummary.used_storage / storageSummary.total_storage) * 100}
+                        size="small"
+                      />
+                    </>
+                  )
+                }
               </div>
             )}
             {!desktop && (

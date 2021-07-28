@@ -4,7 +4,6 @@ import {
   Grid,
   Typography
 } from "@chainsafe/common-components"
-import * as yup from "yup"
 import {
   createStyles,
   makeStyles,
@@ -18,6 +17,8 @@ import { t, Trans } from "@lingui/macro"
 import { CSSTheme } from "../../../Themes/types"
 import { useFileBrowser } from "../../../Contexts/FileBrowserContext"
 import { useStorageApi } from "../../../Contexts/StorageApiContext"
+import { folderNameValidator } from "../../../Utils/validationSchema"
+import { getPathWithFile } from "../../../Utils/pathUtils"
 
 
 const useStyles = makeStyles(
@@ -93,17 +94,6 @@ const CreateFolderModal: React.FC<ICreateFolderModalProps> = ({
     }
   }, [modalOpen])
 
-  const folderNameValidator = yup.object().shape({
-    name: yup
-      .string()
-      .required(t`Folder name is required`)
-      .test(
-        "Invalid name",
-        t`Folder name cannot contain '/' character`,
-        (val: string | null | undefined) => !!val && !val.includes("/")
-      )
-  })
-
   return (
     <CustomModal
       className={classes.modalRoot}
@@ -125,7 +115,7 @@ const CreateFolderModal: React.FC<ICreateFolderModalProps> = ({
           helpers.setSubmitting(true)
           try {
             setCreatingFolder(true)
-            await storageApiClient.addBucketDirectory(bucket.id, { path: `${currentPath}/${values.name}` })
+            await storageApiClient.addBucketDirectory(bucket.id, { path: getPathWithFile(currentPath, values.name.trim()) })
             refreshContents && await refreshContents()
             setCreatingFolder(false)
             helpers.resetForm()
