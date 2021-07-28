@@ -69,6 +69,15 @@ describe("File management", () => {
       homePage.fileRenameInput().type("{selectall}{del}{esc}")
       homePage.fileRenameInput().should("not.exist")
       homePage.fileItemName().contains(newName)
+
+      // ensure that the name is reset when renaming is canceled
+      homePage.fileItemKebabButton().first().click()
+      homePage.renameMenuOption().click()
+      homePage.fileRenameInput().type("{selectall}abc{del}{esc}")
+      homePage.fileRenameInput().should("not.exist")
+      homePage.fileItemKebabButton().first().click()
+      homePage.renameMenuOption().click()
+      homePage.fileRenameInput().should("have.value", newName)
     })
 
     it("can delete a single file", () => {
