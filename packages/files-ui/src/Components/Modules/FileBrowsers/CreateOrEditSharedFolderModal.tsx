@@ -24,6 +24,7 @@ import { t, Trans } from "@lingui/macro"
 import { LookupUserRequest } from "@chainsafe/files-api-client"
 import { useUser } from "../../../Contexts/UserContext"
 import { useEffect } from "react"
+import { SharedFolderModalMode } from "./types"
 
 const useStyles = makeStyles(
   ({ breakpoints, constants, typography, zIndex, palette }: CSFTheme) => {
@@ -117,7 +118,7 @@ const useStyles = makeStyles(
 )
 
 interface ICreateOrEditSharedFolderModalProps {
-  mode?: "create" | "edit"
+  mode: SharedFolderModalMode
   isModalOpen: boolean
   onClose: () => void
   bucketToEdit?: BucketKeyPermission

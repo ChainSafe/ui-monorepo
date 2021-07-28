@@ -3,6 +3,8 @@ import { LookupUser } from "@chainsafe/files-api-client"
 import { BucketType, FileSystemItem, UploadProgress } from "../../../Contexts/FilesContext"
 
 export type SharedFolderCreationPermission = "read" | "write" | undefined
+export type SharedFolderModalMode = "create" | "edit" | undefined
+
 
 export interface SharedFolderCreationUser {
   label: string

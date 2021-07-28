@@ -22,6 +22,7 @@ import clsx from "clsx"
 import { useFilesApi } from "../../../Contexts/FilesApiContext"
 import { ROUTE_LINKS } from "../../FilesRoutes"
 import SharedFolderRow from "./views/FileSystemItem/SharedFolderRow"
+import { SharedFolderModalMode } from "./types"
 
 export const desktopSharedGridSettings = "69px 3fr 120px 190px 150px 45px !important"
 export const mobileSharedGridSettings = "3fr 80px 45px !important"
@@ -104,7 +105,7 @@ const SharedFolderOverview = () => {
   const classes = useStyles()
   const { filesApiClient } = useFilesApi()
   const { buckets, isLoadingBuckets, refreshBuckets } = useFiles()
-  const [createOrEditSharedFolderMode, setCreateOrEditSharedFolderMode] = useState<"create" | "edit" | undefined>(undefined)
+  const [createOrEditSharedFolderMode, setCreateOrEditSharedFolderMode] = useState<SharedFolderModalMode>(undefined)
   const [bucketToEdit, setBucketToEdit] = useState<BucketKeyPermission | undefined>(undefined)
   const [direction, setDirection] = useState<SortDirection>("ascend")
   const [column, setColumn] = useState<"name" | "size" | "date_uploaded">("name")
