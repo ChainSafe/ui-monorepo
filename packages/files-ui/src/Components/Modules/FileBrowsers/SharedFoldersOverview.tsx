@@ -105,7 +105,7 @@ const SharedFolderOverview = () => {
   const classes = useStyles()
   const { filesApiClient } = useFilesApi()
   const { buckets, isLoadingBuckets, refreshBuckets } = useFiles()
-  const [createOrEditSharedFolderMode, setCreateOrEditSharedFolderMode] = useState<SharedFolderModalMode>(undefined)
+  const [createOrEditSharedFolderMode, setCreateOrEditSharedFolderMode] = useState<SharedFolderModalMode | undefined>(undefined)
   const [bucketToEdit, setBucketToEdit] = useState<BucketKeyPermission | undefined>(undefined)
   const [direction, setDirection] = useState<SortDirection>("ascend")
   const [column, setColumn] = useState<"name" | "size" | "date_uploaded">("name")

@@ -1,32 +1,60 @@
 import { useCallback, useState } from "react"
-import EthCrypto from "eth-crypto"
-import { useFiles } from "../../../../Contexts/FilesContext"
-import { SharedFolderCreationPermission, SharedFolderCreationUser } from "../types"
+import { BucketKeyPermission, useFiles } from "../../../../Contexts/FilesContext"
+import { SharedUserTagData } from "../types"
 
-export const useCreateSharedFolder = () => {
+export const useCreateAndEditSharedFolder = () => {
   const [isCreatingSharedFolder, setIsCreatingSharedFolder] = useState(false)
-  const { createSharedFolder } = useFiles()
+  const [isEditingSharedFolder, setIsEditingSharedFolder] = useState(false)
+  const { createSharedFolder, editSharedFolder } = useFiles()
 
+  const getSharedUsers = (sharedUserTagData: SharedUserTagData[]) => sharedUserTagData.map(su => ({
+    uuid: su.value,
+    pubKey: su.data.identity_pubkey?.slice(2) || "",
+    encryption_key: su.data.encryption_key
+  }))
 
   const handleCreateSharedFolder = useCallback((
     sharedFolderName: string,
-    sharedFolderUsers: SharedFolderCreationUser[],
-    permissions: SharedFolderCreationPermission
+    sharedFolderReaders: SharedUserTagData[],
+    sharedFolderWriters: SharedUserTagData[]
   ) => {
-    const users = sharedFolderUsers.map(su => ({
-      uuid: su.value,
-      pubKey: EthCrypto.publicKey.decompress(su.data.identity_pubkey.slice(2))
-    }))
-    const readers = (permissions === "read") ? users : []
-    const writers = (permissions === "write") ? users : []
+    const readers = getSharedUsers(sharedFolderReaders)
+    const writers = getSharedUsers(sharedFolderWriters)
     setIsCreatingSharedFolder(true)
     return createSharedFolder(sharedFolderName, writers, readers)
       .then((bucket) => {
         setIsCreatingSharedFolder(false)
         return bucket
       })
-      .catch(console.error)
+      .catch((error) => {
+        setIsCreatingSharedFolder(false)
+        console.error(error)
+      })
   }, [createSharedFolder])
 
-  return { handleCreateSharedFolder, isCreatingSharedFolder }
+  const handleEditSharedFolder = useCallback((
+    bucketToEdit: BucketKeyPermission,
+    sharedFolderReaders: SharedUserTagData[],
+    sharedFolderWriters: SharedUserTagData[]
+  ) => {
+    const readers = getSharedUsers(sharedFolderReaders)
+    const writers = getSharedUsers(sharedFolderWriters)
+    setIsEditingSharedFolder(true)
+    return editSharedFolder(bucketToEdit, writers, readers)
+      .then((bucket) => {
+        setIsEditingSharedFolder(false)
+        return bucket
+      })
+      .catch((error) => {
+        setIsEditingSharedFolder(false)
+        console.error(error)
+      })
+  }, [editSharedFolder])
+
+  return {
+    handleCreateSharedFolder,
+    isCreatingSharedFolder,
+    handleEditSharedFolder,
+    isEditingSharedFolder
+  }
 }
