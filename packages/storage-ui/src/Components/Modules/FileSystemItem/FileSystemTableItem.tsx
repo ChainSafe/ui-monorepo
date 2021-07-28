@@ -1,11 +1,9 @@
-import React from "react"
+import React, { useCallback } from "react"
 import { makeStyles, createStyles, useThemeSwitcher } from "@chainsafe/common-theme"
 import { t } from "@lingui/macro"
 import clsx from "clsx"
 import {
-  Button,
   CheckboxInput,
-  CheckSvg,
   formatBytes,
   FormikTextInput,
   IMenuItem,
@@ -163,6 +161,11 @@ const FileSystemTableItem = React.forwardRef(
       enableReinitialize: true
     })
 
+    const stopEditing = useCallback(() => {
+      setEditing(undefined)
+      formik.resetForm()
+    }, [formik, setEditing])
+
     return  (
       <TableRow
         data-cy="file-item-row"
@@ -203,6 +206,7 @@ const FileSystemTableItem = React.forwardRef(
               <FormikProvider value={formik}>
                 <Form
                   className={classes.desktopRename}
+                  onBlur={stopEditing}
                   data-cy='rename-form'
                 >
                   <FormikTextInput
@@ -211,7 +215,7 @@ const FileSystemTableItem = React.forwardRef(
                     inputVariant="minimal"
                     onKeyDown={(event) => {
                       if (event.key === "Escape") {
-                        setEditing(undefined)
+                        stopEditing()
                       }
                     }}
                     placeholder = {isFolder
@@ -220,15 +224,6 @@ const FileSystemTableItem = React.forwardRef(
                     }
                     autoFocus={editing.cid === cid && editing.name === name}
                   />
-                  <Button
-                    data-cy='rename-submit-button'
-                    variant="dashed"
-                    size="small"
-                    type="submit"
-                    disabled={!formik.dirty}
-                  >
-                    <CheckSvg />
-                  </Button>
                 </Form>
               </FormikProvider>
             )
