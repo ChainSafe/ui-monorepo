@@ -620,6 +620,10 @@ export const darkTheme = createTheme<CsfColors>({
         menu: {
           backgroundColor: "var(--gray1)",
           color: "var(--gray9)"
+        },
+        indicatorsContainer: {
+          backgroundColor: "transparent",
+          color: "red"
         }
       },
       Button: {

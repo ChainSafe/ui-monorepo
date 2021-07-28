@@ -1,4 +1,4 @@
-import React, { ReactNode } from "react"
+import React, { CSSProperties, ReactNode } from "react"
 import {
   makeStyles,
   createStyles,
@@ -6,7 +6,7 @@ import {
   useTheme
 } from "@chainsafe/common-theme"
 import clsx from "clsx"
-import Select from "react-select"
+import Select, { Styles } from "react-select"
 import { Typography } from "../Typography"
 
 const useStyles = makeStyles(
@@ -59,6 +59,7 @@ interface ISelectInputProps {
   isMulti?: boolean
   isClearable?: boolean
   name?: string
+  styles?: Partial<Styles>
 }
 
 const SelectInput: React.FC<ISelectInputProps> = ({
@@ -74,7 +75,8 @@ const SelectInput: React.FC<ISelectInputProps> = ({
   value,
   isMulti,
   name,
-  isClearable = false
+  isClearable = false,
+  styles
 }) => {
   const classes = useStyles()
   const { palette, animation, typography, overrides }: ITheme = useTheme()
@@ -88,6 +90,213 @@ const SelectInput: React.FC<ISelectInputProps> = ({
   const selectValue = Array.isArray(value)
     ? value.map((v) => options.find((o) => o.value === v))
     : options.find((o) => o.value === value)
+
+  const overrideKeys = [
+    "clearIndicator", "container", "control", "dropdownIndicator", "group", "groupHeading", "indicatorsContainer",
+    "indicatorSeparator", "input", "loadingIndicator", "loadingMessage", "menu", "menuList", "menuPortal", "multiValue",
+    "multiValueLabel", "multiValueRemove", "noOptionsMessage", "option", "placeholder", "singleValue", "valueContainer"
+  ]
+
+  // Creates entry to this format
+  //   indicatorsContainer: (provided: any, state: any) => ({
+  //     ...provided,
+  //     ...(styles?.indicatorsContainer ? styles.indicatorsContainer({
+  //       ...provided,
+  //       ...overrides?.TagsInput?.indicatorsContainer
+  //     }, state) : overrides?.TagsInput?.indicatorsContainer)
+  //   }),
+  const selectOverides: Partial<Styles> = {}
+  overrideKeys.map(key => {
+    selectOverides[key] = (provided: CSSProperties, state: any): CSSProperties => ({
+      ...provided,
+      ...(
+        styles && styles[key]
+          ? styles[key]({
+            ...provided,
+            ...overrides?.TagsInput?.[key]
+          }, state)
+          : ({
+            ...provided,
+            ...overrides?.TagsInput?.[key]
+          })
+      )
+    })
+  })
+  selectOverides.container = (provided, state) => ({
+    ...provided,
+    outline: "none",
+    border: `1px solid ${palette.additional["gray"][5]}`,
+    backgroundColor: !state.isDisabled
+      ? palette.common.white.main
+      : palette.additional["gray"][3],
+    borderRadius: 2,
+    "&:hover": {
+      border: `1px solid ${palette.primary.main}`
+    },
+    ...(
+      styles && styles.container
+        ? styles.container({
+          ...provided,
+          ...overrides?.SelectInput?.container
+        }, state)
+        : ({
+          ...provided,
+          ...overrides?.SelectInput?.container
+        })
+    )
+  })
+
+  selectOverides.control = (provided, state) => ({
+    ...provided,
+    outline: "none",
+    border: "none",
+    borderRadius: 2,
+    ...(
+      styles && styles.control
+        ? styles.control({
+          ...provided,
+          ...overrides?.SelectInput?.control
+        }, state)
+        : ({
+          ...provided,
+          ...overrides?.SelectInput?.control
+        })
+    )
+  })
+
+  selectOverides.menu = (provided, state) => ({
+    ...provided,
+    marginTop: 2,
+    marginBottom: 0,
+    ...(
+      styles && styles.menu
+        ? styles.menu({
+          ...provided,
+          ...overrides?.SelectInput?.menu
+        }, state)
+        : ({
+          ...provided,
+          ...overrides?.SelectInput?.menu
+        })
+    )
+  })
+
+  selectOverides.dropdownIndicator = (provided, state) => ({
+    ...provided,
+    transform: state.selectProps.menuIsOpen && "rotate(180deg)",
+    transitionProperty: "transform",
+    transitionDuration: `${animation.transform * 2}ms`,
+    ...(
+      styles && styles.dropdownIndicator
+        ? styles.dropdownIndicator({
+          ...provided,
+          ...overrides?.SelectInput?.dropdownIndicator
+        }, state)
+        : ({
+          ...provided,
+          ...overrides?.SelectInput?.dropdownIndicator
+        })
+    )
+  })
+
+  selectOverides.singleValue = (provided, state) => ({
+    ...provided,
+    ...typography.body2,
+    color: !state.isDisabled
+      ? palette.additional["gray"][8]
+      : palette.additional["gray"][6],
+    ...(
+      styles && styles.singleValue
+        ? styles.singleValue({
+          ...provided,
+          ...overrides?.SelectInput?.singleValue
+        }, state)
+        : ({
+          ...provided,
+          ...overrides?.SelectInput?.singleValue
+        })
+    )
+  })
+
+  selectOverides.placeholder = (provided, state) => ({
+    ...provided,
+    color: !state.isDisabled
+      ? palette.additional["gray"][8]
+      : palette.additional["gray"][6],
+    ...(
+      styles && styles.placeholder
+        ? styles.placeholder({
+          ...provided,
+          ...overrides?.SelectInput?.placeholder
+        }, state)
+        : ({
+          ...provided,
+          ...overrides?.SelectInput?.placeholder
+        })
+    )
+  })
+
+  selectOverides.option = (provided, state) => ({
+    ...provided,
+    ...typography.body2,
+    backgroundColor: state.isSelected && palette.additional["gray"][3],
+    color: palette.additional["gray"][8],
+    fontWeight: state.isSelected && typography.fontWeight.bold,
+    "&:hover": {
+      backgroundColor: palette.additional["blue"][1]
+    },
+    ...(
+      styles && styles.option
+        ? styles.option({
+          ...provided,
+          ...overrides?.SelectInput?.option
+        }, state)
+        : ({
+          ...provided,
+          ...overrides?.SelectInput?.option
+        })
+    )
+  })
+
+  selectOverides.valueContainer = (provided, state) => ({
+    ...provided,
+    ...typography.body2,
+    paddingTop: 0,
+    paddingBottom: 0,
+    ...(
+      styles && styles.valueContainer
+        ? styles.valueContainer({
+          ...provided,
+          ...overrides?.SelectInput?.valueContainer
+        }, state)
+        : ({
+          ...provided,
+          ...overrides?.SelectInput?.valueContainer
+        })
+    )
+  })
+
+  selectOverides.indicatorsContainer = (provided, state) => ({
+    ...provided,
+    "& > div": {
+      paddingTop: 0,
+      paddingBottom: 0
+    },
+    ...(
+      styles && styles.indicatorsContainer
+        ? styles.indicatorsContainer({
+          ...provided,
+          ...overrides?.SelectInput?.indicatorsContainer
+        }, state)
+        : ({
+          ...provided,
+          ...overrides?.SelectInput?.indicatorsContainer
+        })
+    )
+  })
+
+  console.log(selectOverides)
+  console.log(selectOverides.indicatorsContainer({}, {}))
 
   return (
     <div className={clsx(classes.root, className)}>
@@ -109,82 +318,7 @@ const SelectInput: React.FC<ISelectInputProps> = ({
         value={selectValue}
         isMulti={isMulti}
         name={name}
-        styles={{
-          container: (provided, state) => ({
-            ...provided,
-            outline: "none",
-            border: `1px solid ${palette.additional["gray"][5]}`,
-            backgroundColor: !state.isDisabled
-              ? palette.common.white.main
-              : palette.additional["gray"][3],
-            borderRadius: 2,
-            "&:hover": {
-              border: `1px solid ${palette.primary.main}`
-            },
-            ...overrides?.SelectInput?.container
-          }),
-          control: (provided) => ({
-            ...provided,
-            outline: "none",
-            border: "none",
-            borderRadius: 2,
-            ...overrides?.SelectInput?.control
-          }),
-          menu: (provided) => ({
-            ...provided,
-            marginTop: 2,
-            marginBottom: 0,
-            ...overrides?.SelectInput?.menu
-          }),
-          dropdownIndicator: (provided, state) => ({
-            ...provided,
-            transform: state.selectProps.menuIsOpen && "rotate(180deg)",
-            transitionProperty: "transform",
-            transitionDuration: `${animation.transform * 2}ms`,
-            ...overrides?.SelectInput?.dropdownIndicator
-          }),
-          singleValue: (provided, state) => ({
-            ...provided,
-            ...typography.body2,
-            color: !state.isDisabled
-              ? palette.additional["gray"][8]
-              : palette.additional["gray"][6],
-            ...overrides?.SelectInput?.singleValue
-          }),
-          placeholder: (provided, state) => ({
-            ...provided,
-            color: !state.isDisabled
-              ? palette.additional["gray"][8]
-              : palette.additional["gray"][6],
-            ...overrides?.SelectInput?.placeholder
-          }),
-          option: (provided, state) => ({
-            ...provided,
-            ...typography.body2,
-            backgroundColor: state.isSelected && palette.additional["gray"][3],
-            color: palette.additional["gray"][8],
-            fontWeight: state.isSelected && typography.fontWeight.bold,
-            "&:hover": {
-              backgroundColor: palette.additional["blue"][1]
-            },
-            ...overrides?.SelectInput?.option
-          }),
-          valueContainer: (provided) => ({
-            ...provided,
-            ...typography.body2,
-            paddingTop: 0,
-            paddingBottom: 0,
-            ...overrides?.SelectInput?.valueContainer
-          }),
-          indicatorsContainer: (provided) => ({
-            ...provided,
-            "& > div": {
-              paddingTop: 0,
-              paddingBottom: 0
-            },
-            ...overrides?.SelectInput?.indicatorsContainer
-          })
-        }}
+        styles={styles}
         theme={(selectTheme) => ({
           ...selectTheme,
           spacing: {
