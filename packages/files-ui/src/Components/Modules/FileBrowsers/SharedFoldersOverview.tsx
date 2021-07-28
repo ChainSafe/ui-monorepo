@@ -168,11 +168,13 @@ const SharedFolderOverview = () => {
             <Trans>Shared folders</Trans>
           </Typography>
           <div className={classes.controls}>
-            <Button variant='outline'
+            <Button
+              variant='outline'
               onClick={() => {
                 setBucketToEdit(undefined)
                 setCreateOrEditSharedFolderMode("create")
-              }}>
+              }}
+            >
               <PlusIcon />
               <Trans>Create a Shared Folder</Trans>
             </Button>
