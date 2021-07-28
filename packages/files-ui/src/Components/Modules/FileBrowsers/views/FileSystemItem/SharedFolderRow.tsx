@@ -223,6 +223,11 @@ const SharedFolderRow = ({ bucket, handleRename, openSharedFolder, handleDeleteS
     }
   })
 
+  const stopEditing = useCallback(() => {
+    setIsRenaming(false)
+    formik.resetForm()
+  }, [formik, setIsRenaming])
+
   return  (
     <TableRow
       data-cy="shared-folder-item-row"
@@ -249,10 +254,7 @@ const SharedFolderRow = ({ bucket, handleRename, openSharedFolder, handleDeleteS
             <Form
               className={classes.desktopRename}
               data-cy='rename-form'
-              onBlur={() => {
-                setIsRenaming(false)
-                formik.resetForm()
-              }}
+              onBlur={stopEditing}
             >
               <FormikTextInput
                 className={classes.renameInput}
@@ -260,8 +262,7 @@ const SharedFolderRow = ({ bucket, handleRename, openSharedFolder, handleDeleteS
                 inputVariant="minimal"
                 onKeyDown={(event) => {
                   if (event.key === "Escape") {
-                    setIsRenaming(false)
-                    formik.resetForm()
+                    stopEditing()
                   }
                 }}
                 placeholder = {t`Please enter a folder name`}

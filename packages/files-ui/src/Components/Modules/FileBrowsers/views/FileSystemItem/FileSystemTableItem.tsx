@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useCallback } from "react"
 import { makeStyles, createStyles, useThemeSwitcher } from "@chainsafe/common-theme"
 import { t } from "@lingui/macro"
 import clsx from "clsx"
@@ -154,6 +154,11 @@ const FileSystemTableItem = React.forwardRef(
       enableReinitialize: true
     })
 
+    const stopEditing = useCallback(() => {
+      setEditing(undefined)
+      formik.resetForm()
+    }, [formik, setEditing])
+
     return  (
       <TableRow
         data-cy="file-item-row"
@@ -192,7 +197,7 @@ const FileSystemTableItem = React.forwardRef(
                 <Form
                   className={classes.desktopRename}
                   data-cy='rename-form'
-                  onBlur={() => setEditing(undefined)}
+                  onBlur={stopEditing}
                 >
                   <FormikTextInput
                     className={classes.renameInput}
@@ -200,7 +205,7 @@ const FileSystemTableItem = React.forwardRef(
                     inputVariant="minimal"
                     onKeyDown={(event) => {
                       if (event.key === "Escape") {
-                        setEditing(undefined)
+                        stopEditing()
                       }
                     }}
                     placeholder = {isFolder

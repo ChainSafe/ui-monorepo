@@ -195,6 +195,11 @@ const FileSystemGridItem = React.forwardRef(
       }
     }, [handleClickOutside])
 
+    const stopEditing = useCallback(() => {
+      setEditing(undefined)
+      formik.resetForm()
+    }, [formik, setEditing])
+
     return  (
       <div
         className={classes.gridViewContainer}
@@ -222,14 +227,17 @@ const FileSystemGridItem = React.forwardRef(
           </div>
           {(editing?.cid === cid && editing.name === name) && desktop ? (
             <FormikProvider value={formik}>
-              <Form className={classes.desktopRename}>
+              <Form
+                className={classes.desktopRename}
+                onBlur={stopEditing}
+              >
                 <FormikTextInput
                   className={classes.renameInput}
                   name="fileName"
                   inputVariant="minimal"
                   onKeyDown={(event) => {
                     if (event.key === "Escape") {
-                      setEditing(undefined)
+                      stopEditing()
                     }
                   }}
                   placeholder = {isFolder

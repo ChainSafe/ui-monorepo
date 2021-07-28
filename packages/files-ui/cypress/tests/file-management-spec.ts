@@ -44,7 +44,7 @@ describe("File management", () => {
       homePage.fileItemRow().should("have.length", 2)
     })
 
-    it("can rename a file with error handling", () => {
+    it.only("can rename a file with error handling", () => {
       const newName = "awesome new name"
 
       cy.web3Login({ clearCSFBucket: true })
@@ -69,6 +69,15 @@ describe("File management", () => {
       homePage.fileRenameInput().type("{selectall}{del}{esc}")
       homePage.fileRenameInput().should("not.exist")
       homePage.fileItemName().contains(newName)
+
+      // ensure that the name is reset
+      homePage.fileItemKebabButton().first().click()
+      homePage.renameMenuOption().click()
+      homePage.fileRenameInput().type("{selectall}abc{del}{esc}")
+      homePage.fileRenameInput().should("not.exist")
+      homePage.fileItemKebabButton().first().click()
+      homePage.renameMenuOption().click()
+      homePage.fileRenameInput().contains(newName)
     })
 
     it("can delete a single file", () => {
