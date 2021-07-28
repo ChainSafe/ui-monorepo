@@ -11,7 +11,7 @@ import {
 import { CSSTheme } from "../../../Themes/types"
 import { FileSystemItem } from "../../../Contexts/StorageContext"
 import { ConnectDragPreview } from "react-dnd"
-import { Form, Formik } from "formik"
+import { Form, FormikProvider, useFormik } from "formik"
 import { renameSchema } from "../../../Utils/validationSchema"
 import { ISelectedFile } from "../../../Contexts/FileBrowserContext"
 
@@ -157,6 +157,22 @@ const FileSystemGridItem = React.forwardRef(
     const { name, cid } = file
     const { desktop } = useThemeSwitcher()
 
+    const formik = useFormik({
+      initialValues: {
+        fileName: name
+      },
+      validationSchema: renameSchema,
+      onSubmit: (values) => {
+        const newName = values.fileName?.trim()
+
+        newName && handleRename && handleRename({
+          cid: file.cid,
+          name: file.name
+        }, newName)
+      },
+      enableReinitialize: true
+    })
+
     const handleClickOutside = useCallback(
       (e) => {
         if (forwardedRef.current && forwardedRef.current.contains(e.target)) {
@@ -178,6 +194,11 @@ const FileSystemGridItem = React.forwardRef(
         document.removeEventListener("click", handleClickOutside)
       }
     }, [handleClickOutside])
+
+    const stopEditing = useCallback(() => {
+      setEditing(undefined)
+      formik.resetForm()
+    }, [formik, setEditing])
 
     return  (
       <div
@@ -205,29 +226,18 @@ const FileSystemGridItem = React.forwardRef(
             {icon}
           </div>
           {(editing?.cid === cid && editing.name === name) && desktop ? (
-            <Formik
-              initialValues={{
-                fileName: name
-              }}
-              validationSchema={renameSchema}
-              onSubmit={(values) => {
-                const newName = values.fileName?.trim()
-
-                newName && handleRename && handleRename({
-                  cid: file.cid,
-                  name: file.name
-                }, newName)
-              }}
-              enableReinitialize= {true}
-            >
-              <Form className={classes.desktopRename}>
+            <FormikProvider value={formik}>
+              <Form
+                className={classes.desktopRename}
+                onBlur={stopEditing}
+              >
                 <FormikTextInput
                   className={classes.renameInput}
                   name="fileName"
                   inputVariant="minimal"
                   onKeyDown={(event) => {
                     if (event.key === "Escape") {
-                      setEditing(undefined)
+                      stopEditing()
                     }
                   }}
                   placeholder = {isFolder
@@ -237,7 +247,7 @@ const FileSystemGridItem = React.forwardRef(
                   autoFocus={editing.cid === cid && editing.name === name}
                 />
               </Form>
-            </Formik>
+            </FormikProvider>
           ) : (
             <div className={classes.gridFolderName}>{name}</div>
           )}
