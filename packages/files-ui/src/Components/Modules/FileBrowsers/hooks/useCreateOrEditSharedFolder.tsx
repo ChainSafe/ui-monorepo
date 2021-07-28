@@ -2,7 +2,7 @@ import { useCallback, useState } from "react"
 import { BucketKeyPermission, useFiles } from "../../../../Contexts/FilesContext"
 import { SharedUserTagData } from "../types"
 
-export const useCreateAndEditSharedFolder = () => {
+export const useCreateOrEditSharedFolder = () => {
   const [isCreatingSharedFolder, setIsCreatingSharedFolder] = useState(false)
   const [isEditingSharedFolder, setIsEditingSharedFolder] = useState(false)
   const { createSharedFolder, editSharedFolder } = useFiles()

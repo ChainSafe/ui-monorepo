@@ -15,7 +15,7 @@ import {
 } from "@chainsafe/common-components"
 import { CSFTheme } from "../../../Themes/types"
 import { useCallback } from "react"
-import { useCreateAndEditSharedFolder } from "./hooks/useCreateSharedFolder"
+import { useCreateOrEditSharedFolder } from "./hooks/useCreateOrEditSharedFolder"
 import { useLookupSharedFolderUser } from "./hooks/useLookupUser"
 import { useMemo } from "react"
 import { BucketKeyPermission, FileSystemItem, useFiles } from "../../../Contexts/FilesContext"
@@ -195,7 +195,7 @@ interface IShareFileProps {
 
 const CopyToSharedFolderModal = ({ close, file, filePath }: IShareFileProps) => {
   const classes = useStyles()
-  const { isCreatingSharedFolder, handleCreateSharedFolder } = useCreateAndEditSharedFolder()
+  const { isCreatingSharedFolder, handleCreateSharedFolder } = useCreateOrEditSharedFolder()
   const [sharedFolderName, setSharedFolderName] = useState("")
   const {
     sharedFolderReaders,

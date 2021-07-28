@@ -19,7 +19,7 @@ import CustomButton from "../../Elements/CustomButton"
 import { t, Trans } from "@lingui/macro"
 import { useEffect } from "react"
 import { SharedFolderModalMode } from "./types"
-import { useCreateAndEditSharedFolder } from "./hooks/useCreateSharedFolder"
+import { useCreateOrEditSharedFolder } from "./hooks/useCreateOrEditSharedFolder"
 import { useLookupSharedFolderUser } from "./hooks/useLookupUser"
 
 const useStyles = makeStyles(
@@ -132,7 +132,7 @@ const CreateOrEditSharedFolderModal = ({
     handleEditSharedFolder,
     isEditingSharedFolder,
     isCreatingSharedFolder
-  } = useCreateAndEditSharedFolder()
+  } = useCreateOrEditSharedFolder()
   const [sharedFolderName, setSharedFolderName] = useState("")
   const {
     sharedFolderReaders,
