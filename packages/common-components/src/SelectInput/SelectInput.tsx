@@ -102,22 +102,21 @@ const SelectInput: React.FC<ISelectInputProps> = ({
   //     ...provided,
   //     ...(styles?.indicatorsContainer ? styles.indicatorsContainer({
   //       ...provided,
-  //       ...overrides?.TagsInput?.indicatorsContainer
-  //     }, state) : overrides?.TagsInput?.indicatorsContainer)
+  //       ...overrides?.SelectInput?.indicatorsContainer
+  //     }, state) : overrides?.SelectInput?.indicatorsContainer)
   //   }),
   const selectOverides: Partial<Styles> = {}
   overrideKeys.map(key => {
     selectOverides[key] = (provided: CSSProperties, state: any): CSSProperties => ({
-      ...provided,
       ...(
         styles && styles[key]
           ? styles[key]({
             ...provided,
-            ...overrides?.TagsInput?.[key]
+            ...overrides?.SelectInput?.[key]
           }, state)
           : ({
             ...provided,
-            ...overrides?.TagsInput?.[key]
+            ...overrides?.SelectInput?.[key]
           })
       )
     })
@@ -295,9 +294,6 @@ const SelectInput: React.FC<ISelectInputProps> = ({
     )
   })
 
-  console.log(selectOverides)
-  console.log(selectOverides.indicatorsContainer({}, {}))
-
   return (
     <div className={clsx(classes.root, className)}>
       {label && label.length > 0 && (
@@ -318,7 +314,7 @@ const SelectInput: React.FC<ISelectInputProps> = ({
         value={selectValue}
         isMulti={isMulti}
         name={name}
-        styles={styles}
+        styles={selectOverides}
         theme={(selectTheme) => ({
           ...selectTheme,
           spacing: {

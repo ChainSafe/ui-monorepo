@@ -97,7 +97,6 @@ const TagsInput = ({
   const selectOverides: Partial<Styles> = {}
   overrideKeys.map(key => {
     selectOverides[key] = (provided: CSSProperties, state: any): CSSProperties => ({
-      ...provided,
       ...(
         styles && styles[key]
           ? styles[key]({

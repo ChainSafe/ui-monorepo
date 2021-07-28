@@ -623,7 +623,13 @@ export const darkTheme = createTheme<CsfColors>({
         },
         indicatorsContainer: {
           backgroundColor: "transparent",
-          color: "red"
+          // No exposed .indicatorContainer from react-select
+          "& > div:last-child": {
+            backgroundColor: "transparent !important",
+            "&:hover": {
+              color: "var(--gray9)"
+            }
+          }
         }
       },
       Button: {
