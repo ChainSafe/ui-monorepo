@@ -1,6 +1,9 @@
-import React, { useMemo } from "react"
-import { makeStyles, createStyles, useThemeSwitcher } from "@chainsafe/common-theme"
+import React, { useCallback, useMemo, useState } from "react"
+import { makeStyles, createStyles, useThemeSwitcher, useDoubleClick } from "@chainsafe/common-theme"
 import {
+  CloseCirceSvg,
+  DeleteSvg,
+  EditSvg,
   FolderFilledIcon,
   formatBytes,
   FormikTextInput,
@@ -9,13 +12,14 @@ import {
   MoreIcon,
   TableCell,
   TableRow,
-  Typography
+  Typography,
+  UpdateSvg
 } from "@chainsafe/common-components"
 import { CSFTheme } from "../../../../../Themes/types"
 import { BucketUser } from "@chainsafe/files-api-client"
 import { desktopSharedGridSettings, mobileSharedGridSettings } from "../../SharedFoldersOverview"
 import SharedUsers from "../../../../Elements/SharedUser"
-import { t } from "@lingui/macro"
+import { t, Trans } from "@lingui/macro"
 import { Form, FormikProvider, useFormik } from "formik"
 import clsx from "clsx"
 import { BucketKeyPermission } from "../../../../../Contexts/FilesContext"
@@ -108,18 +112,93 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => 
 
 interface Props {
   bucket: BucketKeyPermission
-  onFolderClick: (e?: React.MouseEvent) => void
-  menuItems: IMenuItem[]
-  isEditing: boolean
-  setIsEditing: (isEditing: boolean) => void
   handleRename: (bucket: BucketKeyPermission, newName: string) => void
+  openSharedFolder: (bucketId: string) => void
+  onEditSharedFolder: () => void
+  handleDeleteSharedFolder: () => void
 }
 
-const SharedFolderRow = ({ bucket, onFolderClick, menuItems, isEditing, setIsEditing, handleRename }: Props) => {
+const SharedFolderRow = ({ bucket, handleRename, openSharedFolder, handleDeleteSharedFolder, onEditSharedFolder }: Props) => {
   const classes = useStyles()
   const { name, size } = bucket
+
   const { desktop } = useThemeSwitcher()
+  const [isRenaming, setIsRenaming] = useState(false)
+
   const isOwner = useMemo(() => bucket.permission === "owner", [bucket.permission])
+
+  const menuItems: IMenuItem[] = isOwner
+    ? [{
+      contents: (
+        <>
+          <EditSvg className={classes.menuIcon} />
+          <span data-cy="menu-rename">
+            <Trans>Rename</Trans>
+          </span>
+        </>
+      ),
+      onClick: () => setIsRenaming(true)
+    },
+    {
+      contents: (
+        <>
+          <UpdateSvg className={classes.menuIcon} />
+          <span data-cy="menu-edit">
+            <Trans>Edit</Trans>
+          </span>
+        </>
+      ),
+      onClick: onEditSharedFolder
+    }, {
+      contents: (
+        <>
+          <DeleteSvg className={classes.menuIcon} />
+          <span data-cy="menu-delete">
+            <Trans>Delete</Trans>
+          </span>
+        </>
+      ),
+      onClick: handleDeleteSharedFolder
+    }]
+    : [{
+      contents: (
+        <>
+          <CloseCirceSvg className={classes.menuIcon} />
+          <span data-cy="menu-delete">
+            <Trans>Leave</Trans>
+          </span>
+        </>
+      ),
+      onClick: handleDeleteSharedFolder
+    }]
+
+
+  const onSingleClick = useCallback(
+    () => {
+      if (!desktop) {
+        // on mobile
+        openSharedFolder(bucket.id)
+      }
+    },
+    [desktop, openSharedFolder, bucket]
+  )
+
+  const onDoubleClick = useCallback(
+    () => {
+      if (desktop) {
+        // on desktop
+        openSharedFolder(bucket.id)
+      }
+    },
+    [desktop, openSharedFolder, bucket]
+  )
+
+  const { click } = useDoubleClick(onSingleClick, onDoubleClick)
+
+  const onFolderClick = (e?: React.MouseEvent) => {
+    e?.persist()
+    click(e)
+  }
 
   const getUserIds = (users: BucketUser[]): string[] => {
     return users.reduce((acc: string[], user): string[] => {
@@ -139,7 +218,7 @@ const SharedFolderRow = ({ bucket, onFolderClick, menuItems, isEditing, setIsEdi
       const newName = values.fileName?.trim()
 
       newName && handleRename && handleRename(bucket, newName)
-      setIsEditing(false)
+      setIsRenaming(false)
       resetForm()
     }
   })
@@ -161,17 +240,17 @@ const SharedFolderRow = ({ bucket, onFolderClick, menuItems, isEditing, setIsEdi
       <TableCell
         data-cy="shared-folder-item-name"
         align="left"
-        className={clsx(classes.filename, desktop && isEditing && "editing")}
+        className={clsx(classes.filename, desktop && isRenaming && "editing")}
         onClick={(e) => onFolderClick(e)}
       >
-        {!isEditing
+        {!isRenaming
           ? <Typography>{name}</Typography>
           : <FormikProvider value={formik}>
             <Form
               className={classes.desktopRename}
               data-cy='rename-form'
               onBlur={() => {
-                setIsEditing(false)
+                setIsRenaming(false)
                 formik.resetForm()
               }}
             >
@@ -181,12 +260,12 @@ const SharedFolderRow = ({ bucket, onFolderClick, menuItems, isEditing, setIsEdi
                 inputVariant="minimal"
                 onKeyDown={(event) => {
                   if (event.key === "Escape") {
-                    setIsEditing(false)
+                    setIsRenaming(false)
                     formik.resetForm()
                   }
                 }}
                 placeholder = {t`Please enter a folder name`}
-                autoFocus={isEditing}
+                autoFocus={isRenaming}
               />
             </Form>
           </FormikProvider>
@@ -212,20 +291,18 @@ const SharedFolderRow = ({ bucket, onFolderClick, menuItems, isEditing, setIsEdi
         </TableCell>
       }
       <TableCell align="right">
-        {isOwner &&
-          <MenuDropdown
-            testId='sharedFolderDropdown'
-            animation="none"
-            anchor={desktop ? "bottom-center" : "bottom-right"}
-            menuItems={menuItems}
-            classNames={{
-              icon: classes.dropdownIcon,
-              options: classes.dropdownOptions,
-              item: classes.dropdownItem
-            }}
-            indicator={MoreIcon}
-          />
-        }
+        <MenuDropdown
+          testId='sharedFolderDropdown'
+          animation="none"
+          anchor={desktop ? "bottom-center" : "bottom-right"}
+          menuItems={menuItems}
+          classNames={{
+            icon: classes.dropdownIcon,
+            options: classes.dropdownOptions,
+            item: classes.dropdownItem
+          }}
+          indicator={MoreIcon}
+        />
       </TableCell>
     </TableRow>
   )
