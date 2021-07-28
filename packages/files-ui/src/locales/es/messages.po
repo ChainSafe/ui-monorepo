@@ -44,12 +44,6 @@ msgstr ""
 msgid "Add more files"
 msgstr "Agrega mas archivos"
 
-msgid "Add/remove content"
-msgstr ""
-
-msgid "Allow them to"
-msgstr ""
-
 msgid "Approve"
 msgstr "Aprobar"
 
@@ -509,9 +503,6 @@ msgstr ""
 msgid "Profile updated"
 msgstr "Perfil actualizado"
 
-msgid "Read content"
-msgstr ""
-
 msgid "Recover"
 msgstr "Recuperar"
 
@@ -625,9 +616,6 @@ msgstr "Ajustes"
 
 msgid "Setup incomplete"
 msgstr "Configuración incompleta"
-
-msgid "Share with"
-msgstr ""
 
 msgid "Shared"
 msgstr ""

@@ -43,12 +43,6 @@ msgstr "Add by sharing address, username or wallet address"
 msgid "Add more files"
 msgstr "Add more files"
 
-msgid "Add/remove content"
-msgstr "Add/remove content"
-
-msgid "Allow them to"
-msgstr "Allow them to"
-
 msgid "Approve"
 msgstr "Approve"
 
@@ -508,9 +502,6 @@ msgstr "Profile settings"
 msgid "Profile updated"
 msgstr "Profile updated"
 
-msgid "Read content"
-msgstr "Read content"
-
 msgid "Recover"
 msgstr "Recover"
 
@@ -624,9 +615,6 @@ msgstr "Settings"
 
 msgid "Setup incomplete"
 msgstr "Setup incomplete"
-
-msgid "Share with"
-msgstr "Share with"
 
 msgid "Shared"
 msgstr "Shared"
