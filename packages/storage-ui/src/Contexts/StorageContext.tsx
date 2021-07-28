@@ -73,6 +73,15 @@ const StorageProvider = ({ children }: StorageContextProps) => {
   const [storageBuckets, setStorageBuckets] = useState<Bucket[]>([])
   const [pins, setPins] = useState<PinStatus[]>([])
 
+  const getStorageSummary = useCallback(async () => {
+    try {
+      const bucketSummaryData = await storageApiClient.bucketsSummary()
+      setBucketSummary(bucketSummaryData)
+    } catch (error) {
+      console.error(error)
+    }
+  }, [storageApiClient])
+
   const refreshPins = useCallback(() => {
     storageApiClient.listPins(
       undefined,
@@ -83,16 +92,8 @@ const StorageProvider = ({ children }: StorageContextProps) => {
       50
     ).then((pins) =>  setPins(pins.results || []))
       .catch(console.error)
-  }, [storageApiClient])
-
-  const getStorageSummary = useCallback(async () => {
-    try {
-      const bucketSummaryData = await storageApiClient.bucketsSummary()
-      setBucketSummary(bucketSummaryData)
-    } catch (error) {
-      console.error(error)
-    }
-  }, [storageApiClient])
+      .finally(() => getStorageSummary())
+  }, [storageApiClient, getStorageSummary])
 
   const refreshBuckets = useCallback(() => {
     storageApiClient.listBuckets()
