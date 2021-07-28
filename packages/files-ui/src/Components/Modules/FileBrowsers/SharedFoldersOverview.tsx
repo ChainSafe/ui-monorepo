@@ -265,7 +265,7 @@ const SharedFolderOverview = () => {
           setBucketToEdit(undefined)
           setCreateOrEditSharedFolderMode(undefined)
         }}
-        bucket={bucketToEdit}
+        bucketToEdit={bucketToEdit}
       />
       <Dialog
         active={isDeleteBucketModalOpen}

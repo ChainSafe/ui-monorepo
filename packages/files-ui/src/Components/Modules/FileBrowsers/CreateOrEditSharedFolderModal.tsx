@@ -120,7 +120,7 @@ interface ICreateOrEditSharedFolderModalProps {
   mode?: "create" | "edit"
   isModalOpen: boolean
   onClose: () => void
-  bucket?: BucketKeyPermission
+  bucketToEdit?: BucketKeyPermission
 }
 
 interface SharedUser {
@@ -141,7 +141,7 @@ const CreateOrEditSharedFolderModal = ({
   mode,
   isModalOpen,
   onClose,
-  bucket
+  bucketToEdit
 }: ICreateOrEditSharedFolderModalProps) => {
   const classes = useStyles()
   const { editSharedFolder, createSharedFolder } = useFiles()
@@ -155,9 +155,9 @@ const CreateOrEditSharedFolderModal = ({
   const [sharedFolderReaders, setSharedFolderReaders] = useState<UserPermission[]>([])
 
   useEffect(() => {
-    if (!bucket) return
+    if (!bucketToEdit) return
     setSharedFolderWriters(
-      bucket.writers.map((writer) => ({
+      bucketToEdit.writers.map((writer) => ({
         label: writer.uuid || "",
         value: writer.uuid || "",
         data: writer
@@ -165,7 +165,7 @@ const CreateOrEditSharedFolderModal = ({
       ) || []
     )
     setSharedFolderReaders(
-      bucket.readers.map((reader) => ({
+      bucketToEdit.readers.map((reader) => ({
         label: reader.uuid || "",
         value: reader.uuid || "",
         data: reader
@@ -174,7 +174,7 @@ const CreateOrEditSharedFolderModal = ({
     )
     setError("")
     setHasPermissionsChanged(false)
-  }, [bucket])
+  }, [bucketToEdit])
 
   const { desktop } = useThemeSwitcher()
 
@@ -227,17 +227,17 @@ const CreateOrEditSharedFolderModal = ({
   }, [sharedFolderName, sharedFolderWriters, sharedFolderReaders, createSharedFolder, handleClose])
 
   const handleUpdateSharedFolder = useCallback(() => {
-    if (!bucket) return
+    if (!bucketToEdit) return
 
     const readers = getUserPermission(sharedFolderReaders)
     const writers = getUserPermission(sharedFolderWriters)
 
     setIsLoadingSharedFolder(true)
-    editSharedFolder(bucket, writers, readers)
+    editSharedFolder(bucketToEdit, writers, readers)
       .then(handleClose)
       .catch(console.error)
       .finally(() => setIsLoadingSharedFolder(false))
-  }, [sharedFolderWriters, sharedFolderReaders, editSharedFolder, handleClose, bucket])
+  }, [sharedFolderWriters, sharedFolderReaders, editSharedFolder, handleClose, bucketToEdit])
 
   const onNewReaders = (val: ITagValueType<ITagOption, true>, action: ITagActionMeta<ITagOption>) => {
     if (action.action === "select-option") {
