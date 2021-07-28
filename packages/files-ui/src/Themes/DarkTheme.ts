@@ -473,7 +473,7 @@ export const darkTheme = createTheme<CsfColors>({
           color: "var(--gray9)"
         },
         createShareModal: {
-          backgroundColor: "var(--gray1)",
+          backgroundColor: "var(--gray2)",
           color: "var(--gray10)",
           iconBackingColor: "#EBEEFF"
         }
