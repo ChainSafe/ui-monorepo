@@ -221,7 +221,8 @@ const BucketPage: React.FC<IFileBrowserModuleProps> = () => {
       controls: true,
       allowDropUpload: true,
       itemOperations,
-      withSurvey: showSurvey
+      withSurvey: showSurvey,
+      fileSystemType: bucket?.file_system_type
     }}>
       <DragAndDrop>
         <FilesList />
