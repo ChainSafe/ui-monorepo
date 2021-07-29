@@ -32,7 +32,6 @@ import { BrowserView, FileOperation } from "../../../Contexts/types"
 import { DragTypes } from "../FilesList/DragConstants"
 import { renameSchema } from "../../../Utils/validationSchema"
 import { getPathWithFile } from "../../../Utils/pathUtils"
-import { FileSystemType } from "@chainsafe/files-api-client"
 
 const useStyles = makeStyles(({ breakpoints, constants }: CSSTheme) => {
   return createStyles({
@@ -121,7 +120,6 @@ interface IFileSystemItemProps {
   itemOperations: FileOperation[]
   resetSelectedFiles: () => void
   browserView: BrowserView
-  fileSystemType: FileSystemType | undefined
 }
 
 const FileSystemItem = ({
@@ -141,8 +139,7 @@ const FileSystemItem = ({
   handleAddToSelectedCids,
   itemOperations,
   browserView,
-  resetSelectedFiles,
-  fileSystemType
+  resetSelectedFiles
 }: IFileSystemItemProps) => {
   const { downloadFile, currentPath, handleUploadOnDrop, moveItems } = useFileBrowser()
   const { cid, name, isFolder, content_type } = file
@@ -414,8 +411,7 @@ const FileSystemItem = ({
     preview,
     selected,
     setEditing,
-    resetSelectedFiles,
-    fileSystemType
+    resetSelectedFiles
   }
 
   return (

@@ -887,7 +887,6 @@ const FilesList = () => {
                   setIsMoveFileModalOpen(true)
                   setMoveModalMode("recover")
                 }}
-                fileSystemType={fileSystemType}
               />
             ))}
           </TableBody>
@@ -943,7 +942,6 @@ const FilesList = () => {
                 setMoveModalMode("recover")
               }}
               browserView="grid"
-              fileSystemType={fileSystemType}
             />
           ))}
         </section>
