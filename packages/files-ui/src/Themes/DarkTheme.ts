@@ -547,7 +547,6 @@ export const darkTheme = createTheme<CsfColors>({
       },
       TagsInput: {
         root: {
-          backgroundColor: "var(--gray1)",
           color: "var(--gray9)"
         },
         container: {
@@ -598,7 +597,6 @@ export const darkTheme = createTheme<CsfColors>({
       },
       SelectInput: {
         root: {
-          backgroundColor: "var(--gray1)",
           color: "var(--gray9)"
         },
         control: {
@@ -630,6 +628,9 @@ export const darkTheme = createTheme<CsfColors>({
               color: "var(--gray9)"
             }
           }
+        },
+        singleValue: {
+          color: "var(--gray9)"
         }
       },
       Button: {
