@@ -195,7 +195,7 @@ const SharedFileBrowser = () => {
   }, [addToastMessage, uploadFiles, bucket, refreshContents])
 
   const bulkOperations: IBulkOperations = useMemo(() => ({
-    [CONTENT_TYPES.Directory]: ["move"],
+    [CONTENT_TYPES.Directory]: ["move", "delete"],
     [CONTENT_TYPES.File]: ["delete", "move"]
   }), [])
 

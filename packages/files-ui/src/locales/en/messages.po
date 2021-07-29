@@ -517,6 +517,9 @@ msgstr "Recover"
 msgid "Recover selected"
 msgstr "Recover selected"
 
+msgid "Recover to…"
+msgstr "Recover to…"
+
 msgid "Recover with passphrase"
 msgstr "Recover with passphrase"
 

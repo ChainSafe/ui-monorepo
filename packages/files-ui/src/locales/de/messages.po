@@ -514,6 +514,9 @@ msgstr "Wiederherstellen"
 msgid "Recover selected"
 msgstr "Ausgewählte wiederherstellen"
 
+msgid "Recover to…"
+msgstr ""
+
 msgid "Recover with passphrase"
 msgstr "Mit Passwortsatz wiederherstellen"
 

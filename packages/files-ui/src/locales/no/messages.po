@@ -514,6 +514,9 @@ msgstr "Gjenopprett"
 msgid "Recover selected"
 msgstr "Gjenoppretting valgt"
 
+msgid "Recover to…"
+msgstr ""
+
 msgid "Recover with passphrase"
 msgstr "Gjenopprett med passord"
 
