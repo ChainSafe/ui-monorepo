@@ -13,7 +13,7 @@ import {
   TableCell,
   TableRow,
   Typography,
-  UpdateSvg
+  UserGroupSvg
 } from "@chainsafe/common-components"
 import { CSFTheme } from "../../../../../Themes/types"
 import { BucketUser } from "@chainsafe/files-api-client"
@@ -142,9 +142,9 @@ const SharedFolderRow = ({ bucket, handleRename, openSharedFolder, handleDeleteS
     {
       contents: (
         <>
-          <UpdateSvg className={classes.menuIcon} />
-          <span data-cy="menu-edit">
-            <Trans>Edit</Trans>
+          <UserGroupSvg className={classes.menuIcon} />
+          <span data-cy="menu-manage-access">
+            <Trans>Manage Access</Trans>
           </span>
         </>
       ),
