@@ -518,6 +518,9 @@ msgstr "Récupérer"
 msgid "Recover selected"
 msgstr "Récupérer sélection"
 
+msgid "Recover to…"
+msgstr ""
+
 msgid "Recover with passphrase"
 msgstr "Récupérer avec une phrase de passe"
 
