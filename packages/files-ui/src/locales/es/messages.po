@@ -209,9 +209,6 @@ msgstr ""
 msgid "Drop to upload files"
 msgstr "Suelta para subir archivos"
 
-msgid "Edit"
-msgstr ""
-
 msgid "Email is required"
 msgstr ""
 
@@ -385,6 +382,9 @@ msgstr "Parece que está iniciando sesión desde un nuevo navegador. Elija una d
 
 msgid "Lorem ipsum aenean et rutrum magna. Morbi nec placerat erat. Nunc elementum sed libero sit amet convallis. Quisque non arcu vitae ex fringilla molestie."
 msgstr "Lorem ipsum Aenean, y un gran maquillaje. Usamos más y colocamos en ratas. Ahora elemento libre, pero mucho del valle. , Quien no se doblegue, de la vida de una fringilla molestie."
+
+msgid "Manage Access"
+msgstr ""
 
 msgid "Move"
 msgstr "Moverse"

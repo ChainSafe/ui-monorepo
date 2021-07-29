@@ -209,9 +209,6 @@ msgstr ""
 msgid "Drop to upload files"
 msgstr "Dra for å laste opp filer"
 
-msgid "Edit"
-msgstr ""
-
 msgid "Email is required"
 msgstr "E-post kreves"
 
@@ -381,6 +378,9 @@ msgid "Looks like you’re signing in from a new browser. Please choose one of t
 msgstr ""
 
 msgid "Lorem ipsum aenean et rutrum magna. Morbi nec placerat erat. Nunc elementum sed libero sit amet convallis. Quisque non arcu vitae ex fringilla molestie."
+msgstr ""
+
+msgid "Manage Access"
 msgstr ""
 
 msgid "Move"
