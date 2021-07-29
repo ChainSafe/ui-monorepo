@@ -1,7 +1,7 @@
 import { Crumb } from "@chainsafe/common-components"
 import React, { useContext } from "react"
 import { FileOperation, IBulkOperations, IFileBrowserModuleProps } from "./types"
-import { Bucket } from "@chainsafe/files-api-client"
+import { Bucket, FileSystemType } from "@chainsafe/files-api-client"
 import { FileSystemItem, UploadProgress } from "./StorageContext"
 
 export interface ISelectedFile {
@@ -38,6 +38,7 @@ interface FileBrowserContext extends IFileBrowserModuleProps {
   getPath?: (cid: string) => string
   isSearch?: boolean
   withSurvey?: boolean
+  fileSystemType: FileSystemType | undefined
 }
 
 const FileBrowserContext = React.createContext<FileBrowserContext | undefined>(undefined)
