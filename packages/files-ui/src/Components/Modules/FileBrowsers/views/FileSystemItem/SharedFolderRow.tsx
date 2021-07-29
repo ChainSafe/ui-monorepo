@@ -13,7 +13,6 @@ import {
   TableCell,
   TableRow,
   Typography,
-  UpdateSvg,
   UserGroupSvg
 } from "@chainsafe/common-components"
 import { CSFTheme } from "../../../../../Themes/types"
