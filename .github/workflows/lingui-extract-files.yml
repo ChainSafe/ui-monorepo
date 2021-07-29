@@ -15,6 +15,7 @@ jobs:
     - uses: actions/checkout@v2
       with:
         ref: ${{ github.event.pull_request.head.ref }}
+        ssh-key: ${{ secrets.LINGUI_GH_ACTION_COMMIT_KEY }}
 
     - name: set user
       run: |
@@ -31,8 +32,6 @@ jobs:
       run: yarn install --immutable
 
     - name: lingui-extract and commit
-      with:
-        ssh-key: ${{ secrets.LINGUI_GH_ACTION_COMMIT_KEY }}
       run: |
         (cd packages/files-ui && yarn extract --clean)
         git add packages/files-ui/src/locales/*
