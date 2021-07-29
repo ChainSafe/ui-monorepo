@@ -202,9 +202,6 @@ msgstr ""
 msgid "Drop to upload files"
 msgstr "Dra for å laste opp filer"
 
-msgid "Edit"
-msgstr ""
-
 msgid "Email is required"
 msgstr "E-post kreves"
 
@@ -376,6 +373,9 @@ msgstr ""
 msgid "Lorem ipsum aenean et rutrum magna. Morbi nec placerat erat. Nunc elementum sed libero sit amet convallis. Quisque non arcu vitae ex fringilla molestie."
 msgstr ""
 
+msgid "Manage Access"
+msgstr ""
+
 msgid "Move"
 msgstr "Flytt"
 
@@ -504,6 +504,9 @@ msgstr "Gjenopprett"
 
 msgid "Recover selected"
 msgstr "Gjenoppretting valgt"
+
+msgid "Recover to…"
+msgstr ""
 
 msgid "Recover with passphrase"
 msgstr "Gjenopprett med passord"

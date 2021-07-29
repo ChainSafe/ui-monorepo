@@ -83,6 +83,7 @@ const MoveFileModule = ({ filesToMove, modalOpen, onClose, onCancel, mode }: IMo
   const [isMovingFile, setIsMovingFile] = useState(false)
   const [movePath, setMovePath] = useState<undefined | string>(undefined)
   const [folderTree, setFolderTree] = useState<ITreeNodeProps[]>([])
+  const isInBin = useMemo(() => bucket?.type === "trash" && mode === "recover", [bucket?.type, mode])
 
   const mapFolderTree = useCallback(
     (folderTreeEntries: DirectoryContentResponse[]): ITreeNodeProps[] => {
@@ -98,10 +99,13 @@ const MoveFileModule = ({ filesToMove, modalOpen, onClose, onCancel, mode }: IMo
 
   const getFolderTreeData = useCallback(async () => {
     let bucketForFolderTree = bucket
-    if (bucket?.type === "trash" && mode === "recover") {
+
+    if (isInBin) {
       bucketForFolderTree = buckets.find((bucket) => bucket.type === "csf")
     }
+
     if (!bucketForFolderTree) return
+
     filesApiClient.getBucketDirectoriesTree(bucketForFolderTree.id).then((newFolderTree) => {
       if (newFolderTree.entries) {
         const folderTreeNodes = [
@@ -118,7 +122,7 @@ const MoveFileModule = ({ filesToMove, modalOpen, onClose, onCancel, mode }: IMo
         setFolderTree([])
       }
     }).catch(console.error)
-  }, [filesApiClient, mapFolderTree, bucket, buckets, mode])
+  }, [bucket, isInBin, filesApiClient, buckets, mapFolderTree])
 
   useEffect(() => {
     if (modalOpen) {
@@ -129,7 +133,8 @@ const MoveFileModule = ({ filesToMove, modalOpen, onClose, onCancel, mode }: IMo
   }, [modalOpen, getFolderTreeData])
 
   const onMoveFile = () => {
-    const moveFn = mode === "move" ? moveItems : recoverItems
+    const moveFn = isInBin ? recoverItems : moveItems
+
     if (!movePath || !moveFn) return
 
     setIsMovingFile(true)
@@ -158,12 +163,15 @@ const MoveFileModule = ({ filesToMove, modalOpen, onClose, onCancel, mode }: IMo
     })
   }, [currentPath, folders, movePath])
 
-  const isAllowedToMove = useMemo(() =>
-    !!movePath && // the move path should be set
+  const isAllowedToMove = useMemo(() => {
+    // you can always recover from the bin
+    if (isInBin) return true
+
+    return !!movePath && // the move path should be set
     mode === "move" && // we're moving and not recovering
     movePath !== currentPath && // can't be the same parent
     (!folders.length || !isSubFolderOfAnySelectedFolder) // if it has folders and the move isn't into one of them
-  , [movePath, mode, currentPath, folders.length, isSubFolderOfAnySelectedFolder])
+  }, [isInBin, movePath, mode, currentPath, folders.length, isSubFolderOfAnySelectedFolder])
 
   return (
     <CustomModal
@@ -185,8 +193,9 @@ const MoveFileModule = ({ filesToMove, modalOpen, onClose, onCancel, mode }: IMo
       >
         <Typography className={classes.heading}
           variant="h5"
-          component="h5">
-          <Trans>Move to…</Trans>
+          component="h5"
+        >
+          {isInBin ? t`Recover to…` : t`Move to…`}
         </Typography>
       </Grid>
       <Grid
@@ -256,7 +265,7 @@ const MoveFileModule = ({ filesToMove, modalOpen, onClose, onCancel, mode }: IMo
             disabled={!isAllowedToMove}
             onClick={onMoveFile}
           >
-            {mode === "move" ? t`Move` : t`Recover`}
+            {isInBin ? t`Recover` : t`Move`}
           </Button>
         </Grid>
       </Grid>

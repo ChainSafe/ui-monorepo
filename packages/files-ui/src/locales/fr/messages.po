@@ -203,9 +203,6 @@ msgstr ""
 msgid "Drop to upload files"
 msgstr "Faire glisser pour téléverser un fichier"
 
-msgid "Edit"
-msgstr ""
-
 msgid "Email is required"
 msgstr "Un courriel est requis"
 
@@ -380,6 +377,9 @@ msgstr "Il semble que vous vous connectiez à partir d’un nouveau navigateur. 
 msgid "Lorem ipsum aenean et rutrum magna. Morbi nec placerat erat. Nunc elementum sed libero sit amet convallis. Quisque non arcu vitae ex fringilla molestie."
 msgstr "Lorem ipsum aenean et rutrum magna. Morbi nec placerat erat. Nunc elementum sed libero sit amet convallis. Quisque non arcu vitae ex fringilla molestie."
 
+msgid "Manage Access"
+msgstr ""
+
 msgid "Move"
 msgstr "Déplacer"
 
@@ -508,6 +508,9 @@ msgstr "Récupérer"
 
 msgid "Recover selected"
 msgstr "Récupérer sélection"
+
+msgid "Recover to…"
+msgstr ""
 
 msgid "Recover with passphrase"
 msgstr "Récupérer avec une phrase de passe"
