@@ -14,5 +14,12 @@ export const binPage = {
 
   // menu elements (bin view only)
   recoverMenuOption: () => cy.get("[data-cy=menu-recover]"),
-  deleteMenuOption: () => cy.get("[data-cy=menu-delete]")
+  deleteMenuOption: () => cy.get("[data-cy=menu-delete]"),
+
+  // recover modal elements
+  recoverFileModal: () => cy.get("[data-cy=modal-recover-file]"),
+  folderItem: () => cy.get("[data-cy=tree-folder-item]"),
+  cancelButton: () => cy.get("[data-cy=button-cancel-recovery]"),
+  recoverButton: () => cy.get("[data-cy=button-recover-file]")
+
 }
