@@ -208,9 +208,6 @@ msgstr "Downloading…"
 msgid "Drop to upload files"
 msgstr "Drop to upload files"
 
-msgid "Edit"
-msgstr "Edit"
-
 msgid "Email is required"
 msgstr "Email is required"
 
@@ -385,6 +382,9 @@ msgstr "Looks like you’re signing in from a new browser. Please choose one of 
 msgid "Lorem ipsum aenean et rutrum magna. Morbi nec placerat erat. Nunc elementum sed libero sit amet convallis. Quisque non arcu vitae ex fringilla molestie."
 msgstr "Lorem ipsum aenean et rutrum magna. Morbi nec placerat erat. Nunc elementum sed libero sit amet convallis. Quisque non arcu vitae ex fringilla molestie."
 
+msgid "Manage Access"
+msgstr "Manage Access"
+
 msgid "Move"
 msgstr "Move"
 
@@ -516,6 +516,9 @@ msgstr "Recover"
 
 msgid "Recover selected"
 msgstr "Recover selected"
+
+msgid "Recover to…"
+msgstr "Recover to…"
 
 msgid "Recover with passphrase"
 msgstr "Recover with passphrase"

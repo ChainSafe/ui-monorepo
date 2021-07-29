@@ -139,7 +139,7 @@ const BinFileBrowser: React.FC<IFileBrowserModuleProps> = ({ controls = false }:
   }, [currentPath, pathContents, redirect])
 
   const bulkOperations: IBulkOperations = useMemo(() => ({
-    [CONTENT_TYPES.Directory]: [],
+    [CONTENT_TYPES.Directory]: ["recover", "delete"],
     [CONTENT_TYPES.File]: ["recover", "delete"]
   }), [])
 
