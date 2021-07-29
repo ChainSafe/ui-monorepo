@@ -19,7 +19,7 @@ import { Form, FormikProvider, useFormik } from "formik"
 import { CSSTheme } from "../../../Themes/types"
 import { FileSystemItem } from "../../../Contexts/StorageContext"
 import { renameSchema } from "../../../Utils/validationSchema"
-import { ISelectedFile } from "../../../Contexts/FileBrowserContext"
+import { ISelectedFile, useFileBrowser } from "../../../Contexts/FileBrowserContext"
 
 const useStyles = makeStyles(({ breakpoints, constants, palette }: CSSTheme) => {
   const desktopGridSettings = "50px 69px 3fr 190px 100px 45px !important"
@@ -139,6 +139,7 @@ const FileSystemTableItem = React.forwardRef(
     menuItems
   }: IFileSystemTableItemProps, forwardedRef: any) => {
     const classes = useStyles()
+    const { fileSystemType } = useFileBrowser()
     const { name, cid, created_at, size } = file
     const { desktop } = useThemeSwitcher()
 
@@ -229,9 +230,12 @@ const FileSystemTableItem = React.forwardRef(
         </TableCell>
         {desktop && (
           <>
-            <TableCell align="left">
-              {!isFolder && !!created_at && dayjs.unix(created_at).format("DD MMM YYYY h:mm a")}
-            </TableCell>
+            {
+              fileSystemType && fileSystemType !== "ipfs" &&
+                <TableCell align="left">
+                  {!isFolder && !!created_at && dayjs.unix(created_at).format("DD MMM YYYY h:mm a")}
+                </TableCell>
+            }
             <TableCell align="left">
               {!isFolder && formatBytes(size)}
             </TableCell>

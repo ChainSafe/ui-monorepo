@@ -6,7 +6,7 @@
     "@babel/core": "^7.12.10",
     "@babel/runtime": "^7.0.0",
     "@chainsafe/browser-storage-hooks": "^1.0.1",
-    "@chainsafe/files-api-client": "1.17.7",
+    "@chainsafe/files-api-client": "1.17.8",
     "@chainsafe/web3-context": "1.1.4",
     "@lingui/core": "^3.7.2",
     "@lingui/react": "^3.7.2",
