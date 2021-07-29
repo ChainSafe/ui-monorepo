@@ -30,7 +30,9 @@ jobs:
     - name: install packages
       run: yarn install --immutable
 
-    - name: lingui-extract
+    - name: lingui-extract and commit
+      with:
+        ssh-key: "${{ secrets.LINGUI_GH_ACTION_COMMIT_KEY }}"
       run: |
         (cd packages/files-ui && yarn extract --clean)
         git add packages/files-ui/src/locales/*

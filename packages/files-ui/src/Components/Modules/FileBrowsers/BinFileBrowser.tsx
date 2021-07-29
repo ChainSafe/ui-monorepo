@@ -77,7 +77,7 @@ const BinFileBrowser: React.FC<IFileBrowserModuleProps> = ({ controls = false }:
       })
       return Promise.resolve()
     } catch (error) {
-      const message = `${t`test There was an error deleting this`} ${
+      const message = `${t`There was an error deleting this`} ${
         itemToDelete.isFolder ? t`folder` : t`file`
       }`
       addToastMessage({
