@@ -1,11 +1,28 @@
 import { binPage } from "../support/page-objects/binPage"
 import { homePage } from "../support/page-objects/homePage"
 import { navigationMenu } from "../support/page-objects/navigationMenu"
+import { folderName } from "../fixtures/filesTestData"
 import "cypress-pipe"
 
 describe("File management", () => {
 
   context("desktop", () => {
+
+    it("can create folders and cancel modal", () => {
+      cy.web3Login({ clearCSFBucket: true })
+
+      // create a folder and see it in the file list
+      homePage.newFolderButton().click()
+      homePage.folderNameInput().type(folderName)
+      homePage.createButton().click()
+      homePage.createFolderModal().should("not.exist")
+      homePage.fileItemName().contains(folderName)
+
+      // cancel and ensure that the create folder modal is dismissed
+      homePage.newFolderButton().click()
+      homePage.cancelButton().click()
+      homePage.createFolderModal().should("not.exist")
+    })
 
     it("can add files and cancel", () => {
       cy.web3Login()
@@ -109,6 +126,30 @@ describe("File management", () => {
       cy.get("@originalFile").then(($originalFile) => {
         cy.get("@deletedFile").should("equals", $originalFile)
       })
+    })
+
+    it("can delete a folder", () => {
+      cy.web3Login({ clearCSFBucket: true, clearTrashBucket: true })
+
+      // create a folder
+      homePage.createFolder(folderName)
+      homePage.fileItemRow().should("have.length", 1)
+
+      // retrieve the folder's name, store as a cypress alias
+      homePage.fileItemName().invoke("text").as("originalFolder")
+
+      // delete the folder via the menu option 
+      homePage.fileItemKebabButton().first().click()
+      homePage.deleteMenuOption().click()
+      homePage.deleteFileDialog().should("be.visible")
+      homePage.deleteFileConfirmButton().click()
+      homePage.deleteFileDialog().should("not.exist")
+      homePage.fileItemRow().should("not.exist")
+
+      // confirm the deleted folder is moved to the bin
+      navigationMenu.binNavButton().click()
+      homePage.fileItemRow().should("have.length", 1)
+      homePage.fileItemName().should("have.value", folderName)
     })
   })
 })
