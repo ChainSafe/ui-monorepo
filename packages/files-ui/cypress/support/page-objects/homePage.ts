@@ -1,4 +1,5 @@
 import { basePage } from "./basePage"
+import { folderName } from "../../fixtures/filesTestData"
 
 export const click = ($el: JQuery<HTMLElement>) => $el.trigger("click")
 
@@ -45,6 +46,7 @@ export const homePage = {
   moveMenuOption: () => cy.get("[data-cy=menu-move]"),
   deleteMenuOption: () => cy.get("[data-cy=menu-delete]"),
 
+  // helpers and convenience functions
   clickUploadButton: () => homePage.startUploadButton()
     .should("not.be.disabled")
   // this pipe is needed to prevent https://github.com/ChainSafe/ui-monorepo/issues/1146
@@ -54,7 +56,6 @@ export const homePage = {
       expect($el).to.not.be.visible
     }),
 
-  // helpers and convenience functions
   uploadFile(filePath: string) {
     this.uploadButton().click()
     this.uploadFileForm().attachFile(filePath)
@@ -65,6 +66,14 @@ export const homePage = {
     // ensure upload is complete before proceeding
     this.uploadFileForm().should("not.exist")
     this.uploadStatusToast().should("not.exist")
+  },
+
+  createFolder(name: string = folderName) {
+    this.newFolderButton().click()
+    this.folderNameInput().type(name)
+    this.createButton().click()
+    this.createFolderModal().should("not.exist")
+    this.fileItemName().contains(name)
   }
 
 }

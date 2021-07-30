@@ -145,6 +145,8 @@ Cypress.Commands.add(
         cy.log("nothing in session storage, --> click on web3 button")
         authenticationPage.web3Button().click()
         authenticationPage.metaMaskButton().click()
+        // eslint-disable-next-line cypress/no-unnecessary-waiting
+        cy.wait(1000)
         authenticationPage.web3SignInButton().click()
         authenticationPage.loginPasswordButton().click()
         authenticationPage.loginPasswordInput().type(`${testAccountPassword}{enter}`)
@@ -171,7 +173,20 @@ Cypress.Commands.add(
     }
 
     if(clearTrashBucket || clearCSFBucket){
-      cy.reload()
+      cy.reload({ timeout: 50000 }).then(() => {
+        if (local.length === 0) {
+          // Temp work around for local storage being cleared after the reload. See issue in #1381  
+          cy.log("nothing in local storage after reload, --> click on web3 button")
+          authenticationPage.web3Button().click()
+          authenticationPage.metaMaskButton().click()
+          // eslint-disable-next-line cypress/no-unnecessary-waiting
+          cy.wait(1000)
+          authenticationPage.web3SignInButton().click()
+          authenticationPage.loginPasswordButton().click()
+          authenticationPage.loginPasswordInput().type(`${testAccountPassword}{enter}`)
+          authenticationPage.doNotSaveBrowserButton().click()
+        }
+      })
       homePage.appHeaderLabel().should("be.visible")
     }
   }
