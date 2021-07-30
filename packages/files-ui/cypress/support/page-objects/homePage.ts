@@ -6,7 +6,8 @@ export const homePage = {
   ...basePage,
 
   // main file browser elements
-  uploadButton: () => cy.get("[data-cy=upload-modal-button]"),
+  newFolderButton: () => cy.get("[data-cy=button-new-folder]"),
+  uploadButton: () => cy.get("[data-cy=button-upload-file]"),
   uploadFileForm: () => cy.get("[data-cy=upload-file-form] input", { timeout: 20000 }),
   moveSelectedButton: () => cy.get("[data-testId=button-move-selected-file]"),
   deleteSelectedButton: () => cy.get("[data-testId=button-delete-selected-file]"),
@@ -22,6 +23,12 @@ export const homePage = {
   fileRenameSubmitButton: () => cy.get("[data-cy=rename-submit-button]"),
   fileRenameErrorLabel: () => cy.get("[data-cy=rename-form] span.minimal.error"),
   fileItemKebabButton: () => cy.get("[data-testid=dropdown-title-fileDropdown]"),
+
+  // create folder modal elements
+  createFolderModal: () => cy.get("[data-cy=modal-create-folder]"),
+  folderNameInput: () => cy.get("[data-cy=input-folder-name]"),
+  cancelButton: () => cy.get("[data-cy=button-cancel-create-folder]"),
+  createButton: () => cy.get("[data-cy=button-create-folder]"),
 
   // upload modal elements
   startUploadButton: () => cy.get("[data-testId=button-start-upload]"),
