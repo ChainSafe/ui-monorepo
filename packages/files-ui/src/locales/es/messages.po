@@ -764,10 +764,7 @@ msgstr "Utilice un navegador guardado"
 msgid "Use an existing shared folder"
 msgstr ""
 
-msgid "User {0} already included in readers"
-msgstr ""
-
-msgid "User {0} already included in writers"
+msgid "User {0} already included in {1}"
 msgstr ""
 
 msgid "Username"
