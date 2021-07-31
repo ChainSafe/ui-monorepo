@@ -20,7 +20,7 @@ import DragAndDrop from "../../../Contexts/DnDContext"
 import FilesList from "./views/FilesList"
 
 const SharedFileBrowser = () => {
-  const { downloadFile, uploadFiles, buckets, refreshBuckets } = useFiles()
+  const { downloadFile, uploadFiles, buckets, refreshBuckets, getStorageSummary } = useFiles()
   const { filesApiClient } = useFilesApi()
   const { addToastMessage } = useToaster()
   const [loadingCurrentPath, setLoadingCurrentPath] = useState(false)
@@ -84,8 +84,11 @@ const SharedFileBrowser = () => {
         )
       }).catch(error => {
         console.error(error)
-      }).finally(() => showLoading && setLoadingCurrentPath(false))
-  }, [bucket, filesApiClient, currentPath, profile])
+      }).finally(() => {
+        getStorageSummary()
+        showLoading && setLoadingCurrentPath(false)}
+      )
+  }, [bucket, getStorageSummary, filesApiClient, currentPath, profile])
 
   useEffect(() => {
     refreshContents(true)
