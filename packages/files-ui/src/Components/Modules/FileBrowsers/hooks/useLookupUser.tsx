@@ -5,10 +5,7 @@ import { useFilesApi } from "../../../../Contexts/FilesApiContext"
 import { useUser } from "../../../../Contexts/UserContext"
 import { centerEllipsis } from "../../../../Utils/Helpers"
 import { SharedUserTagData, SharedFolderUserPermission } from "../types"
-import {
-  ITagOption,
-  ITagValueType
-} from "@chainsafe/common-components"
+import { ITagOption, ITagValueType } from "@chainsafe/common-components"
 
 export const useLookupSharedFolderUser = () => {
   const { filesApiClient } = useFilesApi()
