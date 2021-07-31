@@ -15,6 +15,7 @@ jobs:
     - uses: actions/checkout@v2
       with:
         ref: ${{ github.event.pull_request.head.ref }}
+        ssh-key: ${{ secrets.LINGUI_GH_ACTION_COMMIT_KEY }}
 
     - name: set user
       run: |
@@ -38,4 +39,4 @@ jobs:
       run: |
         (cd packages/storage-ui && yarn extract --clean)
         git add packages/storage-ui/src/locales/*
-        if git commit -m "lingui extract"; then git push --no-verify; else echo 'exiting successfully without commit'; fi
+        if git commit -m "lingui extract"; then git push; else echo 'exiting successfully without commit'; fi
