@@ -36,13 +36,10 @@ export const useLookupSharedFolderUser = () => {
 
     try {
       const result = await filesApiClient.lookupUser(lookupBody)
-
       if (!result) return []
 
-      if (!result) return []
       const usersList = permission === "read" ? sharedFolderReaders : sharedFolderWriters
       const currentUsers = Array.isArray(usersList) ? usersList.map(su => su.value) : []
-      if (currentUsers.includes(result.uuid) || result.uuid === profile?.userId) return []
 
       // prevent the addition of current user since they are the owner
       if (currentUsers.includes(result.uuid) || result.uuid === profile?.userId) return []
