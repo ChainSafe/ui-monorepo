@@ -1,8 +1,9 @@
-import React from "react"
+import React, { CSSProperties } from "react"
 import {
   makeStyles,
   createStyles,
-  ITheme
+  ITheme,
+  useTheme
 } from "@chainsafe/common-theme"
 import clsx from "clsx"
 import AsyncSelect from "react-select/async"
@@ -23,6 +24,7 @@ const useStyles = makeStyles(
         transitionDuration: `${animation.transform}ms`,
         display: "block",
         marginBottom: constants.generalUnit / 4,
+        cursor: "pointer",
         ...overrides?.TextInput?.label
       },
       caption: {
@@ -77,6 +79,38 @@ const TagsInput = ({
 }: ITagsInputProps) => {
   const classes = useStyles()
 
+  const { overrides } = useTheme<ITheme>()
+  const overrideKeys = [
+    "clearIndicator", "container", "control", "dropdownIndicator", "group", "groupHeading", "indicatorsContainer",
+    "indicatorSeparator", "input", "loadingIndicator", "loadingMessage", "menu", "menuList", "menuPortal", "multiValue",
+    "multiValueLabel", "multiValueRemove", "noOptionsMessage", "option", "placeholder", "singleValue", "valueContainer"
+  ]
+
+  // Creates entry to this format
+  //   indicatorsContainer: (provided: any, state: any) => ({
+  //     ...provided,
+  //     ...(styles?.indicatorsContainer ? styles.indicatorsContainer({
+  //       ...provided,
+  //       ...overrides?.TagsInput?.indicatorsContainer
+  //     }, state) : overrides?.TagsInput?.indicatorsContainer)
+  //   }),
+  const selectOverides: Partial<Styles> = {}
+  overrideKeys.map(key => {
+    selectOverides[key] = (provided: CSSProperties, state: any): CSSProperties => ({
+      ...(
+        styles && styles[key]
+          ? styles[key]({
+            ...provided,
+            ...overrides?.TagsInput?.[key]
+          }, state)
+          : ({
+            ...provided,
+            ...overrides?.TagsInput?.[key]
+          })
+      )
+    })
+  })
+
   return (
     <label className={clsx(classes.root, className)}>
       {label && label.length > 0 && (
@@ -104,7 +138,7 @@ const TagsInput = ({
         placeholder={placeholder}
         isDisabled={disabled}
         components={{ DropdownIndicator:() => null, IndicatorSeparator:() => null }}
-        styles={styles}
+        styles={selectOverides as Partial<Styles>}
       />
       {caption && (
         <Typography
