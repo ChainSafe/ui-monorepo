@@ -201,8 +201,7 @@ const CopyToSharedFolderModal = ({ close, file, filePath }: IShareFileProps) => 
     sharedFolderReaders,
     sharedFolderWriters,
     handleLookupUser,
-    onNewReaders,
-    onNewWriters,
+    onNewUsers,
     usersError
   } = useLookupSharedFolderUser()
   const [isUsingCurrentBucket, setIsUsingCurrentBucket] = useState(true)
@@ -371,7 +370,7 @@ const CopyToSharedFolderModal = ({ close, file, filePath }: IShareFileProps) => 
       </div>
       <div className={classes.modalFlexItem}>
         <TagsInput
-          onChange={onNewReaders}
+          onChange={(values) => onNewUsers(values, "read")}
           label={t`Give view-only permission to:`}
           labelClassName={classes.inputLabel}
           value={sharedFolderReaders}
@@ -387,7 +386,7 @@ const CopyToSharedFolderModal = ({ close, file, filePath }: IShareFileProps) => 
       </div>
       <div className={classes.modalFlexItem}>
         <TagsInput
-          onChange={onNewWriters}
+          onChange={(values) => onNewUsers(values, "write")}
           label={t`Give edit permission to:`}
           labelClassName={classes.inputLabel}
           value={sharedFolderWriters}
