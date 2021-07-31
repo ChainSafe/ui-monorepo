@@ -11,7 +11,6 @@ export const useLookupSharedFolderUser = () => {
   const { filesApiClient } = useFilesApi()
   const [sharedFolderReaders, setSharedFolderReaders] = useState<SharedUserTagData[]>([])
   const [sharedFolderWriters, setSharedFolderWriters] = useState<SharedUserTagData[]>([])
-  const [hasPermissionsChanged, setHasPermissionsChanged] = useState(false)
   const [usersError, setUsersError] = useState("")
 
   const { profile } = useUser()
@@ -52,7 +51,6 @@ export const useLookupSharedFolderUser = () => {
     // setting readers
     const newSharedFolderReaders = val && val.length ? val?.map(v => ({ label: v.label, value: v.value, data: v.data })) : []
     setSharedFolderReaders(newSharedFolderReaders)
-    setHasPermissionsChanged(true)
 
     // check intersecting users
     const foundIntersectingUsers = newSharedFolderReaders.filter(
@@ -69,7 +67,6 @@ export const useLookupSharedFolderUser = () => {
     // setting writers
     const newSharedFolderWriters = val && val.length ? val?.map(v => ({ label: v.label, value: v.value, data: v.data })) : []
     setSharedFolderWriters(newSharedFolderWriters)
-    setHasPermissionsChanged(true)
 
     // check intersecting users
     const foundIntersectingUsers = newSharedFolderWriters.filter(
@@ -90,9 +87,7 @@ export const useLookupSharedFolderUser = () => {
     onNewWriters,
     setSharedFolderReaders,
     setSharedFolderWriters,
-    hasPermissionsChanged,
     usersError,
-    setHasPermissionsChanged,
     setUsersError
   }
 }

@@ -142,11 +142,10 @@ const CreateOrEditSharedFolderModal = ({
     onNewReaders,
     onNewWriters,
     handleLookupUser,
-    hasPermissionsChanged,
     usersError,
-    setHasPermissionsChanged,
     setUsersError
   } = useLookupSharedFolderUser()
+  const [hasPermissionsChanged, setHasPermissionsChanged] = useState(false)
 
   useEffect(() => {
     setSharedFolderName("")
@@ -229,7 +228,10 @@ const CreateOrEditSharedFolderModal = ({
         }
         <div className={classes.modalFlexItem}>
           <TagsInput
-            onChange={onNewReaders}
+            onChange={(values) => {
+              setHasPermissionsChanged(true)
+              onNewReaders(values)
+            }}
             label={t`Give view-only permission to:`}
             labelClassName={classes.inputLabel}
             value={sharedFolderReaders}
@@ -245,7 +247,10 @@ const CreateOrEditSharedFolderModal = ({
         </div>
         <div className={classes.modalFlexItem}>
           <TagsInput
-            onChange={onNewWriters}
+            onChange={(values) => {
+              setHasPermissionsChanged(true)
+              onNewWriters(values)
+            }}
             label={t`Give edit permission to:`}
             labelClassName={classes.inputLabel}
             value={sharedFolderWriters}
