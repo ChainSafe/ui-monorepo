@@ -139,8 +139,7 @@ const CreateOrEditSharedFolderModal = ({
     sharedFolderWriters,
     setSharedFolderReaders,
     setSharedFolderWriters,
-    onNewReaders,
-    onNewWriters,
+    onNewUsers,
     handleLookupUser,
     usersError,
     setUsersError
@@ -230,7 +229,7 @@ const CreateOrEditSharedFolderModal = ({
           <TagsInput
             onChange={(values) => {
               setHasPermissionsChanged(true)
-              onNewReaders(values)
+              onNewUsers(values, "read")
             }}
             label={t`Give view-only permission to:`}
             labelClassName={classes.inputLabel}
@@ -249,7 +248,7 @@ const CreateOrEditSharedFolderModal = ({
           <TagsInput
             onChange={(values) => {
               setHasPermissionsChanged(true)
-              onNewWriters(values)
+              onNewUsers(values, "write")
             }}
             label={t`Give edit permission to:`}
             labelClassName={classes.inputLabel}

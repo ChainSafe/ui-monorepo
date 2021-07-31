@@ -47,33 +47,25 @@ export const useLookupSharedFolderUser = () => {
     }
   }, [filesApiClient, sharedFolderReaders, sharedFolderWriters, profile])
 
-  const onNewReaders = (val: ITagValueType<ITagOption, true>) => {
+  const onNewUsers = (val: ITagValueType<ITagOption, true>, permission: SharedFolderUserPermission) => {
     // setting readers
-    const newSharedFolderReaders = val && val.length ? val?.map(v => ({ label: v.label, value: v.value, data: v.data })) : []
-    setSharedFolderReaders(newSharedFolderReaders)
-
-    // check intersecting users
-    const foundIntersectingUsers = newSharedFolderReaders.filter(
-      reader => sharedFolderWriters.some(writer => reader.data.uuid === writer.data.uuid)
-    )
-    if (foundIntersectingUsers.length) {
-      setUsersError(t`User ${centerEllipsis(foundIntersectingUsers[0].label)} already included in writers`)
+    const newSharedFolderUsers = val && val.length ? val?.map(v => ({ label: v.label, value: v.value, data: v.data })) : []
+    if (permission === "read") {
+      setSharedFolderReaders(newSharedFolderUsers)
     } else {
-      setUsersError("")
+      setSharedFolderWriters(newSharedFolderUsers)
     }
-  }
-
-  const onNewWriters = (val: ITagValueType<ITagOption, true>) => {
-    // setting writers
-    const newSharedFolderWriters = val && val.length ? val?.map(v => ({ label: v.label, value: v.value, data: v.data })) : []
-    setSharedFolderWriters(newSharedFolderWriters)
 
     // check intersecting users
-    const foundIntersectingUsers = newSharedFolderWriters.filter(
-      writer => sharedFolderReaders.some(reader => reader.data.uuid === writer.data.uuid)
+    const foundIntersectingUsers = newSharedFolderUsers.filter(
+      reader => (
+        permission === "read" ? sharedFolderWriters : sharedFolderReaders
+      ).some(writer => reader.data.uuid === writer.data.uuid)
     )
     if (foundIntersectingUsers.length) {
-      setUsersError(t`User ${centerEllipsis(foundIntersectingUsers[0].label)} already included in readers`)
+      setUsersError(t`User ${
+        centerEllipsis(foundIntersectingUsers[0].label)
+      } already included in ${permission === "write" ? "readers" : "writers"}`)
     } else {
       setUsersError("")
     }
@@ -83,8 +75,7 @@ export const useLookupSharedFolderUser = () => {
     handleLookupUser,
     sharedFolderReaders,
     sharedFolderWriters,
-    onNewReaders,
-    onNewWriters,
+    onNewUsers,
     setSharedFolderReaders,
     setSharedFolderWriters,
     usersError,
