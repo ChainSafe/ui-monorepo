@@ -181,13 +181,15 @@ const CreateOrEditSharedFolderModal = ({
 
   const onCreateSharedFolder = useCallback(() => {
     handleCreateSharedFolder(sharedFolderName, sharedFolderReaders, sharedFolderWriters)
-      .then(handleClose)
+      .catch(console.error)
+      .finally(handleClose)
   }, [handleCreateSharedFolder, sharedFolderName, sharedFolderWriters, sharedFolderReaders, handleClose])
 
   const onEditSharedFolder = useCallback(() => {
     if (!bucketToEdit) return
     handleEditSharedFolder(bucketToEdit, sharedFolderReaders, sharedFolderWriters)
-      .then(handleClose)
+      .catch(console.error)
+      .finally(handleClose)
   }, [handleEditSharedFolder, sharedFolderWriters, sharedFolderReaders, handleClose, bucketToEdit])
 
   return (

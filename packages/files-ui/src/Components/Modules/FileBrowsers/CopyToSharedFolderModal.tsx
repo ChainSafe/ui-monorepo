@@ -224,9 +224,9 @@ const CopyToSharedFolderModal = ({ close, file, filePath }: IShareFileProps) => 
       return []
     }
 
-    // todo extract in helper for isOwner, isWritr, isReader
     return buckets
       .filter(buck => buck.type === "share")
+      // all buckets where the user is reader or writer
       .filter(buck => !!buck.writers.find((w) => w.uuid === profile.userId) || !!buck.owners.find((o) => o.uuid === profile.userId))
       .map(buck => ({
         label: buck.name,
@@ -274,6 +274,7 @@ const CopyToSharedFolderModal = ({ close, file, filePath }: IShareFileProps) => 
         } catch (e) {
           console.error(e)
           setError(t`Error while creating new shared folder`)
+          return
         }
       }
 
@@ -290,6 +291,7 @@ const CopyToSharedFolderModal = ({ close, file, filePath }: IShareFileProps) => 
       } catch(e) {
         setError(t`Error while downloading ${file.name}`)
         console.error(e)
+        return
       }
 
       if (!fileContent) {
@@ -504,7 +506,7 @@ const CopyToSharedFolderModal = ({ close, file, filePath }: IShareFileProps) => 
         {currentStep === "2_DOWNLOAD_UPLOAD" && (
           <>
             {isBusyWithSecondStep && <Loader />}
-            {!isBusyWithSecondStep && destinationBucket && (
+            {!isBusyWithSecondStep && destinationBucket && !error && !downloadError && (
               <div className={classes.successBox}>
                 <div className={classes.successText}>
                   <CheckCircleIcon className={classes.checkIcon} />

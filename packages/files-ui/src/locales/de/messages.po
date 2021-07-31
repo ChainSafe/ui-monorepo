@@ -202,9 +202,6 @@ msgstr ""
 msgid "Drop to upload files"
 msgstr "Zum Hochladen von Dateien ablegen"
 
-msgid "Edit"
-msgstr ""
-
 msgid "Email is required"
 msgstr "E-Mail ist erforderlich"
 
@@ -376,6 +373,9 @@ msgstr "Sieht aus, als würden Sie sich über einen neuen Browser anmelden. Bitt
 msgid "Lorem ipsum aenean et rutrum magna. Morbi nec placerat erat. Nunc elementum sed libero sit amet convallis. Quisque non arcu vitae ex fringilla molestie."
 msgstr "Lorem ipsum aenean et rutrum magna. Morbi nec placerat erat. Nunc elementum sed libero sit amet convallis. Quisque non arcu vitae ex fringilla molestie."
 
+msgid "Manage Access"
+msgstr ""
+
 msgid "Move"
 msgstr "Verschieben"
 
@@ -504,6 +504,9 @@ msgstr "Wiederherstellen"
 
 msgid "Recover selected"
 msgstr "Ausgewählte wiederherstellen"
+
+msgid "Recover to…"
+msgstr ""
 
 msgid "Recover with passphrase"
 msgstr "Mit Passwortsatz wiederherstellen"
