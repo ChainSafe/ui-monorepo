@@ -399,6 +399,8 @@ const FilesProvider = ({ children }: FilesContextProps) => {
       setTimeout(() => {
         dispatchUploadsInProgress({ type: "remove", payload: { id } })
       }, REMOVE_UPLOAD_PROGRESS_DELAY)
+
+      return Promise.reject(error)
     }
   }, [addToastMessage, filesApiClient, buckets, refreshBuckets])
 

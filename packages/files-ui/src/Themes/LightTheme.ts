@@ -183,6 +183,14 @@ export const lightTheme = createTheme<CsfColors>({
           color: "var(--gray10)"
         }
       },
+      TagsInput: {
+        option: {
+          cursor: "pointer"
+        },
+        multiValueRemove: {
+          cursor: "pointer"
+        }
+      },
       Button: {
         variants: {
           primary: {
