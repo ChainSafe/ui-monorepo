@@ -38,7 +38,7 @@ export const useLookupSharedFolderUser = () => {
 
       if (!result) return []
       const usersList = permission === "read" ? sharedFolderReaders : sharedFolderWriters
-      const currentUsers = Array.isArray(usersList) ? usersList.map(su => su.value) : []
+      const currentUsers = usersList.map((su) => su.value)
       if (currentUsers.includes(result.uuid) || result.uuid === profile?.userId) return []
 
       // prevent the addition of current user since they are the owner
