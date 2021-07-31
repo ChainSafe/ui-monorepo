@@ -173,7 +173,8 @@ const useStyles = makeStyles(
       dropdownIcon: {
         "& svg": {
           height: 20,
-          width: 20
+          width: 20,
+          fill: palette.text.primary
         }
       },
       dropdownOptions: {
