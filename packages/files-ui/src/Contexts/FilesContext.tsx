@@ -77,6 +77,7 @@ type FilesContext = {
   uploadsInProgress: UploadProgress[]
   downloadsInProgress: DownloadProgress[]
   storageSummary: BucketSummaryResponse | undefined
+  getStorageSummary: () => Promise<void>
   uploadFiles: (bucketId: string, files: File[], path: string, encryptionKey?: string) => Promise<void>
   downloadFile: (bucketId: string, itemToDownload: FileSystemItem, path: string) => void
   getFileContent: (bucketId: string, params: GetFileContentParams) => Promise<Blob | undefined>
@@ -125,6 +126,15 @@ const FilesProvider = ({ children }: FilesContextProps) => {
   const { profile } = useUser()
   const { userId } = profile || {}
   const [isLoadingBuckets, setIsLoadingBuckets] = useState(false)
+
+  const getStorageSummary = useCallback(async () => {
+    try {
+      const bucketSummaryData = await filesApiClient.bucketsSummary()
+      setStorageSummary(bucketSummaryData)
+    } catch (error) {
+      console.error(error)
+    }
+  }, [filesApiClient, setStorageSummary])
 
   const getPermissionForBucket = useCallback((bucket: FilesBucket) => {
     return bucket.owners.find(owner => owner.uuid === userId)
@@ -186,9 +196,9 @@ const FilesProvider = ({ children }: FilesContextProps) => {
     )
     setBuckets(bucketsWithKeys)
     setIsLoadingBuckets(false)
-
+    getStorageSummary()
     return Promise.resolve()
-  }, [personalEncryptionKey, userId, filesApiClient, getKeyForBucket, getPermissionForBucket])
+  }, [personalEncryptionKey, userId, filesApiClient, getStorageSummary, getKeyForBucket, getPermissionForBucket])
 
   useEffect(() => {
     refreshBuckets(true)
@@ -196,18 +206,10 @@ const FilesProvider = ({ children }: FilesContextProps) => {
 
   // Space used counter
   useEffect(() => {
-    const getStorageSummary = async () => {
-      try {
-        const bucketSummaryData = await filesApiClient.bucketsSummary()
-        setStorageSummary(bucketSummaryData)
-      } catch (error) {
-        console.error(error)
-      }
-    }
     if (isLoggedIn) {
       getStorageSummary()
     }
-  }, [filesApiClient, isLoggedIn, buckets, profile])
+  }, [isLoggedIn, getStorageSummary, profile])
 
   // Reset encryption keys on log out
   useEffect(() => {
@@ -580,6 +582,7 @@ const FilesProvider = ({ children }: FilesContextProps) => {
         getFileContent,
         uploadsInProgress,
         storageSummary,
+        getStorageSummary,
         downloadsInProgress,
         secureAccountWithMasterPassword,
         buckets,
