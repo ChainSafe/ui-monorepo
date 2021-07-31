@@ -50,6 +50,6 @@ By default the tests are run against `localhost:3000`
 - To start all the tests like in CI run `yarn test:ci:files-ui` 
 
 ## License
-All `files-ui` code are licensed under the [GNU Lesser General Public License v3.0](https://www.gnu.org/licenses/lgpl-3.0.en.html) also included in our repository in the [LICENSE.md](https://github.com/ChainSafe/ui-monorepo/blob/dev/LICENSE.md) file
+All the code in this repository is licensed under the [GNU Lesser General Public License v3.0](https://www.gnu.org/licenses/lgpl-3.0.en.html) also included in our repository in the [LICENSE.md](https://github.com/ChainSafe/ui-monorepo/blob/dev/LICENSE.md) file
 
 © Copyright Protected & All Rights Reserved by [ChainSafe Systems](https://chainsafe.io)
