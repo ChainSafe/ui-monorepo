@@ -1,6 +1,8 @@
-import React from "react"
+import React, { useCallback, useMemo } from "react"
 import { makeStyles, createStyles, useThemeSwitcher } from "@chainsafe/common-theme"
 import UserBubble from "./UserBubble"
+import { BucketUser } from "@chainsafe/files-api-client"
+import { BucketKeyPermission } from "../../Contexts/FilesContext"
 
 const useStyles = makeStyles(() => {
   return createStyles({
@@ -10,22 +12,39 @@ const useStyles = makeStyles(() => {
   })
 })
 interface Props {
-  sharedUsers: string[]
+ bucket: BucketKeyPermission
 }
 
-const SharedUsers = ({ sharedUsers }: Props) => {
+const SharedUser = ({ bucket }: Props) => {
   const classes = useStyles()
   const { desktop } = useThemeSwitcher()
+  const { owners, readers, writers } = bucket
 
-  if (!sharedUsers.length) {
+  const getUserIds = useCallback((users?: BucketUser[]): string[] => {
+    if(!users) return []
+
+    return users.reduce((acc: string[], user): string[] => {
+      return user.uuid ? [...acc, user.uuid] :  acc
+    }, [] as string[])
+  }, [])
+
+  const userIds = useMemo(() =>
+    [
+      ...getUserIds(owners),
+      ...getUserIds(readers),
+      ...getUserIds(writers)
+    ],
+  [owners, readers, writers, getUserIds])
+
+  if (!userIds.length) {
     return null
   }
 
   if (!desktop) {
     return <div className={classes.root}>
       <UserBubble
-        text={`+${sharedUsers.length}`}
-        tooltip={sharedUsers}
+        text={`+${userIds.length}`}
+        tooltip={userIds}
       />
     </div>
   }
@@ -33,21 +52,21 @@ const SharedUsers = ({ sharedUsers }: Props) => {
   return (
     <div className={classes.root}>
       <UserBubble
-        tooltip={sharedUsers[0]}
+        tooltip={userIds[0]}
       />
-      {sharedUsers.length > 2 && (
+      {userIds.length > 2 && (
         <UserBubble
-          text={`+${sharedUsers.length - 1}`}
-          tooltip={sharedUsers.slice(0, -1)}
+          text={`+${userIds.length - 1}`}
+          tooltip={userIds.slice(0, -1)}
         />
       )}
-      {sharedUsers.length === 2 && (
+      {userIds.length === 2 && (
         <UserBubble
-          tooltip={sharedUsers[1]}
+          tooltip={userIds[1]}
         />
       )}
     </div>
   )
 }
 
-export default SharedUsers
+export default SharedUser

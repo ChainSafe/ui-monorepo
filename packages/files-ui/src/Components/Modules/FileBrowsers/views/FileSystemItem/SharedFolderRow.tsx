@@ -16,7 +16,6 @@ import {
   UserShareSvg
 } from "@chainsafe/common-components"
 import { CSFTheme } from "../../../../../Themes/types"
-import { BucketUser } from "@chainsafe/files-api-client"
 import { desktopSharedGridSettings, mobileSharedGridSettings } from "../../SharedFoldersOverview"
 import SharedUsers from "../../../../Elements/SharedUser"
 import { t, Trans } from "@lingui/macro"
@@ -200,14 +199,6 @@ const SharedFolderRow = ({ bucket, handleRename, openSharedFolder, handleDeleteS
     click(e)
   }
 
-  const getUserIds = (users: BucketUser[]): string[] => {
-    return users.reduce((acc: string[], user): string[] => {
-      return user.uuid ? [...acc, user.uuid] :  acc
-    }, [] as string[])
-  }
-
-  const userIds = [...getUserIds(bucket.owners), ...getUserIds(bucket.readers), ...getUserIds(bucket.writers)]
-
   const formik = useFormik({
     initialValues:{
       fileName: name
@@ -284,7 +275,7 @@ const SharedFolderRow = ({ bucket, handleRename, openSharedFolder, handleDeleteS
         align="left"
         className={classes.sharedUser}
       >
-        <SharedUsers sharedUsers={userIds}/>
+        <SharedUsers bucket={bucket}/>
       </TableCell>
       {desktop &&
         <TableCell align="left">

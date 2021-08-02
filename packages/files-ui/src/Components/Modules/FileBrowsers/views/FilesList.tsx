@@ -51,6 +51,7 @@ import { DragPreviewLayer } from "./DragPreviewLayer"
 import { useFileBrowser } from "../../../../Contexts/FileBrowserContext"
 import ReportFileModal from "../ReportFileModal"
 import CopyToSharedFolderModal from "../CopyToSharedFolderModal"
+import SharedUsers from "../../../Elements/SharedUser"
 
 const baseOperations:  FileOperation[] = ["download", "info", "preview"]
 const readerOperations: FileOperation[] = [...baseOperations, "report"]
@@ -82,7 +83,6 @@ const useStyles = makeStyles(
             borderColor: palette.primary.main
           }
         }
-        // transitionDuration: `${animation.transform}ms`,
       },
       header: {
         display: "flex",
@@ -276,6 +276,11 @@ const useStyles = makeStyles(
           width: "20px",
           height: "20px"
         }
+      },
+      users: {
+        flex: 1,
+        display: "flex",
+        justifyContent: "flex-end"
       }
     })
   }
@@ -632,6 +637,11 @@ const FilesList = ({ isShared = false }: Props) => {
         >
           {heading}
         </Typography>
+        {isShared && bucket && (
+          <div className={classes.users}>
+            <SharedUsers bucket={bucket}/>
+          </div>
+        )}
         <div className={classes.controls}>
           {controls && desktop ? (
             <>
