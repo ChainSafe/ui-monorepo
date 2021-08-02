@@ -30,7 +30,7 @@ import { FileSystemItem as FileSystemItemType } from "../../../Contexts/StorageC
 import { ISelectedFile, useFileBrowser } from "../../../Contexts/FileBrowserContext"
 import { BrowserView, FileOperation } from "../../../Contexts/types"
 import { DragTypes } from "../FilesList/DragConstants"
-import { renameSchema } from "../../../Utils/validationSchema"
+import { nameValidator } from "../../../Utils/validationSchema"
 import { getPathWithFile } from "../../../Utils/pathUtils"
 
 const useStyles = makeStyles(({ breakpoints, constants }: CSSTheme) => {
@@ -437,7 +437,7 @@ const FileSystemItem = ({
                 initialValues={{
                   fileName: name
                 }}
-                validationSchema={renameSchema}
+                validationSchema={nameValidator}
                 onSubmit={(values) => {
                   const newName = values.fileName?.trim()
 

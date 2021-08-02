@@ -34,7 +34,7 @@ import { useFileBrowser } from "../../../../../Contexts/FileBrowserContext"
 import { getPathWithFile } from "../../../../../Utils/pathUtils"
 import { BucketUser } from "@chainsafe/files-api-client"
 import { useMemo } from "react"
-import { renameSchema } from "../../../../../Utils/validationSchema"
+import { nameValidator } from "../../../../../Utils/validationSchema"
 
 const useStyles = makeStyles(({ breakpoints, constants }: CSFTheme) => {
   return createStyles({
@@ -156,7 +156,7 @@ const FileSystemItem = ({
     initialValues:{
       fileName: name
     },
-    validationSchema:renameSchema,
+    validationSchema: nameValidator,
     onSubmit:(values) => {
       const newName = values.fileName?.trim()
 
@@ -433,7 +433,7 @@ const FileSystemItem = ({
     menuItems,
     onFolderOrFileClicks,
     preview,
-    renameSchema,
+    renameSchema: nameValidator,
     selected,
     setEditing,
     resetSelectedFiles

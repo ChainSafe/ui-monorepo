@@ -110,12 +110,14 @@ const PasswordlessEmail = ({ resetLogin }: IPasswordlessEmail) => {
   })
   , [])
 
-  const onSubmitEmail = useCallback((values) => {
+  const onSubmitEmail = useCallback((values: {email: string}) => {
+    const trimmedEmail = values?.email?.trim()
+
     setIsSubmitEmailLoading(true)
     setError(undefined)
-    gamingApiClient.getIdentityEmailToken({ email: values.email })
+    gamingApiClient.getIdentityEmailToken({ email: trimmedEmail })
       .then(() => {
-        setEmail(values.email)
+        setEmail(trimmedEmail)
         setPage("confirmVerificationCode")
       }).catch ((e) => {
         setError(t`Something went wrong! Please try again.`)
@@ -123,7 +125,7 @@ const PasswordlessEmail = ({ resetLogin }: IPasswordlessEmail) => {
       }).finally (() => setIsSubmitEmailLoading(false))
   }, [gamingApiClient])
 
-  const onSubmitNonce = useCallback((values) => {
+  const onSubmitNonce = useCallback((values: {nonce: string}) => {
     if (!email) return
     setIsSubmitNonceLoading(true)
     setError(undefined)

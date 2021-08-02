@@ -21,6 +21,7 @@ import { useEffect } from "react"
 import { SharedFolderModalMode } from "./types"
 import { useCreateOrEditSharedFolder } from "./hooks/useCreateOrEditSharedFolder"
 import { useLookupSharedFolderUser } from "./hooks/useLookupUser"
+import { nameValidator } from "../../../Utils/validationSchema"
 
 const useStyles = makeStyles(
   ({ breakpoints, constants, typography, zIndex, palette }: CSFTheme) => {
@@ -108,6 +109,10 @@ const useStyles = makeStyles(
       footer: {
         width: "100%",
         padding: `${constants.generalUnit * 2}px ${constants.generalUnit}px`
+      },
+      errorText: {
+        textAlign: "center",
+        color: palette.error.main
       }
     })
   }
@@ -127,6 +132,7 @@ const CreateOrEditSharedFolderModal = ({ mode, isModalOpen, onClose, bucketToEdi
   const [sharedFolderName, setSharedFolderName] = useState("")
   const { sharedFolderReaders, sharedFolderWriters, onNewUsers, handleLookupUser, usersError, setUsersError } = useLookupSharedFolderUser()
   const [hasPermissionsChanged, setHasPermissionsChanged] = useState(false)
+  const [nameError, setNameError] = useState("")
 
   useEffect(() => {
     setSharedFolderName("")
@@ -166,6 +172,22 @@ const CreateOrEditSharedFolderModal = ({ mode, isModalOpen, onClose, bucketToEdi
       .finally(onClose)
   }, [handleEditSharedFolder, sharedFolderWriters, sharedFolderReaders, onClose, bucketToEdit])
 
+  const onNameChange = useCallback((value?: string | number) => {
+    if (value === undefined) return
+
+    const trimmedValue = value.toString().trim()
+    setSharedFolderName(trimmedValue)
+
+    nameValidator
+      .validate({ name: trimmedValue })
+      .then(() => {
+        setNameError("")
+      })
+      .catch((e: Error) => {
+        setNameError(e.message)
+      })
+  }, [])
+
   return (
     <CustomModal
       className={classes.modalRoot}
@@ -196,9 +218,19 @@ const CreateOrEditSharedFolderModal = ({ mode, isModalOpen, onClose, bucketToEdi
               labelClassName={classes.inputLabel}
               label={t`Shared Folder Name`}
               value={sharedFolderName}
-              onChange={(value) => {setSharedFolderName(value?.toString() || "")}}
+              onChange={onNameChange}
               autoFocus
+              state={nameError ? "error" : "normal"}
             />
+            {nameError && (
+              <Typography
+                component="p"
+                variant="body1"
+                className={classes.errorText}
+              >
+                {nameError}
+              </Typography>
+            )}
           </div>
         }
         <div className={classes.modalFlexItem}>
@@ -275,7 +307,7 @@ const CreateOrEditSharedFolderModal = ({ mode, isModalOpen, onClose, bucketToEdi
               className={classes.okButton}
               loading={isCreatingSharedFolder || isEditingSharedFolder}
               onClick={mode === "create" ? onCreateSharedFolder : onEditSharedFolder}
-              disabled={mode === "create" ? !!usersError : !hasPermissionsChanged || !!usersError}
+              disabled={mode === "create" ? (!!usersError || !!nameError) : !hasPermissionsChanged || !!usersError}
             >
               {mode === "create"
                 ? <Trans>Create</Trans>

@@ -18,7 +18,7 @@ import dayjs from "dayjs"
 import { FileSystemItem } from "../../../../../Contexts/FilesContext"
 import { ConnectDragPreview } from "react-dnd"
 import { Form, FormikProvider, useFormik } from "formik"
-import { renameSchema } from "../../../../../Utils/validationSchema"
+import { nameValidator } from "../../../../../Utils/validationSchema"
 
 const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => {
   const desktopGridSettings = "50px 69px 3fr 190px 100px 45px !important"
@@ -145,7 +145,7 @@ const FileSystemTableItem = React.forwardRef(
       initialValues:{
         fileName: name
       },
-      validationSchema: renameSchema,
+      validationSchema: nameValidator,
       onSubmit:(values) => {
         const newName = values.fileName?.trim()
 
