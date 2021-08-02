@@ -32,10 +32,8 @@ const useStyles = makeStyles(({ zIndex, animation, constants, palette }: CSFThem
       flexDirection: "column",
       alignItems: "center",
       justifyContent: "center",
-      left: "50%",
-      top: "-20px",
+      bottom: constants.generalUnit * 5 + 5, //bubble height + the 5 from the triangle in &:after
       position: "absolute",
-      transform: "translate(-50%, -50%)",
       zIndex: zIndex?.layer1,
       transitionDuration: `${animation.transform}ms`,
       opacity: 0,
