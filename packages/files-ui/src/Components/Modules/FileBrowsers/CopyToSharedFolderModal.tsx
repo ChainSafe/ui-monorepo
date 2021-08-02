@@ -15,9 +15,8 @@ import {
 } from "@chainsafe/common-components"
 import { CSFTheme } from "../../../Themes/types"
 import { useCallback } from "react"
-import { useCreateSharedFolder } from "./hooks/useCreateSharedFolder"
+import { useCreateOrEditSharedFolder } from "./hooks/useCreateOrEditSharedFolder"
 import { useLookupSharedFolderUser } from "./hooks/useLookupUser"
-import { SharedFolderCreationPermission } from "./types"
 import { useMemo } from "react"
 import { BucketKeyPermission, FileSystemItem, useFiles } from "../../../Contexts/FilesContext"
 import { useUser } from "../../../Contexts/UserContext"
@@ -196,10 +195,15 @@ interface IShareFileProps {
 
 const CopyToSharedFolderModal = ({ close, file, filePath }: IShareFileProps) => {
   const classes = useStyles()
-  const { isCreatingSharedFolder, handleCreateSharedFolder } = useCreateSharedFolder()
+  const { isCreatingSharedFolder, handleCreateSharedFolder } = useCreateOrEditSharedFolder()
   const [sharedFolderName, setSharedFolderName] = useState("")
-  const { sharedFolderUsers, setSharedFolderUsers, handleLookupUser } = useLookupSharedFolderUser()
-  const [permissions, setPermissions] = useState<SharedFolderCreationPermission>(undefined)
+  const {
+    sharedFolderReaders,
+    sharedFolderWriters,
+    handleLookupUser,
+    onNewUsers,
+    usersError
+  } = useLookupSharedFolderUser()
   const [isUsingCurrentBucket, setIsUsingCurrentBucket] = useState(true)
   const [currentStep, setCurrentStep] = useState<Step>("1_SHARED_FOLDER_SELECTION_CREATION")
   const [destinationBucket, setDestinationBucket] = useState<BucketKeyPermission | undefined>()
@@ -258,7 +262,7 @@ const CopyToSharedFolderModal = ({ close, file, filePath }: IShareFileProps) => 
 
       if(!isUsingCurrentBucket){
         try {
-          const newBucket = await handleCreateSharedFolder(sharedFolderName, sharedFolderUsers, permissions)
+          const newBucket = await handleCreateSharedFolder(sharedFolderName, sharedFolderReaders, sharedFolderWriters)
 
           if(!newBucket){
             setError(t`Error while creating new shared folder`)
@@ -315,10 +319,10 @@ const CopyToSharedFolderModal = ({ close, file, filePath }: IShareFileProps) => 
     getFile,
     handleCreateSharedFolder,
     isUsingCurrentBucket,
-    permissions,
     sharedFolderName,
-    sharedFolderUsers,
-    uploadFiles
+    uploadFiles,
+    sharedFolderReaders,
+    sharedFolderWriters
   ])
 
 
@@ -364,34 +368,37 @@ const CopyToSharedFolderModal = ({ close, file, filePath }: IShareFileProps) => 
           autoFocus
         />
       </div>
-      <TagsInput
-        onChange={(val) => {
-          (val && val.length > 0)
-            ? setSharedFolderUsers(val?.map(v => ({ label: v.label, value: v.value, data: v.data })))
-            : setSharedFolderUsers([])
-        }}
-        label={t`Share with`}
-        labelClassName={classes.inputLabel}
-        value={sharedFolderUsers}
-        fetchTags={handleLookupUser}
-        placeholder={t`Add by sharing address, username or wallet address`}
-        styles={{
-          control: (provided) => ({
-            ...provided,
-            minHeight: 90,
-            alignContent: "start"
-          })
-        }}/>
       <div className={classes.modalFlexItem}>
-        <SelectInput
-          label={t`Allow them to`}
+        <TagsInput
+          onChange={(values) => onNewUsers(values, "read")}
+          label={t`Give view-only permission to:`}
           labelClassName={classes.inputLabel}
-          options={[
-            { label: t`Add/remove content`, value: "write" },
-            { label: t`Read content`, value: "read" }
-          ]}
-          value={permissions}
-          onChange={(val) => setPermissions(val)} />
+          value={sharedFolderReaders}
+          fetchTags={(inputVal) => handleLookupUser(inputVal, "read")}
+          placeholder={t`Add by sharing address, username or wallet address`}
+          styles={{
+            control: (provided) => ({
+              ...provided,
+              minHeight: 90,
+              alignContent: "start"
+            })
+          }}/>
+      </div>
+      <div className={classes.modalFlexItem}>
+        <TagsInput
+          onChange={(values) => onNewUsers(values, "write")}
+          label={t`Give edit permission to:`}
+          labelClassName={classes.inputLabel}
+          value={sharedFolderWriters}
+          fetchTags={(inputVal) => handleLookupUser(inputVal, "write")}
+          placeholder={t`Add by sharing address, username or wallet address`}
+          styles={{
+            control: (provided) => ({
+              ...provided,
+              minHeight: 90,
+              alignContent: "start"
+            })
+          }}/>
       </div>
     </>
   )
@@ -460,6 +467,14 @@ const CopyToSharedFolderModal = ({ close, file, filePath }: IShareFileProps) => 
                 </Typography>
               </div>
             )}
+            {!!usersError && (
+              <Typography
+                component="p"
+                variant="body1"
+              >
+                {usersError}
+              </Typography>
+            )}
             <div className={classes.buttonsContainer}>
               <Button
                 size="large"
@@ -479,6 +494,7 @@ const CopyToSharedFolderModal = ({ close, file, filePath }: IShareFileProps) => 
                 variant="primary"
                 onClick={onShare}
                 className={classes.sideBySideButton}
+                disabled={currentStep === "1_SHARED_FOLDER_SELECTION_CREATION" ? !!usersError : false}
               >
                 <Trans>Copy over</Trans>
               </Button>
