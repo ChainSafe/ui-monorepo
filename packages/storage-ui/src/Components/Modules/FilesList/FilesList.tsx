@@ -990,20 +990,21 @@ const FilesList = () => {
               modalOpen={isUploadModalOpen}
               close={() => setIsUploadModalOpen(false)}
             />
-            <MoveFileModal
-              filesToMove={selectedItems}
-              modalOpen={isMoveFileModalOpen}
-              onClose={() => {
-                setIsMoveFileModalOpen(false)
-                setSelectedCids([])
-                setMoveModalMode(undefined)
-              }}
-              onCancel={() => {
-                setIsMoveFileModalOpen(false)
-                setMoveModalMode(undefined)
-              }}
-              mode={moveModalMode}
-            />
+            {isMoveFileModalOpen && (
+              <MoveFileModal
+                filesToMove={selectedItems}
+                onClose={() => {
+                  setIsMoveFileModalOpen(false)
+                  setSelectedCids([])
+                  setMoveModalMode(undefined)
+                }}
+                onCancel={() => {
+                  setIsMoveFileModalOpen(false)
+                  setMoveModalMode(undefined)
+                }}
+                mode={moveModalMode}
+              />
+            )}
           </>
         )
       }
