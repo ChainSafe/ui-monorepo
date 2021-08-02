@@ -17,7 +17,7 @@ import {
 } from "@chainsafe/common-components"
 import { CSFTheme } from "../../../../../Themes/types"
 import { desktopSharedGridSettings, mobileSharedGridSettings } from "../../SharedFoldersOverview"
-import SharedUsers from "../../../../Elements/SharedUser"
+import SharedUsers from "../../../../Elements/SharedUsers"
 import { t, Trans } from "@lingui/macro"
 import { Form, FormikProvider, useFormik } from "formik"
 import clsx from "clsx"

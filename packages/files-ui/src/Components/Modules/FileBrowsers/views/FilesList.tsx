@@ -51,7 +51,7 @@ import { DragPreviewLayer } from "./DragPreviewLayer"
 import { useFileBrowser } from "../../../../Contexts/FileBrowserContext"
 import ReportFileModal from "../ReportFileModal"
 import CopyToSharedFolderModal from "../CopyToSharedFolderModal"
-import SharedUsers from "../../../Elements/SharedUser"
+import SharedUsers from "../../../Elements/SharedUsers"
 
 const baseOperations:  FileOperation[] = ["download", "info", "preview"]
 const readerOperations: FileOperation[] = [...baseOperations, "report"]

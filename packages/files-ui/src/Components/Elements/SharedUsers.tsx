@@ -15,7 +15,7 @@ interface Props {
  bucket: BucketKeyPermission
 }
 
-const SharedUser = ({ bucket }: Props) => {
+const SharedUsers = ({ bucket }: Props) => {
   const classes = useStyles()
   const { desktop } = useThemeSwitcher()
   const { owners, readers, writers } = bucket
@@ -69,4 +69,4 @@ const SharedUser = ({ bucket }: Props) => {
   )
 }
 
-export default SharedUser
+export default SharedUsers
