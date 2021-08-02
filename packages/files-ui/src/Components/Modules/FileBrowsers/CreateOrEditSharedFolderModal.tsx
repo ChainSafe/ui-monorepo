@@ -2,11 +2,9 @@ import {
   Button,
   ShareAltSvg,
   TagsInput,
-  ITagOption,
-  ITagValueType,
-  ITagActionMeta,
   Typography,
-  Grid
+  Grid,
+  TextInput
 } from "@chainsafe/common-components"
 import {
   createStyles,
@@ -16,13 +14,13 @@ import {
 import React, { useState, useCallback } from "react"
 import CustomModal from "../../Elements/CustomModal"
 import { CSFTheme } from "../../../Themes/types"
-import { BucketKeyPermission, useFiles } from "../../../Contexts/FilesContext"
-import { useFilesApi } from "../../../Contexts/FilesApiContext"
+import { BucketKeyPermission } from "../../../Contexts/FilesContext"
 import CustomButton from "../../Elements/CustomButton"
 import { t, Trans } from "@lingui/macro"
-import { LookupUserRequest } from "@chainsafe/files-api-client"
-import { useUser } from "../../../Contexts/UserContext"
 import { useEffect } from "react"
+import { SharedFolderModalMode } from "./types"
+import { useCreateOrEditSharedFolder } from "./hooks/useCreateOrEditSharedFolder"
+import { useLookupSharedFolderUser } from "./hooks/useLookupUser"
 
 const useStyles = makeStyles(
   ({ breakpoints, constants, typography, zIndex, palette }: CSFTheme) => {
@@ -103,6 +101,10 @@ const useStyles = makeStyles(
         fontSize: 16,
         fontWeight: 600
       },
+      shareFolderNameInput: {
+        margin: `0 ${constants.generalUnit * 1.5}px ${constants.generalUnit}px`,
+        display: "block"
+      },
       footer: {
         width: "100%",
         padding: `${constants.generalUnit * 2}px ${constants.generalUnit}px`
@@ -111,143 +113,58 @@ const useStyles = makeStyles(
   }
 )
 
-interface IUpdateSharedFolderModalProps {
+interface ICreateOrEditSharedFolderModalProps {
+  mode?: SharedFolderModalMode
   isModalOpen: boolean
   onClose: () => void
-  bucket?: BucketKeyPermission
+  bucketToEdit?: BucketKeyPermission
 }
 
-interface SharedUser {
-  uuid?: string
-  username?: string
-  identity_pubkey?: string
-  public_address?: string
-  encryption_key?: string
-}
-
-interface UserPermission {
-  label: string
-  value: string
-  data: SharedUser
-}
-
-const UpdateSharedFolderModal = ({
-  isModalOpen,
-  onClose,
-  bucket
-}: IUpdateSharedFolderModalProps) => {
+const CreateOrEditSharedFolderModal = ({ mode, isModalOpen, onClose, bucketToEdit }: ICreateOrEditSharedFolderModalProps) => {
   const classes = useStyles()
-  const { editSharedFolder } = useFiles()
-  const { filesApiClient } = useFilesApi()
-  const { profile } = useUser()
-  const [isEditingSharedFolder, setIsEditingSharedFolder] = useState(false)
+  const { desktop } = useThemeSwitcher()
+  const { handleCreateSharedFolder, handleEditSharedFolder, isEditingSharedFolder, isCreatingSharedFolder } = useCreateOrEditSharedFolder()
+  const [sharedFolderName, setSharedFolderName] = useState("")
+  const { sharedFolderReaders, sharedFolderWriters, onNewUsers, handleLookupUser, usersError, setUsersError } = useLookupSharedFolderUser()
   const [hasPermissionsChanged, setHasPermissionsChanged] = useState(false)
-  const [error, setError] = useState("")
-  const [sharedFolderWriters, setSharedFolderWriters] = useState<UserPermission[]>([])
-  const [sharedFolderReaders, setSharedFolderReaders] = useState<UserPermission[]>([])
 
   useEffect(() => {
-    if (!bucket) return
-    setSharedFolderWriters(
-      bucket.writers.map((writer) => ({
-        label: writer.uuid || "",
-        value: writer.uuid || "",
-        data: writer
-      })
-      ) || []
-    )
-    setSharedFolderReaders(
-      bucket.readers.map((reader) => ({
-        label: reader.uuid || "",
-        value: reader.uuid || "",
-        data: reader
-      })
-      ) || []
-    )
+    setSharedFolderName("")
     setHasPermissionsChanged(false)
-  }, [bucket])
+    setUsersError("")
 
-  const { desktop } = useThemeSwitcher()
+    if (!bucketToEdit) return
 
-  const handleLookupUser = useCallback(async (inputVal: string, permission: "reader" | "writer") => {
-    if (inputVal === "") return []
-    setError("")
-    const lookupBody: LookupUserRequest = {}
-    const ethAddressRegex = new RegExp("^0(x|X)[a-fA-F0-9]{40}$") // Eth Address Starting with 0x and 40 HEX chars
-    const pubKeyRegex = new RegExp("^0(x|X)[a-fA-F0-9]{66}$") // Compressed public key, 66 chars long
+    const newWriters = bucketToEdit.writers.map((writer) => ({
+      label: writer.uuid || "",
+      value: writer.uuid || "",
+      data: writer
+    })
+    ) || []
 
-    if (ethAddressRegex.test(inputVal)) {
-      lookupBody.public_address = inputVal
-    } else if (pubKeyRegex.test(inputVal)) {
-      lookupBody.identity_public_key = inputVal
-    } else {
-      lookupBody.username = inputVal
-    }
+    const newReaders = bucketToEdit.readers.map((reader) => ({
+      label: reader.uuid || "",
+      value: reader.uuid || "",
+      data: reader
+    })
+    ) || []
 
-    const result = await filesApiClient.lookupUser(lookupBody)
+    onNewUsers(newWriters, "write")
+    onNewUsers(newReaders, "read")
+  }, [bucketToEdit, setUsersError, setHasPermissionsChanged, onNewUsers])
 
-    if (!result) return []
-    const usersList = permission === "reader" ? sharedFolderReaders : sharedFolderWriters
-    const currentUsers = Array.isArray(usersList) ? usersList.map(su => su.value) : []
-    if (currentUsers.includes(result.uuid) || result.uuid === profile?.userId) return []
-    return [{ label: inputVal, value: result.uuid, data: result }]
-
-  }, [filesApiClient, sharedFolderReaders, sharedFolderWriters, profile])
-
-  const handleClose = useCallback(() => {
-    setSharedFolderReaders([])
-    setSharedFolderWriters([])
-    onClose()
-  }, [onClose])
-
-  const getUserPermission = (userPermissions: UserPermission[]) => userPermissions.map(su => ({
-    uuid: su.value,
-    pubKey: su.data.identity_pubkey?.slice(2),
-    encryption_key: su.data.encryption_key
-  }))
-
-  const handleUpdateSharedFolder = useCallback(() => {
-    if (!bucket) return
-
-    const readers = getUserPermission(sharedFolderReaders)
-    const writers = getUserPermission(sharedFolderWriters)
-
-    setIsEditingSharedFolder(true)
-    editSharedFolder(bucket, writers, readers)
-      .then(handleClose)
+  const onCreateSharedFolder = useCallback(() => {
+    handleCreateSharedFolder(sharedFolderName, sharedFolderReaders, sharedFolderWriters)
       .catch(console.error)
-      .finally(() => setIsEditingSharedFolder(false))
-  }, [sharedFolderWriters, sharedFolderReaders, editSharedFolder, handleClose, bucket])
+      .finally(onClose)
+  }, [handleCreateSharedFolder, sharedFolderName, sharedFolderWriters, sharedFolderReaders, onClose])
 
-  const onNewReaders = (val: ITagValueType<ITagOption, true>, action: ITagActionMeta<ITagOption>) => {
-    if (action.action === "select-option") {
-      // new reader inserted
-      const foundWriter = sharedFolderWriters.find((writer) => writer.data.uuid === action.option?.data.uuid)
-      if (foundWriter) {
-        setError(t`User already included in writers`)
-        return
-      }
-    }
-    setHasPermissionsChanged(true)
-    val && val.length > 0
-      ? setSharedFolderReaders(val?.map(v => ({ label: v.label, value: v.value, data: v.data })))
-      : setSharedFolderReaders([])
-  }
-
-  const onNewWriters = (val: ITagValueType<ITagOption, true>, action: ITagActionMeta<ITagOption>) => {
-    if (action.action === "select-option") {
-      // new reader inserted
-      const foundReader = sharedFolderReaders.find((reader) => reader.data.uuid === action.option?.data.uuid)
-      if (foundReader) {
-        setError(t`User already included in readers`)
-        return
-      }
-    }
-    setHasPermissionsChanged(true)
-    val && val.length > 0
-      ? setSharedFolderWriters(val?.map(v => ({ label: v.label, value: v.value, data: v.data })))
-      : setSharedFolderWriters([])
-  }
+  const onEditSharedFolder = useCallback(() => {
+    if (!bucketToEdit) return
+    handleEditSharedFolder(bucketToEdit, sharedFolderReaders, sharedFolderWriters)
+      .catch(console.error)
+      .finally(onClose)
+  }, [handleEditSharedFolder, sharedFolderWriters, sharedFolderReaders, onClose, bucketToEdit])
 
   return (
     <CustomModal
@@ -265,16 +182,35 @@ const UpdateSharedFolderModal = ({
         </div>
         <div className={classes.heading}>
           <Typography className={classes.inputLabel}>
-            <Trans>Update Shared Folder</Trans>
+            {mode === "create"
+              ? <Trans>Create Shared Folder</Trans>
+              : <Trans>Update Shared Folder</Trans>
+            }
+
           </Typography>
         </div>
+        {mode === "create" &&
+          <div className={classes.modalFlexItem}>
+            <TextInput
+              className={classes.shareFolderNameInput}
+              labelClassName={classes.inputLabel}
+              label={t`Shared Folder Name`}
+              value={sharedFolderName}
+              onChange={(value) => {setSharedFolderName(value?.toString() || "")}}
+              autoFocus
+            />
+          </div>
+        }
         <div className={classes.modalFlexItem}>
           <TagsInput
-            onChange={onNewReaders}
+            onChange={(values) => {
+              setHasPermissionsChanged(true)
+              onNewUsers(values, "read")
+            }}
             label={t`Give view-only permission to:`}
             labelClassName={classes.inputLabel}
             value={sharedFolderReaders}
-            fetchTags={(inputVal) => handleLookupUser(inputVal, "reader")}
+            fetchTags={(inputVal) => handleLookupUser(inputVal, "read")}
             placeholder={t`Add by sharing address, username or wallet address`}
             styles={{
               control: (provided) => ({
@@ -286,11 +222,14 @@ const UpdateSharedFolderModal = ({
         </div>
         <div className={classes.modalFlexItem}>
           <TagsInput
-            onChange={onNewWriters}
+            onChange={(values) => {
+              setHasPermissionsChanged(true)
+              onNewUsers(values, "write")
+            }}
             label={t`Give edit permission to:`}
             labelClassName={classes.inputLabel}
             value={sharedFolderWriters}
-            fetchTags={(inputVal) => handleLookupUser(inputVal, "writer")}
+            fetchTags={(inputVal) => handleLookupUser(inputVal, "write")}
             placeholder={t`Add by sharing address, username or wallet address`}
             styles={{
               control: (provided) => ({
@@ -307,12 +246,12 @@ const UpdateSharedFolderModal = ({
           alignItems="center"
           className={classes.footer}
         >
-          {!!error && (
+          {!!usersError && (
             <Typography
               component="p"
               variant="body1"
             >
-              {error}
+              {usersError}
             </Typography>
           )}
           <Grid
@@ -321,7 +260,7 @@ const UpdateSharedFolderModal = ({
             justifyContent="flex-end"
           >
             <CustomButton
-              onClick={handleClose}
+              onClick={onClose}
               size="medium"
               className={classes.cancelButton}
               variant={desktop ? "outline" : "gray"}
@@ -334,11 +273,14 @@ const UpdateSharedFolderModal = ({
               size={desktop ? "medium" : "large"}
               type="submit"
               className={classes.okButton}
-              loading={isEditingSharedFolder}
-              onClick={handleUpdateSharedFolder}
-              disabled={!hasPermissionsChanged}
+              loading={isCreatingSharedFolder || isEditingSharedFolder}
+              onClick={mode === "create" ? onCreateSharedFolder : onEditSharedFolder}
+              disabled={mode === "create" ? !!usersError : !hasPermissionsChanged || !!usersError}
             >
-              <Trans>Update</Trans>
+              {mode === "create"
+                ? <Trans>Create</Trans>
+                : <Trans>Update</Trans>
+              }
             </Button>
           </Grid>
         </Grid>
@@ -347,4 +289,4 @@ const UpdateSharedFolderModal = ({
   )
 }
 
-export default UpdateSharedFolderModal
+export default CreateOrEditSharedFolderModal
