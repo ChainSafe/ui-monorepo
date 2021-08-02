@@ -44,12 +44,6 @@ msgstr ""
 msgid "Add more files"
 msgstr "Legg til flere filer"
 
-msgid "Add/remove content"
-msgstr ""
-
-msgid "Allow them to"
-msgstr ""
-
 msgid "Approve"
 msgstr "Godkjenn"
 
@@ -506,9 +500,6 @@ msgstr "Profilinnstillinger"
 msgid "Profile updated"
 msgstr "Profil oppdatert"
 
-msgid "Read content"
-msgstr ""
-
 msgid "Recover"
 msgstr "Gjenopprett"
 
@@ -624,9 +615,6 @@ msgid "Settings"
 msgstr "Innstillinger"
 
 msgid "Setup incomplete"
-msgstr ""
-
-msgid "Share with"
 msgstr ""
 
 msgid "Shared"
@@ -773,10 +761,7 @@ msgstr ""
 msgid "Use an existing shared folder"
 msgstr ""
 
-msgid "User already included in readers"
-msgstr ""
-
-msgid "User already included in writers"
+msgid "User {0} is both a reader and writer"
 msgstr ""
 
 msgid "Username"

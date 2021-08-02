@@ -45,12 +45,6 @@ msgstr "Ajouter par adresse de partage, nom d'utilisateur ou adresse de portefeu
 msgid "Add more files"
 msgstr "Ajouter d’autres fichiers"
 
-msgid "Add/remove content"
-msgstr "Ajouter/supprimer du contenu"
-
-msgid "Allow them to"
-msgstr "Permettez-leur de"
-
 msgid "Approve"
 msgstr "Accepter"
 
@@ -514,9 +508,6 @@ msgstr "Paramètres du profil"
 msgid "Profile updated"
 msgstr "Profile mis à jour"
 
-msgid "Read content"
-msgstr "Lire le contenu"
-
 msgid "Recover"
 msgstr "Récupérer"
 
@@ -633,9 +624,6 @@ msgstr "Paramètres"
 
 msgid "Setup incomplete"
 msgstr "Configuration incomplète"
-
-msgid "Share with"
-msgstr "Partager avec"
 
 msgid "Shared"
 msgstr "Partagé"
@@ -783,11 +771,8 @@ msgstr "Utiliser un navigateur enregistré"
 msgid "Use an existing shared folder"
 msgstr "Utiliser un dossier partagé existant"
 
-msgid "User already included in readers"
-msgstr "Utilisateur déjà inclus dans les lecteurs"
-
-msgid "User already included in writers"
-msgstr "Utilisateur déjà inclus dans les auteurs"
+msgid "User {0} is both a reader and writer"
+msgstr "L'utilisateur {0} est dans les auteurs et lecteurs"
 
 msgid "Username"
 msgstr "Nom d’utilisateur"

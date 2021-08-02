@@ -17,12 +17,12 @@ import { BucketKeyPermission, useFiles } from "../../../Contexts/FilesContext"
 import { t, Trans } from "@lingui/macro"
 import { createStyles, makeStyles, useThemeSwitcher } from "@chainsafe/common-theme"
 import { CSFTheme } from "../../../Themes/types"
-import UpdateSharedFolderModal from "./EditSharedFolderModal"
+import CreateOrEditSharedFolderModal from "./CreateOrEditSharedFolderModal"
 import clsx from "clsx"
-import CreateSharedFolderModal from "./CreateSharedFolderModal"
 import { useFilesApi } from "../../../Contexts/FilesApiContext"
 import { ROUTE_LINKS } from "../../FilesRoutes"
 import SharedFolderRow from "./views/FileSystemItem/SharedFolderRow"
+import { SharedFolderModalMode } from "./types"
 
 export const desktopSharedGridSettings = "69px 3fr 120px 190px 150px 45px !important"
 export const mobileSharedGridSettings = "3fr 80px 45px !important"
@@ -105,8 +105,7 @@ const SharedFolderOverview = () => {
   const classes = useStyles()
   const { filesApiClient } = useFilesApi()
   const { buckets, isLoadingBuckets, refreshBuckets } = useFiles()
-  const [createSharedFolderModalOpen, setCreateSharedFolderModalOpen] = useState(false)
-  const [isEditBucketModalOpen, setIsBucketModalOpen] = useState(false)
+  const [createOrEditSharedFolderMode, setCreateOrEditSharedFolderMode] = useState<SharedFolderModalMode | undefined>(undefined)
   const [bucketToEdit, setBucketToEdit] = useState<BucketKeyPermission | undefined>(undefined)
   const [direction, setDirection] = useState<SortDirection>("ascend")
   const [column, setColumn] = useState<"name" | "size" | "date_uploaded">("name")
@@ -170,8 +169,13 @@ const SharedFolderOverview = () => {
             <Trans>Shared folders</Trans>
           </Typography>
           <div className={classes.controls}>
-            <Button variant='outline'
-              onClick={() => setCreateSharedFolderModalOpen(true)}>
+            <Button
+              variant='outline'
+              onClick={() => {
+                setBucketToEdit(undefined)
+                setCreateOrEditSharedFolderMode("create")
+              }}
+            >
               <PlusIcon />
               <Trans>Create a Shared Folder</Trans>
             </Button>
@@ -242,8 +246,8 @@ const SharedFolderOverview = () => {
                   handleRename={handleRename}
                   openSharedFolder={openSharedFolder}
                   onEditSharedFolder={() => {
-                    setIsBucketModalOpen(true)
                     setBucketToEdit(bucket)
+                    setCreateOrEditSharedFolderMode("edit")
                   }}
                   handleDeleteSharedFolder={() => {
                     setBucketToDelete(bucket)
@@ -255,17 +259,14 @@ const SharedFolderOverview = () => {
           </Table>
         )}
       </article>
-      <CreateSharedFolderModal
-        modalOpen={createSharedFolderModalOpen}
-        close={() => setCreateSharedFolderModalOpen(false)}
-      />
-      <UpdateSharedFolderModal
-        isModalOpen={isEditBucketModalOpen}
+      <CreateOrEditSharedFolderModal
+        mode={createOrEditSharedFolderMode}
+        isModalOpen={!!createOrEditSharedFolderMode}
         onClose={() => {
-          setIsBucketModalOpen(false)
           setBucketToEdit(undefined)
+          setCreateOrEditSharedFolderMode(undefined)
         }}
-        bucket={bucketToEdit}
+        bucketToEdit={bucketToEdit}
       />
       <Dialog
         active={isDeleteBucketModalOpen}
