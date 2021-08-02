@@ -120,75 +120,51 @@ interface ICreateOrEditSharedFolderModalProps {
   bucketToEdit?: BucketKeyPermission
 }
 
-const CreateOrEditSharedFolderModal = ({
-  mode,
-  isModalOpen,
-  onClose,
-  bucketToEdit
-}: ICreateOrEditSharedFolderModalProps) => {
+const CreateOrEditSharedFolderModal = ({ mode, isModalOpen, onClose, bucketToEdit }: ICreateOrEditSharedFolderModalProps) => {
   const classes = useStyles()
-  const {
-    handleCreateSharedFolder,
-    handleEditSharedFolder,
-    isEditingSharedFolder,
-    isCreatingSharedFolder
-  } = useCreateOrEditSharedFolder()
+  const { desktop } = useThemeSwitcher()
+  const { handleCreateSharedFolder, handleEditSharedFolder, isEditingSharedFolder, isCreatingSharedFolder } = useCreateOrEditSharedFolder()
   const [sharedFolderName, setSharedFolderName] = useState("")
-  const {
-    sharedFolderReaders,
-    sharedFolderWriters,
-    setSharedFolderReaders,
-    setSharedFolderWriters,
-    onNewUsers,
-    handleLookupUser,
-    usersError,
-    setUsersError
-  } = useLookupSharedFolderUser()
+  const { sharedFolderReaders, sharedFolderWriters, onNewUsers, handleLookupUser, usersError, setUsersError } = useLookupSharedFolderUser()
   const [hasPermissionsChanged, setHasPermissionsChanged] = useState(false)
 
   useEffect(() => {
     setSharedFolderName("")
     setHasPermissionsChanged(false)
     setUsersError("")
+
     if (!bucketToEdit) return
-    setSharedFolderWriters(
-      bucketToEdit.writers.map((writer) => ({
-        label: writer.uuid || "",
-        value: writer.uuid || "",
-        data: writer
-      })
-      ) || []
-    )
-    setSharedFolderReaders(
-      bucketToEdit.readers.map((reader) => ({
-        label: reader.uuid || "",
-        value: reader.uuid || "",
-        data: reader
-      })
-      ) || []
-    )
-  }, [bucketToEdit, setUsersError, setHasPermissionsChanged, setSharedFolderWriters, setSharedFolderReaders])
 
-  const { desktop } = useThemeSwitcher()
+    const newWriters = bucketToEdit.writers.map((writer) => ({
+      label: writer.uuid || "",
+      value: writer.uuid || "",
+      data: writer
+    })
+    ) || []
 
-  const handleClose = useCallback(() => {
-    setSharedFolderReaders([])
-    setSharedFolderWriters([])
-    onClose()
-  }, [onClose, setSharedFolderReaders, setSharedFolderWriters])
+    const newReaders = bucketToEdit.readers.map((reader) => ({
+      label: reader.uuid || "",
+      value: reader.uuid || "",
+      data: reader
+    })
+    ) || []
+
+    onNewUsers(newWriters, "write")
+    onNewUsers(newReaders, "read")
+  }, [bucketToEdit, setUsersError, setHasPermissionsChanged, onNewUsers])
 
   const onCreateSharedFolder = useCallback(() => {
     handleCreateSharedFolder(sharedFolderName, sharedFolderReaders, sharedFolderWriters)
       .catch(console.error)
-      .finally(handleClose)
-  }, [handleCreateSharedFolder, sharedFolderName, sharedFolderWriters, sharedFolderReaders, handleClose])
+      .finally(onClose)
+  }, [handleCreateSharedFolder, sharedFolderName, sharedFolderWriters, sharedFolderReaders, onClose])
 
   const onEditSharedFolder = useCallback(() => {
     if (!bucketToEdit) return
     handleEditSharedFolder(bucketToEdit, sharedFolderReaders, sharedFolderWriters)
       .catch(console.error)
-      .finally(handleClose)
-  }, [handleEditSharedFolder, sharedFolderWriters, sharedFolderReaders, handleClose, bucketToEdit])
+      .finally(onClose)
+  }, [handleEditSharedFolder, sharedFolderWriters, sharedFolderReaders, onClose, bucketToEdit])
 
   return (
     <CustomModal
@@ -284,7 +260,7 @@ const CreateOrEditSharedFolderModal = ({
             justifyContent="flex-end"
           >
             <CustomButton
-              onClick={handleClose}
+              onClick={onClose}
               size="medium"
               className={classes.cancelButton}
               variant={desktop ? "outline" : "gray"}

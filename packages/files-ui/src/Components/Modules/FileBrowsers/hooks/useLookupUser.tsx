@@ -6,6 +6,7 @@ import { useUser } from "../../../../Contexts/UserContext"
 import { centerEllipsis } from "../../../../Utils/Helpers"
 import { SharedUserTagData, SharedFolderUserPermission } from "../types"
 import { ITagOption, ITagValueType } from "@chainsafe/common-components"
+import { useEffect } from "react"
 
 export const useLookupSharedFolderUser = () => {
   const { filesApiClient } = useFilesApi()
@@ -14,6 +15,23 @@ export const useLookupSharedFolderUser = () => {
   const [usersError, setUsersError] = useState("")
 
   const { profile } = useUser()
+
+  useEffect(() => {
+    // check intersecting users
+    const foundIntersectingUsers = sharedFolderReaders
+      .filter(
+        reader => (
+          sharedFolderWriters.some(writer => reader.data.uuid === writer.data.uuid)
+        ))
+
+    if (foundIntersectingUsers.length) {
+      setUsersError(t`User ${
+        centerEllipsis(foundIntersectingUsers[0].label)
+      } is both a reader and writer`)
+    } else {
+      setUsersError("")
+    }
+  }, [sharedFolderReaders, sharedFolderWriters])
 
   const handleLookupUser = useCallback(async (inputVal: string, permission: SharedFolderUserPermission) => {
     if (inputVal === "") return []
@@ -35,7 +53,7 @@ export const useLookupSharedFolderUser = () => {
       if (!result) return []
 
       const usersList = permission === "read" ? sharedFolderReaders : sharedFolderWriters
-      const currentUsers = Array.isArray(usersList) ? usersList.map(su => su.value) : []
+      const currentUsers = usersList.map(su => su.value)
 
       // prevent the addition of current user since they are the owner
       if (currentUsers.includes(result.uuid) || result.uuid === profile?.userId) return []
@@ -47,37 +65,23 @@ export const useLookupSharedFolderUser = () => {
     }
   }, [filesApiClient, sharedFolderReaders, sharedFolderWriters, profile])
 
-  const onNewUsers = (val: ITagValueType<ITagOption, true>, permission: SharedFolderUserPermission) => {
-    // setting readers
-    const newSharedFolderUsers = val && val.length ? val?.map(v => ({ label: v.label, value: v.value, data: v.data })) : []
+  const onNewUsers = useCallback((val: ITagValueType<ITagOption, true>, permission: SharedFolderUserPermission) => {
+    const newSharedFolderUsers = val?.map(({ label, value, data }) => ({ label, value, data })) || []
+
     if (permission === "read") {
+      // setting readers
       setSharedFolderReaders(newSharedFolderUsers)
     } else {
+      // setting writers
       setSharedFolderWriters(newSharedFolderUsers)
     }
-
-    // check intersecting users
-    const foundIntersectingUsers = newSharedFolderUsers.filter(
-      reader => (
-        permission === "read" ? sharedFolderWriters : sharedFolderReaders
-      ).some(writer => reader.data.uuid === writer.data.uuid)
-    )
-    if (foundIntersectingUsers.length) {
-      setUsersError(t`User ${
-        centerEllipsis(foundIntersectingUsers[0].label)
-      } already included in ${permission === "write" ? "readers" : "writers"}`)
-    } else {
-      setUsersError("")
-    }
-  }
+  }, [])
 
   return {
     handleLookupUser,
     sharedFolderReaders,
     sharedFolderWriters,
     onNewUsers,
-    setSharedFolderReaders,
-    setSharedFolderWriters,
     usersError,
     setUsersError
   }
