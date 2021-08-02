@@ -764,7 +764,7 @@ msgstr "Utiliser un navigateur enregistré"
 msgid "Use an existing shared folder"
 msgstr ""
 
-msgid "User {0} already included in {1}"
+msgid "User {0} is both a reader and writer"
 msgstr ""
 
 msgid "Username"

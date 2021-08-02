@@ -763,8 +763,8 @@ msgstr "Use a saved browser"
 msgid "Use an existing shared folder"
 msgstr "Use an existing shared folder"
 
-msgid "User {0} already included in {1}"
-msgstr "User {0} already included in {1}"
+msgid "User {0} is both a reader and writer"
+msgstr "User {0} is both a reader and writer"
 
 msgid "Username"
 msgstr "Username"
