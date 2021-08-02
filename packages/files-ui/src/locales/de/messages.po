@@ -25,9 +25,6 @@ msgstr "Es wird ein Sicherungsgeheimsatz generiert und für Ihr Konto verwendet.
 msgid "A file with the same name already exists"
 msgstr "Es existiert bereits eine Datei mit demselben Namen"
 
-msgid "A name is required"
-msgstr "Ein Name ist erforderlich"
-
 msgid "Account"
 msgstr "Konto"
 
@@ -277,9 +274,6 @@ msgstr "Vorname"
 msgid "Folder"
 msgstr "Ordner"
 
-msgid "Folder name cannot only contain whitepsace characters"
-msgstr ""
-
 msgid "Folder name is already in use"
 msgstr ""
 
@@ -390,12 +384,6 @@ msgstr "Meine Dateien"
 
 msgid "Name"
 msgstr "Name"
-
-msgid "Name cannot contain '/' character"
-msgstr "Name darf kein /-Zeichen enthalten"
-
-msgid "Name cannot only contain whitespace characters"
-msgstr ""
 
 msgid "Name too long"
 msgstr "Name zu lang"

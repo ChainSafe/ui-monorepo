@@ -26,9 +26,6 @@ msgstr ""
 msgid "A file with the same name already exists"
 msgstr "Ya existe un archivo con el mismo nombre"
 
-msgid "A name is required"
-msgstr ""
-
 msgid "Account"
 msgstr "Cuenta"
 
@@ -281,9 +278,6 @@ msgstr "Primer Nombre"
 msgid "Folder"
 msgstr "Archivo"
 
-msgid "Folder name cannot only contain whitepsace characters"
-msgstr ""
-
 msgid "Folder name is already in use"
 msgstr ""
 
@@ -394,12 +388,6 @@ msgstr "Mis Archivos"
 
 msgid "Name"
 msgstr "Nombre"
-
-msgid "Name cannot contain '/' character"
-msgstr ""
-
-msgid "Name cannot only contain whitespace characters"
-msgstr ""
 
 msgid "Name too long"
 msgstr ""

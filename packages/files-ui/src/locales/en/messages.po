@@ -25,9 +25,6 @@ msgstr "A backup secret phrase will be generated and used for your account.<0/>W
 msgid "A file with the same name already exists"
 msgstr "A file with the same name already exists"
 
-msgid "A name is required"
-msgstr "A name is required"
-
 msgid "Account"
 msgstr "Account"
 
@@ -280,9 +277,6 @@ msgstr "First name"
 msgid "Folder"
 msgstr "Folder"
 
-msgid "Folder name cannot only contain whitepsace characters"
-msgstr "Folder name cannot only contain whitepsace characters"
-
 msgid "Folder name is already in use"
 msgstr "Folder name is already in use"
 
@@ -393,12 +387,6 @@ msgstr "My Files"
 
 msgid "Name"
 msgstr "Name"
-
-msgid "Name cannot contain '/' character"
-msgstr "Name cannot contain '/' character"
-
-msgid "Name cannot only contain whitespace characters"
-msgstr "Name cannot only contain whitespace characters"
 
 msgid "Name too long"
 msgstr "Name too long"

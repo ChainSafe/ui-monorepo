@@ -26,9 +26,6 @@ msgstr "Une phrase secrète de sauvegarde sera générée et utilisé pour ce co
 msgid "A file with the same name already exists"
 msgstr "Un fichier avec ce nom existe déjà"
 
-msgid "A name is required"
-msgstr "Le nom ne peut être vide"
-
 msgid "Account"
 msgstr "Compte"
 
@@ -281,9 +278,6 @@ msgstr "Prénom"
 msgid "Folder"
 msgstr "Dossier"
 
-msgid "Folder name cannot only contain whitepsace characters"
-msgstr "Le nom du dossier ne peut pas seulement contenir des caractères blancs"
-
 msgid "Folder name is already in use"
 msgstr "Le nom du dossier est déjà utilisé"
 
@@ -394,12 +388,6 @@ msgstr "Mes Fichiers"
 
 msgid "Name"
 msgstr "Nom"
-
-msgid "Name cannot contain '/' character"
-msgstr "Le nom ne peut pas contenir le caractère /"
-
-msgid "Name cannot only contain whitespace characters"
-msgstr "Le nom ne peut pas seulement contenir des espaces"
 
 msgid "Name too long"
 msgstr "Le nom est trop long"
