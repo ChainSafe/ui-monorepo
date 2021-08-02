@@ -64,8 +64,9 @@
     "@types/yup": "^0.29.9",
     "@types/zxcvbn": "^4.4.0",
     "babel-plugin-macros": "^2.8.0",
-    "cypress": "^7.6.0",
-    "cypress-file-upload": "^5.0.7"
+    "cypress": "^8.1.0",
+    "cypress-file-upload": "^5.0.8",
+    "cypress-pipe": "^2.0.0"
   },
   "scripts": {
     "postinstall": "yarn compile",
@@ -74,7 +75,7 @@
     "sentry": "(export REACT_APP_SENTRY_RELEASE=$(sentry-cli releases propose-version); node scripts/sentry.js)",
     "release": "(export REACT_APP_SENTRY_RELEASE=$(sentry-cli releases propose-version); yarn compile && yarn build && node scripts/sentry.js)",
     "test": "yarn test:clean && cypress open",
-    "test:ci": "yarn test:clean && cypress run --browser chrome",
+    "test:ci": "yarn test:clean && cypress run",
     "test:clean": "rimraf cypress/fixtures/storage",
     "analyze": "source-map-explorer 'build/static/js/*.js'",
     "extract": "lingui extract",
