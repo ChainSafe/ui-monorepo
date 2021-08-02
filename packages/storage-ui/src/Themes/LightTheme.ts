@@ -1,7 +1,7 @@
 import { createTheme } from "@chainsafe/common-theme"
-import { CsfColors, UI_CONSTANTS } from "./Constants"
+import { CsSColors, UI_CONSTANTS } from "./Constants"
 
-export const lightTheme = createTheme<CsfColors>({
+export const lightTheme = createTheme<CsSColors>({
   globalStyling: {
     ":root": {
       "--csf-primary": "#5165DC"
@@ -159,7 +159,7 @@ export const lightTheme = createTheme<CsfColors>({
         surveyBanner: {
           color: "var(--gray1)"
         }
-      } as CsfColors)
+      } as CsSColors)
     },
     overrides: {
       RadioInput: {

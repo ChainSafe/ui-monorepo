@@ -4,11 +4,13 @@ import CustomModal from "../../Elements/CustomModal"
 import CustomButton from "../../Elements/CustomButton"
 import { t, Trans } from "@lingui/macro"
 import { DirectoryContentResponse, FileSystemItem, useFiles } from "../../../Contexts/FilesContext"
-import { Button, FolderIcon, Grid, ITreeNodeProps, ScrollbarWrapper, TreeView, Typography } from "@chainsafe/common-components"
+import { Button, FolderIcon, Grid, ITreeNodeProps, Loading, ScrollbarWrapper, TreeView, Typography } from "@chainsafe/common-components"
 import { CSFTheme } from "../../../Themes/types"
 import { useFileBrowser } from "../../../Contexts/FileBrowserContext"
 import { useFilesApi } from "../../../Contexts/FilesApiContext"
 import { MoveModalMode } from "./types"
+import { useMemo } from "react"
+import { getPathWithFile, isSubFolder } from "../../../Utils/pathUtils"
 
 
 const useStyles = makeStyles(
@@ -67,20 +69,26 @@ const useStyles = makeStyles(
 
 interface IMoveFileModuleProps {
   filesToMove: FileSystemItem[]
-  modalOpen: boolean
   onClose: () => void
   onCancel: () => void
   mode?: MoveModalMode
 }
 
-const MoveFileModule = ({ filesToMove, modalOpen, onClose, onCancel, mode }: IMoveFileModuleProps) => {
+const MoveFileModule = ({ filesToMove, onClose, onCancel, mode }: IMoveFileModuleProps) => {
   const classes = useStyles()
   const { filesApiClient } = useFilesApi()
   const { buckets } = useFiles()
-  const { moveItems, recoverItems } = useFileBrowser()
-  const [movingFile, setMovingFile] = useState(false)
+  const { bucket, moveItems, recoverItems, currentPath } = useFileBrowser()
+  const [isMovingFile, setIsMovingFile] = useState(false)
   const [movePath, setMovePath] = useState<undefined | string>(undefined)
   const [folderTree, setFolderTree] = useState<ITreeNodeProps[]>([])
+  const { type } = bucket || {}
+  const isInBin = useMemo(() => type === "trash" && mode === "recover", [type, mode])
+  const [isLoading, setIsLoading] = useState(true)
+  const desktop = useMediaQuery("md")
+  const folders = useMemo(() =>
+    filesToMove.filter((f) => f.isFolder)
+  , [filesToMove])
 
   const mapFolderTree = useCallback(
     (folderTreeEntries: DirectoryContentResponse[]): ITreeNodeProps[] => {
@@ -94,54 +102,77 @@ const MoveFileModule = ({ filesToMove, modalOpen, onClose, onCancel, mode }: IMo
     []
   )
 
-  const getFolderTreeData = useCallback(async () => {
-    const bucket = buckets.find((bucket) => bucket.type === "csf")
-    if (!bucket) return
-    filesApiClient.getBucketDirectoriesTree(bucket.id).then((newFolderTree) => {
-      if (newFolderTree.entries) {
-        const folderTreeNodes = [
-          {
-            id: "/",
-            title: "Home",
-            isExpanded: true,
-            expandable: true,
-            tree: mapFolderTree(newFolderTree.entries)
-          }
-        ]
-        setFolderTree(folderTreeNodes)
-      } else {
-        setFolderTree([])
-      }
-    }).catch(console.error)
-  }, [filesApiClient, mapFolderTree, buckets])
+  const getFolderTreeData = useCallback(() => {
+    let bucketForFolderTree = bucket
+
+    if (isInBin) {
+      bucketForFolderTree = buckets.find(({ type }) => type === "csf")
+    }
+
+    if (!bucketForFolderTree) return
+
+    setIsLoading(true)
+    filesApiClient.getBucketDirectoriesTree(bucketForFolderTree.id).then((newFolderTree) => {
+      const folderTreeNodes = [
+        {
+          id: "/",
+          title: bucketForFolderTree?.name || "Home",
+          isExpanded: true,
+          expandable: true,
+          tree: mapFolderTree(newFolderTree.entries || [])
+        }
+      ]
+      setFolderTree(folderTreeNodes)
+    })
+      .catch(console.error)
+      .finally(() => setIsLoading(false))
+  }, [bucket, isInBin, filesApiClient, buckets, mapFolderTree])
 
   useEffect(() => {
-    if (modalOpen) {
-      getFolderTreeData()
-    } else {
-      setMovePath(undefined)
-    }
-  }, [modalOpen, getFolderTreeData])
+    setMovePath(undefined)
+    getFolderTreeData()
+  }, [getFolderTreeData])
 
   const onMoveFile = () => {
-    const moveFn = mode === "move" ? moveItems : recoverItems
+    const moveFn = isInBin ? recoverItems : moveItems
+
     if (!movePath || !moveFn) return
 
-    setMovingFile(true)
+    setIsMovingFile(true)
     moveFn(filesToMove.map(f => f.cid), movePath)
       .then(onClose)
       .catch(console.error)
-      .finally(() => setMovingFile(false))
-
+      .finally(() => setIsMovingFile(false))
   }
 
-  const desktop = useMediaQuery("md")
+  const isSubFolderOfAnySelectedFolder = useMemo(() => {
+    if(!movePath){
+      return false
+    }
+
+    return folders.some((folder) => {
+      const currentPathWithFolder = getPathWithFile(currentPath, folder.name)
+
+      return movePath === currentPathWithFolder || // don't allow a move from a folder in itself
+      isSubFolder(movePath, currentPathWithFolder)
+    })
+  }, [currentPath, folders, movePath])
+
+  const isAllowedToMove = useMemo(() => {
+    // you can always recover from the bin
+    if (isInBin) return true
+
+    return !!movePath && // the move path should be set
+    mode === "move" && // we're moving and not recovering
+    movePath !== currentPath && // can't be the same parent
+    (!folders.length || !isSubFolderOfAnySelectedFolder) // if it has folders and the move isn't into one of them
+  }, [isInBin, movePath, mode, currentPath, folders.length, isSubFolderOfAnySelectedFolder])
 
   return (
     <CustomModal
       className={classes.modalRoot}
       injectedClass={{ inner: classes.modalInner }}
-      active={modalOpen}
+      active
       closePosition="none"
       maxWidth="sm"
       onModalBodyClick={(e) => {
@@ -157,8 +188,9 @@ const MoveFileModule = ({ filesToMove, modalOpen, onClose, onCancel, mode }: IMo
       >
         <Typography className={classes.heading}
           variant="h5"
-          component="h5">
-          <Trans>Move to...</Trans>
+          component="h5"
+        >
+          {isInBin ? t`Recover to…` : t`Move to…`}
         </Typography>
       </Grid>
       <Grid
@@ -174,6 +206,11 @@ const MoveFileModule = ({ filesToMove, modalOpen, onClose, onCancel, mode }: IMo
           <div
             className={classes.treeScrollView}
           >
+            {isLoading && <Loading
+              size={32}
+              type="light"
+            />
+            }
             {folderTree.length
               ? <TreeView
                 treeData={folderTree}
@@ -181,7 +218,7 @@ const MoveFileModule = ({ filesToMove, modalOpen, onClose, onCancel, mode }: IMo
                 selectedId={movePath}
                 onSelectNode={(path: string) => setMovePath(path)}
               />
-              : <Typography><Trans>No folders</Trans></Typography>
+              : !isLoading && <Typography><Trans>No folders</Trans></Typography>
             }
           </div>
         </ScrollbarWrapper>
@@ -189,29 +226,48 @@ const MoveFileModule = ({ filesToMove, modalOpen, onClose, onCancel, mode }: IMo
       <Grid
         item
         flexDirection="row"
-        justifyContent="flex-end"
+        justifyContent="space-between"
+        alignItems="center"
         className={classes.paddedContainer}
       >
-        <CustomButton
-          onClick={onCancel}
-          size="medium"
-          className={classes.cancelButton}
-          variant={desktop ? "outline" : "gray"}
-          type="button"
+        {!!movePath && !isAllowedToMove && (
+          <Typography
+            component="p"
+            variant="body1"
+          >
+            {
+              folders.length
+                ? t`You can't move folders to this path`
+                : t`The files are already in this folder`
+            }
+          </Typography>
+        )}
+        <Grid
+          item
+          flexDirection="row"
+          justifyContent="flex-end"
         >
-          <Trans>Cancel</Trans>
-        </CustomButton>
-        <Button
-          variant="primary"
-          size={desktop ? "medium" : "large"}
-          type="submit"
-          className={classes.okButton}
-          loading={movingFile}
-          disabled={!movePath}
-          onClick={onMoveFile}
-        >
-          {mode === "move" ? t`Move` : t`Recover`}
-        </Button>
+          <CustomButton
+            onClick={onCancel}
+            size="medium"
+            className={classes.cancelButton}
+            variant={desktop ? "outline" : "gray"}
+            type="button"
+          >
+            <Trans>Cancel</Trans>
+          </CustomButton>
+          <Button
+            variant="primary"
+            size={desktop ? "medium" : "large"}
+            type="submit"
+            className={classes.okButton}
+            loading={isMovingFile}
+            disabled={!isAllowedToMove}
+            onClick={onMoveFile}
+          >
+            {isInBin ? t`Recover` : t`Move`}
+          </Button>
+        </Grid>
       </Grid>
     </CustomModal>
   )

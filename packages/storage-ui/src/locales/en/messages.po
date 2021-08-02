@@ -13,17 +13,83 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
+msgid "A bucket with this name already exists"
+msgstr "A bucket with this name already exists"
+
 msgid "A file with the same name already exists"
 msgstr "A file with the same name already exists"
 
-msgid "Account"
-msgstr "Account"
+msgid "A name is required"
+msgstr "A name is required"
 
-msgid "Bin"
-msgstr "Bin"
+msgid "API Keys"
+msgstr "API Keys"
+
+msgid "Add API Key"
+msgstr "Add API Key"
+
+msgid "Add S3 Key"
+msgstr "Add S3 Key"
+
+msgid "Add more files"
+msgstr "Add more files"
+
+msgid "Api Keys"
+msgstr "Api Keys"
+
+msgid "Are we on the right track? Let us know in less than 1 minute."
+msgstr "Are we on the right track? Let us know in less than 1 minute."
+
+msgid "Bucket name"
+msgstr "Bucket name"
+
+msgid "Bucket name cannot contain '/' character"
+msgstr "Bucket name cannot contain '/' character"
+
+msgid "Bucket name cannot only contain whitepsace characters"
+msgstr "Bucket name cannot only contain whitepsace characters"
+
+msgid "Bucket name is required"
+msgstr "Bucket name is required"
+
+msgid "Buckets"
+msgstr "Buckets"
 
 msgid "By connecting your wallet, you agree to our <0>Terms of Service</0> and <1>Privacy Policy</1>"
 msgstr "By connecting your wallet, you agree to our <0>Terms of Service</0> and <1>Privacy Policy</1>"
+
+msgid "CID invalid"
+msgstr "CID invalid"
+
+msgid "CID is required"
+msgstr "CID is required"
+
+msgid "CIDs"
+msgstr "CIDs"
+
+msgid "Cancel"
+msgstr "Cancel"
+
+msgid "Chainsafe Storage Beta does not encrypt data. All data uploaded is publicly accessible on IPFS network."
+msgstr "Chainsafe Storage Beta does not encrypt data. All data uploaded is publicly accessible on IPFS network."
+
+msgid "Check your inbox! We've sent another email."
+msgstr "Check your inbox! We've sent another email."
+
+msgid "Cid"
+msgstr "Cid"
+
+msgid "Cids"
+msgstr "Cids"
+
+msgid "Click or drag to upload files"
+msgstr "Click or drag to upload files"
+
+msgid "Confirm"
+msgstr "Confirm"
+
+msgid "Connect Wallet to Storage"
+msgstr "Connect Wallet to Storage"
 
 msgid "Connect a new wallet"
 msgstr "Connect a new wallet"
@@ -31,8 +97,11 @@ msgstr "Connect a new wallet"
 msgid "Connection failed"
 msgstr "Connection failed"
 
-msgid "Continue with Facebook"
-msgstr "Continue with Facebook"
+msgid "Continue"
+msgstr "Continue"
+
+msgid "Continue with Email"
+msgstr "Continue with Email"
 
 msgid "Continue with Github"
 msgstr "Continue with Github"
@@ -42,6 +111,66 @@ msgstr "Continue with Google"
 
 msgid "Continue with Web3 Wallet"
 msgstr "Continue with Web3 Wallet"
+
+msgid "Copied!"
+msgstr "Copied!"
+
+msgid "Create"
+msgstr "Create"
+
+msgid "Create Bucket"
+msgstr "Create Bucket"
+
+msgid "Create Folder"
+msgstr "Create Folder"
+
+msgid "Create folder"
+msgstr "Create folder"
+
+msgid "Created"
+msgstr "Created"
+
+msgid "Created At"
+msgstr "Created At"
+
+msgid "Date uploaded"
+msgstr "Date uploaded"
+
+msgid "Delete"
+msgstr "Delete"
+
+msgid "Delete Key"
+msgstr "Delete Key"
+
+msgid "Delete bucket"
+msgstr "Delete bucket"
+
+msgid "Delete selected"
+msgstr "Delete selected"
+
+msgid "Deletion successful"
+msgstr "Deletion successful"
+
+msgid "Didn't receive the email ?"
+msgstr "Didn't receive the email ?"
+
+msgid "Download"
+msgstr "Download"
+
+msgid "Download complete"
+msgstr "Download complete"
+
+msgid "Drop to upload files"
+msgstr "Drop to upload files"
+
+msgid "Email is required"
+msgstr "Email is required"
+
+msgid "Enter the verification code:"
+msgstr "Enter the verification code:"
+
+msgid "Enter your email:"
+msgstr "Enter your email:"
 
 msgid "Failed to get signature"
 msgstr "Failed to get signature"
@@ -55,8 +184,26 @@ msgstr ""
 "If you are using a contract wallet, please make \n"
 "sure you have activated your wallet."
 
-msgid "Folders"
-msgstr "Folders"
+msgid "File"
+msgstr "File"
+
+msgid "File/Folder already exists"
+msgstr "File/Folder already exists"
+
+msgid "Folder"
+msgstr "Folder"
+
+msgid "Folder Name"
+msgstr "Folder Name"
+
+msgid "Folder name cannot only contain whitepsace characters"
+msgstr "Folder name cannot only contain whitepsace characters"
+
+msgid "Folder name is already in use"
+msgstr "Folder name is already in use"
+
+msgid "Folder uploads are currently not supported"
+msgstr "Folder uploads are currently not supported"
 
 msgid "Get Started"
 msgstr "Get Started"
@@ -64,35 +211,158 @@ msgstr "Get Started"
 msgid "Go back"
 msgstr "Go back"
 
-msgid "Home"
-msgstr "Home"
+msgid "Hold on, we are logging you in…"
+msgstr "Hold on, we are logging you in…"
+
+msgid "Id"
+msgstr "Id"
+
+msgid "Info"
+msgstr "Info"
+
+msgid "Key ID"
+msgstr "Key ID"
 
 msgid "Learn more about ChainSafe"
 msgstr "Learn more about ChainSafe"
 
+msgid "Make sure to save the secret, as it can only be displayed once."
+msgstr "Make sure to save the secret, as it can only be displayed once."
+
+msgid "Move"
+msgstr "Move"
+
+msgid "Move selected"
+msgstr "Move selected"
+
+msgid "Move to..."
+msgstr "Move to..."
+
+msgid "Name"
+msgstr "Name"
+
+msgid "Name cannot contain '/' character"
+msgstr "Name cannot contain '/' character"
+
+msgid "Name cannot only contain whitespace characters"
+msgstr "Name cannot only contain whitespace characters"
+
+msgid "Name too long"
+msgstr "Name too long"
+
+msgid "New Key"
+msgstr "New Key"
+
+msgid "New folder"
+msgstr "New folder"
+
+msgid "No files to show"
+msgstr "No files to show"
+
+msgid "No folders"
+msgstr "No folders"
+
+msgid "OK"
+msgstr "OK"
+
+msgid "One sec, getting files ready..."
+msgstr "One sec, getting files ready..."
+
+msgid "Open on Gateway"
+msgstr "Open on Gateway"
+
+msgid "Paste the CID to pin it with ChainSafe Storage"
+msgstr "Paste the CID to pin it with ChainSafe Storage"
+
+msgid "Pin"
+msgstr "Pin"
+
+msgid "Pin CID"
+msgstr "Pin CID"
+
+msgid "Please enter a file name"
+msgstr "Please enter a file name"
+
+msgid "Please enter a folder name"
+msgstr "Please enter a folder name"
+
+msgid "Please enter a name"
+msgstr "Please enter a name"
+
+msgid "Please enter a valid email"
+msgstr "Please enter a valid email"
+
+msgid "Please select a file to upload"
+msgstr "Please select a file to upload"
+
+msgid "Preview"
+msgstr "Preview"
+
 msgid "Privacy Policy"
 msgstr "Privacy Policy"
 
-msgid "Resources"
-msgstr "Resources"
+msgid "Recover"
+msgstr "Recover"
+
+msgid "Recover selected"
+msgstr "Recover selected"
+
+msgid "Rename"
+msgstr "Rename"
+
+msgid "Rename File/Folder"
+msgstr "Rename File/Folder"
+
+msgid "Secret"
+msgstr "Secret"
 
 msgid "Select a wallet"
 msgstr "Select a wallet"
 
+msgid "Send another email"
+msgstr "Send another email"
+
+msgid "Settings"
+msgstr "Settings"
+
+msgid "Share"
+msgstr "Share"
+
 msgid "Sign Out"
 msgstr "Sign Out"
+
+msgid "Sign in"
+msgstr "Sign in"
 
 msgid "Sign-in with {0}"
 msgstr "Sign-in with {0}"
 
+msgid "Size"
+msgstr "Size"
+
+msgid "Something went wrong!"
+msgstr "Something went wrong!"
+
+msgid "Something went wrong! Please try again."
+msgstr "Something went wrong! Please try again."
+
 msgid "Something went wrong. We couldn't upload your file"
 msgstr "Something went wrong. We couldn't upload your file"
+
+msgid "Start Upload"
+msgstr "Start Upload"
+
+msgid "Status"
+msgstr "Status"
 
 msgid "Terms and Conditions"
 msgstr "Terms and Conditions"
 
 msgid "The authentication popup was closed"
 msgstr "The authentication popup was closed"
+
+msgid "The files are already in this folder"
+msgstr "The files are already in this folder"
 
 msgid "The system is undergoing maintenance, thank you for being patient."
 msgstr "The system is undergoing maintenance, thank you for being patient."
@@ -103,8 +373,71 @@ msgstr "There was an error authenticating"
 msgid "There was an error connecting your wallet"
 msgstr "There was an error connecting your wallet"
 
+msgid "There was an error deleting this item"
+msgstr "There was an error deleting this item"
+
+msgid "There was an error moving this"
+msgstr "There was an error moving this"
+
 msgid "Try again"
 msgstr "Try again"
 
+msgid "Type"
+msgstr "Type"
+
+msgid "Unpin"
+msgstr "Unpin"
+
+msgid "Update"
+msgstr "Update"
+
+msgid "Upload"
+msgstr "Upload"
+
+msgid "Upload complete"
+msgstr "Upload complete"
+
+msgid "Uploading {0} files"
+msgstr "Uploading {0} files"
+
 msgid "Use a different login method"
 msgstr "Use a different login method"
+
+msgid "Verification code is required"
+msgstr "Verification code is required"
+
+msgid "Verification code not correct!"
+msgstr "Verification code not correct!"
+
+msgid "Verification code sent!"
+msgstr "Verification code sent!"
+
+msgid "View folder"
+msgstr "View folder"
+
+msgid "Web3: {0}"
+msgstr "Web3: {0}"
+
+msgid "We’ve sent an email to {email}. It contains a verification code that’ll sign you in super quickly!"
+msgstr "We’ve sent an email to {email}. It contains a verification code that’ll sign you in super quickly!"
+
+msgid "You can't move folders to this path"
+msgstr "You can't move folders to this path"
+
+msgid "You will need to sign a message in your wallet to complete sign in."
+msgstr "You will need to sign a message in your wallet to complete sign in."
+
+msgid "file"
+msgstr "file"
+
+msgid "folder"
+msgstr "folder"
+
+msgid "moved successfully"
+msgstr "moved successfully"
+
+msgid "{0, plural, one {You are about to delete {1} item.} other {You are about to delete {2} items.}}"
+msgstr "{0, plural, one {You are about to delete {1} item.} other {You are about to delete {2} items.}}"
+
+msgid "{noOfFiles, plural, one {Uploading {noOfFiles} file} other {Uploading {noOfFiles} files}}"
+msgstr "{noOfFiles, plural, one {Uploading {noOfFiles} file} other {Uploading {noOfFiles} files}}"

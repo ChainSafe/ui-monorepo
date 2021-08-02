@@ -9,4 +9,3 @@ export enum CONTENT_TYPES {
   Audio = "audio/*"
 }
 
-export const FREE_PLAN_LIMIT = 20000000000

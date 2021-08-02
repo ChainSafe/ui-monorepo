@@ -16,9 +16,9 @@ import {
   ProgressBar,
   Button,
   formatBytes,
-  DeleteSvg } from "@chainsafe/common-components"
+  DeleteSvg,
+  UserShareSvg } from "@chainsafe/common-components"
 import { ROUTE_LINKS } from "../FilesRoutes"
-import { FREE_PLAN_LIMIT } from "../../Utils/Constants"
 import { Trans } from "@lingui/macro"
 import { useThresholdKey } from "../../Contexts/ThresholdKeyContext"
 import { CSFTheme } from "../../Themes/types"
@@ -155,6 +155,9 @@ const useStyles = makeStyles(
           }
         },
         "& svg": {
+          "& path" : {
+            fill: constants.nav.headingColor
+          },
           transitionDuration: `${animation.transform}ms`,
           width: Number(constants.svgWidth),
           marginRight: constants.generalUnit * 2,
@@ -212,7 +215,7 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
   const { desktop } = useThemeSwitcher()
   const classes = useStyles()
 
-  const { spaceUsed } = useFiles()
+  const { storageSummary } = useFiles()
 
   const { isLoggedIn, secured } = useFilesApi()
   const { publicKey, isNewDevice, shouldInitializeAccount, logout } = useThresholdKey()
@@ -278,6 +281,7 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
             </Typography>
             <nav className={classes.navMenu}>
               <Link
+                data-cy="home-nav"
                 onClick={() => {
                   handleOnClick()
                 }}
@@ -286,7 +290,6 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
               >
                 <DatabaseSvg />
                 <Typography
-                  data-cy="home-nav"
                   variant="h5"
                   className={classes.navItemText}
                 >
@@ -296,11 +299,24 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
               <Link
                 onClick={handleOnClick}
                 className={classes.navItem}
+                to={ROUTE_LINKS.SharedFolders}
+              >
+                <UserShareSvg />
+                <Typography
+                  variant="h5"
+                  className={classes.navItemText}
+                >
+                  <Trans>Shared</Trans>
+                </Typography>
+              </Link>
+              <Link
+                data-cy="bin-nav"
+                onClick={handleOnClick}
+                className={classes.navItem}
                 to={ROUTE_LINKS.Bin("/")}
               >
                 <DeleteSvg />
                 <Typography
-                  data-cy="bin-nav"
                   variant="h5"
                   className={classes.navItemText}
                 >
@@ -313,13 +329,13 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
             </Typography>
             <nav className={classes.navMenu}>
               <Link
+                data-cy="settings-nav"
                 onClick={handleOnClick}
                 className={classes.navItem}
                 to={ROUTE_LINKS.SettingsDefault}
               >
                 <SettingSvg />
                 <Typography
-                  data-cy="settings-nav"
                   variant="h5"
                   className={classes.navItemText}
                 >
@@ -330,21 +346,28 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
           </div>
           <section>
             {desktop && (
-              <div>
-                <Typography
-                  data-cy="space-used-label"
-                  variant="body2"
-                  className={classes.spaceUsedMargin}
-                  component="p"
-                >{`${formatBytes(spaceUsed)} of ${formatBytes(
-                    FREE_PLAN_LIMIT
-                  )} used`}</Typography>
-                <ProgressBar
-                  data-cy="space-used-progress-bar"
-                  className={classes.spaceUsedMargin}
-                  progress={(spaceUsed / FREE_PLAN_LIMIT) * 100}
-                  size="small"
-                />
+              <div
+                data-cy="label-space-used"
+              >
+                {
+                  storageSummary && (
+                    <>
+                      <Typography
+                        variant="body2"
+                        className={classes.spaceUsedMargin}
+                        component="p"
+                      >{`${formatBytes(storageSummary.used_storage)} of ${formatBytes(
+                          storageSummary.total_storage
+                        )} used`}</Typography>
+                      <ProgressBar
+                        data-cy="progress-bar-space-used"
+                        className={classes.spaceUsedMargin}
+                        progress={(storageSummary.used_storage / storageSummary.total_storage) * 100}
+                        size="small"
+                      />
+                    </>
+                  )
+                }
                 {/* <Button disabled variant="outline" size="small">
                   <Trans>UPGRADE</Trans>
                 </Button> */}

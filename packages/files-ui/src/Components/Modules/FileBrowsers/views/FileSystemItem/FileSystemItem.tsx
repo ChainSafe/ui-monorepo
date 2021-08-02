@@ -16,11 +16,12 @@ import {
   ExportSvg,
   ShareAltSvg,
   ExclamationCircleInverseSvg,
-  ZoomInSvg } from "@chainsafe/common-components"
+  ZoomInSvg,
+  InfoCircleSvg } from "@chainsafe/common-components"
 import { makeStyles, createStyles, useDoubleClick, useThemeSwitcher } from "@chainsafe/common-theme"
-import { Formik, Form } from "formik"
+import { Form, FormikProvider, useFormik } from "formik"
 import CustomModal from "../../../../Elements/CustomModal"
-import { Trans } from "@lingui/macro"
+import { t, Trans } from "@lingui/macro"
 import { useDrag, useDrop } from "react-dnd"
 import { DragTypes } from "../../DragConstants"
 import { getEmptyImage, NativeTypes } from "react-dnd-html5-backend"
@@ -31,6 +32,9 @@ import FileItemGridItem from "./FileSystemGridItem"
 import { FileSystemItem as FileSystemItemType } from "../../../../../Contexts/FilesContext"
 import { useFileBrowser } from "../../../../../Contexts/FileBrowserContext"
 import { getPathWithFile } from "../../../../../Utils/pathUtils"
+import { BucketUser } from "@chainsafe/files-api-client"
+import { useMemo } from "react"
+import { renameSchema } from "../../../../../Utils/validationSchema"
 
 const useStyles = makeStyles(({ breakpoints, constants }: CSFTheme) => {
   return createStyles({
@@ -100,50 +104,66 @@ const useStyles = makeStyles(({ breakpoints, constants }: CSFTheme) => {
 })
 
 interface IFileSystemItemProps {
-  index: number
   file: FileSystemItemType
   files: FileSystemItemType[]
   selected: string[]
+  owners?: BucketUser[]
   handleSelectCid(selectedCid: string): void
   handleAddToSelectedCids(selectedCid: string): void
   editing: string | undefined
   setEditing(editing: string | undefined): void
-  renameSchema: any
   handleRename?: (cid: string, newName: string) => Promise<void>
   handleMove?: (cid: string, newPath: string) => Promise<void>
   deleteFile?: () => void
-  recoverFile?: (cid: string) => void
+  recoverFile?: () => void
   viewFolder?: (cid: string) => void
-  setPreviewFileIndex: (fileIndex: number | undefined) => void
   moveFile?: () => void
-  setFileInfoPath: (path: string) => void
   itemOperations: FileOperation[]
   resetSelectedFiles: () => void
   browserView: BrowserView
+  reportFile?: (path: string) => void
+  showFileInfo?: (path: string) => void
+  share?: (path: string, fileIndex: number) => void
+  showPreview?: (fileIndex: number) => void
 }
 
 const FileSystemItem = ({
   file,
   files,
   selected,
+  owners,
   editing,
   setEditing,
-  renameSchema,
   handleRename,
   deleteFile,
   recoverFile,
   viewFolder,
-  setPreviewFileIndex,
   moveFile,
-  setFileInfoPath,
   handleSelectCid,
   handleAddToSelectedCids,
   itemOperations,
   browserView,
-  resetSelectedFiles
+  resetSelectedFiles,
+  reportFile,
+  showFileInfo,
+  share,
+  showPreview
 }: IFileSystemItemProps) => {
   const { downloadFile, currentPath, handleUploadOnDrop, moveItems } = useFileBrowser()
   const { cid, name, isFolder, content_type } = file
+
+  const formik = useFormik({
+    initialValues:{
+      fileName: name
+    },
+    validationSchema:renameSchema,
+    onSubmit:(values) => {
+      const newName = values.fileName?.trim()
+
+      newName && handleRename && handleRename(file.cid, newName)
+    },
+    enableReinitialize: true
+  })
   let Icon
   if (isFolder) {
     Icon = FolderFilledSvg
@@ -157,9 +177,13 @@ const FileSystemItem = ({
 
   const { desktop } = useThemeSwitcher()
   const classes = useStyles()
+  const filePath = useMemo(() => getPathWithFile(currentPath, name), [currentPath, name])
 
+  const onFilePreview = useCallback(() => {
+    showPreview && showPreview(files.indexOf(file))
+  }, [file, files, showPreview])
 
-  const allMenuItems: Record<FileOperation, IMenuItem> = {
+  const allMenuItems: Record<FileOperation, IMenuItem> = useMemo(() => ({
     rename: {
       contents: (
         <>
@@ -209,22 +233,22 @@ const FileSystemItem = ({
         <>
           <ShareAltSvg className={classes.menuIcon} />
           <span data-cy="menu-share">
-            <Trans>Share</Trans>
+            <Trans>Copy to shared folder</Trans>
           </span>
         </>
       ),
-      onClick: () => console.log
+      onClick: () => share && share(filePath, files?.indexOf(file))
     },
     info: {
       contents: (
         <>
-          <ExclamationCircleInverseSvg className={classes.menuIcon} />
+          <InfoCircleSvg className={classes.menuIcon} />
           <span data-cy="menu-info">
             <Trans>Info</Trans>
           </span>
         </>
       ),
-      onClick: () => setFileInfoPath(`${currentPath}${name}`)
+      onClick: () => showFileInfo && showFileInfo(filePath)
     },
     recover: {
       contents: (
@@ -235,7 +259,7 @@ const FileSystemItem = ({
           </span>
         </>
       ),
-      onClick: () => recoverFile && recoverFile(cid)
+      onClick: () => recoverFile && recoverFile()
     },
     preview: {
       contents: (
@@ -246,7 +270,7 @@ const FileSystemItem = ({
           </span>
         </>
       ),
-      onClick: () => setPreviewFileIndex(files?.indexOf(file))
+      onClick: () => onFilePreview()
     },
     view_folder: {
       contents: (
@@ -258,8 +282,36 @@ const FileSystemItem = ({
         </>
       ),
       onClick: () => viewFolder && viewFolder(cid)
+    },
+    report: {
+      contents: (
+        <>
+          <ExclamationCircleInverseSvg className={classes.menuIcon} />
+          <span data-cy="menu-report">
+            <Trans>Report</Trans>
+          </span>
+        </>
+      ),
+      onClick: () => reportFile && reportFile(filePath)
     }
-  }
+  }),
+  [
+    cid,
+    classes.menuIcon,
+    deleteFile,
+    downloadFile,
+    file,
+    filePath,
+    files,
+    moveFile,
+    recoverFile,
+    reportFile,
+    setEditing,
+    showFileInfo,
+    viewFolder,
+    share,
+    onFilePreview
+  ])
 
   const menuItems: IMenuItem[] = itemOperations.map(
     (itemOperation) => allMenuItems[itemOperation]
@@ -303,7 +355,7 @@ const FileSystemItem = ({
     accept: [NativeTypes.FILE],
     drop: (item: any) => {
       handleUploadOnDrop &&
-        handleUploadOnDrop(item.files, item.items, `${currentPath}${name}`)
+        handleUploadOnDrop(item.files, item.items, getPathWithFile(currentPath, name))
     },
     collect: (monitor) => ({
       isOverUpload: monitor.isOver()
@@ -316,13 +368,10 @@ const FileSystemItem = ({
     dropMoveRef(fileOrFolderRef)
     dropUploadRef(fileOrFolderRef)
   }
+
   if (!editing && !isFolder) {
     dragMoveRef(fileOrFolderRef)
   }
-
-  const onFilePreview = useCallback(() => {
-    setPreviewFileIndex(files?.indexOf(file))
-  }, [file, files, setPreviewFileIndex])
 
   const onSingleClick = useCallback(
     (e) => {
@@ -371,6 +420,7 @@ const FileSystemItem = ({
 
   const itemProps = {
     ref: fileOrFolderRef,
+    owners,
     currentPath,
     editing,
     file,
@@ -408,34 +458,23 @@ const FileSystemItem = ({
               active={editing === cid}
               setActive={() => setEditing("")}
             >
-              <Formik
-                initialValues={{
-                  fileName: name
-                }}
-                validationSchema={renameSchema}
-                onSubmit={(values) => {
-                  handleRename &&
-                  handleRename(
-                    file.cid,
-                    values.fileName
-                  )
-                }}
-              >
+              <FormikProvider value={formik}>
                 <Form className={classes.renameModal}>
                   <Typography
                     className={classes.renameHeader}
                     component="p"
                     variant="h5"
-                  >
-                    <Trans>Rename File/Folder</Trans>
+                  >{
+                      isFolder
+                        ? <Trans>Rename folder</Trans>
+                        : <Trans>Rename file</Trans>
+                    }
                   </Typography>
                   <FormikTextInput
                     label="Name"
                     className={classes.renameInput}
                     name="fileName"
-                    placeholder={`Please enter a ${
-                      isFolder ? "folder" : "file"
-                    } name`}
+                    placeholder={isFolder ? t`Please enter a folder name` : t`Please enter a file name`}
                     autoFocus={editing === cid}
                   />
                   <footer className={classes.renameFooter}>
@@ -453,12 +492,13 @@ const FileSystemItem = ({
                       size="medium"
                       type="submit"
                       className={classes.okButton}
+                      disabled={!formik.dirty}
                     >
                       <Trans>Update</Trans>
                     </Button>
                   </footer>
                 </Form>
-              </Formik>
+              </FormikProvider>
             </CustomModal>
             <Typography>{name}</Typography>
           </>

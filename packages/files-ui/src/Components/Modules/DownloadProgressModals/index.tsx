@@ -29,16 +29,19 @@ const DownloadProgressModals: React.FC = () => {
 
   if (downloadsInProgress.length === 0) { return null }
 
-  return (
-    <div className={classes.root}>
-      {downloadsInProgress.map((downloadInProgress) => (
-        <DownloadBox
-          key={downloadInProgress.id}
-          downloadInProgress={downloadInProgress}
-        />
-      ))}
-    </div>
-  )
+  if (downloadsInProgress.length > 0) {
+    return (
+      <div className={classes.root}>
+        {downloadsInProgress.map((downloadInProgress) => (
+          <DownloadBox
+            key={downloadInProgress.id}
+            downloadInProgress={downloadInProgress}
+          />
+        ))}
+      </div>
+    )} else {
+    return null
+  }
 }
 
 export default DownloadProgressModals

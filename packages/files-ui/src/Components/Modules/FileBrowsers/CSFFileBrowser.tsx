@@ -1,7 +1,13 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react"
 import { Crumb, useToaster, useHistory, useLocation } from "@chainsafe/common-components"
 import { useFiles, FileSystemItem } from "../../../Contexts/FilesContext"
-import { getArrayOfPaths, getURISafePathFromArray, getPathWithFile, extractFileBrowserPathFromURL } from "../../../Utils/pathUtils"
+import {
+  getArrayOfPaths,
+  getURISafePathFromArray,
+  getPathWithFile,
+  extractFileBrowserPathFromURL,
+  getUrlSafePathWithFile
+} from "../../../Utils/pathUtils"
 import { IBulkOperations, IFileBrowserModuleProps, IFilesTableBrowserProps } from "./types"
 import FilesList from "./views/FilesList"
 import { CONTENT_TYPES } from "../../../Utils/Constants"
@@ -28,12 +34,8 @@ const CSFFileBrowser: React.FC<IFileBrowserModuleProps> = () => {
   const [loadingCurrentPath, setLoadingCurrentPath] = useState(false)
   const [pathContents, setPathContents] = useState<FileSystemItem[]>([])
   const { redirect } = useHistory()
-
   const { pathname } = useLocation()
-  const currentPath = useMemo(() =>
-    extractFileBrowserPathFromURL(pathname, ROUTE_LINKS.Drive("")),
-  [pathname]
-  )
+  const currentPath = useMemo(() => extractFileBrowserPathFromURL(pathname, ROUTE_LINKS.Drive("")), [pathname])
   const bucket = useMemo(() => buckets.find(b => b.type === "csf"), [buckets])
 
   const refreshContents = useCallback((showLoading?: boolean) => {
@@ -186,23 +188,21 @@ const CSFFileBrowser: React.FC<IFileBrowserModuleProps> = () => {
         appearance: "error"
       })
     } else {
-      uploadFiles(bucket.id, files, path).then(() => refreshContents()).catch(console.error)
+      uploadFiles(bucket.id, files, path)
+        .then(() => refreshContents())
+        .catch(console.error)
     }
   }, [addToastMessage, uploadFiles, bucket, refreshContents])
 
   const viewFolder = useCallback((cid: string) => {
     const fileSystemItem = pathContents.find(f => f.cid === cid)
     if (fileSystemItem && fileSystemItem.content_type === CONTENT_TYPES.Directory) {
-      let urlSafePath =  getURISafePathFromArray(getArrayOfPaths(currentPath))
-      if (urlSafePath === "/") {
-        urlSafePath = ""
-      }
-      redirect(ROUTE_LINKS.Drive(`${urlSafePath}/${encodeURIComponent(`${fileSystemItem.name}`)}`))
+      redirect(ROUTE_LINKS.Drive(getUrlSafePathWithFile(currentPath, fileSystemItem.name)))
     }
   }, [currentPath, pathContents, redirect])
 
   const bulkOperations: IBulkOperations = useMemo(() => ({
-    [CONTENT_TYPES.Directory]: ["move"],
+    [CONTENT_TYPES.Directory]: ["move", "delete"],
     [CONTENT_TYPES.File]: ["delete", "move"]
   }), [])
 
@@ -212,7 +212,7 @@ const CSFFileBrowser: React.FC<IFileBrowserModuleProps> = () => {
     [CONTENT_TYPES.Image]: ["preview"],
     [CONTENT_TYPES.Pdf]: ["preview"],
     [CONTENT_TYPES.Text]: ["preview"],
-    [CONTENT_TYPES.File]: ["download", "info", "rename", "move", "delete"],
+    [CONTENT_TYPES.File]: ["download", "info", "rename", "move", "delete", "share"],
     [CONTENT_TYPES.Directory]: ["rename", "move", "delete"]
   }), [])
 

@@ -26,7 +26,6 @@ import {
 } from "@chainsafe/common-components"
 import { useState } from "react"
 import { useMemo } from "react"
-import { object, string } from "yup"
 import EmptySvg from "../../../../Media/Empty.svg"
 import clsx from "clsx"
 import { plural, t, Trans } from "@lingui/macro"
@@ -40,7 +39,7 @@ import UploadProgressModals from "../../UploadProgressModals"
 import DownloadProgressModals from "../../DownloadProgressModals"
 import CreateFolderModal from "../CreateFolderModal"
 import UploadFileModule from "../../UploadFileModule"
-import MoveFileModule from "../MoveFileModal"
+import MoveFileModal from "../MoveFileModal"
 import FileInfoModal from "../FileInfoModal"
 import { CONTENT_TYPES } from "../../../../Utils/Constants"
 import { CSFTheme } from "../../../../Themes/types"
@@ -50,6 +49,14 @@ import { getPathWithFile } from "../../../../Utils/pathUtils"
 import SurveyBanner from "../../../SurveyBanner"
 import { DragPreviewLayer } from "./DragPreviewLayer"
 import { useFileBrowser } from "../../../../Contexts/FileBrowserContext"
+import ReportFileModal from "../ReportFileModal"
+import CopyToSharedFolderModal from "../CopyToSharedFolderModal"
+
+const baseOperations:  FileOperation[] = ["download", "info", "preview"]
+const readerOperations: FileOperation[] = [...baseOperations, "report"]
+const ownerOperations: FileOperation[] = [...baseOperations, "delete", "move", "rename"]
+const csfOperations:  FileOperation[] = [...ownerOperations, "share"]
+const writerOperations: FileOperation[] = [...ownerOperations, "report"]
 
 interface IStyleProps {
   themeKey: string
@@ -166,7 +173,8 @@ const useStyles = makeStyles(
       dropdownIcon: {
         "& svg": {
           height: 20,
-          width: 20
+          width: 20,
+          fill: palette.text.primary
         }
       },
       dropdownOptions: {
@@ -277,8 +285,14 @@ const useStyles = makeStyles(
 const sortFoldersFirst = (a: FileSystemItemType, b: FileSystemItemType) =>
   a.isFolder && a.content_type !== b.content_type ? -1 : 1
 
-const FilesList = () => {
+  interface Props {
+    isShared?: boolean
+  }
+const FilesList = ({ isShared = false }: Props) => {
   const { themeKey, desktop } = useThemeSwitcher()
+  const [isReportFileModalOpen, setIsReportFileModalOpen] = useState(false)
+  const [isFileInfoModalOpen, setIsFileInfoModalOpen] = useState(false)
+  const [isCopyToSharedFolerModalOpen, setIsCopyToSharedFolerModalOpen] = useState(false)
 
   const {
     heading,
@@ -309,10 +323,10 @@ const FilesList = () => {
   const [isSurveyBannerVisible, setIsSurveyBannerVisible] = useState(true)
   const [column, setColumn] = useState<"name" | "size" | "date_uploaded">("name")
   const [selectedCids, setSelectedCids] = useState<string[]>([])
-  const [previewFileIndex, setPreviewFileIndex] = useState<number | undefined>()
+  const [fileIndex, setFileIndex] = useState<number | undefined>()
   const { selectedLocale } = useLanguageContext()
   const { redirect } = useHistory()
-
+  const { permission } = bucket || {}
   const items: FileSystemItemType[] = useMemo(() => {
     let temp = []
 
@@ -370,21 +384,22 @@ const FilesList = () => {
   const setNextPreview = () => {
     if (
       files &&
-      previewFileIndex !== undefined &&
-      previewFileIndex < files.length - 1
+      fileIndex !== undefined &&
+      fileIndex < files.length - 1
     ) {
-      setPreviewFileIndex(previewFileIndex + 1)
+      setFileIndex(fileIndex + 1)
     }
   }
 
   const setPreviousPreview = () => {
-    if (files && previewFileIndex !== undefined && previewFileIndex > 0) {
-      setPreviewFileIndex(previewFileIndex - 1)
+    if (files && fileIndex !== undefined && fileIndex > 0) {
+      setFileIndex(fileIndex - 1)
     }
   }
 
-  const clearPreview = () => {
-    setPreviewFileIndex(undefined)
+  const closePreview = () => {
+    setFileIndex(undefined)
+    setIsPreviewOpen(false)
   }
 
   // Selection logic
@@ -420,20 +435,6 @@ const FilesList = () => {
     }
   }, [setSelectedCids, items, selectedCids])
 
-  const invalidFilenameRegex = new RegExp("/")
-  const renameSchema = object().shape({
-    fileName: string()
-      .min(1, t`Please enter a name`)
-      .max(65, t`Name too long`)
-      .test(
-        t`Invalid name`,
-        t`Name cannot contain '/' character`,
-        (val: string | null | undefined) =>
-          !invalidFilenameRegex.test(val || "")
-      )
-      .required(t`A name is required`)
-  })
-
   const [{ isOverUploadable, isOverBrowser }, dropBrowserRef] = useDrop({
     accept: [NativeTypes.FILE],
     drop: (item: any, monitor) => {
@@ -453,13 +454,12 @@ const FilesList = () => {
 
   // Modals
   const [createFolderModalOpen, setCreateFolderModalOpen] = useState(false)
+  const [isPreviewOpen, setIsPreviewOpen] = useState(false)
   const [isUploadModalOpen, setIsUploadModalOpen] = useState(false)
   const [isMoveFileModalOpen, setIsMoveFileModalOpen] = useState(false)
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
   const [isDeletingFiles, setIsDeletingFiles] = useState(false)
-  const [fileInfoPath, setFileInfoPath] = useState<string | undefined>(
-    undefined
-  )
+  const [filePath, setFilePath] = useState<string | undefined>()
   const [moveModalMode, setMoveModalMode] = useState<MoveModalMode | undefined>()
 
   const [browserView, setBrowserView] = useState<BrowserView>("table")
@@ -468,60 +468,66 @@ const FilesList = () => {
   const [validBulkOps, setValidBulkOps] = useState<FileOperation[]>([])
 
   useEffect(() => {
-    if (bulkOperations) {
-      let filteredList: FileOperation[] = [
-        "delete",
-        "download",
-        "info",
-        "move",
-        "preview",
-        "rename",
-        "share",
-        "recover"
-      ]
-      for (let i = 0; i < selectedCids.length; i++) {
-        const contentType = items.find((item) => item.cid === selectedCids[i])
-          ?.content_type
+    if (!bulkOperations) return
+    let fileOperations: FileOperation[] = csfOperations
 
-        if (contentType) {
-          if (contentType === CONTENT_TYPES.Directory) {
-            const validList = filteredList.filter(
-              (op: FileOperation) =>
-                bulkOperations[contentType].indexOf(op) >= 0
+    if (!!permission && isShared) {
+
+      switch(permission) {
+      case "owner":
+        fileOperations = ownerOperations
+        break
+      case "writer":
+        fileOperations = writerOperations
+        break
+      case "reader":
+        fileOperations = readerOperations
+        break
+      }
+    }
+
+    for (let i = 0; i < selectedCids.length; i++) {
+      const contentType = items.find((item) => item.cid === selectedCids[i])
+        ?.content_type
+
+      if (contentType) {
+        if (contentType === CONTENT_TYPES.Directory) {
+          const validList = fileOperations.filter(
+            (op: FileOperation) =>
+              bulkOperations[contentType].indexOf(op) >= 0
+          )
+          if (validList.length > 0) {
+            fileOperations = fileOperations.filter(
+              (existingOp: FileOperation) =>
+                validList.indexOf(existingOp) >= 0
             )
-            if (validList.length > 0) {
-              filteredList = filteredList.filter(
-                (existingOp: FileOperation) =>
-                  validList.indexOf(existingOp) >= 0
-              )
-            }
-          } else {
-            const validList = filteredList.filter(
-              (op: FileOperation) =>
-                bulkOperations[CONTENT_TYPES.File].indexOf(op) >= 0
-            )
-            if (validList.length > 0) {
-              filteredList = filteredList.filter(
-                (existingOp: FileOperation) =>
-                  validList.indexOf(existingOp) >= 0
-              )
-            }
           }
         } else {
-          const validList = filteredList.filter(
+          const validList = fileOperations.filter(
             (op: FileOperation) =>
               bulkOperations[CONTENT_TYPES.File].indexOf(op) >= 0
           )
           if (validList.length > 0) {
-            filteredList = filteredList.filter(
-              (existingOp: FileOperation) => validList.indexOf(existingOp) >= 0
+            fileOperations = fileOperations.filter(
+              (existingOp: FileOperation) =>
+                validList.indexOf(existingOp) >= 0
             )
           }
         }
+      } else {
+        const validList = fileOperations.filter(
+          (op: FileOperation) =>
+            bulkOperations[CONTENT_TYPES.File].indexOf(op) >= 0
+        )
+        if (validList.length > 0) {
+          fileOperations = fileOperations.filter(
+            (existingOp: FileOperation) => validList.indexOf(existingOp) >= 0
+          )
+        }
       }
-      setValidBulkOps(filteredList)
     }
-  }, [selectedCids, items, bulkOperations])
+    setValidBulkOps(fileOperations)
+  }, [selectedCids, items, bulkOperations, isShared, permission])
 
   const handleDeleteFiles = useCallback(() => {
     if (!deleteFiles) return
@@ -598,8 +604,10 @@ const FilesList = () => {
       <div
         className={clsx(classes.dropNotification, { active: isOverBrowser })}
       >
-        <Typography variant="h4"
-          component="p">
+        <Typography
+          variant="h4"
+          component="p"
+        >
           <Trans>Drop to upload files</Trans>
         </Typography>
       </div>
@@ -608,13 +616,13 @@ const FilesList = () => {
         previewType={browserView}
       />
       <div className={classes.breadCrumbContainer}>
-        {crumbs && moduleRootPath ? (
+        {crumbs && moduleRootPath && (
           <Breadcrumb
             crumbs={crumbs}
             homeOnClick={() => redirect(moduleRootPath)}
             showDropDown={!desktop}
           />
-        ) : null}
+        )}
       </div>
       <header className={classes.header}>
         <Typography
@@ -637,27 +645,33 @@ const FilesList = () => {
               >
                 {browserView === "table" ? <GridIcon /> : <TableIcon />}
               </Button>
-              <Button
-                onClick={() => setCreateFolderModalOpen(true)}
-                variant="outline"
-                size="large"
-              >
-                <PlusCircleIcon />
-                <span>
-                  <Trans>New folder</Trans>
-                </span>
-              </Button>
-              <Button
-                data-cy="upload-modal-button"
-                onClick={() => setIsUploadModalOpen(true)}
-                variant="outline"
-                size="large"
-              >
-                <UploadIcon />
-                <span>
-                  <Trans>Upload</Trans>
-                </span>
-              </Button>
+              {
+                permission !== "reader" && (
+                  <>
+                    <Button
+                      onClick={() => setCreateFolderModalOpen(true)}
+                      variant="outline"
+                      size="large"
+                    >
+                      <PlusCircleIcon />
+                      <span>
+                        <Trans>New folder</Trans>
+                      </span>
+                    </Button>
+                    <Button
+                      data-cy="upload-modal-button"
+                      onClick={() => setIsUploadModalOpen(true)}
+                      variant="outline"
+                      size="large"
+                    >
+                      <UploadIcon />
+                      <span>
+                        <Trans>Upload</Trans>
+                      </span>
+                    </Button>
+                  </>
+                )
+              }
             </>
           ) : (
             controls && !desktop && (
@@ -720,7 +734,7 @@ const FilesList = () => {
           )}
         </div>
       </header>
-      { withSurvey && isSurveyBannerVisible
+      { withSurvey && !isShared && isSurveyBannerVisible
         ? <SurveyBanner onHide={onHideSurveyBanner}/>
         : <Divider className={classes.divider} />
       }
@@ -735,6 +749,7 @@ const FilesList = () => {
                   setMoveModalMode("move")
                 }}
                 variant="outline"
+                testId="move-selected-file"
               >
                 <Trans>Move selected</Trans>
               </Button>
@@ -746,6 +761,7 @@ const FilesList = () => {
                   setMoveModalMode("recover")
                 }}
                 variant="outline"
+                testId="recover-selected-file"
               >
                 <Trans>Recover selected</Trans>
               </Button>
@@ -754,6 +770,7 @@ const FilesList = () => {
               <Button
                 onClick={handleOpenDeleteDialog}
                 variant="outline"
+                testId="delete-selected-file"
               >
                 <Trans>Delete selected</Trans>
               </Button>
@@ -767,15 +784,19 @@ const FilesList = () => {
           loadingCurrentPath && classes.showLoadingContainer
         )}
       >
-        <Loading size={24}
-          type="light" />
-        <Typography variant="body2"
-          component="p">
-          <Trans>One sec, getting files ready...</Trans>
+        <Loading
+          size={24}
+          type="light"
+        />
+        <Typography
+          variant="body2"
+          component="p"
+        >
+          <Trans>One sec, getting files ready…</Trans>
         </Typography>
       </div>
-      {(desktop && items.length === 0) ||
-      (!desktop && items.length === 0 && uploadsInProgress?.length === 0) ? (
+      {(desktop && items.length === 0) || (!desktop && items.length === 0 && uploadsInProgress?.length === 0)
+        ? (
           <section
             className={clsx(
               classes.noFiles,
@@ -788,209 +809,224 @@ const FilesList = () => {
               <Trans>No files to show</Trans>
             </Typography>
           </section>
-        ) : browserView === "table" ? (
-          <Table
-            fullWidth={true}
-            striped={true}
-            hover={true}
-            className={clsx(loadingCurrentPath && classes.fadeOutLoading)}
-          >
-            {desktop && (
-              <TableHead className={classes.tableHead}>
-                <TableRow type="grid"
-                  className={classes.tableRow}>
-                  <TableHeadCell>
-                    <CheckboxInput
-                      value={selectedCids.length === items.length}
-                      onChange={() => toggleAll()}
-                    />
-                  </TableHeadCell>
-                  <TableHeadCell>
-                    {/* 
-                        Icon
-                      */}
-                  </TableHeadCell>
-                  <TableHeadCell
-                    sortButtons={true}
-                    align="left"
-                    onSortChange={() => handleSortToggle("name")}
-                    sortDirection={column === "name" ? direction : undefined}
-                    sortActive={column === "name"}
-                  >
-                    <Trans>Name</Trans>
-                  </TableHeadCell>
-                  <TableHeadCell
-                    sortButtons={true}
-                    align="left"
-                    onSortChange={() => handleSortToggle("date_uploaded")}
-                    sortDirection={
-                      column === "date_uploaded" ? direction : undefined
-                    }
-                    sortActive={column === "date_uploaded"}
-                  >
-                    <Trans>Date uploaded</Trans>
-                  </TableHeadCell>
-                  <TableHeadCell
-                    sortButtons={true}
-                    align="left"
-                    onSortChange={() => handleSortToggle("size")}
-                    sortDirection={column === "size" ? direction : undefined}
-                    sortActive={column === "size"}
-                  >
-                    <Trans>Size</Trans>
-                  </TableHeadCell>
-                  <TableHeadCell>{/* Menu */}</TableHeadCell>
-                </TableRow>
-              </TableHead>
-            )}
-            <TableBody>
-              {!desktop &&
-              showUploadsInTable &&
-              uploadsInProgress
-                ?.filter(
+        )
+        : browserView === "table"
+          ? (
+            <Table
+              fullWidth={true}
+              striped={true}
+              hover={true}
+              className={clsx(loadingCurrentPath && classes.fadeOutLoading)}
+            >
+              {desktop && (
+                <TableHead className={classes.tableHead}>
+                  <TableRow type="grid"
+                    className={classes.tableRow}>
+                    <TableHeadCell>
+                      <CheckboxInput
+                        value={selectedCids.length === items.length}
+                        onChange={() => toggleAll()}
+                      />
+                    </TableHeadCell>
+                    <TableHeadCell>
+                      {/* Icon */}
+                    </TableHeadCell>
+                    <TableHeadCell
+                      sortButtons={true}
+                      align="left"
+                      onSortChange={() => handleSortToggle("name")}
+                      sortDirection={column === "name" ? direction : undefined}
+                      sortActive={column === "name"}
+                    >
+                      <Trans>Name</Trans>
+                    </TableHeadCell>
+                    <TableHeadCell
+                      sortButtons={true}
+                      align="left"
+                      onSortChange={() => handleSortToggle("date_uploaded")}
+                      sortDirection={
+                        column === "date_uploaded" ? direction : undefined
+                      }
+                      sortActive={column === "date_uploaded"}
+                    >
+                      <Trans>Date uploaded</Trans>
+                    </TableHeadCell>
+                    <TableHeadCell
+                      sortButtons={true}
+                      align="left"
+                      onSortChange={() => handleSortToggle("size")}
+                      sortDirection={column === "size" ? direction : undefined}
+                      sortActive={column === "size"}
+                    >
+                      <Trans>Size</Trans>
+                    </TableHeadCell>
+                    <TableHeadCell>{/* Menu */}</TableHeadCell>
+                  </TableRow>
+                </TableHead>
+              )}
+              <TableBody>
+                {!desktop && showUploadsInTable &&
+                uploadsInProgress?.filter(
                   (uploadInProgress) =>
                     uploadInProgress.path === currentPath &&
                     !uploadInProgress.complete &&
                     !uploadInProgress.error
                 )
-                .map((uploadInProgress) => (
-                  <TableRow
-                    key={uploadInProgress.id}
-                    className={classes.tableRow}
-                    type="grid"
-                  >
-                    <TableCell className={classes.progressIcon}>
-                      <CircularProgressBar
-                        progress={uploadInProgress.progress}
-                        size="small"
-                        width={15}
-                      />
-                    </TableCell>
-                    <TableCell align="left">
-                      {uploadInProgress.noOfFiles > 1
-                        ? t`Uploading ${uploadInProgress.noOfFiles} files`
-                        : uploadInProgress.fileName}
-                    </TableCell>
-                    <TableCell />
-                  </TableRow>
+                  .map((uploadInProgress) => (
+                    <TableRow
+                      key={uploadInProgress.id}
+                      className={classes.tableRow}
+                      type="grid"
+                    >
+                      <TableCell className={classes.progressIcon}>
+                        <CircularProgressBar
+                          progress={uploadInProgress.progress}
+                          size="small"
+                          width={15}
+                        />
+                      </TableCell>
+                      <TableCell align="left">
+                        {uploadInProgress.noOfFiles > 1
+                          ? t`Uploading ${uploadInProgress.noOfFiles} files`
+                          : uploadInProgress.fileName}
+                      </TableCell>
+                      <TableCell />
+                    </TableRow>
+                  ))}
+                {items.map((file, index) => (
+                  <FileSystemItem
+                    key={index}
+                    file={file}
+                    files={files}
+                    selected={selectedCids}
+                    handleSelectCid={handleSelectCid}
+                    handleAddToSelectedCids={handleAddToSelectedCids}
+                    editing={editing}
+                    setEditing={setEditing}
+                    handleRename={async (cid: string, newName: string) => {
+                      handleRename && (await handleRename(cid, newName))
+                      setEditing(undefined)
+                    }}
+                    deleteFile={() => {
+                      setSelectedCids([file.cid])
+                      setIsDeleteModalOpen(true)
+                    }}
+                    viewFolder={handleViewFolder}
+                    moveFile={() => {
+                      setSelectedCids([file.cid])
+                      setIsMoveFileModalOpen(true)
+                      setMoveModalMode("move")
+                    }}
+                    itemOperations={getItemOperations(file.content_type)}
+                    resetSelectedFiles={resetSelectedCids}
+                    browserView="table"
+                    recoverFile={() => {
+                      setSelectedCids([file.cid])
+                      setIsMoveFileModalOpen(true)
+                      setMoveModalMode("recover")
+                    }}
+                    reportFile={(filePath: string) => {
+                      setFilePath(filePath)
+                      setIsReportFileModalOpen(true)}
+                    }
+                    showFileInfo={(filePath: string) => {
+                      setFilePath(filePath)
+                      setIsFileInfoModalOpen(true)
+                    }}
+                    showPreview={(fileIndex: number) => {
+                      setFileIndex(fileIndex)
+                      setIsPreviewOpen(true)
+                    }}
+                    share={(filePath: string, fileIndex: number) => {
+                      setFilePath(filePath)
+                      setFileIndex(fileIndex)
+                      setIsCopyToSharedFolerModalOpen(true)
+                    }}
+                  />
                 ))}
+              </TableBody>
+            </Table>
+          )
+          : (
+            <section
+              className={clsx(
+                classes.gridRoot,
+                loadingCurrentPath && classes.fadeOutLoading
+              )}
+            >
               {items.map((file, index) => (
                 <FileSystemItem
                   key={index}
-                  index={index}
                   file={file}
                   files={files}
                   selected={selectedCids}
                   handleSelectCid={handleSelectCid}
+                  viewFolder={handleViewFolder}
                   handleAddToSelectedCids={handleAddToSelectedCids}
                   editing={editing}
                   setEditing={setEditing}
-                  renameSchema={renameSchema}
-                  handleRename={async (cid: string, newName: string) => {
-                    handleRename && (await handleRename(cid, newName))
+                  handleRename={async (path: string, newPath: string) => {
+                    handleRename && (await handleRename(path, newPath))
                     setEditing(undefined)
                   }}
                   deleteFile={() => {
                     setSelectedCids([file.cid])
                     setIsDeleteModalOpen(true)
                   }}
-                  viewFolder={handleViewFolder}
-                  setPreviewFileIndex={setPreviewFileIndex}
                   moveFile={() => {
                     setSelectedCids([file.cid])
                     setIsMoveFileModalOpen(true)
                     setMoveModalMode("move")
                   }}
-                  setFileInfoPath={setFileInfoPath}
                   itemOperations={getItemOperations(file.content_type)}
                   resetSelectedFiles={resetSelectedCids}
-                  browserView="table"
                   recoverFile={() => {
                     setSelectedCids([file.cid])
                     setIsMoveFileModalOpen(true)
                     setMoveModalMode("recover")
                   }}
+                  browserView="grid"
+                  reportFile={(fileInfoPath: string) => {
+                    setFilePath(fileInfoPath)
+                    setIsReportFileModalOpen(true)}
+                  }
+                  showFileInfo={(fileInfoPath: string) => {
+                    setFilePath(fileInfoPath)
+                    setIsFileInfoModalOpen(true)
+                  }}
+                  share={(fileInfoPath: string, fileIndex: number) => {
+                    setFilePath(fileInfoPath)
+                    setFileIndex(fileIndex)
+                    setIsCopyToSharedFolerModalOpen(true)
+                  }}
+                  showPreview={(fileIndex: number) => {
+                    setFileIndex(fileIndex)
+                    setIsPreviewOpen(true)
+                  }}
                 />
               ))}
-            </TableBody>
-          </Table>
-        ) : (
-          <section
-            className={clsx(
-              classes.gridRoot,
-              loadingCurrentPath && classes.fadeOutLoading
-            )}
-          >
-            {items.map((file, index) => (
-              <FileSystemItem
-                key={index}
-                index={index}
-                file={file}
-                files={files}
-                selected={selectedCids}
-                handleSelectCid={handleSelectCid}
-                viewFolder={handleViewFolder}
-                handleAddToSelectedCids={handleAddToSelectedCids}
-                editing={editing}
-                setEditing={setEditing}
-                renameSchema={renameSchema}
-                handleRename={async (path: string, newPath: string) => {
-                  handleRename && (await handleRename(path, newPath))
-                  setEditing(undefined)
-                }}
-                deleteFile={() => {
-                  setSelectedCids([file.cid])
-                  setIsDeleteModalOpen(true)
-                }}
-                setPreviewFileIndex={setPreviewFileIndex}
-                moveFile={() => {
-                  setSelectedCids([file.cid])
-                  setIsMoveFileModalOpen(true)
-                  setMoveModalMode("move")
-                }}
-                setFileInfoPath={setFileInfoPath}
-                itemOperations={getItemOperations(file.content_type)}
-                resetSelectedFiles={resetSelectedCids}
-                recoverFile={() => {
-                  setSelectedCids([file.cid])
-                  setIsMoveFileModalOpen(true)
-                  setMoveModalMode("recover")
-                }}
-                browserView="grid"
-              />
-            ))}
-          </section>
-        )}
-      {files && previewFileIndex !== undefined && bucket && (
-        <FilePreviewModal
-          file={files[previewFileIndex]}
-          closePreview={clearPreview}
-          nextFile={
-            previewFileIndex < files.length - 1 ? setNextPreview : undefined
-          }
-          previousFile={previewFileIndex > 0 ? setPreviousPreview : undefined}
-          path={isSearch && getPath ? getPath(files[previewFileIndex].cid) : getPathWithFile(currentPath, files[previewFileIndex].name)}
-        />
-      )}
+            </section>
+          )}
       <Dialog
         active={isDeleteModalOpen}
         reject={() => setIsDeleteModalOpen(false)}
         accept={handleDeleteFiles}
         requestMessage={
           plural(selectedCids.length, {
-            one: `You are about to delete ${selectedCids.length} file.`,
-            other: `You are about to delete ${selectedCids.length} files.`
+            one: `You are about to delete ${selectedCids.length} item.`,
+            other: `You are about to delete ${selectedCids.length} items.`
           })
         }
         rejectText = {t`Cancel`}
         acceptText = {t`Confirm`}
-        acceptButtonProps={{ loading: isDeletingFiles, disabled: isDeletingFiles }}
-        rejectButtonProps={{ disabled: isDeletingFiles }}
+        acceptButtonProps={{ loading: isDeletingFiles, disabled: isDeletingFiles, testId: "confirm-deletion" }}
+        rejectButtonProps={{ disabled: isDeletingFiles, testId: "cancel-deletion" }}
         injectedClass={{ inner: classes.confirmDeletionDialog }}
         onModalBodyClick={(e) => {
           e.preventDefault()
           e.stopPropagation()
         }}
+        testId="file-deletion"
       />
       <UploadProgressModals />
       <DownloadProgressModals />
@@ -1005,28 +1041,61 @@ const FilesList = () => {
               modalOpen={isUploadModalOpen}
               close={() => setIsUploadModalOpen(false)}
             />
-            <MoveFileModule
-              filesToMove={selectedItems}
-              modalOpen={isMoveFileModalOpen}
-              onClose={() => {
-                setIsMoveFileModalOpen(false)
-                setSelectedCids([])
-                setMoveModalMode(undefined)
-              }}
-              onCancel={() => {
-                setIsMoveFileModalOpen(false)
-                setMoveModalMode(undefined)
-              }}
-              mode={moveModalMode}
-            />
+            {isMoveFileModalOpen && (
+              <MoveFileModal
+                filesToMove={selectedItems}
+                onClose={() => {
+                  setIsMoveFileModalOpen(false)
+                  setSelectedCids([])
+                  setMoveModalMode(undefined)
+                }}
+                onCancel={() => {
+                  setIsMoveFileModalOpen(false)
+                  setMoveModalMode(undefined)
+                }}
+                mode={moveModalMode}
+              />
+            )}
           </>
         )
       }
-
-      <FileInfoModal
-        fileInfoPath={fileInfoPath}
-        close={() => setFileInfoPath(undefined)}
-      />
+      {isPreviewOpen && files.length && fileIndex !== undefined && (
+        <FilePreviewModal
+          file={files[fileIndex]}
+          closePreview={closePreview}
+          nextFile={fileIndex < files.length - 1 ? setNextPreview : undefined}
+          previousFile={fileIndex > 0 ? setPreviousPreview : undefined}
+          filePath={isSearch && getPath ? getPath(files[fileIndex].cid) : getPathWithFile(currentPath, files[fileIndex].name)}
+        />
+      )}
+      { filePath && isReportFileModalOpen &&
+        <ReportFileModal
+          filePath={filePath}
+          close={() => {
+            setIsReportFileModalOpen(false)
+            setFilePath(undefined)
+          }}
+        />
+      }
+      { filePath && isFileInfoModalOpen &&
+        <FileInfoModal
+          filePath={filePath}
+          close={() => {
+            setIsFileInfoModalOpen(false)
+            setFilePath(undefined)
+          }}
+        />
+      }
+      { isCopyToSharedFolerModalOpen && filePath && fileIndex !== undefined &&
+        <CopyToSharedFolderModal
+          file={files[fileIndex]}
+          close={() => {
+            setIsCopyToSharedFolerModalOpen(false)
+            setFilePath(undefined)
+          }}
+          filePath={filePath}
+        />
+      }
     </article>
   )
 }

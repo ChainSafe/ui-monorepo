@@ -4,7 +4,8 @@ import {
   BucketType,
   Bucket as FilesBucket,
   SearchEntry,
-  BucketFileFullInfoResponse
+  BucketFileFullInfoResponse,
+  BucketSummaryResponse
 } from "@chainsafe/files-api-client"
 import React, { useCallback, useEffect, useReducer } from "react"
 import { useState } from "react"
@@ -12,13 +13,14 @@ import { decryptFile, encryptFile  } from "../Utils/encryption"
 import { v4 as uuidv4 } from "uuid"
 import { useToaster } from "@chainsafe/common-components"
 import { downloadsInProgressReducer, uploadsInProgressReducer } from "./FilesReducers"
-import { CancelToken } from "axios"
+import axios, { CancelToken } from "axios"
 import { t } from "@lingui/macro"
 import { readFileAsync } from "../Utils/Helpers"
 import { useBeforeunload } from "react-beforeunload"
 import { useThresholdKey } from "./ThresholdKeyContext"
 import { useFilesApi } from "./FilesApiContext"
 import { useUser } from "./UserContext"
+import { getPathWithFile } from "../Utils/pathUtils"
 
 type FilesContextProps = {
   children: React.ReactNode | React.ReactNode[]
@@ -44,6 +46,17 @@ export type DownloadProgress = {
   complete: boolean
 }
 
+export type SharedFolderUser = {
+  uuid: string
+  pubKey: string
+}
+
+export type UpdateSharedFolderUser = {
+  uuid: string
+  pubKey?: string
+  encryption_key?: string
+}
+
 interface GetFileContentParams {
   cid: string
   cancelToken?: CancelToken
@@ -52,22 +65,39 @@ interface GetFileContentParams {
   path: string
 }
 
-type Bucket = FilesBucket & { encryptionKey: string}
+export type BucketPermission = "writer" | "owner" | "reader"
+
+export type BucketKeyPermission = FilesBucket & {
+  encryptionKey: string
+  permission?: BucketPermission
+}
 
 type FilesContext = {
-  buckets: Bucket[]
+  buckets: BucketKeyPermission[]
   uploadsInProgress: UploadProgress[]
   downloadsInProgress: DownloadProgress[]
-  spaceUsed: number
-  uploadFiles: (bucketId: string, files: File[], path: string) => Promise<void>
+  storageSummary: BucketSummaryResponse | undefined
+  getStorageSummary: () => Promise<void>
+  uploadFiles: (bucketId: string, files: File[], path: string, encryptionKey?: string) => Promise<void>
   downloadFile: (bucketId: string, itemToDownload: FileSystemItem, path: string) => void
   getFileContent: (bucketId: string, params: GetFileContentParams) => Promise<Blob | undefined>
-  refreshBuckets: () => Promise<void>
+  refreshBuckets: (showLoading?: boolean) => Promise<void>
   secureAccountWithMasterPassword: (candidatePassword: string) => Promise<void>
+  isLoadingBuckets?: boolean
+  createSharedFolder: (
+    name: string,
+    writers?: SharedFolderUser[],
+    readers?: SharedFolderUser[]
+  ) => Promise<BucketKeyPermission | void>
+  editSharedFolder: (
+    bucket: BucketKeyPermission,
+    writers?: UpdateSharedFolderUser[],
+    readers?: UpdateSharedFolderUser[]
+  ) => Promise<void>
 }
 
 // This represents a File or Folder on the
-interface IFileSystemItem extends FileContentResponse {
+export interface IFileSystemItem extends FileContentResponse {
   isFolder: boolean
 }
 
@@ -90,56 +120,96 @@ const FilesProvider = ({ children }: FilesContextProps) => {
   } = useFilesApi()
   const { publicKey, encryptForPublicKey, decryptMessageWithThresholdKey } = useThresholdKey()
   const { addToastMessage } = useToaster()
-  const [spaceUsed, setSpaceUsed] = useState(0)
   const [personalEncryptionKey, setPersonalEncryptionKey] = useState<string | undefined>()
-  const [buckets, setBuckets] = useState<Bucket[]>([])
+  const [buckets, setBuckets] = useState<BucketKeyPermission[]>([])
+  const [storageSummary, setStorageSummary] = useState<BucketSummaryResponse | undefined>()
   const { profile } = useUser()
+  const { userId } = profile || {}
+  const [isLoadingBuckets, setIsLoadingBuckets] = useState(false)
 
-  const getKeyForBucket = useCallback(async (bucket: FilesBucket) => {
-    const bucketUsers = [...bucket.owners, ...bucket.readers, ...bucket.writers]
-    const bucketUser = bucketUsers.find(bu => bu.uuid === profile?.userId)
-    if (!bucketUser || !bucketUser.encryption_key) {
+  const getStorageSummary = useCallback(async () => {
+    try {
+      const bucketSummaryData = await filesApiClient.bucketsSummary()
+      setStorageSummary(bucketSummaryData)
+    } catch (error) {
+      console.error(error)
+    }
+  }, [filesApiClient, setStorageSummary])
+
+  const getPermissionForBucket = useCallback((bucket: FilesBucket) => {
+    return bucket.owners.find(owner => owner.uuid === userId)
+      ? "owner" as BucketPermission
+      : bucket.writers.find(writer => writer.uuid === userId)
+        ? "writer" as BucketPermission
+        : bucket.readers.find(reader => reader.uuid === userId)
+          ? "reader" as BucketPermission
+          : undefined
+  }, [userId])
+
+  const getKeyForSharedBucket = useCallback(async (bucket: FilesBucket) => {
+    const bucketUsers = [...bucket.readers, ...bucket.writers, ...bucket.owners]
+    const bucketUser = bucketUsers.find(bu => bu.uuid === userId)
+
+    if (!bucketUser?.encryption_key) {
       console.error(`Unable to retrieve encryption key for ${bucket.id}`)
       return ""
     }
-    const decrypted = await decryptMessageWithThresholdKey(bucketUser.encryption_key)
-    return decrypted || ""
-  }, [decryptMessageWithThresholdKey, profile])
 
-  const refreshBuckets = useCallback(async () => {
-    if (!personalEncryptionKey) return
+    const decrypted = await decryptMessageWithThresholdKey(bucketUser.encryption_key)
+
+    return decrypted || ""
+  }, [decryptMessageWithThresholdKey, userId])
+
+  const getKeyForBucket = useCallback(async (bucket: FilesBucket) => {
+    if (!personalEncryptionKey || !userId) return
+
+    let encryptionKey = ""
+
+    switch(bucket.type) {
+    case "csf":
+    case "trash": {
+      encryptionKey = personalEncryptionKey
+      break
+    }
+    case "share": {
+      encryptionKey = await getKeyForSharedBucket(bucket)
+      break
+    }}
+
+    return encryptionKey
+  }, [getKeyForSharedBucket, personalEncryptionKey, userId])
+
+  const refreshBuckets = useCallback(async (showLoading?: boolean) => {
+    if (!personalEncryptionKey || !userId) return
+
+    showLoading && setIsLoadingBuckets(true)
     const result = await filesApiClient.listBuckets()
 
-    const bucketsWithKeys: Bucket[] = await Promise.all(result.map(async (b) => ({
-      ...b,
-      encryptionKey: (b.type === "csf" || b.type === "trash") ? personalEncryptionKey : await getKeyForBucket(b)
-    })))
+    const bucketsWithKeys: BucketKeyPermission[] = await Promise.all(
+      result.map(async (b) => {
+        return {
+          ...b,
+          encryptionKey: await getKeyForBucket(b) || "",
+          permission: getPermissionForBucket(b)
+        }
+      })
+    )
     setBuckets(bucketsWithKeys)
+    setIsLoadingBuckets(false)
+    getStorageSummary()
     return Promise.resolve()
-  }, [getKeyForBucket, filesApiClient, personalEncryptionKey])
+  }, [personalEncryptionKey, userId, filesApiClient, getStorageSummary, getKeyForBucket, getPermissionForBucket])
 
   useEffect(() => {
-    refreshBuckets()
+    refreshBuckets(true)
   }, [refreshBuckets])
 
   // Space used counter
   useEffect(() => {
-    const getSpaceUsage = async () => {
-      try {
-        const totalSize = buckets.filter(b => b.type === "csf" ||
-          b.type === "trash" ||
-          (b.type === "share" && !!b.owners.find(u => u.uuid === profile?.userId)))
-          .reduce((totalSize, bucket) => totalSize += bucket.size, 0)
-
-        setSpaceUsed(totalSize)
-      } catch (error) {
-        console.error(error)
-      }
-    }
     if (isLoggedIn) {
-      getSpaceUsage()
+      getStorageSummary()
     }
-  }, [filesApiClient, isLoggedIn, buckets, profile])
+  }, [isLoggedIn, getStorageSummary, profile])
 
   // Reset encryption keys on log out
   useEffect(() => {
@@ -149,35 +219,38 @@ const FilesProvider = ({ children }: FilesContextProps) => {
     }
   }, [isLoggedIn])
 
+  const secureAccount = useCallback(() => {
+    if (!publicKey) return
+
+    const key = Buffer.from(
+      window.crypto.getRandomValues(new Uint8Array(32))
+    ).toString("base64")
+    console.log("New key", key)
+    setPersonalEncryptionKey(key)
+    encryptForPublicKey(publicKey, key)
+      .then((encryptedKey) => {
+        console.log("Encrypted encryption key", encryptedKey)
+        secureThresholdKeyAccount(encryptedKey)
+      })
+      .catch(console.error)
+  }, [encryptForPublicKey, publicKey, secureThresholdKeyAccount])
+
+  const decryptKey = useCallback((encryptedKey: string) => {
+    console.log("Decrypting retrieved key")
+
+    decryptMessageWithThresholdKey(encryptedKey)
+      .then((decryptedKey) => {
+        console.log("Decrypted key: ", decryptedKey)
+        setPersonalEncryptionKey(decryptedKey)
+      })
+      .catch(console.error)
+  }, [decryptMessageWithThresholdKey])
+
   // Drive encryption handler
   useEffect(() => {
-    const secureAccount = async () => {
-      if (!publicKey) return
-      const key = Buffer.from(
-        window.crypto.getRandomValues(new Uint8Array(32))
-      ).toString("base64")
-      console.log("New key", key)
-      setPersonalEncryptionKey(key)
-      const encryptedKey = await encryptForPublicKey(publicKey, key)
-      console.log("Encrypted encryption key", encryptedKey)
-      secureThresholdKeyAccount(encryptedKey)
-    }
-
-    const decryptKey = async (encryptedKey: string) => {
-      console.log("Decrypting retrieved key")
-      try {
-        const decryptedKey = await decryptMessageWithThresholdKey(encryptedKey)
-        if (decryptedKey) {
-          console.log("Decrypted key: ", decryptedKey)
-          setPersonalEncryptionKey(decryptedKey)
-        }
-      } catch (error) {
-        console.error("Error decrypting key: ", encryptedKey)
-      }
-    }
-
     if (isLoggedIn && publicKey && !personalEncryptionKey) {
       console.log("Checking whether account is secured ", secured)
+
       if (!secured && !isMasterPasswordSet) {
         console.log("Generating key and securing account")
         secureAccount()
@@ -197,7 +270,10 @@ const FilesProvider = ({ children }: FilesContextProps) => {
     secureThresholdKeyAccount,
     decryptMessageWithThresholdKey,
     personalEncryptionKey,
-    isMasterPasswordSet
+    isMasterPasswordSet,
+    secureAccount,
+    decryptKey,
+    isLoadingBuckets
   ])
 
   const secureAccountWithMasterPassword = async (candidatePassword: string) => {
@@ -236,11 +312,11 @@ const FilesProvider = ({ children }: FilesContextProps) => {
     }
   })
 
-  const uploadFiles = useCallback(async (bucketId: string, files: File[], path: string) => {
-    const bucket = buckets.find(b => b.id === bucketId)
+  const uploadFiles = useCallback(async (bucketId: string, files: File[], path: string, encryptionKey?: string) => {
+    const key = encryptionKey || buckets.find(b => b.id === bucketId)?.encryptionKey
 
-    if (!bucket || !bucket.encryptionKey) {
-      console.error("No encryption key for this bucket is available.")
+    if (!key) {
+      console.error("No encryption key for this bucket available.")
       return
     }
 
@@ -255,26 +331,29 @@ const FilesProvider = ({ children }: FilesContextProps) => {
       path
     }
     dispatchUploadsInProgress({ type: "add", payload: uploadProgress })
+    const hasOversizedFile = files.some(file => file.size > MAX_FILE_SIZE)
+
+    if (hasOversizedFile) {
+      addToastMessage({
+        message:
+            t`We can't encrypt files larger than 2GB. Some items will not be uploaded`,
+        appearance: "error"
+      })
+    }
+
     try {
       const filesParam = await Promise.all(
         files
           .filter((f) => f.size <= MAX_FILE_SIZE)
           .map(async (f) => {
             const fileData = await readFileAsync(f)
-            const encryptedData = await encryptFile(fileData, bucket.encryptionKey)
+            const encryptedData = await encryptFile(fileData, key)
             return {
               data: new Blob([encryptedData], { type: f.type }),
               fileName: f.name
             }
           })
       )
-      if (filesParam.length !== files.length) {
-        addToastMessage({
-          message:
-              "We can't encrypt files larger than 2GB. Some items will not be uploaded",
-          appearance: "error"
-        })
-      }
 
       await filesApiClient.uploadBucketObjects(
         bucketId,
@@ -282,6 +361,7 @@ const FilesProvider = ({ children }: FilesContextProps) => {
         path,
         undefined,
         1,
+        undefined,
         undefined,
         (progressEvent: { loaded: number; total: number }) => {
           dispatchUploadsInProgress({
@@ -319,6 +399,8 @@ const FilesProvider = ({ children }: FilesContextProps) => {
       setTimeout(() => {
         dispatchUploadsInProgress({ type: "remove", payload: { id } })
       }, REMOVE_UPLOAD_PROGRESS_DELAY)
+
+      return Promise.reject(error)
     }
   }, [addToastMessage, filesApiClient, buckets, refreshBuckets])
 
@@ -326,9 +408,10 @@ const FilesProvider = ({ children }: FilesContextProps) => {
     bucketId: string,
     { cid, cancelToken, onDownloadProgress, file, path }: GetFileContentParams
   ) => {
-    const bucket = buckets.find(b => b.id === bucketId)
 
-    if (!bucket || !bucket.encryptionKey) {
+    const key = buckets.find(b => b.id === bucketId)?.encryptionKey
+
+    if (!key) {
       throw new Error("No encryption key for this bucket found")
     }
 
@@ -343,7 +426,7 @@ const FilesProvider = ({ children }: FilesContextProps) => {
 
     try {
       const result = await filesApiClient.getBucketObjectContent(
-        bucket.id,
+        bucketId,
         { path: path },
         cancelToken,
         onDownloadProgress
@@ -354,7 +437,7 @@ const FilesProvider = ({ children }: FilesContextProps) => {
       } else {
         const decrypted = await decryptFile(
           await result.data.arrayBuffer(),
-          bucket.encryptionKey
+          key
         )
         if (decrypted) {
           return new Blob([decrypted], {
@@ -363,8 +446,12 @@ const FilesProvider = ({ children }: FilesContextProps) => {
         }
       }
     } catch (error) {
-      console.error(error)
-      return Promise.reject()
+      if (axios.isCancel(error)) {
+        return Promise.reject()
+      } else {
+        console.error(error)
+        return Promise.reject(error)
+      }
     }
   }, [buckets, filesApiClient])
 
@@ -382,7 +469,7 @@ const FilesProvider = ({ children }: FilesContextProps) => {
       const result = await getFileContent(bucketId, {
         cid: itemToDownload.cid,
         file: itemToDownload,
-        path: `${path}/${itemToDownload.name}`,
+        path: getPathWithFile(path, itemToDownload.name),
         onDownloadProgress: (progressEvent) => {
           dispatchDownloadsInProgress({
             type: "progress",
@@ -418,6 +505,75 @@ const FilesProvider = ({ children }: FilesContextProps) => {
     }
   }, [getFileContent])
 
+  const createSharedFolder = useCallback(async (name: string, writerUsers?: SharedFolderUser[], readerUsers?: SharedFolderUser[]) =>  {
+    if (!publicKey) return
+
+    const bucketEncryptionKey = Buffer.from(
+      window.crypto.getRandomValues(new Uint8Array(32))
+    ).toString("base64")
+
+    const ownerEncryptedEncryptionKey = await encryptForPublicKey(publicKey, bucketEncryptionKey)
+
+    const readers = readerUsers ? await Promise.all(readerUsers?.map(async u => ({
+      uuid: u.uuid,
+      encryption_key: await encryptForPublicKey(u.pubKey, bucketEncryptionKey)
+    }))) : []
+
+    const writers = writerUsers ? await Promise.all(writerUsers?.map(async u => ({
+      uuid: u.uuid,
+      encryption_key: await encryptForPublicKey(u.pubKey, bucketEncryptionKey)
+    }))) : []
+
+    return filesApiClient.createBucket({
+      name,
+      encryption_key: ownerEncryptedEncryptionKey,
+      type: "share",
+      readers,
+      writers
+    }).then(async (bucket) => {
+      refreshBuckets(false)
+
+      return {
+        ...bucket,
+        encryptionKey: await getKeyForBucket(bucket) || "",
+        permission: getPermissionForBucket(bucket)
+      } as BucketKeyPermission
+    })
+      .catch(console.error)
+  }, [publicKey, encryptForPublicKey, filesApiClient, refreshBuckets, getKeyForBucket, getPermissionForBucket])
+
+  const editSharedFolder = useCallback(
+    async (bucket: BucketKeyPermission, writerUsers?: UpdateSharedFolderUser[], readerUsers?: UpdateSharedFolderUser[]) => {
+      if (!publicKey) return
+
+      const readers = readerUsers ? await Promise.all(readerUsers?.map(async u => {
+        return u.pubKey ? {
+          uuid: u.uuid,
+          encryption_key: await encryptForPublicKey(u.pubKey, bucket.encryptionKey)
+        } : {
+          uuid: u.uuid,
+          encryption_key: u.encryption_key
+        }
+      })) : []
+
+      const writers = writerUsers ? await Promise.all(writerUsers?.map(async u => {
+        return u.pubKey ? {
+          uuid: u.uuid,
+          encryption_key: await encryptForPublicKey(u.pubKey, bucket.encryptionKey)
+        } : {
+          uuid: u.uuid,
+          encryption_key: u.encryption_key
+        }
+      })) : []
+
+      return filesApiClient.updateBucket(bucket.id, {
+        name: bucket.name,
+        readers,
+        writers
+      }).then(() => refreshBuckets(false))
+        .catch(console.error)
+    }, [filesApiClient, encryptForPublicKey, publicKey, refreshBuckets])
+
   return (
     <FilesContext.Provider
       value={{
@@ -425,12 +581,15 @@ const FilesProvider = ({ children }: FilesContextProps) => {
         downloadFile,
         getFileContent,
         uploadsInProgress,
-        spaceUsed,
+        storageSummary,
+        getStorageSummary,
         downloadsInProgress,
         secureAccountWithMasterPassword,
         buckets,
-        refreshBuckets
-
+        refreshBuckets,
+        isLoadingBuckets,
+        createSharedFolder,
+        editSharedFolder
       }}
     >
       {children}

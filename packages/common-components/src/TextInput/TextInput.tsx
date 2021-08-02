@@ -64,7 +64,6 @@ const useStyles = makeStyles(
           },
           "&:focus": {
             borderColor: palette.primary.border,
-            // borderColor: palette
             boxShadow: "0px 0px 4px rgba(24, 144, 255, 0.5)",
             ...overrides?.TextInput?.input?.focus
           },
@@ -166,19 +165,24 @@ const useStyles = makeStyles(
         fill: palette.warning.main,
         "& svg": {
           fill: `${palette.warning.main} !important`
-        }
+        },
+        cursor: "default"
+
       },
       errorIcon: {
         fill: palette.error.main,
         "& svg": {
           fill: `${palette.error.main} !important`
-        }
+        },
+        cursor: "default"
       },
       successIcon: {
         fill: palette.success.main,
         "& svg": {
           fill: `${palette.success.main} !important`
-        }
+        },
+        cursor: "default"
+
       },
       label: {
         transitionDuration: `${animation.transform}ms`,
@@ -256,9 +260,7 @@ const useStyles = makeStyles(
         },
         "&.small": {
           "& input": {
-            padding: `${constants.generalUnit / constants.generalUnit}px ${
-              constants.generalUnit
-            }px`
+            padding: `1px ${constants.generalUnit}px`
           },
           "&.iconLeft input": {
             paddingLeft:
@@ -396,7 +398,7 @@ export interface ITextInputProps
   inputVariant?: "default" | "minimal"
   size?: "large" | "medium" | "small"
   captionMessage?: string | ReactNode
-  onChange: (value: string | number | undefined) => void
+  onChange?: (value?: string | number) => void
   type?: "text" | "email" | "password" | "url" | "search"
   autoFocus?: boolean
 }
@@ -425,6 +427,7 @@ const TextInput = React.forwardRef(
     forwardedRef: any
   ) => {
     const classes = useStyles()
+
     return (
       <label
         className={clsx(classes.root, className, size, {
@@ -468,7 +471,7 @@ const TextInput = React.forwardRef(
             name={name}
             value={value}
             placeholder={placeholder}
-            onChange={(e) => onChange(e.target.value)}
+            onChange={(e) => onChange && onChange(e.target.value)}
             autoFocus={autoFocus}
             ref={forwardedRef}
             {...rest}

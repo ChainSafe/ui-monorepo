@@ -7,14 +7,15 @@
       "jsx": true // Allows for the parsing of JSX
     }
   },
-  "plugins": ["@typescript-eslint", "cypress"],
+  "plugins": ["@typescript-eslint", "cypress", "ternary"],
   "extends": [
     "eslint:recommended",
     "plugin:@typescript-eslint/eslint-recommended",
     "plugin:@typescript-eslint/recommended",
     "plugin:react/recommended",
     "plugin:react-hooks/recommended",
-    "plugin:cypress/recommended"
+    "plugin:cypress/recommended",
+    "plugin:ternary/recommended"
   ],
   "settings": {
     "react": {
@@ -47,6 +48,9 @@
     "comma-dangle": ["error", "never"],
     "object-curly-spacing": ["error", "always"],
     "space-in-parens": ["error", "never"],
+    "ternary/no-unreachable": "off",
+    "ternary/nesting": "off",
+    "@typescript-eslint/no-unused-vars": "error",
     "@typescript-eslint/no-use-before-define": "off",
     "@typescript-eslint/explicit-function-return-type": "off",
     "@typescript-eslint/no-explicit-any": "off",

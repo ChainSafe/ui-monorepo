@@ -12,11 +12,12 @@ import {
 } from "@chainsafe/common-components"
 import { ROUTE_LINKS } from "../StorageRoutes"
 import { Trans } from "@lingui/macro"
-import { CSFTheme } from "../../Themes/types"
+import { CSSTheme } from "../../Themes/types"
 import { useStorageApi } from "../../Contexts/StorageApiContext"
+import { useUser } from "../../Contexts/UserContext"
 
 const useStyles = makeStyles(
-  ({ palette, animation, breakpoints, constants, zIndex }: CSFTheme) => {
+  ({ palette, animation, breakpoints, constants, zIndex }: CSSTheme) => {
     return createStyles({
       root: {
         position: "fixed",
@@ -154,6 +155,7 @@ const AppHeader = ({ navOpen, setNavOpen }: IAppHeader) => {
   const classes = useStyles()
   const { isLoggedIn, logout } = useStorageApi()
   const { history } = useHistory()
+  const { getProfileTitle } = useUser()
 
   const signOut = useCallback(async () => {
     logout()
@@ -171,20 +173,23 @@ const AppHeader = ({ navOpen, setNavOpen }: IAppHeader) => {
         <>
           {desktop ? (
             <>
-
               <section className={classes.accountControls}>
                 <MenuDropdown
-                  title='TBC'
+                  title={getProfileTitle()}
                   anchor="bottom-right"
                   classNames={{
                     icon: classes.icon,
                     options: classes.options
                   }}
+                  testId="sign-out"
                   menuItems={[
                     {
                       onClick: () => signOut(),
                       contents: (
-                        <div className={classes.menuItem}>
+                        <div
+                          data-cy="menu-sign-out"
+                          className={classes.menuItem}
+                        >
                           <PowerDownSvg />
                           <Typography>
                             <Trans>Sign Out</Trans>
@@ -202,6 +207,7 @@ const AppHeader = ({ navOpen, setNavOpen }: IAppHeader) => {
                 onClick={() => setNavOpen(!navOpen)}
                 variant={navOpen ? "active" : "default"}
                 className={clsx(classes.hamburgerMenu, "hamburger-menu")}
+                testId="hamburger-menu"
               />
               <Link
                 className={classes.logo}
@@ -212,10 +218,8 @@ const AppHeader = ({ navOpen, setNavOpen }: IAppHeader) => {
                   variant="h5"
                   className={classes.title}
                 >
-                      Files
+                  Storage
                 </Typography>
-                    &nbsp;
-                <Typography variant="caption">beta</Typography>
               </Link>
             </>
           )}

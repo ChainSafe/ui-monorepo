@@ -5,6 +5,7 @@ import TextInput, { ITextInputProps } from "./TextInput"
 export interface FormikTextInputProps
   extends Omit<ITextInputProps, "onChange" | "state" | "value"> {
   name: string
+  hideLabel?: boolean
 }
 
 const FormikTextInput = React.forwardRef(
@@ -21,6 +22,7 @@ const FormikTextInput = React.forwardRef(
       disabled = false,
       autoFocus,
       captionMessage,
+      hideLabel,
       ...rest
     }: FormikTextInputProps,
     forwardedRef: any
@@ -28,7 +30,7 @@ const FormikTextInput = React.forwardRef(
     const [field, meta, helpers] = useField(name)
     return (
       <TextInput
-        label={label ? label : field.name}
+        label={hideLabel ? undefined : label || field.name}
         inputVariant={inputVariant}
         disabled={disabled}
         type={type}
@@ -38,7 +40,7 @@ const FormikTextInput = React.forwardRef(
         name={field.name}
         value={field.value}
         placeholder={placeholder}
-        captionMessage={meta.error ? `${meta.error}` : captionMessage ? captionMessage : null}
+        captionMessage={meta.error || captionMessage}
         state={meta.error ? "error" : undefined}
         onChange={helpers.setValue}
         autoFocus={autoFocus}

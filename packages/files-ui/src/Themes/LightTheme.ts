@@ -158,6 +158,11 @@ export const lightTheme = createTheme<CsfColors>({
         },
         surveyBanner: {
           color: "var(--gray1)"
+        },
+        createShareModal: {
+          backgroundColor: "var(--gray1)",
+          color: "var(--gray10)",
+          iconBackingColor: "#EBEEFF"
         }
       } as CsfColors)
     },
@@ -176,6 +181,14 @@ export const lightTheme = createTheme<CsfColors>({
         h5: {
           fontWeight: 600,
           color: "var(--gray10)"
+        }
+      },
+      TagsInput: {
+        option: {
+          cursor: "pointer"
+        },
+        multiValueRemove: {
+          cursor: "pointer"
         }
       },
       Button: {

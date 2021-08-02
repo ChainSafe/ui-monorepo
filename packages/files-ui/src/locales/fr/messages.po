@@ -1,27 +1,27 @@
 msgid ""
 msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-04-23 11:05+0200\n"
-"Mime-Version: 1.0\n"
+"PO-Revision-Date: 2021-07-31 19:48+0000\n"
+"Last-Translator: J. Lavoie <j.lavoie@net-c.ca>\n"
+"Language-Team: French <https://hosted.weblate.org/projects/chainsafe-files/chainsafe-files-user-interface/fr/>\n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.3\n"
-"Language: fr\n"
-"Project-Id-Version: \n"
-"PO-Revision-Date: \n"
-"Last-Translator: \n"
-"Language-Team: \n"
-"MIME-Version: 1.0\n"
-"Report-Msgid-Bugs-To: \n"
-"Plural-Forms: \n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 4.8-dev\n"
+"Mime-Version: 1.0\n"
 
 msgid "(Change)"
 msgstr "(Changer)"
 
 msgid "<0>You’re at risk of getting locked out of your account because you only have two auth factors set up.</0> Add at least one more to ensure account recovery."
-msgstr "<0> Vous risquez d'être bloqué sur votre compte car vous n'avez configuré que deux facteurs d'authentification.</0> Ajoutez-en au moins un autre pour garantir la récupération du compte."
+msgstr "<0>Vous risquez de ne plus avoir accès à votre compte car vous n’avez configuré que deux facteurs d’authentification.</0> Ajoutez-en au moins un autre pour garantir la récupération du compte."
 
 msgid "A backup secret phrase will be generated and used for your account.<0/>We do not store it and <1>it can only be displayed once</1>. Save it somewhere safe!"
-msgstr "Une phrase de sauvegarde secrète sera générée et utilisé pour ce comte.<0/>Nous ne la sauvergardons pas <1>elle ne peut être montrée qu'une seule fois</1>. Garde la dans un endroit sûr!"
+msgstr "Une phrase secrète de sauvegarde sera générée et utilisé pour ce compte.<0/>Nous ne la sauvergardons pas <1>elle ne peut être affichée qu’une seule fois</1>. Gardez-la dans un endroit sûr !"
 
 msgid "A file with the same name already exists"
 msgstr "Un fichier avec ce nom existe déjà"
@@ -32,35 +32,47 @@ msgstr "Le nom ne peut être vide"
 msgid "Account"
 msgstr "Compte"
 
+msgid "Add a username"
+msgstr "Ajouter un nom d’utilisateur"
+
 msgid "Add at least one more authentication method to protect your account. You’d only need any two to sign in to Files from any device."
-msgstr "Ajoute au moins une méthode d’authentification pour protéger ce compte. Tu as besoin de 2 méthode pour accéder à Files depuis n'importe quel appareil."
+msgstr "Ajoutez au moins une méthode d’authentification pour protéger ce compte. Vous avez besoin de deux méthode pour accéder à Files depuis n’importe quel appareil."
+
+msgid "Add by sharing address, username or wallet address"
+msgstr "Ajouter par adresse de partage, nom d'utilisateur ou adresse de portefeuille"
 
 msgid "Add more files"
-msgstr "Ajoute d'autres fichiers"
+msgstr "Ajouter d’autres fichiers"
 
 msgid "Approve"
 msgstr "Accepter"
 
 msgid "Are we on the right track? Let us know in less than 1 minute."
-msgstr "Sommes nous sur les bons rails ? Dites le nous en moins d'1 minute (en anglais)."
+msgstr "Sommes-nous sur la bonne voie ? Dites-le-nous en moins d’une minute (en anglais)."
+
+msgid "Back"
+msgstr "Retour"
 
 msgid "Backup secret phrase"
-msgstr "Phrase de sauvegarde secrète"
+msgstr "Phrase secrète de sauvegarde"
 
 msgid "Backup secret phrase does not match user account, please double-check and try again."
-msgstr "La phrase de sauvegarde secrète est incorrecte, merci de vérifier et réessayer."
+msgstr "La phrase secrète de sauvegarde est incorrecte, merci de vérifier et réessayer."
 
 msgid "Bin"
 msgstr "Corbeille"
 
 msgid "Browser:"
-msgstr "Explorateur:"
+msgstr "Explorateur :"
+
+msgid "Bucket id"
+msgstr "Identifiant du seau"
 
 msgid "By connecting your wallet, you agree to our <0>Terms of Service</0> and <1>Privacy Policy</1>"
-msgstr "En connectant ton portefeuille, tu acceptes nos <0>Terms of Service</0> et <1>Privacy Policy</1>"
+msgstr "En connectant votre portefeuille, vous acceptez nos <0>conditions de service</0> et notre <1>politique de confidentialité</1>"
 
 msgid "By forgetting this browser, you will not be able to use its associated recovery key to sign-in."
-msgstr "Supprimer ce navigateur implique que la clé de sécurité qui lui est associée ne pourra plus être utilisé pour accéder à Files."
+msgstr "En oubliant ce navigateur, vous ne pourrez pas utiliser la clé de récupération qui lui est associée pour vous connecter."
 
 msgid "CID (Content Identifier)"
 msgstr "CID (Identifiant de contenu)"
@@ -69,16 +81,16 @@ msgid "Cancel"
 msgstr "Annuler"
 
 msgid "Change Password"
-msgstr "Modifier"
+msgstr "Changer le mot de passe"
 
 msgid "Change password"
-msgstr "Modifier"
+msgstr "Changer le mot de passe"
 
 msgid "Check your inbox! We've sent another email."
-msgstr "Email envoyé à nouveau."
+msgstr "Vérifiez votre boîte de réception ! Nous avons envoyé un autre courriel."
 
 msgid "Click or drag to upload files"
-msgstr "Cliquer ou faire glisser un ficher pour uploader"
+msgstr "Cliquer ou faire glisser un ficher pour le téléverser"
 
 msgid "Close"
 msgstr "Fermer"
@@ -90,7 +102,7 @@ msgid "Confirm"
 msgstr "Confirmer"
 
 msgid "Confirm Password:"
-msgstr "Confirmer le mot de passe:"
+msgstr "Confirmer le mot de passe :"
 
 msgid "Connect Wallet to Files"
 msgstr "Connecter un wallet à Files"
@@ -99,13 +111,13 @@ msgid "Connect a new wallet"
 msgstr "Connecter un nouveau wallet"
 
 msgid "Connection failed"
-msgstr "La connexion a échouée"
+msgstr "La connexion a échoué"
 
 msgid "Continue"
 msgstr "Continuer"
 
 msgid "Continue with Email"
-msgstr "Continuer avec un e-mail"
+msgstr "Continuer avec un courriel"
 
 msgid "Continue with Github"
 msgstr "Continuer avec GitHub"
@@ -117,16 +129,34 @@ msgid "Continue with Web3 Wallet"
 msgstr "Continuer avec un wallet Web3"
 
 msgid "Copied!"
-msgstr "Copié!"
+msgstr "Copié !"
 
 msgid "Copy CID"
 msgstr "Copier le CID"
+
+msgid "Copy info"
+msgstr "Copier les infos"
+
+msgid "Copy over"
+msgstr "Copier sur"
+
+msgid "Copy to shared folder"
+msgstr "Copier dans le dossier partagé"
 
 msgid "Create"
 msgstr "Créer"
 
 msgid "Create Folder"
 msgstr "Créer un dossier"
+
+msgid "Create Shared Folder"
+msgstr "Créer un dossier partagé"
+
+msgid "Create a Shared Folder"
+msgstr "Créer un dossier partagé"
+
+msgid "Create a new shared folder"
+msgstr "Créer un nouveau dossier partagé"
 
 msgid "Create folder"
 msgstr "Créer un dossier"
@@ -135,25 +165,28 @@ msgid "Dark Theme"
 msgstr "Thème sombre"
 
 msgid "Date uploaded"
-msgstr "Ajouté le"
+msgstr "Téléversé le"
 
-msgid "Decryption failed"
-msgstr "Le déchiffrage a échoué"
+msgid "Decryption key"
+msgstr "Clé de déchiffrement"
 
 msgid "Delete"
 msgstr "Supprimer"
 
 msgid "Delete selected"
-msgstr "Supprimer selection"
+msgstr "Supprimer la sélection"
+
+msgid "Destination shared folder not selected"
+msgstr "Le dossier partagé de destination n’est pas sélectionné"
 
 msgid "Device awaiting confirmation"
 msgstr "Appareil en attente de confirmation"
 
 msgid "Didn't receive the email ?"
-msgstr "E-mail non reçu ?"
+msgstr "Vous n’avez pas reçu de courriel ?"
 
 msgid "Display Settings"
-msgstr "Paramètres d'affichage"
+msgstr "Paramètres d’affichage"
 
 msgid "Download"
 msgstr "Télécharger"
@@ -164,32 +197,44 @@ msgstr "Téléchargement terminé"
 msgid "Download recovery key"
 msgstr "Télécharger la clé de sauvegarde"
 
+msgid "Downloading…"
+msgstr "Téléchargement…"
+
 msgid "Drop to upload files"
-msgstr "Faire glisser pour uploader un fichier"
+msgstr "Faire glisser pour téléverser un fichier"
 
 msgid "Email is required"
-msgstr "Un e-mail est requis"
+msgstr "Un courriel est requis"
+
+msgid "Encrypting and uploading…"
+msgstr "Chiffrement et téléversement…"
 
 msgid "Enter backup secret phrase:"
-msgstr "Phrase de sauvegarde secrète:"
+msgstr "Phrase secrète de sauvegarde :"
 
 msgid "Enter password"
-msgstr "Mot de passe"
+msgstr "Entrez le mot de passe"
 
 msgid "Enter password:"
-msgstr "Mot de passe:"
+msgstr "Entrez le mot de passe :"
 
 msgid "Enter the verification code:"
-msgstr "Entrer le code de vérification:"
+msgstr "Entrez le code de vérification :"
 
-msgid "Enter your email:"
-msgstr "Enter votre e-mail:"
+msgid "Error while creating new shared folder"
+msgstr "Erreur lors de la création d’un nouveau dossier partagé"
+
+msgid "Error while downloading {0}"
+msgstr "Erreur lors du téléchargement de {0}"
+
+msgid "Error while uploading {0}"
+msgstr "Erreur lors du téléversement de {0}"
 
 msgid "Essentials - Free"
 msgstr "Essentials - Gratuit"
 
 msgid "Failed to get signature"
-msgstr "Échec de l'obtention de la signature"
+msgstr "Échec de l’obtention de la signature"
 
 msgid "Failed to migrate account, please try again."
 msgstr "Échec de la migration du compte, veuillez réessayer."
@@ -207,10 +252,16 @@ msgid "File"
 msgstr "Fichier"
 
 msgid "File Info"
-msgstr "Info du fichier"
+msgstr "Infos du fichier"
+
+msgid "File added successfully!"
+msgstr "Fichier ajouté avec succès !"
 
 msgid "File format not supported."
-msgstr "Format de fichier non supporté."
+msgstr "Format de fichier non pris en charge."
+
+msgid "File path"
+msgstr "Chemin du fichier"
 
 msgid "File size"
 msgstr "Taille"
@@ -219,7 +270,7 @@ msgid "Files"
 msgstr "Fichiers"
 
 msgid "Files sharing key"
-msgstr ""
+msgstr "Clé de partage des fichiers"
 
 msgid "Files uses device backups to save your browser."
 msgstr "Files enregistre ce navigateur."
@@ -230,41 +281,53 @@ msgstr "Prénom"
 msgid "Folder"
 msgstr "Dossier"
 
+msgid "Folder name cannot only contain whitepsace characters"
+msgstr "Le nom du dossier ne peut pas seulement contenir des caractères blancs"
+
+msgid "Folder name is already in use"
+msgstr "Le nom du dossier est déjà utilisé"
+
 msgid "Folders"
 msgstr "Dossiers"
 
 msgid "For security reasons, each time you sign in we’ll ask you for one of the following to confirm your identity."
-msgstr "Pour des raisons de sécurité, chaque fois que vous vous connectez, nous vous demanderons l'une des informations suivantes pour confirmer votre identité."
+msgstr "Pour des raisons de sécurité, chaque fois que vous vous connectez, nous vous demanderons l’une des informations suivantes pour confirmer votre identité."
 
 msgid "Forget this browser"
 msgstr "Oublier ce navigateur"
 
 msgid "General"
-msgstr "Info"
+msgstr "Général"
 
 msgid "Generate backup secret phrase"
 msgstr "Créer une phrase de sauvegarde secrète"
 
-msgid "Generating..."
-msgstr "Création..."
+msgid "Generating…"
+msgstr "Génération…"
 
 msgid "Get Started"
 msgstr "Commencer"
+
+msgid "Give edit permission to:"
+msgstr "Donner l’autorisation de modifier à :"
+
+msgid "Give view-only permission to:"
+msgstr "Donner l’accès en lecture seule à :"
 
 msgid "Go back"
 msgstr "Retour"
 
 msgid "Great! You’re all done."
-msgstr "Génial! Vous avez terminé."
+msgstr "Génial ! Vous avez terminé."
 
 msgid "Hello again!"
-msgstr "Ravis de vous revoir!"
+msgstr "Ravis de vous revoir !"
 
 msgid "Hey! You only have two sign-in methods. If you lose that and have only one left, you will be locked out of your account forever."
-msgstr "Hey! Tu ne disposes que de deux méthodes d'authentification. Si tu en perds une, tu seras bloqué pour toujours et ne pourras plus te connecter à ton compte Files."
+msgstr "Hé ! Vous n’avez que deux méthodes de connexion. Si vous en perdez une et qu’il ne vous en reste qu’une, vous ne pourrez plus jamais vous connecter à votre compte."
 
-msgid "Hold on, we are logging you in..."
-msgstr "Un instant, nous te connectons ..."
+msgid "Hold on, we are logging you in…"
+msgstr "Un instant, nous te connectons…"
 
 msgid "Home"
 msgstr "Accueil"
@@ -272,29 +335,32 @@ msgstr "Accueil"
 msgid "I understand the risk"
 msgstr "Je prends le risque"
 
-msgid "Info"
-msgstr "Info"
+msgid "If you think this file does not comply with our <0>Terms of Service</0>, please send the following information to report@files.chainsafe.io. Beware that by sending the file's decryption key, an admin can then decrypt any file in this shared folder."
+msgstr "Si vous pensez que ce fichier n'est pas conforme à nos <0>Conditions de service</0>, veuillez envoyer les informations suivantes à report@files.chainsafe.io. Attention, en envoyant la clé de déchiffrement du fichier, un administrateur peut ensuite déchiffrer n'importe quel fichier de ce dossier partagé."
 
-msgid "Invalid name"
-msgstr "Nom invalide"
+msgid "Info"
+msgstr "Infos"
 
 msgid "I’m done saving my backup secret phrase"
 msgstr "Phrase de sauvegarde secrète enregistrée"
 
 msgid "Language"
-msgstr "Langue de l'interface"
+msgstr "Langue"
 
 msgid "Last name"
 msgstr "Nom"
 
 msgid "Learn more"
-msgstr "En apprendre plus"
+msgstr "En savoir plus"
 
 msgid "Learn more about ChainSafe"
 msgstr "En apprendre plus sur ChainSafe"
 
+msgid "Leave"
+msgstr "Quitter"
+
 msgid "Let's get you set up."
-msgstr "C'est parti."
+msgstr "C’est parti."
 
 msgid "Light Theme"
 msgstr "Thème clair"
@@ -302,20 +368,26 @@ msgstr "Thème clair"
 msgid "Loading preview"
 msgstr "Chargement de l’aperçu"
 
+msgid "Loading your shared folders…"
+msgstr "Chargement de vos dossiers partagés…"
+
 msgid "Looks like you’re signing in from a new browser. Please choose one of the following to continue:"
-msgstr "Connectez à partir d'un nouveau navigateur. Choisis une des options suivantes pour continuer:"
+msgstr "Il semble que vous vous connectiez à partir d’un nouveau navigateur. Veuillez choisir une des options suivantes pour continuer :"
 
 msgid "Lorem ipsum aenean et rutrum magna. Morbi nec placerat erat. Nunc elementum sed libero sit amet convallis. Quisque non arcu vitae ex fringilla molestie."
 msgstr "Lorem ipsum aenean et rutrum magna. Morbi nec placerat erat. Nunc elementum sed libero sit amet convallis. Quisque non arcu vitae ex fringilla molestie."
+
+msgid "Manage Access"
+msgstr "Gérer l’accès"
 
 msgid "Move"
 msgstr "Déplacer"
 
 msgid "Move selected"
-msgstr "Déplacer sélection"
+msgstr "Déplacer la sélection"
 
-msgid "Move to..."
-msgstr "Déplacer vers..."
+msgid "Move to…"
+msgstr "Déplacer vers…"
 
 msgid "My Files"
 msgstr "Mes Fichiers"
@@ -324,7 +396,10 @@ msgid "Name"
 msgstr "Nom"
 
 msgid "Name cannot contain '/' character"
-msgstr "Le nom ne peut pas contenir le caractère '/'"
+msgstr "Le nom ne peut pas contenir le caractère /"
+
+msgid "Name cannot only contain whitespace characters"
+msgstr "Le nom ne peut pas seulement contenir des espaces"
 
 msgid "Name too long"
 msgstr "Le nom est trop long"
@@ -336,7 +411,7 @@ msgid "Next"
 msgstr "Suivant"
 
 msgid "Nice to see you again!"
-msgstr "Ravi de te revoir!"
+msgstr "Ravi de te revoir !"
 
 msgid "No files to show"
 msgstr "Aucun fichier à afficher"
@@ -356,14 +431,23 @@ msgstr "Nombre de copies (facteur de réplication)"
 msgid "OK"
 msgstr "OK"
 
-msgid "One sec, getting files ready..."
-msgstr "Un instant, nous préparons vos fichiers..."
+msgid "One sec, getting files ready…"
+msgstr "Un instant, nous préparons les fichiers…"
+
+msgid "Only you can see this."
+msgstr "Vous seul(e) pouvez voir ceci."
 
 msgid "Operating system:"
-msgstr "Système d'exploitation:"
+msgstr "Système d’exploitation :"
 
 msgid "Or confirm by signing into your Files on any browser you’ve used before."
-msgstr "Ou accepte la requête de connexion depuis n'importe quel appareil ou navigateur utilisé auparavant."
+msgstr "Ou accepte la requête de connexion depuis n’importe quel appareil ou navigateur utilisé auparavant."
+
+msgid "Or using one of the following:"
+msgstr "Ou en utilisant l’un des moyens suivants :"
+
+msgid "Owner"
+msgstr "Propriétaire"
 
 msgid "Password"
 msgstr "Mot de passe"
@@ -375,31 +459,31 @@ msgid "Password does not match user account, please double-check and try again."
 msgstr "Le mot de passe ne correspond pas au compte, merci de vérifier et réessayer."
 
 msgid "Password needs to be more complex"
-msgstr "Le mot de passe n'est pas assez sûr"
+msgstr "Le mot de passe doit être plus complexe"
 
 msgid "Password setup"
 msgstr "Configuration du mot de passe"
 
 msgid "Password:"
-msgstr "Mot de Passe:"
+msgstr "Mot de passe :"
 
 msgid "Passwords must match"
 msgstr "Les mots de passes de correspondent pas"
 
 msgid "Please enter a file name"
-msgstr "Nom du fichier"
+msgstr "Veuillez entrer un nom de fichier"
 
 msgid "Please enter a folder name"
-msgstr "Nom du dossier"
+msgstr "Veuillez entrer un nom de dossier"
 
 msgid "Please enter a name"
-msgstr "Entrer un nom"
+msgstr "Veuillez entrer un nom"
 
 msgid "Please provide a password"
 msgstr "Merci de donner un mot de passe"
 
 msgid "Please select a file to upload"
-msgstr "Merci de sélectionner un fichier à uploader"
+msgstr "Merci de sélectionner un fichier à téléverser"
 
 msgid "Preview"
 msgstr "Aperçu"
@@ -408,10 +492,13 @@ msgid "Previous"
 msgstr "Précédent"
 
 msgid "Privacy Policy"
-msgstr "Politique de Confidentialité"
+msgstr "Politique de confidentialité"
 
 msgid "Profile and Display"
-msgstr "Profil et Affichage"
+msgstr "Profil et affichage"
+
+msgid "Profile settings"
+msgstr "Paramètres du profil"
 
 msgid "Profile updated"
 msgstr "Profile mis à jour"
@@ -420,10 +507,13 @@ msgid "Recover"
 msgstr "Récupérer"
 
 msgid "Recover selected"
-msgstr "Récupérer sélection"
+msgstr "Récupérer la sélection"
+
+msgid "Recover to…"
+msgstr "Récupérer vers…"
 
 msgid "Recover with passphrase"
-msgstr "Récupérer avec un mot de passe"
+msgstr "Récupérer avec une phrase de passe"
 
 msgid "Reject"
 msgstr "Refuser"
@@ -437,8 +527,17 @@ msgstr "Plus tard"
 msgid "Rename"
 msgstr "Renommer"
 
-msgid "Rename File/Folder"
-msgstr "Renommer Ficher/Dossier"
+msgid "Rename file"
+msgstr "Renommer le fichier"
+
+msgid "Rename folder"
+msgstr "Renommer le dossier"
+
+msgid "Report"
+msgstr "Signaler"
+
+msgid "Report a File"
+msgstr "Signaler un fichier"
 
 msgid "Requested from"
 msgstr "Envoyé par"
@@ -453,7 +552,7 @@ msgid "Save changes"
 msgstr "Enregistrer"
 
 msgid "Save this browser for next time?"
-msgstr "Enregistrer ce navigateur?"
+msgstr "Enregistrer ce navigateur ?"
 
 msgid "Saved"
 msgstr "Enregistré"
@@ -468,13 +567,13 @@ msgid "Saved browser"
 msgstr "Navigateur enregistré"
 
 msgid "Saved on:"
-msgstr "sur:"
+msgstr "Enregistré sur :"
 
 msgid "Search results"
 msgstr "Résultats de recherche"
 
-msgid "Search..."
-msgstr "Rechercher..."
+msgid "Search…"
+msgstr "Rechercher…"
 
 msgid "Security"
 msgstr "Sécurité"
@@ -482,17 +581,23 @@ msgstr "Sécurité"
 msgid "Select a wallet"
 msgstr "Sélectionner un wallet"
 
+msgid "Select an existing shared folder"
+msgstr "Sélectionnez un dossier partagé existant"
+
 msgid "Send Feedback"
 msgstr "Donner son avis"
 
 msgid "Send another email"
-msgstr "Envoyer un nouvel e-mail"
+msgstr "Envoyer un nouveau courriel"
 
 msgid "Set Password"
 msgstr "Définir un mot de passe"
 
+msgid "Set Username"
+msgstr "Définir le nom d’utilisateur"
+
 msgid "Set it up now"
-msgstr "Définir"
+msgstr "Le définir maintenant"
 
 msgid "Set up"
 msgstr "Définir"
@@ -501,10 +606,13 @@ msgid "Set up a password"
 msgstr "Définir un mot de passe"
 
 msgid "Set up auth factors"
-msgstr "Configurer"
+msgstr "Configurer les facteurs"
 
 msgid "Set up password"
 msgstr "Définir un mot de passe"
+
+msgid "Setting Username"
+msgstr "Définition du nom d’utilisateur"
 
 msgid "Settings"
 msgstr "Paramètres"
@@ -512,20 +620,32 @@ msgstr "Paramètres"
 msgid "Setup incomplete"
 msgstr "Configuration incomplète"
 
-msgid "Share"
-msgstr "Partager"
+msgid "Shared"
+msgstr "Partagé"
+
+msgid "Shared Folder Name"
+msgstr "Nom du dossier partagé"
+
+msgid "Shared folder is undefined"
+msgstr "Le dossier partagé n’est pas défini"
+
+msgid "Shared folders"
+msgstr "Dossiers partagés"
+
+msgid "Shared with"
+msgstr "Partagé avec"
 
 msgid "Sign Out"
-msgstr "Déconnexion"
+msgstr "Se déconnecter"
 
 msgid "Sign in"
-msgstr "Connexion"
+msgstr "Se connecter"
 
 msgid "Sign in with a different account"
 msgstr "Se connecter avec un autre compte"
 
 msgid "Sign-in methods"
-msgstr "Méthodes de connections"
+msgstr "Méthodes de connexion"
 
 msgid "Sign-in with {0}"
 msgstr "Connexion avec {0}"
@@ -542,14 +662,17 @@ msgstr "Connecté avec un réseau social ou wallet"
 msgid "Social sign in or wallet"
 msgstr "Connecté avec un réseau social ou wallet"
 
+msgid "Something went wrong with email login! Please try again."
+msgstr "Un problème est survenu lors de la connexion avec courriel ! Veuillez réessayer."
+
 msgid "Something went wrong!"
-msgstr "Oups! Il y a eu une erreur, merci de ré-essayer."
+msgstr "Quelque chose a mal tourné !"
 
 msgid "Something went wrong. We couldn't upload your file"
-msgstr "Un problème est survenu. Nous n'avons pas pu uploader votre fichier"
+msgstr "Un problème est survenu. Nous n’avons pas pu téléverser votre fichier"
 
 msgid "Start Upload"
-msgstr "Démarrer l'upload"
+msgstr "Démarrer le téléversement"
 
 msgid "Storage Plan"
 msgstr "Plan de stockage"
@@ -567,34 +690,49 @@ msgid "Thanks for taking care of that. You can adjust these anytime in security 
 msgstr "Vous pouvez les changer à tout moment dans les paramètres de sécurité."
 
 msgid "The authentication popup was closed"
-msgstr "Le popup d'authentification a été fermé"
+msgstr "Le popup d’authentification a été fermé"
+
+msgid "The files are already in this folder"
+msgstr "Les fichiers sont déjà dans ce dossier"
 
 msgid "The system is undergoing maintenance, thank you for being patient."
-msgstr "Le système est en cours de maintenance, merci d'être patient."
+msgstr "Le système est en cours de maintenance, merci d’être patient."
 
 msgid "Theme"
 msgstr "Thème"
 
 msgid "There was an error authenticating"
-msgstr "Une erreur s'est produite lors de l'authentification"
+msgstr "Une erreur s’est produite lors de l’authentification"
 
 msgid "There was an error connecting your wallet"
-msgstr "Une erreur s'est produite lors de la connexion de votre wallet"
+msgstr "Une erreur s’est produite lors de la connexion de votre wallet"
 
 msgid "There was an error deleting this"
-msgstr "Une erreur s'est produite lors de la suppression"
+msgstr "Une erreur s’est produite lors de la suppression"
 
 msgid "There was an error getting search results"
-msgstr "Une erreur s'est produite lors de l'obtention des résultats de recherche"
+msgstr "Une erreur s’est produite lors de l’obtention des résultats de recherche"
 
 msgid "There was an error getting the preview."
-msgstr "Une erreur s'est produite lors de la génération de l’aperçu."
+msgstr "Une erreur s’est produite lors de la génération de l’aperçu."
 
 msgid "There was an error moving this"
-msgstr "Une erreur s'est produite lors du déplacement"
+msgstr "Une erreur s’est produite lors du déplacement"
 
 msgid "There was an error recovering this"
-msgstr "Une erreur s'est produite lors de la récupération"
+msgstr "Une erreur s’est produite lors de la récupération"
+
+msgid "There was an error when setting username."
+msgstr "Il y a eu une erreur dans le paramétrage du nom d’utilisateur."
+
+msgid "This may take some time depending on the file size"
+msgstr "Ceci peut prendre un certain temps en fonction de la taille du fichier"
+
+msgid "This username is already taken"
+msgstr "Ce nom d’utilisateur est déjà pris"
+
+msgid "This username is public"
+msgstr "Ce nom d’utilisateur est public"
 
 msgid "Try again"
 msgstr "Essayer de nouveau"
@@ -605,14 +743,17 @@ msgstr "Essayer une autre méthode"
 msgid "Update"
 msgstr "Mettre à jour"
 
+msgid "Update Shared Folder"
+msgstr "Mettre à jour le dossier partagé"
+
 msgid "Upload"
-msgstr "Uploader"
+msgstr "Téléverser"
 
 msgid "Upload complete"
-msgstr "Upload terminé"
+msgstr "Téléversement terminé"
 
 msgid "Uploading {0} files"
-msgstr "Upload de {0} fichiers"
+msgstr "Téléversement de {0} fichiers"
 
 msgid "Use a different login method"
 msgstr "Utilisez une méthode de connexion différente"
@@ -620,47 +761,77 @@ msgstr "Utilisez une méthode de connexion différente"
 msgid "Use a saved browser"
 msgstr "Utiliser un navigateur enregistré"
 
+msgid "Use an existing shared folder"
+msgstr "Utiliser un dossier partagé existant"
+
+msgid "User {0} is both a reader and writer"
+msgstr "L'utilisateur {0} est dans les auteurs et lecteurs"
+
+msgid "Username"
+msgstr "Nom d’utilisateur"
+
+msgid "Username set successfully"
+msgstr "Nom d’utilisateur défini avec succès"
+
+msgid "Usernames are public and can't be changed after creation."
+msgstr "Les noms d’utilisateur sont publics et ne peuvent pas être modifiés après leur création."
+
+msgid "Using an email:"
+msgstr "En utilisant un courriel :"
+
 msgid "Verification code is required"
 msgstr "Code de vérification requis"
 
 msgid "Verification code not correct!"
-msgstr "Code de vérification incorrecte!"
+msgstr "Code de vérification incorrect !"
 
 msgid "Verification code sent!"
-msgstr "Code de vérification envoyé!"
+msgstr "Code de vérification envoyé !"
 
 msgid "View folder"
 msgstr "Voir le dossier"
 
+msgid "View shared folder"
+msgstr "Afficher le dossier partagé"
+
 msgid "Wallet address"
 msgstr "Addresse du wallet"
 
+msgid "We can't encrypt files larger than 2GB. Some items will not be uploaded"
+msgstr "Nous ne pouvons pas chiffrer les fichiers de plus de 2 Go. Certains éléments ne pourront pas être téléversés"
+
 msgid "Web3: {0}"
-msgstr "Web3: {0}"
+msgstr "Web3 : {0}"
 
 msgid "We’ve got a new authentication system in place. All you need to do is enter your password again to migrate your credentials over to the new system."
-msgstr "Nous avons mis en place un nouveau système d’authentification. Tout ce que vous avez à faire est de saisir à nouveau votre mot de passe pour migrer vos informations d'identification vers le nouveau système."
+msgstr "Nous avons mis en place un nouveau système d’authentification. Tout ce que vous avez à faire est de saisir à nouveau votre mot de passe pour migrer vos informations d’identification vers le nouveau système."
 
 msgid "We’ve sent an email to {email}. It contains a verification code that’ll sign you in super quickly!"
-msgstr "Nous avons envoyé un e-mail à {email}. Il contient un code de vérification pour vous connecter!"
+msgstr "Nous avons envoyé un courriel à {email}. Il contient un code de vérification pour vous connecter !"
 
 msgid "What a fine day it is."
-msgstr "Une belle journée."
+msgstr "Quelle belle journée."
 
 msgid "What a fine night it is."
-msgstr "Une belle nuit."
+msgstr "Quelle belle nuit."
 
 msgid "Yes, save it"
-msgstr "Oui, l'enregistrer"
+msgstr "Oui, l’enregistrer"
 
 msgid "You can change this later."
 msgstr "Vous pouvez en changer plus tard."
+
+msgid "You can't move folders to this path"
+msgstr "Vous ne pouvez pas déplacer les dossiers vers ce chemin"
+
+msgid "You haven't set a username yet."
+msgstr "Vous n’avez pas encore défini de nom d’utilisateur."
 
 msgid "You will need to sign a message in your wallet to complete sign in."
 msgstr "Vous devrez signer un message avec votre wallet pour terminer la procédure connexion."
 
 msgid "Your Authentication Factors"
-msgstr "Vos Facteurs d'Authentification"
+msgstr "Vos facteurs d’authentification"
 
 msgid "Your recovery key can be used to restore your account in place of your backup secret phrase."
 msgstr "Votre clé de récupération peut être utilisée pour restaurer votre compte à la place de votre phrase de sauvegarde secrète."
@@ -674,8 +845,11 @@ msgstr "fichier"
 msgid "folder"
 msgstr "dossier"
 
+msgid "me"
+msgstr "moi"
+
 msgid "moved successfully"
-msgstr "Déplacé avec succès"
+msgstr "déplacé avec succès"
 
 msgid "on"
 msgstr "le"
@@ -683,8 +857,8 @@ msgstr "le"
 msgid "recovered successfully"
 msgstr "récupéré avec succès"
 
-msgid "{0, plural, one {You are about to delete {1} file.} other {You are about to delete {2} files.}}"
-msgstr "{0, plural, one {Supprimer {1} fichier.} other {Supprimer {2} fichiers.}}"
+msgid "{0, plural, one {You are about to delete {1} item.} other {You are about to delete {2} items.}}"
+msgstr "{0, plural, one {Vous êtes sur le point de supprimer {1} élément.} other {Vous êtes sur le point de supprimer {2} éléments.}}"
 
 msgid "{noOfFiles, plural, one {Uploading and encrypting {noOfFiles} file} other {Uploading and encrypting {noOfFiles} files}}"
-msgstr "{noOfFiles, plural, one {Upload et chiffrage de {noOfFiles} fichier} other {Upload et chiffrage de {noOfFiles} fichiers}}"
+msgstr "{noOfFiles, plural, one {Téléversement et chiffrement de {noOfFiles} fichier} other {Téléversement et chiffrement de {noOfFiles} fichiers}}"

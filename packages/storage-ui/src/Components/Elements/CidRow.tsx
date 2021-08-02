@@ -3,12 +3,13 @@ import { makeStyles, createStyles } from "@chainsafe/common-theme"
 import { DeleteSvg, formatBytes, MenuDropdown, MoreIcon, TableCell, TableRow  } from "@chainsafe/common-components"
 import { Trans } from "@lingui/macro"
 import dayjs from "dayjs"
-import { PinObject } from "@chainsafe/files-api-client"
-import { CSFTheme } from "../../Themes/types"
+import { PinStatus } from "@chainsafe/files-api-client"
+import { CSSTheme } from "../../Themes/types"
 import { useStorage } from "../../Contexts/StorageContext"
 import { desktopGridSettings, mobileGridSettings } from "../Pages/CidsPage"
+import { trimChar } from "../../Utils/pathUtils"
 
-const useStyles = makeStyles(({ animation, constants, breakpoints }: CSFTheme) =>
+const useStyles = makeStyles(({ animation, constants, breakpoints }: CSSTheme) =>
   createStyles({
     dropdownIcon: {
       "& svg": {
@@ -55,34 +56,36 @@ const useStyles = makeStyles(({ animation, constants, breakpoints }: CSFTheme) =
   })
 )
 interface Props {
-    pinObject: PinObject
+    pinStatus: PinStatus
 }
 
-const IPFS_GATEWAY = "https://ipfs.infura.io:5001/api/v0/cat/"
+const IPFS_GATEWAY = process.env.REACT_APP_IPFS_GATEWAY || ""
 
-const CidRow = ({ pinObject }: Props) => {
+const CidRow = ({ pinStatus }: Props) => {
   const classes = useStyles()
   const { unpin } = useStorage()
 
-  console.log("pinObject", pinObject)
   return (
     <TableRow
       type="grid"
       className={classes.tableRow}
+      data-cy="row-cid-item"
     >
       <TableCell className={classes.cid}>
-        {pinObject.pin?.cid}
+        {pinStatus.pin?.cid}
       </TableCell>
       <TableCell>
-        {dayjs(pinObject.created).format("DD MMM YYYY h:mm a")}
+        {dayjs(pinStatus.created).format("DD MMM YYYY h:mm a")}
       </TableCell>
       <TableCell>
-        {/** as any needs to be removed when the api spec will be up to date */}
-        {formatBytes((pinObject as any).info.size)}
+        {pinStatus.info?.size ? formatBytes(pinStatus.info?.size) : "-"}
+      </TableCell>
+      <TableCell>
+        {pinStatus.status}
       </TableCell>
       <TableCell>
         <a
-          href={`${IPFS_GATEWAY}${pinObject.pin?.cid}`}
+          href={`${trimChar(IPFS_GATEWAY, "/")}/${pinStatus.pin?.cid}`}
           target="_blank"
           rel="noopener noreferrer"
         >
@@ -91,20 +94,19 @@ const CidRow = ({ pinObject }: Props) => {
       </TableCell>
       <TableCell align="right">
         <MenuDropdown
-          testId='fileDropdown'
+          testId='cid-kebab'
           animation="none"
           anchor={"bottom-right"}
           menuItems={[{
             contents: (
               <>
                 <DeleteSvg className={classes.menuIcon} />
-                <span data-cy="menu-share">
+                <span data-cy="menu-unpin">
                   <Trans>Unpin</Trans>
                 </span>
               </>
             ),
-            // todo remove when specs are updated
-            onClick: () => unpin((pinObject as any).requestid)
+            onClick: () => unpin(pinStatus.requestid)
           }]}
           classNames={{
             icon: classes.dropdownIcon,

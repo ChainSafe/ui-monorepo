@@ -139,17 +139,19 @@ interface IModalProps {
   children?: ReactNode | ReactNode[]
   maxWidth?: "xs" | "sm" | "md" | "lg" | "xl" | number
   onModalBodyClick?: (e: React.MouseEvent) => void
+  testId?: string
 }
 
-const Modal: React.FC<IModalProps> = ({
+const Modal = ({
   children,
-  className,
+  className = "",
   closePosition = "right",
   injectedClass,
   active = false,
   setActive,
   maxWidth = "sm",
-  onModalBodyClick
+  onModalBodyClick,
+  testId
 }: IModalProps) => {
   const classes = useStyles()
 
@@ -163,48 +165,49 @@ const Modal: React.FC<IModalProps> = ({
 
   useOnClickOutside(ref, () => handleClose())
 
-  return active ? (
-    <article
+  if (!active) return null
+
+  return <article
+    className={clsx(
+      classes.root,
+      className,
+      setActive ? "closable" : "",
+      "active"
+    )}
+    onClick={onModalBodyClick}
+  >
+    <section
+      data-testid={`modal-container-${testId}`}
+      ref={ref}
+      style={
+        maxWidth && typeof maxWidth == "number"
+          ? {
+            width: "100%",
+            maxWidth: maxWidth
+          }
+          : {}
+      }
       className={clsx(
-        classes.root,
-        className && `${className}`,
-        setActive ? "closable" : "",
-        active ? "active" : "closed"
-      )}
-      onClick={onModalBodyClick}
-    >
-      <section
-        ref={ref}
-        style={
-          maxWidth && typeof maxWidth == "number"
-            ? {
-              width: "100%",
-              maxWidth: maxWidth
-            }
-            : {}
-        }
-        className={clsx(
-          classes.inner,
+        classes.inner,
           injectedClass?.inner,
           typeof maxWidth != "number" ? maxWidth : ""
-        )}
-      >
-        {setActive && (
-          <div
-            onClick={() => handleClose()}
-            className={clsx(
-              classes.closeIcon,
-              injectedClass?.close,
-              `${closePosition}`
-            )}
-          >
-            <CloseSvg />
-          </div>
-        )}
-        {children}
-      </section>
-    </article>
-  ) : null
+      )}
+    >
+      {setActive && (
+        <div
+          onClick={() => handleClose()}
+          className={clsx(
+            classes.closeIcon,
+            injectedClass?.close,
+            closePosition
+          )}
+        >
+          <CloseSvg />
+        </div>
+      )}
+      {children}
+    </section>
+  </article>
 }
 
 export default Modal

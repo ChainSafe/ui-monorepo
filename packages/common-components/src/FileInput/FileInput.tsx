@@ -203,9 +203,7 @@ const FileInput = ({
       {variant === "dropzone" ? (
         value?.length === 0 ? (
           <div className={clsx(classes.pending, classNames?.pending)}>
-            {pending ? (
-              pending
-            ) : (
+            {pending || (
               <>
                 <PlusIcon
                   fontSize="large"
@@ -229,7 +227,7 @@ const FileInput = ({
                   >
                     <span className={classes.itemText}>{file.name}</span>
                     <Button
-                      data-testid={`file-list-remove-button-${testId}`}
+                      testId="remove-from-file-list"
                       className={clsx(classes.crossIcon, classNames?.closeIcon)}
                       type="button"
                       onClick={(e) => {

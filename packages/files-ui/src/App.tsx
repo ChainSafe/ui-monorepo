@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from "react"
+import React, { useCallback } from "react"
 import { init as initSentry, ErrorBoundary, showReportDialog } from "@sentry/react"
 import { Web3Provider } from "@chainsafe/web3-context"
 import { ThemeSwitcher } from "@chainsafe/common-theme"
@@ -7,7 +7,6 @@ import { Button, CssBaseline, Modal, Router, ToasterProvider, Typography } from 
 import { FilesProvider } from "./Contexts/FilesContext"
 import FilesRoutes from "./Components/FilesRoutes"
 import AppWrapper from "./Components/Layouts/AppWrapper"
-import { useHotjar } from "react-use-hotjar"
 import { LanguageProvider } from "./Contexts/LanguageContext"
 import { ThresholdKeyProvider } from "./Contexts/ThresholdKeyContext"
 import { lightTheme } from "./Themes/LightTheme"
@@ -29,8 +28,11 @@ if (
 }
 
 const availableLanguages = [
+  { id: "de", label: "Deutsch" },
   { id: "en", label: "English" },
-  { id: "fr", label: "Français" }
+  { id: "es", label: "Español" },
+  { id: "fr", label: "Français" },
+  { id: "no", label: "Norsk" }
 ]
 
 const onboardConfig = {
@@ -59,18 +61,10 @@ const onboardConfig = {
 }
 
 const App = () => {
-  const { initHotjar } = useHotjar()
   const { canUseLocalStorage } = useLocalStorage()
-  const hotjarId = process.env.REACT_APP_HOTJAR_ID
   const apiUrl = process.env.REACT_APP_API_URL || "https://stage.imploy.site/api/v1"
   // This will default to testnet unless mainnet is specifically set in the ENV
   const directAuthNetwork = (process.env.REACT_APP_DIRECT_AUTH_NETWORK === "mainnet") ? "mainnet" : "testnet"
-
-  useEffect(() => {
-    if (hotjarId && process.env.NODE_ENV === "production") {
-      initHotjar(hotjarId, "6", () => console.log("Hotjar initialized"))
-    }
-  }, [hotjarId, initHotjar])
 
   const fallBack = useCallback(({ error, componentStack, eventId, resetError }) => (
     <Modal

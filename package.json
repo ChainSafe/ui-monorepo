@@ -1,9 +1,9 @@
 {
-  "name": "@chaisnafe/files-ui-monorepo",
+  "name": "@chainsafe/ui-monorepo",
   "version": "1.0.0",
   "description": "Chainsafe Files UI monorepo",
   "main": "index.js",
-  "repository": "https://github.com/chainsafe/files-ui.git",
+  "repository": "https://github.com/chainsafe/ui-monorepo.git",
   "author": "Chainsafe Products Team",
   "license": "MIT",
   "private": true,
@@ -21,12 +21,14 @@
     "eslint-plugin-cypress": "^2.11.3",
     "eslint-plugin-react": "^7.22.0",
     "eslint-plugin-react-hooks": "^4.2.0",
+    "eslint-plugin-ternary": "^1.0.4",
     "npm-run-all": "^4.1.5",
+    "rimraf": "^3.0.2",
     "typescript": "^4.0.5",
     "wsrun": "^5.2.4"
   },
   "scripts": {
-    "postinstall": "yarn build:common && yarn wsrun -p files-ui -c compile",
+    "postinstall": "yarn build:common",
     "build:common": "yarn build:theme && yarn build:components",
     "build:contexts": "yarn wsrun -t -p @chainsafe/common-contexts -c build",
     "build:components": "yarn wsrun -t -p @chainsafe/common-components -c build",
@@ -36,6 +38,9 @@
     "build:files-ui": "yarn wsrun -p files-ui -c build",
     "release:files-ui": "yarn wsrun -p files-ui -c release",
     "start:files-ui": "yarn wsrun -p files-ui -c start",
+    "build:gaming-ui": "yarn wsrun -p gaming-ui -c build",
+    "release:gaming-ui": "yarn wsrun -p gaming-ui -c release",
+    "start:gaming-ui": "yarn wsrun -p gaming-ui -c start",
     "build:storage-ui": "yarn wsrun -p storage-ui -c build",
     "release:storage-ui": "yarn wsrun -p storage-ui -c release",
     "start:storage-ui": "yarn wsrun -p storage-ui -c start",
@@ -46,7 +51,9 @@
     "lint": "eslint 'packages/**/{src, cypress}/**/*.{js,jsx,ts,tsx}'",
     "serve:files-ui": "npx serve packages/files-ui/build -p 3000",
     "test:files-ui": "yarn wsrun -p files-ui -c test",
-    "test:ci:files-ui": "yarn wsrun -p files-ui -c test:ci"
+    "test:ci:files-ui": "yarn wsrun -p files-ui -c test:ci",
+    "test:storage-ui": "yarn wsrun -p storage-ui -c test",
+    "test:ci:storage-ui": "yarn wsrun -p storage-ui -c test:ci"
   },
   "workspaces": {
     "packages": [

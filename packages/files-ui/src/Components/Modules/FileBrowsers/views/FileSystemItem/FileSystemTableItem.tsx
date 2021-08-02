@@ -1,11 +1,9 @@
-import React from "react"
+import React, { useCallback } from "react"
 import { makeStyles, createStyles, useThemeSwitcher } from "@chainsafe/common-theme"
 import { t } from "@lingui/macro"
 import clsx from "clsx"
 import {
-  Button,
   CheckboxInput,
-  CheckSvg,
   formatBytes,
   FormikTextInput,
   IMenuItem,
@@ -19,7 +17,8 @@ import { CSFTheme } from "../../../../../Themes/types"
 import dayjs from "dayjs"
 import { FileSystemItem } from "../../../../../Contexts/FilesContext"
 import { ConnectDragPreview } from "react-dnd"
-import { Form, Formik } from "formik"
+import { Form, FormikProvider, useFormik } from "formik"
+import { renameSchema } from "../../../../../Utils/validationSchema"
 
 const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => {
   const desktopGridSettings = "50px 69px 3fr 190px 100px 45px !important"
@@ -116,7 +115,6 @@ interface IFileSystemTableItemProps {
   onFolderOrFileClicks: (e?: React.MouseEvent) => void
   icon: React.ReactNode
   preview: ConnectDragPreview
-  renameSchema: any
   setEditing: (editing: string |  undefined) => void
   handleRename?: (path: string, newPath: string) => Promise<void>
   currentPath: string | undefined
@@ -135,7 +133,6 @@ const FileSystemTableItem = React.forwardRef(
     onFolderOrFileClicks,
     icon,
     preview,
-    renameSchema,
     setEditing,
     handleRename,
     menuItems
@@ -143,6 +140,24 @@ const FileSystemTableItem = React.forwardRef(
     const classes = useStyles()
     const { name, cid, created_at, size } = file
     const { desktop } = useThemeSwitcher()
+
+    const formik = useFormik({
+      initialValues:{
+        fileName: name
+      },
+      validationSchema: renameSchema,
+      onSubmit:(values) => {
+        const newName = values.fileName?.trim()
+
+        newName && handleRename && handleRename(file.cid, newName)
+      },
+      enableReinitialize: true
+    })
+
+    const stopEditing = useCallback(() => {
+      setEditing(undefined)
+      formik.resetForm()
+    }, [formik, setEditing])
 
     return  (
       <TableRow
@@ -176,52 +191,33 @@ const FileSystemTableItem = React.forwardRef(
           className={clsx(classes.filename, desktop && editing === cid && "editing")}
           onClick={(e) => !editing && onFolderOrFileClicks(e)}
         >
-          {editing === cid && desktop ? (
-            <Formik
-              initialValues={{
-                fileName: name
-              }}
-              validationSchema={renameSchema}
-              onSubmit={(values) => {
-                handleRename &&
-                  handleRename(
-                    file.cid,
-                    values.fileName
-                  )
-              }}
-            >
-              <Form
-                className={classes.desktopRename}
-                data-cy='rename-form'
-              >
-                <FormikTextInput
-                  className={classes.renameInput}
-                  name="fileName"
-                  inputVariant="minimal"
-                  onKeyDown={(event) => {
-                    if (event.key === "Escape") {
-                      setEditing(undefined)
-                    }
-                  }}
-                  placeholder = {isFolder
-                    ? t`Please enter a folder name`
-                    : t`Please enter a file name`
-                  }
-                  autoFocus={editing === cid}
-                />
-                <Button
-                  data-cy='rename-submit-button'
-                  variant="dashed"
-                  size="small"
-                  type="submit"
+          {editing === cid && desktop
+            ? (
+              <FormikProvider value={formik}>
+                <Form
+                  className={classes.desktopRename}
+                  data-cy='rename-form'
+                  onBlur={stopEditing}
                 >
-                  <CheckSvg />
-                </Button>
-              </Form>
-            </Formik>
-          ) : (
-            <Typography>{name}</Typography>
-          )}
+                  <FormikTextInput
+                    className={classes.renameInput}
+                    name="fileName"
+                    inputVariant="minimal"
+                    onKeyDown={(event) => {
+                      if (event.key === "Escape") {
+                        stopEditing()
+                      }
+                    }}
+                    placeholder = {isFolder
+                      ? t`Please enter a folder name`
+                      : t`Please enter a file name`
+                    }
+                    autoFocus={editing === cid}
+                  />
+                </Form>
+              </FormikProvider>
+            )
+            : <Typography>{name}</Typography>}
         </TableCell>
         {desktop && (
           <>

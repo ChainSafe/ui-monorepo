@@ -1,7 +1,7 @@
 import React from "react"
 import { makeStyles, createStyles, useThemeSwitcher } from "@chainsafe/common-theme"
-import { CSFTheme } from "../../Themes/types"
-import InitialScreen from "../Modules/LoginModule/InitialScreen"
+import { CSSTheme } from "../../Themes/types"
+import InitialScreen from "../Modules/LoginModule"
 import { ChainsafeLogo, Typography } from "@chainsafe/common-components"
 import { ROUTE_LINKS } from "../StorageRoutes"
 import { Trans } from "@lingui/macro"
@@ -12,7 +12,7 @@ import TopLightSVG from "../../Media/landing/layers/light/Top.light.svg"
 
 
 const useStyles = makeStyles(
-  ({ constants, breakpoints, typography, zIndex }: CSFTheme) =>
+  ({ constants, breakpoints, typography, zIndex }: CSSTheme) =>
     createStyles({
       root: {
         position: "relative",
@@ -128,18 +128,17 @@ const LoginPage = () => {
     <div className={classes.root}>
       <Typography className={classes.title}>
         <ChainsafeLogo className={classes.filesLogo} />
-        ChainSafe Storage
+        Storage
       </Typography>
       <>
       </>
       {
-        themeKey === "dark" ?
-          <>
+        themeKey === "dark"
+          ? <>
             <BottomDarkSVG className={classes.bgBottom} />
             <TopDarkSVG className={classes.bgTop} />
           </>
-          :
-          <>
+          :          <>
             <BottomLightSVG className={classes.bgBottom} />
             <TopLightSVG className={classes.bgTop} />
           </>
