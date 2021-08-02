@@ -19,9 +19,6 @@ msgstr "A bucket with this name already exists"
 msgid "A file with the same name already exists"
 msgstr "A file with the same name already exists"
 
-msgid "A name is required"
-msgstr "A name is required"
-
 msgid "API Keys"
 msgstr "API Keys"
 
@@ -42,12 +39,6 @@ msgstr "Are we on the right track? Let us know in less than 1 minute."
 
 msgid "Bucket name"
 msgstr "Bucket name"
-
-msgid "Bucket name cannot contain '/' character"
-msgstr "Bucket name cannot contain '/' character"
-
-msgid "Bucket name cannot only contain whitepsace characters"
-msgstr "Bucket name cannot only contain whitepsace characters"
 
 msgid "Bucket name is required"
 msgstr "Bucket name is required"
@@ -196,9 +187,6 @@ msgstr "Folder"
 msgid "Folder Name"
 msgstr "Folder Name"
 
-msgid "Folder name cannot only contain whitepsace characters"
-msgstr "Folder name cannot only contain whitepsace characters"
-
 msgid "Folder name is already in use"
 msgstr "Folder name is already in use"
 
@@ -240,12 +228,6 @@ msgstr "Move to..."
 
 msgid "Name"
 msgstr "Name"
-
-msgid "Name cannot contain '/' character"
-msgstr "Name cannot contain '/' character"
-
-msgid "Name cannot only contain whitespace characters"
-msgstr "Name cannot only contain whitespace characters"
 
 msgid "Name too long"
 msgstr "Name too long"
@@ -363,6 +345,9 @@ msgstr "The authentication popup was closed"
 
 msgid "The files are already in this folder"
 msgstr "The files are already in this folder"
+
+msgid "The name cannot contain '/' character"
+msgstr "The name cannot contain '/' character"
 
 msgid "The system is undergoing maintenance, thank you for being patient."
 msgstr "The system is undergoing maintenance, thank you for being patient."
