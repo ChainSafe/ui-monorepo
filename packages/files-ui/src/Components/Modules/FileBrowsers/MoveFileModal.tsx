@@ -4,7 +4,7 @@ import CustomModal from "../../Elements/CustomModal"
 import CustomButton from "../../Elements/CustomButton"
 import { t, Trans } from "@lingui/macro"
 import { DirectoryContentResponse, FileSystemItem, useFiles } from "../../../Contexts/FilesContext"
-import { Button, FolderIcon, Grid, ITreeNodeProps, ScrollbarWrapper, TreeView, Typography } from "@chainsafe/common-components"
+import { Button, FolderIcon, Grid, ITreeNodeProps, Loading, ScrollbarWrapper, TreeView, Typography } from "@chainsafe/common-components"
 import { CSFTheme } from "../../../Themes/types"
 import { useFileBrowser } from "../../../Contexts/FileBrowserContext"
 import { useFilesApi } from "../../../Contexts/FilesApiContext"
@@ -69,13 +69,12 @@ const useStyles = makeStyles(
 
 interface IMoveFileModuleProps {
   filesToMove: FileSystemItem[]
-  modalOpen: boolean
   onClose: () => void
   onCancel: () => void
   mode?: MoveModalMode
 }
 
-const MoveFileModule = ({ filesToMove, modalOpen, onClose, onCancel, mode }: IMoveFileModuleProps) => {
+const MoveFileModule = ({ filesToMove, onClose, onCancel, mode }: IMoveFileModuleProps) => {
   const classes = useStyles()
   const { filesApiClient } = useFilesApi()
   const { buckets } = useFiles()
@@ -83,7 +82,13 @@ const MoveFileModule = ({ filesToMove, modalOpen, onClose, onCancel, mode }: IMo
   const [isMovingFile, setIsMovingFile] = useState(false)
   const [movePath, setMovePath] = useState<undefined | string>(undefined)
   const [folderTree, setFolderTree] = useState<ITreeNodeProps[]>([])
-  const isInBin = useMemo(() => bucket?.type === "trash" && mode === "recover", [bucket?.type, mode])
+  const { type } = bucket || {}
+  const isInBin = useMemo(() => type === "trash" && mode === "recover", [type, mode])
+  const [isLoading, setIsLoading] = useState(true)
+  const desktop = useMediaQuery("md")
+  const folders = useMemo(() =>
+    filesToMove.filter((f) => f.isFolder)
+  , [filesToMove])
 
   const mapFolderTree = useCallback(
     (folderTreeEntries: DirectoryContentResponse[]): ITreeNodeProps[] => {
@@ -97,40 +102,36 @@ const MoveFileModule = ({ filesToMove, modalOpen, onClose, onCancel, mode }: IMo
     []
   )
 
-  const getFolderTreeData = useCallback(async () => {
+  const getFolderTreeData = useCallback(() => {
     let bucketForFolderTree = bucket
 
     if (isInBin) {
-      bucketForFolderTree = buckets.find((bucket) => bucket.type === "csf")
+      bucketForFolderTree = buckets.find(({ type }) => type === "csf")
     }
 
     if (!bucketForFolderTree) return
 
+    setIsLoading(true)
     filesApiClient.getBucketDirectoriesTree(bucketForFolderTree.id).then((newFolderTree) => {
-      if (newFolderTree.entries) {
-        const folderTreeNodes = [
-          {
-            id: "/",
-            title: bucketForFolderTree?.name || "Home",
-            isExpanded: true,
-            expandable: true,
-            tree: mapFolderTree(newFolderTree.entries)
-          }
-        ]
-        setFolderTree(folderTreeNodes)
-      } else {
-        setFolderTree([])
-      }
-    }).catch(console.error)
+      const folderTreeNodes = [
+        {
+          id: "/",
+          title: bucketForFolderTree?.name || "Home",
+          isExpanded: true,
+          expandable: true,
+          tree: mapFolderTree(newFolderTree.entries || [])
+        }
+      ]
+      setFolderTree(folderTreeNodes)
+    })
+      .catch(console.error)
+      .finally(() => setIsLoading(false))
   }, [bucket, isInBin, filesApiClient, buckets, mapFolderTree])
 
   useEffect(() => {
-    if (modalOpen) {
-      getFolderTreeData()
-    } else {
-      setMovePath(undefined)
-    }
-  }, [modalOpen, getFolderTreeData])
+    setMovePath(undefined)
+    getFolderTreeData()
+  }, [getFolderTreeData])
 
   const onMoveFile = () => {
     const moveFn = isInBin ? recoverItems : moveItems
@@ -143,12 +144,6 @@ const MoveFileModule = ({ filesToMove, modalOpen, onClose, onCancel, mode }: IMo
       .catch(console.error)
       .finally(() => setIsMovingFile(false))
   }
-
-  const desktop = useMediaQuery("md")
-
-  const folders = useMemo(() =>
-    filesToMove.filter((f) => f.isFolder)
-  , [filesToMove])
 
   const isSubFolderOfAnySelectedFolder = useMemo(() => {
     if(!movePath){
@@ -177,7 +172,7 @@ const MoveFileModule = ({ filesToMove, modalOpen, onClose, onCancel, mode }: IMo
     <CustomModal
       className={classes.modalRoot}
       injectedClass={{ inner: classes.modalInner }}
-      active={modalOpen}
+      active
       closePosition="none"
       maxWidth="sm"
       onModalBodyClick={(e) => {
@@ -211,6 +206,11 @@ const MoveFileModule = ({ filesToMove, modalOpen, onClose, onCancel, mode }: IMo
           <div
             className={classes.treeScrollView}
           >
+            {isLoading && <Loading
+              size={32}
+              type="light"
+            />
+            }
             {folderTree.length
               ? <TreeView
                 treeData={folderTree}
@@ -218,7 +218,7 @@ const MoveFileModule = ({ filesToMove, modalOpen, onClose, onCancel, mode }: IMo
                 selectedId={movePath}
                 onSelectNode={(path: string) => setMovePath(path)}
               />
-              : <Typography><Trans>No folders</Trans></Typography>
+              : !isLoading && <Typography><Trans>No folders</Trans></Typography>
             }
           </div>
         </ScrollbarWrapper>
