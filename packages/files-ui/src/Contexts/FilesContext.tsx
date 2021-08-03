@@ -196,9 +196,9 @@ const FilesProvider = ({ children }: FilesContextProps) => {
           ...b,
           encryptionKey: await getKeyForBucket(b) || "",
           permission: getPermissionForBucket(b),
-          owners: userData.owners ? userData.owners : [],
-          writers: userData.writers ? userData.writers : [],
-          readers: userData.readers ? userData.readers : []
+          owners: userData.owners || [],
+          writers: userData.writers || [],
+          readers: userData.readers || []
         }
       })
     )
