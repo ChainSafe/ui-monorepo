@@ -8367,7 +8367,7 @@ bnb-javascript-sdk-nobroadcast@^2.16.14:
     uuid "^3.3.2"
     websocket-stream "^5.5.0"
 
-bnc-onboard@1.32.0, bnc-onboard@^1.32.0:
+bnc-onboard@1.32.0:
   version "1.32.0"
   resolved "https://registry.yarnpkg.com/bnc-onboard/-/bnc-onboard-1.32.0.tgz#7c6adaca61bdfb4a03882ae802c9021cc1f04291"
   integrity sha512-+W/ev5PtPpHnQttCV4Dvtt12q+ZK3rqFFRzVd57rjJui7/wrGrWo1ZFt46mNAPoooXw77bIxlbSKd9jDF3wIWQ==
@@ -12046,7 +12046,7 @@ ethers@^5.0.13, ethers@^5.4.3:
     "@ethersproject/web" "5.4.0"
     "@ethersproject/wordlists" "5.4.0"
 
-ethers@^5.1.0, ethers@^5.1.4:
+ethers@^5.1.0:
   version "5.1.4"
   resolved "https://registry.yarnpkg.com/ethers/-/ethers-5.1.4.tgz#8ae973705ed962f8f41dc59693704002a38dd18b"
   integrity sha512-EAPQ/fgGRu0PoR/VNFnHTMOtG/IZ0AItdW55C9T8ffmVu0rnyllZL404eBF66elJehOLz2kxnUrhXpE7TCpW7g==
