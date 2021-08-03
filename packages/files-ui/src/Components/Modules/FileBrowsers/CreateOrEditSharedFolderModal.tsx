@@ -111,7 +111,7 @@ const useStyles = makeStyles(
         padding: `${constants.generalUnit * 2}px ${constants.generalUnit}px`
       },
       errorText: {
-        textAlign: "center",
+        marginLeft: constants.generalUnit * 1.5,
         color: palette.error.main
       }
     })
@@ -250,7 +250,8 @@ const CreateOrEditSharedFolderModal = ({ mode, isModalOpen, onClose, bucketToEdi
                 minHeight: 90,
                 alignContent: "start"
               })
-            }}/>
+            }}
+          />
         </div>
         <div className={classes.modalFlexItem}>
           <TagsInput
@@ -282,6 +283,7 @@ const CreateOrEditSharedFolderModal = ({ mode, isModalOpen, onClose, bucketToEdi
             <Typography
               component="p"
               variant="body1"
+              className={classes.errorText}
             >
               {usersError}
             </Typography>

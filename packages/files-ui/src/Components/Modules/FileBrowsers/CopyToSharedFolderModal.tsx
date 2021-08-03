@@ -25,6 +25,7 @@ import { useFileBrowser } from "../../../Contexts/FileBrowserContext"
 import { ROUTE_LINKS } from "../../FilesRoutes"
 import clsx from "clsx"
 import { useEffect } from "react"
+import { nameValidator } from "../../../Utils/validationSchema"
 
 const useStyles = makeStyles(
   ({ breakpoints, constants, palette, typography, zIndex }: CSFTheme) => {
@@ -179,6 +180,13 @@ const useStyles = makeStyles(
       },
       inputWrapper: {
         marginBottom: 0
+      },
+      errorText: {
+        marginLeft: constants.generalUnit * 2,
+        color: palette.error.main
+      },
+      titleWrapper: {
+        padding: "0 5px"
       }
     })
   }
@@ -207,6 +215,7 @@ const CopyToSharedFolderModal = ({ close, file, filePath }: IShareFileProps) => 
   const { getFile, error: downloadError, isDownloading } = useGetFile()
   const [error, setError] = useState("")
   const [isUploading, setIsUploading] = useState(false)
+  const [nameError, setNameError] = useState("")
   const isBusyWithSecondStep = useMemo(
     () => isCreatingSharedFolder || isDownloading || isUploading
     , [isCreatingSharedFolder, isDownloading, isUploading]
@@ -236,6 +245,22 @@ const CopyToSharedFolderModal = ({ close, file, filePath }: IShareFileProps) => 
       setIsUsingCurrentBucket(false)
     }
   }, [hasNoSharedBucket])
+
+  const onNameChange = useCallback((value?: string | number) => {
+    if (value === undefined) return
+
+    const trimmedValue = value.toString().trim()
+    setSharedFolderName(trimmedValue)
+
+    nameValidator
+      .validate({ name: trimmedValue })
+      .then(() => {
+        setNameError("")
+      })
+      .catch((e: Error) => {
+        setNameError(e.message)
+      })
+  }, [])
 
   const onShare = useCallback(async () => {
     if(!bucket) {
@@ -318,7 +343,6 @@ const CopyToSharedFolderModal = ({ close, file, filePath }: IShareFileProps) => 
     sharedFolderWriters
   ])
 
-
   const onBackClick = useCallback(() => {
     if (currentStep === "1_SHARED_FOLDER_SELECTION_CREATION"){
       close()
@@ -349,17 +373,27 @@ const CopyToSharedFolderModal = ({ close, file, filePath }: IShareFileProps) => 
     </div>
   ), [classes.loadingContainer, isDownloading, isUploading])
 
-  const Step1CreateSharedFolder = useCallback(() => (
+  const Step1CreateSharedFolder = useCallback(() =>  (
     <>
-      <div className={classes.modalFlexItem}>
+      <div className={clsx(classes.modalFlexItem, classes.titleWrapper)}>
         <TextInput
           className={classes.shareFolderNameInput}
           labelClassName={classes.inputLabel}
           label={t`Shared Folder Name`}
           value={sharedFolderName}
-          onChange={(value) => {setSharedFolderName(value?.toString() || "")}}
           autoFocus
+          onChange={onNameChange}
+          state={nameError ? "error" : "normal"}
         />
+        {nameError && (
+          <Typography
+            component="p"
+            variant="body1"
+            className={classes.errorText}
+          >
+            {nameError}
+          </Typography>
+        )}
       </div>
       <div className={classes.modalFlexItem}>
         <TagsInput
@@ -393,16 +427,26 @@ const CopyToSharedFolderModal = ({ close, file, filePath }: IShareFileProps) => 
             })
           }}/>
       </div>
+      {!!usersError && (
+        <Typography
+          component="p"
+          variant="body1"
+          className={classes.errorText}
+        >
+          {usersError}
+        </Typography>
+      )}
     </>
   ), [
-    classes.inputLabel,
-    classes.modalFlexItem,
-    classes.shareFolderNameInput,
+    classes,
     handleLookupUser,
+    nameError,
+    onNameChange,
     onNewUsers,
     sharedFolderName,
     sharedFolderReaders,
-    sharedFolderWriters
+    sharedFolderWriters,
+    usersError
   ])
 
   const Step1ExistingSharedFolder = useCallback(() => (
@@ -469,14 +513,6 @@ const CopyToSharedFolderModal = ({ close, file, filePath }: IShareFileProps) => 
                 </Typography>
               </div>
             )}
-            {!!usersError && (
-              <Typography
-                component="p"
-                variant="body1"
-              >
-                {usersError}
-              </Typography>
-            )}
             <div className={classes.buttonsContainer}>
               <Button
                 size="large"
@@ -496,7 +532,7 @@ const CopyToSharedFolderModal = ({ close, file, filePath }: IShareFileProps) => 
                 variant="primary"
                 onClick={onShare}
                 className={classes.sideBySideButton}
-                disabled={currentStep === "1_SHARED_FOLDER_SELECTION_CREATION" ? !!usersError : false}
+                disabled={!!usersError || !!nameError}
               >
                 <Trans>Copy over</Trans>
               </Button>

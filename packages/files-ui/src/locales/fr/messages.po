@@ -135,7 +135,7 @@ msgid "Copy info"
 msgstr "Copier les infos"
 
 msgid "Copy over"
-msgstr "Copier sur"
+msgstr "Copier"
 
 msgid "Copy to shared folder"
 msgstr "Copier dans le dossier partagé"
