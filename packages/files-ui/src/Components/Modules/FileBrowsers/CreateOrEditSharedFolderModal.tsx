@@ -137,14 +137,14 @@ const CreateOrEditSharedFolderModal = ({ mode, isModalOpen, onClose, bucketToEdi
     if (!bucketToEdit) return
 
     const newWriters = bucketToEdit.writers.map((writer) => ({
-      label: writer.username || centerEllipsis(writer.public_address.toLowerCase(), 6) || "",
+      label: writer.username || centerEllipsis(writer.public_address.toLowerCase(), 6) || writer.uuid,
       value: writer.uuid || "",
       data: writer
     })
     ) || []
 
     const newReaders = bucketToEdit.readers.map((reader) => ({
-      label: reader.username || centerEllipsis(reader.public_address.toLowerCase(), 6) || "",
+      label: reader.username || centerEllipsis(reader.public_address.toLowerCase(), 6) || reader.uuid,
       value: reader.uuid || "",
       data: reader
     })
