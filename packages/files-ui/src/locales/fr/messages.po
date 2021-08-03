@@ -140,9 +140,6 @@ msgstr "Copier les infos"
 msgid "Copy over"
 msgstr "Copier sur"
 
-msgid "Copy to shared folder"
-msgstr "Copier dans le dossier partagé"
-
 msgid "Create"
 msgstr "Créer"
 
@@ -254,14 +251,14 @@ msgstr "Fichier"
 msgid "File Info"
 msgstr "Infos du fichier"
 
-msgid "File added successfully!"
-msgstr "Fichier ajouté avec succès !"
-
 msgid "File format not supported."
 msgstr "Format de fichier non pris en charge."
 
 msgid "File path"
 msgstr "Chemin du fichier"
+
+msgid "File shared successfully!"
+msgstr ""
 
 msgid "File size"
 msgstr "Taille"
@@ -382,6 +379,9 @@ msgstr "Gérer l’accès"
 
 msgid "Move"
 msgstr "Déplacer"
+
+msgid "Move over"
+msgstr ""
 
 msgid "Move selected"
 msgstr "Déplacer la sélection"
@@ -619,6 +619,12 @@ msgstr "Paramètres"
 
 msgid "Setup incomplete"
 msgstr "Configuration incomplète"
+
+msgid "Share"
+msgstr ""
+
+msgid "Share file"
+msgstr ""
 
 msgid "Shared"
 msgstr "Partagé"
