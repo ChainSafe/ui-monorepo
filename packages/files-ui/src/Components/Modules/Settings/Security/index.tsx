@@ -238,7 +238,7 @@ const Security = ({ className }: SecurityProps) => {
               </Typography>
               <PasswordForm
                 setPassword={onSetPassword}
-                buttonLabel={isChangingPassword ? t`Change Password` : t`Set Password`}
+                buttonLabel={t`Change Password`}
               />
             </section>
           )
