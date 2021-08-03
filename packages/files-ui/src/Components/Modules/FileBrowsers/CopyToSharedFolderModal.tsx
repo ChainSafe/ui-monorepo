@@ -4,6 +4,7 @@ import CustomModal from "../../Elements/CustomModal"
 import { t, Trans } from "@lingui/macro"
 import {
   Button,
+  CheckboxInput,
   CheckCircleIcon,
   Link,
   Loading,
@@ -205,6 +206,7 @@ const CopyToSharedFolderModal = ({ close, file, filePath }: IShareFileProps) => 
     usersError
   } = useLookupSharedFolderUser()
   const [isUsingCurrentBucket, setIsUsingCurrentBucket] = useState(true)
+  const [keepOriginalFile, setKeepOriginalFile] = useState(true)
   const [currentStep, setCurrentStep] = useState<Step>("1_SHARED_FOLDER_SELECTION_CREATION")
   const [destinationBucket, setDestinationBucket] = useState<BucketKeyPermission | undefined>()
   const { buckets, uploadFiles } = useFiles()
@@ -475,6 +477,11 @@ const CopyToSharedFolderModal = ({ close, file, filePath }: IShareFileProps) => 
                 {usersError}
               </Typography>
             )}
+            <CheckboxInput
+              value={keepOriginalFile}
+              onChange={() => setKeepOriginalFile(!keepOriginalFile)}
+              label="Keep original file"
+            />
             <div className={classes.buttonsContainer}>
               <Button
                 size="large"
@@ -496,7 +503,10 @@ const CopyToSharedFolderModal = ({ close, file, filePath }: IShareFileProps) => 
                 className={classes.sideBySideButton}
                 disabled={currentStep === "1_SHARED_FOLDER_SELECTION_CREATION" ? !!usersError : false}
               >
-                <Trans>Copy over</Trans>
+                {keepOriginalFile
+                  ? <Trans>Copy over</Trans>
+                  : <Trans>Move over</Trans>
+                }
               </Button>
             </div>
           </div>
