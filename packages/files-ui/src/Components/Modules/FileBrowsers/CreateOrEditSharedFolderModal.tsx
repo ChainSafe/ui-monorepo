@@ -1,16 +1,5 @@
-import {
-  Button,
-  ShareAltSvg,
-  TagsInput,
-  Typography,
-  Grid,
-  TextInput
-} from "@chainsafe/common-components"
-import {
-  createStyles,
-  makeStyles,
-  useThemeSwitcher
-} from "@chainsafe/common-theme"
+import { Button, ShareAltSvg, TagsInput, Typography, Grid, TextInput } from "@chainsafe/common-components"
+import { createStyles, makeStyles, useThemeSwitcher } from "@chainsafe/common-theme"
 import React, { useState, useCallback } from "react"
 import CustomModal from "../../Elements/CustomModal"
 import { CSFTheme } from "../../../Themes/types"
@@ -22,6 +11,7 @@ import { SharedFolderModalMode } from "./types"
 import { useCreateOrEditSharedFolder } from "./hooks/useCreateOrEditSharedFolder"
 import { useLookupSharedFolderUser } from "./hooks/useLookupUser"
 import { nameValidator } from "../../../Utils/validationSchema"
+import { centerEllipsis } from "../../../Utils/Helpers"
 
 const useStyles = makeStyles(
   ({ breakpoints, constants, typography, zIndex, palette }: CSFTheme) => {
@@ -142,14 +132,14 @@ const CreateOrEditSharedFolderModal = ({ mode, isModalOpen, onClose, bucketToEdi
     if (!bucketToEdit) return
 
     const newWriters = bucketToEdit.writers.map((writer) => ({
-      label: writer.uuid || "",
+      label: writer.username || centerEllipsis(writer.public_address.toLowerCase(), 6) || writer.uuid,
       value: writer.uuid || "",
       data: writer
     })
     ) || []
 
     const newReaders = bucketToEdit.readers.map((reader) => ({
-      label: reader.uuid || "",
+      label: reader.username || centerEllipsis(reader.public_address.toLowerCase(), 6) || reader.uuid,
       value: reader.uuid || "",
       data: reader
     })
