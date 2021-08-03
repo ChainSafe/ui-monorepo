@@ -137,7 +137,8 @@ Cypress.Commands.add(
       if (local.length === 0) {
         cy.log("nothing in local storage, --> click on web3 button")
         authenticationPage.web3Button().click()
-        authenticationPage.metaMaskButton().click()
+        authenticationPage.showMoreButton().click()
+        authenticationPage.detectedWallet().click()
         // eslint-disable-next-line cypress/no-unnecessary-waiting
         cy.wait(1000)
         authenticationPage.web3SignInButton().click()
@@ -156,7 +157,8 @@ Cypress.Commands.add(
           // Temp work around for local storage being cleared after the reload          
           cy.log("nothing in local storage after reload, --> click on web3 button")
           authenticationPage.web3Button().click()
-          authenticationPage.metaMaskButton().click()
+          authenticationPage.showMoreButton().click()
+          authenticationPage.detectedWallet().click()
           // eslint-disable-next-line cypress/no-unnecessary-waiting
           cy.wait(1000)
           authenticationPage.web3SignInButton().click()

@@ -22,7 +22,7 @@
     "clsx": "^1.1.1",
     "dayjs": "^1.9.7",
     "eth-crypto": "^1.8.0",
-    "ethers": "^5.1.4",
+    "ethers": "^5.4.3",
     "formik": "^2.2.5",
     "mime-matcher": "^1.0.5",
     "react": "^16.14.0",
