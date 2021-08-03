@@ -31,6 +31,14 @@ function useDynamicPositioning({
       if (node) {
         console.log(dimensions?.bottom)
         setRecommended(defaultAnchor)
+        // Pass node height to memo 
+
+        
+        // if default top, check next siblings
+        // if default bottom, check previous siblings
+
+        // Pass siblings to memo function 
+
         debugger
       }
     },[node])    
