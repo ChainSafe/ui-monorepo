@@ -160,6 +160,7 @@ const FilePreviewModal = ({ file, nextFile, previousFile, closePreview, filePath
   const { downloadFile } = useFiles()
   const [fileContent, setFileContent] = useState<Blob |undefined>()
   const { bucket } = useFileBrowser()
+  const { buckets } = useFiles()
   const { desktop } = useThemeSwitcher()
   const { cid, content_type, name } = file || {}
   const { isDownloading, downloadProgress, getFile, error } = useGetFile()
@@ -171,11 +172,18 @@ const FilePreviewModal = ({ file, nextFile, previousFile, closePreview, filePath
   })
 
   useEffect(() => {
-
-    getFile({ file, filePath })
+    let bucketId
+    // Handle preview in Search where a Bucket is not available, but can be assumed to be a `CSF` bucket
+    // as search results can only currently come from there.
+    if (!bucket) {
+      bucketId = buckets.find(b => b.type === "csf")?.id
+    } else {
+      bucketId = bucket.id
+    }
+    getFile({ file, filePath, bucketId })
       .then(setFileContent)
       .catch(console.error)
-  }, [file, filePath, getFile])
+  }, [file, filePath, getFile, bucket, buckets])
 
   const validRendererMimeType =
     content_type &&
