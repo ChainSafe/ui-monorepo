@@ -74,7 +74,7 @@
     "sentry": "(export REACT_APP_SENTRY_RELEASE=$(sentry-cli releases propose-version); node scripts/sentry.js)",
     "release": "(export REACT_APP_SENTRY_RELEASE=$(sentry-cli releases propose-version); yarn compile && yarn build && node scripts/sentry.js)",
     "test": "yarn test:clean && cypress open",
-    "test:ci": "yarn test:clean && cypress run",
+    "test:ci": "yarn test:clean && cypress run --browser chrome --headless",
     "test:clean": "rimraf cypress/fixtures/storage",
     "analyze": "source-map-explorer 'build/static/js/*.js'",
     "extract": "lingui extract",
