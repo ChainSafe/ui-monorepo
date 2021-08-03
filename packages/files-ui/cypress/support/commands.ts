@@ -232,7 +232,8 @@ declare global {
 
       /**
        * Use this when encountering race condition issues resulting in
-       * cypress "detached from DOM" issues.
+       * cypress "detached from DOM" issues or clicking before an event
+       * listener has been registered
        *
        * Temporary solution until cypress improve this issue
        * further info
