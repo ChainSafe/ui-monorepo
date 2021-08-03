@@ -76,7 +76,7 @@ const CSFFileBrowser: React.FC<IFileBrowserModuleProps> = () => {
     refreshContents(true)
   }, [bucket, refreshContents])
 
-  const moveItemsToBin = useCallback(async (cids: string[]) => {
+  const moveItemsToBin = useCallback(async (cids: string[], hideToast?: boolean) => {
     if (!bucket) return
     await Promise.all(
       cids.map(async (cid: string) => {
@@ -92,13 +92,15 @@ const CSFFileBrowser: React.FC<IFileBrowserModuleProps> = () => {
             new_path: getPathWithFile("/", itemToDelete.name),
             destination: buckets.find(b => b.type === "trash")?.id
           })
-          const message = `${
-            itemToDelete.isFolder ? t`Folder` : t`File`
-          } ${t`deleted successfully`}`
-          addToastMessage({
-            message: message,
-            appearance: "success"
-          })
+          if (!hideToast) {
+            const message = `${
+              itemToDelete.isFolder ? t`Folder` : t`File`
+            } ${t`deleted successfully`}`
+            addToastMessage({
+              message: message,
+              appearance: "success"
+            })
+          }
           return Promise.resolve()
         } catch (error) {
           const message = `${t`There was an error deleting this`} ${

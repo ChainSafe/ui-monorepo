@@ -50,7 +50,7 @@ import SurveyBanner from "../../../SurveyBanner"
 import { DragPreviewLayer } from "./DragPreviewLayer"
 import { useFileBrowser } from "../../../../Contexts/FileBrowserContext"
 import ReportFileModal from "../ReportFileModal"
-import CopyToSharedFolderModal from "../CopyToSharedFolderModal"
+import CopyToSharedFolderModal from "../ShareToSharedFolderModal"
 
 const baseOperations:  FileOperation[] = ["download", "info", "preview"]
 const readerOperations: FileOperation[] = [...baseOperations, "report"]
