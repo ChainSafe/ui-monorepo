@@ -197,7 +197,7 @@ const MenuDropdown = ({
   const classes = useStyles()
   const [open, setOpen] = useState<boolean>(false)
 
-  const [ref] = useDynamicPositioning({
+  const [ref, recommendedPosition] = useDynamicPositioning({
     defaultAnchor: anchor
   })
 
@@ -238,7 +238,7 @@ const MenuDropdown = ({
       </section>
       <Paper
         shadow="shadow2"
-        className={clsx(classes.options, classNames?.options, anchor, {
+        className={clsx(classes.options, classNames?.options, recommendedPosition, {
           ["open"]: open
         })}
       >
