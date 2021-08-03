@@ -32,6 +32,7 @@ import { homePage } from "./page-objects/homePage"
 import { testPrivateKey, testAccountPassword, localHost } from "../fixtures/loginData"
 import { CustomizedBridge } from "./utils/CustomBridge"
 import "cypress-file-upload"
+import "cypress-pipe"
 
 export type Storage = Record<string, string>[];
 
@@ -146,9 +147,7 @@ Cypress.Commands.add(
         authenticationPage.web3Button().click()
         authenticationPage.showMoreButton().click()
         authenticationPage.detectedWallet().click()
-        // eslint-disable-next-line cypress/no-unnecessary-waiting
-        cy.wait(1000)
-        authenticationPage.web3SignInButton().click()
+        authenticationPage.web3SignInButton().safeClick()
         authenticationPage.loginPasswordButton().click()
         authenticationPage.loginPasswordInput().type(`${testAccountPassword}{enter}`)
 
@@ -181,9 +180,7 @@ Cypress.Commands.add(
           authenticationPage.web3Button().click()
           authenticationPage.showMoreButton().click()
           authenticationPage.detectedWallet().click()
-          // eslint-disable-next-line cypress/no-unnecessary-waiting
-          cy.wait(1000)
-          authenticationPage.web3SignInButton().click()
+          authenticationPage.web3SignInButton().safeClick()
           authenticationPage.loginPasswordButton().click()
           authenticationPage.loginPasswordInput().type(`${testAccountPassword}{enter}`)
           authenticationPage.doNotSaveBrowserButton().click()
@@ -193,6 +190,15 @@ Cypress.Commands.add(
     }
   }
 )
+
+Cypress.Commands.add("safeClick", { prevSubject: "element" }, $element => {
+  const click = ($el: JQuery<HTMLElement>) => $el.trigger("click")
+  return cy
+    .wrap($element)
+    .should("be.visible")
+    .pipe(click)
+    .should($el => expect($el).to.not.be.visible)
+})
 
 // Must be declared global to be detected by typescript (allows import/export)
 // eslint-disable @typescript/interface-name
@@ -223,6 +229,20 @@ declare global {
        * @example cy.saveLocalAndSession()
        */
       saveLocalAndSession: () => Chainable
+
+      /**
+       * Use this when encountering race condition issues resulting in
+       * cypress "detached from DOM" issues.
+       *
+       * Temporary solution until cypress improve this issue
+       * further info
+       * https://www.cypress.io/blog/2019/01/22/when-can-the-test-click/
+       * https://github.com/testing-library/cypress-testing-library/issues/153#issuecomment-692386444
+       * https://github.com/cypress-io/cypress/issues/7306
+       * 
+       */
+       safeClick: () => Chainable
+
     }
   }
 }

@@ -14,7 +14,7 @@ describe("File management", () => {
       // create a folder and see it in the file list
       homePage.newFolderButton().click()
       homePage.folderNameInput().type(folderName)
-      homePage.createButton().click()
+      homePage.createButton().safeClick()
       homePage.createFolderModal().should("not.exist")
       homePage.fileItemName().contains(folderName)
 
@@ -24,7 +24,7 @@ describe("File management", () => {
       homePage.createFolderModal().should("not.exist")
     })
 
-    it("can add files and cancel", () => {
+    it("can add files and cancel modal", () => {
       cy.web3Login()
 
       // upload a file and see it in the file list
@@ -56,7 +56,7 @@ describe("File management", () => {
       homePage.uploadFileForm().attachFile("../fixtures/uploadedFiles/text-file.txt")
       homePage.fileUploadList().should("have.length", 2)
       homePage.fileListRemoveButton().should("have.length", 2)
-      homePage.clickUploadButton()
+      homePage.startUploadButton().safeClick()
       homePage.uploadFileForm().should("not.exist")
       homePage.fileItemRow().should("have.length", 2)
     })
@@ -148,8 +148,8 @@ describe("File management", () => {
 
       // confirm the deleted folder is moved to the bin
       navigationMenu.binNavButton().click()
-      homePage.fileItemRow().should("have.length", 1)
-      homePage.fileItemName().should("have.value", folderName)
+      binPage.fileItemRow().should("have.length", 1)
+      binPage.fileItemName().should("have.text", folderName)
     })
   })
 })

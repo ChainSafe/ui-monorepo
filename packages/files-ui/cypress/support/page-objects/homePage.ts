@@ -47,21 +47,12 @@ export const homePage = {
   deleteMenuOption: () => cy.get("[data-cy=menu-delete]"),
 
   // helpers and convenience functions
-  clickUploadButton: () => homePage.startUploadButton()
-    .should("not.be.disabled")
-  // this pipe is needed to prevent https://github.com/ChainSafe/ui-monorepo/issues/1146
-  // as described https://www.cypress.io/blog/2019/01/22/when-can-the-test-click/
-    .pipe(click)
-    .should(($el: JQuery<HTMLElement>) => {
-      expect($el).to.not.be.visible
-    }),
-
   uploadFile(filePath: string) {
     this.uploadButton().click()
     this.uploadFileForm().attachFile(filePath)
     this.fileUploadList().should("have.length", 1)
     this.fileListRemoveButton().should("be.visible")
-    this.clickUploadButton()
+    this.startUploadButton().safeClick()
 
     // ensure upload is complete before proceeding
     this.uploadFileForm().should("not.exist")
@@ -71,7 +62,7 @@ export const homePage = {
   createFolder(name: string = folderName) {
     this.newFolderButton().click()
     this.folderNameInput().type(name)
-    this.createButton().click()
+    this.createButton().safeClick()
     this.createFolderModal().should("not.exist")
     this.fileItemName().contains(name)
   }
