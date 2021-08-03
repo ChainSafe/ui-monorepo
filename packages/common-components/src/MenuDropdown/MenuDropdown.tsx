@@ -1,4 +1,4 @@
-import React, { ReactNode, useRef, useState } from "react"
+import React, { MutableRefObject, ReactNode, useRef, useState } from "react"
 import {
   makeStyles,
   createStyles,
@@ -197,11 +197,12 @@ const MenuDropdown = ({
   const classes = useStyles()
   const [open, setOpen] = useState<boolean>(false)
 
-  const [] = useDynamicPositioning()
+  const [ref] = useDynamicPositioning({
+    defaultAnchor: anchor
+  })
 
   // Hook point
-  const ref = useRef(null)
-  useOnClickOutside(ref, () => {
+  useOnClickOutside(ref as unknown as MutableRefObject<any>, () => {
     if (open) {
       setOpen(false)
     }
@@ -210,7 +211,7 @@ const MenuDropdown = ({
   
   return (
     <div
-      ref={ref}
+      ref={ref as unknown as MutableRefObject<any>}
       className={clsx(classes.root, className)}
     >
       <section

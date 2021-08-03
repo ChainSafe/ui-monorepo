@@ -3,20 +3,24 @@ import { AnchorPosition } from "./MenuDropdown"
 import useDimensions from "./useDimensions";
 
 interface UseDynamicPositioningArg {
-  liveMeasure: boolean
+  liveMeasure?: boolean
   defaultAnchor?: AnchorPosition
 }
+
+export type UseDynamicPositioningHook = [
+  (node: HTMLElement) => void,
+  AnchorPosition
+];
+
 
 function useDynamicPositioning({
   liveMeasure = false,
   defaultAnchor = "top-right"
-}: UseDynamicPositioningArg = {
-  liveMeasure: false,
-  defaultAnchor: "top-right"
-})  {
+}: UseDynamicPositioningArg): UseDynamicPositioningHook  {
     const [ref, dimensions, node] = useDimensions({
       liveMeasure
     });
+
     const [recommended, setRecommended] = useState<AnchorPosition>(defaultAnchor)
     // const [horizontal, setHorisontal] = useState<"left" | "right" | "center">("left")
     // const [vertical, setVertical] = useState<"top" | "bottom">("top")
