@@ -198,13 +198,7 @@ const CopyToSharedFolderModal = ({ close, file, filePath }: IShareFileProps) => 
   const classes = useStyles()
   const { isCreatingSharedFolder, handleCreateSharedFolder } = useCreateOrEditSharedFolder()
   const [sharedFolderName, setSharedFolderName] = useState("")
-  const {
-    sharedFolderReaders,
-    sharedFolderWriters,
-    handleLookupUser,
-    onNewUsers,
-    usersError
-  } = useLookupSharedFolderUser()
+  const { sharedFolderReaders, sharedFolderWriters, handleLookupUser, onNewUsers, usersError } = useLookupSharedFolderUser()
   const [isUsingCurrentBucket, setIsUsingCurrentBucket] = useState(true)
   const [keepOriginalFile, setKeepOriginalFile] = useState(true)
   const [currentStep, setCurrentStep] = useState<Step>("1_SHARED_FOLDER_SELECTION_CREATION")
@@ -287,7 +281,6 @@ const CopyToSharedFolderModal = ({ close, file, filePath }: IShareFileProps) => 
       let fileContent: Blob | undefined
 
       try {
-        console.log("filePath", filePath)
         fileContent = await getFile({ file, filePath })
       } catch(e) {
         setError(t`Error while downloading ${file.name}`)
@@ -336,7 +329,7 @@ const CopyToSharedFolderModal = ({ close, file, filePath }: IShareFileProps) => 
     }
   }, [close, currentStep])
 
-  const Loader = () => (
+  const Loader = useCallback(() => (
     <div className={classes.loadingContainer}>
       <Loading
         size={48}
@@ -356,9 +349,9 @@ const CopyToSharedFolderModal = ({ close, file, filePath }: IShareFileProps) => 
         {isUploading && <Trans>Encrypting and uploading…</Trans>}
       </Typography>
     </div>
-  )
+  ), [classes.loadingContainer, isDownloading, isUploading])
 
-  const Step1CreateSharedFolder = () => (
+  const Step1CreateSharedFolder = useCallback(() => (
     <>
       <div className={classes.modalFlexItem}>
         <TextInput
@@ -403,9 +396,18 @@ const CopyToSharedFolderModal = ({ close, file, filePath }: IShareFileProps) => 
           }}/>
       </div>
     </>
-  )
+  ), [
+    classes.inputLabel,
+    classes.modalFlexItem,
+    classes.shareFolderNameInput,
+    handleLookupUser,
+    onNewUsers,
+    sharedFolderName,
+    sharedFolderReaders,
+    sharedFolderWriters
+  ])
 
-  const Step1ExistingSharedFolder = () => (
+  const Step1ExistingSharedFolder = useCallback(() => (
     <div className={clsx(classes.modalFlexItem, classes.inputWrapper)}>
       <SelectInput
         label={t`Select an existing shared folder`}
@@ -415,7 +417,7 @@ const CopyToSharedFolderModal = ({ close, file, filePath }: IShareFileProps) => 
         onChange={(val: string) => setDestinationBucket(buckets.find((bu) => bu.id === val))}
       />
     </div>
-  )
+  ), [buckets, bucketsOptions, classes.inputLabel, classes.inputWrapper, classes.modalFlexItem, destinationBucket])
 
   return (
     <CustomModal
