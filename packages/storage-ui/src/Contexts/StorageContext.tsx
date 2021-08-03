@@ -47,6 +47,7 @@ type StorageContext = {
   uploadsInProgress: UploadProgress[]
   downloadsInProgress: DownloadProgress[]
   storageSummary: BucketSummaryResponse | undefined
+  getStorageSummary: () => Promise<void>
   uploadFiles: (bucketId: string, files: File[], path: string) => Promise<void>
   addPin: (cid: string) => Promise<PinStatus>
   refreshPins: () => void
@@ -72,6 +73,15 @@ const StorageProvider = ({ children }: StorageContextProps) => {
   const [storageBuckets, setStorageBuckets] = useState<Bucket[]>([])
   const [pins, setPins] = useState<PinStatus[]>([])
 
+  const getStorageSummary = useCallback(async () => {
+    try {
+      const bucketSummaryData = await storageApiClient.bucketsSummary()
+      setBucketSummary(bucketSummaryData)
+    } catch (error) {
+      console.error(error)
+    }
+  }, [storageApiClient])
+
   const refreshPins = useCallback(() => {
     storageApiClient.listPins(
       undefined,
@@ -82,13 +92,15 @@ const StorageProvider = ({ children }: StorageContextProps) => {
       50
     ).then((pins) =>  setPins(pins.results || []))
       .catch(console.error)
-  }, [storageApiClient])
+      .finally(() => getStorageSummary())
+  }, [storageApiClient, getStorageSummary])
 
   const refreshBuckets = useCallback(() => {
     storageApiClient.listBuckets()
       .then((buckets) => setStorageBuckets(buckets.filter(b => b.type === "fps")))
       .catch(console.error)
-  }, [storageApiClient])
+      .finally(() => getStorageSummary())
+  }, [storageApiClient, getStorageSummary])
 
   useEffect(() => {
     isLoggedIn && refreshPins()
@@ -103,18 +115,10 @@ const StorageProvider = ({ children }: StorageContextProps) => {
 
   // Space used counter
   useEffect(() => {
-    const getStorageSummary = async () => {
-      try {
-        const bucketSummaryData = await storageApiClient.bucketsSummary()
-        setBucketSummary(bucketSummaryData)
-      } catch (error) {
-        console.error(error)
-      }
-    }
     if (isLoggedIn) {
       getStorageSummary()
     }
-  }, [isLoggedIn, storageApiClient])
+  }, [isLoggedIn, getStorageSummary])
 
   // Reset encryption keys on log out
   useEffect(() => {
@@ -228,6 +232,7 @@ const StorageProvider = ({ children }: StorageContextProps) => {
       // setting complete
       dispatchUploadsInProgress({ type: "complete", payload: { id } })
       setTimeout(() => {
+        getStorageSummary()
         dispatchUploadsInProgress({ type: "remove", payload: { id } })
       }, REMOVE_UPLOAD_PROGRESS_DELAY)
 
@@ -247,11 +252,10 @@ const StorageProvider = ({ children }: StorageContextProps) => {
       })
       setTimeout(() => {
         dispatchUploadsInProgress({ type: "remove", payload: { id } })
+        getStorageSummary()
       }, REMOVE_UPLOAD_PROGRESS_DELAY)
     }
-  }, [storageBuckets, storageApiClient])
-
-
+  }, [storageBuckets, storageApiClient, getStorageSummary])
 
   return (
     <StorageContext.Provider
@@ -259,6 +263,7 @@ const StorageProvider = ({ children }: StorageContextProps) => {
         addPin,
         uploadsInProgress,
         storageSummary,
+        getStorageSummary,
         downloadsInProgress,
         pins,
         refreshPins,

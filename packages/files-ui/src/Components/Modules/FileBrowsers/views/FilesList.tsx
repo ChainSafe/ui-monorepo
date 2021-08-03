@@ -39,7 +39,7 @@ import UploadProgressModals from "../../UploadProgressModals"
 import DownloadProgressModals from "../../DownloadProgressModals"
 import CreateFolderModal from "../CreateFolderModal"
 import UploadFileModule from "../../UploadFileModule"
-import MoveFileModule from "../MoveFileModal"
+import MoveFileModal from "../MoveFileModal"
 import FileInfoModal from "../FileInfoModal"
 import { CONTENT_TYPES } from "../../../../Utils/Constants"
 import { CSFTheme } from "../../../../Themes/types"
@@ -173,7 +173,8 @@ const useStyles = makeStyles(
       dropdownIcon: {
         "& svg": {
           height: 20,
-          width: 20
+          width: 20,
+          fill: palette.text.primary
         }
       },
       dropdownOptions: {
@@ -1041,20 +1042,21 @@ const FilesList = ({ isShared = false }: Props) => {
               modalOpen={isUploadModalOpen}
               close={() => setIsUploadModalOpen(false)}
             />
-            <MoveFileModule
-              filesToMove={selectedItems}
-              modalOpen={isMoveFileModalOpen}
-              onClose={() => {
-                setIsMoveFileModalOpen(false)
-                setSelectedCids([])
-                setMoveModalMode(undefined)
-              }}
-              onCancel={() => {
-                setIsMoveFileModalOpen(false)
-                setMoveModalMode(undefined)
-              }}
-              mode={moveModalMode}
-            />
+            {isMoveFileModalOpen && (
+              <MoveFileModal
+                filesToMove={selectedItems}
+                onClose={() => {
+                  setIsMoveFileModalOpen(false)
+                  setSelectedCids([])
+                  setMoveModalMode(undefined)
+                }}
+                onCancel={() => {
+                  setIsMoveFileModalOpen(false)
+                  setMoveModalMode(undefined)
+                }}
+                mode={moveModalMode}
+              />
+            )}
           </>
         )
       }

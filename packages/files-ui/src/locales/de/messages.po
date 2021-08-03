@@ -43,12 +43,6 @@ msgstr ""
 msgid "Add more files"
 msgstr "Weitere Dateien hinzufügen"
 
-msgid "Add/remove content"
-msgstr ""
-
-msgid "Allow them to"
-msgstr ""
-
 msgid "Approve"
 msgstr "Genehmigen"
 
@@ -505,9 +499,6 @@ msgstr "Profileinstellungen"
 msgid "Profile updated"
 msgstr "Profil aktualisiert"
 
-msgid "Read content"
-msgstr ""
-
 msgid "Recover"
 msgstr "Wiederherstellen"
 
@@ -624,9 +615,6 @@ msgstr "Einstellungen"
 
 msgid "Setup incomplete"
 msgstr "Einrichtung unvollständig"
-
-msgid "Share with"
-msgstr ""
 
 msgid "Shared"
 msgstr "Geteilt"
@@ -772,10 +760,7 @@ msgstr "Einen gespeicherten Browser verwenden"
 msgid "Use an existing shared folder"
 msgstr ""
 
-msgid "User already included in readers"
-msgstr ""
-
-msgid "User already included in writers"
+msgid "User {0} is both a reader and writer"
 msgstr ""
 
 msgid "Username"

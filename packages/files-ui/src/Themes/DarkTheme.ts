@@ -473,7 +473,7 @@ export const darkTheme = createTheme<CsfColors>({
           color: "var(--gray9)"
         },
         createShareModal: {
-          backgroundColor: "var(--gray1)",
+          backgroundColor: "var(--gray2)",
           color: "var(--gray10)",
           iconBackingColor: "#EBEEFF"
         }
@@ -543,6 +543,94 @@ export const darkTheme = createTheme<CsfColors>({
           error: {
             fill: "var(--red8)"
           }
+        }
+      },
+      TagsInput: {
+        root: {
+          color: "var(--gray9)"
+        },
+        container: {
+          backgroundColor: "var(--gray1)",
+          borderColor: "var(--gray4)",
+          "&:hover": {
+            borderColor: "var(--blue3)"
+          }
+        },
+        valueContainer: {
+          backgroundColor: "var(--gray1)",
+          borderColor: "var(--gray4)",
+          "&:hover": {
+            borderColor: "var(--blue3)"
+          }
+        },
+        control: {
+          backgroundColor: "var(--gray1) !important",
+          borderColor: "var(--gray4) !important",
+          "&:hover": {
+            borderColor: "var(--blue3) !important"
+          }
+        },
+        menu: {
+          backgroundColor: "var(--gray1)",
+          borderColor: "var(--gray4)"
+        },
+        input: {
+          color: "var(--gray9)"
+        },
+        option: {
+          backgroundColor: "var(--gray1)",
+          color: "var(--gray9)",
+          borderColor: "var(--gray4)",
+          cursor: "pointer"
+        },
+        multiValue: {
+          backgroundColor: "var(--gray1)",
+          border: "2px solid var(--gray4)"
+        },
+        multiValueLabel: {
+          color: "var(--gray9)"
+        },
+        multiValueRemove: {
+          backgroundColor: "var(--gray1)",
+          cursor: "pointer"
+        }
+      },
+      SelectInput: {
+        root: {
+          color: "var(--gray9)"
+        },
+        control: {
+          backgroundColor: "var(--gray1)",
+          color: "var(--gray9)"
+        },
+        option: {
+          backgroundColor: "var(--gray1)",
+          color: "var(--gray9)"
+        },
+        dropdownIndicator: {
+          backgroundColor: "var(--gray1)",
+          color: "var(--gray9)"
+        },
+        container: {
+          backgroundColor: "var(--gray1)",
+          color: "var(--gray9)"
+        },
+        menu: {
+          backgroundColor: "var(--gray1)",
+          color: "var(--gray9)"
+        },
+        indicatorsContainer: {
+          backgroundColor: "transparent",
+          // No exposed .indicatorContainer from react-select
+          "& > div:last-child": {
+            backgroundColor: "transparent !important",
+            "&:hover": {
+              color: "var(--gray9)"
+            }
+          }
+        },
+        singleValue: {
+          color: "var(--gray9)"
         }
       },
       Button: {
