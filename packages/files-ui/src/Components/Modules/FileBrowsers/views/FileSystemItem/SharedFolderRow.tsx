@@ -208,7 +208,7 @@ const SharedFolderRow = ({ bucket, handleRename, openSharedFolder, handleDeleteS
       }
 
       if (user.public_address !== "") {
-        return user.public_address ? [...acc, centerEllipsis(user.public_address, 6)] :  acc
+        return user.public_address ? [...acc, centerEllipsis(user.public_address.toLowerCase(), 6)] :  acc
       }
 
       return user.uuid ? [...acc, user.uuid] :  acc
