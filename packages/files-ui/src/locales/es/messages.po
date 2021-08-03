@@ -14,12 +14,6 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "Plural-Forms: \n"
 
-msgid "(Change)"
-msgstr ""
-
-msgid "<0>You’re at risk of getting locked out of your account because you only have two auth factors set up.</0> Add at least one more to ensure account recovery."
-msgstr "<0>Corres el riesgo de quedar bloqueado fuera de tu cuenta porque solo tienes dos factores de autenticación configurados.</0> Agregue al menos uno más para garantizar la recuperación de la cuenta."
-
 msgid "A backup secret phrase will be generated and used for your account.<0/>We do not store it and <1>it can only be displayed once</1>. Save it somewhere safe!"
 msgstr ""
 
@@ -94,9 +88,6 @@ msgstr "Haga clic o arrastre para cargar archivos"
 
 msgid "Close"
 msgstr "Cerrar"
-
-msgid "Complete"
-msgstr "Completar"
 
 msgid "Confirm"
 msgstr "Confirmar"
@@ -272,9 +263,6 @@ msgstr "Archivos"
 msgid "Files sharing key"
 msgstr ""
 
-msgid "Files uses device backups to save your browser."
-msgstr "Archivos utiliza copias de seguridad del dispositivo para guardar su navegador."
-
 msgid "First name"
 msgstr "Primer Nombre"
 
@@ -302,6 +290,9 @@ msgstr "General"
 msgid "Generate backup secret phrase"
 msgstr ""
 
+msgid "Generated"
+msgstr ""
+
 msgid "Generating…"
 msgstr ""
 
@@ -317,9 +308,6 @@ msgstr ""
 msgid "Go back"
 msgstr "Regresar"
 
-msgid "Great! You’re all done."
-msgstr "Estupendo! Todo ha terminado."
-
 msgid "Hello again!"
 msgstr "Hola de nuevo!"
 
@@ -331,9 +319,6 @@ msgstr ""
 
 msgid "Home"
 msgstr "Casa"
-
-msgid "I understand the risk"
-msgstr "Entiendo el riesgo"
 
 msgid "If you think this file does not comply with our <0>Terms of Service</0>, please send the following information to report@files.chainsafe.io. Beware that by sending the file's decryption key, an admin can then decrypt any file in this shared folder."
 msgstr ""
@@ -461,9 +446,6 @@ msgstr "La contraseña no coincide con la cuenta de usuario, vuelva a verificar 
 msgid "Password needs to be more complex"
 msgstr "La contraseña debe ser más compleja"
 
-msgid "Password setup"
-msgstr "Configuración de contraseña"
-
 msgid "Password:"
 msgstr "Contraseña:"
 
@@ -521,9 +503,6 @@ msgstr "Rechazar"
 msgid "Reject all"
 msgstr "Rechazar todo"
 
-msgid "Remind me later"
-msgstr "Recuérdame más tarde"
-
 msgid "Rename"
 msgstr "Renombrar"
 
@@ -563,9 +542,6 @@ msgstr "Navegador guardado"
 msgid "Saved Browsers"
 msgstr "Navegadores guardados"
 
-msgid "Saved browser"
-msgstr "Navegador guardado"
-
 msgid "Saved on:"
 msgstr "Guardado el:"
 
@@ -596,29 +572,14 @@ msgstr "Configurar la clave"
 msgid "Set Username"
 msgstr ""
 
-msgid "Set it up now"
-msgstr "Configúralo ahora"
-
-msgid "Set up"
-msgstr "Configurar"
-
 msgid "Set up a password"
 msgstr "Configurar una contraseña"
-
-msgid "Set up auth factors"
-msgstr "Configurar factores de autenticación"
-
-msgid "Set up password"
-msgstr "Configurar contraseña"
 
 msgid "Setting Username"
 msgstr ""
 
 msgid "Settings"
 msgstr "Ajustes"
-
-msgid "Setup incomplete"
-msgstr "Configuración incompleta"
 
 msgid "Shared"
 msgstr ""
@@ -656,12 +617,6 @@ msgstr "Tamaño"
 msgid "Social Sign-in Wallet"
 msgstr "Cartera de inicio de sesión social"
 
-msgid "Social Sign-in or Wallet"
-msgstr "Inicio de sesión social o billetera"
-
-msgid "Social sign in or wallet"
-msgstr "Inicio de sesión social o billetera"
-
 msgid "Something went wrong with email login! Please try again."
 msgstr ""
 
@@ -685,9 +640,6 @@ msgstr "Técnico"
 
 msgid "Terms and Conditions"
 msgstr "Términos y condiciones"
-
-msgid "Thanks for taking care of that. You can adjust these anytime in security settings."
-msgstr "Gracias por encargarte de eso. Puede ajustarlos en cualquier momento en la configuración de seguridad."
 
 msgid "The authentication popup was closed"
 msgstr "Se cerró la ventana emergente de autenticación"
@@ -829,9 +781,6 @@ msgstr ""
 
 msgid "You will need to sign a message in your wallet to complete sign in."
 msgstr "Deberá firmar un mensaje en su billetera para completar el inicio de sesión."
-
-msgid "Your Authentication Factors"
-msgstr "Sus factores de autenticación"
 
 msgid "Your recovery key can be used to restore your account in place of your backup secret phrase."
 msgstr ""
