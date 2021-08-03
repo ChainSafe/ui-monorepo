@@ -56,7 +56,7 @@ const onboardConfig = {
         infuraKey: "a7e16429d2254d488d396710084e2cd3",
         preferred: true
       },
-      { walletName: 'detectedwallet' }
+      { walletName: "detectedwallet" }
     ]
   }
 }
