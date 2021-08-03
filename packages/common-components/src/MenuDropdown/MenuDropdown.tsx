@@ -9,6 +9,7 @@ import { Typography } from "../Typography"
 import clsx from "clsx"
 import { DirectionalDownIcon, SvgIcon } from "../Icons"
 import { Paper } from "../Paper"
+import useDynamicPositioning from "./useDynamicPositioning"
 
 const useStyles = makeStyles(
   ({ constants, animation, typography, palette, overrides }: ITheme) =>
@@ -156,6 +157,8 @@ const useStyles = makeStyles(
     })
 )
 
+export type AnchorPosition = "top-left" | "top-center" | "top-right" | "bottom-left" | "bottom-center" | "bottom-right"
+
 interface IMenuItem {
   contents: ReactNode | ReactNode[]
   onClick?: () => void
@@ -166,13 +169,7 @@ interface IMenuDropdownProps {
   autoclose?: boolean
   indicator?: typeof SvgIcon
   animation?: "rotate" | "flip" | "none"
-  anchor?:
-    | "top-left"
-    | "top-center"
-    | "top-right"
-    | "bottom-left"
-    | "bottom-center"
-    | "bottom-right"
+  anchor?: AnchorPosition
   menuItems: IMenuItem[]
   title?: string
   classNames?: {
@@ -200,12 +197,17 @@ const MenuDropdown = ({
   const classes = useStyles()
   const [open, setOpen] = useState<boolean>(false)
 
+  const [] = useDynamicPositioning()
+
+  // Hook point
   const ref = useRef(null)
   useOnClickOutside(ref, () => {
     if (open) {
       setOpen(false)
     }
   })
+
+  
   return (
     <div
       ref={ref}
