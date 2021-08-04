@@ -165,11 +165,11 @@ const CreateOrEditSharedFolderModal = ({ mode, isModalOpen, onClose, bucketToEdi
   const onNameChange = useCallback((value?: string | number) => {
     if (value === undefined) return
 
-    const trimmedValue = value.toString().trim()
-    setSharedFolderName(trimmedValue)
+    const name = value.toString()
+    setSharedFolderName(name)
 
     nameValidator
-      .validate({ name: trimmedValue })
+      .validate({ name })
       .then(() => {
         setNameError("")
       })
