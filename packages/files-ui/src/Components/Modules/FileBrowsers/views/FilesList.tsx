@@ -659,6 +659,7 @@ const FilesList = ({ isShared = false }: Props) => {
                 permission !== "reader" && (
                   <>
                     <Button
+                      data-cy="button-new-folder"
                       onClick={() => setCreateFolderModalOpen(true)}
                       variant="outline"
                       size="large"
@@ -669,7 +670,7 @@ const FilesList = ({ isShared = false }: Props) => {
                       </span>
                     </Button>
                     <Button
-                      data-cy="upload-modal-button"
+                      data-cy="button-upload-file"
                       onClick={() => setIsUploadModalOpen(true)}
                       variant="outline"
                       size="large"

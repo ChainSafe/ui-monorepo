@@ -132,7 +132,10 @@ const CreateFolderModal: React.FC<ICreateFolderModalProps> = ({
         }}
       >
         <Form>
-          <div className={classes.root}>
+          <div
+            className={classes.root}
+            data-cy="modal-create-folder"
+          >
             {!desktop && (
               <Grid
                 item
@@ -155,6 +158,7 @@ const CreateFolderModal: React.FC<ICreateFolderModalProps> = ({
               className={classes.input}
             >
               <FormikTextInput
+                data-cy="input-folder-name"
                 name="name"
                 size="large"
                 placeholder="Name"
@@ -169,6 +173,7 @@ const CreateFolderModal: React.FC<ICreateFolderModalProps> = ({
               justifyContent="flex-end"
             >
               <CustomButton
+                data-cy="button-cancel-create-folder"
                 onClick={() => close()}
                 size="medium"
                 className={classes.cancelButton}
@@ -178,6 +183,7 @@ const CreateFolderModal: React.FC<ICreateFolderModalProps> = ({
                 <Trans>Cancel</Trans>
               </CustomButton>
               <Button
+                data-cy="button-create-folder"
                 size={desktop ? "medium" : "large"}
                 variant="primary"
                 type="submit"
