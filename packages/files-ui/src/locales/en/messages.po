@@ -13,12 +13,6 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
-msgid "(Change)"
-msgstr "(Change)"
-
-msgid "<0>You’re at risk of getting locked out of your account because you only have two auth factors set up.</0> Add at least one more to ensure account recovery."
-msgstr "<0>You’re at risk of getting locked out of your account because you only have two auth factors set up.</0> Add at least one more to ensure account recovery."
-
 msgid "A backup secret phrase will be generated and used for your account.<0/>We do not store it and <1>it can only be displayed once</1>. Save it somewhere safe!"
 msgstr "A backup secret phrase will be generated and used for your account.<0/>We do not store it and <1>it can only be displayed once</1>. Save it somewhere safe!"
 
@@ -93,9 +87,6 @@ msgstr "Click or drag to upload files"
 
 msgid "Close"
 msgstr "Close"
-
-msgid "Complete"
-msgstr "Complete"
 
 msgid "Confirm"
 msgstr "Confirm"
@@ -271,9 +262,6 @@ msgstr "Files"
 msgid "Files sharing key"
 msgstr "Files sharing key"
 
-msgid "Files uses device backups to save your browser."
-msgstr "Files uses device backups to save your browser."
-
 msgid "First name"
 msgstr "First name"
 
@@ -301,6 +289,9 @@ msgstr "General"
 msgid "Generate backup secret phrase"
 msgstr "Generate backup secret phrase"
 
+msgid "Generated"
+msgstr "Generated"
+
 msgid "Generating…"
 msgstr "Generating…"
 
@@ -316,9 +307,6 @@ msgstr "Give view-only permission to:"
 msgid "Go back"
 msgstr "Go back"
 
-msgid "Great! You’re all done."
-msgstr "Great! You’re all done."
-
 msgid "Hello again!"
 msgstr "Hello again!"
 
@@ -330,9 +318,6 @@ msgstr "Hold on, we are logging you in…"
 
 msgid "Home"
 msgstr "Home"
-
-msgid "I understand the risk"
-msgstr "I understand the risk"
 
 msgid "If you think this file does not comply with our <0>Terms of Service</0>, please send the following information to report@files.chainsafe.io. Beware that by sending the file's decryption key, an admin can then decrypt any file in this shared folder."
 msgstr "If you think this file does not comply with our <0>Terms of Service</0>, please send the following information to report@files.chainsafe.io. Beware that by sending the file's decryption key, an admin can then decrypt any file in this shared folder."
@@ -460,9 +445,6 @@ msgstr "Password does not match user account, please double-check and try again.
 msgid "Password needs to be more complex"
 msgstr "Password needs to be more complex"
 
-msgid "Password setup"
-msgstr "Password setup"
-
 msgid "Password:"
 msgstr "Password:"
 
@@ -520,9 +502,6 @@ msgstr "Reject"
 msgid "Reject all"
 msgstr "Reject all"
 
-msgid "Remind me later"
-msgstr "Remind me later"
-
 msgid "Rename"
 msgstr "Rename"
 
@@ -562,9 +541,6 @@ msgstr "Saved Browser"
 msgid "Saved Browsers"
 msgstr "Saved Browsers"
 
-msgid "Saved browser"
-msgstr "Saved browser"
-
 msgid "Saved on:"
 msgstr "Saved on:"
 
@@ -595,29 +571,14 @@ msgstr "Set Password"
 msgid "Set Username"
 msgstr "Set Username"
 
-msgid "Set it up now"
-msgstr "Set it up now"
-
-msgid "Set up"
-msgstr "Set up"
-
 msgid "Set up a password"
 msgstr "Set up a password"
-
-msgid "Set up auth factors"
-msgstr "Set up auth factors"
-
-msgid "Set up password"
-msgstr "Set up password"
 
 msgid "Setting Username"
 msgstr "Setting Username"
 
 msgid "Settings"
 msgstr "Settings"
-
-msgid "Setup incomplete"
-msgstr "Setup incomplete"
 
 msgid "Shared"
 msgstr "Shared"
@@ -655,12 +616,6 @@ msgstr "Size"
 msgid "Social Sign-in Wallet"
 msgstr "Social Sign-in Wallet"
 
-msgid "Social Sign-in or Wallet"
-msgstr "Social Sign-in or Wallet"
-
-msgid "Social sign in or wallet"
-msgstr "Social sign in or wallet"
-
 msgid "Something went wrong with email login! Please try again."
 msgstr "Something went wrong with email login! Please try again."
 
@@ -684,9 +639,6 @@ msgstr "Technical"
 
 msgid "Terms and Conditions"
 msgstr "Terms and Conditions"
-
-msgid "Thanks for taking care of that. You can adjust these anytime in security settings."
-msgstr "Thanks for taking care of that. You can adjust these anytime in security settings."
 
 msgid "The authentication popup was closed"
 msgstr "The authentication popup was closed"
@@ -828,9 +780,6 @@ msgstr "You haven't set a username yet."
 
 msgid "You will need to sign a message in your wallet to complete sign in."
 msgstr "You will need to sign a message in your wallet to complete sign in."
-
-msgid "Your Authentication Factors"
-msgstr "Your Authentication Factors"
 
 msgid "Your recovery key can be used to restore your account in place of your backup secret phrase."
 msgstr "Your recovery key can be used to restore your account in place of your backup secret phrase."
