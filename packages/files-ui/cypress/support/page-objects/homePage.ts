@@ -26,7 +26,7 @@ export const homePage = {
   fileItemKebabButton: () => cy.get("[data-testid=dropdown-title-fileDropdown]"),
 
   // create folder modal elements
-  createFolderModal: () => cy.get("[data-cy=modal-create-folder]"),
+  createFolderModal: () => cy.get("[data-cy=modal-create-folder]", { timeout: 10000 }),
   folderNameInput: () => cy.get("[data-cy=input-folder-name]"),
   cancelButton: () => cy.get("[data-cy=button-cancel-create-folder]"),
   createButton: () => cy.get("[data-cy=button-create-folder]"),

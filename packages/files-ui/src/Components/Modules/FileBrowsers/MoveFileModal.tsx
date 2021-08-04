@@ -169,107 +169,115 @@ const MoveFileModule = ({ filesToMove, onClose, onCancel, mode }: IMoveFileModul
   }, [isInBin, movePath, mode, currentPath, folders.length, isSubFolderOfAnySelectedFolder])
 
   return (
-    <CustomModal
-      className={classes.modalRoot}
-      injectedClass={{ inner: classes.modalInner }}
-      active
-      closePosition="none"
-      maxWidth="sm"
-      onModalBodyClick={(e) => {
-        e.preventDefault()
-        e.stopPropagation()
-      }}
+    <div
+      data-cy={isInBin ? "modal-recover-file" : "modal-move-file"}
     >
-      <Grid
-        item
-        xs={12}
-        sm={12}
-        className={classes.paddedContainer}
+      <CustomModal
+        className={classes.modalRoot}
+        injectedClass={{ inner: classes.modalInner }}
+        active
+        closePosition="none"
+        maxWidth="sm"
+        onModalBodyClick={(e) => {
+          e.preventDefault()
+          e.stopPropagation()
+        }}
       >
-        <Typography className={classes.heading}
-          variant="h5"
-          component="h5"
+        <Grid
+          item
+          xs={12}
+          sm={12}
+          className={classes.paddedContainer}
         >
-          {isInBin ? t`Recover to…` : t`Move to…`}
-        </Typography>
-      </Grid>
-      <Grid
-        item
-        xs={12}
-        sm={12}
-        className={classes.treeContainer}
-      >
-        <ScrollbarWrapper
-          autoHide={true}
-          maxHeight={200}
-        >
-          <div
-            className={classes.treeScrollView}
+          <Typography className={classes.heading}
+            variant="h5"
+            component="h5"
           >
-            {isLoading && <Loading
-              size={32}
-              type="light"
-            />
-            }
-            {folderTree.length
-              ? <TreeView
-                treeData={folderTree}
-                commonIcon={<FolderIcon />}
-                selectedId={movePath}
-                onSelectNode={(path: string) => setMovePath(path)}
-              />
-              : !isLoading && <Typography><Trans>No folders</Trans></Typography>
-            }
-          </div>
-        </ScrollbarWrapper>
-      </Grid>
-      <Grid
-        item
-        flexDirection="row"
-        justifyContent="space-between"
-        alignItems="center"
-        className={classes.paddedContainer}
-      >
-        {!!movePath && !isAllowedToMove && (
-          <Typography
-            component="p"
-            variant="body1"
-          >
-            {
-              folders.length
-                ? t`You can't move folders to this path`
-                : t`The files are already in this folder`
-            }
+            {isInBin ? t`Recover to…` : t`Move to…`}
           </Typography>
-        )}
+        </Grid>
+        <Grid
+          item
+          xs={12}
+          sm={12}
+          className={classes.treeContainer}
+        >
+          <ScrollbarWrapper
+            autoHide={true}
+            maxHeight={200}
+          >
+            <div
+              className={classes.treeScrollView}
+              data-cy="tree-folder-list"
+            >
+              {isLoading && <Loading
+                size={32}
+                type="light"
+              />
+              }
+              {folderTree.length
+                ? <TreeView
+                  treeData={folderTree}
+                  commonIcon={<FolderIcon />}
+                  selectedId={movePath}
+                  onSelectNode={(path: string) => setMovePath(path)}
+                />
+                : !isLoading && <Typography><Trans>No folders</Trans></Typography>
+              }
+            </div>
+          </ScrollbarWrapper>
+        </Grid>
         <Grid
           item
           flexDirection="row"
-          justifyContent="flex-end"
+          justifyContent="space-between"
+          alignItems="center"
+          className={classes.paddedContainer}
         >
-          <CustomButton
-            onClick={onCancel}
-            size="medium"
-            className={classes.cancelButton}
-            variant={desktop ? "outline" : "gray"}
-            type="button"
+          {!!movePath && !isAllowedToMove && (
+            <Typography
+              component="p"
+              variant="body1"
+              data-cy="label-move-file-error-message"
+            >
+              {
+                folders.length
+                  ? t`You can't move folders to this path`
+                  : t`The files are already in this folder`
+              }
+            </Typography>
+          )}
+          <Grid
+            item
+            flexDirection="row"
+            justifyContent="flex-end"
           >
-            <Trans>Cancel</Trans>
-          </CustomButton>
-          <Button
-            variant="primary"
-            size={desktop ? "medium" : "large"}
-            type="submit"
-            className={classes.okButton}
-            loading={isMovingFile}
-            disabled={!isAllowedToMove}
-            onClick={onMoveFile}
-          >
-            {isInBin ? t`Recover` : t`Move`}
-          </Button>
+            <CustomButton
+              onClick={onCancel}
+              size="medium"
+              className={classes.cancelButton}
+              variant={desktop ? "outline" : "gray"}
+              type="button"
+              data-cy={isInBin ? "button-cancel-recovery" : "button-cancel-move"}
+            >
+              <Trans>Cancel</Trans>
+            </CustomButton>
+            <Button
+              variant="primary"
+              size={desktop ? "medium" : "large"}
+              type="submit"
+              className={classes.okButton}
+              loading={isMovingFile}
+              disabled={!isAllowedToMove}
+              onClick={onMoveFile}
+              data-cy={isInBin ? "button-recover-file" : "button-move-file"}
+            >
+              {isInBin ? t`Recover` : t`Move`}
+            </Button>
+          </Grid>
         </Grid>
-      </Grid>
-    </CustomModal>
+      </CustomModal>
+    </div>
   )
 }
 

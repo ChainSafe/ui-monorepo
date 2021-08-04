@@ -18,8 +18,9 @@ export const binPage = {
 
   // recover modal elements
   recoverFileModal: () => cy.get("[data-cy=modal-recover-file]"),
-  folderItem: () => cy.get("[data-cy=tree-folder-item]"),
+  folderList: () => cy.get("[data-cy=tree-folder-list]"),
   cancelButton: () => cy.get("[data-cy=button-cancel-recovery]"),
-  recoverButton: () => cy.get("[data-cy=button-recover-file]")
+  recoverButton: () => cy.get("[data-cy=button-recover-file]"),
+  moveErrorLabel: () => cy.get("[data-cy=label-move-file-error-message]")
 
 }
