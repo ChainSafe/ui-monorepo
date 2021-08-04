@@ -263,8 +263,8 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
                   variant="body2"
                   className={classes.spaceUsedMargin}
                   component="p"
-                >{`${formatBytes(spaceUsed)} of ${formatBytes(
-                    FREE_PLAN_LIMIT
+                >{`${formatBytes(spaceUsed, 2)} of ${formatBytes(
+                    FREE_PLAN_LIMIT, 2
                   )} used`}</Typography>
                 <ProgressBar
                   className={classes.spaceUsedMargin}

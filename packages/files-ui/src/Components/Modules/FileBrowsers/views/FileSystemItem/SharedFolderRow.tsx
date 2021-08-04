@@ -16,16 +16,14 @@ import {
   UserShareSvg
 } from "@chainsafe/common-components"
 import { CSFTheme } from "../../../../../Themes/types"
-import { LookupUser } from "@chainsafe/files-api-client"
 import { desktopSharedGridSettings, mobileSharedGridSettings } from "../../SharedFoldersOverview"
-import SharedUsers from "../../../../Elements/SharedUser"
+import SharedUsers from "../../../../Elements/SharedUsers"
 import { t, Trans } from "@lingui/macro"
 import { Form, FormikProvider, useFormik } from "formik"
 import clsx from "clsx"
 import { BucketKeyPermission } from "../../../../../Contexts/FilesContext"
 import UserBubble from "../../../../Elements/UserBubble"
 import { renameSchema } from "../../../../../Utils/validationSchema"
-import { centerEllipsis } from "../../../../../Utils/Helpers"
 
 const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => {
 
@@ -201,22 +199,6 @@ const SharedFolderRow = ({ bucket, handleRename, openSharedFolder, handleDeleteS
     click(e)
   }
 
-  const getUserLabels = (users: LookupUser[]): string[] => {
-    return users.reduce((acc: string[], user): string[] => {
-      if (user.username !== "") {
-        return user.username ? [...acc, user.username] :  acc
-      }
-
-      if (user.public_address !== "") {
-        return user.public_address ? [...acc, centerEllipsis(user.public_address.toLowerCase(), 6)] :  acc
-      }
-
-      return user.uuid ? [...acc, user.uuid] :  acc
-    }, [] as string[])
-  }
-
-  const userLabels = [...getUserLabels(bucket.owners), ...getUserLabels(bucket.readers), ...getUserLabels(bucket.writers)]
-
   const formik = useFormik({
     initialValues:{
       fileName: name
@@ -293,11 +275,11 @@ const SharedFolderRow = ({ bucket, handleRename, openSharedFolder, handleDeleteS
         align="left"
         className={classes.sharedUser}
       >
-        <SharedUsers sharedUsers={userLabels}/>
+        <SharedUsers bucket={bucket}/>
       </TableCell>
       {desktop &&
         <TableCell align="left">
-          {formatBytes(size)}
+          {formatBytes(size, 2)}
         </TableCell>
       }
       <TableCell align="right">
