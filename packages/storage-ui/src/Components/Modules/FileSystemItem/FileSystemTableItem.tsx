@@ -237,7 +237,7 @@ const FileSystemTableItem = React.forwardRef(
                 </TableCell>
             }
             <TableCell align="left">
-              {!isFolder && formatBytes(size)}
+              {!isFolder && formatBytes(size, 2)}
             </TableCell>
           </>
         )}

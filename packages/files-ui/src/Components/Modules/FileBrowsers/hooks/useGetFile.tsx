@@ -7,6 +7,7 @@ import { useFileBrowser } from "../../../../Contexts/FileBrowserContext"
 interface getFilesParams {
   file: IFileSystemItem
   filePath: string
+  bucketId?: string
 }
 export const useGetFile = () => {
   const [isDownloading, setIsDownloading] = useState(false)
@@ -16,9 +17,11 @@ export const useGetFile = () => {
   const source = useRef<CancelTokenSource | null>(null)
   const { bucket } = useFileBrowser()
 
-  const getFile = useCallback(async ({ file, filePath }: getFilesParams) => {
+  const getFile = useCallback(async ({ file, filePath, bucketId }: getFilesParams) => {
     const { cid, size } = file
-    if(!bucket) return
+
+    const id = bucket?.id || bucketId
+    if (!id) return
 
     if (source.current) {
       source.current.cancel("Cancelling previous request")
@@ -37,8 +40,9 @@ export const useGetFile = () => {
     setError("")
 
     try {
+
       const content = await getFileContent(
-        bucket?.id,
+        id,
         {
           cid,
           cancelToken,
