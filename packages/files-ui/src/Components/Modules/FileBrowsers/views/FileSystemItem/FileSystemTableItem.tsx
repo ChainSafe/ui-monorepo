@@ -18,7 +18,7 @@ import dayjs from "dayjs"
 import { FileSystemItem } from "../../../../../Contexts/FilesContext"
 import { ConnectDragPreview } from "react-dnd"
 import { Form, FormikProvider, useFormik } from "formik"
-import { renameSchema } from "../../../../../Utils/validationSchema"
+import { nameValidator } from "../../../../../Utils/validationSchema"
 
 const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => {
   const desktopGridSettings = "50px 69px 3fr 190px 100px 45px !important"
@@ -142,12 +142,12 @@ const FileSystemTableItem = React.forwardRef(
     const { desktop } = useThemeSwitcher()
 
     const formik = useFormik({
-      initialValues:{
-        fileName: name
+      initialValues: {
+        name
       },
-      validationSchema: renameSchema,
-      onSubmit:(values) => {
-        const newName = values.fileName?.trim()
+      validationSchema: nameValidator,
+      onSubmit: (values: {name: string}) => {
+        const newName = values.name.trim()
 
         newName && handleRename && handleRename(file.cid, newName)
       },
@@ -201,7 +201,7 @@ const FileSystemTableItem = React.forwardRef(
                 >
                   <FormikTextInput
                     className={classes.renameInput}
-                    name="fileName"
+                    name="name"
                     inputVariant="minimal"
                     onKeyDown={(event) => {
                       if (event.key === "Escape") {

@@ -70,7 +70,7 @@ const AddCIDModal = ({ modalOpen = false, close }: IAddCIDModuleProps) => {
   const onSubmit = useCallback((values, helpers) => {
     helpers.setSubmitting(true)
     setAccessingCID(true)
-    addPin(values.cid)
+    addPin(values.cid.trim())
       .then(() => {
         helpers.resetForm()
         close()

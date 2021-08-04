@@ -19,9 +19,6 @@ msgstr ""
 msgid "A file with the same name already exists"
 msgstr ""
 
-msgid "A name is required"
-msgstr "Navn kreves"
-
 msgid "Account"
 msgstr "Konto"
 
@@ -262,9 +259,6 @@ msgstr "Fornavn"
 msgid "Folder"
 msgstr "Mappe"
 
-msgid "Folder name cannot only contain whitepsace characters"
-msgstr ""
-
 msgid "Folder name is already in use"
 msgstr ""
 
@@ -378,12 +372,6 @@ msgstr "Mine filer"
 
 msgid "Name"
 msgstr "Navn"
-
-msgid "Name cannot contain '/' character"
-msgstr ""
-
-msgid "Name cannot only contain whitespace characters"
-msgstr ""
 
 msgid "Name too long"
 msgstr "Navnet er for langt"

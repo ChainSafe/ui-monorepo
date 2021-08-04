@@ -23,7 +23,7 @@ import { Form, FormikProvider, useFormik } from "formik"
 import clsx from "clsx"
 import { BucketKeyPermission } from "../../../../../Contexts/FilesContext"
 import UserBubble from "../../../../Elements/UserBubble"
-import { renameSchema } from "../../../../../Utils/validationSchema"
+import { nameValidator } from "../../../../../Utils/validationSchema"
 
 const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => {
 
@@ -201,12 +201,12 @@ const SharedFolderRow = ({ bucket, handleRename, openSharedFolder, handleDeleteS
 
   const formik = useFormik({
     initialValues:{
-      fileName: name
+      name
     },
     enableReinitialize: true,
-    validationSchema: renameSchema,
+    validationSchema: nameValidator,
     onSubmit:(values, { resetForm }) => {
-      const newName = values.fileName?.trim()
+      const newName = values.name?.trim()
 
       newName && handleRename && handleRename(bucket, newName)
       setIsRenaming(false)
@@ -249,7 +249,7 @@ const SharedFolderRow = ({ bucket, handleRename, openSharedFolder, handleDeleteS
             >
               <FormikTextInput
                 className={classes.renameInput}
-                name="fileName"
+                name="name"
                 inputVariant="minimal"
                 onKeyDown={(event) => {
                   if (event.key === "Escape") {

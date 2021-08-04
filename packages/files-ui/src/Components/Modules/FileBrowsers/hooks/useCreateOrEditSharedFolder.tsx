@@ -21,7 +21,7 @@ export const useCreateOrEditSharedFolder = () => {
     const readers = getSharedUsers(sharedFolderReaders)
     const writers = getSharedUsers(sharedFolderWriters)
     setIsCreatingSharedFolder(true)
-    return createSharedFolder(sharedFolderName, writers, readers)
+    return createSharedFolder(sharedFolderName.trim(), writers, readers)
       .then((bucket) => {
         setIsCreatingSharedFolder(false)
         return bucket

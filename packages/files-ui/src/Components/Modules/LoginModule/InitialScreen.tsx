@@ -230,13 +230,15 @@ const InitialScreen = ({ className }: IInitialScreen) => {
     setIsConnecting(false)
   }
 
-  const onSubmitEmail = useCallback((values) => {
+  const onSubmitEmail = useCallback((values: {email: string}) => {
     setIsConnecting(true)
     setErrorEmail("")
+    const trimmedEmail = values.email.trim()
+
     filesApiClient
-      .getIdentityEmailToken({ email: values.email })
+      .getIdentityEmailToken({ email: trimmedEmail })
       .then(() => {
-        setEmail(values.email)
+        setEmail(trimmedEmail)
         setLoginMode("email")
       })
       .catch((e) => {
