@@ -325,7 +325,12 @@ const CopyToSharedFolderModal = ({ close, file, filePath }: IShareFileProps) => 
 
       setIsUploading(true)
 
-      uploadFiles(bucketToUpload.id, [new File([fileContent], file.name)], UPLOAD_PATH, bucketToUpload.encryptionKey)
+      uploadFiles(
+        bucketToUpload.id,
+        [new File([fileContent], file.name, { type: file.content_type })],
+        UPLOAD_PATH,
+        bucketToUpload.encryptionKey
+      )
         .then(() => {
           if (!keepOriginalFile) {
             deleteItems && deleteItems([file.cid], true)
