@@ -3,7 +3,7 @@ import { makeStyles, createStyles, useThemeSwitcher } from "@chainsafe/common-th
 import UserBubble from "./UserBubble"
 import { LookupUser } from "@chainsafe/files-api-client"
 import { BucketKeyPermission } from "../../Contexts/FilesContext"
-import { centerEllipsis } from "../../Utils/Helpers"
+import { getUserDisplayName } from "../../Utils/getUserDisplayName"
 
 const useStyles = makeStyles(() => {
   return createStyles({
@@ -23,15 +23,9 @@ const SharedUsers = ({ bucket }: Props) => {
 
   const getUserLabels = useCallback((users: LookupUser[]): string[] => {
     return users.reduce((acc: string[], user): string[] => {
-      if (user.username !== "") {
-        return user.username ? [...acc, user.username] :  acc
-      }
+      const displayName = getUserDisplayName(user)
 
-      if (user.public_address !== "") {
-        return user.public_address ? [...acc, centerEllipsis(user.public_address.toLowerCase(), 6)] :  acc
-      }
-
-      return user.uuid ? [...acc, user.uuid] :  acc
+      return [...acc, displayName]
     }, [] as string[])
   }, [])
 
@@ -66,7 +60,7 @@ const SharedUsers = ({ bucket }: Props) => {
       {userLabels.length > 2 && (
         <UserBubble
           text={`+${userLabels.length - 1}`}
-          tooltip={userLabels.slice(0, -1)}
+          tooltip={userLabels.slice(1)}
         />
       )}
       {userLabels.length === 2 && (
