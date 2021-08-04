@@ -340,6 +340,9 @@ msgstr "Info"
 msgid "I’m done saving my backup secret phrase"
 msgstr "I’m done saving my backup secret phrase"
 
+msgid "Keep original file"
+msgstr "Keep original file"
+
 msgid "Language"
 msgstr "Language"
 
