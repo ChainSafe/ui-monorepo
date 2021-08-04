@@ -806,6 +806,9 @@ msgstr "le"
 msgid "recovered successfully"
 msgstr "récupéré avec succès"
 
+msgid "unknown"
+msgstr ""
+
 msgid "{0, plural, one {You are about to delete {1} item.} other {You are about to delete {2} items.}}"
 msgstr "{0, plural, one {Vous êtes sur le point de supprimer {1} élément.} other {Vous êtes sur le point de supprimer {2} éléments.}}"
 

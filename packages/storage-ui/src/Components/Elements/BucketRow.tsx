@@ -82,7 +82,7 @@ const BucketRow = ({ bucket }: Props) => {
         {bucket.name || bucket.id}
       </TableCell>
       <TableCell>
-        {formatBytes(bucket.size)}
+        {formatBytes(bucket.size, 2)}
       </TableCell>
       <TableCell align="right">
         <MenuDropdown

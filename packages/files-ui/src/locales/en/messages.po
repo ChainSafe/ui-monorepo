@@ -805,6 +805,9 @@ msgstr "on"
 msgid "recovered successfully"
 msgstr "recovered successfully"
 
+msgid "unknown"
+msgstr "unknown"
+
 msgid "{0, plural, one {You are about to delete {1} item.} other {You are about to delete {2} items.}}"
 msgstr "{0, plural, one {You are about to delete {1} item.} other {You are about to delete {2} items.}}"
 
