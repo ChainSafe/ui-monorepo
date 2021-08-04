@@ -387,7 +387,7 @@ const CopyToSharedFolderModal = ({ close, file, filePath }: IShareFileProps) => 
     </div>
   ), [classes.loadingContainer, isDownloading, isUploading])
 
-  const Step1CreateSharedFolder = useCallback(() =>  (
+  const Step1CreateSharedFolder = useCallback(() => (
     <>
       <div className={clsx(classes.modalFlexItem, classes.titleWrapper)}>
         <TextInput
