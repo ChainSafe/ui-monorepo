@@ -13,12 +13,6 @@ msgstr ""
 "X-Generator: Weblate 4.7.2-dev\n"
 "Mime-Version: 1.0\n"
 
-msgid "(Change)"
-msgstr "(Endre)"
-
-msgid "<0>You’re at risk of getting locked out of your account because you only have two auth factors set up.</0> Add at least one more to ensure account recovery."
-msgstr ""
-
 msgid "A backup secret phrase will be generated and used for your account.<0/>We do not store it and <1>it can only be displayed once</1>. Save it somewhere safe!"
 msgstr ""
 
@@ -93,9 +87,6 @@ msgstr ""
 
 msgid "Close"
 msgstr "Lukk"
-
-msgid "Complete"
-msgstr ""
 
 msgid "Confirm"
 msgstr "Bekreft"
@@ -265,9 +256,6 @@ msgstr "Filer"
 msgid "Files sharing key"
 msgstr ""
 
-msgid "Files uses device backups to save your browser."
-msgstr ""
-
 msgid "First name"
 msgstr "Fornavn"
 
@@ -295,6 +283,9 @@ msgstr ""
 msgid "Generate backup secret phrase"
 msgstr ""
 
+msgid "Generated"
+msgstr ""
+
 msgid "Generating…"
 msgstr ""
 
@@ -310,9 +301,6 @@ msgstr ""
 msgid "Go back"
 msgstr "Tilbake"
 
-msgid "Great! You’re all done."
-msgstr ""
-
 msgid "Hello again!"
 msgstr "Hei igjen."
 
@@ -324,9 +312,6 @@ msgstr ""
 
 msgid "Home"
 msgstr "Hjem"
-
-msgid "I understand the risk"
-msgstr "Jeg forstår risikoen"
 
 msgid "If you think this file does not comply with our <0>Terms of Service</0>, please send the following information to report@files.chainsafe.io. Beware that by sending the file's decryption key, an admin can then decrypt any file in this shared folder."
 msgstr ""
@@ -460,9 +445,6 @@ msgstr ""
 msgid "Password needs to be more complex"
 msgstr ""
 
-msgid "Password setup"
-msgstr "Passord-oppsett"
-
 msgid "Password:"
 msgstr "Passord:"
 
@@ -520,9 +502,6 @@ msgstr "Avslå"
 msgid "Reject all"
 msgstr "Avslå alle"
 
-msgid "Remind me later"
-msgstr "Minn meg på dette senere"
-
 msgid "Rename"
 msgstr "Gi nytt navn"
 
@@ -562,9 +541,6 @@ msgstr ""
 msgid "Saved Browsers"
 msgstr ""
 
-msgid "Saved browser"
-msgstr ""
-
 msgid "Saved on:"
 msgstr ""
 
@@ -595,20 +571,8 @@ msgstr "Sett passord"
 msgid "Set Username"
 msgstr "Sett brukernavn"
 
-msgid "Set it up now"
-msgstr ""
-
-msgid "Set up"
-msgstr "Sett opp"
-
 msgid "Set up a password"
 msgstr "Sett opp et passord"
-
-msgid "Set up auth factors"
-msgstr ""
-
-msgid "Set up password"
-msgstr "Sett opp passord"
 
 msgid "Setting Username"
 msgstr ""
@@ -661,12 +625,6 @@ msgstr "Størrelse"
 msgid "Social Sign-in Wallet"
 msgstr ""
 
-msgid "Social Sign-in or Wallet"
-msgstr ""
-
-msgid "Social sign in or wallet"
-msgstr ""
-
 msgid "Something went wrong with email login! Please try again."
 msgstr ""
 
@@ -690,9 +648,6 @@ msgstr "Teknisk"
 
 msgid "Terms and Conditions"
 msgstr "Vilkår og betingelser"
-
-msgid "Thanks for taking care of that. You can adjust these anytime in security settings."
-msgstr ""
 
 msgid "The authentication popup was closed"
 msgstr ""
@@ -833,9 +788,6 @@ msgid "You haven't set a username yet."
 msgstr "Du har ikke satt noe brukernavn enda."
 
 msgid "You will need to sign a message in your wallet to complete sign in."
-msgstr ""
-
-msgid "Your Authentication Factors"
 msgstr ""
 
 msgid "Your recovery key can be used to restore your account in place of your backup secret phrase."

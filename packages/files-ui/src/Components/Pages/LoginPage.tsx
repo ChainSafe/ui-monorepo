@@ -179,7 +179,6 @@ const LoginPage = () => {
           </>
 
       }
-      {/* <ForegroundSVG className={classes.bgForeground} /> */}
       <a
         className={classes.cta}
         href={ROUTE_LINKS.ChainSafe}

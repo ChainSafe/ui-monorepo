@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react"
-import { CheckCircleSvg, CloseSvg, CrossOutlinedSvg, Divider, Typography } from "@chainsafe/common-components"
+import { CloseSvg, Divider, Typography } from "@chainsafe/common-components"
 import { makeStyles, createStyles, useThemeSwitcher } from "@chainsafe/common-theme"
 import { CSFTheme } from "../../../../Themes/types"
 import { t, Trans } from "@lingui/macro"
@@ -47,14 +47,6 @@ const useStyles = makeStyles(({ constants, breakpoints, palette, typography, zIn
       width: 21,
       height: 21,
       marginLeft: constants.generalUnit * 1
-    },
-    green: {
-      stroke: palette.additional.green[6],
-      fill: palette.additional.green[6]
-    },
-    red: {
-      stroke: palette.additional.red[6],
-      fill: palette.additional.red[6]
     },
     buttonLink: {
       outline: "none",
@@ -136,17 +128,8 @@ interface SecurityProps {
 }
 
 const Security = ({ className }: SecurityProps) => {
-  const { keyDetails,
-    addPasswordShare,
-    changePasswordShare,
-    loggedinAs,
-    hasPasswordShare,
-    hasMnemonicShare,
-    browserShares,
-    refreshTKeyMeta
-  } = useThresholdKey()
+  const { keyDetails, changePasswordShare, loggedinAs, hasMnemonicShare, browserShares, refreshTKeyMeta } = useThresholdKey()
   const classes = useStyles()
-  const [isSettingPassword, setIsSettingPassword] = useState(false)
   const [isChangingPassword, setIsChangingPassword] = useState(false)
   const [isSettingBackupPhrase, setIsSettingBackupPhrase] = useState(false)
   const { desktop } = useThemeSwitcher()
@@ -155,21 +138,13 @@ const Security = ({ className }: SecurityProps) => {
 
   const onResetPasswordForm = useCallback(() => {
     setIsChangingPassword(false)
-    setIsSettingPassword(false)
   }, [])
 
-  const onSetPassword = useCallback(async (password: string) => {
-    if (isSettingPassword) {
-      await addPasswordShare(password)
-      setIsSettingPassword(false)
-    }
-
-    if (isChangingPassword) {
-      console.log("settingUpPassword", password)
-      await changePasswordShare(password)
-      setIsChangingPassword(false)
-    }
-  }, [addPasswordShare, changePasswordShare, isChangingPassword, isSettingPassword])
+  const onSetPassword = useCallback((password: string) => {
+    return changePasswordShare(password)
+      .then(() => setIsChangingPassword(false))
+      .catch(console.error)
+  }, [changePasswordShare])
 
   useEffect(() => {
     setIsRefreshingMetadata(true)
@@ -217,7 +192,6 @@ const Security = ({ className }: SecurityProps) => {
                     </Typography>
                   )
                 }
-                <CheckCircleSvg className={clsx(classes.icon, classes.green)}/>
               </div>
             </section>
           )
@@ -232,10 +206,6 @@ const Security = ({ className }: SecurityProps) => {
             <Typography variant="h5">
               {browserShares.length} <Trans>Saved</Trans>{" "}
             </Typography>
-            { browserShares.length
-              ? <CheckCircleSvg className={clsx(classes.icon, classes.green)}/>
-              : <CrossOutlinedSvg className={clsx(classes.icon, classes.red)}/>
-            }
           </div>
         </section>
         {showWarning && (
@@ -251,46 +221,8 @@ const Security = ({ className }: SecurityProps) => {
             </Typography>
           </div>
         )}
-        { !isSettingPassword && !isChangingPassword
+        { isChangingPassword
           ? (
-            <section className={classes.setOption}>
-              <div>
-                <Typography variant="h5">
-                  <Trans>
-                    Password
-                  </Trans>
-                </Typography>
-                <Typography variant="h5">
-                  { !hasPasswordShare
-                    ? (
-                      <span className={classes.action}>
-                        <span
-                          className={classes.buttonLink}
-                          onClick={() => {setIsSettingPassword(true)}}
-                        >
-                          <Trans>Set up password</Trans>
-                        </span>
-                        <CrossOutlinedSvg className={clsx(classes.icon, classes.red)}/>
-                      </span>
-                    )
-                    : (
-                      <span className={classes.action}>
-                        <Trans>Set up</Trans>
-                        <span
-                          className={clsx(classes.buttonLink, classes.changeButton)}
-                          onClick={() => {setIsChangingPassword(true)}}
-                        >
-                          <Trans>(Change)</Trans>
-                        </span>
-                        <CheckCircleSvg className={clsx(classes.icon, classes.green)}/>
-                      </span>
-                    )
-                  }
-                </Typography>
-              </div>
-            </section>
-          )
-          : (
             <section className={classes.formRoot}>
               <CloseSvg
                 onClick={onResetPasswordForm}
@@ -300,19 +232,35 @@ const Security = ({ className }: SecurityProps) => {
                 variant="h4"
                 component="h2"
               >
-                {isChangingPassword
-                  ? <Trans>
-                    Change password
-                  </Trans>
-                  : <Trans>
-                    Set up a password
-                  </Trans>
-                }
+                <Trans>
+                  Change password
+                </Trans>
               </Typography>
               <PasswordForm
                 setPassword={onSetPassword}
-                buttonLabel={isChangingPassword ? t`Change Password` : t`Set Password`}
+                buttonLabel={t`Change Password`}
               />
+            </section>
+          )
+          : (
+            <section className={classes.setOption}>
+              <div>
+                <Typography variant="h5">
+                  <Trans>
+                    Password
+                  </Trans>
+                </Typography>
+                <Typography variant="h5">
+                  {
+                    <span
+                      className={clsx(classes.action, classes.buttonLink, classes.changeButton)}
+                      onClick={() => {setIsChangingPassword(true)}}
+                    >
+                      <Trans>Change Password</Trans>
+                    </span>
+                  }
+                </Typography>
+              </div>
             </section>
           )}
         { isSettingBackupPhrase
@@ -355,13 +303,11 @@ const Security = ({ className }: SecurityProps) => {
                       >
                         <Trans>Generate backup secret phrase</Trans>
                       </span>
-                      <CrossOutlinedSvg className={clsx(classes.icon, classes.red)}/>
                     </span>
                   )
                   : (
                     <span className={classes.action}>
-                      <Trans>Set up</Trans>
-                      <CheckCircleSvg className={clsx(classes.icon, classes.green)}/>
+                      <Trans>Generated</Trans>
                     </span>
                   )
                 }
