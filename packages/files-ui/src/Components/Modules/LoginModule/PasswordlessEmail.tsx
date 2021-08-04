@@ -88,30 +88,12 @@ interface IPasswordlessEmail {
 
 const PasswordlessEmail = ({ resetLogin, email }: IPasswordlessEmail) => {
   const classes = useStyles()
-  // const [isSubmitEmailLoading, setIsSubmitEmailLoading] = useState(false)
   const [isSubmitResendEmailLoading, setIsSubmitResendEmailLoading] = useState(false)
   const [isSubmitNonceLoading, setIsSubmitNonceLoading] = useState(false)
-  // const [page, setPage] = useState<"confirmEmail" | "confirmVerificationCode">("confirmEmail")
-  // const [email, setEmail] = useState<string | undefined>()
   const [hasEmailResent, setHasEmailResent] = useState(false)
   const { filesApiClient } = useFilesApi()
   const { login } = useThresholdKey()
   const [error, setError] = useState<string | undefined>()
-
-  // const onSubmitEmail = useCallback((values) => {
-  //   setIsSubmitEmailLoading(true)
-  //   setError(undefined)
-  //   filesApiClient.getIdentityEmailToken({ email: values.email })
-  //     .then(() => {
-  //       setEmail(values.email)
-  //       setPage("confirmVerificationCode")
-  //       setIsSubmitEmailLoading(false)
-  //     }).catch ((e) => {
-  //       setError(t`Something went wrong!`)
-  //       setIsSubmitEmailLoading(false)
-  //       console.error(e)
-  //     })
-  // }, [filesApiClient])
 
   const onSubmitNonce = useCallback((values) => {
     if (!email) return

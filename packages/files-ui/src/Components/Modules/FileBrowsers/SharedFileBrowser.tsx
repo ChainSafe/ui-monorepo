@@ -251,7 +251,7 @@ const SharedFileBrowser = () => {
       deleteItems,
       downloadFile: handleDownload,
       moveItems,
-      renameItem: renameItem,
+      renameItem,
       viewFolder,
       loadingCurrentPath,
       showUploadsInTable: false,
