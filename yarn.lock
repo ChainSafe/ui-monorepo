@@ -1662,15 +1662,10 @@
   resolved "https://registry.yarnpkg.com/@chainsafe/files-api-client/-/files-api-client-1.17.5.tgz#35dd9c4baf0833ee9b654495979ed1a66fb02f8d"
   integrity sha512-5L7bAJr3siPgadDkGwhfo31MCkda01v/rTkLxUta13g6QG+pu0oKDoug+dtm8f9EPoH/rI89L2JHFM7XFrYveQ==
 
-"@chainsafe/files-api-client@1.17.7":
-  version "1.17.7"
-  resolved "https://registry.yarnpkg.com/@chainsafe/files-api-client/-/files-api-client-1.17.7.tgz#aa8618eab659f9fc5baeef1134bdfcddba6dfc28"
-  integrity sha512-xqqSNlFqhx1UkgxSKzwB9KKvWztI0+WlRgLw4vikwEjQojSbX4ygrq5QfkDovi+lGAPGpeNTKaHlDMZZPyjx2A==
-
-"@chainsafe/files-api-client@1.17.8":
-  version "1.17.8"
-  resolved "https://registry.yarnpkg.com/@chainsafe/files-api-client/-/files-api-client-1.17.8.tgz#0c52924cce276fc0e54b75c677e1d68e21d9cb5d"
-  integrity sha512-EJLGuDAPBsWfOe5CJ7SRpR2iywUEY0/iVO4tYvnWoT0j5ik100RNPQzVClD4B7yO8qPBneMtMBVldD0gNkqBWQ==
+"@chainsafe/files-api-client@1.17.9":
+  version "1.17.9"
+  resolved "https://registry.yarnpkg.com/@chainsafe/files-api-client/-/files-api-client-1.17.9.tgz#8c608db1a07dc8bbdb10a1cd21fad00d091deed3"
+  integrity sha512-5XUs/KlNfAIVbqKCxtVEbUyWneTn0/kp70blbyCqVwaX1X3e7D2aXX0gy7zR5kMM7yjGsZE7vwA/0oVCaemfig==
 
 "@chainsafe/web3-context@1.1.4":
   version "1.1.4"
@@ -12010,7 +12005,7 @@ ethers@5.0.13:
     "@ethersproject/web" "^5.0.6"
     "@ethersproject/wordlists" "^5.0.4"
 
-ethers@^5.0.13:
+ethers@^5.0.13, ethers@^5.4.3:
   version "5.4.3"
   resolved "https://registry.yarnpkg.com/ethers/-/ethers-5.4.3.tgz#9469e7f353285caac4114467eb2618f755a3f7d0"
   integrity sha512-esWqdrFZObpyZyhH6VLHCz5vRA/YJrEmQO77sALWSWFjFtJr5ITIRwJ448N+mxIrvnqjZGQ2Jx2zC3xt5lc64g==
@@ -12046,7 +12041,7 @@ ethers@^5.0.13:
     "@ethersproject/web" "5.4.0"
     "@ethersproject/wordlists" "5.4.0"
 
-ethers@^5.1.0, ethers@^5.1.4:
+ethers@^5.1.0:
   version "5.1.4"
   resolved "https://registry.yarnpkg.com/ethers/-/ethers-5.1.4.tgz#8ae973705ed962f8f41dc59693704002a38dd18b"
   integrity sha512-EAPQ/fgGRu0PoR/VNFnHTMOtG/IZ0AItdW55C9T8ffmVu0rnyllZL404eBF66elJehOLz2kxnUrhXpE7TCpW7g==
