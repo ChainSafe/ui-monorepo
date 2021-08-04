@@ -495,7 +495,7 @@ const CopyToSharedFolderModal = ({ close, file, filePath }: IShareFileProps) => 
               <CheckboxInput
                 value={keepOriginalFile}
                 onChange={() => setKeepOriginalFile(!keepOriginalFile)}
-                label="Keep original file"
+                label={t`Keep original file`}
               />
             </div>
             <div className={classes.buttonsContainer}>
