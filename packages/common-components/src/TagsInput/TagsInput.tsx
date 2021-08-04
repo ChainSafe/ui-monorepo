@@ -7,7 +7,7 @@ import {
 } from "@chainsafe/common-theme"
 import clsx from "clsx"
 import AsyncSelect from "react-select/async"
-import { Typography } from ".."
+import { Typography } from "../Typography"
 import { Styles, ValueType, ActionMeta, ActionTypes } from "react-select"
 
 const useStyles = makeStyles(

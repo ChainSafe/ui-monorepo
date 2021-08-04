@@ -4,6 +4,7 @@ import CustomModal from "../../Elements/CustomModal"
 import { t, Trans } from "@lingui/macro"
 import {
   Button,
+  CheckboxInput,
   CheckCircleIcon,
   Link,
   Loading,
@@ -97,10 +98,15 @@ const useStyles = makeStyles(
         justifyContent: "center",
         flexDirection: "column"
       },
-      buttonsContainer: {
+      checkboxContainer: {
         display: "flex",
         justifyContent: "center",
         marginTop: constants.generalUnit * 4
+      },
+      buttonsContainer: {
+        display: "flex",
+        justifyContent: "center",
+        marginTop: constants.generalUnit * 2
       },
       mainButton: {
         width: "100%"
@@ -207,10 +213,11 @@ const CopyToSharedFolderModal = ({ close, file, filePath }: IShareFileProps) => 
   const [sharedFolderName, setSharedFolderName] = useState("")
   const { sharedFolderReaders, sharedFolderWriters, handleLookupUser, onNewUsers, usersError } = useLookupSharedFolderUser()
   const [isUsingCurrentBucket, setIsUsingCurrentBucket] = useState(true)
+  const [keepOriginalFile, setKeepOriginalFile] = useState(true)
   const [currentStep, setCurrentStep] = useState<Step>("1_SHARED_FOLDER_SELECTION_CREATION")
   const [destinationBucket, setDestinationBucket] = useState<BucketKeyPermission | undefined>()
   const { buckets, uploadFiles } = useFiles()
-  const { bucket } = useFileBrowser()
+  const { bucket, deleteItems } = useFileBrowser()
   const { profile } = useUser()
   const { getFile, error: downloadError, isDownloading } = useGetFile()
   const [error, setError] = useState("")
@@ -319,6 +326,11 @@ const CopyToSharedFolderModal = ({ close, file, filePath }: IShareFileProps) => 
       setIsUploading(true)
 
       uploadFiles(bucketToUpload.id, [new File([fileContent], file.name)], UPLOAD_PATH, bucketToUpload.encryptionKey)
+        .then(() => {
+          if (!keepOriginalFile) {
+            deleteItems && deleteItems([file.cid], true)
+          }
+        })
         .catch((e) => {
           setError(t`Error while uploading ${file.name}`)
           console.error(e)
@@ -340,7 +352,9 @@ const CopyToSharedFolderModal = ({ close, file, filePath }: IShareFileProps) => 
     sharedFolderName,
     uploadFiles,
     sharedFolderReaders,
-    sharedFolderWriters
+    sharedFolderWriters,
+    deleteItems,
+    keepOriginalFile
   ])
 
   const onBackClick = useCallback(() => {
@@ -476,7 +490,7 @@ const CopyToSharedFolderModal = ({ close, file, filePath }: IShareFileProps) => 
         </div>
         <div className={classes.heading}>
           <Typography className={classes.inputLabel}>
-            <Trans>Copy to shared folder</Trans>
+            <Trans>Share file</Trans>
           </Typography>
         </div>
         {(error || downloadError) && (
@@ -513,6 +527,13 @@ const CopyToSharedFolderModal = ({ close, file, filePath }: IShareFileProps) => 
                 </Typography>
               </div>
             )}
+            <div className={classes.checkboxContainer}>
+              <CheckboxInput
+                value={keepOriginalFile}
+                onChange={() => setKeepOriginalFile(!keepOriginalFile)}
+                label={t`Keep original file`}
+              />
+            </div>
             <div className={classes.buttonsContainer}>
               <Button
                 size="large"
@@ -537,7 +558,10 @@ const CopyToSharedFolderModal = ({ close, file, filePath }: IShareFileProps) => 
                   : !sharedFolderName || !!usersError || !!nameError
                 }
               >
-                <Trans>Copy over</Trans>
+                {keepOriginalFile
+                  ? <Trans>Copy over</Trans>
+                  : <Trans>Move over</Trans>
+                }
               </Button>
             </div>
           </div>
@@ -554,7 +578,7 @@ const CopyToSharedFolderModal = ({ close, file, filePath }: IShareFileProps) => 
                     variant="h4"
                     component="p"
                   >
-                    <Trans>File added successfully!</Trans>
+                    <Trans>File shared successfully!</Trans>
                   </Typography>
                 </div>
                 <Typography>
