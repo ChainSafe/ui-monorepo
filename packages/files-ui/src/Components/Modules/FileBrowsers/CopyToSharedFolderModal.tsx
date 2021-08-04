@@ -532,7 +532,10 @@ const CopyToSharedFolderModal = ({ close, file, filePath }: IShareFileProps) => 
                 variant="primary"
                 onClick={onShare}
                 className={classes.sideBySideButton}
-                disabled={!!usersError || !!nameError}
+                disabled={isUsingCurrentBucket
+                  ? !destinationBucket?.id
+                  : !sharedFolderName || !!usersError || !!nameError
+                }
               >
                 <Trans>Copy over</Trans>
               </Button>
