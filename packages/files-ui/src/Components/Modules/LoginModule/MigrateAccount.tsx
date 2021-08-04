@@ -12,7 +12,6 @@ import { useThresholdKey } from "../../../Contexts/ThresholdKeyContext"
 import ConciseExplainer from "./ConciseExplainer"
 import { CSFTheme } from "../../../Themes/types"
 import { t, Trans } from "@lingui/macro"
-import Complete from "./Complete"
 
 const useStyles = makeStyles(
   ({ constants, breakpoints, palette, typography }: CSFTheme) =>
@@ -90,14 +89,12 @@ interface IMigrateAccount {
   className?: string
 }
 
-const MigrateAccount: React.FC<IMigrateAccount> = ({
-  className
-}: IMigrateAccount) => {
+const MigrateAccount = ({ className }: IMigrateAccount) => {
   const classes = useStyles()
   const { validateMasterPassword } = useFilesApi()
   const { secureAccountWithMasterPassword } = useFiles()
-  const { addPasswordShare, logout } = useThresholdKey()
-  const [migrateState, setMigrateState] = useState<"migrate"|"explainer"|"complete">("migrate")
+  const { addPasswordShare, logout, resetShouldInitialize } = useThresholdKey()
+  const [migrateState, setMigrateState] = useState<"migrate"|"explainer">("migrate")
   const [masterPassword, setMasterPassword] = useState("")
   const [error, setError] = useState("")
   const [isLoading, setIsLoading] = useState(false)
@@ -107,7 +104,7 @@ const MigrateAccount: React.FC<IMigrateAccount> = ({
     setMasterPassword(password?.toString() || "")
   }, [])
 
-  const handleSecureAccountWithMasterPassword = async (e: SyntheticEvent) => {
+  const handleSecureAccountWithMasterPassword = useCallback(async (e: SyntheticEvent) => {
     e.preventDefault()
 
     if (!masterPassword) return
@@ -128,79 +125,81 @@ const MigrateAccount: React.FC<IMigrateAccount> = ({
       setError(t`Failed to migrate account, please try again.`)
       setIsLoading(false)
     }
-  }
+  },
+  [addPasswordShare, masterPassword, secureAccountWithMasterPassword, validateMasterPassword])
 
-  const onLogout = () => {
-    logout()
-  }
-
-  return (
-    (migrateState === "migrate")
-      ? <section className={clsx(classes.root, className)}>
-        <form
-          onSubmit={handleSecureAccountWithMasterPassword}
-          className={classes.form}
+  const MigrationScreen = useCallback(() =>
+    <section className={clsx(classes.root, className)}>
+      <form
+        onSubmit={handleSecureAccountWithMasterPassword}
+        className={classes.form}
+      >
+        <Typography
+          variant="h6"
+          component="h6"
+          className={classes.headerText}
         >
-          <Typography
-            variant="h6"
-            component="h6"
-            className={classes.headerText}
-          >
-            <Trans>Hello again!</Trans>
-          </Typography>
-          <Typography
-            variant="h5"
-            component="h5"
-            className={classes.text}
-          >
+          <Trans>Hello again!</Trans>
+        </Typography>
+        <Typography
+          variant="h5"
+          component="h5"
+          className={classes.text}
+        >
+          <Trans>
+            We’ve got a new authentication system in place. All you need to do is enter
+            your password again to migrate your credentials over to the new system.
+          </Trans>
+        </Typography>
+        <Typography>
+          <Trans>Password</Trans>
+        </Typography>
+        <TextInput
+          className={classes.textInput}
+          value={masterPassword}
+          onChange={onPasswordChange}
+          type="password"
+        />
+        <Button
+          variant="primary"
+          onClick={handleSecureAccountWithMasterPassword}
+          className={clsx(classes.button, classes.belowInput)}
+          size="large"
+          loading={isLoading}
+          disabled={!!error || isLoading}
+          type="submit"
+        >
+          <Trans>Continue</Trans>
+        </Button>
+        <Typography className={classes.error}>
+          {error}
+        </Typography>
+      </form>
+      <footer className={classes.footer}>
+        <div
+          className={classes.buttonLink}
+          onClick={logout}
+        >
+          <Typography>
             <Trans>
-              We’ve got a new authentication system in place. All you need to do is enter
-              your password again to migrate your credentials over to the new system.
+              Sign in with a different account
             </Trans>
           </Typography>
-          <Typography>
-            <Trans>Password</Trans>
-          </Typography>
-          <TextInput
-            className={classes.textInput}
-            value={masterPassword}
-            onChange={onPasswordChange}
-            type="password"
-          />
-          <Button
-            variant="primary"
-            onClick={handleSecureAccountWithMasterPassword}
-            className={clsx(classes.button, classes.belowInput)}
-            size="large"
-            loading={isLoading}
-            disabled={!!error || isLoading}
-            type="submit"
-          >
-            <Trans>Continue</Trans>
-          </Button>
-          <Typography className={classes.error}>
-            {error}
-          </Typography>
-        </form>
-        <footer className={classes.footer}>
-          <div
-            className={classes.buttonLink}
-            onClick={onLogout}
-          >
-            <Typography>
-              <Trans>
-                Sign in with a different account
-              </Trans>
-            </Typography>
-          </div>
-        </footer>
-      </section>
-      : (migrateState === "explainer")
-        ? <ConciseExplainer
+        </div>
+      </footer>
+    </section>
+  , [className, classes, error, handleSecureAccountWithMasterPassword, isLoading, masterPassword, logout, onPasswordChange])
+
+  return (
+    <>
+      {migrateState === "migrate" && <MigrationScreen/>}
+      {migrateState === "explainer" && (
+        <ConciseExplainer
           className={className}
-          onContinue={() => setMigrateState("complete")}
+          onContinue={resetShouldInitialize}
         />
-        : <Complete className={className} />
+      )}
+    </>
   )
 }
 
