@@ -580,9 +580,6 @@ msgstr "Benutzername wird eingestellt"
 msgid "Settings"
 msgstr "Einstellungen"
 
-msgid "Setup incomplete"
-msgstr "Einrichtung unvollständig"
-
 msgid "Share"
 msgstr ""
 

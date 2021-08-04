@@ -580,9 +580,6 @@ msgstr ""
 msgid "Settings"
 msgstr "Innstillinger"
 
-msgid "Setup incomplete"
-msgstr ""
-
 msgid "Share"
 msgstr ""
 

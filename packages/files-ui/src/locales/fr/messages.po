@@ -584,9 +584,6 @@ msgstr "Définition du nom d’utilisateur"
 msgid "Settings"
 msgstr "Paramètres"
 
-msgid "Setup incomplete"
-msgstr "Configuration incomplète"
-
 msgid "Share"
 msgstr ""
 

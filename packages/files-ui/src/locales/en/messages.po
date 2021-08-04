@@ -583,9 +583,6 @@ msgstr "Setting Username"
 msgid "Settings"
 msgstr "Settings"
 
-msgid "Setup incomplete"
-msgstr "Setup incomplete"
-
 msgid "Share"
 msgstr "Share"
 

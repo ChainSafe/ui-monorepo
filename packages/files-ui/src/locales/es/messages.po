@@ -584,9 +584,6 @@ msgstr ""
 msgid "Settings"
 msgstr "Ajustes"
 
-msgid "Setup incomplete"
-msgstr "Configuración incompleta"
-
 msgid "Share"
 msgstr ""
 
