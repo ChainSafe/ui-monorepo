@@ -97,7 +97,7 @@ describe("File management", () => {
       homePage.fileRenameInput().should("have.value", newName)
     })
 
-    it("can delete a single file", () => {
+    it("can delete and recover a file", () => {
       cy.web3Login({ clearCSFBucket: true, clearTrashBucket: true })
 
       // upload a file 
@@ -126,9 +126,29 @@ describe("File management", () => {
       cy.get("@originalFile").then(($originalFile) => {
         cy.get("@binFile").should("equals", $originalFile)
       })
+
+      // recover the file via the menu option
+      binPage.fileItemKebabButton().first().click()
+      binPage.recoverMenuOption().click()
+      binPage.folderList().should("exist")
+      binPage.folderList().contains("Home").click()
+      binPage.recoverButton().click()
+      binPage.fileItemRow().should("not.exist")
+
+      // ensure recovered file is correct
+      navigationMenu.homeNavButton().click()
+      // retrieve the recovered file's name, store as a cypress alias
+      homePage.fileItemName().invoke("text").as("recoveredFile")
+
+      binPage.fileItemRow().should("have.length", 1)
+
+      // ensure file moved from the bin matches the name of the recovered file
+      cy.get("@recoveredFile").then(($recoveredFile) => {
+        cy.get("@binFile").should("equals", $recoveredFile)
+      })
     })
 
-    it("can delete a folder", () => {
+    it("can delete and recover a folder", () => {
       cy.web3Login({ clearCSFBucket: true, clearTrashBucket: true })
 
       // create a folder
@@ -147,6 +167,19 @@ describe("File management", () => {
       navigationMenu.binNavButton().click()
       binPage.fileItemRow().should("have.length", 1)
       binPage.fileItemName().should("have.text", folderName)
+
+      // recover folder via the menu option
+      binPage.fileItemKebabButton().first().click()
+      binPage.recoverMenuOption().click()
+      binPage.folderList().should("exist")
+      binPage.folderList().contains("Home").click()
+      binPage.recoverButton().click()
+      binPage.fileItemRow().should("not.exist")
+
+      // ensure recovered folder is correct
+      navigationMenu.homeNavButton().click()
+      binPage.fileItemRow().should("have.length", 1)
+      homePage.fileItemName().should("have.text", folderName)
     })
   })
 })
