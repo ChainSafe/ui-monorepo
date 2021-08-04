@@ -18,7 +18,7 @@ import { ConnectDragPreview } from "react-dnd"
 import { Form, FormikProvider, useFormik } from "formik"
 import { CSSTheme } from "../../../Themes/types"
 import { FileSystemItem } from "../../../Contexts/StorageContext"
-import { renameSchema } from "../../../Utils/validationSchema"
+import { nameValidator } from "../../../Utils/validationSchema"
 import { ISelectedFile, useFileBrowser } from "../../../Contexts/FileBrowserContext"
 
 const useStyles = makeStyles(({ breakpoints, constants, palette }: CSSTheme) => {
@@ -147,7 +147,7 @@ const FileSystemTableItem = React.forwardRef(
       initialValues: {
         fileName: name
       },
-      validationSchema: renameSchema,
+      validationSchema: nameValidator,
       onSubmit: (values) => {
         const newName = values.fileName?.trim()
 

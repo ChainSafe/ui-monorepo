@@ -110,12 +110,14 @@ const PasswordlessEmail = ({ resetLogin }: IPasswordlessEmail) => {
   })
   , [])
 
-  const onSubmitEmail = useCallback((values) => {
+  const onSubmitEmail = useCallback((values: {email: string}) => {
+    const trimmedEmail = values.email.trim()
+
     setIsSubmitEmailLoading(true)
     setError(undefined)
-    storageApiClient.getIdentityEmailToken({ email: values.email })
+    storageApiClient.getIdentityEmailToken({ email: trimmedEmail })
       .then(() => {
-        setEmail(values.email)
+        setEmail(trimmedEmail)
         setPage("confirmVerificationCode")
       }).catch ((e) => {
         setError(t`Something went wrong! Please try again.`)

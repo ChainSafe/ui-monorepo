@@ -12,7 +12,7 @@ import { CSSTheme } from "../../../Themes/types"
 import { FileSystemItem } from "../../../Contexts/StorageContext"
 import { ConnectDragPreview } from "react-dnd"
 import { Form, FormikProvider, useFormik } from "formik"
-import { renameSchema } from "../../../Utils/validationSchema"
+import { nameValidator } from "../../../Utils/validationSchema"
 import { ISelectedFile } from "../../../Contexts/FileBrowserContext"
 
 const useStyles = makeStyles(({ breakpoints, constants, palette }: CSSTheme) => {
@@ -161,7 +161,7 @@ const FileSystemGridItem = React.forwardRef(
       initialValues: {
         fileName: name
       },
-      validationSchema: renameSchema,
+      validationSchema: nameValidator,
       onSubmit: (values) => {
         const newName = values.fileName?.trim()
 

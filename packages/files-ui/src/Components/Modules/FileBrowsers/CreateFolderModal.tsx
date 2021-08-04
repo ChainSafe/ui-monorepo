@@ -17,7 +17,7 @@ import { t, Trans } from "@lingui/macro"
 import { CSFTheme } from "../../../Themes/types"
 import { useFileBrowser } from "../../../Contexts/FileBrowserContext"
 import { useFilesApi } from "../../../Contexts/FilesApiContext"
-import { folderNameValidator } from "../../../Utils/validationSchema"
+import { nameValidator } from "../../../Utils/validationSchema"
 import { getPathWithFile } from "../../../Utils/pathUtils"
 
 
@@ -108,7 +108,7 @@ const CreateFolderModal: React.FC<ICreateFolderModalProps> = ({
         initialValues={{
           name: ""
         }}
-        validationSchema={folderNameValidator}
+        validationSchema={nameValidator}
         validateOnChange={false}
         onSubmit={async (values, helpers) => {
           if (!bucket) return
