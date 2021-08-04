@@ -131,9 +131,6 @@ msgstr ""
 msgid "Copy over"
 msgstr ""
 
-msgid "Copy to shared folder"
-msgstr ""
-
 msgid "Create"
 msgstr "Crear"
 
@@ -245,13 +242,13 @@ msgstr "Archivo"
 msgid "File Info"
 msgstr "Información del archivo"
 
-msgid "File added successfully!"
-msgstr ""
-
 msgid "File format not supported."
 msgstr "Formato de archivo no soportado."
 
 msgid "File path"
+msgstr ""
+
+msgid "File shared successfully!"
 msgstr ""
 
 msgid "File size"
@@ -329,6 +326,9 @@ msgstr "Info"
 msgid "I’m done saving my backup secret phrase"
 msgstr ""
 
+msgid "Keep original file"
+msgstr ""
+
 msgid "Language"
 msgstr "Idioma"
 
@@ -367,6 +367,9 @@ msgstr ""
 
 msgid "Move"
 msgstr "Moverse"
+
+msgid "Move over"
+msgstr ""
 
 msgid "Move selected"
 msgstr "Mover seleccionado"
@@ -580,6 +583,12 @@ msgstr ""
 
 msgid "Settings"
 msgstr "Ajustes"
+
+msgid "Share"
+msgstr ""
+
+msgid "Share file"
+msgstr ""
 
 msgid "Shared"
 msgstr ""
