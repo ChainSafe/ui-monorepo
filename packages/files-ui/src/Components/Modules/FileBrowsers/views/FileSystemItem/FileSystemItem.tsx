@@ -164,6 +164,7 @@ const FileSystemItem = ({
     },
     enableReinitialize: true
   })
+
   let Icon
   if (isFolder) {
     Icon = FolderFilledSvg
@@ -433,7 +434,6 @@ const FileSystemItem = ({
     menuItems,
     onFolderOrFileClicks,
     preview,
-    renameSchema: nameValidator,
     selected,
     setEditing,
     resetSelectedFiles
@@ -473,7 +473,7 @@ const FileSystemItem = ({
                   <FormikTextInput
                     label="Name"
                     className={classes.renameInput}
-                    name="fileName"
+                    name="name"
                     placeholder={isFolder ? t`Please enter a folder name` : t`Please enter a file name`}
                     autoFocus={editing === cid}
                   />

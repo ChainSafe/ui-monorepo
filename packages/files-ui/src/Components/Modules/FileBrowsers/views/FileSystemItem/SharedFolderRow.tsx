@@ -249,7 +249,7 @@ const SharedFolderRow = ({ bucket, handleRename, openSharedFolder, handleDeleteS
             >
               <FormikTextInput
                 className={classes.renameInput}
-                name="fileName"
+                name="name"
                 inputVariant="minimal"
                 onKeyDown={(event) => {
                   if (event.key === "Escape") {
