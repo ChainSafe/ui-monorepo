@@ -11,7 +11,7 @@ import { SharedFolderModalMode } from "./types"
 import { useCreateOrEditSharedFolder } from "./hooks/useCreateOrEditSharedFolder"
 import { useLookupSharedFolderUser } from "./hooks/useLookupUser"
 import { nameValidator } from "../../../Utils/validationSchema"
-import { centerEllipsis } from "../../../Utils/Helpers"
+import { getUserDisplayName } from "../../../Utils/getUserDisplayName"
 
 const useStyles = makeStyles(
   ({ breakpoints, constants, typography, zIndex, palette }: CSFTheme) => {
@@ -132,14 +132,14 @@ const CreateOrEditSharedFolderModal = ({ mode, isModalOpen, onClose, bucketToEdi
     if (!bucketToEdit) return
 
     const newWriters = bucketToEdit.writers.map((writer) => ({
-      label: writer.username || centerEllipsis(writer.public_address.toLowerCase(), 6) || writer.uuid,
+      label: getUserDisplayName(writer),
       value: writer.uuid || "",
       data: writer
     })
     ) || []
 
     const newReaders = bucketToEdit.readers.map((reader) => ({
-      label: reader.username || centerEllipsis(reader.public_address.toLowerCase(), 6) || reader.uuid,
+      label: getUserDisplayName(reader),
       value: reader.uuid || "",
       data: reader
     })

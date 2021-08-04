@@ -157,12 +157,12 @@ const FileSystemGridItem = React.forwardRef(
     const { desktop } = useThemeSwitcher()
 
     const formik = useFormik({
-      initialValues:{
-        fileName: name
+      initialValues: {
+        name
       },
       validationSchema: nameValidator,
-      onSubmit:(values) => {
-        const newName = values.fileName?.trim()
+      onSubmit: (values: {name: string}) => {
+        const newName = values.name.trim()
 
         newName && handleRename && handleRename(file.cid, newName)
       },
