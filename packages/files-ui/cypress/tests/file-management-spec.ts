@@ -120,11 +120,11 @@ describe("File management", () => {
       homePage.fileItemRow().should("have.length", 1)
 
       // retrieve the deleted file's name, store as a cypress alias
-      binPage.fileItemName().invoke("text").as("deletedFile")
+      binPage.fileItemName().invoke("text").as("binFile")
 
       // ensure file in bin matches the name of the deleted file
       cy.get("@originalFile").then(($originalFile) => {
-        cy.get("@deletedFile").should("equals", $originalFile)
+        cy.get("@binFile").should("equals", $originalFile)
       })
     })
 
@@ -134,9 +134,6 @@ describe("File management", () => {
       // create a folder
       homePage.createFolder(folderName)
       homePage.fileItemRow().should("have.length", 1)
-
-      // retrieve the folder's name, store as a cypress alias
-      homePage.fileItemName().invoke("text").as("originalFolder")
 
       // delete the folder via the menu option 
       homePage.fileItemKebabButton().first().click()
