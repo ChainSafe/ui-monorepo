@@ -294,7 +294,7 @@ const FileInfoModal = ({ filePath, close }: IFileInfoModuleProps) => {
                       variant="body2"
                       component="p"
                     >
-                      {formatBytes(fullFileInfo.content?.size)}
+                      {formatBytes(fullFileInfo.content?.size, 2)}
                     </Typography>
                   </div>
                 )}

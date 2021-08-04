@@ -297,7 +297,7 @@ const SharedFolderRow = ({ bucket, handleRename, openSharedFolder, handleDeleteS
       </TableCell>
       {desktop &&
         <TableCell align="left">
-          {formatBytes(size)}
+          {formatBytes(size, 2)}
         </TableCell>
       }
       <TableCell align="right">
