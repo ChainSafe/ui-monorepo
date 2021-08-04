@@ -337,6 +337,9 @@ msgstr "Info"
 msgid "I’m done saving my backup secret phrase"
 msgstr ""
 
+msgid "Keep original file"
+msgstr ""
+
 msgid "Language"
 msgstr "Språk"
 
