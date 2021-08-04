@@ -392,94 +392,6 @@ const CopyToSharedFolderModal = ({ close, file, filePath }: IShareFileProps) => 
     </div>
   ), [classes.loadingContainer, isDownloading, isUploading])
 
-  const Step1CreateSharedFolder = useCallback(() => (
-    <>
-      <div className={clsx(classes.modalFlexItem, classes.titleWrapper)}>
-        <TextInput
-          className={classes.shareFolderNameInput}
-          labelClassName={classes.inputLabel}
-          label={t`Shared Folder Name`}
-          value={sharedFolderName}
-          autoFocus
-          onChange={onNameChange}
-          state={nameError ? "error" : "normal"}
-        />
-        {nameError && (
-          <Typography
-            component="p"
-            variant="body1"
-            className={classes.errorText}
-          >
-            {nameError}
-          </Typography>
-        )}
-      </div>
-      <div className={classes.modalFlexItem}>
-        <TagsInput
-          onChange={(values) => onNewUsers(values, "read")}
-          label={t`Give view-only permission to:`}
-          labelClassName={classes.inputLabel}
-          value={sharedFolderReaders}
-          fetchTags={(inputVal) => handleLookupUser(inputVal, "read")}
-          placeholder={t`Add by sharing address, username or wallet address`}
-          styles={{
-            control: (provided) => ({
-              ...provided,
-              minHeight: 90,
-              alignContent: "start"
-            })
-          }}/>
-      </div>
-      <div className={classes.modalFlexItem}>
-        <TagsInput
-          onChange={(values) => onNewUsers(values, "write")}
-          label={t`Give edit permission to:`}
-          labelClassName={classes.inputLabel}
-          value={sharedFolderWriters}
-          fetchTags={(inputVal) => handleLookupUser(inputVal, "write")}
-          placeholder={t`Add by sharing address, username or wallet address`}
-          styles={{
-            control: (provided) => ({
-              ...provided,
-              minHeight: 90,
-              alignContent: "start"
-            })
-          }}/>
-      </div>
-      {!!usersError && (
-        <Typography
-          component="p"
-          variant="body1"
-          className={classes.errorText}
-        >
-          {usersError}
-        </Typography>
-      )}
-    </>
-  ), [
-    classes,
-    handleLookupUser,
-    nameError,
-    onNameChange,
-    onNewUsers,
-    sharedFolderName,
-    sharedFolderReaders,
-    sharedFolderWriters,
-    usersError
-  ])
-
-  const Step1ExistingSharedFolder = useCallback(() => (
-    <div className={clsx(classes.modalFlexItem, classes.inputWrapper)}>
-      <SelectInput
-        label={t`Select an existing shared folder`}
-        labelClassName={classes.inputLabel}
-        options={bucketsOptions}
-        value={destinationBucket?.id}
-        onChange={(val: string) => setDestinationBucket(buckets.find((bu) => bu.id === val))}
-      />
-    </div>
-  ), [buckets, bucketsOptions, classes.inputLabel, classes.inputWrapper, classes.modalFlexItem, destinationBucket])
-
   return (
     <CustomModal
       className={classes.modalRoot}
@@ -512,8 +424,82 @@ const CopyToSharedFolderModal = ({ close, file, filePath }: IShareFileProps) => 
         <div className={classes.modalFlexItem}>
           {currentStep === "1_SHARED_FOLDER_SELECTION_CREATION" && (
             isUsingCurrentBucket
-              ? <Step1ExistingSharedFolder />
-              : <Step1CreateSharedFolder />
+              ? (
+                <div className={clsx(classes.modalFlexItem, classes.inputWrapper)}>
+                  <SelectInput
+                    label={t`Select an existing shared folder`}
+                    labelClassName={classes.inputLabel}
+                    options={bucketsOptions}
+                    value={destinationBucket?.id}
+                    onChange={(val: string) => setDestinationBucket(buckets.find((bu) => bu.id === val))}
+                  />
+                </div>
+              )
+              : (
+                <>
+                  <div className={clsx(classes.modalFlexItem, classes.titleWrapper)}>
+                    <TextInput
+                      className={classes.shareFolderNameInput}
+                      labelClassName={classes.inputLabel}
+                      label={t`Shared Folder Name`}
+                      value={sharedFolderName}
+                      autoFocus
+                      onChange={onNameChange}
+                      state={nameError ? "error" : "normal"}
+                    />
+                    {nameError && (
+                      <Typography
+                        component="p"
+                        variant="body1"
+                        className={classes.errorText}
+                      >
+                        {nameError}
+                      </Typography>
+                    )}
+                  </div>
+                  <div className={classes.modalFlexItem}>
+                    <TagsInput
+                      onChange={(values) => onNewUsers(values, "read")}
+                      label={t`Give view-only permission to:`}
+                      labelClassName={classes.inputLabel}
+                      value={sharedFolderReaders}
+                      fetchTags={(inputVal) => handleLookupUser(inputVal, "read")}
+                      placeholder={t`Add by sharing address, username or wallet address`}
+                      styles={{
+                        control: (provided) => ({
+                          ...provided,
+                          minHeight: 90,
+                          alignContent: "start"
+                        })
+                      }}/>
+                  </div>
+                  <div className={classes.modalFlexItem}>
+                    <TagsInput
+                      onChange={(values) => onNewUsers(values, "write")}
+                      label={t`Give edit permission to:`}
+                      labelClassName={classes.inputLabel}
+                      value={sharedFolderWriters}
+                      fetchTags={(inputVal) => handleLookupUser(inputVal, "write")}
+                      placeholder={t`Add by sharing address, username or wallet address`}
+                      styles={{
+                        control: (provided) => ({
+                          ...provided,
+                          minHeight: 90,
+                          alignContent: "start"
+                        })
+                      }}/>
+                  </div>
+                  {!!usersError && (
+                    <Typography
+                      component="p"
+                      variant="body1"
+                      className={classes.errorText}
+                    >
+                      {usersError}
+                    </Typography>
+                  )}
+                </>
+              )
           )}
         </div>
         {currentStep === "1_SHARED_FOLDER_SELECTION_CREATION" && (
