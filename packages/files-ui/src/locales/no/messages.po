@@ -199,12 +199,6 @@ msgstr ""
 msgid "Drop to upload files"
 msgstr "Dra for å laste opp filer"
 
-msgid "Early Adopter: Free up to {0}"
-msgstr ""
-
-msgid "Edit"
-msgstr ""
-
 msgid "Email is required"
 msgstr "E-post kreves"
 
@@ -364,6 +358,18 @@ msgstr ""
 msgid "Looks like you’re signing in from a new browser. Please choose one of the following to continue:"
 msgstr ""
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+msgid "Lorem ipsum aenean et rutrum magna. Morbi nec placerat erat. Nunc elementum sed libero sit amet convallis. Quisque non arcu vitae ex fringilla molestie."
+msgstr ""
+
+msgid "Manage Access"
+msgstr ""
+
+>>>>>>> 776111c31054c36da2a8972a7507690014e9c80c
+>>>>>>> 037593efb44413e4f8b723e59dae5f06b0f2dc5e
 msgid "Move"
 msgstr "Flytt"
 
@@ -481,12 +487,15 @@ msgstr "Profilinnstillinger"
 msgid "Profile updated"
 msgstr "Profil oppdatert"
 
+<<<<<<< HEAD
 msgid "Purchase with card"
 msgstr ""
 
 msgid "Read content"
 msgstr ""
 
+=======
+>>>>>>> 037593efb44413e4f8b723e59dae5f06b0f2dc5e
 msgid "Recover"
 msgstr "Gjenopprett"
 
@@ -799,12 +808,15 @@ msgstr "Du har ikke satt noe brukernavn enda."
 msgid "You will need to sign a message in your wallet to complete sign in."
 msgstr ""
 
+<<<<<<< HEAD
 msgid "Your Authentication Factors"
 msgstr ""
 
 msgid "Your first {0} are free, and you’ll get a discount on our monthly plan once you need more than that"
 msgstr ""
 
+=======
+>>>>>>> 037593efb44413e4f8b723e59dae5f06b0f2dc5e
 msgid "Your recovery key can be used to restore your account in place of your backup secret phrase."
 msgstr ""
 

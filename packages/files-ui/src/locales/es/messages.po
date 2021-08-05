@@ -200,12 +200,6 @@ msgstr ""
 msgid "Drop to upload files"
 msgstr "Suelta para subir archivos"
 
-msgid "Early Adopter: Free up to {0}"
-msgstr ""
-
-msgid "Edit"
-msgstr ""
-
 msgid "Email is required"
 msgstr ""
 
@@ -368,6 +362,12 @@ msgstr ""
 msgid "Looks like you’re signing in from a new browser. Please choose one of the following to continue:"
 msgstr "Parece que está iniciando sesión desde un nuevo navegador. Elija una de las siguientes opciones para continuar:"
 
+msgid "Lorem ipsum aenean et rutrum magna. Morbi nec placerat erat. Nunc elementum sed libero sit amet convallis. Quisque non arcu vitae ex fringilla molestie."
+msgstr "Lorem ipsum Aenean, y un gran maquillaje. Usamos más y colocamos en ratas. Ahora elemento libre, pero mucho del valle. , Quien no se doblegue, de la vida de una fringilla molestie."
+
+msgid "Manage Access"
+msgstr ""
+
 msgid "Move"
 msgstr "Moverse"
 
@@ -484,12 +484,6 @@ msgstr ""
 
 msgid "Profile updated"
 msgstr "Perfil actualizado"
-
-msgid "Purchase with card"
-msgstr ""
-
-msgid "Read content"
-msgstr ""
 
 msgid "Recover"
 msgstr "Recuperar"
@@ -802,12 +796,6 @@ msgstr ""
 
 msgid "You will need to sign a message in your wallet to complete sign in."
 msgstr "Deberá firmar un mensaje en su billetera para completar el inicio de sesión."
-
-msgid "Your Authentication Factors"
-msgstr "Sus factores de autenticación"
-
-msgid "Your first {0} are free, and you’ll get a discount on our monthly plan once you need more than that"
-msgstr ""
 
 msgid "Your recovery key can be used to restore your account in place of your backup secret phrase."
 msgstr ""

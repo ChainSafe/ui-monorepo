@@ -90,17 +90,15 @@ const CurrentProduct: React.FC = () => {
             >
               <Trans>Storage Plan</Trans>
             </Typography>
-            {storageSummary &&
-              <Typography
-                variant="h5"
-                component="h5"
-                className={clsx(classes.earlyAdopter)}
-              >
-                {t`Early Adopter: Free up to ${formatBytes(
-                storageSummary?.total_storage
-                ), 2}`}
-              </Typography>
-            }
+            <Typography
+              variant="h5"
+              component="h5"
+              className={clsx(classes.earlyAdopter)}
+            >
+              {t`Early Adopter: Free up to ${formatBytes(
+                storageSummary.total_storage, 2
+              )}`}
+            </Typography>
             <Typography
               variant="body1"
               component="p"
@@ -119,7 +117,7 @@ const CurrentProduct: React.FC = () => {
                 component="p"
               >{t`${formatBytes(storageSummary.used_storage, 2)} of ${formatBytes(
                   storageSummary.total_storage, 2
-                )} used (${Math.ceil(storageSummary.used_storage / storageSummary.total_storage)}%)`}
+                )} used (${Math.ceil(storageSummary.used_storage / storageSummary.total_storage) * 100}%)`}
               </Typography>
               <ProgressBar
                 className={classes.spaceUsedMargin}
