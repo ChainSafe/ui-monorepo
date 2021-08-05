@@ -116,7 +116,7 @@ const CurrentProduct: React.FC = () => {
                 className={classes.spaceUsedMargin}
                 component="p"
               >{t`${formatBytes(storageSummary.used_storage, 2)} of ${formatBytes(
-                  storageSummary.total_storage
+                  storageSummary.total_storage, 2
                 )} used (${Math.ceil(storageSummary.used_storage / storageSummary.total_storage) * 100}%)`}
               </Typography>
               <ProgressBar
