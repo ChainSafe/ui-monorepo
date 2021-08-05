@@ -4,7 +4,7 @@ import { navigationMenu } from "../support/page-objects/navigationMenu"
 import { folderName } from "../fixtures/filesTestData"
 import "cypress-pipe"
 
-describe("File management", () => {
+describe.only("File management", () => {
 
   context("desktop", () => {
 

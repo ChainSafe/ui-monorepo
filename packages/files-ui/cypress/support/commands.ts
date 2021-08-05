@@ -88,20 +88,20 @@ Cypress.Commands.add(
     clearCSFBucket = false,
     clearTrashBucket = false
   }: Web3LoginOptions = {}) => {
-    let session: Storage = []
-    let local: Storage = []
+    // const session: Storage = []
+    // const local: Storage = []
 
-    cy.task<string | null>("readFileMaybe", SESSION_FILE).then(
-      (unparsedSession) => {
-        session = (unparsedSession && JSON.parse(unparsedSession)) || []
-      }
-    )
+    // cy.task<string | null>("readFileMaybe", SESSION_FILE).then(
+    //   (unparsedSession) => {
+    //     session = (unparsedSession && JSON.parse(unparsedSession)) || []
+    //   }
+    // )
 
-    cy.task<string | null>("readFileMaybe", LOCAL_FILE).then(
-      (unparsedLocal) => {
-        local = (unparsedLocal && JSON.parse(unparsedLocal)) || []
-      }
-    )
+    // cy.task<string | null>("readFileMaybe", LOCAL_FILE).then(
+    //   (unparsedLocal) => {
+    //     local = (unparsedLocal && JSON.parse(unparsedLocal)) || []
+    //   }
+    // )
 
     cy.on("window:before:load", (win) => {
       const provider = new ethers.providers.JsonRpcProvider(
@@ -117,52 +117,53 @@ Cypress.Commands.add(
       // clear session storage in any case, if previous session storage should be
       // kept will be decided after.
       // Note that Cypress keep the session storage between test but clears localStorage
-      win.sessionStorage.clear()
-      win.localStorage.clear()
+      // win.sessionStorage.clear()
+      // win.localStorage.clear()
 
-      if (useLocalAndSessionStorage) {
-        session.forEach(({ key, value }) => {
-          win.sessionStorage.setItem(key, value)
-        })
+      // if (useLocalAndSessionStorage) {
+      //   session.forEach(({ key, value }) => {
+      //     win.sessionStorage.setItem(key, value)
+      //   })
 
-        local.forEach(({ key, value }) => {
-          win.localStorage.setItem(key, value)
-        })
-      }
+      //   local.forEach(({ key, value }) => {
+      //     win.localStorage.setItem(key, value)
+      //   })
+      // }
     })
 
-    cy.visit(url)
+    // cy.visit(url)
 
     // with nothing in localstorage (and in session storage)
     // the whole login flow should kick in
-    cy.then(() => {
-      cy.log(
-        "Logging in",
-        local.length > 0 &&
-          "there is something in session storage ---> direct login"
-      )
+    cy.session("web3login", () => {
+      cy.visit(url)
+      // cy.log(
+      //   "Logging in",
+      //   local.length > 0 &&
+      //     "there is something in session storage ---> direct login"
+      // )
 
-      if (local.length === 0) {
-        cy.log("nothing in session storage, --> click on web3 button")
-        authenticationPage.web3Button().click()
-        authenticationPage.showMoreButton().click()
-        authenticationPage.detectedWallet().click()
-        authenticationPage.web3SignInButton().safeClick()
-        authenticationPage.loginPasswordButton().click()
-        authenticationPage.loginPasswordInput().type(`${testAccountPassword}{enter}`)
+      // if (local.length === 0) {
+      // cy.log("nothing in session storage, --> click on web3 button")
+      authenticationPage.web3Button().click()
+      authenticationPage.showMoreButton().click()
+      authenticationPage.detectedWallet().click()
+      authenticationPage.web3SignInButton().safeClick()
+      authenticationPage.loginPasswordButton().click()
+      authenticationPage.loginPasswordInput().type(`${testAccountPassword}{enter}`)
 
-        if (saveBrowser) {
-          // this is taking forever for test accounts
-          authenticationPage.saveBrowserButton().click()
-        } else {
-          authenticationPage.doNotSaveBrowserButton().click()
-        }
+      if (saveBrowser) {
+        // this is taking forever for test accounts
+        authenticationPage.saveBrowserButton().click()
+      } else {
+        authenticationPage.doNotSaveBrowserButton().click()
       }
+      // }
     })
-
+    cy.visit(url)
     homePage.appHeaderLabel().should("be.visible")
 
-    cy.saveLocalAndSession()
+    // cy.saveLocalAndSession()
 
     if (clearCSFBucket) {
       cy.clearCsfBucket(apiUrlBase)
@@ -172,22 +173,22 @@ Cypress.Commands.add(
       cy.clearTrashBucket(apiUrlBase)
     }
 
-    if(clearTrashBucket || clearCSFBucket){
-      cy.reload({ timeout: 50000 }).then(() => {
-        if (local.length === 0) {
-          // Temp work around for local storage being cleared after the reload. See issue in #1381  
-          cy.log("nothing in local storage after reload, --> click on web3 button")
-          authenticationPage.web3Button().click()
-          authenticationPage.showMoreButton().click()
-          authenticationPage.detectedWallet().click()
-          authenticationPage.web3SignInButton().safeClick()
-          authenticationPage.loginPasswordButton().click()
-          authenticationPage.loginPasswordInput().type(`${testAccountPassword}{enter}`)
-          authenticationPage.doNotSaveBrowserButton().click()
-        }
-      })
-      homePage.appHeaderLabel().should("be.visible")
-    }
+    // if(clearTrashBucket || clearCSFBucket){
+    // cy.reload({ timeout: 50000 }).then(() => {
+    //   if (local.length === 0) {
+    //     // Temp work around for local storage being cleared after the reload. See issue in #1381  
+    //     cy.log("nothing in local storage after reload, --> click on web3 button")
+    //     authenticationPage.web3Button().click()
+    //     authenticationPage.showMoreButton().click()
+    //     authenticationPage.detectedWallet().click()
+    //     authenticationPage.web3SignInButton().safeClick()
+    //     authenticationPage.loginPasswordButton().click()
+    //     authenticationPage.loginPasswordInput().type(`${testAccountPassword}{enter}`)
+    //     authenticationPage.doNotSaveBrowserButton().click()
+    //   }
+    // })
+    //   homePage.appHeaderLabel().should("be.visible")
+    // }
   }
 )
 
