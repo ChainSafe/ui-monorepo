@@ -9,6 +9,7 @@ import { Tabs,
   useHistory,
   ITabPaneProps,
   CaretRightIcon,
+  SubscriptionPlanIcon,
   LockIcon
 } from "@chainsafe/common-components"
 import { makeStyles, ITheme, createStyles, useThemeSwitcher } from "@chainsafe/common-theme"
@@ -200,9 +201,9 @@ const Settings: React.FC = () => {
               <Security />
             </TabPane>
             <TabPane
-              title={t`Plan`}
+              title={t`Subscription Plan`}
               tabKey="plan"
-              icon={<LockIcon className={classes.lockIcon}/>}
+              icon={<SubscriptionPlanIcon className={classes.lockIcon} />}
               iconRight={<CaretRightIcon/>}
             >
               <Plan />
