@@ -199,15 +199,12 @@ msgstr "Downloading…"
 msgid "Drop to upload files"
 msgstr "Drop to upload files"
 
-<<<<<<< HEAD
-=======
 msgid "Early Adopter: Free up to {0}"
 msgstr "Early Adopter: Free up to {0}"
 
 msgid "Edit"
 msgstr "Edit"
 
->>>>>>> e1b850f3ad2995f42ce61f43b28b6816a25a6761
 msgid "Email is required"
 msgstr "Email is required"
 
@@ -370,15 +367,6 @@ msgstr "Loading your shared folders…"
 msgid "Looks like you’re signing in from a new browser. Please choose one of the following to continue:"
 msgstr "Looks like you’re signing in from a new browser. Please choose one of the following to continue:"
 
-<<<<<<< HEAD
-msgid "Lorem ipsum aenean et rutrum magna. Morbi nec placerat erat. Nunc elementum sed libero sit amet convallis. Quisque non arcu vitae ex fringilla molestie."
-msgstr "Lorem ipsum aenean et rutrum magna. Morbi nec placerat erat. Nunc elementum sed libero sit amet convallis. Quisque non arcu vitae ex fringilla molestie."
-
-msgid "Manage Access"
-msgstr "Manage Access"
-
-=======
->>>>>>> e1b850f3ad2995f42ce61f43b28b6816a25a6761
 msgid "Move"
 msgstr "Move"
 
@@ -496,15 +484,12 @@ msgstr "Profile settings"
 msgid "Profile updated"
 msgstr "Profile updated"
 
-<<<<<<< HEAD
-=======
 msgid "Purchase with card"
 msgstr "Purchase with card"
 
 msgid "Read content"
 msgstr "Read content"
 
->>>>>>> e1b850f3ad2995f42ce61f43b28b6816a25a6761
 msgid "Recover"
 msgstr "Recover"
 
@@ -817,15 +802,12 @@ msgstr "You haven't set a username yet."
 msgid "You will need to sign a message in your wallet to complete sign in."
 msgstr "You will need to sign a message in your wallet to complete sign in."
 
-<<<<<<< HEAD
-=======
 msgid "Your Authentication Factors"
 msgstr "Your Authentication Factors"
 
 msgid "Your first {0} are free, and you’ll get a discount on our monthly plan once you need more than that"
 msgstr "Your first {0} are free, and you’ll get a discount on our monthly plan once you need more than that"
 
->>>>>>> e1b850f3ad2995f42ce61f43b28b6816a25a6761
 msgid "Your recovery key can be used to restore your account in place of your backup secret phrase."
 msgstr "Your recovery key can be used to restore your account in place of your backup secret phrase."
 

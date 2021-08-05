@@ -200,15 +200,12 @@ msgstr "Téléchargement…"
 msgid "Drop to upload files"
 msgstr "Faire glisser pour téléverser un fichier"
 
-<<<<<<< HEAD
-=======
 msgid "Early Adopter: Free up to {0}"
 msgstr ""
 
 msgid "Edit"
 msgstr ""
 
->>>>>>> e1b850f3ad2995f42ce61f43b28b6816a25a6761
 msgid "Email is required"
 msgstr "Un courriel est requis"
 
@@ -371,15 +368,6 @@ msgstr "Chargement de vos dossiers partagés…"
 msgid "Looks like you’re signing in from a new browser. Please choose one of the following to continue:"
 msgstr "Il semble que vous vous connectiez à partir d’un nouveau navigateur. Veuillez choisir une des options suivantes pour continuer :"
 
-<<<<<<< HEAD
-msgid "Lorem ipsum aenean et rutrum magna. Morbi nec placerat erat. Nunc elementum sed libero sit amet convallis. Quisque non arcu vitae ex fringilla molestie."
-msgstr "Lorem ipsum aenean et rutrum magna. Morbi nec placerat erat. Nunc elementum sed libero sit amet convallis. Quisque non arcu vitae ex fringilla molestie."
-
-msgid "Manage Access"
-msgstr "Gérer l’accès"
-
-=======
->>>>>>> e1b850f3ad2995f42ce61f43b28b6816a25a6761
 msgid "Move"
 msgstr "Déplacer"
 
@@ -497,15 +485,12 @@ msgstr "Paramètres du profil"
 msgid "Profile updated"
 msgstr "Profile mis à jour"
 
-<<<<<<< HEAD
-=======
 msgid "Purchase with card"
 msgstr ""
 
 msgid "Read content"
 msgstr "Lire le contenu"
 
->>>>>>> e1b850f3ad2995f42ce61f43b28b6816a25a6761
 msgid "Recover"
 msgstr "Récupérer"
 
@@ -818,15 +803,12 @@ msgstr "Vous n’avez pas encore défini de nom d’utilisateur."
 msgid "You will need to sign a message in your wallet to complete sign in."
 msgstr "Vous devrez signer un message avec votre wallet pour terminer la procédure connexion."
 
-<<<<<<< HEAD
-=======
 msgid "Your Authentication Factors"
 msgstr "Vos facteurs d’authentification"
 
 msgid "Your first {0} are free, and you’ll get a discount on our monthly plan once you need more than that"
 msgstr ""
 
->>>>>>> e1b850f3ad2995f42ce61f43b28b6816a25a6761
 msgid "Your recovery key can be used to restore your account in place of your backup secret phrase."
 msgstr "Votre clé de récupération peut être utilisée pour restaurer votre compte à la place de votre phrase de sauvegarde secrète."
 
