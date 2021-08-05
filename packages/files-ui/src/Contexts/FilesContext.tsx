@@ -4,7 +4,9 @@ import {
   BucketType,
   Bucket as FilesBucket,
   SearchEntry,
-  BucketFileFullInfoResponse
+  BucketFileFullInfoResponse,
+  BucketSummaryResponse,
+  LookupUser
 } from "@chainsafe/files-api-client"
 import React, { useCallback, useEffect, useReducer } from "react"
 import { useState } from "react"
@@ -19,6 +21,7 @@ import { useBeforeunload } from "react-beforeunload"
 import { useThresholdKey } from "./ThresholdKeyContext"
 import { useFilesApi } from "./FilesApiContext"
 import { useUser } from "./UserContext"
+import { getPathWithFile } from "../Utils/pathUtils"
 
 type FilesContextProps = {
   children: React.ReactNode | React.ReactNode[]
@@ -65,16 +68,20 @@ interface GetFileContentParams {
 
 export type BucketPermission = "writer" | "owner" | "reader"
 
-export type BucketKeyPermission = FilesBucket & {
+export type BucketKeyPermission = Omit<FilesBucket, "owners" | "writers" | "readers"> & {
   encryptionKey: string
   permission?: BucketPermission
+  owners: LookupUser[]
+  writers: LookupUser[]
+  readers: LookupUser[]
 }
 
 type FilesContext = {
   buckets: BucketKeyPermission[]
   uploadsInProgress: UploadProgress[]
   downloadsInProgress: DownloadProgress[]
-  spaceUsed: number
+  storageSummary: BucketSummaryResponse | undefined
+  getStorageSummary: () => Promise<void>
   uploadFiles: (bucketId: string, files: File[], path: string, encryptionKey?: string) => Promise<void>
   downloadFile: (bucketId: string, itemToDownload: FileSystemItem, path: string) => void
   getFileContent: (bucketId: string, params: GetFileContentParams) => Promise<Blob | undefined>
@@ -117,12 +124,21 @@ const FilesProvider = ({ children }: FilesContextProps) => {
   } = useFilesApi()
   const { publicKey, encryptForPublicKey, decryptMessageWithThresholdKey } = useThresholdKey()
   const { addToastMessage } = useToaster()
-  const [spaceUsed, setSpaceUsed] = useState(0)
   const [personalEncryptionKey, setPersonalEncryptionKey] = useState<string | undefined>()
   const [buckets, setBuckets] = useState<BucketKeyPermission[]>([])
+  const [storageSummary, setStorageSummary] = useState<BucketSummaryResponse | undefined>()
   const { profile } = useUser()
   const { userId } = profile || {}
   const [isLoadingBuckets, setIsLoadingBuckets] = useState(false)
+
+  const getStorageSummary = useCallback(async () => {
+    try {
+      const bucketSummaryData = await filesApiClient.bucketsSummary()
+      setStorageSummary(bucketSummaryData)
+    } catch (error) {
+      console.error(error)
+    }
+  }, [filesApiClient, setStorageSummary])
 
   const getPermissionForBucket = useCallback((bucket: FilesBucket) => {
     return bucket.owners.find(owner => owner.uuid === userId)
@@ -175,17 +191,22 @@ const FilesProvider = ({ children }: FilesContextProps) => {
 
     const bucketsWithKeys: BucketKeyPermission[] = await Promise.all(
       result.map(async (b) => {
+        const userData = await filesApiClient.getBucketUsers(b.id)
         return {
           ...b,
           encryptionKey: await getKeyForBucket(b) || "",
-          permission: getPermissionForBucket(b)
+          permission: getPermissionForBucket(b),
+          owners: userData.owners || [],
+          writers: userData.writers || [],
+          readers: userData.readers || []
         }
       })
     )
     setBuckets(bucketsWithKeys)
     setIsLoadingBuckets(false)
+    getStorageSummary()
     return Promise.resolve()
-  }, [personalEncryptionKey, userId, filesApiClient, getKeyForBucket, getPermissionForBucket])
+  }, [personalEncryptionKey, userId, filesApiClient, getStorageSummary, getKeyForBucket, getPermissionForBucket])
 
   useEffect(() => {
     refreshBuckets(true)
@@ -193,22 +214,10 @@ const FilesProvider = ({ children }: FilesContextProps) => {
 
   // Space used counter
   useEffect(() => {
-    const getSpaceUsage = async () => {
-      try {
-        const totalSize = buckets.filter(b => b.type === "csf" ||
-          b.type === "trash" ||
-          (b.type === "share" && !!b.owners.find(u => u.uuid === profile?.userId)))
-          .reduce((totalSize, bucket) => totalSize += bucket.size, 0)
-
-        setSpaceUsed(totalSize)
-      } catch (error) {
-        console.error(error)
-      }
-    }
     if (isLoggedIn) {
-      getSpaceUsage()
+      getStorageSummary()
     }
-  }, [filesApiClient, isLoggedIn, buckets, profile])
+  }, [isLoggedIn, getStorageSummary, profile])
 
   // Reset encryption keys on log out
   useEffect(() => {
@@ -361,6 +370,7 @@ const FilesProvider = ({ children }: FilesContextProps) => {
         undefined,
         1,
         undefined,
+        undefined,
         (progressEvent: { loaded: number; total: number }) => {
           dispatchUploadsInProgress({
             type: "progress",
@@ -397,6 +407,8 @@ const FilesProvider = ({ children }: FilesContextProps) => {
       setTimeout(() => {
         dispatchUploadsInProgress({ type: "remove", payload: { id } })
       }, REMOVE_UPLOAD_PROGRESS_DELAY)
+
+      return Promise.reject(error)
     }
   }, [addToastMessage, filesApiClient, buckets, refreshBuckets])
 
@@ -465,7 +477,7 @@ const FilesProvider = ({ children }: FilesContextProps) => {
       const result = await getFileContent(bucketId, {
         cid: itemToDownload.cid,
         file: itemToDownload,
-        path: `${path}/${itemToDownload.name}`,
+        path: getPathWithFile(path, itemToDownload.name),
         onDownloadProgress: (progressEvent) => {
           dispatchDownloadsInProgress({
             type: "progress",
@@ -577,7 +589,8 @@ const FilesProvider = ({ children }: FilesContextProps) => {
         downloadFile,
         getFileContent,
         uploadsInProgress,
-        spaceUsed,
+        storageSummary,
+        getStorageSummary,
         downloadsInProgress,
         secureAccountWithMasterPassword,
         buckets,

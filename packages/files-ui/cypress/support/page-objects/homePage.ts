@@ -1,4 +1,5 @@
 import { basePage } from "./basePage"
+import { folderName } from "../../fixtures/filesTestData"
 
 export const click = ($el: JQuery<HTMLElement>) => $el.trigger("click")
 
@@ -6,7 +7,8 @@ export const homePage = {
   ...basePage,
 
   // main file browser elements
-  uploadButton: () => cy.get("[data-cy=upload-modal-button]"),
+  newFolderButton: () => cy.get("[data-cy=button-new-folder]"),
+  uploadButton: () => cy.get("[data-cy=button-upload-file]"),
   uploadFileForm: () => cy.get("[data-cy=upload-file-form] input", { timeout: 20000 }),
   moveSelectedButton: () => cy.get("[data-testId=button-move-selected-file]"),
   deleteSelectedButton: () => cy.get("[data-testId=button-delete-selected-file]"),
@@ -23,6 +25,12 @@ export const homePage = {
   fileRenameErrorLabel: () => cy.get("[data-cy=rename-form] span.minimal.error"),
   fileItemKebabButton: () => cy.get("[data-testid=dropdown-title-fileDropdown]"),
 
+  // create folder modal elements
+  createFolderModal: () => cy.get("[data-cy=modal-create-folder]", { timeout: 10000 }),
+  folderNameInput: () => cy.get("[data-cy=input-folder-name]"),
+  cancelButton: () => cy.get("[data-cy=button-cancel-create-folder]"),
+  createButton: () => cy.get("[data-cy=button-create-folder]"),
+
   // upload modal elements
   startUploadButton: () => cy.get("[data-testId=button-start-upload]"),
   uploadCancelButton: () => cy.get("[data-testId=button-cancel-upload]"),
@@ -38,26 +46,25 @@ export const homePage = {
   moveMenuOption: () => cy.get("[data-cy=menu-move]"),
   deleteMenuOption: () => cy.get("[data-cy=menu-delete]"),
 
-  clickUploadButton: () => homePage.startUploadButton()
-    .should("not.be.disabled")
-  // this pipe is needed to prevent https://github.com/ChainSafe/ui-monorepo/issues/1146
-  // as described https://www.cypress.io/blog/2019/01/22/when-can-the-test-click/
-    .pipe(click)
-    .should(($el: JQuery<HTMLElement>) => {
-      expect($el).to.not.be.visible
-    }),
-
   // helpers and convenience functions
   uploadFile(filePath: string) {
     this.uploadButton().click()
     this.uploadFileForm().attachFile(filePath)
     this.fileUploadList().should("have.length", 1)
     this.fileListRemoveButton().should("be.visible")
-    this.clickUploadButton()
+    this.startUploadButton().safeClick()
 
     // ensure upload is complete before proceeding
     this.uploadFileForm().should("not.exist")
     this.uploadStatusToast().should("not.exist")
+  },
+
+  createFolder(name: string = folderName) {
+    this.newFolderButton().click()
+    this.folderNameInput().type(name)
+    this.createButton().safeClick()
+    this.createFolderModal().should("not.exist")
+    this.fileItemName().contains(name)
   }
 
 }

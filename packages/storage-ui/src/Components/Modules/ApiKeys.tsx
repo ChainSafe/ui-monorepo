@@ -143,6 +143,7 @@ const ApiKeys = () => {
   const { storageApiClient } = useStorageApi()
   const [keys, setKeys] = useState<AccessKey[]>([])
   const [newKey, setNewKey] = useState<AccessKey | undefined>()
+  const [isNewKeyModalOpen, setIsNewKeyModalOpen] = useState(false)
   const [copiedSecret, setCopiedSecret] = useState(false)
   const debouncedCopiedSecret =
     debounce(() => setCopiedSecret(false), 3000)
@@ -169,6 +170,7 @@ const ApiKeys = () => {
     storageApiClient.createAccessKey({ type: "storage" })
       .then(setNewKey)
       .then(fetchAccessKeys)
+      .then(() => setIsNewKeyModalOpen(true))
       .catch(console.error)
   }, [fetchAccessKeys, storageApiClient])
 
@@ -176,6 +178,7 @@ const ApiKeys = () => {
     storageApiClient.createAccessKey({ type: "s3" })
       .then(setNewKey)
       .then(fetchAccessKeys)
+      .then(() => setIsNewKeyModalOpen(true))
       .catch(console.error)
   }, [fetchAccessKeys, storageApiClient])
 
@@ -208,7 +211,6 @@ const ApiKeys = () => {
               onClick={createS3AccessKey}
               variant="outline"
               size="large"
-            // disabled={keys.length > 0}
             >
               <PlusIcon />
               <span>
@@ -325,27 +327,28 @@ const ApiKeys = () => {
         injectedClass={{
           inner: classes.modalInner
         }}
-        active={!!newKey}
+        active={isNewKeyModalOpen}
         closePosition="none"
         maxWidth="sm"
       >
         <div className={classes.modalContent}>
           <Typography
             variant='h6'
-            className={classes.modalHeading}>
-              New Key
+            className={classes.modalHeading}
+          >
+            <Trans>New Key</Trans>
           </Typography>
           <Typography variant='h4'>
-            Key ID
+            <Trans>Key ID</Trans>
           </Typography>
           <Typography className={classes.field}>{newKey?.id}</Typography>
           <Typography variant='h4'>
-            Secret
+            <Trans>Secret</Trans>
           </Typography>
           <div className={classes.field}>
             <div className={classes.secretContainer}>
               <Typography variant='body2'>
-                Make sure to save the secret, as it can only be displayed once.
+                <Trans>Make sure to save the secret, as it can only be displayed once.</Trans>
               </Typography>
               {copiedSecret && (
                 <Typography variant='body2'>
@@ -367,7 +370,13 @@ const ApiKeys = () => {
               <CopyIcon className={classes.copyIcon} />
             </div>
           </div>
-          <Button onClick={() => setNewKey(undefined)}>
+          <Button
+            autoFocus
+            onClick={() => {
+              setIsNewKeyModalOpen(false)
+              setNewKey(undefined)
+            }}
+          >
             Close
           </Button>
         </div>

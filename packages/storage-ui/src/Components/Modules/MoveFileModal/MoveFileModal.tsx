@@ -68,13 +68,12 @@ const useStyles = makeStyles(
 
 interface IMoveFileModuleProps {
   filesToMove: FileSystemItem[]
-  modalOpen: boolean
   onClose: () => void
   onCancel: () => void
   mode?: MoveModalMode
 }
 
-const MoveFileModal = ({ filesToMove, modalOpen, onClose, onCancel, mode }: IMoveFileModuleProps) => {
+const MoveFileModal = ({ filesToMove, onClose, onCancel, mode }: IMoveFileModuleProps) => {
   const classes = useStyles()
   const { storageApiClient } = useStorageApi()
   const { moveItems, recoverItems, bucket, currentPath } = useFileBrowser()
@@ -115,23 +114,22 @@ const MoveFileModal = ({ filesToMove, modalOpen, onClose, onCancel, mode }: IMov
   }, [storageApiClient, mapFolderTree, bucket])
 
   useEffect(() => {
-    if (modalOpen) {
-      getFolderTreeData()
-    } else {
-      setMovePath(undefined)
-    }
-  }, [modalOpen, getFolderTreeData])
+    setMovePath(undefined)
+    getFolderTreeData()
+  }, [getFolderTreeData])
 
   const onMoveFile = () => {
     const moveFn = mode === "move" ? moveItems : recoverItems
     if (!movePath || !moveFn) return
 
     setIsMovingFile(true)
-    moveFn(filesToMove.map(f => f.cid), movePath)
+    moveFn(filesToMove.map(f => ({
+      cid: f.cid,
+      name: f.name
+    })), movePath)
       .then(onClose)
       .catch(console.error)
       .finally(() => setIsMovingFile(false))
-
   }
 
   const desktop = useMediaQuery("md")
@@ -164,7 +162,7 @@ const MoveFileModal = ({ filesToMove, modalOpen, onClose, onCancel, mode }: IMov
     <CustomModal
       className={classes.modalRoot}
       injectedClass={{ inner: classes.modalInner }}
-      active={modalOpen}
+      active
       closePosition="none"
       maxWidth="sm"
       onModalBodyClick={(e) => {

@@ -48,8 +48,11 @@ export function getParentPathFromFilePath(filePath: string) {
 }
 
 // /drive/path/to/somewhere -> /path/to/somewhere
+// /drive -> /
 export function extractFileBrowserPathFromURL(browserUrl: string, modulePath: string) {
-  return browserUrl.replace(modulePath, "").split("/").map(decodeURIComponent).join("/")
+  const result = browserUrl.replace(modulePath, "").split("/").map(decodeURIComponent).join("/")
+  // this path must start by a /
+  return result[0] === "/" ? result : `/${result}`
 }
 
 // /shared/{bucket-id}/path/to/somewhere -> /path/to/somewhere
@@ -85,4 +88,13 @@ export const isSubFolder = (fold1: string, fold2: string) => {
   })
 
   return result
+}
+
+export const getUrlSafePathWithFile = (path: string, fileName: string) => {
+  let urlSafePath =  getURISafePathFromArray(getArrayOfPaths(path))
+  if (urlSafePath === "/") {
+    urlSafePath = ""
+  }
+
+  return `${urlSafePath}/${encodeURIComponent(fileName)}`
 }

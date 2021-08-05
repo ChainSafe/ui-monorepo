@@ -39,7 +39,7 @@ import UploadProgressModals from "../../UploadProgressModals"
 import DownloadProgressModals from "../../DownloadProgressModals"
 import CreateFolderModal from "../CreateFolderModal"
 import UploadFileModule from "../../UploadFileModule"
-import MoveFileModule from "../MoveFileModal"
+import MoveFileModal from "../MoveFileModal"
 import FileInfoModal from "../FileInfoModal"
 import { CONTENT_TYPES } from "../../../../Utils/Constants"
 import { CSFTheme } from "../../../../Themes/types"
@@ -50,7 +50,8 @@ import SurveyBanner from "../../../SurveyBanner"
 import { DragPreviewLayer } from "./DragPreviewLayer"
 import { useFileBrowser } from "../../../../Contexts/FileBrowserContext"
 import ReportFileModal from "../ReportFileModal"
-import CopyToSharedFolderModal from "../CopyToSharedFolderModal"
+import ShareToSharedFolderModal from "../ShareToSharedFolderModal"
+import SharedUsers from "../../../Elements/SharedUsers"
 
 const baseOperations:  FileOperation[] = ["download", "info", "preview"]
 const readerOperations: FileOperation[] = [...baseOperations, "report"]
@@ -82,7 +83,6 @@ const useStyles = makeStyles(
             borderColor: palette.primary.main
           }
         }
-        // transitionDuration: `${animation.transform}ms`,
       },
       header: {
         display: "flex",
@@ -173,7 +173,8 @@ const useStyles = makeStyles(
       dropdownIcon: {
         "& svg": {
           height: 20,
-          width: 20
+          width: 20,
+          fill: palette.text.primary
         }
       },
       dropdownOptions: {
@@ -275,6 +276,11 @@ const useStyles = makeStyles(
           width: "20px",
           height: "20px"
         }
+      },
+      users: {
+        flex: 1,
+        display: "flex",
+        justifyContent: "flex-end"
       }
     })
   }
@@ -631,6 +637,11 @@ const FilesList = ({ isShared = false }: Props) => {
         >
           {heading}
         </Typography>
+        {isShared && bucket && (
+          <div className={classes.users}>
+            <SharedUsers bucket={bucket}/>
+          </div>
+        )}
         <div className={classes.controls}>
           {controls && desktop ? (
             <>
@@ -648,6 +659,7 @@ const FilesList = ({ isShared = false }: Props) => {
                 permission !== "reader" && (
                   <>
                     <Button
+                      data-cy="button-new-folder"
                       onClick={() => setCreateFolderModalOpen(true)}
                       variant="outline"
                       size="large"
@@ -658,7 +670,7 @@ const FilesList = ({ isShared = false }: Props) => {
                       </span>
                     </Button>
                     <Button
-                      data-cy="upload-modal-button"
+                      data-cy="button-upload-file"
                       onClick={() => setIsUploadModalOpen(true)}
                       variant="outline"
                       size="large"
@@ -1012,8 +1024,8 @@ const FilesList = ({ isShared = false }: Props) => {
         accept={handleDeleteFiles}
         requestMessage={
           plural(selectedCids.length, {
-            one: `You are about to delete ${selectedCids.length} file.`,
-            other: `You are about to delete ${selectedCids.length} files.`
+            one: `You are about to delete ${selectedCids.length} item.`,
+            other: `You are about to delete ${selectedCids.length} items.`
           })
         }
         rejectText = {t`Cancel`}
@@ -1040,20 +1052,21 @@ const FilesList = ({ isShared = false }: Props) => {
               modalOpen={isUploadModalOpen}
               close={() => setIsUploadModalOpen(false)}
             />
-            <MoveFileModule
-              filesToMove={selectedItems}
-              modalOpen={isMoveFileModalOpen}
-              onClose={() => {
-                setIsMoveFileModalOpen(false)
-                setSelectedCids([])
-                setMoveModalMode(undefined)
-              }}
-              onCancel={() => {
-                setIsMoveFileModalOpen(false)
-                setMoveModalMode(undefined)
-              }}
-              mode={moveModalMode}
-            />
+            {isMoveFileModalOpen && (
+              <MoveFileModal
+                filesToMove={selectedItems}
+                onClose={() => {
+                  setIsMoveFileModalOpen(false)
+                  setSelectedCids([])
+                  setMoveModalMode(undefined)
+                }}
+                onCancel={() => {
+                  setIsMoveFileModalOpen(false)
+                  setMoveModalMode(undefined)
+                }}
+                mode={moveModalMode}
+              />
+            )}
           </>
         )
       }
@@ -1085,7 +1098,7 @@ const FilesList = ({ isShared = false }: Props) => {
         />
       }
       { isCopyToSharedFolerModalOpen && filePath && fileIndex !== undefined &&
-        <CopyToSharedFolderModal
+        <ShareToSharedFolderModal
           file={files[fileIndex]}
           close={() => {
             setIsCopyToSharedFolerModalOpen(false)

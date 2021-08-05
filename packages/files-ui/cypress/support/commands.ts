@@ -32,6 +32,7 @@ import { homePage } from "./page-objects/homePage"
 import { testPrivateKey, testAccountPassword, localHost } from "../fixtures/loginData"
 import { CustomizedBridge } from "./utils/CustomBridge"
 import "cypress-file-upload"
+import "cypress-pipe"
 
 export type Storage = Record<string, string>[];
 
@@ -144,8 +145,9 @@ Cypress.Commands.add(
       if (local.length === 0) {
         cy.log("nothing in session storage, --> click on web3 button")
         authenticationPage.web3Button().click()
-        authenticationPage.metaMaskButton().click()
-        authenticationPage.web3SignInButton().click()
+        authenticationPage.showMoreButton().click()
+        authenticationPage.detectedWallet().click()
+        authenticationPage.web3SignInButton().safeClick()
         authenticationPage.loginPasswordButton().click()
         authenticationPage.loginPasswordInput().type(`${testAccountPassword}{enter}`)
 
@@ -171,11 +173,32 @@ Cypress.Commands.add(
     }
 
     if(clearTrashBucket || clearCSFBucket){
-      cy.reload()
+      cy.reload({ timeout: 50000 }).then(() => {
+        if (local.length === 0) {
+          // Temp work around for local storage being cleared after the reload. See issue in #1381  
+          cy.log("nothing in local storage after reload, --> click on web3 button")
+          authenticationPage.web3Button().click()
+          authenticationPage.showMoreButton().click()
+          authenticationPage.detectedWallet().click()
+          authenticationPage.web3SignInButton().safeClick()
+          authenticationPage.loginPasswordButton().click()
+          authenticationPage.loginPasswordInput().type(`${testAccountPassword}{enter}`)
+          authenticationPage.doNotSaveBrowserButton().click()
+        }
+      })
       homePage.appHeaderLabel().should("be.visible")
     }
   }
 )
+
+Cypress.Commands.add("safeClick", { prevSubject: "element" }, $element => {
+  const click = ($el: JQuery<HTMLElement>) => $el.trigger("click")
+  return cy
+    .wrap($element)
+    .should("be.visible")
+    .pipe(click)
+    .should($el => expect($el).to.not.be.visible)
+})
 
 // Must be declared global to be detected by typescript (allows import/export)
 // eslint-disable @typescript/interface-name
@@ -206,6 +229,21 @@ declare global {
        * @example cy.saveLocalAndSession()
        */
       saveLocalAndSession: () => Chainable
+
+      /**
+       * Use this when encountering race condition issues resulting in
+       * cypress "detached from DOM" issues or clicking before an event
+       * listener has been registered
+       *
+       * Temporary solution until cypress improve this issue
+       * further info
+       * https://www.cypress.io/blog/2019/01/22/when-can-the-test-click/
+       * https://github.com/testing-library/cypress-testing-library/issues/153#issuecomment-692386444
+       * https://github.com/cypress-io/cypress/issues/7306
+       * 
+       */
+       safeClick: () => Chainable
+
     }
   }
 }

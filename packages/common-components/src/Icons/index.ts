@@ -24,6 +24,7 @@ export { default as DirectionalRightIcon, DirectionalRightSvg } from "./icons/Di
 export { default as DiscoverCardIcon, DiscoverCardSvg } from "./icons/DiscoverCard.icon"
 export { default as DownloadIcon, DownloadSvg } from "./icons/Download.icon"
 export { default as EditIcon, EditSvg } from "./icons/Edit.icon"
+export { default as EthereumLogoIcon, EthereumLogoSvg } from "./icons/EthereumLogo.icon"
 export { default as ExclamationCircleIcon, ExclamationCircleSvg } from "./icons/ExclamationCircle.icon"
 export { default as ExclamationCircleInverseIcon, ExclamationCircleInverseSvg } from "./icons/ExclamationCircleInverse.icon"
 export { default as ExportIcon, ExportSvg } from "./icons/Export.icon"

@@ -7,6 +7,7 @@ import { PinStatus } from "@chainsafe/files-api-client"
 import { CSSTheme } from "../../Themes/types"
 import { useStorage } from "../../Contexts/StorageContext"
 import { desktopGridSettings, mobileGridSettings } from "../Pages/CidsPage"
+import { trimChar } from "../../Utils/pathUtils"
 
 const useStyles = makeStyles(({ animation, constants, breakpoints }: CSSTheme) =>
   createStyles({
@@ -58,7 +59,7 @@ interface Props {
     pinStatus: PinStatus
 }
 
-const IPFS_GATEWAY = "https://ipfs.infura.io:5001/api/v0/cat/"
+const IPFS_GATEWAY = process.env.REACT_APP_IPFS_GATEWAY || ""
 
 const CidRow = ({ pinStatus }: Props) => {
   const classes = useStyles()
@@ -77,14 +78,14 @@ const CidRow = ({ pinStatus }: Props) => {
         {dayjs(pinStatus.created).format("DD MMM YYYY h:mm a")}
       </TableCell>
       <TableCell>
-        {pinStatus.info?.size ? formatBytes(pinStatus.info?.size) : "-"}
+        {pinStatus.info?.size ? formatBytes(pinStatus.info?.size, 2) : "-"}
       </TableCell>
       <TableCell>
         {pinStatus.status}
       </TableCell>
       <TableCell>
         <a
-          href={`${IPFS_GATEWAY}${pinStatus.pin?.cid}`}
+          href={`${trimChar(IPFS_GATEWAY, "/")}/${pinStatus.pin?.cid}`}
           target="_blank"
           rel="noopener noreferrer"
         >

@@ -1,11 +1,9 @@
-import React from "react"
+import React, { useCallback } from "react"
 import { makeStyles, createStyles, useThemeSwitcher } from "@chainsafe/common-theme"
 import { t } from "@lingui/macro"
 import clsx from "clsx"
 import {
-  Button,
   CheckboxInput,
-  CheckSvg,
   formatBytes,
   FormikTextInput,
   IMenuItem,
@@ -20,7 +18,8 @@ import { ConnectDragPreview } from "react-dnd"
 import { Form, FormikProvider, useFormik } from "formik"
 import { CSSTheme } from "../../../Themes/types"
 import { FileSystemItem } from "../../../Contexts/StorageContext"
-import { renameSchema } from "../../../Utils/validationSchema"
+import { nameValidator } from "../../../Utils/validationSchema"
+import { ISelectedFile, useFileBrowser } from "../../../Contexts/FileBrowserContext"
 
 const useStyles = makeStyles(({ breakpoints, constants, palette }: CSSTheme) => {
   const desktopGridSettings = "50px 69px 3fr 190px 100px 45px !important"
@@ -110,15 +109,15 @@ interface IFileSystemTableItemProps {
   isFolder: boolean
   isOverMove: boolean
   isOverUpload: boolean
-  selected: string[]
+  selected: ISelectedFile[]
   file: FileSystemItem
-  editing: string | undefined
-  handleAddToSelectedCids: (selected: string) => void
+  editing: ISelectedFile | undefined
+  handleAddToSelectedCids: (selected: ISelectedFile) => void
   onFolderOrFileClicks: (e?: React.MouseEvent) => void
   icon: React.ReactNode
   preview: ConnectDragPreview
-  setEditing: (editing: string |  undefined) => void
-  handleRename?: (path: string, newPath: string) => Promise<void>
+  setEditing: (editing: ISelectedFile |  undefined) => void
+  handleRename?: (toRename: ISelectedFile, newPath: string) => Promise<void>
   currentPath: string | undefined
   menuItems: IMenuItem[]
 }
@@ -140,6 +139,7 @@ const FileSystemTableItem = React.forwardRef(
     menuItems
   }: IFileSystemTableItemProps, forwardedRef: any) => {
     const classes = useStyles()
+    const { fileSystemType } = useFileBrowser()
     const { name, cid, created_at, size } = file
     const { desktop } = useThemeSwitcher()
 
@@ -147,14 +147,22 @@ const FileSystemTableItem = React.forwardRef(
       initialValues: {
         fileName: name
       },
-      validationSchema: renameSchema,
+      validationSchema: nameValidator,
       onSubmit: (values) => {
         const newName = values.fileName?.trim()
 
-        newName && handleRename && handleRename(file.cid, newName)
+        newName && handleRename && handleRename({
+          cid: file.cid,
+          name: file.name
+        }, newName)
       },
       enableReinitialize: true
     })
+
+    const stopEditing = useCallback(() => {
+      setEditing(undefined)
+      formik.resetForm()
+    }, [formik, setEditing])
 
     return  (
       <TableRow
@@ -165,13 +173,16 @@ const FileSystemTableItem = React.forwardRef(
         type="grid"
         rowSelectable={true}
         ref={forwardedRef}
-        selected={selected.includes(cid)}
+        selected={selected.findIndex(item => item.name === file.name && item.cid === file.cid) >= 0}
       >
         {desktop && (
           <TableCell>
             <CheckboxInput
-              value={selected.includes(cid)}
-              onChange={() => handleAddToSelectedCids(cid)}
+              value={selected.findIndex(item => item.name === file.name && item.cid === file.cid) >= 0}
+              onChange={() => handleAddToSelectedCids({
+                cid,
+                name
+              })}
             />
           </TableCell>
         )}
@@ -185,14 +196,15 @@ const FileSystemTableItem = React.forwardRef(
           data-cy="file-item-name"
           ref={preview}
           align="left"
-          className={clsx(classes.filename, desktop && editing === cid && "editing")}
+          className={clsx(classes.filename, desktop && (editing?.cid === cid && editing.name === name) && "editing")}
           onClick={(e) => !editing && onFolderOrFileClicks(e)}
         >
-          {editing === cid && desktop
+          {(editing?.cid === cid && editing.name === name) && desktop
             ? (
               <FormikProvider value={formik}>
                 <Form
                   className={classes.desktopRename}
+                  onBlur={stopEditing}
                   data-cy='rename-form'
                 >
                   <FormikTextInput
@@ -201,24 +213,15 @@ const FileSystemTableItem = React.forwardRef(
                     inputVariant="minimal"
                     onKeyDown={(event) => {
                       if (event.key === "Escape") {
-                        setEditing(undefined)
+                        stopEditing()
                       }
                     }}
                     placeholder = {isFolder
                       ? t`Please enter a folder name`
                       : t`Please enter a file name`
                     }
-                    autoFocus={editing === cid}
+                    autoFocus={editing.cid === cid && editing.name === name}
                   />
-                  <Button
-                    data-cy='rename-submit-button'
-                    variant="dashed"
-                    size="small"
-                    type="submit"
-                    disabled={!formik.dirty}
-                  >
-                    <CheckSvg />
-                  </Button>
                 </Form>
               </FormikProvider>
             )
@@ -227,11 +230,14 @@ const FileSystemTableItem = React.forwardRef(
         </TableCell>
         {desktop && (
           <>
+            {
+              fileSystemType && fileSystemType !== "ipfs" &&
+                <TableCell align="left">
+                  {!isFolder && !!created_at && dayjs.unix(created_at).format("DD MMM YYYY h:mm a")}
+                </TableCell>
+            }
             <TableCell align="left">
-              {!isFolder && !!created_at && dayjs.unix(created_at).format("DD MMM YYYY h:mm a")}
-            </TableCell>
-            <TableCell align="left">
-              {!isFolder && formatBytes(size)}
+              {!isFolder && formatBytes(size, 2)}
             </TableCell>
           </>
         )}

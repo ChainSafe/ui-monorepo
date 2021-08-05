@@ -19,9 +19,6 @@ msgstr "A bucket with this name already exists"
 msgid "A file with the same name already exists"
 msgstr "A file with the same name already exists"
 
-msgid "A name is required"
-msgstr "A name is required"
-
 msgid "API Keys"
 msgstr "API Keys"
 
@@ -43,12 +40,6 @@ msgstr "Are we on the right track? Let us know in less than 1 minute."
 msgid "Bucket name"
 msgstr "Bucket name"
 
-msgid "Bucket name cannot contain '/' character"
-msgstr "Bucket name cannot contain '/' character"
-
-msgid "Bucket name cannot only contain whitepsace characters"
-msgstr "Bucket name cannot only contain whitepsace characters"
-
 msgid "Bucket name is required"
 msgstr "Bucket name is required"
 
@@ -69,6 +60,9 @@ msgstr "CIDs"
 
 msgid "Cancel"
 msgstr "Cancel"
+
+msgid "Chainsafe Storage Beta does not encrypt data. All data uploaded is publicly accessible on IPFS network."
+msgstr "Chainsafe Storage Beta does not encrypt data. All data uploaded is publicly accessible on IPFS network."
 
 msgid "Check your inbox! We've sent another email."
 msgstr "Check your inbox! We've sent another email."
@@ -193,9 +187,6 @@ msgstr "Folder"
 msgid "Folder Name"
 msgstr "Folder Name"
 
-msgid "Folder name cannot only contain whitepsace characters"
-msgstr "Folder name cannot only contain whitepsace characters"
-
 msgid "Folder name is already in use"
 msgstr "Folder name is already in use"
 
@@ -217,8 +208,14 @@ msgstr "Id"
 msgid "Info"
 msgstr "Info"
 
+msgid "Key ID"
+msgstr "Key ID"
+
 msgid "Learn more about ChainSafe"
 msgstr "Learn more about ChainSafe"
+
+msgid "Make sure to save the secret, as it can only be displayed once."
+msgstr "Make sure to save the secret, as it can only be displayed once."
 
 msgid "Move"
 msgstr "Move"
@@ -232,14 +229,11 @@ msgstr "Move to..."
 msgid "Name"
 msgstr "Name"
 
-msgid "Name cannot contain '/' character"
-msgstr "Name cannot contain '/' character"
-
-msgid "Name cannot only contain whitepsace characters"
-msgstr "Name cannot only contain whitepsace characters"
-
 msgid "Name too long"
 msgstr "Name too long"
+
+msgid "New Key"
+msgstr "New Key"
 
 msgid "New folder"
 msgstr "New folder"
@@ -301,6 +295,9 @@ msgstr "Rename"
 msgid "Rename File/Folder"
 msgstr "Rename File/Folder"
 
+msgid "Secret"
+msgstr "Secret"
+
 msgid "Select a wallet"
 msgstr "Select a wallet"
 
@@ -348,6 +345,9 @@ msgstr "The authentication popup was closed"
 
 msgid "The files are already in this folder"
 msgstr "The files are already in this folder"
+
+msgid "The name cannot contain '/' character"
+msgstr "The name cannot contain '/' character"
 
 msgid "The system is undergoing maintenance, thank you for being patient."
 msgstr "The system is undergoing maintenance, thank you for being patient."
@@ -421,8 +421,8 @@ msgstr "folder"
 msgid "moved successfully"
 msgstr "moved successfully"
 
-msgid "{0, plural, one {You are about to delete {1} file.} other {You are about to delete {2} files.}}"
-msgstr "{0, plural, one {You are about to delete {1} file.} other {You are about to delete {2} files.}}"
+msgid "{0, plural, one {You are about to delete {1} item.} other {You are about to delete {2} items.}}"
+msgstr "{0, plural, one {You are about to delete {1} item.} other {You are about to delete {2} items.}}"
 
-msgid "{noOfFiles, plural, one {Uploading and encrypting {noOfFiles} file} other {Uploading and encrypting {noOfFiles} files}}"
-msgstr "{noOfFiles, plural, one {Uploading and encrypting {noOfFiles} file} other {Uploading and encrypting {noOfFiles} files}}"
+msgid "{noOfFiles, plural, one {Uploading {noOfFiles} file} other {Uploading {noOfFiles} files}}"
+msgstr "{noOfFiles, plural, one {Uploading {noOfFiles} file} other {Uploading {noOfFiles} files}}"

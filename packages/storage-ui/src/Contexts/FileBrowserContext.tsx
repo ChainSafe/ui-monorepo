@@ -1,19 +1,24 @@
 import { Crumb } from "@chainsafe/common-components"
 import React, { useContext } from "react"
 import { FileOperation, IBulkOperations, IFileBrowserModuleProps } from "./types"
-import { Bucket } from "@chainsafe/files-api-client"
+import { Bucket, FileSystemType } from "@chainsafe/files-api-client"
 import { FileSystemItem, UploadProgress } from "./StorageContext"
+
+export interface ISelectedFile {
+  cid: string
+  name: string
+}
 
 interface FileBrowserContext extends IFileBrowserModuleProps {
   bucket?: Bucket
   itemOperations: {[contentType: string]: FileOperation[]}
   bulkOperations?: IBulkOperations
-  renameItem?: (cid: string, newName: string) => Promise<void>
-  moveItems?: (cids: string[], newPath: string) => Promise<void>
-  downloadFile?: (cid: string) => Promise<void>
-  deleteItems?: (cid: string[]) => Promise<void>
-  recoverItems?: (cid: string[], newPath: string) => Promise<void>
-  viewFolder?: (cid: string) => void
+  renameItem?: (toRename: ISelectedFile, newName: string) => Promise<void>
+  moveItems?: (toMove: ISelectedFile[], newPath: string) => Promise<void>
+  downloadFile?: (toDownload: ISelectedFile) => Promise<void>
+  deleteItems?: (toDelete: ISelectedFile[]) => Promise<void>
+  recoverItems?: (toRecover: ISelectedFile[], newPath: string) => Promise<void>
+  viewFolder?: (cid: ISelectedFile) => void
   allowDropUpload?: boolean
 
   handleUploadOnDrop?: (
@@ -33,6 +38,7 @@ interface FileBrowserContext extends IFileBrowserModuleProps {
   getPath?: (cid: string) => string
   isSearch?: boolean
   withSurvey?: boolean
+  fileSystemType: FileSystemType | undefined
 }
 
 const FileBrowserContext = React.createContext<FileBrowserContext | undefined>(undefined)

@@ -11,8 +11,8 @@ import {
 import { CSFTheme } from "../../../../../Themes/types"
 import { FileSystemItem } from "../../../../../Contexts/FilesContext"
 import { ConnectDragPreview } from "react-dnd"
-import { Form, Formik } from "formik"
-import { renameSchema } from "../../../../../Utils/validationSchema"
+import { Form, FormikProvider, useFormik } from "formik"
+import { nameValidator } from "../../../../../Utils/validationSchema"
 
 const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => {
   return createStyles({
@@ -156,6 +156,19 @@ const FileSystemGridItem = React.forwardRef(
     const { name, cid } = file
     const { desktop } = useThemeSwitcher()
 
+    const formik = useFormik({
+      initialValues: {
+        name
+      },
+      validationSchema: nameValidator,
+      onSubmit: (values: {name: string}) => {
+        const newName = values.name.trim()
+
+        newName && handleRename && handleRename(file.cid, newName)
+      },
+      enableReinitialize: true
+    })
+
     const handleClickOutside = useCallback(
       (e) => {
         if (forwardedRef.current && forwardedRef.current.contains(e.target)) {
@@ -177,6 +190,11 @@ const FileSystemGridItem = React.forwardRef(
         document.removeEventListener("click", handleClickOutside)
       }
     }, [handleClickOutside])
+
+    const stopEditing = useCallback(() => {
+      setEditing(undefined)
+      formik.resetForm()
+    }, [formik, setEditing])
 
     return  (
       <div
@@ -202,43 +220,33 @@ const FileSystemGridItem = React.forwardRef(
           >
             {icon}
           </div>
-          {editing === cid && desktop ? (
-            <Formik
-              initialValues={{
-                fileName: name
-              }}
-              validationSchema={renameSchema}
-              onSubmit={(values) => {
-                const newName = values.fileName?.trim()
-
-                newName && handleRename && handleRename(file.cid, newName)
-              }}
-              enableReinitialize={true}
-            >
-              <Form
-                className={classes.desktopRename}
-                onBlur={() => setEditing(undefined)}
-              >
-                <FormikTextInput
-                  className={classes.renameInput}
-                  name="fileName"
-                  inputVariant="minimal"
-                  onKeyDown={(event) => {
-                    if (event.key === "Escape") {
-                      setEditing(undefined)
+          {editing === cid && desktop
+            ? (
+              <FormikProvider value={formik}>
+                <Form
+                  className={classes.desktopRename}
+                  onBlur={stopEditing}
+                >
+                  <FormikTextInput
+                    className={classes.renameInput}
+                    name="name"
+                    inputVariant="minimal"
+                    onKeyDown={(event) => {
+                      if (event.key === "Escape") {
+                        stopEditing()
+                      }
+                    }}
+                    placeholder = {isFolder
+                      ? t`Please enter a folder name`
+                      : t`Please enter a file name`
                     }
-                  }}
-                  placeholder = {isFolder
-                    ? t`Please enter a folder name`
-                    : t`Please enter a file name`
-                  }
-                  autoFocus={editing === cid}
-                />
-              </Form>
-            </Formik>
-          ) : (
-            <div className={classes.gridFolderName}>{name}</div>
-          )}
+                    autoFocus={editing === cid}
+                  />
+                </Form>
+              </FormikProvider>
+            )
+            : <div className={classes.gridFolderName}>{name}</div>
+          }
         </div>
         <div>
           <MenuDropdown

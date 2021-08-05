@@ -1,6 +1,12 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react"
 import { useToaster, useHistory, useLocation, Crumb } from "@chainsafe/common-components"
-import { getArrayOfPaths, getURISafePathFromArray, getPathWithFile, extractSharedFileBrowserPathFromURL } from "../../../Utils/pathUtils"
+import {
+  getArrayOfPaths,
+  getURISafePathFromArray,
+  getPathWithFile,
+  extractSharedFileBrowserPathFromURL,
+  getUrlSafePathWithFile
+} from "../../../Utils/pathUtils"
 import { IBulkOperations, IFilesTableBrowserProps } from "./types"
 import { CONTENT_TYPES } from "../../../Utils/Constants"
 import { t } from "@lingui/macro"
@@ -14,7 +20,7 @@ import DragAndDrop from "../../../Contexts/DnDContext"
 import FilesList from "./views/FilesList"
 
 const SharedFileBrowser = () => {
-  const { downloadFile, uploadFiles, buckets, refreshBuckets } = useFiles()
+  const { downloadFile, uploadFiles, buckets, refreshBuckets, getStorageSummary } = useFiles()
   const { filesApiClient } = useFilesApi()
   const { addToastMessage } = useToaster()
   const [loadingCurrentPath, setLoadingCurrentPath] = useState(false)
@@ -78,8 +84,11 @@ const SharedFileBrowser = () => {
         )
       }).catch(error => {
         console.error(error)
-      }).finally(() => showLoading && setLoadingCurrentPath(false))
-  }, [bucket, filesApiClient, currentPath, profile])
+      }).finally(() => {
+        getStorageSummary()
+        showLoading && setLoadingCurrentPath(false)}
+      )
+  }, [bucket, getStorageSummary, filesApiClient, currentPath, profile])
 
   useEffect(() => {
     refreshContents(true)
@@ -164,11 +173,7 @@ const SharedFileBrowser = () => {
 
     const fileSystemItem = pathContents.find(f => f.cid === cid)
     if (fileSystemItem && fileSystemItem.content_type === CONTENT_TYPES.Directory) {
-      let urlSafePath =  getURISafePathFromArray(getArrayOfPaths(currentPath))
-      if (urlSafePath === "/") {
-        urlSafePath = ""
-      }
-      redirect(ROUTE_LINKS.SharedFolderExplorer(bucket.id, `${urlSafePath}/${encodeURIComponent(`${fileSystemItem.name}`)}`))
+      redirect(ROUTE_LINKS.SharedFolderExplorer(bucket.id, getUrlSafePathWithFile(currentPath, fileSystemItem.name)))
     }
   }, [currentPath, pathContents, redirect, bucket])
 
@@ -193,7 +198,7 @@ const SharedFileBrowser = () => {
   }, [addToastMessage, uploadFiles, bucket, refreshContents])
 
   const bulkOperations: IBulkOperations = useMemo(() => ({
-    [CONTENT_TYPES.Directory]: ["move"],
+    [CONTENT_TYPES.Directory]: ["move", "delete"],
     [CONTENT_TYPES.File]: ["delete", "move"]
   }), [])
 
@@ -228,7 +233,7 @@ const SharedFileBrowser = () => {
         [CONTENT_TYPES.Pdf]: ["preview"],
         [CONTENT_TYPES.Text]: ["preview"],
         [CONTENT_TYPES.File]: ["download", "info", "report"],
-        [CONTENT_TYPES.Directory]: ["rename"]
+        [CONTENT_TYPES.Directory]: []
       }
     }
   }, [access])
@@ -246,7 +251,7 @@ const SharedFileBrowser = () => {
       deleteItems,
       downloadFile: handleDownload,
       moveItems,
-      renameItem: renameItem,
+      renameItem,
       viewFolder,
       loadingCurrentPath,
       showUploadsInTable: false,

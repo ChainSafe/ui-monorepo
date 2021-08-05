@@ -9,7 +9,6 @@ import {
 } from "@chainsafe/common-components"
 import { makeStyles, ITheme, createStyles } from "@chainsafe/common-theme"
 import clsx from "clsx"
-import { FREE_PLAN_LIMIT } from "../../../Utils/Constants"
 import { useFiles } from "../../../Contexts/FilesContext"
 import { t, Trans } from "@lingui/macro"
 import { ROUTE_LINKS } from "../../FilesRoutes"
@@ -64,7 +63,7 @@ const useStyles = makeStyles(({ constants, palette, breakpoints }: ITheme) =>
 
 const CurrentProduct: React.FC = () => {
   const classes = useStyles()
-  const { spaceUsed } = useFiles()
+  const { storageSummary } = useFiles()
 
   return (
     <Grid container>
@@ -74,6 +73,7 @@ const CurrentProduct: React.FC = () => {
         sm={12}
         md={12}
       >
+        {storageSummary &&
         <div className={classes.container}>
           <div className={classes.storageBox}>
             <Typography
@@ -96,7 +96,7 @@ const CurrentProduct: React.FC = () => {
               className={clsx(classes.earlyAdopter)}
             >
               {t`Early Adopter: Free up to ${formatBytes(
-                FREE_PLAN_LIMIT
+                storageSummary.total_storage, 2
               )}`}
             </Typography>
             <Typography
@@ -105,7 +105,7 @@ const CurrentProduct: React.FC = () => {
               className={clsx(classes.margins, classes.subtitle)}
             >
               {t`Your first ${formatBytes(
-                FREE_PLAN_LIMIT
+                storageSummary.total_storage, 2
               )} are free, and you’ll get a discount on our monthly plan once you need more than that`}.
             </Typography>
           </div>
@@ -115,13 +115,13 @@ const CurrentProduct: React.FC = () => {
                 variant="body1"
                 className={classes.spaceUsedMargin}
                 component="p"
-              >{t`${formatBytes(spaceUsed)} of ${formatBytes(
-                  FREE_PLAN_LIMIT
-                )} used (${Math.ceil(spaceUsed / FREE_PLAN_LIMIT * 100)}%)`}
+              >{t`${formatBytes(storageSummary.used_storage, 2)} of ${formatBytes(
+                  storageSummary.total_storage
+                )} used (${Math.ceil(storageSummary.used_storage / storageSummary.total_storage) * 100}%)`}
               </Typography>
               <ProgressBar
                 className={classes.spaceUsedMargin}
-                progress={(spaceUsed / FREE_PLAN_LIMIT) * 100}
+                progress={(storageSummary.used_storage / storageSummary.total_storage) * 100}
                 size="small"
               />
             </div>
@@ -138,6 +138,8 @@ const CurrentProduct: React.FC = () => {
             </Link>
           </div>
         </div>
+        }
+
       </Grid>
     </Grid>
   )

@@ -34,7 +34,7 @@ import { useFileBrowser } from "../../../../../Contexts/FileBrowserContext"
 import { getPathWithFile } from "../../../../../Utils/pathUtils"
 import { BucketUser } from "@chainsafe/files-api-client"
 import { useMemo } from "react"
-import { renameSchema } from "../../../../../Utils/validationSchema"
+import { nameValidator } from "../../../../../Utils/validationSchema"
 
 const useStyles = makeStyles(({ breakpoints, constants }: CSFTheme) => {
   return createStyles({
@@ -153,17 +153,18 @@ const FileSystemItem = ({
   const { cid, name, isFolder, content_type } = file
 
   const formik = useFormik({
-    initialValues:{
-      fileName: name
+    initialValues: {
+      name
     },
-    validationSchema:renameSchema,
-    onSubmit:(values) => {
-      const newName = values.fileName?.trim()
+    validationSchema: nameValidator,
+    onSubmit: (values: {name: string}) => {
+      const newName = values.name.trim()
 
       newName && handleRename && handleRename(file.cid, newName)
     },
     enableReinitialize: true
   })
+
   let Icon
   if (isFolder) {
     Icon = FolderFilledSvg
@@ -177,7 +178,7 @@ const FileSystemItem = ({
 
   const { desktop } = useThemeSwitcher()
   const classes = useStyles()
-  const filePath = useMemo(() => `${currentPath}/${name}`, [currentPath, name])
+  const filePath = useMemo(() => getPathWithFile(currentPath, name), [currentPath, name])
 
   const onFilePreview = useCallback(() => {
     showPreview && showPreview(files.indexOf(file))
@@ -233,7 +234,7 @@ const FileSystemItem = ({
         <>
           <ShareAltSvg className={classes.menuIcon} />
           <span data-cy="menu-share">
-            <Trans>Copy to shared folder</Trans>
+            <Trans>Share</Trans>
           </span>
         </>
       ),
@@ -355,7 +356,7 @@ const FileSystemItem = ({
     accept: [NativeTypes.FILE],
     drop: (item: any) => {
       handleUploadOnDrop &&
-        handleUploadOnDrop(item.files, item.items, `${currentPath}${name}`)
+        handleUploadOnDrop(item.files, item.items, getPathWithFile(currentPath, name))
     },
     collect: (monitor) => ({
       isOverUpload: monitor.isOver()
@@ -433,7 +434,6 @@ const FileSystemItem = ({
     menuItems,
     onFolderOrFileClicks,
     preview,
-    renameSchema,
     selected,
     setEditing,
     resetSelectedFiles
@@ -473,7 +473,7 @@ const FileSystemItem = ({
                   <FormikTextInput
                     label="Name"
                     className={classes.renameInput}
-                    name="fileName"
+                    name="name"
                     placeholder={isFolder ? t`Please enter a folder name` : t`Please enter a file name`}
                     autoFocus={editing === cid}
                   />

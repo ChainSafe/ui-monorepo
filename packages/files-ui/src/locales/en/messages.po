@@ -13,20 +13,11 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
-msgid "(Change)"
-msgstr "(Change)"
-
-msgid "<0>You’re at risk of getting locked out of your account because you only have two auth factors set up.</0> Add at least one more to ensure account recovery."
-msgstr "<0>You’re at risk of getting locked out of your account because you only have two auth factors set up.</0> Add at least one more to ensure account recovery."
-
 msgid "A backup secret phrase will be generated and used for your account.<0/>We do not store it and <1>it can only be displayed once</1>. Save it somewhere safe!"
 msgstr "A backup secret phrase will be generated and used for your account.<0/>We do not store it and <1>it can only be displayed once</1>. Save it somewhere safe!"
 
 msgid "A file with the same name already exists"
 msgstr "A file with the same name already exists"
-
-msgid "A name is required"
-msgstr "A name is required"
 
 msgid "Account"
 msgstr "Account"
@@ -42,12 +33,6 @@ msgstr "Add by sharing address, username or wallet address"
 
 msgid "Add more files"
 msgstr "Add more files"
-
-msgid "Add/remove content"
-msgstr "Add/remove content"
-
-msgid "Allow them to"
-msgstr "Allow them to"
 
 msgid "Approve"
 msgstr "Approve"
@@ -112,9 +97,6 @@ msgstr "Click or drag to upload files"
 msgid "Close"
 msgstr "Close"
 
-msgid "Complete"
-msgstr "Complete"
-
 msgid "Confirm"
 msgstr "Confirm"
 
@@ -156,9 +138,6 @@ msgstr "Copy info"
 
 msgid "Copy over"
 msgstr "Copy over"
-
-msgid "Copy to shared folder"
-msgstr "Copy to shared folder"
 
 msgid "Create"
 msgstr "Create"
@@ -220,12 +199,6 @@ msgstr "Downloading…"
 msgid "Drop to upload files"
 msgstr "Drop to upload files"
 
-msgid "Early Adopter: Free up to {0}"
-msgstr "Early Adopter: Free up to {0}"
-
-msgid "Edit"
-msgstr "Edit"
-
 msgid "Email is required"
 msgstr "Email is required"
 
@@ -243,9 +216,6 @@ msgstr "Enter password:"
 
 msgid "Enter the verification code:"
 msgstr "Enter the verification code:"
-
-msgid "Enter your email:"
-msgstr "Enter your email:"
 
 msgid "Error while creating new shared folder"
 msgstr "Error while creating new shared folder"
@@ -277,14 +247,14 @@ msgstr "File"
 msgid "File Info"
 msgstr "File Info"
 
-msgid "File added successfully!"
-msgstr "File added successfully!"
-
 msgid "File format not supported."
 msgstr "File format not supported."
 
 msgid "File path"
 msgstr "File path"
+
+msgid "File shared successfully!"
+msgstr "File shared successfully!"
 
 msgid "File size"
 msgstr "File size"
@@ -295,17 +265,14 @@ msgstr "Files"
 msgid "Files sharing key"
 msgstr "Files sharing key"
 
-msgid "Files uses device backups to save your browser."
-msgstr "Files uses device backups to save your browser."
-
 msgid "First name"
 msgstr "First name"
 
 msgid "Folder"
 msgstr "Folder"
 
-msgid "Folder name cannot only contain whitepsace characters"
-msgstr "Folder name cannot only contain whitepsace characters"
+msgid "Folder name is already in use"
+msgstr "Folder name is already in use"
 
 msgid "Folders"
 msgstr "Folders"
@@ -322,6 +289,9 @@ msgstr "General"
 msgid "Generate backup secret phrase"
 msgstr "Generate backup secret phrase"
 
+msgid "Generated"
+msgstr "Generated"
+
 msgid "Generating…"
 msgstr "Generating…"
 
@@ -337,9 +307,6 @@ msgstr "Give view-only permission to:"
 msgid "Go back"
 msgstr "Go back"
 
-msgid "Great! You’re all done."
-msgstr "Great! You’re all done."
-
 msgid "Hello again!"
 msgstr "Hello again!"
 
@@ -352,9 +319,6 @@ msgstr "Hold on, we are logging you in…"
 msgid "Home"
 msgstr "Home"
 
-msgid "I understand the risk"
-msgstr "I understand the risk"
-
 msgid "If you think this file does not comply with our <0>Terms of Service</0>, please send the following information to report@files.chainsafe.io. Beware that by sending the file's decryption key, an admin can then decrypt any file in this shared folder."
 msgstr "If you think this file does not comply with our <0>Terms of Service</0>, please send the following information to report@files.chainsafe.io. Beware that by sending the file's decryption key, an admin can then decrypt any file in this shared folder."
 
@@ -363,6 +327,9 @@ msgstr "Info"
 
 msgid "I’m done saving my backup secret phrase"
 msgstr "I’m done saving my backup secret phrase"
+
+msgid "Keep original file"
+msgstr "Keep original file"
 
 msgid "Language"
 msgstr "Language"
@@ -375,6 +342,9 @@ msgstr "Learn more"
 
 msgid "Learn more about ChainSafe"
 msgstr "Learn more about ChainSafe"
+
+msgid "Leave"
+msgstr "Leave"
 
 msgid "Let's get you set up."
 msgstr "Let's get you set up."
@@ -391,8 +361,17 @@ msgstr "Loading your shared folders…"
 msgid "Looks like you’re signing in from a new browser. Please choose one of the following to continue:"
 msgstr "Looks like you’re signing in from a new browser. Please choose one of the following to continue:"
 
+msgid "Lorem ipsum aenean et rutrum magna. Morbi nec placerat erat. Nunc elementum sed libero sit amet convallis. Quisque non arcu vitae ex fringilla molestie."
+msgstr "Lorem ipsum aenean et rutrum magna. Morbi nec placerat erat. Nunc elementum sed libero sit amet convallis. Quisque non arcu vitae ex fringilla molestie."
+
+msgid "Manage Access"
+msgstr "Manage Access"
+
 msgid "Move"
 msgstr "Move"
+
+msgid "Move over"
+msgstr "Move over"
 
 msgid "Move selected"
 msgstr "Move selected"
@@ -405,12 +384,6 @@ msgstr "My Files"
 
 msgid "Name"
 msgstr "Name"
-
-msgid "Name cannot contain '/' character"
-msgstr "Name cannot contain '/' character"
-
-msgid "Name cannot only contain whitepsace characters"
-msgstr "Name cannot only contain whitepsace characters"
 
 msgid "Name too long"
 msgstr "Name too long"
@@ -454,6 +427,9 @@ msgstr "Operating system:"
 msgid "Or confirm by signing into your Files on any browser you’ve used before."
 msgstr "Or confirm by signing into your Files on any browser you’ve used before."
 
+msgid "Or using one of the following:"
+msgstr "Or using one of the following:"
+
 msgid "Owner"
 msgstr "Owner"
 
@@ -468,9 +444,6 @@ msgstr "Password does not match user account, please double-check and try again.
 
 msgid "Password needs to be more complex"
 msgstr "Password needs to be more complex"
-
-msgid "Password setup"
-msgstr "Password setup"
 
 msgid "Password:"
 msgstr "Password:"
@@ -511,17 +484,14 @@ msgstr "Profile settings"
 msgid "Profile updated"
 msgstr "Profile updated"
 
-msgid "Purchase with card"
-msgstr "Purchase with card"
-
-msgid "Read content"
-msgstr "Read content"
-
 msgid "Recover"
 msgstr "Recover"
 
 msgid "Recover selected"
 msgstr "Recover selected"
+
+msgid "Recover to…"
+msgstr "Recover to…"
 
 msgid "Recover with passphrase"
 msgstr "Recover with passphrase"
@@ -531,9 +501,6 @@ msgstr "Reject"
 
 msgid "Reject all"
 msgstr "Reject all"
-
-msgid "Remind me later"
-msgstr "Remind me later"
 
 msgid "Rename"
 msgstr "Rename"
@@ -574,9 +541,6 @@ msgstr "Saved Browser"
 msgid "Saved Browsers"
 msgstr "Saved Browsers"
 
-msgid "Saved browser"
-msgstr "Saved browser"
-
 msgid "Saved on:"
 msgstr "Saved on:"
 
@@ -607,20 +571,8 @@ msgstr "Set Password"
 msgid "Set Username"
 msgstr "Set Username"
 
-msgid "Set it up now"
-msgstr "Set it up now"
-
-msgid "Set up"
-msgstr "Set up"
-
 msgid "Set up a password"
 msgstr "Set up a password"
-
-msgid "Set up auth factors"
-msgstr "Set up auth factors"
-
-msgid "Set up password"
-msgstr "Set up password"
 
 msgid "Setting Username"
 msgstr "Setting Username"
@@ -628,11 +580,11 @@ msgstr "Setting Username"
 msgid "Settings"
 msgstr "Settings"
 
-msgid "Setup incomplete"
-msgstr "Setup incomplete"
+msgid "Share"
+msgstr "Share"
 
-msgid "Share with"
-msgstr "Share with"
+msgid "Share file"
+msgstr "Share file"
 
 msgid "Shared"
 msgstr "Shared"
@@ -670,11 +622,8 @@ msgstr "Size"
 msgid "Social Sign-in Wallet"
 msgstr "Social Sign-in Wallet"
 
-msgid "Social Sign-in or Wallet"
-msgstr "Social Sign-in or Wallet"
-
-msgid "Social sign in or wallet"
-msgstr "Social sign in or wallet"
+msgid "Something went wrong with email login! Please try again."
+msgstr "Something went wrong with email login! Please try again."
 
 msgid "Something went wrong!"
 msgstr "Something went wrong!"
@@ -699,9 +648,6 @@ msgstr "Technical"
 
 msgid "Terms and Conditions"
 msgstr "Terms and Conditions"
-
-msgid "Thanks for taking care of that. You can adjust these anytime in security settings."
-msgstr "Thanks for taking care of that. You can adjust these anytime in security settings."
 
 msgid "The authentication popup was closed"
 msgstr "The authentication popup was closed"
@@ -784,11 +730,8 @@ msgstr "Use a saved browser"
 msgid "Use an existing shared folder"
 msgstr "Use an existing shared folder"
 
-msgid "User already included in readers"
-msgstr "User already included in readers"
-
-msgid "User already included in writers"
-msgstr "User already included in writers"
+msgid "User {0} is both a reader and writer"
+msgstr "User {0} is both a reader and writer"
 
 msgid "Username"
 msgstr "Username"
@@ -798,6 +741,9 @@ msgstr "Username set successfully"
 
 msgid "Usernames are public and can't be changed after creation."
 msgstr "Usernames are public and can't be changed after creation."
+
+msgid "Using an email:"
+msgstr "Using an email:"
 
 msgid "Verification code is required"
 msgstr "Verification code is required"
@@ -850,12 +796,6 @@ msgstr "You haven't set a username yet."
 msgid "You will need to sign a message in your wallet to complete sign in."
 msgstr "You will need to sign a message in your wallet to complete sign in."
 
-msgid "Your Authentication Factors"
-msgstr "Your Authentication Factors"
-
-msgid "Your first {0} are free, and you’ll get a discount on our monthly plan once you need more than that"
-msgstr "Your first {0} are free, and you’ll get a discount on our monthly plan once you need more than that"
-
 msgid "Your recovery key can be used to restore your account in place of your backup secret phrase."
 msgstr "Your recovery key can be used to restore your account in place of your backup secret phrase."
 
@@ -880,8 +820,11 @@ msgstr "on"
 msgid "recovered successfully"
 msgstr "recovered successfully"
 
-msgid "{0, plural, one {You are about to delete {1} file.} other {You are about to delete {2} files.}}"
-msgstr "{0, plural, one {You are about to delete {1} file.} other {You are about to delete {2} files.}}"
+msgid "unknown"
+msgstr "unknown"
+
+msgid "{0, plural, one {You are about to delete {1} item.} other {You are about to delete {2} items.}}"
+msgstr "{0, plural, one {You are about to delete {1} item.} other {You are about to delete {2} items.}}"
 
 msgid "{0} of {1} used ({2}%)"
 msgstr "{0} of {1} used ({2}%)"
