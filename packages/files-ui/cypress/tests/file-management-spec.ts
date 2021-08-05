@@ -182,7 +182,7 @@ describe("File management", () => {
       homePage.fileItemName().should("have.text", folderName)
     })
 
-    it.only("cannot create a folder with an invalid name", () => {
+    it("cannot create a folder with an invalid name", () => {
       cy.web3Login({ clearCSFBucket: true, clearTrashBucket: true })
       homePage.newFolderButton().click()
 
