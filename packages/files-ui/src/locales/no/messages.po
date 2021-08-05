@@ -358,15 +358,12 @@ msgstr ""
 msgid "Looks like you’re signing in from a new browser. Please choose one of the following to continue:"
 msgstr ""
 
-<<<<<<< HEAD
-=======
 msgid "Lorem ipsum aenean et rutrum magna. Morbi nec placerat erat. Nunc elementum sed libero sit amet convallis. Quisque non arcu vitae ex fringilla molestie."
 msgstr ""
 
 msgid "Manage Access"
 msgstr ""
 
->>>>>>> 776111c31054c36da2a8972a7507690014e9c80c
 msgid "Move"
 msgstr "Flytt"
 
