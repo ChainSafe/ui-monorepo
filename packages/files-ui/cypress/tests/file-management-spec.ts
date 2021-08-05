@@ -182,29 +182,33 @@ describe("File management", () => {
       homePage.fileItemName().should("have.text", folderName)
     })
 
-    it("cannot create a folder with an invalid name", () => {
+    it.only("cannot create a folder with an invalid name", () => {
       cy.web3Login({ clearCSFBucket: true, clearTrashBucket: true })
       homePage.newFolderButton().click()
 
       // ensure a folder can't be created without entering a name
-      homePage.createButton().click()
-      homePage.createFolderModal().should("contain.text", "A name is required")
+      homePage.createButton().should("have.attr", "disabled")
+      homePage.folderNameInput().type("a{selectall}{del}")
+      homePage.folderCreationErrorLabel().should("be.visible")
 
       // ensure a folder can't be created with "/" in the name
       homePage.folderNameInput().type("/")
-      homePage.createButton().click()
+      homePage.createButton().should("have.attr", "disabled")
+      homePage.folderCreationErrorLabel().should("be.visible")
       homePage.createFolderModal().should("contain.text", "A name cannot contain '/' character")
 
       // ensure a folder can't be created with white space only in the name
       homePage.folderNameInput().type("{selectall}{del}")
       homePage.folderNameInput().type("   ")
-      homePage.createButton().click()
+      homePage.createButton().should("have.attr", "disabled")
+      homePage.folderCreationErrorLabel().should("be.visible")
       homePage.createFolderModal().should("contain.text", "Please enter a name")
 
       // ensure a folder can't be created if name exceeds 65 characters
       homePage.folderNameInput().type("{selectall}{del}")
       homePage.folderNameInput().type("cgsxffymqivoknhwhqvmnchvjngtwsriovhvkgzgmonmimctcrdytujbtkogngvext")
-      homePage.createButton().click()
+      homePage.createButton().should("have.attr", "disabled")
+      homePage.folderCreationErrorLabel().should("be.visible")
       homePage.createFolderModal().should("contain.text", "Name too long")
     })
   })

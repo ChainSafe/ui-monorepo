@@ -30,6 +30,7 @@ export const homePage = {
   folderNameInput: () => cy.get("[data-cy=input-folder-name]"),
   cancelButton: () => cy.get("[data-cy=button-cancel-create-folder]"),
   createButton: () => cy.get("[data-cy=button-create-folder]"),
+  folderCreationErrorLabel: () => cy.get("[data-cy=folder-creation-form] span.default.error"),
 
   // upload modal elements
   startUploadButton: () => cy.get("[data-testId=button-start-upload]"),
