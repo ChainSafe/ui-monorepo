@@ -200,6 +200,9 @@ msgstr ""
 msgid "Drop to upload files"
 msgstr "Suelta para subir archivos"
 
+msgid "Early Adopter: Free up to {0}"
+msgstr ""
+
 msgid "Email is required"
 msgstr ""
 
@@ -225,6 +228,9 @@ msgid "Error while downloading {0}"
 msgstr ""
 
 msgid "Error while uploading {0}"
+msgstr ""
+
+msgid "Essentials - Free"
 msgstr ""
 
 msgid "Failed to get signature"
@@ -484,6 +490,9 @@ msgstr ""
 
 msgid "Profile updated"
 msgstr "Perfil actualizado"
+
+msgid "Purchase with card"
+msgstr ""
 
 msgid "Recover"
 msgstr "Recuperar"
@@ -796,6 +805,9 @@ msgstr ""
 
 msgid "You will need to sign a message in your wallet to complete sign in."
 msgstr "Deberá firmar un mensaje en su billetera para completar el inicio de sesión."
+
+msgid "Your first {0} are free, and you’ll get a discount on our monthly plan once you need more than that"
+msgstr ""
 
 msgid "Your recovery key can be used to restore your account in place of your backup secret phrase."
 msgstr ""

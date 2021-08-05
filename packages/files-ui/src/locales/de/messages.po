@@ -199,6 +199,9 @@ msgstr ""
 msgid "Drop to upload files"
 msgstr "Zum Hochladen von Dateien ablegen"
 
+msgid "Early Adopter: Free up to {0}"
+msgstr ""
+
 msgid "Email is required"
 msgstr "E-Mail ist erforderlich"
 
@@ -224,6 +227,9 @@ msgid "Error while downloading {0}"
 msgstr ""
 
 msgid "Error while uploading {0}"
+msgstr ""
+
+msgid "Essentials - Free"
 msgstr ""
 
 msgid "Failed to get signature"
@@ -480,6 +486,9 @@ msgstr "Profileinstellungen"
 
 msgid "Profile updated"
 msgstr "Profil aktualisiert"
+
+msgid "Purchase with card"
+msgstr ""
 
 msgid "Recover"
 msgstr "Wiederherstellen"
@@ -791,6 +800,9 @@ msgid "You haven't set a username yet."
 msgstr "Sie haben noch keinen Benutzernamen festgelegt."
 
 msgid "You will need to sign a message in your wallet to complete sign in."
+msgstr ""
+
+msgid "Your first {0} are free, and you’ll get a discount on our monthly plan once you need more than that"
 msgstr ""
 
 msgid "Your recovery key can be used to restore your account in place of your backup secret phrase."
