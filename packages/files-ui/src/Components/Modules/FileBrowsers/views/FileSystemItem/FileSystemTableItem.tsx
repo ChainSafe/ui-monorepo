@@ -27,7 +27,6 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => 
   return createStyles({
     tableRow: {
       border: "2px solid transparent",
-      cursor: "default",
       [breakpoints.up("md")]: {
         gridTemplateColumns: desktopGridSettings
       },
