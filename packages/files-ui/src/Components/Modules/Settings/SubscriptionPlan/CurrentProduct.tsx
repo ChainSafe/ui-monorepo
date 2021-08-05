@@ -9,9 +9,9 @@ import {
 } from "@chainsafe/common-components"
 import { makeStyles, ITheme, createStyles } from "@chainsafe/common-theme"
 import clsx from "clsx"
-import { useFiles } from "../../../Contexts/FilesContext"
+import { useFiles } from "../../../../Contexts/FilesContext"
 import { t, Trans } from "@lingui/macro"
-import { ROUTE_LINKS } from "../../FilesRoutes"
+import { ROUTE_LINKS } from "../../../FilesRoutes"
 
 const useStyles = makeStyles(({ constants, palette, breakpoints }: ITheme) =>
   createStyles({

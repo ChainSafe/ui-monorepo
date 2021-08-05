@@ -3,13 +3,13 @@ import {
   makeStyles,
   createStyles
 } from "@chainsafe/common-theme"
-import { CSFTheme } from "../../../../Themes/types"
+import { CSFTheme } from "../../../../../Themes/types"
 import { Button, ExpansionPanel, Typography } from "@chainsafe/common-components"
 import clsx from "clsx"
 import { Trans } from "@lingui/macro"
 import dayjs from "dayjs"
-import { BrowserShare, useThresholdKey } from "../../../../Contexts/ThresholdKeyContext"
-import CustomModal from "../../../Elements/CustomModal"
+import { BrowserShare, useThresholdKey } from "../../../../../Contexts/ThresholdKeyContext"
+import CustomModal from "../../../../Elements/CustomModal"
 
 const useStyles = makeStyles(({ palette, constants, animation, breakpoints }: CSFTheme) =>
   createStyles({
