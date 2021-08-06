@@ -111,7 +111,7 @@ describe.only("File management", () => {
       homePage.fileItemKebabButton().first().click()
       homePage.deleteMenuOption().click()
       homePage.deleteFileDialog().should("be.visible")
-      homePage.deleteFileConfirmButton().click()
+      homePage.deleteFileConfirmButton().safeClick()
       homePage.deleteFileDialog().should("not.exist")
       homePage.fileItemRow().should("not.exist")
 
@@ -159,7 +159,7 @@ describe.only("File management", () => {
       homePage.fileItemKebabButton().first().click()
       homePage.deleteMenuOption().click()
       homePage.deleteFileDialog().should("be.visible")
-      homePage.deleteFileConfirmButton().click()
+      homePage.deleteFileConfirmButton().safeClick()
       homePage.deleteFileDialog().should("not.exist")
       homePage.fileItemRow().should("not.exist")
 
