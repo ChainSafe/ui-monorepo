@@ -1,5 +1,5 @@
 {
     "integrationFolder": "cypress/tests",
-    "video": true,
+    "video": false,
     "experimentalSessionSupport": true
 }
