@@ -154,6 +154,9 @@ msgstr "Dato opplastet"
 msgid "Decryption key"
 msgstr ""
 
+msgid "Decryption key:"
+msgstr ""
+
 msgid "Delete"
 msgstr "Slett"
 
