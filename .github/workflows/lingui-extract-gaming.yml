@@ -14,7 +14,6 @@ jobs:
     steps:
     - uses: actions/checkout@v2
       with:
-        ref: ${{ github.event.pull_request.head.ref }}
         ssh-key: ${{ secrets.LINGUI_GH_ACTION_COMMIT_KEY }}
 
     - name: set user
