@@ -788,7 +788,7 @@ const FilesList = () => {
                   <Trans>Name</Trans>
                 </TableHeadCell>
                 {
-                  desktop && fileSystemType && fileSystemType !== "ipfs" && <TableHeadCell
+                  fileSystemType && fileSystemType !== "ipfs" && <TableHeadCell
                     sortButtons={true}
                     align="left"
                     onSortChange={() => handleSortToggle("date_uploaded")}
@@ -800,11 +800,9 @@ const FilesList = () => {
                     <Trans>Date uploaded</Trans>
                   </TableHeadCell>
                 }
-                {
-                  desktop && <TableHeadCell>
+                <TableHeadCell>
                     CID
-                  </TableHeadCell>
-                }
+                </TableHeadCell>
                 <TableHeadCell
                   sortButtons={true}
                   align="left"
