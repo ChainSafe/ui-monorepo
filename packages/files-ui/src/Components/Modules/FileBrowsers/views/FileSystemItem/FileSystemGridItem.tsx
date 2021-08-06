@@ -107,8 +107,7 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => 
     gridViewIconNameBox: {
       display: "flex",
       flexDirection: "column",
-      width: "100%",
-      cursor: "pointer"
+      width: "100%"
     },
     menuTitleGrid: {
       padding: `0 ${constants.generalUnit * 0.5}px`,

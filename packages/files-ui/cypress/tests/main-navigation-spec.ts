@@ -5,7 +5,7 @@ import { homePage } from "../support/page-objects/homePage"
 describe("Main Navigation", () => {
 
   context("desktop", () => {
-    before(() => {
+    beforeEach(() => {
       cy.web3Login()
     })
 
@@ -35,7 +35,7 @@ describe("Main Navigation", () => {
   })
 
   context("mobile", () => {
-    before(() => {
+    beforeEach(() => {
       cy.web3Login()
     })
 

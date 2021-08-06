@@ -179,7 +179,6 @@ const FileSystemTableItem = React.forwardRef(
           ipfs: desktop && fileSystemType && fileSystemType === "ipfs"
         })}
         type="grid"
-        rowSelectable={true}
         ref={forwardedRef}
         selected={selected.findIndex(item => item.name === file.name && item.cid === file.cid) >= 0}
       >
@@ -243,6 +242,11 @@ const FileSystemTableItem = React.forwardRef(
                 <TableCell align="left">
                   {!isFolder && !!created_at && dayjs.unix(created_at).format("DD MMM YYYY h:mm a")}
                 </TableCell>
+            }
+            {
+              <TableCell>
+                {!isFolder && cid}
+              </TableCell>
             }
             <TableCell align="left">
               {!isFolder && formatBytes(size, 2)}
