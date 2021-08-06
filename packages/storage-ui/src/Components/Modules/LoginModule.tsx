@@ -1,5 +1,5 @@
-import React, { useState } from "react"
-import { Button, GithubLogoIcon, GoogleLogoIcon, Loading, MailIcon, Typography } from "@chainsafe/common-components"
+import React, { useCallback, useState } from "react"
+import { Button, FormikTextInput, GithubLogoIcon, GoogleLogoIcon, Loading, MailIcon, Typography } from "@chainsafe/common-components"
 import { createStyles, makeStyles, useThemeSwitcher } from "@chainsafe/common-theme"
 import { CSSTheme } from "../../Themes/types"
 import { t, Trans } from "@lingui/macro"
@@ -9,6 +9,8 @@ import { ROUTE_LINKS } from "../StorageRoutes"
 import clsx from "clsx"
 import { IdentityProvider } from "@chainsafe/files-api-client"
 import PasswordlessEmail from "./LoginModule/PasswordlessEmail"
+import { Form, FormikProvider, useFormik } from "formik"
+import { emailValidation } from "../../Utils/validationSchema"
 
 const useStyles = makeStyles(
   ({ constants, palette, breakpoints, typography }: CSSTheme) =>
@@ -126,6 +128,19 @@ const useStyles = makeStyles(
       },
       web3Button: {
         minHeight: 41
+      },
+      input: {
+        margin: 0,
+        width: "100%",
+        marginBottom: constants.generalUnit
+      },
+      inputLabel: {
+        fontSize: "16px",
+        lineHeight: "24px",
+        marginBottom: constants.generalUnit
+      },
+      secondaryLoginText: {
+        paddingTop: constants.generalUnit * 2
       }
     })
 )
@@ -143,6 +158,10 @@ const LoginModule = ({ className }: IInitialScreen) => {
   const [error, setError] = useState<string | undefined>()
   const maintenanceMode = process.env.REACT_APP_MAINTENANCE_MODE === "true"
   const [isConnecting, setIsConnecting] = useState(false)
+  const { storageApiClient } = useStorageApi()
+  const [email, setEmail] = useState("")
+  const [errorEmail, setErrorEmail] = useState("")
+
 
   const handleSelectWalletAndConnect = async () => {
     setError(undefined)
@@ -164,6 +183,7 @@ const LoginModule = ({ className }: IInitialScreen) => {
 
   const resetLogin = async () => {
     setError(undefined)
+    setErrorEmail("")
     setLoginMode(undefined)
     resetStatus()
   }
@@ -198,6 +218,32 @@ const LoginModule = ({ className }: IInitialScreen) => {
     }
     setIsConnecting(false)
   }
+
+  const onSubmitEmail = useCallback((values: {email: string}) => {
+    setIsConnecting(true)
+    setErrorEmail("")
+    const trimmedEmail = values.email.trim()
+
+    storageApiClient
+      .getIdentityEmailToken({ email: trimmedEmail })
+      .then(() => {
+        setEmail(trimmedEmail)
+        setLoginMode("email")
+      })
+      .catch((e) => {
+        setErrorEmail(t`Something went wrong with email login! Please try again.`)
+        console.error(e)
+      })
+      .finally(() => setIsConnecting(false))
+  }, [storageApiClient])
+
+  const formik = useFormik({
+    initialValues: {
+      email: ""
+    },
+    validationSchema: emailValidation,
+    onSubmit: onSubmitEmail
+  })
 
   const ConnectWallet = () => {
     if (!wallet) {
@@ -269,7 +315,7 @@ const LoginModule = ({ className }: IInitialScreen) => {
           <Button
             onClick={handleResetAndSelectWallet}
             className={classes.button}
-            variant="primary"
+            variant="secondary"
             size="large"
             disabled={maintenanceMode}
           >
@@ -334,6 +380,38 @@ const LoginModule = ({ className }: IInitialScreen) => {
                   <Trans>The system is undergoing maintenance, thank you for being patient.</Trans>
                 </Typography>
               )}
+              <FormikProvider value={formik}>
+                <Form>
+                  <FormikTextInput
+                    className={classes.input}
+                    name="email"
+                    label={t`Using an email:`}
+                    labelClassName={classes.inputLabel}
+                  />
+                  {!!errorEmail && (
+                    <Typography component="p"
+                      variant="body1"
+                      className={classes.error}>{error}</Typography>
+                  )}
+                  <Button
+                    className={clsx(classes.button)}
+                    variant="primary"
+                    fullsize
+                    type="submit"
+                    disabled={maintenanceMode || isConnecting || status !== "initialized" || !formik.isValid}
+                  >
+                    <MailIcon className="icon"/>
+                    <Trans>Continue with Email</Trans>
+                  </Button>
+                </Form>
+              </FormikProvider>
+              <Typography
+                variant="body1"
+                component="p"
+                className={clsx(classes.inputLabel, classes.secondaryLoginText)}
+              >
+                <Trans>Or using one of the following:</Trans>
+              </Typography>
               <Button
                 data-cy="web3"
                 onClick={() => {
@@ -346,18 +424,6 @@ const LoginModule = ({ className }: IInitialScreen) => {
                 disabled={maintenanceMode || isConnecting || status !== "initialized"}
               >
                 <Trans>Continue with Web3 Wallet</Trans>
-              </Button>
-              <Button
-                className={classes.button}
-                size="large"
-                onClick={() => {
-                  setLoginMode("email")
-                }}
-                variant="secondary"
-                disabled={maintenanceMode || isConnecting || status !== "initialized"}
-              >
-                <MailIcon className="icon"/>
-                <Trans>Continue with Email</Trans>
               </Button>
               <Button
                 className={classes.button}
@@ -404,7 +470,10 @@ const LoginModule = ({ className }: IInitialScreen) => {
             </footer>
           </>
           : loginMode === "email"
-            ? <PasswordlessEmail resetLogin={resetLogin} />
+            ? <PasswordlessEmail
+              resetLogin={resetLogin}
+              email={email}
+            />
             : wallet
               ? !isConnecting
                 ? <ConnectWallet />
