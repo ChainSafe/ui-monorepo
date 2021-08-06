@@ -166,7 +166,6 @@ const FileSystemTableItem = React.forwardRef(
           droppable: isFolder && (isOverMove || isOverUpload)
         })}
         type="grid"
-        rowSelectable={true}
         ref={forwardedRef}
         selected={selected.includes(cid)}
       >
