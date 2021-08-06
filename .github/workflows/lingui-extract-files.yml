@@ -6,6 +6,9 @@ on:
     paths:
     - "packages/files-ui/**/*"
 jobs:
+  test:
+    - name: test
+      run: echo "-----ref: ${{github.ref}}"
   # extract any new translatable string
   # and commit if there are new ones
   extract:
@@ -14,6 +17,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
       with:
+        ref: ${{ github.event.pull_request.head.ref }}
         ssh-key: ${{ secrets.LINGUI_GH_ACTION_COMMIT_KEY }}
 
     - name: set user
