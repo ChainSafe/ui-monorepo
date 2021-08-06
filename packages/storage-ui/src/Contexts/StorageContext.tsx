@@ -270,17 +270,8 @@ const StorageProvider = ({ children }: StorageContextProps) => {
 
   const getFileContent = useCallback(async (
     bucketId: string,
-    { cid, cancelToken, onDownloadProgress, file, path }: GetFileContentParams
+    { cancelToken, onDownloadProgress, path }: GetFileContentParams
   ) => {
-
-    // when a file is accessed from the search page, a file  and a path are passed in
-    // because the current path will not reflect the right state of the app 
-    const fileToGet = file
-
-    if (!fileToGet) {
-      console.error("No file passed, and no file found for cid:", cid, "in pathContents:", path)
-      throw new Error("No file found.")
-    }
 
     try {
       const result = await storageApiClient.getBucketObjectContent(

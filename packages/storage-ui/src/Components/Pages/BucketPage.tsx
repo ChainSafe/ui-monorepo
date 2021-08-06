@@ -139,7 +139,6 @@ const BucketPage: React.FC<IFileBrowserModuleProps> = () => {
   const handleDownload = useCallback(async (
     toDownload: ISelectedFile
   ) => {
-    // throw new Error("Not implemented")
     const itemToDownload = pathContents.find(item => item.cid === toDownload.cid)
     if (!itemToDownload || !bucket) return
 

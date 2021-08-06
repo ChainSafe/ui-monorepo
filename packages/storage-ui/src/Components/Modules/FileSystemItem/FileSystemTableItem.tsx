@@ -23,13 +23,17 @@ import { ISelectedFile, useFileBrowser } from "../../../Contexts/FileBrowserCont
 
 const useStyles = makeStyles(({ breakpoints, constants, palette }: CSSTheme) => {
   const desktopGridSettings = "50px 69px 3fr 190px 100px 45px !important"
+  const ipfsDesktopGridSettings = "50px 69px 3fr 190px 45px !important"
   const mobileGridSettings = "69px 3fr 45px !important"
 
   return createStyles({
     tableRow: {
       border: "2px solid transparent",
       [breakpoints.up("md")]: {
-        gridTemplateColumns: desktopGridSettings
+        gridTemplateColumns: desktopGridSettings,
+        "&.ipfs": {
+          gridTemplateColumns: ipfsDesktopGridSettings
+        }
       },
       [breakpoints.down("md")]: {
         gridTemplateColumns: mobileGridSettings
@@ -100,7 +104,10 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: CSSTheme) => 
     },
     dropdownItem: {
       backgroundColor: constants.fileSystemItemRow.itemBackground,
-      color: constants.fileSystemItemRow.itemColor
+      color: constants.fileSystemItemRow.itemColor,
+      "& a": {
+        textDecoration: "none"
+      }
     }
   })
 })
@@ -168,7 +175,8 @@ const FileSystemTableItem = React.forwardRef(
       <TableRow
         data-cy="file-item-row"
         className={clsx(classes.tableRow, {
-          droppable: isFolder && (isOverMove || isOverUpload)
+          droppable: isFolder && (isOverMove || isOverUpload),
+          ipfs: desktop && fileSystemType && fileSystemType === "ipfs"
         })}
         type="grid"
         rowSelectable={true}
