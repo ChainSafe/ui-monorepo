@@ -14,7 +14,7 @@ export const homePage = {
   deleteSelectedButton: () => cy.get("[data-testId=button-delete-selected-file]"),
   deleteFileDialog: () => cy.get("[data-testid=modal-container-file-deletion]"),
   deleteFileCancelButton: () => cy.get("[data-testid=button-cancel-deletion]"),
-  deleteFileConfirmButton: () => cy.get("[data-testid=button-confirm-deletion]"),
+  deleteFileConfirmButton: () => cy.get("[data-testid=button-confirm-deletion]", { timeout: 10000 }),
   uploadStatusToast: () => cy.get("[data-cy=upload-status-toast-message]", { timeout: 10000 }),
 
   // file browser row elements
@@ -29,11 +29,11 @@ export const homePage = {
   createFolderModal: () => cy.get("[data-cy=modal-create-folder]", { timeout: 10000 }),
   folderNameInput: () => cy.get("[data-cy=input-folder-name]"),
   cancelButton: () => cy.get("[data-cy=button-cancel-create-folder]"),
-  createButton: () => cy.get("[data-cy=button-create-folder]"),
+  createButton: () => cy.get("[data-cy=button-create-folder]", { timeout: 10000 }),
   folderCreationErrorLabel: () => cy.get("[data-cy=folder-creation-form] span.default.error"),
 
   // upload modal elements
-  startUploadButton: () => cy.get("[data-testId=button-start-upload]"),
+  startUploadButton: () => cy.get("[data-testId=button-start-upload]", { timeout: 10000 }),
   uploadCancelButton: () => cy.get("[data-testId=button-cancel-upload]"),
   fileListRemoveButton: () => cy.get("[data-testid=button-remove-from-file-list]"),
   fileUploadList: () => cy.get("[data-testid=file-list-fileUpload] li"),

@@ -20,11 +20,9 @@ import { CSSTheme } from "../../../Themes/types"
 import { FileSystemItem } from "../../../Contexts/StorageContext"
 import { nameValidator } from "../../../Utils/validationSchema"
 import { ISelectedFile, useFileBrowser } from "../../../Contexts/FileBrowserContext"
+import { desktopGridSettings, mobileGridSettings } from "../FilesList/FilesList"
 
 const useStyles = makeStyles(({ breakpoints, constants, palette }: CSSTheme) => {
-  const desktopGridSettings = "50px 69px 3fr 190px 100px 45px !important"
-  const mobileGridSettings = "69px 3fr 45px !important"
-
   return createStyles({
     tableRow: {
       border: "2px solid transparent",
@@ -171,7 +169,6 @@ const FileSystemTableItem = React.forwardRef(
           droppable: isFolder && (isOverMove || isOverUpload)
         })}
         type="grid"
-        rowSelectable={true}
         ref={forwardedRef}
         selected={selected.findIndex(item => item.name === file.name && item.cid === file.cid) >= 0}
       >
@@ -235,6 +232,11 @@ const FileSystemTableItem = React.forwardRef(
                 <TableCell align="left">
                   {!isFolder && !!created_at && dayjs.unix(created_at).format("DD MMM YYYY h:mm a")}
                 </TableCell>
+            }
+            {
+              <TableCell>
+                {!isFolder && cid}
+              </TableCell>
             }
             <TableCell align="left">
               {!isFolder && formatBytes(size, 2)}
