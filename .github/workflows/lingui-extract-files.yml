@@ -7,8 +7,8 @@ on:
     - "packages/files-ui/**/*"
 jobs:
   test:
-    - name: test
-      run: echo "-----ref: ${{github.ref}}"
+    name: test
+    run: echo "-----ref: ${{github.ref}}"
   # extract any new translatable string
   # and commit if there are new ones
   extract:
