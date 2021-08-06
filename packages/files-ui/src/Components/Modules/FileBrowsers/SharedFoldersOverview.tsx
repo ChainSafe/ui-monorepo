@@ -200,8 +200,10 @@ const SharedFolderOverview = () => {
             hover={true}
           >
             <TableHead className={classes.tableHead}>
-              <TableRow type="grid"
-                className={classes.tableRow}>
+              <TableRow
+                type="grid"
+                className={classes.tableRow}
+              >
                 {desktop &&
                 <TableHeadCell>
                   {/* Icon */}
