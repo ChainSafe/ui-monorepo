@@ -23,17 +23,13 @@ import { ISelectedFile, useFileBrowser } from "../../../Contexts/FileBrowserCont
 
 const useStyles = makeStyles(({ breakpoints, constants, palette }: CSSTheme) => {
   const desktopGridSettings = "50px 69px 3fr 190px 100px 45px !important"
-  const ipfsDesktopGridSettings = "50px 69px 3fr 190px 45px !important"
   const mobileGridSettings = "69px 3fr 45px !important"
 
   return createStyles({
     tableRow: {
       border: "2px solid transparent",
       [breakpoints.up("md")]: {
-        gridTemplateColumns: desktopGridSettings,
-        "&.ipfs": {
-          gridTemplateColumns: ipfsDesktopGridSettings
-        }
+        gridTemplateColumns: desktopGridSettings
       },
       [breakpoints.down("md")]: {
         gridTemplateColumns: mobileGridSettings
