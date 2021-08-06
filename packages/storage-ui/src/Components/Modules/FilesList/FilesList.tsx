@@ -49,10 +49,12 @@ interface IStyleProps {
   themeKey: string
 }
 
+export const desktopGridSettings = "50px 69px 3fr 3fr 100px 45px !important"
+export const mobileGridSettings = "69px 3fr 45px !important"
+
 const useStyles = makeStyles(
   ({ animation, breakpoints, constants, palette, zIndex }: CSSTheme) => {
-    const desktopGridSettings = "50px 69px 3fr 190px 100px 45px !important"
-    const mobileGridSettings = "69px 3fr 45px !important"
+
     return createStyles({
       root: {
         position: "relative",
@@ -779,7 +781,6 @@ const FilesList = () => {
                 </TableHeadCell>
                 <TableHeadCell
                   sortButtons={true}
-                  align="left"
                   onSortChange={() => handleSortToggle("name")}
                   sortDirection={column === "name" ? direction : undefined}
                   sortActive={column === "name"}
@@ -787,7 +788,7 @@ const FilesList = () => {
                   <Trans>Name</Trans>
                 </TableHeadCell>
                 {
-                  fileSystemType && fileSystemType !== "ipfs" && <TableHeadCell
+                  desktop && fileSystemType && fileSystemType !== "ipfs" && <TableHeadCell
                     sortButtons={true}
                     align="left"
                     onSortChange={() => handleSortToggle("date_uploaded")}
@@ -797,6 +798,11 @@ const FilesList = () => {
                     sortActive={column === "date_uploaded"}
                   >
                     <Trans>Date uploaded</Trans>
+                  </TableHeadCell>
+                }
+                {
+                  desktop && <TableHeadCell>
+                    CID
                   </TableHeadCell>
                 }
                 <TableHeadCell

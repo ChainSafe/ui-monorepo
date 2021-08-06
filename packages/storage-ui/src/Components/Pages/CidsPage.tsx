@@ -8,8 +8,8 @@ import { CSSTheme } from "../../Themes/types"
 import AddCIDModal from "../Modules/AddCIDModal"
 import { PinStatus } from "@chainsafe/files-api-client"
 
-export const desktopGridSettings = "3fr 160px 120px 120px 140px 70px !important"
-export const mobileGridSettings = "3fr 160px 120px 120px 140px 70px !important"
+export const desktopGridSettings = "2fr 180px 120px 120px 140px 70px !important"
+export const mobileGridSettings = "2fr 180px 120px 120px 140px 70px !important"
 
 const useStyles = makeStyles(({ animation, breakpoints, constants }: CSSTheme) =>
   createStyles({
