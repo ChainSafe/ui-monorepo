@@ -38,6 +38,7 @@ jobs:
       run: yarn install --immutable
 
     - name: lingui-extract and commit
+      if: ${{ github.actor == 'Tbaut' }}
       run: |
         (cd packages/files-ui && yarn extract --clean)
         git add packages/files-ui/src/locales/*
