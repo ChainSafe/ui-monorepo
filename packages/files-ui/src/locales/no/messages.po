@@ -271,9 +271,6 @@ msgstr ""
 msgid "Forget this browser"
 msgstr ""
 
-msgid "GGenerating…"
-msgstr ""
-
 msgid "General"
 msgstr ""
 
@@ -281,6 +278,9 @@ msgid "Generate backup secret phrase"
 msgstr ""
 
 msgid "Generated"
+msgstr ""
+
+msgid "Generating…"
 msgstr ""
 
 msgid "Get Started"

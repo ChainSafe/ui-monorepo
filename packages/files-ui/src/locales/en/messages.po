@@ -274,9 +274,6 @@ msgstr "For security reasons, each time you sign in we’ll ask you for one of t
 msgid "Forget this browser"
 msgstr "Forget this browser"
 
-msgid "GGenerating…"
-msgstr "GGenerating…"
-
 msgid "General"
 msgstr "General"
 
@@ -285,6 +282,9 @@ msgstr "Generate backup secret phrase"
 
 msgid "Generated"
 msgstr "Generated"
+
+msgid "Generating…"
+msgstr "Generating…"
 
 msgid "Get Started"
 msgstr "Get Started"
