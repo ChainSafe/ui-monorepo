@@ -16,13 +16,6 @@ jobs:
       with:
         ref: ${{ github.event.pull_request.head.ref }}
         ssh-key: ${{ secrets.LINGUI_GH_ACTION_COMMIT_KEY }}
-
-    - name: Give the var
-      run: | 
-        echo "-----ref ${{github.ref}}  github.head_ref ${{github.head_ref}} github.base_ref ${{github.base_ref}} github.repository ${{github.repository}}"
-        echo "github.repository_owner ${{github.repository_owner}}"
-        echo "github.actor ${{github.actor}}"
-
     - name: set user
       run: |
         git config --global user.name 'GitHub Actions'
@@ -38,7 +31,7 @@ jobs:
       run: yarn install --immutable
 
     - name: lingui-extract and commit
-      if: ${{ github.actor == 'Tbaut' }}
+      if: ${{ github.actor != 'weblate' }}
       run: |
         (cd packages/files-ui && yarn extract --clean)
         git add packages/files-ui/src/locales/*
