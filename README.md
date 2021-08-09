@@ -9,7 +9,7 @@ The repository is broken up into packages, managed using yarn workspaces. You ca
 
 #### **`packages/common-components`**
 
-Various components (atoms/molecules) that are used in the development of UI's. This package forms the base of the UI providing composable components, form elements, icons, small scope elements.
+Various components (atoms/molecules) that are used in the development of UI's. This package forms the base of the UI providing composable components, form elements, icons, small scope elements...
 
 
 #### **`packages/common-theme`**
