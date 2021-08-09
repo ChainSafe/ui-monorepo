@@ -281,7 +281,7 @@ msgid "Generated"
 msgstr ""
 
 msgid "Generating…"
-msgstr ""
+msgstr "Wird generiert …"
 
 msgid "Get Started"
 msgstr "Anfangen"
