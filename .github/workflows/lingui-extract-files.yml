@@ -18,7 +18,7 @@ jobs:
         ssh-key: ${{ secrets.LINGUI_GH_ACTION_COMMIT_KEY }}
 
     - name: Give the var
-      run: echo "-----ref {{github.ref}}"
+      run: echo "-----ref ${{github.ref}}"
 
     - name: set user
       run: |
