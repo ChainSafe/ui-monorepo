@@ -275,6 +275,9 @@ msgstr "Pour des raisons de sécurité, chaque fois que vous vous connectez, nou
 msgid "Forget this browser"
 msgstr "Oublier ce navigateur"
 
+msgid "GGenerating…"
+msgstr ""
+
 msgid "General"
 msgstr "Général"
 
@@ -283,9 +286,6 @@ msgstr "Créer une phrase de sauvegarde secrète"
 
 msgid "Generated"
 msgstr ""
-
-msgid "Generating…"
-msgstr "Génération…"
 
 msgid "Get Started"
 msgstr "Commencer"
