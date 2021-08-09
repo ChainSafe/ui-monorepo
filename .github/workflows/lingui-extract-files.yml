@@ -6,18 +6,15 @@ on:
     paths:
     - "packages/files-ui/**/*"
 jobs:
-  test:
-    name: "Get var"
-  steps:
-    - name: Give the var
-      run: echo "-----ref: ${{github.ref}}"
-
   # extract any new translatable string
   # and commit if there are new ones
   extract:
     name: lingui-extract
     runs-on: ubuntu-latest
     steps:
+    - name: Give the var
+      run: echo "-----ref: ${{github.ref}}"
+
     - uses: actions/checkout@v2
       with:
         ref: ${{ github.event.pull_request.head.ref }}
