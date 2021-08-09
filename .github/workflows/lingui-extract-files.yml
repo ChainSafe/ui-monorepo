@@ -18,8 +18,9 @@ jobs:
         ssh-key: ${{ secrets.LINGUI_GH_ACTION_COMMIT_KEY }}
 
     - name: Give the var
-      run: echo "-----ref ${{github.ref}}  github.head_ref ${{github.head_ref}} github.base_ref ${{github.base_ref}} github.repository ${{github.repository}}"
-      run: echo "github.repository_owner ${{github.repository_owner}}"
+      run: | 
+      echo "-----ref ${{github.ref}}  github.head_ref ${{github.head_ref}} github.base_ref ${{github.base_ref}} github.repository ${{github.repository}}"
+      echo "github.repository_owner ${{github.repository_owner}}"
 
     - name: set user
       run: |
