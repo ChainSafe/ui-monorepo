@@ -12,13 +12,13 @@ jobs:
     name: lingui-extract
     runs-on: ubuntu-latest
     steps:
-    - name: Give the var
-      run: echo "-----ref: ${{github.ref}}"
-
     - uses: actions/checkout@v2
       with:
         ref: ${{ github.event.pull_request.head.ref }}
         ssh-key: ${{ secrets.LINGUI_GH_ACTION_COMMIT_KEY }}
+
+    - name: Give the var
+      run: echo "-----ref: ${{github.ref}}"
 
     - name: set user
       run: |
