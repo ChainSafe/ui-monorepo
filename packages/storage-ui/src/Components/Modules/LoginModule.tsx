@@ -1,5 +1,14 @@
 import React, { useCallback, useState } from "react"
-import { Button, FormikTextInput, GithubLogoIcon, GoogleLogoIcon, Loading, MailIcon, Typography } from "@chainsafe/common-components"
+import {
+  Button,
+  EthereumLogoIcon,
+  FormikTextInput,
+  GithubLogoIcon,
+  GoogleLogoIcon,
+  Loading,
+  MailIcon,
+  Typography
+} from "@chainsafe/common-components"
 import { createStyles, makeStyles, useThemeSwitcher } from "@chainsafe/common-theme"
 import { CSSTheme } from "../../Themes/types"
 import { t, Trans } from "@lingui/macro"
@@ -423,6 +432,7 @@ const LoginModule = ({ className }: IInitialScreen) => {
                 size="large"
                 disabled={maintenanceMode || isConnecting || status !== "initialized"}
               >
+                <EthereumLogoIcon className="icon"/>
                 <Trans>Continue with Web3 Wallet</Trans>
               </Button>
               <Button
