@@ -27,11 +27,12 @@
 
 import { authenticationPage } from "./page-objects/authenticationPage"
 import { apiTestHelper } from "./utils/apiTestHelper"
+import { bucketsPage } from "./page-objects/bucketsPage"
 import { ethers, Wallet } from "ethers"
 import { testPrivateKey, localHost } from "../fixtures/loginData"
 import { CustomizedBridge } from "./utils/CustomBridge"
 import "cypress-file-upload"
-import { bucketsPage } from "./page-objects/bucketsPage"
+import "cypress-pipe"
 
 export type Storage = Record<string, string>[];
 
@@ -170,6 +171,15 @@ Cypress.Commands.add(
   }
 )
 
+Cypress.Commands.add("safeClick", { prevSubject: "element" }, $element => {
+  const click = ($el: JQuery<HTMLElement>) => $el.trigger("click")
+  return cy
+    .wrap($element)
+    .should("be.visible")
+    .pipe(click)
+    .should($el => expect($el).to.not.be.visible)
+})
+
 // Must be declared global to be detected by typescript (allows import/export)
 // eslint-disable @typescript/interface-name
 declare global {
@@ -195,6 +205,20 @@ declare global {
        * @example cy.saveLocalAndSession()
        */
       saveLocalAndSession: () => Chainable
+
+      /**
+       * Use this when encountering race condition issues resulting in
+       * cypress "detached from DOM" issues or clicking before an event
+       * listener has been registered
+       *
+       * Temporary solution until cypress improve this issue
+       * further info
+       * https://www.cypress.io/blog/2019/01/22/when-can-the-test-click/
+       * https://github.com/testing-library/cypress-testing-library/issues/153#issuecomment-692386444
+       * https://github.com/cypress-io/cypress/issues/7306
+       * 
+       */
+      safeClick: () => Chainable
     }
   }
 }
