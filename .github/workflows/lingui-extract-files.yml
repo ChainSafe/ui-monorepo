@@ -21,6 +21,7 @@ jobs:
       run: | 
         echo "-----ref ${{github.ref}}  github.head_ref ${{github.head_ref}} github.base_ref ${{github.base_ref}} github.repository ${{github.repository}}"
         echo "github.repository_owner ${{github.repository_owner}}"
+        echo "github.actor ${{github.actor}}"
 
     - name: set user
       run: |
