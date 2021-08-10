@@ -155,9 +155,6 @@ msgstr "Fecha de subida"
 msgid "Decryption key"
 msgstr ""
 
-msgid "Decryption key:"
-msgstr ""
-
 msgid "Delete"
 msgstr "Borrar"
 

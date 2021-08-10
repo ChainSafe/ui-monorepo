@@ -155,9 +155,6 @@ msgstr "Téléversé le"
 msgid "Decryption key"
 msgstr "Clé de déchiffrement"
 
-msgid "Decryption key:"
-msgstr ""
-
 msgid "Delete"
 msgstr "Supprimer"
 

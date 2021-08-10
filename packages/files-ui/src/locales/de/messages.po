@@ -154,9 +154,6 @@ msgstr "Hochgeladen am"
 msgid "Decryption key"
 msgstr ""
 
-msgid "Decryption key:"
-msgstr ""
-
 msgid "Delete"
 msgstr "Löschen"
 
