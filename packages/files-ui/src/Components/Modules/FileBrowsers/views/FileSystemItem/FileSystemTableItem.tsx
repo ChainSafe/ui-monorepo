@@ -78,7 +78,7 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => 
       }
     },
     dropdownIcon: {
-      width: 14,  
+      width: 14,
       height: 14,
       padding: 0,
       position: "relative",
@@ -89,7 +89,7 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => 
         left: 0,
         width: 14,
         height: 14,
-        position: "absolute",
+        position: "absolute"
       }
     },
     dropdownOptions: {
@@ -234,12 +234,12 @@ const FileSystemTableItem = React.forwardRef(
           </>
         )}
         <TableCell align="right">
-        <Dropdown
-          testId='fileDropdown'
-          icon={<MoreIcon className={classes.dropdownIcon}/>}
-          options={menuItems}
-          style={{focusVisible: classes.focusVisible}}
-        />
+          <Dropdown
+            testId='fileDropdown'
+            icon={<MoreIcon className={classes.dropdownIcon}/>}
+            options={menuItems}
+            style={{ focusVisible: classes.focusVisible }}
+          />
         </TableCell>
       </TableRow>
     )
