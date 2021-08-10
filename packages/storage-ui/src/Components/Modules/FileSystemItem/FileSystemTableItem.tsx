@@ -20,11 +20,9 @@ import { CSSTheme } from "../../../Themes/types"
 import { FileSystemItem } from "../../../Contexts/StorageContext"
 import { nameValidator } from "../../../Utils/validationSchema"
 import { ISelectedFile, useFileBrowser } from "../../../Contexts/FileBrowserContext"
+import { desktopGridSettings, mobileGridSettings } from "../FilesList/FilesList"
 
 const useStyles = makeStyles(({ breakpoints, constants, palette }: CSSTheme) => {
-  const desktopGridSettings = "50px 69px 3fr 190px 100px 45px !important"
-  const mobileGridSettings = "69px 3fr 45px !important"
-
   return createStyles({
     tableRow: {
       border: "2px solid transparent",
@@ -104,10 +102,6 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: CSSTheme) => 
       "& a": {
         textDecoration: "none"
       }
-    },
-    overflowCell: {
-      textOverflow: "ellipsis",
-      overflow: "hidden"
     }
   })
 })
@@ -244,7 +238,7 @@ const FileSystemTableItem = React.forwardRef(
                 </TableCell>
             }
             {
-              <TableCell className={classes.overflowCell}>
+              <TableCell>
                 {!isFolder && cid}
               </TableCell>
             }
