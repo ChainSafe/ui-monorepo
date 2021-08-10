@@ -85,9 +85,7 @@ const ToggleHiddenText = ({
             </>
           ) : (
             <>
-              {
-                children
-              }
+              { children }
               <EyeOpenSvg
                 className={classes.icon}
                 onClick={() => setHidden(true)}
