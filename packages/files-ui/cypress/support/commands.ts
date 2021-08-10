@@ -34,8 +34,6 @@ import { CustomizedBridge } from "./utils/CustomBridge"
 import "cypress-file-upload"
 import "cypress-pipe"
 
-export type Storage = Record<string, string>[];
-
 export interface Web3LoginOptions {
   url?: string
   apiUrlBase?: string
@@ -45,12 +43,12 @@ export interface Web3LoginOptions {
   clearTrashBucket?: boolean
 }
 
-Cypress.Commands.add("clearCsfBucket", (apiUrlBase: string) => {
-  apiTestHelper.clearBucket(apiUrlBase, "csf")
+Cypress.Commands.add("clearCsfBucket", () => {
+  apiTestHelper.clearBucket("csf")
 })
 
-Cypress.Commands.add("clearTrashBucket", (apiUrlBase: string) => {
-  apiTestHelper.clearBucket(apiUrlBase, "trash")
+Cypress.Commands.add("clearTrashBucket", ()  => {
+  apiTestHelper.clearBucket("trash")
 })
 
 Cypress.Commands.add(
@@ -58,7 +56,6 @@ Cypress.Commands.add(
   ({
     saveBrowser = false,
     url = localHost,
-    apiUrlBase = "https://stage.imploy.site/api/v1",
     clearCSFBucket = false,
     clearTrashBucket = false
   }: Web3LoginOptions = {}) => {
@@ -97,11 +94,11 @@ Cypress.Commands.add(
     homePage.appHeaderLabel().should("be.visible")
 
     if (clearCSFBucket) {
-      cy.clearCsfBucket(apiUrlBase)
+      cy.clearCsfBucket()
     }
 
     if (clearTrashBucket) {
-      cy.clearTrashBucket(apiUrlBase)
+      cy.clearTrashBucket()
     }
   }
 )
@@ -123,7 +120,6 @@ declare global {
       /**
        * Login using Metamask to an instance of Files.
        * @param {String} options.url - (default: "http://localhost:3000") - what url to visit.
-       * @param {String} apiUrlBase - (default: "https://stage.imploy.site/api/v1") - what url to call for the api.
        * @param {Boolean} options.saveBrowser - (default: false) - save the browser to localstorage.
        * @param {Boolean} options.clearCSFBucket - (default: false) - whether any file in the csf bucket should be deleted.
        * @example cy.web3Login({saveBrowser: true, url: 'http://localhost:8080'})
@@ -135,8 +131,8 @@ declare global {
        * @param {String} apiUrlBase - what url to call for the api.
        * @example cy.clearCsfBucket("https://stage.imploy.site/api/v1")
        */
-      clearCsfBucket: (apiUrlBase: string) => Chainable
-      clearTrashBucket: (apiUrlBase: string) => Chainable
+      clearCsfBucket: () => Chainable
+      clearTrashBucket: () => Chainable
 
       /**
        * Use this when encountering race condition issues resulting in

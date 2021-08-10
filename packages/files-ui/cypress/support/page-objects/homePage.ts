@@ -1,5 +1,4 @@
 import { basePage } from "./basePage"
-import { folderName } from "../../fixtures/filesTestData"
 
 export const click = ($el: JQuery<HTMLElement>) => $el.trigger("click")
 
@@ -58,15 +57,6 @@ export const homePage = {
     // ensure upload is complete before proceeding
     this.uploadFileForm().should("not.exist")
     this.uploadStatusToast().should("not.exist")
-  },
-
-  createFolder(name: string = folderName) {
-    this.newFolderButton().click()
-    this.folderNameInput().type(name)
-    this.createButton().safeClick()
-    this.createFolderModal().should("not.exist")
-    this.fileItemName().contains(name)
   }
-
 }
 

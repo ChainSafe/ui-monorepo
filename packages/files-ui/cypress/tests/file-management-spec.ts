@@ -3,6 +3,7 @@ import { homePage } from "../support/page-objects/homePage"
 import { navigationMenu } from "../support/page-objects/navigationMenu"
 import { folderName } from "../fixtures/filesTestData"
 import "cypress-pipe"
+import { apiTestHelper } from "../support/utils/apiTestHelper"
 
 describe("File management", () => {
 
@@ -152,7 +153,7 @@ describe("File management", () => {
       cy.web3Login({ clearCSFBucket: true, clearTrashBucket: true })
 
       // create a folder
-      homePage.createFolder(folderName)
+      apiTestHelper.createFolder(`/${folderName}`)
       homePage.fileItemRow().should("have.length", 1)
 
       // delete the folder via the menu option 
