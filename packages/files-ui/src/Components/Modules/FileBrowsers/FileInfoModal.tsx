@@ -7,12 +7,13 @@ import React, { useState, useEffect } from "react"
 import CustomModal from "../../Elements/CustomModal"
 import CustomButton from "../../Elements/CustomButton"
 import { Trans } from "@lingui/macro"
-import { FileFullInfo } from "../../../Contexts/FilesContext"
+import { FileFullInfo, useFiles } from "../../../Contexts/FilesContext"
 import {
   Button,
   formatBytes,
   Grid,
   Loading,
+  ToggleHiddenText,
   Typography
 } from "@chainsafe/common-components"
 import clsx from "clsx"
@@ -160,6 +161,7 @@ interface IFileInfoModuleProps {
 const FileInfoModal = ({ filePath, close }: IFileInfoModuleProps) => {
   const classes = useStyles()
   const { filesApiClient } = useFilesApi()
+  const { personalEncryptionKey } = useFiles()
   const [loadingFileInfo, setLoadingInfo] = useState(false)
   const [fullFileInfo, setFullFullInfo] = useState<FileFullInfo | undefined>()
   const { bucket } = useFileBrowser()
@@ -359,6 +361,28 @@ const FileInfoModal = ({ filePath, close }: IFileInfoModuleProps) => {
                     component="p"
                   >
                     {fullFileInfo.content?.cid}
+                  </Typography>
+                </div>
+                <div className={classes.subInfoBox}>
+                  <Grid
+                    item
+                    flexDirection="row"
+                  >
+                    <Typography
+                      variant="body1"
+                      component="p"
+                    >
+                      <Trans>Decryption key</Trans>
+                    </Typography>
+                  </Grid>
+                  <Typography
+                    className={classes.subSubtitle}
+                    variant="body2"
+                    component="p"
+                  >
+                    <ToggleHiddenText hiddenLength={14}>
+                      <span>{ personalEncryptionKey }</span>
+                    </ToggleHiddenText>
                   </Typography>
                 </div>
               </div>
