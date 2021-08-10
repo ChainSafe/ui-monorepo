@@ -203,6 +203,11 @@ export const lightTheme = createTheme<CsfColors>({
             }
           }
         }
+      },
+      ToggleHiddenText: {
+        icon: {
+          stroke: "var(--gray9)"
+        }
       }
     }
   }

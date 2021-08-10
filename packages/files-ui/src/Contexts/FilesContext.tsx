@@ -81,6 +81,7 @@ type FilesContext = {
   uploadsInProgress: UploadProgress[]
   downloadsInProgress: DownloadProgress[]
   storageSummary: BucketSummaryResponse | undefined
+  personalEncryptionKey: string | undefined
   getStorageSummary: () => Promise<void>
   uploadFiles: (bucketId: string, files: File[], path: string, encryptionKey?: string) => Promise<void>
   downloadFile: (bucketId: string, itemToDownload: FileSystemItem, path: string) => void
@@ -588,6 +589,7 @@ const FilesProvider = ({ children }: FilesContextProps) => {
         uploadFiles,
         downloadFile,
         getFileContent,
+        personalEncryptionKey,
         uploadsInProgress,
         storageSummary,
         getStorageSummary,
