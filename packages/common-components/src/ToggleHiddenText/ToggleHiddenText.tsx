@@ -1,5 +1,5 @@
 import { createStyles, ITheme, makeStyles } from "@chainsafe/common-theme"
-import React, { ReactNode, useState } from "react"
+import React, { ReactNode, useCallback, useMemo, useState } from "react"
 import clsx from "clsx"
 import { EyeClosedSvg } from "../Icons/icons/EyeClosed.icon"
 import { EyeOpenSvg } from "../Icons/icons/EyeOpen.icon"
@@ -29,42 +29,37 @@ interface IToggleHiddenText {
   className?: string
 }
 
-const ToggleHiddenText = ({
-  className,
-  iconPosition = "left",
-  hiddenLength = 6,
-  children
-}: IToggleHiddenText) => {
+const ToggleHiddenText = ({ className, iconPosition = "left", hiddenLength = 6, children }: IToggleHiddenText) => {
   const classes = useStyles()
   const [hidden, setHidden] = useState(true)
+  const hiddenKey = useMemo(() => new Array(hiddenLength).fill("●"), [hiddenLength])
+
+  const EyeClosed = useCallback(() => <EyeClosedSvg
+    className={classes.icon}
+    onClick={() => setHidden(false)}
+  />
+  , [classes.icon])
+
+  const EyeOpen = useCallback(() => <EyeOpenSvg
+    className={classes.icon}
+    onClick={() => setHidden(true)}
+  />
+  , [classes.icon])
 
   return (
     <span className={clsx(classes.root, className)} >
       {
         hidden
-          ? (
-            <>
-              {iconPosition === "left" && <EyeClosedSvg
-                className={classes.icon}
-                onClick={() => setHidden(false)}/>}
-              <span>{ new Array(hiddenLength).fill("●") }</span>
-              {iconPosition === "right" && <EyeClosedSvg
-                className={classes.icon}
-                onClick={() => setHidden(false)}/>}
-            </>
-          ) : (
-            <>
-              {iconPosition === "left" && <EyeOpenSvg
-                className={classes.icon}
-                onClick={() => setHidden(true)}
-              />}
-              { children }
-              {iconPosition === "right" && <EyeOpenSvg
-                className={classes.icon}
-                onClick={() => setHidden(true)}
-              />}
-            </>
-          )
+          ? <>
+            {iconPosition === "left" && <EyeClosed/>}
+            <span>{ hiddenKey }</span>
+            {iconPosition === "right" && <EyeClosed/>}
+          </>
+          : <>
+            {iconPosition === "left" && <EyeOpen />}
+            { children }
+            {iconPosition === "right" && <EyeOpen />}
+          </>
       }
     </span>
   )
