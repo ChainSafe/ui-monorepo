@@ -51,13 +51,13 @@ const ToggleHiddenText = ({ className, iconPosition = "left", hiddenLength = 6, 
       {
         hidden
           ? <>
-            {iconPosition === "left" && <EyeClosed/>}
-            <span>{ hiddenKey }</span>
-            {iconPosition === "right" && <EyeClosed/>}
+            {iconPosition === "left" && <EyeClosed />}
+            <span>{hiddenKey}</span>
+            {iconPosition === "right" && <EyeClosed />}
           </>
           : <>
             {iconPosition === "left" && <EyeOpen />}
-            { children }
+            {children}
             {iconPosition === "right" && <EyeOpen />}
           </>
       }
