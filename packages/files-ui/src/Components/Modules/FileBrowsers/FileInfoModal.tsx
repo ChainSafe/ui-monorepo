@@ -372,7 +372,7 @@ const FileInfoModal = ({ filePath, close }: IFileInfoModuleProps) => {
                       variant="body1"
                       component="p"
                     >
-                      <Trans>Decryption key:</Trans>
+                      <Trans>Decryption key</Trans>
                     </Typography>
                   </Grid>
                   <Typography
