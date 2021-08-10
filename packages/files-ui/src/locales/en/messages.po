@@ -154,9 +154,6 @@ msgstr "Date uploaded"
 msgid "Decryption key"
 msgstr "Decryption key"
 
-msgid "Decryption key:"
-msgstr "Decryption key:"
-
 msgid "Delete"
 msgstr "Delete"
 
