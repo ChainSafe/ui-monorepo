@@ -29,14 +29,6 @@ interface IToggleHiddenText {
   className?: string
 }
 
-const loop = (count: number) => {
-  let text = ""
-  for (let i = 0; i < count; i++) {
-    text += "●"
-  }
-  return text
-}
-
 const ToggleHiddenText = ({
   className,
   iconPosition = "left",
@@ -45,49 +37,32 @@ const ToggleHiddenText = ({
 }: IToggleHiddenText) => {
   const classes = useStyles()
   const [hidden, setHidden] = useState(true)
+
   return (
     <span className={clsx(classes.root, className)} >
       {
         hidden
-          ? iconPosition === "left" ? (
+          ? (
             <>
-              <EyeClosedSvg
+              {iconPosition === "left" && <EyeClosedSvg
                 className={classes.icon}
-                onClick={() => setHidden(false)}
-              />
-              <span>
-                {
-                  loop(hiddenLength)
-                }
-              </span>
+                onClick={() => setHidden(false)}/>}
+              <span>{ new Array(hiddenLength).fill("●") }</span>
+              {iconPosition === "right" && <EyeClosedSvg
+                className={classes.icon}
+                onClick={() => setHidden(false)}/>}
             </>
           ) : (
             <>
-              <span>
-                {
-                  loop(hiddenLength)
-                }
-              </span>
-              <EyeClosedSvg
-                className={classes.icon}
-                onClick={() => setHidden(false)}
-              />
-            </>
-          ) : iconPosition === "left" ? (
-            <>
-              <EyeOpenSvg
+              {iconPosition === "left" && <EyeOpenSvg
                 className={classes.icon}
                 onClick={() => setHidden(true)}
-              />
+              />}
               { children }
-            </>
-          ) : (
-            <>
-              { children }
-              <EyeOpenSvg
+              {iconPosition === "right" && <EyeOpenSvg
                 className={classes.icon}
                 onClick={() => setHidden(true)}
-              />
+              />}
             </>
           )
       }
