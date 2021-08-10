@@ -104,6 +104,10 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: CSSTheme) => 
       "& a": {
         textDecoration: "none"
       }
+    },
+    overflowCell: {
+      textOverflow: "ellipsis",
+      overflow: "hidden"
     }
   })
 })
@@ -240,7 +244,7 @@ const FileSystemTableItem = React.forwardRef(
                 </TableCell>
             }
             {
-              <TableCell>
+              <TableCell className={classes.overflowCell}>
                 {!isFolder && cid}
               </TableCell>
             }
