@@ -7,7 +7,6 @@ import {
   formatBytes,
   FormikTextInput,
   IMenuItem,
-  MenuDropdown,
   MoreIcon,
   TableCell,
   TableRow,
@@ -19,7 +18,6 @@ import { FileSystemItem } from "../../../../../Contexts/FilesContext"
 import { ConnectDragPreview } from "react-dnd"
 import { Form, FormikProvider, useFormik } from "formik"
 import { nameValidator } from "../../../../../Utils/validationSchema"
-import {Menu, MenuItem} from "@material-ui/core"
 import Dropdown from "../../../../../Ui-components/Dropdown"
 
 const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => {
@@ -63,16 +61,6 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => 
         margin: `${constants.generalUnit * 4.2}px 0`
       }
     },
-    menuIcon: {
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
-      width: 20,
-      marginRight: constants.generalUnit * 1.5,
-      "& svg": {
-        fill: constants.fileSystemItemRow.menuIcon
-      }
-    },
     desktopRename: {
       display: "flex",
       flexDirection: "row",
@@ -96,7 +84,12 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => 
       position: "relative",
       fontSize: "unset",
       "& svg": {
-        fill: constants.fileSystemItemRow.dropdownIcon
+        fill: constants.fileSystemItemRow.dropdownIcon,
+        top: "50%",
+        left: 0,
+        width: 14,
+        height: 14,
+        position: "absolute",
       }
     },
     dropdownOptions: {
@@ -107,6 +100,9 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => 
     dropdownItem: {
       backgroundColor: constants.fileSystemItemRow.itemBackground,
       color: constants.fileSystemItemRow.itemColor
+    },
+    focusVisible:{
+      backgroundColor: "transparent !important"
     }
   })
 })
@@ -239,21 +235,11 @@ const FileSystemTableItem = React.forwardRef(
         )}
         <TableCell align="right">
         <Dropdown
+          testId='fileDropdown'
           icon={<MoreIcon className={classes.dropdownIcon}/>}
           options={menuItems}
+          style={{focusVisible: classes.focusVisible}}
         />
-          {/* <MenuDropdown
-            testId='fileDropdown'
-            animation="none"
-            anchor={desktop ? "bottom-center" : "bottom-right"}
-            menuItems={menuItems}
-            classNames={{
-              icon: classes.dropdownIcon,
-              options: classes.dropdownOptions,
-              item: classes.dropdownItem
-            }}
-            indicator={MoreIcon}
-          /> */}
         </TableCell>
       </TableRow>
     )

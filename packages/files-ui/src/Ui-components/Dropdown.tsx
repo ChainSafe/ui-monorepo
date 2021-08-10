@@ -3,6 +3,7 @@ import {Menu, MenuItem} from "@material-ui/core"
 import { makeStyles, createStyles } from "@chainsafe/common-theme"
 import { CSFTheme } from "../Themes/types";
 import clsx from "clsx";
+import { useCallback } from "react";
 
 interface Option {
     contents: ReactNode,
@@ -10,14 +11,16 @@ interface Option {
 }
 
 interface CustomClasses {
-    iconContainer: Record<string, string>
-    menuWrapper: Record<string, string>
+    iconContainer?: string
+    menuWrapper?: string
+    focusVisible?: string
 }
 
 interface Props {
     icon: ReactNode
     options: Option[]
     style?: CustomClasses
+    testId?: string
 }
 
 const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => {
@@ -27,36 +30,43 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => 
     }
 })})
 
-export default function Dropdown({icon, options, style}: Props) {
+export default function Dropdown({icon, options, style, testId}: Props) {
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
     const classes = useStyles()
   
-    const handleClick = (event: any) => {
+    const handleClick = useCallback((event: any) => {
       setAnchorEl(event.currentTarget);
-    };
+    }, []);
   
-    const handleClose = () => {
+    const handleClose = useCallback(() => {
       setAnchorEl(null);
-    };
-  
+    }, []);
+ 
     return (
       <div className={clsx(style?.menuWrapper)}>
         <div
+            data-testid={`dropdown-title-${testId}`}
             className={clsx(classes.iconContainer, style?.iconContainer)}
             onClick={handleClick}
         >
           {icon}
         </div>
         <Menu
-          id="long-menu"
           anchorEl={anchorEl}
           keepMounted
           open={open}
           onClose={handleClose}
         >
           {options.map((option, index) => (
-            <MenuItem key={index} onClick={option.onClick}>
+            <MenuItem
+                key={index}
+                onClick={() => {
+                    option.onClick && option.onClick()
+                    handleClose()
+                }}
+                focusVisibleClassName={clsx(style?.focusVisible)}
+            >
               {option.contents}
             </MenuItem>
           ))}
