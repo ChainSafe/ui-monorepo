@@ -79,9 +79,7 @@ const ToggleHiddenText = ({
                 className={classes.icon}
                 onClick={() => setHidden(true)}
               />
-              {
-                children
-              }
+              { children }
             </>
           ) : (
             <>
