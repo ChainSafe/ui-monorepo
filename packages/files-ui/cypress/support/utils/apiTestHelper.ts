@@ -36,7 +36,7 @@ export const apiTestHelper = {
         })
     })
   },
-  // create a folder with a fill path like "/new folder"
+  // create a folder with a full path like "/new folder"
   // you can create subfolders on the fly too with "/first/sub folder"
   createFolder(folderPath: string,  apiUrlBase: string = API_BASE_USE){
     const axiosInstance = axios.create({
