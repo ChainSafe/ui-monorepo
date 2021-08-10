@@ -37,7 +37,7 @@ const loop = (count: number) => {
   return text
 }
 
-const ToggleHiddenText: React.FC<IToggleHiddenText> = ({
+const ToggleHiddenText = ({
   className,
   iconPosition = "left",
   hiddenLength = 6,
