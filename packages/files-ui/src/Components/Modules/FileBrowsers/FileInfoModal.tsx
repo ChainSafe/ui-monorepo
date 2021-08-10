@@ -381,11 +381,7 @@ const FileInfoModal = ({ filePath, close }: IFileInfoModuleProps) => {
                     component="p"
                   >
                     <ToggleHiddenText hiddenLength={14}>
-                      <span>
-                        {
-                          personalEncryptionKey
-                        }
-                      </span>
+                      <span>{ personalEncryptionKey }</span>
                     </ToggleHiddenText>
                   </Typography>
                 </div>
