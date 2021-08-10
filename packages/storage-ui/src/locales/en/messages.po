@@ -160,9 +160,6 @@ msgstr "Email is required"
 msgid "Enter the verification code:"
 msgstr "Enter the verification code:"
 
-msgid "Enter your email:"
-msgstr "Enter your email:"
-
 msgid "Failed to get signature"
 msgstr "Failed to get signature"
 
@@ -253,6 +250,9 @@ msgstr "One sec, getting files ready..."
 msgid "Open on Gateway"
 msgstr "Open on Gateway"
 
+msgid "Or using one of the following:"
+msgstr "Or using one of the following:"
+
 msgid "Paste the CID to pin it with ChainSafe Storage"
 msgstr "Paste the CID to pin it with ChainSafe Storage"
 
@@ -270,9 +270,6 @@ msgstr "Please enter a folder name"
 
 msgid "Please enter a name"
 msgstr "Please enter a name"
-
-msgid "Please enter a valid email"
-msgstr "Please enter a valid email"
 
 msgid "Please select a file to upload"
 msgstr "Please select a file to upload"
@@ -322,11 +319,11 @@ msgstr "Sign-in with {0}"
 msgid "Size"
 msgstr "Size"
 
+msgid "Something went wrong with email login! Please try again."
+msgstr "Something went wrong with email login! Please try again."
+
 msgid "Something went wrong!"
 msgstr "Something went wrong!"
-
-msgid "Something went wrong! Please try again."
-msgstr "Something went wrong! Please try again."
 
 msgid "Something went wrong. We couldn't upload your file"
 msgstr "Something went wrong. We couldn't upload your file"
@@ -387,6 +384,9 @@ msgstr "Uploading {0} files"
 
 msgid "Use a different login method"
 msgstr "Use a different login method"
+
+msgid "Using an email:"
+msgstr "Using an email:"
 
 msgid "Verification code is required"
 msgstr "Verification code is required"
