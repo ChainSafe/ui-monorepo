@@ -19,6 +19,8 @@ import { FileSystemItem } from "../../../../../Contexts/FilesContext"
 import { ConnectDragPreview } from "react-dnd"
 import { Form, FormikProvider, useFormik } from "formik"
 import { nameValidator } from "../../../../../Utils/validationSchema"
+import {Menu, MenuItem} from "@material-ui/core"
+import Dropdown from "../../../../../Ui-components/Dropdown"
 
 const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => {
   const desktopGridSettings = "50px 69px 3fr 190px 100px 45px !important"
@@ -88,6 +90,11 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => 
       }
     },
     dropdownIcon: {
+      width: 14,  
+      height: 14,
+      padding: 0,
+      position: "relative",
+      fontSize: "unset",
       "& svg": {
         fill: constants.fileSystemItemRow.dropdownIcon
       }
@@ -231,7 +238,11 @@ const FileSystemTableItem = React.forwardRef(
           </>
         )}
         <TableCell align="right">
-          <MenuDropdown
+        <Dropdown
+          icon={<MoreIcon className={classes.dropdownIcon}/>}
+          options={menuItems}
+        />
+          {/* <MenuDropdown
             testId='fileDropdown'
             animation="none"
             anchor={desktop ? "bottom-center" : "bottom-right"}
@@ -242,7 +253,7 @@ const FileSystemTableItem = React.forwardRef(
               item: classes.dropdownItem
             }}
             indicator={MoreIcon}
-          />
+          /> */}
         </TableCell>
       </TableRow>
     )
