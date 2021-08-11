@@ -1,12 +1,12 @@
-import React, { useState, useCallback, useMemo } from "react"
+import React, { useState, useCallback } from "react"
 import { createStyles, makeStyles } from "@chainsafe/common-theme"
 import { CSSTheme } from "../../../Themes/types"
 import { Button, Emoji, FormikTextInput, Typography } from "@chainsafe/common-components"
 import { Trans, t } from "@lingui/macro"
 import clsx from "clsx"
 import { Form, Formik } from "formik"
-import * as yup from "yup"
 import { useStorageApi } from "../../../Contexts/StorageApiContext"
+import { nonceValidation } from "../../../Utils/validationSchema"
 
 const useStyles = makeStyles(({ palette, breakpoints, constants }: CSSTheme) =>
   createStyles({
@@ -81,49 +81,17 @@ const useStyles = makeStyles(({ palette, breakpoints, constants }: CSSTheme) =>
 )
 
 interface IPasswordlessEmail {
+  email: string
   resetLogin: () => void
 }
 
-const PasswordlessEmail = ({ resetLogin }: IPasswordlessEmail) => {
+const PasswordlessEmail = ({ resetLogin, email }: IPasswordlessEmail) => {
   const classes = useStyles()
-  const [isSubmitEmailLoading, setIsSubmitEmailLoading] = useState(false)
   const [isSubmitResendEmailLoading, setIsSubmitResendEmailLoading] = useState(false)
   const [isSubmitNonceLoading, setIsSubmitNonceLoading] = useState(false)
-  const [page, setPage] = useState<"confirmEmail" | "confirmVerificationCode">("confirmEmail")
-  const [email, setEmail] = useState<string | undefined>()
   const { storageApiClient, login } = useStorageApi()
   const [hasEmailResent, setHasEmailResent] = useState(false)
   const [error, setError] = useState<string | undefined>()
-
-  const emailValidation = useMemo(() => yup.object().shape({
-    email: yup
-      .string()
-      .email(t`Please enter a valid email`)
-      .required(t`Email is required`)
-  })
-  , [])
-
-  const nonceValidation = useMemo(() => yup.object().shape({
-    nonce: yup
-      .string()
-      .required(t`Verification code is required`)
-  })
-  , [])
-
-  const onSubmitEmail = useCallback((values: {email: string}) => {
-    const trimmedEmail = values.email.trim()
-
-    setIsSubmitEmailLoading(true)
-    setError(undefined)
-    storageApiClient.getIdentityEmailToken({ email: trimmedEmail })
-      .then(() => {
-        setEmail(trimmedEmail)
-        setPage("confirmVerificationCode")
-      }).catch ((e) => {
-        setError(t`Something went wrong! Please try again.`)
-        console.error(e)
-      }).finally (() => setIsSubmitEmailLoading(false))
-  }, [storageApiClient])
 
   const onSubmitNonce = useCallback((values) => {
     if (!email) return
@@ -164,126 +132,87 @@ const PasswordlessEmail = ({ resetLogin }: IPasswordlessEmail) => {
           Sign in
         </Trans>
       </Typography>
-      {page === "confirmEmail"
-        ? <Formik
-          initialValues={{
-            email: ""
-          }}
-          validationSchema={emailValidation}
-          onSubmit={onSubmitEmail}
-        >
-          <Form>
-            <FormikTextInput
-              className={classes.input}
-              name="email"
-              label={t`Enter your email:`}
-              labelClassName={classes.inputLabel}
-            />
-            {error && (
-              <Typography
-                component="p"
-                variant="body1"
-                className={classes.errorText}
-              >
-                {error}
-              </Typography>
-            )}
-            <Button
-              className={clsx(classes.button)}
-              variant="primary"
-              fullsize
-              type="submit"
-              loading={isSubmitEmailLoading}
-              disabled={isSubmitEmailLoading}
-            >
-              <Trans>Continue</Trans>
-            </Button>
-          </Form>
-        </Formik>
-        : <>
-          <Formik
-            initialValues={{
-              nonce: ""
-            }}
-            validationSchema={nonceValidation}
-            onSubmit={onSubmitNonce}
+      <Formik
+        initialValues={{
+          nonce: ""
+        }}
+        validationSchema={nonceValidation}
+        onSubmit={onSubmitNonce}
+      >
+        <Form>
+          <Typography
+            variant="h3"
+            component="h3"
+            className={classes.title}
           >
-            <Form>
-              <Typography
-                variant="h3"
-                component="h3"
-                className={classes.title}
-              >
-                <Trans>Verification code sent!</Trans> <Emoji symbol="✨" />
-              </Typography>
-              <Typography
-                variant="body1"
-                component="p"
-                className={classes.subtitle}
-              >
-                <Trans>We’ve sent an email to {email}. It contains a verification code that’ll sign you in super quickly!</Trans>
-              </Typography>
-              <FormikTextInput
-                className={classes.input}
-                name="nonce"
-                label={t`Enter the verification code:`}
-                labelClassName={classes.inputLabel}
-              />
-              {error && (
-                <Typography
-                  component="p"
-                  variant="body1"
-                  className={classes.errorText}
-                >
-                  {error}
-                </Typography>
-              )}
-              <Button
-                className={clsx(classes.button)}
-                variant="primary"
-                fullsize
-                type="submit"
-                loading={isSubmitNonceLoading}
-                disabled={isSubmitNonceLoading}
-              >
-                <Trans>Continue</Trans>
-              </Button>
-            </Form>
-          </Formik>
+            <Trans>Verification code sent!</Trans> <Emoji symbol="✨" />
+          </Typography>
+          <Typography
+            variant="body1"
+            component="p"
+            className={classes.subtitle}
+          >
+            <Trans>We’ve sent an email to {email}. It contains a verification code that’ll sign you in super quickly!</Trans>
+          </Typography>
+          <FormikTextInput
+            className={classes.input}
+            name="nonce"
+            label={t`Enter the verification code:`}
+            labelClassName={classes.inputLabel}
+          />
+          {error && (
+            <Typography
+              component="p"
+              variant="body1"
+              className={classes.errorText}
+            >
+              {error}
+            </Typography>
+          )}
+          <Button
+            className={clsx(classes.button)}
+            variant="primary"
+            fullsize
+            type="submit"
+            loading={isSubmitNonceLoading}
+            disabled={isSubmitNonceLoading}
+          >
+            <Trans>Continue</Trans>
+          </Button>
+        </Form>
+      </Formik>
 
-          {!hasEmailResent
-            ? <Typography
-              className={classes.resendText}
-              component="p"
-              variant="body1"
-            >
-              <span>
-                <Trans>
+      {!hasEmailResent
+        ? <Typography
+          className={classes.resendText}
+          component="p"
+          variant="body1"
+        >
+          <span>
+            <Trans>
                     Didn&apos;t receive the email ?
-                </Trans>
-              </span>
-              <span
-                className={clsx(classes.buttonLink, "spaceLeft", isSubmitResendEmailLoading && "disabled")}
-                onClick={onResendEmail}
-              >
-                <Trans>
+            </Trans>
+          </span>
+          <span
+            className={clsx(classes.buttonLink, "spaceLeft", isSubmitResendEmailLoading && "disabled")}
+            onClick={onResendEmail}
+          >
+            <Trans>
                     Send another email
-                </Trans>
-              </span>
-            </Typography>
-            : <Typography
-              className={classes.resendText}
-              component="p"
-              variant="body1"
-            >
-              <span>
-                <Trans>
+            </Trans>
+          </span>
+        </Typography>
+        : <Typography
+          className={classes.resendText}
+          component="p"
+          variant="body1"
+        >
+          <span>
+            <Trans>
                     Check your inbox! We&apos;ve sent another email.
-                </Trans>
-              </span>
-            </Typography>
-          }
-        </>
+            </Trans>
+          </span>
+        </Typography>
       }
       <div
         className={classes.buttonLink}

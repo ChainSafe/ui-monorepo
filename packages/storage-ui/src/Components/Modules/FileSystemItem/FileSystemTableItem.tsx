@@ -98,7 +98,10 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: CSSTheme) => 
     },
     dropdownItem: {
       backgroundColor: constants.fileSystemItemRow.itemBackground,
-      color: constants.fileSystemItemRow.itemColor
+      color: constants.fileSystemItemRow.itemColor,
+      "& a": {
+        textDecoration: "none"
+      }
     }
   })
 })
@@ -166,7 +169,8 @@ const FileSystemTableItem = React.forwardRef(
       <TableRow
         data-cy="file-item-row"
         className={clsx(classes.tableRow, {
-          droppable: isFolder && (isOverMove || isOverUpload)
+          droppable: isFolder && (isOverMove || isOverUpload),
+          ipfs: desktop && fileSystemType && fileSystemType === "ipfs"
         })}
         type="grid"
         ref={forwardedRef}
