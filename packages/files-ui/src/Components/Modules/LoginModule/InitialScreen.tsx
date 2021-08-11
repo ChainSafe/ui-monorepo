@@ -168,7 +168,7 @@ const InitialScreen = ({ className }: IInitialScreen) => {
   const classes = useStyles()
   const [loginMode, setLoginMode] = useState<"web3" | "email" | LOGIN_TYPE | undefined>()
   const [error, setError] = useState<string | undefined>()
-  const [errorEmail, setErrorEmail] = useState<string>("")
+  const [errorEmail, setErrorEmail] = useState("")
   const maintenanceMode = process.env.REACT_APP_MAINTENANCE_MODE === "true"
   const [isConnecting, setIsConnecting] = useState(false)
   const { filesApiClient } = useFilesApi()
