@@ -62,6 +62,7 @@ export interface ITableProps {
   fullWidth?: boolean
   hover?: boolean
   dense?: boolean
+  testId?: string
 }
 
 const Table: React.FC<ITableProps> = ({
@@ -71,6 +72,7 @@ const Table: React.FC<ITableProps> = ({
   striped,
   hover,
   dense,
+  testId,
   ...rest
 }: ITableProps) => {
   const classes = useStyles()
@@ -87,6 +89,7 @@ const Table: React.FC<ITableProps> = ({
         },
         className
       )}
+      data-testid={`table-${testId}`}
       {...rest}
     >
       {children}

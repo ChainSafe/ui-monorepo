@@ -9,6 +9,16 @@ describe("File management", () => {
 
   context("desktop", () => {
 
+    // Cypress._.times(100, () => {
+    it.only("Folder creation", () => {
+      cy.web3Login({ clearCSFBucket: true })
+
+      apiTestHelper.createFolder("/test folder 1/subfolderA", 1)
+      apiTestHelper.createFolder("/test folder 2/subfolderB",  2)
+      apiTestHelper.createFolder("/test folder 3/subfolderC",  3)
+    })
+    // })
+
     it("can create folders and cancel modal", () => {
       cy.web3Login({ clearCSFBucket: true })
 
@@ -153,7 +163,7 @@ describe("File management", () => {
       cy.web3Login({ clearCSFBucket: true, clearTrashBucket: true })
 
       // create a folder
-      apiTestHelper.createFolder(`/${folderName}`)
+      apiTestHelper.createFolder(`/${folderName}`, 1)
       homePage.fileItemRow().should("have.length", 1)
 
       // delete the folder via the menu option 

@@ -828,6 +828,7 @@ const FilesList = ({ isShared = false }: Props) => {
               striped={true}
               hover={true}
               className={clsx(loadingCurrentPath && classes.fadeOutLoading)}
+              testId="home"
             >
               {desktop && (
                 <TableHead className={classes.tableHead}>

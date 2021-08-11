@@ -33,6 +33,11 @@ import { testPrivateKey, testAccountPassword, localHost } from "../fixtures/logi
 import { CustomizedBridge } from "./utils/CustomBridge"
 import "cypress-file-upload"
 import "cypress-pipe"
+import { BucketType } from "@chainsafe/files-api-client"
+
+Cypress.Commands.add("clearBucket", (bucketType: BucketType) => {
+  apiTestHelper.clearBucket(bucketType)
+})
 
 export interface Web3LoginOptions {
   url?: string
@@ -42,14 +47,6 @@ export interface Web3LoginOptions {
   clearCSFBucket?: boolean
   clearTrashBucket?: boolean
 }
-
-Cypress.Commands.add("clearCsfBucket", () => {
-  apiTestHelper.clearBucket("csf")
-})
-
-Cypress.Commands.add("clearTrashBucket", ()  => {
-  apiTestHelper.clearBucket("trash")
-})
 
 Cypress.Commands.add(
   "web3Login",
@@ -91,15 +88,21 @@ Cypress.Commands.add(
       }
     })
     cy.visit(url)
-    homePage.appHeaderLabel().should("be.visible")
+      .then(() => {
+        if (clearCSFBucket) {
+          cy.log("clear csf")
+          apiTestHelper.clearBucket("csf")
+        }
 
-    if (clearCSFBucket) {
-      cy.clearCsfBucket()
-    }
+        if (clearTrashBucket) {
+          apiTestHelper.clearBucket("trash")
+        }
+      })
+      .then(() => {
+        cy.log("wait for header")
+        homePage.appHeaderLabel().should("be.visible")
 
-    if (clearTrashBucket) {
-      cy.clearTrashBucket()
-    }
+      })
   }
 )
 
@@ -122,17 +125,10 @@ declare global {
        * @param {String} options.url - (default: "http://localhost:3000") - what url to visit.
        * @param {Boolean} options.saveBrowser - (default: false) - save the browser to localstorage.
        * @param {Boolean} options.clearCSFBucket - (default: false) - whether any file in the csf bucket should be deleted.
+       * @param {Boolean} options.clearTrashBucket - (default: false) - whether any file in the trash bucket should be deleted.
        * @example cy.web3Login({saveBrowser: true, url: 'http://localhost:8080'})
        */
       web3Login: (options?: Web3LoginOptions) => Chainable
-
-      /**
-       * Removed any file or folder at the root of specifed bucket
-       * @param {String} apiUrlBase - what url to call for the api.
-       * @example cy.clearCsfBucket("https://stage.imploy.site/api/v1")
-       */
-      clearCsfBucket: () => Chainable
-      clearTrashBucket: () => Chainable
 
       /**
        * Use this when encountering race condition issues resulting in
