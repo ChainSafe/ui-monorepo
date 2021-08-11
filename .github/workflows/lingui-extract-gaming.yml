@@ -16,7 +16,6 @@ jobs:
       with:
         ref: ${{ github.event.pull_request.head.ref }}
         ssh-key: ${{ secrets.LINGUI_GH_ACTION_COMMIT_KEY }}
-
     - name: set user
       run: |
         git config --global user.name 'GitHub Actions'
@@ -31,7 +30,8 @@ jobs:
     - name: install packages
       run: yarn install --immutable
 
-    - name: lingui-extract
+    - name: lingui-extract and commit
+      if: ${{ github.actor != 'weblate' }}
       run: |
         (cd packages/gaming-ui && yarn extract --clean)
         git add packages/gaming-ui/src/locales/*
