@@ -21,7 +21,7 @@ import { useLocalStorage } from "@chainsafe/browser-storage-hooks"
 import { DISMISSED_SURVEY_KEY } from "../Modules/SurveyBanner"
 
 const BucketPage: React.FC<IFileBrowserModuleProps> = () => {
-  const { storageBuckets, uploadFiles, uploadsInProgress, getStorageSummary } = useStorage()
+  const { storageBuckets, uploadFiles, uploadsInProgress, getStorageSummary, downloadFile } = useStorage()
   const { storageApiClient } = useStorageApi()
   const { addToastMessage } = useToaster()
   const [loadingCurrentPath, setLoadingCurrentPath] = useState(false)
@@ -137,15 +137,14 @@ const BucketPage: React.FC<IFileBrowserModuleProps> = () => {
   }, [addToastMessage, pathContents, refreshContents, storageApiClient, bucket, currentPath])
 
   const handleDownload = useCallback(async (
-  //cid: string
+    toDownload: ISelectedFile
   ) => {
-    throw new Error("Not implemented")
-    // const itemToDownload = pathContents.find(item => item.cid === cid)
-    // if (!itemToDownload || !bucket) return
+    const itemToDownload = pathContents.find(item => item.cid === toDownload.cid)
+    if (!itemToDownload || !bucket) return
 
-    // downloadFile(bucket.id, itemToDownload, currentPath)
+    downloadFile(bucket.id, itemToDownload, currentPath)
   }, [
-    //pathContents, currentPath, bucket
+    pathContents, currentPath, bucket, downloadFile
   ])
 
   // Breadcrumbs/paths
@@ -198,7 +197,7 @@ const BucketPage: React.FC<IFileBrowserModuleProps> = () => {
     [CONTENT_TYPES.Image]: [],
     [CONTENT_TYPES.Pdf]: [],
     [CONTENT_TYPES.Text]: [],
-    [CONTENT_TYPES.File]: ["delete", "move"],
+    [CONTENT_TYPES.File]: ["download", "move", "delete"],
     [CONTENT_TYPES.Directory]: ["delete", "move"]
   }), [])
 
