@@ -17,6 +17,8 @@ import { useStorageApi } from "./StorageApiContext"
 import { v4 as uuidv4 } from "uuid"
 import { t } from "@lingui/macro"
 import { readFileAsync } from "../Utils/Helpers"
+import axios, { CancelToken } from "axios"
+import { getPathWithFile } from "../Utils/pathUtils"
 
 type StorageContextProps = {
   children: React.ReactNode | React.ReactNode[]
@@ -42,6 +44,14 @@ export type DownloadProgress = {
   complete: boolean
 }
 
+interface GetFileContentParams {
+  cid: string
+  cancelToken?: CancelToken
+  onDownloadProgress?: (progressEvent: ProgressEvent<EventTarget>) => void
+  file: FileSystemItem
+  path: string
+}
+
 type StorageContext = {
   pins: PinStatus[]
   uploadsInProgress: UploadProgress[]
@@ -49,6 +59,7 @@ type StorageContext = {
   storageSummary: BucketSummaryResponse | undefined
   getStorageSummary: () => Promise<void>
   uploadFiles: (bucketId: string, files: File[], path: string) => Promise<void>
+  downloadFile: (bucketId: string, itemToDownload: FileSystemItem, path: string) => void
   addPin: (cid: string) => Promise<PinStatus>
   refreshPins: () => void
   unpin: (requestId: string) => void
@@ -132,7 +143,7 @@ const StorageProvider = ({ children }: StorageContextProps) => {
     []
   )
 
-  const [downloadsInProgress] = useReducer(
+  const [downloadsInProgress, dispatchDownloadsInProgress] = useReducer(
     downloadsInProgressReducer,
     []
   )
@@ -257,6 +268,81 @@ const StorageProvider = ({ children }: StorageContextProps) => {
     }
   }, [storageBuckets, storageApiClient, getStorageSummary])
 
+  const getFileContent = useCallback(async (
+    bucketId: string,
+    { cancelToken, onDownloadProgress, path }: GetFileContentParams
+  ) => {
+
+    try {
+      const result = await storageApiClient.getBucketObjectContent(
+        bucketId,
+        { path: path },
+        cancelToken,
+        onDownloadProgress
+      )
+
+      return result.data
+
+    } catch (error) {
+      if (axios.isCancel(error)) {
+        return Promise.reject()
+      } else {
+        console.error(error)
+        return Promise.reject(error)
+      }
+    }
+  }, [storageApiClient])
+
+  const downloadFile = useCallback(async (bucketId: string, itemToDownload: FileSystemItem, path: string) => {
+    const toastId = uuidv4()
+    try {
+      const downloadProgress: DownloadProgress = {
+        id: toastId,
+        fileName: itemToDownload.name,
+        complete: false,
+        error: false,
+        progress: 0
+      }
+      dispatchDownloadsInProgress({ type: "add", payload: downloadProgress })
+      const result = await getFileContent(bucketId, {
+        cid: itemToDownload.cid,
+        file: itemToDownload,
+        path: getPathWithFile(path, itemToDownload.name),
+        onDownloadProgress: (progressEvent) => {
+          dispatchDownloadsInProgress({
+            type: "progress",
+            payload: {
+              id: toastId,
+              progress: Math.ceil(
+                (progressEvent.loaded / itemToDownload.size) * 100
+              )
+            }
+          })
+        }
+      })
+      if (!result) return
+      const link = document.createElement("a")
+      link.href = URL.createObjectURL(result)
+      link.download = itemToDownload?.name || "file"
+      link.click()
+      dispatchDownloadsInProgress({
+        type: "complete",
+        payload: { id: toastId }
+      })
+      URL.revokeObjectURL(link.href)
+      setTimeout(() => {
+        dispatchDownloadsInProgress({
+          type: "remove",
+          payload: { id: toastId }
+        })
+      }, REMOVE_UPLOAD_PROGRESS_DELAY)
+      return Promise.resolve()
+    } catch (error) {
+      dispatchDownloadsInProgress({ type: "error", payload: { id: toastId } })
+      return Promise.reject()
+    }
+  }, [getFileContent])
+
   return (
     <StorageContext.Provider
       value={{
@@ -269,6 +355,7 @@ const StorageProvider = ({ children }: StorageContextProps) => {
         refreshPins,
         unpin,
         storageBuckets,
+        downloadFile,
         createBucket,
         removeBucket,
         uploadFiles
