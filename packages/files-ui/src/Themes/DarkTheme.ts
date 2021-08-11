@@ -686,6 +686,11 @@ export const darkTheme = createTheme<CsfColors>({
             }
           }
         }
+      },
+      ToggleHiddenText: {
+        icon: {
+          stroke: "var(--gray9)"
+        }
       }
     }
   }
