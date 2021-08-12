@@ -92,15 +92,15 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => 
         position: "absolute"
       }
     },
-    dropdownOptions: {
-      backgroundColor: constants.fileSystemItemRow.optionsBackground,
-      color: constants.fileSystemItemRow.optionsColor,
-      border: `1px solid ${constants.fileSystemItemRow.optionsBorder}`
-    },
-    dropdownItem: {
-      backgroundColor: constants.fileSystemItemRow.itemBackground,
-      color: constants.fileSystemItemRow.itemColor
-    },
+    // dropdownOptions: {
+    //   backgroundColor: constants.fileSystemItemRow.optionsBackground,
+    //   color: constants.fileSystemItemRow.optionsColor,
+    //   border: `1px solid ${constants.fileSystemItemRow.optionsBorder}`
+    // },
+    // dropdownItem: {
+    //   backgroundColor: constants.fileSystemItemRow.itemBackground,
+    //   color: constants.fileSystemItemRow.itemColor
+    // },
     focusVisible:{
       backgroundColor: "transparent !important"
     }

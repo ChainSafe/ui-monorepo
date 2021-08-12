@@ -8,7 +8,6 @@ import {
   formatBytes,
   FormikTextInput,
   IMenuItem,
-  MenuDropdown,
   MoreIcon,
   TableCell,
   TableRow,
@@ -24,6 +23,7 @@ import clsx from "clsx"
 import { BucketKeyPermission } from "../../../../../Contexts/FilesContext"
 import UserBubble from "../../../../Elements/UserBubble"
 import { nameValidator } from "../../../../../Utils/validationSchema"
+import Dropdown from "../../../../../Ui-components/Dropdown"
 
 const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => {
 
@@ -65,8 +65,10 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => 
       alignItems: "center",
       width: 20,
       marginRight: constants.generalUnit * 1.5,
-      "& svg": {
+      fill: constants.fileSystemItemRow.menuIcon,
+      "& path" : {
         fill: constants.fileSystemItemRow.menuIcon
+
       }
     },
     desktopRename: {
@@ -92,19 +94,46 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => 
       }
     },
     dropdownIcon: {
+      width: 14,
+      height: 14,
+      padding: 0,
+      position: "relative",
+      fontSize: "unset",
       "& svg": {
-        fill: constants.fileSystemItemRow.dropdownIcon
+        fill: constants.fileSystemItemRow.dropdownIcon,
+        top: "50%",
+        left: 0,
+        width: 14,
+        height: 14,
+        position: "absolute"
       }
     },
-    dropdownOptions: {
-      backgroundColor: constants.fileSystemItemRow.optionsBackground,
-      color: constants.fileSystemItemRow.optionsColor,
-      border: `1px solid ${constants.fileSystemItemRow.optionsBorder}`
-    },
+    // dropdownOptions: {
+    //   backgroundColor: constants.fileSystemItemRow.optionsBackground,
+    //   color: constants.fileSystemItemRow.optionsColor,
+    //   border: `1px solid ${constants.fileSystemItemRow.optionsBorder}`
+    // },
     dropdownItem: {
       backgroundColor: constants.fileSystemItemRow.itemBackground,
       color: constants.fileSystemItemRow.itemColor
+    },
+    focusVisible:{
+      backgroundColor: "transparent !important"
     }
+    // dropdownIcon: {
+    //   "& svg": {
+    //     fill: constants.fileSystemItemRow.dropdownIcon
+    //   }
+    // },
+    // dropdownOptions: {
+    //   backgroundColor: constants.fileSystemItemRow.optionsBackground,
+    //   color: constants.fileSystemItemRow.optionsColor,
+    //   border: `1px solid ${constants.fileSystemItemRow.optionsBorder}`
+    // },
+    // dropdownItem: {
+    //   backgroundColor: constants.fileSystemItemRow.itemBackground,
+    //   color: constants.fileSystemItemRow.itemColor
+    // }
   })
 })
 
@@ -282,7 +311,13 @@ const SharedFolderRow = ({ bucket, handleRename, openSharedFolder, handleDeleteS
         </TableCell>
       }
       <TableCell align="right">
-        <MenuDropdown
+        <Dropdown
+          testId='fileDropdown'
+          icon={<MoreIcon className={classes.dropdownIcon}/>}
+          options={menuItems}
+          style={{ focusVisible: classes.focusVisible }}
+        />
+        {/* <MenuDropdown
           testId='sharedFolderDropdown'
           animation="none"
           anchor={desktop ? "bottom-center" : "bottom-right"}
@@ -293,7 +328,7 @@ const SharedFolderRow = ({ bucket, handleRename, openSharedFolder, handleDeleteS
             item: classes.dropdownItem
           }}
           indicator={MoreIcon}
-        />
+        /> */}
       </TableCell>
     </TableRow>
   )
