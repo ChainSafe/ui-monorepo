@@ -5,9 +5,6 @@ import { t, Trans } from "@lingui/macro"
 import {
   Button,
   CheckboxInput,
-  CheckCircleIcon,
-  Link,
-  Loading,
   SelectInput,
   ShareAltSvg,
   TagsInput,
@@ -21,9 +18,7 @@ import { useLookupSharedFolderUser } from "./hooks/useLookupUser"
 import { useMemo } from "react"
 import { BucketKeyPermission, FileSystemItem, useFiles } from "../../../Contexts/FilesContext"
 import { useUser } from "../../../Contexts/UserContext"
-import { useGetFile } from "./hooks/useGetFile"
 import { useFileBrowser } from "../../../Contexts/FileBrowserContext"
-import { ROUTE_LINKS } from "../../FilesRoutes"
 import clsx from "clsx"
 import { useEffect } from "react"
 import { nameValidator } from "../../../Utils/validationSchema"
@@ -198,9 +193,6 @@ const useStyles = makeStyles(
   }
 )
 
-type Step = "1_SHARED_FOLDER_SELECTION_CREATION" | "2_DOWNLOAD_UPLOAD"
-const UPLOAD_PATH = "/"
-
 interface IShareFileProps {
   file: FileSystemItem
   close: () => void
@@ -209,24 +201,17 @@ interface IShareFileProps {
 
 const CopyToSharedFolderModal = ({ close, file, filePath }: IShareFileProps) => {
   const classes = useStyles()
-  const { isCreatingSharedFolder, handleCreateSharedFolder } = useCreateOrEditSharedFolder()
+  const { handleCreateSharedFolder } = useCreateOrEditSharedFolder()
   const [sharedFolderName, setSharedFolderName] = useState("")
   const { sharedFolderReaders, sharedFolderWriters, handleLookupUser, onNewUsers, usersError } = useLookupSharedFolderUser()
   const [isUsingCurrentBucket, setIsUsingCurrentBucket] = useState(true)
-  const [keepOriginalFile, setKeepOriginalFile] = useState(true)
-  const [currentStep, setCurrentStep] = useState<Step>("1_SHARED_FOLDER_SELECTION_CREATION")
+  const [keepOriginalFile, setKeepOriginalFile] = useState(false)
   const [destinationBucket, setDestinationBucket] = useState<BucketKeyPermission | undefined>()
-  const { buckets, uploadFiles } = useFiles()
-  const { bucket, deleteItems } = useFileBrowser()
+  const { buckets, transferFileBetweenBuckets } = useFiles()
+  const { bucket } = useFileBrowser()
   const { profile } = useUser()
-  const { getFile, error: downloadError, isDownloading } = useGetFile()
-  const [error, setError] = useState("")
-  const [isUploading, setIsUploading] = useState(false)
   const [nameError, setNameError] = useState("")
-  const isBusyWithSecondStep = useMemo(
-    () => isCreatingSharedFolder || isDownloading || isUploading
-    , [isCreatingSharedFolder, isDownloading, isUploading]
-  )
+
 
   const bucketsOptions = useMemo(() => {
     if (!profile) {
@@ -248,7 +233,7 @@ const CopyToSharedFolderModal = ({ close, file, filePath }: IShareFileProps) => 
 
   // if the user has no shared bucket, we default to new folder creation
   useEffect(() => {
-    if(hasNoSharedBucket) {
+    if (hasNoSharedBucket) {
       setIsUsingCurrentBucket(false)
     }
   }, [hasNoSharedBucket])
@@ -269,20 +254,15 @@ const CopyToSharedFolderModal = ({ close, file, filePath }: IShareFileProps) => 
       })
   }, [])
 
-  const onShare = useCallback(async () => {
+  const handleShare = useCallback(async () => {
     if(!bucket) {
       console.error("Bucket is undefined")
-      setError(t`Shared folder is undefined`)
       return
     }
 
     if(!destinationBucket && isUsingCurrentBucket){
-      setError(t`Destination shared folder not selected`)
       return
     }
-
-    if(currentStep === "1_SHARED_FOLDER_SELECTION_CREATION") {
-      setCurrentStep("2_DOWNLOAD_UPLOAD")
 
       let bucketToUpload: BucketKeyPermission | undefined = destinationBucket
 
@@ -291,14 +271,12 @@ const CopyToSharedFolderModal = ({ close, file, filePath }: IShareFileProps) => 
           const newBucket = await handleCreateSharedFolder(sharedFolderName, sharedFolderReaders, sharedFolderWriters)
 
           if(!newBucket){
-            setError(t`Error while creating new shared folder`)
             return
           }
 
           bucketToUpload = newBucket
         } catch (e) {
           console.error(e)
-          setError(t`Error while creating new shared folder`)
           return
         }
       }
@@ -308,89 +286,25 @@ const CopyToSharedFolderModal = ({ close, file, filePath }: IShareFileProps) => 
         return
       }
 
-      let fileContent: Blob | undefined
+      transferFileBetweenBuckets(bucket.id, file, filePath, bucketToUpload.id, keepOriginalFile)
+      close()
 
-      try {
-        fileContent = await getFile({ file, filePath })
-      } catch(e) {
-        setError(t`Error while downloading ${file.name}`)
-        console.error(e)
-        return
-      }
 
-      if (!fileContent) {
-        setError(t`Error while downloading ${file.name}`)
-        return
-      }
-
-      setIsUploading(true)
-
-      uploadFiles(
-        bucketToUpload.id,
-        [new File([fileContent], file.name, { type: file.content_type })],
-        UPLOAD_PATH,
-        bucketToUpload.encryptionKey
-      )
-        .then(() => {
-          if (!keepOriginalFile) {
-            deleteItems && deleteItems([file.cid], true)
-          }
-        })
-        .catch((e) => {
-          setError(t`Error while uploading ${file.name}`)
-          console.error(e)
-        })
-        .finally(() => {
-          setDestinationBucket(bucketToUpload)
-          setIsUploading(false)}
-        )
-    }
   }, [
     bucket,
-    currentStep,
     destinationBucket,
     file,
     filePath,
-    getFile,
     handleCreateSharedFolder,
     isUsingCurrentBucket,
     sharedFolderName,
-    uploadFiles,
     sharedFolderReaders,
     sharedFolderWriters,
-    deleteItems,
-    keepOriginalFile
+    keepOriginalFile,
+    close,
+    transferFileBetweenBuckets
   ])
 
-  const onBackClick = useCallback(() => {
-    if (currentStep === "1_SHARED_FOLDER_SELECTION_CREATION"){
-      close()
-    } else {
-      setCurrentStep("1_SHARED_FOLDER_SELECTION_CREATION")
-    }
-  }, [close, currentStep])
-
-  const Loader = useCallback(() => (
-    <div className={classes.loadingContainer}>
-      <Loading
-        size={48}
-        type="light"
-      />
-      <Typography
-        variant="body1"
-        component="p"
-      >
-        <Trans>This may take some time depending on the file size</Trans>
-      </Typography>
-      <Typography
-        variant="body1"
-        component="p"
-      >
-        {isDownloading && <Trans>Downloading…</Trans>}
-        {isUploading && <Trans>Encrypting and uploading…</Trans>}
-      </Typography>
-    </div>
-  ), [classes.loadingContainer, isDownloading, isUploading])
 
   return (
     <CustomModal
@@ -410,20 +324,9 @@ const CopyToSharedFolderModal = ({ close, file, filePath }: IShareFileProps) => 
             <Trans>Share file</Trans>
           </Typography>
         </div>
-        {(error || downloadError) && (
-          <div className={classes.modalFlexItem}>
-            <Typography
-              className={classes.error}
-              variant="body1"
-              component="p"
-            >
-              {error || downloadError}
-            </Typography>
-          </div>
-        )}
+
         <div className={classes.modalFlexItem}>
-          {currentStep === "1_SHARED_FOLDER_SELECTION_CREATION" && (
-            isUsingCurrentBucket
+          {isUsingCurrentBucket
               ? (
                 <div className={clsx(classes.modalFlexItem, classes.inputWrapper)}>
                   <SelectInput
@@ -499,10 +402,8 @@ const CopyToSharedFolderModal = ({ close, file, filePath }: IShareFileProps) => 
                     </Typography>
                   )}
                 </>
-              )
           )}
         </div>
-        {currentStep === "1_SHARED_FOLDER_SELECTION_CREATION" && (
           <div className={classes.buttonsArea}>
             {!hasNoSharedBucket && (
               <div
@@ -529,20 +430,16 @@ const CopyToSharedFolderModal = ({ close, file, filePath }: IShareFileProps) => 
               <Button
                 size="large"
                 variant="outline"
-                onClick={onBackClick}
+                onClick={close}
                 className={classes.sideBySideButton}
               >
-                {
-                  currentStep === "1_SHARED_FOLDER_SELECTION_CREATION"
-                    ? <Trans>Cancel</Trans>
-                    : <Trans>Back</Trans>
-                }
+                <Trans>Cancel</Trans>
               </Button>
               <Button
                 type="submit"
                 size="large"
                 variant="primary"
-                onClick={onShare}
+                onClick={handleShare}
                 className={classes.sideBySideButton}
                 disabled={isUsingCurrentBucket
                   ? !destinationBucket?.id
@@ -556,40 +453,6 @@ const CopyToSharedFolderModal = ({ close, file, filePath }: IShareFileProps) => 
               </Button>
             </div>
           </div>
-        )}
-
-        {currentStep === "2_DOWNLOAD_UPLOAD" && (
-          <>
-            {isBusyWithSecondStep && <Loader />}
-            {!isBusyWithSecondStep && destinationBucket && !error && !downloadError && (
-              <div className={classes.successBox}>
-                <div className={classes.successText}>
-                  <CheckCircleIcon className={classes.checkIcon} />
-                  <Typography
-                    variant="h4"
-                    component="p"
-                  >
-                    <Trans>File shared successfully!</Trans>
-                  </Typography>
-                </div>
-                <Typography>
-                  <Link to={ROUTE_LINKS.SharedFolderExplorer(destinationBucket.id, UPLOAD_PATH)}>
-                    <Trans>View shared folder</Trans>
-                  </Link>
-                </Typography>
-              </div>
-            )}
-            <Button
-              disabled={isBusyWithSecondStep}
-              size="large"
-              variant="outline"
-              className={classes.mainButton}
-              onClick={close}
-            >
-              <Trans>Close</Trans>
-            </Button>
-          </>
-        )}
       </div>
     </CustomModal>
   )
