@@ -71,14 +71,16 @@ const CidRow = ({ pinStatus }: Props) => {
       className={classes.tableRow}
       data-cy="row-cid-item"
     >
-      <TableCell className={classes.cid}>
+      <TableCell
+        className={classes.cid}
+        align='left'>
         {pinStatus.pin?.cid}
       </TableCell>
       <TableCell>
         {dayjs(pinStatus.created).format("DD MMM YYYY h:mm a")}
       </TableCell>
       <TableCell>
-        {pinStatus.info?.size ? formatBytes(pinStatus.info?.size) : "-"}
+        {pinStatus.info?.size ? formatBytes(pinStatus.info?.size, 2) : "-"}
       </TableCell>
       <TableCell>
         {pinStatus.status}

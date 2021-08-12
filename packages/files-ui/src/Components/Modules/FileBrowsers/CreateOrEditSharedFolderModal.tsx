@@ -1,16 +1,5 @@
-import {
-  Button,
-  ShareAltSvg,
-  TagsInput,
-  Typography,
-  Grid,
-  TextInput
-} from "@chainsafe/common-components"
-import {
-  createStyles,
-  makeStyles,
-  useThemeSwitcher
-} from "@chainsafe/common-theme"
+import { Button, ShareAltSvg, TagsInput, Typography, Grid, TextInput } from "@chainsafe/common-components"
+import { createStyles, makeStyles, useThemeSwitcher } from "@chainsafe/common-theme"
 import React, { useState, useCallback } from "react"
 import CustomModal from "../../Elements/CustomModal"
 import { CSFTheme } from "../../../Themes/types"
@@ -21,6 +10,8 @@ import { useEffect } from "react"
 import { SharedFolderModalMode } from "./types"
 import { useCreateOrEditSharedFolder } from "./hooks/useCreateOrEditSharedFolder"
 import { useLookupSharedFolderUser } from "./hooks/useLookupUser"
+import { nameValidator } from "../../../Utils/validationSchema"
+import { getUserDisplayName } from "../../../Utils/getUserDisplayName"
 
 const useStyles = makeStyles(
   ({ breakpoints, constants, typography, zIndex, palette }: CSFTheme) => {
@@ -108,6 +99,10 @@ const useStyles = makeStyles(
       footer: {
         width: "100%",
         padding: `${constants.generalUnit * 2}px ${constants.generalUnit}px`
+      },
+      errorText: {
+        marginLeft: constants.generalUnit * 1.5,
+        color: palette.error.main
       }
     })
   }
@@ -127,6 +122,7 @@ const CreateOrEditSharedFolderModal = ({ mode, isModalOpen, onClose, bucketToEdi
   const [sharedFolderName, setSharedFolderName] = useState("")
   const { sharedFolderReaders, sharedFolderWriters, onNewUsers, handleLookupUser, usersError, setUsersError } = useLookupSharedFolderUser()
   const [hasPermissionsChanged, setHasPermissionsChanged] = useState(false)
+  const [nameError, setNameError] = useState("")
 
   useEffect(() => {
     setSharedFolderName("")
@@ -136,14 +132,14 @@ const CreateOrEditSharedFolderModal = ({ mode, isModalOpen, onClose, bucketToEdi
     if (!bucketToEdit) return
 
     const newWriters = bucketToEdit.writers.map((writer) => ({
-      label: writer.uuid || "",
+      label: getUserDisplayName(writer),
       value: writer.uuid || "",
       data: writer
     })
     ) || []
 
     const newReaders = bucketToEdit.readers.map((reader) => ({
-      label: reader.uuid || "",
+      label: getUserDisplayName(reader),
       value: reader.uuid || "",
       data: reader
     })
@@ -165,6 +161,22 @@ const CreateOrEditSharedFolderModal = ({ mode, isModalOpen, onClose, bucketToEdi
       .catch(console.error)
       .finally(onClose)
   }, [handleEditSharedFolder, sharedFolderWriters, sharedFolderReaders, onClose, bucketToEdit])
+
+  const onNameChange = useCallback((value?: string | number) => {
+    if (value === undefined) return
+
+    const name = value.toString()
+    setSharedFolderName(name)
+
+    nameValidator
+      .validate({ name })
+      .then(() => {
+        setNameError("")
+      })
+      .catch((e: Error) => {
+        setNameError(e.message)
+      })
+  }, [])
 
   return (
     <CustomModal
@@ -196,9 +208,19 @@ const CreateOrEditSharedFolderModal = ({ mode, isModalOpen, onClose, bucketToEdi
               labelClassName={classes.inputLabel}
               label={t`Shared Folder Name`}
               value={sharedFolderName}
-              onChange={(value) => {setSharedFolderName(value?.toString() || "")}}
+              onChange={onNameChange}
               autoFocus
+              state={nameError ? "error" : "normal"}
             />
+            {nameError && (
+              <Typography
+                component="p"
+                variant="body1"
+                className={classes.errorText}
+              >
+                {nameError}
+              </Typography>
+            )}
           </div>
         }
         <div className={classes.modalFlexItem}>
@@ -218,7 +240,8 @@ const CreateOrEditSharedFolderModal = ({ mode, isModalOpen, onClose, bucketToEdi
                 minHeight: 90,
                 alignContent: "start"
               })
-            }}/>
+            }}
+          />
         </div>
         <div className={classes.modalFlexItem}>
           <TagsInput
@@ -250,6 +273,7 @@ const CreateOrEditSharedFolderModal = ({ mode, isModalOpen, onClose, bucketToEdi
             <Typography
               component="p"
               variant="body1"
+              className={classes.errorText}
             >
               {usersError}
             </Typography>
@@ -275,7 +299,7 @@ const CreateOrEditSharedFolderModal = ({ mode, isModalOpen, onClose, bucketToEdi
               className={classes.okButton}
               loading={isCreatingSharedFolder || isEditingSharedFolder}
               onClick={mode === "create" ? onCreateSharedFolder : onEditSharedFolder}
-              disabled={mode === "create" ? !!usersError : !hasPermissionsChanged || !!usersError}
+              disabled={mode === "create" ? (!!usersError || !!nameError) : !hasPermissionsChanged || !!usersError}
             >
               {mode === "create"
                 ? <Trans>Create</Trans>

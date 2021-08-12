@@ -18,13 +18,11 @@ import { ConnectDragPreview } from "react-dnd"
 import { Form, FormikProvider, useFormik } from "formik"
 import { CSSTheme } from "../../../Themes/types"
 import { FileSystemItem } from "../../../Contexts/StorageContext"
-import { renameSchema } from "../../../Utils/validationSchema"
+import { nameValidator } from "../../../Utils/validationSchema"
 import { ISelectedFile, useFileBrowser } from "../../../Contexts/FileBrowserContext"
+import { desktopGridSettings, mobileGridSettings } from "../FilesList/FilesList"
 
 const useStyles = makeStyles(({ breakpoints, constants, palette }: CSSTheme) => {
-  const desktopGridSettings = "50px 69px 3fr 190px 100px 45px !important"
-  const mobileGridSettings = "69px 3fr 45px !important"
-
   return createStyles({
     tableRow: {
       border: "2px solid transparent",
@@ -100,7 +98,10 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: CSSTheme) => 
     },
     dropdownItem: {
       backgroundColor: constants.fileSystemItemRow.itemBackground,
-      color: constants.fileSystemItemRow.itemColor
+      color: constants.fileSystemItemRow.itemColor,
+      "& a": {
+        textDecoration: "none"
+      }
     }
   })
 })
@@ -147,7 +148,7 @@ const FileSystemTableItem = React.forwardRef(
       initialValues: {
         fileName: name
       },
-      validationSchema: renameSchema,
+      validationSchema: nameValidator,
       onSubmit: (values) => {
         const newName = values.fileName?.trim()
 
@@ -168,10 +169,10 @@ const FileSystemTableItem = React.forwardRef(
       <TableRow
         data-cy="file-item-row"
         className={clsx(classes.tableRow, {
-          droppable: isFolder && (isOverMove || isOverUpload)
+          droppable: isFolder && (isOverMove || isOverUpload),
+          ipfs: desktop && fileSystemType && fileSystemType === "ipfs"
         })}
         type="grid"
-        rowSelectable={true}
         ref={forwardedRef}
         selected={selected.findIndex(item => item.name === file.name && item.cid === file.cid) >= 0}
       >
@@ -236,8 +237,13 @@ const FileSystemTableItem = React.forwardRef(
                   {!isFolder && !!created_at && dayjs.unix(created_at).format("DD MMM YYYY h:mm a")}
                 </TableCell>
             }
+            {
+              <TableCell>
+                {!isFolder && cid}
+              </TableCell>
+            }
             <TableCell align="left">
-              {!isFolder && formatBytes(size)}
+              {!isFolder && formatBytes(size, 2)}
             </TableCell>
           </>
         )}

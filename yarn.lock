@@ -1662,15 +1662,10 @@
   resolved "https://registry.yarnpkg.com/@chainsafe/files-api-client/-/files-api-client-1.17.5.tgz#35dd9c4baf0833ee9b654495979ed1a66fb02f8d"
   integrity sha512-5L7bAJr3siPgadDkGwhfo31MCkda01v/rTkLxUta13g6QG+pu0oKDoug+dtm8f9EPoH/rI89L2JHFM7XFrYveQ==
 
-"@chainsafe/files-api-client@1.17.7":
-  version "1.17.7"
-  resolved "https://registry.yarnpkg.com/@chainsafe/files-api-client/-/files-api-client-1.17.7.tgz#aa8618eab659f9fc5baeef1134bdfcddba6dfc28"
-  integrity sha512-xqqSNlFqhx1UkgxSKzwB9KKvWztI0+WlRgLw4vikwEjQojSbX4ygrq5QfkDovi+lGAPGpeNTKaHlDMZZPyjx2A==
-
-"@chainsafe/files-api-client@1.17.8":
-  version "1.17.8"
-  resolved "https://registry.yarnpkg.com/@chainsafe/files-api-client/-/files-api-client-1.17.8.tgz#0c52924cce276fc0e54b75c677e1d68e21d9cb5d"
-  integrity sha512-EJLGuDAPBsWfOe5CJ7SRpR2iywUEY0/iVO4tYvnWoT0j5ik100RNPQzVClD4B7yO8qPBneMtMBVldD0gNkqBWQ==
+"@chainsafe/files-api-client@1.17.9":
+  version "1.17.9"
+  resolved "https://registry.yarnpkg.com/@chainsafe/files-api-client/-/files-api-client-1.17.9.tgz#8c608db1a07dc8bbdb10a1cd21fad00d091deed3"
+  integrity sha512-5XUs/KlNfAIVbqKCxtVEbUyWneTn0/kp70blbyCqVwaX1X3e7D2aXX0gy7zR5kMM7yjGsZE7vwA/0oVCaemfig==
 
 "@chainsafe/web3-context@1.1.4":
   version "1.1.4"
@@ -10128,57 +10123,10 @@ cypress-pipe@^2.0.0:
   resolved "https://registry.yarnpkg.com/cypress-pipe/-/cypress-pipe-2.0.0.tgz#577df7a70a8603d89a96dfe4092a605962181af8"
   integrity sha512-KW9s+bz4tFLucH3rBGfjW+Q12n7S4QpUSSyxiGrgPOfoHlbYWzAGB3H26MO0VTojqf9NVvfd5Kt0MH5XMgbfyg==
 
-cypress@^7.6.0:
-  version "7.6.0"
-  resolved "https://registry.yarnpkg.com/cypress/-/cypress-7.6.0.tgz#80fe7496cd4165a0fa06e25fc11413dda4544463"
-  integrity sha512-tTwQExY28CKt6cY85/2V1uLExcMfpBEBWXt/EcE2ht/Onl9k4lxUS7ul1UnUO5MrYwMIHMdGVh13DxdzXj4Z5w==
-  dependencies:
-    "@cypress/request" "^2.88.5"
-    "@cypress/xvfb" "^1.2.4"
-    "@types/node" "^14.14.31"
-    "@types/sinonjs__fake-timers" "^6.0.2"
-    "@types/sizzle" "^2.3.2"
-    arch "^2.2.0"
-    blob-util "^2.0.2"
-    bluebird "^3.7.2"
-    cachedir "^2.3.0"
-    chalk "^4.1.0"
-    check-more-types "^2.24.0"
-    cli-cursor "^3.1.0"
-    cli-table3 "~0.6.0"
-    commander "^5.1.0"
-    common-tags "^1.8.0"
-    dayjs "^1.10.4"
-    debug "^4.3.2"
-    enquirer "^2.3.6"
-    eventemitter2 "^6.4.3"
-    execa "4.1.0"
-    executable "^4.1.1"
-    extract-zip "2.0.1"
-    figures "^3.2.0"
-    fs-extra "^9.1.0"
-    getos "^3.2.1"
-    is-ci "^3.0.0"
-    is-installed-globally "~0.4.0"
-    lazy-ass "^1.6.0"
-    listr2 "^3.8.3"
-    lodash "^4.17.21"
-    log-symbols "^4.0.0"
-    minimist "^1.2.5"
-    ospath "^1.2.2"
-    pretty-bytes "^5.6.0"
-    ramda "~0.27.1"
-    request-progress "^3.0.0"
-    supports-color "^8.1.1"
-    tmp "~0.2.1"
-    untildify "^4.0.0"
-    url "^0.11.0"
-    yauzl "^2.10.0"
-
-cypress@^8.1.0:
-  version "8.1.0"
-  resolved "https://registry.yarnpkg.com/cypress/-/cypress-8.1.0.tgz#9aaed7fb2a4d1876528b72d437f97bc824db0735"
-  integrity sha512-GXjlqPjY/6HPbQwAp3AvlA1Mk/NoJTAmqVSUhQsuM/1xDpd/FQHkxVuq5h6O6RrAoCXSgpZPXFsVtdqE+FwEJw==
+cypress@^8.2.0:
+  version "8.2.0"
+  resolved "https://registry.yarnpkg.com/cypress/-/cypress-8.2.0.tgz#1e4e9f6218324e82a95c1b9cad7f3965ba663d7f"
+  integrity sha512-jg7S5VxxslwsgEyAkCE9ZCkFADxOUY1bSWScp1cWnga88K0TZgFQ0zdxyG9Mw/4spLGuvkriIZ62am+TR6C04w==
   dependencies:
     "@cypress/request" "^2.88.5"
     "@cypress/xvfb" "^1.2.4"
@@ -12010,7 +11958,7 @@ ethers@5.0.13:
     "@ethersproject/web" "^5.0.6"
     "@ethersproject/wordlists" "^5.0.4"
 
-ethers@^5.0.13:
+ethers@^5.0.13, ethers@^5.4.3:
   version "5.4.3"
   resolved "https://registry.yarnpkg.com/ethers/-/ethers-5.4.3.tgz#9469e7f353285caac4114467eb2618f755a3f7d0"
   integrity sha512-esWqdrFZObpyZyhH6VLHCz5vRA/YJrEmQO77sALWSWFjFtJr5ITIRwJ448N+mxIrvnqjZGQ2Jx2zC3xt5lc64g==
@@ -12046,7 +11994,7 @@ ethers@^5.0.13:
     "@ethersproject/web" "5.4.0"
     "@ethersproject/wordlists" "5.4.0"
 
-ethers@^5.1.0, ethers@^5.1.4:
+ethers@^5.1.0:
   version "5.1.4"
   resolved "https://registry.yarnpkg.com/ethers/-/ethers-5.1.4.tgz#8ae973705ed962f8f41dc59693704002a38dd18b"
   integrity sha512-EAPQ/fgGRu0PoR/VNFnHTMOtG/IZ0AItdW55C9T8ffmVu0rnyllZL404eBF66elJehOLz2kxnUrhXpE7TCpW7g==

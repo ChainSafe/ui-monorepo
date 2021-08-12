@@ -34,6 +34,7 @@ const useStyles = makeStyles(({ constants, breakpoints }: CSFTheme) =>
 interface ICustomModal extends IModalProps {
   children: ReactNode
   className?: string
+  testId?: string
 }
 
 const CustomModal: React.FC<ICustomModal> = ({

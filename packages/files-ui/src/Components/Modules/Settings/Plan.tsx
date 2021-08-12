@@ -123,8 +123,8 @@ const PlanView: React.FC = () => {
                     variant="body2"
                     className={classes.spaceUsedMargin}
                     component="p"
-                  >{`${formatBytes(storageSummary.used_storage)} of ${formatBytes(
-                      storageSummary.total_storage
+                  >{`${formatBytes(storageSummary.used_storage, 2)} of ${formatBytes(
+                      storageSummary.total_storage, 2
                     )} used`}</Typography>
                   <ProgressBar
                     className={classes.spaceUsedMargin}

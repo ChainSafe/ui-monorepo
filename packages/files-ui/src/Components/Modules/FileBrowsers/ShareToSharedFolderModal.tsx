@@ -4,6 +4,7 @@ import CustomModal from "../../Elements/CustomModal"
 import { t, Trans } from "@lingui/macro"
 import {
   Button,
+  CheckboxInput,
   CheckCircleIcon,
   Link,
   Loading,
@@ -25,6 +26,7 @@ import { useFileBrowser } from "../../../Contexts/FileBrowserContext"
 import { ROUTE_LINKS } from "../../FilesRoutes"
 import clsx from "clsx"
 import { useEffect } from "react"
+import { nameValidator } from "../../../Utils/validationSchema"
 
 const useStyles = makeStyles(
   ({ breakpoints, constants, palette, typography, zIndex }: CSFTheme) => {
@@ -96,10 +98,15 @@ const useStyles = makeStyles(
         justifyContent: "center",
         flexDirection: "column"
       },
-      buttonsContainer: {
+      checkboxContainer: {
         display: "flex",
         justifyContent: "center",
         marginTop: constants.generalUnit * 4
+      },
+      buttonsContainer: {
+        display: "flex",
+        justifyContent: "center",
+        marginTop: constants.generalUnit * 2
       },
       mainButton: {
         width: "100%"
@@ -179,6 +186,13 @@ const useStyles = makeStyles(
       },
       inputWrapper: {
         marginBottom: 0
+      },
+      errorText: {
+        marginLeft: constants.generalUnit * 2,
+        color: palette.error.main
+      },
+      titleWrapper: {
+        padding: "0 5px"
       }
     })
   }
@@ -197,22 +211,18 @@ const CopyToSharedFolderModal = ({ close, file, filePath }: IShareFileProps) => 
   const classes = useStyles()
   const { isCreatingSharedFolder, handleCreateSharedFolder } = useCreateOrEditSharedFolder()
   const [sharedFolderName, setSharedFolderName] = useState("")
-  const {
-    sharedFolderReaders,
-    sharedFolderWriters,
-    handleLookupUser,
-    onNewUsers,
-    usersError
-  } = useLookupSharedFolderUser()
+  const { sharedFolderReaders, sharedFolderWriters, handleLookupUser, onNewUsers, usersError } = useLookupSharedFolderUser()
   const [isUsingCurrentBucket, setIsUsingCurrentBucket] = useState(true)
+  const [keepOriginalFile, setKeepOriginalFile] = useState(true)
   const [currentStep, setCurrentStep] = useState<Step>("1_SHARED_FOLDER_SELECTION_CREATION")
   const [destinationBucket, setDestinationBucket] = useState<BucketKeyPermission | undefined>()
   const { buckets, uploadFiles } = useFiles()
-  const { bucket } = useFileBrowser()
+  const { bucket, deleteItems } = useFileBrowser()
   const { profile } = useUser()
   const { getFile, error: downloadError, isDownloading } = useGetFile()
   const [error, setError] = useState("")
   const [isUploading, setIsUploading] = useState(false)
+  const [nameError, setNameError] = useState("")
   const isBusyWithSecondStep = useMemo(
     () => isCreatingSharedFolder || isDownloading || isUploading
     , [isCreatingSharedFolder, isDownloading, isUploading]
@@ -242,6 +252,22 @@ const CopyToSharedFolderModal = ({ close, file, filePath }: IShareFileProps) => 
       setIsUsingCurrentBucket(false)
     }
   }, [hasNoSharedBucket])
+
+  const onNameChange = useCallback((value?: string | number) => {
+    if (value === undefined) return
+
+    const name = value.toString()
+    setSharedFolderName(name)
+
+    nameValidator
+      .validate({ name })
+      .then(() => {
+        setNameError("")
+      })
+      .catch((e: Error) => {
+        setNameError(e.message)
+      })
+  }, [])
 
   const onShare = useCallback(async () => {
     if(!bucket) {
@@ -285,7 +311,6 @@ const CopyToSharedFolderModal = ({ close, file, filePath }: IShareFileProps) => 
       let fileContent: Blob | undefined
 
       try {
-        console.log("filePath", filePath)
         fileContent = await getFile({ file, filePath })
       } catch(e) {
         setError(t`Error while downloading ${file.name}`)
@@ -300,7 +325,17 @@ const CopyToSharedFolderModal = ({ close, file, filePath }: IShareFileProps) => 
 
       setIsUploading(true)
 
-      uploadFiles(bucketToUpload.id, [new File([fileContent], file.name)], UPLOAD_PATH, bucketToUpload.encryptionKey)
+      uploadFiles(
+        bucketToUpload.id,
+        [new File([fileContent], file.name, { type: file.content_type })],
+        UPLOAD_PATH,
+        bucketToUpload.encryptionKey
+      )
+        .then(() => {
+          if (!keepOriginalFile) {
+            deleteItems && deleteItems([file.cid], true)
+          }
+        })
         .catch((e) => {
           setError(t`Error while uploading ${file.name}`)
           console.error(e)
@@ -322,9 +357,10 @@ const CopyToSharedFolderModal = ({ close, file, filePath }: IShareFileProps) => 
     sharedFolderName,
     uploadFiles,
     sharedFolderReaders,
-    sharedFolderWriters
+    sharedFolderWriters,
+    deleteItems,
+    keepOriginalFile
   ])
-
 
   const onBackClick = useCallback(() => {
     if (currentStep === "1_SHARED_FOLDER_SELECTION_CREATION"){
@@ -334,7 +370,7 @@ const CopyToSharedFolderModal = ({ close, file, filePath }: IShareFileProps) => 
     }
   }, [close, currentStep])
 
-  const Loader = () => (
+  const Loader = useCallback(() => (
     <div className={classes.loadingContainer}>
       <Loading
         size={48}
@@ -354,66 +390,7 @@ const CopyToSharedFolderModal = ({ close, file, filePath }: IShareFileProps) => 
         {isUploading && <Trans>Encrypting and uploading…</Trans>}
       </Typography>
     </div>
-  )
-
-  const Step1CreateSharedFolder = () => (
-    <>
-      <div className={classes.modalFlexItem}>
-        <TextInput
-          className={classes.shareFolderNameInput}
-          labelClassName={classes.inputLabel}
-          label={t`Shared Folder Name`}
-          value={sharedFolderName}
-          onChange={(value) => {setSharedFolderName(value?.toString() || "")}}
-          autoFocus
-        />
-      </div>
-      <div className={classes.modalFlexItem}>
-        <TagsInput
-          onChange={(values) => onNewUsers(values, "read")}
-          label={t`Give view-only permission to:`}
-          labelClassName={classes.inputLabel}
-          value={sharedFolderReaders}
-          fetchTags={(inputVal) => handleLookupUser(inputVal, "read")}
-          placeholder={t`Add by sharing address, username or wallet address`}
-          styles={{
-            control: (provided) => ({
-              ...provided,
-              minHeight: 90,
-              alignContent: "start"
-            })
-          }}/>
-      </div>
-      <div className={classes.modalFlexItem}>
-        <TagsInput
-          onChange={(values) => onNewUsers(values, "write")}
-          label={t`Give edit permission to:`}
-          labelClassName={classes.inputLabel}
-          value={sharedFolderWriters}
-          fetchTags={(inputVal) => handleLookupUser(inputVal, "write")}
-          placeholder={t`Add by sharing address, username or wallet address`}
-          styles={{
-            control: (provided) => ({
-              ...provided,
-              minHeight: 90,
-              alignContent: "start"
-            })
-          }}/>
-      </div>
-    </>
-  )
-
-  const Step1ExistingSharedFolder = () => (
-    <div className={clsx(classes.modalFlexItem, classes.inputWrapper)}>
-      <SelectInput
-        label={t`Select an existing shared folder`}
-        labelClassName={classes.inputLabel}
-        options={bucketsOptions}
-        value={destinationBucket?.id}
-        onChange={(val: string) => setDestinationBucket(buckets.find((bu) => bu.id === val))}
-      />
-    </div>
-  )
+  ), [classes.loadingContainer, isDownloading, isUploading])
 
   return (
     <CustomModal
@@ -430,7 +407,7 @@ const CopyToSharedFolderModal = ({ close, file, filePath }: IShareFileProps) => 
         </div>
         <div className={classes.heading}>
           <Typography className={classes.inputLabel}>
-            <Trans>Copy to shared folder</Trans>
+            <Trans>Share file</Trans>
           </Typography>
         </div>
         {(error || downloadError) && (
@@ -447,8 +424,82 @@ const CopyToSharedFolderModal = ({ close, file, filePath }: IShareFileProps) => 
         <div className={classes.modalFlexItem}>
           {currentStep === "1_SHARED_FOLDER_SELECTION_CREATION" && (
             isUsingCurrentBucket
-              ? <Step1ExistingSharedFolder />
-              : <Step1CreateSharedFolder />
+              ? (
+                <div className={clsx(classes.modalFlexItem, classes.inputWrapper)}>
+                  <SelectInput
+                    label={t`Select an existing shared folder`}
+                    labelClassName={classes.inputLabel}
+                    options={bucketsOptions}
+                    value={destinationBucket?.id}
+                    onChange={(val: string) => setDestinationBucket(buckets.find((bu) => bu.id === val))}
+                  />
+                </div>
+              )
+              : (
+                <>
+                  <div className={clsx(classes.modalFlexItem, classes.titleWrapper)}>
+                    <TextInput
+                      className={classes.shareFolderNameInput}
+                      labelClassName={classes.inputLabel}
+                      label={t`Shared Folder Name`}
+                      value={sharedFolderName}
+                      autoFocus
+                      onChange={onNameChange}
+                      state={nameError ? "error" : "normal"}
+                    />
+                    {nameError && (
+                      <Typography
+                        component="p"
+                        variant="body1"
+                        className={classes.errorText}
+                      >
+                        {nameError}
+                      </Typography>
+                    )}
+                  </div>
+                  <div className={classes.modalFlexItem}>
+                    <TagsInput
+                      onChange={(values) => onNewUsers(values, "read")}
+                      label={t`Give view-only permission to:`}
+                      labelClassName={classes.inputLabel}
+                      value={sharedFolderReaders}
+                      fetchTags={(inputVal) => handleLookupUser(inputVal, "read")}
+                      placeholder={t`Add by sharing address, username or wallet address`}
+                      styles={{
+                        control: (provided) => ({
+                          ...provided,
+                          minHeight: 90,
+                          alignContent: "start"
+                        })
+                      }}/>
+                  </div>
+                  <div className={classes.modalFlexItem}>
+                    <TagsInput
+                      onChange={(values) => onNewUsers(values, "write")}
+                      label={t`Give edit permission to:`}
+                      labelClassName={classes.inputLabel}
+                      value={sharedFolderWriters}
+                      fetchTags={(inputVal) => handleLookupUser(inputVal, "write")}
+                      placeholder={t`Add by sharing address, username or wallet address`}
+                      styles={{
+                        control: (provided) => ({
+                          ...provided,
+                          minHeight: 90,
+                          alignContent: "start"
+                        })
+                      }}/>
+                  </div>
+                  {!!usersError && (
+                    <Typography
+                      component="p"
+                      variant="body1"
+                      className={classes.errorText}
+                    >
+                      {usersError}
+                    </Typography>
+                  )}
+                </>
+              )
           )}
         </div>
         {currentStep === "1_SHARED_FOLDER_SELECTION_CREATION" && (
@@ -467,14 +518,13 @@ const CopyToSharedFolderModal = ({ close, file, filePath }: IShareFileProps) => 
                 </Typography>
               </div>
             )}
-            {!!usersError && (
-              <Typography
-                component="p"
-                variant="body1"
-              >
-                {usersError}
-              </Typography>
-            )}
+            <div className={classes.checkboxContainer}>
+              <CheckboxInput
+                value={keepOriginalFile}
+                onChange={() => setKeepOriginalFile(!keepOriginalFile)}
+                label={t`Keep original file`}
+              />
+            </div>
             <div className={classes.buttonsContainer}>
               <Button
                 size="large"
@@ -494,9 +544,15 @@ const CopyToSharedFolderModal = ({ close, file, filePath }: IShareFileProps) => 
                 variant="primary"
                 onClick={onShare}
                 className={classes.sideBySideButton}
-                disabled={currentStep === "1_SHARED_FOLDER_SELECTION_CREATION" ? !!usersError : false}
+                disabled={isUsingCurrentBucket
+                  ? !destinationBucket?.id
+                  : !sharedFolderName || !!usersError || !!nameError
+                }
               >
-                <Trans>Copy over</Trans>
+                {keepOriginalFile
+                  ? <Trans>Copy over</Trans>
+                  : <Trans>Move over</Trans>
+                }
               </Button>
             </div>
           </div>
@@ -513,7 +569,7 @@ const CopyToSharedFolderModal = ({ close, file, filePath }: IShareFileProps) => 
                     variant="h4"
                     component="p"
                   >
-                    <Trans>File added successfully!</Trans>
+                    <Trans>File shared successfully!</Trans>
                   </Typography>
                 </div>
                 <Typography>

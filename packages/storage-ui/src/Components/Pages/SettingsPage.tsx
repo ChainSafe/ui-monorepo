@@ -1,9 +1,7 @@
-import React, { useCallback, useMemo } from "react"
+import React, { useCallback } from "react"
 import { Tabs,
   TabPane as TabPaneOrigin,
   Typography, Divider,
-  Breadcrumb,
-  Crumb,
   useParams,
   useHistory,
   ITabPaneProps,
@@ -137,19 +135,9 @@ const SettingsPage: React.FC = () => {
     (path: string) => redirect(ROUTE_LINKS.Settings(path as SettingsPath))
     , [redirect])
 
-  const crumbs: Crumb[] = useMemo(() => [
-    {
-      text: t`Settings`
-    }
-  ], [])
-
   return (
     <div className={classes.container}>
       <div className={classes.headerContainer}>
-        <Breadcrumb
-          crumbs={crumbs}
-          homeOnClick={() => redirect(ROUTE_LINKS.Cids)}
-        />
         <Typography
           variant="h1"
           component="p"

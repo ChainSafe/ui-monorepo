@@ -5,7 +5,8 @@ import {
   Bucket as FilesBucket,
   SearchEntry,
   BucketFileFullInfoResponse,
-  BucketSummaryResponse
+  BucketSummaryResponse,
+  LookupUser
 } from "@chainsafe/files-api-client"
 import React, { useCallback, useEffect, useReducer } from "react"
 import { useState } from "react"
@@ -67,9 +68,12 @@ interface GetFileContentParams {
 
 export type BucketPermission = "writer" | "owner" | "reader"
 
-export type BucketKeyPermission = FilesBucket & {
+export type BucketKeyPermission = Omit<FilesBucket, "owners" | "writers" | "readers"> & {
   encryptionKey: string
   permission?: BucketPermission
+  owners: LookupUser[]
+  writers: LookupUser[]
+  readers: LookupUser[]
 }
 
 type FilesContext = {
@@ -77,6 +81,7 @@ type FilesContext = {
   uploadsInProgress: UploadProgress[]
   downloadsInProgress: DownloadProgress[]
   storageSummary: BucketSummaryResponse | undefined
+  personalEncryptionKey: string | undefined
   getStorageSummary: () => Promise<void>
   uploadFiles: (bucketId: string, files: File[], path: string, encryptionKey?: string) => Promise<void>
   downloadFile: (bucketId: string, itemToDownload: FileSystemItem, path: string) => void
@@ -187,10 +192,14 @@ const FilesProvider = ({ children }: FilesContextProps) => {
 
     const bucketsWithKeys: BucketKeyPermission[] = await Promise.all(
       result.map(async (b) => {
+        const userData = await filesApiClient.getBucketUsers(b.id)
         return {
           ...b,
           encryptionKey: await getKeyForBucket(b) || "",
-          permission: getPermissionForBucket(b)
+          permission: getPermissionForBucket(b),
+          owners: userData.owners || [],
+          writers: userData.writers || [],
+          readers: userData.readers || []
         }
       })
     )
@@ -580,6 +589,7 @@ const FilesProvider = ({ children }: FilesContextProps) => {
         uploadFiles,
         downloadFile,
         getFileContent,
+        personalEncryptionKey,
         uploadsInProgress,
         storageSummary,
         getStorageSummary,

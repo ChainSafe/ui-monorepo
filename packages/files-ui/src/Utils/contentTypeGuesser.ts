@@ -5,6 +5,7 @@ const guessContentType = (fileName: string) => {
   case "pdf":
     return "application/pdf"
   case "jpg":
+  case "jpeg":
   case "png":
   case "gif":
   case "bmp":

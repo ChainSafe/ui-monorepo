@@ -32,6 +32,7 @@ import { homePage } from "./page-objects/homePage"
 import { testPrivateKey, testAccountPassword, localHost } from "../fixtures/loginData"
 import { CustomizedBridge } from "./utils/CustomBridge"
 import "cypress-file-upload"
+import "cypress-pipe"
 
 export type Storage = Record<string, string>[];
 
@@ -44,9 +45,6 @@ export interface Web3LoginOptions {
   clearTrashBucket?: boolean
 }
 
-const SESSION_FILE = "cypress/fixtures/storage/sessionStorage.json"
-const LOCAL_FILE = "cypress/fixtures/storage/localStorage.json"
-
 Cypress.Commands.add("clearCsfBucket", (apiUrlBase: string) => {
   apiTestHelper.clearBucket(apiUrlBase, "csf")
 })
@@ -55,52 +53,15 @@ Cypress.Commands.add("clearTrashBucket", (apiUrlBase: string) => {
   apiTestHelper.clearBucket(apiUrlBase, "trash")
 })
 
-Cypress.Commands.add("saveLocalAndSession", () => {
-  // save local and session storage in files
-  cy.window().then((win) => {
-    const newLocal: Storage = []
-    const newSession: Storage = []
-
-    Object.keys(win.localStorage).forEach((key) => {
-      newLocal.push({ key, value: win.localStorage.getItem(key) || "" })
-    })
-
-    Object.keys(win.sessionStorage).forEach((key) => {
-      newSession.push({ key, value: win.sessionStorage.getItem(key) || "" })
-    })
-
-    const newLocalString = JSON.stringify(newLocal)
-    const newSessionString = JSON.stringify(newSession)
-
-    cy.writeFile(SESSION_FILE, newSessionString)
-    cy.writeFile(LOCAL_FILE, newLocalString)
-  })
-})
-
 Cypress.Commands.add(
   "web3Login",
   ({
     saveBrowser = false,
     url = localHost,
     apiUrlBase = "https://stage.imploy.site/api/v1",
-    useLocalAndSessionStorage = true,
     clearCSFBucket = false,
     clearTrashBucket = false
   }: Web3LoginOptions = {}) => {
-    let session: Storage = []
-    let local: Storage = []
-
-    cy.task<string | null>("readFileMaybe", SESSION_FILE).then(
-      (unparsedSession) => {
-        session = (unparsedSession && JSON.parse(unparsedSession)) || []
-      }
-    )
-
-    cy.task<string | null>("readFileMaybe", LOCAL_FILE).then(
-      (unparsedLocal) => {
-        local = (unparsedLocal && JSON.parse(unparsedLocal)) || []
-      }
-    )
 
     cy.on("window:before:load", (win) => {
       const provider = new ethers.providers.JsonRpcProvider(
@@ -112,55 +73,28 @@ Cypress.Commands.add(
       Object.defineProperty(win, "ethereum", {
         get: () => new CustomizedBridge(signer as any, provider as any)
       })
-
-      // clear session storage in any case, if previous session storage should be
-      // kept will be decided after.
-      // Note that Cypress keep the session storage between test but clears localStorage
-      win.sessionStorage.clear()
-      win.localStorage.clear()
-
-      if (useLocalAndSessionStorage) {
-        session.forEach(({ key, value }) => {
-          win.sessionStorage.setItem(key, value)
-        })
-
-        local.forEach(({ key, value }) => {
-          win.localStorage.setItem(key, value)
-        })
-      }
     })
-
-    cy.visit(url)
 
     // with nothing in localstorage (and in session storage)
     // the whole login flow should kick in
-    cy.then(() => {
-      cy.log(
-        "Logging in",
-        local.length > 0 &&
-          "there is something in session storage ---> direct login"
-      )
+    cy.session("web3login", () => {
+      cy.visit(url)
+      authenticationPage.web3Button().click()
+      authenticationPage.showMoreButton().click()
+      authenticationPage.detectedWallet().click()
+      authenticationPage.web3SignInButton().safeClick()
+      authenticationPage.loginPasswordButton().click()
+      authenticationPage.loginPasswordInput().type(`${testAccountPassword}{enter}`)
 
-      if (local.length === 0) {
-        cy.log("nothing in session storage, --> click on web3 button")
-        authenticationPage.web3Button().click()
-        authenticationPage.metaMaskButton().click()
-        authenticationPage.web3SignInButton().click()
-        authenticationPage.loginPasswordButton().click()
-        authenticationPage.loginPasswordInput().type(`${testAccountPassword}{enter}`)
-
-        if (saveBrowser) {
-          // this is taking forever for test accounts
-          authenticationPage.saveBrowserButton().click()
-        } else {
-          authenticationPage.doNotSaveBrowserButton().click()
-        }
+      if (saveBrowser) {
+        // this is taking forever for test accounts
+        authenticationPage.saveBrowserButton().click()
+      } else {
+        authenticationPage.doNotSaveBrowserButton().click()
       }
     })
-
+    cy.visit(url)
     homePage.appHeaderLabel().should("be.visible")
-
-    cy.saveLocalAndSession()
 
     if (clearCSFBucket) {
       cy.clearCsfBucket(apiUrlBase)
@@ -169,13 +103,17 @@ Cypress.Commands.add(
     if (clearTrashBucket) {
       cy.clearTrashBucket(apiUrlBase)
     }
-
-    if(clearTrashBucket || clearCSFBucket){
-      cy.reload()
-      homePage.appHeaderLabel().should("be.visible")
-    }
   }
 )
+
+Cypress.Commands.add("safeClick", { prevSubject: "element" }, $element => {
+  const click = ($el: JQuery<HTMLElement>) => $el.trigger("click")
+  return cy
+    .wrap($element)
+    .should("be.visible")
+    .pipe(click)
+    .should($el => expect($el).to.not.be.visible)
+})
 
 // Must be declared global to be detected by typescript (allows import/export)
 // eslint-disable @typescript/interface-name
@@ -187,7 +125,6 @@ declare global {
        * @param {String} options.url - (default: "http://localhost:3000") - what url to visit.
        * @param {String} apiUrlBase - (default: "https://stage.imploy.site/api/v1") - what url to call for the api.
        * @param {Boolean} options.saveBrowser - (default: false) - save the browser to localstorage.
-       * @param {Boolean} options.useLocalAndSessionStorage - (default: true) - use what could have been stored before to speedup login
        * @param {Boolean} options.clearCSFBucket - (default: false) - whether any file in the csf bucket should be deleted.
        * @example cy.web3Login({saveBrowser: true, url: 'http://localhost:8080'})
        */
@@ -202,10 +139,19 @@ declare global {
       clearTrashBucket: (apiUrlBase: string) => Chainable
 
       /**
-       * Save local and session storage to local files
-       * @example cy.saveLocalAndSession()
+       * Use this when encountering race condition issues resulting in
+       * cypress "detached from DOM" issues or clicking before an event
+       * listener has been registered
+       *
+       * Temporary solution until cypress improve this issue
+       * further info
+       * https://www.cypress.io/blog/2019/01/22/when-can-the-test-click/
+       * https://github.com/testing-library/cypress-testing-library/issues/153#issuecomment-692386444
+       * https://github.com/cypress-io/cypress/issues/7306
+       * 
        */
-      saveLocalAndSession: () => Chainable
+       safeClick: () => Chainable
+
     }
   }
 }

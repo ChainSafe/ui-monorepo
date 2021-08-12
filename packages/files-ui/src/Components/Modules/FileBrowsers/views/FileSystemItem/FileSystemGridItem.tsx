@@ -12,7 +12,7 @@ import { CSFTheme } from "../../../../../Themes/types"
 import { FileSystemItem } from "../../../../../Contexts/FilesContext"
 import { ConnectDragPreview } from "react-dnd"
 import { Form, FormikProvider, useFormik } from "formik"
-import { renameSchema } from "../../../../../Utils/validationSchema"
+import { nameValidator } from "../../../../../Utils/validationSchema"
 
 const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => {
   return createStyles({
@@ -107,8 +107,7 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => 
     gridViewIconNameBox: {
       display: "flex",
       flexDirection: "column",
-      width: "100%",
-      cursor: "pointer"
+      width: "100%"
     },
     menuTitleGrid: {
       padding: `0 ${constants.generalUnit * 0.5}px`,
@@ -157,12 +156,12 @@ const FileSystemGridItem = React.forwardRef(
     const { desktop } = useThemeSwitcher()
 
     const formik = useFormik({
-      initialValues:{
-        fileName: name
+      initialValues: {
+        name
       },
-      validationSchema: renameSchema,
-      onSubmit:(values) => {
-        const newName = values.fileName?.trim()
+      validationSchema: nameValidator,
+      onSubmit: (values: {name: string}) => {
+        const newName = values.name.trim()
 
         newName && handleRename && handleRename(file.cid, newName)
       },
@@ -229,7 +228,7 @@ const FileSystemGridItem = React.forwardRef(
                 >
                   <FormikTextInput
                     className={classes.renameInput}
-                    name="fileName"
+                    name="name"
                     inputVariant="minimal"
                     onKeyDown={(event) => {
                       if (event.key === "Escape") {

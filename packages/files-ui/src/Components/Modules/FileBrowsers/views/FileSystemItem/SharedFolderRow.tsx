@@ -16,15 +16,14 @@ import {
   UserShareSvg
 } from "@chainsafe/common-components"
 import { CSFTheme } from "../../../../../Themes/types"
-import { BucketUser } from "@chainsafe/files-api-client"
 import { desktopSharedGridSettings, mobileSharedGridSettings } from "../../SharedFoldersOverview"
-import SharedUsers from "../../../../Elements/SharedUser"
+import SharedUsers from "../../../../Elements/SharedUsers"
 import { t, Trans } from "@lingui/macro"
 import { Form, FormikProvider, useFormik } from "formik"
 import clsx from "clsx"
 import { BucketKeyPermission } from "../../../../../Contexts/FilesContext"
 import UserBubble from "../../../../Elements/UserBubble"
-import { renameSchema } from "../../../../../Utils/validationSchema"
+import { nameValidator } from "../../../../../Utils/validationSchema"
 
 const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => {
 
@@ -32,7 +31,6 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => 
     tableRow: {
       border: "2px solid transparent",
       [breakpoints.up("md")]: {
-        cursor: "pointer",
         gridTemplateColumns: desktopSharedGridSettings
       },
       [breakpoints.down("md")]: {
@@ -200,22 +198,14 @@ const SharedFolderRow = ({ bucket, handleRename, openSharedFolder, handleDeleteS
     click(e)
   }
 
-  const getUserIds = (users: BucketUser[]): string[] => {
-    return users.reduce((acc: string[], user): string[] => {
-      return user.uuid ? [...acc, user.uuid] :  acc
-    }, [] as string[])
-  }
-
-  const userIds = [...getUserIds(bucket.owners), ...getUserIds(bucket.readers), ...getUserIds(bucket.writers)]
-
   const formik = useFormik({
     initialValues:{
-      fileName: name
+      name
     },
     enableReinitialize: true,
-    validationSchema: renameSchema,
+    validationSchema: nameValidator,
     onSubmit:(values, { resetForm }) => {
-      const newName = values.fileName?.trim()
+      const newName = values.name?.trim()
 
       newName && handleRename && handleRename(bucket, newName)
       setIsRenaming(false)
@@ -258,7 +248,7 @@ const SharedFolderRow = ({ bucket, handleRename, openSharedFolder, handleDeleteS
             >
               <FormikTextInput
                 className={classes.renameInput}
-                name="fileName"
+                name="name"
                 inputVariant="minimal"
                 onKeyDown={(event) => {
                   if (event.key === "Escape") {
@@ -284,11 +274,11 @@ const SharedFolderRow = ({ bucket, handleRename, openSharedFolder, handleDeleteS
         align="left"
         className={classes.sharedUser}
       >
-        <SharedUsers sharedUsers={userIds}/>
+        <SharedUsers bucket={bucket}/>
       </TableCell>
       {desktop &&
         <TableCell align="left">
-          {formatBytes(size)}
+          {formatBytes(size, 2)}
         </TableCell>
       }
       <TableCell align="right">

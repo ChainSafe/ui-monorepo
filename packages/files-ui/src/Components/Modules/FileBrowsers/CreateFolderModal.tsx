@@ -9,15 +9,15 @@ import {
   makeStyles,
   useMediaQuery
 } from "@chainsafe/common-theme"
-import React, { useRef, useEffect, useState } from "react"
-import { Formik, Form } from "formik"
+import React, { useState } from "react"
+import { Form, FormikProvider, useFormik } from "formik"
 import CustomModal from "../../Elements/CustomModal"
 import CustomButton from "../../Elements/CustomButton"
 import { t, Trans } from "@lingui/macro"
 import { CSFTheme } from "../../../Themes/types"
 import { useFileBrowser } from "../../../Contexts/FileBrowserContext"
 import { useFilesApi } from "../../../Contexts/FilesApiContext"
-import { folderNameValidator } from "../../../Utils/validationSchema"
+import { nameValidator } from "../../../Utils/validationSchema"
 import { getPathWithFile } from "../../../Utils/pathUtils"
 
 
@@ -86,13 +86,33 @@ const CreateFolderModal: React.FC<ICreateFolderModalProps> = ({
   const { currentPath, refreshContents, bucket } = useFileBrowser()
   const [creatingFolder, setCreatingFolder] = useState(false)
   const desktop = useMediaQuery("md")
-  const inputRef = useRef<any>(null)
-
-  useEffect(() => {
-    if (modalOpen) {
-      setTimeout(() => inputRef.current?.focus(), 100)
-    }
-  }, [modalOpen])
+  const formik = useFormik({
+    initialValues: {
+      name: ""
+    },
+    validationSchema: nameValidator,
+    onSubmit: async (values, helpers) => {
+      if (!bucket) return
+      helpers.setSubmitting(true)
+      try {
+        setCreatingFolder(true)
+        await filesApiClient.addBucketDirectory(bucket.id, { path: getPathWithFile(currentPath, values.name.trim()) })
+        refreshContents && await refreshContents()
+        setCreatingFolder(false)
+        helpers.resetForm()
+        close()
+      } catch (errors) {
+        setCreatingFolder(false)
+        if (errors[0].message.includes("Entry with such name can")) {
+          helpers.setFieldError("name", t`Folder name is already in use`)
+        } else {
+          helpers.setFieldError("name", errors[0].message)
+        }
+        helpers.setSubmitting(false)
+      }
+    },
+    enableReinitialize: true
+  })
 
   return (
     <CustomModal
@@ -104,35 +124,12 @@ const CreateFolderModal: React.FC<ICreateFolderModalProps> = ({
       closePosition="none"
       maxWidth="sm"
     >
-      <Formik
-        initialValues={{
-          name: ""
-        }}
-        validationSchema={folderNameValidator}
-        validateOnChange={false}
-        onSubmit={async (values, helpers) => {
-          if (!bucket) return
-          helpers.setSubmitting(true)
-          try {
-            setCreatingFolder(true)
-            await filesApiClient.addBucketDirectory(bucket.id, { path: getPathWithFile(currentPath, values.name.trim()) })
-            refreshContents && await refreshContents()
-            setCreatingFolder(false)
-            helpers.resetForm()
-            close()
-          } catch (errors) {
-            setCreatingFolder(false)
-            if (errors[0].message.includes("Entry with such name can")) {
-              helpers.setFieldError("name", t`Folder name is already in use`)
-            } else {
-              helpers.setFieldError("name", errors[0].message)
-            }
-          }
-          helpers.setSubmitting(false)
-        }}
-      >
-        <Form>
-          <div className={classes.root}>
+      <FormikProvider value={formik}>
+        <Form data-cy='folder-creation-form'>
+          <div
+            className={classes.root}
+            data-cy="modal-create-folder"
+          >
             {!desktop && (
               <Grid
                 item
@@ -155,12 +152,13 @@ const CreateFolderModal: React.FC<ICreateFolderModalProps> = ({
               className={classes.input}
             >
               <FormikTextInput
+                data-cy="input-folder-name"
                 name="name"
                 size="large"
                 placeholder="Name"
                 labelClassName={classes.label}
                 label="Folder Name"
-                ref={inputRef}
+                autoFocus
               />
             </Grid>
             <Grid
@@ -169,6 +167,7 @@ const CreateFolderModal: React.FC<ICreateFolderModalProps> = ({
               justifyContent="flex-end"
             >
               <CustomButton
+                data-cy="button-cancel-create-folder"
                 onClick={() => close()}
                 size="medium"
                 className={classes.cancelButton}
@@ -178,18 +177,20 @@ const CreateFolderModal: React.FC<ICreateFolderModalProps> = ({
                 <Trans>Cancel</Trans>
               </CustomButton>
               <Button
+                data-cy="button-create-folder"
                 size={desktop ? "medium" : "large"}
                 variant="primary"
                 type="submit"
                 className={classes.okButton}
                 loading={creatingFolder}
+                disabled={!formik.dirty || !formik.isValid}
               >
                 {desktop ? <Trans>OK</Trans> : <Trans>Create</Trans>}
               </Button>
             </Grid>
           </div>
         </Form>
-      </Formik>
+      </FormikProvider>
     </CustomModal>
   )
 }
