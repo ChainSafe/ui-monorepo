@@ -191,7 +191,7 @@ const SharedFolderRow = ({ bucket, handleRename, openSharedFolder, handleDeleteS
     [desktop, openSharedFolder, bucket]
   )
 
-  const { click } = useDoubleClick(onSingleClick, onDoubleClick, 150)
+  const { click } = useDoubleClick(onSingleClick, onDoubleClick)
 
   const onFolderClick = (e?: React.MouseEvent) => {
     e?.persist()

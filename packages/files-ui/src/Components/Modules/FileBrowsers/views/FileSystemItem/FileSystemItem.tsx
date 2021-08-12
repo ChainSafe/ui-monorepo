@@ -412,7 +412,7 @@ const FileSystemItem = ({
     [desktop, viewFolder, file, onFilePreview, isFolder]
   )
 
-  const { click } = useDoubleClick(onSingleClick, onDoubleClick, 150)
+  const { click } = useDoubleClick(onSingleClick, onDoubleClick)
 
   const onFolderOrFileClicks = (e?: React.MouseEvent) => {
     e?.persist()
