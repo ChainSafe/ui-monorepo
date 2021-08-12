@@ -15,8 +15,6 @@ export function useDoubleClick(
       case 2:
         actionDoubleClick && actionDoubleClick(e)
         break
-      // case 3:
-      //   break
       }
     }
   }, [actionSingleClick, actionDoubleClick])
