@@ -1,4 +1,4 @@
-import React, { useState, ReactNode } from "react"
+import React, { useState, ReactNode, useMemo } from "react"
 import { Menu, MenuItem } from "@material-ui/core"
 import { makeStyles, createStyles } from "@chainsafe/common-theme"
 import clsx from "clsx"
@@ -41,7 +41,7 @@ const useStyles = makeStyles(({ constants }: CSFTheme) => {
 
 export default function Dropdown({ icon, options, style, testId }: Props) {
   const [anchorEl, setAnchorEl] = useState(null)
-  const open = Boolean(anchorEl)
+  const open = useMemo(() => Boolean(anchorEl), [anchorEl])
   const classes = useStyles()
 
   const handleClick = useCallback((event: any) => {
@@ -72,8 +72,8 @@ export default function Dropdown({ icon, options, style, testId }: Props) {
           <MenuItem
             key={index}
             onClick={() => {
-              option.onClick && option.onClick()
               handleClose()
+              option.onClick && option.onClick()
             }}
             focusVisibleClassName={clsx(style?.focusVisible)}
             className={classes.options}

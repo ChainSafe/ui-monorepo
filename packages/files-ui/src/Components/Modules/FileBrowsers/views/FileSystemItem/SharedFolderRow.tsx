@@ -108,32 +108,20 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => 
         position: "absolute"
       }
     },
-    // dropdownOptions: {
-    //   backgroundColor: constants.fileSystemItemRow.optionsBackground,
-    //   color: constants.fileSystemItemRow.optionsColor,
-    //   border: `1px solid ${constants.fileSystemItemRow.optionsBorder}`
-    // },
     dropdownItem: {
       backgroundColor: constants.fileSystemItemRow.itemBackground,
       color: constants.fileSystemItemRow.itemColor
     },
     focusVisible:{
       backgroundColor: "transparent !important"
+    },
+    clickOutSideArea : {
+      position: "fixed",
+      width: "100%",
+      height: "100%",
+      top: 0,
+      left: 0
     }
-    // dropdownIcon: {
-    //   "& svg": {
-    //     fill: constants.fileSystemItemRow.dropdownIcon
-    //   }
-    // },
-    // dropdownOptions: {
-    //   backgroundColor: constants.fileSystemItemRow.optionsBackground,
-    //   color: constants.fileSystemItemRow.optionsColor,
-    //   border: `1px solid ${constants.fileSystemItemRow.optionsBorder}`
-    // },
-    // dropdownItem: {
-    //   backgroundColor: constants.fileSystemItemRow.itemBackground,
-    //   color: constants.fileSystemItemRow.itemColor
-    // }
   })
 })
 
@@ -269,26 +257,33 @@ const SharedFolderRow = ({ bucket, handleRename, openSharedFolder, handleDeleteS
       >
         {!isRenaming
           ? <Typography>{name}</Typography>
-          : <FormikProvider value={formik}>
-            <Form
-              className={classes.desktopRename}
-              data-cy='rename-form'
-              onBlur={stopEditing}
-            >
-              <FormikTextInput
-                className={classes.renameInput}
-                name="name"
-                inputVariant="minimal"
-                onKeyDown={(event) => {
-                  if (event.key === "Escape") {
-                    stopEditing()
-                  }
-                }}
-                placeholder = {t`Please enter a folder name`}
-                autoFocus={isRenaming}
+          : (
+            <>
+              <div
+                className={classes.clickOutSideArea}
+                onClick={stopEditing}
               />
-            </Form>
-          </FormikProvider>
+              <FormikProvider value={formik}>
+                <Form
+                  className={classes.desktopRename}
+                  data-cy='rename-form'
+                >
+                  <FormikTextInput
+                    className={classes.renameInput}
+                    name="name"
+                    inputVariant="minimal"
+                    onKeyDown={(event) => {
+                      if (event.key === "Escape") {
+                        stopEditing()
+                      }
+                    }}
+                    placeholder = {t`Please enter a folder name`}
+                    autoFocus={isRenaming}
+                  />
+                </Form>
+              </FormikProvider>
+            </>
+          )
         }
       </TableCell>
       {desktop &&

@@ -92,15 +92,13 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => 
         position: "absolute"
       }
     },
-    // dropdownOptions: {
-    //   backgroundColor: constants.fileSystemItemRow.optionsBackground,
-    //   color: constants.fileSystemItemRow.optionsColor,
-    //   border: `1px solid ${constants.fileSystemItemRow.optionsBorder}`
-    // },
-    // dropdownItem: {
-    //   backgroundColor: constants.fileSystemItemRow.itemBackground,
-    //   color: constants.fileSystemItemRow.itemColor
-    // },
+    clickOutSideArea : {
+      position: "fixed",
+      width: "100%",
+      height: "100%",
+      top: 0,
+      left: 0
+    },
     focusVisible:{
       backgroundColor: "transparent !important"
     }
@@ -195,29 +193,34 @@ const FileSystemTableItem = React.forwardRef(
         >
           {editing === cid && desktop
             ? (
-              <FormikProvider value={formik}>
-                <Form
-                  className={classes.desktopRename}
-                  data-cy='rename-form'
-                  onBlur={stopEditing}
-                >
-                  <FormikTextInput
-                    className={classes.renameInput}
-                    name="name"
-                    inputVariant="minimal"
-                    onKeyDown={(event) => {
-                      if (event.key === "Escape") {
-                        stopEditing()
+              <>
+                <div
+                  className={classes.clickOutSideArea}
+                  onClick={stopEditing}
+                />
+                <FormikProvider value={formik}>
+                  <Form
+                    className={classes.desktopRename}
+                    data-cy='rename-form'
+                  >
+                    <FormikTextInput
+                      className={classes.renameInput}
+                      name="name"
+                      inputVariant="minimal"
+                      onKeyDown={(event) => {
+                        if (event.key === "Escape") {
+                          stopEditing()
+                        }
+                      }}
+                      placeholder = {isFolder
+                        ? t`Please enter a folder name`
+                        : t`Please enter a file name`
                       }
-                    }}
-                    placeholder = {isFolder
-                      ? t`Please enter a folder name`
-                      : t`Please enter a file name`
-                    }
-                    autoFocus={editing === cid}
-                  />
-                </Form>
-              </FormikProvider>
+                      autoFocus={editing === cid}
+                    />
+                  </Form>
+                </FormikProvider>
+              </>
             )
             : <Typography>{name}</Typography>}
         </TableCell>

@@ -114,6 +114,13 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => 
       [breakpoints.down("md")]: {
         padding: 0
       }
+    },
+    clickOutSideArea : {
+      position: "fixed",
+      width: "100%",
+      height: "100%",
+      top: 0,
+      left: 0
     }
   })
 })
@@ -221,28 +228,31 @@ const FileSystemGridItem = React.forwardRef(
           </div>
           {editing === cid && desktop
             ? (
-              <FormikProvider value={formik}>
-                <Form
-                  className={classes.desktopRename}
-                  onBlur={stopEditing}
-                >
-                  <FormikTextInput
-                    className={classes.renameInput}
-                    name="name"
-                    inputVariant="minimal"
-                    onKeyDown={(event) => {
-                      if (event.key === "Escape") {
-                        stopEditing()
+              <>
+                <div
+                  className={classes.clickOutSideArea}
+                  onClick={stopEditing}
+                />
+                <FormikProvider value={formik}>
+                  <Form className={classes.desktopRename} >
+                    <FormikTextInput
+                      className={classes.renameInput}
+                      name="name"
+                      inputVariant="minimal"
+                      onKeyDown={(event) => {
+                        if (event.key === "Escape") {
+                          stopEditing()
+                        }
+                      }}
+                      placeholder = {isFolder
+                        ? t`Please enter a folder name`
+                        : t`Please enter a file name`
                       }
-                    }}
-                    placeholder = {isFolder
-                      ? t`Please enter a folder name`
-                      : t`Please enter a file name`
-                    }
-                    autoFocus={editing === cid}
-                  />
-                </Form>
-              </FormikProvider>
+                      autoFocus={editing === cid}
+                    />
+                  </Form>
+                </FormikProvider>
+              </>
             )
             : <div className={classes.gridFolderName}>{name}</div>
           }
