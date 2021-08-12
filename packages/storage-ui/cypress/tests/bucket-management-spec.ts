@@ -7,7 +7,7 @@ describe("Bucket management", () => {
 
   context("desktop", () => {
 
-    it("can create a bucket", () => {
+    it.skip("can create a bucket", () => {
       cy.web3Login({ clearPins: true })
 
       // create a bucket and see it in the bucket table
