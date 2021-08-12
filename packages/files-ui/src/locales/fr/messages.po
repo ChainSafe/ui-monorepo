@@ -41,9 +41,6 @@ msgstr "Accepter"
 msgid "Are we on the right track? Let us know in less than 1 minute."
 msgstr "Sommes-nous sur la bonne voie ? Dites-le-nous en moins d’une minute (en anglais)."
 
-msgid "Back"
-msgstr "Retour"
-
 msgid "Backup secret phrase"
 msgstr "Phrase secrète de sauvegarde"
 
@@ -161,9 +158,6 @@ msgstr "Supprimer"
 msgid "Delete selected"
 msgstr "Supprimer la sélection"
 
-msgid "Destination shared folder not selected"
-msgstr "Le dossier partagé de destination n’est pas sélectionné"
-
 msgid "Device awaiting confirmation"
 msgstr "Appareil en attente de confirmation"
 
@@ -182,17 +176,11 @@ msgstr "Téléchargement terminé"
 msgid "Download recovery key"
 msgstr "Télécharger la clé de sauvegarde"
 
-msgid "Downloading…"
-msgstr "Téléchargement…"
-
 msgid "Drop to upload files"
 msgstr "Faire glisser pour téléverser un fichier"
 
 msgid "Email is required"
 msgstr "Un courriel est requis"
-
-msgid "Encrypting and uploading…"
-msgstr "Chiffrement et téléversement…"
 
 msgid "Enter backup secret phrase:"
 msgstr "Phrase secrète de sauvegarde :"
@@ -205,15 +193,6 @@ msgstr "Entrez le mot de passe :"
 
 msgid "Enter the verification code:"
 msgstr "Entrez le code de vérification :"
-
-msgid "Error while creating new shared folder"
-msgstr "Erreur lors de la création d’un nouveau dossier partagé"
-
-msgid "Error while downloading {0}"
-msgstr "Erreur lors du téléchargement de {0}"
-
-msgid "Error while uploading {0}"
-msgstr "Erreur lors du téléversement de {0}"
 
 msgid "Essentials - Free"
 msgstr "Essentials - Gratuit"
@@ -244,9 +223,6 @@ msgstr "Format de fichier non pris en charge."
 
 msgid "File path"
 msgstr "Chemin du fichier"
-
-msgid "File shared successfully!"
-msgstr ""
 
 msgid "File size"
 msgstr "Taille"
@@ -584,9 +560,6 @@ msgstr "Partagé"
 msgid "Shared Folder Name"
 msgstr "Nom du dossier partagé"
 
-msgid "Shared folder is undefined"
-msgstr "Le dossier partagé n’est pas défini"
-
 msgid "Shared folders"
 msgstr "Dossiers partagés"
 
@@ -674,9 +647,6 @@ msgstr "Une erreur s’est produite lors de la récupération"
 msgid "There was an error when setting username."
 msgstr "Il y a eu une erreur dans le paramétrage du nom d’utilisateur."
 
-msgid "This may take some time depending on the file size"
-msgstr "Ceci peut prendre un certain temps en fonction de la taille du fichier"
-
 msgid "This username is already taken"
 msgstr "Ce nom d’utilisateur est déjà pris"
 
@@ -739,9 +709,6 @@ msgstr "Code de vérification envoyé !"
 
 msgid "View folder"
 msgstr "Voir le dossier"
-
-msgid "View shared folder"
-msgstr "Afficher le dossier partagé"
 
 msgid "Wallet address"
 msgstr "Addresse du wallet"

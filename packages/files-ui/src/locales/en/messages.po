@@ -40,9 +40,6 @@ msgstr "Approve"
 msgid "Are we on the right track? Let us know in less than 1 minute."
 msgstr "Are we on the right track? Let us know in less than 1 minute."
 
-msgid "Back"
-msgstr "Back"
-
 msgid "Backup secret phrase"
 msgstr "Backup secret phrase"
 
@@ -160,9 +157,6 @@ msgstr "Delete"
 msgid "Delete selected"
 msgstr "Delete selected"
 
-msgid "Destination shared folder not selected"
-msgstr "Destination shared folder not selected"
-
 msgid "Device awaiting confirmation"
 msgstr "Device awaiting confirmation"
 
@@ -181,17 +175,11 @@ msgstr "Download complete"
 msgid "Download recovery key"
 msgstr "Download recovery key"
 
-msgid "Downloading…"
-msgstr "Downloading…"
-
 msgid "Drop to upload files"
 msgstr "Drop to upload files"
 
 msgid "Email is required"
 msgstr "Email is required"
-
-msgid "Encrypting and uploading…"
-msgstr "Encrypting and uploading…"
 
 msgid "Enter backup secret phrase:"
 msgstr "Enter backup secret phrase:"
@@ -204,15 +192,6 @@ msgstr "Enter password:"
 
 msgid "Enter the verification code:"
 msgstr "Enter the verification code:"
-
-msgid "Error while creating new shared folder"
-msgstr "Error while creating new shared folder"
-
-msgid "Error while downloading {0}"
-msgstr "Error while downloading {0}"
-
-msgid "Error while uploading {0}"
-msgstr "Error while uploading {0}"
 
 msgid "Essentials - Free"
 msgstr "Essentials - Free"
@@ -243,9 +222,6 @@ msgstr "File format not supported."
 
 msgid "File path"
 msgstr "File path"
-
-msgid "File shared successfully!"
-msgstr "File shared successfully!"
 
 msgid "File size"
 msgstr "File size"
@@ -583,9 +559,6 @@ msgstr "Shared"
 msgid "Shared Folder Name"
 msgstr "Shared Folder Name"
 
-msgid "Shared folder is undefined"
-msgstr "Shared folder is undefined"
-
 msgid "Shared folders"
 msgstr "Shared folders"
 
@@ -673,9 +646,6 @@ msgstr "There was an error recovering this"
 msgid "There was an error when setting username."
 msgstr "There was an error when setting username."
 
-msgid "This may take some time depending on the file size"
-msgstr "This may take some time depending on the file size"
-
 msgid "This username is already taken"
 msgstr "This username is already taken"
 
@@ -738,9 +708,6 @@ msgstr "Verification code sent!"
 
 msgid "View folder"
 msgstr "View folder"
-
-msgid "View shared folder"
-msgstr "View shared folder"
 
 msgid "Wallet address"
 msgstr "Wallet address"

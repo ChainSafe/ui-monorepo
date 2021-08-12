@@ -40,9 +40,6 @@ msgstr "Godkjenn"
 msgid "Are we on the right track? Let us know in less than 1 minute."
 msgstr ""
 
-msgid "Back"
-msgstr ""
-
 msgid "Backup secret phrase"
 msgstr ""
 
@@ -160,9 +157,6 @@ msgstr "Slett"
 msgid "Delete selected"
 msgstr "Slett valgte"
 
-msgid "Destination shared folder not selected"
-msgstr ""
-
 msgid "Device awaiting confirmation"
 msgstr ""
 
@@ -181,17 +175,11 @@ msgstr ""
 msgid "Download recovery key"
 msgstr ""
 
-msgid "Downloading…"
-msgstr ""
-
 msgid "Drop to upload files"
 msgstr "Dra for å laste opp filer"
 
 msgid "Email is required"
 msgstr "E-post kreves"
-
-msgid "Encrypting and uploading…"
-msgstr ""
 
 msgid "Enter backup secret phrase:"
 msgstr ""
@@ -204,15 +192,6 @@ msgstr "Skriv inn passord:"
 
 msgid "Enter the verification code:"
 msgstr "Skriv inn bekreftelseskoden:"
-
-msgid "Error while creating new shared folder"
-msgstr ""
-
-msgid "Error while downloading {0}"
-msgstr ""
-
-msgid "Error while uploading {0}"
-msgstr ""
 
 msgid "Essentials - Free"
 msgstr ""
@@ -239,9 +218,6 @@ msgid "File format not supported."
 msgstr ""
 
 msgid "File path"
-msgstr ""
-
-msgid "File shared successfully!"
 msgstr ""
 
 msgid "File size"
@@ -580,9 +556,6 @@ msgstr "Delt"
 msgid "Shared Folder Name"
 msgstr ""
 
-msgid "Shared folder is undefined"
-msgstr ""
-
 msgid "Shared folders"
 msgstr ""
 
@@ -670,9 +643,6 @@ msgstr ""
 msgid "There was an error when setting username."
 msgstr ""
 
-msgid "This may take some time depending on the file size"
-msgstr ""
-
 msgid "This username is already taken"
 msgstr ""
 
@@ -735,9 +705,6 @@ msgstr ""
 
 msgid "View folder"
 msgstr "Vis mappe"
-
-msgid "View shared folder"
-msgstr ""
 
 msgid "Wallet address"
 msgstr ""
