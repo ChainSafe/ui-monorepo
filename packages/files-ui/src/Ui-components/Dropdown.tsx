@@ -3,6 +3,7 @@ import { Menu, MenuItem } from "@material-ui/core"
 import { makeStyles, createStyles } from "@chainsafe/common-theme"
 import clsx from "clsx"
 import { useCallback } from "react"
+import { CSFTheme } from "../Themes/types"
 
 interface Option {
     contents: ReactNode
@@ -22,10 +23,19 @@ interface Props {
     testId?: string
 }
 
-const useStyles = makeStyles(() => {
+const useStyles = makeStyles(({ constants }: CSFTheme) => {
   return createStyles({
+    root:{
+      backgroundColor: `${constants.dropDown.backgroundColor} !important`,
+      color: `${constants.dropDown.color} !important`
+    },
     iconContainer: {
       cursor: "pointer"
+    },
+    options: {
+      "&:hover": {
+        backgroundColor: `${constants.dropDown.backgroundOptionHover} !important`
+      }
     }
   })})
 
@@ -56,6 +66,7 @@ export default function Dropdown({ icon, options, style, testId }: Props) {
         keepMounted
         open={open}
         onClose={handleClose}
+        PopoverClasses={{ paper: classes.root }}
       >
         {options.map((option, index) => (
           <MenuItem
@@ -65,6 +76,7 @@ export default function Dropdown({ icon, options, style, testId }: Props) {
               handleClose()
             }}
             focusVisibleClassName={clsx(style?.focusVisible)}
+            className={classes.options}
           >
             {option.contents}
           </MenuItem>

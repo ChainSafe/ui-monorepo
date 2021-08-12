@@ -18,6 +18,11 @@ export const lightTheme = createTheme<CsfColors>({
     constants: {
       ...UI_CONSTANTS,
       ...({
+        dropDown:{
+          backgroundColor: "var(--gray1)",
+          color: "var(--gray8)",
+          backgroundOptionHover: "var(--gray2)"
+        },
         landing: {
           background: "var(--gray3)",
           border: "var(--gray4)",
