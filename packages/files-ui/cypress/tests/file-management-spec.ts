@@ -6,7 +6,8 @@ import "cypress-pipe"
 import { createFolderModal } from "../support/page-objects/modals/createFolderModal"
 import { deleteFileModal } from "../support/page-objects/modals/deleteFileModal"
 import { fileUploadModal } from "../support/page-objects/modals/fileUploadModal"
-import { recoverFileModal } from "../support/page-objects/modals/recoverFileModal"
+import { moveItemModal } from "../support/page-objects/modals/moveItemModal"
+import { recoverItemModal } from "../support/page-objects/modals/recoverItemModal"
 
 describe("File management", () => {
 
@@ -40,6 +41,56 @@ describe("File management", () => {
       fileUploadModal.cancelButton().click()
       fileUploadModal.body().should("not.exist")
     })
+
+    it.only("can move a file in and out of a folder", () => {
+      cy.web3Login({ clearCSFBucket: true })
+
+      // upload a file and save it's name as a cypress alias
+      homePage.uploadFile("../fixtures/uploadedFiles/text-file.txt")
+      homePage.fileItemRow().should("have.length", 1)
+      homePage.fileItemName().invoke("text").as("fileName")
+
+      // create a folder 
+      homePage.createFolder(folderName)
+      homePage.fileItemRow().should("have.length", 2)
+
+      cy.get("@fileName").then(($fileName) => {
+        // select the file and move it to the folder
+        homePage.fileItemName().contains(`${$fileName}`)
+          .should("be.visible")
+          .click()
+        homePage.moveSelectedButton().click()
+        moveItemModal.folderList().contains("Testing").click()
+        moveItemModal.moveButton().safeClick()
+
+        // ensure there is only the folder in the Home directory 
+        homePage.fileItemRow().should("have.length", 1)
+        homePage.fileItemName().should("contain.text", folderName)
+
+        // open the folder and confirm the file was moved inside
+        homePage.fileItemName().contains(folderName)
+          .should("be.visible")
+          .dblclick()
+        homePage.fileItemRow().should("have.length", 1)
+        homePage.fileItemName().should("contain.text", $fileName)
+
+        // move the file back to the home root
+        homePage.fileItemName().contains(`${$fileName}`)
+          .should("be.visible")
+          .click()
+          .should("have.focus")
+        homePage.moveSelectedButton().click()
+        moveItemModal.folderList().contains("Home").click()
+        moveItemModal.moveButton().safeClick()
+
+        // ensure the home root now has the folder and file
+        navigationMenu.homeNavButton().click()
+        homePage.fileItemRow().should("have.length", 2)
+        homePage.fileItemName().should("contain.text", folderName)
+        homePage.fileItemName().should("contain.text", $fileName)
+      })
+    })
+
 
     it("can add/remove multiple files and upload", () => {
       cy.web3Login({ clearCSFBucket: true })
@@ -100,7 +151,7 @@ describe("File management", () => {
       homePage.fileRenameInput().should("have.value", newName)
     })
 
-    it("can delete and recover a file", () => {
+    it("can delete, recover and permanently delete a file", () => {
       cy.web3Login({ clearCSFBucket: true, clearTrashBucket: true })
 
       // upload a file 
@@ -133,9 +184,9 @@ describe("File management", () => {
       // recover the file via the menu option
       binPage.fileItemKebabButton().first().click()
       binPage.recoverMenuOption().click()
-      recoverFileModal.folderList().should("exist")
-      recoverFileModal.folderList().contains("Home").click()
-      recoverFileModal.recoverButton().click()
+      recoverItemModal.folderList().should("exist")
+      recoverItemModal.folderList().contains("Home").click()
+      recoverItemModal.recoverButton().click()
       binPage.fileItemRow().should("not.exist")
 
       // ensure recovered file is correct
@@ -149,9 +200,21 @@ describe("File management", () => {
       cy.get("@recoveredFile").then(($recoveredFile) => {
         cy.get("@binFile").should("equals", $recoveredFile)
       })
+
+      // permanently delete the file
+      homePage.fileItemKebabButton().first().click()
+      homePage.deleteMenuOption().click().pause()
+      deleteFileModal.confirmButton().safeClick()
+      navigationMenu.binNavButton().click()
+      binPage.fileItemKebabButton().first().click()
+      binPage.deleteMenuOption().click()
+      deleteFileModal.confirmButton().safeClick()
+      binPage.fileItemRow().should("not.exist")
+      navigationMenu.homeNavButton().click()
+      homePage.fileItemRow().should("not.exist")
     })
 
-    it("can delete and recover a folder", () => {
+    it("can delete, recover and permanently delete a folder", () => {
       cy.web3Login({ clearCSFBucket: true, clearTrashBucket: true })
 
       // create a folder
@@ -174,15 +237,27 @@ describe("File management", () => {
       // recover folder via the menu option
       binPage.fileItemKebabButton().first().click()
       binPage.recoverMenuOption().click()
-      recoverFileModal.folderList().should("exist")
-      recoverFileModal.folderList().contains("Home").click()
-      recoverFileModal.recoverButton().click()
+      recoverItemModal.folderList().should("exist")
+      recoverItemModal.folderList().contains("Home").click()
+      recoverItemModal.recoverButton().click()
       binPage.fileItemRow().should("not.exist")
 
       // ensure recovered folder is correct
       navigationMenu.homeNavButton().click()
       binPage.fileItemRow().should("have.length", 1)
       homePage.fileItemName().should("have.text", folderName)
+
+      // permanently delete the folder
+      homePage.fileItemKebabButton().first().click()
+      homePage.deleteMenuOption().click()
+      deleteFileModal.confirmButton().safeClick()
+      navigationMenu.binNavButton().click()
+      binPage.fileItemKebabButton().first().click()
+      binPage.deleteMenuOption().click()
+      deleteFileModal.confirmButton().safeClick()
+      binPage.fileItemRow().should("not.exist")
+      navigationMenu.homeNavButton().click()
+      homePage.fileItemRow().should("not.exist")
     })
 
     it("cannot create a folder with an invalid name", () => {
