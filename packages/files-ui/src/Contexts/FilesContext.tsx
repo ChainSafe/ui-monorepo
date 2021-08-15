@@ -641,56 +641,56 @@ const FilesProvider = ({ children }: FilesContextProps) => {
     dispatchTransfersInProgress({ type: "add", payload: transferProgress })
 
     getFileContent(sourceBucketId, {
-        cid: sourceFile.cid,
-        file: sourceFile,
-        path: getPathWithFile(path, sourceFile.name),
-        onDownloadProgress: (progressEvent) => {
+      cid: sourceFile.cid,
+      file: sourceFile,
+      path: getPathWithFile(path, sourceFile.name),
+      onDownloadProgress: (progressEvent) => {
+        dispatchTransfersInProgress({
+          type: "progress",
+          payload: {
+            id: toastId,
+            progress: Math.ceil(
+              (progressEvent.loaded / sourceFile.size) * 50
+            )
+          }
+        })
+      }
+    }).then(async (fileContent) => {
+      if (!fileContent) {
+        dispatchTransfersInProgress({
+          type: "error",
+          payload: {
+            id: toastId,
+            errorMessage: "An error occured while downloading the file"
+          }
+        })
+        return
+      }
+
+      dispatchTransfersInProgress({
+        type: "operation",
+        payload: {
+          id: toastId,
+          operation: "Encrypt & Upload"
+        }
+      })
+
+      await encryptAndUploadFiles(
+        destinationBucket,
+        [new File([fileContent], sourceFile.name, { type: sourceFile.content_type })],
+        UPLOAD_PATH,
+        (progressEvent) => {
           dispatchTransfersInProgress({
             type: "progress",
             payload: {
               id: toastId,
               progress: Math.ceil(
-                (progressEvent.loaded / sourceFile.size) * 50
+                50 + (progressEvent.loaded / sourceFile.size) * 50
               )
             }
           })
         }
-      }).then(async (fileContent) => {
-        if (!fileContent) {
-          dispatchTransfersInProgress({
-            type: "error",
-            payload: {
-              id: toastId,
-              errorMessage: "An error occured while downloading the file"
-            }
-          })
-          return
-        }
-
-        dispatchTransfersInProgress({
-          type: "operation",
-          payload: {
-            id: toastId,
-            operation: "Encrypt & Upload"
-          }
-        })
-
-        await encryptAndUploadFiles(
-          destinationBucket,
-          [new File([fileContent], sourceFile.name, { type: sourceFile.content_type })],
-          UPLOAD_PATH,
-          (progressEvent) => {
-            dispatchTransfersInProgress({
-              type: "progress",
-              payload: {
-                id: toastId,
-                progress: Math.ceil(
-                  50 + (progressEvent.loaded / sourceFile.size) * 50
-                )
-              }
-            })
-          }
-        )
+      )
 
       if (!keepOriginal) {
         await filesApiClient.removeBucketObject(sourceBucketId, { paths: [getPathWithFile(path, sourceFile.name)] })

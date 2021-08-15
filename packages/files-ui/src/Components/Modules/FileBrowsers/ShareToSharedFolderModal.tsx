@@ -264,29 +264,29 @@ const CopyToSharedFolderModal = ({ close, file, filePath }: IShareFileProps) => 
       return
     }
 
-      let bucketToUpload: BucketKeyPermission | undefined = destinationBucket
+    let bucketToUpload: BucketKeyPermission | undefined = destinationBucket
 
-      if (!isUsingCurrentBucket) {
-        try {
-          const newBucket = await handleCreateSharedFolder(sharedFolderName, sharedFolderReaders, sharedFolderWriters)
+    if (!isUsingCurrentBucket) {
+      try {
+        const newBucket = await handleCreateSharedFolder(sharedFolderName, sharedFolderReaders, sharedFolderWriters)
 
-          if(!newBucket){
-            return
-          }
-          bucketToUpload = newBucket
-        } catch (e) {
-          console.error(e)
+        if(!newBucket){
           return
         }
-      }
-
-      if(!bucketToUpload){
-        console.error("Bucket id to upload is undefined")
+        bucketToUpload = newBucket
+      } catch (e) {
+        console.error(e)
         return
       }
+    }
 
-      transferFileBetweenBuckets(bucket.id, file, filePath, bucketToUpload, keepOriginalFile)
-      close()
+    if(!bucketToUpload){
+      console.error("Bucket id to upload is undefined")
+      return
+    }
+
+    transferFileBetweenBuckets(bucket.id, file, filePath, bucketToUpload, keepOriginalFile)
+    close()
   }, [
     bucket,
     destinationBucket,
@@ -299,7 +299,7 @@ const CopyToSharedFolderModal = ({ close, file, filePath }: IShareFileProps) => 
     sharedFolderWriters,
     keepOriginalFile,
     close,
-    transferFileBetweenBuckets,
+    transferFileBetweenBuckets
   ])
 
 
@@ -324,132 +324,132 @@ const CopyToSharedFolderModal = ({ close, file, filePath }: IShareFileProps) => 
 
         <div className={classes.modalFlexItem}>
           {isUsingCurrentBucket
-              ? (
-                <div className={clsx(classes.modalFlexItem, classes.inputWrapper)}>
-                  <SelectInput
-                    label={t`Select an existing shared folder`}
+            ? (
+              <div className={clsx(classes.modalFlexItem, classes.inputWrapper)}>
+                <SelectInput
+                  label={t`Select an existing shared folder`}
+                  labelClassName={classes.inputLabel}
+                  options={bucketsOptions}
+                  value={destinationBucket?.id}
+                  onChange={(val: string) => setDestinationBucket(buckets.find((bu) => bu.id === val))}
+                />
+              </div>
+            )
+            : (
+              <>
+                <div className={clsx(classes.modalFlexItem, classes.titleWrapper)}>
+                  <TextInput
+                    className={classes.shareFolderNameInput}
                     labelClassName={classes.inputLabel}
-                    options={bucketsOptions}
-                    value={destinationBucket?.id}
-                    onChange={(val: string) => setDestinationBucket(buckets.find((bu) => bu.id === val))}
+                    label={t`Shared Folder Name`}
+                    value={sharedFolderName}
+                    autoFocus
+                    onChange={onNameChange}
+                    state={nameError ? "error" : "normal"}
                   />
-                </div>
-              )
-              : (
-                <>
-                  <div className={clsx(classes.modalFlexItem, classes.titleWrapper)}>
-                    <TextInput
-                      className={classes.shareFolderNameInput}
-                      labelClassName={classes.inputLabel}
-                      label={t`Shared Folder Name`}
-                      value={sharedFolderName}
-                      autoFocus
-                      onChange={onNameChange}
-                      state={nameError ? "error" : "normal"}
-                    />
-                    {nameError && (
-                      <Typography
-                        component="p"
-                        variant="body1"
-                        className={classes.errorText}
-                      >
-                        {nameError}
-                      </Typography>
-                    )}
-                  </div>
-                  <div className={classes.modalFlexItem}>
-                    <TagsInput
-                      onChange={(values) => onNewUsers(values, "read")}
-                      label={t`Give view-only permission to:`}
-                      labelClassName={classes.inputLabel}
-                      value={sharedFolderReaders}
-                      fetchTags={(inputVal) => handleLookupUser(inputVal, "read")}
-                      placeholder={t`Add by sharing address, username or wallet address`}
-                      styles={{
-                        control: (provided) => ({
-                          ...provided,
-                          minHeight: 90,
-                          alignContent: "start"
-                        })
-                      }}/>
-                  </div>
-                  <div className={classes.modalFlexItem}>
-                    <TagsInput
-                      onChange={(values) => onNewUsers(values, "write")}
-                      label={t`Give edit permission to:`}
-                      labelClassName={classes.inputLabel}
-                      value={sharedFolderWriters}
-                      fetchTags={(inputVal) => handleLookupUser(inputVal, "write")}
-                      placeholder={t`Add by sharing address, username or wallet address`}
-                      styles={{
-                        control: (provided) => ({
-                          ...provided,
-                          minHeight: 90,
-                          alignContent: "start"
-                        })
-                      }}/>
-                  </div>
-                  {!!usersError && (
+                  {nameError && (
                     <Typography
                       component="p"
                       variant="body1"
                       className={classes.errorText}
                     >
-                      {usersError}
+                      {nameError}
                     </Typography>
                   )}
-                </>
-          )}
-        </div>
-          <div className={classes.buttonsArea}>
-            {!hasNoSharedBucket && (
-              <div
-                className={classes.buttonLink}
-                onClick={() => setIsUsingCurrentBucket(!isUsingCurrentBucket)}
-              >
-                <Typography>
-                  {
-                    isUsingCurrentBucket
-                      ? <Trans>Create a new shared folder</Trans>
-                      : <Trans>Use an existing shared folder</Trans>
-                  }
-                </Typography>
-              </div>
+                </div>
+                <div className={classes.modalFlexItem}>
+                  <TagsInput
+                    onChange={(values) => onNewUsers(values, "read")}
+                    label={t`Give view-only permission to:`}
+                    labelClassName={classes.inputLabel}
+                    value={sharedFolderReaders}
+                    fetchTags={(inputVal) => handleLookupUser(inputVal, "read")}
+                    placeholder={t`Add by sharing address, username or wallet address`}
+                    styles={{
+                      control: (provided) => ({
+                        ...provided,
+                        minHeight: 90,
+                        alignContent: "start"
+                      })
+                    }}/>
+                </div>
+                <div className={classes.modalFlexItem}>
+                  <TagsInput
+                    onChange={(values) => onNewUsers(values, "write")}
+                    label={t`Give edit permission to:`}
+                    labelClassName={classes.inputLabel}
+                    value={sharedFolderWriters}
+                    fetchTags={(inputVal) => handleLookupUser(inputVal, "write")}
+                    placeholder={t`Add by sharing address, username or wallet address`}
+                    styles={{
+                      control: (provided) => ({
+                        ...provided,
+                        minHeight: 90,
+                        alignContent: "start"
+                      })
+                    }}/>
+                </div>
+                {!!usersError && (
+                  <Typography
+                    component="p"
+                    variant="body1"
+                    className={classes.errorText}
+                  >
+                    {usersError}
+                  </Typography>
+                )}
+              </>
             )}
-            <div className={classes.checkboxContainer}>
-              <CheckboxInput
-                value={keepOriginalFile}
-                onChange={() => setKeepOriginalFile(!keepOriginalFile)}
-                label={t`Keep original file`}
-              />
-            </div>
-            <div className={classes.buttonsContainer}>
-              <Button
-                size="large"
-                variant="outline"
-                onClick={close}
-                className={classes.sideBySideButton}
-              >
-                <Trans>Cancel</Trans>
-              </Button>
-              <Button
-                type="submit"
-                size="large"
-                variant="primary"
-                onClick={handleShare}
-                className={classes.sideBySideButton}
-                disabled={isUsingCurrentBucket
-                  ? !destinationBucket?.id
-                  : !sharedFolderName || !!usersError || !!nameError
+        </div>
+        <div className={classes.buttonsArea}>
+          {!hasNoSharedBucket && (
+            <div
+              className={classes.buttonLink}
+              onClick={() => setIsUsingCurrentBucket(!isUsingCurrentBucket)}
+            >
+              <Typography>
+                {
+                  isUsingCurrentBucket
+                    ? <Trans>Create a new shared folder</Trans>
+                    : <Trans>Use an existing shared folder</Trans>
                 }
-              >
-                {keepOriginalFile
-                  ? <Trans>Copy over</Trans>
-                  : <Trans>Move over</Trans>
-                }
-              </Button>
+              </Typography>
             </div>
+          )}
+          <div className={classes.checkboxContainer}>
+            <CheckboxInput
+              value={keepOriginalFile}
+              onChange={() => setKeepOriginalFile(!keepOriginalFile)}
+              label={t`Keep original file`}
+            />
           </div>
+          <div className={classes.buttonsContainer}>
+            <Button
+              size="large"
+              variant="outline"
+              onClick={close}
+              className={classes.sideBySideButton}
+            >
+              <Trans>Cancel</Trans>
+            </Button>
+            <Button
+              type="submit"
+              size="large"
+              variant="primary"
+              onClick={handleShare}
+              className={classes.sideBySideButton}
+              disabled={isUsingCurrentBucket
+                ? !destinationBucket?.id
+                : !sharedFolderName || !!usersError || !!nameError
+              }
+            >
+              {keepOriginalFile
+                ? <Trans>Copy over</Trans>
+                : <Trans>Move over</Trans>
+              }
+            </Button>
+          </div>
+        </div>
       </div>
     </CustomModal>
   )
