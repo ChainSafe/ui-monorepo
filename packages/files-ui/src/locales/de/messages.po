@@ -649,6 +649,9 @@ msgstr ""
 msgid "This username is public"
 msgstr "Dieser Benutzername ist öffentlich"
 
+msgid "Transfer complete"
+msgstr ""
+
 msgid "Transferring your file ({operation})"
 msgstr ""
 
