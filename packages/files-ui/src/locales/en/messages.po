@@ -652,6 +652,9 @@ msgstr "This username is already taken"
 msgid "This username is public"
 msgstr "This username is public"
 
+msgid "Transferring your file ({operation})"
+msgstr "Transferring your file ({operation})"
+
 msgid "Try again"
 msgstr "Try again"
 
