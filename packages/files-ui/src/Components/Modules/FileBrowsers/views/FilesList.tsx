@@ -1104,7 +1104,7 @@ const FilesList = ({ isShared = false }: Props) => {
             setIsCopyToSharedFolerModalOpen(false)
             setFilePath(undefined)
           }}
-          filePath={filePath}
+          filePath={currentPath}
         />
       }
     </article>
