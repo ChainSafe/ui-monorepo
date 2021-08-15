@@ -266,14 +266,13 @@ const CopyToSharedFolderModal = ({ close, file, filePath }: IShareFileProps) => 
 
       let bucketToUpload: BucketKeyPermission | undefined = destinationBucket
 
-      if(!isUsingCurrentBucket){
+      if (!isUsingCurrentBucket) {
         try {
           const newBucket = await handleCreateSharedFolder(sharedFolderName, sharedFolderReaders, sharedFolderWriters)
 
           if(!newBucket){
             return
           }
-
           bucketToUpload = newBucket
         } catch (e) {
           console.error(e)
@@ -286,10 +285,8 @@ const CopyToSharedFolderModal = ({ close, file, filePath }: IShareFileProps) => 
         return
       }
 
-      transferFileBetweenBuckets(bucket.id, file, filePath, bucketToUpload.id, keepOriginalFile)
+      transferFileBetweenBuckets(bucket.id, file, filePath, bucketToUpload, keepOriginalFile)
       close()
-
-
   }, [
     bucket,
     destinationBucket,
@@ -302,7 +299,7 @@ const CopyToSharedFolderModal = ({ close, file, filePath }: IShareFileProps) => 
     sharedFolderWriters,
     keepOriginalFile,
     close,
-    transferFileBetweenBuckets
+    transferFileBetweenBuckets,
   ])
 
 

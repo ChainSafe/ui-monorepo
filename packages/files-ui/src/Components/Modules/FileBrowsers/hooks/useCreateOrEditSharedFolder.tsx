@@ -25,8 +25,7 @@ export const useCreateOrEditSharedFolder = () => {
       .then((bucket) => {
         setIsCreatingSharedFolder(false)
         return bucket
-      })
-      .catch((error) => {
+      }).catch((error) => {
         setIsCreatingSharedFolder(false)
         console.error(error)
       })

@@ -76,7 +76,7 @@ const TransferToast: React.FC<ITransferToast> = (props) => {
               variant="body1"
               component="p"
             >
-              <Trans>Upload complete</Trans>
+              <Trans>Transfer complete</Trans>
             </Typography>
           </div>
         ) : error ? (
