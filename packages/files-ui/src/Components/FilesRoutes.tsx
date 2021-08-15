@@ -6,7 +6,6 @@ import { useFilesApi }  from "../Contexts/FilesApiContext"
 import DrivePage from "./Pages/DrivePage"
 import SearchPage from "./Pages/SearchPage"
 import BinPage from "./Pages/BinPage"
-import PurchasePlanPage from "./Pages/PurchasePlanPage"
 import { useThresholdKey } from "../Contexts/ThresholdKeyContext"
 import ShareFilesPage from "./Pages/SharedFilesPage"
 import SharedFoldersOverview from "./Modules/FileBrowsers/SharedFoldersOverview"
@@ -99,13 +98,6 @@ const FilesRoutes = () => {
         path={ROUTE_LINKS.Plans}
         isAuthorized={isAuthorized}
         component={PlansPage}
-        redirectPath={ROUTE_LINKS.Landing}
-      />
-      <ConditionalRoute
-        exact
-        path={ROUTE_LINKS.PurchasePlan}
-        isAuthorized={isAuthorized}
-        component={PurchasePlanPage}
         redirectPath={ROUTE_LINKS.Landing}
       />
       <ConditionalRoute

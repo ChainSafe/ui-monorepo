@@ -1,5 +1,4 @@
 import * as cardTypes from "./cardTypes"
-import { ICardType } from "./cardTypes"
 
 const MONTH_REGEX = /(0[1-9]|1[0-2])/
 
@@ -46,6 +45,7 @@ export const validateLuhn = (cardNumber: string) => {
     0
   )
 }
+
 export const getCardNumberError = (cardNumber: string): string | undefined => {
   if (!cardNumber) {
     return CardNumberErrors.EMPTY_CARD_NUMBER
@@ -92,7 +92,8 @@ export const getExpiryDateError = (expiryDate: string): string | undefined => {
   return CardExpiryErrors.INVALID_EXPIRY_DATE
 }
 
-export const getCVCError = (cvc: string, cardType: ICardType | undefined) => {
+export const getCVCError = (cvc: string, cardNumber: string) => {
+  const cardType = cardTypes.getCardTypeByValue(cardNumber)
   if (!cvc) {
     return CardCvcErrors.EMPTY_CVC
   }
