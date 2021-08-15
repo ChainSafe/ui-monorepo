@@ -653,6 +653,9 @@ msgstr "Ce nom d’utilisateur est déjà pris"
 msgid "This username is public"
 msgstr "Ce nom d’utilisateur est public"
 
+msgid "Transfer complete"
+msgstr ""
+
 msgid "Transferring your file ({operation})"
 msgstr ""
 
