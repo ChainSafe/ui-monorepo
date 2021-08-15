@@ -117,6 +117,7 @@ type FilesContext = {
     destinationBucketId: string,
     deleteFromSource?: boolean
   ) => Promise<void>
+  transfersInProgress: TransferProgress[]
 }
 
 // This represents a File or Folder on the
@@ -626,7 +627,7 @@ const FilesProvider = ({ children }: FilesContextProps) => {
     sourceFile: FileSystemItem,
     path: string,
     destinationBucketId: string,
-    deleteFromSource = false
+    keepOriginal = false
   ) => {
     debugger
     const toastId = uuidv4()
@@ -707,7 +708,7 @@ const FilesProvider = ({ children }: FilesContextProps) => {
         }
       )
 
-      if (deleteFromSource) {
+      if (!keepOriginal) {
         await filesApiClient.removeBucketObject(sourceBucketId, { paths: [getPathWithFile(path, sourceFile.name)] })
       }
       setTimeout(() => {
@@ -743,7 +744,8 @@ const FilesProvider = ({ children }: FilesContextProps) => {
         isLoadingBuckets,
         createSharedFolder,
         editSharedFolder,
-        transferFileBetweenBuckets
+        transferFileBetweenBuckets,
+        transfersInProgress
       }}
     >
       {children}

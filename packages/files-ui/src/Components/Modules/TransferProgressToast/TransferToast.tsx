@@ -1,24 +1,23 @@
 import React from "react"
-import { createStyles, ITheme, makeStyles } from "@chainsafe/common-theme"
-import { DownloadProgress } from "../../../Contexts/FilesContext"
-import {
-  ProgressBar,
-  Typography,
-  CheckCircleIcon,
-  CloseCircleIcon
-} from "@chainsafe/common-components"
+import { createStyles, makeStyles } from "@chainsafe/common-theme"
+import { TransferProgress, UploadProgress } from "../../../Contexts/FilesContext"
+import { ProgressBar, Typography, CheckCircleIcon, CloseCircleIcon } from "@chainsafe/common-components"
 import clsx from "clsx"
-import { Trans } from "@lingui/macro"
+import { plural, Trans } from "@lingui/macro"
+import { CSFTheme } from "../../../Themes/types"
 
 const useStyles = makeStyles(
-  ({ constants, palette, animation, breakpoints }: ITheme) => {
+  ({ constants, palette, animation, breakpoints }: CSFTheme) => {
     return createStyles({
       boxContainer: {
         backgroundColor: palette.additional["gray"][3],
         margin: `${constants.generalUnit}px 0`,
         border: `1px solid ${palette.additional["gray"][6]}`,
         padding: constants.generalUnit * 2,
-        borderRadius: 4
+        borderRadius: 4,
+        [breakpoints.down("md")]: {
+          margin: 0
+        }
       },
       appearBox: {
         animation: `$slideLeft ${animation.translate}ms`,
@@ -36,7 +35,10 @@ const useStyles = makeStyles(
       },
       contentContainer: {
         display: "flex",
-        alignItems: "center"
+        alignItems: "center",
+        "& svg": {
+          fill: constants.uploadAlert.icon
+        }
       },
       marginBottom: {
         marginBottom: constants.generalUnit
@@ -48,23 +50,24 @@ const useStyles = makeStyles(
   }
 )
 
-interface IDownloadBox {
-  downloadInProgress: DownloadProgress
+interface ITransferToast {
+  transferInProgress: TransferProgress
 }
 
-const DownloadBox: React.FC<IDownloadBox> = ({ downloadInProgress }) => {
+const TransferToast: React.FC<ITransferToast> = (props) => {
+  const { transferInProgress } = props
   const {
-    fileName,
     complete,
     error,
     progress,
     errorMessage
-  } = downloadInProgress
+  } = transferInProgress
   const classes = useStyles()
 
   return (
     <>
-      <div className={clsx(classes.appearBox, classes.boxContainer)}>
+      <div className={clsx(classes.appearBox, classes.boxContainer)}
+        data-cy="upload-status-toast-message" >
         {complete ? (
           <div className={classes.contentContainer}>
             <CheckCircleIcon className={classes.marginRight} />
@@ -72,7 +75,7 @@ const DownloadBox: React.FC<IDownloadBox> = ({ downloadInProgress }) => {
               variant="body1"
               component="p"
             >
-              <Trans>Download complete</Trans>
+              <Trans>Upload complete</Trans>
             </Typography>
           </div>
         ) : error ? (
@@ -92,7 +95,7 @@ const DownloadBox: React.FC<IDownloadBox> = ({ downloadInProgress }) => {
               component="p"
               className={classes.marginBottom}
             >
-              Downloading {fileName}…
+              Transferring your file
             </Typography>
             <ProgressBar
               progress={progress}
@@ -105,4 +108,4 @@ const DownloadBox: React.FC<IDownloadBox> = ({ downloadInProgress }) => {
   )
 }
 
-export default DownloadBox
+export default TransferToast

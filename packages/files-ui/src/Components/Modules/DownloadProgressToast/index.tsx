@@ -1,7 +1,7 @@
 import React from "react"
 import { createStyles, ITheme, makeStyles } from "@chainsafe/common-theme"
 import { useFiles } from "../../../Contexts/FilesContext"
-import DownloadBox from "./DownloadBox"
+import DownloadToast from "./DownloadToast"
 
 const useStyles = makeStyles(({ constants, zIndex, breakpoints }: ITheme) => {
   const WIDTH = 400
@@ -33,7 +33,7 @@ const DownloadProgressModals: React.FC = () => {
     return (
       <div className={classes.root}>
         {downloadsInProgress.map((downloadInProgress) => (
-          <DownloadBox
+          <DownloadToast
             key={downloadInProgress.id}
             downloadInProgress={downloadInProgress}
           />
