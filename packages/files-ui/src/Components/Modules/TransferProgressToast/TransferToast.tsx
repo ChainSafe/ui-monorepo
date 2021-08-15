@@ -1,9 +1,9 @@
 import React from "react"
 import { createStyles, makeStyles } from "@chainsafe/common-theme"
-import { TransferProgress, UploadProgress } from "../../../Contexts/FilesContext"
+import { TransferProgress } from "../../../Contexts/FilesContext"
 import { ProgressBar, Typography, CheckCircleIcon, CloseCircleIcon } from "@chainsafe/common-components"
 import clsx from "clsx"
-import { plural, Trans } from "@lingui/macro"
+import { Trans } from "@lingui/macro"
 import { CSFTheme } from "../../../Themes/types"
 
 const useStyles = makeStyles(
@@ -60,7 +60,8 @@ const TransferToast: React.FC<ITransferToast> = (props) => {
     complete,
     error,
     progress,
-    errorMessage
+    errorMessage,
+    operation
   } = transferInProgress
   const classes = useStyles()
 
@@ -95,7 +96,9 @@ const TransferToast: React.FC<ITransferToast> = (props) => {
               component="p"
               className={classes.marginBottom}
             >
-              Transferring your file
+              <Trans>
+                Transferring your file ({operation})
+              </Trans>
             </Typography>
             <ProgressBar
               progress={progress}
