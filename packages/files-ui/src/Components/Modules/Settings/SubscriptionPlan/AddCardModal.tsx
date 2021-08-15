@@ -8,13 +8,13 @@ import {
   makeStyles,
   useMediaQuery
 } from "@chainsafe/common-theme"
-import React from "react"
+import React, { useState } from "react"
 import { Formik, Form } from "formik"
 import { CSFTheme } from "../../../../Themes/types"
-import { useFileBrowser } from "../../../../Contexts/FileBrowserContext"
 import CustomModal from "../../../Elements/CustomModal"
 import CustomButton from "../../../Elements/CustomButton"
 import { Trans } from "@lingui/macro"
+import CardInputs from "../../../Elements/CardInputs"
 
 
 const useStyles = makeStyles(
@@ -61,7 +61,7 @@ const useStyles = makeStyles(
       heading: {
         color: constants.createFolder.color,
         fontWeight: typography.fontWeight.semibold,
-        textAlign: "center",
+        textAlign: "left",
         marginBottom: constants.generalUnit * 4
       }
     })
@@ -69,17 +69,21 @@ const useStyles = makeStyles(
 )
 
 interface ICreateFolderModalProps {
-  modalOpen: boolean
-  close: () => void
+  isModalOpen: boolean
+  onClose: () => void
 }
 
 const CreateFolderModal: React.FC<ICreateFolderModalProps> = ({
-  modalOpen,
-  close
+  isModalOpen,
+  onClose
 }: ICreateFolderModalProps) => {
   const classes = useStyles()
-  const {  bucket } = useFileBrowser()
   const desktop = useMediaQuery("md")
+  const [cardInputs, setCardInputs] = useState({
+    cardNumber: "",
+    cardExpiry: "",
+    cardCvc: ""
+  })
 
   return (
     <CustomModal
@@ -87,7 +91,7 @@ const CreateFolderModal: React.FC<ICreateFolderModalProps> = ({
       injectedClass={{
         inner: classes.modalInner
       }}
-      active={modalOpen}
+      active={isModalOpen}
       closePosition="none"
       maxWidth="sm"
     >
@@ -97,7 +101,7 @@ const CreateFolderModal: React.FC<ICreateFolderModalProps> = ({
         }}
         validateOnChange={false}
         onSubmit={async () => {
-          if (!bucket) return
+          // if (!bucket) return
         }}
       >
         <Form>
@@ -113,8 +117,8 @@ const CreateFolderModal: React.FC<ICreateFolderModalProps> = ({
               >
                 <Typography
                   className={classes.heading}
-                  variant="h5"
-                  component="h5"
+                  variant="h4"
+                  component="h4"
                 >
                   <Trans>Add a card</Trans>
                 </Typography>
@@ -126,7 +130,14 @@ const CreateFolderModal: React.FC<ICreateFolderModalProps> = ({
               sm={12}
               className={classes.input}
             >
-              hello
+              <CardInputs
+                cardNumber={cardInputs.cardNumber}
+                cardExpiry={cardInputs.cardExpiry}
+                cardCvc={cardInputs.cardCvc}
+                handleChangeCardNumber={(value) => setCardInputs({ ...cardInputs, cardNumber: value })}
+                handleChangeCardExpiry={(value) => setCardInputs({ ...cardInputs, cardExpiry: value })}
+                handleChangeCardCvc={(value) => setCardInputs({ ...cardInputs, cardCvc: value })}
+              />
             </Grid>
             <Grid
               item
@@ -135,7 +146,7 @@ const CreateFolderModal: React.FC<ICreateFolderModalProps> = ({
             >
               <CustomButton
                 data-cy="button-cancel-create-folder"
-                onClick={() => close()}
+                onClick={() => onClose()}
                 size="medium"
                 className={classes.cancelButton}
                 variant={desktop ? "outline" : "gray"}

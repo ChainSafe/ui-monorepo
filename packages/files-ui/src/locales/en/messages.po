@@ -22,6 +22,9 @@ msgstr "A file with the same name already exists"
 msgid "Account"
 msgstr "Account"
 
+msgid "Add a card"
+msgstr "Add a card"
+
 msgid "Add a username"
 msgstr "Add a username"
 
@@ -199,6 +202,9 @@ msgstr "Downloading…"
 msgid "Drop to upload files"
 msgstr "Drop to upload files"
 
+msgid "Early Adopter: Free up to {0}"
+msgstr "Early Adopter: Free up to {0}"
+
 msgid "Email is required"
 msgstr "Email is required"
 
@@ -361,8 +367,8 @@ msgstr "Loading your shared folders…"
 msgid "Looks like you’re signing in from a new browser. Please choose one of the following to continue:"
 msgstr "Looks like you’re signing in from a new browser. Please choose one of the following to continue:"
 
-msgid "Lorem ipsum aenean et rutrum magna. Morbi nec placerat erat. Nunc elementum sed libero sit amet convallis. Quisque non arcu vitae ex fringilla molestie."
-msgstr "Lorem ipsum aenean et rutrum magna. Morbi nec placerat erat. Nunc elementum sed libero sit amet convallis. Quisque non arcu vitae ex fringilla molestie."
+#~ msgid "Lorem ipsum aenean et rutrum magna. Morbi nec placerat erat. Nunc elementum sed libero sit amet convallis. Quisque non arcu vitae ex fringilla molestie."
+#~ msgstr "Lorem ipsum aenean et rutrum magna. Morbi nec placerat erat. Nunc elementum sed libero sit amet convallis. Quisque non arcu vitae ex fringilla molestie."
 
 msgid "Manage Access"
 msgstr "Manage Access"
@@ -483,6 +489,9 @@ msgstr "Profile settings"
 
 msgid "Profile updated"
 msgstr "Profile updated"
+
+msgid "Purchase with card"
+msgstr "Purchase with card"
 
 msgid "Recover"
 msgstr "Recover"
@@ -795,6 +804,9 @@ msgstr "You haven't set a username yet."
 
 msgid "You will need to sign a message in your wallet to complete sign in."
 msgstr "You will need to sign a message in your wallet to complete sign in."
+
+msgid "Your first {0} are free, and you’ll get a discount on our monthly plan once you need more than that"
+msgstr "Your first {0} are free, and you’ll get a discount on our monthly plan once you need more than that"
 
 msgid "Your recovery key can be used to restore your account in place of your backup secret phrase."
 msgstr "Your recovery key can be used to restore your account in place of your backup secret phrase."

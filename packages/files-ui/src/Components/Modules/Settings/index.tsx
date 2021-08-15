@@ -15,7 +15,7 @@ import { Tabs,
 import { makeStyles, ITheme, createStyles, useThemeSwitcher } from "@chainsafe/common-theme"
 import { ROUTE_LINKS, SettingsPath, SETTINGS_BASE } from "../../FilesRoutes"
 import { t, Trans } from "@lingui/macro"
-import Plan from "./SubscriptionPlan/CurrentProduct"
+import SubscriptionPlan from "./SubscriptionPlan"
 import { ProfileIcon } from "@chainsafe/common-components"
 import clsx from "clsx"
 import Security from "./Security"
@@ -206,7 +206,7 @@ const Settings: React.FC = () => {
               icon={<SubscriptionPlanIcon className={classes.lockIcon} />}
               iconRight={<CaretRightIcon/>}
             >
-              <Plan />
+              <SubscriptionPlan />
             </TabPane>
           </Tabs>
         </div>

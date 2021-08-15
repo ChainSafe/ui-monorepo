@@ -22,6 +22,9 @@ msgstr ""
 msgid "Account"
 msgstr "Konto"
 
+msgid "Add a card"
+msgstr ""
+
 msgid "Add a username"
 msgstr "Legg til et brukernavn"
 
@@ -199,6 +202,9 @@ msgstr ""
 msgid "Drop to upload files"
 msgstr "Dra for å laste opp filer"
 
+msgid "Early Adopter: Free up to {0}"
+msgstr ""
+
 msgid "Email is required"
 msgstr "E-post kreves"
 
@@ -358,8 +364,8 @@ msgstr ""
 msgid "Looks like you’re signing in from a new browser. Please choose one of the following to continue:"
 msgstr ""
 
-msgid "Lorem ipsum aenean et rutrum magna. Morbi nec placerat erat. Nunc elementum sed libero sit amet convallis. Quisque non arcu vitae ex fringilla molestie."
-msgstr ""
+#~ msgid "Lorem ipsum aenean et rutrum magna. Morbi nec placerat erat. Nunc elementum sed libero sit amet convallis. Quisque non arcu vitae ex fringilla molestie."
+#~ msgstr ""
 
 msgid "Manage Access"
 msgstr ""
@@ -480,6 +486,9 @@ msgstr "Profilinnstillinger"
 
 msgid "Profile updated"
 msgstr "Profil oppdatert"
+
+msgid "Purchase with card"
+msgstr ""
 
 msgid "Recover"
 msgstr "Gjenopprett"
@@ -791,6 +800,9 @@ msgid "You haven't set a username yet."
 msgstr "Du har ikke satt noe brukernavn enda."
 
 msgid "You will need to sign a message in your wallet to complete sign in."
+msgstr ""
+
+msgid "Your first {0} are free, and you’ll get a discount on our monthly plan once you need more than that"
 msgstr ""
 
 msgid "Your recovery key can be used to restore your account in place of your backup secret phrase."

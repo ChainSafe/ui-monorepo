@@ -22,6 +22,9 @@ msgstr "Es existiert bereits eine Datei mit demselben Namen"
 msgid "Account"
 msgstr "Konto"
 
+msgid "Add a card"
+msgstr ""
+
 msgid "Add a username"
 msgstr "Einen Benutzernamen hinzufügen"
 
@@ -199,6 +202,9 @@ msgstr ""
 msgid "Drop to upload files"
 msgstr "Zum Hochladen von Dateien ablegen"
 
+msgid "Early Adopter: Free up to {0}"
+msgstr ""
+
 msgid "Email is required"
 msgstr "E-Mail ist erforderlich"
 
@@ -358,8 +364,8 @@ msgstr ""
 msgid "Looks like you’re signing in from a new browser. Please choose one of the following to continue:"
 msgstr "Sieht aus, als würden Sie sich über einen neuen Browser anmelden. Bitte wählen Sie eine der folgenden Möglichkeiten, um fortzufahren:"
 
-msgid "Lorem ipsum aenean et rutrum magna. Morbi nec placerat erat. Nunc elementum sed libero sit amet convallis. Quisque non arcu vitae ex fringilla molestie."
-msgstr "Lorem ipsum aenean et rutrum magna. Morbi nec placerat erat. Nunc elementum sed libero sit amet convallis. Quisque non arcu vitae ex fringilla molestie."
+#~ msgid "Lorem ipsum aenean et rutrum magna. Morbi nec placerat erat. Nunc elementum sed libero sit amet convallis. Quisque non arcu vitae ex fringilla molestie."
+#~ msgstr "Lorem ipsum aenean et rutrum magna. Morbi nec placerat erat. Nunc elementum sed libero sit amet convallis. Quisque non arcu vitae ex fringilla molestie."
 
 msgid "Manage Access"
 msgstr ""
@@ -480,6 +486,9 @@ msgstr "Profileinstellungen"
 
 msgid "Profile updated"
 msgstr "Profil aktualisiert"
+
+msgid "Purchase with card"
+msgstr ""
 
 msgid "Recover"
 msgstr "Wiederherstellen"
@@ -791,6 +800,9 @@ msgid "You haven't set a username yet."
 msgstr "Sie haben noch keinen Benutzernamen festgelegt."
 
 msgid "You will need to sign a message in your wallet to complete sign in."
+msgstr ""
+
+msgid "Your first {0} are free, and you’ll get a discount on our monthly plan once you need more than that"
 msgstr ""
 
 msgid "Your recovery key can be used to restore your account in place of your backup secret phrase."

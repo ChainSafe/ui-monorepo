@@ -3,10 +3,10 @@ import { formatCardNumber, formatExpiry, getCardTypeByValue } from "./utils"
 import { TextInput, Typography } from "@chainsafe/common-components"
 import { makeStyles, ITheme, createStyles } from "@chainsafe/common-theme"
 
-const useStyles = makeStyles((theme: ITheme) =>
+const useStyles = makeStyles(({ constants, palette }: ITheme) =>
   createStyles({
     container: {
-      margin: `${theme.constants.generalUnit * 2}px 0`
+      margin: `${constants.generalUnit * 2}px 0`
     },
     cardNumber: {
       margin: 0,
@@ -17,6 +17,7 @@ const useStyles = makeStyles((theme: ITheme) =>
     },
     cardExpiry: {
       margin: 0,
+      paddingRight: constants.generalUnit * 2,
       width: "70%",
       "& input": {
         borderRadius: 0
@@ -30,7 +31,7 @@ const useStyles = makeStyles((theme: ITheme) =>
       }
     },
     error: {
-      color: theme.palette.error.main
+      color: palette.error.main
     }
   })
 )
@@ -64,7 +65,7 @@ const CardInputs = (props: ICardInputsProps) => {
       <TextInput
         value={cardNumber}
         onChange={(val) =>
-          val && handleChangeCardNumber(formatCardNumber(val.toString()))
+          handleChangeCardNumber(formatCardNumber(val?.toString() || ""))
         }
         className={classes.cardNumber}
         size="large"
@@ -75,18 +76,20 @@ const CardInputs = (props: ICardInputsProps) => {
       <TextInput
         value={cardExpiry}
         onChange={(val) =>
-          val && handleChangeCardExpiry(formatExpiry(val.toString()))
+          handleChangeCardExpiry(formatExpiry(val?.toString() || ""))
         }
         className={classes.cardExpiry}
         size="large"
         placeholder="MM/YY"
+        label="Card expiry"
       />
       <TextInput
         value={cardCvc}
-        onChange={(val) => val && handleChangeCardCvc(val.toString())}
+        onChange={(val) => handleChangeCardCvc(val?.toString() || "")}
         className={classes.cardCvc}
         size="large"
         placeholder="CVC"
+        label="Card CVC"
       />
       {error && (
         <Typography
