@@ -3,6 +3,7 @@ import { makeStyles, createStyles, useThemeSwitcher, debounce } from "@chainsafe
 import { t, Trans } from "@lingui/macro"
 import clsx from "clsx"
 import {
+  Button,
   CheckboxInput,
   formatBytes,
   FormikTextInput,
@@ -110,6 +111,9 @@ const useStyles = makeStyles(({ animation, breakpoints, constants, palette, zInd
     cidWrapper: {
       overflow: "hidden",
       textOverflow: "ellipsis"
+    },
+    copyButton: {
+      margin: "0 auto"
     },
     copiedFlag: {
       display: "flex",
@@ -297,12 +301,15 @@ const FileSystemTableItem = React.forwardRef(
               <TableCell>
                 {!isFolder && <>
                   <div className={classes.copyContainer}>
-                    <span
-                      className={classes.cidWrapper}
+                    <Button
+                      type="submit"
+                      size="large"
+                      variant="primary"
+                      className={classes.copyButton}
                       onClick={onCopyCID}
                     >
-                      { cid }
-                    </span>
+                      <Trans>Copy CID</Trans>
+                    </Button>
                     <div className={clsx(classes.copiedFlag, { "active": copied })}>
                       <span>
                         <Trans>
