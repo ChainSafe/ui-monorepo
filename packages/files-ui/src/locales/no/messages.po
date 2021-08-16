@@ -229,9 +229,6 @@ msgstr ""
 msgid "Error while uploading {0}"
 msgstr ""
 
-msgid "Essentials - Free"
-msgstr ""
-
 msgid "Failed to get signature"
 msgstr ""
 
@@ -362,9 +359,6 @@ msgid "Loading your shared folders…"
 msgstr ""
 
 msgid "Looks like you’re signing in from a new browser. Please choose one of the following to continue:"
-msgstr ""
-
-msgid "Lorem ipsum aenean et rutrum magna. Morbi nec placerat erat. Nunc elementum sed libero sit amet convallis. Quisque non arcu vitae ex fringilla molestie."
 msgstr ""
 
 msgid "Manage Access"

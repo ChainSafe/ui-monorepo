@@ -230,9 +230,6 @@ msgstr ""
 msgid "Error while uploading {0}"
 msgstr ""
 
-msgid "Essentials - Free"
-msgstr ""
-
 msgid "Failed to get signature"
 msgstr "No se pudo obtener la firma"
 
@@ -367,9 +364,6 @@ msgstr ""
 
 msgid "Looks like you’re signing in from a new browser. Please choose one of the following to continue:"
 msgstr "Parece que está iniciando sesión desde un nuevo navegador. Elija una de las siguientes opciones para continuar:"
-
-msgid "Lorem ipsum aenean et rutrum magna. Morbi nec placerat erat. Nunc elementum sed libero sit amet convallis. Quisque non arcu vitae ex fringilla molestie."
-msgstr "Lorem ipsum Aenean, y un gran maquillaje. Usamos más y colocamos en ratas. Ahora elemento libre, pero mucho del valle. , Quien no se doblegue, de la vida de una fringilla molestie."
 
 msgid "Manage Access"
 msgstr ""
