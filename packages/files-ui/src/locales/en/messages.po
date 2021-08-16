@@ -199,6 +199,9 @@ msgstr "Downloading…"
 msgid "Drop to upload files"
 msgstr "Drop to upload files"
 
+msgid "Early Adopter: Free up to {0}"
+msgstr "Early Adopter: Free up to {0}"
+
 msgid "Email is required"
 msgstr "Email is required"
 
@@ -225,6 +228,9 @@ msgstr "Error while downloading {0}"
 
 msgid "Error while uploading {0}"
 msgstr "Error while uploading {0}"
+
+msgid "Essentials - Free"
+msgstr "Essentials - Free"
 
 msgid "Failed to get signature"
 msgstr "Failed to get signature"
@@ -483,6 +489,9 @@ msgstr "Profile settings"
 
 msgid "Profile updated"
 msgstr "Profile updated"
+
+msgid "Purchase with card"
+msgstr "Purchase with card"
 
 msgid "Recover"
 msgstr "Recover"
@@ -795,6 +804,9 @@ msgstr "You haven't set a username yet."
 
 msgid "You will need to sign a message in your wallet to complete sign in."
 msgstr "You will need to sign a message in your wallet to complete sign in."
+
+msgid "Your first {0} are free, and you’ll get a discount on our monthly plan once you need more than that"
+msgstr "Your first {0} are free, and you’ll get a discount on our monthly plan once you need more than that"
 
 msgid "Your recovery key can be used to restore your account in place of your backup secret phrase."
 msgstr "Your recovery key can be used to restore your account in place of your backup secret phrase."
