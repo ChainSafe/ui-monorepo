@@ -5,7 +5,7 @@ import { homePage } from "../support/page-objects/homePage"
 describe("Settings", () => {
 
   context("desktop", () => {
-    before(() => {
+    beforeEach(() => {
       cy.web3Login()
     })
 
@@ -27,7 +27,7 @@ describe("Settings", () => {
       cy.viewport("iphone-6")
     })
 
-    before(() => {
+    beforeEach(() => {
       cy.web3Login()
     })
 

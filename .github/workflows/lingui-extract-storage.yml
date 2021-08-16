@@ -16,7 +16,6 @@ jobs:
       with:
         ref: ${{ github.event.pull_request.head.ref }}
         ssh-key: ${{ secrets.LINGUI_GH_ACTION_COMMIT_KEY }}
-
     - name: set user
       run: |
         git config --global user.name 'GitHub Actions'
@@ -29,13 +28,10 @@ jobs:
         key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
 
     - name: install packages
-      env:
-        GITHUB_PACKAGES_AUTH_TOKEN: ${{ secrets.GH_PKG_AUTH_TOKEN }}
       run: yarn install --immutable
 
-    - name: lingui-extract
-      env:
-        GITHUB_PACKAGES_AUTH_TOKEN: ${{ secrets.GH_PKG_AUTH_TOKEN }}
+    - name: lingui-extract and commit
+      if: ${{ github.actor != 'weblate' }}
       run: |
         (cd packages/storage-ui && yarn extract --clean)
         git add packages/storage-ui/src/locales/*

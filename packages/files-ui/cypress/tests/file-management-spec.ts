@@ -111,7 +111,7 @@ describe("File management", () => {
       homePage.fileItemKebabButton().first().click()
       homePage.deleteMenuOption().click()
       homePage.deleteFileDialog().should("be.visible")
-      homePage.deleteFileConfirmButton().click()
+      homePage.deleteFileConfirmButton().safeClick()
       homePage.deleteFileDialog().should("not.exist")
       homePage.fileItemRow().should("not.exist")
 
@@ -159,7 +159,7 @@ describe("File management", () => {
       homePage.fileItemKebabButton().first().click()
       homePage.deleteMenuOption().click()
       homePage.deleteFileDialog().should("be.visible")
-      homePage.deleteFileConfirmButton().click()
+      homePage.deleteFileConfirmButton().safeClick()
       homePage.deleteFileDialog().should("not.exist")
       homePage.fileItemRow().should("not.exist")
 
@@ -180,6 +180,36 @@ describe("File management", () => {
       navigationMenu.homeNavButton().click()
       binPage.fileItemRow().should("have.length", 1)
       homePage.fileItemName().should("have.text", folderName)
+    })
+
+    it("cannot create a folder with an invalid name", () => {
+      cy.web3Login({ clearCSFBucket: true, clearTrashBucket: true })
+      homePage.newFolderButton().click()
+
+      // ensure a folder can't be created without entering a name
+      homePage.createButton().should("have.attr", "disabled")
+      homePage.folderNameInput().type("a{selectall}{del}")
+      homePage.folderCreationErrorLabel().should("be.visible")
+
+      // ensure a folder can't be created with "/" in the name
+      homePage.folderNameInput().type("/")
+      homePage.createButton().should("have.attr", "disabled")
+      homePage.folderCreationErrorLabel().should("be.visible")
+      homePage.createFolderModal().should("contain.text", "A name cannot contain '/' character")
+
+      // ensure a folder can't be created with white space only in the name
+      homePage.folderNameInput().type("{selectall}{del}")
+      homePage.folderNameInput().type("   ")
+      homePage.createButton().should("have.attr", "disabled")
+      homePage.folderCreationErrorLabel().should("be.visible")
+      homePage.createFolderModal().should("contain.text", "Please enter a name")
+
+      // ensure a folder can't be created if name exceeds 65 characters
+      homePage.folderNameInput().type("{selectall}{del}")
+      homePage.folderNameInput().type("cgsxffymqivoknhwhqvmnchvjngtwsriovhvkgzgmonmimctcrdytujbtkogngvext")
+      homePage.createButton().should("have.attr", "disabled")
+      homePage.folderCreationErrorLabel().should("be.visible")
+      homePage.createFolderModal().should("contain.text", "Name too long")
     })
   })
 })
