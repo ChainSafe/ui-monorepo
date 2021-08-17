@@ -78,7 +78,6 @@ describe("File management", () => {
         homePage.fileItemName().contains(`${$fileName}`)
           .should("be.visible")
           .click()
-          .should("have.focus")
         homePage.moveSelectedButton().click()
         moveItemModal.folderList().contains("Home").click()
         moveItemModal.moveButton().safeClick()
