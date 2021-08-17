@@ -5,8 +5,7 @@ msgstr ""
 "POT-Creation-Date: 2021-04-23 11:05+0200\n"
 "PO-Revision-Date: 2021-08-06 03:33+0000\n"
 "Last-Translator: J. Lavoie <j.lavoie@net-c.ca>\n"
-"Language-Team: French <https://hosted.weblate.org/projects/chainsafe-files/"
-"chainsafe-files-user-interface/fr/>\n"
+"Language-Team: French <https://hosted.weblate.org/projects/chainsafe-files/chainsafe-files-user-interface/fr/>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -35,6 +34,12 @@ msgstr "Ajouter par adresse de partage, nom d'utilisateur ou adresse de portefeu
 
 msgid "Add more files"
 msgstr "Ajouter d’autres fichiers"
+
+msgid "An error occurred while downloading the file"
+msgstr ""
+
+msgid "An error occurred: {error}"
+msgstr ""
 
 msgid "Approve"
 msgstr "Accepter"
