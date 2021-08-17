@@ -37,7 +37,7 @@ msgstr "Weitere Dateien hinzufügen"
 msgid "An error occurred while downloading the file"
 msgstr ""
 
-msgid "An error occurred: {error}"
+msgid "An error occurred:"
 msgstr ""
 
 msgid "Approve"
@@ -666,9 +666,6 @@ msgstr "Dieser Benutzername ist öffentlich"
 
 msgid "Transfer complete"
 msgstr ""
-
-#~ msgid "Transferring your file ({operation})"
-#~ msgstr ""
 
 msgid "Try again"
 msgstr "Erneut versuchen"
