@@ -182,10 +182,16 @@ msgstr "Descarga completa"
 msgid "Download recovery key"
 msgstr "Descargar la clave de recuperación"
 
+msgid "Downloading"
+msgstr ""
+
 msgid "Drop to upload files"
 msgstr "Suelta para subir archivos"
 
 msgid "Email is required"
+msgstr ""
+
+msgid "Encrypting & uploading"
 msgstr ""
 
 msgid "Enter backup secret phrase:"
@@ -572,6 +578,9 @@ msgstr ""
 msgid "Shared with"
 msgstr ""
 
+msgid "Sharing your file ({0})"
+msgstr ""
+
 msgid "Sign Out"
 msgstr "Desconectar"
 
@@ -662,8 +671,8 @@ msgstr ""
 msgid "Transfer complete"
 msgstr ""
 
-msgid "Transferring your file ({operation})"
-msgstr ""
+#~ msgid "Transferring your file ({operation})"
+#~ msgstr ""
 
 msgid "Try again"
 msgstr "Intentar otra vez"

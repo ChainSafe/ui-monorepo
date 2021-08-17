@@ -704,11 +704,12 @@ const FilesProvider = ({ children }: FilesContextProps) => {
       })
       return Promise.resolve()
     }).catch((error) => {
+      console.error(error[0].message)
       dispatchTransfersInProgress({
         type: "error",
         payload: {
           id: toastId,
-          errorMessage: t`An error occurred: ${error}`
+          errorMessage: `${t`An error occurred: `} ${typeof(error) === 'string' ? error : error[0].message}`
         }
       })
     }).finally(() => {

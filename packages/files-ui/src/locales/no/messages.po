@@ -181,11 +181,17 @@ msgstr ""
 msgid "Download recovery key"
 msgstr ""
 
+msgid "Downloading"
+msgstr ""
+
 msgid "Drop to upload files"
 msgstr "Dra for å laste opp filer"
 
 msgid "Email is required"
 msgstr "E-post kreves"
+
+msgid "Encrypting & uploading"
+msgstr ""
 
 msgid "Enter backup secret phrase:"
 msgstr ""
@@ -568,6 +574,9 @@ msgstr ""
 msgid "Shared with"
 msgstr ""
 
+msgid "Sharing your file ({0})"
+msgstr ""
+
 msgid "Sign Out"
 msgstr "Logg ut"
 
@@ -658,8 +667,8 @@ msgstr "Dette brukernavnet er offentlig"
 msgid "Transfer complete"
 msgstr ""
 
-msgid "Transferring your file ({operation})"
-msgstr ""
+#~ msgid "Transferring your file ({operation})"
+#~ msgstr ""
 
 msgid "Try again"
 msgstr "Prøv igjen"

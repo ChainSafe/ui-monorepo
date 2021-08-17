@@ -181,11 +181,17 @@ msgstr "Komplett heruntergeladen"
 msgid "Download recovery key"
 msgstr "Wiederherstellungsschlüssel herunterladen"
 
+msgid "Downloading"
+msgstr ""
+
 msgid "Drop to upload files"
 msgstr "Zum Hochladen von Dateien ablegen"
 
 msgid "Email is required"
 msgstr "E-Mail ist erforderlich"
+
+msgid "Encrypting & uploading"
+msgstr ""
 
 msgid "Enter backup secret phrase:"
 msgstr "Geben Sie den Sicherungsgeheimsatz ein:"
@@ -568,6 +574,9 @@ msgstr ""
 msgid "Shared with"
 msgstr ""
 
+msgid "Sharing your file ({0})"
+msgstr ""
+
 msgid "Sign Out"
 msgstr "Abmelden"
 
@@ -658,8 +667,8 @@ msgstr "Dieser Benutzername ist öffentlich"
 msgid "Transfer complete"
 msgstr ""
 
-msgid "Transferring your file ({operation})"
-msgstr ""
+#~ msgid "Transferring your file ({operation})"
+#~ msgstr ""
 
 msgid "Try again"
 msgstr "Erneut versuchen"

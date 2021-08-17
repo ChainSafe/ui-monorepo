@@ -182,11 +182,17 @@ msgstr "Téléchargement terminé"
 msgid "Download recovery key"
 msgstr "Télécharger la clé de sauvegarde"
 
+msgid "Downloading"
+msgstr ""
+
 msgid "Drop to upload files"
 msgstr "Faire glisser pour téléverser un fichier"
 
 msgid "Email is required"
 msgstr "Un courriel est requis"
+
+msgid "Encrypting & uploading"
+msgstr ""
 
 msgid "Enter backup secret phrase:"
 msgstr "Phrase secrète de sauvegarde :"
@@ -572,6 +578,9 @@ msgstr "Dossiers partagés"
 msgid "Shared with"
 msgstr "Partagé avec"
 
+msgid "Sharing your file ({0})"
+msgstr ""
+
 msgid "Sign Out"
 msgstr "Se déconnecter"
 
@@ -662,8 +671,8 @@ msgstr "Ce nom d’utilisateur est public"
 msgid "Transfer complete"
 msgstr ""
 
-msgid "Transferring your file ({operation})"
-msgstr ""
+#~ msgid "Transferring your file ({operation})"
+#~ msgstr ""
 
 msgid "Try again"
 msgstr "Essayer de nouveau"

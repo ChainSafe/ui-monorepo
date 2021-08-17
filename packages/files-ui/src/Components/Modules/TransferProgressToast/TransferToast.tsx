@@ -3,7 +3,7 @@ import { createStyles, makeStyles } from "@chainsafe/common-theme"
 import { TransferProgress } from "../../../Contexts/FilesContext"
 import { ProgressBar, Typography, CheckCircleIcon, CloseCircleIcon } from "@chainsafe/common-components"
 import clsx from "clsx"
-import { Trans } from "@lingui/macro"
+import { t, Trans } from "@lingui/macro"
 import { CSFTheme } from "../../../Themes/types"
 
 const useStyles = makeStyles(
@@ -68,7 +68,7 @@ const TransferToast: React.FC<ITransferToast> = ({ transferInProgress }) => {
     <>
       <div
         className={clsx(classes.appearBox, classes.boxContainer)}
-        data-cy="upload-status-toast-message"
+        data-cy="transfer-status-toast-message"
       >
         { !!error && (<div className={classes.contentContainer}>
           <CloseCircleIcon className={classes.marginRight} />
@@ -79,14 +79,14 @@ const TransferToast: React.FC<ITransferToast> = ({ transferInProgress }) => {
             {errorMessage}
           </Typography>
         </div>) }
-        { !complete && (<div>
+        { !complete && !error && (<div>
           <Typography
             variant="body2"
             component="p"
             className={classes.marginBottom}
           >
             <Trans>
-                Transferring your file ({operation})
+                Sharing your file ({operation === 'Download' ? t`Downloading` : t`Encrypting & uploading` })
             </Trans>
           </Typography>
           <ProgressBar

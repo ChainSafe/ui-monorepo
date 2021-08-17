@@ -181,11 +181,17 @@ msgstr "Download complete"
 msgid "Download recovery key"
 msgstr "Download recovery key"
 
+msgid "Downloading"
+msgstr "Downloading"
+
 msgid "Drop to upload files"
 msgstr "Drop to upload files"
 
 msgid "Email is required"
 msgstr "Email is required"
+
+msgid "Encrypting & uploading"
+msgstr "Encrypting & uploading"
 
 msgid "Enter backup secret phrase:"
 msgstr "Enter backup secret phrase:"
@@ -571,6 +577,9 @@ msgstr "Shared folders"
 msgid "Shared with"
 msgstr "Shared with"
 
+msgid "Sharing your file ({0})"
+msgstr "Sharing your file ({0})"
+
 msgid "Sign Out"
 msgstr "Sign Out"
 
@@ -661,8 +670,8 @@ msgstr "This username is public"
 msgid "Transfer complete"
 msgstr "Transfer complete"
 
-msgid "Transferring your file ({operation})"
-msgstr "Transferring your file ({operation})"
+#~ msgid "Transferring your file ({operation})"
+#~ msgstr "Transferring your file ({operation})"
 
 msgid "Try again"
 msgstr "Try again"
