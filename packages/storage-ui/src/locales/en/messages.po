@@ -106,9 +106,6 @@ msgstr "Continue with Web3 Wallet"
 msgid "Copied!"
 msgstr "Copied!"
 
-msgid "Copy CID"
-msgstr "Copy CID"
-
 msgid "Create"
 msgstr "Create"
 
