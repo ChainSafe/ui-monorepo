@@ -626,7 +626,7 @@ const FilesProvider = ({ children }: FilesContextProps) => {
     sourceFile: FileSystemItem,
     path: string,
     destinationBucket: BucketKeyPermission,
-    keepOriginal = false
+    keepOriginal = true
   ) => {
     const toastId = uuidv4()
     const UPLOAD_PATH = "/"
