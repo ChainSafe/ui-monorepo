@@ -23,7 +23,7 @@ import clsx from "clsx"
 import { BucketKeyPermission } from "../../../../../Contexts/FilesContext"
 import UserBubble from "../../../../Elements/UserBubble"
 import { nameValidator } from "../../../../../Utils/validationSchema"
-import Dropdown from "../../../../../Ui-components/Dropdown"
+import Menu from "../../../../../UI-components/Menu"
 
 const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => {
 
@@ -291,7 +291,7 @@ const SharedFolderRow = ({ bucket, handleRename, openSharedFolder, handleDeleteS
         </TableCell>
       }
       <TableCell align="right">
-        <Dropdown
+        <Menu
           testId='fileDropdown'
           icon={<MoreIcon className={classes.dropdownIcon}/>}
           options={menuItems}

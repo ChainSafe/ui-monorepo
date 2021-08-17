@@ -1,5 +1,5 @@
 import React, { useState, ReactNode, useMemo } from "react"
-import { Menu, MenuItem } from "@material-ui/core"
+import { Menu as MaterialMenu, MenuItem } from "@material-ui/core"
 import { makeStyles, createStyles } from "@chainsafe/common-theme"
 import clsx from "clsx"
 import { useCallback } from "react"
@@ -62,7 +62,7 @@ export default function Dropdown({ icon, options, style, testId }: Props) {
       >
         {icon}
       </div>
-      <Menu
+      <MaterialMenu
         anchorEl={anchorEl}
         keepMounted
         open={open}
@@ -82,7 +82,7 @@ export default function Dropdown({ icon, options, style, testId }: Props) {
             {option.contents}
           </MenuItem>
         ))}
-      </Menu>
+      </MaterialMenu>
     </div>
   )
 }

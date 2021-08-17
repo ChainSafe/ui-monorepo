@@ -26,7 +26,7 @@ import { CSFTheme } from "../../Themes/types"
 import { useFileBrowser } from "../../Contexts/FileBrowserContext"
 import { useGetFile } from "./FileBrowsers/hooks/useGetFile"
 import { useMemo } from "react"
-import Dropdown from "../../Ui-components/Dropdown"
+import Menu from "../../UI-components/Menu"
 
 export interface IPreviewRendererProps {
   contents: Blob
@@ -287,7 +287,7 @@ const FilePreviewModal = ({ file, nextFile, previousFile, closePreview, filePath
         >
           {name}
         </Typography>
-        <Dropdown
+        <Menu
           testId='preview'
           icon={<MoreIcon className={classes.dropdownIcon}/>}
           options={menuItems}

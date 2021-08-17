@@ -18,7 +18,7 @@ import { FileSystemItem } from "../../../../../Contexts/FilesContext"
 import { ConnectDragPreview } from "react-dnd"
 import { Form, FormikProvider, useFormik } from "formik"
 import { nameValidator } from "../../../../../Utils/validationSchema"
-import Dropdown from "../../../../../Ui-components/Dropdown"
+import Menu from "../../../../../UI-components/Menu"
 
 const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => {
   const desktopGridSettings = "50px 69px 3fr 190px 100px 45px !important"
@@ -226,7 +226,7 @@ const FileSystemTableItem = React.forwardRef(
           </>
         )}
         <TableCell align="right">
-          <Dropdown
+          <Menu
             testId='fileDropdown'
             icon={<MoreIcon className={classes.dropdownIcon}/>}
             options={menuItems}
