@@ -71,43 +71,39 @@ const TransferToast: React.FC<ITransferToast> = (props) => {
         className={clsx(classes.appearBox, classes.boxContainer)}
         data-cy="upload-status-toast-message"
       >
-        {complete ? (
-          <div className={classes.contentContainer}>
-            <CheckCircleIcon className={classes.marginRight} />
-            <Typography
-              variant="body1"
-              component="p"
-            >
-              <Trans>Transfer complete</Trans>
-            </Typography>
-          </div>
-        ) : error ? (
-          <div className={classes.contentContainer}>
-            <CloseCircleIcon className={classes.marginRight} />
-            <Typography
-              variant="body1"
-              component="p"
-            >
-              {errorMessage}
-            </Typography>
-          </div>
-        ) : (
-          <div>
-            <Typography
-              variant="body2"
-              component="p"
-              className={classes.marginBottom}
-            >
-              <Trans>
+        { !!error && (<div className={classes.contentContainer}>
+          <CloseCircleIcon className={classes.marginRight} />
+          <Typography
+            variant="body1"
+            component="p"
+          >
+            {errorMessage}
+          </Typography>
+        </div>) }
+        { !complete && (<div>
+          <Typography
+            variant="body2"
+            component="p"
+            className={classes.marginBottom}
+          >
+            <Trans>
                 Transferring your file ({operation})
-              </Trans>
-            </Typography>
-            <ProgressBar
-              progress={progress}
-              size="small"
-            />
-          </div>
-        )}
+            </Trans>
+          </Typography>
+          <ProgressBar
+            progress={progress}
+            size="small"
+          />
+        </div>) }
+        { complete && !error && (<div className={classes.contentContainer}>
+          <CheckCircleIcon className={classes.marginRight} />
+          <Typography
+            variant="body1"
+            component="p"
+          >
+            <Trans>Transfer complete</Trans>
+          </Typography>
+        </div>) }
       </div>
     </>
   )
