@@ -105,7 +105,7 @@ Cypress.Commands.add(
       cy.clearTrashBucket(apiUrlBase)
     }
 
-    if(clearTrashBucket || clearTrashBucket){
+    if(clearTrashBucket || clearCSFBucket){
       navigationMenu.binNavButton().click()
       navigationMenu.homeNavButton().click()
     }
