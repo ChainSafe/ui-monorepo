@@ -661,7 +661,7 @@ const FilesProvider = ({ children }: FilesContextProps) => {
           type: "error",
           payload: {
             id: toastId,
-            errorMessage: "An error occured while downloading the file"
+            errorMessage: t`An error occurred while downloading the file`
           }
         })
         return
@@ -708,7 +708,7 @@ const FilesProvider = ({ children }: FilesContextProps) => {
         type: "error",
         payload: {
           id: toastId,
-          errorMessage: `An error occured: ${error}`
+          errorMessage: t`An error occurred: ${error}`
         }
       })
     }).finally(() => {

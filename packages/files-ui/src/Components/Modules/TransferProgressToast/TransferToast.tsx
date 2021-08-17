@@ -54,8 +54,7 @@ interface ITransferToast {
   transferInProgress: TransferProgress
 }
 
-const TransferToast: React.FC<ITransferToast> = (props) => {
-  const { transferInProgress } = props
+const TransferToast: React.FC<ITransferToast> = ({ transferInProgress }) => {
   const {
     complete,
     error,
