@@ -5,7 +5,6 @@ import clsx from "clsx"
 import {
   FormikTextInput,
   IMenuItem,
-  MenuDropdown,
   MoreIcon
 } from "@chainsafe/common-components"
 import { CSFTheme } from "../../../../../Themes/types"
@@ -13,6 +12,7 @@ import { FileSystemItem } from "../../../../../Contexts/FilesContext"
 import { ConnectDragPreview } from "react-dnd"
 import { Form, FormikProvider, useFormik } from "formik"
 import { nameValidator } from "../../../../../Utils/validationSchema"
+import Dropdown from "../../../../../Ui-components/Dropdown"
 
 const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => {
   return createStyles({
@@ -80,8 +80,18 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => 
       }
     },
     dropdownIcon: {
+      width: 14,
+      height: 14,
+      padding: 0,
+      position: "relative",
+      fontSize: "unset",
       "& svg": {
-        fill: constants.fileSystemItemRow.dropdownIcon
+        fill: constants.fileSystemItemRow.dropdownIcon,
+        top: "50%",
+        left: 0,
+        width: 14,
+        height: 14,
+        position: "absolute"
       }
     },
     dropdownOptions: {
@@ -114,6 +124,9 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => 
       [breakpoints.down("md")]: {
         padding: 0
       }
+    },
+    focusVisible:{
+      backgroundColor: "transparent !important"
     }
   })
 })
@@ -251,17 +264,11 @@ const FileSystemGridItem = React.forwardRef(
           }
         </div>
         <div>
-          <MenuDropdown
-            animation="none"
-            anchor="bottom-right"
-            menuItems={menuItems}
-            classNames={{
-              icon: classes.dropdownIcon,
-              options: classes.dropdownOptions,
-              item: classes.dropdownItem,
-              title: classes.menuTitleGrid
-            }}
-            indicator={MoreIcon}
+          <Dropdown
+            testId='fileDropdown'
+            icon={<MoreIcon className={classes.dropdownIcon}/>}
+            options={menuItems}
+            style={{ focusVisible: classes.focusVisible }}
           />
         </div>
       </div>

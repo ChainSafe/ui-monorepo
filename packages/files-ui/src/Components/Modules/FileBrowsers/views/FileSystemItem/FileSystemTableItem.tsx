@@ -92,7 +92,6 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => 
         position: "absolute"
       }
     },
-
     focusVisible:{
       backgroundColor: "transparent !important"
     }
