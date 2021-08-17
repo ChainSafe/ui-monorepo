@@ -83,6 +83,7 @@ const useStyles = makeStyles(({ animation, breakpoints, constants, palette, zInd
       whiteSpace: "nowrap",
       textOverflow: "ellipsis",
       overflow: "hidden",
+      userSelect: "none",
       "&.editing": {
         overflow: "visible"
       }
