@@ -82,6 +82,7 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: CSSTheme) => 
       whiteSpace: "nowrap",
       textOverflow: "ellipsis",
       overflow: "hidden",
+      userSelect: "none",
       "&.editing": {
         overflow: "visible"
       }
