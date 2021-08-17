@@ -1,10 +1,5 @@
 import React from "react"
-import {
-  createStyles,
-  ITheme,
-  makeStyles,
-  useThemeSwitcher
-} from "@chainsafe/common-theme"
+import { createStyles, ITheme, makeStyles, useThemeSwitcher } from "@chainsafe/common-theme"
 import { useFiles } from "../../../Contexts/FilesContext"
 import TransferToast from "./TransferToast"
 
