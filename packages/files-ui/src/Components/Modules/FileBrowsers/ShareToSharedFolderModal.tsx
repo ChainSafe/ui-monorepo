@@ -205,7 +205,7 @@ const CopyToSharedFolderModal = ({ close, file, filePath }: IShareFileProps) => 
   const [sharedFolderName, setSharedFolderName] = useState("")
   const { sharedFolderReaders, sharedFolderWriters, handleLookupUser, onNewUsers, usersError } = useLookupSharedFolderUser()
   const [isUsingCurrentBucket, setIsUsingCurrentBucket] = useState(true)
-  const [keepOriginalFile, setKeepOriginalFile] = useState(false)
+  const [keepOriginalFile, setKeepOriginalFile] = useState(true)
   const [destinationBucket, setDestinationBucket] = useState<BucketKeyPermission | undefined>()
   const { buckets, transferFileBetweenBuckets } = useFiles()
   const { bucket } = useFileBrowser()
