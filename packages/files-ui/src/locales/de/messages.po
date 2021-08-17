@@ -34,6 +34,12 @@ msgstr ""
 msgid "Add more files"
 msgstr "Weitere Dateien hinzufügen"
 
+msgid "An error occurred while downloading the file"
+msgstr ""
+
+msgid "An error occurred: {error}"
+msgstr ""
+
 msgid "Approve"
 msgstr "Genehmigen"
 

@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-04-23 11:05+0200\n"
-"PO-Revision-Date: 2021-07-31 19:48+0000\n"
+"PO-Revision-Date: 2021-08-06 03:33+0000\n"
 "Last-Translator: J. Lavoie <j.lavoie@net-c.ca>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/chainsafe-files/chainsafe-files-user-interface/fr/>\n"
 "Language: fr\n"
@@ -34,6 +34,12 @@ msgstr "Ajouter par adresse de partage, nom d'utilisateur ou adresse de portefeu
 
 msgid "Add more files"
 msgstr "Ajouter d’autres fichiers"
+
+msgid "An error occurred while downloading the file"
+msgstr ""
+
+msgid "An error occurred: {error}"
+msgstr ""
 
 msgid "Approve"
 msgstr "Accepter"
@@ -258,7 +264,7 @@ msgid "Generate backup secret phrase"
 msgstr "Créer une phrase de sauvegarde secrète"
 
 msgid "Generated"
-msgstr ""
+msgstr "Généré"
 
 msgid "Generating…"
 msgstr "Génération…"
@@ -297,7 +303,7 @@ msgid "I’m done saving my backup secret phrase"
 msgstr "Phrase de sauvegarde secrète enregistrée"
 
 msgid "Keep original file"
-msgstr ""
+msgstr "Conserver le fichier original"
 
 msgid "Language"
 msgstr "Langue"
@@ -549,10 +555,10 @@ msgid "Settings"
 msgstr "Paramètres"
 
 msgid "Share"
-msgstr ""
+msgstr "Partager"
 
 msgid "Share file"
-msgstr ""
+msgstr "Partager le fichier"
 
 msgid "Shared"
 msgstr "Partagé"
@@ -777,7 +783,7 @@ msgid "recovered successfully"
 msgstr "récupéré avec succès"
 
 msgid "unknown"
-msgstr ""
+msgstr "inconnu"
 
 msgid "{0, plural, one {You are about to delete {1} item.} other {You are about to delete {2} items.}}"
 msgstr "{0, plural, one {Vous êtes sur le point de supprimer {1} élément.} other {Vous êtes sur le point de supprimer {2} éléments.}}"

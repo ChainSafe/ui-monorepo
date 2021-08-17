@@ -1,7 +1,7 @@
 import { basePage } from "./basePage"
 import { folderName } from "../../fixtures/filesTestData"
-
-export const click = ($el: JQuery<HTMLElement>) => $el.trigger("click")
+import { createFolderModal } from "./modals/createFolderModal"
+import { fileUploadModal } from "./modals/fileUploadModal"
 
 export const homePage = {
   ...basePage,
@@ -9,12 +9,8 @@ export const homePage = {
   // main file browser elements
   newFolderButton: () => cy.get("[data-cy=button-new-folder]"),
   uploadButton: () => cy.get("[data-cy=button-upload-file]"),
-  uploadFileForm: () => cy.get("[data-cy=upload-file-form] input", { timeout: 20000 }),
   moveSelectedButton: () => cy.get("[data-testId=button-move-selected-file]"),
   deleteSelectedButton: () => cy.get("[data-testId=button-delete-selected-file]"),
-  deleteFileDialog: () => cy.get("[data-testid=modal-container-file-deletion]"),
-  deleteFileCancelButton: () => cy.get("[data-testid=button-cancel-deletion]"),
-  deleteFileConfirmButton: () => cy.get("[data-testid=button-confirm-deletion]", { timeout: 10000 }),
   uploadStatusToast: () => cy.get("[data-cy=upload-status-toast-message]", { timeout: 10000 }),
 
   // file browser row elements
@@ -24,20 +20,6 @@ export const homePage = {
   fileRenameSubmitButton: () => cy.get("[data-cy=rename-submit-button]"),
   fileRenameErrorLabel: () => cy.get("[data-cy=rename-form] span.minimal.error"),
   fileItemKebabButton: () => cy.get("[data-testid=dropdown-title-fileDropdown]"),
-
-  // create folder modal elements
-  createFolderModal: () => cy.get("[data-cy=modal-create-folder]", { timeout: 10000 }),
-  folderNameInput: () => cy.get("[data-cy=input-folder-name]"),
-  cancelButton: () => cy.get("[data-cy=button-cancel-create-folder]"),
-  createButton: () => cy.get("[data-cy=button-create-folder]", { timeout: 10000 }),
-  folderCreationErrorLabel: () => cy.get("[data-cy=folder-creation-form] span.default.error"),
-
-  // upload modal elements
-  startUploadButton: () => cy.get("[data-testId=button-start-upload]", { timeout: 10000 }),
-  uploadCancelButton: () => cy.get("[data-testId=button-cancel-upload]"),
-  fileListRemoveButton: () => cy.get("[data-testid=button-remove-from-file-list]"),
-  fileUploadList: () => cy.get("[data-testid=file-list-fileUpload] li"),
-  fileUploadDropzone : () => cy.get("[data-testid=file-input-dropzone-fileUpload]"),
 
   // menu elements
   previewMenuOption: () => cy.get("[data-cy=menu-preview]"),
@@ -50,21 +32,21 @@ export const homePage = {
   // helpers and convenience functions
   uploadFile(filePath: string) {
     this.uploadButton().click()
-    this.uploadFileForm().attachFile(filePath)
-    this.fileUploadList().should("have.length", 1)
-    this.fileListRemoveButton().should("be.visible")
-    this.startUploadButton().safeClick()
+    fileUploadModal.body().attachFile(filePath)
+    fileUploadModal.fileList().should("have.length", 1)
+    fileUploadModal.removeFileButton().should("be.visible")
+    fileUploadModal.uploadButton().safeClick()
 
     // ensure upload is complete before proceeding
-    this.uploadFileForm().should("not.exist")
+    fileUploadModal.body().should("not.exist")
     this.uploadStatusToast().should("not.exist")
   },
 
   createFolder(name: string = folderName) {
     this.newFolderButton().click()
-    this.folderNameInput().type(name)
-    this.createButton().safeClick()
-    this.createFolderModal().should("not.exist")
+    createFolderModal.folderNameInput().type(name)
+    createFolderModal.createButton().safeClick()
+    createFolderModal.body().should("not.exist")
     this.fileItemName().contains(name)
   }
 

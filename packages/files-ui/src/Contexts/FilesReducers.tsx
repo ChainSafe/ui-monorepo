@@ -167,8 +167,7 @@ export function transfersInProgressReducer(
     const progressIndex = getProgressIndex()
     if (progressIndex > -1) {
       transfersInProgress[progressIndex].error = true
-      transfersInProgress[progressIndex].errorMessage =
-          action.payload.errorMessage
+      transfersInProgress[progressIndex].errorMessage = action.payload.errorMessage
       return [...transfersInProgress]
     } else {
       return transfersInProgress

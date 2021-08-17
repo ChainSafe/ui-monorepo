@@ -34,6 +34,12 @@ msgstr "Add by sharing address, username or wallet address"
 msgid "Add more files"
 msgstr "Add more files"
 
+msgid "An error occurred while downloading the file"
+msgstr "An error occurred while downloading the file"
+
+msgid "An error occurred: {error}"
+msgstr "An error occurred: {error}"
+
 msgid "Approve"
 msgstr "Approve"
 
