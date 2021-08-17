@@ -40,6 +40,7 @@ const CardInputs = (props: ICardInputsProps) => {
     <Grid container>
       <Grid
         item
+        xs={12}
         sm={12}
         md={6}
       >
@@ -56,6 +57,7 @@ const CardInputs = (props: ICardInputsProps) => {
       </Grid>
       <Grid
         item
+        xs={6}
         sm={6}
         md={3}
       >
@@ -71,6 +73,7 @@ const CardInputs = (props: ICardInputsProps) => {
       </Grid>
       <Grid
         item
+        xs={6}
         sm={6}
         md={3}
       >
@@ -84,6 +87,7 @@ const CardInputs = (props: ICardInputsProps) => {
       </Grid>
       <Grid
         item
+        xs={12}
         sm={12}
         md={12}
       >
