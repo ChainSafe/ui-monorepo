@@ -1,7 +1,8 @@
 import * as cardTypes from "./cardTypes"
 
 export const formatCardNumber = (cardNumber: string) => {
-  const cardType = cardTypes.getCardTypeByValue(cardNumber)
+  const cardType = cardTypes.getCardTypeByValue(cardNumber) ||
+    cardTypes.CARD_TYPES.find((cardType) => cardType.type === "visa")
 
   if (!cardType) return (cardNumber.match(/\d+/g) || []).join("")
 
