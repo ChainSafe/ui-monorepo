@@ -1,5 +1,5 @@
-import React, { useCallback, useMemo, useState } from "react"
-import { makeStyles, createStyles, useThemeSwitcher, useDoubleClick } from "@chainsafe/common-theme"
+import React, { useCallback, useMemo, useRef, useState } from "react"
+import { makeStyles, createStyles, useThemeSwitcher, useDoubleClick, useOnClickOutside } from "@chainsafe/common-theme"
 import {
   CloseCirceSvg,
   DeleteSvg,
@@ -114,13 +114,6 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => 
     },
     focusVisible:{
       backgroundColor: "transparent !important"
-    },
-    clickOutSideArea : {
-      position: "fixed",
-      width: "100%",
-      height: "100%",
-      top: 0,
-      left: 0
     }
   })
 })
@@ -139,7 +132,7 @@ const SharedFolderRow = ({ bucket, handleRename, openSharedFolder, handleDeleteS
 
   const { desktop } = useThemeSwitcher()
   const [isRenaming, setIsRenaming] = useState(false)
-
+  const formRef = useRef(null)
   const isOwner = useMemo(() => bucket.permission === "owner", [bucket.permission])
 
   const menuItems: IMenuItem[] = isOwner
@@ -235,6 +228,8 @@ const SharedFolderRow = ({ bucket, handleRename, openSharedFolder, handleDeleteS
     formik.resetForm()
   }, [formik, setIsRenaming])
 
+  useOnClickOutside(formRef, stopEditing)
+
   return  (
     <TableRow
       data-cy="shared-folder-item-row"
@@ -258,31 +253,25 @@ const SharedFolderRow = ({ bucket, handleRename, openSharedFolder, handleDeleteS
         {!isRenaming
           ? <Typography>{name}</Typography>
           : (
-            <>
-              <div
-                className={classes.clickOutSideArea}
-                onClick={stopEditing}
-              />
-              <FormikProvider value={formik}>
-                <Form
-                  className={classes.desktopRename}
-                  data-cy='rename-form'
-                >
-                  <FormikTextInput
-                    className={classes.renameInput}
-                    name="name"
-                    inputVariant="minimal"
-                    onKeyDown={(event) => {
-                      if (event.key === "Escape") {
-                        stopEditing()
-                      }
-                    }}
-                    placeholder = {t`Please enter a folder name`}
-                    autoFocus={isRenaming}
-                  />
-                </Form>
-              </FormikProvider>
-            </>
+            <FormikProvider value={formik}>
+              <Form
+                className={classes.desktopRename}
+                data-cy='rename-form'
+              >
+                <FormikTextInput
+                  className={classes.renameInput}
+                  name="name"
+                  inputVariant="minimal"
+                  onKeyDown={(event) => {
+                    if (event.key === "Escape") {
+                      stopEditing()
+                    }
+                  }}
+                  placeholder = {t`Please enter a folder name`}
+                  autoFocus={isRenaming}
+                />
+              </Form>
+            </FormikProvider>
           )
         }
       </TableCell>
@@ -312,18 +301,6 @@ const SharedFolderRow = ({ bucket, handleRename, openSharedFolder, handleDeleteS
           options={menuItems}
           style={{ focusVisible: classes.focusVisible }}
         />
-        {/* <MenuDropdown
-          testId='sharedFolderDropdown'
-          animation="none"
-          anchor={desktop ? "bottom-center" : "bottom-right"}
-          menuItems={menuItems}
-          classNames={{
-            icon: classes.dropdownIcon,
-            options: classes.dropdownOptions,
-            item: classes.dropdownItem
-          }}
-          indicator={MoreIcon}
-        /> */}
       </TableCell>
     </TableRow>
   )

@@ -1,5 +1,5 @@
-import React, { useCallback } from "react"
-import { makeStyles, createStyles, useThemeSwitcher } from "@chainsafe/common-theme"
+import React, { useCallback, useRef } from "react"
+import { makeStyles, createStyles, useThemeSwitcher, useOnClickOutside } from "@chainsafe/common-theme"
 import { t } from "@lingui/macro"
 import clsx from "clsx"
 import {
@@ -92,13 +92,7 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => 
         position: "absolute"
       }
     },
-    clickOutSideArea : {
-      position: "fixed",
-      width: "100%",
-      height: "100%",
-      top: 0,
-      left: 0
-    },
+
     focusVisible:{
       backgroundColor: "transparent !important"
     }
@@ -141,11 +135,9 @@ const FileSystemTableItem = React.forwardRef(
     const classes = useStyles()
     const { name, cid, created_at, size } = file
     const { desktop } = useThemeSwitcher()
-
+    const formRef = useRef(null)
     const formik = useFormik({
-      initialValues: {
-        name
-      },
+      initialValues: { name },
       validationSchema: nameValidator,
       onSubmit: (values: {name: string}) => {
         const newName = values.name.trim()
@@ -159,6 +151,8 @@ const FileSystemTableItem = React.forwardRef(
       setEditing(undefined)
       formik.resetForm()
     }, [formik, setEditing])
+
+    useOnClickOutside(formRef, stopEditing)
 
     return  (
       <TableRow
@@ -193,34 +187,29 @@ const FileSystemTableItem = React.forwardRef(
         >
           {editing === cid && desktop
             ? (
-              <>
-                <div
-                  className={classes.clickOutSideArea}
-                  onClick={stopEditing}
-                />
-                <FormikProvider value={formik}>
-                  <Form
-                    className={classes.desktopRename}
-                    data-cy='rename-form'
-                  >
-                    <FormikTextInput
-                      className={classes.renameInput}
-                      name="name"
-                      inputVariant="minimal"
-                      onKeyDown={(event) => {
-                        if (event.key === "Escape") {
-                          stopEditing()
-                        }
-                      }}
-                      placeholder = {isFolder
-                        ? t`Please enter a folder name`
-                        : t`Please enter a file name`
+              <FormikProvider value={formik}>
+                <Form
+                  className={classes.desktopRename}
+                  data-cy='rename-form'
+                  ref={formRef}
+                >
+                  <FormikTextInput
+                    className={classes.renameInput}
+                    name="name"
+                    inputVariant="minimal"
+                    onKeyDown={(event) => {
+                      if (event.key === "Escape") {
+                        stopEditing()
                       }
-                      autoFocus={editing === cid}
-                    />
-                  </Form>
-                </FormikProvider>
-              </>
+                    }}
+                    placeholder = {isFolder
+                      ? t`Please enter a folder name`
+                      : t`Please enter a file name`
+                    }
+                    autoFocus={editing === cid}
+                  />
+                </Form>
+              </FormikProvider>
             )
             : <Typography>{name}</Typography>}
         </TableCell>
