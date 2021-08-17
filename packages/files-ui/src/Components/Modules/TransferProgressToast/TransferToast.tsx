@@ -67,8 +67,10 @@ const TransferToast: React.FC<ITransferToast> = (props) => {
 
   return (
     <>
-      <div className={clsx(classes.appearBox, classes.boxContainer)}
-        data-cy="upload-status-toast-message" >
+      <div
+        className={clsx(classes.appearBox, classes.boxContainer)}
+        data-cy="upload-status-toast-message"
+      >
         {complete ? (
           <div className={classes.contentContainer}>
             <CheckCircleIcon className={classes.marginRight} />
