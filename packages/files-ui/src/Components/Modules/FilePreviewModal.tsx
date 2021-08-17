@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { useCallback, useEffect, useState } from "react"
 import { createStyles, makeStyles, useThemeSwitcher } from "@chainsafe/common-theme"
 import { FileSystemItem, useFiles } from "../../Contexts/FilesContext"
 import MimeMatcher from "./../../Utils/MimeMatcher"
@@ -8,7 +8,6 @@ import {
   ArrowLeftIcon,
   ArrowRightIcon,
   Typography,
-  MenuDropdown,
   DownloadSvg,
   MoreIcon,
   CloseCircleIcon,
@@ -26,6 +25,8 @@ import { Trans } from "@lingui/macro"
 import { CSFTheme } from "../../Themes/types"
 import { useFileBrowser } from "../../Contexts/FileBrowserContext"
 import { useGetFile } from "./FileBrowsers/hooks/useGetFile"
+import { useMemo } from "react"
+import Dropdown from "../../Ui-components/Dropdown"
 
 export interface IPreviewRendererProps {
   contents: Blob
@@ -80,9 +81,9 @@ const useStyles = makeStyles(
         fill: constants.previewModal.closeButtonColor,
         cursor: "pointer"
       },
-      fileOperationsMenu: {
-        fill: constants.previewModal.fileOpsColor
-      },
+      // fileOperationsMenu: {
+      //   fill: constants.previewModal.fileOpsColor
+      // },
       fileName: {
         width: "100%",
         whiteSpace: "nowrap",
@@ -143,6 +144,30 @@ const useStyles = makeStyles(
       },
       item: {
         color: constants.previewModal.menuItemTextColor
+      },
+      dropdownIcon: {
+        width: 14,
+        height: 14,
+        padding: 0,
+        position: "relative",
+        fontSize: "unset",
+        "& svg": {
+          fill: constants.previewModal.fileOpsColor,
+          top: "50%",
+          left: 0,
+          width: 14,
+          height: 14,
+          position: "absolute"
+        }
+      },
+      focusVisible:{
+        backgroundColor: "transparent !important"
+      },
+      menuWrapper: {
+        color: constants.previewModal.menuItemTextColor
+      },
+      menuRoot: {
+        zIndex: "2000 !important" as any
       }
     })
 )
@@ -217,7 +242,7 @@ const FilePreviewModal = ({ file, nextFile, previousFile, closePreview, filePath
     }
   })
 
-  const handleDownload = () => {
+  const handleDownload = useCallback(() => {
     if (!name || !cid || !bucket) return
     if (fileContent) {
       const link = document.createElement("a")
@@ -228,7 +253,21 @@ const FilePreviewModal = ({ file, nextFile, previousFile, closePreview, filePath
     } else {
       downloadFile(bucket.id, file, filePath)
     }
-  }
+  }, [bucket, cid, downloadFile, file, fileContent, filePath, name])
+
+  const menuItems = useMemo(() => [
+    {
+      contents: (
+        <>
+          <DownloadSvg className={classes.menuIcon} />
+          <span>
+            <Trans>Download</Trans>
+          </span>
+        </>
+      ),
+      onClick: handleDownload
+    }
+  ], [classes.menuIcon, handleDownload])
 
   if (!name || !cid || !content_type) {
     return null
@@ -248,28 +287,15 @@ const FilePreviewModal = ({ file, nextFile, previousFile, closePreview, filePath
         >
           {name}
         </Typography>
-        <MenuDropdown
-          animation="none"
-          anchor="top-right"
-          className={classes.fileOperationsMenu}
-          classNames={{
-            options: classes.options,
-            item: classes.item
+        <Dropdown
+          testId='preview'
+          icon={<MoreIcon className={classes.dropdownIcon}/>}
+          options={menuItems}
+          style={{
+            focusVisible: classes.focusVisible,
+            menuWrapper: classes.menuWrapper,
+            root: classes.menuRoot
           }}
-          menuItems={[
-            {
-              contents: (
-                <>
-                  <DownloadSvg className={classes.menuIcon} />
-                  <span>
-                    <Trans>Download</Trans>
-                  </span>
-                </>
-              ),
-              onClick: handleDownload
-            }
-          ]}
-          indicator={MoreIcon}
         />
       </div>
       <Grid

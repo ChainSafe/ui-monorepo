@@ -14,10 +14,11 @@ interface CustomClasses {
     iconContainer?: string
     menuWrapper?: string
     focusVisible?: string
+    root?: string
 }
 
 interface Props {
-    icon: ReactNode
+    icon?: ReactNode
     options: Option[]
     style?: CustomClasses
     testId?: string
@@ -25,7 +26,7 @@ interface Props {
 
 const useStyles = makeStyles(({ constants }: CSFTheme) => {
   return createStyles({
-    root:{
+    paper:{
       backgroundColor: `${constants.dropDown.backgroundColor} !important`,
       color: `${constants.dropDown.color} !important`
     },
@@ -66,7 +67,7 @@ export default function Dropdown({ icon, options, style, testId }: Props) {
         keepMounted
         open={open}
         onClose={handleClose}
-        PopoverClasses={{ paper: classes.root }}
+        PopoverClasses={{ paper: classes.paper, root: style?.root }}
       >
         {options.map((option, index) => (
           <MenuItem

@@ -108,10 +108,6 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => 
         position: "absolute"
       }
     },
-    dropdownItem: {
-      backgroundColor: constants.fileSystemItemRow.itemBackground,
-      color: constants.fileSystemItemRow.itemColor
-    },
     focusVisible:{
       backgroundColor: "transparent !important"
     }

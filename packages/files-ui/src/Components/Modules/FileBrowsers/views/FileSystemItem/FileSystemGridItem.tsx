@@ -61,16 +61,6 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => 
         margin: `${constants.generalUnit * 4.2}px 0`
       }
     },
-    menuIcon: {
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
-      width: 20,
-      marginRight: constants.generalUnit * 1.5,
-      "& svg": {
-        fill: constants.fileSystemItemRow.menuIcon
-      }
-    },
     desktopRename: {
       display: "flex",
       flexDirection: "row",
@@ -93,15 +83,6 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => 
         height: 14,
         position: "absolute"
       }
-    },
-    dropdownOptions: {
-      backgroundColor: constants.fileSystemItemRow.optionsBackground,
-      color: constants.fileSystemItemRow.optionsColor,
-      border: `1px solid ${constants.fileSystemItemRow.optionsBorder}`
-    },
-    dropdownItem: {
-      backgroundColor: constants.fileSystemItemRow.itemBackground,
-      color: constants.fileSystemItemRow.itemColor
     },
     gridViewContainer: {
       display: "flex",
