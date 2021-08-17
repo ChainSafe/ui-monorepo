@@ -86,7 +86,7 @@ const TransferToast: React.FC<ITransferToast> = ({ transferInProgress }) => {
             className={classes.marginBottom}
           >
             <Trans>
-                Sharing your file ({operation === 'Download' ? t`Downloading` : t`Encrypting & uploading` })
+                Sharing your file ({operation === "Download" ? t`Downloading` : t`Encrypting & uploading` })
             </Trans>
           </Typography>
           <ProgressBar

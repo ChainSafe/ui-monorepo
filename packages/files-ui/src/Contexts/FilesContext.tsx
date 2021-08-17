@@ -709,7 +709,7 @@ const FilesProvider = ({ children }: FilesContextProps) => {
         type: "error",
         payload: {
           id: toastId,
-          errorMessage: `${t`An error occurred: `} ${typeof(error) === 'string' ? error : error[0].message}`
+          errorMessage: `${t`An error occurred: `} ${typeof(error) === "string" ? error : error[0].message}`
         }
       })
     }).finally(() => {
