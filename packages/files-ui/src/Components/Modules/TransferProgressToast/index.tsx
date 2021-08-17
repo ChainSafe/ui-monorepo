@@ -1,5 +1,5 @@
 import React from "react"
-import { createStyles, ITheme, makeStyles, useThemeSwitcher } from "@chainsafe/common-theme"
+import { createStyles, ITheme, makeStyles } from "@chainsafe/common-theme"
 import { useFiles } from "../../../Contexts/FilesContext"
 import TransferToast from "./TransferToast"
 
@@ -26,18 +26,15 @@ const useStyles = makeStyles(({ constants, zIndex, breakpoints }: ITheme) => {
 const UploadProgressModals: React.FC = () => {
   const classes = useStyles()
   const { transfersInProgress } = useFiles()
-  const { desktop } = useThemeSwitcher()
 
   if (transfersInProgress.length === 0) { return null }
   return (<div className={classes.root}>
     {transfersInProgress.map(
-      (transfersInProgress) =>
-        (desktop || transfersInProgress.complete || transfersInProgress.error) && (
-          <TransferToast
-            key={transfersInProgress.id}
-            transferInProgress={transfersInProgress}
-          />
-        )
+      (transferInProgress) =>
+        <TransferToast
+          key={transferInProgress.id}
+          transferInProgress={transferInProgress}
+        />
     )}
   </div>
   )
