@@ -42,7 +42,7 @@ describe("File management", () => {
       fileUploadModal.body().should("not.exist")
     })
 
-    it.only("can move a file in and out of a folder", () => {
+    it("can move a file in and out of a folder", () => {
       cy.web3Login({ clearCSFBucket: true })
 
       // upload a file and save it's name as a cypress alias
