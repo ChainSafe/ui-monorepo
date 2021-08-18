@@ -745,7 +745,7 @@ const FilesProvider = ({ children }: FilesContextProps) => {
       }}
     >
       {children}
-            <UploadProgressToasts />
+      <UploadProgressToasts />
       <DownloadProgressToasts />
       <TransferProgressToasts />
     </FilesContext.Provider>
