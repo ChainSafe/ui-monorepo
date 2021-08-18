@@ -43,11 +43,20 @@ msgstr "Are we on the right track? Let us know in less than 1 minute."
 msgid "Back"
 msgstr "Back"
 
+msgid "Back to plan settings"
+msgstr "Back to plan settings"
+
 msgid "Backup secret phrase"
 msgstr "Backup secret phrase"
 
 msgid "Backup secret phrase does not match user account, please double-check and try again."
 msgstr "Backup secret phrase does not match user account, please double-check and try again."
+
+msgid "Billed Monthly"
+msgstr "Billed Monthly"
+
+msgid "Billed Yearly"
+msgstr "Billed Yearly"
 
 msgid "Bin"
 msgstr "Bin"
@@ -57,6 +66,9 @@ msgstr "Browser:"
 
 msgid "Bucket id"
 msgstr "Bucket id"
+
+msgid "Buy more storage"
+msgstr "Buy more storage"
 
 msgid "By connecting your wallet, you agree to our <0>Terms of Service</0> and <1>Privacy Policy</1>"
 msgstr "By connecting your wallet, you agree to our <0>Terms of Service</0> and <1>Privacy Policy</1>"
@@ -187,6 +199,9 @@ msgstr "Downloading…"
 msgid "Drop to upload files"
 msgstr "Drop to upload files"
 
+msgid "Early Adopter: Free up to {0}"
+msgstr "Early Adopter: Free up to {0}"
+
 msgid "Email is required"
 msgstr "Email is required"
 
@@ -213,9 +228,6 @@ msgstr "Error while downloading {0}"
 
 msgid "Error while uploading {0}"
 msgstr "Error while uploading {0}"
-
-msgid "Essentials - Free"
-msgstr "Essentials - Free"
 
 msgid "Failed to get signature"
 msgstr "Failed to get signature"
@@ -352,9 +364,6 @@ msgstr "Loading your shared folders…"
 msgid "Looks like you’re signing in from a new browser. Please choose one of the following to continue:"
 msgstr "Looks like you’re signing in from a new browser. Please choose one of the following to continue:"
 
-msgid "Lorem ipsum aenean et rutrum magna. Morbi nec placerat erat. Nunc elementum sed libero sit amet convallis. Quisque non arcu vitae ex fringilla molestie."
-msgstr "Lorem ipsum aenean et rutrum magna. Morbi nec placerat erat. Nunc elementum sed libero sit amet convallis. Quisque non arcu vitae ex fringilla molestie."
-
 msgid "Manage Access"
 msgstr "Manage Access"
 
@@ -474,6 +483,9 @@ msgstr "Profile settings"
 
 msgid "Profile updated"
 msgstr "Profile updated"
+
+msgid "Purchase with card"
+msgstr "Purchase with card"
 
 msgid "Recover"
 msgstr "Recover"
@@ -631,6 +643,9 @@ msgstr "Storage Plan"
 msgid "Stored by miner"
 msgstr "Stored by miner"
 
+msgid "Subscription Plan"
+msgstr "Subscription Plan"
+
 msgid "Technical"
 msgstr "Technical"
 
@@ -688,11 +703,17 @@ msgstr "Try again"
 msgid "Try another method"
 msgstr "Try another method"
 
+msgid "Try for 7 days"
+msgstr "Try for 7 days"
+
 msgid "Update"
 msgstr "Update"
 
 msgid "Update Shared Folder"
 msgstr "Update Shared Folder"
+
+msgid "Upgrade your plan"
+msgstr "Upgrade your plan"
 
 msgid "Upload"
 msgstr "Upload"
@@ -778,6 +799,9 @@ msgstr "You haven't set a username yet."
 msgid "You will need to sign a message in your wallet to complete sign in."
 msgstr "You will need to sign a message in your wallet to complete sign in."
 
+msgid "Your first {0} are free, and you’ll get a discount on our monthly plan once you need more than that"
+msgstr "Your first {0} are free, and you’ll get a discount on our monthly plan once you need more than that"
+
 msgid "Your recovery key can be used to restore your account in place of your backup secret phrase."
 msgstr "Your recovery key can be used to restore your account in place of your backup secret phrase."
 
@@ -807,6 +831,9 @@ msgstr "unknown"
 
 msgid "{0, plural, one {You are about to delete {1} item.} other {You are about to delete {2} items.}}"
 msgstr "{0, plural, one {You are about to delete {1} item.} other {You are about to delete {2} items.}}"
+
+msgid "{0} of {1} used ({2}%)"
+msgstr "{0} of {1} used ({2}%)"
 
 msgid "{noOfFiles, plural, one {Uploading and encrypting {noOfFiles} file} other {Uploading and encrypting {noOfFiles} files}}"
 msgstr "{noOfFiles, plural, one {Uploading and encrypting {noOfFiles} file} other {Uploading and encrypting {noOfFiles} files}}"

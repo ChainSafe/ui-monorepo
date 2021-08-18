@@ -75,8 +75,8 @@ const GamingApiProvider = ({ apiUrl, withLocalStorage = true, children }: Gaming
   const maintenanceMode = process.env.REACT_APP_MAINTENANCE_MODE === "true"
 
   const { wallet, onboard, checkIsReady, isReady, provider, address } = useWeb3()
-  const { localStorageRemove, localStorageGet, localStorageSet } = useLocalStorage()
-  const { sessionStorageRemove, sessionStorageGet, sessionStorageSet } = useSessionStorage()
+  const { localStorageRemove, localStorageSet } = useLocalStorage()
+  const { sessionStorageRemove, sessionStorageSet } = useSessionStorage()
 
   // initializing api
   const initialAxiosInstance = useMemo(() => axios.create({
@@ -189,8 +189,8 @@ const GamingApiProvider = ({ apiUrl, withLocalStorage = true, children }: Gaming
 
       const apiClient = new FilesApiClient({}, apiUrl, axiosInstance)
       const savedRefreshToken = withLocalStorage
-        ? localStorageGet(tokenStorageKey)
-        : sessionStorageGet(tokenStorageKey)
+        ? localStorage.getItem(tokenStorageKey)
+        : sessionStorage.getItem(tokenStorageKey)
 
       setGamingApiClient(apiClient)
       if (!maintenanceMode && savedRefreshToken) {

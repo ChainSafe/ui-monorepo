@@ -1,8 +1,8 @@
 import React, { useMemo } from "react"
-import { useLanguageContext } from "../../../Contexts/LanguageContext"
+import { useLanguageContext } from "../../../../Contexts/LanguageContext"
 import { MenuDropdown } from "@chainsafe/common-components"
 import { createStyles, makeStyles } from "@chainsafe/common-theme"
-import { CSFTheme } from "../../../Themes/types"
+import { CSFTheme } from "../../../../Themes/types"
 
 const useStyles = makeStyles(
   ({ constants, palette }: CSFTheme) => {

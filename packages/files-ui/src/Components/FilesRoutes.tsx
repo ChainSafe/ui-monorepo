@@ -10,6 +10,7 @@ import PurchasePlanPage from "./Pages/PurchasePlanPage"
 import { useThresholdKey } from "../Contexts/ThresholdKeyContext"
 import ShareFilesPage from "./Pages/SharedFilesPage"
 import SharedFoldersOverview from "./Modules/FileBrowsers/SharedFoldersOverview"
+import PlansPage from "./Pages/PlansPage"
 
 export const SETTINGS_BASE = "/settings"
 export const ROUTE_LINKS = {
@@ -24,6 +25,7 @@ export const ROUTE_LINKS = {
   Settings: `${SETTINGS_BASE}/:path`,
   SettingsDefault: `${SETTINGS_BASE}`,
   PurchasePlan: "/purchase",
+  Plans: "/plans",
   UserSurvey: "https://shrl.ink/kmAL",
   GeneralFeedbackForm: "https://shrl.ink/gvVJ",
   SharedFolders: "/shared-overview",
@@ -36,7 +38,7 @@ export const ROUTE_LINKS = {
   }
 }
 
-export const SETTINGS_PATHS = ["profile", "plan", "security"] as const
+export const SETTINGS_PATHS = ["profile", "security", "plan"] as const
 export type SettingsPath = typeof SETTINGS_PATHS[number]
 
 const FilesRoutes = () => {
@@ -90,6 +92,13 @@ const FilesRoutes = () => {
         path={ROUTE_LINKS.Settings}
         isAuthorized={isAuthorized}
         component={SettingsPage}
+        redirectPath={ROUTE_LINKS.Landing}
+      />
+      <ConditionalRoute
+        exact
+        path={ROUTE_LINKS.Plans}
+        isAuthorized={isAuthorized}
+        component={PlansPage}
         redirectPath={ROUTE_LINKS.Landing}
       />
       <ConditionalRoute

@@ -18,13 +18,13 @@ import {
 } from "@chainsafe/common-theme"
 import { LockIcon, CopyIcon } from "@chainsafe/common-components"
 import { Form, useFormik, FormikProvider } from "formik"
-import { useUser } from "../../../Contexts/UserContext"
+import { useUser } from "../../../../Contexts/UserContext"
 import { t, Trans } from "@lingui/macro"
-import { centerEllipsis } from "../../../Utils/Helpers"
-import { CSFTheme } from "../../../Themes/types"
+import { centerEllipsis } from "../../../../Utils/Helpers"
+import { CSFTheme } from "../../../../Themes/types"
 import clsx from "clsx"
 import LanguageSelection from "./LanguageSelection"
-import { useThresholdKey } from "../../../Contexts/ThresholdKeyContext"
+import { useThresholdKey } from "../../../../Contexts/ThresholdKeyContext"
 import EthCrypto from "eth-crypto"
 
 const useStyles = makeStyles(({ constants, breakpoints, palette, typography }: CSFTheme) =>

@@ -7,7 +7,7 @@ import { useThresholdKey } from "../../../../Contexts/ThresholdKeyContext"
 import clsx from "clsx"
 import PasswordForm from "../../../Elements/PasswordForm"
 import MnemonicForm from "../../../Elements/MnemonicForm"
-import SavedBrowsers from "../SavedBrowsers"
+import SavedBrowsers from "./SavedBrowsers"
 
 const useStyles = makeStyles(({ constants, breakpoints, palette, typography, zIndex }: CSFTheme) =>
   createStyles({
