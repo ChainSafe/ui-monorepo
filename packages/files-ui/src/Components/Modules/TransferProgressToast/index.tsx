@@ -23,7 +23,7 @@ const useStyles = makeStyles(({ constants, zIndex, breakpoints }: ITheme) => {
   })
 })
 
-const UploadProgressModals: React.FC = () => {
+const TransferProgressToasts: React.FC = () => {
   const classes = useStyles()
   const { transfersInProgress } = useFiles()
 
@@ -40,4 +40,4 @@ const UploadProgressModals: React.FC = () => {
   )
 }
 
-export default UploadProgressModals
+export default TransferProgressToasts

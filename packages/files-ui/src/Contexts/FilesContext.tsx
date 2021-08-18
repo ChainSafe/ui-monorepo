@@ -22,6 +22,9 @@ import { useThresholdKey } from "./ThresholdKeyContext"
 import { useFilesApi } from "./FilesApiContext"
 import { useUser } from "./UserContext"
 import { getPathWithFile } from "../Utils/pathUtils"
+import UploadProgressToasts from "../Components/Modules/UploadProgressToast"
+import DownloadProgressToasts from "../Components/Modules/DownloadProgressToast"
+import TransferProgressToasts from "../Components/Modules/TransferProgressToast"
 
 type FilesContextProps = {
   children: React.ReactNode | React.ReactNode[]
@@ -742,6 +745,9 @@ const FilesProvider = ({ children }: FilesContextProps) => {
       }}
     >
       {children}
+            <UploadProgressToasts />
+      <DownloadProgressToasts />
+      <TransferProgressToasts />
     </FilesContext.Provider>
   )
 }
