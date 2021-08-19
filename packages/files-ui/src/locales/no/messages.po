@@ -646,14 +646,17 @@ msgstr "Størrelse"
 msgid "Social Sign-in Wallet"
 msgstr ""
 
-msgid "Something went wrong"
-msgstr ""
+#~ msgid "Something went wrong"
+#~ msgstr ""
 
 msgid "Something went wrong with email login! Please try again."
 msgstr ""
 
 msgid "Something went wrong!"
 msgstr "Noe gikk galt."
+
+msgid "Something went wrong, please try again"
+msgstr ""
 
 msgid "Something went wrong. We couldn't upload your file"
 msgstr ""

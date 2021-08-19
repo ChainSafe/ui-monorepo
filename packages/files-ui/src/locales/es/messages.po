@@ -650,13 +650,16 @@ msgstr "Tamaño"
 msgid "Social Sign-in Wallet"
 msgstr "Cartera de inicio de sesión social"
 
-msgid "Something went wrong"
-msgstr ""
+#~ msgid "Something went wrong"
+#~ msgstr ""
 
 msgid "Something went wrong with email login! Please try again."
 msgstr ""
 
 msgid "Something went wrong!"
+msgstr ""
+
+msgid "Something went wrong, please try again"
 msgstr ""
 
 msgid "Something went wrong. We couldn't upload your file"

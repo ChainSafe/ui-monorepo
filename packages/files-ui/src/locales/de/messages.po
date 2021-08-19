@@ -646,14 +646,17 @@ msgstr "Größe"
 msgid "Social Sign-in Wallet"
 msgstr ""
 
-msgid "Something went wrong"
-msgstr ""
+#~ msgid "Something went wrong"
+#~ msgstr ""
 
 msgid "Something went wrong with email login! Please try again."
 msgstr ""
 
 msgid "Something went wrong!"
 msgstr "Etwas ist schief gelaufen!"
+
+msgid "Something went wrong, please try again"
+msgstr ""
 
 msgid "Something went wrong. We couldn't upload your file"
 msgstr "Es ist etwas schief gelaufen. Wir konnten Ihre Datei nicht hochladen"

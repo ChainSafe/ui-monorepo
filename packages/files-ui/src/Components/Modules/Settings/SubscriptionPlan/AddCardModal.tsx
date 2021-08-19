@@ -68,7 +68,7 @@ interface ICreateFolderModalProps {
   onClose: () => void
 }
 
-const CreateFolderModal = ({i sModalOpen, onClose }: ICreateFolderModalProps) => {
+const CreateFolderModal = ({ isModalOpen, onClose }: ICreateFolderModalProps) => {
   const classes = useStyles()
   const [cardInputs, setCardInputs] = useState({
     cardNumber: "",

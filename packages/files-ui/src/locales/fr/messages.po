@@ -650,14 +650,17 @@ msgstr "Taille"
 msgid "Social Sign-in Wallet"
 msgstr "Connecté avec un réseau social ou wallet"
 
-msgid "Something went wrong"
-msgstr ""
+#~ msgid "Something went wrong"
+#~ msgstr ""
 
 msgid "Something went wrong with email login! Please try again."
 msgstr "Un problème est survenu lors de la connexion avec courriel ! Veuillez réessayer."
 
 msgid "Something went wrong!"
 msgstr "Quelque chose a mal tourné !"
+
+msgid "Something went wrong, please try again"
+msgstr ""
 
 msgid "Something went wrong. We couldn't upload your file"
 msgstr "Un problème est survenu. Nous n’avons pas pu téléverser votre fichier"

@@ -19,7 +19,7 @@ const useStyles = makeStyles(({ constants }: ITheme) =>
 const PlanView: React.FC = () => {
   const classes = useStyles()
   const [isAddCardModalOpen, setIsAddCardModalOpen ] = useState(false)
-  
+
   return (
     <div className={classes.root}>
       <CurrentProduct />
