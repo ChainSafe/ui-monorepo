@@ -27,20 +27,20 @@ interface Props {
 const useStyles = makeStyles(({ constants }: CSFTheme) => {
   return createStyles({
     paper:{
-      backgroundColor: `${constants.dropDown.backgroundColor} !important`,
-      color: `${constants.dropDown.color} !important`
+      backgroundColor: `${constants.menu.backgroundColor} !important`,
+      color: `${constants.menu.color} !important`
     },
     iconContainer: {
       cursor: "pointer"
     },
     options: {
       "&:hover": {
-        backgroundColor: `${constants.dropDown.backgroundOptionHover} !important`
+        backgroundColor: `${constants.menu.backgroundOptionHover} !important`
       }
     }
   })})
 
-export default function Dropdown({ icon, options, style, testId }: Props) {
+export default function Menu({ icon, options, style, testId }: Props) {
   const [anchorEl, setAnchorEl] = useState(null)
   const open = useMemo(() => Boolean(anchorEl), [anchorEl])
   const classes = useStyles()
@@ -56,7 +56,7 @@ export default function Dropdown({ icon, options, style, testId }: Props) {
   return (
     <div className={clsx(style?.menuWrapper)}>
       <div
-        data-testid={`dropdown-title-${testId}`}
+        data-testid={`menu-title-${testId}`}
         className={clsx(classes.iconContainer, style?.iconContainer)}
         onClick={handleClick}
       >

@@ -163,7 +163,7 @@ export interface CsfColors extends IConstants {
     backgroundColor: string
     iconBackingColor: string
   }
-  dropDown: {
+  menu: {
     backgroundColor: string
     color: string
     backgroundOptionHover: string
