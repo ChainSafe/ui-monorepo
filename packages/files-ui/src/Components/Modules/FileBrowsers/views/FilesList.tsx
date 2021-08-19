@@ -32,7 +32,7 @@ import { plural, t, Trans } from "@lingui/macro"
 import { NativeTypes } from "react-dnd-html5-backend"
 import { useDrop } from "react-dnd"
 import { BrowserView, FileOperation, MoveModalMode } from "../types"
-import { FileSystemItem as FileSystemItemType } from "../../../../Contexts/FilesContext"
+import { FileSystemItem as FileSystemItemType, useFiles } from "../../../../Contexts/FilesContext"
 import FileSystemItem from "./FileSystemItem/FileSystemItem"
 import FilePreviewModal from "../../FilePreviewModal"
 
@@ -330,13 +330,14 @@ const FilesList = ({ isShared = false }: Props) => {
   const [fileIndex, setFileIndex] = useState<number | undefined>()
   const { selectedLocale } = useLanguageContext()
   const { redirect } = useHistory()
+  const { downloadMultipleFiles } = useFiles()
   const { permission } = bucket || {}
   const items: FileSystemItemType[] = useMemo(() => {
     let temp = []
 
     switch (column) {
+    // defaults to name sorting
     default: {
-      // case "name": {
       temp = sourceFiles.sort((a, b) => {
         return a.name.localeCompare(b.name, selectedLocale, {
           sensitivity: "base"
@@ -497,35 +498,30 @@ const FilesList = ({ isShared = false }: Props) => {
       if (contentType) {
         if (contentType === CONTENT_TYPES.Directory) {
           const validList = fileOperations.filter(
-            (op: FileOperation) =>
-              bulkOperations[contentType].indexOf(op) >= 0
+            (op: FileOperation) => bulkOperations[contentType].includes(op)
           )
           if (validList.length > 0) {
             fileOperations = fileOperations.filter(
-              (existingOp: FileOperation) =>
-                validList.indexOf(existingOp) >= 0
+              (existingOp: FileOperation) => validList.includes(existingOp)
             )
           }
         } else {
           const validList = fileOperations.filter(
-            (op: FileOperation) =>
-              bulkOperations[CONTENT_TYPES.File].indexOf(op) >= 0
+            (op: FileOperation) => bulkOperations[CONTENT_TYPES.File].includes(op)
           )
           if (validList.length > 0) {
             fileOperations = fileOperations.filter(
-              (existingOp: FileOperation) =>
-                validList.indexOf(existingOp) >= 0
+              (existingOp: FileOperation) => validList.includes(existingOp)
             )
           }
         }
       } else {
         const validList = fileOperations.filter(
-          (op: FileOperation) =>
-            bulkOperations[CONTENT_TYPES.File].indexOf(op) >= 0
+          (op: FileOperation) => bulkOperations[CONTENT_TYPES.File].includes(op)
         )
         if (validList.length > 0) {
           fileOperations = fileOperations.filter(
-            (existingOp: FileOperation) => validList.indexOf(existingOp) >= 0
+            (existingOp: FileOperation) => validList.includes(existingOp)
           )
         }
       }
@@ -752,7 +748,21 @@ const FilesList = ({ isShared = false }: Props) => {
       <section className={classes.bulkOperations}>
         {selectedCids.length > 0 && (
           <>
-            {validBulkOps.indexOf("move") >= 0 && (
+            {validBulkOps.includes("download") && (
+              <Button
+                onClick={() => {
+                  bucket && downloadMultipleFiles(selectedItems, currentPath, bucket.id)
+                  // console.log('selectedItems', selectedItems)
+                  // console.log('selectedCids', selectedCids)
+                  // console.log('curr', currentPath)
+                }}
+                variant="outline"
+                testId="download-selected-file"
+              >
+                <Trans>Download selected</Trans>
+              </Button>
+            )}
+            {validBulkOps.includes("move") && (
               <Button
                 onClick={(e) => {
                   handleOpenMoveFileDialog(e)
@@ -764,7 +774,7 @@ const FilesList = ({ isShared = false }: Props) => {
                 <Trans>Move selected</Trans>
               </Button>
             )}
-            {validBulkOps.indexOf("recover") >= 0 && (
+            {validBulkOps.includes("recover") && (
               <Button
                 onClick={(e) => {
                   handleOpenMoveFileDialog(e)
@@ -776,7 +786,7 @@ const FilesList = ({ isShared = false }: Props) => {
                 <Trans>Recover selected</Trans>
               </Button>
             )}
-            {validBulkOps.indexOf("delete") >= 0 && (
+            {validBulkOps.includes("delete") && (
               <Button
                 onClick={handleOpenDeleteDialog}
                 variant="outline"

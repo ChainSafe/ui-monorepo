@@ -27,7 +27,7 @@ const CSFFileBrowser: React.FC<IFileBrowserModuleProps> = () => {
     downloadFile,
     uploadFiles,
     uploadsInProgress,
-    buckets
+    buckets,
   } = useFiles()
   const { filesApiClient } = useFilesApi()
   const { addToastMessage } = useToaster()
@@ -204,8 +204,8 @@ const CSFFileBrowser: React.FC<IFileBrowserModuleProps> = () => {
   }, [currentPath, pathContents, redirect])
 
   const bulkOperations: IBulkOperations = useMemo(() => ({
-    [CONTENT_TYPES.Directory]: ["move", "delete"],
-    [CONTENT_TYPES.File]: ["delete", "move"]
+    [CONTENT_TYPES.Directory]: ["download", "move", "delete"],
+    [CONTENT_TYPES.File]: ["download", "delete", "move"]
   }), [])
 
   const itemOperations: IFilesTableBrowserProps["itemOperations"] = useMemo(() => ({

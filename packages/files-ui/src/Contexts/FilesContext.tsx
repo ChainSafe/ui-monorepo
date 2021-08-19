@@ -16,7 +16,7 @@ import { useToaster } from "@chainsafe/common-components"
 import { downloadsInProgressReducer, transfersInProgressReducer, uploadsInProgressReducer } from "./FilesReducers"
 import axios, { CancelToken } from "axios"
 import { t } from "@lingui/macro"
-import { readFileAsync } from "../Utils/Helpers"
+import { parseFileContentResponse, readFileAsync } from "../Utils/Helpers"
 import { useBeforeunload } from "react-beforeunload"
 import { useThresholdKey } from "./ThresholdKeyContext"
 import { useFilesApi } from "./FilesApiContext"
@@ -25,6 +25,7 @@ import { getPathWithFile } from "../Utils/pathUtils"
 import UploadProgressToasts from "../Components/Modules/UploadProgressToast"
 import DownloadProgressToasts from "../Components/Modules/DownloadProgressToast"
 import TransferProgressToasts from "../Components/Modules/TransferProgressToast"
+import { Zippable, zipSync } from "fflate"
 
 type FilesContextProps = {
   children: React.ReactNode | React.ReactNode[]
@@ -121,6 +122,7 @@ type FilesContext = {
     deleteFromSource?: boolean
   ) => Promise<void>
   transfersInProgress: TransferProgress[]
+  downloadMultipleFiles: (fileItems: FileSystemItem[], currentPath: string, bucketId: string) => void
 }
 
 // This represents a File or Folder on the
@@ -505,6 +507,39 @@ const FilesProvider = ({ children }: FilesContextProps) => {
     }
   }, [buckets, filesApiClient])
 
+  interface FileSystemItemPath extends FileSystemItem {
+    path: string
+  }
+
+  const getFileList = useCallback(async (
+    itemsToDownload: FileSystemItem[],
+    currentPath: string,
+    bucketId: string
+  ): Promise<FileSystemItemPath[]>  => {
+    return await itemsToDownload.reduce(
+      async (acc: Promise<FileSystemItemPath[]>, item: IFileSystemItem): Promise<FileSystemItemPath[]> => {
+        if (item.isFolder) {
+          const folderPath = getPathWithFile(currentPath, item.name)
+          const newList = await filesApiClient.getBucketObjectChildrenList(bucketId, { path: folderPath })
+
+          const childFolderItems = newList.map(parseFileContentResponse)
+          return childFolderItems.length
+            ? [...await acc, ...await getFileList(childFolderItems, folderPath, bucketId)]
+            : Promise.resolve(acc)
+        }
+
+        return [...await acc, { ...item, path: currentPath }]
+      }, Promise.resolve([] as FileSystemItemPath[]))
+  }, [filesApiClient])
+
+  const downloadMultipleFiles = useCallback((itemsToDownload: FileSystemItem[], currentPath: string, bucketId: string) => {
+    getFileList(itemsToDownload, currentPath, bucketId)
+      .then((fullStructure) => {
+        console.log("fullStructure", fullStructure)
+      })
+      .catch(console.error)
+  }, [getFileList])
+
   const downloadFile = useCallback(async (bucketId: string, itemToDownload: FileSystemItem, path: string) => {
     const toastId = uuidv4()
     try {
@@ -728,6 +763,7 @@ const FilesProvider = ({ children }: FilesContextProps) => {
       value={{
         uploadFiles,
         downloadFile,
+        downloadMultipleFiles,
         getFileContent,
         personalEncryptionKey,
         uploadsInProgress,
