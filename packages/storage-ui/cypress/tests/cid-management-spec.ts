@@ -1,4 +1,5 @@
 import { cidsPage } from "../support/page-objects/cidsPage"
+import { navigationMenu } from "../support/page-objects/navigationMenu"
 import { testCid } from "../fixtures/storageTestData"
 
 describe("CID management", () => {
@@ -7,11 +8,12 @@ describe("CID management", () => {
 
     it.skip("can pin a CID", () => {
       cy.web3Login({ clearPins: true })
+      navigationMenu.cidsNavButton().click()
 
       // pin a cid and see it in the pinned items table
       cidsPage.pinButton().click()
       cidsPage.cidInput().type(testCid)
-      cidsPage.pinSubmitButton().click()
+      cidsPage.pinSubmitButton().safeClick()
       cidsPage.cidItemRow().should("have.length", 1)
 
       // open the pin cid modal and cancel it
