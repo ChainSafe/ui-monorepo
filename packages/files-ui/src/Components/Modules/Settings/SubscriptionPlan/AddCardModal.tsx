@@ -124,8 +124,9 @@ const CreateFolderModal = ({i sModalOpen, onClose }: ICreateFolderModalProps) =>
           addToastMessage({
             message: t`Card added successfully`
           })
-        }).catch(() => {
-          setError(t`Something went wrong`)
+        }).catch((e) => {
+          setError(t`Something went wrong, please try again`)
+          console.error(e)
         }).finally(() => setLoading(false))
     }).catch((err) => {
       console.error(err)
