@@ -181,6 +181,9 @@ msgstr "Komplett heruntergeladen"
 msgid "Download recovery key"
 msgstr "Wiederherstellungsschlüssel herunterladen"
 
+msgid "Download selected"
+msgstr ""
+
 msgid "Downloading"
 msgstr ""
 

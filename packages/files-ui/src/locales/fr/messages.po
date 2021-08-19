@@ -182,6 +182,9 @@ msgstr "Téléchargement terminé"
 msgid "Download recovery key"
 msgstr "Télécharger la clé de sauvegarde"
 
+msgid "Download selected"
+msgstr ""
+
 msgid "Downloading"
 msgstr ""
 
