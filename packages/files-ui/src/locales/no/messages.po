@@ -22,7 +22,13 @@ msgstr ""
 msgid "Account"
 msgstr "Konto"
 
-msgid "Add a card"
+msgid "Add Card"
+msgstr ""
+
+#~ msgid "Add a card"
+#~ msgstr ""
+
+msgid "Add a credit card"
 msgstr ""
 
 msgid "Add a username"
@@ -32,6 +38,9 @@ msgid "Add at least one more authentication method to protect your account. You‚
 msgstr ""
 
 msgid "Add by sharing address, username or wallet address"
+msgstr ""
+
+msgid "Add card"
 msgstr ""
 
 msgid "Add more files"
@@ -84,6 +93,12 @@ msgstr ""
 
 msgid "Cancel"
 msgstr "Avbryt"
+
+msgid "Card added successfully"
+msgstr ""
+
+msgid "Card details could not be validated"
+msgstr ""
 
 msgid "Change Password"
 msgstr "Endre passord"
@@ -385,6 +400,12 @@ msgstr "Mine filer"
 msgid "Name"
 msgstr "Navn"
 
+msgid "Name on card"
+msgstr ""
+
+msgid "Name on card is required"
+msgstr ""
+
 msgid "Name too long"
 msgstr "Navnet er for langt"
 
@@ -623,6 +644,9 @@ msgid "Size"
 msgstr "St√∏rrelse"
 
 msgid "Social Sign-in Wallet"
+msgstr ""
+
+msgid "Something went wrong"
 msgstr ""
 
 msgid "Something went wrong with email login! Please try again."
