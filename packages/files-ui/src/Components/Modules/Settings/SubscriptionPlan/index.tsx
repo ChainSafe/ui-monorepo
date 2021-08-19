@@ -23,7 +23,9 @@ const PlanView: React.FC = () => {
     <div className={classes.root}>
       <CurrentProduct />
       <div className={classes.container}>
-        <Button onClick={() => setIsAddCardModalOpen(true)}>Add Card</Button>
+        <Button onClick={() => setIsAddCardModalOpen(true)}>
+          <Trans>Add Card</Trans>
+        </Button>
       </div>
       <AddCardModal
         isModalOpen={isAddCardModalOpen}
