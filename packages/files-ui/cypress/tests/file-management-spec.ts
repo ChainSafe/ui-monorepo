@@ -35,7 +35,7 @@ describe("File management", () => {
       // upload a file and see it in the file list
       homePage.uploadButton().click()
       fileUploadModal.body().attachFile("../fixtures/uploadedFiles/text-file.txt")
-      fileUploadModal.fileList().should("have.length", 2)
+      fileUploadModal.fileList().should("have.length", 1)
 
       // cancel and ensure that the upload modal is dismissed
       fileUploadModal.cancelButton().click()
