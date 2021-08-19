@@ -1,14 +1,5 @@
-import {
-  Button,
-  Grid,
-  TextInput,
-  Typography,
-  useToaster
-} from "@chainsafe/common-components"
-import {
-  createStyles,
-  makeStyles
-} from "@chainsafe/common-theme"
+import { Button, Grid, TextInput, Typography, useToaster } from "@chainsafe/common-components"
+import { createStyles, makeStyles } from "@chainsafe/common-theme"
 import React, { useState } from "react"
 import { CSFTheme } from "../../../../Themes/types"
 import CustomModal from "../../../Elements/CustomModal"
