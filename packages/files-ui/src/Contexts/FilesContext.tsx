@@ -534,11 +534,46 @@ const FilesProvider = ({ children }: FilesContextProps) => {
 
   const downloadMultipleFiles = useCallback((itemsToDownload: FileSystemItem[], currentPath: string, bucketId: string) => {
     getFileList(itemsToDownload, currentPath, bucketId)
-      .then((fullStructure) => {
-        console.log("fullStructure", fullStructure)
+      .then(async (fullStructure) => {
+        const zipList: Zippable = {}
+
+        // todo for parrallel https://glebbahmutov.com/blog/run-n-promises-in-parallel/
+        await fullStructure.reduce(async (prev, item) => {
+          const toastId = uuidv4()
+          const file = await getFileContent(bucketId, {
+            cid: item.cid,
+            file: item,
+            path: getPathWithFile(item.path, item.name),
+            onDownloadProgress: (progressEvent) => {
+              dispatchDownloadsInProgress({
+                type: "progress",
+                payload: {
+                  id: toastId,
+                  progress: Math.ceil(
+                    (progressEvent.loaded / item.size) * 100
+                  )
+                }
+              })
+            }
+          })
+
+          if(file) {
+            const fileArrayBuffer = await file.arrayBuffer()
+            zipList[getPathWithFile(item.path, item.name)] = new Uint8Array(fileArrayBuffer)
+          }
+        }, undefined as any)
+
+        // level 0 means without compression
+        const zipped = zipSync(zipList, { level: 0 })
+
+        if (!zipped) return
+        const link = document.createElement("a")
+        link.href = URL.createObjectURL(new Blob([zipped]))
+        link.download = "archive.zip"
+        link.click()
       })
       .catch(console.error)
-  }, [getFileList])
+  }, [getFileContent, getFileList])
 
   const downloadFile = useCallback(async (bucketId: string, itemToDownload: FileSystemItem, path: string) => {
     const toastId = uuidv4()

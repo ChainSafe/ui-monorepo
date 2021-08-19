@@ -27,7 +27,7 @@ const CSFFileBrowser: React.FC<IFileBrowserModuleProps> = () => {
     downloadFile,
     uploadFiles,
     uploadsInProgress,
-    buckets,
+    buckets
   } = useFiles()
   const { filesApiClient } = useFilesApi()
   const { addToastMessage } = useToaster()
