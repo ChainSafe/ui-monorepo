@@ -1,14 +1,5 @@
-import {
-  Button,
-  Grid,
-  TextInput,
-  Typography,
-  useToaster
-} from "@chainsafe/common-components"
-import {
-  createStyles,
-  makeStyles
-} from "@chainsafe/common-theme"
+import { Button, Grid, TextInput, Typography, useToaster } from "@chainsafe/common-components"
+import { createStyles, makeStyles } from "@chainsafe/common-theme"
 import React, { useState } from "react"
 import { CSFTheme } from "../../../../Themes/types"
 import CustomModal from "../../../Elements/CustomModal"
@@ -77,10 +68,7 @@ interface ICreateFolderModalProps {
   onClose: () => void
 }
 
-const CreateFolderModal: React.FC<ICreateFolderModalProps> = ({
-  isModalOpen,
-  onClose
-}: ICreateFolderModalProps) => {
+const CreateFolderModal = ({i sModalOpen, onClose }: ICreateFolderModalProps) => {
   const classes = useStyles()
   const [cardInputs, setCardInputs] = useState({
     cardNumber: "",
@@ -137,8 +125,9 @@ const CreateFolderModal: React.FC<ICreateFolderModalProps> = ({
           addToastMessage({
             message: t`Card added successfully`
           })
-        }).catch(() => {
-          setError(t`Something went wrong`)
+        }).catch((e) => {
+          setError(t`Something went wrong, please try again`)
+          console.error(e)
         }).finally(() => setLoading(false))
     }).catch((err) => {
       console.error(err)
@@ -185,7 +174,6 @@ const CreateFolderModal: React.FC<ICreateFolderModalProps> = ({
               onChange={(val) =>
                 setCardName(val?.toString() || "")
               }
-              // className={classes.cardNumber}
               size="large"
               placeholder={t`Name on card`}
               label={t`Name on card`}
