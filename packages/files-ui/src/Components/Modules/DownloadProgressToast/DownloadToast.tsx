@@ -48,11 +48,11 @@ const useStyles = makeStyles(
   }
 )
 
-interface IDownloadBox {
+interface IDownloadToast {
   downloadInProgress: DownloadProgress
 }
 
-const DownloadBox: React.FC<IDownloadBox> = ({ downloadInProgress }) => {
+const DownloadToast: React.FC<IDownloadToast> = ({ downloadInProgress }) => {
   const {
     fileName,
     complete,
@@ -105,4 +105,4 @@ const DownloadBox: React.FC<IDownloadBox> = ({ downloadInProgress }) => {
   )
 }
 
-export default DownloadBox
+export default DownloadToast

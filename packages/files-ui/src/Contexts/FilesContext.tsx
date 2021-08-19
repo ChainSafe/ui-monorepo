@@ -13,7 +13,7 @@ import { useState } from "react"
 import { decryptFile, encryptFile  } from "../Utils/encryption"
 import { v4 as uuidv4 } from "uuid"
 import { useToaster } from "@chainsafe/common-components"
-import { downloadsInProgressReducer, uploadsInProgressReducer } from "./FilesReducers"
+import { downloadsInProgressReducer, transfersInProgressReducer, uploadsInProgressReducer } from "./FilesReducers"
 import axios, { CancelToken } from "axios"
 import { t } from "@lingui/macro"
 import { readFileAsync } from "../Utils/Helpers"
@@ -22,6 +22,9 @@ import { useThresholdKey } from "./ThresholdKeyContext"
 import { useFilesApi } from "./FilesApiContext"
 import { useUser } from "./UserContext"
 import { getPathWithFile } from "../Utils/pathUtils"
+import UploadProgressToasts from "../Components/Modules/UploadProgressToast"
+import DownloadProgressToasts from "../Components/Modules/DownloadProgressToast"
+import TransferProgressToasts from "../Components/Modules/TransferProgressToast"
 
 type FilesContextProps = {
   children: React.ReactNode | React.ReactNode[]
@@ -41,6 +44,17 @@ export type UploadProgress = {
 export type DownloadProgress = {
   id: string
   fileName: string
+  progress: number
+  error: boolean
+  errorMessage?: string
+  complete: boolean
+}
+
+export type TransferOperation = "Download" | "Encrypt & Upload"
+
+export type TransferProgress = {
+  id: string
+  operation: TransferOperation
   progress: number
   error: boolean
   errorMessage?: string
@@ -83,7 +97,7 @@ type FilesContext = {
   storageSummary: BucketSummaryResponse | undefined
   personalEncryptionKey: string | undefined
   getStorageSummary: () => Promise<void>
-  uploadFiles: (bucketId: string, files: File[], path: string, encryptionKey?: string) => Promise<void>
+  uploadFiles: (bucket: BucketKeyPermission, files: File[], path: string, encryptionKey?: string) => Promise<void>
   downloadFile: (bucketId: string, itemToDownload: FileSystemItem, path: string) => void
   getFileContent: (bucketId: string, params: GetFileContentParams) => Promise<Blob | undefined>
   refreshBuckets: (showLoading?: boolean) => Promise<void>
@@ -99,6 +113,14 @@ type FilesContext = {
     writers?: UpdateSharedFolderUser[],
     readers?: UpdateSharedFolderUser[]
   ) => Promise<void>
+  transferFileBetweenBuckets: (
+    sourceBucketId: string,
+    sourceFile: FileSystemItem,
+    path: string,
+    destinationBucket: BucketKeyPermission,
+    deleteFromSource?: boolean
+  ) => Promise<void>
+  transfersInProgress: TransferProgress[]
 }
 
 // This represents a File or Folder on the
@@ -303,6 +325,10 @@ const FilesProvider = ({ children }: FilesContextProps) => {
     []
   )
 
+  const [transfersInProgress, dispatchTransfersInProgress] = useReducer(
+    transfersInProgressReducer,
+    []
+  )
   const [closeIntercept, setCloseIntercept] = useState<string | undefined>()
 
   useEffect(() => {
@@ -310,10 +336,12 @@ const FilesProvider = ({ children }: FilesContextProps) => {
       setCloseIntercept("Download in progress, are you sure?")
     } else if (uploadsInProgress.length > 0) {
       setCloseIntercept("Upload in progress, are you sure?")
+    } else if (transfersInProgress.length > 0) {
+      setCloseIntercept("Transfer is in progress, are you sure?")
     } else if (closeIntercept !== undefined) {
       setCloseIntercept(undefined)
     }
-  }, [closeIntercept, downloadsInProgress, uploadsInProgress])
+  }, [closeIntercept, downloadsInProgress, uploadsInProgress, transfersInProgress])
 
   useBeforeunload(() => {
     if (closeIntercept !== undefined) {
@@ -321,14 +349,45 @@ const FilesProvider = ({ children }: FilesContextProps) => {
     }
   })
 
-  const uploadFiles = useCallback(async (bucketId: string, files: File[], path: string, encryptionKey?: string) => {
-    const key = encryptionKey || buckets.find(b => b.id === bucketId)?.encryptionKey
+
+  const encryptAndUploadFiles = useCallback(async (
+    bucket: BucketKeyPermission,
+    files: File[],
+    path: string,
+    onUploadProgress?: (progressEvent: ProgressEvent<EventTarget>) => void) => {
+
+    const key = bucket.encryptionKey
 
     if (!key) {
       console.error("No encryption key for this bucket available.")
       return
     }
+    const filesParam = await Promise.all(
+      files
+        .filter((f) => f.size <= MAX_FILE_SIZE)
+        .map(async (f) => {
+          const fileData = await readFileAsync(f)
+          const encryptedData = await encryptFile(fileData, key)
+          return {
+            data: new Blob([encryptedData], { type: f.type }),
+            fileName: f.name
+          }
+        })
+    )
 
+    await filesApiClient.uploadBucketObjects(
+      bucket.id,
+      filesParam,
+      path,
+      undefined,
+      1,
+      undefined,
+      undefined,
+      onUploadProgress
+    )
+  }, [filesApiClient])
+
+  const uploadFiles = useCallback(async (bucket: BucketKeyPermission, files: File[], path: string) => {
     const id = uuidv4()
     const uploadProgress: UploadProgress = {
       id,
@@ -351,27 +410,10 @@ const FilesProvider = ({ children }: FilesContextProps) => {
     }
 
     try {
-      const filesParam = await Promise.all(
-        files
-          .filter((f) => f.size <= MAX_FILE_SIZE)
-          .map(async (f) => {
-            const fileData = await readFileAsync(f)
-            const encryptedData = await encryptFile(fileData, key)
-            return {
-              data: new Blob([encryptedData], { type: f.type }),
-              fileName: f.name
-            }
-          })
-      )
-
-      await filesApiClient.uploadBucketObjects(
-        bucketId,
-        filesParam,
+      await encryptAndUploadFiles(
+        bucket,
+        files,
         path,
-        undefined,
-        1,
-        undefined,
-        undefined,
         (progressEvent: { loaded: number; total: number }) => {
           dispatchUploadsInProgress({
             type: "progress",
@@ -382,9 +424,9 @@ const FilesProvider = ({ children }: FilesContextProps) => {
               )
             }
           })
-        }
-      )
-      refreshBuckets()
+        })
+
+      await refreshBuckets()
       // setting complete
       dispatchUploadsInProgress({ type: "complete", payload: { id } })
       setTimeout(() => {
@@ -411,13 +453,12 @@ const FilesProvider = ({ children }: FilesContextProps) => {
 
       return Promise.reject(error)
     }
-  }, [addToastMessage, filesApiClient, buckets, refreshBuckets])
+  }, [addToastMessage, refreshBuckets, encryptAndUploadFiles])
 
   const getFileContent = useCallback(async (
     bucketId: string,
     { cid, cancelToken, onDownloadProgress, file, path }: GetFileContentParams
   ) => {
-
     const key = buckets.find(b => b.id === bucketId)?.encryptionKey
 
     if (!key) {
@@ -583,6 +624,105 @@ const FilesProvider = ({ children }: FilesContextProps) => {
         .catch(console.error)
     }, [filesApiClient, encryptForPublicKey, publicKey, refreshBuckets])
 
+  const transferFileBetweenBuckets = useCallback(async (
+    sourceBucketId: string,
+    sourceFile: FileSystemItem,
+    path: string,
+    destinationBucket: BucketKeyPermission,
+    keepOriginal = true
+  ) => {
+    const toastId = uuidv4()
+    const UPLOAD_PATH = "/"
+
+    const transferProgress: TransferProgress = {
+      id: toastId,
+      complete: false,
+      error: false,
+      progress: 0,
+      operation: "Download"
+    }
+    dispatchTransfersInProgress({ type: "add", payload: transferProgress })
+
+    getFileContent(sourceBucketId, {
+      cid: sourceFile.cid,
+      file: sourceFile,
+      path: getPathWithFile(path, sourceFile.name),
+      onDownloadProgress: (progressEvent) => {
+        dispatchTransfersInProgress({
+          type: "progress",
+          payload: {
+            id: toastId,
+            progress: Math.ceil(
+              (progressEvent.loaded / sourceFile.size) * 50
+            )
+          }
+        })
+      }
+    }).then(async (fileContent) => {
+      if (!fileContent) {
+        dispatchTransfersInProgress({
+          type: "error",
+          payload: {
+            id: toastId,
+            errorMessage: t`An error occurred while downloading the file`
+          }
+        })
+        return
+      }
+
+      dispatchTransfersInProgress({
+        type: "operation",
+        payload: {
+          id: toastId,
+          operation: "Encrypt & Upload"
+        }
+      })
+
+      await encryptAndUploadFiles(
+        destinationBucket,
+        [new File([fileContent], sourceFile.name, { type: sourceFile.content_type })],
+        UPLOAD_PATH,
+        (progressEvent) => {
+          dispatchTransfersInProgress({
+            type: "progress",
+            payload: {
+              id: toastId,
+              progress: Math.ceil(
+                50 + (progressEvent.loaded / sourceFile.size) * 50
+              )
+            }
+          })
+        }
+      )
+
+      if (!keepOriginal) {
+        await filesApiClient.removeBucketObject(sourceBucketId, { paths: [getPathWithFile(path, sourceFile.name)] })
+      }
+
+      dispatchTransfersInProgress({
+        type:"complete",
+        payload: {
+          id: toastId
+        }
+      })
+      return Promise.resolve()
+    }).catch((error) => {
+      console.error(error[0].message)
+      dispatchTransfersInProgress({
+        type: "error",
+        payload: {
+          id: toastId,
+          errorMessage: `${t`An error occurred: `} ${typeof(error) === "string" ? error : error[0].message}`
+        }
+      })
+    }).finally(() => {
+      refreshBuckets()
+      setTimeout(() => {
+        dispatchTransfersInProgress({ type: "remove", payload: { id: toastId } })
+      }, REMOVE_UPLOAD_PROGRESS_DELAY)
+    })
+  }, [getFileContent, encryptAndUploadFiles, filesApiClient, refreshBuckets])
+
   return (
     <FilesContext.Provider
       value={{
@@ -599,10 +739,15 @@ const FilesProvider = ({ children }: FilesContextProps) => {
         refreshBuckets,
         isLoadingBuckets,
         createSharedFolder,
-        editSharedFolder
+        editSharedFolder,
+        transferFileBetweenBuckets,
+        transfersInProgress
       }}
     >
       {children}
+      <UploadProgressToasts />
+      <DownloadProgressToasts />
+      <TransferProgressToasts />
     </FilesContext.Provider>
   )
 }

@@ -35,13 +35,16 @@ msgstr ""
 msgid "Add more files"
 msgstr "Agrega mas archivos"
 
+msgid "An error occurred while downloading the file"
+msgstr ""
+
+msgid "An error occurred:"
+msgstr ""
+
 msgid "Approve"
 msgstr "Aprobar"
 
 msgid "Are we on the right track? Let us know in less than 1 minute."
-msgstr ""
-
-msgid "Back"
 msgstr ""
 
 msgid "Backup secret phrase"
@@ -161,9 +164,6 @@ msgstr "Borrar"
 msgid "Delete selected"
 msgstr "Eliminar seleccionado"
 
-msgid "Destination shared folder not selected"
-msgstr ""
-
 msgid "Device awaiting confirmation"
 msgstr "Dispositivo pendiente de confirmación"
 
@@ -182,7 +182,7 @@ msgstr "Descarga completa"
 msgid "Download recovery key"
 msgstr "Descargar la clave de recuperación"
 
-msgid "Downloading…"
+msgid "Downloading"
 msgstr ""
 
 msgid "Drop to upload files"
@@ -191,7 +191,7 @@ msgstr "Suelta para subir archivos"
 msgid "Email is required"
 msgstr ""
 
-msgid "Encrypting and uploading…"
+msgid "Encrypting & uploading"
 msgstr ""
 
 msgid "Enter backup secret phrase:"
@@ -204,15 +204,6 @@ msgid "Enter password:"
 msgstr "Introducir la contraseña:"
 
 msgid "Enter the verification code:"
-msgstr ""
-
-msgid "Error while creating new shared folder"
-msgstr ""
-
-msgid "Error while downloading {0}"
-msgstr ""
-
-msgid "Error while uploading {0}"
 msgstr ""
 
 msgid "Essentials - Free"
@@ -243,9 +234,6 @@ msgid "File format not supported."
 msgstr "Formato de archivo no soportado."
 
 msgid "File path"
-msgstr ""
-
-msgid "File shared successfully!"
 msgstr ""
 
 msgid "File size"
@@ -584,13 +572,13 @@ msgstr ""
 msgid "Shared Folder Name"
 msgstr ""
 
-msgid "Shared folder is undefined"
-msgstr ""
-
 msgid "Shared folders"
 msgstr ""
 
 msgid "Shared with"
+msgstr ""
+
+msgid "Sharing your file ({0})"
 msgstr ""
 
 msgid "Sign Out"
@@ -674,13 +662,13 @@ msgstr "Hubo un error al recuperar esto."
 msgid "There was an error when setting username."
 msgstr ""
 
-msgid "This may take some time depending on the file size"
-msgstr ""
-
 msgid "This username is already taken"
 msgstr ""
 
 msgid "This username is public"
+msgstr ""
+
+msgid "Transfer complete"
 msgstr ""
 
 msgid "Try again"
@@ -739,9 +727,6 @@ msgstr ""
 
 msgid "View folder"
 msgstr "Utilice un navegador guardado"
-
-msgid "View shared folder"
-msgstr ""
 
 msgid "Wallet address"
 msgstr "Utilice un navegador guardado"
