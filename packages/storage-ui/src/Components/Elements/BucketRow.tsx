@@ -77,7 +77,9 @@ const BucketRow = ({ bucket }: Props) => {
       })}
       data-cy="row-bucket-item"
     >
-      <TableCell className={classes.name}
+      <TableCell
+        className={classes.name}
+        data-cy="cell-bucket-name"
         onClick={() => redirect(ROUTE_LINKS.Bucket(bucket.id, "/"))}>
         {bucket.name || bucket.id}
       </TableCell>
