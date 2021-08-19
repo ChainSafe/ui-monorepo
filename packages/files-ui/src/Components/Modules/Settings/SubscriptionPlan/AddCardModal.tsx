@@ -172,7 +172,6 @@ const CreateFolderModal = ({i sModalOpen, onClose }: ICreateFolderModalProps) =>
               onChange={(val) =>
                 setCardName(val?.toString() || "")
               }
-              // className={classes.cardNumber}
               size="large"
               placeholder={t`Name on card`}
               label={t`Name on card`}
