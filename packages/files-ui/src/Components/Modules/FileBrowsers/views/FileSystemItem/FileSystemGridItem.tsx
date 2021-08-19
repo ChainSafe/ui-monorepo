@@ -1,11 +1,10 @@
-import React, { useCallback, useEffect } from "react"
-import { makeStyles, createStyles, useThemeSwitcher } from "@chainsafe/common-theme"
+import React, { useCallback, useEffect, useRef } from "react"
+import { makeStyles, createStyles, useThemeSwitcher, useOnClickOutside } from "@chainsafe/common-theme"
 import { t } from "@lingui/macro"
 import clsx from "clsx"
 import {
   FormikTextInput,
   IMenuItem,
-  MenuDropdown,
   MoreIcon
 } from "@chainsafe/common-components"
 import { CSFTheme } from "../../../../../Themes/types"
@@ -13,6 +12,7 @@ import { FileSystemItem } from "../../../../../Contexts/FilesContext"
 import { ConnectDragPreview } from "react-dnd"
 import { Form, FormikProvider, useFormik } from "formik"
 import { nameValidator } from "../../../../../Utils/validationSchema"
+import Menu from "../../../../../UI-components/Menu"
 
 const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => {
   return createStyles({
@@ -61,16 +61,6 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => 
         margin: `${constants.generalUnit * 4.2}px 0`
       }
     },
-    menuIcon: {
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
-      width: 20,
-      marginRight: constants.generalUnit * 1.5,
-      "& svg": {
-        fill: constants.fileSystemItemRow.menuIcon
-      }
-    },
     desktopRename: {
       display: "flex",
       flexDirection: "row",
@@ -80,18 +70,19 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => 
       }
     },
     dropdownIcon: {
+      width: 14,
+      height: 14,
+      padding: 0,
+      position: "relative",
+      fontSize: "unset",
       "& svg": {
-        fill: constants.fileSystemItemRow.dropdownIcon
+        fill: constants.fileSystemItemRow.dropdownIcon,
+        top: "50%",
+        left: 0,
+        width: 14,
+        height: 14,
+        position: "absolute"
       }
-    },
-    dropdownOptions: {
-      backgroundColor: constants.fileSystemItemRow.optionsBackground,
-      color: constants.fileSystemItemRow.optionsColor,
-      border: `1px solid ${constants.fileSystemItemRow.optionsBorder}`
-    },
-    dropdownItem: {
-      backgroundColor: constants.fileSystemItemRow.itemBackground,
-      color: constants.fileSystemItemRow.itemColor
     },
     gridViewContainer: {
       display: "flex",
@@ -114,6 +105,9 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => 
       [breakpoints.down("md")]: {
         padding: 0
       }
+    },
+    focusVisible:{
+      backgroundColor: "transparent !important"
     }
   })
 })
@@ -154,6 +148,7 @@ const FileSystemGridItem = React.forwardRef(
     const classes = useStyles()
     const { name, cid } = file
     const { desktop } = useThemeSwitcher()
+    const formRef = useRef(null)
 
     const formik = useFormik({
       initialValues: {
@@ -195,6 +190,8 @@ const FileSystemGridItem = React.forwardRef(
       formik.resetForm()
     }, [formik, setEditing])
 
+    useOnClickOutside(formRef, stopEditing)
+
     return  (
       <div
         className={classes.gridViewContainer}
@@ -224,7 +221,7 @@ const FileSystemGridItem = React.forwardRef(
               <FormikProvider value={formik}>
                 <Form
                   className={classes.desktopRename}
-                  onBlur={stopEditing}
+                  ref={formRef}
                 >
                   <FormikTextInput
                     className={classes.renameInput}
@@ -248,17 +245,11 @@ const FileSystemGridItem = React.forwardRef(
           }
         </div>
         <div>
-          <MenuDropdown
-            animation="none"
-            anchor="bottom-right"
-            menuItems={menuItems}
-            classNames={{
-              icon: classes.dropdownIcon,
-              options: classes.dropdownOptions,
-              item: classes.dropdownItem,
-              title: classes.menuTitleGrid
-            }}
-            indicator={MoreIcon}
+          <Menu
+            testId='fileDropdown'
+            icon={<MoreIcon className={classes.dropdownIcon}/>}
+            options={menuItems}
+            style={{ focusVisible: classes.focusVisible }}
           />
         </div>
       </div>
