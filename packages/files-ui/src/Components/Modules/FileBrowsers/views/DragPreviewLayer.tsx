@@ -44,11 +44,6 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => 
       bottom: 0,
       right: 0
     },
-    dropdownIcon: {
-      "& svg": {
-        fill: constants.fileSystemItemRow.dropdownIcon
-      }
-    },
     gridViewContainer: {
       display: "flex",
       flex: 1,

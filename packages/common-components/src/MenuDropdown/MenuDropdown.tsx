@@ -1,10 +1,5 @@
 import React, { ReactNode, useRef, useState } from "react"
-import {
-  makeStyles,
-  createStyles,
-  ITheme,
-  useOnClickOutside
-} from "@chainsafe/common-theme"
+import { makeStyles, createStyles, ITheme, useOnClickOutside } from "@chainsafe/common-theme"
 import { Typography } from "../Typography"
 import clsx from "clsx"
 import { DirectionalDownIcon, SvgIcon } from "../Icons"

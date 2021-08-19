@@ -163,4 +163,9 @@ export interface CsfColors extends IConstants {
     backgroundColor: string
     iconBackingColor: string
   }
+  menu: {
+    backgroundColor: string
+    color: string
+    backgroundOptionHover: string
+  }
 }
