@@ -19,6 +19,7 @@ import { getCardNumberError, getCVCError, getExpiryDateError } from "../../../El
 import axios, { AxiosResponse } from "axios"
 import qs from "qs"
 import { useFilesApi } from "../../../../Contexts/FilesApiContext"
+import { useCallback } from "react"
 
 const useStyles = makeStyles(
   ({ breakpoints, constants, typography, zIndex }: CSFTheme) => {
@@ -92,14 +93,14 @@ const CreateFolderModal: React.FC<ICreateFolderModalProps> = ({
   const { filesApiClient } = useFilesApi()
   const { addToastMessage } = useToaster()
 
-  const onCloseModal = () => {
+  const onCloseModal = useCallback(() => {
     setCardInputs({ cardNumber: "", cardExpiry: "", cardCvc: "" })
     setCardName("")
     setError("")
     onClose()
-  }
+  }, [onClose])
 
-  const onSubmitCard = (e: React.FormEvent<HTMLFormElement>) => {
+  const onSubmitCard = useCallback((e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     const error = !cardName
       ? t`Name on card is required`
@@ -144,7 +145,7 @@ const CreateFolderModal: React.FC<ICreateFolderModalProps> = ({
       setError(t`Card details could not be validated`)
       setLoading(false)
     })
-  }
+  }, [addToastMessage, cardInputs, cardName, filesApiClient, onCloseModal])
 
   return (
     <CustomModal

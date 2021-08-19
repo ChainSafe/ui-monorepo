@@ -3,6 +3,7 @@ import CurrentProduct from "./CurrentProduct"
 import AddCardModal from "./AddCardModal"
 import { Button } from "@chainsafe/common-components"
 import { makeStyles, createStyles, ITheme } from "@chainsafe/common-theme"
+import { Trans } from "@lingui/macro"
 
 const useStyles = makeStyles(({ constants }: ITheme) =>
   createStyles({
@@ -23,7 +24,9 @@ const PlanView: React.FC = () => {
     <div className={classes.root}>
       <CurrentProduct />
       <div className={classes.container}>
-        <Button onClick={() => setIsAddCardModalOpen(true)}>Add Card</Button>
+        <Button onClick={() => setIsAddCardModalOpen(true)}>
+          <Trans>Add Card</Trans>
+        </Button>
       </div>
       <AddCardModal
         isModalOpen={isAddCardModalOpen}
