@@ -36,8 +36,7 @@ import { BrowserView, FileOperation, MoveModalMode } from "../types"
 import { FileSystemItem as FileSystemItemType } from "../../../../Contexts/FilesContext"
 import FileSystemItem from "./FileSystemItem/FileSystemItem"
 import FilePreviewModal from "../../FilePreviewModal"
-import UploadProgressModals from "../../UploadProgressModals"
-import DownloadProgressModals from "../../DownloadProgressModals"
+
 import CreateFolderModal from "../CreateFolderModal"
 import UploadFileModule from "../../UploadFileModule"
 import MoveFileModal from "../MoveFileModal"
@@ -1043,8 +1042,6 @@ const FilesList = ({ isShared = false }: Props) => {
         }}
         testId="file-deletion"
       />
-      <UploadProgressModals />
-      <DownloadProgressModals />
       {
         refreshContents && (
           <>
@@ -1108,7 +1105,7 @@ const FilesList = ({ isShared = false }: Props) => {
             setIsCopyToSharedFolerModalOpen(false)
             setFilePath(undefined)
           }}
-          filePath={filePath}
+          filePath={currentPath}
         />
       }
     </article>

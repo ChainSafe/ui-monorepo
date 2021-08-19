@@ -1,9 +1,9 @@
 import React from "react"
 import { createStyles, makeStyles } from "@chainsafe/common-theme"
-import { UploadProgress } from "../../../Contexts/FilesContext"
+import { TransferProgress } from "../../../Contexts/FilesContext"
 import { ProgressBar, Typography, CheckCircleIcon, CloseCircleIcon } from "@chainsafe/common-components"
 import clsx from "clsx"
-import { plural, Trans } from "@lingui/macro"
+import { t, Trans } from "@lingui/macro"
 import { CSFTheme } from "../../../Themes/types"
 
 const useStyles = makeStyles(
@@ -50,64 +50,62 @@ const useStyles = makeStyles(
   }
 )
 
-interface IUploadBox {
-  uploadInProgress: UploadProgress
+interface ITransferToast {
+  transferInProgress: TransferProgress
 }
 
-const UploadBox: React.FC<IUploadBox> = (props) => {
-  const { uploadInProgress } = props
+const TransferToast: React.FC<ITransferToast> = ({ transferInProgress }) => {
   const {
     complete,
     error,
-    noOfFiles,
     progress,
-    errorMessage
-  } = uploadInProgress
+    errorMessage,
+    operation
+  } = transferInProgress
   const classes = useStyles()
 
   return (
     <>
-      <div className={clsx(classes.appearBox, classes.boxContainer)}
-        data-cy="upload-status-toast-message" >
-        {complete ? (
-          <div className={classes.contentContainer}>
-            <CheckCircleIcon className={classes.marginRight} />
-            <Typography
-              variant="body1"
-              component="p"
-            >
-              <Trans>Upload complete</Trans>
-            </Typography>
-          </div>
-        ) : error ? (
-          <div className={classes.contentContainer}>
-            <CloseCircleIcon className={classes.marginRight} />
-            <Typography
-              variant="body1"
-              component="p"
-            >
-              {errorMessage}
-            </Typography>
-          </div>
-        ) : (
-          <div>
-            <Typography
-              variant="body2"
-              component="p"
-              className={classes.marginBottom}
-            >{plural(noOfFiles, {
-                one: `Uploading and encrypting ${noOfFiles} file`,
-                other: `Uploading and encrypting ${noOfFiles} files`
-              })}</Typography>
-            <ProgressBar
-              progress={progress}
-              size="small"
-            />
-          </div>
-        )}
+      <div
+        className={clsx(classes.appearBox, classes.boxContainer)}
+        data-cy="transfer-status-toast-message"
+      >
+        { !!error && (<div className={classes.contentContainer}>
+          <CloseCircleIcon className={classes.marginRight} />
+          <Typography
+            variant="body1"
+            component="p"
+          >
+            {errorMessage}
+          </Typography>
+        </div>) }
+        { !complete && !error && (<div>
+          <Typography
+            variant="body2"
+            component="p"
+            className={classes.marginBottom}
+          >
+            <Trans>
+                Sharing your file ({operation === "Download" ? t`Downloading` : t`Encrypting & uploading` })
+            </Trans>
+          </Typography>
+          <ProgressBar
+            progress={progress}
+            size="small"
+          />
+        </div>) }
+        { complete && !error && (<div className={classes.contentContainer}>
+          <CheckCircleIcon className={classes.marginRight} />
+          <Typography
+            variant="body1"
+            component="p"
+          >
+            <Trans>Transfer complete</Trans>
+          </Typography>
+        </div>) }
       </div>
     </>
   )
 }
 
-export default UploadBox
+export default TransferToast
