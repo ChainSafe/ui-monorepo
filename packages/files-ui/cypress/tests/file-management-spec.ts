@@ -202,7 +202,7 @@ describe("File management", () => {
 
       // permanently delete the file
       homePage.fileItemKebabButton().first().click()
-      homePage.deleteMenuOption().click().pause()
+      homePage.deleteMenuOption().click()
       deleteFileModal.confirmButton().safeClick()
       navigationMenu.binNavButton().click()
       binPage.fileItemKebabButton().first().click()
