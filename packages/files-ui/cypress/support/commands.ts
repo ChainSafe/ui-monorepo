@@ -92,6 +92,7 @@ Cypress.Commands.add(
       } else {
         authenticationPage.doNotSaveBrowserButton().click()
       }
+      homePage.appHeaderLabel().should("be.visible")
     })
     cy.visit(url)
     homePage.appHeaderLabel().should("be.visible")
