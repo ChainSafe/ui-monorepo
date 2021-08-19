@@ -33,6 +33,7 @@ import { testPrivateKey, testAccountPassword, localHost } from "../fixtures/logi
 import { CustomizedBridge } from "./utils/CustomBridge"
 import "cypress-file-upload"
 import "cypress-pipe"
+import { navigationMenu } from "./page-objects/navigationMenu"
 
 export type Storage = Record<string, string>[];
 
@@ -92,6 +93,7 @@ Cypress.Commands.add(
       } else {
         authenticationPage.doNotSaveBrowserButton().click()
       }
+      homePage.appHeaderLabel().should("be.visible")
     })
     cy.visit(url)
     homePage.appHeaderLabel().should("be.visible")
@@ -102,6 +104,11 @@ Cypress.Commands.add(
 
     if (clearTrashBucket) {
       cy.clearTrashBucket(apiUrlBase)
+    }
+
+    if(clearTrashBucket || clearCSFBucket){
+      navigationMenu.binNavButton().click()
+      navigationMenu.homeNavButton().click()
     }
   }
 )
