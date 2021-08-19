@@ -91,9 +91,7 @@ const useStyles = makeStyles(({ breakpoints, constants }: CSFTheme) => {
       alignItems: "center",
       width: 20,
       marginRight: constants.generalUnit * 1.5,
-      "& svg": {
-        fill: constants.fileSystemItemRow.menuIcon
-      }
+      fill: constants.fileSystemItemRow.menuIcon
     },
     dropdownIcon: {
       "& svg": {

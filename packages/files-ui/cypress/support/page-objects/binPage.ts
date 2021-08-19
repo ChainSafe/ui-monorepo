@@ -10,7 +10,7 @@ export const binPage = {
   // file browser row elements
   fileItemRow: () => cy.get("[data-cy=file-item-row]", { timeout: 20000 }),
   fileItemName: () => cy.get("[data-cy=file-item-name]"),
-  fileItemKebabButton: () => cy.get("[data-testid=dropdown-title-fileDropdown]"),
+  fileItemKebabButton: () => cy.get("[data-testid=menu-title-fileDropdown]"),
 
   // menu elements (bin view only)
   recoverMenuOption: () => cy.get("[data-cy=menu-recover]"),

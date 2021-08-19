@@ -1,5 +1,5 @@
-import React, { useCallback, useMemo, useState } from "react"
-import { makeStyles, createStyles, useThemeSwitcher, useDoubleClick } from "@chainsafe/common-theme"
+import React, { useCallback, useMemo, useRef, useState } from "react"
+import { makeStyles, createStyles, useThemeSwitcher, useDoubleClick, useOnClickOutside } from "@chainsafe/common-theme"
 import {
   CloseCirceSvg,
   DeleteSvg,
@@ -8,7 +8,6 @@ import {
   formatBytes,
   FormikTextInput,
   IMenuItem,
-  MenuDropdown,
   MoreIcon,
   TableCell,
   TableRow,
@@ -24,6 +23,7 @@ import clsx from "clsx"
 import { BucketKeyPermission } from "../../../../../Contexts/FilesContext"
 import UserBubble from "../../../../Elements/UserBubble"
 import { nameValidator } from "../../../../../Utils/validationSchema"
+import Menu from "../../../../../UI-components/Menu"
 
 const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => {
 
@@ -65,8 +65,10 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => 
       alignItems: "center",
       width: 20,
       marginRight: constants.generalUnit * 1.5,
-      "& svg": {
+      fill: constants.fileSystemItemRow.menuIcon,
+      "& path" : {
         fill: constants.fileSystemItemRow.menuIcon
+
       }
     },
     desktopRename: {
@@ -92,18 +94,22 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => 
       }
     },
     dropdownIcon: {
+      width: 14,
+      height: 14,
+      padding: 0,
+      position: "relative",
+      fontSize: "unset",
       "& svg": {
-        fill: constants.fileSystemItemRow.dropdownIcon
+        fill: constants.fileSystemItemRow.dropdownIcon,
+        top: "50%",
+        left: 0,
+        width: 14,
+        height: 14,
+        position: "absolute"
       }
     },
-    dropdownOptions: {
-      backgroundColor: constants.fileSystemItemRow.optionsBackground,
-      color: constants.fileSystemItemRow.optionsColor,
-      border: `1px solid ${constants.fileSystemItemRow.optionsBorder}`
-    },
-    dropdownItem: {
-      backgroundColor: constants.fileSystemItemRow.itemBackground,
-      color: constants.fileSystemItemRow.itemColor
+    focusVisible:{
+      backgroundColor: "transparent !important"
     }
   })
 })
@@ -122,7 +128,7 @@ const SharedFolderRow = ({ bucket, handleRename, openSharedFolder, handleDeleteS
 
   const { desktop } = useThemeSwitcher()
   const [isRenaming, setIsRenaming] = useState(false)
-
+  const formRef = useRef(null)
   const isOwner = useMemo(() => bucket.permission === "owner", [bucket.permission])
 
   const menuItems: IMenuItem[] = isOwner
@@ -218,6 +224,8 @@ const SharedFolderRow = ({ bucket, handleRename, openSharedFolder, handleDeleteS
     formik.resetForm()
   }, [formik, setIsRenaming])
 
+  useOnClickOutside(formRef, stopEditing)
+
   return  (
     <TableRow
       data-cy="shared-folder-item-row"
@@ -240,26 +248,27 @@ const SharedFolderRow = ({ bucket, handleRename, openSharedFolder, handleDeleteS
       >
         {!isRenaming
           ? <Typography>{name}</Typography>
-          : <FormikProvider value={formik}>
-            <Form
-              className={classes.desktopRename}
-              data-cy='rename-form'
-              onBlur={stopEditing}
-            >
-              <FormikTextInput
-                className={classes.renameInput}
-                name="name"
-                inputVariant="minimal"
-                onKeyDown={(event) => {
-                  if (event.key === "Escape") {
-                    stopEditing()
-                  }
-                }}
-                placeholder = {t`Please enter a folder name`}
-                autoFocus={isRenaming}
-              />
-            </Form>
-          </FormikProvider>
+          : (
+            <FormikProvider value={formik}>
+              <Form
+                className={classes.desktopRename}
+                data-cy='rename-form'
+              >
+                <FormikTextInput
+                  className={classes.renameInput}
+                  name="name"
+                  inputVariant="minimal"
+                  onKeyDown={(event) => {
+                    if (event.key === "Escape") {
+                      stopEditing()
+                    }
+                  }}
+                  placeholder = {t`Please enter a folder name`}
+                  autoFocus={isRenaming}
+                />
+              </Form>
+            </FormikProvider>
+          )
         }
       </TableCell>
       {desktop &&
@@ -282,17 +291,11 @@ const SharedFolderRow = ({ bucket, handleRename, openSharedFolder, handleDeleteS
         </TableCell>
       }
       <TableCell align="right">
-        <MenuDropdown
-          testId='sharedFolderDropdown'
-          animation="none"
-          anchor={desktop ? "bottom-center" : "bottom-right"}
-          menuItems={menuItems}
-          classNames={{
-            icon: classes.dropdownIcon,
-            options: classes.dropdownOptions,
-            item: classes.dropdownItem
-          }}
-          indicator={MoreIcon}
+        <Menu
+          testId='fileDropdown'
+          icon={<MoreIcon className={classes.dropdownIcon}/>}
+          options={menuItems}
+          style={{ focusVisible: classes.focusVisible }}
         />
       </TableCell>
     </TableRow>
