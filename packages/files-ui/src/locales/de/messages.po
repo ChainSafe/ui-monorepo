@@ -175,19 +175,16 @@ msgstr "Anzeigeeinstellungen"
 msgid "Download"
 msgstr "Herunterladen"
 
+msgid "Download as zip"
+msgstr ""
+
 msgid "Download complete"
 msgstr "Komplett heruntergeladen"
 
 msgid "Download recovery key"
 msgstr "Wiederherstellungsschlüssel herunterladen"
 
-msgid "Download selected"
-msgstr ""
-
 msgid "Downloading"
-msgstr ""
-
-msgid "Downloading {fileProgress} {fileName}…"
 msgstr ""
 
 msgid "Drop to upload files"

@@ -176,19 +176,16 @@ msgstr "Configuración de pantalla"
 msgid "Download"
 msgstr "Descargar"
 
+msgid "Download as zip"
+msgstr ""
+
 msgid "Download complete"
 msgstr "Descarga completa"
 
 msgid "Download recovery key"
 msgstr "Descargar la clave de recuperación"
 
-msgid "Download selected"
-msgstr ""
-
 msgid "Downloading"
-msgstr ""
-
-msgid "Downloading {fileProgress} {fileName}…"
 msgstr ""
 
 msgid "Drop to upload files"
