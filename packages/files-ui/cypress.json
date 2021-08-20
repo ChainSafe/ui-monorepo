@@ -2,7 +2,6 @@
     "integrationFolder": "cypress/tests",
     "video": false,
     "experimentalSessionSupport": true,
-
     "retries": {
         "runMode": 2,
         "openMode": 0
