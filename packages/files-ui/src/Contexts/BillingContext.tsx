@@ -1,12 +1,15 @@
 import * as React from "react"
-// import { useFilesApi } from "./FilesApiContext"
+import { useFilesApi } from "./FilesApiContext"
 import axios, { AxiosResponse } from "axios"
+import { useEffect, useState } from "react"
+import { Card } from "@chainsafe/files-api-client"
 
 type BillingContextProps = {
   children: React.ReactNode | React.ReactNode[]
 }
 
 interface IBillingContext {
+  defaultCard: Card | undefined
   addCard(cardToken: string): Promise<void>
   getCardTokenFromStripe(
     card: ICard,
@@ -31,7 +34,14 @@ interface IStripeResponse {
 }
 
 const BillingProvider = ({ children }: BillingContextProps) => {
-  // const { filesApiClient } = useFilesApi()
+  const { filesApiClient } = useFilesApi()
+  const [defaultCard, setDefaultCard] = useState<Card | undefined>(undefined)
+
+  useEffect(() => {
+    filesApiClient.getDefaultCard().then((card) => {
+      setDefaultCard(card)
+    }).catch(console.error)
+  }, [filesApiClient])
 
   const addCard = async (
   //cardToken: string
@@ -65,6 +75,7 @@ const BillingProvider = ({ children }: BillingContextProps) => {
   return (
     <BillingContext.Provider
       value={{
+        defaultCard,
         addCard,
         getCardTokenFromStripe
       }}
