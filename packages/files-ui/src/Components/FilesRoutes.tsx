@@ -6,7 +6,6 @@ import { useFilesApi }  from "../Contexts/FilesApiContext"
 import DrivePage from "./Pages/DrivePage"
 import SearchPage from "./Pages/SearchPage"
 import BinPage from "./Pages/BinPage"
-import PurchasePlanPage from "./Pages/PurchasePlanPage"
 import { useThresholdKey } from "../Contexts/ThresholdKeyContext"
 import ShareFilesPage from "./Pages/SharedFilesPage"
 import SharedFoldersOverview from "./Modules/FileBrowsers/SharedFoldersOverview"
@@ -24,6 +23,7 @@ export const ROUTE_LINKS = {
   ApplyCryptography: "https://medium.com/chainsafe-systems/major-improvement-to-chainsafe-files-ab489d3e52a2",
   Settings: `${SETTINGS_BASE}/:path`,
   SettingsDefault: `${SETTINGS_BASE}`,
+  SettingsPath: (settingsPath: SettingsPath) => `${SETTINGS_BASE}/${settingsPath}`,
   PurchasePlan: "/purchase",
   Plans: "/plans",
   UserSurvey: "https://shrl.ink/kmAL",
@@ -99,13 +99,6 @@ const FilesRoutes = () => {
         path={ROUTE_LINKS.Plans}
         isAuthorized={isAuthorized}
         component={PlansPage}
-        redirectPath={ROUTE_LINKS.Landing}
-      />
-      <ConditionalRoute
-        exact
-        path={ROUTE_LINKS.PurchasePlan}
-        isAuthorized={isAuthorized}
-        component={PurchasePlanPage}
         redirectPath={ROUTE_LINKS.Landing}
       />
       <ConditionalRoute

@@ -16,8 +16,7 @@ import { ROUTE_LINKS } from "../../../FilesRoutes"
 const useStyles = makeStyles(({ constants, palette, breakpoints }: ITheme) =>
   createStyles({
     container: {
-      margin: constants.generalUnit * 4,
-      marginBottom: 160
+      margin: constants.generalUnit * 4
     },
     storageBox: {
       maxWidth: 400

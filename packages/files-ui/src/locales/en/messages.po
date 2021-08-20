@@ -22,6 +22,15 @@ msgstr "A file with the same name already exists"
 msgid "Account"
 msgstr "Account"
 
+msgid "Add Card"
+msgstr "Add Card"
+
+#~ msgid "Add a card"
+#~ msgstr "Add a card"
+
+msgid "Add a credit card"
+msgstr "Add a credit card"
+
 msgid "Add a username"
 msgstr "Add a username"
 
@@ -30,6 +39,9 @@ msgstr "Add at least one more authentication method to protect your account. You
 
 msgid "Add by sharing address, username or wallet address"
 msgstr "Add by sharing address, username or wallet address"
+
+msgid "Add card"
+msgstr "Add card"
 
 msgid "Add more files"
 msgstr "Add more files"
@@ -81,6 +93,12 @@ msgstr "CID (Content Identifier)"
 
 msgid "Cancel"
 msgstr "Cancel"
+
+msgid "Card added successfully"
+msgstr "Card added successfully"
+
+msgid "Card details could not be validated"
+msgstr "Card details could not be validated"
 
 msgid "Change Password"
 msgstr "Change Password"
@@ -385,6 +403,12 @@ msgstr "My Files"
 msgid "Name"
 msgstr "Name"
 
+msgid "Name on card"
+msgstr "Name on card"
+
+msgid "Name on card is required"
+msgstr "Name on card is required"
+
 msgid "Name too long"
 msgstr "Name too long"
 
@@ -625,11 +649,17 @@ msgstr "Size"
 msgid "Social Sign-in Wallet"
 msgstr "Social Sign-in Wallet"
 
+#~ msgid "Something went wrong"
+#~ msgstr "Something went wrong"
+
 msgid "Something went wrong with email login! Please try again."
 msgstr "Something went wrong with email login! Please try again."
 
 msgid "Something went wrong!"
 msgstr "Something went wrong!"
+
+msgid "Something went wrong, please try again"
+msgstr "Something went wrong, please try again"
 
 msgid "Something went wrong. We couldn't upload your file"
 msgstr "Something went wrong. We couldn't upload your file"

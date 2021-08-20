@@ -23,6 +23,15 @@ msgstr "Ya existe un archivo con el mismo nombre"
 msgid "Account"
 msgstr "Cuenta"
 
+msgid "Add Card"
+msgstr ""
+
+#~ msgid "Add a card"
+#~ msgstr ""
+
+msgid "Add a credit card"
+msgstr ""
+
 msgid "Add a username"
 msgstr ""
 
@@ -30,6 +39,9 @@ msgid "Add at least one more authentication method to protect your account. You�
 msgstr "Agregue al menos un método de autenticación más para proteger su cuenta. Solo necesitaría dos para iniciar sesión en Archivos desde cualquier dispositivo."
 
 msgid "Add by sharing address, username or wallet address"
+msgstr ""
+
+msgid "Add card"
 msgstr ""
 
 msgid "Add more files"
@@ -82,6 +94,12 @@ msgstr "CID (Identificador de contenido)"
 
 msgid "Cancel"
 msgstr "Cancelar"
+
+msgid "Card added successfully"
+msgstr ""
+
+msgid "Card details could not be validated"
+msgstr ""
 
 msgid "Change Password"
 msgstr "Cambiar la contraseña"
@@ -386,6 +404,12 @@ msgstr "Mis Archivos"
 msgid "Name"
 msgstr "Nombre"
 
+msgid "Name on card"
+msgstr ""
+
+msgid "Name on card is required"
+msgstr ""
+
 msgid "Name too long"
 msgstr ""
 
@@ -626,10 +650,16 @@ msgstr "Tamaño"
 msgid "Social Sign-in Wallet"
 msgstr "Cartera de inicio de sesión social"
 
+#~ msgid "Something went wrong"
+#~ msgstr ""
+
 msgid "Something went wrong with email login! Please try again."
 msgstr ""
 
 msgid "Something went wrong!"
+msgstr ""
+
+msgid "Something went wrong, please try again"
 msgstr ""
 
 msgid "Something went wrong. We couldn't upload your file"
