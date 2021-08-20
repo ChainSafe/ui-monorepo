@@ -634,6 +634,9 @@ msgstr ""
 msgid "The system is undergoing maintenance, thank you for being patient."
 msgstr ""
 
+msgid "The username is too long"
+msgstr ""
+
 msgid "Theme"
 msgstr "Drakt"
 
