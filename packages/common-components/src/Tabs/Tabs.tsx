@@ -48,15 +48,15 @@ interface TabInjectedClasses {
   tabBar?: string
 }
 
-export interface ITabsProps {
+export interface ITabsProps<TabKey> {
   className?: string
-  children: React.ReactElement<ITabPaneProps> | React.ReactElement<ITabPaneProps>[]
-  activeKey: string
-  onTabSelect: (key: string) => void
+  children: React.ReactElement<ITabPaneProps<TabKey>> | React.ReactElement<ITabPaneProps<TabKey>>[]
+  activeKey?: TabKey
+  onTabSelect: (key: TabKey) => void
   injectedClass?: TabInjectedClasses
 }
 
-const Tabs: React.FC<ITabsProps> = ({ className, children, activeKey, injectedClass, onTabSelect }: ITabsProps) => {
+const Tabs = <TabKey, >({ className, children, activeKey, injectedClass, onTabSelect }: ITabsProps<TabKey>) => {
   const classes = useStyles()
   const selectedChild = Array.isArray(children)
     ? children.find((child) => activeKey === child.props.tabKey)
