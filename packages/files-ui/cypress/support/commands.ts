@@ -33,6 +33,7 @@ import { testPrivateKey, testAccountPassword, localHost } from "../fixtures/logi
 import { CustomizedBridge } from "./utils/CustomBridge"
 import "cypress-file-upload"
 import "cypress-pipe"
+import { navigationMenu } from "./page-objects/navigationMenu"
 
 export type Storage = Record<string, string>[];
 
@@ -104,6 +105,11 @@ Cypress.Commands.add(
     if (clearTrashBucket) {
       cy.clearTrashBucket(apiUrlBase)
     }
+
+    if(clearTrashBucket || clearCSFBucket){
+      navigationMenu.binNavButton().click()
+      navigationMenu.homeNavButton().click()
+    }
   }
 )
 
@@ -112,6 +118,7 @@ Cypress.Commands.add("safeClick", { prevSubject: "element" }, $element => {
   return cy
     .wrap($element)
     .should("be.visible")
+    .should("be.enabled")
     .pipe(click)
     .should($el => expect($el).to.not.be.visible)
 })
