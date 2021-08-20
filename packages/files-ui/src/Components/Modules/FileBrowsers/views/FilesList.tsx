@@ -2,7 +2,6 @@ import { createStyles, makeStyles, useThemeSwitcher } from "@chainsafe/common-th
 import React, { useCallback, useEffect } from "react"
 import {
   Divider,
-  MenuDropdown,
   PlusIcon,
   SortDirection,
   Table,
@@ -22,7 +21,9 @@ import {
   CheckboxInput,
   useHistory,
   GridIcon,
-  TableIcon
+  TableIcon,
+  UploadSvg,
+  PlusCircleSvg
 } from "@chainsafe/common-components"
 import { useState } from "react"
 import { useMemo } from "react"
@@ -35,8 +36,7 @@ import { BrowserView, FileOperation, MoveModalMode } from "../types"
 import { FileSystemItem as FileSystemItemType } from "../../../../Contexts/FilesContext"
 import FileSystemItem from "./FileSystemItem/FileSystemItem"
 import FilePreviewModal from "../../FilePreviewModal"
-import UploadProgressModals from "../../UploadProgressModals"
-import DownloadProgressModals from "../../DownloadProgressModals"
+
 import CreateFolderModal from "../CreateFolderModal"
 import UploadFileModule from "../../UploadFileModule"
 import MoveFileModal from "../MoveFileModal"
@@ -52,6 +52,7 @@ import { useFileBrowser } from "../../../../Contexts/FileBrowserContext"
 import ReportFileModal from "../ReportFileModal"
 import ShareToSharedFolderModal from "../ShareToSharedFolderModal"
 import SharedUsers from "../../../Elements/SharedUsers"
+import Menu from "../../../../UI-components/Menu"
 
 const baseOperations:  FileOperation[] = ["download", "info", "preview"]
 const readerOperations: FileOperation[] = [...baseOperations, "report"]
@@ -171,15 +172,17 @@ const useStyles = makeStyles(
         justifyContent: "center"
       },
       dropdownIcon: {
+        width: 20,
+        height: 20,
+        padding: 0,
+        position: "relative",
+        fontSize: "unset",
         "& svg": {
-          height: 20,
+          fill: constants.fileSystemItemRow.dropdownIcon,
+          left: 0,
           width: 20,
-          fill: palette.text.primary
-        }
-      },
-      dropdownOptions: {
-        "& > *": {
-          padding: 0
+          height: 20,
+          position: "absolute"
         }
       },
       mobileButton: {
@@ -281,6 +284,17 @@ const useStyles = makeStyles(
         flex: 1,
         display: "flex",
         justifyContent: "flex-end"
+      },
+      focusVisible:{
+        backgroundColor: "transparent !important"
+      },
+      menuIcon: {
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        width: 20,
+        marginRight: constants.generalUnit * 1.5,
+        fill: constants.previewModal.menuItemIconColor
       }
     })
   }
@@ -599,6 +613,32 @@ const FilesList = ({ isShared = false }: Props) => {
     setIsDeleteModalOpen(true)
   }, [])
 
+  const mobileMenuItems = useMemo(() => [
+    {
+      contents: (
+        <>
+          <PlusCircleSvg className={classes.menuIcon} />
+          <span>
+            <Trans>Create folder</Trans>
+          </span>
+        </>
+      ),
+      onClick: () => setCreateFolderModalOpen(true)
+    },
+    {
+      contents: (
+        <>
+          <UploadSvg className={classes.menuIcon} />
+          <span>
+            <Trans>Upload</Trans>
+          </span>
+        </>
+      ),
+      onClick: () => setIsUploadModalOpen(true)
+    }
+  ],
+  [classes.menuIcon])
+
   return (
     <article
       className={clsx(classes.root, {
@@ -697,48 +737,11 @@ const FilesList = ({ isShared = false }: Props) => {
                 >
                   {browserView === "table" ? <GridIcon /> : <TableIcon />}
                 </Button>
-                <MenuDropdown
-                  classNames={{
-                    icon: classes.dropdownIcon,
-                    options: classes.dropdownOptions
-                  }}
-                  autoclose={true}
-                  anchor="bottom-right"
-                  animation="none"
-                  indicator={PlusIcon}
-                  menuItems={[
-                    {
-                      contents: (
-                        <Button
-                          onClick={() => setCreateFolderModalOpen(true)}
-                          variant="primary"
-                          size="large"
-                          className={classes.mobileButton}
-                          fullsize
-                        >
-                          <PlusCircleIcon />
-                          <span>
-                            <Trans>Create folder</Trans>
-                          </span>
-                        </Button>
-                      )
-                    },
-                    {
-                      contents: (
-                        <Button
-                          onClick={() => setIsUploadModalOpen(true)}
-                          variant="primary"
-                          fullsize
-                          className={classes.mobileButton}
-                        >
-                          <UploadIcon />
-                          <span>
-                            <Trans>Upload</Trans>
-                          </span>
-                        </Button>
-                      )
-                    }
-                  ]}
+                <Menu
+                  testId='mobileMenu'
+                  icon={<PlusIcon className={classes.dropdownIcon}/>}
+                  options={mobileMenuItems}
+                  style={{ focusVisible: classes.focusVisible }}
                 />
               </>
             )
@@ -1039,8 +1042,6 @@ const FilesList = ({ isShared = false }: Props) => {
         }}
         testId="file-deletion"
       />
-      <UploadProgressModals />
-      <DownloadProgressModals />
       {
         refreshContents && (
           <>
@@ -1104,7 +1105,7 @@ const FilesList = ({ isShared = false }: Props) => {
             setIsCopyToSharedFolerModalOpen(false)
             setFilePath(undefined)
           }}
-          filePath={filePath}
+          filePath={currentPath}
         />
       }
     </article>

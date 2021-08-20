@@ -1,12 +1,7 @@
 import React from "react"
-import {
-  createStyles,
-  ITheme,
-  makeStyles,
-  useThemeSwitcher
-} from "@chainsafe/common-theme"
+import { createStyles, ITheme, makeStyles } from "@chainsafe/common-theme"
 import { useFiles } from "../../../Contexts/FilesContext"
-import UploadBox from "./UploadBox"
+import TransferToast from "./TransferToast"
 
 const useStyles = makeStyles(({ constants, zIndex, breakpoints }: ITheme) => {
   const WIDTH = 400
@@ -28,24 +23,21 @@ const useStyles = makeStyles(({ constants, zIndex, breakpoints }: ITheme) => {
   })
 })
 
-const UploadProgressModals: React.FC = () => {
+const TransferProgressToasts: React.FC = () => {
   const classes = useStyles()
-  const { uploadsInProgress } = useFiles()
-  const { desktop } = useThemeSwitcher()
+  const { transfersInProgress } = useFiles()
 
-  if (uploadsInProgress.length === 0) { return null }
+  if (transfersInProgress.length === 0) { return null }
   return (<div className={classes.root}>
-    {uploadsInProgress.map(
-      (uploadInProgress) =>
-        (desktop || uploadInProgress.complete || uploadInProgress.error) && (
-          <UploadBox
-            key={uploadInProgress.id}
-            uploadInProgress={uploadInProgress}
-          />
-        )
+    {transfersInProgress.map(
+      (transferInProgress) =>
+        <TransferToast
+          key={transferInProgress.id}
+          transferInProgress={transferInProgress}
+        />
     )}
   </div>
   )
 }
 
-export default UploadProgressModals
+export default TransferProgressToasts

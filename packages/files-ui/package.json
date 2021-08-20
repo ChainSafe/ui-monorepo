@@ -10,6 +10,7 @@
     "@chainsafe/web3-context": "1.1.4",
     "@lingui/core": "^3.7.2",
     "@lingui/react": "^3.7.2",
+    "@material-ui/core": "^4.12.3",
     "@sentry/react": "^5.28.0",
     "@tkey/default": "3.12.0",
     "@tkey/security-questions": "3.12.0",

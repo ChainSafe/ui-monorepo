@@ -191,7 +191,7 @@ const SharedFileBrowser = () => {
         appearance: "error"
       })
     } else {
-      uploadFiles(bucket.id, files, path)
+      uploadFiles(bucket, files, path)
         .then(() => refreshContents())
         .catch(console.error)
     }
