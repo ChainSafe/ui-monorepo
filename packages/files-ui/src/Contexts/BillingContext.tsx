@@ -19,7 +19,7 @@ interface IBillingContext {
       cardExpiry: string
       cardCvc: string
     }
-  ): Promise<AxiosResponse<{ card: {id: string}}>>
+  ): Promise<AxiosResponse<{ id: string}>>
 }
 
 const BillingContext = React.createContext<IBillingContext | undefined>(
@@ -29,7 +29,7 @@ const BillingContext = React.createContext<IBillingContext | undefined>(
 const STRIPE_API = "https://api.stripe.com/v1/tokens"
 
 const BillingProvider = ({ children }: BillingContextProps) => {
-  const { filesApiClient } = useFilesApi()
+  const { filesApiClient, isLoggedIn } = useFilesApi()
   const [defaultCard, setDefaultCard] = useState<Card | undefined>(undefined)
 
   const refreshDefaultCard = useCallback(() => {
@@ -39,8 +39,10 @@ const BillingProvider = ({ children }: BillingContextProps) => {
   }, [filesApiClient])
 
   useEffect(() => {
-    refreshDefaultCard()
-  }, [refreshDefaultCard])
+    if (isLoggedIn) {
+      refreshDefaultCard()
+    }
+  }, [refreshDefaultCard, isLoggedIn])
 
   const getCardTokenFromStripe = useCallback((
     cardInputs: {
@@ -48,7 +50,7 @@ const BillingProvider = ({ children }: BillingContextProps) => {
       cardExpiry: string
       cardCvc: string
     }
-  ): Promise<AxiosResponse<{ card: {id: string}}>> => {
+  ): Promise<AxiosResponse<{ id: string}>> => {
     return axios({
       method: "post",
       url: STRIPE_API,
