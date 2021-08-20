@@ -1,16 +1,13 @@
 import { Button, Grid, TextInput, Typography, useToaster } from "@chainsafe/common-components"
 import { createStyles, makeStyles } from "@chainsafe/common-theme"
-import React, { useState } from "react"
+import React, { useState, useCallback } from "react"
 import { CSFTheme } from "../../../../Themes/types"
 import CustomModal from "../../../Elements/CustomModal"
 import CustomButton from "../../../Elements/CustomButton"
 import { t, Trans } from "@lingui/macro"
 import CardInputs from "../../../Elements/CardInputs"
 import { getCardNumberError, getCVCError, getExpiryDateError } from "../../../Elements/CardInputs/utils/validator"
-import axios, { AxiosResponse } from "axios"
-import qs from "qs"
-import { useFilesApi } from "../../../../Contexts/FilesApiContext"
-import { useCallback } from "react"
+import { useBilling } from "../../../../Contexts/BillingContext"
 
 const useStyles = makeStyles(
   ({ breakpoints, constants, typography, zIndex }: CSFTheme) => {
@@ -78,7 +75,7 @@ const CreateFolderModal = ({ isModalOpen, onClose }: ICreateFolderModalProps) =>
   const [cardName, setCardName] = useState("")
   const [error, setError] = useState("")
   const [loading, setLoading] = useState(false)
-  const { filesApiClient } = useFilesApi()
+  const { addCard, getCardTokenFromStripe } = useBilling()
   const { addToastMessage } = useToaster()
 
   const onCloseModal = useCallback(() => {
@@ -104,22 +101,9 @@ const CreateFolderModal = ({ isModalOpen, onClose }: ICreateFolderModalProps) =>
 
     setLoading(true)
     // get token from stripe
-    axios({
-      method: "post",
-      url: "https://api.stripe.com/v1/tokens",
-      headers: {
-        "Authorization": `Bearer ${process.env.REACT_APP_STRIPE_PK}`,
-        "Content-Type": "application/x-www-form-urlencoded"
-      },
-      data : qs.stringify({
-        "card[number]": cardInputs.cardNumber,
-        "card[exp_month]": cardInputs.cardExpiry.split("/")[0].trim(),
-        "card[exp_year]": cardInputs.cardExpiry.split("/")[1].trim(),
-        "card[cvc]": cardInputs.cardCvc
-      })
-    }).then((resp: AxiosResponse<{ card: {id: string}}>) => {
+    getCardTokenFromStripe(cardInputs).then((resp) => {
       // send stripe token to API
-      filesApiClient.addCard({ token: resp.data.card.id })
+      addCard(resp.data.card.id)
         .then(() => {
           onCloseModal()
           addToastMessage({
@@ -134,7 +118,7 @@ const CreateFolderModal = ({ isModalOpen, onClose }: ICreateFolderModalProps) =>
       setError(t`Card details could not be validated`)
       setLoading(false)
     })
-  }, [addToastMessage, cardInputs, cardName, filesApiClient, onCloseModal])
+  }, [addToastMessage, cardInputs, cardName, onCloseModal, getCardTokenFromStripe, addCard])
 
   return (
     <CustomModal
