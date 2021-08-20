@@ -103,7 +103,6 @@ const CreateFolderModal = ({ isModalOpen, onClose }: ICreateFolderModalProps) =>
     // get token from stripe
     getCardTokenFromStripe(cardInputs).then((resp) => {
       // send stripe token to API
-      console.log(resp)
       addCard(resp.data.id)
         .then(() => {
           onCloseModal()
