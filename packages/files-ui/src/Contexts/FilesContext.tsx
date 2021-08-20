@@ -46,6 +46,8 @@ export type DownloadProgress = {
   id: string
   fileName: string
   progress: number
+  currentFileNumber?: number
+  totalFileNumber: number
   error: boolean
   errorMessage?: string
   complete: boolean
@@ -317,20 +319,9 @@ const FilesProvider = ({ children }: FilesContextProps) => {
     secureThresholdKeyAccount(encryptedKey)
   }
 
-  const [uploadsInProgress, dispatchUploadsInProgress] = useReducer(
-    uploadsInProgressReducer,
-    []
-  )
-
-  const [downloadsInProgress, dispatchDownloadsInProgress] = useReducer(
-    downloadsInProgressReducer,
-    []
-  )
-
-  const [transfersInProgress, dispatchTransfersInProgress] = useReducer(
-    transfersInProgressReducer,
-    []
-  )
+  const [uploadsInProgress, dispatchUploadsInProgress] = useReducer(uploadsInProgressReducer, [])
+  const [downloadsInProgress, dispatchDownloadsInProgress] = useReducer(downloadsInProgressReducer, [])
+  const [transfersInProgress, dispatchTransfersInProgress] = useReducer(transfersInProgressReducer, [])
   const [closeIntercept, setCloseIntercept] = useState<string | undefined>()
 
   useEffect(() => {
@@ -350,7 +341,6 @@ const FilesProvider = ({ children }: FilesContextProps) => {
       return closeIntercept
     }
   })
-
 
   const encryptAndUploadFiles = useCallback(async (
     bucket: BucketKeyPermission,
@@ -405,8 +395,7 @@ const FilesProvider = ({ children }: FilesContextProps) => {
 
     if (hasOversizedFile) {
       addToastMessage({
-        message:
-            t`We can't encrypt files larger than 2GB. Some items will not be uploaded`,
+        message: t`We can't encrypt files larger than 2GB. Some items will not be uploaded`,
         appearance: "error"
       })
     }
@@ -537,20 +526,38 @@ const FilesProvider = ({ children }: FilesContextProps) => {
       .then(async (fullStructure) => {
         const zipList: Zippable = {}
 
+        const toastId = uuidv4()
+
+        const totalFileSize = fullStructure.reduce((sum, item) => sum + item.size, 0)
+
+        const downloadProgress: DownloadProgress = {
+          id: toastId,
+          currentFileNumber: 1,
+          totalFileNumber: fullStructure.length,
+          fileName: fullStructure[0].name,
+          complete: false,
+          error: false,
+          progress: 0
+        }
+
+        dispatchDownloadsInProgress({ type: "add", payload: downloadProgress })
+
         // todo for parrallel https://glebbahmutov.com/blog/run-n-promises-in-parallel/
-        await fullStructure.reduce(async (prev, item) => {
-          const toastId = uuidv4()
+        // we need to use a reduce here because forEach doesn't wait for the Promise to resolve
+        await fullStructure.reduce(async (prev: Promise<number>, item: FileSystemItemPath, index: number): Promise<number> => {
           const file = await getFileContent(bucketId, {
             cid: item.cid,
             file: item,
             path: getPathWithFile(item.path, item.name),
-            onDownloadProgress: (progressEvent) => {
+            onDownloadProgress: async (progressEvent) => {
               dispatchDownloadsInProgress({
                 type: "progress",
                 payload: {
                   id: toastId,
+                  fileName: item.name,
+                  currentFileNumber: index + 1,
                   progress: Math.ceil(
-                    (progressEvent.loaded / item.size) * 100
+                    ((await prev + progressEvent.loaded) / totalFileSize) * 100
                   )
                 }
               })
@@ -561,7 +568,9 @@ const FilesProvider = ({ children }: FilesContextProps) => {
             const fileArrayBuffer = await file.arrayBuffer()
             zipList[getPathWithFile(item.path, item.name)] = new Uint8Array(fileArrayBuffer)
           }
-        }, undefined as any)
+
+          return await prev + item.size
+        }, Promise.resolve(0))
 
         // level 0 means without compression
         const zipped = zipSync(zipList, { level: 0 })
@@ -571,6 +580,19 @@ const FilesProvider = ({ children }: FilesContextProps) => {
         link.href = URL.createObjectURL(new Blob([zipped]))
         link.download = "archive.zip"
         link.click()
+
+        dispatchDownloadsInProgress({
+          type: "complete",
+          payload: { id: toastId }
+        })
+
+        URL.revokeObjectURL(link.href)
+        setTimeout(() => {
+          dispatchDownloadsInProgress({
+            type: "remove",
+            payload: { id: toastId }
+          })
+        }, REMOVE_UPLOAD_PROGRESS_DELAY)
       })
       .catch(console.error)
   }, [getFileContent, getFileList])
@@ -581,6 +603,7 @@ const FilesProvider = ({ children }: FilesContextProps) => {
       const downloadProgress: DownloadProgress = {
         id: toastId,
         fileName: itemToDownload.name,
+        totalFileNumber: 1,
         complete: false,
         error: false,
         progress: 0
@@ -595,6 +618,7 @@ const FilesProvider = ({ children }: FilesContextProps) => {
             type: "progress",
             payload: {
               id: toastId,
+              fileName: itemToDownload.name,
               progress: Math.ceil(
                 (progressEvent.loaded / itemToDownload.size) * 100
               )

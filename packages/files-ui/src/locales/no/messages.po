@@ -187,6 +187,9 @@ msgstr ""
 msgid "Downloading"
 msgstr ""
 
+msgid "Downloading {fileProgress} {fileName}…"
+msgstr ""
+
 msgid "Drop to upload files"
 msgstr "Dra for å laste opp filer"
 
