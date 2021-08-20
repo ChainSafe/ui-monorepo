@@ -748,18 +748,15 @@ const FilesList = ({ isShared = false }: Props) => {
       <section className={classes.bulkOperations}>
         {selectedCids.length > 0 && (
           <>
-            {validBulkOps.includes("download") && (
+            {validBulkOps.includes("download") && selectedCids.length > 1 && (
               <Button
                 onClick={() => {
                   bucket && downloadMultipleFiles(selectedItems, currentPath, bucket.id)
-                  // console.log('selectedItems', selectedItems)
-                  // console.log('selectedCids', selectedCids)
-                  // console.log('curr', currentPath)
                 }}
                 variant="outline"
                 testId="download-selected-file"
               >
-                <Trans>Download selected</Trans>
+                <Trans>Download as zip</Trans>
               </Button>
             )}
             {validBulkOps.includes("move") && (
