@@ -1,6 +1,6 @@
 import React, { useCallback, useMemo } from "react"
 import Profile from "./Profile"
-import { Tabs,
+import { Tabs as TabsOrigin,
   TabPane as TabPaneOrigin,
   Typography, Divider,
   Breadcrumb,
@@ -10,16 +10,17 @@ import { Tabs,
   ITabPaneProps,
   CaretRightIcon,
   SubscriptionPlanIcon,
-  LockIcon
+  LockIcon,
+  ITabsProps
 } from "@chainsafe/common-components"
 import { makeStyles, ITheme, createStyles, useThemeSwitcher } from "@chainsafe/common-theme"
-import { ROUTE_LINKS, SettingsPath, SETTINGS_BASE } from "../../FilesRoutes"
+import { ROUTE_LINKS, SettingsPath } from "../../FilesRoutes"
 import { t, Trans } from "@lingui/macro"
 import SubscriptionPlan from "./SubscriptionPlan"
 import { ProfileIcon } from "@chainsafe/common-components"
 import clsx from "clsx"
 import Security from "./Security"
-
+const Tabs = (props: ITabsProps<SettingsPath>) => TabsOrigin(props)
 const TabPane = (props: ITabPaneProps<SettingsPath>) => TabPaneOrigin(props)
 const useStyles = makeStyles(({ constants, breakpoints, palette }: ITheme) =>
   createStyles({
@@ -132,13 +133,13 @@ const useStyles = makeStyles(({ constants, breakpoints, palette }: ITheme) =>
 
 const Settings: React.FC = () => {
   const { desktop } = useThemeSwitcher()
-  const { path = desktop ? "profile" : "" } = useParams<{path: SettingsPath}>()
+  const { path = desktop ? "profile" : undefined } = useParams<{path: SettingsPath}>()
   const classes = useStyles()
   const { redirect } = useHistory()
 
 
   const onSelectTab = useCallback(
-    (key: string) => redirect(`${SETTINGS_BASE}/${key}`)
+    (key: SettingsPath) => redirect(ROUTE_LINKS.SettingsPath(key))
     , [redirect])
 
   const crumbs: Crumb[] = useMemo(() => [
