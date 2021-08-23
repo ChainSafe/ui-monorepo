@@ -21,7 +21,7 @@ import { useBeforeunload } from "react-beforeunload"
 import { useThresholdKey } from "./ThresholdKeyContext"
 import { useFilesApi } from "./FilesApiContext"
 import { useUser } from "./UserContext"
-import { getPathWithFile } from "../Utils/pathUtils"
+import { getPathWithFile, getRelativePath } from "../Utils/pathUtils"
 import UploadProgressToasts from "../Components/Modules/UploadProgressToast"
 import DownloadProgressToasts from "../Components/Modules/DownloadProgressToast"
 import TransferProgressToasts from "../Components/Modules/TransferProgressToast"
@@ -136,7 +136,7 @@ interface FileSystemItemPath extends FileSystemItem {
   path: string
 }
 
-const REMOVE_UPLOAD_PROGRESS_DELAY = 5000
+const REMOVE_TOAST_DELAY = 5000
 const MAX_FILE_SIZE = 2 * 1024 ** 3
 
 const FilesContext = React.createContext<FilesContext | undefined>(undefined)
@@ -424,7 +424,7 @@ const FilesProvider = ({ children }: FilesContextProps) => {
       dispatchUploadsInProgress({ type: "complete", payload: { id } })
       setTimeout(() => {
         dispatchUploadsInProgress({ type: "remove", payload: { id } })
-      }, REMOVE_UPLOAD_PROGRESS_DELAY)
+      }, REMOVE_TOAST_DELAY)
 
       return Promise.resolve()
     } catch (error) {
@@ -442,7 +442,7 @@ const FilesProvider = ({ children }: FilesContextProps) => {
       })
       setTimeout(() => {
         dispatchUploadsInProgress({ type: "remove", payload: { id } })
-      }, REMOVE_UPLOAD_PROGRESS_DELAY)
+      }, REMOVE_TOAST_DELAY)
 
       return Promise.reject(error)
     }
@@ -523,11 +523,8 @@ const FilesProvider = ({ children }: FilesContextProps) => {
     getFileList(itemsToDownload, currentPath, bucketId)
       .then(async (fullStructure) => {
         const zipList: Zippable = {}
-
         const toastId = uuidv4()
-
         const totalFileSize = fullStructure.reduce((sum, item) => sum + item.size, 0)
-
         const downloadProgress: DownloadProgress = {
           id: toastId,
           currentFileNumber: 1,
@@ -540,9 +537,9 @@ const FilesProvider = ({ children }: FilesContextProps) => {
 
         dispatchDownloadsInProgress({ type: "add", payload: downloadProgress })
 
-        // todo for parrallel https://glebbahmutov.com/blog/run-n-promises-in-parallel/
+        // Idea for parrallel download https://glebbahmutov.com/blog/run-n-promises-in-parallel/
         // we need to use a reduce here because forEach doesn't wait for the Promise to resolve
-        await fullStructure.reduce(async (prev: Promise<number>, item: FileSystemItemPath, index: number): Promise<number> => {
+        await fullStructure.reduce(async (totalDownloaded: Promise<number>, item: FileSystemItemPath, index: number): Promise<number> => {
           const file = await getFileContent(bucketId, {
             cid: item.cid,
             file: item,
@@ -555,7 +552,7 @@ const FilesProvider = ({ children }: FilesContextProps) => {
                   fileName: item.name,
                   currentFileNumber: index + 1,
                   progress: Math.ceil(
-                    ((await prev + progressEvent.loaded) / totalFileSize) * 100
+                    ((await totalDownloaded + progressEvent.loaded) / totalFileSize) * 100
                   )
                 }
               })
@@ -564,16 +561,19 @@ const FilesProvider = ({ children }: FilesContextProps) => {
 
           if(file) {
             const fileArrayBuffer = await file.arrayBuffer()
-            zipList[getPathWithFile(item.path, item.name)] = new Uint8Array(fileArrayBuffer)
+            const fullPath = getPathWithFile(item.path, item.name)
+            const relativeFilePath = getRelativePath(fullPath, currentPath)
+            zipList[relativeFilePath] = new Uint8Array(fileArrayBuffer)
           }
 
-          return await prev + item.size
+          return await totalDownloaded + item.size
         }, Promise.resolve(0))
 
         // level 0 means without compression
         const zipped = zipSync(zipList, { level: 0 })
 
         if (!zipped) return
+
         const link = document.createElement("a")
         link.href = URL.createObjectURL(new Blob([zipped]))
         link.download = "archive.zip"
@@ -585,12 +585,13 @@ const FilesProvider = ({ children }: FilesContextProps) => {
         })
 
         URL.revokeObjectURL(link.href)
+
         setTimeout(() => {
           dispatchDownloadsInProgress({
             type: "remove",
             payload: { id: toastId }
           })
-        }, REMOVE_UPLOAD_PROGRESS_DELAY)
+        }, REMOVE_TOAST_DELAY)
       })
       .catch(console.error)
   }, [getFileContent, getFileList])
@@ -639,7 +640,7 @@ const FilesProvider = ({ children }: FilesContextProps) => {
           type: "remove",
           payload: { id: toastId }
         })
-      }, REMOVE_UPLOAD_PROGRESS_DELAY)
+      }, REMOVE_TOAST_DELAY)
       return Promise.resolve()
     } catch (error) {
       dispatchDownloadsInProgress({ type: "error", payload: { id: toastId } })
@@ -811,7 +812,7 @@ const FilesProvider = ({ children }: FilesContextProps) => {
       refreshBuckets()
       setTimeout(() => {
         dispatchTransfersInProgress({ type: "remove", payload: { id: toastId } })
-      }, REMOVE_UPLOAD_PROGRESS_DELAY)
+      }, REMOVE_TOAST_DELAY)
     })
   }, [getFileContent, encryptAndUploadFiles, filesApiClient, refreshBuckets])
 
