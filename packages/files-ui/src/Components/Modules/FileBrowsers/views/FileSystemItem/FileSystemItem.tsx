@@ -104,10 +104,10 @@ const useStyles = makeStyles(({ breakpoints, constants }: CSFTheme) => {
 interface IFileSystemItemProps {
   file: FileSystemItemType
   files: FileSystemItemType[]
-  selected: string[]
+  selectedCids: string[]
   owners?: BucketUser[]
-  handleSelectCid(selectedCid: string): void
-  handleAddToSelectedCids(selectedCid: string): void
+  handleSelectItem(selectedItem: FileSystemItemType): void
+  handleAddToSelectedItems(selectedItems: FileSystemItemType): void
   editing: string | undefined
   setEditing(editing: string | undefined): void
   handleRename?: (cid: string, newName: string) => Promise<void>
@@ -128,7 +128,7 @@ interface IFileSystemItemProps {
 const FileSystemItem = ({
   file,
   files,
-  selected,
+  selectedCids,
   owners,
   editing,
   setEditing,
@@ -137,8 +137,8 @@ const FileSystemItem = ({
   recoverFile,
   viewFolder,
   moveFile,
-  handleSelectCid,
-  handleAddToSelectedCids,
+  handleSelectItem,
+  handleAddToSelectedItems,
   itemOperations,
   browserView,
   resetSelectedFiles,
@@ -319,13 +319,13 @@ const FileSystemItem = ({
   const [, dragMoveRef, preview] = useDrag(() =>
     ({ type: DragTypes.MOVABLE_FILE,
       item: () => {
-        if (selected.includes(file.cid)) {
-          return { ids: selected }
+        if (selectedCids.includes(file.cid)) {
+          return { ids: selectedCids }
         } else {
-          return { ids: [...selected, file.cid] }
+          return { ids: [...selectedCids, file.cid] }
         }
       }
-    }), [selected])
+    }), [selectedCids])
 
   useEffect(() => {
     // This gets called after every render, by default
@@ -377,9 +377,9 @@ const FileSystemItem = ({
       if (desktop) {
         // on desktop 
         if (e && (e.ctrlKey || e.metaKey)) {
-          handleAddToSelectedCids(cid)
+          handleAddToSelectedItems(file)
         } else {
-          handleSelectCid(cid)
+          handleSelectItem(file)
         }
       } else {
         // on mobile
@@ -390,7 +390,7 @@ const FileSystemItem = ({
         }
       }
     },
-    [cid, handleSelectCid, handleAddToSelectedCids, desktop, isFolder, viewFolder, file, onFilePreview]
+    [desktop, handleAddToSelectedItems, file, handleSelectItem, isFolder, viewFolder, onFilePreview]
   )
 
   const onDoubleClick = useCallback(
@@ -423,7 +423,7 @@ const FileSystemItem = ({
     currentPath,
     editing,
     file,
-    handleAddToSelectedCids,
+    handleAddToSelectedItems,
     handleRename,
     icon: <Icon />,
     isFolder,
@@ -432,7 +432,7 @@ const FileSystemItem = ({
     menuItems,
     onFolderOrFileClicks,
     preview,
-    selected,
+    selectedCids,
     setEditing,
     resetSelectedFiles
   }

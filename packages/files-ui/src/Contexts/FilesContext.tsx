@@ -127,12 +127,14 @@ type FilesContext = {
   downloadMultipleFiles: (fileItems: FileSystemItem[], currentPath: string, bucketId: string) => void
 }
 
-// This represents a File or Folder on the
-export interface IFileSystemItem extends FileContentResponse {
+// This represents a File or Folder
+export interface FileSystemItem extends FileContentResponse {
   isFolder: boolean
 }
 
-type FileSystemItem = IFileSystemItem
+interface FileSystemItemPath extends FileSystemItem {
+  path: string
+}
 
 const REMOVE_UPLOAD_PROGRESS_DELAY = 5000
 const MAX_FILE_SIZE = 2 * 1024 ** 3
@@ -496,17 +498,13 @@ const FilesProvider = ({ children }: FilesContextProps) => {
     }
   }, [buckets, filesApiClient])
 
-  interface FileSystemItemPath extends FileSystemItem {
-    path: string
-  }
-
   const getFileList = useCallback(async (
     itemsToDownload: FileSystemItem[],
     currentPath: string,
     bucketId: string
   ): Promise<FileSystemItemPath[]>  => {
     return await itemsToDownload.reduce(
-      async (acc: Promise<FileSystemItemPath[]>, item: IFileSystemItem): Promise<FileSystemItemPath[]> => {
+      async (acc: Promise<FileSystemItemPath[]>, item: FileSystemItem): Promise<FileSystemItemPath[]> => {
         if (item.isFolder) {
           const folderPath = getPathWithFile(currentPath, item.name)
           const newList = await filesApiClient.getBucketObjectChildrenList(bucketId, { path: folderPath })
@@ -857,7 +855,6 @@ const useFiles = () => {
 
 export { FilesProvider, useFiles }
 export type {
-  FileSystemItem,
   DirectoryContentResponse,
   BucketFileFullInfoResponse as FileFullInfo,
   BucketType,

@@ -341,7 +341,7 @@ const FilesList = ({ isShared = false }: Props) => {
   const [direction, setDirection] = useState<SortDirection>("ascend")
   const [isSurveyBannerVisible, setIsSurveyBannerVisible] = useState(true)
   const [column, setColumn] = useState<"name" | "size" | "date_uploaded">("name")
-  const [selectedCids, setSelectedCids] = useState<string[]>([])
+  const [selectedItems, setSelectedItems] = useState<FileSystemItemType[]>([])
   const [fileIndex, setFileIndex] = useState<number | undefined>()
   const { selectedLocale } = useLanguageContext()
   const { redirect } = useHistory()
@@ -380,10 +380,13 @@ const FilesList = ({ isShared = false }: Props) => {
 
   const files = useMemo(() => items.filter((i) => !i.isFolder), [items])
 
-  const selectedItems = useMemo(
-    () => items.filter((file) => selectedCids.includes(file.cid)),
-    [selectedCids, items]
-  )
+  const selectedCids = useMemo(() =>
+    selectedItems.map((item) => item.cid)
+  , [selectedItems])
+
+  const selectionContainsAFolder = useMemo(() =>
+    selectedItems.some((item) => !!item.isFolder)
+  , [selectedItems])
 
   const handleSortToggle = (
     targetColumn: "name" | "size" | "date_uploaded"
@@ -423,37 +426,37 @@ const FilesList = ({ isShared = false }: Props) => {
   }
 
   // Selection logic
-  const handleSelectCid = useCallback(
-    (cid: string) => {
-      if (selectedCids.includes(cid)) {
-        setSelectedCids([])
+  const handleSelectItem = useCallback(
+    (item: FileSystemItemType) => {
+      if (selectedCids.includes(item.cid)) {
+        setSelectedItems([])
       } else {
-        setSelectedCids([cid])
+        setSelectedItems([item])
       }
     },
     [selectedCids]
   )
 
-  const handleAddToSelectedCids = useCallback(
-    (cid: string) => {
-      if (selectedCids.includes(cid)) {
-        setSelectedCids(
-          selectedCids.filter((selectedCid: string) => selectedCid !== cid)
+  const handleAddToSelectedItems = useCallback(
+    (itemToAdd: FileSystemItemType) => {
+      if (selectedCids.includes(itemToAdd.cid)) {
+        setSelectedItems(
+          selectedItems.filter((selectedItem: FileSystemItemType) => selectedItem.cid !== itemToAdd.cid)
         )
       } else {
-        setSelectedCids([...selectedCids, cid])
+        setSelectedItems([...selectedItems, itemToAdd])
       }
     },
-    [selectedCids]
+    [selectedCids, selectedItems]
   )
 
   const toggleAll = useCallback(() => {
-    if (selectedCids.length === items.length) {
-      setSelectedCids([])
+    if (selectedItems.length === items.length) {
+      setSelectedItems([])
     } else {
-      setSelectedCids([...items.map((file: FileSystemItemType) => file.cid)])
+      setSelectedItems(items)
     }
-  }, [setSelectedCids, items, selectedCids])
+  }, [selectedItems.length, items])
 
   const [{ isOverUploadable, isOverBrowser }, dropBrowserRef] = useDrop({
     accept: [NativeTypes.FILE],
@@ -552,7 +555,7 @@ const FilesList = ({ isShared = false }: Props) => {
       .catch(console.error)
       .finally(() => {
         setIsDeletingFiles(false)
-        setSelectedCids([])
+        setSelectedItems([])
         setIsDeleteModalOpen(false)
       })
   }, [deleteFiles, selectedCids])
@@ -581,12 +584,12 @@ const FilesList = ({ isShared = false }: Props) => {
     [itemOperations]
   )
 
-  const resetSelectedCids = useCallback(() => {
-    setSelectedCids([])
+  const resetSelectedItems = useCallback(() => {
+    setSelectedItems([])
   }, [])
 
   useEffect(() => {
-    setSelectedCids([])
+    setSelectedItems([])
   }, [currentPath])
 
   const onHideSurveyBanner = useCallback(() => {
@@ -750,12 +753,13 @@ const FilesList = ({ isShared = false }: Props) => {
       }
 
       <section className={classes.bulkOperations}>
-        {selectedCids.length > 0 && (
+        {selectedItems.length > 0 && (
           <>
-            {validBulkOps.includes("download") && selectedCids.length > 1 && (
+            {validBulkOps.includes("download") && (selectedItems.length > 1 || selectionContainsAFolder) && (
               <Button
                 onClick={() => {
                   bucket && downloadMultipleFiles(selectedItems, currentPath, bucket.id)
+                  resetSelectedItems()
                 }}
                 variant="outline"
                 testId="download-selected-file"
@@ -845,7 +849,7 @@ const FilesList = ({ isShared = false }: Props) => {
                     className={classes.tableRow}>
                     <TableHeadCell>
                       <CheckboxInput
-                        value={selectedCids.length === items.length}
+                        value={selectedItems.length === items.length}
                         onChange={() => toggleAll()}
                       />
                     </TableHeadCell>
@@ -919,9 +923,9 @@ const FilesList = ({ isShared = false }: Props) => {
                     key={index}
                     file={file}
                     files={files}
-                    selected={selectedCids}
-                    handleSelectCid={handleSelectCid}
-                    handleAddToSelectedCids={handleAddToSelectedCids}
+                    selectedCids={selectedCids}
+                    handleSelectItem={handleSelectItem}
+                    handleAddToSelectedItems={handleAddToSelectedItems}
                     editing={editing}
                     setEditing={setEditing}
                     handleRename={async (cid: string, newName: string) => {
@@ -929,20 +933,20 @@ const FilesList = ({ isShared = false }: Props) => {
                       setEditing(undefined)
                     }}
                     deleteFile={() => {
-                      setSelectedCids([file.cid])
+                      setSelectedItems([file])
                       setIsDeleteModalOpen(true)
                     }}
                     viewFolder={handleViewFolder}
                     moveFile={() => {
-                      setSelectedCids([file.cid])
+                      setSelectedItems([file])
                       setIsMoveFileModalOpen(true)
                       setMoveModalMode("move")
                     }}
                     itemOperations={getItemOperations(file.content_type)}
-                    resetSelectedFiles={resetSelectedCids}
+                    resetSelectedFiles={resetSelectedItems}
                     browserView="table"
                     recoverFile={() => {
-                      setSelectedCids([file.cid])
+                      setSelectedItems([file])
                       setIsMoveFileModalOpen(true)
                       setMoveModalMode("recover")
                     }}
@@ -980,10 +984,10 @@ const FilesList = ({ isShared = false }: Props) => {
                   key={index}
                   file={file}
                   files={files}
-                  selected={selectedCids}
-                  handleSelectCid={handleSelectCid}
+                  selectedCids={selectedCids}
+                  handleSelectItem={handleSelectItem}
                   viewFolder={handleViewFolder}
-                  handleAddToSelectedCids={handleAddToSelectedCids}
+                  handleAddToSelectedItems={handleAddToSelectedItems}
                   editing={editing}
                   setEditing={setEditing}
                   handleRename={async (path: string, newPath: string) => {
@@ -991,18 +995,18 @@ const FilesList = ({ isShared = false }: Props) => {
                     setEditing(undefined)
                   }}
                   deleteFile={() => {
-                    setSelectedCids([file.cid])
+                    setSelectedItems([file])
                     setIsDeleteModalOpen(true)
                   }}
                   moveFile={() => {
-                    setSelectedCids([file.cid])
+                    setSelectedItems([file])
                     setIsMoveFileModalOpen(true)
                     setMoveModalMode("move")
                   }}
                   itemOperations={getItemOperations(file.content_type)}
-                  resetSelectedFiles={resetSelectedCids}
+                  resetSelectedFiles={resetSelectedItems}
                   recoverFile={() => {
-                    setSelectedCids([file.cid])
+                    setSelectedItems([file])
                     setIsMoveFileModalOpen(true)
                     setMoveModalMode("recover")
                   }}
@@ -1065,7 +1069,7 @@ const FilesList = ({ isShared = false }: Props) => {
                 filesToMove={selectedItems}
                 onClose={() => {
                   setIsMoveFileModalOpen(false)
-                  setSelectedCids([])
+                  setSelectedItems([])
                   setMoveModalMode(undefined)
                 }}
                 onCancel={() => {

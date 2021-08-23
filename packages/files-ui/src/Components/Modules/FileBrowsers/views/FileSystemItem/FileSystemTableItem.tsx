@@ -103,10 +103,10 @@ interface IFileSystemTableItemProps {
   isFolder: boolean
   isOverMove: boolean
   isOverUpload: boolean
-  selected: string[]
+  selectedCids: string[]
   file: FileSystemItem
   editing: string | undefined
-  handleAddToSelectedCids: (selected: string) => void
+  handleAddToSelectedItems: (selected: FileSystemItem) => void
   onFolderOrFileClicks: (e?: React.MouseEvent) => void
   icon: React.ReactNode
   preview: ConnectDragPreview
@@ -121,10 +121,10 @@ const FileSystemTableItem = React.forwardRef(
     isFolder,
     isOverMove,
     isOverUpload,
-    selected,
+    selectedCids,
     file,
     editing,
-    handleAddToSelectedCids,
+    handleAddToSelectedItems,
     onFolderOrFileClicks,
     icon,
     preview,
@@ -162,13 +162,13 @@ const FileSystemTableItem = React.forwardRef(
         })}
         type="grid"
         ref={forwardedRef}
-        selected={selected.includes(cid)}
+        selected={selectedCids.includes(cid)}
       >
         {desktop && (
           <TableCell>
             <CheckboxInput
-              value={selected.includes(cid)}
-              onChange={() => handleAddToSelectedCids(cid)}
+              value={selectedCids.includes(cid)}
+              onChange={() => handleAddToSelectedItems(file)}
             />
           </TableCell>
         )}
