@@ -640,6 +640,9 @@ msgstr "The files are already in this folder"
 msgid "The system is undergoing maintenance, thank you for being patient."
 msgstr "The system is undergoing maintenance, thank you for being patient."
 
+msgid "The username is too long"
+msgstr "The username is too long"
+
 msgid "Theme"
 msgstr "Theme"
 

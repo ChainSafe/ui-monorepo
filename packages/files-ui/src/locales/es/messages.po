@@ -641,6 +641,9 @@ msgstr ""
 msgid "The system is undergoing maintenance, thank you for being patient."
 msgstr "El sistema está en mantenimiento, gracias por su paciencia."
 
+msgid "The username is too long"
+msgstr ""
+
 msgid "Theme"
 msgstr "Tema"
 
