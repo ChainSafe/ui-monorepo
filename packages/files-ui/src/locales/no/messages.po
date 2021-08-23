@@ -175,19 +175,16 @@ msgstr ""
 msgid "Download"
 msgstr ""
 
+msgid "Download as zip"
+msgstr ""
+
 msgid "Download complete"
 msgstr ""
 
 msgid "Download recovery key"
 msgstr ""
 
-msgid "Download selected"
-msgstr ""
-
 msgid "Downloading"
-msgstr ""
-
-msgid "Downloading {fileProgress} {fileName}…"
 msgstr ""
 
 msgid "Drop to upload files"
