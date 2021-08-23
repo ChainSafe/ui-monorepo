@@ -1,12 +1,13 @@
 import React from "react"
-import { createStyles, ITheme, makeStyles } from "@chainsafe/common-theme"
+import { createStyles, makeStyles } from "@chainsafe/common-theme"
 import { DownloadProgress } from "../../../Contexts/FilesContext"
 import { ProgressBar, Typography, CheckCircleIcon, CloseCircleIcon } from "@chainsafe/common-components"
 import clsx from "clsx"
 import { Trans } from "@lingui/macro"
+import { CSFTheme } from "../../../Themes/types"
 
 const useStyles = makeStyles(
-  ({ constants, palette, animation, breakpoints }: ITheme) => {
+  ({ constants, palette, animation, breakpoints }: CSFTheme) => {
     return createStyles({
       boxContainer: {
         backgroundColor: palette.additional["gray"][3],
@@ -36,8 +37,9 @@ const useStyles = makeStyles(
       marginBottom: {
         marginBottom: constants.generalUnit
       },
-      marginRight: {
-        marginRight: constants.generalUnit * 2
+      icon: {
+        marginRight: constants.generalUnit * 2,
+        fill: constants.fileSystemItemRow.menuIcon
       }
     })
   }
@@ -57,7 +59,7 @@ const DownloadToast: React.FC<IDownloadToast> = ({ downloadInProgress }) => {
       <div className={clsx(classes.appearBox, classes.boxContainer)}>
         {!!complete && !error && (
           <div className={classes.contentContainer}>
-            <CheckCircleIcon className={classes.marginRight} />
+            <CheckCircleIcon className={classes.icon} />
             <Typography
               variant="body1"
               component="p"
@@ -68,7 +70,7 @@ const DownloadToast: React.FC<IDownloadToast> = ({ downloadInProgress }) => {
         )}
         {error && (
           <div className={classes.contentContainer}>
-            <CloseCircleIcon className={classes.marginRight} />
+            <CloseCircleIcon className={classes.icon} />
             <Typography
               variant="body1"
               component="p"

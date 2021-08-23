@@ -215,7 +215,7 @@ const CSFFileBrowser: React.FC<IFileBrowserModuleProps> = () => {
     [CONTENT_TYPES.Pdf]: ["preview"],
     [CONTENT_TYPES.Text]: ["preview"],
     [CONTENT_TYPES.File]: ["download", "info", "rename", "move", "delete", "share"],
-    [CONTENT_TYPES.Directory]: ["rename", "move", "delete"]
+    [CONTENT_TYPES.Directory]: ["download", "rename", "move", "delete"]
   }), [])
 
   return (

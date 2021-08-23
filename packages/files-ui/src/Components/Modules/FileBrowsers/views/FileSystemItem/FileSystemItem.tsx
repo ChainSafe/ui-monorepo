@@ -29,7 +29,7 @@ import { BrowserView, FileOperation } from "../../types"
 import { CSFTheme } from "../../../../../Themes/types"
 import FileItemTableItem from "./FileSystemTableItem"
 import FileItemGridItem from "./FileSystemGridItem"
-import { FileSystemItem as FileSystemItemType } from "../../../../../Contexts/FilesContext"
+import { FileSystemItem as FileSystemItemType, useFiles } from "../../../../../Contexts/FilesContext"
 import { useFileBrowser } from "../../../../../Contexts/FileBrowserContext"
 import { getPathWithFile } from "../../../../../Utils/pathUtils"
 import { BucketUser } from "@chainsafe/files-api-client"
@@ -147,7 +147,8 @@ const FileSystemItem = ({
   share,
   showPreview
 }: IFileSystemItemProps) => {
-  const { downloadFile, currentPath, handleUploadOnDrop, moveItems } = useFileBrowser()
+  const { bucket, downloadFile, currentPath, handleUploadOnDrop, moveItems } = useFileBrowser()
+  const { downloadMultipleFiles } = useFiles()
   const { cid, name, isFolder, content_type } = file
 
   const formik = useFormik({
@@ -210,11 +211,17 @@ const FileSystemItem = ({
         <>
           <DownloadSvg className={classes.menuIcon} />
           <span data-cy="menu-download">
-            <Trans>Download</Trans>
+            {file.isFolder ? <Trans>Download as zip</Trans> : <Trans>Download</Trans>}
           </span>
         </>
       ),
-      onClick: () => downloadFile && downloadFile(cid)
+      onClick: () => {
+        if (file.isFolder) {
+          bucket && downloadMultipleFiles([file], currentPath, bucket.id)
+        } else {
+          downloadFile && downloadFile(cid)
+        }
+      }
     },
     move: {
       contents: (
@@ -295,21 +302,24 @@ const FileSystemItem = ({
     }
   }),
   [
-    cid,
     classes.menuIcon,
-    deleteFile,
-    downloadFile,
     file,
+    setEditing,
+    cid,
+    deleteFile,
+    bucket,
+    downloadMultipleFiles,
+    currentPath,
+    downloadFile,
+    moveFile,
+    share,
     filePath,
     files,
-    moveFile,
-    recoverFile,
-    reportFile,
-    setEditing,
     showFileInfo,
+    recoverFile,
+    onFilePreview,
     viewFolder,
-    share,
-    onFilePreview
+    reportFile
   ])
 
   const menuItems: IMenuItem[] = itemOperations.map(
