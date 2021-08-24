@@ -48,7 +48,7 @@ const CurrentCard: React.FC = () => {
           variant="body1"
           className={classes.noCard}
         >
-          <Trans>No Card added</Trans>
+          <Trans>No Card</Trans>
         </Typography>
       }
     </div>
