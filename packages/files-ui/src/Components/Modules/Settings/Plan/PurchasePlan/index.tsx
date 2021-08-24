@@ -15,18 +15,15 @@ import {
   TextInput,
   Typography
 } from "@chainsafe/common-components"
-import { ROUTE_LINKS } from "../../../FilesRoutes"
 import { Form, Formik } from "formik"
-import { useBilling } from "../../../../Contexts/BillingContext"
-import { useUser }from "../../../../Contexts/UserContext"
+
 import * as yup from "yup"
 import countryList from "./countryList"
-import CardInputs from "../../../Elements/CardInputs"
-import {
-  getCardNumberError,
-  getExpiryDateError,
-  getCVCError
-} from "../../../Elements/CardInputs/utils"
+import { useBilling } from "../../../../../Contexts/BillingContext"
+import { useUser } from "../../../../../Contexts/UserContext"
+import { ROUTE_LINKS } from "../../../../FilesRoutes"
+import { getCardNumberError, getCVCError, getExpiryDateError } from "../../../../Elements/CardInputs/utils"
+import CardInputs from "../../../../Elements/CardInputs"
 
 const ACTUAL_PRICE = 108.5
 const FINAL_PRICE = 88.5

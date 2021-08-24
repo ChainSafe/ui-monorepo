@@ -1,17 +1,12 @@
 import React from "react"
 import {
   Grid,
-  Button,
-  Typography,
-  ProgressBar,
-  formatBytes,
-  Link
+  Typography
 } from "@chainsafe/common-components"
 import { makeStyles, ITheme, createStyles } from "@chainsafe/common-theme"
 import clsx from "clsx"
-import { useFiles } from "../../../Contexts/FilesContext"
 import { Trans } from "@lingui/macro"
-import { ROUTE_LINKS } from "../../FilesRoutes"
+import SubscriptionWidget from "./Plan/SubscriptionWidget"
 
 const useStyles = makeStyles((theme: ITheme) =>
   createStyles({
@@ -32,56 +27,24 @@ const useStyles = makeStyles((theme: ITheme) =>
     margins: {
       marginBottom: theme.constants.generalUnit * 2
     },
-    essentials: {
-      fontWeight: 600,
-      marginBottom: theme.constants.generalUnit * 2
-    },
-    essentialContainer: {
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "space-between",
-      [theme.breakpoints.down("md")]: {
-        flexFlow: "column",
-        alignItems: "flex-start",
-        width: 300
-      }
-    },
     subtitle: {
       color: theme.palette.additional["gray"][8],
       [theme.breakpoints.down("md")]: {
         fontSize: 16,
         lineHeight: "22px"
       }
-    },
-    spaceUsedBox: {
-      [theme.breakpoints.down("md")]: {
-        marginBottom: theme.constants.generalUnit,
-        width: "inherit"
-      }
-    },
-    spaceUsedMargin: {
-      marginBottom: theme.constants.generalUnit
-    },
-    changePlanButton: {
-      width: "inherit"
-    },
-    link: {
-      textDecoration: "none"
     }
   })
 )
 
 const PlanView: React.FC = () => {
   const classes = useStyles()
-  const { storageSummary } = useFiles()
 
   return (
     <Grid container>
       <Grid
         item
         xs={12}
-        sm={8}
-        md={6}
       >
         <div className={classes.container}>
           <div
@@ -108,44 +71,7 @@ const PlanView: React.FC = () => {
                 </Trans>
               </Typography>
             </div>
-            <div>
-              <Typography
-                variant="h5"
-                component="h5"
-                className={classes.essentials}
-              >
-                <Trans>Essentials - Free</Trans>
-              </Typography>
-              <div className={classes.essentialContainer}>
-                {storageSummary &&
-                <div className={classes.spaceUsedBox}>
-                  <Typography
-                    variant="body2"
-                    className={classes.spaceUsedMargin}
-                    component="p"
-                  >{`${formatBytes(storageSummary.used_storage, 2)} of ${formatBytes(
-                      storageSummary.total_storage, 2
-                    )} used`}</Typography>
-                  <ProgressBar
-                    className={classes.spaceUsedMargin}
-                    progress={(storageSummary.used_storage / storageSummary.total_storage) * 100}
-                    size="small"
-                  />
-                </div>
-                }
-                <Link
-                  className={classes.link}
-                  to={ROUTE_LINKS.PurchasePlan}
-                >
-                  <Button
-                    variant="outline"
-                    className={classes.changePlanButton}
-                  >
-                    Change Plan
-                  </Button>
-                </Link>
-              </div>
-            </div>
+            <SubscriptionWidget />
           </div>
         </div>
       </Grid>
