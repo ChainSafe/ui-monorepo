@@ -1,6 +1,4 @@
 import { basePage } from "./basePage"
-import { folderName } from "../../fixtures/filesTestData"
-import { createFolderModal } from "./modals/createFolderModal"
 import { fileUploadModal } from "./modals/fileUploadModal"
 
 export const homePage = {

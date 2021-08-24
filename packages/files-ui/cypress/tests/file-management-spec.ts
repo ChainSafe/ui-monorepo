@@ -18,9 +18,9 @@ describe("File management", () => {
     it.only("Folder creation", () => {
       cy.web3Login({ clearCSFBucket: true })
 
-      apiTestHelper.createFolder("/test folder 1/subfolderA", 1)
-      apiTestHelper.createFolder("/test folder 2/subfolderB",  2)
-      apiTestHelper.createFolder("/test folder 3/subfolderC",  3)
+      apiTestHelper.createFolder("/test folder 1/subfolderA")
+      apiTestHelper.createFolder("/test folder 2/subfolderB")
+      apiTestHelper.createFolder("/test folder 3/subfolderC")
     })
     // })
 

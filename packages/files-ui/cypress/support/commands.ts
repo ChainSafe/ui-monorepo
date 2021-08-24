@@ -89,27 +89,24 @@ Cypress.Commands.add(
       }
       homePage.appHeaderLabel().should("be.visible")
     })
+
     cy.visit(url)
-      .then(() => {
-        if (clearCSFBucket) {
-          cy.log("clear csf")
-          apiTestHelper.clearBucket("csf")
-        }
+    homePage.appHeaderLabel().should("be.visible")
 
-        if (clearTrashBucket) {
-          apiTestHelper.clearBucket("trash")
-        }
-      })
-      .then(() => {
-        cy.log("wait for header")
-        homePage.appHeaderLabel().should("be.visible")
+    if (clearCSFBucket) {
+      apiTestHelper.clearBucket("csf")
+    }
 
-      })
+    if (clearTrashBucket) {
+      apiTestHelper.clearBucket("trash")
+    }
 
     if(clearTrashBucket || clearCSFBucket){
       navigationMenu.binNavButton().click()
       navigationMenu.homeNavButton().click()
     }
+
+    homePage.appHeaderLabel().should("be.visible")
   }
 )
 
