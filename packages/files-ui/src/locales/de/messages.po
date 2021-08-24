@@ -178,6 +178,9 @@ msgstr "Anzeigeeinstellungen"
 msgid "Download"
 msgstr "Herunterladen"
 
+msgid "Download as zip"
+msgstr ""
+
 msgid "Download complete"
 msgstr "Komplett heruntergeladen"
 
@@ -372,6 +375,9 @@ msgstr "Nächste"
 
 msgid "Nice to see you again!"
 msgstr "Schön, Sie wiederzusehen!"
+
+msgid "No file to download."
+msgstr ""
 
 msgid "No files to show"
 msgstr "Keine Dateien zum Anzeigen"

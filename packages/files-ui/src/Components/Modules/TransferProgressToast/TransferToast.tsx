@@ -43,8 +43,9 @@ const useStyles = makeStyles(
       marginBottom: {
         marginBottom: constants.generalUnit
       },
-      marginRight: {
-        marginRight: constants.generalUnit * 2
+      icon: {
+        marginRight: constants.generalUnit * 2,
+        fill: constants.fileSystemItemRow.menuIcon
       }
     })
   }
@@ -55,13 +56,7 @@ interface ITransferToast {
 }
 
 const TransferToast: React.FC<ITransferToast> = ({ transferInProgress }) => {
-  const {
-    complete,
-    error,
-    progress,
-    errorMessage,
-    operation
-  } = transferInProgress
+  const { complete, error, progress, errorMessage, operation } = transferInProgress
   const classes = useStyles()
 
   return (
@@ -71,7 +66,7 @@ const TransferToast: React.FC<ITransferToast> = ({ transferInProgress }) => {
         data-cy="transfer-status-toast-message"
       >
         { !!error && (<div className={classes.contentContainer}>
-          <CloseCircleIcon className={classes.marginRight} />
+          <CloseCircleIcon className={classes.icon} />
           <Typography
             variant="body1"
             component="p"
@@ -95,7 +90,7 @@ const TransferToast: React.FC<ITransferToast> = ({ transferInProgress }) => {
           />
         </div>) }
         { complete && !error && (<div className={classes.contentContainer}>
-          <CheckCircleIcon className={classes.marginRight} />
+          <CheckCircleIcon className={classes.icon} />
           <Typography
             variant="body1"
             component="p"

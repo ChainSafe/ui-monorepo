@@ -179,6 +179,9 @@ msgstr "Paramètres d’affichage"
 msgid "Download"
 msgstr "Télécharger"
 
+msgid "Download as zip"
+msgstr ""
+
 msgid "Download complete"
 msgstr "Téléchargement terminé"
 
@@ -376,6 +379,9 @@ msgstr "Suivant"
 
 msgid "Nice to see you again!"
 msgstr "Ravi de te revoir !"
+
+msgid "No file to download."
+msgstr ""
 
 msgid "No files to show"
 msgstr "Aucun fichier à afficher"

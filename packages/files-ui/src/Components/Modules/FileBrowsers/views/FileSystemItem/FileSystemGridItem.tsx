@@ -116,7 +116,7 @@ interface IFileSystemTableItemProps {
   isFolder: boolean
   isOverMove: boolean
   isOverUpload: boolean
-  selected: string[]
+  selectedCids: string[]
   file: FileSystemItem
   editing: string | undefined
   onFolderOrFileClicks: (e?: React.MouseEvent) => void
@@ -134,7 +134,7 @@ const FileSystemGridItem = React.forwardRef(
     isFolder,
     isOverMove,
     isOverUpload,
-    selected,
+    selectedCids,
     file,
     editing,
     onFolderOrFileClicks,
@@ -211,7 +211,7 @@ const FileSystemGridItem = React.forwardRef(
               classes.fileIcon,
               isFolder && classes.folderIcon,
               classes.gridIcon,
-              (isOverMove || isOverUpload || selected.includes(cid)) && "highlighted"
+              (isOverMove || isOverUpload || selectedCids.includes(cid)) && "highlighted"
             )}
           >
             {icon}
