@@ -3,15 +3,16 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-04-23 11:05+0200\n"
-"PO-Revision-Date: 2021-08-06 03:33+0000\n"
+"PO-Revision-Date: 2021-08-24 01:34+0000\n"
 "Last-Translator: J. Lavoie <j.lavoie@net-c.ca>\n"
-"Language-Team: French <https://hosted.weblate.org/projects/chainsafe-files/chainsafe-files-user-interface/fr/>\n"
+"Language-Team: French <https://hosted.weblate.org/projects/chainsafe-files/"
+"chainsafe-files-user-interface/fr/>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 4.8-dev\n"
+"X-Generator: Weblate 4.8.1-dev\n"
 "Mime-Version: 1.0\n"
 
 msgid "A backup secret phrase will be generated and used for your account.<0/>We do not store it and <1>it can only be displayed once</1>. Save it somewhere safe!"
@@ -36,10 +37,10 @@ msgid "Add more files"
 msgstr "Ajouter d’autres fichiers"
 
 msgid "An error occurred while downloading the file"
-msgstr ""
+msgstr "Une erreur s'est produite lors du téléchargement du fichier"
 
 msgid "An error occurred:"
-msgstr ""
+msgstr "Une erreur s'est produite :"
 
 msgid "Approve"
 msgstr "Accepter"
@@ -183,7 +184,7 @@ msgid "Download recovery key"
 msgstr "Télécharger la clé de sauvegarde"
 
 msgid "Downloading"
-msgstr ""
+msgstr "Téléchargement"
 
 msgid "Drop to upload files"
 msgstr "Faire glisser pour téléverser un fichier"
@@ -192,7 +193,7 @@ msgid "Email is required"
 msgstr "Un courriel est requis"
 
 msgid "Encrypting & uploading"
-msgstr ""
+msgstr "Chiffrement et téléversement"
 
 msgid "Enter backup secret phrase:"
 msgstr "Phrase secrète de sauvegarde :"
@@ -350,8 +351,9 @@ msgstr "Gérer l’accès"
 msgid "Move"
 msgstr "Déplacer"
 
+#, fuzzy
 msgid "Move over"
-msgstr ""
+msgstr "Déplacer"
 
 msgid "Move selected"
 msgstr "Déplacer la sélection"
@@ -579,7 +581,7 @@ msgid "Shared with"
 msgstr "Partagé avec"
 
 msgid "Sharing your file ({0})"
-msgstr ""
+msgstr "Partage de votre fichier ({0})"
 
 msgid "Sign Out"
 msgstr "Se déconnecter"
@@ -636,7 +638,7 @@ msgid "The system is undergoing maintenance, thank you for being patient."
 msgstr "Le système est en cours de maintenance, merci d’être patient."
 
 msgid "The username is too long"
-msgstr ""
+msgstr "Le nom d'utilisateur est trop long"
 
 msgid "Theme"
 msgstr "Thème"
@@ -672,7 +674,7 @@ msgid "This username is public"
 msgstr "Ce nom d’utilisateur est public"
 
 msgid "Transfer complete"
-msgstr ""
+msgstr "Transfert terminé"
 
 msgid "Try again"
 msgstr "Essayer de nouveau"
