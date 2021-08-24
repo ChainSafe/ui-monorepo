@@ -2,15 +2,16 @@ import axios from "axios"
 import { FilesApiClient } from "@chainsafe/files-api-client"
 import { BucketType } from "@chainsafe/files-api-client"
 import { navigationMenu } from "../page-objects/navigationMenu"
+import { homePage } from "../page-objects/homePage"
 
 const API_BASE_USE = "https://stage.imploy.site/api/v1"
 const REFRESH_TOKEN_KEY = "csf.refreshToken"
 
 export const apiTestHelper = {
-  clearBucket(bucketType: BucketType, apiUrlBase: string = API_BASE_USE) {
+  clearBucket(bucketType: BucketType) {
     // Disable the internal Axios JSON deserialization as this is handled by the client
     const axiosInstance = axios.create({ transformResponse: [] })
-    const apiClient = new FilesApiClient({}, apiUrlBase, axiosInstance)
+    const apiClient = new FilesApiClient({}, API_BASE_USE, axiosInstance)
 
     return new Cypress.Promise(async (resolve) => {
       cy.window()
@@ -32,13 +33,10 @@ export const apiTestHelper = {
   },
   // create a folder with a full path like "/new folder"
   // you can create subfolders on the fly too with "/first/sub folder"
-  createFolder(
-    folderPath: string,
-    apiUrlBase: string = API_BASE_USE
-  ){
+  createFolder(folderPath: string){
     // Disable the internal Axios JSON deserialization as this is handled by the client
     const axiosInstance = axios.create({ transformResponse: [] })
-    const apiClient = new FilesApiClient({}, apiUrlBase, axiosInstance)
+    const apiClient = new FilesApiClient({}, API_BASE_USE, axiosInstance)
 
     return new Cypress.Promise((resolve, reject) => {
       cy.window().then(async (win) => {
@@ -68,8 +66,7 @@ export const apiTestHelper = {
         navigationMenu.homeNavButton().click()
 
         const firstFolderName = folderPath.split("/")[1]
-        cy.get("[data-testid=table-home]", { timeout: 10000 })
-          .contains(firstFolderName)
+        homePage.fileItemName().contains(firstFolderName)
       })
     })
 

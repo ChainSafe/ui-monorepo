@@ -42,7 +42,6 @@ Cypress.Commands.add("clearBucket", (bucketType: BucketType) => {
 
 export interface Web3LoginOptions {
   url?: string
-  apiUrlBase?: string
   saveBrowser?: boolean
   useLocalAndSessionStorage?: boolean
   clearCSFBucket?: boolean

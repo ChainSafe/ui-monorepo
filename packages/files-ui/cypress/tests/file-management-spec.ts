@@ -1,7 +1,7 @@
 import { binPage } from "../support/page-objects/binPage"
 import { homePage } from "../support/page-objects/homePage"
 import { navigationMenu } from "../support/page-objects/navigationMenu"
-import { folderName } from "../fixtures/filesTestData"
+import { folderName, folderPath } from "../fixtures/filesTestData"
 import "cypress-pipe"
 import { apiTestHelper } from "../support/utils/apiTestHelper"
 import { createFolderModal } from "../support/page-objects/modals/createFolderModal"
@@ -13,16 +13,6 @@ import { recoverItemModal } from "../support/page-objects/modals/recoverItemModa
 describe("File management", () => {
 
   context("desktop", () => {
-
-    // Cypress._.times(100, () => {
-    it.only("Folder creation", () => {
-      cy.web3Login({ clearCSFBucket: true })
-
-      apiTestHelper.createFolder("/test folder 1/subfolderA")
-      apiTestHelper.createFolder("/test folder 2/subfolderB")
-      apiTestHelper.createFolder("/test folder 3/subfolderC")
-    })
-    // })
 
     it("can create folders and cancel modal", () => {
       cy.web3Login({ clearCSFBucket: true })
@@ -62,8 +52,7 @@ describe("File management", () => {
       homePage.fileItemName().invoke("text").as("fileName")
 
       // create a folder 
-      // homePage.createFolder(folderName)
-      homePage.fileItemRow().should("have.length", 2)
+      apiTestHelper.createFolder(folderPath)
 
       cy.get("@fileName").then(($fileName) => {
         // select the file and move it to the folder
@@ -228,8 +217,7 @@ describe("File management", () => {
       cy.web3Login({ clearCSFBucket: true, clearTrashBucket: true })
 
       // create a folder
-      apiTestHelper.createFolder(`/${folderName}`, 1)
-      homePage.fileItemRow().should("have.length", 1)
+      apiTestHelper.createFolder(folderPath)
 
       // delete the folder via the menu option 
       homePage.fileItemKebabButton().first().click()

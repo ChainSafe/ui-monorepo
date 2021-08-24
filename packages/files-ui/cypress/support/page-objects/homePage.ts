@@ -13,7 +13,7 @@ export const homePage = {
 
   // file browser row elements
   fileItemRow: () => cy.get("[data-cy=file-item-row]", { timeout: 20000 }),
-  fileTable: () => cy.get("[data-testid=table-home]", { timeout: 10000 }),
+  fileTable: () => cy.get("[data-testid=table-home]"),
   fileItemName: () => cy.get("[data-cy=file-item-name]"),
   fileRenameInput: () => cy.get("[data-cy=rename-form] input"),
   fileRenameSubmitButton: () => cy.get("[data-cy=rename-submit-button]"),
@@ -41,12 +41,5 @@ export const homePage = {
     this.uploadStatusToast().should("not.exist")
   }
 
-  // createFolder(name: string = folderName) {
-  //   this.newFolderButton().click()
-  //   createFolderModal.folderNameInput().type(name)
-  //   createFolderModal.createButton().safeClick()
-  //   createFolderModal.body().should("not.exist")
-  //   this.fileItemName().contains(name)
-  // }
 }
 
