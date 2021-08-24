@@ -94,7 +94,7 @@ const UploadFileModule = ({ modalOpen, close }: IUploadFileModuleProps) => {
     helpers.setSubmitting(true)
     try {
       close()
-      await uploadFiles(bucket.id, values.files, currentPath)
+      await uploadFiles(bucket, values.files, currentPath)
       refreshContents && refreshContents()
       helpers.resetForm()
     } catch (errors) {

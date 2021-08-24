@@ -19,7 +19,7 @@ export const homePage = {
   fileRenameInput: () => cy.get("[data-cy=rename-form] input"),
   fileRenameSubmitButton: () => cy.get("[data-cy=rename-submit-button]"),
   fileRenameErrorLabel: () => cy.get("[data-cy=rename-form] span.minimal.error"),
-  fileItemKebabButton: () => cy.get("[data-testid=dropdown-title-fileDropdown]"),
+  fileItemKebabButton: () => cy.get("[data-testid=menu-title-fileDropdown]"),
 
   // menu elements
   previewMenuOption: () => cy.get("[data-cy=menu-preview]"),
