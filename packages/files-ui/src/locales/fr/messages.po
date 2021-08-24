@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-04-23 11:05+0200\n"
-"PO-Revision-Date: 2021-07-31 19:48+0000\n"
+"PO-Revision-Date: 2021-08-24 01:34+0000\n"
 "Last-Translator: J. Lavoie <j.lavoie@net-c.ca>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/chainsafe-files/chainsafe-files-user-interface/fr/>\n"
 "Language: fr\n"
@@ -11,7 +11,7 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 4.8-dev\n"
+"X-Generator: Weblate 4.8.1-dev\n"
 "Mime-Version: 1.0\n"
 
 msgid "A backup secret phrase will be generated and used for your account.<0/>We do not store it and <1>it can only be displayed once</1>. Save it somewhere safe!"
@@ -35,14 +35,17 @@ msgstr "Ajouter par adresse de partage, nom d'utilisateur ou adresse de portefeu
 msgid "Add more files"
 msgstr "Ajouter d’autres fichiers"
 
+msgid "An error occurred while downloading the file"
+msgstr "Une erreur s'est produite lors du téléchargement du fichier"
+
+msgid "An error occurred:"
+msgstr "Une erreur s'est produite :"
+
 msgid "Approve"
 msgstr "Accepter"
 
 msgid "Are we on the right track? Let us know in less than 1 minute."
 msgstr "Sommes-nous sur la bonne voie ? Dites-le-nous en moins d’une minute (en anglais)."
-
-msgid "Back"
-msgstr "Retour"
 
 msgid "Backup secret phrase"
 msgstr "Phrase secrète de sauvegarde"
@@ -161,9 +164,6 @@ msgstr "Supprimer"
 msgid "Delete selected"
 msgstr "Supprimer la sélection"
 
-msgid "Destination shared folder not selected"
-msgstr "Le dossier partagé de destination n’est pas sélectionné"
-
 msgid "Device awaiting confirmation"
 msgstr "Appareil en attente de confirmation"
 
@@ -176,14 +176,17 @@ msgstr "Paramètres d’affichage"
 msgid "Download"
 msgstr "Télécharger"
 
+msgid "Download as zip"
+msgstr ""
+
 msgid "Download complete"
 msgstr "Téléchargement terminé"
 
 msgid "Download recovery key"
 msgstr "Télécharger la clé de sauvegarde"
 
-msgid "Downloading…"
-msgstr "Téléchargement…"
+msgid "Downloading"
+msgstr "Téléchargement"
 
 msgid "Drop to upload files"
 msgstr "Faire glisser pour téléverser un fichier"
@@ -191,8 +194,8 @@ msgstr "Faire glisser pour téléverser un fichier"
 msgid "Email is required"
 msgstr "Un courriel est requis"
 
-msgid "Encrypting and uploading…"
-msgstr "Chiffrement et téléversement…"
+msgid "Encrypting & uploading"
+msgstr "Chiffrement et téléversement"
 
 msgid "Enter backup secret phrase:"
 msgstr "Phrase secrète de sauvegarde :"
@@ -205,15 +208,6 @@ msgstr "Entrez le mot de passe :"
 
 msgid "Enter the verification code:"
 msgstr "Entrez le code de vérification :"
-
-msgid "Error while creating new shared folder"
-msgstr "Erreur lors de la création d’un nouveau dossier partagé"
-
-msgid "Error while downloading {0}"
-msgstr "Erreur lors du téléchargement de {0}"
-
-msgid "Error while uploading {0}"
-msgstr "Erreur lors du téléversement de {0}"
 
 msgid "Essentials - Free"
 msgstr "Essentials - Gratuit"
@@ -244,9 +238,6 @@ msgstr "Format de fichier non pris en charge."
 
 msgid "File path"
 msgstr "Chemin du fichier"
-
-msgid "File shared successfully!"
-msgstr ""
 
 msgid "File size"
 msgstr "Taille"
@@ -282,7 +273,7 @@ msgid "Generate backup secret phrase"
 msgstr "Créer une phrase de sauvegarde secrète"
 
 msgid "Generated"
-msgstr ""
+msgstr "Généré"
 
 msgid "Generating…"
 msgstr "Génération…"
@@ -321,7 +312,7 @@ msgid "I’m done saving my backup secret phrase"
 msgstr "Phrase de sauvegarde secrète enregistrée"
 
 msgid "Keep original file"
-msgstr ""
+msgstr "Conserver le fichier original"
 
 msgid "Language"
 msgstr "Langue"
@@ -363,7 +354,7 @@ msgid "Move"
 msgstr "Déplacer"
 
 msgid "Move over"
-msgstr ""
+msgstr "Déplacer"
 
 msgid "Move selected"
 msgstr "Déplacer la sélection"
@@ -388,6 +379,9 @@ msgstr "Suivant"
 
 msgid "Nice to see you again!"
 msgstr "Ravi de te revoir !"
+
+msgid "No file to download."
+msgstr ""
 
 msgid "No files to show"
 msgstr "Aucun fichier à afficher"
@@ -573,10 +567,10 @@ msgid "Settings"
 msgstr "Paramètres"
 
 msgid "Share"
-msgstr ""
+msgstr "Partager"
 
 msgid "Share file"
-msgstr ""
+msgstr "Partager le fichier"
 
 msgid "Shared"
 msgstr "Partagé"
@@ -584,14 +578,14 @@ msgstr "Partagé"
 msgid "Shared Folder Name"
 msgstr "Nom du dossier partagé"
 
-msgid "Shared folder is undefined"
-msgstr "Le dossier partagé n’est pas défini"
-
 msgid "Shared folders"
 msgstr "Dossiers partagés"
 
 msgid "Shared with"
 msgstr "Partagé avec"
+
+msgid "Sharing your file ({0})"
+msgstr "Partage de votre fichier ({0})"
 
 msgid "Sign Out"
 msgstr "Se déconnecter"
@@ -647,6 +641,9 @@ msgstr "Les fichiers sont déjà dans ce dossier"
 msgid "The system is undergoing maintenance, thank you for being patient."
 msgstr "Le système est en cours de maintenance, merci d’être patient."
 
+msgid "The username is too long"
+msgstr "Le nom d'utilisateur est trop long"
+
 msgid "Theme"
 msgstr "Thème"
 
@@ -674,14 +671,14 @@ msgstr "Une erreur s’est produite lors de la récupération"
 msgid "There was an error when setting username."
 msgstr "Il y a eu une erreur dans le paramétrage du nom d’utilisateur."
 
-msgid "This may take some time depending on the file size"
-msgstr "Ceci peut prendre un certain temps en fonction de la taille du fichier"
-
 msgid "This username is already taken"
 msgstr "Ce nom d’utilisateur est déjà pris"
 
 msgid "This username is public"
 msgstr "Ce nom d’utilisateur est public"
+
+msgid "Transfer complete"
+msgstr "Transfert terminé"
 
 msgid "Try again"
 msgstr "Essayer de nouveau"
@@ -739,9 +736,6 @@ msgstr "Code de vérification envoyé !"
 
 msgid "View folder"
 msgstr "Voir le dossier"
-
-msgid "View shared folder"
-msgstr "Afficher le dossier partagé"
 
 msgid "Wallet address"
 msgstr "Addresse du wallet"
@@ -804,7 +798,7 @@ msgid "recovered successfully"
 msgstr "récupéré avec succès"
 
 msgid "unknown"
-msgstr ""
+msgstr "inconnu"
 
 msgid "{0, plural, one {You are about to delete {1} item.} other {You are about to delete {2} items.}}"
 msgstr "{0, plural, one {Vous êtes sur le point de supprimer {1} élément.} other {Vous êtes sur le point de supprimer {2} éléments.}}"

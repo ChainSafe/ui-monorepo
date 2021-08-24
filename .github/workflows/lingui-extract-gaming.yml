@@ -8,9 +8,11 @@ on:
 jobs:
   # extract any new translatable string
   # and commit if there are new ones
+  # and if the user submitting the PR isn't weblate
   extract:
     name: lingui-extract
     runs-on: ubuntu-latest
+    if: ${{ github.actor != 'weblate' }}
     steps:
     - uses: actions/checkout@v2
       with:

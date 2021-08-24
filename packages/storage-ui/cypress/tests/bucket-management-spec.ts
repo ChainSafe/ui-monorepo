@@ -14,8 +14,9 @@ describe("Bucket management", () => {
       navigationMenu.bucketsNavButton().click()
       bucketsPage.createBucketButton().click()
       bucketsPage.bucketNameInput().type(bucketName)
-      bucketsPage.createBucketSubmitButton().click()
+      bucketsPage.createBucketSubmitButton().safeClick()
       bucketsPage.bucketItemRow().should("have.length", 1)
+      bucketsPage.bucketItemName().should("have.text", bucketName)
 
       // open create bucket modal and cancel it
       bucketsPage.createBucketButton().click()
@@ -31,7 +32,8 @@ describe("Bucket management", () => {
       bucketsPage.createBucket(bucketName)
       bucketsPage.bucketRowKebabButton().first().click()
       bucketsPage.deleteBucketMenuOption().first().click()
-      bucketsPage.bucketItemRow().should("not.exist")
+      bucketsPage.bucketItemRow().should("not.be.visible")
+      bucketsPage.bucketItemName().should("not.be.visible")
     })
   })
 })

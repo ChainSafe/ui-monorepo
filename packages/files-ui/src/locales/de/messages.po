@@ -3,14 +3,14 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-04-20 00:28+0200\n"
-"PO-Revision-Date: 2021-06-28 07:32+0000\n"
+"PO-Revision-Date: 2021-08-24 01:34+0000\n"
 "Last-Translator: J. Lavoie <j.lavoie@net-c.ca>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/chainsafe-files/chainsafe-files-user-interface/de/>\n"
 "Language: de\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.7.1-dev\n"
+"X-Generator: Weblate 4.8.1-dev\n"
 "Mime-Version: 1.0\n"
 
 msgid "A backup secret phrase will be generated and used for your account.<0/>We do not store it and <1>it can only be displayed once</1>. Save it somewhere safe!"
@@ -34,14 +34,17 @@ msgstr ""
 msgid "Add more files"
 msgstr "Weitere Dateien hinzufügen"
 
+msgid "An error occurred while downloading the file"
+msgstr ""
+
+msgid "An error occurred:"
+msgstr ""
+
 msgid "Approve"
 msgstr "Genehmigen"
 
 msgid "Are we on the right track? Let us know in less than 1 minute."
 msgstr "Sind wir auf dem richtigen Weg? Sagen Sie es uns in weniger als 1 Minute."
-
-msgid "Back"
-msgstr ""
 
 msgid "Backup secret phrase"
 msgstr "Sicherungsgeheimsatz"
@@ -160,9 +163,6 @@ msgstr "Löschen"
 msgid "Delete selected"
 msgstr "Ausgewählte löschen"
 
-msgid "Destination shared folder not selected"
-msgstr ""
-
 msgid "Device awaiting confirmation"
 msgstr "Gerät wartet auf Bestätigung"
 
@@ -175,13 +175,16 @@ msgstr "Anzeigeeinstellungen"
 msgid "Download"
 msgstr "Herunterladen"
 
+msgid "Download as zip"
+msgstr ""
+
 msgid "Download complete"
 msgstr "Komplett heruntergeladen"
 
 msgid "Download recovery key"
 msgstr "Wiederherstellungsschlüssel herunterladen"
 
-msgid "Downloading…"
+msgid "Downloading"
 msgstr ""
 
 msgid "Drop to upload files"
@@ -190,7 +193,7 @@ msgstr "Zum Hochladen von Dateien ablegen"
 msgid "Email is required"
 msgstr "E-Mail ist erforderlich"
 
-msgid "Encrypting and uploading…"
+msgid "Encrypting & uploading"
 msgstr ""
 
 msgid "Enter backup secret phrase:"
@@ -204,15 +207,6 @@ msgstr "Geben Sie das Passwort ein:"
 
 msgid "Enter the verification code:"
 msgstr "Geben Sie den Verifizierungscode ein:"
-
-msgid "Error while creating new shared folder"
-msgstr ""
-
-msgid "Error while downloading {0}"
-msgstr ""
-
-msgid "Error while uploading {0}"
-msgstr ""
 
 msgid "Essentials - Free"
 msgstr "Essentials - Kostenlos"
@@ -239,9 +233,6 @@ msgid "File format not supported."
 msgstr "Dateiformat wird nicht unterstützt."
 
 msgid "File path"
-msgstr ""
-
-msgid "File shared successfully!"
 msgstr ""
 
 msgid "File size"
@@ -384,6 +375,9 @@ msgstr "Nächste"
 
 msgid "Nice to see you again!"
 msgstr "Schön, Sie wiederzusehen!"
+
+msgid "No file to download."
+msgstr ""
 
 msgid "No files to show"
 msgstr "Keine Dateien zum Anzeigen"
@@ -580,13 +574,13 @@ msgstr "Geteilt"
 msgid "Shared Folder Name"
 msgstr ""
 
-msgid "Shared folder is undefined"
-msgstr ""
-
 msgid "Shared folders"
 msgstr ""
 
 msgid "Shared with"
+msgstr ""
+
+msgid "Sharing your file ({0})"
 msgstr ""
 
 msgid "Sign Out"
@@ -643,6 +637,9 @@ msgstr ""
 msgid "The system is undergoing maintenance, thank you for being patient."
 msgstr "Das System wird gerade gewartet, wir danken Ihnen für Ihre Geduld."
 
+msgid "The username is too long"
+msgstr ""
+
 msgid "Theme"
 msgstr "Farbschema"
 
@@ -670,14 +667,14 @@ msgstr "Es gab einen Fehler bei der Wiederherstellung dieses"
 msgid "There was an error when setting username."
 msgstr ""
 
-msgid "This may take some time depending on the file size"
-msgstr ""
-
 msgid "This username is already taken"
 msgstr ""
 
 msgid "This username is public"
 msgstr "Dieser Benutzername ist öffentlich"
+
+msgid "Transfer complete"
+msgstr ""
 
 msgid "Try again"
 msgstr "Erneut versuchen"
@@ -736,9 +733,6 @@ msgstr "Verifizierungscode gesendet!"
 msgid "View folder"
 msgstr "Ordner anzeigen"
 
-msgid "View shared folder"
-msgstr ""
-
 msgid "Wallet address"
 msgstr ""
 
@@ -788,7 +782,7 @@ msgid "folder"
 msgstr "Ordner"
 
 msgid "me"
-msgstr ""
+msgstr "ich"
 
 msgid "moved successfully"
 msgstr "erfolgreich verschoben"
@@ -800,10 +794,10 @@ msgid "recovered successfully"
 msgstr "erfolgreich wiederhergestellt"
 
 msgid "unknown"
-msgstr ""
+msgstr "unbekannt"
 
 msgid "{0, plural, one {You are about to delete {1} item.} other {You are about to delete {2} items.}}"
-msgstr ""
+msgstr "{0, plural, one {Sie sind dabei, {1} Artikel zu löschen.} other {Sie sind dabei, {2} Artikel zu löschen.}}"
 
 msgid "{noOfFiles, plural, one {Uploading and encrypting {noOfFiles} file} other {Uploading and encrypting {noOfFiles} files}}"
 msgstr "{noOfFiles, plural, one {{noOfFiles} Datei wird hochgeladen und verschlüsselt} other {{noOfFiles} Datein werden hochgeladen und verschlüsselt}}"

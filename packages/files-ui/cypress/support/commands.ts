@@ -34,6 +34,7 @@ import { CustomizedBridge } from "./utils/CustomBridge"
 import "cypress-file-upload"
 import "cypress-pipe"
 import { BucketType } from "@chainsafe/files-api-client"
+import { navigationMenu } from "./page-objects/navigationMenu"
 
 Cypress.Commands.add("clearBucket", (bucketType: BucketType) => {
   apiTestHelper.clearBucket(bucketType)
@@ -86,6 +87,7 @@ Cypress.Commands.add(
       } else {
         authenticationPage.doNotSaveBrowserButton().click()
       }
+      homePage.appHeaderLabel().should("be.visible")
     })
     cy.visit(url)
       .then(() => {
@@ -103,6 +105,11 @@ Cypress.Commands.add(
         homePage.appHeaderLabel().should("be.visible")
 
       })
+
+    if(clearTrashBucket || clearCSFBucket){
+      navigationMenu.binNavButton().click()
+      navigationMenu.homeNavButton().click()
+    }
   }
 )
 
@@ -111,6 +118,7 @@ Cypress.Commands.add("safeClick", { prevSubject: "element" }, $element => {
   return cy
     .wrap($element)
     .should("be.visible")
+    .should("be.enabled")
     .pipe(click)
     .should($el => expect($el).to.not.be.visible)
 })

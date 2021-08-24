@@ -34,13 +34,16 @@ msgstr ""
 msgid "Add more files"
 msgstr "Legg til flere filer"
 
+msgid "An error occurred while downloading the file"
+msgstr ""
+
+msgid "An error occurred:"
+msgstr ""
+
 msgid "Approve"
 msgstr "Godkjenn"
 
 msgid "Are we on the right track? Let us know in less than 1 minute."
-msgstr ""
-
-msgid "Back"
 msgstr ""
 
 msgid "Backup secret phrase"
@@ -160,9 +163,6 @@ msgstr "Slett"
 msgid "Delete selected"
 msgstr "Slett valgte"
 
-msgid "Destination shared folder not selected"
-msgstr ""
-
 msgid "Device awaiting confirmation"
 msgstr ""
 
@@ -175,13 +175,16 @@ msgstr ""
 msgid "Download"
 msgstr ""
 
+msgid "Download as zip"
+msgstr ""
+
 msgid "Download complete"
 msgstr ""
 
 msgid "Download recovery key"
 msgstr ""
 
-msgid "Downloading…"
+msgid "Downloading"
 msgstr ""
 
 msgid "Drop to upload files"
@@ -190,7 +193,7 @@ msgstr "Dra for å laste opp filer"
 msgid "Email is required"
 msgstr "E-post kreves"
 
-msgid "Encrypting and uploading…"
+msgid "Encrypting & uploading"
 msgstr ""
 
 msgid "Enter backup secret phrase:"
@@ -204,15 +207,6 @@ msgstr "Skriv inn passord:"
 
 msgid "Enter the verification code:"
 msgstr "Skriv inn bekreftelseskoden:"
-
-msgid "Error while creating new shared folder"
-msgstr ""
-
-msgid "Error while downloading {0}"
-msgstr ""
-
-msgid "Error while uploading {0}"
-msgstr ""
 
 msgid "Essentials - Free"
 msgstr ""
@@ -239,9 +233,6 @@ msgid "File format not supported."
 msgstr ""
 
 msgid "File path"
-msgstr ""
-
-msgid "File shared successfully!"
 msgstr ""
 
 msgid "File size"
@@ -383,6 +374,9 @@ msgid "Next"
 msgstr "Neste"
 
 msgid "Nice to see you again!"
+msgstr ""
+
+msgid "No file to download."
 msgstr ""
 
 msgid "No files to show"
@@ -580,13 +574,13 @@ msgstr "Delt"
 msgid "Shared Folder Name"
 msgstr ""
 
-msgid "Shared folder is undefined"
-msgstr ""
-
 msgid "Shared folders"
 msgstr ""
 
 msgid "Shared with"
+msgstr ""
+
+msgid "Sharing your file ({0})"
 msgstr ""
 
 msgid "Sign Out"
@@ -643,6 +637,9 @@ msgstr ""
 msgid "The system is undergoing maintenance, thank you for being patient."
 msgstr ""
 
+msgid "The username is too long"
+msgstr ""
+
 msgid "Theme"
 msgstr "Drakt"
 
@@ -670,14 +667,14 @@ msgstr ""
 msgid "There was an error when setting username."
 msgstr ""
 
-msgid "This may take some time depending on the file size"
-msgstr ""
-
 msgid "This username is already taken"
 msgstr ""
 
 msgid "This username is public"
 msgstr "Dette brukernavnet er offentlig"
+
+msgid "Transfer complete"
+msgstr ""
 
 msgid "Try again"
 msgstr "Prøv igjen"
@@ -735,9 +732,6 @@ msgstr ""
 
 msgid "View folder"
 msgstr "Vis mappe"
-
-msgid "View shared folder"
-msgstr ""
 
 msgid "Wallet address"
 msgstr ""
