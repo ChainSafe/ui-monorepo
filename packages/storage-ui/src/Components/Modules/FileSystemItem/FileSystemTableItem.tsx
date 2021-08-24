@@ -119,7 +119,6 @@ const useStyles = makeStyles(({ animation, breakpoints, constants, palette, zInd
       justifyContent: "space-between",
       position: "relative",
       cursor: "pointer",
-      maxWidth: "200px",
       "& > p": {
         maxWidth: `calc(100% - ${constants.generalUnit + 15}px)`,
         overflow: "hidden",
