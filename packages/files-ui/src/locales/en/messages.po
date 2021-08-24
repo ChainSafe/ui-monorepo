@@ -379,6 +379,9 @@ msgstr "Next"
 msgid "Nice to see you again!"
 msgstr "Nice to see you again!"
 
+msgid "No file to download."
+msgstr "No file to download."
+
 msgid "No files to show"
 msgstr "No files to show"
 

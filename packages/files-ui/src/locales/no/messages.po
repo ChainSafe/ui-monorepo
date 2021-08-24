@@ -376,6 +376,9 @@ msgstr "Neste"
 msgid "Nice to see you again!"
 msgstr ""
 
+msgid "No file to download."
+msgstr ""
+
 msgid "No files to show"
 msgstr "Ingen filer å vise"
 

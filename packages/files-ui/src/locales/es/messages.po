@@ -380,6 +380,9 @@ msgstr "Próximo"
 msgid "Nice to see you again!"
 msgstr "Encantado de verte de nuevo!"
 
+msgid "No file to download."
+msgstr ""
+
 msgid "No files to show"
 msgstr "No hay archivos para mostrar"
 
