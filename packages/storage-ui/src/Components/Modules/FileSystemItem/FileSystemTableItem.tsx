@@ -171,45 +171,6 @@ const useStyles = makeStyles(({ animation, breakpoints, constants, palette, zInd
         fill: palette.primary.main
       }
     }
-    // copyContainer: {
-    //   position: "relative",
-    //   cursor: "pointer"
-    // },
-    // copiedFlag: {
-    //   display: "flex",
-    //   flexDirection: "column",
-    //   alignItems: "center",
-    //   justifyContent: "center",
-    //   left: "50%",
-    //   bottom: "calc(100% + 5px)",
-    //   position: "absolute",
-    //   transform: "translate(-50%, 0%)",
-    //   zIndex: zIndex?.layer1,
-    //   transitionDuration: `${animation.transform}ms`,
-    //   opacity: 0,
-    //   visibility: "hidden",
-    //   backgroundColor: palette.additional["gray"][9],
-    //   color: palette.additional["gray"][1],
-    //   padding: `${constants.generalUnit / 2}px ${constants.generalUnit}px`,
-    //   borderRadius: 2,
-    //   "&:after": {
-    //     transitionDuration: `${animation.transform}ms`,
-    //     content: "''",
-    //     position: "absolute",
-    //     top: "100%",
-    //     left: "50%",
-    //     transform: "translate(-50%,0)",
-    //     width: 0,
-    //     height: 0,
-    //     borderLeft: "5px solid transparent",
-    //     borderRight: "5px solid transparent",
-    //     borderTop: `5px solid ${ palette.additional["gray"][9]}`
-    //   },
-    //   "&.active": {
-    //     opacity: 1,
-    //     visibility: "visible"
-    //   }
-    // }
   })
 })
 
@@ -366,7 +327,7 @@ const FileSystemTableItem = React.forwardRef(
                     <div className={clsx(classes.copiedFlag, { "active": copied })}>
                       <span>
                         <Trans>
-                        Copied!
+                          Copied!
                         </Trans>
                       </span>
                     </div>
