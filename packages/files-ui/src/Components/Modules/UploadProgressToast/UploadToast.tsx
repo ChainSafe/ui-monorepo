@@ -43,8 +43,9 @@ const useStyles = makeStyles(
       marginBottom: {
         marginBottom: constants.generalUnit
       },
-      marginRight: {
-        marginRight: constants.generalUnit * 2
+      icon: {
+        marginRight: constants.generalUnit * 2,
+        fill: constants.fileSystemItemRow.menuIcon
       }
     })
   }
@@ -56,13 +57,7 @@ interface IUploadToast {
 
 const UploadToast: React.FC<IUploadToast> = (props) => {
   const { uploadInProgress } = props
-  const {
-    complete,
-    error,
-    noOfFiles,
-    progress,
-    errorMessage
-  } = uploadInProgress
+  const { complete, error, noOfFiles, progress, errorMessage } = uploadInProgress
   const classes = useStyles()
 
   return (
@@ -71,7 +66,7 @@ const UploadToast: React.FC<IUploadToast> = (props) => {
         data-cy="upload-status-toast-message" >
         {complete ? (
           <div className={classes.contentContainer}>
-            <CheckCircleIcon className={classes.marginRight} />
+            <CheckCircleIcon className={classes.icon} />
             <Typography
               variant="body1"
               component="p"
@@ -81,7 +76,7 @@ const UploadToast: React.FC<IUploadToast> = (props) => {
           </div>
         ) : error ? (
           <div className={classes.contentContainer}>
-            <CloseCircleIcon className={classes.marginRight} />
+            <CloseCircleIcon className={classes.icon} />
             <Typography
               variant="body1"
               component="p"

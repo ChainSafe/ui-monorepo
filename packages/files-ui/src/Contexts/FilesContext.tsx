@@ -16,15 +16,16 @@ import { useToaster } from "@chainsafe/common-components"
 import { downloadsInProgressReducer, transfersInProgressReducer, uploadsInProgressReducer } from "./FilesReducers"
 import axios, { CancelToken } from "axios"
 import { t } from "@lingui/macro"
-import { readFileAsync } from "../Utils/Helpers"
+import { parseFileContentResponse, readFileAsync } from "../Utils/Helpers"
 import { useBeforeunload } from "react-beforeunload"
 import { useThresholdKey } from "./ThresholdKeyContext"
 import { useFilesApi } from "./FilesApiContext"
 import { useUser } from "./UserContext"
-import { getPathWithFile } from "../Utils/pathUtils"
+import { getPathWithFile, getRelativePath } from "../Utils/pathUtils"
 import UploadProgressToasts from "../Components/Modules/UploadProgressToast"
 import DownloadProgressToasts from "../Components/Modules/DownloadProgressToast"
 import TransferProgressToasts from "../Components/Modules/TransferProgressToast"
+import { Zippable, zipSync } from "fflate"
 
 type FilesContextProps = {
   children: React.ReactNode | React.ReactNode[]
@@ -45,6 +46,8 @@ export type DownloadProgress = {
   id: string
   fileName: string
   progress: number
+  currentFileNumber?: number
+  totalFileNumber: number
   error: boolean
   errorMessage?: string
   complete: boolean
@@ -121,16 +124,19 @@ type FilesContext = {
     deleteFromSource?: boolean
   ) => Promise<void>
   transfersInProgress: TransferProgress[]
+  downloadMultipleFiles: (fileItems: FileSystemItem[], currentPath: string, bucketId: string) => void
 }
 
-// This represents a File or Folder on the
-export interface IFileSystemItem extends FileContentResponse {
+// This represents a File or Folder
+export interface FileSystemItem extends FileContentResponse {
   isFolder: boolean
 }
 
-type FileSystemItem = IFileSystemItem
+interface FileSystemItemPath extends FileSystemItem {
+  path: string
+}
 
-const REMOVE_UPLOAD_PROGRESS_DELAY = 5000
+const REMOVE_TOAST_DELAY = 5000
 const MAX_FILE_SIZE = 2 * 1024 ** 3
 
 const FilesContext = React.createContext<FilesContext | undefined>(undefined)
@@ -315,20 +321,9 @@ const FilesProvider = ({ children }: FilesContextProps) => {
     secureThresholdKeyAccount(encryptedKey)
   }
 
-  const [uploadsInProgress, dispatchUploadsInProgress] = useReducer(
-    uploadsInProgressReducer,
-    []
-  )
-
-  const [downloadsInProgress, dispatchDownloadsInProgress] = useReducer(
-    downloadsInProgressReducer,
-    []
-  )
-
-  const [transfersInProgress, dispatchTransfersInProgress] = useReducer(
-    transfersInProgressReducer,
-    []
-  )
+  const [uploadsInProgress, dispatchUploadsInProgress] = useReducer(uploadsInProgressReducer, [])
+  const [downloadsInProgress, dispatchDownloadsInProgress] = useReducer(downloadsInProgressReducer, [])
+  const [transfersInProgress, dispatchTransfersInProgress] = useReducer(transfersInProgressReducer, [])
   const [closeIntercept, setCloseIntercept] = useState<string | undefined>()
 
   useEffect(() => {
@@ -348,7 +343,6 @@ const FilesProvider = ({ children }: FilesContextProps) => {
       return closeIntercept
     }
   })
-
 
   const encryptAndUploadFiles = useCallback(async (
     bucket: BucketKeyPermission,
@@ -403,8 +397,7 @@ const FilesProvider = ({ children }: FilesContextProps) => {
 
     if (hasOversizedFile) {
       addToastMessage({
-        message:
-            t`We can't encrypt files larger than 2GB. Some items will not be uploaded`,
+        message: t`We can't encrypt files larger than 2GB. Some items will not be uploaded`,
         appearance: "error"
       })
     }
@@ -431,7 +424,7 @@ const FilesProvider = ({ children }: FilesContextProps) => {
       dispatchUploadsInProgress({ type: "complete", payload: { id } })
       setTimeout(() => {
         dispatchUploadsInProgress({ type: "remove", payload: { id } })
-      }, REMOVE_UPLOAD_PROGRESS_DELAY)
+      }, REMOVE_TOAST_DELAY)
 
       return Promise.resolve()
     } catch (error) {
@@ -449,7 +442,7 @@ const FilesProvider = ({ children }: FilesContextProps) => {
       })
       setTimeout(() => {
         dispatchUploadsInProgress({ type: "remove", payload: { id } })
-      }, REMOVE_UPLOAD_PROGRESS_DELAY)
+      }, REMOVE_TOAST_DELAY)
 
       return Promise.reject(error)
     }
@@ -505,12 +498,131 @@ const FilesProvider = ({ children }: FilesContextProps) => {
     }
   }, [buckets, filesApiClient])
 
+  const getFileList = useCallback(async (
+    itemsToDownload: FileSystemItem[],
+    currentPath: string,
+    bucketId: string
+  ): Promise<FileSystemItemPath[]>  => {
+    return await itemsToDownload.reduce(
+      async (acc: Promise<FileSystemItemPath[]>, item: FileSystemItem): Promise<FileSystemItemPath[]> => {
+        if (item.isFolder) {
+          const folderPath = getPathWithFile(currentPath, item.name)
+          const newList = await filesApiClient.getBucketObjectChildrenList(bucketId, { path: folderPath })
+
+          const childFolderItems = newList.map(parseFileContentResponse)
+          return childFolderItems.length
+            ? [...await acc, ...await getFileList(childFolderItems, folderPath, bucketId)]
+            : Promise.resolve(acc)
+        }
+
+        return [...await acc, { ...item, path: currentPath }]
+      }, Promise.resolve([] as FileSystemItemPath[]))
+  }, [filesApiClient])
+
+  const downloadMultipleFiles = useCallback((itemsToDownload: FileSystemItem[], currentPath: string, bucketId: string) => {
+    getFileList(itemsToDownload, currentPath, bucketId)
+      .then(async (fullStructure) => {
+        const zipList: Zippable = {}
+        const toastId = uuidv4()
+
+        const totalFileSize = fullStructure.reduce((sum, item) => sum + item.size, 0)
+        const downloadProgress: DownloadProgress = {
+          id: toastId,
+          currentFileNumber: 1,
+          totalFileNumber: fullStructure.length,
+          fileName: fullStructure[0]?.name,
+          complete: false,
+          error: false,
+          progress: 0
+        }
+
+        dispatchDownloadsInProgress({ type: "add", payload: downloadProgress })
+
+        // if there are no file to download return early and show an error
+        if (!fullStructure.length) {
+          dispatchDownloadsInProgress({
+            type: "error",
+            payload: {
+              id: toastId,
+              errorMessage: t`No file to download.`
+            }
+          })
+
+          setTimeout(() => {
+            dispatchDownloadsInProgress({
+              type: "remove",
+              payload: { id: toastId }
+            })
+          }, REMOVE_TOAST_DELAY)
+          return
+        }
+
+        // Idea for parrallel download https://glebbahmutov.com/blog/run-n-promises-in-parallel/
+        // we need to use a reduce here because forEach doesn't wait for the Promise to resolve
+        await fullStructure.reduce(async (totalDownloaded: Promise<number>, item: FileSystemItemPath, index: number): Promise<number> => {
+          const file = await getFileContent(bucketId, {
+            cid: item.cid,
+            file: item,
+            path: getPathWithFile(item.path, item.name),
+            onDownloadProgress: async (progressEvent) => {
+              dispatchDownloadsInProgress({
+                type: "progress",
+                payload: {
+                  id: toastId,
+                  fileName: item.name,
+                  currentFileNumber: index + 1,
+                  progress: Math.ceil(
+                    ((await totalDownloaded + progressEvent.loaded) / totalFileSize) * 100
+                  )
+                }
+              })
+            }
+          })
+
+          if(file) {
+            const fileArrayBuffer = await file.arrayBuffer()
+            const fullPath = getPathWithFile(item.path, item.name)
+            const relativeFilePath = getRelativePath(fullPath, currentPath)
+            zipList[relativeFilePath] = new Uint8Array(fileArrayBuffer)
+          }
+
+          return await totalDownloaded + item.size
+        }, Promise.resolve(0))
+
+        // level 0 means without compression
+        const zipped = zipSync(zipList, { level: 0 })
+
+        if (!zipped) return
+
+        const link = document.createElement("a")
+        link.href = URL.createObjectURL(new Blob([zipped]))
+        link.download = "archive.zip"
+        link.click()
+
+        dispatchDownloadsInProgress({
+          type: "complete",
+          payload: { id: toastId }
+        })
+
+        URL.revokeObjectURL(link.href)
+
+        setTimeout(() => {
+          dispatchDownloadsInProgress({
+            type: "remove",
+            payload: { id: toastId }
+          })
+        }, REMOVE_TOAST_DELAY)
+      })
+      .catch(console.error)
+  }, [getFileContent, getFileList])
+
   const downloadFile = useCallback(async (bucketId: string, itemToDownload: FileSystemItem, path: string) => {
     const toastId = uuidv4()
     try {
       const downloadProgress: DownloadProgress = {
         id: toastId,
         fileName: itemToDownload.name,
+        totalFileNumber: 1,
         complete: false,
         error: false,
         progress: 0
@@ -525,6 +637,7 @@ const FilesProvider = ({ children }: FilesContextProps) => {
             type: "progress",
             payload: {
               id: toastId,
+              fileName: itemToDownload.name,
               progress: Math.ceil(
                 (progressEvent.loaded / itemToDownload.size) * 100
               )
@@ -547,7 +660,7 @@ const FilesProvider = ({ children }: FilesContextProps) => {
           type: "remove",
           payload: { id: toastId }
         })
-      }, REMOVE_UPLOAD_PROGRESS_DELAY)
+      }, REMOVE_TOAST_DELAY)
       return Promise.resolve()
     } catch (error) {
       dispatchDownloadsInProgress({ type: "error", payload: { id: toastId } })
@@ -719,7 +832,7 @@ const FilesProvider = ({ children }: FilesContextProps) => {
       refreshBuckets()
       setTimeout(() => {
         dispatchTransfersInProgress({ type: "remove", payload: { id: toastId } })
-      }, REMOVE_UPLOAD_PROGRESS_DELAY)
+      }, REMOVE_TOAST_DELAY)
     })
   }, [getFileContent, encryptAndUploadFiles, filesApiClient, refreshBuckets])
 
@@ -728,6 +841,7 @@ const FilesProvider = ({ children }: FilesContextProps) => {
       value={{
         uploadFiles,
         downloadFile,
+        downloadMultipleFiles,
         getFileContent,
         personalEncryptionKey,
         uploadsInProgress,
@@ -762,7 +876,6 @@ const useFiles = () => {
 
 export { FilesProvider, useFiles }
 export type {
-  FileSystemItem,
   DirectoryContentResponse,
   BucketFileFullInfoResponse as FileFullInfo,
   BucketType,
