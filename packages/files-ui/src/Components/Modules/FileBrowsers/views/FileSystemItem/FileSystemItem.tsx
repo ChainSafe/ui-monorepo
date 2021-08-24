@@ -35,6 +35,7 @@ import { getPathWithFile } from "../../../../../Utils/pathUtils"
 import { BucketUser } from "@chainsafe/files-api-client"
 import { useMemo } from "react"
 import { nameValidator } from "../../../../../Utils/validationSchema"
+import { useLongPress } from "use-long-press"
 
 const useStyles = makeStyles(({ breakpoints, constants }: CSFTheme) => {
   return createStyles({
@@ -382,6 +383,12 @@ const FileSystemItem = ({
     dragMoveRef(fileOrFolderRef)
   }
 
+  const callback = useCallback(event => {
+    alert('Long pressed!');
+  }, []);
+
+  const bind = useLongPress(callback);
+
   const onSingleClick = useCallback(
     (e) => {
       if (desktop) {
@@ -444,7 +451,8 @@ const FileSystemItem = ({
     preview,
     selectedCids,
     setEditing,
-    resetSelectedFiles
+    resetSelectedFiles,
+    ...bind
   }
 
   return (

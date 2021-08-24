@@ -130,7 +130,8 @@ const FileSystemTableItem = React.forwardRef(
     preview,
     setEditing,
     handleRename,
-    menuItems
+    menuItems,
+    ...props
   }: IFileSystemTableItemProps, forwardedRef: any) => {
     const classes = useStyles()
     const { name, cid, created_at, size } = file

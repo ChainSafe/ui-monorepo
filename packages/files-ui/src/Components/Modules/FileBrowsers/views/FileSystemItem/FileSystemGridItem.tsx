@@ -143,7 +143,8 @@ const FileSystemGridItem = React.forwardRef(
     handleRename,
     menuItems,
     resetSelectedFiles,
-    preview
+    preview,
+    ...props
   }: IFileSystemTableItemProps, forwardedRef: any) => {
     const classes = useStyles()
     const { name, cid } = file
@@ -192,6 +193,8 @@ const FileSystemGridItem = React.forwardRef(
 
     useOnClickOutside(formRef, stopEditing)
 
+    console.log(props)
+
     return  (
       <div
         className={classes.gridViewContainer}
@@ -200,6 +203,7 @@ const FileSystemGridItem = React.forwardRef(
           e.preventDefault()
           e.stopPropagation()
         }}
+        {...props}
       >
         <div
           className={clsx(classes.gridViewIconNameBox)}
