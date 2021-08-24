@@ -53,6 +53,9 @@ msgstr ""
 msgid "Backup secret phrase does not match user account, please double-check and try again."
 msgstr ""
 
+msgid "Basic - Free"
+msgstr ""
+
 msgid "Bin"
 msgstr "Papelera"
 
@@ -205,9 +208,6 @@ msgstr "Introducir la contraseña:"
 
 msgid "Enter the verification code:"
 msgstr ""
-
-msgid "Essentials - Free"
-msgstr "Esenciales - Gratis"
 
 msgid "Failed to get signature"
 msgstr "No se pudo obtener la firma"
@@ -430,6 +430,9 @@ msgstr "Contraseña:"
 
 msgid "Passwords must match"
 msgstr "Las contraseñas deben coincidir"
+
+msgid "Plan"
+msgstr ""
 
 msgid "Please enter a file name"
 msgstr "Ingrese un nombre de archivo"
@@ -766,6 +769,9 @@ msgstr ""
 
 msgid "You will need to sign a message in your wallet to complete sign in."
 msgstr "Deberá firmar un mensaje en su billetera para completar el inicio de sesión."
+
+msgid "Your plan"
+msgstr ""
 
 msgid "Your recovery key can be used to restore your account in place of your backup secret phrase."
 msgstr ""

@@ -52,6 +52,9 @@ msgstr "Backup secret phrase"
 msgid "Backup secret phrase does not match user account, please double-check and try again."
 msgstr "Backup secret phrase does not match user account, please double-check and try again."
 
+msgid "Basic - Free"
+msgstr "Basic - Free"
+
 msgid "Bin"
 msgstr "Bin"
 
@@ -204,9 +207,6 @@ msgstr "Enter password:"
 
 msgid "Enter the verification code:"
 msgstr "Enter the verification code:"
-
-msgid "Essentials - Free"
-msgstr "Essentials - Free"
 
 msgid "Failed to get signature"
 msgstr "Failed to get signature"
@@ -429,6 +429,9 @@ msgstr "Password:"
 
 msgid "Passwords must match"
 msgstr "Passwords must match"
+
+msgid "Plan"
+msgstr "Plan"
 
 msgid "Please enter a file name"
 msgstr "Please enter a file name"
@@ -765,6 +768,9 @@ msgstr "You haven't set a username yet."
 
 msgid "You will need to sign a message in your wallet to complete sign in."
 msgstr "You will need to sign a message in your wallet to complete sign in."
+
+msgid "Your plan"
+msgstr "Your plan"
 
 msgid "Your recovery key can be used to restore your account in place of your backup secret phrase."
 msgstr "Your recovery key can be used to restore your account in place of your backup secret phrase."
