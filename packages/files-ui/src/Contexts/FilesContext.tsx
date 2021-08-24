@@ -524,18 +524,38 @@ const FilesProvider = ({ children }: FilesContextProps) => {
       .then(async (fullStructure) => {
         const zipList: Zippable = {}
         const toastId = uuidv4()
+
         const totalFileSize = fullStructure.reduce((sum, item) => sum + item.size, 0)
         const downloadProgress: DownloadProgress = {
           id: toastId,
           currentFileNumber: 1,
           totalFileNumber: fullStructure.length,
-          fileName: fullStructure[0].name,
+          fileName: fullStructure[0]?.name,
           complete: false,
           error: false,
           progress: 0
         }
 
         dispatchDownloadsInProgress({ type: "add", payload: downloadProgress })
+
+        // if there are no file to download return early and show an error
+        if (!fullStructure.length) {
+          dispatchDownloadsInProgress({
+            type: "error",
+            payload: {
+              id: toastId,
+              errorMessage: t`No file to download.`
+            }
+          })
+
+          setTimeout(() => {
+            dispatchDownloadsInProgress({
+              type: "remove",
+              payload: { id: toastId }
+            })
+          }, REMOVE_TOAST_DELAY)
+          return
+        }
 
         // Idea for parrallel download https://glebbahmutov.com/blog/run-n-promises-in-parallel/
         // we need to use a reduce here because forEach doesn't wait for the Promise to resolve
