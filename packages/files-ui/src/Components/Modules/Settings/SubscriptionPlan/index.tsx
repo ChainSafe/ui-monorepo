@@ -5,6 +5,7 @@ import AddCardModal from "./AddCardModal"
 import { Button } from "@chainsafe/common-components"
 import { makeStyles, createStyles, ITheme } from "@chainsafe/common-theme"
 import { Trans } from "@lingui/macro"
+import { useBilling } from "../../../../Contexts/BillingContext"
 
 const useStyles = makeStyles(({ constants }: ITheme) =>
   createStyles({
@@ -20,6 +21,7 @@ const useStyles = makeStyles(({ constants }: ITheme) =>
 const PlanView: React.FC = () => {
   const classes = useStyles()
   const [isAddCardModalOpen, setIsAddCardModalOpen ] = useState(false)
+  const { defaultCard } = useBilling()
 
   return (
     <div className={classes.root}>
@@ -27,7 +29,10 @@ const PlanView: React.FC = () => {
       <CurrentCard />
       <div className={classes.container}>
         <Button onClick={() => setIsAddCardModalOpen(true)}>
-          <Trans>Update Card</Trans>
+          {defaultCard
+            ? <Trans>Update Card</Trans>
+            : <Trans>Add Card</Trans>
+          }
         </Button>
       </div>
       <AddCardModal

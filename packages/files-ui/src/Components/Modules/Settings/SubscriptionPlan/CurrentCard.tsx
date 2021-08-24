@@ -4,7 +4,7 @@ import { makeStyles, ITheme, createStyles } from "@chainsafe/common-theme"
 import { Trans } from "@lingui/macro"
 import { useBilling } from "../../../../Contexts/BillingContext"
 
-const useStyles = makeStyles(({ constants }: ITheme) =>
+const useStyles = makeStyles(({ constants, palette }: ITheme) =>
   createStyles({
     container: {
       margin: `${constants.generalUnit * 3}px ${constants.generalUnit * 4}px`
@@ -17,7 +17,8 @@ const useStyles = makeStyles(({ constants }: ITheme) =>
       margin: `${constants.generalUnit * 2}px 0`
     },
     creditCardIcon: {
-      marginRight: constants.generalUnit
+      marginRight: constants.generalUnit,
+      fill: palette.additional["gray"][9]
     }
   })
 )

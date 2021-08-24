@@ -35,7 +35,10 @@ const BillingProvider = ({ children }: BillingContextProps) => {
   const refreshDefaultCard = useCallback(() => {
     filesApiClient.getDefaultCard().then((card) => {
       setDefaultCard(card)
-    }).catch(console.error)
+    }).catch((err) => {
+      console.error(err)
+      setDefaultCard(undefined)
+    })
   }, [filesApiClient])
 
   useEffect(() => {
