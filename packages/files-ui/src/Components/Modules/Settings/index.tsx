@@ -18,6 +18,7 @@ import { t, Trans } from "@lingui/macro"
 import { ProfileIcon } from "@chainsafe/common-components"
 import clsx from "clsx"
 import Security from "./Security"
+import Plan from "./Plan"
 
 const TabPane = (props: ITabPaneProps<SettingsPath>) => TabPaneOrigin(props)
 const useStyles = makeStyles(({ constants, breakpoints, palette }: ITheme) =>
@@ -199,9 +200,12 @@ const Settings: React.FC = () => {
             >
               <Security />
             </TabPane>
-            {/* <TabPane title={t`Plan`} tabKey="plan">
+            <TabPane
+              title={t`Plan`}
+              tabKey="plan"
+            >
               <Plan />
-            </TabPane> */}
+            </TabPane>
           </Tabs>
         </div>
       }
