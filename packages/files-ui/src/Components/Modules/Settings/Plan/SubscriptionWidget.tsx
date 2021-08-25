@@ -60,15 +60,15 @@ interface ISubscriptionWidget {
 const SubscriptionWidget = ({ className }: ISubscriptionWidget) => {
   const classes = useStyles()
   const { storageSummary } = useFiles()
-  const {filesApiClient } = useFilesApi()
+  const { filesApiClient } = useFilesApi()
 
   useEffect(() => {
     const test = async () => {
-      const products = await filesApiClient.getAllProducts()
-      console.log(products)
+      const returnData = await filesApiClient.()
+      console.log(returnData)
     }
     test()
-  }, [filesApiClient] )
+  }, [filesApiClient])
 
   return (<section className={clsx(classes.root, className)}>
     <Typography
