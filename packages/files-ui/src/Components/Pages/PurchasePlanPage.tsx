@@ -1,5 +1,5 @@
 import React from "react"
-import PurchasePlan from "../Modules/Settings/Plan/PurchasePlan"
+import PurchasePlan from "../Modules/Settings/PurchasePlan"
 
 const PurchasePlanPage = () => {
   return <PurchasePlan />
