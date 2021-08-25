@@ -147,12 +147,12 @@ const FileSystemTableItem = React.forwardRef(
 
     const formik = useFormik({
       initialValues: {
-        fileName: name
+        name: name
       },
       validationSchema: nameValidator,
       onSubmit: (values) => {
         debugger
-        const newName = values.fileName?.trim()
+        const newName = values.name?.trim()
 
         newName && handleRename && handleRename({
           cid: file.cid,
@@ -212,7 +212,7 @@ const FileSystemTableItem = React.forwardRef(
                 >
                   <FormikTextInput
                     className={classes.renameInput}
-                    name="fileName"
+                    name="name"
                     inputVariant="minimal"
                     onKeyDown={(event) => {
                       if (event.key === "Escape") {
