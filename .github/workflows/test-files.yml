@@ -40,8 +40,8 @@ jobs:
           DEBUG: '@cypress/github-action'
         with:
           start: yarn start:files-ui
-          # quote the url to be safe against YML parsing surprises
-          wait-on: 'npx wait-on --timeout 120000 http://localhost:3000'
+          # wait for 10min for the server to be ready
+          wait-on: 'npx wait-on --timeout 600000 http://localhost:3000'
           # custom test command to run
           command: yarn test:ci:files-ui
       # store the screenshots if the tests fail
