@@ -264,6 +264,7 @@ const SearchModule: React.FC<ISearchModule> = ({
             onSearchChange(e.target.value)
           }
           placeholder={t`Search…`}
+          testId = "input_searchbar"
         />
       </form>
       {searchQuery && searchResults?.query ? (
@@ -272,7 +273,10 @@ const SearchModule: React.FC<ISearchModule> = ({
         >
           <div className={classes.resultsBox}>
             {searchResults?.query && !searchResults.results.length ? (
-              <Typography className={classes.noResultsFound}>
+              <Typography
+                className={classes.noResultsFound}
+                data-cy="no-data-state-search"
+              >
                 <Trans>No search results for </Trans>{` ${searchResults.query}`}
               </Typography>
             ) : null}
@@ -283,6 +287,7 @@ const SearchModule: React.FC<ISearchModule> = ({
                     variant="body1"
                     component="p"
                     className={classes.boldFont}
+                    data-cy="search-result-header"
                   >
                     <Trans>Files</Trans>
                   </Typography>
