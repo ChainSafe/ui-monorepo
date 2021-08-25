@@ -14,6 +14,7 @@ export { default as CheckCircleIcon, CheckCircleSvg } from "./icons/CheckCircle.
 export { default as CloseIcon, CloseSvg } from "./icons/Close.icon"
 export { default as CloseCircleIcon, CloseCirceSvg } from "./icons/CloseCircle.icon"
 export { default as CopyIcon, CopySvg } from "./icons/Copy.icon"
+export { default as CreditCardIcon, CreditCardSvg } from "./icons/CreditCard.icon"
 export { default as CrossIcon, CrossSvg } from "./icons/Cross.icon"
 export { default as CrossOutlinedIcon, CrossOutlinedSvg } from "./icons/CrossOutlined.icon"
 export { default as DatabaseIcon, DatabaseSvg } from "./icons/Database.icon"
