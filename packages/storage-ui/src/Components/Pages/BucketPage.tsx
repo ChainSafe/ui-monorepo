@@ -197,8 +197,8 @@ const BucketPage: React.FC<IFileBrowserModuleProps> = () => {
     [CONTENT_TYPES.Image]: [],
     [CONTENT_TYPES.Pdf]: [],
     [CONTENT_TYPES.Text]: [],
-    [CONTENT_TYPES.File]: ["download", "move", "delete"],
-    [CONTENT_TYPES.Directory]: ["delete", "move"]
+    [CONTENT_TYPES.File]: ["download", "rename", "move", "delete"],
+    [CONTENT_TYPES.Directory]: ["rename", "move", "delete"]
   }), [])
 
   return (

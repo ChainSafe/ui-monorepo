@@ -289,8 +289,11 @@ msgstr "Recover selected"
 msgid "Rename"
 msgstr "Rename"
 
-msgid "Rename File/Folder"
-msgstr "Rename File/Folder"
+msgid "Rename file"
+msgstr "Rename file"
+
+msgid "Rename folder"
+msgstr "Rename folder"
 
 msgid "Secret"
 msgstr "Secret"
