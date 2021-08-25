@@ -156,8 +156,7 @@ const FileSystemItem = ({
 
   const { desktop } = useThemeSwitcher()
   const classes = useStyles()
-
-
+ 
   const allMenuItems: Record<FileOperation, IMenuItem> = {
     rename: {
       contents: (

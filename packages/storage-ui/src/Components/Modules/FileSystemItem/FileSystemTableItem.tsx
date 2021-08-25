@@ -151,6 +151,7 @@ const FileSystemTableItem = React.forwardRef(
       },
       validationSchema: nameValidator,
       onSubmit: (values) => {
+        debugger
         const newName = values.fileName?.trim()
 
         newName && handleRename && handleRename({
