@@ -1,8 +1,9 @@
 import { binPage } from "../support/page-objects/binPage"
 import { homePage } from "../support/page-objects/homePage"
 import { navigationMenu } from "../support/page-objects/navigationMenu"
-import { folderName } from "../fixtures/filesTestData"
+import { folderName, folderPath } from "../fixtures/filesTestData"
 import "cypress-pipe"
+import { apiTestHelper } from "../support/utils/apiTestHelper"
 import { createFolderModal } from "../support/page-objects/modals/createFolderModal"
 import { deleteFileModal } from "../support/page-objects/modals/deleteFileModal"
 import { fileUploadModal } from "../support/page-objects/modals/fileUploadModal"
@@ -51,8 +52,7 @@ describe("File management", () => {
       homePage.fileItemName().invoke("text").as("fileName")
 
       // create a folder 
-      homePage.createFolder(folderName)
-      homePage.fileItemRow().should("have.length", 2)
+      apiTestHelper.createFolder(folderPath)
 
       cy.get("@fileName").then(($fileName) => {
         // select the file and move it to the folder
@@ -217,8 +217,7 @@ describe("File management", () => {
       cy.web3Login({ clearCSFBucket: true, clearTrashBucket: true })
 
       // create a folder
-      homePage.createFolder(folderName)
-      homePage.fileItemRow().should("have.length", 1)
+      apiTestHelper.createFolder(folderPath)
 
       // delete the folder via the menu option 
       homePage.fileItemKebabButton().first().click()
