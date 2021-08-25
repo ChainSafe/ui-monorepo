@@ -1,9 +1,10 @@
-import React, { useCallback } from "react"
-import { makeStyles, createStyles, useThemeSwitcher } from "@chainsafe/common-theme"
-import { t } from "@lingui/macro"
+import React, { useCallback, useState } from "react"
+import { makeStyles, createStyles, useThemeSwitcher, debounce } from "@chainsafe/common-theme"
+import { t, Trans } from "@lingui/macro"
 import clsx from "clsx"
 import {
   CheckboxInput,
+  CopySvg,
   formatBytes,
   FormikTextInput,
   IMenuItem,
@@ -22,7 +23,7 @@ import { nameValidator } from "../../../Utils/validationSchema"
 import { ISelectedFile, useFileBrowser } from "../../../Contexts/FileBrowserContext"
 import { desktopGridSettings, mobileGridSettings } from "../FilesList/FilesList"
 
-const useStyles = makeStyles(({ breakpoints, constants, palette }: CSSTheme) => {
+const useStyles = makeStyles(({ animation, breakpoints, constants, palette, zIndex }: CSSTheme) => {
   return createStyles({
     tableRow: {
       border: "2px solid transparent",
@@ -103,6 +104,71 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: CSSTheme) => 
       "& a": {
         textDecoration: "none"
       }
+    },
+    cidWrapper: {
+      overflow: "hidden",
+      textOverflow: "ellipsis"
+    },
+    copyButton: {
+      margin: "0 auto"
+    },
+    copyArea: {
+      display: "flex",
+      flexDirection: "row",
+      alignItems: "center",
+      justifyContent: "space-between",
+      position: "relative",
+      cursor: "pointer",
+      "& > p": {
+        maxWidth: `calc(100% - ${constants.generalUnit + 15}px)`,
+        overflow: "hidden",
+        textOverflow: "ellipsis"
+      }
+    },
+    copiedFlag: {
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      justifyContent: "center",
+      left: "50%",
+      bottom: "calc(100% + 5px)",
+      position: "absolute",
+      transform: "translate(-50%, 0%)",
+      zIndex: zIndex?.layer1,
+      transitionDuration: `${animation.transform}ms`,
+      opacity: 0,
+      visibility: "hidden",
+      backgroundColor: constants.loginModule.flagBg,
+      color: constants.loginModule.flagText,
+      padding: `${constants.generalUnit / 2}px ${constants.generalUnit}px`,
+      borderRadius: 2,
+      "&:after": {
+        transitionDuration: `${animation.transform}ms`,
+        content: "''",
+        position: "absolute",
+        top: "100%",
+        left: "50%",
+        transform: "translate(-50%,0)",
+        width: 0,
+        height: 0,
+        borderLeft: "5px solid transparent",
+        borderRight: "5px solid transparent",
+        borderTop: `5px solid ${constants.loginModule.flagBg}`
+      },
+      "&.active": {
+        opacity: 1,
+        visibility: "visible"
+      }
+    },
+    copyIcon: {
+      transitionDuration: `${animation.transform}ms`,
+      fill: constants.loginModule.iconColor,
+      height: 15,
+      width: 15,
+      marginLeft: constants.generalUnit,
+      "&.active": {
+        fill: palette.primary.main
+      }
     }
   })
 })
@@ -165,6 +231,19 @@ const FileSystemTableItem = React.forwardRef(
       setEditing(undefined)
       formik.resetForm()
     }, [formik, setEditing])
+
+    const [copied, setCopied] = useState(false)
+    const debouncedSwitchCopied = debounce(() => setCopied(false), 3000)
+
+    const onCopyCID = () => {
+      if (cid) {
+        navigator.clipboard.writeText(cid)
+          .then(() => {
+            setCopied(true)
+            debouncedSwitchCopied()
+          }).catch(console.error)
+      }
+    }
 
     return  (
       <TableRow
@@ -240,7 +319,23 @@ const FileSystemTableItem = React.forwardRef(
             }
             {
               <TableCell>
-                {!isFolder && cid}
+                {!isFolder && <>
+                  <div
+                    className={classes.copyArea}
+                    onClick={onCopyCID}>
+                    <div className={clsx(classes.copiedFlag, { "active": copied })}>
+                      <span>
+                        <Trans>
+                          Copied!
+                        </Trans>
+                      </span>
+                    </div>
+                    <Typography component="p">
+                      { cid }
+                    </Typography>
+                    <CopySvg className={clsx(classes.copyIcon, { "active": copied })} />
+                  </div>
+                </>}
               </TableCell>
             }
             <TableCell align="left">
