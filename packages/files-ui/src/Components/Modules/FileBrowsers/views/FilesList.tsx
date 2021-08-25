@@ -827,6 +827,7 @@ const FilesList = ({ isShared = false }: Props) => {
               classes.noFiles,
               loadingCurrentPath && classes.fadeOutLoading
             )}
+            data-cy="data-state-no-files"
           >
             <EmptySvg />
             <Typography variant="h4"

@@ -273,10 +273,7 @@ const SearchModule: React.FC<ISearchModule> = ({
         >
           <div className={classes.resultsBox}>
             {searchResults?.query && !searchResults.results.length ? (
-              <Typography
-                className={classes.noResultsFound}
-                data-cy="no-data-state-search"
-              >
+              <Typography className={classes.noResultsFound}>
                 <Trans>No search results for </Trans>{` ${searchResults.query}`}
               </Typography>
             ) : null}
@@ -287,7 +284,6 @@ const SearchModule: React.FC<ISearchModule> = ({
                     variant="body1"
                     component="p"
                     className={classes.boldFont}
-                    data-cy="search-result-header"
                   >
                     <Trans>Files</Trans>
                   </Typography>
