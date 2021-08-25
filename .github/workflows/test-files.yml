@@ -41,7 +41,7 @@ jobs:
         with:
           start: yarn start:files-ui
           # quote the url to be safe against YML parsing surprises
-          wait-on: 'npx wait-on --timeout 65000 http://localhost:3000'
+          wait-on: 'npx wait-on --timeout 120000 http://localhost:3000'
           # wait for max 2 minutes for the files-ui to respond
           wait-on-timeout: 61
           # custom test command to run
