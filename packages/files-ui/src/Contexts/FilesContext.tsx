@@ -558,7 +558,7 @@ const FilesProvider = ({ children }: FilesContextProps) => {
         }
 
         // Idea for parrallel download https://glebbahmutov.com/blog/run-n-promises-in-parallel/
-        // we need to use a reduce here because forEach doesn't wait for the Promise to resolve...
+        // we need to use a reduce here because forEach doesn't wait for the Promise to resolve
         await fullStructure.reduce(async (totalDownloaded: Promise<number>, item: FileSystemItemPath, index: number): Promise<number> => {
           const file = await getFileContent(bucketId, {
             cid: item.cid,
