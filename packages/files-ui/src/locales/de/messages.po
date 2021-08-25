@@ -52,9 +52,6 @@ msgstr "Sicherungsgeheimsatz"
 msgid "Backup secret phrase does not match user account, please double-check and try again."
 msgstr "Der Sicherungsgeheimsatz stimmt nicht mit dem Benutzerkonto überein, bitte überprüfen Sie dies und versuchen Sie es erneut."
 
-msgid "Basic - Free"
-msgstr ""
-
 msgid "Bin"
 msgstr "Papierkorb"
 
@@ -210,6 +207,9 @@ msgstr "Geben Sie das Passwort ein:"
 
 msgid "Enter the verification code:"
 msgstr "Geben Sie den Verifizierungscode ein:"
+
+msgid "Essentials - Free"
+msgstr ""
 
 msgid "Failed to get signature"
 msgstr "Signatur kann nicht abgerufen werden"
@@ -432,9 +432,6 @@ msgstr "Passwort:"
 
 msgid "Passwords must match"
 msgstr "Passwörter müssen übereinstimmen"
-
-msgid "Plan"
-msgstr ""
 
 msgid "Please enter a file name"
 msgstr "Bitte geben Sie einen Dateinamen ein"
@@ -770,9 +767,6 @@ msgid "You haven't set a username yet."
 msgstr "Sie haben noch keinen Benutzernamen festgelegt."
 
 msgid "You will need to sign a message in your wallet to complete sign in."
-msgstr ""
-
-msgid "Your plan"
 msgstr ""
 
 msgid "Your recovery key can be used to restore your account in place of your backup secret phrase."

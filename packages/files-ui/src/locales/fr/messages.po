@@ -53,9 +53,6 @@ msgstr "Phrase secrète de sauvegarde"
 msgid "Backup secret phrase does not match user account, please double-check and try again."
 msgstr "La phrase secrète de sauvegarde est incorrecte, merci de vérifier et réessayer."
 
-msgid "Basic - Free"
-msgstr ""
-
 msgid "Bin"
 msgstr "Corbeille"
 
@@ -211,6 +208,9 @@ msgstr "Entrez le mot de passe :"
 
 msgid "Enter the verification code:"
 msgstr "Entrez le code de vérification :"
+
+msgid "Essentials - Free"
+msgstr ""
 
 msgid "Failed to get signature"
 msgstr "Échec de l’obtention de la signature"
@@ -436,9 +436,6 @@ msgstr "Mot de passe :"
 
 msgid "Passwords must match"
 msgstr "Les mots de passes de correspondent pas"
-
-msgid "Plan"
-msgstr ""
 
 msgid "Please enter a file name"
 msgstr "Veuillez entrer un nom de fichier"
@@ -775,9 +772,6 @@ msgstr "Vous n’avez pas encore défini de nom d’utilisateur."
 
 msgid "You will need to sign a message in your wallet to complete sign in."
 msgstr "Vous devrez signer un message avec votre wallet pour terminer la procédure connexion."
-
-msgid "Your plan"
-msgstr ""
 
 msgid "Your recovery key can be used to restore your account in place of your backup secret phrase."
 msgstr "Votre clé de récupération peut être utilisée pour restaurer votre compte à la place de votre phrase de sauvegarde secrète."
