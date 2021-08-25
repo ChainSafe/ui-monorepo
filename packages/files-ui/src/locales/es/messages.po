@@ -210,7 +210,7 @@ msgid "Enter the verification code:"
 msgstr ""
 
 msgid "Essentials - Free"
-msgstr ""
+msgstr "Esenciales - Gratis"
 
 msgid "Failed to get signature"
 msgstr "No se pudo obtener la firma"

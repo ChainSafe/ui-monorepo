@@ -209,7 +209,7 @@ msgid "Enter the verification code:"
 msgstr "Geben Sie den Verifizierungscode ein:"
 
 msgid "Essentials - Free"
-msgstr ""
+msgstr "Essentials - Kostenlos"
 
 msgid "Failed to get signature"
 msgstr "Signatur kann nicht abgerufen werden"
