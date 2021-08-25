@@ -156,8 +156,8 @@ const FileSystemItem = ({
 
   const { desktop } = useThemeSwitcher()
   const classes = useStyles()
- 
-    const formik = useFormik({
+
+  const formik = useFormik({
     initialValues: {
       name
     },
@@ -169,7 +169,7 @@ const FileSystemItem = ({
     },
     enableReinitialize: true
   })
-  
+
   const allMenuItems: Record<FileOperation, IMenuItem> = {
     rename: {
       contents: (
