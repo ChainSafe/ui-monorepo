@@ -60,7 +60,7 @@ describe("File management", () => {
           .should("be.visible")
           .click()
         homePage.moveSelectedButton().click()
-        moveItemModal.folderList().contains("Testing").click()
+        moveItemModal.folderList().contains(`${folderName}`).click()
         moveItemModal.moveButton().safeClick()
 
         // ensure there is only the folder in the Home directory 
