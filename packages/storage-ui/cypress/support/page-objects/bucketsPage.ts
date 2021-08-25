@@ -13,13 +13,14 @@ export const bucketsPage = {
   bucketItemRow: () => cy.get("[data-cy=row-bucket-item]", { timeout: 20000 }),
   nameTableHeader: () => cy.get("[data-cy=table-header-name]"),
   sizeTableHeader: () => cy.get("[data-cy=table-header-size]"),
+  bucketItemName: () => cy.get("[data-cy=cell-bucket-name]"),
   bucketRowKebabButton: () => cy.get("[data-testid=dropdown-title-bucket-kebab]"),
 
   // create bucket modal elements
-  createBucketForm: () => cy.get("[data-testid=form-create-bucket]"),
-  bucketNameInput: () => cy.get("[data-cy=input-bucket-name]"),
+  createBucketForm: () => cy.get("[data-testid=form-create-bucket]", { timeout: 10000 }),
+  bucketNameInput: () => cy.get("[data-cy=input-bucket-name]", { timeout: 10000 }),
   createBucketCancelButton: () => cy.get("[data-cy=button-cancel-create]"),
-  createBucketSubmitButton: () => cy.get("[data-cy=button-submit-create]"),
+  createBucketSubmitButton: () => cy.get("[data-cy=button-submit-create]", { timeout: 10000 }),
 
   // menu elements
   deleteBucketMenuOption: () => cy.get("[data-cy=menu-delete-bucket]"),
@@ -28,7 +29,7 @@ export const bucketsPage = {
   createBucket(bucketName: string) {
     this.createBucketButton().click()
     this.bucketNameInput().type(bucketName)
-    this.createBucketSubmitButton().click()
+    this.createBucketSubmitButton().safeClick()
     this.createBucketForm().should("not.exist")
   }
 }

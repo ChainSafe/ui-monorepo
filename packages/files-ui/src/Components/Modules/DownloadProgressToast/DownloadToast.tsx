@@ -1,9 +1,9 @@
 import React from "react"
 import { createStyles, makeStyles } from "@chainsafe/common-theme"
-import { UploadProgress } from "../../../Contexts/FilesContext"
+import { DownloadProgress } from "../../../Contexts/FilesContext"
 import { ProgressBar, Typography, CheckCircleIcon, CloseCircleIcon } from "@chainsafe/common-components"
 import clsx from "clsx"
-import { plural, Trans } from "@lingui/macro"
+import { Trans } from "@lingui/macro"
 import { CSFTheme } from "../../../Themes/types"
 
 const useStyles = makeStyles(
@@ -14,10 +14,7 @@ const useStyles = makeStyles(
         margin: `${constants.generalUnit}px 0`,
         border: `1px solid ${palette.additional["gray"][6]}`,
         padding: constants.generalUnit * 2,
-        borderRadius: 4,
-        [breakpoints.down("md")]: {
-          margin: 0
-        }
+        borderRadius: 4
       },
       appearBox: {
         animation: `$slideLeft ${animation.translate}ms`,
@@ -35,53 +32,45 @@ const useStyles = makeStyles(
       },
       contentContainer: {
         display: "flex",
-        alignItems: "center",
-        "& svg": {
-          fill: constants.uploadAlert.icon
-        }
+        alignItems: "center"
       },
       marginBottom: {
         marginBottom: constants.generalUnit
       },
-      marginRight: {
-        marginRight: constants.generalUnit * 2
+      icon: {
+        marginRight: constants.generalUnit * 2,
+        fill: constants.fileSystemItemRow.menuIcon
       }
     })
   }
 )
 
-interface IUploadBox {
-  uploadInProgress: UploadProgress
+interface IDownloadToast {
+  downloadInProgress: DownloadProgress
 }
 
-const UploadBox: React.FC<IUploadBox> = (props) => {
-  const { uploadInProgress } = props
-  const {
-    complete,
-    error,
-    noOfFiles,
-    progress,
-    errorMessage
-  } = uploadInProgress
+const DownloadToast: React.FC<IDownloadToast> = ({ downloadInProgress }) => {
+  const { fileName, complete, error, progress, errorMessage, currentFileNumber, totalFileNumber } = downloadInProgress
   const classes = useStyles()
+  const fileProgress = totalFileNumber > 1 && `${currentFileNumber}/${totalFileNumber}`
 
   return (
     <>
-      <div className={clsx(classes.appearBox, classes.boxContainer)}
-        data-cy="upload-status-toast-message" >
-        {complete ? (
+      <div className={clsx(classes.appearBox, classes.boxContainer)}>
+        {!!complete && !error && (
           <div className={classes.contentContainer}>
-            <CheckCircleIcon className={classes.marginRight} />
+            <CheckCircleIcon className={classes.icon} />
             <Typography
               variant="body1"
               component="p"
             >
-              <Trans>Upload complete</Trans>
+              <Trans>Download complete</Trans>
             </Typography>
           </div>
-        ) : error ? (
+        )}
+        {error && (
           <div className={classes.contentContainer}>
-            <CloseCircleIcon className={classes.marginRight} />
+            <CloseCircleIcon className={classes.icon} />
             <Typography
               variant="body1"
               component="p"
@@ -89,16 +78,16 @@ const UploadBox: React.FC<IUploadBox> = (props) => {
               {errorMessage}
             </Typography>
           </div>
-        ) : (
+        )}
+        {!complete && !error && (
           <div>
             <Typography
               variant="body2"
               component="p"
               className={classes.marginBottom}
-            >{plural(noOfFiles, {
-                one: `Uploading and encrypting ${noOfFiles} file`,
-                other: `Uploading and encrypting ${noOfFiles} files`
-              })}</Typography>
+            >
+              <Trans>Downloading</Trans> {fileProgress} - {fileName}
+            </Typography>
             <ProgressBar
               progress={progress}
               size="small"
@@ -110,4 +99,4 @@ const UploadBox: React.FC<IUploadBox> = (props) => {
   )
 }
 
-export default UploadBox
+export default DownloadToast

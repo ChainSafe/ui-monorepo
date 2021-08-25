@@ -173,7 +173,7 @@ const LoginPage = () => {
             <BottomDarkSVG className={classes.bgBottom} />
             <TopDarkSVG className={classes.bgTop} />
           </>
-          :          <>
+          : <>
             <BottomLightSVG className={classes.bgBottom} />
             <TopLightSVG className={classes.bgTop} />
           </>

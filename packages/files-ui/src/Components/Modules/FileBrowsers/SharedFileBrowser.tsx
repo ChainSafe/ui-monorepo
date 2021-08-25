@@ -191,15 +191,15 @@ const SharedFileBrowser = () => {
         appearance: "error"
       })
     } else {
-      uploadFiles(bucket.id, files, path)
+      uploadFiles(bucket, files, path)
         .then(() => refreshContents())
         .catch(console.error)
     }
   }, [addToastMessage, uploadFiles, bucket, refreshContents])
 
   const bulkOperations: IBulkOperations = useMemo(() => ({
-    [CONTENT_TYPES.Directory]: ["move", "delete"],
-    [CONTENT_TYPES.File]: ["delete", "move"]
+    [CONTENT_TYPES.Directory]: ["download", "move", "delete"],
+    [CONTENT_TYPES.File]: ["download", "delete", "move"]
   }), [])
 
   const itemOperations: IFilesTableBrowserProps["itemOperations"] = useMemo(() => {

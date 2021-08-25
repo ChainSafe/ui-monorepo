@@ -286,7 +286,18 @@ const ProfileView = () => {
     const sanitizedValue = value?.toString() || ""
 
     setUsername(sanitizedValue)
-    !!sanitizedValue && debouncedOnLookupUsername(sanitizedValue)
+    if (sanitizedValue.length > 32) {
+      setUsernameData({
+        loading: false,
+        error: t`The username is too long`
+      })
+    } else {
+      setUsernameData({
+        loading: false,
+        error: ""
+      })
+      !!sanitizedValue && debouncedOnLookupUsername(sanitizedValue)
+    }
   }
 
   const onSubmitUsername = (e: React.FormEvent<HTMLFormElement>) => {

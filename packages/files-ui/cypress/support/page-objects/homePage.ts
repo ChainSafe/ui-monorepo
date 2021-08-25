@@ -1,6 +1,4 @@
 import { basePage } from "./basePage"
-import { folderName } from "../../fixtures/filesTestData"
-import { createFolderModal } from "./modals/createFolderModal"
 import { fileUploadModal } from "./modals/fileUploadModal"
 
 export const homePage = {
@@ -15,11 +13,12 @@ export const homePage = {
 
   // file browser row elements
   fileItemRow: () => cy.get("[data-cy=file-item-row]", { timeout: 20000 }),
+  fileTable: () => cy.get("[data-testid=table-home]"),
   fileItemName: () => cy.get("[data-cy=file-item-name]"),
   fileRenameInput: () => cy.get("[data-cy=rename-form] input"),
   fileRenameSubmitButton: () => cy.get("[data-cy=rename-submit-button]"),
   fileRenameErrorLabel: () => cy.get("[data-cy=rename-form] span.minimal.error"),
-  fileItemKebabButton: () => cy.get("[data-testid=dropdown-title-fileDropdown]"),
+  fileItemKebabButton: () => cy.get("[data-testid=menu-title-fileDropdown]"),
 
   // menu elements
   previewMenuOption: () => cy.get("[data-cy=menu-preview]"),
@@ -40,14 +39,6 @@ export const homePage = {
     // ensure upload is complete before proceeding
     fileUploadModal.body().should("not.exist")
     this.uploadStatusToast().should("not.exist")
-  },
-
-  createFolder(name: string = folderName) {
-    this.newFolderButton().click()
-    createFolderModal.folderNameInput().type(name)
-    createFolderModal.createButton().safeClick()
-    createFolderModal.body().should("not.exist")
-    this.fileItemName().contains(name)
   }
 
 }

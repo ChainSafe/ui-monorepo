@@ -40,6 +40,17 @@ export function getPathWithFile(path: string, fileName: string) {
       : `${path}/${fileName}`
 }
 
+// Removes a parent element
+// /some/parent/a_foler/1.txt -> a_foler/1.txt
+export function getRelativePath(path: string, parentPath: string) {
+  const relativeFilePath = path.indexOf(parentPath) === 0 ? path.slice(parentPath.length) : path
+
+  // remove any leading slash
+  return relativeFilePath[0] === "/"
+    ? relativeFilePath.slice(1)
+    : relativeFilePath
+}
+
 // /path/to/somewhere/1.txt -> /path/to/somewhere
 export function getParentPathFromFilePath(filePath: string) {
   const parentPath = filePath.substring(0, filePath.lastIndexOf("/"))
