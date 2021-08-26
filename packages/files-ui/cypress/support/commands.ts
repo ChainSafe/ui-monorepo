@@ -33,33 +33,26 @@ import { testPrivateKey, testAccountPassword, localHost } from "../fixtures/logi
 import { CustomizedBridge } from "./utils/CustomBridge"
 import "cypress-file-upload"
 import "cypress-pipe"
+import { BucketType } from "@chainsafe/files-api-client"
 import { navigationMenu } from "./page-objects/navigationMenu"
 
-export type Storage = Record<string, string>[];
+Cypress.Commands.add("clearBucket", (bucketType: BucketType) => {
+  apiTestHelper.clearBucket(bucketType)
+})
 
 export interface Web3LoginOptions {
   url?: string
-  apiUrlBase?: string
   saveBrowser?: boolean
   useLocalAndSessionStorage?: boolean
   clearCSFBucket?: boolean
   clearTrashBucket?: boolean
 }
 
-Cypress.Commands.add("clearCsfBucket", (apiUrlBase: string) => {
-  apiTestHelper.clearBucket(apiUrlBase, "csf")
-})
-
-Cypress.Commands.add("clearTrashBucket", (apiUrlBase: string) => {
-  apiTestHelper.clearBucket(apiUrlBase, "trash")
-})
-
 Cypress.Commands.add(
   "web3Login",
   ({
     saveBrowser = false,
     url = localHost,
-    apiUrlBase = "https://stage.imploy.site/api/v1",
     clearCSFBucket = false,
     clearTrashBucket = false
   }: Web3LoginOptions = {}) => {
@@ -95,21 +88,24 @@ Cypress.Commands.add(
       }
       homePage.appHeaderLabel().should("be.visible")
     })
+
     cy.visit(url)
     homePage.appHeaderLabel().should("be.visible")
 
     if (clearCSFBucket) {
-      cy.clearCsfBucket(apiUrlBase)
+      apiTestHelper.clearBucket("csf")
     }
 
     if (clearTrashBucket) {
-      cy.clearTrashBucket(apiUrlBase)
+      apiTestHelper.clearBucket("trash")
     }
 
     if(clearTrashBucket || clearCSFBucket){
       navigationMenu.binNavButton().click()
       navigationMenu.homeNavButton().click()
     }
+
+    homePage.appHeaderLabel().should("be.visible")
   }
 )
 
@@ -131,20 +127,12 @@ declare global {
       /**
        * Login using Metamask to an instance of Files.
        * @param {String} options.url - (default: "http://localhost:3000") - what url to visit.
-       * @param {String} apiUrlBase - (default: "https://stage.imploy.site/api/v1") - what url to call for the api.
        * @param {Boolean} options.saveBrowser - (default: false) - save the browser to localstorage.
        * @param {Boolean} options.clearCSFBucket - (default: false) - whether any file in the csf bucket should be deleted.
+       * @param {Boolean} options.clearTrashBucket - (default: false) - whether any file in the trash bucket should be deleted.
        * @example cy.web3Login({saveBrowser: true, url: 'http://localhost:8080'})
        */
       web3Login: (options?: Web3LoginOptions) => Chainable
-
-      /**
-       * Removed any file or folder at the root of specifed bucket
-       * @param {String} apiUrlBase - what url to call for the api.
-       * @example cy.clearCsfBucket("https://stage.imploy.site/api/v1")
-       */
-      clearCsfBucket: (apiUrlBase: string) => Chainable
-      clearTrashBucket: (apiUrlBase: string) => Chainable
 
       /**
        * Use this when encountering race condition issues resulting in
