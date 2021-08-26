@@ -34,6 +34,9 @@ msgstr "Add by sharing address, username or wallet address"
 msgid "Add more files"
 msgstr "Add more files"
 
+msgid "Add viewers and editors by username, sharing id or Ethereum address."
+msgstr "Add viewers and editors by username, sharing id or Ethereum address."
+
 msgid "An error occurred while downloading the file"
 msgstr "An error occurred while downloading the file"
 
@@ -147,6 +150,9 @@ msgstr "Create a new shared folder"
 
 msgid "Create folder"
 msgstr "Create folder"
+
+msgid "Create your public username in <0>Settings</0>!"
+msgstr "Create your public username in <0>Settings</0>!"
 
 msgid "Dark Theme"
 msgstr "Dark Theme"
@@ -288,6 +294,9 @@ msgstr "Give view-only permission to:"
 
 msgid "Go back"
 msgstr "Go back"
+
+msgid "Got it"
+msgstr "Got it"
 
 msgid "Hello again!"
 msgstr "Hello again!"
@@ -762,6 +771,9 @@ msgstr "Yes, save it"
 
 msgid "You can change this later."
 msgstr "You can change this later."
+
+msgid "You can now create shared folders to share a file."
+msgstr "You can now create shared folders to share a file."
 
 msgid "You can't move folders to this path"
 msgstr "You can't move folders to this path"
