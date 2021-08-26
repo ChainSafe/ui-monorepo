@@ -26,9 +26,6 @@ msgstr "Cuenta"
 msgid "Add Card"
 msgstr ""
 
-#~ msgid "Add a card"
-#~ msgstr ""
-
 msgid "Add a credit card"
 msgstr ""
 
@@ -57,9 +54,6 @@ msgid "Approve"
 msgstr "Aprobar"
 
 msgid "Are we on the right track? Let us know in less than 1 minute."
-msgstr ""
-
-msgid "Back"
 msgstr ""
 
 msgid "Back to plan settings"
@@ -182,6 +176,9 @@ msgstr ""
 msgid "Create folder"
 msgstr "Crear Carpeta"
 
+msgid "Credit card on file"
+msgstr ""
+
 msgid "Dark Theme"
 msgstr "Tema oscuro"
 
@@ -243,15 +240,6 @@ msgid "Enter password:"
 msgstr "Introducir la contraseña:"
 
 msgid "Enter the verification code:"
-msgstr ""
-
-msgid "Error while creating new shared folder"
-msgstr ""
-
-msgid "Error while downloading {0}"
-msgstr ""
-
-msgid "Error while uploading {0}"
 msgstr ""
 
 msgid "Failed to get signature"
@@ -425,6 +413,9 @@ msgstr "Próximo"
 msgid "Nice to see you again!"
 msgstr "Encantado de verte de nuevo!"
 
+msgid "No Card"
+msgstr ""
+
 msgid "No file to download."
 msgstr ""
 
@@ -481,6 +472,9 @@ msgstr "Contraseña:"
 
 msgid "Passwords must match"
 msgstr "Las contraseñas deben coincidir"
+
+msgid "Payment and Subscriptions"
+msgstr ""
 
 msgid "Please enter a file name"
 msgstr "Ingrese un nombre de archivo"
@@ -656,9 +650,6 @@ msgstr "Tamaño"
 msgid "Social Sign-in Wallet"
 msgstr "Cartera de inicio de sesión social"
 
-#~ msgid "Something went wrong"
-#~ msgstr ""
-
 msgid "Something went wrong with email login! Please try again."
 msgstr ""
 
@@ -748,6 +739,9 @@ msgstr ""
 
 msgid "Update"
 msgstr "Actualizar"
+
+msgid "Update Card"
+msgstr ""
 
 msgid "Update Shared Folder"
 msgstr ""
