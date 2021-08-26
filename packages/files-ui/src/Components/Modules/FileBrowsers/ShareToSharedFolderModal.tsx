@@ -113,12 +113,12 @@ const useStyles = makeStyles(
         }
       },
       heading: {
-        color: constants.createShareModal.color,
+        color: constants.modalDefault.color,
         fontWeight: typography.fontWeight.semibold,
         marginBottom: 10
       },
       iconBacking: {
-        backgroundColor: constants.createShareModal.iconBackingColor,
+        backgroundColor: constants.modalDefault.iconBackingColor,
         width: 48,
         height: 48,
         borderRadius: 24,

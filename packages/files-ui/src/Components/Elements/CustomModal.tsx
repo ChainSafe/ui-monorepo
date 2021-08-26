@@ -12,8 +12,9 @@ const useStyles = makeStyles(({ constants, breakpoints }: CSFTheme) =>
       }
     },
     inner: {
+      backgroundColor: constants.modalDefault.backgroundColor,
+      color: constants.modalDefault.color,
       [breakpoints.down("md")]: {
-        backgroundColor: constants.modalDefault.background,
         top: "unset",
         bottom: 0,
         left: 0,
@@ -25,8 +26,10 @@ const useStyles = makeStyles(({ constants, breakpoints }: CSFTheme) =>
         borderRadiusRightBottom: 0
       }
     },
-    close: {
-      [breakpoints.down("md")]: {}
+    closeIcon : {
+      "& svg": {
+        stroke: constants.modalDefault.closeIconColor
+      }
     }
   })
 )
@@ -49,7 +52,7 @@ const CustomModal: React.FC<ICustomModal> = ({
     <Modal
       className={clsx(classes.root, className)}
       injectedClass={{
-        close: clsx(classes.close, injectedClass?.close),
+        closeIcon: clsx(classes.closeIcon, injectedClass?.closeIcon),
         inner: clsx(classes.inner, injectedClass?.inner)
       }}
       {...rest}

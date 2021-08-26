@@ -464,7 +464,7 @@ const FileSystemItem = ({
               }}
               closePosition="none"
               active={editing === cid}
-              setActive={() => setEditing("")}
+              onClose={() => setEditing("")}
             >
               <FormikProvider value={formik}>
                 <Form className={classes.renameModal}>

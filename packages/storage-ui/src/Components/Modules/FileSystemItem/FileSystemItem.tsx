@@ -443,7 +443,7 @@ const FileSystemItem = ({
               }}
               closePosition="none"
               active={editing?.cid === cid && editing.name === name}
-              setActive={() => setEditing(undefined)}
+              onClose={() => setEditing(undefined)}
             >
               <FormikProvider value={formik}>
                 <Form className={classes.renameModal}>

@@ -37,7 +37,7 @@ const useStyles = makeStyles(({ breakpoints, constants }: CSFTheme) =>
         minHeight: 550
       },
       [breakpoints.down("sm")]: {
-        backgroundColor: constants?.modalDefault?.background,
+        backgroundColor: constants?.modalDefault?.backgroundColor,
         top: "unset",
         bottom: 0,
         left: 0,
