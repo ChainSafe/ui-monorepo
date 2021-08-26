@@ -5,10 +5,8 @@ import { Divider, Typography } from "@chainsafe/common-components"
 import { makeStyles, createStyles, ITheme } from "@chainsafe/common-theme"
 import { Trans } from "@lingui/macro"
 
-const useStyles = makeStyles(({ constants, palette }: ITheme) =>
+const useStyles = makeStyles(({ constants }: ITheme) =>
   createStyles({
-    root: {
-    },
     heading: {
       marginBottom: constants.generalUnit * 2
     }
@@ -19,7 +17,7 @@ const PlanView: React.FC = () => {
   const classes = useStyles()
 
   return (
-    <div className={classes.root}>
+    <div>
       <Typography
         variant="h3"
         component="h3"
