@@ -118,7 +118,7 @@ interface IFileSystemTableItemProps {
   handleRename?: (path: string, newPath: string) => Promise<void>
   currentPath: string | undefined
   menuItems: IMenuItem[]
-  longPressEvents: LongPressResult<Element>
+  longPressEvents: any
 }
 
 const FileSystemTableItem = React.forwardRef(

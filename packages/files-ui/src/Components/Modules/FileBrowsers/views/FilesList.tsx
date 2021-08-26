@@ -174,14 +174,14 @@ const useStyles = makeStyles(
       dropdownIcon: {
         width: 20,
         height: 20,
-        padding: 0,
         position: "relative",
         fontSize: "unset",
+        padding: `${constants.generalUnit * 0.5}px 0 0 ${constants.generalUnit * 0.5}px`,
         "& svg": {
           fill: constants.fileSystemItemRow.dropdownIcon,
           left: 0,
-          width: 20,
-          height: 20,
+          width: 16,
+          height: 16,
           position: "absolute"
         }
       },
@@ -309,7 +309,7 @@ const FilesList = ({ isShared = false }: Props) => {
   const { themeKey, desktop } = useThemeSwitcher()
   const [isReportFileModalOpen, setIsReportFileModalOpen] = useState(false)
   const [isFileInfoModalOpen, setIsFileInfoModalOpen] = useState(false)
-  const [isCopyToSharedFolerModalOpen, setIsCopyToSharedFolerModalOpen] = useState(false)
+  const [isCopyToSharedFolderModalOpen, setIsCopyToSharedFolderModalOpen] = useState(false)
 
   const {
     heading,
@@ -964,7 +964,7 @@ const FilesList = ({ isShared = false }: Props) => {
                     share={(filePath: string, fileIndex: number) => {
                       setFilePath(filePath)
                       setFileIndex(fileIndex)
-                      setIsCopyToSharedFolerModalOpen(true)
+                      setIsCopyToSharedFolderModalOpen(true)
                     }}
                   />
                 ))}
@@ -1021,7 +1021,7 @@ const FilesList = ({ isShared = false }: Props) => {
                   share={(fileInfoPath: string, fileIndex: number) => {
                     setFilePath(fileInfoPath)
                     setFileIndex(fileIndex)
-                    setIsCopyToSharedFolerModalOpen(true)
+                    setIsCopyToSharedFolderModalOpen(true)
                   }}
                   showPreview={(fileIndex: number) => {
                     setFileIndex(fileIndex)
@@ -1108,11 +1108,11 @@ const FilesList = ({ isShared = false }: Props) => {
           }}
         />
       }
-      { isCopyToSharedFolerModalOpen && filePath && fileIndex !== undefined &&
+      { isCopyToSharedFolderModalOpen && filePath && fileIndex !== undefined &&
         <ShareToSharedFolderModal
           file={files[fileIndex]}
           close={() => {
-            setIsCopyToSharedFolerModalOpen(false)
+            setIsCopyToSharedFolderModalOpen(false)
             setFilePath(undefined)
           }}
           filePath={currentPath}
