@@ -26,9 +26,6 @@ msgstr "Compte"
 msgid "Add Card"
 msgstr ""
 
-#~ msgid "Add a card"
-#~ msgstr ""
-
 msgid "Add a credit card"
 msgstr ""
 
@@ -58,9 +55,6 @@ msgstr "Accepter"
 
 msgid "Are we on the right track? Let us know in less than 1 minute."
 msgstr "Sommes-nous sur la bonne voie ? Dites-le-nous en moins d’une minute (en anglais)."
-
-msgid "Back"
-msgstr "Retour"
 
 msgid "Back to plan settings"
 msgstr ""
@@ -182,6 +176,9 @@ msgstr "Créer un nouveau dossier partagé"
 msgid "Create folder"
 msgstr "Créer un dossier"
 
+msgid "Credit card on file"
+msgstr ""
+
 msgid "Dark Theme"
 msgstr "Thème sombre"
 
@@ -244,15 +241,6 @@ msgstr "Entrez le mot de passe :"
 
 msgid "Enter the verification code:"
 msgstr "Entrez le code de vérification :"
-
-msgid "Error while creating new shared folder"
-msgstr "Erreur lors de la création d’un nouveau dossier partagé"
-
-msgid "Error while downloading {0}"
-msgstr "Erreur lors du téléchargement de {0}"
-
-msgid "Error while uploading {0}"
-msgstr "Erreur lors du téléversement de {0}"
 
 msgid "Failed to get signature"
 msgstr "Échec de l’obtention de la signature"
@@ -425,6 +413,9 @@ msgstr "Suivant"
 msgid "Nice to see you again!"
 msgstr "Ravi de te revoir !"
 
+msgid "No Card"
+msgstr ""
+
 msgid "No file to download."
 msgstr ""
 
@@ -481,6 +472,9 @@ msgstr "Mot de passe :"
 
 msgid "Passwords must match"
 msgstr "Les mots de passes de correspondent pas"
+
+msgid "Payment and Subscriptions"
+msgstr ""
 
 msgid "Please enter a file name"
 msgstr "Veuillez entrer un nom de fichier"
@@ -656,9 +650,6 @@ msgstr "Taille"
 msgid "Social Sign-in Wallet"
 msgstr "Connecté avec un réseau social ou wallet"
 
-#~ msgid "Something went wrong"
-#~ msgstr ""
-
 msgid "Something went wrong with email login! Please try again."
 msgstr "Un problème est survenu lors de la connexion avec courriel ! Veuillez réessayer."
 
@@ -748,6 +739,9 @@ msgstr ""
 
 msgid "Update"
 msgstr "Mettre à jour"
+
+msgid "Update Card"
+msgstr ""
 
 msgid "Update Shared Folder"
 msgstr "Mettre à jour le dossier partagé"
