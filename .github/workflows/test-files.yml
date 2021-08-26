@@ -37,12 +37,11 @@ jobs:
           REACT_APP_FILES_VERIFIER_NAME: ${{ secrets.GH_REACT_APP_FILES_VERIFIER_NAME }}
           REACT_APP_FILES_UUID_VERIFIER_NAME: 'chainsafe-uuid-testnet'
           REACT_APP_TEST: 'true'
+          DEBUG: '@cypress/github-action'
         with:
           start: yarn start:files-ui
-          # quote the url to be safe against YML parsing surprises
-          wait-on: 'http://localhost:3000'
-          # wait for max 2 minutes for the files-ui to respond
-          wait-on-timeout: 120
+          # wait for 10min for the server to be ready
+          wait-on: 'npx wait-on --timeout 600000 http://localhost:3000'
           # custom test command to run
           command: yarn test:ci:files-ui
       # store the screenshots if the tests fail
