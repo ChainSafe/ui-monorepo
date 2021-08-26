@@ -1,7 +1,8 @@
 import { homePage } from "../support/page-objects/homePage"
-import { folderName } from "../fixtures/filesTestData"
+import { folderName, folderPath } from "../fixtures/filesTestData"
 import { searchPage } from "../support/page-objects/searchPage"
 import { apiTestHelper } from "../support/utils/apiTestHelper"
+import { deleteFileModal } from "../support/page-objects/modals/deleteFileModal"
 
 describe("Search", () => {
 
@@ -10,48 +11,76 @@ describe("Search", () => {
     it("can search for files and folders via name", () => {
       cy.web3Login({ clearCSFBucket: true, clearTrashBucket: true })
 
-      // add some folders and files
-      apiTestHelper.createFolder(`/${folderName}A/${folderName}B`)
-      homePage.uploadFile("../fixtures/uploadedFiles/text-file.txt")
+      // add file and folders
       homePage.uploadFile("../fixtures/uploadedFiles/logo.png")
+      homePage.fileItemName().invoke("text").as("fileName")
+      apiTestHelper.createFolder(`/${folderName}A`)
+      apiTestHelper.createFolder(`/${folderName}B`)
 
       // search for a specific folder, ensure 1 result is found
       homePage.searchInput().type(`${folderName}A{enter}`)
-      //searchPage.searchItemRow().should("have.length", 1)
+      searchPage.fileItemRow().should("be.visible")
+        .should("have.length", 1)
       searchPage.fileItemName().should("contain.text", `${folderName}A`)
-
       cy.go("back")
 
-      // perform a loose search, ensure 2 results are found
+      // perform a loose search for folders, ensure that 2 results are found
       homePage.searchInput().type(`{selectall}{del}${folderName}{enter}`)
-      //searchPage.searchItemRow().should("have.length", 2)
+      searchPage.fileItemRow().should("be.visible")
+        .should("have.length", 2)
       searchPage.fileItemName().should("contain.text", `${folderName}A`)
       searchPage.fileItemName().should("contain.text", `${folderName}B`)
+      cy.go("back")
 
-      //cy.go("back")
-
-      // search for a specific file, ensure 1  result is found
-      // homePage.searchInput().type(`${folderName}1{enter}`)
-      // searchPage.searchItemRow().should("have.length", 1)
-      // searchPage.fileItemName().should("contain.text", `${folderName}1`)
-
+      // search for a specific file, ensure only 1 result is found
+      cy.get("@fileName").then(($fileName) => {
+        homePage.searchInput().type(`{selectall}{del}${$fileName}{enter}`)
+        searchPage.fileItemRow().should("be.visible")
+          .should("have.length", 1)
+        searchPage.fileItemName().should("contain.text", `${$fileName}`)
+      })
     })
 
-    it("can see no data state when no search results are found"), () => {
+    it("can see no data state when no search results are found", () => {
       cy.web3Login({ clearCSFBucket: true, clearTrashBucket: true })
-    }
+      homePage.searchInput().type(`{selectall}{del}${folderName}C{enter}`)
+      searchPage.appHeaderLabel().should("have.text", "Search results")
+      searchPage.noDataStateInfo().should("be.visible")
+        .should("exist")
+    })
 
-    it("can search for items that are in the bin"), () => {
+    it("can search for items that are in the bin", () => {
       cy.web3Login({ clearCSFBucket: true, clearTrashBucket: true })
-    }
+      apiTestHelper.createFolder(folderPath)
 
-    it("can view folder content by double clicking the folder in search result"), () => {
+      // delete the folder via the menu option 
+      homePage.fileItemKebabButton().first().click()
+      homePage.deleteMenuOption().click()
+      deleteFileModal.body().should("be.visible")
+      deleteFileModal.confirmButton().safeClick()
+      deleteFileModal.body().should("not.exist")
+      homePage.fileItemRow().should("not.exist")
+
+      // search for deleted file
+      homePage.searchInput().type(`${folderName}{enter}`)
+      searchPage.fileItemRow().should("have.length", 1)
+      searchPage.fileItemName().should("contain.text", `${folderName}`)
+    })
+
+    it("can view folder content from search result", () => {
       cy.web3Login({ clearCSFBucket: true, clearTrashBucket: true })
-    }
+      apiTestHelper.createFolder(folderPath)
+      homePage.searchInput().type(`${folderName}{enter}`)
 
-    it("can view file preview by double clicking the file in search result"), () => {
-      cy.web3Login({ clearCSFBucket: true, clearTrashBucket: true })
-    }
+      // view contents via menu option
+      searchPage.fileItemKebabButton().click()
+      searchPage.viewFolderMenuOption().click()
+      searchPage.folderBreadcrumb().should("have.text", `${folderName}`)
+      cy.go("back")
 
+      // view contents via double click
+      searchPage.fileItemRow().contains(`${folderName}`).dblclick()
+      searchPage.folderBreadcrumb().should("have.text", `${folderName}`)
+    })
   })
 })
