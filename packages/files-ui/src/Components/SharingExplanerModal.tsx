@@ -22,38 +22,54 @@ const useStyles = makeStyles(
         alignItems: "center"
       },
       title: {
-        //
+        textAlign: "center",
+        marginBottom: constants.generalUnit * 3
       },
       crossIconButton:{
-        //
-      },
-      image: {
         //
       },
       modalRoot: {
         //
       },
       modalInner: {
-        //
+        maxWidth: "400px !important"
       },
       buttonLink: {
-        color: palette.additional["gray"][10],
         outline: "none",
         textDecoration: "underline",
         cursor: "pointer",
         textAlign: "center",
         marginBottom: constants.generalUnit * 2
       },
+      buttonContainer: {
+        width: "100%"
+      },
+      nextButton: {
+        marginLeft: "auto",
+        marginTop: constants.generalUnit
+      },
       stepDisplay: {
         fontSize: 35,
+        color: palette.additional["gray"][5],
         "& span" : {
           cursor: "pointer",
           marginLeft: constants.generalUnit / 2,
           marginRight: constants.generalUnit / 2
         },
         "& .active": {
-          color: palette.additional["gray"][5]
+          color: palette.additional["gray"][10]
         }
+      },
+      image: {
+        maxWidth: "100%",
+        margin: "auto"
+      },
+      imageContainer: {
+        alignItems: "center",
+        display: "flex",
+        width: 300,
+        margin: "0 auto",
+        height: 300
       }
     })
   })
@@ -71,25 +87,50 @@ const SharingExplanerModal = ({ onHide }: Props) => {
   const dismissedFlag = localStorageGet(DISMISSED_SHARING_EXPLAINER_KEY)
   const [step, setStep] = useState(1)
 
-  const Text = useCallback(() => {
+  const Slides = useCallback(() => {
     switch (step) {
     default:
       return <>
-        <div><Trans>You can now create shared folders to share a file.</Trans></div>
-        <div><img src={step1Image}/></div>
+        <div className={classes.title}>
+          <Trans>You can now create shared folders to share a file.</Trans></div>
+        <div className={classes.imageContainer}>
+          <img
+            className={classes.image}
+            src={step1Image}
+          />
+        </div>
       </>
 
     case 2:
-      return <div><Trans>Add viewers and editors by username, sharing id or Ethereum address.</Trans></div>
+      return <>
+        <div className={classes.title}
+        ><Trans>Add viewers and editors by username, sharing id or Ethereum address.</Trans></div>
+        <div className={classes.imageContainer}>
+          <img
+            className={classes.image}
+            src={step2Image}
+          />
+        </div>
+      </>
 
     case 3:
-      return <div><Trans>Create your public username in <Link
-        className={classes.buttonLink}
-        to={`${SETTINGS_BASE}/profile`}
-      >Settings</Link>!
-      </Trans></div>
+      return <>
+        <div className={classes.title}>
+          <Trans>Create your public username in <Link
+            className={classes.buttonLink}
+            to={`${SETTINGS_BASE}/profile`}
+          >Settings</Link>!
+          </Trans>
+        </div>
+        <div className={classes.imageContainer}>
+          <img
+            className={classes.image}
+            src={step3Image}
+          />
+        </div>
+      </>
     }
-  }, [classes.buttonLink, step])
+  }, [classes.buttonLink, classes.image, classes.imageContainer, classes.title, step])
 
   useEffect(() => {
     if (dismissedFlag === "false"){
@@ -106,6 +147,7 @@ const SharingExplanerModal = ({ onHide }: Props) => {
   }, [dismissedFlag, localStorageSet])
 
   const onClose = useCallback(() => {
+    console.log("hop")
     onHide && onHide()
     localStorageSet(DISMISSED_SHARING_EXPLAINER_KEY, "true")
     setShowModal(false)
@@ -114,8 +156,9 @@ const SharingExplanerModal = ({ onHide }: Props) => {
   const onNextStep = useCallback((next : number) => {
     if (next < STEP_NUMBER) {
       setStep(next)
+      return
     } else {
-      switch (STEP_NUMBER) {
+      switch (next) {
       case 3:
         localStorageSet(DISMISSED_SHARING_EXPLAINER_KEY, "true")
         setStep(3)
@@ -123,8 +166,11 @@ const SharingExplanerModal = ({ onHide }: Props) => {
       case STEP_NUMBER + 1:
         onClose()
         break
+      default:
+        break
       }
     }
+
 
   }, [localStorageSet, onClose])
 
@@ -139,18 +185,18 @@ const SharingExplanerModal = ({ onHide }: Props) => {
     >
       <div className={classes.root}>
         <Typography
-          variant="body1"
-          className={classes.title}
+          variant="h2"
         >
-          <Text/>
+          <Slides/>
         </Typography>
-        <div className={classes.image}>
+        <div className={classes.buttonContainer}>
+          <Button
+            className={classes.nextButton}
+            onClick={() => onNextStep(step + 1)}
+          >
+            {step === STEP_NUMBER ? t`Got it` : t`Next`}
+          </Button>
         </div>
-        <Button
-          onClick={() => onNextStep(step + 1)}
-        >
-          {step === STEP_NUMBER ? t`Got it` : t`Next`}
-        </Button>
         <div
           className={classes.stepDisplay}
         >
