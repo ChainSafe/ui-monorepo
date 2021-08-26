@@ -13,6 +13,7 @@ import { ConnectDragPreview } from "react-dnd"
 import { Form, FormikProvider, useFormik } from "formik"
 import { nameValidator } from "../../../../../Utils/validationSchema"
 import Menu from "../../../../../UI-components/Menu"
+import { LongPressResult } from "use-long-press"
 
 const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => {
   return createStyles({
@@ -127,6 +128,7 @@ interface IFileSystemTableItemProps {
   currentPath: string | undefined
   menuItems: IMenuItem[]
   resetSelectedFiles: () => void
+  longPressEvents: LongPressResult<Element>
 }
 
 const FileSystemGridItem = React.forwardRef(
@@ -144,7 +146,7 @@ const FileSystemGridItem = React.forwardRef(
     menuItems,
     resetSelectedFiles,
     preview,
-    ...props
+    longPressEvents
   }: IFileSystemTableItemProps, forwardedRef: any) => {
     const classes = useStyles()
     const { name, cid } = file
@@ -193,7 +195,6 @@ const FileSystemGridItem = React.forwardRef(
 
     useOnClickOutside(formRef, stopEditing)
 
-    console.log(props)
 
     return  (
       <div
@@ -203,7 +204,7 @@ const FileSystemGridItem = React.forwardRef(
           e.preventDefault()
           e.stopPropagation()
         }}
-        {...props}
+        {...longPressEvents}
       >
         <div
           className={clsx(classes.gridViewIconNameBox)}

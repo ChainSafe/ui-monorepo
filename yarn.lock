@@ -22650,6 +22650,11 @@ use-latest@^1.2.0:
   dependencies:
     use-isomorphic-layout-effect "^1.0.0"
 
+use-long-press@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/use-long-press/-/use-long-press-1.1.1.tgz#7a67b0bdf8d6f7a9183b6d662c5d57d164183574"
+  integrity sha512-tqf6zDZ06g/Rt8rw+/jaekrdBTmrFXxjHHd2QgMlOhvs1fwOb9VA9d+DmkTPeNtL/byaJ8YeHTOwmluwxhXRLA==
+
 use-sidecar@^1.0.1:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/use-sidecar/-/use-sidecar-1.0.3.tgz#17a4e567d4830c0c0ee100040e85a7fe68611e0f"

@@ -383,11 +383,7 @@ const FileSystemItem = ({
     dragMoveRef(fileOrFolderRef)
   }
 
-  const callback = useCallback(event => {
-    alert('Long pressed!');
-  }, []);
-
-  const bind = useLongPress(callback);
+  const longPressEvents = useLongPress<Element, any>(!desktop ? () => handleAddToSelectedItems(file) : null);
 
   const onSingleClick = useCallback(
     (e) => {
@@ -400,14 +396,18 @@ const FileSystemItem = ({
         }
       } else {
         // on mobile
-        if (isFolder) {
-          viewFolder && viewFolder(file.cid)
+        if (selectedCids.length) {
+          handleAddToSelectedItems(file)
         } else {
-          onFilePreview()
+          if (isFolder) {
+            viewFolder && viewFolder(file.cid)
+          } else {
+            onFilePreview()
+          }
         }
       }
     },
-    [desktop, handleAddToSelectedItems, file, handleSelectItem, isFolder, viewFolder, onFilePreview]
+    [desktop, handleAddToSelectedItems, file, handleSelectItem, isFolder, viewFolder, onFilePreview, selectedCids.length]
   )
 
   const onDoubleClick = useCallback(
@@ -452,7 +452,7 @@ const FileSystemItem = ({
     selectedCids,
     setEditing,
     resetSelectedFiles,
-    ...bind
+    longPressEvents
   }
 
   return (

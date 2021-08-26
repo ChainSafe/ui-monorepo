@@ -239,13 +239,11 @@ const useStyles = makeStyles(
         opacity: 0.2,
         transition: `opacity ${animation.transform * 3}ms`
       },
-      tableHead: {
-        marginTop: constants.generalUnit * 3
-      },
       bulkOperations: {
         display: "flex",
         flexDirection: "row",
         marginTop: constants.generalUnit * 3,
+        marginBottom: constants.generalUnit * 3,
         minHeight: constants.generalUnit * 4.2, // reserve space for buttons for the interface not to jump when they get visible
         "& > *": {
           marginRight: constants.generalUnit
@@ -845,7 +843,7 @@ const FilesList = ({ isShared = false }: Props) => {
               testId="home"
             >
               {desktop && (
-                <TableHead className={classes.tableHead}>
+                <TableHead>
                   <TableRow type="grid"
                     className={classes.tableRow}>
                     <TableHeadCell>

@@ -19,6 +19,7 @@ import { ConnectDragPreview } from "react-dnd"
 import { Form, FormikProvider, useFormik } from "formik"
 import { nameValidator } from "../../../../../Utils/validationSchema"
 import Menu from "../../../../../UI-components/Menu"
+import { LongPressResult } from "use-long-press"
 
 const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => {
   const desktopGridSettings = "50px 69px 3fr 190px 100px 45px !important"
@@ -35,6 +36,9 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => 
       },
       "&.droppable": {
         border: `2px solid ${palette.primary.main}`
+      },
+      "&.highlighted": {
+        border: `1px solid ${palette.primary.main}`
       }
     },
     fileIcon: {
@@ -114,6 +118,7 @@ interface IFileSystemTableItemProps {
   handleRename?: (path: string, newPath: string) => Promise<void>
   currentPath: string | undefined
   menuItems: IMenuItem[]
+  longPressEvents: LongPressResult<Element>
 }
 
 const FileSystemTableItem = React.forwardRef(
@@ -131,7 +136,7 @@ const FileSystemTableItem = React.forwardRef(
     setEditing,
     handleRename,
     menuItems,
-    ...props
+    longPressEvents
   }: IFileSystemTableItemProps, forwardedRef: any) => {
     const classes = useStyles()
     const { name, cid, created_at, size } = file
@@ -159,11 +164,13 @@ const FileSystemTableItem = React.forwardRef(
       <TableRow
         data-cy="file-item-row"
         className={clsx(classes.tableRow, {
-          droppable: isFolder && (isOverMove || isOverUpload)
+          droppable: isFolder && (isOverMove || isOverUpload),
+          highlighted: !desktop && selectedCids.includes(cid)
         })}
         type="grid"
         ref={forwardedRef}
         selected={selectedCids.includes(cid)}
+        {...longPressEvents}
       >
         {desktop && (
           <TableCell>
