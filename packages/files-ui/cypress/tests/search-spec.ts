@@ -2,7 +2,6 @@ import { homePage } from "../support/page-objects/homePage"
 import { folderName, folderPath } from "../fixtures/filesTestData"
 import { searchPage } from "../support/page-objects/searchPage"
 import { apiTestHelper } from "../support/utils/apiTestHelper"
-import { deleteFileModal } from "../support/page-objects/modals/deleteFileModal"
 
 describe("Search", () => {
 
@@ -47,24 +46,6 @@ describe("Search", () => {
       searchPage.appHeaderLabel().should("have.text", "Search results")
       searchPage.noDataStateInfo().should("be.visible")
         .should("exist")
-    })
-
-    it("can search for items that are in the bin", () => {
-      cy.web3Login({ clearCSFBucket: true, clearTrashBucket: true })
-      apiTestHelper.createFolder(folderPath)
-
-      // delete the folder via the menu option 
-      homePage.fileItemKebabButton().first().click()
-      homePage.deleteMenuOption().click()
-      deleteFileModal.body().should("be.visible")
-      deleteFileModal.confirmButton().safeClick()
-      deleteFileModal.body().should("not.exist")
-      homePage.fileItemRow().should("not.exist")
-
-      // search for deleted file
-      homePage.searchInput().type(`${folderName}{enter}`)
-      searchPage.fileItemRow().should("have.length", 1)
-      searchPage.fileItemName().should("contain.text", `${folderName}`)
     })
 
     it("can view folder content from search result", () => {
