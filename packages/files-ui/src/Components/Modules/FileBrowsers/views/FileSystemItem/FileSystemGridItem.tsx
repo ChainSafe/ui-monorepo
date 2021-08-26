@@ -13,7 +13,6 @@ import { ConnectDragPreview } from "react-dnd"
 import { Form, FormikProvider, useFormik } from "formik"
 import { nameValidator } from "../../../../../Utils/validationSchema"
 import Menu from "../../../../../UI-components/Menu"
-import { LongPressResult } from "use-long-press"
 
 const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => {
   return createStyles({
@@ -128,7 +127,7 @@ interface IFileSystemTableItemProps {
   currentPath: string | undefined
   menuItems: IMenuItem[]
   resetSelectedFiles: () => void
-  longPressEvents: LongPressResult<Element>
+  longPressEvents: any
 }
 
 const FileSystemGridItem = React.forwardRef(

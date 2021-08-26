@@ -18,7 +18,7 @@ import {
   ExclamationCircleInverseSvg,
   ZoomInSvg,
   InfoCircleSvg } from "@chainsafe/common-components"
-import { makeStyles, createStyles, useDoubleClick, useThemeSwitcher } from "@chainsafe/common-theme"
+import { makeStyles, createStyles, useDoubleClick, useThemeSwitcher, useLongPress } from "@chainsafe/common-theme"
 import { Form, FormikProvider, useFormik } from "formik"
 import CustomModal from "../../../../Elements/CustomModal"
 import { t, Trans } from "@lingui/macro"
@@ -35,8 +35,7 @@ import { getPathWithFile } from "../../../../../Utils/pathUtils"
 import { BucketUser } from "@chainsafe/files-api-client"
 import { useMemo } from "react"
 import { nameValidator } from "../../../../../Utils/validationSchema"
-import { useLongPress } from "use-long-press"
-
+ 
 const useStyles = makeStyles(({ breakpoints, constants }: CSFTheme) => {
   return createStyles({
     renameInput: {
@@ -383,7 +382,6 @@ const FileSystemItem = ({
     dragMoveRef(fileOrFolderRef)
   }
 
-  const longPressEvents = useLongPress<Element, any>(!desktop ? () => handleAddToSelectedItems(file) : null);
 
   const onSingleClick = useCallback(
     (e) => {
@@ -397,6 +395,7 @@ const FileSystemItem = ({
       } else {
         // on mobile
         if (selectedCids.length) {
+          console.log("here")
           handleAddToSelectedItems(file)
         } else {
           if (isFolder) {
@@ -429,9 +428,14 @@ const FileSystemItem = ({
 
   const { click } = useDoubleClick(onSingleClick, onDoubleClick)
 
+  const longPressEvents = useLongPress(() => handleSelectItem(file), onSingleClick);
+
   const onFolderOrFileClicks = (e?: React.MouseEvent) => {
     e?.persist()
-    click(e)
+    if (!desktop) return null;
+    else {
+      click(e)
+    }
   }
 
   const itemProps = {
@@ -452,7 +456,7 @@ const FileSystemItem = ({
     selectedCids,
     setEditing,
     resetSelectedFiles,
-    longPressEvents
+    longPressEvents: !desktop && longPressEvents
   }
 
   return (
