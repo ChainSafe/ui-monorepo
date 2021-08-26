@@ -426,7 +426,6 @@ const FilesList = ({ isShared = false }: Props) => {
   // Selection logic
   const handleSelectItem = useCallback(
     (item: FileSystemItemType) => {
-      console.log("handle selected")
       if (selectedCids.includes(item.cid)) {
         setSelectedItems([])
       } else {
@@ -438,7 +437,6 @@ const FilesList = ({ isShared = false }: Props) => {
 
   const handleAddToSelectedItems = useCallback(
     (itemToAdd: FileSystemItemType) => {
-      console.log("handle add to selected")
       if (selectedCids.includes(itemToAdd.cid)) {
         setSelectedItems(
           selectedItems.filter((selectedItem: FileSystemItemType) => selectedItem.cid !== itemToAdd.cid)
@@ -585,7 +583,6 @@ const FilesList = ({ isShared = false }: Props) => {
   )
 
   const resetSelectedItems = useCallback(() => {
-    console.log("reset")
     setSelectedItems([])
   }, [])
 
@@ -612,8 +609,6 @@ const FilesList = ({ isShared = false }: Props) => {
     e.stopPropagation()
     setIsDeleteModalOpen(true)
   }, [])
-
-  console.log(selectedCids)
 
   const mobileMenuItems = useMemo(() => [
     {

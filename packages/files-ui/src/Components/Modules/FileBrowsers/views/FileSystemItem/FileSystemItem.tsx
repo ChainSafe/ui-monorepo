@@ -395,7 +395,6 @@ const FileSystemItem = ({
       } else {
         // on mobile
         if (selectedCids.length) {
-          console.log("here")
           handleAddToSelectedItems(file)
         } else {
           if (isFolder) {
