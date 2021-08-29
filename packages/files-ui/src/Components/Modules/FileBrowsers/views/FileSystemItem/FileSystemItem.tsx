@@ -17,7 +17,8 @@ import {
   ShareAltSvg,
   ExclamationCircleInverseSvg,
   ZoomInSvg,
-  InfoCircleSvg } from "@chainsafe/common-components"
+  InfoCircleSvg
+} from "@chainsafe/common-components"
 import { makeStyles, createStyles, useDoubleClick, useThemeSwitcher, useLongPress } from "@chainsafe/common-theme"
 import { Form, FormikProvider, useFormik } from "formik"
 import CustomModal from "../../../../Elements/CustomModal"
@@ -35,7 +36,7 @@ import { getPathWithFile } from "../../../../../Utils/pathUtils"
 import { BucketUser } from "@chainsafe/files-api-client"
 import { useMemo } from "react"
 import { nameValidator } from "../../../../../Utils/validationSchema"
- 
+
 const useStyles = makeStyles(({ breakpoints, constants }: CSFTheme) => {
   return createStyles({
     renameInput: {
@@ -156,7 +157,7 @@ const FileSystemItem = ({
       name
     },
     validationSchema: nameValidator,
-    onSubmit: (values: {name: string}) => {
+    onSubmit: (values: { name: string }) => {
       const newName = values.name.trim()
 
       newName && handleRename && handleRename(file.cid, newName)
@@ -327,7 +328,8 @@ const FileSystemItem = ({
   )
 
   const [, dragMoveRef, preview] = useDrag(() =>
-    ({ type: DragTypes.MOVABLE_FILE,
+    ({
+      type: DragTypes.MOVABLE_FILE,
       item: () => {
         if (selectedCids.includes(file.cid)) {
           return { ids: selectedCids }
@@ -352,7 +354,7 @@ const FileSystemItem = ({
   const [{ isOverMove }, dropMoveRef] = useDrop({
     accept: DragTypes.MOVABLE_FILE,
     canDrop: () => isFolder,
-    drop: (item: {ids: string[]}) => {
+    drop: (item: { ids: string[] }) => {
       moveItems && moveItems(item.ids, getPathWithFile(currentPath, name))
     },
     collect: (monitor) => ({
@@ -427,11 +429,11 @@ const FileSystemItem = ({
 
   const { click } = useDoubleClick(onSingleClick, onDoubleClick)
 
-  const longPressEvents = useLongPress(() => handleSelectItem(file), onSingleClick);
+  const longPressEvents = useLongPress(() => handleSelectItem(file), onSingleClick)
 
   const onFolderOrFileClicks = (e?: React.MouseEvent) => {
     e?.persist()
-    if (!desktop) return null;
+    if (!desktop) return null
     else {
       click(e)
     }
@@ -455,7 +457,7 @@ const FileSystemItem = ({
     selectedCids,
     setEditing,
     resetSelectedFiles,
-    longPressEvents: !desktop && longPressEvents
+    longPressEvents: !desktop ? longPressEvents : undefined
   }
 
   return (

@@ -1,10 +1,18 @@
 import { useCallback, useRef, useState } from "react"
 
+export interface LongPressEvents {
+  onMouseDown: (e: React.MouseEvent) => void
+  onTouchStart: (e: React.TouchEvent) => void
+  onMouseUp: (e: React.MouseEvent) => void
+  onMouseLeave: (e: React.MouseEvent) => void
+  onTouchEnd: (e: React.TouchEvent) => void
+}
+
 export const useLongPress = (
   onLongPress: ((e?: React.MouseEvent) => void) | null,
   onClick: ((e?: React.MouseEvent) => void) | null,
   delay = 300
-) => {
+): LongPressEvents => {
   const [longPressTriggered, setLongPressTriggered] = useState(false)
   const timeout: any = useRef()
   const target: any = useRef()
@@ -37,11 +45,11 @@ export const useLongPress = (
   )
 
   return {
-    onMouseDown: (e: any) => start(e),
-    onTouchStart: (e: any) => start(e),
-    onMouseUp: (e: any) => clear(e),
+    onMouseDown: (e: React.MouseEvent) => start(e),
+    onTouchStart: (e: React.TouchEvent) => start(e),
+    onMouseUp: (e: React.MouseEvent) => clear(e),
     onMouseLeave: () => clear(false),
-    onTouchEnd: (e: any) => clear(e)
+    onTouchEnd: (e: React.TouchEvent) => clear(e)
   }
 }
 

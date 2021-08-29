@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef } from "react"
-import { makeStyles, createStyles, useThemeSwitcher, useOnClickOutside } from "@chainsafe/common-theme"
+import { makeStyles, createStyles, useThemeSwitcher, useOnClickOutside, LongPressEvents } from "@chainsafe/common-theme"
 import { t } from "@lingui/macro"
 import clsx from "clsx"
 import {
@@ -106,7 +106,7 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => 
         padding: 0
       }
     },
-    focusVisible:{
+    focusVisible: {
       backgroundColor: "transparent !important"
     }
   })
@@ -122,12 +122,12 @@ interface IFileSystemTableItemProps {
   onFolderOrFileClicks: (e?: React.MouseEvent) => void
   icon: React.ReactNode
   preview: ConnectDragPreview
-  setEditing: (editing: string |  undefined) => void
+  setEditing: (editing: string | undefined) => void
   handleRename?: (path: string, newPath: string) => Promise<void>
   currentPath: string | undefined
   menuItems: IMenuItem[]
   resetSelectedFiles: () => void
-  longPressEvents: any
+  longPressEvents?: LongPressEvents
 }
 
 const FileSystemGridItem = React.forwardRef(
@@ -157,7 +157,7 @@ const FileSystemGridItem = React.forwardRef(
         name
       },
       validationSchema: nameValidator,
-      onSubmit: (values: {name: string}) => {
+      onSubmit: (values: { name: string }) => {
         const newName = values.name.trim()
 
         newName && handleRename && handleRename(file.cid, newName)
@@ -195,7 +195,7 @@ const FileSystemGridItem = React.forwardRef(
     useOnClickOutside(formRef, stopEditing)
 
 
-    return  (
+    return (
       <div
         className={classes.gridViewContainer}
         ref={forwardedRef}
@@ -236,7 +236,7 @@ const FileSystemGridItem = React.forwardRef(
                         stopEditing()
                       }
                     }}
-                    placeholder = {isFolder
+                    placeholder={isFolder
                       ? t`Please enter a folder name`
                       : t`Please enter a file name`
                     }
@@ -251,7 +251,7 @@ const FileSystemGridItem = React.forwardRef(
         <div>
           <Menu
             testId='fileDropdown'
-            icon={<MoreIcon className={classes.dropdownIcon}/>}
+            icon={<MoreIcon className={classes.dropdownIcon} />}
             options={menuItems}
             style={{ focusVisible: classes.focusVisible }}
           />
