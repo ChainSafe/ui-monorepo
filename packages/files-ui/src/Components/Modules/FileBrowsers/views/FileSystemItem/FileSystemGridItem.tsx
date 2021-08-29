@@ -49,7 +49,7 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => 
         height: constants.generalUnit * 16
       },
       "&.highlighted": {
-        border: `1px solid ${palette.primary.main}`
+        border: `1px solid ${constants.fileSystemItemRow.borderColor}`
       }
     },
     renameInput: {

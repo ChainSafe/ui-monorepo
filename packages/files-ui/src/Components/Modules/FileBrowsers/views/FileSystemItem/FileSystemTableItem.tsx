@@ -34,10 +34,10 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => 
         gridTemplateColumns: mobileGridSettings
       },
       "&.droppable": {
-        border: `2px solid ${palette.primary.main}`
+        border: `2px solid ${constants.fileSystemItemRow.borderColor}`
       },
       "&.highlighted": {
-        border: `1px solid ${palette.primary.main}`
+        border: `1px solid ${constants.fileSystemItemRow.borderColor}`
       }
     },
     fileIcon: {

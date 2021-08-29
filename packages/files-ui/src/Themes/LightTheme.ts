@@ -129,7 +129,8 @@ export const lightTheme = createTheme<CsfColors>({
           optionsColor: "initial",
           optionsBorder: "var(--gray4)",
           itemBackground: "initial",
-          itemColor: "initial"
+          itemColor: "initial",
+          borderColor: "var(--blue6)"
         },
         masterKey: {
           desktop: {

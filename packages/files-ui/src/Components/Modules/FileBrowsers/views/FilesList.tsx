@@ -176,7 +176,7 @@ const useStyles = makeStyles(
         height: 20,
         position: "relative",
         fontSize: "unset",
-        padding: `${constants.generalUnit * 0.5}px 0 0 ${constants.generalUnit * 0.5}px`,
+        padding: `${constants.generalUnit * 0.5}px 0 0 ${constants.generalUnit * 1.5}px`,
         "& svg": {
           fill: constants.fileSystemItemRow.dropdownIcon,
           left: 0,
@@ -271,6 +271,7 @@ const useStyles = makeStyles(
         }
       },
       viewToggleButton: {
+        marginRight: constants.generalUnit,
         border: "none",
         "& svg": {
           marginTop: "2px",
