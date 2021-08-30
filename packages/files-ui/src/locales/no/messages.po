@@ -25,9 +25,6 @@ msgstr "Konto"
 msgid "Add Card"
 msgstr ""
 
-#~ msgid "Add a card"
-#~ msgstr ""
-
 msgid "Add a credit card"
 msgstr ""
 
@@ -56,9 +53,6 @@ msgid "Approve"
 msgstr "Godkjenn"
 
 msgid "Are we on the right track? Let us know in less than 1 minute."
-msgstr ""
-
-msgid "Back"
 msgstr ""
 
 msgid "Back to plan settings"
@@ -181,6 +175,9 @@ msgstr ""
 msgid "Create folder"
 msgstr "Opprett mappe"
 
+msgid "Credit card on file"
+msgstr ""
+
 msgid "Dark Theme"
 msgstr "Mørk drakt"
 
@@ -243,15 +240,6 @@ msgstr "Skriv inn passord:"
 
 msgid "Enter the verification code:"
 msgstr "Skriv inn bekreftelseskoden:"
-
-msgid "Error while creating new shared folder"
-msgstr ""
-
-msgid "Error while downloading {0}"
-msgstr ""
-
-msgid "Error while uploading {0}"
-msgstr ""
 
 msgid "Failed to get signature"
 msgstr ""
@@ -421,6 +409,9 @@ msgstr "Neste"
 msgid "Nice to see you again!"
 msgstr ""
 
+msgid "No Card"
+msgstr ""
+
 msgid "No file to download."
 msgstr ""
 
@@ -477,6 +468,9 @@ msgstr "Passord:"
 
 msgid "Passwords must match"
 msgstr "Passordene må samsvare"
+
+msgid "Payment and Subscriptions"
+msgstr ""
 
 msgid "Please enter a file name"
 msgstr "Skriv inn et filnavn"
@@ -652,9 +646,6 @@ msgstr "Størrelse"
 msgid "Social Sign-in Wallet"
 msgstr ""
 
-#~ msgid "Something went wrong"
-#~ msgstr ""
-
 msgid "Something went wrong with email login! Please try again."
 msgstr ""
 
@@ -744,6 +735,9 @@ msgstr ""
 
 msgid "Update"
 msgstr "Oppdater"
+
+msgid "Update Card"
+msgstr ""
 
 msgid "Update Shared Folder"
 msgstr ""

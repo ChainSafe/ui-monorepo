@@ -76,13 +76,6 @@ const CurrentProduct: React.FC = () => {
         <div className={classes.container}>
           <div className={classes.storageBox}>
             <Typography
-              variant="h3"
-              component="h3"
-              className={clsx(classes.margins)}
-            >
-              <Trans>Subscription Plan</Trans>
-            </Typography>
-            <Typography
               variant="h4"
               component="h4"
               className={clsx(classes.margins, classes.storagePlan)}
