@@ -6,9 +6,9 @@ import React, { useCallback, useEffect, useState } from "react"
 import { CSFTheme } from "../Themes/types"
 import CustomModal from "./Elements/CustomModal"
 import { SETTINGS_BASE } from "./FilesRoutes"
-import step1Image from "../Media/sharingExplaner/step1.png"
-import step2Image from "../Media/sharingExplaner/step2.png"
-import step3Image from "../Media/sharingExplaner/step3.png"
+import step1Image from "../Media/sharingExplainer/step1.png"
+import step2Image from "../Media/sharingExplainer/step2.png"
+import step3Image from "../Media/sharingExplainer/step3.png"
 
 export const DISMISSED_SHARING_EXPLAINER_KEY = "csf.dismissedSharingExplainer"
 
@@ -80,7 +80,7 @@ interface Props {
 
 const STEP_NUMBER = 3
 
-const SharingExplanerModal = ({ onHide }: Props) => {
+const SharingExplainerModal = ({ onHide }: Props) => {
   const classes = useStyles()
   const { localStorageGet, localStorageSet } = useLocalStorage()
   const [showModal, setShowModal] = useState(false)
@@ -212,4 +212,4 @@ const SharingExplanerModal = ({ onHide }: Props) => {
     </CustomModal>
   )}
 
-export default SharingExplanerModal
+export default SharingExplainerModal

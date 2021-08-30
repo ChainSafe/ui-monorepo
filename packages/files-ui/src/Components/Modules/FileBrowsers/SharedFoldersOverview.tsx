@@ -23,7 +23,7 @@ import { useFilesApi } from "../../../Contexts/FilesApiContext"
 import { ROUTE_LINKS } from "../../FilesRoutes"
 import SharedFolderRow from "./views/FileSystemItem/SharedFolderRow"
 import { SharedFolderModalMode } from "./types"
-import SharingExplanerModal from "../../SharingExplanerModal"
+import SharingExplainerModal from "../../SharingExplainerModal"
 
 export const desktopSharedGridSettings = "69px 3fr 120px 190px 150px 45px !important"
 export const mobileSharedGridSettings = "3fr 80px 45px !important"
@@ -262,7 +262,7 @@ const SharedFolderOverview = () => {
           </Table>
         )}
       </article>
-      <SharingExplanerModal />
+      <SharingExplainerModal />
       <CreateOrEditSharedFolderModal
         mode={createOrEditSharedFolderMode}
         isModalOpen={!!createOrEditSharedFolderMode}
