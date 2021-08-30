@@ -264,7 +264,7 @@ const SearchModule: React.FC<ISearchModule> = ({
             onSearchChange(e.target.value)
           }
           placeholder={t`Search…`}
-          testId = "input_searchbar"
+          testId = "input-search-bar"
         />
       </form>
       {searchQuery && searchResults?.query ? (
