@@ -384,7 +384,6 @@ const FileSystemItem = ({
     dragMoveRef(fileOrFolderRef)
   }
 
-
   const onSingleClick = useCallback(
     (e) => {
       if (desktop) {
@@ -433,8 +432,9 @@ const FileSystemItem = ({
 
   const onFolderOrFileClicks = (e?: React.MouseEvent) => {
     e?.persist()
-    if (!desktop) return null
-    else {
+    if (!desktop) {
+      return null
+    } else {
       click(e)
     }
   }

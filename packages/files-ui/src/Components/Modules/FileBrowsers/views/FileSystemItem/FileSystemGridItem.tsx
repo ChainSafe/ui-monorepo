@@ -194,7 +194,6 @@ const FileSystemGridItem = React.forwardRef(
 
     useOnClickOutside(formRef, stopEditing)
 
-
     return (
       <div
         className={classes.gridViewContainer}
