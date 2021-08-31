@@ -658,7 +658,10 @@ const FilesList = ({ isShared = false }: Props) => {
         items={sourceFiles}
         previewType={browserView}
       />
-      <div className={classes.breadCrumbContainer}>
+      <div
+        className={classes.breadCrumbContainer}
+        data-cy="navigation-folder-breadcrumb"
+      >
         {crumbs && moduleRootPath && (
           <Breadcrumb
             crumbs={crumbs}
@@ -826,6 +829,7 @@ const FilesList = ({ isShared = false }: Props) => {
               classes.noFiles,
               loadingCurrentPath && classes.fadeOutLoading
             )}
+            data-cy="data-state-no-files"
           >
             <EmptySvg />
             <Typography variant="h4"
