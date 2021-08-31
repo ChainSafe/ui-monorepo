@@ -215,9 +215,6 @@ msgstr "Erreur lors du téléchargement de {0}"
 msgid "Error while uploading {0}"
 msgstr "Erreur lors du téléversement de {0}"
 
-msgid "Essentials - Free"
-msgstr "Essentials - Gratuit"
-
 msgid "Failed to get signature"
 msgstr "Échec de l’obtention de la signature"
 
@@ -442,6 +439,9 @@ msgstr "Mot de passe :"
 
 msgid "Passwords must match"
 msgstr "Les mots de passes de correspondent pas"
+
+msgid "Plan"
+msgstr ""
 
 msgid "Please enter a file name"
 msgstr "Veuillez entrer un nom de fichier"

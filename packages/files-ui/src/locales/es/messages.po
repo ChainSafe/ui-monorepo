@@ -215,9 +215,6 @@ msgstr ""
 msgid "Error while uploading {0}"
 msgstr ""
 
-msgid "Essentials - Free"
-msgstr "Esenciales - Gratis"
-
 msgid "Failed to get signature"
 msgstr "No se pudo obtener la firma"
 
@@ -442,6 +439,9 @@ msgstr "Contraseña:"
 
 msgid "Passwords must match"
 msgstr "Las contraseñas deben coincidir"
+
+msgid "Plan"
+msgstr ""
 
 msgid "Please enter a file name"
 msgstr "Ingrese un nombre de archivo"
