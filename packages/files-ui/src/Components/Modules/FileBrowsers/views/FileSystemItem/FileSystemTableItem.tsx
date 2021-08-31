@@ -26,7 +26,7 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => 
 
   return createStyles({
     tableRow: {
-      border: "2px solid transparent",
+      border: "1px solid transparent",
       [breakpoints.up("md")]: {
         gridTemplateColumns: desktopGridSettings
       },
@@ -34,7 +34,7 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => 
         gridTemplateColumns: mobileGridSettings
       },
       "&.droppable": {
-        border: `2px solid ${constants.fileSystemItemRow.borderColor}`
+        border: `1px solid ${constants.fileSystemItemRow.borderColor}`
       },
       "&.highlighted": {
         border: `1px solid ${constants.fileSystemItemRow.borderColor}`
