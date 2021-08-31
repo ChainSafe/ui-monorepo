@@ -282,7 +282,7 @@ const FileSystemItem = ({
       contents: (
         <>
           <EyeSvg className={classes.menuIcon} />
-          <span data-cy="view-folder">
+          <span data-cy="menu-view-folder">
             <Trans>View folder</Trans>
           </span>
         </>

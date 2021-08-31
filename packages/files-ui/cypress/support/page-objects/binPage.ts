@@ -1,18 +1,15 @@
 import { basePage } from "./basePage"
+import { fileBrowser } from "./fileBrowser"
 
 export const binPage = {
   ...basePage,
+  ...fileBrowser,
 
-  // main file browser elements (bin view only)
+  // bin page specific file browser elements
   recoverSelectedButton: () => cy.get("[data-testId=button-recover-selected-file]"),
   deleteSelectedButton: () => cy.get("[data-testId=button-delete-selected-file]"),
 
-  // file browser row elements
-  fileItemRow: () => cy.get("[data-cy=file-item-row]", { timeout: 20000 }),
-  fileItemName: () => cy.get("[data-cy=file-item-name]"),
-  fileItemKebabButton: () => cy.get("[data-testid=menu-title-fileDropdown]"),
-
-  // menu elements (bin view only)
+  // kebab menu elements
   recoverMenuOption: () => cy.get("[data-cy=menu-recover]"),
   deleteMenuOption: () => cy.get("[data-cy=menu-delete]")
 }
