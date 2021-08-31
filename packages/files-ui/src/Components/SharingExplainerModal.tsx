@@ -2,13 +2,14 @@ import { useLocalStorage } from "@chainsafe/browser-storage-hooks"
 import { Button, Link, Typography } from "@chainsafe/common-components"
 import { createStyles, makeStyles } from "@chainsafe/common-theme"
 import { t, Trans } from "@lingui/macro"
-import React, { useCallback, useEffect, useState } from "react"
+import React, { useCallback, useState } from "react"
 import { CSFTheme } from "../Themes/types"
 import CustomModal from "./Elements/CustomModal"
 import { SETTINGS_BASE } from "./FilesRoutes"
 import step1Image from "../Media/sharingExplainer/step1.png"
 import step2Image from "../Media/sharingExplainer/step2.png"
 import step3Image from "../Media/sharingExplainer/step3.png"
+import { useSharingExplainerModalFlag } from "./Modules/FileBrowsers/hooks/useSharingExplainerModalFlag"
 
 export const DISMISSED_SHARING_EXPLAINER_KEY = "csf.dismissedSharingExplainer"
 
@@ -75,18 +76,16 @@ const useStyles = makeStyles(
   })
 
 interface Props {
-    onHide?: () => void
+    showModal: boolean
 }
 
 const STEP_NUMBER = 3
 
-const SharingExplainerModal = ({ onHide }: Props) => {
+const SharingExplainerModal = ({ showModal }: Props) => {
   const classes = useStyles()
-  const { localStorageGet, localStorageSet } = useLocalStorage()
-  const [showModal, setShowModal] = useState(false)
-  const dismissedFlag = localStorageGet(DISMISSED_SHARING_EXPLAINER_KEY)
+  const { localStorageSet } = useLocalStorage()
+  const { hideModal } = useSharingExplainerModalFlag()
   const [step, setStep] = useState(1)
-
   const Slides = useCallback(() => {
     switch (step) {
     default:
@@ -132,27 +131,6 @@ const SharingExplainerModal = ({ onHide }: Props) => {
     }
   }, [classes.buttonLink, classes.image, classes.imageContainer, classes.title, step])
 
-  useEffect(() => {
-    if (dismissedFlag === "false"){
-      setShowModal(true)
-    }
-  }, [dismissedFlag])
-
-  useEffect(() => {
-    // the dismiss flag was never set
-    if (dismissedFlag === null) {
-      localStorageSet(DISMISSED_SHARING_EXPLAINER_KEY, "false")
-      setShowModal(true)
-    }
-  }, [dismissedFlag, localStorageSet])
-
-  const onClose = useCallback(() => {
-    console.log("hop")
-    onHide && onHide()
-    localStorageSet(DISMISSED_SHARING_EXPLAINER_KEY, "true")
-    setShowModal(false)
-  }, [localStorageSet, onHide])
-
   const onNextStep = useCallback((next : number) => {
     if (next < STEP_NUMBER) {
       setStep(next)
@@ -164,15 +142,13 @@ const SharingExplainerModal = ({ onHide }: Props) => {
         setStep(3)
         break
       case STEP_NUMBER + 1:
-        onClose()
+        hideModal()
         break
       default:
         break
       }
     }
-
-
-  }, [localStorageSet, onClose])
+  }, [hideModal, localStorageSet])
 
   return (
     <CustomModal
@@ -181,7 +157,7 @@ const SharingExplainerModal = ({ onHide }: Props) => {
       active={showModal}
       closePosition="right"
       maxWidth="sm"
-      onClose={onClose}
+      onClose={hideModal}
     >
       <div className={classes.root}>
         <Typography
