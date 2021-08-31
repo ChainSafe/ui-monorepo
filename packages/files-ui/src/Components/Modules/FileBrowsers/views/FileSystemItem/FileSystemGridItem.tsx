@@ -202,12 +202,12 @@ const FileSystemGridItem = React.forwardRef(
           e.preventDefault()
           e.stopPropagation()
         }}
-        {...longPressEvents}
       >
         <div
           className={clsx(classes.gridViewIconNameBox)}
           ref={preview}
           onClick={(e) => onFolderOrFileClicks(e)}
+          {...longPressEvents}
         >
           <div
             className={clsx(

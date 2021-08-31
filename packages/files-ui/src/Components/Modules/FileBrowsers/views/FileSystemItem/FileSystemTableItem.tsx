@@ -169,7 +169,6 @@ const FileSystemTableItem = React.forwardRef(
         type="grid"
         ref={forwardedRef}
         selected={selectedCids.includes(cid)}
-        {...longPressEvents}
       >
         {desktop && (
           <TableCell>
@@ -182,6 +181,7 @@ const FileSystemTableItem = React.forwardRef(
         <TableCell
           className={clsx(classes.fileIcon, isFolder && classes.folderIcon)}
           onClick={(e) => onFolderOrFileClicks(e)}
+          {...longPressEvents}
         >
           {icon}
         </TableCell>
@@ -191,6 +191,7 @@ const FileSystemTableItem = React.forwardRef(
           align="left"
           className={clsx(classes.filename, desktop && editing === cid && "editing")}
           onClick={(e) => !editing && onFolderOrFileClicks(e)}
+          {...longPressEvents}
         >
           {editing === cid && desktop
             ? (
