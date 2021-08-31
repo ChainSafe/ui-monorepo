@@ -194,6 +194,7 @@ export interface SearchBarProps {
   loaderType?: LOADER
   size?: "large" | "medium" | "small"
   onChange: (e: ChangeEvent<HTMLInputElement>) => void
+  testId?: string
 }
 
 const SearchBar: React.FC<SearchBarProps> = ({
@@ -205,7 +206,8 @@ const SearchBar: React.FC<SearchBarProps> = ({
   loaderType = LOADER.PulseLoader,
   size = "large",
   name,
-  onChange
+  onChange,
+  testId
 }: SearchBarProps) => {
   const classes = useStyles()
   const spinnerSize = size === "large" ? 12 : size === "medium" ? 8 : 6
@@ -225,6 +227,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
           value={value}
           placeholder={placeholder}
           onChange={onChange}
+          data-testid={testId}
         />
         <div className={clsx(classes.standardIcon, size, "right")}>
           <Spinner
