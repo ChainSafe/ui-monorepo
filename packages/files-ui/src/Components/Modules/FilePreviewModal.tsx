@@ -260,7 +260,7 @@ const FilePreviewModal = ({ file, nextFile, previousFile, closePreview, filePath
       contents: (
         <>
           <DownloadSvg className={classes.menuIcon} />
-          <span>
+          <span data-cy="button-download-previewed-file">
             <Trans>Download</Trans>
           </span>
         </>
@@ -279,16 +279,18 @@ const FilePreviewModal = ({ file, nextFile, previousFile, closePreview, filePath
         <ArrowLeftIcon
           onClick={closePreview}
           className={classes.closePreviewButton}
+          data-cy="button-close-preview"
         />
         <Typography
           variant={desktop ? "h4" : "h5"}
           component="h1"
           className={classes.fileName}
+          data-cy="label-previewed-file-name"
         >
           {name}
         </Typography>
         <Menu
-          testId='preview'
+          testId='preview-kebab'
           icon={<MoreIcon className={classes.dropdownIcon}/>}
           options={menuItems}
           style={{
@@ -303,6 +305,7 @@ const FilePreviewModal = ({ file, nextFile, previousFile, closePreview, filePath
         flexDirection="row"
         alignItems="stretch"
         className={classes.previewContainer}
+        data-cy="modal-container-preview"
       >
         {desktop && (
           <Grid
@@ -315,7 +318,8 @@ const FilePreviewModal = ({ file, nextFile, previousFile, closePreview, filePath
           >
             {previousFile && (
               <Button onClick={previousFile}
-                className={classes.prevNextButton}>
+                className={classes.prevNextButton}
+                data-cy="button-view-previous-file">
                 <ArrowLeftIcon />
               </Button>
             )}
@@ -373,6 +377,7 @@ const FilePreviewModal = ({ file, nextFile, previousFile, closePreview, filePath
                   className={classes.downloadButton}
                   variant="outline"
                   onClick={handleDownload}
+                  data-cy="button-download-unsupported-file"
                 >
                   <Trans>Download</Trans>
                 </Button>
@@ -397,6 +402,7 @@ const FilePreviewModal = ({ file, nextFile, previousFile, closePreview, filePath
               <Button
                 onClick={nextFile}
                 className={classes.prevNextButton}
+                data-cy="button-view-next-file"
               >
                 <ArrowRightIcon />
               </Button>
