@@ -119,7 +119,7 @@ const SharedFolderOverview = () => {
   const [isDeleteBucketModalOpen, setIsDeleteBucketModalOpen] = useState(false)
   const [isDeletingSharedFolder, setIsDeletingSharedFolder] = useState(false)
   const bucketsToShow = useMemo(() => buckets.filter(b => b.type === "share" && b.status !== "deleting"), [buckets])
-  const { hasSeenSharingExplainerModal } = useSharingExplainerModalFlag()
+  const { hasSeenSharingExplainerModal, hideModal } = useSharingExplainerModalFlag()
 
   const handleSortToggle = (targetColumn: SortingType) => {
     if (column !== targetColumn) {
@@ -264,7 +264,10 @@ const SharedFolderOverview = () => {
           </Table>
         )}
       </article>
-      <SharingExplainerModal showModal={hasSeenSharingExplainerModal} />
+      <SharingExplainerModal
+        showModal={hasSeenSharingExplainerModal}
+        onHide={hideModal}
+      />
       <CreateOrEditSharedFolderModal
         mode={createOrEditSharedFolderMode}
         isModalOpen={!!createOrEditSharedFolderMode}

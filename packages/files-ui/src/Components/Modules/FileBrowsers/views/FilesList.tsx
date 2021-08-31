@@ -350,7 +350,7 @@ const FilesList = ({ isShared = false }: Props) => {
   const { redirect } = useHistory()
   const { downloadMultipleFiles } = useFiles()
   const { permission } = bucket || {}
-  const { hasSeenSharingExplainerModal } = useSharingExplainerModalFlag()
+  const { hasSeenSharingExplainerModal, hideModal } = useSharingExplainerModalFlag()
   const [hasClickedShare, setClickedShare] = useState(false)
   const showExplainerBeforeShare = useMemo(() =>
     hasSeenSharingExplainerModal && hasClickedShare
@@ -1131,7 +1131,10 @@ const FilesList = ({ isShared = false }: Props) => {
           filePath={currentPath}
         />
       }
-      <SharingExplainerModal showModal={showExplainerBeforeShare} />
+      <SharingExplainerModal
+        showModal={showExplainerBeforeShare}
+        onHide={hideModal}
+      />
     </article>
   )
 }

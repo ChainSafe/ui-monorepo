@@ -9,7 +9,6 @@ import { SETTINGS_BASE } from "./FilesRoutes"
 import step1Image from "../Media/sharingExplainer/step1.png"
 import step2Image from "../Media/sharingExplainer/step2.png"
 import step3Image from "../Media/sharingExplainer/step3.png"
-import { useSharingExplainerModalFlag } from "./Modules/FileBrowsers/hooks/useSharingExplainerModalFlag"
 
 export const DISMISSED_SHARING_EXPLAINER_KEY = "csf.dismissedSharingExplainer"
 
@@ -25,12 +24,6 @@ const useStyles = makeStyles(
       title: {
         textAlign: "center",
         marginBottom: constants.generalUnit * 3
-      },
-      crossIconButton:{
-        //
-      },
-      modalRoot: {
-        //
       },
       modalInner: {
         maxWidth: "400px !important"
@@ -77,14 +70,14 @@ const useStyles = makeStyles(
 
 interface Props {
     showModal: boolean
+    onHide: () => void
 }
 
 const STEP_NUMBER = 3
 
-const SharingExplainerModal = ({ showModal }: Props) => {
+const SharingExplainerModal = ({ showModal, onHide }: Props) => {
   const classes = useStyles()
   const { localStorageSet } = useLocalStorage()
-  const { hideModal } = useSharingExplainerModalFlag()
   const [step, setStep] = useState(1)
   const Slides = useCallback(() => {
     switch (step) {
@@ -142,22 +135,21 @@ const SharingExplainerModal = ({ showModal }: Props) => {
         setStep(3)
         break
       case STEP_NUMBER + 1:
-        hideModal()
+        onHide()
         break
       default:
         break
       }
     }
-  }, [hideModal, localStorageSet])
+  }, [localStorageSet, onHide])
 
   return (
     <CustomModal
-      className={classes.modalRoot}
       injectedClass={{ inner: classes.modalInner }}
       active={showModal}
       closePosition="right"
       maxWidth="sm"
-      onClose={hideModal}
+      onClose={onHide}
     >
       <div className={classes.root}>
         <Typography
