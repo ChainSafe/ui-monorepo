@@ -9,8 +9,7 @@ import { SETTINGS_BASE } from "./FilesRoutes"
 import step1Image from "../Media/sharingExplainer/step1.png"
 import step2Image from "../Media/sharingExplainer/step2.png"
 import step3Image from "../Media/sharingExplainer/step3.png"
-
-export const DISMISSED_SHARING_EXPLAINER_KEY = "csf.dismissedSharingExplainer"
+import { DISMISSED_SHARING_EXPLAINER_KEY } from "./Modules/FileBrowsers/hooks/useSharingExplainerModalFlag"
 
 const useStyles = makeStyles(
   ({ palette, constants }: CSFTheme) => {
@@ -89,6 +88,7 @@ const SharingExplainerModal = ({ showModal, onHide }: Props) => {
           <img
             className={classes.image}
             src={step1Image}
+            alt={"share explainer step 1"}
           />
         </div>
       </>
@@ -101,6 +101,7 @@ const SharingExplainerModal = ({ showModal, onHide }: Props) => {
           <img
             className={classes.image}
             src={step2Image}
+            alt={"share explainer step 2"}
           />
         </div>
       </>
@@ -118,6 +119,7 @@ const SharingExplainerModal = ({ showModal, onHide }: Props) => {
           <img
             className={classes.image}
             src={step3Image}
+            alt={"share explainer step 3"}
           />
         </div>
       </>
@@ -150,6 +152,7 @@ const SharingExplainerModal = ({ showModal, onHide }: Props) => {
       closePosition="right"
       maxWidth="sm"
       onClose={onHide}
+      mobileStickyBottom={false}
     >
       <div className={classes.root}>
         <Typography

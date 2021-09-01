@@ -12,12 +12,8 @@ export const useSharingExplainerModalFlag = () => {
   useEffect(() => {
     if (dismissedFlag === "false"){
       setHasSeenSharingExplainerModal(true)
-    }
-  }, [dismissedFlag])
-
-  useEffect(() => {
-    // the dismiss flag was never set
-    if (dismissedFlag === null) {
+    } else if (dismissedFlag === null) {
+      // the dismiss flag was never set
       localStorageSet(DISMISSED_SHARING_EXPLAINER_KEY, "false")
       setHasSeenSharingExplainerModal(true)
     }

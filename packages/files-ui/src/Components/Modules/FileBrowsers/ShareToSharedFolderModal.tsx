@@ -32,13 +32,7 @@ const useStyles = makeStyles(
       },
       modalInner: {
         backgroundColor: constants.fileInfoModal.background,
-        color: constants.fileInfoModal.color,
-        [breakpoints.down("md")]: {
-          bottom: Number(constants?.mobileButtonHeight) + constants.generalUnit,
-          borderTopLeftRadius: `${constants.generalUnit * 1.5}px`,
-          borderTopRightRadius: `${constants.generalUnit * 1.5}px`,
-          maxWidth: `${breakpoints.width("md")}px !important`
-        }
+        color: constants.fileInfoModal.color
       },
       root: {
         padding: constants.generalUnit * 4,
@@ -310,6 +304,7 @@ const CopyToSharedFolderModal = ({ close, file, filePath }: IShareFileProps) => 
       active={true}
       closePosition="none"
       maxWidth="sm"
+      mobileStickyBottom={false}
     >
       <div className={classes.root}>
 

@@ -13,7 +13,9 @@ const useStyles = makeStyles(({ constants, breakpoints }: CSFTheme) =>
     },
     inner: {
       backgroundColor: constants.modalDefault.backgroundColor,
-      color: constants.modalDefault.color,
+      color: constants.modalDefault.color
+    },
+    mobileStickyBottom: {
       [breakpoints.down("md")]: {
         top: "unset",
         bottom: 0,
@@ -38,14 +40,10 @@ interface ICustomModal extends IModalProps {
   children: ReactNode
   className?: string
   testId?: string
+  mobileStickyBottom?: boolean
 }
 
-const CustomModal: React.FC<ICustomModal> = ({
-  className,
-  children,
-  injectedClass,
-  ...rest
-}: ICustomModal) => {
+const CustomModal = ({ className, children, injectedClass, mobileStickyBottom = true, ...rest }: ICustomModal) => {
   const classes = useStyles()
 
   return (
@@ -53,7 +51,7 @@ const CustomModal: React.FC<ICustomModal> = ({
       className={clsx(classes.root, className)}
       injectedClass={{
         closeIcon: clsx(classes.closeIcon, injectedClass?.closeIcon),
-        inner: clsx(classes.inner, injectedClass?.inner)
+        inner: clsx(classes.inner, mobileStickyBottom ? classes.mobileStickyBottom : undefined, injectedClass?.inner)
       }}
       {...rest}
     >
