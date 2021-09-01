@@ -381,7 +381,7 @@ const FileSystemItem = ({
   }
 
   if (!editing && !isFolder) {
-    dragMoveRef(fileOrFolderRef)
+    desktop && dragMoveRef(fileOrFolderRef)
   }
 
   const onSingleClick = useCallback(
