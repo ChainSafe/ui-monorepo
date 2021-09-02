@@ -54,7 +54,7 @@ describe("File Preview", () => {
       previewModal.downloadFileButton().should("be.visible")
     })
 
-    it.only("can see applicable elements for unsupported files", () => {
+    it("can see applicable elements for unsupported files", () => {
       cy.web3Login({ clearCSFBucket: true, clearTrashBucket: true })
 
       // add an unsupported file
