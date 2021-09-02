@@ -370,6 +370,7 @@ const FilePreviewModal = ({ file, nextFile, previousFile, closePreview, filePath
                 <Typography
                   component="p"
                   variant="h1"
+                  data-cy="label-unsupported-file-message"
                 >
                   <Trans>File format not supported.</Trans>
                 </Typography>

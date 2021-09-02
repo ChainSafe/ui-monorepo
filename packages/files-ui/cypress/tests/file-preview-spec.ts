@@ -38,10 +38,39 @@ describe("File Preview", () => {
         previewModal.fileNameLabel().should("contain.text", $fileNameA)
       })
 
-      // close the preview modal to return to home page
+      // close the preview modal to return to the home page
       previewModal.closeButton().click()
       previewModal.body().should("not.exist")
       homePage.appHeaderLabel().should("exist")
+    })
+
+    it("can see option to download file from the preview screen", () => {
+      cy.web3Login({ clearCSFBucket: true, clearTrashBucket: true })
+      homePage.uploadFile("../fixtures/uploadedFiles/file.zip")
+      homePage.fileItemName().eq(0).invoke("text").as("fileNameA")
+      homePage.fileItemKebabButton().click()
+      homePage.previewMenuOption().click()
+      previewModal.previewKebabButton().click()
+      previewModal.downloadFileButton().should("be.visible")
+    })
+
+    it.only("can see applicable elements for unsupported files", () => {
+      cy.web3Login({ clearCSFBucket: true, clearTrashBucket: true })
+
+      // add an unsupported file
+      homePage.uploadFile("../fixtures/uploadedFiles/file.zip")
+
+      // double click unsupported file to open preview modal
+      homePage.fileItemName().dblclick()
+
+      // ensure unsupported file elements are present
+      previewModal.unsupportedFileLabel().should("be.visible")
+      previewModal.downloadUnsupportedFileButton().should("be.visible")
+
+      // return to home and ensure preview menu option is not shown for unsupported file
+      previewModal.closeButton().click()
+      homePage.fileItemKebabButton().click()
+      homePage.previewMenuOption().should("not.exist")
     })
   })
 })

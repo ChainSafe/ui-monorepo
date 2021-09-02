@@ -3,6 +3,7 @@ export const previewModal = {
   closeButton: () => cy.get("[data-cy=button-close-preview]"),
   fileNameLabel: () => cy.get("[data-cy=label-previewed-file-name]"),
   previewKebabButton: () => cy.get("[data-testid=menu-title-preview-kebab]"),
+  unsupportedFileLabel: () => cy.get("[data-cy=label-unsupported-file-message]"),
   downloadFileButton: () => cy.get("[data-cy=button-download-previewed-file]"),
   previousFileButton: () => cy.get("[data-cy=button-view-previous-file]"),
   nextFileButton: () => cy.get("[data-cy=button-view-next-file]"),
