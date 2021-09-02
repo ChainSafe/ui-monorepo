@@ -19,6 +19,7 @@ import { useFileBrowser } from "../../../Contexts/FileBrowserContext"
 import { useThresholdKey } from "../../../Contexts/ThresholdKeyContext"
 import { useCallback } from "react"
 import { ROUTE_LINKS } from "../../FilesRoutes"
+import { useFilesApi } from "../../../Contexts/FilesApiContext"
 
 const useStyles = makeStyles(
   ({ breakpoints, constants, palette, typography, zIndex, animation }: CSFTheme) => {
@@ -148,8 +149,6 @@ interface IReportFileModalProps {
   close: () => void
 }
 
-const TEMP_PUBLIC_KEY = "0x03e8cab05fc70bbc3cb829af9718feb0bfa626209594f64da6685ed13ce4437e19"
-
 const ReportFileModal = ({ filePath, close }: IReportFileModalProps) => {
   const classes = useStyles()
   const { bucket } = useFileBrowser()
@@ -159,12 +158,19 @@ const ReportFileModal = ({ filePath, close }: IReportFileModalProps) => {
   const [encryptedDecryptionKey, setEncryptedDecryptionKey] = useState("")
   const { encryptForPublicKey } = useThresholdKey()
   const [copied, setCopied] = useState(false)
+  const { filesApiClient } = useFilesApi()
 
   useEffect(() => {
-    // todo fetch admin public key from api instead of this hardcoded one
-    // https://github.com/ChainSafe/ui-monorepo/issues/1244
-    setAdminPubkey(TEMP_PUBLIC_KEY)
-  }, [])
+    filesApiClient.abuseUser()
+    .then((keys) => {
+      if (!keys.length){
+        console.error('No admin public key received')
+      }
+
+      setAdminPubkey(keys[0])
+    })
+    .catch(console.error)
+  }, [filesApiClient])
 
   useEffect(() => {
     if(!adminPubKey || !encryptionKey) return

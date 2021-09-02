@@ -88,7 +88,7 @@ const CSFFileBrowser: React.FC<IFileBrowserModuleProps> = () => {
 
         try {
           await filesApiClient.moveBucketObjects(bucket.id, {
-            path: getPathWithFile(currentPath, itemToDelete.name),
+            paths: [getPathWithFile(currentPath, itemToDelete.name)],
             new_path: getPathWithFile("/", itemToDelete.name),
             destination: buckets.find(b => b.type === "trash")?.id
           })
@@ -121,7 +121,7 @@ const CSFFileBrowser: React.FC<IFileBrowserModuleProps> = () => {
     if (!bucket || !itemToRename) return
 
     filesApiClient.moveBucketObjects(bucket.id, {
-      path: getPathWithFile(currentPath, itemToRename.name),
+      paths: [getPathWithFile(currentPath, itemToRename.name)],
       new_path: getPathWithFile(currentPath, newName) })
       .then(() => refreshContents())
       .catch(console.error)
@@ -135,7 +135,7 @@ const CSFFileBrowser: React.FC<IFileBrowserModuleProps> = () => {
         if (!itemToMove) return
         try {
           await filesApiClient.moveBucketObjects(bucket.id, {
-            path: getPathWithFile(currentPath, itemToMove.name),
+            paths: [getPathWithFile(currentPath, itemToMove.name)],
             new_path: getPathWithFile(newPath, itemToMove.name)
           })
           const message = `${
