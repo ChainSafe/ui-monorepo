@@ -23,12 +23,11 @@ const useStyles = makeStyles(
         alignItems: "center"
       },
       modalRoot: {
-        zIndex: zIndex?.blocker,
-        [breakpoints.down("md")]: {}
+        zIndex: zIndex?.blocker
       },
       modalInner: {
-        backgroundColor: constants.createShareModal.backgroundColor,
-        color: constants.createShareModal.color,
+        backgroundColor: constants.modalDefault.backgroundColor,
+        color: constants.modalDefault.color,
         [breakpoints.down("md")]: {
           bottom:
           Number(constants?.mobileButtonHeight) + constants.generalUnit,
@@ -54,12 +53,12 @@ const useStyles = makeStyles(
         lineHeight: "22px"
       },
       heading: {
-        color: constants.createShareModal.color,
+        color: constants.modalDefault.color,
         fontWeight: typography.fontWeight.semibold,
         marginBottom: 10
       },
       iconBacking: {
-        backgroundColor: constants.createShareModal.iconBackingColor,
+        backgroundColor: constants.modalDefault.iconBackingColor,
         width: 48,
         height: 48,
         borderRadius: 24,

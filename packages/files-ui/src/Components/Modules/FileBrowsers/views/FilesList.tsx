@@ -53,6 +53,8 @@ import ReportFileModal from "../ReportFileModal"
 import ShareToSharedFolderModal from "../ShareToSharedFolderModal"
 import SharedUsers from "../../../Elements/SharedUsers"
 import Menu from "../../../../UI-components/Menu"
+import SharingExplainerModal from "../../../SharingExplainerModal"
+import { useSharingExplainerModalFlag } from "../hooks/useSharingExplainerModalFlag"
 
 const baseOperations:  FileOperation[] = ["download", "info", "preview"]
 const readerOperations: FileOperation[] = [...baseOperations, "report"]
@@ -304,9 +306,10 @@ const useStyles = makeStyles(
 const sortFoldersFirst = (a: FileSystemItemType, b: FileSystemItemType) =>
   a.isFolder && a.content_type !== b.content_type ? -1 : 1
 
-  interface Props {
-    isShared?: boolean
-  }
+interface Props {
+  isShared?: boolean
+}
+
 const FilesList = ({ isShared = false }: Props) => {
   const { themeKey, desktop } = useThemeSwitcher()
   const [isReportFileModalOpen, setIsReportFileModalOpen] = useState(false)
@@ -347,6 +350,12 @@ const FilesList = ({ isShared = false }: Props) => {
   const { redirect } = useHistory()
   const { downloadMultipleFiles } = useFiles()
   const { permission } = bucket || {}
+  const { hasSeenSharingExplainerModal, hideModal } = useSharingExplainerModalFlag()
+  const [hasClickedShare, setClickedShare] = useState(false)
+  const showExplainerBeforeShare = useMemo(() =>
+    hasSeenSharingExplainerModal && hasClickedShare
+  , [hasClickedShare, hasSeenSharingExplainerModal]
+  )
   const items: FileSystemItemType[] = useMemo(() => {
     let temp = []
 
@@ -637,6 +646,16 @@ const FilesList = ({ isShared = false }: Props) => {
     }
   ],
   [classes.menuIcon])
+
+  const onShare = useCallback((fileInfoPath: string, fileIndex: number) => {
+    if(hasSeenSharingExplainerModal) {
+      setClickedShare(true)
+    }
+
+    setFilePath(fileInfoPath)
+    setFileIndex(fileIndex)
+    setIsCopyToSharedFolerModalOpen(true)
+  }, [hasSeenSharingExplainerModal])
 
   return (
     <article
@@ -967,11 +986,7 @@ const FilesList = ({ isShared = false }: Props) => {
                       setFileIndex(fileIndex)
                       setIsPreviewOpen(true)
                     }}
-                    share={(filePath: string, fileIndex: number) => {
-                      setFilePath(filePath)
-                      setFileIndex(fileIndex)
-                      setIsCopyToSharedFolerModalOpen(true)
-                    }}
+                    share={onShare}
                   />
                 ))}
               </TableBody>
@@ -1024,11 +1039,7 @@ const FilesList = ({ isShared = false }: Props) => {
                     setFilePath(fileInfoPath)
                     setIsFileInfoModalOpen(true)
                   }}
-                  share={(fileInfoPath: string, fileIndex: number) => {
-                    setFilePath(fileInfoPath)
-                    setFileIndex(fileIndex)
-                    setIsCopyToSharedFolerModalOpen(true)
-                  }}
+                  share={onShare}
                   showPreview={(fileIndex: number) => {
                     setFileIndex(fileIndex)
                     setIsPreviewOpen(true)
@@ -1114,7 +1125,7 @@ const FilesList = ({ isShared = false }: Props) => {
           }}
         />
       }
-      { isCopyToSharedFolerModalOpen && filePath && fileIndex !== undefined &&
+      { !showExplainerBeforeShare && isCopyToSharedFolerModalOpen && filePath && fileIndex !== undefined &&
         <ShareToSharedFolderModal
           file={files[fileIndex]}
           close={() => {
@@ -1124,6 +1135,10 @@ const FilesList = ({ isShared = false }: Props) => {
           filePath={currentPath}
         />
       }
+      <SharingExplainerModal
+        showModal={showExplainerBeforeShare}
+        onHide={hideModal}
+      />
     </article>
   )
 }

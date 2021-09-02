@@ -25,7 +25,7 @@ const useStyles = makeStyles(({ constants, breakpoints }: CSSTheme) =>
         borderRadiusRightBottom: 0
       }
     },
-    close: {
+    closeIcon: {
       [breakpoints.down("md")]: {}
     }
   })
@@ -48,7 +48,7 @@ const CustomModal: React.FC<ICustomModal> = ({
     <Modal
       className={clsx(classes.root, className)}
       injectedClass={{
-        close: clsx(classes.close, injectedClass?.close),
+        closeIcon: clsx(classes.closeIcon, injectedClass?.closeIcon),
         inner: clsx(classes.inner, injectedClass?.inner)
       }}
       {...rest}
