@@ -47,9 +47,6 @@ msgstr "Une erreur s'est produite :"
 msgid "Approve"
 msgstr "Accepter"
 
-msgid "Are we on the right track? Let us know in less than 1 minute."
-msgstr "Sommes-nous sur la bonne voie ? Dites-le-nous en moins d’une minute (en anglais)."
-
 msgid "Backup secret phrase"
 msgstr "Phrase secrète de sauvegarde"
 
@@ -296,11 +293,17 @@ msgstr "Donner l’accès en lecture seule à :"
 msgid "Go back"
 msgstr "Retour"
 
+msgid "Got an issue?"
+msgstr ""
+
 msgid "Got it"
 msgstr ""
 
 msgid "Hello again!"
 msgstr "Ravis de vous revoir !"
+
+msgid "Help us improve File in less than 1 minute."
+msgstr ""
 
 msgid "Hey! You only have two sign-in methods. If you lose that and have only one left, you will be locked out of your account forever."
 msgstr "Hé ! Vous n’avez que deux méthodes de connexion. Si vous en perdez une et qu’il ne vous en reste qu’une, vous ne pourrez plus jamais vous connecter à votre compte."
@@ -553,9 +556,6 @@ msgstr "Sélectionner un wallet"
 
 msgid "Select an existing shared folder"
 msgstr "Sélectionnez un dossier partagé existant"
-
-msgid "Send Feedback"
-msgstr "Donner son avis"
 
 msgid "Send another email"
 msgstr "Envoyer un nouveau courriel"
