@@ -1,11 +1,12 @@
 import React from "react"
 import { createStyles, ITheme, makeStyles } from "@chainsafe/common-theme"
-import { Toast } from "./types"
+import { ToastContentData } from "./types"
 import clsx from "clsx"
-import { CheckCircleIcon, Typography, CloseCircleIcon, CloseCirceSvg, CrossSvg, ProgressBar } from ".."
-// import { Button } from "../Button"
+import { Typography } from "../Typography"
+import { CheckCircleIcon, CloseCircleIcon, CloseCirceSvg, CrossSvg } from "../Icons"
+import { ProgressBar } from "../ProgressBar"
 
-const useStyles = makeStyles(({ constants, breakpoints, palette, animation }: ITheme) => {
+const useStyles = makeStyles(({ constants, palette, animation }: ITheme) => {
   return createStyles({
     boxContainer: {
       backgroundColor: palette.additional["gray"][3],
@@ -18,20 +19,6 @@ const useStyles = makeStyles(({ constants, breakpoints, palette, animation }: IT
         visibility: "visible",
         opacity: 1
       }
-    },
-    appearBox: {
-      animation: `$slideLeft ${animation.translate}ms`,
-      [breakpoints.down("md")]: {
-        animation: `$slideUp ${animation.translate}ms`
-      }
-    },
-    "@keyframes slideLeft": {
-      from: { transform: "translate(100%)" },
-      to: { transform: "translate(0)" }
-    },
-    "@keyframes slideUp": {
-      from: { transform: "translate(0, 100%)" },
-      to: { transform: "translate(0, 0)" }
     },
     progressBox: {
       display: "flex",
@@ -85,7 +72,7 @@ const useStyles = makeStyles(({ constants, breakpoints, palette, animation }: IT
 })
 
 export interface ToastContentProps {
-  toast: Toast
+  toast: ToastContentData
   onClose(): void
 }
 

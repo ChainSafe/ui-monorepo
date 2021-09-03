@@ -9,9 +9,13 @@ export interface Toast {
   subtitle?: string
   progress?: number
   onProgressCancel?(): void
-  toastPosition?: ToastPosition,
-  autoDismiss?: boolean,
+  toastPosition: ToastPosition
+  autoDismiss?: boolean
   dismissTimeout?: number
 }
 
-export type AddToast = Omit<Toast, "id">
+export type ToastContentData = Omit<Toast, "toastPosition" | "autoDismiss" | "dismissTimeout">
+
+export interface ToastParams extends Omit<Toast, "id" | "toastPosition"> {
+  toastPosition?: ToastPosition
+}

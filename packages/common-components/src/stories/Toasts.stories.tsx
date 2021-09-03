@@ -1,7 +1,7 @@
 import React from "react"
 import {
-  AddToast,
   ToastContent,
+  ToastParams,
   ToastProvider,
   useToasts
 } from "../Toasts"
@@ -21,7 +21,7 @@ export const ToastsContentNotification: React.FC = () => {
         id: "1",
         title: text("title", "Upload in progress"),
         type: select("type", ["success", "error"], "success"),
-        subtitle: text("subtitle", "Just a subtitle with a lot of info"),
+        subtitle: text("subtitle", "Just a subtitle with a lot of info")
       }}
       onClose={action("onClose")}
     />
@@ -63,21 +63,21 @@ export const Toasts: React.FC = () => {
       autoDismiss={boolean("default auto dismiss", true)}
       dismissTimeout={number("default dismiss timeout", 4000)}
     >
-      <ToastNotificationDemo 
+      <ToastNotificationDemo
         toast={{
           title: text("title", "Upload Started"),
           type: "success",
           toastPosition: select("position", ["top-left", "top-right", "bottom-left", "bottom-right"], "top-right"),
           progress: number("progress", 100),
           autoDismiss: boolean("toast auto dismiss", true),
-          dismissTimeout: number("toast dismiss timeout", 4000),
+          dismissTimeout: number("toast dismiss timeout", 4000)
         }}
       />
     </ToastProvider>
   )
 }
 
-const ToastNotificationDemo: React.FC<{toast: AddToast}> = ({toast}) => {
+const ToastNotificationDemo: React.FC<{toast: ToastParams}> = ({ toast }) => {
   const { addToast, updateToast, toasts } = useToasts()
 
   const onAddToast = () => {
@@ -95,7 +95,7 @@ const ToastNotificationDemo: React.FC<{toast: AddToast}> = ({toast}) => {
       {toasts.map((toast) => (
         toast.progress && toast.progress < 80 ? (
           <button onClick={() => updateToast(toast.id, {
-            ...toast, 
+            ...toast,
             progress: toast.progress !== undefined ? toast.progress + 20 : undefined
           })}>
             increase progress toast
