@@ -118,7 +118,7 @@ const ToastProvider = ({
       }
     ]))
 
-    const isProgressToast = toastParams.progress !== undefined && toastParams.progress < 100
+    const isProgressToast = toastParams.progress !== undefined
     const shouldDismiss = toastParams.autoDismiss !== undefined ? toastParams.autoDismiss : autoDismiss
     const dismissTimeOut = toastParams.dismissTimeout || dismissTimeout
 

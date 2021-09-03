@@ -79,10 +79,9 @@ export interface ToastContentProps {
 const ToastContent = ({ toast, onClose }: ToastContentProps) => {
   const classes = useStyles()
   const { type, title, progress, subtitle, onProgressCancel } = toast
-  const showInProgress = progress !== undefined && progress !== 100
   return (
     <div className={clsx(classes.boxContainer)}>
-      {showInProgress
+      {progress !== undefined
         ? <div>
           <div>
             <Typography
