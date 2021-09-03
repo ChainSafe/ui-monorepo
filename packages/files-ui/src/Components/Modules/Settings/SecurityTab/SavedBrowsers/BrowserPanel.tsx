@@ -207,6 +207,7 @@ const BrowserPanel = ({ dateAdded, shareIndex, browser, os }: BrowserShare) => {
                 injectedClass={{
                   inner: classes.modalInner
                 }}
+                closePosition="none"
               >
                 <div className={classes.modalContainer}>
                   <Typography>

@@ -17,8 +17,9 @@ import {
   ShareAltSvg,
   ExclamationCircleInverseSvg,
   ZoomInSvg,
-  InfoCircleSvg } from "@chainsafe/common-components"
-import { makeStyles, createStyles, useDoubleClick, useThemeSwitcher } from "@chainsafe/common-theme"
+  InfoCircleSvg
+} from "@chainsafe/common-components"
+import { makeStyles, createStyles, useDoubleClick, useThemeSwitcher, useLongPress } from "@chainsafe/common-theme"
 import { Form, FormikProvider, useFormik } from "formik"
 import CustomModal from "../../../../Elements/CustomModal"
 import { t, Trans } from "@lingui/macro"
@@ -156,7 +157,7 @@ const FileSystemItem = ({
       name
     },
     validationSchema: nameValidator,
-    onSubmit: (values: {name: string}) => {
+    onSubmit: (values: { name: string }) => {
       const newName = values.name.trim()
 
       newName && handleRename && handleRename(file.cid, newName)
@@ -282,7 +283,7 @@ const FileSystemItem = ({
       contents: (
         <>
           <EyeSvg className={classes.menuIcon} />
-          <span data-cy="view-folder">
+          <span data-cy="menu-view-folder">
             <Trans>View folder</Trans>
           </span>
         </>
@@ -327,7 +328,8 @@ const FileSystemItem = ({
   )
 
   const [, dragMoveRef, preview] = useDrag(() =>
-    ({ type: DragTypes.MOVABLE_FILE,
+    ({
+      type: DragTypes.MOVABLE_FILE,
       item: () => {
         if (selectedCids.includes(file.cid)) {
           return { ids: selectedCids }
@@ -352,7 +354,7 @@ const FileSystemItem = ({
   const [{ isOverMove }, dropMoveRef] = useDrop({
     accept: DragTypes.MOVABLE_FILE,
     canDrop: () => isFolder,
-    drop: (item: {ids: string[]}) => {
+    drop: (item: { ids: string[]}) => {
       moveItems && moveItems(item.ids, getPathWithFile(currentPath, name))
     },
     collect: (monitor) => ({
@@ -379,7 +381,7 @@ const FileSystemItem = ({
   }
 
   if (!editing && !isFolder) {
-    dragMoveRef(fileOrFolderRef)
+    desktop && dragMoveRef(fileOrFolderRef)
   }
 
   const onSingleClick = useCallback(
@@ -393,14 +395,18 @@ const FileSystemItem = ({
         }
       } else {
         // on mobile
-        if (isFolder) {
-          viewFolder && viewFolder(file.cid)
+        if (selectedCids.length) {
+          handleAddToSelectedItems(file)
         } else {
-          onFilePreview()
+          if (isFolder) {
+            viewFolder && viewFolder(file.cid)
+          } else {
+            onFilePreview()
+          }
         }
       }
     },
-    [desktop, handleAddToSelectedItems, file, handleSelectItem, isFolder, viewFolder, onFilePreview]
+    [desktop, handleAddToSelectedItems, file, handleSelectItem, isFolder, viewFolder, onFilePreview, selectedCids.length]
   )
 
   const onDoubleClick = useCallback(
@@ -422,9 +428,15 @@ const FileSystemItem = ({
 
   const { click } = useDoubleClick(onSingleClick, onDoubleClick)
 
+  const longPressEvents = useLongPress(() => handleSelectItem(file), onSingleClick)
+
   const onFolderOrFileClicks = (e?: React.MouseEvent) => {
     e?.persist()
-    click(e)
+    if (!desktop) {
+      return null
+    } else {
+      click(e)
+    }
   }
 
   const itemProps = {
@@ -444,7 +456,8 @@ const FileSystemItem = ({
     preview,
     selectedCids,
     setEditing,
-    resetSelectedFiles
+    resetSelectedFiles,
+    longPressEvents: !desktop ? longPressEvents : undefined
   }
 
   return (
@@ -464,7 +477,7 @@ const FileSystemItem = ({
               }}
               closePosition="none"
               active={editing === cid}
-              setActive={() => setEditing("")}
+              onClose={() => setEditing("")}
             >
               <FormikProvider value={formik}>
                 <Form className={classes.renameModal}>

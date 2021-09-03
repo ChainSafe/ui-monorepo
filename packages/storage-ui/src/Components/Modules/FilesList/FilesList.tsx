@@ -49,7 +49,7 @@ interface IStyleProps {
   themeKey: string
 }
 
-export const desktopGridSettings = "50px 69px 3fr 3fr 100px 45px !important"
+export const desktopGridSettings = "50px 69px minmax(250px, 3fr) minmax(150px, 450px) 100px 45px !important"
 export const mobileGridSettings = "69px 3fr 45px !important"
 
 const useStyles = makeStyles(

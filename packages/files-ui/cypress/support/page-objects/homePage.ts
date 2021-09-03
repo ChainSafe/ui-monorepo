@@ -1,26 +1,22 @@
 import { basePage } from "./basePage"
+import { fileBrowser } from "./fileBrowser"
 import { fileUploadModal } from "./modals/fileUploadModal"
 
 export const homePage = {
   ...basePage,
+  ...fileBrowser,
 
-  // main file browser elements
+  // home page specific file browser elements
   newFolderButton: () => cy.get("[data-cy=button-new-folder]"),
   uploadButton: () => cy.get("[data-cy=button-upload-file]"),
   moveSelectedButton: () => cy.get("[data-testId=button-move-selected-file]"),
   deleteSelectedButton: () => cy.get("[data-testId=button-delete-selected-file]"),
   uploadStatusToast: () => cy.get("[data-cy=upload-status-toast-message]", { timeout: 10000 }),
-
-  // file browser row elements
-  fileItemRow: () => cy.get("[data-cy=file-item-row]", { timeout: 20000 }),
-  fileTable: () => cy.get("[data-testid=table-home]"),
-  fileItemName: () => cy.get("[data-cy=file-item-name]"),
   fileRenameInput: () => cy.get("[data-cy=rename-form] input"),
   fileRenameSubmitButton: () => cy.get("[data-cy=rename-submit-button]"),
   fileRenameErrorLabel: () => cy.get("[data-cy=rename-form] span.minimal.error"),
-  fileItemKebabButton: () => cy.get("[data-testid=menu-title-fileDropdown]"),
 
-  // menu elements
+  // kebab menu elements
   previewMenuOption: () => cy.get("[data-cy=menu-preview]"),
   downloadMenuOption: () => cy.get("[data-cy=menu-download]"),
   infoMenuOption: () => cy.get("[data-cy=menu-info]"),

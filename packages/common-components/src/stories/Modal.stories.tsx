@@ -43,9 +43,9 @@ export const ModalStory = (): React.ReactNode => {
       </Button>
       <Modal
         active={active}
-        setActive={setActive}
         maxWidth={select("Max width position", maxWidthOptions, "md")}
         closePosition={select("Close position", closePositionOptions, "left")}
+        onClose={() => setActive(false)}
       >
         <Typography>
           Lorem ipsum dolor sit amet consectetur, adipisicing elit. Voluptas,
