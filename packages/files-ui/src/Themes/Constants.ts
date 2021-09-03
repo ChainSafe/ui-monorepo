@@ -125,6 +125,7 @@ export interface CsfColors extends IConstants {
     optionsBorder: string
     itemBackground: string
     itemColor: string
+    borderColor: string
   }
   masterKey: {
     desktop: {
