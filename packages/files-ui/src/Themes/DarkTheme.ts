@@ -445,7 +445,8 @@ export const darkTheme = createTheme<CsfColors>({
           optionsColor: "var(--gray9)",
           optionsBorder: "var(--gray5)",
           itemBackground: "var(--gray1)",
-          itemColor: "var(--gray9)"
+          itemColor: "var(--gray9)",
+          borderColor: "var(--blue6)"
         },
         masterKey: {
           desktop: {
