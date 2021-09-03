@@ -79,7 +79,7 @@ const BucketPage: React.FC<IFileBrowserModuleProps> = () => {
       paths: itemsToDelete.map((item) => (getPathWithFile(currentPath, item?.name)))
     }).then(() => {
       addToast({
-        message: t`Deletion successful`,
+        title: t`Deletion successful`,
         type: "success"
       })
     })
@@ -87,7 +87,7 @@ const BucketPage: React.FC<IFileBrowserModuleProps> = () => {
         console.error(e)
         const message = t`There was an error deleting this item`
         addToast({
-          message: message,
+          title: message,
           type: "error"
         })
       })
@@ -121,7 +121,7 @@ const BucketPage: React.FC<IFileBrowserModuleProps> = () => {
           } ${t`moved successfully`}`
 
           addToast({
-            message: message,
+            title: message,
             type: "success"
           })
         } catch (error) {
@@ -129,7 +129,7 @@ const BucketPage: React.FC<IFileBrowserModuleProps> = () => {
             itemToMove.isFolder ? t`folder` : t`file`
           }`
           addToast({
-            message: message,
+            title: message,
             type: "error"
           })
         }
@@ -168,7 +168,7 @@ const BucketPage: React.FC<IFileBrowserModuleProps> = () => {
     }
     if (hasFolder) {
       addToast({
-        message: t`Folder uploads are currently not supported`,
+        title: t`Folder uploads are currently not supported`,
         type: "error"
       })
     } else {
