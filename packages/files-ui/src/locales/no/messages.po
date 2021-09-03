@@ -34,6 +34,9 @@ msgstr ""
 msgid "Add more files"
 msgstr "Legg til flere filer"
 
+msgid "Add viewers and editors by username, sharing id or Ethereum address."
+msgstr ""
+
 msgid "An error occurred while downloading the file"
 msgstr ""
 
@@ -147,6 +150,9 @@ msgstr ""
 
 msgid "Create folder"
 msgstr "Opprett mappe"
+
+msgid "Create your public username in <0>Settings</0>!"
+msgstr ""
 
 msgid "Dark Theme"
 msgstr "Mørk drakt"
@@ -297,6 +303,9 @@ msgstr ""
 
 msgid "Go back"
 msgstr "Tilbake"
+
+msgid "Got it"
+msgstr ""
 
 msgid "Hello again!"
 msgstr "Hei igjen."
@@ -771,6 +780,9 @@ msgstr "Ja, lagre"
 
 msgid "You can change this later."
 msgstr "Du kan endre dette senere."
+
+msgid "You can now create shared folders to share a file."
+msgstr ""
 
 msgid "You can't move folders to this path"
 msgstr ""

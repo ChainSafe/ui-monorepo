@@ -1,5 +1,5 @@
 import React, { useCallback, useRef } from "react"
-import { makeStyles, createStyles, useThemeSwitcher, useOnClickOutside } from "@chainsafe/common-theme"
+import { makeStyles, createStyles, useThemeSwitcher, useOnClickOutside, LongPressEvents } from "@chainsafe/common-theme"
 import { t } from "@lingui/macro"
 import clsx from "clsx"
 import {
@@ -26,7 +26,7 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => 
 
   return createStyles({
     tableRow: {
-      border: "2px solid transparent",
+      border: "1px solid transparent",
       [breakpoints.up("md")]: {
         gridTemplateColumns: desktopGridSettings
       },
@@ -34,7 +34,10 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => 
         gridTemplateColumns: mobileGridSettings
       },
       "&.droppable": {
-        border: `2px solid ${palette.primary.main}`
+        border: `1px solid ${constants.fileSystemItemRow.borderColor}`
+      },
+      "&.highlighted": {
+        border: `1px solid ${constants.fileSystemItemRow.borderColor}`
       }
     },
     fileIcon: {
@@ -93,7 +96,7 @@ const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => 
         position: "absolute"
       }
     },
-    focusVisible:{
+    focusVisible: {
       backgroundColor: "transparent !important"
     }
   })
@@ -110,10 +113,11 @@ interface IFileSystemTableItemProps {
   onFolderOrFileClicks: (e?: React.MouseEvent) => void
   icon: React.ReactNode
   preview: ConnectDragPreview
-  setEditing: (editing: string |  undefined) => void
+  setEditing: (editing: string | undefined) => void
   handleRename?: (path: string, newPath: string) => Promise<void>
   currentPath: string | undefined
   menuItems: IMenuItem[]
+  longPressEvents?: LongPressEvents
 }
 
 const FileSystemTableItem = React.forwardRef(
@@ -130,7 +134,8 @@ const FileSystemTableItem = React.forwardRef(
     preview,
     setEditing,
     handleRename,
-    menuItems
+    menuItems,
+    longPressEvents
   }: IFileSystemTableItemProps, forwardedRef: any) => {
     const classes = useStyles()
     const { name, cid, created_at, size } = file
@@ -139,7 +144,7 @@ const FileSystemTableItem = React.forwardRef(
     const formik = useFormik({
       initialValues: { name },
       validationSchema: nameValidator,
-      onSubmit: (values: {name: string}) => {
+      onSubmit: (values: { name: string }) => {
         const newName = values.name.trim()
 
         newName && handleRename && handleRename(file.cid, newName)
@@ -154,11 +159,12 @@ const FileSystemTableItem = React.forwardRef(
 
     useOnClickOutside(formRef, stopEditing)
 
-    return  (
+    return (
       <TableRow
         data-cy="file-item-row"
         className={clsx(classes.tableRow, {
-          droppable: isFolder && (isOverMove || isOverUpload)
+          droppable: isFolder && (isOverMove || isOverUpload),
+          highlighted: !desktop && selectedCids.includes(cid)
         })}
         type="grid"
         ref={forwardedRef}
@@ -175,6 +181,7 @@ const FileSystemTableItem = React.forwardRef(
         <TableCell
           className={clsx(classes.fileIcon, isFolder && classes.folderIcon)}
           onClick={(e) => onFolderOrFileClicks(e)}
+          {...longPressEvents}
         >
           {icon}
         </TableCell>
@@ -184,6 +191,7 @@ const FileSystemTableItem = React.forwardRef(
           align="left"
           className={clsx(classes.filename, desktop && editing === cid && "editing")}
           onClick={(e) => !editing && onFolderOrFileClicks(e)}
+          {...longPressEvents}
         >
           {editing === cid && desktop
             ? (
@@ -202,7 +210,7 @@ const FileSystemTableItem = React.forwardRef(
                         stopEditing()
                       }
                     }}
-                    placeholder = {isFolder
+                    placeholder={isFolder
                       ? t`Please enter a folder name`
                       : t`Please enter a file name`
                     }
@@ -228,7 +236,7 @@ const FileSystemTableItem = React.forwardRef(
         <TableCell align="right">
           <Menu
             testId='fileDropdown'
-            icon={<MoreIcon className={classes.dropdownIcon}/>}
+            icon={<MoreIcon className={classes.dropdownIcon} />}
             options={menuItems}
             style={{ focusVisible: classes.focusVisible }}
           />

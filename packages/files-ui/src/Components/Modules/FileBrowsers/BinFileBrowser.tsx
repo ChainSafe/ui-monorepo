@@ -105,15 +105,14 @@ const BinFileBrowser: React.FC<IFileBrowserModuleProps> = ({ controls = false }:
         try {
           await filesApiClient.moveBucketObjects(
             bucket.id,
-            { path: getPathWithFile(currentPath, itemToRestore.name),
+            {
+              path: getPathWithFile(currentPath, itemToRestore.name),
               new_path: getPathWithFile(newPath, itemToRestore.name),
               destination: buckets.find(b => b.type === "csf")?.id
             }
           )
 
-          const message = `${
-            itemToRestore.isFolder ? t`Folder` : t`File`
-          } ${t`recovered successfully`}`
+          const message = `${itemToRestore.isFolder ? t`Folder` : t`File`} ${t`recovered successfully`}`
 
           addToast({
             title: message,
