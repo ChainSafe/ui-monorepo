@@ -201,6 +201,9 @@ const useStyles = makeStyles(
       },
       betaCaption: {
         marginBottom: constants.generalUnit * 0.5
+      },
+      supportButton: {
+        margin: "auto"
       }
     })
   }
@@ -234,7 +237,7 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
   }, [desktop, navOpen, setNavOpen])
 
   const collectFeedback = () => {
-    window.open(ROUTE_LINKS.GeneralFeedbackForm, "_blank")
+    window.open(ROUTE_LINKS.DiscordInvite, "_blank")
   }
 
   return (
@@ -368,16 +371,14 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
                     </>
                   )
                 }
-                {/* <Button disabled variant="outline" size="small">
-                  <Trans>UPGRADE</Trans>
-                </Button> */}
                 <Button
+                  className={classes.supportButton}
                   data-cy="send-feedback-nav"
-                  variant="outline"
-                  size="small"
+                  variant="secondary"
+                  size="medium"
                   onClick={() => collectFeedback()}
                 >
-                  <Trans>Send Feedback</Trans>
+                  <Trans>Got an issue?</Trans>
                 </Button>
               </div>
             )}
