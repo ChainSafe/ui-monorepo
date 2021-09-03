@@ -71,7 +71,7 @@ const App = () => {
     <Modal
       active
       closePosition="none"
-      setActive={resetError}
+      onClose={resetError}
     >
       <Typography>
         An error occurred and has been logged. If you would like to
