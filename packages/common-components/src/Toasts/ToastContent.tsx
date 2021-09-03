@@ -5,24 +5,9 @@ import clsx from "clsx"
 import { CheckCircleIcon, Typography, CloseCircleIcon, CloseCirceSvg, CrossSvg, ProgressBar } from ".."
 // import { Button } from "../Button"
 
-const useStyles = makeStyles(({ constants, zIndex, breakpoints, palette, animation }: ITheme) => {
-  const WIDTH = 400
+const useStyles = makeStyles(({ constants, breakpoints, palette, animation }: ITheme) => {
   return createStyles({
-    root: {
-      margin: constants.generalUnit * 3,
-      position: "fixed",
-      right: 0,
-      bottom: 0,
-      borderRadius: 4,
-      padding: constants.generalUnit,
-      zIndex: zIndex?.layer1,
-      [breakpoints.down("md")]: {
-        margin: constants.generalUnit,
-        width: `calc(100% - ${constants.generalUnit * 2}px)`
-      }
-    },
     boxContainer: {
-      width: WIDTH,
       backgroundColor: palette.additional["gray"][3],
       margin: constants.generalUnit,
       border: `1px solid ${palette.additional["gray"][6]}`,

@@ -9,4 +9,9 @@ export interface Toast {
   subtitle?: string
   progress?: number
   onProgressCancel?(): void
+  toastPosition?: ToastPosition,
+  autoDismiss?: boolean,
+  dismissTimeout?: number
 }
+
+export type AddToast = Omit<Toast, "id">
