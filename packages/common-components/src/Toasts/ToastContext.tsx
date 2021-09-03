@@ -12,7 +12,7 @@ const useStyles = makeStyles(({ constants, zIndex, breakpoints, animation }: ITh
       position: "fixed",
       width: WIDTH,
       margin: constants.generalUnit,
-      zIndex: zIndex?.layer1,
+      zIndex: zIndex?.blocker,
       [breakpoints.down("sm")]: {
         margin: constants.generalUnit,
         width: `calc(100% - ${constants.generalUnit * 2}px)`
@@ -110,16 +110,16 @@ const ToastProvider = ({
 
   const addToast = useCallback((toastParams: ToastParams) => {
     const id = uuidv4()
-    setToasts([
+    setToasts((toasts) => ([
       ...toasts,
       { id,
         ...toastParams,
         toastPosition: toastParams.toastPosition || defaultPosition
       }
-    ])
+    ]))
 
     const isProgressToast = toastParams.progress !== undefined && toastParams.progress < 100
-    const shouldDismiss = toastParams.autoDismiss && autoDismiss
+    const shouldDismiss = toastParams.autoDismiss !== undefined ? toastParams.autoDismiss : autoDismiss
     const dismissTimeOut = toastParams.dismissTimeout || dismissTimeout
 
     if (shouldDismiss && !isProgressToast) {
@@ -129,7 +129,7 @@ const ToastProvider = ({
     }
 
     return id
-  }, [autoDismiss, dismissTimeout, toasts, defaultPosition])
+  }, [autoDismiss, dismissTimeout, defaultPosition])
 
   const updateToast = useCallback((toastId: string, toastParams: ToastParams, startDismissal?: boolean) => {
     const dismissTimeOut = toastParams.dismissTimeout || dismissTimeout

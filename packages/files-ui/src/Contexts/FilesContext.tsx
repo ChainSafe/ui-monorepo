@@ -12,7 +12,7 @@ import React, { useCallback, useEffect, useReducer } from "react"
 import { useState } from "react"
 import { decryptFile, encryptFile  } from "../Utils/encryption"
 import { v4 as uuidv4 } from "uuid"
-import { useToaster } from "@chainsafe/common-components"
+import { useToasts } from "@chainsafe/common-components"
 import { downloadsInProgressReducer, transfersInProgressReducer, uploadsInProgressReducer } from "./FilesReducers"
 import axios, { CancelToken } from "axios"
 import { t } from "@lingui/macro"
@@ -152,7 +152,7 @@ const FilesProvider = ({ children }: FilesContextProps) => {
     validateMasterPassword
   } = useFilesApi()
   const { publicKey, encryptForPublicKey, decryptMessageWithThresholdKey } = useThresholdKey()
-  const { addToastMessage } = useToaster()
+  const { addToast, updateToast } = useToasts()
   const [personalEncryptionKey, setPersonalEncryptionKey] = useState<string | undefined>()
   const [buckets, setBuckets] = useState<BucketKeyPermission[]>([])
   const [storageSummary, setStorageSummary] = useState<BucketSummaryResponse | undefined>()
@@ -396,9 +396,9 @@ const FilesProvider = ({ children }: FilesContextProps) => {
     const hasOversizedFile = files.some(file => file.size > MAX_FILE_SIZE)
 
     if (hasOversizedFile) {
-      addToastMessage({
-        message: t`We can't encrypt files larger than 2GB. Some items will not be uploaded`,
-        appearance: "error"
+      addToast({
+        title: t`We can't encrypt files larger than 2GB. Some items will not be uploaded`,
+        type: "error"
       })
     }
 
@@ -446,7 +446,7 @@ const FilesProvider = ({ children }: FilesContextProps) => {
 
       return Promise.reject(error)
     }
-  }, [addToastMessage, refreshBuckets, encryptAndUploadFiles])
+  }, [addToast, refreshBuckets, encryptAndUploadFiles])
 
   const getFileContent = useCallback(async (
     bucketId: string,

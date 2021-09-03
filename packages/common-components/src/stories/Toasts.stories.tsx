@@ -57,13 +57,33 @@ export const ToastsContentProgressNoCancel: React.FC = () => {
   )
 }
 
-export const Toasts: React.FC = () => {
+export const ToastsDemo: React.FC = () => {
   return (
     <ToastProvider
       autoDismiss={boolean("default auto dismiss", true)}
       dismissTimeout={number("default dismiss timeout", 4000)}
     >
       <ToastNotificationDemo
+        toast={{
+          title: text("title", "Upload Started"),
+          type: "success",
+          toastPosition: select("position", ["top-left", "top-right", "bottom-left", "bottom-right"], "top-right"),
+          progress: number("progress", 100),
+          autoDismiss: boolean("toast auto dismiss", true),
+          dismissTimeout: number("toast dismiss timeout", 4000)
+        }}
+      />
+    </ToastProvider>
+  )
+}
+
+export const MultipleToastsDemo: React.FC = () => {
+  return (
+    <ToastProvider
+      autoDismiss={boolean("default auto dismiss", true)}
+      dismissTimeout={number("default dismiss timeout", 4000)}
+    >
+      <ToastMultipleNotificationDemo
         toast={{
           title: text("title", "Upload Started"),
           type: "success",
@@ -103,6 +123,31 @@ const ToastNotificationDemo: React.FC<{toast: ToastParams}> = ({ toast }) => {
         ) : null
       ))
       }
+    </>
+  )
+}
+
+const ToastMultipleNotificationDemo: React.FC<{toast: ToastParams}> = ({ toast }) => {
+  const { addToast } = useToasts()
+
+  const onAddToast = () => {
+    addToast(toast)
+    setTimeout(() => {
+      addToast(toast)
+    }, 1000)
+    setTimeout(() => {
+      addToast(toast)
+    }, 2000)
+  }
+
+  return (
+    <>
+      <button
+        onClick={() => onAddToast()}
+      >
+        open multiple notification
+      </button>
+      <br />
     </>
   )
 }
