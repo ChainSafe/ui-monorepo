@@ -653,7 +653,7 @@ const FilesList = ({ isShared = false }: Props) => {
 
     setFilePath(fileInfoPath)
     setFileIndex(fileIndex)
-    setIsCopyToSharedFolerModalOpen(true)
+    setIsCopyToSharedFolderModalOpen(true)
   }, [hasSeenSharingExplainerModal])
 
   return (
@@ -1124,7 +1124,7 @@ const FilesList = ({ isShared = false }: Props) => {
           }}
         />
       }
-      { !showExplainerBeforeShare && isCopyToSharedFolerModalOpen && filePath && fileIndex !== undefined &&
+      { !showExplainerBeforeShare && isCopyToSharedFolderModalOpen && filePath && fileIndex !== undefined &&
         <ShareToSharedFolderModal
           file={files[fileIndex]}
           close={() => {
