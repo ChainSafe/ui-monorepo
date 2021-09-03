@@ -86,7 +86,7 @@ type ToastContextProps = {
 
 interface ToastContext {
   addToast(toastParams: ToastParams): string
-  updateToast(toastId: string, toastParams: ToastParams): void
+  updateToast(toastId: string, toastParams: ToastParams, startDismissal?: boolean): void
   removeToast(toastId: string): void
   toasts: Toast[]
 }
@@ -135,11 +135,11 @@ const ToastProvider = ({
     const dismissTimeOut = toastParams.dismissTimeout || dismissTimeout
     if (startDismissal) {
       setTimeout(() => {
-        removeToast(toastId)
+        setToasts((toasts) => toasts.filter((toast) => toast.id !== toastId))
       }, dismissTimeOut)
     }
-    setToasts(toasts.map((toast) => toast.id === toastId ? { ...toast, ...toastParams } : toast))
-  }, [toasts, dismissTimeout, removeToast])
+    setToasts((toasts) => toasts.map((toast) => toast.id === toastId ? { ...toast, ...toastParams } : toast))
+  }, [dismissTimeout])
 
   const positionWiseToasts = useMemo(() => ([
     {

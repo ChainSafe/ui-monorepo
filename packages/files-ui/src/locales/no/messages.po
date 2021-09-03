@@ -175,16 +175,28 @@ msgstr ""
 msgid "Download"
 msgstr ""
 
+msgid "Download Complete"
+msgstr ""
+
 msgid "Download as zip"
 msgstr ""
 
-msgid "Download complete"
+#~ msgid "Download complete"
+#~ msgstr ""
+
+msgid "Download failed"
 msgstr ""
 
 msgid "Download recovery key"
 msgstr ""
 
 msgid "Downloading"
+msgstr ""
+
+msgid "Downloading file - {0}"
+msgstr ""
+
+msgid "Downloading {fileProgress} - {0}"
 msgstr ""
 
 msgid "Drop to upload files"
@@ -691,11 +703,11 @@ msgstr ""
 msgid "Upload"
 msgstr "Last opp"
 
-msgid "Upload complete"
-msgstr "Opplastet"
+#~ msgid "Upload complete"
+#~ msgstr "Opplastet"
 
-msgid "Uploading {0} files"
-msgstr "Laster opp {0} filer"
+#~ msgid "Uploading {0} files"
+#~ msgstr "Laster opp {0} filer"
 
 msgid "Use a different login method"
 msgstr "Bruk en annen innloggingsmetode"
@@ -796,8 +808,14 @@ msgstr "gjenopprettet"
 msgid "unknown"
 msgstr ""
 
+msgid "{0, plural, one {Downloading {1} file} other {Downloading {2} files}}"
+msgstr ""
+
+msgid "{0, plural, one {Encrypting and uploading {1} file} other {Encrypting and uploading {2} files}}"
+msgstr ""
+
 msgid "{0, plural, one {You are about to delete {1} item.} other {You are about to delete {2} items.}}"
 msgstr ""
 
-msgid "{noOfFiles, plural, one {Uploading and encrypting {noOfFiles} file} other {Uploading and encrypting {noOfFiles} files}}"
-msgstr ""
+#~ msgid "{noOfFiles, plural, one {Uploading and encrypting {noOfFiles} file} other {Uploading and encrypting {noOfFiles} files}}"
+#~ msgstr ""

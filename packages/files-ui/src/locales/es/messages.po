@@ -176,16 +176,28 @@ msgstr "Configuración de pantalla"
 msgid "Download"
 msgstr "Descargar"
 
+msgid "Download Complete"
+msgstr ""
+
 msgid "Download as zip"
 msgstr ""
 
-msgid "Download complete"
-msgstr "Descarga completa"
+#~ msgid "Download complete"
+#~ msgstr "Descarga completa"
+
+msgid "Download failed"
+msgstr ""
 
 msgid "Download recovery key"
 msgstr "Descargar la clave de recuperación"
 
 msgid "Downloading"
+msgstr ""
+
+msgid "Downloading file - {0}"
+msgstr ""
+
+msgid "Downloading {fileProgress} - {0}"
 msgstr ""
 
 msgid "Drop to upload files"
@@ -695,11 +707,11 @@ msgstr ""
 msgid "Upload"
 msgstr "Subir"
 
-msgid "Upload complete"
-msgstr "Carga completa"
+#~ msgid "Upload complete"
+#~ msgstr "Carga completa"
 
-msgid "Uploading {0} files"
-msgstr "Subiendo {0} archivos"
+#~ msgid "Uploading {0} files"
+#~ msgstr "Subiendo {0} archivos"
 
 msgid "Use a different login method"
 msgstr "Utilice un método de inicio de sesión diferente"
@@ -800,8 +812,14 @@ msgstr "recuperado con éxito"
 msgid "unknown"
 msgstr ""
 
+msgid "{0, plural, one {Downloading {1} file} other {Downloading {2} files}}"
+msgstr ""
+
+msgid "{0, plural, one {Encrypting and uploading {1} file} other {Encrypting and uploading {2} files}}"
+msgstr ""
+
 msgid "{0, plural, one {You are about to delete {1} item.} other {You are about to delete {2} items.}}"
 msgstr ""
 
-msgid "{noOfFiles, plural, one {Uploading and encrypting {noOfFiles} file} other {Uploading and encrypting {noOfFiles} files}}"
-msgstr "{noOfFiles, plural, one {Carga y encriptación del archivo {noOfFiles}} other {Carga y encriptación de archivos {noOfFiles}}}"
+#~ msgid "{noOfFiles, plural, one {Uploading and encrypting {noOfFiles} file} other {Uploading and encrypting {noOfFiles} files}}"
+#~ msgstr "{noOfFiles, plural, one {Carga y encriptación del archivo {noOfFiles}} other {Carga y encriptación de archivos {noOfFiles}}}"

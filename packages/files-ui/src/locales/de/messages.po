@@ -175,16 +175,28 @@ msgstr "Anzeigeeinstellungen"
 msgid "Download"
 msgstr "Herunterladen"
 
+msgid "Download Complete"
+msgstr ""
+
 msgid "Download as zip"
 msgstr ""
 
-msgid "Download complete"
-msgstr "Komplett heruntergeladen"
+#~ msgid "Download complete"
+#~ msgstr "Komplett heruntergeladen"
+
+msgid "Download failed"
+msgstr ""
 
 msgid "Download recovery key"
 msgstr "Wiederherstellungsschlüssel herunterladen"
 
 msgid "Downloading"
+msgstr ""
+
+msgid "Downloading file - {0}"
+msgstr ""
+
+msgid "Downloading {fileProgress} - {0}"
 msgstr ""
 
 msgid "Drop to upload files"
@@ -691,11 +703,11 @@ msgstr ""
 msgid "Upload"
 msgstr "Hochladen"
 
-msgid "Upload complete"
-msgstr "Hochladen abgeschlossen"
+#~ msgid "Upload complete"
+#~ msgstr "Hochladen abgeschlossen"
 
-msgid "Uploading {0} files"
-msgstr "Hochladen von {0} Dateien"
+#~ msgid "Uploading {0} files"
+#~ msgstr "Hochladen von {0} Dateien"
 
 msgid "Use a different login method"
 msgstr "Eine andere Anmeldemethode verwenden"
@@ -796,8 +808,14 @@ msgstr "erfolgreich wiederhergestellt"
 msgid "unknown"
 msgstr "unbekannt"
 
+msgid "{0, plural, one {Downloading {1} file} other {Downloading {2} files}}"
+msgstr ""
+
+msgid "{0, plural, one {Encrypting and uploading {1} file} other {Encrypting and uploading {2} files}}"
+msgstr ""
+
 msgid "{0, plural, one {You are about to delete {1} item.} other {You are about to delete {2} items.}}"
 msgstr "{0, plural, one {Sie sind dabei, {1} Artikel zu löschen.} other {Sie sind dabei, {2} Artikel zu löschen.}}"
 
-msgid "{noOfFiles, plural, one {Uploading and encrypting {noOfFiles} file} other {Uploading and encrypting {noOfFiles} files}}"
-msgstr "{noOfFiles, plural, one {{noOfFiles} Datei wird hochgeladen und verschlüsselt} other {{noOfFiles} Datein werden hochgeladen und verschlüsselt}}"
+#~ msgid "{noOfFiles, plural, one {Uploading and encrypting {noOfFiles} file} other {Uploading and encrypting {noOfFiles} files}}"
+#~ msgstr "{noOfFiles, plural, one {{noOfFiles} Datei wird hochgeladen und verschlüsselt} other {{noOfFiles} Datein werden hochgeladen und verschlüsselt}}"

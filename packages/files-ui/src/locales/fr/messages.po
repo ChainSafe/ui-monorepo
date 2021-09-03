@@ -176,17 +176,29 @@ msgstr "Paramètres d’affichage"
 msgid "Download"
 msgstr "Télécharger"
 
+msgid "Download Complete"
+msgstr ""
+
 msgid "Download as zip"
 msgstr "Télécharger au format zip"
 
-msgid "Download complete"
-msgstr "Téléchargement terminé"
+#~ msgid "Download complete"
+#~ msgstr "Téléchargement terminé"
+
+msgid "Download failed"
+msgstr ""
 
 msgid "Download recovery key"
 msgstr "Télécharger la clé de sauvegarde"
 
 msgid "Downloading"
 msgstr "Téléchargement"
+
+msgid "Downloading file - {0}"
+msgstr ""
+
+msgid "Downloading {fileProgress} - {0}"
+msgstr ""
 
 msgid "Drop to upload files"
 msgstr "Faire glisser pour téléverser un fichier"
@@ -695,11 +707,11 @@ msgstr "Mettre à jour le dossier partagé"
 msgid "Upload"
 msgstr "Téléverser"
 
-msgid "Upload complete"
-msgstr "Téléversement terminé"
+#~ msgid "Upload complete"
+#~ msgstr "Téléversement terminé"
 
-msgid "Uploading {0} files"
-msgstr "Téléversement de {0} fichiers"
+#~ msgid "Uploading {0} files"
+#~ msgstr "Téléversement de {0} fichiers"
 
 msgid "Use a different login method"
 msgstr "Utilisez une méthode de connexion différente"
@@ -800,8 +812,14 @@ msgstr "récupéré avec succès"
 msgid "unknown"
 msgstr "inconnu"
 
+msgid "{0, plural, one {Downloading {1} file} other {Downloading {2} files}}"
+msgstr ""
+
+msgid "{0, plural, one {Encrypting and uploading {1} file} other {Encrypting and uploading {2} files}}"
+msgstr ""
+
 msgid "{0, plural, one {You are about to delete {1} item.} other {You are about to delete {2} items.}}"
 msgstr "{0, plural, one {Vous êtes sur le point de supprimer {1} élément.} other {Vous êtes sur le point de supprimer {2} éléments.}}"
 
-msgid "{noOfFiles, plural, one {Uploading and encrypting {noOfFiles} file} other {Uploading and encrypting {noOfFiles} files}}"
-msgstr "{noOfFiles, plural, one {Téléversement et chiffrement de {noOfFiles} fichier} other {Téléversement et chiffrement de {noOfFiles} fichiers}}"
+#~ msgid "{noOfFiles, plural, one {Uploading and encrypting {noOfFiles} file} other {Uploading and encrypting {noOfFiles} files}}"
+#~ msgstr "{noOfFiles, plural, one {Téléversement et chiffrement de {noOfFiles} fichier} other {Téléversement et chiffrement de {noOfFiles} fichiers}}"

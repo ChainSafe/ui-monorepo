@@ -26,7 +26,6 @@ const CSFFileBrowser: React.FC<IFileBrowserModuleProps> = () => {
   const {
     downloadFile,
     uploadFiles,
-    uploadsInProgress,
     buckets
   } = useFiles()
   const { filesApiClient } = useFilesApi()
@@ -233,7 +232,6 @@ const CSFFileBrowser: React.FC<IFileBrowserModuleProps> = () => {
       renameItem: renameItem,
       viewFolder,
       handleUploadOnDrop,
-      uploadsInProgress,
       loadingCurrentPath,
       showUploadsInTable: true,
       sourceFiles: pathContents,
