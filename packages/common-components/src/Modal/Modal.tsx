@@ -6,7 +6,6 @@ import { CloseSvg } from "../Icons/icons/Close.icon"
 const useStyles = makeStyles(
   ({ animation, constants, breakpoints, palette, overrides, zIndex }: ITheme) =>
     createStyles({
-      // JSS in CSS goes here
       root: {
         position: "fixed",
         zIndex: zIndex?.layer3,
@@ -23,11 +22,6 @@ const useStyles = makeStyles(
         borderBottomRightRadius: 0,
         transitionDuration: `${animation.transform}ms`,
         transitionProperty: "opacity",
-        "&.closable": {
-          "&:before": {
-            cursor: "pointer"
-          }
-        },
         "&:before": {
           content: "''",
           display: "block",
@@ -97,24 +91,23 @@ const useStyles = makeStyles(
       },
       closeIcon: {
         ...constants.icon,
-        borderRadius: "50%",
+        width: 15,
+        height: 15,
         display: "block",
         top: 0,
-        backgroundColor: palette.common?.white.main,
         cursor: "pointer",
         position: "absolute",
         "& svg": {
-          height: 15,
-          width: 15
+          stroke: palette.common?.black.main
         },
         "&.right": {
-          transform: "translate(50%, -50%)",
+          transform: "translate(-50%, 50%)",
           right: 0,
           ...overrides?.Modal?.closeIcon?.right
         },
         "&.left": {
           left: 0,
-          transform: "translate(-50%, -50%)",
+          transform: "translate(50%, -50%)",
           ...overrides?.Modal?.closeIcon?.left
         },
         "&.none": {
@@ -127,19 +120,20 @@ const useStyles = makeStyles(
 
 interface IModalClasses {
   inner?: string
-  close?: string
+  closeIcon?: string
 }
 
 interface IModalProps {
   className?: string
   active: boolean
-  setActive?: (state: boolean) => void
   injectedClass?: IModalClasses
   closePosition?: "left" | "right" | "none"
   children?: ReactNode | ReactNode[]
   maxWidth?: "xs" | "sm" | "md" | "lg" | "xl" | number
   onModalBodyClick?: (e: React.MouseEvent) => void
+  onClickOutside?: (e?: React.MouseEvent) => void
   testId?: string
+  onClose?: () => void
 }
 
 const Modal = ({
@@ -148,66 +142,58 @@ const Modal = ({
   closePosition = "right",
   injectedClass,
   active = false,
-  setActive,
   maxWidth = "sm",
   onModalBodyClick,
-  testId
+  testId,
+  onClose,
+  onClickOutside
 }: IModalProps) => {
   const classes = useStyles()
 
   const ref = useRef(null)
 
   const handleClose = () => {
-    if (active && setActive) {
-      setActive(false)
-    }
+    onClose && onClose()
   }
 
-  useOnClickOutside(ref, () => handleClose())
+  useOnClickOutside(ref, () => onClickOutside && onClickOutside())
 
   if (!active) return null
 
-  return <article
-    className={clsx(
-      classes.root,
-      className,
-      setActive ? "closable" : "",
-      "active"
-    )}
-    onClick={onModalBodyClick}
-  >
-    <section
-      data-testid={`modal-container-${testId}`}
-      ref={ref}
-      style={
-        maxWidth && typeof maxWidth == "number"
-          ? {
-            width: "100%",
-            maxWidth: maxWidth
-          }
-          : {}
-      }
-      className={clsx(
-        classes.inner,
+  return (
+    <article
+      className={clsx(classes.root, className, "active")}
+      onClick={onModalBodyClick}
+    >
+      <section
+        data-testid={`modal-container-${testId}`}
+        ref={ref}
+        style={
+          maxWidth && typeof maxWidth == "number"
+            ? {
+              width: "100%",
+              maxWidth: maxWidth
+            }
+            : {}
+        }
+        className={clsx(
+          classes.inner,
           injectedClass?.inner,
           typeof maxWidth != "number" ? maxWidth : ""
-      )}
-    >
-      {setActive && (
-        <div
-          onClick={() => handleClose()}
-          className={clsx(
-            classes.closeIcon,
-            injectedClass?.close,
-            closePosition
-          )}
-        >
-          <CloseSvg />
-        </div>
-      )}
-      {children}
-    </section>
-  </article>
+        )}
+      >
+        {closePosition !== "none" && (
+          <div
+            onClick={handleClose}
+            className={clsx(classes.closeIcon, injectedClass?.closeIcon, closePosition)}
+          >
+            <CloseSvg />
+          </div>
+        )}
+        {children}
+      </section>
+    </article>
+  )
 }
 
 export default Modal

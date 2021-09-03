@@ -357,7 +357,10 @@ export const darkTheme = createTheme<CsfColors>({
         },
         modalDefault: {
           fadeBackground: "var(--gray7)",
-          background: "var(--gray2)"
+          backgroundColor: "var(--gray2)",
+          color: "var(--gray10)",
+          iconBackingColor: "#EBEEFF",
+          closeIconColor: "var(--gray8)"
         },
         header: {
           rootBackground: "var(--gray1)",
@@ -442,7 +445,8 @@ export const darkTheme = createTheme<CsfColors>({
           optionsColor: "var(--gray9)",
           optionsBorder: "var(--gray5)",
           itemBackground: "var(--gray1)",
-          itemColor: "var(--gray9)"
+          itemColor: "var(--gray9)",
+          borderColor: "var(--blue6)"
         },
         masterKey: {
           desktop: {
@@ -476,11 +480,6 @@ export const darkTheme = createTheme<CsfColors>({
         },
         surveyBanner: {
           color: "var(--gray9)"
-        },
-        createShareModal: {
-          backgroundColor: "var(--gray2)",
-          color: "var(--gray10)",
-          iconBackingColor: "#EBEEFF"
         }
       } as CsfColors)
     },
