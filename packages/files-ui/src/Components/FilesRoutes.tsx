@@ -24,6 +24,7 @@ export const ROUTE_LINKS = {
   Settings: `${SETTINGS_BASE}/:path`,
   SettingsDefault: `${SETTINGS_BASE}`,
   SettingsPath: (settingsPath: SettingsPath) => `${SETTINGS_BASE}/${settingsPath}`,
+  BillingHistory: "/billing-history",
   PurchasePlan: "/purchase",
   Plans: "/plans",
   UserSurvey: "https://shrl.ink/kmAL",

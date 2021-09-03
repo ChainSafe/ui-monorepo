@@ -1,9 +1,10 @@
 import React from "react"
 import CurrentProduct from "./CurrentProduct"
 import CurrentCard from "./CurrentCard"
-import { Divider, Typography } from "@chainsafe/common-components"
+import { Divider, Grid, Typography } from "@chainsafe/common-components"
 import { makeStyles, createStyles, ITheme } from "@chainsafe/common-theme"
 import { Trans } from "@lingui/macro"
+import BillingHistory from "./BillingHistory"
 
 const useStyles = makeStyles(({ constants }: ITheme) =>
   createStyles({
@@ -26,8 +27,18 @@ const PlanView: React.FC = () => {
         <Trans>Payment and Subscriptions</Trans>
       </Typography>
       <Divider />
-      <CurrentProduct />
-      <CurrentCard />
+      <Grid container>
+        <Grid
+          item
+          xs={12}
+          sm={12}
+          md={12}
+        >
+          <CurrentProduct />
+          <CurrentCard />
+          <BillingHistory />
+        </Grid>
+      </Grid>
     </div>
   )
 }
