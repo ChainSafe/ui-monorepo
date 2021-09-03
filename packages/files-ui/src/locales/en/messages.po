@@ -46,9 +46,6 @@ msgstr "An error occurred:"
 msgid "Approve"
 msgstr "Approve"
 
-msgid "Are we on the right track? Let us know in less than 1 minute."
-msgstr "Are we on the right track? Let us know in less than 1 minute."
-
 msgid "Backup secret phrase"
 msgstr "Backup secret phrase"
 
@@ -295,11 +292,17 @@ msgstr "Give view-only permission to:"
 msgid "Go back"
 msgstr "Go back"
 
+msgid "Got an issue?"
+msgstr "Got an issue?"
+
 msgid "Got it"
 msgstr "Got it"
 
 msgid "Hello again!"
 msgstr "Hello again!"
+
+msgid "Help us improve File in less than 1 minute."
+msgstr "Help us improve File in less than 1 minute."
 
 msgid "Hey! You only have two sign-in methods. If you lose that and have only one left, you will be locked out of your account forever."
 msgstr "Hey! You only have two sign-in methods. If you lose that and have only one left, you will be locked out of your account forever."
@@ -552,9 +555,6 @@ msgstr "Select a wallet"
 
 msgid "Select an existing shared folder"
 msgstr "Select an existing shared folder"
-
-msgid "Send Feedback"
-msgstr "Send Feedback"
 
 msgid "Send another email"
 msgstr "Send another email"
