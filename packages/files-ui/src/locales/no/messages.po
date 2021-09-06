@@ -187,16 +187,10 @@ msgstr ""
 msgid "Download as zip"
 msgstr ""
 
-#~ msgid "Download complete"
-#~ msgstr ""
-
 msgid "Download failed"
 msgstr ""
 
 msgid "Download recovery key"
-msgstr ""
-
-msgid "Downloading"
 msgstr ""
 
 msgid "Downloading file - {0}"
@@ -601,7 +595,7 @@ msgstr ""
 msgid "Shared with"
 msgstr ""
 
-msgid "Sharing your file ({0})"
+msgid "Sharing your file (Downloading)"
 msgstr ""
 
 msgid "Sign Out"
@@ -711,12 +705,6 @@ msgstr ""
 
 msgid "Upload"
 msgstr "Last opp"
-
-#~ msgid "Upload complete"
-#~ msgstr "Opplastet"
-
-#~ msgid "Uploading {0} files"
-#~ msgstr "Laster opp {0} filer"
 
 msgid "Use a different login method"
 msgstr "Bruk en annen innloggingsmetode"
@@ -828,6 +816,3 @@ msgstr ""
 
 msgid "{0, plural, one {You are about to delete {1} item.} other {You are about to delete {2} items.}}"
 msgstr ""
-
-#~ msgid "{noOfFiles, plural, one {Uploading and encrypting {noOfFiles} file} other {Uploading and encrypting {noOfFiles} files}}"
-#~ msgstr ""

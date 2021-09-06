@@ -188,17 +188,11 @@ msgstr ""
 msgid "Download as zip"
 msgstr ""
 
-#~ msgid "Download complete"
-#~ msgstr "Descarga completa"
-
 msgid "Download failed"
 msgstr ""
 
 msgid "Download recovery key"
 msgstr "Descargar la clave de recuperación"
-
-msgid "Downloading"
-msgstr ""
 
 msgid "Downloading file - {0}"
 msgstr ""
@@ -605,7 +599,7 @@ msgstr ""
 msgid "Shared with"
 msgstr ""
 
-msgid "Sharing your file ({0})"
+msgid "Sharing your file (Downloading)"
 msgstr ""
 
 msgid "Sign Out"
@@ -715,12 +709,6 @@ msgstr ""
 
 msgid "Upload"
 msgstr "Subir"
-
-#~ msgid "Upload complete"
-#~ msgstr "Carga completa"
-
-#~ msgid "Uploading {0} files"
-#~ msgstr "Subiendo {0} archivos"
 
 msgid "Use a different login method"
 msgstr "Utilice un método de inicio de sesión diferente"
@@ -832,6 +820,3 @@ msgstr ""
 
 msgid "{0, plural, one {You are about to delete {1} item.} other {You are about to delete {2} items.}}"
 msgstr ""
-
-#~ msgid "{noOfFiles, plural, one {Uploading and encrypting {noOfFiles} file} other {Uploading and encrypting {noOfFiles} files}}"
-#~ msgstr "{noOfFiles, plural, one {Carga y encriptación del archivo {noOfFiles}} other {Carga y encriptación de archivos {noOfFiles}}}"

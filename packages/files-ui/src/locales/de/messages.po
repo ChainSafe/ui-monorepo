@@ -187,17 +187,11 @@ msgstr ""
 msgid "Download as zip"
 msgstr ""
 
-#~ msgid "Download complete"
-#~ msgstr "Komplett heruntergeladen"
-
 msgid "Download failed"
 msgstr ""
 
 msgid "Download recovery key"
 msgstr "Wiederherstellungsschlüssel herunterladen"
-
-msgid "Downloading"
-msgstr ""
 
 msgid "Downloading file - {0}"
 msgstr ""
@@ -601,7 +595,7 @@ msgstr ""
 msgid "Shared with"
 msgstr ""
 
-msgid "Sharing your file ({0})"
+msgid "Sharing your file (Downloading)"
 msgstr ""
 
 msgid "Sign Out"
@@ -711,12 +705,6 @@ msgstr ""
 
 msgid "Upload"
 msgstr "Hochladen"
-
-#~ msgid "Upload complete"
-#~ msgstr "Hochladen abgeschlossen"
-
-#~ msgid "Uploading {0} files"
-#~ msgstr "Hochladen von {0} Dateien"
 
 msgid "Use a different login method"
 msgstr "Eine andere Anmeldemethode verwenden"
@@ -828,6 +816,3 @@ msgstr ""
 
 msgid "{0, plural, one {You are about to delete {1} item.} other {You are about to delete {2} items.}}"
 msgstr "{0, plural, one {Sie sind dabei, {1} Artikel zu löschen.} other {Sie sind dabei, {2} Artikel zu löschen.}}"
-
-#~ msgid "{noOfFiles, plural, one {Uploading and encrypting {noOfFiles} file} other {Uploading and encrypting {noOfFiles} files}}"
-#~ msgstr "{noOfFiles, plural, one {{noOfFiles} Datei wird hochgeladen und verschlüsselt} other {{noOfFiles} Datein werden hochgeladen und verschlüsselt}}"
