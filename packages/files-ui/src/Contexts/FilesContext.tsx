@@ -399,7 +399,8 @@ const FilesProvider = ({ children }: FilesContextProps) => {
       updateToast(toastId, {
         ...toastParams,
         title: errorMessage,
-        type: "error"
+        type: "error",
+        progress: undefined
       }, true)
 
       return Promise.reject(error)
