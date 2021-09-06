@@ -106,7 +106,7 @@ const BinFileBrowser: React.FC<IFileBrowserModuleProps> = ({ controls = false }:
           await filesApiClient.moveBucketObjects(
             bucket.id,
             {
-              path: getPathWithFile(currentPath, itemToRestore.name),
+              paths: [getPathWithFile(currentPath, itemToRestore.name)],
               new_path: getPathWithFile(newPath, itemToRestore.name),
               destination: buckets.find(b => b.type === "csf")?.id
             }
