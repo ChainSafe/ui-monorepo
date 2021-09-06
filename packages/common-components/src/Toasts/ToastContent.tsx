@@ -6,9 +6,9 @@ import { Typography } from "../Typography"
 import { CheckCircleIcon, CloseCircleIcon, CloseCirceSvg, CrossSvg } from "../Icons"
 import { ProgressBar } from "../ProgressBar"
 
-const useStyles = makeStyles(({ constants, palette, animation }: ITheme) => {
+const useStyles = makeStyles(({ constants, palette, animation, overrides }: ITheme) => {
   return createStyles({
-    boxContainer: {
+    root: {
       backgroundColor: palette.additional["gray"][3],
       margin: constants.generalUnit,
       border: `1px solid ${palette.additional["gray"][6]}`,
@@ -18,39 +18,46 @@ const useStyles = makeStyles(({ constants, palette, animation }: ITheme) => {
       "&:hover $closeIcon": {
         visibility: "visible",
         opacity: 1
-      }
+      },
+      ...overrides?.Toasts?.root
     },
     progressBox: {
       display: "flex",
       alignItems: "center",
-      marginTop: constants.generalUnit
+      marginTop: constants.generalUnit,
+      ...overrides?.Toasts?.progressBox
     },
     titleContainer: {
       display: "flex",
-      alignItems: "center"
+      alignItems: "center",
+      ...overrides?.Toasts?.titleContainer
     },
     subtitle: {
-      marginTop: constants.generalUnit
+      marginTop: constants.generalUnit,
+      ...overrides?.Toasts?.subtitle
     },
     icon: {
       marginRight: constants.generalUnit
     },
     progressBar: {
-      flex: 1
+      flex: 1,
+      ...overrides?.Toasts?.progressBar
     },
     progressCrossButton: {
       marginLeft: constants.generalUnit,
       cursor: "pointer",
       width: constants.generalUnit * 2,
-      height: constants.generalUnit * 2
+      height: constants.generalUnit * 2,
+      ...overrides?.Toasts?.progressCrossButton
     },
     closeIcon: {
       position: "absolute",
-      right: "-8px",
-      top: "-8px",
+      right: 0,
+      top: 0,
+      transform: "translate(50%,-50%)",
       fill: palette.additional["gray"][9],
-      width: 16,
-      height: 16,
+      width: constants.generalUnit * 2,
+      height: constants.generalUnit * 2,
       borderRadius: "50%",
       backgroundColor: palette.additional["gray"][1],
       border: "1px solid",
@@ -64,9 +71,10 @@ const useStyles = makeStyles(({ constants, palette, animation }: ITheme) => {
       cursor: "pointer",
       "& svg": {
         fill: palette.additional["gray"][9],
-        width: "8px",
-        height: "8px"
-      }
+        width: constants.generalUnit,
+        height: constants.generalUnit
+      },
+      ...overrides?.Toasts?.closeIcon
     }
   })
 })
@@ -80,7 +88,7 @@ const ToastContent = ({ toast, onClose }: ToastContentProps) => {
   const classes = useStyles()
   const { type, title, progress, subtitle, onProgressCancel } = toast
   return (
-    <div className={clsx(classes.boxContainer)}>
+    <div className={clsx(classes.root)}>
       {progress !== undefined
         ? <div>
           <div>
