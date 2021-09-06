@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-04-23 11:05+0200\n"
-"PO-Revision-Date: 2021-08-24 01:34+0000\n"
+"PO-Revision-Date: 2021-08-26 18:33+0000\n"
 "Last-Translator: J. Lavoie <j.lavoie@net-c.ca>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/chainsafe-files/chainsafe-files-user-interface/fr/>\n"
 "Language: fr\n"
@@ -43,6 +43,9 @@ msgstr ""
 
 msgid "Add more files"
 msgstr "Ajouter d’autres fichiers"
+
+msgid "Add viewers and editors by username, sharing id or Ethereum address."
+msgstr ""
 
 msgid "An error occurred while downloading the file"
 msgstr "Une erreur s'est produite lors du téléchargement du fichier"
@@ -179,6 +182,9 @@ msgstr "Créer un dossier"
 msgid "Credit card on file"
 msgstr ""
 
+msgid "Create your public username in <0>Settings</0>!"
+msgstr ""
+
 msgid "Dark Theme"
 msgstr "Thème sombre"
 
@@ -207,7 +213,7 @@ msgid "Download"
 msgstr "Télécharger"
 
 msgid "Download as zip"
-msgstr ""
+msgstr "Télécharger au format zip"
 
 msgid "Download complete"
 msgstr "Téléchargement terminé"
@@ -320,6 +326,9 @@ msgstr "Donner l’accès en lecture seule à :"
 msgid "Go back"
 msgstr "Retour"
 
+msgid "Got it"
+msgstr ""
+
 msgid "Hello again!"
 msgstr "Ravis de vous revoir !"
 
@@ -417,7 +426,7 @@ msgid "No Card"
 msgstr ""
 
 msgid "No file to download."
-msgstr ""
+msgstr "Aucun fichier à télécharger."
 
 msgid "No files to show"
 msgstr "Aucun fichier à afficher"
@@ -820,6 +829,9 @@ msgstr "Oui, l’enregistrer"
 
 msgid "You can change this later."
 msgstr "Vous pouvez en changer plus tard."
+
+msgid "You can now create shared folders to share a file."
+msgstr ""
 
 msgid "You can't move folders to this path"
 msgstr "Vous ne pouvez pas déplacer les dossiers vers ce chemin"
