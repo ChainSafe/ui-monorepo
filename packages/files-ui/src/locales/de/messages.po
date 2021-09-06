@@ -46,9 +46,6 @@ msgstr ""
 msgid "Approve"
 msgstr "Genehmigen"
 
-msgid "Are we on the right track? Let us know in less than 1 minute."
-msgstr "Sind wir auf dem richtigen Weg? Sagen Sie es uns in weniger als 1 Minute."
-
 msgid "Backup secret phrase"
 msgstr "Sicherungsgeheimsatz"
 
@@ -298,11 +295,17 @@ msgstr ""
 msgid "Go back"
 msgstr "Zurück"
 
+msgid "Got an issue?"
+msgstr ""
+
 msgid "Got it"
 msgstr ""
 
 msgid "Hello again!"
 msgstr "Hallo nochmal!"
+
+msgid "Help us improve File in less than 1 minute."
+msgstr ""
 
 msgid "Hey! You only have two sign-in methods. If you lose that and have only one left, you will be locked out of your account forever."
 msgstr ""
@@ -555,9 +558,6 @@ msgstr ""
 
 msgid "Select an existing shared folder"
 msgstr ""
-
-msgid "Send Feedback"
-msgstr "Kommentare versenden"
 
 msgid "Send another email"
 msgstr "Andere E-Mail senden"

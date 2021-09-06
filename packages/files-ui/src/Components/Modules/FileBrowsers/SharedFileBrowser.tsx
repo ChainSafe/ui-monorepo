@@ -143,7 +143,7 @@ const SharedFileBrowser = () => {
     if (!bucket || !itemToRename) return
 
     filesApiClient.moveBucketObjects(bucket.id, {
-      path: getPathWithFile(currentPath, itemToRename.name),
+      paths: [getPathWithFile(currentPath, itemToRename.name)],
       new_path: getPathWithFile(currentPath, newName) }).then(() => refreshContents())
       .catch(console.error)
   }, [refreshContents, filesApiClient, bucket, currentPath, pathContents])
@@ -155,7 +155,7 @@ const SharedFileBrowser = () => {
         const itemToMove = pathContents.find(i => i.cid === cid)
         if (!bucket || !itemToMove) return
         await filesApiClient.moveBucketObjects(bucket.id, {
-          path: getPathWithFile(currentPath, itemToMove.name),
+          paths: [getPathWithFile(currentPath, itemToMove.name)],
           new_path: getPathWithFile(newPath, itemToMove.name)
         })
       })).finally(refreshContents)
@@ -181,7 +181,7 @@ const SharedFileBrowser = () => {
     if (!bucket) return
     let hasFolder = false
     for (let i = 0; i < files.length; i++) {
-      if (fileItems[i].webkitGetAsEntry().isDirectory) {
+      if (fileItems[i].webkitGetAsEntry()?.isDirectory) {
         hasFolder = true
       }
     }
