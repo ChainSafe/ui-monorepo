@@ -4,6 +4,7 @@ export interface IToastsOverride {
   titleContainer?: Record<string, any>
   subtitle?: Record<string, any>
   closeIcon?: Record<string, any>
+  icon?: Record<string, any>
   progressBar?: Record<string, any>
   progressCrossButton?: Record<string, any>
 }

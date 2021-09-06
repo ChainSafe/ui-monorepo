@@ -37,7 +37,9 @@ const useStyles = makeStyles(({ constants, palette, animation, overrides }: IThe
       ...overrides?.Toasts?.subtitle
     },
     icon: {
-      marginRight: constants.generalUnit
+      marginRight: constants.generalUnit,
+      fill: palette.additional["gray"][9],
+      ...overrides?.Toasts?.icon
     },
     progressBar: {
       flex: 1,
