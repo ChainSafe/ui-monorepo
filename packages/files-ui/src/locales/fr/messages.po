@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-04-23 11:05+0200\n"
-"PO-Revision-Date: 2021-08-26 18:33+0000\n"
+"PO-Revision-Date: 2021-09-06 00:40+0000\n"
 "Last-Translator: J. Lavoie <j.lavoie@net-c.ca>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/chainsafe-files/chainsafe-files-user-interface/fr/>\n"
 "Language: fr\n"
@@ -36,7 +36,7 @@ msgid "Add more files"
 msgstr "Ajouter d’autres fichiers"
 
 msgid "Add viewers and editors by username, sharing id or Ethereum address."
-msgstr ""
+msgstr "Ajoutez des personnes pouvant visualiser ou afficher par nom d'utilisateur, identifiant de partage ou adresse Ethereum."
 
 msgid "An error occurred while downloading the file"
 msgstr "Une erreur s'est produite lors du téléchargement du fichier"
@@ -150,7 +150,7 @@ msgid "Create folder"
 msgstr "Créer un dossier"
 
 msgid "Create your public username in <0>Settings</0>!"
-msgstr ""
+msgstr "Créez votre nom d'utilisateur public dans <0>Paramètres</0> !"
 
 msgid "Dark Theme"
 msgstr "Thème sombre"
@@ -300,16 +300,16 @@ msgid "Go back"
 msgstr "Retour"
 
 msgid "Got an issue?"
-msgstr ""
+msgstr "Vous avez un problème ?"
 
 msgid "Got it"
-msgstr ""
+msgstr "Compris"
 
 msgid "Hello again!"
 msgstr "Ravis de vous revoir !"
 
 msgid "Help us improve File in less than 1 minute."
-msgstr ""
+msgstr "Aidez-nous à améliorer File en moins d'une minute."
 
 msgid "Hey! You only have two sign-in methods. If you lose that and have only one left, you will be locked out of your account forever."
 msgstr "Hé ! Vous n’avez que deux méthodes de connexion. Si vous en perdez une et qu’il ne vous en reste qu’une, vous ne pourrez plus jamais vous connecter à votre compte."
@@ -774,7 +774,7 @@ msgid "You can change this later."
 msgstr "Vous pouvez en changer plus tard."
 
 msgid "You can now create shared folders to share a file."
-msgstr ""
+msgstr "Vous pouvez maintenant créer des dossiers partagés pour partager un fichier."
 
 msgid "You can't move folders to this path"
 msgstr "Vous ne pouvez pas déplacer les dossiers vers ce chemin"
