@@ -59,11 +59,11 @@ const useStyles = makeStyles(({ constants, zIndex, breakpoints, animation }: ITh
       }
     },
     "@keyframes slideRight": {
-      from: { transform: "translate(-100%)" },
+      from: { transform: "translateY(-100%)" },
       to: { transform: "translate(0)" }
     },
     "@keyframes slideLeft": {
-      from: { transform: "translate(100%)" },
+      from: { transform: "translateY(100%)" },
       to: { transform: "translate(0)" }
     },
     "@keyframes slideUp": {
