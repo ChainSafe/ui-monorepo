@@ -24,18 +24,24 @@ describe("File Preview", () => {
       // ensure the correct file is being previewed
       cy.get("@fileNameA").then(($fileNameA) => {
         previewModal.fileNameLabel().should("contain.text", $fileNameA)
+        previewModal.contentContainer().should("be.visible")
+        previewModal.unsupportedFileLabel().should("not.exist")
       })
 
       // browse to the next file 
       previewModal.nextFileButton().click()
       cy.get("@fileNameB").then(($fileNameB) => {
         previewModal.fileNameLabel().should("contain.text", $fileNameB)
+        previewModal.contentContainer().should("be.visible")
+        previewModal.unsupportedFileLabel().should("not.exist")
       })
 
       // return to the previous file
       previewModal.previousFileButton().click()
       cy.get("@fileNameA").then(($fileNameA) => {
         previewModal.fileNameLabel().should("contain.text", $fileNameA)
+        previewModal.contentContainer().should("be.visible")
+        previewModal.unsupportedFileLabel().should("not.exist")
       })
 
       // close the preview modal to return to the home page
@@ -44,37 +50,35 @@ describe("File Preview", () => {
       homePage.appHeaderLabel().should("exist")
     })
 
-    it.only("can see option to download file from the preview screen", () => {
+    it("can see option to download file from the preview screen", () => {
       cy.web3Login({ clearCSFBucket: true })
       homePage.uploadFile("../fixtures/uploadedFiles/logo.png")
       homePage.fileItemName().first().invoke("text").as("fileNameA")
       homePage.fileItemKebabButton().click()
       homePage.previewMenuOption().click()
       previewModal.previewKebabButton().click()
-
-      // setup api intercepter, click download ensure request contains the correct file name
-      cy.intercept("POST", "https://stage.imploy.site/api/v1/bucket/*/download").as("downloadRequest").then(() => {
-        previewModal.downloadFileButton().click()
-        cy.wait("@downloadRequest").its("request.body").should("contain", {
-          path: "/logo.png/logo.png"
-        })
-      })
+      previewModal.downloadFileButton().should("be.visible")
     })
 
-    it("can see applicable elements for unsupported files", () => {
+    it("can see unsupported file info and download option", () => {
       cy.web3Login({ clearCSFBucket: true })
 
       // add an unsupported file
       homePage.uploadFile("../fixtures/uploadedFiles/file.zip")
 
-      // double click unsupported file to open preview modal
-      homePage.fileItemName().dblclick()
+      // setup an api intercepter for download requests
+      cy.intercept("POST", "https://stage.imploy.site/api/v1/bucket/*/download").as("downloadRequest").then(() => {
+        homePage.fileItemName().dblclick()
+        previewModal.unsupportedFileLabel().should("exist")
+        previewModal.downloadUnsupportedFileButton().should("be.visible")
 
-      // ensure unsupported file elements are present
-      previewModal.unsupportedFileLabel().should("be.visible")
-      previewModal.downloadUnsupportedFileButton().should("be.visible")
+        // ensure the download request contains the correct file
+        cy.get("@downloadRequest").its("request.body").should("contain", {
+          path: "/file.zip"
+        })
+      })
 
-      // return to home and ensure preview menu option is not shown for unsupported file
+      // return to the home and ensure preview menu option is not shown for unsupported file
       previewModal.closeButton().click()
       homePage.fileItemKebabButton().click()
       homePage.previewMenuOption().should("not.exist")

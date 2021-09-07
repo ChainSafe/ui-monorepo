@@ -337,6 +337,7 @@ const FilePreviewModal = ({ file, nextFile, previousFile, closePreview, filePath
           <div
             {...handlers}
             className={classes.swipeContainer}
+            data-cy="container-content-preview"
           >
             {isDownloading && (
               <div className={classes.previewContent}>
