@@ -141,48 +141,35 @@ const ToastProvider = ({
     setToasts((toasts) => toasts.map((toast) => toast.id === toastId ? { ...toast, ...toastParams } : toast))
   }, [dismissTimeout])
 
-  const positionWiseToasts = useMemo(() => ([
-    {
-      toasts: toasts.filter((toast) => toast.toastPosition === "top-right"),
-      identifier: "topRight"
-    },
-    {
-      toasts: toasts.filter((toast) => toast.toastPosition === "top-left"),
-      identifier: "topLeft"
-    },
-    {
-      toasts: toasts.filter((toast) => toast.toastPosition === "bottom-right"),
-      identifier: "bottomRight"
-    },
-    {
-      toasts: toasts.filter((toast) => toast.toastPosition === "bottom-left"),
-      identifier: "bottomLeft"
-    }
-  ]), [toasts])
-
-  return (
-    <ToastContext.Provider
-      value={{
-        addToast,
-        updateToast,
-        removeToast,
-        toasts
-      }}
-    >
-      {positionWiseToasts.map((positionedToasts) => (
-        !!positionedToasts.toasts.length && (
-          <div
-            key={positionedToasts.identifier}
-            className={clsx(
-              classes.toastWrapper,
-              classes[`${positionedToasts.identifier}Container`]
-            )}
-          >
-            {positionedToasts.toasts.map((toast) => (
-              <div
-                key={toast.id}
-                className={classes[`${positionedToasts.identifier}AppearBox`]}
-              >
+const positionedToasts: Record<ToastPosition, Array<Toast>> = useMemo(() => ({
+  topRight: toasts.filter((toast) => toast.toastPosition === "topRight"),
+  topLeft: toasts.filter((toast) => toast.toastPosition === "topLeft"),
+  bottomRight: toasts.filter((toast) => toast.toastPosition === "bottomRight"),
+  bottomLeft: toasts.filter((toast) => toast.toastPosition === "bottomLeft"),
+}), [toasts])
+return (
+  <ToastContext.Provider
+    value={{
+      addToast,
+      updateToast,
+      removeToast,
+      toasts
+    }}
+  >
+    {(Object.keys(positionedToasts) as ToastPosition[]).map((position) => (
+      !!positionedToasts[position].length && (
+        <div
+          key={position}
+          className={clsx(
+            classes.toastWrapper,
+            classes[`${position}Container`]
+          )}
+        >
+          {positionedToasts[position].map((toast) => (
+            <div
+              key={toast.id}
+              className={classes[`${position}AppearBox`]}
+            >
                 <ToastContent
                   toast={toast}
                   onClose={() => removeToast(toast.id)}
