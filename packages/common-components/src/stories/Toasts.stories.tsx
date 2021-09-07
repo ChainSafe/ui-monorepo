@@ -67,7 +67,7 @@ export const ToastsDemo: React.FC = () => {
         toast={{
           title: text("title", "Upload Started"),
           type: "success",
-          toastPosition: select("position", ["top-left", "top-right", "bottom-left", "bottom-right"], "top-right"),
+          toastPosition: select("position", ["topLeft", "topRight", "bottomLeft", "bottomRight"], "topRight"),
           progress: number("progress", 100),
           autoDismiss: boolean("toast auto dismiss", true),
           dismissTimeout: number("toast dismiss timeout", 4000)
