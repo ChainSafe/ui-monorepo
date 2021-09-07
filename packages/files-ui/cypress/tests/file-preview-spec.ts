@@ -56,6 +56,7 @@ describe("File Preview", () => {
       homePage.fileItemName().first().invoke("text").as("fileNameA")
       homePage.fileItemKebabButton().click()
       homePage.previewMenuOption().click()
+      previewModal.body().should("exist")
       previewModal.previewKebabButton().click()
       previewModal.downloadFileButton().should("be.visible")
     })
