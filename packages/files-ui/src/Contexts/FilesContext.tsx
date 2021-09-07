@@ -307,7 +307,9 @@ const FilesProvider = ({ children }: FilesContextProps) => {
     bucket: BucketKeyPermission,
     files: File[],
     path: string,
-    onUploadProgress?: (progressEvent: ProgressEvent<EventTarget>) => void) => {
+    onUploadProgress?: (progressEvent: ProgressEvent<EventTarget>) => void,
+    cancelToken?: CancelToken
+  ) => {
 
     const key = bucket.encryptionKey
 
@@ -334,7 +336,7 @@ const FilesProvider = ({ children }: FilesContextProps) => {
       path,
       undefined,
       1,
-      undefined,
+      cancelToken,
       undefined,
       onUploadProgress
     )
@@ -349,6 +351,12 @@ const FilesProvider = ({ children }: FilesContextProps) => {
       })
     }
 
+    const uploadCancellationMessage = "upload cancelled"
+    let cancellationFunction: (() => void) | undefined
+    const cancelToken = new axios.CancelToken(function executor(c) {
+      cancellationFunction = () => c(uploadCancellationMessage)
+    })
+
     const toastParams: ToastParams = {
       title: plural(files.length, {
         one: `Encrypting and uploading ${files.length} file`,
@@ -356,7 +364,8 @@ const FilesProvider = ({ children }: FilesContextProps) => {
       }) as string,
       type: "success",
       progress: 0,
-      toastPosition: "bottomRight"
+      toastPosition: "bottomRight",
+      onProgressCancel: cancellationFunction
     }
 
     const toastId = addToast(toastParams)
@@ -374,7 +383,8 @@ const FilesProvider = ({ children }: FilesContextProps) => {
               (progressEvent.loaded / progressEvent.total) * 100
             )
           })
-        }
+        },
+        cancelToken
       )
       setUploadsInProgress(false)
 
@@ -386,12 +396,15 @@ const FilesProvider = ({ children }: FilesContextProps) => {
         progress: undefined
       }, true)
       return Promise.resolve()
-    } catch (error) {
-      console.error(error)
+    } catch (error: any) {
       setUploadsInProgress(false)
       // setting error
       let errorMessage = t`Something went wrong. We couldn't upload your file`
 
+      // uploads cancelled through button
+      if (error?.message === uploadCancellationMessage) {
+        errorMessage = t`Uploads cancelled`
+      }
       // we will need a method to parse server errors
       if (Array.isArray(error) && error[0].message.includes("conflict")) {
         errorMessage = t`A file with the same name already exists`
