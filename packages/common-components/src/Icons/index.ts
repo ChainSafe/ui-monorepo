@@ -22,6 +22,7 @@ export { default as DinersclubCardIcon, DinersclubCardSvg } from "./icons/Diners
 export { default as DirectionalDownIcon, DirectionalDownSvg } from "./icons/DirectionalDown.icon"
 export { default as DirectionalRightIcon, DirectionalRightSvg } from "./icons/DirectionalRight.icon"
 export { default as DiscoverCardIcon, DiscoverCardSvg } from "./icons/DiscoverCard.icon"
+export { default as DocumentIcon, DocumentSvg } from "./icons/Document.icon"
 export { default as DownloadIcon, DownloadSvg } from "./icons/Download.icon"
 export { default as EditIcon, EditSvg } from "./icons/Edit.icon"
 export { default as EthereumLogoIcon, EthereumLogoSvg } from "./icons/EthereumLogo.icon"
