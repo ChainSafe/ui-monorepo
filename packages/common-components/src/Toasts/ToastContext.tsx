@@ -98,7 +98,7 @@ const ToastContext = React.createContext<ToastContext | undefined>(
 const ToastProvider = ({
   children,
   autoDismiss = true,
-  defaultPosition = "top-right",
+  defaultPosition = "topRight",
   dismissTimeout = 5000
 }: ToastContextProps) => {
   const classes = useStyles()
