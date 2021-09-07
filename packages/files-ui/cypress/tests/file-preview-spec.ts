@@ -6,7 +6,7 @@ describe("File Preview", () => {
   context("desktop", () => {
 
     it("can preview and browse compatible file types", () => {
-      cy.web3Login({ clearCSFBucket: true, clearTrashBucket: true })
+      cy.web3Login({ clearCSFBucket: true })
 
       // add files
       homePage.uploadFile("../fixtures/uploadedFiles/logo.png")
@@ -17,7 +17,7 @@ describe("File Preview", () => {
       homePage.fileItemName().eq(1).invoke("text").as("fileNameB")
 
       // navigate to the preview modal for the first file
-      homePage.fileItemKebabButton().eq(0).click()
+      homePage.fileItemKebabButton().first().click()
       homePage.previewMenuOption().eq(0).click()
       previewModal.body().should("exist")
 
@@ -45,9 +45,9 @@ describe("File Preview", () => {
     })
 
     it("can see option to download file from the preview screen", () => {
-      cy.web3Login({ clearCSFBucket: true, clearTrashBucket: true })
+      cy.web3Login({ clearCSFBucket: true })
       homePage.uploadFile("../fixtures/uploadedFiles/file.zip")
-      homePage.fileItemName().eq(0).invoke("text").as("fileNameA")
+      homePage.fileItemName().first().invoke("text").as("fileNameA")
       homePage.fileItemKebabButton().click()
       homePage.previewMenuOption().click()
       previewModal.previewKebabButton().click()
@@ -55,7 +55,7 @@ describe("File Preview", () => {
     })
 
     it("can see applicable elements for unsupported files", () => {
-      cy.web3Login({ clearCSFBucket: true, clearTrashBucket: true })
+      cy.web3Login({ clearCSFBucket: true })
 
       // add an unsupported file
       homePage.uploadFile("../fixtures/uploadedFiles/file.zip")
