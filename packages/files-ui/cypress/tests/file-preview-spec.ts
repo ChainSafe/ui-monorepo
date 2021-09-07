@@ -44,14 +44,21 @@ describe("File Preview", () => {
       homePage.appHeaderLabel().should("exist")
     })
 
-    it("can see option to download file from the preview screen", () => {
+    it.only("can see option to download file from the preview screen", () => {
       cy.web3Login({ clearCSFBucket: true })
-      homePage.uploadFile("../fixtures/uploadedFiles/file.zip")
+      homePage.uploadFile("../fixtures/uploadedFiles/logo.png")
       homePage.fileItemName().first().invoke("text").as("fileNameA")
       homePage.fileItemKebabButton().click()
       homePage.previewMenuOption().click()
       previewModal.previewKebabButton().click()
-      previewModal.downloadFileButton().should("be.visible")
+
+      // setup api intercepter, click download ensure request contains the correct file name
+      cy.intercept("POST", "https://stage.imploy.site/api/v1/bucket/*/download").as("downloadRequest").then(() => {
+        previewModal.downloadFileButton().click()
+        cy.wait("@downloadRequest").its("request.body").should("contain", {
+          path: "/logo.png/logo.png"
+        })
+      })
     })
 
     it("can see applicable elements for unsupported files", () => {
