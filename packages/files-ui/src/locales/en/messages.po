@@ -709,6 +709,9 @@ msgstr "Update Shared Folder"
 msgid "Upload"
 msgstr "Upload"
 
+msgid "Uploads cancelled"
+msgstr "Uploads cancelled"
+
 msgid "Use a different login method"
 msgstr "Use a different login method"
 

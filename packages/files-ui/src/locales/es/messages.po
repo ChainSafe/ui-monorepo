@@ -710,6 +710,9 @@ msgstr ""
 msgid "Upload"
 msgstr "Subir"
 
+msgid "Uploads cancelled"
+msgstr ""
+
 msgid "Use a different login method"
 msgstr "Utilice un método de inicio de sesión diferente"
 

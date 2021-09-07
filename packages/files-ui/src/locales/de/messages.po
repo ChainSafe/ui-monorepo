@@ -706,6 +706,9 @@ msgstr ""
 msgid "Upload"
 msgstr "Hochladen"
 
+msgid "Uploads cancelled"
+msgstr ""
+
 msgid "Use a different login method"
 msgstr "Eine andere Anmeldemethode verwenden"
 

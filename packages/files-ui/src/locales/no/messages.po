@@ -706,6 +706,9 @@ msgstr ""
 msgid "Upload"
 msgstr "Last opp"
 
+msgid "Uploads cancelled"
+msgstr ""
+
 msgid "Use a different login method"
 msgstr "Bruk en annen innloggingsmetode"
 
