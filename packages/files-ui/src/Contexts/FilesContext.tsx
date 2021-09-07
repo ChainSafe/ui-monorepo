@@ -691,7 +691,7 @@ const FilesProvider = ({ children }: FilesContextProps) => {
       title: t`Sharing your file (Downloading)`,
       type: "success",
       progress: 0,
-      toastPosition: "bottom-right"
+      toastPosition: "bottomRight"
     }
     const toastId = addToast(toastParams)
     setTransfersInProgress(true)
