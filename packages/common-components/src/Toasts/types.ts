@@ -9,6 +9,7 @@ export interface Toast {
   subtitle?: string
   progress?: number
   onProgressCancel?(): void
+  onProgressCancelLoading?: boolean
   toastPosition: ToastPosition
   autoDismiss?: boolean
   dismissTimeout?: number

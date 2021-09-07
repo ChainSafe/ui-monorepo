@@ -5,6 +5,7 @@ import clsx from "clsx"
 import { Typography } from "../Typography"
 import { CheckCircleIcon, CloseCircleIcon, CloseCirceSvg, CrossSvg } from "../Icons"
 import { ProgressBar } from "../ProgressBar"
+import { Loading } from ".."
 
 const useStyles = makeStyles(({ constants, palette, animation, overrides }: ITheme) => {
   return createStyles({
@@ -50,6 +51,7 @@ const useStyles = makeStyles(({ constants, palette, animation, overrides }: IThe
       cursor: "pointer",
       width: constants.generalUnit * 2,
       height: constants.generalUnit * 2,
+      fill: palette.additional["gray"][9],
       ...overrides?.Toasts?.progressCrossButton
     },
     closeIcon: {
@@ -88,7 +90,7 @@ export interface ToastContentProps {
 
 const ToastContent = ({ toast, onClose }: ToastContentProps) => {
   const classes = useStyles()
-  const { type, title, progress, subtitle, onProgressCancel } = toast
+  const { type, title, progress, subtitle, onProgressCancel, onProgressCancelLoading } = toast
   return (
     <div className={clsx(classes.root)}>
       {progress !== undefined
@@ -108,7 +110,10 @@ const ToastContent = ({ toast, onClose }: ToastContentProps) => {
               className={classes.progressBar}
             />
             {onProgressCancel &&
-              <CloseCirceSvg
+              onProgressCancelLoading
+              ? <Loading size={16}
+                className={classes.progressCrossButton} />
+              : <CloseCirceSvg
                 className={classes.progressCrossButton}
                 onClick={onProgressCancel}
               />
