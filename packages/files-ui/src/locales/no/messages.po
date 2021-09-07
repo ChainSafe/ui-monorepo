@@ -46,9 +46,6 @@ msgstr ""
 msgid "Approve"
 msgstr "Godkjenn"
 
-msgid "Are we on the right track? Let us know in less than 1 minute."
-msgstr ""
-
 msgid "Backup secret phrase"
 msgstr ""
 
@@ -292,11 +289,17 @@ msgstr ""
 msgid "Go back"
 msgstr "Tilbake"
 
+msgid "Got an issue?"
+msgstr ""
+
 msgid "Got it"
 msgstr ""
 
 msgid "Hello again!"
 msgstr "Hei igjen."
+
+msgid "Help us improve File in less than 1 minute."
+msgstr ""
 
 msgid "Hey! You only have two sign-in methods. If you lose that and have only one left, you will be locked out of your account forever."
 msgstr ""
@@ -549,9 +552,6 @@ msgstr ""
 
 msgid "Select an existing shared folder"
 msgstr ""
-
-msgid "Send Feedback"
-msgstr "Send tilbakemelding"
 
 msgid "Send another email"
 msgstr "Send en ny e-post"

@@ -14,7 +14,8 @@ import {
   formatBytes,
   ChainsafeLogo,
   FolderSvg,
-  SettingSvg
+  SettingSvg,
+  DocumentSvg
 } from "@chainsafe/common-components"
 import { ROUTE_LINKS } from "../StorageRoutes"
 import { Trans } from "@lingui/macro"
@@ -292,6 +293,21 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
                   <Trans>Settings</Trans>
                 </Typography>
               </Link>
+              <a
+                data-cy="docs-nav"
+                className={classes.navItem}
+                href="https://docs.storage.chainsafe.io/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <DocumentSvg />
+                <Typography
+                  variant="h5"
+                  className={classes.navItemText}
+                >
+                  <Trans>Docs</Trans>
+                </Typography>
+              </a>
             </nav>
           </div>
           <section>

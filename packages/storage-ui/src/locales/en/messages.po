@@ -145,6 +145,9 @@ msgstr "Deletion successful"
 msgid "Didn't receive the email ?"
 msgstr "Didn't receive the email ?"
 
+msgid "Docs"
+msgstr "Docs"
+
 msgid "Download"
 msgstr "Download"
 
