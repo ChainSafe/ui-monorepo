@@ -356,7 +356,6 @@ const FilesProvider = ({ children }: FilesContextProps) => {
       }) as string,
       type: "success",
       progress: 0,
-      toastPosition: "bottomRight",
       testId: "upload-status"
     }
 
@@ -493,8 +492,7 @@ const FilesProvider = ({ children }: FilesContextProps) => {
             other: `Downloading ${fullStructure.length} files`
           }) as string,
           type: "success",
-          progress: 0,
-          toastPosition: "bottomRight"
+          progress: 0
         }
 
         const toastId = addToast(toastParams)
@@ -567,8 +565,7 @@ const FilesProvider = ({ children }: FilesContextProps) => {
       const toastParams: ToastParams = {
         title: t`Downloading file - ${itemToDownload.name}`,
         type: "success",
-        progress: 0,
-        toastPosition: "bottomRight"
+        progress: 0
       }
       const toastId = addToast(toastParams)
       setDownloadsInProgress(true)
@@ -599,9 +596,10 @@ const FilesProvider = ({ children }: FilesContextProps) => {
       URL.revokeObjectURL(link.href)
       setDownloadsInProgress(false)
       return Promise.resolve()
-    } catch (error) {
+    } catch (error: any) {
+      console.error(error)
       updateToast(toastId, {
-        title: t`Download failed`,
+        title: `${t`An error occurred: `} ${typeof(error) === "string" ? error : error.length ? error[0].message : ""}`,
         type: "error",
         progress: undefined
       }, true)
@@ -691,8 +689,7 @@ const FilesProvider = ({ children }: FilesContextProps) => {
     const toastParams: ToastParams = {
       title: t`Sharing your file (Downloading)`,
       type: "success",
-      progress: 0,
-      toastPosition: "bottomRight"
+      progress: 0
     }
     const toastId = addToast(toastParams)
     setTransfersInProgress(true)
@@ -748,7 +745,7 @@ const FilesProvider = ({ children }: FilesContextProps) => {
     }).catch((error) => {
       console.error(error[0].message)
       updateToast(toastId, {
-        title: `${t`An error occurred: `} ${typeof(error) === "string" ? error : error[0].message}`,
+        title: `${t`An error occurred: `} ${typeof(error) === "string" ? error : error.length ? error[0].message : ""}`,
         type: "error",
         progress: undefined
       }, true)

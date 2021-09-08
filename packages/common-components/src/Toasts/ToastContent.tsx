@@ -95,15 +95,13 @@ const ToastContent = ({ toast, onClose }: ToastContentProps) => {
       data-testid={`toast-${toast.testId}`}
     >
       {progress !== undefined
-        ? <div>
-          <div>
-            <Typography
-              variant="body2"
-              component="p"
-            >
-              {title}
-            </Typography>
-          </div>
+        ? <>
+          <Typography
+            variant="body2"
+            component="p"
+          >
+            {title}
+          </Typography>
           <div className={classes.progressBox}>
             <ProgressBar
               progress={toast.progress}
@@ -117,8 +115,8 @@ const ToastContent = ({ toast, onClose }: ToastContentProps) => {
               />
             }
           </div>
-        </div>
-        : <div>
+        </>
+        : <>
           <div className={classes.titleContainer}>
             {type === "success"
               ? <CheckCircleIcon className={classes.icon} />
@@ -140,7 +138,7 @@ const ToastContent = ({ toast, onClose }: ToastContentProps) => {
               {subtitle}
             </Typography>
           }
-        </div>
+        </>
       }
       <div
         className={classes.closeIcon}
