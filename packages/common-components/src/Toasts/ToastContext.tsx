@@ -85,9 +85,9 @@ type ToastContextProps = {
 }
 
 interface ToastContext {
-  addToast(toastParams: ToastParams): string
-  updateToast(toastId: string, toastParams: ToastParams, startDismissal?: boolean): void
-  removeToast(toastId: string): void
+  addToast: (toastParams: ToastParams) => string
+  updateToast: (toastId: string, toastParams: ToastParams, startDismissal?: boolean) => void
+  removeToast: (toastId: string) => void
   toasts: Toast[]
 }
 
@@ -119,7 +119,7 @@ const ToastProvider = ({
     ]))
 
     const isProgressToast = toastParams.progress !== undefined
-    const shouldDismiss = toastParams.autoDismiss !== undefined ? toastParams.autoDismiss : autoDismiss
+    const shouldDismiss = toastParams.autoDismiss || autoDismiss
     const dismissTimeOut = toastParams.dismissTimeout || dismissTimeout
 
     if (shouldDismiss && !isProgressToast) {

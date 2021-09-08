@@ -1,10 +1,5 @@
 import React from "react"
-import {
-  ToastContent,
-  ToastParams,
-  ToastProvider,
-  useToasts
-} from "../Toasts"
+import { ToastContent, ToastParams, ToastProvider, useToasts } from "../Toasts"
 import { withKnobs, number, select, text, boolean } from "@storybook/addon-knobs"
 import { action } from "@storybook/addon-actions"
 
