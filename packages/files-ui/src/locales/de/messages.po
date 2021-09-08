@@ -73,6 +73,9 @@ msgstr ""
 msgid "Billed Yearly"
 msgstr ""
 
+msgid "Billing history"
+msgstr ""
+
 msgid "Bin"
 msgstr "Papierkorb"
 
@@ -178,10 +181,10 @@ msgstr ""
 msgid "Create folder"
 msgstr "Ordner erstellen"
 
-msgid "Credit card on file"
+msgid "Create your public username in <0>Settings</0>!"
 msgstr ""
 
-msgid "Create your public username in <0>Settings</0>!"
+msgid "Credit card saved"
 msgstr ""
 
 msgid "Dark Theme"
@@ -798,6 +801,9 @@ msgstr "Verifizierungscode gesendet!"
 
 msgid "View folder"
 msgstr "Ordner anzeigen"
+
+msgid "View invoces"
+msgstr ""
 
 msgid "Wallet address"
 msgstr ""
