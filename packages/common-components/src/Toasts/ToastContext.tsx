@@ -85,9 +85,9 @@ type ToastContextProps = {
 }
 
 interface ToastContext {
-  addToast(toastParams: ToastParams): string
-  updateToast(toastId: string, toastParams: ToastParams, startDismissal?: boolean): void
-  removeToast(toastId: string): void
+  addToast: (toastParams: ToastParams) => string
+  updateToast: (toastId: string, toastParams: ToastParams, startDismissal?: boolean) => void
+  removeToast: (toastId: string) => void
   toasts: Toast[]
 }
 
