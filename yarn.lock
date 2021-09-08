@@ -1780,13 +1780,6 @@
   dependencies:
     redoc-cli "^0.12.3"
 
-"@chainsafe/files-api-client@^1.18.4":
-  version "1.18.4"
-  resolved "https://registry.yarnpkg.com/@chainsafe/files-api-client/-/files-api-client-1.18.4.tgz#a9b6f7872c418b73fa6e85f8c444a19cd3f2e512"
-  integrity sha512-mYtxGYqOZOrwlEtNhroee0u7B5xgGc+UTZkJo3meGnIdzaDVLZm7xZ6TX21IpNWG9UNcy5sSKw9SbKlaDzjTbA==
-  dependencies:
-    redoc-cli "^0.12.3"
-
 "@chainsafe/web3-context@1.1.4":
   version "1.1.4"
   resolved "https://registry.yarnpkg.com/@chainsafe/web3-context/-/web3-context-1.1.4.tgz#ce0f140af8ccf93af1a189fbdbd6f018b9bf5fb7"
