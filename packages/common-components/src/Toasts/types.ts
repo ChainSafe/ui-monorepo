@@ -8,7 +8,7 @@ export interface Toast {
   title: string
   subtitle?: string
   progress?: number
-  onProgressCancel?(): void
+  onProgressCancel?: () => void
   toastPosition: ToastPosition
   autoDismiss?: boolean
   dismissTimeout?: number
