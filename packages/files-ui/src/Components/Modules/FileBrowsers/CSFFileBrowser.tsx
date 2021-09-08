@@ -186,7 +186,7 @@ const CSFFileBrowser: React.FC<IFileBrowserModuleProps> = () => {
     }
     if (hasFolder) {
       addToast({
-        title: "Folder uploads are not supported currently",
+        title: t`Folder uploads are not supported currently`,
         type: "error"
       })
     } else {

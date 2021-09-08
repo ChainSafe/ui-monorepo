@@ -184,9 +184,6 @@ msgstr "Download Complete"
 msgid "Download as zip"
 msgstr "Download as zip"
 
-msgid "Download failed"
-msgstr "Download failed"
-
 msgid "Download recovery key"
 msgstr "Download recovery key"
 
@@ -264,6 +261,9 @@ msgstr "Folder"
 
 msgid "Folder name is already in use"
 msgstr "Folder name is already in use"
+
+msgid "Folder uploads are not supported currently"
+msgstr "Folder uploads are not supported currently"
 
 msgid "Folders"
 msgstr "Folders"

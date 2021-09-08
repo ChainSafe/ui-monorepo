@@ -85,24 +85,25 @@ const useStyles = makeStyles(({ constants, palette, animation, overrides }: IThe
 
 export interface ToastContentProps {
   toast: ToastContentData
-  onClose(): void
+  onClose: () => void
 }
 
 const ToastContent = ({ toast, onClose }: ToastContentProps) => {
   const classes = useStyles()
   const { type, title, progress, subtitle, isClosable = true, onProgressCancel, onProgressCancelLoading } = toast
   return (
-    <div className={clsx(classes.root)}>
+    <div
+      className={clsx(classes.root)}
+      data-testid={`toast-${toast.testId}`}
+    >
       {progress !== undefined
-        ? <div>
-          <div>
-            <Typography
-              variant="body2"
-              component="p"
-            >
-              {title}
-            </Typography>
-          </div>
+        ? <>
+          <Typography
+            variant="body2"
+            component="p"
+          >
+            {title}
+          </Typography>
           <div className={classes.progressBox}>
             <ProgressBar
               progress={toast.progress}
@@ -119,8 +120,8 @@ const ToastContent = ({ toast, onClose }: ToastContentProps) => {
               />
             }
           </div>
-        </div>
-        : <div>
+        </>
+        : <>
           <div className={classes.titleContainer}>
             {type === "success"
               ? <CheckCircleIcon className={classes.icon} />
@@ -142,7 +143,7 @@ const ToastContent = ({ toast, onClose }: ToastContentProps) => {
               {subtitle}
             </Typography>
           }
-        </div>
+        </>
       }
       {isClosable &&
         <div

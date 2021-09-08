@@ -362,7 +362,8 @@ const FilesProvider = ({ children }: FilesContextProps) => {
       progress: 0,
       toastPosition: "bottomRight",
       onProgressCancel: cancelSource.cancel,
-      isClosable: false
+      isClosable: false,
+      testId: "upload-status"
     }
 
     const toastId = addToast(toastParams)
@@ -508,7 +509,6 @@ const FilesProvider = ({ children }: FilesContextProps) => {
           }) as string,
           type: "success",
           progress: 0,
-          toastPosition: "bottomRight",
           onProgressCancel: cancelSource.cancel,
           isClosable: false
         }
@@ -639,8 +639,9 @@ const FilesProvider = ({ children }: FilesContextProps) => {
       URL.revokeObjectURL(link.href)
       setDownloadsInProgress(false)
       return Promise.resolve()
-    } catch (error) {
-      let errorMessage = t`Downloads failed`
+    } catch (error: any) {
+      console.error(error)
+      let errorMessage = t`${t`An error occurred: `} ${typeof(error) === "string" ? error : error.length ? error[0].message : ""}`
       if (axios.isCancel(error)) {
         errorMessage = t`Downloads cancelled`
       }

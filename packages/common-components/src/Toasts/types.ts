@@ -8,12 +8,13 @@ export interface Toast {
   title: string
   subtitle?: string
   progress?: number
-  onProgressCancel?(): void
+  onProgressCancel?: () => void
   isClosable?: boolean
   onProgressCancelLoading?: boolean
   toastPosition: ToastPosition
   autoDismiss?: boolean
   dismissTimeout?: number
+  testId?: string
 }
 
 export type ToastContentData = Omit<Toast, "toastPosition" | "autoDismiss" | "dismissTimeout">
