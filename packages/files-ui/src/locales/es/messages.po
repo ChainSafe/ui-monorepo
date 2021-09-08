@@ -332,6 +332,9 @@ msgstr ""
 msgid "Hello again!"
 msgstr "Hola de nuevo!"
 
+msgid "Help us improve File in less than 1 minute."
+msgstr ""
+
 msgid "Hey! You only have two sign-in methods. If you lose that and have only one left, you will be locked out of your account forever."
 msgstr "Oye! Solo tiene dos métodos de inicio de sesión. Si lo pierde y solo le queda uno, se le bloqueará su cuenta para siempre."
 
@@ -595,9 +598,6 @@ msgstr "Seleccione una billetera"
 
 msgid "Select an existing shared folder"
 msgstr ""
-
-msgid "Send Feedback"
-msgstr "Enviar comentarios"
 
 msgid "Send another email"
 msgstr ""
