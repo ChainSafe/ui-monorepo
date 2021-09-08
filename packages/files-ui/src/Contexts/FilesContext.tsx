@@ -356,7 +356,8 @@ const FilesProvider = ({ children }: FilesContextProps) => {
       }) as string,
       type: "success",
       progress: 0,
-      toastPosition: "bottomRight"
+      toastPosition: "bottomRight",
+      testId: "upload-status"
     }
 
     const toastId = addToast(toastParams)

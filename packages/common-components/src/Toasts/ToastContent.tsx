@@ -90,7 +90,10 @@ const ToastContent = ({ toast, onClose }: ToastContentProps) => {
   const classes = useStyles()
   const { type, title, progress, subtitle, onProgressCancel } = toast
   return (
-    <div className={clsx(classes.root)}>
+    <div
+      className={clsx(classes.root)}
+      data-testid={`toast-${toast.testId}`}
+    >
       {progress !== undefined
         ? <div>
           <div>

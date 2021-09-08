@@ -12,6 +12,7 @@ export interface Toast {
   toastPosition: ToastPosition
   autoDismiss?: boolean
   dismissTimeout?: number
+  testId?: string
 }
 
 export type ToastContentData = Omit<Toast, "toastPosition" | "autoDismiss" | "dismissTimeout">
