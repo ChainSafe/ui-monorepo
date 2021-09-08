@@ -34,6 +34,9 @@ msgstr "Add by sharing address, username or wallet address"
 msgid "Add more files"
 msgstr "Add more files"
 
+msgid "Add viewers and editors by username, sharing id or Ethereum address."
+msgstr "Add viewers and editors by username, sharing id or Ethereum address."
+
 msgid "An error occurred while downloading the file"
 msgstr "An error occurred while downloading the file"
 
@@ -42,9 +45,6 @@ msgstr "An error occurred:"
 
 msgid "Approve"
 msgstr "Approve"
-
-msgid "Are we on the right track? Let us know in less than 1 minute."
-msgstr "Are we on the right track? Let us know in less than 1 minute."
 
 msgid "Backup secret phrase"
 msgstr "Backup secret phrase"
@@ -147,6 +147,9 @@ msgstr "Create a new shared folder"
 
 msgid "Create folder"
 msgstr "Create folder"
+
+msgid "Create your public username in <0>Settings</0>!"
+msgstr "Create your public username in <0>Settings</0>!"
 
 msgid "Dark Theme"
 msgstr "Dark Theme"
@@ -289,8 +292,17 @@ msgstr "Give view-only permission to:"
 msgid "Go back"
 msgstr "Go back"
 
+msgid "Got an issue?"
+msgstr "Got an issue?"
+
+msgid "Got it"
+msgstr "Got it"
+
 msgid "Hello again!"
 msgstr "Hello again!"
+
+msgid "Help us improve File in less than 1 minute."
+msgstr "Help us improve File in less than 1 minute."
 
 msgid "Hey! You only have two sign-in methods. If you lose that and have only one left, you will be locked out of your account forever."
 msgstr "Hey! You only have two sign-in methods. If you lose that and have only one left, you will be locked out of your account forever."
@@ -544,9 +556,6 @@ msgstr "Select a wallet"
 msgid "Select an existing shared folder"
 msgstr "Select an existing shared folder"
 
-msgid "Send Feedback"
-msgstr "Send Feedback"
-
 msgid "Send another email"
 msgstr "Send another email"
 
@@ -762,6 +771,9 @@ msgstr "Yes, save it"
 
 msgid "You can change this later."
 msgstr "You can change this later."
+
+msgid "You can now create shared folders to share a file."
+msgstr "You can now create shared folders to share a file."
 
 msgid "You can't move folders to this path"
 msgstr "You can't move folders to this path"

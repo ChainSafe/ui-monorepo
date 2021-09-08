@@ -181,7 +181,7 @@ const SharedFileBrowser = () => {
     if (!bucket) return
     let hasFolder = false
     for (let i = 0; i < files.length; i++) {
-      if (fileItems[i].webkitGetAsEntry().isDirectory) {
+      if (fileItems[i].webkitGetAsEntry()?.isDirectory) {
         hasFolder = true
       }
     }
