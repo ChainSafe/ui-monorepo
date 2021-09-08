@@ -710,6 +710,9 @@ msgstr "Mettre à jour le dossier partagé"
 msgid "Upload"
 msgstr "Téléverser"
 
+msgid "Uploads cancelled"
+msgstr ""
+
 msgid "Use a different login method"
 msgstr "Utilisez une méthode de connexion différente"
 
