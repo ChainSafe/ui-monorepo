@@ -64,8 +64,8 @@ const SubscriptionWidget = ({ className }: ISubscriptionWidget) => {
 
   useEffect(() => {
     const test = async () => {
-      const returnData = await filesApiClient.()
-      console.log(returnData)
+      // const returnData = await filesApiClient.()
+      // console.log(returnData)
     }
     test()
   }, [filesApiClient])
