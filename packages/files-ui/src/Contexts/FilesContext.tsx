@@ -11,7 +11,6 @@ import {
 import React, { useCallback, useEffect } from "react"
 import { useState } from "react"
 import { decryptFile, encryptFile  } from "../Utils/encryption"
-import { v4 as uuidv4 } from "uuid"
 import { ToastParams, useToasts } from "@chainsafe/common-components"
 import axios, { CancelToken } from "axios"
 import { plural, t } from "@lingui/macro"
@@ -391,7 +390,8 @@ const FilesProvider = ({ children }: FilesContextProps) => {
       updateToast(toastId, {
         ...toastParams,
         title: "Upload complete",
-        progress: undefined
+        progress: undefined,
+        onProgressCancel: undefined
       }, true)
       return Promise.resolve()
     } catch (error: any) {
@@ -411,7 +411,8 @@ const FilesProvider = ({ children }: FilesContextProps) => {
         ...toastParams,
         title: errorMessage,
         type: "error",
-        progress: undefined
+        progress: undefined,
+        onProgressCancel: undefined
       }, true)
 
       return Promise.reject(error)
@@ -460,7 +461,7 @@ const FilesProvider = ({ children }: FilesContextProps) => {
       }
     } catch (error) {
       if (axios.isCancel(error)) {
-        return Promise.reject()
+        return Promise.reject(error)
       } else {
         console.error(error)
         return Promise.reject(error)
@@ -490,6 +491,7 @@ const FilesProvider = ({ children }: FilesContextProps) => {
   }, [filesApiClient])
 
   const downloadMultipleFiles = useCallback((itemsToDownload: FileSystemItem[], currentPath: string, bucketId: string) => {
+    setDownloadsInProgress(true)
     getFileList(itemsToDownload, currentPath, bucketId)
       .then(async (fullStructure) => {
         const zipList: Zippable = {}
@@ -497,6 +499,8 @@ const FilesProvider = ({ children }: FilesContextProps) => {
         const totalFileSize = fullStructure.reduce((sum, item) => sum + item.size, 0)
         const totalFileNumber = fullStructure.length
 
+        const cancelSource = axios.CancelToken.source()
+        const cancelToken = cancelSource.token
         const toastParams: ToastParams = {
           title: plural(fullStructure.length, {
             one: `Downloading ${fullStructure.length} file`,
@@ -504,7 +508,9 @@ const FilesProvider = ({ children }: FilesContextProps) => {
           }) as string,
           type: "success",
           progress: 0,
-          toastPosition: "bottomRight"
+          toastPosition: "bottomRight",
+          onProgressCancel: cancelSource.cancel,
+          isClosable: false
         }
 
         const toastId = addToast(toastParams)
@@ -519,74 +525,97 @@ const FilesProvider = ({ children }: FilesContextProps) => {
           return
         }
 
-        // Idea for parallel download https://glebbahmutov.com/blog/run-n-promises-in-parallel/
-        // we need to use a reduce here because forEach doesn't wait for the Promise to resolve
-        await fullStructure.reduce(async (totalDownloaded: Promise<number>, item: FileSystemItemPath, index: number): Promise<number> => {
-          const file = await getFileContent(bucketId, {
-            cid: item.cid,
-            file: item,
-            path: getPathWithFile(item.path, item.name),
-            onDownloadProgress: async (progressEvent) => {
-              const currentFileNumber = index + 1
-              const fileProgress = totalFileNumber > 1 && `${currentFileNumber}/${totalFileNumber}`
-              updateToast(toastId, {
-                ...toastParams,
-                title: t`Downloading ${fileProgress} - ${item.name}`,
-                progress: Math.ceil(
-                  ((await totalDownloaded + progressEvent.loaded) / totalFileSize) * 100
-                )
-              })
+        try {
+          // Idea for parallel download https://glebbahmutov.com/blog/run-n-promises-in-parallel/
+          // we need to use a reduce here because forEach doesn't wait for the Promise to resolve
+          await fullStructure.reduce(async (totalDownloaded: Promise<number>, item: FileSystemItemPath, index: number): Promise<number> => {
+            const file = await getFileContent(bucketId, {
+              cid: item.cid,
+              file: item,
+              path: getPathWithFile(item.path, item.name),
+              cancelToken,
+              onDownloadProgress: async (progressEvent) => {
+                const currentFileNumber = index + 1
+                const fileProgress = totalFileNumber > 1 && `${currentFileNumber}/${totalFileNumber}`
+                updateToast(toastId, {
+                  ...toastParams,
+                  title: t`Downloading ${fileProgress} - ${item.name}`,
+                  progress: Math.ceil(
+                    ((await totalDownloaded + progressEvent.loaded) / totalFileSize) * 100
+                  )
+                })
+              }
+            })
+
+            if(file) {
+              const fileArrayBuffer = await file.arrayBuffer()
+              const fullPath = getPathWithFile(item.path, item.name)
+              const relativeFilePath = getRelativePath(fullPath, currentPath)
+              zipList[relativeFilePath] = new Uint8Array(fileArrayBuffer)
             }
-          })
 
-          if(file) {
-            const fileArrayBuffer = await file.arrayBuffer()
-            const fullPath = getPathWithFile(item.path, item.name)
-            const relativeFilePath = getRelativePath(fullPath, currentPath)
-            zipList[relativeFilePath] = new Uint8Array(fileArrayBuffer)
+            return await totalDownloaded + item.size
+          }, Promise.resolve(0))
+
+          // level 0 means without compression
+          const zipped = zipSync(zipList, { level: 0 })
+
+          if (!zipped) return
+
+          const link = document.createElement("a")
+          link.href = URL.createObjectURL(new Blob([zipped]))
+          link.download = "archive.zip"
+          link.click()
+          setDownloadsInProgress(false)
+
+          updateToast(toastId, {
+            title: t`Download Complete`,
+            type: "success",
+            progress: undefined,
+            onProgressCancel: undefined
+          }, true)
+          URL.revokeObjectURL(link.href)
+        } catch (error: any) {
+          let errorMessage = t`Downloads failed`
+          if (axios.isCancel(error)) {
+            errorMessage = t`Downloads cancelled`
           }
-
-          return await totalDownloaded + item.size
-        }, Promise.resolve(0))
-
-        // level 0 means without compression
-        const zipped = zipSync(zipList, { level: 0 })
-
-        if (!zipped) return
-
-        const link = document.createElement("a")
-        link.href = URL.createObjectURL(new Blob([zipped]))
-        link.download = "archive.zip"
-        link.click()
-
-        updateToast(toastId, {
-          title: t`Download Complete`,
-          type: "success",
-          progress: undefined
-        }, true)
-
-        URL.revokeObjectURL(link.href)
-
+          setDownloadsInProgress(false)
+          updateToast(toastId, {
+            title: errorMessage,
+            type: "error",
+            progress: undefined,
+            onProgressCancel: undefined
+          }, true)
+        }
       })
-      .catch(console.error)
+      .catch((error: any) => {
+        console.error(error)
+        setDownloadsInProgress(false)
+      })
   }, [getFileContent, getFileList, addToast, updateToast])
 
   const downloadFile = useCallback(async (bucketId: string, itemToDownload: FileSystemItem, path: string) => {
-    const toastId = uuidv4()
-    try {
-      const toastParams: ToastParams = {
-        title: t`Downloading file - ${itemToDownload.name}`,
-        type: "success",
-        progress: 0,
-        toastPosition: "bottomRight"
-      }
-      const toastId = addToast(toastParams)
-      setDownloadsInProgress(true)
+    const cancelSource = axios.CancelToken.source()
+    const cancelToken = cancelSource.token
 
+    const toastParams: ToastParams = {
+      title: t`Downloading file - ${itemToDownload.name}`,
+      type: "success",
+      progress: 0,
+      toastPosition: "bottomRight",
+      isClosable: false,
+      onProgressCancel: cancelSource.cancel
+    }
+    const toastId = addToast(toastParams)
+    setDownloadsInProgress(true)
+
+    try {
       const result = await getFileContent(bucketId, {
         cid: itemToDownload.cid,
         file: itemToDownload,
         path: getPathWithFile(path, itemToDownload.name),
+        cancelToken,
         onDownloadProgress: (progressEvent) => {
           updateToast(toastId, {
             ...toastParams,
@@ -604,16 +633,22 @@ const FilesProvider = ({ children }: FilesContextProps) => {
       updateToast(toastId, {
         title: t`Download Complete`,
         type: "success",
-        progress: undefined
+        progress: undefined,
+        onProgressCancel: undefined
       }, true)
       URL.revokeObjectURL(link.href)
       setDownloadsInProgress(false)
       return Promise.resolve()
     } catch (error) {
+      let errorMessage = t`Downloads failed`
+      if (axios.isCancel(error)) {
+        errorMessage = t`Downloads cancelled`
+      }
       updateToast(toastId, {
-        title: t`Download failed`,
+        title: errorMessage,
         type: "error",
-        progress: undefined
+        progress: undefined,
+        onProgressCancel: undefined
       }, true)
       setDownloadsInProgress(false)
       return Promise.reject()
@@ -698,11 +733,16 @@ const FilesProvider = ({ children }: FilesContextProps) => {
   ) => {
     const UPLOAD_PATH = "/"
 
+    const cancelSource = axios.CancelToken.source()
+    const cancelToken = cancelSource.token
+
     const toastParams: ToastParams = {
       title: t`Sharing your file (Downloading)`,
       type: "success",
       progress: 0,
-      toastPosition: "bottomRight"
+      toastPosition: "bottomRight",
+      onProgressCancel: cancelSource.cancel,
+      isClosable: false
     }
     const toastId = addToast(toastParams)
     setTransfersInProgress(true)
@@ -711,6 +751,7 @@ const FilesProvider = ({ children }: FilesContextProps) => {
       cid: sourceFile.cid,
       file: sourceFile,
       path: getPathWithFile(path, sourceFile.name),
+      cancelToken,
       onDownloadProgress: (progressEvent) => {
         updateToast(toastId, {
           ...toastParams,
@@ -724,7 +765,8 @@ const FilesProvider = ({ children }: FilesContextProps) => {
         updateToast(toastId, {
           title: t`An error occurred while downloading the file`,
           type: "error",
-          progress: undefined
+          progress: undefined,
+          onProgressCancel: undefined
         }, true)
         setTransfersInProgress(false)
         return
@@ -742,7 +784,8 @@ const FilesProvider = ({ children }: FilesContextProps) => {
               50 + (progressEvent.loaded / sourceFile.size) * 50
             )
           })
-        }
+        },
+        cancelToken
       )
 
       if (!keepOriginal) {
@@ -756,11 +799,16 @@ const FilesProvider = ({ children }: FilesContextProps) => {
       setTransfersInProgress(false)
       return Promise.resolve()
     }).catch((error) => {
-      console.error(error[0].message)
+      console.error(error)
+      let errorMessage = `${t`An error occurred: `} ${typeof(error) === "string" ? error : error.length ? error[0].message : ""}`
+      if (axios.isCancel(error)) {
+        errorMessage = t`Sharing cancelled`
+      }
       updateToast(toastId, {
-        title: `${t`An error occurred: `} ${typeof(error) === "string" ? error : error[0].message}`,
+        title: errorMessage,
         type: "error",
-        progress: undefined
+        progress: undefined,
+        onProgressCancel: undefined
       }, true)
       setTransfersInProgress(false)
     }).finally(() => {
