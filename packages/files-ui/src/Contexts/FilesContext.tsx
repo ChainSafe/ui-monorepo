@@ -351,11 +351,8 @@ const FilesProvider = ({ children }: FilesContextProps) => {
       })
     }
 
-    const uploadCancellationMessage = "upload cancelled"
-    let cancellationFunction: (() => void) | undefined
-    const cancelToken = new axios.CancelToken(function executor(c) {
-      cancellationFunction = () => c(uploadCancellationMessage)
-    })
+    const cancelSource = axios.CancelToken.source()
+    const cancelToken = cancelSource.token
 
     const toastParams: ToastParams = {
       title: plural(files.length, {
@@ -365,7 +362,8 @@ const FilesProvider = ({ children }: FilesContextProps) => {
       type: "success",
       progress: 0,
       toastPosition: "bottomRight",
-      onProgressCancel: cancellationFunction
+      onProgressCancel: cancelSource.cancel,
+      isClosable: false
     }
 
     const toastId = addToast(toastParams)
@@ -402,7 +400,7 @@ const FilesProvider = ({ children }: FilesContextProps) => {
       let errorMessage = t`Something went wrong. We couldn't upload your file`
 
       // uploads cancelled through button
-      if (error?.message === uploadCancellationMessage) {
+      if (axios.isCancel(error)) {
         errorMessage = t`Uploads cancelled`
       }
       // we will need a method to parse server errors

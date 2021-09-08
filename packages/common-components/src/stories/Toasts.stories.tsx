@@ -37,7 +37,8 @@ export const ToastsContentProgress: React.FC = () => {
         type: select("type", ["success", "error"], "success"),
         progress: number("progress", 30),
         onProgressCancel: action("on progress cancel"),
-        onProgressCancelLoading: boolean("onProgressCancelLoading", false)
+        onProgressCancelLoading: boolean("onProgressCancelLoading", false),
+        isClosable: boolean("isClosable", false)
       }}
       onClose={action("onClose")}
     />

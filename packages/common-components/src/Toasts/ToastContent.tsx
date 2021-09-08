@@ -5,7 +5,7 @@ import clsx from "clsx"
 import { Typography } from "../Typography"
 import { CheckCircleIcon, CloseCircleIcon, CloseCirceSvg, CrossSvg } from "../Icons"
 import { ProgressBar } from "../ProgressBar"
-import { Loading } from ".."
+import { Loading } from "../Spinner"
 
 const useStyles = makeStyles(({ constants, palette, animation, overrides }: ITheme) => {
   return createStyles({
@@ -90,7 +90,7 @@ export interface ToastContentProps {
 
 const ToastContent = ({ toast, onClose }: ToastContentProps) => {
   const classes = useStyles()
-  const { type, title, progress, subtitle, onProgressCancel, onProgressCancelLoading } = toast
+  const { type, title, progress, subtitle, isClosable = true, onProgressCancel, onProgressCancelLoading } = toast
   return (
     <div className={clsx(classes.root)}>
       {progress !== undefined
@@ -144,12 +144,14 @@ const ToastContent = ({ toast, onClose }: ToastContentProps) => {
           }
         </div>
       }
-      <div
-        className={classes.closeIcon}
-        onClick={onClose}
-      >
-        <CrossSvg />
-      </div>
+      {isClosable &&
+        <div
+          className={classes.closeIcon}
+          onClick={onClose}
+        >
+          <CrossSvg />
+        </div>
+      }
     </div>
   )
 }
