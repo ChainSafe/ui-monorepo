@@ -335,6 +335,9 @@ msgstr ""
 msgid "Hello again!"
 msgstr "Ravis de vous revoir !"
 
+msgid "Help us improve File in less than 1 minute."
+msgstr "Aidez-nous à améliorer File en moins d'une minute."
+
 msgid "Hey! You only have two sign-in methods. If you lose that and have only one left, you will be locked out of your account forever."
 msgstr "Hé ! Vous n’avez que deux méthodes de connexion. Si vous en perdez une et qu’il ne vous en reste qu’une, vous ne pourrez plus jamais vous connecter à votre compte."
 
@@ -598,9 +601,6 @@ msgstr "Sélectionner un wallet"
 
 msgid "Select an existing shared folder"
 msgstr "Sélectionnez un dossier partagé existant"
-
-msgid "Send Feedback"
-msgstr "Donner son avis"
 
 msgid "Send another email"
 msgstr "Envoyer un nouveau courriel"

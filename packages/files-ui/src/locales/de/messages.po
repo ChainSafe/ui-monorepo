@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-04-20 00:28+0200\n"
-"PO-Revision-Date: 2021-08-24 01:34+0000\n"
+"PO-Revision-Date: 2021-09-06 00:40+0000\n"
 "Last-Translator: J. Lavoie <j.lavoie@net-c.ca>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/chainsafe-files/chainsafe-files-user-interface/de/>\n"
 "Language: de\n"
@@ -331,6 +331,9 @@ msgstr ""
 msgid "Hello again!"
 msgstr "Hallo nochmal!"
 
+msgid "Help us improve File in less than 1 minute."
+msgstr ""
+
 msgid "Hey! You only have two sign-in methods. If you lose that and have only one left, you will be locked out of your account forever."
 msgstr ""
 
@@ -595,9 +598,6 @@ msgstr ""
 msgid "Select an existing shared folder"
 msgstr ""
 
-msgid "Send Feedback"
-msgstr "Kommentare versenden"
-
 msgid "Send another email"
 msgstr "Andere E-Mail senden"
 
@@ -836,7 +836,7 @@ msgid "You can now create shared folders to share a file."
 msgstr ""
 
 msgid "You can't move folders to this path"
-msgstr ""
+msgstr "Sie können keine Ordner in diesen Pfad verschieben"
 
 msgid "You haven't set a username yet."
 msgstr "Sie haben noch keinen Benutzernamen festgelegt."
