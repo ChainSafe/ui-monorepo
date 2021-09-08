@@ -83,7 +83,7 @@ const useStyles = makeStyles(({ constants, palette, animation, overrides }: IThe
 
 export interface ToastContentProps {
   toast: ToastContentData
-  onClose(): void
+  onClose: () => void
 }
 
 const ToastContent = ({ toast, onClose }: ToastContentProps) => {
