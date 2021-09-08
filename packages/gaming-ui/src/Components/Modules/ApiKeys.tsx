@@ -98,7 +98,7 @@ const ApiKeys = () => {
   }, [gamingApiClient])
 
   const createAccessKey = useCallback(() => {
-    gamingApiClient.createAccessKey()
+    gamingApiClient.createAccessKey({ type: "gaming" })
       .then(fetchAccessKeys)
       .catch(console.error)
   }, [fetchAccessKeys, gamingApiClient])
