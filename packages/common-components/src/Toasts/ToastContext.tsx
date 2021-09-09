@@ -135,12 +135,11 @@ const ToastProvider = ({
     const dismissTimeOut = toastParams.dismissTimeout || dismissTimeout
     if (startDismissal) {
       setTimeout(() => {
-        // setToasts((toasts) => toasts.filter((toast) => toast.id !== toastId))
-        removeToast(toastId)
+        setToasts((toasts) => toasts.filter((toast) => toast.id !== toastId))
       }, dismissTimeOut)
     }
     setToasts((toasts) => toasts.map((toast) => toast.id === toastId ? { ...toast, ...toastParams } : toast))
-  }, [dismissTimeout, removeToast])
+  }, [dismissTimeout])
 
   const positionedToasts: Record<ToastPosition, Array<Toast>> = useMemo(() => ({
     topRight: toasts.filter((toast) => toast.toastPosition === "topRight"),
