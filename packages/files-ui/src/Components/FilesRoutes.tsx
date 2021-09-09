@@ -10,6 +10,7 @@ import { useThresholdKey } from "../Contexts/ThresholdKeyContext"
 import ShareFilesPage from "./Pages/SharedFilesPage"
 import SharedFoldersOverview from "./Modules/FileBrowsers/SharedFoldersOverview"
 import PlansPage from "./Pages/PlansPage"
+import BillingHistory from "./Pages/BillingHistory"
 
 export const SETTINGS_BASE = "/settings"
 export const ROUTE_LINKS = {
@@ -50,6 +51,13 @@ const FilesRoutes = () => {
     [isLoggedIn, isNewDevice, publicKey, secured, shouldInitializeAccount])
   return (
     <Switch>
+      <ConditionalRoute
+        exact
+        path={ROUTE_LINKS.BillingHistory}
+        isAuthorized={isAuthorized}
+        component={BillingHistory}
+        redirectPath={ROUTE_LINKS.Landing}
+      />
       <ConditionalRoute
         exact
         path={ROUTE_LINKS.SharedFolders}
