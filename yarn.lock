@@ -10484,6 +10484,11 @@ data-urls@^1.0.0, data-urls@^1.1.0:
     whatwg-mimetype "^2.2.0"
     whatwg-url "^7.0.0"
 
+datatransfer-files-promise@^1.3.1:
+  version "1.3.1"
+  resolved "https://registry.yarnpkg.com/datatransfer-files-promise/-/datatransfer-files-promise-1.3.1.tgz#8996214c76925b57fe4c03b25a214ceaca76f063"
+  integrity sha512-xwh/RYaCTzUVyZr+rDKO28ew3Nbe4aP1HmEa1rNta9Uq1VNI2+ME0s1JKwsnUKXEpCWL+puGXkpJ6j+3vm/T8g==
+
 date-fns@^2.16.1:
   version "2.16.1"
   resolved "https://registry.yarnpkg.com/date-fns/-/date-fns-2.16.1.tgz#05775792c3f3331da812af253e1a935851d3834b"
