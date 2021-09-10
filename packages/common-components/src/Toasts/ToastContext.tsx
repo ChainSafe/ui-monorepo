@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from "react"
+import React, { useCallback, useMemo, useRef } from "react"
 import { createStyles, ITheme, makeStyles } from "@chainsafe/common-theme"
 import { ToastParams, Toast, ToastPosition } from "./types"
 import { v4 as uuidv4 } from "uuid"
@@ -102,21 +102,22 @@ const ToastProvider = ({
   dismissTimeout = 5000
 }: ToastContextProps) => {
   const classes = useStyles()
-  const [toasts, setToasts] = useState<Toast[]>([])
+  // using useRef instead of useState to keep a tracker over the exact toast array
+  const toasts = useRef<Toast[]>([])
 
   const removeToast = useCallback((toastId: string) => {
-    setToasts(toasts.filter((toast) => toast.id !== toastId))
+    toasts.current = toasts.current.filter((toast) => toast.id !== toastId)
   }, [toasts])
 
   const addToast = useCallback((toastParams: ToastParams) => {
     const id = uuidv4()
-    setToasts((toasts) => ([
-      ...toasts,
+    toasts.current = [
+      ...toasts.current,
       { id,
         ...toastParams,
         toastPosition: toastParams.toastPosition || defaultPosition
       }
-    ]))
+    ]
 
     const isProgressToast = toastParams.progress !== undefined
     const shouldDismiss = toastParams.autoDismiss || autoDismiss
@@ -124,28 +125,28 @@ const ToastProvider = ({
 
     if (shouldDismiss && !isProgressToast) {
       setTimeout(() => {
-        setToasts((toasts) => toasts.filter((toast) => toast.id !== id))
+        removeToast(id)
       }, dismissTimeOut)
     }
 
     return id
-  }, [autoDismiss, dismissTimeout, defaultPosition])
+  }, [defaultPosition, autoDismiss, dismissTimeout, removeToast])
 
   const updateToast = useCallback((toastId: string, toastParams: ToastParams, startDismissal?: boolean) => {
     const dismissTimeOut = toastParams.dismissTimeout || dismissTimeout
     if (startDismissal) {
       setTimeout(() => {
-        setToasts((toasts) => toasts.filter((toast) => toast.id !== toastId))
+        removeToast(toastId)
       }, dismissTimeOut)
     }
-    setToasts((toasts) => toasts.map((toast) => toast.id === toastId ? { ...toast, ...toastParams } : toast))
-  }, [dismissTimeout])
+    toasts.current = toasts.current.map((toast) => toast.id === toastId ? { ...toast, ...toastParams } : toast)
+  }, [dismissTimeout, removeToast])
 
   const positionedToasts: Record<ToastPosition, Array<Toast>> = useMemo(() => ({
-    topRight: toasts.filter((toast) => toast.toastPosition === "topRight"),
-    topLeft: toasts.filter((toast) => toast.toastPosition === "topLeft"),
-    bottomRight: toasts.filter((toast) => toast.toastPosition === "bottomRight"),
-    bottomLeft: toasts.filter((toast) => toast.toastPosition === "bottomLeft")
+    topRight: toasts.current.filter((toast) => toast.toastPosition === "topRight"),
+    topLeft: toasts.current.filter((toast) => toast.toastPosition === "topLeft"),
+    bottomRight: toasts.current.filter((toast) => toast.toastPosition === "bottomRight"),
+    bottomLeft: toasts.current.filter((toast) => toast.toastPosition === "bottomLeft")
   }), [toasts])
   return (
     <ToastContext.Provider
@@ -153,7 +154,7 @@ const ToastProvider = ({
         addToast,
         updateToast,
         removeToast,
-        toasts
+        toasts: toasts.current
       }}
     >
       {(Object.keys(positionedToasts) as ToastPosition[]).map((position) => (
