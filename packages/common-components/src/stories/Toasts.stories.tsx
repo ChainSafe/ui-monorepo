@@ -31,9 +31,7 @@ export const ToastsContentProgress: React.FC = () => {
         title: text("title", "Upload in progress"),
         type: select("type", ["success", "error"], "success"),
         progress: number("progress", 30),
-        onProgressCancel: action("on progress cancel"),
-        onProgressCancelLoading: boolean("onProgressCancelLoading", false),
-        isClosable: boolean("isClosable", false)
+        onProgressCancel: action("on progress cancel")
       }}
       onClose={action("onClose")}
     />
@@ -62,10 +60,9 @@ export const ToastsDemo: React.FC = () => {
     >
       <ToastNotificationDemo
         toast={{
-          title: text("title", "Upload Started"),
+          title: text("title", "Upload Complete"),
           type: "success",
           toastPosition: select("position", ["topLeft", "topRight", "bottomLeft", "bottomRight"], "topRight"),
-          progress: number("progress", 100),
           autoDismiss: boolean("toast auto dismiss", true),
           dismissTimeout: number("toast dismiss timeout", 4000)
         }}
@@ -85,7 +82,6 @@ export const MultipleToastsDemo: React.FC = () => {
           title: text("title", "Upload Started"),
           type: "success",
           toastPosition: select("position", ["topLeft", "topRight", "bottomLeft", "bottomRight"], "topRight"),
-          progress: number("progress", 100),
           autoDismiss: boolean("toast auto dismiss", true),
           dismissTimeout: number("toast dismiss timeout", 4000)
         }}

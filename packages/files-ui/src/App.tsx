@@ -101,8 +101,10 @@ const App = () => {
       >
         <CssBaseline />
         <LanguageProvider availableLanguages={availableLanguages}>
-          <ToastProvider autoDismiss
-            defaultPosition="bottomRight">
+          <ToastProvider
+            autoDismiss
+            defaultPosition="bottomRight"
+          >
             <Web3Provider
               onboardConfig={onboardConfig}
               checkNetwork={false}

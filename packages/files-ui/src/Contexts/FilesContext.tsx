@@ -360,7 +360,6 @@ const FilesProvider = ({ children }: FilesContextProps) => {
       }) as string,
       type: "success",
       progress: 0,
-      toastPosition: "bottomRight",
       onProgressCancel: cancelSource.cancel,
       isClosable: false,
       testId: "upload-status"
