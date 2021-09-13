@@ -87,7 +87,8 @@ const SurveyBanner = ({ onHide }: Props) => {
         className={classes.crossIconButton}
         onClick={onClose}
       >
-        <CrossIcon fontSize="small"
+        <CrossIcon
+          fontSize="small"
           className={classes.icon}
         />
       </div>
