@@ -65,7 +65,7 @@ const useStyles = makeStyles(
           fontWeight: 400
         },
         [breakpoints.up("md")]: {
-          padding: `${constants.generalUnit * 30}px ${constants.generalUnit * 8}px`,
+          padding: `${constants.generalUnit * 20}px ${constants.generalUnit * 8}px`,
           "& > *": {
             paddingBottom: `${constants.generalUnit * 5}px`
           }
@@ -205,7 +205,7 @@ const InitialScreen = ({ className }: IInitialScreen) => {
     setLoginMode(loginType)
     try {
       await login(loginType)
-    } catch (error) {
+    } catch (error: any) {
       let errorMessage = t`There was an error authenticating`
       console.log(error)
       if (Array.isArray(error) && error[0]) {
