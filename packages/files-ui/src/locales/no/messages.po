@@ -178,16 +178,19 @@ msgstr ""
 msgid "Download"
 msgstr ""
 
-msgid "Download as zip"
+msgid "Download Complete"
 msgstr ""
 
-msgid "Download complete"
+msgid "Download as zip"
 msgstr ""
 
 msgid "Download recovery key"
 msgstr ""
 
-msgid "Downloading"
+msgid "Downloading file - {0}"
+msgstr ""
+
+msgid "Downloading {fileProgress} - {0}"
 msgstr ""
 
 msgid "Drop to upload files"
@@ -254,6 +257,9 @@ msgid "Folder"
 msgstr "Mappe"
 
 msgid "Folder name is already in use"
+msgstr ""
+
+msgid "Folder uploads are not supported currently"
 msgstr ""
 
 msgid "Folders"
@@ -589,7 +595,7 @@ msgstr ""
 msgid "Shared with"
 msgstr ""
 
-msgid "Sharing your file ({0})"
+msgid "Sharing your file (Downloading)"
 msgstr ""
 
 msgid "Sign Out"
@@ -700,12 +706,6 @@ msgstr ""
 msgid "Upload"
 msgstr "Last opp"
 
-msgid "Upload complete"
-msgstr "Opplastet"
-
-msgid "Uploading {0} files"
-msgstr "Laster opp {0} filer"
-
 msgid "Use a different login method"
 msgstr "Bruk en annen innloggingsmetode"
 
@@ -808,8 +808,11 @@ msgstr "gjenopprettet"
 msgid "unknown"
 msgstr ""
 
-msgid "{0, plural, one {You are about to delete {1} item.} other {You are about to delete {2} items.}}"
+msgid "{0, plural, one {Downloading {1} file} other {Downloading {2} files}}"
 msgstr ""
 
-msgid "{noOfFiles, plural, one {Uploading and encrypting {noOfFiles} file} other {Uploading and encrypting {noOfFiles} files}}"
+msgid "{0, plural, one {Encrypting and uploading {1} file} other {Encrypting and uploading {2} files}}"
+msgstr ""
+
+msgid "{0, plural, one {You are about to delete {1} item.} other {You are about to delete {2} items.}}"
 msgstr ""
