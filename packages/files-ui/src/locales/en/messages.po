@@ -193,6 +193,12 @@ msgstr "Downloading file - {0}"
 msgid "Downloading {fileProgress} - {0}"
 msgstr "Downloading {fileProgress} - {0}"
 
+msgid "Downloads cancelled"
+msgstr "Downloads cancelled"
+
+msgid "Downloads failed"
+msgstr "Downloads failed"
+
 msgid "Drop to upload files"
 msgstr "Drop to upload files"
 
@@ -598,6 +604,9 @@ msgstr "Shared folders"
 msgid "Shared with"
 msgstr "Shared with"
 
+msgid "Sharing cancelled"
+msgstr "Sharing cancelled"
+
 msgid "Sharing your file (Downloading)"
 msgstr "Sharing your file (Downloading)"
 
@@ -708,6 +717,9 @@ msgstr "Update Shared Folder"
 
 msgid "Upload"
 msgstr "Upload"
+
+msgid "Uploads cancelled"
+msgstr "Uploads cancelled"
 
 msgid "Use a different login method"
 msgstr "Use a different login method"

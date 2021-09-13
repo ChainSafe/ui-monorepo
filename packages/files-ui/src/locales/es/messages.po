@@ -194,6 +194,12 @@ msgstr ""
 msgid "Downloading {fileProgress} - {0}"
 msgstr ""
 
+msgid "Downloads cancelled"
+msgstr ""
+
+msgid "Downloads failed"
+msgstr ""
+
 msgid "Drop to upload files"
 msgstr "Suelta para subir archivos"
 
@@ -599,6 +605,9 @@ msgstr ""
 msgid "Shared with"
 msgstr ""
 
+msgid "Sharing cancelled"
+msgstr ""
+
 msgid "Sharing your file (Downloading)"
 msgstr ""
 
@@ -709,6 +718,9 @@ msgstr ""
 
 msgid "Upload"
 msgstr "Subir"
+
+msgid "Uploads cancelled"
+msgstr ""
 
 msgid "Use a different login method"
 msgstr "Utilice un método de inicio de sesión diferente"
