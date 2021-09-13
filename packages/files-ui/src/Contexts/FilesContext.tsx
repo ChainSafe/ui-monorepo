@@ -572,7 +572,8 @@ const FilesProvider = ({ children }: FilesContextProps) => {
             title: t`Download Complete`,
             type: "success",
             progress: undefined,
-            onProgressCancel: undefined
+            onProgressCancel: undefined,
+            isClosable: true
           }, true)
           URL.revokeObjectURL(link.href)
         } catch (error: any) {
