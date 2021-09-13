@@ -1,5 +1,5 @@
 import { Button, FileInput } from "@chainsafe/common-components"
-import { useStorage } from "../../../Contexts/StorageContext"
+import { useFiles } from "../../../Contexts/FilesContext"
 import { createStyles, makeStyles } from "@chainsafe/common-theme"
 import React, { useCallback, useState } from "react"
 import { Formik, Form } from "formik"
@@ -7,10 +7,10 @@ import { array, object } from "yup"
 import CustomModal from "../../Elements/CustomModal"
 import { Trans, t } from "@lingui/macro"
 import clsx from "clsx"
-import { CSSTheme } from "../../../Themes/types"
+import { CSFTheme } from "../../../Themes/types"
 import { useFileBrowser } from "../../../Contexts/FileBrowserContext"
 
-const useStyles = makeStyles(({ constants, breakpoints }: CSSTheme) =>
+const useStyles = makeStyles(({ constants, breakpoints }: CSFTheme) =>
   createStyles({
     root: {
     },
@@ -56,6 +56,9 @@ const useStyles = makeStyles(({ constants, breakpoints }: CSSTheme) =>
       },
       "&:hover svg": {
         fill: constants.uploadModal.iconHover
+      },
+      "&:hover": {
+        backgroundColor: "transparent"
       }
     },
     footer: {
@@ -77,7 +80,7 @@ interface IUploadFileModuleProps {
 const UploadFileModule = ({ modalOpen, close }: IUploadFileModuleProps) => {
   const classes = useStyles()
   const [isDoneDisabled, setIsDoneDisabled] = useState(true)
-  const { uploadFiles } = useStorage()
+  const { uploadFiles } = useFiles()
   const { currentPath, refreshContents, bucket } = useFileBrowser()
 
   const UploadSchema = object().shape({ files: array().required(t`Please select a file to upload`) })
@@ -86,19 +89,21 @@ const UploadFileModule = ({ modalOpen, close }: IUploadFileModuleProps) => {
     setIsDoneDisabled(filesNumber === 0)
   }, [])
 
-  const onSubmit = useCallback(async (values, helpers) => {
+  const onSubmit = useCallback(async (values: {files: Array<File & {path: string}>}, helpers) => {
     if (!bucket) return
     helpers.setSubmitting(true)
     try {
       close()
       const paths = [...new Set(values.files.map(f => f.path.substring(0, f.path.lastIndexOf('/'))))]
-      debugger
-      // await uploadFiles(bucket.id, values.files, currentPath)
+      paths.forEach(async p => {
+        const filesToUpload = values.files.filter((f => f.path.substring(0, f.path.lastIndexOf('/')) === p))
+        await uploadFiles(bucket, filesToUpload, currentPath + p)
+      })
       refreshContents && refreshContents()
       helpers.resetForm()
     } catch (errors: any) {
       if (errors[0].message.includes("conflict with existing")) {
-        helpers.setFieldError("files", t`File/Folder already exists`)
+        helpers.setFieldError("files", "File/Folder exists")
       } else {
         helpers.setFieldError("files", errors[0].message)
       }
@@ -142,7 +147,7 @@ const UploadFileModule = ({ modalOpen, close }: IUploadFileModuleProps) => {
           />
           <footer className={classes.footer}>
             <Button
-              data-cy="upload-cancel-button"
+              testId="cancel-upload"
               onClick={close}
               size="medium"
               className={classes.cancelButton}
@@ -152,7 +157,7 @@ const UploadFileModule = ({ modalOpen, close }: IUploadFileModuleProps) => {
               <Trans>Cancel</Trans>
             </Button>
             <Button
-              data-cy="upload-ok-button"
+              testId="start-upload"
               size="medium"
               type="submit"
               variant="primary"

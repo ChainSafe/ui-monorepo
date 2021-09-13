@@ -38,7 +38,7 @@ import FileSystemItem from "./FileSystemItem/FileSystemItem"
 import FilePreviewModal from "../../FilePreviewModal"
 
 import CreateFolderModal from "../CreateFolderModal"
-import UploadFileModule from "../../UploadFileModule"
+import UploadFileModule from "../UploadFileModal"
 import MoveFileModal from "../MoveFileModal"
 import FileInfoModal from "../FileInfoModal"
 import { CONTENT_TYPES } from "../../../../Utils/Constants"
