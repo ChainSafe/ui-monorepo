@@ -89,12 +89,9 @@ describe("File management", () => {
         homePage.fileItemName().should("contain.text", $fileName)
 
         // ensure folder already in the root cannot be moved to Home
-        homePage.fileItemName().contains(`${$fileName}`)
-          .should("be.visible")
-          .click()
+        homePage.fileItemName().contains(`${$fileName}`).click()
         homePage.moveSelectedButton().click()
         moveItemModal.folderList().contains("Home").click()
-        moveItemModal.moveButton().safeClick()
         moveItemModal.errorLabel().should("have.text", "The files are already in this folder")
         moveItemModal.moveButton().should("be.disabled")
         moveItemModal.cancelButton().should("be.enabled")
