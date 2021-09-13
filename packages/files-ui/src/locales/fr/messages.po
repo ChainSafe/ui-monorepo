@@ -314,9 +314,6 @@ msgstr "Compris"
 msgid "Hello again!"
 msgstr "Ravis de vous revoir !"
 
-msgid "Help us improve File in less than 1 minute."
-msgstr "Aidez-nous à améliorer File en moins d'une minute."
-
 msgid "Hey! You only have two sign-in methods. If you lose that and have only one left, you will be locked out of your account forever."
 msgstr "Hé ! Vous n’avez que deux méthodes de connexion. Si vous en perdez une et qu’il ne vous en reste qu’une, vous ne pourrez plus jamais vous connecter à votre compte."
 
@@ -554,6 +551,9 @@ msgstr "Navigateurs enregistrés"
 msgid "Saved on:"
 msgstr "Enregistré sur :"
 
+msgid "Schedule a 15min call"
+msgstr ""
+
 msgid "Search results"
 msgstr "Résultats de recherche"
 
@@ -760,6 +760,9 @@ msgstr "Voir le dossier"
 
 msgid "Wallet address"
 msgstr "Addresse du wallet"
+
+msgid "Want to help shape this product?"
+msgstr ""
 
 msgid "We can't encrypt files larger than 2GB. Some items will not be uploaded"
 msgstr "Nous ne pouvons pas chiffrer les fichiers de plus de 2 Go. Certains éléments ne pourront pas être téléversés"
