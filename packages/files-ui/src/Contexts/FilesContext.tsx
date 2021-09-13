@@ -391,7 +391,8 @@ const FilesProvider = ({ children }: FilesContextProps) => {
         ...toastParams,
         title: "Upload complete",
         progress: undefined,
-        onProgressCancel: undefined
+        onProgressCancel: undefined,
+        isClosable: true
       }, true)
       return Promise.resolve()
     } catch (error: any) {
@@ -412,7 +413,8 @@ const FilesProvider = ({ children }: FilesContextProps) => {
         title: errorMessage,
         type: "error",
         progress: undefined,
-        onProgressCancel: undefined
+        onProgressCancel: undefined,
+        isClosable: true
       }, true)
 
       return Promise.reject(error)
@@ -571,7 +573,8 @@ const FilesProvider = ({ children }: FilesContextProps) => {
             title: t`Download Complete`,
             type: "success",
             progress: undefined,
-            onProgressCancel: undefined
+            onProgressCancel: undefined,
+            isClosable: true
           }, true)
           URL.revokeObjectURL(link.href)
         } catch (error: any) {
@@ -584,7 +587,8 @@ const FilesProvider = ({ children }: FilesContextProps) => {
             title: errorMessage,
             type: "error",
             progress: undefined,
-            onProgressCancel: undefined
+            onProgressCancel: undefined,
+            isClosable: true
           }, true)
         }
       })
@@ -602,7 +606,6 @@ const FilesProvider = ({ children }: FilesContextProps) => {
       title: t`Downloading file - ${itemToDownload.name}`,
       type: "success",
       progress: 0,
-      toastPosition: "bottomRight",
       isClosable: false,
       onProgressCancel: cancelSource.cancel
     }
@@ -633,7 +636,8 @@ const FilesProvider = ({ children }: FilesContextProps) => {
         title: t`Download Complete`,
         type: "success",
         progress: undefined,
-        onProgressCancel: undefined
+        onProgressCancel: undefined,
+        isClosable: true
       }, true)
       URL.revokeObjectURL(link.href)
       setDownloadsInProgress(false)
@@ -648,7 +652,8 @@ const FilesProvider = ({ children }: FilesContextProps) => {
         title: errorMessage,
         type: "error",
         progress: undefined,
-        onProgressCancel: undefined
+        onProgressCancel: undefined,
+        isClosable: true
       }, true)
       setDownloadsInProgress(false)
       return Promise.reject()
@@ -740,7 +745,6 @@ const FilesProvider = ({ children }: FilesContextProps) => {
       title: t`Sharing your file (Downloading)`,
       type: "success",
       progress: 0,
-      toastPosition: "bottomRight",
       onProgressCancel: cancelSource.cancel,
       isClosable: false
     }
@@ -766,7 +770,8 @@ const FilesProvider = ({ children }: FilesContextProps) => {
           title: t`An error occurred while downloading the file`,
           type: "error",
           progress: undefined,
-          onProgressCancel: undefined
+          onProgressCancel: undefined,
+          isClosable: true
         }, true)
         setTransfersInProgress(false)
         return
@@ -794,7 +799,8 @@ const FilesProvider = ({ children }: FilesContextProps) => {
       updateToast(toastId, {
         title: t`Transfer complete`,
         type: "success",
-        progress: undefined
+        progress: undefined,
+        isClosable: true
       }, true)
       setTransfersInProgress(false)
       return Promise.resolve()
@@ -808,7 +814,8 @@ const FilesProvider = ({ children }: FilesContextProps) => {
         title: errorMessage,
         type: "error",
         progress: undefined,
-        onProgressCancel: undefined
+        onProgressCancel: undefined,
+        isClosable: true
       }, true)
       setTransfersInProgress(false)
     }).finally(() => {
