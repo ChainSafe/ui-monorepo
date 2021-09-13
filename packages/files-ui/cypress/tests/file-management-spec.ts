@@ -87,6 +87,17 @@ describe("File management", () => {
         homePage.fileItemRow().should("have.length", 2)
         homePage.fileItemName().should("contain.text", folderName)
         homePage.fileItemName().should("contain.text", $fileName)
+
+        // ensure folder already in the root cannot be moved to Home
+        homePage.fileItemName().contains(`${$fileName}`)
+          .should("be.visible")
+          .click()
+        homePage.moveSelectedButton().click()
+        moveItemModal.folderList().contains("Home").click()
+        moveItemModal.moveButton().safeClick()
+        moveItemModal.errorLabel().should("have.text", "The files are already in this folder")
+        moveItemModal.moveButton().should("be.disabled")
+        moveItemModal.cancelButton().should("be.enabled")
       })
     })
 
@@ -100,7 +111,7 @@ describe("File management", () => {
       homePage.fileItemName().contains("Parent").click()
       homePage.moveSelectedButton().click()
 
-      // ensure a root folder cannot be moved to to Home
+      // ensure folder already in the root cannot be moved to Home
       moveItemModal.folderList().contains("Home").click()
       moveItemModal.body().should("be.visible")
       moveItemModal.errorLabel().should("have.text", "You can't move folders to this path")
