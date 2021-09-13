@@ -182,11 +182,10 @@ const CSFFileBrowser: React.FC<IFileBrowserModuleProps> = () => {
 
       const flattenedFiles = await getFilesFromDataTransferItems(fileItems)
       const paths = [...new Set(flattenedFiles.map(f=> f.filepath))]
-      console.log(paths)
       paths.forEach(p => {
         uploadFiles(bucket, flattenedFiles.filter(f => f.filepath === p), path + p)
       })
-  }, [addToastMessage, uploadFiles, bucket, refreshContents])
+  }, [uploadFiles, bucket])
 
   const viewFolder = useCallback((cid: string) => {
     const fileSystemItem = pathContents.find(f => f.cid === cid)

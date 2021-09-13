@@ -91,10 +91,12 @@ const UploadFileModule = ({ modalOpen, close }: IUploadFileModuleProps) => {
     helpers.setSubmitting(true)
     try {
       close()
-      await uploadFiles(bucket.id, values.files, currentPath)
+      const paths = [...new Set(values.files.map(f => f.path.substring(0, f.path.lastIndexOf('/'))))]
+      debugger
+      // await uploadFiles(bucket.id, values.files, currentPath)
       refreshContents && refreshContents()
       helpers.resetForm()
-    } catch (errors) {
+    } catch (errors: any) {
       if (errors[0].message.includes("conflict with existing")) {
         helpers.setFieldError("files", t`File/Folder already exists`)
       } else {

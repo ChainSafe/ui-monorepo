@@ -89,15 +89,19 @@ const UploadFileModule = ({ modalOpen, close }: IUploadFileModuleProps) => {
     setIsDoneDisabled(filesNumber === 0)
   }, [])
 
-  const onSubmit = useCallback(async (values, helpers) => {
+  const onSubmit = useCallback(async (values: {files: Array<File & {path: string}>}, helpers) => {
     if (!bucket) return
     helpers.setSubmitting(true)
     try {
       close()
-      await uploadFiles(bucket, values.files, currentPath)
+      const paths = [...new Set(values.files.map(f => f.path.substring(0, f.path.lastIndexOf('/'))))]
+      paths.forEach(async p => {
+        const filesToUpload = values.files.filter((f => f.path.substring(0, f.path.lastIndexOf('/')) === p))
+        await uploadFiles(bucket, filesToUpload, currentPath + p)
+      })
       refreshContents && refreshContents()
       helpers.resetForm()
-    } catch (errors) {
+    } catch (errors: any) {
       if (errors[0].message.includes("conflict with existing")) {
         helpers.setFieldError("files", "File/Folder exists")
       } else {
