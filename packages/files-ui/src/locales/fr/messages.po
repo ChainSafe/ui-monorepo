@@ -194,6 +194,12 @@ msgstr ""
 msgid "Downloading {fileProgress} - {0}"
 msgstr ""
 
+msgid "Downloads cancelled"
+msgstr ""
+
+msgid "Downloads failed"
+msgstr ""
+
 msgid "Drop to upload files"
 msgstr "Faire glisser pour téléverser un fichier"
 
@@ -598,6 +604,9 @@ msgstr "Dossiers partagés"
 
 msgid "Shared with"
 msgstr "Partagé avec"
+
+msgid "Sharing cancelled"
+msgstr ""
 
 msgid "Sharing your file (Downloading)"
 msgstr ""
