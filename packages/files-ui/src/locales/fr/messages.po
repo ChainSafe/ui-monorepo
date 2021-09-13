@@ -179,17 +179,26 @@ msgstr "Paramètres d’affichage"
 msgid "Download"
 msgstr "Télécharger"
 
+msgid "Download Complete"
+msgstr ""
+
 msgid "Download as zip"
 msgstr "Télécharger au format zip"
-
-msgid "Download complete"
-msgstr "Téléchargement terminé"
 
 msgid "Download recovery key"
 msgstr "Télécharger la clé de sauvegarde"
 
-msgid "Downloading"
-msgstr "Téléchargement"
+msgid "Downloading file - {0}"
+msgstr ""
+
+msgid "Downloading {fileProgress} - {0}"
+msgstr ""
+
+msgid "Downloads cancelled"
+msgstr ""
+
+msgid "Downloads failed"
+msgstr ""
 
 msgid "Drop to upload files"
 msgstr "Faire glisser pour téléverser un fichier"
@@ -259,6 +268,9 @@ msgstr "Dossier"
 
 msgid "Folder name is already in use"
 msgstr "Le nom du dossier est déjà utilisé"
+
+msgid "Folder uploads are not supported currently"
+msgstr ""
 
 msgid "Folders"
 msgstr "Dossiers"
@@ -593,8 +605,11 @@ msgstr "Dossiers partagés"
 msgid "Shared with"
 msgstr "Partagé avec"
 
-msgid "Sharing your file ({0})"
-msgstr "Partage de votre fichier ({0})"
+msgid "Sharing cancelled"
+msgstr ""
+
+msgid "Sharing your file (Downloading)"
+msgstr ""
 
 msgid "Sign Out"
 msgstr "Se déconnecter"
@@ -704,11 +719,8 @@ msgstr "Mettre à jour le dossier partagé"
 msgid "Upload"
 msgstr "Téléverser"
 
-msgid "Upload complete"
-msgstr "Téléversement terminé"
-
-msgid "Uploading {0} files"
-msgstr "Téléversement de {0} fichiers"
+msgid "Uploads cancelled"
+msgstr ""
 
 msgid "Use a different login method"
 msgstr "Utilisez une méthode de connexion différente"
@@ -812,8 +824,11 @@ msgstr "récupéré avec succès"
 msgid "unknown"
 msgstr "inconnu"
 
+msgid "{0, plural, one {Downloading {1} file} other {Downloading {2} files}}"
+msgstr ""
+
+msgid "{0, plural, one {Encrypting and uploading {1} file} other {Encrypting and uploading {2} files}}"
+msgstr ""
+
 msgid "{0, plural, one {You are about to delete {1} item.} other {You are about to delete {2} items.}}"
 msgstr "{0, plural, one {Vous êtes sur le point de supprimer {1} élément.} other {Vous êtes sur le point de supprimer {2} éléments.}}"
-
-msgid "{noOfFiles, plural, one {Uploading and encrypting {noOfFiles} file} other {Uploading and encrypting {noOfFiles} files}}"
-msgstr "{noOfFiles, plural, one {Téléversement et chiffrement de {noOfFiles} fichier} other {Téléversement et chiffrement de {noOfFiles} fichiers}}"
