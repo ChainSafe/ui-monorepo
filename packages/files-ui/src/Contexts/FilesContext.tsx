@@ -323,7 +323,7 @@ const FilesProvider = ({ children }: FilesContextProps) => {
           const encryptedData = await encryptFile(fileData, key)
           return {
             data: new Blob([encryptedData], { type: f.type }),
-            fileName: f.name,
+            fileName: f.name
           }
         })
     )

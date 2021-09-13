@@ -1,10 +1,10 @@
 type FileWithPath = File & {filepath: string}
 
 const getFilesFromDataTransferItems = async (dataTransferItems: DataTransferItemList): Promise<Array<FileWithPath>> => {
-  const readFile = (entry: FileEntry, path = ''): Promise<FileWithPath> => {
+  const readFile = (entry: FileEntry, path = ""): Promise<FileWithPath> => {
     return new Promise((resolve, reject) => {
       entry.file((file: File) => {
-        Object.defineProperty(file, 'filepath', {
+        Object.defineProperty(file, "filepath", {
           value: path
         })
         resolve(file as FileWithPath)
@@ -18,7 +18,7 @@ const getFilesFromDataTransferItems = async (dataTransferItems: DataTransferItem
     return new Promise((resolve, reject) => {
       dirReader.readEntries(async (entries: FileSystemEntry[]) => {
         let files = [] as Array<FileWithPath>
-        for (let entry of entries) {
+        for (const entry of entries) {
           const itemFiles = await getFilesFromEntry(entry, path) as Array<FileWithPath>
           files = files.concat(itemFiles)
         }
@@ -31,7 +31,7 @@ const getFilesFromDataTransferItems = async (dataTransferItems: DataTransferItem
 
   const readDir = async (entry: DirectoryEntry, path: string) => {
     const dirReader = entry.createReader()
-    const newPath = path + entry.name + '/'
+    const newPath = path + entry.name + "/"
     let files = [] as Array<FileWithPath>
     let newFiles
     do {
@@ -41,7 +41,7 @@ const getFilesFromDataTransferItems = async (dataTransferItems: DataTransferItem
     return files
   }
 
-  const getFilesFromEntry = async (entry: FileSystemEntry, path = '') => {
+  const getFilesFromEntry = async (entry: FileSystemEntry, path = "") => {
     if (entry.isFile) {
       const file = await readFile(entry as FileEntry, path)
       return [file]
@@ -53,7 +53,7 @@ const getFilesFromDataTransferItems = async (dataTransferItems: DataTransferItem
   }
 
   let files = [] as Array<FileWithPath>
-  let entries = []
+  const entries = []
 
   // Pull out all entries before reading them
   for (let i = 0, ii = dataTransferItems.length; i < ii; i++) {
@@ -61,7 +61,7 @@ const getFilesFromDataTransferItems = async (dataTransferItems: DataTransferItem
   }
 
   // Recursively read through all entries
-  for (let entry of entries) {
+  for (const entry of entries) {
     if (entry) {
       const newFiles = await getFilesFromEntry(entry)
       if (newFiles) {
@@ -73,4 +73,4 @@ const getFilesFromDataTransferItems = async (dataTransferItems: DataTransferItem
   return files
 }
 
-export default getFilesFromDataTransferItems 
+export default getFilesFromDataTransferItems

@@ -179,11 +179,11 @@ const CSFFileBrowser: React.FC<IFileBrowserModuleProps> = () => {
 
   const handleUploadOnDrop = useCallback(async (files: File[], fileItems: DataTransferItemList, path: string) => {
     if (!bucket) return
-      const flattenedFiles = await getFilesFromDataTransferItems(fileItems)
-      const paths = [...new Set(flattenedFiles.map(f=> f.filepath))]
-      paths.forEach(p => {
-        uploadFiles(bucket, flattenedFiles.filter(f => f.filepath === p), path + p)
-      })
+    const flattenedFiles = await getFilesFromDataTransferItems(fileItems)
+    const paths = [...new Set(flattenedFiles.map(f => f.filepath))]
+    paths.forEach(p => {
+      uploadFiles(bucket, flattenedFiles.filter(f => f.filepath === p), path + p)
+    })
   }, [uploadFiles, bucket])
 
   const viewFolder = useCallback((cid: string) => {
