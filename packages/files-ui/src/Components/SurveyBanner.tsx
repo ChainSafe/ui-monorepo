@@ -18,7 +18,8 @@ const useStyles = makeStyles(
         paddingLeft: constants.generalUnit * 2,
         marginTop: constants.generalUnit,
         borderRadius: 2,
-        display: "flex"
+        display: "flex",
+        alignItems: "center"
       },
       banner: {
         color: constants.surveyBanner.color,
@@ -34,21 +35,16 @@ const useStyles = makeStyles(
       },
       crossIconButton: {
         cursor: "pointer",
-
-        "& span": {
-          display: "flex",
-          alignContent: "center",
-          justifyContent: "center",
-          height: "100%",
-          fontSize: 12,
-          marginRight: constants.generalUnit
-        },
-        "& svg": {
-          fill: constants.surveyBanner.color
-        }
+        height: constants.generalUnit * 2
       },
       spacer: {
         flex: 1
+      },
+      icon: {
+        fontSize: 12,
+        "& svg": {
+          fill: constants.surveyBanner.color
+        }
       }
     })
   })
@@ -91,7 +87,10 @@ const SurveyBanner = ({ onHide }: Props) => {
         className={classes.crossIconButton}
         onClick={onClose}
       >
-        <CrossIcon fontSize="small" />
+        <CrossIcon
+          fontSize="small"
+          className={classes.icon}
+        />
       </div>
     </div>
   )}
