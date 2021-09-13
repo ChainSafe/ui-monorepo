@@ -1,5 +1,5 @@
 import { Crumb } from "@chainsafe/common-components"
-import { BucketType, FileSystemItem, UploadProgress } from "../../../Contexts/FilesContext"
+import { BucketType, FileSystemItem } from "../../../Contexts/FilesContext"
 
 export type SharedFolderUserPermission = "read" | "write"
 export type SharedFolderModalMode = "create" | "edit"
@@ -71,7 +71,6 @@ export interface IFilesTableBrowserProps
   currentPath: string
   bucketType: BucketType
   loadingCurrentPath: boolean
-  uploadsInProgress?: UploadProgress[]
   showUploadsInTable: boolean
   sourceFiles: FileSystemItem[]
   crumbs: Crumb[] | undefined
