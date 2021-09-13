@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react"
-import { Crumb, useToaster, useHistory, useLocation } from "@chainsafe/common-components"
+import { Crumb, useToasts, useHistory, useLocation } from "@chainsafe/common-components"
 import { useStorage, FileSystemItem } from "../../Contexts/StorageContext"
 import {
   getArrayOfPaths,
@@ -23,7 +23,7 @@ import { DISMISSED_SURVEY_KEY } from "../Modules/SurveyBanner"
 const BucketPage: React.FC<IFileBrowserModuleProps> = () => {
   const { storageBuckets, uploadFiles, uploadsInProgress, getStorageSummary, downloadFile } = useStorage()
   const { storageApiClient } = useStorageApi()
-  const { addToastMessage } = useToaster()
+  const { addToast } = useToasts()
   const [loadingCurrentPath, setLoadingCurrentPath] = useState(false)
   const [pathContents, setPathContents] = useState<FileSystemItem[]>([])
   const { redirect } = useHistory()
@@ -78,21 +78,21 @@ const BucketPage: React.FC<IFileBrowserModuleProps> = () => {
     return storageApiClient.removeBucketObject(bucket.id, {
       paths: itemsToDelete.map((item) => (getPathWithFile(currentPath, item?.name)))
     }).then(() => {
-      addToastMessage({
-        message: t`Deletion successful`,
-        appearance: "success"
+      addToast({
+        title: t`Deletion successful`,
+        type: "success"
       })
     })
       .catch((e) => {
         console.error(e)
         const message = t`There was an error deleting this item`
-        addToastMessage({
-          message: message,
-          appearance: "error"
+        addToast({
+          title: message,
+          type: "error"
         })
       })
       .finally(refreshContents)
-  }, [bucket, storageApiClient, refreshContents, pathContents, currentPath, addToastMessage])
+  }, [bucket, storageApiClient, refreshContents, pathContents, currentPath, addToast])
 
   const renameItem = useCallback(async (toRename: ISelectedFile, newName: string) => {
     const itemToRename = pathContents.find(i => i.cid === toRename.cid && i.name === toRename.name)
@@ -120,21 +120,21 @@ const BucketPage: React.FC<IFileBrowserModuleProps> = () => {
             itemToMove.isFolder ? t`Folder` : t`File`
           } ${t`moved successfully`}`
 
-          addToastMessage({
-            message: message,
-            appearance: "success"
+          addToast({
+            title: message,
+            type: "success"
           })
         } catch (error) {
           const message = `${t`There was an error moving this`} ${
             itemToMove.isFolder ? t`folder` : t`file`
           }`
-          addToastMessage({
-            message: message,
-            appearance: "error"
+          addToast({
+            title: message,
+            type: "error"
           })
         }
       })).finally(refreshContents)
-  }, [addToastMessage, pathContents, refreshContents, storageApiClient, bucket, currentPath])
+  }, [addToast, pathContents, refreshContents, storageApiClient, bucket, currentPath])
 
   const handleDownload = useCallback(async (
     toDownload: ISelectedFile
@@ -167,16 +167,16 @@ const BucketPage: React.FC<IFileBrowserModuleProps> = () => {
       }
     }
     if (hasFolder) {
-      addToastMessage({
-        message: t`Folder uploads are currently not supported`,
-        appearance: "error"
+      addToast({
+        title: t`Folder uploads are currently not supported`,
+        type: "error"
       })
     } else {
       uploadFiles(bucket.id, files, path)
         .then(() => refreshContents())
         .catch(console.error)
     }
-  }, [addToastMessage, uploadFiles, bucket, refreshContents])
+  }, [addToast, uploadFiles, bucket, refreshContents])
 
   const viewFolder = useCallback((toView: ISelectedFile) => {
     const fileSystemItem = pathContents.find(f => f.cid === toView.cid && f.name === toView.name)

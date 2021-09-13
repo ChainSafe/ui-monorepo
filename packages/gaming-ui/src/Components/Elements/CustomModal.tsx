@@ -48,7 +48,7 @@ const CustomModal: React.FC<ICustomModal> = ({
     <Modal
       className={clsx(classes.root, className)}
       injectedClass={{
-        close: clsx(classes.close, injectedClass?.close),
+        closeIcon: clsx(classes.close, injectedClass?.closeIcon),
         inner: clsx(classes.inner, injectedClass?.inner)
       }}
       {...rest}

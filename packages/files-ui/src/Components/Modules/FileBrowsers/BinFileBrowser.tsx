@@ -6,7 +6,7 @@ import DragAndDrop from "../../../Contexts/DnDContext"
 import { t } from "@lingui/macro"
 import { CONTENT_TYPES } from "../../../Utils/Constants"
 import { IFilesTableBrowserProps } from "../../Modules/FileBrowsers/types"
-import { useHistory, useLocation, useToaster } from "@chainsafe/common-components"
+import { useHistory, useLocation, useToasts } from "@chainsafe/common-components"
 import { extractFileBrowserPathFromURL, getPathWithFile, getUrlSafePathWithFile } from "../../../Utils/pathUtils"
 import { ROUTE_LINKS } from "../../FilesRoutes"
 import { FileBrowserContext } from "../../../Contexts/FileBrowserContext"
@@ -16,7 +16,7 @@ import { parseFileContentResponse } from "../../../Utils/Helpers"
 const BinFileBrowser: React.FC<IFileBrowserModuleProps> = ({ controls = false }: IFileBrowserModuleProps) => {
   const { buckets, refreshBuckets } = useFiles()
   const { filesApiClient } = useFilesApi()
-  const { addToastMessage } = useToaster()
+  const { addToast } = useToasts()
   const [loadingCurrentPath, setLoadingCurrentPath] = useState(false)
   const [pathContents, setPathContents] = useState<FileSystemItem[]>([])
   const { pathname } = useLocation()
@@ -68,21 +68,25 @@ const BinFileBrowser: React.FC<IFileBrowserModuleProps> = ({ controls = false }:
 
       refreshContents()
       refreshBuckets()
-      const message = `${itemToDelete.isFolder ? t`Folder` : t`File`} ${t`deleted successfully`}`
-      addToastMessage({
-        message: message,
-        appearance: "success"
+      const message = `${
+        itemToDelete.isFolder ? t`Folder` : t`File`
+      } ${t`deleted successfully`}`
+      addToast({
+        title: message,
+        type: "success"
       })
       return Promise.resolve()
     } catch (error) {
-      const message = `${t`There was an error deleting this`} ${itemToDelete.isFolder ? t`folder` : t`file`}`
-      addToastMessage({
-        message: message,
-        appearance: "error"
+      const message = `${t`There was an error deleting this`} ${
+        itemToDelete.isFolder ? t`folder` : t`file`
+      }`
+      addToast({
+        title: message,
+        type: "error"
       })
       return Promise.reject()
     }
-  }, [addToastMessage, bucket, currentPath, pathContents, refreshContents, refreshBuckets, filesApiClient])
+  }, [addToast, bucket, currentPath, pathContents, refreshContents, refreshBuckets, filesApiClient])
 
   const deleteItems = useCallback(async (cids: string[]) => {
     await Promise.all(
@@ -110,19 +114,21 @@ const BinFileBrowser: React.FC<IFileBrowserModuleProps> = ({ controls = false }:
 
           const message = `${itemToRestore.isFolder ? t`Folder` : t`File`} ${t`recovered successfully`}`
 
-          addToastMessage({
-            message: message,
-            appearance: "success"
+          addToast({
+            title: message,
+            type: "success"
           })
         } catch (error) {
-          const message = `${t`There was an error recovering this`} ${itemToRestore.isFolder ? t`folder` : t`file`}`
-          addToastMessage({
-            message: message,
-            appearance: "error"
+          const message = `${t`There was an error recovering this`} ${
+            itemToRestore.isFolder ? t`folder` : t`file`
+          }`
+          addToast({
+            title: message,
+            type: "error"
           })
         }
       })).finally(refreshContents)
-  }, [addToastMessage, pathContents, refreshContents, filesApiClient, bucket, buckets, currentPath])
+  }, [addToast, pathContents, refreshContents, filesApiClient, bucket, buckets, currentPath])
 
   const viewFolder = useCallback((cid: string) => {
     const fileSystemItem = pathContents.find(f => f.cid === cid)
