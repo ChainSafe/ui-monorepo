@@ -1,24 +1,21 @@
 type FileWithPath = File & {filepath: string}
 
 const getFilesFromDataTransferItems = async (dataTransferItems: DataTransferItemList): Promise<Array<FileWithPath>> => {
-  //@ts-ignore
-  const readFile = (entry: FileSystemFileEntry, path = ''): Promise<FileWithPath> => {
+  const readFile = (entry: FileEntry, path = ''): Promise<FileWithPath> => {
     return new Promise((resolve, reject) => {
       entry.file((file: File) => {
-        //@ts-ignore
-        file.filepath = path
-        //@ts-ignore
-        resolve(file)
+        Object.defineProperty(file, 'filepath', {
+          value: path
+        })
+        resolve(file as FileWithPath)
       }, (err: Error) => {
         reject(err)
       })
     })
   }
 
-  //@ts-ignore
-  const dirReadEntries = (dirReader: FileSystemDirectoryReader, path: string): Promise<FileWithPath[]> => {
+  const dirReadEntries = (dirReader: DirectoryReader, path: string): Promise<FileWithPath[]> => {
     return new Promise((resolve, reject) => {
-      //@ts-ignore
       dirReader.readEntries(async (entries: FileSystemEntry[]) => {
         let files = [] as Array<FileWithPath>
         for (let entry of entries) {
@@ -32,8 +29,7 @@ const getFilesFromDataTransferItems = async (dataTransferItems: DataTransferItem
     })
   }
 
-  //@ts-ignore
-  const readDir = async (entry: FileSystemDirectoryEntry, path: string) => {
+  const readDir = async (entry: DirectoryEntry, path: string) => {
     const dirReader = entry.createReader()
     const newPath = path + entry.name + '/'
     let files = [] as Array<FileWithPath>
@@ -45,19 +41,15 @@ const getFilesFromDataTransferItems = async (dataTransferItems: DataTransferItem
     return files
   }
 
-  //@ts-ignore
   const getFilesFromEntry = async (entry: FileSystemEntry, path = '') => {
     if (entry.isFile) {
-      //@ts-ignore
-      const file = await readFile(entry as FileSystemFileEntry, path)
+      const file = await readFile(entry as FileEntry, path)
       return [file]
     }
     if (entry.isDirectory) {
-      //@ts-ignore
-      const files = await readDir(entry as FileSystemDirectoryEntry, path)
+      const files = await readDir(entry as DirectoryEntry, path)
       return files
     }
-    // throw new Error('Entry not isFile and not isDirectory - unable to get files')
   }
 
   let files = [] as Array<FileWithPath>
@@ -65,7 +57,6 @@ const getFilesFromDataTransferItems = async (dataTransferItems: DataTransferItem
 
   // Pull out all entries before reading them
   for (let i = 0, ii = dataTransferItems.length; i < ii; i++) {
-    //@ts-ignore
     entries.push(dataTransferItems[i].webkitGetAsEntry())
   }
 
