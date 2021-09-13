@@ -813,7 +813,8 @@ const FilesProvider = ({ children }: FilesContextProps) => {
         title: errorMessage,
         type: "error",
         progress: undefined,
-        onProgressCancel: undefined
+        onProgressCancel: undefined,
+        isClosable: true
       }, true)
       setTransfersInProgress(false)
     }).finally(() => {
