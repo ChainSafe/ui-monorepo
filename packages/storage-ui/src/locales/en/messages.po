@@ -28,9 +28,6 @@ msgstr "Add API Key"
 msgid "Add S3 Key"
 msgstr "Add S3 Key"
 
-msgid "Add more files"
-msgstr "Add more files"
-
 msgid "Api Keys"
 msgstr "Api Keys"
 
@@ -72,9 +69,6 @@ msgstr "Cid"
 
 msgid "Cids"
 msgstr "Cids"
-
-msgid "Click or drag to upload files"
-msgstr "Click or drag to upload files"
 
 msgid "Confirm"
 msgstr "Confirm"
@@ -178,9 +172,6 @@ msgstr ""
 msgid "File"
 msgstr "File"
 
-msgid "File/Folder already exists"
-msgstr "File/Folder already exists"
-
 msgid "Folder"
 msgstr "Folder"
 
@@ -274,9 +265,6 @@ msgstr "Please enter a folder name"
 msgid "Please enter a name"
 msgstr "Please enter a name"
 
-msgid "Please select a file to upload"
-msgstr "Please select a file to upload"
-
 msgid "Preview"
 msgstr "Preview"
 
@@ -333,9 +321,6 @@ msgstr "Something went wrong!"
 
 msgid "Something went wrong. We couldn't upload your file"
 msgstr "Something went wrong. We couldn't upload your file"
-
-msgid "Start Upload"
-msgstr "Start Upload"
 
 msgid "Status"
 msgstr "Status"
