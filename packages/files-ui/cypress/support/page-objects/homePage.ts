@@ -11,7 +11,7 @@ export const homePage = {
   uploadButton: () => cy.get("[data-cy=button-upload-file]"),
   moveSelectedButton: () => cy.get("[data-testId=button-move-selected-file]"),
   deleteSelectedButton: () => cy.get("[data-testId=button-delete-selected-file]"),
-  uploadStatusToast: () => cy.get("[data-cy=upload-status-toast-message]", { timeout: 10000 }),
+  uploadStatusToast: () => cy.get("[data-testId=toast-upload-status]", { timeout: 10000 }),
   fileRenameInput: () => cy.get("[data-cy=rename-form] input"),
   fileRenameSubmitButton: () => cy.get("[data-cy=rename-submit-button]"),
   fileRenameErrorLabel: () => cy.get("[data-cy=rename-form] span.minimal.error"),

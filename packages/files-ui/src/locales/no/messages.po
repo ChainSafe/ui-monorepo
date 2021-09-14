@@ -55,9 +55,6 @@ msgstr ""
 msgid "Approve"
 msgstr "Godkjenn"
 
-msgid "Are we on the right track? Let us know in less than 1 minute."
-msgstr ""
-
 msgid "Back to plan settings"
 msgstr ""
 
@@ -178,10 +175,10 @@ msgstr ""
 msgid "Create folder"
 msgstr "Opprett mappe"
 
-msgid "Credit card on file"
+msgid "Create your public username in <0>Settings</0>!"
 msgstr ""
 
-msgid "Create your public username in <0>Settings</0>!"
+msgid "Credit card on file"
 msgstr ""
 
 msgid "Dark Theme"
@@ -211,16 +208,25 @@ msgstr ""
 msgid "Download"
 msgstr ""
 
-msgid "Download as zip"
+msgid "Download Complete"
 msgstr ""
 
-msgid "Download complete"
+msgid "Download as zip"
 msgstr ""
 
 msgid "Download recovery key"
 msgstr ""
 
-msgid "Downloading"
+msgid "Downloading file - {0}"
+msgstr ""
+
+msgid "Downloading {fileProgress} - {0}"
+msgstr ""
+
+msgid "Downloads cancelled"
+msgstr ""
+
+msgid "Downloads failed"
 msgstr ""
 
 msgid "Drop to upload files"
@@ -289,6 +295,9 @@ msgstr "Mappe"
 msgid "Folder name is already in use"
 msgstr ""
 
+msgid "Folder uploads are not supported currently"
+msgstr ""
+
 msgid "Folders"
 msgstr "Mapper"
 
@@ -322,14 +331,14 @@ msgstr ""
 msgid "Go back"
 msgstr "Tilbake"
 
+msgid "Got an issue?"
+msgstr ""
+
 msgid "Got it"
 msgstr ""
 
 msgid "Hello again!"
 msgstr "Hei igjen."
-
-msgid "Help us improve File in less than 1 minute."
-msgstr ""
 
 msgid "Hey! You only have two sign-in methods. If you lose that and have only one left, you will be locked out of your account forever."
 msgstr ""
@@ -580,6 +589,9 @@ msgstr ""
 msgid "Saved on:"
 msgstr ""
 
+msgid "Schedule a 15 min call"
+msgstr ""
+
 msgid "Search results"
 msgstr ""
 
@@ -631,7 +643,10 @@ msgstr ""
 msgid "Shared with"
 msgstr ""
 
-msgid "Sharing your file ({0})"
+msgid "Sharing cancelled"
+msgstr ""
+
+msgid "Sharing your file (Downloading)"
 msgstr ""
 
 msgid "Sign Out"
@@ -757,11 +772,8 @@ msgstr ""
 msgid "Upload"
 msgstr "Last opp"
 
-msgid "Upload complete"
-msgstr "Opplastet"
-
-msgid "Uploading {0} files"
-msgstr "Laster opp {0} filer"
+msgid "Uploads cancelled"
+msgstr ""
 
 msgid "Use a different login method"
 msgstr "Bruk en annen innloggingsmetode"
@@ -800,6 +812,9 @@ msgid "View folder"
 msgstr "Vis mappe"
 
 msgid "Wallet address"
+msgstr ""
+
+msgid "Want to help shape this product?"
 msgstr ""
 
 msgid "We can't encrypt files larger than 2GB. Some items will not be uploaded"
@@ -868,11 +883,14 @@ msgstr "gjenopprettet"
 msgid "unknown"
 msgstr ""
 
+msgid "{0, plural, one {Downloading {1} file} other {Downloading {2} files}}"
+msgstr ""
+
+msgid "{0, plural, one {Encrypting and uploading {1} file} other {Encrypting and uploading {2} files}}"
+msgstr ""
+
 msgid "{0, plural, one {You are about to delete {1} item.} other {You are about to delete {2} items.}}"
 msgstr ""
 
 msgid "{0} of {1} used ({2}%)"
-msgstr ""
-
-msgid "{noOfFiles, plural, one {Uploading and encrypting {noOfFiles} file} other {Uploading and encrypting {noOfFiles} files}}"
 msgstr ""
