@@ -1925,11 +1925,6 @@
   resolved "https://registry.yarnpkg.com/@chainsafe/browser-storage-hooks/-/browser-storage-hooks-1.0.1.tgz#26d32cde1999914db755a631e2643823c54959f7"
   integrity sha512-Q4b5gQAZnsRXKeADspd5isqfwwhhXjDk70y++YadufA6EZ3tf340oW0OVszp74KaGEw+CAYFGQR4X7bzpZ3x9Q==
 
-"@chainsafe/files-api-client@1.17.5":
-  version "1.17.5"
-  resolved "https://registry.yarnpkg.com/@chainsafe/files-api-client/-/files-api-client-1.17.5.tgz#35dd9c4baf0833ee9b654495979ed1a66fb02f8d"
-  integrity sha512-5L7bAJr3siPgadDkGwhfo31MCkda01v/rTkLxUta13g6QG+pu0oKDoug+dtm8f9EPoH/rI89L2JHFM7XFrYveQ==
-
 "@chainsafe/files-api-client@^1.18.5":
   version "1.18.5"
   resolved "https://registry.yarnpkg.com/@chainsafe/files-api-client/-/files-api-client-1.18.5.tgz#2f4ed5989fa12c0e5823388384f61281a73cf27c"
