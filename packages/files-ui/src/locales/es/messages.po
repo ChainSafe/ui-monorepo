@@ -56,6 +56,9 @@ msgstr ""
 msgid "Approve"
 msgstr "Aprobar"
 
+msgid "Are we on the right track? Let us know in less than 1 minute."
+msgstr ""
+
 msgid "Back to plan settings"
 msgstr ""
 
@@ -176,10 +179,10 @@ msgstr ""
 msgid "Create folder"
 msgstr "Crear Carpeta"
 
-msgid "Create your public username in <0>Settings</0>!"
+msgid "Credit card on file"
 msgstr ""
 
-msgid "Credit card on file"
+msgid "Create your public username in <0>Settings</0>!"
 msgstr ""
 
 msgid "Dark Theme"
@@ -209,25 +212,16 @@ msgstr "Configuración de pantalla"
 msgid "Download"
 msgstr "Descargar"
 
-msgid "Download Complete"
-msgstr ""
-
 msgid "Download as zip"
 msgstr ""
+
+msgid "Download complete"
+msgstr "Descarga completa"
 
 msgid "Download recovery key"
 msgstr "Descargar la clave de recuperación"
 
-msgid "Downloading file - {0}"
-msgstr ""
-
-msgid "Downloading {fileProgress} - {0}"
-msgstr ""
-
-msgid "Downloads cancelled"
-msgstr ""
-
-msgid "Downloads failed"
+msgid "Downloading"
 msgstr ""
 
 msgid "Drop to upload files"
@@ -299,9 +293,6 @@ msgstr "Archivo"
 msgid "Folder name is already in use"
 msgstr ""
 
-msgid "Folder uploads are not supported currently"
-msgstr ""
-
 msgid "Folders"
 msgstr "Archivos"
 
@@ -335,14 +326,14 @@ msgstr ""
 msgid "Go back"
 msgstr "Regresar"
 
-msgid "Got an issue?"
-msgstr ""
-
 msgid "Got it"
 msgstr ""
 
 msgid "Hello again!"
 msgstr "Hola de nuevo!"
+
+msgid "Help us improve File in less than 1 minute."
+msgstr ""
 
 msgid "Hey! You only have two sign-in methods. If you lose that and have only one left, you will be locked out of your account forever."
 msgstr "Oye! Solo tiene dos métodos de inicio de sesión. Si lo pierde y solo le queda uno, se le bloqueará su cuenta para siempre."
@@ -593,9 +584,6 @@ msgstr "Navegadores guardados"
 msgid "Saved on:"
 msgstr "Guardado el:"
 
-msgid "Schedule a 15 min call"
-msgstr ""
-
 msgid "Search results"
 msgstr "Resultados de la búsqueda"
 
@@ -647,10 +635,7 @@ msgstr ""
 msgid "Shared with"
 msgstr ""
 
-msgid "Sharing cancelled"
-msgstr ""
-
-msgid "Sharing your file (Downloading)"
+msgid "Sharing your file ({0})"
 msgstr ""
 
 msgid "Sign Out"
@@ -776,8 +761,11 @@ msgstr ""
 msgid "Upload"
 msgstr "Subir"
 
-msgid "Uploads cancelled"
-msgstr ""
+msgid "Upload complete"
+msgstr "Carga completa"
+
+msgid "Uploading {0} files"
+msgstr "Subiendo {0} archivos"
 
 msgid "Use a different login method"
 msgstr "Utilice un método de inicio de sesión diferente"
@@ -817,9 +805,6 @@ msgstr "Utilice un navegador guardado"
 
 msgid "Wallet address"
 msgstr "Utilice un navegador guardado"
-
-msgid "Want to help shape this product?"
-msgstr ""
 
 msgid "We can't encrypt files larger than 2GB. Some items will not be uploaded"
 msgstr ""
@@ -887,14 +872,11 @@ msgstr "recuperado con éxito"
 msgid "unknown"
 msgstr ""
 
-msgid "{0, plural, one {Downloading {1} file} other {Downloading {2} files}}"
-msgstr ""
-
-msgid "{0, plural, one {Encrypting and uploading {1} file} other {Encrypting and uploading {2} files}}"
-msgstr ""
-
 msgid "{0, plural, one {You are about to delete {1} item.} other {You are about to delete {2} items.}}"
 msgstr ""
 
 msgid "{0} of {1} used ({2}%)"
 msgstr ""
+
+msgid "{noOfFiles, plural, one {Uploading and encrypting {noOfFiles} file} other {Uploading and encrypting {noOfFiles} files}}"
+msgstr "{noOfFiles, plural, one {Carga y encriptación del archivo {noOfFiles}} other {Carga y encriptación de archivos {noOfFiles}}}"

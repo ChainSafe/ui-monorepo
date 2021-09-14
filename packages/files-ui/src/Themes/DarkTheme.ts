@@ -530,6 +530,25 @@ export const darkTheme = createTheme<CsfColors>({
           color: "var(--gray9)"
         }
       },
+      Toaster: {
+        closeIcon: {
+          fill: "var(--gray9)"
+        },
+        message: {
+          color: "var(--gray9)"
+        },
+        typeIcon: {
+          root: {
+            fill: "var(--gray9)"
+          },
+          success: {
+            fill: "var(--green8)"
+          },
+          error: {
+            fill: "var(--red8)"
+          }
+        }
+      },
       TagsInput: {
         root: {
           color: "var(--gray9)"

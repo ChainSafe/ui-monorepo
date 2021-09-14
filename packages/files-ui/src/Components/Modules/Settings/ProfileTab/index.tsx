@@ -5,7 +5,7 @@ import {
   Grid,
   Button,
   Typography,
-  useToasts,
+  useToaster,
   RadioInput,
   TextInput,
   CheckIcon
@@ -187,7 +187,7 @@ const profileValidation = yup.object().shape({
 
 const ProfileView = () => {
   const { themeKey, setTheme } = useThemeSwitcher()
-  const { addToast } = useToasts()
+  const { addToastMessage } = useToaster()
   const { profile, updateProfile, addUsername, lookupOnUsername } = useUser()
   const { publicKey } = useThresholdKey()
   const [updatingProfile, setUpdatingProfile] = useState(false)
@@ -214,10 +214,10 @@ const ProfileView = () => {
     try {
       setUpdatingProfile(true)
       await updateProfile(firstName, lastName)
-      addToast({ title: t`Profile updated`, type: "success" })
+      addToastMessage({ message: t`Profile updated` })
       setUpdatingProfile(false)
     } catch (error) {
-      addToast({ title: error, type: "error" })
+      addToastMessage({ message: error, appearance: "error" })
       setUpdatingProfile(false)
     }
   }
@@ -305,7 +305,7 @@ const ProfileView = () => {
     setUsernameData({ ...usernameData, loading: true })
     addUsername(username)
       .then(() => {
-        addToast({ title: t`Username set successfully`, type: "success" })
+        addToastMessage({ message: t`Username set successfully` })
       })
       .catch((error) => {
         setUsernameData({

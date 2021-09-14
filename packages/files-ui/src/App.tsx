@@ -3,7 +3,7 @@ import { init as initSentry, ErrorBoundary, showReportDialog } from "@sentry/rea
 import { Web3Provider } from "@chainsafe/web3-context"
 import { ThemeSwitcher } from "@chainsafe/common-theme"
 import "@chainsafe/common-theme/dist/font-faces.css"
-import { Button, CssBaseline, Modal, Router, ToastProvider, Typography } from "@chainsafe/common-components"
+import { Button, CssBaseline, Modal, Router, ToasterProvider, Typography } from "@chainsafe/common-components"
 import { FilesProvider } from "./Contexts/FilesContext"
 import FilesRoutes from "./Components/FilesRoutes"
 import AppWrapper from "./Components/Layouts/AppWrapper"
@@ -101,10 +101,7 @@ const App = () => {
       >
         <CssBaseline />
         <LanguageProvider availableLanguages={availableLanguages}>
-          <ToastProvider
-            autoDismiss
-            defaultPosition="bottomRight"
-          >
+          <ToasterProvider autoDismiss>
             <Web3Provider
               onboardConfig={onboardConfig}
               checkNetwork={false}
@@ -132,7 +129,7 @@ const App = () => {
                 </ThresholdKeyProvider>
               </FilesApiProvider>
             </Web3Provider>
-          </ToastProvider>
+          </ToasterProvider>
         </LanguageProvider>
       </ErrorBoundary>
     </ThemeSwitcher>

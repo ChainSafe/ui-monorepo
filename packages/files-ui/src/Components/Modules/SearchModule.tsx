@@ -12,7 +12,7 @@ import {
   SearchBar,
   Typography,
   useHistory,
-  useToasts
+  useToaster
 } from "@chainsafe/common-components"
 import { useState } from "react"
 import clsx from "clsx"
@@ -160,7 +160,7 @@ const SearchModule: React.FC<ISearchModule> = ({
   const [searchResults, setSearchResults] = useState<{results: SearchEntry[]; query: string} | undefined>(undefined)
   const ref = useRef(null)
   const { buckets } = useFiles()
-  const { addToast } = useToasts()
+  const { addToastMessage } = useToaster()
   const { filesApiClient } = useFilesApi()
   const bucket = useMemo(() => buckets.find(b => b.type === "csf"), [buckets])
 
@@ -171,13 +171,13 @@ const SearchModule: React.FC<ISearchModule> = ({
       const results = await filesApiClient.searchFiles({ bucket_id: bucket.id, query: searchString })
       return results
     } catch (err) {
-      addToast({
-        title: t`There was an error getting search results`,
-        type: "error"
+      addToastMessage({
+        message: t`There was an error getting search results`,
+        appearance: "error"
       })
       return Promise.reject(err)
     }
-  }, [addToast, bucket, filesApiClient])
+  }, [addToastMessage, bucket, filesApiClient])
 
 
   const { redirect } = useHistory()

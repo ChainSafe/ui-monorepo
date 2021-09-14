@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react"
-import { Crumb, useToasts, useHistory, useLocation } from "@chainsafe/common-components"
+import { Crumb, useToaster, useHistory, useLocation } from "@chainsafe/common-components"
 import { useFiles, FileSystemItem } from "../../../Contexts/FilesContext"
 import {
   getArrayOfPaths,
@@ -26,10 +26,11 @@ const CSFFileBrowser: React.FC<IFileBrowserModuleProps> = () => {
   const {
     downloadFile,
     uploadFiles,
+    uploadsInProgress,
     buckets
   } = useFiles()
   const { filesApiClient } = useFilesApi()
-  const { addToast } = useToasts()
+  const { addToastMessage } = useToaster()
   const [loadingCurrentPath, setLoadingCurrentPath] = useState(false)
   const [pathContents, setPathContents] = useState<FileSystemItem[]>([])
   const { redirect } = useHistory()
@@ -95,25 +96,24 @@ const CSFFileBrowser: React.FC<IFileBrowserModuleProps> = () => {
             const message = `${
               itemToDelete.isFolder ? t`Folder` : t`File`
             } ${t`deleted successfully`}`
-            const id = addToast({
-              title: message,
-              type: "success"
+            addToastMessage({
+              message: message,
+              appearance: "success"
             })
-            console.log(id)
           }
           return Promise.resolve()
         } catch (error) {
           const message = `${t`There was an error deleting this`} ${
             itemToDelete.isFolder ? t`folder` : t`file`
           }`
-          addToast({
-            title: message,
-            type: "error"
+          addToastMessage({
+            message: message,
+            appearance: "error"
           })
           return Promise.reject()
         }}
       )).finally(refreshContents)
-  }, [addToast, currentPath, pathContents, refreshContents, filesApiClient, bucket, buckets])
+  }, [addToastMessage, currentPath, pathContents, refreshContents, filesApiClient, bucket, buckets])
 
   // Rename
   const renameItem = useCallback(async (cid: string, newName: string) => {
@@ -142,21 +142,21 @@ const CSFFileBrowser: React.FC<IFileBrowserModuleProps> = () => {
             itemToMove.isFolder ? t`Folder` : t`File`
           } ${t`moved successfully`}`
 
-          addToast({
-            title: message,
-            type: "success"
+          addToastMessage({
+            message: message,
+            appearance: "success"
           })
         } catch (error) {
           const message = `${t`There was an error moving this`} ${
             itemToMove.isFolder ? t`folder` : t`file`
           }`
-          addToast({
-            title: message,
-            type: "error"
+          addToastMessage({
+            message: message,
+            appearance: "error"
           })
         }
       })).finally(refreshContents)
-  }, [addToast, pathContents, refreshContents, filesApiClient, bucket, currentPath])
+  }, [addToastMessage, pathContents, refreshContents, filesApiClient, bucket, currentPath])
 
   const handleDownload = useCallback(async (cid: string) => {
     const itemToDownload = pathContents.find(item => item.cid === cid)
@@ -185,16 +185,16 @@ const CSFFileBrowser: React.FC<IFileBrowserModuleProps> = () => {
       }
     }
     if (hasFolder) {
-      addToast({
-        title: t`Folder uploads are not supported currently`,
-        type: "error"
+      addToastMessage({
+        message: "Folder uploads are not supported currently",
+        appearance: "error"
       })
     } else {
       uploadFiles(bucket, files, path)
         .then(() => refreshContents())
         .catch(console.error)
     }
-  }, [addToast, uploadFiles, bucket, refreshContents])
+  }, [addToastMessage, uploadFiles, bucket, refreshContents])
 
   const viewFolder = useCallback((cid: string) => {
     const fileSystemItem = pathContents.find(f => f.cid === cid)
@@ -232,6 +232,7 @@ const CSFFileBrowser: React.FC<IFileBrowserModuleProps> = () => {
       renameItem: renameItem,
       viewFolder,
       handleUploadOnDrop,
+      uploadsInProgress,
       loadingCurrentPath,
       showUploadsInTable: true,
       sourceFiles: pathContents,

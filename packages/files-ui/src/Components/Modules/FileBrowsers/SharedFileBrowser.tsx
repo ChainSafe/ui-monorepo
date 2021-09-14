@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react"
-import { useToasts, useHistory, useLocation, Crumb } from "@chainsafe/common-components"
+import { useToaster, useHistory, useLocation, Crumb } from "@chainsafe/common-components"
 import {
   getArrayOfPaths,
   getURISafePathFromArray,
@@ -22,7 +22,7 @@ import FilesList from "./views/FilesList"
 const SharedFileBrowser = () => {
   const { downloadFile, uploadFiles, buckets, refreshBuckets, getStorageSummary } = useFiles()
   const { filesApiClient } = useFilesApi()
-  const { addToast } = useToasts()
+  const { addToastMessage } = useToaster()
   const [loadingCurrentPath, setLoadingCurrentPath] = useState(false)
   const [pathContents, setPathContents] = useState<FileSystemItem[]>([])
   const { redirect } = useHistory()
@@ -113,22 +113,22 @@ const SharedFileBrowser = () => {
       const message = `${
         itemToDelete.isFolder ? t`Folder` : t`File`
       } ${t`deleted successfully`}`
-      addToast({
-        title: message,
-        type: "success"
+      addToastMessage({
+        message: message,
+        appearance: "success"
       })
       return Promise.resolve()
     } catch (error) {
       const message = `${t`There was an error deleting this`} ${
         itemToDelete.isFolder ? t`folder` : t`file`
       }`
-      addToast({
-        title: message,
-        type: "error"
+      addToastMessage({
+        message: message,
+        appearance: "error"
       })
       return Promise.reject()
     }
-  }, [addToast, bucket, currentPath, pathContents, refreshContents, refreshBuckets, filesApiClient])
+  }, [addToastMessage, bucket, currentPath, pathContents, refreshContents, refreshBuckets, filesApiClient])
 
   const deleteItems = useCallback(async (cids: string[]) => {
     await Promise.all(
@@ -186,16 +186,16 @@ const SharedFileBrowser = () => {
       }
     }
     if (hasFolder) {
-      addToast({
-        title: t`Folder uploads are not supported currently`,
-        type: "error"
+      addToastMessage({
+        message: "Folder uploads are not supported currently",
+        appearance: "error"
       })
     } else {
       uploadFiles(bucket, files, path)
         .then(() => refreshContents())
         .catch(console.error)
     }
-  }, [addToast, uploadFiles, bucket, refreshContents])
+  }, [addToastMessage, uploadFiles, bucket, refreshContents])
 
   const bulkOperations: IBulkOperations = useMemo(() => ({
     [CONTENT_TYPES.Directory]: ["download", "move", "delete"],

@@ -3,7 +3,7 @@ import { init as initSentry, ErrorBoundary, showReportDialog } from "@sentry/rea
 import { Web3Provider } from "@chainsafe/web3-context"
 import { ThemeSwitcher } from "@chainsafe/common-theme"
 import "@chainsafe/common-theme/dist/font-faces.css"
-import { Button, CssBaseline, Modal, Router, ToastProvider, Typography } from "@chainsafe/common-components"
+import { Button, CssBaseline, Modal, Router, ToasterProvider, Typography } from "@chainsafe/common-components"
 import StorageRoutes from "./Components/GamingRoutes"
 import AppWrapper from "./Components/Layouts/AppWrapper"
 import { LanguageProvider } from "./Contexts/LanguageContext"
@@ -91,7 +91,7 @@ const App = () => {
       >
         <CssBaseline />
         <LanguageProvider availableLanguages={availableLanguages}>
-          <ToastProvider autoDismiss>
+          <ToasterProvider autoDismiss>
             <Web3Provider
               onboardConfig={onboardConfig}
               checkNetwork={false}
@@ -108,7 +108,7 @@ const App = () => {
                 </Router>
               </GamingApiProvider>
             </Web3Provider>
-          </ToastProvider>
+          </ToasterProvider>
         </LanguageProvider>
       </ErrorBoundary>
     </ThemeSwitcher>

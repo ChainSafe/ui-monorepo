@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-04-23 11:05+0200\n"
-"PO-Revision-Date: 2021-09-14 09:14+0000\n"
+"PO-Revision-Date: 2021-08-26 18:33+0000\n"
 "Last-Translator: J. Lavoie <j.lavoie@net-c.ca>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/chainsafe-files/chainsafe-files-user-interface/fr/>\n"
 "Language: fr\n"
@@ -11,7 +11,7 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 4.9-dev\n"
+"X-Generator: Weblate 4.8.1-dev\n"
 "Mime-Version: 1.0\n"
 
 msgid "A backup secret phrase will be generated and used for your account.<0/>We do not store it and <1>it can only be displayed once</1>. Save it somewhere safe!"
@@ -45,7 +45,7 @@ msgid "Add more files"
 msgstr "Ajouter d’autres fichiers"
 
 msgid "Add viewers and editors by username, sharing id or Ethereum address."
-msgstr "Ajoutez des personnes pouvant visualiser ou afficher par nom d'utilisateur, identifiant de partage ou adresse Ethereum."
+msgstr ""
 
 msgid "An error occurred while downloading the file"
 msgstr "Une erreur s'est produite lors du téléchargement du fichier"
@@ -55,6 +55,9 @@ msgstr "Une erreur s'est produite :"
 
 msgid "Approve"
 msgstr "Accepter"
+
+msgid "Are we on the right track? Let us know in less than 1 minute."
+msgstr "Sommes-nous sur la bonne voie ? Dites-le-nous en moins d’une minute (en anglais)."
 
 msgid "Back to plan settings"
 msgstr ""
@@ -176,10 +179,10 @@ msgstr "Créer un nouveau dossier partagé"
 msgid "Create folder"
 msgstr "Créer un dossier"
 
-msgid "Create your public username in <0>Settings</0>!"
-msgstr "Créez votre nom d'utilisateur public dans <0>Paramètres</0> !"
-
 msgid "Credit card on file"
+msgstr ""
+
+msgid "Create your public username in <0>Settings</0>!"
 msgstr ""
 
 msgid "Dark Theme"
@@ -209,26 +212,17 @@ msgstr "Paramètres d’affichage"
 msgid "Download"
 msgstr "Télécharger"
 
-msgid "Download Complete"
-msgstr "Téléchargement terminé"
-
 msgid "Download as zip"
 msgstr "Télécharger au format zip"
+
+msgid "Download complete"
+msgstr "Téléchargement terminé"
 
 msgid "Download recovery key"
 msgstr "Télécharger la clé de sauvegarde"
 
-msgid "Downloading file - {0}"
-msgstr "Téléchargement du fichier - {0}"
-
-msgid "Downloading {fileProgress} - {0}"
-msgstr "Téléchargement de {fileProgress} - {0}"
-
-msgid "Downloads cancelled"
-msgstr "Téléchargements annulés"
-
-msgid "Downloads failed"
-msgstr "Les téléchargements ont échoué"
+msgid "Downloading"
+msgstr "Téléchargement"
 
 msgid "Drop to upload files"
 msgstr "Faire glisser pour téléverser un fichier"
@@ -299,9 +293,6 @@ msgstr "Dossier"
 msgid "Folder name is already in use"
 msgstr "Le nom du dossier est déjà utilisé"
 
-msgid "Folder uploads are not supported currently"
-msgstr "Le téléversement de dossiers n'est pas actuellement pris en charge"
-
 msgid "Folders"
 msgstr "Dossiers"
 
@@ -335,14 +326,14 @@ msgstr "Donner l’accès en lecture seule à :"
 msgid "Go back"
 msgstr "Retour"
 
-msgid "Got an issue?"
-msgstr "Vous avez un problème ?"
-
 msgid "Got it"
-msgstr "Compris"
+msgstr ""
 
 msgid "Hello again!"
 msgstr "Ravis de vous revoir !"
+
+msgid "Help us improve File in less than 1 minute."
+msgstr "Aidez-nous à améliorer File en moins d'une minute."
 
 msgid "Hey! You only have two sign-in methods. If you lose that and have only one left, you will be locked out of your account forever."
 msgstr "Hé ! Vous n’avez que deux méthodes de connexion. Si vous en perdez une et qu’il ne vous en reste qu’une, vous ne pourrez plus jamais vous connecter à votre compte."
@@ -593,9 +584,6 @@ msgstr "Navigateurs enregistrés"
 msgid "Saved on:"
 msgstr "Enregistré sur :"
 
-msgid "Schedule a 15 min call"
-msgstr ""
-
 msgid "Search results"
 msgstr "Résultats de recherche"
 
@@ -647,11 +635,8 @@ msgstr "Dossiers partagés"
 msgid "Shared with"
 msgstr "Partagé avec"
 
-msgid "Sharing cancelled"
-msgstr "Partage annulé"
-
-msgid "Sharing your file (Downloading)"
-msgstr "Partager votre fichier (Téléchargement)"
+msgid "Sharing your file ({0})"
+msgstr "Partage de votre fichier ({0})"
 
 msgid "Sign Out"
 msgstr "Se déconnecter"
@@ -776,8 +761,11 @@ msgstr ""
 msgid "Upload"
 msgstr "Téléverser"
 
-msgid "Uploads cancelled"
-msgstr "Téléversements annulés"
+msgid "Upload complete"
+msgstr "Téléversement terminé"
+
+msgid "Uploading {0} files"
+msgstr "Téléversement de {0} fichiers"
 
 msgid "Use a different login method"
 msgstr "Utilisez une méthode de connexion différente"
@@ -818,9 +806,6 @@ msgstr "Voir le dossier"
 msgid "Wallet address"
 msgstr "Addresse du wallet"
 
-msgid "Want to help shape this product?"
-msgstr ""
-
 msgid "We can't encrypt files larger than 2GB. Some items will not be uploaded"
 msgstr "Nous ne pouvons pas chiffrer les fichiers de plus de 2 Go. Certains éléments ne pourront pas être téléversés"
 
@@ -846,7 +831,7 @@ msgid "You can change this later."
 msgstr "Vous pouvez en changer plus tard."
 
 msgid "You can now create shared folders to share a file."
-msgstr "Vous pouvez maintenant créer des dossiers partagés pour partager un fichier."
+msgstr ""
 
 msgid "You can't move folders to this path"
 msgstr "Vous ne pouvez pas déplacer les dossiers vers ce chemin"
@@ -887,14 +872,11 @@ msgstr "récupéré avec succès"
 msgid "unknown"
 msgstr "inconnu"
 
-msgid "{0, plural, one {Downloading {1} file} other {Downloading {2} files}}"
-msgstr "{0, plural, one {Téléchargement de {1} fichier} other {Téléchargement de {2} fichiers}}"
-
-msgid "{0, plural, one {Encrypting and uploading {1} file} other {Encrypting and uploading {2} files}}"
-msgstr "{0, plural, one {Chiffrement et téléversement de {1} fichier} other {Chiffrement et téléversements {2} fichiers}}"
-
 msgid "{0, plural, one {You are about to delete {1} item.} other {You are about to delete {2} items.}}"
 msgstr "{0, plural, one {Vous êtes sur le point de supprimer {1} élément.} other {Vous êtes sur le point de supprimer {2} éléments.}}"
 
 msgid "{0} of {1} used ({2}%)"
 msgstr ""
+
+msgid "{noOfFiles, plural, one {Uploading and encrypting {noOfFiles} file} other {Uploading and encrypting {noOfFiles} files}}"
+msgstr "{noOfFiles, plural, one {Upload et chiffrage de {noOfFiles} fichier} other {Upload et chiffrage de {noOfFiles} fichiers}}"

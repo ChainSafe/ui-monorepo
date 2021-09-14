@@ -4,7 +4,7 @@ import { IFileBrowserModuleProps, IFilesTableBrowserProps } from "./types"
 import FilesList from "./views/FilesList"
 import { CONTENT_TYPES } from "../../../Utils/Constants"
 import DragAndDrop from "../../../Contexts/DnDContext"
-import { useHistory, useLocation, useToasts } from "@chainsafe/common-components"
+import { useHistory, useLocation, useToaster } from "@chainsafe/common-components"
 import { getArrayOfPaths, getParentPathFromFilePath, getURISafePathFromArray } from "../../../Utils/pathUtils"
 import { ROUTE_LINKS } from "../../FilesRoutes"
 import { t } from "@lingui/macro"
@@ -18,7 +18,7 @@ const SearchFileBrowser: React.FC<IFileBrowserModuleProps> = ({ controls = false
   const searchTerm = useMemo(() => decodeURIComponent(pathname.split("/").slice(2)[0]), [pathname])
   const { redirect } = useHistory()
 
-  const { addToast } = useToasts()
+  const { addToastMessage } = useToaster()
 
   const bucket = useMemo(() => buckets.find(b => b.type === "csf"), [buckets])
 
@@ -29,13 +29,13 @@ const SearchFileBrowser: React.FC<IFileBrowserModuleProps> = ({ controls = false
       const results = await filesApiClient.searchFiles({ bucket_id: bucket.id, query: searchString })
       return results
     } catch (err) {
-      addToast({
-        title: t`There was an error getting search results`,
-        type: "error"
+      addToastMessage({
+        message: t`There was an error getting search results`,
+        appearance: "error"
       })
       return Promise.reject(err)
     }
-  }, [addToast, bucket, filesApiClient])
+  }, [addToastMessage, bucket, filesApiClient])
 
   useEffect(() => {
     getSearchResults(searchTerm)

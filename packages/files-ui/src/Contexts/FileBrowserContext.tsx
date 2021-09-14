@@ -1,7 +1,8 @@
 import { Crumb } from "@chainsafe/common-components"
 import React, { useContext } from "react"
 import { FileOperation, IBulkOperations, IFileBrowserModuleProps } from "../Components/Modules/FileBrowsers/types"
-import { BucketKeyPermission, FileSystemItem } from "./FilesContext"
+import { BucketKeyPermission, FileSystemItem, UploadProgress } from "./FilesContext"
+
 
 interface FileBrowserContext extends IFileBrowserModuleProps {
   bucket?: BucketKeyPermission
@@ -24,6 +25,7 @@ interface FileBrowserContext extends IFileBrowserModuleProps {
   refreshContents?: () => void
   currentPath: string
   loadingCurrentPath: boolean
+  uploadsInProgress?: UploadProgress[]
   showUploadsInTable: boolean
   sourceFiles: FileSystemItem[]
   crumbs: Crumb[] | undefined

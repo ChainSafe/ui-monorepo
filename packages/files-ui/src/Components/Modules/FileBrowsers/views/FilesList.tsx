@@ -6,11 +6,13 @@ import {
   SortDirection,
   Table,
   TableBody,
+  TableCell,
   TableHead,
   TableHeadCell,
   TableRow,
   Typography,
   Breadcrumb,
+  CircularProgressBar,
   Button,
   PlusCircleIcon,
   UploadIcon,
@@ -326,6 +328,8 @@ const FilesList = ({ isShared = false }: Props) => {
     currentPath,
     refreshContents,
     loadingCurrentPath,
+    uploadsInProgress,
+    showUploadsInTable,
     allowDropUpload,
     itemOperations,
     getPath,
@@ -837,7 +841,7 @@ const FilesList = ({ isShared = false }: Props) => {
           <Trans>One sec, getting files ready…</Trans>
         </Typography>
       </div>
-      {!items.length
+      {(desktop && items.length === 0) || (!desktop && items.length === 0 && uploadsInProgress?.length === 0)
         ? (
           <section
             className={clsx(
@@ -909,6 +913,34 @@ const FilesList = ({ isShared = false }: Props) => {
                 </TableHead>
               )}
               <TableBody>
+                {!desktop && showUploadsInTable &&
+                uploadsInProgress?.filter(
+                  (uploadInProgress) =>
+                    uploadInProgress.path === currentPath &&
+                    !uploadInProgress.complete &&
+                    !uploadInProgress.error
+                )
+                  .map((uploadInProgress) => (
+                    <TableRow
+                      key={uploadInProgress.id}
+                      className={classes.tableRow}
+                      type="grid"
+                    >
+                      <TableCell className={classes.progressIcon}>
+                        <CircularProgressBar
+                          progress={uploadInProgress.progress}
+                          size="small"
+                          width={15}
+                        />
+                      </TableCell>
+                      <TableCell align="left">
+                        {uploadInProgress.noOfFiles > 1
+                          ? t`Uploading ${uploadInProgress.noOfFiles} files`
+                          : uploadInProgress.fileName}
+                      </TableCell>
+                      <TableCell />
+                    </TableRow>
+                  ))}
                 {items.map((file, index) => (
                   <FileSystemItem
                     key={index}

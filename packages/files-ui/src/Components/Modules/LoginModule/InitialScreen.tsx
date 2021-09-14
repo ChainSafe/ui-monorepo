@@ -65,7 +65,7 @@ const useStyles = makeStyles(
           fontWeight: 400
         },
         [breakpoints.up("md")]: {
-          padding: `${constants.generalUnit * 20}px ${constants.generalUnit * 8}px`,
+          padding: `${constants.generalUnit * 30}px ${constants.generalUnit * 8}px`,
           "& > *": {
             paddingBottom: `${constants.generalUnit * 5}px`
           }
@@ -208,7 +208,6 @@ const InitialScreen = ({ className }: IInitialScreen) => {
     } catch (error) {
       let errorMessage = t`There was an error authenticating`
       console.log(error)
-
       if (Array.isArray(error) && error[0]) {
         if (
           error[0].type === "signature" &&
@@ -219,16 +218,13 @@ const InitialScreen = ({ className }: IInitialScreen) => {
             sure you have activated your wallet.`
         }
       }
-
       // WalletConnect be sassy
-      if ((error instanceof Error && error.message === "Just nope") || ((error as any).code === 4001)) {
+      if (error?.message === "Just nope" || error?.code === 4001) {
         errorMessage = t`Failed to get signature`
       }
-
-      if (error instanceof Error && error?.message === "user closed popup") {
+      if (error?.message === "user closed popup") {
         errorMessage = t`The authentication popup was closed`
       }
-
       setError(errorMessage)
     }
     setIsConnecting(false)

@@ -18,8 +18,7 @@ const useStyles = makeStyles(
         paddingLeft: constants.generalUnit * 2,
         marginTop: constants.generalUnit,
         borderRadius: 2,
-        display: "flex",
-        alignItems: "center"
+        display: "flex"
       },
       banner: {
         color: constants.surveyBanner.color,
@@ -35,16 +34,21 @@ const useStyles = makeStyles(
       },
       crossIconButton: {
         cursor: "pointer",
-        height: constants.generalUnit * 2
-      },
-      spacer: {
-        flex: 1
-      },
-      icon: {
-        fontSize: 12,
+
+        "& span": {
+          display: "flex",
+          alignContent: "center",
+          justifyContent: "center",
+          height: "100%",
+          fontSize: 12,
+          marginRight: constants.generalUnit
+        },
         "& svg": {
           fill: constants.surveyBanner.color
         }
+      },
+      spacer: {
+        flex: 1
       }
     })
   })
@@ -73,13 +77,13 @@ const SurveyBanner = ({ onHide }: Props) => {
         variant="body1"
         className={classes.banner}>
         <Trans>
-          Want to help shape this product?
+          Help us improve File in less than 1 minute.
         </Trans>
         <span
           className={classes.link}
           onClick={onOpen}
         >
-          <Trans>Schedule a 15 min call</Trans>
+          <Trans>Continue</Trans>
         </span>
       </Typography>
       <div className={classes.spacer}/>
@@ -87,10 +91,7 @@ const SurveyBanner = ({ onHide }: Props) => {
         className={classes.crossIconButton}
         onClick={onClose}
       >
-        <CrossIcon
-          fontSize="small"
-          className={classes.icon}
-        />
+        <CrossIcon fontSize="small" />
       </div>
     </div>
   )}
