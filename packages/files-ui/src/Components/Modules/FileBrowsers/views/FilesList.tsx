@@ -548,7 +548,6 @@ const FilesList = ({ isShared = false }: Props) => {
         }
       }
     }
-    console.log(fileOperations, bulkOperations)
     setValidBulkOps(fileOperations)
   }, [selectedCids, items, bulkOperations, isShared, permission])
 
@@ -652,8 +651,6 @@ const FilesList = ({ isShared = false }: Props) => {
     setFileIndex(fileIndex)
     setIsCopyToSharedFolderModalOpen(true)
   }, [hasSeenSharingExplainerModal])
-
-  console.log(validBulkOps)
 
   return (
     <article
