@@ -90,8 +90,6 @@ const useStyles = makeStyles(({ constants, breakpoints, animation, zIndex, palet
       [breakpoints.down("md")]: {}
     },
     modalInner: {
-      // backgroundColor: constants.createFolder.backgroundColor,
-      // color: constants.createFolder.color,
       [breakpoints.down("md")]: {
         bottom:
         Number(constants?.mobileButtonHeight) + constants.generalUnit,
