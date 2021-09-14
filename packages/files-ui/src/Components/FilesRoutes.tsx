@@ -24,7 +24,7 @@ export const ROUTE_LINKS = {
   Settings: `${SETTINGS_BASE}/:path`,
   SettingsDefault: `${SETTINGS_BASE}`,
   PurchasePlan: "/purchase",
-  UserSurvey: "https://shrl.ink/Efyc",
+  UserSurvey: "https://calendly.com/colinschwarz/chainsafe-files-chat",
   SharedFolders: "/shared-overview",
   SharedFolderBrowserRoot: "/shared",
   SharedFolderExplorer: (bucketId: string, rawCurrentPath: string) => {
