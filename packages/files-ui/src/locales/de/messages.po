@@ -3,14 +3,14 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-04-20 00:28+0200\n"
-"PO-Revision-Date: 2021-09-06 00:40+0000\n"
+"PO-Revision-Date: 2021-09-14 09:14+0000\n"
 "Last-Translator: J. Lavoie <j.lavoie@net-c.ca>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/chainsafe-files/chainsafe-files-user-interface/de/>\n"
 "Language: de\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.8.1-dev\n"
+"X-Generator: Weblate 4.9-dev\n"
 "Mime-Version: 1.0\n"
 
 msgid "A backup secret phrase will be generated and used for your account.<0/>We do not store it and <1>it can only be displayed once</1>. Save it somewhere safe!"
@@ -38,10 +38,10 @@ msgid "Add viewers and editors by username, sharing id or Ethereum address."
 msgstr ""
 
 msgid "An error occurred while downloading the file"
-msgstr ""
+msgstr "Beim Herunterladen der Datei ist ein Fehler aufgetreten"
 
 msgid "An error occurred:"
-msgstr ""
+msgstr "Es ist ein Fehler aufgetreten:"
 
 msgid "Approve"
 msgstr "Genehmigen"
@@ -310,9 +310,6 @@ msgstr ""
 msgid "Hello again!"
 msgstr "Hallo nochmal!"
 
-msgid "Help us improve File in less than 1 minute."
-msgstr ""
-
 msgid "Hey! You only have two sign-in methods. If you lose that and have only one left, you will be locked out of your account forever."
 msgstr ""
 
@@ -550,6 +547,9 @@ msgstr "Gespeicherte Browser"
 msgid "Saved on:"
 msgstr "Gesichert am:"
 
+msgid "Schedule a 15 min call"
+msgstr ""
+
 msgid "Search results"
 msgstr "Suchergebnisse"
 
@@ -757,6 +757,9 @@ msgstr "Ordner anzeigen"
 msgid "Wallet address"
 msgstr ""
 
+msgid "Want to help shape this product?"
+msgstr ""
+
 msgid "We can't encrypt files larger than 2GB. Some items will not be uploaded"
 msgstr ""
 
@@ -821,10 +824,10 @@ msgid "unknown"
 msgstr "unbekannt"
 
 msgid "{0, plural, one {Downloading {1} file} other {Downloading {2} files}}"
-msgstr ""
+msgstr "{0, plural, one {{1} Datei wird heruntergeladen} other {{2} Dateien werden heruntergeladen}}"
 
 msgid "{0, plural, one {Encrypting and uploading {1} file} other {Encrypting and uploading {2} files}}"
-msgstr ""
+msgstr "{0, plural, one {{1} Datei wird verschlüsselt und hochgeladen} other {{2} Dateien werden verschlüsselt und hochgeladen}}"
 
 msgid "{0, plural, one {You are about to delete {1} item.} other {You are about to delete {2} items.}}"
 msgstr "{0, plural, one {Sie sind dabei, {1} Artikel zu löschen.} other {Sie sind dabei, {2} Artikel zu löschen.}}"

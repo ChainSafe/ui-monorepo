@@ -52,6 +52,9 @@ msgstr "Continue with Google"
 msgid "Continue with Web3 Wallet"
 msgstr "Continue with Web3 Wallet"
 
+msgid "Copied!"
+msgstr "Copied!"
+
 msgid "Created At"
 msgstr "Created At"
 
@@ -94,8 +97,17 @@ msgstr "Hold on, we are logging you in…"
 msgid "Id"
 msgstr "Id"
 
+msgid "Key ID"
+msgstr "Key ID"
+
 msgid "Learn more about ChainSafe"
 msgstr "Learn more about ChainSafe"
+
+msgid "Make sure to save the secret, as it can only be displayed once."
+msgstr "Make sure to save the secret, as it can only be displayed once."
+
+msgid "New Key"
+msgstr "New Key"
 
 msgid "Please enter a valid email"
 msgstr "Please enter a valid email"
@@ -150,6 +162,9 @@ msgstr "There was an error connecting your wallet"
 
 msgid "Try again"
 msgstr "Try again"
+
+msgid "Type"
+msgstr "Type"
 
 msgid "Use a different login method"
 msgstr "Use a different login method"

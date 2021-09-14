@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useRef } from "react"
+import React, { useCallback, useMemo, useRef, useState } from "react"
 import { createStyles, ITheme, makeStyles } from "@chainsafe/common-theme"
 import { ToastParams, Toast, ToastPosition } from "./types"
 import { v4 as uuidv4 } from "uuid"
@@ -102,11 +102,13 @@ const ToastProvider = ({
   dismissTimeout = 5000
 }: ToastContextProps) => {
   const classes = useStyles()
+  const [toastQueue, setToastQueue] = useState<Toast[]>([])
   // using useRef instead of useState to keep a tracker over the exact toast array
   const toasts = useRef<Toast[]>([])
 
   const removeToast = useCallback((toastId: string) => {
     toasts.current = toasts.current.filter((toast) => toast.id !== toastId)
+    setToastQueue(toasts.current)
   }, [toasts])
 
   const addToast = useCallback((toastParams: ToastParams) => {
@@ -118,6 +120,7 @@ const ToastProvider = ({
         toastPosition: toastParams.toastPosition || defaultPosition
       }
     ]
+    setToastQueue(toasts.current)
 
     const isProgressToast = toastParams.progress !== undefined
     const shouldDismiss = toastParams.autoDismiss || autoDismiss
@@ -140,21 +143,23 @@ const ToastProvider = ({
       }, dismissTimeOut)
     }
     toasts.current = toasts.current.map((toast) => toast.id === toastId ? { ...toast, ...toastParams } : toast)
+    setToastQueue(toasts.current)
   }, [dismissTimeout, removeToast])
 
   const positionedToasts: Record<ToastPosition, Array<Toast>> = useMemo(() => ({
-    topRight: toasts.current.filter((toast) => toast.toastPosition === "topRight"),
-    topLeft: toasts.current.filter((toast) => toast.toastPosition === "topLeft"),
-    bottomRight: toasts.current.filter((toast) => toast.toastPosition === "bottomRight"),
-    bottomLeft: toasts.current.filter((toast) => toast.toastPosition === "bottomLeft")
-  }), [toasts])
+    topRight: toastQueue.filter((toast) => toast.toastPosition === "topRight"),
+    topLeft: toastQueue.filter((toast) => toast.toastPosition === "topLeft"),
+    bottomRight: toastQueue.filter((toast) => toast.toastPosition === "bottomRight"),
+    bottomLeft: toastQueue.filter((toast) => toast.toastPosition === "bottomLeft")
+  }), [toastQueue])
+
   return (
     <ToastContext.Provider
       value={{
         addToast,
         updateToast,
         removeToast,
-        toasts: toasts.current
+        toasts: toastQueue
       }}
     >
       {(Object.keys(positionedToasts) as ToastPosition[]).map((position) => (
