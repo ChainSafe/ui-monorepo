@@ -71,13 +71,22 @@ const ImagePreview: React.FC<IPreviewRendererProps> = ({ contents }) => {
             <>
               {desktop && (
                 <div className={classes.controlsContainer}>
-                  <Button onClick={zoomIn}>
+                  <Button
+                    onClick={zoomIn}
+                    data-cy="button-zoom-in"
+                  >
                     <ZoomInIcon />
                   </Button>
-                  <Button onClick={zoomOut}>
+                  <Button
+                    onClick={zoomOut}
+                    data-cy="button-zoom-out"
+                  >
                     <ZoomOutIcon />
                   </Button>
-                  <Button onClick={resetTransform}>
+                  <Button
+                    onClick={resetTransform}
+                    data-cy="button-full-screen"
+                  >
                     <FullscreenIcon />
                   </Button>
                 </div>

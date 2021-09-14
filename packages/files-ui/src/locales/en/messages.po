@@ -55,9 +55,6 @@ msgstr "An error occurred:"
 msgid "Approve"
 msgstr "Approve"
 
-msgid "Are we on the right track? Let us know in less than 1 minute."
-msgstr "Are we on the right track? Let us know in less than 1 minute."
-
 msgid "Back to plan settings"
 msgstr "Back to plan settings"
 
@@ -178,11 +175,11 @@ msgstr "Create a new shared folder"
 msgid "Create folder"
 msgstr "Create folder"
 
-msgid "Credit card on file"
-msgstr "Credit card on file"
-
 msgid "Create your public username in <0>Settings</0>!"
 msgstr "Create your public username in <0>Settings</0>!"
+
+msgid "Credit card on file"
+msgstr "Credit card on file"
 
 msgid "Dark Theme"
 msgstr "Dark Theme"
@@ -211,17 +208,26 @@ msgstr "Display Settings"
 msgid "Download"
 msgstr "Download"
 
+msgid "Download Complete"
+msgstr "Download Complete"
+
 msgid "Download as zip"
 msgstr "Download as zip"
-
-msgid "Download complete"
-msgstr "Download complete"
 
 msgid "Download recovery key"
 msgstr "Download recovery key"
 
-msgid "Downloading"
-msgstr "Downloading"
+msgid "Downloading file - {0}"
+msgstr "Downloading file - {0}"
+
+msgid "Downloading {fileProgress} - {0}"
+msgstr "Downloading {fileProgress} - {0}"
+
+msgid "Downloads cancelled"
+msgstr "Downloads cancelled"
+
+msgid "Downloads failed"
+msgstr "Downloads failed"
 
 msgid "Drop to upload files"
 msgstr "Drop to upload files"
@@ -292,6 +298,9 @@ msgstr "Folder"
 msgid "Folder name is already in use"
 msgstr "Folder name is already in use"
 
+msgid "Folder uploads are not supported currently"
+msgstr "Folder uploads are not supported currently"
+
 msgid "Folders"
 msgstr "Folders"
 
@@ -325,14 +334,14 @@ msgstr "Give view-only permission to:"
 msgid "Go back"
 msgstr "Go back"
 
+msgid "Got an issue?"
+msgstr "Got an issue?"
+
 msgid "Got it"
 msgstr "Got it"
 
 msgid "Hello again!"
 msgstr "Hello again!"
-
-msgid "Help us improve File in less than 1 minute."
-msgstr "Help us improve File in less than 1 minute."
 
 msgid "Hey! You only have two sign-in methods. If you lose that and have only one left, you will be locked out of your account forever."
 msgstr "Hey! You only have two sign-in methods. If you lose that and have only one left, you will be locked out of your account forever."
@@ -583,6 +592,9 @@ msgstr "Saved Browsers"
 msgid "Saved on:"
 msgstr "Saved on:"
 
+msgid "Schedule a 15 min call"
+msgstr "Schedule a 15 min call"
+
 msgid "Search results"
 msgstr "Search results"
 
@@ -634,8 +646,11 @@ msgstr "Shared folders"
 msgid "Shared with"
 msgstr "Shared with"
 
-msgid "Sharing your file ({0})"
-msgstr "Sharing your file ({0})"
+msgid "Sharing cancelled"
+msgstr "Sharing cancelled"
+
+msgid "Sharing your file (Downloading)"
+msgstr "Sharing your file (Downloading)"
 
 msgid "Sign Out"
 msgstr "Sign Out"
@@ -760,11 +775,8 @@ msgstr "Upgrade your plan"
 msgid "Upload"
 msgstr "Upload"
 
-msgid "Upload complete"
-msgstr "Upload complete"
-
-msgid "Uploading {0} files"
-msgstr "Uploading {0} files"
+msgid "Uploads cancelled"
+msgstr "Uploads cancelled"
 
 msgid "Use a different login method"
 msgstr "Use a different login method"
@@ -804,6 +816,9 @@ msgstr "View folder"
 
 msgid "Wallet address"
 msgstr "Wallet address"
+
+msgid "Want to help shape this product?"
+msgstr "Want to help shape this product?"
 
 msgid "We can't encrypt files larger than 2GB. Some items will not be uploaded"
 msgstr "We can't encrypt files larger than 2GB. Some items will not be uploaded"
@@ -871,11 +886,14 @@ msgstr "recovered successfully"
 msgid "unknown"
 msgstr "unknown"
 
+msgid "{0, plural, one {Downloading {1} file} other {Downloading {2} files}}"
+msgstr "{0, plural, one {Downloading {1} file} other {Downloading {2} files}}"
+
+msgid "{0, plural, one {Encrypting and uploading {1} file} other {Encrypting and uploading {2} files}}"
+msgstr "{0, plural, one {Encrypting and uploading {1} file} other {Encrypting and uploading {2} files}}"
+
 msgid "{0, plural, one {You are about to delete {1} item.} other {You are about to delete {2} items.}}"
 msgstr "{0, plural, one {You are about to delete {1} item.} other {You are about to delete {2} items.}}"
 
 msgid "{0} of {1} used ({2}%)"
 msgstr "{0} of {1} used ({2}%)"
-
-msgid "{noOfFiles, plural, one {Uploading and encrypting {noOfFiles} file} other {Uploading and encrypting {noOfFiles} files}}"
-msgstr "{noOfFiles, plural, one {Uploading and encrypting {noOfFiles} file} other {Uploading and encrypting {noOfFiles} files}}"
