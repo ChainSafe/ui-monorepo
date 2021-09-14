@@ -92,7 +92,7 @@ describe("File management", () => {
         homePage.fileItemName().contains(`${$fileName}`).click()
         homePage.moveSelectedButton().click()
         moveItemModal.folderList().contains("Home").click()
-        moveItemModal.errorLabel().should("have.text", "The files are already in this folder")
+        moveItemModal.errorLabel().should("be.visible")
         moveItemModal.moveButton().should("be.disabled")
         moveItemModal.cancelButton().should("be.enabled")
       })
@@ -111,7 +111,7 @@ describe("File management", () => {
       // ensure folder already in the root cannot be moved to Home
       moveItemModal.folderList().contains("Home").click()
       moveItemModal.body().should("be.visible")
-      moveItemModal.errorLabel().should("have.text", "You can't move folders to this path")
+      moveItemModal.errorLabel().should("be.visible")
       moveItemModal.moveButton().should("be.disabled")
       moveItemModal.cancelButton().should("be.enabled")
 
@@ -119,14 +119,14 @@ describe("File management", () => {
       moveItemModal.folderList().contains("Home").click()
       moveItemModal.folderList().contains("Parent").click()
       moveItemModal.body().should("be.visible")
-      moveItemModal.errorLabel().should("have.text", "You can't move folders to this path")
+      moveItemModal.errorLabel().should("be.visible")
       moveItemModal.moveButton().should("be.disabled")
       moveItemModal.cancelButton().should("be.enabled")
 
       // ensure a parent folder cannot be moved to a child folder
       moveItemModal.folderList().contains("Child").click()
       moveItemModal.body().should("be.visible")
-      moveItemModal.errorLabel().should("have.text", "You can't move folders to this path")
+      moveItemModal.errorLabel().should("be.visible")
       moveItemModal.moveButton().should("be.disabled")
       moveItemModal.cancelButton().should("be.enabled")
 
@@ -142,14 +142,14 @@ describe("File management", () => {
       // ensure a child folder cannot be moved to the parent folder it is already in
       moveItemModal.folderList().contains("Parent").click()
       moveItemModal.body().should("be.visible")
-      moveItemModal.errorLabel().should("have.text", "You can't move folders to this path")
+      moveItemModal.errorLabel().should("be.visible")
       moveItemModal.moveButton().should("be.disabled")
       moveItemModal.cancelButton().should("be.enabled")
 
       // ensure a child folder cannot be moved to itself
       moveItemModal.folderList().contains("Child").click()
       moveItemModal.body().should("be.visible")
-      moveItemModal.errorLabel().should("have.text", "You can't move folders to this path")
+      moveItemModal.errorLabel().should("be.visible")
       moveItemModal.moveButton().should("be.disabled")
       moveItemModal.cancelButton().should("be.enabled")
     })
