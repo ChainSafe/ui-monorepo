@@ -205,9 +205,10 @@ const InitialScreen = ({ className }: IInitialScreen) => {
     setLoginMode(loginType)
     try {
       await login(loginType)
-    } catch (error: any) {
+    } catch (error) {
       let errorMessage = t`There was an error authenticating`
       console.log(error)
+
       if (Array.isArray(error) && error[0]) {
         if (
           error[0].type === "signature" &&
@@ -218,13 +219,16 @@ const InitialScreen = ({ className }: IInitialScreen) => {
             sure you have activated your wallet.`
         }
       }
+
       // WalletConnect be sassy
-      if (error?.message === "Just nope" || error?.code === 4001) {
+      if ((error instanceof Error && error.message === "Just nope") || ((error as any).code === 4001)) {
         errorMessage = t`Failed to get signature`
       }
-      if (error?.message === "user closed popup") {
+
+      if (error instanceof Error && error?.message === "user closed popup") {
         errorMessage = t`The authentication popup was closed`
       }
+
       setError(errorMessage)
     }
     setIsConnecting(false)

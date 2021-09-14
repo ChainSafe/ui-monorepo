@@ -203,7 +203,7 @@ const LoginModule = ({ className }: IInitialScreen) => {
     setLoginMode(loginType)
     try {
       await login(loginType)
-    } catch (error: any) {
+    } catch (error) {
       let errorMessage = t`There was an error authenticating`
       console.log(error)
       if (Array.isArray(error) && error[0]) {
@@ -217,10 +217,10 @@ const LoginModule = ({ className }: IInitialScreen) => {
         }
       }
       // WalletConnect be sassy
-      if (error?.message === "Just nope" || error?.code === 4001) {
+      if ((error instanceof Error && error.message === "Just nope") || ((error as any).code === 4001)) {
         errorMessage = t`Failed to get signature`
       }
-      if (error?.message === "user closed popup") {
+      if (error instanceof Error && error.message === "user closed popup") {
         errorMessage = t`The authentication popup was closed`
       }
       setError(errorMessage)
