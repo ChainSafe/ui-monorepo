@@ -1,14 +1,13 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react"
 import posthog from "posthog-js"
-import {Button, Typography, useLocation} from "@chainsafe/common-components";
-import {createStyles, makeStyles} from "@chainsafe/common-theme";
-import {CSFTheme} from "../Themes/types";
-import {useUser} from "./UserContext";
+import { Button, Typography, useLocation } from "@chainsafe/common-components"
+import { createStyles, makeStyles } from "@chainsafe/common-theme"
+import { CSFTheme } from "../Themes/types"
+import { useUser } from "./UserContext"
 
 export type PosthogContext = {
-  shouldShowBanner: Boolean
-  optInCapturing: () => void
-  optOutCapturing: () => void
+  posthogInitialized: boolean
+  shouldShowBanner: boolean
 }
 
 type PosthogProviderProps = posthog.Config & {
@@ -16,9 +15,8 @@ type PosthogProviderProps = posthog.Config & {
 }
 
 const PosthogContext = React.createContext<PosthogContext>({
-  shouldShowBanner: true,
-  optInCapturing: () => {},
-  optOutCapturing: () => {},
+  posthogInitialized: false,
+  shouldShowBanner: false
 })
 
 const useStyles = makeStyles(
@@ -26,18 +24,18 @@ const useStyles = makeStyles(
 
     return createStyles({
       cookieBanner: {
-        position: 'fixed',
+        position: "fixed",
         bottom: 0,
-        width:'100%',
-        display: 'flex',
-        flexDirection: 'column',
+        width:"100%",
+        display: "flex",
+        flexDirection: "column",
         backgroundColor: palette.primary.main,
-        padding: '16px 32px'
-      }, 
+        padding: "16px 32px"
+      },
       buttonSection: {
-        display: 'flex',
-        flexDirection: 'row',
-        '& > *':{
+        display: "flex",
+        flexDirection: "row",
+        "& > *":{
           margin: 8
         }
       }
@@ -46,10 +44,13 @@ const useStyles = makeStyles(
 )
 
 const PosthogProvider = ({ children }: PosthogProviderProps) => {
-  const [posthogState, setPosthogState] = useState({hasOptedOut: false, hasOptedIn: false})
-  const {profile} = useUser()
+  const [posthogState, setPosthogState] = useState({ hasOptedOut: false, hasOptedIn: false })
+  const { profile } = useUser()
   const classes = useStyles()
-  const posthogInitialized = useMemo(() => !!process.env.REACT_APP_POSTHOG_PROJECT_API_KEY && !!process.env.REACT_APP_POSTHOG_INSTANCE_ADDRESS, [])
+  const posthogInitialized = useMemo(() =>
+    !!process.env.REACT_APP_POSTHOG_PROJECT_API_KEY &&
+    !!process.env.REACT_APP_POSTHOG_INSTANCE_ADDRESS,
+  [])
 
   const refreshPosthogState = useCallback(() => {
     if (posthogInitialized) {
@@ -60,7 +61,7 @@ const PosthogProvider = ({ children }: PosthogProviderProps) => {
         hasOptedIn: optedIn
       })
     }
-  },[posthogInitialized])
+  }, [posthogInitialized])
 
   useEffect(() => {
     refreshPosthogState()
@@ -68,44 +69,51 @@ const PosthogProvider = ({ children }: PosthogProviderProps) => {
 
   useEffect(() => {
     if (posthogInitialized){
-      profile?.userId 
-      ? posthog.identify(profile.userId)
-      : posthog.reset()
+      profile?.userId
+        ? posthog.identify(profile.userId)
+        : posthog.reset()
     }
   }, [profile, posthogInitialized])
 
-  const shouldShowBanner = useMemo(() => posthogInitialized && !posthogState.hasOptedOut && !posthogState.hasOptedIn, [posthogState, posthogInitialized])
-  
+  const shouldShowBanner = useMemo(() =>
+    posthogInitialized && !posthogState.hasOptedOut && !posthogState.hasOptedIn, [posthogState, posthogInitialized])
+
   const optInCapturing = useCallback(() => {
-    if (posthogInitialized) { 
+    if (posthogInitialized) {
       posthog.opt_in_capturing()
       refreshPosthogState()
     }
-  },[posthogInitialized, refreshPosthogState])
+  }, [posthogInitialized, refreshPosthogState])
 
   const optOutCapturing = useCallback(() => {
-    if (posthogInitialized) { 
+    if (posthogInitialized) {
       posthog.opt_out_capturing()
       refreshPosthogState()
     }
-  },[posthogInitialized, refreshPosthogState])
+  }, [posthogInitialized, refreshPosthogState])
 
   return (
     <PosthogContext.Provider
       value={{
-        shouldShowBanner,
-        optInCapturing,
-        optOutCapturing
+        posthogInitialized,
+        shouldShowBanner
       }}
     >
       {children}
-      {shouldShowBanner && 
+      {shouldShowBanner &&
         <div className={classes.cookieBanner}>
           <Typography variant='h4'>This website uses cookies</Typography>
-          <Typography variant='body2'>Cookie legal...Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</Typography>
+          <Typography variant='body2'>
+            Cookie legal...Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
+            veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+            Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+            Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+          </Typography>
           <div className={classes.buttonSection}>
-          <Button onClick={optOutCapturing}>Decline</Button>
-          <Button onClick={optInCapturing} variant='outline'>Accept</Button>
+            <Button onClick={optOutCapturing}>Decline</Button>
+            <Button onClick={optInCapturing}
+              variant='outline'>Accept</Button>
           </div>
         </div>
       }
@@ -122,14 +130,11 @@ function usePosthogContext() {
 }
 
 function usePageTrack() {
-  const { pathname } = useLocation();
+  const { pathname } = useLocation()
+  const { posthogInitialized } = usePosthogContext()
   useEffect(() => {
-    try {
-      posthog.capture("$pageview"); 
-    } catch (error) {
-      
-    }
-  }, [pathname]);
+    posthogInitialized && posthog.capture("$pageview")
+  }, [pathname, posthogInitialized])
 }
 
 export { PosthogProvider, usePosthogContext, usePageTrack }

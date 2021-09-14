@@ -5,11 +5,11 @@ import App from "./App"
 import * as serviceWorker from "./serviceWorker"
 import posthog from "posthog-js"
 
-if (process.env.REACT_APP_POSTHOG_PROJECT_API_KEY && 
+if (process.env.REACT_APP_POSTHOG_PROJECT_API_KEY &&
     process.env.REACT_APP_POSTHOG_INSTANCE_ADDRESS)
 {
   posthog.init(process.env.REACT_APP_POSTHOG_PROJECT_API_KEY, {
-    api_host: process.env.REACT_APP_POSTHOG_INSTANCE_ADDRESS,
+    api_host: process.env.REACT_APP_POSTHOG_INSTANCE_ADDRESS
   })
 }
 

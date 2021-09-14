@@ -25,7 +25,7 @@ import SharedFolderRow from "./views/FileSystemItem/SharedFolderRow"
 import { SharedFolderModalMode } from "./types"
 import SharingExplainerModal from "../../SharingExplainerModal"
 import { useSharingExplainerModalFlag } from "./hooks/useSharingExplainerModalFlag"
-import {usePageTrack} from "../../../Contexts/PosthogContext"
+import { usePageTrack } from "../../../Contexts/PosthogContext"
 
 export const desktopSharedGridSettings = "69px 3fr 120px 190px 150px 45px !important"
 export const mobileSharedGridSettings = "3fr 80px 45px !important"

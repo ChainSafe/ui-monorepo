@@ -16,7 +16,7 @@ import TopLightSVG from "../../Media/landing/layers/light/Top.light.svg"
 import MigrateAccount from "../Modules/LoginModule/MigrateAccount"
 import InitializeAccount from "../Modules/LoginModule/InitializeAccount"
 import { useFilesApi } from "../../Contexts/FilesApiContext"
-import {usePageTrack} from "../../Contexts/PosthogContext"
+import { usePageTrack } from "../../Contexts/PosthogContext"
 
 const useStyles = makeStyles(
   ({ constants, breakpoints, typography, zIndex }: CSFTheme) =>
