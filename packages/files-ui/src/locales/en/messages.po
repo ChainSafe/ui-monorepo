@@ -550,8 +550,8 @@ msgstr "Saved Browsers"
 msgid "Saved on:"
 msgstr "Saved on:"
 
-msgid "Schedule a 15min call"
-msgstr "Schedule a 15min call"
+msgid "Schedule a 15 min call"
+msgstr "Schedule a 15 min call"
 
 msgid "Search results"
 msgstr "Search results"

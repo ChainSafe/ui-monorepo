@@ -547,7 +547,7 @@ msgstr "Gespeicherte Browser"
 msgid "Saved on:"
 msgstr "Gesichert am:"
 
-msgid "Schedule a 15min call"
+msgid "Schedule a 15 min call"
 msgstr ""
 
 msgid "Search results"

@@ -79,7 +79,7 @@ const SurveyBanner = ({ onHide }: Props) => {
           className={classes.link}
           onClick={onOpen}
         >
-          <Trans>Schedule a 15min call</Trans>
+          <Trans>Schedule a 15 min call</Trans>
         </span>
       </Typography>
       <div className={classes.spacer}/>

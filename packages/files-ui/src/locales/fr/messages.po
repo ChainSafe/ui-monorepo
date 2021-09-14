@@ -551,7 +551,7 @@ msgstr "Navigateurs enregistrés"
 msgid "Saved on:"
 msgstr "Enregistré sur :"
 
-msgid "Schedule a 15min call"
+msgid "Schedule a 15 min call"
 msgstr ""
 
 msgid "Search results"

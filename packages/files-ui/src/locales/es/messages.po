@@ -551,7 +551,7 @@ msgstr "Navegadores guardados"
 msgid "Saved on:"
 msgstr "Guardado el:"
 
-msgid "Schedule a 15min call"
+msgid "Schedule a 15 min call"
 msgstr ""
 
 msgid "Search results"
