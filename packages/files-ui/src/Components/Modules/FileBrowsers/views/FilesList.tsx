@@ -56,7 +56,7 @@ import { useSharingExplainerModalFlag } from "../hooks/useSharingExplainerModalF
 
 const baseOperations:  FileOperation[] = ["download", "info", "preview"]
 const readerOperations: FileOperation[] = [...baseOperations, "report"]
-const ownerOperations: FileOperation[] = [...baseOperations, "delete", "move", "rename"]
+const ownerOperations: FileOperation[] = [...baseOperations, "delete", "move", "rename", "recover"]
 const csfOperations:  FileOperation[] = [...ownerOperations, "share"]
 const writerOperations: FileOperation[] = [...ownerOperations, "report"]
 
@@ -548,6 +548,7 @@ const FilesList = ({ isShared = false }: Props) => {
         }
       }
     }
+    console.log(fileOperations, bulkOperations)
     setValidBulkOps(fileOperations)
   }, [selectedCids, items, bulkOperations, isShared, permission])
 
@@ -651,6 +652,8 @@ const FilesList = ({ isShared = false }: Props) => {
     setFileIndex(fileIndex)
     setIsCopyToSharedFolderModalOpen(true)
   }, [hasSeenSharingExplainerModal])
+
+  console.log(validBulkOps)
 
   return (
     <article
