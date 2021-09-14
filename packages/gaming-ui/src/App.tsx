@@ -11,6 +11,7 @@ import { lightTheme } from "./Themes/LightTheme"
 import { darkTheme } from "./Themes/DarkTheme"
 import { useLocalStorage } from "@chainsafe/browser-storage-hooks"
 import { GamingApiProvider }  from "./Contexts/GamingApiContext"
+import { UserProvider } from "./Contexts/UserContext"
 
 if (
   process.env.NODE_ENV === "production" &&
@@ -101,11 +102,13 @@ const App = () => {
                 apiUrl={apiUrl}
                 withLocalStorage={true}
               >
-                <Router>
-                  <AppWrapper>
-                    <StorageRoutes />
-                  </AppWrapper>
-                </Router>
+                <UserProvider>
+                  <Router>
+                    <AppWrapper>
+                      <StorageRoutes />
+                    </AppWrapper>
+                  </Router>
+                </UserProvider>
               </GamingApiProvider>
             </Web3Provider>
           </ToastProvider>
