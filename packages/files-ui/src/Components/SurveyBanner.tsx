@@ -73,13 +73,13 @@ const SurveyBanner = ({ onHide }: Props) => {
         variant="body1"
         className={classes.banner}>
         <Trans>
-          Help us improve File in less than 1 minute.
+          Want to help shape this product?
         </Trans>
         <span
           className={classes.link}
           onClick={onOpen}
         >
-          <Trans>Continue</Trans>
+          <Trans>Schedule a 15 min call</Trans>
         </span>
       </Typography>
       <div className={classes.spacer}/>

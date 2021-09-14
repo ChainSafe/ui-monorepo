@@ -310,9 +310,6 @@ msgstr ""
 msgid "Hello again!"
 msgstr "Hallo nochmal!"
 
-msgid "Help us improve File in less than 1 minute."
-msgstr ""
-
 msgid "Hey! You only have two sign-in methods. If you lose that and have only one left, you will be locked out of your account forever."
 msgstr ""
 
@@ -550,6 +547,9 @@ msgstr "Gespeicherte Browser"
 msgid "Saved on:"
 msgstr "Gesichert am:"
 
+msgid "Schedule a 15 min call"
+msgstr ""
+
 msgid "Search results"
 msgstr "Suchergebnisse"
 
@@ -755,6 +755,9 @@ msgid "View folder"
 msgstr "Ordner anzeigen"
 
 msgid "Wallet address"
+msgstr ""
+
+msgid "Want to help shape this product?"
 msgstr ""
 
 msgid "We can't encrypt files larger than 2GB. Some items will not be uploaded"
