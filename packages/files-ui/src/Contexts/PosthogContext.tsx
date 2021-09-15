@@ -1,9 +1,8 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react"
 import posthog from "posthog-js"
 import { Button, Typography, useLocation } from "@chainsafe/common-components"
-import { createStyles, makeStyles } from "@chainsafe/common-theme"
-import { CSFTheme } from "../Themes/types"
-import { useUser } from "./UserContext"
+import { createStyles, ITheme, makeStyles } from "@chainsafe/common-theme"
+import { Trans } from "@lingui/macro"
 
 export type PosthogContext = {
   posthogInitialized: boolean
@@ -20,22 +19,44 @@ const PosthogContext = React.createContext<PosthogContext>({
 })
 
 const useStyles = makeStyles(
-  ({ palette }: CSFTheme) => {
-
+  ({ palette, breakpoints }: ITheme) => {
     return createStyles({
       cookieBanner: {
         position: "fixed",
         bottom: 0,
-        width:"100%",
+        width: "100%",
         display: "flex",
+        color: palette.common.white.main,
         flexDirection: "column",
         backgroundColor: palette.primary.main,
-        padding: "16px 32px"
+        padding: "16px 32px",
+        [breakpoints.down("sm")]: {
+          padding: "8px 16px"
+        }
+      },
+      bannerHeading: {
+        fontSize: 24,
+        lineHeight: "28px",
+        [breakpoints.down("sm")]: {
+          fontSize: 18,
+          lineHeight: "22px"
+        }
+      },
+      bannerText: {
+        fontSize: 14,
+        lineHeight: "18px",
+        [breakpoints.down("sm")]: {
+          fontSize: 12,
+          lineHeight: "16px"
+        }
+      },
+      link: {
+        color: palette.common.white.main
       },
       buttonSection: {
         display: "flex",
         flexDirection: "row",
-        "& > *":{
+        "& > *": {
           margin: 8
         }
       }
@@ -45,7 +66,7 @@ const useStyles = makeStyles(
 
 const PosthogProvider = ({ children }: PosthogProviderProps) => {
   const [posthogState, setPosthogState] = useState({ hasOptedOut: false, hasOptedIn: false })
-  const { profile } = useUser()
+
   const classes = useStyles()
   const posthogInitialized = useMemo(() =>
     !!process.env.REACT_APP_POSTHOG_PROJECT_API_KEY &&
@@ -67,16 +88,9 @@ const PosthogProvider = ({ children }: PosthogProviderProps) => {
     refreshPosthogState()
   }, [refreshPosthogState])
 
-  useEffect(() => {
-    if (posthogInitialized){
-      profile?.userId
-        ? posthog.identify(profile.userId)
-        : posthog.reset()
-    }
-  }, [profile, posthogInitialized])
-
   const shouldShowBanner = useMemo(() =>
-    posthogInitialized && !posthogState.hasOptedOut && !posthogState.hasOptedIn, [posthogState, posthogInitialized])
+    posthogInitialized && !posthogState.hasOptedOut && !posthogState.hasOptedIn,
+  [posthogState, posthogInitialized])
 
   const optInCapturing = useCallback(() => {
     if (posthogInitialized) {
@@ -102,18 +116,25 @@ const PosthogProvider = ({ children }: PosthogProviderProps) => {
       {children}
       {shouldShowBanner &&
         <div className={classes.cookieBanner}>
-          <Typography variant='h4'>This website uses cookies</Typography>
-          <Typography variant='body2'>
-            Cookie legal...Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-            veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-            Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-            Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+          <Typography className={classes.bannerHeading}><Trans>This website uses cookies</Trans></Typography>
+          <Typography className={classes.bannerText}>
+            <Trans>
+              This website uses cookies that help the website function and track interactions for analytics purposes.
+              You have the right to decline our use of cookies. For us to provide a customizable user experience to you,
+              please click on the Accept button below.
+              <a className={classes.link}
+                href="https://files.chainsafe.io/privacy-policy"
+                target='_blank'
+                rel='noreferrer'>Learn more
+              </a>
+            </Trans>
           </Typography>
           <div className={classes.buttonSection}>
-            <Button onClick={optOutCapturing}>Decline</Button>
+            <Button onClick={optOutCapturing}><Trans>Decline</Trans></Button>
             <Button onClick={optInCapturing}
-              variant='outline'>Accept</Button>
+              variant='outline'>
+              <Trans>Accept</Trans>
+            </Button>
           </div>
         </div>
       }
