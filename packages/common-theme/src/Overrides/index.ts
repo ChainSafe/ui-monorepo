@@ -21,7 +21,7 @@ import { ISelectInputOverride } from "./SelectInput"
 import { ITableOverride } from "./Table"
 import { ITabsOverride } from "./Tabs"
 import { ITextInputOverride } from "./TextInput"
-import { IToasterOverride } from "./Toaster"
+import { IToastsOverride } from "./Toasts"
 import { ITypographyOverride } from "./Typography"
 import { ITagsInputOverride } from "./TagsInput"
 import { IToggleHiddenText } from "./ToggleHiddenText"
@@ -50,7 +50,7 @@ export interface IComponentOverrides {
   Table?: ITableOverride
   Tabs?: ITabsOverride
   TextInput?: ITextInputOverride
-  Toaster?: IToasterOverride
+  Toasts?: IToastsOverride
   ToggleHiddenText?: IToggleHiddenText
   Typography?: ITypographyOverride
   TagsInput?: ITagsInputOverride

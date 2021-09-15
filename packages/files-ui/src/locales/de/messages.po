@@ -3,14 +3,14 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-04-20 00:28+0200\n"
-"PO-Revision-Date: 2021-09-06 00:40+0000\n"
+"PO-Revision-Date: 2021-09-14 09:14+0000\n"
 "Last-Translator: J. Lavoie <j.lavoie@net-c.ca>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/chainsafe-files/chainsafe-files-user-interface/de/>\n"
 "Language: de\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.8.1-dev\n"
+"X-Generator: Weblate 4.9-dev\n"
 "Mime-Version: 1.0\n"
 
 msgid "A backup secret phrase will be generated and used for your account.<0/>We do not store it and <1>it can only be displayed once</1>. Save it somewhere safe!"
@@ -47,16 +47,13 @@ msgid "Add viewers and editors by username, sharing id or Ethereum address."
 msgstr ""
 
 msgid "An error occurred while downloading the file"
-msgstr ""
+msgstr "Beim Herunterladen der Datei ist ein Fehler aufgetreten"
 
 msgid "An error occurred:"
-msgstr ""
+msgstr "Es ist ein Fehler aufgetreten:"
 
 msgid "Approve"
 msgstr "Genehmigen"
-
-msgid "Are we on the right track? Let us know in less than 1 minute."
-msgstr "Sind wir auf dem richtigen Weg? Sagen Sie es uns in weniger als 1 Minute."
 
 msgid "Back to plan settings"
 msgstr ""
@@ -178,10 +175,10 @@ msgstr ""
 msgid "Create folder"
 msgstr "Ordner erstellen"
 
-msgid "Credit card on file"
+msgid "Create your public username in <0>Settings</0>!"
 msgstr ""
 
-msgid "Create your public username in <0>Settings</0>!"
+msgid "Credit card on file"
 msgstr ""
 
 msgid "Dark Theme"
@@ -211,16 +208,25 @@ msgstr "Anzeigeeinstellungen"
 msgid "Download"
 msgstr "Herunterladen"
 
-msgid "Download as zip"
+msgid "Download Complete"
 msgstr ""
 
-msgid "Download complete"
-msgstr "Komplett heruntergeladen"
+msgid "Download as zip"
+msgstr ""
 
 msgid "Download recovery key"
 msgstr "Wiederherstellungsschlüssel herunterladen"
 
-msgid "Downloading"
+msgid "Downloading file - {0}"
+msgstr ""
+
+msgid "Downloading {fileProgress} - {0}"
+msgstr ""
+
+msgid "Downloads cancelled"
+msgstr ""
+
+msgid "Downloads failed"
 msgstr ""
 
 msgid "Drop to upload files"
@@ -289,6 +295,9 @@ msgstr "Ordner"
 msgid "Folder name is already in use"
 msgstr ""
 
+msgid "Folder uploads are not supported currently"
+msgstr ""
+
 msgid "Folders"
 msgstr "Ordner"
 
@@ -322,14 +331,14 @@ msgstr ""
 msgid "Go back"
 msgstr "Zurück"
 
+msgid "Got an issue?"
+msgstr ""
+
 msgid "Got it"
 msgstr ""
 
 msgid "Hello again!"
 msgstr "Hallo nochmal!"
-
-msgid "Help us improve File in less than 1 minute."
-msgstr ""
 
 msgid "Hey! You only have two sign-in methods. If you lose that and have only one left, you will be locked out of your account forever."
 msgstr ""
@@ -580,6 +589,9 @@ msgstr "Gespeicherte Browser"
 msgid "Saved on:"
 msgstr "Gesichert am:"
 
+msgid "Schedule a 15 min call"
+msgstr ""
+
 msgid "Search results"
 msgstr "Suchergebnisse"
 
@@ -631,7 +643,10 @@ msgstr ""
 msgid "Shared with"
 msgstr ""
 
-msgid "Sharing your file ({0})"
+msgid "Sharing cancelled"
+msgstr ""
+
+msgid "Sharing your file (Downloading)"
 msgstr ""
 
 msgid "Sign Out"
@@ -757,11 +772,8 @@ msgstr ""
 msgid "Upload"
 msgstr "Hochladen"
 
-msgid "Upload complete"
-msgstr "Hochladen abgeschlossen"
-
-msgid "Uploading {0} files"
-msgstr "Hochladen von {0} Dateien"
+msgid "Uploads cancelled"
+msgstr ""
 
 msgid "Use a different login method"
 msgstr "Eine andere Anmeldemethode verwenden"
@@ -802,6 +814,9 @@ msgstr "Ordner anzeigen"
 msgid "Wallet address"
 msgstr ""
 
+msgid "Want to help shape this product?"
+msgstr ""
+
 msgid "We can't encrypt files larger than 2GB. Some items will not be uploaded"
 msgstr ""
 
@@ -827,7 +842,7 @@ msgid "You can change this later."
 msgstr "Sie können dies später ändern."
 
 msgid "You can now create shared folders to share a file."
-msgstr ""
+msgstr "Sie können nun geteilte Ordner erstellen, um eine Datei zu teilen."
 
 msgid "You can't move folders to this path"
 msgstr "Sie können keine Ordner in diesen Pfad verschieben"
@@ -868,11 +883,14 @@ msgstr "erfolgreich wiederhergestellt"
 msgid "unknown"
 msgstr "unbekannt"
 
+msgid "{0, plural, one {Downloading {1} file} other {Downloading {2} files}}"
+msgstr "{0, plural, one {{1} Datei wird heruntergeladen} other {{2} Dateien werden heruntergeladen}}"
+
+msgid "{0, plural, one {Encrypting and uploading {1} file} other {Encrypting and uploading {2} files}}"
+msgstr "{0, plural, one {{1} Datei wird verschlüsselt und hochgeladen} other {{2} Dateien werden verschlüsselt und hochgeladen}}"
+
 msgid "{0, plural, one {You are about to delete {1} item.} other {You are about to delete {2} items.}}"
 msgstr "{0, plural, one {Sie sind dabei, {1} Artikel zu löschen.} other {Sie sind dabei, {2} Artikel zu löschen.}}"
 
 msgid "{0} of {1} used ({2}%)"
 msgstr ""
-
-msgid "{noOfFiles, plural, one {Uploading and encrypting {noOfFiles} file} other {Uploading and encrypting {noOfFiles} files}}"
-msgstr "{noOfFiles, plural, one {{noOfFiles} Datei wird hochgeladen und verschlüsselt} other {{noOfFiles} Datein werden hochgeladen und verschlüsselt}}"

@@ -1,4 +1,4 @@
-import { Button, Grid, TextInput, Typography, useToaster } from "@chainsafe/common-components"
+import { Button, Grid, TextInput, Typography, useToasts } from "@chainsafe/common-components"
 import { createStyles, makeStyles } from "@chainsafe/common-theme"
 import React, { useState, useCallback } from "react"
 import { CSFTheme } from "../../../../Themes/types"
@@ -76,7 +76,7 @@ const CreateFolderModal = ({ isModalOpen, onClose }: ICreateFolderModalProps) =>
   const [error, setError] = useState("")
   const [loading, setLoading] = useState(false)
   const { addCard, getCardTokenFromStripe } = useBilling()
-  const { addToastMessage } = useToaster()
+  const { addToast } = useToasts()
 
   const onCloseModal = useCallback(() => {
     setCardInputs({ cardNumber: "", cardExpiry: "", cardCvc: "" })
@@ -106,8 +106,9 @@ const CreateFolderModal = ({ isModalOpen, onClose }: ICreateFolderModalProps) =>
       addCard(resp.data.id)
         .then(() => {
           onCloseModal()
-          addToastMessage({
-            message: t`Card added successfully`
+          addToast({
+            title: t`Card added successfully`,
+            type: "success"
           })
         }).catch((e) => {
           setError(t`Something went wrong, please try again`)
@@ -118,7 +119,7 @@ const CreateFolderModal = ({ isModalOpen, onClose }: ICreateFolderModalProps) =>
       setError(t`Card details could not be validated`)
       setLoading(false)
     })
-  }, [addToastMessage, cardInputs, cardName, onCloseModal, getCardTokenFromStripe, addCard])
+  }, [cardName, cardInputs, getCardTokenFromStripe, addCard, onCloseModal, addToast])
 
   return (
     <CustomModal
