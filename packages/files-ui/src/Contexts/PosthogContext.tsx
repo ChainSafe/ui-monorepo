@@ -125,7 +125,7 @@ const PosthogProvider = ({ children }: PosthogProviderProps) => {
               <a className={classes.link}
                 href="https://files.chainsafe.io/privacy-policy"
                 target='_blank'
-                rel='noreferrer'>Learn more
+                rel='noopener noreferrer'>Learn more
               </a>
             </Trans>
           </Typography>
