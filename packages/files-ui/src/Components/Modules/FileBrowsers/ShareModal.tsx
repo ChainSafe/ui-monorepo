@@ -2,15 +2,7 @@ import { createStyles, makeStyles } from "@chainsafe/common-theme"
 import React, { useState } from "react"
 import CustomModal from "../../Elements/CustomModal"
 import { t, Trans } from "@lingui/macro"
-import {
-  Button,
-  CheckboxInput,
-  SelectInput,
-  ShareAltSvg,
-  TagsInput,
-  TextInput,
-  Typography
-} from "@chainsafe/common-components"
+import { Button, CheckboxInput, SelectInput, ShareAltSvg, TagsInput, TextInput, Typography } from "@chainsafe/common-components"
 import { CSFTheme } from "../../../Themes/types"
 import { useCallback } from "react"
 import { useCreateOrEditSharedFolder } from "./hooks/useCreateOrEditSharedFolder"
@@ -193,7 +185,7 @@ interface IShareFileProps {
   filePath: string
 }
 
-const CopyToSharedFolderModal = ({ close, file, filePath }: IShareFileProps) => {
+const ShareModal = ({ close, file, filePath }: IShareFileProps) => {
   const classes = useStyles()
   const { handleCreateSharedFolder } = useCreateOrEditSharedFolder()
   const [sharedFolderName, setSharedFolderName] = useState("")
@@ -213,11 +205,11 @@ const CopyToSharedFolderModal = ({ close, file, filePath }: IShareFileProps) => 
     }
 
     return buckets
-      .filter(buck => buck.type === "share")
+      .filter(buck => buck.type === "share" || buck.type === "csf")
       // all buckets where the user is reader or writer
       .filter(buck => !!buck.writers.find((w) => w.uuid === profile.userId) || !!buck.owners.find((o) => o.uuid === profile.userId))
       .map(buck => ({
-        label: buck.name,
+        label: buck.name || t`Home`,
         value: buck.id
       }))
   }
@@ -307,7 +299,6 @@ const CopyToSharedFolderModal = ({ close, file, filePath }: IShareFileProps) => 
       mobileStickyBottom={false}
     >
       <div className={classes.root}>
-
         <div className={classes.iconBacking}>
           <ShareAltSvg />
         </div>
@@ -450,4 +441,4 @@ const CopyToSharedFolderModal = ({ close, file, filePath }: IShareFileProps) => 
   )
 }
 
-export default CopyToSharedFolderModal
+export default ShareModal
