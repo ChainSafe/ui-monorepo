@@ -24,6 +24,7 @@
   },
   "rules": {
     "comma-spacing": ["error", { "before": false, "after": true }],
+    "cypress/no-pause": "error",
     "indent": ["error", 2],
     "linebreak-style": ["error", "unix"],
     "quotes": ["error", "double"],
