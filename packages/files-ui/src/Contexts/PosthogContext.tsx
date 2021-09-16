@@ -77,6 +77,7 @@ const PosthogProvider = ({ children }: PosthogProviderProps) => {
     if (posthogInitialized) {
       const optedOut = posthog.has_opted_out_capturing()
       const optedIn = posthog.has_opted_in_capturing()
+
       setPosthogState({
         hasOptedOut: optedOut,
         hasOptedIn: optedIn
@@ -91,10 +92,6 @@ const PosthogProvider = ({ children }: PosthogProviderProps) => {
   const shouldShowBanner = useMemo(() =>
     posthogInitialized && !posthogState.hasOptedOut && !posthogState.hasOptedIn,
   [posthogState, posthogInitialized])
-
-  console.log("shouldShowBanner", shouldShowBanner)
-  console.log("posthogInitialized", posthogInitialized)
-  console.log("posthogState.hasOptedOut, posthogState.hasOptedIn", posthogState.hasOptedOut, posthogState.hasOptedIn)
 
   const optInCapturing = useCallback(() => {
     if (posthogInitialized) {
@@ -135,8 +132,10 @@ const PosthogProvider = ({ children }: PosthogProviderProps) => {
           </Typography>
           <div className={classes.buttonSection}>
             <Button onClick={optOutCapturing}><Trans>Decline</Trans></Button>
-            <Button onClick={optInCapturing}
-              variant='outline'>
+            <Button
+              onClick={optInCapturing}
+              variant='outline'
+            >
               <Trans>Accept</Trans>
             </Button>
           </div>
@@ -157,6 +156,7 @@ function usePosthogContext() {
 function usePageTrack() {
   const { pathname } = useLocation()
   const { hasOptedIn } = usePosthogContext()
+  console.log("hasOptedIn", hasOptedIn)
   useEffect(() => {
     hasOptedIn && posthog.capture("$pageview")
   }, [pathname, hasOptedIn])
