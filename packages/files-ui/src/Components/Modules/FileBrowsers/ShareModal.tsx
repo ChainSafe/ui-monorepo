@@ -197,7 +197,12 @@ const ShareModal = ({ close, file, filePath }: IShareFileProps) => {
   const { bucket } = useFileBrowser()
   const { profile } = useUser()
   const [nameError, setNameError] = useState("")
+  const inSharedBucket = useMemo(() => bucket?.type === "share", [bucket?.type])
+  const isReader = useMemo(() => {
+    if (!bucket) return false
 
+    return !!(bucket.readers.find(owner => owner.uuid === profile?.userId))
+  }, [bucket, profile?.userId])
 
   const bucketsOptions = useMemo(() => {
     if (!profile) {
@@ -304,7 +309,10 @@ const ShareModal = ({ close, file, filePath }: IShareFileProps) => {
         </div>
         <div className={classes.heading}>
           <Typography className={classes.inputLabel}>
-            <Trans>Share file</Trans>
+            {inSharedBucket
+              ? t`Copy file`
+              : t`Share file`
+            }
           </Typography>
         </div>
 
@@ -313,7 +321,7 @@ const ShareModal = ({ close, file, filePath }: IShareFileProps) => {
             ? (
               <div className={clsx(classes.modalFlexItem, classes.inputWrapper)}>
                 <SelectInput
-                  label={t`Select an existing shared folder`}
+                  label={t`Select an existing shared folder or your home`}
                   labelClassName={classes.inputLabel}
                   options={bucketsOptions}
                   value={destinationBucket?.id}
@@ -402,13 +410,15 @@ const ShareModal = ({ close, file, filePath }: IShareFileProps) => {
               </Typography>
             </div>
           )}
-          <div className={classes.checkboxContainer}>
-            <CheckboxInput
-              value={keepOriginalFile}
-              onChange={() => setKeepOriginalFile(!keepOriginalFile)}
-              label={t`Keep original file`}
-            />
-          </div>
+          {!isReader && (
+            <div className={classes.checkboxContainer}>
+              <CheckboxInput
+                value={keepOriginalFile}
+                onChange={() => setKeepOriginalFile(!keepOriginalFile)}
+                label={t`Keep original file`}
+              />
+            </div>
+          )}
           <div className={classes.buttonsContainer}>
             <Button
               size="large"
