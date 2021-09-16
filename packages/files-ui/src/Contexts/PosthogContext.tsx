@@ -7,7 +7,7 @@ import { useLocalStorage } from "@chainsafe/browser-storage-hooks"
 
 export type PosthogContext = {
   hasOptedIn: boolean
-  showBanner: boolean
+  posthogInitialized: boolean
 }
 
 type PosthogProviderProps = posthog.Config & {
@@ -16,7 +16,7 @@ type PosthogProviderProps = posthog.Config & {
 
 const PosthogContext = React.createContext<PosthogContext>({
   hasOptedIn: false,
-  showBanner: false
+  posthogInitialized: false
 })
 
 const useStyles = makeStyles(
@@ -117,7 +117,7 @@ const PosthogProvider = ({ children }: PosthogProviderProps) => {
     <PosthogContext.Provider
       value={{
         hasOptedIn,
-        showBanner
+        posthogInitialized
       }}
     >
       {children}
@@ -161,11 +161,11 @@ function usePosthogContext() {
 
 function usePageTrack() {
   const { pathname } = useLocation()
-  const { hasOptedIn } = usePosthogContext()
+  const { hasOptedIn, posthogInitialized } = usePosthogContext()
 
   useEffect(() => {
-    hasOptedIn && posthog.capture("$pageview")
-  }, [pathname, hasOptedIn])
+    posthogInitialized && hasOptedIn && posthog.capture("$pageview")
+  }, [pathname, hasOptedIn, posthogInitialized])
 }
 
 export { PosthogProvider, usePosthogContext, usePageTrack }
