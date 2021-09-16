@@ -19,6 +19,9 @@ msgstr ""
 msgid "A file with the same name already exists"
 msgstr ""
 
+msgid "Accept"
+msgstr ""
+
 msgid "Account"
 msgstr "Konto"
 
@@ -162,6 +165,9 @@ msgstr "Mørk drakt"
 
 msgid "Date uploaded"
 msgstr "Dato opplastet"
+
+msgid "Decline"
+msgstr ""
 
 msgid "Decryption key"
 msgstr ""
@@ -702,6 +708,12 @@ msgstr ""
 
 msgid "This username is public"
 msgstr "Dette brukernavnet er offentlig"
+
+msgid "This website uses cookies"
+msgstr ""
+
+msgid "This website uses cookies that help the website function and track interactions for analytics purposes. You have the right to decline our use of cookies. For us to provide a customizable user experience to you, please click on the Accept button below.<0>Learn more</0>"
+msgstr ""
 
 msgid "Transfer complete"
 msgstr ""
