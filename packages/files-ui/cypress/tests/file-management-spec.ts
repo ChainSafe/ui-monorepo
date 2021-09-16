@@ -87,9 +87,72 @@ describe("File management", () => {
         homePage.fileItemRow().should("have.length", 2)
         homePage.fileItemName().should("contain.text", folderName)
         homePage.fileItemName().should("contain.text", $fileName)
+
+        // ensure folder already in the root cannot be moved to Home
+        homePage.fileItemName().contains(`${$fileName}`).click()
+        homePage.moveSelectedButton().click()
+        moveItemModal.folderList().contains("Home").click()
+        moveItemModal.errorLabel().should("be.visible")
+        moveItemModal.moveButton().should("be.disabled")
+        moveItemModal.cancelButton().should("be.enabled")
       })
     })
 
+    it("can see errors when attempting illogical folder move", () => {
+      cy.web3Login({ clearCSFBucket: true })
+
+      // create the necessary folder structure
+      apiTestHelper.createFolder("/Parent/Child")
+
+      // select a parent folder and initiate move action
+      homePage.fileItemName().contains("Parent").click()
+      homePage.moveSelectedButton().click()
+
+      // ensure folder already in the root cannot be moved to Home
+      moveItemModal.folderList().contains("Home").click()
+      moveItemModal.body().should("be.visible")
+      moveItemModal.errorLabel().should("be.visible")
+      moveItemModal.moveButton().should("be.disabled")
+      moveItemModal.cancelButton().should("be.enabled")
+
+      // ensure a parent folder cannot be moved to itself
+      moveItemModal.folderList().contains("Home").click()
+      moveItemModal.folderList().contains("Parent").click()
+      moveItemModal.body().should("be.visible")
+      moveItemModal.errorLabel().should("be.visible")
+      moveItemModal.moveButton().should("be.disabled")
+      moveItemModal.cancelButton().should("be.enabled")
+
+      // ensure a parent folder cannot be moved to a child folder
+      moveItemModal.folderList().contains("Child").click()
+      moveItemModal.body().should("be.visible")
+      moveItemModal.errorLabel().should("be.visible")
+      moveItemModal.moveButton().should("be.disabled")
+      moveItemModal.cancelButton().should("be.enabled")
+
+      // return home
+      moveItemModal.cancelButton().click()
+      moveItemModal.body().should("not.exist")
+
+      // navigate to the child folder and initiate move action
+      homePage.fileItemName().contains("Parent").dblclick()
+      homePage.fileItemName().contains("Child").click()
+      homePage.moveSelectedButton().click()
+
+      // ensure a child folder cannot be moved to the parent folder it is already in
+      moveItemModal.folderList().contains("Parent").click()
+      moveItemModal.body().should("be.visible")
+      moveItemModal.errorLabel().should("be.visible")
+      moveItemModal.moveButton().should("be.disabled")
+      moveItemModal.cancelButton().should("be.enabled")
+
+      // ensure a child folder cannot be moved to itself
+      moveItemModal.folderList().contains("Child").click()
+      moveItemModal.body().should("be.visible")
+      moveItemModal.errorLabel().should("be.visible")
+      moveItemModal.moveButton().should("be.disabled")
+      moveItemModal.cancelButton().should("be.enabled")
+    })
 
     it("can add/remove multiple files and upload", () => {
       cy.web3Login({ clearCSFBucket: true })

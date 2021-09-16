@@ -3,15 +3,16 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-04-23 11:05+0200\n"
-"PO-Revision-Date: 2021-09-06 00:40+0000\n"
+"PO-Revision-Date: 2021-09-15 21:36+0000\n"
 "Last-Translator: J. Lavoie <j.lavoie@net-c.ca>\n"
-"Language-Team: French <https://hosted.weblate.org/projects/chainsafe-files/chainsafe-files-user-interface/fr/>\n"
+"Language-Team: French <https://hosted.weblate.org/projects/chainsafe-files/"
+"chainsafe-files-user-interface/fr/>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 4.8.1-dev\n"
+"X-Generator: Weblate 4.9-dev\n"
 "Mime-Version: 1.0\n"
 
 msgid "A backup secret phrase will be generated and used for your account.<0/>We do not store it and <1>it can only be displayed once</1>. Save it somewhere safe!"
@@ -19,6 +20,9 @@ msgstr "Une phrase secrète de sauvegarde sera générée et utilisé pour ce co
 
 msgid "A file with the same name already exists"
 msgstr "Un fichier avec ce nom existe déjà"
+
+msgid "Accept"
+msgstr ""
 
 msgid "Account"
 msgstr "Compte"
@@ -158,6 +162,9 @@ msgstr "Thème sombre"
 msgid "Date uploaded"
 msgstr "Téléversé le"
 
+msgid "Decline"
+msgstr ""
+
 msgid "Decryption key"
 msgstr "Clé de déchiffrement"
 
@@ -179,17 +186,26 @@ msgstr "Paramètres d’affichage"
 msgid "Download"
 msgstr "Télécharger"
 
+msgid "Download Complete"
+msgstr "Téléchargement terminé"
+
 msgid "Download as zip"
 msgstr "Télécharger au format zip"
-
-msgid "Download complete"
-msgstr "Téléchargement terminé"
 
 msgid "Download recovery key"
 msgstr "Télécharger la clé de sauvegarde"
 
-msgid "Downloading"
-msgstr "Téléchargement"
+msgid "Downloading file - {0}"
+msgstr "Téléchargement du fichier - {0}"
+
+msgid "Downloading {fileProgress} - {0}"
+msgstr "Téléchargement de {fileProgress} - {0}"
+
+msgid "Downloads cancelled"
+msgstr "Téléchargements annulés"
+
+msgid "Downloads failed"
+msgstr "Les téléchargements ont échoué"
 
 msgid "Drop to upload files"
 msgstr "Faire glisser pour téléverser un fichier"
@@ -260,6 +276,9 @@ msgstr "Dossier"
 msgid "Folder name is already in use"
 msgstr "Le nom du dossier est déjà utilisé"
 
+msgid "Folder uploads are not supported currently"
+msgstr "Le téléversement de dossiers n'est pas actuellement pris en charge"
+
 msgid "Folders"
 msgstr "Dossiers"
 
@@ -301,9 +320,6 @@ msgstr "Compris"
 
 msgid "Hello again!"
 msgstr "Ravis de vous revoir !"
-
-msgid "Help us improve File in less than 1 minute."
-msgstr "Aidez-nous à améliorer File en moins d'une minute."
 
 msgid "Hey! You only have two sign-in methods. If you lose that and have only one left, you will be locked out of your account forever."
 msgstr "Hé ! Vous n’avez que deux méthodes de connexion. Si vous en perdez une et qu’il ne vous en reste qu’une, vous ne pourrez plus jamais vous connecter à votre compte."
@@ -542,6 +558,9 @@ msgstr "Navigateurs enregistrés"
 msgid "Saved on:"
 msgstr "Enregistré sur :"
 
+msgid "Schedule a 15 min call"
+msgstr "Planifier un appel de 15 min"
+
 msgid "Search results"
 msgstr "Résultats de recherche"
 
@@ -593,8 +612,11 @@ msgstr "Dossiers partagés"
 msgid "Shared with"
 msgstr "Partagé avec"
 
-msgid "Sharing your file ({0})"
-msgstr "Partage de votre fichier ({0})"
+msgid "Sharing cancelled"
+msgstr "Partage annulé"
+
+msgid "Sharing your file (Downloading)"
+msgstr "Partager votre fichier (Téléchargement)"
 
 msgid "Sign Out"
 msgstr "Se déconnecter"
@@ -686,6 +708,12 @@ msgstr "Ce nom d’utilisateur est déjà pris"
 msgid "This username is public"
 msgstr "Ce nom d’utilisateur est public"
 
+msgid "This website uses cookies"
+msgstr ""
+
+msgid "This website uses cookies that help the website function and track interactions for analytics purposes. You have the right to decline our use of cookies. For us to provide a customizable user experience to you, please click on the Accept button below.<0>Learn more</0>"
+msgstr ""
+
 msgid "Transfer complete"
 msgstr "Transfert terminé"
 
@@ -704,11 +732,8 @@ msgstr "Mettre à jour le dossier partagé"
 msgid "Upload"
 msgstr "Téléverser"
 
-msgid "Upload complete"
-msgstr "Téléversement terminé"
-
-msgid "Uploading {0} files"
-msgstr "Téléversement de {0} fichiers"
+msgid "Uploads cancelled"
+msgstr "Téléversements annulés"
 
 msgid "Use a different login method"
 msgstr "Utilisez une méthode de connexion différente"
@@ -748,6 +773,9 @@ msgstr "Voir le dossier"
 
 msgid "Wallet address"
 msgstr "Addresse du wallet"
+
+msgid "Want to help shape this product?"
+msgstr "Vous voulez participer à l'élaboration de ce produit ?"
 
 msgid "We can't encrypt files larger than 2GB. Some items will not be uploaded"
 msgstr "Nous ne pouvons pas chiffrer les fichiers de plus de 2 Go. Certains éléments ne pourront pas être téléversés"
@@ -812,8 +840,11 @@ msgstr "récupéré avec succès"
 msgid "unknown"
 msgstr "inconnu"
 
+msgid "{0, plural, one {Downloading {1} file} other {Downloading {2} files}}"
+msgstr "{0, plural, one {Téléchargement de {1} fichier} other {Téléchargement de {2} fichiers}}"
+
+msgid "{0, plural, one {Encrypting and uploading {1} file} other {Encrypting and uploading {2} files}}"
+msgstr "{0, plural, one {Chiffrement et téléversement de {1} fichier} other {Chiffrement et téléversements {2} fichiers}}"
+
 msgid "{0, plural, one {You are about to delete {1} item.} other {You are about to delete {2} items.}}"
 msgstr "{0, plural, one {Vous êtes sur le point de supprimer {1} élément.} other {Vous êtes sur le point de supprimer {2} éléments.}}"
-
-msgid "{noOfFiles, plural, one {Uploading and encrypting {noOfFiles} file} other {Uploading and encrypting {noOfFiles} files}}"
-msgstr "{noOfFiles, plural, one {Téléversement et chiffrement de {noOfFiles} fichier} other {Téléversement et chiffrement de {noOfFiles} fichiers}}"

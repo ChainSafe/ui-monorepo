@@ -3,7 +3,7 @@ import { init as initSentry, ErrorBoundary, showReportDialog } from "@sentry/rea
 import { Web3Provider } from "@chainsafe/web3-context"
 import { ThemeSwitcher } from "@chainsafe/common-theme"
 import "@chainsafe/common-theme/dist/font-faces.css"
-import { Button, CssBaseline, Modal, Router, ToasterProvider, Typography } from "@chainsafe/common-components"
+import { Button, CssBaseline, Modal, Router, ToastProvider, Typography } from "@chainsafe/common-components"
 import StorageRoutes from "./Components/GamingRoutes"
 import AppWrapper from "./Components/Layouts/AppWrapper"
 import { LanguageProvider } from "./Contexts/LanguageContext"
@@ -11,6 +11,7 @@ import { lightTheme } from "./Themes/LightTheme"
 import { darkTheme } from "./Themes/DarkTheme"
 import { useLocalStorage } from "@chainsafe/browser-storage-hooks"
 import { GamingApiProvider }  from "./Contexts/GamingApiContext"
+import { UserProvider } from "./Contexts/UserContext"
 
 if (
   process.env.NODE_ENV === "production" &&
@@ -91,7 +92,7 @@ const App = () => {
       >
         <CssBaseline />
         <LanguageProvider availableLanguages={availableLanguages}>
-          <ToasterProvider autoDismiss>
+          <ToastProvider autoDismiss>
             <Web3Provider
               onboardConfig={onboardConfig}
               checkNetwork={false}
@@ -101,14 +102,16 @@ const App = () => {
                 apiUrl={apiUrl}
                 withLocalStorage={true}
               >
-                <Router>
-                  <AppWrapper>
-                    <StorageRoutes />
-                  </AppWrapper>
-                </Router>
+                <UserProvider>
+                  <Router>
+                    <AppWrapper>
+                      <StorageRoutes />
+                    </AppWrapper>
+                  </Router>
+                </UserProvider>
               </GamingApiProvider>
             </Web3Provider>
-          </ToasterProvider>
+          </ToastProvider>
         </LanguageProvider>
       </ErrorBoundary>
     </ThemeSwitcher>

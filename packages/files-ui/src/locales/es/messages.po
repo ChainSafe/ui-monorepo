@@ -20,6 +20,9 @@ msgstr ""
 msgid "A file with the same name already exists"
 msgstr "Ya existe un archivo con el mismo nombre"
 
+msgid "Accept"
+msgstr ""
+
 msgid "Account"
 msgstr "Cuenta"
 
@@ -158,6 +161,9 @@ msgstr "Tema oscuro"
 msgid "Date uploaded"
 msgstr "Fecha de subida"
 
+msgid "Decline"
+msgstr ""
+
 msgid "Decryption key"
 msgstr ""
 
@@ -179,16 +185,25 @@ msgstr "Configuración de pantalla"
 msgid "Download"
 msgstr "Descargar"
 
-msgid "Download as zip"
+msgid "Download Complete"
 msgstr ""
 
-msgid "Download complete"
-msgstr "Descarga completa"
+msgid "Download as zip"
+msgstr ""
 
 msgid "Download recovery key"
 msgstr "Descargar la clave de recuperación"
 
-msgid "Downloading"
+msgid "Downloading file - {0}"
+msgstr ""
+
+msgid "Downloading {fileProgress} - {0}"
+msgstr ""
+
+msgid "Downloads cancelled"
+msgstr ""
+
+msgid "Downloads failed"
 msgstr ""
 
 msgid "Drop to upload files"
@@ -260,6 +275,9 @@ msgstr "Archivo"
 msgid "Folder name is already in use"
 msgstr ""
 
+msgid "Folder uploads are not supported currently"
+msgstr ""
+
 msgid "Folders"
 msgstr "Archivos"
 
@@ -301,9 +319,6 @@ msgstr ""
 
 msgid "Hello again!"
 msgstr "Hola de nuevo!"
-
-msgid "Help us improve File in less than 1 minute."
-msgstr ""
 
 msgid "Hey! You only have two sign-in methods. If you lose that and have only one left, you will be locked out of your account forever."
 msgstr "Oye! Solo tiene dos métodos de inicio de sesión. Si lo pierde y solo le queda uno, se le bloqueará su cuenta para siempre."
@@ -542,6 +557,9 @@ msgstr "Navegadores guardados"
 msgid "Saved on:"
 msgstr "Guardado el:"
 
+msgid "Schedule a 15 min call"
+msgstr ""
+
 msgid "Search results"
 msgstr "Resultados de la búsqueda"
 
@@ -593,7 +611,10 @@ msgstr ""
 msgid "Shared with"
 msgstr ""
 
-msgid "Sharing your file ({0})"
+msgid "Sharing cancelled"
+msgstr ""
+
+msgid "Sharing your file (Downloading)"
 msgstr ""
 
 msgid "Sign Out"
@@ -686,6 +707,12 @@ msgstr ""
 msgid "This username is public"
 msgstr ""
 
+msgid "This website uses cookies"
+msgstr ""
+
+msgid "This website uses cookies that help the website function and track interactions for analytics purposes. You have the right to decline our use of cookies. For us to provide a customizable user experience to you, please click on the Accept button below.<0>Learn more</0>"
+msgstr ""
+
 msgid "Transfer complete"
 msgstr ""
 
@@ -704,11 +731,8 @@ msgstr ""
 msgid "Upload"
 msgstr "Subir"
 
-msgid "Upload complete"
-msgstr "Carga completa"
-
-msgid "Uploading {0} files"
-msgstr "Subiendo {0} archivos"
+msgid "Uploads cancelled"
+msgstr ""
 
 msgid "Use a different login method"
 msgstr "Utilice un método de inicio de sesión diferente"
@@ -748,6 +772,9 @@ msgstr "Utilice un navegador guardado"
 
 msgid "Wallet address"
 msgstr "Utilice un navegador guardado"
+
+msgid "Want to help shape this product?"
+msgstr ""
 
 msgid "We can't encrypt files larger than 2GB. Some items will not be uploaded"
 msgstr ""
@@ -812,8 +839,11 @@ msgstr "recuperado con éxito"
 msgid "unknown"
 msgstr ""
 
-msgid "{0, plural, one {You are about to delete {1} item.} other {You are about to delete {2} items.}}"
+msgid "{0, plural, one {Downloading {1} file} other {Downloading {2} files}}"
 msgstr ""
 
-msgid "{noOfFiles, plural, one {Uploading and encrypting {noOfFiles} file} other {Uploading and encrypting {noOfFiles} files}}"
-msgstr "{noOfFiles, plural, one {Carga y encriptación del archivo {noOfFiles}} other {Carga y encriptación de archivos {noOfFiles}}}"
+msgid "{0, plural, one {Encrypting and uploading {1} file} other {Encrypting and uploading {2} files}}"
+msgstr ""
+
+msgid "{0, plural, one {You are about to delete {1} item.} other {You are about to delete {2} items.}}"
+msgstr ""

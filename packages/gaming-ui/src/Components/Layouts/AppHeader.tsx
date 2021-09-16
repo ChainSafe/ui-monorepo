@@ -14,6 +14,7 @@ import { ROUTE_LINKS } from "../GamingRoutes"
 import { Trans } from "@lingui/macro"
 import { CSGTheme } from "../../Themes/types"
 import { useGamingApi } from "../../Contexts/GamingApiContext"
+import { useUser } from "../../Contexts/UserContext"
 
 const useStyles = makeStyles(
   ({ palette, animation, breakpoints, constants, zIndex }: CSGTheme) => {
@@ -154,6 +155,7 @@ const AppHeader = ({ navOpen, setNavOpen }: IAppHeader) => {
   const classes = useStyles()
   const { isLoggedIn, logout } = useGamingApi()
   const { history } = useHistory()
+  const { getProfileTitle } = useUser()
 
   const signOut = useCallback(async () => {
     logout()
@@ -173,17 +175,21 @@ const AppHeader = ({ navOpen, setNavOpen }: IAppHeader) => {
             <>
               <section className={classes.accountControls}>
                 <MenuDropdown
-                  title=''
+                  title={getProfileTitle()}
                   anchor="bottom-right"
                   classNames={{
                     icon: classes.icon,
                     options: classes.options
                   }}
+                  testId="sign-out"
                   menuItems={[
                     {
                       onClick: () => signOut(),
                       contents: (
-                        <div className={classes.menuItem}>
+                        <div
+                          data-cy="menu-sign-out"
+                          className={classes.menuItem}
+                        >
                           <PowerDownSvg />
                           <Typography>
                             <Trans>Sign Out</Trans>
@@ -205,14 +211,14 @@ const AppHeader = ({ navOpen, setNavOpen }: IAppHeader) => {
               />
               <Link
                 className={classes.logo}
-                to={ROUTE_LINKS.SettingsRoot}
+                to={ROUTE_LINKS.Dashboard}
               >
                 <ChainsafeLogo />
                 <Typography
                   variant="h5"
                   className={classes.title}
                 >
-                  Gaming
+                  Dashboard
                 </Typography>
               </Link>
             </>

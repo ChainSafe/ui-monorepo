@@ -19,6 +19,9 @@ msgstr ""
 msgid "A file with the same name already exists"
 msgstr ""
 
+msgid "Accept"
+msgstr ""
+
 msgid "Account"
 msgstr "Konto"
 
@@ -157,6 +160,9 @@ msgstr "Mørk drakt"
 msgid "Date uploaded"
 msgstr "Dato opplastet"
 
+msgid "Decline"
+msgstr ""
+
 msgid "Decryption key"
 msgstr ""
 
@@ -178,16 +184,25 @@ msgstr ""
 msgid "Download"
 msgstr ""
 
-msgid "Download as zip"
+msgid "Download Complete"
 msgstr ""
 
-msgid "Download complete"
+msgid "Download as zip"
 msgstr ""
 
 msgid "Download recovery key"
 msgstr ""
 
-msgid "Downloading"
+msgid "Downloading file - {0}"
+msgstr ""
+
+msgid "Downloading {fileProgress} - {0}"
+msgstr ""
+
+msgid "Downloads cancelled"
+msgstr ""
+
+msgid "Downloads failed"
 msgstr ""
 
 msgid "Drop to upload files"
@@ -256,6 +271,9 @@ msgstr "Mappe"
 msgid "Folder name is already in use"
 msgstr ""
 
+msgid "Folder uploads are not supported currently"
+msgstr ""
+
 msgid "Folders"
 msgstr "Mapper"
 
@@ -297,9 +315,6 @@ msgstr ""
 
 msgid "Hello again!"
 msgstr "Hei igjen."
-
-msgid "Help us improve File in less than 1 minute."
-msgstr ""
 
 msgid "Hey! You only have two sign-in methods. If you lose that and have only one left, you will be locked out of your account forever."
 msgstr ""
@@ -538,6 +553,9 @@ msgstr ""
 msgid "Saved on:"
 msgstr ""
 
+msgid "Schedule a 15 min call"
+msgstr ""
+
 msgid "Search results"
 msgstr ""
 
@@ -589,7 +607,10 @@ msgstr ""
 msgid "Shared with"
 msgstr ""
 
-msgid "Sharing your file ({0})"
+msgid "Sharing cancelled"
+msgstr ""
+
+msgid "Sharing your file (Downloading)"
 msgstr ""
 
 msgid "Sign Out"
@@ -682,6 +703,12 @@ msgstr ""
 msgid "This username is public"
 msgstr "Dette brukernavnet er offentlig"
 
+msgid "This website uses cookies"
+msgstr ""
+
+msgid "This website uses cookies that help the website function and track interactions for analytics purposes. You have the right to decline our use of cookies. For us to provide a customizable user experience to you, please click on the Accept button below.<0>Learn more</0>"
+msgstr ""
+
 msgid "Transfer complete"
 msgstr ""
 
@@ -700,11 +727,8 @@ msgstr ""
 msgid "Upload"
 msgstr "Last opp"
 
-msgid "Upload complete"
-msgstr "Opplastet"
-
-msgid "Uploading {0} files"
-msgstr "Laster opp {0} filer"
+msgid "Uploads cancelled"
+msgstr ""
 
 msgid "Use a different login method"
 msgstr "Bruk en annen innloggingsmetode"
@@ -743,6 +767,9 @@ msgid "View folder"
 msgstr "Vis mappe"
 
 msgid "Wallet address"
+msgstr ""
+
+msgid "Want to help shape this product?"
 msgstr ""
 
 msgid "We can't encrypt files larger than 2GB. Some items will not be uploaded"
@@ -808,8 +835,11 @@ msgstr "gjenopprettet"
 msgid "unknown"
 msgstr ""
 
-msgid "{0, plural, one {You are about to delete {1} item.} other {You are about to delete {2} items.}}"
+msgid "{0, plural, one {Downloading {1} file} other {Downloading {2} files}}"
 msgstr ""
 
-msgid "{noOfFiles, plural, one {Uploading and encrypting {noOfFiles} file} other {Uploading and encrypting {noOfFiles} files}}"
+msgid "{0, plural, one {Encrypting and uploading {1} file} other {Encrypting and uploading {2} files}}"
+msgstr ""
+
+msgid "{0, plural, one {You are about to delete {1} item.} other {You are about to delete {2} items.}}"
 msgstr ""
