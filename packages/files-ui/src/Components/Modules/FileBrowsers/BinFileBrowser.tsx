@@ -73,7 +73,8 @@ const BinFileBrowser: React.FC<IFileBrowserModuleProps> = ({ controls = false }:
       } ${t`deleted successfully`}`
       addToast({
         title: message,
-        type: "success"
+        type: "success",
+        testId: "permanent-deletion-success"
       })
       return Promise.resolve()
     } catch (error) {
