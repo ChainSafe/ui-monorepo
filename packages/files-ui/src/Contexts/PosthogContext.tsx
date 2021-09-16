@@ -86,12 +86,12 @@ const PosthogProvider = ({ children }: PosthogProviderProps) => {
   }, [localStorageGet, localStorageSet])
 
   useEffect(() => {
-    if(!hasTouchedCookieBanner && localStorageGet(TOUCHED_COOKIE_BANNER_KEY) === "false"){
+    if(posthogInitialized && !hasTouchedCookieBanner && localStorageGet(TOUCHED_COOKIE_BANNER_KEY) === "false"){
       setShowBanner(true)
     } else {
       setShowBanner(false)
     }
-  }, [hasTouchedCookieBanner, localStorageGet])
+  }, [posthogInitialized, hasTouchedCookieBanner, localStorageGet])
 
   const touchCookieBanner = useCallback(() => {
     localStorageSet(TOUCHED_COOKIE_BANNER_KEY, "true")
