@@ -56,7 +56,7 @@ import { useSharingExplainerModalFlag } from "../hooks/useSharingExplainerModalF
 
 const baseOperations:  FileOperation[] = ["download", "info", "preview"]
 const readerOperations: FileOperation[] = [...baseOperations, "report"]
-const ownerOperations: FileOperation[] = [...baseOperations, "delete", "move", "rename"]
+const ownerOperations: FileOperation[] = [...baseOperations, "delete", "move", "rename", "recover"]
 const csfOperations:  FileOperation[] = [...ownerOperations, "share"]
 const writerOperations: FileOperation[] = [...ownerOperations, "report"]
 

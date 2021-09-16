@@ -32,6 +32,7 @@
     "fflate": "^0.7.1",
     "formik": "^2.2.5",
     "mime-matcher": "^1.0.5",
+    "posthog-js": "^1.13.10",
     "react": "^16.14.0",
     "react-beforeunload": "^2.4.0",
     "react-dnd": "14.0.2",
