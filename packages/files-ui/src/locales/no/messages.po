@@ -124,10 +124,16 @@ msgstr "Kopiert!"
 msgid "Copy CID"
 msgstr "Kopier CID"
 
+msgid "Copy file"
+msgstr ""
+
 msgid "Copy info"
 msgstr ""
 
 msgid "Copy over"
+msgstr ""
+
+msgid "Copy to"
 msgstr ""
 
 msgid "Create"
@@ -562,7 +568,7 @@ msgstr ""
 msgid "Select a wallet"
 msgstr ""
 
-msgid "Select an existing shared folder"
+msgid "Select an existing shared folder or your home"
 msgstr ""
 
 msgid "Send another email"
