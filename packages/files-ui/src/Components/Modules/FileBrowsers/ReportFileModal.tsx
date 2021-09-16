@@ -149,38 +149,53 @@ interface IReportFileModalProps {
   close: () => void
 }
 
+interface KeyMap {
+  pubKey: string
+  encryptedDecryptionKey: string
+}
+
 const ReportFileModal = ({ filePath, close }: IReportFileModalProps) => {
   const classes = useStyles()
   const { bucket } = useFileBrowser()
   const { encryptionKey, id } = bucket || {}
   const [isLoadingAdminKey, setIsloadingAdminKey] = useState(true)
-  const [adminPubKey, setAdminPubkey] = useState("")
-  const [encryptedDecryptionKey, setEncryptedDecryptionKey] = useState("")
+  const [adminPubKeys, setAdminPubkeys] = useState<string[]>([])
+  const [encryptedDecryptionKeyMap, setEncryptedDecryptionKeyMap] = useState<KeyMap[]>([])
   const { encryptForPublicKey } = useThresholdKey()
   const [copied, setCopied] = useState(false)
   const { filesApiClient } = useFilesApi()
 
   useEffect(() => {
     filesApiClient.abuseUser()
-    .then((keys) => {
-      if (!keys.length){
-        console.error('No admin public key received')
-      }
+      .then((keys) => {
+        if (!keys.length){
+          console.error("No admin public key received")
+        }
 
-      setAdminPubkey(keys[0])
-    })
-    .catch(console.error)
+        setAdminPubkeys(keys)
+      })
+      .catch(console.error)
   }, [filesApiClient])
 
   useEffect(() => {
-    if(!adminPubKey || !encryptionKey) return
+    if(!adminPubKeys.length || !encryptionKey) return
 
-    // we need to remove the 0x
-    encryptForPublicKey(adminPubKey.slice(2), encryptionKey)
-      .then(setEncryptedDecryptionKey)
+    Promise.all(adminPubKeys.map((adminPubKey) =>
+      // we need to remove the 0x
+      encryptForPublicKey(adminPubKey.slice(2), encryptionKey)
+    ))
+      .then((encryptedDecryptionKeys) => {
+        const map = adminPubKeys.map((adminPubKey, index) => ({
+          "pubKey": adminPubKey,
+          "encryptedDecryptionKey": encryptedDecryptionKeys[index]
+        }))
+
+        setEncryptedDecryptionKeyMap(map)
+      })
       .catch(console.error)
       .finally(() => setIsloadingAdminKey(false))
-  }, [adminPubKey, encryptForPublicKey, encryptionKey])
+
+  }, [adminPubKeys, encryptForPublicKey, encryptionKey])
 
   const debouncedSwitchCopied = debounce(() => setCopied(false), 3000)
 
@@ -188,14 +203,14 @@ const ReportFileModal = ({ filePath, close }: IReportFileModalProps) => {
     navigator.clipboard.writeText(`{
   bucketId: "${id}",
   path: "${filePath}",
-  encryptedDecryptionKey: "${encryptedDecryptionKey}"
+  encryptedDecryptionKey: ${encryptedDecryptionKeyMap}
 }`)
       .then(() => {
         setCopied(true)
         debouncedSwitchCopied()
       })
       .catch(console.error)
-  }, [debouncedSwitchCopied, encryptedDecryptionKey, filePath, id])
+  }, [debouncedSwitchCopied, encryptedDecryptionKeyMap, filePath, id])
 
   return (
     <CustomModal
@@ -304,7 +319,7 @@ const ReportFileModal = ({ filePath, close }: IReportFileModalProps) => {
                     variant="body2"
                     component="p"
                   >
-                    {encryptedDecryptionKey}
+                    {encryptedDecryptionKeyMap}
                   </Typography>
                 </div>
               </div>
@@ -323,6 +338,7 @@ const ReportFileModal = ({ filePath, close }: IReportFileModalProps) => {
               variant="primary"
               className={classes.copyButton}
               onClick={onCopyInfo}
+              disabled={isLoadingAdminKey}
             >
               <Trans>Copy info</Trans>
             </Button>
