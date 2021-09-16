@@ -99,6 +99,10 @@ const useStyles = makeStyles(({ constants, palette, overrides }: ITheme) =>
   })
 )
 
+interface FileWithPath extends File {
+  path?: string
+}
+
 interface IFileInputProps extends DropzoneOptions {
   className?: string
   variant?: "dropzone" | "filepicker"
@@ -137,14 +141,14 @@ const FileInput = ({
   const classes = useStyles()
   const [previews, setPreviews] = useState<any[]>([])
   const [errors, setErrors] = useState<any[]>([])
-  const [{ value }, meta, helpers] = useField<Array<File & {path: string}>>(name)
+  const [{ value }, meta, helpers] = useField<Array<FileWithPath>>(name)
 
   useEffect(() => {
     onFileNumberChange && onFileNumberChange(value.length)
   }, [onFileNumberChange, value.length])
 
   const onDrop = useCallback(
-    async (acceptedFiles: any[], fileRejections: FileRejection[]) => {
+    async (acceptedFiles: Array<FileWithPath>, fileRejections: FileRejection[]) => {
       const filtered = acceptedFiles.filter((file) =>
         maxFileSize ? file.size <= maxFileSize : true
       )
@@ -189,7 +193,7 @@ const FileInput = ({
   })
 
   const removeItem = (i: number) => {
-    const items = value as any[]
+    const items = value
     items.splice(i, 1)
     helpers.setValue(items)
   }
