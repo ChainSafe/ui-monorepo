@@ -23,11 +23,7 @@ import { FileBrowserContext } from "../../../Contexts/FileBrowserContext"
 import { parseFileContentResponse } from "../../../Utils/Helpers"
 
 const CSFFileBrowser: React.FC<IFileBrowserModuleProps> = () => {
-  const {
-    downloadFile,
-    uploadFiles,
-    buckets
-  } = useFiles()
+  const { downloadFile, uploadFiles, buckets } = useFiles()
   const { filesApiClient } = useFilesApi()
   const { addToast } = useToasts()
   const [loadingCurrentPath, setLoadingCurrentPath] = useState(false)
