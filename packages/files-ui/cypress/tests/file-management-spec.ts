@@ -350,5 +350,29 @@ describe("File management", () => {
       createFolderModal.errorLabel().should("be.visible")
       createFolderModal.body().should("contain.text", "Name too long")
     })
+
+    it("can see storage space summary updated accordingly", () => {
+      cy.web3Login({ clearCSFBucket: true, clearTrashBucket: true })
+
+      // Make sure elements exist and that we are starting with 0
+      navigationMenu.spaceUsedProgressBar().should("be.visible")
+      navigationMenu.spaceUsedLabel().should("contain.text", "0 Bytes")
+
+      // upload a file and ensure the storage space label adjusts
+      homePage.uploadFile("../fixtures/uploadedFiles/logo.png")
+      navigationMenu.spaceUsedLabel().should("not.contain.text", "0 Bytes")
+
+      // delete the file from the bin and ensure the storage space label adjusts
+      homePage.fileItemKebabButton().click()
+      homePage.deleteMenuOption().click()
+      deleteFileModal.confirmButton().safeClick()
+      homePage.deleteSuccessToast().should("not.exist")
+      navigationMenu.binNavButton().click()
+      binPage.fileItemKebabButton().click()
+      binPage.deleteMenuOption().click()
+      deleteFileModal.confirmButton().safeClick()
+      binPage.permanentDeleteSuccessToast().should("not.exist")
+      navigationMenu.spaceUsedLabel().should("contain.text", "0 Bytes")
+    })
   })
 })
