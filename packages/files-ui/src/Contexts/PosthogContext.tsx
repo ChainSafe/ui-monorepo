@@ -5,7 +5,7 @@ import { createStyles, ITheme, makeStyles } from "@chainsafe/common-theme"
 import { Trans } from "@lingui/macro"
 
 export type PosthogContext = {
-  posthogInitialized: boolean
+  hasOptedIn: boolean
   shouldShowBanner: boolean
 }
 
@@ -14,7 +14,7 @@ type PosthogProviderProps = posthog.Config & {
 }
 
 const PosthogContext = React.createContext<PosthogContext>({
-  posthogInitialized: false,
+  hasOptedIn: false,
   shouldShowBanner: false
 })
 
@@ -92,6 +92,10 @@ const PosthogProvider = ({ children }: PosthogProviderProps) => {
     posthogInitialized && !posthogState.hasOptedOut && !posthogState.hasOptedIn,
   [posthogState, posthogInitialized])
 
+  console.log("shouldShowBanner", shouldShowBanner)
+  console.log("posthogInitialized", posthogInitialized)
+  console.log("posthogState.hasOptedOut, posthogState.hasOptedIn", posthogState.hasOptedOut, posthogState.hasOptedIn)
+
   const optInCapturing = useCallback(() => {
     if (posthogInitialized) {
       posthog.opt_in_capturing()
@@ -109,7 +113,7 @@ const PosthogProvider = ({ children }: PosthogProviderProps) => {
   return (
     <PosthogContext.Provider
       value={{
-        posthogInitialized,
+        hasOptedIn: posthogState.hasOptedIn,
         shouldShowBanner
       }}
     >
@@ -152,10 +156,10 @@ function usePosthogContext() {
 
 function usePageTrack() {
   const { pathname } = useLocation()
-  const { posthogInitialized } = usePosthogContext()
+  const { hasOptedIn } = usePosthogContext()
   useEffect(() => {
-    posthogInitialized && posthog.capture("$pageview")
-  }, [pathname, posthogInitialized])
+    hasOptedIn && posthog.capture("$pageview")
+  }, [pathname, hasOptedIn])
 }
 
 export { PosthogProvider, usePosthogContext, usePageTrack }
