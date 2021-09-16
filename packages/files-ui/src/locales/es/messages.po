@@ -20,6 +20,9 @@ msgstr ""
 msgid "A file with the same name already exists"
 msgstr "Ya existe un archivo con el mismo nombre"
 
+msgid "Accept"
+msgstr ""
+
 msgid "Account"
 msgstr "Cuenta"
 
@@ -157,6 +160,9 @@ msgstr "Tema oscuro"
 
 msgid "Date uploaded"
 msgstr "Fecha de subida"
+
+msgid "Decline"
+msgstr ""
 
 msgid "Decryption key"
 msgstr ""
@@ -699,6 +705,12 @@ msgid "This username is already taken"
 msgstr ""
 
 msgid "This username is public"
+msgstr ""
+
+msgid "This website uses cookies"
+msgstr ""
+
+msgid "This website uses cookies that help the website function and track interactions for analytics purposes. You have the right to decline our use of cookies. For us to provide a customizable user experience to you, please click on the Accept button below.<0>Learn more</0>"
 msgstr ""
 
 msgid "Transfer complete"
