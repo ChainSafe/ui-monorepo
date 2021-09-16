@@ -24,11 +24,7 @@ import { parseFileContentResponse } from "../../../Utils/Helpers"
 import getFilesFromDataTransferItems from "../../../Utils/getFilesFromDataTransferItems"
 
 const CSFFileBrowser: React.FC<IFileBrowserModuleProps> = () => {
-  const {
-    downloadFile,
-    uploadFiles,
-    buckets
-  } = useFiles()
+  const { downloadFile, uploadFiles, buckets } = useFiles()
   const { filesApiClient } = useFilesApi()
   const { addToast } = useToasts()
   const [loadingCurrentPath, setLoadingCurrentPath] = useState(false)
