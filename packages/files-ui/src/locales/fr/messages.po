@@ -20,6 +20,9 @@ msgstr "Une phrase secrète de sauvegarde sera générée et utilisé pour ce co
 msgid "A file with the same name already exists"
 msgstr "Un fichier avec ce nom existe déjà"
 
+msgid "Accept"
+msgstr ""
+
 msgid "Account"
 msgstr "Compte"
 
@@ -157,6 +160,9 @@ msgstr "Thème sombre"
 
 msgid "Date uploaded"
 msgstr "Téléversé le"
+
+msgid "Decline"
+msgstr ""
 
 msgid "Decryption key"
 msgstr "Clé de déchiffrement"
@@ -700,6 +706,12 @@ msgstr "Ce nom d’utilisateur est déjà pris"
 
 msgid "This username is public"
 msgstr "Ce nom d’utilisateur est public"
+
+msgid "This website uses cookies"
+msgstr ""
+
+msgid "This website uses cookies that help the website function and track interactions for analytics purposes. You have the right to decline our use of cookies. For us to provide a customizable user experience to you, please click on the Accept button below.<0>Learn more</0>"
+msgstr ""
 
 msgid "Transfer complete"
 msgstr "Transfert terminé"
