@@ -328,7 +328,6 @@ const FilesProvider = ({ children }: FilesContextProps) => {
           }
         })
     )
-
     await filesApiClient.uploadBucketObjects(
       bucket.id,
       filesParam,
