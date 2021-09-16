@@ -21,6 +21,7 @@ import { useLocalStorage } from "@chainsafe/browser-storage-hooks"
 import { DISMISSED_SURVEY_KEY } from "../../SurveyBanner"
 import { FileBrowserContext } from "../../../Contexts/FileBrowserContext"
 import { parseFileContentResponse } from "../../../Utils/Helpers"
+import getFilesFromDataTransferItems from "../../../Utils/getFilesFromDataTransferItems"
 
 const CSFFileBrowser: React.FC<IFileBrowserModuleProps> = () => {
   const { downloadFile, uploadFiles, buckets } = useFiles()
@@ -174,23 +175,12 @@ const CSFFileBrowser: React.FC<IFileBrowserModuleProps> = () => {
 
   const handleUploadOnDrop = useCallback(async (files: File[], fileItems: DataTransferItemList, path: string) => {
     if (!bucket) return
-    let hasFolder = false
-    for (let i = 0; i < files.length; i++) {
-      if (fileItems[i].webkitGetAsEntry()?.isDirectory) {
-        hasFolder = true
-      }
-    }
-    if (hasFolder) {
-      addToast({
-        title: t`Folder uploads are not supported currently`,
-        type: "error"
-      })
-    } else {
-      uploadFiles(bucket, files, path)
-        .then(() => refreshContents())
-        .catch(console.error)
-    }
-  }, [addToast, uploadFiles, bucket, refreshContents])
+    const flattenedFiles = await getFilesFromDataTransferItems(fileItems)
+    const paths = [...new Set(flattenedFiles.map(f => f.filepath))]
+    paths.forEach(p => {
+      uploadFiles(bucket, flattenedFiles.filter(f => f.filepath === p), getPathWithFile(path, p))
+    })
+  }, [uploadFiles, bucket])
 
   const viewFolder = useCallback((cid: string) => {
     const fileSystemItem = pathContents.find(f => f.cid === cid)

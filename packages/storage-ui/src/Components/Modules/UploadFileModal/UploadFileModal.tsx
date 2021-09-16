@@ -74,7 +74,7 @@ interface IUploadFileModuleProps {
   close: () => void
 }
 
-const UploadFileModule = ({ modalOpen, close }: IUploadFileModuleProps) => {
+const UploadFileModal = ({ modalOpen, close }: IUploadFileModuleProps) => {
   const classes = useStyles()
   const [isDoneDisabled, setIsDoneDisabled] = useState(true)
   const { uploadFiles } = useStorage()
@@ -166,4 +166,4 @@ const UploadFileModule = ({ modalOpen, close }: IUploadFileModuleProps) => {
   )
 }
 
-export default UploadFileModule
+export default UploadFileModal
