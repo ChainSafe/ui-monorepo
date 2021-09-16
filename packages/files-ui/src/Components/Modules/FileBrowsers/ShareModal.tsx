@@ -201,7 +201,7 @@ const ShareModal = ({ close, file, filePath }: IShareFileProps) => {
   const isReader = useMemo(() => {
     if (!bucket) return false
 
-    return !!(bucket.readers.find(owner => owner.uuid === profile?.userId))
+    return !!(bucket.readers.find(reader => reader.uuid === profile?.userId))
   }, [bucket, profile?.userId])
 
   const bucketsOptions = useMemo(() => {
