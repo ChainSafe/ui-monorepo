@@ -36,7 +36,7 @@ interface IDialogClasses {
 }
 
 interface IDialogProps
-  extends Omit<IModalProps, "setActive" | "closePosition" | "children"> {
+  extends Omit<IModalProps, "closePosition" | "children"> {
   accept: () => void
   reject: () => void
   injectedClass?: IDialogClasses

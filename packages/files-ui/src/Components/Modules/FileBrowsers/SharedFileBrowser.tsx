@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react"
-import { useToaster, useHistory, useLocation, Crumb } from "@chainsafe/common-components"
+import { useToasts, useHistory, useLocation, Crumb } from "@chainsafe/common-components"
 import {
   getArrayOfPaths,
   getURISafePathFromArray,
@@ -22,7 +22,7 @@ import FilesList from "./views/FilesList"
 const SharedFileBrowser = () => {
   const { downloadFile, uploadFiles, buckets, refreshBuckets, getStorageSummary } = useFiles()
   const { filesApiClient } = useFilesApi()
-  const { addToastMessage } = useToaster()
+  const { addToast } = useToasts()
   const [loadingCurrentPath, setLoadingCurrentPath] = useState(false)
   const [pathContents, setPathContents] = useState<FileSystemItem[]>([])
   const { redirect } = useHistory()
@@ -113,22 +113,22 @@ const SharedFileBrowser = () => {
       const message = `${
         itemToDelete.isFolder ? t`Folder` : t`File`
       } ${t`deleted successfully`}`
-      addToastMessage({
-        message: message,
-        appearance: "success"
+      addToast({
+        title: message,
+        type: "success"
       })
       return Promise.resolve()
     } catch (error) {
       const message = `${t`There was an error deleting this`} ${
         itemToDelete.isFolder ? t`folder` : t`file`
       }`
-      addToastMessage({
-        message: message,
-        appearance: "error"
+      addToast({
+        title: message,
+        type: "error"
       })
       return Promise.reject()
     }
-  }, [addToastMessage, bucket, currentPath, pathContents, refreshContents, refreshBuckets, filesApiClient])
+  }, [addToast, bucket, currentPath, pathContents, refreshContents, refreshBuckets, filesApiClient])
 
   const deleteItems = useCallback(async (cids: string[]) => {
     await Promise.all(
@@ -143,7 +143,7 @@ const SharedFileBrowser = () => {
     if (!bucket || !itemToRename) return
 
     filesApiClient.moveBucketObjects(bucket.id, {
-      path: getPathWithFile(currentPath, itemToRename.name),
+      paths: [getPathWithFile(currentPath, itemToRename.name)],
       new_path: getPathWithFile(currentPath, newName) }).then(() => refreshContents())
       .catch(console.error)
   }, [refreshContents, filesApiClient, bucket, currentPath, pathContents])
@@ -155,7 +155,7 @@ const SharedFileBrowser = () => {
         const itemToMove = pathContents.find(i => i.cid === cid)
         if (!bucket || !itemToMove) return
         await filesApiClient.moveBucketObjects(bucket.id, {
-          path: getPathWithFile(currentPath, itemToMove.name),
+          paths: [getPathWithFile(currentPath, itemToMove.name)],
           new_path: getPathWithFile(newPath, itemToMove.name)
         })
       })).finally(refreshContents)
@@ -181,25 +181,25 @@ const SharedFileBrowser = () => {
     if (!bucket) return
     let hasFolder = false
     for (let i = 0; i < files.length; i++) {
-      if (fileItems[i].webkitGetAsEntry().isDirectory) {
+      if (fileItems[i].webkitGetAsEntry()?.isDirectory) {
         hasFolder = true
       }
     }
     if (hasFolder) {
-      addToastMessage({
-        message: "Folder uploads are not supported currently",
-        appearance: "error"
+      addToast({
+        title: t`Folder uploads are not supported currently`,
+        type: "error"
       })
     } else {
-      uploadFiles(bucket.id, files, path)
+      uploadFiles(bucket, files, path)
         .then(() => refreshContents())
         .catch(console.error)
     }
-  }, [addToastMessage, uploadFiles, bucket, refreshContents])
+  }, [addToast, uploadFiles, bucket, refreshContents])
 
   const bulkOperations: IBulkOperations = useMemo(() => ({
-    [CONTENT_TYPES.Directory]: ["move", "delete"],
-    [CONTENT_TYPES.File]: ["delete", "move"]
+    [CONTENT_TYPES.Directory]: ["download", "move", "delete"],
+    [CONTENT_TYPES.File]: ["download", "delete", "move", "share"]
   }), [])
 
   const itemOperations: IFilesTableBrowserProps["itemOperations"] = useMemo(() => {
@@ -211,7 +211,7 @@ const SharedFileBrowser = () => {
         [CONTENT_TYPES.Image]: ["preview"],
         [CONTENT_TYPES.Pdf]: ["preview"],
         [CONTENT_TYPES.Text]: ["preview"],
-        [CONTENT_TYPES.File]: ["download", "info", "rename", "move", "delete"],
+        [CONTENT_TYPES.File]: ["download", "info", "rename", "move", "delete", "share"],
         [CONTENT_TYPES.Directory]: ["rename", "move", "delete"]
       }
     case "writer":
@@ -221,7 +221,7 @@ const SharedFileBrowser = () => {
         [CONTENT_TYPES.Image]: ["preview"],
         [CONTENT_TYPES.Pdf]: ["preview"],
         [CONTENT_TYPES.Text]: ["preview"],
-        [CONTENT_TYPES.File]: ["download", "info", "rename", "move", "delete", "report"],
+        [CONTENT_TYPES.File]: ["download", "info", "rename", "move", "delete", "report", "share"],
         [CONTENT_TYPES.Directory]: ["rename", "move", "delete"]
       }
     // case "reader":
@@ -232,7 +232,7 @@ const SharedFileBrowser = () => {
         [CONTENT_TYPES.Image]: ["preview"],
         [CONTENT_TYPES.Pdf]: ["preview"],
         [CONTENT_TYPES.Text]: ["preview"],
-        [CONTENT_TYPES.File]: ["download", "info", "report"],
+        [CONTENT_TYPES.File]: ["download", "info", "report", "share"],
         [CONTENT_TYPES.Directory]: []
       }
     }

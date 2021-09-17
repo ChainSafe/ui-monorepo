@@ -6,19 +6,20 @@ import React, { useCallback } from "react"
 import { CSFTheme } from "../Themes/types"
 import { ROUTE_LINKS } from "./FilesRoutes"
 
-const SURVEY_VERSION = 2
+const SURVEY_VERSION = 3
 export const DISMISSED_SURVEY_KEY = `csf.dismissedSurveyBannerV${SURVEY_VERSION}`
 
 const useStyles = makeStyles(
   ({ constants }: CSFTheme) => {
     return createStyles({
       root: {
-        background: "linear-gradient(90deg, rgba(81,101,220,1) 0%, rgba(3,150,166,1) 68%, rgba(22,212,96,1) 100%);",
+        background: "linear-gradient(90deg, rgba(81,101,220,1) 0%, rgba(3,150,166,1) 68%, rgba(255, 167, 51,1) 100%);",
         padding: constants.generalUnit,
         paddingLeft: constants.generalUnit * 2,
         marginTop: constants.generalUnit,
         borderRadius: 2,
-        display: "flex"
+        display: "flex",
+        alignItems: "center"
       },
       banner: {
         color: constants.surveyBanner.color,
@@ -34,21 +35,16 @@ const useStyles = makeStyles(
       },
       crossIconButton: {
         cursor: "pointer",
-
-        "& span": {
-          display: "flex",
-          alignContent: "center",
-          justifyContent: "center",
-          height: "100%",
-          fontSize: 12,
-          marginRight: constants.generalUnit
-        },
-        "& svg": {
-          fill: constants.surveyBanner.color
-        }
+        height: constants.generalUnit * 2
       },
       spacer: {
         flex: 1
+      },
+      icon: {
+        fontSize: 12,
+        "& svg": {
+          fill: constants.surveyBanner.color
+        }
       }
     })
   })
@@ -77,13 +73,13 @@ const SurveyBanner = ({ onHide }: Props) => {
         variant="body1"
         className={classes.banner}>
         <Trans>
-          Are we on the right track? Let us know in less than 1 minute.
+          Want to help shape this product?
         </Trans>
         <span
           className={classes.link}
           onClick={onOpen}
         >
-          <Trans>Continue</Trans>
+          <Trans>Schedule a 15 min call</Trans>
         </span>
       </Typography>
       <div className={classes.spacer}/>
@@ -91,7 +87,10 @@ const SurveyBanner = ({ onHide }: Props) => {
         className={classes.crossIconButton}
         onClick={onClose}
       >
-        <CrossIcon fontSize="small" />
+        <CrossIcon
+          fontSize="small"
+          className={classes.icon}
+        />
       </div>
     </div>
   )}

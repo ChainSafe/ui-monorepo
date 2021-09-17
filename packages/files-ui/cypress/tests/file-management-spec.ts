@@ -1,8 +1,14 @@
 import { binPage } from "../support/page-objects/binPage"
 import { homePage } from "../support/page-objects/homePage"
 import { navigationMenu } from "../support/page-objects/navigationMenu"
-import { folderName } from "../fixtures/filesTestData"
+import { folderName, folderPath } from "../fixtures/filesTestData"
 import "cypress-pipe"
+import { apiTestHelper } from "../support/utils/apiTestHelper"
+import { createFolderModal } from "../support/page-objects/modals/createFolderModal"
+import { deleteFileModal } from "../support/page-objects/modals/deleteFileModal"
+import { fileUploadModal } from "../support/page-objects/modals/fileUploadModal"
+import { moveItemModal } from "../support/page-objects/modals/moveItemModal"
+import { recoverItemModal } from "../support/page-objects/modals/recoverItemModal"
 
 describe("File management", () => {
 
@@ -13,15 +19,15 @@ describe("File management", () => {
 
       // create a folder and see it in the file list
       homePage.newFolderButton().click()
-      homePage.folderNameInput().type(folderName)
-      homePage.createButton().safeClick()
-      homePage.createFolderModal().should("not.exist")
+      createFolderModal.folderNameInput().type(folderName)
+      createFolderModal.createButton().safeClick()
+      createFolderModal.body().should("not.exist")
       homePage.fileItemName().contains(folderName)
 
       // cancel and ensure that the create folder modal is dismissed
       homePage.newFolderButton().click()
-      homePage.cancelButton().click()
-      homePage.createFolderModal().should("not.exist")
+      createFolderModal.cancelButton().click()
+      createFolderModal.body().should("not.exist")
     })
 
     it("can add files and cancel modal", () => {
@@ -29,13 +35,123 @@ describe("File management", () => {
 
       // upload a file and see it in the file list
       homePage.uploadButton().click()
-      homePage.uploadFileForm().attachFile("../fixtures/uploadedFiles/text-file.txt")
-      homePage.fileUploadList().should("have.length", 1)
+      fileUploadModal.body().attachFile("../fixtures/uploadedFiles/text-file.txt")
+      fileUploadModal.fileList().should("have.length", 1)
 
       // cancel and ensure that the upload modal is dismissed
-      homePage.uploadCancelButton().click()
-      homePage.uploadCancelButton().should("not.exist")
-      homePage.uploadFileForm().should("not.exist")
+      fileUploadModal.cancelButton().click()
+      fileUploadModal.body().should("not.exist")
+    })
+
+    it("can move a file in and out of a folder", () => {
+      cy.web3Login({ clearCSFBucket: true })
+
+      // upload a file and save it's name as a cypress alias
+      homePage.uploadFile("../fixtures/uploadedFiles/text-file.txt")
+      homePage.fileItemRow().should("have.length", 1)
+      homePage.fileItemName().invoke("text").as("fileName")
+
+      // create a folder 
+      apiTestHelper.createFolder(folderPath)
+
+      cy.get("@fileName").then(($fileName) => {
+        // select the file and move it to the folder
+        homePage.fileItemName().contains(`${$fileName}`)
+          .should("be.visible")
+          .click()
+        homePage.moveSelectedButton().click()
+        moveItemModal.folderList().contains(folderName).click()
+        moveItemModal.moveButton().safeClick()
+
+        // ensure there is only the folder in the Home directory 
+        homePage.fileItemRow().should("have.length", 1)
+        homePage.fileItemName().should("contain.text", folderName)
+
+        // open the folder and confirm the file was moved inside
+        homePage.fileItemName().contains(folderName)
+          .should("be.visible")
+          .dblclick()
+        homePage.fileItemRow().should("have.length", 1)
+        homePage.fileItemName().should("contain.text", $fileName)
+
+        // move the file back to the home root
+        homePage.fileItemName().contains(`${$fileName}`)
+          .should("be.visible")
+          .click()
+        homePage.moveSelectedButton().click()
+        moveItemModal.folderList().contains("Home").click()
+        moveItemModal.moveButton().safeClick()
+
+        // ensure the home root now has the folder and file
+        navigationMenu.homeNavButton().click()
+        homePage.fileItemRow().should("have.length", 2)
+        homePage.fileItemName().should("contain.text", folderName)
+        homePage.fileItemName().should("contain.text", $fileName)
+
+        // ensure folder already in the root cannot be moved to Home
+        homePage.fileItemName().contains(`${$fileName}`).click()
+        homePage.moveSelectedButton().click()
+        moveItemModal.folderList().contains("Home").click()
+        moveItemModal.errorLabel().should("be.visible")
+        moveItemModal.moveButton().should("be.disabled")
+        moveItemModal.cancelButton().should("be.enabled")
+      })
+    })
+
+    it("can see errors when attempting illogical folder move", () => {
+      cy.web3Login({ clearCSFBucket: true })
+
+      // create the necessary folder structure
+      apiTestHelper.createFolder("/Parent/Child")
+
+      // select a parent folder and initiate move action
+      homePage.fileItemName().contains("Parent").click()
+      homePage.moveSelectedButton().click()
+
+      // ensure folder already in the root cannot be moved to Home
+      moveItemModal.folderList().contains("Home").click()
+      moveItemModal.body().should("be.visible")
+      moveItemModal.errorLabel().should("be.visible")
+      moveItemModal.moveButton().should("be.disabled")
+      moveItemModal.cancelButton().should("be.enabled")
+
+      // ensure a parent folder cannot be moved to itself
+      moveItemModal.folderList().contains("Home").click()
+      moveItemModal.folderList().contains("Parent").click()
+      moveItemModal.body().should("be.visible")
+      moveItemModal.errorLabel().should("be.visible")
+      moveItemModal.moveButton().should("be.disabled")
+      moveItemModal.cancelButton().should("be.enabled")
+
+      // ensure a parent folder cannot be moved to a child folder
+      moveItemModal.folderList().contains("Child").click()
+      moveItemModal.body().should("be.visible")
+      moveItemModal.errorLabel().should("be.visible")
+      moveItemModal.moveButton().should("be.disabled")
+      moveItemModal.cancelButton().should("be.enabled")
+
+      // return home
+      moveItemModal.cancelButton().click()
+      moveItemModal.body().should("not.exist")
+
+      // navigate to the child folder and initiate move action
+      homePage.fileItemName().contains("Parent").dblclick()
+      homePage.fileItemName().contains("Child").click()
+      homePage.moveSelectedButton().click()
+
+      // ensure a child folder cannot be moved to the parent folder it is already in
+      moveItemModal.folderList().contains("Parent").click()
+      moveItemModal.body().should("be.visible")
+      moveItemModal.errorLabel().should("be.visible")
+      moveItemModal.moveButton().should("be.disabled")
+      moveItemModal.cancelButton().should("be.enabled")
+
+      // ensure a child folder cannot be moved to itself
+      moveItemModal.folderList().contains("Child").click()
+      moveItemModal.body().should("be.visible")
+      moveItemModal.errorLabel().should("be.visible")
+      moveItemModal.moveButton().should("be.disabled")
+      moveItemModal.cancelButton().should("be.enabled")
     })
 
     it("can add/remove multiple files and upload", () => {
@@ -43,21 +159,21 @@ describe("File management", () => {
 
       // attach 2 files to the file list
       homePage.uploadButton().click()
-      homePage.uploadFileForm().attachFile("../fixtures/uploadedFiles/text-file.txt")
-      homePage.fileUploadList().should("have.length", 1)
-      homePage.uploadFileForm().attachFile("../fixtures/uploadedFiles/logo.png")
-      homePage.fileUploadList().should("have.length", 2)
+      fileUploadModal.body().attachFile("../fixtures/uploadedFiles/text-file.txt")
+      fileUploadModal.fileList().should("have.length", 1)
+      fileUploadModal.body().attachFile("../fixtures/uploadedFiles/logo.png")
+      fileUploadModal.fileList().should("have.length", 2)
 
       // remove 1 file from the list and ensure 1 remains
-      homePage.fileListRemoveButton().first().click()
-      homePage.fileUploadList().should("have.length", 1)
+      fileUploadModal.removeFileButton().first().click()
+      fileUploadModal.fileList().should("have.length", 1)
 
       // attach an additional file to the file list and upload
-      homePage.uploadFileForm().attachFile("../fixtures/uploadedFiles/text-file.txt")
-      homePage.fileUploadList().should("have.length", 2)
-      homePage.fileListRemoveButton().should("have.length", 2)
-      homePage.startUploadButton().safeClick()
-      homePage.uploadFileForm().should("not.exist")
+      fileUploadModal.body().attachFile("../fixtures/uploadedFiles/text-file.txt")
+      fileUploadModal.fileList().should("have.length", 2)
+      fileUploadModal.removeFileButton().should("have.length", 2)
+      fileUploadModal.uploadButton().safeClick()
+      fileUploadModal.body().should("not.exist")
       homePage.fileItemRow().should("have.length", 2)
     })
 
@@ -97,7 +213,7 @@ describe("File management", () => {
       homePage.fileRenameInput().should("have.value", newName)
     })
 
-    it("can delete and recover a file", () => {
+    it("can delete, recover and permanently delete a file", () => {
       cy.web3Login({ clearCSFBucket: true, clearTrashBucket: true })
 
       // upload a file 
@@ -110,9 +226,9 @@ describe("File management", () => {
       // delete a file via the menu option 
       homePage.fileItemKebabButton().first().click()
       homePage.deleteMenuOption().click()
-      homePage.deleteFileDialog().should("be.visible")
-      homePage.deleteFileConfirmButton().safeClick()
-      homePage.deleteFileDialog().should("not.exist")
+      deleteFileModal.body().should("be.visible")
+      deleteFileModal.confirmButton().safeClick()
+      deleteFileModal.body().should("not.exist")
       homePage.fileItemRow().should("not.exist")
 
       // confirm the deleted file is moved to the bin
@@ -130,9 +246,9 @@ describe("File management", () => {
       // recover the file via the menu option
       binPage.fileItemKebabButton().first().click()
       binPage.recoverMenuOption().click()
-      binPage.folderList().should("exist")
-      binPage.folderList().contains("Home").click()
-      binPage.recoverButton().click()
+      recoverItemModal.folderList().should("exist")
+      recoverItemModal.folderList().contains("Home").click()
+      recoverItemModal.recoverButton().click()
       binPage.fileItemRow().should("not.exist")
 
       // ensure recovered file is correct
@@ -146,21 +262,32 @@ describe("File management", () => {
       cy.get("@recoveredFile").then(($recoveredFile) => {
         cy.get("@binFile").should("equals", $recoveredFile)
       })
+
+      // permanently delete the file
+      homePage.fileItemKebabButton().first().click()
+      homePage.deleteMenuOption().click()
+      deleteFileModal.confirmButton().safeClick()
+      navigationMenu.binNavButton().click()
+      binPage.fileItemKebabButton().first().click()
+      binPage.deleteMenuOption().click()
+      deleteFileModal.confirmButton().safeClick()
+      binPage.fileItemRow().should("not.exist")
+      navigationMenu.homeNavButton().click()
+      homePage.fileItemRow().should("not.exist")
     })
 
-    it("can delete and recover a folder", () => {
+    it("can delete, recover and permanently delete a folder", () => {
       cy.web3Login({ clearCSFBucket: true, clearTrashBucket: true })
 
       // create a folder
-      homePage.createFolder(folderName)
-      homePage.fileItemRow().should("have.length", 1)
+      apiTestHelper.createFolder(folderPath)
 
       // delete the folder via the menu option 
       homePage.fileItemKebabButton().first().click()
       homePage.deleteMenuOption().click()
-      homePage.deleteFileDialog().should("be.visible")
-      homePage.deleteFileConfirmButton().safeClick()
-      homePage.deleteFileDialog().should("not.exist")
+      deleteFileModal.body().should("be.visible")
+      deleteFileModal.confirmButton().safeClick()
+      deleteFileModal.body().should("not.exist")
       homePage.fileItemRow().should("not.exist")
 
       // confirm the deleted folder is moved to the bin
@@ -171,15 +298,27 @@ describe("File management", () => {
       // recover folder via the menu option
       binPage.fileItemKebabButton().first().click()
       binPage.recoverMenuOption().click()
-      binPage.folderList().should("exist")
-      binPage.folderList().contains("Home").click()
-      binPage.recoverButton().click()
+      recoverItemModal.folderList().should("exist")
+      recoverItemModal.folderList().contains("Home").click()
+      recoverItemModal.recoverButton().click()
       binPage.fileItemRow().should("not.exist")
 
       // ensure recovered folder is correct
       navigationMenu.homeNavButton().click()
       binPage.fileItemRow().should("have.length", 1)
       homePage.fileItemName().should("have.text", folderName)
+
+      // permanently delete the folder
+      homePage.fileItemKebabButton().first().click()
+      homePage.deleteMenuOption().click()
+      deleteFileModal.confirmButton().safeClick()
+      navigationMenu.binNavButton().click()
+      binPage.fileItemKebabButton().first().click()
+      binPage.deleteMenuOption().click()
+      deleteFileModal.confirmButton().safeClick()
+      binPage.fileItemRow().should("not.exist")
+      navigationMenu.homeNavButton().click()
+      homePage.fileItemRow().should("not.exist")
     })
 
     it("cannot create a folder with an invalid name", () => {
@@ -187,29 +326,29 @@ describe("File management", () => {
       homePage.newFolderButton().click()
 
       // ensure a folder can't be created without entering a name
-      homePage.createButton().should("have.attr", "disabled")
-      homePage.folderNameInput().type("a{selectall}{del}")
-      homePage.folderCreationErrorLabel().should("be.visible")
+      createFolderModal.createButton().should("have.attr", "disabled")
+      createFolderModal.folderNameInput().type("a{selectall}{del}")
+      createFolderModal.errorLabel().should("be.visible")
 
       // ensure a folder can't be created with "/" in the name
-      homePage.folderNameInput().type("/")
-      homePage.createButton().should("have.attr", "disabled")
-      homePage.folderCreationErrorLabel().should("be.visible")
-      homePage.createFolderModal().should("contain.text", "A name cannot contain '/' character")
+      createFolderModal.folderNameInput().type("/")
+      createFolderModal.createButton().should("have.attr", "disabled")
+      createFolderModal.errorLabel().should("be.visible")
+      createFolderModal.body().should("contain.text", "A name cannot contain '/' character")
 
       // ensure a folder can't be created with white space only in the name
-      homePage.folderNameInput().type("{selectall}{del}")
-      homePage.folderNameInput().type("   ")
-      homePage.createButton().should("have.attr", "disabled")
-      homePage.folderCreationErrorLabel().should("be.visible")
-      homePage.createFolderModal().should("contain.text", "Please enter a name")
+      createFolderModal.folderNameInput().type("{selectall}{del}")
+      createFolderModal.folderNameInput().type("   ")
+      createFolderModal.createButton().should("have.attr", "disabled")
+      createFolderModal.errorLabel().should("be.visible")
+      createFolderModal.body().should("contain.text", "Please enter a name")
 
       // ensure a folder can't be created if name exceeds 65 characters
-      homePage.folderNameInput().type("{selectall}{del}")
-      homePage.folderNameInput().type("cgsxffymqivoknhwhqvmnchvjngtwsriovhvkgzgmonmimctcrdytujbtkogngvext")
-      homePage.createButton().should("have.attr", "disabled")
-      homePage.folderCreationErrorLabel().should("be.visible")
-      homePage.createFolderModal().should("contain.text", "Name too long")
+      createFolderModal.folderNameInput().type("{selectall}{del}")
+      createFolderModal.folderNameInput().type("cgsxffymqivoknhwhqvmnchvjngtwsriovhvkgzgmonmimctcrdytujbtkogngvext")
+      createFolderModal.createButton().should("have.attr", "disabled")
+      createFolderModal.errorLabel().should("be.visible")
+      createFolderModal.body().should("contain.text", "Name too long")
     })
   })
 })

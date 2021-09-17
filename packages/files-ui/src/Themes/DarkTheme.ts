@@ -331,6 +331,11 @@ export const darkTheme = createTheme<CsfColors>({
     constants: {
       ...UI_CONSTANTS,
       ...({
+        menu:{
+          backgroundColor: "var(--gray1)",
+          color: "var(--gray8)",
+          backgroundOptionHover: "var(--gray2)"
+        },
         landing: {
           background: "var(--gray2)",
           border: "var(--gray4)",
@@ -352,7 +357,10 @@ export const darkTheme = createTheme<CsfColors>({
         },
         modalDefault: {
           fadeBackground: "var(--gray7)",
-          background: "var(--gray2)"
+          backgroundColor: "var(--gray2)",
+          color: "var(--gray10)",
+          iconBackingColor: "#EBEEFF",
+          closeIconColor: "var(--gray8)"
         },
         header: {
           rootBackground: "var(--gray1)",
@@ -437,7 +445,8 @@ export const darkTheme = createTheme<CsfColors>({
           optionsColor: "var(--gray9)",
           optionsBorder: "var(--gray5)",
           itemBackground: "var(--gray1)",
-          itemColor: "var(--gray9)"
+          itemColor: "var(--gray9)",
+          borderColor: "var(--blue6)"
         },
         masterKey: {
           desktop: {
@@ -471,11 +480,6 @@ export const darkTheme = createTheme<CsfColors>({
         },
         surveyBanner: {
           color: "var(--gray9)"
-        },
-        createShareModal: {
-          backgroundColor: "var(--gray2)",
-          color: "var(--gray10)",
-          iconBackingColor: "#EBEEFF"
         }
       } as CsfColors)
     },
@@ -524,25 +528,6 @@ export const darkTheme = createTheme<CsfColors>({
         h5: {
           fontWeight: 600,
           color: "var(--gray9)"
-        }
-      },
-      Toaster: {
-        closeIcon: {
-          fill: "var(--gray9)"
-        },
-        message: {
-          color: "var(--gray9)"
-        },
-        typeIcon: {
-          root: {
-            fill: "var(--gray9)"
-          },
-          success: {
-            fill: "var(--green8)"
-          },
-          error: {
-            fill: "var(--red8)"
-          }
         }
       },
       TagsInput: {

@@ -23,6 +23,9 @@ import { useFilesApi } from "../../../Contexts/FilesApiContext"
 import { ROUTE_LINKS } from "../../FilesRoutes"
 import SharedFolderRow from "./views/FileSystemItem/SharedFolderRow"
 import { SharedFolderModalMode } from "./types"
+import SharingExplainerModal from "../../SharingExplainerModal"
+import { useSharingExplainerModalFlag } from "./hooks/useSharingExplainerModalFlag"
+import { usePageTrack } from "../../../Contexts/PosthogContext"
 
 export const desktopSharedGridSettings = "69px 3fr 120px 190px 150px 45px !important"
 export const mobileSharedGridSettings = "3fr 80px 45px !important"
@@ -101,6 +104,8 @@ const useStyles = makeStyles(
   }
 )
 
+type SortingType = "name" | "size" | "date_uploaded"
+
 const SharedFolderOverview = () => {
   const classes = useStyles()
   const { filesApiClient } = useFilesApi()
@@ -108,17 +113,18 @@ const SharedFolderOverview = () => {
   const [createOrEditSharedFolderMode, setCreateOrEditSharedFolderMode] = useState<SharedFolderModalMode | undefined>(undefined)
   const [bucketToEdit, setBucketToEdit] = useState<BucketKeyPermission | undefined>(undefined)
   const [direction, setDirection] = useState<SortDirection>("ascend")
-  const [column, setColumn] = useState<"name" | "size" | "date_uploaded">("name")
+  const [column, setColumn] = useState<SortingType>("name")
   const { redirect } = useHistory()
   const { desktop } = useThemeSwitcher()
   const [bucketToDelete, setBucketToDelete] = useState<BucketKeyPermission | undefined>(undefined)
   const [isDeleteBucketModalOpen, setIsDeleteBucketModalOpen] = useState(false)
   const [isDeletingSharedFolder, setIsDeletingSharedFolder] = useState(false)
   const bucketsToShow = useMemo(() => buckets.filter(b => b.type === "share" && b.status !== "deleting"), [buckets])
+  const { hasSeenSharingExplainerModal, hideModal } = useSharingExplainerModalFlag()
 
-  const handleSortToggle = (
-    targetColumn: "name" | "size" | "date_uploaded"
-  ) => {
+  usePageTrack()
+
+  const handleSortToggle = (targetColumn: SortingType) => {
     if (column !== targetColumn) {
       setColumn(targetColumn)
       setDirection("descend")
@@ -154,7 +160,6 @@ const SharedFolderOverview = () => {
   const openSharedFolder = useCallback((bucketId: string) => {
     redirect(ROUTE_LINKS.SharedFolderExplorer(bucketId, "/"))
   }, [redirect])
-
   return (
     <>
       <article
@@ -261,6 +266,10 @@ const SharedFolderOverview = () => {
           </Table>
         )}
       </article>
+      <SharingExplainerModal
+        showModal={hasSeenSharingExplainerModal}
+        onHide={hideModal}
+      />
       <CreateOrEditSharedFolderModal
         mode={createOrEditSharedFolderMode}
         isModalOpen={!!createOrEditSharedFolderMode}

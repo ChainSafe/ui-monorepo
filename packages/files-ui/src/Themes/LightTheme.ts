@@ -18,6 +18,11 @@ export const lightTheme = createTheme<CsfColors>({
     constants: {
       ...UI_CONSTANTS,
       ...({
+        menu:{
+          backgroundColor: "var(--gray1)",
+          color: "var(--gray8)",
+          backgroundOptionHover: "var(--gray2)"
+        },
         landing: {
           background: "var(--gray3)",
           border: "var(--gray4)",
@@ -39,7 +44,10 @@ export const lightTheme = createTheme<CsfColors>({
         },
         modalDefault: {
           fadeBackground: "var(--gray9)",
-          background: "var(--gray1)"
+          backgroundColor: "var(--gray1)",
+          color: "var(--gray10)",
+          iconBackingColor: "#EBEEFF",
+          closeIconColor: "var(--gray8)"
         },
         header: {
           rootBackground: "var(--gray1)",
@@ -124,7 +132,8 @@ export const lightTheme = createTheme<CsfColors>({
           optionsColor: "initial",
           optionsBorder: "var(--gray4)",
           itemBackground: "initial",
-          itemColor: "initial"
+          itemColor: "initial",
+          borderColor: "var(--blue6)"
         },
         masterKey: {
           desktop: {
@@ -158,11 +167,6 @@ export const lightTheme = createTheme<CsfColors>({
         },
         surveyBanner: {
           color: "var(--gray1)"
-        },
-        createShareModal: {
-          backgroundColor: "var(--gray1)",
-          color: "var(--gray10)",
-          iconBackingColor: "#EBEEFF"
         }
       } as CsfColors)
     },

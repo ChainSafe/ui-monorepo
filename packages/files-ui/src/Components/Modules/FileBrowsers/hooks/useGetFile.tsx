@@ -1,11 +1,11 @@
 import { t } from "@lingui/macro"
 import { useCallback, useRef, useState } from "react"
-import { IFileSystemItem, useFiles } from "../../../../Contexts/FilesContext"
+import { FileSystemItem, useFiles } from "../../../../Contexts/FilesContext"
 import axios, { CancelTokenSource } from "axios"
 import { useFileBrowser } from "../../../../Contexts/FileBrowserContext"
 
 interface getFilesParams {
-  file: IFileSystemItem
+  file: FileSystemItem
   filePath: string
   bucketId?: string
 }

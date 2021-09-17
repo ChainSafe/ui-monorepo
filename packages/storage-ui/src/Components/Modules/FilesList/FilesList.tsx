@@ -36,7 +36,7 @@ import FileSystemItem from "../FileSystemItem/FileSystemItem"
 import UploadProgressModals from "../UploadProgressModals"
 import DownloadProgressModals from "../DownloadProgressModals"
 import CreateFolderModal from "../CreateFolderModal/CreateFolderModal"
-import UploadFileModule from "../UploadFileModal/UploadFileModal"
+import UploadFileModal from "../UploadFileModal/UploadFileModal"
 import MoveFileModal from "../MoveFileModal/MoveFileModal"
 import { CONTENT_TYPES } from "../../../Utils/Constants"
 import { CSSTheme } from "../../../Themes/types"
@@ -49,7 +49,7 @@ interface IStyleProps {
   themeKey: string
 }
 
-export const desktopGridSettings = "50px 69px 3fr 3fr 100px 45px !important"
+export const desktopGridSettings = "50px 69px minmax(250px, 3fr) minmax(150px, 450px) 100px 45px !important"
 export const mobileGridSettings = "69px 3fr 45px !important"
 
 const useStyles = makeStyles(
@@ -990,7 +990,7 @@ const FilesList = () => {
               modalOpen={createFolderModalOpen}
               close={() => setCreateFolderModalOpen(false)}
             />
-            <UploadFileModule
+            <UploadFileModal
               modalOpen={isUploadModalOpen}
               close={() => setIsUploadModalOpen(false)}
             />

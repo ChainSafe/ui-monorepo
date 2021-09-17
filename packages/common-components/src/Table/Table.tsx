@@ -3,7 +3,7 @@ import { ITheme, makeStyles, createStyles } from "@chainsafe/common-theme"
 import clsx from "clsx"
 
 const useStyles = makeStyles(
-  ({ animation, constants, palette, overrides }: ITheme) =>
+  ({ animation, constants, palette, overrides, breakpoints }: ITheme) =>
     createStyles({
       root: {
         display: "flex",
@@ -28,17 +28,19 @@ const useStyles = makeStyles(
         ...overrides?.Table?.table?.dense
       },
       hover: {
-        "& tr:hover": {
-          backgroundColor: palette.additional["gray"][2]
-        },
-        "& tr:nth-child(even)": {
-          "&:hover": {
+        [breakpoints.up("md")]: {
+          "& tr:hover": {
             backgroundColor: palette.additional["gray"][2]
-          }
-        },
-        "&.selected": {
-          "&:hover": {
-            backgroundColor: palette.additional["gray"][4]
+          },
+          "& tr:nth-child(even)": {
+            "&:hover": {
+              backgroundColor: palette.additional["gray"][2]
+            }
+          },
+          "&.selected": {
+            "&:hover": {
+              backgroundColor: palette.additional["gray"][4]
+            }
           }
         },
         ...overrides?.Table?.table?.hover
@@ -62,6 +64,7 @@ export interface ITableProps {
   fullWidth?: boolean
   hover?: boolean
   dense?: boolean
+  testId?: string
 }
 
 const Table: React.FC<ITableProps> = ({
@@ -71,6 +74,7 @@ const Table: React.FC<ITableProps> = ({
   striped,
   hover,
   dense,
+  testId,
   ...rest
 }: ITableProps) => {
   const classes = useStyles()
@@ -87,6 +91,7 @@ const Table: React.FC<ITableProps> = ({
         },
         className
       )}
+      data-testid={`table-${testId}`}
       {...rest}
     >
       {children}
