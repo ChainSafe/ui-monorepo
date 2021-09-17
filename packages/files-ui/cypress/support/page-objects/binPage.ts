@@ -9,6 +9,7 @@ export const binPage = {
   recoverSelectedButton: () => cy.get("[data-testId=button-recover-selected-file]"),
   deleteSelectedButton: () => cy.get("[data-testId=button-delete-selected-file]"),
   permanentDeleteSuccessToast: () => cy.get("[data-testId=toast-deletion-success]", { timeout: 10000 }),
+  selectAllCheckbox: () => cy.get("[data-cy=checkbox-select-all]"),
 
   // kebab menu elements
   recoverMenuOption: () => cy.get("[data-cy=menu-recover]"),
