@@ -265,7 +265,6 @@ const FileInput = ({
       {value?.length > 0 && (
         <div
           className={clsx(classes.addFiles, classNames?.addFiles)}
-          onClick={open}
         >
           <PlusIcon
             fontSize="small"
