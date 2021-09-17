@@ -130,7 +130,7 @@ const useStyles = makeStyles(
         color: palette.additional["gray"][9],
         [breakpoints.down("md")]: {
           flexBasis: "100%",
-          margin: `${constants.generalUnit * 2}px`
+          margin: constants.generalUnit * 2
         }
       },
       decryptionKey: {
@@ -138,7 +138,11 @@ const useStyles = makeStyles(
         wordBreak: "break-all"
       },
       infoText: {
-        marginBottom: `${constants.generalUnit * 2}px`
+        marginBottom: constants.generalUnit * 2
+      },
+      keysWrapper: {
+        maxHeight: constants.generalUnit * 10,
+        overflow: "scroll"
       }
     })
   }
@@ -203,7 +207,7 @@ const ReportFileModal = ({ filePath, close }: IReportFileModalProps) => {
     navigator.clipboard.writeText(`{
   bucketId: "${id}",
   path: "${filePath}",
-  encryptedDecryptionKey: ${encryptedDecryptionKeyMap}
+  encryptedDecryptionKey: ${JSON.stringify(encryptedDecryptionKeyMap)}
 }`)
       .then(() => {
         setCopied(true)
@@ -314,13 +318,15 @@ const ReportFileModal = ({ filePath, close }: IReportFileModalProps) => {
                   >
                     <Trans>Decryption key</Trans>
                   </Typography>
-                  <Typography
-                    className={clsx(classes.decryptionKey, classes.subSubtitle)}
-                    variant="body2"
-                    component="p"
-                  >
-                    {encryptedDecryptionKeyMap}
-                  </Typography>
+                  <div className={classes.keysWrapper}>
+                    <Typography
+                      className={clsx(classes.decryptionKey, classes.subSubtitle)}
+                      variant="body2"
+                      component="p"
+                    >
+                      {JSON.stringify(encryptedDecryptionKeyMap)}
+                    </Typography>
+                  </div>
                 </div>
               </div>
             </div>
