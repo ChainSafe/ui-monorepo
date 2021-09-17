@@ -248,7 +248,7 @@ describe("File management", () => {
       binPage.recoverMenuOption().click()
       recoverItemModal.folderList().should("exist")
       recoverItemModal.folderList().contains("Home").click()
-      recoverItemModal.recoverButton().click()
+      recoverItemModal.recoverButton().safeClick()
       binPage.fileItemRow().should("not.exist")
 
       // ensure recovered file is correct
@@ -300,7 +300,7 @@ describe("File management", () => {
       binPage.recoverMenuOption().click()
       recoverItemModal.folderList().should("exist")
       recoverItemModal.folderList().contains("Home").click()
-      recoverItemModal.recoverButton().click()
+      recoverItemModal.recoverButton().safeClick()
       binPage.fileItemRow().should("not.exist")
 
       // ensure recovered folder is correct
@@ -373,6 +373,46 @@ describe("File management", () => {
       deleteFileModal.confirmButton().safeClick()
       binPage.permanentDeleteSuccessToast().should("not.exist")
       navigationMenu.spaceUsedLabel().should("contain.text", "0 Bytes")
+    })
+
+    it("can delete and recover multiple files", () => {
+      cy.web3Login({ clearCSFBucket: true, clearTrashBucket: true })
+
+      // upload 2 files
+      homePage.uploadFile("../fixtures/uploadedFiles/logo.png")
+      homePage.uploadFile("../fixtures/uploadedFiles/text-file.txt")
+      homePage.fileItemRow().should("have.length", 2)
+
+      // store their file names as cypress aliases for later comparison
+      homePage.fileItemName().eq(0).invoke("text").as("fileNameA")
+      homePage.fileItemName().eq(1).invoke("text").as("fileNameB")
+
+      // delete both of the files in the same action
+      homePage.selectAllCheckbox().click()
+      homePage.deleteSelectedButton().click()
+      deleteFileModal.confirmButton().safeClick()
+      homePage.deleteSuccessToast().should("not.exist")
+      homePage.fileItemRow().should("have.length", 0)
+
+      // recover both of the files in the same action
+      navigationMenu.binNavButton().click()
+      binPage.selectAllCheckbox().click()
+      binPage.recoverSelectedButton().click()
+      recoverItemModal.folderList().should("exist")
+      recoverItemModal.folderList().contains("Home").click()
+      recoverItemModal.recoverButton().safeClick()
+      binPage.fileItemRow().should("not.exist")
+
+      // return home and ensure both of the files were recovered
+      navigationMenu.homeNavButton().click()
+
+      cy.get("@fileNameA").then(($fileNameA) => {
+        homePage.fileItemName().should("contain.text", $fileNameA)
+      })
+
+      cy.get("@fileNameB").then(($fileNameB) => {
+        homePage.fileItemName().should("contain.text", $fileNameB)
+      })
     })
   })
 })
