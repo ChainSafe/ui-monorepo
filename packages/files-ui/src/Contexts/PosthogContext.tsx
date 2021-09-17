@@ -3,10 +3,11 @@ import posthog from "posthog-js"
 import { Button, Typography, useLocation } from "@chainsafe/common-components"
 import { createStyles, ITheme, makeStyles } from "@chainsafe/common-theme"
 import { Trans } from "@lingui/macro"
+import { useLocalStorage } from "@chainsafe/browser-storage-hooks"
 
 export type PosthogContext = {
+  hasOptedIn: boolean
   posthogInitialized: boolean
-  shouldShowBanner: boolean
 }
 
 type PosthogProviderProps = posthog.Config & {
@@ -14,8 +15,8 @@ type PosthogProviderProps = posthog.Config & {
 }
 
 const PosthogContext = React.createContext<PosthogContext>({
-  posthogInitialized: false,
-  shouldShowBanner: false
+  hasOptedIn: false,
+  posthogInitialized: false
 })
 
 const useStyles = makeStyles(
@@ -64,8 +65,13 @@ const useStyles = makeStyles(
   }
 )
 
+const TOUCHED_COOKIE_BANNER_KEY = "csf.touchedCookieBanner"
+
 const PosthogProvider = ({ children }: PosthogProviderProps) => {
-  const [posthogState, setPosthogState] = useState({ hasOptedOut: false, hasOptedIn: false })
+  const [hasOptedIn, setHasOptedIn] = useState(false)
+  const [showBanner, setShowBanner] = useState(false)
+  const [hasTouchedCookieBanner, setHasTouchedCookieBanner ] = useState(false)
+  const { localStorageGet, localStorageSet } = useLocalStorage()
 
   const classes = useStyles()
   const posthogInitialized = useMemo(() =>
@@ -73,48 +79,49 @@ const PosthogProvider = ({ children }: PosthogProviderProps) => {
     !!process.env.REACT_APP_POSTHOG_INSTANCE_ADDRESS,
   [])
 
-  const refreshPosthogState = useCallback(() => {
-    if (posthogInitialized) {
-      const optedOut = posthog.has_opted_out_capturing()
-      const optedIn = posthog.has_opted_in_capturing()
-      setPosthogState({
-        hasOptedOut: optedOut,
-        hasOptedIn: optedIn
-      })
+  useEffect(() => {
+    if(localStorageGet(TOUCHED_COOKIE_BANNER_KEY) === null){
+      localStorageSet(TOUCHED_COOKIE_BANNER_KEY, "false")
     }
-  }, [posthogInitialized])
+  }, [localStorageGet, localStorageSet])
 
   useEffect(() => {
-    refreshPosthogState()
-  }, [refreshPosthogState])
+    if(posthogInitialized && !hasTouchedCookieBanner && localStorageGet(TOUCHED_COOKIE_BANNER_KEY) === "false"){
+      setShowBanner(true)
+    } else {
+      setShowBanner(false)
+    }
+  }, [posthogInitialized, hasTouchedCookieBanner, localStorageGet])
 
-  const shouldShowBanner = useMemo(() =>
-    posthogInitialized && !posthogState.hasOptedOut && !posthogState.hasOptedIn,
-  [posthogState, posthogInitialized])
+  const touchCookieBanner = useCallback(() => {
+    localStorageSet(TOUCHED_COOKIE_BANNER_KEY, "true")
+    setHasTouchedCookieBanner(true)
+  }, [localStorageSet])
 
   const optInCapturing = useCallback(() => {
     if (posthogInitialized) {
       posthog.opt_in_capturing()
-      refreshPosthogState()
+      touchCookieBanner()
+      setHasOptedIn(true)
     }
-  }, [posthogInitialized, refreshPosthogState])
+  }, [posthogInitialized, touchCookieBanner])
 
   const optOutCapturing = useCallback(() => {
     if (posthogInitialized) {
       posthog.opt_out_capturing()
-      refreshPosthogState()
+      touchCookieBanner()
     }
-  }, [posthogInitialized, refreshPosthogState])
+  }, [posthogInitialized, touchCookieBanner])
 
   return (
     <PosthogContext.Provider
       value={{
-        posthogInitialized,
-        shouldShowBanner
+        hasOptedIn,
+        posthogInitialized
       }}
     >
       {children}
-      {shouldShowBanner &&
+      {showBanner &&
         <div className={classes.cookieBanner}>
           <Typography className={classes.bannerHeading}><Trans>This website uses cookies</Trans></Typography>
           <Typography className={classes.bannerText}>
@@ -131,8 +138,10 @@ const PosthogProvider = ({ children }: PosthogProviderProps) => {
           </Typography>
           <div className={classes.buttonSection}>
             <Button onClick={optOutCapturing}><Trans>Decline</Trans></Button>
-            <Button onClick={optInCapturing}
-              variant='outline'>
+            <Button
+              onClick={optInCapturing}
+              variant='outline'
+            >
               <Trans>Accept</Trans>
             </Button>
           </div>
@@ -152,10 +161,11 @@ function usePosthogContext() {
 
 function usePageTrack() {
   const { pathname } = useLocation()
-  const { posthogInitialized } = usePosthogContext()
+  const { hasOptedIn, posthogInitialized } = usePosthogContext()
+
   useEffect(() => {
-    posthogInitialized && posthog.capture("$pageview")
-  }, [pathname, posthogInitialized])
+    posthogInitialized && hasOptedIn && posthog.capture("$pageview")
+  }, [pathname, hasOptedIn, posthogInitialized])
 }
 
 export { PosthogProvider, usePosthogContext, usePageTrack }
