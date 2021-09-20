@@ -11,6 +11,7 @@ export const homePage = {
   uploadButton: () => cy.get("[data-cy=button-upload-file]"),
   moveSelectedButton: () => cy.get("[data-testId=button-move-selected-file]"),
   deleteSelectedButton: () => cy.get("[data-testId=button-delete-selected-file]"),
+  selectAllCheckbox: () => cy.get("[data-testId=checkbox-select-all]"),
   uploadStatusToast: () => cy.get("[data-testId=toast-upload-status]", { timeout: 10000 }),
   deleteSuccessToast: () => cy.get("[data-testId=toast-deletion-success]", { timeout: 10000 }),
   fileRenameInput: () => cy.get("[data-cy=rename-form] input"),
