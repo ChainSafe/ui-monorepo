@@ -7,7 +7,7 @@
       "jsx": true // Allows for the parsing of JSX
     }
   },
-  "plugins": ["@typescript-eslint", "cypress", "ternary"],
+  "plugins": ["@typescript-eslint", "cypress", "no-only-tests", "ternary"],
   "extends": [
     "eslint:recommended",
     "plugin:@typescript-eslint/eslint-recommended",
@@ -24,6 +24,7 @@
   },
   "rules": {
     "comma-spacing": ["error", { "before": false, "after": true }],
+    "cypress/no-pause": "error",
     "indent": ["error", 2],
     "linebreak-style": ["error", "unix"],
     "quotes": ["error", "double"],
@@ -46,6 +47,7 @@
     "space-infix-ops": "error",
     "no-trailing-spaces": ["error", { "ignoreComments": true }],
     "comma-dangle": ["error", "never"],
+    "no-only-tests/no-only-tests": "error",
     "object-curly-spacing": ["error", "always"],
     "space-in-parens": ["error", "never"],
     "ternary/no-unreachable": "off",
