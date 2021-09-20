@@ -867,12 +867,11 @@ const FilesList = ({ isShared = false }: Props) => {
                   <TableRow type="grid"
                     className={classes.tableRow}>
                     <TableHeadCell>
-                      <span data-cy="checkbox-select-all">
-                        <CheckboxInput
-                          value={selectedItems.length === items.length}
-                          onChange={() => toggleAll()}
-                        />
-                      </span>
+                      <CheckboxInput
+                        value={selectedItems.length === items.length}
+                        onChange={() => toggleAll()}
+                        testId="select-all"
+                      />
                     </TableHeadCell>
                     <TableHeadCell>
                       {/* Icon */}
