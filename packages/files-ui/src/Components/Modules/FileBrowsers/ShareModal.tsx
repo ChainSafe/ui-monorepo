@@ -220,7 +220,7 @@ const ShareModal = ({ close, file, filePath }: IShareFileProps) => {
         value: buck.id
       }))
   }
-  , [bucket?.id, buckets, profile])
+  , [bucket, buckets, profile])
 
   const hasNoSharedBucket = useMemo(() => bucketsOptions.length === 0, [bucketsOptions.length])
 
