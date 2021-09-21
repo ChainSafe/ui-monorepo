@@ -217,7 +217,7 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
         await serviceProvider.init({ skipSw: false }).then(() => {
           console.log("initialized")
           setStatus("initialized")
-        }).catch((e) => console.error("error initializing", e))
+        }).catch(() => "error initializing")
       }
       setTKeySdk(tkey)
     }
@@ -246,7 +246,7 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
         } else {
           setPrivateKey(privKeyString)
         }
-      } catch (error: any) {
+      } catch (error) {
         // Under certain circumstances (approval of login on another device) the metadata
         // cached may be stale, resulting in a failure to reconstruct the key. This is 
         // identified through the nonce. Manually refreshing the metadata cache solves this problem
@@ -452,7 +452,7 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
         console.log("privKey", privKey)
       } else {
         console.log("Existing key")
-        await TKeySdk.initialize({ withShare: metadata as ShareStore })
+        await TKeySdk.initialize({ input: metadata as ShareStore })
         try {
           console.log("Trying to load device share")
           const storageModule = TKeySdk.modules[WEB_STORAGE_MODULE_NAME] as WebStorageModule
