@@ -100,9 +100,9 @@ const SelectInput = ({
   //       ...overrides?.SelectInput?.indicatorsContainer
   //     }, state) : overrides?.SelectInput?.indicatorsContainer)
   //   }),
-  const selectOverides: Partial<Styles> = {}
+  const selectOverrides: Partial<Styles> = {}
   overrideKeys.map(key => {
-    selectOverides[key] = (provided: CSSProperties, state: any): CSSProperties => ({
+    selectOverrides[key] = (provided: CSSProperties, state: any): CSSProperties => ({
       ...(
         styles && styles[key]
           ? styles[key]({
@@ -117,7 +117,7 @@ const SelectInput = ({
     })
   })
 
-  selectOverides.container = (provided, state) => ({
+  selectOverrides.container = (provided, state) => ({
     ...provided,
     outline: "none",
     border: `1px solid ${palette.additional["gray"][5]}`,
@@ -141,7 +141,7 @@ const SelectInput = ({
     )
   })
 
-  selectOverides.control = (provided, state) => ({
+  selectOverrides.control = (provided, state) => ({
     ...provided,
     outline: "none",
     border: "none",
@@ -159,7 +159,7 @@ const SelectInput = ({
     )
   })
 
-  selectOverides.menu = (provided, state) => ({
+  selectOverrides.menu = (provided, state) => ({
     ...provided,
     marginTop: 2,
     marginBottom: 0,
@@ -176,7 +176,7 @@ const SelectInput = ({
     )
   })
 
-  selectOverides.dropdownIndicator = (provided, state) => ({
+  selectOverrides.dropdownIndicator = (provided, state) => ({
     ...provided,
     transform: state.selectProps.menuIsOpen && "rotate(180deg)",
     transitionProperty: "transform",
@@ -194,7 +194,7 @@ const SelectInput = ({
     )
   })
 
-  selectOverides.singleValue = (provided, state) => ({
+  selectOverrides.singleValue = (provided, state) => ({
     ...provided,
     ...typography.body2,
     color: !state.isDisabled
@@ -213,7 +213,7 @@ const SelectInput = ({
     )
   })
 
-  selectOverides.placeholder = (provided, state) => ({
+  selectOverrides.placeholder = (provided, state) => ({
     ...provided,
     color: !state.isDisabled
       ? palette.additional["gray"][8]
@@ -231,7 +231,7 @@ const SelectInput = ({
     )
   })
 
-  selectOverides.option = (provided, state) => ({
+  selectOverrides.option = (provided, state) => ({
     ...provided,
     ...typography.body2,
     backgroundColor: state.isSelected && palette.additional["gray"][3],
@@ -253,7 +253,7 @@ const SelectInput = ({
     )
   })
 
-  selectOverides.valueContainer = (provided, state) => ({
+  selectOverrides.valueContainer = (provided, state) => ({
     ...provided,
     ...typography.body2,
     paddingTop: 0,
@@ -271,7 +271,7 @@ const SelectInput = ({
     )
   })
 
-  selectOverides.indicatorsContainer = (provided, state) => ({
+  selectOverrides.indicatorsContainer = (provided, state) => ({
     ...provided,
     "& > div": {
       paddingTop: 0,
@@ -310,7 +310,7 @@ const SelectInput = ({
         value={selectValue}
         isMulti={isMulti}
         name={name}
-        styles={selectOverides}
+        styles={selectOverrides}
         theme={(selectTheme) => ({
           ...selectTheme,
           spacing: {
