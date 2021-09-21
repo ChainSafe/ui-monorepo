@@ -240,6 +240,8 @@ const CreateOrEditSharedFolderModal = ({ mode, isModalOpen, onClose, bucketToEdi
                 alignContent: "start"
               })
             }}
+            loadingMessage={t`Loading`}
+            noOptionsMessage={t`No user found for this username`}
           />
         </div>
         <div className={classes.modalFlexItem}>
@@ -259,7 +261,10 @@ const CreateOrEditSharedFolderModal = ({ mode, isModalOpen, onClose, bucketToEdi
                 minHeight: 90,
                 alignContent: "start"
               })
-            }}/>
+            }}
+            loadingMessage={t`Loading`}
+            noOptionsMessage={t`No user found for this username`}
+          />
         </div>
         <Grid
           item
