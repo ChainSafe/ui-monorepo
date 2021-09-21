@@ -241,7 +241,7 @@ const CreateOrEditSharedFolderModal = ({ mode, isModalOpen, onClose, bucketToEdi
               })
             }}
             loadingMessage={t`Loading`}
-            noOptionsMessage={t`No user found for this username`}
+            noOptionsMessage={t`No user found for this query.`}
           />
         </div>
         <div className={classes.modalFlexItem}>
@@ -263,7 +263,7 @@ const CreateOrEditSharedFolderModal = ({ mode, isModalOpen, onClose, bucketToEdi
               })
             }}
             loadingMessage={t`Loading`}
-            noOptionsMessage={t`No user found for this username`}
+            noOptionsMessage={t`No user found for this query.`}
           />
         </div>
         <Grid
