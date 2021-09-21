@@ -430,7 +430,7 @@ msgstr "Keine Suchergebnisse für"
 msgid "No thanks"
 msgstr "Nein danke"
 
-msgid "No user found for this username"
+msgid "No user found for this query."
 msgstr ""
 
 msgid "Number of copies (Replication Factor)"

@@ -434,7 +434,7 @@ msgstr "Aucun fichier à afficher"
 msgid "No thanks"
 msgstr "Non merci"
 
-msgid "No user found for this username"
+msgid "No user found for this query."
 msgstr ""
 
 msgid "Number of copies (Replication Factor)"
