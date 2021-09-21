@@ -870,6 +870,7 @@ const FilesList = ({ isShared = false }: Props) => {
                       <CheckboxInput
                         value={selectedItems.length === items.length}
                         onChange={() => toggleAll()}
+                        testId="select-all"
                       />
                     </TableHeadCell>
                     <TableHeadCell>

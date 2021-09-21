@@ -5,7 +5,7 @@ export const navigationMenu = {
   homeNavButton: () => cy.get("[data-cy=home-nav]"),
   binNavButton: () => cy.get("[data-cy=bin-nav]"),
   settingsNavButton: () => cy.get("[data-cy=settings-nav]"),
-  spaceUsedLabel: () => cy.get("[data-cy=label-space-used]"),
+  spaceUsedLabel: () => cy.get("[data-cy=label-space-used]", { timeout: 10000 }),
   spaceUsedProgressBar: () => cy.get("[data-cy=progress-bar-space-used]"),
   sendFeedbackNavButton: () => cy.get("[data-cy=send-feedback-nav]"),
   // mobile view only

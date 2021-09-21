@@ -94,7 +94,8 @@ const CSFFileBrowser: React.FC<IFileBrowserModuleProps> = () => {
             } ${t`deleted successfully`}`
             const id = addToast({
               title: message,
-              type: "success"
+              type: "success",
+              testId: "deletion-success"
             })
             console.log(id)
           }

@@ -248,7 +248,7 @@ describe("File management", () => {
       binPage.recoverMenuOption().click()
       recoverItemModal.folderList().should("exist")
       recoverItemModal.folderList().contains("Home").click()
-      recoverItemModal.recoverButton().click()
+      recoverItemModal.recoverButton().safeClick()
       binPage.fileItemRow().should("not.exist")
 
       // ensure recovered file is correct
@@ -300,7 +300,7 @@ describe("File management", () => {
       binPage.recoverMenuOption().click()
       recoverItemModal.folderList().should("exist")
       recoverItemModal.folderList().contains("Home").click()
-      recoverItemModal.recoverButton().click()
+      recoverItemModal.recoverButton().safeClick()
       binPage.fileItemRow().should("not.exist")
 
       // ensure recovered folder is correct
@@ -349,6 +349,70 @@ describe("File management", () => {
       createFolderModal.createButton().should("have.attr", "disabled")
       createFolderModal.errorLabel().should("be.visible")
       createFolderModal.body().should("contain.text", "Name too long")
+    })
+
+    it("can see storage space summary updated accordingly", () => {
+      cy.web3Login({ clearCSFBucket: true, clearTrashBucket: true })
+
+      // Make sure elements exist and that we are starting with 0
+      navigationMenu.spaceUsedProgressBar().should("be.visible")
+      navigationMenu.spaceUsedLabel().should("contain.text", "0 Bytes")
+
+      // upload a file and ensure the storage space label adjusts
+      homePage.uploadFile("../fixtures/uploadedFiles/logo.png")
+      navigationMenu.spaceUsedLabel().should("not.contain.text", "0 Bytes")
+
+      // delete the file from the bin and ensure the storage space label adjusts
+      homePage.fileItemKebabButton().click()
+      homePage.deleteMenuOption().click()
+      deleteFileModal.confirmButton().safeClick()
+      homePage.deleteSuccessToast().should("not.exist")
+      navigationMenu.binNavButton().click()
+      binPage.fileItemKebabButton().click()
+      binPage.deleteMenuOption().click()
+      deleteFileModal.confirmButton().safeClick()
+      binPage.permanentDeleteSuccessToast().should("not.exist")
+      navigationMenu.spaceUsedLabel().should("contain.text", "0 Bytes")
+    })
+
+    it("can delete and recover multiple files", () => {
+      cy.web3Login({ clearCSFBucket: true, clearTrashBucket: true })
+
+      // upload 2 files
+      homePage.uploadFile("../fixtures/uploadedFiles/logo.png")
+      homePage.uploadFile("../fixtures/uploadedFiles/text-file.txt")
+      homePage.fileItemRow().should("have.length", 2)
+
+      // store their file names as cypress aliases for later comparison
+      homePage.fileItemName().eq(0).invoke("text").as("fileNameA")
+      homePage.fileItemName().eq(1).invoke("text").as("fileNameB")
+
+      // delete both of the files in the same action
+      homePage.selectAllCheckbox().click()
+      homePage.deleteSelectedButton().click()
+      deleteFileModal.confirmButton().safeClick()
+      homePage.deleteSuccessToast().should("not.exist")
+      homePage.fileItemRow().should("have.length", 0)
+
+      // recover both of the files in the same action
+      navigationMenu.binNavButton().click()
+      binPage.selectAllCheckbox().click()
+      binPage.recoverSelectedButton().click()
+      recoverItemModal.folderList().should("exist")
+      recoverItemModal.folderList().contains("Home").click()
+      recoverItemModal.recoverButton().safeClick()
+      binPage.fileItemRow().should("not.exist")
+
+      // return home and ensure both of the files were recovered
+      navigationMenu.homeNavButton().click()
+
+      cy.get("@fileNameA").then(($fileNameA) => {
+        homePage.fileItemName().should("contain.text", $fileNameA)
+      })
+
+      cy.get("@fileNameB").then(($fileNameB) => {
+        homePage.fileItemName().should("contain.text", $fileNameB)
+      })
     })
   })
 })
