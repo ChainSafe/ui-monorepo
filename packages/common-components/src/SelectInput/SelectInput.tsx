@@ -1,10 +1,5 @@
 import React, { CSSProperties, ReactNode } from "react"
-import {
-  makeStyles,
-  createStyles,
-  ITheme,
-  useTheme
-} from "@chainsafe/common-theme"
+import { makeStyles, createStyles, ITheme, useTheme } from "@chainsafe/common-theme"
 import clsx from "clsx"
 import Select, { Styles } from "react-select"
 import { Typography } from "../Typography"
@@ -62,7 +57,7 @@ interface ISelectInputProps {
   styles?: Partial<Styles>
 }
 
-const SelectInput: React.FC<ISelectInputProps> = ({
+const SelectInput = ({
   className,
   size = "medium",
   disabled = false,
@@ -77,7 +72,7 @@ const SelectInput: React.FC<ISelectInputProps> = ({
   name,
   isClearable = false,
   styles
-}) => {
+}: ISelectInputProps) => {
   const classes = useStyles()
   const { palette, animation, typography, overrides }: ITheme = useTheme()
   const handleChange = (value: any) => {
@@ -121,6 +116,7 @@ const SelectInput: React.FC<ISelectInputProps> = ({
       )
     })
   })
+
   selectOverides.container = (provided, state) => ({
     ...provided,
     outline: "none",
@@ -319,7 +315,11 @@ const SelectInput: React.FC<ISelectInputProps> = ({
           ...selectTheme,
           spacing: {
             ...selectTheme.spacing,
-            controlHeight: size === "large" ? 40 : size === "medium" ? 32 : 24
+            controlHeight: size === "large"
+              ? 40
+              : size === "medium"
+                ? 32
+                : 24
           }
         })}
       />
