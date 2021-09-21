@@ -211,6 +211,8 @@ const ShareModal = ({ close, file, filePath }: IShareFileProps) => {
 
     return buckets
       .filter(buck => buck.type === "share" || buck.type === "csf")
+      // filter out the current bucket
+      .filter(buck => buck.id !== bucket?.id)
       // all buckets where the user is reader or writer
       .filter(buck => !!buck.writers.find((w) => w.uuid === profile.userId) || !!buck.owners.find((o) => o.uuid === profile.userId))
       .map(buck => ({
@@ -218,7 +220,7 @@ const ShareModal = ({ close, file, filePath }: IShareFileProps) => {
         value: buck.id
       }))
   }
-  , [buckets, profile])
+  , [bucket, buckets, profile])
 
   const hasNoSharedBucket = useMemo(() => bucketsOptions.length === 0, [bucketsOptions.length])
 
