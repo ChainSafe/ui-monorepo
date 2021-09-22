@@ -217,7 +217,7 @@ const ThresholdKeyProvider = ({ children, network = "mainnet", enableLogging = f
         await serviceProvider.init({ skipSw: false }).then(() => {
           console.log("initialized")
           setStatus("initialized")
-        }).catch(() => "error initializing")
+        }).catch((e) => console.error("error initializing", e))
       }
       setTKeySdk(tkey)
     }
