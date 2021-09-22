@@ -60,8 +60,8 @@ export const useLookupSharedFolderUser = () => {
 
       return [{ label: inputVal, value: result.uuid, data: result }]
     } catch (e) {
-      console.error(e)
-      return Promise.reject(e)
+      console.error("No user found", e)
+      return Promise.resolve([])
     }
   }, [filesApiClient, sharedFolderReaders, sharedFolderWriters, profile])
 
