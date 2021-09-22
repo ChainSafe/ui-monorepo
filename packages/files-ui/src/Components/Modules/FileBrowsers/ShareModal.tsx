@@ -368,7 +368,7 @@ const ShareModal = ({ close, file, filePath }: IShareFileProps) => {
                       })
                     }}
                     loadingMessage={t`Loading`}
-            noOptionsMessage={t`No user found for this query.`}
+                    noOptionsMessage={t`No user found for this query.`}
                   />
                 </div>
                 <div className={classes.modalFlexItem}>
@@ -387,7 +387,7 @@ const ShareModal = ({ close, file, filePath }: IShareFileProps) => {
                       })
                     }}
                     loadingMessage={t`Loading...`}
-            noOptionsMessage={t`No user found for this query.`}
+                    noOptionsMessage={t`No user found for this query.`}
                   />
                 </div>
                 {!!usersError && (
