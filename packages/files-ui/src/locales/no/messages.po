@@ -25,6 +25,12 @@ msgstr ""
 msgid "Account"
 msgstr "Konto"
 
+msgid "Add Card"
+msgstr ""
+
+msgid "Add a credit card"
+msgstr ""
+
 msgid "Add a username"
 msgstr "Legg til et brukernavn"
 
@@ -32,6 +38,9 @@ msgid "Add at least one more authentication method to protect your account. You�
 msgstr ""
 
 msgid "Add by sharing address, username or wallet address"
+msgstr ""
+
+msgid "Add card"
 msgstr ""
 
 msgid "Add more files"
@@ -55,6 +64,12 @@ msgstr ""
 msgid "Backup secret phrase does not match user account, please double-check and try again."
 msgstr ""
 
+msgid "Billed Monthly"
+msgstr ""
+
+msgid "Billed Yearly"
+msgstr ""
+
 msgid "Bin"
 msgstr ""
 
@@ -62,6 +77,9 @@ msgid "Browser:"
 msgstr ""
 
 msgid "Bucket id"
+msgstr ""
+
+msgid "Buy more storage"
 msgstr ""
 
 msgid "By connecting your wallet, you agree to our <0>Terms of Service</0> and <1>Privacy Policy</1>"
@@ -75,6 +93,12 @@ msgstr ""
 
 msgid "Cancel"
 msgstr "Avbryt"
+
+msgid "Card added successfully"
+msgstr ""
+
+msgid "Card details could not be validated"
+msgstr ""
 
 msgid "Change Password"
 msgstr "Endre passord"
@@ -214,6 +238,9 @@ msgstr ""
 msgid "Drop to upload files"
 msgstr "Dra for å laste opp filer"
 
+msgid "Early Adopter: Free up to {0}"
+msgstr ""
+
 msgid "Email is required"
 msgstr "E-post kreves"
 
@@ -231,9 +258,6 @@ msgstr "Skriv inn passord:"
 
 msgid "Enter the verification code:"
 msgstr "Skriv inn bekreftelseskoden:"
-
-msgid "Essentials - Free"
-msgstr ""
 
 msgid "Failed to get signature"
 msgstr ""
@@ -373,9 +397,6 @@ msgstr ""
 msgid "Looks like you’re signing in from a new browser. Please choose one of the following to continue:"
 msgstr ""
 
-msgid "Lorem ipsum aenean et rutrum magna. Morbi nec placerat erat. Nunc elementum sed libero sit amet convallis. Quisque non arcu vitae ex fringilla molestie."
-msgstr ""
-
 msgid "Manage Access"
 msgstr ""
 
@@ -397,6 +418,12 @@ msgstr "Mine filer"
 msgid "Name"
 msgstr "Navn"
 
+msgid "Name on card"
+msgstr ""
+
+msgid "Name on card is required"
+msgstr ""
+
 msgid "Name too long"
 msgstr "Navnet er for langt"
 
@@ -407,6 +434,9 @@ msgid "Next"
 msgstr "Neste"
 
 msgid "Nice to see you again!"
+msgstr ""
+
+msgid "No Card"
 msgstr ""
 
 msgid "No file to download."
@@ -466,6 +496,9 @@ msgstr "Passord:"
 msgid "Passwords must match"
 msgstr "Passordene må samsvare"
 
+msgid "Payment and Subscriptions"
+msgstr ""
+
 msgid "Please enter a file name"
 msgstr "Skriv inn et filnavn"
 
@@ -498,6 +531,9 @@ msgstr "Profilinnstillinger"
 
 msgid "Profile updated"
 msgstr "Profil oppdatert"
+
+msgid "Purchase with card"
+msgstr ""
 
 msgid "Recover"
 msgstr "Gjenopprett"
@@ -646,6 +682,9 @@ msgstr ""
 msgid "Something went wrong!"
 msgstr "Noe gikk galt."
 
+msgid "Something went wrong, please try again"
+msgstr ""
+
 msgid "Something went wrong. We couldn't upload your file"
 msgstr ""
 
@@ -656,6 +695,9 @@ msgid "Storage Plan"
 msgstr ""
 
 msgid "Stored by miner"
+msgstr ""
+
+msgid "Subscription Plan"
 msgstr ""
 
 msgid "Technical"
@@ -724,10 +766,19 @@ msgstr "Prøv igjen"
 msgid "Try another method"
 msgstr "Prøv annen metode"
 
+msgid "Try for 7 days"
+msgstr ""
+
 msgid "Update"
 msgstr "Oppdater"
 
+msgid "Update Card"
+msgstr ""
+
 msgid "Update Shared Folder"
+msgstr ""
+
+msgid "Upgrade your plan"
 msgstr ""
 
 msgid "Upload"
@@ -812,6 +863,9 @@ msgid "You haven't set a username yet."
 msgstr "Du har ikke satt noe brukernavn enda."
 
 msgid "You will need to sign a message in your wallet to complete sign in."
+msgstr ""
+
+msgid "Your first {0} are free, and you’ll get a discount on our monthly plan once you need more than that"
 msgstr ""
 
 msgid "Your recovery key can be used to restore your account in place of your backup secret phrase."
