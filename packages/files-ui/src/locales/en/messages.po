@@ -367,11 +367,17 @@ msgstr "Let's get you set up."
 msgid "Light Theme"
 msgstr "Light Theme"
 
+msgid "Loading"
+msgstr "Loading"
+
 msgid "Loading preview"
 msgstr "Loading preview"
 
 msgid "Loading your shared folders…"
 msgstr "Loading your shared folders…"
+
+msgid "Loading..."
+msgstr "Loading..."
 
 msgid "Looks like you’re signing in from a new browser. Please choose one of the following to continue:"
 msgstr "Looks like you’re signing in from a new browser. Please choose one of the following to continue:"
@@ -426,6 +432,9 @@ msgstr "No search results for"
 
 msgid "No thanks"
 msgstr "No thanks"
+
+msgid "No user found for this query."
+msgstr "No user found for this query."
 
 msgid "Number of copies (Replication Factor)"
 msgstr "Number of copies (Replication Factor)"

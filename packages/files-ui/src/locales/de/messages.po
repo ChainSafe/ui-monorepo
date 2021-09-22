@@ -364,10 +364,16 @@ msgstr "Los geht’s."
 msgid "Light Theme"
 msgstr "Helles Farbschema"
 
+msgid "Loading"
+msgstr ""
+
 msgid "Loading preview"
 msgstr "Vorschau wird geladen"
 
 msgid "Loading your shared folders…"
+msgstr ""
+
+msgid "Loading..."
 msgstr ""
 
 msgid "Looks like you’re signing in from a new browser. Please choose one of the following to continue:"
@@ -423,6 +429,9 @@ msgstr "Keine Suchergebnisse für"
 
 msgid "No thanks"
 msgstr "Nein danke"
+
+msgid "No user found for this query."
+msgstr ""
 
 msgid "Number of copies (Replication Factor)"
 msgstr "Anzahl der Kopien (Replikationsfaktor)"

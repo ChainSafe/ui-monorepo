@@ -364,10 +364,16 @@ msgstr ""
 msgid "Light Theme"
 msgstr "Lys drakt"
 
+msgid "Loading"
+msgstr ""
+
 msgid "Loading preview"
 msgstr ""
 
 msgid "Loading your shared folders…"
+msgstr ""
+
+msgid "Loading..."
 msgstr ""
 
 msgid "Looks like you’re signing in from a new browser. Please choose one of the following to continue:"
@@ -423,6 +429,9 @@ msgstr ""
 
 msgid "No thanks"
 msgstr "Nei takk"
+
+msgid "No user found for this query."
+msgstr ""
 
 msgid "Number of copies (Replication Factor)"
 msgstr ""

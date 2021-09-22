@@ -295,7 +295,6 @@ const ShareModal = ({ close, file, filePath }: IShareFileProps) => {
     transferFileBetweenBuckets
   ])
 
-
   return (
     <CustomModal
       className={classes.modalRoot}
@@ -367,7 +366,10 @@ const ShareModal = ({ close, file, filePath }: IShareFileProps) => {
                         minHeight: 90,
                         alignContent: "start"
                       })
-                    }}/>
+                    }}
+                    loadingMessage={t`Loading`}
+                    noOptionsMessage={t`No user found for this query.`}
+                  />
                 </div>
                 <div className={classes.modalFlexItem}>
                   <TagsInput
@@ -383,7 +385,10 @@ const ShareModal = ({ close, file, filePath }: IShareFileProps) => {
                         minHeight: 90,
                         alignContent: "start"
                       })
-                    }}/>
+                    }}
+                    loadingMessage={t`Loading...`}
+                    noOptionsMessage={t`No user found for this query.`}
+                  />
                 </div>
                 {!!usersError && (
                   <Typography

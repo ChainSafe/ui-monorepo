@@ -368,10 +368,16 @@ msgstr "Vamos a configurarlo."
 msgid "Light Theme"
 msgstr "Tema Claro"
 
+msgid "Loading"
+msgstr ""
+
 msgid "Loading preview"
 msgstr "Cargando vista previa"
 
 msgid "Loading your shared folders…"
+msgstr ""
+
+msgid "Loading..."
 msgstr ""
 
 msgid "Looks like you’re signing in from a new browser. Please choose one of the following to continue:"
@@ -427,6 +433,9 @@ msgstr "No hay resultados de búsqueda para"
 
 msgid "No thanks"
 msgstr "No gracias"
+
+msgid "No user found for this query."
+msgstr ""
 
 msgid "Number of copies (Replication Factor)"
 msgstr "Número de copias (factor de replicación)"
