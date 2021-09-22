@@ -480,6 +480,9 @@ export const darkTheme = createTheme<CsfColors>({
         },
         surveyBanner: {
           color: "var(--gray9)"
+        },
+        cookieBanner: {
+          backgroundColor: "var(--gray9)"
         }
       } as CsfColors)
     },
