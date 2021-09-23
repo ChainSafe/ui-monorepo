@@ -8,7 +8,8 @@ import {
   HamburgerMenu,
   MenuDropdown,
   PowerDownSvg,
-  useHistory
+  useHistory,
+  Button
 } from "@chainsafe/common-components"
 import { ROUTE_LINKS } from "../FilesRoutes"
 import SearchModule from "../Modules/SearchModule"
@@ -99,9 +100,7 @@ const useStyles = makeStyles(
         justifyContent: "flex-end",
         alignItems: "center",
         flexDirection: "row",
-        [breakpoints.up("md")]: {
-          marginLeft: constants.accountControlsPadding
-        },
+
         "& > *:first-child": {
           marginRight: constants.generalUnit * 2
         }
@@ -142,6 +141,14 @@ const useStyles = makeStyles(
       },
       title : {
         marginLeft: constants.generalUnit
+      },
+      buttonsSection: {
+        display: "flex",
+        margin: `0 ${constants.generalUnit * 2}px`,
+
+        "& button" : {
+          height: constants.generalUnit * 4
+        }
       }
     })
   }
@@ -171,6 +178,10 @@ const AppHeader = ({ navOpen, setNavOpen }: IAppHeader) => {
 
   }, [logout, removeUser, history])
 
+  const collectFeedback = () => {
+    window.open(ROUTE_LINKS.DiscordInvite, "_blank")
+  }
+
   return (
     <header
       className={clsx(classes.root, {
@@ -196,6 +207,16 @@ const AppHeader = ({ navOpen, setNavOpen }: IAppHeader) => {
                   searchActive={searchActive}
                   setSearchActive={setSearchActive}
                 />
+              </section>
+              <section className={classes.buttonsSection}>
+                <Button
+                  data-cy="send-feedback-nav"
+                  variant="tertiary"
+                  size="small"
+                  onClick={collectFeedback}
+                >
+                  <Trans>Report a bug</Trans>
+                </Button>
               </section>
               <section className={classes.accountControls}>
                 <MenuDropdown
