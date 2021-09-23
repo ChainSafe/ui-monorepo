@@ -9,10 +9,7 @@ import {
   Link,
   Typography,
   PowerDownSvg,
-  // ProgressBar,
-  // formatBytes,
-  ChainsafeLogo,
-  SettingSvg
+  ChainsafeLogo
 } from "@chainsafe/common-components"
 import { ROUTE_LINKS } from "../GamingRoutes"
 import { Trans } from "@lingui/macro"
@@ -240,7 +237,7 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
           )}
           <div className={classes.linksArea}>
             <nav className={classes.navMenu}>
-              <Link
+              {/* <Link
                 data-cy="settings-nav"
                 onClick={handleOnClick}
                 className={classes.navItem}
@@ -253,7 +250,7 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
                 >
                   <Trans>Settings</Trans>
                 </Typography>
-              </Link>
+              </Link> */}
             </nav>
           </div>
           <section>
