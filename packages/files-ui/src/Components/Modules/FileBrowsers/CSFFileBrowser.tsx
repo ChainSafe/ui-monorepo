@@ -23,11 +23,8 @@ import { FileBrowserContext } from "../../../Contexts/FileBrowserContext"
 import { parseFileContentResponse } from "../../../Utils/Helpers"
 
 const CSFFileBrowser: React.FC<IFileBrowserModuleProps> = () => {
-  const {
-    downloadFile,
-    uploadFiles,
-    buckets
-  } = useFiles()
+  const { downloadFile, uploadFiles, buckets } = useFiles()
+  const { accountInArrears } = useFilesApi()
   const { filesApiClient } = useFilesApi()
   const { addToast } = useToasts()
   const [loadingCurrentPath, setLoadingCurrentPath] = useState(false)
@@ -95,11 +92,10 @@ const CSFFileBrowser: React.FC<IFileBrowserModuleProps> = () => {
             const message = `${
               itemToDelete.isFolder ? t`Folder` : t`File`
             } ${t`deleted successfully`}`
-            const id = addToast({
+            addToast({
               title: message,
               type: "success"
             })
-            console.log(id)
           }
           return Promise.resolve()
         } catch (error) {
@@ -184,6 +180,14 @@ const CSFFileBrowser: React.FC<IFileBrowserModuleProps> = () => {
         hasFolder = true
       }
     }
+    if (accountInArrears) {
+      addToast({
+        type:'error',
+        title: 'Unable to upload',
+        subtitle: 'Oops! You need to pay for this month to upload more content.'
+      })
+      return
+    }
     if (hasFolder) {
       addToast({
         title: t`Folder uploads are not supported currently`,
@@ -201,7 +205,7 @@ const CSFFileBrowser: React.FC<IFileBrowserModuleProps> = () => {
     if (fileSystemItem && fileSystemItem.content_type === CONTENT_TYPES.Directory) {
       redirect(ROUTE_LINKS.Drive(getUrlSafePathWithFile(currentPath, fileSystemItem.name)))
     }
-  }, [currentPath, pathContents, redirect])
+  }, [currentPath, pathContents, redirect, ])
 
   const bulkOperations: IBulkOperations = useMemo(() => ({
     [CONTENT_TYPES.Directory]: ["download", "move", "delete"],
