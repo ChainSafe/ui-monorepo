@@ -3,7 +3,9 @@ import { Typography, CreditCardIcon, Button } from "@chainsafe/common-components
 import { makeStyles, ITheme, createStyles } from "@chainsafe/common-theme"
 import { Trans } from "@lingui/macro"
 import { useBilling } from "../../../../Contexts/BillingContext"
-import AddCardModal from "./AddCardModal"
+import AddCardModal from "./NewAddCardModal"
+import { loadStripe } from "@stripe/stripe-js"
+import { Elements } from "@stripe/react-stripe-js"
 
 const useStyles = makeStyles(({ constants, palette }: ITheme) =>
   createStyles({
@@ -23,6 +25,8 @@ const useStyles = makeStyles(({ constants, palette }: ITheme) =>
     }
   })
 )
+
+const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PK || "")
 
 const CurrentCard: React.FC = () => {
   const classes = useStyles()
@@ -62,10 +66,12 @@ const CurrentCard: React.FC = () => {
           }
         </Button>
       </div>
-      <AddCardModal
-        isModalOpen={isAddCardModalOpen}
-        onClose={() => setIsAddCardModalOpen(false)}
-      />
+      <Elements stripe={stripePromise}>
+        <AddCardModal
+          isModalOpen={isAddCardModalOpen}
+          onClose={() => setIsAddCardModalOpen(false)}
+        />
+      </Elements>
     </>
   )
 }
