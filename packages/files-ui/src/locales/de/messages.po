@@ -277,9 +277,6 @@ msgstr "Ordner"
 msgid "Folder name is already in use"
 msgstr ""
 
-msgid "Folder uploads are not supported currently"
-msgstr ""
-
 msgid "Folders"
 msgstr "Ordner"
 

@@ -281,9 +281,6 @@ msgstr "Dossier"
 msgid "Folder name is already in use"
 msgstr "Le nom du dossier est déjà utilisé"
 
-msgid "Folder uploads are not supported currently"
-msgstr "Le téléversement de dossiers n'est pas actuellement pris en charge"
-
 msgid "Folders"
 msgstr "Dossiers"
 
