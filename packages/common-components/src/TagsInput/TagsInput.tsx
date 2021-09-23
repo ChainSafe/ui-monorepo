@@ -3,7 +3,8 @@ import {
   makeStyles,
   createStyles,
   ITheme,
-  useTheme
+  useTheme,
+  debounce
 } from "@chainsafe/common-theme"
 import clsx from "clsx"
 import AsyncSelect from "react-select/async"
@@ -63,6 +64,8 @@ interface ITagsInputProps {
   fetchTags: (searchValue: string) => Promise<Array<ITagOption>>
   onChange: (value: ValueType<ITagOption, true>, action: ActionMeta<ITagOption>) => void
   styles?: Partial<Styles>
+  loadingMessage?: string
+  noOptionsMessage? : string
 }
 
 const TagsInput = ({
@@ -75,7 +78,9 @@ const TagsInput = ({
   fetchTags,
   disabled = false,
   onChange,
-  styles
+  styles,
+  loadingMessage = "Loading...",
+  noOptionsMessage = "No options found."
 }: ITagsInputProps) => {
   const classes = useStyles()
 
@@ -111,6 +116,10 @@ const TagsInput = ({
     })
   })
 
+  const loadOptions = debounce((inputText, callback) => {
+    fetchTags(inputText).then((options) => callback(options))
+  }, 300)
+
   return (
     <label className={clsx(classes.root, className)}>
       {label && label.length > 0 && (
@@ -127,11 +136,8 @@ const TagsInput = ({
         isMulti
         cacheOptions={false}
         value={value}
-        loadOptions={fetchTags}
-        onInputChange={(inputVal) => fetchTags(inputVal)}
+        loadOptions={loadOptions}
         isClearable={false}
-        getOptionLabel={(option) => option.label}
-        getOptionValue={(option) => option.value}
         onChange={onChange}
         openMenuOnClick={false}
         openMenuOnFocus={false}
@@ -139,6 +145,8 @@ const TagsInput = ({
         isDisabled={disabled}
         components={{ DropdownIndicator:() => null, IndicatorSeparator:() => null }}
         styles={selectOverides as Partial<Styles>}
+        loadingMessage={() => loadingMessage}
+        noOptionsMessage={() => noOptionsMessage}
       />
       {caption && (
         <Typography

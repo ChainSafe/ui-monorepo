@@ -368,11 +368,17 @@ msgstr "C’est parti."
 msgid "Light Theme"
 msgstr "Thème clair"
 
+msgid "Loading"
+msgstr ""
+
 msgid "Loading preview"
 msgstr "Chargement de l’aperçu"
 
 msgid "Loading your shared folders…"
 msgstr "Chargement de vos dossiers partagés…"
+
+msgid "Loading..."
+msgstr ""
 
 msgid "Looks like you’re signing in from a new browser. Please choose one of the following to continue:"
 msgstr "Il semble que vous vous connectiez à partir d’un nouveau navigateur. Veuillez choisir une des options suivantes pour continuer :"
@@ -427,6 +433,9 @@ msgstr "Aucun fichier à afficher"
 
 msgid "No thanks"
 msgstr "Non merci"
+
+msgid "No user found for this query."
+msgstr ""
 
 msgid "Number of copies (Replication Factor)"
 msgstr "Nombre de copies (facteur de réplication)"
