@@ -34,7 +34,7 @@ type FilesApiContext = {
   validateMasterPassword: (candidatePassword: string) => Promise<boolean>
   encryptedEncryptionKey?: string
   isMasterPasswordSet: boolean
-  subscriptionInArrears?: boolean
+  accountInArrears?: boolean
 }
 
 const FilesApiContext = React.createContext<FilesApiContext | undefined>(undefined)
@@ -63,7 +63,7 @@ const FilesApiProvider = ({ apiUrl, withLocalStorage = true, children }: FilesAp
   // access tokens
   const [accessToken, setAccessToken] = useState<Token | undefined>(undefined)
   const [secured, setSecured] = useState<boolean | undefined>(undefined)
-  const [subscriptionInArrears, setSubscriptionInArrears] = useState<boolean | undefined>(undefined)
+  const [accountInArrears, setAccountInArrears] = useState<boolean | undefined>(undefined)
   const [refreshToken, setRefreshToken] = useState<Token | undefined>(undefined)
   const [decodedRefreshToken, setDecodedRefreshToken] = useState<
     { exp: number; enckey?: string; mps?: string; uuid: string } | undefined
@@ -227,9 +227,9 @@ const FilesApiProvider = ({ apiUrl, withLocalStorage = true, children }: FilesAp
         setSecured(false)
       }
       if (decodedAccessToken.perm.files === 'restricted') {
-        setSubscriptionInArrears(true)
+        setAccountInArrears(true)
       } else {
-        setSubscriptionInArrears(false)
+        setAccountInArrears(false)
       }
     }
   }, [accessToken, filesApiClient])
@@ -316,7 +316,7 @@ const FilesApiProvider = ({ apiUrl, withLocalStorage = true, children }: FilesAp
         secureThresholdKeyAccount,
         encryptedEncryptionKey: decodedRefreshToken?.enckey,
         isMasterPasswordSet: !!decodedRefreshToken?.mps,
-        subscriptionInArrears
+        accountInArrears: accountInArrears
       }}
     >
       {children}
