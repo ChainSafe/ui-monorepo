@@ -22,6 +22,7 @@ import { useFileBrowser } from "../../../Contexts/FileBrowserContext"
 import clsx from "clsx"
 import { useEffect } from "react"
 import { nameValidator } from "../../../Utils/validationSchema"
+import { useFilesApi } from "../../../Contexts/FilesApiContext"
 
 const useStyles = makeStyles(
   ({ breakpoints, constants, palette, typography, zIndex }: CSFTheme) => {
@@ -196,6 +197,7 @@ interface IShareFileProps {
 const CopyToSharedFolderModal = ({ close, file, filePath }: IShareFileProps) => {
   const classes = useStyles()
   const { handleCreateSharedFolder } = useCreateOrEditSharedFolder()
+  const { accountInArrears } = useFilesApi()
   const [sharedFolderName, setSharedFolderName] = useState("")
   const { sharedFolderReaders, sharedFolderWriters, handleLookupUser, onNewUsers, usersError } = useLookupSharedFolderUser()
   const [isUsingCurrentBucket, setIsUsingCurrentBucket] = useState(true)
@@ -213,24 +215,28 @@ const CopyToSharedFolderModal = ({ close, file, filePath }: IShareFileProps) => 
     }
 
     return buckets
-      .filter(buck => buck.type === "share")
-      // all buckets where the user is reader or writer
+      .filter(buck => buck.type === "share" || buck.type === "csf")
+      // filter out the current bucket
+      .filter(buck => buck.id !== bucket?.id)
+      // all buckets where the user is owner or writer
       .filter(buck => !!buck.writers.find((w) => w.uuid === profile.userId) || !!buck.owners.find((o) => o.uuid === profile.userId))
+      // filter out CSF and share buckets where user is an owner if their account is restricted
+      .filter(buck => !(!!accountInArrears && (buck.type === 'csf' || !!buck.owners.find(o => o.uuid === profile.userId))))
       .map(buck => ({
         label: buck.name,
         value: buck.id
       }))
   }
-  , [buckets, profile])
+  , [bucket, buckets, profile, accountInArrears])
 
   const hasNoSharedBucket = useMemo(() => bucketsOptions.length === 0, [bucketsOptions.length])
 
   // if the user has no shared bucket, we default to new folder creation
   useEffect(() => {
-    if (hasNoSharedBucket) {
+    if (hasNoSharedBucket && !accountInArrears) {
       setIsUsingCurrentBucket(false)
     }
-  }, [hasNoSharedBucket])
+  }, [hasNoSharedBucket, accountInArrears])
 
   const onNameChange = useCallback((value?: string | number) => {
     if (value === undefined) return
