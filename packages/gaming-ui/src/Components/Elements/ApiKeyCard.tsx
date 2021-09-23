@@ -40,9 +40,8 @@ const ApiKeyCard = ({ apiKey, deleteKey }: IApiKeyCard) => {
       </Typography>
       <Typography
         variant="body1"
-        component="p"
-      >
-        &nbsp;{ apiKey.id }
+        component="p">
+        { apiKey.id }
       </Typography>
       <Typography variant="h4"
         component="h4">
@@ -53,39 +52,23 @@ const ApiKeyCard = ({ apiKey, deleteKey }: IApiKeyCard) => {
       <Typography
         variant="body1"
         component="p">
-        &nbsp;{ apiKey.status }
+        { apiKey.status }
       </Typography>
-      {/* <Typography variant="h4"
+      <Typography variant="h4"
         component="h4">
-        <Trans>
-          Secret:
-        </Trans>
-      </Typography> */}
-      {/* <Typography
-        variant="body1"
-        component="p">
-        &nbsp;{ apiKey.secret }
-      </Typography> */}
-      <Typography
-        variant="h4"
-        component="h4"
-      >
         <Trans>
           Created on:
         </Trans>
       </Typography>
       <Typography
         variant="body1"
-        component="p"
-      >
-        &nbsp;{ dayjs(apiKey.created_at).format("DD MMM YYYY h:mm a") }
+        component="p">
+        { dayjs(apiKey.created_at).format("DD MMM YYYY h:mm a") }
       </Typography>
-      <Button
-        className={classes.button}
+      <Button className={classes.button}
         variant="secondary"
         fullsize={true}
-        onClick={deleteKey}
-      >
+        onClick={deleteKey}>
         <Trans>
           Delete key
         </Trans>

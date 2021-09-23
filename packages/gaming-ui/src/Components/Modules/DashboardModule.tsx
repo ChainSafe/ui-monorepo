@@ -137,7 +137,7 @@ const DashboardModule = () => {
       .catch(console.error)
   }, [gamingApiClient])
 
-  const createStorageAccessKey = useCallback(() => {
+  const createGamingAccessKey = useCallback(() => {
     gamingApiClient.createAccessKey({ type: "gaming" })
       .then((key) => {
         setNewKey(key)
@@ -173,7 +173,7 @@ const DashboardModule = () => {
           <div className={classes.controls}>
             <Button
               data-cy="add-storage-api-key-button"
-              onClick={createStorageAccessKey}
+              onClick={createGamingAccessKey}
               variant="outline"
               size="large"
               disabled={keys.filter(k => k.type === "gaming").length > 0}
