@@ -108,7 +108,7 @@ type SortingType = "name" | "size" | "date_uploaded"
 
 const SharedFolderOverview = () => {
   const classes = useStyles()
-  const { filesApiClient } = useFilesApi()
+  const { filesApiClient, accountInArrears } = useFilesApi()
   const { buckets, isLoadingBuckets, refreshBuckets } = useFiles()
   const [createOrEditSharedFolderMode, setCreateOrEditSharedFolderMode] = useState<SharedFolderModalMode | undefined>(undefined)
   const [bucketToEdit, setBucketToEdit] = useState<BucketKeyPermission | undefined>(undefined)
@@ -180,6 +180,7 @@ const SharedFolderOverview = () => {
                 setBucketToEdit(undefined)
                 setCreateOrEditSharedFolderMode("create")
               }}
+              disabled={accountInArrears}
             >
               <PlusIcon />
               <Trans>Create a Shared Folder</Trans>

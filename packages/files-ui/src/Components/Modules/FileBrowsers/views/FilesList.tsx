@@ -53,6 +53,7 @@ import SharedUsers from "../../../Elements/SharedUsers"
 import Menu from "../../../../UI-components/Menu"
 import SharingExplainerModal from "../../../SharingExplainerModal"
 import { useSharingExplainerModalFlag } from "../hooks/useSharingExplainerModalFlag"
+import {useFilesApi} from "../../../../Contexts/FilesApiContext"
 
 const baseOperations:  FileOperation[] = ["download", "info", "preview", "share"]
 const readerOperations: FileOperation[] = [...baseOperations, "report"]
@@ -312,6 +313,7 @@ const FilesList = ({ isShared = false }: Props) => {
   const [isReportFileModalOpen, setIsReportFileModalOpen] = useState(false)
   const [isFileInfoModalOpen, setIsFileInfoModalOpen] = useState(false)
   const [isShareModalOpen, setIsShareModalOpen] = useState(false)
+  const { accountInArrears } = useFilesApi()
 
   const {
     heading,
@@ -626,7 +628,8 @@ const FilesList = ({ isShared = false }: Props) => {
           </span>
         </>
       ),
-      onClick: () => setCreateFolderModalOpen(true)
+      onClick: () => setCreateFolderModalOpen(true),
+      disabled: accountInArrears
     },
     {
       contents: (
@@ -637,10 +640,11 @@ const FilesList = ({ isShared = false }: Props) => {
           </span>
         </>
       ),
-      onClick: () => setIsUploadModalOpen(true)
+      onClick: () => setIsUploadModalOpen(true),
+      disabled: accountInArrears
     }
   ],
-  [classes.menuIcon])
+  [classes.menuIcon, accountInArrears])
 
   const onShare = useCallback((fileInfoPath: string, fileIndex: number) => {
     if(hasSeenSharingExplainerModal) {
@@ -719,6 +723,7 @@ const FilesList = ({ isShared = false }: Props) => {
                       onClick={() => setCreateFolderModalOpen(true)}
                       variant="outline"
                       size="large"
+                      disabled={accountInArrears}
                     >
                       <PlusCircleIcon />
                       <span>
@@ -730,6 +735,7 @@ const FilesList = ({ isShared = false }: Props) => {
                       onClick={() => setIsUploadModalOpen(true)}
                       variant="outline"
                       size="large"
+                      disabled={accountInArrears}
                     >
                       <UploadIcon />
                       <span>
