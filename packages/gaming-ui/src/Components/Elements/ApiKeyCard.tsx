@@ -13,7 +13,8 @@ const useStyles = makeStyles(({ constants }: CSGTheme) =>
       position: "relative",
       margin: constants.generalUnit,
       borderRadius: constants.generalUnit / 2,
-      maxWidth: 250
+      maxWidth: 250,
+      padding: `${constants.generalUnit * 2}px ${constants.generalUnit}px`
     },
     button: {
       marginTop: constants.generalUnit * 2
