@@ -317,9 +317,6 @@ msgstr "Donner l’accès en lecture seule à :"
 msgid "Go back"
 msgstr "Retour"
 
-msgid "Got an issue?"
-msgstr "Vous avez un problème ?"
-
 msgid "Got it"
 msgstr "Compris"
 
@@ -544,6 +541,9 @@ msgstr "Signaler"
 
 msgid "Report a File"
 msgstr "Signaler un fichier"
+
+msgid "Report a bug"
+msgstr ""
 
 msgid "Requested from"
 msgstr "Envoyé par"
