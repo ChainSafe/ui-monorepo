@@ -139,9 +139,11 @@ const DashboardModule = () => {
 
   const createStorageAccessKey = useCallback(() => {
     gamingApiClient.createAccessKey({ type: "gaming" })
-      .then(setNewKey)
-      .then(fetchAccessKeys)
-      .then(() => setIsNewKeyModalOpen(true))
+      .then((key) => {
+        setNewKey(key)
+        fetchAccessKeys()
+        setIsNewKeyModalOpen(true)
+      })
       .catch(console.error)
   }, [fetchAccessKeys, gamingApiClient])
 
@@ -242,13 +244,12 @@ const DashboardModule = () => {
             </div>
           </div>
           <Button
-            autoFocus
             onClick={() => {
               setIsNewKeyModalOpen(false)
               setNewKey(undefined)
             }}
           >
-            Close
+            <Trans>Close</Trans>
           </Button>
         </div>
       </Modal>

@@ -58,8 +58,17 @@ msgstr "Copied!"
 msgid "Created At"
 msgstr "Created At"
 
+msgid "Created on:"
+msgstr "Created on:"
+
+msgid "Dashboard"
+msgstr "Dashboard"
+
 msgid "Delete Key"
 msgstr "Delete Key"
+
+msgid "Delete key"
+msgstr "Delete key"
 
 msgid "Didn't receive the email ?"
 msgstr "Didn't receive the email ?"
@@ -96,6 +105,9 @@ msgstr "Hold on, we are logging you in…"
 
 msgid "Id"
 msgstr "Id"
+
+msgid "Id:"
+msgstr "Id:"
 
 msgid "Key ID"
 msgstr "Key ID"
@@ -144,6 +156,9 @@ msgstr "Something went wrong! Please try again."
 
 msgid "Status"
 msgstr "Status"
+
+msgid "Status:"
+msgstr "Status:"
 
 msgid "Terms and Conditions"
 msgstr "Terms and Conditions"
