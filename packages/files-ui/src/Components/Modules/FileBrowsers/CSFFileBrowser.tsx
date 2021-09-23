@@ -179,7 +179,7 @@ const CSFFileBrowser: React.FC<IFileBrowserModuleProps> = () => {
     if (accountInArrears) {
       addToast({
         type:'error',
-        title: 'Unable to upload',
+        title: 'Uploads disabled',
         subtitle: 'Oops! You need to pay for this month to upload more content.'
       })
       return
