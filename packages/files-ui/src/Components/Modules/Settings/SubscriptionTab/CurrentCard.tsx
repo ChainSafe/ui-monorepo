@@ -3,7 +3,7 @@ import { Typography, CreditCardIcon, Button } from "@chainsafe/common-components
 import { makeStyles, ITheme, createStyles } from "@chainsafe/common-theme"
 import { Trans } from "@lingui/macro"
 import { useBilling } from "../../../../Contexts/BillingContext"
-import AddCardModal from "./NewAddCardModal"
+import AddCardModal from "./AddCardModal"
 import { loadStripe } from "@stripe/stripe-js"
 import { Elements } from "@stripe/react-stripe-js"
 

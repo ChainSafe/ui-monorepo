@@ -1,12 +1,12 @@
-import { Button, Grid, TextInput, Typography, useToasts } from "@chainsafe/common-components"
+import React, { useState } from "react"
+import { Button, Grid, Typography, useToasts } from "@chainsafe/common-components"
 import { createStyles, makeStyles } from "@chainsafe/common-theme"
-import React, { useState, useCallback } from "react"
 import { CSFTheme } from "../../../../Themes/types"
 import CustomModal from "../../../Elements/CustomModal"
 import CustomButton from "../../../Elements/CustomButton"
-import { t, Trans } from "@lingui/macro"
-import CardInputs from "../../../Elements/CardInputs"
-import { getCardNumberError, getCVCError, getExpiryDateError } from "../../../Elements/CardInputs/utils/validator"
+import { Trans } from "@lingui/macro"
+import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js"
+import { useFilesApi } from "../../../../Contexts/FilesApiContext"
 import { useBilling } from "../../../../Contexts/BillingContext"
 
 const useStyles = makeStyles(
@@ -60,66 +60,64 @@ const useStyles = makeStyles(
   }
 )
 
-interface ICreateFolderModalProps {
+interface IAddCardModalProps {
   isModalOpen: boolean
   onClose: () => void
 }
 
-const CreateFolderModal = ({ isModalOpen, onClose }: ICreateFolderModalProps) => {
+const AddCardModal = ({ isModalOpen, onClose }: IAddCardModalProps) => {
   const classes = useStyles()
-  const [cardInputs, setCardInputs] = useState({
-    cardNumber: "",
-    cardExpiry: "",
-    cardCvc: ""
-  })
-  const [cardName, setCardName] = useState("")
-  const [error, setError] = useState("")
-  const [loading, setLoading] = useState(false)
-  const { addCard, getCardTokenFromStripe } = useBilling()
+  const stripe = useStripe()
+  const elements = useElements()
   const { addToast } = useToasts()
+  const { filesApiClient } = useFilesApi()
+  const { refreshDefaultCard } = useBilling()
 
-  const onCloseModal = useCallback(() => {
-    setCardInputs({ cardNumber: "", cardExpiry: "", cardCvc: "" })
-    setCardName("")
-    setError("")
+  const [loadingPaymentMethodAdd, setLoadingPaymentMethodAdd] = useState(false)
+
+  const handlePaymentError = (error: any) => {
+    console.error(error)
     onClose()
-  }, [onClose])
+    setLoadingPaymentMethodAdd(false)
+    addToast({ title: "Failed to add payment method", type: "error" })
+  }
 
-  const onSubmitCard = useCallback((e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    const error = !cardName
-      ? t`Name on card is required`
-      : getCardNumberError(cardInputs.cardNumber) ||
-      getExpiryDateError(cardInputs.cardExpiry) ||
-      getCVCError(cardInputs.cardCvc, cardInputs.cardNumber)
+  const handleSubmitPaymentMethod = async (event: any) => {
+    event.preventDefault()
+    if (!stripe || !elements) return
 
-    if (error) {
-      setError(error)
-      return
+    try {
+      const cardElement = elements.getElement(CardElement)
+      setLoadingPaymentMethodAdd(true)
+
+      if (!cardElement) return
+      const { error, paymentMethod } = await stripe.createPaymentMethod({
+        type: "card",
+        card: cardElement
+      })
+
+      if (error || !paymentMethod) {
+        handlePaymentError(error)
+        return
+      }
+
+      const setupIntent = await filesApiClient.createSetupIntent()
+      const setupIntentResult = await stripe.confirmCardSetup(setupIntent.secret, {
+        payment_method: paymentMethod.id
+      })
+
+      if (setupIntentResult.error || !setupIntentResult.setupIntent) {
+        handlePaymentError(setupIntentResult.error)
+        return
+      }
+      refreshDefaultCard()
+      onClose()
+      setLoadingPaymentMethodAdd(false)
+      addToast({ title: "Payment method added", type: "success" })
+    } catch (error) {
+      handlePaymentError(error)
     }
-    setError("")
-
-    setLoading(true)
-    // get token from stripe
-    getCardTokenFromStripe(cardInputs).then((resp) => {
-      // send stripe token to API
-      addCard(resp.data.id)
-        .then(() => {
-          onCloseModal()
-          addToast({
-            title: t`Card added successfully`,
-            type: "success"
-          })
-        }).catch((e) => {
-          setError(t`Something went wrong, please try again`)
-          console.error(e)
-        }).finally(() => setLoading(false))
-    }).catch((err) => {
-      console.error(err)
-      setError(t`Card details could not be validated`)
-      setLoading(false)
-    })
-  }, [cardName, cardInputs, getCardTokenFromStripe, addCard, onCloseModal, addToast])
+  }
 
   return (
     <CustomModal
@@ -131,7 +129,7 @@ const CreateFolderModal = ({ isModalOpen, onClose }: ICreateFolderModalProps) =>
       closePosition="none"
       maxWidth="sm"
     >
-      <form onSubmit={onSubmitCard}>
+      <form onSubmit={handleSubmitPaymentMethod}>
         <div
           className={classes.root}
           data-cy="modal-create-folder"
@@ -149,30 +147,7 @@ const CreateFolderModal = ({ isModalOpen, onClose }: ICreateFolderModalProps) =>
               <Trans>Add a credit card</Trans>
             </Typography>
           </Grid>
-          <Grid
-            item
-            xs={12}
-            sm={12}
-          >
-            <TextInput
-              value={cardName}
-              onChange={(val) =>
-                setCardName(val?.toString() || "")
-              }
-              size="large"
-              placeholder={t`Name on card`}
-              label={t`Name on card`}
-            />
-            <CardInputs
-              cardNumber={cardInputs.cardNumber}
-              cardExpiry={cardInputs.cardExpiry}
-              cardCvc={cardInputs.cardCvc}
-              handleChangeCardNumber={(value) => setCardInputs({ ...cardInputs, cardNumber: value })}
-              handleChangeCardExpiry={(value) => setCardInputs({ ...cardInputs, cardExpiry: value })}
-              handleChangeCardCvc={(value) => setCardInputs({ ...cardInputs, cardCvc: value })}
-              error={error}
-            />
-          </Grid>
+          <CardElement />
           <Grid
             item
             flexDirection="row"
@@ -181,12 +156,12 @@ const CreateFolderModal = ({ isModalOpen, onClose }: ICreateFolderModalProps) =>
           >
             <CustomButton
               data-cy="button-cancel-create-folder"
-              onClick={onCloseModal}
+              onClick={onClose}
               size="medium"
               className={classes.cancelButton}
               variant="outline"
               type="button"
-              disabled={loading}
+              disabled={loadingPaymentMethodAdd}
             >
               <Trans>Cancel</Trans>
             </CustomButton>
@@ -196,8 +171,8 @@ const CreateFolderModal = ({ isModalOpen, onClose }: ICreateFolderModalProps) =>
               variant="primary"
               type="submit"
               className={classes.okButton}
-              loading={loading}
-              disabled={loading}
+              loading={loadingPaymentMethodAdd}
+              disabled={loadingPaymentMethodAdd}
             >
               <Trans>Add card</Trans>
             </Button>
@@ -208,4 +183,4 @@ const CreateFolderModal = ({ isModalOpen, onClose }: ICreateFolderModalProps) =>
   )
 }
 
-export default CreateFolderModal
+export default AddCardModal
