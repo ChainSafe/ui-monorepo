@@ -5,7 +5,7 @@ import { CSFTheme } from "../../../../Themes/types"
 import CustomModal from "../../../Elements/CustomModal"
 import CustomButton from "../../../Elements/CustomButton"
 import { Trans } from "@lingui/macro"
-import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js"
+import { useStripe, useElements, CardNumberElement, CardExpiryElement, CardCvcElement } from "@stripe/react-stripe-js"
 import { useFilesApi } from "../../../../Contexts/FilesApiContext"
 import { useBilling } from "../../../../Contexts/BillingContext"
 
@@ -55,6 +55,23 @@ const useStyles = makeStyles(
       },
       footer: {
         marginTop: constants.generalUnit * 4
+      },
+      cardInputsContainer: {
+
+      },
+      cardInputs: {
+        border: "1px solid black",
+        padding: constants.generalUnit
+      },
+      expiryCvcContainer: {
+        display: "grid",
+        gridTemplateColumns: "1fr 1fr",
+        marginTop: constants.generalUnit,
+        gridColumnGap: constants.generalUnit,
+        [breakpoints.down("md")]: {
+          gridTemplateColumns: "1fr",
+          gridRowGap: constants.generalUnit
+        }
       }
     })
   }
@@ -86,14 +103,21 @@ const AddCardModal = ({ isModalOpen, onClose }: IAddCardModalProps) => {
     event.preventDefault()
     if (!stripe || !elements) return
 
-    try {
-      const cardElement = elements.getElement(CardElement)
-      setLoadingPaymentMethodAdd(true)
+    console.log(elements)
 
-      if (!cardElement) return
+    try {
+
+      const cardNumberElement = elements.getElement(CardNumberElement)
+      // const cardElement = elements.getElement(CardElement)
+
+      if (!cardNumberElement) return
+      // if (!cardElement) return
+
+      setLoadingPaymentMethodAdd(true)
       const { error, paymentMethod } = await stripe.createPaymentMethod({
         type: "card",
-        card: cardElement
+        // card: cardElement
+        card: cardNumberElement
       })
 
       if (error || !paymentMethod) {
@@ -147,7 +171,14 @@ const AddCardModal = ({ isModalOpen, onClose }: IAddCardModalProps) => {
               <Trans>Add a credit card</Trans>
             </Typography>
           </Grid>
-          <CardElement />
+          <CardNumberElement
+            className={classes.cardInputs}
+            options={{ showIcon: true }}
+          />
+          <div className={classes.expiryCvcContainer}>
+            <CardExpiryElement  className={classes.cardInputs} />
+            <CardCvcElement  className={classes.cardInputs} />
+          </div>
           <Grid
             item
             flexDirection="row"
