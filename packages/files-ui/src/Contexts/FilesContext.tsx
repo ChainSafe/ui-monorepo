@@ -2,10 +2,11 @@ import {
   FileContentResponse,
   DirectoryContentResponse,
   BucketType,
-  Bucket as FilesBucket,
+  Bucket,
   SearchEntry,
   BucketFileFullInfoResponse,
   BucketSummaryResponse,
+  BucketUser,
   LookupUser
 } from "@chainsafe/files-api-client"
 import React, { useCallback, useEffect } from "react"
@@ -47,12 +48,14 @@ interface GetFileContentParams {
 
 export type BucketPermission = "writer" | "owner" | "reader"
 
-export type BucketKeyPermission = Omit<FilesBucket, "owners" | "writers" | "readers"> & {
+export type RichUserInfo = BucketUser & LookupUser
+
+export interface BucketKeyPermission extends Bucket {
   encryptionKey: string
   permission?: BucketPermission
-  owners: LookupUser[]
-  writers: LookupUser[]
-  readers: LookupUser[]
+  owners: RichUserInfo[]
+  writers: RichUserInfo[]
+  readers: RichUserInfo[]
 }
 
 type FilesContext = {
@@ -127,7 +130,7 @@ const FilesProvider = ({ children }: FilesContextProps) => {
     }
   }, [filesApiClient, setStorageSummary])
 
-  const getPermissionForBucket = useCallback((bucket: FilesBucket) => {
+  const getPermissionForBucket = useCallback((bucket: Bucket) => {
     return bucket.owners.find(owner => owner.uuid === userId)
       ? "owner" as BucketPermission
       : bucket.writers.find(writer => writer.uuid === userId)
@@ -137,7 +140,7 @@ const FilesProvider = ({ children }: FilesContextProps) => {
           : undefined
   }, [userId])
 
-  const getKeyForSharedBucket = useCallback(async (bucket: FilesBucket) => {
+  const getKeyForSharedBucket = useCallback(async (bucket: Bucket) => {
     const bucketUsers = [...bucket.readers, ...bucket.writers, ...bucket.owners]
     const bucketUser = bucketUsers.find(bu => bu.uuid === userId)
 
@@ -151,7 +154,7 @@ const FilesProvider = ({ children }: FilesContextProps) => {
     return decrypted || ""
   }, [decryptMessageWithThresholdKey, userId])
 
-  const getKeyForBucket = useCallback(async (bucket: FilesBucket) => {
+  const getKeyForBucket = useCallback(async (bucket: Bucket) => {
     if (!personalEncryptionKey || !userId) return
 
     let encryptionKey = ""
@@ -170,6 +173,25 @@ const FilesProvider = ({ children }: FilesContextProps) => {
     return encryptionKey
   }, [getKeyForSharedBucket, personalEncryptionKey, userId])
 
+  const enrichUserInfo = useCallback((bucketUser: BucketUser[], lookupUser: LookupUser[]): RichUserInfo[] => {
+    console.log("bucketUser", bucketUser)
+    console.log("lookupUser", lookupUser)
+
+    const richUsers: RichUserInfo[] = []
+
+    bucketUser.forEach((bu) => {
+      const correspondingLookupUser = lookupUser.find((lu) => lu.uuid === bu.uuid)
+      if (correspondingLookupUser) {
+        richUsers.push({
+          ...bu,
+          ...correspondingLookupUser
+        })
+      }
+    })
+
+    return richUsers
+  }, [])
+
   const refreshBuckets = useCallback(async (showLoading?: boolean) => {
     if (!personalEncryptionKey || !userId) return
 
@@ -183,9 +205,9 @@ const FilesProvider = ({ children }: FilesContextProps) => {
           ...b,
           encryptionKey: await getKeyForBucket(b) || "",
           permission: getPermissionForBucket(b),
-          owners: userData.owners || [],
-          writers: userData.writers || [],
-          readers: userData.readers || []
+          owners: enrichUserInfo(b.owners, userData.owners),
+          writers: enrichUserInfo(b.writers, userData.writers),
+          readers: enrichUserInfo(b.readers, userData.readers)
         }
       })
     )
@@ -193,7 +215,7 @@ const FilesProvider = ({ children }: FilesContextProps) => {
     setIsLoadingBuckets(false)
     getStorageSummary()
     return Promise.resolve()
-  }, [personalEncryptionKey, userId, filesApiClient, getStorageSummary, getKeyForBucket, getPermissionForBucket])
+  }, [personalEncryptionKey, userId, filesApiClient, getStorageSummary, getKeyForBucket, getPermissionForBucket, enrichUserInfo])
 
   useEffect(() => {
     refreshBuckets(true)
@@ -696,29 +718,28 @@ const FilesProvider = ({ children }: FilesContextProps) => {
       .catch(console.error)
   }, [publicKey, encryptForPublicKey, filesApiClient, refreshBuckets, getKeyForBucket, getPermissionForBucket])
 
+  const getUsersWithEncryptionKey = useCallback(async (from: UpdateSharedFolderUser[], bucketEncryptionKey: string) => {
+    return await Promise.all(from?.map(async ({ pubKey, encryption_key, uuid }) => {
+      return !encryption_key && !!pubKey
+        ? {
+          uuid,
+          encryption_key: await encryptForPublicKey(pubKey, bucketEncryptionKey) || ""
+        }
+        : {
+          uuid,
+          encryption_key: encryption_key || ""
+        }
+    }))
+  }, [encryptForPublicKey])
+
   const editSharedFolder = useCallback(
     async (bucket: BucketKeyPermission, writerUsers?: UpdateSharedFolderUser[], readerUsers?: UpdateSharedFolderUser[]) => {
       if (!publicKey) return
 
-      const readers = readerUsers ? await Promise.all(readerUsers?.map(async u => {
-        return u.pubKey ? {
-          uuid: u.uuid,
-          encryption_key: await encryptForPublicKey(u.pubKey, bucket.encryptionKey)
-        } : {
-          uuid: u.uuid,
-          encryption_key: u.encryption_key
-        }
-      })) : []
+      if (!readerUsers || !writerUsers) return
 
-      const writers = writerUsers ? await Promise.all(writerUsers?.map(async u => {
-        return u.pubKey ? {
-          uuid: u.uuid,
-          encryption_key: await encryptForPublicKey(u.pubKey, bucket.encryptionKey)
-        } : {
-          uuid: u.uuid,
-          encryption_key: u.encryption_key
-        }
-      })) : []
+      const readers = await getUsersWithEncryptionKey(readerUsers, bucket.encryptionKey)
+      const writers = await getUsersWithEncryptionKey(writerUsers, bucket.encryptionKey)
 
       return filesApiClient.updateBucket(bucket.id, {
         name: bucket.name,
@@ -726,7 +747,7 @@ const FilesProvider = ({ children }: FilesContextProps) => {
         writers
       }).then(() => refreshBuckets(false))
         .catch(console.error)
-    }, [filesApiClient, encryptForPublicKey, publicKey, refreshBuckets])
+    }, [publicKey, getUsersWithEncryptionKey, filesApiClient, refreshBuckets])
 
   const transferFileBetweenBuckets = useCallback(async (
     sourceBucketId: string,
