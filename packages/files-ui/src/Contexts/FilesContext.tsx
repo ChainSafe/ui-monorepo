@@ -174,8 +174,6 @@ const FilesProvider = ({ children }: FilesContextProps) => {
   }, [getKeyForSharedBucket, personalEncryptionKey, userId])
 
   const enrichUserInfo = useCallback((bucketUser: BucketUser[], lookupUser: LookupUser[]): RichUserInfo[] => {
-    console.log("bucketUser", bucketUser)
-    console.log("lookupUser", lookupUser)
 
     const richUsers: RichUserInfo[] = []
 
