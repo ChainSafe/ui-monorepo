@@ -1,10 +1,5 @@
 import React, { CSSProperties, ReactNode } from "react"
-import {
-  makeStyles,
-  createStyles,
-  ITheme,
-  useTheme
-} from "@chainsafe/common-theme"
+import { makeStyles, createStyles, ITheme, useTheme } from "@chainsafe/common-theme"
 import clsx from "clsx"
 import Select, { Styles } from "react-select"
 import { Typography } from "../Typography"
@@ -62,7 +57,7 @@ interface ISelectInputProps {
   styles?: Partial<Styles>
 }
 
-const SelectInput: React.FC<ISelectInputProps> = ({
+const SelectInput = ({
   className,
   size = "medium",
   disabled = false,
@@ -77,7 +72,7 @@ const SelectInput: React.FC<ISelectInputProps> = ({
   name,
   isClearable = false,
   styles
-}) => {
+}: ISelectInputProps) => {
   const classes = useStyles()
   const { palette, animation, typography, overrides }: ITheme = useTheme()
   const handleChange = (value: any) => {
@@ -105,9 +100,9 @@ const SelectInput: React.FC<ISelectInputProps> = ({
   //       ...overrides?.SelectInput?.indicatorsContainer
   //     }, state) : overrides?.SelectInput?.indicatorsContainer)
   //   }),
-  const selectOverides: Partial<Styles> = {}
+  const selectOverrides: Partial<Styles> = {}
   overrideKeys.map(key => {
-    selectOverides[key] = (provided: CSSProperties, state: any): CSSProperties => ({
+    selectOverrides[key] = (provided: CSSProperties, state: any): CSSProperties => ({
       ...(
         styles && styles[key]
           ? styles[key]({
@@ -121,7 +116,8 @@ const SelectInput: React.FC<ISelectInputProps> = ({
       )
     })
   })
-  selectOverides.container = (provided, state) => ({
+
+  selectOverrides.container = (provided, state) => ({
     ...provided,
     outline: "none",
     border: `1px solid ${palette.additional["gray"][5]}`,
@@ -145,7 +141,7 @@ const SelectInput: React.FC<ISelectInputProps> = ({
     )
   })
 
-  selectOverides.control = (provided, state) => ({
+  selectOverrides.control = (provided, state) => ({
     ...provided,
     outline: "none",
     border: "none",
@@ -163,7 +159,7 @@ const SelectInput: React.FC<ISelectInputProps> = ({
     )
   })
 
-  selectOverides.menu = (provided, state) => ({
+  selectOverrides.menu = (provided, state) => ({
     ...provided,
     marginTop: 2,
     marginBottom: 0,
@@ -180,7 +176,7 @@ const SelectInput: React.FC<ISelectInputProps> = ({
     )
   })
 
-  selectOverides.dropdownIndicator = (provided, state) => ({
+  selectOverrides.dropdownIndicator = (provided, state) => ({
     ...provided,
     transform: state.selectProps.menuIsOpen && "rotate(180deg)",
     transitionProperty: "transform",
@@ -198,7 +194,7 @@ const SelectInput: React.FC<ISelectInputProps> = ({
     )
   })
 
-  selectOverides.singleValue = (provided, state) => ({
+  selectOverrides.singleValue = (provided, state) => ({
     ...provided,
     ...typography.body2,
     color: !state.isDisabled
@@ -217,7 +213,7 @@ const SelectInput: React.FC<ISelectInputProps> = ({
     )
   })
 
-  selectOverides.placeholder = (provided, state) => ({
+  selectOverrides.placeholder = (provided, state) => ({
     ...provided,
     color: !state.isDisabled
       ? palette.additional["gray"][8]
@@ -235,7 +231,7 @@ const SelectInput: React.FC<ISelectInputProps> = ({
     )
   })
 
-  selectOverides.option = (provided, state) => ({
+  selectOverrides.option = (provided, state) => ({
     ...provided,
     ...typography.body2,
     backgroundColor: state.isSelected && palette.additional["gray"][3],
@@ -257,7 +253,7 @@ const SelectInput: React.FC<ISelectInputProps> = ({
     )
   })
 
-  selectOverides.valueContainer = (provided, state) => ({
+  selectOverrides.valueContainer = (provided, state) => ({
     ...provided,
     ...typography.body2,
     paddingTop: 0,
@@ -275,7 +271,7 @@ const SelectInput: React.FC<ISelectInputProps> = ({
     )
   })
 
-  selectOverides.indicatorsContainer = (provided, state) => ({
+  selectOverrides.indicatorsContainer = (provided, state) => ({
     ...provided,
     "& > div": {
       paddingTop: 0,
@@ -314,12 +310,16 @@ const SelectInput: React.FC<ISelectInputProps> = ({
         value={selectValue}
         isMulti={isMulti}
         name={name}
-        styles={selectOverides}
+        styles={selectOverrides}
         theme={(selectTheme) => ({
           ...selectTheme,
           spacing: {
             ...selectTheme.spacing,
-            controlHeight: size === "large" ? 40 : size === "medium" ? 32 : 24
+            controlHeight: size === "large"
+              ? 40
+              : size === "medium"
+                ? 32
+                : 24
           }
         })}
       />

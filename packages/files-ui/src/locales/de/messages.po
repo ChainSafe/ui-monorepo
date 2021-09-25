@@ -3,9 +3,10 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-04-20 00:28+0200\n"
-"PO-Revision-Date: 2021-09-14 09:14+0000\n"
+"PO-Revision-Date: 2021-09-22 21:38+0000\n"
 "Last-Translator: J. Lavoie <j.lavoie@net-c.ca>\n"
-"Language-Team: German <https://hosted.weblate.org/projects/chainsafe-files/chainsafe-files-user-interface/de/>\n"
+"Language-Team: German <https://hosted.weblate.org/projects/chainsafe-files/"
+"chainsafe-files-user-interface/de/>\n"
 "Language: de\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -18,6 +19,9 @@ msgstr "Es wird ein Sicherungsgeheimsatz generiert und für Ihr Konto verwendet.
 
 msgid "A file with the same name already exists"
 msgstr "Es existiert bereits eine Datei mit demselben Namen"
+
+msgid "Accept"
+msgstr "Akzeptieren"
 
 msgid "Account"
 msgstr "Konto"
@@ -54,9 +58,6 @@ msgstr "Es ist ein Fehler aufgetreten:"
 
 msgid "Approve"
 msgstr "Genehmigen"
-
-msgid "Back to plan settings"
-msgstr ""
 
 msgid "Backup secret phrase"
 msgstr "Sicherungsgeheimsatz"
@@ -151,10 +152,16 @@ msgstr "Kopiert!"
 msgid "Copy CID"
 msgstr "IID kopieren"
 
+msgid "Copy file"
+msgstr ""
+
 msgid "Copy info"
 msgstr ""
 
 msgid "Copy over"
+msgstr ""
+
+msgid "Copy to"
 msgstr ""
 
 msgid "Create"
@@ -178,14 +185,14 @@ msgstr "Ordner erstellen"
 msgid "Create your public username in <0>Settings</0>!"
 msgstr ""
 
-msgid "Credit card on file"
-msgstr ""
-
 msgid "Dark Theme"
 msgstr "Dunkles Farbschema"
 
 msgid "Date uploaded"
 msgstr "Hochgeladen am"
+
+msgid "Decline"
+msgstr ""
 
 msgid "Decryption key"
 msgstr ""
@@ -382,10 +389,16 @@ msgstr "Los geht’s."
 msgid "Light Theme"
 msgstr "Helles Farbschema"
 
+msgid "Loading"
+msgstr ""
+
 msgid "Loading preview"
 msgstr "Vorschau wird geladen"
 
 msgid "Loading your shared folders…"
+msgstr ""
+
+msgid "Loading..."
 msgstr ""
 
 msgid "Looks like you’re signing in from a new browser. Please choose one of the following to continue:"
@@ -447,6 +460,9 @@ msgstr "Keine Suchergebnisse für"
 
 msgid "No thanks"
 msgstr "Nein danke"
+
+msgid "No user found for this query."
+msgstr ""
 
 msgid "Number of copies (Replication Factor)"
 msgstr "Anzahl der Kopien (Replikationsfaktor)"
@@ -604,7 +620,7 @@ msgstr "Sicherheit"
 msgid "Select a wallet"
 msgstr ""
 
-msgid "Select an existing shared folder"
+msgid "Select an existing shared folder or your home"
 msgstr ""
 
 msgid "Send another email"
@@ -744,6 +760,12 @@ msgstr ""
 
 msgid "This username is public"
 msgstr "Dieser Benutzername ist öffentlich"
+
+msgid "This website uses cookies"
+msgstr ""
+
+msgid "This website uses cookies that help the website function and track interactions for analytics purposes. You have the right to decline our use of cookies. For us to provide a customizable user experience to you, please click on the Accept button below.<0>Learn more</0>"
+msgstr ""
 
 msgid "Transfer complete"
 msgstr ""
@@ -891,6 +913,3 @@ msgstr "{0, plural, one {{1} Datei wird verschlüsselt und hochgeladen} other {{
 
 msgid "{0, plural, one {You are about to delete {1} item.} other {You are about to delete {2} items.}}"
 msgstr "{0, plural, one {Sie sind dabei, {1} Artikel zu löschen.} other {Sie sind dabei, {2} Artikel zu löschen.}}"
-
-msgid "{0} of {1} used ({2}%)"
-msgstr ""

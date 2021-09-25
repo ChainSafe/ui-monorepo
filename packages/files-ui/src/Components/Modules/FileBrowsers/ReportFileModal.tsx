@@ -19,6 +19,7 @@ import { useFileBrowser } from "../../../Contexts/FileBrowserContext"
 import { useThresholdKey } from "../../../Contexts/ThresholdKeyContext"
 import { useCallback } from "react"
 import { ROUTE_LINKS } from "../../FilesRoutes"
+import { useFilesApi } from "../../../Contexts/FilesApiContext"
 
 const useStyles = makeStyles(
   ({ breakpoints, constants, palette, typography, zIndex, animation }: CSFTheme) => {
@@ -129,7 +130,7 @@ const useStyles = makeStyles(
         color: palette.additional["gray"][9],
         [breakpoints.down("md")]: {
           flexBasis: "100%",
-          margin: `${constants.generalUnit * 2}px`
+          margin: constants.generalUnit * 2
         }
       },
       decryptionKey: {
@@ -137,7 +138,11 @@ const useStyles = makeStyles(
         wordBreak: "break-all"
       },
       infoText: {
-        marginBottom: `${constants.generalUnit * 2}px`
+        marginBottom: constants.generalUnit * 2
+      },
+      keysWrapper: {
+        maxHeight: constants.generalUnit * 10,
+        overflow: "scroll"
       }
     })
   }
@@ -148,33 +153,53 @@ interface IReportFileModalProps {
   close: () => void
 }
 
-const TEMP_PUBLIC_KEY = "0x03e8cab05fc70bbc3cb829af9718feb0bfa626209594f64da6685ed13ce4437e19"
+interface KeyMap {
+  pubKey: string
+  encryptedDecryptionKey: string
+}
 
 const ReportFileModal = ({ filePath, close }: IReportFileModalProps) => {
   const classes = useStyles()
   const { bucket } = useFileBrowser()
   const { encryptionKey, id } = bucket || {}
   const [isLoadingAdminKey, setIsloadingAdminKey] = useState(true)
-  const [adminPubKey, setAdminPubkey] = useState("")
-  const [encryptedDecryptionKey, setEncryptedDecryptionKey] = useState("")
+  const [adminPubKeys, setAdminPubkeys] = useState<string[]>([])
+  const [encryptedDecryptionKeyMap, setEncryptedDecryptionKeyMap] = useState<KeyMap[]>([])
   const { encryptForPublicKey } = useThresholdKey()
   const [copied, setCopied] = useState(false)
+  const { filesApiClient } = useFilesApi()
 
   useEffect(() => {
-    // todo fetch admin public key from api instead of this hardcoded one
-    // https://github.com/ChainSafe/ui-monorepo/issues/1244
-    setAdminPubkey(TEMP_PUBLIC_KEY)
-  }, [])
+    filesApiClient.abuseUser()
+      .then((keys) => {
+        if (!keys.length){
+          console.error("No admin public key received")
+        }
+
+        setAdminPubkeys(keys)
+      })
+      .catch(console.error)
+  }, [filesApiClient])
 
   useEffect(() => {
-    if(!adminPubKey || !encryptionKey) return
+    if(!adminPubKeys.length || !encryptionKey) return
 
-    // we need to remove the 0x
-    encryptForPublicKey(adminPubKey.slice(2), encryptionKey)
-      .then(setEncryptedDecryptionKey)
+    Promise.all(adminPubKeys.map((adminPubKey) =>
+      // we need to remove the 0x
+      encryptForPublicKey(adminPubKey.slice(2), encryptionKey)
+    ))
+      .then((encryptedDecryptionKeys) => {
+        const map = adminPubKeys.map((adminPubKey, index) => ({
+          "pubKey": adminPubKey,
+          "encryptedDecryptionKey": encryptedDecryptionKeys[index]
+        }))
+
+        setEncryptedDecryptionKeyMap(map)
+      })
       .catch(console.error)
       .finally(() => setIsloadingAdminKey(false))
-  }, [adminPubKey, encryptForPublicKey, encryptionKey])
+
+  }, [adminPubKeys, encryptForPublicKey, encryptionKey])
 
   const debouncedSwitchCopied = debounce(() => setCopied(false), 3000)
 
@@ -182,14 +207,14 @@ const ReportFileModal = ({ filePath, close }: IReportFileModalProps) => {
     navigator.clipboard.writeText(`{
   bucketId: "${id}",
   path: "${filePath}",
-  encryptedDecryptionKey: "${encryptedDecryptionKey}"
+  encryptedDecryptionKey: ${JSON.stringify(encryptedDecryptionKeyMap)}
 }`)
       .then(() => {
         setCopied(true)
         debouncedSwitchCopied()
       })
       .catch(console.error)
-  }, [debouncedSwitchCopied, encryptedDecryptionKey, filePath, id])
+  }, [debouncedSwitchCopied, encryptedDecryptionKeyMap, filePath, id])
 
   return (
     <CustomModal
@@ -293,13 +318,15 @@ const ReportFileModal = ({ filePath, close }: IReportFileModalProps) => {
                   >
                     <Trans>Decryption key</Trans>
                   </Typography>
-                  <Typography
-                    className={clsx(classes.decryptionKey, classes.subSubtitle)}
-                    variant="body2"
-                    component="p"
-                  >
-                    {encryptedDecryptionKey}
-                  </Typography>
+                  <div className={classes.keysWrapper}>
+                    <Typography
+                      className={clsx(classes.decryptionKey, classes.subSubtitle)}
+                      variant="body2"
+                      component="p"
+                    >
+                      {JSON.stringify(encryptedDecryptionKeyMap)}
+                    </Typography>
+                  </div>
                 </div>
               </div>
             </div>
@@ -317,6 +344,7 @@ const ReportFileModal = ({ filePath, close }: IReportFileModalProps) => {
               variant="primary"
               className={classes.copyButton}
               onClick={onCopyInfo}
+              disabled={isLoadingAdminKey}
             >
               <Trans>Copy info</Trans>
             </Button>

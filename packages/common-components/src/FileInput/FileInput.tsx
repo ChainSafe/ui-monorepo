@@ -99,6 +99,10 @@ const useStyles = makeStyles(({ constants, palette, overrides }: ITheme) =>
   })
 )
 
+interface FileWithPath extends File {
+  path?: string
+}
+
 interface IFileInputProps extends DropzoneOptions {
   className?: string
   variant?: "dropzone" | "filepicker"
@@ -137,21 +141,22 @@ const FileInput = ({
   const classes = useStyles()
   const [previews, setPreviews] = useState<any[]>([])
   const [errors, setErrors] = useState<any[]>([])
-  const [{ value }, meta, helpers] = useField(name)
+  const [{ value }, meta, helpers] = useField<Array<FileWithPath>>(name)
 
   useEffect(() => {
     onFileNumberChange && onFileNumberChange(value.length)
   }, [onFileNumberChange, value.length])
 
   const onDrop = useCallback(
-    async (acceptedFiles: File[], fileRejections: FileRejection[]) => {
+    async (acceptedFiles: Array<FileWithPath>, fileRejections: FileRejection[]) => {
       const filtered = acceptedFiles.filter((file) =>
         maxFileSize ? file.size <= maxFileSize : true
       )
+
       setErrors([])
       if (showPreviews) {
         setPreviews(
-          filtered.map((file: any) =>
+          filtered.map((file) =>
             Object.assign(file, {
               preview: URL.createObjectURL(file)
             })
@@ -188,7 +193,7 @@ const FileInput = ({
   })
 
   const removeItem = (i: number) => {
-    const items = value as any[]
+    const items = value
     items.splice(i, 1)
     helpers.setValue(items)
   }
@@ -220,12 +225,12 @@ const FileInput = ({
           >
             <ScrollbarWrapper className={clsx("scrollbar")}>
               <ul>
-                {value.map((file: any, i: any) => (
+                {value.map((file: any, i: number) => (
                   <li
                     className={clsx(classes.item, classNames?.item)}
                     key={i}
                   >
-                    <span className={classes.itemText}>{file.name}</span>
+                    <span className={classes.itemText}>{file.path}</span>
                     <Button
                       testId="remove-from-file-list"
                       className={clsx(classes.crossIcon, classNames?.closeIcon)}
@@ -246,9 +251,9 @@ const FileInput = ({
         )
       ) : (
         <>
-          {value.value?.length === 0
+          {value?.length === 0
             ? "No files selected"
-            : `${value.value?.length} file(s) selected`}
+            : `${value?.length} file(s) selected`}
           <Button
             onClick={open}
             size="small"
@@ -260,7 +265,6 @@ const FileInput = ({
       {value?.length > 0 && (
         <div
           className={clsx(classes.addFiles, classNames?.addFiles)}
-          onClick={open}
         >
           <PlusIcon
             fontSize="small"

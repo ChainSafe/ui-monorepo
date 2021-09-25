@@ -68,14 +68,19 @@ const BinFileBrowser: React.FC<IFileBrowserModuleProps> = ({ controls = false }:
 
       refreshContents()
       refreshBuckets()
-      const message = `${itemToDelete.isFolder ? t`Folder` : t`File`} ${t`deleted successfully`}`
+      const message = `${
+        itemToDelete.isFolder ? t`Folder` : t`File`
+      } ${t`deleted successfully`}`
       addToast({
         title: message,
-        type: "success"
+        type: "success",
+        testId: "permanent-deletion-success"
       })
       return Promise.resolve()
     } catch (error) {
-      const message = `${t`There was an error deleting this`} ${itemToDelete.isFolder ? t`folder` : t`file`}`
+      const message = `${t`There was an error deleting this`} ${
+        itemToDelete.isFolder ? t`folder` : t`file`
+      }`
       addToast({
         title: message,
         type: "error"
@@ -115,7 +120,9 @@ const BinFileBrowser: React.FC<IFileBrowserModuleProps> = ({ controls = false }:
             type: "success"
           })
         } catch (error) {
-          const message = `${t`There was an error recovering this`} ${itemToRestore.isFolder ? t`folder` : t`file`}`
+          const message = `${t`There was an error recovering this`} ${
+            itemToRestore.isFolder ? t`folder` : t`file`
+          }`
           addToast({
             title: message,
             type: "error"
