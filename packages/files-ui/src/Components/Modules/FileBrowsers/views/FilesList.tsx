@@ -83,7 +83,10 @@ const useStyles = makeStyles(
           minHeight: `calc(100vh - ${Number(constants.contentTopPadding)}px)`,
           "&.droppable": {
             borderColor: palette.primary.main
-          }
+          },
+          "&.bottomBanner": {
+            minHeight: `calc(100vh - ${Number(constants.contentTopPadding) + 80}px)`,
+          },
         }
       },
       header: {
@@ -295,7 +298,7 @@ const useStyles = makeStyles(
         width: 20,
         marginRight: constants.generalUnit * 1.5,
         fill: constants.previewModal.menuItemIconColor
-      }
+      },
     })
   }
 )
@@ -658,9 +661,13 @@ const FilesList = ({ isShared = false }: Props) => {
 
   return (
     <article
-      className={clsx(classes.root, {
-        droppable: isOverUploadable && allowDropUpload
-      })}
+      className={clsx(
+        classes.root, {
+          droppable: isOverUploadable && allowDropUpload
+        }, {
+          bottomBanner: accountInArrears
+        }
+      )}
       ref={!isUploadModalOpen && allowDropUpload ? dropBrowserRef : null}
     >
       <div
