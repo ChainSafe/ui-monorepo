@@ -77,12 +77,19 @@ export const useLookupSharedFolderUser = () => {
     }
   }, [])
 
+  const resetUsers = useCallback(() => {
+    setSharedFolderReaders([])
+    setSharedFolderWriters([])
+    setUsersError("")
+  }, [])
+
   return {
     handleLookupUser,
     sharedFolderReaders,
     sharedFolderWriters,
     onNewUsers,
     usersError,
-    setUsersError
+    setUsersError,
+    resetUsers
   }
 }

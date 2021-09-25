@@ -9,7 +9,7 @@ import {
   makeStyles,
   useMediaQuery
 } from "@chainsafe/common-theme"
-import React, { useState } from "react"
+import React, { useCallback, useState } from "react"
 import { Form, FormikProvider, useFormik } from "formik"
 import CustomModal from "../../Elements/CustomModal"
 import CustomButton from "../../Elements/CustomButton"
@@ -77,15 +77,13 @@ interface ICreateFolderModalProps {
   close: () => void
 }
 
-const CreateFolderModal: React.FC<ICreateFolderModalProps> = ({
-  modalOpen,
-  close
-}: ICreateFolderModalProps) => {
+const CreateFolderModal = ({ modalOpen, close }: ICreateFolderModalProps) => {
   const classes = useStyles()
   const { filesApiClient } = useFilesApi()
   const { currentPath, refreshContents, bucket } = useFileBrowser()
   const [creatingFolder, setCreatingFolder] = useState(false)
   const desktop = useMediaQuery("md")
+
   const formik = useFormik({
     initialValues: {
       name: ""
@@ -100,8 +98,8 @@ const CreateFolderModal: React.FC<ICreateFolderModalProps> = ({
         refreshContents && await refreshContents()
         setCreatingFolder(false)
         helpers.resetForm()
-        close()
-      } catch (errors) {
+        onCancel()
+      } catch (errors: any) {
         setCreatingFolder(false)
         if (errors[0].message.includes("Entry with such name can")) {
           helpers.setFieldError("name", t`Folder name is already in use`)
@@ -113,6 +111,11 @@ const CreateFolderModal: React.FC<ICreateFolderModalProps> = ({
     },
     enableReinitialize: true
   })
+
+  const onCancel = useCallback(() => {
+    formik.resetForm()
+    close()
+  }, [close, formik])
 
   return (
     <CustomModal
@@ -168,7 +171,7 @@ const CreateFolderModal: React.FC<ICreateFolderModalProps> = ({
             >
               <CustomButton
                 data-cy="button-cancel-create-folder"
-                onClick={() => close()}
+                onClick={onCancel}
                 size="medium"
                 className={classes.cancelButton}
                 variant={desktop ? "outline" : "gray"}

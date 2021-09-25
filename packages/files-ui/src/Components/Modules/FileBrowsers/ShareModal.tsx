@@ -191,7 +191,7 @@ const ShareModal = ({ close, file, filePath }: IShareFileProps) => {
   const { handleCreateSharedFolder } = useCreateOrEditSharedFolder()
   const { accountInArrears } = useFilesApi()
   const [sharedFolderName, setSharedFolderName] = useState("")
-  const { sharedFolderReaders, sharedFolderWriters, handleLookupUser, onNewUsers, usersError } = useLookupSharedFolderUser()
+  const { sharedFolderReaders, sharedFolderWriters, handleLookupUser, onNewUsers, usersError, resetUsers } = useLookupSharedFolderUser()
   const [isUsingCurrentBucket, setIsUsingCurrentBucket] = useState(true)
   const [keepOriginalFile, setKeepOriginalFile] = useState(true)
   const [destinationBucket, setDestinationBucket] = useState<BucketKeyPermission | undefined>()
@@ -227,6 +227,12 @@ const ShareModal = ({ close, file, filePath }: IShareFileProps) => {
   , [bucket, buckets, profile, accountInArrears])
 
   const hasNoSharedBucket = useMemo(() => bucketsOptions.length === 0, [bucketsOptions.length])
+
+  useEffect(() => {
+    resetUsers()
+    setSharedFolderName("")
+    setNameError("")
+  }, [resetUsers])
 
   // if the user has no shared bucket, we default to new folder creation
   useEffect(() => {
