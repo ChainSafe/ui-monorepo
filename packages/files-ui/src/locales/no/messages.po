@@ -331,6 +331,9 @@ msgstr ""
 msgid "Go back"
 msgstr "Tilbake"
 
+msgid "Go to Payments"
+msgstr ""
+
 msgid "Got an issue?"
 msgstr ""
 
@@ -853,7 +856,7 @@ msgstr "Du har ikke satt noe brukernavn enda."
 msgid "You will need to sign a message in your wallet to complete sign in."
 msgstr ""
 
-msgid "Your first {0} are free, and you’ll get a discount on our monthly plan once you need more than that"
+msgid "You've got a payment due. Until you've settled up, we've placed your account in restricted mode"
 msgstr ""
 
 msgid "Your recovery key can be used to restore your account in place of your backup secret phrase."
