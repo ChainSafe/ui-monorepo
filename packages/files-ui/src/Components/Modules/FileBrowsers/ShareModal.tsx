@@ -218,7 +218,7 @@ const ShareModal = ({ close, file, filePath }: IShareFileProps) => {
       // all buckets where the user is owner or writer
       .filter(buck => !!buck.writers.find((w) => w.uuid === profile.userId) || !!buck.owners.find((o) => o.uuid === profile.userId))
       // filter out CSF and share buckets where user is an owner if their account is restricted
-      .filter(buck => !(!!accountInArrears && (buck.type === 'csf' || !!buck.owners.find(o => o.uuid === profile.userId))))
+      .filter(buck => !(!!accountInArrears && (buck.type === "csf" || !!buck.owners.find(o => o.uuid === profile.userId))))
       .map(buck => ({
         label: buck.name || t`Home`,
         value: buck.id

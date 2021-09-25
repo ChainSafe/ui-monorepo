@@ -218,7 +218,7 @@ const FilesApiProvider = ({ apiUrl, withLocalStorage = true, children }: FilesAp
   useEffect(() => {
     if (accessToken && accessToken.token && filesApiClient) {
       filesApiClient?.setToken(accessToken.token)
-      const decodedAccessToken = jwtDecode<{ perm: { secured?: string, files?: string } }>(
+      const decodedAccessToken = jwtDecode<{ perm: { secured?: string; files?: string } }>(
         accessToken.token
       )
       if (decodedAccessToken.perm.secured === "true") {
@@ -226,7 +226,7 @@ const FilesApiProvider = ({ apiUrl, withLocalStorage = true, children }: FilesAp
       } else {
         setSecured(false)
       }
-      if (decodedAccessToken.perm.files === 'restricted') {
+      if (decodedAccessToken.perm.files === "restricted") {
         setAccountInArrears(true)
       } else {
         setAccountInArrears(false)

@@ -7,8 +7,8 @@ import { Button, CssBaseline, Typography, useHistory } from "@chainsafe/common-c
 import AppHeader from "./AppHeader"
 import AppNav from "./AppNav"
 import { useThresholdKey } from "../../Contexts/ThresholdKeyContext"
-import {Trans} from "@lingui/macro"
-import {ROUTE_LINKS} from "../FilesRoutes"
+import { Trans } from "@lingui/macro"
+import { ROUTE_LINKS } from "../FilesRoutes"
 
 interface IAppWrapper {
   children: ReactNode | ReactNode[]
@@ -44,8 +44,8 @@ const useStyles = makeStyles(
             padding: `${constants.contentTopPadding}px 0 0`
           },
           "&.bottomBanner": {
-            paddingBottom: 80,
-          },
+            paddingBottom: 80
+          }
         },
         [breakpoints.down("md")]: {
           minHeight: "100vh",
@@ -53,26 +53,26 @@ const useStyles = makeStyles(
             padding: `${constants.mobileHeaderHeight}px 0 0`
           },
           "&.bottomBanner": {
-            paddingBottom: 110,
-          },
+            paddingBottom: 110
+          }
         }
       },
       accountInArrearsNotification: {
-        position: 'fixed',
+        position: "fixed",
         bottom: 0,
         backgroundColor: palette.additional["gray"][10],
-        color: palette.additional['gray'][1],
-        padding: '16px 24px',
+        color: palette.additional["gray"][1],
+        padding: "16px 24px",
         marginLeft: 0,
-        width: '100vw',
+        width: "100vw",
         [breakpoints.up("md")]: {
           marginLeft: `${constants.navWidth}px`,
           width:`calc(100vw - ${constants.navWidth}px)`,
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center'
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center"
         }
-      },
+      }
     })
   }
 )
@@ -109,7 +109,7 @@ const AppWrapper: React.FC<IAppWrapper> = ({ children }: IAppWrapper) => {
         <section
           className={clsx(
             classes.content, {
-            active:
+              active:
               isLoggedIn &&
               secured &&
               !!publicKey &&
@@ -123,15 +123,15 @@ const AppWrapper: React.FC<IAppWrapper> = ({ children }: IAppWrapper) => {
           {children}
         </section>
       </article>
-      {accountInArrears && 
+      {accountInArrears &&
         <div className={classes.accountInArrearsNotification}>
           <Typography variant='body2'>
-            <Trans>You've got a payment due. Until you've settled up, we've placed your account in restricted mode</Trans>
+            <Trans>You&apos;ve got a payment due. Until you&apos;ve settled up, we&apos;ve placed your account in restricted mode</Trans>
           </Typography>
-          <Button 
+          <Button
             onClick={() => redirect(ROUTE_LINKS.Settings)}
             fullsize={!desktop}>
-              <Trans>Go to Payments</Trans>
+            <Trans>Go to Payments</Trans>
           </Button>
         </div>}
     </div>

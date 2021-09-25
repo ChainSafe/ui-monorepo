@@ -182,9 +182,9 @@ const SharedFileBrowser = () => {
     if (!bucket) return
     if (accountInArrears) {
       addToast({
-        type:'error',
-        title: 'Unable to upload',
-        subtitle: 'Oops! You need to pay for this month to upload more content.'
+        type:"error",
+        title: "Unable to upload",
+        subtitle: "Oops! You need to pay for this month to upload more content."
       })
       return
     }
