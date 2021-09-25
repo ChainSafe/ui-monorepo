@@ -85,9 +85,9 @@ const UserProvider = ({ children }: UserContextProps) => {
         publicAddress: profileData.public_address
       })
       return Promise.resolve()
-    } catch (error: any) {
+    } catch (error) {
       return Promise.reject(
-        Array.isArray(error) && error[0]
+        error && error.length
           ? error[0].message
           : "There was an error updating profile."
       )
@@ -112,9 +112,9 @@ const UserProvider = ({ children }: UserContextProps) => {
         username
       })
       return Promise.resolve()
-    } catch (error: any) {
+    } catch (error) {
       return Promise.reject(
-        Array.isArray(error) && error[0]
+        error && error.length
           ? error[0].message
           : t`There was an error when setting username.`
       )

@@ -94,7 +94,6 @@ const PasswordForm = ({ buttonLabel, setPassword }: Props) => {
       }}
       validationSchema={passwordValidation}
       onSubmit={onSubmit}
-      enableReinitialize
     >
       <Form>
         <FormikTextInput

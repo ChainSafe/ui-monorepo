@@ -25,7 +25,6 @@ import SharedFolderRow from "./views/FileSystemItem/SharedFolderRow"
 import { SharedFolderModalMode } from "./types"
 import SharingExplainerModal from "../../SharingExplainerModal"
 import { useSharingExplainerModalFlag } from "./hooks/useSharingExplainerModalFlag"
-import { usePageTrack } from "../../../Contexts/PosthogContext"
 
 export const desktopSharedGridSettings = "69px 3fr 120px 190px 150px 45px !important"
 export const mobileSharedGridSettings = "3fr 80px 45px !important"
@@ -122,8 +121,6 @@ const SharedFolderOverview = () => {
   const bucketsToShow = useMemo(() => buckets.filter(b => b.type === "share" && b.status !== "deleting"), [buckets])
   const { hasSeenSharingExplainerModal, hideModal } = useSharingExplainerModalFlag()
 
-  usePageTrack()
-
   const handleSortToggle = (targetColumn: SortingType) => {
     if (column !== targetColumn) {
       setColumn(targetColumn)
@@ -160,6 +157,7 @@ const SharedFolderOverview = () => {
   const openSharedFolder = useCallback((bucketId: string) => {
     redirect(ROUTE_LINKS.SharedFolderExplorer(bucketId, "/"))
   }, [redirect])
+
   return (
     <>
       <article

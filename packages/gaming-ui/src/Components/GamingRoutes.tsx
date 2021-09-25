@@ -2,17 +2,18 @@ import React from "react"
 import { Switch, ConditionalRoute } from "@chainsafe/common-components"
 import LoginPage from "./Pages/LoginPage"
 import { useGamingApi }  from "../Contexts/GamingApiContext"
-import SettingsPage from "./Pages/SettingsPage"
-import DashboardPage from "./Pages/DashboardPage"
+import BillingPage from "./Pages/BillingPage"
+import Products from "./Modules/Products"
+import ApiKeys from "./Modules/ApiKeys"
 
 export const SETTINGS_PATHS = ["apiKeys", "billing"] as const
 export type SettingsPath = typeof SETTINGS_PATHS[number]
 
 export const ROUTE_LINKS = {
   Landing: "/",
-  Dashboard: "/dashboard",
-  SettingsRoot: "/settings",
-  Settings: (path: SettingsPath) => `/settings/${path}`,
+  // SettingsRoot: "/settings",
+  // Settings: (path: SettingsPath) => `/settings/${path}`,
+  APIKeys: "/keys",
   PrivacyPolicy: "https://files.chainsafe.io/privacy-policy",
   Terms: "https://files.chainsafe.io/terms-of-service",
   ChainSafe: "https://chainsafe.io/",
@@ -20,28 +21,36 @@ export const ROUTE_LINKS = {
   Products: "/products"
 }
 
+
+
 const GamingRoutes = () => {
   const { isLoggedIn } = useGamingApi()
 
   return (
     <Switch>
       <ConditionalRoute
-        path={ROUTE_LINKS.Dashboard}
+        path={ROUTE_LINKS.APIKeys}
         isAuthorized={isLoggedIn}
-        component={DashboardPage}
+        component={ApiKeys}
         redirectPath={ROUTE_LINKS.Landing}
       />
       <ConditionalRoute
-        path={ROUTE_LINKS.SettingsRoot}
+        path={ROUTE_LINKS.Billing}
         isAuthorized={isLoggedIn}
-        component={SettingsPage}
+        component={BillingPage}
+        redirectPath={ROUTE_LINKS.Landing}
+      />
+      <ConditionalRoute
+        path={ROUTE_LINKS.Products}
+        isAuthorized={isLoggedIn}
+        component={Products}
         redirectPath={ROUTE_LINKS.Landing}
       />
       <ConditionalRoute
         path={ROUTE_LINKS.Landing}
         isAuthorized={!isLoggedIn}
         component={LoginPage}
-        redirectPath={ROUTE_LINKS.Dashboard}
+        redirectPath={ROUTE_LINKS.APIKeys}
         redirectToSource
       />
     </Switch>

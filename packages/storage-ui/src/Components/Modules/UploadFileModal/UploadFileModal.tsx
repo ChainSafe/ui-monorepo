@@ -74,7 +74,7 @@ interface IUploadFileModuleProps {
   close: () => void
 }
 
-const UploadFileModal = ({ modalOpen, close }: IUploadFileModuleProps) => {
+const UploadFileModule = ({ modalOpen, close }: IUploadFileModuleProps) => {
   const classes = useStyles()
   const [isDoneDisabled, setIsDoneDisabled] = useState(true)
   const { uploadFiles } = useStorage()
@@ -94,7 +94,7 @@ const UploadFileModal = ({ modalOpen, close }: IUploadFileModuleProps) => {
       await uploadFiles(bucket.id, values.files, currentPath)
       refreshContents && refreshContents()
       helpers.resetForm()
-    } catch (errors: any) {
+    } catch (errors) {
       if (errors[0].message.includes("conflict with existing")) {
         helpers.setFieldError("files", t`File/Folder already exists`)
       } else {
@@ -166,4 +166,4 @@ const UploadFileModal = ({ modalOpen, close }: IUploadFileModuleProps) => {
   )
 }
 
-export default UploadFileModal
+export default UploadFileModule

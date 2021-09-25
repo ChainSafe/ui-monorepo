@@ -1,22 +1,23 @@
-import React, { useCallback } from "react"
+import React, { useCallback, useMemo } from "react"
 import { Tabs,
   TabPane as TabPaneOrigin,
   Typography, Divider,
+  Breadcrumb,
+  Crumb,
   useParams,
   useHistory,
   ITabPaneProps,
   CaretRightIcon,
   LockIcon
 } from "@chainsafe/common-components"
-import { makeStyles, createStyles, useThemeSwitcher } from "@chainsafe/common-theme"
+import { makeStyles, ITheme, createStyles, useThemeSwitcher } from "@chainsafe/common-theme"
 import { ROUTE_LINKS, SettingsPath } from "../GamingRoutes"
 import { t, Trans } from "@lingui/macro"
 import clsx from "clsx"
 import ApiKeys from "../Modules/ApiKeys"
-import { CSGTheme } from "../../Themes/types"
 
 const TabPane = (props: ITabPaneProps<SettingsPath>) => TabPaneOrigin(props)
-const useStyles = makeStyles(({ constants, breakpoints, palette }: CSGTheme) =>
+const useStyles = makeStyles(({ constants, breakpoints, palette }: ITheme) =>
   createStyles({
     title: {
       marginTop: constants.generalUnit,
@@ -89,7 +90,7 @@ const useStyles = makeStyles(({ constants, breakpoints, palette }: CSGTheme) =>
       marginBottom: 0,
       display: "flex",
       flexDirection: "column",
-      width: 200,
+      width: 226,
       borderRightColor: palette.additional["gray"][4],
       borderRightWidth: 1,
       borderRightStyle: "solid",
@@ -136,9 +137,19 @@ const SettingsPage: React.FC = () => {
     (path: string) => redirect(ROUTE_LINKS.Settings(path as SettingsPath))
     , [redirect])
 
+  const crumbs: Crumb[] = useMemo(() => [
+    {
+      text: t`Settings`
+    }
+  ], [])
+
   return (
     <div className={classes.container}>
       <div className={classes.headerContainer}>
+        <Breadcrumb
+          crumbs={crumbs}
+          homeOnClick={() => redirect(ROUTE_LINKS.SettingsRoot)}
+        />
         <Typography
           variant="h1"
           component="p"

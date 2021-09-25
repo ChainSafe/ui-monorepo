@@ -19,9 +19,6 @@ msgstr "A backup secret phrase will be generated and used for your account.<0/>W
 msgid "A file with the same name already exists"
 msgstr "A file with the same name already exists"
 
-msgid "Accept"
-msgstr "Accept"
-
 msgid "Account"
 msgstr "Account"
 
@@ -57,6 +54,9 @@ msgstr "An error occurred:"
 
 msgid "Approve"
 msgstr "Approve"
+
+msgid "Back to plan settings"
+msgstr "Back to plan settings"
 
 msgid "Backup secret phrase"
 msgstr "Backup secret phrase"
@@ -151,17 +151,11 @@ msgstr "Copied!"
 msgid "Copy CID"
 msgstr "Copy CID"
 
-msgid "Copy file"
-msgstr "Copy file"
-
 msgid "Copy info"
 msgstr "Copy info"
 
 msgid "Copy over"
 msgstr "Copy over"
-
-msgid "Copy to"
-msgstr "Copy to"
 
 msgid "Create"
 msgstr "Create"
@@ -184,14 +178,14 @@ msgstr "Create folder"
 msgid "Create your public username in <0>Settings</0>!"
 msgstr "Create your public username in <0>Settings</0>!"
 
+msgid "Credit card on file"
+msgstr "Credit card on file"
+
 msgid "Dark Theme"
 msgstr "Dark Theme"
 
 msgid "Date uploaded"
 msgstr "Date uploaded"
-
-msgid "Decline"
-msgstr "Decline"
 
 msgid "Decryption key"
 msgstr "Decryption key"
@@ -391,17 +385,11 @@ msgstr "Let's get you set up."
 msgid "Light Theme"
 msgstr "Light Theme"
 
-msgid "Loading"
-msgstr "Loading"
-
 msgid "Loading preview"
 msgstr "Loading preview"
 
 msgid "Loading your shared folders…"
 msgstr "Loading your shared folders…"
-
-msgid "Loading..."
-msgstr "Loading..."
 
 msgid "Looks like you’re signing in from a new browser. Please choose one of the following to continue:"
 msgstr "Looks like you’re signing in from a new browser. Please choose one of the following to continue:"
@@ -462,9 +450,6 @@ msgstr "No search results for"
 
 msgid "No thanks"
 msgstr "No thanks"
-
-msgid "No user found for this query."
-msgstr "No user found for this query."
 
 msgid "Number of copies (Replication Factor)"
 msgstr "Number of copies (Replication Factor)"
@@ -622,8 +607,8 @@ msgstr "Security"
 msgid "Select a wallet"
 msgstr "Select a wallet"
 
-msgid "Select an existing shared folder or your home"
-msgstr "Select an existing shared folder or your home"
+msgid "Select an existing shared folder"
+msgstr "Select an existing shared folder"
 
 msgid "Send another email"
 msgstr "Send another email"
@@ -762,12 +747,6 @@ msgstr "This username is already taken"
 
 msgid "This username is public"
 msgstr "This username is public"
-
-msgid "This website uses cookies"
-msgstr "This website uses cookies"
-
-msgid "This website uses cookies that help the website function and track interactions for analytics purposes. You have the right to decline our use of cookies. For us to provide a customizable user experience to you, please click on the Accept button below.<0>Learn more</0>"
-msgstr "This website uses cookies that help the website function and track interactions for analytics purposes. You have the right to decline our use of cookies. For us to provide a customizable user experience to you, please click on the Accept button below.<0>Learn more</0>"
 
 msgid "Transfer complete"
 msgstr "Transfer complete"
@@ -915,3 +894,6 @@ msgstr "{0, plural, one {Encrypting and uploading {1} file} other {Encrypting an
 
 msgid "{0, plural, one {You are about to delete {1} item.} other {You are about to delete {2} items.}}"
 msgstr "{0, plural, one {You are about to delete {1} item.} other {You are about to delete {2} items.}}"
+
+msgid "{0} of {1} used ({2}%)"
+msgstr "{0} of {1} used ({2}%)"

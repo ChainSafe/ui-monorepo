@@ -20,9 +20,6 @@ msgstr ""
 msgid "A file with the same name already exists"
 msgstr "Ya existe un archivo con el mismo nombre"
 
-msgid "Accept"
-msgstr ""
-
 msgid "Account"
 msgstr "Cuenta"
 
@@ -58,6 +55,9 @@ msgstr ""
 
 msgid "Approve"
 msgstr "Aprobar"
+
+msgid "Back to plan settings"
+msgstr ""
 
 msgid "Backup secret phrase"
 msgstr ""
@@ -152,16 +152,10 @@ msgstr "Copiado!"
 msgid "Copy CID"
 msgstr "Copiar CID"
 
-msgid "Copy file"
-msgstr ""
-
 msgid "Copy info"
 msgstr ""
 
 msgid "Copy over"
-msgstr ""
-
-msgid "Copy to"
 msgstr ""
 
 msgid "Create"
@@ -185,14 +179,14 @@ msgstr "Crear Carpeta"
 msgid "Create your public username in <0>Settings</0>!"
 msgstr ""
 
+msgid "Credit card on file"
+msgstr ""
+
 msgid "Dark Theme"
 msgstr "Tema oscuro"
 
 msgid "Date uploaded"
 msgstr "Fecha de subida"
-
-msgid "Decline"
-msgstr ""
 
 msgid "Decryption key"
 msgstr ""
@@ -392,16 +386,10 @@ msgstr "Vamos a configurarlo."
 msgid "Light Theme"
 msgstr "Tema Claro"
 
-msgid "Loading"
-msgstr ""
-
 msgid "Loading preview"
 msgstr "Cargando vista previa"
 
 msgid "Loading your shared folders…"
-msgstr ""
-
-msgid "Loading..."
 msgstr ""
 
 msgid "Looks like you’re signing in from a new browser. Please choose one of the following to continue:"
@@ -463,9 +451,6 @@ msgstr "No hay resultados de búsqueda para"
 
 msgid "No thanks"
 msgstr "No gracias"
-
-msgid "No user found for this query."
-msgstr ""
 
 msgid "Number of copies (Replication Factor)"
 msgstr "Número de copias (factor de replicación)"
@@ -623,7 +608,7 @@ msgstr "Seguridad"
 msgid "Select a wallet"
 msgstr "Seleccione una billetera"
 
-msgid "Select an existing shared folder or your home"
+msgid "Select an existing shared folder"
 msgstr ""
 
 msgid "Send another email"
@@ -762,12 +747,6 @@ msgid "This username is already taken"
 msgstr ""
 
 msgid "This username is public"
-msgstr ""
-
-msgid "This website uses cookies"
-msgstr ""
-
-msgid "This website uses cookies that help the website function and track interactions for analytics purposes. You have the right to decline our use of cookies. For us to provide a customizable user experience to you, please click on the Accept button below.<0>Learn more</0>"
 msgstr ""
 
 msgid "Transfer complete"
@@ -915,4 +894,7 @@ msgid "{0, plural, one {Encrypting and uploading {1} file} other {Encrypting and
 msgstr ""
 
 msgid "{0, plural, one {You are about to delete {1} item.} other {You are about to delete {2} items.}}"
+msgstr ""
+
+msgid "{0} of {1} used ({2}%)"
 msgstr ""

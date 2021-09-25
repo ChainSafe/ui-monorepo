@@ -167,9 +167,6 @@ export const lightTheme = createTheme<CsfColors>({
         },
         surveyBanner: {
           color: "var(--gray1)"
-        },
-        cookieBanner: {
-          backgroundColor: "var(--csf-primary)"
         }
       } as CsfColors)
     },

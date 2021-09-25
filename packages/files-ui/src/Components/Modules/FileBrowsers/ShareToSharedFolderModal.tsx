@@ -2,7 +2,15 @@ import { createStyles, makeStyles } from "@chainsafe/common-theme"
 import React, { useState } from "react"
 import CustomModal from "../../Elements/CustomModal"
 import { t, Trans } from "@lingui/macro"
-import { Button, CheckboxInput, SelectInput, ShareAltSvg, TagsInput, TextInput, Typography } from "@chainsafe/common-components"
+import {
+  Button,
+  CheckboxInput,
+  SelectInput,
+  ShareAltSvg,
+  TagsInput,
+  TextInput,
+  Typography
+} from "@chainsafe/common-components"
 import { CSFTheme } from "../../../Themes/types"
 import { useCallback } from "react"
 import { useCreateOrEditSharedFolder } from "./hooks/useCreateOrEditSharedFolder"
@@ -185,11 +193,11 @@ interface IShareFileProps {
   filePath: string
 }
 
-const ShareModal = ({ close, file, filePath }: IShareFileProps) => {
+const CopyToSharedFolderModal = ({ close, file, filePath }: IShareFileProps) => {
   const classes = useStyles()
   const { handleCreateSharedFolder } = useCreateOrEditSharedFolder()
   const [sharedFolderName, setSharedFolderName] = useState("")
-  const { sharedFolderReaders, sharedFolderWriters, handleLookupUser, onNewUsers, usersError, resetUsers } = useLookupSharedFolderUser()
+  const { sharedFolderReaders, sharedFolderWriters, handleLookupUser, onNewUsers, usersError } = useLookupSharedFolderUser()
   const [isUsingCurrentBucket, setIsUsingCurrentBucket] = useState(true)
   const [keepOriginalFile, setKeepOriginalFile] = useState(true)
   const [destinationBucket, setDestinationBucket] = useState<BucketKeyPermission | undefined>()
@@ -197,12 +205,7 @@ const ShareModal = ({ close, file, filePath }: IShareFileProps) => {
   const { bucket } = useFileBrowser()
   const { profile } = useUser()
   const [nameError, setNameError] = useState("")
-  const inSharedBucket = useMemo(() => bucket?.type === "share", [bucket])
-  const isReader = useMemo(() => {
-    if (!bucket) return false
 
-    return !!(bucket.readers.find(reader => reader.uuid === profile?.userId))
-  }, [bucket, profile])
 
   const bucketsOptions = useMemo(() => {
     if (!profile) {
@@ -210,25 +213,17 @@ const ShareModal = ({ close, file, filePath }: IShareFileProps) => {
     }
 
     return buckets
-      .filter(buck => buck.type === "share" || buck.type === "csf")
-      // filter out the current bucket
-      .filter(buck => buck.id !== bucket?.id)
+      .filter(buck => buck.type === "share")
       // all buckets where the user is reader or writer
       .filter(buck => !!buck.writers.find((w) => w.uuid === profile.userId) || !!buck.owners.find((o) => o.uuid === profile.userId))
       .map(buck => ({
-        label: buck.name || t`Home`,
+        label: buck.name,
         value: buck.id
       }))
   }
-  , [bucket, buckets, profile])
+  , [buckets, profile])
 
   const hasNoSharedBucket = useMemo(() => bucketsOptions.length === 0, [bucketsOptions.length])
-
-  useEffect(() => {
-    resetUsers()
-    setSharedFolderName("")
-    setNameError("")
-  }, [resetUsers])
 
   // if the user has no shared bucket, we default to new folder creation
   useEffect(() => {
@@ -301,6 +296,7 @@ const ShareModal = ({ close, file, filePath }: IShareFileProps) => {
     transferFileBetweenBuckets
   ])
 
+
   return (
     <CustomModal
       className={classes.modalRoot}
@@ -311,15 +307,13 @@ const ShareModal = ({ close, file, filePath }: IShareFileProps) => {
       mobileStickyBottom={false}
     >
       <div className={classes.root}>
+
         <div className={classes.iconBacking}>
           <ShareAltSvg />
         </div>
         <div className={classes.heading}>
           <Typography className={classes.inputLabel}>
-            {inSharedBucket
-              ? t`Copy file`
-              : t`Share file`
-            }
+            <Trans>Share file</Trans>
           </Typography>
         </div>
 
@@ -328,7 +322,7 @@ const ShareModal = ({ close, file, filePath }: IShareFileProps) => {
             ? (
               <div className={clsx(classes.modalFlexItem, classes.inputWrapper)}>
                 <SelectInput
-                  label={t`Select an existing shared folder or your home`}
+                  label={t`Select an existing shared folder`}
                   labelClassName={classes.inputLabel}
                   options={bucketsOptions}
                   value={destinationBucket?.id}
@@ -372,10 +366,7 @@ const ShareModal = ({ close, file, filePath }: IShareFileProps) => {
                         minHeight: 90,
                         alignContent: "start"
                       })
-                    }}
-                    loadingMessage={t`Loading`}
-                    noOptionsMessage={t`No user found for this query.`}
-                  />
+                    }}/>
                 </div>
                 <div className={classes.modalFlexItem}>
                   <TagsInput
@@ -391,10 +382,7 @@ const ShareModal = ({ close, file, filePath }: IShareFileProps) => {
                         minHeight: 90,
                         alignContent: "start"
                       })
-                    }}
-                    loadingMessage={t`Loading...`}
-                    noOptionsMessage={t`No user found for this query.`}
-                  />
+                    }}/>
                 </div>
                 {!!usersError && (
                   <Typography
@@ -423,15 +411,13 @@ const ShareModal = ({ close, file, filePath }: IShareFileProps) => {
               </Typography>
             </div>
           )}
-          {!isReader && (
-            <div className={classes.checkboxContainer}>
-              <CheckboxInput
-                value={keepOriginalFile}
-                onChange={() => setKeepOriginalFile(!keepOriginalFile)}
-                label={t`Keep original file`}
-              />
-            </div>
-          )}
+          <div className={classes.checkboxContainer}>
+            <CheckboxInput
+              value={keepOriginalFile}
+              onChange={() => setKeepOriginalFile(!keepOriginalFile)}
+              label={t`Keep original file`}
+            />
+          </div>
           <div className={classes.buttonsContainer}>
             <Button
               size="large"
@@ -464,4 +450,4 @@ const ShareModal = ({ close, file, filePath }: IShareFileProps) => {
   )
 }
 
-export default ShareModal
+export default CopyToSharedFolderModal

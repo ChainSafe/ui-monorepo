@@ -230,7 +230,7 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
             <div>
               <Link
                 className={classes.logo}
-                to={ROUTE_LINKS.Dashboard}
+                to={ROUTE_LINKS.APIKeys}
               >
                 <ChainsafeLogo />
                 <Typography variant="body1">

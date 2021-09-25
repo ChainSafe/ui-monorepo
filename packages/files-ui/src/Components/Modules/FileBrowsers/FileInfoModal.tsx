@@ -7,7 +7,7 @@ import React, { useState, useEffect } from "react"
 import CustomModal from "../../Elements/CustomModal"
 import CustomButton from "../../Elements/CustomButton"
 import { Trans } from "@lingui/macro"
-import { FileFullInfo } from "../../../Contexts/FilesContext"
+import { FileFullInfo, useFiles } from "../../../Contexts/FilesContext"
 import {
   Button,
   formatBytes,
@@ -161,6 +161,7 @@ interface IFileInfoModuleProps {
 const FileInfoModal = ({ filePath, close }: IFileInfoModuleProps) => {
   const classes = useStyles()
   const { filesApiClient } = useFilesApi()
+  const { personalEncryptionKey } = useFiles()
   const [loadingFileInfo, setLoadingInfo] = useState(false)
   const [fullFileInfo, setFullFullInfo] = useState<FileFullInfo | undefined>()
   const { bucket } = useFileBrowser()
@@ -380,7 +381,7 @@ const FileInfoModal = ({ filePath, close }: IFileInfoModuleProps) => {
                     component="p"
                   >
                     <ToggleHiddenText hiddenLength={14}>
-                      <span>{bucket?.encryptionKey}</span>
+                      <span>{ personalEncryptionKey }</span>
                     </ToggleHiddenText>
                   </Typography>
                 </div>

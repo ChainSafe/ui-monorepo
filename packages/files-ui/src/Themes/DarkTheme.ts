@@ -480,9 +480,6 @@ export const darkTheme = createTheme<CsfColors>({
         },
         surveyBanner: {
           color: "var(--gray9)"
-        },
-        cookieBanner: {
-          backgroundColor: "var(--gray9)"
         }
       } as CsfColors)
     },
@@ -558,16 +555,17 @@ export const darkTheme = createTheme<CsfColors>({
             borderColor: "var(--blue3) !important"
           }
         },
-        menuList: {
-          backgroundColor: "var(--gray4)",
-          color: "var(--gray10)"
+        menu: {
+          backgroundColor: "var(--gray1)",
+          borderColor: "var(--gray4)"
         },
         input: {
           color: "var(--gray9)"
         },
         option: {
-          backgroundColor: "var(--gray4)",
-          color: "var(--gray10)",
+          backgroundColor: "var(--gray1)",
+          color: "var(--gray9)",
+          borderColor: "var(--gray4)",
           cursor: "pointer"
         },
         multiValue: {
@@ -591,9 +589,8 @@ export const darkTheme = createTheme<CsfColors>({
           color: "var(--gray9)"
         },
         option: {
-          backgroundColor: "var(--gray4)",
-          color: "var(--gray10)",
-          cursor: "pointer"
+          backgroundColor: "var(--gray1)",
+          color: "var(--gray9)"
         },
         dropdownIndicator: {
           backgroundColor: "var(--gray1)",
@@ -603,9 +600,9 @@ export const darkTheme = createTheme<CsfColors>({
           backgroundColor: "var(--gray1)",
           color: "var(--gray9)"
         },
-        menuList: {
-          backgroundColor: "var(--gray4)",
-          color: "var(--gray10)"
+        menu: {
+          backgroundColor: "var(--gray1)",
+          color: "var(--gray9)"
         },
         indicatorsContainer: {
           backgroundColor: "transparent",
@@ -618,9 +615,6 @@ export const darkTheme = createTheme<CsfColors>({
           }
         },
         singleValue: {
-          color: "var(--gray9)"
-        },
-        input: {
           color: "var(--gray9)"
         }
       },

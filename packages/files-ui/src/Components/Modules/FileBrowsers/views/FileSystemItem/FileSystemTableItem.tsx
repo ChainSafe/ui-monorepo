@@ -234,14 +234,12 @@ const FileSystemTableItem = React.forwardRef(
           </>
         )}
         <TableCell align="right">
-          {!!menuItems.length && (
-            <Menu
-              testId='fileDropdown'
-              icon={<MoreIcon className={classes.dropdownIcon} />}
-              options={menuItems}
-              style={{ focusVisible: classes.focusVisible }}
-            />
-          )}
+          <Menu
+            testId='fileDropdown'
+            icon={<MoreIcon className={classes.dropdownIcon} />}
+            options={menuItems}
+            style={{ focusVisible: classes.focusVisible }}
+          />
         </TableCell>
       </TableRow>
     )

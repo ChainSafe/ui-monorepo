@@ -60,8 +60,8 @@ export const useLookupSharedFolderUser = () => {
 
       return [{ label: inputVal, value: result.uuid, data: result }]
     } catch (e) {
-      console.error("No user found", e)
-      return Promise.resolve([])
+      console.error(e)
+      return Promise.reject(e)
     }
   }, [filesApiClient, sharedFolderReaders, sharedFolderWriters, profile])
 
@@ -77,19 +77,12 @@ export const useLookupSharedFolderUser = () => {
     }
   }, [])
 
-  const resetUsers = useCallback(() => {
-    setSharedFolderReaders([])
-    setSharedFolderWriters([])
-    setUsersError("")
-  }, [])
-
   return {
     handleLookupUser,
     sharedFolderReaders,
     sharedFolderWriters,
     onNewUsers,
     usersError,
-    setUsersError,
-    resetUsers
+    setUsersError
   }
 }

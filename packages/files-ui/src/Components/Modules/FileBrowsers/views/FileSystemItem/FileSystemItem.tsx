@@ -151,7 +151,7 @@ const FileSystemItem = ({
   const { bucket, downloadFile, currentPath, handleUploadOnDrop, moveItems } = useFileBrowser()
   const { downloadMultipleFiles } = useFiles()
   const { cid, name, isFolder, content_type } = file
-  const inSharedFolder = useMemo(() => bucket?.type === "share", [bucket])
+
   const formik = useFormik({
     initialValues: {
       name
@@ -240,10 +240,7 @@ const FileSystemItem = ({
         <>
           <ShareAltSvg className={classes.menuIcon} />
           <span data-cy="menu-share">
-            {inSharedFolder
-              ? t`Copy to`
-              : t`Share`
-            }
+            <Trans>Share</Trans>
           </span>
         </>
       ),
@@ -323,8 +320,7 @@ const FileSystemItem = ({
     recoverFile,
     onFilePreview,
     viewFolder,
-    reportFile,
-    inSharedFolder
+    reportFile
   ])
 
   const menuItems: IMenuItem[] = itemOperations.map(

@@ -1,5 +1,10 @@
 import React, { CSSProperties, ReactNode } from "react"
-import { makeStyles, createStyles, ITheme, useTheme } from "@chainsafe/common-theme"
+import {
+  makeStyles,
+  createStyles,
+  ITheme,
+  useTheme
+} from "@chainsafe/common-theme"
 import clsx from "clsx"
 import Select, { Styles } from "react-select"
 import { Typography } from "../Typography"
@@ -57,7 +62,7 @@ interface ISelectInputProps {
   styles?: Partial<Styles>
 }
 
-const SelectInput = ({
+const SelectInput: React.FC<ISelectInputProps> = ({
   className,
   size = "medium",
   disabled = false,
@@ -72,7 +77,7 @@ const SelectInput = ({
   name,
   isClearable = false,
   styles
-}: ISelectInputProps) => {
+}) => {
   const classes = useStyles()
   const { palette, animation, typography, overrides }: ITheme = useTheme()
   const handleChange = (value: any) => {
@@ -100,9 +105,9 @@ const SelectInput = ({
   //       ...overrides?.SelectInput?.indicatorsContainer
   //     }, state) : overrides?.SelectInput?.indicatorsContainer)
   //   }),
-  const selectOverrides: Partial<Styles> = {}
+  const selectOverides: Partial<Styles> = {}
   overrideKeys.map(key => {
-    selectOverrides[key] = (provided: CSSProperties, state: any): CSSProperties => ({
+    selectOverides[key] = (provided: CSSProperties, state: any): CSSProperties => ({
       ...(
         styles && styles[key]
           ? styles[key]({
@@ -116,8 +121,7 @@ const SelectInput = ({
       )
     })
   })
-
-  selectOverrides.container = (provided, state) => ({
+  selectOverides.container = (provided, state) => ({
     ...provided,
     outline: "none",
     border: `1px solid ${palette.additional["gray"][5]}`,
@@ -141,7 +145,7 @@ const SelectInput = ({
     )
   })
 
-  selectOverrides.control = (provided, state) => ({
+  selectOverides.control = (provided, state) => ({
     ...provided,
     outline: "none",
     border: "none",
@@ -159,7 +163,7 @@ const SelectInput = ({
     )
   })
 
-  selectOverrides.menu = (provided, state) => ({
+  selectOverides.menu = (provided, state) => ({
     ...provided,
     marginTop: 2,
     marginBottom: 0,
@@ -176,7 +180,7 @@ const SelectInput = ({
     )
   })
 
-  selectOverrides.dropdownIndicator = (provided, state) => ({
+  selectOverides.dropdownIndicator = (provided, state) => ({
     ...provided,
     transform: state.selectProps.menuIsOpen && "rotate(180deg)",
     transitionProperty: "transform",
@@ -194,7 +198,7 @@ const SelectInput = ({
     )
   })
 
-  selectOverrides.singleValue = (provided, state) => ({
+  selectOverides.singleValue = (provided, state) => ({
     ...provided,
     ...typography.body2,
     color: !state.isDisabled
@@ -213,7 +217,7 @@ const SelectInput = ({
     )
   })
 
-  selectOverrides.placeholder = (provided, state) => ({
+  selectOverides.placeholder = (provided, state) => ({
     ...provided,
     color: !state.isDisabled
       ? palette.additional["gray"][8]
@@ -231,7 +235,7 @@ const SelectInput = ({
     )
   })
 
-  selectOverrides.option = (provided, state) => ({
+  selectOverides.option = (provided, state) => ({
     ...provided,
     ...typography.body2,
     backgroundColor: state.isSelected && palette.additional["gray"][3],
@@ -253,7 +257,7 @@ const SelectInput = ({
     )
   })
 
-  selectOverrides.valueContainer = (provided, state) => ({
+  selectOverides.valueContainer = (provided, state) => ({
     ...provided,
     ...typography.body2,
     paddingTop: 0,
@@ -271,7 +275,7 @@ const SelectInput = ({
     )
   })
 
-  selectOverrides.indicatorsContainer = (provided, state) => ({
+  selectOverides.indicatorsContainer = (provided, state) => ({
     ...provided,
     "& > div": {
       paddingTop: 0,
@@ -310,16 +314,12 @@ const SelectInput = ({
         value={selectValue}
         isMulti={isMulti}
         name={name}
-        styles={selectOverrides}
+        styles={selectOverides}
         theme={(selectTheme) => ({
           ...selectTheme,
           spacing: {
             ...selectTheme.spacing,
-            controlHeight: size === "large"
-              ? 40
-              : size === "medium"
-                ? 32
-                : 24
+            controlHeight: size === "large" ? 40 : size === "medium" ? 32 : 24
           }
         })}
       />

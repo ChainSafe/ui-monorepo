@@ -36,7 +36,7 @@ import FileSystemItem from "../FileSystemItem/FileSystemItem"
 import UploadProgressModals from "../UploadProgressModals"
 import DownloadProgressModals from "../DownloadProgressModals"
 import CreateFolderModal from "../CreateFolderModal/CreateFolderModal"
-import UploadFileModal from "../UploadFileModal/UploadFileModal"
+import UploadFileModule from "../UploadFileModal/UploadFileModal"
 import MoveFileModal from "../MoveFileModal/MoveFileModal"
 import { CONTENT_TYPES } from "../../../Utils/Constants"
 import { CSSTheme } from "../../../Themes/types"
@@ -990,7 +990,7 @@ const FilesList = () => {
               modalOpen={createFolderModalOpen}
               close={() => setCreateFolderModalOpen(false)}
             />
-            <UploadFileModal
+            <UploadFileModule
               modalOpen={isUploadModalOpen}
               close={() => setIsUploadModalOpen(false)}
             />

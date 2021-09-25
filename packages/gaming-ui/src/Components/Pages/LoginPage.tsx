@@ -128,7 +128,7 @@ const LoginPage = () => {
     <div className={classes.root}>
       <Typography className={classes.title}>
         <ChainsafeLogo className={classes.filesLogo} />
-        Gaming Dashboard
+        Gaming
       </Typography>
       <>
       </>
@@ -142,7 +142,6 @@ const LoginPage = () => {
             <BottomLightSVG className={classes.bgBottom} />
             <TopLightSVG className={classes.bgTop} />
           </>
-
       }
       <a
         className={classes.cta}

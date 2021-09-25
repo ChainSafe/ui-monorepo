@@ -9,7 +9,7 @@ import {
   makeStyles,
   useMediaQuery
 } from "@chainsafe/common-theme"
-import React, { useCallback, useState } from "react"
+import React, { useState } from "react"
 import { Form, FormikProvider, useFormik } from "formik"
 import CustomModal from "../../Elements/CustomModal"
 import CustomButton from "../../Elements/CustomButton"
@@ -77,13 +77,15 @@ interface ICreateFolderModalProps {
   close: () => void
 }
 
-const CreateFolderModal = ({ modalOpen, close }: ICreateFolderModalProps) => {
+const CreateFolderModal: React.FC<ICreateFolderModalProps> = ({
+  modalOpen,
+  close
+}: ICreateFolderModalProps) => {
   const classes = useStyles()
   const { filesApiClient } = useFilesApi()
   const { currentPath, refreshContents, bucket } = useFileBrowser()
   const [creatingFolder, setCreatingFolder] = useState(false)
   const desktop = useMediaQuery("md")
-
   const formik = useFormik({
     initialValues: {
       name: ""
@@ -98,8 +100,8 @@ const CreateFolderModal = ({ modalOpen, close }: ICreateFolderModalProps) => {
         refreshContents && await refreshContents()
         setCreatingFolder(false)
         helpers.resetForm()
-        onCancel()
-      } catch (errors: any) {
+        close()
+      } catch (errors) {
         setCreatingFolder(false)
         if (errors[0].message.includes("Entry with such name can")) {
           helpers.setFieldError("name", t`Folder name is already in use`)
@@ -111,11 +113,6 @@ const CreateFolderModal = ({ modalOpen, close }: ICreateFolderModalProps) => {
     },
     enableReinitialize: true
   })
-
-  const onCancel = useCallback(() => {
-    formik.resetForm()
-    close()
-  }, [close, formik])
 
   return (
     <CustomModal
@@ -171,7 +168,7 @@ const CreateFolderModal = ({ modalOpen, close }: ICreateFolderModalProps) => {
             >
               <CustomButton
                 data-cy="button-cancel-create-folder"
-                onClick={onCancel}
+                onClick={() => close()}
                 size="medium"
                 className={classes.cancelButton}
                 variant={desktop ? "outline" : "gray"}
