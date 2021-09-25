@@ -314,6 +314,9 @@ msgstr "Donner l’accès en lecture seule à :"
 msgid "Go back"
 msgstr "Retour"
 
+msgid "Go to Payments"
+msgstr ""
+
 msgid "Got an issue?"
 msgstr "Vous avez un problème ?"
 
@@ -823,6 +826,9 @@ msgstr "Vous n’avez pas encore défini de nom d’utilisateur."
 
 msgid "You will need to sign a message in your wallet to complete sign in."
 msgstr "Vous devrez signer un message avec votre wallet pour terminer la procédure connexion."
+
+msgid "You've got a payment due. Until you've settled up, we've placed your account in restricted mode"
+msgstr ""
 
 msgid "Your recovery key can be used to restore your account in place of your backup secret phrase."
 msgstr "Votre clé de récupération peut être utilisée pour restaurer votre compte à la place de votre phrase de sauvegarde secrète."

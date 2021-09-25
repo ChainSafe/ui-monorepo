@@ -314,6 +314,9 @@ msgstr ""
 msgid "Go back"
 msgstr "Regresar"
 
+msgid "Go to Payments"
+msgstr ""
+
 msgid "Got an issue?"
 msgstr ""
 
@@ -823,6 +826,9 @@ msgstr ""
 
 msgid "You will need to sign a message in your wallet to complete sign in."
 msgstr "Deberá firmar un mensaje en su billetera para completar el inicio de sesión."
+
+msgid "You've got a payment due. Until you've settled up, we've placed your account in restricted mode"
+msgstr ""
 
 msgid "Your recovery key can be used to restore your account in place of your backup secret phrase."
 msgstr ""

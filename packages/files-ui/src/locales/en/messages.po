@@ -313,6 +313,9 @@ msgstr "Give view-only permission to:"
 msgid "Go back"
 msgstr "Go back"
 
+msgid "Go to Payments"
+msgstr "Go to Payments"
+
 msgid "Got an issue?"
 msgstr "Got an issue?"
 
@@ -822,6 +825,9 @@ msgstr "You haven't set a username yet."
 
 msgid "You will need to sign a message in your wallet to complete sign in."
 msgstr "You will need to sign a message in your wallet to complete sign in."
+
+msgid "You've got a payment due. Until you've settled up, we've placed your account in restricted mode"
+msgstr "You've got a payment due. Until you've settled up, we've placed your account in restricted mode"
 
 msgid "Your recovery key can be used to restore your account in place of your backup secret phrase."
 msgstr "Your recovery key can be used to restore your account in place of your backup secret phrase."
