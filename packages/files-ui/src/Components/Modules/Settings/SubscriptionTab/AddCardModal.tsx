@@ -8,9 +8,10 @@ import { Trans } from "@lingui/macro"
 import { useStripe, useElements, CardNumberElement, CardExpiryElement, CardCvcElement } from "@stripe/react-stripe-js"
 import { useFilesApi } from "../../../../Contexts/FilesApiContext"
 import { useBilling } from "../../../../Contexts/BillingContext"
+import clsx from "clsx"
 
 const useStyles = makeStyles(
-  ({ breakpoints, constants, typography, zIndex }: CSFTheme) => {
+  ({ breakpoints, constants, typography, zIndex, palette, animation }: CSFTheme) => {
     return createStyles({
       root: {
         padding: constants.generalUnit * 4,
@@ -56,12 +57,29 @@ const useStyles = makeStyles(
       footer: {
         marginTop: constants.generalUnit * 4
       },
-      cardInputsContainer: {
-
+      cardNumberInputs: {
+        marginBottom: constants.generalUnit * 2,
+        [breakpoints.down("md")]: {
+          marginBottom: constants.generalUnit * 2
+        }
       },
       cardInputs: {
-        border: "1px solid black",
-        padding: constants.generalUnit
+        border: `1px solid ${palette.additional["gray"][6]}`,
+        borderRadius: 2,
+        padding: constants.generalUnit,
+        transitionDuration: `${animation.transform}ms`,
+        color: palette.additional["gray"][8],
+        "&:hover": {
+          borderColor: palette.primary.border
+        },
+        "&:focus": {
+          borderColor: palette.primary.border,
+          boxShadow: "0px 0px 4px rgba(24, 144, 255, 0.5)"
+        },
+        "&:active": {
+          borderColor: palette.primary.border,
+          boxShadow: "0px 0px 4px rgba(24, 144, 255, 0.5)"
+        }
       },
       expiryCvcContainer: {
         display: "grid",
@@ -70,7 +88,7 @@ const useStyles = makeStyles(
         gridColumnGap: constants.generalUnit,
         [breakpoints.down("md")]: {
           gridTemplateColumns: "1fr",
-          gridRowGap: constants.generalUnit
+          gridRowGap: constants.generalUnit * 2
         }
       }
     })
@@ -172,7 +190,7 @@ const AddCardModal = ({ isModalOpen, onClose }: IAddCardModalProps) => {
             </Typography>
           </Grid>
           <CardNumberElement
-            className={classes.cardInputs}
+            className={clsx(classes.cardInputs, classes.cardNumberInputs)}
             options={{ showIcon: true }}
           />
           <div className={classes.expiryCvcContainer}>
