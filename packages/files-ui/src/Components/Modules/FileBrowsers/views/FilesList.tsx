@@ -53,7 +53,7 @@ import SharedUsers from "../../../Elements/SharedUsers"
 import Menu from "../../../../UI-components/Menu"
 import SharingExplainerModal from "../../../SharingExplainerModal"
 import { useSharingExplainerModalFlag } from "../hooks/useSharingExplainerModalFlag"
-import {useFilesApi} from "../../../../Contexts/FilesApiContext"
+import { useFilesApi } from "../../../../Contexts/FilesApiContext"
 
 const baseOperations:  FileOperation[] = ["download", "info", "preview"]
 const readerOperations: FileOperation[] = [...baseOperations, "report"]
@@ -85,8 +85,8 @@ const useStyles = makeStyles(
             borderColor: palette.primary.main
           },
           "&.bottomBanner": {
-            minHeight: `calc(100vh - ${Number(constants.contentTopPadding) + 80}px)`,
-          },
+            minHeight: `calc(100vh - ${Number(constants.contentTopPadding) + 80}px)`
+          }
         }
       },
       header: {
@@ -298,7 +298,7 @@ const useStyles = makeStyles(
         width: 20,
         marginRight: constants.generalUnit * 1.5,
         fill: constants.previewModal.menuItemIconColor
-      },
+      }
     })
   }
 )

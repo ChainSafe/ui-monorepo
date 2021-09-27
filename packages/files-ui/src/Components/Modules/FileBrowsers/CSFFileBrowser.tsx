@@ -182,9 +182,9 @@ const CSFFileBrowser: React.FC<IFileBrowserModuleProps> = () => {
     }
     if (accountInArrears) {
       addToast({
-        type:'error',
-        title: 'Uploads disabled',
-        subtitle: 'Oops! You need to pay for this month to upload more content.'
+        type:"error",
+        title: "Uploads disabled",
+        subtitle: "Oops! You need to pay for this month to upload more content."
       })
       return
     }
@@ -198,14 +198,14 @@ const CSFFileBrowser: React.FC<IFileBrowserModuleProps> = () => {
         .then(() => refreshContents())
         .catch(console.error)
     }
-  }, [addToast, uploadFiles, bucket, refreshContents])
+  }, [addToast, uploadFiles, bucket, refreshContents, accountInArrears])
 
   const viewFolder = useCallback((cid: string) => {
     const fileSystemItem = pathContents.find(f => f.cid === cid)
     if (fileSystemItem && fileSystemItem.content_type === CONTENT_TYPES.Directory) {
       redirect(ROUTE_LINKS.Drive(getUrlSafePathWithFile(currentPath, fileSystemItem.name)))
     }
-  }, [currentPath, pathContents, redirect, ])
+  }, [currentPath, pathContents, redirect ])
 
   const bulkOperations: IBulkOperations = useMemo(() => ({
     [CONTENT_TYPES.Directory]: ["download", "move", "delete"],
