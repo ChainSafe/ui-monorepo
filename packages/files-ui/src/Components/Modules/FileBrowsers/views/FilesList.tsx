@@ -303,24 +303,7 @@ const useStyles = makeStyles(
         width: 20,
         marginRight: constants.generalUnit * 1.5,
         fill: constants.previewModal.menuItemIconColor
-      },
-      accountRestrictedNotification: {
-        position: 'fixed',
-        bottom: 0,
-        backgroundColor: palette.additional["gray"][10],
-        color: palette.additional['gray'][1],
-        padding: '16px 24px',
-        marginLeft: 0,
-        width: '100vw',
-        [breakpoints.up("md")]: {
-          marginLeft: `${constants.navWidth}px`,
-          left:0,
-          width:`calc(100vw - ${constants.navWidth}px)`,
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center'
-        }
-      },
+      }
     })
   }
 )
