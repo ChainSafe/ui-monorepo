@@ -19,6 +19,7 @@ import { CSFTheme } from "../../Themes/types"
 import { useUser } from "../../Contexts/UserContext"
 import { useFilesApi } from "../../Contexts/FilesApiContext"
 import { usePosthog } from "../../Contexts/PosthogContext"
+import TeamModal from "../Elements/TeamModal"
 
 const useStyles = makeStyles(
   ({ palette, animation, breakpoints, constants, zIndex }: CSFTheme) => {
@@ -149,7 +150,11 @@ const useStyles = makeStyles(
         margin: `0 ${constants.generalUnit * 2}px`,
 
         "& button" : {
-          height: constants.generalUnit * 4
+          height: constants.generalUnit * 4,
+
+          "&:not(:first-child)": {
+            marginLeft: constants.generalUnit * 2
+          }
         }
       }
     })
@@ -233,7 +238,7 @@ const AppHeader = ({ navOpen, setNavOpen }: IAppHeader) => {
                   size="small"
                   onClick={onStartATeamClick}
                 >
-                  <Trans>Report a bug</Trans>
+                  <Trans>Start a team</Trans>
                 </Button>
               </section>
               <section className={classes.accountControls}>
@@ -299,6 +304,7 @@ const AppHeader = ({ navOpen, setNavOpen }: IAppHeader) => {
           )}
         </>
       )}
+      {isTeamModalOpen && <TeamModal onHide={() => setIsTeamModalOpen(false)}/>}
     </header>
   )
 }
