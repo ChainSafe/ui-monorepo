@@ -22,7 +22,7 @@ import getFilesFromDataTransferItems from "../../../Utils/getFilesFromDataTransf
 
 const SharedFileBrowser = () => {
   const { downloadFile, uploadFiles, buckets, refreshBuckets, getStorageSummary } = useFiles()
-  const { filesApiClient, accountInArrears } = useFilesApi()
+  const { filesApiClient, accountRestricted } = useFilesApi()
   const { addToast } = useToasts()
   const [loadingCurrentPath, setLoadingCurrentPath] = useState(false)
   const [pathContents, setPathContents] = useState<FileSystemItem[]>([])
@@ -180,7 +180,7 @@ const SharedFileBrowser = () => {
 
   const handleUploadOnDrop = useCallback(async (files: File[], fileItems: DataTransferItemList, path: string) => {
     if (!bucket) return
-    if (accountInArrears) {
+    if (accountRestricted) {
       addToast({
         type:'error',
         title: 'Unable to upload',
@@ -193,7 +193,7 @@ const SharedFileBrowser = () => {
     paths.forEach(p => {
       uploadFiles(bucket, flattenedFiles.filter(f => f.filepath === p), getPathWithFile(path, p))
     })
-  }, [uploadFiles, bucket, accountInArrears, addToast])
+  }, [uploadFiles, bucket, accountRestricted, addToast])
 
   const bulkOperations: IBulkOperations = useMemo(() => ({
     [CONTENT_TYPES.Directory]: ["download", "move", "delete"],

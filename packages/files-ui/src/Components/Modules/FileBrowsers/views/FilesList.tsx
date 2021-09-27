@@ -54,6 +54,7 @@ import Menu from "../../../../UI-components/Menu"
 import SharingExplainerModal from "../../../SharingExplainerModal"
 import { useSharingExplainerModalFlag } from "../hooks/useSharingExplainerModalFlag"
 import {useFilesApi} from "../../../../Contexts/FilesApiContext"
+import RestrictedModeBanner from "../../../Elements/RestrictedModeBanner"
 
 const baseOperations:  FileOperation[] = ["download", "info", "preview", "share"]
 const readerOperations: FileOperation[] = [...baseOperations, "report"]
@@ -74,7 +75,10 @@ const useStyles = makeStyles(
         position: "relative",
         [breakpoints.down("md")]: {
           marginLeft: constants.generalUnit * 2,
-          marginRight: constants.generalUnit * 2
+          marginRight: constants.generalUnit * 2,
+          "&.bottomBanner": {
+            marginBottom: 130,
+          },
         },
         [breakpoints.up("md")]: {
           border: "1px solid transparent",
@@ -86,6 +90,7 @@ const useStyles = makeStyles(
           },
           "&.bottomBanner": {
             minHeight: `calc(100vh - ${Number(constants.contentTopPadding) + 80}px)`,
+            marginBottom: 80,
           },
         }
       },
@@ -299,6 +304,23 @@ const useStyles = makeStyles(
         marginRight: constants.generalUnit * 1.5,
         fill: constants.previewModal.menuItemIconColor
       },
+      accountRestrictedNotification: {
+        position: 'fixed',
+        bottom: 0,
+        backgroundColor: palette.additional["gray"][10],
+        color: palette.additional['gray'][1],
+        padding: '16px 24px',
+        marginLeft: 0,
+        width: '100vw',
+        [breakpoints.up("md")]: {
+          marginLeft: `${constants.navWidth}px`,
+          left:0,
+          width:`calc(100vw - ${constants.navWidth}px)`,
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center'
+        }
+      },
     })
   }
 )
@@ -316,7 +338,7 @@ const FilesList = ({ isShared = false }: Props) => {
   const [isReportFileModalOpen, setIsReportFileModalOpen] = useState(false)
   const [isFileInfoModalOpen, setIsFileInfoModalOpen] = useState(false)
   const [isShareModalOpen, setIsShareModalOpen] = useState(false)
-  const { accountInArrears } = useFilesApi()
+  const { accountRestricted } = useFilesApi()
 
   const {
     heading,
@@ -632,7 +654,7 @@ const FilesList = ({ isShared = false }: Props) => {
         </>
       ),
       onClick: () => setCreateFolderModalOpen(true),
-      disabled: accountInArrears
+      disabled: accountRestricted
     },
     {
       contents: (
@@ -644,10 +666,10 @@ const FilesList = ({ isShared = false }: Props) => {
         </>
       ),
       onClick: () => setIsUploadModalOpen(true),
-      disabled: accountInArrears
+      disabled: accountRestricted
     }
   ],
-  [classes.menuIcon, accountInArrears])
+  [classes.menuIcon, accountRestricted])
 
   const onShare = useCallback((fileInfoPath: string, fileIndex: number) => {
     if(hasSeenSharingExplainerModal) {
@@ -660,12 +682,13 @@ const FilesList = ({ isShared = false }: Props) => {
   }, [hasSeenSharingExplainerModal])
 
   return (
+    <>
     <article
       className={clsx(
         classes.root, {
           droppable: isOverUploadable && allowDropUpload
         }, {
-          bottomBanner: accountInArrears
+          bottomBanner: accountRestricted
         }
       )}
       ref={!isUploadModalOpen && allowDropUpload ? dropBrowserRef : null}
@@ -730,7 +753,7 @@ const FilesList = ({ isShared = false }: Props) => {
                       onClick={() => setCreateFolderModalOpen(true)}
                       variant="outline"
                       size="large"
-                      disabled={accountInArrears}
+                      disabled={accountRestricted}
                     >
                       <PlusCircleIcon />
                       <span>
@@ -742,7 +765,7 @@ const FilesList = ({ isShared = false }: Props) => {
                       onClick={() => setIsUploadModalOpen(true)}
                       variant="outline"
                       size="large"
-                      disabled={accountInArrears}
+                      disabled={accountRestricted}
                     >
                       <UploadIcon />
                       <span>
@@ -1121,6 +1144,10 @@ const FilesList = ({ isShared = false }: Props) => {
         onHide={hideModal}
       />
     </article>
+    {accountRestricted && 
+      <RestrictedModeBanner />
+    }
+  </>
   )
 }
 

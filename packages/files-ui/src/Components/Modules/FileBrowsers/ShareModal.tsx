@@ -189,7 +189,7 @@ interface IShareFileProps {
 const ShareModal = ({ close, file, filePath }: IShareFileProps) => {
   const classes = useStyles()
   const { handleCreateSharedFolder } = useCreateOrEditSharedFolder()
-  const { accountInArrears } = useFilesApi()
+  const { accountRestricted } = useFilesApi()
   const [sharedFolderName, setSharedFolderName] = useState("")
   const { sharedFolderReaders, sharedFolderWriters, handleLookupUser, onNewUsers, usersError, resetUsers } = useLookupSharedFolderUser()
   const [isUsingCurrentBucket, setIsUsingCurrentBucket] = useState(true)
@@ -218,13 +218,13 @@ const ShareModal = ({ close, file, filePath }: IShareFileProps) => {
       // all buckets where the user is owner or writer
       .filter(buck => !!buck.writers.find((w) => w.uuid === profile.userId) || !!buck.owners.find((o) => o.uuid === profile.userId))
       // filter out CSF and share buckets where user is an owner if their account is restricted
-      .filter(buck => !(!!accountInArrears && (buck.type === 'csf' || !!buck.owners.find(o => o.uuid === profile.userId))))
+      .filter(buck => !(!!accountRestricted && (buck.type === 'csf' || !!buck.owners.find(o => o.uuid === profile.userId))))
       .map(buck => ({
         label: buck.name || t`Home`,
         value: buck.id
       }))
   }
-  , [bucket, buckets, profile, accountInArrears])
+  , [bucket, buckets, profile, accountRestricted])
 
   const hasNoSharedBucket = useMemo(() => bucketsOptions.length === 0, [bucketsOptions.length])
 
@@ -236,10 +236,10 @@ const ShareModal = ({ close, file, filePath }: IShareFileProps) => {
 
   // if the user has no shared bucket, we default to new folder creation
   useEffect(() => {
-    if (hasNoSharedBucket && !accountInArrears) {
+    if (hasNoSharedBucket && !accountRestricted) {
       setIsUsingCurrentBucket(false)
     }
-  }, [hasNoSharedBucket, accountInArrears])
+  }, [hasNoSharedBucket, accountRestricted])
 
   const onNameChange = useCallback((value?: string | number) => {
     if (value === undefined) return

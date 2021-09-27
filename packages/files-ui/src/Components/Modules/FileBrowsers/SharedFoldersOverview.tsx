@@ -26,6 +26,7 @@ import { SharedFolderModalMode } from "./types"
 import SharingExplainerModal from "../../SharingExplainerModal"
 import { useSharingExplainerModalFlag } from "./hooks/useSharingExplainerModalFlag"
 import { usePageTrack } from "../../../Contexts/PosthogContext"
+import RestrictedModeBanner from "../../Elements/RestrictedModeBanner"
 
 export const desktopSharedGridSettings = "69px 3fr 120px 190px 150px 45px !important"
 export const mobileSharedGridSettings = "3fr 80px 45px !important"
@@ -38,7 +39,10 @@ const useStyles = makeStyles(
         position: "relative",
         [breakpoints.down("md")]: {
           marginLeft: constants.generalUnit * 2,
-          marginRight: constants.generalUnit * 2
+          marginRight: constants.generalUnit * 2,
+          "&.bottomBanner": {
+            paddingBottom: 130,
+          },
         },
         [breakpoints.up("md")]: {
           border: "1px solid transparent",
@@ -47,7 +51,11 @@ const useStyles = makeStyles(
           minHeight: `calc(100vh - ${Number(constants.contentTopPadding)}px)`,
           "&.droppable": {
             borderColor: palette.additional["geekblue"][4]
-          }
+          },
+          "&.bottomBanner": {
+            minHeight: `calc(100vh - ${Number(constants.contentTopPadding) + 80}px)`,
+            marginBottom: 80,
+          },
         }
       },
       header: {
@@ -99,7 +107,24 @@ const useStyles = makeStyles(
       },
       confirmDeletionDialog: {
         top: "50%"
-      }
+      },
+      accountRestrictedNotification: {
+        position: 'fixed',
+        bottom: 0,
+        backgroundColor: palette.additional["gray"][10],
+        color: palette.additional['gray'][1],
+        padding: '16px 24px',
+        marginLeft: 0,
+        width: '100vw',
+        [breakpoints.up("md")]: {
+          marginLeft: `${constants.navWidth}px`,
+          left:0,
+          width:`calc(100vw - ${constants.navWidth}px)`,
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center'
+        }
+      },
     })
   }
 )
@@ -108,7 +133,7 @@ type SortingType = "name" | "size" | "date_uploaded"
 
 const SharedFolderOverview = () => {
   const classes = useStyles()
-  const { filesApiClient, accountInArrears } = useFilesApi()
+  const { filesApiClient, accountRestricted } = useFilesApi()
   const { buckets, isLoadingBuckets, refreshBuckets } = useFiles()
   const [createOrEditSharedFolderMode, setCreateOrEditSharedFolderMode] = useState<SharedFolderModalMode | undefined>(undefined)
   const [bucketToEdit, setBucketToEdit] = useState<BucketKeyPermission | undefined>(undefined)
@@ -160,10 +185,13 @@ const SharedFolderOverview = () => {
   const openSharedFolder = useCallback((bucketId: string) => {
     redirect(ROUTE_LINKS.SharedFolderExplorer(bucketId, "/"))
   }, [redirect])
+
   return (
     <>
       <article
-        className={classes.root}
+        className={clsx(classes.root, {
+          bottomBanner: accountRestricted
+        })}
       >
         <header className={classes.header}>
           <Typography
@@ -180,7 +208,7 @@ const SharedFolderOverview = () => {
                 setBucketToEdit(undefined)
                 setCreateOrEditSharedFolderMode("create")
               }}
-              disabled={accountInArrears}
+              disabled={accountRestricted}
             >
               <PlusIcon />
               <Trans>Create a Shared Folder</Trans>
@@ -295,6 +323,9 @@ const SharedFolderOverview = () => {
         injectedClass={{ inner: classes.confirmDeletionDialog }}
         testId="shared-folder-deletion"
       />
+    {accountRestricted && 
+      <RestrictedModeBanner />
+    }
     </>
   )
 }

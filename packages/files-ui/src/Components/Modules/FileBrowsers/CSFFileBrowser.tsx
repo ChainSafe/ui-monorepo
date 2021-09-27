@@ -25,7 +25,7 @@ import getFilesFromDataTransferItems from "../../../Utils/getFilesFromDataTransf
 
 const CSFFileBrowser: React.FC<IFileBrowserModuleProps> = () => {
   const { downloadFile, uploadFiles, buckets } = useFiles()
-  const { accountInArrears } = useFilesApi()
+  const { accountRestricted } = useFilesApi()
   const { filesApiClient } = useFilesApi()
   const { addToast } = useToasts()
   const [loadingCurrentPath, setLoadingCurrentPath] = useState(false)
@@ -176,7 +176,7 @@ const CSFFileBrowser: React.FC<IFileBrowserModuleProps> = () => {
 
   const handleUploadOnDrop = useCallback(async (files: File[], fileItems: DataTransferItemList, path: string) => {
     if (!bucket) return
-    if (accountInArrears) {
+    if (accountRestricted) {
       addToast({
         type:'error',
         title: 'Uploads disabled',
@@ -189,7 +189,7 @@ const CSFFileBrowser: React.FC<IFileBrowserModuleProps> = () => {
     paths.forEach(p => {
       uploadFiles(bucket, flattenedFiles.filter(f => f.filepath === p), getPathWithFile(path, p))
     })
-  }, [uploadFiles, bucket, accountInArrears, addToast])
+  }, [uploadFiles, bucket, accountRestricted, addToast])
 
   const viewFolder = useCallback((cid: string) => {
     const fileSystemItem = pathContents.find(f => f.cid === cid)
