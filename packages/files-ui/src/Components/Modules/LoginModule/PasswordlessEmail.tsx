@@ -145,6 +145,7 @@ const PasswordlessEmail = ({ resetLogin, email }: IPasswordlessEmail) => {
         }}
         validationSchema={nonceValidation}
         onSubmit={onSubmitNonce}
+        enableReinitialize
       >
         <Form>
           <Typography
