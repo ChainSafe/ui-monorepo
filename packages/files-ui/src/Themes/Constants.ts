@@ -160,7 +160,7 @@ export interface CsfColors extends IConstants {
     }
   }
   surveyBanner: {
-   color: string
+    color: string
   }
   menu: {
     backgroundColor: string

@@ -92,8 +92,8 @@ const useStyles = makeStyles(({ animation, constants, palette, zIndex }: CSFThem
 )
 
 interface Props {
-    buttonLabel?: string
-    onComplete: () => void
+  buttonLabel?: string
+  onComplete: () => void
 }
 
 const MnemonicForm = ({ buttonLabel, onComplete }: Props) => {
