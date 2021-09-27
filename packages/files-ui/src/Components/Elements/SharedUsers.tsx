@@ -1,8 +1,7 @@
 import React, { useCallback, useMemo } from "react"
 import { makeStyles, createStyles, useThemeSwitcher } from "@chainsafe/common-theme"
 import UserBubble from "./UserBubble"
-import { LookupUser } from "@chainsafe/files-api-client"
-import { BucketKeyPermission } from "../../Contexts/FilesContext"
+import { BucketKeyPermission, RichUserInfo } from "../../Contexts/FilesContext"
 import { getUserDisplayName } from "../../Utils/getUserDisplayName"
 
 const useStyles = makeStyles(() => {
@@ -21,7 +20,7 @@ const SharedUsers = ({ bucket }: Props) => {
   const { desktop } = useThemeSwitcher()
   const { owners, readers, writers } = bucket
 
-  const getUserLabels = useCallback((users: LookupUser[]): string[] => {
+  const getUserLabels = useCallback((users: RichUserInfo[]): string[] => {
     return users.reduce((acc: string[], user): string[] => {
       const displayName = getUserDisplayName(user)
 
