@@ -13,14 +13,8 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
-msgid "API Keys"
-msgstr "API Keys"
-
 msgid "Add API Key"
 msgstr "Add API Key"
-
-msgid "Api Keys"
-msgstr "Api Keys"
 
 msgid "By connecting your wallet, you agree to our <0>Terms of Service</0> and <1>Privacy Policy</1>"
 msgstr "By connecting your wallet, you agree to our <0>Terms of Service</0> and <1>Privacy Policy</1>"
@@ -58,17 +52,11 @@ msgstr "Continue with Web3 Wallet"
 msgid "Copied!"
 msgstr "Copied!"
 
-msgid "Created At"
-msgstr "Created At"
-
 msgid "Created on:"
 msgstr "Created on:"
 
 msgid "Dashboard"
 msgstr "Dashboard"
-
-msgid "Delete Key"
-msgstr "Delete Key"
 
 msgid "Delete key"
 msgstr "Delete key"
@@ -105,9 +93,6 @@ msgstr "Go back"
 
 msgid "Hold on, we are logging you in…"
 msgstr "Hold on, we are logging you in…"
-
-msgid "Id"
-msgstr "Id"
 
 msgid "Id:"
 msgstr "Id:"
@@ -157,9 +142,6 @@ msgstr "Something went wrong!"
 msgid "Something went wrong! Please try again."
 msgstr "Something went wrong! Please try again."
 
-msgid "Status"
-msgstr "Status"
-
 msgid "Status:"
 msgstr "Status:"
 
@@ -180,9 +162,6 @@ msgstr "There was an error connecting your wallet"
 
 msgid "Try again"
 msgstr "Try again"
-
-msgid "Type"
-msgstr "Type"
 
 msgid "Use a different login method"
 msgstr "Use a different login method"
