@@ -54,7 +54,7 @@ const useStyles = makeStyles(
           },
           "&.bottomBanner": {
             minHeight: `calc(100vh - ${Number(constants.contentTopPadding) + 80}px)`,
-            marginBottom: 80,
+            paddingBottom: 80,
           },
         }
       },
