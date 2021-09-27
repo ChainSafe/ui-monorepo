@@ -18,7 +18,6 @@ import { useFilesApi } from "../../../Contexts/FilesApiContext"
 import { useUser } from "../../../Contexts/UserContext"
 import DragAndDrop from "../../../Contexts/DnDContext"
 import FilesList from "./views/FilesList"
-import getFilesFromDataTransferItems from "../../../Utils/getFilesFromDataTransferItems"
 
 const SharedFileBrowser = () => {
   const { downloadFile, uploadFiles, buckets, refreshBuckets, getStorageSummary } = useFiles()
@@ -180,20 +179,31 @@ const SharedFileBrowser = () => {
 
   const handleUploadOnDrop = useCallback(async (files: File[], fileItems: DataTransferItemList, path: string) => {
     if (!bucket) return
+    let hasFolder = false
+    for (let i = 0; i < files.length; i++) {
+      if (fileItems[i].webkitGetAsEntry()?.isDirectory) {
+        hasFolder = true
+      }
+    }
     if (accountInArrears) {
       addToast({
         type:"error",
-        title: "Unable to upload",
+        title: "Uploads disabled",
         subtitle: "Oops! You need to pay for this month to upload more content."
       })
       return
     }
-    const flattenedFiles = await getFilesFromDataTransferItems(fileItems)
-    const paths = [...new Set(flattenedFiles.map(f => f.filepath))]
-    paths.forEach(p => {
-      uploadFiles(bucket, flattenedFiles.filter(f => f.filepath === p), getPathWithFile(path, p))
-    })
-  }, [uploadFiles, bucket, accountInArrears, addToast])
+    if (hasFolder) {
+      addToast({
+        title: t`Folder uploads are not supported currently`,
+        type: "error"
+      })
+    } else {
+      uploadFiles(bucket, files, path)
+        .then(() => refreshContents())
+        .catch(console.error)
+    }
+  }, [addToast, uploadFiles, bucket, refreshContents, accountInArrears])
 
   const bulkOperations: IBulkOperations = useMemo(() => ({
     [CONTENT_TYPES.Directory]: ["download", "move", "delete"],
