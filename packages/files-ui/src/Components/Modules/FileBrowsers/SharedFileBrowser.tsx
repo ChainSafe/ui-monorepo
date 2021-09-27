@@ -204,37 +204,37 @@ const SharedFileBrowser = () => {
 
   const itemOperations: IFilesTableBrowserProps["itemOperations"] = useMemo(() => {
     switch (access) {
-    case "owner":
-      return {
-        [CONTENT_TYPES.Audio]: ["preview"],
-        [CONTENT_TYPES.MP4]: ["preview"],
-        [CONTENT_TYPES.Image]: ["preview"],
-        [CONTENT_TYPES.Pdf]: ["preview"],
-        [CONTENT_TYPES.Text]: ["preview"],
-        [CONTENT_TYPES.File]: ["download", "info", "rename", "move", "delete", "share"],
-        [CONTENT_TYPES.Directory]: ["rename", "move", "delete"]
-      }
-    case "writer":
-      return {
-        [CONTENT_TYPES.Audio]: ["preview"],
-        [CONTENT_TYPES.MP4]: ["preview"],
-        [CONTENT_TYPES.Image]: ["preview"],
-        [CONTENT_TYPES.Pdf]: ["preview"],
-        [CONTENT_TYPES.Text]: ["preview"],
-        [CONTENT_TYPES.File]: ["download", "info", "rename", "move", "delete", "report", "share"],
-        [CONTENT_TYPES.Directory]: ["rename", "move", "delete"]
-      }
-    // case "reader":
-    default:
-      return {
-        [CONTENT_TYPES.Audio]: ["preview"],
-        [CONTENT_TYPES.MP4]: ["preview"],
-        [CONTENT_TYPES.Image]: ["preview"],
-        [CONTENT_TYPES.Pdf]: ["preview"],
-        [CONTENT_TYPES.Text]: ["preview"],
-        [CONTENT_TYPES.File]: ["download", "info", "report", "share"],
-        [CONTENT_TYPES.Directory]: []
-      }
+      case "owner":
+        return {
+          [CONTENT_TYPES.Audio]: ["preview"],
+          [CONTENT_TYPES.MP4]: ["preview"],
+          [CONTENT_TYPES.Image]: ["preview"],
+          [CONTENT_TYPES.Pdf]: ["preview"],
+          [CONTENT_TYPES.Text]: ["preview"],
+          [CONTENT_TYPES.File]: ["download", "info", "rename", "move", "delete", "share"],
+          [CONTENT_TYPES.Directory]: ["rename", "move", "delete"]
+        }
+      case "writer":
+        return {
+          [CONTENT_TYPES.Audio]: ["preview"],
+          [CONTENT_TYPES.MP4]: ["preview"],
+          [CONTENT_TYPES.Image]: ["preview"],
+          [CONTENT_TYPES.Pdf]: ["preview"],
+          [CONTENT_TYPES.Text]: ["preview"],
+          [CONTENT_TYPES.File]: ["download", "info", "rename", "move", "delete", "report", "share"],
+          [CONTENT_TYPES.Directory]: ["rename", "move", "delete"]
+        }
+        // case "reader":
+      default:
+        return {
+          [CONTENT_TYPES.Audio]: ["preview"],
+          [CONTENT_TYPES.MP4]: ["preview"],
+          [CONTENT_TYPES.Image]: ["preview"],
+          [CONTENT_TYPES.Pdf]: ["preview"],
+          [CONTENT_TYPES.Text]: ["preview"],
+          [CONTENT_TYPES.File]: ["download", "info", "report", "share"],
+          [CONTENT_TYPES.Directory]: []
+        }
     }
   }, [access])
 

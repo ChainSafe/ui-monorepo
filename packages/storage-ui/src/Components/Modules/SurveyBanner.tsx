@@ -54,7 +54,7 @@ const useStyles = makeStyles(
   })
 
 interface Props {
-    onHide: () => void
+  onHide: () => void
 }
 
 const SurveyBanner = ({ onHide }: Props) => {

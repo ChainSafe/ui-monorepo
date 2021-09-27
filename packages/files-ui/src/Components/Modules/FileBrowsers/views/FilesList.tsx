@@ -356,26 +356,26 @@ const FilesList = ({ isShared = false }: Props) => {
 
     switch (column) {
     // defaults to name sorting
-    default: {
-      temp = sourceFiles.sort((a, b) => {
-        return a.name.localeCompare(b.name, selectedLocale, {
-          sensitivity: "base"
+      default: {
+        temp = sourceFiles.sort((a, b) => {
+          return a.name.localeCompare(b.name, selectedLocale, {
+            sensitivity: "base"
+          })
         })
-      })
-      break
-    }
-    case "size": {
-      temp = sourceFiles
-        .sort((a, b) => (a.size < b.size ? -1 : 1))
-        .sort(sortFoldersFirst)
-      break
-    }
-    case "date_uploaded": {
-      temp = sourceFiles
-        .sort((a, b) => (a.created_at < b.created_at ? -1 : 1))
-        .sort(sortFoldersFirst)
-      break
-    }
+        break
+      }
+      case "size": {
+        temp = sourceFiles
+          .sort((a, b) => (a.size < b.size ? -1 : 1))
+          .sort(sortFoldersFirst)
+        break
+      }
+      case "date_uploaded": {
+        temp = sourceFiles
+          .sort((a, b) => (a.created_at < b.created_at ? -1 : 1))
+          .sort(sortFoldersFirst)
+        break
+      }
     }
     return direction === "descend"
       ? temp.reverse().sort(sortFoldersFirst)
@@ -501,15 +501,15 @@ const FilesList = ({ isShared = false }: Props) => {
     if (!!permission && isShared) {
 
       switch(permission) {
-      case "owner":
-        fileOperations = ownerOperations
-        break
-      case "writer":
-        fileOperations = writerOperations
-        break
-      case "reader":
-        fileOperations = readerOperations
-        break
+        case "owner":
+          fileOperations = ownerOperations
+          break
+        case "writer":
+          fileOperations = writerOperations
+          break
+        case "reader":
+          fileOperations = readerOperations
+          break
       }
     }
 
