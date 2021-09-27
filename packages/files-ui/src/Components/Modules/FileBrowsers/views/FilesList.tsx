@@ -36,7 +36,7 @@ import FileSystemItem from "./FileSystemItem/FileSystemItem"
 import FilePreviewModal from "../../FilePreviewModal"
 
 import CreateFolderModal from "../CreateFolderModal"
-import UploadFileModule from "../../UploadFileModule"
+import UploadFileModule from "../UploadFileModal"
 import MoveFileModal from "../MoveFileModal"
 import FileInfoModal from "../FileInfoModal"
 import { CONTENT_TYPES } from "../../../../Utils/Constants"
@@ -48,15 +48,15 @@ import SurveyBanner from "../../../SurveyBanner"
 import { DragPreviewLayer } from "./DragPreviewLayer"
 import { useFileBrowser } from "../../../../Contexts/FileBrowserContext"
 import ReportFileModal from "../ReportFileModal"
-import ShareToSharedFolderModal from "../ShareToSharedFolderModal"
+import ShareModal from "../ShareModal"
 import SharedUsers from "../../../Elements/SharedUsers"
 import Menu from "../../../../UI-components/Menu"
 import SharingExplainerModal from "../../../SharingExplainerModal"
 import { useSharingExplainerModalFlag } from "../hooks/useSharingExplainerModalFlag"
 
-const baseOperations:  FileOperation[] = ["download", "info", "preview"]
+const baseOperations:  FileOperation[] = ["download", "info", "preview", "share"]
 const readerOperations: FileOperation[] = [...baseOperations, "report"]
-const ownerOperations: FileOperation[] = [...baseOperations, "delete", "move", "rename"]
+const ownerOperations: FileOperation[] = [...baseOperations, "delete", "move", "rename", "recover"]
 const csfOperations:  FileOperation[] = [...ownerOperations, "share"]
 const writerOperations: FileOperation[] = [...ownerOperations, "report"]
 
@@ -311,7 +311,7 @@ const FilesList = ({ isShared = false }: Props) => {
   const { themeKey, desktop } = useThemeSwitcher()
   const [isReportFileModalOpen, setIsReportFileModalOpen] = useState(false)
   const [isFileInfoModalOpen, setIsFileInfoModalOpen] = useState(false)
-  const [isCopyToSharedFolderModalOpen, setIsCopyToSharedFolderModalOpen] = useState(false)
+  const [isShareModalOpen, setIsShareModalOpen] = useState(false)
 
   const {
     heading,
@@ -649,7 +649,7 @@ const FilesList = ({ isShared = false }: Props) => {
 
     setFilePath(fileInfoPath)
     setFileIndex(fileIndex)
-    setIsCopyToSharedFolderModalOpen(true)
+    setIsShareModalOpen(true)
   }, [hasSeenSharingExplainerModal])
 
   return (
@@ -870,6 +870,7 @@ const FilesList = ({ isShared = false }: Props) => {
                       <CheckboxInput
                         value={selectedItems.length === items.length}
                         onChange={() => toggleAll()}
+                        testId="select-all"
                       />
                     </TableHeadCell>
                     <TableHeadCell>
@@ -1092,11 +1093,11 @@ const FilesList = ({ isShared = false }: Props) => {
           }}
         />
       }
-      { !showExplainerBeforeShare && isCopyToSharedFolderModalOpen && filePath && fileIndex !== undefined &&
-        <ShareToSharedFolderModal
+      { !showExplainerBeforeShare && isShareModalOpen && filePath && fileIndex !== undefined &&
+        <ShareModal
           file={files[fileIndex]}
           close={() => {
-            setIsCopyToSharedFolderModalOpen(false)
+            setIsShareModalOpen(false)
             setFilePath(undefined)
           }}
           filePath={currentPath}

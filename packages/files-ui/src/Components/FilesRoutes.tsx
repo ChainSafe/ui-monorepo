@@ -24,7 +24,6 @@ export const ROUTE_LINKS = {
   Settings: `${SETTINGS_BASE}/:path`,
   SettingsDefault: `${SETTINGS_BASE}`,
   SettingsPath: (settingsPath: SettingsPath) => `${SETTINGS_BASE}/${settingsPath}`,
-  PurchasePlan: "/purchase",
   UserSurvey: "https://calendly.com/colinschwarz/chainsafe-files-chat",
   Plans: "/plans",
   SharedFolders: "/shared-overview",

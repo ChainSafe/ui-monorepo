@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-04-23 11:05+0200\n"
-"PO-Revision-Date: 2021-09-14 09:14+0000\n"
+"PO-Revision-Date: 2021-09-22 21:38+0000\n"
 "Last-Translator: J. Lavoie <j.lavoie@net-c.ca>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/chainsafe-files/chainsafe-files-user-interface/fr/>\n"
 "Language: fr\n"
@@ -19,6 +19,9 @@ msgstr "Une phrase secrète de sauvegarde sera générée et utilisé pour ce co
 
 msgid "A file with the same name already exists"
 msgstr "Un fichier avec ce nom existe déjà"
+
+msgid "Accept"
+msgstr "Accepter"
 
 msgid "Account"
 msgstr "Compte"
@@ -55,9 +58,6 @@ msgstr "Une erreur s'est produite :"
 
 msgid "Approve"
 msgstr "Accepter"
-
-msgid "Back to plan settings"
-msgstr ""
 
 msgid "Backup secret phrase"
 msgstr "Phrase secrète de sauvegarde"
@@ -152,11 +152,17 @@ msgstr "Copié !"
 msgid "Copy CID"
 msgstr "Copier le CID"
 
+msgid "Copy file"
+msgstr "Copier le fichier"
+
 msgid "Copy info"
 msgstr "Copier les infos"
 
 msgid "Copy over"
 msgstr "Copier"
+
+msgid "Copy to"
+msgstr "Copier vers"
 
 msgid "Create"
 msgstr "Créer"
@@ -179,14 +185,14 @@ msgstr "Créer un dossier"
 msgid "Create your public username in <0>Settings</0>!"
 msgstr "Créez votre nom d'utilisateur public dans <0>Paramètres</0> !"
 
-msgid "Credit card on file"
-msgstr ""
-
 msgid "Dark Theme"
 msgstr "Thème sombre"
 
 msgid "Date uploaded"
 msgstr "Téléversé le"
+
+msgid "Decline"
+msgstr "Refuser"
 
 msgid "Decryption key"
 msgstr "Clé de déchiffrement"
@@ -386,11 +392,17 @@ msgstr "C’est parti."
 msgid "Light Theme"
 msgstr "Thème clair"
 
+msgid "Loading"
+msgstr "Chargement"
+
 msgid "Loading preview"
 msgstr "Chargement de l’aperçu"
 
 msgid "Loading your shared folders…"
 msgstr "Chargement de vos dossiers partagés…"
+
+msgid "Loading..."
+msgstr "Chargement…"
 
 msgid "Looks like you’re signing in from a new browser. Please choose one of the following to continue:"
 msgstr "Il semble que vous vous connectiez à partir d’un nouveau navigateur. Veuillez choisir une des options suivantes pour continuer :"
@@ -434,8 +446,8 @@ msgstr "Suivant"
 msgid "Nice to see you again!"
 msgstr "Ravi de te revoir !"
 
-msgid "No Card"
-msgstr ""
+msgid "No file to download."
+msgstr "Aucun fichier à télécharger."
 
 msgid "No file to download."
 msgstr "Aucun fichier à télécharger."
@@ -451,6 +463,9 @@ msgstr "Aucun fichier à afficher"
 
 msgid "No thanks"
 msgstr "Non merci"
+
+msgid "No user found for this query."
+msgstr "Aucun utilisateur n'a été trouvé pour cette requête."
 
 msgid "Number of copies (Replication Factor)"
 msgstr "Nombre de copies (facteur de réplication)"
@@ -594,7 +609,7 @@ msgid "Saved on:"
 msgstr "Enregistré sur :"
 
 msgid "Schedule a 15 min call"
-msgstr ""
+msgstr "Planifier un appel de 15 min"
 
 msgid "Search results"
 msgstr "Résultats de recherche"
@@ -608,8 +623,8 @@ msgstr "Sécurité"
 msgid "Select a wallet"
 msgstr "Sélectionner un wallet"
 
-msgid "Select an existing shared folder"
-msgstr "Sélectionnez un dossier partagé existant"
+msgid "Select an existing shared folder or your home"
+msgstr "Sélectionnez un dossier partagé existant ou votre page d'accueil"
 
 msgid "Send another email"
 msgstr "Envoyer un nouveau courriel"
@@ -749,6 +764,12 @@ msgstr "Ce nom d’utilisateur est déjà pris"
 msgid "This username is public"
 msgstr "Ce nom d’utilisateur est public"
 
+msgid "This website uses cookies"
+msgstr "Ce site web utilise des cookies"
+
+msgid "This website uses cookies that help the website function and track interactions for analytics purposes. You have the right to decline our use of cookies. For us to provide a customizable user experience to you, please click on the Accept button below.<0>Learn more</0>"
+msgstr "Ce site web utilise des cookies qui l'aident à fonctionner et à suivre les interactions à des fins d'analyse. Vous avez le droit de refuser notre utilisation des cookies. Pour que nous puissions vous offrir une expérience utilisateur personnalisable, veuillez cliquer sur le bouton Accepter ci-dessous.<0>En savoir plus</0>"
+
 msgid "Transfer complete"
 msgstr "Transfert terminé"
 
@@ -819,7 +840,7 @@ msgid "Wallet address"
 msgstr "Addresse du wallet"
 
 msgid "Want to help shape this product?"
-msgstr ""
+msgstr "Vous voulez participer à l'élaboration de ce produit ?"
 
 msgid "We can't encrypt files larger than 2GB. Some items will not be uploaded"
 msgstr "Nous ne pouvons pas chiffrer les fichiers de plus de 2 Go. Certains éléments ne pourront pas être téléversés"
@@ -895,6 +916,3 @@ msgstr "{0, plural, one {Chiffrement et téléversement de {1} fichier} other {C
 
 msgid "{0, plural, one {You are about to delete {1} item.} other {You are about to delete {2} items.}}"
 msgstr "{0, plural, one {Vous êtes sur le point de supprimer {1} élément.} other {Vous êtes sur le point de supprimer {2} éléments.}}"
-
-msgid "{0} of {1} used ({2}%)"
-msgstr ""
