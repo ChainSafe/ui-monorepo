@@ -62,7 +62,6 @@ const CurrentCard: React.FC = () => {
           }
         </Button>
       </div>
-
       <AddCardModal
         isModalOpen={isAddCardModalOpen}
         onClose={() => setIsAddCardModalOpen(false)}
