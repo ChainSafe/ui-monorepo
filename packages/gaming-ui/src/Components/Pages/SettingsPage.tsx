@@ -1,21 +1,17 @@
 import React, { useCallback } from "react"
 import { Tabs,
-  TabPane as TabPaneOrigin,
+  // TabPane as TabPaneOrigin,
   Typography, Divider,
   useParams,
-  useHistory,
-  ITabPaneProps,
-  CaretRightIcon,
-  LockIcon
+  useHistory
 } from "@chainsafe/common-components"
 import { makeStyles, createStyles, useThemeSwitcher } from "@chainsafe/common-theme"
 import { ROUTE_LINKS, SettingsPath } from "../GamingRoutes"
-import { t, Trans } from "@lingui/macro"
+import { Trans } from "@lingui/macro"
 import clsx from "clsx"
-import ApiKeys from "../Modules/ApiKeys"
 import { CSGTheme } from "../../Themes/types"
 
-const TabPane = (props: ITabPaneProps<SettingsPath>) => TabPaneOrigin(props)
+// const TabPane = (props: ITabPaneProps<SettingsPath>) => TabPaneOrigin(props)
 const useStyles = makeStyles(({ constants, breakpoints, palette }: CSGTheme) =>
   createStyles({
     title: {
@@ -165,16 +161,6 @@ const SettingsPage: React.FC = () => {
                 classes.injectedTabList)
             }}
           >
-            <TabPane
-              className={clsx(classes.tabPane, "apiKeysPane", (!desktop && !path) ? classes.hideTabPane : "")}
-              icon={<LockIcon className={classes.lockIcon}/>}
-              iconRight={<CaretRightIcon/>}
-              title={t`Api Keys`}
-              tabKey="apiKeys"
-              testId="apiKeys-tab"
-            >
-              <ApiKeys />
-            </TabPane>
           </Tabs>
         </div>
       }

@@ -220,7 +220,10 @@ const DashboardModule = () => {
           </Typography>
           <div className={classes.field}>
             <div className={classes.secretContainer}>
-              <Typography variant='body2'>
+              <Typography
+                component="p"
+                variant='h5'
+              >
                 <Trans>Make sure to save the secret, as it can only be displayed once.</Trans>
               </Typography>
               {copiedSecret && (
