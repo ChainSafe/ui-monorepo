@@ -168,6 +168,7 @@ const AppHeader = ({ navOpen, setNavOpen }: IAppHeader) => {
   const { publicKey, isNewDevice, shouldInitializeAccount, logout } = useThresholdKey()
   const { getProfileTitle, removeUser } = useUser()
   const [searchActive, setSearchActive] = useState(false)
+  const [isTeamModalOpen, setIsTeamModalOpen] = useState(false)
   const { history } = useHistory()
   const posthog = usePosthog()
 
@@ -184,6 +185,11 @@ const AppHeader = ({ navOpen, setNavOpen }: IAppHeader) => {
   const onReportBugClick = useCallback(() => {
     posthog && posthog.capture("Report Bug")
     window.open(ROUTE_LINKS.DiscordInvite, "_blank")
+  }, [posthog])
+
+  const onStartATeamClick = useCallback(() => {
+    posthog && posthog.capture("Team start button click")
+    setIsTeamModalOpen(true)
   }, [posthog])
 
   return (
@@ -218,6 +224,14 @@ const AppHeader = ({ navOpen, setNavOpen }: IAppHeader) => {
                   variant="tertiary"
                   size="small"
                   onClick={onReportBugClick}
+                >
+                  <Trans>Report a bug</Trans>
+                </Button>
+                <Button
+                  data-cy="start-team-nav"
+                  variant="tertiary"
+                  size="small"
+                  onClick={onStartATeamClick}
                 >
                   <Trans>Report a bug</Trans>
                 </Button>
