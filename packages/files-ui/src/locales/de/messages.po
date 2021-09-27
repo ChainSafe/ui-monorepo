@@ -58,6 +58,9 @@ msgstr "Es ist ein Fehler aufgetreten:"
 msgid "Approve"
 msgstr "Genehmigen"
 
+msgid "Back to plan settings"
+msgstr ""
+
 msgid "Backup secret phrase"
 msgstr "Sicherungsgeheimsatz"
 
@@ -184,6 +187,9 @@ msgstr "Ordner erstellen"
 msgid "Create your public username in <0>Settings</0>!"
 msgstr ""
 
+msgid "Credit card on file"
+msgstr ""
+
 msgid "Dark Theme"
 msgstr "Dunkles Farbschema"
 
@@ -301,8 +307,8 @@ msgstr "Ordner"
 msgid "Folder name is already in use"
 msgstr ""
 
-msgid "Folder uploads are not supported currently"
-msgstr ""
+#~ msgid "Folder uploads are not supported currently"
+#~ msgstr ""
 
 msgid "Folders"
 msgstr "Ordner"
@@ -336,6 +342,9 @@ msgstr ""
 
 msgid "Go back"
 msgstr "Zurück"
+
+msgid "Go to Payments"
+msgstr ""
 
 msgid "Got an issue?"
 msgstr ""
@@ -874,6 +883,9 @@ msgstr "Sie haben noch keinen Benutzernamen festgelegt."
 msgid "You will need to sign a message in your wallet to complete sign in."
 msgstr ""
 
+msgid "You've got a payment due. Until you've settled up, we've placed your account in restricted mode"
+msgstr ""
+
 msgid "Your first {0} are free, and you’ll get a discount on our monthly plan once you need more than that"
 msgstr ""
 
@@ -912,3 +924,6 @@ msgstr "{0, plural, one {{1} Datei wird verschlüsselt und hochgeladen} other {{
 
 msgid "{0, plural, one {You are about to delete {1} item.} other {You are about to delete {2} items.}}"
 msgstr "{0, plural, one {Sie sind dabei, {1} Artikel zu löschen.} other {Sie sind dabei, {2} Artikel zu löschen.}}"
+
+msgid "{0} of {1} used ({2}%)"
+msgstr ""
