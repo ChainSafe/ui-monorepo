@@ -167,6 +167,10 @@ export const lightTheme = createTheme<CsfColors>({
         },
         surveyBanner: {
           color: "var(--gray1)"
+        },
+        addCard: {
+          color: "#595959",
+          shadow: "0px 0px 4px rgba(24, 144, 255, 0.5)"
         }
       } as CsfColors)
     },

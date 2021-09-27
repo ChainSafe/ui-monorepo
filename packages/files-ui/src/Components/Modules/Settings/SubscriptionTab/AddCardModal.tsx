@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 import { Button, Grid, Typography, useToasts } from "@chainsafe/common-components"
-import { createStyles, makeStyles } from "@chainsafe/common-theme"
+import { createStyles, makeStyles, useTheme } from "@chainsafe/common-theme"
 import { CSFTheme } from "../../../../Themes/types"
 import CustomModal from "../../../Elements/CustomModal"
 import CustomButton from "../../../Elements/CustomButton"
@@ -66,20 +66,15 @@ const useStyles = makeStyles(
       cardInputs: {
         border: `1px solid ${palette.additional["gray"][6]}`,
         borderRadius: 2,
-        padding: constants.generalUnit,
+        padding: constants.generalUnit * 1.5,
         transitionDuration: `${animation.transform}ms`,
-        color: palette.additional["gray"][8],
         "&:hover": {
           borderColor: palette.primary.border
-        },
-        "&:focus": {
-          borderColor: palette.primary.border,
-          boxShadow: "0px 0px 4px rgba(24, 144, 255, 0.5)"
-        },
-        "&:active": {
-          borderColor: palette.primary.border,
-          boxShadow: "0px 0px 4px rgba(24, 144, 255, 0.5)"
         }
+      },
+      cardInputsFocus: {
+        borderColor: palette.primary.border,
+        boxShadow: constants.addCard.shadow
       },
       expiryCvcContainer: {
         display: "grid",
@@ -90,6 +85,10 @@ const useStyles = makeStyles(
           gridTemplateColumns: "1fr",
           gridRowGap: constants.generalUnit * 2
         }
+      },
+      error: {
+        marginTop: constants.generalUnit * 2,
+        color: palette.error.main
       }
     })
   }
@@ -107,6 +106,9 @@ const AddCardModal = ({ isModalOpen, onClose }: IAddCardModalProps) => {
   const { addToast } = useToasts()
   const { filesApiClient } = useFilesApi()
   const { refreshDefaultCard } = useBilling()
+  const [focusElement, setFocusElement] = useState<"number" | "expiry" | "cvc" | undefined>(undefined)
+  const [isInputError, setInputError] = useState(false)
+  const theme: CSFTheme = useTheme()
 
   const [loadingPaymentMethodAdd, setLoadingPaymentMethodAdd] = useState(false)
 
@@ -120,26 +122,18 @@ const AddCardModal = ({ isModalOpen, onClose }: IAddCardModalProps) => {
   const handleSubmitPaymentMethod = async (event: any) => {
     event.preventDefault()
     if (!stripe || !elements) return
-
-    console.log(elements)
-
     try {
-
       const cardNumberElement = elements.getElement(CardNumberElement)
-      // const cardElement = elements.getElement(CardElement)
-
       if (!cardNumberElement) return
-      // if (!cardElement) return
 
       setLoadingPaymentMethodAdd(true)
       const { error, paymentMethod } = await stripe.createPaymentMethod({
         type: "card",
-        // card: cardElement
         card: cardNumberElement
       })
 
       if (error || !paymentMethod) {
-        handlePaymentError(error)
+        setInputError(true)
         return
       }
 
@@ -190,13 +184,56 @@ const AddCardModal = ({ isModalOpen, onClose }: IAddCardModalProps) => {
             </Typography>
           </Grid>
           <CardNumberElement
-            className={clsx(classes.cardInputs, classes.cardNumberInputs)}
-            options={{ showIcon: true }}
+            className={clsx(
+              classes.cardInputs,
+              classes.cardNumberInputs,
+              focusElement === "number" && classes.cardInputsFocus
+            )}
+            options={{ showIcon: true, style: {
+              base: {
+                color: theme.constants.addCard.color
+              }
+            } }}
+            onFocus={() => setFocusElement("number")}
+            onBlur={() => setFocusElement(undefined)}
           />
           <div className={classes.expiryCvcContainer}>
-            <CardExpiryElement  className={classes.cardInputs} />
-            <CardCvcElement  className={classes.cardInputs} />
+            <CardExpiryElement
+              className={clsx(
+                classes.cardInputs,
+                focusElement === "expiry" && classes.cardInputsFocus
+              )}
+              onFocus={() => setFocusElement("expiry")}
+              onBlur={() => setFocusElement(undefined)}
+              options={{ style: {
+                base: {
+                  color: theme.constants.addCard.color
+                }
+              } }}
+            />
+            <CardCvcElement
+              className={clsx(
+                classes.cardInputs,
+                focusElement === "cvc" && classes.cardInputsFocus
+              )}
+              onFocus={() => setFocusElement("cvc")}
+              onBlur={() => setFocusElement(undefined)}
+              options={{ style: {
+                base: {
+                  color: theme.constants.addCard.color
+                }
+              } }}
+            />
           </div>
+          {isInputError &&
+            <Typography
+              component="p"
+              variant="body1"
+              className={classes.error}
+            >
+              <Trans>Card inputs could not be validated</Trans>
+            </Typography>
+          }
           <Grid
             item
             flexDirection="row"
@@ -221,7 +258,7 @@ const AddCardModal = ({ isModalOpen, onClose }: IAddCardModalProps) => {
               type="submit"
               className={classes.okButton}
               loading={loadingPaymentMethodAdd}
-              disabled={loadingPaymentMethodAdd}
+              disabled={loadingPaymentMethodAdd || isInputError}
             >
               <Trans>Add card</Trans>
             </Button>

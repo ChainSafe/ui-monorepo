@@ -167,4 +167,8 @@ export interface CsfColors extends IConstants {
     color: string
     backgroundOptionHover: string
   }
+  addCard: {
+    color: string
+    shadow: string
+  }
 }
