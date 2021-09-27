@@ -236,6 +236,7 @@ const PurchasePlan: React.FC = () => {
           }
           return errors
         }}
+        enableReinitialize
       >
         {({ values, errors, handleChange, setValues }) => (
           <Form>
