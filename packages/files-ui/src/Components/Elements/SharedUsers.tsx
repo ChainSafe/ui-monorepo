@@ -12,7 +12,7 @@ const useStyles = makeStyles(() => {
   })
 })
 interface Props {
- bucket: BucketKeyPermission
+  bucket: BucketKeyPermission
 }
 
 const SharedUsers = ({ bucket }: Props) => {

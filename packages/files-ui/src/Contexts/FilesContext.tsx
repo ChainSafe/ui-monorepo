@@ -160,15 +160,15 @@ const FilesProvider = ({ children }: FilesContextProps) => {
     let encryptionKey = ""
 
     switch(bucket.type) {
-    case "csf":
-    case "trash": {
-      encryptionKey = personalEncryptionKey
-      break
-    }
-    case "share": {
-      encryptionKey = await getKeyForSharedBucket(bucket)
-      break
-    }}
+      case "csf":
+      case "trash": {
+        encryptionKey = personalEncryptionKey
+        break
+      }
+      case "share": {
+        encryptionKey = await getKeyForSharedBucket(bucket)
+        break
+      }}
 
     return encryptionKey
   }, [getKeyForSharedBucket, personalEncryptionKey, userId])
