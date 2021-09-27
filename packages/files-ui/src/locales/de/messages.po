@@ -314,9 +314,6 @@ msgstr ""
 msgid "Go back"
 msgstr "Zurück"
 
-msgid "Got an issue?"
-msgstr ""
-
 msgid "Got it"
 msgstr ""
 
@@ -540,6 +537,9 @@ msgid "Report"
 msgstr ""
 
 msgid "Report a File"
+msgstr ""
+
+msgid "Report a bug"
 msgstr ""
 
 msgid "Requested from"
