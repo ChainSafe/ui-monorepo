@@ -14,6 +14,7 @@ import { useFileBrowser } from "../../../Contexts/FileBrowserContext"
 import clsx from "clsx"
 import { useEffect } from "react"
 import { nameValidator } from "../../../Utils/validationSchema"
+import { useFilesApi } from "../../../Contexts/FilesApiContext"
 
 const useStyles = makeStyles(
   ({ breakpoints, constants, palette, typography, zIndex }: CSFTheme) => {
@@ -198,6 +199,8 @@ const ShareModal = ({ close, file, filePath }: IShareFileProps) => {
   const { profile } = useUser()
   const [nameError, setNameError] = useState("")
   const inSharedBucket = useMemo(() => bucket?.type === "share", [bucket])
+  const { filesApiClient } = useFilesApi()
+
   const isReader = useMemo(() => {
     if (!bucket) return false
 
@@ -301,6 +304,14 @@ const ShareModal = ({ close, file, filePath }: IShareFileProps) => {
     transferFileBetweenBuckets
   ])
 
+  useEffect(() => {
+    filesApiClient.getAllNonces().then(n => console.log("nonces", n)).catch(console.error)
+  }, [filesApiClient])
+
+  const onSharingLink = useCallback(() => {
+    bucket?.id && filesApiClient.createNonce({ bucket_id: bucket.id, permission: "read" }).catch(console.error)
+  }, [bucket, filesApiClient])
+
   return (
     <CustomModal
       className={classes.modalRoot}
@@ -324,6 +335,7 @@ const ShareModal = ({ close, file, filePath }: IShareFileProps) => {
         </div>
 
         <div className={classes.modalFlexItem}>
+          <button onClick={onSharingLink}>Sharing link</button>
           {isUsingCurrentBucket
             ? (
               <div className={clsx(classes.modalFlexItem, classes.inputWrapper)}>
