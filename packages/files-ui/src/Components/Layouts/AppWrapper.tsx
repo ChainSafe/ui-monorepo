@@ -3,7 +3,7 @@ import { createStyles, ITheme, makeStyles } from "@chainsafe/common-theme"
 import React, { useState } from "react"
 import { ReactNode } from "react"
 import clsx from "clsx"
-import { CssBaseline} from "@chainsafe/common-components"
+import { CssBaseline } from "@chainsafe/common-components"
 import AppHeader from "./AppHeader"
 import AppNav from "./AppNav"
 import { useThresholdKey } from "../../Contexts/ThresholdKeyContext"
@@ -41,15 +41,15 @@ const useStyles = makeStyles(
           transitionDuration: `${animation.translate}ms`,
           "&.active": {
             padding: `${constants.contentTopPadding}px 0 0`
-          },
+          }
         },
         [breakpoints.down("md")]: {
           minHeight: "100vh",
           "&.active": {
             padding: `${constants.mobileHeaderHeight}px 0 0`
-          },
+          }
         }
-      },
+      }
     })
   }
 )
@@ -84,7 +84,7 @@ const AppWrapper: React.FC<IAppWrapper> = ({ children }: IAppWrapper) => {
         <section
           className={clsx(
             classes.content, {
-            active:
+              active:
               isLoggedIn &&
               secured &&
               !!publicKey &&

@@ -41,8 +41,8 @@ const useStyles = makeStyles(
           marginLeft: constants.generalUnit * 2,
           marginRight: constants.generalUnit * 2,
           "&.bottomBanner": {
-            paddingBottom: 130,
-          },
+            paddingBottom: 130
+          }
         },
         [breakpoints.up("md")]: {
           border: "1px solid transparent",
@@ -54,8 +54,8 @@ const useStyles = makeStyles(
           },
           "&.bottomBanner": {
             minHeight: `calc(100vh - ${Number(constants.contentTopPadding) + 80}px)`,
-            paddingBottom: 80,
-          },
+            paddingBottom: 80
+          }
         }
       },
       header: {
@@ -109,22 +109,22 @@ const useStyles = makeStyles(
         top: "50%"
       },
       accountRestrictedNotification: {
-        position: 'fixed',
+        position: "fixed",
         bottom: 0,
         backgroundColor: palette.additional["gray"][10],
-        color: palette.additional['gray'][1],
-        padding: '16px 24px',
+        color: palette.additional["gray"][1],
+        padding: "16px 24px",
         marginLeft: 0,
-        width: '100vw',
+        width: "100vw",
         [breakpoints.up("md")]: {
           marginLeft: `${constants.navWidth}px`,
           left:0,
           width:`calc(100vw - ${constants.navWidth}px)`,
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center'
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center"
         }
-      },
+      }
     })
   }
 )
@@ -323,9 +323,9 @@ const SharedFolderOverview = () => {
         injectedClass={{ inner: classes.confirmDeletionDialog }}
         testId="shared-folder-deletion"
       />
-    {accountRestricted && 
+      {accountRestricted &&
       <RestrictedModeBanner />
-    }
+      }
     </>
   )
 }
