@@ -116,7 +116,7 @@ const AddCardModal = ({ isModalOpen, onClose }: IAddCardModalProps) => {
     console.error(error)
     onClose()
     setLoadingPaymentMethodAdd(false)
-    addToast({ title: "Failed to add payment method", type: "error" })
+    addToast({ title: t`Failed to add payment method`, type: "error" })
   }
 
   const handleSubmitPaymentMethod = async (event: any) => {
