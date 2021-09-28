@@ -5,6 +5,7 @@ import { createStyles, makeStyles } from "@chainsafe/common-theme"
 import { Trans } from "@lingui/macro"
 import { useLocalStorage } from "@chainsafe/browser-storage-hooks"
 import { CSFTheme } from "../Themes/types"
+import {useUser} from "./UserContext"
 
 export type PosthogContext = {
   hasOptedIn: boolean
@@ -73,6 +74,7 @@ const PosthogProvider = ({ children }: PosthogProviderProps) => {
   const [showBanner, setShowBanner] = useState(false)
   const [hasTouchedCookieBanner, setHasTouchedCookieBanner ] = useState(false)
   const { localStorageGet, localStorageSet } = useLocalStorage()
+  const {profile} = useUser()
 
   const classes = useStyles()
   const posthogInitialized = useMemo(() =>
@@ -113,6 +115,14 @@ const PosthogProvider = ({ children }: PosthogProviderProps) => {
       touchCookieBanner()
     }
   }, [posthogInitialized, touchCookieBanner])
+
+  useEffect(() => {
+    if (profile) {
+      posthogInitialized && posthog.identify(profile.userId)
+    } else {
+      posthogInitialized && posthog.reset()
+    }
+  }, [profile])
 
   return (
     <PosthogContext.Provider
