@@ -121,6 +121,7 @@ const AddCardModal = ({ isModalOpen, onClose }: IAddCardModalProps) => {
 
   const handleSubmitPaymentMethod = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
+    setInputError(false)
     if (!stripe || !elements) return
     try {
       const cardNumberElement = elements.getElement(CardNumberElement)
@@ -197,6 +198,7 @@ const AddCardModal = ({ isModalOpen, onClose }: IAddCardModalProps) => {
             } }}
             onFocus={() => setFocusElement("number")}
             onBlur={() => setFocusElement(undefined)}
+            onChange={() => setInputError(false)}
           />
           <div className={classes.expiryCvcContainer}>
             <CardExpiryElement
@@ -206,6 +208,7 @@ const AddCardModal = ({ isModalOpen, onClose }: IAddCardModalProps) => {
               )}
               onFocus={() => setFocusElement("expiry")}
               onBlur={() => setFocusElement(undefined)}
+              onChange={() => setInputError(false)}
               options={{ style: {
                 base: {
                   color: theme.constants.addCard.color
@@ -219,6 +222,7 @@ const AddCardModal = ({ isModalOpen, onClose }: IAddCardModalProps) => {
               )}
               onFocus={() => setFocusElement("cvc")}
               onBlur={() => setFocusElement(undefined)}
+              onChange={() => setInputError(false)}
               options={{ style: {
                 base: {
                   color: theme.constants.addCard.color
@@ -259,7 +263,7 @@ const AddCardModal = ({ isModalOpen, onClose }: IAddCardModalProps) => {
               type="submit"
               className={classes.okButton}
               loading={loadingPaymentMethodAdd}
-              disabled={loadingPaymentMethodAdd || isInputError}
+              disabled={loadingPaymentMethodAdd}
             >
               <Trans>Add card</Trans>
             </Button>

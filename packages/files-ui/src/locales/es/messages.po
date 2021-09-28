@@ -59,6 +59,9 @@ msgstr ""
 msgid "Approve"
 msgstr "Aprobar"
 
+msgid "Back to plan settings"
+msgstr ""
+
 msgid "Backup secret phrase"
 msgstr ""
 
@@ -95,10 +98,13 @@ msgstr "CID (Identificador de contenido)"
 msgid "Cancel"
 msgstr "Cancelar"
 
-msgid "Card added successfully"
-msgstr ""
+#~ msgid "Card added successfully"
+#~ msgstr ""
 
-msgid "Card details could not be validated"
+#~ msgid "Card details could not be validated"
+#~ msgstr ""
+
+msgid "Card inputs invalid"
 msgstr ""
 
 msgid "Change Password"
@@ -185,6 +191,9 @@ msgstr "Crear Carpeta"
 msgid "Create your public username in <0>Settings</0>!"
 msgstr ""
 
+msgid "Credit card on file"
+msgstr ""
+
 msgid "Dark Theme"
 msgstr "Tema oscuro"
 
@@ -258,6 +267,9 @@ msgid "Enter password:"
 msgstr "Introducir la contraseña:"
 
 msgid "Enter the verification code:"
+msgstr ""
+
+msgid "Failed to add payment method"
 msgstr ""
 
 msgid "Failed to get signature"
@@ -428,11 +440,11 @@ msgstr "Mis Archivos"
 msgid "Name"
 msgstr "Nombre"
 
-msgid "Name on card"
-msgstr ""
+#~ msgid "Name on card"
+#~ msgstr ""
 
-msgid "Name on card is required"
-msgstr ""
+#~ msgid "Name on card is required"
+#~ msgstr ""
 
 msgid "Name too long"
 msgstr ""
@@ -695,8 +707,8 @@ msgstr ""
 msgid "Something went wrong!"
 msgstr ""
 
-msgid "Something went wrong, please try again"
-msgstr ""
+#~ msgid "Something went wrong, please try again"
+#~ msgstr ""
 
 msgid "Something went wrong. We couldn't upload your file"
 msgstr "Algo salió mal. No pudimos subir tu archivo"
@@ -915,4 +927,7 @@ msgid "{0, plural, one {Encrypting and uploading {1} file} other {Encrypting and
 msgstr ""
 
 msgid "{0, plural, one {You are about to delete {1} item.} other {You are about to delete {2} items.}}"
+msgstr ""
+
+msgid "{0} of {1} used ({2}%)"
 msgstr ""

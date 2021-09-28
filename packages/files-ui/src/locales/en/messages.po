@@ -58,6 +58,9 @@ msgstr "An error occurred:"
 msgid "Approve"
 msgstr "Approve"
 
+msgid "Back to plan settings"
+msgstr "Back to plan settings"
+
 msgid "Backup secret phrase"
 msgstr "Backup secret phrase"
 
@@ -94,11 +97,14 @@ msgstr "CID (Content Identifier)"
 msgid "Cancel"
 msgstr "Cancel"
 
-msgid "Card added successfully"
-msgstr "Card added successfully"
+#~ msgid "Card added successfully"
+#~ msgstr "Card added successfully"
 
-msgid "Card details could not be validated"
-msgstr "Card details could not be validated"
+#~ msgid "Card details could not be validated"
+#~ msgstr "Card details could not be validated"
+
+msgid "Card inputs invalid"
+msgstr "Card inputs invalid"
 
 msgid "Change Password"
 msgstr "Change Password"
@@ -184,6 +190,9 @@ msgstr "Create folder"
 msgid "Create your public username in <0>Settings</0>!"
 msgstr "Create your public username in <0>Settings</0>!"
 
+msgid "Credit card on file"
+msgstr "Credit card on file"
+
 msgid "Dark Theme"
 msgstr "Dark Theme"
 
@@ -258,6 +267,9 @@ msgstr "Enter password:"
 
 msgid "Enter the verification code:"
 msgstr "Enter the verification code:"
+
+msgid "Failed to add payment method"
+msgstr "Failed to add payment method"
 
 msgid "Failed to get signature"
 msgstr "Failed to get signature"
@@ -427,11 +439,11 @@ msgstr "My Files"
 msgid "Name"
 msgstr "Name"
 
-msgid "Name on card"
-msgstr "Name on card"
+#~ msgid "Name on card"
+#~ msgstr "Name on card"
 
-msgid "Name on card is required"
-msgstr "Name on card is required"
+#~ msgid "Name on card is required"
+#~ msgstr "Name on card is required"
 
 msgid "Name too long"
 msgstr "Name too long"
@@ -694,8 +706,8 @@ msgstr "Something went wrong with email login! Please try again."
 msgid "Something went wrong!"
 msgstr "Something went wrong!"
 
-msgid "Something went wrong, please try again"
-msgstr "Something went wrong, please try again"
+#~ msgid "Something went wrong, please try again"
+#~ msgstr "Something went wrong, please try again"
 
 msgid "Something went wrong. We couldn't upload your file"
 msgstr "Something went wrong. We couldn't upload your file"
@@ -915,3 +927,6 @@ msgstr "{0, plural, one {Encrypting and uploading {1} file} other {Encrypting an
 
 msgid "{0, plural, one {You are about to delete {1} item.} other {You are about to delete {2} items.}}"
 msgstr "{0, plural, one {You are about to delete {1} item.} other {You are about to delete {2} items.}}"
+
+msgid "{0} of {1} used ({2}%)"
+msgstr "{0} of {1} used ({2}%)"

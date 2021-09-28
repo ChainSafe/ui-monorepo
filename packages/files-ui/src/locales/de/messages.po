@@ -58,6 +58,9 @@ msgstr "Es ist ein Fehler aufgetreten:"
 msgid "Approve"
 msgstr "Genehmigen"
 
+msgid "Back to plan settings"
+msgstr ""
+
 msgid "Backup secret phrase"
 msgstr "Sicherungsgeheimsatz"
 
@@ -94,10 +97,13 @@ msgstr "IID (Inhaltsidentifikator)"
 msgid "Cancel"
 msgstr "Abbrechen"
 
-msgid "Card added successfully"
-msgstr ""
+#~ msgid "Card added successfully"
+#~ msgstr ""
 
-msgid "Card details could not be validated"
+#~ msgid "Card details could not be validated"
+#~ msgstr ""
+
+msgid "Card inputs invalid"
 msgstr ""
 
 msgid "Change Password"
@@ -184,6 +190,9 @@ msgstr "Ordner erstellen"
 msgid "Create your public username in <0>Settings</0>!"
 msgstr ""
 
+msgid "Credit card on file"
+msgstr ""
+
 msgid "Dark Theme"
 msgstr "Dunkles Farbschema"
 
@@ -258,6 +267,9 @@ msgstr "Geben Sie das Passwort ein:"
 
 msgid "Enter the verification code:"
 msgstr "Geben Sie den Verifizierungscode ein:"
+
+msgid "Failed to add payment method"
+msgstr ""
 
 msgid "Failed to get signature"
 msgstr "Signatur kann nicht abgerufen werden"
@@ -424,11 +436,11 @@ msgstr "Meine Dateien"
 msgid "Name"
 msgstr "Name"
 
-msgid "Name on card"
-msgstr ""
+#~ msgid "Name on card"
+#~ msgstr ""
 
-msgid "Name on card is required"
-msgstr ""
+#~ msgid "Name on card is required"
+#~ msgstr ""
 
 msgid "Name too long"
 msgstr "Name zu lang"
@@ -691,8 +703,8 @@ msgstr ""
 msgid "Something went wrong!"
 msgstr "Etwas ist schief gelaufen!"
 
-msgid "Something went wrong, please try again"
-msgstr ""
+#~ msgid "Something went wrong, please try again"
+#~ msgstr ""
 
 msgid "Something went wrong. We couldn't upload your file"
 msgstr "Es ist etwas schief gelaufen. Wir konnten Ihre Datei nicht hochladen"
@@ -912,3 +924,6 @@ msgstr "{0, plural, one {{1} Datei wird verschlüsselt und hochgeladen} other {{
 
 msgid "{0, plural, one {You are about to delete {1} item.} other {You are about to delete {2} items.}}"
 msgstr "{0, plural, one {Sie sind dabei, {1} Artikel zu löschen.} other {Sie sind dabei, {2} Artikel zu löschen.}}"
+
+msgid "{0} of {1} used ({2}%)"
+msgstr ""

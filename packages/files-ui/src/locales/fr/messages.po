@@ -59,6 +59,9 @@ msgstr "Une erreur s'est produite :"
 msgid "Approve"
 msgstr "Accepter"
 
+msgid "Back to plan settings"
+msgstr ""
+
 msgid "Backup secret phrase"
 msgstr "Phrase secrète de sauvegarde"
 
@@ -95,10 +98,13 @@ msgstr "CID (Identifiant de contenu)"
 msgid "Cancel"
 msgstr "Annuler"
 
-msgid "Card added successfully"
-msgstr ""
+#~ msgid "Card added successfully"
+#~ msgstr ""
 
-msgid "Card details could not be validated"
+#~ msgid "Card details could not be validated"
+#~ msgstr ""
+
+msgid "Card inputs invalid"
 msgstr ""
 
 msgid "Change Password"
@@ -185,6 +191,9 @@ msgstr "Créer un dossier"
 msgid "Create your public username in <0>Settings</0>!"
 msgstr "Créez votre nom d'utilisateur public dans <0>Paramètres</0> !"
 
+msgid "Credit card on file"
+msgstr ""
+
 msgid "Dark Theme"
 msgstr "Thème sombre"
 
@@ -259,6 +268,9 @@ msgstr "Entrez le mot de passe :"
 
 msgid "Enter the verification code:"
 msgstr "Entrez le code de vérification :"
+
+msgid "Failed to add payment method"
+msgstr ""
 
 msgid "Failed to get signature"
 msgstr "Échec de l’obtention de la signature"
@@ -428,11 +440,11 @@ msgstr "Mes Fichiers"
 msgid "Name"
 msgstr "Nom"
 
-msgid "Name on card"
-msgstr ""
+#~ msgid "Name on card"
+#~ msgstr ""
 
-msgid "Name on card is required"
-msgstr ""
+#~ msgid "Name on card is required"
+#~ msgstr ""
 
 msgid "Name too long"
 msgstr "Le nom est trop long"
@@ -446,8 +458,8 @@ msgstr "Suivant"
 msgid "Nice to see you again!"
 msgstr "Ravi de te revoir !"
 
-msgid "No file to download."
-msgstr "Aucun fichier à télécharger."
+msgid "No Card"
+msgstr ""
 
 msgid "No file to download."
 msgstr "Aucun fichier à télécharger."
@@ -695,8 +707,8 @@ msgstr "Un problème est survenu lors de la connexion avec courriel ! Veuillez 
 msgid "Something went wrong!"
 msgstr "Quelque chose a mal tourné !"
 
-msgid "Something went wrong, please try again"
-msgstr ""
+#~ msgid "Something went wrong, please try again"
+#~ msgstr ""
 
 msgid "Something went wrong. We couldn't upload your file"
 msgstr "Un problème est survenu. Nous n’avons pas pu téléverser votre fichier"
@@ -916,3 +928,6 @@ msgstr "{0, plural, one {Chiffrement et téléversement de {1} fichier} other {C
 
 msgid "{0, plural, one {You are about to delete {1} item.} other {You are about to delete {2} items.}}"
 msgstr "{0, plural, one {Vous êtes sur le point de supprimer {1} élément.} other {Vous êtes sur le point de supprimer {2} éléments.}}"
+
+msgid "{0} of {1} used ({2}%)"
+msgstr ""
