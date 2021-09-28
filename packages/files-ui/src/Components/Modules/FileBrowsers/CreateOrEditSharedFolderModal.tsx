@@ -119,14 +119,18 @@ const CreateOrEditSharedFolderModal = ({ mode, isModalOpen, onClose, bucketToEdi
   const { desktop } = useThemeSwitcher()
   const { handleCreateSharedFolder, handleEditSharedFolder, isEditingSharedFolder, isCreatingSharedFolder } = useCreateOrEditSharedFolder()
   const [sharedFolderName, setSharedFolderName] = useState("")
-  const { sharedFolderReaders, sharedFolderWriters, onNewUsers, handleLookupUser, usersError, setUsersError } = useLookupSharedFolderUser()
+  const { sharedFolderReaders, sharedFolderWriters, onNewUsers, handleLookupUser, usersError, resetUsers } = useLookupSharedFolderUser()
   const [hasPermissionsChanged, setHasPermissionsChanged] = useState(false)
   const [nameError, setNameError] = useState("")
 
-  useEffect(() => {
+  const onReset = useCallback(() => {
     setSharedFolderName("")
     setHasPermissionsChanged(false)
-    setUsersError("")
+    resetUsers()
+  }, [resetUsers])
+
+  useEffect(() => {
+    onReset()
 
     if (!bucketToEdit) return
 
@@ -146,20 +150,7 @@ const CreateOrEditSharedFolderModal = ({ mode, isModalOpen, onClose, bucketToEdi
 
     onNewUsers(newWriters, "write")
     onNewUsers(newReaders, "read")
-  }, [bucketToEdit, setUsersError, setHasPermissionsChanged, onNewUsers])
-
-  const onCreateSharedFolder = useCallback(() => {
-    handleCreateSharedFolder(sharedFolderName, sharedFolderReaders, sharedFolderWriters)
-      .catch(console.error)
-      .finally(onClose)
-  }, [handleCreateSharedFolder, sharedFolderName, sharedFolderWriters, sharedFolderReaders, onClose])
-
-  const onEditSharedFolder = useCallback(() => {
-    if (!bucketToEdit) return
-    handleEditSharedFolder(bucketToEdit, sharedFolderReaders, sharedFolderWriters)
-      .catch(console.error)
-      .finally(onClose)
-  }, [handleEditSharedFolder, sharedFolderWriters, sharedFolderReaders, onClose, bucketToEdit])
+  }, [bucketToEdit, onNewUsers, onReset])
 
   const onNameChange = useCallback((value?: string | number) => {
     if (value === undefined) return
@@ -176,6 +167,24 @@ const CreateOrEditSharedFolderModal = ({ mode, isModalOpen, onClose, bucketToEdi
         setNameError(e.message)
       })
   }, [])
+
+  const handleClose = useCallback(() => {
+    onReset()
+    onClose()
+  }, [onClose, onReset])
+
+  const onCreateSharedFolder = useCallback(() => {
+    handleCreateSharedFolder(sharedFolderName, sharedFolderReaders, sharedFolderWriters)
+      .catch(console.error)
+      .finally(handleClose)
+  }, [handleCreateSharedFolder, sharedFolderName, sharedFolderWriters, sharedFolderReaders, handleClose])
+
+  const onEditSharedFolder = useCallback(() => {
+    if (!bucketToEdit) return
+    handleEditSharedFolder(bucketToEdit, sharedFolderReaders, sharedFolderWriters)
+      .catch(console.error)
+      .finally(handleClose)
+  }, [handleEditSharedFolder, sharedFolderWriters, sharedFolderReaders, handleClose, bucketToEdit])
 
   return (
     <CustomModal
@@ -240,6 +249,8 @@ const CreateOrEditSharedFolderModal = ({ mode, isModalOpen, onClose, bucketToEdi
                 alignContent: "start"
               })
             }}
+            loadingMessage={t`Loading`}
+            noOptionsMessage={t`No user found for this query.`}
           />
         </div>
         <div className={classes.modalFlexItem}>
@@ -259,7 +270,10 @@ const CreateOrEditSharedFolderModal = ({ mode, isModalOpen, onClose, bucketToEdi
                 minHeight: 90,
                 alignContent: "start"
               })
-            }}/>
+            }}
+            loadingMessage={t`Loading`}
+            noOptionsMessage={t`No user found for this query.`}
+          />
         </div>
         <Grid
           item
@@ -283,7 +297,7 @@ const CreateOrEditSharedFolderModal = ({ mode, isModalOpen, onClose, bucketToEdi
             justifyContent="flex-end"
           >
             <CustomButton
-              onClick={onClose}
+              onClick={handleClose}
               size="medium"
               className={classes.cancelButton}
               variant={desktop ? "outline" : "gray"}

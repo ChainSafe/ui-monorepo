@@ -216,8 +216,8 @@ const ProfileView = () => {
       await updateProfile(firstName, lastName)
       addToast({ title: t`Profile updated`, type: "success" })
       setUpdatingProfile(false)
-    } catch (error: any) {
-      addToast({ title: error, type: "error" })
+    } catch (error) {
+      error instanceof Error && addToast({ title: error.message, type: "error" })
       setUpdatingProfile(false)
     }
   }

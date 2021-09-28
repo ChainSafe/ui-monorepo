@@ -171,6 +171,9 @@ export const lightTheme = createTheme<CsfColors>({
         addCard: {
           color: "#595959",
           shadow: "0px 0px 4px rgba(24, 144, 255, 0.5)"
+        },
+        cookieBanner: {
+          backgroundColor: "var(--csf-primary)"
         }
       } as CsfColors)
     },

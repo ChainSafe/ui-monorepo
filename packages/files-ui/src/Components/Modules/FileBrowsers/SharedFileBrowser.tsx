@@ -199,7 +199,7 @@ const SharedFileBrowser = () => {
 
   const bulkOperations: IBulkOperations = useMemo(() => ({
     [CONTENT_TYPES.Directory]: ["download", "move", "delete"],
-    [CONTENT_TYPES.File]: ["download", "delete", "move"]
+    [CONTENT_TYPES.File]: ["download", "delete", "move", "share"]
   }), [])
 
   const itemOperations: IFilesTableBrowserProps["itemOperations"] = useMemo(() => {
@@ -211,7 +211,7 @@ const SharedFileBrowser = () => {
         [CONTENT_TYPES.Image]: ["preview"],
         [CONTENT_TYPES.Pdf]: ["preview"],
         [CONTENT_TYPES.Text]: ["preview"],
-        [CONTENT_TYPES.File]: ["download", "info", "rename", "move", "delete"],
+        [CONTENT_TYPES.File]: ["download", "info", "rename", "move", "delete", "share"],
         [CONTENT_TYPES.Directory]: ["rename", "move", "delete"]
       }
     case "writer":
@@ -221,7 +221,7 @@ const SharedFileBrowser = () => {
         [CONTENT_TYPES.Image]: ["preview"],
         [CONTENT_TYPES.Pdf]: ["preview"],
         [CONTENT_TYPES.Text]: ["preview"],
-        [CONTENT_TYPES.File]: ["download", "info", "rename", "move", "delete", "report"],
+        [CONTENT_TYPES.File]: ["download", "info", "rename", "move", "delete", "report", "share"],
         [CONTENT_TYPES.Directory]: ["rename", "move", "delete"]
       }
     // case "reader":
@@ -232,7 +232,7 @@ const SharedFileBrowser = () => {
         [CONTENT_TYPES.Image]: ["preview"],
         [CONTENT_TYPES.Pdf]: ["preview"],
         [CONTENT_TYPES.Text]: ["preview"],
-        [CONTENT_TYPES.File]: ["download", "info", "report"],
+        [CONTENT_TYPES.File]: ["download", "info", "report", "share"],
         [CONTENT_TYPES.Directory]: []
       }
     }
