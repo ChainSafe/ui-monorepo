@@ -173,14 +173,4 @@ function usePageTrack() {
   }, [pathname, hasOptedIn, posthogInitialized])
 }
 
-function usePosthog() {
-  const { hasOptedIn, posthogInitialized } = usePosthogContext()
-
-  if (posthogInitialized && hasOptedIn){
-    return posthog
-  }
-
-  return undefined
-}
-
-export { PosthogProvider, usePosthogContext, usePageTrack, usePosthog }
+export { PosthogProvider, usePosthogContext, usePageTrack }

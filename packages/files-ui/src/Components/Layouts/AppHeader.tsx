@@ -18,7 +18,6 @@ import { useThresholdKey } from "../../Contexts/ThresholdKeyContext"
 import { CSFTheme } from "../../Themes/types"
 import { useUser } from "../../Contexts/UserContext"
 import { useFilesApi } from "../../Contexts/FilesApiContext"
-import { usePosthog } from "../../Contexts/PosthogContext"
 import TeamModal from "../Elements/TeamModal"
 
 const useStyles = makeStyles(
@@ -175,7 +174,6 @@ const AppHeader = ({ navOpen, setNavOpen }: IAppHeader) => {
   const [searchActive, setSearchActive] = useState(false)
   const [isTeamModalOpen, setIsTeamModalOpen] = useState(false)
   const { history } = useHistory()
-  const posthog = usePosthog()
 
   const signOut = useCallback(async () => {
     logout()
@@ -188,14 +186,12 @@ const AppHeader = ({ navOpen, setNavOpen }: IAppHeader) => {
   }, [logout, removeUser, history])
 
   const onReportBugClick = useCallback(() => {
-    posthog && posthog.capture("Report Bug")
     window.open(ROUTE_LINKS.DiscordInvite, "_blank")
-  }, [posthog])
+  }, [])
 
   const onStartATeamClick = useCallback(() => {
-    posthog && posthog.capture("Team start button click")
     setIsTeamModalOpen(true)
-  }, [posthog])
+  }, [])
 
   return (
     <header
@@ -225,6 +221,7 @@ const AppHeader = ({ navOpen, setNavOpen }: IAppHeader) => {
               </section>
               <section className={classes.buttonsSection}>
                 <Button
+                  data-posthog="Report-a-bug"
                   data-cy="send-feedback-nav"
                   variant="tertiary"
                   size="small"
@@ -233,6 +230,7 @@ const AppHeader = ({ navOpen, setNavOpen }: IAppHeader) => {
                   <Trans>Report a bug</Trans>
                 </Button>
                 <Button
+                  data-posthog="Start-a-team"
                   data-cy="start-team-nav"
                   variant="tertiary"
                   size="small"

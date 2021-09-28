@@ -2,7 +2,6 @@ import { Button, Typography } from "@chainsafe/common-components"
 import { createStyles, makeStyles } from "@chainsafe/common-theme"
 import { Trans } from "@lingui/macro"
 import React, { useCallback } from "react"
-import { usePosthog } from "../../Contexts/PosthogContext"
 import { CSFTheme } from "../../Themes/types"
 import { ROUTE_LINKS } from "../FilesRoutes"
 import CustomModal from "./CustomModal"
@@ -38,13 +37,11 @@ interface Props {
 
 const TeamModal = ({ onHide }: Props) => {
   const classes = useStyles()
-  const posthog = usePosthog()
 
   const onSignupTeamClick = useCallback(() => {
-    posthog && posthog.capture("Team signup button click")
     window.open(ROUTE_LINKS.TeamSignup, "_blank")
     onHide()
-  }, [onHide, posthog])
+  }, [onHide])
 
   return (
     <CustomModal
@@ -66,6 +63,7 @@ const TeamModal = ({ onHide }: Props) => {
         </Typography>
         <div className={classes.buttonContainer}>
           <Button
+            data-posthog="Sign-me-up"
             className={classes.nextButton}
             onClick={onSignupTeamClick}
           >
