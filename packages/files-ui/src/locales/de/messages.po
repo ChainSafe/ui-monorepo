@@ -721,9 +721,6 @@ msgstr "Es gab einen Fehler beim Verschieben dieses"
 msgid "There was an error recovering this"
 msgstr "Es gab einen Fehler bei der Wiederherstellung dieses"
 
-msgid "There was an error when setting username."
-msgstr ""
-
 msgid "This username is already taken"
 msgstr ""
 
