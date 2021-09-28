@@ -9,10 +9,7 @@ import {
   Link,
   Typography,
   PowerDownSvg,
-  // ProgressBar,
-  // formatBytes,
-  ChainsafeLogo,
-  SettingSvg
+  ChainsafeLogo
 } from "@chainsafe/common-components"
 import { ROUTE_LINKS } from "../GamingRoutes"
 import { Trans } from "@lingui/macro"
@@ -240,39 +237,9 @@ const AppNav: React.FC<IAppNav> = ({ navOpen, setNavOpen }: IAppNav) => {
           )}
           <div className={classes.linksArea}>
             <nav className={classes.navMenu}>
-              <Link
-                data-cy="settings-nav"
-                onClick={handleOnClick}
-                className={classes.navItem}
-                to={ROUTE_LINKS.SettingsRoot}
-              >
-                <SettingSvg />
-                <Typography
-                  variant="h5"
-                  className={classes.navItemText}
-                >
-                  <Trans>Settings</Trans>
-                </Typography>
-              </Link>
             </nav>
           </div>
           <section>
-            {desktop && (
-              <div>
-                {/* <Typography
-                  variant="body2"
-                  className={classes.spaceUsedMargin}
-                  component="p"
-                >{`${formatBytes(spaceUsed, 2)} of ${formatBytes(
-                    FREE_PLAN_LIMIT, 2
-                  )} used`}</Typography>
-                <ProgressBar
-                  className={classes.spaceUsedMargin}
-                  progress={(spaceUsed / FREE_PLAN_LIMIT) * 100}
-                  size="small"
-                /> */}
-              </div>
-            )}
             {!desktop && (
               <div
                 className={classes.navItem}

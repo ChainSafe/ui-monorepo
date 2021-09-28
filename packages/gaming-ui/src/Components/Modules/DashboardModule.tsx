@@ -1,34 +1,17 @@
-import React, { useEffect, useState, useCallback } from "react"
-import { makeStyles, createStyles, debounce } from "@chainsafe/common-theme"
-import { useGamingApi } from "../../Contexts/GamingApiContext"
+import { Button, CopyIcon, Modal, PlusIcon, Typography } from "@chainsafe/common-components"
+import { createStyles, debounce, makeStyles } from "@chainsafe/common-theme"
 import { AccessKey } from "@chainsafe/files-api-client"
-import {
-  Typography,
-  Button,
-  PlusIcon,
-  Table,
-  TableHead,
-  TableRow,
-  TableHeadCell,
-  TableBody,
-  TableCell,
-  MenuDropdown,
-  DeleteSvg,
-  MoreIcon,
-  CopyIcon,
-  Modal
-} from "@chainsafe/common-components"
-import { CSGTheme } from "../../Themes/types"
 import { Trans } from "@lingui/macro"
-import dayjs from "dayjs"
+import React, { useCallback, useEffect, useState } from "react"
+import { useGamingApi } from "../../Contexts/GamingApiContext"
+import { CSGTheme } from "../../Themes/types"
+import ApiKeyCard from "../Elements/ApiKeyCard"
 
-export const desktopGridSettings = "2fr 2fr 1fr 1.5fr 70px !important"
-export const mobileGridSettings = "2fr 2fr 1fr 1.5fr 70px !important"
-
-const useStyles = makeStyles(({ constants, breakpoints, animation, zIndex, palette }: CSGTheme) =>
+const useStyles = makeStyles(({ breakpoints, constants, palette, zIndex }: CSGTheme) =>
   createStyles({
     root: {
-      position: "relative"
+      position: "relative",
+      margin: constants.generalUnit
     },
     header: {
       display: "flex",
@@ -48,41 +31,30 @@ const useStyles = makeStyles(({ constants, breakpoints, animation, zIndex, palet
         marginLeft: constants.generalUnit
       }
     },
-    tableHead: {
-      marginTop: 24
-    },
-    tableRow: {
-      border: "2px solid transparent",
-      transitionDuration: `${animation.transform}ms`,
-      [breakpoints.up("md")]: {
-        gridTemplateColumns: desktopGridSettings
-      },
-      [breakpoints.down("md")]: {
-        gridTemplateColumns: mobileGridSettings
-      }
-    },
-    dropdownIcon: {
-      "& svg": {
-        fill: constants.fileSystemItemRow.dropdownIcon
-      }
-    },
-    dropdownOptions: {
-      backgroundColor: constants.fileSystemItemRow.optionsBackground,
-      color: constants.fileSystemItemRow.optionsColor,
-      border: `1px solid ${constants.fileSystemItemRow.optionsBorder}`
-    },
-    dropdownItem: {
-      backgroundColor: constants.fileSystemItemRow.itemBackground,
-      color: constants.fileSystemItemRow.itemColor
-    },
-    menuIcon: {
+    dataArea: {
+      marginTop: constants.generalUnit * 2,
       display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
-      width: 20,
-      marginRight: constants.generalUnit * 1.5,
-      "& svg": {
-        fill: constants.fileSystemItemRow.menuIcon
+      flexDirection: "row",
+      justifyContent: "space-between",
+      flexWrap: "wrap",
+      "& > *": {
+        margin: constants.generalUnit,
+        width:"100%",
+        [breakpoints.up("xs")]: {
+          maxWidth: `calc(100% - ${constants.generalUnit * 2}px)`
+        },
+        [breakpoints.up("sm")]: {
+          maxWidth: `calc(50% - ${constants.generalUnit * 2}px)`
+        },
+        [breakpoints.up("md")]: {
+          maxWidth: `calc(33% - ${constants.generalUnit * 2}px)`
+        },
+        [breakpoints.up("lg")]: {
+          maxWidth: `calc(25% - ${constants.generalUnit * 2}px)`
+        },
+        [breakpoints.up("xl")]: {
+          maxWidth: `calc(20% - ${constants.generalUnit * 2}px)`
+        }
       }
     },
     modalRoot: {
@@ -137,7 +109,7 @@ const useStyles = makeStyles(({ constants, breakpoints, animation, zIndex, palet
   })
 )
 
-const ApiKeys = () => {
+const DashboardModule = () => {
   const classes = useStyles()
   const { gamingApiClient } = useGamingApi()
   const [keys, setKeys] = useState<AccessKey[]>([])
@@ -161,15 +133,17 @@ const ApiKeys = () => {
 
   const fetchAccessKeys = useCallback(() => {
     gamingApiClient.listAccessKeys()
-      .then(setKeys)
+      .then(keys => setKeys(keys.filter(key => key.type === "gaming")))
       .catch(console.error)
   }, [gamingApiClient])
 
-  const createStorageAccessKey = useCallback(() => {
+  const createGamingAccessKey = useCallback(() => {
     gamingApiClient.createAccessKey({ type: "gaming" })
-      .then(setNewKey)
-      .then(fetchAccessKeys)
-      .then(() => setIsNewKeyModalOpen(true))
+      .then((key) => {
+        setNewKey(key)
+        fetchAccessKeys()
+        setIsNewKeyModalOpen(true)
+      })
       .catch(console.error)
   }, [fetchAccessKeys, gamingApiClient])
 
@@ -193,16 +167,16 @@ const ApiKeys = () => {
             data-cy="api-keys-header"
           >
             <Trans>
-            API Keys
+              Dashboard
             </Trans>
           </Typography>
           <div className={classes.controls}>
             <Button
               data-cy="add-storage-api-key-button"
-              onClick={createStorageAccessKey}
+              onClick={createGamingAccessKey}
               variant="outline"
               size="large"
-              disabled={keys.filter(k => k.type === "storage").length > 0}
+              disabled={keys.filter(k => k.type === "gaming").length > 0}
             >
               <PlusIcon />
               <span>
@@ -211,96 +185,15 @@ const ApiKeys = () => {
             </Button>
           </div>
         </header>
-        <Table
-          fullWidth={true}
-          striped={true}
-          hover={true}
-          className=""
-        >
-          <TableHead className={classes.tableHead}>
-            <TableRow
-              type="grid"
-              className={classes.tableRow}
-            >
-              <TableHeadCell
-                sortButtons={false}
-                align="center"
-              >
-                <Trans>Id</Trans>
-              </TableHeadCell>
-              <TableHeadCell
-                sortButtons={false}
-                align="center"
-              >
-                <Trans>Type</Trans>
-              </TableHeadCell>
-              <TableHeadCell
-                sortButtons={false}
-                align="center"
-              >
-                <Trans>Status</Trans>
-              </TableHeadCell>
-              <TableHeadCell
-                sortButtons={false}
-                align="center"
-              >
-                <Trans>Created At</Trans>
-              </TableHeadCell>
-              <TableHeadCell>{/* Menu */}</TableHeadCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {keys.map(k =>
-              <TableRow
-                key={k.id}
-                type='grid'
-                className={classes.tableRow}>
-                <TableCell align='left'>
-                  <Typography>
-                    {k.id}
-                  </Typography>
-                </TableCell>
-                <TableCell>
-                  <Typography>
-                    {k.type}
-                  </Typography>
-                </TableCell>
-                <TableCell>
-                  <Typography>
-                    {k.status}
-                  </Typography>
-                </TableCell>
-                <TableCell>
-                  <Typography>
-                    {dayjs(k.created_at).format("DD MMM YYYY h:mm a")}
-                  </Typography>
-                </TableCell>
-                <TableCell align="right">
-                  <MenuDropdown
-                    animation="none"
-                    anchor={"bottom-right"}
-                    menuItems={[{
-                      contents: (
-                        <>
-                          <DeleteSvg className={classes.menuIcon} />
-                          <span data-cy="menu-share">
-                            <Trans>Delete Key</Trans>
-                          </span>
-                        </>
-                      ),
-                      onClick: () => deleteAccessKey(k.id)
-                    }]}
-                    classNames={{
-                      icon: classes.dropdownIcon,
-                      options: classes.dropdownOptions,
-                      item: classes.dropdownItem
-                    }}
-                    indicator={MoreIcon}
-                  />
-                </TableCell>
-              </TableRow>)}
-          </TableBody>
-        </Table>
+        <section className={classes.dataArea}>
+          {
+            keys.map((key: AccessKey, index: number) => (
+              <ApiKeyCard
+                key={`api-key-${index}`}
+                deleteKey={() => deleteAccessKey(key.id)}
+                apiKey={key} />))
+          }
+        </section>
       </div>
       <Modal
         className={classes.modalRoot}
@@ -327,7 +220,10 @@ const ApiKeys = () => {
           </Typography>
           <div className={classes.field}>
             <div className={classes.secretContainer}>
-              <Typography variant='body2'>
+              <Typography
+                component="p"
+                variant='h5'
+              >
                 <Trans>Make sure to save the secret, as it can only be displayed once.</Trans>
               </Typography>
               {copiedSecret && (
@@ -351,13 +247,12 @@ const ApiKeys = () => {
             </div>
           </div>
           <Button
-            autoFocus
             onClick={() => {
               setIsNewKeyModalOpen(false)
               setNewKey(undefined)
             }}
           >
-            Close
+            <Trans>Close</Trans>
           </Button>
         </div>
       </Modal>
@@ -365,4 +260,4 @@ const ApiKeys = () => {
   )
 }
 
-export default ApiKeys
+export default DashboardModule
