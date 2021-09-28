@@ -162,12 +162,12 @@ interface IMenuDropdownProps {
   indicator?: typeof SvgIcon
   animation?: "rotate" | "flip" | "none"
   anchor?:
-    | "top-left"
-    | "top-center"
-    | "top-right"
-    | "bottom-left"
-    | "bottom-center"
-    | "bottom-right"
+  | "top-left"
+  | "top-center"
+  | "top-right"
+  | "bottom-left"
+  | "bottom-center"
+  | "bottom-right"
   menuItems: IMenuItem[]
   title?: string
   classNames?: {
