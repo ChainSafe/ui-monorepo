@@ -17,6 +17,9 @@ msgstr ""
 msgid "A backup secret phrase will be generated and used for your account.<0/>We do not store it and <1>it can only be displayed once</1>. Save it somewhere safe!"
 msgstr "Une phrase secrète de sauvegarde sera générée et utilisé pour ce compte.<0/>Nous ne la sauvergardons pas <1>elle ne peut être affichée qu’une seule fois</1>. Gardez-la dans un endroit sûr !"
 
+msgid "A better sharing experience is coming soon."
+msgstr ""
+
 msgid "A file with the same name already exists"
 msgstr "Un fichier avec ce nom existe déjà"
 
@@ -317,9 +320,6 @@ msgstr "Donner l’accès en lecture seule à :"
 msgid "Go back"
 msgstr "Retour"
 
-msgid "Got an issue?"
-msgstr "Vous avez un problème ?"
-
 msgid "Got it"
 msgstr "Compris"
 
@@ -545,6 +545,9 @@ msgstr "Signaler"
 msgid "Report a File"
 msgstr "Signaler un fichier"
 
+msgid "Report a bug"
+msgstr ""
+
 msgid "Requested from"
 msgstr "Envoyé par"
 
@@ -641,6 +644,9 @@ msgstr "Se connecter"
 msgid "Sign in with a different account"
 msgstr "Se connecter avec un autre compte"
 
+msgid "Sign me up!"
+msgstr ""
+
 msgid "Sign-in methods"
 msgstr "Méthodes de connexion"
 
@@ -665,11 +671,17 @@ msgstr "Un problème est survenu. Nous n’avons pas pu téléverser votre fichi
 msgid "Start Upload"
 msgstr "Démarrer le téléversement"
 
+msgid "Start a team"
+msgstr ""
+
 msgid "Storage Plan"
 msgstr "Plan de stockage"
 
 msgid "Stored by miner"
 msgstr "Sauvegardé par le mineur"
+
+msgid "Teams"
+msgstr ""
 
 msgid "Technical"
 msgstr "Technique"
