@@ -1,10 +1,10 @@
-import React, { useState } from "react"
+import React, { FormEvent, useState } from "react"
 import { Button, Grid, Typography, useToasts } from "@chainsafe/common-components"
 import { createStyles, makeStyles, useTheme } from "@chainsafe/common-theme"
 import { CSFTheme } from "../../../../Themes/types"
 import CustomModal from "../../../Elements/CustomModal"
 import CustomButton from "../../../Elements/CustomButton"
-import { Trans } from "@lingui/macro"
+import { t, Trans } from "@lingui/macro"
 import { useStripe, useElements, CardNumberElement, CardExpiryElement, CardCvcElement } from "@stripe/react-stripe-js"
 import { useFilesApi } from "../../../../Contexts/FilesApiContext"
 import { useBilling } from "../../../../Contexts/BillingContext"
@@ -119,7 +119,7 @@ const AddCardModal = ({ isModalOpen, onClose }: IAddCardModalProps) => {
     addToast({ title: t`Failed to add payment method`, type: "error" })
   }
 
-  const handleSubmitPaymentMethod = async (event: any) => {
+  const handleSubmitPaymentMethod = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     if (!stripe || !elements) return
     try {
@@ -134,6 +134,7 @@ const AddCardModal = ({ isModalOpen, onClose }: IAddCardModalProps) => {
 
       if (error || !paymentMethod) {
         setInputError(true)
+        setLoadingPaymentMethodAdd(false)
         return
       }
 

@@ -33,10 +33,6 @@ const BillingProvider = ({ children }: BillingContextProps) => {
   useEffect(() => {
     if (isLoggedIn) {
       refreshDefaultCard()
-
-      filesApiClient.getCards().then((cards) => {
-        console.log("cards", cards)
-      })
     }
   }, [refreshDefaultCard, isLoggedIn, filesApiClient])
 
