@@ -656,6 +656,36 @@ export const darkTheme = createTheme<CsfColors>({
               }
             }
           },
+          tertiary: {
+            root: {
+              backgroundColor: "var(--gray5)",
+              color: "var(--gray9)",
+              "& svg": {
+                fill: "var(--gray9)"
+              }
+            },
+            active: {
+              backgroundColor: "var(--gray7)",
+              color: "var(--gray9)",
+              "& svg": {
+                fill: "var(--gray9)"
+              }
+            },
+            hover: {
+              backgroundColor: "var(--gray7)",
+              color: "var(--gray9)",
+              "& svg": {
+                fill: "var(--gray9)"
+              }
+            },
+            focus: {
+              color: "none",
+              backgroundColor: "none",
+              "& svg": {
+                fill: "none"
+              }
+            }
+          },
           outline: {
             root: {
               backgroundColor: "var(--gray3) !important",
