@@ -15,7 +15,7 @@ export const actionsData = {
   onClick: action("onClickButton")
 }
 
-type VariantOption = "primary" | "outline" | "dashed" | "danger" | undefined;
+type VariantOption = "primary" | "secondary" | "tertiary" | "outline" | "dashed" | "danger" | undefined;
 const variantOptions: VariantOption[] = [
   "primary",
   "outline",

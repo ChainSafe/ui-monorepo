@@ -1,9 +1,11 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react"
 import posthog from "posthog-js"
 import { Button, Typography, useLocation } from "@chainsafe/common-components"
-import { createStyles, ITheme, makeStyles } from "@chainsafe/common-theme"
+import { createStyles, makeStyles } from "@chainsafe/common-theme"
 import { Trans } from "@lingui/macro"
 import { useLocalStorage } from "@chainsafe/browser-storage-hooks"
+import { CSFTheme } from "../Themes/types"
+import { useUser } from "./UserContext"
 
 export type PosthogContext = {
   hasOptedIn: boolean
@@ -20,7 +22,7 @@ const PosthogContext = React.createContext<PosthogContext>({
 })
 
 const useStyles = makeStyles(
-  ({ palette, breakpoints }: ITheme) => {
+  ({ palette, breakpoints, constants }: CSFTheme) => {
     return createStyles({
       cookieBanner: {
         position: "fixed",
@@ -29,7 +31,7 @@ const useStyles = makeStyles(
         display: "flex",
         color: palette.common.white.main,
         flexDirection: "column",
-        backgroundColor: palette.primary.main,
+        backgroundColor: constants.cookieBanner.backgroundColor,
         padding: "16px 32px",
         [breakpoints.down("sm")]: {
           padding: "8px 16px"
@@ -72,6 +74,7 @@ const PosthogProvider = ({ children }: PosthogProviderProps) => {
   const [showBanner, setShowBanner] = useState(false)
   const [hasTouchedCookieBanner, setHasTouchedCookieBanner ] = useState(false)
   const { localStorageGet, localStorageSet } = useLocalStorage()
+  const { profile } = useUser()
 
   const classes = useStyles()
   const posthogInitialized = useMemo(() =>
@@ -113,6 +116,14 @@ const PosthogProvider = ({ children }: PosthogProviderProps) => {
     }
   }, [posthogInitialized, touchCookieBanner])
 
+  useEffect(() => {
+    if (profile) {
+      posthogInitialized && posthog.identify(profile.userId)
+    } else {
+      posthogInitialized && posthog.reset()
+    }
+  }, [profile, posthogInitialized])
+
   return (
     <PosthogContext.Provider
       value={{
@@ -137,7 +148,11 @@ const PosthogProvider = ({ children }: PosthogProviderProps) => {
             </Trans>
           </Typography>
           <div className={classes.buttonSection}>
-            <Button onClick={optOutCapturing}><Trans>Decline</Trans></Button>
+            <Button
+              onClick={optOutCapturing}
+              variant='secondary'
+            >
+              <Trans>Decline</Trans></Button>
             <Button
               onClick={optInCapturing}
               variant='outline'

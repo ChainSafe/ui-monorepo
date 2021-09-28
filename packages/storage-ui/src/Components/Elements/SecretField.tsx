@@ -4,8 +4,8 @@ import { makeStyles, createStyles } from "@chainsafe/common-theme"
 import clsx from "clsx"
 
 interface Props {
-    value: string
-    className?: string
+  value: string
+  className?: string
 }
 
 const useStyles = makeStyles(() =>

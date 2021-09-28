@@ -79,14 +79,14 @@ const CidsPage = () => {
     let temp = []
 
     switch (sortColumn) {
-    case "size": {
-      temp = pins.sort((a, b) => (a.info?.size < b.info?.size ? -1 : 1))
-      break
-    }
-    default: {
-      temp = pins.sort((a, b) => (a.created < b.created ? -1 : 1))
-      break
-    }
+      case "size": {
+        temp = pins.sort((a, b) => (a.info?.size < b.info?.size ? -1 : 1))
+        break
+      }
+      default: {
+        temp = pins.sort((a, b) => (a.created < b.created ? -1 : 1))
+        break
+      }
     }
     return sortDirection === "descend" ? temp.reverse() : temp
   }, [pins, sortDirection, sortColumn])

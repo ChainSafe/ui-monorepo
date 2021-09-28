@@ -31,7 +31,9 @@ const GamingRoutes = () => {
       />
       <ConditionalRoute
         path={ROUTE_LINKS.SettingsRoot}
-        isAuthorized={isLoggedIn}
+        isAuthorized={false}
+        // Settings not required yet
+        // isAuthorized={isLoggedIn}
         component={SettingsPage}
         redirectPath={ROUTE_LINKS.Landing}
       />

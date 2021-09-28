@@ -3,7 +3,7 @@ import { EyeOpenIcon, EyeClosedIcon, Typography } from "@chainsafe/common-compon
 import { makeStyles, createStyles } from "@chainsafe/common-theme"
 
 interface Props {
-    value: string
+  value: string
 }
 
 const useStyles = makeStyles(() =>

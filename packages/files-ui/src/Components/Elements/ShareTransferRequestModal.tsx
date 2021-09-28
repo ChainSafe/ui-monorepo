@@ -10,7 +10,7 @@ import clsx from "clsx"
 import { CSFTheme } from "../../Themes/types"
 
 interface Props {
-    requests: ShareTransferRequest[]
+  requests: ShareTransferRequest[]
 }
 
 const useStyles = makeStyles(({ constants }: CSFTheme) =>

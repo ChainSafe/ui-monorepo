@@ -323,27 +323,27 @@ const FilesList = () => {
     let temp = []
 
     switch (column) {
-    default: {
+      default: {
       // case "name": {
-      temp = sourceFiles.sort((a, b) => {
-        return a.name.localeCompare(b.name, selectedLocale, {
-          sensitivity: "base"
+        temp = sourceFiles.sort((a, b) => {
+          return a.name.localeCompare(b.name, selectedLocale, {
+            sensitivity: "base"
+          })
         })
-      })
-      break
-    }
-    case "size": {
-      temp = sourceFiles
-        .sort((a, b) => (a.size < b.size ? -1 : 1))
-        .sort(sortFoldersFirst)
-      break
-    }
-    case "date_uploaded": {
-      temp = sourceFiles
-        .sort((a, b) => (a.created_at < b.created_at ? -1 : 1))
-        .sort(sortFoldersFirst)
-      break
-    }
+        break
+      }
+      case "size": {
+        temp = sourceFiles
+          .sort((a, b) => (a.size < b.size ? -1 : 1))
+          .sort(sortFoldersFirst)
+        break
+      }
+      case "date_uploaded": {
+        temp = sourceFiles
+          .sort((a, b) => (a.created_at < b.created_at ? -1 : 1))
+          .sort(sortFoldersFirst)
+        break
+      }
     }
     return direction === "descend"
       ? temp.reverse().sort(sortFoldersFirst)

@@ -189,7 +189,7 @@ const ShareModal = ({ close, file, filePath }: IShareFileProps) => {
   const classes = useStyles()
   const { handleCreateSharedFolder } = useCreateOrEditSharedFolder()
   const [sharedFolderName, setSharedFolderName] = useState("")
-  const { sharedFolderReaders, sharedFolderWriters, handleLookupUser, onNewUsers, usersError } = useLookupSharedFolderUser()
+  const { sharedFolderReaders, sharedFolderWriters, handleLookupUser, onNewUsers, usersError, resetUsers } = useLookupSharedFolderUser()
   const [isUsingCurrentBucket, setIsUsingCurrentBucket] = useState(true)
   const [keepOriginalFile, setKeepOriginalFile] = useState(true)
   const [destinationBucket, setDestinationBucket] = useState<BucketKeyPermission | undefined>()
@@ -211,6 +211,8 @@ const ShareModal = ({ close, file, filePath }: IShareFileProps) => {
 
     return buckets
       .filter(buck => buck.type === "share" || buck.type === "csf")
+      // filter out the current bucket
+      .filter(buck => buck.id !== bucket?.id)
       // all buckets where the user is reader or writer
       .filter(buck => !!buck.writers.find((w) => w.uuid === profile.userId) || !!buck.owners.find((o) => o.uuid === profile.userId))
       .map(buck => ({
@@ -218,9 +220,15 @@ const ShareModal = ({ close, file, filePath }: IShareFileProps) => {
         value: buck.id
       }))
   }
-  , [buckets, profile])
+  , [bucket, buckets, profile])
 
   const hasNoSharedBucket = useMemo(() => bucketsOptions.length === 0, [bucketsOptions.length])
+
+  useEffect(() => {
+    resetUsers()
+    setSharedFolderName("")
+    setNameError("")
+  }, [resetUsers])
 
   // if the user has no shared bucket, we default to new folder creation
   useEffect(() => {
@@ -293,7 +301,6 @@ const ShareModal = ({ close, file, filePath }: IShareFileProps) => {
     transferFileBetweenBuckets
   ])
 
-
   return (
     <CustomModal
       className={classes.modalRoot}
@@ -365,7 +372,10 @@ const ShareModal = ({ close, file, filePath }: IShareFileProps) => {
                         minHeight: 90,
                         alignContent: "start"
                       })
-                    }}/>
+                    }}
+                    loadingMessage={t`Loading`}
+                    noOptionsMessage={t`No user found for this query.`}
+                  />
                 </div>
                 <div className={classes.modalFlexItem}>
                   <TagsInput
@@ -381,7 +391,10 @@ const ShareModal = ({ close, file, filePath }: IShareFileProps) => {
                         minHeight: 90,
                         alignContent: "start"
                       })
-                    }}/>
+                    }}
+                    loadingMessage={t`Loading...`}
+                    noOptionsMessage={t`No user found for this query.`}
+                  />
                 </div>
                 {!!usersError && (
                   <Typography

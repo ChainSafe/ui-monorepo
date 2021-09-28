@@ -16,6 +16,9 @@ msgstr ""
 msgid "A backup secret phrase will be generated and used for your account.<0/>We do not store it and <1>it can only be displayed once</1>. Save it somewhere safe!"
 msgstr ""
 
+msgid "A better sharing experience is coming soon."
+msgstr ""
+
 msgid "A file with the same name already exists"
 msgstr ""
 
@@ -313,9 +316,6 @@ msgstr ""
 msgid "Go back"
 msgstr "Tilbake"
 
-msgid "Got an issue?"
-msgstr ""
-
 msgid "Got it"
 msgstr ""
 
@@ -364,10 +364,16 @@ msgstr ""
 msgid "Light Theme"
 msgstr "Lys drakt"
 
+msgid "Loading"
+msgstr ""
+
 msgid "Loading preview"
 msgstr ""
 
 msgid "Loading your shared folders…"
+msgstr ""
+
+msgid "Loading..."
 msgstr ""
 
 msgid "Looks like you’re signing in from a new browser. Please choose one of the following to continue:"
@@ -423,6 +429,9 @@ msgstr ""
 
 msgid "No thanks"
 msgstr "Nei takk"
+
+msgid "No user found for this query."
+msgstr ""
 
 msgid "Number of copies (Replication Factor)"
 msgstr ""
@@ -532,6 +541,9 @@ msgstr ""
 msgid "Report a File"
 msgstr ""
 
+msgid "Report a bug"
+msgstr ""
+
 msgid "Requested from"
 msgstr "Forespurt fra"
 
@@ -628,6 +640,9 @@ msgstr "Logg inn"
 msgid "Sign in with a different account"
 msgstr "Logg inn med en annen konto"
 
+msgid "Sign me up!"
+msgstr ""
+
 msgid "Sign-in methods"
 msgstr "Innloggingsmetoder"
 
@@ -652,10 +667,16 @@ msgstr ""
 msgid "Start Upload"
 msgstr ""
 
+msgid "Start a team"
+msgstr ""
+
 msgid "Storage Plan"
 msgstr ""
 
 msgid "Stored by miner"
+msgstr ""
+
+msgid "Teams"
 msgstr ""
 
 msgid "Technical"

@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-04-23 11:05+0200\n"
-"PO-Revision-Date: 2021-09-15 21:36+0000\n"
+"PO-Revision-Date: 2021-09-22 21:38+0000\n"
 "Last-Translator: J. Lavoie <j.lavoie@net-c.ca>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/chainsafe-files/chainsafe-files-user-interface/fr/>\n"
 "Language: fr\n"
@@ -16,6 +16,9 @@ msgstr ""
 
 msgid "A backup secret phrase will be generated and used for your account.<0/>We do not store it and <1>it can only be displayed once</1>. Save it somewhere safe!"
 msgstr "Une phrase secrète de sauvegarde sera générée et utilisé pour ce compte.<0/>Nous ne la sauvergardons pas <1>elle ne peut être affichée qu’une seule fois</1>. Gardez-la dans un endroit sûr !"
+
+msgid "A better sharing experience is coming soon."
+msgstr ""
 
 msgid "A file with the same name already exists"
 msgstr "Un fichier avec ce nom existe déjà"
@@ -129,7 +132,7 @@ msgid "Copy CID"
 msgstr "Copier le CID"
 
 msgid "Copy file"
-msgstr ""
+msgstr "Copier le fichier"
 
 msgid "Copy info"
 msgstr "Copier les infos"
@@ -138,7 +141,7 @@ msgid "Copy over"
 msgstr "Copier"
 
 msgid "Copy to"
-msgstr ""
+msgstr "Copier vers"
 
 msgid "Create"
 msgstr "Créer"
@@ -317,9 +320,6 @@ msgstr "Donner l’accès en lecture seule à :"
 msgid "Go back"
 msgstr "Retour"
 
-msgid "Got an issue?"
-msgstr "Vous avez un problème ?"
-
 msgid "Got it"
 msgstr "Compris"
 
@@ -368,11 +368,17 @@ msgstr "C’est parti."
 msgid "Light Theme"
 msgstr "Thème clair"
 
+msgid "Loading"
+msgstr "Chargement"
+
 msgid "Loading preview"
 msgstr "Chargement de l’aperçu"
 
 msgid "Loading your shared folders…"
 msgstr "Chargement de vos dossiers partagés…"
+
+msgid "Loading..."
+msgstr "Chargement…"
 
 msgid "Looks like you’re signing in from a new browser. Please choose one of the following to continue:"
 msgstr "Il semble que vous vous connectiez à partir d’un nouveau navigateur. Veuillez choisir une des options suivantes pour continuer :"
@@ -427,6 +433,9 @@ msgstr "Aucun fichier à afficher"
 
 msgid "No thanks"
 msgstr "Non merci"
+
+msgid "No user found for this query."
+msgstr "Aucun utilisateur n'a été trouvé pour cette requête."
 
 msgid "Number of copies (Replication Factor)"
 msgstr "Nombre de copies (facteur de réplication)"
@@ -536,6 +545,9 @@ msgstr "Signaler"
 msgid "Report a File"
 msgstr "Signaler un fichier"
 
+msgid "Report a bug"
+msgstr ""
+
 msgid "Requested from"
 msgstr "Envoyé par"
 
@@ -579,7 +591,7 @@ msgid "Select a wallet"
 msgstr "Sélectionner un wallet"
 
 msgid "Select an existing shared folder or your home"
-msgstr ""
+msgstr "Sélectionnez un dossier partagé existant ou votre page d'accueil"
 
 msgid "Send another email"
 msgstr "Envoyer un nouveau courriel"
@@ -632,6 +644,9 @@ msgstr "Se connecter"
 msgid "Sign in with a different account"
 msgstr "Se connecter avec un autre compte"
 
+msgid "Sign me up!"
+msgstr ""
+
 msgid "Sign-in methods"
 msgstr "Méthodes de connexion"
 
@@ -656,11 +671,17 @@ msgstr "Un problème est survenu. Nous n’avons pas pu téléverser votre fichi
 msgid "Start Upload"
 msgstr "Démarrer le téléversement"
 
+msgid "Start a team"
+msgstr ""
+
 msgid "Storage Plan"
 msgstr "Plan de stockage"
 
 msgid "Stored by miner"
 msgstr "Sauvegardé par le mineur"
+
+msgid "Teams"
+msgstr ""
 
 msgid "Technical"
 msgstr "Technique"

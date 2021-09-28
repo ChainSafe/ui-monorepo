@@ -33,7 +33,8 @@ export const ROUTE_LINKS = {
     const adjustedRawCurrentPath = !rawCurrentPath ? "/" : rawCurrentPath
     return `/shared/${bucketId}${adjustedRawCurrentPath}`
   },
-  DiscordInvite: "https://discord.gg/zAEY37fNb2"
+  DiscordInvite: "https://discord.gg/zAEY37fNb2",
+  TeamSignup: "https://shrl.ink/cgQy"
 }
 
 export const SETTINGS_PATHS = ["profile", "plan", "security"] as const

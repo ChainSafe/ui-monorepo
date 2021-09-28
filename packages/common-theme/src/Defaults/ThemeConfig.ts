@@ -169,7 +169,7 @@ const DefaultThemeConfig: IThemeConfig = {
     },
     button: {
       ...defaultFontStyles,
-      fontWeight: defaultFontWeights.regular,
+      fontWeight: defaultFontWeights.semibold,
       fontSize: 14,
       lineHeight: "22px"
     },

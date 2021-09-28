@@ -480,6 +480,9 @@ export const darkTheme = createTheme<CsfColors>({
         },
         surveyBanner: {
           color: "var(--gray9)"
+        },
+        cookieBanner: {
+          backgroundColor: "var(--gray9)"
         }
       } as CsfColors)
     },
@@ -555,17 +558,16 @@ export const darkTheme = createTheme<CsfColors>({
             borderColor: "var(--blue3) !important"
           }
         },
-        menu: {
-          backgroundColor: "var(--gray1)",
-          borderColor: "var(--gray4)"
+        menuList: {
+          backgroundColor: "var(--gray4)",
+          color: "var(--gray10)"
         },
         input: {
           color: "var(--gray9)"
         },
         option: {
-          backgroundColor: "var(--gray1)",
-          color: "var(--gray9)",
-          borderColor: "var(--gray4)",
+          backgroundColor: "var(--gray4)",
+          color: "var(--gray10)",
           cursor: "pointer"
         },
         multiValue: {
@@ -589,8 +591,9 @@ export const darkTheme = createTheme<CsfColors>({
           color: "var(--gray9)"
         },
         option: {
-          backgroundColor: "var(--gray1)",
-          color: "var(--gray9)"
+          backgroundColor: "var(--gray4)",
+          color: "var(--gray10)",
+          cursor: "pointer"
         },
         dropdownIndicator: {
           backgroundColor: "var(--gray1)",
@@ -600,9 +603,9 @@ export const darkTheme = createTheme<CsfColors>({
           backgroundColor: "var(--gray1)",
           color: "var(--gray9)"
         },
-        menu: {
-          backgroundColor: "var(--gray1)",
-          color: "var(--gray9)"
+        menuList: {
+          backgroundColor: "var(--gray4)",
+          color: "var(--gray10)"
         },
         indicatorsContainer: {
           backgroundColor: "transparent",
@@ -616,11 +619,44 @@ export const darkTheme = createTheme<CsfColors>({
         },
         singleValue: {
           color: "var(--gray9)"
+        },
+        input: {
+          color: "var(--gray9)"
         }
       },
       Button: {
         variants: {
           primary: {
+            root: {
+              backgroundColor: "var(--gray5)",
+              color: "var(--gray9)",
+              "& svg": {
+                fill: "var(--gray9)"
+              }
+            },
+            active: {
+              backgroundColor: "var(--gray7)",
+              color: "var(--gray9)",
+              "& svg": {
+                fill: "var(--gray9)"
+              }
+            },
+            hover: {
+              backgroundColor: "var(--gray7)",
+              color: "var(--gray9)",
+              "& svg": {
+                fill: "var(--gray9)"
+              }
+            },
+            focus: {
+              color: "none",
+              backgroundColor: "none",
+              "& svg": {
+                fill: "none"
+              }
+            }
+          },
+          tertiary: {
             root: {
               backgroundColor: "var(--gray5)",
               color: "var(--gray9)",
