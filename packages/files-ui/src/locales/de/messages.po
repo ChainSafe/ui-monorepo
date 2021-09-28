@@ -16,6 +16,9 @@ msgstr ""
 msgid "A backup secret phrase will be generated and used for your account.<0/>We do not store it and <1>it can only be displayed once</1>. Save it somewhere safe!"
 msgstr "Es wird ein Sicherungsgeheimsatz generiert und für Ihr Konto verwendet.<0/>Wir speichern ihn nicht und <1>er kann nur einmal angezeigt werden</1>. Speichern Sie ihn an einem sicheren Ort!"
 
+msgid "A better sharing experience is coming soon."
+msgstr ""
+
 msgid "A file with the same name already exists"
 msgstr "Es existiert bereits eine Datei mit demselben Namen"
 
@@ -313,9 +316,6 @@ msgstr ""
 msgid "Go back"
 msgstr "Zurück"
 
-msgid "Got an issue?"
-msgstr ""
-
 msgid "Got it"
 msgstr ""
 
@@ -541,6 +541,9 @@ msgstr ""
 msgid "Report a File"
 msgstr ""
 
+msgid "Report a bug"
+msgstr ""
+
 msgid "Requested from"
 msgstr "Angefordert von"
 
@@ -637,6 +640,9 @@ msgstr "Anmelden"
 msgid "Sign in with a different account"
 msgstr "Mit einem anderen Konto anmelden"
 
+msgid "Sign me up!"
+msgstr ""
+
 msgid "Sign-in methods"
 msgstr "Anmeldemethoden"
 
@@ -661,10 +667,16 @@ msgstr "Es ist etwas schief gelaufen. Wir konnten Ihre Datei nicht hochladen"
 msgid "Start Upload"
 msgstr "Hochladen starten"
 
+msgid "Start a team"
+msgstr ""
+
 msgid "Storage Plan"
 msgstr "Speicherplan"
 
 msgid "Stored by miner"
+msgstr ""
+
+msgid "Teams"
 msgstr ""
 
 msgid "Technical"

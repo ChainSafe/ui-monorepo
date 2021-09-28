@@ -16,6 +16,9 @@ msgstr ""
 msgid "A backup secret phrase will be generated and used for your account.<0/>We do not store it and <1>it can only be displayed once</1>. Save it somewhere safe!"
 msgstr "A backup secret phrase will be generated and used for your account.<0/>We do not store it and <1>it can only be displayed once</1>. Save it somewhere safe!"
 
+msgid "A better sharing experience is coming soon."
+msgstr "A better sharing experience is coming soon."
+
 msgid "A file with the same name already exists"
 msgstr "A file with the same name already exists"
 
@@ -316,9 +319,6 @@ msgstr "Give view-only permission to:"
 msgid "Go back"
 msgstr "Go back"
 
-msgid "Got an issue?"
-msgstr "Got an issue?"
-
 msgid "Got it"
 msgstr "Got it"
 
@@ -544,6 +544,9 @@ msgstr "Report"
 msgid "Report a File"
 msgstr "Report a File"
 
+msgid "Report a bug"
+msgstr "Report a bug"
+
 msgid "Requested from"
 msgstr "Requested from"
 
@@ -640,6 +643,9 @@ msgstr "Sign in"
 msgid "Sign in with a different account"
 msgstr "Sign in with a different account"
 
+msgid "Sign me up!"
+msgstr "Sign me up!"
+
 msgid "Sign-in methods"
 msgstr "Sign-in methods"
 
@@ -664,11 +670,17 @@ msgstr "Something went wrong. We couldn't upload your file"
 msgid "Start Upload"
 msgstr "Start Upload"
 
+msgid "Start a team"
+msgstr "Start a team"
+
 msgid "Storage Plan"
 msgstr "Storage Plan"
 
 msgid "Stored by miner"
 msgstr "Stored by miner"
+
+msgid "Teams"
+msgstr "Teams"
 
 msgid "Technical"
 msgstr "Technical"
