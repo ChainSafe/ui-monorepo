@@ -18,7 +18,7 @@ import { useThresholdKey } from "../../Contexts/ThresholdKeyContext"
 import { CSFTheme } from "../../Themes/types"
 import { useUser } from "../../Contexts/UserContext"
 import { useFilesApi } from "../../Contexts/FilesApiContext"
-import { usePosthog } from "../../Contexts/PosthogContext"
+import TeamModal from "../Elements/TeamModal"
 
 const useStyles = makeStyles(
   ({ palette, animation, breakpoints, constants, zIndex }: CSFTheme) => {
@@ -149,7 +149,11 @@ const useStyles = makeStyles(
         margin: `0 ${constants.generalUnit * 2}px`,
 
         "& button" : {
-          height: constants.generalUnit * 4
+          height: constants.generalUnit * 4,
+
+          "&:not(:first-child)": {
+            marginLeft: constants.generalUnit * 2
+          }
         }
       }
     })
@@ -168,8 +172,8 @@ const AppHeader = ({ navOpen, setNavOpen }: IAppHeader) => {
   const { publicKey, isNewDevice, shouldInitializeAccount, logout } = useThresholdKey()
   const { getProfileTitle, removeUser } = useUser()
   const [searchActive, setSearchActive] = useState(false)
+  const [isTeamModalOpen, setIsTeamModalOpen] = useState(false)
   const { history } = useHistory()
-  const posthog = usePosthog()
 
   const signOut = useCallback(async () => {
     logout()
@@ -182,9 +186,12 @@ const AppHeader = ({ navOpen, setNavOpen }: IAppHeader) => {
   }, [logout, removeUser, history])
 
   const onReportBugClick = useCallback(() => {
-    posthog && posthog.capture("Report Bug")
     window.open(ROUTE_LINKS.DiscordInvite, "_blank")
-  }, [posthog])
+  }, [])
+
+  const onStartATeamClick = useCallback(() => {
+    setIsTeamModalOpen(true)
+  }, [])
 
   return (
     <header
@@ -214,12 +221,22 @@ const AppHeader = ({ navOpen, setNavOpen }: IAppHeader) => {
               </section>
               <section className={classes.buttonsSection}>
                 <Button
+                  data-posthog="Report-a-bug"
                   data-cy="send-feedback-nav"
                   variant="tertiary"
                   size="small"
                   onClick={onReportBugClick}
                 >
                   <Trans>Report a bug</Trans>
+                </Button>
+                <Button
+                  data-posthog="Start-a-team"
+                  data-cy="start-team-nav"
+                  variant="tertiary"
+                  size="small"
+                  onClick={onStartATeamClick}
+                >
+                  <Trans>Start a team</Trans>
                 </Button>
               </section>
               <section className={classes.accountControls}>
@@ -285,6 +302,7 @@ const AppHeader = ({ navOpen, setNavOpen }: IAppHeader) => {
           )}
         </>
       )}
+      {isTeamModalOpen && <TeamModal onHide={() => setIsTeamModalOpen(false)}/>}
     </header>
   )
 }
