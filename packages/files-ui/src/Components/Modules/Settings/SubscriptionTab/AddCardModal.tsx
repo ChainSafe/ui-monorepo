@@ -231,7 +231,7 @@ const AddCardModal = ({ isModalOpen, onClose }: IAddCardModalProps) => {
               variant="body1"
               className={classes.error}
             >
-              <Trans>Card inputs could not be validated</Trans>
+              <Trans>Card inputs invalid</Trans>
             </Typography>
           }
           <Grid
