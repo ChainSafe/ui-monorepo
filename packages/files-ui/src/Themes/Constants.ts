@@ -13,7 +13,7 @@ export const UI_CONSTANTS = {
   headerTopPadding: 8 * 3,
   accountControlsPadding: 8 * 7,
   bottomBannerHeight: 80,
-  bottomBannerMobileHeight: 130,
+  bottomBannerMobileHeight: 130
 }
 
 export interface CsfColors extends IConstants {
@@ -171,5 +171,5 @@ export interface CsfColors extends IConstants {
   }
   cookieBanner: {
     backgroundColor: string
-  },
+  }
 }
