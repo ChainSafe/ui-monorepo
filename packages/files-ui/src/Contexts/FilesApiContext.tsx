@@ -63,7 +63,7 @@ const FilesApiProvider = ({ apiUrl, withLocalStorage = true, children }: FilesAp
   // access tokens
   const [accessToken, setAccessToken] = useState<Token | undefined>(undefined)
   const [secured, setSecured] = useState<boolean | undefined>(undefined)
-  const [accountRestricted, setAccountRestricted] = useState<boolean | undefined>(undefined)
+  const [accountRestricted, setAccountRestricted] = useState(false)
   const [refreshToken, setRefreshToken] = useState<Token | undefined>(undefined)
   const [decodedRefreshToken, setDecodedRefreshToken] = useState<
     { exp: number; enckey?: string; mps?: string; uuid: string } | undefined
@@ -316,7 +316,7 @@ const FilesApiProvider = ({ apiUrl, withLocalStorage = true, children }: FilesAp
         secureThresholdKeyAccount,
         encryptedEncryptionKey: decodedRefreshToken?.enckey,
         isMasterPasswordSet: !!decodedRefreshToken?.mps,
-        accountRestricted: accountRestricted
+        accountRestricted
       }}
     >
       {children}

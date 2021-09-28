@@ -183,8 +183,8 @@ const SharedFileBrowser = () => {
     if (accountRestricted) {
       addToast({
         type:"error",
-        title: "Unable to upload",
-        subtitle: "Oops! You need to pay for this month to upload more content."
+        title: t`Unable to upload`,
+        subtitle: t`Oops! You need to pay for this month to upload more content.`
       })
       return
     }

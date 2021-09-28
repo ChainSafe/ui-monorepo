@@ -179,8 +179,8 @@ const CSFFileBrowser: React.FC<IFileBrowserModuleProps> = () => {
     if (accountRestricted) {
       addToast({
         type:"error",
-        title: "Uploads disabled",
-        subtitle: "Oops! You need to pay for this month to upload more content."
+        title: t`Uploads disabled`,
+        subtitle: t`Oops! You need to pay for this month to upload more content.`
       })
       return
     }
@@ -196,7 +196,7 @@ const CSFFileBrowser: React.FC<IFileBrowserModuleProps> = () => {
     if (fileSystemItem && fileSystemItem.content_type === CONTENT_TYPES.Directory) {
       redirect(ROUTE_LINKS.Drive(getUrlSafePathWithFile(currentPath, fileSystemItem.name)))
     }
-  }, [currentPath, pathContents, redirect ])
+  }, [currentPath, pathContents, redirect])
 
   const bulkOperations: IBulkOperations = useMemo(() => ({
     [CONTENT_TYPES.Directory]: ["download", "move", "delete"],
