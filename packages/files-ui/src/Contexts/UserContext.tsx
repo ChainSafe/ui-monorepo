@@ -18,8 +18,14 @@ export type Profile = {
   username?: string
 }
 
+interface ILocalStore {
+  [key: string]: any
+}
+
 interface IUserContext {
   profile: Profile | undefined
+  localStore: ILocalStore | undefined
+  setLocalStore: (newData: ILocalStore, method?: "update" | "overwrite") => void
   refreshProfile(): Promise<void>
   updateProfile: (
     firstName: string,
@@ -34,10 +40,26 @@ interface IUserContext {
 
 const UserContext = React.createContext<IUserContext | undefined>(undefined)
 
+
 const UserProvider = ({ children }: UserContextProps) => {
   const { filesApiClient, isLoggedIn } = useFilesApi()
 
   const [profile, setProfile] = useState<Profile | undefined>(undefined)
+  const [localStore, _setLocalStore] = useState<ILocalStore | undefined>()
+
+  const setLocalStore = useCallback((newData: ILocalStore, method: "update" | "overwrite" = "update") => {
+    switch (method) {
+      case "update":
+        _setLocalStore({
+          ...localStore,
+          ...newData
+        })
+        break
+      case "overwrite":
+        _setLocalStore(newData)
+        break
+    }
+  }, [localStore])
 
   const refreshProfile = useCallback(async () => {
     try {
@@ -58,6 +80,15 @@ const UserProvider = ({ children }: UserContextProps) => {
       return Promise.reject("There was an error getting profile.")
     }
   }, [filesApiClient])
+
+  useEffect(() => {
+    if (!localStore) {
+      // Fetch
+      filesApiClient.
+    } else {
+      // Store 
+    }
+  }, [localStore])
 
   useEffect(() => {
     if (isLoggedIn) {
@@ -149,6 +180,8 @@ const UserProvider = ({ children }: UserContextProps) => {
   return (
     <UserContext.Provider
       value={{
+        localStore,
+        setLocalStore,
         profile,
         updateProfile,
         refreshProfile,
