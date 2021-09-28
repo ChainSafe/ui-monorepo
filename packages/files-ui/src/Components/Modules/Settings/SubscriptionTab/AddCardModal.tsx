@@ -168,7 +168,7 @@ const AddCardModal = ({ isModalOpen, onClose }: IAddCardModalProps) => {
       <form onSubmit={handleSubmitPaymentMethod}>
         <div
           className={classes.root}
-          data-cy="modal-create-folder"
+          data-cy="modal-add-card"
         >
           <Grid
             item
