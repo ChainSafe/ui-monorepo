@@ -10,7 +10,7 @@ type BillingContextProps = {
 
 interface IBillingContext {
   defaultCard: Card | undefined
-  refreshDefaultCard(): void
+  refreshDefaultCard: () => void
 }
 
 const BillingContext = React.createContext<IBillingContext | undefined>(
