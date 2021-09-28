@@ -77,7 +77,7 @@ const useStyles = makeStyles(
           marginLeft: constants.generalUnit * 2,
           marginRight: constants.generalUnit * 2,
           "&.bottomBanner": {
-            paddingBottom: 130
+            paddingBottom: constants.bottomBannerMobileHeight
           }
         },
         [breakpoints.up("md")]: {
@@ -89,8 +89,8 @@ const useStyles = makeStyles(
             borderColor: palette.primary.main
           },
           "&.bottomBanner": {
-            minHeight: `calc(100vh - ${Number(constants.contentTopPadding) + 80}px)`,
-            paddingBottom: 80
+            minHeight: `calc(100vh - ${Number(constants.contentTopPadding) + Number(constants.bottomBannerHeight)}px)`,
+            paddingBottom: constants.bottomBannerHeight
           }
         }
       },
