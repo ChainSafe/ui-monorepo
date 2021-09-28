@@ -35,7 +35,7 @@ const RestrictedModeBanner = () => {
 
   return (
     <div className={classes.accountRestrictedNotification}>
-      <Typography variant={desktop ? 'body1': 'body2'}>
+      <Typography variant={desktop ? "body1" : "body2"}>
         <Trans>You&apos;ve got a payment due. Until you&apos;ve settled up, we&apos;ve placed your account in restricted mode</Trans>
       </Typography>
       <Button
