@@ -307,7 +307,7 @@ const SharedFolderOverview = () => {
         testId="shared-folder-deletion"
       />
       {accountRestricted &&
-      <RestrictedModeBanner />
+        <RestrictedModeBanner />
       }
     </>
   )

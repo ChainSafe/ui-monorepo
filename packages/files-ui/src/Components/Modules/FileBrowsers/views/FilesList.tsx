@@ -1128,7 +1128,7 @@ const FilesList = ({ isShared = false }: Props) => {
         />
       </article>
       {accountRestricted &&
-      <RestrictedModeBanner />
+        <RestrictedModeBanner />
       }
     </>
   )

@@ -8,7 +8,6 @@ import AppHeader from "./AppHeader"
 import AppNav from "./AppNav"
 import { useThresholdKey } from "../../Contexts/ThresholdKeyContext"
 
-
 interface IAppWrapper {
   children: ReactNode | ReactNode[]
 }
