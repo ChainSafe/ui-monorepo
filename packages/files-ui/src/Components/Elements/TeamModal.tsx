@@ -32,7 +32,7 @@ const useStyles = makeStyles(
   })
 
 interface Props {
-    onHide: () => void
+  onHide: () => void
 }
 
 const TeamModal = ({ onHide }: Props) => {
