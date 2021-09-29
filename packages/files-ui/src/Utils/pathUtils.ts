@@ -1,4 +1,4 @@
-import {FileSystemItem} from "../Contexts/FilesContext"
+import { FileSystemItem } from "../Contexts/FilesContext"
 
 // trims a string at both ends for a character
 export function trimChar(str: string, char: string) {
@@ -114,10 +114,10 @@ export const getUrlSafePathWithFile = (path: string, fileName: string) => {
 
 export const getAbsolutePathsFromCids = (cids: string[], currentPath: string, pathContents: FileSystemItem[]) => {
   return cids.map((cid: string) => {
-      const item = pathContents.find((i) => i.cid === cid)
-      if (!item) {
-        return undefined
-      }
-      return getPathWithFile(currentPath, item.name)
-    }).filter((item): item is string => !!item)
+    const item = pathContents.find((i) => i.cid === cid)
+    if (!item) {
+      return undefined
+    }
+    return getPathWithFile(currentPath, item.name)
+  }).filter((item): item is string => !!item)
 }

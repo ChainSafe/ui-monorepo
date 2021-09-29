@@ -115,7 +115,7 @@ const CSFFileBrowser: React.FC<IFileBrowserModuleProps> = () => {
     if (!bucket) return
 
     const pathsToMove = getAbsolutePathsFromCids(cids, currentPath, pathContents)
-    
+
     filesApiClient.moveBucketObjects(bucket.id, {
       paths: pathsToMove,
       new_path: newPath

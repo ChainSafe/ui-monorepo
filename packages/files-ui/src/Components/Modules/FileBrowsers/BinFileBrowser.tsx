@@ -7,7 +7,7 @@ import { t } from "@lingui/macro"
 import { CONTENT_TYPES } from "../../../Utils/Constants"
 import { IFilesTableBrowserProps } from "../../Modules/FileBrowsers/types"
 import { useHistory, useLocation, useToasts } from "@chainsafe/common-components"
-import { extractFileBrowserPathFromURL, getAbsolutePathsFromCids, getPathWithFile, getUrlSafePathWithFile } from "../../../Utils/pathUtils"
+import { extractFileBrowserPathFromURL, getAbsolutePathsFromCids, getUrlSafePathWithFile } from "../../../Utils/pathUtils"
 import { ROUTE_LINKS } from "../../FilesRoutes"
 import { FileBrowserContext } from "../../../Contexts/FileBrowserContext"
 import { useFilesApi } from "../../../Contexts/FilesApiContext"
@@ -56,7 +56,7 @@ const BinFileBrowser: React.FC<IFileBrowserModuleProps> = ({ controls = false }:
     if (!bucket) return
 
     const pathsToDelete = getAbsolutePathsFromCids(cids, currentPath, pathContents)
-    
+
     filesApiClient.removeBucketObject(bucket.id, { paths: pathsToDelete })
       .then(() => {
         addToast({
