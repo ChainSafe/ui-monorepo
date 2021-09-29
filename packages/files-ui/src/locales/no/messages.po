@@ -721,6 +721,9 @@ msgstr ""
 msgid "There was an error recovering this"
 msgstr ""
 
+msgid "There was an error when setting username."
+msgstr ""
+
 msgid "This username is already taken"
 msgstr ""
 
