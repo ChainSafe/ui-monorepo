@@ -85,19 +85,25 @@ const UserProvider = ({ children }: UserContextProps) => {
     const manageAsync = async () => {
       if (!localStore) {
         // Fetch
-        const fetched = await filesApiClient.getUserLocalStore()
-        if (!fetched) {
+        try {
+          const fetched = await filesApiClient.getUserLocalStore()
+          if (!fetched) {
+            _setLocalStore({})
+          } else {
+            _setLocalStore(fetched)
+          }
+        } catch(error) {
           _setLocalStore({})
-        }else {
-          _setLocalStore(fetched)
         }
       } else {
         // Store 
         await filesApiClient.updateUserLocalStore(localStore)
       }
     }
-    manageAsync()
-  }, [localStore, filesApiClient])
+    if (isLoggedIn) {
+      manageAsync()
+    }
+  }, [isLoggedIn, localStore, filesApiClient])
 
   useEffect(() => {
     if (isLoggedIn) {

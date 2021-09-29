@@ -17,7 +17,6 @@ import { ROUTE_LINKS } from "../../FilesRoutes"
 import dayjs from "dayjs"
 import { useFilesApi } from "../../../Contexts/FilesApiContext"
 import { useUser } from "../../../Contexts/UserContext"
-import { useLocalStorage } from "@chainsafe/browser-storage-hooks"
 import { DISMISSED_SURVEY_KEY } from "../../SurveyBanner"
 import { FileBrowserContext } from "../../../Contexts/FileBrowserContext"
 import { parseFileContentResponse } from "../../../Utils/Helpers"
@@ -49,10 +48,9 @@ const CSFFileBrowser: React.FC<IFileBrowserModuleProps> = () => {
       }).finally(() => showLoading && setLoadingCurrentPath(false))
   }, [bucket, filesApiClient, currentPath])
 
-  const { localStorageGet, localStorageSet } = useLocalStorage()
-  const { profile } = useUser()
+  const { profile, localStore, setLocalStore } = useUser()
 
-  const showSurvey = localStorageGet(DISMISSED_SURVEY_KEY) === "false"
+  const showSurvey = localStore && localStore[DISMISSED_SURVEY_KEY] === "false"
 
   const olderThanOneWeek = useMemo(
     () => profile?.createdAt
@@ -62,11 +60,11 @@ const CSFFileBrowser: React.FC<IFileBrowserModuleProps> = () => {
   )
 
   useEffect(() => {
-    const dismissedFlag = localStorageGet(DISMISSED_SURVEY_KEY)
+    const dismissedFlag = localStore && localStore[DISMISSED_SURVEY_KEY]
     if (dismissedFlag === undefined || dismissedFlag === null) {
-      localStorageSet(DISMISSED_SURVEY_KEY, "false")
+      setLocalStore({ [DISMISSED_SURVEY_KEY]: "false" }, "update")
     }
-  }, [localStorageGet, localStorageSet])
+  }, [localStore, setLocalStore])
 
   useEffect(() => {
     refreshContents(true)
