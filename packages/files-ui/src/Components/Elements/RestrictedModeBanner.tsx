@@ -13,7 +13,7 @@ const useStyles = makeStyles(
         bottom: 0,
         backgroundColor: palette.additional["gray"][10],
         color: palette.additional["gray"][1],
-        padding: `${constants.generatUnit * 2}px ${constants.generatUnit * 3}px`,
+        padding: `${constants.generalUnit * 2}px ${constants.generalUnit * 3}px`,
         left: 0,
         width: "100vw",
         [breakpoints.up("md")]: {
