@@ -166,6 +166,15 @@ msgstr ""
 msgid "Dark Theme"
 msgstr "Mørk drakt"
 
+msgid "Data deleted successfully"
+msgstr ""
+
+msgid "Data moved successfully"
+msgstr ""
+
+msgid "Data restored successfully"
+msgstr ""
+
 msgid "Date uploaded"
 msgstr "Dato opplastet"
 
@@ -250,9 +259,6 @@ msgid ""
 "sure you have activated your wallet."
 msgstr ""
 
-msgid "File"
-msgstr "Fil"
-
 msgid "File Info"
 msgstr "Filinfo"
 
@@ -273,9 +279,6 @@ msgstr ""
 
 msgid "First name"
 msgstr "Fornavn"
-
-msgid "Folder"
-msgstr "Mappe"
 
 msgid "Folder name is already in use"
 msgstr ""
@@ -706,7 +709,7 @@ msgstr ""
 msgid "There was an error connecting your wallet"
 msgstr ""
 
-msgid "There was an error deleting this"
+msgid "There was an error deleting your data"
 msgstr ""
 
 msgid "There was an error getting search results"
@@ -715,10 +718,10 @@ msgstr ""
 msgid "There was an error getting the preview."
 msgstr ""
 
-msgid "There was an error moving this"
+msgid "There was an error moving your data"
 msgstr ""
 
-msgid "There was an error recovering this"
+msgid "There was an error restoring your data"
 msgstr ""
 
 msgid "There was an error when setting username."
@@ -838,26 +841,11 @@ msgstr ""
 msgid "Your recovery key can be used to restore your account in place of your backup secret phrase."
 msgstr ""
 
-msgid "deleted successfully"
-msgstr "slettet"
-
-msgid "file"
-msgstr "fil"
-
-msgid "folder"
-msgstr "mappe"
-
 msgid "me"
 msgstr ""
 
-msgid "moved successfully"
-msgstr "flyttet"
-
 msgid "on"
 msgstr ""
-
-msgid "recovered successfully"
-msgstr "gjenopprettet"
 
 msgid "unknown"
 msgstr ""

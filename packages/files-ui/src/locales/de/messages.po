@@ -166,6 +166,15 @@ msgstr ""
 msgid "Dark Theme"
 msgstr "Dunkles Farbschema"
 
+msgid "Data deleted successfully"
+msgstr ""
+
+msgid "Data moved successfully"
+msgstr ""
+
+msgid "Data restored successfully"
+msgstr ""
+
 msgid "Date uploaded"
 msgstr "Hochgeladen am"
 
@@ -250,9 +259,6 @@ msgid ""
 "sure you have activated your wallet."
 msgstr ""
 
-msgid "File"
-msgstr "Datei"
-
 msgid "File Info"
 msgstr "Dateiinfos"
 
@@ -273,9 +279,6 @@ msgstr "Dateifreigabeschlüssel"
 
 msgid "First name"
 msgstr "Vorname"
-
-msgid "Folder"
-msgstr "Ordner"
 
 msgid "Folder name is already in use"
 msgstr ""
@@ -706,8 +709,8 @@ msgstr "Es gab einen Fehler bei der Authentifizierung"
 msgid "There was an error connecting your wallet"
 msgstr ""
 
-msgid "There was an error deleting this"
-msgstr "Es gab einen Fehler beim Löschen dieses"
+msgid "There was an error deleting your data"
+msgstr ""
 
 msgid "There was an error getting search results"
 msgstr "Es gab einen Fehler beim Abrufen der Suchergebnisse"
@@ -715,11 +718,11 @@ msgstr "Es gab einen Fehler beim Abrufen der Suchergebnisse"
 msgid "There was an error getting the preview."
 msgstr "Es gab einen Fehler beim Abrufen der Vorschau."
 
-msgid "There was an error moving this"
-msgstr "Es gab einen Fehler beim Verschieben dieses"
+msgid "There was an error moving your data"
+msgstr ""
 
-msgid "There was an error recovering this"
-msgstr "Es gab einen Fehler bei der Wiederherstellung dieses"
+msgid "There was an error restoring your data"
+msgstr ""
 
 msgid "There was an error when setting username."
 msgstr ""
@@ -838,26 +841,11 @@ msgstr ""
 msgid "Your recovery key can be used to restore your account in place of your backup secret phrase."
 msgstr "Ihr Wiederherstellungsschlüssel kann zur Wiederherstellung Ihres Kontos anstelle Ihres Sicherungsgeheimsatz verwendet werden."
 
-msgid "deleted successfully"
-msgstr "erfolgreich gelöscht"
-
-msgid "file"
-msgstr "Datei"
-
-msgid "folder"
-msgstr "Ordner"
-
 msgid "me"
 msgstr "ich"
 
-msgid "moved successfully"
-msgstr "erfolgreich verschoben"
-
 msgid "on"
 msgstr "am"
-
-msgid "recovered successfully"
-msgstr "erfolgreich wiederhergestellt"
 
 msgid "unknown"
 msgstr "unbekannt"

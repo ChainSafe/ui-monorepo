@@ -166,6 +166,15 @@ msgstr "Create your public username in <0>Settings</0>!"
 msgid "Dark Theme"
 msgstr "Dark Theme"
 
+msgid "Data deleted successfully"
+msgstr "Data deleted successfully"
+
+msgid "Data moved successfully"
+msgstr "Data moved successfully"
+
+msgid "Data restored successfully"
+msgstr "Data restored successfully"
+
 msgid "Date uploaded"
 msgstr "Date uploaded"
 
@@ -253,9 +262,6 @@ msgstr ""
 "If you are using a contract wallet, please make \n"
 "sure you have activated your wallet."
 
-msgid "File"
-msgstr "File"
-
 msgid "File Info"
 msgstr "File Info"
 
@@ -276,9 +282,6 @@ msgstr "Files sharing key"
 
 msgid "First name"
 msgstr "First name"
-
-msgid "Folder"
-msgstr "Folder"
 
 msgid "Folder name is already in use"
 msgstr "Folder name is already in use"
@@ -709,8 +712,8 @@ msgstr "There was an error authenticating"
 msgid "There was an error connecting your wallet"
 msgstr "There was an error connecting your wallet"
 
-msgid "There was an error deleting this"
-msgstr "There was an error deleting this"
+msgid "There was an error deleting your data"
+msgstr "There was an error deleting your data"
 
 msgid "There was an error getting search results"
 msgstr "There was an error getting search results"
@@ -718,11 +721,11 @@ msgstr "There was an error getting search results"
 msgid "There was an error getting the preview."
 msgstr "There was an error getting the preview."
 
-msgid "There was an error moving this"
-msgstr "There was an error moving this"
+msgid "There was an error moving your data"
+msgstr "There was an error moving your data"
 
-msgid "There was an error recovering this"
-msgstr "There was an error recovering this"
+msgid "There was an error restoring your data"
+msgstr "There was an error restoring your data"
 
 msgid "There was an error when setting username."
 msgstr "There was an error when setting username."
@@ -841,26 +844,11 @@ msgstr "You will need to sign a message in your wallet to complete sign in."
 msgid "Your recovery key can be used to restore your account in place of your backup secret phrase."
 msgstr "Your recovery key can be used to restore your account in place of your backup secret phrase."
 
-msgid "deleted successfully"
-msgstr "deleted successfully"
-
-msgid "file"
-msgstr "file"
-
-msgid "folder"
-msgstr "folder"
-
 msgid "me"
 msgstr "me"
 
-msgid "moved successfully"
-msgstr "moved successfully"
-
 msgid "on"
 msgstr "on"
-
-msgid "recovered successfully"
-msgstr "recovered successfully"
 
 msgid "unknown"
 msgstr "unknown"
