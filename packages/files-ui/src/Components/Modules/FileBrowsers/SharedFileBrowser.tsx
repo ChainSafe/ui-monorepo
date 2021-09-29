@@ -104,7 +104,7 @@ const SharedFileBrowser = () => {
       }
       return undefined
     }).filter((item): item is string => !!item)
-    
+
     filesApiClient.removeBucketObject(bucket.id, { paths: pathsToDelete })
       .then(() => {
         addToast({
