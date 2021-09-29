@@ -725,9 +725,6 @@ msgstr "Une erreur s’est produite lors du déplacement"
 msgid "There was an error recovering this"
 msgstr "Une erreur s’est produite lors de la récupération"
 
-msgid "There was an error when setting username."
-msgstr "Il y a eu une erreur dans le paramétrage du nom d’utilisateur."
-
 msgid "This username is already taken"
 msgstr "Ce nom d’utilisateur est déjà pris"
 
