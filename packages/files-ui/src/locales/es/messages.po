@@ -59,6 +59,9 @@ msgstr ""
 msgid "Approve"
 msgstr "Aprobar"
 
+msgid "Back to plan settings"
+msgstr ""
+
 msgid "Backup secret phrase"
 msgstr ""
 
@@ -185,6 +188,9 @@ msgstr "Crear Carpeta"
 msgid "Create your public username in <0>Settings</0>!"
 msgstr ""
 
+msgid "Credit card on file"
+msgstr ""
+
 msgid "Dark Theme"
 msgstr "Tema oscuro"
 
@@ -305,8 +311,8 @@ msgstr "Archivo"
 msgid "Folder name is already in use"
 msgstr ""
 
-msgid "Folder uploads are not supported currently"
-msgstr ""
+#~ msgid "Folder uploads are not supported currently"
+#~ msgstr ""
 
 msgid "Folders"
 msgstr "Archivos"
@@ -340,6 +346,9 @@ msgstr ""
 
 msgid "Go back"
 msgstr "Regresar"
+
+msgid "Go to Payments"
+msgstr ""
 
 msgid "Got an issue?"
 msgstr ""
@@ -878,6 +887,9 @@ msgstr ""
 msgid "You will need to sign a message in your wallet to complete sign in."
 msgstr "Deberá firmar un mensaje en su billetera para completar el inicio de sesión."
 
+msgid "You've got a payment due. Until you've settled up, we've placed your account in restricted mode"
+msgstr ""
+
 msgid "Your first {0} are free, and you’ll get a discount on our monthly plan once you need more than that"
 msgstr ""
 
@@ -915,4 +927,7 @@ msgid "{0, plural, one {Encrypting and uploading {1} file} other {Encrypting and
 msgstr ""
 
 msgid "{0, plural, one {You are about to delete {1} item.} other {You are about to delete {2} items.}}"
+msgstr ""
+
+msgid "{0} of {1} used ({2}%)"
 msgstr ""

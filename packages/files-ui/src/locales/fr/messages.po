@@ -59,6 +59,9 @@ msgstr "Une erreur s'est produite :"
 msgid "Approve"
 msgstr "Accepter"
 
+msgid "Back to plan settings"
+msgstr ""
+
 msgid "Backup secret phrase"
 msgstr "Phrase secrète de sauvegarde"
 
@@ -185,6 +188,9 @@ msgstr "Créer un dossier"
 msgid "Create your public username in <0>Settings</0>!"
 msgstr "Créez votre nom d'utilisateur public dans <0>Paramètres</0> !"
 
+msgid "Credit card on file"
+msgstr ""
+
 msgid "Dark Theme"
 msgstr "Thème sombre"
 
@@ -305,8 +311,8 @@ msgstr "Dossier"
 msgid "Folder name is already in use"
 msgstr "Le nom du dossier est déjà utilisé"
 
-msgid "Folder uploads are not supported currently"
-msgstr "Le téléversement de dossiers n'est pas actuellement pris en charge"
+#~ msgid "Folder uploads are not supported currently"
+#~ msgstr "Le téléversement de dossiers n'est pas actuellement pris en charge"
 
 msgid "Folders"
 msgstr "Dossiers"
@@ -340,6 +346,9 @@ msgstr "Donner l’accès en lecture seule à :"
 
 msgid "Go back"
 msgstr "Retour"
+
+msgid "Go to Payments"
+msgstr ""
 
 msgid "Got an issue?"
 msgstr "Vous avez un problème ?"
@@ -446,8 +455,8 @@ msgstr "Suivant"
 msgid "Nice to see you again!"
 msgstr "Ravi de te revoir !"
 
-msgid "No file to download."
-msgstr "Aucun fichier à télécharger."
+msgid "No Card"
+msgstr ""
 
 msgid "No file to download."
 msgstr "Aucun fichier à télécharger."
@@ -878,6 +887,9 @@ msgstr "Vous n’avez pas encore défini de nom d’utilisateur."
 msgid "You will need to sign a message in your wallet to complete sign in."
 msgstr "Vous devrez signer un message avec votre wallet pour terminer la procédure connexion."
 
+msgid "You've got a payment due. Until you've settled up, we've placed your account in restricted mode"
+msgstr ""
+
 msgid "Your first {0} are free, and you’ll get a discount on our monthly plan once you need more than that"
 msgstr ""
 
@@ -916,3 +928,6 @@ msgstr "{0, plural, one {Chiffrement et téléversement de {1} fichier} other {C
 
 msgid "{0, plural, one {You are about to delete {1} item.} other {You are about to delete {2} items.}}"
 msgstr "{0, plural, one {Vous êtes sur le point de supprimer {1} élément.} other {Vous êtes sur le point de supprimer {2} éléments.}}"
+
+msgid "{0} of {1} used ({2}%)"
+msgstr ""
