@@ -6,7 +6,8 @@ import {
   getURISafePathFromArray,
   getPathWithFile,
   extractFileBrowserPathFromURL,
-  getUrlSafePathWithFile
+  getUrlSafePathWithFile,
+  getAbsolutePathsFromCids
 } from "../../../Utils/pathUtils"
 import { IBulkOperations, IFileBrowserModuleProps, IFilesTableBrowserProps } from "./types"
 import FilesList from "./views/FilesList"
@@ -75,13 +76,7 @@ const CSFFileBrowser: React.FC<IFileBrowserModuleProps> = () => {
   const moveItemsToBin = useCallback(async (cids: string[], hideToast?: boolean) => {
     if (!bucket) return
 
-    const pathsToDelete = cids.map((cid: string) => {
-      const itemToDelete = pathContents.find((i) => i.cid === cid)
-      if (itemToDelete) {
-        return getPathWithFile(currentPath, itemToDelete.name)
-      }
-      return undefined
-    }).filter((item): item is string => !!item)
+    const pathsToDelete = getAbsolutePathsFromCids(cids, currentPath, pathContents)
 
     filesApiClient.moveBucketObjects(bucket.id, {
       paths: pathsToDelete,
@@ -119,14 +114,8 @@ const CSFFileBrowser: React.FC<IFileBrowserModuleProps> = () => {
   const moveItems = useCallback(async (cids: string[], newPath: string) => {
     if (!bucket) return
 
-    const pathsToMove = cids.map((cid: string) => {
-      const itemToDelete = pathContents.find((i) => i.cid === cid)
-      if (itemToDelete) {
-        return getPathWithFile(currentPath, itemToDelete.name)
-      }
-      return undefined
-    }).filter((item): item is string => !!item)
-
+    const pathsToMove = getAbsolutePathsFromCids(cids, currentPath, pathContents)
+    
     filesApiClient.moveBucketObjects(bucket.id, {
       paths: pathsToMove,
       new_path: newPath

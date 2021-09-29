@@ -7,7 +7,7 @@ import { t } from "@lingui/macro"
 import { CONTENT_TYPES } from "../../../Utils/Constants"
 import { IFilesTableBrowserProps } from "../../Modules/FileBrowsers/types"
 import { useHistory, useLocation, useToasts } from "@chainsafe/common-components"
-import { extractFileBrowserPathFromURL, getPathWithFile, getUrlSafePathWithFile } from "../../../Utils/pathUtils"
+import { extractFileBrowserPathFromURL, getAbsolutePathsFromCids, getPathWithFile, getUrlSafePathWithFile } from "../../../Utils/pathUtils"
 import { ROUTE_LINKS } from "../../FilesRoutes"
 import { FileBrowserContext } from "../../../Contexts/FileBrowserContext"
 import { useFilesApi } from "../../../Contexts/FilesApiContext"
@@ -55,13 +55,8 @@ const BinFileBrowser: React.FC<IFileBrowserModuleProps> = ({ controls = false }:
   const deleteItems = useCallback(async (cids: string[]) => {
     if (!bucket) return
 
-    const pathsToDelete = cids.map((cid: string) => {
-      const itemToDelete = pathContents.find((i) => i.cid === cid)
-      if (itemToDelete) {
-        return getPathWithFile(currentPath, itemToDelete.name)
-      }
-      return undefined
-    }).filter((item): item is string => !!item)
+    const pathsToDelete = getAbsolutePathsFromCids(cids, currentPath, pathContents)
+    
     filesApiClient.removeBucketObject(bucket.id, { paths: pathsToDelete })
       .then(() => {
         addToast({
@@ -81,13 +76,7 @@ const BinFileBrowser: React.FC<IFileBrowserModuleProps> = ({ controls = false }:
   const recoverItems = useCallback(async (cids: string[], newPath: string) => {
     if (!bucket) return
 
-    const pathsToRecover = cids.map((cid: string) => {
-      const itemToRecover = pathContents.find((i) => i.cid === cid)
-      if (itemToRecover) {
-        return getPathWithFile(currentPath, itemToRecover.name)
-      }
-      return undefined
-    }).filter((item): item is string => !!item)
+    const pathsToRecover = getAbsolutePathsFromCids(cids, currentPath, pathContents)
 
     filesApiClient.moveBucketObjects(
       bucket.id,

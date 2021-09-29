@@ -5,7 +5,8 @@ import {
   getURISafePathFromArray,
   getPathWithFile,
   extractSharedFileBrowserPathFromURL,
-  getUrlSafePathWithFile
+  getUrlSafePathWithFile,
+  getAbsolutePathsFromCids
 } from "../../../Utils/pathUtils"
 import { IBulkOperations, IFilesTableBrowserProps } from "./types"
 import { CONTENT_TYPES } from "../../../Utils/Constants"
@@ -97,13 +98,7 @@ const SharedFileBrowser = () => {
   const deleteItems = useCallback(async (cids: string[]) => {
     if (!bucket) return
 
-    const pathsToDelete = cids.map((cid: string) => {
-      const itemToDelete = pathContents.find((i) => i.cid === cid)
-      if (itemToDelete) {
-        return getPathWithFile(currentPath, itemToDelete.name)
-      }
-      return undefined
-    }).filter((item): item is string => !!item)
+    const pathsToDelete = getAbsolutePathsFromCids(cids, currentPath, pathContents)
 
     filesApiClient.removeBucketObject(bucket.id, { paths: pathsToDelete })
       .then(() => {
@@ -135,13 +130,7 @@ const SharedFileBrowser = () => {
   const moveItems = useCallback(async (cids: string[], newPath: string) => {
     if (!bucket) return
 
-    const pathsToMove = cids.map((cid: string) => {
-      const itemToDelete = pathContents.find((i) => i.cid === cid)
-      if (itemToDelete) {
-        return getPathWithFile(currentPath, itemToDelete.name)
-      }
-      return undefined
-    }).filter((item): item is string => !!item)
+    const pathsToMove = getAbsolutePathsFromCids(cids, currentPath, pathContents)
 
     filesApiClient.moveBucketObjects(bucket.id, {
       paths: pathsToMove,
