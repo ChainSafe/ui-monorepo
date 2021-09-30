@@ -7,7 +7,7 @@ import { CheckCircleIcon, CloseCircleIcon, CloseCirceSvg, CrossSvg } from "../Ic
 import { ProgressBar } from "../ProgressBar"
 import { Loading } from "../Spinner"
 
-const useStyles = makeStyles(({ constants, palette, animation, overrides }: ITheme) => {
+const useStyles = makeStyles(({ constants, palette, overrides }: ITheme) => {
   return createStyles({
     root: {
       backgroundColor: palette.additional["gray"][3],
@@ -16,10 +16,6 @@ const useStyles = makeStyles(({ constants, palette, animation, overrides }: IThe
       padding: constants.generalUnit * 2,
       borderRadius: 4,
       position: "relative",
-      "&:hover $closeIcon": {
-        visibility: "visible",
-        opacity: 1
-      },
       ...overrides?.Toasts?.root
     },
     progressBox: {
@@ -66,9 +62,6 @@ const useStyles = makeStyles(({ constants, palette, animation, overrides }: IThe
       backgroundColor: palette.additional["gray"][1],
       border: "1px solid",
       borderColor: palette.additional["gray"][9],
-      opacity: 0,
-      visibility: "hidden",
-      transition: `opacity ${animation.transform}ms`,
       display: "flex",
       alignItems: "center",
       justifyContent: "center",

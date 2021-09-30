@@ -167,6 +167,15 @@ msgstr ""
 msgid "Dark Theme"
 msgstr "Tema oscuro"
 
+msgid "Data deleted successfully"
+msgstr ""
+
+msgid "Data moved successfully"
+msgstr ""
+
+msgid "Data restored successfully"
+msgstr ""
+
 msgid "Date uploaded"
 msgstr "Fecha de subida"
 
@@ -254,9 +263,6 @@ msgstr ""
 "Si está utilizando una billetera de contrato, haga\n"
 "seguro que has activado tu billetera."
 
-msgid "File"
-msgstr "Archivo"
-
 msgid "File Info"
 msgstr "Información del archivo"
 
@@ -277,9 +283,6 @@ msgstr ""
 
 msgid "First name"
 msgstr "Primer Nombre"
-
-msgid "Folder"
-msgstr "Archivo"
 
 msgid "Folder name is already in use"
 msgstr ""
@@ -710,8 +713,8 @@ msgstr "Hubo un error de autenticación."
 msgid "There was an error connecting your wallet"
 msgstr "Hubo un error al conectar su billetera"
 
-msgid "There was an error deleting this"
-msgstr "Hubo un error al eliminar esto."
+msgid "There was an error deleting your data"
+msgstr ""
 
 msgid "There was an error getting search results"
 msgstr "Se produjo un error al obtener los resultados de la búsqueda."
@@ -719,11 +722,11 @@ msgstr "Se produjo un error al obtener los resultados de la búsqueda."
 msgid "There was an error getting the preview."
 msgstr "Hubo un error al obtener la vista previa."
 
-msgid "There was an error moving this"
+msgid "There was an error moving your data"
 msgstr ""
 
-msgid "There was an error recovering this"
-msgstr "Hubo un error al recuperar esto."
+msgid "There was an error restoring your data"
+msgstr ""
 
 msgid "There was an error when setting username."
 msgstr ""
@@ -842,26 +845,11 @@ msgstr "Deberá firmar un mensaje en su billetera para completar el inicio de se
 msgid "Your recovery key can be used to restore your account in place of your backup secret phrase."
 msgstr ""
 
-msgid "deleted successfully"
-msgstr "borrado exitosamente"
-
-msgid "file"
-msgstr "archivo"
-
-msgid "folder"
-msgstr "carpeta"
-
 msgid "me"
-msgstr ""
-
-msgid "moved successfully"
 msgstr ""
 
 msgid "on"
 msgstr "en"
-
-msgid "recovered successfully"
-msgstr "recuperado con éxito"
 
 msgid "unknown"
 msgstr ""

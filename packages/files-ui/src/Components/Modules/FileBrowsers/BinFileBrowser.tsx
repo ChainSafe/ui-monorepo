@@ -7,14 +7,14 @@ import { t } from "@lingui/macro"
 import { CONTENT_TYPES } from "../../../Utils/Constants"
 import { IFilesTableBrowserProps } from "../../Modules/FileBrowsers/types"
 import { useHistory, useLocation, useToasts } from "@chainsafe/common-components"
-import { extractFileBrowserPathFromURL, getPathWithFile, getUrlSafePathWithFile } from "../../../Utils/pathUtils"
+import { extractFileBrowserPathFromURL, getAbsolutePathsFromCids, getUrlSafePathWithFile } from "../../../Utils/pathUtils"
 import { ROUTE_LINKS } from "../../FilesRoutes"
 import { FileBrowserContext } from "../../../Contexts/FileBrowserContext"
 import { useFilesApi } from "../../../Contexts/FilesApiContext"
 import { parseFileContentResponse } from "../../../Utils/Helpers"
 
 const BinFileBrowser: React.FC<IFileBrowserModuleProps> = ({ controls = false }: IFileBrowserModuleProps) => {
-  const { buckets, refreshBuckets } = useFiles()
+  const { buckets } = useFiles()
   const { filesApiClient } = useFilesApi()
   const { addToast } = useToasts()
   const [loadingCurrentPath, setLoadingCurrentPath] = useState(false)
@@ -52,83 +52,51 @@ const BinFileBrowser: React.FC<IFileBrowserModuleProps> = ({ controls = false }:
     refreshContents(true)
   }, [bucket, refreshContents])
 
-  const deleteFile = useCallback(async (cid: string) => {
-    const itemToDelete = pathContents.find((i) => i.cid === cid)
-
-    if (!itemToDelete || !bucket) {
-      console.error("Bucket not set or no item found to delete")
-      return
-    }
-
-    try {
-      await filesApiClient.removeBucketObject(
-        bucket.id,
-        { paths: [getPathWithFile(currentPath, itemToDelete.name)] }
-      )
-
-      refreshContents()
-      refreshBuckets()
-      const message = `${
-        itemToDelete.isFolder ? t`Folder` : t`File`
-      } ${t`deleted successfully`}`
-      addToast({
-        title: message,
-        type: "success",
-        testId: "permanent-deletion-success"
-      })
-      return Promise.resolve()
-    } catch (error) {
-      const message = `${t`There was an error deleting this`} ${
-        itemToDelete.isFolder ? t`folder` : t`file`
-      }`
-      addToast({
-        title: message,
-        type: "error"
-      })
-      return Promise.reject()
-    }
-  }, [addToast, bucket, currentPath, pathContents, refreshContents, refreshBuckets, filesApiClient])
-
   const deleteItems = useCallback(async (cids: string[]) => {
-    await Promise.all(
-      cids.map((cid: string) =>
-        deleteFile(cid)
-      ))
-    refreshContents()
-  }, [deleteFile, refreshContents])
+    if (!bucket) return
+
+    const pathsToDelete = getAbsolutePathsFromCids(cids, currentPath, pathContents)
+
+    filesApiClient.removeBucketObject(bucket.id, { paths: pathsToDelete })
+      .then(() => {
+        addToast({
+          title: t`Data deleted successfully`,
+          type: "success",
+          testId: "deletion-success"
+        })
+      }).catch((error) => {
+        console.error("Error deleting:", error)
+        addToast({
+          title: t`There was an error deleting your data`,
+          type: "error"
+        })
+      }).finally(refreshContents)
+  }, [addToast, bucket, currentPath, filesApiClient, pathContents, refreshContents])
 
   const recoverItems = useCallback(async (cids: string[], newPath: string) => {
     if (!bucket) return
-    await Promise.all(
-      cids.map(async (cid: string) => {
-        const itemToRestore = pathContents.find((i) => i.cid === cid)
-        if (!itemToRestore) return
-        try {
-          await filesApiClient.moveBucketObjects(
-            bucket.id,
-            {
-              paths: [getPathWithFile(currentPath, itemToRestore.name)],
-              new_path: getPathWithFile(newPath, itemToRestore.name),
-              destination: buckets.find(b => b.type === "csf")?.id
-            }
-          )
 
-          const message = `${itemToRestore.isFolder ? t`Folder` : t`File`} ${t`recovered successfully`}`
+    const pathsToRecover = getAbsolutePathsFromCids(cids, currentPath, pathContents)
 
-          addToast({
-            title: message,
-            type: "success"
-          })
-        } catch (error) {
-          const message = `${t`There was an error recovering this`} ${
-            itemToRestore.isFolder ? t`folder` : t`file`
-          }`
-          addToast({
-            title: message,
-            type: "error"
-          })
-        }
-      })).finally(refreshContents)
+    filesApiClient.moveBucketObjects(
+      bucket.id,
+      {
+        paths: pathsToRecover,
+        new_path: newPath,
+        destination: buckets.find(b => b.type === "csf")?.id
+      }
+    ).then(() => {
+      addToast({
+        title: t`Data restored successfully`,
+        type: "success"
+      })
+    }).catch((error) => {
+      console.error("Error recovering:", error)
+      addToast({
+        title: t`There was an error restoring your data`,
+        type: "error"
+      })
+    }).finally(refreshContents)
   }, [addToast, pathContents, refreshContents, filesApiClient, bucket, buckets, currentPath])
 
   const viewFolder = useCallback((cid: string) => {

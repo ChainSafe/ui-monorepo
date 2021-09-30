@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-04-20 00:28+0200\n"
-"PO-Revision-Date: 2021-09-22 21:38+0000\n"
+"PO-Revision-Date: 2021-09-29 19:36+0000\n"
 "Last-Translator: J. Lavoie <j.lavoie@net-c.ca>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/chainsafe-files/chainsafe-files-user-interface/de/>\n"
 "Language: de\n"
@@ -17,7 +17,7 @@ msgid "A backup secret phrase will be generated and used for your account.<0/>We
 msgstr "Es wird ein Sicherungsgeheimsatz generiert und für Ihr Konto verwendet.<0/>Wir speichern ihn nicht und <1>er kann nur einmal angezeigt werden</1>. Speichern Sie ihn an einem sicheren Ort!"
 
 msgid "A better sharing experience is coming soon."
-msgstr ""
+msgstr "Ein besseres Teilen-Erlebnis ist in Vorbereitung."
 
 msgid "A file with the same name already exists"
 msgstr "Es existiert bereits eine Datei mit demselben Namen"
@@ -35,7 +35,7 @@ msgid "Add at least one more authentication method to protect your account. You�
 msgstr "Fügen Sie mindestens eine weitere Authentifizierungsmethode hinzu, um Ihr Konto zu schützen. Sie bräuchten nur zwei, um sich von jedem Gerät aus bei Files anzumelden."
 
 msgid "Add by sharing address, username or wallet address"
-msgstr ""
+msgstr "Durch Freigabe der Adresse, des Benutzernamens oder der Brieftaschenadresse hinzufügen"
 
 msgid "Add more files"
 msgstr "Weitere Dateien hinzufügen"
@@ -166,6 +166,15 @@ msgstr ""
 msgid "Dark Theme"
 msgstr "Dunkles Farbschema"
 
+msgid "Data deleted successfully"
+msgstr ""
+
+msgid "Data moved successfully"
+msgstr ""
+
+msgid "Data restored successfully"
+msgstr ""
+
 msgid "Date uploaded"
 msgstr "Hochgeladen am"
 
@@ -250,9 +259,6 @@ msgid ""
 "sure you have activated your wallet."
 msgstr ""
 
-msgid "File"
-msgstr "Datei"
-
 msgid "File Info"
 msgstr "Dateiinfos"
 
@@ -273,9 +279,6 @@ msgstr "Dateifreigabeschlüssel"
 
 msgid "First name"
 msgstr "Vorname"
-
-msgid "Folder"
-msgstr "Ordner"
 
 msgid "Folder name is already in use"
 msgstr ""
@@ -530,19 +533,19 @@ msgid "Rename"
 msgstr "Umbenennen"
 
 msgid "Rename file"
-msgstr ""
+msgstr "Datei umbenennen"
 
 msgid "Rename folder"
-msgstr ""
+msgstr "Ordner umbenennen"
 
 msgid "Report"
-msgstr ""
+msgstr "Melden"
 
 msgid "Report a File"
-msgstr ""
+msgstr "Datei melden"
 
 msgid "Report a bug"
-msgstr ""
+msgstr "Fehler melden"
 
 msgid "Requested from"
 msgstr "Angefordert von"
@@ -706,8 +709,8 @@ msgstr "Es gab einen Fehler bei der Authentifizierung"
 msgid "There was an error connecting your wallet"
 msgstr ""
 
-msgid "There was an error deleting this"
-msgstr "Es gab einen Fehler beim Löschen dieses"
+msgid "There was an error deleting your data"
+msgstr ""
 
 msgid "There was an error getting search results"
 msgstr "Es gab einen Fehler beim Abrufen der Suchergebnisse"
@@ -715,11 +718,11 @@ msgstr "Es gab einen Fehler beim Abrufen der Suchergebnisse"
 msgid "There was an error getting the preview."
 msgstr "Es gab einen Fehler beim Abrufen der Vorschau."
 
-msgid "There was an error moving this"
-msgstr "Es gab einen Fehler beim Verschieben dieses"
+msgid "There was an error moving your data"
+msgstr ""
 
-msgid "There was an error recovering this"
-msgstr "Es gab einen Fehler bei der Wiederherstellung dieses"
+msgid "There was an error restoring your data"
+msgstr ""
 
 msgid "There was an error when setting username."
 msgstr ""
@@ -838,26 +841,11 @@ msgstr ""
 msgid "Your recovery key can be used to restore your account in place of your backup secret phrase."
 msgstr "Ihr Wiederherstellungsschlüssel kann zur Wiederherstellung Ihres Kontos anstelle Ihres Sicherungsgeheimsatz verwendet werden."
 
-msgid "deleted successfully"
-msgstr "erfolgreich gelöscht"
-
-msgid "file"
-msgstr "Datei"
-
-msgid "folder"
-msgstr "Ordner"
-
 msgid "me"
 msgstr "ich"
 
-msgid "moved successfully"
-msgstr "erfolgreich verschoben"
-
 msgid "on"
 msgstr "am"
-
-msgid "recovered successfully"
-msgstr "erfolgreich wiederhergestellt"
 
 msgid "unknown"
 msgstr "unbekannt"

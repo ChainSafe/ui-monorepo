@@ -24,6 +24,7 @@ import { BucketKeyPermission } from "../../../../../Contexts/FilesContext"
 import UserBubble from "../../../../Elements/UserBubble"
 import { nameValidator } from "../../../../../Utils/validationSchema"
 import Menu from "../../../../../UI-components/Menu"
+import { getUserDisplayName } from "../../../../../Utils/getUserDisplayName"
 
 const useStyles = makeStyles(({ breakpoints, constants, palette }: CSFTheme) => {
 
@@ -275,7 +276,7 @@ const SharedFolderRow = ({ bucket, handleRename, openSharedFolder, handleDeleteS
         <TableCell align="left">
           {isOwner
             ? t`me`
-            : <UserBubble tooltip={bucket.owners[0].uuid || ""} />}
+            : <UserBubble tooltip={getUserDisplayName(bucket.owners[0])} />}
         </TableCell>
       }
       <TableCell

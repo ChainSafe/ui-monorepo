@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-04-23 11:05+0200\n"
-"PO-Revision-Date: 2021-09-22 21:38+0000\n"
+"PO-Revision-Date: 2021-09-29 19:36+0000\n"
 "Last-Translator: J. Lavoie <j.lavoie@net-c.ca>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/chainsafe-files/chainsafe-files-user-interface/fr/>\n"
 "Language: fr\n"
@@ -18,7 +18,7 @@ msgid "A backup secret phrase will be generated and used for your account.<0/>We
 msgstr "Une phrase secrète de sauvegarde sera générée et utilisé pour ce compte.<0/>Nous ne la sauvergardons pas <1>elle ne peut être affichée qu’une seule fois</1>. Gardez-la dans un endroit sûr !"
 
 msgid "A better sharing experience is coming soon."
-msgstr ""
+msgstr "Une meilleure expérience de partage sera bientôt disponible."
 
 msgid "A file with the same name already exists"
 msgstr "Un fichier avec ce nom existe déjà"
@@ -167,6 +167,15 @@ msgstr "Créez votre nom d'utilisateur public dans <0>Paramètres</0> !"
 msgid "Dark Theme"
 msgstr "Thème sombre"
 
+msgid "Data deleted successfully"
+msgstr ""
+
+msgid "Data moved successfully"
+msgstr ""
+
+msgid "Data restored successfully"
+msgstr ""
+
 msgid "Date uploaded"
 msgstr "Téléversé le"
 
@@ -254,9 +263,6 @@ msgstr ""
 "Si vous utilisez un contract wallet, veuillez\n"
 "vérifier que vous avez activé votre wallet."
 
-msgid "File"
-msgstr "Fichier"
-
 msgid "File Info"
 msgstr "Infos du fichier"
 
@@ -277,9 +283,6 @@ msgstr "Clé de partage des fichiers"
 
 msgid "First name"
 msgstr "Prénom"
-
-msgid "Folder"
-msgstr "Dossier"
 
 msgid "Folder name is already in use"
 msgstr "Le nom du dossier est déjà utilisé"
@@ -546,7 +549,7 @@ msgid "Report a File"
 msgstr "Signaler un fichier"
 
 msgid "Report a bug"
-msgstr ""
+msgstr "Signaler une erreur"
 
 msgid "Requested from"
 msgstr "Envoyé par"
@@ -645,7 +648,7 @@ msgid "Sign in with a different account"
 msgstr "Se connecter avec un autre compte"
 
 msgid "Sign me up!"
-msgstr ""
+msgstr "S'inscrire !"
 
 msgid "Sign-in methods"
 msgstr "Méthodes de connexion"
@@ -672,7 +675,7 @@ msgid "Start Upload"
 msgstr "Démarrer le téléversement"
 
 msgid "Start a team"
-msgstr ""
+msgstr "Créer une équipe"
 
 msgid "Storage Plan"
 msgstr "Plan de stockage"
@@ -681,7 +684,7 @@ msgid "Stored by miner"
 msgstr "Sauvegardé par le mineur"
 
 msgid "Teams"
-msgstr ""
+msgstr "Équipes"
 
 msgid "Technical"
 msgstr "Technique"
@@ -710,8 +713,8 @@ msgstr "Une erreur s’est produite lors de l’authentification"
 msgid "There was an error connecting your wallet"
 msgstr "Une erreur s’est produite lors de la connexion de votre wallet"
 
-msgid "There was an error deleting this"
-msgstr "Une erreur s’est produite lors de la suppression"
+msgid "There was an error deleting your data"
+msgstr ""
 
 msgid "There was an error getting search results"
 msgstr "Une erreur s’est produite lors de l’obtention des résultats de recherche"
@@ -719,11 +722,11 @@ msgstr "Une erreur s’est produite lors de l’obtention des résultats de rech
 msgid "There was an error getting the preview."
 msgstr "Une erreur s’est produite lors de la génération de l’aperçu."
 
-msgid "There was an error moving this"
-msgstr "Une erreur s’est produite lors du déplacement"
+msgid "There was an error moving your data"
+msgstr ""
 
-msgid "There was an error recovering this"
-msgstr "Une erreur s’est produite lors de la récupération"
+msgid "There was an error restoring your data"
+msgstr ""
 
 msgid "There was an error when setting username."
 msgstr ""
@@ -842,26 +845,11 @@ msgstr "Vous devrez signer un message avec votre wallet pour terminer la procéd
 msgid "Your recovery key can be used to restore your account in place of your backup secret phrase."
 msgstr "Votre clé de récupération peut être utilisée pour restaurer votre compte à la place de votre phrase de sauvegarde secrète."
 
-msgid "deleted successfully"
-msgstr "supprimé avec succès"
-
-msgid "file"
-msgstr "fichier"
-
-msgid "folder"
-msgstr "dossier"
-
 msgid "me"
 msgstr "moi"
 
-msgid "moved successfully"
-msgstr "déplacé avec succès"
-
 msgid "on"
 msgstr "le"
-
-msgid "recovered successfully"
-msgstr "récupéré avec succès"
 
 msgid "unknown"
 msgstr "inconnu"
