@@ -646,7 +646,7 @@ msgid "Sign in with a different account"
 msgstr "Se connecter avec un autre compte"
 
 msgid "Sign me up!"
-msgstr "Inscrivez-moi !"
+msgstr "S'inscrire !"
 
 msgid "Sign-in methods"
 msgstr "Méthodes de connexion"
