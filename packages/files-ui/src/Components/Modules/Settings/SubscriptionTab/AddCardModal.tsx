@@ -107,21 +107,14 @@ const AddCardModal = ({ isModalOpen, onClose }: IAddCardModalProps) => {
   const { filesApiClient } = useFilesApi()
   const { refreshDefaultCard } = useBilling()
   const [focusElement, setFocusElement] = useState<"number" | "expiry" | "cvc" | undefined>(undefined)
-  const [isInputError, setInputError] = useState(false)
+  const [cardAddError, setCardAddError] = useState<string | undefined>(undefined)
   const theme: CSFTheme = useTheme()
 
   const [loadingPaymentMethodAdd, setLoadingPaymentMethodAdd] = useState(false)
 
-  const handlePaymentError = (error: any) => {
-    console.error(error)
-    onClose()
-    setLoadingPaymentMethodAdd(false)
-    addToast({ title: t`Failed to add payment method`, type: "error" })
-  }
-
   const handleSubmitPaymentMethod = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    setInputError(false)
+    setCardAddError(undefined)
     if (!stripe || !elements) return
     try {
       const cardNumberElement = elements.getElement(CardNumberElement)
@@ -134,8 +127,9 @@ const AddCardModal = ({ isModalOpen, onClose }: IAddCardModalProps) => {
       })
 
       if (error || !paymentMethod) {
-        setInputError(true)
+        console.error(error)
         setLoadingPaymentMethodAdd(false)
+        setCardAddError(t`Card inputs invalid`)
         return
       }
 
@@ -145,7 +139,9 @@ const AddCardModal = ({ isModalOpen, onClose }: IAddCardModalProps) => {
       })
 
       if (setupIntentResult.error || !setupIntentResult.setupIntent) {
-        handlePaymentError(setupIntentResult.error)
+        console.error(error)
+        setLoadingPaymentMethodAdd(false)
+        setCardAddError(t`Failed to add payment method`)
         return
       }
       refreshDefaultCard()
@@ -153,7 +149,9 @@ const AddCardModal = ({ isModalOpen, onClose }: IAddCardModalProps) => {
       setLoadingPaymentMethodAdd(false)
       addToast({ title: "Payment method added", type: "success" })
     } catch (error) {
-      handlePaymentError(error)
+      console.error(error)
+      setLoadingPaymentMethodAdd(false)
+      setCardAddError(t`Failed to add payment method`)
     }
   }
 
@@ -198,7 +196,7 @@ const AddCardModal = ({ isModalOpen, onClose }: IAddCardModalProps) => {
             } }}
             onFocus={() => setFocusElement("number")}
             onBlur={() => setFocusElement(undefined)}
-            onChange={() => setInputError(false)}
+            onChange={() => setCardAddError(undefined)}
           />
           <div className={classes.expiryCvcContainer}>
             <CardExpiryElement
@@ -208,7 +206,7 @@ const AddCardModal = ({ isModalOpen, onClose }: IAddCardModalProps) => {
               )}
               onFocus={() => setFocusElement("expiry")}
               onBlur={() => setFocusElement(undefined)}
-              onChange={() => setInputError(false)}
+              onChange={() => setCardAddError(undefined)}
               options={{ style: {
                 base: {
                   color: theme.constants.addCard.color
@@ -222,7 +220,7 @@ const AddCardModal = ({ isModalOpen, onClose }: IAddCardModalProps) => {
               )}
               onFocus={() => setFocusElement("cvc")}
               onBlur={() => setFocusElement(undefined)}
-              onChange={() => setInputError(false)}
+              onChange={() => setCardAddError(undefined)}
               options={{ style: {
                 base: {
                   color: theme.constants.addCard.color
@@ -230,13 +228,13 @@ const AddCardModal = ({ isModalOpen, onClose }: IAddCardModalProps) => {
               } }}
             />
           </div>
-          {isInputError &&
+          {cardAddError &&
             <Typography
               component="p"
               variant="body1"
               className={classes.error}
             >
-              <Trans>Card inputs invalid</Trans>
+              {cardAddError}
             </Typography>
           }
           <Grid
