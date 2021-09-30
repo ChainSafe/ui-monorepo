@@ -60,6 +60,7 @@ const useStyles = makeStyles(
       cardNumberInputs: {
         marginBottom: constants.generalUnit * 2,
         [breakpoints.down("md")]: {
+          marginTop: constants.generalUnit * 2,
           marginBottom: constants.generalUnit * 2
         }
       },
