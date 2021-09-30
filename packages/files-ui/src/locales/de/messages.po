@@ -313,8 +313,8 @@ msgstr "Ordner"
 msgid "Folder name is already in use"
 msgstr ""
 
-msgid "Folder uploads are not supported currently"
-msgstr ""
+#~ msgid "Folder uploads are not supported currently"
+#~ msgstr ""
 
 msgid "Folders"
 msgstr "Ordner"
@@ -348,6 +348,9 @@ msgstr ""
 
 msgid "Go back"
 msgstr "Zurück"
+
+msgid "Go to Payments"
+msgstr ""
 
 msgid "Got an issue?"
 msgstr ""
@@ -884,6 +887,9 @@ msgid "You haven't set a username yet."
 msgstr "Sie haben noch keinen Benutzernamen festgelegt."
 
 msgid "You will need to sign a message in your wallet to complete sign in."
+msgstr ""
+
+msgid "You've got a payment due. Until you've settled up, we've placed your account in restricted mode"
 msgstr ""
 
 msgid "Your first {0} are free, and you’ll get a discount on our monthly plan once you need more than that"

@@ -25,6 +25,7 @@ import getFilesFromDataTransferItems from "../../../Utils/getFilesFromDataTransf
 
 const CSFFileBrowser: React.FC<IFileBrowserModuleProps> = () => {
   const { downloadFile, uploadFiles, buckets } = useFiles()
+  const { accountRestricted } = useFilesApi()
   const { filesApiClient } = useFilesApi()
   const { addToast } = useToasts()
   const [loadingCurrentPath, setLoadingCurrentPath] = useState(false)
@@ -92,12 +93,11 @@ const CSFFileBrowser: React.FC<IFileBrowserModuleProps> = () => {
             const message = `${
               itemToDelete.isFolder ? t`Folder` : t`File`
             } ${t`deleted successfully`}`
-            const id = addToast({
+            addToast({
               title: message,
               type: "success",
               testId: "deletion-success"
             })
-            console.log(id)
           }
           return Promise.resolve()
         } catch (error) {
@@ -176,12 +176,20 @@ const CSFFileBrowser: React.FC<IFileBrowserModuleProps> = () => {
 
   const handleUploadOnDrop = useCallback(async (files: File[], fileItems: DataTransferItemList, path: string) => {
     if (!bucket) return
+    if (accountRestricted) {
+      addToast({
+        type:"error",
+        title: t`Uploads disabled`,
+        subtitle: t`Oops! You need to pay for this month to upload more content.`
+      })
+      return
+    }
     const flattenedFiles = await getFilesFromDataTransferItems(fileItems)
     const paths = [...new Set(flattenedFiles.map(f => f.filepath))]
     paths.forEach(p => {
       uploadFiles(bucket, flattenedFiles.filter(f => f.filepath === p), getPathWithFile(path, p))
     })
-  }, [uploadFiles, bucket])
+  }, [uploadFiles, bucket, accountRestricted, addToast])
 
   const viewFolder = useCallback((cid: string) => {
     const fileSystemItem = pathContents.find(f => f.cid === cid)

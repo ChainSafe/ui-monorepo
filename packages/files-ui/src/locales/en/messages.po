@@ -316,8 +316,8 @@ msgstr "Folder"
 msgid "Folder name is already in use"
 msgstr "Folder name is already in use"
 
-msgid "Folder uploads are not supported currently"
-msgstr "Folder uploads are not supported currently"
+#~ msgid "Folder uploads are not supported currently"
+#~ msgstr "Folder uploads are not supported currently"
 
 msgid "Folders"
 msgstr "Folders"
@@ -351,6 +351,9 @@ msgstr "Give view-only permission to:"
 
 msgid "Go back"
 msgstr "Go back"
+
+msgid "Go to Payments"
+msgstr "Go to Payments"
 
 msgid "Got an issue?"
 msgstr "Got an issue?"
@@ -888,6 +891,9 @@ msgstr "You haven't set a username yet."
 
 msgid "You will need to sign a message in your wallet to complete sign in."
 msgstr "You will need to sign a message in your wallet to complete sign in."
+
+msgid "You've got a payment due. Until you've settled up, we've placed your account in restricted mode"
+msgstr "You've got a payment due. Until you've settled up, we've placed your account in restricted mode"
 
 msgid "Your first {0} are free, and you’ll get a discount on our monthly plan once you need more than that"
 msgstr "Your first {0} are free, and you’ll get a discount on our monthly plan once you need more than that"
