@@ -3,9 +3,10 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-04-20 00:28+0200\n"
-"PO-Revision-Date: 2021-09-22 21:38+0000\n"
+"PO-Revision-Date: 2021-09-29 19:36+0000\n"
 "Last-Translator: J. Lavoie <j.lavoie@net-c.ca>\n"
-"Language-Team: German <https://hosted.weblate.org/projects/chainsafe-files/chainsafe-files-user-interface/de/>\n"
+"Language-Team: German <https://hosted.weblate.org/projects/chainsafe-files/"
+"chainsafe-files-user-interface/de/>\n"
 "Language: de\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -17,7 +18,7 @@ msgid "A backup secret phrase will be generated and used for your account.<0/>We
 msgstr "Es wird ein Sicherungsgeheimsatz generiert und für Ihr Konto verwendet.<0/>Wir speichern ihn nicht und <1>er kann nur einmal angezeigt werden</1>. Speichern Sie ihn an einem sicheren Ort!"
 
 msgid "A better sharing experience is coming soon."
-msgstr ""
+msgstr "Ein besseres Teilen-Erlebnis ist in Vorbereitung."
 
 msgid "A file with the same name already exists"
 msgstr "Es existiert bereits eine Datei mit demselben Namen"
@@ -36,6 +37,8 @@ msgstr "Fügen Sie mindestens eine weitere Authentifizierungsmethode hinzu, um I
 
 msgid "Add by sharing address, username or wallet address"
 msgstr ""
+"Durch Freigabe der Adresse, des Benutzernamens oder der Brieftaschenadresse "
+"hinzufügen"
 
 msgid "Add more files"
 msgstr "Weitere Dateien hinzufügen"
@@ -530,19 +533,19 @@ msgid "Rename"
 msgstr "Umbenennen"
 
 msgid "Rename file"
-msgstr ""
+msgstr "Datei umbenennen"
 
 msgid "Rename folder"
-msgstr ""
+msgstr "Ordner umbenennen"
 
 msgid "Report"
-msgstr ""
+msgstr "Melden"
 
 msgid "Report a File"
-msgstr ""
+msgstr "Datei melden"
 
 msgid "Report a bug"
-msgstr ""
+msgstr "Fehler melden"
 
 msgid "Requested from"
 msgstr "Angefordert von"
