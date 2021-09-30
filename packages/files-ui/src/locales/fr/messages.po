@@ -3,9 +3,10 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-04-23 11:05+0200\n"
-"PO-Revision-Date: 2021-09-22 21:38+0000\n"
+"PO-Revision-Date: 2021-09-29 19:36+0000\n"
 "Last-Translator: J. Lavoie <j.lavoie@net-c.ca>\n"
-"Language-Team: French <https://hosted.weblate.org/projects/chainsafe-files/chainsafe-files-user-interface/fr/>\n"
+"Language-Team: French <https://hosted.weblate.org/projects/chainsafe-files/"
+"chainsafe-files-user-interface/fr/>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -18,7 +19,7 @@ msgid "A backup secret phrase will be generated and used for your account.<0/>We
 msgstr "Une phrase secrète de sauvegarde sera générée et utilisé pour ce compte.<0/>Nous ne la sauvergardons pas <1>elle ne peut être affichée qu’une seule fois</1>. Gardez-la dans un endroit sûr !"
 
 msgid "A better sharing experience is coming soon."
-msgstr ""
+msgstr "Une meilleure expérience de partage sera bientôt disponible."
 
 msgid "A file with the same name already exists"
 msgstr "Un fichier avec ce nom existe déjà"
@@ -549,7 +550,7 @@ msgid "Report a File"
 msgstr "Signaler un fichier"
 
 msgid "Report a bug"
-msgstr ""
+msgstr "Signaler une erreur"
 
 msgid "Requested from"
 msgstr "Envoyé par"
@@ -648,7 +649,7 @@ msgid "Sign in with a different account"
 msgstr "Se connecter avec un autre compte"
 
 msgid "Sign me up!"
-msgstr ""
+msgstr "S'inscrire !"
 
 msgid "Sign-in methods"
 msgstr "Méthodes de connexion"
@@ -675,7 +676,7 @@ msgid "Start Upload"
 msgstr "Démarrer le téléversement"
 
 msgid "Start a team"
-msgstr ""
+msgstr "Créer une équipe"
 
 msgid "Storage Plan"
 msgstr "Plan de stockage"
@@ -684,7 +685,7 @@ msgid "Stored by miner"
 msgstr "Sauvegardé par le mineur"
 
 msgid "Teams"
-msgstr ""
+msgstr "Équipes"
 
 msgid "Technical"
 msgstr "Technique"
