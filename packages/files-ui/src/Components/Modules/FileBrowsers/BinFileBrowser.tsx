@@ -14,7 +14,7 @@ import { useFilesApi } from "../../../Contexts/FilesApiContext"
 import { parseFileContentResponse } from "../../../Utils/Helpers"
 
 const BinFileBrowser: React.FC<IFileBrowserModuleProps> = ({ controls = false }: IFileBrowserModuleProps) => {
-  const { buckets } = useFiles()
+  const { buckets, refreshBuckets } = useFiles()
   const { filesApiClient } = useFilesApi()
   const { addToast } = useToasts()
   const [loadingCurrentPath, setLoadingCurrentPath] = useState(false)
@@ -25,28 +25,25 @@ const BinFileBrowser: React.FC<IFileBrowserModuleProps> = ({ controls = false }:
 
   const bucket = useMemo(() => buckets.find(b => b.type === "trash"), [buckets])
 
-  const refreshContents = useCallback(
-    (
-      showLoading?: boolean
-    ) => {
-      if (!bucket) return
-      try {
-        showLoading && setLoadingCurrentPath(true)
-        filesApiClient.getBucketObjectChildrenList(bucket.id, { path: currentPath })
-          .then((newContents) => {
-            showLoading && setLoadingCurrentPath(false)
-            setPathContents(
-              newContents.map((fcr) => parseFileContentResponse(fcr))
-            )
-          }).catch((error) => {
-            throw error
-          })
-      } catch (error) {
-        console.error(error)
-        showLoading && setLoadingCurrentPath(false)
-      }
-    },
-    [bucket, currentPath, filesApiClient]
+  const refreshContents = useCallback((showLoading?: boolean) => {
+    if (!bucket) return
+    try {
+      showLoading && setLoadingCurrentPath(true)
+      filesApiClient.getBucketObjectChildrenList(bucket.id, { path: currentPath })
+        .then((newContents) => {
+          showLoading && setLoadingCurrentPath(false)
+          setPathContents(
+            newContents.map((fcr) => parseFileContentResponse(fcr))
+          )
+        }).catch((error) => {
+          throw error
+        })
+    } catch (error) {
+      console.error(error)
+      showLoading && setLoadingCurrentPath(false)
+    }
+  },
+  [bucket, currentPath, filesApiClient]
   )
   useEffect(() => {
     refreshContents(true)
@@ -70,8 +67,11 @@ const BinFileBrowser: React.FC<IFileBrowserModuleProps> = ({ controls = false }:
           title: t`There was an error deleting your data`,
           type: "error"
         })
-      }).finally(refreshContents)
-  }, [addToast, bucket, currentPath, filesApiClient, pathContents, refreshContents])
+      }).finally(() => {
+        refreshContents()
+        refreshBuckets()
+      })
+  }, [addToast, bucket, currentPath, filesApiClient, pathContents, refreshBuckets, refreshContents])
 
   const recoverItems = useCallback(async (cids: string[], newPath: string) => {
     if (!bucket) return
