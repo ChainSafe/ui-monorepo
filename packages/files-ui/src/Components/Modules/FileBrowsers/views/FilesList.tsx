@@ -616,6 +616,12 @@ const FilesList = ({ isShared = false }: Props) => {
     setIsDeleteModalOpen(true)
   }, [])
 
+  const handleOpenShareDialog = useCallback((e: React.MouseEvent) => {
+    e.preventDefault()
+    e.stopPropagation()
+    setIsShareModalOpen(true)
+  }, [])
+
   const mobileMenuItems = useMemo(() => [
     {
       contents: (
@@ -814,6 +820,15 @@ const FilesList = ({ isShared = false }: Props) => {
                 testId="delete-selected-file"
               >
                 <Trans>Delete selected</Trans>
+              </Button>
+            )}
+            {validBulkOps.includes("share") && (
+              <Button
+                onClick={handleOpenShareDialog}
+                variant="outline"
+                testId="share-selected-file"
+              >
+                <Trans>Share selected</Trans>
               </Button>
             )}
           </>

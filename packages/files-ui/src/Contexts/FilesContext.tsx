@@ -775,6 +775,9 @@ const FilesProvider = ({ children }: FilesContextProps) => {
     console.log(fullStructure)
 
     await fullStructure.reduce(async (totalProgress: Promise<number>, item: FileSystemItemPath, index: number): Promise<number> => {
+      console.log("currentPath : ", currentPath)
+      console.log("relativePath, uplooad path: ", getRelativePath(item.path, currentPath))
+      console.log("name", item.name)
       const file = await getFileContent(sourceBucketId, {
         cid: item.cid,
         file: item,
@@ -795,11 +798,10 @@ const FilesProvider = ({ children }: FilesContextProps) => {
 
 
       if(file) {
-        console.log(getPathWithFile(item.path, item.name))
         await encryptAndUploadFiles(
           destinationBucket,
           [new File([file], item.name, { type: item.content_type })],
-          item.path,
+          getRelativePath(item.path, currentPath),
           (progressEvent) => {
             updateToast(toastId, {
               title: t`Encrypting & uploading`,

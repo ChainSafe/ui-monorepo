@@ -221,8 +221,6 @@ const ShareModal = ({ close, fileSystemItems }: IShareFileProps) => {
   }
   , [bucket, buckets, profile])
 
-  console.log(currentPath, fileSystemItems)
-
   const hasNoSharedBucket = useMemo(() => bucketsOptions.length === 0, [bucketsOptions.length])
 
   useEffect(() => {
@@ -237,7 +235,6 @@ const ShareModal = ({ close, fileSystemItems }: IShareFileProps) => {
       setIsUsingCurrentBucket(false)
     }
   }, [hasNoSharedBucket])
-
 
   const onNameChange = useCallback((value?: string | number) => {
     if (value === undefined) return
