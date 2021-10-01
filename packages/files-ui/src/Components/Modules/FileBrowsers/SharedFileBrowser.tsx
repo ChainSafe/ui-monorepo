@@ -186,7 +186,7 @@ const SharedFileBrowser = () => {
   }, [addToast, uploadFiles, bucket, refreshContents])
 
   const bulkOperations: IBulkOperations = useMemo(() => ({
-    [CONTENT_TYPES.Directory]: ["download", "move", "delete"],
+    [CONTENT_TYPES.Directory]: ["download", "move", "delete", "share"],
     [CONTENT_TYPES.File]: ["download", "delete", "move", "share"]
   }), [])
 
@@ -200,7 +200,7 @@ const SharedFileBrowser = () => {
           [CONTENT_TYPES.Pdf]: ["preview"],
           [CONTENT_TYPES.Text]: ["preview"],
           [CONTENT_TYPES.File]: ["download", "info", "rename", "move", "delete", "share"],
-          [CONTENT_TYPES.Directory]: ["rename", "move", "delete"]
+          [CONTENT_TYPES.Directory]: ["rename", "move", "delete", "share"]
         }
       case "writer":
         return {
@@ -210,7 +210,7 @@ const SharedFileBrowser = () => {
           [CONTENT_TYPES.Pdf]: ["preview"],
           [CONTENT_TYPES.Text]: ["preview"],
           [CONTENT_TYPES.File]: ["download", "info", "rename", "move", "delete", "report", "share"],
-          [CONTENT_TYPES.Directory]: ["rename", "move", "delete"]
+          [CONTENT_TYPES.Directory]: ["rename", "move", "delete", "share"]
         }
         // case "reader":
       default:
