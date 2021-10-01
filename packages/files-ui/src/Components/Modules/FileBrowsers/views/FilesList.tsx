@@ -647,8 +647,7 @@ const FilesList = ({ isShared = false }: Props) => {
       setClickedShare(true)
     }
 
-    setFilePath(fileInfoPath)
-    setFileIndex(fileIndex)
+    setSelectedItems([fileSystemItem])
     setIsShareModalOpen(true)
   }, [hasSeenSharingExplainerModal])
 
@@ -954,7 +953,7 @@ const FilesList = ({ isShared = false }: Props) => {
                       setFileIndex(fileIndex)
                       setIsPreviewOpen(true)
                     }}
-                    share={onShare}
+                    handleShare={onShare}
                   />
                 ))}
               </TableBody>
@@ -1007,7 +1006,7 @@ const FilesList = ({ isShared = false }: Props) => {
                     setFilePath(fileInfoPath)
                     setIsFileInfoModalOpen(true)
                   }}
-                  share={onShare}
+                  handleShare={onShare}
                   showPreview={(fileIndex: number) => {
                     setFileIndex(fileIndex)
                     setIsPreviewOpen(true)
@@ -1093,14 +1092,13 @@ const FilesList = ({ isShared = false }: Props) => {
           }}
         />
       }
-      { !showExplainerBeforeShare && isShareModalOpen && filePath && fileIndex !== undefined &&
+      { !showExplainerBeforeShare && isShareModalOpen && selectedItems.length &&
         <ShareModal
-          file={files[fileIndex]}
           close={() => {
             setIsShareModalOpen(false)
             setFilePath(undefined)
           }}
-          filePath={currentPath}
+          fileSystemItems={selectedItems}
         />
       }
       <SharingExplainerModal
